@@ -109,7 +109,7 @@ void P_CalcHeight(player_t *player)
         // (needs to be calculated for gun swing
         // even if not on ground)
         player->bob = MIN(bob, MAXBOB) * pm_walkbob / 100;
-        
+
         bob = FixedMul(player->bob / 2, finesine[angle]);
 
         // move viewheight
@@ -345,7 +345,7 @@ void P_PlayerThink(player_t *player)
     if (mo->flags & MF_JUSTATTACKED)
     {
         cmd->angleturn = 0;
-        cmd->forwardmove = 0xc800 / 512;
+        cmd->forwardmove = 0xC800 / 512;
         cmd->sidemove = 0;
         mo->flags &= ~MF_JUSTATTACKED;
     }
@@ -414,12 +414,14 @@ void P_PlayerThink(player_t *player)
                 && player->ammo[am_shell] >= 2)
                 player->preferredshotgun = wp_supershotgun;
             else if (player->readyweapon == wp_supershotgun
-                     || (player->preferredshotgun == wp_supershotgun && player->ammo[am_shell] == 1))
+                     || (player->preferredshotgun == wp_supershotgun
+                         && player->ammo[am_shell] == 1))
                 player->preferredshotgun = wp_shotgun;
             newweapon = player->preferredshotgun;
         }
 
-        if (newweapon != wp_nochange && newweapon != player->readyweapon && player->weaponowned[newweapon])
+        if (newweapon != wp_nochange && newweapon != player->readyweapon
+            && player->weaponowned[newweapon])
         {
             player->pendingweapon = newweapon;
             if (newweapon == wp_fist && player->powers[pw_strength])

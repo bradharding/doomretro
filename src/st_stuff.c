@@ -1046,7 +1046,7 @@ dboolean ST_Responder(event_t *ev)
                   stat_cheated = SafeAdd(stat_cheated, 1);
                   players[0].cheated++;
               }
-              
+
               S_StartSound(NULL, sfx_getpow);
             }
         }

@@ -65,7 +65,7 @@ typedef struct
     fixed_t             x;
     fixed_t             y;
     angle_t             viewangle;      // e6y: precalculated angle for clipping
-    int                 angletime;      // e6y: recalculation time for view angle 
+    int                 angletime;      // e6y: recalculation time for view angle
 } vertex_t;
 
 // Forward of LineDefs, for Sectors.
@@ -125,7 +125,7 @@ typedef struct
 
     // list of mobjs that are at least partially in the sector
     // thinglist is a subset of touching_thinglist
-    struct msecnode_s   *touching_thinglist;    // phares 3/14/98  
+    struct msecnode_s   *touching_thinglist;    // phares 3/14/98
 
     int                 linecount;
     struct line_s       **lines;                // [linecount] size
@@ -177,10 +177,10 @@ typedef struct
     int                 friction, movefactor;
 
     // killough 10/98: support skies coming from sidedefs. Allows scrolling
-    // skies and other effects. No "level info" kind of lump is needed, 
+    // skies and other effects. No "level info" kind of lump is needed,
     // because you can use an arbitrary number of skies per level with this
     // method. This field only applies when skyflatnum is used for floorpic
-    // or ceilingpic, because the rest of Doom needs to know which is sky
+    // or ceilingpic, because the rest of DOOM needs to know which is sky
     // and which isn't, etc.
     int                 sky;
 } sector_t;

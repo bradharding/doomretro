@@ -232,7 +232,7 @@ void P_XYMovement(mobj_t *mo)
     {
         fixed_t ptryx, ptryy;
 
-        // killough 8/9/98: fix bug in original Doom source:
+        // killough 8/9/98: fix bug in original DOOM source:
         // Large negative displacements were never considered.
         // This explains the tendency for Mancubus fireballs
         // to pass through walls.
@@ -746,7 +746,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     if (r_floatbob)
         mobj->floatbob = P_Random();
 
-    mobj->z = (z == ONFLOORZ ? mobj->floorz : 
+    mobj->z = (z == ONFLOORZ ? mobj->floorz :
               (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
 
     // [AM] Do not interpolate on spawn.
@@ -872,7 +872,7 @@ void P_SpawnPlayer(const mapthing_t *mthing)
     z = ONFLOORZ;
     mobj = P_SpawnMobj(x, y, z, MT_PLAYER);
 
-    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : 
+    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) :
         ANG45 * (mthing->angle / 45));
     mobj->player = p;
     mobj->health = p->health;

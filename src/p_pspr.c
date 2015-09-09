@@ -332,7 +332,7 @@ void A_ReFire(actionargs_t *actionargs)
 
 void A_CheckReload(actionargs_t *actionargs)
 {
-    player_t *player = actionargs->actor->player;
+    player_t    *player = actionargs->actor->player;
 
     if (!player)
         return;
@@ -348,8 +348,8 @@ void A_CheckReload(actionargs_t *actionargs)
 //
 void A_Lower(actionargs_t *actionargs)
 {
-    player_t *player;
-    pspdef_t *psp;
+    player_t    *player;
+    pspdef_t    *psp;
 
     if (!(player = actionargs->actor->player))
         return;
@@ -533,7 +533,7 @@ void A_FireBFG(actionargs_t *actionargs)
 //
 // A_FireOldBFG
 //
-// This function emulates Doom's Pre-Beta BFG
+// This function emulates DOOM's Pre-Beta BFG
 // By Lee Killough 6/6/98, 7/11/98, 7/19/98, 8/20/98
 //
 // This code may not be used in other mods without appropriate credit given.

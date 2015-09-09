@@ -87,7 +87,7 @@ typedef struct
 // theoretically possible is a function of screen width, a static limit is
 // okay in this case. It used to be 32, which was way too small.
 //
-// This limit was frequently mistaken for the visplane limit in some Doom
+// This limit was frequently mistaken for the visplane limit in some DOOM
 // editing FAQs, where visplanes were said to "double" if a pillar or other
 // object split the view's space into two pieces horizontally. That did not
 // have anything to do with visplanes, but it had everything to do with these
@@ -237,7 +237,7 @@ void R_ClearClipSegs(void)
 // killough 1/18/98 -- This function is used to fix the automap bug which
 // showed lines behind closed doors simply because the door had a dropoff.
 //
-// It assumes that Doom has already ruled out a door being closed because
+// It assumes that DOOM has already ruled out a door being closed because
 // of front-back closure (e.g. front floor is taller than back ceiling).
 dboolean R_DoorClosed(void)
 {
@@ -460,7 +460,7 @@ static void R_AddLine(seg_t *line)
         goto clipsolid;
 
     // [AM] Interpolate sector movement before
-    //      running clipping tests.  Frontsector
+    //      running clipping tests. Frontsector
     //      should already be interpolated.
     R_MaybeInterpolateSector(backsector);
 
@@ -563,7 +563,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 
     // cph - replaced old code, which was unclear and badly commented
     // Much more efficient code now
-    if ((signed int)angle1 < (signed int)angle2) 
+    if ((signed int)angle1 < (signed int)angle2)
     {
         // Either angle1 or angle2 is behind us, so it doesn't matter if we
         // change it to the correct sign
@@ -592,7 +592,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 
     // SoM: To account for the rounding error of the old BSP system, I needed to
     // make adjustments.
-    // SoM: Moved this to before the "does not cross a pixel" check to fix 
+    // SoM: Moved this to before the "does not cross a pixel" check to fix
     // another slime trail
     if (sx1 > 0)
         sx1--;
@@ -628,7 +628,7 @@ static void R_Subsector(int num)
 
     frontsector = sub->sector;
 
-    // [AM] Interpolate sector movement.  Usually only needed
+    // [AM] Interpolate sector movement. Usually only needed
     //      when you're standing inside the sector.
     R_MaybeInterpolateSector(frontsector);
 
@@ -656,7 +656,7 @@ static void R_Subsector(int num)
             frontsector->ceiling_xoffs,                         // killough 3/7/98
             frontsector->ceiling_yoffs) : NULL);
 
-    // killough 9/18/98: Fix underwater slowdown, by passing real sector 
+    // killough 9/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite
     // lightlevels on floor & ceiling lightlevels in the surrounding area.
     //
@@ -666,7 +666,7 @@ static void R_Subsector(int num)
     // That is part of the 242 effect!!!  If you simply pass sub->sector to
     // the old code you will not get correct lighting for underwater sprites!!!
     // Either you must pass the fake sector and handle validcount here, on the
-    // real sector, or you must account for the lighting in some other way, 
+    // real sector, or you must account for the lighting in some other way,
     // like passing it as an argument.
     if (sub->sector->validcount != validcount)
     {

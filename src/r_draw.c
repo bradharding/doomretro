@@ -874,7 +874,7 @@ void R_DrawTranslucentRedWhiteColumn1(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    
+
     while (--count)
     {
         *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];

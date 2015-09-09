@@ -56,9 +56,9 @@
 
 //
 // The packed attribute forces structures to be packed into the minimum
-// space necessary.  If this is not done, the compiler may align structure
+// space necessary. If this is not done, the compiler may align structure
 // fields differently to optimize memory access, inflating the overall
-// structure size.  It is important to use the packed attribute on certain
+// structure size. It is important to use the packed attribute on certain
 // structures where alignment is important, particularly data read/written
 // to disk.
 //
@@ -103,9 +103,9 @@ typedef enum
 // What version are we emulating?
 typedef enum
 {
-    exe_doom_1_9,       // Doom 1.9: used for shareware, registered and commercial
-    exe_ultimate,       // Ultimate Doom (retail)
-    exe_final           // Final Doom
+    exe_doom_1_9,       // DOOM 1.9: used for shareware, registered and commercial
+    exe_ultimate,       // Ultimate DOOM (retail)
+    exe_final           // Final DOOM
 } GameVersion_t;
 
 // Screen width and height.

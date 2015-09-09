@@ -115,16 +115,16 @@ extern dboolean doorclosed;
 //   values were used as-is, subsequent calculations would overflow,
 //   causing full-screen HOM, and possible program crashes.
 //
-//  Therefore, vanilla Doom clamps this scale calculation, preventing it
+//  Therefore, Vanilla DOOM clamps this scale calculation, preventing it
 //   from becoming larger than 0x400000 (64*FRACUNIT). This number was
 //   chosen carefully, to allow reasonably-tight angles, with reasonably
 //   tall sectors to be rendered, within the limits of the fixed-point
-//   math system being used. When the scale gets clamped, Doom cannot
+//   math system being used. When the scale gets clamped, DOOM cannot
 //   properly render the wall, causing an undesirable wall-bending
 //   effect that I call "floor wiggle". Not a crash, but still ugly.
 //
 //  Modern source ports offer higher video resolutions, which worsens
-//   the issue. And, Doom is simply not adjusted for the taller walls
+//   the issue. And, DOOM is simply not adjusted for the taller walls
 //   found in many PWADs.
 //
 //  This code attempts to correct these issues, by dynamically
@@ -133,7 +133,7 @@ extern dboolean doorclosed;
 //
 //  1. Floor wiggle is greatly reduced and/or eliminated.
 //  2. Overflow is no longer possible, even in levels with maximum
-//     height sectors (65535 is the theoretical height, though Doom
+//     height sectors (65535 is the theoretical height, though DOOM
 //     cannot handle sectors > 32767 units in height.
 //
 //  The code is not perfect across all situations. Some floor wiggle can
@@ -293,7 +293,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
             // killough 3/2/98:
             //
-            // This calculation used to overflow and cause crashes in Doom:
+            // This calculation used to overflow and cause crashes in DOOM:
             //
             // sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
             //

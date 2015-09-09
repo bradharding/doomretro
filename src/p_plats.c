@@ -83,7 +83,7 @@ void T_PlatRaise(plat_t *plat)
                     }
                     else // else go into stasis awaiting next toggle activation
                     {
-                        plat->oldstatus = plat->status; // jff 3/14/98 after action wait  
+                        plat->oldstatus = plat->status; // jff 3/14/98 after action wait
                         plat->status = in_stasis;       // for reactivation of toggle
                     }
 
@@ -118,7 +118,7 @@ void T_PlatRaise(plat_t *plat)
                 }
                 else    // instant toggles go into stasis awaiting next activation
                 {
-                    plat->oldstatus = plat->status;     // jff 3/14/98 after action wait  
+                    plat->oldstatus = plat->status;     // jff 3/14/98 after action wait
                     plat->status = in_stasis;           // for reactivation of toggle
                 }
 
@@ -352,7 +352,7 @@ dboolean EV_StopPlat(line_t *line)
 void P_AddActivePlat(plat_t *plat)
 {
     platlist_t  *list;
-    
+
     list = malloc(sizeof(*list));
     list->plat = plat;
     plat->list = list;

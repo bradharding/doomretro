@@ -221,7 +221,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
 //
 // MOVE A FLOOR TO IT'S DESTINATION (UP OR DOWN)
 //
-// jff 02/08/98 all cases with labels beginning with gen added to support 
+// jff 02/08/98 all cases with labels beginning with gen added to support
 // generalized line type behaviors.
 void T_MoveFloor(floormove_t *floor)
 {
@@ -355,7 +355,7 @@ void T_MoveElevator(elevator_t *elevator)
             elevator->direction);
 
         // jff 4/7/98 don't move floor if blocked
-        if (res == ok || res == pastdest) 
+        if (res == ok || res == pastdest)
             T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, 0, 1,
                 elevator->direction);
     }
@@ -649,7 +649,7 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
 // cph 2001/09/21 - compatibility nightmares again
 // There are three different ways this function has, during its history, stepped
 // through all the stairs to be triggered by the single switch
-// - original Doom used a linear P_FindSectorFromLineTag, but failed to preserve
+// - original DOOM used a linear P_FindSectorFromLineTag, but failed to preserve
 // the index of the previous sector found, so instead it would restart its
 // linear search from the last sector of the previous staircase
 // - MBF/PrBoom with comp_stairs fail to emulate this, because their

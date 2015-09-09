@@ -139,7 +139,7 @@ void F_StartFinale(void)
         {
             S_ChangeMusic(mus_read_m, true, false);
 
-            switch (gamemap)      // This is regular Doom II
+            switch (gamemap)      // This is regular DOOM II
             {
                 case 6:
                     finaleflat = bgflat06;
@@ -653,7 +653,7 @@ dboolean F_CastResponder(event_t *ev)
     S_StartSound(players[0].mo, sfx_dshtgn);
 
     type = castorder[castnum].type;
-    
+
     // go into death frame
     castdeath = true;
     if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG)

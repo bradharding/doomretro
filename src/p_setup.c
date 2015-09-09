@@ -1425,7 +1425,7 @@ void P_LoadBlockMap(int lump)
         // killough 3/1/98: Expand wad blockmap into larger internal one,
         // by treating all offsets except -1 as unsigned and zero-extending
         // them. This potentially doubles the size of blockmaps allowed,
-        // because Doom originally considered the offsets as always signed.
+        // because DOOM originally considered the offsets as always signed.
         blockmaplump[0] = SHORT(wadblockmaplump[0]);
         blockmaplump[1] = SHORT(wadblockmaplump[1]);
         blockmaplump[2] = (uint32_t)(SHORT(wadblockmaplump[2])) & 0xFFFF;
@@ -1602,7 +1602,7 @@ static int P_GroupLines(void)
 //
 // Remove slime trails.
 //
-// Slime trails are inherent to Doom's coordinate system -- i.e. there is
+// Slime trails are inherent to DOOM's coordinate system -- i.e. there is
 // nothing that a node builder can do to prevent slime trails ALL of the time,
 // because it's a product of the integer coordinate system, and just because
 // two lines pass through exact integer coordinates, doesn't necessarily mean
@@ -1790,7 +1790,7 @@ void P_MapName(int ep, int map)
             else
                 M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
             break;
-            
+
         default:
             break;
     }

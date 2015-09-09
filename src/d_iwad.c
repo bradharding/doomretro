@@ -74,9 +74,9 @@ static void AddIWADDir(char *dir)
 
 #if defined(WIN32)
 // This is Windows-specific code that automatically finds the location
-// of installed IWAD files.  The registry is inspected to find special
+// of installed IWAD files. The registry is inspected to find special
 // keys installed by the Windows installers for various CD versions
-// of Doom.  From these keys we can deduce where to find an IWAD.
+// of DOOM. From these keys we can deduce where to find an IWAD.
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -91,16 +91,16 @@ typedef struct
 
 #define UNINSTALLER_STRING "\\uninstl.exe /S "
 
-// Keys installed by the various CD editions.  These are actually the
+// Keys installed by the various CD editions. These are actually the
 // commands to invoke the uninstaller and look like this:
 //
 // C:\Program Files\Path\uninstl.exe /S C:\Program Files\Path
 //
-// With some munging we can find where Doom was installed.
+// With some munging we can find where DOOM was installed.
 
 static registry_value_t uninstall_values[] =
 {
-    // Ultimate Doom, CD version (Depths of Doom trilogy)
+    // Ultimate DOOM, CD version (Depths of DOOM trilogy)
     {
         HKEY_LOCAL_MACHINE,
         "Software\\Microsoft\\Windows\\CurrentVersion\\"
@@ -108,7 +108,7 @@ static registry_value_t uninstall_values[] =
         "UninstallString",
     },
 
-    // Doom II, CD version (Depths of Doom trilogy)
+    // DOOM II, CD version (Depths of DOOM trilogy)
     {
         HKEY_LOCAL_MACHINE,
         "Software\\Microsoft\\Windows\\CurrentVersion\\"
@@ -116,7 +116,7 @@ static registry_value_t uninstall_values[] =
         "UninstallString",
     },
 
-    // Final Doom
+    // Final DOOM
     {
         HKEY_LOCAL_MACHINE,
         "Software\\Microsoft\\Windows\\CurrentVersion\\"
@@ -229,7 +229,7 @@ static void CheckUninstallStrings(void)
     }
 }
 
-// Check for Doom: Collector's Edition
+// Check for DOOM: Collector's Edition
 static void CheckCollectorsEdition(void)
 {
     char                *install_path;
@@ -253,7 +253,7 @@ static void CheckCollectorsEdition(void)
     free(install_path);
 }
 
-// Check for Doom downloaded via Steam
+// Check for DOOM downloaded via Steam
 static void CheckSteamEdition(void)
 {
     char        *install_path = GetRegistryString(&steam_install_location);
@@ -275,16 +275,16 @@ static void CheckSteamEdition(void)
     free(install_path);
 }
 
-// Default install directories for DOS Doom
+// Default install directories for DOS DOOM
 static void CheckDOSDefaults(void)
 {
     // These are the default install directories used by the deice
     // installer program:
-    AddIWADDir("\\doom2");              // Doom II
-    AddIWADDir("\\plutonia");           // Final Doom
+    AddIWADDir("\\doom2");              // DOOM II
+    AddIWADDir("\\plutonia");           // Final DOOM
     AddIWADDir("\\tnt");
-    AddIWADDir("\\doom_se");            // Ultimate Doom
-    AddIWADDir("\\doom");               // Shareware / Registered Doom
+    AddIWADDir("\\doom_se");            // Ultimate DOOM
+    AddIWADDir("\\doom");               // Shareware / Registered DOOM
     AddIWADDir("\\dooms");              // Shareware versions
     AddIWADDir("\\doomsw");
 }
@@ -388,7 +388,7 @@ static void BuildIWADDirList(void)
     if (iwad_dirs_built)
         return;
 
-    // Look in the current directory.  Doom always does this.
+    // Look in the current directory. DOOM always does this.
     AddIWADDir(".");
 
     // Add DOOMWADDIR if it is in the environment
@@ -543,7 +543,7 @@ void D_SetSaveGameFolder(void)
 }
 
 //
-// Find out what version of Doom is playing.
+// Find out what version of DOOM is playing.
 //
 void D_IdentifyVersion(void)
 {
@@ -571,16 +571,16 @@ void D_IdentifyVersion(void)
         }
 
         if (gamemission == none)
-            // Still no idea.  I don't think this is going to work.
+            // Still no idea. I don't think this is going to work.
             I_Error("Unknown or invalid IWAD file.");
     }
 
     // Make sure gamemode is set up correctly
     if (gamemission == doom)
     {
-        // Doom 1.  But which version?
+        // DOOM 1. But which version?
         if (W_CheckNumForName("E4M1") > 0)
-            // Ultimate Doom
+            // Ultimate DOOM
             gamemode = retail;
         else if (W_CheckNumForName("E3M1") > 0)
             gamemode = registered;
@@ -588,7 +588,7 @@ void D_IdentifyVersion(void)
             gamemode = shareware;
     }
     else
-        // Doom 2 of some kind.
+        // DOOM 2 of some kind.
         gamemode = commercial;
 }
 
@@ -610,7 +610,7 @@ void D_SetGameDescription(void)
         gamedescription = s_CAPTION_BTSXE3;
     else if (gamemission == doom)
     {
-        // Doom 1. But which version?
+        // DOOM 1. But which version?
         if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
         else if (W_CheckMultipleLumps("TITLEPIC") > 1)
@@ -628,7 +628,7 @@ void D_SetGameDescription(void)
     }
     else
     {
-        // Doom 2 of some kind. But which mission?
+        // DOOM 2 of some kind. But which mission?
         if (FREEDOOM)
         {
             if (FREEDM)

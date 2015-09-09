@@ -160,7 +160,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
 // 1/25/98, 1/31/98 killough : Rewritten for performance
 //
 // Empirically verified to have excellent hash
-// properties across standard Doom sprites:
+// properties across standard DOOM sprites:
 #define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
 
 static void R_InitSpriteDefs(const char *const *namelist)
@@ -224,7 +224,7 @@ static void R_InitSpriteDefs(const char *const *namelist)
                 if (!((lump->name[0] ^ spritename[0]) | (lump->name[1] ^ spritename[1])
                     | (lump->name[2] ^ spritename[2]) | (lump->name[3] ^ spritename[3])))
                 {
-                    R_InstallSpriteLump(lump, j + firstspritelump, lump->name[4] - 'A', 
+                    R_InstallSpriteLump(lump, j + firstspritelump, lump->name[4] - 'A',
                         lump->name[5], false);
                     if (lump->name[6])
                         R_InstallSpriteLump(lump, j + firstspritelump, lump->name[6] - 'A',
@@ -597,7 +597,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     // [AM] Interpolate between current and last position, if prudent.
     if (!vid_capfps
-        // Don't interpolate if the mobj did something 
+        // Don't interpolate if the mobj did something
         // that would necessitate turning it off for a tic.
         && thing->interp
         // Don't interpolate during a paused state.

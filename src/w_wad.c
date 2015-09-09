@@ -147,16 +147,16 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
         return NULL;
 
     M_StringCopy(wad_file->path, filename, sizeof(wad_file->path));
-    
+
     wad_file->freedoom = IsFreedoom(filename);
 
     if (strcasecmp(filename + strlen(filename) - 3, "wad"))
     {
         // single lump file
 
-        // fraggle: Swap the filepos and size here.  The WAD directory
+        // fraggle: Swap the filepos and size here. The WAD directory
         // parsing code expects a little-endian directory, so will swap
-        // them back.  Effectively we're constructing a "fake WAD directory"
+        // them back. Effectively we're constructing a "fake WAD directory"
         // here, as it would appear on disk.
         fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
         fileinfo->filepos = LONG(0);
@@ -509,7 +509,7 @@ void W_ReadLump(lumpindex_t lump, void *dest)
 // the lump data.
 //
 // 'tag' is the type of zone memory buffer to allocate for the lump
-// (usually PU_STATIC or PU_CACHE).  If the lump is loaded as
+// (usually PU_STATIC or PU_CACHE). If the lump is loaded as
 // PU_STATIC, it should be released back using W_ReleaseLumpNum
 // when no longer needed (do not use Z_ChangeTag).
 //
@@ -523,9 +523,9 @@ void *W_CacheLumpNum(lumpindex_t lumpnum, int tag)
 
     lump = lumpinfo[lumpnum];
 
-    // Get the pointer to return.  If the lump is in a memory-mapped
+    // Get the pointer to return. If the lump is in a memory-mapped
     // file, we can just return a pointer to within the memory-mapped
-    // region.  If the lump is in an ordinary file, we may already
+    // region. If the lump is in an ordinary file, we may already
     // have it cached; otherwise, load it into memory.
     if (lump->wad_file->mapped)
     {
@@ -562,7 +562,7 @@ void *W_CacheLumpName(char *name, int tag)
 // without having to read from disk again, or alternatively, discarded
 // if we run out of memory.
 //
-// Back in Vanilla Doom, this was just done using Z_ChangeTag
+// Back in Vanilla DOOM, this was just done using Z_ChangeTag
 // directly, but now that we have WAD mmap, things are a bit more
 // complicated...
 //

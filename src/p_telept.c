@@ -99,7 +99,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     if (player)
                     {
-                        // [BH] teleport can be drawn on automap 
+                        // [BH] teleport can be drawn on automap
                         if (line->backsector)
                         {
                             int j;
@@ -244,7 +244,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
             // Sine, cosine of angle adjustment
             fixed_t     s = finesine[angle >> ANGLETOFINESHIFT];
             fixed_t     c = finecosine[angle >> ANGLETOFINESHIFT];
-            
+
             // Maximum distance thing can be moved away from interpolated
             // exit, to ensure that it is on the correct side of exit linedef
             int         fudge = FUDGEFACTOR;

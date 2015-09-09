@@ -407,17 +407,17 @@ void R_DrawPlanes(void)
 
                         // We sometimes flip the picture horizontally.
                         //
-                        // Doom always flipped the picture, so we make it optional,
+                        // DOOM always flipped the picture, so we make it optional,
                         // to make it easier to use the new feature, while to still
                         // allow old sky textures to be used.
                         flip = (l->special == TransferSkyTextureToTaggedSectors_Flipped ?
                             0u : ~0u);
                     }
-                    else        // Normal Doom sky, only one allowed per level
+                    else        // Normal DOOM sky, only one allowed per level
                     {
                         dc_texturemid = skytexturemid;  // Default y-offset
                         texture = skytexture;           // Default texture
-                        flip = 0;                       // Doom flips it
+                        flip = 0;                       // DOOM flips it
                     }
 
                     dc_iscale = pspriteiscale;

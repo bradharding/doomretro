@@ -336,7 +336,7 @@ static int untouched(line_t *ld)
     return ((tmbbox[BOXRIGHT] = (x = tmthing->x) + tmradius) <= ld->bbox[BOXLEFT]
         || (tmbbox[BOXLEFT] = x - tmradius) >= ld->bbox[BOXRIGHT]
         || (tmbbox[BOXTOP] = (y = tmthing->y) + tmradius) <= ld->bbox[BOXBOTTOM]
-        || (tmbbox[BOXBOTTOM] = y - tmradius) >= ld->bbox[BOXTOP] 
+        || (tmbbox[BOXBOTTOM] = y - tmradius) >= ld->bbox[BOXTOP]
         || P_BoxOnLineSide(tmbbox, ld) != -1);
 }
 
@@ -786,7 +786,7 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
     ceilingline = NULL;
 
     // the base floor / ceiling is from the subsector that contains the
-    // point.  Any contacted lines the step closer together will adjust them
+    // point. Any contacted lines the step closer together will adjust them
     tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
     tmceilingz = newsubsec->sector->ceilingheight;
 
@@ -903,7 +903,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         }
 
         // killough 3/15/98: Allow certain objects to drop off
-        // killough 7/24/98, 8/1/98: 
+        // killough 7/24/98, 8/1/98:
         // Prevent monsters from getting stuck hanging off ledges
         // killough 10/98: Allow dropoffs in controlled circumstances
         // killough 11/98: Improve symmetry of clipping on stairs
@@ -985,7 +985,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
 // killough 9/12/98:
 //
 // Apply "torque" to objects hanging off of ledges, so that they
-// fall off. It's not really torque, since Doom has no concept of
+// fall off. It's not really torque, since DOOM has no concept of
 // rotation, but it's a convincing effect which avoids anomalies
 // such as lifeless objects hanging more than halfway off of ledges,
 // and allows objects to roll off of the edges of moving lifts, or
@@ -1094,8 +1094,8 @@ void P_ApplyTorque(mobj_t *mo)
     // If the object has been moving, step up the gear.
     // This helps reach equilibrium and avoid oscillations.
     //
-    // Doom has no concept of potential energy, much less
-    // of rotation, so we have to creatively simulate these 
+    // DOOM has no concept of potential energy, much less
+    // of rotation, so we have to creatively simulate these
     // systems somehow :)
     if (!((mo->flags2 | flags2) & MF2_FALLING)) // If not falling for a while,
         mo->gear = 0;                           // Reset it to full strength
@@ -1734,12 +1734,9 @@ dboolean PTR_NoWayTraverse(intercept_t *in)
 {
     line_t *ld = in->d.line;
 
-    return (ld->special 
-            || !(ld->flags & ML_BLOCKING 
-                 || (P_LineOpening(ld),
-                     openrange <= 0 || 
-                     openbottom > usething->z + 24 * FRACUNIT ||
-                     opentop < usething->z + usething->height)));
+    return (ld->special || !((ld->flags & ML_BLOCKING)
+        || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT
+        || opentop < usething->z + usething->height))));
 }
 
 //

@@ -410,7 +410,7 @@ dboolean V_EmptyPatch(patch_t *patch)
             column = (column_t *)((byte *)column + column->length + 4);
         }
     }
-    
+
     return true;
 }
 
@@ -996,7 +996,7 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
     }
 }
 
-byte nogreen[256] = 
+byte nogreen[256] =
 {
     1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,

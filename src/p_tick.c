@@ -144,10 +144,10 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
         // Note that currentthinker is guaranteed to point to us,
         // and since we're freeing our memory, we had better change that. So
         // point it to thinker->prev, so the iterator will correctly move on to
-        // thinker->prev->next = thinker->next 
+        // thinker->prev->next = thinker->next
         (next->prev = currentthinker = thinker->prev)->next = next;
 
-        // Remove from current thinker class list 
+        // Remove from current thinker class list
         (th->cprev = thinker->cprev)->cnext = th;
 
         Z_Free(thinker);
@@ -176,7 +176,7 @@ void P_RemoveThinker(thinker_t *thinker)
 // P_SetTarget
 //
 // This function is used to keep track of pointer references to mobj thinkers.
-// In Doom, objects such as lost souls could sometimes be removed despite
+// In DOOM, objects such as lost souls could sometimes be removed despite
 // their still being referenced. In Boom, 'target' mobj fields were tested
 // during each gametic, and any objects pointed to by them would be prevented
 // from being removed. But this was incomplete, and was slow (every mobj was
@@ -197,10 +197,10 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 // killough 4/25/98:
 //
 // Fix deallocator to stop using "next" pointer after node has been freed
-// (a Doom bug).
+// (a DOOM bug).
 //
 // Process each thinker. For thinkers which are marked deleted, we must
-// load the "next" pointer prior to freeing the node. In Doom, the "next"
+// load the "next" pointer prior to freeing the node. In DOOM, the "next"
 // pointer was loaded AFTER the thinker was freed, which could have caused
 // crashes.
 //

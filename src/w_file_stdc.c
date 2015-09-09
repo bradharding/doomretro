@@ -80,9 +80,8 @@ static void W_StdC_CloseFile(wad_file_t *wad)
     Z_Free(stdc_wad);
 }
 
-// Read data from the specified position in the file into the 
-// provided buffer.  Returns the number of bytes read.
-
+// Read data from the specified position in the file into the
+// provided buffer. Returns the number of bytes read.
 size_t W_StdC_Read(wad_file_t *wad, unsigned int offset,
                    void *buffer, size_t buffer_len)
 {
@@ -100,7 +99,7 @@ size_t W_StdC_Read(wad_file_t *wad, unsigned int offset,
     return result;
 }
 
-wad_file_class_t stdc_wad_file = 
+wad_file_class_t stdc_wad_file =
 {
     W_StdC_OpenFile,
     W_StdC_CloseFile,

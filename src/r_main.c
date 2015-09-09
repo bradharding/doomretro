@@ -80,7 +80,7 @@ fixed_t                 viewsin;
 player_t                *viewplayer;
 
 // [AM] Fractional part of the current tic, in the half-open
-//      range of [0.0, 1.0).  Used for interpolation.
+//      range of [0.0, 1.0). Used for interpolation.
 fixed_t                 fractionaltic;
 
 //
@@ -699,7 +699,7 @@ void R_SetupFrame(player_t *player)
         // Don't interpolate on the first tic of a level, otherwise
         // oldviewz might be garbage.
         && leveltime > 1
-        // Don't interpolate if the player did something 
+        // Don't interpolate if the player did something
         // that would necessitate turning it off for a tic.
         && player->mo->interp
         // Don't interpolate during a paused state

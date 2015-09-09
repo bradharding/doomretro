@@ -569,7 +569,7 @@ char    *s_COPYRIGHT3 = COPYRIGHT3;
 // ====================================================================
 
 // Do this for a lookup--the pointer (loaded above) is cross-referenced
-// to a string key that is the same as the define above.  We will use
+// to a string key that is the same as the define above. We will use
 // strdups to set these new values that we read from the file, orphaning
 // the original value set above.
 
@@ -1002,7 +1002,7 @@ deh_strs deh_strlookup[] =
     { &bgcastcall,             "BGCASTCALL",           false },
 
     // Ty 04/08/98 - added 5 general purpose startup announcement
-    // strings for hacker use.  See m_menu.c
+    // strings for hacker use. See m_menu.c
     { &startup1,               "STARTUP1",             false },
     { &startup2,               "STARTUP2",             false },
     { &startup3,               "STARTUP3",             false },
@@ -1301,7 +1301,7 @@ static dboolean includenotext = false;
 
 // MOBJINFO - Dehacked block name = "Thing"
 // Usage: Thing nn (name)
-// These are for mobjinfo_t types.  Each is an integer
+// These are for mobjinfo_t types. Each is an integer
 // within the structure, so we can use index of the string in this
 // array to offset by sizeof(int) into the mobjinfo_t array at [nn]
 // * things are base zero but dehacked considers them to start at #1. ***
@@ -1401,9 +1401,9 @@ static const struct deh_mobjflags_s deh_mobjflags[] =
 // Usage: Frame nn
 // Usage: Pointer nn (Frame nn)
 // These are indexed separately, for lookup to the actual
-// function pointers.  Here we'll take whatever Dehacked gives
-// us and go from there.  The (Frame nn) after the pointer is the
-// real place to put this value.  The "Pointer" value is an xref
+// function pointers. Here we'll take whatever Dehacked gives
+// us and go from there. The (Frame nn) after the pointer is the
+// real place to put this value. The "Pointer" value is an xref
 // that Dehacked uses and is useless to us.
 // * states are base zero and have a dummy #0 (TROO)
 static char *deh_state[] =
@@ -1420,7 +1420,7 @@ static char *deh_state[] =
 
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
 // Sound effects, typically not changed (redirected, and new sfx put
-// into the pwad, but not changed here.  Can you tell that Greg didn't
+// into the pwad, but not changed here. Can you tell that Greg didn't
 // know what they were for, mostly?  Can you tell that I don't either?
 // Mostly I just put these into the same slots as they are in the struct.
 // This may not be supported in our -deh option if it doesn't make sense by then.
@@ -1437,7 +1437,7 @@ static char *deh_sfxinfo[] =
     "Neg. One 2"        // .lumpnum
 };
 
-// MUSICINFO is not supported in Dehacked.  Ignored here.
+// MUSICINFO is not supported in Dehacked. Ignored here.
 // * music entries are base zero but have a dummy #0
 
 // SPRITE - Dehacked block name = "Sprite"
@@ -1473,7 +1473,7 @@ static char *deh_weapon[] =
 
 // CHEATS - Dehacked block name = "Cheat"
 // Usage: Cheat 0
-// Always uses a zero in the dehacked file, for consistency.  No meaning.
+// Always uses a zero in the dehacked file, for consistency. No meaning.
 // These are just plain funky terms compared with id's
 static char *deh_cheat[] =
 {
@@ -1497,7 +1497,7 @@ static char *deh_cheat[] =
 
 // MISC - Dehacked block name = "Misc"
 // Usage: Misc 0
-// Always uses a zero in the dehacked file, for consistency.  No meaning.
+// Always uses a zero in the dehacked file, for consistency. No meaning.
 static char *deh_misc[] =
 {
     "Initial Health",           // initial_health
@@ -2396,7 +2396,7 @@ void deh_procSprite(DEHFILE *fpin, char *line) // Not supported
     int         indexnum;
 
     // Too little is known about what this is supposed to do, and
-    // there are better ways of handling sprite renaming.  Not supported.
+    // there are better ways of handling sprite renaming. Not supported.
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
@@ -2451,9 +2451,9 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
     //  par 3 5 120
     //  par 14 230
     // The first would make the par for E3M5 be 120 seconds, and the
-    // second one makes the par for MAP14 be 230 seconds.  The number
+    // second one makes the par for MAP14 be 230 seconds. The number
     // of parameters on the line determines which group of par values
-    // is being changed.  Error checking is done based on current fixed
+    // is being changed. Error checking is done based on current fixed
     // array sizes of[4][10] and [32]
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
@@ -2797,7 +2797,7 @@ void deh_procMisc(DEHFILE *fpin, char *line)
 // deh_procText
 // Purpose: Handle DEH Text block
 // Notes:   We look things up in the current information and if found
-//          we replace it.  At the same time we write the new and
+//          we replace it. At the same time we write the new and
 //          improved BEX syntax to the log file for future use.
 // Args:    fpin  -- input file stream
 //          line  -- current line in file to process
@@ -2839,8 +2839,8 @@ void deh_procText(DEHFILE *fpin, char *line)
         inbuffer[totlen] = '\0';
     }
 
-    // if the from and to are 4, this may be a sprite rename.  Check it
-    // against the array and process it as such if it matches.  Remember
+    // if the from and to are 4, this may be a sprite rename. Check it
+    // against the array and process it as such if it matches. Remember
     // that the original names are (and should remain) uppercase.
     // Future: this will be from a separate [SPRITES] block.
     if (fromlen == 4 && tolen == 4)
@@ -3169,7 +3169,7 @@ void rstrip(char *s)    // strip trailing whitespace
 // Purpose: Points past leading whitespace in a string
 // Args:    s -- the string to work on
 // Returns: char * pointing to the first nonblank character in the
-//          string.  The original string is not changed.
+//          string. The original string is not changed.
 //
 char *ptr_lstrip(char *p)       // point past leading whitespace
 {
@@ -3185,10 +3185,10 @@ char *ptr_lstrip(char *p)       // point past leading whitespace
 //          k -- a place to put the key
 //          l -- pointer to a long integer to store the number
 //          strval -- a pointer to the place in s where the number
-//                    value comes from.  Pass NULL to not use this.
+//                    value comes from. Pass NULL to not use this.
 // Notes:   Expects a key phrase, optional space, equal sign,
 //          optional space and a value, mostly an int but treated
-//          as a long just in case.  The passed pointer to hold
+//          as a long just in case. The passed pointer to hold
 //          the key must be DEH_MAXKEYLEN in size.
 //
 int deh_GetData(char *s, char *k, long *l, char **strval)

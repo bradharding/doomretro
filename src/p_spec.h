@@ -99,7 +99,7 @@ fixed_t P_FindShortestUpperAround(int secnum); // jff 2/04/98
 
 sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum); //jff 02/04/98
 
-sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); //jff 02/04/98 
+sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); //jff 02/04/98
 
 int P_FindSectorFromLineTag(const line_t *line, int start);
 int P_FindLineFromLineTag(const line_t *line, int start);
@@ -490,7 +490,7 @@ typedef enum
     genFloorChg,
     genFloorChg0,
     genFloorChgT,
-    
+
     buildStair,
     genBuildStair
 } floor_e;
@@ -585,7 +585,7 @@ typedef struct
         p_push,
         p_pull,
         p_wind,
-        p_current 
+        p_current
     } type;
     mobj_t      *source;        // Point source if point pusher
     int         x_mag;          // X Strength
@@ -618,7 +618,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 #define PUSH_MASK       0x200
 #define PUSH_SHIFT      9
 
-// jff 02/04/98 Define masks, shifts, for fields in 
+// jff 02/04/98 Define masks, shifts, for fields in
 // generalized linedef types
 #define GenFloorBase          0x6000
 #define GenCeilingBase        0x4000

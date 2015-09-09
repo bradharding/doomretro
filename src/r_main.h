@@ -87,7 +87,7 @@ extern int              validcount;
 // killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
 extern lighttable_t     *(*scalelight)[MAXLIGHTSCALE];
 extern lighttable_t     *(*zlight)[MAXLIGHTZ];
-extern lighttable_t     *(*psprscalelight)[OLDMAXLIGHTSCALE]; 
+extern lighttable_t     *(*psprscalelight)[OLDMAXLIGHTSCALE];
 extern lighttable_t     *fullcolormap;
 extern int              numcolormaps;   // killough 4/4/98: dynamic number of maps
 extern lighttable_t     **colormaps;
@@ -100,7 +100,7 @@ extern lighttable_t     *fixedcolormap;
 #define NUMCOLORMAPS    32
 
 // [AM] Fractional part of the current tic, in the half-open
-//      range of [0.0, 1.0).  Used for interpolation.
+//      range of [0.0, 1.0). Used for interpolation.
 extern fixed_t          fractionaltic;
 
 //

@@ -1505,7 +1505,7 @@ state_t states[NUMSTATES] =
     { SPR_BON3,  0,                                6,               NULL,            S_BON3,          0,     0     }, // S_BON3
     { SPR_BON4,  0,                                6,               NULL,            S_BON4,          0,     0     }, // S_BON4
 
-    // killough 10/98: beta lost souls attacked from a distance, 
+    // killough 10/98: beta lost souls attacked from a distance,
     // animated with colors, and stayed in the air when killed.
     { SPR_SKUL,  0,                               10,               A_Look,          S_BSKUL_STND,    0,     0     }, // S_BSKUL_STND
     { SPR_SKUL,  1,                                5,               A_Chase,         S_BSKUL_RUN2,    0,     0     }, // S_BSKUL_RUN1

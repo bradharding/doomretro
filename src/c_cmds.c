@@ -1230,7 +1230,7 @@ static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
         || !strcasecmp(parm1, "armor")
         || !strcasecmp(parm1, "keys"))
         return true;
-    
+
     return false;
 }
 
@@ -1336,7 +1336,7 @@ static dboolean C_IntCondition(char *cmd, char *parm1, char *parm2)
             && (consolecmds[i].flags & CF_INTEGER))
         {
             int value = -1;
-            
+
             sscanf(parm1, "%10i", &value);
 
             return (value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
@@ -2497,7 +2497,7 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
     if (parm1[0])
     {
         vid_windowposition = strdup(parm1);
- 
+
         GetWindowPosition();
 
         if (strcasecmp(vid_windowposition, parm1))

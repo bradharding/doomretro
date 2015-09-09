@@ -785,7 +785,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (EV_BuildStairs(line, turbo16))
                 P_ChangeSwitchTexture(line, 1);
             break;
-            
+
         // Buttons (retriggerable switches)
         case SR_Door_CloseStay:
             if (EV_DoDoor(line, doorClose))

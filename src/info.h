@@ -1328,7 +1328,7 @@ typedef struct
 extern state_t  states[NUMSTATES];
 extern char     *sprnames[];
 
-typedef enum 
+typedef enum
 {
     NOTYPE = -1,
     MT_PLAYER,

@@ -665,7 +665,7 @@ void HU_PlayerMessage(char *message, dboolean ingame)
         M_snprintf(buffer, sizeof(buffer), message, playername);
     else
         M_StringCopy(buffer, message, sizeof(buffer));
-    
+
     buffer[0] = toupper(buffer[0]);
     lastchar = buffer[strlen(buffer) - 1];
 

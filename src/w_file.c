@@ -50,7 +50,7 @@ extern wad_file_class_t win32_wad_file;
 
 #if defined(HAVE_MMAP)
 extern wad_file_class_t posix_wad_file;
-#endif 
+#endif
 
 static wad_file_class_t *wad_file_classes[] =
 {

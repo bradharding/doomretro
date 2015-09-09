@@ -81,7 +81,7 @@ unsigned int GetFileLength(HANDLE handle)
 
     return result;
 }
-   
+
 static wad_file_t *W_Win32_OpenFile(char *path)
 {
     win32_wad_file_t    *result;
@@ -127,8 +127,8 @@ static void W_Win32_CloseFile(wad_file_t *wad)
     Z_Free(win32_wad);
 }
 
-// Read data from the specified position in the file into the 
-// provided buffer.  Returns the number of bytes read.
+// Read data from the specified position in the file into the
+// provided buffer. Returns the number of bytes read.
 size_t W_Win32_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len)
 {
     win32_wad_file_t    *win32_wad = (win32_wad_file_t *)wad;
@@ -148,7 +148,7 @@ size_t W_Win32_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t b
     return bytes_read;
 }
 
-wad_file_class_t win32_wad_file = 
+wad_file_class_t win32_wad_file =
 {
     W_Win32_OpenFile,
     W_Win32_CloseFile,

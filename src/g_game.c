@@ -602,7 +602,7 @@ void G_DoLoadLevel(void)
 
     M_ClearRandom();
 
-    // initialize the msecnode_t freelist.                     phares 3/25/98
+    // initialize the msecnode_t freelist. phares 3/25/98
     // any nodes in the freelist are gone by now, cleared
     // by Z_FreeTags() when the previous level ended or player
     // died.
@@ -1143,7 +1143,7 @@ dboolean G_CheckSpot(int playernum, mapthing_t *mthing)
     // spawn a teleport fog
     ss = R_PointInSubsector(x, y);
 
-    // This calculation overflows in Vanilla Doom, but here we deliberately
+    // This calculation overflows in Vanilla DOOM, but here we deliberately
     // avoid integer overflow as it is undefined behavior, so the value of
     // 'an' will always be positive.
     an = (ANG45 >> ANGLETOFINESHIFT) * ((signed int)mthing->angle / 45);
@@ -1585,7 +1585,7 @@ void G_DoSaveGame(void)
     temp_savegame_file = P_TempSaveGameFile();
     savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
 
-    // Open the savegame file for writing.  We write to a temporary file
+    // Open the savegame file for writing. We write to a temporary file
     // and then rename it at the end if it was successfully written.
     // This prevents an existing savegame from being overwritten by
     // a corrupted one, or if a savegame buffer overrun occurs.

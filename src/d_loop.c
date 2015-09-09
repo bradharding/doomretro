@@ -50,7 +50,7 @@
 
 // Maximum time that we wait in TryRunTics() for netgame data to be
 // received before we bail out and render a frame anyway.
-// Vanilla Doom used 20 for this value, but we use a smaller value
+// Vanilla DOOM used 20 for this value, but we use a smaller value
 // instead for better responsiveness of the menu when we're stuck.
 #define MAX_NETGAME_STALL_TICS  5
 
@@ -72,7 +72,7 @@ int             lastnettic;
 int             skiptics = 0;
 
 // Reduce the bandwidth needed by sampling game input less and transmitting
-// less.  If ticdup is 2, sample half normal, 3 = one third normal, etc.
+// less. If ticdup is 2, sample half normal, 3 = one third normal, etc.
 int             ticdup;
 
 // Send this many extra (backup) tics in each packet.
@@ -212,7 +212,7 @@ void TryRunTics(void)
             // forever - give the menu a chance to work.
             if (I_GetTime() / ticdup - entertic >= MAX_NETGAME_STALL_TICS)
                 return;
- 
+
             I_Sleep(1);
         }
     }

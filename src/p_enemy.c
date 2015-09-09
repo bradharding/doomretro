@@ -535,7 +535,7 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
 //
 // Monsters try to move away from tall dropoffs.
 //
-// In Doom, they were never allowed to hang over dropoffs,
+// In DOOM, they were never allowed to hang over dropoffs,
 // and would remain stuck if involuntarily forced over one.
 // This logic, combined with p_map.c (P_TryMove), allows
 // monsters to free themselves without making them tend to
@@ -772,7 +772,7 @@ void A_Look(actionargs_t *actionargs)
 
     actor->threshold = 0;       // any shot will wake up
     targ = actor->subsector->sector->soundtarget;
-    
+
     if (targ && (targ->flags & MF_SHOOTABLE))
     {
         P_SetTarget(&actor->target, targ);

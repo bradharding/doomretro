@@ -512,7 +512,7 @@ static void GenerateTextureHashTable(void)
         // Store index
         textures[i]->index = i;
 
-        // Vanilla Doom does a linear search of the textures array
+        // Vanilla DOOM does a linear search of the textures array
         // and stops at the first entry it finds.  If there are two
         // entries with the same name, the first one in the array
         // wins. The new entry must therefore be added at the end

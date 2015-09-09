@@ -184,7 +184,7 @@ static dboolean P_CrossSubsector(int num)
         else
             return false;
 
-        { 
+        {
             // crosses a two sided line
             fixed_t     frac = P_InterceptVector2(&los.strace, &divl);
 

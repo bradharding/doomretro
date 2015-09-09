@@ -1957,7 +1957,7 @@ dboolean EV_DoDonut(line_t *line)
             continue;
 
         if (P_SectorActive(floor_special, s2))
-            continue;  
+            continue;
 
         for (i = 0; i < s2->linecount; i++)
         {
@@ -2419,7 +2419,7 @@ static void P_SpawnScrollers(void)
 // design bug in Boom's original friction code, while maintaining demo sync
 // under every conceivable circumstance, would double or triple code size, and
 // would require maintenance of buggy legacy code which is only useful for old
-// demos. Doom demos, which are more important IMO, are not affected by this
+// demos. DOOM demos, which are more important IMO, are not affected by this
 // change.
 //
 

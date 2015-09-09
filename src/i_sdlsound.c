@@ -124,7 +124,7 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 }
 
 // Search from the tail backwards along the allocated sounds list, find
-// and free a sound that is not in use, to free up memory.  Return true
+// and free a sound that is not in use, to free up memory. Return true
 // for success.
 static dboolean FindAndFreeSound(void)
 {
@@ -147,7 +147,7 @@ static dboolean FindAndFreeSound(void)
     return false;
 }
 
-// Enforce SFX cache size limit.  We are just about to allocate "len"
+// Enforce SFX cache size limit. We are just about to allocate "len"
 // bytes on the heap for a new sound effect, so free up some space
 // so that we keep allocated_sounds_size < snd_cachesize
 static void ReserveCacheSpace(size_t len)
@@ -170,7 +170,7 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, size_t len)
     // Keep allocated sounds within the cache size.
     ReserveCacheSpace(len);
 
-    // Allocate the sound structure and data.  The data will immediately
+    // Allocate the sound structure and data. The data will immediately
     // follow the structure, which acts as a header.
     do
     {
@@ -429,7 +429,7 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 
     // We also discard sound lumps that are less than 49 samples long,
     // as this is how DMX behaves - although the actual cut-off length
-    // seems to vary slightly depending on the sample rate.  This needs
+    // seems to vary slightly depending on the sample rate. This needs
     // further investigation to better understand the correct
     // behavior.
     if (length > lumplen - 8 || length <= 48)

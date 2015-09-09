@@ -691,7 +691,7 @@ manual_stair:
             else
                 return rtn;
         }
-      
+
         // new floor thinker
         rtn = true;
         floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
@@ -754,10 +754,10 @@ manual_stair:
         sec->nextsec = -1;
         sec->prevsec = -1;
 
-        osecnum = secnum;               // jff 3/4/98 preserve loop index  
+        osecnum = secnum;               // jff 3/4/98 preserve loop index
         // Find next sector to raise
-        // 1.     Find 2-sided line with same sector side[0]
-        // 2.     Other side is the next sector to raise
+        // 1. Find 2-sided line with same sector side[0]
+        // 2. Other side is the next sector to raise
         do
         {
             ok = 0;
@@ -765,10 +765,10 @@ manual_stair:
             {
                 if (!((sec->lines[i])->backsector))
                     continue;
-                                  
+
                 tsec = (sec->lines[i])->frontsector;
                 newsecnum = tsec - sectors;
-          
+
                 if (secnum != newsecnum)
                     continue;
 
@@ -975,7 +975,7 @@ manual_locked:
             else
                 return rtn;
         }
-  
+
         // new door thinker
         rtn = true;
         door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
@@ -1068,7 +1068,7 @@ dboolean EV_DoGenDoor(line_t *line)
 
     secnum = -1;
     rtn = 0;
-  
+
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
@@ -1082,7 +1082,7 @@ manual_door:
             else
                 return rtn;
         }
-  
+
         // new door thinker
         rtn = true;
         door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);

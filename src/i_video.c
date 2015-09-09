@@ -64,7 +64,7 @@ dboolean                manuallypositioning = false;
 
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
-static SDL_Texture      *texture = NULL; 
+static SDL_Texture      *texture = NULL;
 static SDL_Surface      *surface = NULL;
 static SDL_Surface      *buffer = NULL;
 static SDL_Palette      *palette;

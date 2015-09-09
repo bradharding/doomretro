@@ -517,7 +517,7 @@ static void InitGameVersion(void)
         if (gamemission == doom2)
             gameversion = exe_doom_1_9;
         else
-            // Final Doom: tnt or plutonia
+            // Final DOOM: tnt or plutonia
             gameversion = exe_final;
     }
 
@@ -525,7 +525,7 @@ static void InitGameVersion(void)
     if (gameversion < exe_ultimate && gamemode == retail)
         gamemode = registered;
 
-    // EXEs prior to the Final Doom exes do not support Final Doom.
+    // EXEs prior to the Final DOOM exes do not support Final DOOM.
     if (gameversion < exe_final && gamemode == commercial)
         gamemission = doom2;
 }
@@ -658,7 +658,7 @@ static void D_FirstUse(void)
         "selected by clicking or " CTRL "-clicking on them.\nGo to the " PACKAGE_NAME " Wiki for "
         "more information.";
 
-    const SDL_MessageBoxButtonData buttons[] = 
+    const SDL_MessageBoxButtonData buttons[] =
     {
 #if defined(WIN32)
         {                                       0, 0, "&Wiki"   },
@@ -718,7 +718,7 @@ static int D_ChooseIWAD(void)
     ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
                  | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
-    
+
     fileopenedok = GetOpenFileName(&ofn);
 
 #elif defined(__MACOSX__)
@@ -900,7 +900,7 @@ static int D_ChooseIWAD(void)
             LPSTR       pwadpass2 = ofn.lpstrFile;
             LPSTR       cfgpass = ofn.lpstrFile;
             LPSTR       dehpass = ofn.lpstrFile;
-            
+
             iwadpass += lstrlen(iwadpass) + 1;
 
             // find and add IWAD first
@@ -1009,11 +1009,11 @@ static int D_ChooseIWAD(void)
                 // and then try to load it first
 #if defined(WIN32)
                 pwadpass1 += lstrlen(pwadpass1) + 1;
-                    
+
                 while (!iwadfound && pwadpass1[0])
                 {
                     static char     fullpath[MAX_PATH];
-                        
+
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
                                 pwadpass1);
 #elif defined(__MACOSX__)
@@ -1106,7 +1106,7 @@ static int D_ChooseIWAD(void)
                     while (pwadpass2[0])
                     {
                         static char     fullpath[MAX_PATH];
-                        
+
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                             strdup(szFile), pwadpass2);
 #elif defined(__MACOSX__)
