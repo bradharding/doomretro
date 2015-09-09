@@ -762,8 +762,11 @@ void A_FireCGun(actionargs_t *actionargs)
     P_SetMobjState(mo, S_PLAY_ATK2);
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash,
-        weaponinfo[player->readyweapon].flashstate + psp->state - &states[S_CHAIN1]);
+    if (psp->state >= &states[S_CHAIN1] && psp->state < &states[S_CHAIN3])
+        P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate
+            + psp->state - &states[S_CHAIN1]);
+    else
+        P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 
     P_BulletSlope(mo);
 
