@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <ctype.h>
+
 #include "doomdef.h"
 #include "doomstat.h"
 #include "info.h"
@@ -148,6 +150,22 @@ static void InitSpriteList(void)
     num_sprite_frames = 0;
 }
 
+static dboolean ValidSpriteLumpName(char *name)
+{
+    if (name[0] == '\0' || name[1] == '\0' || name[2] == '\0' || name[3] == '\0')
+        return false;
+
+    // First frame:
+    if (name[4] == '\0' || !isdigit(name[5]))
+        return false;
+
+    // Second frame (optional):
+    if (name[6] != '\0' && !isdigit(name[7]))
+        return false;
+
+    return true;
+}
+
 // Find a sprite frame
 static sprite_frame_t *FindSpriteFrame(char *name, char frame)
 {
@@ -197,11 +215,14 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
     int                 angle_num;
     int                 i;
 
+    if (!ValidSpriteLumpName(lump->name))
+        return true;
+
     // check the first frame
     sprite = FindSpriteFrame(lump->name, lump->name[4]);
     angle_num = lump->name[5] - '0';
 
-    if (angle_num == 0)
+    if (!angle_num)
     {
         // must check all frames
         for (i = 0; i < 8; ++i)
@@ -224,7 +245,7 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
     sprite = FindSpriteFrame(lump->name, lump->name[6]);
     angle_num = lump->name[7] - '0';
 
-    if (angle_num == 0)
+    if (!angle_num)
     {
         // must check all frames
         for (i = 0; i < 8; ++i)
@@ -247,11 +268,14 @@ static void AddSpriteLump(lumpinfo_t *lump)
     int                 angle_num;
     int                 i;
 
+    if (!ValidSpriteLumpName(lump->name))
+        return;
+
     // first angle
     sprite = FindSpriteFrame(lump->name, lump->name[4]);
     angle_num = lump->name[5] - '0';
 
-    if (angle_num == 0)
+    if (!angle_num)
     {
         for (i = 0; i < 8; ++i)
             sprite->angle_lumps[i] = lump;
@@ -268,7 +292,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     sprite = FindSpriteFrame(lump->name, lump->name[6]);
     angle_num = lump->name[7] - '0';
 
-    if (angle_num == 0)
+    if (!angle_num)
     {
         for (i = 0; i < 8; ++i)
             sprite->angle_lumps[i] = lump;
@@ -454,9 +478,7 @@ static void DoMerge(void)
 // Merge in a file by name
 dboolean W_MergeFile(char *filename, dboolean automatic)
 {
-    int old_numlumps;
-
-    old_numlumps = numlumps;
+    int old_numlumps = numlumps;
 
     // Load PWAD
     if (!W_AddFile(filename, automatic))
