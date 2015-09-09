@@ -103,8 +103,6 @@ dboolean        viewactive;
 
 player_t        players[MAXPLAYERS];
 
-dboolean        turbodetected[MAXPLAYERS];
-
 int             gametic = 0;
 int             gametime = 0;
 int             levelstarttic;          // gametic at level start
@@ -190,8 +188,6 @@ dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
 dboolean        gp_vibrate = gp_vibrate_default;
 
 #define MAXPLMOVE       forwardmove[1]
-
-#define TURBOTHRESHOLD  0x32
 
 fixed_t         forwardmove[2] = { 0x19, 0x32 };
 fixed_t         sidemove[2] = { 0x18, 0x28 };
@@ -592,7 +588,6 @@ void G_DoLoadLevel(void)
 
     gamestate = GS_LEVEL;
 
-    turbodetected[0] = false;
     if (players[0].playerstate == PST_DEAD)
         players[0].playerstate = PST_REBORN;
 
