@@ -289,18 +289,4 @@ extern int clipammo[];
 //
 #include "p_spec.h"
 
-typedef struct actionargs_s
-{
-    // activation type enumeration
-    enum actiontype_e
-    {
-        MOBJFRAME,      // invoked from P_SetMobjState
-        WEAPONFRAME     // invoked from P_SetPsprite
-    } type;
-
-    mobj_t      *actor; // Actor for either type of invocation; use mo->player when needed
-    pspdef_t    *psp;   // psprite, only valid if actiontype is WEAPONFRAME
-    int         position;
-} actionargs_t;
-
 #endif

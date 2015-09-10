@@ -134,16 +134,7 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         // Modified handling.
         // Call action functions when the state is set
         if (st->action)
-        {
-            actionargs_t        actionargs;
-
-            actionargs.type = MOBJFRAME;
-            actionargs.actor = mobj;
-            actionargs.psp = NULL;
-            actionargs.position = 0;
-
-            st->action(&actionargs);
-        }
+            st->action(mobj, NULL, NULL);
 
         seenstate[state] = 1 + st->nextstate;                   // killough 4/9/98
 
