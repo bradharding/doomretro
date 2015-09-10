@@ -595,6 +595,9 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             fz;
     fixed_t             fangle;
 
+    fixed_t             offset;
+    fixed_t             topoffset;
+
     // [AM] Interpolate between current and last position, if prudent.
     if (!vid_capfps
         // Don't interpolate if the mobj did something
@@ -661,8 +664,19 @@ void R_ProjectSprite(mobj_t *thing)
         flip = ((dboolean)(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
+    if (thing->state->dehacked)
+    {
+        offset = spriteoffset[lump];
+        topoffset = spritetopoffset[lump];
+    }
+    else
+    {
+        offset = newspriteoffset[lump];
+        topoffset = newspritetopoffset[lump];
+    }
+
     // calculate edges of the shape
-    tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
+    tx -= (flip ? spritewidth[lump] - offset : offset);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
@@ -675,7 +689,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = fz + spritetopoffset[lump];
+    gzt = fz + topoffset;
 
     if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
         || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
@@ -821,7 +835,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     lump = sprites[SPR_BLD2].spriteframes[thing->frame].lump[0];
 
     // calculate edges of the shape
-    tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
+    tx -= (flip ? spritewidth[lump] - newspriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
@@ -834,7 +848,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = fz + spritetopoffset[lump];
+    gzt = fz + newspritetopoffset[lump];
 
     // store information in a vissprite
     vis = R_NewVisSprite(VST_BLOODSPLAT);
@@ -955,7 +969,7 @@ void R_ProjectShadow(mobj_t *thing)
     }
 
     // calculate edges of the shape
-    tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
+    tx -= (flip ? spritewidth[lump] - newspriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
@@ -1075,7 +1089,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     vis = &avis;
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
-    vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
+    vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy
+        - (state->dehacked ? spritetopoffset[lump] : newspritetopoffset[lump]));
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->scale = pspriteyscale;
@@ -1130,7 +1145,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                 /* SPR_BFGF */ tlcolfunc
             };
 
-            vis->colfunc = (bflash && spr <= SPR_BFGF ? colfuncs[spr] : basecolfunc);
+            vis->colfunc = (bflash && spr <= SPR_BFGF && !state->dehacked ? colfuncs[spr] :
+                basecolfunc);
         }
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color

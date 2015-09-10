@@ -1323,6 +1323,7 @@ typedef struct
     statenum_t  nextstate;
     long        misc1;
     long        misc2;
+    dboolean    dehacked;
 } state_t;
 
 extern state_t  states[NUMSTATES];

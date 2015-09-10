@@ -97,6 +97,9 @@ fixed_t         *spriteheight;
 fixed_t         *spriteoffset;
 fixed_t         *spritetopoffset;
 
+fixed_t         *newspriteoffset;
+fixed_t         *newspritetopoffset;
+
 dboolean        r_fixspriteoffsets = r_fixspriteoffsets_default;
 
 static byte notgray[256] =
@@ -866,6 +869,9 @@ void R_InitSpriteLumps(void)
     spriteoffset = Z_Malloc(numspritelumps * sizeof(*spriteoffset), PU_STATIC, 0);
     spritetopoffset = Z_Malloc(numspritelumps * sizeof(*spritetopoffset), PU_STATIC, 0);
 
+    newspriteoffset = Z_Malloc(numspritelumps * sizeof(*newspriteoffset), PU_STATIC, 0);
+    newspritetopoffset = Z_Malloc(numspritelumps * sizeof(*newspritetopoffset), PU_STATIC, 0);
+
     for (i = 0; i < numspritelumps; i++)
     {
         patch_t *patch = W_CacheLumpNum(firstspritelump + i, PU_CACHE);
@@ -874,8 +880,8 @@ void R_InitSpriteLumps(void)
         {
             spritewidth[i] = SHORT(patch->width) << FRACBITS;
             spriteheight[i] = SHORT(patch->height) << FRACBITS;
-            spriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
-            spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
+            spriteoffset[i] = newspriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
+            spritetopoffset[i] = newspritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
 
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
             if (r_fixspriteoffsets && !FREEDOOM && !hacx)
@@ -888,8 +894,8 @@ void R_InitSpriteLumps(void)
                         && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)
                         && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS))
                     {
-                        spriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
-                        spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
+                        newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
+                        newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
                         break;
                     }
                     j++;

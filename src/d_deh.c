@@ -2108,28 +2108,28 @@ void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - sprite = %ld", value);
             states[indexnum].sprite = (spritenum_t)value;
-            dehacked = !BTSX;
+            states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[1]))                // Sprite subnumber
         {
             if (devparm)
                 C_Output(" - frame = %ld", value);
             states[indexnum].frame = value;                     // long
-            dehacked = !BTSX;
+            states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[2]))                // Duration
         {
             if (devparm)
                 C_Output(" - tics = %ld", value);
             states[indexnum].tics = value;                      // long
-            dehacked = !BTSX;
+            states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[3]))                // Next frame
         {
             if (devparm)
                 C_Output(" - nextstate = %ld", value);
             states[indexnum].nextstate = value;
-            dehacked = !BTSX;
+            states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[4]))                // Codep frame (not set in Frame deh block)
             C_Warning("Codep frame should not be set in Frame section.");
@@ -2138,14 +2138,14 @@ void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - misc1 = %ld", value);
             states[indexnum].misc1 = value;                     // long
-            dehacked = !BTSX;
+            states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[6]))                // Unknown 2
         {
             if (devparm)
                 C_Output(" - misc2 = %ld", value);
             states[indexnum].misc2 = value;                     // long
-            dehacked = !BTSX;
+            states[indexnum].dehacked = dehacked = !BTSX;
         }
         else
             C_Warning("Invalid frame string index for \"%s\".", key);
