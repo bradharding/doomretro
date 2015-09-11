@@ -802,7 +802,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     int                 flags = thing->flags;
     int                 flags2 = thing->flags2;
 
-    dboolean            flip = (flags2 & MF2_MIRRORED);
+    fixed_t             width;
 
     // transform the origin point
     fixed_t             tr_x = fx - viewx;
@@ -810,7 +810,6 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     fixed_t             gxt = FixedMul(tr_x, viewcos);
     fixed_t             gyt = -FixedMul(tr_y, viewsin);
-    fixed_t             gzt;
 
     fixed_t             tz = gxt - gyt;
 
@@ -833,22 +832,21 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     // decide which patch to use for sprite relative to player
     lump = sprites[SPR_BLD2].spriteframes[thing->frame].lump[0];
+    width = spritewidth[lump];
 
     // calculate edges of the shape
-    tx -= (flip ? spritewidth[lump] - newspriteoffset[lump] : newspriteoffset[lump]);
+    tx -= (width >> 1);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
     if (x1 > viewwidth)
         return;
 
-    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], xscale)) >> FRACBITS) - 1;
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + width, xscale)) >> FRACBITS) - 1;
 
     // off the left side
     if (x2 < 0)
         return;
-
-    gzt = fz + newspritetopoffset[lump];
 
     // store information in a vissprite
     vis = R_NewVisSprite(VST_BLOODSPLAT);
@@ -861,7 +859,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     vis->gx = fx;
     vis->gy = fy;
     vis->gz = fz;
-    vis->gzt = gzt;
+    vis->gzt = fz;
     vis->blood = thing->blood;
 
     if ((flags & MF_FUZZ) && (menuactive || paused || consoleactive))
@@ -869,21 +867,13 @@ void R_ProjectBloodSplat(mobj_t *thing)
     else
         vis->colfunc = thing->colfunc;
 
-    vis->texturemid = gzt - viewz;
+    vis->texturemid = fz - viewz;
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
 
-    if (flip)
-    {
-        vis->startfrac = spritewidth[lump] - 1;
-        vis->xiscale = -FixedDiv(FRACUNIT, xscale);
-    }
-    else
-    {
-        vis->startfrac = 0;
-        vis->xiscale = FixedDiv(FRACUNIT, xscale);
-    }
+    vis->startfrac = 0;
+    vis->xiscale = FixedDiv(FRACUNIT, xscale);
 
     if (vis->x1 > x1)
         vis->startfrac += vis->xiscale * (vis->x1 - x1);
