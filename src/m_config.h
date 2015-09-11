@@ -181,6 +181,8 @@ typedef enum
 
 #define r_shadows_default                       true
 
+#define r_shakescreen_default                   true
+
 #define r_translucency_default                  true
 
 #define runcount_min                            0

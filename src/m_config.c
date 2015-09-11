@@ -103,6 +103,7 @@ extern dboolean         r_mirroredweapons;
 extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern dboolean         r_shadows;
+extern dboolean         r_shakescreen;
 extern dboolean         r_translucency;
 extern int              runcount;
 extern int              s_musicvolume;
@@ -207,6 +208,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_rockettrails,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_screensize,         NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_shadows,            BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_shakescreen,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_translucency,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (runcount,             NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,        NOALIAS    ),

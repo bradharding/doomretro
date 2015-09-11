@@ -131,6 +131,7 @@ extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern int              r_screensize;
 extern dboolean         r_shadows;
+extern dboolean         r_shakescreen;
 extern dboolean         r_translucency;
 extern int              runcount;
 extern char             *savegamefolder;
@@ -531,6 +532,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, "Toggles rocket trails behind player and Cyberdemon rockets."),
     CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, NOALIAS, "The screen size."),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, "Toggles sprites casting shadows."),
+    CVAR_BOOL (r_shakescreen, C_BoolCondition, C_Bool, "Toggles shaking of the screen when the player is injured."),
     CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, "Toggles translucency in sprites and textures."),
     CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrects the player."),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, NOALIAS, "The number of times "PACKAGE_NAME" has been run."),

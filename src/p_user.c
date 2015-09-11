@@ -60,6 +60,7 @@ void G_RemoveChoppers(void);
 
 int             pm_walkbob = pm_walkbob_default;
 int             r_liquid_lowerview = r_liquid_lowerview_default;
+int             r_shakescreen = r_shakescreen_default;
 
 dboolean onground;
 
@@ -204,6 +205,26 @@ void P_MovePlayer(player_t *player)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 }
+
+void P_ReduceDamageCount(player_t *player)
+{
+    if (r_shakescreen)
+    {
+        if (player->damagecount)
+        {
+            player->damagecount--;
+            updatefunc = (vid_showfps ? I_FinishUpdateShowFPSShake : I_FinishUpdateShake);
+        }
+        else
+            updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
+    }
+    else if (player->damagecount)
+    {
+        player->damagecount--;
+        updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
+    }
+}
+
 //
 // P_DeathThink
 // Fall on your face when dying.
@@ -246,13 +267,12 @@ void P_DeathThink(player_t *player)
 
         delta = angle - mo->angle;
 
-        if (delta < ANG5 || delta > (unsigned int)-ANG5)
+        if (delta < ANG5 || delta >(unsigned int) - ANG5)
         {
             // Looking at killer, so fade damage flash down.
             mo->angle = angle;
 
-            if (player->damagecount)
-                player->damagecount--;
+            P_ReduceDamageCount(player);
 
             facingkiller = true;
         }
@@ -261,8 +281,8 @@ void P_DeathThink(player_t *player)
         else
             mo->angle -= ANG5;
     }
-    else if (player->damagecount > 0)
-        player->damagecount--;
+    else
+        P_ReduceDamageCount(player);
 
     if (consoleheight)
         return;
@@ -466,8 +486,7 @@ void P_PlayerThink(player_t *player)
     if (player->powers[pw_ironfeet] > 0)
         player->powers[pw_ironfeet]--;
 
-    if (player->damagecount)
-        player->damagecount--;
+    P_ReduceDamageCount(player);
 
     if (player->bonuscount)
         player->bonuscount--;

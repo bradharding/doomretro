@@ -74,6 +74,8 @@ void I_SetPalette(byte *palette);
 
 void I_FinishUpdate(void);
 void I_FinishUpdateShowFPS(void);
+void I_FinishUpdateShake(void);
+void I_FinishUpdateShowFPSShake(void);
 
 void ToggleFullscreen(void);
 

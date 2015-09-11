@@ -48,6 +48,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "m_random.h"
 #include "SDL.h"
 #include "s_sound.h"
 #include "v_video.h"
@@ -630,6 +631,45 @@ void I_FinishUpdateShowFPS(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_RenderPresent(renderer);
+}
+
+void I_FinishUpdateShake(void)
+{
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+
+    UpdateGrab();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-1, 1), NULL, SDL_FLIP_NONE);
+    SDL_RenderPresent(renderer);
+}
+
+void I_FinishUpdateShowFPSShake(void)
+{
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+    static int      frames = -1;
+    static Uint32   starttime = 0;
+    static Uint32   currenttime;
+
+    UpdateGrab();
+
+    ++frames;
+    currenttime = SDL_GetTicks();
+    if (currenttime - starttime >= 1000)
+    {
+        fps = frames;
+        frames = 0;
+        starttime = currenttime;
+    }
+    C_UpdateFPS();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-1, 1), NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
 
