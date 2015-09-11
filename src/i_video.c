@@ -643,7 +643,8 @@ void I_FinishUpdateShake(void)
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderClear(renderer);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-1, 1), NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-100, 100) / 100.0, NULL,
+        SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
 
@@ -669,7 +670,8 @@ void I_FinishUpdateShowFPSShake(void)
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderClear(renderer);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-1, 1), NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-100, 100) / 100.0, NULL,
+        SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
 
