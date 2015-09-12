@@ -371,6 +371,7 @@ static void C_MapList(char *, char *, char *);
 static void C_MapStats(char *, char *, char *);
 static void C_MaxBloodSplats(char *, char *, char *);
 static void C_NoClip(char *, char *, char *);
+static void C_NoMonsters(char *, char *, char *);
 static void C_NoTarget(char *, char *, char *);
 static void C_PixelSize(char *, char *, char *);
 static void C_PlayerName(char *, char *, char *);
@@ -497,6 +498,7 @@ consolecmd_t consolecmds[] =
     CMD       (mapstats, C_GameCondition, C_MapStats, 0, "", "Shows stats on the current map."),
     CVAR_BOOL (messages, C_BoolCondition, C_Bool, "Toggles messages."),
     CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggles collision detection for the player."),
+    CMD       (nomonsters, C_NoCondition, C_NoMonsters, 1, "[on|off]", "Toggles the presence of monsters in maps."),
     CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggles the player as a target."),
     CVAR_STR  (playername, C_NoCondition, C_PlayerName, "The name of the player used in messages."),
     CMD       (playerstats, C_GameCondition, C_PlayerStats, 0, "", "Shows the player's stats."),
@@ -1982,6 +1984,21 @@ static void C_NoClip(char *cmd, char *parm1, char *parm2)
         player->cheats ^= CF_NOCLIP;
 
     HU_PlayerMessage(((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
+}
+
+static void C_NoMonsters(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0)
+            nomonsters = false;
+        else if (value == 1)
+            nomonsters = true;
+    }
+    else
+        C_Output(C_LookupAliasFromValue((nomonsters = !nomonsters), BOOLALIAS));
 }
 
 static void C_NoTarget(char *cmd, char *parm1, char *parm2)
