@@ -859,7 +859,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     vis->gx = fx;
     vis->gy = fy;
     vis->gz = fz;
-    vis->gzt = fz;
+    vis->gzt = fz + 1;
     vis->blood = thing->blood;
 
     if ((flags & MF_FUZZ) && (menuactive || paused || consoleactive))
@@ -867,7 +867,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     else
         vis->colfunc = thing->colfunc;
 
-    vis->texturemid = fz - viewz;
+    vis->texturemid = fz + 1 - viewz;
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
