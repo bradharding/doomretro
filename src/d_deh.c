@@ -1752,6 +1752,25 @@ dboolean CheckPackageWADVersion(void)
     return false;
 }
 
+// [BH] Initialize extra DeHacked states 1089 to 3999
+void InitExtraStates(void)
+{
+    int i = EXTRASTATES;
+
+    while (i < NUMSTATES)
+    {
+        states[i].sprite = SPR_TNT1;
+        states[i].frame = 0;
+        states[i].tics = -1;
+        states[i].action = NULL;
+        states[i].nextstate = i;
+        states[i].misc1 = 0;
+        states[i].misc2 = 0;
+        states[i].dehacked = false;
+        ++i;
+    }
+}
+
 // ====================================================================
 // ProcessDehFile
 // Purpose: Read and process a DEH or BEX file
@@ -1789,6 +1808,8 @@ void ProcessDehFile(char *filename, int lumpnum)
 
     {
         static int      i;   // killough 10/98: only run once, by keeping index static
+
+        InitExtraStates();
 
         for (; i < NUMSTATES; i++)  // remember what they start as for deh xref
             deh_codeptr[i] = states[i].action;
