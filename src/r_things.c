@@ -342,7 +342,7 @@ vissprite_t *R_NewVisSprite(visspritetype_t type)
     {
         num_vissprite_alloc[type] = (num_vissprite_alloc[type] ?
             num_vissprite_alloc[type] * 2 : 128);
-        vissprites[type] = realloc(vissprites[type],
+        vissprites[type] = Z_Realloc(vissprites[type],
             num_vissprite_alloc[type] * sizeof(*vissprites[type]));
     }
     return (vissprites[type] + num_vissprite[type]++);

@@ -110,6 +110,18 @@ void *Z_Malloc(size_t size, int tag, void **user)
     return block;
 }
 
+void *Z_Realloc(void *ptr, size_t size)
+{
+    void        *newp = realloc(ptr, size);
+
+    if (!newp)
+        I_Error("Z_Realloc: Failure trying to reallocate %i bytes", size);
+    else
+        ptr = newp;
+
+    return ptr;
+}
+
 void Z_Free(void *p)
 {
     memblock_t  *block = (memblock_t *)((char *)p - HEADER_SIZE);

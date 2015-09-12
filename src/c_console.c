@@ -191,7 +191,7 @@ void C_Print(stringtype_t type, char *string, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
-    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = type;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -209,7 +209,7 @@ void C_Input(char *string, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
-    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = input;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -227,7 +227,7 @@ void C_Output(char *string, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
-    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = output;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -245,7 +245,7 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
-    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = output;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
@@ -265,7 +265,7 @@ void C_Warning(char *string, ...)
 
     if (consolestrings && strcasecmp(console[consolestrings - 1].string, buffer))
     {
-        console = realloc(console, (consolestrings + 1) * sizeof(*console));
+        console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
         console[consolestrings].type = warning;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -303,7 +303,7 @@ void C_PlayerMessage(char *string, ...)
         time_t          rawtime;
         struct tm       *timeinfo;
 
-        console = realloc(console, (consolestrings + 1) * sizeof(*console));
+        console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
         console[consolestrings].type = playermessage;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -320,7 +320,7 @@ void C_PlayerMessage(char *string, ...)
 
 static void C_AddToUndoHistory(void)
 {
-    undohistory = realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));
+    undohistory = Z_Realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));
     undohistory[undolevels].input = strdup(consoleinput);
     undohistory[undolevels].caretpos = caretpos;
     undohistory[undolevels].selectstart = selectstart;

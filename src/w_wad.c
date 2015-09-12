@@ -197,7 +197,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
 
     startlump = numlumps;
     numlumps += numfilelumps;
-    lumpinfo = realloc(lumpinfo, numlumps * sizeof(lumpinfo_t *));
+    lumpinfo = Z_Realloc(lumpinfo, numlumps * sizeof(lumpinfo_t *));
     if (!lumpinfo)
         I_Error("Failed to increase lumpinfo[] array size.");
 

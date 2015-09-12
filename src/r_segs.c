@@ -42,6 +42,7 @@
 #include "doomstat.h"
 #include "m_config.h"
 #include "r_local.h"
+#include "z_zone.h"
 
 // killough 1/6/98: replaced globals with statics where appropriate
 
@@ -580,7 +581,7 @@ void R_StoreWallRange(int start, int stop)
         int     maxdrawsegs_old = maxdrawsegs;
 
         maxdrawsegs = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
-        drawsegs = realloc(drawsegs, maxdrawsegs * sizeof(*drawsegs));
+        drawsegs = Z_Realloc(drawsegs, maxdrawsegs * sizeof(*drawsegs));
         ds_p = drawsegs + maxdrawsegs_old;
         memset(ds_p, 0, (maxdrawsegs - maxdrawsegs_old) * sizeof(*drawsegs));
     }
@@ -618,7 +619,7 @@ void R_StoreWallRange(int start, int stop)
             do
                 maxopenings = (maxopenings ? maxopenings * 2 : 16384);
             while (need > maxopenings);
-            openings = (int *)realloc(openings, maxopenings * sizeof(*openings));
+            openings = Z_Realloc(openings, maxopenings * sizeof(*openings));
             lastopening = openings + pos;
 
             // jff 8/9/98 borrowed fix for openings from ZDOOM1.14

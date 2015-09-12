@@ -66,6 +66,7 @@ enum
 #define PU_PURGELEVEL    PU_CACHE    // First purgeable tag's level
 
 void *Z_Malloc(size_t size, int32_t tag, void **user);
+void *Z_Realloc(void *ptr, size_t size);
 void Z_Free(void *ptr);
 void Z_FreeTags(int32_t lowtag, int32_t hightag);
 void Z_ChangeTag(void *ptr, int32_t tag);

@@ -140,7 +140,7 @@ void P_InitPicAnims(void)
         {
             size_t      newmax = (maxanims ? maxanims * 2 : MAXANIMS);
 
-            anims = realloc(anims, newmax * sizeof(*anims));
+            anims = Z_Realloc(anims, newmax * sizeof(*anims));
             lastanim = anims + maxanims;
             maxanims = newmax;
         }

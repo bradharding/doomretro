@@ -655,7 +655,7 @@ static void AM_addMark(void)
     if (markpointnum >= markpointnum_max)
     {
         markpointnum_max = (markpointnum_max ? markpointnum_max << 1 : 16);
-        markpoints = (mpoint_t *)realloc(markpoints, markpointnum_max * sizeof(*markpoints));
+        markpoints = Z_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
     }
 
     markpoints[markpointnum].x = x;

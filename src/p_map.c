@@ -412,7 +412,7 @@ static dboolean PIT_CheckLine(line_t *ld)
         if (numspechit >= spechit_max)
         {
             spechit_max = (spechit_max ? spechit_max * 2 : 8);
-            spechit = realloc(spechit, sizeof(*spechit) * spechit_max);
+            spechit = Z_Realloc(spechit, sizeof(*spechit) * spechit_max);
         }
         spechit[numspechit++] = ld;
     }

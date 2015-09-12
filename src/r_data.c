@@ -603,8 +603,8 @@ void R_InitTextures(void)
     int                 numtexturelumps = 0;
 
     // [crispy] allocate memory for the pnameslumps and texturelumps arrays
-    pnameslumps = realloc(pnameslumps, maxpnameslumps * sizeof(*pnameslumps));
-    texturelumps = realloc(texturelumps, maxtexturelumps * sizeof(*texturelumps));
+    pnameslumps = Z_Realloc(pnameslumps, maxpnameslumps * sizeof(*pnameslumps));
+    texturelumps = Z_Realloc(texturelumps, maxtexturelumps * sizeof(*texturelumps));
 
     // [crispy] make sure the first available TEXTURE1/2 lumps
     // are always processed first
@@ -624,7 +624,7 @@ void R_InitTextures(void)
             if (numpnameslumps == maxpnameslumps)
             {
                 ++maxpnameslumps;
-                pnameslumps = realloc(pnameslumps, maxpnameslumps * sizeof(*pnameslumps));
+                pnameslumps = Z_Realloc(pnameslumps, maxpnameslumps * sizeof(*pnameslumps));
             }
 
             pnameslumps[numpnameslumps].lumpnum = i;
@@ -656,7 +656,7 @@ void R_InitTextures(void)
             if (numtexturelumps == maxtexturelumps)
             {
                 ++maxtexturelumps;
-                texturelumps = realloc(texturelumps, maxtexturelumps * sizeof(*texturelumps));
+                texturelumps = Z_Realloc(texturelumps, maxtexturelumps * sizeof(*texturelumps));
             }
 
             // [crispy] do not proceed any further, yet
