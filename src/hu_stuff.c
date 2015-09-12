@@ -524,8 +524,8 @@ void HU_DrawDisk(void)
 {
     if (r_diskicon)
     {
-        hudfunc(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width), HU_MSGY * SCREENSCALE,
-            stdisk, tinttab66);
+        V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
+            HU_MSGY * SCREENSCALE, 0, stdisk);
         if (!consoleheight)
             updatefunc();
     }
