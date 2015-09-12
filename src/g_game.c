@@ -1053,8 +1053,6 @@ void G_PlayerFinishLevel(int player)
     if (p->readyweapon == wp_fist && p->weaponowned[wp_chainsaw])
         p->readyweapon = wp_chainsaw;
     p->fistorchainsaw = (p->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
-
-    updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
 }
 
 //
@@ -1260,6 +1258,8 @@ void G_DoCompleted(void)
     char        lump[5];
 
     gameaction = ga_nothing;
+
+    updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
 
     // [BH] allow the exit switch to turn on before the screen wipes
     R_RenderPlayerView(&players[0]);
