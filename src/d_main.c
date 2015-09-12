@@ -775,7 +775,7 @@ static int D_ChooseIWAD(void)
                         static char     fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            strdup(M_ExtractFolder(file)), "NERVE.WAD");
+                            M_ExtractFolder(file), "NERVE.WAD");
                         if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
@@ -797,7 +797,7 @@ static int D_ChooseIWAD(void)
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                    strdup(M_ExtractFolder(file)), (iwadrequired == doom ? "DOOM.WAD" :
+                    M_ExtractFolder(file), (iwadrequired == doom ? "DOOM.WAD" :
                     "DOOM2.WAD"));
                 IdentifyIWADByName(fullpath);
                 if (W_AddFile(fullpath, true))
@@ -858,7 +858,7 @@ static int D_ChooseIWAD(void)
                     static char     fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        strdup(M_ExtractFolder(file)), "BTSX_E2B.WAD");
+                        M_ExtractFolder(file), "BTSX_E2B.WAD");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE2A && BTSXE2B)
@@ -866,7 +866,7 @@ static int D_ChooseIWAD(void)
                     static char     fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        strdup(M_ExtractFolder(file)), "BTSX_E2A.WAD");
+                        M_ExtractFolder(file), "BTSX_E2A.WAD");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (BTSXE3A && !BTSXE3B)
@@ -874,7 +874,7 @@ static int D_ChooseIWAD(void)
                     static char     fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        strdup(M_ExtractFolder(file)), "BTSX_E3B.WAD");
+                        M_ExtractFolder(file), "BTSX_E3B.WAD");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE3A && BTSXE3B)
@@ -882,7 +882,7 @@ static int D_ChooseIWAD(void)
                     static char     fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        strdup(M_ExtractFolder(file)), "BTSX_E3A.WAD");
+                        M_ExtractFolder(file), "BTSX_E3A.WAD");
                     return W_MergeFile(fullpath, true);
                 }
             }
@@ -908,8 +908,7 @@ static int D_ChooseIWAD(void)
             {
                 static char     fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
-                    iwadpass);
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass);
 
 #elif defined(__MACOSX__)
             char        *szFile;
@@ -947,7 +946,7 @@ static int D_ChooseIWAD(void)
 
                     // try the current folder first
                     M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
-                        strdup(szFile));
+                        szFile);
                     IdentifyIWADByName(fullpath2);
                     if (W_AddFile(fullpath2, true))
                     {
@@ -1014,8 +1013,8 @@ static int D_ChooseIWAD(void)
                 {
                     static char     fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
-                                pwadpass1);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile,
+                        pwadpass1);
 #elif defined(__MACOSX__)
                 for (NSURL* url in urls)
                 {
@@ -1034,7 +1033,7 @@ static int D_ChooseIWAD(void)
 
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                strdup(szFile), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                szFile, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                             IdentifyIWADByName(fullpath2);
                             if (W_AddFile(fullpath2, true))
                             {
@@ -1107,8 +1106,8 @@ static int D_ChooseIWAD(void)
                     {
                         static char     fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            strdup(szFile), pwadpass2);
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile,
+                            pwadpass2);
 #elif defined(__MACOSX__)
                     for (NSURL *url in urls)
                     {
@@ -1138,8 +1137,8 @@ static int D_ChooseIWAD(void)
                     {
                         static char     fullpath[MAX_PATH];
 
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            strdup(szFile), "NERVE.WAD");
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile,
+                            "NERVE.WAD");
                         if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
@@ -1160,7 +1159,7 @@ static int D_ChooseIWAD(void)
                 {
                     static char     fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile,
                         cfgpass);
 
 #elif defined(__MACOSX__)
@@ -1184,7 +1183,7 @@ static int D_ChooseIWAD(void)
                 {
                     static char     fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile,
                         dehpass);
 
 #elif defined(__MACOSX__)

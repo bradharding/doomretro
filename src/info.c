@@ -151,7 +151,6 @@ void A_BrainExplode();
 void A_Die();
 void A_Detonate();
 void A_Mushroom();
-void A_SkullPop();
 
 state_t states[NUMSTATES] =
 {

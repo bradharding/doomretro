@@ -2156,14 +2156,14 @@ void A_Face(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    actor->target && (A_FaceTarget(actor, NULL, NULL), P_CheckMeleeRange(actor)) ?
-        actor->state->misc2 ? S_StartSound(actor, actor->state->misc2) : (void)0,
-        P_DamageMobj(actor->target, actor, actor, actor->state->misc1) : (void)0;
+    (actor->target && (A_FaceTarget(actor, NULL, NULL), P_CheckMeleeRange(actor)) ?
+        (actor->state->misc2 ? S_StartSound(actor, actor->state->misc2) : (void)0,
+        P_DamageMobj(actor->target, actor, actor, actor->state->misc1)) : (void)0);
 }
 
 void A_PlaySound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    S_StartSound(actor->state->misc2 ? NULL : actor, actor->state->misc1);
+    S_StartSound((actor->state->misc2 ? NULL : actor), actor->state->misc1);
 }
 
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
