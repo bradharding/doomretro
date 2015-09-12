@@ -768,6 +768,9 @@ void C_Drawer(void)
             XInputVibration(idlemotorspeed);
         }
 
+        // cancel any screen shake
+        updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
+
         // draw background and bottom edge
         C_DrawBackground(consoleheight);
 

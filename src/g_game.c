@@ -975,6 +975,7 @@ void G_Ticker(void)
 
                     players[0].fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+                    updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
                 }
                 else
                 {
@@ -1052,6 +1053,8 @@ void G_PlayerFinishLevel(int player)
     if (p->readyweapon == wp_fist && p->weaponowned[wp_chainsaw])
         p->readyweapon = wp_chainsaw;
     p->fistorchainsaw = (p->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
+
+    updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
 }
 
 //
