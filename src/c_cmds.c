@@ -2000,7 +2000,7 @@ static void C_NoMonsters(char *cmd, char *parm1, char *parm2)
     else
        nomonsters = !nomonsters;
 
-    C_Output("%s will be spawned in the next map.", (nomonsters ? "No monsters" : "Monsters"));
+    HU_PlayerMessage((nomonsters ? s_STSTR_NMON : s_STSTR_NMOFF), false);
 }
 
 static void C_NoTarget(char *cmd, char *parm1, char *parm2)
