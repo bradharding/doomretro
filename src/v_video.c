@@ -1182,8 +1182,6 @@ void V_LowGraphicDetail(int height)
     int x, y;
     int h = pixelheight * SCREENWIDTH;
 
-    height *= SCREENWIDTH;
-
     for (y = 0; y < height; y += h)
         for (x = 0; x < SCREENWIDTH; x += pixelwidth)
         {
