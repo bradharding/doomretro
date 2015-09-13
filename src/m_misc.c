@@ -446,7 +446,25 @@ char *uppercase(char *str)
     char        *p;
 
     p = newstr = strdup(str);
-    while (*p = toupper(*p)) p++;
+    while ((*p = toupper(*p)))
+        ++p;
+
+    return newstr;
+}
+
+char *titlecase(char *str)
+{
+    char        *newstr = strdup(str);
+    size_t      len = strlen(newstr);
+    size_t      i;
+
+    if (len > 1)
+    {
+        newstr[0] = toupper(newstr[0]);
+        for (i = 1; i < len; ++i)
+            if (!isalnum((unsigned char)newstr[i - 1]) && isalnum((unsigned char)newstr[i]))
+                newstr[i] = toupper(newstr[i]);
+    }
 
     return newstr;
 }

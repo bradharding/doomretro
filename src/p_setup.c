@@ -1806,18 +1806,20 @@ void P_MapName(int ep, int map)
                 strcpy(maptitle, pos + 1);
                 if (maptitle[0] == ' ')
                     strcpy(maptitle, &maptitle[1]);
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum,
+                    titlecase(maptitle));
             }
             else
             {
-                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
+                M_StringCopy(mapnumandtitle, titlecase(maptitle), sizeof(mapnumandtitle));
                 strcpy(maptitle, pos + 1);
                 if (maptitle[0] == ' ')
                     strcpy(maptitle, &maptitle[1]);
             }
         }
         else if (strcasecmp(mapnum, maptitle))
-            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum,
+                titlecase(maptitle));
         else
             M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
         M_StringCopy(automaptitle, mapnumandtitle, sizeof(automaptitle));

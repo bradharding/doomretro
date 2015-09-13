@@ -63,6 +63,7 @@ int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 char *M_SubString(const char *str, size_t begin, size_t len);
 char *uppercase(char *str);
+char *titlecase(char *str);
 char *commify(int value);
 dboolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
