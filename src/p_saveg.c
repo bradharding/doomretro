@@ -1617,6 +1617,7 @@ dboolean P_ReadSaveGameHeader(char *description)
         menuactive = false;
         consoleheight = 1;
         consoledirection = 1;
+        consoleanimindex = 0;
         C_Warning("This savegame requires %s.", read_vcheck);
         return false;   // bad version
     }

@@ -70,8 +70,6 @@
 #pragma comment(lib, "psapi.lib")
 #endif
 
-#define CONSOLESPEED            (CONSOLEHEIGHT / 12)
-
 #define CONSOLEFONTSTART        ' '
 #define CONSOLEFONTEND          '~'
 #define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
@@ -100,7 +98,20 @@
 dboolean        consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
+int             consoleanimindex = 0;
 static int      consolewait = 0;
+
+static int      consoleanimdown[] =
+{
+     14,  28,  42,  56,  70,  84,  98, 112, 126, 140, 146,
+    150, 153, 156, 159, 161, 163, 165, 166, 167, 168
+};
+
+static int      consoleanimup[] =
+{
+    154, 140, 126, 112,  98,  84,  70,  56,  42,  28,  22,
+     18,  15,  12,   9,   7,   5,   3,   2,   1,   0
+};
 
 patch_t         *unknownchar;
 patch_t         *consolefont[CONSOLEFONTSIZE];
@@ -519,12 +530,14 @@ void C_Init(void)
 void C_HideConsole(void)
 {
     consoledirection = -1;
+    consoleanimindex = 0;
 }
 
 void C_HideConsoleFast(void)
 {
     consoleheight = 0;
     consoledirection = -1;
+    consoleanimindex = 0;
     consoleactive = false;
 }
 
@@ -748,8 +761,13 @@ void C_Drawer(void)
         // adjust console height
         if (consolewait < I_GetTime())
         {
-            consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection,
-                CONSOLEHEIGHT);
+            if (consoledirection == 1)
+            {
+                if (consoleheight < CONSOLEHEIGHT)
+                    consoleheight = consoleanimdown[consoleanimindex++];
+            }
+            else if (consoleheight > 0)
+                consoleheight = consoleanimup[consoleanimindex++];
             consolewait = I_GetTime();
         }
 
@@ -1229,6 +1247,7 @@ dboolean C_Responder(event_t *ev)
             case KEY_ESCAPE:
             case KEY_TILDE:
                 consoledirection = -1;
+                consoleanimindex = 0;
                 break;
 
             // change gamma correction level

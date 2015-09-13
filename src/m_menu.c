@@ -976,6 +976,7 @@ void M_LoadSelect(int choice)
         menuactive = false;
         consoleheight = 1;
         consoledirection = 1;
+        consoleanimindex = 0;
         C_Warning("This savegame requires a different WAD.");
     }
 }
@@ -2599,6 +2600,7 @@ dboolean M_Responder(event_t *ev)
             {
                 consoleheight = MAX(1, consoleheight);
                 consoledirection = 1;
+                consoleanimindex = 0;
                 return true;
             }
             return false;
