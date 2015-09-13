@@ -1998,7 +1998,9 @@ static void C_NoMonsters(char *cmd, char *parm1, char *parm2)
             nomonsters = true;
     }
     else
-        C_Output(C_LookupAliasFromValue((nomonsters = !nomonsters), BOOLALIAS));
+       nomonsters = !nomonsters;
+
+    C_Output("%s will be spawned in the next map.", (nomonsters ? "No monsters" : "Monsters"));
 }
 
 static void C_NoTarget(char *cmd, char *parm1, char *parm2)
