@@ -566,6 +566,19 @@ char *removenewlines(const char *input)
     return p;
 }
 
+char *makevalidfilename(const char *input)
+{
+    char        *newstr = strdup(input);
+    size_t      len = strlen(newstr);
+    size_t      i;
+
+    for (i = 0; i < len; ++i)
+        if (strchr("\\/,:?\"<>|", newstr[i]))
+            newstr[i] = ' ';
+
+    return newstr;
+}
+
 char *M_ExtractFilename(char *path)
 {
     size_t      len;

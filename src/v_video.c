@@ -1274,9 +1274,9 @@ dboolean V_ScreenShot(void)
     do
     {
         if (!count)
-            M_snprintf(lbmname, sizeof(lbmname), "%s.bmp", mapname);
+            M_snprintf(lbmname, sizeof(lbmname), "%s.bmp", makevalidfilename(mapname));
         else
-            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", mapname, count);
+            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", makevalidfilename(mapname), count);
         count++;
         M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S PACKAGE_NAME, folder);
         M_MakeDirectory(lbmpath);
