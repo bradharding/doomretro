@@ -176,7 +176,7 @@ void HU_Init(void)
 
     if (W_CheckNumForName("MEDIA0"))
         healthpatch = W_CacheLumpName("MEDIA0", PU_CACHE);
-    if (gamemode != shareware && W_CheckNumForName("PSTRA0"))
+    if (W_CheckNumForName("PSTRA0"))
         berserkpatch = W_CacheLumpName("PSTRA0", PU_CACHE);
     else
         berserkpatch = healthpatch;
