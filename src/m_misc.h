@@ -71,5 +71,6 @@ char *removespaces(const char *input);
 char *removenewlines(const char *input);
 char *makevalidfilename(const char *input);
 char *M_ExtractFilename(char *path);
+dboolean isvowel(const char ch);
 
 #endif

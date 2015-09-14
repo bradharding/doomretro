@@ -58,6 +58,7 @@ char                    *configfile = PACKAGE_CONFIG;
 
 extern dboolean         am_grid;
 extern dboolean         am_rotatemode;
+extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
 extern int              episode;
 extern int              expansion;
@@ -162,6 +163,7 @@ static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_grid,              BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_rotatemode,        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (con_obituaries,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_timestamps,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (episode,              NOALIAS    ),
     CONFIG_VARIABLE_INT          (expansion,            NOALIAS    ),

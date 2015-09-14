@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "am_map.h"
 #include "c_console.h"
@@ -81,6 +82,20 @@ int species_infighting = 0;
 int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
 int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
+char *weapondescription[] =
+{
+    "fist",
+    "pistol",
+    "shotgun",
+    "chaingun",
+    "rocket launcher",
+    "plasma rifle",
+    "BFG-9000",
+    "chainsaw",
+    "super shotgun"
+};
+
+dboolean        con_obituaries = con_obituaries_default;
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
 
 unsigned int    stat_damageinflicted = 0;
@@ -88,6 +103,8 @@ unsigned int    stat_damagereceived = 0;
 unsigned int    stat_itemspickedup = 0;
 unsigned int    stat_monsterskilled = 0;
 unsigned int    stat_deaths = 0;
+
+extern char     *playername;
 
 //
 // GET STUFF
@@ -856,6 +873,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 //
 void P_KillMobj(mobj_t *source, mobj_t *target)
 {
+    dboolean    gibbed;
     mobjtype_t  item;
     mobjtype_t  type = target->type;
     mobj_t      *mo;
@@ -929,7 +947,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     else
         target->flags2 &= ~MF2_NOLIQUIDBOB;
 
-    if (target->health < -target->info->spawnhealth && target->info->xdeathstate)
+    if ((gibbed = target->health < -target->info->spawnhealth && target->info->xdeathstate))
         P_SetMobjState(target, target->info->xdeathstate);
     else
         P_SetMobjState(target, target->info->deathstate);
@@ -941,6 +959,21 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
     if (chex)
         return;
+
+    if (con_obituaries && source)
+        if (source->player)
+            C_PlayerMessage("%s %s %s%s with your %s.", titlecase(playername), (type == MT_BARREL ?
+                "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
+                (isvowel(target->info->name1[0]) ? "an " : "a ")), (target->player ?
+                (strcasecmp(playername, playername_default) ? "themselves" : "yourself") :
+                target->info->name1), weapondescription[source->player->readyweapon]);
+        else
+            C_PlayerMessage("%s%s %s %s%s.",
+                (isvowel(source->info->name1[0]) ? "An " : "A "), source->info->name1,
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                (target->player ? "" : (source->type == target->type ? "another " :
+                (target->info->name1[0]) ? "an " : "a ")), (target->player ? playername :
+                target->info->name1));
 
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.

@@ -599,3 +599,8 @@ char *M_ExtractFilename(char *path)
     strncpy(inpfile, pdest, len + 1);
     return inpfile;
 }
+
+dboolean isvowel(const char ch)
+{
+    return (!!strchr("aeiou", ch));
+}

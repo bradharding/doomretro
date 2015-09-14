@@ -82,6 +82,7 @@
 
 extern dboolean         am_grid;
 extern dboolean         am_rotatemode;
+extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
 extern char             *configfile;
 extern int              episode;
@@ -451,7 +452,8 @@ consolecmd_t consolecmds[] =
     CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Binds an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clears the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Shows a list of console commands."),
-    CVAR_BOOL (con_timestamps, C_BoolCondition, C_Bool, "Toggles timestamps for player messages in the console."),
+    CVAR_BOOL (con_obituaries, C_BoolCondition, C_Bool, "Toggles obituaries in the console when monsters are killed."),
+    CVAR_BOOL (con_timestamps, C_BoolCondition, C_Bool, "Toggles timestamps in the console for player messages."),
     CMD       (condump, C_NoCondition, C_ConDump, 1, "[~filename~.txt]", "Dumps the console to a file."),
     CVAR_STR  (configfile, C_NoCondition, C_Str, "The path of the configuration file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Shows a list of console variables."),
