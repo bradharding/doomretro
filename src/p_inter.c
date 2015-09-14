@@ -968,11 +968,10 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
                 (strcasecmp(playername, playername_default) ? "themselves" : "yourself") :
                 target->info->name1), weapondescription[source->player->readyweapon]);
         else
-            C_PlayerMessage("%s%s %s %s%s.",
-                (isvowel(source->info->name1[0]) ? "An " : "A "), source->info->name1,
-                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                (target->player ? "" : (source->type == target->type ? "another " :
-                (target->info->name1[0]) ? "an " : "a ")), (target->player ? playername :
+            C_PlayerMessage("%s%s %s %s%s.", (isvowel(source->info->name1[0]) ? "An " : "A "),
+                source->info->name1, (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" :
+                "killed")), (target->player ? "" : (source->type == target->type ? "another " :
+                (isvowel(target->info->name1[0]) ? "an " : "a "))), (target->player ? playername :
                 target->info->name1));
 
     // Drop stuff.
