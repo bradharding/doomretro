@@ -1482,8 +1482,11 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
                             && type != MT_BARREL && type != MT_BOSSBRAIN)
                         {
                             P_DamageMobj(thing, NULL, NULL, thing->health);
-                            thing->momx += FRACUNIT * M_RandomInt(-1, 1);
-                            thing->momy += FRACUNIT * M_RandomInt(-1, 1);
+                            if (!(thing->flags & MF_NOBLOOD))
+                            {
+                                thing->momx += FRACUNIT * M_RandomInt(-1, 1);
+                                thing->momy += FRACUNIT * M_RandomInt(-1, 1);
+                            }
                             kills++;
                         }
                     }
