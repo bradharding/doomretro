@@ -214,7 +214,8 @@ void HU_Init(void)
         godhudfunc = V_DrawYellowHUDPatch;
     }
 
-    stdisk = W_CacheLumpName("STDISK", PU_CACHE);
+    if (W_CheckNumForName("STDISK"))
+        stdisk = W_CacheLumpName("STDISK", PU_CACHE);
 
     s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
@@ -522,7 +523,7 @@ static void HU_DrawHUD(void)
 
 void HU_DrawDisk(void)
 {
-    if (r_diskicon)
+    if (r_diskicon && stdisk)
     {
         V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
             HU_MSGY * SCREENSCALE, 0, stdisk);
