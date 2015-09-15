@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "m_bbox.h"
@@ -63,6 +64,7 @@ typedef enum
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
+extern dboolean con_obituaries;
 extern dboolean r_rockettrails;
 extern int      stat_monsterskilled;
 
@@ -1324,6 +1326,11 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     players[0].killcount--;
                     stat_monsterskilled--;
+
+                    if (con_obituaries)
+                        C_PlayerMessage("%s%s resurrected %s%s.", (isvowel(actor->info->name1[0]) ?
+                            "An " : "A "), actor->info->name1, (isvowel(corpsehit->info->name1[0]) ?
+                            "an " : "a "), corpsehit->info->name1);
 
                     // killough 8/29/98: add to appropriate thread
                     P_UpdateThinker(&corpsehit->thinker);
