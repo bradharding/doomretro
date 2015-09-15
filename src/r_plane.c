@@ -317,7 +317,7 @@ static byte *R_DistortedFlat(int flatnum)
     lastflat = flatnum;
 
     // built this tic?
-    if (gametic != swirltic && !consoleactive && !menuactive && !paused)
+    if (gametic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused)
     {
         int     x, y;
 
