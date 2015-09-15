@@ -338,7 +338,7 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
 void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
 {
     sector_t    *temp;
-    int         i, bright = 0, min = sector->lightlevel;
+    int         i, bright = 0, min = MAX(0, sector->lightlevel - 4);
 
     level = BETWEEN(0, level, FRACUNIT);        // clip at extremes
 
