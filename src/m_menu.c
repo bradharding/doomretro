@@ -3159,7 +3159,8 @@ void M_StartControlPanel(void)
 
     players[0].fixedcolormap = 0;
     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
-    updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
+    updatefunc = (vid_showfps ? (bestscale ? I_FinishUpdate_Best_ShowFPS :
+        I_FinishUpdate_ShowFPS) : (bestscale ? I_FinishUpdate_Best : I_FinishUpdate));
 }
 
 //

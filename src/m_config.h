@@ -226,9 +226,10 @@ typedef enum
 #define vid_scaledriver_software                "software"
 #define vid_scaledriver_default                 ""
 
+#define vid_scalefilter_best                    "best"
 #define vid_scalefilter_linear                  "linear"
 #define vid_scalefilter_nearest                 "nearest"
-#define vid_scalefilter_default                 vid_scalefilter_nearest
+#define vid_scalefilter_default                 vid_scalefilter_best
 
 #define vid_screenresolution_desktop            "desktop"
 #define vid_screenresolution_default            vid_screenresolution_desktop

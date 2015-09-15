@@ -73,9 +73,13 @@ void I_ShutdownKeyboard(void);
 void I_SetPalette(byte *palette);
 
 void I_FinishUpdate(void);
-void I_FinishUpdateShowFPS(void);
-void I_FinishUpdateShake(void);
-void I_FinishUpdateShowFPSShake(void);
+void I_FinishUpdate_Best(void);
+void I_FinishUpdate_ShowFPS(void);
+void I_FinishUpdate_Best_ShowFPS(void);
+void I_FinishUpdate_Shake(void);
+void I_FinishUpdate_Best_Shake(void);
+void I_FinishUpdate_ShowFPS_Shake(void);
+void I_FinishUpdate_Best_ShowFPS_Shake(void);
 
 void ToggleFullscreen(void);
 
@@ -120,5 +124,7 @@ extern int      windowx;
 extern int      windowy;
 extern int      windowheight;
 extern int      windowwidth;
+
+extern dboolean bestscale;
 
 #endif

@@ -213,15 +213,19 @@ void P_ReduceDamageCount(player_t *player)
         if (player->damagecount)
         {
             player->damagecount--;
-            updatefunc = (vid_showfps ? I_FinishUpdateShowFPSShake : I_FinishUpdateShake);
+            updatefunc = (vid_showfps ? (bestscale ? I_FinishUpdate_Best_ShowFPS_Shake :
+                I_FinishUpdate_ShowFPS_Shake) : (bestscale ? I_FinishUpdate_Best_Shake :
+                I_FinishUpdate_Shake));
         }
         else
-            updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
+            updatefunc = (vid_showfps ? (bestscale ? I_FinishUpdate_Best_ShowFPS :
+                I_FinishUpdate_ShowFPS) : (bestscale ? I_FinishUpdate_Best : I_FinishUpdate));
     }
     else if (player->damagecount)
     {
         player->damagecount--;
-        updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
+        updatefunc = (vid_showfps ? (bestscale ? I_FinishUpdate_Best_ShowFPS :
+            I_FinishUpdate_ShowFPS) : (bestscale ? I_FinishUpdate_Best : I_FinishUpdate));
     }
 }
 

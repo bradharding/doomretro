@@ -2275,7 +2275,8 @@ static void C_ShowFPS(char *cmd, char *parm1, char *parm2)
         if ((value == 0 || value == 1) && value != vid_showfps)
         {
             vid_showfps = !!value;
-            updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
+            updatefunc = (vid_showfps ? (bestscale ? I_FinishUpdate_Best_ShowFPS :
+                I_FinishUpdate_ShowFPS) : (bestscale ? I_FinishUpdate_Best : I_FinishUpdate));
         }
     }
     else

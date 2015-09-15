@@ -66,10 +66,13 @@ dboolean                manuallypositioning = false;
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
 static SDL_Texture      *texture = NULL;
+static SDL_Texture      *texture_upscaled = NULL;
 static SDL_Surface      *surface = NULL;
 static SDL_Surface      *buffer = NULL;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
+
+dboolean                bestscale = false;
 
 int                     vid_display = vid_display_default;
 static int              displayindex;
@@ -592,9 +595,6 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-//
-// I_FinishUpdate
-//
 void I_FinishUpdate(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
@@ -608,7 +608,23 @@ void I_FinishUpdate(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdateShowFPS(void)
+void I_FinishUpdate_Best(void)
+{
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+
+    UpdateGrab();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    SDL_RenderPresent(renderer);
+}
+
+void I_FinishUpdate_ShowFPS(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
@@ -634,7 +650,36 @@ void I_FinishUpdateShowFPS(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdateShake(void)
+void I_FinishUpdate_Best_ShowFPS(void)
+{
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+    static int      frames = -1;
+    static Uint32   starttime = 0;
+    static Uint32   currenttime;
+
+    UpdateGrab();
+
+    ++frames;
+    currenttime = SDL_GetTicks();
+    if (currenttime - starttime >= 1000)
+    {
+        fps = frames;
+        frames = 0;
+        starttime = currenttime;
+    }
+    C_UpdateFPS();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    SDL_RenderPresent(renderer);
+}
+
+void I_FinishUpdate_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
@@ -648,7 +693,24 @@ void I_FinishUpdateShake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdateShowFPSShake(void)
+void I_FinishUpdate_Best_Shake(void)
+{
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+
+    UpdateGrab();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-100, 100) / 100.0, NULL,
+        SDL_FLIP_NONE);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    SDL_RenderPresent(renderer);
+}
+
+void I_FinishUpdate_ShowFPS_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
@@ -672,6 +734,36 @@ void I_FinishUpdateShowFPSShake(void)
     SDL_RenderClear(renderer);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-100, 100) / 100.0, NULL,
         SDL_FLIP_NONE);
+    SDL_RenderPresent(renderer);
+}
+
+void I_FinishUpdate_Best_ShowFPS_Shake(void)
+{
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+    static int      frames = -1;
+    static Uint32   starttime = 0;
+    static Uint32   currenttime;
+
+    UpdateGrab();
+
+    ++frames;
+    currenttime = SDL_GetTicks();
+    if (currenttime - starttime >= 1000)
+    {
+        fps = frames;
+        frames = 0;
+        starttime = currenttime;
+    }
+    C_UpdateFPS();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-100, 100) / 100.0, NULL,
+        SDL_FLIP_NONE);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
     SDL_RenderPresent(renderer);
 }
 
@@ -927,12 +1019,17 @@ static void SetVideoMode(dboolean output)
     if (vid_vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
-    if (strcasecmp(vid_scalefilter, vid_scalefilter_linear))
+    if (!strcasecmp(vid_scalefilter, vid_scalefilter_best))
+        bestscale = true;
+    else
     {
-        vid_scalefilter = vid_scalefilter_nearest;
-        M_SaveCVARs();
+        if (strcasecmp(vid_scalefilter, vid_scalefilter_linear))
+        {
+            vid_scalefilter = vid_scalefilter_nearest;
+            M_SaveCVARs();
+        }
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
-    SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
 
     if (vid_scaledriver[0])
         SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaledriver, SDL_HINT_OVERRIDE);
@@ -1020,7 +1117,10 @@ static void SetVideoMode(dboolean output)
         else if (!strcasecmp(rendererinfo.name, vid_scaledriver_software))
             renderername = "software";
 
-        if (!strcasecmp(vid_scalefilter, vid_scalefilter_linear))
+        if (bestscale)
+            C_Output("Scaling the screen using nearest-neighbor interpolation and linear filtering"
+                " in %s.", renderername);
+        else if (!strcasecmp(vid_scalefilter, vid_scalefilter_linear))
             C_Output("Scaling the screen using linear filtering in %s.", renderername);
         else
             C_Output("Scaling the screen using nearest-neighbor interpolation in %s.",
@@ -1068,11 +1168,16 @@ static void SetVideoMode(dboolean output)
         }
     }
     surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
-    buffer = SDL_ConvertSurfaceFormat(SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32,
-        0, 0, 0, 0), SDL_PIXELFORMAT_ARGB8888, 0);
+    buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
     SDL_FillRect(buffer, NULL, 0);
+    if (bestscale)
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT);
+    if (bestscale)
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear);
+    texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_TARGET, 3 * SCREENWIDTH, 3 * SCREENHEIGHT);
     palette = SDL_AllocPalette(256);
     SDL_SetSurfacePalette(surface, palette);
 
@@ -1257,7 +1362,7 @@ void I_InitGraphics(void)
 
     screens[0] = surface->pixels;
 
-    updatefunc = I_FinishUpdate;
+    updatefunc = (bestscale ? I_FinishUpdate_Best : I_FinishUpdate);
     updatefunc();
 
     while (SDL_PollEvent(&dummy));
