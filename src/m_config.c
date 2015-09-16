@@ -468,23 +468,67 @@ void C_Bind(char *cmd, char *parm1, char *parm2);
 
 static void M_CheckCVARs(void)
 {
+    if (am_grid != false && am_grid != true)
+        am_grid = am_grid_default;
+
+    if (am_rotatemode != false && am_rotatemode != true)
+        am_rotatemode = am_rotatemode_default;
+
+    if (con_obituaries != false && con_obituaries != true)
+        con_obituaries = con_obituaries_default;
+
+    if (con_timestamps != false && con_timestamps != true)
+        con_timestamps = con_timestamps_default;
+
+    episode = BETWEEN(episode_min, episode, episode_max - (gamemode == registered));
+
+    expansion = BETWEEN(expansion_min, expansion, expansion_max);
+
+    gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
+    gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
+
+    gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
+    gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
+
+    gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
+    gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
+        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
+
+    if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
+        gp_swapthumbsticks = gp_swapthumbsticks_default;
+
+    if (gp_vibrate != false && gp_vibrate != true)
+        gp_vibrate = gp_vibrate_default;
+
+    if (m_doubleclick_use != false && m_doubleclick_use != true)
+        m_doubleclick_use = m_doubleclick_use_default;
+
+    if (m_novertical != false && m_novertical != true)
+        m_novertical = m_novertical_default;
+
+    m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
+
+    if (messages != false && messages != true)
+        messages = messages_default;
+
     if (pm_alwaysrun != false && pm_alwaysrun != true)
         pm_alwaysrun = pm_alwaysrun_default;
 
-    if (r_liquid_bob != false && r_liquid_bob != true)
-        r_liquid_bob = r_liquid_bob_default;
+    if (pm_centerweapon != false && pm_centerweapon != true)
+        pm_centerweapon = pm_centerweapon_default;
+
+    pm_walkbob = BETWEEN(pm_walkbob_min, pm_walkbob, pm_walkbob_max);
+
+    if (r_altlighting != false && r_altlighting != true)
+        r_altlighting = r_altlighting_default;
 
     if (r_blood != noblood && r_blood != redbloodonly && r_blood != allbloodcolors)
         r_blood = r_blood_default;
 
+    r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
+
     if (r_brightmaps != false && r_brightmaps != true)
         r_brightmaps = r_brightmaps_default;
-
-    if (vid_capfps != false && vid_capfps != true)
-        vid_capfps = vid_capfps_default;
-
-    if (pm_centerweapon != false && pm_centerweapon != true)
-        pm_centerweapon = pm_centerweapon_default;
 
     if (r_corpses_mirrored != false && r_corpses_mirrored != true)
         r_corpses_mirrored = r_corpses_mirrored_default;
@@ -501,33 +545,20 @@ static void M_CheckCVARs(void)
     if (r_corpses_smearblood != false && r_corpses_smearblood != true)
         r_corpses_smearblood = r_corpses_smearblood_default;
 
-    if (m_doubleclick_use != false && m_doubleclick_use != true)
-        m_doubleclick_use = m_doubleclick_use_default;
+    if (r_detail != low && r_detail != high)
+        r_detail = r_detail_default;
+
+    if (r_diskicon != false && r_diskicon != true)
+        r_diskicon = r_diskicon_default;
+
+    if (r_fixmaperrors != false && r_fixmaperrors != true)
+        r_fixmaperrors = r_fixmaperrors_default;
+
+    if (r_fixspriteoffsets != false && r_fixspriteoffsets != true)
+        r_fixspriteoffsets = r_fixspriteoffsets_default;
 
     if (r_floatbob != false && r_floatbob != true)
         r_floatbob = r_floatbob_default;
-
-    if (r_liquid_clipsprites != false && r_liquid_clipsprites != true)
-        r_liquid_clipsprites = r_liquid_clipsprites_default;
-
-    if (vid_fullscreen != false && vid_fullscreen != true)
-        vid_fullscreen = vid_fullscreen_default;
-
-    gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
-    gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
-
-    gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
-    gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
-
-    if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
-        gp_swapthumbsticks = gp_swapthumbsticks_default;
-
-    gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
-    gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
-        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
-
-    if (gp_vibrate != false && gp_vibrate != true)
-        gp_vibrate = gp_vibrate_default;
 
     r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     gammaindex = 0;
@@ -541,45 +572,72 @@ static void M_CheckCVARs(void)
     }
     --gammaindex;
 
-    if (r_detail != low && r_detail != high)
-        r_detail = r_detail_default;
-
-    if (am_grid != false && am_grid != true)
-        am_grid = am_grid_default;
-
     if (r_homindicator != false && r_homindicator != true)
         r_homindicator = r_homindicator_default;
 
     if (r_hud != false && r_hud != true)
         r_hud = r_hud_default;
 
-    if (messages != false && messages != true)
-        messages = messages_default;
+    if (r_liquid_bob != false && r_liquid_bob != true)
+        r_liquid_bob = r_liquid_bob_default;
+
+    if (r_liquid_clipsprites != false && r_liquid_clipsprites != true)
+        r_liquid_clipsprites = r_liquid_clipsprites_default;
+
+    if (r_liquid_lowerview != false && r_liquid_lowerview != true)
+        r_liquid_lowerview = r_liquid_lowerview_default;
+
+    if (r_liquid_swirl != false && r_liquid_swirl != true)
+        r_liquid_swirl = r_liquid_swirl_default;
 
     if (r_mirroredweapons != false && r_mirroredweapons != true)
         r_mirroredweapons = r_mirroredweapons_default;
 
-    r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
-
-    m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
-
-    musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 15 + 50) / 100;
-
-    if (m_novertical != false && m_novertical != true)
-        m_novertical = m_novertical_default;
-
-    pm_walkbob = BETWEEN(pm_walkbob_min, pm_walkbob, pm_walkbob_max);
-
     if (r_playersprites != false && r_playersprites != true)
         r_playersprites = r_playersprites_default;
+
+    if (r_rockettrails != false && r_rockettrails != true)
+        r_rockettrails = r_rockettrails_default;
+
+    r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
+
+    if (r_shadows != false && r_shadows != true)
+        r_shadows = r_shadows_default;
+
+    if (r_shakescreen != false && r_shakescreen != true)
+        r_shakescreen = r_shakescreen_default;
+
+    if (r_translucency != false && r_translucency != true)
+        r_translucency = r_translucency_default;
+
+    runcount = BETWEEN(0, runcount, runcount_max);
+
+    musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 15 + 50) / 100;
 
     if (s_randompitch != false && s_randompitch != true)
         s_randompitch = s_randompitch_default;
 
-    if (am_rotatemode != false && am_rotatemode != true)
-        am_rotatemode = am_rotatemode_default;
+    sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 15 + 50) / 100;
 
-    runcount = BETWEEN(0, runcount, runcount_max);
+    savegame = BETWEEN(savegame_min, savegame, savegame_max);
+
+    skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
+
+
+
+
+
+
+
+
+
+
+
+    if (vid_capfps != false && vid_capfps != true)
+        vid_capfps = vid_capfps_default;
+
+    if (vid_fullscreen != false && vid_fullscreen != true)
+        vid_fullscreen = vid_fullscreen_default;
 
     if (strcasecmp(vid_scaledriver, vid_scaledriver_direct3d)
         && strcasecmp(vid_scaledriver, vid_scaledriver_opengl)
@@ -589,33 +647,6 @@ static void M_CheckCVARs(void)
     if (strcasecmp(vid_scalefilter, vid_scalefilter_nearest)
         && strcasecmp(vid_scalefilter, vid_scalefilter_linear))
         vid_scalefilter = vid_scalefilter_default;
-
-    r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
-
-    episode = BETWEEN(episode_min, episode, episode_max - (gamemode == registered));
-
-    expansion = BETWEEN(expansion_min, expansion, expansion_max);
-
-    savegame = BETWEEN(0, savegame, 5);
-
-    skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
-
-    sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 15 + 50) / 100;
-
-    if (r_shadows != false && r_shadows != true)
-        r_shadows = r_shadows_default;
-
-    if (r_rockettrails != false && r_rockettrails != true)
-        r_rockettrails = r_rockettrails_default;
-
-    if (r_fixspriteoffsets != false && r_fixspriteoffsets != true)
-        r_fixspriteoffsets = r_fixspriteoffsets_default;
-
-    if (r_liquid_swirl != false && r_liquid_swirl != true)
-        r_liquid_swirl = r_liquid_swirl_default;
-
-    if (r_translucency != false && r_translucency != true)
-        r_translucency = r_translucency_default;
 
     if (vid_vsync != false && vid_vsync != true)
         vid_vsync = vid_vsync_default;

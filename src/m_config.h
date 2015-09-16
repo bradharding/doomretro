@@ -203,7 +203,9 @@ typedef enum
 
 #define s_timiditycfgpath_default               ""
 
+#define savegame_min                            0
 #define savegame_default                        0
+#define savegame_max                            5
 
 #define skilllevel_min                          sk_baby
 #define skilllevel_default                      sk_medium
