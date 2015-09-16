@@ -1010,7 +1010,7 @@ static void SetVideoMode(dboolean output)
     {
         const char      *displayname = SDL_GetDisplayName(displayindex);
 
-        if (strlen(displayname) > 1)
+        if (displayname[0])
             C_Output("Using display %i of %i called \"%s\".", displayindex + 1, numdisplays,
                 displayname);
         else
@@ -1027,7 +1027,7 @@ static void SetVideoMode(dboolean output)
         if (strcasecmp(vid_scalefilter, vid_scalefilter_linear)
             && strcasecmp(vid_scalefilter, vid_scalefilter_nearest))
         {
-            vid_scalefilter = vid_scalefilter_nearest_linear;
+            vid_scalefilter = vid_scalefilter_default;
             bestscale = true;
             M_SaveCVARs();
         }

@@ -312,22 +312,22 @@ int     armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {
-    int             health = MAX(0, plr->health);
-    weapontype_t    pendingweapon = plr->pendingweapon;
-    weapontype_t    readyweapon = plr->readyweapon;
-    int             ammotype = weaponinfo[readyweapon].ammo;
-    int             ammo = plr->ammo[ammotype];
-    int             armor = plr->armorpoints;
-    int             health_x = HUD_HEALTH_X;
-    int             keys = 0;
-    int             i = 0;
-    static int      healthwait = 0;
-    byte            *tinttab;
-    int             invulnerability = plr->powers[pw_invulnerability];
-    static dboolean healthanim = false;
-    patch_t         *patch;
-    dboolean        gamepaused = (menuactive || paused || consoleactive);
-    int             currenttime = I_GetTimeMS();
+    int                 health = MAX(0, plr->health);
+    weapontype_t        pendingweapon = plr->pendingweapon;
+    weapontype_t        readyweapon = plr->readyweapon;
+    int                 ammotype = weaponinfo[readyweapon].ammo;
+    int                 ammo = plr->ammo[ammotype];
+    int                 armor = plr->armorpoints;
+    int                 health_x = HUD_HEALTH_X;
+    int                 keys = 0;
+    int                 i = 0;
+    static int          healthwait = 0;
+    byte                *tinttab;
+    int                 invulnerability = plr->powers[pw_invulnerability];
+    static dboolean     healthanim = false;
+    patch_t             *patch;
+    dboolean            gamepaused = (menuactive || paused || consoleactive);
+    int                 currenttime = I_GetTimeMS();
 
     tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
         || gamepaused ? tinttab66 : tinttab25);

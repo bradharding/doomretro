@@ -112,8 +112,6 @@ dboolean        precache = true;        // if true, load all graphics at start
 
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
-byte            consistency[MAXPLAYERS][BACKUPTICS];
-
 //
 // controls (have defaults)
 //
@@ -350,7 +348,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         return;
 
     memset(cmd, 0, sizeof(ticcmd_t));
-    cmd->consistency = consistency[0][maketic % BACKUPTICS];
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 

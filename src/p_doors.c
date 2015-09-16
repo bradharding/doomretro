@@ -707,6 +707,6 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
     door->topheight -= 4 * FRACUNIT;
     door->topwait = VDOORWAIT;
     door->topcountdown = 5 * 60 * TICRATE;
-    door->line = NULL; // jff 1/31/98 remember line that triggered us
-    door->lighttag = 0;  // killough 10/98: no lighting changes
+    door->line = NULL;  // jff 1/31/98 remember line that triggered us
+    door->lighttag = 0; // killough 10/98: no lighting changes
 }
