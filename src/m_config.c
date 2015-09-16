@@ -623,16 +623,6 @@ static void M_CheckCVARs(void)
 
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
 
-
-
-
-
-
-
-
-
-
-
     if (vid_capfps != false && vid_capfps != true)
         vid_capfps = vid_capfps_default;
 
@@ -644,8 +634,9 @@ static void M_CheckCVARs(void)
         && strcasecmp(vid_scaledriver, vid_scaledriver_software))
         vid_scaledriver = vid_scaledriver_default;
 
-    if (strcasecmp(vid_scalefilter, vid_scalefilter_nearest)
-        && strcasecmp(vid_scalefilter, vid_scalefilter_linear))
+    if (strcasecmp(vid_scalefilter, vid_scalefilter_linear)
+        && strcasecmp(vid_scalefilter, vid_scalefilter_nearest)
+        && strcasecmp(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
 
     if (vid_vsync != false && vid_vsync != true)
