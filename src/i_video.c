@@ -1020,7 +1020,7 @@ static void SetVideoMode(dboolean output)
     if (vid_vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
-    if (!strcasecmp(vid_scalefilter, vid_scalefilter_best))
+    if (!strcasecmp(vid_scalefilter, vid_scalefilter_nearest_linear))
         bestscale = true;
     else
     {
