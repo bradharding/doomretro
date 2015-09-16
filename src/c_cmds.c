@@ -2188,7 +2188,8 @@ static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
     if (parm1[0])
     {
         if ((!strcasecmp(parm1, vid_scalefilter_nearest)
-            || !strcasecmp(parm1, vid_scalefilter_linear))
+            || !strcasecmp(parm1, vid_scalefilter_linear)
+            || !strcasecmp(parm1, vid_scalefilter_nearest_linear))
             && strcasecmp(parm1, vid_scalefilter))
         {
             vid_scalefilter = strdup(parm1);

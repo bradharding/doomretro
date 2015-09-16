@@ -1024,11 +1024,15 @@ static void SetVideoMode(dboolean output)
         bestscale = true;
     else
     {
-        if (strcasecmp(vid_scalefilter, vid_scalefilter_linear))
+        if (strcasecmp(vid_scalefilter, vid_scalefilter_linear)
+            && strcasecmp(vid_scalefilter, vid_scalefilter_nearest))
         {
-            vid_scalefilter = vid_scalefilter_nearest;
+            vid_scalefilter = vid_scalefilter_nearest_linear;
+            bestscale = true;
             M_SaveCVARs();
         }
+        else
+            bestscale = false;
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
 
