@@ -1061,7 +1061,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     flip = (dboolean)(sprframe->flip & 1);
 
     // calculate edges of the shape
-    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - spriteoffset[lump];
+    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (state->dehacked ? spriteoffset[lump] :
+        newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS;
 
     // off the right side
@@ -1079,8 +1080,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     vis = &avis;
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
-    vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy
-        - (state->dehacked ? spritetopoffset[lump] : newspritetopoffset[lump]));
+    vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->scale = pspriteyscale;
