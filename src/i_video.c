@@ -996,6 +996,7 @@ static void SetVideoMode(dboolean output)
 {
     int i;
     int flags = SDL_RENDERER_TARGETTEXTURE;
+    int upscale;
 
     for (i = 0; i < numdisplays; ++i)
         SDL_GetDisplayBounds(i, &displays[i]);
@@ -1057,6 +1058,8 @@ static void SetVideoMode(dboolean output)
                 C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect "
                     "ratio.", displays[displayindex].w, displays[displayindex].h, (acronym[0] ?
                     " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
+            upscale = MIN(MIN(displays[displayindex].w / SCREENWIDTH,
+                displays[displayindex].h / SCREENHEIGHT) + 1, 6);
         }
         else
         {
@@ -1070,6 +1073,7 @@ static void SetVideoMode(dboolean output)
                 C_Output("Switched to a resolution of %ix%i%s%s%s with a %s aspect ratio.",
                     screenwidth, screenheight, (acronym[0] ? " (" : " "), acronym,
                     (acronym[0] ? ")" : ""), ratio);
+            upscale = MIN(MIN(screenwidth / SCREENWIDTH, screenheight / SCREENHEIGHT) + 1, 6);
         }
     }
     else
@@ -1098,6 +1102,7 @@ static void SetVideoMode(dboolean output)
                 C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
                     windowwidth, windowheight, windowx, windowy);
         }
+        upscale = MIN(MIN(windowwidth / SCREENWIDTH, windowheight / SCREENHEIGHT) + 1, 6);
     }
 
     SDL_GetWindowSize(window, &displaywidth, &displayheight);
@@ -1184,7 +1189,7 @@ static void SetVideoMode(dboolean output)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
             SDL_HINT_OVERRIDE);
     texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_TARGET, 3 * SCREENWIDTH, 3 * SCREENHEIGHT);
+        SDL_TEXTUREACCESS_TARGET, upscale * SCREENWIDTH, upscale * SCREENHEIGHT);
     palette = SDL_AllocPalette(256);
     SDL_SetSurfacePalette(surface, palette);
 
