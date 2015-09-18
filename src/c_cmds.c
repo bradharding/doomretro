@@ -458,10 +458,10 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (configfile, C_NoCondition, C_Str, "The path of the configuration file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Shows a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "Ends a game."),
-    CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, NOALIAS, "The currently selected episode in the menu."),
+    CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, NOALIAS, "The currently selected DOOM episode in the menu."),
     CMD       (exit, C_NoCondition, C_Quit, 0, "", ""),
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exits the current map."),
-    CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, NOALIAS, "The currently selected expansion in the menu."),
+    CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, NOALIAS, "The currently selected DOOM II expansion in the menu."),
     CVAR_TIME (gametime, C_NoCondition, C_Time, "The amount of time since "PACKAGE_NAME" started."),
     CMD       (give, C_GiveCondition, C_Give, 1, GIVECMDFORMAT, "Gives items to the player."),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggles god mode."),
@@ -2276,8 +2276,8 @@ static void C_ShowFPS(char *cmd, char *parm1, char *parm2)
         if ((value == 0 || value == 1) && value != vid_showfps)
         {
             vid_showfps = !!value;
-            updatefunc = (vid_showfps ? (bestscale ? I_FinishUpdate_Best_ShowFPS :
-                I_FinishUpdate_ShowFPS) : (bestscale ? I_FinishUpdate_Best : I_FinishUpdate));
+            updatefunc = (vid_showfps ? (upscaling ? I_FinishUpdate_Best_ShowFPS :
+                I_FinishUpdate_ShowFPS) : (upscaling ? I_FinishUpdate_Best : I_FinishUpdate));
         }
     }
     else
