@@ -169,6 +169,13 @@ dboolean P_CheckAmmo(player_t *player)
     return false;
 }
 
+void P_SubtractAmmo(player_t *player, int amount)
+{
+    ammotype_t  ammotype = weaponinfo[player->readyweapon].ammo;
+
+    player->ammo[ammotype] = MAX(0, player->ammo[ammotype] - amount);
+}
+
 //
 // P_FireWeapon.
 //
@@ -473,7 +480,7 @@ void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!player)
         return;
 
-    player->ammo[weaponinfo[player->readyweapon].ammo]--;
+    P_SubtractAmmo(player, 1);
     P_SpawnPlayerMissile(player->mo, MT_ROCKET);
 }
 
@@ -485,7 +492,7 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!player)
         return;
 
-    player->ammo[weaponinfo[player->readyweapon].ammo] -= bfgcells;
+    P_SubtractAmmo(player, bfgcells);
     P_SpawnPlayerMissile(player->mo, MT_BFG);
 }
 
@@ -505,7 +512,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!player)
         return;
 
-    player->ammo[weaponinfo[player->readyweapon].ammo]--;
+    P_SubtractAmmo(player, 1);
 
     player->extralight = 2;
 
@@ -549,16 +556,12 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t        weapon;
-
     if (!player)
         return;
 
-    weapon = weaponinfo[player->readyweapon];
+    P_SubtractAmmo(player, 1);
 
-    player->ammo[weapon.ammo]--;
-
-    P_SetPsprite(player, ps_flash, weapon.flashstate + (P_Random() & 1));
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate + (P_Random() & 1));
 
     P_SpawnPlayerMissile(player->mo, MT_PLASMA);
 }
@@ -608,19 +611,16 @@ void P_GunShot(mobj_t *actor, dboolean accurate)
 //
 void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t        weapon;
-
     if (!player)
         return;
-
-    weapon = weaponinfo[player->readyweapon];
 
     S_StartSound(actor, sfx_pistol);
 
     P_SetMobjState(actor, S_PLAY_ATK2);
-    player->ammo[weapon.ammo]--;
 
-    P_SetPsprite(player, ps_flash, weapon.flashstate);
+    P_SubtractAmmo(player, 1);
+
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 
     P_BulletSlope(actor);
     P_GunShot(actor, !player->refire);
@@ -631,20 +631,17 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t        weapon;
-    int                 i;
+    int i;
 
     if (!player)
         return;
 
-    weapon = weaponinfo[player->readyweapon];
-
     S_StartSound(actor, sfx_shotgn);
     P_SetMobjState(actor, S_PLAY_ATK2);
 
-    player->ammo[weapon.ammo]--;
+    P_SubtractAmmo(player, 1);
 
-    P_SetPsprite(player, ps_flash, weapon.flashstate);
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 
     P_BulletSlope(actor);
 
@@ -659,20 +656,17 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t        weapon;
-    int                 i;
+    int i;
 
     if (!player)
         return;
 
-    weapon = weaponinfo[player->readyweapon];
-
     S_StartSound(actor, sfx_dshtgn);
     P_SetMobjState(actor, S_PLAY_ATK2);
 
-    player->ammo[weapon.ammo] -= 2;
+    P_SubtractAmmo(player, 2);
 
-    P_SetPsprite(player, ps_flash, weapon.flashstate);
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 
     P_BulletSlope(actor);
 
@@ -709,23 +703,20 @@ void A_CloseShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t        weapon;
-
     if (!player || !psp)
         return;
 
-    weapon = weaponinfo[player->readyweapon];
-
-    if (player->ammo[weapon.ammo])
+    if (player->ammo[weaponinfo[player->readyweapon].ammo])
         S_StartSound(actor, sfx_pistol);
     else
         return;
 
     P_SetMobjState(actor, S_PLAY_ATK2);
-    player->ammo[weapon.ammo]--;
 
-    P_SetPsprite(player, ps_flash, weapon.flashstate + (unsigned int)((psp->state
-        - &states[S_CHAIN1]) & 1));
+    P_SubtractAmmo(player, 1);
+
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate
+        + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
 
     P_BulletSlope(actor);
 
