@@ -106,6 +106,20 @@ static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
 static size_t   maxanims;
 
+static struct
+{
+    char        *pwad;
+    char        *texture;
+} exception[] = {
+    { "BTSX_E1.WAD", "SHNPRT02" },
+    { "RC-DC.WAD",   "CFAN00A"  },
+    { "RC-DC.WAD",   "CFAN01A"  },
+    { "RC-DC.WAD",   "CFAN00D"  },
+    { "RC-DC.WAD",   "CFAN01D"  },
+    { "SID.WAD",     "FWATER1"  },
+    { "",            ""         }
+};
+
 // killough 3/7/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
@@ -188,12 +202,15 @@ void P_InitPicAnims(void)
     }
     W_ReleaseLumpNum(lump);
 
-    if (BTSX)
+    i = 0;
+    while (exception[i].pwad[0])
     {
-        int     SHNPRT02 = R_FlatNumForName("SHNPRT02");
+        int     lump = R_CheckFlatNumForName(exception[i].texture);
 
-        for (i = 0; i < 13; ++i)
-            isliquid[SHNPRT02 + i] = false;
+        if (lump >= 0 && !strcasecmp(M_ExtractFilename(lumpinfo[firstflat + lump]->wad_file->path),
+            exception[i].pwad))
+            isliquid[lump] = false;
+        ++i;
     }
 }
 
