@@ -125,6 +125,6 @@ extern int      windowy;
 extern int      windowheight;
 extern int      windowwidth;
 
-extern dboolean bestscale;
+extern dboolean upscaling;
 
 #endif

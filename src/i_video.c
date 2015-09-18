@@ -60,7 +60,27 @@
 #include "SDL_syswm.h"
 #endif
 
+#define MINUPSCALE      2
+#define MAXUPSCALE      6
+
+// CVARs
+dboolean                m_novertical = m_novertical_default;
+dboolean                r_hud = r_hud_default;
+dboolean                vid_capfps = vid_capfps_default;
+int                     vid_display = vid_display_default;
+#if !defined(WIN32)
+char                    *vid_driver = vid_driver_default;
+#endif
+dboolean                vid_fullscreen = vid_fullscreen_default;
+char                    *vid_scaledriver = vid_scaledriver_default;
+char                    *vid_scalefilter = vid_scalefilter_default;
+char                    *vid_screenresolution = vid_screenresolution_default;
+dboolean                vid_showfps = false;
+char                    *vid_windowsize = vid_windowsize_default;
+dboolean                vid_vsync = vid_vsync_default;
+dboolean                vid_widescreen = vid_widescreen_default;
 char                    *vid_windowposition = vid_windowposition_default;
+
 dboolean                manuallypositioning = false;
 
 SDL_Window              *window = NULL;
@@ -72,32 +92,24 @@ static SDL_Surface      *buffer = NULL;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
 
-dboolean                bestscale = false;
+dboolean                upscaling = false;
 
-int                     vid_display = vid_display_default;
 static int              displayindex;
 static int              numdisplays;
 static SDL_Rect         *displays;
-char                    *vid_scaledriver = vid_scaledriver_default;
-char                    *vid_scalefilter = vid_scalefilter_default;
-dboolean                vid_vsync = vid_vsync_default;
 
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
-
-dboolean                m_novertical = m_novertical_default;
 
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
 // Fullscreen width and height
 int                     screenwidth;
 int                     screenheight;
-char                    *vid_screenresolution = vid_screenresolution_default;
 
 // Window width and height
 int                     windowwidth;
 int                     windowheight;
-char                    *vid_windowsize = vid_windowsize_default;
 
 int                     windowx = 0;
 int                     windowy = 0;
@@ -107,15 +119,8 @@ int                     displayheight;
 int                     displaycenterx;
 int                     displaycentery;
 
-// Run in full screen mode?
-dboolean                vid_fullscreen = vid_fullscreen_default;
-
-dboolean                vid_widescreen = vid_widescreen_default;
 dboolean                returntowidescreen = false;
 
-dboolean                r_hud = r_hud_default;
-
-dboolean                vid_capfps = vid_capfps_default;
 
 dboolean                window_focused;
 
@@ -123,7 +128,6 @@ dboolean                window_focused;
 static SDL_Cursor       *cursors[2];
 
 #if !defined(WIN32)
-char                    *vid_driver = vid_driver_default;
 char                    envstring[255];
 #endif
 
@@ -152,7 +156,6 @@ SDL_Rect                src_rect = { 0, 0, 0, 0 };
 
 void                    (*updatefunc)(void);
 
-dboolean                vid_showfps = false;
 int                     fps = 0;
 
 // Mouse acceleration
@@ -1022,18 +1025,18 @@ static void SetVideoMode(dboolean output)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
     if (!strcasecmp(vid_scalefilter, vid_scalefilter_nearest_linear))
-        bestscale = true;
+        upscaling = true;
     else
     {
         if (strcasecmp(vid_scalefilter, vid_scalefilter_linear)
             && strcasecmp(vid_scalefilter, vid_scalefilter_nearest))
         {
             vid_scalefilter = vid_scalefilter_default;
-            bestscale = true;
+            upscaling = true;
             M_SaveCVARs();
         }
         else
-            bestscale = false;
+            upscaling = false;
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
 
@@ -1048,18 +1051,19 @@ static void SetVideoMode(dboolean output)
     {
         if (!screenwidth && !screenheight)
         {
-            char    *acronym = getacronym(displays[displayindex].w, displays[displayindex].h);
-            char    *ratio = getaspectratio(displays[displayindex].w, displays[displayindex].h);
+            int     w = displays[displayindex].w;
+            int     h = displays[displayindex].h;
+            char    *acronym = getacronym(w, h);
+            char    *ratio = getaspectratio(w, h);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
                 C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect "
-                    "ratio.", displays[displayindex].w, displays[displayindex].h, (acronym[0] ?
-                    " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
-            upscale = MIN(MIN(displays[displayindex].w / SCREENWIDTH,
-                displays[displayindex].h / SCREENHEIGHT) + 1, 6);
+                    "ratio.", w, h, (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""),
+                    ratio);
+            upscale = BETWEEN(MINUPSCALE, MIN(w / SCREENWIDTH, h / SCREENHEIGHT) + 1, MAXUPSCALE);
         }
         else
         {
@@ -1073,7 +1077,8 @@ static void SetVideoMode(dboolean output)
                 C_Output("Switched to a resolution of %ix%i%s%s%s with a %s aspect ratio.",
                     screenwidth, screenheight, (acronym[0] ? " (" : " "), acronym,
                     (acronym[0] ? ")" : ""), ratio);
-            upscale = MIN(MIN(screenwidth / SCREENWIDTH, screenheight / SCREENHEIGHT) + 1, 6);
+            upscale = BETWEEN(MINUPSCALE, MIN(screenwidth / SCREENWIDTH,
+                screenheight / SCREENHEIGHT) + 1, MAXUPSCALE);
         }
     }
     else
@@ -1102,7 +1107,8 @@ static void SetVideoMode(dboolean output)
                 C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
                     windowwidth, windowheight, windowx, windowy);
         }
-        upscale = MIN(MIN(windowwidth / SCREENWIDTH, windowheight / SCREENHEIGHT) + 1, 6);
+        upscale = BETWEEN(MINUPSCALE, MIN(windowwidth / SCREENWIDTH,
+            windowheight / SCREENHEIGHT) + 1, MAXUPSCALE);
     }
 
     SDL_GetWindowSize(window, &displaywidth, &displayheight);
@@ -1127,7 +1133,7 @@ static void SetVideoMode(dboolean output)
         else if (!strcasecmp(rendererinfo.name, vid_scaledriver_software))
             renderername = "software";
 
-        if (bestscale)
+        if (upscaling)
             C_Output("Scaling the screen using nearest-neighbor interpolation and linear filtering"
                 " in %s.", renderername);
         else if (!strcasecmp(vid_scalefilter, vid_scalefilter_linear))
@@ -1177,15 +1183,16 @@ static void SetVideoMode(dboolean output)
             C_Output(buffer);
         }
     }
+
     surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
     SDL_FillRect(buffer, NULL, 0);
-    if (bestscale)
+    if (upscaling)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
             SDL_HINT_OVERRIDE);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT);
-    if (bestscale)
+    if (upscaling)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
             SDL_HINT_OVERRIDE);
     texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
@@ -1374,7 +1381,7 @@ void I_InitGraphics(void)
 
     screens[0] = surface->pixels;
 
-    updatefunc = (bestscale ? I_FinishUpdate_Best : I_FinishUpdate);
+    updatefunc = (upscaling ? I_FinishUpdate_Best : I_FinishUpdate);
     updatefunc();
 
     while (SDL_PollEvent(&dummy));

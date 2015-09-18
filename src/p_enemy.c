@@ -2117,7 +2117,7 @@ void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
     fixed_t     misc1 = (actor->state->misc1 ? actor->state->misc1 : FRACUNIT * 4);
     fixed_t     misc2 = (actor->state->misc2 ? actor->state->misc2 : FRACUNIT / 2);
 
-    A_Explode(actor, NULL, NULL);                                     // First make normal explosion
+    A_Explode(actor, NULL, NULL);                               // First make normal explosion
 
     // Now launch mushroom cloud
     for (i = -n; i <= n; i += 8)

@@ -272,7 +272,7 @@ extern dboolean messages;
 
 void G_RemoveChoppers(void)
 {
-    player_t            *player = &players[0];
+    player_t    *player = &players[0];
 
     player->cheats &= ~CF_CHOPPERS;
     if (player->invulnbeforechoppers)
@@ -374,12 +374,14 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (gamekeydown[key_right])
             cmd->angleturn -= angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX > 0)
-            cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbRXright * gamepadsensitivityf);
+            cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbRXright
+                * gamepadsensitivityf);
 
         if (gamekeydown[key_left])
             cmd->angleturn += angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX < 0)
-            cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft * gamepadsensitivityf);
+            cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft
+                * gamepadsensitivityf);
     }
 
     if (gamekeydown[key_up] || gamekeydown[key_up2])
@@ -972,8 +974,8 @@ void G_Ticker(void)
 
                     players[0].fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
-                    updatefunc = (vid_showfps ? (bestscale ? I_FinishUpdate_Best_ShowFPS :
-                        I_FinishUpdate_ShowFPS) : (bestscale ? I_FinishUpdate_Best :
+                    updatefunc = (vid_showfps ? (upscaling ? I_FinishUpdate_Best_ShowFPS :
+                        I_FinishUpdate_ShowFPS) : (upscaling ? I_FinishUpdate_Best :
                         I_FinishUpdate));
                 }
                 else
@@ -1258,8 +1260,8 @@ void G_DoCompleted(void)
 
     gameaction = ga_nothing;
 
-    updatefunc = (vid_showfps ? (bestscale ? I_FinishUpdate_Best_ShowFPS :
-        I_FinishUpdate_ShowFPS) : (bestscale ? I_FinishUpdate_Best : I_FinishUpdate));
+    updatefunc = (vid_showfps ? (upscaling ? I_FinishUpdate_Best_ShowFPS :
+        I_FinishUpdate_ShowFPS) : (upscaling ? I_FinishUpdate_Best : I_FinishUpdate));
 
     // [BH] allow the exit switch to turn on before the screen wipes
     R_RenderPlayerView(&players[0]);

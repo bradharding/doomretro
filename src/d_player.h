@@ -77,18 +77,16 @@ typedef enum
     CF_NOCLIP           = 1,
     // No damage, no health loss.
     CF_GODMODE          = 2,
-    // Not really a cheat, just a debug aid.
-    CF_NOMOMENTUM       = 4,
 
-    CF_NOTARGET         = 8,
+    CF_NOTARGET         = 4,
 
-    CF_MYPOS            = 16,
+    CF_MYPOS            = 8,
 
-    CF_ALLMAP           = 32,
+    CF_ALLMAP           = 16,
 
-    CF_ALLMAP_THINGS    = 64,
+    CF_ALLMAP_THINGS    = 32,
 
-    CF_CHOPPERS         = 128
+    CF_CHOPPERS         = 64
 } cheat_t;
 
 //

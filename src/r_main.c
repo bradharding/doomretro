@@ -685,7 +685,8 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 //
 void R_SetupFrame(player_t *player)
 {
-    int cm;
+    int         cm = 0;
+    mobj_t      *mo = player->mo;
 
     viewplayer = player;
 
@@ -701,22 +702,22 @@ void R_SetupFrame(player_t *player)
         && leveltime > 1
         // Don't interpolate if the player did something
         // that would necessitate turning it off for a tic.
-        && player->mo->interp
+        && mo->interp
         // Don't interpolate during a paused state
         && !paused && !menuactive && !consoleactive)
     {
         // Interpolate player camera from their old position to their current one.
-        viewx = player->mo->oldx + FixedMul(player->mo->x - player->mo->oldx, fractionaltic);
-        viewy = player->mo->oldy + FixedMul(player->mo->y - player->mo->oldy, fractionaltic);
+        viewx = mo->oldx + FixedMul(mo->x - mo->oldx, fractionaltic);
+        viewy = mo->oldy + FixedMul(mo->y - mo->oldy, fractionaltic);
         viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
-        viewangle = R_InterpolateAngle(player->mo->oldangle, player->mo->angle, fractionaltic);
+        viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
     }
     else
     {
-        viewx = player->mo->x;
-        viewy = player->mo->y;
+        viewx = mo->x;
+        viewy = mo->y;
         viewz = player->viewz;
-        viewangle = player->mo->angle;
+        viewangle = mo->angle;
     }
 
     extralight = player->extralight << 1;
@@ -725,17 +726,15 @@ void R_SetupFrame(player_t *player)
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
 
     // killough 3/20/98, 4/4/98: select colormap based on player status
-    if (player->mo->subsector->sector->heightsec != -1)
+    if (mo->subsector->sector->heightsec != -1)
     {
-        const sector_t  *s = player->mo->subsector->sector->heightsec + sectors;
+        const sector_t  *s = mo->subsector->sector->heightsec + sectors;
 
         cm = (viewz < s->interpfloorheight ? s->bottommap : (viewz > s->interpceilingheight ?
             s->topmap : s->midmap));
         if (cm < 0 || cm > numcolormaps)
             cm = 0;
     }
-    else
-        cm = 0;
 
     fullcolormap = colormaps[cm];
     zlight = c_zlight[cm];
@@ -748,18 +747,18 @@ void R_SetupFrame(player_t *player)
         static lighttable_t     *scalelightfixed[MAXLIGHTSCALE];
         int                     i;
 
-        fixedcolormap = fullcolormap   // killough 3/20/98: use fullcolormap
-            + player->fixedcolormap * 256 * sizeof(lighttable_t);
+        // killough 3/20/98: use fullcolormap
+        fixedcolormap = fullcolormap + player->fixedcolormap * 256 * sizeof(lighttable_t);
 
         walllights = scalelightfixed;
 
-        for (i = 0; i < MAXLIGHTSCALE; i++)
+        for (i = 0; i < MAXLIGHTSCALE; ++i)
             scalelightfixed[i] = fixedcolormap;
     }
     else
         fixedcolormap = 0;
 
-    validcount++;
+    ++validcount;
 }
 
 //
@@ -767,7 +766,7 @@ void R_SetupFrame(player_t *player)
 //
 void R_RenderPlayerView(player_t *player)
 {
-    r_frame_count++;
+    ++r_frame_count;
 
     R_SetupFrame(player);
 
@@ -778,10 +777,7 @@ void R_RenderPlayerView(player_t *player)
     R_ClearSprites();
 
     if (automapactive)
-    {
-        // The head node is the last node output.
         R_RenderBSPNode(numnodes - 1);
-    }
     else
     {
         if (player->cheats & CF_NOCLIP)

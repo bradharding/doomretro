@@ -117,9 +117,6 @@ mobj_t          **blocklinks;
 static int      rejectlump = -1;        // cph - store reject lump num if cached
 const byte      *rejectmatrix;          // cph - const*
 
-// Maintain single and multi player starting spots.
-mapthing_t      playerstarts[MAXPLAYERS];
-
 dboolean        canmodify;
 dboolean        transferredsky;
 
@@ -287,7 +284,7 @@ void P_LoadSegs(int lump)
         }
 
         // killough 5/3/98: ignore 2s flag if second sidedef missing:
-        if ((ldef->flags & ML_TWOSIDED) && ldef->sidenum[side ^ 1] != -1)
+        if ((ldef->flags & ML_TWOSIDED) && ldef->sidenum[side ^ 1] != NO_INDEX)
             li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
         {
@@ -555,10 +552,11 @@ void P_LoadSectors(int lump)
         ss->special = SHORT(ms->special);
         ss->tag = SHORT(ms->tag);
 
-        // killough 3/7/98:
-        ss->heightsec = -1;       // sector used to get floor and ceiling height
-        ss->floorlightsec = -1;   // sector used to get floor lighting
-        ss->ceilinglightsec = -1; // sector used to get ceiling lighting
+        ss->nextsec = -1;       // jff 2/26/98 add fields to support locking out
+        ss->prevsec = -1;       // stair retriggering until build completes
+        ss->heightsec = -1;     // sector used to get floor and ceiling height
+        ss->floorlightsec = -1; // sector used to get floor lighting
+        ss->ceilinglightsec = -1;
 
         // Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors)

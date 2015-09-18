@@ -189,9 +189,6 @@ extern dboolean         realframe;
 // Bookkeeping on players - state.
 extern player_t         players[MAXPLAYERS];
 
-// Player spawn spots.
-extern mapthing_t       playerstarts[MAXPLAYERS];
-
 // Intermission stats.
 // Parameters for world map / intermission.
 extern wbstartstruct_t  wminfo;
