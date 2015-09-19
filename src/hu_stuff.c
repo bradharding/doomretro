@@ -174,15 +174,15 @@ void HU_Init(void)
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
-    if (W_CheckNumForName("MEDIA0"))
+    if (W_CheckNumForName("MEDIA0") >= 0)
         healthpatch = W_CacheLumpName("MEDIA0", PU_CACHE);
-    if (W_CheckNumForName("PSTRA0"))
+    if (W_CheckNumForName("PSTRA0") >= 0)
         berserkpatch = W_CacheLumpName("PSTRA0", PU_CACHE);
     else
         berserkpatch = healthpatch;
-    if (W_CheckNumForName("ARM1A0"))
+    if (W_CheckNumForName("ARM1A0") >= 0)
         greenarmorpatch = W_CacheLumpName("ARM1A0", PU_CACHE);
-    if (W_CheckNumForName("ARM2A0"))
+    if (W_CheckNumForName("ARM2A0") >= 0)
         bluearmorpatch = W_CacheLumpName("ARM2A0", PU_CACHE);
 
     ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
@@ -214,7 +214,7 @@ void HU_Init(void)
         godhudfunc = V_DrawYellowHUDPatch;
     }
 
-    if (W_CheckNumForName("STDISK"))
+    if (W_CheckNumForName("STDISK") >= 0)
         stdisk = W_CacheLumpName("STDISK", PU_CACHE);
 
     s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
