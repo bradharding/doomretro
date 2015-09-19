@@ -60,9 +60,6 @@
 #include "SDL_syswm.h"
 #endif
 
-#define MINUPSCALE      2
-#define MAXUPSCALE      6
-
 // CVARs
 dboolean                m_novertical = m_novertical_default;
 dboolean                r_hud = r_hud_default;
@@ -93,6 +90,7 @@ static SDL_Palette      *palette;
 static SDL_Color        colors[256];
 
 dboolean                upscaling = false;
+int                     upscaledwidth, upscaledheight;
 
 static int              displayindex;
 static int              numdisplays;
@@ -120,7 +118,6 @@ int                     displaycenterx;
 int                     displaycentery;
 
 dboolean                returntowidescreen = false;
-
 
 dboolean                window_focused;
 
@@ -599,6 +596,17 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
+static void GetUpscaledTextureSize(int width, int height)
+{
+    if (width * SCREENWIDTH * 3 / 4 < height * SCREENWIDTH)
+        height = width * 3 / 4;
+    else
+        width = height * 3 / 4;
+
+    upscaledwidth = MIN(width / SCREENWIDTH + (!width || width % SCREENWIDTH), 5);
+    upscaledheight = MIN(height / SCREENHEIGHT + (!height || height % SCREENHEIGHT), 6);
+}
+
 void I_FinishUpdate(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
@@ -999,7 +1007,7 @@ static void SetVideoMode(dboolean output)
 {
     int i;
     int flags = SDL_RENDERER_TARGETTEXTURE;
-    int upscale;
+    int width, height;
 
     for (i = 0; i < numdisplays; ++i)
         SDL_GetDisplayBounds(i, &displays[i]);
@@ -1051,34 +1059,40 @@ static void SetVideoMode(dboolean output)
     {
         if (!screenwidth && !screenheight)
         {
-            int     w = displays[displayindex].w;
-            int     h = displays[displayindex].h;
-            char    *acronym = getacronym(w, h);
-            char    *ratio = getaspectratio(w, h);
+            char    *acronym;
+            char    *ratio;
+
+            width = displays[displayindex].w;
+            height = displays[displayindex].h;
+            acronym = getacronym(width, height);
+            ratio = getaspectratio(width, height);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
                 C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect "
-                    "ratio.", w, h, (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""),
-                    ratio);
-            upscale = BETWEEN(MINUPSCALE, MIN(w / SCREENWIDTH, h / SCREENHEIGHT) + 1, MAXUPSCALE);
+                    "ratio.", width, height, (acronym[0] ? " (" : " "), acronym,
+                    (acronym[0] ? ")" : ""), ratio);
+            GetUpscaledTextureSize(width, height);
         }
         else
         {
-            char    *acronym = getacronym(screenwidth, screenheight);
-            char    *ratio = getaspectratio(screenwidth, screenheight);
+            char    *acronym;
+            char    *ratio;
+
+            width = screenwidth;
+            height = screenheight;
+            acronym = getacronym(width, height);
+            ratio = getaspectratio(width, height);
 
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), screenwidth, screenheight,
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Switched to a resolution of %ix%i%s%s%s with a %s aspect ratio.",
-                    screenwidth, screenheight, (acronym[0] ? " (" : " "), acronym,
-                    (acronym[0] ? ")" : ""), ratio);
-            upscale = BETWEEN(MINUPSCALE, MIN(screenwidth / SCREENWIDTH,
-                screenheight / SCREENHEIGHT) + 1, MAXUPSCALE);
+                C_Output("Switched to a resolution of %ix%i%s%s%s with a %s aspect ratio.", width,
+                    height, (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
+            GetUpscaledTextureSize(width, height);
         }
     }
     else
@@ -1090,25 +1104,26 @@ static void SetVideoMode(dboolean output)
             M_SaveCVARs();
         }
 
+        width = windowwidth;
+        height = windowheight;
         if (!windowx && !windowy)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), windowwidth, windowheight,
+                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
-                C_Output("Created a resizable window with dimensions %ix%i and centered.",
-                    windowwidth, windowheight);
+                C_Output("Created a resizable window with dimensions %ix%i centered on the "
+                    "screen.", width, height);
         }
         else
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
+            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
-                C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
-                    windowwidth, windowheight, windowx, windowy);
+                C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).", width,
+                    height, windowx, windowy);
         }
-        upscale = BETWEEN(MINUPSCALE, MIN(windowwidth / SCREENWIDTH,
-            windowheight / SCREENHEIGHT) + 1, MAXUPSCALE);
+        GetUpscaledTextureSize(windowwidth, windowheight);
     }
 
     SDL_GetWindowSize(window, &displaywidth, &displayheight);
@@ -1134,13 +1149,19 @@ static void SetVideoMode(dboolean output)
             renderername = "software";
 
         if (upscaling)
-            C_Output("Scaling the screen using nearest-neighbor interpolation and linear filtering"
-                " in %s.", renderername);
+        {
+            C_Output("Scaling the %ix%i screen up to %ix%i using nearest-neighbor interpolation,",
+                SCREENWIDTH, SCREENHEIGHT, upscaledwidth * SCREENWIDTH,
+                upscaledheight * SCREENHEIGHT);
+            C_Output("    and then scaled to %ix%i using linear filtering, in %s.", height * 4 / 3,
+                height, renderername);
+        }
         else if (!strcasecmp(vid_scalefilter, vid_scalefilter_linear))
-            C_Output("Scaling the screen using linear filtering in %s.", renderername);
+            C_Output("Scaling the %ix%i to %ix%i screen using linear filtering in %s.",
+                SCREENWIDTH, SCREENHEIGHT, height * 4 / 3, height, renderername);
         else
-            C_Output("Scaling the screen using nearest-neighbor interpolation in %s.",
-                renderername);
+            C_Output("Scaling the %ix%i to %ix%i screen using nearest-neighbor interpolation in "
+                "%s.", SCREENWIDTH, SCREENHEIGHT, height * 4 / 3, height, renderername);
 
         if (vid_capfps)
             C_Output("The framerate is capped at %i FPS.", TICRATE);
@@ -1196,7 +1217,7 @@ static void SetVideoMode(dboolean output)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
             SDL_HINT_OVERRIDE);
     texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_TARGET, upscale * SCREENWIDTH, upscale * SCREENHEIGHT);
+        SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT);
     palette = SDL_AllocPalette(256);
     SDL_SetSurfacePalette(surface, palette);
 
