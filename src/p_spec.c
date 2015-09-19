@@ -111,13 +111,28 @@ static struct
     char        *pwad;
     char        *texture;
 } exception[] = {
-    { "BTSX_E1.WAD", "SHNPRT02" },
-    { "RC-DC.WAD",   "CFAN00A"  },
-    { "RC-DC.WAD",   "CFAN01A"  },
-    { "RC-DC.WAD",   "CFAN00D"  },
-    { "RC-DC.WAD",   "CFAN01D"  },
-    { "SID.WAD",     "FWATER1"  },
-    { "",            ""         }
+    { "BTSX_E1.WAD",  "SHNPRT02" },
+    { "BTSX_E2B.WAD", "SHNPRT08" },
+    { "BTSX_E2B.WAD", "SLIME09"  },
+    { "DOOM2.WAD",    "RROCK05"  },
+    { "DOOM2.WAD",    "RROCK06"  },
+    { "DOOM2.WAD",    "RROCK07"  },
+    { "DOOM2.WAD",    "RROCK08"  },
+    { "DOOM2.WAD",    "SLIME09"  },
+    { "DOOM2.WAD",    "SLIME10"  },
+    { "DOOM2.WAD",    "SLIME11"  },
+    { "DOOM2.WAD",    "SLIME12"  },
+    { "MOHU2.WAD",    "DIFL_01"  },
+    { "RC-DC.WAD",    "BWORM00A" },
+    { "RC-DC.WAD",    "CFAN00A"  },
+    { "RC-DC.WAD",    "CFAN01A"  },
+    { "RC-DC.WAD",    "CFAN00D"  },
+    { "RC-DC.WAD",    "CFAN01D"  },
+    { "REQUIEM.WAD",  "SLIME05"  },
+    { "REQUIEM.WAD",  "SLIME08"  },
+    { "SID.WAD",      "FWATER1"  },
+    { "UACULTRA.WAD", "RROCK05"  },
+    { "",             ""         }
 };
 
 // killough 3/7/98: Initialize generalized scrolling
@@ -173,6 +188,8 @@ void P_InitPicAnims(void)
         }
         else
         {
+            int j;
+
             if (W_CheckNumForName(animdefs[i].startname) == -1)
                 continue;
 
@@ -182,14 +199,8 @@ void P_InitPicAnims(void)
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
             lastanim->istexture = false;
 
-            if (strcasecmp(animdefs[i].startname, "RROCK05")
-                && strcasecmp(animdefs[i].startname, "SLIME09"))
-            {
-                int     j;
-
-                for (j = 0; j < lastanim->numpics; j++)
-                    isliquid[lastanim->basepic + j] = true;
-            }
+            for (j = 0; j < lastanim->numpics; j++)
+                isliquid[lastanim->basepic + j] = true;
         }
 
         lastanim->speed = LONG(animdefs[i].speed);
