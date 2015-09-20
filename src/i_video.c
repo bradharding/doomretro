@@ -608,9 +608,8 @@ static void GetUpscaledTextureSize(int width, int height)
     else
         width = height * SCREENWIDTH / actualheight;
 
-    upscaledwidth = MIN(width / SCREENWIDTH + (!width || width % SCREENWIDTH), MAXUPSCALEWIDTH);
-    upscaledheight = MIN(height / SCREENHEIGHT + (!height || height % SCREENHEIGHT),
-        MAXUPSCALEHEIGHT);
+    upscaledwidth = MIN(width / SCREENWIDTH + !!(width % SCREENWIDTH), MAXUPSCALEWIDTH);
+    upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
 void I_FinishUpdate(void)
@@ -1144,31 +1143,30 @@ static void SetVideoMode(dboolean output)
     if (output)
     {
         SDL_RendererInfo        rendererinfo;
-        char                    *renderername = "unknown renderer";
         wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
 
         SDL_GetRendererInfo(renderer, &rendererinfo);
         if (!strcasecmp(rendererinfo.name, vid_scaledriver_direct3d))
-            renderername = "Direct3D 9";
+            C_Output("The screen is rendered using hardware acceleration with the Direct3D 9 "
+                "API.");
         else if (!strcasecmp(rendererinfo.name, vid_scaledriver_opengl))
-            renderername = "OpenGL";
+            C_Output("The screen is rendered using hardware acceleration with the OpenGL API.");
         else if (!strcasecmp(rendererinfo.name, vid_scaledriver_software))
-            renderername = "software";
+            C_Output("The screen is rendered in software.");
 
         if (upscaling)
         {
-            C_Output("Scaling the %ix%i screen up to %ix%i using nearest-neighbor interpolation,",
-                SCREENWIDTH, SCREENHEIGHT, upscaledwidth * SCREENWIDTH,
+            C_Output("The %ix%i screen is scaled up to %ix%i using nearest-neighbor "
+                "interpolation,", SCREENWIDTH, SCREENHEIGHT, upscaledwidth * SCREENWIDTH,
                 upscaledheight * SCREENHEIGHT);
-            C_Output("    and then scaled to %ix%i using linear filtering, in %s.", height * 4 / 3,
-                height, renderername);
+            C_Output("    and then down to %ix%i using linear filtering.", height * 4 / 3, height);
         }
         else if (!strcasecmp(vid_scalefilter, vid_scalefilter_linear))
-            C_Output("Scaling the %ix%i to %ix%i screen using linear filtering in %s.",
-                SCREENWIDTH, SCREENHEIGHT, height * 4 / 3, height, renderername);
+            C_Output("The %ix%i screen is scaled up to %ix%i using linear filtering.", SCREENWIDTH,
+                SCREENHEIGHT, height * 4 / 3, height);
         else
-            C_Output("Scaling the %ix%i to %ix%i screen using nearest-neighbor interpolation in "
-                "%s.", SCREENWIDTH, SCREENHEIGHT, height * 4 / 3, height, renderername);
+            C_Output("The %ix%i screen is scaled up to %ix%i using nearest-neighbor "
+                "interpolation.", SCREENWIDTH, SCREENHEIGHT, height * 4 / 3, height);
 
         if (vid_capfps)
             C_Output("The framerate is capped at %i FPS.", TICRATE);
@@ -1239,7 +1237,7 @@ static void SetVideoMode(dboolean output)
     SDL_RenderSetClipRect(renderer, &clip_rect);
 }
 
-void ToggleWidescreen(dboolean toggle)
+void I_ToggleWidescreen(dboolean toggle)
 {
     if (toggle)
     {
@@ -1278,7 +1276,7 @@ void I_RestartGraphics(void)
     FreeSurfaces();
     SetVideoMode(false);
     if (vid_widescreen)
-        ToggleWidescreen(true);
+        I_ToggleWidescreen(true);
 
 #if defined(WIN32)
     I_InitWindows32();
@@ -1287,7 +1285,7 @@ void I_RestartGraphics(void)
     M_SetWindowCaption();
 }
 
-void ToggleFullscreen(void)
+void I_ToggleFullscreen(void)
 {
     vid_fullscreen = !vid_fullscreen;
     M_SaveCVARs();

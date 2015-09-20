@@ -1165,7 +1165,7 @@ static void C_Fullscreen(char *cmd, char *parm1, char *parm2)
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if ((value == 0 || value == 1) && value != vid_fullscreen)
-            ToggleFullscreen();
+            I_ToggleFullscreen();
     }
     else
         C_Output(C_LookupAliasFromValue(vid_fullscreen, BOOLALIAS));
@@ -2238,7 +2238,7 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
                 else if (value <= r_screensize_max - 1)
                 {
                     r_hud = true;
-                    ToggleWidescreen(false);
+                    I_ToggleWidescreen(false);
                 }
             }
             else
@@ -2252,7 +2252,7 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
                     }
                     else
                     {
-                        ToggleWidescreen(true);
+                        I_ToggleWidescreen(true);
                         if (vid_widescreen)
                             value = r_screensize_max - 1;
                     }
@@ -2495,7 +2495,7 @@ static void C_Widescreen(char *cmd, char *parm1, char *parm2)
             {
                 if (gamestate == GS_LEVEL)
                 {
-                    ToggleWidescreen(true);
+                    I_ToggleWidescreen(true);
                     if (vid_widescreen)
                         S_StartSound(NULL, sfx_stnmov);
                 }
@@ -2507,7 +2507,7 @@ static void C_Widescreen(char *cmd, char *parm1, char *parm2)
             }
             else
             {
-                ToggleWidescreen(false);
+                I_ToggleWidescreen(false);
                 if (!vid_widescreen)
                     S_StartSound(NULL, sfx_stnmov);
             }

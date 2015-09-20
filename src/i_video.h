@@ -81,7 +81,7 @@ void I_FinishUpdate_Best_Shake(void);
 void I_FinishUpdate_ShowFPS_Shake(void);
 void I_FinishUpdate_Best_ShowFPS_Shake(void);
 
-void ToggleFullscreen(void);
+void I_ToggleFullscreen(void);
 
 // Wait for vertical retrace or pause a bit.
 void I_WaitVBL(int count);

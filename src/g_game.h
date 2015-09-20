@@ -76,7 +76,7 @@ void G_Ticker(void);
 dboolean G_Responder(event_t *ev);
 
 void G_ScreenShot(void);
-void ToggleWidescreen(dboolean toggle);
+void I_ToggleWidescreen(dboolean toggle);
 
 extern dboolean canmodify;
 extern dboolean flag667;

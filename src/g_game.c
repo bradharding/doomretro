@@ -629,7 +629,7 @@ void G_DoLoadLevel(void)
         AM_Start();
 
     if (vid_widescreen || returntowidescreen)
-        ToggleWidescreen(true);
+        I_ToggleWidescreen(true);
 }
 
 void G_ToggleAlwaysRun(evtype_t type)
@@ -1269,7 +1269,7 @@ void G_DoCompleted(void)
 
     if (vid_widescreen)
     {
-        ToggleWidescreen(false);
+        I_ToggleWidescreen(false);
         returntowidescreen = true;
         ST_doRefresh();
     }
@@ -1536,7 +1536,7 @@ void G_DoLoadGame(void)
         R_ExecuteSetViewSize();
 
     if (vid_widescreen)
-        ToggleWidescreen(true);
+        I_ToggleWidescreen(true);
 
     // draw the pattern into the back screen
     R_FillBackScreen();
@@ -1678,7 +1678,7 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 void G_DoNewGame(void)
 {
     if (vid_widescreen)
-        ToggleWidescreen(true);
+        I_ToggleWidescreen(true);
 
     st_facecount = ST_STRAIGHTFACECOUNT;
     G_InitNew(d_skill, d_episode, d_map);

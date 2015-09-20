@@ -1712,7 +1712,7 @@ void M_EndingGame(void)
     endinggame = true;
     if (vid_widescreen)
     {
-        ToggleWidescreen(false);
+        I_ToggleWidescreen(false);
         returntowidescreen = true;
     }
     if (gamemission == pack_nerve)
@@ -1974,7 +1974,7 @@ void M_SizeDisplay(int choice)
                 }
                 else if (vid_widescreen)
                 {
-                    ToggleWidescreen(false);
+                    I_ToggleWidescreen(false);
                     C_Input("%s off", stringize(vid_widescreen));
                 }
                 else
@@ -2014,7 +2014,7 @@ void M_SizeDisplay(int choice)
                     }
                     else
                     {
-                        ToggleWidescreen(true);
+                        I_ToggleWidescreen(true);
                         if (vid_widescreen)
                             C_Input("%s on", stringize(vid_widescreen));
                         else
@@ -2206,7 +2206,7 @@ void M_ShowHelp(void)
     inhelpscreens = true;
     if (vid_widescreen)
     {
-        ToggleWidescreen(false);
+        I_ToggleWidescreen(false);
         returntowidescreen = true;
     }
     if (!automapactive && gamestate == GS_LEVEL)
@@ -2618,7 +2618,7 @@ dboolean M_Responder(event_t *ev)
                 {
                     R_SetViewSize(r_screensize);
                     if (returntowidescreen && gamestate == GS_LEVEL)
-                        ToggleWidescreen(true);
+                        I_ToggleWidescreen(true);
                 }
             }
             else
@@ -2969,7 +2969,7 @@ dboolean M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchx);
                 R_SetViewSize(r_screensize);
                 if (returntowidescreen)
-                    ToggleWidescreen(true);
+                    I_ToggleWidescreen(true);
                 return true;
             }
             if (currentMenu->menuitems[itemOn].routine &&
@@ -3021,7 +3021,7 @@ dboolean M_Responder(event_t *ev)
             {
                 R_SetViewSize(r_screensize);
                 if (returntowidescreen && gamestate == GS_LEVEL)
-                    ToggleWidescreen(true);
+                    I_ToggleWidescreen(true);
             }
             M_SetWindowCaption();
             return true;

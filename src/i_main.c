@@ -140,7 +140,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
         if ((wParam & 0xfff0) == SC_MAXIMIZE)
         {
-            ToggleFullscreen();
+            I_ToggleFullscreen();
             return true;
         }
         else if ((wParam & 0xfff0) == SC_KEYMENU)
@@ -148,7 +148,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     else if (msg == WM_SYSKEYDOWN && wParam == VK_RETURN && !(lParam & 0x40000000))
     {
-        ToggleFullscreen();
+        I_ToggleFullscreen();
         return true;
     }
     else if (msg == WM_DEVICECHANGE)
