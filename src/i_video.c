@@ -60,6 +60,9 @@
 #include "SDL_syswm.h"
 #endif
 
+#define MAXUPSCALEWIDTH         5
+#define MAXUPSCALEHEIGHT        6
+
 // CVARs
 dboolean                m_novertical = m_novertical_default;
 dboolean                r_hud = r_hud_default;
@@ -598,13 +601,16 @@ static void UpdateGrab(void)
 
 static void GetUpscaledTextureSize(int width, int height)
 {
-    if (width * SCREENWIDTH * 3 / 4 < height * SCREENWIDTH)
-        height = width * 3 / 4;
-    else
-        width = height * 3 / 4;
+    const int   actualheight = SCREENWIDTH * 3 / 4;
 
-    upscaledwidth = MIN(width / SCREENWIDTH + (!width || width % SCREENWIDTH), 5);
-    upscaledheight = MIN(height / SCREENHEIGHT + (!height || height % SCREENHEIGHT), 6);
+    if (width * actualheight < height * SCREENWIDTH)
+        height = width * actualheight / SCREENWIDTH;
+    else
+        width = height * SCREENWIDTH / actualheight;
+
+    upscaledwidth = MIN(width / SCREENWIDTH + (!width || width % SCREENWIDTH), MAXUPSCALEWIDTH);
+    upscaledheight = MIN(height / SCREENHEIGHT + (!height || height % SCREENHEIGHT),
+        MAXUPSCALEHEIGHT);
 }
 
 void I_FinishUpdate(void)
