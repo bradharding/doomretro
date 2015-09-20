@@ -1013,7 +1013,6 @@ static void SetVideoMode(dboolean output)
     int         i;
     int         flags = SDL_RENDERER_TARGETTEXTURE;
     int         width, height;
-    SDL_Rect    clip_rect;
 
     for (i = 0; i < numdisplays; ++i)
         SDL_GetDisplayBounds(i, &displays[i]);
@@ -1228,13 +1227,6 @@ static void SetVideoMode(dboolean output)
 
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
-
-    // clip 1px from left/right sides of renderer to eliminate bleeding
-    clip_rect.x = 1;
-    clip_rect.y = 0;
-    clip_rect.w = height * 4 / 3 - 2;
-    clip_rect.h = height;
-    SDL_RenderSetClipRect(renderer, &clip_rect);
 }
 
 void I_ToggleWidescreen(dboolean toggle)
