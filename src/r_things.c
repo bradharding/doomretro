@@ -1210,7 +1210,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
 //
 // R_DrawPlayerSprites
 //
-static void R_DrawPlayerSprites(void)
+void R_DrawPlayerSprites(void)
 {
     int         i;
     int         invisibility = viewplayer->powers[pw_invisibility];
