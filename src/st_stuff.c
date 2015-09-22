@@ -74,9 +74,6 @@
 #define ST_X                    0
 #define ST_X2                   104
 
-#define ST_FX                   143
-#define ST_FY                   169
-
 // Number of status faces.
 #define ST_NUMPAINFACES         5
 #define ST_NUMSTRAIGHTFACES     3
@@ -101,7 +98,6 @@
 
 #define ST_EVILGRINCOUNT        (2 * TICRATE)
 #define ST_TURNCOUNT            (1 * TICRATE)
-#define ST_OUCHCOUNT            (1 * TICRATE)
 #define ST_RAMPAGEDELAY         (2 * TICRATE)
 
 #define ST_MUCHPAIN             20
@@ -132,19 +128,14 @@
 #define ST_ARMSYSPACE           10
 
 // ARMOR number pos.
-#define ST_ARMORWIDTH           3
 #define ST_ARMORX               220
 #define ST_ARMORY               172
 
 // Key icon positions.
-#define ST_KEY0WIDTH            8
-#define ST_KEY0HEIGHT           5
 #define ST_KEY0X                238
 #define ST_KEY0Y                171
-#define ST_KEY1WIDTH            ST_KEY0WIDTH
 #define ST_KEY1X                238
 #define ST_KEY1Y                181
-#define ST_KEY2WIDTH            ST_KEY0WIDTH
 #define ST_KEY2X                238
 #define ST_KEY2Y                191
 
@@ -178,61 +169,6 @@
 #define ST_MAXAMMO3WIDTH        ST_MAXAMMO0WIDTH
 #define ST_MAXAMMO3X            314
 #define ST_MAXAMMO3Y            185
-
-// pistol
-#define ST_WEAPON0X             110
-#define ST_WEAPON0Y             172
-
-// shotgun
-#define ST_WEAPON1X             122
-#define ST_WEAPON1Y             172
-
-// chain gun
-#define ST_WEAPON2X             134
-#define ST_WEAPON2Y             172
-
-// missile launcher
-#define ST_WEAPON3X             110
-#define ST_WEAPON3Y             181
-
-// plasma gun
-#define ST_WEAPON4X             122
-#define ST_WEAPON4Y             181
-
-// bfg
-#define ST_WEAPON5X             134
-#define ST_WEAPON5Y             181
-
-// WPNS title
-#define ST_WPNSX                109
-#define ST_WPNSY                191
-
-// DETH title
-#define ST_DETHX                109
-#define ST_DETHY                191
-
-//Incoming messages window location
-#define ST_MSGTEXTX             0
-#define ST_MSGTEXTY             0
-// Dimensions given in characters.
-#define ST_MSGWIDTH             52
-// Or shall I say, in lines?
-#define ST_MSGHEIGHT            1
-
-#define ST_OUTTEXTX             0
-#define ST_OUTTEXTY             6
-
-// Width, in characters again.
-#define ST_OUTWIDTH             52
-// Height, in lines.
-#define ST_OUTHEIGHT            1
-
-#define ST_MAPWIDTH             (strlen(mapnames[(gameepisode - 1) * 9 + (gamemap - 1)]))
-
-#define ST_MAPTITLEX            (SCREENWIDTH - ST_MAPWIDTH * ST_CHATFONTWIDTH)
-
-#define ST_MAPTITLEY            0
-#define ST_MAPHEIGHT            1
 
 // main player in game
 static player_t                 *plyr;
