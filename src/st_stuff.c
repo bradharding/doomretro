@@ -70,6 +70,8 @@
 // Radiation suit, green shift.
 #define RADIATIONPAL            13
 
+#define BERSERKPAL              8
+
 // Location of status bar
 #define ST_X                    0
 #define ST_X2                   104
@@ -1378,7 +1380,7 @@ void ST_doPaletteStuff(void)
         && (plyr->pendingweapon == wp_fist
             || (plyr->readyweapon == wp_fist && plyr->pendingweapon == wp_nochange))
         && plyr->health > 0)
-        count = MAX(12, count);
+        count = MAX(BERSERKPAL, count);
 
     if (count)
         palette = STARTREDPALS + MIN((count + 7) >> 3, NUMREDPALS - 1);
