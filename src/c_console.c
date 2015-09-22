@@ -182,6 +182,13 @@ int             consolescrollbarfacecolor = 88;
 
 int             consolecolors[STRINGTYPES];
 
+void C_DebugOutput(char *string)
+{
+#if defined(_MSC_VER) && defined (_DEBUG)
+    OutputDebugString(M_StringJoin(string, "\n", NULL));
+#endif
+}
+
 void C_Print(stringtype_t type, char *string, ...)
 {
     va_list     argptr;
@@ -198,6 +205,7 @@ void C_Print(stringtype_t type, char *string, ...)
     console[consolestrings].timestamp = "";
     ++consolestrings;
     outputhistory = -1;
+    C_DebugOutput(buffer);
 }
 
 void C_Input(char *string, ...)
@@ -216,6 +224,7 @@ void C_Input(char *string, ...)
     console[consolestrings].timestamp = "";
     ++consolestrings;
     outputhistory = -1;
+    C_DebugOutput(buffer);
 }
 
 void C_Output(char *string, ...)
@@ -234,6 +243,7 @@ void C_Output(char *string, ...)
     console[consolestrings].timestamp = "";
     ++consolestrings;
     outputhistory = -1;
+    C_DebugOutput(buffer);
 }
 
 void C_TabbedOutput(int tabs[8], char *string, ...)
@@ -252,6 +262,7 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
     console[consolestrings].timestamp = "";
     ++consolestrings;
     outputhistory = -1;
+    C_DebugOutput(buffer);
 }
 
 void C_Warning(char *string, ...)
@@ -272,6 +283,7 @@ void C_Warning(char *string, ...)
         console[consolestrings].timestamp = "";
         ++consolestrings;
         outputhistory = -1;
+        C_DebugOutput(buffer);
     }
 }
 
@@ -316,6 +328,7 @@ void C_PlayerMessage(char *string, ...)
         ++consolestrings;
     }
     outputhistory = -1;
+    C_DebugOutput(buffer);
 }
 
 static void C_AddToUndoHistory(void)
@@ -345,6 +358,7 @@ static void C_DrawDivider(int y)
     if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
             screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
+    C_DebugOutput(DIVIDERSTRING);
 }
 
 static struct
