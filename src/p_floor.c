@@ -58,16 +58,24 @@ static void T_AnimateLiquid(floormove_t *floor)
         && sector->ceilingheight != sector->floorheight ? animatedliquiddiff : 0);
 }
 
-static void P_StartAnimatedLiquid(sector_t *sector)
+static dboolean P_IsUnanimatedLiquid(sector_t *sector)
 {
-    thinker_t       *th;
-    floormove_t     *floor;
+    thinker_t   *th;
+
+    if (!isliquid[sector->floorpic])
+        return false;
 
     for (th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
         if (th->function == T_AnimateLiquid && ((floormove_t *)th)->sector == sector)
-            return;
+            return false;
 
-    floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+    return true;
+}
+
+static void P_StartAnimatedLiquid(sector_t *sector)
+{
+    floormove_t     *floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+
     memset(floor, 0, sizeof(*floor));
     P_AddThinker(&floor->thinker);
     floor->thinker.function = T_AnimateLiquid;
@@ -242,7 +250,7 @@ void T_MoveFloor(floormove_t *floor)
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
-                    if (isliquid[sec->floorpic])
+                    if (P_IsUnanimatedLiquid(sec))
                         P_StartAnimatedLiquid(sec);
 
                 case genFloorChgT:
@@ -253,7 +261,7 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChg:
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
-                    if (isliquid[sec->floorpic])
+                    if (P_IsUnanimatedLiquid(sec))
                         P_StartAnimatedLiquid(sec);
                     break;
 
@@ -269,7 +277,7 @@ void T_MoveFloor(floormove_t *floor)
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
-                    if (isliquid[sec->floorpic])
+                    if (P_IsUnanimatedLiquid(sec))
                         P_StartAnimatedLiquid(sec);
 
                 case genFloorChgT:
@@ -280,7 +288,7 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChg:
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
-                    if (isliquid[sec->floorpic])
+                    if (P_IsUnanimatedLiquid(sec))
                         P_StartAnimatedLiquid(sec);
                     break;
 
@@ -619,7 +627,7 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
             case trigChangeOnly:
                 sec->floorpic = line->frontsector->floorpic;
                 P_ChangeSector(sec, false);
-                if (isliquid[sec->floorpic])
+                if (P_IsUnanimatedLiquid(sec))
                     P_StartAnimatedLiquid(sec);
                 sec->special = line->frontsector->special;
                 break;
@@ -630,7 +638,7 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
                 {
                     sec->floorpic = secm->floorpic;
                     P_ChangeSector(sec, false);
-                    if (isliquid[sec->floorpic])
+                    if (P_IsUnanimatedLiquid(sec))
                         P_StartAnimatedLiquid(sec);
                     sec->special = secm->special;
                 }
