@@ -104,7 +104,6 @@ extern char             *playername;
 extern dboolean         pm_alwaysrun;
 extern dboolean         pm_centerweapon;
 extern int              pm_walkbob;
-extern dboolean         r_altlighting;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern int              r_bloodsplats_total;
@@ -508,7 +507,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, "Toggles the centering of the player's weapon when firing."),
     CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, NOALIAS, "The amount the player bobs when walking."),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quits "PACKAGE_NAME"."),
-    CVAR_BOOL (r_altlighting, C_BoolCondition, C_Bool, "Toggles alternate lighting on and around the player."),
     CVAR_INT  (r_blood, C_BloodCondition, C_Blood, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters."),
     CVAR_INT  (r_bloodsplats_max, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, SPLATALIAS, "The maximum number of blood splats allowed in a map."),
     CVAR_INT  (r_bloodsplats_total, C_IntCondition, C_Int, CF_READONLY, NOALIAS, "The total number of blood splats in the current map."),

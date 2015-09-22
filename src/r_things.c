@@ -83,8 +83,6 @@ dboolean                        r_liquid_clipsprites = r_liquid_clipsprites_defa
 
 dboolean                        r_playersprites = r_playersprites_default;
 
-dboolean                        r_altlighting = r_altlighting_default;
-
 extern fixed_t                  animatedliquiddiff;
 extern dboolean                 inhelpscreens;
 extern dboolean                 r_liquid_bob;
@@ -1145,21 +1143,13 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         {
             if (bflash || (frame & FF_FULLBRIGHT))
                 vis->colormap = fullcolormap;   // full bright
-            else if (r_altlighting)
+            else
             {
                 int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> OLDLIGHTSEGSHIFT)
                     + extralight * OLDLIGHTBRIGHT;
 
                 vis->colormap = psprscalelight[BETWEEN(0, lightnum, OLDLIGHTLEVELS - 1)]
                     [BETWEEN(0, lightnum + 16, OLDMAXLIGHTSCALE - 1)];
-            }
-            else
-            {
-                int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
-                    + extralight * LIGHTBRIGHT;
-
-                vis->colormap = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)]
-                    [BETWEEN(0, lightnum + 8, MAXLIGHTSCALE - 1)];
             }
         }
     }

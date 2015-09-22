@@ -78,7 +78,6 @@ extern char             *playername;
 extern dboolean         pm_alwaysrun;
 extern dboolean         pm_centerweapon;
 extern int              pm_walkbob;
-extern dboolean         r_altlighting;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern dboolean         r_brightmaps;
@@ -183,7 +182,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (pm_alwaysrun,         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (pm_centerweapon,      BOOLALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,           NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_altlighting,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_blood,              BLOODALIAS ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,    SPLATALIAS ),
     CONFIG_VARIABLE_INT          (r_brightmaps,         BOOLALIAS  ),
@@ -518,9 +516,6 @@ static void M_CheckCVARs(void)
         pm_centerweapon = pm_centerweapon_default;
 
     pm_walkbob = BETWEEN(pm_walkbob_min, pm_walkbob, pm_walkbob_max);
-
-    if (r_altlighting != false && r_altlighting != true)
-        r_altlighting = r_altlighting_default;
 
     if (r_blood != noblood && r_blood != redbloodonly && r_blood != allbloodcolors)
         r_blood = r_blood_default;

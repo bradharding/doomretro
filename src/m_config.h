@@ -116,8 +116,6 @@ typedef enum
 #define pm_walkbob_default                      75
 #define pm_walkbob_max                          100
 
-#define r_altlighting_default                   true
-
 #define r_blood_min                             noblood
 #define r_blood_default                         allbloodcolors
 #define r_blood_max                             allbloodcolors
