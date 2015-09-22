@@ -758,7 +758,7 @@ void R_StoreWallRange(int start, int stop)
 
         // [BH] animate liquid sectors
         if (backsector->animate
-            && backsector->interpfloorheight > frontsector->interpfloorheight
+            && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (backsector->heightsec == -1
             || viewz > sectors[backsector->heightsec].interpfloorheight))
         {
