@@ -1960,7 +1960,6 @@ void P_SetupLevel(int ep, int map)
     P_LoadThings(lumpnum + ML_THINGS);
 
     P_InitCards(&players[0]);
-    P_InitAnimatedLiquids();
 
     // set up world state
     P_SpawnSpecials();

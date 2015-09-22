@@ -133,8 +133,6 @@ typedef struct
     int                 cachedheight;
     int                 scaleindex;
 
-    int                 animate;
-
     // [AM] Previous position of floor and ceiling before
     //      think. Used to interpolate between positions.
     fixed_t             oldfloorheight;

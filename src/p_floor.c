@@ -44,54 +44,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-dboolean        r_liquid_bob = r_liquid_bob_default;
-
-fixed_t         animatedliquiddiff;
-
 extern dboolean canmodify;
-
-static void T_AnimateLiquid(floormove_t *floor)
-{
-    sector_t    *sector = floor->sector;
-
-    sector->animate = (r_liquid_bob && isliquid[sector->floorpic]
-        && sector->ceilingheight != sector->floorheight ? animatedliquiddiff : 0);
-}
-
-static dboolean P_IsUnanimatedLiquid(sector_t *sector)
-{
-    thinker_t   *th;
-
-    if (!isliquid[sector->floorpic])
-        return false;
-
-    for (th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
-        if (th->function == T_AnimateLiquid && ((floormove_t *)th)->sector == sector)
-            return false;
-
-    return true;
-}
-
-static void P_StartAnimatedLiquid(sector_t *sector)
-{
-    floormove_t     *floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-
-    memset(floor, 0, sizeof(*floor));
-    P_AddThinker(&floor->thinker);
-    floor->thinker.function = T_AnimateLiquid;
-    floor->sector = sector;
-    T_AnimateLiquid(floor);
-}
-
-void P_InitAnimatedLiquids(void)
-{
-    int         i;
-    sector_t    *sector;
-
-    for (i = 0, sector = sectors; i < numsectors; i++, sector++)
-        if (isliquid[sector->floorpic])
-            P_StartAnimatedLiquid(sector);
-}
 
 //
 // FLOORS
@@ -100,8 +53,8 @@ void P_InitAnimatedLiquids(void)
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
-                     dboolean crush, int floorOrCeiling, int direction)
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush,
+    int floorOrCeiling, int direction)
 {
     fixed_t     lastpos;
     fixed_t     destheight;
@@ -250,8 +203,6 @@ void T_MoveFloor(floormove_t *floor)
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
-                    if (P_IsUnanimatedLiquid(sec))
-                        P_StartAnimatedLiquid(sec);
 
                 case genFloorChgT:
                 case genFloorChg0:
@@ -261,8 +212,6 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChg:
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
-                    if (P_IsUnanimatedLiquid(sec))
-                        P_StartAnimatedLiquid(sec);
                     break;
 
                 default:
@@ -277,8 +226,6 @@ void T_MoveFloor(floormove_t *floor)
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
-                    if (P_IsUnanimatedLiquid(sec))
-                        P_StartAnimatedLiquid(sec);
 
                 case genFloorChgT:
                 case genFloorChg0:
@@ -288,8 +235,6 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChg:
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
-                    if (P_IsUnanimatedLiquid(sec))
-                        P_StartAnimatedLiquid(sec);
                     break;
 
                 default:
@@ -627,19 +572,15 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
             case trigChangeOnly:
                 sec->floorpic = line->frontsector->floorpic;
                 P_ChangeSector(sec, false);
-                if (P_IsUnanimatedLiquid(sec))
-                    P_StartAnimatedLiquid(sec);
                 sec->special = line->frontsector->special;
                 break;
 
             case numChangeOnly:
                 secm = P_FindModelFloorSector(sec->floorheight, secnum);
-                if (secm) // if no model, no change
+                if (secm)       // if no model, no change
                 {
                     sec->floorpic = secm->floorpic;
                     P_ChangeSector(sec, false);
-                    if (P_IsUnanimatedLiquid(sec))
-                        P_StartAnimatedLiquid(sec);
                     sec->special = secm->special;
                 }
                 break;

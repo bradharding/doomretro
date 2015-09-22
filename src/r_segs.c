@@ -41,6 +41,7 @@
 
 #include "doomstat.h"
 #include "m_config.h"
+#include "p_local.h"
 #include "r_local.h"
 #include "z_zone.h"
 
@@ -102,8 +103,11 @@ static int      *maskedtexturecol;      // dropoff overflow
 
 dboolean        r_brightmaps = r_brightmaps_default;
 
-extern dboolean r_translucency;
+extern fixed_t  animatedliquiddiff;
 extern dboolean doorclosed;
+extern dboolean r_liquid_bob;
+extern dboolean r_translucency;
+
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"
@@ -644,9 +648,9 @@ void R_StoreWallRange(int start, int stop)
     worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
-    if (frontsector->animate && (frontsector->heightsec == -1
+    if (r_liquid_bob && isliquid[frontsector->floorpic] && (frontsector->heightsec == -1
         || viewz > sectors[frontsector->heightsec].interpfloorheight))
-        worldbottom += frontsector->animate;
+        worldbottom += animatedliquiddiff;
 
     R_FixWiggle(frontsector);
 
@@ -757,12 +761,12 @@ void R_StoreWallRange(int start, int stop)
         worldlow = backsector->interpfloorheight - viewz;
 
         // [BH] animate liquid sectors
-        if (backsector->animate
+        if (r_liquid_bob && isliquid[backsector->floorpic]
             && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (backsector->heightsec == -1
             || viewz > sectors[backsector->heightsec].interpfloorheight))
         {
-            liquidoffset = backsector->animate;
+            liquidoffset = animatedliquiddiff;
             worldlow += liquidoffset;
         }
 

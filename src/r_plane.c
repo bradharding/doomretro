@@ -85,6 +85,9 @@ fixed_t                 distscale[SCREENWIDTH];
 
 dboolean                r_liquid_swirl = r_liquid_swirl_default;
 
+extern fixed_t          animatedliquiddiff;
+extern dboolean         r_liquid_bob;
+
 //
 // R_MapPlane
 //
@@ -459,8 +462,8 @@ void R_DrawPlanes(void)
                     yoffs = pl->yoffs;
                     planeheight = ABS(pl->height - viewz);
 
-                    if (liquid && pl->sector && pl->sector->animate)
-                        planeheight -= pl->sector->animate;
+                    if (liquid && pl->sector && r_liquid_bob && isliquid[pl->sector->floorpic])
+                        planeheight -= animatedliquiddiff;
 
                     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT)
                         + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];

@@ -90,6 +90,10 @@ typedef struct
 
 int             stat_secretsrevealed = 0;
 
+dboolean        r_liquid_bob = r_liquid_bob_default;
+
+fixed_t         animatedliquiddiff;
+
 fixed_t animatedliquiddiffs[64] =
 {
      6422,  6422,  6360,  6238,  6054,  5814,  5516,  5164,
@@ -163,7 +167,6 @@ static void P_SpawnPushers(void);       // phares 3/20/98
 extern char     *playername;
 extern int      numflats;
 extern dboolean canmodify;
-extern fixed_t  animatedliquiddiff;
 
 dboolean        *isliquid;
 

@@ -44,7 +44,7 @@
 #define PACKAGE_BRANDINGSTRING          "DOOM RETRO v1.9"
 #endif
 #define PACKAGE_NAMEANDVERSIONSTRING    "DOOM RETRO v1.9"
-#define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM RETRO v1.8.5"
+#define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM RETRO v1.9"
 
 #define PACKAGE                         "doomretro"
 #define PACKAGE_CONFIG                  "doomretro.cfg"

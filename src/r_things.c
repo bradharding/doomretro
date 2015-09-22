@@ -85,10 +85,11 @@ dboolean                        r_playersprites = r_playersprites_default;
 
 dboolean                        r_altlighting = r_altlighting_default;
 
+extern fixed_t                  animatedliquiddiff;
 extern dboolean                 inhelpscreens;
-extern dboolean                 r_translucency;
-extern dboolean                 dehacked;
+extern dboolean                 r_liquid_bob;
 extern dboolean                 r_shadows;
+extern dboolean                 r_translucency;
 extern dboolean                 skippsprinterp;
 
 //
@@ -744,8 +745,8 @@ void R_ProjectSprite(mobj_t *thing)
 
         vis->texturemid = gzt - viewz - clipfeet;
 
-        if ((flags2 & MF2_NOLIQUIDBOB) && sector->animate)
-            clipfeet += sector->animate;
+        if ((flags2 & MF2_NOLIQUIDBOB) && r_liquid_bob && isliquid[sector->floorpic])
+            clipfeet += animatedliquiddiff;
 
         vis->footclip = clipfeet;
     }

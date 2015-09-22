@@ -1694,7 +1694,6 @@ void P_ArchiveWorld(void)
         saveg_write16(sec->lightlevel);
         saveg_write16(sec->special);
         saveg_write16(sec->tag);
-        saveg_write32(sec->animate);
     }
 
     // do lines
@@ -1740,11 +1739,10 @@ void P_UnArchiveWorld(void)
         sec->lightlevel = saveg_read16();
         sec->special = saveg_read16();
         sec->tag = saveg_read16();
-        sec->animate = saveg_read32();
         sec->ceilingdata = NULL;
         sec->floordata = NULL;
         sec->lightingdata = NULL;
-        sec->soundtarget = 0;
+        sec->soundtarget = NULL;
     }
 
     // do lines

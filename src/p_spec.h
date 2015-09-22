@@ -551,7 +551,6 @@ dboolean EV_DoChange(line_t *line, change_e changetype);
 dboolean EV_DoElevator(line_t *line, elevator_e elevtype);
 void T_MoveFloor(floormove_t *floor);
 void T_MoveElevator(elevator_t *elevator);
-void P_InitAnimatedLiquids(void);
 
 // killough 3/7/98: Add generalized scroll effects
 typedef struct
