@@ -70,8 +70,6 @@
 // Radiation suit, green shift.
 #define RADIATIONPAL            13
 
-#define BERSERKPAL              8
-
 // Location of status bar
 #define ST_X                    0
 #define ST_X2                   104
@@ -1376,13 +1374,16 @@ void ST_doPaletteStuff(void)
     int palette = 0;
     int count = plyr->damagecount;
 
-    if (plyr->powers[pw_strength]
-        && (plyr->pendingweapon == wp_fist
-            || (plyr->readyweapon == wp_fist && plyr->pendingweapon == wp_nochange))
+    if (plyr->powers[pw_strength] && (plyr->pendingweapon == wp_fist
+        || (plyr->readyweapon == wp_fist && plyr->pendingweapon == wp_nochange))
         && plyr->health > 0)
-        count = MAX(BERSERKPAL, count);
-
-    if (count)
+    {
+        if (plyr->bonuscount)
+            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
+        else
+            palette = STARTREDPALS + MIN((count + 14) >> 3, NUMREDPALS - 1);
+    }
+    else if (count)
         palette = STARTREDPALS + MIN((count + 7) >> 3, NUMREDPALS - 1);
     else if (plyr->health > 0)
     {
@@ -1629,157 +1630,59 @@ void ST_createWidgets(void)
     int  i;
 
     // ready weapon ammo
-    STlib_initNum(&w_ready,
-                  ST_AMMOX,
-                  ST_AMMOY,
-                  tallnum,
-                  &plyr->ammo[weaponinfo[plyr->readyweapon].ammo],
-                  &st_statusbaron,
-                  ST_AMMOWIDTH);
+    STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY, tallnum,
+        &plyr->ammo[weaponinfo[plyr->readyweapon].ammo], &st_statusbaron, ST_AMMOWIDTH);
 
     // the last weapon type
     w_ready.data = plyr->readyweapon;
 
     // health percentage
-    STlib_initPercent(&w_health,
-                      ST_HEALTHX,
-                      ST_HEALTHY,
-                      tallnum,
-                      &plyr->health,
-                      &st_statusbaron,
-                      tallpercent);
+    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY, tallnum, &plyr->health, &st_statusbaron,
+        tallpercent);
 
     // arms background
-    STlib_initBinIcon(&w_armsbg,
-                      ST_ARMSBGX,
-                      ST_ARMSBGY,
-                      armsbg,
-                      &st_statusbaron,
-                      &st_statusbaron);
-
-    STlib_initBinIcon(&w_armsbg2,
-                      ST_ARMSBGX * 2,
-                      ST_ARMSBGY * 2,
-                      armsbg2,
-                      &st_statusbaron,
-                      &st_statusbaron);
+    STlib_initBinIcon(&w_armsbg, ST_ARMSBGX, ST_ARMSBGY, armsbg, &st_statusbaron, &st_statusbaron);
+    STlib_initBinIcon(&w_armsbg2, ST_ARMSBGX * 2, ST_ARMSBGY * 2, armsbg2, &st_statusbaron,
+        &st_statusbaron);
 
     // weapons owned
     armsnum = (gamemode == shareware ? 4 : 6);
     for (i = 0; i < armsnum; i++)
-    {
-        STlib_initMultIcon(&w_arms[i],
-                           ST_ARMSX + (i % 3) * ST_ARMSXSPACE,
-                           ST_ARMSY + i / 3 * ST_ARMSYSPACE,
-                           arms[i],
-                           (i == 1 ? &plyr->shotguns : &plyr->weaponowned[i + 1]),
-                           &st_statusbaron);
-    }
+        STlib_initMultIcon(&w_arms[i], ST_ARMSX + (i % 3) * ST_ARMSXSPACE,
+            ST_ARMSY + i / 3 * ST_ARMSYSPACE, arms[i], (i == 1 ? &plyr->shotguns :
+            &plyr->weaponowned[i + 1]), &st_statusbaron);
 
     // faces
-    STlib_initMultIcon(&w_faces,
-                       ST_FACESX,
-                       ST_FACESY,
-                       faces,
-                       &st_faceindex,
-                       &st_statusbaron);
+    STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex, &st_statusbaron);
 
     // armor percentage - should be colored later
-    STlib_initPercent(&w_armor,
-                      ST_ARMORX,
-                      ST_ARMORY,
-                      tallnum,
-                      &plyr->armorpoints,
-                      &st_statusbaron,
-                      tallpercent);
+    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY, tallnum, &plyr->armorpoints, &st_statusbaron,
+        tallpercent);
 
     // keyboxes 0-2
-    STlib_initMultIcon(&w_keyboxes[0],
-                       ST_KEY0X,
-                       ST_KEY0Y,
-                       keys,
-                       &keyboxes[0],
-                       &st_statusbaron);
-
-    STlib_initMultIcon(&w_keyboxes[1],
-                       ST_KEY1X,
-                       ST_KEY1Y,
-                       keys,
-                       &keyboxes[1],
-                       &st_statusbaron);
-
-    STlib_initMultIcon(&w_keyboxes[2],
-                       ST_KEY2X,
-                       ST_KEY2Y,
-                       keys,
-                       &keyboxes[2],
-                       &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X, ST_KEY0Y, keys, &keyboxes[0], &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X, ST_KEY1Y, keys, &keyboxes[1], &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X, ST_KEY2Y, keys, &keyboxes[2], &st_statusbaron);
 
     // ammo count (all four kinds)
-    STlib_initNum(&w_ammo[0],
-                  ST_AMMO0X,
-                  ST_AMMO0Y,
-                  shortnum,
-                  &plyr->ammo[0],
-                  &st_statusbaron,
-                  ST_AMMO0WIDTH);
-
-    STlib_initNum(&w_ammo[1],
-                  ST_AMMO1X,
-                  ST_AMMO1Y,
-                  shortnum,
-                  &plyr->ammo[1],
-                  &st_statusbaron,
-                  ST_AMMO1WIDTH);
-
-    STlib_initNum(&w_ammo[2],
-                  ST_AMMO2X,
-                  ST_AMMO2Y,
-                  shortnum,
-                  &plyr->ammo[2],
-                  &st_statusbaron,
-                  ST_AMMO2WIDTH);
-
-    STlib_initNum(&w_ammo[3],
-                  ST_AMMO3X,
-                  ST_AMMO3Y,
-                  shortnum,
-                  &plyr->ammo[3],
-                  &st_statusbaron,
-                  ST_AMMO3WIDTH);
+    STlib_initNum(&w_ammo[0], ST_AMMO0X, ST_AMMO0Y, shortnum, &plyr->ammo[0], &st_statusbaron,
+        ST_AMMO0WIDTH);
+    STlib_initNum(&w_ammo[1], ST_AMMO1X, ST_AMMO1Y, shortnum, &plyr->ammo[1], &st_statusbaron,
+        ST_AMMO1WIDTH);
+    STlib_initNum(&w_ammo[2], ST_AMMO2X, ST_AMMO2Y, shortnum, &plyr->ammo[2], &st_statusbaron,
+        ST_AMMO2WIDTH);
+    STlib_initNum(&w_ammo[3], ST_AMMO3X, ST_AMMO3Y, shortnum, &plyr->ammo[3], &st_statusbaron,
+        ST_AMMO3WIDTH);
 
     // max ammo count (all four kinds)
-    STlib_initNum(&w_maxammo[0],
-                  ST_MAXAMMO0X,
-                  ST_MAXAMMO0Y,
-                  shortnum,
-                  &plyr->maxammo[0],
-                  &st_statusbaron,
-                  ST_MAXAMMO0WIDTH);
-
-    STlib_initNum(&w_maxammo[1],
-                  ST_MAXAMMO1X,
-                  ST_MAXAMMO1Y,
-                  shortnum,
-                  &plyr->maxammo[1],
-                  &st_statusbaron,
-                  ST_MAXAMMO1WIDTH);
-
-    STlib_initNum(&w_maxammo[2],
-                  ST_MAXAMMO2X,
-                  ST_MAXAMMO2Y,
-                  shortnum,
-                  &plyr->maxammo[2],
-                  &st_statusbaron,
-                  ST_MAXAMMO2WIDTH);
-
-    STlib_initNum(&w_maxammo[3],
-                  ST_MAXAMMO3X,
-                  ST_MAXAMMO3Y,
-                  shortnum,
-                  &plyr->maxammo[3],
-                  &st_statusbaron,
-                  ST_MAXAMMO3WIDTH);
+    STlib_initNum(&w_maxammo[0], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &plyr->maxammo[0],
+        &st_statusbaron, ST_MAXAMMO0WIDTH);
+    STlib_initNum(&w_maxammo[1], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &plyr->maxammo[1],
+        &st_statusbaron, ST_MAXAMMO1WIDTH);
+    STlib_initNum(&w_maxammo[2], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &plyr->maxammo[2],
+        &st_statusbaron, ST_MAXAMMO2WIDTH);
+    STlib_initNum(&w_maxammo[3], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &plyr->maxammo[3],
+        &st_statusbaron, ST_MAXAMMO3WIDTH);
 }
 
 static dboolean st_stopped = true;
