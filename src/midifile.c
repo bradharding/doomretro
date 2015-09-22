@@ -379,7 +379,7 @@ static dboolean ReadTrack(midi_track_t *track, FILE *stream)
         if (track->num_events == track->num_event_mem)
         {
             // depending on the state of the heap and the malloc implementation, realloc()
-            // one more event at a time can be VERY slow.  10sec+ in MSVC
+            // one more event at a time can be VERY slow. 10sec+ in MSVC
             track->num_event_mem += 100;
             new_events = Z_Realloc(track->events, sizeof(midi_event_t) * track->num_event_mem);
         }

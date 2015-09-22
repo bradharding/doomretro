@@ -222,71 +222,69 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-dboolean        am_grid = am_grid_default;
+dboolean                am_grid = am_grid_default;
 
-dboolean        automapactive = false;
+dboolean                automapactive = false;
 
 static unsigned int     mapwidth;
 static unsigned int     mapheight;
 static unsigned int     maparea;
 static unsigned int     mapbottom;
 
-static mpoint_t m_paninc;                       // how far the window pans each tic (map coords)
-static fixed_t  mtof_zoommul;                   // how far the window zooms in each tic (map coords)
-static fixed_t  ftom_zoommul;                   // how far the window zooms in each tic (fb coords)
+static mpoint_t         m_paninc;       // how far the window pans each tic (map coords)
+static fixed_t          mtof_zoommul;   // how far the window zooms in each tic (map coords)
+static fixed_t          ftom_zoommul;   // how far the window zooms in each tic (fb coords)
 
-fixed_t         m_x = INT_MAX, m_y = INT_MAX;   // LL x,y where the window is on the map (map coords)
-static fixed_t  m_x2, m_y2;                     // UR x,y where the window is on the map (map coords)
+// LL x,y where the window is on the map (map coords)
+fixed_t                 m_x = INT_MAX, m_y = INT_MAX;
+
+// UR x,y where the window is on the map (map coords)
+static fixed_t          m_x2, m_y2;
 
 //
 // width/height of window on map (map coords)
 //
-fixed_t         m_w;
-fixed_t         m_h;
+fixed_t                 m_w;
+fixed_t                 m_h;
 
 // based on level size
-static fixed_t  min_x;
-static fixed_t  min_y;
-static fixed_t  max_x;
-static fixed_t  max_y;
+static fixed_t          min_x;
+static fixed_t          min_y;
+static fixed_t          max_x;
+static fixed_t          max_y;
 
-static fixed_t  min_scale_mtof;                 // used to tell when to stop zooming out
-static fixed_t  max_scale_mtof;                 // used to tell when to stop zooming in
+static fixed_t          min_scale_mtof;         // used to tell when to stop zooming out
+static fixed_t          max_scale_mtof;         // used to tell when to stop zooming in
 
 // old stuff for recovery later
-static fixed_t  old_m_w, old_m_h;
-static fixed_t  old_m_x, old_m_y;
+static fixed_t          old_m_w, old_m_h;
+static fixed_t          old_m_x, old_m_y;
 
 // used by MTOF to scale from map-to-frame-buffer coords
-static fixed_t  scale_mtof;
+static fixed_t          scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
-static fixed_t  scale_ftom;
+static fixed_t          scale_ftom;
 
-static player_t *plr;                           // the player represented by an arrow
+static player_t         *plr;                   // the player represented by an arrow
 
-mpoint_t        *markpoints = NULL;             // where the points are
-int             markpointnum = 0;               // next point to be assigned
-int             markpointnum_max = 0;
+mpoint_t                *markpoints = NULL;     // where the points are
+int                     markpointnum = 0;       // next point to be assigned
+int                     markpointnum_max = 0;
 
-dboolean        am_followmode = am_followmode_default;
-dboolean        am_rotatemode = am_rotatemode_default;
+dboolean                am_followmode = am_followmode_default;
+dboolean                am_rotatemode = am_rotatemode_default;
 
-static dboolean stopped = true;
+static dboolean         stopped = true;
 
-dboolean        bigstate = false;
-byte            *area;
-static dboolean movement = false;
-int             keydown;
-int             direction;
+dboolean                bigstate = false;
+byte                    *area;
+static dboolean         movement = false;
+int                     keydown;
+int                     direction;
 
-int             teleporters[24];
+int                     teleporters[24];
 
-am_frame_t      am_frame;
-
-__inline static int sign(int a)
-{
-    return ((a > 0) - (a < 0));
-}
+am_frame_t              am_frame;
 
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
@@ -1318,8 +1316,8 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         // vertical line
         int     sy = SIGN(dy) * mapwidth;
 
-        y0 = BETWEEN(-(int)mapwidth, y0 * mapwidth, mapbottom);
-        y1 = BETWEEN(-(int)mapwidth, y1 * mapwidth, mapbottom);
+        y0 = BETWEEN(-(signed int)mapwidth, y0 * mapwidth, mapbottom);
+        y1 = BETWEEN(-(signed int)mapwidth, y1 * mapwidth, mapbottom);
 
         putdot(x0, y0, color);
         while (y0 != y1)
