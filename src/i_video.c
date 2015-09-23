@@ -1138,6 +1138,7 @@ static void SetVideoMode(dboolean output)
     renderer = SDL_CreateRenderer(window, -1, flags);
 
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
     if (output)
     {
