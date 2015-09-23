@@ -1027,15 +1027,13 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     player_t    *splayer = NULL;
     player_t    *tplayer;
     int         flags = target->flags;
+    dboolean    corpse = (flags & MF_CORPSE);
     int         type = target->type;
 
-    if (!(flags & MF_SHOOTABLE) && (!(flags & MF_CORPSE) || !r_corpses_slide))
+    if (!(flags & MF_SHOOTABLE) && (!corpse || !r_corpses_slide))
         return;
 
-    if (target->health <= 0)
-        return;
-
-    if (type == MT_BARREL && (flags & MF_CORPSE))
+    if (type == MT_BARREL && corpse)
         return;
 
     if (flags & MF_SKULLFLY)
@@ -1104,6 +1102,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
             target->momz += FixedMul(thrust, finesine[ang]);
         }
     }
+
+    if (corpse)
+        return;
 
     // player specific
     if (splayer && type != MT_BARREL)
