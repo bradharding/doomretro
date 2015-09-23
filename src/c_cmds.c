@@ -1220,6 +1220,8 @@ extern int      cardsfound;
 
 static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
 {
+    int i;
+
     if (gamestate != GS_LEVEL)
         return false;
 
@@ -1234,6 +1236,10 @@ static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
         || !strcasecmp(parm1, "armor")
         || !strcasecmp(parm1, "keys"))
         return true;
+
+    for (i = 0; i < NUMMOBJTYPES; i++)
+        if ((mobjinfo[i].flags & MF_SPECIAL) && !strcasecmp(parm1, mobjinfo[i].name1))
+            return true;
 
     return false;
 }
@@ -1267,6 +1273,18 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
             P_GiveArmor(player, blue_armor_class);
         else if (!strcasecmp(parm1, "keys"))
             P_GiveAllCards(player);
+        else
+        {
+            int i;
+
+            for (i = 0; i < NUMMOBJTYPES; i++)
+                if ((mobjinfo[i].flags & MF_SPECIAL) && !strcasecmp(parm1, mobjinfo[i].name1))
+                {
+                    mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
+
+                    P_TouchSpecialThing(thing, player->mo);
+                }
+        }
     }
 }
 
