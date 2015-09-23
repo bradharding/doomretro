@@ -76,7 +76,7 @@
 #define MAX_PATH        260
 #endif
 
-#define GIVECMDFORMAT   "~items~"
+#define GIVECMDFORMAT   "ammo|armor|backpack|health|keys|weapons|all|~items~"
 #define MAPCMDFORMAT    "E~x~M~y~|MAP~xy~"
 #define SPAWNCMDFORMAT  "~monster~|~item~"
 
@@ -462,7 +462,7 @@ consolecmd_t consolecmds[] =
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exits the current map."),
     CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, NOALIAS, "The currently selected DOOM II expansion in the menu."),
     CVAR_TIME (gametime, C_NoCondition, C_Time, "The amount of time since "PACKAGE_NAME" started."),
-    CMD       (give, C_GiveCondition, C_Give, 1, GIVECMDFORMAT, "Gives items to the player."),
+    CMD       (give, C_GiveCondition, C_Give, 1, "~items~", "Gives items to the player."),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, "The dead zone of the gamepad's right thumbstick."),
