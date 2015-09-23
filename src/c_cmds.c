@@ -1229,7 +1229,6 @@ static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
         return true;
 
     if (!strcasecmp(parm1, "all")
-        || !strcasecmp(parm1, "backpack")
         || !strcasecmp(parm1, "health")
         || !strcasecmp(parm1, "weapons")
         || !strcasecmp(parm1, "ammo")
@@ -1260,19 +1259,33 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
             P_GiveFullAmmo(player);
             P_GiveArmor(player, blue_armor_class);
             P_GiveAllCards(player);
+            C_HideConsole();
         }
-        else if (!strcasecmp(parm1, "backpack"))
-            P_GiveBackpack(player, true);
         else if (!strcasecmp(parm1, "health"))
+        {
             P_GiveMegaHealth(player);
+            C_HideConsole();
+        }
         else if (!strcasecmp(parm1, "weapons"))
+        {
             P_GiveAllWeapons(player);
+            C_HideConsole();
+        }
         else if (!strcasecmp(parm1, "ammo"))
+        {
             P_GiveFullAmmo(player);
+            C_HideConsole();
+        }
         else if (!strcasecmp(parm1, "armor"))
+        {
             P_GiveArmor(player, blue_armor_class);
+            C_HideConsole();
+        }
         else if (!strcasecmp(parm1, "keys"))
+        {
             P_GiveAllCards(player);
+            C_HideConsole();
+        }
         else
         {
             int i;
@@ -1283,6 +1296,7 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
                     P_TouchSpecialThing(thing, player->mo);
+                    C_HideConsole();
                 }
         }
     }
