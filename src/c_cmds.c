@@ -1429,8 +1429,12 @@ static dboolean C_KillCondition(char *cmd, char *parm1, char *parm2, char *parm3
         char    *parm = M_StringJoin(parm1, parm2, parm3, NULL);
         int     i;
 
-        if (!parm[0] || !strcasecmp(parm, "player"))
-            return players[0].mo->health;
+        if (!parm[0])
+            return true;
+
+        if (!strcasecmp(parm, "player") || !strcasecmp(parm, "me")
+            || (playername[0] && !strcasecmp(parm, playername)))
+            return !!players[0].mo->health;
 
         if (!strcasecmp(parm, "monsters") || !strcasecmp(parm, "all"))
             return true;
@@ -1439,8 +1443,8 @@ static dboolean C_KillCondition(char *cmd, char *parm1, char *parm2, char *parm3
             if (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
                 || !strcasecmp(parm, removespaces(mobjinfo[i].plural1))
                 || (mobjinfo[i].name2[0] && !strcasecmp(parm, removespaces(mobjinfo[i].name2)))
-                || (mobjinfo[i].plural2[0] && !strcasecmp(parm,
-                removespaces(mobjinfo[i].plural2))))
+                || (mobjinfo[i].plural2[0] &&
+                    !strcasecmp(parm, removespaces(mobjinfo[i].plural2))))
             {
                 dboolean    kill = true;
 
