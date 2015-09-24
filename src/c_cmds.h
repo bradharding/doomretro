@@ -88,8 +88,8 @@ typedef enum
 typedef struct
 {
     char                *name;
-    dboolean            (*condition)(char *cmd, char *parm1, char *parm2);
-    void                (*function)(char *cmd, char *parm1, char *parm2);
+    dboolean            (*condition)(char *cmd, char *parm1, char *parm2, char *parm3);
+    void                (*function)(char *cmd, char *parm1, char *parm2, char *parm3);
     int                 parameters;
     cmdtype_t           type;
     cmdflags_t          flags;

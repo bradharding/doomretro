@@ -320,80 +320,80 @@ action_t actions[] =
     { "",              NULL,                    NULL,              NULL                      }
 };
 
-static dboolean C_BloodCondition(char *, char *, char *);
-static dboolean C_BoolCondition(char *, char *, char *);
-static dboolean C_CheatCondition(char *, char *, char *);
-static dboolean C_DeadZoneCondition(char *, char *, char *);
-static dboolean C_FloatCondition(char *, char *, char *);
-static dboolean C_GameCondition(char *, char *, char *);
-static dboolean C_GammaCondition(char *, char *, char *);
-static dboolean C_GiveCondition(char *, char *, char *);
-static dboolean C_GodCondition(char *, char *, char *);
-static dboolean C_GraphicDetailCondition(char *, char *, char *);
-static dboolean C_IntCondition(char *, char *, char *);
-static dboolean C_KillCondition(char *, char *, char *);
-static dboolean C_LoadCondition(char *, char *, char *);
-static dboolean C_MapCondition(char *, char *, char *);
-static dboolean C_MaxBloodSplatsCondition(char *, char *, char *);
-static dboolean C_NoCondition(char *, char *, char *);
-static dboolean C_SaveCondition(char *, char *, char *);
-static dboolean C_SpawnCondition(char *, char *, char *);
-static dboolean C_ResurrectCondition(char *, char *, char *);
-static dboolean C_VolumeCondition(char *, char *, char *);
+static dboolean C_BloodCondition(char *, char *, char *, char *);
+static dboolean C_BoolCondition(char *, char *, char *, char *);
+static dboolean C_CheatCondition(char *, char *, char *, char *);
+static dboolean C_DeadZoneCondition(char *, char *, char *, char *);
+static dboolean C_FloatCondition(char *, char *, char *, char *);
+static dboolean C_GameCondition(char *, char *, char *, char *);
+static dboolean C_GammaCondition(char *, char *, char *, char *);
+static dboolean C_GiveCondition(char *, char *, char *, char *);
+static dboolean C_GodCondition(char *, char *, char *, char *);
+static dboolean C_GraphicDetailCondition(char *, char *, char *, char *);
+static dboolean C_IntCondition(char *, char *, char *, char *);
+static dboolean C_KillCondition(char *, char *, char *, char *);
+static dboolean C_LoadCondition(char *, char *, char *, char *);
+static dboolean C_MapCondition(char *, char *, char *, char *);
+static dboolean C_MaxBloodSplatsCondition(char *, char *, char *, char *);
+static dboolean C_NoCondition(char *, char *, char *, char *);
+static dboolean C_SaveCondition(char *, char *, char *, char *);
+static dboolean C_SpawnCondition(char *, char *, char *, char *);
+static dboolean C_ResurrectCondition(char *, char *, char *, char *);
+static dboolean C_VolumeCondition(char *, char *, char *, char *);
 
-void C_Bind(char *, char *, char *);
+void C_Bind(char *, char *, char *, char *);
 
-static void C_AlwaysRun(char *, char *, char *);
-static void C_Blood(char *, char *, char *);
-static void C_Bool(char *, char *, char *);
-static void C_Clear(char *, char *, char *);
-static void C_CmdList(char *, char *, char *);
-static void C_ConDump(char *, char *, char *);
-static void C_CvarList(char *, char *, char *);
-static void C_DeadZone(char *, char *, char *);
-static void C_Display(char *, char *, char *);
-static void C_EndGame(char *, char *, char *);
-static void C_ExitMap(char *, char *, char *);
-static void C_Float(char *, char *, char *);
-static void C_Fullscreen(char *, char *, char *);
-static void C_Gamma(char *, char *, char *);
-static void C_GamepadVibrate(char *, char *, char *);
-static void C_God(char *, char *, char *);
-static void C_Give(char *, char *, char *);
-static void C_GraphicDetail(char *, char *, char *);
-static void C_Help(char *, char *, char *);
-static void C_Hud(char *, char *, char *);
-static void C_Int(char *, char *, char *);
-static void C_Kill(char *, char *, char *);
-static void C_Load(char *, char *, char *);
-static void C_Map(char *, char *, char *);
-static void C_MapList(char *, char *, char *);
-static void C_MapStats(char *, char *, char *);
-static void C_MaxBloodSplats(char *, char *, char *);
-static void C_NoClip(char *, char *, char *);
-static void C_NoMonsters(char *, char *, char *);
-static void C_NoTarget(char *, char *, char *);
-static void C_PixelSize(char *, char *, char *);
-static void C_PlayerName(char *, char *, char *);
-static void C_PlayerStats(char *, char *, char *);
-static void C_Quit(char *, char *, char *);
-static void C_Resurrect(char *, char *, char *);
-static void C_Save(char *, char *, char *);
-static void C_ScaleDriver(char *, char *, char *);
-static void C_ScaleFilter(char *, char *, char *);
-static void C_ScreenSize(char *, char *, char *);
-static void C_ScreenResolution(char *, char *, char *);
-static void C_ShowFPS(char *, char *, char *);
-static void C_Spawn(char *, char *, char *);
-static void C_Str(char *, char *, char *);
-static void C_ThingList(char *, char *, char *);
-static void C_Time(char *, char *, char *);
-static void C_UnBind(char *, char *, char *);
-static void C_Volume(char *, char *, char *);
-static void C_Vsync(char *, char *, char *);
-static void C_Widescreen(char *, char *, char *);
-static void C_WindowPosition(char *, char *, char *);
-static void C_WindowSize(char *, char *, char *);
+static void C_AlwaysRun(char *, char *, char *, char *);
+static void C_Blood(char *, char *, char *, char *);
+static void C_Bool(char *, char *, char *, char *);
+static void C_Clear(char *, char *, char *, char *);
+static void C_CmdList(char *, char *, char *, char *);
+static void C_ConDump(char *, char *, char *, char *);
+static void C_CvarList(char *, char *, char *, char *);
+static void C_DeadZone(char *, char *, char *, char *);
+static void C_Display(char *, char *, char *, char *);
+static void C_EndGame(char *, char *, char *, char *);
+static void C_ExitMap(char *, char *, char *, char *);
+static void C_Float(char *, char *, char *, char *);
+static void C_Fullscreen(char *, char *, char *, char *);
+static void C_Gamma(char *, char *, char *, char *);
+static void C_GamepadVibrate(char *, char *, char *, char *);
+static void C_God(char *, char *, char *, char *);
+static void C_Give(char *, char *, char *, char *);
+static void C_GraphicDetail(char *, char *, char *, char *);
+static void C_Help(char *, char *, char *, char *);
+static void C_Hud(char *, char *, char *, char *);
+static void C_Int(char *, char *, char *, char *);
+static void C_Kill(char *, char *, char *, char *);
+static void C_Load(char *, char *, char *, char *);
+static void C_Map(char *, char *, char *, char *);
+static void C_MapList(char *, char *, char *, char *);
+static void C_MapStats(char *, char *, char *, char *);
+static void C_MaxBloodSplats(char *, char *, char *, char *);
+static void C_NoClip(char *, char *, char *, char *);
+static void C_NoMonsters(char *, char *, char *, char *);
+static void C_NoTarget(char *, char *, char *, char *);
+static void C_PixelSize(char *, char *, char *, char *);
+static void C_PlayerName(char *, char *, char *, char *);
+static void C_PlayerStats(char *, char *, char *, char *);
+static void C_Quit(char *, char *, char *, char *);
+static void C_Resurrect(char *, char *, char *, char *);
+static void C_Save(char *, char *, char *, char *);
+static void C_ScaleDriver(char *, char *, char *, char *);
+static void C_ScaleFilter(char *, char *, char *, char *);
+static void C_ScreenSize(char *, char *, char *, char *);
+static void C_ScreenResolution(char *, char *, char *, char *);
+static void C_ShowFPS(char *, char *, char *, char *);
+static void C_Spawn(char *, char *, char *, char *);
+static void C_Str(char *, char *, char *, char *);
+static void C_ThingList(char *, char *, char *, char *);
+static void C_Time(char *, char *, char *, char *);
+static void C_UnBind(char *, char *, char *, char *);
+static void C_Volume(char *, char *, char *, char *);
+static void C_Vsync(char *, char *, char *, char *);
+static void C_Widescreen(char *, char *, char *, char *);
+static void C_WindowPosition(char *, char *, char *, char *);
+static void C_WindowSize(char *, char *, char *, char *);
 
 static int C_LookupValueFromAlias(char *text, int aliastype)
 {
@@ -568,7 +568,7 @@ consolecmd_t consolecmds[] =
     { "", C_NoCondition, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
 };
 
-static dboolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_CheatCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (gamestate != GS_LEVEL)
         return false;
@@ -626,19 +626,19 @@ static dboolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
     return false;
 }
 
-static dboolean C_GameCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GameCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (gamestate == GS_LEVEL);
 }
 
-static dboolean C_NoCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_NoCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return true;
 }
 
-static void C_AlwaysRun(char *cmd, char *parm1, char *parm2)
+static void C_AlwaysRun(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    C_Bool(cmd, parm1, "");
+    C_Bool(cmd, parm1, "", "");
     I_InitKeyboard();
 }
 
@@ -685,7 +685,7 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
     M_SaveCVARs();
 }
 
-void C_Bind(char *cmd, char *parm1, char *parm2)
+void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (!parm1[0])
     {
@@ -824,14 +824,14 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static dboolean C_BloodCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_BloodCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!parm1[0] || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
 }
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
-static void C_Blood(char *cmd, char *parm1, char *parm2)
+static void C_Blood(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -849,12 +849,12 @@ static void C_Blood(char *cmd, char *parm1, char *parm2)
         C_Output(C_LookupAliasFromValue(r_blood, BLOODALIAS));
 }
 
-static dboolean C_BoolCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_BoolCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!parm1[0] || C_LookupValueFromAlias(parm1, BOOLALIAS) >= 0);
 }
 
-static void C_Bool(char *cmd, char *parm1, char *parm2)
+static void C_Bool(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -882,13 +882,13 @@ static void C_Bool(char *cmd, char *parm1, char *parm2)
 
 extern int      consolestrings;
 
-static void C_Clear(char *cmd, char *parm1, char *parm2)
+static void C_Clear(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     consolestrings = 0;
     C_Output("");
 }
 
-static void C_CmdList(char *cmd, char *parm1, char *parm2)
+static void C_CmdList(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
     int count = 1;
@@ -904,7 +904,7 @@ static void C_CmdList(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_ConDump(char *cmd, char *parm1, char *parm2)
+static void C_ConDump(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (consolestrings)
     {
@@ -987,7 +987,7 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_CvarList(char *cmd, char *parm1, char *parm2)
+static void C_CvarList(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
     int count = 1;
@@ -1035,7 +1035,7 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static dboolean C_DeadZoneCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_DeadZoneCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     float value;
 
@@ -1046,7 +1046,7 @@ static dboolean C_DeadZoneCondition(char *cmd, char *parm1, char *parm2)
     return sscanf(parm1, "%10f", &value);
 }
 
-static void C_DeadZone(char *cmd, char *parm1, char *parm2)
+static void C_DeadZone(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -1074,7 +1074,7 @@ static void C_DeadZone(char *cmd, char *parm1, char *parm2)
         C_Output("%s %s%%", cmd, striptrailingzero(gp_deadzone_right, 1));
 }
 
-static void C_Display(char *cmd, char *parm1, char *parm2)
+static void C_Display(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -1093,19 +1093,19 @@ static void C_Display(char *cmd, char *parm1, char *parm2)
         C_Output("%i", vid_display);
 }
 
-static void C_EndGame(char *cmd, char *parm1, char *parm2)
+static void C_EndGame(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     M_EndingGame();
     C_HideConsoleFast();
 }
 
-static void C_ExitMap(char *cmd, char *parm1, char *parm2)
+static void C_ExitMap(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     G_ExitLevel();
     C_HideConsoleFast();
 }
 
-static dboolean C_FloatCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_FloatCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -1128,7 +1128,7 @@ static dboolean C_FloatCondition(char *cmd, char *parm1, char *parm2)
     return false;
 }
 
-static void C_Float(char *cmd, char *parm1, char *parm2)
+static void C_Float(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -1156,7 +1156,7 @@ static void C_Float(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_Fullscreen(char *cmd, char *parm1, char *parm2)
+static void C_Fullscreen(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -1171,7 +1171,7 @@ static void C_Fullscreen(char *cmd, char *parm1, char *parm2)
 
 extern int      st_palette;
 
-static dboolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GammaCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     float       value = -1.0f;
 
@@ -1183,7 +1183,7 @@ static dboolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
     return (value >= 0.0f);
 }
 
-static void C_Gamma(char *cmd, char *parm1, char *parm2)
+static void C_Gamma(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -1218,41 +1218,41 @@ static void C_Gamma(char *cmd, char *parm1, char *parm2)
 
 extern int      cardsfound;
 
-static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int i;
+    char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
+    int         i;
 
     if (gamestate != GS_LEVEL)
         return false;
 
-    if (!parm1[0])
+    if (!parm[0])
         return true;
 
-    if (!strcasecmp(parm1, "all")
-        || !strcasecmp(parm1, "health")
-        || !strcasecmp(parm1, "weapons")
-        || !strcasecmp(parm1, "ammo")
-        || !strcasecmp(parm1, "armor") || !strcasecmp(parm1, "armour")
-        || !strcasecmp(parm1, "keys"))
+    if (!strcasecmp(parm, "all")|| !strcasecmp(parm, "health") || !strcasecmp(parm, "weapons")
+        || !strcasecmp(parm, "ammo") || !strcasecmp(parm, "armor") || !strcasecmp(parm, "armour")
+        || !strcasecmp(parm, "keys"))
         return true;
 
     for (i = 0; i < NUMMOBJTYPES; i++)
-        if ((mobjinfo[i].flags & MF_SPECIAL)
-            && !strcasecmp(parm1, removespaces(mobjinfo[i].name1)))
+        if ((mobjinfo[i].flags & MF_SPECIAL) && (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
+            || (mobjinfo[i].name2[0] && !strcasecmp(parm, removespaces(mobjinfo[i].name2)))))
             return true;
 
     return false;
 }
 
-static void C_Give(char *cmd, char *parm1, char *parm2)
+static void C_Give(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (!parm1[0])
+    char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
+
+    if (!parm[0])
         C_Output("%s %s", cmd, GIVECMDFORMAT);
     else
     {
         player_t    *player = &players[0];
 
-        if (!strcasecmp(parm1, "all"))
+        if (!strcasecmp(parm, "all"))
         {
             P_GiveBackpack(player, false);
             P_GiveMegaHealth(player);
@@ -1262,27 +1262,27 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
             P_GiveAllCards(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm1, "health"))
+        else if (!strcasecmp(parm, "health"))
         {
             P_GiveMegaHealth(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm1, "weapons"))
+        else if (!strcasecmp(parm, "weapons"))
         {
             P_GiveAllWeapons(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm1, "ammo"))
+        else if (!strcasecmp(parm, "ammo"))
         {
             P_GiveFullAmmo(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm1, "armor") || !strcasecmp(parm1, "armour"))
+        else if (!strcasecmp(parm, "armor") || !strcasecmp(parm, "armour"))
         {
             P_GiveArmor(player, blue_armor_class);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm1, "keys"))
+        else if (!strcasecmp(parm, "keys"))
         {
             P_GiveAllCards(player);
             C_HideConsole();
@@ -1293,25 +1293,26 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
 
             for (i = 0; i < NUMMOBJTYPES; i++)
                 if ((mobjinfo[i].flags & MF_SPECIAL)
-                    && (!strcasecmp(parm1, removespaces(mobjinfo[i].name1))
+                    && (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
                     || (mobjinfo[i].name2[0]
-                        && !strcasecmp(parm1, removespaces(mobjinfo[i].name2)))))
+                        && !strcasecmp(parm, removespaces(mobjinfo[i].name2)))))
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
                     P_TouchSpecialThing(thing, player->mo);
                     C_HideConsole();
+                    break;
                 }
         }
     }
 }
 
-static dboolean C_GodCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GodCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
 
-static void C_God(char *cmd, char *parm1, char *parm2)
+static void C_God(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     player_t    *player = &players[0];
 
@@ -1330,12 +1331,12 @@ static void C_God(char *cmd, char *parm1, char *parm2)
     C_Output((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF);
 }
 
-static dboolean C_GraphicDetailCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GraphicDetailCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!parm1[0] || C_LookupValueFromAlias(parm1, DETAILALIAS) >= 0);
 }
 
-static void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
+static void C_GraphicDetail(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -1351,19 +1352,19 @@ static void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         C_Output(C_LookupAliasFromValue(r_detail, DETAILALIAS));
 }
 
-static void C_Help(char *cmd, char *parm1, char *parm2)
+static void C_Help(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     C_HideConsoleFast();
     M_ShowHelp();
 }
 
-static void C_Hud(char *cmd, char *parm1, char *parm2)
+static void C_Hud(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (vid_widescreen || r_screensize == r_screensize_max)
-        C_Bool(cmd, parm1, "");
+        C_Bool(cmd, parm1, "", "");
 }
 
-static dboolean C_IntCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_IntCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -1386,7 +1387,7 @@ static dboolean C_IntCondition(char *cmd, char *parm1, char *parm2)
     return false;
 }
 
-static void C_Int(char *cmd, char *parm1, char *parm2)
+static void C_Int(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -1420,7 +1421,7 @@ static int      killcmdtype = NUMMOBJTYPES;
 
 void A_Fall(mobj_t *actor);
 
-static dboolean C_KillCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_KillCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1471,7 +1472,7 @@ static dboolean C_KillCondition(char *cmd, char *parm1, char *parm2)
     return false;
 }
 
-static void C_Kill(char *cmd, char *parm1, char *parm2)
+static void C_Kill(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     static char buffer[1024];
 
@@ -1595,12 +1596,12 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static dboolean C_LoadCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_LoadCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (parm1[0] != '\0');
 }
 
-static void C_Load(char *cmd, char *parm1, char *parm2)
+static void C_Load(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     G_LoadGame(M_StringJoin(savegamefolder, parm1,
         (M_StringEndsWith(parm1, ".save") ? "" : ".save"), NULL));
@@ -1613,7 +1614,7 @@ extern dboolean samelevel;
 extern menu_t   EpiDef;
 extern int      idclevtics;
 
-static dboolean C_MapCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_MapCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (!parm1[0])
         return true;
@@ -1657,7 +1658,7 @@ static dboolean C_MapCondition(char *cmd, char *parm1, char *parm2)
     return (W_CheckNumForName(parm1) >= 0);
 }
 
-static void C_Map(char *cmd, char *parm1, char *parm2)
+static void C_Map(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     static char buffer[1024];
 
@@ -1699,7 +1700,7 @@ extern char     **mapnamesp[];
 extern char     **mapnamest[];
 extern char     **mapnamesn[];
 
-static void C_MapList(char *cmd, char *parm1, char *parm2)
+static void C_MapList(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int         i, j;
     int         count = 0;
@@ -1897,7 +1898,7 @@ char *authors[][6] =
     /* 49 */ { TW,    "",    "",    "",    ""    }
 };
 
-static void C_MapStats(char *cmd, char *parm1, char *parm2)
+static void C_MapStats(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -1973,7 +1974,7 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static dboolean C_MaxBloodSplatsCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_MaxBloodSplatsCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int value = 0;
 
@@ -1981,7 +1982,7 @@ static dboolean C_MaxBloodSplatsCondition(char *cmd, char *parm1, char *parm2)
         || sscanf(parm1, "%10i", &value));
 }
 
-static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
+static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2006,7 +2007,7 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
         C_Output(C_LookupAliasFromValue(r_bloodsplats_max, SPLATALIAS));
 }
 
-static void C_NoClip(char *cmd, char *parm1, char *parm2)
+static void C_NoClip(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     player_t    *player = &players[0];
 
@@ -2025,7 +2026,7 @@ static void C_NoClip(char *cmd, char *parm1, char *parm2)
     HU_PlayerMessage(((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
 }
 
-static void C_NoMonsters(char *cmd, char *parm1, char *parm2)
+static void C_NoMonsters(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2042,7 +2043,7 @@ static void C_NoMonsters(char *cmd, char *parm1, char *parm2)
     HU_PlayerMessage((nomonsters ? s_STSTR_NMON : s_STSTR_NMOFF), false);
 }
 
-static void C_NoTarget(char *cmd, char *parm1, char *parm2)
+static void C_NoTarget(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     player_t    *player = &players[0];
 
@@ -2085,7 +2086,7 @@ static void C_NoTarget(char *cmd, char *parm1, char *parm2)
         HU_PlayerMessage(s_STSTR_NTOFF, false);
 }
 
-static void C_PixelSize(char *cmd, char *parm1, char *parm2)
+static void C_PixelSize(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2100,7 +2101,7 @@ static void C_PixelSize(char *cmd, char *parm1, char *parm2)
         C_Output(r_lowpixelsize);
 }
 
-static void C_PlayerName(char *cmd, char *parm1, char *parm2)
+static void C_PlayerName(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2114,7 +2115,7 @@ static void C_PlayerName(char *cmd, char *parm1, char *parm2)
         C_Output("\"%s\"", playername);
 }
 
-static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
+static void C_PlayerStats(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int tabs[8] = { 140, 250, 0, 0, 0, 0, 0, 0 };
     int time1 = leveltime / TICRATE;
@@ -2166,34 +2167,34 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
     C_TabbedOutput(tabs, "Cheated\t%s\t%s", commify(players[0].cheated), commify(stat_cheated));
 }
 
-static void C_Quit(char *cmd, char *parm1, char *parm2)
+static void C_Quit(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     I_Quit(true);
 }
 
-static dboolean C_ResurrectCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_ResurrectCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (gamestate == GS_LEVEL && players[0].playerstate == PST_DEAD);
 }
 
-static void C_Resurrect(char *cmd, char *parm1, char *parm2)
+static void C_Resurrect(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     P_ResurrectPlayer(&players[0]);
     C_HideConsole();
 }
 
-static dboolean C_SaveCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_SaveCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (parm1[0] != '\0' && gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
 
-static void C_Save(char *cmd, char *parm1, char *parm2)
+static void C_Save(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     G_SaveGame(-1, "", M_StringJoin(savegamefolder, parm1,
         (M_StringEndsWith(parm1, ".save") ? "" : ".save"), NULL));
 }
 
-static void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
+static void C_ScaleDriver(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2217,7 +2218,7 @@ static void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
         C_Output("\"%s\"", vid_scaledriver);
 }
 
-static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
+static void C_ScaleFilter(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2235,7 +2236,7 @@ static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
         C_Output("\"%s\"", vid_scalefilter);
 }
 
-static void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
+static void C_ScreenResolution(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2255,7 +2256,7 @@ static void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
         C_Output(vid_screenresolution);
 }
 
-static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
+static void C_ScreenSize(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2301,7 +2302,7 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
         C_Output("%i", r_screensize);
 }
 
-static void C_ShowFPS(char *cmd, char *parm1, char *parm2)
+static void C_ShowFPS(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2320,7 +2321,7 @@ static void C_ShowFPS(char *cmd, char *parm1, char *parm2)
 
 static int      spawntype = NUMMOBJTYPES;
 
-static dboolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_SpawnCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (!parm1[0])
         return true;
@@ -2362,7 +2363,7 @@ static dboolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
     return false;
 }
 
-static void C_Spawn(char *cmd, char *parm1, char *parm2)
+static void C_Spawn(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (!parm1[0])
     {
@@ -2388,7 +2389,7 @@ static void C_Spawn(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_Str(char *cmd, char *parm1, char *parm2)
+static void C_Str(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -2415,7 +2416,7 @@ static void C_Str(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_ThingList(char *cmd, char *parm1, char *parm2)
+static void C_ThingList(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     thinker_t   *th;
     int         count = 0;
@@ -2430,7 +2431,7 @@ static void C_ThingList(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_Time(char *cmd, char *parm1, char *parm2)
+static void C_Time(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -2447,12 +2448,12 @@ static void C_Time(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_UnBind(char *cmd, char *parm1, char *parm2)
+static void C_UnBind(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    C_Bind(cmd, parm1, "none");
+    C_Bind(cmd, parm1, "none", "");
 }
 
-static dboolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_VolumeCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int value = -1;
 
@@ -2468,7 +2469,7 @@ static dboolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
         && value >= s_sfxvolume_min && value <= s_sfxvolume_max));
 }
 
-static void C_Volume(char *cmd, char *parm1, char *parm2)
+static void C_Volume(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2499,7 +2500,7 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
             s_sfxvolume));
 }
 
-static void C_Vsync(char *cmd, char *parm1, char *parm2)
+static void C_Vsync(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2516,7 +2517,7 @@ static void C_Vsync(char *cmd, char *parm1, char *parm2)
         C_Output(C_LookupAliasFromValue(vid_vsync, BOOLALIAS));
 }
 
-static void C_Widescreen(char *cmd, char *parm1, char *parm2)
+static void C_Widescreen(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2554,7 +2555,7 @@ static void C_Widescreen(char *cmd, char *parm1, char *parm2)
 
 extern SDL_Window       *window;
 
-static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
+static void C_WindowPosition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
@@ -2574,7 +2575,7 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
         C_Output("%s", vid_windowposition);
 }
 
-static void C_WindowSize(char *cmd, char *parm1, char *parm2)
+static void C_WindowSize(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {

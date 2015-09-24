@@ -900,11 +900,14 @@ dboolean C_ValidateInput(char *input)
 
     while (consolecmds[i].name[0])
     {
-        if (consolecmds[i].parameters == 1)
-        {
-            char        cmd[256] = "";
+        char        cmd[256] = "";
+        char        parm1[256] = "";
+        char        parm2[256] = "";
+        char        parm3[256] = "";
 
-            if (consolecmds[i].type == CT_CHEAT)
+        if (consolecmds[i].type == CT_CHEAT)
+        {
+            if (consolecmds[i].parameters)
             {
                 size_t  length = strlen(input);
 
@@ -919,56 +922,33 @@ dboolean C_ValidateInput(char *input)
 
                     if (!strcasecmp(cmd, consolecmds[i].name)
                         && length == strlen(cmd) + 2
-                        && consolecmds[i].condition(cmd, consolecheatparm, ""))
+                        && consolecmds[i].condition(cmd, consolecheatparm, "", ""))
                     {
                         M_StringCopy(consolecheat, cmd, 255);
                         return true;
                     }
                 }
             }
-            else
+            else if (!strcasecmp(input, consolecmds[i].name)
+                && consolecmds[i].condition(input, "", "", ""))
             {
-                char    parm[256] = "";
-
-                sscanf(input, "%255s %255s", cmd, parm);
-                C_StripQuotes(parm);
-                if (!strcasecmp(cmd, consolecmds[i].name)
-                    && consolecmds[i].condition(cmd, parm, ""))
-                {
-                    C_Input(input);
-                    consolecmds[i].function(cmd, parm, "");
-                    return true;
-                }
-            }
-        }
-        else if (consolecmds[i].parameters == 2)
-        {
-            char        cmd[256] = "";
-            char        parm1[256] = "";
-            char        parm2[256] = "";
-
-            sscanf(input, "%255s %255s %255s", cmd, parm1, parm2);
-            C_StripQuotes(parm1);
-            C_StripQuotes(parm2);
-            if (!strcasecmp(cmd, consolecmds[i].name)
-                && consolecmds[i].condition(cmd, parm1, parm2))
-            {
-                C_Input(input);
-                consolecmds[i].function(cmd, parm1, parm2);
+                M_StringCopy(consolecheat, input, 255);
                 return true;
             }
         }
-        else if (!strcasecmp(input, consolecmds[i].name)
-            && consolecmds[i].condition(input, "", ""))
+        else
         {
-            if (consolecmds[i].type == CT_CHEAT)
-                M_StringCopy(consolecheat, input, 255);
-            else
+            sscanf(input, "%255s %255s %255s %255s", cmd, parm1, parm2, parm3);
+            C_StripQuotes(parm1);
+            C_StripQuotes(parm2);
+            C_StripQuotes(parm3);
+            if (!strcasecmp(cmd, consolecmds[i].name)
+                && consolecmds[i].condition(cmd, parm1, parm2, parm3))
             {
                 C_Input(input);
-                consolecmds[i].function(input, "", "");
+                consolecmds[i].function(cmd, parm1, parm2, parm3);
+                return true;
             }
-            return true;
         }
         ++i;
     }

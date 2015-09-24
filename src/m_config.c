@@ -462,7 +462,7 @@ static float ParseFloatParameter(char *strparm, int aliastype)
     return (float)atof(strparm);
 }
 
-void C_Bind(char *cmd, char *parm1, char *parm2);
+void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3);
 
 static void M_CheckCVARs(void)
 {
@@ -681,7 +681,7 @@ void M_LoadCVARs(char *filename)
         {
             C_StripQuotes(control);
             C_StripQuotes(action);
-            C_Bind("", control, action);
+            C_Bind("", control, action, "");
             continue;
         }
         else if (fscanf(file, "%31s %255[^\n]\n", defname, strparm) != 2)
