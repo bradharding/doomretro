@@ -1425,19 +1425,20 @@ static dboolean C_KillCondition(char *cmd, char *parm1, char *parm2, char *parm3
 {
     if (gamestate == GS_LEVEL)
     {
-        int i;
+        char    *parm = M_StringJoin(parm1, parm2, parm3, NULL);
+        int     i;
 
-        if (!parm1[0] || !strcasecmp(parm1, "player"))
+        if (!parm[0] || !strcasecmp(parm, "player"))
             return players[0].mo->health;
 
-        if (!strcasecmp(parm1, "monsters") || !strcasecmp(parm1, "all"))
+        if (!strcasecmp(parm, "monsters") || !strcasecmp(parm, "all"))
             return true;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(parm1, removespaces(mobjinfo[i].name1))
-                || !strcasecmp(parm1, removespaces(mobjinfo[i].plural1))
-                || (mobjinfo[i].name2[0] && !strcasecmp(parm1, removespaces(mobjinfo[i].name2)))
-                || (mobjinfo[i].plural2[0] && !strcasecmp(parm1,
+            if (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
+                || !strcasecmp(parm, removespaces(mobjinfo[i].plural1))
+                || (mobjinfo[i].name2[0] && !strcasecmp(parm, removespaces(mobjinfo[i].name2)))
+                || (mobjinfo[i].plural2[0] && !strcasecmp(parm,
                 removespaces(mobjinfo[i].plural2))))
             {
                 dboolean    kill = true;
@@ -1474,9 +1475,10 @@ static dboolean C_KillCondition(char *cmd, char *parm1, char *parm2, char *parm3
 
 static void C_Kill(char *cmd, char *parm1, char *parm2, char *parm3)
 {
+    char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
     static char buffer[1024];
 
-    if (!parm1[0] || !strcasecmp(parm1, "player"))
+    if (!parm[0] || !strcasecmp(parm, "player"))
     {
         players[0].health = 0;
         P_KillMobj(players[0].mo, players[0].mo);
@@ -1493,7 +1495,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2, char *parm3)
         int     i;
         int     kills = 0;
 
-        if (!strcasecmp(parm1, "monsters") || !strcasecmp(parm1, "all"))
+        if (!strcasecmp(parm, "monsters") || !strcasecmp(parm, "all"))
         {
             for (i = 0; i < numsectors; ++i)
             {
@@ -2323,7 +2325,9 @@ static int      spawntype = NUMMOBJTYPES;
 
 static dboolean C_SpawnCondition(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (!parm1[0])
+    char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
+
+    if (!parm[0])
         return true;
 
     if (gamestate == GS_LEVEL)
@@ -2331,8 +2335,8 @@ static dboolean C_SpawnCondition(char *cmd, char *parm1, char *parm2, char *parm
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(parm1, removespaces(mobjinfo[i].name1))
-                || (mobjinfo[i].name2[0] && !strcasecmp(parm1, removespaces(mobjinfo[i].name2))))
+            if (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
+                || (mobjinfo[i].name2[0] && !strcasecmp(parm, removespaces(mobjinfo[i].name2))))
             {
                 dboolean    spawn = true;
 
@@ -2365,7 +2369,9 @@ static dboolean C_SpawnCondition(char *cmd, char *parm1, char *parm2, char *parm
 
 static void C_Spawn(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (!parm1[0])
+    char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
+
+    if (!parm[0])
     {
         C_Output("%s %s", cmd, SPAWNCMDFORMAT);
         return;
