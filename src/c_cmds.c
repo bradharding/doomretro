@@ -77,6 +77,7 @@
 #endif
 
 #define GIVECMDFORMAT   "ammo|armor|backpack|health|keys|weapons|all|~item~"
+#define KILLCMDFORMAT   "player|all|~monster~"
 #define MAPCMDFORMAT    "E~x~M~y~|MAP~xy~"
 #define SPAWNCMDFORMAT  "~monster~|~item~"
 
@@ -1478,7 +1479,10 @@ static void C_Kill(char *cmd, char *parm1, char *parm2, char *parm3)
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
     static char buffer[1024];
 
-    if (!parm[0] || !strcasecmp(parm, "player"))
+    if (!parm[0])
+        C_Output("%s %s", cmd, KILLCMDFORMAT);
+    else if (!strcasecmp(parm, "player") || !strcasecmp(parm, "me")
+        || (playername[0] && !strcasecmp(parm, playername)))
     {
         players[0].health = 0;
         P_KillMobj(players[0].mo, players[0].mo);
@@ -1495,7 +1499,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2, char *parm3)
         int     i;
         int     kills = 0;
 
-        if (!strcasecmp(parm, "monsters") || !strcasecmp(parm, "all"))
+        if (!strcasecmp(parm, "all") || !strcasecmp(parm, "monsters"))
         {
             for (i = 0; i < numsectors; ++i)
             {
