@@ -779,9 +779,9 @@ void R_InitTextures(void)
                 patch->patch = 0;
             }
         }
-        texturecolumnlump[i] = Z_Malloc(texture->width*sizeof(**texturecolumnlump), PU_STATIC, 0);
-        texturecolumnofs[i] = Z_Malloc(texture->width*sizeof(**texturecolumnofs), PU_STATIC, 0);
-        texturecolumnofs2[i] = Z_Malloc(texture->width*sizeof(**texturecolumnofs2), PU_STATIC, 0);
+        texturecolumnlump[i] = Z_Malloc(texture->width * sizeof(**texturecolumnlump), PU_STATIC, 0);
+        texturecolumnofs[i] = Z_Malloc(texture->width * sizeof(**texturecolumnofs), PU_STATIC, 0);
+        texturecolumnofs2[i] = Z_Malloc(texture->width * sizeof(**texturecolumnofs2), PU_STATIC, 0);
 
         j = 1;
         while (j * 2 <= texture->width)
@@ -951,6 +951,7 @@ void R_InitColormaps(void)
     dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     int         i;
     byte        *palsrc, *palette;
+    wad_file_t  *colormapwad;
 
     if (W_CheckNumForName("C_START") >= 0 && W_CheckNumForName("C_END") >= 0)
     {
@@ -970,6 +971,9 @@ void R_InitColormaps(void)
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, 0);
         colormaps[0] = W_CacheLumpName("COLORMAP", PU_STATIC);
     }
+    colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wad_file;
+    C_Output("Using the COLORMAP lump in %s file %s.",
+        (colormapwad->type == IWAD ? "IWAD" : "PWAD"), uppercase(colormapwad->path));
 
     // [BH] There's a typo in dcolors.c, the source code of the utility Id
     // Software used to construct the palettes and colormaps for DOOM (see
