@@ -1237,7 +1237,8 @@ static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
         return true;
 
     for (i = 0; i < NUMMOBJTYPES; i++)
-        if ((mobjinfo[i].flags & MF_SPECIAL) && !strcasecmp(parm1, mobjinfo[i].name1))
+        if ((mobjinfo[i].flags & MF_SPECIAL)
+            && !strcasecmp(parm1, removespaces(mobjinfo[i].name1)))
             return true;
 
     return false;
@@ -1291,8 +1292,10 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
             int i;
 
             for (i = 0; i < NUMMOBJTYPES; i++)
-                if ((mobjinfo[i].flags & MF_SPECIAL) && (!strcasecmp(parm1, mobjinfo[i].name1)
-                    || (mobjinfo[i].name2[0] && !strcasecmp(parm1, mobjinfo[i].name1))))
+                if ((mobjinfo[i].flags & MF_SPECIAL)
+                    && (!strcasecmp(parm1, removespaces(mobjinfo[i].name1))
+                    || (mobjinfo[i].name2[0]
+                        && !strcasecmp(parm1, removespaces(mobjinfo[i].name2)))))
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
