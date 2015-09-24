@@ -3131,7 +3131,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "green armor",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "green armour",
         /* plural2              */ ""
     },
 
@@ -3167,7 +3167,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "blue armor",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "blue armour",
         /* plural2              */ ""
     },
 
@@ -3239,7 +3239,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "armor bonus",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "armour bonus",
         /* plural2              */ ""
     },
 

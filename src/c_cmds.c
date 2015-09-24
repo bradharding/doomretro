@@ -76,7 +76,7 @@
 #define MAX_PATH        260
 #endif
 
-#define GIVECMDFORMAT   "ammo|armor|backpack|health|keys|weapons|all|~items~"
+#define GIVECMDFORMAT   "ammo|armor|backpack|health|keys|weapons|all|~item~"
 #define MAPCMDFORMAT    "E~x~M~y~|MAP~xy~"
 #define SPAWNCMDFORMAT  "~monster~|~item~"
 
@@ -1232,7 +1232,7 @@ static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
         || !strcasecmp(parm1, "health")
         || !strcasecmp(parm1, "weapons")
         || !strcasecmp(parm1, "ammo")
-        || !strcasecmp(parm1, "armor")
+        || !strcasecmp(parm1, "armor") || !strcasecmp(parm1, "armour")
         || !strcasecmp(parm1, "keys"))
         return true;
 
@@ -1276,7 +1276,7 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
             P_GiveFullAmmo(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm1, "armor"))
+        else if (!strcasecmp(parm1, "armor") || !strcasecmp(parm1, "armour"))
         {
             P_GiveArmor(player, blue_armor_class);
             C_HideConsole();
@@ -1291,7 +1291,8 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
             int i;
 
             for (i = 0; i < NUMMOBJTYPES; i++)
-                if ((mobjinfo[i].flags & MF_SPECIAL) && !strcasecmp(parm1, mobjinfo[i].name1))
+                if ((mobjinfo[i].flags & MF_SPECIAL) && (!strcasecmp(parm1, mobjinfo[i].name1)
+                    || (mobjinfo[i].name2[0] && !strcasecmp(parm1, mobjinfo[i].name1))))
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
