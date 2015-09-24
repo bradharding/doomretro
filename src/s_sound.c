@@ -416,6 +416,9 @@ void S_StartNewSound(mobj_t *origin, int sfx_id, int pitch)
     int         volume = snd_SfxVolume;
     int         handle;
 
+    if (nosfx)
+        return;
+
     // Initialize sound parameters
     if (sfx->link)
     {
@@ -504,6 +507,9 @@ void S_ResumeSound(void)
 void S_UpdateSounds(mobj_t *listener)
 {
     int cnum;
+
+    if (nosfx)
+        return;
 
     I_SDL_UpdateSound();
 
