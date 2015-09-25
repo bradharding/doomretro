@@ -818,8 +818,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                 }
 
                 if (!bound)
-                    C_Warning("The %s action can't be bound to %s.", actions[action].action,
-                        controls[i].control);
+                    C_Warning("The %s action can't be bound to %s.", parm2, controls[i].control);
             }
         }
     }
@@ -842,7 +841,8 @@ static void C_Blood(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             r_blood = value;
             P_BloodSplatSpawner = (r_blood == noblood ? P_NullBloodSplatSpawner :
-                (r_bloodsplats_max == unlimited ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
+                (r_bloodsplats_max == r_bloodsplats_max_max ? P_SpawnBloodSplat :
+                P_SpawnBloodSplat2));
             M_SaveCVARs();
         }
     }
@@ -1770,8 +1770,8 @@ static void C_MapList(char *cmd, char *parm1, char *parm2, char *parm3)
                     }
                     else
                         M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced
-                            && dehcount == 1 && !nerve ? "  -" : (bfgedition ? *mapnames2_bfg[map]
-                            : *mapnames2[map])), (modifiedgame && !nerve ? wad : ""));
+                            && dehcount == 1 && !nerve ? "-" : (bfgedition ? *mapnames2_bfg[map] :
+                            *mapnames2[map])), (modifiedgame && !nerve ? wad : ""));
                 break;
             case pack_nerve:
                 if (!strcasecmp(wad, "nerve.wad"))
@@ -2007,7 +2007,7 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2, char *parm3)
 
             if (!r_bloodsplats_max)
                 P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-            else if (r_bloodsplats_max == unlimited)
+            else if (r_bloodsplats_max == r_bloodsplats_max_max)
                 P_BloodSplatSpawner = P_SpawnBloodSplat;
             else
                 P_BloodSplatSpawner = P_SpawnBloodSplat2;

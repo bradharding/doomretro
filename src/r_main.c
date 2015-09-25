@@ -296,16 +296,16 @@ angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
     else if (nangle > oangle)
     {
         if (nangle - oangle < ANG270)
-            return oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale));
-        else // Wrapped around
-            return oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale));
+            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));
+        else    // Wrapped around
+            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));
     }
-    else // nangle < oangle
+    else        // nangle < oangle
     {
         if (oangle - nangle < ANG270)
-            return oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale));
-        else // Wrapped around
-            return oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale));
+            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));
+        else    // Wrapped around
+            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));
     }
 }
 
@@ -334,7 +334,7 @@ static void R_InitPointToAngle(void)
     for (i = 0; i <= SLOPERANGE; i++)
     {
         float   f = atanf((float)i / SLOPERANGE) / ((float)M_PI * 2);
-        long    t = (long)(0xffffffff * f);
+        long    t = (long)(0xFFFFFFFF * f);
 
         // this used to have PI (as defined above) written out longhand
         tantoangle[i] = t;
@@ -452,8 +452,8 @@ void R_InitLightTables(void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-dboolean setsizeneeded;
-int     setblocks;
+dboolean        setsizeneeded;
+int             setblocks;
 
 void R_SetViewSize(int blocks)
 {

@@ -120,10 +120,9 @@ typedef enum
 #define r_blood_default                         allbloodcolors
 #define r_blood_max                             allbloodcolors
 
-#define unlimited                               32768
 #define r_bloodsplats_max_min                   0
-#define r_bloodsplats_max_default               unlimited
-#define r_bloodsplats_max_max                   unlimited
+#define r_bloodsplats_max_default               32768
+#define r_bloodsplats_max_max                   32768
 
 #define r_bloodsplats_total_min                 0
 #define r_bloodsplats_total_default             0
