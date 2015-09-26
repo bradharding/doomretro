@@ -665,13 +665,13 @@ void M_LoadCVARs(char *filename)
     configfile = strdup(filename);
 
     // read the file in, overriding any set defaults
-    file = fopen(filename, "r");
-
     if (!file)
     {
-        C_Output("%s not found. Using defaults for all CVARs and creating %s.",
-            uppercase(filename), uppercase(PACKAGE_CONFIG));
-        M_CheckCVARs();
+        if (runcount)
+            C_Output("%s wasn't found. Using the defaults for all CVARs and recreating %s.",
+                uppercase(filename), uppercase(PACKAGE_CONFIG));
+        else
+            C_Output("Created %s.", uppercase(filename));
         return;
     }
 
