@@ -900,10 +900,7 @@ dboolean C_ValidateInput(char *input)
 
     while (consolecmds[i].name[0])
     {
-        char        cmd[256] = "";
-        char        parm1[256] = "";
-        char        parm2[256] = "";
-        char        parm3[256] = "";
+        char    cmd[256] = "";
 
         if (consolecmds[i].type == CT_CHEAT)
         {
@@ -938,6 +935,10 @@ dboolean C_ValidateInput(char *input)
         }
         else
         {
+            char        parm1[256] = "";
+            char        parm2[256] = "";
+            char        parm3[256] = "";
+
             sscanf(input, "%255s %255s %255s %255s", cmd, parm1, parm2, parm3);
             C_StripQuotes(parm1);
             C_StripQuotes(parm2);

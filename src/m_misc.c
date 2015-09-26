@@ -128,10 +128,12 @@ dboolean M_StringCopy(char *dest, char *src, size_t dest_size)
 char *M_ExtractFolder(char *path)
 {
     char        *pos;
-    char        *folder = (char *)malloc(MAX_PATH);
+    char        *folder;
 
     if (!path[0])
         return "";
+
+    folder = (char *)malloc(MAX_PATH);
 
     M_StringCopy(folder, path, MAX_PATH);
 
@@ -456,10 +458,11 @@ char *titlecase(char *str)
 {
     char        *newstr = strdup(str);
     size_t      len = strlen(newstr);
-    size_t      i;
 
     if (len > 1)
     {
+        size_t  i;
+
         newstr[0] = toupper(newstr[0]);
         for (i = 1; i < len; ++i)
             if (!isalnum((unsigned char)newstr[i - 1]) && isalnum((unsigned char)newstr[i]))
