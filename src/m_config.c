@@ -665,6 +665,8 @@ void M_LoadCVARs(char *filename)
     configfile = strdup(filename);
 
     // read the file in, overriding any set defaults
+    file = fopen(filename, "r");
+
     if (!file)
     {
         if (runcount)
