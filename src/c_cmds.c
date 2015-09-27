@@ -1756,7 +1756,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2, char *parm3)
             case doom:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
-                        (replaced && dehcount == 1 ? "-" : *mapnames[ep * 9 + map]),
+                        (replaced && dehcount == 1 ? "-" : titlecase(*mapnames[ep * 9 + map])),
                         (modifiedgame ? wad : ""));
                 break;
             case doom2:
@@ -1770,23 +1770,24 @@ static void C_MapList(char *cmd, char *parm1, char *parm2, char *parm3)
                     }
                     else
                         M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced
-                            && dehcount == 1 && !nerve ? "-" : (bfgedition ? *mapnames2_bfg[map] :
-                            *mapnames2[map])), (modifiedgame && !nerve ? wad : ""));
+                            && dehcount == 1 && !nerve ? "-" : titlecase(bfgedition ?
+                            *mapnames2_bfg[map] : *mapnames2[map])), (modifiedgame && !nerve ?
+                            wad : ""));
                 break;
             case pack_nerve:
                 if (!strcasecmp(wad, "nerve.wad"))
-                    M_snprintf(maplist[count++], 256, "%s\t%s", lump, *mapnamesn[map]);
+                    M_snprintf(maplist[count++], 256, "%s\t%s", lump, titlecase(*mapnamesn[map]));
                 break;
             case pack_plut:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
-                        (replaced && dehcount == 1 ? "-" : *mapnamesp[map]),
+                        (replaced && dehcount == 1 ? "-" : titlecase(*mapnamesp[map])),
                         (modifiedgame ? wad : ""));
                 break;
             case pack_tnt:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
-                        (replaced && dehcount == 1 ? "-" : *mapnamest[map]),
+                        (replaced && dehcount == 1 ? "-" : titlecase(*mapnamest[map])),
                         (modifiedgame ? wad : ""));
                 break;
         }
