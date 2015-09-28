@@ -625,8 +625,8 @@ void G_DoLoadLevel(void)
 
     SDL_SetWindowTitle(window, mapnumandtitle);
 
-    if (automapactive)
-        AM_Start();
+    if (automapactive || mapwindow)
+        AM_Start(automapactive);
 
     if (vid_widescreen || returntowidescreen)
         I_ToggleWidescreen(true);

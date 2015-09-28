@@ -160,11 +160,8 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
                 }
                 else
                 {
-                    int blues = (color1[2] < color1[0] + color1[1] ? 0 :
-                        (color1[2] - (color1[0] + color1[1])) / 2);
-
-                    r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / (100 + blues);
-                    g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / (100 + blues);
+                    r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / 100;
+                    g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / 100;
                     b = ((int)color1[2] * percent + (int)color2[2] * (100 - percent)) / 100;
                 }
                 *(result + (background << 8) + foreground) = FindNearestColor(palette, r, g, b);
@@ -174,11 +171,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int
             for (background = 0; background < 256; ++background)
                 *(result + (background << 8) + foreground) = foreground;
     }
-    if (colors == ALL && percent != ADDITIVE)
-    {
-        *(result + (77 << 8) + 109) = *(result + (109 << 8) + 77) = 77;
-        *(result + (78 << 8) + 109) = *(result + (109 << 8) + 78) = 109;
-    }
+
     return result;
 }
 

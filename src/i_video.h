@@ -80,6 +80,7 @@ void I_FinishUpdate_Shake(void);
 void I_FinishUpdate_Best_Shake(void);
 void I_FinishUpdate_ShowFPS_Shake(void);
 void I_FinishUpdate_Best_ShowFPS_Shake(void);
+void I_FinishAutomapUpdate(void);
 
 void I_ToggleFullscreen(void);
 
@@ -91,40 +92,42 @@ void I_ReadScreen(byte *scr);
 void M_QuitDOOM(int choice);
 void R_SetViewSize(int blocks);
 
-extern dboolean screenvisible;
+extern float            m_acceleration;
+extern int              m_threshold;
 
-extern float    m_acceleration;
-extern int      m_threshold;
+extern dboolean         sendpause;
+extern dboolean         quitting;
+extern int              r_screensize;
 
-extern dboolean sendpause;
-extern dboolean quitting;
-extern int      r_screensize;
+extern int              keydown;
 
-extern int      keydown;
+extern dboolean         idclev;
+extern dboolean         idmus;
+extern dboolean         idbehold;
+extern dboolean         message_clearable;
 
-extern dboolean idclev;
-extern dboolean idmus;
-extern dboolean idbehold;
-extern dboolean message_clearable;
+extern int              gammaindex;
+extern float            r_gamma;
+extern float            gammalevels[GAMMALEVELS];
 
-extern int      gammaindex;
-extern float    r_gamma;
-extern float    gammalevels[GAMMALEVELS];
+extern dboolean         blurred;
+extern dboolean         splashscreen;
+extern dboolean         noinput;
 
-extern dboolean blurred;
-extern dboolean splashscreen;
-extern dboolean noinput;
+extern void             (*updatefunc)(void);
+extern void             (*mapupdatefunc)(void);
 
-extern void(*updatefunc)(void);
+extern dboolean         vid_showfps;
+extern dboolean         wipe;
 
-extern dboolean vid_showfps;
-extern dboolean wipe;
+extern int              windowx;
+extern int              windowy;
+extern int              windowheight;
+extern int              windowwidth;
 
-extern int      windowx;
-extern int      windowy;
-extern int      windowheight;
-extern int      windowwidth;
+extern dboolean         upscaling;
 
-extern dboolean upscaling;
+extern SDL_Window       *mapwindow;
+extern byte             *mapscreen;
 
 #endif

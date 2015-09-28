@@ -66,6 +66,7 @@
 // CVARs
 dboolean                m_novertical = m_novertical_default;
 dboolean                r_hud = r_hud_default;
+dboolean                vid_automapdisplay = vid_automapdisplay_default;
 dboolean                vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
 #if !defined(WIN32)
@@ -92,10 +93,19 @@ static SDL_Surface      *buffer = NULL;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
 
+byte                    *mapscreen = NULL;
+SDL_Window              *mapwindow = NULL;
+static SDL_Renderer     *maprenderer;
+static SDL_Texture      *maptexture = NULL;
+static SDL_Surface      *mapsurface = NULL;
+static SDL_Surface      *mapbuffer = NULL;
+static SDL_Palette      *mappalette;
+
 dboolean                upscaling = false;
 int                     upscaledwidth, upscaledheight;
 
 static int              displayindex;
+static int              am_displayindex;
 static int              numdisplays;
 static SDL_Rect         *displays;
 
@@ -155,6 +165,7 @@ float                   r_gamma = r_gamma_default;
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
 
 void                    (*updatefunc)(void);
+void                    (*mapupdatefunc)(void);
 
 int                     fps = 0;
 
@@ -325,6 +336,13 @@ static void FreeSurfaces(void)
     SDL_DestroyTexture(texture_upscaled);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+
+    SDL_FreePalette(mappalette);
+    SDL_FreeSurface(mapsurface);
+    SDL_FreeSurface(mapbuffer);
+    SDL_DestroyTexture(maptexture);
+    SDL_DestroyRenderer(maprenderer);
+    SDL_DestroyWindow(mapwindow);
 }
 
 void I_ShutdownGraphics(void)
@@ -784,6 +802,21 @@ void I_FinishUpdate_Best_ShowFPS_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
+void I_FinishAutomapUpdate(void)
+{
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+
+    UpdateGrab();
+    
+    SDL_BlitSurface(mapsurface, NULL, mapbuffer, NULL);
+    SDL_UpdateTexture(maptexture, NULL, mapbuffer->pixels, pitch);
+    SDL_RenderClear(maprenderer);
+    SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
+    SDL_RenderPresent(maprenderer);
+}
+
+void nullfunc(void) {}
+
 //
 // I_ReadScreen
 //
@@ -807,6 +840,7 @@ void I_SetPalette(byte *playpal)
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
+    SDL_SetPaletteColors(mappalette, colors, 0, 256);
 }
 
 static void CreateCursors(void)
@@ -818,6 +852,41 @@ static void CreateCursors(void)
 
     // Create an empty cursor
     cursors[0] = SDL_CreateCursor(&empty_cursor_data, &empty_cursor_data, 1, 1, 0, 0);
+}
+
+void I_CreateAutomapWindow(void)
+{
+    mapscreen = NULL;
+
+    if (!vid_automapdisplay || !numdisplays)
+        return;
+
+    am_displayindex = 0;
+    while (am_displayindex == displayindex)
+        am_displayindex++;
+
+    SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
+
+    mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0,
+        (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
+
+    maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE);
+
+    SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
+
+    mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
+    mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
+    SDL_FillRect(mapbuffer, NULL, 0);
+    maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT);
+
+    mappalette = SDL_AllocPalette(256);
+    SDL_SetSurfacePalette(mapsurface, mappalette);
+
+    mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    mapscreen = mapsurface->pixels;
+    mapupdatefunc = I_FinishAutomapUpdate;
 }
 
 void GetWindowPosition(void)
@@ -1138,7 +1207,6 @@ static void SetVideoMode(dboolean output)
     renderer = SDL_CreateRenderer(window, -1, flags);
 
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
     if (output)
     {
@@ -1393,6 +1461,8 @@ void I_InitGraphics(void)
 
     SetVideoMode(true);
 
+    I_CreateAutomapWindow();
+
 #if defined(WIN32)
     I_InitWindows32();
 #endif
@@ -1406,6 +1476,11 @@ void I_InitGraphics(void)
     UpdateFocus();
 
     screens[0] = surface->pixels;
+    if (!mapscreen)
+    {
+        mapscreen = *screens;
+        mapupdatefunc = nullfunc;
+    }
 
     updatefunc = (upscaling ? I_FinishUpdate_Best : I_FinishUpdate);
     updatefunc();

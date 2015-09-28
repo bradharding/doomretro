@@ -208,6 +208,8 @@ typedef enum
 #define skilllevel_default                      sk_medium
 #define skilllevel_max                          sk_nightmare
 
+#define vid_automapdisplay_default              false
+
 #define vid_capfps_default                      false
 
 #define vid_display_min                         1

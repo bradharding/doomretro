@@ -120,6 +120,7 @@ extern unsigned int     stat_itemspickedup;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_secretsrevealed;
 extern unsigned int     stat_time;
+extern dboolean         vid_automapdisplay;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -225,6 +226,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,  NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed, NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_time,            NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_automapdisplay,   BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,          NOALIAS    ),
 #if !defined(WIN32)
@@ -617,6 +619,9 @@ static void M_CheckCVARs(void)
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
 
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
+
+    if (vid_automapdisplay != false && vid_automapdisplay != true)
+        vid_automapdisplay = vid_automapdisplay_default;
 
     if (vid_capfps != false && vid_capfps != true)
         vid_capfps = vid_capfps_default;

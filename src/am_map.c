@@ -477,11 +477,11 @@ void AM_Init(void)
     }
 }
 
-static void AM_initVariables(void)
+static void AM_initVariables(dboolean external)
 {
-    automapactive = true;
+    automapactive = external;
 
-    area = *screens + maparea;
+    area = mapscreen + maparea;
 
     m_paninc.x = m_paninc.y = 0;
     ftom_zoommul = FRACUNIT;
@@ -537,7 +537,7 @@ void AM_Stop(void)
 int     lastlevel = -1;
 int     lastepisode = -1;
 
-void AM_Start(void)
+void AM_Start(dboolean external)
 {
     if (!stopped)
         AM_Stop();
@@ -554,7 +554,7 @@ void AM_Start(void)
         lastlevel = gamemap;
         lastepisode = gameepisode;
     }
-    AM_initVariables();
+    AM_initVariables(external);
 }
 
 //
@@ -729,7 +729,7 @@ dboolean AM_Responder(event_t *ev)
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
-                AM_Start();
+                AM_Start(false);
                 viewactive = false;
                 rc = true;
             }
@@ -1156,7 +1156,7 @@ static void AM_doFollowPlayer(void)
 //
 void AM_Ticker(void)
 {
-    if (!automapactive)
+    if (!automapactive && !mapwindow)
         return;
 
     if (am_followmode)
@@ -1185,7 +1185,7 @@ void AM_Ticker(void)
 //
 static void AM_clearFB(void)
 {
-    memset(*screens, BACKGROUNDCOLOR, maparea);
+    memset(mapscreen, BACKGROUNDCOLOR, maparea);
 }
 
 //
@@ -1240,14 +1240,14 @@ static __inline void _PUTDOT(byte *dot, byte *color)
 static __inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth && y < maparea)
-        _PUTDOT(*screens + y + x, color);
+        _PUTDOT(mapscreen + y + x, color);
 }
 
 static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth)
     {
-        byte    *dot = *screens + y + x;
+        byte    *dot = mapscreen + y + x;
         dboolean top = (y < maparea);
         dboolean bottom = (y < mapbottom);
 
@@ -1265,7 +1265,7 @@ static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     }
     else if (++x < mapwidth)
     {
-        byte    *dot = *screens + y + x;
+        byte    *dot = mapscreen + y + x;
 
         if (y < maparea)
             _PUTDOT(dot, color);
@@ -1278,7 +1278,7 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth && y < maparea)
     {
-        byte    *dot = *screens + y + x;
+        byte    *dot = mapscreen + y + x;
 
         if (*dot != *(tinttab60 + PLAYERCOLOR))
             *dot = *(tinttab60 + (*dot << 8) + PLAYERCOLOR);
@@ -1289,7 +1289,7 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
 static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
-                         void (*putdot)(unsigned int, unsigned int, byte *))
+    void (*putdot)(unsigned int, unsigned int, byte *))
 {
     int dx = x1 - x0;
     int dy = y1 - y0;
@@ -1554,7 +1554,7 @@ static void AM_drawWalls(void)
 
     if (!cheating && !allmap)
     {
-        byte    *dot = *screens;
+        byte    *dot = mapscreen;
 
         while (dot < area)
         {
@@ -1564,8 +1564,8 @@ static void AM_drawWalls(void)
     }
 }
 
-static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
-                                 angle_t angle, byte *color, fixed_t x, fixed_t y)
+static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale, angle_t angle,
+    byte *color, fixed_t x, fixed_t y)
 {
     int i;
 
@@ -1601,7 +1601,7 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
 }
 
 static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
-                                      angle_t angle, byte *color, fixed_t x, fixed_t y)
+    angle_t angle, byte *color, fixed_t x, fixed_t y)
 {
     int i;
 
@@ -1797,7 +1797,7 @@ static void AM_drawMarks(void)
                     if ((unsigned int)fy < mapheight)
                     {
                         char    src = marknums[digit][j];
-                        byte    *dest = *screens + fy * mapwidth + fx;
+                        byte    *dest = mapscreen + fy * mapwidth + fx;
 
                         if (src == '2')
                             *dest = MARKCOLOR;
@@ -1815,7 +1815,7 @@ static void AM_drawMarks(void)
 
 static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
 {
-    byte        *dest = *screens + (y * 2 - 1) * mapwidth + x * 2 - 1;
+    byte        *dest = mapscreen + (y * 2 - 1) * mapwidth + x * 2 - 1;
 
     *dest = *(*dest + color);
     ++dest;

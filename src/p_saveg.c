@@ -2321,8 +2321,8 @@ void P_UnArchiveMap(void)
     automapactive = saveg_read32();
     markpointnum = saveg_read32();
 
-    if (automapactive)
-        AM_Start();
+    if (automapactive || mapwindow)
+        AM_Start(automapactive);
 
     if (markpointnum)
     {

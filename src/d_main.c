@@ -179,11 +179,11 @@ void D_ProcessEvents(void)
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_TITLESCREEN;
 
-extern dboolean setsizeneeded;
-extern dboolean message_on;
-extern int      r_detail;
-extern int      viewheight2;
-extern dboolean loadedgame;
+extern dboolean         setsizeneeded;
+extern dboolean         message_on;
+extern int              r_detail;
+extern int              viewheight2;
+extern dboolean         loadedgame;
 
 void R_ExecuteSetViewSize(void);
 void G_LoadedGameMessage(void);
@@ -253,7 +253,7 @@ void D_Display(void)
         // draw the view directly
         R_RenderPlayerView(&players[0]);
 
-        if (automapactive)
+        if (automapactive || mapwindow)
             AM_Drawer();
 
         // see if the border needs to be initially drawn
@@ -321,6 +321,9 @@ void D_Display(void)
 
         // normal update
         updatefunc();           // page flip or blit buffer
+
+        mapupdatefunc();
+
         return;
     }
 
@@ -347,6 +350,8 @@ void D_Display(void)
 
         M_Drawer();             // menu is drawn even on top of wipes
         updatefunc();           // page flip or blit buffer
+
+        mapupdatefunc();
     }
     while (!done);
 
