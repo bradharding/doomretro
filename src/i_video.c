@@ -840,7 +840,6 @@ void I_SetPalette(byte *playpal)
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
-    SDL_SetPaletteColors(mappalette, colors, 0, 256);
 }
 
 static void CreateCursors(void)
@@ -883,6 +882,7 @@ void I_CreateAutomapWindow(void)
 
     mappalette = SDL_AllocPalette(256);
     SDL_SetSurfacePalette(mapsurface, mappalette);
+    SDL_SetPaletteColors(mappalette, colors, 0, 256);
 
     mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     mapscreen = mapsurface->pixels;
@@ -1472,6 +1472,8 @@ void I_InitGraphics(void)
     SDL_SetWindowTitle(window, PACKAGE_NAME);
 
     I_SetPalette(doompal);
+    if (mappalette)
+        SDL_SetPaletteColors(mappalette, colors, 0, 256);
 
     UpdateFocus();
 
