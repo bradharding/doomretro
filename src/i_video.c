@@ -864,16 +864,16 @@ void I_RestoreFocus(void)
 }
 #endif
 
-void I_CreateExternalAutomap(void)
+void I_CreateExternalAutomap(dboolean output)
 {
     mapscreen = NULL;
 
-    if (!am_external || !numdisplays)
+    if (!am_external || numdisplays == 1)
         return;
 
     am_displayindex = 0;
-    while (am_displayindex == displayindex)
-        am_displayindex++;
+    if (am_displayindex == displayindex)
+        ++am_displayindex;
 
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
@@ -902,6 +902,9 @@ void I_CreateExternalAutomap(void)
     map_rect.h = SCREENHEIGHT - SBARHEIGHT;
 
     I_RestoreFocus();
+
+    if (output)
+        C_Output("Created an external automap on display %i.", am_displayindex + 1);
 }
 
 void I_DestroyExternalAutomap(void)
@@ -1366,7 +1369,7 @@ void I_RestartGraphics(void)
     SetVideoMode(false);
     if (vid_widescreen)
         I_ToggleWidescreen(true);
-    I_CreateExternalAutomap();
+    I_CreateExternalAutomap(false);
 
 #if defined(WIN32)
     I_InitWindows32();
@@ -1491,7 +1494,7 @@ void I_InitGraphics(void)
     SetVideoMode(true);
 
     mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    I_CreateExternalAutomap();
+    I_CreateExternalAutomap(true);
 
 #if defined(WIN32)
     I_InitWindows32();

@@ -1116,9 +1116,7 @@ static void C_External(char *cmd, char *parm1, char *parm2, char *parm3)
     C_Bool(cmd, parm1, "", "");
     if (am_external != am_external_old)
         if (am_external)
-        {
-            I_CreateExternalAutomap();
-        }
+            I_CreateExternalAutomap(false);
         else
             I_DestroyExternalAutomap();
 }
