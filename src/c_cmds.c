@@ -625,7 +625,7 @@ static dboolean C_CheatCondition(char *cmd, char *parm1, char *parm2, char *parm
             && (!BTSX || W_CheckMultipleLumps(lump) > 1));
     }
     else if (!strcasecmp(cmd, cheat_amap.sequence))
-        return automapactive;
+        return (automapactive || mapscreen);
     return false;
 }
 
