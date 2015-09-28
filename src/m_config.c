@@ -57,6 +57,7 @@
 char                    *configfile = PACKAGE_CONFIG;
 
 extern dboolean         am_external;
+extern dboolean         am_followmode;
 extern dboolean         am_grid;
 extern dboolean         am_rotatemode;
 extern dboolean         con_obituaries;
@@ -141,27 +142,25 @@ extern int              pixelwidth;
 extern int              pixelheight;
 extern dboolean         returntowidescreen;
 
-#define CONFIG_VARIABLE_GENERIC(name, type, set) \
-    { #name, &name, type, set }
-
 #define CONFIG_VARIABLE_INT(name, set) \
-    CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT, set)
+    { #name, &name, DEFAULT_INT, set }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set) \
-    CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT_UNSIGNED, set)
+    { #name, &name, DEFAULT_INT_UNSIGNED, set }
 #define CONFIG_VARIABLE_INT_PERCENT(name, set) \
-    CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT_PERCENT, set)
+    { #name, &name, DEFAULT_INT_PERCENT, set }
 #define CONFIG_VARIABLE_FLOAT(name, set) \
-    CONFIG_VARIABLE_GENERIC(name, DEFAULT_FLOAT, set)
+    { #name, &name, DEFAULT_FLOAT, set }
 #define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) \
-    CONFIG_VARIABLE_GENERIC(name, DEFAULT_FLOAT_PERCENT, set)
+    { #name, &name, DEFAULT_FLOAT_PERCENT, set }
 #define CONFIG_VARIABLE_STRING(name, set) \
-    CONFIG_VARIABLE_GENERIC(name, DEFAULT_STRING, set)
+    { #name, &name, DEFAULT_STRING, set }
 #define CONFIG_VARIABLE_OTHER(name, set) \
-    CONFIG_VARIABLE_GENERIC(name, DEFAULT_OTHER, set)
+    { #name, &name, DEFAULT_OTHER, set }
 
 static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_external,          BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_followmode,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_grid,              BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_rotatemode,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,       BOOLALIAS  ),
@@ -468,6 +467,11 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3);
 
 static void M_CheckCVARs(void)
 {
+    if (am_external != false && am_external != true)
+        am_external = am_external_default;
+
+    am_followmode = am_followmode_default;
+
     if (am_grid != false && am_grid != true)
         am_grid = am_grid_default;
 
@@ -619,9 +623,6 @@ static void M_CheckCVARs(void)
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
 
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
-
-    if (am_external != false && am_external != true)
-        am_external = am_external_default;
 
     if (vid_capfps != false && vid_capfps != true)
         vid_capfps = vid_capfps_default;
