@@ -1342,6 +1342,7 @@ void I_RestartGraphics(void)
     SetVideoMode(false);
     if (vid_widescreen)
         I_ToggleWidescreen(true);
+    I_CreateAutomapWindow();
 
 #if defined(WIN32)
     I_InitWindows32();
