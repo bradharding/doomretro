@@ -163,6 +163,7 @@ int                     gammaindex;
 float                   r_gamma = r_gamma_default;
 
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
+SDL_Rect                map_rect = { 0, 0, 0, 0 };
 
 void                    (*updatefunc)(void);
 void                    (*mapupdatefunc)(void);
@@ -806,12 +807,10 @@ void I_FinishAutomapUpdate(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
-    UpdateGrab();
-    
-    SDL_BlitSurface(mapsurface, NULL, mapbuffer, NULL);
-    SDL_UpdateTexture(maptexture, NULL, mapbuffer->pixels, pitch);
+    SDL_BlitSurface(mapsurface, &map_rect, mapbuffer, &map_rect);
+    SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, pitch);
     SDL_RenderClear(maprenderer);
-    SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
+    SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
     SDL_RenderPresent(maprenderer);
 }
 
@@ -872,7 +871,7 @@ void I_CreateAutomapWindow(void)
 
     maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE);
 
-    SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
+    SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT);
 
     mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
@@ -887,6 +886,9 @@ void I_CreateAutomapWindow(void)
     mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     mapscreen = mapsurface->pixels;
     mapupdatefunc = I_FinishAutomapUpdate;
+
+    map_rect.w = SCREENWIDTH;
+    map_rect.h = SCREENHEIGHT - SBARHEIGHT;
 }
 
 void GetWindowPosition(void)
