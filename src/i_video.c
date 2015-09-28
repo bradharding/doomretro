@@ -84,6 +84,7 @@ char                    *vid_windowposition = vid_windowposition_default;
 dboolean                manuallypositioning = false;
 
 SDL_Window              *window = NULL;
+int                     windowid = 0;
 SDL_Renderer            *renderer;
 static SDL_Texture      *texture = NULL;
 static SDL_Texture      *texture_upscaled = NULL;
@@ -340,12 +341,7 @@ static void FreeSurfaces(void)
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    SDL_FreePalette(mappalette);
-    SDL_FreeSurface(mapsurface);
-    SDL_FreeSurface(mapbuffer);
-    SDL_DestroyTexture(maptexture);
-    SDL_DestroyRenderer(maprenderer);
-    SDL_DestroyWindow(mapwindow);
+    I_DestroyExternalAutomap();
 }
 
 void I_ShutdownGraphics(void)
@@ -513,52 +509,54 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_WINDOWEVENT:
-                switch (Event->window.event)
-                {
-                    case SDL_WINDOWEVENT_FOCUS_GAINED:
-                    case SDL_WINDOWEVENT_FOCUS_LOST:
-                        // need to update our focus state
-                        UpdateFocus();
-                        break;
+                if (Event->window.windowID == windowid)
+                    switch (Event->window.event)
+                    {
+                        case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        case SDL_WINDOWEVENT_FOCUS_LOST:
+                            // need to update our focus state
+                            UpdateFocus();
+                            break;
 
-                    case SDL_WINDOWEVENT_EXPOSED:
-                        SDL_SetPaletteColors(palette, colors, 0, 256);
-                        break;
+                        case SDL_WINDOWEVENT_EXPOSED:
+                            SDL_SetPaletteColors(palette, colors, 0, 256);
+                            break;
 
-                    case SDL_WINDOWEVENT_SIZE_CHANGED:
-                        if (!vid_fullscreen)
-                        {
-                            char        buffer[16] = "";
+                        case SDL_WINDOWEVENT_SIZE_CHANGED:
+                            if (!vid_fullscreen)
+                            {
+                                char        buffer[16] = "";
 
-                            windowwidth = Event->window.data1;
-                            windowheight = Event->window.data2;
-                            M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
-                            vid_windowsize = strdup(buffer);
-                            M_SaveCVARs();
+                                windowwidth = Event->window.data1;
+                                windowheight = Event->window.data2;
+                                M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth,
+                                    windowheight);
+                                vid_windowsize = strdup(buffer);
+                                M_SaveCVARs();
 
-                            displaywidth = windowwidth;
-                            displayheight = windowheight;
-                            displaycenterx = displaywidth / 2;
-                            displaycentery = displayheight / 2;
-                        }
-                        break;
+                                displaywidth = windowwidth;
+                                displayheight = windowheight;
+                                displaycenterx = displaywidth / 2;
+                                displaycentery = displayheight / 2;
+                            }
+                            break;
 
-                    case SDL_WINDOWEVENT_MOVED:
-                        if (!vid_fullscreen && !manuallypositioning)
-                        {
-                            char        buffer[16] = "";
+                        case SDL_WINDOWEVENT_MOVED:
+                            if (!vid_fullscreen && !manuallypositioning)
+                            {
+                                char        buffer[16] = "";
 
-                            windowx = Event->window.data1;
-                            windowy = Event->window.data2;
-                            M_snprintf(buffer, sizeof(buffer), "(%i,%i)", windowx, windowy);
-                            vid_windowposition = strdup(buffer);
+                                windowx = Event->window.data1;
+                                windowy = Event->window.data2;
+                                M_snprintf(buffer, sizeof(buffer), "(%i,%i)", windowx, windowy);
+                                vid_windowposition = strdup(buffer);
 
-                            vid_display = SDL_GetWindowDisplayIndex(window) + 1;
-                            M_SaveCVARs();
-                        }
-                        manuallypositioning = false;
-                        break;
-                }
+                                vid_display = SDL_GetWindowDisplayIndex(window) + 1;
+                                M_SaveCVARs();
+                            }
+                            manuallypositioning = false;
+                            break;
+                    }
                 break;
 
             default:
@@ -854,7 +852,19 @@ static void CreateCursors(void)
     cursors[0] = SDL_CreateCursor(&empty_cursor_data, &empty_cursor_data, 1, 1, 0, 0);
 }
 
-void I_CreateAutomapWindow(void)
+#if defined(WIN32)
+void I_RestoreFocus(void)
+{
+    SDL_SysWMinfo       info;
+
+    SDL_VERSION(&info.version);
+
+    SDL_GetWindowWMInfo(window, &info);
+    SetFocus(info.info.win.window);
+}
+#endif
+
+void I_CreateExternalAutomap(void)
 {
     mapscreen = NULL;
 
@@ -885,12 +895,24 @@ void I_CreateAutomapWindow(void)
     SDL_SetSurfacePalette(mapsurface, mappalette);
     SDL_SetPaletteColors(mappalette, colors, 0, 256);
 
-    mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     mapscreen = mapsurface->pixels;
     mapupdatefunc = I_FinishAutomapUpdate;
 
     map_rect.w = SCREENWIDTH;
     map_rect.h = SCREENHEIGHT - SBARHEIGHT;
+
+    I_RestoreFocus();
+}
+
+void I_DestroyExternalAutomap(void)
+{
+    SDL_FreePalette(mappalette);
+    SDL_FreeSurface(mapsurface);
+    SDL_FreeSurface(mapbuffer);
+    SDL_DestroyTexture(maptexture);
+    SDL_DestroyRenderer(maprenderer);
+    SDL_DestroyWindow(mapwindow);
+    mapupdatefunc = nullfunc;
 }
 
 void GetWindowPosition(void)
@@ -1204,6 +1226,8 @@ static void SetVideoMode(dboolean output)
         GetUpscaledTextureSize(windowwidth, windowheight);
     }
 
+    windowid = SDL_GetWindowID(window);
+
     SDL_GetWindowSize(window, &displaywidth, &displayheight);
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
@@ -1342,7 +1366,7 @@ void I_RestartGraphics(void)
     SetVideoMode(false);
     if (vid_widescreen)
         I_ToggleWidescreen(true);
-    I_CreateAutomapWindow();
+    I_CreateExternalAutomap();
 
 #if defined(WIN32)
     I_InitWindows32();
@@ -1466,7 +1490,8 @@ void I_InitGraphics(void)
 
     SetVideoMode(true);
 
-    I_CreateAutomapWindow();
+    mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    I_CreateExternalAutomap();
 
 #if defined(WIN32)
     I_InitWindows32();

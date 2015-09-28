@@ -356,6 +356,7 @@ static void C_DeadZone(char *, char *, char *, char *);
 static void C_Display(char *, char *, char *, char *);
 static void C_EndGame(char *, char *, char *, char *);
 static void C_ExitMap(char *, char *, char *, char *);
+static void C_External(char *, char *, char *, char *);
 static void C_Float(char *, char *, char *, char *);
 static void C_Fullscreen(char *, char *, char *, char *);
 static void C_Gamma(char *, char *, char *, char *);
@@ -447,7 +448,7 @@ int     numconsolecmds;
 
 consolecmd_t consolecmds[] =
 {
-    CVAR_BOOL (am_external, C_BoolCondition, C_Bool, "Toggles rendering of the automap on an external display."),
+    CVAR_BOOL (am_external, C_BoolCondition, C_External, "Toggles rendering of the automap on an external display."),
     CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, "Toggles follow mode in the automap."),
     CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, "Toggles the grid in the automap."),
     CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, "Toggles rotate mode in the automap."),
@@ -1106,6 +1107,20 @@ static void C_ExitMap(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     G_ExitLevel();
     C_HideConsoleFast();
+}
+
+static void C_External(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    dboolean    am_external_old = am_external;
+
+    C_Bool(cmd, parm1, "", "");
+    if (am_external != am_external_old)
+        if (am_external)
+        {
+            I_CreateExternalAutomap();
+        }
+        else
+            I_DestroyExternalAutomap();
 }
 
 static dboolean C_FloatCondition(char *cmd, char *parm1, char *parm2, char *parm3)

@@ -81,6 +81,8 @@ void I_FinishUpdate_Best_Shake(void);
 void I_FinishUpdate_ShowFPS_Shake(void);
 void I_FinishUpdate_Best_ShowFPS_Shake(void);
 void I_FinishAutomapUpdate(void);
+void I_CreateExternalAutomap(void);
+void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(void);
 
