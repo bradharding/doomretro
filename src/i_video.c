@@ -66,7 +66,6 @@
 // CVARs
 dboolean                m_novertical = m_novertical_default;
 dboolean                r_hud = r_hud_default;
-dboolean                vid_automapdisplay = vid_automapdisplay_default;
 dboolean                vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
 #if !defined(WIN32)
@@ -183,6 +182,9 @@ int                     m_threshold = m_threshold_default;
 
 int                     capslock;
 dboolean                pm_alwaysrun = pm_alwaysrun_default;
+
+
+extern dboolean         am_external;
 
 extern int              key_alwaysrun;
 
@@ -856,7 +858,7 @@ void I_CreateAutomapWindow(void)
 {
     mapscreen = NULL;
 
-    if (!vid_automapdisplay || !numdisplays)
+    if (!am_external || !numdisplays)
         return;
 
     am_displayindex = 0;

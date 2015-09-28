@@ -81,6 +81,7 @@
 #define MAPCMDFORMAT    "E~x~M~y~|MAP~xy~"
 #define SPAWNCMDFORMAT  "~monster~|~item~"
 
+extern dboolean         am_external;
 extern dboolean         am_grid;
 extern dboolean         am_rotatemode;
 extern dboolean         con_obituaries;
@@ -149,7 +150,6 @@ extern unsigned int     stat_itemspickedup;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_secretsrevealed;
 extern unsigned int     stat_time;
-extern dboolean         vid_automapdisplay;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -447,6 +447,7 @@ int     numconsolecmds;
 
 consolecmd_t consolecmds[] =
 {
+    CVAR_BOOL (am_external, C_BoolCondition, C_Bool, "Toggles rendering of the automap on an external display."),
     CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, "Toggles follow mode in the automap."),
     CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, "Toggles the grid in the automap."),
     CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, "Toggles rotate mode in the automap."),
@@ -551,7 +552,6 @@ consolecmd_t consolecmds[] =
     CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
     CMD       (thinglist, C_GameCondition, C_ThingList, 0, "", "Shows a list of things in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbinds an action from a control."),
-    CVAR_BOOL (vid_automapdisplay, C_BoolCondition, C_Bool, "Toggles rendering of the automap on a second display."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, NOALIAS, "The display used to render the game."),
 #if !defined(WIN32)

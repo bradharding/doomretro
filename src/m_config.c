@@ -56,6 +56,7 @@
 
 char                    *configfile = PACKAGE_CONFIG;
 
+extern dboolean         am_external;
 extern dboolean         am_grid;
 extern dboolean         am_rotatemode;
 extern dboolean         con_obituaries;
@@ -120,7 +121,6 @@ extern unsigned int     stat_itemspickedup;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_secretsrevealed;
 extern unsigned int     stat_time;
-extern dboolean         vid_automapdisplay;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -161,6 +161,7 @@ extern dboolean         returntowidescreen;
 
 static default_t cvars[] =
 {
+    CONFIG_VARIABLE_INT          (am_external,          BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_grid,              BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_rotatemode,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,       BOOLALIAS  ),
@@ -226,7 +227,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,  NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed, NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_time,            NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_automapdisplay,   BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,          NOALIAS    ),
 #if !defined(WIN32)
@@ -620,8 +620,8 @@ static void M_CheckCVARs(void)
 
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
 
-    if (vid_automapdisplay != false && vid_automapdisplay != true)
-        vid_automapdisplay = vid_automapdisplay_default;
+    if (am_external != false && am_external != true)
+        am_external = am_external_default;
 
     if (vid_capfps != false && vid_capfps != true)
         vid_capfps = vid_capfps_default;

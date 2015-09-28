@@ -52,6 +52,8 @@ typedef enum
     high
 } r_detail_values_e;
 
+#define am_external_default                     false
+
 #define am_followmode_default                   true
 
 #define am_grid_default                         false
@@ -207,8 +209,6 @@ typedef enum
 #define skilllevel_min                          sk_baby
 #define skilllevel_default                      sk_medium
 #define skilllevel_max                          sk_nightmare
-
-#define vid_automapdisplay_default              false
 
 #define vid_capfps_default                      false
 
