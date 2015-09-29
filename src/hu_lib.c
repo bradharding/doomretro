@@ -39,6 +39,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "am_map.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -131,7 +132,7 @@ static struct
     { 0,   0,     0 }
 };
 
-void HUlib_drawTextLine(hu_textline_t *l)
+void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 {
     int                 i;
     int                 w = 0;
@@ -139,6 +140,8 @@ void HUlib_drawTextLine(hu_textline_t *l)
     int                 x, y;
     int                 xx, yy;
     static char         prev = '\0';
+    byte                *fb1 = (external ? mapscreen : screens[0]);
+    byte                *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
 
     // draw the new stuff
     x = l->x;
@@ -241,8 +244,8 @@ void HUlib_drawTextLine(hu_textline_t *l)
         {
             int         dot = yy * SCREENWIDTH + xx;
             byte        *source = &tempscreen[dot];
-            byte        *dest1 = &screens[0][dot];
-            byte        *dest2 = &screens[r_screensize < 7 && !automapactive][dot];
+            byte        *dest1 = &fb1[dot];
+            byte        *dest2 = &fb2[dot];
 
             if (!*source)
                 *dest1 = (r_translucency ? tinttab50[*dest2] : 0);
@@ -345,7 +348,7 @@ void HUlib_drawSText(hu_stext_t *s)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        HUlib_drawTextLine(l); // no cursor, please
+        HUlib_drawTextLine(l, false); // no cursor, please
     }
 }
 

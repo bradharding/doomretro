@@ -108,7 +108,7 @@ void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
 dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch);
 
 // draws text line
-void HUlib_drawTextLine(hu_textline_t *l);
+void HUlib_drawTextLine(hu_textline_t *l, dboolean external);
 
 // erases text line
 void HUlib_eraseTextLine(hu_textline_t *l);

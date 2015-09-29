@@ -541,12 +541,18 @@ void HU_Drawer(void)
     {
         w_title.x = HU_TITLEX;
         w_title.y = HU_TITLEY;
-        HUlib_drawTextLine(&w_title);
+        HUlib_drawTextLine(&w_title, false);
     }
-    else if ((vid_widescreen || r_screensize == r_screensize_max) && r_hud)
+    else
     {
-        hud_y = (vid_widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
-        HU_DrawHUD();
+        if ((vid_widescreen || r_screensize == r_screensize_max) && r_hud)
+        {
+            hud_y = (vid_widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
+            HU_DrawHUD();
+        }
+
+        if (mapwindow)
+            HUlib_drawTextLine(&w_title, true);
     }
 
     if (drawdisk)
