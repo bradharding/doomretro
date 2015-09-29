@@ -505,7 +505,8 @@ dboolean ST_Responder(event_t *ev)
                     HU_PlayerMessage(s_STSTR_DQDON, false);
 
                     // [BH] always display message
-                    message_dontfuckwithme = true;
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
 
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
@@ -520,7 +521,8 @@ dboolean ST_Responder(event_t *ev)
                     HU_PlayerMessage(s_STSTR_DQDOFF, false);
 
                     // [BH] always display message
-                    message_dontfuckwithme = true;
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
 
                     // [BH] restore player's health
                     plyr->health = plyr->mo->health = oldhealth;
@@ -586,7 +588,8 @@ dboolean ST_Responder(event_t *ev)
                     HU_PlayerMessage(s_STSTR_FAADDED, false);
 
                     // [BH] always display message
-                    message_dontfuckwithme = true;
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
 
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
@@ -645,7 +648,8 @@ dboolean ST_Responder(event_t *ev)
                     HU_PlayerMessage(s_STSTR_KFAADDED, false);
 
                     // [BH] always display message
-                    message_dontfuckwithme = true;
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
 
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
@@ -694,7 +698,8 @@ dboolean ST_Responder(event_t *ev)
                             HU_PlayerMessage(msg, false);
 
                             // [BH] always display message
-                            message_dontfuckwithme = true;
+                            if (!consoleactive)
+                                message_dontfuckwithme = true;
 
                             // [BH] play sound
                             S_StartSound(NULL, sfx_getpow);
@@ -720,7 +725,8 @@ dboolean ST_Responder(event_t *ev)
                     false);
 
                 // [BH] always display message
-                message_dontfuckwithme = true;
+                if (!consoleactive)
+                    message_dontfuckwithme = true;
 
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);
@@ -746,7 +752,8 @@ dboolean ST_Responder(event_t *ev)
                     false);
 
                 // [BH] always display message
-                message_dontfuckwithme = true;
+                if (!consoleactive)
+                    message_dontfuckwithme = true;
 
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);
@@ -860,7 +867,8 @@ dboolean ST_Responder(event_t *ev)
                     cheatkey = '\0';
 
                     // [BH] always display message
-                    message_dontfuckwithme = true;
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
 
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
@@ -917,7 +925,8 @@ dboolean ST_Responder(event_t *ev)
                     HU_PlayerMessage(s_STSTR_CHOPPERS, false);
 
                     // [BH] always display message
-                    message_dontfuckwithme = true;
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
 
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
@@ -1045,7 +1054,8 @@ dboolean ST_Responder(event_t *ev)
 
                     // [BH] always display message
                     plyr->message = message;
-                    message_dontfuckwithme = true;
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
 
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
