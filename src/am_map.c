@@ -1184,7 +1184,7 @@ void AM_Ticker(void)
 //
 // Clear automap frame buffer.
 //
-static void AM_clearFB(void)
+void AM_clearFB(void)
 {
     memset(mapscreen, BACKGROUNDCOLOR, maparea);
 }

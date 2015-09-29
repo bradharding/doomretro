@@ -64,6 +64,7 @@ void AM_Ticker(void);
 // Called by main loop,
 // called instead of view drawer if automap active.
 void AM_Drawer(void);
+void AM_clearFB(void);
 
 void AM_Start(dboolean mainwindow);
 

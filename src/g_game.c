@@ -1279,6 +1279,8 @@ void G_DoCompleted(void)
 
     if (automapactive)
         AM_Stop();
+    else if (mapwindow)
+        AM_clearFB();
 
     if (chex)
     {

@@ -505,6 +505,9 @@ void D_StartTitle(int page)
     gameaction = ga_nothing;
     titlesequence = page;
 
+    if (mapwindow)
+        AM_clearFB();
+
     D_AdvanceTitle();
 }
 
