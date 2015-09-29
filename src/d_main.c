@@ -808,7 +808,7 @@ static int D_ChooseIWAD(void)
                 if (W_AddFile(fullpath, true))
                 {
                     iwadfound = 1;
-                    iwadfolder = strdup(M_ExtractFolder(file));
+                    iwadfolder = strdup(M_ExtractFolder(fullpath));
                     D_CheckSupportedPWAD(file);
                     if (W_MergeFile(file, false))
                     {
@@ -938,7 +938,7 @@ static int D_ChooseIWAD(void)
                             iwadfound = 1;
                             sharewareiwad = !strcasecmp(iwadpass, "DOOM1.WAD");
                             isDOOM2 = !strcasecmp(iwadpass, "DOOM2.WAD");
-                            iwadfolder = strdup(szFile);
+                            iwadfolder = strdup(fullpath);
                             break;
                         }
                     }
@@ -1043,7 +1043,7 @@ static int D_ChooseIWAD(void)
                             if (W_AddFile(fullpath2, true))
                             {
                                 iwadfound = 1;
-                                iwadfolder = strdup(M_ExtractFolder(pwadpass1));
+                                iwadfolder = strdup(M_ExtractFolder(fullpath2));
                             }
                             else
                             {
