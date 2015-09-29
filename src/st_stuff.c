@@ -965,7 +965,8 @@ dboolean ST_Responder(event_t *ev)
                 players[0].cheated++;
             }
 
-            else if ((automapactive || mapscreen) && cht_CheckCheat(&cheat_amap, ev->data2))
+            else if ((automapactive || mapscreen != *screens)
+                && cht_CheckCheat(&cheat_amap, ev->data2))
             {
               if (plyr->cheats & CF_ALLMAP)
               {

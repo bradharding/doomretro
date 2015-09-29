@@ -478,9 +478,9 @@ void AM_Init(void)
     }
 }
 
-static void AM_initVariables(dboolean external)
+static void AM_initVariables(dboolean mainwindow)
 {
-    automapactive = external;
+    automapactive = mainwindow;
 
     area = mapscreen + maparea;
 
@@ -538,7 +538,7 @@ void AM_Stop(void)
 int     lastlevel = -1;
 int     lastepisode = -1;
 
-void AM_Start(dboolean external)
+void AM_Start(dboolean mainwindow)
 {
     if (!stopped)
         AM_Stop();
@@ -555,7 +555,7 @@ void AM_Start(dboolean external)
         lastlevel = gamemap;
         lastepisode = gameepisode;
     }
-    AM_initVariables(external);
+    AM_initVariables(mainwindow);
 }
 
 //
@@ -730,7 +730,7 @@ dboolean AM_Responder(event_t *ev)
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
-                AM_Start(false);
+                AM_Start(true);
                 viewactive = false;
                 rc = true;
             }

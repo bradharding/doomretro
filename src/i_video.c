@@ -909,12 +909,13 @@ void I_CreateExternalAutomap(dboolean output)
 
 void I_DestroyExternalAutomap(void)
 {
-    SDL_FreePalette(mappalette);
     SDL_FreeSurface(mapsurface);
+    SDL_FreePalette(mappalette);
     SDL_FreeSurface(mapbuffer);
     SDL_DestroyTexture(maptexture);
     SDL_DestroyRenderer(maprenderer);
     SDL_DestroyWindow(mapwindow);
+    mapscreen = *screens;
     mapupdatefunc = nullfunc;
 }
 

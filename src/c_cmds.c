@@ -43,6 +43,7 @@
 #include <XInput.h>
 #endif
 
+#include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
@@ -632,7 +633,7 @@ static dboolean cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
             && (!BTSX || W_CheckMultipleLumps(lump) > 1));
     }
     else if (!strcasecmp(cmd, cheat_amap.sequence))
-        return (automapactive || mapscreen);
+        return (automapactive || mapscreen != *screens);
     return false;
 }
 
@@ -2213,9 +2214,15 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
     bool_cvars_func2(cmd, parm1, "", "");
     if (am_external != am_external_old)
         if (am_external)
+        {
             I_CreateExternalAutomap(false);
+            AM_Start(false);
+        }
         else
+        {
             I_DestroyExternalAutomap();
+            AM_Stop();
+        }
 }
 
 //
