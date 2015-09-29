@@ -717,7 +717,7 @@ dboolean G_Responder(event_t *ev)
     {
         if (ST_Responder(ev))
             return true;        // status window ate it
-        if (mapscreen == *screens)
+        if (!mapwindow)
             if (AM_Responder(ev))
                 return true;    // automap ate it
     }
