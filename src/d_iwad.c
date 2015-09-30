@@ -312,9 +312,12 @@ dboolean D_CheckFilename(char *path, char *filename)
     size_t      path_len = strlen(path);
     size_t      filename_len = strlen(filename);
 
-    return (path_len >= filename_len + 1
-            && path[path_len - filename_len - 1] == DIR_SEPARATOR
-            && !strcasecmp(&path[path_len - filename_len], filename));
+    if (!strcasecmp(path, filename))
+        return true;
+
+    return (path_len >= filename_len + 1 && (path[path_len - filename_len - 1] == '\\'
+        || path[path_len - filename_len - 1] == '/') && !strcasecmp(&path[path_len - filename_len],
+        filename));
 }
 
 // When given an IWAD with the '-iwad' parameter,
