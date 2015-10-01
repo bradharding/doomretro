@@ -866,10 +866,10 @@ void I_RestoreFocus(void)
 
 void I_CreateExternalAutomap(dboolean output)
 {
-    mapscreen = NULL;
-
     if (!am_external || numdisplays == 1)
         return;
+
+    mapscreen = NULL;
 
     am_displayindex = 0;
     if (am_displayindex == displayindex)
