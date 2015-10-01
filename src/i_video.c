@@ -93,7 +93,7 @@ static SDL_Surface      *buffer = NULL;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
 
-byte                    *mapscreen = NULL;
+byte                    *mapscreen;
 SDL_Window              *mapwindow = NULL;
 static SDL_Renderer     *maprenderer;
 static SDL_Texture      *maptexture = NULL;
@@ -1512,7 +1512,7 @@ void I_InitGraphics(void)
     UpdateFocus();
 
     screens[0] = surface->pixels;
-    if (!mapscreen)
+    if (!mapwindow)
     {
         mapscreen = *screens;
         mapupdatefunc = nullfunc;
