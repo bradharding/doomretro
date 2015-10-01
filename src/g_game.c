@@ -1557,7 +1557,7 @@ void G_LoadedGameMessage(void)
 
     if (savedescription[0])
     {
-        M_snprintf(buffer, sizeof(buffer), s_GGLOADED, savedescription);
+        M_snprintf(buffer, sizeof(buffer), s_GGLOADED, titlecase(savedescription));
         HU_PlayerMessage(buffer, false);
         message_dontfuckwithme = true;
     }
@@ -1621,7 +1621,7 @@ void G_DoSaveGame(void)
         C_Output("%s saved.", uppercase(savename));
     else
     {
-        M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
+        M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
         HU_PlayerMessage(buffer, false);
         message_dontfuckwithme = true;
         S_StartSound(NULL, sfx_swtchx);
