@@ -46,6 +46,5 @@ void D_SetSaveGameFolder(void);
 void D_IdentifyVersion(void);
 void D_SetGameDescription(void);
 void IdentifyIWADByName(char *name);
-dboolean D_CheckFilename(char *path, char *filename);
 
 #endif

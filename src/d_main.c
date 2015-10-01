@@ -593,22 +593,22 @@ static void LoadCfgFile(char *path)
 
 static dboolean D_IsDOOMIWAD(char *filename)
 {
-    return (D_CheckFilename(filename, "DOOM.WAD")
-        || D_CheckFilename(filename, "DOOM1.WAD")
-        || D_CheckFilename(filename, "DOOM2.WAD")
-        || D_CheckFilename(filename, "PLUTONIA.WAD")
-        || D_CheckFilename(filename, "TNT.WAD")
-        || (hacx = D_CheckFilename(filename, "HACX.WAD")));
+    return (!strcasecmp(leafname(filename), "DOOM.WAD")
+        || !strcasecmp(leafname(filename), "DOOM1.WAD")
+        || !strcasecmp(leafname(filename), "DOOM2.WAD")
+        || !strcasecmp(leafname(filename), "PLUTONIA.WAD")
+        || !strcasecmp(leafname(filename), "TNT.WAD")
+        || (hacx = !strcasecmp(leafname(filename), "HACX.WAD")));
 }
 
 static dboolean D_IsUnsupportedIWAD(char *filename)
 {
-    return (D_CheckFilename(filename, "HERETIC1.WAD")
-        || D_CheckFilename(filename, "HERETIC.WAD")
-        || D_CheckFilename(filename, "HEXEN.WAD")
-        || D_CheckFilename(filename, "HEXDD.WAD")
-        || D_CheckFilename(filename, "STRIFE0.WAD")
-        || D_CheckFilename(filename, "STRIFE1.WAD"));
+    return (!strcasecmp(leafname(filename), "HERETIC1.WAD")
+        || !strcasecmp(leafname(filename), "HERETIC.WAD")
+        || !strcasecmp(leafname(filename), "HEXEN.WAD")
+        || !strcasecmp(leafname(filename), "HEXDD.WAD")
+        || !strcasecmp(leafname(filename), "STRIFE0.WAD")
+        || !strcasecmp(leafname(filename), "STRIFE1.WAD"));
 }
 
 static dboolean D_IsCfgFile(char *filename)
@@ -624,28 +624,28 @@ static dboolean D_IsDehFile(char *filename)
 
 static void D_CheckSupportedPWAD(char *filename)
 {
-    if (D_CheckFilename(filename, "NERVE.WAD"))
+    if (!strcasecmp(leafname(filename), "NERVE.WAD"))
     {
         nerve = true;
         expansion = 1;
     }
-    else if (D_CheckFilename(filename, "CHEX.WAD"))
+    else if (!strcasecmp(leafname(filename), "CHEX.WAD"))
         chex = true;
-    else if (D_CheckFilename(filename, "BTSX_E1.WAD"))
+    else if (!strcasecmp(leafname(filename), "BTSX_E1.WAD"))
         BTSX = BTSXE1 = true;
-    else if (D_CheckFilename(filename, "BTSX_E2A.WAD"))
+    else if (!strcasecmp(leafname(filename), "BTSX_E2A.WAD"))
         BTSX = BTSXE2 = BTSXE2A = true;
-    else if (D_CheckFilename(filename, "BTSX_E2B.WAD"))
+    else if (!strcasecmp(leafname(filename), "BTSX_E2B.WAD"))
         BTSX = BTSXE2 = BTSXE2B = true;
-    else if (D_CheckFilename(filename, "BTSX_E3A.WAD"))
+    else if (!strcasecmp(leafname(filename), "BTSX_E3A.WAD"))
         BTSX = BTSXE3 = BTSXE3A = true;
-    else if (D_CheckFilename(filename, "BTSX_E3B.WAD"))
+    else if (!strcasecmp(leafname(filename), "BTSX_E3B.WAD"))
         BTSX = BTSXE3 = BTSXE3B = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (D_CheckFilename(filename, "VOICES.WAD"));
+    return (!strcasecmp(leafname(filename), "VOICES.WAD"));
 }
 
 #if defined(__MACOSX__)
@@ -778,7 +778,7 @@ static int D_ChooseIWAD(void)
                     iwadfolder = strdup(M_ExtractFolder(file));
 
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    if (D_CheckFilename(file, "DOOM2.WAD"))
+                    if (!strcasecmp(leafname(file), "DOOM2.WAD"))
                     {
                         static char     fullpath[MAX_PATH];
 

@@ -241,7 +241,7 @@ void P_InitPicAnims(void)
     {
         int     lump = R_CheckFlatNumForName(exception[i].texture);
 
-        if (lump >= 0 && !strcasecmp(M_ExtractFilename(lumpinfo[firstflat + lump]->wad_file->path),
+        if (lump >= 0 && !strcasecmp(leafname(lumpinfo[firstflat + lump]->wad_file->path),
             exception[i].pwad))
             isliquid[lump] = false;
         ++i;

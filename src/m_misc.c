@@ -442,7 +442,7 @@ char *M_SubString(const char *str, size_t begin, size_t len)
     return strndup(str + begin, len);
 }
 
-char *uppercase(char *str)
+char *uppercase(const char *str)
 {
     char        *newstr;
     char        *p;
@@ -454,7 +454,7 @@ char *uppercase(char *str)
     return newstr;
 }
 
-char *titlecase(char *str)
+char *titlecase(const char *str)
 {
     char        *newstr = strdup(str);
     size_t      len = strlen(newstr);
@@ -582,25 +582,19 @@ char *makevalidfilename(const char *input)
     return newstr;
 }
 
-char *M_ExtractFilename(char *path)
+const char *leafname(const char *path)
 {
-    size_t      len;
-    char        *pdest;
-    char        *inpfile = NULL;
+    char        cc;
+    const char  *ptr = path;
 
-    pdest = strrchr(path, '\\');
+    do
+    {
+        cc = *ptr++;
+        if (cc == '\\' || cc == '/')
+            path = ptr;
+    } while (cc);
 
-    if (!pdest)
-        pdest = strrchr(path, '/');
-    if (!pdest)
-        pdest = path;
-    else
-        pdest++;
-
-    len = strlen(pdest);
-    inpfile = malloc(len + 1);
-    strncpy(inpfile, pdest, len + 1);
-    return inpfile;
+    return path;
 }
 
 dboolean isvowel(const char ch)

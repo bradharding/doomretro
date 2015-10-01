@@ -305,21 +305,6 @@ static struct
     { "HACX.WAD",     doom2      }
 };
 
-// Returns true if the specified path is a path to a file
-// of the specified name.
-dboolean D_CheckFilename(char *path, char *filename)
-{
-    size_t      path_len = strlen(path);
-    size_t      filename_len = strlen(filename);
-
-    if (!strcasecmp(path, filename))
-        return true;
-
-    return (path_len >= filename_len + 1 && (path[path_len - filename_len - 1] == '\\'
-        || path[path_len - filename_len - 1] == '/') && !strcasecmp(&path[path_len - filename_len],
-        filename));
-}
-
 // When given an IWAD with the '-iwad' parameter,
 // attempt to identify it by its name.
 void IdentifyIWADByName(char *name)
@@ -436,7 +421,7 @@ char *D_FindWADByName(char *name)
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
         // the "directory" may actually refer directly to an IWAD
         // file.
-        if (D_CheckFilename(iwad_dirs[i], name) && M_FileExists(iwad_dirs[i]))
+        if (!strcasecmp(leafname(iwad_dirs[i]), name) && M_FileExists(iwad_dirs[i]))
             return strdup(iwad_dirs[i]);
 
         // Construct a string for the full path
@@ -617,10 +602,10 @@ void D_SetGameDescription(void)
         if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
         else if (W_CheckMultipleLumps("TITLEPIC") > 1)
-            gamedescription = uppercase(M_ExtractFilename(
+            gamedescription = uppercase(leafname(
                 lumpinfo[W_GetNumForName("TITLEPIC")]->wad_file->path));
         else if (W_CheckMultipleLumps("M_DOOM") > 1)
-            gamedescription = uppercase(M_ExtractFilename(
+            gamedescription = uppercase(leafname(
                 lumpinfo[W_GetNumForName("M_DOOM")]->wad_file->path));
         else if (gamemode == retail)
             gamedescription = s_CAPTION_ULTIMATE;
@@ -642,10 +627,10 @@ void D_SetGameDescription(void)
         else if (nerve)
             gamedescription = s_CAPTION_DOOM2;
         else if (W_CheckMultipleLumps("TITLEPIC") > 1)
-            gamedescription = uppercase(M_ExtractFilename(
+            gamedescription = uppercase(leafname(
                 lumpinfo[W_GetNumForName("TITLEPIC")]->wad_file->path));
         else if (W_CheckMultipleLumps("M_DOOM") > 1)
-            gamedescription = uppercase(M_ExtractFilename(
+            gamedescription = uppercase(leafname(
                 lumpinfo[W_GetNumForName("M_DOOM")]->wad_file->path));
         else if (gamemission == doom2)
             gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH, NULL);
