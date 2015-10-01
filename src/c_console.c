@@ -41,7 +41,6 @@
 
 #if defined(WIN32)
 #include <windows.h>
-#include <psapi.h>
 #endif
 
 #include "c_cmds.h"
@@ -65,10 +64,6 @@
 #include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
-
-#if defined(WIN32)
-#pragma comment(lib, "psapi.lib")
-#endif
 
 #define CONSOLESPEED            (CONSOLEHEIGHT / 12)
 
