@@ -284,6 +284,7 @@ int                     keydown;
 int                     direction;
 
 int                     teleporters[24];
+int                     numteleporters;
 
 am_frame_t              am_frame;
 
@@ -468,6 +469,7 @@ void AM_Init(void)
         teleporters[20] = R_CheckFlatNumForName("SHNPRT13");
         teleporters[21] = R_CheckFlatNumForName("SHNPRT14");
         teleporters[22] = R_CheckFlatNumForName("SLIME08");
+        numteleporters = 23;
     }
     else
     {
@@ -475,6 +477,7 @@ void AM_Init(void)
         teleporters[1] = R_CheckFlatNumForName("GATE2");
         teleporters[2] = R_CheckFlatNumForName("GATE3");
         teleporters[3] = R_CheckFlatNumForName("GATE4");
+        numteleporters = 4;
     }
 }
 
@@ -1455,7 +1458,7 @@ dboolean isteleport(int floorpic)
 {
     int i;
 
-    for (i = 0; i < arrlen(teleporters); ++i)
+    for (i = 0; i < numteleporters; ++i)
         if (floorpic == teleporters[i])
             return true;
 
