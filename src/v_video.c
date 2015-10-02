@@ -42,6 +42,7 @@
 #endif
 
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -1229,13 +1230,47 @@ extern int              titlesequence;
 extern SDL_Window       *window;
 extern SDL_Renderer     *renderer;
 
+dboolean V_SaveBMP(SDL_Window *window, char *path)
+{
+    SDL_Surface         *surface = SDL_GetWindowSurface(window);
+    SDL_Renderer        *renderer = SDL_GetRenderer(window);
+    dboolean            result = false;
+
+    if (surface)
+    {
+        unsigned char   *pixels = malloc(surface->w * surface->h * surface->format->BytesPerPixel);
+
+        if (pixels)
+        {
+            if (!SDL_RenderReadPixels(renderer, &surface->clip_rect, surface->format->format,
+                pixels, surface->w * surface->format->BytesPerPixel))
+            {
+                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, surface->w,
+                    surface->h, surface->format->BitsPerPixel,
+                    surface->w * surface->format->BytesPerPixel, surface->format->Rmask,
+                    surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
+
+                if (screenshot)
+                {
+                    result = !SDL_SaveBMP(screenshot, path);
+                    SDL_FreeSurface(screenshot);
+                    screenshot = NULL;
+                    free(pixels);
+                    SDL_FreeSurface(surface);
+                    surface = NULL;
+                }
+            }
+        }
+    }
+    return result;
+}
+
 dboolean V_ScreenShot(void)
 {
     dboolean    result = false;
     char        mapname[128];
     char        folder[MAX_PATH] = "";
     int         count = 0;
-    SDL_Surface *surface;
 
 #if defined(WIN32)
     HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
@@ -1275,39 +1310,30 @@ dboolean V_ScreenShot(void)
             M_snprintf(lbmname, sizeof(lbmname), "%s.bmp", makevalidfilename(mapname));
         else
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", makevalidfilename(mapname), count);
-        count++;
+        ++count;
         M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S PACKAGE_NAME, folder);
         M_MakeDirectory(lbmpath);
         M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", lbmpath, lbmname);
     } while (M_FileExists(lbmpath));
 
-    surface = SDL_GetWindowSurface(window);
-    if (surface)
+    result = V_SaveBMP(window, lbmpath);
+
+    if (mapwindow && result && gamestate == GS_LEVEL)
     {
-        unsigned char   *pixels = malloc(surface->w * surface->h * surface->format->BytesPerPixel);
+        C_Output(s_GSCREENSHOT, lbmname);
 
-        if (pixels)
+        do
         {
-            if (!SDL_RenderReadPixels(renderer, &surface->clip_rect, surface->format->format,
-                pixels, surface->w * surface->format->BytesPerPixel))
-            {
-                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, surface->w,
-                    surface->h, surface->format->BitsPerPixel,
-                    surface->w * surface->format->BytesPerPixel, surface->format->Rmask,
-                    surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
+            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", makevalidfilename(mapname), count);
+            ++count;
+            M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S PACKAGE_NAME, folder);
+            M_MakeDirectory(lbmpath);
+            M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", lbmpath, lbmname);
+        } while (M_FileExists(lbmpath));
 
-                if (screenshot)
-                {
-                    result = !SDL_SaveBMP(screenshot, lbmpath);
-                    SDL_FreeSurface(screenshot);
-                    screenshot = NULL;
-                    free(pixels);
-                    SDL_FreeSurface(surface);
-                    surface = NULL;
-                }
-            }
-        }
+        result = V_SaveBMP(mapwindow, lbmpath);
     }
+
     return result;
 }
 
