@@ -97,6 +97,8 @@ int             consoleheight = 0;
 int             consoledirection = -1;
 static int      consolewait = 0;
 
+dboolean        forceblurredraw = false;
+
 patch_t         *unknownchar;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
@@ -568,8 +570,10 @@ static void C_DrawBackground(int height)
 
     height = (height + 5) * SCREENWIDTH;
 
-    if (!blurred)
+    if (!blurred || forceblurredraw)
     {
+        forceblurredraw = false;
+
         for (i = 0; i < height; ++i)
             c_blurredscreen[i] = screens[0][i];
 

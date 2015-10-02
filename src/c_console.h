@@ -78,6 +78,8 @@ extern dboolean         consoleactive;
 extern int              consoleheight;
 extern int              consoledirection;
 
+extern dboolean         forceblurredraw;
+
 extern char             consolecheat[255];
 extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];

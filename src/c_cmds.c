@@ -2219,6 +2219,7 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 
     bool_cvars_func2(cmd, parm1, "", "");
     if (am_external != am_external_old)
+    {
         if (am_external)
         {
             I_CreateExternalAutomap(false);
@@ -2231,6 +2232,8 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
             if (gamestate == GS_LEVEL)
                 AM_Stop();
         }
+        forceblurredraw = true;
+    }
 }
 
 //
