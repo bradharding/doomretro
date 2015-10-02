@@ -1295,7 +1295,7 @@ dboolean V_ScreenShot(void)
             break;
 
         default:
-            M_StringCopy(mapname, (inhelpscreens ? "Help" : maptitle), sizeof(mapname));
+            M_StringCopy(mapname, (inhelpscreens ? "Help" : titlecase(maptitle)), sizeof(mapname));
             break;
     }
 
