@@ -72,5 +72,6 @@ char *removenewlines(const char *input);
 char *makevalidfilename(const char *input);
 const char *leafname(const char *path);
 dboolean isvowel(const char ch);
+char *convertsize(const int size);
 
 #endif

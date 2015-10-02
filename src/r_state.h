@@ -86,30 +86,39 @@ extern int              numspritelumps;
 // Lookup tables for map data.
 //
 extern int              numsprites;
+extern int              sizesprites;
 extern spritedef_t      *sprites;
 
 extern int              numvertexes;
+extern int              sizevertexes;
 extern vertex_t         *vertexes;
 
 extern int              numsegs;
+extern int              sizesegs;
 extern seg_t            *segs;
 
 extern int              numsectors;
+extern int              sizesectors;
 extern sector_t         *sectors;
 
 extern int              numsubsectors;
+extern int              sizesubsectors;
 extern subsector_t      *subsectors;
 
 extern int              numnodes;
+extern int              sizenodes;
 extern node_t           *nodes;
 
 extern int              numlines;
+extern int              sizelines;
 extern line_t           *lines;
 
 extern int              numsides;
+extern int              sizesides;
 extern side_t           *sides;
 
 extern int              numthings;
+extern int              sizethings;
 
 typedef enum
 {

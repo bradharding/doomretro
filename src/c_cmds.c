@@ -1654,7 +1654,7 @@ char *authors[][6] =
 
 static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
 
     C_TabbedOutput(tabs, "Title\t%s", mapnumandtitle);
 
@@ -1675,27 +1675,33 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
         i = W_CheckNumForName(lumpname);
         C_TabbedOutput(tabs, "%s\t%s", (lumpinfo[i]->wad_file->type == IWAD ? "IWAD" : "PWAD"),
-            uppercase(lumpinfo[i]->wad_file->path));
+            uppercase(leafname(lumpinfo[i]->wad_file->path)));
     }
+
+    C_TabbedOutput(tabs, "Things\t%s\t%s", commify(numthings), convertsize(sizethings));
+
+    C_TabbedOutput(tabs, "Lines\t%s\t%s", commify(numlines), convertsize(sizelines));
+
+    C_TabbedOutput(tabs, "Line specials\t%s-compatible", (boomlinespecials ? "BOOM" : "Vanilla"));
+
+    C_TabbedOutput(tabs, "Sides\t%s\t%s", commify(numsides), convertsize(sizesides));
+
+    C_TabbedOutput(tabs, "Vertices\t%s\t%s", commify(numvertexes), convertsize(sizevertexes));
+
+    C_TabbedOutput(tabs, "Segments\t%s\t%s", commify(numsegs), convertsize(sizesegs));
+
+    C_TabbedOutput(tabs, "Subsectors\t%s\t%s", commify(numsubsectors), convertsize(sizesubsectors));
+
+    C_TabbedOutput(tabs, "Nodes\t%s\t%s", commify(numnodes), convertsize(sizenodes));
 
     C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :
         (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
             "ZDoom uncompressed extended nodes")));
 
+    C_TabbedOutput(tabs, "Sectors\t%s\t%s", commify(numsectors), convertsize(sizesectors));
+
     if (blockmaprecreated)
         C_TabbedOutput(tabs, "Blockmap\tRecreated");
-
-    C_TabbedOutput(tabs, "Total vertices\t%s", commify(numvertexes));
-
-    C_TabbedOutput(tabs, "Total sides\t%s", commify(numsides));
-
-    C_TabbedOutput(tabs, "Total lines\t%s", commify(numlines));
-
-    C_TabbedOutput(tabs, "Line specials\t%s-compatible", (boomlinespecials ? "BOOM" : "Vanilla"));
-
-    C_TabbedOutput(tabs, "Total sectors\t%s", commify(numsectors));
-
-    C_TabbedOutput(tabs, "Total things\t%s", commify(numthings));
 
     {
         int i, min_x = INT_MAX, max_x = INT_MIN, min_y = INT_MAX, max_y = INT_MIN;

@@ -61,27 +61,35 @@ void P_SpawnMapThing(mapthing_t *mthing, int index);
 // Store VERTEXES, LINEDEFS, SIDEDEFS, etc.
 //
 int             numvertexes;
+int             sizevertexes;
 vertex_t        *vertexes;
 
 int             numsegs;
+int             sizesegs;
 seg_t           *segs;
 
 int             numsectors;
+int             sizesectors;
 sector_t        *sectors;
 
 int             numsubsectors;
+int             sizesubsectors;
 subsector_t     *subsectors;
 
 int             numnodes;
+int             sizenodes;
 node_t          *nodes;
 
 int             numlines;
+int             sizelines;
 line_t          *lines;
 
 int             numsides;
+int             sizesides;
 side_t          *sides;
 
 int             numthings;
+int             sizethings;
 
 // BLOCKMAP
 // Created from axis aligned bounding box
@@ -175,7 +183,8 @@ void P_LoadVertexes(int lump)
 
     // Determine number of lumps:
     //  total lump length / vertex record length.
-    numvertexes = W_LumpLength(lump) / sizeof(mapvertex_t);
+    sizevertexes = W_LumpLength(lump);
+    numvertexes = sizevertexes / sizeof(mapvertex_t);
 
     // Allocate zone memory for buffer.
     vertexes = calloc_IfSameLevel(vertexes, numvertexes, sizeof(vertex_t));
@@ -228,7 +237,8 @@ void P_LoadSegs(int lump)
     const mapseg_t      *data;
     int                 i;
 
-    numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
+    sizesegs = W_LumpLength(lump);
+    numsegs = sizesegs / sizeof(mapseg_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
     data = (const mapseg_t *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -381,7 +391,8 @@ static void P_LoadSegs_V4(int lump)
     const mapseg_v4_t   *data;
     int                 i;
 
-    numsegs = W_LumpLength(lump) / sizeof(mapseg_v4_t);
+    sizesegs = W_LumpLength(lump);
+    numsegs = sizesegs / sizeof(mapseg_v4_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
     data = (const mapseg_v4_t *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -490,7 +501,8 @@ void P_LoadSubsectors(int lump)
     const mapsubsector_t        *data;
     int                         i;
 
-    numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
+    sizesubsectors = W_LumpLength(lump);
+    numsubsectors = sizesubsectors / sizeof(mapsubsector_t);
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
     data = (const mapsubsector_t *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -511,7 +523,8 @@ static void P_LoadSubsectors_V4(int lump)
     const mapsubsector_v4_t     *data;
     int                         i;
 
-    numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_v4_t);
+    sizesubsectors = W_LumpLength(lump);
+    numsubsectors = sizesubsectors / sizeof(mapsubsector_v4_t);
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
     data = (const mapsubsector_v4_t *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -535,7 +548,8 @@ void P_LoadSectors(int lump)
     const byte  *data;
     int         i;
 
-    numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
+    sizesectors = W_LumpLength(lump);
+    numsectors = sizesectors / sizeof(mapsector_t);
     sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -608,7 +622,8 @@ void P_LoadNodes(int lump)
     const byte  *data;
     int         i;
 
-    numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
+    sizenodes = W_LumpLength(lump);
+    numnodes = sizenodes / sizeof(mapnode_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -666,7 +681,8 @@ static void P_LoadNodes_V4(int lump)
     const byte  *data;
     int         i;
 
-    numnodes = (W_LumpLength(lump) - 8) / sizeof(mapnode_v4_t);
+    sizenodes = W_LumpLength(lump);
+    numnodes = (sizenodes - 8) / sizeof(mapnode_v4_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
     data = W_CacheLumpNum(lump, PU_STATIC);
 
@@ -912,7 +928,8 @@ void P_LoadThings(int lump)
     const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump, PU_STATIC);
     int                 i;
 
-    numthings = W_LumpLength(lump) / sizeof(mapthing_t);
+    sizethings = W_LumpLength(lump);
+    numthings = sizethings / sizeof(mapthing_t);
 
     srand(numthings);
 
@@ -1005,7 +1022,8 @@ static void P_LoadLineDefs(int lump)
     const byte  *data = W_CacheLumpNum(lump, PU_STATIC);
     int         i;
 
-    numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
+    sizelines = W_LumpLength(lump);
+    numlines = sizelines / sizeof(maplinedef_t);
     lines = calloc_IfSameLevel(lines, numlines, sizeof(line_t));
 
     for (i = 0; i < numlines; i++)
@@ -1141,7 +1159,8 @@ static void P_LoadLineDefs2(int lump)
 // killough 4/4/98: split into two functions
 static void P_LoadSideDefs(int lump)
 {
-    numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
+    sizesides = W_LumpLength(lump);
+    numsides = sizesides / sizeof(mapsidedef_t);
     sides = calloc_IfSameLevel(sides, numsides, sizeof(side_t));
 }
 

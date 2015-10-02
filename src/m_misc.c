@@ -601,3 +601,26 @@ dboolean isvowel(const char ch)
 {
     return (!!strchr("aeiou", ch));
 }
+
+static const char       *sizes[] = { "MB", "KB", " bytes" };
+
+char *convertsize(const int size)
+{
+    char        *result = (char *)malloc(sizeof(char) * 20);
+    int         multiplier = 1024ULL * 1024ULL;
+    int         i;
+
+    for (i = 0; i < sizeof(sizes) / sizeof(*sizes); i++, multiplier /= 1024)
+    {
+        if (size < multiplier)
+            continue;
+        if (!(size % multiplier))
+            sprintf(result, "%s%s", commify(size / multiplier), sizes[i]);
+        else
+            sprintf(result, "%.2f%s", (float)size / multiplier, sizes[i]);
+        return result;
+    }
+    strcpy(result, "0");
+
+    return result;
+}
