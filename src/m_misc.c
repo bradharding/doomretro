@@ -576,7 +576,7 @@ char *makevalidfilename(const char *input)
     size_t      i;
 
     for (i = 0; i < len; ++i)
-        if (strchr("\\/,:?\"<>|", newstr[i]))
+        if (strchr("\\/:?\"<>|", newstr[i]))
             newstr[i] = ' ';
 
     return newstr;
