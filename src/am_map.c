@@ -1535,7 +1535,7 @@ static void AM_drawWalls(void)
                 }
                 if (!backsector || (secret && !cheating))
                     AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor :
-                    (allmap ? allmapwallcolor : maskcolor)));
+                        (allmap ? allmapwallcolor : maskcolor)));
                 else if (backsector->floorheight != frontsector->floorheight)
                 {
                     if (mapped || cheating)
@@ -1729,7 +1729,7 @@ static void AM_drawThings(void)
     }
 }
 
-const char *marknums[10] =
+static const char *marknums[10] =
 {
     "011111101122221112222221122112211221122112211221"
     "122112211221122112211221122222211122221101111110",
@@ -1850,19 +1850,21 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
-    int angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
-
-    am_frame.sin = finesine[angle];
-    am_frame.cos = finecosine[angle];
-
-    am_frame.centerx = m_x + m_w / 2;
-    am_frame.centery = m_y + m_h / 2;
-
     if (am_rotatemode)
     {
-        float   dx = (float)(m_x2 - am_frame.centerx);
-        float   dy = (float)(m_y2 - am_frame.centery);
-        fixed_t r = (fixed_t)sqrt(dx * dx + dy * dy);
+        int     angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
+        float   dx, dy;
+        fixed_t r;
+
+        am_frame.sin = finesine[angle];
+        am_frame.cos = finecosine[angle];
+
+        am_frame.centerx = m_x + m_w / 2;
+        am_frame.centery = m_y + m_h / 2;
+
+        dx = (float)(m_x2 - am_frame.centerx);
+        dy = (float)(m_y2 - am_frame.centery);
+        r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.bbox[BOXLEFT] = am_frame.centerx - r;
         am_frame.bbox[BOXRIGHT] = am_frame.centerx + r;
