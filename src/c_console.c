@@ -918,7 +918,7 @@ dboolean C_ValidateInput(char *input)
 
                     if (!strcasecmp(cmd, consolecmds[i].name)
                         && length == strlen(cmd) + 2
-                        && consolecmds[i].condition(cmd, consolecheatparm, "", ""))
+                        && consolecmds[i].func1(cmd, consolecheatparm, "", ""))
                     {
                         M_StringCopy(consolecheat, cmd, 255);
                         return true;
@@ -926,7 +926,7 @@ dboolean C_ValidateInput(char *input)
                 }
             }
             else if (!strcasecmp(input, consolecmds[i].name)
-                && consolecmds[i].condition(input, "", "", ""))
+                && consolecmds[i].func1(input, "", "", ""))
             {
                 M_StringCopy(consolecheat, input, 255);
                 return true;
@@ -943,10 +943,10 @@ dboolean C_ValidateInput(char *input)
             C_StripQuotes(parm2);
             C_StripQuotes(parm3);
             if (!strcasecmp(cmd, consolecmds[i].name)
-                && consolecmds[i].condition(cmd, parm1, parm2, parm3))
+                && consolecmds[i].func1(cmd, parm1, parm2, parm3))
             {
                 C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
-                consolecmds[i].function(cmd, parm1, parm2, parm3);
+                consolecmds[i].func2(cmd, parm1, parm2, parm3);
                 return true;
             }
         }
