@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <memory.h>
-
 #include "d_main.h"
 #include "m_argv.h"
 #include "m_menu.h"
@@ -78,12 +76,6 @@ int             ticdup;
 // Send this many extra (backup) tics in each packet.
 int             extratics;
 
-// 35 fps clock
-static int GetTime(void)
-{
-    return (I_GetTimeMS() * TICRATE) / 1000;
-}
-
 //
 // NetUpdate
 // Builds ticcmds for console player,
@@ -99,7 +91,7 @@ void NetUpdate(void)
     int         gameticdiv;
 
     // check time
-    nowtime = GetTime() / ticdup;
+    nowtime = I_GetTime() / ticdup;
     newtics = nowtime - lasttime;
 
     lasttime = nowtime;
@@ -147,7 +139,7 @@ void NetUpdate(void)
 //
 void D_StartGameLoop(void)
 {
-    lasttime = GetTime() / ticdup;
+    lasttime = I_GetTime() / ticdup;
 }
 
 //
@@ -205,7 +197,7 @@ void TryRunTics(void)
         NetUpdate();
 
         // Still no tics to run? Sleep until some are available.
-        if (maketic < gametic/ticdup + counts)
+        if (maketic < gametic / ticdup + counts)
         {
             // If we're in a netgame, we might spin forever waiting for
             // new network data to be received. So don't stay in here

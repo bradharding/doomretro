@@ -44,7 +44,7 @@
 // I_GetTime
 // returns time in 1/35th second tics
 //
-static Uint32 basetime = 0;
+static Uint32   basetime = 0;
 
 int I_GetTime(void)
 {
