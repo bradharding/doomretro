@@ -1921,7 +1921,6 @@ void P_UnArchiveThinkers(void)
 
                     ++r_bloodsplats_total;
                 }
-
                 break;
 
             default:

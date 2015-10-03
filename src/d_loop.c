@@ -123,7 +123,6 @@ void NetUpdate(void)
         if (maketic - gameticdiv >= 5)
             break;
 
-        memset(&cmd, 0, sizeof(ticcmd_t));
         G_BuildTiccmd(&cmd);
 
         netcmds[maketic % BACKUPTICS] = cmd;
