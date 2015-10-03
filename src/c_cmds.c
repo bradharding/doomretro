@@ -2272,10 +2272,9 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
         }
         M_SaveCVARs();
     }
-    else if (!strcasecmp(cmd, stringize(gp_deadzone_left)))
-        C_Output("%s %s%%", cmd, striptrailingzero(gp_deadzone_left, 1));
     else
-        C_Output("%s %s%%", cmd, striptrailingzero(gp_deadzone_right, 1));
+        C_Output("%s%%", striptrailingzero((!strcasecmp(cmd, stringize(gp_deadzone_left)) ?
+            gp_deadzone_left : gp_deadzone_right), 1));
 }
 
 //
