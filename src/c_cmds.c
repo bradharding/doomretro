@@ -2152,6 +2152,8 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     M_SaveCVARs();
                 }
             }
+            else if (consolecmds[i].flags & CF_PERCENT)
+                C_Output("%i%%", *(int *)consolecmds[i].variable);
             else
                 C_Output(C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                     consolecmds[i].aliases));
