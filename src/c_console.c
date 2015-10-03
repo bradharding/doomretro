@@ -945,7 +945,7 @@ dboolean C_ValidateInput(char *input)
             if (!strcasecmp(cmd, consolecmds[i].name)
                 && consolecmds[i].condition(cmd, parm1, parm2, parm3))
             {
-                C_Input(input);
+                C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
                 consolecmds[i].function(cmd, parm1, parm2, parm3);
                 return true;
             }
