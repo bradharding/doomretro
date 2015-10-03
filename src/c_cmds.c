@@ -74,13 +74,14 @@
 #include "z_zone.h"
 
 #if !defined(MAX_PATH)
-#define MAX_PATH        260
+#define MAX_PATH                260
 #endif
 
-#define GIVECMDFORMAT   "ammo|armor|backpack|health|keys|weapons|all|~item~"
-#define KILLCMDFORMAT   "player|all|~monster~"
-#define MAPCMDFORMAT    "E~x~M~y~|MAP~xy~"
-#define SPAWNCMDFORMAT  "~monster~|~item~"
+#define GIVECMDSHORTFORMAT      "~items~"
+#define GIVECMDLONGFORMAT       "ammo|armor|health|keys|weapons|all|~item~"
+#define KILLCMDFORMAT           "player|all|~monster~"
+#define MAPCMDFORMAT            "E~x~M~y~|MAP~xy~"
+#define SPAWNCMDFORMAT          "~monster~|~item~"
 
 extern dboolean         am_external;
 extern dboolean         am_grid;
@@ -459,10 +460,10 @@ consolecmd_t consolecmds[] =
     CMD       (endgame, game_func1, endgame_cmd_func2, 0, "", "Ends a game."),
     CMD       (exit, null_func1, quit_cmd_func2, 0, "", ""),
     CMD       (exitmap, game_func1, exitmap_cmd_func2, 0, "", "Exits the current map."),
-    CMD       (give, give_cmd_func1, give_cmd_func2, 1, "~items~", "Gives items to the player."),
+    CMD       (give, give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT, "Gives items to the player."),
     CMD       (god, god_cmd_func1, god_cmd_func2, 1, "[on|off]", "Toggles god mode."),
     CMD       (help, null_func1, help_cmd_func2, 0, "", "Shows the help screen."),
-    CMD       (kill, kill_cmd_func1, kill_cmd_func2, 1, "[all|~type~]", "Kills the player, all monsters or a type of monster."),
+    CMD       (kill, kill_cmd_func1, kill_cmd_func2, 1, KILLCMDFORMAT, "Kills the player, all monsters or a type of monster."),
     CMD       (load, load_cmd_func1, load_cmd_func2, 1, "~filename~.save", "Loads a game from a file."),
     CMD       (map, map_cmd_func1, map_cmd_func2, 1, MAPCMDFORMAT, "Warps to a map."),
     CMD       (maplist, null_func1, maplist_cmd_func2, 0, "", "Shows a list of the available maps."),
@@ -1050,7 +1051,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
 
     if (!parm[0])
-        C_Output("%s %s", cmd, GIVECMDFORMAT);
+        C_Output("%s %s", cmd, GIVECMDLONGFORMAT);
     else
     {
         player_t    *player = &players[0];
