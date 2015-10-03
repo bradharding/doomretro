@@ -807,7 +807,7 @@ void I_FinishAutomapUpdate(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
-    SDL_BlitSurface(mapsurface, &map_rect, mapbuffer, &map_rect);
+    SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, pitch);
     SDL_RenderClear(maprenderer);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
