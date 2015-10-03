@@ -1905,33 +1905,22 @@ void P_UnArchiveThinkers(void)
                 mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
                 saveg_read_mobj_t(mobj);
 
-                P_SetThingPosition(mobj);
-                mobj->info = &mobjinfo[mobj->type];
-
-                if (mobj->blood == FUZZYBLOOD)
+                if (r_bloodsplats_total < r_bloodsplats_max)
                 {
-                    mobj->flags = MF_FUZZ;
-                    mobj->colfunc = fuzzcolfunc;
-                }
-                else
-                    mobj->colfunc = bloodsplatcolfunc;
-                mobj->projectfunc = R_ProjectBloodSplat;
+                    P_SetThingPosition(mobj);
+                    mobj->info = &mobjinfo[mobj->type];
 
-                if (r_bloodsplats_max < r_bloodsplats_max_max)
-                {
-                    if (r_bloodsplats_total > r_bloodsplats_max)
+                    if (mobj->blood == FUZZYBLOOD)
                     {
-                        mobj_t      *oldsplat = bloodsplats[r_bloodsplats_total % r_bloodsplats_max];
-
-                        if (oldsplat)
-                            P_UnsetThingPosition(oldsplat);
+                        mobj->flags = MF_FUZZ;
+                        mobj->colfunc = fuzzcolfunc;
                     }
+                    else
+                        mobj->colfunc = bloodsplatcolfunc;
+                    mobj->projectfunc = R_ProjectBloodSplat;
 
-                    bloodsplats[r_bloodsplats_total++ % r_bloodsplats_max] = mobj;
-
-                }
-                else
                     ++r_bloodsplats_total;
+                }
 
                 break;
 
