@@ -794,18 +794,11 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     vissprite_t         *vis;
 
-    fixed_t             fx = thing->x;
-    fixed_t             fy = thing->y;
-    fixed_t             fz = thing->subsector->sector->interpfloorheight;
-
-    int                 flags = thing->flags;
-    int                 flags2 = thing->flags2;
-
     fixed_t             width;
 
     // transform the origin point
-    fixed_t             tr_x = fx - viewx;
-    fixed_t             tr_y = fy - viewy;
+    fixed_t             tr_x = thing->x - viewx;
+    fixed_t             tr_y = thing->y - viewy;
 
     fixed_t             gxt = FixedMul(tr_x, viewcos);
     fixed_t             gyt = -FixedMul(tr_y, viewsin);
@@ -850,23 +843,16 @@ void R_ProjectBloodSplat(mobj_t *thing)
     // store information in a vissprite
     vis = R_NewVisSprite(VST_BLOODSPLAT);
 
-    vis->heightsec = -1;
-    vis->mobjflags = flags;
-    vis->mobjflags2 = flags2;
     vis->type = MT_BLOODSPLAT;
     vis->scale = xscale;
-    vis->gx = fx;
-    vis->gy = fy;
-    vis->gz = fz;
-    vis->gzt = fz + 1;
     vis->blood = thing->blood;
 
-    if ((flags & MF_FUZZ) && (menuactive || paused || consoleactive))
+    if ((thing->flags & MF_FUZZ) && (menuactive || paused || consoleactive))
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = thing->colfunc;
 
-    vis->texturemid = fz + 1 - viewz;
+    vis->texturemid = thing->subsector->sector->interpfloorheight + 1 - viewz;
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
@@ -974,7 +960,6 @@ void R_ProjectShadow(mobj_t *thing)
     // store information in a vissprite
     vis = R_NewVisSprite(VST_SHADOW);
 
-    vis->heightsec = -1;
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
     vis->type = MT_SHADOW;
@@ -1023,11 +1008,11 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         for (thing = sec->thinglist; thing; thing = thing->snext)
         {
             if (thing->type != MT_SHADOW)
-                thing->projectfunc((mobj_t *)thing);
+                thing->projectfunc(thing);
         }
     else
         for (thing = sec->thinglist; thing; thing = thing->snext)
-            thing->projectfunc((mobj_t *)thing);
+            thing->projectfunc(thing);
 }
 
 //
