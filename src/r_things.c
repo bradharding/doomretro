@@ -300,10 +300,16 @@ static void R_InitSpriteDefs(const char *const *namelist)
 // GAME FUNCTIONS
 //
 
-static vissprite_t      *vissprites[NUMVISSPRITETYPES];
-static vissprite_t      **vissprite_ptrs;
-static int              num_vissprite[NUMVISSPRITETYPES];
-static int              num_vissprite_alloc[NUMVISSPRITETYPES];
+static vissprite_t      vissprites[NUMVISSPRITES];
+static vissprite_t      bloodvissprites[NUMVISSPRITES];
+static vissprite_t      shadowvissprites[NUMVISSPRITES];
+
+static vissprite_t      *vissprite_ptrs[NUMVISSPRITES];
+
+static int              num_vissprite;
+static int              num_bloodvissprite;
+static int              num_shadowvissprite;
+
 static int              num_vissprite_ptrs;
 
 //
@@ -326,25 +332,9 @@ void R_InitSprites(char **namelist)
 //
 void R_ClearSprites(void)
 {
-    int i;
-
-    for (i = 0; i < NUMVISSPRITETYPES; ++i)
-        num_vissprite[i] = 0;
-}
-
-//
-// R_NewVisSprite
-//
-vissprite_t *R_NewVisSprite(visspritetype_t type)
-{
-    if (num_vissprite[type] >= num_vissprite_alloc[type])
-    {
-        num_vissprite_alloc[type] = (num_vissprite_alloc[type] ?
-            num_vissprite_alloc[type] * 2 : 128);
-        vissprites[type] = Z_Realloc(vissprites[type],
-            num_vissprite_alloc[type] * sizeof(*vissprites[type]));
-    }
-    return (vissprites[type] + num_vissprite[type]++);
+    num_vissprite = 0;
+    num_bloodvissprite = 0;
+    num_shadowvissprite = 0;
 }
 
 //
@@ -715,7 +705,9 @@ void R_ProjectSprite(mobj_t *thing)
     }
 
     // store information in a vissprite
-    vis = R_NewVisSprite(VST_THING);
+    vis = &vissprites[num_vissprite];
+    vissprite_ptrs[num_vissprite] = vissprites + num_vissprite;
+    ++num_vissprite;
 
     // killough 3/27/98: save sector for special clipping later
     vis->heightsec = heightsec;
@@ -794,11 +786,15 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     vissprite_t         *vis;
 
+    fixed_t             fx = thing->x;
+    fixed_t             fy = thing->y;
+    fixed_t             fz;
+
     fixed_t             width;
 
     // transform the origin point
-    fixed_t             tr_x = thing->x - viewx;
-    fixed_t             tr_y = thing->y - viewy;
+    fixed_t             tr_x = fx - viewx;
+    fixed_t             tr_y = fy - viewy;
 
     fixed_t             gxt = FixedMul(tr_x, viewcos);
     fixed_t             gyt = -FixedMul(tr_y, viewsin);
@@ -841,10 +837,15 @@ void R_ProjectBloodSplat(mobj_t *thing)
         return;
 
     // store information in a vissprite
-    vis = R_NewVisSprite(VST_BLOODSPLAT);
+    vis = &bloodvissprites[num_bloodvissprite++];
 
     vis->type = MT_BLOODSPLAT;
     vis->scale = xscale;
+    vis->gx = fx;
+    vis->gy = fy;
+    fz = thing->subsector->sector->interpfloorheight;
+    vis->gz = fz;
+    vis->gzt = fz + 1;
     vis->blood = thing->blood;
 
     if ((thing->flags & MF_FUZZ) && (menuactive || paused || consoleactive))
@@ -852,7 +853,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     else
         vis->colfunc = thing->colfunc;
 
-    vis->texturemid = thing->subsector->sector->interpfloorheight + 1 - viewz;
+    vis->texturemid = fz + 1 - viewz;
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
@@ -958,7 +959,7 @@ void R_ProjectShadow(mobj_t *thing)
         return;
 
     // store information in a vissprite
-    vis = R_NewVisSprite(VST_SHADOW);
+    vis = &shadowvissprites[num_shadowvissprite++];
 
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
@@ -1272,27 +1273,10 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
 
 static void R_SortVisSprites(void)
 {
-    if (num_vissprite[VST_THING])
-    {
-        int     i;
-
-        // If we need to allocate more pointers for the vissprites,
-        // allocate as many as were allocated for sprites -- killough
-        // killough 9/22/98: allocate twice as many
-        if (num_vissprite_ptrs < num_vissprite[VST_THING] * 2)
-        {
-            free(vissprite_ptrs);
-            vissprite_ptrs = (vissprite_t **)malloc((num_vissprite_ptrs =
-                num_vissprite_alloc[VST_THING] * 2) * sizeof(*vissprite_ptrs));
-        }
-
-        for (i = num_vissprite[VST_THING]; --i >= 0;)
-            vissprite_ptrs[i] = vissprites[VST_THING] + i;
-
-        // killough 9/22/98: replace qsort with merge sort, since the keys
-        // are roughly in order to begin with, due to BSP rendering.
-        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite[VST_THING], num_vissprite[VST_THING]);
-    }
+    // killough 9/22/98: replace qsort with merge sort, since the keys
+    // are roughly in order to begin with, due to BSP rendering.
+    if (num_vissprite)
+        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
 }
 
 //
@@ -1543,17 +1527,17 @@ void R_DrawMasked(void)
     int         i;
 
     // draw all sprites with MF2_DRAWFIRST flag (blood splats and pools of blood)
-    for (i = num_vissprite[VST_BLOODSPLAT]; --i >= 0;)
-        R_DrawBloodSprite(&vissprites[VST_BLOODSPLAT][i]);
+    for (i = num_bloodvissprite; --i >= 0;)
+        R_DrawBloodSprite(&bloodvissprites[i]);
 
     // draw all shadows
-    for (i = num_vissprite[VST_SHADOW]; --i >= 0;)
-        R_DrawShadowSprite(&vissprites[VST_SHADOW][i]);
+    for (i = num_shadowvissprite; --i >= 0;)
+        R_DrawShadowSprite(&shadowvissprites[i]);
 
     R_SortVisSprites();
 
     // draw all other vissprites, back to front
-    for (i = num_vissprite[VST_THING]; --i >= 0;)
+    for (i = num_vissprite; --i >= 0;)
         R_DrawSprite(vissprite_ptrs[i]);
 
     // render any remaining masked mid textures

@@ -39,13 +39,7 @@
 #if !defined(__R_THINGS__)
 #define __R_THINGS__
 
-typedef enum
-{
-    VST_THING,
-    VST_BLOODSPLAT,
-    VST_SHADOW,
-    NUMVISSPRITETYPES
-} visspritetype_t;
+#define NUMVISSPRITES   0x20000
 
 // Constant arrays used for psprite clipping
 //  and initializing clipping.
