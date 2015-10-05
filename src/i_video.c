@@ -858,17 +858,17 @@ static void CreateCursors(void)
     cursors[0] = SDL_CreateCursor(&empty_cursor_data, &empty_cursor_data, 1, 1, 0, 0);
 }
 
-#if defined(WIN32)
 void I_RestoreFocus(void)
 {
+#if defined(WIN32)
     SDL_SysWMinfo       info;
 
     SDL_VERSION(&info.version);
 
     SDL_GetWindowWMInfo(window, &info);
     SetFocus(info.info.win.window);
-}
 #endif
+}
 
 void I_CreateExternalAutomap(dboolean output)
 {
