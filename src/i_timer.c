@@ -44,16 +44,9 @@
 // I_GetTime
 // returns time in 1/35th second tics
 //
-static Uint32   basetime = 0;
-
 int I_GetTime(void)
 {
-    Uint32      ticks = SDL_GetTicks();
-
-    if (!basetime)
-        basetime = ticks;
-
-    return ((ticks - basetime) * TICRATE) / 1000;
+    return SDL_GetTicks() * TICRATE / 1000;
 }
 
 //
@@ -61,12 +54,7 @@ int I_GetTime(void)
 //
 int I_GetTimeMS(void)
 {
-    Uint32      ticks = SDL_GetTicks();
-
-    if (!basetime)
-        basetime = ticks;
-
-    return (ticks - basetime);
+    return SDL_GetTicks();
 }
 
 //

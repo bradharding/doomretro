@@ -127,8 +127,6 @@ int                     startuptimer;
 
 dboolean                realframe;
 
-void D_CheckNetGame(void);
-
 //
 // EVENT HANDLING
 //
@@ -253,7 +251,7 @@ void D_Display(void)
         // draw the view directly
         R_RenderPlayerView(&players[0]);
 
-        if (automapactive || mapwindow)
+        if ((mapwindow && realframe) || automapactive)
             AM_Drawer();
 
         // see if the border needs to be initially drawn
@@ -1615,8 +1613,6 @@ static void D_DoomMainSetup(void)
     P_Init();
 
     S_Init((int)(sfxVolume * 127.0f / 15.0f), (int)(musicVolume * 127.0f / 15.0f));
-
-    D_CheckNetGame();
 
     HU_Init();
 

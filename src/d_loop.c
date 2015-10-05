@@ -68,10 +68,6 @@ int             maketic;
 // Used for original sync code.
 int             skiptics = 0;
 
-// Reduce the bandwidth needed by sampling game input less and transmitting
-// less. If ticdup is 2, sample half normal, 3 = one third normal, etc.
-int             ticdup;
-
 //
 // NetUpdate
 // Builds ticcmds for console player,
@@ -81,7 +77,6 @@ int             lasttime;
 
 static dboolean BuildNewTic(void)
 {
-    int	        gameticdiv = gametic / ticdup;
     ticcmd_t    cmd;
 
     I_StartTic();
@@ -90,7 +85,7 @@ static dboolean BuildNewTic(void)
     // Always run the menu
     M_Ticker();
 
-    if (maketic - gameticdiv > 2)
+    if (maketic - gametic > 2)
         return false;
 
     G_BuildTiccmd(&cmd);
@@ -104,7 +99,7 @@ static dboolean BuildNewTic(void)
 
 void NetUpdate(void)
 {
-    int nowtime = I_GetTime() / ticdup;
+    int nowtime = I_GetTime();
     int newtics = nowtime - lasttime;
     int i;
 
@@ -134,17 +129,7 @@ void NetUpdate(void)
 //
 void D_StartGameLoop(void)
 {
-    lasttime = I_GetTime() / ticdup;
-}
-
-//
-// D_CheckNetGame
-// Works out player numbers among the net participants
-//
-void D_CheckNetGame(void)
-{
-    // default values for single player
-    ticdup = 1;
+    lasttime = I_GetTime();
 }
 
 //
@@ -157,18 +142,16 @@ void TryRunTics(void)
     int         i;
     int         entertic;
     static int  oldentertics;
-    int         realtics;
     int         counts;
 
     // get real tics
-    entertic = I_GetTime() / ticdup;
-    realtics = entertic - oldentertics;
+    entertic = I_GetTime();
     oldentertics = entertic;
 
     // get available tics
     NetUpdate();
 
-    counts = maketic - gametic / ticdup;
+    counts = maketic - gametic;
 
     if (!counts && !vid_capfps)
         return;
@@ -177,43 +160,36 @@ void TryRunTics(void)
         counts = 1;
 
     // wait for new tics if needed
-    while (maketic < gametic / ticdup + counts)
+    while (maketic < gametic + counts)
     {
         NetUpdate();
 
         // Still no tics to run? Sleep until some are available.
-        if (maketic < gametic / ticdup + counts)
+        if (maketic < gametic + counts)
         {
             // If we're in a netgame, we might spin forever waiting for
             // new network data to be received. So don't stay in here
             // forever - give the menu a chance to work.
-            if (I_GetTime() / ticdup - entertic >= MAX_NETGAME_STALL_TICS)
+            if (I_GetTime() - entertic >= MAX_NETGAME_STALL_TICS)
                 return;
 
             I_Sleep(1);
         }
     }
 
-    // run the count * ticdup tics
+    // run the count tics
     while (counts--)
     {
-        for (i = 0; i < ticdup; i++)
-        {
-            if (advancetitle)
-                D_DoAdvanceTitle();
+        if (advancetitle)
+            D_DoAdvanceTitle();
 
-            G_Ticker();
-            gametic++;
-            gametime++;
+        G_Ticker();
+        gametic++;
+        gametime++;
 
-            // modify command for duplicated tics
-            {
-                ticcmd_t    *cmd = &netcmds[0];
+        if (netcmds[0].buttons & BT_SPECIAL)
+            netcmds[0].buttons = 0;
 
-                if (cmd->buttons & BT_SPECIAL)
-                    cmd->buttons = 0;
-            }
-        }
         NetUpdate();
     }
 }

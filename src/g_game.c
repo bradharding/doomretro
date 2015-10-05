@@ -356,7 +356,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // use two stage accelerative turning
     // on the keyboard
     if (gamekeydown[key_right] || gamekeydown[key_left])
-        turnheld += ticdup;
+        ++turnheld;
     else
         turnheld = 0;
 
@@ -469,14 +469,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             else
                 dclicktime = 0;
         }
-        else
+        else if (++dclicktime > 20)
         {
-            dclicktime += ticdup;
-            if (dclicktime > 20)
-            {
-                dclicks = 0;
-                dclickstate = 0;
-            }
+            dclicks = 0;
+            dclickstate = 0;
         }
 
         // strafe double click
@@ -494,14 +490,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             else
                 dclicktime2 = 0;
         }
-        else
+        else if (++dclicktime2 > 20)
         {
-            dclicktime2 += ticdup;
-            if (dclicktime2 > 20)
-            {
-                dclicks2 = 0;
-                dclickstate2 = 0;
-            }
+            dclicks2 = 0;
+            dclickstate2 = 0;
         }
     }
 
@@ -953,7 +945,7 @@ void G_Ticker(void)
     // get commands, check consistency,
     // and build new consistency check
     cmd = &players[0].cmd;
-    memcpy(cmd, &netcmds[(gametic / ticdup) % BACKUPTICS], sizeof(ticcmd_t));
+    memcpy(cmd, &netcmds[gametic % BACKUPTICS], sizeof(ticcmd_t));
 
     // check for special buttons
     if (players[0].cmd.buttons & BT_SPECIAL)

@@ -221,6 +221,5 @@ extern int              skyflatnum;
 extern int              maketic;
 
 extern ticcmd_t         netcmds[BACKUPTICS];
-extern int              ticdup;
 
 #endif
