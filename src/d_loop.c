@@ -139,7 +139,6 @@ extern dboolean advancetitle;
 
 void TryRunTics(void)
 {
-    int         i;
     int         entertic;
     static int  oldentertics;
     int         counts;
