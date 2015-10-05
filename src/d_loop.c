@@ -66,15 +66,11 @@ ticcmd_t        netcmds[BACKUPTICS];
 int             maketic;
 
 // Used for original sync code.
-int             lastnettic;
 int             skiptics = 0;
 
 // Reduce the bandwidth needed by sampling game input less and transmitting
 // less. If ticdup is 2, sample half normal, 3 = one third normal, etc.
 int             ticdup;
-
-// Send this many extra (backup) tics in each packet.
-int             extratics;
 
 //
 // NetUpdate
@@ -83,16 +79,34 @@ int             extratics;
 //
 int             lasttime;
 
+static dboolean BuildNewTic(void)
+{
+    int	        gameticdiv = gametic / ticdup;
+    ticcmd_t    cmd;
+
+    I_StartTic();
+    D_ProcessEvents();
+
+    // Always run the menu
+    M_Ticker();
+
+    if (maketic - gameticdiv > 2)
+        return false;
+
+    G_BuildTiccmd(&cmd);
+
+    netcmds[maketic % BACKUPTICS] = cmd;
+
+    ++maketic;
+
+    return true;
+}
+
 void NetUpdate(void)
 {
-    int         nowtime;
-    int         newtics;
-    int         i;
-    int         gameticdiv;
-
-    // check time
-    nowtime = I_GetTime() / ticdup;
-    newtics = nowtime - lasttime;
+    int nowtime = I_GetTime() / ticdup;
+    int newtics = nowtime - lasttime;
+    int i;
 
     lasttime = nowtime;
 
@@ -108,27 +122,9 @@ void NetUpdate(void)
     }
 
     // build new ticcmds for console player
-    gameticdiv = gametic / ticdup;
-
     for (i = 0; i < newtics; i++)
-    {
-        ticcmd_t        cmd;
-
-        I_StartTic();
-        D_ProcessEvents();
-
-        // Always run the menu
-        M_Ticker();
-
-        if (maketic - gameticdiv >= 5)
+        if (!BuildNewTic())
             break;
-
-        G_BuildTiccmd(&cmd);
-
-        netcmds[maketic % BACKUPTICS] = cmd;
-
-        ++maketic;
-    }
 }
 
 //
@@ -149,7 +145,6 @@ void D_CheckNetGame(void)
 {
     // default values for single player
     ticdup = 1;
-    extratics = 1;
 }
 
 //
@@ -163,7 +158,6 @@ void TryRunTics(void)
     int         entertic;
     static int  oldentertics;
     int         realtics;
-    int         availabletics;
     int         counts;
 
     // get real tics
@@ -174,15 +168,7 @@ void TryRunTics(void)
     // get available tics
     NetUpdate();
 
-    availabletics = maketic - gametic / ticdup;
-
-    // decide how many tics to run
-    if (realtics < availabletics - 1)
-        counts = realtics + 1;
-    else if (realtics < availabletics)
-        counts = realtics;
-    else
-        counts = availabletics;
+    counts = maketic - gametic / ticdup;
 
     if (!counts && !vid_capfps)
         return;
@@ -221,9 +207,8 @@ void TryRunTics(void)
             gametime++;
 
             // modify command for duplicated tics
-            if (i != ticdup - 1)
             {
-                ticcmd_t    *cmd = &netcmds[(gametic / ticdup) % BACKUPTICS];
+                ticcmd_t    *cmd = &netcmds[0];
 
                 if (cmd->buttons & BT_SPECIAL)
                     cmd->buttons = 0;
