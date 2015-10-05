@@ -101,7 +101,7 @@ static SDL_Surface      *mapsurface = NULL;
 static SDL_Surface      *mapbuffer = NULL;
 static SDL_Palette      *mappalette;
 
-dboolean                upscaling = false;
+dboolean                nearestlinear = false;
 int                     upscaledwidth, upscaledheight;
 
 static int              displayindex;
@@ -165,8 +165,8 @@ float                   r_gamma = r_gamma_default;
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
 SDL_Rect                map_rect = { 0, 0, 0, 0 };
 
-void                    (*updatefunc)(void);
-void                    (*mapupdatefunc)(void);
+void                    (*blitfunc)(void);
+void                    (*mapblitfunc)(void);
 
 int                     fps = 0;
 
@@ -631,7 +631,7 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
-void I_FinishUpdate(void)
+void I_Blit(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
@@ -644,7 +644,7 @@ void I_FinishUpdate(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdate_Best(void)
+void I_Blit_NearestLinear(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
@@ -660,7 +660,7 @@ void I_FinishUpdate_Best(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdate_ShowFPS(void)
+void I_Blit_ShowFPS(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
@@ -686,7 +686,7 @@ void I_FinishUpdate_ShowFPS(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdate_Best_ShowFPS(void)
+void I_Blit_NearestLinear_ShowFPS(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
@@ -715,7 +715,7 @@ void I_FinishUpdate_Best_ShowFPS(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdate_Shake(void)
+void I_Blit_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
@@ -729,7 +729,7 @@ void I_FinishUpdate_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdate_Best_Shake(void)
+void I_Blit_NearestLinear_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
@@ -746,7 +746,7 @@ void I_FinishUpdate_Best_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdate_ShowFPS_Shake(void)
+void I_Blit_ShowFPS_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
@@ -773,7 +773,7 @@ void I_FinishUpdate_ShowFPS_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishUpdate_Best_ShowFPS_Shake(void)
+void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
@@ -803,7 +803,13 @@ void I_FinishUpdate_Best_ShowFPS_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_FinishAutomapUpdate(void)
+void I_UpdateBlitFunc(void)
+{
+    blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
+        (nearestlinear ? I_Blit_NearestLinear : I_Blit));
+}
+
+void I_Blit_Automap(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
@@ -896,7 +902,7 @@ void I_CreateExternalAutomap(dboolean output)
     SDL_SetPaletteColors(mappalette, colors, 0, 256);
 
     mapscreen = mapsurface->pixels;
-    mapupdatefunc = I_FinishAutomapUpdate;
+    mapblitfunc = I_Blit_Automap;
 
     map_rect.w = SCREENWIDTH;
     map_rect.h = SCREENHEIGHT - SBARHEIGHT;
@@ -916,7 +922,7 @@ void I_DestroyExternalAutomap(void)
     SDL_DestroyWindow(mapwindow);
     mapwindow = NULL;
     mapscreen = *screens;
-    mapupdatefunc = nullfunc;
+    mapblitfunc = nullfunc;
 }
 
 void GetWindowPosition(void)
@@ -1137,18 +1143,18 @@ static void SetVideoMode(dboolean output)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
     if (!strcasecmp(vid_scalefilter, vid_scalefilter_nearest_linear))
-        upscaling = true;
+        nearestlinear = true;
     else
     {
         if (strcasecmp(vid_scalefilter, vid_scalefilter_linear)
             && strcasecmp(vid_scalefilter, vid_scalefilter_nearest))
         {
             vid_scalefilter = vid_scalefilter_default;
-            upscaling = true;
+            nearestlinear = true;
             M_SaveCVARs();
         }
         else
-            upscaling = false;
+            nearestlinear = false;
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
 
@@ -1254,7 +1260,7 @@ static void SetVideoMode(dboolean output)
         else if (!strcasecmp(rendererinfo.name, vid_scaledriver_software))
             C_Output("The screen is rendered in software.");
 
-        if (upscaling)
+        if (nearestlinear)
         {
             C_Output("The %ix%i screen is scaled up to %ix%i using nearest-neighbor "
                 "interpolation,", SCREENWIDTH, SCREENHEIGHT, upscaledwidth * SCREENWIDTH,
@@ -1313,12 +1319,12 @@ static void SetVideoMode(dboolean output)
     surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
     SDL_FillRect(buffer, NULL, 0);
-    if (upscaling)
+    if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
             SDL_HINT_OVERRIDE);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT);
-    if (upscaling)
+    if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
             SDL_HINT_OVERRIDE);
     texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
@@ -1515,11 +1521,11 @@ void I_InitGraphics(void)
     if (!mapwindow)
     {
         mapscreen = *screens;
-        mapupdatefunc = nullfunc;
+        mapblitfunc = nullfunc;
     }
 
-    updatefunc = (upscaling ? I_FinishUpdate_Best : I_FinishUpdate);
-    updatefunc();
+    blitfunc = (nearestlinear ? I_Blit_NearestLinear : I_Blit);
+    blitfunc();
 
     while (SDL_PollEvent(&dummy));
 }

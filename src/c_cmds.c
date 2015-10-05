@@ -2703,8 +2703,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
         if ((value == 0 || value == 1) && value != vid_showfps)
         {
             vid_showfps = !!value;
-            updatefunc = (vid_showfps ? (upscaling ? I_FinishUpdate_Best_ShowFPS :
-                I_FinishUpdate_ShowFPS) : (upscaling ? I_FinishUpdate_Best : I_FinishUpdate));
+            I_UpdateBlitFunc();
         }
     }
     else

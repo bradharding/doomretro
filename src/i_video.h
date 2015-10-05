@@ -72,15 +72,16 @@ void I_ShutdownKeyboard(void);
 // Takes full 8 bit values.
 void I_SetPalette(byte *palette);
 
-void I_FinishUpdate(void);
-void I_FinishUpdate_Best(void);
-void I_FinishUpdate_ShowFPS(void);
-void I_FinishUpdate_Best_ShowFPS(void);
-void I_FinishUpdate_Shake(void);
-void I_FinishUpdate_Best_Shake(void);
-void I_FinishUpdate_ShowFPS_Shake(void);
-void I_FinishUpdate_Best_ShowFPS_Shake(void);
-void I_FinishAutomapUpdate(void);
+void I_Blit(void);
+void I_Blit_NearestLinear(void);
+void I_Blit_ShowFPS(void);
+void I_Blit_NearestLinear_ShowFPS(void);
+void I_Blit_Shake(void);
+void I_Blit_NearestLinear_Shake(void);
+void I_Blit_ShowFPS_Shake(void);
+void I_Blit_NearestLinear_ShowFPS_Shake(void);
+void I_UpdateBlitFunc(void);
+void I_Blit_Automap(void);
 void I_CreateExternalAutomap(dboolean output);
 void I_DestroyExternalAutomap(void);
 
@@ -116,8 +117,8 @@ extern dboolean         blurred;
 extern dboolean         splashscreen;
 extern dboolean         noinput;
 
-extern void             (*updatefunc)(void);
-extern void             (*mapupdatefunc)(void);
+extern void             (*blitfunc)(void);
+extern void             (*mapblitfunc)(void);
 
 extern dboolean         vid_showfps;
 extern dboolean         wipe;
@@ -127,7 +128,7 @@ extern int              windowy;
 extern int              windowheight;
 extern int              windowwidth;
 
-extern dboolean         upscaling;
+extern dboolean         nearestlinear;
 
 extern SDL_Window       *mapwindow;
 extern byte             *mapscreen;

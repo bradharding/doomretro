@@ -975,9 +975,7 @@ void G_Ticker(void)
 
                     players[0].fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
-                    updatefunc = (vid_showfps ? (upscaling ? I_FinishUpdate_Best_ShowFPS :
-                        I_FinishUpdate_ShowFPS) : (upscaling ? I_FinishUpdate_Best :
-                        I_FinishUpdate));
+                    I_UpdateBlitFunc();
                 }
                 else
                 {
@@ -1261,8 +1259,7 @@ void G_DoCompleted(void)
 
     gameaction = ga_nothing;
 
-    updatefunc = (vid_showfps ? (upscaling ? I_FinishUpdate_Best_ShowFPS :
-        I_FinishUpdate_ShowFPS) : (upscaling ? I_FinishUpdate_Best : I_FinishUpdate));
+    I_UpdateBlitFunc();
 
     // [BH] allow the exit switch to turn on before the screen wipes
     R_RenderPlayerView(&players[0]);

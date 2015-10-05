@@ -320,9 +320,9 @@ void D_Display(void)
         M_Drawer();             // menu is drawn even on top of everything
 
         // normal update
-        updatefunc();           // page flip or blit buffer
+        blitfunc();             // page flip or blit buffer
 
-        mapupdatefunc();
+        mapblitfunc();
 
         return;
     }
@@ -349,9 +349,9 @@ void D_Display(void)
         C_Drawer();
 
         M_Drawer();             // menu is drawn even on top of wipes
-        updatefunc();           // page flip or blit buffer
+        blitfunc();             // page flip or blit buffer
 
-        mapupdatefunc();
+        mapblitfunc();
     }
     while (!done);
 

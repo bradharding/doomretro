@@ -528,7 +528,7 @@ void HU_DrawDisk(void)
         V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
             HU_MSGY * SCREENSCALE, 0, stdisk);
         if (!consoleheight)
-            updatefunc();
+            blitfunc();
     }
 }
 

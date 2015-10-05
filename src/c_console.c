@@ -782,8 +782,7 @@ void C_Drawer(void)
         }
 
         // cancel any screen shake
-        updatefunc = (vid_showfps ? (upscaling ? I_FinishUpdate_Best_ShowFPS :
-            I_FinishUpdate_ShowFPS) : (upscaling ? I_FinishUpdate_Best : I_FinishUpdate));
+        I_UpdateBlitFunc();
 
         // draw background and bottom edge
         C_DrawBackground(consoleheight);
