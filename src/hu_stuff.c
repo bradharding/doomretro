@@ -551,7 +551,7 @@ void HU_Drawer(void)
             HU_DrawHUD();
         }
 
-        if (mapwindow)
+        if (mapwindow && realframe)
             HUlib_drawTextLine(&w_title, true);
     }
 
