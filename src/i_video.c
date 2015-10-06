@@ -570,17 +570,22 @@ static void I_ReadMouse(void)
     int         x, y;
     event_t     ev;
 
+    if (!MouseShouldBeGrabbed())
+        return;
+
     SDL_GetRelativeMouseState(&x, &y);
 
-    ev.type = ev_mouse;
-    ev.data1 = mouse_button_state;
-    ev.data2 = AccelerateMouse(x);
-    ev.data3 = (m_novertical ? 0 : -AccelerateMouse(y));
+    if (x || y)
+    {
+        ev.type = ev_mouse;
+        ev.data1 = mouse_button_state;
+        ev.data2 = AccelerateMouse(x);
+        ev.data3 = (m_novertical ? 0 : -AccelerateMouse(y));
 
-    D_PostEvent(&ev);
+        D_PostEvent(&ev);
 
-    if (MouseShouldBeGrabbed())
         CenterMouse();
+    }
 }
 
 //
