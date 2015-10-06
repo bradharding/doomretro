@@ -646,8 +646,8 @@ static void AM_toggleGrid(void)
 static void AM_addMark(void)
 {
     int         i;
-    int         x = m_x + m_w / 2;
-    int         y = m_y + m_h / 2;
+    int         x = am_frame.centerx;
+    int         y = am_frame.centery;
     static char message[32];
 
     for (i = 0; i < markpointnum; ++i)
@@ -1640,7 +1640,7 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
     }
 }
 
-static void AM_drawPlayers(void)
+static void AM_drawPlayer(void)
 {
     int         invisibility = plr->powers[pw_invisibility];
     mpoint_t    point;
@@ -1654,21 +1654,18 @@ static void AM_drawPlayers(void)
     if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > 128 || (invisibility & 8))
-            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                0, plr->mo->angle, NULL, point.x, point.y);
+            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle,
+                NULL, point.x, point.y);
         else
-            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                0, plr->mo->angle, playercolor, point.x, point.y);
+            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle,
+                playercolor, point.x, point.y);
     }
+    else if (invisibility > 128 || (invisibility & 8))
+        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, NULL,
+            point.x, point.y);
     else
-    {
-        if (invisibility > 128 || (invisibility & 8))
-            AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES,
-                0, plr->mo->angle, NULL, point.x, point.y);
-        else
-            AM_drawLineCharacter(playerarrow, PLAYERARROWLINES,
-                0, plr->mo->angle, playercolor, point.x, point.y);
-    }
+        AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, playercolor,
+            point.x, point.y);
 }
 
 static void AM_drawThings(void)
@@ -1891,7 +1888,7 @@ void AM_Drawer(void)
         AM_drawThings();
     if (markpointnum)
         AM_drawMarks();
-    AM_drawPlayers();
+    AM_drawPlayer();
     if (!am_followmode)
         AM_drawCrosshair();
 }
