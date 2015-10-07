@@ -1117,7 +1117,13 @@ static void AM_doFollowPlayer(void)
 //
 void AM_Ticker(void)
 {
-    if (!automapactive && !mapwindow)
+    if (mapwindow)
+    {
+        AM_doFollowPlayer();
+        return;
+    }
+
+    if (!automapactive)
         return;
 
     if (am_followmode)
