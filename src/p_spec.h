@@ -48,9 +48,7 @@ typedef enum
 } special_e;
 
 extern dboolean *isliquid;
-
-// Define values for map objects
-#define MO_TELEPORTMAN          14
+extern dboolean *isteleport;
 
 // at game start
 void P_InitPicAnims(void);

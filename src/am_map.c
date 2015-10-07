@@ -283,9 +283,6 @@ static dboolean         movement = false;
 int                     keydown;
 int                     direction;
 
-int                     teleporters[24];
-int                     numteleporters;
-
 am_frame_t              am_frame;
 
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
@@ -398,7 +395,6 @@ void AM_Init(void)
 {
     byte        *priority;
     int         x, y;
-    int         i;
 
     priority = Z_Malloc(256, PU_STATIC, NULL);
     mask = Z_Malloc(256, PU_STATIC, NULL);
@@ -440,45 +436,6 @@ void AM_Init(void)
     teleportercolor = priorities + (TELEPORTERCOLOR << 8);
     tswallcolor = priorities + (TSWALLCOLOR << 8);
     gridcolor = priorities + (GRIDCOLOR << 8);
-
-    for (i = 0; i < arrlen(teleporters); ++i)
-        teleporters[i] = -1;
-
-    if (BTSX)
-    {
-        teleporters[0] = R_CheckFlatNumForName("SLIME09");
-        teleporters[1] = R_CheckFlatNumForName("SLIME12");
-        teleporters[2] = R_CheckFlatNumForName("TELEPRT1");
-        teleporters[3] = R_CheckFlatNumForName("TELEPRT2");
-        teleporters[4] = R_CheckFlatNumForName("TELEPRT3");
-        teleporters[5] = R_CheckFlatNumForName("TELEPRT4");
-        teleporters[6] = R_CheckFlatNumForName("TELEPRT5");
-        teleporters[7] = R_CheckFlatNumForName("TELEPRT6");
-        teleporters[8] = R_CheckFlatNumForName("SLIME05");
-        teleporters[9] = R_CheckFlatNumForName("SHNPRT02");
-        teleporters[10] = R_CheckFlatNumForName("SHNPRT03");
-        teleporters[11] = R_CheckFlatNumForName("SHNPRT04");
-        teleporters[12] = R_CheckFlatNumForName("SHNPRT05");
-        teleporters[13] = R_CheckFlatNumForName("SHNPRT06");
-        teleporters[14] = R_CheckFlatNumForName("SHNPRT07");
-        teleporters[15] = R_CheckFlatNumForName("SHNPRT08");
-        teleporters[16] = R_CheckFlatNumForName("SHNPRT09");
-        teleporters[17] = R_CheckFlatNumForName("SHNPRT10");
-        teleporters[18] = R_CheckFlatNumForName("SHNPRT11");
-        teleporters[19] = R_CheckFlatNumForName("SHNPRT12");
-        teleporters[20] = R_CheckFlatNumForName("SHNPRT13");
-        teleporters[21] = R_CheckFlatNumForName("SHNPRT14");
-        teleporters[22] = R_CheckFlatNumForName("SLIME08");
-        numteleporters = 23;
-    }
-    else
-    {
-        teleporters[0] = R_CheckFlatNumForName("GATE1");
-        teleporters[1] = R_CheckFlatNumForName("GATE2");
-        teleporters[2] = R_CheckFlatNumForName("GATE3");
-        teleporters[3] = R_CheckFlatNumForName("GATE4");
-        numteleporters = 4;
-    }
 }
 
 static void AM_initVariables(dboolean mainwindow)
@@ -1454,17 +1411,6 @@ static void AM_drawGrid(void)
     }
 }
 
-dboolean isteleport(int floorpic)
-{
-    int i;
-
-    for (i = 0; i < numteleporters; ++i)
-        if (floorpic == teleporters[i])
-            return true;
-
-    return false;
-}
-
 //
 // Determines visible lines, draws them.
 // This is LineDef based, not LineSeg based.
@@ -1510,16 +1456,16 @@ static void AM_drawWalls(void)
                     AM_rotatePoint(&l.b);
                 }
 
-                if ((special == W1_Teleport || special == W1_ExitLevel || special == WR_Teleport
-                    || special == W1_ExitLevel_GoesToSecretLevel
+                if ((special && (special == W1_Teleport || special == W1_ExitLevel
+                    || special == WR_Teleport || special == W1_ExitLevel_GoesToSecretLevel
                     || special == W1_Teleport_AlsoMonsters_Silent_SameAngle
                     || special == WR_Teleport_AlsoMonsters_Silent_SameAngle
                     || special == W1_TeleportToLineWithSameTag_Silent_SameAngle
                     || special == WR_TeleportToLineWithSameTag_Silent_SameAngle
                     || special == W1_TeleportToLineWithSameTag_Silent_ReversedAngle
-                    || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle)
+                    || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle))
                     && ((flags & ML_TELEPORTTRIGGERED) || cheating
-                    || (backsector && isteleport(backsector->floorpic))))
+                    || (backsector && isteleport[backsector->floorpic])))
                 {
                     if (cheating || (mapped && !secret && backsector
                         && backsector->ceilingheight != backsector->floorheight))
