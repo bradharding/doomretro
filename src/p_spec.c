@@ -1009,8 +1009,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
                     return;             // FloorModel is "Allow Monsters" if FloorChange is 0
-            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
-                return;
             linefunc = EV_DoGenFloor;
         }
         else if ((unsigned int)line->special >= GenCeilingBase)
@@ -1018,8 +1016,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
                     return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
-                return;
             linefunc = EV_DoGenCeiling;
         }
         else if ((unsigned int)line->special >= GenDoorBase)
@@ -1031,8 +1027,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 if (line->flags & ML_SECRET)    // they can't open secret doors either
                     return;
             }
-            if (!line->tag)                     // 3/2/98 move outside the monster check
-                return;
             linefunc = EV_DoGenDoor;
         }
         else if ((unsigned int)line->special >= GenLockedBase)
@@ -1055,8 +1049,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 if (!(line->special & LiftMonster))
                     return;             // monsters disallowed
-            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
-                return;
             linefunc = EV_DoGenLift;
         }
         else if ((unsigned int)line->special >= GenStairsBase)
@@ -1064,8 +1056,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 if (!(line->special & StairMonster))
                     return;             // monsters disallowed
-            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
-                return;
             linefunc = EV_DoGenStairs;
         }
 
@@ -1708,9 +1698,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
                     return;             // FloorModel is "Allow Monsters" if FloorChange is 0
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
-
             linefunc = EV_DoGenFloor;
         }
         else if ((unsigned int)line->special >= GenCeilingBase)
@@ -1718,8 +1705,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
                     return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
             linefunc = EV_DoGenCeiling;
         }
         else if ((unsigned int)line->special >= GenDoorBase)
@@ -1731,8 +1716,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
                 if (line->flags & ML_SECRET)    // they can't open secret doors either
                     return;
             }
-            if (!line->tag)                     // jff 3/2/98 all gun generalized types require tag
-                return;
             linefunc = EV_DoGenDoor;
         }
         else if ((unsigned int)line->special >= GenLockedBase)
@@ -1748,9 +1731,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             }
             else
                 return;
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
-
             linefunc = EV_DoGenLockedDoor;
         }
         else if ((unsigned int)line->special >= GenLiftBase)
@@ -1765,8 +1745,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             if (!thing->player)
                 if (!(line->special & StairMonster))
                     return;             // monsters disallowed
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
             linefunc = EV_DoGenStairs;
         }
         else if ((unsigned int)line->special >= GenCrusherBase)
@@ -1774,8 +1752,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             if (!thing->player)
                 if (!(line->special & StairMonster))
                     return;             // monsters disallowed
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
             linefunc = EV_DoGenCrusher;
         }
 

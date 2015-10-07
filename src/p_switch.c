@@ -203,8 +203,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
                     return false;       // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenCeiling;
         }
         else if ((unsigned int)line->special >= GenDoorBase)
@@ -216,8 +214,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 if (line->flags & ML_SECRET)            // they can't open secret doors either
                     return false;
             }
-            if (!line->tag && ((line->special & 6) != 6))       // jff 3/2/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenDoor;
         }
         else if ((unsigned int)line->special >= GenLockedBase)
@@ -226,9 +222,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 return false;                           // monsters disallowed from unlocking doors
             if (!P_CanUnlockGenDoor(line, thing->player))
                 return false;
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
-
             linefunc = EV_DoGenLockedDoor;
         }
         else if ((unsigned int)line->special >= GenLiftBase)
@@ -236,8 +229,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 if (!(line->special & LiftMonster))
                     return false;                               // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenLift;
         }
         else if ((unsigned int)line->special >= GenStairsBase)
@@ -245,8 +236,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 if (!(line->special & StairMonster))
                     return false;                               // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenStairs;
         }
         else if ((unsigned int)line->special >= GenCrusherBase)
@@ -254,8 +243,6 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 if (!(line->special & CrusherMonster))
                     return false;                               // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenCrusher;
         }
 
