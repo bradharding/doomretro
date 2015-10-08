@@ -554,7 +554,7 @@ void R_DrawSuperShotgunColumn(void)
         byte    dot = source[frac >> FRACBITS];
 
         if (dot != 71)
-            *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];
+            *dest = colormap[tinttabredwhite1[(*dest << 8) + dot]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
