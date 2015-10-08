@@ -82,10 +82,11 @@ static fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-extern dboolean         r_liquid_bob;
 extern fixed_t          animatedliquiddiffs[64];
-extern msecnode_t       *sector_list;   // phares 3/16/98
+extern dboolean         r_liquid_bob;
 extern dboolean         r_mirroredweapons;
+extern dboolean         r_translucency;
+extern msecnode_t       *sector_list;   // phares 3/16/98
 
 dboolean P_IsVoodooDoll(mobj_t *mobj)
 {
@@ -1263,7 +1264,8 @@ void P_SpawnShadow(mobj_t *actor)
 
     mobj->flags2 = MF2_DONOTMAP;
 
-    mobj->colfunc = (actor->type == MT_SHADOWS ? R_DrawSpectreShadowColumn : R_DrawShadowColumn);
+    mobj->colfunc = (actor->type == MT_SHADOWS ? R_DrawSpectreShadowColumn :
+        (r_translucency ? R_DrawShadowColumn : R_DrawSolidShadowColumn));
     mobj->projectfunc = R_ProjectShadow;
 
     P_SetThingPosition(mobj);
