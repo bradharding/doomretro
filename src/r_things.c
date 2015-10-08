@@ -706,8 +706,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     // store information in a vissprite
     vis = &vissprites[num_vissprite];
-    vissprite_ptrs[num_vissprite] = vissprites + num_vissprite;
-    ++num_vissprite;
+    vissprite_ptrs[num_vissprite++] = vis;
 
     // killough 3/27/98: save sector for special clipping later
     vis->heightsec = heightsec;
@@ -1221,14 +1220,60 @@ void R_DrawPlayerSprites(void)
     }
 }
 
-static int compare(const void *arg1, const void *arg2)
+//
+// R_SortVisSprites
+//
+// Rewritten by Lee Killough to avoid using unnecessary
+// linked lists, and to use faster sorting algorithm.
+//
+
+// killough 9/2/98: merge sort
+static void msort(vissprite_t **s, vissprite_t **t, int n)
 {
-    return ((*(vissprite_t **)arg2)->scale - (*(vissprite_t **)arg1)->scale);
+    if (n >= 16)
+    {
+        int             n1 = n / 2;
+        int             n2 = n - n1;
+        vissprite_t     **s1 = s;
+        vissprite_t     **s2 = s + n1;
+        vissprite_t     **d = t;
+
+        msort(s1, t, n1);
+        msort(s2, t, n2);
+
+        while ((*s1)->scale > (*s2)->scale ? (*d++ = *s1++, --n1) : (*d++ = *s2++, --n2));
+
+        if (n2)
+            memcpy(d, s2, n2 * sizeof(void *));
+        else
+            memcpy(d, s1, n1 * sizeof(void *));
+
+        memcpy(s, t, n * sizeof(void *));
+    }
+    else
+    {
+        int     i;
+
+        for (i = 1; i < n; i++)
+        {
+            vissprite_t *temp = s[i];
+
+            if (s[i - 1]->scale < temp->scale)
+            {
+                int     j = i;
+
+                while ((s[j] = s[j - 1])->scale < temp->scale && --j);
+                s[j] = temp;
+            }
+        }
+    }
 }
 
 static void R_SortVisSprites(void)
 {
-    qsort(vissprite_ptrs, num_vissprite, sizeof(vissprite_t *), compare);
+    // killough 9/22/98: replace qsort with merge sort, since the keys
+    // are roughly in order to begin with, due to BSP rendering.
+    msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
 }
 
 //
