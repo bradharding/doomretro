@@ -139,13 +139,9 @@ extern dboolean advancetitle;
 
 void TryRunTics(void)
 {
-    int         entertic;
-    static int  oldentertics;
-    int         counts;
-
     // get real tics
-    entertic = I_GetTime();
-    oldentertics = entertic;
+    int entertic = I_GetTime();
+    int counts;
 
     // get available tics
     NetUpdate();

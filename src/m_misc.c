@@ -615,9 +615,9 @@ char *convertsize(const int size)
         if (size < multiplier)
             continue;
         if (!(size % multiplier))
-            sprintf(result, "%s%s", commify(size / multiplier), sizes[i]);
+            M_snprintf(result, 20, "%s%s", commify(size / multiplier), sizes[i]);
         else
-            sprintf(result, "%.2f%s", (float)size / multiplier, sizes[i]);
+            M_snprintf(result, 20, "%.2f%s", (float)size / multiplier, sizes[i]);
         return result;
     }
     strcpy(result, "0");
