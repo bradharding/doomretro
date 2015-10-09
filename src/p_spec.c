@@ -1894,10 +1894,7 @@ void P_PlayerInSpecialSector(player_t *player)
                     P_DamageMobj(player->mo, NULL, NULL, 20);
 
                 if (player->health <= 10)
-                {
-                    player->health = 0;
                     G_ExitLevel();
-                }
                 break;
 
             default:
@@ -1908,22 +1905,22 @@ void P_PlayerInSpecialSector(player_t *player)
     {
         switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
         {
-            case 0: // no damage
+            case 0:     // no damage
                 break;
 
-            case 1: // 2/5 damage per 31 ticks
+            case 1:     // 2/5 damage per 31 ticks
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1f))
                         P_DamageMobj(player->mo, NULL, NULL, 5);
                 break;
 
-            case 2: // 5/10 damage per 31 ticks
+            case 2:     // 5/10 damage per 31 ticks
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1f))
                         P_DamageMobj(player->mo, NULL, NULL, 10);
                 break;
 
-            case 3: // 10/20 damage per 31 ticks
+            case 3:     // 10/20 damage per 31 ticks
                 if (!player->powers[pw_ironfeet] || P_Random() < 5)  // take damage even with suit
                 {
                     if (!(leveltime & 0x1f))
