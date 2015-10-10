@@ -1165,7 +1165,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 
     if (!isliquid[floorpic] && sec->floorheight <= maxheight && floorpic != skyflatnum)
     {
-        mobj_t  *newsplat = Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
+        mobj_t  *newsplat = calloc(1, sizeof(*newsplat));
 
         newsplat->type = MT_BLOODSPLAT;
         newsplat->sprite = SPR_BLD2;
@@ -1178,10 +1178,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
             newsplat->colfunc = fuzzcolfunc;
         }
         else
-        {
-            newsplat->flags = 0;
             newsplat->colfunc = bloodsplatcolfunc;
-        }
         newsplat->projectfunc = R_ProjectBloodSplat;
         newsplat->blood = blood;
 
@@ -1205,7 +1202,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *
 
     if (!isliquid[floorpic] && sec->floorheight <= maxheight && floorpic != skyflatnum)
     {
-        mobj_t  *newsplat = Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
+        mobj_t  *newsplat = calloc(1, sizeof(*newsplat));
 
         newsplat->type = MT_BLOODSPLAT;
         newsplat->sprite = SPR_BLD2;
@@ -1218,10 +1215,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *
             newsplat->colfunc = fuzzcolfunc;
         }
         else
-        {
-            newsplat->flags = 0;
             newsplat->colfunc = bloodsplatcolfunc;
-        }
         newsplat->projectfunc = R_ProjectBloodSplat;
         newsplat->blood = blood;
 
