@@ -43,6 +43,7 @@
 
 #include "c_console.h"
 #include "d_deh.h"
+#include "d_iwad.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "i_system.h"
@@ -56,7 +57,6 @@
 // Array of locations to search for IWAD files
 //
 // "128 IWAD search directories should be enough for anybody".
-
 #define MAX_IWAD_DIRS   128
 
 static dboolean iwad_dirs_built = false;
@@ -98,6 +98,14 @@ typedef struct
 //
 // With some munging we can find where DOOM was installed.
 
+// [AlexMax] From the perspective of a 64-bit executable, 32-bit registry
+// keys are located in a different spot.
+#if _WIN64
+#define SOFTWARE_KEY "Software\\Wow6432Node"
+#else
+#define SOFTWARE_KEY "Software"
+#endif
+
 static registry_value_t uninstall_values[] =
 {
     // Ultimate DOOM, CD version (Depths of DOOM trilogy)
@@ -133,20 +141,51 @@ static registry_value_t uninstall_values[] =
     },
 };
 
-// Value installed by the Collector's Edition when it is installed
-static registry_value_t collectors_edition_value =
+// Values installed by the GOG.com and Collector's Edition versions
+
+static registry_value_t root_path_keys[] =
 {
-    HKEY_LOCAL_MACHINE,
-    "Software\\Activision\\DOOM Collector's Edition\\v1.0",
-    "INSTALLPATH",
+    // Doom Collector's Edition
+    {
+        HKEY_LOCAL_MACHINE,
+        SOFTWARE_KEY "\\Activision\\DOOM Collector's Edition\\v1.0",
+        "INSTALLPATH",
+    },
+
+    // Ultimate Doom
+
+    {
+        HKEY_LOCAL_MACHINE,
+        SOFTWARE_KEY "\\GOG.com\\Games\\1435827232",
+        "PATH",
+    },
+
+    // Doom II
+
+    {
+        HKEY_LOCAL_MACHINE,
+        SOFTWARE_KEY "\\GOG.com\\Games\\1435848814",
+        "PATH",
+    },
+
+    // Final Doom
+
+    {
+        HKEY_LOCAL_MACHINE,
+        SOFTWARE_KEY "\\GOG.com\\Games\\1435848742",
+        "PATH",
+    },
 };
 
 // Subdirectories of the above install path, where IWADs are installed.
-static char *collectors_edition_subdirs[] =
+static char *root_path_subdirs[] =
 {
+    ".",
     "Doom2",
     "Final Doom",
     "Ultimate Doom",
+    "TNT",
+    "Plutonia"
 };
 
 // Location where Steam is installed
@@ -163,7 +202,6 @@ static char *steam_install_subdirs[] =
     "steamapps\\common\\doom 2\\base",
     "steamapps\\common\\final doom\\base",
     "steamapps\\common\\ultimate doom\\base",
-
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads"
 };
 
@@ -172,13 +210,11 @@ static char *GetRegistryString(registry_value_t *reg_val)
     HKEY        key;
     DWORD       len;
     DWORD       valtype;
-    char        *result;
+    char        *result = NULL;
 
     // Open the key (directory where the value is stored)
     if (RegOpenKeyEx(reg_val->root, reg_val->path, 0, KEY_READ, &key) != ERROR_SUCCESS)
         return NULL;
-
-    result = NULL;
 
     // Find the type and length of the string, and only accept strings.
     if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, NULL, &len) == ERROR_SUCCESS
@@ -187,8 +223,8 @@ static char *GetRegistryString(registry_value_t *reg_val)
         // Allocate a buffer for the value and read the value
         result = (char *)malloc(len);
 
-        if (RegQueryValueEx(key, reg_val->value, NULL, &valtype,
-                            (unsigned char *)result, &len) != ERROR_SUCCESS)
+        if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, (unsigned char *)result,
+            &len) != ERROR_SUCCESS)
         {
             free(result);
             result = NULL;
@@ -208,8 +244,8 @@ static void CheckUninstallStrings(void)
 
     for (i = 0; i < arrlen(uninstall_values); ++i)
     {
-        char            *val = GetRegistryString(&uninstall_values[i]);
-        char            *unstr;
+        char    *val = GetRegistryString(&uninstall_values[i]);
+        char    *unstr;
 
         if (!val)
             continue;
@@ -220,37 +256,36 @@ static void CheckUninstallStrings(void)
             free(val);
         else
         {
-            char            *path;
-
-            path = unstr + strlen(UNINSTALLER_STRING);
+            char        *path = unstr + strlen(UNINSTALLER_STRING);
 
             AddIWADDir(path);
         }
     }
 }
 
-// Check for DOOM: Collector's Edition
-static void CheckCollectorsEdition(void)
+// Check for GOG.com and Doom: Collector's Edition
+
+static void CheckInstallRootPaths(void)
 {
-    char                *install_path;
     unsigned int        i;
 
-    install_path = GetRegistryString(&collectors_edition_value);
-
-    if (!install_path)
-        return;
-
-    for (i = 0; i < arrlen(collectors_edition_subdirs); ++i)
+    for (i = 0; i < arrlen(root_path_keys); ++i)
     {
-        char                *subpath;
+        char            *install_path = GetRegistryString(&root_path_keys[i]);
+        char            *subpath;
+        unsigned int    j;
 
-        subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
-                               collectors_edition_subdirs[i], NULL);
+        if (!install_path)
+            continue;
 
-        AddIWADDir(subpath);
+        for (j = 0; j < arrlen(root_path_subdirs); ++j)
+        {
+            subpath = M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL);
+            AddIWADDir(subpath);
+        }
+
+        free(install_path);
     }
-
-    free(install_path);
 }
 
 // Check for DOOM downloaded via Steam
@@ -264,10 +299,8 @@ static void CheckSteamEdition(void)
 
     for (i = 0; i < arrlen(steam_install_subdirs); ++i)
     {
-        char        *subpath;
-
-        subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
-                               steam_install_subdirs[i], NULL);
+        char    *subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
+            steam_install_subdirs[i], NULL);
 
         AddIWADDir(subpath);
     }
@@ -391,7 +424,7 @@ static void BuildIWADDirList(void)
 #if defined(WIN32)
     // Search the registry and find where IWADs have been installed.
     CheckUninstallStrings();
-    CheckCollectorsEdition();
+    CheckInstallRootPaths();
     CheckSteamEdition();
     CheckDOSDefaults();
 #endif
