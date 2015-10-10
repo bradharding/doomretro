@@ -510,6 +510,7 @@ static char *SaveGameIWADName(void)
     return NULL;
 }
 
+extern char     *pwadfile;
 //
 // SetSaveGameFolder
 //
@@ -526,7 +527,8 @@ void D_SetSaveGameFolder(void)
         DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
-    savegamefolder = M_StringJoin(savegamefolder, iwad_name, DIR_SEPARATOR_S, NULL);
+    savegamefolder = M_StringJoin(savegamefolder, (pwadfile[0] ? pwadfile : iwad_name),
+        DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 }
 

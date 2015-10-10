@@ -99,6 +99,7 @@ char                    *savegamefolder;
 
 // location of IWAD and WAD files
 char                    *iwadfile = "";
+char                    *pwadfile = "";
 
 char                    *iwadfolder = iwadfolder_default;
 
@@ -814,6 +815,7 @@ static int D_ChooseIWAD(void)
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
+                        pwadfile = uppercase(leafname(file));
                         LoadCfgFile(file);
                         LoadDehFile(file);
                     }
@@ -831,6 +833,7 @@ static int D_ChooseIWAD(void)
                         if (W_MergeFile(file, false))
                         {
                             modifiedgame = true;
+                            pwadfile = uppercase(leafname(file));
                             LoadCfgFile(file);
                             LoadDehFile(file);
                         }
@@ -849,6 +852,7 @@ static int D_ChooseIWAD(void)
                             if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
+                                pwadfile = uppercase(leafname(file));
                                 LoadCfgFile(file);
                                 LoadDehFile(file);
                             }
@@ -1128,9 +1132,12 @@ static int D_ChooseIWAD(void)
                                 modifiedgame = true;
                                 LoadCfgFile(fullpath);
                                 LoadDehFile(fullpath);
+                                if (IWADRequiredByPWAD(fullpath) != indetermined)
+                                {
+                                    mapspresent = true;
+                                    pwadfile = uppercase(leafname(fullpath));
+                                }
                             }
-                            if (IWADRequiredByPWAD(fullpath) != indetermined)
-                                mapspresent = true;
                         }
 #if defined(WIN32)
                         pwadpass2 += lstrlen(pwadpass2) + 1;
@@ -1353,9 +1360,7 @@ static void D_DoomMainSetup(void)
     M_SaveCVARs();
 
     if (p > 0)
-    {
         do
-        {
             for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
             {
                 char        *file = D_TryFindWADByName(myargv[p]);
@@ -1364,12 +1369,14 @@ static void D_DoomMainSetup(void)
                 {
                     D_CheckSupportedPWAD(file);
                     if (W_MergeFile(file, false))
+                    {
                         modifiedgame = true;
+                        if (IWADRequiredByPWAD(file) != indetermined)
+                            pwadfile = uppercase(leafname(file));
+                    }
                 }
             }
-        }
         while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
-    }
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
