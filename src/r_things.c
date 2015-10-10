@@ -1540,7 +1540,7 @@ void R_DrawMasked(void)
     drawseg_t   *ds;
     int         i;
 
-    // draw all sprites with MF2_DRAWFIRST flag (blood splats and pools of blood)
+    // draw all blood splats
     for (i = num_bloodvissprite; --i >= 0;)
         R_DrawBloodSprite(&bloodvissprites[i]);
 
