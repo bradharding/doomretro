@@ -454,6 +454,18 @@ char *uppercase(const char *str)
     return newstr;
 }
 
+char *lowercase(const char *str)
+{
+    char        *newstr;
+    char        *p;
+
+    p = newstr = strdup(str);
+    while ((*p = tolower(*p)))
+        ++p;
+
+    return newstr;
+}
+
 char *titlecase(const char *str)
 {
     char        *newstr = strdup(str);

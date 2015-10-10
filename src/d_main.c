@@ -815,7 +815,7 @@ static int D_ChooseIWAD(void)
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
-                        pwadfile = uppercase(leafname(file));
+                        pwadfile = lowercase(leafname(file));
                         LoadCfgFile(file);
                         LoadDehFile(file);
                     }
@@ -833,7 +833,7 @@ static int D_ChooseIWAD(void)
                         if (W_MergeFile(file, false))
                         {
                             modifiedgame = true;
-                            pwadfile = uppercase(leafname(file));
+                            pwadfile = lowercase(leafname(file));
                             LoadCfgFile(file);
                             LoadDehFile(file);
                         }
@@ -852,7 +852,7 @@ static int D_ChooseIWAD(void)
                             if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
-                                pwadfile = uppercase(leafname(file));
+                                pwadfile = lowercase(leafname(file));
                                 LoadCfgFile(file);
                                 LoadDehFile(file);
                             }
@@ -1135,7 +1135,7 @@ static int D_ChooseIWAD(void)
                                 if (IWADRequiredByPWAD(fullpath) != indetermined)
                                 {
                                     mapspresent = true;
-                                    pwadfile = uppercase(leafname(fullpath));
+                                    pwadfile = lowercase(leafname(fullpath));
                                 }
                             }
                         }

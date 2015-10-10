@@ -296,13 +296,13 @@ static struct
     char                *name;
     GameMission_t       mission;
 } iwads[] = {
-    { "DOOM2.WAD",    doom2      },
-    { "DOOM2.WAD",    pack_nerve },
-    { "PLUTONIA.WAD", pack_plut  },
-    { "TNT.WAD",      pack_tnt   },
-    { "DOOM.WAD",     doom       },
-    { "DOOM1.WAD",    doom       },
-    { "HACX.WAD",     doom2      }
+    { "doom2.wad",    doom2      },
+    { "doom2.wad",    pack_nerve },
+    { "plutonia.wad", pack_plut  },
+    { "tnt.wad",      pack_tnt   },
+    { "doom.wad",     doom       },
+    { "doom1.wad",    doom       },
+    { "hacx.wad",     doom2      }
 };
 
 // When given an IWAD with the '-iwad' parameter,
@@ -494,18 +494,9 @@ static char *SaveGameIWADName(void)
     // Note that we match on gamemission rather than on IWAD name.
     // This ensures that doom1.wad and doom.wad saves are stored
     // in the same place.
-    if (chex)
-        return "CHEX.WAD";
-    else if (BTSXE1)
-        return "BTSX_E1.WAD";
-    else if (BTSXE2)
-        return "BTSX_E2A.WAD";
-    else if (BTSXE3)
-        return "BTSX_E3A.WAD";
-    else
-        for (i = 0; i < arrlen(iwads); ++i)
-            if (gamemission == iwads[i].mission)
-                return iwads[i].name;
+    for (i = 0; i < arrlen(iwads); ++i)
+        if (gamemission == iwads[i].mission)
+            return iwads[i].name;
 
     return NULL;
 }
