@@ -511,6 +511,7 @@ static char *SaveGameIWADName(void)
 }
 
 extern char     *pwadfile;
+
 //
 // SetSaveGameFolder
 //
@@ -530,6 +531,8 @@ void D_SetSaveGameFolder(void)
     savegamefolder = M_StringJoin(savegamefolder, (pwadfile[0] ? pwadfile : iwad_name),
         DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
+
+    C_Output("Savegames will be saved and loaded in %s.", uppercase(savegamefolder));
 }
 
 //
