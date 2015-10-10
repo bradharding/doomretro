@@ -138,7 +138,6 @@ extern dboolean         r_shadows;
 extern dboolean         r_shakescreen;
 extern dboolean         r_translucency;
 extern int              runcount;
-extern char             *savegamefolder;
 extern int              s_musicvolume;
 extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
@@ -562,7 +561,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (s_randompitch, bool_cvars_func1, bool_cvars_func2, "Toggles randomizing the pitch of monster sound effects."),
     CVAR_INT  (s_sfxvolume, s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOALIAS, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, null_func1, str_cvars_func2, "The path of Timidity's configuration file."),
-    CVAR_STR  (savegamefolder, null_func1, str_cvars_func2, "The folder where savegames are saved."),
     CVAR_INT  (skilllevel, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected skill level in the menu."),
     CVAR_BOOL (vid_capfps, bool_cvars_func1, bool_cvars_func2, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS, "The display used to render the game."),
