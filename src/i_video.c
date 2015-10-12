@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
@@ -95,6 +96,7 @@ static SDL_Color        colors[256];
 
 byte                    *mapscreen;
 SDL_Window              *mapwindow = NULL;
+SDL_Thread              *mapthread;
 static SDL_Renderer     *maprenderer;
 static SDL_Texture      *maptexture = NULL;
 static SDL_Surface      *mapsurface = NULL;
@@ -911,6 +913,8 @@ void I_CreateExternalAutomap(dboolean output)
 
     map_rect.w = SCREENWIDTH;
     map_rect.h = SCREENHEIGHT - SBARHEIGHT;
+
+    mapthread = SDL_CreateThread(AM_Thread, "Automap", (void *)NULL);
 
     I_RestoreFocus();
 

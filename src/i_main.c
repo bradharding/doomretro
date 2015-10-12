@@ -63,11 +63,6 @@ int     windowborderheight = 0;
 #define SM_CXPADDEDBORDER       92
 #endif
 
-void I_SetProcessPriority(HANDLE hProcess)
-{
-    SetPriorityClass(hProcess, ABOVE_NORMAL_PRIORITY_CLASS);
-}
-
 void I_SetProcessDPIAware(void)
 {
     HMODULE hLibrary = LoadLibrary("user32.dll");
@@ -282,9 +277,6 @@ int main(int argc, char **argv)
     myargv = argv;
 
 #if defined(WIN32)
-    if (!M_CheckParm("-nopriority"))
-        I_SetProcessPriority(hProcess);
-
     I_SetProcessDPIAware();
 #endif
 
