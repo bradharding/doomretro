@@ -74,8 +74,6 @@ void AM_Stop(void);
 
 void AM_Init(void);
 
-int AM_Thread(void *ptr);
-
 void D_PostEvent(event_t *ev);
 
 extern int      key_up;

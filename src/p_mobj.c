@@ -1190,7 +1190,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         ++r_bloodsplats_total;
 
         if (target)
-            target->bloodsplats--;
+            target->bloodsplats = MAX(0, target->bloodsplats - 1);
     }
 }
 
@@ -1235,7 +1235,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *
         bloodsplats[r_bloodsplats_total++ % r_bloodsplats_max] = newsplat;
 
         if (target)
-            target->bloodsplats--;
+            target->bloodsplats = MAX(0, target->bloodsplats - 1);
     }
 }
 

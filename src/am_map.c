@@ -52,7 +52,6 @@
 #include "dstrings.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
-#include "i_timer.h"
 #include "i_video.h"
 #include "m_bbox.h"
 #include "m_config.h"
@@ -1844,16 +1843,4 @@ void AM_Drawer(void)
     AM_drawPlayer();
     if (!am_followmode)
         AM_drawCrosshair();
-}
-
-int AM_Thread(void *ptr)
-{
-    while (1)
-    {
-        if (plr && gamestate == GS_LEVEL)
-            AM_Drawer();
-        mapblitfunc();
-        I_Sleep(1);
-    }
-    return 0;
 }

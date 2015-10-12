@@ -252,7 +252,7 @@ void D_Display(void)
         // draw the view directly
         R_RenderPlayerView(&players[0]);
 
-        if (automapactive)
+        if ((mapwindow && realframe) || automapactive)
             AM_Drawer();
 
         // see if the border needs to be initially drawn
@@ -321,6 +321,8 @@ void D_Display(void)
         // normal update
         blitfunc();             // page flip or blit buffer
 
+        mapblitfunc();
+
         return;
     }
 
@@ -347,6 +349,8 @@ void D_Display(void)
 
         M_Drawer();             // menu is drawn even on top of wipes
         blitfunc();             // page flip or blit buffer
+
+        mapblitfunc();
     }
     while (!done);
 
