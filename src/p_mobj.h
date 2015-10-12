@@ -57,7 +57,7 @@
 // Whether an object is "sentient" or not. Used for environmental influences.
 #define sentient(mobj)          ((mobj)->health > 0 && (mobj)->info->seestate)
 
-#define CORPSEBLOODSPLATS       512
+#define CORPSEBLOODSPLATS       256
 
 //
 // NOTES: mobj_t
