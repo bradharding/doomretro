@@ -137,7 +137,6 @@ extern int              r_screensize;
 extern dboolean         r_shadows;
 extern dboolean         r_shakescreen;
 extern dboolean         r_translucency;
-extern int              runcount;
 extern int              s_musicvolume;
 extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
@@ -556,7 +555,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_shadows, bool_cvars_func1, bool_cvars_func2, "Toggles sprites casting shadows."),
     CVAR_BOOL (r_shakescreen, bool_cvars_func1, bool_cvars_func2, "Toggles shaking of the screen when the player is injured."),
     CVAR_BOOL (r_translucency, bool_cvars_func1, bool_cvars_func2, "Toggles translucency in sprites and textures."),
-    CVAR_INT  (runcount, null_func1, int_cvars_func2, CF_READONLY, NOALIAS, "The number of times ~"PACKAGE_NAME"~ has been run."),
     CVAR_INT  (s_musicvolume, s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT,  NOALIAS, "The music volume."),
     CVAR_BOOL (s_randompitch, bool_cvars_func1, bool_cvars_func2, "Toggles randomizing the pitch of monster sound effects."),
     CVAR_INT  (s_sfxvolume, s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOALIAS, "The sound effects volume."),

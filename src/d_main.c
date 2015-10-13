@@ -107,7 +107,7 @@ dboolean                devparm;        // started game with -devparm
 dboolean                nomonsters;     // checkparm of -nomonsters
 dboolean                fastparm;       // checkparm of -fast
 
-int                     runcount = 0;
+unsigned int            stat_runs = 0;
 
 skill_t                 startskill;
 int                     startepisode;
@@ -1302,7 +1302,7 @@ static void D_DoomMainSetup(void)
         forwardmove[1] *= scale / 100;
         sidemove[0] *= scale / 100;
         sidemove[1] *= scale / 100;
-        C_Output("Found -TURBO parameter on command-line. Player will be %i%% faster.", scale);
+        C_Output("Found -TURBO parameter on command-line. The player will be %i%% faster.", scale);
     }
 
     // init subsystems
@@ -1313,10 +1313,10 @@ static void D_DoomMainSetup(void)
     p = M_CheckParmWithArgs("-config", 1, 1);
     M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
 
-    if (runcount < 2)
-        C_Output(PACKAGE_NAME" has been run %s.", (!runcount ? "once" : "twice"));
+    if (stat_runs < 2)
+        C_Output(PACKAGE_NAME" has been run %s.", (!stat_runs ? "once" : "twice"));
     else
-        C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount + 1));
+        C_Output(PACKAGE_NAME" has been run %s times.", commify(SafeAdd(stat_runs, 1)));
 
 #if !defined(__MACOSX__)
     if (!M_FileExists(packagewad))
@@ -1334,12 +1334,11 @@ static void D_DoomMainSetup(void)
     {
         startuptimer = I_GetTimeMS();
         if (W_AddFile(iwadfile, false))
-            if (runcount < runcount_max)
-                runcount++;
+            stat_runs = SafeAdd(stat_runs, 1);
     }
     else if (!p)
     {
-        if (!runcount)
+        if (!stat_runs)
             D_FirstUse();
 
 #if defined(WIN32) || defined(__MACOSX__)
@@ -1354,8 +1353,7 @@ static void D_DoomMainSetup(void)
         } while (!choseniwad);
 #endif
 
-        if (runcount < runcount_max)
-            ++runcount;
+        stat_runs = SafeAdd(stat_runs, 1);
     }
     M_SaveCVARs();
 

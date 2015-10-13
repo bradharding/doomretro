@@ -186,10 +186,6 @@ typedef enum
 
 #define r_translucency_default                  true
 
-#define runcount_min                            0
-#define runcount_default                        0
-#define runcount_max                            32768
-
 #define s_musicvolume_min                       0
 #define s_musicvolume_default                   100
 #define s_musicvolume_max                       100

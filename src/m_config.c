@@ -107,7 +107,6 @@ extern dboolean         r_rockettrails;
 extern dboolean         r_shadows;
 extern dboolean         r_shakescreen;
 extern dboolean         r_translucency;
-extern int              runcount;
 extern int              s_musicvolume;
 extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
@@ -120,6 +119,7 @@ extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
 extern unsigned int     stat_itemspickedup;
 extern unsigned int     stat_monsterskilled;
+extern unsigned int     stat_runs;
 extern unsigned int     stat_secretsrevealed;
 extern unsigned int     stat_time;
 extern dboolean         vid_capfps;
@@ -211,7 +211,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_shadows,            BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_shakescreen,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_translucency,       BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (runcount,             NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,        NOALIAS    ),
     CONFIG_VARIABLE_INT          (s_randompitch,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,          NOALIAS    ),
@@ -224,6 +223,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,          NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,   NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (stat_runs,            NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed, NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_time,            NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
@@ -611,8 +611,6 @@ static void M_CheckCVARs(void)
     if (r_translucency != false && r_translucency != true)
         r_translucency = r_translucency_default;
 
-    runcount = BETWEEN(0, runcount, runcount_max);
-
     musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 15 + 50) / 100;
 
     if (s_randompitch != false && s_randompitch != true)
@@ -675,7 +673,7 @@ void M_LoadCVARs(char *filename)
 
     if (!file)
     {
-        if (runcount)
+        if (stat_runs)
             C_Output("%s wasn't found. Using the defaults for all CVARs and recreating %s.",
                 uppercase(filename), uppercase(PACKAGE_CONFIG));
         else
