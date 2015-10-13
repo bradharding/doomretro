@@ -1326,7 +1326,7 @@ static void D_DoomMainSetup(void)
 
     if (!M_FileExists((char *)[packageWadFullpath UTF8String]))
 #endif
-        I_Error("Can't find %s.", uppercase(packagewad));
+        I_Error("%s can't be found.\nPlease reinstall " PACKAGE_NAME ".", uppercase(packagewad));
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
 
@@ -1348,7 +1348,7 @@ static void D_DoomMainSetup(void)
                 I_Quit(false);
 #if defined(WIN32)
             else if (!choseniwad)
-                PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, SND_ALIAS_ID | SND_ASYNC);
+                PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
         } while (!choseniwad);
 #endif
@@ -1385,10 +1385,11 @@ static void D_DoomMainSetup(void)
 #else
     if (!W_MergeFile((char*)[packageWadFullpath UTF8String], true))
 #endif
-        I_Error("Can't find %s.", uppercase(packagewad));
+        I_Error("%s can't be found.\nPlease reinstall " PACKAGE_NAME ".", uppercase(packagewad));
 
     if (!CheckPackageWADVersion())
-        I_Error("Wrong version of %s.", uppercase(packagewad));
+        I_Error("The wrong version of %s was found.\nPlease reinstall " PACKAGE_NAME ".",
+            uppercase(packagewad));
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
