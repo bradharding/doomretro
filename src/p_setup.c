@@ -277,7 +277,7 @@ void P_LoadSegs(int lump)
 
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
-            C_Warning("Linedef %s for seg %s references an invalid sidedef of %s.",
+            I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
                 commify(linedef), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = &sides[ldef->sidenum[side]];
@@ -431,6 +431,11 @@ static void P_LoadSegs_V4(int lump)
                 commify(i), commify(side));
             side = 1;
         }
+
+        // e6y: check for wrong indexes
+        if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
+            I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
+                commify(linedef), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = &sides[ldef->sidenum[side]];
 
