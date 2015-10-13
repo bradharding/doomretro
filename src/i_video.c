@@ -876,8 +876,14 @@ void I_RestoreFocus(void)
 
 void I_CreateExternalAutomap(dboolean output)
 {
-    if (!am_external || numdisplays == 1)
+    if (!am_external)
         return;
+
+    if (numdisplays == 1)
+    {
+        C_Warning("Unable to find more than one display. No external automap was created.");
+        return;
+    }
 
     mapscreen = NULL;
 
