@@ -86,19 +86,19 @@ dboolean                manuallypositioning = false;
 SDL_Window              *window = NULL;
 int                     windowid = 0;
 SDL_Renderer            *renderer;
-static SDL_Texture      *texture = NULL;
-static SDL_Texture      *texture_upscaled = NULL;
-static SDL_Surface      *surface = NULL;
-static SDL_Surface      *buffer = NULL;
+static SDL_Texture      *texture;
+static SDL_Texture      *texture_upscaled;
+static SDL_Surface      *surface;
+static SDL_Surface      *buffer;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
 
 byte                    *mapscreen;
 SDL_Window              *mapwindow = NULL;
 static SDL_Renderer     *maprenderer;
-static SDL_Texture      *maptexture = NULL;
-static SDL_Surface      *mapsurface = NULL;
-static SDL_Surface      *mapbuffer = NULL;
+static SDL_Texture      *maptexture;
+static SDL_Surface      *mapsurface;
+static SDL_Surface      *mapbuffer;
 static SDL_Palette      *mappalette;
 
 dboolean                nearestlinear = false;
@@ -110,7 +110,7 @@ static int              numdisplays;
 static SDL_Rect         *displays;
 
 // Bit mask of mouse button state
-static unsigned int     mouse_button_state = 0;
+static unsigned int     mouse_button_state;
 
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
@@ -669,7 +669,7 @@ void I_Blit_ShowFPS(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
-    static Uint32   starttime = 0;
+    static Uint32   starttime;
     static Uint32   currenttime;
 
     UpdateGrab();
@@ -695,7 +695,7 @@ void I_Blit_NearestLinear_ShowFPS(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
-    static Uint32   starttime = 0;
+    static Uint32   starttime;
     static Uint32   currenttime;
 
     UpdateGrab();
@@ -755,7 +755,7 @@ void I_Blit_ShowFPS_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
-    static Uint32   starttime = 0;
+    static Uint32   starttime;
     static Uint32   currenttime;
 
     UpdateGrab();
@@ -782,7 +782,7 @@ void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
-    static Uint32   starttime = 0;
+    static Uint32   starttime;
     static Uint32   currenttime;
 
     UpdateGrab();
@@ -853,7 +853,7 @@ void I_SetPalette(byte *playpal)
 
 static void CreateCursors(void)
 {
-    static Uint8 empty_cursor_data = 0;
+    static Uint8        empty_cursor_data;
 
     // Save the default cursor so it can be recalled later
     cursors[1] = SDL_GetCursor();

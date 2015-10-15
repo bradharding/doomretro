@@ -46,18 +46,18 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-static dboolean music_initialized = false;
+static dboolean music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
-static dboolean sdl_was_initialized = false;
+static dboolean sdl_was_initialized;
 
-static dboolean musicpaused = false;
+static dboolean musicpaused;
 static int      current_music_volume;
 
 char            *s_timiditycfgpath = s_timiditycfgpath_default;
 
-static char     *temp_timidity_cfg = NULL;
+static char     *temp_timidity_cfg;
 
 // If the temp_timidity_cfg config variable is set, generate a "wrapper"
 // config file for Timidity to point to the actual config file. This

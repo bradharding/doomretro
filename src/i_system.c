@@ -262,7 +262,7 @@ void I_WaitVBL(int count)
 //
 // I_Error
 //
-static dboolean already_quitting = false;
+static dboolean already_quitting;
 
 void I_Error(char *error, ...)
 {

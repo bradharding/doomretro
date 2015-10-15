@@ -816,7 +816,7 @@ dboolean G_Responder(event_t *ev)
         case ev_gamepad:
             if (!automapactive && !menuactive && !paused)
             {
-                static int  wait = 0;
+                static int  wait;
 
                 if ((gamepadbuttons & gamepadnextweapon) && wait < I_GetTime())
                 {
@@ -1679,7 +1679,7 @@ void G_DoNewGame(void)
 
 void G_SetFastParms(int fast_pending)
 {
-    static int  fast = 0;
+    static int  fast;
 
     if (fast != fast_pending)
     {

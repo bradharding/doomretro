@@ -238,8 +238,8 @@ void P_DeathThink(player_t *player)
 {
     angle_t             angle;
     angle_t             delta;
-    static int          count = 0;
-    static dboolean     facingkiller = false;
+    static int          count;
+    static dboolean     facingkiller;
     mobj_t              *mo = player->mo;
     mobj_t              *attacker = player->attacker;
     const Uint8         *keystate = SDL_GetKeyboardState(NULL);

@@ -164,7 +164,7 @@ dboolean wipe_EndScreen(void)
 dboolean wipe_ScreenWipe(int tics)
 {
     // when zero, stop the wipe
-    static dboolean     go = false;
+    static dboolean     go;
 
     // initial stuff
     if (!go)

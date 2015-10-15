@@ -69,7 +69,7 @@ struct allocated_sound_s
     allocated_sound_t           *next;
 };
 
-static dboolean                 sound_initialized = false;
+static dboolean                 sound_initialized;
 
 static allocated_sound_t        *channels_playing[NUM_CHANNELS];
 
@@ -80,9 +80,9 @@ static int                      mixer_channels;
 // Doubly-linked list of allocated sounds.
 // When a sound is played, it is moved to the head, so that the oldest
 // sounds not used recently are at the tail.
-static allocated_sound_t        *allocated_sounds_head = NULL;
-static allocated_sound_t        *allocated_sounds_tail = NULL;
-static int                      allocated_sounds_size = 0;
+static allocated_sound_t        *allocated_sounds_head;
+static allocated_sound_t        *allocated_sounds_tail;
+static int                      allocated_sounds_size;
 
 // Hook a sound into the linked list at the head.
 static void AllocatedSoundLink(allocated_sound_t *snd)

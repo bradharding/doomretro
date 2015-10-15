@@ -179,15 +179,6 @@ static dboolean                 st_firsttime;
 // lump number for PLAYPAL
 static int                      lu_palette;
 
-// used for making messages go away
-static int                      st_msgcounter = 0;
-
-// used when in chat
-//static st_chatstateenum_t       st_chatstate;
-
-// whether in automap or first-person
-static st_stateenum_t           st_gamestate;
-
 // whether left-side main status bar is active
 static dboolean                 st_statusbaron;
 
@@ -270,7 +261,7 @@ dboolean                        oldweaponsowned[NUMWEAPONS];
 int                             st_facecount = 0;
 
 // current face index, used by w_faces
-static int                      st_faceindex = 0;
+static int                      st_faceindex;
 
 // holds key-type for each key box on bar
 static int                      keyboxes[3];
@@ -453,16 +444,8 @@ void ST_refreshBackground(void)
 //
 void ST_AutomapEvent(int type)
 {
-    switch (type)
-    {
-    case AM_MSGENTERED:
-        st_gamestate = AutomapState;
+    if (type == AM_MSGENTERED)
         st_firsttime = true;
-        break;
-    case AM_MSGEXITED:
-        st_gamestate = FirstPersonState;
-        break;
-    }
 }
 
 extern char     cheatkey;
@@ -1112,7 +1095,7 @@ void ST_updateFaceWidget(void)
     int         i;
     angle_t     badguyangle;
     angle_t     diffang;
-    static int  priority = 0;
+    static int  priority;
 
     if (priority < 10)
     {
@@ -1553,8 +1536,6 @@ void ST_initData(void)
 
     st_firsttime = true;
     plyr = &players[0];
-
-    st_gamestate = FirstPersonState;
 
     st_statusbaron = true;
 

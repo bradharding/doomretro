@@ -1961,7 +1961,7 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t      *targ;
 
-    static int  easy = 0;
+    static int  easy;
 
     easy ^= 1;
     if (gameskill <= sk_easy && !easy)

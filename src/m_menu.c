@@ -144,9 +144,9 @@ int             expansion = expansion_default;
 int             savegame = savegame_default;
 int             skilllevel = skilllevel_default;
 
-static int      functionkey = 0;
+static int      functionkey;
 
-static dboolean usinggamepad = false;
+static dboolean usinggamepad;
 
 // graphic name of skulls
 char            *skullName[2] = { "M_SKULL1", "M_SKULL2" };
@@ -649,7 +649,7 @@ static struct
 void M_DrawString(int x, int y, char *str)
 {
     int         i;
-    static char prev = '\0';
+    static char prev;
 
     for (i = 0; (unsigned int)i < strlen(str); ++i)
     {
@@ -701,7 +701,7 @@ int M_BigStringWidth(char *str)
 {
     int         i;
     int         w = 0;
-    static char prev = '\0';
+    static char prev;
 
     for (i = 0; (unsigned int)i < strlen(str); ++i)
     {
@@ -992,8 +992,8 @@ void M_LoadGame(int choice)
 #define CARETBLINKTIME  530
 
 static int      caretblinktime;
-static dboolean showcaret = false;
-static int      caretwait = 0;
+static dboolean showcaret;
+static int      caretwait;
 
 //
 //  M_SaveGame & Cie.
@@ -1855,7 +1855,7 @@ void M_QuitDOOM(int choice)
 
 void M_SliderSound(void)
 {
-    static int  wait = 0;
+    static int  wait;
 
     if (wait < I_GetTime())
     {
@@ -2215,7 +2215,7 @@ void M_ShowHelp(void)
 
 void M_ChangeGamma(dboolean shift)
 {
-    static int  gammawait = 0;
+    static int  gammawait;
 
     if (gammawait >= I_GetTime() || gamestate != GS_LEVEL || inhelpscreens)
     {
@@ -2284,7 +2284,7 @@ dboolean M_Responder(event_t *ev)
     int         ch = 0;
     int         key = -1;
     int         i;
-    static int  keywait = 0;
+    static int  keywait;
     SDL_Keymod  modstate = SDL_GetModState();
 
     if (startingnewgame || wipe)

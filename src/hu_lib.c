@@ -139,7 +139,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     int                 tw = 0;
     int                 x, y;
     int                 xx, yy;
-    static char         prev = '\0';
+    static char         prev;
     byte                *fb1 = (external ? mapscreen : screens[0]);
     byte                *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
 

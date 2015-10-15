@@ -62,7 +62,7 @@ void P_SpawnShadow(mobj_t *actor);
 // real file.
 char *P_TempSaveGameFile(void)
 {
-    static char *filename = NULL;
+    static char *filename;
 
     if (!filename)
         filename = M_StringJoin(savegamefolder, "temp.save", NULL);
@@ -73,8 +73,8 @@ char *P_TempSaveGameFile(void)
 // Get the filename of the save game file to use for the specified slot.
 char *P_SaveGameFile(int slot)
 {
-    static char         *filename = NULL;
-    static size_t       filename_size = 0;
+    static char         *filename;
+    static size_t       filename_size;
     char                basename[32];
 
     if (!filename)

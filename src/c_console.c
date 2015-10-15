@@ -95,7 +95,7 @@
 dboolean        consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
-static int      consolewait = 0;
+static int      consolewait;
 
 dboolean        forceblurredraw = false;
 
@@ -116,7 +116,7 @@ int             undolevels = 0;
 patch_t         *caret;
 int             caretpos = 0;
 static dboolean showcaret = true;
-static int      caretwait = 0;
+static int      caretwait;
 static int      caretblinktime;
 int             selectstart = 0;
 int             selectend = 0;
@@ -565,7 +565,7 @@ static void c_blurscreen(int x1, int y1, int x2, int y2, int i)
 
 static void C_DrawBackground(int height)
 {
-    static dboolean     blurred = false;
+    static dboolean     blurred;
     int                 i, j;
 
     height = (height + 5) * SCREENWIDTH;

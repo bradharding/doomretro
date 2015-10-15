@@ -1012,7 +1012,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 
     if ((flags & MF_CORPSE) && r_corpses_mirrored)
     {
-        static int      prev = 0;
+        static int      prev;
         int             r = M_RandomInt(1, 10);
 
         if (r <= 5 + prev)

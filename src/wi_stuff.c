@@ -298,10 +298,10 @@ static int              NUMCMAPS;
 //
 
 // You Are Here graphic
-static patch_t          *yah[3] = { NULL, NULL, NULL };
+static patch_t          *yah[3];
 
 // splat
-static patch_t          *splat[2] = { NULL, NULL };
+static patch_t          *splat[2];
 
 // %, : graphics
 static patch_t          *percent;
@@ -712,7 +712,7 @@ void WI_updateNoState(void)
         G_WorldDone();
 }
 
-static dboolean snl_pointeron = false;
+static dboolean snl_pointeron;
 
 void WI_initShowNextLoc(void)
 {

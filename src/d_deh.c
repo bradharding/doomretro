@@ -1301,7 +1301,7 @@ static deh_block deh_blocks[] =
 };
 
 // flag to skip included deh-style text, used with INCLUDE NOTEXT directive
-static dboolean includenotext = false;
+static dboolean includenotext;
 
 // MOBJINFO - Dehacked block name = "Thing"
 // Usage: Thing nn (name)
@@ -1792,7 +1792,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     }
 
     {
-        static int      i = 0;  // killough 10/98: only run once, by keeping index static
+        static int      i;      // killough 10/98: only run once, by keeping index static
 
         // remember what they start as for deh xref
         for (; i < EXTRASTATES; i++)  
@@ -1819,7 +1819,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         dboolean                match;
         unsigned int            i;
         static unsigned int     last_i = DEH_BLOCKMAX - 1;
-        static long             filepos = 0;
+        static long             filepos;
 
         lfstrip(inbuffer);
         if (devparm)
@@ -2974,7 +2974,7 @@ void deh_procStrings(DEHFILE *fpin, char *line)
     char        *strval;                // holds the string value of the line
     static int  maxstrlen = 128;        // maximum string length, bumped 128 at a time as needed
                                         // holds the final result of the string after concatenation
-    static char *holdstring = NULL;
+    static char *holdstring;
     dboolean    found = false;          // looking for string continuation
 
     if (devparm)

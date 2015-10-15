@@ -189,11 +189,11 @@ void G_LoadedGameMessage(void);
 
 void D_Display(void)
 {
-    static dboolean     viewactivestate = false;
-    static dboolean     menuactivestate = false;
+    static dboolean     viewactivestate;
+    static dboolean     menuactivestate;
     static dboolean     pausedstate = false;
     static gamestate_t  oldgamestate = (gamestate_t)(-1);
-    static int          borderdrawcount = 0;
+    static int          borderdrawcount;
     static int          saved_gametic = -1;
     int                 nowtime;
     int                 tics;
@@ -386,7 +386,7 @@ void D_DoomLoop(void)
 //
 int             titlesequence;
 int             pagetic;
-static int      pagewait = 0;
+static int      pagewait;
 static patch_t  *pagelump;
 static patch_t  *splashlump;
 static patch_t  *titlelump;
@@ -542,7 +542,7 @@ void ProcessDehFile(char *filename, int lump);
 #define MAXDEHFILES 16
 
 static char     dehfiles[MAXDEHFILES][MAX_PATH];
-static int      dehfilecount = 0;
+static int      dehfilecount;
 
 dboolean DehFileProcessed(char *path)
 {

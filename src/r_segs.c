@@ -167,7 +167,7 @@ static const scale_values_t scale_values[9] =
 
 void R_FixWiggle(sector_t *sector)
 {
-    static int  lastheight = 0;
+    static int  lastheight;
 
     // disallow negative heights, force cache initialization
     int         height = MAX(1, (sector->interpceilingheight - sector->interpfloorheight) >> FRACBITS);

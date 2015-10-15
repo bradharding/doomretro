@@ -279,7 +279,7 @@ static dboolean         stopped = true;
 
 dboolean                bigstate = false;
 byte                    *area;
-static dboolean         movement = false;
+static dboolean         movement;
 int                     keydown;
 int                     direction;
 
@@ -673,7 +673,7 @@ dboolean AM_Responder(event_t *ev)
 
     if (!menuactive && !paused)
     {
-        static dboolean backbuttondown = false;
+        static dboolean backbuttondown;
 
         if (!(gamepadbuttons & gamepadautomap))
             backbuttondown = false;

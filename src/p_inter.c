@@ -528,8 +528,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     int         sound;
     int         weaponowned;
     int         ammo;
-    static int  prevsound = 0;
-    static int  prevtic = 0;
+    static int  prevsound;
+    static int  prevtic;
 
     if (delta > toucher->height || delta < -8 * FRACUNIT)
         return;         // out of reach
@@ -898,7 +898,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
         if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG)
         {
-            static int prev = 0;
+            static int prev;
             int        r = M_RandomInt(1, 10);
 
             if (r <= 5 + prev)

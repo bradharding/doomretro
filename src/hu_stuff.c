@@ -65,7 +65,6 @@ char                    chat_char;
 static player_t         *plr;
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
-static dboolean         always_off = false;
 
 dboolean                message_on;
 dboolean                message_dontfuckwithme;
@@ -92,16 +91,16 @@ extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
 extern dboolean         emptytallpercent;
 
-static dboolean         headsupactive = false;
+static dboolean         headsupactive;
 
 byte                    *tempscreen;
 int                     hud_y;
 int                     hudnumoffset;
 
-static patch_t          *healthpatch = NULL;
-static patch_t          *berserkpatch = NULL;
-static patch_t          *greenarmorpatch = NULL;
-static patch_t          *bluearmorpatch = NULL;
+static patch_t          *healthpatch;
+static patch_t          *berserkpatch;
+static patch_t          *greenarmorpatch;
+static patch_t          *bluearmorpatch;
 
 dboolean                r_diskicon = r_diskicon_default;
 static patch_t          *stdisk;
@@ -321,10 +320,10 @@ static void HU_DrawHUD(void)
     int                 health_x = HUD_HEALTH_X;
     int                 keys = 0;
     int                 i = 0;
-    static int          healthwait = 0;
+    static int          healthwait;
     byte                *tinttab;
     int                 invulnerability = plr->powers[pw_invulnerability];
-    static dboolean     healthanim = false;
+    static dboolean     healthanim;
     patch_t             *patch;
     dboolean            gamepaused = (menuactive || paused || consoleactive);
     int                 currenttime = I_GetTimeMS();
@@ -381,8 +380,8 @@ static void HU_DrawHUD(void)
     if (health && ammo && ammotype != am_noammo)
     {
         int                 ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
-        static int          ammowait = 0;
-        static dboolean     ammoanim = false;
+        static int          ammowait;
+        static dboolean     ammoanim;
 
         tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN || gamepaused ?
             tinttab66 : tinttab25);
@@ -422,8 +421,8 @@ static void HU_DrawHUD(void)
     if (keys || plr->neededcardflash)
     {
         int                 keypic_x = HUD_KEYS_X - 20 * (keys - 1);
-        static int          keywait = 0;
-        static dboolean     showkey = false;
+        static int          keywait;
+        static dboolean     showkey;
 
         if (!armor)
             keypic_x += 114;
