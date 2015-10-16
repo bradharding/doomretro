@@ -193,10 +193,7 @@ Desktop.ini
 $RECYCLE.BIN/
 *.bak
 
-SDL/
-SDL2/
 savegames/
-*.lib
 *.exp
 
 
