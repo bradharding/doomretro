@@ -1305,13 +1305,13 @@ static void D_DoomMainSetup(void)
         C_Output("Found -TURBO parameter on command-line. The player will be %i%% faster.", scale);
     }
 
-    // init subsystems
-    V_Init();
-    I_InitTimer();
-
     // Load configuration files before initializing other subsystems.
     p = M_CheckParmWithArgs("-config", 1, 1);
     M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
+
+    // init subsystems
+    V_Init();
+    I_InitTimer();
 
     if (stat_runs < 2)
         C_Output(PACKAGE_NAME" has been run %s.", (!stat_runs ? "once" : "twice"));
