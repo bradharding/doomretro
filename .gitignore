@@ -7,7 +7,6 @@
 *.sln.docstates
 
 # Build results
-[Dd]ebug/
 [Dd]ebugPublic/
 build/
 bld/
@@ -210,6 +209,7 @@ project.xcworkspace/
 DerivedData/
 
 msvc/Release/doomretro.cfg
+msvc/Debug/doomretro.cfg
 
 # Files built on Unix systems
 *.[oa]
