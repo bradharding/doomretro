@@ -45,6 +45,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#define MAX_SPRITE_FRAMES       29
 #define MINZ                    (FRACUNIT * 4)
 #define BASEYCENTER             (ORIGINALHEIGHT / 2)
 
@@ -55,40 +56,38 @@
 //  which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-fixed_t                         pspritexscale;
-fixed_t                         pspriteyscale;
-fixed_t                         pspriteiscale;
+fixed_t                 pspritexscale;
+fixed_t                 pspriteyscale;
+fixed_t                 pspriteiscale;
 
-static lighttable_t             **spritelights;         // killough 1/25/98 made static
+static lighttable_t     **spritelights;         // killough 1/25/98 made static
 
 // constant arrays
 //  used for psprite clipping and initializing clipping
-int                             negonearray[SCREENWIDTH];
-int                             screenheightarray[SCREENWIDTH];
+int                     negonearray[SCREENWIDTH];
+int                     screenheightarray[SCREENWIDTH];
 
 //
 // INITIALIZATION FUNCTIONS
 //
 
 // variables used to look up and range check thing_t sprites patches
-spritedef_t                     *sprites;
-int                             numsprites;
+spritedef_t             *sprites;
+int                     numsprites;
 
-#define MAX_SPRITE_FRAMES       29
+static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
+static int              maxframe;
 
-static spriteframe_t            sprtemp[MAX_SPRITE_FRAMES];
-static int                      maxframe;
+dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
 
-dboolean                        r_liquid_clipsprites = r_liquid_clipsprites_default;
+dboolean                r_playersprites = r_playersprites_default;
 
-dboolean                        r_playersprites = r_playersprites_default;
-
-extern fixed_t                  animatedliquiddiff;
-extern dboolean                 inhelpscreens;
-extern dboolean                 r_liquid_bob;
-extern dboolean                 r_shadows;
-extern dboolean                 r_translucency;
-extern dboolean                 skippsprinterp;
+extern fixed_t          animatedliquiddiff;
+extern dboolean         inhelpscreens;
+extern dboolean         r_liquid_bob;
+extern dboolean         r_shadows;
+extern dboolean         r_translucency;
+extern dboolean         skippsprinterp;
 
 //
 // R_InstallSpriteLump
@@ -300,17 +299,16 @@ static void R_InitSpriteDefs(const char *const *namelist)
 // GAME FUNCTIONS
 //
 
-static vissprite_t      vissprites[NUMVISSPRITES];
+static vissprite_t      *vissprites;
+static vissprite_t      **vissprite_ptrs;
+static unsigned int     num_vissprite;
+static unsigned int     num_vissprite_alloc;
+
 static vissprite_t      bloodvissprites[NUMVISSPRITES];
-static vissprite_t      shadowvissprites[NUMVISSPRITES];
-
-static vissprite_t      *vissprite_ptrs[NUMVISSPRITES];
-
-static int              num_vissprite;
 static int              num_bloodvissprite;
-static int              num_shadowvissprite;
 
-static int              num_vissprite_ptrs;
+static vissprite_t      shadowvissprites[NUMVISSPRITES];
+static int              num_shadowvissprite;
 
 //
 // R_InitSprites
@@ -324,6 +322,11 @@ void R_InitSprites(char **namelist)
         negonearray[i] = -1;
 
     R_InitSpriteDefs(namelist);
+
+    num_vissprite = 0;
+    num_vissprite_alloc = 128;
+    vissprites = malloc(num_vissprite_alloc * sizeof(vissprite_t));
+    vissprite_ptrs = malloc(num_vissprite_alloc * sizeof(vissprite_t *));
 }
 
 //
@@ -332,9 +335,107 @@ void R_InitSprites(char **namelist)
 //
 void R_ClearSprites(void)
 {
+    if (num_vissprite >= num_vissprite_alloc)
+    {
+        num_vissprite_alloc += 128;
+        vissprites = realloc(vissprites, num_vissprite_alloc * sizeof(vissprite_t));
+        vissprite_ptrs = realloc(vissprite_ptrs, num_vissprite_alloc * sizeof(vissprite_t *));
+    }
+
     num_vissprite = 0;
     num_bloodvissprite = 0;
     num_shadowvissprite = 0;
+}
+
+//
+// R_NewVisSprite
+//
+static vissprite_t *R_NewVisSprite(fixed_t scale)
+{
+    unsigned int        pos;
+    unsigned int        pos2;
+    unsigned int        step;
+    unsigned int        count;
+    vissprite_t         *rc;
+    vissprite_t         *vis;
+
+    switch (num_vissprite)
+    {
+        case 0:
+            rc = &vissprites[0];
+            vissprite_ptrs[0] = rc;
+            num_vissprite = 1;
+            return rc;
+
+        case 1:
+            vis = &vissprites[0];
+            rc = &vissprites[1];
+            if (scale > vis->scale)
+            {
+                vissprite_ptrs[0] = rc;
+                vissprite_ptrs[1] = vis;
+            }
+            else
+                vissprite_ptrs[1] = rc;
+            num_vissprite = 2;
+            return rc;
+    }
+
+    pos = (num_vissprite + 1) >> 1;
+    step = (pos + 1) >> 1;
+    count = (pos << 1);
+    do
+    {
+        fixed_t d1;
+        fixed_t d2;
+
+        vis = vissprite_ptrs[pos];
+        d1 = INT_MAX;
+        d2 = vis->scale;
+
+        if (scale >= d2)
+        {
+            if (!pos)
+                break;
+
+            vis = vissprite_ptrs[pos - 1];
+            d1 = vis->scale;
+
+            if (scale <= d1)
+                break;
+        }
+
+        pos = (scale > d1 ? MAX(0, pos - step) : MIN(pos + step, num_vissprite - 1));
+        step = (step + 1) >> 1;
+        count >>= 1;
+
+        if (!count)
+        {
+            pos = num_vissprite;
+            break;
+        }
+    } while (1);
+
+
+    if (num_vissprite >= num_vissprite_alloc)
+    {
+        if (pos >= num_vissprite)
+            return NULL;
+
+        rc = vissprite_ptrs[num_vissprite - 1];
+    }
+    else
+        rc = &vissprites[num_vissprite++];
+
+    pos2 = num_vissprite - 1;
+    do
+    {
+        vissprite_ptrs[pos2] = vissprite_ptrs[pos2 - 1];
+    } while (--pos2 > pos);
+
+    vissprite_ptrs[pos] = rc;
+
+    return rc;
 }
 
 //
@@ -705,8 +806,8 @@ void R_ProjectSprite(mobj_t *thing)
     }
 
     // store information in a vissprite
-    vis = &vissprites[num_vissprite];
-    vissprite_ptrs[num_vissprite++] = vis;
+    if (!(vis = R_NewVisSprite(xscale)))
+        return;
 
     // killough 3/27/98: save sector for special clipping later
     vis->heightsec = heightsec;
@@ -1221,62 +1322,6 @@ void R_DrawPlayerSprites(void)
 }
 
 //
-// R_SortVisSprites
-//
-// Rewritten by Lee Killough to avoid using unnecessary
-// linked lists, and to use faster sorting algorithm.
-//
-
-// killough 9/2/98: merge sort
-static void msort(vissprite_t **s, vissprite_t **t, int n)
-{
-    if (n >= 16)
-    {
-        int             n1 = n / 2;
-        int             n2 = n - n1;
-        vissprite_t     **s1 = s;
-        vissprite_t     **s2 = s + n1;
-        vissprite_t     **d = t;
-
-        msort(s1, t, n1);
-        msort(s2, t, n2);
-
-        while ((*s1)->scale > (*s2)->scale ? (*d++ = *s1++, --n1) : (*d++ = *s2++, --n2));
-
-        if (n2)
-            memcpy(d, s2, n2 * sizeof(void *));
-        else
-            memcpy(d, s1, n1 * sizeof(void *));
-
-        memcpy(s, t, n * sizeof(void *));
-    }
-    else
-    {
-        int     i;
-
-        for (i = 1; i < n; i++)
-        {
-            vissprite_t *temp = s[i];
-
-            if (s[i - 1]->scale < temp->scale)
-            {
-                int     j = i;
-
-                while ((s[j] = s[j - 1])->scale < temp->scale && --j);
-                s[j] = temp;
-            }
-        }
-    }
-}
-
-static void R_SortVisSprites(void)
-{
-    // killough 9/22/98: replace qsort with merge sort, since the keys
-    // are roughly in order to begin with, due to BSP rendering.
-    msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
-}
-
-//
 // R_DrawBloodSprite
 //
 static void R_DrawBloodSprite(vissprite_t *spr)
@@ -1548,9 +1593,7 @@ void R_DrawMasked(void)
     for (i = num_shadowvissprite; --i >= 0;)
         R_DrawShadowSprite(&shadowvissprites[i]);
 
-    R_SortVisSprites();
-
-    // draw all other vissprites, back to front
+    // draw all other vissprites back to front
     for (i = num_vissprite; --i >= 0;)
         R_DrawSprite(vissprite_ptrs[i]);
 
