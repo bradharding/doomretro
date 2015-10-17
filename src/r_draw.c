@@ -285,6 +285,7 @@ void R_DrawWallColumn(void)
     else
     {
         byte                    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        byte                    *top = dest;
         const fixed_t           fracstep = dc_iscale;
         fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
         const byte              *source = dc_source;
@@ -384,10 +385,7 @@ void R_DrawWallColumn(void)
             *(dest - SCREENWIDTH) = *(dest - SCREENWIDTH * 2);
 
         if (dc_topsparkle)
-        {
-            dest = R_ADDRESS(0, dc_x, dc_yl);
-            *dest = *(dest + SCREENWIDTH);
-        }
+            *top = *(top + SCREENWIDTH);
     }
 }
 
@@ -400,6 +398,7 @@ void R_DrawFullbrightWallColumn(void)
     else
     {
         byte                    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        byte                    *top = dest;
         const fixed_t           fracstep = dc_iscale;
         fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
         const byte              *source = dc_source;
@@ -517,10 +516,7 @@ void R_DrawFullbrightWallColumn(void)
             *(dest - SCREENWIDTH) = *(dest - SCREENWIDTH * 2);
 
         if (dc_topsparkle)
-        {
-            dest = R_ADDRESS(0, dc_x, dc_yl);
-            *dest = *(dest + SCREENWIDTH);
-        }
+            *top = *(top + SCREENWIDTH);
     }
 }
 
