@@ -56,7 +56,7 @@
 
 #define HU_MSGTIMEOUT                   (4 * TICRATE)
 
-#define HUD_X                           10 * SCREENSCALE / 2
+#define HUD_X                           11 * SCREENSCALE / 2
 #define HUD_Y                           311 * SCREENSCALE / 2
 
 #define HUD_HEALTH_X                    HUD_X
