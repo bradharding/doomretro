@@ -815,7 +815,7 @@ static int D_ChooseIWAD(void)
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
-                        pwadfile = lowercase(leafname(file));
+                        pwadfile = lowercase(removeext(leafname(file)));
                         LoadCfgFile(file);
                         LoadDehFile(file);
                     }
@@ -833,7 +833,7 @@ static int D_ChooseIWAD(void)
                         if (W_MergeFile(file, false))
                         {
                             modifiedgame = true;
-                            pwadfile = lowercase(leafname(file));
+                            pwadfile = lowercase(removeext(leafname(file)));
                             LoadCfgFile(file);
                             LoadDehFile(file);
                         }
@@ -852,7 +852,7 @@ static int D_ChooseIWAD(void)
                             if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
-                                pwadfile = lowercase(leafname(file));
+                                pwadfile = lowercase(removeext(leafname(file)));
                                 LoadCfgFile(file);
                                 LoadDehFile(file);
                             }
@@ -1135,7 +1135,7 @@ static int D_ChooseIWAD(void)
                                 if (IWADRequiredByPWAD(fullpath) != indetermined)
                                 {
                                     mapspresent = true;
-                                    pwadfile = lowercase(leafname(fullpath));
+                                    pwadfile = lowercase(removeext(leafname(fullpath)));
                                 }
                             }
                         }
@@ -1370,7 +1370,7 @@ static void D_DoomMainSetup(void)
                     {
                         modifiedgame = true;
                         if (IWADRequiredByPWAD(file) != indetermined)
-                            pwadfile = uppercase(leafname(file));
+                            pwadfile = uppercase(removeext(leafname(file)));
                     }
                 }
             }
