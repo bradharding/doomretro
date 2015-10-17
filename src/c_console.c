@@ -1035,11 +1035,10 @@ dboolean C_Responder(event_t *ev)
                         caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                         undolevels = 0;
+                        autocomplete = -1;
+                        inputhistory = -1;
+                        outputhistory = -1;
                     }
-
-                    autocomplete = -1;
-                    inputhistory = -1;
-                    outputhistory = -1;
 
                     return !consolecheat[0];
                 }
