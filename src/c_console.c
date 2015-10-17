@@ -1398,8 +1398,8 @@ void C_PrintCompileDate(void)
     month = (strstr(mths, mth) - mths) / 3;
 
     C_Output("");
-    C_Output("This %i-bit %s binary of %s was built on %s, %s %i, %i at %i:%02i%s.",
-        (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(), PACKAGE_NAMEANDVERSIONSTRING,
+    C_Output("This %i-bit %s binary of ~"PACKAGE_NAMEANDVERSIONSTRING"~ was built on %s, %s %i, "
+        "%i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
         days[dayofweek(day, month + 1, year)], months[month], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 }

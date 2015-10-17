@@ -1314,9 +1314,9 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (stat_runs < 2)
-        C_Output(PACKAGE_NAME" has been run %s.", (!stat_runs ? "once" : "twice"));
+        C_Output("~"PACKAGE_NAME"~ has been run %s.", (!stat_runs ? "once" : "twice"));
     else
-        C_Output(PACKAGE_NAME" has been run %s times.", commify(SafeAdd(stat_runs, 1)));
+        C_Output("~"PACKAGE_NAME"~ has been run %s times.", commify(SafeAdd(stat_runs, 1)));
 
 #if !defined(__MACOSX__)
     if (!M_FileExists(packagewad))
@@ -1385,10 +1385,10 @@ static void D_DoomMainSetup(void)
 #else
     if (!W_MergeFile((char*)[packageWadFullpath UTF8String], true))
 #endif
-        I_Error("%s can't be found.\nPlease reinstall " PACKAGE_NAME ".", uppercase(packagewad));
+        I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
 
     if (!CheckPackageWADVersion())
-        I_Error("The wrong version of %s was found.\nPlease reinstall " PACKAGE_NAME ".",
+        I_Error("The wrong version of %s was found.\nPlease reinstall "PACKAGE_NAME".",
             uppercase(packagewad));
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);

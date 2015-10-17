@@ -72,6 +72,7 @@ dboolean                message_clearable = false;
 static dboolean         message_nottobefuckedwith;
 
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
+
 dboolean                idbehold = false;
 dboolean                s_STSTR_BEHOLD2;
 
