@@ -922,7 +922,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                                     ++outpos;
                                 }
                             }
-                            else
+                            else if (ch != '~')
                             {
                                 fputc(ch, file);
                                 ++outpos;
