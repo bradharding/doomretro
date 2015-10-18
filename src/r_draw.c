@@ -381,7 +381,7 @@ void R_DrawWallColumn(void)
             }
         }
 
-        if (dc_bottomsparkle)
+        if (dc_bottomsparkle && !(((frac - fracstep) >> FRACBITS) & 2))
             *(dest - SCREENWIDTH) = *(dest - SCREENWIDTH * 2);
 
         if (dc_topsparkle)
@@ -512,7 +512,7 @@ void R_DrawFullbrightWallColumn(void)
             }
         }
 
-        if (dc_bottomsparkle)
+        if (dc_bottomsparkle && !(((frac - fracstep) >> FRACBITS) & 2))
             *(dest - SCREENWIDTH) = *(dest - SCREENWIDTH * 2);
 
         if (dc_topsparkle)
