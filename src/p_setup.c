@@ -1928,6 +1928,11 @@ void P_SetupLevel(int ep, int map)
     animatedliquiddiff = FRACUNIT;
     animatedliquidxdir = M_RandomInt(-1, 1) * FRACUNIT / 12;
     animatedliquidydir = M_RandomInt(-1, 1) * FRACUNIT / 12;
+    if (!animatedliquidxdir && !animatedliquidydir)
+    {
+        animatedliquidxdir = FRACUNIT / 12;
+        animatedliquidydir = FRACUNIT / 12;
+    }
     animatedliquidxoffs = 0;
     animatedliquidyoffs = 0;
 
