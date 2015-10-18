@@ -102,6 +102,7 @@ lighttable_t    **walllights;
 static int      *maskedtexturecol;      // dropoff overflow
 
 dboolean        r_brightmaps = r_brightmaps_default;
+dboolean        r_liquid_current = r_liquid_current_default;
 
 extern fixed_t  animatedliquiddiff;
 extern fixed_t  animatedliquidxoffs;
@@ -650,12 +651,17 @@ void R_StoreWallRange(int start, int stop)
     worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
-    if (r_liquid_bob && isliquid[frontsector->floorpic] && (frontsector->heightsec == -1
-        || viewz > sectors[frontsector->heightsec].interpfloorheight))
+    if (isliquid[frontsector->floorpic])
     {
-        worldbottom += animatedliquiddiff;
-        frontsector->floor_xoffs = animatedliquidxoffs;
-        frontsector->floor_yoffs = animatedliquidyoffs;
+        if (r_liquid_bob && (frontsector->heightsec == -1
+            || viewz > sectors[frontsector->heightsec].interpfloorheight))
+            worldbottom += animatedliquiddiff;
+
+        if (r_liquid_current)
+        {
+            frontsector->floor_xoffs = animatedliquidxoffs;
+            frontsector->floor_yoffs = animatedliquidyoffs;
+        }
     }
 
     R_FixWiggle(frontsector);

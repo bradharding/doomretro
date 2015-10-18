@@ -127,6 +127,7 @@ extern dboolean         r_homindicator;
 extern dboolean         r_hud;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_liquid_clipsprites;
+extern dboolean         r_liquid_current;
 extern dboolean         r_liquid_lowerview;
 extern dboolean         r_liquid_swirl;
 extern char             *r_lowpixelsize;
@@ -545,6 +546,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_hud, bool_cvars_func1, r_hud_cvar_func2, "Toggles the heads-up display when in widescreen mode."),
     CVAR_BOOL (r_liquid_bob, bool_cvars_func1, bool_cvars_func2, "Toggles the bobbing effect of liquid sectors."),
     CVAR_BOOL (r_liquid_clipsprites, bool_cvars_func1, bool_cvars_func2, "Toggles the bottom of sprites being clipped in liquid sectors."),
+    CVAR_BOOL (r_liquid_current, bool_cvars_func1, bool_cvars_func2, "Toggles a slight current being applied to liquid sectors."),
     CVAR_BOOL (r_liquid_lowerview, bool_cvars_func1, bool_cvars_func2, "Toggles lowering the player's view in liquid sectors."),
     CVAR_BOOL (r_liquid_swirl, bool_cvars_func1, bool_cvars_func2, "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, null_func1, r_lowpixelsize_cvar_func2, "The size of pixels when the graphic detail is low."),

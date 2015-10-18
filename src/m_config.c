@@ -98,6 +98,7 @@ extern dboolean         r_homindicator;
 extern dboolean         r_hud;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_liquid_clipsprites;
+extern dboolean         r_liquid_current;
 extern dboolean         r_liquid_lowerview;
 extern dboolean         r_liquid_swirl;
 extern char             *r_lowpixelsize;
@@ -201,6 +202,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_hud,                BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_bob,         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites, BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_current,     BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_lowerview,   BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_swirl,       BOOLALIAS  ),
     CONFIG_VARIABLE_OTHER        (r_lowpixelsize,       NOALIAS    ),
@@ -584,6 +586,9 @@ static void M_CheckCVARs(void)
 
     if (r_liquid_clipsprites != false && r_liquid_clipsprites != true)
         r_liquid_clipsprites = r_liquid_clipsprites_default;
+
+    if (r_liquid_current != false && r_liquid_current != true)
+        r_liquid_current = r_liquid_current_default;
 
     if (r_liquid_lowerview != false && r_liquid_lowerview != true)
         r_liquid_lowerview = r_liquid_lowerview_default;
