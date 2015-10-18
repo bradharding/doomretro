@@ -1037,8 +1037,7 @@ dboolean ST_Responder(event_t *ev)
 
                     // [BH] always display message
                     plyr->message = message;
-                    if (!consoleactive)
-                        message_dontfuckwithme = true;
+                    message_dontfuckwithme = true;
 
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
