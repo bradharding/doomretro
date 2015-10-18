@@ -60,8 +60,6 @@ extern int              dc_baseclip;
 // first pixel in a column
 extern byte             *dc_source;
 
-extern byte             *tranmap_solid;
-
 extern byte             *tinttab;
 extern byte             *tinttab25;
 extern byte             *tinttab33;

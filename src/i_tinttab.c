@@ -77,8 +77,6 @@ static byte CHGF[256] =
 #define BLUES           B
 #define EXTRAS          X
 
-byte    *tranmap_solid;
-
 byte    *tinttab;
 
 byte    *tinttab25;
@@ -100,8 +98,6 @@ byte    *tinttabred33;
 byte    *tinttabredwhite50;
 byte    *tinttabgreen33;
 byte    *tinttabblue33;
-
-byte    *tinttabchgf;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {

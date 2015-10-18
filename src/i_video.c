@@ -1124,9 +1124,9 @@ static void PositionOnCurrentDisplay(void)
 
 static void SetVideoMode(dboolean output)
 {
-    int         i;
-    int         flags = SDL_RENDERER_TARGETTEXTURE;
-    int         width, height;
+    int i;
+    int flags = SDL_RENDERER_TARGETTEXTURE;
+    int width, height;
 
     for (i = 0; i < numdisplays; ++i)
         SDL_GetDisplayBounds(i, &displays[i]);
