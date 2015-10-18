@@ -93,6 +93,8 @@ int             stat_secretsrevealed = 0;
 dboolean        r_liquid_bob = r_liquid_bob_default;
 
 fixed_t         animatedliquiddiff;
+fixed_t         animatedliquidxdir;
+fixed_t         animatedliquidydir;
 fixed_t         animatedliquidxoffs;
 fixed_t         animatedliquidyoffs;
 
@@ -1970,10 +1972,10 @@ void P_UpdateSpecials(void)
     }
 
     animatedliquiddiff += animatedliquiddiffs[leveltime & 63];
-    animatedliquidxoffs += FRACUNIT / 12;
+    animatedliquidxoffs += animatedliquidxdir;
     if (animatedliquidxoffs > 64 * FRACUNIT)
         animatedliquidxoffs = 0;
-    animatedliquidyoffs += FRACUNIT / 12;
+    animatedliquidyoffs += animatedliquidydir;
     if (animatedliquidyoffs > 64 * FRACUNIT)
         animatedliquidyoffs = 0;
 

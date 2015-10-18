@@ -47,6 +47,7 @@
 #include "m_argv.h"
 #include "m_bbox.h"
 #include "m_misc.h"
+#include "m_random.h"
 #include "p_fix.h"
 #include "p_local.h"
 #include "p_tick.h"
@@ -140,6 +141,8 @@ dboolean        boomlinespecials;
 dboolean        blockmaprecreated;
 
 extern fixed_t  animatedliquiddiff;
+extern fixed_t  animatedliquidxdir;
+extern fixed_t  animatedliquidydir;
 extern fixed_t  animatedliquidxoffs;
 extern fixed_t  animatedliquidyoffs;
 
@@ -1923,6 +1926,8 @@ void P_SetupLevel(int ep, int map)
 
     leveltime = 0;
     animatedliquiddiff = FRACUNIT;
+    animatedliquidxdir = M_RandomInt(-1, 1) * FRACUNIT / 12;
+    animatedliquidydir = M_RandomInt(-1, 1) * FRACUNIT / 12;
     animatedliquidxoffs = 0;
     animatedliquidyoffs = 0;
 
