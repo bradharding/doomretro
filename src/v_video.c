@@ -1163,7 +1163,8 @@ void GetPixelSize(void)
     sscanf(left, "%10i", &width);
     sscanf(right, "%10i", &height);
 
-    if (width >= 2 && width <= SCREENWIDTH && height >= 2 && height <= SCREENHEIGHT)
+    if (width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT
+        && (width >= 2 || height >= 2))
     {
         pixelwidth = width;
         pixelheight = height;
