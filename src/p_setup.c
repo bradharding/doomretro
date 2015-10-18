@@ -140,6 +140,8 @@ dboolean        boomlinespecials;
 dboolean        blockmaprecreated;
 
 extern fixed_t  animatedliquiddiff;
+extern fixed_t  animatedliquidxoffs;
+extern fixed_t  animatedliquidyoffs;
 
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
@@ -1921,6 +1923,8 @@ void P_SetupLevel(int ep, int map)
 
     leveltime = 0;
     animatedliquiddiff = FRACUNIT;
+    animatedliquidxoffs = 0;
+    animatedliquidyoffs = 0;
 
     // e6y: speedup of level reloading
     // Most of level's structures now are allocated with PU_STATIC instead of PU_LEVEL

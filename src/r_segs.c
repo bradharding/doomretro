@@ -104,6 +104,8 @@ static int      *maskedtexturecol;      // dropoff overflow
 dboolean        r_brightmaps = r_brightmaps_default;
 
 extern fixed_t  animatedliquiddiff;
+extern fixed_t  animatedliquidxoffs;
+extern fixed_t  animatedliquidyoffs;
 extern dboolean doorclosed;
 extern dboolean r_liquid_bob;
 extern dboolean r_translucency;
@@ -650,7 +652,11 @@ void R_StoreWallRange(int start, int stop)
     // [BH] animate liquid sectors
     if (r_liquid_bob && isliquid[frontsector->floorpic] && (frontsector->heightsec == -1
         || viewz > sectors[frontsector->heightsec].interpfloorheight))
+    {
         worldbottom += animatedliquiddiff;
+        frontsector->floor_xoffs = animatedliquidxoffs;
+        frontsector->floor_yoffs = animatedliquidyoffs;
+    }
 
     R_FixWiggle(frontsector);
 
