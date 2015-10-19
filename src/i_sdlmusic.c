@@ -46,18 +46,22 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-static dboolean music_initialized;
+#define MUSIC_TMP_EXT   (sizeof(music_tmp_ext) / sizeof(*music_tmp_ext))
+
+static dboolean         music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
-static dboolean sdl_was_initialized;
+static dboolean         sdl_was_initialized;
 
-static dboolean musicpaused;
-static int      current_music_volume;
+static dboolean         musicpaused;
+static int              current_music_volume;
 
-char            *s_timiditycfgpath = s_timiditycfgpath_default;
+static const char       *music_tmp_ext[] = { "", ".mp3", ".ogg" };
 
-static char     *temp_timidity_cfg;
+char                    *s_timiditycfgpath = s_timiditycfgpath_default;
+
+static char             *temp_timidity_cfg;
 
 // If the temp_timidity_cfg config variable is set, generate a "wrapper"
 // config file for Timidity to point to the actual config file. This
@@ -260,6 +264,12 @@ static dboolean IsMid(byte *mem, int len)
     return (len > 4 && !memcmp(mem, "MThd", 4));
 }
 
+// Determine whether memory block is a .mus file
+static dboolean IsMus(byte *mem, int len)
+{
+    return (len > 4 && !memcmp(mem, "MUS", 3));
+}
+
 static dboolean ConvertMus(byte *musdata, int len, char *filename)
 {
     MEMFILE     *instream = mem_fopen_read(musdata, len);
@@ -280,6 +290,8 @@ static dboolean ConvertMus(byte *musdata, int len, char *filename)
     return result;
 }
 
+static SDL_RWops *rw_midi = NULL;
+
 void *I_SDL_RegisterSong(void *data, int len)
 {
     char        *filename;
@@ -288,18 +300,39 @@ void *I_SDL_RegisterSong(void *data, int len)
     if (!music_initialized)
         return NULL;
 
-    // MUS files begin with "MUS"
-    // Reject anything which doesn't have this signature
-    filename = M_TempFile("doom.mid");
+    if (!IsMus(data, len))
+    {
+        int      i;
 
-    if (IsMid(data, len))
-        M_WriteFile(filename, data, len);
+        for (i = 0; i < MUSIC_TMP_EXT; i++)
+        {
+            filename = M_TempFile(M_StringJoin("doom", music_tmp_ext[i], NULL));
+
+            if (!music_tmp_ext[i][0])
+            {
+                rw_midi = SDL_RWFromConstMem(data, len);
+                if (rw_midi)
+                    music = Mix_LoadMUS_RW(rw_midi, SDL_TRUE);
+            }
+
+            if (!music)
+                if (!M_WriteFile(filename, data, len))
+                    music = Mix_LoadMUS(filename);
+        }
+    }
     else
-        // Assume a MUS file and try to convert
-        ConvertMus(data, len, filename);
+    {
+        filename = M_TempFile("doom.mid");
 
-    // Load the MIDI
-    music = Mix_LoadMUS(filename);
+        if (IsMid(data, len))
+            M_WriteFile(filename, data, len);
+        else
+            // Assume a MUS file and try to convert
+            ConvertMus(data, len, filename);
+
+        // Load the MIDI
+        music = Mix_LoadMUS(filename);
+    }
 
     // remove file now
     remove(filename);
