@@ -597,6 +597,12 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
     music->data = W_CacheLumpNum(music->lumpnum, PU_STATIC);
     handle = I_SDL_RegisterSong(music->data, W_LumpLength(music->lumpnum));
 
+    if (!handle)
+    {
+        C_Warning("D_%s music lump can't be played.", uppercase(music->name));
+        return;
+    }
+
     music->handle = handle;
 
     // Play it
