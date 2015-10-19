@@ -46,8 +46,6 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-#define MUSIC_TMP_EXT   (sizeof(music_tmp_ext) / sizeof(*music_tmp_ext))
-
 static dboolean         music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
@@ -56,8 +54,6 @@ static dboolean         sdl_was_initialized;
 
 static dboolean         musicpaused;
 static int              current_music_volume;
-
-static const char       *music_tmp_ext[] = { "", ".mp3", ".ogg" };
 
 char                    *s_timiditycfgpath = s_timiditycfgpath_default;
 
@@ -258,18 +254,6 @@ void I_SDL_UnRegisterSong(void *handle)
     Mix_FreeMusic(handle);
 }
 
-// Determine whether memory block is a .mid file
-static dboolean IsMid(byte *mem, int len)
-{
-    return (len > 4 && !memcmp(mem, "MThd", 4));
-}
-
-// Determine whether memory block is a .mus file
-static dboolean IsMus(byte *mem, int len)
-{
-    return (len > 4 && !memcmp(mem, "MUS", 3));
-}
-
 static dboolean ConvertMus(byte *musdata, int len, char *filename)
 {
     MEMFILE     *instream = mem_fopen_read(musdata, len);
@@ -290,8 +274,6 @@ static dboolean ConvertMus(byte *musdata, int len, char *filename)
     return result;
 }
 
-static SDL_RWops *rw_midi = NULL;
-
 void *I_SDL_RegisterSong(void *data, int len)
 {
     char        *filename;
@@ -300,31 +282,32 @@ void *I_SDL_RegisterSong(void *data, int len)
     if (!music_initialized)
         return NULL;
 
-    if (!IsMus(data, len))
+    if (len > 4 && memcmp(data, "MUS", 3))
     {
-        int      i;
+        SDL_RWops       *rw_midi = SDL_RWFromConstMem(data, len);
 
-        for (i = 0; i < MUSIC_TMP_EXT; i++)
+        if (rw_midi)
+            music = Mix_LoadMUS_RW(rw_midi, SDL_TRUE);
+
+        if (!music)
         {
-            filename = M_TempFile(M_StringJoin("doom", music_tmp_ext[i], NULL));
+            filename = M_TempFile("doom.mp3");
+            if (!M_WriteFile(filename, data, len))
+                music = Mix_LoadMUS(filename);
+        }
 
-            if (!music_tmp_ext[i][0])
-            {
-                rw_midi = SDL_RWFromConstMem(data, len);
-                if (rw_midi)
-                    music = Mix_LoadMUS_RW(rw_midi, SDL_TRUE);
-            }
-
-            if (!music)
-                if (!M_WriteFile(filename, data, len))
-                    music = Mix_LoadMUS(filename);
+        if (!music)
+        {
+            filename = M_TempFile("doom.ogg");
+            if (!M_WriteFile(filename, data, len))
+                music = Mix_LoadMUS(filename);
         }
     }
     else
     {
         filename = M_TempFile("doom.mid");
 
-        if (IsMid(data, len))
+        if (len > 4 && !memcmp(data, "MThd", 4))
             M_WriteFile(filename, data, len);
         else
             // Assume a MUS file and try to convert
