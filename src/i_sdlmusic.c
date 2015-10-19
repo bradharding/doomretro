@@ -44,6 +44,7 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "s_sound.h"
+#include "version.h"
 #include "z_zone.h"
 
 static dboolean         music_initialized;
@@ -259,11 +260,12 @@ static dboolean ConvertMus(byte *musdata, int len, char *filename)
     MEMFILE     *instream = mem_fopen_read(musdata, len);
     MEMFILE     *outstream = mem_fopen_write();
     void        *outbuf;
-    size_t      outbuf_len;
     int         result = mus2mid(instream, outstream);
 
     if (!result)
     {
+        size_t  outbuf_len;
+
         mem_get_buf(outstream, &outbuf, &outbuf_len);
         M_WriteFile(filename, outbuf, outbuf_len);
     }
@@ -291,21 +293,21 @@ void *I_SDL_RegisterSong(void *data, int len)
 
         if (!music)
         {
-            filename = M_TempFile("doom.mp3");
+            filename = M_TempFile(PACKAGE".mp3");
             if (!M_WriteFile(filename, data, len))
                 music = Mix_LoadMUS(filename);
         }
 
         if (!music)
         {
-            filename = M_TempFile("doom.ogg");
+            filename = M_TempFile(PACKAGE".ogg");
             if (!M_WriteFile(filename, data, len))
                 music = Mix_LoadMUS(filename);
         }
     }
     else
     {
-        filename = M_TempFile("doom.mid");
+        filename = M_TempFile(PACKAGE".mid");
 
         if (len > 4 && !memcmp(data, "MThd", 4))
             M_WriteFile(filename, data, len);
