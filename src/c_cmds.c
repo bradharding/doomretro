@@ -1683,7 +1683,8 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     C_TabbedOutput(tabs, "Lines\t%s\t%s", commify(numlines), convertsize(sizelines));
 
-    C_TabbedOutput(tabs, "Line specials\t%s-compatible", (boomlinespecials ? "BOOM" : "Vanilla"));
+    C_TabbedOutput(tabs, "Line specials\t%s-compatible",
+        (boomlinespecials ? "~BOOM~" : "Vanilla"));
 
     C_TabbedOutput(tabs, "Sides\t%s\t%s", commify(numsides), convertsize(sizesides));
 
@@ -1691,7 +1692,8 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     C_TabbedOutput(tabs, "Segments\t%s\t%s", commify(numsegs), convertsize(sizesegs));
 
-    C_TabbedOutput(tabs, "Subsectors\t%s\t%s", commify(numsubsectors), convertsize(sizesubsectors));
+    C_TabbedOutput(tabs, "Subsectors\t%s\t%s", commify(numsubsectors),
+        convertsize(sizesubsectors));
 
     C_TabbedOutput(tabs, "Nodes\t%s\t%s", commify(numnodes), convertsize(sizenodes));
 
@@ -1721,7 +1723,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             else if (y > max_y)
                 max_y = y;
         }
-        C_TabbedOutput(tabs, "Size\t%sx%s",
+        C_TabbedOutput(tabs, "Dimensions\t%sx%s",
             commify((max_x - min_x) >> FRACBITS), commify((max_y - min_y) >> FRACBITS));
     }
 

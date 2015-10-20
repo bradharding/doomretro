@@ -1960,7 +1960,6 @@ void P_UpdateSpecials(void)
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim = anims; anim < lastanim; anim++)
-    {
         for (i = anim->basepic; i < anim->basepic + anim->numpics; i++)
         {
             pic = anim->basepic + ((leveltime / anim->speed + i) % anim->numpics);
@@ -1969,7 +1968,6 @@ void P_UpdateSpecials(void)
             else
                 flattranslation[i] = pic;
         }
-    }
 
     animatedliquiddiff += animatedliquiddiffs[leveltime & 63];
     animatedliquidxoffs += animatedliquidxdir;
@@ -1982,9 +1980,7 @@ void P_UpdateSpecials(void)
     // DO BUTTONS
     for (i = 0; i < MAXBUTTONS; i++)
         if (buttonlist[i].btimer)
-        {
-            buttonlist[i].btimer--;
-            if (!buttonlist[i].btimer)
+            if (!--buttonlist[i].btimer)
             {
                 switch (buttonlist[i].where)
                 {
@@ -2007,7 +2003,6 @@ void P_UpdateSpecials(void)
                     S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
                 memset(&buttonlist[i], 0, sizeof(button_t));
             }
-        }
 }
 
 //
