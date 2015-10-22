@@ -683,6 +683,7 @@ void M_LoadCVARs(char *filename)
                 uppercase(filename), uppercase(PACKAGE_CONFIG));
         else
             C_Output("Created %s.", uppercase(filename));
+        M_CheckCVARs();
         return;
     }
 
