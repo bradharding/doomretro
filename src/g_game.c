@@ -796,14 +796,14 @@ dboolean G_Responder(event_t *ev)
             }
             if (!automapactive && !menuactive && !paused)
             {
-                if (ev->data1 > 0)
+                if (ev->data1 < 0)
                 {
                     if (mousebnextweapon == MOUSE_WHEELDOWN)
                         G_NextWeapon();
                     else if (mousebprevweapon == MOUSE_WHEELDOWN)
                         G_PrevWeapon();
                 }
-                else if (ev->data1 < 0)
+                else if (ev->data1 > 0)
                 {
                     if (mousebnextweapon == MOUSE_WHEELUP)
                         G_NextWeapon();
