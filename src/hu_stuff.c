@@ -103,6 +103,7 @@ static patch_t          *berserkpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
+dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
 static patch_t          *stdisk;
 dboolean                drawdisk = false;
@@ -138,6 +139,8 @@ static struct
     { "YSKUA0", "YSKUB0", NULL },
     { "RSKUA0", "RSKUB0", NULL }
 };
+
+void HU_AltInit(void);
 
 patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
@@ -226,6 +229,8 @@ void HU_Init(void)
 
     if (strcasecmp(playername, playername_default))
         s_GOTMEDINEED = s_GOTMEDINEED2;
+
+    HU_AltInit();
 }
 
 void HU_Stop(void)
@@ -526,6 +531,109 @@ static void HU_DrawHUD(void)
     }
 }
 
+#define ALTHUDXL 10
+#define ALTHUDXR 460
+#define ALTHUDY  300
+
+static patch_t  *altnum[10];
+static patch_t  *altweapon[NUMWEAPONS];
+static patch_t  *altleftpatch;
+static patch_t  *altrightpatch;
+static patch_t  *altmarkpatch;
+
+void HU_AltInit(void)
+{
+    int         i;
+    char        buffer[9];
+
+    for (i = 0; i < 10; i++)
+    {
+        M_snprintf(buffer, 9, "DRHUD%i", i);
+        altnum[i] = W_CacheLumpName(buffer, PU_STATIC);
+    }
+    for (i = 1; i < NUMWEAPONS; i++)
+    {
+        M_snprintf(buffer, 9, "DRHUDWP%i", i);
+        altweapon[i] = W_CacheLumpName(buffer, PU_STATIC);
+    }
+
+    altleftpatch = W_CacheLumpName("DRHUDL", PU_CACHE);
+    altrightpatch = W_CacheLumpName("DRHUDR", PU_CACHE);
+    altmarkpatch = W_CacheLumpName("DRHUDI", PU_CACHE);
+}
+
+static void DrawAltHUDNumber(int x, int y, int val)
+{
+    int         oldval = val;
+    patch_t     *patch;
+
+    if (val > 99)
+    {
+        patch = altnum[val / 100];
+        V_DrawBigPatch(x, y, 0, patch);
+        x += SHORT(patch->width) + 2;
+    }
+    val %= 100;
+    if (val > 9 || oldval > 99)
+    {
+        patch = altnum[val / 10];
+        V_DrawBigPatch(x, y, 0, patch);
+        x += SHORT(patch->width) + 2;
+    }
+    val %= 10;
+    patch = altnum[val];
+    V_DrawBigPatch(x, y, 0, patch);
+    x += SHORT(patch->width) + 2;
+}
+
+static int AltHUDNumberWidth(int val)
+{
+    int oldval = val;
+    int width = 0;
+
+    if (val > 99)
+        width += SHORT(altnum[val / 100]->width) + 2;
+    val %= 100;
+    if (val > 9 || oldval > 99)
+        width += SHORT(altnum[val / 10]->width) + 2;
+    val %= 10;
+    width += SHORT(altnum[val]->width);
+    return width;
+}
+
+static void HU_DrawAltHUD(void)
+{
+    int                 health = MAX(0, plr->health);
+    int                 armor = plr->armorpoints;
+    weapontype_t        readyweapon = plr->readyweapon;
+    int                 ammotype = weaponinfo[readyweapon].ammo;
+    int                 ammo = plr->ammo[ammotype];
+    int                 maxammo = plr->maxammo[ammotype];
+
+    DrawAltHUDNumber(ALTHUDXL + 34 - AltHUDNumberWidth(health), ALTHUDY + 13, health);
+    health = MIN(health, 100);
+    V_FillRect(0, ALTHUDXL + 58, ALTHUDY + 14, health, 10, 93);
+    V_DrawBigPatch(ALTHUDXL + 40, ALTHUDY, 0, altleftpatch);
+    V_DrawBigPatch(ALTHUDXL + 58 + health - 3, ALTHUDY + 14, 0, altmarkpatch);
+
+    if (armor)
+        V_FillRect(0, ALTHUDXL + 58, ALTHUDY + 1, armor / 2, 6, 102);
+
+    if (health)
+    {
+        if (maxammo)
+        {
+            DrawAltHUDNumber(ALTHUDXR + 100 - AltHUDNumberWidth(ammo), ALTHUDY - 1, ammo);
+            ammo = 100 * ammo / maxammo;
+            V_FillRect(0, ALTHUDXR, ALTHUDY + 14, ammo, 10, 93);
+            V_DrawBigPatch(ALTHUDXR, ALTHUDY + 14, 0, altrightpatch);
+            V_DrawBigPatch(ALTHUDXR + ammo - 3, ALTHUDY + 14, 0, altmarkpatch);
+        }
+        if (readyweapon)
+            V_DrawBigPatch(ALTHUDXR + 106, ALTHUDY - 12, 0, altweapon[readyweapon]);
+    }
+}
+
 void HU_DrawDisk(void)
 {
     if (r_diskicon && stdisk)
@@ -553,7 +661,10 @@ void HU_Drawer(void)
         if ((vid_widescreen || r_screensize == r_screensize_max) && r_hud)
         {
             hud_y = (vid_widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
-            HU_DrawHUD();
+            if (r_althud)
+                HU_DrawAltHUD();
+            else
+                HU_DrawHUD();
         }
 
         if (mapwindow && realframe)
