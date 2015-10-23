@@ -783,11 +783,11 @@ void R_DrawTranslucent50Column(void)
 
     while (--count)
     {
-        *dest = tinttab50[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
+        *dest = tranmap[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = tinttab50[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
+    *dest = tranmap[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucent33Column(void)
