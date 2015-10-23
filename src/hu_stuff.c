@@ -625,9 +625,9 @@ static void HU_DrawAltHUD(void)
         {
             DrawAltHUDNumber(ALTHUDXR + 100 - AltHUDNumberWidth(ammo), ALTHUDY - 1, ammo);
             ammo = 100 * ammo / maxammo;
-            V_FillRect(0, ALTHUDXR, ALTHUDY + 14, ammo, 10, 93);
+            V_FillRect(0, ALTHUDXR + 100 - ammo, ALTHUDY + 14, ammo, 10, 93);
             V_DrawBigPatch(ALTHUDXR, ALTHUDY + 14, 0, altrightpatch);
-            V_DrawBigPatch(ALTHUDXR + ammo - 3, ALTHUDY + 14, 0, altmarkpatch);
+            V_DrawBigPatch(ALTHUDXR + 100 - ammo - 3, ALTHUDY + 14, 0, altmarkpatch);
         }
         if (readyweapon)
             V_DrawBigPatch(ALTHUDXR + 106, ALTHUDY - 12, 0, altweapon[readyweapon]);
