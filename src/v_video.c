@@ -100,6 +100,21 @@ void V_FillRect(int scrn, int x, int y, int width, int height, byte color)
     }
 }
 
+void V_FillTransRect(int x, int y, int width, int height, byte color, byte *tinttab)
+{
+    byte        *dest = screens[0] + y * SCREENWIDTH + x;
+    int         xx, yy;
+
+    height *= SCREENWIDTH;
+    for (yy = 0; yy < height; yy += SCREENWIDTH)
+        for (xx = 0; xx < width; ++xx)
+        {
+            byte        *dot = dest + xx + yy;
+
+            *dot = tinttab[*dot + (color << 8)];
+        }
+}
+
 //
 // V_DrawPatch
 // Masks a column based masked pic to the screen.

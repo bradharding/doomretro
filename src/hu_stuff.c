@@ -570,19 +570,19 @@ static void DrawAltHUDNumber(int x, int y, int val)
     if (val > 99)
     {
         patch = altnum[val / 100];
-        V_DrawBigPatch(x, y, 0, patch);
+        hudfunc(x, y, patch, tinttab50);
         x += SHORT(patch->width) + 2;
     }
     val %= 100;
     if (val > 9 || oldval > 99)
     {
         patch = altnum[val / 10];
-        V_DrawBigPatch(x, y, 0, patch);
+        hudfunc(x, y, patch, tinttab50);
         x += SHORT(patch->width) + 2;
     }
     val %= 10;
     patch = altnum[val];
-    V_DrawBigPatch(x, y, 0, patch);
+    hudfunc(x, y, patch, tinttab50);
     x += SHORT(patch->width) + 2;
 }
 
@@ -612,12 +612,12 @@ static void HU_DrawAltHUD(void)
 
     DrawAltHUDNumber(ALTHUDXL + 34 - AltHUDNumberWidth(health), ALTHUDY + 13, health);
     health = MIN(health, 100);
-    V_FillRect(0, ALTHUDXL + 58, ALTHUDY + 14, health, 10, 93);
-    V_DrawBigPatch(ALTHUDXL + 40, ALTHUDY, 0, altleftpatch);
-    V_DrawBigPatch(ALTHUDXL + 58 + health - 3, ALTHUDY + 14, 0, altmarkpatch);
+    V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 14, health, 10, 93, tinttab50);
+    hudfunc(ALTHUDXL + 40, ALTHUDY, altleftpatch, tinttab50);
+    hudfunc(ALTHUDXL + 58 + health - 3, ALTHUDY + 14, altmarkpatch, tinttab50);
 
     if (armor)
-        V_FillRect(0, ALTHUDXL + 58, ALTHUDY + 1, armor / 2, 6, 102);
+        V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 1, armor / 2, 6, 102, tinttab50);
 
     if (health)
     {
@@ -625,12 +625,12 @@ static void HU_DrawAltHUD(void)
         {
             DrawAltHUDNumber(ALTHUDXR + 100 - AltHUDNumberWidth(ammo), ALTHUDY - 1, ammo);
             ammo = 100 * ammo / maxammo;
-            V_FillRect(0, ALTHUDXR + 100 - ammo, ALTHUDY + 14, ammo, 10, 93);
-            V_DrawBigPatch(ALTHUDXR, ALTHUDY + 14, 0, altrightpatch);
-            V_DrawBigPatch(ALTHUDXR + 100 - ammo - 3, ALTHUDY + 14, 0, altmarkpatch);
+            V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 14, ammo, 10, 93, tinttab50);
+            hudfunc(ALTHUDXR, ALTHUDY + 14, altrightpatch, tinttab50);
+            hudfunc(ALTHUDXR + 100 - ammo - 3, ALTHUDY + 14, altmarkpatch, tinttab50);
         }
         if (readyweapon)
-            V_DrawBigPatch(ALTHUDXR + 106, ALTHUDY - 12, 0, altweapon[readyweapon]);
+            hudfunc(ALTHUDXR + 106, ALTHUDY - 12, altweapon[readyweapon], tinttab50);
     }
 }
 
