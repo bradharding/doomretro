@@ -141,19 +141,23 @@ static struct
 
 patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
+    int lump;
+
     if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
-        && W_CheckNumForName(ammopic[ammopicnum].patchname) >= 0)
-        return W_CacheLumpName(ammopic[ammopicnum].patchname, PU_CACHE);
+        && (lump = W_CheckNumForName(ammopic[ammopicnum].patchname)) >= 0)
+        return W_CacheLumpNum(lump, PU_CACHE);
     else
         return NULL;
 }
 
 patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
-    if (dehacked && W_CheckNumForName(keypic[keypicnum].patchnamea) >= 0)
-        return W_CacheLumpName(keypic[keypicnum].patchnamea, PU_CACHE);
-    else if (W_CheckNumForName(keypic[keypicnum].patchnameb) >= 0)
-        return W_CacheLumpName(keypic[keypicnum].patchnameb, PU_CACHE);
+    int lump;
+
+    if (dehacked && (lump = W_CheckNumForName(keypic[keypicnum].patchnamea)) >= 0)
+        return W_CacheLumpNum(lump, PU_CACHE);
+    else if ((lump = W_CheckNumForName(keypic[keypicnum].patchnameb)) >= 0)
+        return W_CacheLumpNum(lump, PU_CACHE);
     else
         return NULL;
 }
@@ -162,6 +166,7 @@ void HU_Init(void)
 {
     int         i;
     int         j;
+    int         lump;
     char        buffer[9];
 
     // load the heads-up font
@@ -174,16 +179,16 @@ void HU_Init(void)
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
-    if (W_CheckNumForName("MEDIA0") >= 0)
-        healthpatch = W_CacheLumpName("MEDIA0", PU_CACHE);
-    if (W_CheckNumForName("PSTRA0") >= 0)
-        berserkpatch = W_CacheLumpName("PSTRA0", PU_CACHE);
+    if ((lump = W_CheckNumForName("MEDIA0")) >= 0)
+        healthpatch = W_CacheLumpNum(lump, PU_CACHE);
+    if ((lump = W_CheckNumForName("PSTRA0")) >= 0)
+        berserkpatch = W_CacheLumpNum(lump, PU_CACHE);
     else
         berserkpatch = healthpatch;
-    if (W_CheckNumForName("ARM1A0") >= 0)
-        greenarmorpatch = W_CacheLumpName("ARM1A0", PU_CACHE);
-    if (W_CheckNumForName("ARM2A0") >= 0)
-        bluearmorpatch = W_CacheLumpName("ARM2A0", PU_CACHE);
+    if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
+        greenarmorpatch = W_CacheLumpNum(lump, PU_CACHE);
+    if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
+        bluearmorpatch = W_CacheLumpNum(lump, PU_CACHE);
 
     ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
     ammopic[am_shell].patch = HU_LoadHUDAmmoPatch(am_shell);
@@ -214,8 +219,8 @@ void HU_Init(void)
         godhudfunc = V_DrawYellowHUDPatch;
     }
 
-    if (W_CheckNumForName("STDISK") >= 0)
-        stdisk = W_CacheLumpName("STDISK", PU_CACHE);
+    if ((lump = W_CheckNumForName("STDISK")) >= 0)
+        stdisk = W_CacheLumpNum(lump, PU_CACHE);
 
     s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
