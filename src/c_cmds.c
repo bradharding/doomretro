@@ -528,7 +528,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (pm_alwaysrun, bool_cvars_func1, pm_alwaysrun_cvar_func2, "Toggles always run."),
     CVAR_BOOL (pm_centerweapon, bool_cvars_func1, bool_cvars_func2, "Toggles the centering of the player's weapon when firing."),
     CVAR_INT  (pm_walkbob, null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when walking."),
-    CVAR_BOOL (r_althud, bool_cvars_func1, bool_cvars_func2, "Toggles an alternate HUD when the HUD is enabled."),
+    CVAR_BOOL (r_althud, bool_cvars_func1, bool_cvars_func2, "Toggles the display of an alternate HUD when the HUD is enabled."),
     CVAR_INT  (r_blood, r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters."),
     CVAR_INT  (r_bloodsplats_max, r_bloodsplats_max_cvar_func1, r_bloodsplats_max_cvar_func2, CF_NONE, SPLATALIAS, "The maximum number of blood splats allowed in a map."),
     CVAR_INT  (r_bloodsplats_total, int_cvars_func1, int_cvars_func2, CF_READONLY, NOALIAS, "The total number of blood splats in the current map."),
