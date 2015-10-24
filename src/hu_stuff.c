@@ -612,27 +612,27 @@ static void HU_DrawAltHUD(void)
 
     DrawAltHUDNumber(ALTHUDXL + 34 - AltHUDNumberWidth(health), ALTHUDY + 12, health);
     health = MIN(health, 100);
-    V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 13, health, 8, 4, tinttab50);
-    hudfunc(ALTHUDXL + 40, ALTHUDY + 1, altleftpatch, tinttab50);
-    hudfunc(ALTHUDXL + 58 + health - 3, ALTHUDY + 13, altmarkpatch, tinttab50);
+    V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 13, health, 8, 4);
+    V_DrawAltHUDPatch(ALTHUDXL + 40, ALTHUDY + 1, altleftpatch);
+    V_DrawAltHUDPatch(ALTHUDXL + 58 + health - 3, ALTHUDY + 13, altmarkpatch);
 
     if (armor)
-        V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 2, armor / 2, 6, 102, tinttab50);
+        V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 2, armor / 2, 6, 102);
 
     if (health)
     {
         if (maxammo)
         {
-            DrawAltHUDNumber(ALTHUDXR + 100 - AltHUDNumberWidth(ammo), ALTHUDY + 1, ammo);
+            DrawAltHUDNumber(ALTHUDXR + 100 - AltHUDNumberWidth(ammo), ALTHUDY, ammo);
             ammo = 100 * ammo / maxammo;
-            V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 14, ammo, 8, 4, tinttab50);
-            hudfunc(ALTHUDXR, ALTHUDY + 14, altrightpatch, tinttab50);
-            hudfunc(ALTHUDXR + 100 - ammo - 2, ALTHUDY + 14, altmarkpatch, tinttab50);
+            V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 13, ammo, 8, 4);
+            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
+            V_DrawAltHUDPatch(ALTHUDXR + 100 - ammo - 2, ALTHUDY + 13, altmarkpatch);
         }
         else
-            hudfunc(ALTHUDXR, ALTHUDY + 14, altrightpatch, tinttab50);
+            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
         if (readyweapon)
-            hudfunc(ALTHUDXR + 106, ALTHUDY - 12, altweapon[readyweapon], tinttab50);
+            V_DrawAltHUDPatch(ALTHUDXR + 106, ALTHUDY - 15, altweapon[readyweapon]);
     }
 }
 

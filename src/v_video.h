@@ -68,7 +68,7 @@ void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int dest
     int destscrn);
 
 void V_FillRect(int scrn, int x, int y, int width, int height, byte color);
-void V_FillTransRect(int x, int y, int width, int height, byte color, byte *tinttab);
+void V_FillTransRect(int x, int y, int width, int height, int color);
 
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch);
@@ -94,6 +94,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *tinttab);
 void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab);
 void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab);
+void V_DrawAltHUDPatch(int x, int y, patch_t *patch);
 void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
