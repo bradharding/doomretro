@@ -608,7 +608,8 @@ static void HU_DrawAltHUD(void)
 
     DrawAltHUDNumber(ALTHUDXL + 34 - AltHUDNumberWidth(health), ALTHUDY + 12, health);
     health = MIN(health, 100);
-    V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 13, health, 8, 4);
+    V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 13, health, 8,
+        (health <= 20 ? 184 : (health == 100 ? 118 : 4)));
     V_DrawAltHUDPatch(ALTHUDXL + 40, ALTHUDY + 1, altleftpatch);
     V_DrawAltHUDPatch(ALTHUDXL + 58, ALTHUDY + 13, altendpatch);
     V_DrawAltHUDPatch(ALTHUDXL + 58 + MAX(1, health) - 3, ALTHUDY + 13, altmarkpatch);
@@ -632,7 +633,7 @@ static void HU_DrawAltHUD(void)
 
             DrawAltHUDNumber(ALTHUDXR + 100 - AltHUDNumberWidth(ammo), ALTHUDY, ammo);
             ammo = 100 * ammo / maxammo;
-            V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 13, ammo, 8, 4);
+            V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 13, ammo, 8, (ammo <= 10 ? 184 : 4));
             V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
             V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch);
             V_DrawAltHUDPatch(ALTHUDXR + 100 - MAX(1, ammo) - 2, ALTHUDY + 13, altmarkpatch);
