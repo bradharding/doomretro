@@ -602,12 +602,8 @@ static int AltHUDNumberWidth(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    int                 health = MAX(0, plr->health);
-    int                 armor = plr->armorpoints;
-    weapontype_t        readyweapon = plr->readyweapon;
-    int                 ammotype = weaponinfo[readyweapon].ammo;
-    int                 ammo = plr->ammo[ammotype];
-    int                 maxammo = plr->maxammo[ammotype];
+    int health = MAX(0, plr->health);
+    int armor = plr->armorpoints;
 
     DrawAltHUDNumber(ALTHUDXL + 34 - AltHUDNumberWidth(health), ALTHUDY + 12, health);
     health = MIN(health, 100);
@@ -620,8 +616,16 @@ static void HU_DrawAltHUD(void)
 
     if (health)
     {
+        weapontype_t    pendingweapon = plr->pendingweapon;
+        weapontype_t    readyweapon = plr->readyweapon;
+        weapontype_t    weapon = (pendingweapon != wp_nochange ? pendingweapon : readyweapon);
+        int             ammotype = weaponinfo[weapon].ammo;
+        int             maxammo = plr->maxammo[ammotype];
+
         if (maxammo)
         {
+            int         ammo = plr->ammo[ammotype];
+
             DrawAltHUDNumber(ALTHUDXR + 100 - AltHUDNumberWidth(ammo), ALTHUDY, ammo);
             ammo = 100 * ammo / maxammo;
             V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 13, ammo, 8, 4);
@@ -630,8 +634,8 @@ static void HU_DrawAltHUD(void)
         }
         else
             V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
-        if (readyweapon)
-            V_DrawAltHUDPatch(ALTHUDXR + 106, ALTHUDY - 15, altweapon[readyweapon]);
+        if (weapon)
+            V_DrawAltHUDPatch(ALTHUDXR + 106, ALTHUDY - 15, altweapon[weapon]);
     }
     else
         V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
