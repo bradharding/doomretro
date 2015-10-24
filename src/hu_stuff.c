@@ -630,16 +630,15 @@ static void HU_DrawAltHUD(void)
         weapontype_t    pendingweapon = plr->pendingweapon;
         weapontype_t    readyweapon = plr->readyweapon;
         weapontype_t    weapon = (pendingweapon != wp_nochange ? pendingweapon : readyweapon);
-        int             ammotype = weaponinfo[weapon].ammo;
-        int             maxammo = plr->maxammo[ammotype];
+        ammotype_t      ammotype = weaponinfo[weapon].ammo;
 
-        if (maxammo)
+        if (ammotype != am_noammo)
         {
             int         ammo = plr->ammo[ammotype];
 
-            color = (ammo <= 15 ? YELLOW : WHITE);
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 100 - AltHUDNumberWidth(ammo), ALTHUD_Y - 1, ammo);
-            ammo = MAX(1, 100 * ammo / maxammo);
+            color = (ammo <= 15 ? YELLOW : WHITE);
+            ammo = MAX(1, 100 * ammo / plr->maxammo[ammotype]);
             V_FillTransRect(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo, 8, color);
             V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE);
             V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 99, ALTHUD_Y + 13, altendpatch, color);
