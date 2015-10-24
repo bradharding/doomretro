@@ -630,7 +630,7 @@ static void HU_DrawAltHUD(void)
             ammo = 100 * ammo / maxammo;
             V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 13, ammo, 8, 4);
             V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
-            V_DrawAltHUDPatch(ALTHUDXR + 100 - ammo - 2, ALTHUDY + 13, altmarkpatch);
+            V_DrawAltHUDPatch(ALTHUDXR + 100 - MAX(1, ammo) - 2, ALTHUDY + 13, altmarkpatch);
         }
         else
             V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
