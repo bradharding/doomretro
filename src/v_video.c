@@ -727,11 +727,13 @@ void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab
     }
 }
 
-void V_DrawAltHUDPatch(int x, int y, patch_t *patch)
+void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int color)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
     int         w = SHORT(patch->width);
+
+    color <<= 8;
 
     for (; col < w; col++, desttop++)
     {
@@ -746,7 +748,9 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch)
 
             while (count--)
             {
-                *dest = tinttab50[(*source++ << 8) + *dest];
+                byte    dot = *source++;
+
+                *dest = tinttab50[(dot == 4 ? color : (dot << 8)) + *dest];
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);

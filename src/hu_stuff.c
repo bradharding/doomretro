@@ -571,19 +571,19 @@ static void DrawAltHUDNumber(int x, int y, int val)
     if (val > 99)
     {
         patch = altnum[val / 100];
-        V_DrawAltHUDPatch(x, y, patch);
+        V_DrawAltHUDPatch(x, y, patch, 4);
         x += SHORT(patch->width) + 2;
     }
     val %= 100;
     if (val > 9 || oldval > 99)
     {
         patch = altnum[val / 10];
-        V_DrawAltHUDPatch(x, y, patch);
+        V_DrawAltHUDPatch(x, y, patch, 4);
         x += SHORT(patch->width) + 2;
     }
     val %= 10;
     patch = altnum[val];
-    V_DrawAltHUDPatch(x, y, patch);
+    V_DrawAltHUDPatch(x, y, patch, 4);
 }
 
 static int AltHUDNumberWidth(int val)
@@ -605,16 +605,16 @@ static void HU_DrawAltHUD(void)
 {
     int health = MAX(0, plr->health);
     int armor = plr->armorpoints;
+    int color = (health <= 20 ? 180 : (health == 100 ? 118 : 4));
 
     DrawAltHUDNumber(ALTHUDXL + 34 - AltHUDNumberWidth(health), ALTHUDY + 12, health);
     health = MIN(health, 100);
-    V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 13, health, 8,
-        (health <= 20 ? 180 : (health == 100 ? 118 : 4)));
-    V_DrawAltHUDPatch(ALTHUDXL + 40, ALTHUDY + 1, altleftpatch);
-    V_DrawAltHUDPatch(ALTHUDXL + 58, ALTHUDY + 13, altendpatch);
-    V_DrawAltHUDPatch(ALTHUDXL + 58 + MAX(1, health) - 3, ALTHUDY + 13, altmarkpatch);
+    V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 13, health, 8, color);
+    V_DrawAltHUDPatch(ALTHUDXL + 40, ALTHUDY + 1, altleftpatch, 4);
+    V_DrawAltHUDPatch(ALTHUDXL + 58, ALTHUDY + 13, altendpatch, color);
+    V_DrawAltHUDPatch(ALTHUDXL + 58 + MAX(1, health) - 3, ALTHUDY + 13, altmarkpatch, color);
     if (health < 100)
-        V_DrawAltHUDPatch(ALTHUDXL + 157, ALTHUDY + 13, altendpatch);
+        V_DrawAltHUDPatch(ALTHUDXL + 157, ALTHUDY + 13, altendpatch, 4);
 
     if (armor)
         V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 2, armor / 2, 6, 102);
@@ -631,29 +631,30 @@ static void HU_DrawAltHUD(void)
         {
             int         ammo = plr->ammo[ammotype];
 
+            color = (ammo <= 10 ? 180 : 4);
             DrawAltHUDNumber(ALTHUDXR + 100 - AltHUDNumberWidth(ammo), ALTHUDY - 1, ammo);
             ammo = 100 * ammo / maxammo;
-            V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 13, ammo, 8, (ammo <= 10 ? 180 : 4));
-            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
-            V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch);
-            V_DrawAltHUDPatch(ALTHUDXR + 100 - MAX(1, ammo) - 2, ALTHUDY + 13, altmarkpatch);
+            V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 13, ammo, 8, color);
+            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch, 4);
+            V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch, color);
+            V_DrawAltHUDPatch(ALTHUDXR + 100 - MAX(1, ammo) - 2, ALTHUDY + 13, altmarkpatch, color);
             if (ammo < 100)
-                V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch);
+                V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch, 4);
         }
         else
         {
-            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
-            V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch);
-            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch);
+            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch, 4);
+            V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch, 4);
+            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch, 4);
         }
         if (weapon)
-            V_DrawAltHUDPatch(ALTHUDXR + 106, ALTHUDY - 15, altweapon[weapon]);
+            V_DrawAltHUDPatch(ALTHUDXR + 106, ALTHUDY - 15, altweapon[weapon], 4);
     }
     else
     {
-        V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
-        V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch);
-        V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch);
+        V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch, 4);
+        V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch, 4);
+        V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch, 4);
     }
 }
 
