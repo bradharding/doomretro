@@ -60,7 +60,7 @@
 #define HUD_Y                           311 * SCREENSCALE / 2
 
 #define HUD_HEALTH_X                    HUD_X
-#define HUD_HEALTH_Y                    hud_y
+#define HUD_HEALTH_Y                    HUD_Y
 #define HUD_HEALTH_MIN                  20
 #define HUD_HEALTH_WAIT                 250
 #define HUD_HEALTH_HIGHLIGHT_WAIT       250

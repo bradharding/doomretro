@@ -95,7 +95,6 @@ extern dboolean         emptytallpercent;
 static dboolean         headsupactive;
 
 byte                    *tempscreen;
-int                     hud_y;
 int                     hudnumoffset;
 
 static patch_t          *healthpatch;
@@ -537,6 +536,7 @@ static void HU_DrawHUD(void)
 
 static patch_t  *altnum[10];
 static patch_t  *altweapon[NUMWEAPONS];
+static patch_t  *altendpatch;
 static patch_t  *altleftpatch;
 static patch_t  *altrightpatch;
 static patch_t  *altmarkpatch;
@@ -557,6 +557,7 @@ void HU_AltInit(void)
         altweapon[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
 
+    altendpatch = W_CacheLumpName("DRHUDE", PU_CACHE);
     altleftpatch = W_CacheLumpName("DRHUDL", PU_CACHE);
     altrightpatch = W_CacheLumpName("DRHUDR", PU_CACHE);
     altmarkpatch = W_CacheLumpName("DRHUDI", PU_CACHE);
@@ -609,7 +610,10 @@ static void HU_DrawAltHUD(void)
     health = MIN(health, 100);
     V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 13, health, 8, 4);
     V_DrawAltHUDPatch(ALTHUDXL + 40, ALTHUDY + 1, altleftpatch);
+    V_DrawAltHUDPatch(ALTHUDXL + 58, ALTHUDY + 13, altendpatch);
     V_DrawAltHUDPatch(ALTHUDXL + 58 + MAX(1, health) - 3, ALTHUDY + 13, altmarkpatch);
+    if (health < 100)
+        V_DrawAltHUDPatch(ALTHUDXL + 157, ALTHUDY + 13, altendpatch);
 
     if (armor)
         V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 2, armor / 2, 6, 102);
@@ -630,15 +634,26 @@ static void HU_DrawAltHUD(void)
             ammo = 100 * ammo / maxammo;
             V_FillTransRect(ALTHUDXR + 100 - ammo, ALTHUDY + 13, ammo, 8, 4);
             V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
+            V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch);
             V_DrawAltHUDPatch(ALTHUDXR + 100 - MAX(1, ammo) - 2, ALTHUDY + 13, altmarkpatch);
+            if (ammo < 100)
+                V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch);
         }
         else
+        {
             V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
+            V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch);
+            V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch);
+        }
         if (weapon)
             V_DrawAltHUDPatch(ALTHUDXR + 106, ALTHUDY - 15, altweapon[weapon]);
     }
     else
+    {
         V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
+        V_DrawAltHUDPatch(ALTHUDXR + 99, ALTHUDY + 13, altendpatch);
+        V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altendpatch);
+    }
 }
 
 void HU_DrawDisk(void)
@@ -665,14 +680,11 @@ void HU_Drawer(void)
     }
     else
     {
-        if ((vid_widescreen || r_screensize == r_screensize_max) && r_hud)
-        {
-            hud_y = (vid_widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
+        if (vid_widescreen && r_hud)
             if (r_althud)
                 HU_DrawAltHUD();
             else
                 HU_DrawHUD();
-        }
 
         if (mapwindow && realframe)
             HUlib_drawTextLine(&w_title, true);
