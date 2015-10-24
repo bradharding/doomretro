@@ -53,6 +53,7 @@ extern byte     *screens[5];
 
 extern byte     redtoyellow[];
 
+extern byte     *tinttab20;
 extern byte     *tinttab25;
 extern byte     *tinttab33;
 extern byte     *tinttab40;

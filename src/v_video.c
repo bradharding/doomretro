@@ -103,17 +103,46 @@ void V_FillRect(int scrn, int x, int y, int width, int height, byte color)
 void V_FillTransRect(int x, int y, int width, int height, int color)
 {
     byte        *dest = screens[0] + y * SCREENWIDTH + x;
+    byte        *dot;
     int         xx, yy;
 
-    height *= SCREENWIDTH;
     color <<= 8;
-    for (yy = 0; yy < height; yy += SCREENWIDTH)
-        for (xx = 0; xx < width; ++xx)
-        {
-            byte        *dot = dest + xx + yy;
 
+    dot = dest - 1 - SCREENWIDTH * 2;
+    *dot = tinttab20[*dot + color];
+    dot += SCREENWIDTH;
+    for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
+        *dot = tinttab33[*dot + color];
+    *dot = tinttab20[*dot + color];
+
+    dot = dest - 2 - SCREENWIDTH;
+    for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
+        *dot = tinttab20[*dot + color];
+
+    for (xx = 0; xx < width; ++xx)
+    {
+        dot = dest + xx - SCREENWIDTH * 2;
+        *dot = tinttab20[*dot + color];
+        dot += SCREENWIDTH;
+        *dot = tinttab33[*dot + color];
+        dot += SCREENWIDTH;
+        for (yy = 0; yy < height; ++yy, dot += SCREENWIDTH)
             *dot = tinttab50[*dot + color];
-        }
+        *dot = tinttab33[*dot + color];
+        dot += SCREENWIDTH;
+        *dot = tinttab20[*dot + color];
+    }
+
+    dot = dest + width - SCREENWIDTH * 2;
+    *dot = tinttab20[*dot + color];
+    dot += SCREENWIDTH;
+    for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
+        *dot = tinttab33[*dot + color];
+    *dot = tinttab20[*dot + color];
+
+    dot = dest + width + 1 - SCREENWIDTH;
+    for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
+        *dot = tinttab20[*dot + color];
 }
 
 //

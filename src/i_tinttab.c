@@ -80,6 +80,7 @@ static byte CHGF[256] =
 
 byte    *tinttab;
 
+byte    *tinttab20;
 byte    *tinttab25;
 byte    *tinttab33;
 byte    *tinttab40;
@@ -180,6 +181,7 @@ void I_InitTintTables(byte *palette)
 
     tinttab = GenerateTintTable(palette, ADDITIVE, general, ALL);
 
+    tinttab20 = GenerateTintTable(palette, 20, general, ALL);
     tinttab25 = GenerateTintTable(palette, 25, general, ALL);
     tinttab33 = GenerateTintTable(palette, 33, general, ALL);
     tinttab40 = GenerateTintTable(palette, 40, general, ALL);
