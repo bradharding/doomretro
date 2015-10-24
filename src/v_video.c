@@ -701,9 +701,10 @@ void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab
 void V_DrawAltHUDPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
+    byte        *desttop = screens[0] + y * SCREENWIDTH + x;
     int         w = SHORT(patch->width);
 
-    for (; col < w; col++, x++)
+    for (; col < w; col++, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -711,7 +712,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch)
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = screens[0] + (y + column->topdelta) * SCREENWIDTH + x;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
             int         count = column->length;
 
             while (count--)

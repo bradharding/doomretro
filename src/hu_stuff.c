@@ -570,20 +570,19 @@ static void DrawAltHUDNumber(int x, int y, int val)
     if (val > 99)
     {
         patch = altnum[val / 100];
-        hudfunc(x, y, patch, tinttab50);
+        V_DrawAltHUDPatch(x, y, patch);
         x += SHORT(patch->width) + 2;
     }
     val %= 100;
     if (val > 9 || oldval > 99)
     {
         patch = altnum[val / 10];
-        hudfunc(x, y, patch, tinttab50);
+        V_DrawAltHUDPatch(x, y, patch);
         x += SHORT(patch->width) + 2;
     }
     val %= 10;
     patch = altnum[val];
-    hudfunc(x, y, patch, tinttab50);
-    x += SHORT(patch->width) + 2;
+    V_DrawAltHUDPatch(x, y, patch);
 }
 
 static int AltHUDNumberWidth(int val)
@@ -614,7 +613,7 @@ static void HU_DrawAltHUD(void)
     health = MIN(health, 100);
     V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 13, health, 8, 4);
     V_DrawAltHUDPatch(ALTHUDXL + 40, ALTHUDY + 1, altleftpatch);
-    V_DrawAltHUDPatch(ALTHUDXL + 58 + health - 3, ALTHUDY + 13, altmarkpatch);
+    V_DrawAltHUDPatch(ALTHUDXL + 58 + MAX(1, health) - 3, ALTHUDY + 13, altmarkpatch);
 
     if (armor)
         V_FillTransRect(ALTHUDXL + 58, ALTHUDY + 2, armor / 2, 6, 102);
@@ -634,6 +633,8 @@ static void HU_DrawAltHUD(void)
         if (readyweapon)
             V_DrawAltHUDPatch(ALTHUDXR + 106, ALTHUDY - 15, altweapon[readyweapon]);
     }
+    else
+        V_DrawAltHUDPatch(ALTHUDXR, ALTHUDY + 13, altrightpatch);
 }
 
 void HU_DrawDisk(void)
