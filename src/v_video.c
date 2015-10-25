@@ -112,7 +112,7 @@ void V_FillTransRect(int x, int y, int width, int height, int color)
     *dot = tinttab20[*dot + color];
     dot += SCREENWIDTH;
     for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
-        *dot = tinttab33[*dot + color];
+        *dot = tinttab40[*dot + color];
     *dot = tinttab20[*dot + color];
 
     dot = dest - 2 - SCREENWIDTH;
@@ -124,11 +124,11 @@ void V_FillTransRect(int x, int y, int width, int height, int color)
         dot = dest + xx - SCREENWIDTH * 2;
         *dot = tinttab20[*dot + color];
         dot += SCREENWIDTH;
-        *dot = tinttab33[*dot + color];
+        *dot = tinttab40[*dot + color];
         dot += SCREENWIDTH;
         for (yy = 0; yy < height; ++yy, dot += SCREENWIDTH)
-            *dot = tinttab50[*dot + color];
-        *dot = tinttab33[*dot + color];
+            *dot = tinttab60[*dot + color];
+        *dot = tinttab40[*dot + color];
         dot += SCREENWIDTH;
         *dot = tinttab20[*dot + color];
     }
@@ -137,7 +137,7 @@ void V_FillTransRect(int x, int y, int width, int height, int color)
     *dot = tinttab20[*dot + color];
     dot += SCREENWIDTH;
     for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
-        *dot = tinttab33[*dot + color];
+        *dot = tinttab40[*dot + color];
     *dot = tinttab20[*dot + color];
 
     dot = dest + width + 1 - SCREENWIDTH;
@@ -750,7 +750,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int color)
             {
                 byte    dot = *source++;
 
-                *dest = tinttab50[(dot == 4 ? color : (dot << 8)) + *dest];
+                *dest = tinttab60[(dot == 4 ? color : (dot << 8)) + *dest];
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);

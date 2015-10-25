@@ -536,7 +536,7 @@ static void HU_DrawHUD(void)
 
 #define WHITE           4
 #define GRAY            102
-#define GREEN           118
+#define GREEN           114
 #define YELLOW          160
 #define RED             180
 #define BLUE            200
