@@ -611,7 +611,7 @@ static void HU_DrawAltHUD(void)
 {
     int health = MAX(0, plr->health);
     int armor = plr->armorpoints;
-    int color = (health <= 20 ? RED : (health == 100 ? GREEN : WHITE));
+    int color = (health <= 20 ? RED : (health >= 100 ? GREEN : WHITE));
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 34 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     health = MIN(health, 100);
