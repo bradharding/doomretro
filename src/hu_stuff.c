@@ -693,7 +693,36 @@ static void HU_DrawAltHUD(void)
         if (plr->cards[i++] > 0)
             keys++;
 
-    if (keys)
+    if (keys || plr->neededcardflash)
+    {
+        static int          keywait;
+        static dboolean     showkey;
+
+        if (plr->neededcardflash)
+        {
+            patch_t     *patch = altkeypic[plr->neededcard].patch;
+
+            if (!(menuactive || paused || consoleactive))
+            {
+                int currenttime = I_GetTimeMS();
+
+                if (keywait < currenttime)
+                {
+                    showkey = !showkey;
+                    keywait = currenttime + HUD_KEY_WAIT;
+                    plr->neededcardflash--;
+                }
+            }
+            if (showkey)
+                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + (SHORT(patch->width) + 3) * cardsfound,
+                    ALTHUD_Y, patch, altkeypic[plr->neededcard].color);
+        }
+        else
+        {
+            showkey = false;
+            keywait = 0;
+        }
+
         for (i = 0; i < NUMCARDS; i++)
             if (plr->cards[i] > 0)
             {
@@ -702,6 +731,7 @@ static void HU_DrawAltHUD(void)
                 V_DrawAltHUDPatch(ALTHUD_RIGHT_X + (SHORT(patch->width) + 3) * (cardsfound
                     - plr->cards[i]), ALTHUD_Y, patch, altkeypic[i].color);
             }
+    }
 }
 
 void HU_DrawDisk(void)
