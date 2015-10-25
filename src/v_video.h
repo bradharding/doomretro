@@ -96,7 +96,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *tinttab);
 void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab);
 void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab);
-void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int color);
+void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to);
 void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
