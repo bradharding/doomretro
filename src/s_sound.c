@@ -578,7 +578,7 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
     musicinfo_t *music = &S_music[musicnum];
     void        *handle;
 
-    if (mus_playing == music && !cheating)
+    if (nomusic || (mus_playing == music && !cheating))
         return;
 
     // shutdown old music
