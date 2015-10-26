@@ -91,7 +91,6 @@ void HU_Drawer(void);
 void HU_Erase(void);
 
 void HU_PlayerMessage(char *message, dboolean ingame);
-void HU_AltMessage(char *item, int amount);
 
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);

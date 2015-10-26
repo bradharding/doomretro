@@ -541,8 +541,6 @@ static void HU_DrawHUD(void)
 #define BLUE            200
 #define YELLOW          231
 
-#define ALTMSGCOUNTER   (TICRATE * 5)
-
 static struct
 {
     int         color;
@@ -564,11 +562,6 @@ static patch_t  *altrightpatch;
 static patch_t  *altmarkpatch;
 static patch_t  *altkeypatch;
 static patch_t  *altskullpatch;
-static char     altmsg[3][64];
-static int      altmsgcounter;
-
-extern patch_t  *consolefont[CONSOLEFONTSIZE];
-extern patch_t  *multiply;
 
 void HU_AltInit(void)
 {
@@ -637,48 +630,6 @@ static int AltHUDNumberWidth(int val)
     val %= 10;
     width += SHORT(altnum[val]->width);
     return width;
-}
-
-static int AltHUDTextWidth(char *text)
-{
-    size_t      i;
-    size_t      len = strlen(text);
-    int         width = 0;
-
-    for (i = 0; i < len; ++i)
-        width += (text[i] == ' ' ? 3 : SHORT(consolefont[text[i] - CONSOLEFONTSTART]->width));
-
-    return width;
-}
-
-static void C_DrawAltHUDText(int x, int y, char *text, int color)
-{
-    size_t      i;
-    size_t      len = strlen(text);
-
-    for (i = 0; i < len; ++i)
-    {
-        char    letter = text[i];
-
-        if (letter == ' ')
-            x += 3;
-        else
-        {
-            patch_t     *patch = (letter == 'x' ? multiply : consolefont[letter - CONSOLEFONTSTART]);
-
-            V_DrawConsoleChar(x, y, patch, color, NOBACKGROUNDCOLOR, false, tinttab50);
-            x += SHORT(patch->width);
-        }
-    }
-}
-
-void HU_AltMessage(char *item, int amount)
-{
-    static char buffer[64];
-
-    M_snprintf(buffer, 64, "%s x%i", item, amount);
-    buffer[0] = toupper(buffer[0]);
-    plr->altmsg = buffer;
 }
 
 static void HU_DrawAltHUD(void)
@@ -783,42 +734,6 @@ static void HU_DrawAltHUD(void)
                     - plr->cards[i]), ALTHUD_Y, patch, WHITE, altkeypic[i].color);
             }
     }
-
-    if (plr->altmsg)
-    {
-        M_StringCopy(altmsg[2], altmsg[1], 64);
-        M_StringCopy(altmsg[1], altmsg[0], 64);
-        M_StringCopy(altmsg[0], plr->altmsg, 64);
-        plr->altmsg = NULL;
-        altmsgcounter = ALTMSGCOUNTER;
-    }
-    else if (altmsgcounter)
-        if (!--altmsgcounter)
-            if (altmsg[2][0])
-            {
-                altmsg[2][0] = '\0';
-                altmsgcounter = ALTMSGCOUNTER;
-            }
-            else if (altmsg[1][0])
-            {
-                altmsg[1][0] = '\0';
-                altmsgcounter = ALTMSGCOUNTER;
-            }
-            else if (altmsg[0][0])
-            {
-                altmsg[0][0] = '\0';
-                altmsgcounter = ALTMSGCOUNTER;
-            }
-
-    if (altmsg[0][0])
-        C_DrawAltHUDText(SCREENWIDTH - 44 - AltHUDTextWidth(altmsg[0]),
-            SCREENHEIGHT - SBARHEIGHT - 80, altmsg[0], WHITE);
-    if (altmsg[1][0])
-        C_DrawAltHUDText(SCREENWIDTH - 44 - AltHUDTextWidth(altmsg[1]),
-            SCREENHEIGHT - SBARHEIGHT - 93, altmsg[1], WHITE);
-    if (altmsg[2][0])
-        C_DrawAltHUDText(SCREENWIDTH - 44 - AltHUDTextWidth(altmsg[2]),
-            SCREENHEIGHT - SBARHEIGHT - 106, altmsg[2], WHITE);
 }
 
 void HU_DrawDisk(void)
