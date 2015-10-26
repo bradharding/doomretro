@@ -474,13 +474,14 @@ dboolean P_GiveAllCards(player_t *player)
     int         i;
     dboolean    result = false;
 
-    cardsfound = 0;
     for (i = NUMCARDS - 1; i >= 0; i--)
         if (player->cards[i] != CARDNOTINMAP)
         {
             if (player->cards[i] == CARDNOTFOUNDYET)
+            {
+                P_GiveCard(player, i);
                 result = true;
-            P_GiveCard(player, i);
+            }
         }
 
     return result;
