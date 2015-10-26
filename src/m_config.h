@@ -194,6 +194,8 @@ typedef enum
 #define s_musicvolume_default                   100
 #define s_musicvolume_max                       100
 
+#define s_randommusic_default                   false
+
 #define s_randompitch_default                   false
 
 #define s_sfxvolume_min                         0

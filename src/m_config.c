@@ -110,6 +110,7 @@ extern dboolean         r_shadows;
 extern dboolean         r_shakescreen;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
+extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
@@ -216,6 +217,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_shakescreen,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_translucency,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (s_randommusic,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (s_randompitch,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,          NOALIAS    ),
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,    NOALIAS    ),
@@ -622,6 +624,9 @@ static void M_CheckCVARs(void)
         r_translucency = r_translucency_default;
 
     musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 15 + 50) / 100;
+
+    if (s_randommusic != false && s_randommusic != true)
+        s_randommusic = s_randommusic_default;
 
     if (s_randompitch != false && s_randompitch != true)
         s_randompitch = s_randompitch_default;

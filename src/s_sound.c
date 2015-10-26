@@ -109,6 +109,7 @@ musicinfo_t             *mus_playing = NULL;
 // Number of channels to use
 int                     numChannels = 32;
 
+dboolean                s_randommusic = s_randommusic_default;
 dboolean                s_randompitch = s_randompitch_default;
 
 // Find and initialize a sound_module_t appropriate for the setting
@@ -282,10 +283,10 @@ void S_Start(void)
                 mus_ddtblu
             };
 
-            mnum = nmus[gamemap - 1];
+            mnum = nmus[(s_randommusic ? M_RandomInt(1, 9) : gamemap) - 1];
         }
         else
-            mnum = mus_runnin + gamemap - 1;
+            mnum = mus_runnin + (s_randommusic ? M_RandomInt(1, 32) : gamemap) - 1;
     }
     else
     {
@@ -304,9 +305,10 @@ void S_Start(void)
         };
 
         if (gameepisode < 4)
-            mnum = mus_e1m1 + (gameepisode - 1) * 9 + gamemap - 1;
+            mnum = mus_e1m1 + (s_randommusic ? M_RandomInt(1, 21) : (gameepisode - 1) * 9
+                + gamemap) - 1;
         else
-            mnum = spmus[gamemap - 1];
+            mnum = spmus[(s_randommusic ? M_RandomInt(1, 28) : gamemap) - 1];
     }
 
     S_ChangeMusic(mnum, true, false);
