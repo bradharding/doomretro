@@ -67,10 +67,6 @@
 
 #define CONSOLESPEED            (CONSOLEHEIGHT / 12)
 
-#define CONSOLEFONTSTART        ' '
-#define CONSOLEFONTEND          '~'
-#define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
-
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
 #define CONSOLELINES            11
@@ -89,8 +85,6 @@
 #define ITALICS                 '~'
 
 #define CARETBLINKTIME          530
-
-#define NOBACKGROUNDCOLOR       -1
 
 dboolean        consoleactive = false;
 int             consoleheight = 0;
@@ -686,7 +680,8 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (patch)
             {
-                V_DrawConsoleChar(x, y, patch, color1, color2, italics, translucency);
+                V_DrawConsoleChar(x, y, patch, color1, color2, italics,
+                    (!translucency ? NULL : (translucency == 1 ? tinttab25 : tinttab75)));
                 x += SHORT(patch->width);
             }
         }
@@ -709,7 +704,7 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleChar(x, y, patch, color, NOBACKGROUNDCOLOR, false, 2);
+            V_DrawConsoleChar(x, y, patch, color, NOBACKGROUNDCOLOR, false, tinttab75);
             x += SHORT(patch->width);
         }
     }
@@ -727,7 +722,7 @@ static void C_DrawTimeStamp(int x, int y, char *text)
         patch_t *patch = consolefont[text[i] - CONSOLEFONTSTART];
 
         V_DrawConsoleChar(x + (text[i] == '1' ? (zerowidth - SHORT(patch->width)) / 2 : 0), y,
-            patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, 1);
+            patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
         x += (isdigit(text[i]) ? zerowidth : SHORT(patch->width));
     }
 }
@@ -850,10 +845,10 @@ void C_Drawer(void)
         if (showcaret)
             if (selectend > caretpos)
                 V_DrawConsoleChar(x, consoleheight - 17, caret, consoleselectedinputcolor,
-                    consoleselectedinputbackgroundcolor, false, 0);
+                    consoleselectedinputbackgroundcolor, false, NULL);
             else
                 V_DrawConsoleChar(x, consoleheight - 17, caret, consolecaretcolor,
-                    NOBACKGROUNDCOLOR, false, 0);
+                    NOBACKGROUNDCOLOR, false, NULL);
         x += SHORT(caret->width);
 
         // draw any selected text to right of caret

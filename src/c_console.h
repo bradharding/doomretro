@@ -42,16 +42,22 @@
 #include "doomtype.h"
 #include "d_event.h"
 
-#define CONSOLEHEIGHT   (SCREENHEIGHT - SBARHEIGHT) / 2
+#define CONSOLEFONTSTART        ' '
+#define CONSOLEFONTEND          '~'
+#define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
-#define CONSOLETOP      0
+#define NOBACKGROUNDCOLOR       -1
 
-#define DIVIDERSTRING   "==================================================" \
-                        "================================================="
+#define CONSOLEHEIGHT           (SCREENHEIGHT - SBARHEIGHT) / 2
 
-#define EMPTYVALUE      "\"\""
+#define CONSOLETOP              0
 
-#define stringize(x)    #x
+#define DIVIDERSTRING           "==================================================" \
+                                "================================================="
+
+#define EMPTYVALUE              "\"\""
+
+#define stringize(x)            #x
 
 typedef enum
 {

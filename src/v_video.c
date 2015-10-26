@@ -390,7 +390,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 int     italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
 void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, dboolean italics,
-    int translucency)
+    byte *tinttab)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -421,9 +421,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, dbo
                             if (italics)
                                 *(dest + italicize[height]) = color1;
                             else
-                                *dest = (translucency == 1 ? tinttab25[(color1 << 8) + *dest] :
-                                    (translucency == 2 ? tinttab25[(*dest << 8) + color1] :
-                                    color1));
+                                *dest = (!tinttab ? color1 : tinttab[(color1 << 8) + *dest]);
                     }
                     else if (*source == WHITE)
                         *dest = color1;

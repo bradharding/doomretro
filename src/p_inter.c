@@ -144,6 +144,22 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     if (num && ammo == weaponinfo[player->readyweapon].ammo)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
+    switch (ammo)
+    {
+        case am_clip:
+            HU_AltMessage("bullets", num);
+            break;
+        case am_shell:
+            HU_AltMessage("shells", num);
+            break;
+        case am_cell:
+            HU_AltMessage("cells", num);
+            break;
+        case am_misl:
+            HU_AltMessage("rockets", num);
+            break;
+    }
+
     // If non zero ammo, don't change up weapons, player was lower on purpose.
     if (oldammo)
         return num;
@@ -550,12 +566,14 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GiveArmor(player, green_armor_class))
                 return;
             HU_PlayerMessage(s_GOTARMOR, true);
+            HU_AltMessage("armor", green_armor_class);
             break;
 
         case SPR_ARM2:
             if (!P_GiveArmor(player, blue_armor_class))
                 return;
             HU_PlayerMessage(s_GOTMEGA, true);
+            HU_AltMessage("armor", blue_armor_class);
             break;
 
         // bonus items
@@ -570,6 +588,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 player->mo->health = player->health;
             }
             HU_PlayerMessage(s_GOTHTHBONUS, true);
+            HU_AltMessage("health", 1);
             break;
 
         case SPR_BON2:
@@ -581,6 +600,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!player->armortype)
                 player->armortype = 1;
             HU_PlayerMessage(s_GOTARMBONUS, true);
+            HU_AltMessage("armor", 1);
             break;
 
         case SPR_SOUL:
@@ -600,6 +620,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             P_GiveMegaHealth(player);
             P_GiveArmor(player, 2);
             HU_PlayerMessage(s_GOTMSPHERE, true);
+            HU_AltMessage("health", mega_health);
             sound = sfx_getpow;
             break;
 
@@ -664,12 +685,14 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GiveBody(player, 10))
                 return;
             HU_PlayerMessage(s_GOTSTIM, true);
+            HU_AltMessage("health", 10);
             break;
 
         case SPR_MEDI:
             if (!P_GiveBody(player, 25))
                 return;
             HU_PlayerMessage((player->health < 50 ? s_GOTMEDINEED : s_GOTMEDIKIT), true);
+            HU_AltMessage("health", 25);
             break;
 
         // power ups
@@ -687,6 +710,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->readyweapon != wp_fist)
                 player->pendingweapon = wp_fist;
             player->fistorchainsaw = wp_fist;
+            HU_AltMessage("health", 100);
             sound = sfx_getpow;
             break;
 
