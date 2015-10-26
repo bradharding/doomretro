@@ -541,17 +541,20 @@ static void HU_DrawHUD(void)
 #define BLUE            200
 #define YELLOW          231
 
-static struct
+typedef struct
 {
     int         color;
     patch_t     *patch;
-} altkeypic[NUMCARDS] = {
-    { BLUE,   NULL },
-    { YELLOW, NULL },
-    { RED,    NULL },
-    { BLUE,   NULL },
-    { YELLOW, NULL },
-    { RED,    NULL }
+} altkeypic_t;
+
+altkeypic_t altkeypics[NUMCARDS] =
+{
+    { BLUE   },
+    { YELLOW },
+    { RED    },
+    { BLUE   },
+    { YELLOW },
+    { RED    }
 };
 
 static patch_t  *altnum[10];
@@ -573,25 +576,27 @@ void HU_AltInit(void)
         M_snprintf(buffer, 9, "DRHUD%i", i);
         altnum[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
+
     for (i = 1; i < NUMWEAPONS; i++)
     {
         M_snprintf(buffer, 9, "DRHUDWP%i", i);
         altweapon[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
 
-    altendpatch = W_CacheLumpName("DRHUDE", PU_CACHE);
     altleftpatch = W_CacheLumpName("DRHUDL", PU_CACHE);
     altrightpatch = W_CacheLumpName("DRHUDR", PU_CACHE);
+
+    altendpatch = W_CacheLumpName("DRHUDE", PU_CACHE);
     altmarkpatch = W_CacheLumpName("DRHUDI", PU_CACHE);
 
     altkeypatch = W_CacheLumpName("DRHUDKEY", PU_CACHE);
     altskullpatch = W_CacheLumpName("DRHUDSKU", PU_CACHE);
-    altkeypic[0].patch = altkeypatch;
-    altkeypic[1].patch = altkeypatch;
-    altkeypic[2].patch = altkeypatch;
-    altkeypic[3].patch = altskullpatch;
-    altkeypic[4].patch = altskullpatch;
-    altkeypic[5].patch = altskullpatch;
+    altkeypics[0].patch = altkeypatch;
+    altkeypics[1].patch = altkeypatch;
+    altkeypics[2].patch = altkeypatch;
+    altkeypics[3].patch = altskullpatch;
+    altkeypics[4].patch = altskullpatch;
+    altkeypics[5].patch = altskullpatch;
 }
 
 static void DrawAltHUDNumber(int x, int y, int val)
@@ -612,9 +617,7 @@ static void DrawAltHUDNumber(int x, int y, int val)
         V_DrawAltHUDPatch(x, y, patch, 0, 0);
         x += SHORT(patch->width) + 2;
     }
-    val %= 10;
-    patch = altnum[val];
-    V_DrawAltHUDPatch(x, y, patch, 0, 0);
+    V_DrawAltHUDPatch(x, y, altnum[val % 10], 0, 0);
 }
 
 static int AltHUDNumberWidth(int val)
@@ -627,9 +630,7 @@ static int AltHUDNumberWidth(int val)
     val %= 100;
     if (val > 9 || oldval > 99)
         width += SHORT(altnum[val / 10]->width) + 2;
-    val %= 10;
-    width += SHORT(altnum[val]->width);
-    return width;
+    return (width + SHORT(altnum[val % 10]->width));
 }
 
 static void HU_DrawAltHUD(void)
@@ -656,8 +657,7 @@ static void HU_DrawAltHUD(void)
     if (health)
     {
         weapontype_t    pendingweapon = plr->pendingweapon;
-        weapontype_t    readyweapon = plr->readyweapon;
-        weapontype_t    weapon = (pendingweapon != wp_nochange ? pendingweapon : readyweapon);
+        weapontype_t    weapon = (pendingweapon != wp_nochange ? pendingweapon : plr->readyweapon);
         ammotype_t      ammotype = weaponinfo[weapon].ammo;
 
         if (ammotype != am_noammo)
@@ -693,7 +693,7 @@ static void HU_DrawAltHUD(void)
 
     while (i < NUMCARDS)
         if (plr->cards[i++] > 0)
-            keys++;
+            ++keys;
 
     if (keys || plr->neededcardflash)
     {
@@ -702,8 +702,6 @@ static void HU_DrawAltHUD(void)
 
         if (plr->neededcardflash)
         {
-            patch_t     *patch = altkeypic[plr->neededcard].patch;
-
             if (!(menuactive || paused || consoleactive))
             {
                 int currenttime = I_GetTimeMS();
@@ -715,9 +713,14 @@ static void HU_DrawAltHUD(void)
                     plr->neededcardflash--;
                 }
             }
+
             if (showkey)
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + (SHORT(patch->width) + 3) * cardsfound,
-                    ALTHUD_Y, patch, WHITE, altkeypic[plr->neededcard].color);
+            {
+                altkeypic_t     altkeypic = altkeypics[plr->neededcard];
+
+                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 10 * cardsfound, ALTHUD_Y, altkeypic.patch,
+                    WHITE, altkeypic.color);
+            }
         }
         else
         {
@@ -728,10 +731,10 @@ static void HU_DrawAltHUD(void)
         for (i = 0; i < NUMCARDS; i++)
             if (plr->cards[i] > 0)
             {
-                patch_t     *patch = altkeypic[i].patch;
+                altkeypic_t    altkeypic = altkeypics[plr->neededcard];
 
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + (SHORT(patch->width) + 3) * (cardsfound
-                    - plr->cards[i]), ALTHUD_Y, patch, WHITE, altkeypic[i].color);
+                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 10 * (cardsfound - plr->cards[i]), ALTHUD_Y,
+                    altkeypic.patch, WHITE, altkeypic.color);
             }
     }
 }
