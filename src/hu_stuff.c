@@ -729,13 +729,17 @@ static void HU_DrawAltHUD(void)
         }
 
         for (i = 0; i < NUMCARDS; i++)
-            if (plr->cards[i] > 0)
-            {
-                altkeypic_t    altkeypic = altkeypics[plr->neededcard];
+        {
+            int card = plr->cards[i];
 
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 10 * (cardsfound - plr->cards[i]), ALTHUD_Y,
+            if (card > 0)
+            {
+                altkeypic_t    altkeypic = altkeypics[i];
+
+                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 10 * (cardsfound - card), ALTHUD_Y,
                     altkeypic.patch, WHITE, altkeypic.color);
             }
+        }
     }
 }
 
