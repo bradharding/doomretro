@@ -47,6 +47,9 @@
 #include "version.h"
 #include "z_zone.h"
 
+#define CHANNELS        2
+#define SAMPLECOUNT     512
+
 static dboolean         music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
@@ -157,7 +160,7 @@ static dboolean SDLIsInitialized(void)
     int         freq, channels;
     Uint16      format;
 
-    return (Mix_QuerySpec(&freq, &format, &channels) != 0);
+    return ((dboolean)Mix_QuerySpec(&freq, &format, &channels));
 }
 
 // Initialize music subsystem
@@ -165,25 +168,20 @@ dboolean I_SDL_InitMusic(void)
 {
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
-    if (SDLIsInitialized())
-        music_initialized = true;
-    else
-    {
+    if (!SDLIsInitialized())
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             I_Error("Unable to set up sound: %s", SDL_GetError());
-        else if (Mix_OpenAudio(snd_samplerate, AUDIO_S16SYS, 2, 1024) < 0)
+        else if (Mix_OpenAudio(snd_samplerate, MIX_DEFAULT_FORMAT, CHANNELS,
+            SAMPLECOUNT * snd_samplerate / 11025) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             I_Error("Error initializing SDL_mixer: %s", Mix_GetError());
         }
-        else
-        {
-            SDL_PauseAudio(0);
 
-            sdl_was_initialized = true;
-            music_initialized = true;
-        }
-    }
+    SDL_PauseAudio(0);
+
+    sdl_was_initialized = true;
+    music_initialized = true;
 
     // Once initialization is complete, the temporary Timidity config
     // file can be removed.
@@ -279,17 +277,17 @@ static dboolean ConvertMus(byte *musdata, int len, char *filename)
 void *I_SDL_RegisterSong(void *data, int len)
 {
     char        *filename;
-    Mix_Music   *music;
+    Mix_Music   *music = NULL;
 
     if (!music_initialized)
         return NULL;
 
     if (len > 4 && memcmp(data, "MUS", 3))
     {
-        SDL_RWops       *rw_midi = SDL_RWFromConstMem(data, len);
+        SDL_RWops       *rwops = SDL_RWFromMem(data, len);
 
-        if (rw_midi)
-            music = Mix_LoadMUS_RW(rw_midi, SDL_TRUE);
+        if (rwops)
+            music = Mix_LoadMUS_RW(rwops, SDL_TRUE);
 
         if (!music)
         {
