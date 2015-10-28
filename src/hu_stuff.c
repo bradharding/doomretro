@@ -664,7 +664,7 @@ static void HU_DrawAltHUD(void)
             int         ammo = plr->ammo[ammotype];
 
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 1, ammo);
-            ammo = MAX(1, 100 * ammo / plr->maxammo[ammotype]);
+            ammo = 100 * ammo / plr->maxammo[ammotype];
             color = (ammo <= 15 ? YELLOW : WHITE);
             V_FillTransRect(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, color);
             V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, 0, 0);
