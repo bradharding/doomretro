@@ -78,8 +78,7 @@ typedef struct
     int                 handle;
 
     int                 pitch;
-}
-channel_t;
+} channel_t;
 
 // The set of channels available
 static channel_t        *channels;
@@ -188,11 +187,7 @@ void S_Init(int sfxvol, int musicvol)
             // Allocating the internal channels for mixing
             // (the maximum number of sounds rendered
             // simultaneously) within zone memory.
-            channels = Z_Malloc(numChannels * sizeof(channel_t), PU_STATIC, 0);
-
-            // Free all channels for use
-            for (i = 0; i < numChannels; i++)
-                channels[i].sfxinfo = 0;
+            channels = (channel_t *)calloc(numChannels, sizeof(channel_t));
 
             // Note that sounds have not been cached (yet).
             for (i = 1; i < NUMSFX; i++)
@@ -409,13 +404,12 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     return (*vol > 0);
 }
 
-void S_StartNewSound(mobj_t *origin, int sfx_id, int pitch)
+void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
 {
     sfxinfo_t   *sfx = &S_sfx[sfx_id];
     mobj_t      *player = players[0].mo;
     int         sep;
     int         cnum;
-    int         volume = snd_SfxVolume;
     int         handle;
 
     if (nosfx)
@@ -474,12 +468,12 @@ void S_StartNewSound(mobj_t *origin, int sfx_id, int pitch)
 
 void S_StartSound(mobj_t *mobj, int sfx_id)
 {
-    S_StartNewSound(mobj, sfx_id, (mobj ? mobj->pitch : NORM_PITCH));
+    S_StartSoundAtVolume(mobj, sfx_id, (mobj ? mobj->pitch : NORM_PITCH), snd_SfxVolume);
 }
 
 void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)
 {
-    S_StartNewSound((mobj_t *)degenmobj, sfx_id, NORM_PITCH);
+    S_StartSoundAtVolume((mobj_t *)degenmobj, sfx_id, NORM_PITCH, snd_SfxVolume);
 }
 
 //

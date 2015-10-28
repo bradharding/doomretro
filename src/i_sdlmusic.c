@@ -288,20 +288,6 @@ void *I_SDL_RegisterSong(void *data, int len)
 
         if (rwops)
             music = Mix_LoadMUS_RW(rwops, SDL_TRUE);
-
-        if (!music)
-        {
-            filename = M_TempFile(PACKAGE".mp3");
-            if (!M_WriteFile(filename, data, len))
-                music = Mix_LoadMUS(filename);
-        }
-
-        if (!music)
-        {
-            filename = M_TempFile(PACKAGE".ogg");
-            if (!M_WriteFile(filename, data, len))
-                music = Mix_LoadMUS(filename);
-        }
     }
     else
     {
