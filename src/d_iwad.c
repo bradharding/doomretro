@@ -267,22 +267,18 @@ static void CheckUninstallStrings(void)
 
 static void CheckInstallRootPaths(void)
 {
-    unsigned int        i;
+    size_t      i;
 
     for (i = 0; i < arrlen(root_path_keys); ++i)
     {
-        char            *install_path = GetRegistryString(&root_path_keys[i]);
-        char            *subpath;
-        unsigned int    j;
+        char    *install_path = GetRegistryString(&root_path_keys[i]);
+        size_t  j;
 
         if (!install_path)
             continue;
 
         for (j = 0; j < arrlen(root_path_subdirs); ++j)
-        {
-            subpath = M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL);
-            AddIWADDir(subpath);
-        }
+            AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL));
 
         free(install_path);
     }
@@ -298,12 +294,7 @@ static void CheckSteamEdition(void)
         return;
 
     for (i = 0; i < arrlen(steam_install_subdirs); ++i)
-    {
-        char    *subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
-            steam_install_subdirs[i], NULL);
-
-        AddIWADDir(subpath);
-    }
+        AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[i], NULL));
 
     free(install_path);
 }

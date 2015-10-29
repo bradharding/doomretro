@@ -250,8 +250,6 @@ void I_ShutdownWindows32(void)
 int main(int argc, char **argv)
 {
 #if defined(WIN32)
-    HANDLE      hProcess = GetCurrentProcess();
-
     hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS)

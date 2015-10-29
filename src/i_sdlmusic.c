@@ -276,37 +276,34 @@ static dboolean ConvertMus(byte *musdata, int len, char *filename)
 
 void *I_SDL_RegisterSong(void *data, int len)
 {
-    char        *filename;
     Mix_Music   *music = NULL;
 
-    if (!music_initialized)
-        return NULL;
+    if (music_initialized)
+        if (len > 4 && memcmp(data, "MUS", 3))
+        {
+            SDL_RWops       *rwops = SDL_RWFromMem(data, len);
 
-    if (len > 4 && memcmp(data, "MUS", 3))
-    {
-        SDL_RWops       *rwops = SDL_RWFromMem(data, len);
-
-        if (rwops)
-            music = Mix_LoadMUS_RW(rwops, SDL_TRUE);
-    }
-    else
-    {
-        filename = M_TempFile(PACKAGE".mid");
-
-        if (len > 4 && !memcmp(data, "MThd", 4))
-            M_WriteFile(filename, data, len);
+            if (rwops)
+                music = Mix_LoadMUS_RW(rwops, SDL_TRUE);
+        }
         else
-            // Assume a MUS file and try to convert
-            ConvertMus(data, len, filename);
+        {
+            char    *filename = M_TempFile(PACKAGE".mid");
 
-        // Load the MIDI
-        music = Mix_LoadMUS(filename);
-    }
+            if (len > 4 && !memcmp(data, "MThd", 4))
+                M_WriteFile(filename, data, len);
+            else
+                // Assume a MUS file and try to convert
+                ConvertMus(data, len, filename);
 
-    // remove file now
-    remove(filename);
+            // Load the MIDI
+            music = Mix_LoadMUS(filename);
 
-    free(filename);
+            // remove file now
+            remove(filename);
+
+            free(filename);
+        }
 
     return music;
 }
