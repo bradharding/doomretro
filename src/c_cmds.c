@@ -150,9 +150,11 @@ extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
 extern unsigned int     stat_itemspickedup;
+extern unsigned int     stat_monstershit;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_secretsrevealed;
 extern unsigned int     stat_time;
+extern unsigned int     stat_weaponfired;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -1834,9 +1836,10 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int tabs[8] = { 140, 250, 0, 0, 0, 0, 0, 0 };
-    int time1 = leveltime / TICRATE;
-    int time2 = stat_time / TICRATE;
+    int         tabs[8] = { 140, 250, 0, 0, 0, 0, 0, 0 };
+    int         time1 = leveltime / TICRATE;
+    int         time2 = stat_time / TICRATE;
+    player_t    *player = &players[0];
 
     C_TabbedOutput(tabs, "\t~Current Map~\t~Total~");
 
@@ -1857,16 +1860,16 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
     }
 
     C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t%s",
-        commify(players[0].killcount), commify(totalkills),
-        (totalkills ? players[0].killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
+        commify(player->killcount), commify(totalkills),
+        (totalkills ? player->killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
 
     C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)\t%s",
-        commify(players[0].itemcount), commify(totalitems),
-        (totalitems ? players[0].itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
+        commify(player->itemcount), commify(totalitems),
+        (totalitems ? player->itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
 
     C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)\t%s",
-        commify(players[0].secretcount), commify(totalsecret),
-        (totalsecret ? players[0].secretcount * 100 / totalsecret : 0),
+        commify(player->secretcount), commify(totalsecret),
+        (totalsecret ? player->secretcount * 100 / totalsecret : 0),
         commify(stat_secretsrevealed));
 
     C_TabbedOutput(tabs, "Time\t%02i:%02i:%02i\t%02i:%02i:%02i",
@@ -1874,14 +1877,18 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
         time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
     C_TabbedOutput(tabs, "Damage inflicted\t%s\t%s",
-        commify(players[0].damageinflicted), commify(stat_damageinflicted));
+        commify(player->damageinflicted), commify(stat_damageinflicted));
 
     C_TabbedOutput(tabs, "Damage received\t%s\t%s",
-        commify(players[0].damagereceived), commify(stat_damagereceived));
+        commify(player->damagereceived), commify(stat_damagereceived));
 
     C_TabbedOutput(tabs, "Deaths\t-\t%s", commify(stat_deaths));
 
-    C_TabbedOutput(tabs, "Cheated\t%s\t%s", commify(players[0].cheated), commify(stat_cheated));
+    C_TabbedOutput(tabs, "Cheated\t%s\t%s", commify(player->cheated), commify(stat_cheated));
+
+    C_TabbedOutput(tabs, "Weapon accuracy\t%i%%\t%i%%",
+        (player->weaponfired ? (int)((float)player->monstershit / player->weaponfired * 100) : 100),
+        (stat_weaponfired ? (int)((float)stat_monstershit / stat_weaponfired * 100) : 100));
 }
 
 //

@@ -51,9 +51,11 @@
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 
-dboolean pm_centerweapon = pm_centerweapon_default;
+dboolean        pm_centerweapon = pm_centerweapon_default;
 
-dboolean skippsprinterp = false;
+unsigned int    stat_weaponfired = 0;
+
+dboolean        skippsprinterp = false;
 
 void P_CheckMissileSpawn(mobj_t *th);
 
@@ -194,6 +196,9 @@ void P_FireWeapon(player_t *player)
     // [BH] no noise alert if not punching a monster
     if (readyweapon == wp_fist && !linetarget)
         return;
+
+    player->weaponfired++;
+    stat_weaponfired = SafeAdd(stat_weaponfired, 1);
 
     P_NoiseAlert(player->mo, player->mo);
 
