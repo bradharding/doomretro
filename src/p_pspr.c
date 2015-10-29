@@ -53,7 +53,7 @@
 
 dboolean        pm_centerweapon = pm_centerweapon_default;
 
-unsigned int    stat_weaponfired = 0;
+unsigned int    stat_shotsfired = 0;
 
 dboolean        skippsprinterp = false;
 
@@ -197,8 +197,8 @@ void P_FireWeapon(player_t *player)
     if (readyweapon == wp_fist && !linetarget)
         return;
 
-    player->weaponfired++;
-    stat_weaponfired = SafeAdd(stat_weaponfired, 1);
+    player->shotsfired++;
+    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 
     P_NoiseAlert(player->mo, player->mo);
 

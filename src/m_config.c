@@ -121,12 +121,12 @@ extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
 extern unsigned int     stat_itemspickedup;
-extern unsigned int     stat_monstershit;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_runs;
 extern unsigned int     stat_secretsrevealed;
+extern unsigned int     stat_shotsfired;
+extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
-extern unsigned int     stat_weaponfired;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -230,12 +230,12 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,  NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,          NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,   NOALIAS    ),
-    CONFIG_VARIABLE_INT_UNSIGNED (stat_monstershit,     NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,  NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_runs,            NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed, NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired,      NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit,        NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_time,            NOALIAS    ),
-    CONFIG_VARIABLE_INT_UNSIGNED (stat_weaponfired,     NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,          NOALIAS    ),
 #if !defined(WIN32)

@@ -197,8 +197,8 @@ typedef struct player_s
     int                 damageinflicted;
     int                 damagereceived;
     int                 cheated;
-    int                 monstershit;
-    int                 weaponfired;
+    int                 shotshit;
+    int                 shotsfired;
 } player_t;
 
 //

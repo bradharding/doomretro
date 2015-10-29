@@ -769,11 +769,11 @@ static void saveg_read_player_t(player_t *str)
     // int cheated
     str->cheated = saveg_read32();
 
-    // int monstershit
-    str->monstershit = saveg_read32();
+    // int shotshit
+    str->shotshit = saveg_read32();
 
-    // int weaponfired
-    str->weaponfired = saveg_read32();
+    // int shotsfired
+    str->shotsfired = saveg_read32();
 }
 
 static void saveg_write_player_t(player_t *str)
@@ -933,11 +933,11 @@ static void saveg_write_player_t(player_t *str)
     // int cheated
     saveg_write32(str->cheated);
 
-    // int monstershit
-    saveg_write32(str->monstershit);
+    // int shotshit
+    saveg_write32(str->shotshit);
 
-    // int weaponfired
-    saveg_write32(str->weaponfired);
+    // int shotsfired
+    saveg_write32(str->shotsfired);
 }
 
 //

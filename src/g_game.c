@@ -585,8 +585,8 @@ void G_DoLoadLevel(void)
     players[0].damageinflicted = 0;
     players[0].damagereceived = 0;
     players[0].cheated = 0;
-    players[0].monstershit = 0;
-    players[0].weaponfired = 0;
+    players[0].shotshit = 0;
+    players[0].shotsfired = 0;
 
     M_ClearRandom();
 

@@ -150,11 +150,11 @@ extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
 extern unsigned int     stat_itemspickedup;
-extern unsigned int     stat_monstershit;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_secretsrevealed;
+extern unsigned int     stat_shotsfired;
+extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
-extern unsigned int     stat_weaponfired;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -1856,7 +1856,8 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
         i = 0;
         while (i < totallines)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
-        C_TabbedOutput(tabs, "Map revealed\t%i%%\t-", totallinesmapped * 100 / totallines);
+        C_TabbedOutput(tabs, "Map revealed\t%s%%\t-",
+            striptrailingzero(totallinesmapped * 100.0f / totallines, 1));
     }
 
     C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t%s",
@@ -1884,11 +1885,19 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
 
     C_TabbedOutput(tabs, "Deaths\t-\t%s", commify(stat_deaths));
 
-    C_TabbedOutput(tabs, "Cheated\t%s\t%s", commify(player->cheated), commify(stat_cheated));
+    C_TabbedOutput(tabs, "Cheated\t%s\t%s",
+        commify(player->cheated), commify(stat_cheated));
 
-    C_TabbedOutput(tabs, "Weapon accuracy\t%i%%\t%i%%",
-        (player->weaponfired ? (int)((float)player->monstershit / player->weaponfired * 100) : 100),
-        (stat_weaponfired ? (int)((float)stat_monstershit / stat_weaponfired * 100) : 100));
+    C_TabbedOutput(tabs, "Shots fired\t%s\t%s",
+        commify(player->shotsfired), commify(stat_shotsfired));
+
+    C_TabbedOutput(tabs, "Shots hit\t%s\t%s",
+        commify(player->shotshit), commify(stat_shotshit));
+
+    C_TabbedOutput(tabs, "Weapon accuracy\t%s%%\t%s%%",
+        (player->shotsfired ? striptrailingzero(player->shotshit * 100.0f / player->shotsfired,
+        1) : "0"), (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired,
+        1) : "0"));
 }
 
 //
