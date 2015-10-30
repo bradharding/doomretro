@@ -245,21 +245,9 @@ void S_StopSounds(void)
             S_StopChannel(cnum);
 }
 
-//
-// Per level startup code.
-// Kills playing sounds at start of level,
-//  determines music if any, changes music.
-//
-void S_Start(void)
+static int S_GetMusicNum(void)
 {
     int mnum;
-
-    // kill all playing sounds at start of level
-    //  (trust me - a good idea)
-    S_StopSounds();
-
-    // start new music for the level
-    mus_paused = false;
 
     if (gamemode == commercial)
     {
@@ -285,7 +273,7 @@ void S_Start(void)
     }
     else
     {
-        int spmus[]=
+        int spmus[] =
         {
             // Song - Who? - Where?
             mus_e3m4,           // American     e4m1
@@ -306,7 +294,24 @@ void S_Start(void)
             mnum = spmus[(s_randommusic ? M_RandomInt(1, 28) : gamemap) - 1];
     }
 
-    S_ChangeMusic(mnum, true, false);
+    return mnum;
+}
+
+//
+// Per level startup code.
+// Kills playing sounds at start of level,
+//  determines music if any, changes music.
+//
+void S_Start(void)
+{
+    // kill all playing sounds at start of level
+    //  (trust me - a good idea)
+    S_StopSounds();
+
+    // start new music for the level
+    mus_paused = false;
+
+    S_ChangeMusic(S_GetMusicNum(), !s_randommusic, false);
 }
 
 //
@@ -549,6 +554,9 @@ void S_UpdateSounds(mobj_t *listener)
                 S_StopChannel(cnum);
         }
     }
+
+    if (!nomusic && s_randommusic && !I_SDL_MusicIsPlaying())
+        S_ChangeMusic(S_GetMusicNum(), false, false);
 }
 
 void S_SetMusicVolume(int volume)
@@ -569,7 +577,7 @@ void S_StartMusic(int m_id)
     S_ChangeMusic(m_id, false, false);
 }
 
-void S_ChangeMusic(int musicnum, int looping, int cheating)
+void S_ChangeMusic(int musicnum, dboolean looping, dboolean cheating)
 {
     musicinfo_t *music = &S_music[musicnum];
     void        *handle;
