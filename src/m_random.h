@@ -47,6 +47,7 @@ int M_Random(void);
 int P_Random(void);
 
 void M_ClearRandom(void);
+int M_RandomIntNoRepeat(int lower, int upper, int previous);
 
 int M_RandomInt(int, int);
 

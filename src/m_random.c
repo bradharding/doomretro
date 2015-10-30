@@ -88,6 +88,16 @@ int M_RandomInt(int lower, int upper)
     return (rand() % (upper - lower + 1) + lower);
 }
 
+int M_RandomIntNoRepeat(int lower, int upper, int previous)
+{
+    int randomint = previous;
+
+    while (randomint == previous)
+        randomint = M_RandomInt(lower, upper);
+
+    return randomint;
+}
+
 void M_ClearRandom(void)
 {
     prndindex = 0;

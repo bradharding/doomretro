@@ -247,7 +247,7 @@ void S_StopSounds(void)
 
 static int S_GetMusicNum(void)
 {
-    int mnum;
+    static int mnum;
 
     if (gamemode == commercial)
     {
@@ -266,10 +266,10 @@ static int S_GetMusicNum(void)
                 mus_ddtblu
             };
 
-            mnum = nmus[(s_randommusic ? M_RandomInt(1, 9) : gamemap) - 1];
+            mnum = nmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, mnum) : gamemap) - 1];
         }
         else
-            mnum = mus_runnin + (s_randommusic ? M_RandomInt(1, 32) : gamemap) - 1;
+            mnum = mus_runnin + (s_randommusic ? M_RandomIntNoRepeat(1, 32, mnum) : gamemap) - 1;
     }
     else
     {
@@ -288,10 +288,10 @@ static int S_GetMusicNum(void)
         };
 
         if (gameepisode < 4)
-            mnum = mus_e1m1 + (s_randommusic ? M_RandomInt(1, 21) : (gameepisode - 1) * 9
-                + gamemap) - 1;
+            mnum = mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 21, mnum) :
+                (gameepisode - 1) * 9 + gamemap) - 1;
         else
-            mnum = spmus[(s_randommusic ? M_RandomInt(1, 28) : gamemap) - 1];
+            mnum = spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 28, mnum) : gamemap) - 1];
     }
 
     return mnum;
