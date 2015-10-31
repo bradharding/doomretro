@@ -148,7 +148,7 @@ static const char *shiftxform =
 };
 
 byte            c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
-byte            c_blurredscreen[SCREENWIDTH * SCREENHEIGHT];
+byte            c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
 int             consolecaretcolor = 4;
 int             consolehighfpscolor = 116;
@@ -546,15 +546,15 @@ void C_StripQuotes(char *string)
     }
 }
 
-static void c_blurscreen(int x1, int y1, int x2, int y2, int i)
+static void DoBlurScreen(int x1, int y1, int x2, int y2, int i)
 {
     int x, y;
 
-    memcpy(c_tempscreen, c_blurredscreen, SCREENWIDTH * (CONSOLEHEIGHT + 5));
+    memcpy(c_tempscreen, c_blurscreen, SCREENWIDTH * (CONSOLEHEIGHT + 5));
 
     for (y = y1; y < y2; y += SCREENWIDTH)
         for (x = y + x1; x < y + x2; ++x)
-            c_blurredscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
+            c_blurscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
 }
 
 static void C_DrawBackground(int height)
@@ -569,22 +569,22 @@ static void C_DrawBackground(int height)
         forceblurredraw = false;
 
         for (i = 0; i < height; ++i)
-            c_blurredscreen[i] = screens[0][i];
+            c_blurscreen[i] = screens[0][i];
 
-        c_blurscreen(0, 0, SCREENWIDTH - 1, height, 1);
-        c_blurscreen(1, 0, SCREENWIDTH, height, -1);
-        c_blurscreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-        c_blurscreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
-        c_blurscreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-        c_blurscreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-        c_blurscreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-        c_blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+        DoBlurScreen(0, 0, SCREENWIDTH - 1, height, 1);
+        DoBlurScreen(1, 0, SCREENWIDTH, height, -1);
+        DoBlurScreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
+        DoBlurScreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
+        DoBlurScreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+        DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
+        DoBlurScreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+        DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
     }
 
     blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
 
     for (i = 0; i < height; ++i)
-        screens[0][i] = tinttab50[c_blurredscreen[i] + consoletintcolor];
+        screens[0][i] = tinttab50[c_blurscreen[i] + consoletintcolor];
 
     for (i = height - 2; i > 1; i -= 3)
     {

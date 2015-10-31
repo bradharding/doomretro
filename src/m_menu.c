@@ -154,10 +154,13 @@ char            *skullName[2] = { "M_SKULL1", "M_SKULL2" };
 // current menudef
 menu_t          *currentMenu;
 
-byte            *tempscreen;
-byte            *blurredscreen;
+byte            *tempscreen1;
+byte            *tempscreen2;
+byte            *blurscreen1;
+byte            *blurscreen2;
 
 dboolean        blurred = false;
+dboolean        blurredmap = false;
 
 //
 // PROTOTYPES
@@ -482,15 +485,34 @@ menu_t SaveDef =
 
 int height;
 
-static void blurscreen(int x1, int y1, int x2, int y2, int i)
+static void DoBlurScreen(byte *tempscreen, byte *blurscreen, int x1, int y1, int x2, int y2, int i)
 {
     int x, y;
 
-    memcpy(tempscreen, blurredscreen, SCREENWIDTH * SCREENHEIGHT);
+    memcpy(tempscreen, blurscreen, SCREENWIDTH * SCREENHEIGHT);
 
     for (y = y1; y < y2; y += SCREENWIDTH)
         for (x = y + x1; x < y + x2; ++x)
-            blurredscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
+            blurscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
+}
+
+static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
+{
+    int i;
+
+    for (i = 0; i < height; ++i)
+        blurscreen[i] = grays[screen[i]];
+
+    DoBlurScreen(tempscreen, blurscreen, 0, 0, SCREENWIDTH - 1, height, 1);
+    DoBlurScreen(tempscreen, blurscreen, 1, 0, SCREENWIDTH, height, -1);
+    DoBlurScreen(tempscreen, blurscreen, 0, 0, SCREENWIDTH - 1, height - SCREENWIDTH,
+        SCREENWIDTH + 1);
+    DoBlurScreen(tempscreen, blurscreen, 1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
+    DoBlurScreen(tempscreen, blurscreen, 0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+    DoBlurScreen(tempscreen, blurscreen, 0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
+    DoBlurScreen(tempscreen, blurscreen, 1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+    DoBlurScreen(tempscreen, blurscreen, 0, SCREENWIDTH, SCREENWIDTH - 1, height,
+        -(SCREENWIDTH - 1));
 }
 
 //
@@ -505,23 +527,19 @@ void M_DarkBackground(void)
 
     if (!blurred)
     {
-        for (i = 0; i < height; ++i)
-            blurredscreen[i] = grays[screens[0][i]];
+        BlurScreen(screens[0], tempscreen1, blurscreen1);
 
-        blurscreen(0, 0, SCREENWIDTH - 1, height, 1);
-        blurscreen(1, 0, SCREENWIDTH, height, -1);
-        blurscreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-        blurscreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
-        blurscreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-        blurscreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-        blurscreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-        blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
-
+        if (mapwindow)
+            BlurScreen(mapscreen, tempscreen2, blurscreen2);
         blurred = true;
     }
 
     for (i = 0; i < height; ++i)
-        screens[0][i] = tinttab50[blurredscreen[i]];
+        screens[0][i] = tinttab50[blurscreen1[i]];
+
+    if (mapwindow)
+        for (i = 0; i < height; ++i)
+            mapscreen[i] = tinttab50[blurscreen2[i]];
 
     if (r_detail == lowdetail)
         V_LowGraphicDetail(height);
@@ -3355,8 +3373,10 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = menuactive;
     quickSaveSlot = -1;
-    tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    blurredscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    tempscreen1 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    tempscreen2 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    blurscreen1 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    blurscreen2 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     pipechar = W_CacheLumpName((W_CheckNumForName("STCFN121") >= 0 ? "STCFN121" : "STCFN124"),
         PU_CACHE);

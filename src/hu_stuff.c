@@ -788,7 +788,6 @@ void HU_Erase(void)
 
 extern fixed_t  m_x, m_y, m_h, m_w;
 extern dboolean message_dontpause;
-extern dboolean blurred;
 extern dboolean inhelpscreens;
 extern int      direction;
 
