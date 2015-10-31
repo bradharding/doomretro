@@ -144,7 +144,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue);
 static const char *shiftxform =
 {
     "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+<_>?"
-    ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[!]\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
+    ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
 };
 
 byte            c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
