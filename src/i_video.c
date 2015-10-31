@@ -879,7 +879,7 @@ void I_CreateExternalAutomap(dboolean output)
     if (!am_external)
         return;
 
-    if (numdisplays == 1)
+    if (numdisplays == 1 && output)
     {
         C_Warning("Unable to find more than one display. No external automap was created.");
         return;
