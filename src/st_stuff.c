@@ -1360,7 +1360,7 @@ void ST_drawWidgets(dboolean refresh)
         STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
     if (faceback != faceback_default)
-        V_FillRect(0, 144 * SCREENSCALE, 170 * SCREENSCALE, 32 * SCREENSCALE, 29 * SCREENSCALE,
+        V_FillRect(0, 143 * SCREENSCALE, 169 * SCREENSCALE, 34 * SCREENSCALE, 31 * SCREENSCALE,
             faceback);
 
     STlib_updateMultIcon(&w_faces, refresh);
