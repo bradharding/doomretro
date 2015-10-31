@@ -107,6 +107,7 @@ extern int              m_threshold;
 extern char             *playername;
 extern dboolean         pm_alwaysrun;
 extern dboolean         pm_centerweapon;
+extern int              pm_idlebob;
 extern int              pm_walkbob;
 extern dboolean         r_althud;
 extern int              r_blood;
@@ -530,6 +531,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (playername, null_func1, playername_cvar_func2, "The name of the player used in messages."),
     CVAR_BOOL (pm_alwaysrun, bool_cvars_func1, pm_alwaysrun_cvar_func2, "Toggles always run."),
     CVAR_BOOL (pm_centerweapon, bool_cvars_func1, bool_cvars_func2, "Toggles the centering of the player's weapon when firing."),
+    CVAR_INT  (pm_idlebob, null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when idle."),
     CVAR_INT  (pm_walkbob, null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when walking."),
     CVAR_BOOL (r_althud, bool_cvars_func1, bool_cvars_func2, "Toggles the display of an alternate HUD when the HUD is enabled."),
     CVAR_INT  (r_blood, r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters."),

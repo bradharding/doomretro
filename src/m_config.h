@@ -114,6 +114,10 @@ typedef enum
 
 #define pm_centerweapon_default                 true
 
+#define pm_idlebob_min                          0
+#define pm_idlebob_default                      0
+#define pm_idlebob_max                          100
+
 #define pm_walkbob_min                          0
 #define pm_walkbob_default                      75
 #define pm_walkbob_max                          100

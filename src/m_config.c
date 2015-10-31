@@ -79,6 +79,7 @@ extern int              m_threshold;
 extern char             *playername;
 extern dboolean         pm_alwaysrun;
 extern dboolean         pm_centerweapon;
+extern int              pm_idlebob;
 extern int              pm_walkbob;
 extern dboolean         r_althud;
 extern int              r_blood;
@@ -187,6 +188,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (playername,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (pm_alwaysrun,         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (pm_centerweapon,      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (pm_idlebob,           NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_althud,             BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_blood,              BLOODALIAS ),
@@ -530,6 +532,8 @@ static void M_CheckCVARs(void)
 
     if (pm_centerweapon != false && pm_centerweapon != true)
         pm_centerweapon = pm_centerweapon_default;
+
+    pm_idlebob = BETWEEN(pm_idlebob_min, pm_idlebob, pm_idlebob_max);
 
     pm_walkbob = BETWEEN(pm_walkbob_min, pm_walkbob, pm_walkbob_max);
 
