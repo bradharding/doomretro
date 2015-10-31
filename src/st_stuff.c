@@ -202,9 +202,6 @@ static patch_t                  *keys[NUMCARDS];
 // face status patches
 static patch_t                  *faces[ST_NUMFACES];
 
-// face background
-static patch_t                  *faceback;
-
 // main bar right
 static patch_t                  *armsbg;
 static patch_t                  *armsbg2;
@@ -278,6 +275,8 @@ int                             idclevtics = 0;
 dboolean                        idmus = false;
 
 dboolean                        samelevel;
+
+int                             faceback = faceback_default;
 
 unsigned int                    stat_cheated = 0;
 
@@ -1360,6 +1359,10 @@ void ST_drawWidgets(dboolean refresh)
     for (i = 0; i < armsnum; i++)
         STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
+    if (faceback != faceback_default)
+        V_FillRect(0, 144 * SCREENSCALE, 170 * SCREENSCALE, 32 * SCREENSCALE, 29 * SCREENSCALE,
+            faceback);
+
     STlib_updateMultIcon(&w_faces, refresh);
 
     for (i = 0; i < 3; i++)
@@ -1449,9 +1452,6 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         // yellow #
         arms[i][1] = shortnum[i + 2];
     }
-
-    // face background
-    callback("STFB0", &faceback);
 
     // status bar background bits
     callback("STBAR", &sbar);

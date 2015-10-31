@@ -68,6 +68,10 @@ typedef enum
 #define episode_default                         0
 #define episode_max                             3
 
+#define faceback_min                            0
+#define faceback_default                        5
+#define faceback_max                            255
+
 #define expansion_min                           0
 #define expansion_default                       0
 #define expansion_max                           1

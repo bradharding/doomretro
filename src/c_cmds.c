@@ -91,6 +91,7 @@ extern dboolean         con_timestamps;
 extern char             *configfile;
 extern int              episode;
 extern int              expansion;
+extern int              faceback;
 extern int              gametime;
 extern float            gp_deadzone_left;
 extern float            gp_deadzone_right;
@@ -515,6 +516,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (configfile, null_func1, str_cvars_func2, "The path of the configuration file."),
     CVAR_INT  (episode, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM~ episode in the menu."),
     CVAR_INT  (expansion, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM II~ expansion in the menu."),
+    CVAR_INT  (faceback, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The color behind the player's face in the status bar."),
     CVAR_TIME (gametime, null_func1, time_cvars_func2, "The amount of time since ~"PACKAGE_NAME"~ started."),
     CVAR_FLOAT(gp_deadzone_left, gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT, "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT, "The dead zone of the gamepad's right thumbstick."),
