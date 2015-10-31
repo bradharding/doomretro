@@ -96,6 +96,11 @@
 #define ST_FACESX               (chex ? 144 : 143)
 #define ST_FACESY               168
 
+#define ST_FACEBACKX            (143 * SCREENSCALE)
+#define ST_FACEBACKY            (168 * SCREENSCALE)
+#define ST_FACEBACKWIDTH        (34 * SCREENSCALE)
+#define ST_FACEBACKHEIGHT       (32 * SCREENSCALE)
+
 #define ST_EVILGRINCOUNT        (2 * TICRATE)
 #define ST_TURNCOUNT            (1 * TICRATE)
 #define ST_RAMPAGEDELAY         (2 * TICRATE)
@@ -1360,8 +1365,7 @@ void ST_drawWidgets(dboolean refresh)
         STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
     if (faceback != faceback_default)
-        V_FillRect(0, 143 * SCREENSCALE, 169 * SCREENSCALE, 34 * SCREENSCALE, 31 * SCREENSCALE,
-            faceback);
+        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, faceback);
 
     STlib_updateMultIcon(&w_faces, refresh);
 
