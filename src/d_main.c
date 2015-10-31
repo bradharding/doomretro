@@ -276,7 +276,7 @@ void D_Display(void)
                     --borderdrawcount;
                 }
             }
-            if (r_detail == low)
+            if (r_detail == lowdetail)
                 V_LowGraphicDetail(viewheight2 * SCREENWIDTH);
         }
 

@@ -599,7 +599,7 @@ void G_DoLoadLevel(void)
     C_AddConsoleDivider();
     ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
     P_MapName(ep, gamemap);
-    C_Print(title, mapnumandtitle);
+    C_Print(titlestring, mapnumandtitle);
 
     P_SetupLevel(ep, gamemap);
 

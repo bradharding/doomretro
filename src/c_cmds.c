@@ -241,53 +241,53 @@ extern int              screenwidth;
 
 control_t controls[] =
 {
-    { "1",             keyboard, '1'            }, { "2",             keyboard, '2'            },
-    { "3",             keyboard, '3'            }, { "4",             keyboard, '4'            },
-    { "5",             keyboard, '5'            }, { "6",             keyboard, '6'            },
-    { "7",             keyboard, '7'            }, { "8",             keyboard, '8'            },
-    { "9",             keyboard, '9'            }, { "0",             keyboard, '0'            },
-    { "-",             keyboard, KEY_MINUS      }, { "=",             keyboard, KEY_EQUALS     },
-    { "+",             keyboard, KEY_EQUALS     }, { "backspace",     keyboard, KEY_BACKSPACE  },
-    { "tab",           keyboard, KEY_TAB        }, { "q",             keyboard, 'q'            },
-    { "w",             keyboard, 'w'            }, { "e",             keyboard, 'e'            },
-    { "r",             keyboard, 'r'            }, { "t",             keyboard, 't'            },
-    { "y",             keyboard, 'y'            }, { "u",             keyboard, 'u'            },
-    { "i",             keyboard, 'i'            }, { "o",             keyboard, 'o'            },
-    { "p",             keyboard, 'p'            }, { "[",             keyboard, '['            },
-    { "]",             keyboard, ']'            }, { "enter",         keyboard, KEY_ENTER      },
-    { "ctrl",          keyboard, KEY_RCTRL      }, { "a",             keyboard, 'a'            },
-    { "s",             keyboard, 's'            }, { "d",             keyboard, 'd'            },
-    { "f",             keyboard, 'f'            }, { "g",             keyboard, 'g'            },
-    { "h",             keyboard, 'h'            }, { "j",             keyboard, 'j'            },
-    { "k",             keyboard, 'k'            }, { "l",             keyboard, 'l'            },
-    { ";",             keyboard, ';'            }, { "\'",            keyboard, '\''           },
-    { "shift",         keyboard, KEY_RSHIFT     }, { "\\",            keyboard, '\\'           },
-    { "z",             keyboard, 'z'            }, { "x",             keyboard, 'x'            },
-    { "c",             keyboard, 'c'            }, { "v",             keyboard, 'v'            },
-    { "b",             keyboard, 'b'            }, { "n",             keyboard, 'n'            },
-    { "m",             keyboard, 'm'            }, { ",",             keyboard, ','            },
-    { ".",             keyboard, '.'            }, { "/",             keyboard, '/'            },
-    { "alt",           keyboard, KEY_RALT       }, { "space",         keyboard, ' '            },
-    { "numlock",       keyboard, KEY_NUMLOCK    }, { "capslock",      keyboard, KEY_CAPSLOCK   },
-    { "scrolllock",    keyboard, KEY_SCRLCK     }, { "home",          keyboard, KEY_HOME       },
-    { "up",            keyboard, KEY_UPARROW    }, { "pageup",        keyboard, KEY_PGUP       },
-    { "left",          keyboard, KEY_LEFTARROW  }, { "right",         keyboard, KEY_RIGHTARROW },
-    { "end",           keyboard, KEY_END        }, { "down",          keyboard, KEY_DOWNARROW  },
-    { "pagedown",      keyboard, KEY_PGDN       }, { "insert",        keyboard, KEY_INS        },
-    { "delete",        keyboard, KEY_DEL        }, { "mouse1",        mouse,    0              },
-    { "mouse2",        mouse,    1              }, { "mouse3",        mouse,    2              },
-    { "mouse4",        mouse,    3              }, { "mouse5",        mouse,    4              },
-    { "mouse6",        mouse,    5              }, { "mouse7",        mouse,    6              },
-    { "mouse8",        mouse,    7              }, { "wheelup",       mouse,    8              },
-    { "wheeldown",     mouse,    9              }, { "dpadup",        gamepad,  1              },
-    { "dpaddown",      gamepad,  2              }, { "dpadleft",      gamepad,  4              },
-    { "dpadright",     gamepad,  8              }, { "start",         gamepad,  16             },
-    { "back",          gamepad,  32             }, { "leftthumb",     gamepad,  64             },
-    { "rightthumb",    gamepad,  128            }, { "leftshoulder",  gamepad,  256            },
-    { "rightshoulder", gamepad,  512            }, { "lefttrigger",   gamepad,  1024           },
-    { "righttrigger",  gamepad,  2048           }, { "gamepad1",      gamepad,  4096           },
-    { "gamepad2",      gamepad,  8192           }, { "gamepad3",      gamepad,  16384          },
-    { "gamepad4",      gamepad,  32768          }, { "",              0,        0              }
+    { "1",             keyboardcontrol, '1'            }, { "2",             keyboardcontrol, '2'            },
+    { "3",             keyboardcontrol, '3'            }, { "4",             keyboardcontrol, '4'            },
+    { "5",             keyboardcontrol, '5'            }, { "6",             keyboardcontrol, '6'            },
+    { "7",             keyboardcontrol, '7'            }, { "8",             keyboardcontrol, '8'            },
+    { "9",             keyboardcontrol, '9'            }, { "0",             keyboardcontrol, '0'            },
+    { "-",             keyboardcontrol, KEY_MINUS      }, { "=",             keyboardcontrol, KEY_EQUALS     },
+    { "+",             keyboardcontrol, KEY_EQUALS     }, { "backspace",     keyboardcontrol, KEY_BACKSPACE  },
+    { "tab",           keyboardcontrol, KEY_TAB        }, { "q",             keyboardcontrol, 'q'            },
+    { "w",             keyboardcontrol, 'w'            }, { "e",             keyboardcontrol, 'e'            },
+    { "r",             keyboardcontrol, 'r'            }, { "t",             keyboardcontrol, 't'            },
+    { "y",             keyboardcontrol, 'y'            }, { "u",             keyboardcontrol, 'u'            },
+    { "i",             keyboardcontrol, 'i'            }, { "o",             keyboardcontrol, 'o'            },
+    { "p",             keyboardcontrol, 'p'            }, { "[",             keyboardcontrol, '['            },
+    { "]",             keyboardcontrol, ']'            }, { "enter",         keyboardcontrol, KEY_ENTER      },
+    { "ctrl",          keyboardcontrol, KEY_RCTRL      }, { "a",             keyboardcontrol, 'a'            },
+    { "s",             keyboardcontrol, 's'            }, { "d",             keyboardcontrol, 'd'            },
+    { "f",             keyboardcontrol, 'f'            }, { "g",             keyboardcontrol, 'g'            },
+    { "h",             keyboardcontrol, 'h'            }, { "j",             keyboardcontrol, 'j'            },
+    { "k",             keyboardcontrol, 'k'            }, { "l",             keyboardcontrol, 'l'            },
+    { ";",             keyboardcontrol, ';'            }, { "\'",            keyboardcontrol, '\''           },
+    { "shift",         keyboardcontrol, KEY_RSHIFT     }, { "\\",            keyboardcontrol, '\\'           },
+    { "z",             keyboardcontrol, 'z'            }, { "x",             keyboardcontrol, 'x'            },
+    { "c",             keyboardcontrol, 'c'            }, { "v",             keyboardcontrol, 'v'            },
+    { "b",             keyboardcontrol, 'b'            }, { "n",             keyboardcontrol, 'n'            },
+    { "m",             keyboardcontrol, 'm'            }, { ",",             keyboardcontrol, ','            },
+    { ".",             keyboardcontrol, '.'            }, { "/",             keyboardcontrol, '/'            },
+    { "alt",           keyboardcontrol, KEY_RALT       }, { "space",         keyboardcontrol, ' '            },
+    { "numlock",       keyboardcontrol, KEY_NUMLOCK    }, { "capslock",      keyboardcontrol, KEY_CAPSLOCK   },
+    { "scrolllock",    keyboardcontrol, KEY_SCRLCK     }, { "home",          keyboardcontrol, KEY_HOME       },
+    { "up",            keyboardcontrol, KEY_UPARROW    }, { "pageup",        keyboardcontrol, KEY_PGUP       },
+    { "left",          keyboardcontrol, KEY_LEFTARROW  }, { "right",         keyboardcontrol, KEY_RIGHTARROW },
+    { "end",           keyboardcontrol, KEY_END        }, { "down",          keyboardcontrol, KEY_DOWNARROW  },
+    { "pagedown",      keyboardcontrol, KEY_PGDN       }, { "insert",        keyboardcontrol, KEY_INS        },
+    { "delete",        keyboardcontrol, KEY_DEL        }, { "mouse1",        mousecontrol,    0              },
+    { "mouse2",        mousecontrol,    1              }, { "mouse3",        mousecontrol,    2              },
+    { "mouse4",        mousecontrol,    3              }, { "mouse5",        mousecontrol,    4              },
+    { "mouse6",        mousecontrol,    5              }, { "mouse7",        mousecontrol,    6              },
+    { "mouse8",        mousecontrol,    7              }, { "wheelup",       mousecontrol,    8              },
+    { "wheeldown",     mousecontrol,    9              }, { "dpadup",        gamepadcontrol,  1              },
+    { "dpaddown",      gamepadcontrol,  2              }, { "dpadleft",      gamepadcontrol,  4              },
+    { "dpadright",     gamepadcontrol,  8              }, { "start",         gamepadcontrol,  16             },
+    { "back",          gamepadcontrol,  32             }, { "leftthumb",     gamepadcontrol,  64             },
+    { "rightthumb",    gamepadcontrol,  128            }, { "leftshoulder",  gamepadcontrol,  256            },
+    { "rightshoulder", gamepadcontrol,  512            }, { "lefttrigger",   gamepadcontrol,  1024           },
+    { "righttrigger",  gamepadcontrol,  2048           }, { "gamepad1",      gamepadcontrol,  4096           },
+    { "gamepad2",      gamepadcontrol,  8192           }, { "gamepad3",      gamepadcontrol,  16384          },
+    { "gamepad4",      gamepadcontrol,  32768          }, { "",              0,        0              }
 };
 
 action_t actions[] =
@@ -691,11 +691,13 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
     {
         if (i != keep)
         {
-            if (type == keyboard && actions[i].keyboard && value == *(int *)actions[i].keyboard)
+            if (type == keyboardcontrol && actions[i].keyboard
+                && value == *(int *)actions[i].keyboard)
                 *(int *)actions[i].keyboard = 0;
-            else if (type == mouse && actions[i].mouse && value == *(int *)actions[i].mouse)
+            else if (type == mousecontrol && actions[i].mouse && value == *(int *)actions[i].mouse)
                 *(int *)actions[i].mouse = -1;
-            else if (type == gamepad && actions[i].gamepad && value == *(int *)actions[i].gamepad)
+            else if (type == gamepadcontrol && actions[i].gamepad
+                && value == *(int *)actions[i].gamepad)
                 *(int *)actions[i].gamepad = 0;
         }
 
@@ -714,14 +716,14 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
         while (actions[action].action[0])
         {
             if (actions[action].keyboard)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard, keyboard,
-                    count++);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard,
+                    keyboardcontrol, count++);
             if (actions[action].mouse)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse, mouse,
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse, mousecontrol,
                     count++);
             if (actions[action].gamepad)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad, gamepad,
-                    count++);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad,
+                    gamepadcontrol, count++);
             ++action;
         }
     }
@@ -744,13 +746,13 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
             {
                 while (actions[action].action[0])
                 {
-                    if (controls[i].type == keyboard && actions[action].keyboard
+                    if (controls[i].type == keyboardcontrol && actions[action].keyboard
                         && controls[i].value == *(int *)actions[action].keyboard)
                         C_Output(actions[action].action);
-                    else if (controls[i].type == mouse && actions[action].mouse
+                    else if (controls[i].type == mousecontrol && actions[action].mouse
                         && controls[i].value == *(int *)actions[action].mouse)
                         C_Output(actions[action].action);
-                    else if (controls[i].type == gamepad && actions[action].gamepad
+                    else if (controls[i].type == gamepadcontrol && actions[action].gamepad
                         && controls[i].value == *(int *)actions[action].gamepad)
                         C_Output(actions[action].action);
                     ++action;
@@ -762,7 +764,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                 {
                     switch (controls[i].type)
                     {
-                        case keyboard:
+                        case keyboardcontrol:
                             if (actions[action].keyboard
                                 && controls[i].value == *(int *)actions[action].keyboard)
                             {
@@ -770,7 +772,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                                 M_SaveCVARs();
                             }
                             break;
-                        case mouse:
+                        case mousecontrol:
                             if (actions[action].mouse
                                 && controls[i].value == *(int *)actions[action].mouse)
                             {
@@ -778,7 +780,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                                 M_SaveCVARs();
                             }
                             break;
-                        case gamepad:
+                        case gamepadcontrol:
                             if (actions[action].gamepad
                                 && controls[i].value == *(int *)actions[action].gamepad)
                             {
@@ -805,28 +807,28 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                 {
                     switch (controls[i].type)
                     {
-                        case keyboard:
+                        case keyboardcontrol:
                             if (actions[action].keyboard)
                             {
                                 *(int *)actions[action].keyboard = controls[i].value;
                                 bound = true;
-                                C_UnbindDuplicates(action, keyboard, controls[i].value);
+                                C_UnbindDuplicates(action, keyboardcontrol, controls[i].value);
                             }
                             break;
-                        case mouse:
+                        case mousecontrol:
                             if (actions[action].mouse)
                             {
                                 *(int *)actions[action].mouse = controls[i].value;
                                 bound = true;
-                                C_UnbindDuplicates(action, mouse, controls[i].value);
+                                C_UnbindDuplicates(action, mousecontrol, controls[i].value);
                             }
                             break;
-                        case gamepad:
+                        case gamepadcontrol:
                             if (actions[action].gamepad)
                             {
                                 *(int *)actions[action].gamepad = controls[i].value;
                                 bound = true;
-                                C_UnbindDuplicates(action, gamepad, controls[i].value);
+                                C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
                             }
                             break;
                     }
@@ -902,7 +904,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             int i;
 
             for (i = 1; i < consolestrings - 1; ++i)
-                if (console[i].type == divider)
+                if (console[i].type == dividerstring)
                     fprintf(file, "%s\n", DIVIDERSTRING);
                 else
                 {

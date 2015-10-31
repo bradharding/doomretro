@@ -1215,18 +1215,18 @@ static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     if (x < mapwidth)
     {
         byte    *dot = mapscreen + y + x;
-        dboolean top = (y < maparea);
-        dboolean bottom = (y < mapbottom);
+        dboolean attop = (y < maparea);
+        dboolean atbottom = (y < mapbottom);
 
-        if (top)
+        if (attop)
             _PUTDOT(dot, color);
-        if (bottom)
+        if (atbottom)
             _PUTDOT(dot + mapwidth, color);
         if (x + 1 < mapwidth)
         {
-            if (top)
+            if (attop)
                 _PUTDOT(dot + 1, color);
-            if (bottom)
+            if (atbottom)
                 _PUTDOT(dot + mapwidth + 1, color);
         }
     }

@@ -61,12 +61,12 @@
 
 typedef enum
 {
-    input,
-    output,
-    divider,
-    title,
-    warning,
-    playermessage,
+    inputstring,
+    outputstring,
+    dividerstring,
+    titlestring,
+    warningstring,
+    playermessagestring,
     STRINGTYPES
 } stringtype_t;
 

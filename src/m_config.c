@@ -430,11 +430,11 @@ void M_SaveCVARs(void)
     while (actions[i].action[0])
     {
         if (actions[i].keyboard)
-            SaveBind(file, actions[i].action, *(int *)actions[i].keyboard, keyboard);
+            SaveBind(file, actions[i].action, *(int *)actions[i].keyboard, keyboardcontrol);
         if (actions[i].mouse)
-            SaveBind(file, actions[i].action, *(int *)actions[i].mouse, mouse);
+            SaveBind(file, actions[i].action, *(int *)actions[i].mouse, mousecontrol);
         if (actions[i].gamepad)
-            SaveBind(file, actions[i].action, *(int *)actions[i].gamepad, gamepad);
+            SaveBind(file, actions[i].action, *(int *)actions[i].gamepad, gamepadcontrol);
         ++i;
     }
 
@@ -567,7 +567,7 @@ static void M_CheckCVARs(void)
     if (r_corpses_smearblood != false && r_corpses_smearblood != true)
         r_corpses_smearblood = r_corpses_smearblood_default;
 
-    if (r_detail != low && r_detail != high)
+    if (r_detail != lowdetail && r_detail != highdetail)
         r_detail = r_detail_default;
 
     if (r_diskicon != false && r_diskicon != true)

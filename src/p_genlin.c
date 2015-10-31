@@ -642,7 +642,7 @@ dboolean EV_DoGenStairs(line_t *line)
     int                 i;
     int                 newsecnum;
     int                 texture;
-    int                 ok;
+    dboolean            okay;
     dboolean            rtn;
     dboolean            manual;
 
@@ -764,7 +764,7 @@ manual_stair:
         // 2. Other side is the next sector to raise
         do
         {
-            ok = 0;
+            okay = false;
             for (i = 0; i < sec->linecount; i++)
             {
                 if (!((sec->lines[i])->backsector))
@@ -815,10 +815,10 @@ manual_stair:
                 floor->crush = false;
                 floor->type = genBuildStair;    // jff 3/31/98 do not leave uninited
 
-                ok = 1;
+                okay = true;
                 break;
             }
-        } while (ok);
+        } while (okay);
         if (manual)
             return rtn;
         secnum = osecnum;                       // jff 3/4/98 restore old loop index

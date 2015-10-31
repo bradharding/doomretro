@@ -1102,7 +1102,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     if (!thing->player)
     {
-        dboolean ok = false;
+        dboolean okay = false;
 
         switch (line->special)
         {
@@ -1125,10 +1125,10 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case WR_TeleportToLineWithSameTag_MonstersOnly_Silent:
             case W1_Teleport_MonstersOnly_Silent:
             case WR_Teleport_MonstersOnly_Silent:
-                ok = true;
+                okay = true;
                 break;
         }
-        if (!ok)
+        if (!okay)
             return;
     }
 
@@ -1797,19 +1797,8 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     }
 
     // Impacts that other things can activate.
-    if (!thing->player)
-    {
-        dboolean ok = false;
-
-        switch (line->special)
-        {
-            case GR_Door_OpenStay:
-                ok = true;
-                break;
-        }
-        if (!ok)
-            return;
-    }
+    if (!thing->player && line->special != GR_Door_OpenStay)
+        return;
 
     if (!P_CheckTag(line))      // jff 2/27/98 disallow zero tag on some types
         return;

@@ -48,8 +48,8 @@ typedef enum
 
 typedef enum
 {
-    low,
-    high
+    lowdetail,
+    highdetail
 } r_detail_values_e;
 
 #define am_external_default                     false
@@ -152,7 +152,7 @@ typedef enum
 
 #define r_corpses_smearblood_default            true
 
-#define r_detail_default                        high
+#define r_detail_default                        highdetail
 
 #define r_diskicon_default                      true
 

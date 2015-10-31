@@ -210,7 +210,7 @@ void C_Input(char *string, ...)
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
-    console[consolestrings].type = input;
+    console[consolestrings].type = inputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
     console[consolestrings].timestamp = "";
     ++consolestrings;
@@ -229,7 +229,7 @@ void C_Output(char *string, ...)
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
-    console[consolestrings].type = output;
+    console[consolestrings].type = outputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
     console[consolestrings].timestamp = "";
     ++consolestrings;
@@ -248,7 +248,7 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
-    console[consolestrings].type = output;
+    console[consolestrings].type = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     console[consolestrings].timestamp = "";
     ++consolestrings;
@@ -269,7 +269,7 @@ void C_Warning(char *string, ...)
     {
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
-        console[consolestrings].type = warning;
+        console[consolestrings].type = warningstring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
         console[consolestrings].timestamp = "";
         ++consolestrings;
@@ -308,7 +308,7 @@ void C_PlayerMessage(char *string, ...)
 
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
-        console[consolestrings].type = playermessage;
+        console[consolestrings].type = playermessagestring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
 
         time(&rawtime);
@@ -335,7 +335,7 @@ static void C_AddToUndoHistory(void)
 void C_AddConsoleDivider(void)
 {
     if (!consolestrings || strcasecmp(console[consolestrings - 1].string, DIVIDER))
-        C_Print(divider, DIVIDER);
+        C_Print(dividerstring, DIVIDER);
 }
 
 static void C_DrawDivider(int y)
@@ -507,12 +507,12 @@ void C_Init(void)
         }
     }
 
-    consolecolors[input] = consoleinputtooutputcolor;
-    consolecolors[output] = consoleoutputcolor;
-    consolecolors[divider] = consoledividercolor;
-    consolecolors[title] = consoletitlecolor;
-    consolecolors[warning] = consolewarningcolor;
-    consolecolors[playermessage] = consoleplayermessagecolor;
+    consolecolors[inputstring] = consoleinputtooutputcolor;
+    consolecolors[outputstring] = consoleoutputcolor;
+    consolecolors[dividerstring] = consoledividercolor;
+    consolecolors[titlestring] = consoletitlecolor;
+    consolecolors[warningstring] = consolewarningcolor;
+    consolecolors[playermessagestring] = consoleplayermessagecolor;
 
     consoletintcolor <<= 8;
     consoleedgecolor1 <<= 8;
@@ -748,9 +748,9 @@ void C_Drawer(void)
         int             x = CONSOLETEXTX;
         int             start;
         int             end;
-        char            *left = Z_Malloc(512, PU_STATIC, NULL);
-        char            *middle = Z_Malloc(512, PU_STATIC, NULL);
-        char            *right = Z_Malloc(512, PU_STATIC, NULL);
+        char            *lefttext = Z_Malloc(512, PU_STATIC, NULL);
+        char            *middletext = Z_Malloc(512, PU_STATIC, NULL);
+        char            *righttext = Z_Malloc(512, PU_STATIC, NULL);
         dboolean        prevconsoleactive = consoleactive;
 
         // adjust console height
@@ -803,7 +803,7 @@ void C_Drawer(void)
             int y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
                     - CONSOLELINEHEIGHT / 2 + 1;
 
-            if (console[i].type == divider)
+            if (console[i].type == dividerstring)
                 C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
             else
             {
@@ -816,23 +816,23 @@ void C_Drawer(void)
 
         // draw input text to left of caret
         for (i = 0; i < MIN(selectstart, caretpos); ++i)
-            left[i] = consoleinput[i];
-        left[i] = '\0';
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 17, left, consoleinputcolor, NOBACKGROUNDCOLOR, 0,
+            lefttext[i] = consoleinput[i];
+        lefttext[i] = '\0';
+        C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor, NOBACKGROUNDCOLOR, 0,
             notabs);
-        x += C_TextWidth(left);
+        x += C_TextWidth(lefttext);
 
         // draw any selected text to left of caret
         if (selectstart < caretpos)
         {
             for (i = selectstart; i < selectend; ++i)
-                middle[i - selectstart] = consoleinput[i];
-            middle[i - selectstart] = '\0';
-            if (middle[0])
+                middletext[i - selectstart] = consoleinput[i];
+            middletext[i - selectstart] = '\0';
+            if (middletext[0])
             {
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middle, consoleselectedinputcolor,
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, 0, notabs);
-                x += C_TextWidth(middle);
+                x += C_TextWidth(middletext);
             }
         }
 
@@ -855,13 +855,13 @@ void C_Drawer(void)
         if (selectend > caretpos)
         {
             for (i = selectstart; i < selectend; ++i)
-                middle[i - selectstart] = consoleinput[i];
-            middle[i - selectstart] = '\0';
-            if (middle[0])
+                middletext[i - selectstart] = consoleinput[i];
+            middletext[i - selectstart] = '\0';
+            if (middletext[0])
             {
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middle, consoleselectedinputcolor,
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, 0, notabs);
-                x += C_TextWidth(middle);
+                x += C_TextWidth(middletext);
             }
         }
 
@@ -869,16 +869,16 @@ void C_Drawer(void)
         if ((unsigned int)caretpos < strlen(consoleinput))
         {
             for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
-                right[i - selectend] = consoleinput[i];
-            right[i - selectend] = '\0';
-            if (right[0])
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, right, consoleinputcolor,
+                righttext[i - selectend] = consoleinput[i];
+            righttext[i - selectend] = '\0';
+            if (righttext[0])
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, righttext, consoleinputcolor,
                     NOBACKGROUNDCOLOR, 0, notabs);
         }
 
-        Z_Free(left);
-        Z_Free(middle);
-        Z_Free(right);
+        Z_Free(lefttext);
+        Z_Free(middletext);
+        Z_Free(righttext);
 
         // draw the scrollbar
         C_DrawScrollbar();
@@ -1162,7 +1162,8 @@ dboolean C_Responder(event_t *ev)
                 if (inputhistory == -1)
                     M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
                 for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; --i)
-                    if (console[i].type == input && strcasecmp(consoleinput, console[i].string))
+                    if (console[i].type == inputstring
+                        && strcasecmp(consoleinput, console[i].string))
                     {
                         inputhistory = i;
                         M_StringCopy(consoleinput, console[i].string, 255);
@@ -1178,7 +1179,7 @@ dboolean C_Responder(event_t *ev)
                 if (inputhistory != -1)
                 {
                     for (i = inputhistory + 1; i < consolestrings; ++i)
-                        if (console[i].type == input
+                        if (console[i].type == inputstring
                             && strcasecmp(consoleinput, console[i].string))
                         {
                             inputhistory = i;

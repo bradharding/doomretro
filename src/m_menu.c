@@ -523,7 +523,7 @@ void M_DarkBackground(void)
     for (i = 0; i < height; ++i)
         screens[0][i] = tinttab50[blurredscreen[i]];
 
-    if (r_detail == low)
+    if (r_detail == lowdetail)
         V_LowGraphicDetail(height);
 }
 
@@ -1651,7 +1651,7 @@ void M_DrawOptions(void)
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
     }
 
-    if (r_detail == high)
+    if (r_detail == highdetail)
     {
         if (M_GDHIGH)
             M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
@@ -1934,14 +1934,14 @@ void M_ChangeDetail(int choice)
 {
     blurred = false;
     r_detail = !r_detail;
-    C_Input("%s %s", stringize(r_detail), (r_detail == high ? "high" : "low"));
+    C_Input("%s %s", stringize(r_detail), (r_detail == highdetail ? "high" : "low"));
     if (!menuactive)
     {
-        HU_PlayerMessage((r_detail == high ? s_DETAILHI : s_DETAILLO), false);
+        HU_PlayerMessage((r_detail == highdetail ? s_DETAILHI : s_DETAILLO), false);
         message_dontfuckwithme = true;
     }
     else
-        C_Output(r_detail == high ? s_DETAILHI : s_DETAILLO);
+        C_Output(r_detail == highdetail ? s_DETAILHI : s_DETAILLO);
     M_SaveCVARs();
 }
 

@@ -632,7 +632,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         fixed_t         stairsize = 0;
         fixed_t         speed = 0;
         dboolean        crushing = false;
-        dboolean        ok;
+        dboolean        okay;
         int             height;
         int             texture;
 
@@ -680,7 +680,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         {
             int i;
 
-            ok = false;
+            okay = false;
             for (i = 0; i < sec->linecount; ++i)
             {
                 line_t          *line = sec->lines[i];
@@ -724,10 +724,10 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                 floor->type = buildStair;
                 floor->crush = (type != build8);
                 floor->stopsound = (sec->floorheight != height);
-                ok = true;
+                okay = true;
                 break;
             }
-        } while (ok);
+        } while (okay);
     }
     return rtn;
 }
