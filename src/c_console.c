@@ -135,7 +135,7 @@ int             zerowidth;
 extern dboolean r_translucency;
 extern byte     *tinttab75;
 extern int      fps;
-extern dboolean pm_alwaysrun;
+extern dboolean alwaysrun;
 extern int      key_alwaysrun;
 
 void G_ToggleAlwaysRun(evtype_t type);
@@ -1230,7 +1230,7 @@ dboolean C_Responder(event_t *ev)
                 if (key_alwaysrun == KEY_CAPSLOCK)
                 {
                     G_ToggleAlwaysRun(ev_keydown);
-                    C_Output("%s.", (pm_alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
+                    C_Output("%s.", (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
                 }
                 break;
 
@@ -1257,10 +1257,9 @@ dboolean C_Responder(event_t *ev)
                     {
                         char    buffer[255];
 
-                        M_snprintf(buffer, sizeof(buffer), "%s%s%s",
-                            M_SubString(consoleinput, 0, selectstart), SDL_GetClipboardText(),
-                            M_SubString(consoleinput, selectend, strlen(consoleinput)
-                                - selectend));
+                        M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0,
+                            selectstart), SDL_GetClipboardText(), M_SubString(consoleinput,
+                            selectend, strlen(consoleinput) - selectend));
                         if (C_TextWidth(buffer) <= CONSOLEINPUTPIXELWIDTH)
                         {
                             C_AddToUndoHistory();

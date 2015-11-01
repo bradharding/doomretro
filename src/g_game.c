@@ -263,12 +263,11 @@ static char     savedescription[SAVESTRINGSIZE];
 
 dboolean        loadedgame = false;
 
-extern dboolean pm_alwaysrun;
+extern dboolean alwaysrun;
 extern int      st_palette;
 extern int      pagetic;
 extern dboolean transferredsky;
 extern dboolean messages;
-
 
 void G_RemoveChoppers(void)
 {
@@ -351,7 +350,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
-    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + pm_alwaysrun == 1);
+    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + alwaysrun == 1);
 
     // use two stage accelerative turning
     // on the keyboard
@@ -629,15 +628,15 @@ void G_DoLoadLevel(void)
 void G_ToggleAlwaysRun(evtype_t type)
 {
 #if defined(WIN32)
-    pm_alwaysrun = (key_alwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
-        (GetKeyState(VK_CAPITAL) & 0x0001) : !pm_alwaysrun);
+    alwaysrun = (key_alwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
+        (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
 #else
-    pm_alwaysrun = !pm_alwaysrun;
+    alwaysrun = !alwaysrun;
 #endif
 
     if (!consoleactive)
-        players[0].message = (pm_alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
-    C_Input("%s %s", stringize(pm_alwaysrun), (pm_alwaysrun ? "on" : "off"));
+        players[0].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
+    C_Input("%s %s", stringize(alwaysrun), (alwaysrun ? "on" : "off"));
     message_dontfuckwithme = true;
     if (menuactive)
     {

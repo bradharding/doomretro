@@ -804,7 +804,6 @@ void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
             false);
 }
 
-
 //
 // M_ReadSaveStrings
 //  read the strings from the savegame files

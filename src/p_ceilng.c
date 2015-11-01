@@ -217,7 +217,6 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
     sector_t    *sec;
     ceiling_t   *ceiling;
 
-
     // Reactivate in-stasis ceilings...for certain types.
     switch (type)
     {

@@ -52,6 +52,8 @@ typedef enum
     highdetail
 } r_detail_values_e;
 
+#define alwaysrun_default                       false
+
 #define am_external_default                     false
 
 #define am_followmode_default                   true
@@ -59,6 +61,8 @@ typedef enum
 #define am_grid_default                         false
 
 #define am_rotatemode_default                   true
+
+#define centerweapon_default                    true
 
 #define con_obituaries_default                  false
 
@@ -112,19 +116,11 @@ typedef enum
 #define m_threshold_default                     10
 #define m_threshold_max                         INT_MAX
 
+#define movebob_min                             0
+#define movebob_default                         75
+#define movebob_max                             100
+
 #define playername_default                      "you"
-
-#define pm_alwaysrun_default                    false
-
-#define pm_centerweapon_default                 true
-
-#define pm_idlebob_min                          0
-#define pm_idlebob_default                      0
-#define pm_idlebob_max                          100
-
-#define pm_walkbob_min                          0
-#define pm_walkbob_default                      75
-#define pm_walkbob_max                          100
 
 #define r_althud_default                        false
 
@@ -219,6 +215,10 @@ typedef enum
 #define skilllevel_min                          sk_baby
 #define skilllevel_default                      sk_medium
 #define skilllevel_max                          sk_nightmare
+
+#define stillbob_min                            0
+#define stillbob_default                        0
+#define stillbob_max                            100
 
 #define vid_capfps_default                      false
 

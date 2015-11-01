@@ -182,8 +182,7 @@ float                   m_acceleration = m_acceleration_default;
 int                     m_threshold = m_threshold_default;
 
 int                     capslock;
-dboolean                pm_alwaysrun = pm_alwaysrun_default;
-
+dboolean                alwaysrun = alwaysrun_default;
 
 extern dboolean         am_external;
 
@@ -1444,7 +1443,7 @@ void I_InitKeyboard(void)
     {
         capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
 
-        if ((pm_alwaysrun && !capslock) || (!pm_alwaysrun && capslock))
+        if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
         {
             keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
             keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);

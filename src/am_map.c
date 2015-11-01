@@ -222,7 +222,6 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-
 dboolean                automapactive = false;
 
 static unsigned int     mapwidth;

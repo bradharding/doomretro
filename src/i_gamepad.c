@@ -62,7 +62,6 @@ static XINPUTSETSTATE pXInputSetState;
 float                   gp_deadzone_left = gp_deadzone_left_default;
 float                   gp_deadzone_right = gp_deadzone_right_default;
 
-
 static SDL_Joystick     *gamepad;
 
 int                     gamepadbuttons = 0;

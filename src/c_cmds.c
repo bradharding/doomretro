@@ -83,9 +83,11 @@
 #define MAPCMDFORMAT            "E~x~M~y~|MAP~xy~"
 #define SPAWNCMDFORMAT          "~monster~|~item~"
 
+extern dboolean         alwaysrun;
 extern dboolean         am_external;
 extern dboolean         am_grid;
 extern dboolean         am_rotatemode;
+extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
 extern char             *configfile;
@@ -105,11 +107,8 @@ extern dboolean         m_doubleclick_use;
 extern dboolean         m_novertical;
 extern int              m_sensitivity;
 extern int              m_threshold;
+extern int              movebob;
 extern char             *playername;
-extern dboolean         pm_alwaysrun;
-extern dboolean         pm_centerweapon;
-extern int              pm_idlebob;
-extern int              pm_walkbob;
 extern dboolean         r_althud;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
@@ -157,6 +156,7 @@ extern unsigned int     stat_secretsrevealed;
 extern unsigned int     stat_shotsfired;
 extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
+extern int              stillbob;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -379,7 +379,7 @@ static void am_external_cvar_func2(char *, char *, char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
 static void playername_cvar_func2(char *, char *, char *, char *);
-static void pm_alwaysrun_cvar_func2(char *, char *, char *, char *);
+static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
 static void r_blood_cvar_func2(char *, char *, char *, char *);
 static dboolean r_bloodsplats_max_cvar_func1(char *, char *, char *, char *);
@@ -507,10 +507,12 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT (idspispopd, 0),
 
     // console variables
+    CVAR_BOOL (alwaysrun, bool_cvars_func1, alwaysrun_cvar_func2, "Toggles the player always running when moving."),
     CVAR_BOOL (am_external, bool_cvars_func1, am_external_cvar_func2, "Toggles rendering of the automap on an external display."),
     CVAR_BOOL (am_followmode, bool_cvars_func1, bool_cvars_func2, "Toggles follow mode in the automap."),
     CVAR_BOOL (am_grid, bool_cvars_func1, bool_cvars_func2, "Toggles the grid in the automap."),
     CVAR_BOOL (am_rotatemode, bool_cvars_func1, bool_cvars_func2, "Toggles rotate mode in the automap."),
+    CVAR_BOOL (centerweapon, bool_cvars_func1, bool_cvars_func2, "Toggles the centering of the player's weapon when firing."),
     CVAR_BOOL (con_obituaries, bool_cvars_func1, bool_cvars_func2, "Toggles obituaries in the console when monsters are killed."),
     CVAR_BOOL (con_timestamps, bool_cvars_func1, bool_cvars_func2, "Toggles timestamps in the console for player messages."),
     CVAR_STR  (configfile, null_func1, str_cvars_func2, "The path of the configuration file."),
@@ -530,11 +532,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (m_sensitivity, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The mouse's sensitivity."),
     CVAR_INT  (m_threshold, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The mouse's acceleration threshold."),
     CVAR_BOOL (messages, bool_cvars_func1, bool_cvars_func2, "Toggles messages."),
+    CVAR_INT  (movebob, null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when moving."),
     CVAR_STR  (playername, null_func1, playername_cvar_func2, "The name of the player used in messages."),
-    CVAR_BOOL (pm_alwaysrun, bool_cvars_func1, pm_alwaysrun_cvar_func2, "Toggles always run."),
-    CVAR_BOOL (pm_centerweapon, bool_cvars_func1, bool_cvars_func2, "Toggles the centering of the player's weapon when firing."),
-    CVAR_INT  (pm_idlebob, null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when idle."),
-    CVAR_INT  (pm_walkbob, null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when walking."),
     CVAR_BOOL (r_althud, bool_cvars_func1, bool_cvars_func2, "Toggles the display of an alternate HUD when the HUD is enabled."),
     CVAR_INT  (r_blood, r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters."),
     CVAR_INT  (r_bloodsplats_max, r_bloodsplats_max_cvar_func1, r_bloodsplats_max_cvar_func2, CF_NONE, SPLATALIAS, "The maximum number of blood splats allowed in a map."),
@@ -572,6 +571,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (s_sfxvolume, s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOALIAS, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, null_func1, str_cvars_func2, "The path of Timidity's configuration file."),
     CVAR_INT  (skilllevel, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected skill level in the menu."),
+    CVAR_INT  (stillbob, null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when still."),
     CVAR_BOOL (vid_capfps, bool_cvars_func1, bool_cvars_func2, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS, "The display used to render the game."),
 #if !defined(WIN32)
@@ -2242,6 +2242,15 @@ static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
+// alwaysrun cvar
+//
+static void alwaysrun_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    bool_cvars_func2(cmd, parm1, "", "");
+    I_InitKeyboard();
+}
+
+//
 // am_external cvar
 //
 static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -2323,15 +2332,6 @@ static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
     }
     else
         C_Output("\"%s\"", playername);
-}
-
-//
-// pm_alwaysrun cvar
-//
-static void pm_alwaysrun_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
-{
-    bool_cvars_func2(cmd, parm1, "", "");
-    I_InitKeyboard();
 }
 
 //

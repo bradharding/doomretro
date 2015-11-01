@@ -160,7 +160,6 @@ size_t W_POSIX_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t b
     return bytes_read;
 }
 
-
 wad_file_class_t posix_wad_file =
 {
     W_POSIX_OpenFile,

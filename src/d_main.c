@@ -122,7 +122,7 @@ dboolean                forcewipe = false;
 dboolean                splashscreen;
 
 extern int              expansion;
-extern dboolean         pm_alwaysrun;
+extern dboolean         alwaysrun;
 
 int                     startuptimer;
 
@@ -466,8 +466,8 @@ void D_DoAdvanceTitle(void)
             {
                 flag = false;
                 I_InitKeyboard();
-                if (pm_alwaysrun)
-                    C_Input("%s on", stringize(pm_alwaysrun));
+                if (alwaysrun)
+                    C_Input("%s on", stringize(alwaysrun));
             }
 
             if (pagelump == creditlump)
@@ -1631,8 +1631,8 @@ static void D_DoomMainSetup(void)
     if (startloadgame >= 0)
     {
         I_InitKeyboard();
-        if (pm_alwaysrun)
-            C_Input("%s on", stringize(pm_alwaysrun));
+        if (alwaysrun)
+            C_Input("%s on", stringize(alwaysrun));
         noinput = false;
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
@@ -1649,8 +1649,8 @@ static void D_DoomMainSetup(void)
         if (autostart)
         {
             I_InitKeyboard();
-            if (pm_alwaysrun)
-                C_Input("%s on", stringize(pm_alwaysrun));
+            if (alwaysrun)
+                C_Input("%s on", stringize(alwaysrun));
             C_Output("Warping to %s...", lumpname);
             noinput = false;
             G_DeferredInitNew(startskill, startepisode, startmap);

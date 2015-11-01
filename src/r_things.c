@@ -416,7 +416,6 @@ static vissprite_t *R_NewVisSprite(fixed_t scale)
         }
     } while (1);
 
-
     if (num_vissprite >= num_vissprite_alloc)
     {
         if (pos >= num_vissprite)

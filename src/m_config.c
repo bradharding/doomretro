@@ -56,10 +56,12 @@
 
 char                    *configfile = PACKAGE_CONFIG;
 
+extern dboolean         alwaysrun;
 extern dboolean         am_external;
 extern dboolean         am_followmode;
 extern dboolean         am_grid;
 extern dboolean         am_rotatemode;
+extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
 extern int              episode;
@@ -77,11 +79,8 @@ extern dboolean         m_doubleclick_use;
 extern dboolean         m_novertical;
 extern int              m_sensitivity;
 extern int              m_threshold;
+extern int              movebob;
 extern char             *playername;
-extern dboolean         pm_alwaysrun;
-extern dboolean         pm_centerweapon;
-extern int              pm_idlebob;
-extern int              pm_walkbob;
 extern dboolean         r_althud;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
@@ -118,6 +117,7 @@ extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern int              savegame;
 extern int              skilllevel;
+extern int              stillbob;
 extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
@@ -166,10 +166,12 @@ extern dboolean         returntowidescreen;
 
 static default_t cvars[] =
 {
+    CONFIG_VARIABLE_INT          (alwaysrun,            BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_external,          BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_followmode,        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_grid,              BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_rotatemode,        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (centerweapon,         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_timestamps,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (episode,              NOALIAS    ),
@@ -187,11 +189,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (m_sensitivity,        NOALIAS    ),
     CONFIG_VARIABLE_INT          (m_threshold,          NOALIAS    ),
     CONFIG_VARIABLE_INT          (messages,             BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (movebob,              NOALIAS    ),
     CONFIG_VARIABLE_STRING       (playername,           NOALIAS    ),
-    CONFIG_VARIABLE_INT          (pm_alwaysrun,         BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (pm_centerweapon,      BOOLALIAS  ),
-    CONFIG_VARIABLE_INT_PERCENT  (pm_idlebob,           NOALIAS    ),
-    CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_althud,             BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_blood,              BLOODALIAS ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,    SPLATALIAS ),
@@ -240,6 +239,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired,      NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit,        NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_time,            NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (stillbob,             NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,          NOALIAS    ),
 #if !defined(WIN32)
@@ -481,6 +481,9 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3);
 
 static void M_CheckCVARs(void)
 {
+    if (alwaysrun != false && alwaysrun != true)
+        alwaysrun = alwaysrun_default;
+
     if (am_external != false && am_external != true)
         am_external = am_external_default;
 
@@ -491,6 +494,9 @@ static void M_CheckCVARs(void)
 
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = am_rotatemode_default;
+
+    if (centerweapon != false && centerweapon != true)
+        centerweapon = centerweapon_default;
 
     if (con_obituaries != false && con_obituaries != true)
         con_obituaries = con_obituaries_default;
@@ -531,15 +537,7 @@ static void M_CheckCVARs(void)
     if (messages != false && messages != true)
         messages = messages_default;
 
-    if (pm_alwaysrun != false && pm_alwaysrun != true)
-        pm_alwaysrun = pm_alwaysrun_default;
-
-    if (pm_centerweapon != false && pm_centerweapon != true)
-        pm_centerweapon = pm_centerweapon_default;
-
-    pm_idlebob = BETWEEN(pm_idlebob_min, pm_idlebob, pm_idlebob_max);
-
-    pm_walkbob = BETWEEN(pm_walkbob_min, pm_walkbob, pm_walkbob_max);
+    movebob = BETWEEN(movebob_min, movebob, movebob_max);
 
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;
@@ -648,6 +646,8 @@ static void M_CheckCVARs(void)
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
 
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
+
+    stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
 
     if (vid_capfps != false && vid_capfps != true)
         vid_capfps = vid_capfps_default;

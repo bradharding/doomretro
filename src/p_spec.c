@@ -418,7 +418,6 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
     return currentheight;
 }
 
-
 //
 // P_FindNextLowestFloor
 // FIND NEXT LOWEST FLOOR IN SURROUNDING SECTORS

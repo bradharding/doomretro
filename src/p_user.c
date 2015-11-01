@@ -58,8 +58,8 @@ void G_RemoveChoppers(void);
 // 16 pixels of bob
 #define MAXBOB  0x100000
 
-int             pm_idlebob = pm_idlebob_default;
-int             pm_walkbob = pm_walkbob_default;
+int             movebob = movebob_default;
+int             stillbob = stillbob_default;
 int             r_liquid_lowerview = r_liquid_lowerview_default;
 int             r_shakescreen = r_shakescreen_default;
 
@@ -106,12 +106,12 @@ void P_CalcHeight(player_t *player)
         int     angle = (FINEANGLES / 20 * leveltime) & FINEMASK;
         fixed_t bob = ((FixedMul(player->momx, player->momx)
             + FixedMul(player->momy, player->momy)) >> 2);
-        fixed_t idlebob = MAXBOB * pm_idlebob / 100;
 
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        player->bob = (bob ? MAX(MIN(bob, MAXBOB) * pm_walkbob / 100, idlebob) : idlebob);
+        player->bob = (bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 100) :
+            MAXBOB * stillbob / 100);
 
         bob = FixedMul(player->bob / 2, finesine[angle]);
 
