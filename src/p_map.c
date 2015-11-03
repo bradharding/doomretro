@@ -1969,6 +1969,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
     isliquidsector = isliquid[sector->floorpic];
 
     if (isliquidsector)
+    {
         for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
         {
             mobj = n->m_thing;
@@ -1984,7 +1985,12 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
                     PIT_ChangeSector(mobj);                     // process it
             }
         }
+    }
     else
+    {
+        sector->floor_xoffs = 0;
+        sector->floor_yoffs = 0;
+
         for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
         {
             mobj = n->m_thing;
@@ -1995,6 +2001,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
                     PIT_ChangeSector(mobj);                     // process it
             }
         }
+    }
 
     return nofit;
 }
