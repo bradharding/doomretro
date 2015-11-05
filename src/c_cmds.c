@@ -2798,8 +2798,6 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 // vid_windowposition cvar
 //
-extern SDL_Window       *window;
-
 static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])

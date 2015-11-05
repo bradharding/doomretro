@@ -523,8 +523,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 }
 
-extern SDL_Window       *window;
-
 //
 // G_DoLoadLevel
 //

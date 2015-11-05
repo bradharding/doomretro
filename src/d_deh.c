@@ -3016,7 +3016,7 @@ void deh_procStrings(DEHFILE *fpin, char *line)
         }
 
         // concatenate the whole buffer if continuation or the value if first
-        strcat(holdstring, ptr_lstrip((*holdstring ? inbuffer : strval)));
+        strcat(holdstring, ptr_lstrip(*holdstring ? inbuffer : strval));
         rstrip(holdstring);
 
         // delete any trailing blanks past the backslash

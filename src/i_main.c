@@ -214,8 +214,6 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
     }
 }
 
-extern SDL_Window       *window;
-
 void I_InitWindows32(void)
 {
     HINSTANCE           handle = GetModuleHandle(NULL);

@@ -1302,9 +1302,6 @@ extern char             maptitle[128];
 extern dboolean         splashscreen;
 extern int              titlesequence;
 
-extern SDL_Window       *window;
-extern SDL_Renderer     *renderer;
-
 dboolean V_SaveBMP(SDL_Window *window, char *path)
 {
     SDL_Surface         *surface = SDL_GetWindowSurface(window);
