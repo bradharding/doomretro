@@ -1309,7 +1309,7 @@ dboolean V_SaveBMP(SDL_Window *window, char *path)
 
     if (surface)
     {
-        unsigned char   *pixels = malloc(surface->w * surface->h * surface->format->BytesPerPixel);
+        unsigned char   *pixels = malloc(surface->w * surface->h * 4);
 
         if (pixels)
         {
@@ -1318,19 +1318,16 @@ dboolean V_SaveBMP(SDL_Window *window, char *path)
 
             rect.w = (vid_widescreen ? rect.h * 16 / 10 : rect.h * 4 / 3);
             rect.x = (surface->w - rect.w) / 2;
-            if (renderer && !SDL_RenderReadPixels(renderer, &rect, surface->format->format, pixels,
-                rect.w * surface->format->BytesPerPixel))
+            if (renderer && !SDL_RenderReadPixels(renderer, &rect, SDL_PIXELFORMAT_ARGB8888,
+                pixels, rect.w * 4))
             {
-                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, rect.w,
-                    rect.h, surface->format->BitsPerPixel,
-                    rect.w * surface->format->BytesPerPixel, surface->format->Rmask,
-                    surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
+                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, rect.w, rect.h, 32,
+                    rect.w * 4, 0, 0, 0, 0);
 
                 if (screenshot)
                 {
                     result = !SDL_SaveBMP(screenshot, path);
                     SDL_FreeSurface(screenshot);
-                    screenshot = NULL;
                 }
             }
 
@@ -1338,7 +1335,6 @@ dboolean V_SaveBMP(SDL_Window *window, char *path)
         }
 
         SDL_FreeSurface(surface);
-        surface = NULL;
     }
 
     return result;
