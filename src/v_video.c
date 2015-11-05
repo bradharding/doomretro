@@ -1314,13 +1314,16 @@ dboolean V_SaveBMP(SDL_Window *window, char *path)
         if (pixels)
         {
             SDL_Renderer        *renderer = SDL_GetRenderer(window);
+            SDL_Rect            rect = surface->clip_rect;
 
-            if (renderer && !SDL_RenderReadPixels(renderer, &surface->clip_rect,
-                surface->format->format, pixels, surface->w * surface->format->BytesPerPixel))
+            rect.w = (vid_widescreen ? rect.h * 16 / 10 : rect.h * 4 / 3);
+            rect.x = (surface->w - rect.w) / 2;
+            if (renderer && !SDL_RenderReadPixels(renderer, &rect, surface->format->format, pixels,
+                rect.w * surface->format->BytesPerPixel))
             {
-                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, surface->w,
-                    surface->h, surface->format->BitsPerPixel,
-                    surface->w * surface->format->BytesPerPixel, surface->format->Rmask,
+                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, rect.w,
+                    rect.h, surface->format->BitsPerPixel,
+                    rect.w * surface->format->BytesPerPixel, surface->format->Rmask,
                     surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
 
                 if (screenshot)
