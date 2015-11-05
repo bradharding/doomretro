@@ -1304,9 +1304,8 @@ extern int              titlesequence;
 
 dboolean V_SaveBMP(SDL_Window *window, char *path)
 {
-    SDL_Surface         *surface = SDL_GetWindowSurface(window);
-    SDL_Renderer        *renderer = SDL_GetRenderer(window);
     dboolean            result = false;
+    SDL_Surface         *surface = SDL_GetWindowSurface(window);
 
     if (surface)
     {
@@ -1314,8 +1313,10 @@ dboolean V_SaveBMP(SDL_Window *window, char *path)
 
         if (pixels)
         {
-            if (!SDL_RenderReadPixels(renderer, &surface->clip_rect, surface->format->format,
-                pixels, surface->w * surface->format->BytesPerPixel))
+            SDL_Renderer        *renderer = SDL_GetRenderer(window);
+
+            if (renderer && !SDL_RenderReadPixels(renderer, &surface->clip_rect,
+                surface->format->format, pixels, surface->w * surface->format->BytesPerPixel))
             {
                 SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, surface->w,
                     surface->h, surface->format->BitsPerPixel,
@@ -1327,13 +1328,16 @@ dboolean V_SaveBMP(SDL_Window *window, char *path)
                     result = !SDL_SaveBMP(screenshot, path);
                     SDL_FreeSurface(screenshot);
                     screenshot = NULL;
-                    free(pixels);
-                    SDL_FreeSurface(surface);
-                    surface = NULL;
                 }
             }
+
+            free(pixels);
         }
+
+        SDL_FreeSurface(surface);
+        surface = NULL;
     }
+
     return result;
 }
 

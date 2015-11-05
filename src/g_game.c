@@ -911,30 +911,30 @@ void G_Ticker(void)
                 G_DoWorldDone();
                 break;
             case ga_screenshot:
-                if (gametic)
+                if ((usergame || gamestate == GS_LEVEL)
+                    && !idbehold && !(players[0].cheats & CF_MYPOS))
                 {
-                    if ((usergame || gamestate == GS_LEVEL)
-                        && !idbehold && !(players[0].cheats & CF_MYPOS))
-                    {
-                        HU_ClearMessages();
-                        D_Display();
-                    }
-                    if (V_ScreenShot())
-                    {
-                        static char     message[512];
-
-                        S_StartSound(NULL, sfx_swtchx);
-                        M_snprintf(message, sizeof(message), s_GSCREENSHOT, lbmname);
-                        HU_PlayerMessage(message, false);
-                        message_dontfuckwithme = true;
-                        if (menuactive)
-                        {
-                            message_dontpause = true;
-                            blurred = false;
-                        }
-                    }
-                    gameaction = ga_nothing;
+                    HU_ClearMessages();
+                    D_Display();
                 }
+
+                if (V_ScreenShot())
+                {
+                    static char     message[512];
+
+                    S_StartSound(NULL, sfx_swtchx);
+                    M_snprintf(message, sizeof(message), s_GSCREENSHOT, lbmname);
+                    HU_PlayerMessage(message, false);
+                    message_dontfuckwithme = true;
+                    if (menuactive)
+                    {
+                        message_dontpause = true;
+                        blurred = false;
+                    }
+                }
+                else
+                    C_Warning("No screenshot was saved.");
+                gameaction = ga_nothing;
                 break;
             case ga_nothing:
                 break;
