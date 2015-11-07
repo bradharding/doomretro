@@ -528,7 +528,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 //
 void G_DoLoadLevel(void)
 {
-    int ep;
+    int         ep;
+    int         map = (gameepisode - 1) * 10 + gamemap;
+    char        *author = P_GetMapAuthor(map);
 
     HU_DrawDisk();
 
@@ -539,7 +541,7 @@ void G_DoLoadLevel(void)
     //  setting one.
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
 
-    skytexture = P_GetMapSky1Texture((gameepisode - 1) * 10 + gamemap);
+    skytexture = P_GetMapSky1Texture(map);
     if (!skytexture)
         if (gamemode == commercial)
         {
@@ -569,7 +571,7 @@ void G_DoLoadLevel(void)
             }
         }
 
-    skyscrolldelta = P_GetMapSky1ScrollDelta((gameepisode - 1) * 10 + gamemap);
+    skyscrolldelta = P_GetMapSky1ScrollDelta(map);
 
     respawnmonsters = (gameskill == sk_nightmare);
 
@@ -600,7 +602,11 @@ void G_DoLoadLevel(void)
     C_AddConsoleDivider();
     ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
     P_MapName(ep, gamemap);
-    C_Print(titlestring, mapnumandtitle);
+
+    if (author[0])
+        C_Print(titlestring, "%s by %s", mapnumandtitle, author);
+    else
+        C_Print(titlestring, mapnumandtitle);
 
     P_SetupLevel(ep, gamemap);
 
