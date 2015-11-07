@@ -111,7 +111,8 @@ musicinfo_t S_music[] =
     { "ultima", "The Ultimate Challenge/Conquest", 0, 0, 0 },
     { "read_m", "n/a",                             0, 0, 0 },
     { "dm2ttl", "n/a",                             0, 0, 0 },
-    { "dm2int", "n/a",                             0, 0, 0 }
+    { "dm2int", "n/a",                             0, 0, 0 },
+    { "",       "",                                0, 0, 0 }
 };
 
 //

@@ -1673,8 +1673,11 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     {
         int     i = (gamemission == doom ? gameepisode * 10 : 0) + gamemap;
+        char    *author = P_GetMapAuthor(i);
 
-        if (canmodify && authors[i][gamemission])
+        if (author[0])
+            C_TabbedOutput(tabs, "Author\t%s", author);
+        else if (canmodify && authors[i][gamemission])
             C_TabbedOutput(tabs, "Author\t%s", authors[i][gamemission]);
     }
 

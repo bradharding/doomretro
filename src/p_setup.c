@@ -52,8 +52,26 @@
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
+#include "sc_man.h"
 #include "w_wad.h"
 #include "z_zone.h"
+
+#define MAPINFO_SCRIPT_NAME     "MAPINFO"
+
+#define MCMD_AUTHOR             1
+#define MCMD_MUSIC              2
+#define MCMD_NEXT               3
+
+typedef struct mapinfo_s mapinfo_t;
+
+struct mapinfo_s
+{
+    char        author[255];
+    int         musiclump;
+    char        name[255];
+    int         nextmap;
+    int         nextepisode;
+};
 
 void P_SpawnMapThing(mapthing_t *mthing, int index);
 
@@ -61,6 +79,8 @@ void P_SpawnMapThing(mapthing_t *mthing, int index);
 // MAP related Lookup tables.
 // Store VERTEXES, LINEDEFS, SIDEDEFS, etc.
 //
+int             MapCount;
+
 int             numvertexes;
 int             sizevertexes;
 vertex_t        *vertexes;
@@ -125,6 +145,23 @@ mobj_t          **blocklinks;
 //
 static int      rejectlump = -1;        // cph - store reject lump num if cached
 const byte      *rejectmatrix;          // cph - const*
+
+static mapinfo_t mapinfo[99];
+
+static char *mapcmdnames[] =
+{
+    "AUTHOR",
+    "MUSIC",
+    "NEXT",
+    NULL
+};
+
+static int mapcmdids[] =
+{
+    MCMD_AUTHOR,
+    MCMD_MUSIC,
+    MCMD_NEXT
+};
 
 dboolean        canmodify;
 dboolean        transferredsky;
@@ -2010,11 +2047,137 @@ void P_SetupLevel(int ep, int map)
     S_Start();
 }
 
+static void InitMapInfo(void)
+{
+    int         episode;
+    int         map;
+    int         mapMax;
+    int         mcmdValue;
+    mapinfo_t   *info;
+
+    mapMax = 1;
+
+    // Put defaults into MapInfo[0]
+    info = mapinfo;
+    info->name[0] = '\0';
+    info->author[0] = '\0';
+
+    SC_Open(MAPINFO_SCRIPT_NAME);
+    while (SC_GetString())
+    {
+        if (!SC_Compare("MAP"))
+            SC_ScriptError(NULL);
+        SC_GetNumber();
+        if (sc_Number >= 1 && sc_Number <= 99)
+            map = sc_Number;
+        else
+        {
+            SC_MustGetString();
+            if (gamemode == commercial)
+            {
+                episode = 1;
+                sscanf(sc_String, "MAP0%1i", &map);
+                if (!map)
+                    sscanf(sc_String, "MAP%2i", &map);
+            }
+            else
+                sscanf(sc_String, "E%1iM%1i", &episode, &map);
+        }
+
+        info = &mapinfo[map];
+
+        // Copy defaults to current map definition
+        memcpy(info, &mapinfo[0], sizeof(*info));
+
+        // Map name must follow the number
+        SC_MustGetString();
+        M_StringCopy(info->name, sc_String, sizeof(info->name));
+
+        // Process optional tokens
+        while (SC_GetString())
+        {
+            int i;
+
+            if (SC_Compare("MAP"))
+            {
+                SC_UnGet();
+                break;
+            }
+            mcmdValue = mapcmdids[SC_MatchString(mapcmdnames)];
+            switch (mcmdValue)
+            {
+                case MCMD_AUTHOR:
+                    SC_MustGetString();
+                    M_StringCopy(info->author, sc_String, sizeof(info->author));
+                    break;
+
+                case MCMD_MUSIC:
+                    SC_MustGetString();
+                    i = 1;
+                    while (S_music[i].name[0])
+                    {
+                        if (strcasecmp(sc_String, S_music[i].name))
+                        {
+                            info->musiclump = i;
+                            break;
+                        }
+                        ++i;
+                    }
+                    break;
+
+                case MCMD_NEXT:
+                    SC_GetNumber();
+                    if (sc_Number >= 1 && sc_Number <= 99)
+                        info->nextmap = sc_Number;
+                    else
+                    {
+                        SC_MustGetString();
+                        if (gamemode == commercial)
+                        {
+                            episode = 1;
+                            sscanf(sc_String, "MAP0%1i", &info->nextmap);
+                            if (!info->nextmap)
+                                sscanf(sc_String, "MAP%2i", &info->nextmap);
+                        }
+                        else
+                            sscanf(sc_String, "E%1iM%1i", &episode, &info->nextmap);
+                    }
+                    break;
+            }
+        }
+        mapMax = (map > mapMax ? map : mapMax);
+    }
+    SC_Close();
+    MapCount = mapMax;
+}
+
+static int QualifyMap(int map)
+{
+    return (map < 1 || map > MapCount ? 0 : map);
+}
+
+char *P_GetMapAuthor(int map)
+{
+    return mapinfo[QualifyMap(map)].author;
+}
+
+int P_GetMapMusicLump(int map)
+{
+    return mapinfo[QualifyMap(map)].musiclump;
+}
+
+int P_GetMapNextMap(int map)
+{
+    return mapinfo[QualifyMap(map)].nextmap;
+}
+
+
 //
 // P_Init
 //
 void P_Init(void)
 {
+    InitMapInfo();
     P_InitSwitchList();
     P_InitPicAnims();
     R_InitSprites(sprnames);

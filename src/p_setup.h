@@ -45,4 +45,8 @@ void P_MapName(int ep, int map);
 // Called by startup code.
 void P_Init(void);
 
+char *P_GetMapAuthor(int map);
+int P_GetMapMusicLump(int map);
+int P_GetMapNextMap(int map);
+
 #endif
