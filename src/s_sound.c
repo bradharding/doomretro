@@ -42,6 +42,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "w_wad.h"
 #include "s_sound.h"
 #include "z_zone.h"
@@ -569,17 +570,14 @@ void S_SetSfxVolume(int volume)
     snd_SfxVolume = volume;
 }
 
-//
-// Starts some music with the music id found in sounds.h.
-//
-void S_StartMusic(int m_id)
+void S_StartMusic(int music_id)
 {
-    S_ChangeMusic(m_id, false, false);
+    S_ChangeMusic(music_id, false, false);
 }
 
-void S_ChangeMusic(int musicnum, dboolean looping, dboolean cheating)
+void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating)
 {
-    musicinfo_t *music = &S_music[musicnum];
+    musicinfo_t *music = &S_music[music_id];
     void        *handle;
 
     if (nomusic || (mus_playing == music && !cheating))
@@ -587,6 +585,8 @@ void S_ChangeMusic(int musicnum, dboolean looping, dboolean cheating)
 
     // shutdown old music
     S_StopMusic();
+
+    music->lumpnum = P_GetMapMusicLump(gamemap);
 
     // get lumpnum if necessary
     if (!music->lumpnum)

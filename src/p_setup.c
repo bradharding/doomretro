@@ -2096,8 +2096,6 @@ static void InitMapInfo(void)
         // Process optional tokens
         while (SC_GetString())
         {
-            int i;
-
             if (SC_Compare("MAP"))
             {
                 SC_UnGet();
@@ -2113,16 +2111,7 @@ static void InitMapInfo(void)
 
                 case MCMD_MUSIC:
                     SC_MustGetString();
-                    i = 1;
-                    while (S_music[i].name[0])
-                    {
-                        if (strcasecmp(sc_String, S_music[i].name))
-                        {
-                            info->musiclump = i;
-                            break;
-                        }
-                        ++i;
-                    }
+                    info->musiclump = W_GetNumForName(sc_String);
                     break;
 
                 case MCMD_NEXT:
