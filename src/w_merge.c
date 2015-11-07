@@ -301,7 +301,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
         sprite->angle_lumps[angle_num - 1] = lump;
 }
 
-// Generate the list.  Run at the start, before merging
+// Generate the list. Run at the start, before merging
 static void GenerateSpriteList(void)
 {
     int i;
@@ -384,7 +384,7 @@ static void DoMerge(void)
                 else
                 {
                     // If there is a flat in the PWAD with the same name,
-                    // do not add it now.  All PWAD flats are added to the
+                    // do not add it now. All PWAD flats are added to the
                     // end of the section. Otherwise, if it is only in the
                     // IWAD, add it now
                     lumpindex = FindInList(&pwad_flats, lump->name);

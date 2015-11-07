@@ -110,7 +110,7 @@ static dboolean CheckChunkHeader(chunk_header_t *chunk, char *expected_id)
     return (memcmp((char *)chunk->chunk_id, expected_id, 4) == 0);
 }
 
-// Read a single byte.  Returns false on error.
+// Read a single byte. Returns false on error.
 static dboolean ReadByte(byte *result, FILE *stream)
 {
     int c;

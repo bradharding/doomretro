@@ -53,7 +53,7 @@
 // Distance to origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
 // (see BLOCKMAP handling).
-// In the source code release: (160*FRACUNIT).  Changed back to the
+// In the source code release: (160*FRACUNIT). Changed back to the
 // Vanilla value of 200 (why was this changed?)
 #define S_CLOSE_DIST    (200 << FRACBITS)
 
@@ -316,7 +316,7 @@ void S_Start(void)
 
 //
 // S_GetChannel :
-//   If none available, return -1.  Otherwise channel #.
+//   If none available, return -1. Otherwise channel #.
 //
 static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 {
@@ -342,7 +342,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
                 break;
 
         if (cnum == numChannels)
-            return -1;                  // FUCK!  No lower priority.  Sorry, Charlie.
+            return -1;                  // FUCK! No lower priority. Sorry, Charlie.
         else
             S_StopChannel(cnum);        // Otherwise, kick out lower priority.
     }

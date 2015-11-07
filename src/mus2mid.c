@@ -314,8 +314,8 @@ static int AllocateMIDIChannel(void)
         if (channel_map[i] > max)
             max = channel_map[i];
 
-    // max is now equal to the highest-allocated MIDI channel.  We can
-    // now allocate the next available channel.  This also works if
+    // max is now equal to the highest-allocated MIDI channel. We can
+    // now allocate the next available channel. This also works if
     // no channels are currently allocated (max=-1)
     result = max + 1;
 

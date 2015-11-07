@@ -277,7 +277,7 @@ void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy, int ca
 static void R_GenerateComposite(int texnum)
 {
     byte                *block = Z_Malloc(texturecompositesize[texnum], PU_STATIC,
-                                          (void **)&texturecomposite[texnum]);
+                            (void **)&texturecomposite[texnum]);
     texture_t           *texture = textures[texnum];
 
     // Composite the columns together.
@@ -324,12 +324,12 @@ static void R_GenerateComposite(int texnum)
             // save column in temporary so we can shuffle it around
             memcpy(source, (byte *)col + 3, texture->height);
 
-            for (;;)  // reconstruct the column by scanning transparency marks
+            while (1)   // reconstruct the column by scanning transparency marks
             {
                 unsigned int    len;                    // killough 12/98
 
                 while (j < texture->height && !mark[j]) // skip transparent cells
-                    j++;
+                    ++j;
 
                 if (j >= texture->height)               // if at end of column
                 {
@@ -516,7 +516,7 @@ static void GenerateTextureHashTable(void)
         textures[i]->index = i;
 
         // Vanilla DOOM does a linear search of the textures array
-        // and stops at the first entry it finds.  If there are two
+        // and stops at the first entry it finds. If there are two
         // entries with the same name, the first one in the array
         // wins. The new entry must therefore be added at the end
         // of the hash chain, so that earlier entries win.

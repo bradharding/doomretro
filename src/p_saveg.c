@@ -1643,7 +1643,7 @@ dboolean P_ReadSaveGameHeader(char *description)
 }
 
 //
-// Read the end of file marker.  Returns true if read successfully.
+// Read the end of file marker. Returns true if read successfully.
 //
 dboolean P_ReadSaveGameEOF(void)
 {
