@@ -45,12 +45,9 @@ extern dboolean sc_FileScripts;
 extern char     *sc_ScriptsDir;
 
 void SC_Open(char *name);
-void SC_OpenLump(char *name);
-void SC_OpenFile(char *name);
 void SC_Close(void);
 dboolean SC_GetString(void);
 void SC_MustGetString(void);
-void SC_MustGetStringName(char *name);
 dboolean SC_GetNumber(void);
 void SC_MustGetNumber(void);
 void SC_UnGet(void);

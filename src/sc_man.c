@@ -45,20 +45,15 @@ id Software.
 
 #define MAX_STRING_SIZE         256
 #define ASCII_COMMENT           ';'
-#define ASCII_QUOTE             34
-#define LUMP_SCRIPT             1
-#define FILE_ZONE_SCRIPT        2
+#define ASCII_QUOTE             '\"'
 
 static void CheckOpen(void);
-static void OpenScript(char *name, int type);
 
 char            *sc_String;
 int             sc_Number;
 int             sc_Line;
 dboolean        sc_End;
 dboolean        sc_Crossed;
-dboolean        sc_FileScripts = false;
-char            *sc_ScriptsDir = "";
 
 static char     ScriptName[16];
 static char     *ScriptBuffer;
@@ -72,37 +67,11 @@ static dboolean AlreadyGot = false;
 
 void SC_Open(char *name)
 {
-    char        fileName[128];
-
-    if (sc_FileScripts == true)
-    {
-        M_snprintf(fileName, sizeof(fileName), "%s%s.txt", sc_ScriptsDir, name);
-        SC_OpenFile(fileName);
-    }
-    else
-        SC_OpenLump(name);
-}
-
-void SC_OpenLump(char *name)
-{
-    OpenScript(name, LUMP_SCRIPT);
-}
-
-void SC_OpenFile(char *name)
-{
-    OpenScript(name, FILE_ZONE_SCRIPT);
-}
-
-static void OpenScript(char *name, int type)
-{
     SC_Close();
-    if (type == LUMP_SCRIPT)
-    {
-        ScriptLumpNum = W_GetNumForName(name);
-        ScriptBuffer = W_CacheLumpNum(ScriptLumpNum, PU_STATIC);
-        ScriptSize = W_LumpLength(ScriptLumpNum);
-        M_StringCopy(ScriptName, name, sizeof(ScriptName));
-    }
+    ScriptLumpNum = W_GetNumForName(name);
+    ScriptBuffer = W_CacheLumpNum(ScriptLumpNum, PU_STATIC);
+    ScriptSize = W_LumpLength(ScriptLumpNum);
+    M_StringCopy(ScriptName, name, sizeof(ScriptName));
     ScriptPtr = ScriptBuffer;
     ScriptEndPtr = ScriptPtr + ScriptSize;
     sc_Line = 1;
@@ -203,15 +172,8 @@ dboolean SC_GetString(void)
 
 void SC_MustGetString(void)
 {
-    if (SC_GetString() == false)
+    if (!SC_GetString())
         SC_ScriptError("Missing string.");
-}
-
-void SC_MustGetStringName(char *name)
-{
-    SC_MustGetString();
-    if (SC_Compare(name) == false)
-        SC_ScriptError(NULL);
 }
 
 dboolean SC_GetNumber(void)
@@ -263,9 +225,7 @@ int SC_MustMatchString(char **strings)
 
 dboolean SC_Compare(char *text)
 {
-    if (strcasecmp(text, sc_String) == 0)
-        return true;
-    return false;
+    return !strcasecmp(text, sc_String);
 }
 
 void SC_ScriptError(char *message)
@@ -277,6 +237,6 @@ void SC_ScriptError(char *message)
 
 static void CheckOpen(void)
 {
-    if (ScriptOpen == false)
+    if (!ScriptOpen)
         I_Error("SC_ call before SC_Open().");
 }
