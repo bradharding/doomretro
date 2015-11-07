@@ -47,6 +47,7 @@ void P_Init(void);
 
 char *P_GetMapAuthor(int map);
 int P_GetMapMusicLump(int map);
-int P_GetMapNextMap(int map);
+int P_GetMapNext(int map);
+int P_GetMapSecretNext(int map);
 
 #endif

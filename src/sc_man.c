@@ -204,6 +204,7 @@ dboolean SC_GetString(void)
         }
     }
     *text = 0;
+    sc_String = uppercase(sc_String);
     return true;
 }
 
@@ -228,9 +229,9 @@ dboolean SC_GetNumber(void)
     if (SC_GetString())
     {
         sc_Number = strtol(sc_String, &stopper, 0);
-        //if (*stopper != 0)
-        //    I_Error("SC_GetNumber: Bad numeric constant \"%s\".\nScript %s, Line %d",
-        //        sc_String, ScriptName, sc_Line);
+        if (*stopper != 0)
+            I_Error("SC_GetNumber: Bad numeric constant \"%s\".\nScript %s, Line %d",
+                sc_String, ScriptName, sc_Line);
         return true;
     }
     else

@@ -61,16 +61,17 @@
 #define MCMD_AUTHOR             1
 #define MCMD_MUSIC              2
 #define MCMD_NEXT               3
+#define MCMD_NEXTSECRET         4
 
 typedef struct mapinfo_s mapinfo_t;
 
 struct mapinfo_s
 {
     char        author[255];
-    int         musiclump;
+    int         music;
     char        name[255];
-    int         nextmap;
-    int         nextepisode;
+    int         next;
+    int         nextsecret;
 };
 
 void P_SpawnMapThing(mapthing_t *mthing, int index);
@@ -153,6 +154,7 @@ static char *mapcmdnames[] =
     "AUTHOR",
     "MUSIC",
     "NEXT",
+    "NEXTSECRET",
     NULL
 };
 
@@ -160,7 +162,8 @@ static int mapcmdids[] =
 {
     MCMD_AUTHOR,
     MCMD_MUSIC,
-    MCMD_NEXT
+    MCMD_NEXT,
+    MCMD_NEXTSECRET
 };
 
 dboolean        canmodify;
@@ -2067,12 +2070,10 @@ static void InitMapInfo(void)
     {
         if (!SC_Compare("MAP"))
             SC_ScriptError(NULL);
-        SC_GetNumber();
-        if (sc_Number >= 1 && sc_Number <= 99)
-            map = sc_Number;
-        else
+        SC_MustGetString();
+        map = strtol(sc_String, NULL, 0);
+        if (map < 1 || map > 99)
         {
-            SC_MustGetString();
             if (gamemode == commercial)
             {
                 episode = 1;
@@ -2111,27 +2112,54 @@ static void InitMapInfo(void)
 
                 case MCMD_MUSIC:
                     SC_MustGetString();
-                    info->musiclump = W_GetNumForName(sc_String);
+                    info->music = W_GetNumForName(sc_String);
                     break;
 
                 case MCMD_NEXT:
-                    SC_GetNumber();
-                    if (sc_Number >= 1 && sc_Number <= 99)
-                        info->nextmap = sc_Number;
-                    else
+                {
+                    int     nextepisode = 0;
+                    int     nextmap = 0;
+
+                    SC_MustGetString();
+                    nextmap = strtol(sc_String, NULL, 0);
+                    if (nextmap < 1 || nextmap > 99)
                     {
-                        SC_MustGetString();
                         if (gamemode == commercial)
                         {
-                            episode = 1;
-                            sscanf(sc_String, "MAP0%1i", &info->nextmap);
-                            if (!info->nextmap)
-                                sscanf(sc_String, "MAP%2i", &info->nextmap);
+                            nextepisode = 1;
+                            sscanf(sc_String, "MAP0%1i", &nextmap);
+                            if (!nextmap)
+                                sscanf(sc_String, "MAP%2i", &nextmap);
                         }
                         else
-                            sscanf(sc_String, "E%1iM%1i", &episode, &info->nextmap);
+                            sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
                     }
+                    info->next = (nextepisode - 1) * 10 + nextmap;
                     break;
+                }
+
+                case MCMD_NEXTSECRET:
+                {
+                    int     nextepisode = 0;
+                    int     nextmap = 0;
+
+                    SC_MustGetString();
+                    nextmap = strtol(sc_String, NULL, 0);
+                    if (nextmap < 1 || nextmap > 99)
+                    {
+                        if (gamemode == commercial)
+                        {
+                            nextepisode = 1;
+                            sscanf(sc_String, "MAP0%1i", &nextmap);
+                            if (!nextmap)
+                                sscanf(sc_String, "MAP%2i", &nextmap);
+                        }
+                        else
+                            sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
+                    }
+                    info->nextsecret = (nextepisode - 1) * 10 + nextmap;
+                    break;
+                }
             }
         }
         mapMax = (map > mapMax ? map : mapMax);
@@ -2152,14 +2180,18 @@ char *P_GetMapAuthor(int map)
 
 int P_GetMapMusicLump(int map)
 {
-    return mapinfo[QualifyMap(map)].musiclump;
+    return mapinfo[QualifyMap(map)].music;
 }
 
-int P_GetMapNextMap(int map)
+int P_GetMapNext(int map)
 {
-    return mapinfo[QualifyMap(map)].nextmap;
+    return mapinfo[QualifyMap(map)].next;
 }
 
+int P_GetMapSecretNext(int map)
+{
+    return mapinfo[QualifyMap(map)].nextsecret;
+}
 
 //
 // P_Init

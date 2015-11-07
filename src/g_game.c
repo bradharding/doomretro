@@ -1247,6 +1247,8 @@ void ST_doRefresh(void);
 void G_DoCompleted(void)
 {
     char        lump[5];
+    int         nextmap = P_GetMapNext((gameepisode - 1) * 10 + gamemap);
+    int         secretnextmap = P_GetMapSecretNext((gameepisode - 1) * 10 + gamemap);
 
     gameaction = ga_nothing;
 
@@ -1301,9 +1303,13 @@ void G_DoCompleted(void)
     wminfo.epsd = gameepisode - 1;
     wminfo.last = gamemap - 1;
 
-    // wminfo.next is 0 biased, unlike gamemap
-    if (gamemode == commercial)
+    if (secretexit && secretnextmap)
+        wminfo.next = secretnextmap - 1;
+    else if (nextmap)
+        wminfo.next = nextmap - 1;
+    else if (gamemode == commercial)
     {
+        // wminfo.next is 0 biased, unlike gamemap
         if (secretexit)
         {
             switch (gamemap)
