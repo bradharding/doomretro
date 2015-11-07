@@ -557,8 +557,7 @@ void WI_updateAnimatedBack(void)
 
                 case ANIM_LEVEL:
                     // gawd-awful hack for level anims
-                    if (!(state == StatCount && i == 7)
-                        && wbs->next == a->data1)
+                    if (!(state == StatCount && i == 7) && wbs->next == a->data1)
                     {
                         a->ctr++;
                         if (a->ctr == a->nanims)
@@ -812,8 +811,8 @@ void WI_updateStats(void)
         cnt_kills = (int)(plrs[me].skills * 100) / wbs->maxkills;
         cnt_items = (int)(plrs[me].sitems * 100) / wbs->maxitems;
         cnt_secret = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
-        cnt_time = (int)(plrs[me].stime) / TICRATE;
-        cnt_par = (int)(wbs->partime) / TICRATE;
+        cnt_time = (int)plrs[me].stime / TICRATE;
+        cnt_par = (int)wbs->partime / TICRATE;
         S_StartSound(NULL, sfx_barexp);
         sp_state = 10;
     }
@@ -957,7 +956,7 @@ void WI_drawStats(void)
     V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false);
     WI_drawTime(ORIGINALWIDTH / 2 - SP_TIMEX * 2, SP_TIMEY, cnt_time);
 
-    if (wminfo.partime)
+    if (wbs->partime)
     {
         V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 - FREEDOOM * 17 + 3, SP_TIMEY + 1,
             par, false);

@@ -1399,7 +1399,7 @@ void G_DoCompleted(void)
             M_snprintf(lump, sizeof(lump), "MAP%02i", gamemap);
         else
             M_snprintf(lump, sizeof(lump), "E%iM%i", gameepisode, gamemap);
-        if (W_CheckMultipleLumps(lump) > 1 && (!nerve || gamemap > 9) && !FREEDOOM)
+        if (BTSX || (W_CheckMultipleLumps(lump) > 1 && (!nerve || gamemap > 9) && !FREEDOOM))
             wminfo.partime = 0;
         else if (gamemode == commercial)
         {
