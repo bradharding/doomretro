@@ -586,7 +586,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating)
     // shutdown old music
     S_StopMusic();
 
-    music->lumpnum = P_GetMapMusicLump(gamemap);
+    music->lumpnum = P_GetMapMusic(gamemap);
 
     // get lumpnum if necessary
     if (!music->lumpnum)

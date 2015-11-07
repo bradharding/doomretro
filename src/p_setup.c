@@ -62,6 +62,7 @@
 #define MCMD_MUSIC              2
 #define MCMD_NEXT               3
 #define MCMD_NEXTSECRET         4
+#define MCMD_PAR                5
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -71,7 +72,8 @@ struct mapinfo_s
     int         music;
     char        name[255];
     int         next;
-    int         nextsecret;
+    int         par;
+    int         secretnext;
 };
 
 void P_SpawnMapThing(mapthing_t *mthing, int index);
@@ -154,7 +156,8 @@ static char *mapcmdnames[] =
     "AUTHOR",
     "MUSIC",
     "NEXT",
-    "NEXTSECRET",
+    "PAR",
+    "SECRETNEXT",
     NULL
 };
 
@@ -163,6 +166,7 @@ static int mapcmdids[] =
     MCMD_AUTHOR,
     MCMD_MUSIC,
     MCMD_NEXT,
+    MCMD_PAR,
     MCMD_NEXTSECRET
 };
 
@@ -2064,6 +2068,10 @@ static void InitMapInfo(void)
     info = mapinfo;
     info->name[0] = '\0';
     info->author[0] = '\0';
+    info->music = 0;
+    info->next = 0;
+    info->secretnext = 0;
+    info->par = 0;
 
     SC_Open(MAPINFO_SCRIPT_NAME);
     while (SC_GetString())
@@ -2157,9 +2165,14 @@ static void InitMapInfo(void)
                         else
                             sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
                     }
-                    info->nextsecret = (nextepisode - 1) * 10 + nextmap;
+                    info->secretnext = (nextepisode - 1) * 10 + nextmap;
                     break;
                 }
+
+                case MCMD_PAR:
+                    SC_MustGetNumber();
+                    info->par = sc_Number;
+                    break;
             }
         }
         mapMax = (map > mapMax ? map : mapMax);
@@ -2178,7 +2191,7 @@ char *P_GetMapAuthor(int map)
     return mapinfo[QualifyMap(map)].author;
 }
 
-int P_GetMapMusicLump(int map)
+int P_GetMapMusic(int map)
 {
     return mapinfo[QualifyMap(map)].music;
 }
@@ -2188,9 +2201,14 @@ int P_GetMapNext(int map)
     return mapinfo[QualifyMap(map)].next;
 }
 
+int P_GetMapPar(int map)
+{
+    return mapinfo[QualifyMap(map)].par;
+}
+
 int P_GetMapSecretNext(int map)
 {
-    return mapinfo[QualifyMap(map)].nextsecret;
+    return mapinfo[QualifyMap(map)].secretnext;
 }
 
 //

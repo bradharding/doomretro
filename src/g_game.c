@@ -1247,8 +1247,10 @@ void ST_doRefresh(void);
 void G_DoCompleted(void)
 {
     char        lump[5];
-    int         nextmap = P_GetMapNext((gameepisode - 1) * 10 + gamemap);
-    int         secretnextmap = P_GetMapSecretNext((gameepisode - 1) * 10 + gamemap);
+    int         map = (gameepisode - 1) * 10 + gamemap;
+    int         nextmap = P_GetMapNext(map);
+    int         par = P_GetMapPar(map);
+    int         secretnextmap = P_GetMapSecretNext(map);
 
     gameaction = ga_nothing;
 
@@ -1388,26 +1390,31 @@ void G_DoCompleted(void)
     wminfo.maxitems = totalitems;
     wminfo.maxsecret = totalsecret;
 
-    // [BH] have no par time if this level is from a PWAD
-    if (gamemode == commercial)
-        M_snprintf(lump, sizeof(lump), "MAP%02i", gamemap);
+    if (par)
+        wminfo.partime = TICRATE * par;
     else
-        M_snprintf(lump, sizeof(lump), "E%iM%i", gameepisode, gamemap);
-    if (W_CheckMultipleLumps(lump) > 1 && (!nerve || gamemap > 9) && !FREEDOOM)
-        wminfo.partime = 0;
-    else if (gamemode == commercial)
     {
-        // [BH] get correct par time for No Rest For The Living
-        //  and have no par time for TNT and Plutonia
-        if (gamemission == pack_nerve && gamemap <= 9)
-            wminfo.partime = TICRATE * npars[gamemap - 1];
-        else if (gamemission == pack_tnt || gamemission == pack_plut)
-            wminfo.partime = 0;
+        // [BH] have no par time if this level is from a PWAD
+        if (gamemode == commercial)
+            M_snprintf(lump, sizeof(lump), "MAP%02i", gamemap);
         else
-            wminfo.partime = TICRATE * cpars[gamemap - 1];
+            M_snprintf(lump, sizeof(lump), "E%iM%i", gameepisode, gamemap);
+        if (W_CheckMultipleLumps(lump) > 1 && (!nerve || gamemap > 9) && !FREEDOOM)
+            wminfo.partime = 0;
+        else if (gamemode == commercial)
+        {
+            // [BH] get correct par time for No Rest For The Living
+            //  and have no par time for TNT and Plutonia
+            if (gamemission == pack_nerve && gamemap <= 9)
+                wminfo.partime = TICRATE * npars[gamemap - 1];
+            else if (gamemission == pack_tnt || gamemission == pack_plut)
+                wminfo.partime = 0;
+            else
+                wminfo.partime = TICRATE * cpars[gamemap - 1];
+        }
+        else
+            wminfo.partime = TICRATE * pars[gameepisode][gamemap];
     }
-    else
-        wminfo.partime = TICRATE * pars[gameepisode][gamemap];
 
     wminfo.pnum = 0;
 
