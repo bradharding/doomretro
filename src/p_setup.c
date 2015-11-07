@@ -86,7 +86,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index);
 // MAP related Lookup tables.
 // Store VERTEXES, LINEDEFS, SIDEDEFS, etc.
 //
-int             MapCount;
+int             mapcount;
 
 int             numvertexes;
 int             sizevertexes;
@@ -2076,20 +2076,11 @@ static void InitMapInfo(void)
 {
     int         episode;
     int         map;
-    int         mapMax;
+    int         mapmax = 1;
     int         mcmdValue;
-    mapinfo_t   *info;
+    mapinfo_t   *info = mapinfo;
 
-    mapMax = 1;
-
-    // Put defaults into MapInfo[0]
-    info = mapinfo;
-    info->name[0] = '\0';
-    info->author[0] = '\0';
-    info->music = 0;
-    info->next = 0;
-    info->secretnext = 0;
-    info->par = 0;
+    memset(info, 0, sizeof(mapinfo_t));
 
     SC_Open(MAPINFO_SCRIPT_NAME);
     while (SC_GetString())
@@ -2209,15 +2200,15 @@ static void InitMapInfo(void)
                     break;
             }
         }
-        mapMax = (map > mapMax ? map : mapMax);
+        mapmax = MAX(map, mapmax);
     }
     SC_Close();
-    MapCount = mapMax;
+    mapcount = mapmax;
 }
 
 static int QualifyMap(int map)
 {
-    return (map < 1 || map > MapCount ? 0 : map);
+    return (map < 1 || map > mapcount ? 0 : map);
 }
 
 char *P_GetMapAuthor(int map)
