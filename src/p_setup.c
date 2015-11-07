@@ -62,8 +62,8 @@
 #define MCMD_AUTHOR             1
 #define MCMD_MUSIC              2
 #define MCMD_NEXT               3
-#define MCMD_NEXTSECRET         4
-#define MCMD_PAR                5
+#define MCMD_PAR                4
+#define MCMD_SECRETNEXT         5
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -75,6 +75,7 @@ struct mapinfo_s
     int         next;
     int         par;
     int         secretnext;
+    int         sky1;
 };
 
 void P_SpawnMapThing(mapthing_t *mthing, int index);
@@ -168,7 +169,7 @@ static int mapcmdids[] =
     MCMD_MUSIC,
     MCMD_NEXT,
     MCMD_PAR,
-    MCMD_NEXTSECRET
+    MCMD_SECRETNEXT
 };
 
 dboolean        canmodify;
@@ -2167,7 +2168,12 @@ static void InitMapInfo(void)
                     break;
                 }
 
-                case MCMD_NEXTSECRET:
+                case MCMD_PAR:
+                    SC_MustGetNumber();
+                    info->par = sc_Number;
+                    break;
+
+                case MCMD_SECRETNEXT:
                 {
                     int     nextepisode = 0;
                     int     nextmap = 0;
@@ -2190,11 +2196,6 @@ static void InitMapInfo(void)
                     info->secretnext = (nextepisode - 1) * 10 + nextmap;
                     break;
                 }
-
-                case MCMD_PAR:
-                    SC_MustGetNumber();
-                    info->par = sc_Number;
-                    break;
             }
         }
         mapMax = (map > mapMax ? map : mapMax);
