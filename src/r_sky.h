@@ -49,6 +49,8 @@
 
 extern int      skytexture;
 extern int      skytexturemid;
+extern int      skycolumnoffset;
+extern int      skyscrolldelta;
 
 // Called whenever the view size changes.
 void R_InitSkyMap(void);

@@ -51,5 +51,7 @@ char *P_GetMapName(int map);
 int P_GetMapNext(int map);
 int P_GetMapPar(int map);
 int P_GetMapSecretNext(int map);
+int P_GetMapSky1Texture(int map);
+int P_GetMapSky1ScrollDelta(int map);
 
 #endif

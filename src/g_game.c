@@ -539,33 +539,37 @@ void G_DoLoadLevel(void)
     //  setting one.
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
 
-    if (gamemode == commercial)
-    {
-        skytexture = R_TextureNumForName("SKY3");
-        if (gamemap < 12)
-            skytexture = R_TextureNumForName("SKY1");
-        else if (gamemap < 21)
-            skytexture = R_TextureNumForName("SKY2");
-    }
-    else
-    {
-        switch (gameepisode)
+    skytexture = P_GetMapSky1Texture((gameepisode - 1) * 10 + gamemap);
+    if (!skytexture)
+        if (gamemode == commercial)
         {
-            default:
-            case 1:
+            skytexture = R_TextureNumForName("SKY3");
+            if (gamemap < 12)
                 skytexture = R_TextureNumForName("SKY1");
-                break;
-            case 2:
+            else if (gamemap < 21)
                 skytexture = R_TextureNumForName("SKY2");
-                break;
-            case 3:
-                skytexture = R_TextureNumForName("SKY3");
-                break;
-            case 4:                             // Special Edition sky
-                skytexture = R_TextureNumForName("SKY4");
-                break;
         }
-    }
+        else
+        {
+            switch (gameepisode)
+            {
+                default:
+                case 1:
+                    skytexture = R_TextureNumForName("SKY1");
+                    break;
+                case 2:
+                    skytexture = R_TextureNumForName("SKY2");
+                    break;
+                case 3:
+                    skytexture = R_TextureNumForName("SKY3");
+                    break;
+                case 4:                             // Special Edition sky
+                    skytexture = R_TextureNumForName("SKY4");
+                    break;
+            }
+        }
+
+    skyscrolldelta = P_GetMapSky1ScrollDelta((gameepisode - 1) * 10 + gamemap);
 
     respawnmonsters = (gameskill == sk_nightmare);
 

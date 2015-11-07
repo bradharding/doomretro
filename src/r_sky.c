@@ -44,6 +44,8 @@
 int skyflatnum;
 int skytexture;
 int skytexturemid;
+int skycolumnoffset;
+int skyscrolldelta;
 
 //
 // R_InitSkyMap

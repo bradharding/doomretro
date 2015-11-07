@@ -48,6 +48,7 @@
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
+#include "r_sky.h"
 #include "s_sound.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -1975,6 +1976,8 @@ void P_UpdateSpecials(void)
     animatedliquidyoffs += animatedliquidydir;
     if (animatedliquidyoffs > 64 * FRACUNIT)
         animatedliquidyoffs = 0;
+
+    skycolumnoffset += skyscrolldelta;
 
     // DO BUTTONS
     for (i = 0; i < MAXBUTTONS; i++)

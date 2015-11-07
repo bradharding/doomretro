@@ -380,6 +380,7 @@ void R_DrawPlanes(void)
                 {
                     int         x;
                     int         texture;
+                    int         offset;
                     angle_t     an, flip;
 
                     // killough 10/98: allow skies to come from sidedefs.
@@ -434,6 +435,8 @@ void R_DrawPlanes(void)
                     dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_iscale = pspriteiscale;
 
+                    offset = skycolumnoffset >> 16;
+
                     for (x = pl->minx; x <= pl->maxx; x++)
                     {
                         dc_yl = pl->top[x];
@@ -442,8 +445,8 @@ void R_DrawPlanes(void)
                         if (dc_yl <= dc_yh)
                         {
                             dc_x = x;
-                            dc_source = R_GetColumn(texture,
-                                ((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT, false);
+                            dc_source = R_GetColumn(texture, (((an + xtoviewangle[x]) ^ flip)
+                                >> ANGLETOSKYSHIFT) + offset, false);
                             skycolfunc();
                         }
                     }
