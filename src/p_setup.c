@@ -2090,7 +2090,7 @@ static void InitMapInfo(void)
     while (SC_GetString())
     {
         if (!SC_Compare("MAP"))
-            SC_ScriptError(NULL);
+            continue;
         SC_MustGetString();
         sc_String = uppercase(sc_String);
         map = strtol(sc_String, NULL, 0);
