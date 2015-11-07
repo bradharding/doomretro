@@ -2081,7 +2081,7 @@ static void InitMapInfo(void)
     int         episode;
     int         map;
     int         mapmax = 1;
-    int         mcmdValue;
+    int         mcmdvalue;
     mapinfo_t   *info = mapinfo;
 
     memset(info, 0, sizeof(mapinfo_t));
@@ -2130,84 +2130,84 @@ static void InitMapInfo(void)
                 SC_UnGet();
                 break;
             }
-            mcmdValue = mapcmdids[SC_MatchString(mapcmdnames)];
-            switch (mcmdValue)
-            {
-                case MCMD_AUTHOR:
-                    SC_MustGetString();
-                    M_StringCopy(info->author, sc_String, sizeof(info->author));
-                    break;
-
-                case MCMD_MUSIC:
-                    SC_MustGetString();
-                    info->music = W_GetNumForName(sc_String);
-                    break;
-
-                case MCMD_NEXT:
+            if ((mcmdvalue = SC_MatchString(mapcmdnames)) >= 0)
+                switch (mapcmdids[mcmdvalue])
                 {
-                    int     nextepisode = 0;
-                    int     nextmap = 0;
+                    case MCMD_AUTHOR:
+                        SC_MustGetString();
+                        M_StringCopy(info->author, sc_String, sizeof(info->author));
+                        break;
 
-                    SC_MustGetString();
-                    sc_String = uppercase(sc_String);
-                    nextmap = strtol(sc_String, NULL, 0);
-                    if (nextmap < 1 || nextmap > 99)
+                    case MCMD_MUSIC:
+                        SC_MustGetString();
+                        info->music = W_GetNumForName(sc_String);
+                        break;
+
+                    case MCMD_NEXT:
                     {
-                        if (gamemode == commercial)
+                        int     nextepisode = 0;
+                        int     nextmap = 0;
+
+                        SC_MustGetString();
+                        sc_String = uppercase(sc_String);
+                        nextmap = strtol(sc_String, NULL, 0);
+                        if (nextmap < 1 || nextmap > 99)
                         {
-                            nextepisode = 1;
-                            sscanf(sc_String, "MAP0%1i", &nextmap);
-                            if (!nextmap)
-                                sscanf(sc_String, "MAP%2i", &nextmap);
+                            if (gamemode == commercial)
+                            {
+                                nextepisode = 1;
+                                sscanf(sc_String, "MAP0%1i", &nextmap);
+                                if (!nextmap)
+                                    sscanf(sc_String, "MAP%2i", &nextmap);
+                            }
+                            else
+                                sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
                         }
-                        else
-                            sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
+                        info->next = (nextepisode - 1) * 10 + nextmap;
+                        break;
                     }
-                    info->next = (nextepisode - 1) * 10 + nextmap;
-                    break;
-                }
 
-                case MCMD_PAR:
-                    SC_MustGetNumber();
-                    info->par = sc_Number;
-                    break;
+                    case MCMD_PAR:
+                        SC_MustGetNumber();
+                        info->par = sc_Number;
+                        break;
 
-                case MCMD_SECRETNEXT:
-                {
-                    int     nextepisode = 0;
-                    int     nextmap = 0;
-
-                    SC_MustGetString();
-                    sc_String = uppercase(sc_String);
-                    nextmap = strtol(sc_String, NULL, 0);
-                    if (nextmap < 1 || nextmap > 99)
+                    case MCMD_SECRETNEXT:
                     {
-                        if (gamemode == commercial)
+                        int     nextepisode = 0;
+                        int     nextmap = 0;
+
+                        SC_MustGetString();
+                        sc_String = uppercase(sc_String);
+                        nextmap = strtol(sc_String, NULL, 0);
+                        if (nextmap < 1 || nextmap > 99)
                         {
-                            nextepisode = 1;
-                            sscanf(sc_String, "MAP0%1i", &nextmap);
-                            if (!nextmap)
-                                sscanf(sc_String, "MAP%2i", &nextmap);
+                            if (gamemode == commercial)
+                            {
+                                nextepisode = 1;
+                                sscanf(sc_String, "MAP0%1i", &nextmap);
+                                if (!nextmap)
+                                    sscanf(sc_String, "MAP%2i", &nextmap);
+                            }
+                            else
+                                sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
                         }
-                        else
-                            sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
+                        info->secretnext = (nextepisode - 1) * 10 + nextmap;
+                        break;
                     }
-                    info->secretnext = (nextepisode - 1) * 10 + nextmap;
-                    break;
+
+                    case MCMD_SKY1:
+                        SC_MustGetString();
+                        info->sky1texture = R_TextureNumForName(sc_String);
+                        SC_MustGetNumber();
+                        info->sky1scrolldelta = sc_Number << 8;
+                        break;
+
+                    case MCMD_TITLEPATCH:
+                        SC_MustGetString();
+                        info->titlepatch = W_GetNumForName(sc_String);
+                        break;
                 }
-
-                case MCMD_SKY1:
-                    SC_MustGetString();
-                    info->sky1texture = R_TextureNumForName(sc_String);
-                    SC_MustGetNumber();
-                    info->sky1scrolldelta = sc_Number << 8;
-                    break;
-
-                case MCMD_TITLEPATCH:
-                    SC_MustGetString();
-                    info->titlepatch = W_GetNumForName(sc_String);
-                    break;
-            }
         }
         mapmax = MAX(map, mapmax);
     }

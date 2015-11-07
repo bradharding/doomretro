@@ -178,15 +178,10 @@ void SC_MustGetString(void)
 
 dboolean SC_GetNumber(void)
 {
-    char        *stopper;
-
     CheckOpen();
     if (SC_GetString())
     {
-        sc_Number = strtol(sc_String, &stopper, 0);
-        if (*stopper != 0)
-            I_Error("SC_GetNumber: Bad numeric constant \"%s\".\nScript %s, Line %d",
-                sc_String, ScriptName, sc_Line);
+        sc_Number = strtol(sc_String, NULL, 0);
         return true;
     }
     else
