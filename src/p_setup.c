@@ -50,6 +50,7 @@
 #include "m_random.h"
 #include "p_fix.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
 #include "sc_man.h"
@@ -68,9 +69,9 @@ typedef struct mapinfo_s mapinfo_t;
 
 struct mapinfo_s
 {
-    char        author[255];
+    char        author[128];
     int         music;
-    char        name[255];
+    char        name[128];
     int         next;
     int         par;
     int         secretnext;
@@ -1797,6 +1798,7 @@ extern int      dehcount;
 void P_MapName(int ep, int map)
 {
     dboolean    mapnumonly = false;
+    char        *mapinfoname = P_GetMapName((ep - 1) * 10 + map);
 
     switch (gamemission)
     {
@@ -1810,6 +1812,8 @@ void P_MapName(int ep, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
+            else if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, *mapnames[(ep - 1) * 9 + map - 1], sizeof(maptitle));
             break;
@@ -1824,6 +1828,8 @@ void P_MapName(int ep, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
+            else if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] :
                     *mapnames2[map - 1]), sizeof(maptitle));
@@ -1831,7 +1837,10 @@ void P_MapName(int ep, int map)
 
         case pack_nerve:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            M_StringCopy(maptitle, *mapnamesn[map - 1], sizeof(maptitle));
+            if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+            else
+                M_StringCopy(maptitle, *mapnamesn[map - 1], sizeof(maptitle));
             break;
 
         case pack_plut:
@@ -1844,6 +1853,8 @@ void P_MapName(int ep, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
+            else if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
             break;
@@ -1858,6 +1869,8 @@ void P_MapName(int ep, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
+            else if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
             break;
@@ -2079,6 +2092,7 @@ static void InitMapInfo(void)
         if (!SC_Compare("MAP"))
             SC_ScriptError(NULL);
         SC_MustGetString();
+        sc_String = uppercase(sc_String);
         map = strtol(sc_String, NULL, 0);
         if (map < 1 || map > 99)
         {
@@ -2090,8 +2104,13 @@ static void InitMapInfo(void)
                     sscanf(sc_String, "MAP%2i", &map);
             }
             else
+            {
                 sscanf(sc_String, "E%1iM%1i", &episode, &map);
+                map += (episode - 1) * 10;
+            }
         }
+        if (map < 1 || map > 99)
+            SC_ScriptError(NULL);
 
         info = &mapinfo[map];
 
@@ -2129,6 +2148,7 @@ static void InitMapInfo(void)
                     int     nextmap = 0;
 
                     SC_MustGetString();
+                    sc_String = uppercase(sc_String);
                     nextmap = strtol(sc_String, NULL, 0);
                     if (nextmap < 1 || nextmap > 99)
                     {
@@ -2152,6 +2172,7 @@ static void InitMapInfo(void)
                     int     nextmap = 0;
 
                     SC_MustGetString();
+                    sc_String = uppercase(sc_String);
                     nextmap = strtol(sc_String, NULL, 0);
                     if (nextmap < 1 || nextmap > 99)
                     {
@@ -2194,6 +2215,11 @@ char *P_GetMapAuthor(int map)
 int P_GetMapMusic(int map)
 {
     return mapinfo[QualifyMap(map)].music;
+}
+
+char *P_GetMapName(int map)
+{
+    return mapinfo[QualifyMap(map)].name;
 }
 
 int P_GetMapNext(int map)

@@ -43,7 +43,7 @@ id Software.
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAX_STRING_SIZE         64
+#define MAX_STRING_SIZE         256
 #define ASCII_COMMENT           ';'
 #define ASCII_QUOTE             34
 #define LUMP_SCRIPT             1
@@ -103,12 +103,6 @@ static void OpenScript(char *name, int type)
         ScriptSize = W_LumpLength(ScriptLumpNum);
         M_StringCopy(ScriptName, name, sizeof(ScriptName));
     }
-    //else if (type == FILE_ZONE_SCRIPT)
-    //{
-    //    ScriptLumpNum = -1;
-    //    ScriptSize = M_ReadFile(name, (byte **)&ScriptBuffer);
-    //    M_ExtractFileBase(name, ScriptName);
-    //}
     ScriptPtr = ScriptBuffer;
     ScriptEndPtr = ScriptPtr + ScriptSize;
     sc_Line = 1;
@@ -204,7 +198,6 @@ dboolean SC_GetString(void)
         }
     }
     *text = 0;
-    sc_String = uppercase(sc_String);
     return true;
 }
 
