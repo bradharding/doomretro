@@ -43,6 +43,7 @@
 #include "i_video.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "p_setup.h"
 #include "s_sound.h"
 #include "v_data.h"
 #include "v_video.h"
@@ -417,22 +418,34 @@ void WI_drawLF(void)
     int         x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
     int         y = WI_TITLEY;
     char        name[9];
+    int         titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
+
 
     // draw <LevelName>
-    if (gamemode == commercial)
-        M_snprintf(name, 9, "CWILV%2.2d", wbs->last);
-    else
-        M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
-    if (W_CheckMultipleLumps(name) > 1 && !nerve)
+    if (titlepatch)
     {
-        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
-                              lnames[wbs->last], false);
-        y += SHORT(lnames[wbs->last]->height) + 2;
+        patch_t *patch = W_CacheLumpNum(titlepatch, PU_STATIC);
+
+        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+        y += SHORT(patch->height) + 2;
     }
     else
     {
-        WI_drawWILV(y, mapname);
-        y += 14;
+        if (gamemode == commercial)
+            M_snprintf(name, 9, "CWILV%2.2d", wbs->last);
+        else
+            M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
+        if (W_CheckMultipleLumps(name) > 1 && !nerve)
+        {
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
+                lnames[wbs->last], false);
+            y += SHORT(lnames[wbs->last]->height) + 2;
+        }
+        else
+        {
+            WI_drawWILV(y, mapname);
+            y += 14;
+        }
     }
 
     // draw "Finished!"
@@ -445,21 +458,31 @@ void WI_drawEL(void)
     int         x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
     int         y = WI_TITLEY;
     char        name[9];
+    int         titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
 
     // draw "Entering"
     V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
 
     // draw level
     y += 14;
-    if (gamemode == commercial)
-        M_snprintf(name, 9, "CWILV%2.2d", wbs->next);
+    if (titlepatch)
+    {
+        patch_t *patch = W_CacheLumpNum(titlepatch, PU_STATIC);
+
+        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+    }
     else
-        M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
-    if (W_CheckMultipleLumps(name) > 1 && !nerve)
-        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
-                              lnames[wbs->next], false);
-    else
-        WI_drawWILV(y, nextmapname);
+    {
+        if (gamemode == commercial)
+            M_snprintf(name, 9, "CWILV%2.2d", wbs->next);
+        else
+            M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
+        if (W_CheckMultipleLumps(name) > 1 && !nerve)
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
+                lnames[wbs->next], false);
+        else
+            WI_drawWILV(y, nextmapname);
+    }
 }
 
 void WI_drawOnLnode(int n, patch_t *c[])
@@ -886,9 +909,9 @@ void WI_updateStats(void)
             }
         }
 
-        if (cnt_par >= (int)(wbs->partime) / TICRATE)
+        if (cnt_par >= (int)wbs->partime / TICRATE)
         {
-            cnt_par = (int)(wbs->partime) / TICRATE;
+            cnt_par = (int)wbs->partime / TICRATE;
 
             if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
             {
@@ -928,7 +951,7 @@ extern dboolean canmodify;
 void WI_drawStats(void)
 {
     // line height
-    int lh = (3 * SHORT(num[0]->height)) / 2;
+    int lh = 3 * SHORT(num[0]->height) / 2;
 
     WI_slamBackground();
 

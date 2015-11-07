@@ -65,6 +65,7 @@
 #define MCMD_PAR                4
 #define MCMD_SECRETNEXT         5
 #define MCMD_SKY1               6
+#define MCMD_TITLEPATCH         7
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -78,6 +79,7 @@ struct mapinfo_s
     int         secretnext;
     int         sky1texture;
     int         sky1scrolldelta;
+    int         titlepatch;
 };
 
 void P_SpawnMapThing(mapthing_t *mthing, int index);
@@ -163,6 +165,7 @@ static char *mapcmdnames[] =
     "PAR",
     "SECRETNEXT",
     "SKY1",
+    "TITLEPATCH",
     NULL
 };
 
@@ -173,7 +176,8 @@ static int mapcmdids[] =
     MCMD_NEXT,
     MCMD_PAR,
     MCMD_SECRETNEXT,
-    MCMD_SKY1
+    MCMD_SKY1,
+    MCMD_TITLEPATCH
 };
 
 dboolean        canmodify;
@@ -2198,6 +2202,11 @@ static void InitMapInfo(void)
                     SC_MustGetNumber();
                     info->sky1scrolldelta = sc_Number << 8;
                     break;
+
+                case MCMD_TITLEPATCH:
+                    SC_MustGetString();
+                    info->titlepatch = W_GetNumForName(sc_String);
+                    break;
             }
         }
         mapmax = MAX(map, mapmax);
@@ -2249,6 +2258,11 @@ int P_GetMapSky1Texture(int map)
 int P_GetMapSky1ScrollDelta(int map)
 {
     return mapinfo[QualifyMap(map)].sky1scrolldelta;
+}
+
+int P_GetMapTitlePatch(int map)
+{
+    return mapinfo[QualifyMap(map)].titlepatch;
 }
 
 //
