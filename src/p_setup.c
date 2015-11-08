@@ -2106,20 +2106,21 @@ static void InitMapInfo(void)
         if (!SC_Compare("MAP"))
             continue;
         SC_MustGetString();
-        sc_String = uppercase(sc_String);
         map = strtol(sc_String, NULL, 0);
         if (map < 1 || map > 99)
         {
+            char        *mapnum = uppercase(sc_String);
+
             if (gamemode == commercial)
             {
                 episode = 1;
-                sscanf(sc_String, "MAP0%1i", &map);
+                sscanf(mapnum, "MAP0%1i", &map);
                 if (!map)
-                    sscanf(sc_String, "MAP%2i", &map);
+                    sscanf(mapnum, "MAP%2i", &map);
             }
             else
             {
-                sscanf(sc_String, "E%1iM%1i", &episode, &map);
+                sscanf(mapnum, "E%1iM%1i", &episode, &map);
                 map += (episode - 1) * 10;
             }
         }
@@ -2163,19 +2164,20 @@ static void InitMapInfo(void)
                         int     nextmap = 0;
 
                         SC_MustGetString();
-                        sc_String = uppercase(sc_String);
-                        nextmap = strtol(sc_String, NULL, 0);
+                        nextmap = strtol(sc_String, (char **)NULL, 10);
                         if (nextmap < 1 || nextmap > 99)
                         {
+                            char        *mapnum = uppercase(sc_String);
+
                             if (gamemode == commercial)
                             {
                                 nextepisode = 1;
-                                sscanf(sc_String, "MAP0%1i", &nextmap);
+                                sscanf(mapnum, "MAP0%1i", &nextmap);
                                 if (!nextmap)
-                                    sscanf(sc_String, "MAP%2i", &nextmap);
+                                    sscanf(mapnum, "MAP%2i", &nextmap);
                             }
                             else
-                                sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
+                                sscanf(mapnum, "E%1iM%1i", &nextepisode, &nextmap);
                         }
                         info->next = (nextepisode - 1) * 10 + nextmap;
                         break;
@@ -2192,19 +2194,20 @@ static void InitMapInfo(void)
                         int     nextmap = 0;
 
                         SC_MustGetString();
-                        sc_String = uppercase(sc_String);
-                        nextmap = strtol(sc_String, NULL, 0);
+                        nextmap = strtol(sc_String, (char **)NULL, 10);
                         if (nextmap < 1 || nextmap > 99)
                         {
+                            char        *mapnum = uppercase(sc_String);
+
                             if (gamemode == commercial)
                             {
                                 nextepisode = 1;
-                                sscanf(sc_String, "MAP0%1i", &nextmap);
+                                sscanf(mapnum, "MAP0%1i", &nextmap);
                                 if (!nextmap)
-                                    sscanf(sc_String, "MAP%2i", &nextmap);
+                                    sscanf(mapnum, "MAP%2i", &nextmap);
                             }
                             else
-                                sscanf(sc_String, "E%1iM%1i", &nextepisode, &nextmap);
+                                sscanf(mapnum, "E%1iM%1i", &nextepisode, &nextmap);
                         }
                         info->secretnext = (nextepisode - 1) * 10 + nextmap;
                         break;
