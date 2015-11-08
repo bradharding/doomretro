@@ -2119,7 +2119,7 @@ static void InitMapInfo(void)
 
         // Map name must follow the number
         SC_MustGetString();
-        if (strcasecmp(sc_String, "LOOKUP"))
+        if (SC_Compare("LOOKUP"))
             M_StringCopy(info->name, sc_String, sizeof(info->name));
 
         // Process optional tokens

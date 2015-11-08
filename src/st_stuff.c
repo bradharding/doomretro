@@ -677,7 +677,7 @@ dboolean ST_Responder(event_t *ev)
                         {
                             static char msg[80];
 
-                            S_ChangeMusic(musnum, 1, true);
+                            S_ChangeMusic(musnum, 1, true, false);
 
                             C_Input("%s%c%c", cheat_mus_xy.sequence, buf[0], buf[1]);
 

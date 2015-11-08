@@ -312,7 +312,7 @@ void S_Start(void)
     // start new music for the level
     mus_paused = false;
 
-    S_ChangeMusic(S_GetMusicNum(), !s_randommusic, false);
+    S_ChangeMusic(S_GetMusicNum(), !s_randommusic, false, true);
 }
 
 //
@@ -557,7 +557,7 @@ void S_UpdateSounds(mobj_t *listener)
     }
 
     if (!nomusic && s_randommusic && !I_SDL_MusicIsPlaying())
-        S_ChangeMusic(S_GetMusicNum(), false, false);
+        S_ChangeMusic(S_GetMusicNum(), false, false, false);
 }
 
 void S_SetMusicVolume(int volume)
@@ -572,13 +572,14 @@ void S_SetSfxVolume(int volume)
 
 void S_StartMusic(int music_id)
 {
-    S_ChangeMusic(music_id, false, false);
+    S_ChangeMusic(music_id, false, false, false);
 }
 
-void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating)
+void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean mapstart)
 {
     musicinfo_t *music = &S_music[music_id];
     void        *handle;
+    int         mapinfomusic;
 
     if (nomusic || (mus_playing == music && !cheating))
         return;
@@ -586,10 +587,10 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating)
     // shutdown old music
     S_StopMusic();
 
-    music->lumpnum = P_GetMapMusic(gamemap);
-
     // get lumpnum if necessary
-    if (!music->lumpnum)
+    if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) >= 0)
+        music->lumpnum = mapinfomusic;
+    else if (music->lumpnum >= 0)
     {
         char    namebuf[9];
 

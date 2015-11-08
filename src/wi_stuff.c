@@ -1025,7 +1025,7 @@ void WI_Ticker(void)
 
     if (bcnt == 1)
         // intermission music
-        S_ChangeMusic((gamemode == commercial ? mus_dm2int : mus_inter), true, false);
+        S_ChangeMusic((gamemode == commercial ? mus_dm2int : mus_inter), true, false, false);
 
     WI_checkForAccelerate();
 
