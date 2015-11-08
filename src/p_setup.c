@@ -2083,12 +2083,22 @@ static void InitMapInfo(void)
     int         map;
     int         mapmax = 1;
     int         mcmdvalue;
-    mapinfo_t   *info = mapinfo;
+    mapinfo_t   *info;
 
     if (!(MAPINFO = (W_CheckNumForName(MAPINFO_SCRIPT_NAME) >= 0)))
         return;
 
-    memset(info, 0, sizeof(*info));
+    info = mapinfo;
+
+    info->author[0] = '\0';
+    info->music = 0;
+    info->name[0] = '\0';
+    info->next = 0;
+    info->par = 0;
+    info->secretnext = 0;
+    info->sky1texture = 0;
+    info->sky1scrolldelta = 0;
+    info->titlepatch = 0;
 
     SC_Open(MAPINFO_SCRIPT_NAME);
     while (SC_GetString())

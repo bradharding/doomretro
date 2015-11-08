@@ -45,9 +45,9 @@ id Software.
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAX_STRING_SIZE         256
-#define ASCII_COMMENT           ';'
-#define ASCII_QUOTE             '\"'
+#define MAX_STRING_SIZE 256
+#define ASCII_COMMENT   ';'
+#define ASCII_QUOTE     '\"'
 
 static void CheckOpen(void);
 
@@ -113,7 +113,7 @@ dboolean SC_GetString(void)
         sc_End = true;
         return false;
     }
-    while (foundToken == false)
+    while (!foundToken)
     {
         while (*ScriptPtr <= 32)
         {
@@ -160,14 +160,12 @@ dboolean SC_GetString(void)
         ScriptPtr++;
     }
     else
-    {
         while (*ScriptPtr > 32 && *ScriptPtr != ASCII_COMMENT)
         {
             *text++ = *ScriptPtr++;
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
         }
-    }
     *text = 0;
     return true;
 }
