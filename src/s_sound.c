@@ -588,9 +588,9 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     S_StopMusic();
 
     // get lumpnum if necessary
-    if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) >= 0)
+    if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)))
         music->lumpnum = mapinfomusic;
-    else if (music->lumpnum >= 0)
+    else if (!music->lumpnum)
     {
         char    namebuf[9];
 

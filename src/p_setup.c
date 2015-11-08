@@ -182,6 +182,7 @@ static int mapcmdids[] =
 
 dboolean        canmodify;
 dboolean        transferredsky;
+dboolean        MAPINFO;
 
 dboolean        r_fixmaperrors = r_fixmaperrors_default;
 
@@ -2084,7 +2085,10 @@ static void InitMapInfo(void)
     int         mcmdvalue;
     mapinfo_t   *info = mapinfo;
 
-    memset(info, 0, sizeof(mapinfo_t));
+    if (!(MAPINFO = (W_CheckNumForName(MAPINFO_SCRIPT_NAME) >= 0)))
+        return;
+
+    memset(info, 0, sizeof(*info));
 
     SC_Open(MAPINFO_SCRIPT_NAME);
     while (SC_GetString())
@@ -2222,47 +2226,47 @@ static int QualifyMap(int map)
 
 char *P_GetMapAuthor(int map)
 {
-    return mapinfo[QualifyMap(map)].author;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].author : "");
 }
 
 int P_GetMapMusic(int map)
 {
-    return mapinfo[QualifyMap(map)].music;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].music : 0);
 }
 
 char *P_GetMapName(int map)
 {
-    return mapinfo[QualifyMap(map)].name;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].name : "");
 }
 
 int P_GetMapNext(int map)
 {
-    return mapinfo[QualifyMap(map)].next;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].next : 0);
 }
 
 int P_GetMapPar(int map)
 {
-    return mapinfo[QualifyMap(map)].par;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].par : 0);
 }
 
 int P_GetMapSecretNext(int map)
 {
-    return mapinfo[QualifyMap(map)].secretnext;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].secretnext : 0);
 }
 
 int P_GetMapSky1Texture(int map)
 {
-    return mapinfo[QualifyMap(map)].sky1texture;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].sky1texture : 0);
 }
 
 int P_GetMapSky1ScrollDelta(int map)
 {
-    return mapinfo[QualifyMap(map)].sky1scrolldelta;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].sky1scrolldelta : 0);
 }
 
 int P_GetMapTitlePatch(int map)
 {
-    return mapinfo[QualifyMap(map)].titlepatch;
+    return (MAPINFO ? mapinfo[QualifyMap(map)].titlepatch : 0);
 }
 
 //
