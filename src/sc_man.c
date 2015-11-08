@@ -174,6 +174,8 @@ void SC_MustGetString(void)
 {
     if (!SC_GetString())
         SC_ScriptError("Missing string.");
+    if (SC_Compare("="))
+        SC_GetString();
 }
 
 dboolean SC_GetNumber(void)
