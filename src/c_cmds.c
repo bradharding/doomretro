@@ -114,6 +114,7 @@ extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern int              r_bloodsplats_total;
 extern dboolean         r_brightmaps;
+extern dboolean         r_corpses_color;
 extern dboolean         r_corpses_mirrored;
 extern dboolean         r_corpses_moreblood;
 extern dboolean         r_corpses_nudge;
@@ -539,6 +540,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (r_bloodsplats_max, r_bloodsplats_max_cvar_func1, r_bloodsplats_max_cvar_func2, CF_NONE, SPLATALIAS, "The maximum number of blood splats allowed in a map."),
     CVAR_INT  (r_bloodsplats_total, int_cvars_func1, int_cvars_func2, CF_READONLY, NOALIAS, "The total number of blood splats in the current map."),
     CVAR_BOOL (r_brightmaps, bool_cvars_func1, bool_cvars_func2, "Toggles brightmaps on certain wall textures."),
+    CVAR_BOOL (r_corpses_color, bool_cvars_func1, bool_cvars_func2, "Toggles corpses of marines being randomly colored."),
     CVAR_BOOL (r_corpses_mirrored, bool_cvars_func1, bool_cvars_func2, "Toggles corpses being randomly mirrored."),
     CVAR_BOOL (r_corpses_moreblood, bool_cvars_func1, bool_cvars_func2, "Toggles blood splats around corpses when a map is loaded."),
     CVAR_BOOL (r_corpses_nudge, bool_cvars_func1, bool_cvars_func2, "Toggles corpses being nudged when monsters walk over them."),

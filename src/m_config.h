@@ -138,6 +138,8 @@ typedef enum
 
 #define r_brightmaps_default                    true
 
+#define r_corpses_color_default                 true
+
 #define r_corpses_mirrored_default              true
 
 #define r_corpses_moreblood_default             true

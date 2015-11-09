@@ -61,6 +61,7 @@ mobj_t                  *bloodsplats[r_bloodsplats_max_max];
 int                     r_bloodsplats_total;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
+dboolean                r_corpses_color = r_corpses_color_default;
 dboolean                r_corpses_mirrored = r_corpses_mirrored_default;
 dboolean                r_corpses_moreblood = r_corpses_moreblood_default;
 dboolean                r_corpses_nudge = r_corpses_nudge_default;
@@ -1034,6 +1035,11 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         if (r_corpses_moreblood)
             P_SpawnMoreBlood(mobj);
     }
+
+    // [crispy] randomly colorize space marine corpse objects
+    if (r_corpses_color && (mobj->info->spawnstate == S_PLAY_DIE7
+        || mobj->info->spawnstate == S_PLAY_XDIE9))
+        mobj->flags |= (M_RandomInt(0, 3) << MF_TRANSSHIFT);
 }
 
 //
