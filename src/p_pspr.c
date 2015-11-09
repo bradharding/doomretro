@@ -54,7 +54,9 @@
 dboolean        centerweapon = centerweapon_default;
 
 unsigned int    stat_shotsfired = 0;
+unsigned int    stat_shotshit = 0;
 
+dboolean        successfulshot;
 dboolean        skippsprinterp = false;
 
 void P_CheckMissileSpawn(mobj_t *th);
@@ -628,7 +630,17 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 
     P_BulletSlope(actor);
+
+    successfulshot = false;
+
     P_GunShot(actor, !player->refire);
+
+    if (successfulshot)
+    {
+        successfulshot = false;
+        player->shotshit++;
+        stat_shotshit = SafeAdd(stat_shotshit, 1);
+    }
 }
 
 //
@@ -650,8 +662,17 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_BulletSlope(actor);
 
+    successfulshot = false;
+
     for (i = 0; i < 7; i++)
         P_GunShot(actor, false);
+
+    if (successfulshot)
+    {
+        successfulshot = false;
+        player->shotshit++;
+        stat_shotshit = SafeAdd(stat_shotshit, 1);
+    }
 
     player->preferredshotgun = wp_shotgun;
 }
@@ -675,6 +696,8 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_BulletSlope(actor);
 
+    successfulshot = false;
+
     for (i = 0; i < 20; i++)
     {
         int     damage = 5 * (P_Random() % 3 + 1);
@@ -682,6 +705,13 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         P_LineAttack(actor, angle, MISSILERANGE, bulletslope + ((P_Random() - P_Random()) << 5),
             damage);
+    }
+
+    if (successfulshot)
+    {
+        successfulshot = false;
+        player->shotshit++;
+        stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
 
     player->preferredshotgun = wp_supershotgun;
@@ -725,7 +755,16 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_BulletSlope(actor);
 
+    successfulshot = false;
+
     P_GunShot(actor, !player->refire);
+
+    if (successfulshot)
+    {
+        successfulshot = false;
+        player->shotshit++;
+        stat_shotshit = SafeAdd(stat_shotshit, 1);
+    }
 }
 
 void A_Light0(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -768,6 +807,8 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         if (!linetarget)
             continue;
 
+        successfulshot = true;
+
         P_SpawnMobj(linetarget->x, linetarget->y, linetarget->z + (linetarget->height >> 2),
             MT_EXTRABFG);
 
@@ -775,6 +816,13 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
             damage += (P_Random() & 7) + 1;
 
         P_DamageMobj(linetarget, actor->target, actor->target, damage);
+    }
+
+    if (successfulshot)
+    {
+        successfulshot = false;
+        player->shotshit++;
+        stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
 }
 

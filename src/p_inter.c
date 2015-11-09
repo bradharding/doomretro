@@ -101,7 +101,6 @@ dboolean        r_mirroredweapons = r_mirroredweapons_default;
 unsigned int    stat_damageinflicted = 0;
 unsigned int    stat_damagereceived = 0;
 unsigned int    stat_itemspickedup = 0;
-unsigned int    stat_shotshit = 0;
 unsigned int    stat_monsterskilled = 0;
 unsigned int    stat_deaths = 0;
 
@@ -1109,15 +1108,10 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         return;
 
     // player specific
-    if (splayer)
+    if (splayer && type != MT_BARREL)
     {
-        players[0].shotshit++;
-        stat_shotshit = SafeAdd(stat_shotshit, 1);
-        if (type != MT_BARREL)
-        {
-            players[0].damageinflicted += damage;
-            stat_damageinflicted = SafeAdd(stat_damageinflicted, damage);
-        }
+        splayer->damageinflicted += damage;
+        stat_damageinflicted = SafeAdd(stat_damageinflicted, damage);
     }
     if (tplayer)
     {

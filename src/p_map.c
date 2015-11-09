@@ -91,6 +91,8 @@ dboolean        infight;
 
 mobj_t          *onmobj;
 
+extern dboolean successfulshot;
+
 extern dboolean r_liquid_bob;
 extern dboolean r_corpses_nudge;
 
@@ -1624,7 +1626,10 @@ hitline:
     }
 
     if (la_damage)
+    {
+        successfulshot = true;
         P_DamageMobj(th, shootthing, shootthing, la_damage);
+    }
 
     // don't go any farther
     return false;
