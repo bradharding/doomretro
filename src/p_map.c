@@ -92,6 +92,7 @@ dboolean        infight;
 mobj_t          *onmobj;
 
 extern dboolean successfulshot;
+extern dboolean stat_shotshit;
 
 extern dboolean r_liquid_bob;
 extern dboolean r_corpses_nudge;
@@ -544,6 +545,12 @@ dboolean PIT_CheckThing(mobj_t *thing)
         // damage / explode
         damage = ((P_Random() % 8) + 1) * tmthing->info->damage;
         P_DamageMobj(thing, tmthing, tmthing->target, damage);
+
+        if (tmthing->type == MT_PLASMA)
+        {
+            players[0].shotshit++;
+            stat_shotshit = SafeAdd(stat_shotshit, 1);
+        }
 
         // don't traverse anymore
         return false;
