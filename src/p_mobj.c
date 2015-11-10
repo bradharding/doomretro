@@ -1388,6 +1388,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         puffcount = 0;
+        th->nudge = 1;
     }
 
     P_CheckMissileSpawn(th);

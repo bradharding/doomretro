@@ -527,11 +527,21 @@ dboolean PIT_CheckThing(mobj_t *thing)
         damage = ((P_Random() % 8) + 1) * tmthing->info->damage;
         P_DamageMobj(thing, tmthing, tmthing->target, damage);
 
-        if (tmthing->type == MT_PLASMA)
-        {
-            players[0].shotshit++;
-            stat_shotshit = SafeAdd(stat_shotshit, 1);
-        }
+        if (thing->type != MT_BARREL)
+            if (tmthing->type == MT_PLASMA)
+            {
+                players[0].shotshit++;
+                stat_shotshit = SafeAdd(stat_shotshit, 1);
+            }
+            else if (tmthing->type == MT_ROCKET)
+            {
+                if (tmthing->nudge == 1)
+                {
+                    players[0].shotshit++;
+                    stat_shotshit = SafeAdd(stat_shotshit, 1);
+                }
+                tmthing->nudge++;
+            }
 
         // don't traverse anymore
         return false;
@@ -1819,6 +1829,16 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
     {
         // must be in direct path
         P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist);
+
+        if (bombspot->type == MT_ROCKET && thing->type != MT_BARREL)
+        {
+            if (bombspot->nudge == 1)
+            {
+                players[0].shotshit++;
+                stat_shotshit = SafeAdd(stat_shotshit, 1);
+            }
+            bombspot->nudge++;
+        }
     }
 
     return true;
