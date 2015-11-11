@@ -954,6 +954,9 @@ dboolean ST_Responder(event_t *ev)
                     HU_ClearMessages();
                 }
 
+                if (consoleactive)
+                    forceblurredraw = true;
+
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);
 
