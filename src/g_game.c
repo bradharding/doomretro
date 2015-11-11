@@ -79,7 +79,6 @@ void G_DoReborn(void);
 void G_DoLoadLevel(void);
 void G_DoNewGame(void);
 void G_DoCompleted(void);
-void G_DoVictory(void);
 void G_DoWorldDone(void);
 void G_DoSaveGame(void);
 

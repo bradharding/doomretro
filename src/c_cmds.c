@@ -1166,8 +1166,6 @@ static void help_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static int      killcmdtype = NUMMOBJTYPES;
 
-void A_Fall(mobj_t *actor);
-
 static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (gamestate == GS_LEVEL)
@@ -1224,6 +1222,8 @@ static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     return false;
 }
 
+void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
+
 static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
@@ -1263,7 +1263,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
                         if (type == MT_PAIN)
                         {
-                            A_Fall(thing);
+                            A_Fall(thing, NULL, NULL);
                             P_SetMobjState(thing, S_PAIN_DIE6);
                             players[0].killcount++;
                             stat_monsterskilled++;
@@ -1313,7 +1313,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         {
                             if (thing->health > 0)
                             {
-                                A_Fall(thing);
+                                A_Fall(thing, NULL, NULL);
                                 P_SetMobjState(thing, S_PAIN_DIE6);
                                 players[0].killcount++;
                                 stat_monsterskilled++;
