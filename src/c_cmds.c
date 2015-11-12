@@ -2021,8 +2021,6 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             ++totalkills;
         else if (flags & MF_COUNTITEM)
             ++totalitems;
-
-        forceblurredraw = true;
     }
 }
 
@@ -2279,7 +2277,6 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
             if (gamestate == GS_LEVEL)
                 AM_Stop();
         }
-        forceblurredraw = true;
     }
 }
 

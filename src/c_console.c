@@ -1032,6 +1032,7 @@ dboolean C_Responder(event_t *ev)
                         autocomplete = -1;
                         inputhistory = -1;
                         outputhistory = -1;
+                        forceblurredraw = true;
                     }
 
                     return !consolecheat[0];
