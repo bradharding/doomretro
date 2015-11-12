@@ -2021,6 +2021,8 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             ++totalkills;
         else if (flags & MF_COUNTITEM)
             ++totalitems;
+
+        forceblurredraw = true;
     }
 }
 
