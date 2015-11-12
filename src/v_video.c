@@ -153,28 +153,28 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[scrn] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[scrn] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                *dest = source[srccol >> 16];
+                *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
@@ -189,45 +189,45 @@ void V_DrawPagePatch(patch_t *patch)
     short       width = SHORT(patch->width);
     short       height = SHORT(patch->height);
 
-    DX = (SCREENWIDTH << 16) / width;
-    DXI = (width << 16) / SCREENWIDTH;
-    DY = (SCREENHEIGHT << 16) / height;
-    DYI = (height << 16) / SCREENHEIGHT;
+    DX = (SCREENWIDTH << FRACBITS) / width;
+    DXI = (width << FRACBITS) / SCREENWIDTH;
+    DY = (SCREENHEIGHT << FRACBITS) / height;
+    DYI = (height << FRACBITS) / SCREENHEIGHT;
 
     V_DrawPatch(0, 0, 0, patch);
 
-    DX = (SCREENWIDTH << 16) / ORIGINALWIDTH;
-    DXI = (ORIGINALWIDTH << 16) / SCREENWIDTH;
-    DY = (SCREENHEIGHT << 16) / ORIGINALHEIGHT;
-    DYI = (ORIGINALHEIGHT << 16) / SCREENHEIGHT;
+    DX = (SCREENWIDTH << FRACBITS) / ORIGINALWIDTH;
+    DXI = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
+    DY = (SCREENHEIGHT << FRACBITS) / ORIGINALHEIGHT;
+    DYI = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
 }
 
 void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[scrn] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[scrn] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                *dest = tinttab25[(*dest << 8) + source[srccol >> 16]];
+                *dest = tinttab25[(*dest << 8) + source[srccol >> FRACBITS]];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
@@ -241,22 +241,22 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
-            int         count = ((column->length * DY / 10) >> 16) + 1;
+            byte        *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
+            int         count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if (--count)
             {
@@ -279,22 +279,22 @@ void V_DrawSolidShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
-            int         count = ((column->length * DY / 10) >> 16) + 1;
+            byte        *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
+            int         count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if (--count)
             {
@@ -317,22 +317,22 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
-            int         count = ((column->length * DY / 10) >> 16) + 1;
+            byte        *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
+            int         count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if (--count)
             {
@@ -464,28 +464,28 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = tempscreen + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = tempscreen + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                *dest = source[srccol >> 16];
+                *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
                 *(dest + SCREENWIDTH + 2) = 0;
                 srccol += DYI;
@@ -500,31 +500,31 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                int     height = (((y + column->topdelta + column->length) * DY) >> 16) - count;
+                int     height = (((y + column->topdelta + column->length) * DY) >> FRACBITS) - count;
 
                 if (height > 0)
-                    *dest = source[srccol >> 16];
+                    *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
                 if (height + 2 > 0)
                 {
@@ -760,28 +760,28 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                *dest = tinttabred[(*dest << 8) + source[srccol >> 16]];
+                *dest = tinttabred[(*dest << 8) + source[srccol >> FRACBITS]];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
@@ -807,29 +807,29 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch
-                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                *dest = source[srccol >> 16];
+                *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
@@ -843,23 +843,23 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + (((y + 3) * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + (((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch
-                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
-            int         count = ((column->length * DY / 10) >> 16) + 1;
+            byte        *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
+            int         count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if (--count)
             {
@@ -882,23 +882,23 @@ void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + (((y + 3) * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + (((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch
-            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
-            int         count = ((column->length * DY / 10) >> 16) + 1;
+            byte        *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
+            int         count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if (--count)
             {
@@ -921,23 +921,23 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + (((y + 3) * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + (((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch
-            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
-            int         count = ((column->length * DY / 10) >> 16) + 1;
+            byte        *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
+            int         count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if (--count)
             {
@@ -962,29 +962,29 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch
-                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                *dest = tinttabred[(*dest << 8) + source[srccol >> 16]];
+                *dest = tinttabred[(*dest << 8) + source[srccol >> FRACBITS]];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
@@ -1006,22 +1006,22 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
     int         _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         while (column->topdelta != 0xff)
         {
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
 
             while (count--)
             {
@@ -1040,23 +1040,23 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
     int         _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch
-                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         while (column->topdelta != 0xff)
         {
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
 
             while (count--)
             {
@@ -1087,28 +1087,28 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                byte    src = source[srccol >> 16];
+                byte    src = source[srccol >> FRACBITS];
 
                 if (nogreen[src])
                 {
@@ -1138,28 +1138,28 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
+    int         w = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
+            byte        *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+            int         count = (column->length * DY) >> FRACBITS;
             int         srccol = 0;
 
             while (count--)
             {
-                byte src = source[srccol >> 16];
+                byte src = source[srccol >> FRACBITS];
 
                 if (nogreen[src])
                     *dest = (r_translucency ? tinttab33[(*dest << 8) + src] : src);
@@ -1281,10 +1281,10 @@ void V_Init(void)
     for (i = 0; i < 4; i++)
         screens[i] = base + i * SCREENWIDTH * SCREENHEIGHT;
 
-    DX = (SCREENWIDTH << 16) / ORIGINALWIDTH;
-    DXI = (ORIGINALWIDTH << 16) / SCREENWIDTH;
-    DY = (SCREENHEIGHT << 16) / ORIGINALHEIGHT;
-    DYI = (ORIGINALHEIGHT << 16) / SCREENHEIGHT;
+    DX = (SCREENWIDTH << FRACBITS) / ORIGINALWIDTH;
+    DXI = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
+    DY = (SCREENHEIGHT << FRACBITS) / ORIGINALHEIGHT;
+    DYI = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
 
     GetPixelSize();
 }

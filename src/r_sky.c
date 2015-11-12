@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "doomdef.h"
 #include "r_sky.h"
 
 //
@@ -53,5 +54,5 @@ int skyscrolldelta;
 //
 void R_InitSkyMap(void)
 {
-    skytexturemid = 100 * FRACUNIT;
+    skytexturemid = ORIGINALHEIGHT / 2 * FRACUNIT;
 }

@@ -701,7 +701,7 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
     for (i = 0; i < 20; i++)
     {
         int     damage = 5 * (P_Random() % 3 + 1);
-        angle_t angle = actor->angle + ((P_Random() - P_Random()) << 19);
+        angle_t angle = actor->angle + ((P_Random() - P_Random()) << ANGLETOFINESHIFT);
 
         P_LineAttack(actor, angle, MISSILERANGE, bulletslope + ((P_Random() - P_Random()) << 5),
             damage);

@@ -559,7 +559,7 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     int         den = FixedMul(rw_distance, finesine[(angle - viewangle) >> ANGLETOFINESHIFT]);
     fixed_t     num = FixedMul(projectiony, finesine[(angle - rw_normalangle) >> ANGLETOFINESHIFT]);
 
-    return (den > (num >> 16) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
+    return (den > (num >> FRACBITS) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
 }
 
 //

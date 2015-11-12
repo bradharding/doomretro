@@ -110,21 +110,23 @@ typedef enum
 
 // Screen width and height.
 
-#define ORIGINALWIDTH   320
-#define ORIGINALHEIGHT  200
+#define ORIGINALWIDTH           320
+#define ORIGINALHEIGHT          200
 
-#define SCREENSCALE     2
+#define ORIGINALSBARHEIGHT      32
 
-#define SCREENWIDTH     (ORIGINALWIDTH * SCREENSCALE)
-#define SCREENHEIGHT    (ORIGINALHEIGHT * SCREENSCALE)
+#define SCREENSCALE             2
 
-#define SBARHEIGHT      (32 * SCREENSCALE)
+#define SCREENWIDTH             (ORIGINALWIDTH * SCREENSCALE)
+#define SCREENHEIGHT            (ORIGINALHEIGHT * SCREENSCALE)
+
+#define SBARHEIGHT              (ORIGINALSBARHEIGHT * SCREENSCALE)
 
 // The maximum number of players, multiplayer/networking.
-#define MAXPLAYERS      4
+#define MAXPLAYERS              4
 
 // State updates, number of tics / second.
-#define TICRATE         35
+#define TICRATE                 35
 
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
@@ -142,14 +144,14 @@ typedef enum
 //
 
 // Skill flags.
-#define MTF_EASY        1
-#define MTF_NORMAL      2
-#define MTF_HARD        4
+#define MTF_EASY                1
+#define MTF_NORMAL              2
+#define MTF_HARD                4
 
 // Deaf monsters/do not react to sound.
-#define MTF_AMBUSH      8
+#define MTF_AMBUSH              8
 
-#define MTF_NETGAME     16
+#define MTF_NETGAME             16
 
 typedef enum
 {

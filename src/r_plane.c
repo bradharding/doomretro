@@ -435,7 +435,7 @@ void R_DrawPlanes(void)
                     dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_iscale = pspriteiscale;
 
-                    offset = skycolumnoffset >> 16;
+                    offset = skycolumnoffset >> FRACBITS;
 
                     for (x = pl->minx; x <= pl->maxx; x++)
                     {

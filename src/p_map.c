@@ -1651,8 +1651,8 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance)
     shootz = t1->z + (t1->height >> 1) + 8 * FRACUNIT;
 
     // can't shoot outside view angles
-    topslope = 100 * FRACUNIT / 160;
-    bottomslope = -100 * FRACUNIT / 160;
+    topslope = (ORIGINALHEIGHT / 2) * FRACUNIT / (ORIGINALWIDTH / 2);
+    bottomslope = -(ORIGINALHEIGHT / 2) * FRACUNIT / (ORIGINALWIDTH / 2);
 
     attackrange = distance;
     linetarget = NULL;

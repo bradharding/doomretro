@@ -317,7 +317,7 @@ void P_LoadSegs(int lump)
 
         v1 = (unsigned short)SHORT(ml->v1);
         v2 = (unsigned short)SHORT(ml->v2);
-        li->angle = SHORT(ml->angle) << 16;
+        li->angle = SHORT(ml->angle) << FRACBITS;
         linedef = (unsigned short)SHORT(ml->linedef);
 
         if (linedef < 0 || linedef >= numlines)

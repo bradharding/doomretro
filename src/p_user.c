@@ -169,7 +169,7 @@ void P_MovePlayer(player_t *player)
     ticcmd_t    *cmd = &player->cmd;
     mobj_t      *mo = player->mo;
 
-    mo->angle += cmd->angleturn << 16;
+    mo->angle += cmd->angleturn << FRACBITS;
     onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 
     // killough 10/98:

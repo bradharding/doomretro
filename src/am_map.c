@@ -1779,7 +1779,7 @@ static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
 }
 
 #define CENTERX         ORIGINALWIDTH / 2
-#define CENTERY         (ORIGINALHEIGHT - 32) / 2
+#define CENTERY         (ORIGINALHEIGHT - ORIGINALSBARHEIGHT) / 2
 
 static void AM_drawCrosshair(void)
 {
