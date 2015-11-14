@@ -1366,7 +1366,7 @@ static int dayofweek(int day, int month, int year)
     int m = month + 12 * adjustment - 2;
     int y = year - adjustment;
 
-    return (day + (13 * m - 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7;
+    return ((day + (13 * m - 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7);
 }
 
 void C_PrintCompileDate(void)
@@ -1388,7 +1388,6 @@ void C_PrintCompileDate(void)
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
-    C_Output("");
     C_Output("This %i-bit %s binary of ~"PACKAGE_NAMEANDVERSIONSTRING"~ was built on %s, %s %i, "
         "%i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
         days[dayofweek(day, month + 1, year)], months[month], day, year,

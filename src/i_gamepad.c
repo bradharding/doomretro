@@ -86,8 +86,6 @@ void (*gamepadthumbsfunc)(short, short, short, short);
 
 void I_InitGamepad(void)
 {
-    static int  initcount;
-
     gamepadfunc = I_PollDirectInputGamepad;
     gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
         I_PollThumbs_DirectInput_RightHanded);
@@ -115,6 +113,7 @@ void I_InitGamepad(void)
         {
 #if defined(WIN32)
             char        *XInputDLL = malloc(16);
+            static int  initcount;
 
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
                 M_StringCopy(XInputDLL, "XINPUT1_4.DLL", 16);
@@ -325,7 +324,8 @@ void I_PollXInputGamepad(void)
             ev.type = ev_gamepad;
             D_PostEvent(&ev);
 
-            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
+            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX,
+                Gamepad.sThumbRY);
         }
         else
         {

@@ -1264,6 +1264,7 @@ static void D_DoomMainSetup(void)
     char        *packageconfig = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
     char        *packagewad = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
 
+    C_Output("");
     C_PrintCompileDate();
 
 #if defined(WIN32)

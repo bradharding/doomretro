@@ -162,7 +162,7 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -215,7 +215,7 @@ void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -250,7 +250,7 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -288,7 +288,7 @@ void V_DrawSolidShadowPatch(int x, int y, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -326,7 +326,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -473,7 +473,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -509,7 +509,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -521,7 +521,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 
             while (count--)
             {
-                int     height = (((y + column->topdelta + column->length) * DY) >> FRACBITS) - count;
+                int height = (((y + column->topdelta + column->length) * DY) >> FRACBITS) - count;
 
                 if (height > 0)
                     *dest = source[srccol >> FRACBITS];
@@ -769,7 +769,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -1016,7 +1016,7 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         while (column->topdelta != 0xff)
         {
@@ -1096,7 +1096,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -1147,7 +1147,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
     for (; col < w; col += DXI, desttop++)
     {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -1204,7 +1204,8 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
             {
                 for (yy = 0; yy < SCREENSCALE; ++yy)
                     for (xx = 0; xx < SCREENSCALE; ++xx)
-                        *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH + xx)];
+                        *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH
+                            + xx)];
             }
             else
             {
