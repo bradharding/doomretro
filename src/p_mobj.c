@@ -724,7 +724,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->colfunc = info->colfunc;
     mobj->projectfunc = R_ProjectSprite;
     mobj->blood = info->blood;
-    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && type != MT_PLAYER ?
+    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL ?
         NORM_PITCH + 16 - M_RandomInt(0, 16) : NORM_PITCH);
 
     // set subsector and/or block links
