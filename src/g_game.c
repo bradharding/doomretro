@@ -1255,7 +1255,6 @@ void ST_doRefresh(void);
 
 void G_DoCompleted(void)
 {
-    char        lump[5];
     int         map = (gameepisode - 1) * 10 + gamemap;
     int         nextmap = P_GetMapNext(map);
     int         par = P_GetMapPar(map);
@@ -1403,6 +1402,8 @@ void G_DoCompleted(void)
         wminfo.partime = TICRATE * par;
     else
     {
+        char    lump[5];
+
         // [BH] have no par time if this level is from a PWAD
         if (gamemode == commercial)
             M_snprintf(lump, sizeof(lump), "MAP%02i", gamemap);

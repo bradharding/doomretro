@@ -417,9 +417,7 @@ void WI_drawLF(void)
 {
     int         x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
     int         y = WI_TITLEY;
-    char        name[9];
     int         titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
-
 
     // draw <LevelName>
     if (titlepatch)
@@ -431,6 +429,8 @@ void WI_drawLF(void)
     }
     else
     {
+        char    name[9];
+
         if (gamemode == commercial)
             M_snprintf(name, 9, "CWILV%2.2d", wbs->last);
         else
@@ -457,7 +457,6 @@ void WI_drawEL(void)
 {
     int         x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
     int         y = WI_TITLEY;
-    char        name[9];
     int         titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
 
     // draw "Entering"
@@ -473,6 +472,8 @@ void WI_drawEL(void)
     }
     else
     {
+        char    name[9];
+
         if (gamemode == commercial)
             M_snprintf(name, 9, "CWILV%2.2d", wbs->next);
         else
