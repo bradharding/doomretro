@@ -559,15 +559,12 @@ static void DoBlurScreen(int x1, int y1, int x2, int y2, int i)
 
 static void C_DrawBackground(int height)
 {
-    static dboolean     blurred;
     int                 i, j;
 
     height = (height + 5) * SCREENWIDTH;
 
-    if (!blurred || forceblurredraw)
+    if (forceblurredraw)
     {
-        forceblurredraw = false;
-
         for (i = 0; i < height; ++i)
             c_blurscreen[i] = screens[0][i];
 
@@ -581,7 +578,7 @@ static void C_DrawBackground(int height)
         DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
     }
 
-    blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
+    forceblurredraw = (consoleheight == CONSOLEHEIGHT && !wipe);
 
     for (i = 0; i < height; ++i)
         screens[0][i] = tinttab50[c_blurscreen[i] + consoletintcolor];
