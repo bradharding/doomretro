@@ -1894,7 +1894,7 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
     C_TabbedOutput(tabs, "Damage received\t%s\t%s",
         commify(player->damagereceived), commify(stat_damagereceived));
 
-    C_TabbedOutput(tabs, "Deaths\t-\t%s", commify(stat_deaths));
+    C_TabbedOutput(tabs, "Deaths\t%s\t%s", commify(player->deaths), commify(stat_deaths));
 
     C_TabbedOutput(tabs, "Cheated\t%s\t%s",
         commify(player->cheated), commify(stat_cheated));

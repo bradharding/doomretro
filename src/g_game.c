@@ -589,6 +589,7 @@ void G_DoLoadLevel(void)
     players[0].cheated = 0;
     players[0].shotshit = 0;
     players[0].shotsfired = 0;
+    players[0].deaths = 0;
 
     M_ClearRandom();
 

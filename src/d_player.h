@@ -199,6 +199,7 @@ typedef struct player_s
     int                 cheated;
     int                 shotshit;
     int                 shotsfired;
+    int                 deaths;
 } player_t;
 
 //

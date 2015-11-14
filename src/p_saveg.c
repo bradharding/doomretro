@@ -774,6 +774,9 @@ static void saveg_read_player_t(player_t *str)
 
     // int shotsfired
     str->shotsfired = saveg_read32();
+
+    // int deaths
+    str->deaths = saveg_read32();
 }
 
 static void saveg_write_player_t(player_t *str)
@@ -938,6 +941,9 @@ static void saveg_write_player_t(player_t *str)
 
     // int shotsfired
     saveg_write32(str->shotsfired);
+
+    // int deaths
+    saveg_write32(str->deaths);
 }
 
 //

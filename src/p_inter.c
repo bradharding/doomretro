@@ -943,6 +943,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (target->player == &players[0] && automapactive)
             AM_Stop();          // don't die in auto map, switch view prior to dying
 
+        players[0].deaths++;
         stat_deaths = SafeAdd(stat_deaths, 1);
     }
     else
