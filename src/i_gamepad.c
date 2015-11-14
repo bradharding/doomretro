@@ -86,6 +86,8 @@ void (*gamepadthumbsfunc)(short, short, short, short);
 
 void I_InitGamepad(void)
 {
+    static int  initcount;
+
     gamepadfunc = I_PollDirectInputGamepad;
     gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
         I_PollThumbs_DirectInput_RightHanded);
@@ -121,6 +123,8 @@ void I_InitGamepad(void)
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
                 M_StringCopy(XInputDLL, "XINPUT1_3.DLL", 16);
 
+            ++initcount;
+
             if (pXInputDLL)
             {
                 pXInputGetState = (XINPUTGETSTATE)GetProcAddress(pXInputDLL, "XInputGetState");
@@ -137,13 +141,14 @@ void I_InitGamepad(void)
                         gamepadfunc = I_PollXInputGamepad;
                         gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
                             I_PollThumbs_XInput_RightHanded);
-                        C_Output("XInput gamepad detected. Using %s.", XInputDLL);
+                        if (initcount == 1)
+                            C_Output("XInput gamepad detected. Using %s.", XInputDLL);
                     }
                 }
                 else
                     FreeLibrary(pXInputDLL);
             }
-            else
+            else if (initcount == 1)
                 C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 
             free(XInputDLL);
