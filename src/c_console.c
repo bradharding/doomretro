@@ -1225,10 +1225,7 @@ dboolean C_Responder(event_t *ev)
             // toggle "always run"
             case KEY_CAPSLOCK:
                 if (key_alwaysrun == KEY_CAPSLOCK)
-                {
                     G_ToggleAlwaysRun(ev_keydown);
-                    C_Output("%s.", (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
-                }
                 break;
 
             default:
