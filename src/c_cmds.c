@@ -288,7 +288,7 @@ control_t controls[] =
     { "rightshoulder", gamepadcontrol,  512            }, { "lefttrigger",   gamepadcontrol,  1024           },
     { "righttrigger",  gamepadcontrol,  2048           }, { "gamepad1",      gamepadcontrol,  4096           },
     { "gamepad2",      gamepadcontrol,  8192           }, { "gamepad3",      gamepadcontrol,  16384          },
-    { "gamepad4",      gamepadcontrol,  32768          }, { "",              0,        0              }
+    { "gamepad4",      gamepadcontrol,  32768          }, { "",              0,               0              }
 };
 
 action_t actions[] =

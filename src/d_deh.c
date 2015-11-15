@@ -1715,8 +1715,8 @@ static const deh_bexptr deh_bexptrs[] =
   { A_LineEffect,      "A_LineEffect"      },   // killough 11/98
 
   { A_FireOldBFG,      "A_FireOldBFG"      },   // killough 7/19/98: classic BFG firing function
-  { A_BetaSkullAttack, "A_BetaSkullAttack" },   // killough 10/98: beta lost souls attacked different
-  { A_Stop,            "A_Stop"            },
+  { A_BetaSkullAttack, "A_BetaSkullAttack" },   // killough 10/98: beta lost souls attacked
+  { A_Stop,            "A_Stop"            },   //                 different
 
   // This NULL entry must be the last in the list
   { NULL,              "A_NULL"            }    // Ty 05/16/98
@@ -2044,7 +2044,8 @@ void deh_procThing(DEHFILE *fpin, char *line)
             else
             {
                 // bit set
-                // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
+                // e6y: Correction of wrong processing of Bits parameter if its value is equal to
+                // zero
                 if (bGetData == 1)
                     mobjinfo[indexnum].flags = value;
                 else
@@ -2065,7 +2066,8 @@ void deh_procThing(DEHFILE *fpin, char *line)
                             if (strcasecmp(strval, deh_mobjflags[iy].name))
                                 continue;
                             if (devparm)
-                                C_Output("ORed value 0x%08lx %s.", deh_mobjflags[iy].value, strval);
+                                C_Output("ORed value 0x%08lx %s.", deh_mobjflags[iy].value,
+                                    strval);
 
                             value |= deh_mobjflags[iy].value;
                             break;
@@ -2150,7 +2152,7 @@ void deh_procFrame(DEHFILE *fpin, char *line)
             states[indexnum].nextstate = value;
             states[indexnum].dehacked = dehacked = !BTSX;
         }
-        else if (!strcasecmp(key, deh_state[4]))                // Codep frame (not set in Frame deh block)
+        else if (!strcasecmp(key, deh_state[4]))        // Codep frame (not set in Frame deh block)
             C_Warning("Codep frame should not be set in Frame section.");
         else if (!strcasecmp(key, deh_state[5]))                // Unknown 1
         {
@@ -2284,7 +2286,7 @@ void deh_procSounds(DEHFILE *fpin, char *line)
             continue;
         }
         if (!strcasecmp(key, deh_sfxinfo[0]))           // Offset
-            /* nop */;                                  // we don't know what this is, I don't think
+            /* nop */;                          // we don't know what this is, I don't think
         else if (!strcasecmp(key, deh_sfxinfo[1]))      // Zero/One
             S_sfx[indexnum].singularity = value;
         else if (!strcasecmp(key, deh_sfxinfo[2]))      // Value
