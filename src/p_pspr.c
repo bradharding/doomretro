@@ -791,7 +791,8 @@ void A_Light2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int i;
+    int         i;
+    mobj_t      *mo = actor->target;
 
     // offset angles from its attack angle
     for (i = 0; i < 40; i++)
@@ -800,9 +801,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         int     damage = 0;
         angle_t an = actor->angle - ANG90 / 2 + ANG90 / 40 * i;
 
-        // mo->target is the originator (player)
-        //  of the missile
-        P_AimLineAttack(actor->target, an, 16 * 64 * FRACUNIT);
+        P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
 
         if (!linetarget)
             continue;
@@ -815,13 +814,13 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         for (j = 0; j < 15; j++)
             damage += (P_Random() & 7) + 1;
 
-        P_DamageMobj(linetarget, actor->target, actor->target, damage);
+        P_DamageMobj(linetarget, mo, mo, damage);
     }
 
     if (successfulshot)
     {
         successfulshot = false;
-        player->shotshit++;
+        mo->player->shotshit++;
         stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
 }
