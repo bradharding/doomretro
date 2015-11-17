@@ -107,6 +107,11 @@ extern DECLSPEC const char *SDLCALL SDL_JoystickNameForIndex(int device_index);
 extern DECLSPEC SDL_Joystick *SDLCALL SDL_JoystickOpen(int device_index);
 
 /**
+ * Return the SDL_Joystick associated with an instance id.
+ */
+extern DECLSPEC SDL_Joystick *SDLCALL SDL_JoystickFromInstanceID(SDL_JoystickID joyid);
+
+/**
  *  Return the name for this currently opened joystick.
  *  If no name can be found, this function returns NULL.
  */
@@ -253,10 +258,9 @@ extern DECLSPEC Uint8 SDLCALL SDL_JoystickGetButton(SDL_Joystick * joystick,
 extern DECLSPEC void SDLCALL SDL_JoystickClose(SDL_Joystick * joystick);
 
 /**
-*  Return the battery level of this joystick
-*/
+ *  Return the battery level of this joystick
+ */
 extern DECLSPEC SDL_JoystickPowerLevel SDLCALL SDL_JoystickCurrentPowerLevel(SDL_Joystick * joystick);
-
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
