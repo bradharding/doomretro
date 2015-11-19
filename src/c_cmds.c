@@ -1847,7 +1847,7 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int         tabs[8] = { 140, 250, 0, 0, 0, 0, 0, 0 };
+    int         tabs[8] = { 160, 270, 0, 0, 0, 0, 0, 0 };
     int         time1 = leveltime / TICRATE;
     int         time2 = stat_time / TICRATE;
     player_t    *player = &players[0];
@@ -1874,6 +1874,63 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
     C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t%s",
         commify(player->killcount), commify(totalkills),
         (totalkills ? player->killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
+
+    if (gamemode == commercial)
+        C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_BABY].plural1),
+            commify(player->mobjcount[MT_BABY]));
+
+    if (gamemode == commercial)
+        C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_VILE].plural1),
+            commify(player->mobjcount[MT_VILE]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_BRUISER].plural1),
+        commify(player->mobjcount[MT_BRUISER]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_HEAD].plural1),
+        commify(player->mobjcount[MT_HEAD]));
+
+    if (gamemode == commercial)
+        C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_CHAINGUY].plural1),
+            commify(player->mobjcount[MT_CHAINGUY]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_CYBORG].plural1),
+        commify(player->mobjcount[MT_CYBORG]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_SERGEANT].plural1),
+        commify(player->mobjcount[MT_SERGEANT]));
+
+    if (gamemode == commercial)
+        C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_KNIGHT].plural1),
+            commify(player->mobjcount[MT_KNIGHT]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_TROOP].plural1),
+        commify(player->mobjcount[MT_TROOP]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_SKULL].plural1),
+        commify(player->mobjcount[MT_SKULL]));
+
+    if (gamemode == commercial)
+        C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_FATSO].plural1),
+            commify(player->mobjcount[MT_FATSO]));
+
+    if (gamemode == commercial)
+        C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_PAIN].plural1),
+            commify(player->mobjcount[MT_PAIN]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_UNDEAD].plural1),
+        commify(player->mobjcount[MT_UNDEAD]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_SHOTGUY].plural1),
+        commify(player->mobjcount[MT_SHOTGUY]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_SHADOWS].plural1),
+        commify(player->mobjcount[MT_SHADOWS]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_SPIDER].plural1),
+        commify(player->mobjcount[MT_SPIDER]));
+
+    C_TabbedOutput(tabs, "   %s\t%s\t-", titlecase(mobjinfo[MT_POSSESSED].plural1),
+        commify(player->mobjcount[MT_POSSESSED]));
 
     C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)\t%s",
         commify(player->itemcount), commify(totalitems),

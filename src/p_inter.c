@@ -921,6 +921,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         {
             source->player->killcount++;
             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+            source->player->mobjcount[type]++;
         }
     }
     else if (target->flags & MF_COUNTKILL)
@@ -928,6 +929,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         // count all monster deaths, even those caused by other monsters
         players[0].killcount++;
         stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+        players[0].mobjcount[type]++;
     }
 
     if (type == MT_BARREL && source && source->player)
