@@ -120,8 +120,11 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         if (state == S_NULL)
         {
             mobj->state = (state_t *)S_NULL;
+
+            // [BH] Remove mobj's shadow if it has one
             if (shadow)
                 P_RemoveMobjShadow(mobj);
+
             P_RemoveMobj(mobj);
             ret = false;
             break;                                              // killough 4/9/98
@@ -147,6 +150,7 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         for (; (state = seenstate[i]); i = state - 1)
             seenstate[i] = 0;                           // killough 4/9/98: erase memory of states
 
+    // [BH] Use same sprite frame for shadow as mobj
     if (ret && shadow)
     {
         shadow->sprite = mobj->sprite;
@@ -170,6 +174,7 @@ void P_ExplodeMissile(mobj_t *mo)
 
     mo->flags &= ~MF_MISSILE;
 
+    // [BH] make explosion translucent, remove shadow
     if (mo->type == MT_ROCKET)
     {
         mo->colfunc = tlcolfunc;
@@ -212,6 +217,7 @@ void P_XYMovement(mobj_t *mo)
 
     player = mo->player;
 
+    // [BH] give smoke trails to rockets
     if (flags2 & MF2_SMOKETRAIL)
         if (puffcount++ > 1)
             P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
@@ -294,8 +300,10 @@ void P_XYMovement(mobj_t *mo)
                     // against the sky.
                     // Does not handle sky floors.
                     if (type == MT_BFG)
+                        // [BH] still play sound when firing BFG into sky
                         S_StartSound(mo, mo->info->deathsound);
                     else if (type == MT_ROCKET && mo->shadow)
+                        // [BH] remove shadow from rockets
                         P_RemoveMobjShadow(mo);
                     P_RemoveMobj(mo);
                     return;
@@ -313,6 +321,7 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
+    // [BH] spawn random blood splats on floor as corpses slide
     if (corpse && !(flags & MF_NOBLOOD) && r_corpses_slide && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
@@ -363,6 +372,7 @@ void P_XYMovement(mobj_t *mo)
     }
     else if ((flags2 & MF2_FEETARECLIPPED) && corpse && !player)
     {
+        // [BH] reduce friction for corpses in water
         mo->momx = FixedMul(mo->momx, WATERFRICTION);
         mo->momy = FixedMul(mo->momy, WATERFRICTION);
     }
@@ -505,6 +515,7 @@ void P_NightmareRespawn(mobj_t *mobj)
     mobj_t      *mo;
     mapthing_t  *mthing = &mobj->spawnpoint;
 
+    // [BH] Fix (0,0) respawning bug. See <http://doomwiki.org/wiki/(0,0)_respawning_bug>.
     if (!x && !y)
     {
         x = mobj->x;
@@ -595,16 +606,22 @@ void P_MobjThinker(mobj_t *mobj)
             return;             // mobj was removed
     }
 
+    // [BH] don't clip sprite if no longer in liquid
     if (!isliquid[sector->floorpic])
         mobj->flags2 &= ~MF2_FEETARECLIPPED;
+
     flags2 = mobj->flags2;
 
+    // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB)
         && mobj->z <= sector->floorheight && !mobj->momz && r_liquid_bob)
         mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
+
+    // [BH] otherwise bob certain powerups
     else if ((flags2 & MF2_FLOATBOB) && r_floatbob)
         mobj->z = BETWEEN(mobj->floorz, mobj->z + floatbobdiffs[(mobj->floatbob + leveltime) & 63],
             mobj->ceilingz);
+
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
         if (flags2 & MF2_PASSMOBJ)
@@ -708,6 +725,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // because action routines cannot be called yet
     st = &states[info->spawnstate];
 
+    // [BH] initialize certain mobj's animations to random start frame
+    // so groups of same mobjs are deliberately out of sync
     if (info->frames > 1)
     {
         int     frames = M_RandomInt(0, info->frames);
@@ -724,6 +743,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->colfunc = info->colfunc;
     mobj->projectfunc = R_ProjectSprite;
     mobj->blood = info->blood;
+
+    // [BH] set random pitch for monster sounds when spawned
     mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL ?
         NORM_PITCH + 16 - M_RandomInt(0, 16) : NORM_PITCH);
 
@@ -735,6 +756,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->floorz = sector->floorheight;
     mobj->ceilingz = sector->ceilingheight;
 
+    // [BH] initialize bobbing powerups
     if (r_floatbob)
         mobj->floatbob = P_Random();
 
@@ -753,6 +775,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function = P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
+    // [BH] spawn the mobj's shadow
     if (mobj->flags2 & MF2_SHADOW)
         P_SpawnShadow(mobj);
 
@@ -787,6 +810,10 @@ void P_RemoveMobj(mobj_t *mobj)
     P_RemoveThinker((thinker_t *)mobj);
 }
 
+//
+// P_RemoveMobjShadow
+// [BH] Remove the shadow of a mobj
+//
 void P_RemoveMobjShadow(mobj_t *mobj)
 {
     // unlink from sector and block lists
@@ -804,7 +831,6 @@ void P_RemoveMobjShadow(mobj_t *mobj)
 
 //
 // P_FindDoomedNum
-//
 // Finds a mobj type with a matching doomednum
 // killough 8/24/98: rewrote to use hashing
 //
@@ -894,6 +920,10 @@ void P_SpawnPlayer(const mapthing_t *mthing)
     HU_Start(); // wake up the heads up text
 }
 
+//
+// P_SpawnMoreBlood
+// [BH] Spawn blood splats around corpses
+//
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
     int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1)
@@ -971,6 +1001,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 
     if (i == NUMMOBJTYPES)
     {
+        // [BH] make unknown thing type non-fatal and show console warning instead
         C_Warning("Thing %i at (%i,%i) has an unknown type of %i.",
             index, mthing->x, mthing->y, type);
         return;
@@ -1009,6 +1040,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     if (mobj->shadow)
         mobj->shadow->angle = mobj->angle;
 
+    // [BH] randomly mirror corpses
     if ((flags & MF_CORPSE) && r_corpses_mirrored)
     {
         static int      prev;
@@ -1025,10 +1057,12 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
             prev++;
     }
 
+    // [BH] randomly mirror weapons
     if (r_mirroredweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000))
         && (rand() & 1))
         mobj->flags2 |= MF2_MIRRORED;
 
+    // [BH] Spawn blood splats around corpses
     if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD)) && mobj->blood && !chex && r_bloodsplats_max)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
@@ -1067,10 +1101,13 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, dboolean sound)
     if (attackrange == MELEERANGE)
     {
         P_SetMobjState(th, S_PUFF3);
+
         if (sound)
         {
+            // [BH] but still make a sound
             S_StartSound(th, sfx_punch);
 
+            // [BH] vibrate XInput gamepads
             if (gp_vibrate && vibrate)
             {
                 int motorspeed = weaponinfo[wp_fist].motorspeed;
@@ -1084,6 +1121,9 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, dboolean sound)
     }
 }
 
+//
+// P_SpawnSmokeTrail
+//
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
     mobj_t      *th = P_SpawnMobj(x, y, z + ((P_Random() - P_Random()) << 10), MT_TRAIL);
@@ -1098,6 +1138,7 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
 //
 // P_SpawnBlood
+// [BH] spawn much more blood than Vanilla DOOM
 //
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
