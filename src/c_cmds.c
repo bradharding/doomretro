@@ -479,7 +479,7 @@ consolecmd_t consolecmds[] =
     CMD       (noclip, game_func1, noclip_cmd_func2, 1, "[on|off]", "Toggles collision detection for the player."),
     CMD       (nomonsters, null_func1, nomonsters_cmd_func2, 1, "[on|off]", "Toggles the presence of monsters in maps."),
     CMD       (notarget, game_func1, notarget_cmd_func2, 1, "[on|off]", "Toggles the player as a target."),
-    CMD       (playerstats, game_func1, playerstats_cmd_func2, 0, "", "Shows statistics about the player."),
+    CMD       (playerstats, null_func1, playerstats_cmd_func2, 0, "", "Shows statistics about the player."),
     CMD       (quit, null_func1, quit_cmd_func2, 0, "", "Quits ~"PACKAGE_NAME"~."),
     CMD       (resurrect, resurrect_cmd_func1, resurrect_cmd_func2, 0, "", "Resurrects the player."),
     CMD       (save, save_cmd_func1, save_cmd_func2, 1, "~filename~.save", "Saves the game to a file."),
@@ -1842,10 +1842,7 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         HU_PlayerMessage(s_STSTR_NTOFF, false);
 }
 
-//
-// playerstats cmd
-//
-static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+static void C_PlayerStats_Game(void)
 {
     int         tabs[8] = { 160, 270, 0, 0, 0, 0, 0, 0 };
     int         time1 = leveltime / TICRATE;
@@ -1964,8 +1961,51 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
 
     C_TabbedOutput(tabs, "Weapon accuracy\t%s%%\t%s%%",
         (player->shotsfired ? striptrailingzero(player->shotshit * 100.0f / player->shotsfired,
-        1) : "0"), (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired,
-        1) : "0"));
+            1) : "0"), (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired,
+                1) : "0"));
+}
+
+static void C_PlayerStats_NoGame(void)
+{
+    int         tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
+    int         time2 = stat_time / TICRATE;
+
+    C_TabbedOutput(tabs, "\t~Total~");
+
+    C_TabbedOutput(tabs, "Monsters killed\t%s", commify(stat_monsterskilled));
+
+    C_TabbedOutput(tabs, "Items picked up\t%s", commify(stat_itemspickedup));
+
+    C_TabbedOutput(tabs, "Secrets revealed\t%s", commify(stat_secretsrevealed));
+
+    C_TabbedOutput(tabs, "Time\t%02i:%02i:%02i",
+        time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
+
+    C_TabbedOutput(tabs, "Damage inflicted\t%s", commify(stat_damageinflicted));
+
+    C_TabbedOutput(tabs, "Damage received\t%s", commify(stat_damagereceived));
+
+    C_TabbedOutput(tabs, "Deaths\t%s", commify(stat_deaths));
+
+    C_TabbedOutput(tabs, "Cheated\t%s", commify(stat_cheated));
+
+    C_TabbedOutput(tabs, "Shots fired\t%s", commify(stat_shotsfired));
+
+    C_TabbedOutput(tabs, "Shots hit\t%s", commify(stat_shotshit));
+
+    C_TabbedOutput(tabs, "Weapon accuracy\t%s%%",
+        (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
+}
+
+//
+// playerstats cmd
+//
+static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (gamestate == GS_LEVEL)
+        C_PlayerStats_Game();
+    else
+        C_PlayerStats_NoGame();
 }
 
 //
