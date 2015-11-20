@@ -1565,7 +1565,7 @@ hitline:
         }
 
         // Spawn bullet puffs.
-        P_SpawnPuff(x, y, z, shootangle, true);
+        P_SpawnPuff(x, y, z, shootangle);
 
         // don't go any farther
         return false;
@@ -1602,13 +1602,13 @@ hitline:
     // Spawn bullet puffs or blood spots,
     // depending on target type.
     if (th->flags & MF_NOBLOOD)
-        P_SpawnPuff(x, y, z, shootangle, true);
+        P_SpawnPuff(x, y, z, shootangle);
     else
     {
         mobjtype_t type = th->type;
 
         if (type == MT_SKULL)
-            P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle, true);
+            P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
         else if (r_blood != noblood)
         {
             if (type != MT_PLAYER)

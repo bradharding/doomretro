@@ -132,7 +132,7 @@ void P_RemoveMobjShadow(mobj_t *th);
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
 
-void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, dboolean sound);
+void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target);

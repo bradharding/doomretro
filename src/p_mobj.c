@@ -1086,7 +1086,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 extern fixed_t  attackrange;
 extern angle_t  shootangle;
 
-void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, dboolean sound)
+void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
     mobj_t      *th = P_SpawnMobj(x, y, z + ((P_Random() - P_Random()) << 10), MT_PUFF);
 
@@ -1102,21 +1102,18 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, dboolean sound)
     {
         P_SetMobjState(th, S_PUFF3);
 
-        if (sound)
+        // [BH] but still make a sound
+        S_StartSound(th, sfx_punch);
+
+        // [BH] vibrate XInput gamepads
+        if (gp_vibrate && vibrate)
         {
-            // [BH] but still make a sound
-            S_StartSound(th, sfx_punch);
+            int motorspeed = weaponinfo[wp_fist].motorspeed;
 
-            // [BH] vibrate XInput gamepads
-            if (gp_vibrate && vibrate)
-            {
-                int motorspeed = weaponinfo[wp_fist].motorspeed;
-
-                if (players[0].powers[pw_strength])
-                    motorspeed *= 2;
-                XInputVibration(motorspeed);
-                weaponvibrationtics = weaponinfo[wp_fist].tics;
-            }
+            if (players[0].powers[pw_strength])
+                motorspeed *= 2;
+            XInputVibration(motorspeed);
+            weaponvibrationtics = weaponinfo[wp_fist].tics;
         }
     }
 }
