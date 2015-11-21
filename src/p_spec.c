@@ -388,7 +388,7 @@ fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 {
     int         i;
     sector_t    *other;
-    fixed_t     floor = -32000 << FRACBITS;
+    fixed_t     floor = -32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight > floor)
@@ -524,7 +524,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 {
     int         i;
     sector_t    *other;
-    fixed_t     height = -32000 << FRACBITS;
+    fixed_t     height = -32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight > height)
