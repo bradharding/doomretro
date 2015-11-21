@@ -100,9 +100,26 @@ dboolean        r_mirroredweapons = r_mirroredweapons_default;
 
 unsigned int    stat_damageinflicted = 0;
 unsigned int    stat_damagereceived = 0;
-unsigned int    stat_itemspickedup = 0;
-unsigned int    stat_monsterskilled = 0;
 unsigned int    stat_deaths = 0;
+unsigned int    stat_monsterskilled = 0;
+unsigned int    stat_monsterskilled_arachnotrons = 0;
+unsigned int    stat_monsterskilled_archviles = 0;
+unsigned int    stat_monsterskilled_baronsofhell = 0;
+unsigned int    stat_monsterskilled_cacodemons = 0;
+unsigned int    stat_monsterskilled_cyberdemons = 0;
+unsigned int    stat_monsterskilled_demons = 0;
+unsigned int    stat_monsterskilled_heavyweapondudes = 0;
+unsigned int    stat_monsterskilled_hellknights = 0;
+unsigned int    stat_monsterskilled_imps = 0;
+unsigned int    stat_monsterskilled_lostsouls = 0;
+unsigned int    stat_monsterskilled_mancubi = 0;
+unsigned int    stat_monsterskilled_painelementals = 0;
+unsigned int    stat_monsterskilled_revenants = 0;
+unsigned int    stat_monsterskilled_shotgunguys = 0;
+unsigned int    stat_monsterskilled_spectres = 0;
+unsigned int    stat_monsterskilled_spidermasterminds = 0;
+unsigned int    stat_monsterskilled_zombiemen = 0;
+unsigned int    stat_itemspickedup = 0;
 
 extern char     *playername;
 
@@ -870,6 +887,70 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 }
 
 //
+// P_ChangeKillStat
+//
+void P_ChangeKillStat(mobjtype_t type, unsigned int value)
+{
+    switch (type)
+    {
+        case MT_BABY:
+            stat_monsterskilled_arachnotrons = SafeAdd(stat_monsterskilled_arachnotrons, value);
+            break;
+        case MT_VILE:
+            stat_monsterskilled_archviles = SafeAdd(stat_monsterskilled_archviles, value);
+            break;
+        case MT_BRUISER:
+            stat_monsterskilled_baronsofhell = SafeAdd(stat_monsterskilled_baronsofhell, value);
+            break;
+        case MT_HEAD:
+            stat_monsterskilled_cacodemons = SafeAdd(stat_monsterskilled_cacodemons, value);
+            break;
+        case MT_CYBORG:
+            stat_monsterskilled_cyberdemons = SafeAdd(stat_monsterskilled_cyberdemons, value);
+            break;
+        case MT_SERGEANT:
+            stat_monsterskilled_demons = SafeAdd(stat_monsterskilled_demons, value);
+            break;
+        case MT_CHAINGUY:
+            stat_monsterskilled_heavyweapondudes = SafeAdd(stat_monsterskilled_heavyweapondudes,
+                value);
+            break;
+        case MT_KNIGHT:
+            stat_monsterskilled_hellknights = SafeAdd(stat_monsterskilled_hellknights, value);
+            break;
+        case MT_TROOP:
+            stat_monsterskilled_imps = SafeAdd(stat_monsterskilled_imps, value);
+            break;
+        case MT_SKULL:
+            stat_monsterskilled_lostsouls = SafeAdd(stat_monsterskilled_lostsouls, value);
+            break;
+        case MT_FATSO:
+            stat_monsterskilled_mancubi = SafeAdd(stat_monsterskilled_mancubi, value);
+            break;
+        case MT_PAIN:
+            stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals,
+                value);
+            break;
+        case MT_UNDEAD:
+            stat_monsterskilled_revenants = SafeAdd(stat_monsterskilled_revenants, value);
+            break;
+        case MT_SHOTGUY:
+            stat_monsterskilled_shotgunguys = SafeAdd(stat_monsterskilled_shotgunguys, value);
+            break;
+        case MT_SHADOWS:
+            stat_monsterskilled_spectres = SafeAdd(stat_monsterskilled_spectres, value);
+            break;
+        case MT_SPIDER:
+            stat_monsterskilled_spidermasterminds = SafeAdd(stat_monsterskilled_spidermasterminds,
+                value);
+            break;
+        case MT_POSSESSED:
+            stat_monsterskilled_zombiemen = SafeAdd(stat_monsterskilled_zombiemen, value);
+            break;
+    }
+}
+
+//
 // P_KillMobj
 //
 void P_KillMobj(mobj_t *source, mobj_t *target)
@@ -920,16 +1001,18 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (target->flags & MF_COUNTKILL)
         {
             source->player->killcount++;
-            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
             source->player->mobjcount[type]++;
+            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+            P_ChangeKillStat(type, 1);
         }
     }
     else if (target->flags & MF_COUNTKILL)
     {
         // count all monster deaths, even those caused by other monsters
         players[0].killcount++;
-        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
         players[0].mobjcount[type]++;
+        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+        P_ChangeKillStat(type, 1);
     }
 
     if (type == MT_BARREL && source && source->player)
