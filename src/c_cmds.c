@@ -426,7 +426,7 @@ static void vid_windowsize_cvar_func2(char *, char *, char *, char *);
 
 void C_Bind(char *, char *, char *, char *);
 
-static int C_LookupValueFromAlias(char *text, int aliastype)
+static int C_LookupValueFromAlias(const char *text, int aliastype)
 {
     int i = 0;
 
@@ -439,7 +439,7 @@ static int C_LookupValueFromAlias(char *text, int aliastype)
     return -1;
 }
 
-static char *C_LookupAliasFromValue(int value, int aliastype)
+static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
 {
     int i = 0;
 
@@ -1283,7 +1283,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             A_Fall(thing, NULL, NULL);
                             P_SetMobjState(thing, S_PAIN_DIE6);
                             players[0].killcount++;
-                            stat_monsterskilled++;
+                            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                             kills++;
                         }
                         else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER
@@ -1316,8 +1316,8 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
         else
         {
-            int type = P_FindDoomedNum(killcmdtype);
-            int dead = 0;
+            mobjtype_t  type = P_FindDoomedNum(killcmdtype);
+            int         dead = 0;
 
             for (i = 0; i < numsectors; ++i)
             {
@@ -1333,7 +1333,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                                 A_Fall(thing, NULL, NULL);
                                 P_SetMobjState(thing, S_PAIN_DIE6);
                                 players[0].killcount++;
-                                stat_monsterskilled++;
+                                stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                                 kills++;
                             }
                             else
@@ -1696,7 +1696,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
         if (author[0])
             C_TabbedOutput(tabs, "Author\t%s", author);
-        else if (canmodify && authors[i][gamemission])
+        else if (canmodify && authors[i][gamemission][0])
             C_TabbedOutput(tabs, "Author\t%s", authors[i][gamemission]);
     }
 
@@ -1741,12 +1741,16 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         C_TabbedOutput(tabs, "Blockmap\tRecreated");
 
     {
-        int i, min_x = INT_MAX, max_x = INT_MIN, min_y = INT_MAX, max_y = INT_MIN;
+        int     i;
+        int     min_x = INT_MAX;
+        int     max_x = INT_MIN;
+        int     min_y = INT_MAX;
+        int     max_y = INT_MIN;
 
         for (i = 0; i < numvertexes; ++i)
         {
-            fixed_t x = vertexes[i].x;
-            fixed_t y = vertexes[i].y;
+            fixed_t     x = vertexes[i].x;
+            fixed_t     y = vertexes[i].y;
 
             if (x < min_x)
                 min_x = x;

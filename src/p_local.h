@@ -125,7 +125,7 @@ extern dboolean                 r_corpses_smearblood;
 void P_InitCards(player_t *player);
 
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
-int P_FindDoomedNum(unsigned int type);
+mobjtype_t P_FindDoomedNum(unsigned int type);
 
 void P_RemoveMobj(mobj_t *th);
 void P_RemoveMobjShadow(mobj_t *th);

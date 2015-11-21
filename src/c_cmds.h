@@ -92,7 +92,7 @@ typedef struct
     void                (*func2)(char *cmd, char *parm1, char *parm2, char *parm3);
     int                 parameters;
     cmdtype_t           type;
-    cmdflags_t          flags;
+    int                 flags;
     void                *variable;
     int                 aliases;
     int                 minimumvalue;

@@ -2124,44 +2124,44 @@ void deh_procFrame(DEHFILE *fpin, char *line)
             C_Warning("Bad data pair in \"%s\".", inbuffer);
             continue;
         }
-        if (M_StringCompare(key, deh_state[0]))                     // Sprite number
+        if (M_StringCompare(key, deh_state[0]))                 // Sprite number
         {
             if (devparm)
                 C_Output(" - sprite = %ld", value);
             states[indexnum].sprite = (spritenum_t)value;
             states[indexnum].dehacked = dehacked = !BTSX;
         }
-        else if (M_StringCompare(key, deh_state[1]))                // Sprite subnumber
+        else if (M_StringCompare(key, deh_state[1]))            // Sprite subnumber
         {
             if (devparm)
                 C_Output(" - frame = %ld", value);
             states[indexnum].frame = value;                     // long
             states[indexnum].dehacked = dehacked = !BTSX;
         }
-        else if (M_StringCompare(key, deh_state[2]))                // Duration
+        else if (M_StringCompare(key, deh_state[2]))            // Duration
         {
             if (devparm)
                 C_Output(" - tics = %ld", value);
             states[indexnum].tics = value;                      // long
             states[indexnum].dehacked = dehacked = !BTSX;
         }
-        else if (M_StringCompare(key, deh_state[3]))                // Next frame
+        else if (M_StringCompare(key, deh_state[3]))            // Next frame
         {
             if (devparm)
                 C_Output(" - nextstate = %ld", value);
             states[indexnum].nextstate = value;
             states[indexnum].dehacked = dehacked = !BTSX;
         }
-        else if (M_StringCompare(key, deh_state[4]))        // Codep frame (not set in Frame deh block)
+        else if (M_StringCompare(key, deh_state[4]))    // Codep frame (not set in Frame deh block)
             C_Warning("Codep frame should not be set in Frame section.");
-        else if (M_StringCompare(key, deh_state[5]))                // Unknown 1
+        else if (M_StringCompare(key, deh_state[5]))            // Unknown 1
         {
             if (devparm)
                 C_Output(" - misc1 = %ld", value);
             states[indexnum].misc1 = value;                     // long
             states[indexnum].dehacked = dehacked = !BTSX;
         }
-        else if (M_StringCompare(key, deh_state[6]))                // Unknown 2
+        else if (M_StringCompare(key, deh_state[6]))            // Unknown 2
         {
             if (devparm)
                 C_Output(" - misc2 = %ld", value);
