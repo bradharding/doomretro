@@ -424,8 +424,6 @@ void R_DrawPlanes(void)
                         flip = 0;                       // DOOM flips it
                     }
 
-                    dc_iscale = pspriteiscale;
-
                     // Sky is always drawn full bright,
                     //  i.e. colormaps[0] is used.
                     // Because of this hack, sky is not affected

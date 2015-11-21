@@ -1138,12 +1138,12 @@ dboolean C_Responder(event_t *ev)
                             && consolecmds[autocomplete].type != CT_CHEAT
                             && consolecmds[autocomplete].description[0])
                         {
+                            int length = strlen(consoleinput);
+
                             M_StringCopy(consoleinput, consolecmds[autocomplete].name,
                                 sizeof(consoleinput));
-                            if (consolecmds[autocomplete].parameters)
+                            if (consolecmds[autocomplete].parameters && length < 255)
                             {
-                                int     length = strlen(consoleinput);
-
                                 consoleinput[length] = ' ';
                                 consoleinput[length + 1] = '\0';
                             }
@@ -1320,7 +1320,8 @@ dboolean C_Responder(event_t *ev)
                         else
                         {
                             // insert a character
-                            consoleinput[strlen(consoleinput) + 1] = '\0';
+                            if (strlen(consoleinput) < 255)
+                                consoleinput[strlen(consoleinput) + 1] = '\0';
                             for (i = strlen(consoleinput); i > caretpos; --i)
                                 consoleinput[i] = consoleinput[i - 1];
                             consoleinput[caretpos++] = ch;

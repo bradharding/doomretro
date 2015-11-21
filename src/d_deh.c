@@ -3078,7 +3078,6 @@ dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
                 char    *s;
 
                 for (s = *deh_strlookup[i].ppstr; *s; ++s, ++t)
-                {
                     if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))     // found one
                     {
                         ++s;
@@ -3086,24 +3085,17 @@ dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
                     }
                     else
                         *t = *s;
-                }
                 *t = '\0';              // cap off the target string
             }
 
-            if (key)
-                if (devparm)
+            if (devparm)
+                if (key)
                     C_Output("Assigned key %s to \"%s\"", key, newstring);
-
-            if (!key)
-                if (devparm)
-                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s",
-                        lookfor, (strlen(lookfor) > 12 ? "..." : ""),
-                        newstring, (strlen(newstring) > 12 ? "..." : ""),
-                        deh_strlookup[i].lookup);
-
-            if (!key)   // must have passed an old style string so show BEX
-                if (devparm)
+                else
                 {
+                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor,
+                        (strlen(lookfor) > 12 ? "..." : ""), newstring,
+                        (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
                     C_Output("*BEX FORMAT:");
                     C_Output("%s = %s", deh_strlookup[i].lookup, dehReformatStr(newstring));
                     C_Output("*END BEX");

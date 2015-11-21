@@ -454,8 +454,8 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 
 fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 {
-    sector_t *other;
-    int i;
+    int         i;
+    sector_t    *other;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) &&
@@ -484,8 +484,8 @@ fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 
 fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight)
 {
-    sector_t *other;
-    int i;
+    int         i;
+    sector_t    *other;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) &&
@@ -509,7 +509,7 @@ fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 {
     int         i;
     sector_t    *other;
-    fixed_t     height = 32000 << FRACBITS;
+    fixed_t     height = 32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight < height)
@@ -547,7 +547,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 fixed_t P_FindShortestTextureAround(int secnum)
 {
     const sector_t      *sec = &sectors[secnum];
-    int                 i, minsize = 32000 << FRACBITS;
+    int                 i, minsize = 32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if (twoSided(secnum, i))
@@ -580,7 +580,7 @@ fixed_t P_FindShortestTextureAround(int secnum)
 fixed_t P_FindShortestUpperAround(int secnum)
 {
     const sector_t      *sec = &sectors[secnum];
-    int                 i, minsize = 32000 << FRACBITS;
+    int                 i, minsize = 32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if (twoSided(secnum, i))

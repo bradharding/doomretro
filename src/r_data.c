@@ -819,14 +819,11 @@ void R_InitTextures(void)
         i = 0;
         while (fullbright[i].colormask)
         {
-            if (fullbright[i].texture)
-            {
-                int num = R_CheckTextureNumForName(fullbright[i].texture);
+            int num = R_CheckTextureNumForName(fullbright[i].texture);
 
-                if (num != -1)
-                    texturefullbright[num] = fullbright[i].colormask;
-                i++;
-            }
+            if (num != -1)
+                texturefullbright[num] = fullbright[i].colormask;
+            i++;
         }
     }
 
