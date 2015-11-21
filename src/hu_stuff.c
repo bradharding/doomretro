@@ -393,8 +393,7 @@ static void HU_DrawHUD(void)
         static int          ammowait;
         static dboolean     ammoanim;
 
-        tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN || gamepaused ?
-            tinttab66 : tinttab25);
+        tinttab = (ammoanim || gamepaused ? tinttab66 : tinttab25);
 
         patch = ammopic[ammotype].patch;
         if (patch)
