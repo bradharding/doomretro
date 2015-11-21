@@ -936,7 +936,7 @@ void GetWindowPosition(void)
 {
     int x = 0, y = 0;
 
-    if (!strcasecmp(vid_windowposition, vid_windowposition_centered))
+    if (M_StringCompare(vid_windowposition, vid_windowposition_centered))
     {
         windowx = 0;
         windowy = 0;
@@ -1007,7 +1007,7 @@ dboolean ValidScreenMode(int width, int height)
 
 void GetScreenResolution(void)
 {
-    if (!strcasecmp(vid_screenresolution, "desktop"))
+    if (M_StringCompare(vid_screenresolution, "desktop"))
     {
         screenwidth = 0;
         screenheight = 0;
@@ -1149,12 +1149,12 @@ static void SetVideoMode(dboolean output)
     if (vid_vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
-    if (!strcasecmp(vid_scalefilter, vid_scalefilter_nearest_linear))
+    if (M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         nearestlinear = true;
     else
     {
-        if (strcasecmp(vid_scalefilter, vid_scalefilter_linear)
-            && strcasecmp(vid_scalefilter, vid_scalefilter_nearest))
+        if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
+            && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest))
         {
             vid_scalefilter = vid_scalefilter_default;
             nearestlinear = true;
@@ -1259,12 +1259,12 @@ static void SetVideoMode(dboolean output)
         wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
 
         SDL_GetRendererInfo(renderer, &rendererinfo);
-        if (!strcasecmp(rendererinfo.name, vid_scaledriver_direct3d))
+        if (M_StringCompare(rendererinfo.name, vid_scaledriver_direct3d))
             C_Output("The screen is rendered using hardware acceleration with the Direct3D 9 "
                 "API.");
-        else if (!strcasecmp(rendererinfo.name, vid_scaledriver_opengl))
+        else if (M_StringCompare(rendererinfo.name, vid_scaledriver_opengl))
             C_Output("The screen is rendered using hardware acceleration with the OpenGL API.");
-        else if (!strcasecmp(rendererinfo.name, vid_scaledriver_software))
+        else if (M_StringCompare(rendererinfo.name, vid_scaledriver_software))
             C_Output("The screen is rendered in software.");
 
         if (nearestlinear)
@@ -1274,7 +1274,7 @@ static void SetVideoMode(dboolean output)
                 upscaledheight * SCREENHEIGHT);
             C_Output("    and then down to %ix%i using linear filtering.", height * 4 / 3, height);
         }
-        else if (!strcasecmp(vid_scalefilter, vid_scalefilter_linear))
+        else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear))
             C_Output("The %ix%i screen is scaled up to %ix%i using linear filtering.", SCREENWIDTH,
                 SCREENHEIGHT, height * 4 / 3, height);
         else
@@ -1297,7 +1297,7 @@ static void SetVideoMode(dboolean output)
             {
                 if (vid_vsync)
                 {
-                    if (!strcasecmp(rendererinfo.name, "software"))
+                    if (M_StringCompare(rendererinfo.name, "software"))
                         C_Warning("Vertical synchronization can't be enabled in software.");
                     else
                         C_Warning("Vertical synchronization can't be enabled.");

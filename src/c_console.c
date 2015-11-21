@@ -265,7 +265,7 @@ void C_Warning(char *string, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings && strcasecmp(console[consolestrings - 1].string, buffer))
+    if (consolestrings && !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
@@ -287,7 +287,7 @@ void C_PlayerMessage(char *string, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings && !strcasecmp(console[consolestrings - 1].string, buffer))
+    if (consolestrings && M_StringCompare(console[consolestrings - 1].string, buffer))
     {
         M_snprintf(buffer, sizeof(buffer), "%s (2)", console[consolestrings - 1].string);
         console[consolestrings - 1].string = strdup(buffer);
@@ -334,7 +334,7 @@ static void C_AddToUndoHistory(void)
 
 void C_AddConsoleDivider(void)
 {
-    if (!consolestrings || strcasecmp(console[consolestrings - 1].string, DIVIDER))
+    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, DIVIDER))
         C_Print(dividerstring, DIVIDER);
 }
 
@@ -909,7 +909,7 @@ dboolean C_ValidateInput(char *input)
                     M_StringCopy(cmd, input, 255);
                     cmd[length - 2] = '\0';
 
-                    if (!strcasecmp(cmd, consolecmds[i].name)
+                    if (M_StringCompare(cmd, consolecmds[i].name)
                         && length == strlen(cmd) + 2
                         && consolecmds[i].func1(cmd, consolecheatparm, "", ""))
                     {
@@ -918,7 +918,7 @@ dboolean C_ValidateInput(char *input)
                     }
                 }
             }
-            else if (!strcasecmp(input, consolecmds[i].name)
+            else if (M_StringCompare(input, consolecmds[i].name)
                 && consolecmds[i].func1(input, "", "", ""))
             {
                 M_StringCopy(consolecheat, input, 255);
@@ -935,7 +935,7 @@ dboolean C_ValidateInput(char *input)
             C_StripQuotes(parm1);
             C_StripQuotes(parm2);
             C_StripQuotes(parm3);
-            if (!strcasecmp(cmd, consolecmds[i].name)
+            if (M_StringCompare(cmd, consolecmds[i].name)
                 && consolecmds[i].func1(cmd, parm1, parm2, parm3))
             {
                 C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
@@ -1163,7 +1163,7 @@ dboolean C_Responder(event_t *ev)
                     M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
                 for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; --i)
                     if (console[i].type == inputstring
-                        && strcasecmp(consoleinput, console[i].string))
+                        && !M_StringCompare(consoleinput, console[i].string))
                     {
                         inputhistory = i;
                         M_StringCopy(consoleinput, console[i].string, 255);
@@ -1180,7 +1180,7 @@ dboolean C_Responder(event_t *ev)
                 {
                     for (i = inputhistory + 1; i < consolestrings; ++i)
                         if (console[i].type == inputstring
-                            && strcasecmp(consoleinput, console[i].string))
+                            && !M_StringCompare(consoleinput, console[i].string))
                         {
                             inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, 255);

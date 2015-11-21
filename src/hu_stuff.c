@@ -224,9 +224,9 @@ void HU_Init(void)
     if ((lump = W_CheckNumForName("STDISK")) >= 0)
         stdisk = W_CacheLumpNum(lump, PU_CACHE);
 
-    s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
+    s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
-    if (strcasecmp(playername, playername_default))
+    if (!M_StringCompare(playername, playername_default))
         s_GOTMEDINEED = s_GOTMEDINEED2;
 
     HU_AltInit();

@@ -347,7 +347,7 @@ void IdentifyIWADByName(char *name)
     for (i = 0; i < arrlen(iwads); ++i)
     {
         // Check if the filename is this IWAD name.
-        if (!strcasecmp(name, iwads[i].name))
+        if (M_StringCompare(name, iwads[i].name))
         {
             gamemission = iwads[i].mission;
             break;
@@ -445,7 +445,7 @@ char *D_FindWADByName(char *name)
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
         // the "directory" may actually refer directly to an IWAD
         // file.
-        if (!strcasecmp(leafname(iwad_dirs[i]), name) && M_FileExists(iwad_dirs[i]))
+        if (M_StringCompare(leafname(iwad_dirs[i]), name) && M_FileExists(iwad_dirs[i]))
             return strdup(iwad_dirs[i]);
 
         // Construct a string for the full path

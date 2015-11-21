@@ -796,7 +796,7 @@ dboolean ST_Responder(event_t *ev)
 
                         C_Input(cheat_powerup[i].sequence);
 
-                        HU_PlayerMessage((strcasecmp(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
+                        HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
                             s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false);
 
                         stat_cheated = SafeAdd(stat_cheated, 1);
@@ -830,7 +830,7 @@ dboolean ST_Responder(event_t *ev)
 
                         C_Input(cheat_powerup[i].sequence);
 
-                        HU_PlayerMessage((strcasecmp(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
+                        HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
                             s_STSTR_BEHOLDX : s_STSTR_BEHOLDOFF), false);
                     }
 
@@ -1498,9 +1498,9 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
-    if (!strcasecmp(lumpname, "STARMS") && STARMS)
+    if (M_StringCompare(lumpname, "STARMS") && STARMS)
         *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", FREEDOOM ? 1 : 2), PU_STATIC);
-    else if (!strcasecmp(lumpname, "STBAR") && STBAR)
+    else if (M_StringCompare(lumpname, "STBAR") && STBAR)
         *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", FREEDOOM ? 1 : 2), PU_STATIC);
     else
         *variable = W_CacheLumpName(lumpname, PU_STATIC);

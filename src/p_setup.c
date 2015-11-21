@@ -1911,7 +1911,7 @@ void P_MapName(int ep, int map)
                     strcpy(maptitle, &maptitle[1]);
             }
         }
-        else if (strcasecmp(mapnum, maptitle))
+        else if (!M_StringCompare(mapnum, maptitle))
             M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum,
                 titlecase(maptitle));
         else

@@ -269,7 +269,7 @@ void P_InitPicAnims(void)
     {
         int     lump = R_CheckFlatNumForName(exception[i].texture);
 
-        if (lump >= 0 && !strcasecmp(leafname(lumpinfo[firstflat + lump]->wad_file->path),
+        if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wad_file->path),
             exception[i].pwad))
             isliquid[lump] = false;
         ++i;
@@ -752,7 +752,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 && player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
-                    (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
@@ -769,7 +769,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                     player->neededcardflash = NEEDEDCARDFLASH;
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDC),
-                    playername, (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
@@ -786,7 +786,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                     player->neededcardflash = NEEDEDCARDFLASH;
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUEC),
-                    playername,  (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    playername,  (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
@@ -803,7 +803,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                     player->neededcardflash = NEEDEDCARDFLASH;
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC),
-                    playername, (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
@@ -820,7 +820,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                     player->neededcardflash = NEEDEDCARDFLASH;
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDS),
-                    playername, (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
@@ -837,7 +837,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                     player->neededcardflash = NEEDEDCARDFLASH;
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUES),
-                    playername, (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
@@ -854,7 +854,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                     player->neededcardflash = NEEDEDCARDFLASH;
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS),
-                    playername, (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
@@ -867,7 +867,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 || player->cards[it_yellowcard] <= 0 || player->cards[it_yellowskull] <= 0))
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
-                    (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
@@ -877,7 +877,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 || (player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)))
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
-                    (!strcasecmp(playername, playername_default) ? "" : "s"));
+                    (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
                 return false;

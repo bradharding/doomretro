@@ -488,7 +488,7 @@ static int ParseIntParameter(char *strparm, int aliastype)
 
     while (aliases[i].text[0])
     {
-        if (!strcasecmp(strparm, aliases[i].text) && aliastype == aliases[i].type)
+        if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return aliases[i].value;
         i++;
     }
@@ -505,7 +505,7 @@ static float ParseFloatParameter(char *strparm, int aliastype)
 
     while (aliases[i].text[0])
     {
-        if (!strcasecmp(strparm, aliases[i].text) && aliastype == aliases[i].type)
+        if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return (float)aliases[i].value;
         i++;
     }
@@ -691,14 +691,14 @@ static void M_CheckCVARs(void)
     if (vid_fullscreen != false && vid_fullscreen != true)
         vid_fullscreen = vid_fullscreen_default;
 
-    if (strcasecmp(vid_scaledriver, vid_scaledriver_direct3d)
-        && strcasecmp(vid_scaledriver, vid_scaledriver_opengl)
-        && strcasecmp(vid_scaledriver, vid_scaledriver_software))
+    if (!M_StringCompare(vid_scaledriver, vid_scaledriver_direct3d)
+        && !M_StringCompare(vid_scaledriver, vid_scaledriver_opengl)
+        && !M_StringCompare(vid_scaledriver, vid_scaledriver_software))
         vid_scaledriver = vid_scaledriver_default;
 
-    if (strcasecmp(vid_scalefilter, vid_scalefilter_linear)
-        && strcasecmp(vid_scalefilter, vid_scalefilter_nearest)
-        && strcasecmp(vid_scalefilter, vid_scalefilter_nearest_linear))
+    if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
+        && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)
+        && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
 
     if (vid_vsync != false && vid_vsync != true)
@@ -767,7 +767,7 @@ void M_LoadCVARs(char *filename)
         {
             char        *s;
 
-            if (strcasecmp(defname, cvars[i].name))
+            if (!M_StringCompare(defname, cvars[i].name))
                 continue;       // not this one
 
             // parameter found

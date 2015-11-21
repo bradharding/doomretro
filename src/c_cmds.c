@@ -432,7 +432,7 @@ static int C_LookupValueFromAlias(char *text, int aliastype)
 
     while (aliases[i].text[0])
     {
-        if (aliastype == aliases[i].type && !strcasecmp(text, aliases[i].text))
+        if (aliastype == aliases[i].type && M_StringCompare(text, aliases[i].text))
             return aliases[i].value;
         ++i;
     }
@@ -441,7 +441,7 @@ static int C_LookupValueFromAlias(char *text, int aliastype)
 
 static char *C_LookupAliasFromValue(int value, int aliastype)
 {
-    int         i = 0;
+    int i = 0;
 
     while (aliases[i].text[0])
     {
@@ -613,37 +613,37 @@ static dboolean cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (gamestate != GS_LEVEL)
         return false;
-    else if (!strcasecmp(cmd, cheat_god.sequence))
+    else if (M_StringCompare(cmd, cheat_god.sequence))
         return (gameskill != sk_nightmare);
-    else if (!strcasecmp(cmd, cheat_ammonokey.sequence))
+    else if (M_StringCompare(cmd, cheat_ammonokey.sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_ammo.sequence))
+    else if (M_StringCompare(cmd, cheat_ammo.sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_mus.sequence))
+    else if (M_StringCompare(cmd, cheat_mus.sequence))
         return (!nomusic && musicVolume);
-    else if (!strcasecmp(cmd, cheat_noclip.sequence))
+    else if (M_StringCompare(cmd, cheat_noclip.sequence))
         return (gamemode != commercial && gameskill != sk_nightmare);
-    else if (!strcasecmp(cmd, cheat_commercial_noclip.sequence))
+    else if (M_StringCompare(cmd, cheat_commercial_noclip.sequence))
         return (gamemode == commercial && gameskill != sk_nightmare);
-    else if (!strcasecmp(cmd, cheat_powerup[0].sequence))
+    else if (M_StringCompare(cmd, cheat_powerup[0].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_powerup[1].sequence))
+    else if (M_StringCompare(cmd, cheat_powerup[1].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_powerup[2].sequence))
+    else if (M_StringCompare(cmd, cheat_powerup[2].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_powerup[3].sequence))
+    else if (M_StringCompare(cmd, cheat_powerup[3].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_powerup[4].sequence))
+    else if (M_StringCompare(cmd, cheat_powerup[4].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_powerup[5].sequence))
+    else if (M_StringCompare(cmd, cheat_powerup[5].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_powerup[6].sequence))
+    else if (M_StringCompare(cmd, cheat_powerup[6].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_choppers.sequence))
+    else if (M_StringCompare(cmd, cheat_choppers.sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
-    else if (!strcasecmp(cmd, cheat_mypos.sequence))
+    else if (M_StringCompare(cmd, cheat_mypos.sequence))
         return true;
-    else if (!strcasecmp(cmd, cheat_clev.sequence))
+    else if (M_StringCompare(cmd, cheat_clev.sequence))
     {
         char   lump[6];
         int    map;
@@ -662,7 +662,7 @@ static dboolean cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
         return (W_CheckNumForName(lump) >= 0 && (gamemission != pack_nerve || map <= 9)
             && (!BTSX || W_CheckMultipleLumps(lump) > 1));
     }
-    else if (!strcasecmp(cmd, cheat_amap.sequence))
+    else if (M_StringCompare(cmd, cheat_amap.sequence))
         return (automapactive || mapwindow);
     return false;
 }
@@ -752,7 +752,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
 
         while (controls[i].type)
         {
-            if (!strcasecmp(parm1, controls[i].control))
+            if (M_StringCompare(parm1, controls[i].control))
                 break;
             ++i;
         }
@@ -777,7 +777,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                     ++action;
                 }
             }
-            else if (!strcasecmp(parm2, "none"))
+            else if (M_StringCompare(parm2, "none"))
             {
                 while (actions[action].action[0])
                 {
@@ -817,7 +817,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
 
                 while (actions[action].action[0])
                 {
-                    if (!strcasecmp(parm2, actions[action].action))
+                    if (M_StringCompare(parm2, actions[action].action))
                         break;
                     ++action;
                 }
@@ -1064,14 +1064,14 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     if (!parm[0])
         return true;
 
-    if (!strcasecmp(parm, "all") || !strcasecmp(parm, "health") || !strcasecmp(parm, "weapons")
-        || !strcasecmp(parm, "ammo") || !strcasecmp(parm, "armor") || !strcasecmp(parm, "armour")
-        || !strcasecmp(parm, "keys"))
+    if (M_StringCompare(parm, "all") || M_StringCompare(parm, "health") || M_StringCompare(parm, "weapons")
+        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour")
+        || M_StringCompare(parm, "keys"))
         return true;
 
     for (i = 0; i < NUMMOBJTYPES; i++)
-        if ((mobjinfo[i].flags & MF_SPECIAL) && (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
-            || (mobjinfo[i].name2[0] && !strcasecmp(parm, removespaces(mobjinfo[i].name2)))))
+        if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
+            || (mobjinfo[i].name2[0] && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))))
             return true;
 
     return false;
@@ -1087,7 +1087,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         player_t    *player = &players[0];
 
-        if (!strcasecmp(parm, "all"))
+        if (M_StringCompare(parm, "all"))
         {
             P_GiveBackpack(player, false);
             P_GiveMegaHealth(player);
@@ -1097,27 +1097,27 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             P_GiveAllCards(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm, "health"))
+        else if (M_StringCompare(parm, "health"))
         {
             P_GiveMegaHealth(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm, "weapons"))
+        else if (M_StringCompare(parm, "weapons"))
         {
             P_GiveAllWeapons(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm, "ammo"))
+        else if (M_StringCompare(parm, "ammo"))
         {
             P_GiveFullAmmo(player);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm, "armor") || !strcasecmp(parm, "armour"))
+        else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
         {
             P_GiveArmor(player, blue_armor_class);
             C_HideConsole();
         }
-        else if (!strcasecmp(parm, "keys"))
+        else if (M_StringCompare(parm, "keys"))
         {
             P_GiveAllCards(player);
             C_HideConsole();
@@ -1128,9 +1128,9 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             for (i = 0; i < NUMMOBJTYPES; i++)
                 if ((mobjinfo[i].flags & MF_SPECIAL)
-                    && (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
+                    && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
                         || (mobjinfo[i].name2[0]
-                            && !strcasecmp(parm, removespaces(mobjinfo[i].name2)))))
+                            && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))))
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
@@ -1193,19 +1193,19 @@ static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
         if (!parm[0])
             return true;
 
-        if (!strcasecmp(parm, "player") || !strcasecmp(parm, "me")
-            || (playername[0] && !strcasecmp(parm, playername)))
+        if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
+            || (playername[0] && M_StringCompare(parm, playername)))
             return !!players[0].mo->health;
 
-        if (!strcasecmp(parm, "monsters") || !strcasecmp(parm, "all"))
+        if (M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
             return true;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
-                || !strcasecmp(parm, removespaces(mobjinfo[i].plural1))
-                || (mobjinfo[i].name2[0] && !strcasecmp(parm, removespaces(mobjinfo[i].name2)))
+            if (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
+                || M_StringCompare(parm, removespaces(mobjinfo[i].plural1))
+                || (mobjinfo[i].name2[0] && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
                 || (mobjinfo[i].plural2[0] &&
-                    !strcasecmp(parm, removespaces(mobjinfo[i].plural2))))
+                    M_StringCompare(parm, removespaces(mobjinfo[i].plural2))))
             {
                 dboolean    kill = true;
 
@@ -1248,13 +1248,13 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (!parm[0])
         C_Output("%s %s", cmd, KILLCMDFORMAT);
-    else if (!strcasecmp(parm, "player") || !strcasecmp(parm, "me")
-        || (playername[0] && !strcasecmp(parm, playername)))
+    else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
+        || (playername[0] && M_StringCompare(parm, playername)))
     {
         players[0].health = 0;
         P_KillMobj(players[0].mo, players[0].mo);
         M_snprintf(buffer, sizeof(buffer), "%s killed %s", playername,
-            (!strcasecmp(playername, "you") ? "yourself" : "themselves"));
+            (M_StringCompare(playername, "you") ? "yourself" : "themselves"));
         buffer[0] = toupper(buffer[0]);
         C_Output("%s.", buffer);
         players[0].message = buffer;
@@ -1266,7 +1266,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         int     i;
         int     kills = 0;
 
-        if (!strcasecmp(parm, "all") || !strcasecmp(parm, "monsters"))
+        if (M_StringCompare(parm, "all") || M_StringCompare(parm, "monsters"))
         {
             for (i = 0; i < numsectors; ++i)
             {
@@ -1532,7 +1532,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         (modifiedgame ? wad : ""));
                 break;
             case doom2:
-                if (strcasecmp(wad, "nerve.wad") && (!replaced || pwad || nerve)
+                if (!M_StringCompare(wad, "nerve.wad") && (!replaced || pwad || nerve)
                     && (pwad || !BTSX))
                     if (BTSX)
                     {
@@ -1547,7 +1547,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                                     wad : ""));
                 break;
             case pack_nerve:
-                if (!strcasecmp(wad, "nerve.wad"))
+                if (M_StringCompare(wad, "nerve.wad"))
                     M_snprintf(maplist[count++], 256, "%s\t%s", lump, titlecase(*mapnamesn[map]));
                 break;
             case pack_plut:
@@ -2136,8 +2136,8 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(parm, removespaces(mobjinfo[i].name1))
-                || (mobjinfo[i].name2[0] && !strcasecmp(parm, removespaces(mobjinfo[i].name2))))
+            if (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
+                || (mobjinfo[i].name2[0] && M_StringCompare(parm, removespaces(mobjinfo[i].name2))))
             {
                 dboolean    spawn = true;
 
@@ -2236,7 +2236,7 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (consolecmds[i].name[0])
     {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_BOOLEAN))
         {
             if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
@@ -2268,7 +2268,7 @@ static dboolean float_cvars_func1(char *cmd, char *parm1, char *parm2, char *par
 
     while (consolecmds[i].name[0])
     {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_FLOAT))
         {
             float       value = -1.0f;
@@ -2288,7 +2288,7 @@ static void float_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (consolecmds[i].name[0])
     {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_FLOAT))
         {
             if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
@@ -2322,7 +2322,7 @@ static dboolean int_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3
 
     while (consolecmds[i].name[0])
     {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_INTEGER))
         {
             int value = -1;
@@ -2342,7 +2342,7 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (consolecmds[i].name[0])
     {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_INTEGER))
         {
             if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
@@ -2377,10 +2377,10 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (consolecmds[i].name[0])
     {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_STRING))
         {
-            if (!strcasecmp(parm1, EMPTYVALUE))
+            if (M_StringCompare(parm1, EMPTYVALUE))
             {
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
@@ -2407,7 +2407,7 @@ static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (consolecmds[i].name[0])
     {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_TIME))
         {
             int tics = *(int *)consolecmds[i].variable / TICRATE;
@@ -2476,7 +2476,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%10f", &value);
 
-        if (!strcasecmp(cmd, stringize(gp_deadzone_left)))
+        if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
         {
             gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
             gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
@@ -2489,7 +2489,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
         M_SaveCVARs();
     }
     else
-        C_Output("%s%%", striptrailingzero((!strcasecmp(cmd, stringize(gp_deadzone_left)) ?
+        C_Output("%s%%", striptrailingzero((M_StringCompare(cmd, stringize(gp_deadzone_left)) ?
             gp_deadzone_left : gp_deadzone_right), 1));
 }
 
@@ -2500,7 +2500,7 @@ static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 {
     if (parm1[0])
     {
-        if (strcasecmp(parm1, EMPTYVALUE))
+        if (!M_StringCompare(parm1, EMPTYVALUE))
         {
             playername = strdup(parm1);
             M_SaveCVARs();
@@ -2608,7 +2608,7 @@ static dboolean r_gamma_cvar_func1(char *cmd, char *parm1, char *parm2, char *pa
 {
     float       value = -1.0f;
 
-    if (!parm1[0] || !strcasecmp(parm1, "off"))
+    if (!parm1[0] || M_StringCompare(parm1, "off"))
         return true;
 
     sscanf(parm1, "%10f", &value);
@@ -2622,7 +2622,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         float   value = -1.0f;
 
-        if (!strcasecmp(parm1, "off"))
+        if (M_StringCompare(parm1, "off"))
             r_gamma = 1.0f;
         else
             sscanf(parm1, "%10f", &value);
@@ -2669,7 +2669,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 
         GetPixelSize();
 
-        if (strcasecmp(r_lowpixelsize, parm1))
+        if (!M_StringCompare(r_lowpixelsize, parm1))
             M_SaveCVARs();
     }
     else
@@ -2739,8 +2739,8 @@ static dboolean s_volume_cvars_func1(char *cmd, char *parm1, char *parm2, char *
 
     sscanf(parm1, "%10i", &value);
 
-    return ((!strcasecmp(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min
-        && value <= s_musicvolume_max) || (!strcasecmp(cmd, stringize(s_sfxvolume))
+    return ((M_StringCompare(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min
+        && value <= s_musicvolume_max) || (M_StringCompare(cmd, stringize(s_sfxvolume))
         && value >= s_sfxvolume_min && value <= s_sfxvolume_max));
 }
 
@@ -2754,7 +2754,7 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%10i", &value);
 
-        if (!strcasecmp(cmd, stringize(s_musicvolume)))
+        if (M_StringCompare(cmd, stringize(s_musicvolume)))
         {
             s_musicvolume = value;
             musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume,
@@ -2771,7 +2771,7 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
         M_SaveCVARs();
     }
     else
-        C_Output("%i%%", (!strcasecmp(cmd, stringize(s_musicvolume)) ? s_musicvolume :
+        C_Output("%i%%", (M_StringCompare(cmd, stringize(s_musicvolume)) ? s_musicvolume :
             s_sfxvolume));
 }
 
@@ -2818,23 +2818,23 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 static dboolean vid_scaledriver_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!parm1[0] || !strcasecmp(parm1, EMPTYVALUE)
-        || !strcasecmp(parm1, vid_scaledriver_direct3d)
-        || !strcasecmp(parm1, vid_scaledriver_opengl)
-        || !strcasecmp(parm1, vid_scaledriver_software));
+    return (!parm1[0] || M_StringCompare(parm1, EMPTYVALUE)
+        || M_StringCompare(parm1, vid_scaledriver_direct3d)
+        || M_StringCompare(parm1, vid_scaledriver_opengl)
+        || M_StringCompare(parm1, vid_scaledriver_software));
 }
 
 static void vid_scaledriver_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
-        if (!strcasecmp(parm1, EMPTYVALUE))
+        if (M_StringCompare(parm1, EMPTYVALUE))
         {
             vid_scaledriver = "";
             M_SaveCVARs();
             I_RestartGraphics();
         }
-        else if (strcasecmp(parm1, vid_scaledriver))
+        else if (!M_StringCompare(parm1, vid_scaledriver))
         {
             vid_scaledriver = strdup(parm1);
             M_SaveCVARs();
@@ -2850,16 +2850,16 @@ static void vid_scaledriver_cvar_func2(char *cmd, char *parm1, char *parm2, char
 //
 static dboolean vid_scalefilter_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!parm1[0] || !strcasecmp(parm1, vid_scalefilter_nearest)
-        || !strcasecmp(parm1, vid_scalefilter_linear)
-        || !strcasecmp(parm1, vid_scalefilter_nearest_linear));
+    return (!parm1[0] || M_StringCompare(parm1, vid_scalefilter_nearest)
+        || M_StringCompare(parm1, vid_scalefilter_linear)
+        || M_StringCompare(parm1, vid_scalefilter_nearest_linear));
 }
 
 static void vid_scalefilter_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (parm1[0])
     {
-        if (strcasecmp(parm1, vid_scalefilter))
+        if (!M_StringCompare(parm1, vid_scalefilter))
         {
             vid_scalefilter = strdup(parm1);
             M_SaveCVARs();
@@ -2881,7 +2881,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2,
 
         GetScreenResolution();
 
-        if (strcasecmp(vid_screenresolution, parm1))
+        if (!M_StringCompare(vid_screenresolution, parm1))
         {
             M_SaveCVARs();
 
@@ -2982,7 +2982,7 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
 
         GetWindowPosition();
 
-        if (strcasecmp(vid_windowposition, parm1))
+        if (!M_StringCompare(vid_windowposition, parm1))
         {
             M_SaveCVARs();
 
@@ -3005,7 +3005,7 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 
         GetWindowSize();
 
-        if (strcasecmp(vid_windowsize, parm1))
+        if (!M_StringCompare(vid_windowsize, parm1))
         {
             M_SaveCVARs();
 

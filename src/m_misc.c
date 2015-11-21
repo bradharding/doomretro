@@ -370,6 +370,13 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
     return buffer;
 }
 
+// Returns true if 'str1' and 'str2' are the same.
+// (Case-insensitive, return value reverse of stricmp() to avoid confusion.
+dboolean M_StringCompare(const char *str1, const char *str2)
+{
+    return !stricmp(str1, str2);
+}
+
 // Returns true if 's' begins with the specified prefix.
 dboolean M_StringStartsWith(char *s, char *prefix)
 {
@@ -379,7 +386,7 @@ dboolean M_StringStartsWith(char *s, char *prefix)
 // Returns true if 's' ends with the specified suffix.
 dboolean M_StringEndsWith(char *s, char *suffix)
 {
-    return (strlen(s) >= strlen(suffix) && strcasecmp(s + strlen(s) - strlen(suffix), suffix) == 0);
+    return (strlen(s) >= strlen(suffix) && !M_StringCompare(s + strlen(s) - strlen(suffix), suffix) == 0);
 }
 
 // Safe, portable vsnprintf().

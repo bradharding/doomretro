@@ -1052,7 +1052,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             C_PlayerMessage("%s %s %s%s with your %s.", titlecase(playername), (type == MT_BARREL ?
                 "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
                 (isvowel(target->info->name1[0]) ? "an " : "a ")), (target->player ?
-                (strcasecmp(playername, playername_default) ? "themselves" : "yourself") :
+                (!M_StringCompare(playername, playername_default) ? "themselves" : "yourself") :
                 target->info->name1), weapondescription[source->player->readyweapon]);
         else
             C_PlayerMessage("%s%s %s %s%s.", (isvowel(source->info->name1[0]) ? "An " : "A "),

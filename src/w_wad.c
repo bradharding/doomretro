@@ -131,14 +131,14 @@ unsigned int W_LumpNameHash(const char *s)
 //  for the lump name.
 wad_file_t *W_AddFile(char *filename, dboolean automatic)
 {
-    wadinfo_t           header;
-    lumpindex_t         i;
-    wad_file_t          *wad_file;
-    int                 startlump;
-    filelump_t          *fileinfo;
-    filelump_t          *filerover;
-    lumpinfo_t          *filelumps;
-    int                 numfilelumps;
+    wadinfo_t   header;
+    lumpindex_t i;
+    wad_file_t  *wad_file;
+    int         startlump;
+    filelump_t  *fileinfo;
+    filelump_t  *filerover;
+    lumpinfo_t  *filelumps;
+    int         numfilelumps;
 
     // open the file and add to directory
     wad_file = W_OpenFile(filename);
@@ -150,7 +150,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
 
     wad_file->freedoom = IsFreedoom(filename);
 
-    if (strcasecmp(filename + strlen(filename) - 3, "wad"))
+    if (!M_StringCompare(filename + strlen(filename) - 3, "wad"))
     {
         // single lump file
 

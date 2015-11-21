@@ -920,7 +920,7 @@ void M_DrawLoad(void)
         int y = LoadDef.y + LINEHEIGHT * i + OFFSET;
 
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
-        M_WriteText(LoadDef.x - 2 + (!strcasecmp(savegamestrings[i], s_EMPTYSTRING)
+        M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
             && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR,
             savegamestrings[i], false);
     }
@@ -1056,7 +1056,7 @@ void M_DrawSave(void)
                 y - !M_LSCNTR, right, false);
         }
         else
-            M_WriteText(LoadDef.x - 2 + (!strcasecmp(savegamestrings[i], s_EMPTYSTRING)
+            M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
                 && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR,
                 savegamestrings[i], false);
     }
@@ -1133,7 +1133,7 @@ void M_UpdateSaveGameName(int i)
 {
     dboolean    match = false;
 
-    if (!strcasecmp(savegamestrings[i], s_EMPTYSTRING))
+    if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
         match = true;
     else if (gamemission == doom
         && strlen(savegamestrings[i]) == 4
@@ -1153,7 +1153,7 @@ void M_UpdateSaveGameName(int i)
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
 
-    if (!match && strcasecmp(maptitle, mapnumandtitle))
+    if (!match && !M_StringCompare(maptitle, mapnumandtitle))
     {
         int     len = strlen(savegamestrings[i]);
 
@@ -1171,7 +1171,7 @@ void M_UpdateSaveGameName(int i)
             {
                 case doom:
                     for (j = 0; j < 9 * 4; ++j)
-                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames[j])))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[j])))
                         {
                             match = true;
                             break;
@@ -1183,7 +1183,7 @@ void M_UpdateSaveGameName(int i)
                     if (bfgedition)
                     {
                         for (j = 0; j < 33; ++j)
-                            if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
+                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
                             {
                                 match = true;
                                 break;
@@ -1192,14 +1192,14 @@ void M_UpdateSaveGameName(int i)
                     else
                     {
                         for (j = 0; j < 32; ++j)
-                            if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
+                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
                             {
                                 match = true;
                                 break;
                             }
                     }
                     for (j = 0; j < 9; ++j)
-                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
                         {
                             match = true;
                             break;
@@ -1208,7 +1208,7 @@ void M_UpdateSaveGameName(int i)
 
                 case pack_plut:
                     for (j = 0; j < 32; ++j)
-                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
                         {
                             match = true;
                             break;
@@ -1217,7 +1217,7 @@ void M_UpdateSaveGameName(int i)
 
                 case pack_tnt:
                     for (j = 0; j < 32; ++j)
-                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
                         {
                             match = true;
                             break;
@@ -2827,7 +2827,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn = 0;
                     else
                         ++itemOn;
-                } while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING));
+                } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
                 SaveDef.lastOn = savegame = itemOn;
@@ -2890,7 +2890,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn = currentMenu->numitems - 1;
                     else
                         --itemOn;
-                } while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING));
+                } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
                 SaveDef.lastOn = savegame = itemOn;
@@ -3059,7 +3059,7 @@ dboolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &OptionsDef && !i && !usergame)
                         return true;
-                    if (currentMenu == &LoadDef && !strcasecmp(savegamestrings[i], s_EMPTYSTRING))
+                    if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
                     if (itemOn != i)
                         S_StartSound(NULL, sfx_pstop);
@@ -3108,7 +3108,7 @@ dboolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &OptionsDef && !i && !usergame)
                         return true;
-                    if (currentMenu == &LoadDef && !strcasecmp(savegamestrings[i], s_EMPTYSTRING))
+                    if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
                     if (itemOn != i)
                         S_StartSound(NULL, sfx_pstop);
@@ -3289,7 +3289,7 @@ void M_Drawer(void)
         {
             int old = itemOn;
 
-            while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING))
+            while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING))
                 itemOn = (!itemOn ? currentMenu->numitems - 1 : itemOn - 1);
             if (itemOn != old)
             {

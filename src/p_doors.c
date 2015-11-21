@@ -259,7 +259,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "keycard");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, true);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
@@ -270,7 +270,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "skull key");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, true);
                 }
                 S_StartSound(player->mo, sfx_noway);
@@ -290,7 +290,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "keycard");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, true);
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
@@ -301,7 +301,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "skull key");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, true);
                 }
                 S_StartSound(player->mo, sfx_noway);
@@ -321,7 +321,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "keycard");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, true);
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
@@ -332,7 +332,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "skull key");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, true);
                 }
                 S_StartSound(player->mo, sfx_noway);
@@ -453,7 +453,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "keycard");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, true);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
@@ -464,7 +464,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "skull key");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, true);
                 }
                 S_StartSound(player->mo, sfx_noway);
@@ -487,7 +487,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "keycard");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, true);
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
@@ -498,7 +498,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "skull key");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, true);
                 }
                 S_StartSound(player->mo, sfx_noway);
@@ -521,7 +521,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "keycard");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, true);
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
@@ -532,7 +532,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                        (!strcasecmp(playername, playername_default) ? "" : "s"), "skull key");
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, true);
                 }
                 S_StartSound(player->mo, sfx_noway);

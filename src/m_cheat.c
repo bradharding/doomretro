@@ -57,7 +57,7 @@ char    cheatkey = '\0';
 
 int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
 {
-    if (consolecheat[0] && !strcasecmp(consolecheat, cht->sequence))
+    if (consolecheat[0] && M_StringCompare(consolecheat, cht->sequence))
     {
         consolecheat[0] = 0;
         if (consolecheatparm)

@@ -60,7 +60,7 @@ int M_CheckParmWithArgs(char *check, int num_args, int start)
     int i;
 
     for (i = start; i < myargc - num_args; i++)
-        if (!strcasecmp(check, myargv[i]))
+        if (M_StringCompare(check, myargv[i]))
             return i;
 
     return 0;
@@ -71,7 +71,7 @@ int M_CheckParmsWithArgs(char *check1, char *check2, int num_args, int start)
     int i;
 
     for (i = start; i < myargc - num_args; i++)
-        if (!strcasecmp(check1, myargv[i]) || !strcasecmp(check2, myargv[i]))
+        if (M_StringCompare(check1, myargv[i]) || M_StringCompare(check2, myargv[i]))
             return i;
 
     return 0;

@@ -222,7 +222,7 @@ int SC_MustMatchString(char **strings)
 
 dboolean SC_Compare(char *text)
 {
-    return !strcasecmp(text, sc_String);
+    return M_StringCompare(text, sc_String);
 }
 
 void SC_ScriptError(char *message)

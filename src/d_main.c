@@ -549,7 +549,7 @@ dboolean DehFileProcessed(char *path)
     int i;
 
     for (i = 0; i < dehfilecount; ++i)
-        if (!strcasecmp(path, dehfiles[i]))
+        if (M_StringCompare(path, dehfiles[i]))
             return true;
     return false;
 }
@@ -592,59 +592,59 @@ static void LoadCfgFile(char *path)
 
 static dboolean D_IsDOOMIWAD(char *filename)
 {
-    return (!strcasecmp(leafname(filename), "DOOM.WAD")
-        || !strcasecmp(leafname(filename), "DOOM1.WAD")
-        || !strcasecmp(leafname(filename), "DOOM2.WAD")
-        || !strcasecmp(leafname(filename), "PLUTONIA.WAD")
-        || !strcasecmp(leafname(filename), "TNT.WAD")
-        || (hacx = !strcasecmp(leafname(filename), "HACX.WAD")));
+    return (M_StringCompare(leafname(filename), "DOOM.WAD")
+        || M_StringCompare(leafname(filename), "DOOM1.WAD")
+        || M_StringCompare(leafname(filename), "DOOM2.WAD")
+        || M_StringCompare(leafname(filename), "PLUTONIA.WAD")
+        || M_StringCompare(leafname(filename), "TNT.WAD")
+        || (hacx = M_StringCompare(leafname(filename), "HACX.WAD")));
 }
 
 static dboolean D_IsUnsupportedIWAD(char *filename)
 {
-    return (!strcasecmp(leafname(filename), "HERETIC1.WAD")
-        || !strcasecmp(leafname(filename), "HERETIC.WAD")
-        || !strcasecmp(leafname(filename), "HEXEN.WAD")
-        || !strcasecmp(leafname(filename), "HEXDD.WAD")
-        || !strcasecmp(leafname(filename), "STRIFE0.WAD")
-        || !strcasecmp(leafname(filename), "STRIFE1.WAD"));
+    return (M_StringCompare(leafname(filename), "HERETIC1.WAD")
+        || M_StringCompare(leafname(filename), "HERETIC.WAD")
+        || M_StringCompare(leafname(filename), "HEXEN.WAD")
+        || M_StringCompare(leafname(filename), "HEXDD.WAD")
+        || M_StringCompare(leafname(filename), "STRIFE0.WAD")
+        || M_StringCompare(leafname(filename), "STRIFE1.WAD"));
 }
 
 static dboolean D_IsCfgFile(char *filename)
 {
-    return (!strcasecmp(filename + strlen(filename) - 4, ".cfg"));
+    return (M_StringCompare(filename + strlen(filename) - 4, ".cfg"));
 }
 
 static dboolean D_IsDehFile(char *filename)
 {
-    return (!strcasecmp(filename + strlen(filename) - 4, ".deh")
-        || !strcasecmp(filename + strlen(filename) - 4, ".bex"));
+    return (M_StringCompare(filename + strlen(filename) - 4, ".deh")
+        || M_StringCompare(filename + strlen(filename) - 4, ".bex"));
 }
 
 static void D_CheckSupportedPWAD(char *filename)
 {
-    if (!strcasecmp(leafname(filename), "NERVE.WAD"))
+    if (M_StringCompare(leafname(filename), "NERVE.WAD"))
     {
         nerve = true;
         expansion = 1;
     }
-    else if (!strcasecmp(leafname(filename), "CHEX.WAD"))
+    else if (M_StringCompare(leafname(filename), "CHEX.WAD"))
         chex = true;
-    else if (!strcasecmp(leafname(filename), "BTSX_E1.WAD"))
+    else if (M_StringCompare(leafname(filename), "BTSX_E1.WAD"))
         BTSX = BTSXE1 = true;
-    else if (!strcasecmp(leafname(filename), "BTSX_E2A.WAD"))
+    else if (M_StringCompare(leafname(filename), "BTSX_E2A.WAD"))
         BTSX = BTSXE2 = BTSXE2A = true;
-    else if (!strcasecmp(leafname(filename), "BTSX_E2B.WAD"))
+    else if (M_StringCompare(leafname(filename), "BTSX_E2B.WAD"))
         BTSX = BTSXE2 = BTSXE2B = true;
-    else if (!strcasecmp(leafname(filename), "BTSX_E3A.WAD"))
+    else if (M_StringCompare(leafname(filename), "BTSX_E3A.WAD"))
         BTSX = BTSXE3 = BTSXE3A = true;
-    else if (!strcasecmp(leafname(filename), "BTSX_E3B.WAD"))
+    else if (M_StringCompare(leafname(filename), "BTSX_E3B.WAD"))
         BTSX = BTSXE3 = BTSXE3B = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (!strcasecmp(leafname(filename), "VOICES.WAD"));
+    return (M_StringCompare(leafname(filename), "VOICES.WAD"));
 }
 
 #if defined(__MACOSX__)
@@ -684,6 +684,7 @@ static void D_FirstUse(void)
         buttons,
         NULL
     };
+
     int buttonid;
 
     if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
@@ -777,7 +778,7 @@ static int D_ChooseIWAD(void)
                     iwadfolder = strdup(M_ExtractFolder(file));
 
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    if (!strcasecmp(leafname(file), "DOOM2.WAD"))
+                    if (M_StringCompare(leafname(file), "DOOM2.WAD"))
                     {
                         static char     fullpath[MAX_PATH];
 
@@ -863,34 +864,28 @@ static int D_ChooseIWAD(void)
 
             if (BTSX)
             {
+                static char     fullpath[MAX_PATH];
+
                 if (BTSXE2A && !BTSXE2B)
                 {
-                    static char     fullpath[MAX_PATH];
-
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         M_ExtractFolder(file), "BTSX_E2B.WAD");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE2A && BTSXE2B)
                 {
-                    static char     fullpath[MAX_PATH];
-
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         M_ExtractFolder(file), "BTSX_E2A.WAD");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (BTSXE3A && !BTSXE3B)
                 {
-                    static char     fullpath[MAX_PATH];
-
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         M_ExtractFolder(file), "BTSX_E3B.WAD");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE3A && BTSXE3B)
                 {
-                    static char     fullpath[MAX_PATH];
-
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         M_ExtractFolder(file), "BTSX_E3A.WAD");
                     return W_MergeFile(fullpath, true);
@@ -941,8 +936,8 @@ static int D_ChooseIWAD(void)
                         if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
-                            sharewareiwad = !strcasecmp(iwadpass, "DOOM1.WAD");
-                            isDOOM2 = !strcasecmp(iwadpass, "DOOM2.WAD");
+                            sharewareiwad = M_StringCompare(iwadpass, "DOOM1.WAD");
+                            isDOOM2 = M_StringCompare(iwadpass, "DOOM2.WAD");
                             iwadfolder = strdup(fullpath);
                             break;
                         }
@@ -950,7 +945,7 @@ static int D_ChooseIWAD(void)
                 }
 
                 // if it's NERVE.WAD, try to open DOOM2.WAD with it
-                else if (!strcasecmp(iwadpass, "NERVE.WAD"))
+                else if (M_StringCompare(iwadpass, "NERVE.WAD"))
                 {
                     static char     fullpath2[MAX_PATH];
 
@@ -1232,7 +1227,7 @@ static void D_ProcessDehCommandLine(void)
 
         while (++p < myargc)
             if (*myargv[p] == '-')
-                deh = (!strcasecmp(myargv[p], "-deh") || !strcasecmp(myargv[p], "-bex"));
+                deh = (M_StringCompare(myargv[p], "-deh") || M_StringCompare(myargv[p], "-bex"));
             else if (deh)
                 ProcessDehFile(myargv[p], 0);
     }
