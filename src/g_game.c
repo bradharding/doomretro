@@ -590,6 +590,7 @@ void G_DoLoadLevel(void)
     players[0].shotshit = 0;
     players[0].shotsfired = 0;
     players[0].deaths = 0;
+    memset(players[0].mobjcount, 0, sizeof(players[0].mobjcount));
 
     M_ClearRandom();
 
