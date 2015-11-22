@@ -118,11 +118,11 @@
 // AMMO number pos.
 #define ST_AMMOWIDTH            3
 #define ST_AMMOX                44
-#define ST_AMMOY                172
+#define ST_AMMOY                171
 
 // HEALTH number pos.
 #define ST_HEALTHX              90
-#define ST_HEALTHY              172
+#define ST_HEALTHY              171
 
 // Weapon pos.
 #define ST_ARMSX                111
@@ -134,7 +134,7 @@
 
 // ARMOR number pos.
 #define ST_ARMORX               220
-#define ST_ARMORY               172
+#define ST_ARMORY               171
 
 // Key icon positions.
 #define ST_KEY0X                238
@@ -1561,15 +1561,15 @@ void ST_createWidgets(void)
     int  i;
 
     // ready weapon ammo
-    STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY, tallnum,
+    STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + !STBAR, tallnum,
         &plyr->ammo[weaponinfo[plyr->readyweapon].ammo], &st_statusbaron, ST_AMMOWIDTH);
 
     // the last weapon type
     w_ready.data = plyr->readyweapon;
 
     // health percentage
-    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY, tallnum, &plyr->health, &st_statusbaron,
-        tallpercent);
+    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + !STBAR, tallnum, &plyr->health,
+        &st_statusbaron, tallpercent);
 
     // arms background
     STlib_initBinIcon(&w_armsbg, ST_ARMSBGX, ST_ARMSBGY, armsbg, &st_statusbaron, &st_statusbaron);
@@ -1587,8 +1587,8 @@ void ST_createWidgets(void)
     STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex, &st_statusbaron);
 
     // armor percentage - should be colored later
-    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY, tallnum, &plyr->armorpoints, &st_statusbaron,
-        tallpercent);
+    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + !STBAR, tallnum, &plyr->armorpoints,
+        &st_statusbaron, tallpercent);
 
     // keyboxes 0-2
     STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X, ST_KEY0Y, keys, &keyboxes[0], &st_statusbaron);
