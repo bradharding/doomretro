@@ -48,6 +48,7 @@
 #if (_MSC_VER < 1400)
 #define vsnprintf       _vsnprintf
 #endif
+#define strcasecmp      stricmp
 #define strncasecmp     strnicmp
 #else
 #include <strings.h>

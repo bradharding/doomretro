@@ -371,10 +371,10 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
 }
 
 // Returns true if 'str1' and 'str2' are the same.
-// (Case-insensitive, return value reverse of stricmp() to avoid confusion.
+// (Case-insensitive, return value reverse of strcasecmp() to avoid confusion.
 dboolean M_StringCompare(const char *str1, const char *str2)
 {
-    return !stricmp(str1, str2);
+    return !strcasecmp(str1, str2);
 }
 
 // Returns true if 's' begins with the specified prefix.
