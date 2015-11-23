@@ -1096,8 +1096,6 @@ int ST_calcPainOffset(void)
 void ST_updateFaceWidget(void)
 {
     int         i;
-    angle_t     badguyangle;
-    angle_t     diffang;
     static int  priority;
 
     if (priority < 10)
@@ -1155,8 +1153,9 @@ void ST_updateFaceWidget(void)
             }
             else
             {
-                badguyangle = R_PointToAngle2(plyr->mo->x, plyr->mo->y,
-                                              plyr->attacker->x, plyr->attacker->y);
+                angle_t badguyangle = R_PointToAngle2(plyr->mo->x, plyr->mo->y, plyr->attacker->x,
+                    plyr->attacker->y);
+                angle_t diffang;
 
                 if (badguyangle > plyr->mo->angle)
                 {
@@ -1288,8 +1287,8 @@ void ST_Ticker(void)
     ST_updateWidgets();
     st_oldhealth = plyr->health;
 
+    // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
     if (idclevtics)
-    {
         if (!--idclevtics)
         {
             if (!samelevel)
@@ -1297,7 +1296,6 @@ void ST_Ticker(void)
 
             G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
         }
-    }
 }
 
 int     st_palette = 0;
@@ -1326,6 +1324,7 @@ void ST_doPaletteStuff(void)
             palette = RADIATIONPAL;
     }
 
+    // [BH] show green instead of red palette in Chex Quest
     if (chex && palette >= STARTREDPALS && palette < STARTREDPALS + NUMREDPALS)
         palette = RADIATIONPAL;
 
@@ -1375,7 +1374,6 @@ void ST_drawWidgets(dboolean refresh)
 
 void ST_doRefresh(void)
 {
-
     st_firsttime = false;
 
     // draw status bar background to off-screen buff
@@ -1459,7 +1457,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
     // status bar background bits
     callback("STBAR", &sbar);
-    callback("STBAR2", &sbar2);
+    callback("STBAR2", &sbar2); // [BH] double resolution
 
     // face states
     facenum = 0;
@@ -1499,9 +1497,9 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
     if (M_StringCompare(lumpname, "STARMS") && STARMS)
-        *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", FREEDOOM ? 1 : 2), PU_STATIC);
+        *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", (FREEDOOM ? 1 : 2)), PU_STATIC);
     else if (M_StringCompare(lumpname, "STBAR") && STBAR)
-        *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", FREEDOOM ? 1 : 2), PU_STATIC);
+        *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", (FREEDOOM ? 1 : 2)), PU_STATIC);
     else
         *variable = W_CacheLumpName(lumpname, PU_STATIC);
 }

@@ -669,7 +669,6 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
 {
     player_t    *player;
     mobj_t      *mo;
-    angle_t     an;
     fixed_t     dist;
 
     if (infight)
@@ -698,7 +697,7 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
 
     if (!allaround)
     {
-        an = R_PointToAngle2(actor->x, actor->y, mo->x, mo->y) - actor->angle;
+        angle_t an = R_PointToAngle2(actor->x, actor->y, mo->x, mo->y) - actor->angle;
 
         if (an > ANG90 && an < ANG270)
         {

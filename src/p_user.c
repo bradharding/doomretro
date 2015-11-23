@@ -238,8 +238,6 @@ void P_ReduceDamageCount(player_t *player)
 
 void P_DeathThink(player_t *player)
 {
-    angle_t             angle;
-    angle_t             delta;
     static int          count;
     static dboolean     facingkiller;
     mobj_t              *mo = player->mo;
@@ -267,9 +265,8 @@ void P_DeathThink(player_t *player)
 
     if (attacker && attacker != mo && !facingkiller)
     {
-        angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
-
-        delta = angle - mo->angle;
+        angle_t angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
+        angle_t delta = angle - mo->angle;
 
         if (delta < ANG5 || delta >(unsigned int) - ANG5)
         {

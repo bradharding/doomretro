@@ -2635,7 +2635,6 @@ dboolean PIT_PushThing(mobj_t* thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {
-        angle_t pushangle;
         fixed_t speed;
         fixed_t sx = tmpusher->x;
         fixed_t sy = tmpusher->y;
@@ -2660,7 +2659,8 @@ dboolean PIT_PushThing(mobj_t* thing)
         // to be able to see the push/pull source point.
         if (speed > 0 && P_CheckSight(thing, tmpusher->source))
         {
-            pushangle = R_PointToAngle2(thing->x, thing->y, sx, sy);
+            angle_t     pushangle = R_PointToAngle2(thing->x, thing->y, sx, sy);
+
             if (tmpusher->source->type == MT_PUSH)
                 pushangle += ANG180;    // away
             pushangle >>= ANGLETOFINESHIFT;
