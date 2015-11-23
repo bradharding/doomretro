@@ -36,15 +36,15 @@
 ========================================================================
 */
 
-#define PACKAGE_VERSION                 1,9,1,0
-#define PACKAGE_VERSIONSTRING           "1.9.1"
+#define PACKAGE_VERSION                 2,0,0,0
+#define PACKAGE_VERSIONSTRING           "2.0"
 #if defined (_DEBUG)
-#define PACKAGE_BRANDINGSTRING          "DOOM Retro v1.9.1 (Debug Build)"
+#define PACKAGE_BRANDINGSTRING          "DOOM Retro v2.0 (Debug Build)"
 #else
-#define PACKAGE_BRANDINGSTRING          "DOOM Retro v1.9.1"
+#define PACKAGE_BRANDINGSTRING          "DOOM Retro v2.0"
 #endif
-#define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v1.9.1"
-#define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM Retro v1.9.1"
+#define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v2.0"
+#define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM Retro v2.0"
 
 #define PACKAGE                         "doomretro"
 #define PACKAGE_CONFIG                  "doomretro.cfg"
