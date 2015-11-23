@@ -1138,12 +1138,12 @@ dboolean C_Responder(event_t *ev)
                             && consolecmds[autocomplete].type != CT_CHEAT
                             && consolecmds[autocomplete].description[0])
                         {
-                            int length = strlen(consoleinput);
-
                             M_StringCopy(consoleinput, consolecmds[autocomplete].name,
                                 sizeof(consoleinput));
-                            if (consolecmds[autocomplete].parameters && length < 255)
+                            if (consolecmds[autocomplete].parameters)
                             {
+                                int length = strlen(consoleinput);
+
                                 consoleinput[length] = ' ';
                                 consoleinput[length + 1] = '\0';
                             }
