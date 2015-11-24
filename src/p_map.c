@@ -1681,8 +1681,6 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
     x2 = t1->x + (distance >> FRACBITS) * finecosine[angle];
     y2 = t1->y + (distance >> FRACBITS) * finesine[angle];
     shootz = t1->z + (t1->height >> 1) + 8 * FRACUNIT;
-    if (t1->flags2 & MF2_FEETARECLIPPED)
-        shootz -= FOOTCLIPSIZE;
     attackrange = distance;
     aimslope = slope;
 
