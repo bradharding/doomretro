@@ -110,7 +110,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
         if (openrange <= 0)
             continue;   // closed door
 
-        other = sides[check->sidenum[sides[check->sidenum[0]].sector == sec]].sector;
+        other = sides[check->sidenum[(sides[check->sidenum[0]].sector == sec)]].sector;
 
         if (!(check->flags & ML_SOUNDBLOCK))
             P_RecursiveSound(other, soundblocks, soundtarget);
@@ -260,6 +260,28 @@ static dboolean P_IsOnLift(const mobj_t *actor)
                 case W1_Lift_LowerWaitRaise_Fast:
                 case S1_Lift_LowerWaitRaise_Fast:
                 case SR_Lift_LowerWaitRaise_Fast:
+                case W1_Lift_RaiseBy24_ChangesTexture:
+                case W1_Lift_RaiseBy32_ChangesTexture:
+                case WR_Lift_RaiseBy24_ChangesTexture:
+                case WR_Lift_RaiseBy32_ChangesTexture:
+                case S1_Lift_PerpetualLowestAndHighestFloors:
+                case S1_Lift_Stop:
+                case SR_Lift_PerpetualLowestAndHighestFloors:
+                case SR_Lift_Stop:
+                case SR_Lift_RaiseToCeiling_Instantly:
+                case WR_Lift_RaiseToCeiling_Instantly:
+                case W1_Lift_RaiseToNextHighestFloor_Fast:
+                case WR_Lift_RaiseToNextHighestFloor_Fast:
+                case S1_Lift_RaiseToNextHighestFloor_Fast:
+                case SR_Lift_RaiseToNextHighestFloor_Fast:
+                case W1_Lift_LowerToNextLowestFloor_Fast:
+                case WR_Lift_LowerToNextLowestFloor_Fast:
+                case S1_Lift_LowerToNextLowestFloor_Fast:
+                case SR_Lift_LowerToNextLowestFloor_Fast:
+                case W1_Lift_MoveToSameFloorHeight_Fast:
+                case WR_Lift_MoveToSameFloorHeight_Fast:
+                case S1_Lift_MoveToSameFloorHeight_Fast:
+                case SR_Lift_MoveToSameFloorHeight_Fast:
                     return true;
             }
         }
