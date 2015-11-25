@@ -89,9 +89,6 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 {
     int i;
 
-    if (players[0].cheats & CF_NOTARGET)
-        return;
-
     // wake up all monsters in this sector
     if (sec->validcount == validcount && sec->soundtraversed <= soundblocks + 1)
         return;         // already flooded
@@ -129,6 +126,10 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 //
 void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
 {
+    // [BH] don't alert if notarget is enabled
+    if (players[0].cheats & CF_NOTARGET)
+        return;
+
     validcount++;
     P_RecursiveSound(emmiter->subsector->sector, 0, target);
 }
