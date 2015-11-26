@@ -130,7 +130,7 @@ void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
     if (players[0].cheats & CF_NOTARGET)
         return;
 
-    validcount++;
+    ++validcount;
     P_RecursiveSound(emmiter->subsector->sector, 0, target);
 }
 
@@ -140,14 +140,12 @@ void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
 dboolean P_CheckMeleeRange(mobj_t *actor)
 {
     mobj_t      *pl = actor->target;
-    fixed_t     dist;
 
     if (!pl)
         return false;
 
-    dist = P_ApproxDistance(pl->x - actor->x, pl->y - actor->y);
-
-    if (dist >= MELEERANGE - 20 * FRACUNIT + pl->info->radius)
+    if (P_ApproxDistance(pl->x - actor->x, pl->y - actor->y) >= MELEERANGE - 20 * FRACUNIT
+        + pl->info->radius)
         return false;
 
     // [BH] check difference in height as well
@@ -166,6 +164,7 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 static dboolean P_CheckMissileRange(mobj_t *actor)
 {
     fixed_t     dist;
+    mobjtype_t  type;
 
     if (!P_CheckSight(actor, actor->target))
         return false;
@@ -181,31 +180,30 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
         return false;                   // do not attack yet
 
     dist = P_ApproxDistance(actor->x - actor->target->x,
-                            actor->y - actor->target->y) - 64 * FRACUNIT;
+        actor->y - actor->target->y) - 64 * FRACUNIT;
 
     if (!actor->info->meleestate)
         dist -= 128 * FRACUNIT;         // no melee attack, so fire more
 
     dist >>= FRACBITS;
 
-    if (actor->type == MT_VILE)
+    type = actor->type;
+    if (type == MT_VILE)
         if (dist > 14 * 64)
             return false;               // too far away
-
-    if (actor->type == MT_UNDEAD)
+    else if (type == MT_UNDEAD)
     {
         if (dist < 196)
             return false;               // close for fist attack
         dist >>= 1;
     }
-
-    if (actor->type == MT_CYBORG || actor->type == MT_SPIDER || actor->type == MT_SKULL)
+    else if (type == MT_CYBORG || type == MT_SPIDER || type == MT_SKULL)
         dist >>= 1;
 
     if (dist > 200)
         dist = 200;
 
-    if (actor->type == MT_CYBORG && dist > 160)
+    if (type == MT_CYBORG && dist > 160)
         dist = 160;
 
     if (P_Random() < dist)
@@ -305,11 +303,12 @@ static int P_IsUnderDamage(mobj_t *actor)
 
     for (seclist = actor->touching_sectorlist; seclist; seclist = seclist->m_tnext)
     {
-        const ceiling_t          *cl;    // Crushing ceiling
+        const ceiling_t *cl = seclist->m_sector->ceilingdata;   // Crushing ceiling
 
-        if ((cl = seclist->m_sector->ceilingdata) && cl->thinker.function == T_MoveCeiling)
+        if (cl && cl->thinker.function == T_MoveCeiling)
             dir |= cl->direction;
     }
+
     return dir;
 }
 
@@ -327,7 +326,8 @@ extern int      numspechit;
 
 static dboolean P_Move(mobj_t *actor, dboolean dropoff)   // killough 9/12/98
 {
-    fixed_t     tryx, tryy, deltax, deltay;
+    fixed_t     tryx, tryy;
+    fixed_t     deltax, deltay;
     dboolean    try_ok;
     int         movefactor = ORIG_FRICTION_FACTOR;      // killough 10/98
     int         friction = ORIG_FRICTION;
@@ -349,11 +349,12 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff)   // killough 9/12/98
 
     // killough 10/98: make monsters get affected by ice and sludge too:
     movefactor = P_GetMoveFactor(actor, &friction);
+
     speed = actor->info->speed;
 
     if (friction < ORIG_FRICTION        // sludge
-        && !(speed = ((ORIG_FRICTION_FACTOR - (ORIG_FRICTION_FACTOR - movefactor) / 2)
-        * speed) / ORIG_FRICTION_FACTOR))
+        && !(speed = ((ORIG_FRICTION_FACTOR - (ORIG_FRICTION_FACTOR - movefactor) / 2) * speed)
+            / ORIG_FRICTION_FACTOR))
         speed = 1;                      // always give the monster a little bit of speed
 
     tryx = actor->x + (deltax = speed * xspeed[actor->movedir]);
@@ -428,7 +429,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff)   // killough 9/12/98
         // back out when they shouldn't, and creates secondary stickiness).
         for (good = false; numspechit--;)
             if (P_UseSpecialLine(actor, spechit[numspechit], 0))
-                good |= spechit[numspechit] == blockline ? 1 : 2;
+                good |= (spechit[numspechit] == blockline ? 1 : 2);
 
         return good && ((P_Random() >= 230) ^ (good & 1));
     }
@@ -450,7 +451,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff)   // killough 9/12/98
 static dboolean P_SmartMove(mobj_t *actor)
 {
     mobj_t      *target = actor->target;
-    int         on_lift;
+    dboolean    on_lift;
     int         under_damage;
 
     // killough 9/12/98: Stay on a lift if target is on one
@@ -587,16 +588,18 @@ static dboolean PIT_AvoidDropoff(line_t *line)
         // The monster must contact one of the two floors,
         // and the other must be a tall dropoff (more than 24).
         if (back == floorz && front < floorz - FRACUNIT * 24)
-            angle = R_PointToAngle2(0, 0, line->dx, line->dy);          // front side dropoff
+            // front side dropoff
+            angle = R_PointToAngle2(0, 0, line->dx, line->dy) >> ANGLETOFINESHIFT;
         else if (front == floorz && back < floorz - FRACUNIT * 24)
-            angle = R_PointToAngle2(line->dx, line->dy, 0, 0);          // back side dropoff
+            // back side dropoff
+            angle = R_PointToAngle2(line->dx, line->dy, 0, 0) >> ANGLETOFINESHIFT;
         else
             return true;
 
         // Move away from dropoff at a standard speed.
         // Multiple contacted linedefs are cumulative (e.g. hanging over corner)
-        dropoff_deltax -= finesine[angle >> ANGLETOFINESHIFT] * 32;
-        dropoff_deltay += finecosine[angle >> ANGLETOFINESHIFT] * 32;
+        dropoff_deltax -= finesine[angle] * 32;
+        dropoff_deltay += finecosine[angle] * 32;
     }
     return true;
 }
@@ -617,9 +620,9 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
     dropoff_deltax = dropoff_deltay = 0;
 
     // check lines
-    validcount++;
-    for (bx = xl; bx <= xh; bx++)
-        for (by = yl; by <= yh; by++)
+    ++validcount;
+    for (bx = xl; bx <= xh; ++bx)
+        for (by = yl; by <= yh; ++by)
             P_BlockLinesIterator(bx, by, PIT_AvoidDropoff);     // all contacted lines
 
     return (dropoff_deltax | dropoff_deltay);                   // Non-zero if movement prescribed
@@ -956,64 +959,43 @@ void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_PosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int         angle;
-    int         damage;
-    int         slope;
-
     if (!actor->target)
         return;
 
     A_FaceTarget(actor, NULL, NULL);
-    angle = actor->angle;
-    slope = P_AimLineAttack(actor, angle, MISSILERANGE);
 
     S_StartSound(actor, sfx_pistol);
-    angle += (P_Random() - P_Random()) << 20;
-    damage = ((P_Random() % 5) + 1) * 3;
-    P_LineAttack(actor, angle, MISSILERANGE, slope, damage);
+    P_LineAttack(actor, actor->angle, MISSILERANGE,
+        P_AimLineAttack(actor, actor->angle + ((P_Random() - P_Random()) << 20), MISSILERANGE),
+        ((P_Random() % 5) + 1) * 3);
 }
 
 void A_SPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int         i;
-    int         bangle;
-    int         slope;
+    int i;
 
     if (!actor->target)
         return;
 
     A_FaceTarget(actor, NULL, NULL);
-    bangle = actor->angle;
-    slope = P_AimLineAttack(actor, bangle, MISSILERANGE);
 
     S_StartSound(actor, sfx_shotgn);
     for (i = 0; i < 3; i++)
-    {
-        int     angle = bangle + ((P_Random() - P_Random()) << 20);
-        int     damage = ((P_Random() % 5) + 1) * 3;
-
-        P_LineAttack(actor, angle, MISSILERANGE, slope, damage);
-    }
+        P_LineAttack(actor, actor->angle + ((P_Random() - P_Random()) << 20),
+            MISSILERANGE, P_AimLineAttack(actor, actor->angle, MISSILERANGE),
+            ((P_Random() % 5) + 1) * 3);
 }
 
 void A_CPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int         angle;
-    int         bangle;
-    int         damage;
-    int         slope;
-
     if (!actor->target)
         return;
 
     A_FaceTarget(actor, NULL, NULL);
-    bangle = actor->angle;
-    slope = P_AimLineAttack(actor, bangle, MISSILERANGE);
 
     S_StartSound(actor, sfx_shotgn);
-    angle = bangle + ((P_Random() - P_Random()) << 20);
-    damage = ((P_Random() % 5) + 1) * 3;
-    P_LineAttack(actor, angle, MISSILERANGE, slope, damage);
+    P_LineAttack(actor, actor->angle + ((P_Random() - P_Random()) << 20), MISSILERANGE,
+        P_AimLineAttack(actor, actor->angle, MISSILERANGE), ((P_Random() % 5) + 1) * 3);
 }
 
 void A_CPosRefire(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1062,10 +1044,8 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
     if (P_CheckMeleeRange(actor))
     {
-        int     damage = (P_Random() % 8 + 1) * 3;
-
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(actor->target, actor, actor, damage);
+        P_DamageMobj(actor->target, actor, actor, (P_Random() % 8 + 1) * 3);
         return;
     }
 
@@ -1081,11 +1061,7 @@ void A_SargAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     A_FaceTarget(actor, NULL, NULL);
     if (P_CheckMeleeRange(actor))
-    {
-        int     damage = (P_Random() % 10 + 1) * 4;
-
-        P_DamageMobj(actor->target, actor, actor, damage);
-    }
+        P_DamageMobj(actor->target, actor, actor, (P_Random() % 10 + 1) * 4);
 }
 
 void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1096,9 +1072,7 @@ void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
     if (P_CheckMeleeRange(actor))
     {
-        int     damage = (P_Random() % 6 + 1) * 10;
-
-        P_DamageMobj(actor->target, actor, actor, damage);
+        P_DamageMobj(actor->target, actor, actor, (P_Random() % 6 + 1) * 10);
         return;
     }
 
@@ -1129,10 +1103,8 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
     if (P_CheckMeleeRange(actor))
     {
-        int     damage = (P_Random() % 8 + 1) * 10;
-
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(actor->target, actor, actor, damage);
+        P_DamageMobj(actor->target, actor, actor, (P_Random() % 8 + 1) * 10);
         return;
     }
 
@@ -1236,10 +1208,8 @@ void A_SkelFist(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (P_CheckMeleeRange(actor))
     {
-        int damage = ((P_Random() % 10) + 1) * 6;
-
         S_StartSound(actor, sfx_skepch);
-        P_DamageMobj(actor->target, actor, actor, damage);
+        P_DamageMobj(actor->target, actor, actor, ((P_Random() % 10) + 1) * 6);
     }
 }
 
@@ -1745,7 +1715,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RadiusAttack(actor, actor->target, 128);
 }
 
-dboolean flag667 = false;
+dboolean        flag667 = false;
 
 //
 // A_BossDeath
@@ -1970,7 +1940,7 @@ static mobj_t *A_NextBrainTarget(void)
         {
             if (count == braintargeted) // This one the one that we want?
             {
-                braintargeted++;        // Yes.
+                ++braintargeted;        // Yes.
                 return mo;
             }
             count++;
@@ -2001,18 +1971,15 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (targ)
     {
-        mobj_t  *newmobj;
-        int     dist;
-
         // spawn brain missile
-        newmobj = P_SpawnMissile(actor, targ, MT_SPAWNSHOT);
+        mobj_t  *newmobj = P_SpawnMissile(actor, targ, MT_SPAWNSHOT);
+
         P_SetTarget(&newmobj->target, targ);
-        dist = P_ApproxDistance(targ->x - (actor->x + actor->momx),
-            targ->y - (actor->y + actor->momy));
 
         // Use the reactiontime to hold the distance (squared)
         // from the target after the next move.
-        newmobj->reactiontime = dist;
+        newmobj->reactiontime = P_ApproxDistance(targ->x - (actor->x + actor->momx),
+            targ->y - (actor->y + actor->momy));
         S_StartSound(NULL, sfx_bospit);
     }
 }
@@ -2152,7 +2119,7 @@ void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
             mobj_t      target = *actor;
             mobj_t      *mo;
 
-            target.x += i << FRACBITS;                          // Aim in many directions from source
+            target.x += i << FRACBITS;                  // Aim in many directions from source
             target.y += j << FRACBITS;
             target.z += P_ApproxDistance(i, j) * misc1;         // Aim up fairly high
             mo = P_SpawnMissile(actor, &target, MT_FATSHOT);    // Launch fireball
@@ -2172,9 +2139,10 @@ void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (actor->state->misc1)
-        P_SpawnMobj(actor->x, actor->y, (actor->state->misc2 << FRACBITS) + actor->z,
-            actor->state->misc1 - 1);
+    state_t     *state = actor->state;
+
+    if (state->misc1)
+        P_SpawnMobj(actor->x, actor->y, (state->misc2 << FRACBITS) + actor->z, state->misc1 - 1);
 }
 
 void A_Turn(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -2189,14 +2157,18 @@ void A_Face(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    (actor->target && (A_FaceTarget(actor, NULL, NULL), P_CheckMeleeRange(actor)) ?
-        (actor->state->misc2 ? S_StartSound(actor, actor->state->misc2) : (void)0,
-        P_DamageMobj(actor->target, actor, actor, actor->state->misc1)) : (void)0);
+    state_t     *state = actor->state;
+
+    (actor->target && (A_FaceTarget(actor, NULL, NULL), P_CheckMeleeRange(actor)) ? (state->misc2 ?
+        S_StartSound(actor, state->misc2) : (void)0, P_DamageMobj(actor->target, actor, actor,
+            state->misc1)) : (void)0);
 }
 
 void A_PlaySound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    S_StartSound((actor->state->misc2 ? NULL : actor), actor->state->misc1);
+    state_t     *state = actor->state;
+
+    S_StartSound((state->misc2 ? NULL : actor), state->misc1);
 }
 
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
