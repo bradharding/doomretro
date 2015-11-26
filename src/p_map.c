@@ -435,12 +435,21 @@ dboolean PIT_CheckThing(mobj_t *thing)
     int         tmflags = tmthing->flags;
     fixed_t     dist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
 
+    // [BH] apply small amount of momentum to a corpse when a monster walks over it
     if (r_corpses_nudge && (flags & MF_CORPSE) && (tmflags & MF_SHOOTABLE) && !thing->nudge
-        && dist < 16 * FRACUNIT && !(thing->z - tmthing->z))
+        && dist < 16 * FRACUNIT && thing->z == tmthing->z)
     {
         thing->nudge = TICRATE;
-        thing->momx = M_RandomInt(-1, 1) * FRACUNIT / 2;
-        thing->momy = M_RandomInt(-1, 1) * FRACUNIT / 2;
+        if (thing->flags2 & MF2_FEETARECLIPPED)
+        {
+            thing->momx = M_RandomInt(-1, 1) * FRACUNIT;
+            thing->momy = M_RandomInt(-1, 1) * FRACUNIT;
+        }
+        else
+        {
+            thing->momx = M_RandomInt(-1, 1) * FRACUNIT / 2;
+            thing->momy = M_RandomInt(-1, 1) * FRACUNIT / 2;
+        }
     }
 
     if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
