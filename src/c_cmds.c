@@ -1960,7 +1960,7 @@ static void C_PlayerStats_Game(void)
         (totalsecret ? player->secretcount * 100 / totalsecret : 0),
         commify(stat_secretsrevealed));
 
-    C_TabbedOutput(tabs, "Time\t%02i:%02i:%02i\t%02i:%02i:%02i",
+    C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\t%02i:%02i:%02i",
         time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60,
         time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
@@ -2057,7 +2057,7 @@ static void C_PlayerStats_NoGame(void)
 
     C_TabbedOutput(tabs, "Secrets revealed\t%s", commify(stat_secretsrevealed));
 
-    C_TabbedOutput(tabs, "Time\t%02i:%02i:%02i",
+    C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i",
         time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
     C_TabbedOutput(tabs, "Damage inflicted\t%s", commify(stat_damageinflicted));
