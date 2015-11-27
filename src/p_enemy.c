@@ -950,6 +950,7 @@ void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (actor->target->flags & MF_FUZZ)
         actor->angle += (P_Random() - P_Random()) << 21;
 
+    // [BH] update shadow angle
     if (actor->shadow)
         actor->shadow->angle = actor->angle;
 }
@@ -965,8 +966,8 @@ void A_PosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
 
     S_StartSound(actor, sfx_pistol);
-    P_LineAttack(actor, actor->angle, MISSILERANGE,
-        P_AimLineAttack(actor, actor->angle + ((P_Random() - P_Random()) << 20), MISSILERANGE),
+    P_LineAttack(actor, actor->angle, MISSILERANGE, P_AimLineAttack(actor,
+        actor->angle + ((P_Random() - P_Random()) << 20), MISSILERANGE),
         ((P_Random() % 5) + 1) * 3);
 }
 
@@ -981,9 +982,8 @@ void A_SPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_shotgn);
     for (i = 0; i < 3; i++)
-        P_LineAttack(actor, actor->angle + ((P_Random() - P_Random()) << 20),
-            MISSILERANGE, P_AimLineAttack(actor, actor->angle, MISSILERANGE),
-            ((P_Random() % 5) + 1) * 3);
+        P_LineAttack(actor, actor->angle + ((P_Random() - P_Random()) << 20), MISSILERANGE,
+            P_AimLineAttack(actor, actor->angle, MISSILERANGE), ((P_Random() % 5) + 1) * 3);
 }
 
 void A_CPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1049,8 +1049,10 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
     }
 
-    // launch a missile
+    // [BH] make imp fullbright when launching missile
     actor->frame |= FF_FULLBRIGHT;
+
+    // launch a missile
     P_SpawnMissile(actor, actor->target, MT_TROOPSHOT);
 }
 
@@ -1076,8 +1078,11 @@ void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
     }
 
-    // launch a missile
+    // [BH] make cacodemon fullbright when launching missile here instead of in its
+    // S_HEAD_ATK3 state so its not fullbright when during its melee attack above.
     actor->frame |= FF_FULLBRIGHT;
+
+    // launch a missile
     P_SpawnMissile(actor, actor->target, MT_HEADSHOT);
 }
 
@@ -1091,6 +1096,7 @@ void A_CyberAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
     mo = P_SpawnMissile(actor, actor->target, MT_ROCKET);
 
+    // [BH] give cyberdemon rockets smoke trails
     if (r_rockettrails)
         mo->flags2 |= MF2_SMOKETRAIL;
 }
@@ -1100,7 +1106,9 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!actor->target)
         return;
 
+    // [BH] fix baron nobles not facing targets correctly when attacking
     A_FaceTarget(actor, NULL, NULL);
+
     if (P_CheckMeleeRange(actor))
     {
         S_StartSound(actor, sfx_claw);
@@ -1108,8 +1116,10 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
     }
 
-    // launch a missile
+    // [BH] make baron nobles fullbright when launching missile
     actor->frame |= FF_FULLBRIGHT;
+
+    // launch a missile
     P_SpawnMissile(actor, actor->target, MT_BRUISERSHOT);
 }
 
@@ -1245,6 +1255,7 @@ dboolean PIT_VileCheck(mobj_t *thing)
     corpsehit = thing;
     corpsehit->momx = corpsehit->momy = 0;
 
+    // [BH] fix potential of corpse being resurrected as a "ghost"
     height = corpsehit->height;
     radius = corpsehit->radius;
     corpsehit->height = corpsehit->info->height;
@@ -1307,6 +1318,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     P_SetMobjState(corpsehit, info->raisestate);
 
+                    // [BH] fix potential of corpse being resurrected as a "ghost"
                     corpsehit->height = info->height;
                     corpsehit->radius = info->radius;
                     corpsehit->flags = info->flags;
@@ -1433,6 +1445,8 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_barexp);
     P_DamageMobj(target, actor, actor, 20);
+
+    // [BH] don't apply upward momentum from vile attack to player when no clipping mode on
     if (!target->player || !(target->flags & MF_NOCLIP))
         target->momz = 1000 * FRACUNIT / target->info->mass;
 
@@ -1541,7 +1555,6 @@ void A_SkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t      *dest;
     angle_t     an;
-    int         dist;
 
     if (!actor->target)
         return;
@@ -1554,22 +1567,18 @@ void A_SkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     an = actor->angle >> ANGLETOFINESHIFT;
     actor->momx = FixedMul(SKULLSPEED, finecosine[an]);
     actor->momy = FixedMul(SKULLSPEED, finesine[an]);
-    dist = MAX(1, P_ApproxDistance(dest->x - actor->x, dest->y - actor->y) / SKULLSPEED);
-
-    actor->momz = (dest->z + (dest->height >> 1) - actor->z) / dist;
+    actor->momz = (dest->z + (dest->height >> 1) - actor->z) /
+        MAX(1, P_ApproxDistance(dest->x - actor->x, dest->y - actor->y) / SKULLSPEED);
 }
 
 void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int damage;
-
     if (!actor->target || actor->target->type == actor->type)
         return;
 
     S_StartSound(actor, actor->info->attacksound);
     A_FaceTarget(actor, NULL, NULL);
-    damage = (P_Random() % 8 + 1) * actor->info->damage;
-    P_DamageMobj(actor->target, actor, actor, damage);
+    P_DamageMobj(actor->target, actor, actor, (P_Random() % 8 + 1) * actor->info->damage);
 }
 
 void A_Stop(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1902,6 +1911,7 @@ void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     int         x;
 
+    // [BH] explosions are correctly centered
     for (x = actor->x - 258 * FRACUNIT; x < actor->x + 258 * FRACUNIT; x += FRACUNIT * 8)
     {
         int     y = actor->y - 320 * FRACUNIT;
@@ -2054,6 +2064,9 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
 
             newmobj->flags &= ~MF_COUNTKILL;
 
+            // killough 8/29/98: add to appropriate thread
+            P_UpdateThinker(&newmobj->thinker);
+
             if (!(P_LookForPlayers(newmobj, true))
                 || P_SetMobjState(newmobj, newmobj->info->seestate))
                 // telefrag anything in this spot
@@ -2182,6 +2195,7 @@ void A_PlaySound(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    // [BH] allow A_RandomJump to work for weapon states as well
     if (psp)
     {
         state_t *state = psp->state;
