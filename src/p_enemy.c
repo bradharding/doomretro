@@ -1590,6 +1590,11 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
     fixed_t     y = actor->y + FixedMul(prestep, finesine[an]);
     fixed_t     z = actor->z + 8 * FRACUNIT;
 
+    // [BH] removed check for number of lost souls
+
+    // Check whether the Lost Soul is being fired through a 1-sided
+    // wall or an impassible line, or a "monsters can't cross" line.
+    // If it is, then we don't allow the spawn.
     if (P_CheckLineSide(actor, x, y))
         return;
 
@@ -1597,12 +1602,16 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
 
     newmobj->flags &= ~MF_COUNTKILL;
 
-    if (!P_TryMove(newmobj, newmobj->x, newmobj->y, false))
-    {
-        if (newmobj->shadow)
-            P_RemoveMobjShadow(newmobj);
-        P_RemoveMobj(newmobj);
-    }
+    // killough 8/29/98: add to appropriate thread
+    P_UpdateThinker(&newmobj->thinker);
+
+    if (!P_TryMove(newmobj, newmobj->x, newmobj->y, false)
+
+        // Check to see if the new Lost Soul's z value is above the
+        // ceiling of its new sector, or below the floor. If so, kill it.
+        || newmobj->z > newmobj->subsector->sector->ceilingheight - newmobj->height
+        || newmobj->z < newmobj->subsector->sector->floorheight)
+        P_DamageMobj(newmobj, actor, actor, 10000);
     else
     {
         P_SetTarget(&newmobj->target, actor->target);
