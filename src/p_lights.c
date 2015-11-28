@@ -183,7 +183,7 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
 //
 int EV_StartLightStrobing(line_t *line)
 {
-    int         secnum = -1;
+    int secnum = -1;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
@@ -284,7 +284,7 @@ void T_Glow(glow_t *g)
 
 void P_SpawnGlowingLight(sector_t *sector)
 {
-    glow_t *glow = Z_Malloc(sizeof(*glow), PU_LEVSPEC, 0);
+    glow_t      *glow = Z_Malloc(sizeof(*glow), PU_LEVSPEC, 0);
 
     P_AddThinker(&glow->thinker);
 
@@ -316,8 +316,11 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
     // search all sectors for ones with same tag as activating line
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        sector_t        *temp, *sector = sectors + i;
-        int             j, bright = 0, min = sector->lightlevel;
+        sector_t        *temp;
+        sector_t        *sector = sectors + i;
+        int             j;
+        int             bright = 0;
+        int             min = sector->lightlevel;
 
         for (j = 0; j < sector->linecount; j++)
             if ((temp = getNextSector(sector->lines[j], sector)))
@@ -333,12 +336,17 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
     }
 }
 
+//
+// EV_LightByAdjacentSectors()
+//
 // [BH] similar to EV_LightTurnOnPartway(), but instead of using a line tag, looks at adjacent
 //  sectors of the sector itself.
 void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
 {
     sector_t    *temp;
-    int         i, bright = 0, min = MAX(0, sector->lightlevel - 4);
+    int         i;
+    int         bright = 0;
+    int         min = MAX(0, sector->lightlevel - 4);
 
     level = BETWEEN(0, level, FRACUNIT);        // clip at extremes
 

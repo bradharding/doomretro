@@ -208,6 +208,9 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     return num;
 }
 
+//
+// P_GiveBackpack
+//
 dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
 {
     int         i;
@@ -234,6 +237,9 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
     return result;
 }
 
+//
+// P_GiveFullAmmo
+//
 dboolean P_GiveFullAmmo(player_t *player)
 {
     int         i;
@@ -256,6 +262,9 @@ dboolean P_GiveFullAmmo(player_t *player)
         return false;
 }
 
+//
+// P_AddBonus
+//
 void P_AddBonus(player_t *player, int amount)
 {
     if (!consoleactive)
@@ -293,6 +302,9 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
         return (gaveweapon || gaveammo);
 }
 
+//
+// P_GiveAllWeapons
+//
 dboolean P_GiveAllWeapons(player_t *player)
 {
     dboolean result = false;
@@ -373,6 +385,9 @@ dboolean P_GiveBody(player_t *player, int num)
     return true;
 }
 
+//
+// P_GiveMegaHealth
+//
 void P_GiveMegaHealth(player_t *player)
 {
     if (!(player->cheats & CF_GODMODE))
@@ -490,6 +505,9 @@ void P_GiveCard(player_t *player, card_t card)
         player->neededcard = player->neededcardflash = 0;
 }
 
+//
+// P_GiveAllCards
+//
 dboolean P_GiveAllCards(player_t *player)
 {
     int         i;
