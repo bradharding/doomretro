@@ -190,7 +190,9 @@ void T_MoveFloor(floormove_t *floor)
     result_e    res = T_MovePlane(sec, floor->speed, floor->floordestheight,
                                   floor->crush, 0, floor->direction);
 
-    if (!(leveltime & 7) && sec->floorheight != floor->floordestheight)
+    if (!(leveltime & 7)
+        // [BH] don't make sound once floor is at its destination height
+        && sec->floorheight != floor->floordestheight)
         S_StartSectorSound(&sec->soundorg, sfx_stnmov);
 
     if (res == pastdest)
@@ -269,6 +271,7 @@ void T_MoveFloor(floormove_t *floor)
             }
         }
 
+        // [BH] don't make stop sound if floor already at its destination height
         if (floor->stopsound)
             S_StartSectorSound(&sec->soundorg, sfx_pstop);
     }
@@ -533,8 +536,9 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 
         floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
 
-        for (i = 0; i < floor->sector->linecount; i++)
-            floor->sector->lines[i]->flags &= ~ML_SECRET;
+        // [BH] floor is no longer secret
+        for (i = 0; i < sec->linecount; i++)
+            sec->lines[i]->flags &= ~ML_SECRET;
     }
     return rtn;
 }

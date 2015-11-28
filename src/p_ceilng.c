@@ -42,10 +42,6 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-//
-// CEILINGS
-//
-
 // the list of ceilings moving currently, including crushers
 ceilinglist_t   *activeceilings;
 
@@ -69,7 +65,9 @@ void T_MoveCeiling(ceiling_t *ceiling)
             res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->topheight, false, 1,
                 ceiling->direction);
 
-            if (!(leveltime & 7) && ceiling->sector->ceilingheight != ceiling->topheight)
+            if (!(leveltime & 7)
+                // [BH] don't make sound once ceiling is at its destination height
+                && ceiling->sector->ceilingheight != ceiling->topheight)
                 switch (ceiling->type)
                 {
                     case silentCrushAndRaise:
@@ -121,7 +119,9 @@ void T_MoveCeiling(ceiling_t *ceiling)
             res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->bottomheight,
                 ceiling->crush, 1, ceiling->direction);
 
-            if (!(leveltime & 7) && ceiling->sector->ceilingheight != ceiling->bottomheight)
+            if (!(leveltime & 7)
+                // [BH] don't make sound once ceiling is at its destination height
+                && ceiling->sector->ceilingheight != ceiling->bottomheight)
                 switch (ceiling->type)
                 {
                     case silentCrushAndRaise:
@@ -178,28 +178,25 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
                 }
             }
-            else
+            else if (res == crushed)
             {
-                if (res == crushed)
+                switch (ceiling->type)
                 {
-                    switch (ceiling->type)
-                    {
-                        // jff 02/08/98 slow down slow crushers on obstacle
-                        case genCrusher:
-                        case genSilentCrusher:
-                            if (ceiling->oldspeed < CEILSPEED * 3)
-                                ceiling->speed = CEILSPEED / 8;
-                            break;
-
-                        case silentCrushAndRaise:
-                        case crushAndRaise:
-                        case lowerAndCrush:
+                    // jff 02/08/98 slow down slow crushers on obstacle
+                    case genCrusher:
+                    case genSilentCrusher:
+                        if (ceiling->oldspeed < CEILSPEED * 3)
                             ceiling->speed = CEILSPEED / 8;
-                            break;
+                        break;
 
-                        default:
-                            break;
-                    }
+                    case silentCrushAndRaise:
+                    case crushAndRaise:
+                    case lowerAndCrush:
+                        ceiling->speed = CEILSPEED / 8;
+                        break;
+
+                    default:
+                        break;
                 }
             }
             break;
