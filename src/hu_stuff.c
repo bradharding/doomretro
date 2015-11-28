@@ -83,15 +83,6 @@ char                    *playername = playername_default;
 
 int M_StringWidth(char *string);
 
-extern dboolean         messages;
-extern dboolean         vid_widescreen;
-extern dboolean         r_hud;
-extern dboolean         r_translucency;
-extern int              cardsfound;
-extern patch_t          *tallnum[10];
-extern patch_t          *tallpercent;
-extern dboolean         emptytallpercent;
-
 static dboolean         headsupactive;
 
 byte                    *tempscreen;
@@ -104,8 +95,18 @@ static patch_t          *bluearmorpatch;
 
 dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
+dboolean                r_hud = r_hud_default;
+
 static patch_t          *stdisk;
 dboolean                drawdisk = false;
+
+extern dboolean         messages;
+extern dboolean         vid_widescreen;
+extern dboolean         r_translucency;
+extern int              cardsfound;
+extern patch_t          *tallnum[10];
+extern patch_t          *tallpercent;
+extern dboolean         emptytallpercent;
 
 void (*hudfunc)(int, int, patch_t *, byte *);
 void (*hudnumfunc)(int, int, patch_t *, byte *);

@@ -65,7 +65,6 @@
 
 // CVARs
 dboolean                m_novertical = m_novertical_default;
-dboolean                r_hud = r_hud_default;
 dboolean                vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
 #if !defined(WIN32)

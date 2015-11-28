@@ -47,6 +47,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
+extern dboolean r_hud;
 extern dboolean r_liquid_bob;
 extern char     *playername;
 
@@ -172,6 +173,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeClose:                         // DO NOT GO BACK UP!
                         break;
 
+                    // [BH] play correct sound when raising fast doors
                     case doorBlazeRaise:
                         door->direction = 1;
                         S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
@@ -253,7 +255,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_bluecard)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_bluecard))
                     {
                         player->neededcard = it_bluecard;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -264,7 +266,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_blueskull)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_blueskull))
                     {
                         player->neededcard = it_blueskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -284,7 +286,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_redcard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_redcard)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_redcard))
                     {
                         player->neededcard = it_redcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -295,7 +297,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_redskull)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_redskull))
                     {
                         player->neededcard = it_redskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -315,7 +317,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_yellowcard)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_yellowcard))
                     {
                         player->neededcard = it_yellowcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -326,7 +328,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_yellowskull)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_yellowskull))
                     {
                         player->neededcard = it_yellowskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -447,7 +449,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_bluecard)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_bluecard))
                     {
                         player->neededcard = it_bluecard;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -458,7 +460,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_blueskull)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_blueskull))
                     {
                         player->neededcard = it_blueskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -481,7 +483,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_yellowcard)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_yellowcard))
                     {
                         player->neededcard = it_yellowcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -492,7 +494,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_yellowskull)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_yellowskull))
                     {
                         player->neededcard = it_yellowskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -515,7 +517,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_redcard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_redcard)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_redcard))
                     {
                         player->neededcard = it_redcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
@@ -526,7 +528,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardflash || player->neededcard != it_redskull)
+                    if (r_hud && (!player->neededcardflash || player->neededcard != it_redskull))
                     {
                         player->neededcard = it_redskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
