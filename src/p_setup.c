@@ -2155,7 +2155,7 @@ static void InitMapInfo(void)
 
                     case MCMD_MUSIC:
                         SC_MustGetString();
-                        info->music = W_GetNumForName(sc_String);
+                        info->music = W_CheckNumForName(sc_String);
                         break;
 
                     case MCMD_NEXT:
@@ -2215,14 +2215,14 @@ static void InitMapInfo(void)
 
                     case MCMD_SKY1:
                         SC_MustGetString();
-                        info->sky1texture = R_TextureNumForName(sc_String);
+                        info->sky1texture = R_CheckTextureNumForName(sc_String);
                         SC_MustGetNumber();
                         info->sky1scrolldelta = sc_Number << 8;
                         break;
 
                     case MCMD_TITLEPATCH:
                         SC_MustGetString();
-                        info->titlepatch = W_GetNumForName(sc_String);
+                        info->titlepatch = W_CheckNumForName(sc_String);
                         break;
                 }
         }
