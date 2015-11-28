@@ -212,6 +212,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
 //
 dboolean EV_DoCeiling(line_t *line, ceiling_e type)
 {
+    int         i;
     int         secnum = -1;
     dboolean    rtn = false;
     sector_t    *sec;
@@ -291,6 +292,10 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
         ceiling->tag = sec->tag;
         ceiling->type = type;
         P_AddActiveCeiling(ceiling);
+
+        // [BH] ceiling is no longer secret
+        for (i = 0; i < sec->linecount; i++)
+            sec->lines[i]->flags &= ~ML_SECRET;
     }
     return rtn;
 }
