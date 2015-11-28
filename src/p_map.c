@@ -1837,7 +1837,8 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
         // must be in direct path
         P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist);
 
-        if (bombspot->type == MT_ROCKET && thing->type != MT_BARREL)
+        // [BH] count number of times player's rockets hit a monster
+        if (bombspot->type == MT_ROCKET && thing->type != MT_BARREL && !(thing->flags & MF_CORPSE))
         {
             if (bombspot->nudge == 1)
             {
