@@ -122,6 +122,8 @@ unsigned int    stat_monsterskilled_zombiemen = 0;
 unsigned int    stat_itemspickedup = 0;
 
 extern char     *playername;
+extern dboolean r_althud;
+extern dboolean r_hud;
 
 //
 // GET STUFF
@@ -158,7 +160,7 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     if (player->ammo[ammo] > player->maxammo[ammo])
         player->ammo[ammo] = player->maxammo[ammo];
 
-    if (num && ammo == weaponinfo[player->readyweapon].ammo)
+    if (r_hud && !r_althud && num && ammo == weaponinfo[player->readyweapon].ammo)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     // If non zero ammo, don't change up weapons, player was lower on purpose.
@@ -223,7 +225,7 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
         if (player->ammo[i] < player->maxammo[i])
         {
             result = true;
-            if ((ammotype_t)i == weaponinfo[player->readyweapon].ammo)
+            if (r_hud && !r_althud && (ammotype_t)i == weaponinfo[player->readyweapon].ammo)
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
         if (giveammo)
@@ -246,7 +248,8 @@ dboolean P_GiveFullAmmo(player_t *player)
 
     if (result)
     {
-        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        if (r_hud && !r_althud)
+            ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         return true;
     }
     else
@@ -282,7 +285,8 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 
     if (gaveammo && ammotype == weaponinfo[player->readyweapon].ammo)
     {
-        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        if (r_hud && !r_althud)
+            ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         return true;
     }
     else
