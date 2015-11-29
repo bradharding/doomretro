@@ -339,8 +339,8 @@ static void HU_DrawHUD(void)
     dboolean            gamepaused = (menuactive || paused || consoleactive);
     int                 currenttime = I_GetTimeMS();
 
-    tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
-        || gamepaused ? tinttab66 : tinttab25);
+    tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ?
+        tinttab66 : tinttab25);
 
     patch = (((readyweapon == wp_fist && pendingweapon == wp_nochange)
         || pendingweapon == wp_fist) && plr->powers[pw_strength] ? berserkpatch : healthpatch);
@@ -368,19 +368,20 @@ static void HU_DrawHUD(void)
             hudnumfunc(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
     }
 
-    if (health <= HUD_HEALTH_MIN && !gamepaused)
-    {
-        if (healthwait < currenttime)
+    if (!gamepaused)
+        if (health <= HUD_HEALTH_MIN)
         {
-            healthanim = !healthanim;
-            healthwait = currenttime + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 115;
+            if (healthwait < currenttime)
+            {
+                healthanim = !healthanim;
+                healthwait = currenttime + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 115;
+            }
         }
-    }
-    else
-    {
-        healthanim = false;
-        healthwait = 0;
-    }
+        else
+        {
+            healthanim = false;
+            healthwait = 0;
+        }
 
     if (pendingweapon != wp_nochange)
     {
@@ -394,8 +395,8 @@ static void HU_DrawHUD(void)
         static int          ammowait;
         static dboolean     ammoanim;
 
-        tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN || gamepaused ?
-            tinttab66 : tinttab25);
+        tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN ? tinttab66 :
+            tinttab25);
 
         patch = ammopic[ammotype].patch;
         if (patch)
@@ -410,19 +411,20 @@ static void HU_DrawHUD(void)
         else
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, hudnumfunc);
 
-        if (ammo <= HUD_AMMO_MIN && !gamepaused)
-        {
-            if (ammowait < currenttime)
+        if (!gamepaused)
+            if (ammo <= HUD_AMMO_MIN)
             {
-                ammoanim = !ammoanim;
-                ammowait = currenttime + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 115;
+                if (ammowait < currenttime)
+                {
+                    ammoanim = !ammoanim;
+                    ammowait = currenttime + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 115;
+                }
             }
-        }
-        else
-        {
-            ammoanim = false;
-            ammowait = 0;
-        }
+            else
+            {
+                ammoanim = false;
+                ammowait = 0;
+            }
     }
 
     while (i < NUMCARDS)
