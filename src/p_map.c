@@ -2202,10 +2202,16 @@ static dboolean PIT_GetSectors(line_t *ld)
 // killough 11/98: reformatted
 void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
 {
-    int         xl, xh, yl, yh, bx, by;
+    int         xl;
+    int         xh;
+    int         yl;
+    int         yh;
+    int         bx;
+    int         by;
     msecnode_t  *node = sector_list;
     mobj_t      *saved_tmthing = tmthing;
-    fixed_t     saved_tmx = tmx, saved_tmy = tmy;
+    fixed_t     saved_tmx = tmx;
+    fixed_t     saved_tmy = tmy;
     fixed_t     radius = thing->radius;
 
     // First, clear out the existing m_thing fields. As each node is
@@ -2228,15 +2234,15 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     tmbbox[BOXRIGHT] = x + radius;
     tmbbox[BOXLEFT] = x - radius;
 
-    validcount++;       // used to make sure we only process a line once
+    ++validcount;       // used to make sure we only process a line once
 
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
     xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
     yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
     yh = (tmbbox[BOXTOP] - bmaporgy) >> MAPBLOCKSHIFT;
 
-    for (bx = xl; bx <= xh; bx++)
-        for (by = yl; by <= yh; by++)
+    for (bx = xl; bx <= xh; ++bx)
+        for (by = yl; by <= yh; ++by)
             P_BlockLinesIterator(bx, by, PIT_GetSectors);
 
     // Add the sector of the (x,y) point to sector_list.
@@ -2246,7 +2252,6 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     // m_thing is still NULL.
     node = sector_list;
     while (node)
-    {
         if (!node->m_thing)
         {
             if (node == sector_list)
@@ -2255,7 +2260,6 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
         }
         else
             node = node->m_tnext;
-    }
 
     // cph -
     // This is the strife we get into for using global variables. tmthing

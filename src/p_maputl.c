@@ -41,7 +41,7 @@
 #include "p_local.h"
 #include "z_zone.h"
 
-extern msecnode_t *sector_list; // phares 3/16/98
+extern msecnode_t       *sector_list;   // phares 3/16/98
 
 void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
 
@@ -53,9 +53,7 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 {
     dx = ABS(dx);
     dy = ABS(dy);
-    if (dx < dy)
-        return (dx + dy - (dx >> 1));
-    return (dx + dy - (dy >> 1));
+    return (dx + dy - (MIN(dx, dy) >> 1));
 }
 
 //
@@ -65,10 +63,9 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 //
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line)
 {
-    return (!line->dx ? x <= line->v1->x ? line->dy > 0 : line->dy < 0 :
-        !line->dy ? y <= line->v1->y ? line->dx < 0 : line->dx > 0 :
-        FixedMul(y - line->v1->y, line->dx >> FRACBITS) >=
-        FixedMul(line->dy >> FRACBITS, x - line->v1->x));
+    return (!line->dx ? x <= line->v1->x ? line->dy > 0 : line->dy < 0 : !line->dy ?
+        y <= line->v1->y ? line->dx < 0 : line->dx > 0 : FixedMul(y - line->v1->y,
+        line->dx >> FRACBITS) >= FixedMul(line->dy >> FRACBITS, x - line->v1->x));
 }
 
 //
@@ -87,12 +84,15 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
         case ST_HORIZONTAL:
             return ((tmbox[BOXBOTTOM] > ld->v1->y) == (p = (tmbox[BOXTOP] > ld->v1->y)) ?
                 p ^ (ld->dx < 0) : -1);
+
         case ST_VERTICAL:
             return ((tmbox[BOXLEFT] < ld->v1->x) == (p = (tmbox[BOXRIGHT] < ld->v1->x)) ?
                 p ^ (ld->dy < 0) : -1);
+
         case ST_POSITIVE:
             return (P_PointOnLineSide(tmbox[BOXRIGHT], tmbox[BOXBOTTOM], ld) ==
                 (p = P_PointOnLineSide(tmbox[BOXLEFT], tmbox[BOXTOP], ld)) ? p : -1);
+
         case ST_NEGATIVE:
             return ((P_PointOnLineSide(tmbox[BOXLEFT], tmbox[BOXBOTTOM], ld)) ==
                 (p = P_PointOnLineSide(tmbox[BOXRIGHT], tmbox[BOXTOP], ld)) ? p : -1);
@@ -106,10 +106,9 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
-    return (!line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 :
-        !line->dy ? y <= line->y ? line->dx < 0 : line->dx > 0 :
-        (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ? (line->dy ^ x) < 0 :
-        FixedMul(y >> 8, line->dx >> 8) >= FixedMul(line->dy >> 8, x >> 8));
+    return (!line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 : !line->dy ? y <= line->y ?
+        line->dx < 0 : line->dx > 0 : (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ?
+        (line->dy ^ x) < 0 : FixedMul(y >> 8, line->dx >> 8) >= FixedMul(line->dy >> 8, x >> 8));
 }
 
 //
@@ -134,7 +133,7 @@ static fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
     int64_t     den = (int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy;
 
-    den >>= 16;
+    den >>= FRACBITS;
     if (!den)
         return 0;
     return (fixed_t)(((int64_t)(v1->x - v2->x) * v1->dy - (int64_t)(v1->y - v2->y) * v1->dx) / den);
@@ -379,7 +378,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
         int             offset = *(blockmap + y * bmapwidth + x);
         const int       *list;
 
-        for (list = blockmaplump + offset + 1; *list != -1; list++)
+        for (list = blockmaplump + offset + 1; *list != -1; ++list)
         {
             line_t          *ld = &lines[*list];
 
@@ -479,7 +478,7 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
     intercept_p->frac = frac;
     intercept_p->isaline = true;
     intercept_p->d.line = ld;
-    intercept_p++;
+    ++intercept_p;
 
     return true;        // continue
 }
@@ -536,7 +535,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
     intercept_p->frac = frac;
     intercept_p->isaline = false;
     intercept_p->d.thing = thing;
-    intercept_p++;
+    ++intercept_p;
 
     return true;        // keep going
 }
@@ -556,7 +555,7 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
         fixed_t         dist = INT_MAX;
         intercept_t     *scan;
 
-        for (scan = intercepts; scan < intercept_p; scan++)
+        for (scan = intercepts; scan < intercept_p; ++scan)
             if (scan->frac < dist)
             {
                 dist = scan->frac;
@@ -582,8 +581,8 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 // Returns true if the traverser function returns true
 // for all lines.
 //
-dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
-                       int flags, dboolean (*trav)(intercept_t *))
+dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
+    dboolean (*trav)(intercept_t *))
 {
     fixed_t     xt1, yt1;
     fixed_t     xt2, yt2;
@@ -595,7 +594,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
     int         mapxstep, mapystep;
     int         count;
 
-    validcount++;
+    ++validcount;
     intercept_p = intercepts;
 
     if (!((x1 - bmaporgx) & (MAPBLOCKSIZE - 1)))
@@ -670,7 +669,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
     mapx = xt1;
     mapy = yt1;
 
-    for (count = 0; count < 64; count++)
+    for (count = 0; count < 64; ++count)
     {
         if (flags & PT_ADDLINES)
             if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))

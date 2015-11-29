@@ -159,7 +159,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
     int         rtn = 0;
     sector_t    *sec = NULL;
 
-    //  Activate all <type> plats that are in_stasis
+    // Activate all <type> plats that are in_stasis
     switch (type)
     {
         case perpetualRaise:
