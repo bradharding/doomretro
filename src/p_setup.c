@@ -1780,13 +1780,13 @@ static void P_CalcSegsLength(void)
     for (i = 0; i < numsegs; i++)
     {
         seg_t   *li = segs + i;
-        int64_t dx = (int64_t)li->v2->x - li->v1->x;
-        int64_t dy = (int64_t)li->v2->y - li->v1->y;
+        fixed_t dx = li->v2->x - li->v1->x;
+        fixed_t dy = li->v2->y - li->v1->y;
 
         li->length = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
 
         // [crispy] re-calculate angle used for rendering
-        li->angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
+        li->angle = R_PointToAngle2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
     }
 }
 
