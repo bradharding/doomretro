@@ -1081,6 +1081,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                     return;             // monsters disallowed
             linefunc = EV_DoGenStairs;
         }
+        else if ((unsigned int)line->special >= GenCrusherBase)
+        {
+            if (!thing->player)
+                if (!(line->special & StairMonster))
+                    return;             // monsters disallowed
+            linefunc = EV_DoGenCrusher;
+        }
 
         // if it was a valid generalized type
         if (linefunc)
