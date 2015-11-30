@@ -36,10 +36,6 @@
 ========================================================================
 */
 
-#define _USE_MATH_DEFINES
-
-#include <math.h>
-
 #include "c_console.h"
 #include "d_loop.h"
 #include "doomstat.h"

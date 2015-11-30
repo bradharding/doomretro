@@ -233,7 +233,7 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
         if (P_SectorActive(ceiling_special, sec))
             continue;
 
-        // new door thinker
+        // new ceiling thinker
         rtn = true;
         ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
         memset(ceiling, 0, sizeof(*ceiling));

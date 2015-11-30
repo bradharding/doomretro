@@ -1084,7 +1084,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         else if ((unsigned int)line->special >= GenCrusherBase)
         {
             if (!thing->player)
-                if (!(line->special & StairMonster))
+                if (!(line->special & CrusherMonster))
                     return;             // monsters disallowed
             linefunc = EV_DoGenCrusher;
         }
@@ -1717,91 +1717,89 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 {
     // jff 02/04/98 add check here for generalized linedef
+    // pointer to line function is NULL by default, set non-null if
+    // line special is gun triggered generalized linedef type
+    dboolean (*linefunc)(line_t *line) = NULL;
+
+    // check each range of generalized linedefs
+    if ((unsigned int)line->special >= GenFloorBase)
     {
-        // pointer to line function is NULL by default, set non-null if
-        // line special is gun triggered generalized linedef type
-        dboolean (*linefunc)(line_t *line) = NULL;
-
-        // check each range of generalized linedefs
-        if ((unsigned int)line->special >= GenFloorBase)
-        {
-            if (!thing->player)
-                if ((line->special & FloorChange) || !(line->special & FloorModel))
-                    return;             // FloorModel is "Allow Monsters" if FloorChange is 0
-            linefunc = EV_DoGenFloor;
-        }
-        else if ((unsigned int)line->special >= GenCeilingBase)
-        {
-            if (!thing->player)
-                if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                    return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            linefunc = EV_DoGenCeiling;
-        }
-        else if ((unsigned int)line->special >= GenDoorBase)
-        {
-            if (!thing->player)
-            {
-                if (!(line->special & DoorMonster))
-                    return;                     // monsters disallowed from this door
-                if (line->flags & ML_SECRET)    // they can't open secret doors either
-                    return;
-            }
-            linefunc = EV_DoGenDoor;
-        }
-        else if ((unsigned int)line->special >= GenLockedBase)
-        {
-            if (!thing->player)
-                return;                 // monsters disallowed from unlocking doors
-            if (((line->special & TriggerType) == GunOnce)
-                || ((line->special & TriggerType) == GunMany))
-            {
-                // jff 4/1/98 check for being a gun type before reporting door type
-                if (!P_CanUnlockGenDoor(line, thing->player))
-                    return;
-            }
-            else
-                return;
-            linefunc = EV_DoGenLockedDoor;
-        }
-        else if ((unsigned int)line->special >= GenLiftBase)
-        {
-            if (!thing->player)
-                if (!(line->special & LiftMonster))
-                    return;             // monsters disallowed
-            linefunc = EV_DoGenLift;
-        }
-        else if ((unsigned int)line->special >= GenStairsBase)
-        {
-            if (!thing->player)
-                if (!(line->special & StairMonster))
-                    return;             // monsters disallowed
-            linefunc = EV_DoGenStairs;
-        }
-        else if ((unsigned int)line->special >= GenCrusherBase)
-        {
-            if (!thing->player)
-                if (!(line->special & StairMonster))
-                    return;             // monsters disallowed
-            linefunc = EV_DoGenCrusher;
-        }
-
-        if (linefunc)
-            switch ((line->special & TriggerType) >> TriggerTypeShift)
-            {
-                case GunOnce:
-                    if (linefunc(line))
-                        P_ChangeSwitchTexture(line, 0);
-                    return;
-
-                case GunMany:
-                    if (linefunc(line))
-                        P_ChangeSwitchTexture(line, 1);
-                    return;
-
-                default:                // if not a gun type, do nothing here
-                    return;
-            }
+        if (!thing->player)
+            if ((line->special & FloorChange) || !(line->special & FloorModel))
+                return;             // FloorModel is "Allow Monsters" if FloorChange is 0
+        linefunc = EV_DoGenFloor;
     }
+    else if ((unsigned int)line->special >= GenCeilingBase)
+    {
+        if (!thing->player)
+            if ((line->special & CeilingChange) || !(line->special & CeilingModel))
+                return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
+        linefunc = EV_DoGenCeiling;
+    }
+    else if ((unsigned int)line->special >= GenDoorBase)
+    {
+        if (!thing->player)
+        {
+            if (!(line->special & DoorMonster))
+                return;                     // monsters disallowed from this door
+            if (line->flags & ML_SECRET)    // they can't open secret doors either
+                return;
+        }
+        linefunc = EV_DoGenDoor;
+    }
+    else if ((unsigned int)line->special >= GenLockedBase)
+    {
+        if (!thing->player)
+            return;                 // monsters disallowed from unlocking doors
+        if (((line->special & TriggerType) == GunOnce)
+            || ((line->special & TriggerType) == GunMany))
+        {
+            // jff 4/1/98 check for being a gun type before reporting door type
+            if (!P_CanUnlockGenDoor(line, thing->player))
+                return;
+        }
+        else
+            return;
+        linefunc = EV_DoGenLockedDoor;
+    }
+    else if ((unsigned int)line->special >= GenLiftBase)
+    {
+        if (!thing->player)
+            if (!(line->special & LiftMonster))
+                return;             // monsters disallowed
+        linefunc = EV_DoGenLift;
+    }
+    else if ((unsigned int)line->special >= GenStairsBase)
+    {
+        if (!thing->player)
+            if (!(line->special & StairMonster))
+                return;             // monsters disallowed
+        linefunc = EV_DoGenStairs;
+    }
+    else if ((unsigned int)line->special >= GenCrusherBase)
+    {
+        if (!thing->player)
+            if (!(line->special & CrusherMonster))
+                return;             // monsters disallowed
+        linefunc = EV_DoGenCrusher;
+    }
+
+    if (linefunc)
+        switch ((line->special & TriggerType) >> TriggerTypeShift)
+        {
+            case GunOnce:
+                if (linefunc(line))
+                    P_ChangeSwitchTexture(line, 0);
+                return;
+
+            case GunMany:
+                if (linefunc(line))
+                    P_ChangeSwitchTexture(line, 1);
+                return;
+
+            default:                // if not a gun type, do nothing here
+                return;
+        }
 
     // Impacts that other things can activate.
     if (!thing->player && line->special != GR_Door_OpenStay)
