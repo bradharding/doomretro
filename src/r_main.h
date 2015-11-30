@@ -142,8 +142,9 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node);
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line);
 
 angle_t R_PointToAngle(fixed_t x, fixed_t y);
-
-angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2);
+angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y);
+angle_t R_PointToAngleEx(fixed_t x, fixed_t y);
+angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y);
 
 fixed_t R_PointToDist(fixed_t x, fixed_t y);
 
@@ -151,8 +152,6 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y);
 
 // [AM] Interpolate between two angles.
 angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale);
-
-angle_t R_GetVertexViewAngle(vertex_t *v);
 
 //
 // REFRESH - the actual rendering functions.

@@ -749,7 +749,7 @@ typedef struct
 
     angle_t             angle;
 
-    fixed_t             length;
+    int64_t             length;
 
     side_t              *sidedef;
     line_t              *linedef;
