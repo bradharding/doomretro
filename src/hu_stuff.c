@@ -331,7 +331,6 @@ static void HU_DrawHUD(void)
     int                 health_x = HUD_HEALTH_X;
     int                 keys = 0;
     int                 i = 0;
-    static int          healthwait;
     byte                *tinttab;
     int                 invulnerability = plr->powers[pw_invulnerability];
     static dboolean     healthanim;
@@ -373,6 +372,9 @@ static void HU_DrawHUD(void)
     }
 
     if (!gamepaused)
+    {
+        static int      healthwait;
+
         if (health <= HUD_HEALTH_MIN)
         {
             if (healthwait < currenttime)
@@ -386,6 +388,7 @@ static void HU_DrawHUD(void)
             healthanim = false;
             healthwait = 0;
         }
+    }
 
     if (pendingweapon != wp_nochange)
     {
@@ -396,7 +399,6 @@ static void HU_DrawHUD(void)
     if (health && ammo && ammotype != am_noammo)
     {
         int                 ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
-        static int          ammowait;
         static dboolean     ammoanim;
 
         tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN ? tinttab66 :
@@ -416,6 +418,9 @@ static void HU_DrawHUD(void)
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, hudnumfunc);
 
         if (!gamepaused)
+        {
+            static int  ammowait;
+
             if (ammo <= HUD_AMMO_MIN)
             {
                 if (ammowait < currenttime)
@@ -429,6 +434,7 @@ static void HU_DrawHUD(void)
                 ammoanim = false;
                 ammowait = 0;
             }
+        }
     }
 
     while (i < NUMCARDS)

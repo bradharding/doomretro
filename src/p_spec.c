@@ -1714,8 +1714,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     {
         if (!thing->player)
             return;                 // monsters disallowed from unlocking doors
-        if (((line->special & TriggerType) == GunOnce)
-            || ((line->special & TriggerType) == GunMany))
+        if ((line->special & TriggerType) == GunOnce || (line->special & TriggerType) == GunMany)
         {
             // jff 4/1/98 check for being a gun type before reporting door type
             if (!P_CanUnlockGenDoor(line, thing->player))

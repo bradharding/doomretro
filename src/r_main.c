@@ -186,7 +186,13 @@ int SlopeDiv(unsigned int num, unsigned int den)
 // to get a tangent (slope) value which is looked up in the
 // tantoangle[] table.
 
-angle_t R_PointToAngleSlope(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
+// Point of view (viewx, viewy) to point (x1, y1) angle.
+angle_t R_PointToAngle(fixed_t x, fixed_t y)
+{
+    return R_PointToAngle2(viewx, viewy, x, y);
+}
+
+angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
 {
     x -= x1;
     y -= y1;
@@ -225,17 +231,6 @@ angle_t R_PointToAngleSlope(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
 }
 
 // Point of view (viewx, viewy) to point (x1, y1) angle.
-angle_t R_PointToAngle(fixed_t x, fixed_t y)
-{
-    return R_PointToAngleSlope(viewx, viewy, x, y);
-}
-
-angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
-{
-    return R_PointToAngleSlope(x1, y1, x, y);
-}
-
-// Point of view (viewx, viewy) to point (x1, y1) angle.
 angle_t R_PointToAngleEx(fixed_t x, fixed_t y)
 {
     return R_PointToAngleEx2(viewx, viewy, x, y);
@@ -255,7 +250,7 @@ angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
         y = (int)(y_viewy / 2 + y1);
     }
 
-    return R_PointToAngleSlope(x1, y1, x, y);
+    return R_PointToAngle2(x1, y1, x, y);
 }
 
 fixed_t R_PointToDist(fixed_t x, fixed_t y)
