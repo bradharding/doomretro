@@ -50,6 +50,7 @@
 #include "p_tick.h"
 #include "r_sky.h"
 #include "s_sound.h"
+#include "sc_man.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -114,37 +115,6 @@ fixed_t animatedliquiddiffs[64] =
 static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
 static size_t   maxanims;
-
-static struct
-{
-    char        *pwad;
-    char        *texture;
-} exception[] = {
-    { "BTSX_E1.WAD",  "SHNPRT02" }, { "BTSX_E1.WAD",  "SLIME05"  }, { "BTSX_E2B.WAD", "SHNPRT08" },
-    { "BTSX_E2B.WAD", "SLIME09"  }, { "DOOM2.WAD",    "RROCK05"  }, { "DOOM2.WAD",    "RROCK06"  },
-    { "DOOM2.WAD",    "RROCK07"  }, { "DOOM2.WAD",    "RROCK08"  }, { "DOOM2.WAD",    "SLIME09"  },
-    { "DOOM2.WAD",    "SLIME10"  }, { "DOOM2.WAD",    "SLIME11"  }, { "DOOM2.WAD",    "SLIME12"  },
-    { "MOHU2.WAD",    "DIFL_01"  }, { "ETERNALL.WAD", "NUKAGE1"  }, { "ETERNALL.WAD", "NUKAGE2"  },
-    { "ETERNALL.WAD", "NUKAGE3"  }, { "ETERNALL.WAD", "RROCK05"  }, { "ETERNALL.WAD", "RROCK06"  },
-    { "ETERNALL.WAD", "RROCK07"  }, { "ETERNALL.WAD", "RROCK08"  }, { "ETERNALL.WAD", "SLIME09"  },
-    { "ETERNALL.WAD", "SLIME10"  }, { "ETERNALL.WAD", "SLIME11"  }, { "ETERNALL.WAD", "SLIME12"  },
-    { "PLUTONIA.WAD", "RROCK05"  }, { "PLUTONIA.WAD", "RROCK06"  }, { "PLUTONIA.WAD", "RROCK07"  },
-    { "PLUTONIA.WAD", "RROCK08"  }, { "PLUTONIA.WAD", "SLIME09"  }, { "PLUTONIA.WAD", "SLIME10"  },
-    { "PLUTONIA.WAD", "SLIME11"  }, { "PLUTONIA.WAD", "SLIME12"  }, { "RC-DC.WAD",    "BWORM00A" },
-    { "RC-DC.WAD",    "CFAN00A"  }, { "RC-DC.WAD",    "CFAN01A"  }, { "RC-DC.WAD",    "CFAN00D"  },
-    { "RC-DC.WAD",    "CFAN01D"  }, { "REQUIEM.WAD",  "SLIME05"  }, { "REQUIEM.WAD",  "SLIME08"  },
-    { "SID.WAD",      "FWATER1"  }, { "SUNLUST.WAD",  "RROCK05"  }, { "SUNLUST.WAD",  "RROCK06"  },
-    { "SUNLUST.WAD",  "RROCK07"  }, { "SUNLUST.WAD",  "RROCK08"  }, { "SUNLUST.WAD",  "SLIME09"  },
-    { "SUNLUST.WAD",  "SLIME10"  }, { "SUNLUST.WAD",  "SLIME11"  }, { "SUNLUST.WAD",  "SLIME12"  },
-    { "TNT.WAD",      "RROCK05"  }, { "TNT.WAD",      "RROCK06"  }, { "TNT.WAD",      "RROCK07"  },
-    { "TNT.WAD",      "RROCK08"  }, { "TNT.WAD",      "SLIME09"  }, { "TNT.WAD",      "SLIME10"  },
-    { "TNT.WAD",      "SLIME11"  }, { "TNT.WAD",      "SLIME12"  }, { "TVR!.WAD",     "SLIME05"  },
-    { "TVR!.WAD",     "SLIME06"  }, { "TVR!.WAD",     "SLIME07"  }, { "TVR!.WAD",     "SLIME08"  },
-    { "TVR!.WAD",     "SLIME09"  }, { "TVR!.WAD",     "SLIME10"  }, { "TVR!.WAD",     "SLIME11"  },
-    { "TVR!.WAD",     "SLIME12"  }, { "UACULTRA.WAD", "RROCK05"  }, { "VALIANT.WAD",  "E3SAW_A1" },
-    { "VALIANT.WAD",  "E3SAW_A2" }, { "VALIANT.WAD",  "E3SAW_A3" }, { "VALIANT.WAD",  "E3SAW_A4" },
-    { "",             ""         }
-};
 
 // killough 3/7/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
@@ -227,17 +197,19 @@ void P_InitPicAnims(void)
     }
     W_ReleaseLumpNum(lump);
 
-    i = 0;
-    while (exception[i].pwad[0])
+    // [BH] parse NOLIQUID lump to find animated textures that are not liquid in current wad
+    SC_Open("NOLIQUID");
+    while (SC_GetString())
     {
-        int     lump = R_CheckFlatNumForName(exception[i].texture);
+        int     lump = R_CheckFlatNumForName(sc_String);
 
+        SC_MustGetString();
         if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wad_file->path),
-            exception[i].pwad))
+            sc_String))
             isliquid[lump] = false;
-        ++i;
     }
 
+    // [BH] indicate obvious teleport textures for automap
     if (BTSX)
     {
         isteleport[R_CheckFlatNumForName("SLIME09")] = true;
