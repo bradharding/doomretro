@@ -62,10 +62,11 @@
 #define MCMD_AUTHOR             1
 #define MCMD_MUSIC              2
 #define MCMD_NEXT               3
-#define MCMD_PAR                4
-#define MCMD_SECRETNEXT         5
-#define MCMD_SKY1               6
-#define MCMD_TITLEPATCH         7
+#define MCMD_NOLIQUID           4
+#define MCMD_PAR                5
+#define MCMD_SECRETNEXT         6
+#define MCMD_SKY1               7
+#define MCMD_TITLEPATCH         8
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -162,6 +163,7 @@ static char *mapcmdnames[] =
     "AUTHOR",
     "MUSIC",
     "NEXT",
+    "NOLIQUID",
     "PAR",
     "SECRETNEXT",
     "SKY1",
@@ -174,6 +176,7 @@ static int mapcmdids[] =
     MCMD_AUTHOR,
     MCMD_MUSIC,
     MCMD_NEXT,
+    MCMD_NOLIQUID,
     MCMD_PAR,
     MCMD_SECRETNEXT,
     MCMD_SKY1,
@@ -2183,6 +2186,16 @@ static void InitMapInfo(void)
                         break;
                     }
 
+                    case MCMD_NOLIQUID:
+                    {
+                        int     lump;
+
+                        SC_MustGetString();
+                        if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
+                            isliquid[lump] = false;
+                        break;
+                    }
+
                     case MCMD_PAR:
                         SC_MustGetNumber();
                         info->par = sc_Number;
@@ -2287,8 +2300,8 @@ int P_GetMapTitlePatch(int map)
 //
 void P_Init(void)
 {
-    InitMapInfo();
     P_InitSwitchList();
     P_InitPicAnims();
+    InitMapInfo();
     R_InitSprites(sprnames);
 }
