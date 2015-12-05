@@ -119,7 +119,7 @@ void *Z_Realloc(void *ptr, size_t size)
 {
     void        *newp = realloc(ptr, size);
 
-    if (!newp)
+    if (!newp && size)
         I_Error("Z_Realloc: Failure trying to reallocate %i bytes", size);
     else
         ptr = newp;
