@@ -105,8 +105,7 @@ manual_floor:
 
         // new floor thinker
         rtn = true;
-        floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-        memset(floor, 0, sizeof(*floor));
+        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
@@ -523,8 +522,7 @@ manual_lift:
 
         // Setup the plat thinker
         rtn = true;
-        plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
-        memset(plat, 0, sizeof(*plat));
+        plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, 0);
         P_AddThinker(&plat->thinker);
         plat->sector = sec;
         plat->sector->floordata = plat;
@@ -692,8 +690,7 @@ manual_stair:
 
         // new floor thinker
         rtn = true;
-        floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-        memset(floor, 0, sizeof(*floor));
+        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
@@ -796,8 +793,7 @@ manual_stair:
 
                 sec = tsec;
                 secnum = newsecnum;
-                floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-                memset(floor, 0, sizeof(*floor));
+                floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
 
                 P_AddThinker(&floor->thinker);
 
@@ -879,8 +875,7 @@ manual_crusher:
 
         // new ceiling thinker
         rtn = true;
-        ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
-        memset(ceiling, 0, sizeof(*ceiling));
+        ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, 0);
         P_AddThinker(&ceiling->thinker);
         sec->ceilingdata = ceiling;     // jff 2/22/98
         ceiling->thinker.function = T_MoveCeiling;
@@ -979,8 +974,7 @@ manual_locked:
 
         // new door thinker
         rtn = true;
-        door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
-        memset(door, 0, sizeof(*door));
+        door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
         sec->ceilingdata = door;        // jff 2/22/98
 
@@ -1087,8 +1081,7 @@ manual_door:
 
         // new door thinker
         rtn = true;
-        door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
-        memset(door, 0, sizeof(*door));
+        door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
         sec->ceilingdata = door;
 

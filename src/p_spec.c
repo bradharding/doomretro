@@ -138,11 +138,9 @@ void P_InitPicAnims(void)
     animdef_t   *animdefs = W_CacheLumpNum(lump, PU_STATIC);
     int         size = (numflats + 1) * sizeof(dboolean);
 
-    isliquid = Z_Malloc(size, PU_STATIC, 0);
-    memset(isliquid, false, size);
+    isliquid = Z_Calloc(1, size, PU_STATIC, 0);
 
-    isteleport = Z_Malloc(size, PU_STATIC, 0);
-    memset(isteleport, false, size);
+    isteleport = Z_Calloc(1, size, PU_STATIC, 0);
 
     // Init animation
     lastanim = anims;

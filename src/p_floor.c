@@ -351,8 +351,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 
         // new floor thinker
         rtn = true;
-        floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-        memset(floor, 0, sizeof(*floor));
+        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
@@ -646,8 +645,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
 
         // new floor thinker
         rtn = true;
-        floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-        memset(floor, 0, sizeof(*floor));
+        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
@@ -715,8 +713,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
 
                 sec = tsec;
                 secnum = newsecnum;
-                floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-                memset(floor, 0, sizeof(*floor));
+                floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
                 P_AddThinker(&floor->thinker);
 
                 sec->floordata = floor;

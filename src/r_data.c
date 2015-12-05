@@ -276,7 +276,7 @@ void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy, int ca
 //
 static void R_GenerateComposite(int texnum)
 {
-    byte                *block = Z_Malloc(texturecompositesize[texnum], PU_STATIC,
+    byte                *block = Z_Calloc(1, texturecompositesize[texnum], PU_STATIC,
                             (void **)&texturecomposite[texnum]);
     texture_t           *texture = textures[texnum];
 
@@ -291,9 +291,6 @@ static void R_GenerateComposite(int texnum)
     byte                *source;
 
     dboolean            tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
-
-    // [crispy] initialize composite background to black (index 0)
-    memset(block, 0, texturecompositesize[texnum]);
 
     for (i = texture->patchcount; --i >= 0; ++patch)
     {
@@ -500,11 +497,9 @@ byte *R_GetColumn(int tex, int col, dboolean opaque)
 
 static void GenerateTextureHashTable(void)
 {
-    int         i;
+    int i;
 
-    textures_hashtable = Z_Malloc(sizeof(texture_t *) * numtextures, PU_STATIC, 0);
-
-    memset(textures_hashtable, 0, sizeof(texture_t *) * numtextures);
+    textures_hashtable = Z_Calloc(numtextures, sizeof(texture_t *), PU_STATIC, 0);
 
     // Add all textures to hash table
     for (i = 0; i < numtextures; ++i)

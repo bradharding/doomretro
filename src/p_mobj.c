@@ -699,12 +699,10 @@ void P_MobjThinker(mobj_t *mobj)
 //
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 {
-    mobj_t      *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+    mobj_t      *mobj = Z_Calloc(1, sizeof(*mobj), PU_LEVEL, NULL);
     state_t     *st;
     mobjinfo_t  *info = &mobjinfo[type];
     sector_t    *sector;
-
-    memset(mobj, 0, sizeof(*mobj));
 
     mobj->type = type;
     mobj->info = info;
@@ -1149,10 +1147,8 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     for (i = (damage >> 2) + 1; i; i--)
     {
-        mobj_t      *th = Z_Malloc(sizeof(*th), PU_LEVEL, NULL);
+        mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
         state_t     *st;
-
-        memset(th, 0, sizeof(*th));
 
         th->type = color;
         th->info = info;
@@ -1288,9 +1284,7 @@ void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int blood, int maxheight, mob
 //
 void P_SpawnShadow(mobj_t *actor)
 {
-    mobj_t      *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
-
-    memset(mobj, 0, sizeof(*mobj));
+    mobj_t      *mobj = Z_Calloc(1, sizeof(*mobj), PU_LEVEL, NULL);
 
     mobj->type = MT_SHADOW;
     mobj->info = &mobjinfo[MT_SHADOW];
