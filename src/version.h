@@ -36,6 +36,9 @@
 ========================================================================
 */
 
+#if !defined(__VERSION__)
+#define __VERSION__
+
 #define PACKAGE_VERSION                 2,0,0,0
 #define PACKAGE_VERSIONSTRING           "2.0"
 #if defined (_DEBUG)
@@ -56,3 +59,5 @@
 #define PACKAGE_SAVE                    "doomretro%d.save"
 #define PACKAGE_WAD                     "doomretro.wad"
 #define PACKAGE_WIKI_URL                "http://wiki.doomretro.com/Starting-a-Game"
+
+#endif
