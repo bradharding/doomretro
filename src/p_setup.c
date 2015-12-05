@@ -60,13 +60,14 @@
 #define MAPINFO_SCRIPT_NAME     "MAPINFO"
 
 #define MCMD_AUTHOR             1
-#define MCMD_MUSIC              2
-#define MCMD_NEXT               3
-#define MCMD_NOLIQUID           4
-#define MCMD_PAR                5
-#define MCMD_SECRETNEXT         6
-#define MCMD_SKY1               7
-#define MCMD_TITLEPATCH         8
+#define MCMD_LIQUID             2
+#define MCMD_MUSIC              3
+#define MCMD_NEXT               4
+#define MCMD_NOLIQUID           5
+#define MCMD_PAR                6
+#define MCMD_SECRETNEXT         7
+#define MCMD_SKY1               8
+#define MCMD_TITLEPATCH         9
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -161,6 +162,7 @@ static mapinfo_t mapinfo[99];
 static char *mapcmdnames[] =
 {
     "AUTHOR",
+    "LIQUID",
     "MUSIC",
     "NEXT",
     "NOLIQUID",
@@ -174,6 +176,7 @@ static char *mapcmdnames[] =
 static int mapcmdids[] =
 {
     MCMD_AUTHOR,
+    MCMD_LIQUID,
     MCMD_MUSIC,
     MCMD_NEXT,
     MCMD_NOLIQUID,
@@ -2155,6 +2158,16 @@ static void InitMapInfo(void)
                         SC_MustGetString();
                         M_StringCopy(info->author, sc_String, sizeof(info->author));
                         break;
+
+                    case MCMD_LIQUID:
+                    {
+                        int     lump;
+
+                        SC_MustGetString();
+                        if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
+                            isliquid[lump] = true;
+                        break;
+                    }
 
                     case MCMD_MUSIC:
                         SC_MustGetString();
