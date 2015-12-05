@@ -254,19 +254,19 @@ static void R_InitSpriteDefs(const char *const *namelist)
 
                         case 1:
                             // must have all 8 frames
-                            for (rot = 0; rot < 8; ++rot)
+                            for (rot = 0; rot < 16; rot += 2)
                             {
-                                if (sprtemp[frame].lump[rot * 2 + 1] == -1)
+                                if (sprtemp[frame].lump[rot + 1] == -1)
                                 {
-                                    sprtemp[frame].lump[rot * 2 + 1] = sprtemp[frame].lump[rot * 2];
-                                    if (sprtemp[frame].flip & (1 << (rot * 2)))
-                                        sprtemp[frame].flip |= 1 << (rot * 2 + 1);
+                                    sprtemp[frame].lump[rot + 1] = sprtemp[frame].lump[rot];
+                                    if (sprtemp[frame].flip & (1 << rot))
+                                        sprtemp[frame].flip |= 1 << (rot + 1);
                                 }
-                                if (sprtemp[frame].lump[rot * 2] == -1)
+                                if (sprtemp[frame].lump[rot] == -1)
                                 {
-                                    sprtemp[frame].lump[rot * 2] = sprtemp[frame].lump[rot * 2 + 1];
-                                    if (sprtemp[frame].flip & (1 << (rot * 2 + 1)))
-                                        sprtemp[frame].flip |= 1 << (rot * 2);
+                                    sprtemp[frame].lump[rot] = sprtemp[frame].lump[rot + 1];
+                                    if (sprtemp[frame].flip & (1 << (rot + 1)))
+                                        sprtemp[frame].flip |= 1 << rot;
                                 }
                             }
                             for (rot = 0; rot < 16; ++rot)
@@ -285,13 +285,13 @@ static void R_InitSpriteDefs(const char *const *namelist)
                     }
 
                 // allocate space for the frames present and copy sprtemp to it
-                sprites[i].spriteframes = Z_Malloc(maxframe * sizeof(spriteframe_t),
-                    PU_STATIC, NULL);
+                sprites[i].spriteframes = Z_Malloc(maxframe * sizeof(spriteframe_t), PU_STATIC,
+                    NULL);
                 memcpy(sprites[i].spriteframes, sprtemp, maxframe * sizeof(spriteframe_t));
             }
         }
     }
-    free(hash);             // free hash table
+    free(hash); // free hash table
 }
 
 //
