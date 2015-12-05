@@ -78,8 +78,8 @@
 #define MOUSE_RIGHTBUTTON       2
 #define MOUSE_MIDDLEBUTTON      4
 
-#define MOUSE_WHEELUP           8
-#define MOUSE_WHEELDOWN         9
+#define MOUSE_WHEELUP           MAX_MOUSE_BUTTONS
+#define MOUSE_WHEELDOWN         (MAX_MOUSE_BUTTONS + 1)
 
 #define NEEDEDCARDFLASH         8
 
