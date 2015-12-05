@@ -96,9 +96,8 @@ extern dboolean         skippsprinterp;
 static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int frame, char rot,
     dboolean flipped)
 {
-    unsigned int        rotation;
-
-    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
+    unsigned int        rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ?
+        rot - 'A' + 10 : 17));
 
     if (frame >= MAX_SPRITE_FRAMES || rotation > 16)
         I_Error("R_InstallSpriteLump: Bad frame characters in lump %s", lump->name);

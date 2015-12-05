@@ -523,13 +523,12 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_SIZE_CHANGED:
                             if (!vid_fullscreen)
                             {
-                                char        buffer[16] = "";
+                                char    size[16] = "";
 
                                 windowwidth = Event->window.data1;
                                 windowheight = Event->window.data2;
-                                M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth,
-                                    windowheight);
-                                vid_windowsize = strdup(buffer);
+                                M_snprintf(size, sizeof(size), "%ix%i", windowwidth, windowheight);
+                                vid_windowsize = strdup(size);
                                 M_SaveCVARs();
 
                                 displaywidth = windowwidth;
@@ -542,12 +541,12 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_MOVED:
                             if (!vid_fullscreen && !manuallypositioning)
                             {
-                                char        buffer[16] = "";
+                                char        pos[16] = "";
 
                                 windowx = Event->window.data1;
                                 windowy = Event->window.data2;
-                                M_snprintf(buffer, sizeof(buffer), "(%i,%i)", windowx, windowy);
-                                vid_windowposition = strdup(buffer);
+                                M_snprintf(pos, sizeof(pos), "(%i,%i)", windowx, windowy);
+                                vid_windowposition = strdup(pos);
 
                                 vid_display = SDL_GetWindowDisplayIndex(window) + 1;
                                 M_SaveCVARs();
@@ -973,12 +972,12 @@ void GetWindowSize(void)
     if (width < ORIGINALWIDTH + windowborderwidth
         || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
     {
-        char    buffer[16] = "";
+        char    size[16] = "";
 
         windowwidth = ORIGINALWIDTH + windowborderwidth;
         windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight;
-        M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
-        vid_windowsize = strdup(buffer);
+        M_snprintf(size, sizeof(size), "%ix%i", windowwidth, windowheight);
+        vid_windowsize = strdup(size);
 
         M_SaveCVARs();
     }
@@ -1312,13 +1311,13 @@ static void SetVideoMode(dboolean output)
             C_Output("Gamma correction is off.");
         else
         {
-            static char     buffer[128];
+            static char     text[128];
 
-            M_snprintf(buffer, sizeof(buffer), "The gamma correction level is %.2f.",
+            M_snprintf(text, sizeof(text), "The gamma correction level is %.2f.",
                 gammalevels[gammaindex]);
-            if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
-                buffer[strlen(buffer) - 1] = '\0';
-            C_Output(buffer);
+            if (text[strlen(text) - 1] == '0' && text[strlen(text) - 2] == '0')
+                text[strlen(text) - 1] = '\0';
+            C_Output(text);
         }
     }
 

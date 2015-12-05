@@ -864,8 +864,6 @@ dboolean G_Responder(event_t *ev)
     return false;
 }
 
-char    savename[256];
-
 static byte saveg_read8(FILE *file)
 {
     byte        result;
@@ -876,6 +874,8 @@ static byte saveg_read8(FILE *file)
 }
 
 void D_Display(void);
+
+char    savename[256];
 
 //
 // G_Ticker
@@ -1033,7 +1033,7 @@ void G_Ticker(void)
 
 //
 // PLAYER STRUCTURE FUNCTIONS
-// also see P_SpawnPlayer in P_Mobj.c
+// also see P_SpawnPlayer in p_mobj.c
 //
 
 //
@@ -1052,6 +1052,7 @@ void G_PlayerFinishLevel(int player)
     p->damagecount = 0;                 // no palette changes
     p->bonuscount = 0;
 
+    // [BH] switch to chainsaw if player has it and ends map with fists selected
     if (p->readyweapon == wp_fist && p->weaponowned[wp_chainsaw])
         p->readyweapon = wp_chainsaw;
     p->fistorchainsaw = (p->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
@@ -1064,22 +1065,17 @@ void G_PlayerFinishLevel(int player)
 //
 void G_PlayerReborn(void)
 {
-    player_t    *p;
+    player_t    *p = &players[0];
     int         i;
-    int         killcount;
-    int         itemcount;
-    int         secretcount;
+    int         killcount = p->killcount;
+    int         itemcount = p->itemcount;
+    int         secretcount = p->secretcount;
 
-    killcount = players[0].killcount;
-    itemcount = players[0].itemcount;
-    secretcount = players[0].secretcount;
-
-    p = &players[0];
     memset(p, 0, sizeof(*p));
 
-    players[0].killcount = killcount;
-    players[0].itemcount = itemcount;
-    players[0].secretcount = secretcount;
+    p->killcount = killcount;
+    p->itemcount = itemcount;
+    p->secretcount = secretcount;
 
     p->usedown = p->attackdown = true;          // don't do anything immediately
     p->playerstate = PST_LIVE;
@@ -1097,96 +1093,6 @@ void G_PlayerReborn(void)
 
     markpointnum = 0;
     infight = false;
-}
-
-//
-// G_CheckSpot
-// Returns false if the player cannot be respawned
-// at the given mapthing_t spot
-// because something is occupying it
-//
-void P_SpawnPlayer(mapthing_t *mthing);
-
-dboolean G_CheckSpot(int playernum, mapthing_t *mthing)
-{
-    fixed_t             x;
-    fixed_t             y;
-    subsector_t         *ss;
-    signed int          an;
-    mobj_t              *mo;
-    int                 i;
-    fixed_t             xa;
-    fixed_t             ya;
-    mobj_t              *player = players[playernum].mo;
-
-    flag667 = false;
-
-    if (!player)
-    {
-        // first spawn of level, before corpses
-        for (i = 0; i < playernum; ++i)
-            if (players[i].mo->x == mthing->x << FRACBITS
-                && players[i].mo->y == mthing->y << FRACBITS)
-                return false;
-        return true;
-    }
-
-    x = mthing->x << FRACBITS;
-    y = mthing->y << FRACBITS;
-
-    player->flags |=  MF_SOLID;
-    i = P_CheckPosition(player, x, y);
-    player->flags &= ~MF_SOLID;
-    if (!i)
-        return false;
-
-    // spawn a teleport fog
-    ss = R_PointInSubsector(x, y);
-
-    // This calculation overflows in Vanilla DOOM, but here we deliberately
-    // avoid integer overflow as it is undefined behavior, so the value of
-    // 'an' will always be positive.
-    an = (ANG45 >> ANGLETOFINESHIFT) * ((signed int)mthing->angle / 45);
-
-    xa = finecosine[an];
-    ya = finesine[an];
-
-    switch (an)
-    {
-        case 4096:      // -4096:
-            xa = finetangent[2048];
-            ya = finetangent[0];
-            break;
-        case 5120:     // -3072:
-            xa = finetangent[3072];
-            ya = finetangent[1024];
-            break;
-        case 6144:     // -2048:
-            xa = finesine[0];
-            ya = finetangent[2048];
-            break;
-        case 7168:     // -1024:
-            xa = finesine[1024];
-            ya = finetangent[3072];
-            break;
-        case 0:
-        case 1024:
-        case 2048:
-        case 3072:
-            xa = finecosine[an];
-            ya = finesine[an];
-            break;
-        default:
-            I_Error("G_CheckSpot: unexpected angle %d", an);
-    }
-
-    mo = P_SpawnMobj(x + 20 * xa, y + 20 * ya, ss->sector->floorheight, MT_TFOG);
-    mo->angle = mthing->angle;
-
-    if (players[0].viewz != 1)
-        S_StartSound(mo, sfx_telept);           // don't start sound on first frame
-
-    return true;
 }
 
 //
@@ -1209,6 +1115,7 @@ int pars[5][10] =
     { 0,  30,  75, 120,  90, 165, 180, 180,  30, 165 },
     { 0,  90,  90,  90, 120,  90, 360, 240,  30, 170 },
     { 0,  90,  45,  90, 150,  90,  90, 165,  30, 135 },
+
     // [BH] Episode 4 Par Times
     { 0, 165, 255, 135, 150, 180, 390, 135, 360, 180 }
 };
@@ -1243,10 +1150,7 @@ void G_ExitLevel(void)
 void G_SecretExitLevel(void)
 {
     // IF NO WOLF3D LEVELS, NO SECRET EXIT!
-    if (gamemode == commercial && W_CheckNumForName("map31") < 0)
-        secretexit = false;
-    else
-        secretexit = true;
+    secretexit = !(gamemode == commercial && W_CheckNumForName("MAP31") < 0);
     gameaction = ga_completed;
 }
 
@@ -1257,10 +1161,10 @@ void ST_doRefresh(void);
 
 void G_DoCompleted(void)
 {
-    int         map = (gameepisode - 1) * 10 + gamemap;
-    int         nextmap = P_GetMapNext(map);
-    int         par = P_GetMapPar(map);
-    int         secretnextmap = P_GetMapSecretNext(map);
+    int map = (gameepisode - 1) * 10 + gamemap;
+    int nextmap = P_GetMapNext(map);
+    int par = P_GetMapPar(map);
+    int secretnextmap = P_GetMapSecretNext(map);
 
     gameaction = ga_nothing;
 
@@ -1506,7 +1410,7 @@ void G_LoadGame(char *name)
 
 void G_DoLoadGame(void)
 {
-    int         savedleveltime;
+    int savedleveltime = leveltime;
 
     gameaction = ga_nothing;
 
@@ -1522,8 +1426,6 @@ void G_DoLoadGame(void)
         fclose(save_stream);
         return;
     }
-
-    savedleveltime = leveltime;
 
     // load a base level
     G_InitNew(gameskill, gameepisode, gamemap);
@@ -1594,11 +1496,8 @@ void G_SaveGame(int slot, char *description, char *name)
 
 void G_DoSaveGame(void)
 {
-    char        *savegame_file;
-    char        *temp_savegame_file;
-
-    temp_savegame_file = P_TempSaveGameFile();
-    savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
+    char        *temp_savegame_file = P_TempSaveGameFile();
+    char        *savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
 
     // Open the savegame file for writing. We write to a temporary file
     // and then rename it at the end if it was successfully written.
@@ -1715,6 +1614,7 @@ void G_SetFastParms(int fast_pending)
             for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
                 if (states[i].tics != 1)
                     states[i].tics >>= 1;
+
             mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
             mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
             mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
@@ -1723,6 +1623,7 @@ void G_SetFastParms(int fast_pending)
         {
             for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
                 states[i].tics <<= 1;
+
             mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
             mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
             mobjinfo[MT_TROOPSHOT].speed = 10 * FRACUNIT;

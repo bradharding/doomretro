@@ -92,7 +92,7 @@ static wad_file_t *W_Win32_OpenFile(char *path)
     MultiByteToWideChar(CP_OEMCP, 0, path, strlen(path) + 1, wpath, sizeof(wpath));
 
     handle = CreateFileW(wpath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-                         FILE_ATTRIBUTE_NORMAL, NULL);
+        FILE_ATTRIBUTE_NORMAL, NULL);
 
     if (handle == INVALID_HANDLE_VALUE)
         return NULL;

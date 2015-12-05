@@ -65,16 +65,20 @@ int     windowborderheight = 0;
 
 void I_SetProcessDPIAware(void)
 {
-    HMODULE hLibrary = LoadLibrary("user32.dll");
-    typedef BOOL (*SETPROCESSDPIAWARE)();
+    HMODULE     hLibrary = LoadLibrary("user32.dll");
 
-    SETPROCESSDPIAWARE pSetProcessDPIAware =
-        (SETPROCESSDPIAWARE)GetProcAddress(hLibrary, "SetProcessDPIAware");
+    if (hLibrary)
+    {
+        typedef BOOL (*SETPROCESSDPIAWARE)();
 
-    if (pSetProcessDPIAware)
-        pSetProcessDPIAware();
+        SETPROCESSDPIAWARE pSetProcessDPIAware =
+            (SETPROCESSDPIAWARE)GetProcAddress(hLibrary, "SetProcessDPIAware");
 
-    FreeLibrary(hLibrary);
+        if (pSetProcessDPIAware)
+            pSetProcessDPIAware();
+
+        FreeLibrary(hLibrary);
+    }
 }
 
 HHOOK           g_hKeyboardHook;
