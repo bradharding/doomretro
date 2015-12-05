@@ -110,6 +110,11 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
     return block;
 }
 
+void *Z_Calloc(size_t n1, size_t n2, int32_t tag, void **user)
+{
+    return ((n1 *= n2) ? memset(Z_Malloc(n1, tag, user), 0, n1) : NULL);
+}
+
 void *Z_Realloc(void *ptr, size_t size)
 {
     void        *newp = realloc(ptr, size);
