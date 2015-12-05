@@ -54,13 +54,69 @@ typedef enum
 
 #define alwaysrun_default                       false
 
+#define am_allmapcdwallcolor_min                0
+#define am_allmapcdwallcolor_default            106
+#define am_allmapcdwallcolor_max                255
+
+#define am_allmapfdwallcolor_min                0
+#define am_allmapfdwallcolor_default            110
+#define am_allmapfdwallcolor_max                255
+
+#define am_allmapwallcolor_min                  0
+#define am_allmapwallcolor_default              108
+#define am_allmapwallcolor_max                  255
+
+#define am_backcolor_min                        0
+#define am_backcolor_default                    0
+#define am_backcolor_max                        255
+
+#define am_cdwallcolor_min                      0
+#define am_cdwallcolor_default                  160
+#define am_cdwallcolor_max                      255
+
 #define am_external_default                     false
+
+#define am_fdwallcolor_min                      0
+#define am_fdwallcolor_default                  64
+#define am_fdwallcolor_max                      255
 
 #define am_followmode_default                   true
 
 #define am_grid_default                         false
 
+#define am_gridcolor_min                        0
+#define am_gridcolor_default                    5
+#define am_gridcolor_max                        255
+
+#define am_markcolor_min                        0
+#define am_markcolor_default                    100
+#define am_markcolor_max                        255
+
+#define am_playercolor_min                      0
+#define am_playercolor_default                  4
+#define am_playercolor_max                      255
+
 #define am_rotatemode_default                   true
+
+#define am_teleportercolor_min                  0
+#define am_teleportercolor_default              184
+#define am_teleportercolor_max                  255
+
+#define am_thingcolor_min                       0
+#define am_thingcolor_default                   112
+#define am_thingcolor_max                       255
+
+#define am_tswallcolor_min                      0
+#define am_tswallcolor_default                  104
+#define am_tswallcolor_max                      255
+
+#define am_wallcolor_min                        0
+#define am_wallcolor_default                    176
+#define am_wallcolor_max                        255
+
+#define am_xhaircolor_min                       0
+#define am_xhaircolor_default                   4
+#define am_xhaircolor_max                       255
 
 #define centerweapon_default                    true
 

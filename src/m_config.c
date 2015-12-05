@@ -57,10 +57,24 @@
 char                    *configfile = PACKAGE_CONFIG;
 
 extern dboolean         alwaysrun;
+extern int              am_allmapcdwallcolor;
+extern int              am_allmapfdwallcolor;
+extern int              am_allmapwallcolor;
+extern int              am_backcolor;
+extern int              am_cdwallcolor;
 extern dboolean         am_external;
+extern int              am_fdwallcolor;
 extern dboolean         am_followmode;
 extern dboolean         am_grid;
+extern int              am_gridcolor;
+extern int              am_markcolor;
+extern int              am_playercolor;
 extern dboolean         am_rotatemode;
+extern int              am_teleportercolor;
+extern int              am_thingcolor;
+extern int              am_tswallcolor;
+extern int              am_wallcolor;
+extern int              am_xhaircolor;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
@@ -167,28 +181,35 @@ extern int              pixelwidth;
 extern int              pixelheight;
 extern dboolean         returntowidescreen;
 
-#define CONFIG_VARIABLE_INT(name, set) \
-    { #name, &name, DEFAULT_INT, set }
-#define CONFIG_VARIABLE_INT_UNSIGNED(name, set) \
-    { #name, &name, DEFAULT_INT_UNSIGNED, set }
-#define CONFIG_VARIABLE_INT_PERCENT(name, set) \
-    { #name, &name, DEFAULT_INT_PERCENT, set }
-#define CONFIG_VARIABLE_FLOAT(name, set) \
-    { #name, &name, DEFAULT_FLOAT, set }
-#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) \
-    { #name, &name, DEFAULT_FLOAT_PERCENT, set }
-#define CONFIG_VARIABLE_STRING(name, set) \
-    { #name, &name, DEFAULT_STRING, set }
-#define CONFIG_VARIABLE_OTHER(name, set) \
-    { #name, &name, DEFAULT_OTHER, set }
+#define CONFIG_VARIABLE_INT(name, set)           { #name, &name, DEFAULT_INT, set }
+#define CONFIG_VARIABLE_INT_UNSIGNED(name, set)  { #name, &name, DEFAULT_INT_UNSIGNED, set }
+#define CONFIG_VARIABLE_INT_PERCENT(name, set)   { #name, &name, DEFAULT_INT_PERCENT, set }
+#define CONFIG_VARIABLE_FLOAT(name, set)         { #name, &name, DEFAULT_FLOAT, set }
+#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) { #name, &name, DEFAULT_FLOAT_PERCENT, set }
+#define CONFIG_VARIABLE_STRING(name, set)        { #name, &name, DEFAULT_STRING, set }
+#define CONFIG_VARIABLE_OTHER(name, set)         { #name, &name, DEFAULT_OTHER, set }
 
 static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (alwaysrun,                             BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_allmapcdwallcolor,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_allmapwallcolor,                    NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_backcolor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_cdwallcolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_external,                           BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_fdwallcolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_followmode,                         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_grid,                               BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_gridcolor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_markcolor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_playercolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_rotatemode,                         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_teleportercolor,                    NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_thingcolor,                         NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_tswallcolor,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_wallcolor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_xhaircolor,                         NOALIAS    ),
     CONFIG_VARIABLE_INT          (centerweapon,                          BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_timestamps,                        BOOLALIAS  ),
@@ -520,16 +541,48 @@ static void M_CheckCVARs(void)
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = alwaysrun_default;
 
+    am_allmapcdwallcolor = BETWEEN(am_allmapcdwallcolor_min, am_allmapcdwallcolor,
+        am_allmapcdwallcolor_max);
+
+    am_allmapfdwallcolor = BETWEEN(am_allmapfdwallcolor_min, am_allmapfdwallcolor,
+        am_allmapfdwallcolor_max);
+
+    am_allmapwallcolor = BETWEEN(am_allmapwallcolor_min, am_allmapwallcolor,
+        am_allmapwallcolor_max);
+
+    am_backcolor = BETWEEN(am_backcolor_min, am_backcolor, am_backcolor_max);
+
+    am_cdwallcolor = BETWEEN(am_cdwallcolor_min, am_cdwallcolor, am_cdwallcolor_max);
+
     if (am_external != false && am_external != true)
         am_external = am_external_default;
+
+    am_fdwallcolor = BETWEEN(am_fdwallcolor_min, am_fdwallcolor, am_fdwallcolor_max);
 
     am_followmode = am_followmode_default;
 
     if (am_grid != false && am_grid != true)
         am_grid = am_grid_default;
 
+    am_gridcolor = BETWEEN(am_gridcolor_min, am_gridcolor, am_gridcolor_max);
+
+    am_markcolor = BETWEEN(am_markcolor_min, am_markcolor, am_markcolor_max);
+
+    am_playercolor = BETWEEN(am_playercolor_min, am_playercolor, am_playercolor_max);
+
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = am_rotatemode_default;
+
+    am_teleportercolor = BETWEEN(am_teleportercolor_min, am_teleportercolor,
+        am_teleportercolor_max);
+
+    am_thingcolor = BETWEEN(am_thingcolor_min, am_thingcolor, am_thingcolor_max);
+
+    am_tswallcolor = BETWEEN(am_tswallcolor_min, am_tswallcolor, am_tswallcolor_max);
+
+    am_wallcolor = BETWEEN(am_wallcolor_min, am_wallcolor, am_wallcolor_max);
+
+    am_xhaircolor = BETWEEN(am_xhaircolor_min, am_xhaircolor, am_xhaircolor_max);
 
     if (centerweapon != false && centerweapon != true)
         centerweapon = centerweapon_default;

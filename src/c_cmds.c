@@ -84,9 +84,23 @@
 #define SPAWNCMDFORMAT          "~monster~|~item~"
 
 extern dboolean         alwaysrun;
+extern int              am_allmapcdwallcolor;
+extern int              am_allmapfdwallcolor;
+extern int              am_allmapwallcolor;
+extern int              am_backcolor;
+extern int              am_cdwallcolor;
 extern dboolean         am_external;
+extern int              am_fdwallcolor;
 extern dboolean         am_grid;
+extern int              am_gridcolor;
+extern int              am_markcolor;
+extern int              am_playercolor;
 extern dboolean         am_rotatemode;
+extern int              am_teleportercolor;
+extern int              am_thingcolor;
+extern int              am_tswallcolor;
+extern int              am_wallcolor;
+extern int              am_xhaircolor;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
@@ -390,6 +404,7 @@ static void unbind_cmd_func2(char *, char *, char *, char *);
 
 static dboolean bool_cvars_func1(char *, char *, char *, char *);
 static void bool_cvars_func2(char *, char *, char *, char *);
+static void color_cvars_func2(char *, char *, char *, char *);
 static dboolean float_cvars_func1(char *, char *, char *, char *);
 static void float_cvars_func2(char *, char *, char *, char *);
 static dboolean int_cvars_func1(char *, char *, char *, char *);
@@ -530,10 +545,24 @@ consolecmd_t consolecmds[] =
 
     // console variables
     CVAR_BOOL (alwaysrun, bool_cvars_func1, alwaysrun_cvar_func2, "Toggles the player always running when moving."),
+    CVAR_INT  (am_allmapcdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in ceiling height in the automap."),
+    CVAR_INT  (am_allmapfdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in floor height in the automap."),
+    CVAR_INT  (am_allmapwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of solid walls in the automap."),
+    CVAR_INT  (am_backcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the background in the automap."),
+    CVAR_INT  (am_cdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in ceiling height in the automap."),
     CVAR_BOOL (am_external, bool_cvars_func1, am_external_cvar_func2, "Toggles rendering of the automap on an external display."),
+    CVAR_INT  (am_fdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in floor height in the automap."),
     CVAR_BOOL (am_followmode, bool_cvars_func1, bool_cvars_func2, "Toggles follow mode in the automap."),
     CVAR_BOOL (am_grid, bool_cvars_func1, bool_cvars_func2, "Toggles the grid in the automap."),
+    CVAR_INT  (am_gridcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the grid in the automap."),
+    CVAR_INT  (am_markcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of marks in the automap."),
+    CVAR_INT  (am_playercolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the player arrow in the automap."),
     CVAR_BOOL (am_rotatemode, bool_cvars_func1, bool_cvars_func2, "Toggles rotate mode in the automap."),
+    CVAR_INT  (am_teleportercolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of teleporter lines in the automap."),
+    CVAR_INT  (am_thingcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of thing triangles in the automap."),
+    CVAR_INT  (am_tswallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with no change in height in the automap."),
+    CVAR_INT  (am_wallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of solid walls in the automap."),
+    CVAR_INT  (am_xhaircolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the crosshair in the automap."),
     CVAR_BOOL (centerweapon, bool_cvars_func1, bool_cvars_func2, "Toggles the centering of the player's weapon when firing."),
     CVAR_BOOL (con_obituaries, bool_cvars_func1, bool_cvars_func2, "Toggles obituaries in the console when monsters are killed."),
     CVAR_BOOL (con_timestamps, bool_cvars_func1, bool_cvars_func2, "Toggles timestamps in the console for player messages."),
@@ -2262,6 +2291,16 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
         ++i;
     }
+}
+
+//
+// color cvars
+//
+static void color_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int_cvars_func2(cmd, parm1, parm2, parm3);
+    if (parm1[0])
+        AM_SetColors();
 }
 
 //

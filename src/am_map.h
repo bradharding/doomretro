@@ -73,6 +73,7 @@ void AM_Start(dboolean mainwindow);
 void AM_Stop(void);
 
 void AM_Init(void);
+void AM_SetColors(void);
 
 void D_PostEvent(event_t *ev);
 
