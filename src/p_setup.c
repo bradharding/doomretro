@@ -59,6 +59,8 @@
 
 #define MAPINFO_SCRIPT_NAME     "MAPINFO"
 
+#define NUMLIQUIDS              256
+
 #define MCMD_AUTHOR             1
 #define MCMD_LIQUID             2
 #define MCMD_MUSIC              3
@@ -74,9 +76,11 @@ typedef struct mapinfo_s mapinfo_t;
 struct mapinfo_s
 {
     char        author[128];
+    int         liquid[NUMLIQUIDS];
     int         music;
     char        name[128];
     int         next;
+    int         noliquid[NUMLIQUIDS];
     int         par;
     int         secretnext;
     int         sky1texture;
@@ -2072,6 +2076,10 @@ void P_SetupLevel(int ep, int map)
 
     P_InitCards(&players[0]);
 
+    P_InitLiquids();
+    P_GetMapLiquids((ep - 1) * 10 + map);
+    P_GetMapNoLiquids((ep - 1) * 10 + map);
+
     // set up world state
     P_SpawnSpecials();
 
@@ -2083,8 +2091,12 @@ void P_SetupLevel(int ep, int map)
     S_Start();
 }
 
+int     liquidlumps = 0;
+int     noliquidlumps = 0;
+
 static void InitMapInfo(void)
 {
+    int         i;
     int         episode;
     int         map;
     int         mapmax = 1;
@@ -2105,6 +2117,12 @@ static void InitMapInfo(void)
     info->sky1texture = 0;
     info->sky1scrolldelta = 0;
     info->titlepatch = 0;
+
+    for (i = 0; i < NUMLIQUIDS; ++i)
+    {
+        info->liquid[i] = -1;
+        info->noliquid[i] = -1;
+    }
 
     SC_Open(MAPINFO_SCRIPT_NAME);
     while (SC_GetString())
@@ -2165,7 +2183,7 @@ static void InitMapInfo(void)
 
                         SC_MustGetString();
                         if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
-                            isliquid[lump] = true;
+                            info->liquid[liquidlumps++] = lump;
                         break;
                     }
 
@@ -2205,7 +2223,7 @@ static void InitMapInfo(void)
 
                         SC_MustGetString();
                         if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
-                            isliquid[lump] = false;
+                            info->noliquid[noliquidlumps++] = lump;
                         break;
                     }
 
@@ -2268,6 +2286,14 @@ char *P_GetMapAuthor(int map)
     return (MAPINFO ? mapinfo[QualifyMap(map)].author : "");
 }
 
+void P_GetMapLiquids(int map)
+{
+    int i = 0;
+
+    for (i = 0; i < liquidlumps; ++i)
+        isliquid[mapinfo[QualifyMap(map)].liquid[i]] = true;
+}
+
 int P_GetMapMusic(int map)
 {
     return (MAPINFO ? mapinfo[QualifyMap(map)].music : 0);
@@ -2281,6 +2307,14 @@ char *P_GetMapName(int map)
 int P_GetMapNext(int map)
 {
     return (MAPINFO ? mapinfo[QualifyMap(map)].next : 0);
+}
+
+void P_GetMapNoLiquids(int map)
+{
+    int i = 0;
+
+    for (i = 0; i < noliquidlumps; ++i)
+        isliquid[mapinfo[QualifyMap(map)].noliquid[i]] = false;
 }
 
 int P_GetMapPar(int map)

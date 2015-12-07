@@ -46,9 +46,11 @@ void P_MapName(int ep, int map);
 void P_Init(void);
 
 char *P_GetMapAuthor(int map);
+void P_GetMapLiquids(int map);
 int P_GetMapMusic(int map);
 char *P_GetMapName(int map);
 int P_GetMapNext(int map);
+void P_GetMapNoLiquids(int map);
 int P_GetMapPar(int map);
 int P_GetMapSecretNext(int map);
 int P_GetMapSky1Texture(int map);

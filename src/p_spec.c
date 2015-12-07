@@ -138,7 +138,7 @@ void P_InitPicAnims(void)
     animdef_t   *animdefs = W_CacheLumpNum(lump, PU_STATIC);
     int         size = (numflats + 1) * sizeof(dboolean);
 
-    isliquid = Z_Calloc(1, size, PU_STATIC, 0);
+    isliquid = Z_Malloc(size, PU_STATIC, 0);
 
     isteleport = Z_Calloc(1, size, PU_STATIC, 0);
 
@@ -195,18 +195,6 @@ void P_InitPicAnims(void)
     }
     W_ReleaseLumpNum(lump);
 
-    // [BH] parse NOLIQUID lump to find animated textures that are not liquid in current wad
-    SC_Open("NOLIQUID");
-    while (SC_GetString())
-    {
-        int     lump = R_CheckFlatNumForName(sc_String);
-
-        SC_MustGetString();
-        if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wad_file->path),
-            sc_String))
-            isliquid[lump] = false;
-    }
-
     // [BH] indicate obvious teleport textures for automap
     if (BTSX)
     {
@@ -240,6 +228,29 @@ void P_InitPicAnims(void)
         isteleport[R_CheckFlatNumForName("GATE2")] = true;
         isteleport[R_CheckFlatNumForName("GATE3")] = true;
         isteleport[R_CheckFlatNumForName("GATE4")] = true;
+    }
+}
+
+//
+// P_InitLiquids
+//
+void P_InitLiquids(void)
+{
+    int i;
+
+    for (i = 0; i < numflats; ++i)
+        isliquid[i] = false;
+
+    // [BH] parse NOLIQUID lump to find animated textures that are not liquid in current wad
+    SC_Open("NOLIQUID");
+    while (SC_GetString())
+    {
+        int     lump = R_CheckFlatNumForName(sc_String);
+
+        SC_MustGetString();
+        if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wad_file->path),
+            sc_String))
+            isliquid[lump] = false;
     }
 }
 
