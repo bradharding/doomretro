@@ -2072,13 +2072,13 @@ void P_SetupLevel(int ep, int map)
     r_bloodsplats_total = 0;
     memset(bloodsplats, 0, sizeof(mobj_t *) * r_bloodsplats_max);
 
-    P_LoadThings(lumpnum + ML_THINGS);
-
-    P_InitCards(&players[0]);
-
     P_SetLiquids();
     P_GetMapLiquids((ep - 1) * 10 + map);
     P_GetMapNoLiquids((ep - 1) * 10 + map);
+
+    P_LoadThings(lumpnum + ML_THINGS);
+
+    P_InitCards(&players[0]);
 
     // set up world state
     P_SpawnSpecials();
