@@ -133,14 +133,58 @@ dboolean        *isteleport;
 //
 void P_InitPicAnims(void)
 {
+    int size = (numflats + 1) * sizeof(dboolean);
+
+    isliquid = Z_Malloc(size, PU_STATIC, 0);
+    isteleport = Z_Calloc(1, size, PU_STATIC, 0);
+
+    // [BH] indicate obvious teleport textures for automap
+    if (BTSX)
+    {
+        isteleport[R_CheckFlatNumForName("SLIME09")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME12")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT1")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT2")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT3")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT4")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT5")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT6")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME05")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT02")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT03")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT04")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT05")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT06")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT07")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT08")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT09")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT10")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT11")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT12")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT13")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT14")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME08")] = true;
+    }
+    else
+    {
+        isteleport[R_CheckFlatNumForName("GATE1")] = true;
+        isteleport[R_CheckFlatNumForName("GATE2")] = true;
+        isteleport[R_CheckFlatNumForName("GATE3")] = true;
+        isteleport[R_CheckFlatNumForName("GATE4")] = true;
+    }
+}
+
+//
+// P_GetLiquids
+//
+void P_SetLiquids(void)
+{
     int         i;
     int         lump = W_GetNumForName2("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump, PU_STATIC);
-    int         size = (numflats + 1) * sizeof(dboolean);
 
-    isliquid = Z_Malloc(size, PU_STATIC, 0);
-
-    isteleport = Z_Calloc(1, size, PU_STATIC, 0);
+    for (i = 0; i < numflats; ++i)
+        isliquid[i] = false;
 
     // Init animation
     lastanim = anims;
@@ -194,52 +238,6 @@ void P_InitPicAnims(void)
         ++lastanim;
     }
     W_ReleaseLumpNum(lump);
-
-    // [BH] indicate obvious teleport textures for automap
-    if (BTSX)
-    {
-        isteleport[R_CheckFlatNumForName("SLIME09")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME12")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT1")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT2")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT3")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT4")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT5")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT6")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME05")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT02")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT03")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT04")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT05")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT06")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT07")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT08")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT09")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT10")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT11")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT12")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT13")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT14")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME08")] = true;
-    }
-    else
-    {
-        isteleport[R_CheckFlatNumForName("GATE1")] = true;
-        isteleport[R_CheckFlatNumForName("GATE2")] = true;
-        isteleport[R_CheckFlatNumForName("GATE3")] = true;
-        isteleport[R_CheckFlatNumForName("GATE4")] = true;
-    }
-}
-
-//
-// P_InitLiquids
-//
-void P_InitLiquids(void)
-{
-    int i;
-
-    for (i = 0; i < numflats; ++i)
-        isliquid[i] = false;
 
     // [BH] parse NOLIQUID lump to find animated textures that are not liquid in current wad
     SC_Open("NOLIQUID");

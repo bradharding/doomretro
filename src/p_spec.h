@@ -55,7 +55,7 @@ void P_InitPicAnims(void);
 
 // at map load
 void P_SpawnSpecials(void);
-void P_InitLiquids(void);
+void P_SetLiquids(void);
 
 // every tic
 void P_UpdateSpecials(void);

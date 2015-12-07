@@ -2076,7 +2076,7 @@ void P_SetupLevel(int ep, int map)
 
     P_InitCards(&players[0]);
 
-    P_InitLiquids();
+    P_SetLiquids();
     P_GetMapLiquids((ep - 1) * 10 + map);
     P_GetMapNoLiquids((ep - 1) * 10 + map);
 
