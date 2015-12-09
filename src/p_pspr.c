@@ -217,8 +217,13 @@ void P_FireWeapon(player_t *player)
 
     if (centerweapon)
     {
-        player->psprites[ps_weapon].sx = 0;
-        player->psprites[ps_weapon].sy = WEAPONTOP;
+        pspdef_t        *psp = &player->psprites[ps_weapon];
+        state_t         *state = psp->state;
+
+        if (!state->misc1)
+            psp->sx = 0;
+        if (!state->misc2)
+            psp->sy = WEAPONTOP;
     }
 }
 
