@@ -74,6 +74,10 @@ typedef enum
 #define am_cdwallcolor_default                  160
 #define am_cdwallcolor_max                      255
 
+#define am_cheat_min                            0
+#define am_cheat_default                        0
+#define am_cheat_max                            2
+
 #define am_external_default                     false
 
 #define am_fdwallcolor_min                      0

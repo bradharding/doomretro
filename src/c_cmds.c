@@ -89,6 +89,7 @@ extern int              am_allmapfdwallcolor;
 extern int              am_allmapwallcolor;
 extern int              am_backcolor;
 extern int              am_cdwallcolor;
+extern int              am_cheat;
 extern dboolean         am_external;
 extern int              am_fdwallcolor;
 extern dboolean         am_grid;
@@ -412,6 +413,7 @@ static void int_cvars_func2(char *, char *, char *, char *);
 static void str_cvars_func2(char *, char *, char *, char *);
 static void time_cvars_func2(char *, char *, char *, char *);
 
+static void am_cheat_cvar_func2(char *, char *, char *, char *);
 static void am_external_cvar_func2(char *, char *, char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
@@ -550,6 +552,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (am_allmapwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of solid walls in the automap."),
     CVAR_INT  (am_backcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the background in the automap."),
     CVAR_INT  (am_cdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in ceiling height in the automap."),
+    CVAR_INT  (am_cheat, int_cvars_func1, am_cheat_cvar_func2, CF_NONE, NOALIAS, "The status of the automap cheat."),
     CVAR_BOOL (am_external, bool_cvars_func1, am_external_cvar_func2, "Toggles rendering of the automap on an external display."),
     CVAR_INT  (am_fdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in floor height in the automap."),
     CVAR_BOOL (am_followmode, bool_cvars_func1, bool_cvars_func2, "Toggles follow mode in the automap."),
@@ -2472,6 +2475,42 @@ static void alwaysrun_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm
 {
     bool_cvars_func2(cmd, parm1, "", "");
     I_InitKeyboard();
+}
+
+//
+// am_cheat cvar
+//
+static void am_cheat_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int am_cheat_old = am_cheat;
+
+    int_cvars_func2(cmd, parm1, "", "");
+    if (am_cheat != am_cheat_old)
+    {
+        player_t        *player = &players[0];
+
+        switch (am_cheat)
+        {
+            case 0:
+                if (player->cheats & CF_ALLMAP)
+                    player->cheats &= !CF_ALLMAP;
+                if (player->cheats & CF_ALLMAP_THINGS)
+                    player->cheats &= !CF_ALLMAP_THINGS;
+                break;
+
+            case 1:
+                if (player->cheats & CF_ALLMAP_THINGS)
+                    player->cheats &= !CF_ALLMAP_THINGS;
+                player->cheats |= CF_ALLMAP;
+                break;
+
+            case 2:
+                if (player->cheats & CF_ALLMAP)
+                    player->cheats &= !CF_ALLMAP;
+                player->cheats |= CF_ALLMAP_THINGS;
+                break;
+        }
+    }
 }
 
 //

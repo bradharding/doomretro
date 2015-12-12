@@ -260,6 +260,7 @@ mpoint_t                *markpoints = NULL;     // where the points are
 int                     markpointnum = 0;       // next point to be assigned
 int                     markpointnum_max = 0;
 
+int                     am_cheat = am_cheat_default;
 dboolean                am_external = am_external_default;
 dboolean                am_followmode = am_followmode_default;
 dboolean                am_grid = am_grid_default;

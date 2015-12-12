@@ -62,6 +62,7 @@ extern int              am_allmapfdwallcolor;
 extern int              am_allmapwallcolor;
 extern int              am_backcolor;
 extern int              am_cdwallcolor;
+extern int              am_cheat;
 extern dboolean         am_external;
 extern int              am_fdwallcolor;
 extern dboolean         am_followmode;
@@ -197,6 +198,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_allmapwallcolor,                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_backcolor,                          NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_cheat,                              NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_external,                           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_followmode,                         BOOLALIAS  ),
@@ -553,6 +555,8 @@ static void M_CheckCVARs(void)
     am_backcolor = BETWEEN(am_backcolor_min, am_backcolor, am_backcolor_max);
 
     am_cdwallcolor = BETWEEN(am_cdwallcolor_min, am_cdwallcolor, am_cdwallcolor_max);
+
+    am_cheat = am_cheat_default;
 
     if (am_external != false && am_external != true)
         am_external = am_external_default;
