@@ -1140,7 +1140,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     int         i;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    int         color = (r_blood == allbloodcolors ? target->blood : MT_BLOOD);
+    int         color = (r_blood == r_blood_all ? target->blood : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[color];
 
     angle += ANG180;

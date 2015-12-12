@@ -429,7 +429,7 @@ void ST_refreshBackground(void)
 {
     if (st_statusbaron)
     {
-        if (STBAR || r_detail == lowdetail)
+        if (STBAR || r_detail == r_detail_low)
             V_DrawPatch(ST_X, 0, BG, sbar);
         else
             V_DrawBigPatch(ST_X, 0, BG, sbar2);
@@ -1351,7 +1351,7 @@ void ST_drawWidgets(dboolean refresh)
 
     STlib_updatePercent(&w_armor, refresh);
 
-    if (STBAR || r_detail == lowdetail)
+    if (STBAR || r_detail == r_detail_low)
         STlib_updateBinIcon(&w_armsbg, refresh);
     else
         STlib_updateBigBinIcon(&w_armsbg2, refresh);

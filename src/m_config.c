@@ -635,7 +635,7 @@ static void M_CheckCVARs(void)
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;
 
-    if (r_blood != noblood && r_blood != redbloodonly && r_blood != allbloodcolors)
+    if (r_blood != r_blood_none && r_blood != r_blood_redonly && r_blood != r_blood_all)
         r_blood = r_blood_default;
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
@@ -658,7 +658,7 @@ static void M_CheckCVARs(void)
     if (r_corpses_smearblood != false && r_corpses_smearblood != true)
         r_corpses_smearblood = r_corpses_smearblood_default;
 
-    if (r_detail != lowdetail && r_detail != highdetail)
+    if (r_detail != r_detail_low && r_detail != r_detail_high)
         r_detail = r_detail_default;
 
     if (r_diskicon != false && r_diskicon != true)

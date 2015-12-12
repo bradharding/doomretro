@@ -41,15 +41,22 @@
 
 typedef enum
 {
-    noblood,
-    redbloodonly,
-    allbloodcolors
+    am_cheat_off,
+    am_cheat_allmap,
+    am_cheat_allmap_things
+} am_cheat_values_e;
+
+typedef enum
+{
+    r_blood_none,
+    r_blood_redonly,
+    r_blood_all
 } r_blood_values_e;
 
 typedef enum
 {
-    lowdetail,
-    highdetail
+    r_detail_low,
+    r_detail_high
 } r_detail_values_e;
 
 #define alwaysrun_default                       false
@@ -74,9 +81,9 @@ typedef enum
 #define am_cdwallcolor_default                  160
 #define am_cdwallcolor_max                      255
 
-#define am_cheat_min                            0
-#define am_cheat_default                        0
-#define am_cheat_max                            2
+#define am_cheat_min                            am_cheat_off
+#define am_cheat_default                        am_cheat_off
+#define am_cheat_max                            am_cheat_allmap_things
 
 #define am_external_default                     false
 
@@ -141,11 +148,13 @@ typedef enum
 #define expansion_max                           1
 
 #define gp_deadzone_left_min                    0.0f
-#define gp_deadzone_left_default                (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
+#define gp_deadzone_left_default                (GAMEPAD_LEFT_THUMB_DEADZONE \
+                                                / (float)SHRT_MAX * 100.0f)
 #define gp_deadzone_left_max                    100.0f
 
 #define gp_deadzone_right_min                   0.0f
-#define gp_deadzone_right_default               (GAMEPAD_RIGHT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
+#define gp_deadzone_right_default               (GAMEPAD_RIGHT_THUMB_DEADZONE \
+                                                / (float)SHRT_MAX * 100.0f)
 #define gp_deadzone_right_max                   100.0f
 
 #define gp_sensitivity_min                      0
@@ -184,9 +193,9 @@ typedef enum
 
 #define r_althud_default                        false
 
-#define r_blood_min                             noblood
-#define r_blood_default                         allbloodcolors
-#define r_blood_max                             allbloodcolors
+#define r_blood_min                             r_blood_none
+#define r_blood_default                         r_blood_all
+#define r_blood_max                             r_blood_all
 
 #define r_bloodsplats_max_min                   0
 #define r_bloodsplats_max_default               32768
@@ -210,7 +219,7 @@ typedef enum
 
 #define r_corpses_smearblood_default            true
 
-#define r_detail_default                        highdetail
+#define r_detail_default                        r_detail_high
 
 #define r_diskicon_default                      true
 

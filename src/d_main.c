@@ -276,7 +276,7 @@ void D_Display(void)
                     --borderdrawcount;
                 }
             }
-            if (r_detail == lowdetail)
+            if (r_detail == r_detail_low)
                 V_LowGraphicDetail(viewheight2 * SCREENWIDTH);
         }
 
@@ -1605,8 +1605,9 @@ static void D_DoomMainSetup(void)
     else
         startloadgame = -1;
 
-    P_BloodSplatSpawner = (r_blood == noblood || !r_bloodsplats_max ? P_NullBloodSplatSpawner :
-        (r_bloodsplats_max == r_bloodsplats_max_max ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
+    P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
+        P_NullBloodSplatSpawner : (r_bloodsplats_max == r_bloodsplats_max_max ? P_SpawnBloodSplat :
+        P_SpawnBloodSplat2));
 
     M_Init();
 

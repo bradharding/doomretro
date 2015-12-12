@@ -2491,20 +2491,20 @@ static void am_cheat_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
 
         switch (am_cheat)
         {
-            case 0:
+            case am_cheat_off:
                 if (player->cheats & CF_ALLMAP)
                     player->cheats &= !CF_ALLMAP;
                 if (player->cheats & CF_ALLMAP_THINGS)
                     player->cheats &= !CF_ALLMAP_THINGS;
                 break;
 
-            case 1:
+            case am_cheat_allmap:
                 if (player->cheats & CF_ALLMAP_THINGS)
                     player->cheats &= !CF_ALLMAP_THINGS;
                 player->cheats |= CF_ALLMAP;
                 break;
 
-            case 2:
+            case am_cheat_allmap_things:
                 if (player->cheats & CF_ALLMAP)
                     player->cheats &= !CF_ALLMAP;
                 player->cheats |= CF_ALLMAP_THINGS;
@@ -2615,7 +2615,7 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         if (value >= 0)
         {
             r_blood = value;
-            P_BloodSplatSpawner = (r_blood == noblood ? P_NullBloodSplatSpawner :
+            P_BloodSplatSpawner = (r_blood == r_blood_none ? P_NullBloodSplatSpawner :
                 (r_bloodsplats_max == r_bloodsplats_max_max ? P_SpawnBloodSplat :
                 P_SpawnBloodSplat2));
             M_SaveCVARs();

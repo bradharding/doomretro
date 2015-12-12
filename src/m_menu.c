@@ -70,18 +70,9 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-extern patch_t  *hu_font[HU_FONTSIZE];
-extern dboolean message_dontfuckwithme;
-
-extern int      st_palette;
-
-extern dboolean wipe;
-extern dboolean r_hud;
-
-extern dboolean splashscreen;
-
-extern dboolean skipaction;
-extern dboolean skippsprinterp;
+#define SKULLXOFF       -32
+#define LINEHEIGHT      17
+#define OFFSET          (vid_widescreen ? 0 : 17)
 
 //
 // defaulted values
@@ -125,10 +116,6 @@ dboolean        menuactive;
 dboolean        savegames = false;
 dboolean        startingnewgame = false;
 
-#define SKULLXOFF       -32
-#define LINEHEIGHT      17
-#define OFFSET          (vid_widescreen ? 0 : 17)
-
 char            savegamestrings[10][SAVESTRINGSIZE];
 
 patch_t         *pipechar;
@@ -161,6 +148,19 @@ byte            *blurscreen2;
 
 dboolean        blurred = false;
 dboolean        blurredmap = false;
+
+extern patch_t  *hu_font[HU_FONTSIZE];
+extern dboolean message_dontfuckwithme;
+
+extern int      st_palette;
+
+extern dboolean wipe;
+extern dboolean r_hud;
+
+extern dboolean splashscreen;
+
+extern dboolean skipaction;
+extern dboolean skippsprinterp;
 
 //
 // PROTOTYPES
@@ -541,7 +541,7 @@ void M_DarkBackground(void)
         for (i = 0; i < height; ++i)
             mapscreen[i] = tinttab50[blurscreen2[i]];
 
-    if (r_detail == lowdetail)
+    if (r_detail == r_detail_low)
         V_LowGraphicDetail(height);
 }
 
@@ -671,9 +671,9 @@ void M_DrawString(int x, int y, char *str)
 
     for (i = 0; (unsigned int)i < strlen(str); ++i)
     {
-        int     j = -1;
-        int     k = 0;
-        dboolean overlapping = false;
+        int             j = -1;
+        int             k = 0;
+        dboolean        overlapping = false;
 
         if (str[i] < 123)
             j = chartoi[(int)str[i]];
@@ -1666,21 +1666,21 @@ void M_DrawOptions(void)
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
     }
 
-    if (r_detail == highdetail)
-    {
-        if (M_GDHIGH)
-            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
-                W_CacheLumpName("M_GDHIGH", PU_CACHE));
-        else
-            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
-    }
-    else
+    if (r_detail == r_detail_low)
     {
         if (M_GDLOW)
             M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
                 W_CacheLumpName("M_GDLOW", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW);
+    }
+    else
+    {
+        if (M_GDHIGH)
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
+                W_CacheLumpName("M_GDHIGH", PU_CACHE));
+        else
+            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
@@ -1703,7 +1703,7 @@ void M_Options(int choice)
 //
 // Toggle messages on/off
 //
-dboolean message_dontpause = false;
+dboolean        message_dontpause = false;
 
 void M_ChangeMessages(int choice)
 {
@@ -1720,7 +1720,7 @@ void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-dboolean endinggame = false;
+dboolean        endinggame = false;
 
 void M_EndingGame(void)
 {
@@ -1949,14 +1949,14 @@ void M_ChangeDetail(int choice)
 {
     blurred = false;
     r_detail = !r_detail;
-    C_Input("%s %s", stringize(r_detail), (r_detail == highdetail ? "high" : "low"));
+    C_Input("%s %s", stringize(r_detail), (r_detail == r_detail_low ? "low" : "high"));
     if (!menuactive)
     {
-        HU_PlayerMessage((r_detail == highdetail ? s_DETAILHI : s_DETAILLO), false);
+        HU_PlayerMessage((r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI), false);
         message_dontfuckwithme = true;
     }
     else
-        C_Output(r_detail == highdetail ? s_DETAILHI : s_DETAILLO);
+        C_Output(r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI);
     M_SaveCVARs();
 }
 
@@ -2289,9 +2289,9 @@ void M_ChangeGamma(dboolean shift)
 //
 // M_Responder
 //
-int     gamepadwait = 0;
-int     mousewait = 0;
-dboolean gamepadpress = false;
+int             gamepadwait = 0;
+int             mousewait = 0;
+dboolean        gamepadpress = false;
 
 dboolean M_Responder(event_t *ev)
 {
