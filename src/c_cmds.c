@@ -599,7 +599,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_corpses_nudge, bool_cvars_func1, bool_cvars_func2, "Toggles corpses being nudged when monsters walk over them."),
     CVAR_BOOL (r_corpses_slide, bool_cvars_func1, bool_cvars_func2, "Toggles corpses reacting to barrel and rocket explosions."),
     CVAR_BOOL (r_corpses_smearblood, bool_cvars_func1, bool_cvars_func2, "Toggles corpses producing blood splats as they slide."),
-    CVAR_BOOL (r_detail, r_bloodsplats_max_cvar_func1, r_bloodsplats_max_cvar_func2, "Toggles the graphic detail."),
+    CVAR_BOOL (r_detail, r_detail_max_cvar_func1, r_detail_max_cvar_func2, "Toggles the graphic detail."),
     CVAR_BOOL (r_diskicon, bool_cvars_func1, bool_cvars_func2, "Toggles showing a disk icon when loading and saving."),
     CVAR_BOOL (r_fixmaperrors, bool_cvars_func1, bool_cvars_func2, "Toggles the fixing of mapping errors in the ~DOOM~ IWADs."),
     CVAR_BOOL (r_fixspriteoffsets, bool_cvars_func1, bool_cvars_func2, "Toggles the fixing of sprite offsets."),
