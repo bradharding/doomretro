@@ -1225,43 +1225,6 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         newsplat->subsector = subsec;
         P_SetBloodSplatPosition(newsplat);
 
-        ++r_bloodsplats_total;
-
-        if (target)
-            target->bloodsplats = MAX(0, target->bloodsplats - 1);
-    }
-}
-
-void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target)
-{
-    subsector_t *subsec = R_PointInSubsector(x, y);
-    sector_t    *sec = subsec->sector;
-    short       floorpic = sec->floorpic;
-
-    if (!isliquid[floorpic] && sec->floorheight <= maxheight && floorpic != skyflatnum)
-    {
-        mobj_t  *newsplat = Z_Calloc(1, sizeof(*newsplat), PU_LEVEL, NULL);
-
-        newsplat->type = MT_BLOODSPLAT;
-        newsplat->sprite = SPR_BLD2;
-        newsplat->frame = rand() & 7;
-
-        newsplat->flags2 = (MF2_DONOTMAP | (rand() & 1) * MF2_MIRRORED);
-        if (blood == FUZZYBLOOD)
-        {
-            newsplat->flags = MF_FUZZ;
-            newsplat->colfunc = fuzzcolfunc;
-        }
-        else
-            newsplat->colfunc = bloodsplatcolfunc;
-        newsplat->projectfunc = R_ProjectBloodSplat;
-        newsplat->blood = blood;
-
-        newsplat->x = x;
-        newsplat->y = y;
-        newsplat->subsector = subsec;
-        P_SetBloodSplatPosition(newsplat);
-
         if (r_bloodsplats_total > r_bloodsplats_max)
         {
             mobj_t      *oldsplat = bloodsplats[r_bloodsplats_total % r_bloodsplats_max];

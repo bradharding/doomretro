@@ -234,7 +234,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (playername,                            NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_althud,                              BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_blood,                               BLOODALIAS ),
-    CONFIG_VARIABLE_INT          (r_bloodsplats_max,                     SPLATALIAS ),
+    CONFIG_VARIABLE_INT          (r_bloodsplats_max,                     NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_brightmaps,                          BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_color,                       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,                    BOOLALIAS  ),
@@ -321,11 +321,10 @@ alias_t aliases[] =
     { "no",            0, BOOLALIAS   }, { "yes",           1, BOOLALIAS   },
     { "false",         0, BOOLALIAS   }, { "true",          1, BOOLALIAS   },
     { "low",           0, DETAILALIAS }, { "high",          1, DETAILALIAS },
-    { "unlimited", 32768, SPLATALIAS  }, { "off",           1, GAMMAALIAS  },
-    { "none",          0, BLOODALIAS  }, { "red",           1, BLOODALIAS  },
-    { "all",           2, BLOODALIAS  }, { "off",           0, CHEATALIAS  },
-    { "all",           1, CHEATALIAS  }, { "things",        2, CHEATALIAS  },
-    { "",              0, NOALIAS     }
+    { "off",           1, GAMMAALIAS  }, { "none",          0, BLOODALIAS  },
+    { "red",           1, BLOODALIAS  }, { "all",           2, BLOODALIAS  },
+    { "off",           0, CHEATALIAS  }, { "all",           1, CHEATALIAS  },
+    { "things",        2, CHEATALIAS  }, { "",              0, NOALIAS     }
 };
 
 char *striptrailingzero(float value, int precision)

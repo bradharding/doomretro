@@ -421,8 +421,6 @@ static void playername_cvar_func2(char *, char *, char *, char *);
 static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
 static void r_blood_cvar_func2(char *, char *, char *, char *);
-static dboolean r_bloodsplats_max_cvar_func1(char *, char *, char *, char *);
-static void r_bloodsplats_max_cvar_func2(char *, char *, char *, char *);
 static dboolean r_detail_cvar_func1(char *, char *, char *, char *);
 static void r_detail_cvar_func2(char *, char *, char *, char *);
 static dboolean r_gamma_cvar_func1(char *, char *, char *, char *);
@@ -590,7 +588,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (playername, null_func1, playername_cvar_func2, "The name of the player used in messages."),
     CVAR_BOOL (r_althud, bool_cvars_func1, bool_cvars_func2, "Toggles the display of an alternate HUD when the HUD is on."),
     CVAR_INT  (r_blood, r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters."),
-    CVAR_INT  (r_bloodsplats_max, r_bloodsplats_max_cvar_func1, r_bloodsplats_max_cvar_func2, CF_NONE, SPLATALIAS, "The maximum number of blood splats allowed in a map."),
+    CVAR_INT  (r_bloodsplats_max, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The maximum number of blood splats allowed in a map."),
     CVAR_INT  (r_bloodsplats_total, int_cvars_func1, int_cvars_func2, CF_READONLY, NOALIAS, "The total number of blood splats in the current map."),
     CVAR_BOOL (r_brightmaps, bool_cvars_func1, bool_cvars_func2, "Toggles brightmaps on certain wall textures."),
     CVAR_BOOL (r_corpses_color, bool_cvars_func1, bool_cvars_func2, "Toggles corpses of marines being randomly colored."),
@@ -2616,49 +2614,12 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             r_blood = value;
             P_BloodSplatSpawner = (r_blood == r_blood_none ? P_NullBloodSplatSpawner :
-                (r_bloodsplats_max == r_bloodsplats_max_max ? P_SpawnBloodSplat :
-                P_SpawnBloodSplat2));
+                P_SpawnBloodSplat);
             M_SaveCVARs();
         }
     }
     else
         C_Output(C_LookupAliasFromValue(r_blood, BLOODALIAS));
-}
-
-//
-// r_bloodsplats_max cvar
-//
-static dboolean r_bloodsplats_max_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
-{
-    int value = 0;
-
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, SPLATALIAS) >= 0
-        || sscanf(parm1, "%10i", &value));
-}
-
-static void r_bloodsplats_max_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
-{
-    if (parm1[0])
-    {
-        int     value = C_LookupValueFromAlias(parm1, SPLATALIAS);
-
-        if (value < 0)
-            sscanf(parm1, "%10i", &value);
-        if (value >= 0)
-        {
-            r_bloodsplats_max = value;
-            M_SaveCVARs();
-
-            if (!r_bloodsplats_max)
-                P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-            else if (r_bloodsplats_max == r_bloodsplats_max_max)
-                P_BloodSplatSpawner = P_SpawnBloodSplat;
-            else
-                P_BloodSplatSpawner = P_SpawnBloodSplat2;
-        }
-    }
-    else
-        C_Output(C_LookupAliasFromValue(r_bloodsplats_max, SPLATALIAS));
 }
 
 //

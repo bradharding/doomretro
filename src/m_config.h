@@ -199,7 +199,7 @@ typedef enum
 
 #define r_bloodsplats_max_min                   0
 #define r_bloodsplats_max_default               32768
-#define r_bloodsplats_max_max                   32768
+#define r_bloodsplats_max_max                   1048576
 
 #define r_bloodsplats_total_min                 0
 #define r_bloodsplats_total_default             0
@@ -401,9 +401,7 @@ typedef enum
 {
     NOALIAS,
     BOOLALIAS,
-    SCREENALIAS,
     DETAILALIAS,
-    SPLATALIAS,
     GAMMAALIAS,
     BLOODALIAS,
     CHEATALIAS
