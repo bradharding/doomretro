@@ -552,7 +552,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (am_allmapwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of solid walls in the automap."),
     CVAR_INT  (am_backcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the background in the automap."),
     CVAR_INT  (am_cdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in ceiling height in the automap."),
-    CVAR_INT  (am_cheat, int_cvars_func1, am_cheat_cvar_func2, CF_NONE, NOALIAS, "The status of the automap cheat."),
+    CVAR_INT  (am_cheat, int_cvars_func1, am_cheat_cvar_func2, CF_NONE, CHEATALIAS, "The status of the automap cheat."),
     CVAR_BOOL (am_external, bool_cvars_func1, am_external_cvar_func2, "Toggles rendering of the automap on an external display."),
     CVAR_INT  (am_fdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in floor height in the automap."),
     CVAR_BOOL (am_followmode, bool_cvars_func1, bool_cvars_func2, "Toggles follow mode in the automap."),
