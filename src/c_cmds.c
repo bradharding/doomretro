@@ -2498,13 +2498,13 @@ static void am_cheat_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
                     player->cheats &= !CF_ALLMAP_THINGS;
                 break;
 
-            case am_cheat_allmap:
+            case am_cheat_all:
                 if (player->cheats & CF_ALLMAP_THINGS)
                     player->cheats &= !CF_ALLMAP_THINGS;
                 player->cheats |= CF_ALLMAP;
                 break;
 
-            case am_cheat_allmap_things:
+            case am_cheat_things:
                 if (player->cheats & CF_ALLMAP)
                     player->cheats &= !CF_ALLMAP;
                 player->cheats |= CF_ALLMAP_THINGS;

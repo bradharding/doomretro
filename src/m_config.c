@@ -198,7 +198,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_allmapwallcolor,                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_backcolor,                          NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                        NOALIAS    ),
-    CONFIG_VARIABLE_INT          (am_cheat,                              NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_cheat,                              CHEATALIAS ),
     CONFIG_VARIABLE_INT          (am_external,                           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_followmode,                         BOOLALIAS  ),
@@ -323,7 +323,9 @@ alias_t aliases[] =
     { "low",           0, DETAILALIAS }, { "high",          1, DETAILALIAS },
     { "unlimited", 32768, SPLATALIAS  }, { "off",           1, GAMMAALIAS  },
     { "none",          0, BLOODALIAS  }, { "red",           1, BLOODALIAS  },
-    { "all",           2, BLOODALIAS  }, { "",              0, NOALIAS     }
+    { "all",           2, BLOODALIAS  }, { "off",           0, CHEATALIAS  },
+    { "all",           1, CHEATALIAS  }, { "things",        2, CHEATALIAS  },
+    { "",              0, NOALIAS     }
 };
 
 char *striptrailingzero(float value, int precision)
@@ -635,7 +637,7 @@ static void M_CheckCVARs(void)
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;
 
-    if (r_blood != r_blood_none && r_blood != r_blood_redonly && r_blood != r_blood_all)
+    if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all)
         r_blood = r_blood_default;
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
