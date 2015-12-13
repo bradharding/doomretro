@@ -472,24 +472,24 @@ static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
 }
 
 #define CMD(name, cond, func, parms, form, desc) \
-    { #name, cond, func, parms, CT_CMD, CF_NONE, NULL, 0, 0, 0, 0, form, desc }
+    { #name, cond, func, parms, CT_CMD, CF_NONE, NULL, 0, 0, 0, form, desc }
 #define CMD_CHEAT(name, parms) \
-    { #name, cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
+    { #name, cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, "", "" }
 #define CVAR_BOOL(name, cond, func, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, 1, false, true, name##_default, "", desc }
+    { #name, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, 1, false, true, "", desc }
 #define CVAR_INT(name, cond, func, flags, aliases, desc) \
     { #name, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, aliases, name##_min, \
-      name##_max, name##_default, "", desc }
+      name##_max, "", desc }
 #define CVAR_FLOAT(name, cond, func, flags, desc) \
-    { #name, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, 0, "", desc }
+    { #name, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, "", desc }
 #define CVAR_POS(name, cond, func, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, 0, "", desc }
+    { #name, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, "", desc }
 #define CVAR_SIZE(name, cond, func, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_SIZE, &name, 0, 0, 0, 0, "", desc }
+    { #name, cond, func, 1, CT_CVAR, CF_SIZE, &name, 0, 0, 0, "", desc }
 #define CVAR_STR(name, cond, func, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_STRING, &name, 0, 0, 0, 0, "", desc }
+    { #name, cond, func, 1, CT_CVAR, CF_STRING, &name, 0, 0, 0, "", desc }
 #define CVAR_TIME(name, cond, func, desc) \
-    { #name, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, 0, "", desc }
+    { #name, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc }
 
 int     numconsolecmds;
 
@@ -640,7 +640,7 @@ consolecmd_t consolecmds[] =
     CVAR_POS  (vid_windowposition, null_func1, vid_windowposition_cvar_func2, "The position of the window on the desktop (centered or\n(width,height))."),
     CVAR_SIZE (vid_windowsize, null_func1, vid_windowsize_cvar_func2, "The size of the window on the desktop (width\xD7height)."),
 
-    { "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
+    { "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
 
 static dboolean cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -1059,9 +1059,12 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 C_TabbedOutput(tabs, "%i.\t%s\t\"%.8s%s\"\t%s", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable,
                     (strlen(*(char **)consolecmds[i].variable) > 8 ? "..." : ""), description1);
-            else if ((consolecmds[i].flags & CF_POSITION) || (consolecmds[i].flags & CF_SIZE))
+            else if (consolecmds[i].flags & CF_POSITION)
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable, description1);
+            else if (consolecmds[i].flags & CF_SIZE)
+                C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
+                    formatsize(*(char **)consolecmds[i].variable), description1);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int tics = *(int *)consolecmds[i].variable / TICRATE;
@@ -2733,7 +2736,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
             M_SaveCVARs();
     }
     else
-        C_Output(r_lowpixelsize);
+        C_Output(formatsize(r_lowpixelsize));
 }
 
 //
@@ -2950,7 +2953,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2,
         }
     }
     else
-        C_Output(vid_screenresolution);
+        C_Output(formatsize(vid_screenresolution));
 }
 
 //
@@ -3074,5 +3077,5 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
         }
     }
     else
-        C_Output(vid_windowsize);
+        C_Output(formatsize(vid_windowsize));
 }

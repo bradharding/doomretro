@@ -491,6 +491,26 @@ char *titlecase(const char *str)
     return newstr;
 }
 
+char *formatsize(const char *str)
+{
+    char        *newstr = strdup(str);
+    size_t      len = strlen(newstr);
+
+    if (len > 1)
+    {
+        size_t  i;
+
+        for (i = 1; i < len; ++i)
+            if (newstr[i] == 'x')
+            {
+                newstr[i] = 215;
+                break;
+            }
+    }
+
+    return newstr;
+}
+
 char *commify(int value)
 {
     char        result[64];

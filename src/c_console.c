@@ -654,7 +654,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             else
                 patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknownchar : consolefont[c]);
 
-            if (letter == 215 || (isdigit(prevletter) && letter == 'x' && isdigit(nextletter)))
+            if (letter == 215)
                 patch = multiply;
             else if (prevletter == ' ' || prevletter == '\t' || prevletter == '(' || !i)
             {

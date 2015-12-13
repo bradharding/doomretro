@@ -97,7 +97,6 @@ typedef struct
     int                 aliases;
     int                 minimumvalue;
     int                 maximumvalue;
-    int                 defaultvalue;
     char                *format;
     char                *description;
 } consolecmd_t;
