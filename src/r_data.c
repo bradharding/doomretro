@@ -821,7 +821,6 @@ void R_InitTextures(void)
             ++i;
         }
     }
-
 }
 
 //

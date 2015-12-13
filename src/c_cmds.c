@@ -545,14 +545,14 @@ consolecmd_t consolecmds[] =
 
     // console variables
     CVAR_BOOL (alwaysrun, bool_cvars_func1, alwaysrun_cvar_func2, "Toggles the player always running when moving."),
-    CVAR_INT  (am_allmapcdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in ceiling height in the automap."),
-    CVAR_INT  (am_allmapfdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in floor height in the automap."),
-    CVAR_INT  (am_allmapwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of solid walls in the automap."),
+    CVAR_INT  (am_allmapcdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with a change in ceiling height in the automap\nwhen using the computer area map powerup."),
+    CVAR_INT  (am_allmapfdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with a change in floor height in the automap\nwhen using the computer area map powerup."),
+    CVAR_INT  (am_allmapwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of solid walls in the automap when using the computer\narea map powerup."),
     CVAR_INT  (am_backcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the background in the automap."),
-    CVAR_INT  (am_cdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in ceiling height in the automap."),
+    CVAR_INT  (am_cdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with a change in ceiling height in the automap."),
     CVAR_INT  (am_cheat, int_cvars_func1, am_cheat_cvar_func2, CF_NONE, CHEATALIAS, "The status of the automap cheat."),
     CVAR_BOOL (am_external, bool_cvars_func1, am_external_cvar_func2, "Toggles rendering of the automap on an external display."),
-    CVAR_INT  (am_fdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with change in floor height in the automap."),
+    CVAR_INT  (am_fdwallcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of lines with a change in floor height in the automap."),
     CVAR_BOOL (am_followmode, bool_cvars_func1, bool_cvars_func2, "Toggles follow mode in the automap."),
     CVAR_BOOL (am_grid, bool_cvars_func1, bool_cvars_func2, "Toggles the grid in the automap."),
     CVAR_INT  (am_gridcolor, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the grid in the automap."),
@@ -1026,39 +1026,52 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         if (consolecmds[i].type == CT_CVAR && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
         {
+            char        description1[255];
+            char        description2[255] = "";
+            char        *p;
+
+            M_StringCopy(description1, consolecmds[i].description, 255);
+
+            if ((p = strchr(description1, '\n')))
+            {
+                *p = '\0';
+                ++p;
+                M_StringCopy(description2, p, 255);
+            }
+
             if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
                     C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
-                        consolecmds[i].aliases), consolecmds[i].description);
+                        consolecmds[i].aliases), description1);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
                 C_TabbedOutput(tabs, "%i.\t%s\t%i%%\t%s", count++, consolecmds[i].name,
-                    *(int *)consolecmds[i].variable, consolecmds[i].description);
+                    *(int *)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_INTEGER)
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
                     C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
-                        consolecmds[i].aliases), consolecmds[i].description);
+                        consolecmds[i].aliases), description1);
             else if (consolecmds[i].flags & CF_FLOAT)
                 C_TabbedOutput(tabs, "%i.\t%s\t%s%s\t%s", count++, consolecmds[i].name,
                     striptrailingzero(*(float *)consolecmds[i].variable,
                         ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
-                    ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), consolecmds[i].description);
+                    ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), description1);
             else if (consolecmds[i].flags & CF_STRING)
                 C_TabbedOutput(tabs, "%i.\t%s\t\"%.8s%s\"\t%s", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable,
-                    (strlen(*(char **)consolecmds[i].variable) > 8 ? "..." : ""),
-                    consolecmds[i].description);
+                    (strlen(*(char **)consolecmds[i].variable) > 8 ? "..." : ""), description1);
             else if ((consolecmds[i].flags & CF_POSITION) || (consolecmds[i].flags & CF_SIZE))
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
-                    *(char **)consolecmds[i].variable, consolecmds[i].description);
+                    *(char **)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int tics = *(int *)consolecmds[i].variable / TICRATE;
 
                 C_TabbedOutput(tabs, "%i.\t%s\t%02i:%02i:%02i\t%s", count++, consolecmds[i].name,
-                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60,
-                    consolecmds[i].description);
+                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, description1);
             }
 
+            if (description2[0])
+                C_TabbedOutput(tabs, "\t\t\t%s", description2);
         }
         ++i;
     }
