@@ -522,7 +522,7 @@ consolecmd_t consolecmds[] =
     CMD       (spawn, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CMD       (summon, spawn_cmd_func1, spawn_cmd_func2, 1, "", ""),
     CMD       (thinglist, game_func1, thinglist_cmd_func2, 0, "", "Shows a list of things in the current map."),
-    CMD       (unbind, null_func1, unbind_cmd_func2, 1, "~control~", "Unbinds an action from a control."),
+    CMD       (unbind, null_func1, unbind_cmd_func2, 1, "~control~", "Unbinds the action from a control."),
     CMD       (warp, map_cmd_func1, map_cmd_func2, 1, "", ""),
 
     // cheats
@@ -610,7 +610,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_liquid_current, bool_cvars_func1, bool_cvars_func2, "Toggles a slight current being applied to liquid sectors."),
     CVAR_BOOL (r_liquid_lowerview, bool_cvars_func1, bool_cvars_func2, "Toggles lowering the player's view in liquid sectors."),
     CVAR_BOOL (r_liquid_swirl, bool_cvars_func1, bool_cvars_func2, "Toggles the swirl effect of liquid sectors."),
-    CVAR_SIZE (r_lowpixelsize, null_func1, r_lowpixelsize_cvar_func2, "The size of pixels when the graphic detail is low (width\xD7height)."),
+    CVAR_SIZE (r_lowpixelsize, null_func1, r_lowpixelsize_cvar_func2, "The size of pixels when the graphic detail is low (~width~\xD7~height~)."),
     CVAR_BOOL (r_mirroredweapons, bool_cvars_func1, bool_cvars_func2, "Toggles randomly mirroring weapons dropped by monsters."),
     CVAR_BOOL (r_playersprites, bool_cvars_func1, bool_cvars_func2,"Toggles the display of the player's weapon."),
     CVAR_BOOL (r_rockettrails, bool_cvars_func1, bool_cvars_func2, "Toggles rocket trails behind player and Cyberdemon rockets."),
@@ -633,12 +633,12 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vid_fullscreen, bool_cvars_func1, vid_fullscreen_cvar_func2, "Toggles between fullscreen and a window."),
     CVAR_STR  (vid_scaledriver, vid_scaledriver_cvar_func1, vid_scaledriver_cvar_func2, "The driver used to scale the display (\"\", \"direct3d\", \"opengl\"\nor \"software\")."),
     CVAR_STR  (vid_scalefilter, vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, "The filter used to scale the display (\"nearest\", \"linear\" or\n\"nearest_linear\")."),
-    CVAR_SIZE (vid_screenresolution, null_func1, vid_screenresolution_cvar_func2, "The screen's resolution when fullscreen (desktop or\nwidth\xD7height)."),
+    CVAR_SIZE (vid_screenresolution, null_func1, vid_screenresolution_cvar_func2, "The screen's resolution when fullscreen (desktop or\n~width~\xD7~height~)."),
     CVAR_BOOL (vid_showfps, bool_cvars_func1, vid_showfps_cvar_func2, "Toggles the display of the average frames per second."),
     CVAR_BOOL (vid_vsync, bool_cvars_func1, vid_vsync_cvar_func2, "Toggles vertical synchronization with display's refresh rate."),
     CVAR_BOOL (vid_widescreen, bool_cvars_func1, vid_widescreen_cvar_func2, "Toggles widescreen mode."),
-    CVAR_POS  (vid_windowposition, null_func1, vid_windowposition_cvar_func2, "The position of the window on the desktop (centered or\n(width,height))."),
-    CVAR_SIZE (vid_windowsize, null_func1, vid_windowsize_cvar_func2, "The size of the window on the desktop (width\xD7height)."),
+    CVAR_POS  (vid_windowposition, null_func1, vid_windowposition_cvar_func2, "The position of the window on the desktop (centered or\n(~width~,~height~))."),
+    CVAR_SIZE (vid_windowsize, null_func1, vid_windowsize_cvar_func2, "The size of the window on the desktop (~width~\xD7~height~)."),
 
     { "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
