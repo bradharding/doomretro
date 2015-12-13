@@ -2795,7 +2795,7 @@ dboolean M_Responder(event_t *ev)
     // Pop-up menu?
     if (!menuactive)
     {
-        if (key == KEY_ESCAPE && !keydown && !splashscreen)
+        if (key == KEY_ESCAPE && !keydown && !splashscreen && !consoleheight)
         {
             keydown = key;
             if (paused)
