@@ -1429,12 +1429,8 @@ void I_InitGammaTables(void)
     int j;
 
     for (i = 0; i < GAMMALEVELS; i++)
-        if (gammalevels[i] == 1.0)
-            for (j = 0; j < 256; j++)
-                gammatable[i][j] = j;
-        else
-            for (j = 0; j < 256; j++)
-                gammatable[i][j] = (byte)(pow((j + 1) / 256.0, 1.0 / gammalevels[i]) * 255.0);
+        for (j = 0; j < 256; j++)
+            gammatable[i][j] = (byte)(pow(j / 255.0, 1.0 / gammalevels[i]) * 255.0);
 }
 
 void I_InitKeyboard(void)
