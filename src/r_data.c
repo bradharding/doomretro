@@ -689,8 +689,8 @@ void R_InitTextures(void)
         texturelumps[i].pnamesoffset = 0;
         for (j = 0; j < numpnameslumps; ++j)
             // [crispy] both point to the same WAD file name string?
-            if (lumpinfo[texturelumps[i].lumpnum]->wad_file->path ==
-                lumpinfo[pnameslumps[j].lumpnum]->wad_file->path)
+            if (M_StringCompare(lumpinfo[texturelumps[i].lumpnum]->wad_file->path,
+                lumpinfo[pnameslumps[j].lumpnum]->wad_file->path))
             {
                 texturelumps[i].pnamesoffset = pnameslumps[j].summappatches;
                 break;
@@ -724,7 +724,7 @@ void R_InitTextures(void)
         if (!i || i == texturelump->sumtextures)
         {
             // [crispy] start looking in next texture file
-            texturelump++;
+            ++texturelump;
             maptex = texturelump->maptex;
             maxoff = texturelump->maxoff;
             directory = maptex + 1;
@@ -750,14 +750,12 @@ void R_InitTextures(void)
 
         for (j = 0; j < texture->patchcount; ++j, ++mpatch, ++patch)
         {
-            short       p;
+            // [crispy] apply offset for patches not in the
+            // first available patch offset table
+            short       p = SHORT(mpatch->patch) + texturelump->pnamesoffset;
 
             patch->originx = SHORT(mpatch->originx);
             patch->originy = SHORT(mpatch->originy);
-
-            // [crispy] apply offset for patches not in the
-            // first available patch offset table
-            p = SHORT(mpatch->patch) + texturelump->pnamesoffset;
 
             // [crispy] catch out-of-range patches
             if (p < nummappatches)
@@ -774,9 +772,11 @@ void R_InitTextures(void)
                 patch->patch = 0;
             }
         }
-        texturecolumnlump[i] = Z_Malloc(texture->width * sizeof(**texturecolumnlump), PU_STATIC, 0);
+        texturecolumnlump[i] = Z_Malloc(texture->width * sizeof(**texturecolumnlump), PU_STATIC,
+            0);
         texturecolumnofs[i] = Z_Malloc(texture->width * sizeof(**texturecolumnofs), PU_STATIC, 0);
-        texturecolumnofs2[i] = Z_Malloc(texture->width * sizeof(**texturecolumnofs2), PU_STATIC, 0);
+        texturecolumnofs2[i] = Z_Malloc(texture->width * sizeof(**texturecolumnofs2), PU_STATIC,
+            0);
 
         j = 1;
         while (j * 2 <= texture->width)
@@ -818,7 +818,7 @@ void R_InitTextures(void)
 
             if (num != -1)
                 texturefullbright[num] = fullbright[i].colormask;
-            i++;
+            ++i;
         }
     }
 
