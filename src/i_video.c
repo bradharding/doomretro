@@ -1190,7 +1190,7 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect "
+                C_Output("Staying at the desktop resolution of %i\xD7%i%s%s%s with a %s aspect "
                     "ratio.", width, height, (acronym[0] ? " (" : " "), acronym,
                     (acronym[0] ? ")" : ""), ratio);
             GetUpscaledTextureSize(width, height);
@@ -1209,8 +1209,9 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Switched to a resolution of %ix%i%s%s%s with a %s aspect ratio.", width,
-                    height, (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
+                C_Output("Switched to a resolution of %i\xD7%i%s%s%s with a %s aspect ratio.",
+                    width, height, (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""),
+                    ratio);
             GetUpscaledTextureSize(width, height);
         }
     }
@@ -1231,7 +1232,7 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
-                C_Output("Created a resizable window with dimensions %ix%i centered on the "
+                C_Output("Created a resizable window with dimensions %i\xD7%i centered on the "
                     "screen.", width, height);
         }
         else
@@ -1239,7 +1240,7 @@ static void SetVideoMode(dboolean output)
             window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
-                C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).", width,
+                C_Output("Created a resizable window with dimensions %i\xD7%i at (%i,%i).", width,
                     height, windowx, windowy);
         }
         GetUpscaledTextureSize(windowwidth, windowheight);
@@ -1271,16 +1272,17 @@ static void SetVideoMode(dboolean output)
 
         if (nearestlinear)
         {
-            C_Output("The %ix%i screen is scaled up to %ix%i using nearest-neighbor "
+            C_Output("The %i\xD7%i screen is scaled up to %i\xD7%i using nearest-neighbor "
                 "interpolation,", SCREENWIDTH, SCREENHEIGHT, upscaledwidth * SCREENWIDTH,
                 upscaledheight * SCREENHEIGHT);
-            C_Output("    and then down to %ix%i using linear filtering.", height * 4 / 3, height);
+            C_Output("    and then down to %i\xD7%i using linear filtering.", height * 4 / 3,
+                height);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear))
-            C_Output("The %ix%i screen is scaled up to %ix%i using linear filtering.", SCREENWIDTH,
-                SCREENHEIGHT, height * 4 / 3, height);
+            C_Output("The %i\xD7%i screen is scaled up to %i\xD7%i using linear filtering.",
+                SCREENWIDTH, SCREENHEIGHT, height * 4 / 3, height);
         else
-            C_Output("The %ix%i screen is scaled up to %ix%i using nearest-neighbor "
+            C_Output("The %i\xD7%i screen is scaled up to %i\xD7%i using nearest-neighbor "
                 "interpolation.", SCREENWIDTH, SCREENHEIGHT, height * 4 / 3, height);
 
         if (vid_capfps)
