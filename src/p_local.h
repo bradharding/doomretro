@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2016 Brad Harding.
+  Copyright Â© 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright Â© 2013-2016 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
   For a list of credits, see the accompanying AUTHORS file.
@@ -223,6 +223,7 @@ void P_SlideMove(mobj_t *mo);
 dboolean P_CheckSight(mobj_t *t1, mobj_t *t2);
 void P_UseLines(player_t *player);
 
+dboolean P_CheckSector(sector_t *sector, dboolean crunch);
 dboolean P_ChangeSector(sector_t *sector, dboolean crunch);
 void P_FreeSecNodeList(void);
 
