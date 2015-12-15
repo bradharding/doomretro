@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2016 Brad Harding.
+  Copyright Â© 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright Â© 2013-2016 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
   For a list of credits, see the accompanying AUTHORS file.
@@ -74,10 +74,10 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     {
                         lastpos = sector->floorheight;
                         sector->floorheight = dest;
-                        if (P_ChangeSector(sector, crush))
+                        if (P_CheckSector(sector, crush))
                         {
                             sector->floorheight = lastpos;
-                            P_ChangeSector(sector, crush);
+                            P_CheckSector(sector, crush);
                         }
                         return pastdest;
                     }
@@ -96,10 +96,10 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     {
                         lastpos = sector->floorheight;
                         sector->floorheight = dest;
-                        if (P_ChangeSector(sector, crush))
+                        if (P_CheckSector(sector, crush))
                         {
                             sector->floorheight = lastpos;
-                            P_ChangeSector(sector, crush);
+                            P_CheckSector(sector, crush);
                         }
                         return pastdest;
                     }
@@ -131,10 +131,10 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     {
                         lastpos = sector->ceilingheight;
                         sector->ceilingheight = dest;
-                        if (P_ChangeSector(sector, crush))
+                        if (P_CheckSector(sector, crush))
                         {
                             sector->ceilingheight = lastpos;
-                            P_ChangeSector(sector, crush);
+                            P_CheckSector(sector, crush);
                         }
                         return pastdest;
                     }
@@ -143,12 +143,12 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                         // COULD GET CRUSHED
                         lastpos = sector->ceilingheight;
                         sector->ceilingheight -= speed;
-                        if (P_ChangeSector(sector, crush))
+                        if (P_CheckSector(sector, crush))
                         {
                             if (crush)
                                 return crushed;
                             sector->ceilingheight = lastpos;
-                            P_ChangeSector(sector, crush);
+                            P_CheckSector(sector, crush);
                             return crushed;
                         }
                     }
@@ -160,17 +160,17 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     {
                         lastpos = sector->ceilingheight;
                         sector->ceilingheight = dest;
-                        if (P_ChangeSector(sector, crush))
+                        if (P_CheckSector(sector, crush))
                         {
                             sector->ceilingheight = lastpos;
-                            P_ChangeSector(sector, crush);
+                            P_CheckSector(sector, crush);
                         }
                         return pastdest;
                     }
                     else
                     {
                         sector->ceilingheight += speed;
-                        P_ChangeSector(sector, crush);
+                        P_CheckSector(sector, crush);
                     }
                     break;
             }
