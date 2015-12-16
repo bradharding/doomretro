@@ -806,6 +806,8 @@ void P_RemoveMobj(mobj_t *mobj)
 
     // free block
     P_RemoveThinker((thinker_t *)mobj);
+
+    mobj = NULL;
 }
 
 //
