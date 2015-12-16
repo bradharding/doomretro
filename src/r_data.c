@@ -480,14 +480,28 @@ static void R_GenerateLookup(int texnum)
 //
 byte *R_GetColumn(int tex, int col, dboolean opaque)
 {
-    int lump;
+    int         lump;
 
     col &= texturewidthmask[tex];
     lump = texturecolumnlump[tex][col];
 
     // [crispy] single-patched mid-textures on two-sided walls
-    if (lump > 0 && !opaque)
-        return ((byte *)W_CacheLumpNum(lump, PU_CACHE) + texturecolumnofs2[tex][col]);
+    if (lump > 0)
+    {
+        column_t        *column;
+        byte            *patch = W_CacheLumpNum(lump, PU_CACHE);
+        int             ofs = texturecolumnofs2[tex][col];
+        byte            *p = patch + ofs;
+
+        if (!opaque)
+            return p;
+
+        // If the column is already a single post, then we
+        // don't need to generate a composite.
+        column = (column_t *)(p - 3);
+        if (column->length == (textureheight[tex] >> FRACBITS))
+            return p;
+    }
 
     if (!texturecomposite[tex])
         R_GenerateComposite(tex);
