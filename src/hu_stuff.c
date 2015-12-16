@@ -61,7 +61,6 @@
 #define HU_TITLEX       (vid_fullscreen && !vid_widescreen ? 0 : 3)
 #define HU_TITLEY       (ORIGINALHEIGHT - 32 * (r_screensize < r_screensize_max) - 9)
 
-char                    chat_char;
 static player_t         *plr;
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;

@@ -1114,14 +1114,15 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     if (!parm[0])
         return true;
 
-    if (M_StringCompare(parm, "all") || M_StringCompare(parm, "health") || M_StringCompare(parm, "weapons")
-        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour")
-        || M_StringCompare(parm, "keys"))
+    if (M_StringCompare(parm, "all") || M_StringCompare(parm, "health") || M_StringCompare(parm,
+        "weapons") || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
+        || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys"))
         return true;
 
     for (i = 0; i < NUMMOBJTYPES; i++)
-        if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-            || (mobjinfo[i].name2[0] && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))))
+        if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm,
+            removespaces(mobjinfo[i].name1)) || (mobjinfo[i].name2[0] && M_StringCompare(parm,
+            removespaces(mobjinfo[i].name2)))))
             return true;
 
     return false;

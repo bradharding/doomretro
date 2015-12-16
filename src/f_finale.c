@@ -413,18 +413,18 @@ static castinfo_t castorder[] =
     { NULL,          0            }
 };
 
-int     castnum;
-int     casttics;
-state_t *caststate;
-int     castrot;
-dboolean castdeath;
-dboolean castdeathflip;
-int     castframes;
-int     castonmelee;
-dboolean castattacking;
-dboolean firstevent;
+int             castnum;
+int             casttics;
+state_t         *caststate;
+int             castrot;
+dboolean        castdeath;
+dboolean        castdeathflip;
+int             castframes;
+int             castonmelee;
+dboolean        castattacking;
+dboolean        firstevent;
 
-extern char *playername;
+extern char     *playername;
 
 //
 // F_StartCast
@@ -593,8 +593,8 @@ stopattack:
 // F_CastResponder
 //
 
-extern int key_use;
-extern int key_fire;
+extern int      key_use;
+extern int      key_fire;
 
 dboolean F_CastResponder(event_t *ev)
 {
@@ -858,11 +858,7 @@ void F_BunnyScroll(void)
     p1 = W_CacheLumpName("PFUB2", PU_LEVEL);
     p2 = W_CacheLumpName("PFUB1", PU_LEVEL);
 
-    scrolled = ORIGINALWIDTH - ((signed int)finalecount - 230) / 2;
-    if (scrolled > ORIGINALWIDTH)
-        scrolled = ORIGINALWIDTH;
-    if (scrolled < 0)
-        scrolled = 0;
+    scrolled = BETWEEN(0, ORIGINALWIDTH - ((signed int)finalecount - 230) / 2, ORIGINALWIDTH);
 
     for (x = 0; x < ORIGINALWIDTH; x++)
     {
