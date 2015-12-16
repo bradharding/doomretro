@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2016 Brad Harding.
+  Copyright Â© 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright Â© 2013-2016 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
   For a list of credits, see the accompanying AUTHORS file.
@@ -1978,58 +1978,132 @@ dboolean PIT_ChangeSector(mobj_t *thing)
 }
 
 //
-// P_ChangeSector
+// P_CheckSector
 // jff 3/19/98 added to just check monsters on the periphery
 // of a moving sector instead of all in bounding box of the
 // sector. Both more accurate and faster.
-// [BH] renamed from P_CheckSector to P_ChangeSector to replace old one entirely
-// [BH] greatly optimized from killough's version. no longer requires nested loops, or use of
-//  msecnode_t::visited.
 //
-dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
+dboolean P_CheckSector(sector_t* sector, dboolean crunch)
 {
-    msecnode_t  *n;
-    mobj_t      *mobj;
-    mobjtype_t  type;
+    msecnode_t *n;
+    mobj_t     *mobj;
+    mobjtype_t type;
 
     nofit = false;
     crushchange = crunch;
     isliquidsector = isliquid[sector->floorpic];
 
-    if (isliquidsector)
-    {
-        for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
-        {
-            mobj = n->m_thing;
-            if (mobj)
-            {
-                type = mobj->type;
-                if (type == MT_BLOODSPLAT)
-                {
-                    P_UnsetThingPosition(mobj);
-                    --r_bloodsplats_total;
-                }
-                else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                    PIT_ChangeSector(mobj);                     // process it
-            }
-        }
-    }
-    else
-    {
-        sector->floor_xoffs = 0;
-        sector->floor_yoffs = 0;
+    // killough 4/4/98: scan list front-to-back until empty or exhausted,
+    // restarting from beginning after each thing is processed. Avoids
+    // crashes, and is sure to examine all things in the sector, and only
+    // the things which are in the sector, until a steady-state is reached.
+    // Things can arbitrarily be inserted and removed and it won't mess up.
+    //
+    // killough 4/7/98: simplified to avoid using complicated counter
 
-        for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
+    // Mark all things invalid
+
+    for (n = sector->touching_thinglist; n; n = n->m_snext)
+    {
+        n->visited = false;
+    }
+
+    do
+    {
+        if (isliquidsector)
         {
-            mobj = n->m_thing;
-            if (mobj)
+            // go through list
+            for (n = sector->touching_thinglist; n; n = n->m_snext)
             {
-                type = mobj->type;
-                if (type != MT_BLOODSPLAT && type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                    PIT_ChangeSector(mobj);                     // process it
+                // unprocessed thing found
+                if (!n->visited)
+                {
+                    // mark thing as processed
+                    n->visited = true;
+
+                    mobj = n->m_thing;
+
+                    if (mobj)
+                    {
+                        type = mobj->type;
+
+                        // jff 4/7/98 don't do these
+                        if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
+                        {
+                            // process it
+                            PIT_ChangeSector(mobj);
+                        }
+                        else if (type == MT_BLOODSPLAT)
+                        {
+                            P_UnsetThingPosition(mobj);
+                            --r_bloodsplats_total;
+                        }
+
+                        // exit and start over
+                        break;
+                    }
+                }
             }
         }
-    }
+        else
+        {
+            sector->floor_xoffs = 0;
+            sector->floor_yoffs = 0;
+
+            // go through list
+            for (n = sector->touching_thinglist; n; n = n->m_snext)
+            {
+                // unprocessed thing found
+                if (!n->visited)
+                {
+                    // mark thing as processed
+                    n->visited = true;
+
+                    mobj = n->m_thing;
+
+                    if (mobj)
+                    {
+                        type = mobj->type;
+
+                        // jff 4/7/98 don't do these
+                        if (type != MT_BLOODSPLAT && type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
+                        {
+                            // process it
+                            PIT_ChangeSector(mobj);
+                        }
+
+                        // exit and start over
+                        break;
+                    }
+                }
+            }
+        }
+    // repeat from scratch until all things left are marked valid
+    } while (n);
+
+    return nofit;
+}
+
+//
+// P_ChangeSector
+//
+dboolean P_ChangeSector(sector_t* sector, dboolean crunch)
+{
+    int   x;
+    int   y;
+
+    nofit = false;
+    crushchange = crunch;
+
+    // ARRGGHHH!!!!
+    // This is horrendously slow!!!
+    // killough 3/14/98
+
+    // re-check heights for all things near the moving sector
+
+    for (x = sector->blockbox[BOXLEFT]; x <= sector->blockbox[BOXRIGHT]; x++)
+        for (y = sector->blockbox[BOXBOTTOM]; y <= sector->blockbox[BOXTOP]; y++)
+            P_BlockThingsIterator(x, y, PIT_ChangeSector);
 
     return nofit;
 }
