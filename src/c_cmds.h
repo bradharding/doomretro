@@ -88,6 +88,7 @@ typedef enum
 typedef struct
 {
     char                *name;
+    char                *alternate;
     dboolean            (*func1)(char *cmd, char *parm1, char *parm2, char *parm3);
     void                (*func2)(char *cmd, char *parm1, char *parm2, char *parm3);
     int                 parameters;
