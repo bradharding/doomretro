@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -56,11 +56,11 @@
 // jff 02/04/98 Added this routine (and file) to handle generalized
 // floor movers using bit fields in the line special type.
 //
-boolean EV_DoGenFloor(line_t *line)
+dboolean EV_DoGenFloor(line_t *line)
 {
     int         secnum;
-    boolean     rtn;
-    boolean     manual;
+    dboolean    rtn;
+    dboolean    manual;
     sector_t    *sec;
     floormove_t *floor;
     unsigned    value = (unsigned int)line->special - GenFloorBase;
@@ -105,7 +105,7 @@ manual_floor:
 
         // new floor thinker
         rtn = true;
-        floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
@@ -264,11 +264,11 @@ manual_floor:
 // jff 02/04/98 Added this routine (and file) to handle generalized
 // floor movers using bit fields in the line special type.
 //
-boolean EV_DoGenCeiling(line_t *line)
+dboolean EV_DoGenCeiling(line_t *line)
 {
     int                 secnum;
-    boolean             rtn;
-    boolean             manual;
+    dboolean            rtn = false;
+    dboolean            manual = false;
     fixed_t             targheight;
     sector_t            *sec;
     ceiling_t           *ceiling;
@@ -283,13 +283,10 @@ boolean EV_DoGenCeiling(line_t *line)
     int                 Sped = (value & CeilingSpeed) >> CeilingSpeedShift;
     int                 Trig = (value & TriggerType) >> TriggerTypeShift;
 
-    rtn = false;
-
     // check if a manual trigger, if so do just the sector on the backside
-    manual = false;
     if (Trig == PushOnce || Trig == PushMany)
     {
-        if (!(sec = line->backsector))
+        if (!line || !(sec = line->backsector))
             return rtn;
         secnum = sec - sectors;
         manual = true;
@@ -307,10 +304,9 @@ manual_ceiling:
         // Do not start another function if ceiling already moving
         if (P_SectorActive(ceiling_special, sec))
         {
-            if (!manual)
-                continue;
-            else
+            if (manual)
                 return rtn;
+            continue;
         }
 
         // new ceiling thinker
@@ -476,12 +472,12 @@ manual_ceiling:
 // Passed the linedef activating the lift
 // Returns true if a thinker is created
 //
-boolean EV_DoGenLift(line_t *line)
+dboolean EV_DoGenLift(line_t *line)
 {
     plat_t              *plat;
     int                 secnum;
-    boolean             rtn;
-    boolean             manual;
+    dboolean            rtn;
+    dboolean            manual;
     sector_t            *sec;
     unsigned int        value = (unsigned)line->special - GenLiftBase;
 
@@ -526,7 +522,7 @@ manual_lift:
 
         // Setup the plat thinker
         rtn = true;
-        plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
+        plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, 0);
         P_AddThinker(&plat->thinker);
         plat->sector = sec;
         plat->sector->floordata = plat;
@@ -614,7 +610,7 @@ manual_lift:
                 break;
         }
 
-        S_StartSound((mobj_t *)&sec->soundorg, sfx_pstart);
+        S_StartSectorSound(&sec->soundorg, sfx_pstart);
         P_AddActivePlat(plat);  // add this plat to the list of active plats
 
         if (manual)
@@ -631,7 +627,7 @@ manual_lift:
 // Passed the linedef activating the stairs
 // Returns true if a thinker is created
 //
-boolean EV_DoGenStairs(line_t *line)
+dboolean EV_DoGenStairs(line_t *line)
 {
     int                 secnum;
     int                 osecnum;        // jff 3/4/98 preserve loop index
@@ -639,9 +635,9 @@ boolean EV_DoGenStairs(line_t *line)
     int                 i;
     int                 newsecnum;
     int                 texture;
-    int                 ok;
-    boolean             rtn;
-    boolean             manual;
+    dboolean            okay;
+    dboolean            rtn;
+    dboolean            manual;
 
     sector_t            *sec;
     sector_t            *tsec;
@@ -691,10 +687,10 @@ manual_stair:
             else
                 return rtn;
         }
-      
+
         // new floor thinker
         rtn = true;
-        floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
@@ -754,21 +750,21 @@ manual_stair:
         sec->nextsec = -1;
         sec->prevsec = -1;
 
-        osecnum = secnum;               // jff 3/4/98 preserve loop index  
+        osecnum = secnum;               // jff 3/4/98 preserve loop index
         // Find next sector to raise
-        // 1.     Find 2-sided line with same sector side[0]
-        // 2.     Other side is the next sector to raise
+        // 1. Find 2-sided line with same sector side[0]
+        // 2. Other side is the next sector to raise
         do
         {
-            ok = 0;
+            okay = false;
             for (i = 0; i < sec->linecount; i++)
             {
                 if (!((sec->lines[i])->backsector))
                     continue;
-                                  
+
                 tsec = (sec->lines[i])->frontsector;
                 newsecnum = tsec - sectors;
-          
+
                 if (secnum != newsecnum)
                     continue;
 
@@ -797,7 +793,7 @@ manual_stair:
 
                 sec = tsec;
                 secnum = newsecnum;
-                floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+                floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
 
                 P_AddThinker(&floor->thinker);
 
@@ -810,10 +806,10 @@ manual_stair:
                 floor->crush = false;
                 floor->type = genBuildStair;    // jff 3/31/98 do not leave uninited
 
-                ok = 1;
+                okay = true;
                 break;
             }
-        } while (ok);
+        } while (okay);
         if (manual)
             return rtn;
         secnum = osecnum;                       // jff 3/4/98 restore old loop index
@@ -832,11 +828,11 @@ manual_stair:
 // Passed the linedef activating the crusher
 // Returns true if a thinker created
 //
-boolean EV_DoGenCrusher(line_t *line)
+dboolean EV_DoGenCrusher(line_t *line)
 {
     int                 secnum;
-    boolean             rtn;
-    boolean             manual;
+    dboolean            rtn;
+    dboolean            manual;
     sector_t            *sec;
     ceiling_t           *ceiling;
     unsigned int        value = (unsigned int)line->special - GenCrusherBase;
@@ -879,7 +875,7 @@ manual_crusher:
 
         // new ceiling thinker
         rtn = true;
-        ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
+        ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, 0);
         P_AddThinker(&ceiling->thinker);
         sec->ceilingdata = ceiling;     // jff 2/22/98
         ceiling->thinker.function = T_MoveCeiling;
@@ -891,7 +887,7 @@ manual_crusher:
         ceiling->tag = sec->tag;
         ceiling->type = (Slnt ? genSilentCrusher : genCrusher);
         ceiling->topheight = sec->ceilingheight;
-        ceiling->bottomheight = sec->floorheight + (8 * FRACUNIT);
+        ceiling->bottomheight = sec->floorheight + 8 * FRACUNIT;
 
         // setup ceiling motion speed
         switch (Sped)
@@ -932,13 +928,13 @@ manual_crusher:
 // Passed the linedef activating the generalized locked door
 // Returns true if a thinker created
 //
-boolean EV_DoGenLockedDoor(line_t *line)
+dboolean EV_DoGenLockedDoor(line_t *line)
 {
     int                 secnum;
-    boolean             rtn;
+    dboolean            rtn;
     sector_t            *sec;
     vldoor_t            *door;
-    boolean             manual;
+    dboolean            manual;
     unsigned int        value = (unsigned int)line->special - GenLockedBase;
 
     // parse the bit fields in the line's special type
@@ -975,12 +971,12 @@ manual_locked:
             else
                 return rtn;
         }
-  
+
         // new door thinker
         rtn = true;
-        door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+        door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
-        sec->ceilingdata = door;        //jff 2/22/98
+        sec->ceilingdata = door;        // jff 2/22/98
 
         door->thinker.function = T_VerticalDoor;
         door->sector = sec;
@@ -991,7 +987,8 @@ manual_locked:
         door->direction = 1;
 
         // killough 10/98: implement gradual lighting
-        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ? line->tag : 0);
+        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ?
+            line->tag : 0);
 
         // setup speed of door motion
         switch (Sped)
@@ -1020,7 +1017,7 @@ manual_locked:
 
         // killough 4/15/98: fix generalized door opening sounds
         // (previously they always had the blazing door close sound)
-        S_StartSound((mobj_t *)&door->sector->soundorg,
+        S_StartSectorSound(&door->sector->soundorg,
             (door->speed >= VDOORSPEED * 4 ? sfx_bdopn : sfx_doropn));
 
         if (manual)
@@ -1037,12 +1034,12 @@ manual_locked:
 // Passed the linedef activating the generalized door
 // Returns true if a thinker created
 //
-boolean EV_DoGenDoor(line_t *line)
+dboolean EV_DoGenDoor(line_t *line)
 {
     int                 secnum;
-    boolean             rtn;
+    dboolean            rtn;
     sector_t            *sec;
-    boolean             manual;
+    dboolean            manual;
     vldoor_t            *door;
     unsigned int        value = (unsigned int)line->special - GenDoorBase;
 
@@ -1067,7 +1064,7 @@ boolean EV_DoGenDoor(line_t *line)
 
     secnum = -1;
     rtn = 0;
-  
+
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
@@ -1081,10 +1078,10 @@ manual_door:
             else
                 return rtn;
         }
-  
+
         // new door thinker
         rtn = true;
-        door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+        door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
         sec->ceilingdata = door;
 
@@ -1148,7 +1145,7 @@ manual_door:
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 if (door->topheight != sec->ceilingheight)
-                    S_StartSound((mobj_t *)&door->sector->soundorg, sfx_bdopn);
+                    S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
                 door->type = (Sped >= SpeedFast ? genBlazeRaise : genRaise);
                 break;
 
@@ -1157,14 +1154,14 @@ manual_door:
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 if (door->topheight != sec->ceilingheight)
-                    S_StartSound((mobj_t *)&door->sector->soundorg, sfx_bdopn);
+                    S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
                 door->type = (Sped >= SpeedFast ? genBlazeOpen : genOpen);
                 break;
 
             case CdODoor:
                 door->topheight = sec->ceilingheight;
                 door->direction = -1;
-                S_StartSound((mobj_t *)&door->sector->soundorg, sfx_dorcls);
+                S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                 door->type = (Sped >= SpeedFast ? genBlazeCdO : genCdO);
                 break;
 
@@ -1172,7 +1169,7 @@ manual_door:
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 door->direction = -1;
-                S_StartSound((mobj_t *)&door->sector->soundorg, sfx_dorcls);
+                S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                 door->type = (Sped >= SpeedFast ? genBlazeClose : genClose);
                 break;
 

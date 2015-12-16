@@ -1,37 +1,37 @@
 #
 #========================================================================
 #
-#                               DOOM RETRO
+#                               DOOM Retro
 #         The classic, refined DOOM source port. For Windows PC.
 #
 #========================================================================
 #
-#  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-#  Copyright (C) 2013-2015 Brad Harding.
+#  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+#  Copyright © 2013-2016 Brad Harding.
 #
-#  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-#  For a complete list of credits, see the accompanying AUTHORS file.
+#  DOOM Retro is a fork of Chocolate DOOM.
+#  For a list of credits, see the accompanying AUTHORS file.
 #
-#  This file is part of DOOM RETRO.
+#  This file is part of DOOM Retro.
 #
-#  DOOM RETRO is free software: you can redistribute it and/or modify it
+#  DOOM Retro is free software: you can redistribute it and/or modify it
 #  under the terms of the GNU General Public License as published by the
 #  Free Software Foundation, either version 3 of the License, or (at your
 #  option) any later version.
 #
-#  DOOM RETRO is distributed in the hope that it will be useful, but
+#  DOOM Retro is distributed in the hope that it will be useful, but
 #  WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 #  General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+#  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 #
 #  DOOM is a registered trademark of id Software LLC, a ZeniMax Media
 #  company, in the US and/or other countries and is used without
 #  permission. All other trademarks are the property of their respective
-#  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-#  id Software LLC.
+#  holders. DOOM Retro is in no way affiliated with nor endorsed by
+#  id Software.
 #
 #========================================================================
 #
@@ -101,16 +101,16 @@ GOTSHOTGUN2 = %s got a super shotgun!
 PD_BLUEO = %s need%s a blue %s to use this.
 PD_REDO = %s need%s a red %s to use this.
 PD_YELLOWO = %s need%s a yellow %s to use this.
-PD_BLUEK = %s need%s a blue %s to open this door.
-PD_REDK = %s need%s a red %s to open this door.
-PD_YELLOWK = %s need%s a yellow %s to open this door.
-PD_BLUEC = %s need%s a blue card to open this door.
-PD_REDC = %s need%s a red card to open this door.
-PD_YELLOWC = %s need%s a yellow card to open this door.
+PD_BLUEK = %s need%s a blue keycard or skull key to open this door.
+PD_REDK = %s need%s a red keycard or skull key to open this door.
+PD_YELLOWK = %s need%s a yellow keycard or skull key to open this door.
+PD_BLUEC = %s need%s a blue keycard to open this door.
+PD_REDC = %s need%s a red keycard to open this door.
+PD_YELLOWC = %s need%s a yellow keycard to open this door.
 PD_BLUES = %s need%s a blue skull key to open this door.
 PD_REDS = %s need%s a red skull key to open this door.
 PD_YELLOWS = %s need%s a yellow skull key to open this door.
-PD_ANY = Any key will open this door.
+PD_ANY = %s need%s any keycard or skull key to open this door.
 PD_ALL3 = %s need%s all three keys to open this door.
 PD_ALL6 = %s need%s all six keys to open this door.
 GGSAVED = "%s" saved
@@ -289,6 +289,8 @@ STSTR_NTON = No target mode ON.
 STSTR_NTOFF = No target mode OFF.
 STSTR_GODON = God mode ON.
 STSTR_GODOFF = God mode OFF.
+STSTR_NMON = No monsters ON.
+STSTR_NMOFF = No monsters OFF.
 E1TEXT = Once you beat the big badasses and\nclean out the moon base, you're supposed\nto win, aren't you? Aren't you? Where's\nyour fat reward and ticket home? What\nthe Hell is this? It's not supposed to\nend this way!\n\nIt stinks like rotten meat, but looks\nlike the lost Deimos base. It looks like\nyou're stuck on The Shores of Hell.\nThe only way out is through.\n\nTo continue the DOOM experience, play\nThe Shores of Hell and its amazing\nsequel, Inferno!\n
 E2TEXT = You've done it! The hideous Cyber-\ndemon lord that ruled the lost Deimos\nmoon base has been slain and you\nare triumphant! But... where are\nyou? You clamber to the edge of the\nmoon and look down to see the awful\ntruth.\n\nDeimos floats above Hell itself!\nYou've never heard of anyone escaping\nfrom Hell, but you'll make the bastards\nsorry they ever heard of you! Quickly,\nyou rappel down to the surface of\nHell.\n\nNow, it's onto the final chapter of\nDOOM - Inferno!
 E3TEXT = The loathsome spiderdemon that\nmasterminded the invasion of the moon\nbases and caused so much death has had\nits ass kicked for all time.\n\nA hidden doorway opens and you enter.\nYou've proven too tough for Hell to\ncontain, and now Hell at last plays\nfair - for you emerge from the door\nto see the green fields of Earth!\nHome at last.\n\nYou wonder what's been happening on\nEarth while you were battling evil\nunleashed. It's good that no Hell-\nspawn could have come through that\ndoor with you...

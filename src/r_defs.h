@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -65,7 +65,7 @@ typedef struct
     fixed_t             x;
     fixed_t             y;
     angle_t             viewangle;      // e6y: precalculated angle for clipping
-    int                 angletime;      // e6y: recalculation time for view angle 
+    int                 angletime;      // e6y: recalculation time for view angle
 } vertex_t;
 
 // Forward of LineDefs, for Sectors.
@@ -118,22 +118,20 @@ typedef struct
     // list of mobjs in sector
     mobj_t              *thinglist;
 
-    // thinker_t for reversable actions
+    // thinker_t for reversible actions
     void                *floordata;             // jff 2/22/98 make thinkers on
     void                *ceilingdata;           // floors, ceilings, lighting,
     void                *lightingdata;          // independent of one another
 
     // list of mobjs that are at least partially in the sector
     // thinglist is a subset of touching_thinglist
-    struct msecnode_s   *touching_thinglist;    // phares 3/14/98  
+    struct msecnode_s   *touching_thinglist;    // phares 3/14/98
 
     int                 linecount;
     struct line_s       **lines;                // [linecount] size
 
     int                 cachedheight;
     int                 scaleindex;
-
-    int                 animate;
 
     // [AM] Previous position of floor and ceiling before
     //      think. Used to interpolate between positions.
@@ -177,10 +175,10 @@ typedef struct
     int                 friction, movefactor;
 
     // killough 10/98: support skies coming from sidedefs. Allows scrolling
-    // skies and other effects. No "level info" kind of lump is needed, 
+    // skies and other effects. No "level info" kind of lump is needed,
     // because you can use an arbitrary number of skies per level with this
     // method. This field only applies when skyflatnum is used for floorpic
-    // or ceilingpic, because the rest of Doom needs to know which is sky
+    // or ceilingpic, because the rest of DOOM needs to know which is sky
     // and which isn't, etc.
     int                 sky;
 } sector_t;
@@ -235,7 +233,7 @@ typedef struct line_s
     // Animation related.
     unsigned short      flags;
 
-    boolean             hidden;
+    dboolean            hidden;
 
     short               special;
     short               tag;
@@ -259,7 +257,7 @@ typedef struct line_s
     // if == validcount, already checked
     int                 validcount;
 
-    // thinker_t for reversable actions
+    // thinker_t for reversible actions
     void                *specialdata;
 
     int                 tranlump;       // killough 4/11/98: translucency filter, -1 == none
@@ -269,6 +267,8 @@ typedef struct line_s
     // sound origin for switches/buttons
     degenmobj_t         soundorg;
 } line_t;
+
+#define BOOMLINESPECIALS        142
 
 typedef enum
 {
@@ -749,7 +749,7 @@ typedef struct
 
     angle_t             angle;
 
-    fixed_t             length;
+    int64_t             length;
 
     side_t              *sidedef;
     line_t              *linedef;
@@ -902,8 +902,6 @@ typedef struct vissprite_s
 
     fixed_t             blood;
 
-    boolean             drawn;
-
     // killough 3/27/98: height sector for underwater/fake ceiling support
     int                 heightsec;
 } vissprite_t;
@@ -917,7 +915,7 @@ typedef struct vissprite_s
 //  is range checked at run time.
 // A sprite is a patch_t that is assumed to represent
 //  a three dimensional object and may have multiple
-//  rotations pre drawn.
+//  rotations pre-drawn.
 // Horizontal flipping is used to save space,
 //  thus NNNNF2F5 defines a mirrored patch.
 // Some sprites will only have one picture used
@@ -931,10 +929,10 @@ typedef struct
     int                 rotate;
 
     // Lump to use for view angles 0-7.
-    short               lump[8];
+    short               lump[16];
 
-    // Flip bit (1 = flip) to use for view angles 0-7.
-    byte                flip[8];
+    // Flip bit (1 = flip) to use for view angles 0-15.
+    unsigned short      flip;
 } spriteframe_t;
 
 //

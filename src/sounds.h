@@ -1,43 +1,46 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
 
 #if !defined(__SOUNDS__)
 #define __SOUNDS__
+
+// so that the individual game logic and sound driver code agree
+#define NORM_PITCH      127
 
 //
 // SoundFX struct.
@@ -57,7 +60,7 @@ enum
 struct sfxinfo_struct
 {
     // up to 6-character name
-    char        *name;
+    char        name[9];
 
     // Sfx singularity (only one at a time)
     int         singularity;
@@ -68,19 +71,8 @@ struct sfxinfo_struct
     // referenced sound if a link
     sfxinfo_t   *link;
 
-    // pitch if a link
-    int         pitch;
-
     // volume if a link
     int         volume;
-
-    // sound data
-    void        *data;
-
-    // this is checked every second to see if sound
-    // can be thrown out (if 0, then decrement, if -1,
-    // then throw out, if > 0, then it is in use)
-    int         usefulness;
 
     // lump number of sfx
     int         lumpnum;
@@ -93,6 +85,8 @@ typedef struct
 {
     // up to 6-character name
     char        *name;
+
+    char        *title;
 
     // lump number of music
     int         lumpnum;
@@ -110,6 +104,7 @@ extern sfxinfo_t        S_sfx[];
 // the complete set of music
 extern musicinfo_t      S_music[];
 
+extern musicinfo_t      *mus_playing;
 //
 // Identifiers for all music in game.
 //
@@ -300,6 +295,14 @@ typedef enum
     sfx_skesit,
     sfx_skeatk,
     sfx_radio,
+
+    // killough 11/98: dog sounds
+    sfx_dgsit,
+    sfx_dgatk,
+    sfx_dgact,
+    sfx_dgdth,
+    sfx_dgpain,
+
     NUMSFX
 } sfxenum_t;
 

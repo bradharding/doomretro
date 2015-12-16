@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -47,26 +47,25 @@ typedef enum
     lighting_special
 } special_e;
 
-extern boolean  *isliquid;
-
-// Define values for map objects
-#define MO_TELEPORTMAN          14
+extern dboolean *isliquid;
+extern dboolean *isteleport;
 
 // at game start
 void P_InitPicAnims(void);
 
 // at map load
 void P_SpawnSpecials(void);
+void P_SetLiquids(void);
 
 // every tic
 void P_UpdateSpecials(void);
 
-boolean P_SectorActive(special_e t, sector_t *sec);
+dboolean P_SectorActive(special_e t, sector_t *sec);
 
-boolean P_CheckTag(line_t *line);
+dboolean P_CheckTag(line_t *line);
 
 // when needed
-boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
+dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
 
 void P_ShootSpecialLine(mobj_t *thing, line_t *line);
 
@@ -99,21 +98,21 @@ fixed_t P_FindShortestUpperAround(int secnum); // jff 2/04/98
 
 sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum); //jff 02/04/98
 
-sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); //jff 02/04/98 
+sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); //jff 02/04/98
 
 int P_FindSectorFromLineTag(const line_t *line, int start);
 int P_FindLineFromLineTag(const line_t *line, int start);
 
-int P_FindMinSurroundingLight(sector_t *sector, int max);
+int P_FindMinSurroundingLight(sector_t *sector, int min);
 
-boolean P_CanUnlockGenDoor(line_t *line, player_t *player);
+dboolean P_CanUnlockGenDoor(line_t *line, player_t *player);
 
 sector_t *getNextSector(line_t *line, sector_t *sec);
 
 //
 // SPECIAL
 //
-boolean EV_DoDonut(line_t *line);
+dboolean EV_DoDonut(line_t *line);
 
 //
 // P_LIGHTS
@@ -175,7 +174,8 @@ int EV_TurnTagLightsOff(line_t *line);
 
 int EV_LightTurnOn(line_t *line, int bright);
 
-int EV_LightTurnOnPartway(line_t *line, fixed_t level);  // killough 10/10/98
+void EV_LightTurnOnPartway(line_t *line, fixed_t level);        // killough 10/10/98
+void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level);
 
 void T_Glow(glow_t *g);
 void P_SpawnGlowingLight(sector_t *sector);
@@ -265,8 +265,6 @@ typedef enum
 typedef struct plat_s
 {
     thinker_t          thinker;
-    struct plat_s       *next;
-    struct plat_s      *prev;
     sector_t           *sector;
     fixed_t            speed;
     fixed_t            low;
@@ -275,7 +273,7 @@ typedef struct plat_s
     int                count;
     plat_e             status;
     plat_e             oldstatus;
-    boolean            crush;
+    dboolean           crush;
     int                tag;
     plattype_e         type;
 
@@ -301,7 +299,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount);
 void P_AddActivePlat(plat_t *plat);
 void P_RemoveActivePlat(plat_t *plat);
 void P_RemoveAllActivePlats(void);
-boolean EV_StopPlat(line_t *line);
+dboolean EV_StopPlat(line_t *line);
 void P_ActivateInStasis(int tag);
 
 //
@@ -359,9 +357,9 @@ typedef struct
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);
 
-boolean EV_DoDoor(line_t *line, vldoor_e type);
+dboolean EV_DoDoor(line_t *line, vldoor_e type);
 
-boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing);
+dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing);
 
 void T_VerticalDoor(vldoor_t *door);
 void P_SpawnDoorCloseIn30(sector_t *sec);
@@ -402,7 +400,7 @@ typedef struct ceiling_s
     fixed_t                     topheight;
     fixed_t                     speed;
     fixed_t                     oldspeed;
-    boolean                     crush;
+    dboolean                    crush;
 
     //jff 02/04/98 add these to support ceiling changers
     int                         newspecial;
@@ -428,14 +426,14 @@ typedef struct ceilinglist_s
 
 extern ceilinglist_t            *activeceilings;
 
-boolean EV_DoCeiling(line_t *line, ceiling_e type);
+dboolean EV_DoCeiling(line_t *line, ceiling_e type);
 
 void T_MoveCeiling(ceiling_t *ceiling);
 void P_AddActiveCeiling(ceiling_t *ceiling);
 void P_RemoveActiveCeiling(ceiling_t *ceiling);
 void P_RemoveAllActiveCeilings(void);
-boolean EV_CeilingCrushStop(line_t *line);
-boolean P_ActivateInStasisCeiling(line_t *line);
+dboolean EV_CeilingCrushStop(line_t *line);
+dboolean P_ActivateInStasisCeiling(line_t *line);
 
 //
 // P_FLOOR
@@ -491,7 +489,7 @@ typedef enum
     genFloorChg,
     genFloorChg0,
     genFloorChgT,
-    
+
     buildStair,
     genBuildStair
 } floor_e;
@@ -513,14 +511,14 @@ typedef struct
 {
     thinker_t   thinker;
     floor_e     type;
-    boolean     crush;
+    dboolean    crush;
     sector_t    *sector;
     int         direction;
     int         newspecial;
     short       texture;
     fixed_t     floordestheight;
     fixed_t     speed;
-    boolean     stopsound;
+    dboolean    stopsound;
 } floormove_t;
 
 typedef struct
@@ -544,15 +542,14 @@ typedef enum
     pastdest
 } result_e;
 
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crush,
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush,
     int floorOrCeiling, int direction);
-boolean EV_BuildStairs(line_t *line, stair_e type);
-boolean EV_DoFloor(line_t *line, floor_e floortype);
-boolean EV_DoChange(line_t *line, change_e changetype);
-boolean EV_DoElevator(line_t *line, elevator_e elevtype);
+dboolean EV_BuildStairs(line_t *line, stair_e type);
+dboolean EV_DoFloor(line_t *line, floor_e floortype);
+dboolean EV_DoChange(line_t *line, change_e changetype);
+dboolean EV_DoElevator(line_t *line, elevator_e elevtype);
 void T_MoveFloor(floormove_t *floor);
 void T_MoveElevator(elevator_t *elevator);
-void P_InitAnimatedLiquids(void);
 
 // killough 3/7/98: Add generalized scroll effects
 typedef struct
@@ -586,7 +583,7 @@ typedef struct
         p_push,
         p_pull,
         p_wind,
-        p_current 
+        p_current
     } type;
     mobj_t      *source;        // Point source if point pusher
     int         x_mag;          // X Strength
@@ -604,9 +601,9 @@ mobj_t *P_GetPushThing(int);
 //
 // P_TELEPT
 //
-boolean EV_Teleport(line_t *line, int side, mobj_t *thing);
-boolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
-boolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, boolean reverse);
+dboolean EV_Teleport(line_t *line, int side, mobj_t *thing);
+dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
+dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse);
 
 //jff 3/14/98 add bits and shifts for generalized sector types
 
@@ -619,7 +616,7 @@ boolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, boolean rev
 #define PUSH_MASK       0x200
 #define PUSH_SHIFT      9
 
-// jff 02/04/98 Define masks, shifts, for fields in 
+// jff 02/04/98 Define masks, shifts, for fields in
 // generalized linedef types
 #define GenFloorBase          0x6000
 #define GenCeilingBase        0x4000
@@ -828,17 +825,17 @@ typedef enum
     AllKeys
 } keykind_e;
 
-boolean EV_DoGenFloor(line_t *line);
+dboolean EV_DoGenFloor(line_t *line);
 
-boolean EV_DoGenCeiling(line_t *line);
+dboolean EV_DoGenCeiling(line_t *line);
 
-boolean EV_DoGenLift(line_t *line);
+dboolean EV_DoGenLift(line_t *line);
 
-boolean EV_DoGenStairs(line_t *line);
+dboolean EV_DoGenStairs(line_t *line);
 
-boolean EV_DoGenCrusher(line_t *line);
+dboolean EV_DoGenCrusher(line_t *line);
 
-boolean EV_DoGenDoor(line_t *line);
+dboolean EV_DoGenDoor(line_t *line);
 
-boolean EV_DoGenLockedDoor(line_t *line);
+dboolean EV_DoGenLockedDoor(line_t *line);
 #endif

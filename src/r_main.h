@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -68,17 +68,26 @@ extern int              validcount;
 //
 
 // Lighting constants.
-#define LIGHTLEVELS     128
-#define LIGHTSEGSHIFT   1
-#define LIGHTBRIGHT     2
-#define MAXLIGHTSCALE   384
-#define LIGHTSCALESHIFT 12
-#define MAXLIGHTZ       1024
-#define LIGHTZSHIFT     17
+#define LIGHTLEVELS             128
+#define LIGHTSEGSHIFT           1
+#define LIGHTBRIGHT             2
+#define MAXLIGHTSCALE           384
+#define LIGHTSCALESHIFT         12
+#define MAXLIGHTZ               1024
+#define LIGHTZSHIFT             17
+
+#define OLDLIGHTLEVELS          32
+#define OLDLIGHTSEGSHIFT        3
+#define OLDLIGHTBRIGHT          2
+#define OLDMAXLIGHTSCALE        48
+#define OLDLIGHTSCALESHIFT      13
+#define OLDMAXLIGHTZ            2048
+#define OLDLIGHTZSHIFT          16
 
 // killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
 extern lighttable_t     *(*scalelight)[MAXLIGHTSCALE];
 extern lighttable_t     *(*zlight)[MAXLIGHTZ];
+extern lighttable_t     *(*psprscalelight)[OLDMAXLIGHTSCALE];
 extern lighttable_t     *fullcolormap;
 extern int              numcolormaps;   // killough 4/4/98: dynamic number of maps
 extern lighttable_t     **colormaps;
@@ -91,7 +100,7 @@ extern lighttable_t     *fixedcolormap;
 #define NUMCOLORMAPS    32
 
 // [AM] Fractional part of the current tic, in the half-open
-//      range of [0.0, 1.0).  Used for interpolation.
+//      range of [0.0, 1.0). Used for interpolation.
 extern fixed_t          fractionaltic;
 
 //
@@ -109,12 +118,13 @@ extern void (*tl50colfunc)(void);
 extern void (*tl33colfunc)(void);
 extern void (*tlgreencolfunc)(void);
 extern void (*tlredcolfunc)(void);
-extern void (*tlredwhitecolfunc)(void);
+extern void (*tlredwhitecolfunc1)(void);
+extern void (*tlredwhitecolfunc2)(void);
 extern void (*tlredwhite50colfunc)(void);
 extern void (*tlbluecolfunc)(void);
-extern void (*tlgreen50colfunc)(void);
-extern void (*tlred50colfunc)(void);
-extern void (*tlblue50colfunc)(void);
+extern void (*tlgreen33colfunc)(void);
+extern void (*tlred33colfunc)(void);
+extern void (*tlblue33colfunc)(void);
 extern void (*redtobluecolfunc)(void);
 extern void (*tlredtoblue33colfunc)(void);
 extern void (*skycolfunc)(void);
@@ -132,8 +142,9 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node);
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line);
 
 angle_t R_PointToAngle(fixed_t x, fixed_t y);
-
-angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2);
+angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y);
+angle_t R_PointToAngleEx(fixed_t x, fixed_t y);
+angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y);
 
 fixed_t R_PointToDist(fixed_t x, fixed_t y);
 
@@ -141,8 +152,6 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y);
 
 // [AM] Interpolate between two angles.
 angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale);
-
-angle_t R_GetVertexViewAngle(vertex_t *v);
 
 //
 // REFRESH - the actual rendering functions.

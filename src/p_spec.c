@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -41,12 +41,16 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_swap.h"
+#include "i_system.h"
 #include "m_bbox.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
+#include "r_sky.h"
 #include "s_sound.h"
+#include "sc_man.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -56,7 +60,7 @@
 //
 typedef struct
 {
-    boolean     istexture;
+    dboolean    istexture;
     int         picnum;
     int         basepic;
     int         numpics;
@@ -72,12 +76,11 @@ typedef struct
 //
 typedef struct
 {
-    boolean     istexture;              // if false, it is a flat
+    signed char istexture;              // if false, it is a flat
     char        endname[9];
     char        startname[9];
     int         speed;
-    boolean     isliquid;
-} animdef_t;
+} PACKEDATTR animdef_t;
 
 #if defined(_MSC_VER)
 #pragma pack(pop)
@@ -86,6 +89,28 @@ typedef struct
 #define MAXANIMS        32
 
 #define ANIMSPEED       8
+
+int             stat_secretsrevealed = 0;
+
+dboolean        r_liquid_bob = r_liquid_bob_default;
+
+fixed_t         animatedliquiddiff;
+fixed_t         animatedliquidxdir;
+fixed_t         animatedliquidydir;
+fixed_t         animatedliquidxoffs;
+fixed_t         animatedliquidyoffs;
+
+fixed_t animatedliquiddiffs[64] =
+{
+     6422,  6422,  6360,  6238,  6054,  5814,  5516,  5164,
+     4764,  4318,  3830,  3306,  2748,  2166,  1562,   942,
+      314,  -314,  -942, -1562, -2166, -2748, -3306, -3830,
+    -4318, -4764, -5164, -5516, -5814, -6054, -6238, -6360,
+    -6422, -6422, -6360, -6238, -6054, -5814, -5516, -5164,
+    -4764, -4318, -3830, -3306, -2748, -2166, -1562,  -942,
+     -314,   314,   942,  1562,  2166,  2748,  3306,  3830,
+     4318,  4764,  5164,  5516,  5814,  6054,  6238,  6360
+};
 
 static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
@@ -96,81 +121,81 @@ static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
 static void P_SpawnPushers(void);       // phares 3/20/98
 
+extern char     *playername;
+extern int      numflats;
+extern dboolean canmodify;
+
+dboolean        *isliquid;
+dboolean        *isteleport;
+
 //
 // P_InitPicAnims
 //
-
-// Floor/ceiling animation sequences,
-//  defined by first and last frame,
-//  i.e. the flat (64x64 tile) name to
-//  be used.
-// The full animation sequence is given
-//  using all the flats between the start
-//  and end entry, in the order found in
-//  the WAD file.
-//
-animdef_t animdefs[] =
-{
-    { false, "NUKAGE3",  "NUKAGE1",  ANIMSPEED, true  },
-    { false, "FWATER4",  "FWATER1",  ANIMSPEED, true  },
-    { false, "SWATER4",  "SWATER1",  ANIMSPEED, true  },
-    { false, "LAVA4",    "LAVA1",    ANIMSPEED, true  },
-    { false, "BLOOD3",   "BLOOD1",   ANIMSPEED, true  },
-
-    // DOOM II flat animations.
-    { false, "RROCK08",  "RROCK05",  ANIMSPEED, false },
-    { false, "SLIME04",  "SLIME01",  ANIMSPEED, true  },
-    { false, "SLIME08",  "SLIME05",  ANIMSPEED, true  },
-    { false, "SLIME12",  "SLIME09",  ANIMSPEED, false },
-
-    { true,  "BLODGR4",  "BLODGR1",  ANIMSPEED, false },
-    { true,  "SLADRIP3", "SLADRIP1", ANIMSPEED, false },
-
-    { true,  "BLODRIP4", "BLODRIP1", ANIMSPEED, false },
-    { true,  "FIREWALL", "FIREWALA", ANIMSPEED, false },
-    { true,  "GSTFONT3", "GSTFONT1", ANIMSPEED, false },
-    { true,  "FIRELAVA", "FIRELAV3", ANIMSPEED, false },
-    { true,  "FIREMAG3", "FIREMAG1", ANIMSPEED, false },
-    { true,  "FIREBLU2", "FIREBLU1", ANIMSPEED, false },
-    { true,  "ROCKRED3", "ROCKRED1", ANIMSPEED, false },
-
-    { true,  "BFALL4",   "BFALL1",   ANIMSPEED, false },
-    { true,  "SFALL4",   "SFALL1",   ANIMSPEED, false },
-    { true,  "WFALL4",   "WFALL1",   ANIMSPEED, false },
-    { true,  "DBRAIN4",  "DBRAIN1",  ANIMSPEED, false },
-
-    { false, "",         "",                 0, false }
-};
-
-//
-// Animating line specials
-//
-extern int      numflats;
-extern boolean  canmodify;
-
-boolean         *isliquid;
-
 void P_InitPicAnims(void)
 {
-    int i;
-    int size = (numflats + 1) * sizeof(boolean);
+    int size = (numflats + 1) * sizeof(dboolean);
 
     isliquid = Z_Malloc(size, PU_STATIC, 0);
-    memset(isliquid, false, size);
+    isteleport = Z_Calloc(1, size, PU_STATIC, 0);
 
-    //  Init animation
-    lastanim = anims;
-    for (i = 0; animdefs[i].endname[0]; i++)
+    // [BH] indicate obvious teleport textures for automap
+    if (BTSX)
     {
-        char    *startname = animdefs[i].startname;
-        char    *endname = animdefs[i].endname;
+        isteleport[R_CheckFlatNumForName("SLIME09")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME12")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT1")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT2")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT3")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT4")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT5")] = true;
+        isteleport[R_CheckFlatNumForName("TELEPRT6")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME05")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT02")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT03")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT04")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT05")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT06")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT07")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT08")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT09")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT10")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT11")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT12")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT13")] = true;
+        isteleport[R_CheckFlatNumForName("SHNPRT14")] = true;
+        isteleport[R_CheckFlatNumForName("SLIME08")] = true;
+    }
+    else
+    {
+        isteleport[R_CheckFlatNumForName("GATE1")] = true;
+        isteleport[R_CheckFlatNumForName("GATE2")] = true;
+        isteleport[R_CheckFlatNumForName("GATE3")] = true;
+        isteleport[R_CheckFlatNumForName("GATE4")] = true;
+    }
+}
 
+//
+// P_GetLiquids
+//
+void P_SetLiquids(void)
+{
+    int         i;
+    int         lump = W_GetNumForName2("ANIMATED");
+    animdef_t   *animdefs = W_CacheLumpNum(lump, PU_STATIC);
+
+    for (i = 0; i < numflats; ++i)
+        isliquid[i] = false;
+
+    // Init animation
+    lastanim = anims;
+    for (i = 0; animdefs[i].istexture != -1; i++)
+    {
         // 1/11/98 killough -- removed limit by array-doubling
         if (lastanim >= anims + maxanims)
         {
             size_t      newmax = (maxanims ? maxanims * 2 : MAXANIMS);
 
-            anims = realloc(anims, newmax * sizeof(*anims));
+            anims = Z_Realloc(anims, newmax * sizeof(*anims));
             lastanim = anims + maxanims;
             maxanims = newmax;
         }
@@ -178,47 +203,52 @@ void P_InitPicAnims(void)
         if (animdefs[i].istexture)
         {
             // different episode?
-            if (R_CheckTextureNumForName(startname) == -1)
+            if (R_CheckTextureNumForName(animdefs[i].startname) == -1)
                 continue;
 
-            lastanim->picnum = R_TextureNumForName(endname);
-            lastanim->basepic = R_TextureNumForName(startname);
+            lastanim->picnum = R_TextureNumForName(animdefs[i].endname);
+            lastanim->basepic = R_TextureNumForName(animdefs[i].startname);
 
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
+            lastanim->istexture = true;
         }
         else
         {
-            if (W_CheckNumForName(startname) == -1)
+            int j;
+
+            if (W_CheckNumForName(animdefs[i].startname) == -1)
                 continue;
 
-            lastanim->picnum = R_FlatNumForName(endname);
-            lastanim->basepic = R_FlatNumForName(startname);
+            lastanim->picnum = R_FlatNumForName(animdefs[i].endname);
+            lastanim->basepic = R_FlatNumForName(animdefs[i].startname);
 
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
+            lastanim->istexture = false;
 
-            if (animdefs[i].isliquid)
-            {
-                int     j;
-
-                for (j = 0; j < lastanim->numpics; j++)
-                    isliquid[lastanim->basepic + j] = true;
-            }
+            for (j = 0; j < lastanim->numpics; j++)
+                isliquid[lastanim->basepic + j] = true;
         }
 
-        lastanim->istexture = animdefs[i].istexture;
+        lastanim->speed = LONG(animdefs[i].speed);
 
-        lastanim->speed = animdefs[i].speed;
-        lastanim++;
+        if (lastanim->speed < 65536 && lastanim->numpics != 1 && lastanim->numpics < 2)
+            I_Error("P_InitPicAnims: bad cycle from %s to %s",
+                animdefs[i].startname, animdefs[i].endname);
+
+        ++lastanim;
     }
+    W_ReleaseLumpNum(lump);
 
-    if (BTSX)
+    // [BH] parse NOLIQUID lump to find animated textures that are not liquid in current wad
+    SC_Open("NOLIQUID");
+    while (SC_GetString())
     {
-        int     SHNPRT02 = R_FlatNumForName("SHNPRT02");
+        int     lump = R_CheckFlatNumForName(sc_String);
 
-        for (i = 0; i < 13; ++i)
-            isliquid[SHNPRT02 + i] = false;
-        isliquid[R_FlatNumForName("SLIME05")] = false;
-        isliquid[R_FlatNumForName("SLIME08")] = false;
+        SC_MustGetString();
+        if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wad_file->path),
+            sc_String))
+            isliquid[lump] = false;
     }
 }
 
@@ -300,7 +330,7 @@ fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 {
     int         i;
     sector_t    *other;
-    fixed_t     floor = -32000 << FRACBITS;
+    fixed_t     floor = -32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight > floor)
@@ -330,7 +360,6 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
         }
     return currentheight;
 }
-
 
 //
 // P_FindNextLowestFloor
@@ -367,8 +396,8 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 
 fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 {
-    sector_t *other;
-    int i;
+    int         i;
+    sector_t    *other;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) &&
@@ -397,8 +426,8 @@ fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 
 fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight)
 {
-    sector_t *other;
-    int i;
+    int         i;
+    sector_t    *other;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) &&
@@ -422,7 +451,7 @@ fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 {
     int         i;
     sector_t    *other;
-    fixed_t     height = 32000 << FRACBITS;
+    fixed_t     height = 32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight < height)
@@ -437,7 +466,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 {
     int         i;
     sector_t    *other;
-    fixed_t     height = -32000 << FRACBITS;
+    fixed_t     height = -32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight > height)
@@ -460,17 +489,17 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 fixed_t P_FindShortestTextureAround(int secnum)
 {
     const sector_t      *sec = &sectors[secnum];
-    int                 i, minsize = 32000 << FRACBITS;
+    int                 i, minsize = 32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         if (twoSided(secnum, i))
         {
             const side_t        *side;
 
-            if ((side = getSide(secnum, i, 0))->bottomtexture >= 0
+            if ((side = getSide(secnum, i, 0))->bottomtexture > 0
                 && textureheight[side->bottomtexture] < minsize)
                 minsize = textureheight[side->bottomtexture];
-            if ((side = getSide(secnum, i, 1))->bottomtexture >= 0
+            if ((side = getSide(secnum, i, 1))->bottomtexture > 0
                 && textureheight[side->bottomtexture] < minsize)
                 minsize = textureheight[side->bottomtexture];
         }
@@ -493,18 +522,17 @@ fixed_t P_FindShortestTextureAround(int secnum)
 fixed_t P_FindShortestUpperAround(int secnum)
 {
     const sector_t      *sec = &sectors[secnum];
-    int                 i, minsize = 32000 << FRACBITS;
+    int                 i, minsize = 32000 * FRACUNIT;
 
-    // in height calcs
     for (i = 0; i < sec->linecount; i++)
         if (twoSided(secnum, i))
         {
             const side_t        *side;
 
-            if ((side = getSide(secnum, i, 0))->toptexture >= 0)
+            if ((side = getSide(secnum, i, 0))->toptexture > 0)
                 if (textureheight[side->toptexture] < minsize)
                     minsize = textureheight[side->toptexture];
-            if ((side = getSide(secnum, i, 1))->toptexture >= 0)
+            if ((side = getSide(secnum, i, 1))->toptexture > 0)
                 if (textureheight[side->toptexture] < minsize)
                     minsize = textureheight[side->toptexture];
         }
@@ -650,95 +678,150 @@ int P_FindMinSurroundingLight(sector_t *sector, int min)
 //  generalized locked doors
 //
 // killough 11/98: reformatted
-boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
+dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 {
+    static char buffer[1024];
+
     // does this line special distinguish between skulls and keys?
-    int skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
+    int         skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
 
     // determine for each case of lock type if player's keys are adequate
     switch ((line->special & LockedKey) >> LockedKeyShift)
     {
         case AnyKey:
-            if (!player->cards[it_redcard] && !player->cards[it_redskull]
-                && !player->cards[it_bluecard] && !player->cards[it_blueskull]
-                && !player->cards[it_yellowcard] && !player->cards[it_yellowskull])
+            if (player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0
+                && player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0
+                && player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)
             {
-                HU_PlayerMessage(s_PD_ANY, true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
+                    (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
 
         case RCard:
-            if (!player->cards[it_redcard] && (!skulliscard || !player->cards[it_redskull]))
+            if (player->cards[it_redcard] <= 0
+                && (!skulliscard || player->cards[it_redskull] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_REDK : s_PD_REDC), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_redcard)
+                {
+                    player->neededcard = it_redcard;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDC),
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
 
         case BCard:
-            if (!player->cards[it_bluecard] && (!skulliscard || !player->cards[it_blueskull]))
+            if (player->cards[it_bluecard] <= 0
+                && (!skulliscard || player->cards[it_blueskull] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_BLUEK : s_PD_BLUEC), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_bluecard)
+                {
+                    player->neededcard = it_bluecard;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUEC),
+                    playername,  (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
 
         case YCard:
-            if (!player->cards[it_yellowcard] && (!skulliscard || !player->cards[it_yellowskull]))
+            if (player->cards[it_yellowcard] <= 0
+                && (!skulliscard || player->cards[it_yellowskull] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_yellowcard)
+                {
+                    player->neededcard = it_yellowcard;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC),
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
 
         case RSkull:
-            if (!player->cards[it_redskull] && (!skulliscard || !player->cards[it_redcard]))
+            if (player->cards[it_redskull] <= 0
+                && (!skulliscard || player->cards[it_redcard] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_REDK : s_PD_REDS), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_redskull)
+                {
+                    player->neededcard = it_redskull;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDS),
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
 
         case BSkull:
-            if (!player->cards[it_blueskull] && (!skulliscard || !player->cards[it_bluecard]))
+            if (player->cards[it_blueskull] <= 0
+                && (!skulliscard || player->cards[it_bluecard] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_BLUEK : s_PD_BLUES), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_blueskull)
+                {
+                    player->neededcard = it_blueskull;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUES),
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
 
         case YSkull:
-            if (!player->cards[it_yellowskull] && (!skulliscard || !player->cards[it_yellowcard]))
+            if (player->cards[it_yellowskull] <= 0
+                && (!skulliscard || player->cards[it_yellowcard] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_yellowskull)
+                {
+                    player->neededcard = it_yellowskull;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS),
+                    playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
 
         case AllKeys:
-            if (!skulliscard && (!player->cards[it_redcard] || !player->cards[it_redskull]
-                || !player->cards[it_bluecard] || !player->cards[it_blueskull]
-                || !player->cards[it_yellowcard] || !player->cards[it_yellowskull]))
+            if (!skulliscard && (player->cards[it_redcard] <= 0 || player->cards[it_redskull] <= 0
+                || player->cards[it_bluecard] <= 0 || player->cards[it_blueskull] <= 0
+                || player->cards[it_yellowcard] <= 0 || player->cards[it_yellowskull] <= 0))
             {
-                HU_PlayerMessage(s_PD_ALL6, true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
+                    (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
-            if (skulliscard &&
-                (!(player->cards[it_redcard] | player->cards[it_redskull]) ||
-                !(player->cards[it_bluecard] | player->cards[it_blueskull]) ||
-                !(player->cards[it_yellowcard] | !player->cards[it_yellowskull])))
+            if (skulliscard && ((player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0)
+                || (player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0)
+                || (player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)))
             {
-                HU_PlayerMessage(s_PD_ALL3, true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
+                    (M_StringCompare(playername, playername_default) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
@@ -759,7 +842,7 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 //
 // killough 11/98: reformatted
 
-boolean P_SectorActive(special_e t, sector_t *sec)
+dboolean P_SectorActive(special_e t, sector_t *sec)
 {
     return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :     // thinker of same
@@ -778,7 +861,7 @@ boolean P_SectorActive(special_e t, sector_t *sec)
 //
 // jff 2/27/98 Added to check for zero tag allowed for regular special types
 //
-boolean P_CheckTag(line_t *line)
+dboolean P_CheckTag(line_t *line)
 {
     // tag not zero, allowed
     if (line->tag)
@@ -879,11 +962,11 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         }
     }
 
-    // jff 02/04/98 add check here for generalized lindef types
+    // jff 02/04/98 add check here for generalized linedef types
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is walkover generalized linedef type
-        boolean (*linefunc)(line_t *) = NULL;
+        dboolean (*linefunc)(line_t *) = NULL;
 
         // check each range of generalized linedefs
         if ((unsigned int)line->special >= GenFloorBase)
@@ -891,8 +974,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
                     return;             // FloorModel is "Allow Monsters" if FloorChange is 0
-            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
-                return;
             linefunc = EV_DoGenFloor;
         }
         else if ((unsigned int)line->special >= GenCeilingBase)
@@ -900,8 +981,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
                     return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
-                return;
             linefunc = EV_DoGenCeiling;
         }
         else if ((unsigned int)line->special >= GenDoorBase)
@@ -913,8 +992,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 if (line->flags & ML_SECRET)    // they can't open secret doors either
                     return;
             }
-            if (!line->tag)                     // 3/2/98 move outside the monster check
-                return;
             linefunc = EV_DoGenDoor;
         }
         else if ((unsigned int)line->special >= GenLockedBase)
@@ -937,8 +1014,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 if (!(line->special & LiftMonster))
                     return;             // monsters disallowed
-            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
-                return;
             linefunc = EV_DoGenLift;
         }
         else if ((unsigned int)line->special >= GenStairsBase)
@@ -946,9 +1021,14 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 if (!(line->special & StairMonster))
                     return;             // monsters disallowed
-            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
-                return;
             linefunc = EV_DoGenStairs;
+        }
+        else if ((unsigned int)line->special >= GenCrusherBase)
+        {
+            if (!thing->player)
+                if (!(line->special & CrusherMonster))
+                    return;             // monsters disallowed
+            linefunc = EV_DoGenCrusher;
         }
 
         // if it was a valid generalized type
@@ -971,7 +1051,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     if (!thing->player)
     {
-        boolean ok = false;
+        dboolean okay = false;
 
         switch (line->special)
         {
@@ -994,10 +1074,10 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case WR_TeleportToLineWithSameTag_MonstersOnly_Silent:
             case W1_Teleport_MonstersOnly_Silent:
             case WR_Teleport_MonstersOnly_Silent:
-                ok = true;
+                okay = true;
                 break;
         }
-        if (!ok)
+        if (!okay)
             return;
     }
 
@@ -1579,120 +1659,92 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 {
     // jff 02/04/98 add check here for generalized linedef
+    // pointer to line function is NULL by default, set non-null if
+    // line special is gun triggered generalized linedef type
+    dboolean (*linefunc)(line_t *line) = NULL;
+
+    // check each range of generalized linedefs
+    if ((unsigned int)line->special >= GenFloorBase)
     {
-        // pointer to line function is NULL by default, set non-null if
-        // line special is gun triggered generalized linedef type
-        boolean (*linefunc)(line_t *line) = NULL;
-
-        // check each range of generalized linedefs
-        if ((unsigned int)line->special >= GenFloorBase)
-        {
-            if (!thing->player)
-                if ((line->special & FloorChange) || !(line->special & FloorModel))
-                    return;             // FloorModel is "Allow Monsters" if FloorChange is 0
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
-
-            linefunc = EV_DoGenFloor;
-        }
-        else if ((unsigned int)line->special >= GenCeilingBase)
-        {
-            if (!thing->player)
-                if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                    return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
-            linefunc = EV_DoGenCeiling;
-        }
-        else if ((unsigned int)line->special >= GenDoorBase)
-        {
-            if (!thing->player)
-            {
-                if (!(line->special & DoorMonster))
-                    return;                     // monsters disallowed from this door
-                if (line->flags & ML_SECRET)    // they can't open secret doors either
-                    return;
-            }
-            if (!line->tag)                     // jff 3/2/98 all gun generalized types require tag
-                return;
-            linefunc = EV_DoGenDoor;
-        }
-        else if ((unsigned int)line->special >= GenLockedBase)
-        {
-            if (!thing->player)
-                return;                 // monsters disallowed from unlocking doors
-            if (((line->special & TriggerType) == GunOnce)
-                || ((line->special & TriggerType) == GunMany))
-            {
-                // jff 4/1/98 check for being a gun type before reporting door type
-                if (!P_CanUnlockGenDoor(line, thing->player))
-                    return;
-            }
-            else
-                return;
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
-
-            linefunc = EV_DoGenLockedDoor;
-        }
-        else if ((unsigned int)line->special >= GenLiftBase)
-        {
-            if (!thing->player)
-                if (!(line->special & LiftMonster))
-                    return;             // monsters disallowed
-            linefunc = EV_DoGenLift;
-        }
-        else if ((unsigned int)line->special >= GenStairsBase)
-        {
-            if (!thing->player)
-                if (!(line->special & StairMonster))
-                    return;             // monsters disallowed
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
-            linefunc = EV_DoGenStairs;
-        }
-        else if ((unsigned int)line->special >= GenCrusherBase)
-        {
-            if (!thing->player)
-                if (!(line->special & StairMonster))
-                    return;             // monsters disallowed
-            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
-                return;
-            linefunc = EV_DoGenCrusher;
-        }
-
-        if (linefunc)
-            switch ((line->special & TriggerType) >> TriggerTypeShift)
-            {
-                case GunOnce:
-                    if (linefunc(line))
-                        P_ChangeSwitchTexture(line, 0);
-                    return;
-
-                case GunMany:
-                    if (linefunc(line))
-                        P_ChangeSwitchTexture(line, 1);
-                    return;
-
-                default:                // if not a gun type, do nothing here
-                    return;
-            }
+        if (!thing->player)
+            if ((line->special & FloorChange) || !(line->special & FloorModel))
+                return;             // FloorModel is "Allow Monsters" if FloorChange is 0
+        linefunc = EV_DoGenFloor;
     }
+    else if ((unsigned int)line->special >= GenCeilingBase)
+    {
+        if (!thing->player)
+            if ((line->special & CeilingChange) || !(line->special & CeilingModel))
+                return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
+        linefunc = EV_DoGenCeiling;
+    }
+    else if ((unsigned int)line->special >= GenDoorBase)
+    {
+        if (!thing->player)
+        {
+            if (!(line->special & DoorMonster))
+                return;                     // monsters disallowed from this door
+            if (line->flags & ML_SECRET)    // they can't open secret doors either
+                return;
+        }
+        linefunc = EV_DoGenDoor;
+    }
+    else if ((unsigned int)line->special >= GenLockedBase)
+    {
+        if (!thing->player)
+            return;                 // monsters disallowed from unlocking doors
+        if ((line->special & TriggerType) == GunOnce || (line->special & TriggerType) == GunMany)
+        {
+            // jff 4/1/98 check for being a gun type before reporting door type
+            if (!P_CanUnlockGenDoor(line, thing->player))
+                return;
+        }
+        else
+            return;
+        linefunc = EV_DoGenLockedDoor;
+    }
+    else if ((unsigned int)line->special >= GenLiftBase)
+    {
+        if (!thing->player)
+            if (!(line->special & LiftMonster))
+                return;             // monsters disallowed
+        linefunc = EV_DoGenLift;
+    }
+    else if ((unsigned int)line->special >= GenStairsBase)
+    {
+        if (!thing->player)
+            if (!(line->special & StairMonster))
+                return;             // monsters disallowed
+        linefunc = EV_DoGenStairs;
+    }
+    else if ((unsigned int)line->special >= GenCrusherBase)
+    {
+        if (!thing->player)
+            if (!(line->special & CrusherMonster))
+                return;             // monsters disallowed
+        linefunc = EV_DoGenCrusher;
+    }
+
+    if (linefunc)
+        switch ((line->special & TriggerType) >> TriggerTypeShift)
+        {
+            case GunOnce:
+                if (linefunc(line))
+                    P_ChangeSwitchTexture(line, 0);
+                return;
+
+            case GunMany:
+                if (linefunc(line))
+                    P_ChangeSwitchTexture(line, 1);
+                return;
+
+            default:                // if not a gun type, do nothing here
+                return;
+        }
 
     // Impacts that other things can activate.
-    if (!thing->player)
-    {
-        boolean ok = false;
-
-        switch (line->special)
-        {
-            case GR_Door_OpenStay:
-                ok = true;
-                break;
-        }
-        if (!ok)
-            return;
-    }
+    if (!thing->player && line->special != GR_Door_OpenStay)
+        return;
 
     if (!P_CheckTag(line))      // jff 2/27/98 disallow zero tag on some types
         return;
@@ -1776,6 +1828,7 @@ void P_PlayerInSpecialSector(player_t *player)
 
             case Secret:
                 player->secretcount++;
+                stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
                 sector->special = 0;
 
                 for (i = 0; i < sector->linecount; i++)
@@ -1791,10 +1844,7 @@ void P_PlayerInSpecialSector(player_t *player)
                     P_DamageMobj(player->mo, NULL, NULL, 20);
 
                 if (player->health <= 10)
-                {
-                    player->health = 0;
                     G_ExitLevel();
-                }
                 break;
 
             default:
@@ -1805,22 +1855,22 @@ void P_PlayerInSpecialSector(player_t *player)
     {
         switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
         {
-            case 0: // no damage
+            case 0:     // no damage
                 break;
 
-            case 1: // 2/5 damage per 31 ticks
+            case 1:     // 2/5 damage per 31 ticks
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1f))
                         P_DamageMobj(player->mo, NULL, NULL, 5);
                 break;
 
-            case 2: // 5/10 damage per 31 ticks
+            case 2:     // 5/10 damage per 31 ticks
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1f))
                         P_DamageMobj(player->mo, NULL, NULL, 10);
                 break;
 
-            case 3: // 10/20 damage per 31 ticks
+            case 3:     // 10/20 damage per 31 ticks
                 if (!player->powers[pw_ironfeet] || P_Random() < 5)  // take damage even with suit
                 {
                     if (!(leveltime & 0x1f))
@@ -1832,6 +1882,7 @@ void P_PlayerInSpecialSector(player_t *player)
         if (sector->special & SECRET_MASK)
         {
             player->secretcount++;
+            stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
             sector->special &= ~SECRET_MASK;
             if (sector->special < 32)   // if all extended bits clear,
                 sector->special = 0;    // sector is not special anymore
@@ -1855,7 +1906,6 @@ void P_UpdateSpecials(void)
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim = anims; anim < lastanim; anim++)
-    {
         for (i = anim->basepic; i < anim->basepic + anim->numpics; i++)
         {
             pic = anim->basepic + ((leveltime / anim->speed + i) % anim->numpics);
@@ -1864,14 +1914,21 @@ void P_UpdateSpecials(void)
             else
                 flattranslation[i] = pic;
         }
-    }
+
+    animatedliquiddiff += animatedliquiddiffs[leveltime & 63];
+    animatedliquidxoffs += animatedliquidxdir;
+    if (animatedliquidxoffs > 64 * FRACUNIT)
+        animatedliquidxoffs = 0;
+    animatedliquidyoffs += animatedliquidydir;
+    if (animatedliquidyoffs > 64 * FRACUNIT)
+        animatedliquidyoffs = 0;
+
+    skycolumnoffset += skyscrolldelta;
 
     // DO BUTTONS
     for (i = 0; i < MAXBUTTONS; i++)
         if (buttonlist[i].btimer)
-        {
-            buttonlist[i].btimer--;
-            if (!buttonlist[i].btimer)
+            if (!--buttonlist[i].btimer)
             {
                 switch (buttonlist[i].where)
                 {
@@ -1891,22 +1948,21 @@ void P_UpdateSpecials(void)
                         break;
                 }
                 if (buttonlist[i].line->special != -GR_Door_OpenStay)
-                    S_StartSound(buttonlist[i].soundorg, sfx_swtchn);
+                    S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
                 memset(&buttonlist[i], 0, sizeof(button_t));
             }
-        }
 }
 
 //
 // Special Stuff that cannot be categorized
 //
-boolean EV_DoDonut(line_t *line)
+dboolean EV_DoDonut(line_t *line)
 {
     sector_t    *s1;
     sector_t    *s2;
     sector_t    *s3;
     int         secnum = -1;
-    boolean     rtn = false;
+    dboolean    rtn = false;
     int         i;
     floormove_t *floor;
 
@@ -1924,7 +1980,7 @@ boolean EV_DoDonut(line_t *line)
             continue;
 
         if (P_SectorActive(floor_special, s2))
-            continue;  
+            continue;
 
         for (i = 0; i < s2->linecount; i++)
         {
@@ -2187,7 +2243,7 @@ void T_Scroll(scroll_t *s)
             // non-floating, and clipped.
             for (node = sec->touching_thinglist; node; node = node->m_snext)
                 if (!((thing = node->m_thing)->flags & MF_NOCLIP)
-                    && (!(thing->flags & MF_NOGRAVITY || thing->z > height)
+                    && (!((thing->flags & MF_NOGRAVITY) || thing->z > height)
                     || thing->z < waterheight))
                 {
                     thing->momx += dx;
@@ -2311,7 +2367,7 @@ static void P_SpawnScrollers(void)
             case Scroll_ScrollFloorAndMoveThings:
                 for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
                     Add_Scroller(sc_floor, -dx, dy, control, s, accel);
-                if (special != 253)
+                if (special != Scroll_ScrollFloorAndMoveThings)
                     break;
 
             case Scroll_MoveThingsAccordingToLineVector:
@@ -2331,8 +2387,7 @@ static void P_SpawnScrollers(void)
 
             case Scroll_ScrollWallUsingSidedefOffsets:
                 s = lines[i].sidenum[0];
-                Add_Scroller(sc_side, -sides[s].textureoffset,
-                    sides[s].rowoffset, -1, s, accel);
+                Add_Scroller(sc_side, -sides[s].textureoffset, sides[s].rowoffset, -1, s, accel);
                 break;
 
             case Scroll_ScrollTextureLeft:
@@ -2382,12 +2437,12 @@ static void P_SpawnScrollers(void)
 // calculations when an object needs friction considered, instead of doing
 // friction calculations on every sector during every tic.
 //
-// Although this -might- ruin Boom demo sync involving friction, it's the only
+// Although this -might- ruin BOOM demo sync involving friction, it's the only
 // way, short of code explosion, to fix the original design bug. Fixing the
-// design bug in Boom's original friction code, while maintaining demo sync
+// design bug in BOOM's original friction code, while maintaining demo sync
 // under every conceivable circumstance, would double or triple code size, and
 // would require maintenance of buggy legacy code which is only useful for old
-// demos. Doom demos, which are more important IMO, are not affected by this
+// demos. DOOM demos, which are more important IMO, are not affected by this
 // change.
 //
 
@@ -2522,11 +2577,10 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
 pusher_t        *tmpusher;      // pusher structure for blockmap searches
 
-boolean PIT_PushThing(mobj_t* thing)
+dboolean PIT_PushThing(mobj_t* thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {
-        angle_t pushangle;
         fixed_t speed;
         fixed_t sx = tmpusher->x;
         fixed_t sy = tmpusher->y;
@@ -2551,7 +2605,8 @@ boolean PIT_PushThing(mobj_t* thing)
         // to be able to see the push/pull source point.
         if (speed > 0 && P_CheckSight(thing, tmpusher->source))
         {
-            pushangle = R_PointToAngle2(thing->x, thing->y, sx, sy);
+            angle_t     pushangle = R_PointToAngle2(thing->x, thing->y, sx, sy);
+
             if (tmpusher->source->type == MT_PUSH)
                 pushangle += ANG180;    // away
             pushangle >>= ANGLETOFINESHIFT;

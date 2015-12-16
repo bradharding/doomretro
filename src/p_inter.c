@@ -1,43 +1,44 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
 
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "am_map.h"
 #include "c_console.h"
@@ -46,6 +47,7 @@
 #include "dstrings.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
+#include "i_timer.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -93,9 +95,35 @@ char *weapondescription[] =
     "super shotgun"
 };
 
-boolean mirrorweapons = MIRRORWEAPONS_DEFAULT;
+dboolean        con_obituaries = con_obituaries_default;
+dboolean        r_mirroredweapons = r_mirroredweapons_default;
 
-boolean obituaries = true;
+unsigned int    stat_damageinflicted = 0;
+unsigned int    stat_damagereceived = 0;
+unsigned int    stat_deaths = 0;
+unsigned int    stat_monsterskilled = 0;
+unsigned int    stat_monsterskilled_arachnotrons = 0;
+unsigned int    stat_monsterskilled_archviles = 0;
+unsigned int    stat_monsterskilled_baronsofhell = 0;
+unsigned int    stat_monsterskilled_cacodemons = 0;
+unsigned int    stat_monsterskilled_cyberdemons = 0;
+unsigned int    stat_monsterskilled_demons = 0;
+unsigned int    stat_monsterskilled_heavyweapondudes = 0;
+unsigned int    stat_monsterskilled_hellknights = 0;
+unsigned int    stat_monsterskilled_imps = 0;
+unsigned int    stat_monsterskilled_lostsouls = 0;
+unsigned int    stat_monsterskilled_mancubi = 0;
+unsigned int    stat_monsterskilled_painelementals = 0;
+unsigned int    stat_monsterskilled_revenants = 0;
+unsigned int    stat_monsterskilled_shotgunguys = 0;
+unsigned int    stat_monsterskilled_spectres = 0;
+unsigned int    stat_monsterskilled_spidermasterminds = 0;
+unsigned int    stat_monsterskilled_zombiemen = 0;
+unsigned int    stat_itemspickedup = 0;
+
+extern char     *playername;
+extern dboolean r_althud;
+extern dboolean r_hud;
 
 //
 // GET STUFF
@@ -131,6 +159,9 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
 
     if (player->ammo[ammo] > player->maxammo[ammo])
         player->ammo[ammo] = player->maxammo[ammo];
+
+    if (r_hud && !r_althud && num && ammo == weaponinfo[player->readyweapon].ammo)
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     // If non zero ammo, don't change up weapons, player was lower on purpose.
     if (oldammo)
@@ -173,25 +204,46 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
         default:
             break;
     }
+
     return num;
 }
 
-void P_GiveBackpack(player_t *player)
+//
+// P_GiveBackpack
+//
+dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
 {
+    int         i;
+    dboolean    result = false;
+
     if (!player->backpack)
     {
-        int     i;
-
         for (i = 0; i < NUMAMMO; i++)
             player->maxammo[i] *= 2;
         player->backpack = true;
+
     }
+    for (i = 0; i < NUMAMMO; i++)
+    {
+        if (player->ammo[i] < player->maxammo[i])
+        {
+            result = true;
+            if (r_hud && !r_althud && (ammotype_t)i == weaponinfo[player->readyweapon].ammo)
+                ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        }
+        if (giveammo)
+            P_GiveAmmo(player, (ammotype_t)i, 1);
+    }
+    return result;
 }
 
-boolean P_GiveFullAmmo(player_t *player)
+//
+// P_GiveFullAmmo
+//
+dboolean P_GiveFullAmmo(player_t *player)
 {
     int         i;
-    boolean     result = false;
+    dboolean    result = false;
 
     for (i = 0; i < NUMAMMO; i++)
         if (player->ammo[i] < player->maxammo[i])
@@ -199,9 +251,20 @@ boolean P_GiveFullAmmo(player_t *player)
             player->ammo[i] = player->maxammo[i];
             result = true;
         }
-    return result;
+
+    if (result)
+    {
+        if (r_hud && !r_althud)
+            ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        return true;
+    }
+    else
+        return false;
 }
 
+//
+// P_AddBonus
+//
 void P_AddBonus(player_t *player, int amount)
 {
     if (!consoleactive)
@@ -210,16 +273,17 @@ void P_AddBonus(player_t *player, int amount)
 
 //
 // P_GiveWeapon
-// The weapon name may have a MF_DROPPED flag ored in.
+// The weapon name may have a MF_DROPPED flag ORed in.
 //
-boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
+dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 {
-    boolean     gaveammo = false;
-    boolean     gaveweapon = false;
+    dboolean    gaveammo = false;
+    dboolean    gaveweapon = false;
+    ammotype_t  ammotype = weaponinfo[weapon].ammo;
 
-    if (weaponinfo[weapon].ammo != am_noammo)
+    if (ammotype != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
-        gaveammo = P_GiveAmmo(player, weaponinfo[weapon].ammo, dropped ? 1 : 2);
+        gaveammo = P_GiveAmmo(player, ammotype, (dropped ? 1 : 2));
 
     if (!player->weaponowned[weapon])
     {
@@ -228,12 +292,22 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
         player->pendingweapon = weapon;
     }
 
-    return (gaveweapon || gaveammo);
+    if (gaveammo && ammotype == weaponinfo[player->readyweapon].ammo)
+    {
+        if (r_hud && !r_althud)
+            ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        return true;
+    }
+    else
+        return (gaveweapon || gaveammo);
 }
 
-boolean P_GiveAllWeapons(player_t *player)
+//
+// P_GiveAllWeapons
+//
+dboolean P_GiveAllWeapons(player_t *player)
 {
-    boolean result = false;
+    dboolean result = false;
 
     if (!oldweaponsowned[wp_shotgun])
     {
@@ -298,7 +372,7 @@ boolean P_GiveAllWeapons(player_t *player)
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
-boolean P_GiveBody(player_t *player, int num)
+dboolean P_GiveBody(player_t *player, int num)
 {
     if (player->health >= maxhealth)
         return false;
@@ -306,15 +380,21 @@ boolean P_GiveBody(player_t *player, int num)
     player->health = MIN(player->health + num, maxhealth);
     player->mo->health = player->health;
 
+    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
     return true;
 }
 
+//
+// P_GiveMegaHealth
+//
 void P_GiveMegaHealth(player_t *player)
 {
     if (!(player->cheats & CF_GODMODE))
     {
-        player->health = mega_health;
-        player->mo->health = player->health;
+        if (player->health < mega_health)
+            healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+        player->health = player->mo->health = mega_health;
     }
 }
 
@@ -323,7 +403,7 @@ void P_GiveMegaHealth(player_t *player)
 // Returns false if the armor is worse
 // than the current armor.
 //
-boolean P_GiveArmor(player_t *player, int armortype)
+dboolean P_GiveArmor(player_t *player, int armortype)
 {
     int hits = armortype * 100;
 
@@ -332,6 +412,7 @@ boolean P_GiveArmor(player_t *player, int armortype)
 
     player->armortype = armortype;
     player->armorpoints = hits;
+    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
     return true;
 }
@@ -424,18 +505,22 @@ void P_GiveCard(player_t *player, card_t card)
         player->neededcard = player->neededcardflash = 0;
 }
 
-boolean P_GiveAllCards(player_t *player)
+//
+// P_GiveAllCards
+//
+dboolean P_GiveAllCards(player_t *player)
 {
     int         i;
-    boolean     result = false;
+    dboolean    result = false;
 
-    cardsfound = 0;
     for (i = NUMCARDS - 1; i >= 0; i--)
         if (player->cards[i] != CARDNOTINMAP)
         {
             if (player->cards[i] == CARDNOTFOUNDYET)
+            {
+                P_GiveCard(player, i);
                 result = true;
-            P_GiveCard(player, i);
+            }
         }
 
     return result;
@@ -444,7 +529,7 @@ boolean P_GiveAllCards(player_t *player)
 //
 // P_GivePower
 //
-boolean P_GivePower(player_t *player, int power)
+dboolean P_GivePower(player_t *player, int power)
 {
     static const int tics[NUMPOWERS] =
     {
@@ -479,14 +564,12 @@ boolean P_GivePower(player_t *player, int power)
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 {
     player_t    *player;
-    int         i;
     fixed_t     delta = special->z - toucher->z;
     int         sound;
     int         weaponowned;
     int         ammo;
-    boolean     ammogiven = false;
-    static int  prevsound = 0;
-    static int  prevtic = 0;
+    static int  prevsound;
+    static int  prevtic;
 
     if (delta > toucher->height || delta < -8 * FRACUNIT)
         return;         // out of reach
@@ -522,6 +605,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 player->health++;       // can go over 100%
                 if (player->health > maxhealth * 2)
                     player->health = maxhealth * 2;
+                else
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 player->mo->health = player->health;
             }
             HU_PlayerMessage(s_GOTHTHBONUS, true);
@@ -531,6 +616,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             player->armorpoints++;      // can go over 100%
             if (player->armorpoints > max_armor)
                 player->armorpoints = max_armor;
+            else
+                armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             if (!player->armortype)
                 player->armortype = 1;
             HU_PlayerMessage(s_GOTARMBONUS, true);
@@ -543,6 +630,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (player->health > max_soul)
                     player->health = max_soul;
                 player->mo->health = player->health;
+                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
             HU_PlayerMessage(s_GOTSUPER, true);
             sound = sfx_getpow;
@@ -732,20 +820,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_BPAK:
-            if (!player->backpack)
-            {
-                for (i = 0; i < NUMAMMO; i++)
-                    player->maxammo[i] *= 2;
-                player->backpack = true;
-                ammogiven = true;
-            }
-            for (i = 0; i < NUMAMMO; i++)
-            {
-                if (player->ammo[i] < player->maxammo[i])
-                    ammogiven = true;
-                P_GiveAmmo(player, (ammotype_t)i, 1);
-            }
-            if (!ammogiven)
+            if (!P_GiveBackpack(player, true))
                 return;
             HU_PlayerMessage(s_GOTBACKPACK, true);
             break;
@@ -816,7 +891,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     }
 
     if (special->flags & MF_COUNTITEM)
+    {
         player->itemcount++;
+        stat_itemspickedup = SafeAdd(stat_itemspickedup, 1);
+    }
     if (special->shadow)
         P_RemoveMobjShadow(special);
     P_RemoveMobj(special);
@@ -831,10 +909,75 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 }
 
 //
+// P_ChangeKillStat
+//
+void P_ChangeKillStat(mobjtype_t type, unsigned int value)
+{
+    switch (type)
+    {
+        case MT_BABY:
+            stat_monsterskilled_arachnotrons = SafeAdd(stat_monsterskilled_arachnotrons, value);
+            break;
+        case MT_VILE:
+            stat_monsterskilled_archviles = SafeAdd(stat_monsterskilled_archviles, value);
+            break;
+        case MT_BRUISER:
+            stat_monsterskilled_baronsofhell = SafeAdd(stat_monsterskilled_baronsofhell, value);
+            break;
+        case MT_HEAD:
+            stat_monsterskilled_cacodemons = SafeAdd(stat_monsterskilled_cacodemons, value);
+            break;
+        case MT_CYBORG:
+            stat_monsterskilled_cyberdemons = SafeAdd(stat_monsterskilled_cyberdemons, value);
+            break;
+        case MT_SERGEANT:
+            stat_monsterskilled_demons = SafeAdd(stat_monsterskilled_demons, value);
+            break;
+        case MT_CHAINGUY:
+            stat_monsterskilled_heavyweapondudes = SafeAdd(stat_monsterskilled_heavyweapondudes,
+                value);
+            break;
+        case MT_KNIGHT:
+            stat_monsterskilled_hellknights = SafeAdd(stat_monsterskilled_hellknights, value);
+            break;
+        case MT_TROOP:
+            stat_monsterskilled_imps = SafeAdd(stat_monsterskilled_imps, value);
+            break;
+        case MT_SKULL:
+            stat_monsterskilled_lostsouls = SafeAdd(stat_monsterskilled_lostsouls, value);
+            break;
+        case MT_FATSO:
+            stat_monsterskilled_mancubi = SafeAdd(stat_monsterskilled_mancubi, value);
+            break;
+        case MT_PAIN:
+            stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals,
+                value);
+            break;
+        case MT_UNDEAD:
+            stat_monsterskilled_revenants = SafeAdd(stat_monsterskilled_revenants, value);
+            break;
+        case MT_SHOTGUY:
+            stat_monsterskilled_shotgunguys = SafeAdd(stat_monsterskilled_shotgunguys, value);
+            break;
+        case MT_SHADOWS:
+            stat_monsterskilled_spectres = SafeAdd(stat_monsterskilled_spectres, value);
+            break;
+        case MT_SPIDER:
+            stat_monsterskilled_spidermasterminds = SafeAdd(stat_monsterskilled_spidermasterminds,
+                value);
+            break;
+        case MT_POSSESSED:
+            stat_monsterskilled_zombiemen = SafeAdd(stat_monsterskilled_zombiemen, value);
+            break;
+    }
+}
+
+//
 // P_KillMobj
 //
 void P_KillMobj(mobj_t *source, mobj_t *target)
 {
+    dboolean    gibbed;
     mobjtype_t  item;
     mobjtype_t  type = target->type;
     mobj_t      *mo;
@@ -857,9 +1000,9 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (corpses_mirror && type != MT_CHAINGUY && type != MT_CYBORG)
+        if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG)
         {
-            static int prev = 0;
+            static int prev;
             int        r = M_RandomInt(1, 10);
 
             if (r <= 5 + prev)
@@ -878,11 +1021,21 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     {
         // count for intermission
         if (target->flags & MF_COUNTKILL)
+        {
             source->player->killcount++;
+            source->player->mobjcount[type]++;
+            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+            P_ChangeKillStat(type, 1);
+        }
     }
     else if (target->flags & MF_COUNTKILL)
+    {
         // count all monster deaths, even those caused by other monsters
         players[0].killcount++;
+        players[0].mobjcount[type]++;
+        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+        P_ChangeKillStat(type, 1);
+    }
 
     if (type == MT_BARREL && source && source->player)
         target->target = source;
@@ -896,11 +1049,14 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
         if (target->player == &players[0] && automapactive)
             AM_Stop();          // don't die in auto map, switch view prior to dying
+
+        players[0].deaths++;
+        stat_deaths = SafeAdd(stat_deaths, 1);
     }
     else
-        target->flags2 &= ~MF2_NOFLOATBOB;
+        target->flags2 &= ~MF2_NOLIQUIDBOB;
 
-    if (target->health < -target->info->spawnhealth && target->info->xdeathstate)
+    if ((gibbed = (target->health < -target->info->spawnhealth && target->info->xdeathstate)))
         P_SetMobjState(target, target->info->xdeathstate);
     else
         P_SetMobjState(target, target->info->deathstate);
@@ -912,6 +1068,20 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
     if (chex)
         return;
+
+    if (con_obituaries && source)
+        if (source->player)
+            C_PlayerMessage("%s %s %s%s with your %s.", titlecase(playername), (type == MT_BARREL ?
+                "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
+                (isvowel(target->info->name1[0]) ? "an " : "a ")), (target->player ?
+                (!M_StringCompare(playername, playername_default) ? "themselves" : "yourself") :
+                target->info->name1), weapondescription[source->player->readyweapon]);
+        else
+            C_PlayerMessage("%s%s %s %s%s.", (isvowel(source->info->name1[0]) ? "An " : "A "),
+                source->info->name1, (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" :
+                "killed")), (target->player ? "" : (source->type == target->type ? "another " :
+                (isvowel(target->info->name1[0]) ? "an " : "a "))), (target->player ? playername :
+                target->info->name1));
 
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.
@@ -940,7 +1110,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mo->momz = FRACUNIT * 5 + (P_Random() << 10);
     mo->angle = target->angle + ((P_Random() - P_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
-    if (mirrorweapons && (rand() & 1))
+    if (r_mirroredweapons && (rand() & 1))
     {
         mo->flags2 |= MF2_MIRRORED;
         if (mo->shadow)
@@ -948,30 +1118,31 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     }
 }
 
-boolean P_CheckMeleeRange(mobj_t *actor);
+dboolean P_CheckMeleeRange(mobj_t *actor);
 
 //
 // P_DamageMobj
 // Damages both enemies and players
-// "inflictor" is the thing that caused the damage
+// "inflicter" is the thing that caused the damage
 //  creature or missile, can be NULL (slime, etc)
 // "source" is the thing to target after taking damage
 //  creature or NULL
-// Source and inflictor are the same for melee attacks.
+// Source and inflicter are the same for melee attacks.
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 {
     player_t    *splayer = NULL;
     player_t    *tplayer;
     int         flags = target->flags;
+    dboolean    corpse = (flags & MF_CORPSE);
     int         type = target->type;
 
-    if (!(flags & MF_SHOOTABLE) && (!(flags & MF_CORPSE) || !corpses_slide))
+    if (!(flags & MF_SHOOTABLE) && (!corpse || !r_corpses_slide))
         return;
 
-    if (type == MT_BARREL && (flags & MF_CORPSE))
+    if (type == MT_BARREL && corpse)
         return;
 
     if (flags & MF_SKULLFLY)
@@ -988,14 +1159,15 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
     // thus kick away unless using the chainsaw.
-    if (inflictor && !(flags & MF_NOCLIP) && (!splayer || splayer->readyweapon != wp_chainsaw))
+    if (inflicter && !(flags & MF_NOCLIP) && (!source || !splayer
+        || splayer->readyweapon != wp_chainsaw))
     {
-        unsigned int    ang = R_PointToAngle2(inflictor->x, inflictor->y, target->x, target->y);
+        unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
         fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health
-            && target->z - inflictor->z > 64 * FRACUNIT && (P_Random() & 1))
+            && target->z - inflicter->z > 64 * FRACUNIT && (P_Random() & 1))
         {
             ang += ANG180;
             thrust *= 4;
@@ -1016,9 +1188,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
             if (source == target)
             {
-                viewx = inflictor->x;
-                viewy = inflictor->y;
-                z = inflictor->z;
+                viewx = inflicter->x;
+                viewy = inflicter->y;
+                z = inflicter->z;
             }
             else
             {
@@ -1040,13 +1212,18 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
         }
     }
 
+    if (corpse)
+        return;
+
     // player specific
+    if (splayer && type != MT_BARREL)
+    {
+        splayer->damageinflicted += damage;
+        stat_damageinflicted = SafeAdd(stat_damageinflicted, damage);
+    }
     if (tplayer)
     {
         int     damagecount;
-
-        if (tplayer->health <= 0)
-            return;
 
         // end of game hell hack
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel
@@ -1055,7 +1232,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         // Below certain threshold,
         // ignore damage in GOD mode, or with INVUL power.
-        if ((tplayer->cheats & CF_GODMODE) || (damage < 1000 && tplayer->powers[pw_invulnerability]))
+        if ((tplayer->cheats & CF_GODMODE)
+            || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
         if (tplayer->armortype)
@@ -1073,6 +1251,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
         }
         tplayer->health = MAX(0, tplayer->health - damage);     // mirror mobj health here for Dave
 
+        players[0].damagereceived += damage;
+        stat_damagereceived = SafeAdd(stat_damagereceived, damage);
+
         tplayer->attacker = source;
         damagecount = tplayer->damagecount + damage;            // add damage after armor / invuln
 
@@ -1082,7 +1263,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         tplayer->damagecount = damagecount;
 
-        if (gamepadvibrate && vibrate && tplayer == &players[0])
+        if (gp_vibrate && vibrate && tplayer == &players[0])
         {
             XInputVibration(30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000);
             damagevibrationtics += BETWEEN(12, damage, 100);
@@ -1090,48 +1271,45 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     }
 
     // do the damage
-    if (!(flags & MF_CORPSE))
+    target->health -= damage;
+    if (target->health <= 0)
     {
-        target->health -= damage;
-        if (target->health <= 0)
-        {
-            if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
-                target->colfunc = tlredcolfunc;
-            else if (type == MT_BRUISER || type == MT_KNIGHT)
-                target->colfunc = redtogreencolfunc;
+        if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+            target->colfunc = tlredcolfunc;
+        else if (type == MT_BRUISER || type == MT_KNIGHT)
+            target->colfunc = redtogreencolfunc;
 
-            // [crispy] the lethal pellet of a point-blank SSG blast
-            // gets an extra damage boost for the occasional gib chance
-            if (splayer && splayer->readyweapon == wp_supershotgun && target->info->xdeathstate
-                && P_CheckMeleeRange(target) && damage >= 10)
-                target->health -= target->info->spawnhealth;
+        // [crispy] the lethal pellet of a point-blank SSG blast
+        // gets an extra damage boost for the occasional gib chance
+        if (splayer && splayer->readyweapon == wp_supershotgun && target->info->xdeathstate
+            && P_CheckMeleeRange(target) && damage >= 10)
+            target->health -= target->info->spawnhealth;
 
-            P_KillMobj(source, target);
-            return;
-        }
+        P_KillMobj(source, target);
+        return;
+    }
 
-        if (P_Random() < target->info->painchance && !(flags & MF_SKULLFLY))
-        {
-            target->flags |= MF_JUSTHIT;        // fight back!
+    if (P_Random() < target->info->painchance && !(flags & MF_SKULLFLY))
+    {
+        target->flags |= MF_JUSTHIT;                            // fight back!
 
-            P_SetMobjState(target, target->info->painstate);
-        }
+        P_SetMobjState(target, target->info->painstate);
+    }
 
-        target->reactiontime = 0;               // we're awake now...
+    target->reactiontime = 0;                                   // we're awake now...
 
-        if ((!target->threshold || type == MT_VILE)
-            && source && source != target && source->type != MT_VILE)
-        {
-            // if not intent on another player,
-            // chase after this one
-            if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
-                target->lastenemy = target->target;     // remember last enemy - killough
+    if ((!target->threshold || type == MT_VILE)
+        && source && source != target && source->type != MT_VILE)
+    {
+        // if not intent on another player,
+        // chase after this one
+        if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
+            P_SetTarget(&target->lastenemy, target->target);    // remember last enemy - killough
 
-            target->target = source;
-            target->threshold = BASETHRESHOLD;
-            if (target->state == &states[target->info->spawnstate]
-                && target->info->seestate != S_NULL)
-                P_SetMobjState(target, target->info->seestate);
-        }
+        P_SetTarget(&target->target, source);                   // killough 11/98
+        target->threshold = BASETHRESHOLD;
+        if (target->state == &states[target->info->spawnstate]
+            && target->info->seestate != S_NULL)
+            P_SetMobjState(target, target->info->seestate);
     }
 }

@@ -7,7 +7,6 @@
 *.sln.docstates
 
 # Build results
-[Dd]ebug/
 [Dd]ebugPublic/
 build/
 bld/
@@ -60,6 +59,7 @@ stdout.txt
 *.nativecodeanalysis.xml
 *.nativecodeanalysis.all.xml
 *.lastcodeanalysissucceeded
+*.opendb
 
 # Chutzpah Test files
 _Chutzpah*
@@ -193,12 +193,8 @@ Desktop.ini
 $RECYCLE.BIN/
 *.bak
 
-SDL/
-SDL2/
 savegames/
-*.lib
 *.exp
-
 
 # =========================
 # OSX detritus
@@ -210,5 +206,11 @@ savegames/
 *.xcuserstate
 xcuserdata/
 project.xcworkspace/
+DerivedData/
 
 msvc/Release/doomretro.cfg
+msvc/Debug/doomretro.cfg
+
+# Files built on Unix systems
+*.[oa]
+src/doomretro

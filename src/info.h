@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -182,7 +182,16 @@ typedef enum
     SPR_BRS1,
     SPR_TLMP,
     SPR_TLP2,
-    SPR_BLD2,
+
+    SPR_TNT1,   // add invisible sprite phares 3/8/98
+    SPR_DOGS,   // killough 7/19/98: Marine's best friend :)
+    SPR_PLS1,   // killough 7/19/98: first of two plasma fireballs in the beta
+    SPR_PLS2,   // killough 7/19/98: second of two plasma fireballs in the beta
+    SPR_BON3,   // killough 7/11/98: evil sceptre in beta version
+    SPR_BON4,   // killough 7/11/98: unholy bible in beta version
+
+    SPR_BLD2,   // [BH] blood splats
+
     NUMSPRITES
 } spritenum_t;
 
@@ -1156,12 +1165,18 @@ typedef enum
     S_TECH2LAMP3,
     S_TECH2LAMP4,
 
-    // Null states for DeHackEd compatability
+    // add state for invisible sprite          phares 3/8/98
     S_TNT1,
+
+    // killough 8/9/98: grenade launcher
     S_GRENADE,
+
+    // killough 8/9/98: detonation of objects
     S_DETONATE,
     S_DETONATE2,
     S_DETONATE3,
+
+    // killough 7/19/98: Marine's best friend :)
     S_DOGS_STND,
     S_DOGS_STND2,
     S_DOGS_RUN1,
@@ -1189,6 +1204,8 @@ typedef enum
     S_DOGS_RAISE4,
     S_DOGS_RAISE5,
     S_DOGS_RAISE6,
+
+    // killough 7/11/98: the old BFG's 43 firing frames
     S_OLDBFG1,
     S_OLDBFG2,
     S_OLDBFG3,
@@ -1232,6 +1249,8 @@ typedef enum
     S_OLDBFG41,
     S_OLDBFG42,
     S_OLDBFG43,
+
+    // killough 7/19/98: first plasma fireball in the beta
     S_PLS1BALL,
     S_PLS1BALL2,
     S_PLS1EXP,
@@ -1239,13 +1258,21 @@ typedef enum
     S_PLS1EXP3,
     S_PLS1EXP4,
     S_PLS1EXP5,
+
+    // killough 7/19/98: second plasma fireball in the beta
     S_PLS2BALL,
     S_PLS2BALL2,
     S_PLS2BALLX1,
     S_PLS2BALLX2,
     S_PLS2BALLX3,
+
+    // killough 7/11/98: evil sceptre in beta version
     S_BON3,
+
+    // killough 7/11/98: unholy bible in beta version
     S_BON4,
+
+    // killough 10/98: beta lost souls were different from their modern cousins
     S_BSKUL_STND,
     S_BSKUL_RUN1,
     S_BSKUL_RUN2,
@@ -1265,18 +1292,11 @@ typedef enum
     S_BSKUL_DIE6,
     S_BSKUL_DIE7,
     S_BSKUL_DIE8,
-    S_MUSHROOM,
-    S_PLAY_GDIE1,
-    S_PLAY_GDIE2,
-    S_PLAY_GDIE3,
-    S_PLAY_GDIE4,
-    S_PLAY_GDIE5,
-    S_PLAY_GDIE6,
-    S_PLAY_GDIE7,
-    S_PLAY_GDIE8,
-    S_PLAY_GDIE9,
 
-    // [BH] DOOM RETRO states
+    // killough 10/98: mushroom explosion effect
+    S_MUSHROOM,
+
+    // [BH] DOOM Retro states
     S_BAR1,
     S_BLOODSPLAT,
     S_BLOODSPLAT2,
@@ -1291,7 +1311,10 @@ typedef enum
     S_TRAIL3,
     S_TRAIL4,
 
-    NUMSTATES
+    // [BH] extra DeHacked states 1089 to 3999
+    EXTRASTATES,
+
+    NUMSTATES = 4000
 } statenum_t;
 
 typedef struct
@@ -1303,12 +1326,13 @@ typedef struct
     statenum_t  nextstate;
     long        misc1;
     long        misc2;
+    dboolean    dehacked;
 } state_t;
 
 extern state_t  states[NUMSTATES];
 extern char     *sprnames[];
 
-typedef enum 
+typedef enum
 {
     NOTYPE = -1,
     MT_PLAYER,
@@ -1448,8 +1472,20 @@ typedef enum
     MT_MISC84,
     MT_MISC85,
     MT_MISC86,
+
     MT_PUSH,    // controls push source                     // phares
     MT_PULL,    // controls pull source                     // phares 3/20/98
+
+    MT_DOGS,    /* killough 7/19/98: Marine's best friend */
+
+    MT_PLASMA1, // killough 7/11/98: first  of alternating beta plasma fireballs
+    MT_PLASMA2, // killough 7/11/98: second of alternating beta plasma fireballs
+    MT_SCEPTRE, // killough 7/11/98: evil sceptre in beta version
+    MT_BIBLE,   // killough 7/11/98: unholy bible in beta version
+
+    MT_MUSICSOURCE,
+    MT_GIBDTH,
+
     MT_BLUEBLOOD,
     MT_GREENBLOOD,
     MT_FUZZYBLOOD,
@@ -1489,12 +1525,11 @@ typedef struct
     int         frames;
     int         blood;
     int         shadowoffset;
-    char        *name1;
-    char        *plural1;
-    char        *name2;
-    char        *plural2;
+    char        name1[100];
+    char        plural1[100];
+    char        name2[100];
+    char        plural2[100];
     void        (*colfunc)(void);
-    boolean     canmodify;
 } mobjinfo_t;
 
 extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];
@@ -1504,8 +1539,9 @@ typedef struct
     char        name[9];
     short       x;
     short       y;
+    short       width;
+    short       height;
     mobjtype_t  type;
-    boolean     canmodify;
 } offset_t;
 
 extern offset_t sproffsets[];

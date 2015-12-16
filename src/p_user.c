@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -45,9 +45,9 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-extern boolean  oldweaponsowned[];
-extern boolean  skipaction;
-extern boolean  footclip;
+extern dboolean oldweaponsowned[];
+extern dboolean skipaction;
+extern dboolean r_liquid_clipsprites;
 
 void G_RemoveChoppers(void);
 
@@ -58,9 +58,12 @@ void G_RemoveChoppers(void);
 // 16 pixels of bob
 #define MAXBOB  0x100000
 
-int     playerbob = PLAYERBOB_DEFAULT;
+int             movebob = movebob_default;
+int             stillbob = stillbob_default;
+int             r_liquid_lowerview = r_liquid_lowerview_default;
+int             r_shakescreen = r_shakescreen_default;
 
-boolean onground;
+dboolean onground;
 
 //
 // P_Thrust
@@ -107,8 +110,9 @@ void P_CalcHeight(player_t *player)
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        player->bob = MIN(bob, MAXBOB) * playerbob / 100;
-        
+        player->bob = (bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 100) :
+            MAXBOB * stillbob / 100);
+
         bob = FixedMul(player->bob / 2, finesine[angle]);
 
         // move viewheight
@@ -138,9 +142,9 @@ void P_CalcHeight(player_t *player)
     else
         player->viewz = mo->z + player->viewheight;
 
-    if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
+    if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
     {
-        boolean                     liquid = true;
+        dboolean                    liquid = true;
         const struct msecnode_s     *seclist;
 
         for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
@@ -165,8 +169,8 @@ void P_MovePlayer(player_t *player)
     ticcmd_t    *cmd = &player->cmd;
     mobj_t      *mo = player->mo;
 
-    mo->angle += cmd->angleturn << 16;
-    onground = (mo->z <= mo->floorz);
+    mo->angle += cmd->angleturn << FRACBITS;
+    onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 
     // killough 10/98:
     //
@@ -174,12 +178,12 @@ void P_MovePlayer(player_t *player)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-
     if (cmd->forwardmove | cmd->sidemove)       // killough 10/98
     {
         if (onground)                           // killough 8/9/98
         {
-            int friction, movefactor = P_GetMoveFactor(mo, &friction);
+            int friction;
+            int movefactor = P_GetMoveFactor(mo, &friction);
 
             // killough 11/98:
             // On sludge, make bobbing depend on efficiency.
@@ -203,6 +207,28 @@ void P_MovePlayer(player_t *player)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 }
+
+void P_ReduceDamageCount(player_t *player)
+{
+    if (r_shakescreen)
+    {
+        if (player->damagecount)
+        {
+            player->damagecount--;
+            blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake :
+                I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake :
+                I_Blit_Shake));
+        }
+        else
+            I_UpdateBlitFunc();
+    }
+    else if (player->damagecount)
+    {
+        player->damagecount--;
+        I_UpdateBlitFunc();
+    }
+}
+
 //
 // P_DeathThink
 // Fall on your face when dying.
@@ -212,18 +238,11 @@ void P_MovePlayer(player_t *player)
 
 void P_DeathThink(player_t *player)
 {
-    angle_t             angle;
-    angle_t             delta;
-    static int          count = 0;
-    static boolean      facingkiller = false;
+    static int          count;
+    static dboolean     facingkiller;
     mobj_t              *mo = player->mo;
     mobj_t              *attacker = player->attacker;
-
-#if defined(SDL20)
     const Uint8         *keystate = SDL_GetKeyboardState(NULL);
-#else
-    Uint8               *keystate = SDL_GetKeyState(NULL);
-#endif
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
@@ -246,17 +265,15 @@ void P_DeathThink(player_t *player)
 
     if (attacker && attacker != mo && !facingkiller)
     {
-        angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
+        angle_t angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
+        angle_t delta = angle - mo->angle;
 
-        delta = angle - mo->angle;
-
-        if (delta < ANG5 || delta > (unsigned int)-ANG5)
+        if (delta < ANG5 || delta >(unsigned int) - ANG5)
         {
             // Looking at killer, so fade damage flash down.
             mo->angle = angle;
 
-            if (player->damagecount)
-                player->damagecount--;
+            P_ReduceDamageCount(player);
 
             facingkiller = true;
         }
@@ -265,19 +282,15 @@ void P_DeathThink(player_t *player)
         else
             mo->angle -= ANG5;
     }
-    else if (player->damagecount > 0)
-        player->damagecount--;
+    else
+        P_ReduceDamageCount(player);
 
     if (consoleheight)
         return;
 
     if (((player->cmd.buttons & BT_USE)
         || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
-#if defined(SDL20)
         || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER]))
-#else
-        || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER]))
-#endif
     {
         count = 0;
         damagevibrationtics = 1;
@@ -330,8 +343,8 @@ void P_ResurrectPlayer(player_t *player)
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t            *cmd = &player->cmd;
-    mobj_t              *mo = player->mo;
+    ticcmd_t    *cmd = &player->cmd;
+    mobj_t      *mo = player->mo;
 
     // [AM] Assume we can interpolate at the beginning
     //      of the tic.
@@ -353,7 +366,7 @@ void P_PlayerThink(player_t *player)
     if (mo->flags & MF_JUSTATTACKED)
     {
         cmd->angleturn = 0;
-        cmd->forwardmove = 0xc800 / 512;
+        cmd->forwardmove = 0xC800 / 512;
         cmd->sidemove = 0;
         mo->flags &= ~MF_JUSTATTACKED;
     }
@@ -382,7 +395,7 @@ void P_PlayerThink(player_t *player)
     if (cmd->buttons & BT_SPECIAL)
         cmd->buttons = 0;
 
-    if ((cmd->buttons & BT_CHANGE) && (!automapactive || (automapactive && am_followmode)))
+    if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
     {
         // The actual changing of the weapon is done when the weapon psprite can do it
         //  (read: not in the middle of an attack).
@@ -422,12 +435,14 @@ void P_PlayerThink(player_t *player)
                 && player->ammo[am_shell] >= 2)
                 player->preferredshotgun = wp_supershotgun;
             else if (player->readyweapon == wp_supershotgun
-                     || (player->preferredshotgun == wp_supershotgun && player->ammo[am_shell] == 1))
+                     || (player->preferredshotgun == wp_supershotgun
+                         && player->ammo[am_shell] == 1))
                 player->preferredshotgun = wp_shotgun;
             newweapon = player->preferredshotgun;
         }
 
-        if (newweapon != wp_nochange && newweapon != player->readyweapon && player->weaponowned[newweapon])
+        if (newweapon != wp_nochange && newweapon != player->readyweapon
+            && player->weaponowned[newweapon])
         {
             player->pendingweapon = newweapon;
             if (newweapon == wp_fist && player->powers[pw_strength])
@@ -472,8 +487,7 @@ void P_PlayerThink(player_t *player)
     if (player->powers[pw_ironfeet] > 0)
         player->powers[pw_ironfeet]--;
 
-    if (player->damagecount)
-        player->damagecount--;
+    P_ReduceDamageCount(player);
 
     if (player->bonuscount)
         player->bonuscount--;

@@ -1,41 +1,42 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
 
+#include "c_console.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -43,49 +44,53 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "s_sound.h"
+#include "version.h"
 #include "z_zone.h"
 
-static boolean  music_initialized = false;
+#define CHANNELS        2
+#define SAMPLECOUNT     512
+
+static dboolean         music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
-static boolean  sdl_was_initialized = false;
+static dboolean         sdl_was_initialized;
 
-static boolean  musicpaused = false;
-static int      current_music_volume;
+static dboolean         musicpaused;
+static int              current_music_volume;
 
-char            *timidity_cfg_path = TIMIDITY_CFG_PATH_DEFAULT;
+char                    *s_timiditycfgpath = s_timiditycfgpath_default;
 
-static char     *temp_timidity_cfg = NULL;
+static char             *temp_timidity_cfg;
 
 // If the temp_timidity_cfg config variable is set, generate a "wrapper"
 // config file for Timidity to point to the actual config file. This
 // is needed to inject a "dir" command so that the patches are read
 // relative to the actual config file.
-static boolean WriteWrapperTimidityConfig(char *write_path)
+static dboolean WriteWrapperTimidityConfig(char *write_path)
 {
     char        *p;
     FILE        *fstream;
 
-    if (!strcmp(timidity_cfg_path, ""))
+    if (!strcmp(s_timiditycfgpath, ""))
         return false;
 
     fstream = fopen(write_path, "w");
 
-    if (fstream == NULL)
+    if (!fstream)
         return false;
 
-    p = strrchr(timidity_cfg_path, DIR_SEPARATOR);
-    if (p != NULL)
+    p = strrchr(s_timiditycfgpath, DIR_SEPARATOR);
+    if (p)
     {
-        char    *path = strdup(timidity_cfg_path);
+        char    *path = strdup(s_timiditycfgpath);
 
-        path[p - timidity_cfg_path] = '\0';
+        path[p - s_timiditycfgpath] = '\0';
         fprintf(fstream, "dir %s\n", path);
         free(path);
     }
 
-    fprintf(fstream, "source %s\n", timidity_cfg_path);
+    fprintf(fstream, "source %s\n", s_timiditycfgpath);
     fclose(fstream);
 
     return true;
@@ -93,7 +98,7 @@ static boolean WriteWrapperTimidityConfig(char *write_path)
 
 void I_InitTimidityConfig(void)
 {
-    boolean     success;
+    dboolean    success;
 
     temp_timidity_cfg = M_TempFile("timidity.cfg");
 
@@ -114,10 +119,19 @@ void I_InitTimidityConfig(void)
     }
 }
 
+void CheckTimidityConfig(void)
+{
+    if (s_timiditycfgpath[0])
+        if (M_FileExists(s_timiditycfgpath))
+            C_Output("Using TiMidity configuration file %s.", uppercase(s_timiditycfgpath));
+        else
+            C_Warning("Can't find TiMidity configuration file %s.", uppercase(s_timiditycfgpath));
+}
+
 // Remove the temporary config file generated by I_InitTimidityConfig().
 static void RemoveTimidityConfig(void)
 {
-    if (temp_timidity_cfg != NULL)
+    if (temp_timidity_cfg)
     {
         remove(temp_timidity_cfg);
         free(temp_timidity_cfg);
@@ -125,7 +139,7 @@ static void RemoveTimidityConfig(void)
 }
 
 // Shutdown music
-static void I_SDL_ShutdownMusic(void)
+void I_SDL_ShutdownMusic(void)
 {
     if (music_initialized)
     {
@@ -141,38 +155,33 @@ static void I_SDL_ShutdownMusic(void)
     }
 }
 
-static boolean SDLIsInitialized(void)
+static dboolean SDLIsInitialized(void)
 {
     int         freq, channels;
     Uint16      format;
 
-    return (Mix_QuerySpec(&freq, &format, &channels) != 0);
+    return ((dboolean)Mix_QuerySpec(&freq, &format, &channels));
 }
 
 // Initialize music subsystem
-static boolean I_SDL_InitMusic(void)
+dboolean I_SDL_InitMusic(void)
 {
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
-    if (SDLIsInitialized())
-        music_initialized = true;
-    else
-    {
+    if (!SDLIsInitialized())
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             I_Error("Unable to set up sound: %s", SDL_GetError());
-        else if (Mix_OpenAudio(snd_samplerate, AUDIO_S16SYS, 2, 1024) < 0)
+        else if (Mix_OpenAudio(snd_samplerate, MIX_DEFAULT_FORMAT, CHANNELS,
+            SAMPLECOUNT * snd_samplerate / 11025) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             I_Error("Error initializing SDL_mixer: %s", Mix_GetError());
         }
-        else
-        {
-            SDL_PauseAudio(0);
 
-            sdl_was_initialized = true;
-            music_initialized = true;
-        }
-    }
+    SDL_PauseAudio(0);
+
+    sdl_was_initialized = true;
+    music_initialized = true;
 
     // Once initialization is complete, the temporary Timidity config
     // file can be removed.
@@ -191,7 +200,7 @@ static void UpdateMusicVolume(void)
 }
 
 // Set music volume (0 - 127)
-static void I_SDL_SetMusicVolume(int volume)
+void I_SDL_SetMusicVolume(int volume)
 {
     // Internal state variable.
     current_music_volume = volume;
@@ -200,15 +209,15 @@ static void I_SDL_SetMusicVolume(int volume)
 }
 
 // Start playing a mid
-static void I_SDL_PlaySong(void *handle, int looping)
+void I_SDL_PlaySong(void *handle, int looping)
 {
-    if (!music_initialized || handle == NULL)
+    if (!music_initialized || !handle)
         return;
 
     Mix_PlayMusic((Mix_Music *)handle, looping ? -1 : 1);
 }
 
-static void I_SDL_PauseSong(void)
+void I_SDL_PauseSong(void)
 {
     if (!music_initialized)
         return;
@@ -218,7 +227,7 @@ static void I_SDL_PauseSong(void)
     UpdateMusicVolume();
 }
 
-static void I_SDL_ResumeSong(void)
+void I_SDL_ResumeSong(void)
 {
     if (!music_initialized)
         return;
@@ -228,7 +237,7 @@ static void I_SDL_ResumeSong(void)
     UpdateMusicVolume();
 }
 
-static void I_SDL_StopSong(void)
+void I_SDL_StopSong(void)
 {
     if (!music_initialized)
         return;
@@ -236,30 +245,25 @@ static void I_SDL_StopSong(void)
     Mix_HaltMusic();
 }
 
-static void I_SDL_UnRegisterSong(void *handle)
+void I_SDL_UnRegisterSong(void *handle)
 {
-    if (!music_initialized || handle == NULL)
+    if (!music_initialized || !handle)
         return;
 
     Mix_FreeMusic(handle);
 }
 
-// Determine whether memory block is a .mid file
-static boolean IsMid(byte *mem, int len)
-{
-    return (len > 4 && !memcmp(mem, "MThd", 4));
-}
-
-static boolean ConvertMus(byte *musdata, int len, char *filename)
+static dboolean ConvertMus(byte *musdata, int len, char *filename)
 {
     MEMFILE     *instream = mem_fopen_read(musdata, len);
     MEMFILE     *outstream = mem_fopen_write();
     void        *outbuf;
-    size_t      outbuf_len;
     int         result = mus2mid(instream, outstream);
 
     if (!result)
     {
+        size_t  outbuf_len;
+
         mem_get_buf(outstream, &outbuf, &outbuf_len);
         M_WriteFile(filename, outbuf, outbuf_len);
     }
@@ -270,66 +274,45 @@ static boolean ConvertMus(byte *musdata, int len, char *filename)
     return result;
 }
 
-static void *I_SDL_RegisterSong(void *data, int len)
+void *I_SDL_RegisterSong(void *data, int len)
 {
-    char        *filename;
-    Mix_Music   *music;
+    Mix_Music   *music = NULL;
 
-    if (!music_initialized)
-        return NULL;
+    if (music_initialized)
+        if (len > 4 && memcmp(data, "MUS", 3))
+        {
+            SDL_RWops       *rwops = SDL_RWFromMem(data, len);
 
-    // MUS files begin with "MUS"
-    // Reject anything which doesn't have this signature
-    filename = M_TempFile("doom.mid");
+            if (rwops)
+                music = Mix_LoadMUS_RW(rwops, SDL_TRUE);
+        }
+        else
+        {
+            char    *filename = M_TempFile(PACKAGE".mid");
 
-    if (IsMid(data, len))
-        M_WriteFile(filename, data, len);
-    else
-        // Assume a MUS file and try to convert
-        ConvertMus(data, len, filename);
+            if (len > 4 && !memcmp(data, "MThd", 4))
+                M_WriteFile(filename, data, len);
+            else
+                // Assume a MUS file and try to convert
+                ConvertMus(data, len, filename);
 
-    // Load the MIDI
-    music = Mix_LoadMUS(filename);
+            // Load the MIDI
+            music = Mix_LoadMUS(filename);
 
-    // remove file now
-    remove(filename);
+            // remove file now
+            remove(filename);
 
-    free(filename);
+            free(filename);
+        }
 
     return music;
 }
 
 // Is the song playing?
-static boolean I_SDL_MusicIsPlaying(void)
+dboolean I_SDL_MusicIsPlaying(void)
 {
     if (!music_initialized)
         return false;
 
     return Mix_PlayingMusic();
 }
-
-static snddevice_t music_sdl_devices[] =
-{
-    SNDDEVICE_PAS,
-    SNDDEVICE_GUS,
-    SNDDEVICE_WAVEBLASTER,
-    SNDDEVICE_SOUNDCANVAS,
-    SNDDEVICE_GENMIDI,
-    SNDDEVICE_AWE32
-};
-
-music_module_t music_sdl_module =
-{
-    music_sdl_devices,
-    arrlen(music_sdl_devices),
-    I_SDL_InitMusic,
-    I_SDL_ShutdownMusic,
-    I_SDL_SetMusicVolume,
-    I_SDL_PauseSong,
-    I_SDL_ResumeSong,
-    I_SDL_RegisterSong,
-    I_SDL_UnRegisterSong,
-    I_SDL_PlaySong,
-    I_SDL_StopSong,
-    I_SDL_MusicIsPlaying
-};

@@ -1,47 +1,43 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
 
-#define _USE_MATH_DEFINES
-
-#include <math.h>
-
 #include "c_console.h"
-#include "d_net.h"
+#include "d_loop.h"
 #include "doomstat.h"
 #include "i_timer.h"
 #include "m_config.h"
@@ -80,7 +76,7 @@ fixed_t                 viewsin;
 player_t                *viewplayer;
 
 // [AM] Fractional part of the current tic, in the half-open
-//      range of [0.0, 1.0).  Used for interpolation.
+//      range of [0.0, 1.0). Used for interpolation.
 fixed_t                 fractionaltic;
 
 //
@@ -106,7 +102,9 @@ fixed_t                 *finecosine = &finesine[FINEANGLES / 4];
 int                     numcolormaps = 1;
 lighttable_t            *(*c_scalelight)[LIGHTLEVELS][MAXLIGHTSCALE];
 lighttable_t            *(*c_zlight)[LIGHTLEVELS][MAXLIGHTZ];
+lighttable_t            *(*c_psprscalelight)[OLDLIGHTLEVELS][OLDMAXLIGHTSCALE];
 lighttable_t            *(*scalelight)[MAXLIGHTSCALE];
+lighttable_t            *(*psprscalelight)[OLDMAXLIGHTSCALE];
 lighttable_t            *(*zlight)[MAXLIGHTZ];
 lighttable_t            *fullcolormap;
 lighttable_t            **colormaps;
@@ -114,15 +112,15 @@ lighttable_t            **colormaps;
 // bumped light from gun blasts
 int                     extralight;
 
-boolean                 translucency = TRANSLUCENCY_DEFAULT;
+dboolean                r_translucency = r_translucency_default;
 
-boolean                 homindicator = HOMINDICATOR_DEFAULT;
+dboolean                r_homindicator = r_homindicator_default;
 
 int                     r_frame_count;
 
 extern int              viewheight2;
 extern int              gametic;
-extern boolean          canmodify;
+extern dboolean         canmodify;
 
 void (*colfunc)(void);
 void (*wallcolfunc)(void);
@@ -134,12 +132,13 @@ void (*tl50colfunc)(void);
 void (*tl33colfunc)(void);
 void (*tlgreencolfunc)(void);
 void (*tlredcolfunc)(void);
-void (*tlredwhitecolfunc)(void);
+void (*tlredwhitecolfunc1)(void);
+void (*tlredwhitecolfunc2)(void);
 void (*tlredwhite50colfunc)(void);
 void (*tlbluecolfunc)(void);
-void (*tlgreen50colfunc)(void);
-void (*tlred50colfunc)(void);
-void (*tlblue50colfunc)(void);
+void (*tlgreen33colfunc)(void);
+void (*tlred33colfunc)(void);
+void (*tlblue33colfunc)(void);
 void (*redtobluecolfunc)(void);
 void (*transcolfunc)(void);
 void (*spanfunc)(void);
@@ -170,67 +169,33 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 
 int SlopeDiv(unsigned int num, unsigned int den)
 {
-    unsigned int        ans;
+    uint64_t    ans;
 
     if (den < 512)
         return SLOPERANGE;
 
-    ans = (num << 3) / (den >> 8);
-    return (ans <= SLOPERANGE ? ans : SLOPERANGE);
+    ans = ((uint64_t)num << 3) / (den >> 8);
+    return (ans <= SLOPERANGE ? (int)ans : SLOPERANGE);
 }
 
 //
 // R_PointToAngle
-// To get a global angle from cartesian coordinates,
+// To get a global angle from Cartesian coordinates,
 // the coordinates are flipped until they are in the first octant of
 // the coordinate system, then the y (<=x) is scaled and divided by x
 // to get a tangent (slope) value which is looked up in the
 // tantoangle[] table.
 
-// Point (x2,y2) to point (x1,y1) angle.
-angle_t R_PointToAngle2(fixed_t x2, fixed_t y2, fixed_t x1, fixed_t y1)
-{
-    x1 -= x2;
-    y1 -= y2;
-
-    if (!x1 && !y1)
-        return 0;
-
-    if (x1 > INT_MAX / 4 || x1 < -INT_MAX / 4 || y1 > INT_MAX / 4 || y1 < -INT_MAX / 4)
-        return (int)(atan2(y1, x1) * ANG180 / M_PI);
-
-    if (x1 >= 0)
-    {
-        if (y1 >= 0)
-            return (x1 > y1 ? tantoangle[SlopeDiv(y1, x1)] :
-                ANG90 - 1 - tantoangle[SlopeDiv(x1, y1)]);
-        else
-        {
-            y1 = -y1;
-            return (x1 > y1 ? -(int)tantoangle[SlopeDiv(y1, x1)] :
-                ANG270 + tantoangle[SlopeDiv(x1, y1)]);
-        }
-    }
-    else
-    {
-        x1 = -x1;
-        if (y1 >= 0)
-            return (x1 > y1 ? ANG180 - 1 - tantoangle[SlopeDiv(y1, x1)] :
-                ANG90 + tantoangle[SlopeDiv(x1, y1)]);
-        else
-        {
-            y1 = -y1;
-            return (x1 > y1 ? ANG180 + tantoangle[SlopeDiv(y1, x1)] :
-                ANG270 - 1 - tantoangle[SlopeDiv(x1, y1)]);
-        }
-    }
-}
-
 // Point of view (viewx, viewy) to point (x1, y1) angle.
 angle_t R_PointToAngle(fixed_t x, fixed_t y)
 {
-    x -= viewx;
-    y -= viewy;
+    return R_PointToAngle2(viewx, viewy, x, y);
+}
+
+angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
+{
+    x -= x1;
+    y -= y1;
 
     if (!x && !y)
         return 0;
@@ -265,6 +230,29 @@ angle_t R_PointToAngle(fixed_t x, fixed_t y)
     }
 }
 
+// Point of view (viewx, viewy) to point (x1, y1) angle.
+angle_t R_PointToAngleEx(fixed_t x, fixed_t y)
+{
+    return R_PointToAngleEx2(viewx, viewy, x, y);
+}
+
+angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
+{
+    // [crispy] fix overflows for very long distances
+    int64_t     y_viewy = (int64_t)y - y1;
+    int64_t     x_viewx = (int64_t)x - x1;
+
+    // [crispy] the worst that could happen is e.g. INT_MIN-INT_MAX = 2*INT_MIN
+    if (x_viewx < INT_MIN || x_viewx > INT_MAX || y_viewy < INT_MIN || y_viewy > INT_MAX)
+    {
+        // [crispy] preserving the angle by halving the distance in both directions
+        x = (int)(x_viewx / 2 + x1);
+        y = (int)(y_viewy / 2 + y1);
+    }
+
+    return R_PointToAngle2(x1, y1, x, y);
+}
+
 fixed_t R_PointToDist(fixed_t x, fixed_t y)
 {
     fixed_t     dx = ABS(x - viewx);
@@ -293,16 +281,16 @@ angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
     else if (nangle > oangle)
     {
         if (nangle - oangle < ANG270)
-            return oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale));
-        else // Wrapped around
-            return oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale));
+            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));
+        else    // Wrapped around
+            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));
     }
-    else // nangle < oangle
+    else        // nangle < oangle
     {
         if (oangle - nangle < ANG270)
-            return oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale));
-        else // Wrapped around
-            return oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale));
+            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));
+        else    // Wrapped around
+            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));
     }
 }
 
@@ -331,22 +319,11 @@ static void R_InitPointToAngle(void)
     for (i = 0; i <= SLOPERANGE; i++)
     {
         float   f = atanf((float)i / SLOPERANGE) / ((float)M_PI * 2);
-        long    t = (long)(0xffffffff * f);
+        long    t = (long)(0xFFFFFFFF * f);
 
         // this used to have PI (as defined above) written out longhand
         tantoangle[i] = t;
     }
-}
-
-// e6y: caching
-angle_t R_GetVertexViewAngle(vertex_t *v)
-{
-    if (v->angletime != r_frame_count)
-    {
-        v->angletime = r_frame_count;
-        v->viewangle = R_PointToAngle(v->x, v->y);
-    }
-    return v->viewangle;
 }
 
 //
@@ -422,6 +399,7 @@ void R_InitLightTables(void)
     // killough 4/4/98: dynamic colormaps
     c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
     c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
+    c_psprscalelight = malloc(sizeof(*c_psprscalelight) * numcolormaps);
 
     // Calculate the light levels to use
     //  for each level / distance combination.
@@ -448,8 +426,8 @@ void R_InitLightTables(void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-boolean setsizeneeded;
-int     setblocks;
+dboolean        setsizeneeded;
+int             setblocks;
 
 void R_SetViewSize(int blocks)
 {
@@ -523,7 +501,7 @@ void R_ExecuteSetViewSize(void)
     //  for each level / scale combination.
     for (i = 0; i < LIGHTLEVELS; i++)
     {
-        int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        int     startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (j = 0; j < MAXLIGHTSCALE; j++)
         {
@@ -533,6 +511,21 @@ void R_ExecuteSetViewSize(void)
             // killough 3/20/98: initialize multiple colormaps
             for (t = 0; t < numcolormaps; t++)     // killough 4/4/98
                 c_scalelight[t][i][j] = colormaps[t] + level;
+        }
+    }
+
+    // [BH] calculate separate light levels to use when drawing
+    //  player's weapon, so it stays consistent regardless of view size
+    for (i = 0; i < OLDLIGHTLEVELS; i++)
+    {
+        int     startmap = ((OLDLIGHTLEVELS - OLDLIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
+
+        for (j = 0; j < OLDMAXLIGHTSCALE; j++)
+        {
+            int t, level = BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
+
+            for (t = 0; t < numcolormaps; t++)
+                c_psprscalelight[t][i][j] = colormaps[t] + level;
         }
     }
 }
@@ -545,19 +538,20 @@ void R_InitColumnFunctions(void)
     fuzzcolfunc = R_DrawFuzzColumn;
     transcolfunc = R_DrawTranslatedColumn;
 
-    if (translucency)
+    if (r_translucency)
     {
         tlcolfunc = R_DrawTranslucentColumn;
         tl50colfunc = R_DrawTranslucent50Column;
         tl33colfunc = R_DrawTranslucent33Column;
         tlgreencolfunc = R_DrawTranslucentGreenColumn;
         tlredcolfunc = R_DrawTranslucentRedColumn;
-        tlredwhitecolfunc = R_DrawTranslucentRedWhiteColumn;
+        tlredwhitecolfunc1 = R_DrawTranslucentRedWhiteColumn1;
+        tlredwhitecolfunc2 = R_DrawTranslucentRedWhiteColumn2;
         tlredwhite50colfunc = R_DrawTranslucentRedWhite50Column;
         tlbluecolfunc = R_DrawTranslucentBlueColumn;
-        tlgreen50colfunc = R_DrawTranslucentGreen50Column;
-        tlred50colfunc = R_DrawTranslucentRed50Column;
-        tlblue50colfunc = R_DrawTranslucentBlue50Column;
+        tlgreen33colfunc = R_DrawTranslucentGreen33Column;
+        tlred33colfunc = R_DrawTranslucentRed33Column;
+        tlblue33colfunc = R_DrawTranslucentBlue33Column;
         tlredtoblue33colfunc = R_DrawTranslucentRedToBlue33Column;
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
         bloodsplatcolfunc = R_DrawBloodSplatColumn;
@@ -570,12 +564,13 @@ void R_InitColumnFunctions(void)
         tl33colfunc = R_DrawColumn;
         tlgreencolfunc = R_DrawColumn;
         tlredcolfunc = R_DrawColumn;
-        tlredwhitecolfunc = R_DrawColumn;
+        tlredwhitecolfunc1 = R_DrawColumn;
+        tlredwhitecolfunc2 = R_DrawColumn;
         tlredwhite50colfunc = R_DrawColumn;
         tlbluecolfunc = R_DrawColumn;
-        tlgreen50colfunc = R_DrawColumn;
-        tlred50colfunc = R_DrawColumn;
-        tlblue50colfunc = R_DrawColumn;
+        tlgreen33colfunc = R_DrawColumn;
+        tlred33colfunc = R_DrawColumn;
+        tlblue33colfunc = R_DrawColumn;
         tlredtoblue33colfunc = R_DrawRedToBlueColumn;
         tlredtogreen33colfunc = R_DrawRedToGreenColumn;
         bloodsplatcolfunc = R_DrawSolidBloodSplatColumn;
@@ -608,14 +603,16 @@ void R_InitColumnFunctions(void)
             info->colfunc = tlbluecolfunc;
         else if (flags2 & MF2_TRANSLUCENT_33)
             info->colfunc = tl33colfunc;
-        else if (flags2 & MF2_TRANSLUCENT_50)
+        else if ((info->flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
             info->colfunc = tl50colfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-            info->colfunc = tlredwhitecolfunc;
+            info->colfunc = tlredwhitecolfunc1;
         else if (flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
             info->colfunc = tlredtogreen33colfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
             info->colfunc = tlredtoblue33colfunc;
+        else if (flags2 & MF2_TRANSLUCENT_BLUE_33)
+            info->colfunc = tlblue33colfunc;
         else if (flags2 & MF2_REDTOGREEN)
             info->colfunc = redtogreencolfunc;
         else if (flags2 & MF2_REDTOBLUE)
@@ -637,7 +634,7 @@ void R_Init(void)
     R_InitPointToAngle();
     R_InitTables();
 
-    R_SetViewSize(screensize);
+    R_SetViewSize(r_screensize);
     R_InitLightTables();
     R_InitSkyMap();
     R_InitTranslationTables();
@@ -649,7 +646,13 @@ void R_Init(void)
 //
 subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 {
-    int nodenum = numnodes - 1;
+    int nodenum;
+
+    // single subsector is a special case
+    if (!numnodes)
+        return subsectors;
+
+    nodenum = numnodes - 1;
 
     while (!(nodenum & NF_SUBSECTOR))
         nodenum = nodes[nodenum].children[R_PointOnSide(x, y, nodes + nodenum)];
@@ -662,38 +665,39 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 //
 void R_SetupFrame(player_t *player)
 {
-    int cm;
+    int         cm = 0;
+    mobj_t      *mo = player->mo;
 
     viewplayer = player;
 
     // [AM] Interpolate the player camera if the feature is enabled.
 
     // Figure out how far into the current tic we're in as a fixed_t
-    if (!capfps)
+    if (!vid_capfps)
         fractionaltic = I_GetTimeMS() * TICRATE % 1000 * FRACUNIT / 1000;
 
-    if (!capfps
+    if (!vid_capfps
         // Don't interpolate on the first tic of a level, otherwise
         // oldviewz might be garbage.
         && leveltime > 1
-        // Don't interpolate if the player did something 
+        // Don't interpolate if the player did something
         // that would necessitate turning it off for a tic.
-        && player->mo->interp
+        && mo->interp
         // Don't interpolate during a paused state
         && !paused && !menuactive && !consoleactive)
     {
         // Interpolate player camera from their old position to their current one.
-        viewx = player->mo->oldx + FixedMul(player->mo->x - player->mo->oldx, fractionaltic);
-        viewy = player->mo->oldy + FixedMul(player->mo->y - player->mo->oldy, fractionaltic);
+        viewx = mo->oldx + FixedMul(mo->x - mo->oldx, fractionaltic);
+        viewy = mo->oldy + FixedMul(mo->y - mo->oldy, fractionaltic);
         viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
-        viewangle = R_InterpolateAngle(player->mo->oldangle, player->mo->angle, fractionaltic);
+        viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
     }
     else
     {
-        viewx = player->mo->x;
-        viewy = player->mo->y;
+        viewx = mo->x;
+        viewy = mo->y;
         viewz = player->viewz;
-        viewangle = player->mo->angle;
+        viewangle = mo->angle;
     }
 
     extralight = player->extralight << 1;
@@ -702,21 +706,20 @@ void R_SetupFrame(player_t *player)
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
 
     // killough 3/20/98, 4/4/98: select colormap based on player status
-    if (player->mo->subsector->sector->heightsec != -1)
+    if (mo->subsector->sector->heightsec != -1)
     {
-        const sector_t  *s = player->mo->subsector->sector->heightsec + sectors;
+        const sector_t  *s = mo->subsector->sector->heightsec + sectors;
 
         cm = (viewz < s->interpfloorheight ? s->bottommap : (viewz > s->interpceilingheight ?
             s->topmap : s->midmap));
         if (cm < 0 || cm > numcolormaps)
             cm = 0;
     }
-    else
-        cm = 0;
 
     fullcolormap = colormaps[cm];
     zlight = c_zlight[cm];
     scalelight = c_scalelight[cm];
+    psprscalelight = c_psprscalelight[cm];
 
     if (player->fixedcolormap)
     {
@@ -724,26 +727,26 @@ void R_SetupFrame(player_t *player)
         static lighttable_t     *scalelightfixed[MAXLIGHTSCALE];
         int                     i;
 
-        fixedcolormap = fullcolormap   // killough 3/20/98: use fullcolormap
-            + player->fixedcolormap * 256 * sizeof(lighttable_t);
+        // killough 3/20/98: use fullcolormap
+        fixedcolormap = fullcolormap + player->fixedcolormap * 256 * sizeof(lighttable_t);
 
         walllights = scalelightfixed;
 
-        for (i = 0; i<MAXLIGHTSCALE; i++)
+        for (i = 0; i < MAXLIGHTSCALE; ++i)
             scalelightfixed[i] = fixedcolormap;
     }
     else
         fixedcolormap = 0;
 
-    validcount++;
+    ++validcount;
 }
 
 //
-// R_RenderView
+// R_RenderPlayerView
 //
 void R_RenderPlayerView(player_t *player)
 {
-    r_frame_count++;
+    ++r_frame_count;
 
     R_SetupFrame(player);
 
@@ -755,14 +758,15 @@ void R_RenderPlayerView(player_t *player)
 
     if (automapactive)
     {
-        // The head node is the last node output.
         R_RenderBSPNode(numnodes - 1);
+        if (r_playersprites)
+            R_DrawPlayerSprites();
     }
     else
     {
         if (player->cheats & CF_NOCLIP)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, 0);
-        else if (homindicator)
+        else if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
                 ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? 176 : 0));
 

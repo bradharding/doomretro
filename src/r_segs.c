@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -41,16 +41,18 @@
 
 #include "doomstat.h"
 #include "m_config.h"
+#include "p_local.h"
 #include "r_local.h"
+#include "z_zone.h"
 
 // killough 1/6/98: replaced globals with statics where appropriate
 
-static boolean  segtextured;            // True if any of the segs textures might be visible.
+static dboolean segtextured;            // True if any of the segs textures might be visible.
 
-static boolean  markfloor;              // False if the back side is the same plane.
-boolean         markceiling;
+static dboolean markfloor;              // False if the back side is the same plane.
+dboolean        markceiling;
 
-static boolean  maskedtexture;
+static dboolean maskedtexture;
 static int      toptexture;
 static int      midtexture;
 static int      bottomtexture;
@@ -99,9 +101,15 @@ lighttable_t    **walllights;
 
 static int      *maskedtexturecol;      // dropoff overflow
 
-boolean         brightmaps = BRIGHTMAPS_DEFAULT;
+dboolean        r_brightmaps = r_brightmaps_default;
+dboolean        r_liquid_current = r_liquid_current_default;
 
-extern boolean  translucency;
+extern fixed_t  animatedliquiddiff;
+extern fixed_t  animatedliquidxoffs;
+extern fixed_t  animatedliquidyoffs;
+extern dboolean doorclosed;
+extern dboolean r_liquid_bob;
+extern dboolean r_translucency;
 
 //
 // R_FixWiggle()
@@ -115,16 +123,16 @@ extern boolean  translucency;
 //   values were used as-is, subsequent calculations would overflow,
 //   causing full-screen HOM, and possible program crashes.
 //
-//  Therefore, vanilla Doom clamps this scale calculation, preventing it
+//  Therefore, Vanilla DOOM clamps this scale calculation, preventing it
 //   from becoming larger than 0x400000 (64*FRACUNIT). This number was
 //   chosen carefully, to allow reasonably-tight angles, with reasonably
 //   tall sectors to be rendered, within the limits of the fixed-point
-//   math system being used. When the scale gets clamped, Doom cannot
+//   math system being used. When the scale gets clamped, DOOM cannot
 //   properly render the wall, causing an undesirable wall-bending
 //   effect that I call "floor wiggle". Not a crash, but still ugly.
 //
 //  Modern source ports offer higher video resolutions, which worsens
-//   the issue. And, Doom is simply not adjusted for the taller walls
+//   the issue. And, DOOM is simply not adjusted for the taller walls
 //   found in many PWADs.
 //
 //  This code attempts to correct these issues, by dynamically
@@ -133,14 +141,14 @@ extern boolean  translucency;
 //
 //  1. Floor wiggle is greatly reduced and/or eliminated.
 //  2. Overflow is no longer possible, even in levels with maximum
-//     height sectors (65535 is the theoretical height, though Doom
+//     height sectors (65535 is the theoretical height, though DOOM
 //     cannot handle sectors > 32767 units in height.
 //
 //  The code is not perfect across all situations. Some floor wiggle can
 //   still be seen, and some texture strips may be slightly misaligned in
 //   extreme cases. These effects cannot be corrected further, without
 //   increasing the precision of various renderer variables, and,
-//   possibly, creating a noticable performance penalty.
+//   possibly, creating a noticeable performance penalty.
 //
 static int      max_rwscale = 64 * FRACUNIT;
 static int      heightbits = 12;
@@ -162,7 +170,7 @@ static const scale_values_t scale_values[9] =
 
 void R_FixWiggle(sector_t *sector)
 {
-    static int  lastheight = 0;
+    static int  lastheight;
 
     // disallow negative heights, force cache initialization
     int         height = MAX(1, (sector->interpceilingheight - sector->interpfloorheight) >> FRACBITS);
@@ -184,7 +192,7 @@ void R_FixWiggle(sector_t *sector)
 
             // calculate adjustment
             while ((height >>= 1))
-                scaleindex++;
+                ++scaleindex;
 
             sector->scaleindex = scaleindex;
         }
@@ -193,55 +201,41 @@ void R_FixWiggle(sector_t *sector)
         svp = &scale_values[sector->scaleindex];
         max_rwscale = svp->clamp;
         heightbits = svp->heightbits;
-        heightunit = (1 << heightbits);
+        heightunit = 1 << heightbits;
         invhgtbits = FRACBITS - heightbits;
     }
 }
 
 static void R_DrawMaskedColumn(column_t *column)
 {
-    while (column->topdelta != 0xff)
+    int         td;
+    int         topdelta = -1;
+    int         lastlength = 0;
+    fixed_t     texturemid = dc_texturemid;
+
+    while ((td = column->topdelta) != 0xFF)
     {
         int64_t topscreen;
 
-        if (column->length == 0)
-        {
-            column = (column_t *)((byte *)column + 4);
-            continue;
-        }
+        topdelta = (td < topdelta + lastlength - 1) * topdelta + td;
+        lastlength = column->length;
 
         // calculate unclipped screen coordinates for post
-        topscreen = sprtopscreen + spryscale * column->topdelta + 1;
+        topscreen = sprtopscreen + spryscale * topdelta;
 
-        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), mceilingclip[dc_x] + 1);
-        dc_yh = MIN((int)((topscreen + spryscale * column->length) >> FRACBITS), mfloorclip[dc_x] - 1);
+        dc_yl = MAX((int)((topscreen + FRACUNIT - 1) >> FRACBITS), mceilingclip[dc_x] + 1);
+        dc_yh = MIN((int)((topscreen + spryscale * lastlength) >> FRACBITS),
+            mfloorclip[dc_x] - 1);
 
-        dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
-            FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-
-        if (dc_texturefrac < 0)
+        if (dc_yh < viewheight && dc_yl <= dc_yh)
         {
-            int cnt = (FixedDiv(-dc_texturefrac, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
-
-            dc_yl += cnt;
-            dc_texturefrac += cnt * dc_iscale;
-        }
-
-        {
-            const fixed_t       endfrac = dc_texturefrac + (dc_yh - dc_yl) * dc_iscale;
-            const fixed_t       maxfrac = column->length << FRACBITS;
-
-            if (endfrac >= maxfrac)
-                dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
-        }
-
-        if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
-        {
+            dc_texturefrac = texturemid - (topdelta << FRACBITS)
+                + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
             dc_source = (byte *)column + 3;
             colfunc();
         }
 
-        column = (column_t *)((byte *)column + column->length + 4);
+        column = (column_t *)((byte *)column + lastlength + 4);
     }
 }
 
@@ -259,7 +253,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     // Use different light tables for horizontal / vertical.
     curline = ds->curline;
 
-    colfunc = (curline->linedef->tranlump >= 0 && translucency ?
+    colfunc = (curline->linedef->tranlump >= 0 && r_translucency ?
         R_DrawTranslucent50Column : R_DrawColumn);
 
     frontsector = curline->frontsector;
@@ -307,7 +301,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
             // killough 3/2/98:
             //
-            // This calculation used to overflow and cause crashes in Doom:
+            // This calculation used to overflow and cause crashes in DOOM:
             //
             // sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
             //
@@ -319,54 +313,50 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
                                 - (int64_t)dc_texturemid * spryscale;
 
                 if (t + (int64_t)texheight * spryscale < 0
-                    || t >(int64_t)SCREENHEIGHT << FRACBITS * 2)
-                    continue;                       // skip if the texture is out of screen's range
+                    || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
+                    continue;                    // skip if the texture is out of screen's range
 
                 sprtopscreen = (int64_t)(t >> FRACBITS);
             }
 
-            dc_iscale = 0xffffffffu / (unsigned int)spryscale;
+            dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
             // draw the texture
             R_DrawMaskedColumn((column_t *)((byte *)R_GetColumn(texnum,
-                maskedtexturecol[dc_x]) - 3));
+                maskedtexturecol[dc_x], false) - 3));
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
     }
+    curline = NULL;
 }
 
 //
 // R_RenderSegLoop
-// Draws zero, one, or two textures (and possibly a masked
-//  texture) for walls.
-// Can draw or mark the starting pixel of floor and ceiling
-//  textures.
+// Draws zero, one, or two textures (and possibly a masked texture) for walls.
+// Can draw or mark the starting pixel of floor and ceiling textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
 void R_RenderSegLoop(void)
 {
-    fixed_t     texturecolumn;
+    fixed_t     texturecolumn = 0;      // shut up compiler warning
+    dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]);
 
     for (; rw_x < rw_stopx; ++rw_x)
     {
         // mark floor / ceiling areas
-        int     yl = (int)((topfrac + heightunit - 1) >> heightbits);
-        int     yh = (int)(bottomfrac >> heightbits);
+        int             yl = (int)((topfrac + heightunit - 1) >> heightbits);
+        int             yh = (int)(bottomfrac >> heightbits);
 
         // no space above wall?
-        int     bottom;
-        int     top = ceilingclip[rw_x] + 1;
-        boolean bottomclipped = false;
+        int             bottom;
+        int             top = ceilingclip[rw_x] + 1;
+        dboolean        bottomclipped = false;
 
-        if (yl < top)
-            yl = top;
+        yl = MAX(yl, top);
 
         if (markceiling)
         {
-            bottom = yl - 1;
-
-            if (bottom >= floorclip[rw_x])
-                bottom = floorclip[rw_x] - 1;
+            bottom = MIN(yl - 1, floorclip[rw_x] - 1);
 
             if (top <= bottom)
             {
@@ -375,7 +365,7 @@ void R_RenderSegLoop(void)
             }
 
             // SoM: this should be set here to prevent overdraw
-            //ceilingclip[rw_x] = bottom;
+            ceilingclip[rw_x] = bottom;
         }
 
         bottom = floorclip[rw_x] - 1;
@@ -396,7 +386,7 @@ void R_RenderSegLoop(void)
             }
 
             // SoM: This should be set here to prevent overdraw
-            //floorclip[rw_x] = top;
+            floorclip[rw_x] = top;
         }
 
         // texturecolumn and lighting are independent of wall tiers
@@ -410,13 +400,13 @@ void R_RenderSegLoop(void)
 
             dc_colormap = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
             dc_x = rw_x;
-            dc_iscale = 0xffffffffu / (unsigned int)rw_scale;
+            dc_iscale = 0xFFFFFFFFu / (unsigned int)rw_scale;
         }
 
         // draw the wall tiers
         if (midtexture)
         {
-            //if (yl < viewheight && yh >= 0 && yh >= yl)
+            if (yl < viewheight && yh >= 0 && yh >= yl)
             {
                 // single sided line
                 dc_yl = yl;
@@ -428,13 +418,13 @@ void R_RenderSegLoop(void)
                     && rw_distance < (512 << FRACBITS));
 
                 dc_texturemid = rw_midtexturemid;
-                dc_source = R_GetColumn(midtexture, texturecolumn);
+                dc_source = R_GetColumn(midtexture, texturecolumn, true);
                 dc_texheight = midtexheight;
 
                 // [BH] apply brightmap
                 dc_colormask = midtexfullbright;
 
-                if (dc_colormask && brightmaps)
+                if (dc_colormask && usebrightmaps)
                     fbwallcolfunc();
                 else
                     wallcolfunc();
@@ -462,7 +452,7 @@ void R_RenderSegLoop(void)
 
                 if (mid >= yl)
                 {
-                    //if (yl < viewheight && mid >= 0)
+                    if (yl < viewheight && mid >= 0)
                     {
                         dc_yl = yl;
                         dc_yh = mid;
@@ -473,13 +463,13 @@ void R_RenderSegLoop(void)
                             && rw_distance < (512 << FRACBITS));
 
                         dc_texturemid = rw_toptexturemid;
-                        dc_source = R_GetColumn(toptexture, texturecolumn);
+                        dc_source = R_GetColumn(toptexture, texturecolumn, true);
                         dc_texheight = toptexheight;
 
                         // [BH] apply brightmap
                         dc_colormask = toptexfullbright;
 
-                        if (dc_colormask && brightmaps)
+                        if (dc_colormask && usebrightmaps)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
@@ -512,7 +502,7 @@ void R_RenderSegLoop(void)
 
                 if (mid <= yh)
                 {
-                    //if (mid < viewheight && yh >= 0)
+                    if (mid < viewheight && yh >= 0)
                     {
                         dc_yl = mid;
                         dc_yh = yh;
@@ -524,13 +514,13 @@ void R_RenderSegLoop(void)
                             && rw_distance < (512 << FRACBITS));
 
                         dc_texturemid = rw_bottomtexturemid;
-                        dc_source = R_GetColumn(bottomtexture, texturecolumn);
+                        dc_source = R_GetColumn(bottomtexture, texturecolumn, true);
                         dc_texheight = bottomtexheight;
 
                         // [BH] apply brightmap
                         dc_colormask = bottomtexfullbright;
 
-                        if (dc_colormask && brightmaps)
+                        if (dc_colormask && usebrightmaps)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
@@ -569,7 +559,7 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     int         den = FixedMul(rw_distance, finesine[(angle - viewangle) >> ANGLETOFINESHIFT]);
     fixed_t     num = FixedMul(projectiony, finesine[(angle - rw_normalangle) >> ANGLETOFINESHIFT]);
 
-    return (den > (num >> 16) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
+    return (den > (num >> FRACBITS) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
 }
 
 //
@@ -598,7 +588,7 @@ void R_StoreWallRange(int start, int stop)
         int     maxdrawsegs_old = maxdrawsegs;
 
         maxdrawsegs = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
-        drawsegs = realloc(drawsegs, maxdrawsegs * sizeof(*drawsegs));
+        drawsegs = Z_Realloc(drawsegs, maxdrawsegs * sizeof(*drawsegs));
         ds_p = drawsegs + maxdrawsegs_old;
         memset(ds_p, 0, (maxdrawsegs - maxdrawsegs_old) * sizeof(*drawsegs));
     }
@@ -608,12 +598,12 @@ void R_StoreWallRange(int start, int stop)
 
     // [Linguica] Fix long wall error
     // shift right to avoid possibility of int64 overflow in rw_distance calculation
-    dx = curline->v2->x - curline->v1->x;
-    dy = curline->v2->y - curline->v1->y;
-    dx1 = viewx - curline->v1->x;
-    dy1 = viewy - curline->v1->y;
-    len = curline->length;
-    rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len);
+    dx = ((int64_t)curline->v2->x - curline->v1->x) >> 1;
+    dy = ((int64_t)curline->v2->y - curline->v1->y) >> 1;
+    dx1 = ((int64_t)viewx - curline->v1->x) >> 1;
+    dy1 = ((int64_t)viewy - curline->v1->y) >> 1;
+    len = curline->length >> 1;
+    rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len) << 1;
 
     ds_p->x1 = rw_x = start;
     ds_p->x2 = stop;
@@ -636,7 +626,7 @@ void R_StoreWallRange(int start, int stop)
             do
                 maxopenings = (maxopenings ? maxopenings * 2 : 16384);
             while (need > maxopenings);
-            openings = (int *)realloc(openings, maxopenings * sizeof(*openings));
+            openings = Z_Realloc(openings, maxopenings * sizeof(*openings));
             lastopening = openings + pos;
 
             // jff 8/9/98 borrowed fix for openings from ZDOOM1.14
@@ -657,6 +647,23 @@ void R_StoreWallRange(int start, int stop)
         }
     }
 
+    worldtop = frontsector->interpceilingheight - viewz;
+    worldbottom = frontsector->interpfloorheight - viewz;
+
+    // [BH] animate liquid sectors
+    if (isliquid[frontsector->floorpic])
+    {
+        if (r_liquid_bob && (frontsector->heightsec == -1
+            || viewz > sectors[frontsector->heightsec].interpfloorheight))
+            worldbottom += animatedliquiddiff;
+
+        if (r_liquid_current)
+        {
+            frontsector->floor_xoffs = animatedliquidxoffs;
+            frontsector->floor_yoffs = animatedliquidyoffs;
+        }
+    }
+
     R_FixWiggle(frontsector);
 
     // calculate scale at both ends and step
@@ -672,14 +679,6 @@ void R_StoreWallRange(int start, int stop)
 
     // calculate texture boundaries
     //  and decide if floor / ceiling marks are needed
-    worldtop = frontsector->interpceilingheight - viewz;
-    worldbottom = frontsector->interpfloorheight - viewz;
-
-    // [BH] animate liquid sectors
-    if (frontsector->animate != INT_MAX && (frontsector->heightsec == -1
-        || viewz > sectors[frontsector->heightsec].interpfloorheight))
-        worldbottom += frontsector->animate + 2 * FRACUNIT;
-
     midtexture = toptexture = bottomtexture = maskedtexture = 0;
     ds_p->maskedtexturecol = NULL;
 
@@ -695,14 +694,16 @@ void R_StoreWallRange(int start, int stop)
 
         if (linedef->flags & ML_DONTPEGBOTTOM)
             // bottom of texture at bottom
-            rw_midtexturemid = frontsector->interpfloorheight + midtexheight
+            rw_midtexturemid = frontsector->interpfloorheight + textureheight[sidedef->midtexture]
                 - viewz + sidedef->rowoffset;
         else
             // top of texture at top
             rw_midtexturemid = worldtop + sidedef->rowoffset;
 
-        {      // killough 3/27/98: reduce offset
-            fixed_t h = textureheight[sidedef->midtexture];
+        {
+            // killough 3/27/98: reduce offset
+            fixed_t     h = textureheight[midtexture];
+
             if (h & (h - FRACUNIT))
                 rw_midtexturemid %= h;
         }
@@ -715,6 +716,8 @@ void R_StoreWallRange(int start, int stop)
     }
     else
     {
+        int     liquidoffset = 0;
+
         // two sided line
         ds_p->sprtopclip = ds_p->sprbottomclip = NULL;
         ds_p->silhouette = 0;
@@ -749,7 +752,7 @@ void R_StoreWallRange(int start, int stop)
         //
         // killough 4/7/98: make doorclosed external variable
         {
-            extern boolean      doorclosed;
+            extern dboolean     doorclosed;
 
             if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
             {
@@ -757,6 +760,7 @@ void R_StoreWallRange(int start, int stop)
                 ds_p->bsilheight = INT_MAX;
                 ds_p->silhouette |= SIL_BOTTOM;
             }
+
             if (doorclosed || backsector->interpfloorheight >= frontsector->interpceilingheight)
             {
                 ds_p->sprtopclip = screenheightarray;
@@ -769,11 +773,14 @@ void R_StoreWallRange(int start, int stop)
         worldlow = backsector->interpfloorheight - viewz;
 
         // [BH] animate liquid sectors
-        if (backsector->animate != INT_MAX
-            && backsector->interpfloorheight > frontsector->interpfloorheight
+        if (r_liquid_bob && isliquid[backsector->floorpic]
+            && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (backsector->heightsec == -1
             || viewz > sectors[backsector->heightsec].interpfloorheight))
-            worldlow += backsector->animate + 2 * FRACUNIT;
+        {
+            liquidoffset = animatedliquiddiff;
+            worldlow += liquidoffset;
+        }
 
         // hack to allow height changes in outdoor areas
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
@@ -809,7 +816,6 @@ void R_StoreWallRange(int start, int stop)
             // killough 4/17/98: draw ceilings if different light levels
             || backsector->ceilinglightsec != frontsector->ceilinglightsec);
 
-
         if (backsector->interpceilingheight <= frontsector->interpfloorheight
             || backsector->interpfloorheight >= frontsector->interpceilingheight)
             // closed door
@@ -828,7 +834,18 @@ void R_StoreWallRange(int start, int stop)
             else
                 // bottom of texture
                 rw_toptexturemid = backsector->interpceilingheight + toptexheight - viewz;
+
+            rw_toptexturemid += sidedef->rowoffset;
+
+            // killough 3/27/98: reduce offset
+            {
+                fixed_t     h = textureheight[toptexture];
+
+                if (h & (h - FRACUNIT))
+                    rw_toptexturemid %= h;
+            }
         }
+
         if (worldlow > worldbottom)
         {
             // bottom texture
@@ -840,27 +857,19 @@ void R_StoreWallRange(int start, int stop)
                 // bottom of texture at bottom, top of texture at top
                 rw_bottomtexturemid = worldtop;
             else        // top of texture at top
-                rw_bottomtexturemid = worldlow;
+                rw_bottomtexturemid = worldlow - liquidoffset;
+
+            rw_bottomtexturemid += sidedef->rowoffset;
+
+            // killough 3/27/98: reduce offset
+            {
+                fixed_t     h = textureheight[bottomtexture];
+
+                if (h & (h - FRACUNIT))
+                    rw_bottomtexturemid %= h;
+            }
         }
 
-        rw_toptexturemid += sidedef->rowoffset;
-
-        // killough 3/27/98: reduce offset
-        {
-            fixed_t h = textureheight[sidedef->toptexture];
-            if (h & (h - FRACUNIT))
-                rw_toptexturemid %= h;
-        }
-
-        rw_bottomtexturemid += sidedef->rowoffset;
-
-        // killough 3/27/98: reduce offset
-        {
-            fixed_t h;
-            h = textureheight[sidedef->bottomtexture];
-            if (h & (h - FRACUNIT))
-                rw_bottomtexturemid %= h;
-        }
         // allocate space for masked texture tables
         if (sidedef->midtexture)
         {
@@ -876,8 +885,9 @@ void R_StoreWallRange(int start, int stop)
 
     if (segtextured)
     {
-        rw_offset = (fixed_t)((dx * dx1 + dy * dy1) / len) + sidedef->textureoffset
+        rw_offset = (fixed_t)(((dx * dx1 + dy * dy1) / len) << 1) + sidedef->textureoffset
             + curline->offset;
+
         rw_centerangle = ANG90 + viewangle - rw_normalangle;
 
         // calculate light table

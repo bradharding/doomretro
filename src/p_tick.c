@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -43,6 +43,7 @@
 #include "z_zone.h"
 
 int     leveltime;
+int     stat_time = 0;
 
 //
 // THINKERS
@@ -129,7 +130,7 @@ static thinker_t        *currentthinker;
 // on nodes which are pending deletion.
 //
 // If this thinker has no more pointers referencing it indirectly,
-// remove it, and set currentthinker to one node preceeding it, so
+// remove it, and set currentthinker to one node preceding it, so
 // that the next step in P_RunThinkers() will get its successor.
 //
 void P_RemoveThinkerDelayed(thinker_t *thinker)
@@ -143,10 +144,10 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
         // Note that currentthinker is guaranteed to point to us,
         // and since we're freeing our memory, we had better change that. So
         // point it to thinker->prev, so the iterator will correctly move on to
-        // thinker->prev->next = thinker->next 
+        // thinker->prev->next = thinker->next
         (next->prev = currentthinker = thinker->prev)->next = next;
 
-        // Remove from current thinker class list 
+        // Remove from current thinker class list
         (th->cprev = thinker->cprev)->cnext = th;
 
         Z_Free(thinker);
@@ -175,8 +176,8 @@ void P_RemoveThinker(thinker_t *thinker)
 // P_SetTarget
 //
 // This function is used to keep track of pointer references to mobj thinkers.
-// In Doom, objects such as lost souls could sometimes be removed despite
-// their still being referenced. In Boom, 'target' mobj fields were tested
+// In DOOM, objects such as lost souls could sometimes be removed despite
+// their still being referenced. In BOOM, 'target' mobj fields were tested
 // during each gametic, and any objects pointed to by them would be prevented
 // from being removed. But this was incomplete, and was slow (every mobj was
 // checked during every gametic). Now, we keep a count of the number of
@@ -196,10 +197,10 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 // killough 4/25/98:
 //
 // Fix deallocator to stop using "next" pointer after node has been freed
-// (a Doom bug).
+// (a DOOM bug).
 //
 // Process each thinker. For thinkers which are marked deleted, we must
-// load the "next" pointer prior to freeing the node. In Doom, the "next"
+// load the "next" pointer prior to freeing the node. In DOOM, the "next"
 // pointer was loaded AFTER the thinker was freed, which could have caused
 // crashes.
 //
@@ -242,4 +243,5 @@ void P_Ticker(void)
 
     // for par times
     leveltime++;
+    stat_time = SafeAdd(stat_time, 1);
 }

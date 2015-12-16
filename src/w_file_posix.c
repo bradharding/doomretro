@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -61,9 +61,9 @@ static void MapFile(posix_wad_file_t *wad)
     int         protection;
     int         flags;
 
-    // Mapped area can be read and written to.  Ideally
-    // this should be read-only, as none of the Doom code should 
-    // change the WAD files after being read.  However, there may
+    // Mapped area can be read and written to. Ideally
+    // this should be read-only, as none of the DOOM code should
+    // change the WAD files after being read. However, there may
     // be code lurking in the source that does.
 
     protection = PROT_READ|PROT_WRITE;
@@ -74,7 +74,7 @@ static void MapFile(posix_wad_file_t *wad)
     flags = MAP_PRIVATE;
 
     result = mmap(NULL, wad->wad.length,
-                  protection, flags, 
+                  protection, flags,
                   wad->handle, 0);
 
     wad->wad.mapped = result;
@@ -84,7 +84,7 @@ unsigned int GetFileLength(int handle)
 {
     return lseek(handle, 0, SEEK_END);
 }
-   
+
 static wad_file_t *W_POSIX_OpenFile(char *path)
 {
     posix_wad_file_t    *result;
@@ -122,8 +122,8 @@ static void W_POSIX_CloseFile(wad_file_t *wad)
     Z_Free(posix_wad);
 }
 
-// Read data from the specified position in the file into the 
-// provided buffer.  Returns the number of bytes read.
+// Read data from the specified position in the file into the
+// provided buffer. Returns the number of bytes read.
 size_t W_POSIX_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len)
 {
     posix_wad_file_t    *posix_wad;
@@ -160,12 +160,11 @@ size_t W_POSIX_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t b
     return bytes_read;
 }
 
-
-wad_file_class_t posix_wad_file = 
+wad_file_class_t posix_wad_file =
 {
     W_POSIX_OpenFile,
     W_POSIX_CloseFile,
-    W_POSIX_Read,
+    W_POSIX_Read
 };
 
 #endif

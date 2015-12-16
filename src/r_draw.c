@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -47,7 +47,7 @@
 
 //
 // All drawing to the view buffer is accomplished in this file.
-// The other refresh files only know about ccordinates,
+// The other refresh files only know about coordinates,
 //  not the architecture of the frame buffer.
 // Conveniently, the frame buffer is a linear one,
 //  and we need only the base address,
@@ -62,7 +62,7 @@ int     viewwindowx;
 int     viewwindowy;
 int     fuzztable[SCREENWIDTH * SCREENHEIGHT];
 
-extern int      screensize;
+extern int      r_screensize;
 
 // Color tables for different players,
 //  translate a limited part to another
@@ -162,9 +162,9 @@ fixed_t         dc_iscale;
 fixed_t         dc_texturemid;
 fixed_t         dc_texheight;
 fixed_t         dc_texturefrac;
-boolean         dc_topsparkle;
-boolean         dc_bottomsparkle;
-fixed_t         dc_blood;
+dboolean        dc_topsparkle;
+dboolean        dc_bottomsparkle;
+byte            *dc_blood;
 byte            *dc_colormask;
 int             dc_baseclip;
 
@@ -250,30 +250,30 @@ void R_DrawSolidShadowColumn(void)
 
 void R_DrawBloodSplatColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
-    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    const fixed_t       blood = dc_blood;
+    int32_t     count = dc_yh - dc_yl + 1;
+    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
+    byte        *blood = dc_blood;
 
     while (--count > 0)
     {
-        *dest = tinttab75[*dest + blood];
+        *dest = *(*dest + blood);
         dest += SCREENWIDTH;
     }
-    *dest = tinttab75[*dest + blood];
+    *dest = *(*dest + blood);
 }
 
 void R_DrawSolidBloodSplatColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    const fixed_t       blood = dc_blood;
+    const fixed_t       blood = *dc_blood;
 
     while (--count > 0)
     {
-        *dest = blood >> 8;
+        *dest = blood;
         dest += SCREENWIDTH;
     }
-    *dest = blood >> 8;
+    *dest = blood;
 }
 
 void R_DrawWallColumn(void)
@@ -285,6 +285,7 @@ void R_DrawWallColumn(void)
     else
     {
         byte                    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        byte                    *top = dest;
         const fixed_t           fracstep = dc_iscale;
         fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
         const byte              *source = dc_source;
@@ -384,10 +385,7 @@ void R_DrawWallColumn(void)
             *(dest - SCREENWIDTH) = *(dest - SCREENWIDTH * 2);
 
         if (dc_topsparkle)
-        {
-            dest = R_ADDRESS(0, dc_x, dc_yl);
-            *dest = *(dest + SCREENWIDTH);
-        }
+            *top = *(top + SCREENWIDTH);
     }
 }
 
@@ -400,6 +398,7 @@ void R_DrawFullbrightWallColumn(void)
     else
     {
         byte                    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        byte                    *top = dest;
         const fixed_t           fracstep = dc_iscale;
         fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
         const byte              *source = dc_source;
@@ -517,10 +516,7 @@ void R_DrawFullbrightWallColumn(void)
             *(dest - SCREENWIDTH) = *(dest - SCREENWIDTH * 2);
 
         if (dc_topsparkle)
-        {
-            dest = R_ADDRESS(0, dc_x, dc_yl);
-            *dest = *(dest + SCREENWIDTH);
-        }
+            *top = *(top + SCREENWIDTH);
     }
 }
 
@@ -554,11 +550,11 @@ void R_DrawSuperShotgunColumn(void)
         byte    dot = source[frac >> FRACBITS];
 
         if (dot != 71)
-            *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
+            *dest = colormap[tinttabredwhite1[(*dest << 8) + dot]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
 void R_DrawSkyColumn(void)
@@ -660,8 +656,6 @@ void R_DrawSkyColumn(void)
                 dest += SCREENWIDTH;
                 frac += fracstep;
                 *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
             }
         }
     }
@@ -789,11 +783,11 @@ void R_DrawTranslucent50Column(void)
 
     while (--count)
     {
-        *dest = tinttab50[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
+        *dest = tranmap[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = tinttab50[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
+    *dest = tranmap[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucent33Column(void)
@@ -868,7 +862,7 @@ void R_DrawTranslucentRedColumn(void)
     *dest = tinttabred[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
-void R_DrawTranslucentRedWhiteColumn(void)
+void R_DrawTranslucentRedWhiteColumn1(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
@@ -876,14 +870,32 @@ void R_DrawTranslucentRedWhiteColumn(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    
+
     while (--count)
     {
-        *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];
+}
+
+void R_DrawTranslucentRedWhiteColumn2(void)
+{
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+
+    while (--count)
+    {
+        *dest = colormap[tinttabredwhite2[(*dest << 8) + source[frac >> FRACBITS]]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+    *dest = colormap[tinttabredwhite2[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucentRedWhite50Column(void)
@@ -940,7 +952,7 @@ void R_DrawTranslucentBlueColumn(void)
     *dest = tinttabblue[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
-void R_DrawTranslucentRed50Column(void)
+void R_DrawTranslucentRed33Column(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
@@ -951,14 +963,14 @@ void R_DrawTranslucentRed50Column(void)
 
     while (--count)
     {
-        *dest = colormap[tinttabred50[(*dest << 8) + source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabred33[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabred50[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabred33[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
-void R_DrawTranslucentGreen50Column(void)
+void R_DrawTranslucentGreen33Column(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
@@ -969,14 +981,14 @@ void R_DrawTranslucentGreen50Column(void)
 
     while (--count)
     {
-        *dest = colormap[tinttabgreen50[(*dest << 8) + source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabgreen33[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabgreen50[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabgreen33[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
-void R_DrawTranslucentBlue50Column(void)
+void R_DrawTranslucentBlue33Column(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
@@ -987,11 +999,11 @@ void R_DrawTranslucentBlue50Column(void)
 
     while (--count)
     {
-        *dest = colormap[tinttabblue50[(*dest << 8) + source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabblue33[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabblue50[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabblue33[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
 //
@@ -1052,13 +1064,19 @@ void R_DrawPausedFuzzColumn(void)
     {
         // top
         if (!dc_yl)
+        {
             *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+            if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
+                fuzzpos = 0;
+        }
         dest += SCREENWIDTH;
 
         while (--count)
         {
             // middle
             *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+            if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
+                fuzzpos = 0;
             dest += SCREENWIDTH;
         }
 
@@ -1207,12 +1225,12 @@ void R_InitTranslationTables(void)
 
     // translate just the 16 green colors
     for (i = 0; i < 256; i++)
-        if (i >= 0x70 && i <= 0x7f)
+        if (i >= 0x70 && i <= 0x7F)
         {
             // map green ramp to gray, brown, red
-            translationtables[i] = 0x60 + (i & 0xf);
-            translationtables[i + 256] = 0x40 + (i & 0xf);
-            translationtables[i + 512] = 0x20 + (i & 0xf);
+            translationtables[i] = 0x60 + (i & 0xF);
+            translationtables[i + 256] = 0x40 + (i & 0xF);
+            translationtables[i + 512] = 0x20 + (i & 0xF);
         }
         else
             // Keep all other colors as is.
@@ -1286,7 +1304,7 @@ void R_DrawSpan(void)
 //
 // R_InitBuffer
 // Creates lookup tables that avoid
-//  multiplies and other hazzles
+//  multiplies and other hassles
 //  for getting the framebuffer address
 //  of a pixel to draw.
 //
@@ -1354,11 +1372,11 @@ void R_FillBackScreen(void)
 
     for (y = 0; y < height - 8; y += 8)
         V_DrawPatch(windowx - 8, windowy + y, 1, brdr_l);
-    V_DrawPatch(windowx - 8, windowy + y - 2 * (screensize >= 2), 1, brdr_l);
+    V_DrawPatch(windowx - 8, windowy + y - 2 * (r_screensize >= 2), 1, brdr_l);
 
     for (y = 0; y < height - 8; y += 8)
         V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
-    V_DrawPatch(windowx + width, windowy + y - 2 * (screensize >= 2), 1, brdr_r);
+    V_DrawPatch(windowx + width, windowy + y - 2 * (r_screensize >= 2), 1, brdr_r);
 
     // Draw beveled edge.
     V_DrawPatch(windowx - 8, windowy - 8, 1, brdr_tl);
@@ -1374,7 +1392,7 @@ void R_VideoErase(unsigned int ofs, int count)
 {
     // LFB copy.
     // This might not be a good idea if memcpy
-    //  is not optiomal, e.g. byte by byte on
+    //  is not optimal, e.g. byte by byte on
     //  a 32bit CPU, as GNU GCC/Linux libc did
     //  at one point.
     memcpy(screens[0] + ofs, screens[1] + ofs, count);

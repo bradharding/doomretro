@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -146,7 +146,7 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
 
         if (swtex == texTop)
         {
-            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            S_StartSectorSound(&line->soundorg, sfx_swtchn);
             if (useAgain)
                 P_StartButton(line, top, swtex, BUTTONTIME);
             side->toptexture = switchlist[i ^ 1];
@@ -154,7 +154,7 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
         }
         else if (swtex == texMid)
         {
-            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            S_StartSectorSound(&line->soundorg, sfx_swtchn);
             if (useAgain)
                 P_StartButton(line, middle, swtex, BUTTONTIME);
             side->midtexture = switchlist[i ^ 1];
@@ -162,7 +162,7 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
         }
         else if (swtex == texBot)
         {
-            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            S_StartSectorSound(&line->soundorg, sfx_swtchn);
             if (useAgain)
                 P_StartButton(line, bottom, swtex, BUTTONTIME);
             side->bottomtexture = switchlist[i ^ 1];
@@ -177,7 +177,7 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
+dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 {
     if (side)
         return false;
@@ -186,7 +186,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is push or switch generalized linedef type
-        boolean (*linefunc)(line_t *line) = NULL;
+        dboolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
         if ((unsigned int)line->special >= GenFloorBase)
@@ -203,8 +203,6 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
                     return false;       // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenCeiling;
         }
         else if ((unsigned int)line->special >= GenDoorBase)
@@ -216,8 +214,6 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 if (line->flags & ML_SECRET)            // they can't open secret doors either
                     return false;
             }
-            if (!line->tag && ((line->special & 6) != 6))       // jff 3/2/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenDoor;
         }
         else if ((unsigned int)line->special >= GenLockedBase)
@@ -226,9 +222,6 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 return false;                           // monsters disallowed from unlocking doors
             if (!P_CanUnlockGenDoor(line, thing->player))
                 return false;
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
-
             linefunc = EV_DoGenLockedDoor;
         }
         else if ((unsigned int)line->special >= GenLiftBase)
@@ -236,8 +229,6 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 if (!(line->special & LiftMonster))
                     return false;                               // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenLift;
         }
         else if ((unsigned int)line->special >= GenStairsBase)
@@ -245,8 +236,6 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 if (!(line->special & StairMonster))
                     return false;                               // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenStairs;
         }
         else if ((unsigned int)line->special >= GenCrusherBase)
@@ -254,14 +243,12 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 if (!(line->special & CrusherMonster))
                     return false;                               // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
             linefunc = EV_DoGenCrusher;
         }
 
         if (linefunc)
             switch ((line->special & TriggerType) >> TriggerTypeShift)
-        {
+            {
                 case PushOnce:
                     if (!side)
                         if (linefunc(line))
@@ -282,7 +269,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 default:
                     // if not a switch/push type, do nothing here
                     return false;
-        }
+            }
     }
 
     // Switches that other things can activate.
@@ -785,7 +772,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (EV_BuildStairs(line, turbo16))
                 P_ChangeSwitchTexture(line, 1);
             break;
-            
+
         // Buttons (retriggerable switches)
         case SR_Door_CloseStay:
             if (EV_DoDoor(line, doorClose))

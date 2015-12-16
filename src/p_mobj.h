@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -57,7 +57,7 @@
 // Whether an object is "sentient" or not. Used for environmental influences.
 #define sentient(mobj)          ((mobj)->health > 0 && (mobj)->info->seestate)
 
-#define CORPSEBLOODSPLATS       512
+#define CORPSEBLOODSPLATS       256
 
 //
 // NOTES: mobj_t
@@ -83,7 +83,7 @@
 // it is standing on.
 //
 // The sound code uses the x,y, and subsector fields
-// to do stereo positioning of any sound effited by the mobj_t.
+// to do stereo positioning of any sound emitted by the mobj_t.
 //
 // The play simulation uses the blocklinks, x,y,z, radius, height
 // to determine when mobj_ts are touching each other,
@@ -210,7 +210,14 @@ typedef enum
     //  use a translation table for player colormaps
     MF_TRANSLATION      = 0x0c000000,
     // Hmm ???.
-    MF_TRANSSHIFT       = 26
+    MF_TRANSSHIFT       = 26,
+
+    MF_TOUCHY           = 0x10000000,   // killough 11/98: dies when solids touch it
+    MF_BOUNCES          = 0x20000000,   // killough 7/11/98: for beta BFG fireballs
+    MF_FRIEND           = 0x40000000,   // killough 7/18/98: friendly monsters
+
+    // Translucent sprite?              // phares
+    MF_TRANSLUCENT      = 0x80000000    // phares
 } mobjflag_t;
 
 typedef enum
@@ -229,53 +236,52 @@ typedef enum
     MF2_TRANSLUCENT_50            = 0x00000020,
     // Apply additive translucency on all red to white
     MF2_TRANSLUCENT_REDWHITEONLY  = 0x00000040,
-    // Convert all red to green, then apply 50% alpha translucency
+    // Convert all red to green, then apply 33% alpha translucency
     MF2_TRANSLUCENT_REDTOGREEN_33 = 0x00000080,
-    // Convert all red to blue, then apply 50% alpha translucency
+    // Convert all red to blue, then apply 33% alpha translucency
     MF2_TRANSLUCENT_REDTOBLUE_33  = 0x00000100,
+    // Apply 33% alpha translucency on all blue
+    MF2_TRANSLUCENT_BLUE_33       = 0x00000200,
 
     // Convert all red to green
-    MF2_REDTOGREEN                = 0x00000200,
+    MF2_REDTOGREEN                = 0x00000400,
     // Convert all green to red
-    MF2_GREENTORED                = 0x00000400,
+    MF2_GREENTORED                = 0x00000800,
     // Convert all red to blue
-    MF2_REDTOBLUE                 = 0x00000800,
+    MF2_REDTOBLUE                 = 0x00001000,
 
     // Object bobs up and down
-    MF2_FLOATBOB                  = 0x00001000,
+    MF2_FLOATBOB                  = 0x00002000,
 
     // Mirrored horizontally
-    MF2_MIRRORED                  = 0x00002000,
+    MF2_MIRRORED                  = 0x00004000,
 
-    MF2_FALLING                   = 0x00004000,
+    MF2_FALLING                   = 0x00008000,
 
     // Object is resting on top of another object
-    MF2_ONMOBJ                    = 0x00008000,
+    MF2_ONMOBJ                    = 0x00010000,
 
     // Object is allowed to pass over/under other objects
-    MF2_PASSMOBJ                  = 0x00010000,
+    MF2_PASSMOBJ                  = 0x00020000,
 
     // Object is a corpse and being resurrected
-    MF2_RESURRECTING              = 0x00020000,
+    MF2_RESURRECTING              = 0x00040000,
 
     // Object's feet won't be clipped in liquid
-    MF2_NOFOOTCLIP                = 0x00040000,
+    MF2_NOFOOTCLIP                = 0x00080000,
 
     // Object won't bob in liquid
-    MF2_NOFLOATBOB                = 0x00080000,
+    MF2_NOLIQUIDBOB               = 0x00100000,
 
     // Object's feet are now being clipped
     // (when applied to object's shadow, shadow isn't drawn)
-    MF2_FEETARECLIPPED            = 0x00100000,
+    MF2_FEETARECLIPPED            = 0x00200000,
 
     // Object has a shadow
-    MF2_SHADOW                    = 0x00200000,
+    MF2_SHADOW                    = 0x00400000,
 
     // Object is blood
-    MF2_BLOOD                     = 0x00400000,
-
-    // Object is drawn first
-    MF2_DRAWFIRST                 = 0x00800000,
+    MF2_BLOOD                     = 0x00800000,
 
     // Object's thing triangle is not displayed in automap
     MF2_DONOTMAP                  = 0x01000000,
@@ -380,6 +386,7 @@ typedef struct mobj_s
     int                 floatbob;
 
     void                (*colfunc)(void);
+    void                (*projectfunc)();
 
     // a linked list of sectors where this object appears
     struct msecnode_s   *touching_sectorlist;   // phares 3/14/98
@@ -393,7 +400,7 @@ typedef struct mobj_s
     int                 blood;
 
     // [AM] If true, ok to interpolate this tic.
-    boolean             interp;
+    dboolean            interp;
 
     // [AM] Previous position of mobj before think.
     //      Used to interpolate between positions.
@@ -403,6 +410,8 @@ typedef struct mobj_s
     angle_t             oldangle;
 
     fixed_t             nudge;
+
+    int                 pitch;
 } mobj_t;
 
 #endif

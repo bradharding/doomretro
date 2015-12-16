@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -59,19 +59,23 @@ static XINPUTSETSTATE pXInputSetState;
 #include "SDL.h"
 #include "SDL_joystick.h"
 
-static SDL_Joystick     *gamepad = NULL;
+float                   gp_deadzone_left = gp_deadzone_left_default;
+float                   gp_deadzone_right = gp_deadzone_right_default;
+
+static SDL_Joystick     *gamepad;
 
 int                     gamepadbuttons = 0;
 short                   gamepadthumbLX;
 short                   gamepadthumbLY;
 short                   gamepadthumbRX;
 
-boolean                 vibrate = false;
+dboolean                vibrate = false;
 
-extern boolean          idclev;
-extern boolean          idmus;
-extern boolean          idbehold;
-extern boolean          menuactive;
+extern dboolean         idclev;
+extern dboolean         idmus;
+extern dboolean         idbehold;
+extern dboolean         menuactive;
+extern dboolean         message_clearable;
 
 #if defined(WIN32)
 HMODULE                 pXInputDLL;
@@ -83,7 +87,7 @@ void (*gamepadthumbsfunc)(short, short, short, short);
 void I_InitGamepad(void)
 {
     gamepadfunc = I_PollDirectInputGamepad;
-    gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_DirectInput_LeftHanded :
+    gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
         I_PollThumbs_DirectInput_RightHanded);
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
@@ -109,6 +113,7 @@ void I_InitGamepad(void)
         {
 #if defined(WIN32)
             char        *XInputDLL = malloc(16);
+            static int  initcount;
 
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
                 M_StringCopy(XInputDLL, "XINPUT1_4.DLL", 16);
@@ -116,6 +121,8 @@ void I_InitGamepad(void)
                 M_StringCopy(XInputDLL, "XINPUT9_1_0.DLL", 16);
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
                 M_StringCopy(XInputDLL, "XINPUT1_3.DLL", 16);
+
+            ++initcount;
 
             if (pXInputDLL)
             {
@@ -131,30 +138,21 @@ void I_InitGamepad(void)
                     if (pXInputGetState(0, &state) == ERROR_SUCCESS)
                     {
                         gamepadfunc = I_PollXInputGamepad;
-                        gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_XInput_LeftHanded :
+                        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
                             I_PollThumbs_XInput_RightHanded);
-                        C_Output("XInput gamepad detected. Using %s.", XInputDLL);
+                        if (initcount == 1)
+                            C_Output("XInput gamepad detected. Using %s.", XInputDLL);
                     }
                 }
                 else
                     FreeLibrary(pXInputDLL);
             }
-            else
-                C_Output("DirectInput gamepad \"%s\" detected.",
-#if defined(SDL20)
-                    SDL_JoystickName(gamepad));
-#else
-                    SDL_JoystickName(i));
-#endif
+            else if (initcount == 1)
+                C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 
             free(XInputDLL);
 #else
-            C_Output("DirectInput gamepad \"%s\" detected.",
-#if defined(SDL20)
-                SDL_JoystickName(gamepad));
-#else
-                SDL_JoystickName(i));
-#endif
+            C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 #endif
 
             SDL_JoystickEventState(SDL_ENABLE);
@@ -225,12 +223,13 @@ void I_PollDirectInputGamepad(void)
             idmus = false;
             if (idbehold)
             {
-                HU_clearMessages();
+                message_clearable = true;
+                HU_ClearMessages();
                 idbehold = false;
             }
         }
 
-        if (gamepadsensitivity || menuactive || (gamepadbuttons & gamepadmenu))
+        if (gp_sensitivity || menuactive || (gamepadbuttons & gamepadmenu))
         {
             event_t     ev;
 
@@ -312,19 +311,21 @@ void I_PollXInputGamepad(void)
             idmus = false;
             if (idbehold)
             {
-                HU_clearMessages();
+                message_clearable = true;
+                HU_ClearMessages();
                 idbehold = false;
             }
         }
 
-        if (gamepadsensitivity || menuactive || (gamepadbuttons & gamepadmenu))
+        if (gp_sensitivity || menuactive || (gamepadbuttons & gamepadmenu))
         {
             event_t      ev;
 
             ev.type = ev_gamepad;
             D_PostEvent(&ev);
 
-            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
+            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX,
+                Gamepad.sThumbRY);
         }
         else
         {

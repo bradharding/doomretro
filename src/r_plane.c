@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -83,7 +83,10 @@ static fixed_t          xoffs, yoffs;                   // killough 2/28/98: fla
 fixed_t                 yslope[SCREENHEIGHT];
 fixed_t                 distscale[SCREENWIDTH];
 
-boolean                 swirlingliquid = SWIRLINGLIQUID_DEFAULT;
+dboolean                r_liquid_swirl = r_liquid_swirl_default;
+
+extern fixed_t          animatedliquiddiff;
+extern dboolean         r_liquid_bob;
 
 //
 // R_MapPlane
@@ -126,7 +129,7 @@ static void R_MapPlane(int y, int x1, int x2)
 
 //
 // R_ClearPlanes
-// At begining of frame.
+// At beginning of frame.
 //
 void R_ClearPlanes(void)
 {
@@ -311,36 +314,34 @@ static byte *R_DistortedFlat(int flatnum)
     int         leveltic = gametic;
 
     // Already swirled this one?
-    if (gametic == swirltic && lastflat == flatnum)
+    if (leveltic == swirltic && lastflat == flatnum)
         return distortedflat;
 
     lastflat = flatnum;
 
     // built this tic?
-    if (gametic != swirltic && !consoleactive && !menuactive && !paused)
+    if (leveltic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused)
     {
         int     x, y;
 
+        leveltic *= SPEED;
         for (x = 0; x < 64; ++x)
             for (y = 0; y < 64; ++y)
             {
                 int     x1, y1;
                 int     sinvalue, sinvalue2;
 
-                sinvalue = (y * SWIRLFACTOR + leveltic * SPEED * 5 + 900) & 8191;
-                sinvalue2 = (x * SWIRLFACTOR2 + leveltic * SPEED * 4 + 300) & 8191;
+                sinvalue = (y * SWIRLFACTOR + leveltic * 5 + 900) & 8191;
+                sinvalue2 = (x * SWIRLFACTOR2 + leveltic * 4 + 300) & 8191;
                 x1 = x + 128 + ((finesine[sinvalue] * AMP) >> FRACBITS)
                     + ((finesine[sinvalue2] * AMP2) >> FRACBITS);
 
-                sinvalue = (x * SWIRLFACTOR + leveltic * SPEED * 3 + 700) & 8191;
-                sinvalue2 = (y * SWIRLFACTOR2 + leveltic * SPEED * 4 + 1200) & 8191;
+                sinvalue = (x * SWIRLFACTOR + leveltic * 3 + 700) & 8191;
+                sinvalue2 = (y * SWIRLFACTOR2 + leveltic * 4 + 1200) & 8191;
                 y1 = y + 128 + ((finesine[sinvalue] * AMP) >> FRACBITS)
                     + ((finesine[sinvalue2] * AMP2) >> FRACBITS);
 
-                x1 &= 63;
-                y1 &= 63;
-
-                offset[(y << 6) + x] = (y1 << 6) + x1;
+                offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
             }
 
         swirltic = gametic;
@@ -348,7 +349,7 @@ static byte *R_DistortedFlat(int flatnum)
 
     normalflat = W_CacheLumpNum(firstflat + flatnum, PU_LEVEL);
 
-    for (i = 0; i < 4096; i++)
+    for (i = 0; i < 4096; ++i)
         distortedflat[i] = normalflat[offset[i]];
 
     return distortedflat;
@@ -367,14 +368,16 @@ void R_DrawPlanes(void)
         visplane_t      *pl;
 
         for (pl = visplanes[i]; pl; pl = pl->next)
-        {
             if (pl->minx <= pl->maxx)
             {
+                int     picnum = pl->picnum;
+
                 // sky flat
-                if (pl->picnum == skyflatnum || (pl->picnum & PL_SKYFLAT))
+                if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 {
                     int         x;
                     int         texture;
+                    int         offset;
                     angle_t     an, flip;
 
                     // killough 10/98: allow skies to come from sidedefs.
@@ -383,10 +386,10 @@ void R_DrawPlanes(void)
                     // to use info lumps.
                     an = viewangle;
 
-                    if (pl->picnum & PL_SKYFLAT)
+                    if (picnum & PL_SKYFLAT)
                     {
                         // Sky Linedef
-                        const line_t    *l = &lines[pl->picnum & ~PL_SKYFLAT];
+                        const line_t    *l = &lines[picnum & ~PL_SKYFLAT];
 
                         // Sky transferred from first sidedef
                         const side_t    *s = *l->sidenum + sides;
@@ -405,20 +408,18 @@ void R_DrawPlanes(void)
 
                         // We sometimes flip the picture horizontally.
                         //
-                        // Doom always flipped the picture, so we make it optional,
+                        // DOOM always flipped the picture, so we make it optional,
                         // to make it easier to use the new feature, while to still
                         // allow old sky textures to be used.
                         flip = (l->special == TransferSkyTextureToTaggedSectors_Flipped ?
                             0u : ~0u);
                     }
-                    else        // Normal Doom sky, only one allowed per level
+                    else        // Normal DOOM sky, only one allowed per level
                     {
                         dc_texturemid = skytexturemid;  // Default y-offset
                         texture = skytexture;           // Default texture
-                        flip = 0;                       // Doom flips it
+                        flip = 0;                       // DOOM flips it
                     }
-
-                    dc_iscale = pspriteiscale;
 
                     // Sky is always drawn full bright,
                     //  i.e. colormaps[0] is used.
@@ -429,6 +430,8 @@ void R_DrawPlanes(void)
                     dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_iscale = pspriteiscale;
 
+                    offset = skycolumnoffset >> FRACBITS;
+
                     for (x = pl->minx; x <= pl->maxx; x++)
                     {
                         dc_yl = pl->top[x];
@@ -437,8 +440,8 @@ void R_DrawPlanes(void)
                         if (dc_yl <= dc_yh)
                         {
                             dc_x = x;
-                            dc_source = R_GetColumn(texture,
-                                ((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT);
+                            dc_source = R_GetColumn(texture, (((an + xtoviewangle[x]) ^ flip)
+                                >> ANGLETOSKYSHIFT) + offset, false);
                             skycolfunc();
                         }
                     }
@@ -446,9 +449,8 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    int         picnum = pl->picnum;
-                    boolean     liquid = isliquid[picnum];
-                    boolean     swirling = (liquid && swirlingliquid);
+                    dboolean    liquid = isliquid[picnum];
+                    dboolean    swirling = (liquid && r_liquid_swirl);
                     int         lumpnum = firstflat + flattranslation[picnum];
 
                     ds_source = (swirling ? R_DistortedFlat(picnum) :
@@ -458,8 +460,8 @@ void R_DrawPlanes(void)
                     yoffs = pl->yoffs;
                     planeheight = ABS(pl->height - viewz);
 
-                    if (liquid && pl->sector && pl->sector->animate != INT_MAX)
-                        planeheight -= pl->sector->animate;
+                    if (liquid && pl->sector && r_liquid_bob && isliquid[pl->sector->floorpic])
+                        planeheight -= animatedliquiddiff;
 
                     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT)
                         + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
@@ -472,6 +474,5 @@ void R_DrawPlanes(void)
                         W_ReleaseLumpNum(lumpnum);
                 }
             }
-        }
     }
 }

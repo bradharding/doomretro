@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -39,8 +39,9 @@
 #include <stdlib.h>
 #include "m_bbox.h"
 #include "p_local.h"
+#include "z_zone.h"
 
-extern msecnode_t *sector_list; // phares 3/16/98
+extern msecnode_t       *sector_list;   // phares 3/16/98
 
 void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
 
@@ -52,9 +53,7 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 {
     dx = ABS(dx);
     dy = ABS(dy);
-    if (dx < dy)
-        return (dx + dy - (dx >> 1));
-    return (dx + dy - (dy >> 1));
+    return (dx + dy - (MIN(dx, dy) >> 1));
 }
 
 //
@@ -64,10 +63,9 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 //
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line)
 {
-    return (!line->dx ? x <= line->v1->x ? line->dy > 0 : line->dy < 0 :
-        !line->dy ? y <= line->v1->y ? line->dx < 0 : line->dx > 0 :
-        FixedMul(y - line->v1->y, line->dx >> FRACBITS) >=
-        FixedMul(line->dy >> FRACBITS, x - line->v1->x));
+    return (!line->dx ? x <= line->v1->x ? line->dy > 0 : line->dy < 0 : !line->dy ?
+        y <= line->v1->y ? line->dx < 0 : line->dx > 0 : FixedMul(y - line->v1->y,
+        line->dx >> FRACBITS) >= FixedMul(line->dy >> FRACBITS, x - line->v1->x));
 }
 
 //
@@ -86,12 +84,15 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
         case ST_HORIZONTAL:
             return ((tmbox[BOXBOTTOM] > ld->v1->y) == (p = (tmbox[BOXTOP] > ld->v1->y)) ?
                 p ^ (ld->dx < 0) : -1);
+
         case ST_VERTICAL:
             return ((tmbox[BOXLEFT] < ld->v1->x) == (p = (tmbox[BOXRIGHT] < ld->v1->x)) ?
                 p ^ (ld->dy < 0) : -1);
+
         case ST_POSITIVE:
             return (P_PointOnLineSide(tmbox[BOXRIGHT], tmbox[BOXBOTTOM], ld) ==
                 (p = P_PointOnLineSide(tmbox[BOXLEFT], tmbox[BOXTOP], ld)) ? p : -1);
+
         case ST_NEGATIVE:
             return ((P_PointOnLineSide(tmbox[BOXLEFT], tmbox[BOXBOTTOM], ld)) ==
                 (p = P_PointOnLineSide(tmbox[BOXRIGHT], tmbox[BOXTOP], ld)) ? p : -1);
@@ -105,10 +106,9 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
-    return (!line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 :
-        !line->dy ? y <= line->y ? line->dx < 0 : line->dx > 0 :
-        (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ? (line->dy ^ x) < 0 :
-        FixedMul(y >> 8, line->dx >> 8) >= FixedMul(line->dy >> 8, x >> 8));
+    return (!line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 : !line->dy ? y <= line->y ?
+        line->dx < 0 : line->dx > 0 : (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ?
+        (line->dy ^ x) < 0 : FixedMul(y >> 8, line->dx >> 8) >= FixedMul(line->dy >> 8, x >> 8));
 }
 
 //
@@ -133,7 +133,7 @@ static fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
     int64_t     den = (int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy;
 
-    den >>= 16;
+    den >>= FRACBITS;
     if (!den)
         return 0;
     return (fixed_t)(((int64_t)(v1->x - v2->x) * v1->dy - (int64_t)(v1->y - v2->y) * v1->dx) / den);
@@ -192,7 +192,7 @@ void P_LineOpening(line_t *linedef)
 // P_UnsetThingPosition
 // Unlinks a thing from block map and sectors.
 // On each position change, BLOCKMAP and other
-// lookups maintaining lists ot things inside
+// lookups maintaining lists of things inside
 // these structures need to be updated.
 //
 void P_UnsetThingPosition(mobj_t *thing)
@@ -369,16 +369,16 @@ void P_SetBloodSplatPosition(mobj_t *splat)
 // to P_BlockLinesIterator, then make one or more calls
 // to it.
 //
-boolean P_BlockLinesIterator(int x, int y, boolean (*func)(line_t *))
+dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
     else
     {
-        int             offset = blockmapindex[y * bmapwidth + x];
+        int             offset = *(blockmap + y * bmapwidth + x);
         const int       *list;
 
-        for (list = &blockmaphead[offset]; *list != -1; list++)
+        for (list = blockmaplump + offset + 1; *list != -1; ++list)
         {
             line_t          *ld = &lines[*list];
 
@@ -397,7 +397,7 @@ boolean P_BlockLinesIterator(int x, int y, boolean (*func)(line_t *))
 //
 // P_BlockThingsIterator
 //
-boolean P_BlockThingsIterator(int x, int y, boolean (*func)(mobj_t *))
+dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
 {
     if (!(x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight))
     {
@@ -427,7 +427,7 @@ static void check_intercept(void)
     if (offset >= num_intercepts)
     {
         num_intercepts = (num_intercepts ? num_intercepts * 2 : 128);
-        intercepts = (intercept_t *)realloc(intercepts, sizeof(*intercepts) * num_intercepts);
+        intercepts = Z_Realloc(intercepts, sizeof(*intercepts) * num_intercepts);
         intercept_p = intercepts + offset;
     }
 }
@@ -443,7 +443,7 @@ divline_t       dlTrace;
 // A line is crossed if its endpoints
 // are on opposite sides of the trace.
 //
-static boolean PIT_AddLineIntercepts(line_t *ld)
+static dboolean PIT_AddLineIntercepts(line_t *ld)
 {
     int         s1;
     int         s2;
@@ -478,7 +478,7 @@ static boolean PIT_AddLineIntercepts(line_t *ld)
     intercept_p->frac = frac;
     intercept_p->isaline = true;
     intercept_p->d.line = ld;
-    intercept_p++;
+    ++intercept_p;
 
     return true;        // continue
 }
@@ -486,7 +486,7 @@ static boolean PIT_AddLineIntercepts(line_t *ld)
 //
 // PIT_AddThingIntercepts
 //
-static boolean PIT_AddThingIntercepts(mobj_t *thing)
+static dboolean PIT_AddThingIntercepts(mobj_t *thing)
 {
     fixed_t     x1, y1;
     fixed_t     x2, y2;
@@ -498,7 +498,7 @@ static boolean PIT_AddThingIntercepts(mobj_t *thing)
     fixed_t     x = thing->x;
     fixed_t     y = thing->y;
 
-    // check a corner to corner crossection for hit
+    // check a corner to corner crosssection for hit
     if ((dlTrace.dx ^ dlTrace.dy) > 0)
     {
         x1 = x - radius;
@@ -535,7 +535,7 @@ static boolean PIT_AddThingIntercepts(mobj_t *thing)
     intercept_p->frac = frac;
     intercept_p->isaline = false;
     intercept_p->d.thing = thing;
-    intercept_p++;
+    ++intercept_p;
 
     return true;        // keep going
 }
@@ -545,7 +545,7 @@ static boolean PIT_AddThingIntercepts(mobj_t *thing)
 // Returns true if the traverser function returns true
 // for all lines.
 //
-static boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
+static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 {
     int         count = intercept_p - intercepts;
     intercept_t *in = NULL;
@@ -555,7 +555,7 @@ static boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
         fixed_t         dist = INT_MAX;
         intercept_t     *scan;
 
-        for (scan = intercepts; scan < intercept_p; scan++)
+        for (scan = intercepts; scan < intercept_p; ++scan)
             if (scan->frac < dist)
             {
                 dist = scan->frac;
@@ -581,8 +581,8 @@ static boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 // Returns true if the traverser function returns true
 // for all lines.
 //
-boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
-                       int flags, boolean (*trav)(intercept_t *))
+dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
+    dboolean (*trav)(intercept_t *))
 {
     fixed_t     xt1, yt1;
     fixed_t     xt2, yt2;
@@ -594,7 +594,7 @@ boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
     int         mapxstep, mapystep;
     int         count;
 
-    validcount++;
+    ++validcount;
     intercept_p = intercepts;
 
     if (!((x1 - bmaporgx) & (MAPBLOCKSIZE - 1)))
@@ -669,7 +669,7 @@ boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
     mapx = xt1;
     mapy = yt1;
 
-    for (count = 0; count < 64; count++)
+    for (count = 0; count < 64; ++count)
     {
         if (flags & PT_ADDLINES)
             if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))

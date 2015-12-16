@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -50,7 +50,7 @@
 
 // This constant doesn't exist in VC6:
 #if !defined(INVALID_SET_FILE_POINTER)
-#define INVALID_SET_FILE_POINTER        0xffffffff
+#define INVALID_SET_FILE_POINTER        0xFFFFFFFF
 #endif
 
 typedef struct
@@ -66,7 +66,7 @@ static void MapFile(win32_wad_file_t *wad)
 {
     wad->handle_map = CreateFileMapping(wad->handle, NULL, PAGE_WRITECOPY, 0, 0, NULL);
 
-    if (wad->handle_map == NULL)
+    if (!wad->handle_map)
         return;
 
     wad->wad.mapped = MapViewOfFile(wad->handle_map, FILE_MAP_COPY, 0, 0, 0);
@@ -81,7 +81,7 @@ unsigned int GetFileLength(HANDLE handle)
 
     return result;
 }
-   
+
 static wad_file_t *W_Win32_OpenFile(char *path)
 {
     win32_wad_file_t    *result;
@@ -92,7 +92,7 @@ static wad_file_t *W_Win32_OpenFile(char *path)
     MultiByteToWideChar(CP_OEMCP, 0, path, strlen(path) + 1, wpath, sizeof(wpath));
 
     handle = CreateFileW(wpath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-                         FILE_ATTRIBUTE_NORMAL, NULL);
+        FILE_ATTRIBUTE_NORMAL, NULL);
 
     if (handle == INVALID_HANDLE_VALUE)
         return NULL;
@@ -114,21 +114,21 @@ static void W_Win32_CloseFile(wad_file_t *wad)
     win32_wad_file_t    *win32_wad = (win32_wad_file_t *)wad;
 
     // If mapped, unmap it.
-    if (win32_wad->wad.mapped != NULL)
+    if (win32_wad->wad.mapped)
         UnmapViewOfFile(win32_wad->wad.mapped);
 
-    if (win32_wad->handle_map != NULL)
+    if (win32_wad->handle_map)
         CloseHandle(win32_wad->handle_map);
 
     // Close the file
-    if (win32_wad->handle != NULL)
+    if (win32_wad->handle)
         CloseHandle(win32_wad->handle);
 
     Z_Free(win32_wad);
 }
 
-// Read data from the specified position in the file into the 
-// provided buffer.  Returns the number of bytes read.
+// Read data from the specified position in the file into the
+// provided buffer. Returns the number of bytes read.
 size_t W_Win32_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len)
 {
     win32_wad_file_t    *win32_wad = (win32_wad_file_t *)wad;
@@ -148,7 +148,7 @@ size_t W_Win32_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t b
     return bytes_read;
 }
 
-wad_file_class_t win32_wad_file = 
+wad_file_class_t win32_wad_file =
 {
     W_Win32_OpenFile,
     W_Win32_CloseFile,

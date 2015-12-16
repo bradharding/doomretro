@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -44,7 +44,7 @@
 #include "s_sound.h"
 #include "doomstat.h"
 
-platlist_t *activeplats;        // killough 2/14/98: made global again
+platlist_t      *activeplats;   // killough 2/14/98: made global again
 
 //
 // Move a plat up and down
@@ -61,14 +61,14 @@ void T_PlatRaise(plat_t *plat)
             if (plat->type == raiseAndChange || plat->type == raiseToNearestAndChange)
             {
                 if (!(leveltime & 7) && plat->sector->floorheight != plat->high)
-                    S_StartSound(&plat->sector->soundorg, sfx_stnmov);
+                    S_StartSectorSound(&plat->sector->soundorg, sfx_stnmov);
             }
 
             if (res == crushed && !plat->crush)
             {
                 plat->count = plat->wait;
                 plat->status = down;
-                S_StartSound(&plat->sector->soundorg, sfx_pstart);
+                S_StartSectorSound(&plat->sector->soundorg, sfx_pstart);
             }
             else
             {
@@ -79,11 +79,11 @@ void T_PlatRaise(plat_t *plat)
                     {
                         plat->count = plat->wait;
                         plat->status = waiting;
-                        S_StartSound(&plat->sector->soundorg, sfx_pstop);
+                        S_StartSectorSound(&plat->sector->soundorg, sfx_pstop);
                     }
                     else // else go into stasis awaiting next toggle activation
                     {
-                        plat->oldstatus = plat->status; // jff 3/14/98 after action wait  
+                        plat->oldstatus = plat->status; // jff 3/14/98 after action wait
                         plat->status = in_stasis;       // for reactivation of toggle
                     }
 
@@ -114,11 +114,11 @@ void T_PlatRaise(plat_t *plat)
                 {                                       // is silent, instant, no waiting
                     plat->count = plat->wait;
                     plat->status = waiting;
-                    S_StartSound(&plat->sector->soundorg, sfx_pstop);
+                    S_StartSectorSound(&plat->sector->soundorg, sfx_pstop);
                 }
                 else    // instant toggles go into stasis awaiting next activation
                 {
-                    plat->oldstatus = plat->status;     // jff 3/14/98 after action wait  
+                    plat->oldstatus = plat->status;     // jff 3/14/98 after action wait
                     plat->status = in_stasis;           // for reactivation of toggle
                 }
 
@@ -139,8 +139,9 @@ void T_PlatRaise(plat_t *plat)
             if (!--plat->count)
             {
                 plat->status = (plat->sector->floorheight == plat->low ? up : down);
-                S_StartSound(&plat->sector->soundorg, sfx_pstart);
+                S_StartSectorSound(&plat->sector->soundorg, sfx_pstart);
             }
+            break;
 
         case in_stasis:
             break;
@@ -158,7 +159,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
     int         rtn = 0;
     sector_t    *sec = NULL;
 
-    //  Activate all <type> plats that are in_stasis
+    // Activate all <type> plats that are in_stasis
     switch (type)
     {
         case perpetualRaise:
@@ -183,7 +184,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
 
         // Find lowest & highest floors around sector
         rtn = 1;
-        plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
+        plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, 0);
         P_AddThinker(&plat->thinker);
 
         plat->type = type;
@@ -204,7 +205,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->status = up;
                 sec->special = 0;
 
-                S_StartSound(&sec->soundorg, sfx_stnmov);
+                S_StartSectorSound(&sec->soundorg, sfx_stnmov);
                 break;
 
             case raiseAndChange:
@@ -214,7 +215,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->wait = 0;
                 plat->status = up;
 
-                S_StartSound(&sec->soundorg, sfx_stnmov);
+                S_StartSectorSound(&sec->soundorg, sfx_stnmov);
                 break;
 
             case downWaitUpStay:
@@ -227,7 +228,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->high = sec->floorheight;
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
-                S_StartSound(&sec->soundorg, sfx_pstart);
+                S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;
 
             case blazeDWUS:
@@ -240,7 +241,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->high = sec->floorheight;
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
-                S_StartSound(&sec->soundorg, sfx_pstart);
+                S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;
 
             case perpetualRaise:
@@ -258,13 +259,13 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = (plat_e)(P_Random() & 1);
 
-                S_StartSound(&sec->soundorg, sfx_pstart);
+                S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;
 
-            case toggleUpDn:                    // jff 3/14/98 add new type to support instant toggle
-                plat->speed = PLATSPEED;        // not used
-                plat->wait = 35 * PLATWAIT;     // not used
-                plat->crush = true;             // jff 3/14/98 crush anything in the way
+            case toggleUpDn:            // jff 3/14/98 add new type to support instant toggle
+                plat->speed = PLATSPEED;                // not used
+                plat->wait = TICRATE * PLATWAIT;        // not used
+                plat->crush = true;                     // jff 3/14/98 crush anything in the way
 
                 // set up toggling between ceiling, floor inclusive
                 plat->low = sec->ceilingheight;
@@ -312,7 +313,10 @@ void P_ActivateInStasis(int tag)
 
         if (plat->tag == tag && plat->status == in_stasis)
         {
-            plat->status = plat->oldstatus;
+            if (plat->type == toggleUpDn)
+                plat->status = (plat->oldstatus == up ? down : up);
+            else
+                plat->status = plat->oldstatus;
             plat->thinker.function = T_PlatRaise;
         }
     }
@@ -322,7 +326,7 @@ void P_ActivateInStasis(int tag)
 // EV_StopPlat()
 // Handler for "stop perpetual floor" linedef type
 //
-boolean EV_StopPlat(line_t *line)
+dboolean EV_StopPlat(line_t *line)
 {
     platlist_t  *platlist;
 
@@ -346,8 +350,9 @@ boolean EV_StopPlat(line_t *line)
 //
 void P_AddActivePlat(plat_t *plat)
 {
-    platlist_t  *list = malloc(sizeof(*list));
+    platlist_t  *list;
 
+    list = malloc(sizeof(*list));
     list->plat = plat;
     plat->list = list;
     if ((list->next = activeplats))

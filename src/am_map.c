@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -62,32 +62,23 @@
 #include "v_video.h"
 #include "z_zone.h"
 
-#define BLACK                   0
-#define WHITE                   4
-#define DARKGRAY                5
-#define BROWN                   64
-#define GRAY                    96
-#define GREEN                   112
-#define YELLOW                  160
-#define RED                     176
-#define PINK                    251
+#define MASKCOLOR               251
 
 // Automap colors
-#define CROSSHAIRCOLOR          WHITE
-#define MARKCOLOR               (GRAY + 4)
-#define PLAYERCOLOR             WHITE
-#define THINGCOLOR              GREEN
-#define WALLCOLOR               RED
-#define ALLMAPWALLCOLOR         (GRAY + 12)
-#define MASKCOLOR               PINK
-#define TELEPORTERCOLOR         (RED + 8)
-#define FDWALLCOLOR             BROWN
-#define ALLMAPFDWALLCOLOR       (GRAY + 14)
-#define CDWALLCOLOR             YELLOW
-#define ALLMAPCDWALLCOLOR       (GRAY + 10)
-#define TSWALLCOLOR             (GRAY + 8)
-#define GRIDCOLOR               DARKGRAY
-#define BACKGROUNDCOLOR         BLACK
+int     am_allmapcdwallcolor = am_allmapcdwallcolor_default;
+int     am_allmapfdwallcolor = am_allmapfdwallcolor_default;
+int     am_allmapwallcolor = am_allmapwallcolor_default;
+int     am_backcolor = am_backcolor_default;
+int     am_cdwallcolor = am_cdwallcolor_default;
+int     am_fdwallcolor = am_fdwallcolor_default;
+int     am_gridcolor = am_gridcolor_default;
+int     am_markcolor = am_markcolor_default;
+int     am_playercolor = am_playercolor_default;
+int     am_teleportercolor = am_teleportercolor_default;
+int     am_thingcolor = am_thingcolor_default;
+int     am_tswallcolor = am_tswallcolor_default;
+int     am_wallcolor = am_wallcolor_default;
+int     am_xhaircolor = am_xhaircolor_default;
 
 // Automap color priorities
 #define PLAYERPRIORITY          12
@@ -156,8 +147,8 @@ byte    *gridcolor;
 #define PLAYERRADIUS            (16 * (1 << MAPBITS))
 
 // translates between frame-buffer and map distances
-#define FTOM(x)                 (fixed_t)(((int64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
-#define MTOF(x)                 (fixed_t)((((int64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
+#define FTOM(x)                 (fixed_t)(((uint64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
+#define MTOF(x)                 (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 // translates between frame-buffer and map coordinates
 #define CXMTOF(x)               MTOF(x - m_x)
 #define CYMTOF(y)               (mapheight - MTOF(y - m_y))
@@ -222,71 +213,68 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-boolean         am_grid = GRID_DEFAULT;
-
-boolean         automapactive = false;
+dboolean                automapactive = false;
 
 static unsigned int     mapwidth;
 static unsigned int     mapheight;
 static unsigned int     maparea;
 static unsigned int     mapbottom;
 
-static mpoint_t m_paninc;                       // how far the window pans each tic (map coords)
-static fixed_t  mtof_zoommul;                   // how far the window zooms in each tic (map coords)
-static fixed_t  ftom_zoommul;                   // how far the window zooms in each tic (fb coords)
+static mpoint_t         m_paninc;       // how far the window pans each tic (map coords)
+static fixed_t          mtof_zoommul;   // how far the window zooms in each tic (map coords)
+static fixed_t          ftom_zoommul;   // how far the window zooms in each tic (fb coords)
 
-fixed_t         m_x = INT_MAX, m_y = INT_MAX;   // LL x,y where the window is on the map (map coords)
-static fixed_t  m_x2, m_y2;                     // UR x,y where the window is on the map (map coords)
+// LL x,y where the window is on the map (map coords)
+fixed_t                 m_x = INT_MAX, m_y = INT_MAX;
+
+// UR x,y where the window is on the map (map coords)
+static fixed_t          m_x2, m_y2;
 
 //
 // width/height of window on map (map coords)
 //
-fixed_t         m_w;
-fixed_t         m_h;
+fixed_t                 m_w;
+fixed_t                 m_h;
 
 // based on level size
-static fixed_t  min_x;
-static fixed_t  min_y;
-static fixed_t  max_x;
-static fixed_t  max_y;
+static fixed_t          min_x;
+static fixed_t          min_y;
+static fixed_t          max_x;
+static fixed_t          max_y;
 
-static fixed_t  min_scale_mtof;                 // used to tell when to stop zooming out
-static fixed_t  max_scale_mtof;                 // used to tell when to stop zooming in
+static fixed_t          min_scale_mtof;         // used to tell when to stop zooming out
+static fixed_t          max_scale_mtof;         // used to tell when to stop zooming in
 
 // old stuff for recovery later
-static fixed_t  old_m_w, old_m_h;
-static fixed_t  old_m_x, old_m_y;
+static fixed_t          old_m_w, old_m_h;
+static fixed_t          old_m_x, old_m_y;
 
 // used by MTOF to scale from map-to-frame-buffer coords
-static fixed_t  scale_mtof;
+static fixed_t          scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
-static fixed_t  scale_ftom;
+static fixed_t          scale_ftom;
 
-static player_t *plr;                           // the player represented by an arrow
+static player_t         *plr;                   // the player represented by an arrow
 
-mpoint_t        *markpoints = NULL;             // where the points are
-int             markpointnum = 0;               // next point to be assigned
-int             markpointnum_max = 0;
+mpoint_t                *markpoints = NULL;     // where the points are
+int                     markpointnum = 0;       // next point to be assigned
+int                     markpointnum_max = 0;
 
-boolean         am_followmode = true;           // specifies whether to follow the player around
-boolean         am_rotatemode = ROTATEMODE_DEFAULT;
+int                     am_cheat = am_cheat_default;
+dboolean                am_external = am_external_default;
+dboolean                am_followmode = am_followmode_default;
+dboolean                am_grid = am_grid_default;
+dboolean                am_rotatemode = am_rotatemode_default;
 
-static boolean  stopped = true;
+static dboolean         stopped = true;
 
-boolean         bigstate = false;
-byte            *area;
-static boolean  movement = false;
-int             keydown;
-int             direction;
+dboolean                bigstate = false;
+byte                    *area;
+static dboolean         movement;
+int                     keydown;
+int                     direction;
 
-int             teleporters[24];
-
-am_frame_t      am_frame;
-
-__inline static int sign(int a)
-{
-    return ((a > 0) - (a < 0));
-}
+am_frame_t              am_frame;
 
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
@@ -394,96 +382,65 @@ static void AM_changeWindowLoc(void)
     m_y2 = m_y + m_h;
 }
 
-void AM_Init(void)
+void AM_SetColors(void)
 {
-    byte        *priority;
+    byte        *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
     int         x, y;
-    int         i;
 
-    priority = Z_Malloc(256, PU_STATIC, NULL);
-    mask = Z_Malloc(256, PU_STATIC, NULL);
-    for (x = 0; x < 256; ++x)
-    {
-        *(priority + x) = 0;
-        *(mask + x) = x;
-    }
+    *(priority + am_playercolor) = PLAYERPRIORITY;
+    *(priority + am_thingcolor) = THINGPRIORITY;
+    *(priority + am_wallcolor) = WALLPRIORITY;
+    *(priority + am_allmapwallcolor) = ALLMAPWALLPRIORITY;
+    *(priority + am_cdwallcolor) = CDWALLPRIORITY;
+    *(priority + am_allmapcdwallcolor) = ALLMAPCDWALLPRIORITY;
+    *(priority + am_fdwallcolor) = FDWALLPRIORITY;
+    *(priority + am_allmapfdwallcolor) = ALLMAPFDWALLPRIORITY;
+    *(priority + am_teleportercolor) = TELEPORTERPRIORITY;
+    *(priority + am_tswallcolor) = TSWALLPRIORITY;
+    *(priority + am_gridcolor) = GRIDPRIORITY;
 
-    *(priority + PLAYERCOLOR) = PLAYERPRIORITY;
-    *(priority + THINGCOLOR) = THINGPRIORITY;
-    *(priority + WALLCOLOR) = WALLPRIORITY;
-    *(priority + ALLMAPWALLCOLOR) = ALLMAPWALLPRIORITY;
     *(priority + MASKCOLOR) = MASKPRIORITY;
-    *(priority + CDWALLCOLOR) = CDWALLPRIORITY;
-    *(priority + ALLMAPCDWALLCOLOR) = ALLMAPCDWALLPRIORITY;
-    *(priority + FDWALLCOLOR) = FDWALLPRIORITY;
-    *(priority + ALLMAPFDWALLCOLOR) = ALLMAPFDWALLPRIORITY;
-    *(priority + TELEPORTERCOLOR) = TELEPORTERPRIORITY;
-    *(priority + TSWALLCOLOR) = TSWALLPRIORITY;
-    *(priority + GRIDCOLOR) = GRIDPRIORITY;
 
-    *(mask + MASKCOLOR) = BACKGROUNDCOLOR;
+    *(mask + MASKCOLOR) = am_backcolor;
 
-    priorities = Z_Malloc(65536, PU_STATIC, NULL);
     for (x = 0; x < 256; ++x)
         for (y = 0; y < 256; ++y)
             *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
 
-    playercolor = priorities + (PLAYERCOLOR << 8);
-    thingcolor = priorities + (THINGCOLOR << 8);
-    wallcolor = priorities + (WALLCOLOR << 8);
-    allmapwallcolor = priorities + (ALLMAPWALLCOLOR << 8);
+    playercolor = priorities + (am_playercolor << 8);
+    thingcolor = priorities + (am_thingcolor << 8);
+    wallcolor = priorities + (am_wallcolor << 8);
+    allmapwallcolor = priorities + (am_allmapwallcolor << 8);
+    cdwallcolor = priorities + (am_cdwallcolor << 8);
+    allmapcdwallcolor = priorities + (am_allmapcdwallcolor << 8);
+    fdwallcolor = priorities + (am_fdwallcolor << 8);
+    allmapfdwallcolor = priorities + (am_allmapfdwallcolor << 8);
+    teleportercolor = priorities + (am_teleportercolor << 8);
+    tswallcolor = priorities + (am_tswallcolor << 8);
+    gridcolor = priorities + (am_gridcolor << 8);
+
     maskcolor = priorities + (MASKCOLOR << 8);
-    cdwallcolor = priorities + (CDWALLCOLOR << 8);
-    allmapcdwallcolor = priorities + (ALLMAPCDWALLCOLOR << 8);
-    fdwallcolor = priorities + (FDWALLCOLOR << 8);
-    allmapfdwallcolor = priorities + (ALLMAPFDWALLCOLOR << 8);
-    teleportercolor = priorities + (TELEPORTERCOLOR << 8);
-    tswallcolor = priorities + (TSWALLCOLOR << 8);
-    gridcolor = priorities + (GRIDCOLOR << 8);
-
-    for (i = 0; i < arrlen(teleporters); ++i)
-        teleporters[i] = -1;
-
-    if (BTSX)
-    {
-        teleporters[0] = R_CheckFlatNumForName("SLIME09");
-        teleporters[1] = R_CheckFlatNumForName("SLIME12");
-        teleporters[2] = R_CheckFlatNumForName("TELEPRT1");
-        teleporters[3] = R_CheckFlatNumForName("TELEPRT2");
-        teleporters[4] = R_CheckFlatNumForName("TELEPRT3");
-        teleporters[5] = R_CheckFlatNumForName("TELEPRT4");
-        teleporters[6] = R_CheckFlatNumForName("TELEPRT5");
-        teleporters[7] = R_CheckFlatNumForName("TELEPRT6");
-        teleporters[8] = R_CheckFlatNumForName("SLIME05");
-        teleporters[9] = R_CheckFlatNumForName("SHNPRT02");
-        teleporters[10] = R_CheckFlatNumForName("SHNPRT03");
-        teleporters[11] = R_CheckFlatNumForName("SHNPRT04");
-        teleporters[12] = R_CheckFlatNumForName("SHNPRT05");
-        teleporters[13] = R_CheckFlatNumForName("SHNPRT06");
-        teleporters[14] = R_CheckFlatNumForName("SHNPRT07");
-        teleporters[15] = R_CheckFlatNumForName("SHNPRT08");
-        teleporters[16] = R_CheckFlatNumForName("SHNPRT09");
-        teleporters[17] = R_CheckFlatNumForName("SHNPRT10");
-        teleporters[18] = R_CheckFlatNumForName("SHNPRT11");
-        teleporters[19] = R_CheckFlatNumForName("SHNPRT12");
-        teleporters[20] = R_CheckFlatNumForName("SHNPRT13");
-        teleporters[21] = R_CheckFlatNumForName("SHNPRT14");
-        teleporters[22] = R_CheckFlatNumForName("SLIME08");
-    }
-    else
-    {
-        teleporters[0] = R_CheckFlatNumForName("GATE1");
-        teleporters[1] = R_CheckFlatNumForName("GATE2");
-        teleporters[2] = R_CheckFlatNumForName("GATE3");
-        teleporters[3] = R_CheckFlatNumForName("GATE4");
-    }
 }
 
-static void AM_initVariables(void)
+void AM_Init(void)
 {
-    automapactive = true;
+    byte        *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
+    int         x;
 
-    area = *screens + maparea;
+    mask = Z_Malloc(256, PU_STATIC, NULL);
+    for (x = 0; x < 256; ++x)
+        *(mask + x) = x;
+
+    priorities = Z_Malloc(256 * 256, PU_STATIC, NULL);
+
+    AM_SetColors();
+}
+
+static void AM_initVariables(dboolean mainwindow)
+{
+    automapactive = mainwindow;
+
+    area = mapscreen + maparea;
 
     m_paninc.x = m_paninc.y = 0;
     ftom_zoommul = FRACUNIT;
@@ -531,7 +488,7 @@ static void AM_LevelInit(void)
 void AM_Stop(void)
 {
     automapactive = false;
-    HU_clearMessages();
+    HU_ClearMessages();
     ST_AutomapEvent(AM_MSGEXITED);
     stopped = true;
 }
@@ -539,7 +496,7 @@ void AM_Stop(void)
 int     lastlevel = -1;
 int     lastepisode = -1;
 
-void AM_Start(void)
+void AM_Start(dboolean mainwindow)
 {
     if (!stopped)
         AM_Stop();
@@ -556,7 +513,7 @@ void AM_Start(void)
         lastlevel = gamemap;
         lastepisode = gameepisode;
     }
-    AM_initVariables();
+    AM_initVariables(mainwindow);
 }
 
 //
@@ -579,15 +536,10 @@ static void AM_maxOutWindowScale(void)
     AM_activateNewScale();
 }
 
-#if defined(SDL20)
 SDL_Keymod      modstate;
-#else
-SDLMod          modstate;
-#endif
+dboolean        speedtoggle;
 
-boolean         speedtoggle;
-
-static boolean AM_getSpeedToggle(void)
+static dboolean AM_getSpeedToggle(void)
 {
     return (!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER) + !!(modstate & KMOD_SHIFT) == 1);
 }
@@ -627,7 +579,7 @@ static void AM_toggleFollowMode(void)
     am_followmode = !am_followmode;
     if (am_followmode)
         m_paninc.x = m_paninc.y = 0;
-    C_Input("am_followmode %s", (am_followmode ? "on" : "off"));
+    C_Input("%s %s", stringize(am_followmode), (am_followmode ? "on" : "off"));
     HU_PlayerMessage((am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
@@ -636,11 +588,11 @@ static void AM_toggleFollowMode(void)
 static void AM_toggleGrid(void)
 {
     am_grid = !am_grid;
-    C_Input("am_grid %s", (am_grid ? "on" : "off"));
+    C_Input("%s %s", stringize(am_grid), (am_grid ? "on" : "off"));
     HU_PlayerMessage((am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
-    M_SaveDefaults();
+    M_SaveCVARs();
 }
 
 //
@@ -649,8 +601,8 @@ static void AM_toggleGrid(void)
 static void AM_addMark(void)
 {
     int         i;
-    int         x = m_x + m_w / 2;
-    int         y = m_y + m_h / 2;
+    int         x = am_frame.centerx;
+    int         y = am_frame.centery;
     static char message[32];
 
     for (i = 0; i < markpointnum; ++i)
@@ -659,8 +611,8 @@ static void AM_addMark(void)
 
     if (markpointnum >= markpointnum_max)
     {
-        markpointnum_max = (markpointnum_max ? markpointnum_max << 1 : 16);
-        markpoints = (mpoint_t *)realloc(markpoints, markpointnum_max * sizeof(*markpoints));
+        markpointnum_max = (markpointnum_max ? (markpointnum_max << 1) : 16);
+        markpoints = Z_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
     }
 
     markpoints[markpointnum].x = x;
@@ -700,17 +652,17 @@ static void AM_clearMarks(void)
 static void AM_toggleRotateMode(void)
 {
     am_rotatemode = !am_rotatemode;
-    C_Input("am_rotatemode %s", (am_rotatemode ? "on" : "off"));
+    C_Input("%s %s", stringize(am_rotatemode), (am_rotatemode ? "on" : "off"));
     HU_PlayerMessage((am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
-    M_SaveDefaults();
+    M_SaveCVARs();
 }
 
 //
 // Handle events (user inputs) in automap mode
 //
-boolean AM_Responder(event_t *ev)
+dboolean AM_Responder(event_t *ev)
 {
     int                 rc = false;
 
@@ -719,7 +671,7 @@ boolean AM_Responder(event_t *ev)
 
     if (!menuactive && !paused)
     {
-        static boolean  backbuttondown = false;
+        static dboolean backbuttondown;
 
         if (!(gamepadbuttons & gamepadautomap))
             backbuttondown = false;
@@ -736,7 +688,7 @@ boolean AM_Responder(event_t *ev)
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
-                AM_Start();
+                AM_Start(true);
                 viewactive = false;
                 rc = true;
             }
@@ -944,15 +896,18 @@ boolean AM_Responder(event_t *ev)
                     if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2) || keystate(AM_PANRIGHTKEY3))
+                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2)
+                            || keystate(AM_PANRIGHTKEY3))
                             m_paninc.x = FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
                     }
-                    else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
+                    else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2
+                        || key == AM_PANRIGHTKEY3)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2) || keystate(AM_PANLEFTKEY3))
+                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2)
+                            || keystate(AM_PANLEFTKEY3))
                             m_paninc.x = -FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
@@ -975,7 +930,6 @@ boolean AM_Responder(event_t *ev)
                     }
                 }
             }
-#if defined(SDL20)
             else if (ev->type == ev_mousewheel)
             {
                 // zoom in
@@ -997,29 +951,6 @@ boolean AM_Responder(event_t *ev)
                     ftom_zoommul = M_ZOOMIN + 2000;
                 }
             }
-#else
-            else if (ev->type == ev_mouse)
-            {
-                // zoom in
-                if (ev->data1 & MOUSE_WHEELUP)
-                {
-                    movement = true;
-                    speedtoggle = AM_getSpeedToggle();
-                    mtof_zoommul = M_ZOOMIN + 2000;
-                    ftom_zoommul = M_ZOOMOUT - 2000;
-                    bigstate = false;
-                }
-
-                // zoom out
-                else if (ev->data1 & MOUSE_WHEELDOWN)
-                {
-                    movement = true;
-                    speedtoggle = AM_getSpeedToggle();
-                    mtof_zoommul = M_ZOOMOUT - 2000;
-                    ftom_zoommul = M_ZOOMIN + 2000;
-                }
-            }
-#endif
             else if (ev->type == ev_gamepad)
             {
                 if ((gamepadbuttons & gamepadautomap) && !backbuttondown)
@@ -1076,7 +1007,8 @@ boolean AM_Responder(event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_getSpeedToggle();
-                        m_paninc.x = FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLXright * 1.2f)));
+                        m_paninc.x = FTOM(MTOF((fixed_t)(FTOM(F_PANINC)
+                            * gamepadthumbLXright * 1.2f)));
                     }
 
                     // pan left
@@ -1084,7 +1016,8 @@ boolean AM_Responder(event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_getSpeedToggle();
-                        m_paninc.x = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLXleft * 1.2f)));
+                        m_paninc.x = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC)
+                            * gamepadthumbLXleft * 1.2f)));
                     }
 
                     // pan up
@@ -1092,7 +1025,8 @@ boolean AM_Responder(event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_getSpeedToggle();
-                        m_paninc.y = FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLYup * 1.2f)));
+                        m_paninc.y = FTOM(MTOF((fixed_t)(FTOM(F_PANINC)
+                            * gamepadthumbLYup * 1.2f)));
                     }
 
                     // pan down
@@ -1100,7 +1034,8 @@ boolean AM_Responder(event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_getSpeedToggle();
-                        m_paninc.y = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLYdown * 1.2f)));
+                        m_paninc.y = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC)
+                            * gamepadthumbLYdown * 1.2f)));
                     }
                 }
             }
@@ -1180,6 +1115,12 @@ static void AM_doFollowPlayer(void)
 //
 void AM_Ticker(void)
 {
+    if (mapwindow)
+    {
+        AM_doFollowPlayer();
+        return;
+    }
+
     if (!automapactive)
         return;
 
@@ -1207,9 +1148,9 @@ void AM_Ticker(void)
 //
 // Clear automap frame buffer.
 //
-static void AM_clearFB(void)
+void AM_clearFB(void)
 {
-    memset(*screens, BACKGROUNDCOLOR, maparea);
+    memset(mapscreen, am_backcolor, maparea);
 }
 
 //
@@ -1218,7 +1159,7 @@ static void AM_clearFB(void)
 // Based on Cohen-Sutherland clipping algorithm but with a slightly
 // faster reject and precalculated slopes. If the speed is needed,
 // use a hash algorithm to handle the common cases.
-static boolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
+static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
 {
     enum
     {
@@ -1264,32 +1205,32 @@ static __inline void _PUTDOT(byte *dot, byte *color)
 static __inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth && y < maparea)
-        _PUTDOT(*screens + y + x, color);
+        _PUTDOT(mapscreen + y + x, color);
 }
 
 static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth)
     {
-        byte    *dot = *screens + y + x;
-        boolean top = (y < maparea);
-        boolean bottom = (y < mapbottom);
+        byte    *dot = mapscreen + y + x;
+        dboolean attop = (y < maparea);
+        dboolean atbottom = (y < mapbottom);
 
-        if (top)
+        if (attop)
             _PUTDOT(dot, color);
-        if (bottom)
+        if (atbottom)
             _PUTDOT(dot + mapwidth, color);
         if (x + 1 < mapwidth)
         {
-            if (top)
+            if (attop)
                 _PUTDOT(dot + 1, color);
-            if (bottom)
+            if (atbottom)
                 _PUTDOT(dot + mapwidth + 1, color);
         }
     }
     else if (++x < mapwidth)
     {
-        byte    *dot = *screens + y + x;
+        byte    *dot = mapscreen + y + x;
 
         if (y < maparea)
             _PUTDOT(dot, color);
@@ -1302,10 +1243,10 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth && y < maparea)
     {
-        byte    *dot = *screens + y + x;
+        byte    *dot = mapscreen + y + x;
 
-        if (*dot != *(tinttab60 + PLAYERCOLOR))
-            *dot = *(tinttab60 + (*dot << 8) + PLAYERCOLOR);
+        if (*dot != *(tinttab60 + am_playercolor))
+            *dot = *(tinttab60 + (*dot << 8) + am_playercolor);
     }
 }
 
@@ -1313,7 +1254,7 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
 static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
-                         void (*putdot)(unsigned int, unsigned int, byte *))
+    void (*putdot)(unsigned int, unsigned int, byte *))
 {
     int dx = x1 - x0;
     int dy = y1 - y0;
@@ -1340,8 +1281,8 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         // vertical line
         int     sy = SIGN(dy) * mapwidth;
 
-        y0 = BETWEEN(-(int)mapwidth, y0 * mapwidth, mapbottom);
-        y1 = BETWEEN(-(int)mapwidth, y1 * mapwidth, mapbottom);
+        y0 = BETWEEN(-(signed int)mapwidth, y0 * mapwidth, mapbottom);
+        y1 = BETWEEN(-(signed int)mapwidth, y1 * mapwidth, mapbottom);
 
         putdot(x0, y0, color);
         while (y0 != y1)
@@ -1474,25 +1415,14 @@ static void AM_drawGrid(void)
     }
 }
 
-boolean isteleport(int floorpic)
-{
-    int i;
-
-    for (i = 0; i < arrlen(teleporters); ++i)
-        if (floorpic == teleporters[i])
-            return true;
-
-    return false;
-}
-
 //
 // Determines visible lines, draws them.
 // This is LineDef based, not LineSeg based.
 //
 static void AM_drawWalls(void)
 {
-    boolean     allmap = plr->powers[pw_allmap];
-    boolean     cheating = (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS));
+    dboolean    allmap = plr->powers[pw_allmap];
+    dboolean    cheating = (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS));
     int         i = 0;
 
     while (i < numlines)
@@ -1530,18 +1460,18 @@ static void AM_drawWalls(void)
                     AM_rotatePoint(&l.b);
                 }
 
-                if ((special == W1_Teleport || special == W1_ExitLevel || special == WR_Teleport
-                    || special == W1_ExitLevel_GoesToSecretLevel
+                if ((special && (special == W1_Teleport || special == W1_ExitLevel
+                    || special == WR_Teleport || special == W1_ExitLevel_GoesToSecretLevel
                     || special == W1_Teleport_AlsoMonsters_Silent_SameAngle
                     || special == WR_Teleport_AlsoMonsters_Silent_SameAngle
                     || special == W1_TeleportToLineWithSameTag_Silent_SameAngle
                     || special == WR_TeleportToLineWithSameTag_Silent_SameAngle
                     || special == W1_TeleportToLineWithSameTag_Silent_ReversedAngle
-                    || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle)
+                    || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle))
                     && ((flags & ML_TELEPORTTRIGGERED) || cheating
-                    || isteleport(backsector->floorpic)))
+                    || (backsector && isteleport[backsector->floorpic])))
                 {
-                    if (cheating || (mapped && !secret
+                    if (cheating || (mapped && !secret && backsector
                         && backsector->ceilingheight != backsector->floorheight))
                     {
                         AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, teleportercolor);
@@ -1555,7 +1485,7 @@ static void AM_drawWalls(void)
                 }
                 if (!backsector || (secret && !cheating))
                     AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor :
-                    (allmap ? allmapwallcolor : maskcolor)));
+                        (allmap ? allmapwallcolor : maskcolor)));
                 else if (backsector->floorheight != frontsector->floorheight)
                 {
                     if (mapped || cheating)
@@ -1578,7 +1508,7 @@ static void AM_drawWalls(void)
 
     if (!cheating && !allmap)
     {
-        byte    *dot = *screens;
+        byte    *dot = mapscreen;
 
         while (dot < area)
         {
@@ -1588,8 +1518,8 @@ static void AM_drawWalls(void)
     }
 }
 
-static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
-                                 angle_t angle, byte *color, fixed_t x, fixed_t y)
+static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale, angle_t angle,
+    byte *color, fixed_t x, fixed_t y)
 {
     int i;
 
@@ -1625,7 +1555,7 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
 }
 
 static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
-                                      angle_t angle, byte *color, fixed_t x, fixed_t y)
+    angle_t angle, byte *color, fixed_t x, fixed_t y)
 {
     int i;
 
@@ -1660,7 +1590,7 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
     }
 }
 
-static void AM_drawPlayers(void)
+static void AM_drawPlayer(void)
 {
     int         invisibility = plr->powers[pw_invisibility];
     mpoint_t    point;
@@ -1674,21 +1604,18 @@ static void AM_drawPlayers(void)
     if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > 128 || (invisibility & 8))
-            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                0, plr->mo->angle, NULL, point.x, point.y);
+            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle,
+                NULL, point.x, point.y);
         else
-            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                0, plr->mo->angle, playercolor, point.x, point.y);
+            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle,
+                playercolor, point.x, point.y);
     }
+    else if (invisibility > 128 || (invisibility & 8))
+        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, NULL,
+            point.x, point.y);
     else
-    {
-        if (invisibility > 128 || (invisibility & 8))
-            AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES,
-                0, plr->mo->angle, NULL, point.x, point.y);
-        else
-            AM_drawLineCharacter(playerarrow, PLAYERARROWLINES,
-                0, plr->mo->angle, playercolor, point.x, point.y);
-    }
+        AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, playercolor,
+            point.x, point.y);
 }
 
 static void AM_drawThings(void)
@@ -1749,7 +1676,7 @@ static void AM_drawThings(void)
     }
 }
 
-const char *marknums[10] =
+static const char *marknums[10] =
 {
     "011111101122221112222221122112211221122112211221"
     "122112211221122112211221122222211122221101111110",
@@ -1821,11 +1748,11 @@ static void AM_drawMarks(void)
                     if ((unsigned int)fy < mapheight)
                     {
                         char    src = marknums[digit][j];
-                        byte    *dest = *screens + fy * mapwidth + fx;
+                        byte    *dest = mapscreen + fy * mapwidth + fx;
 
                         if (src == '2')
-                            *dest = MARKCOLOR;
-                        else if (src == '1' && *dest != MARKCOLOR && *dest != GRIDCOLOR)
+                            *dest = am_markcolor;
+                        else if (src == '1' && *dest != am_markcolor && *dest != am_gridcolor)
                             *dest = *(*dest + tinttab80);
                     }
                 }
@@ -1839,7 +1766,7 @@ static void AM_drawMarks(void)
 
 static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
 {
-    byte        *dest = *screens + (y * 2 - 1) * mapwidth + x * 2 - 1;
+    byte        *dest = mapscreen + (y * 2 - 1) * mapwidth + x * 2 - 1;
 
     *dest = *(*dest + color);
     ++dest;
@@ -1851,11 +1778,11 @@ static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
 }
 
 #define CENTERX         ORIGINALWIDTH / 2
-#define CENTERY         (ORIGINALHEIGHT - 32) / 2
+#define CENTERY         (ORIGINALHEIGHT - ORIGINALSBARHEIGHT) / 2
 
 static void AM_drawCrosshair(void)
 {
-    byte        *color = tinttab60 + (CROSSHAIRCOLOR << 8);
+    byte        *color = tinttab60 + (am_xhaircolor << 8);
 
     AM_DrawScaledPixel(CENTERX - 2, CENTERY, color);
     AM_DrawScaledPixel(CENTERX - 1, CENTERY, color);
@@ -1870,19 +1797,21 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
-    int angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
-
-    am_frame.sin = finesine[angle];
-    am_frame.cos = finecosine[angle];
-
-    am_frame.centerx = m_x + m_w / 2;
-    am_frame.centery = m_y + m_h / 2;
-
     if (am_rotatemode)
     {
-        float   dx = (float)(m_x2 - am_frame.centerx);
-        float   dy = (float)(m_y2 - am_frame.centery);
-        fixed_t r = (fixed_t)sqrt(dx * dx + dy * dy);
+        int     angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
+        float   dx, dy;
+        fixed_t r;
+
+        am_frame.sin = finesine[angle];
+        am_frame.cos = finecosine[angle];
+
+        am_frame.centerx = m_x + m_w / 2;
+        am_frame.centery = m_y + m_h / 2;
+
+        dx = (float)(m_x2 - am_frame.centerx);
+        dy = (float)(m_y2 - am_frame.centery);
+        r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.bbox[BOXLEFT] = am_frame.centerx - r;
         am_frame.bbox[BOXRIGHT] = am_frame.centerx + r;
@@ -1909,7 +1838,7 @@ void AM_Drawer(void)
         AM_drawThings();
     if (markpointnum)
         AM_drawMarks();
-    AM_drawPlayers();
+    AM_drawPlayer();
     if (!am_followmode)
         AM_drawCrosshair();
 }

@@ -1,46 +1,48 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
 
 #if defined(WIN32)
+#pragma warning( disable : 4091 )
 #include <ShlObj.h>
 #include <Xinput.h>
 #endif
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
@@ -52,636 +54,482 @@
 #include "p_local.h"
 #include "version.h"
 
-float           gamepadleftdeadzone_percent = GAMEPADLEFTDEADZONE_DEFAULT;
-float           gamepadrightdeadzone_percent = GAMEPADRIGHTDEADZONE_DEFAULT;
-int             musicvolume_percent = MUSICVOLUME_DEFAULT;
-int             sfxvolume_percent = SFXVOLUME_DEFAULT;
+char                    *configfile = PACKAGE_CONFIG;
 
-//
-// DEFAULTS
-//
-extern boolean  alwaysrun;
-extern boolean  am_grid;
-extern boolean  am_rotatemode;
-extern boolean  animatedliquid;
-extern boolean  brightmaps;
-extern boolean  capfps;
-extern boolean  centerweapon;
-extern boolean  corpses_mirror;
-extern boolean  corpses_moreblood;
-extern boolean  corpses_nudge;
-extern boolean  corpses_slide;
-extern boolean  corpses_smearblood;
-extern boolean  dclick_use;
-extern boolean  floatbob;
-extern boolean  footclip;
-extern boolean  fullscreen;
-extern int      gamepadautomap;
-extern int      gamepadautomapclearmark;
-extern int      gamepadautomapfollowmode;
-extern int      gamepadautomapgrid;
-extern int      gamepadautomapmark;
-extern int      gamepadautomapmaxzoom;
-extern int      gamepadautomaprotatemode;
-extern int      gamepadautomapzoomin;
-extern int      gamepadautomapzoomout;
-extern int      gamepadfire;
-extern int      gamepadleftdeadzone;
-extern int      gamepadrightdeadzone;
-extern boolean  gamepadlefthanded;
-extern int      gamepadmenu;
-extern int      gamepadnextweapon;
-extern int      gamepadprevweapon;
-extern int      gamepadrun;
-extern int      gamepadsensitivity;
-extern int      gamepaduse;
-extern boolean  gamepadvibrate;
-extern int      gamepadweapon1;
-extern int      gamepadweapon2;
-extern int      gamepadweapon3;
-extern int      gamepadweapon4;
-extern int      gamepadweapon5;
-extern int      gamepadweapon6;
-extern int      gamepadweapon7;
-extern float    gammalevel;
-extern int      graphicdetail;
-extern boolean  homindicator;
-extern boolean  hud;
-extern char     *iwadfolder;
-extern int      key_automap;
-extern int      key_automap_clearmark;
-extern int      key_automap_followmode;
-extern int      key_automap_grid;
-extern int      key_automap_mark;
-extern int      key_automap_maxzoom;
-extern int      key_automap_rotatemode;
-extern int      key_automap_zoomin;
-extern int      key_automap_zoomout;
-extern int      key_down;
-extern int      key_down2;
-extern int      key_fire;
-extern int      key_left;
-extern int      key_nextweapon;
-extern int      key_prevweapon;
-extern int      key_right;
-extern int      key_run;
-extern int      key_strafe;
-extern int      key_strafeleft;
-extern int      key_strafeleft2;
-extern int      key_straferight;
-extern int      key_straferight2;
-extern int      key_up;
-extern int      key_up2;
-extern int      key_use;
-extern int      key_weapon1;
-extern int      key_weapon2;
-extern int      key_weapon3;
-extern int      key_weapon4;
-extern int      key_weapon5;
-extern int      key_weapon6;
-extern int      key_weapon7;
-extern boolean  mapfixes;
-extern int      maxbloodsplats;
-extern boolean  messages;
-extern boolean  mirrorweapons;
-#if defined(SDL20)
-extern int      display;
+extern dboolean         alwaysrun;
+extern int              am_allmapcdwallcolor;
+extern int              am_allmapfdwallcolor;
+extern int              am_allmapwallcolor;
+extern int              am_backcolor;
+extern int              am_cdwallcolor;
+extern int              am_cheat;
+extern dboolean         am_external;
+extern int              am_fdwallcolor;
+extern dboolean         am_followmode;
+extern dboolean         am_grid;
+extern int              am_gridcolor;
+extern int              am_markcolor;
+extern int              am_playercolor;
+extern dboolean         am_rotatemode;
+extern int              am_teleportercolor;
+extern int              am_thingcolor;
+extern int              am_tswallcolor;
+extern int              am_wallcolor;
+extern int              am_xhaircolor;
+extern dboolean         centerweapon;
+extern dboolean         con_obituaries;
+extern dboolean         con_timestamps;
+extern int              episode;
+extern int              expansion;
+extern int              faceback;
+extern float            gp_deadzone_left;
+extern float            gp_deadzone_right;
+extern int              gp_sensitivity;
+extern dboolean         gp_swapthumbsticks;
+extern dboolean         gp_vibrate;
+extern char             *iwadfolder;
+extern dboolean         messages;
+extern float            m_acceleration;
+extern dboolean         m_doubleclick_use;
+extern dboolean         m_novertical;
+extern int              m_sensitivity;
+extern int              m_threshold;
+extern int              movebob;
+extern char             *playername;
+extern dboolean         r_althud;
+extern int              r_blood;
+extern int              r_bloodsplats_max;
+extern dboolean         r_brightmaps;
+extern dboolean         r_corpses_color;
+extern dboolean         r_corpses_mirrored;
+extern dboolean         r_corpses_moreblood;
+extern dboolean         r_corpses_nudge;
+extern dboolean         r_corpses_slide;
+extern dboolean         r_corpses_smearblood;
+extern int              r_detail;
+extern dboolean         r_diskicon;
+extern dboolean         r_fixmaperrors;
+extern dboolean         r_fixspriteoffsets;
+extern dboolean         r_floatbob;
+extern float            r_gamma;
+extern dboolean         r_homindicator;
+extern dboolean         r_hud;
+extern dboolean         r_liquid_bob;
+extern dboolean         r_liquid_clipsprites;
+extern dboolean         r_liquid_current;
+extern dboolean         r_liquid_lowerview;
+extern dboolean         r_liquid_swirl;
+extern char             *r_lowpixelsize;
+extern dboolean         r_mirroredweapons;
+extern dboolean         r_playersprites;
+extern dboolean         r_rockettrails;
+extern dboolean         r_shadows;
+extern dboolean         r_shakescreen;
+extern dboolean         r_translucency;
+extern int              s_musicvolume;
+extern dboolean         s_randommusic;
+extern dboolean         s_randompitch;
+extern int              s_sfxvolume;
+extern char             *s_timiditycfgpath;
+extern int              savegame;
+extern int              skilllevel;
+extern int              stillbob;
+extern unsigned int     stat_cheated;
+extern unsigned int     stat_damageinflicted;
+extern unsigned int     stat_damagereceived;
+extern unsigned int     stat_deaths;
+extern unsigned int     stat_itemspickedup;
+extern unsigned int     stat_monsterskilled;
+extern unsigned int     stat_monsterskilled_arachnotrons;
+extern unsigned int     stat_monsterskilled_archviles;
+extern unsigned int     stat_monsterskilled_baronsofhell;
+extern unsigned int     stat_monsterskilled_cacodemons;
+extern unsigned int     stat_monsterskilled_cyberdemons;
+extern unsigned int     stat_monsterskilled_demons;
+extern unsigned int     stat_monsterskilled_heavyweapondudes;
+extern unsigned int     stat_monsterskilled_hellknights;
+extern unsigned int     stat_monsterskilled_imps;
+extern unsigned int     stat_monsterskilled_lostsouls;
+extern unsigned int     stat_monsterskilled_mancubi;
+extern unsigned int     stat_monsterskilled_painelementals;
+extern unsigned int     stat_monsterskilled_revenants;
+extern unsigned int     stat_monsterskilled_shotgunguys;
+extern unsigned int     stat_monsterskilled_spectres;
+extern unsigned int     stat_monsterskilled_spidermasterminds;
+extern unsigned int     stat_monsterskilled_zombiemen;
+extern unsigned int     stat_runs;
+extern unsigned int     stat_secretsrevealed;
+extern unsigned int     stat_shotsfired;
+extern unsigned int     stat_shotshit;
+extern unsigned int     stat_time;
+extern dboolean         vid_capfps;
+extern int              vid_display;
+#if !defined(WIN32)
+extern char             *vid_driver;
 #endif
-extern int      mousesensitivity;
-extern float    mouse_acceleration;
-extern int      mouse_threshold;
-extern int      mousebfire;
-extern int      mousebforward;
-extern int      mousebprevweapon;
-extern int      mousebnextweapon;
-extern int      mousebstrafe;
-extern int      mousebuse;
-extern boolean  novert;
-extern int      pixelheight;
-extern char     *pixelsize;
-extern int      pixelwidth;
-extern int      playerbob;
-extern char     *playername;
-extern int      runcount;
-#if defined(SDL20)
-extern char     *scaledriver;
-extern char     *scalefilter;
-#endif
-extern int      screenheight;
-extern char     *screenresolution;
-extern int      screenwidth;
-extern int      selectedepisode;
-extern int      selectedexpansion;
-extern int      selectedsavegame;
-extern int      selectedskilllevel;
-extern boolean  shadows;
-extern boolean  smoketrails;
-extern int      snd_maxslicetime_ms;
-extern boolean  spritefixes;
-extern boolean  swirlingliquid;
-extern char     *timidity_cfg_path;
-extern boolean  translucency;
-#if !defined(WIN32) || !defined(SDL20)
-extern char     *videodriver;
-#endif
-#if defined(SDL20)
-extern boolean  vsync;
-#endif
-extern boolean  widescreen;
-extern int      windowheight;
-extern char     *windowposition;
-extern int      windowwidth;
+extern dboolean         vid_fullscreen;
+extern char             *vid_scaledriver;
+extern char             *vid_scalefilter;
+extern char             *vid_screenresolution;
+extern dboolean         vid_vsync;
+extern dboolean         vid_widescreen;
+extern char             *vid_windowposition;
+extern char             *vid_windowsize;
 
-extern boolean  returntowidescreen;
+extern int              gamepadleftdeadzone;
+extern int              gamepadrightdeadzone;
+extern int              pixelwidth;
+extern int              pixelheight;
+extern dboolean         returntowidescreen;
 
-#define CONFIG_VARIABLE_GENERIC(name, variable, type, set) \
-    { #name, &variable, type, 0, 0, set }
-
-#define CONFIG_VARIABLE_KEY(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_KEY, set)
-#define CONFIG_VARIABLE_INT(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_INT, set)
-#define CONFIG_VARIABLE_INT_HEX(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_INT_HEX, set)
-#define CONFIG_VARIABLE_INT_PERCENT(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_INT_PERCENT, set)
-#define CONFIG_VARIABLE_FLOAT(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_FLOAT, set)
-#define CONFIG_VARIABLE_FLOAT_PERCENT(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_FLOAT_PERCENT, set)
-#define CONFIG_VARIABLE_STRING(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_STRING, set)
+#define CONFIG_VARIABLE_INT(name, set)           { #name, &name, DEFAULT_INT, set }
+#define CONFIG_VARIABLE_INT_UNSIGNED(name, set)  { #name, &name, DEFAULT_INT_UNSIGNED, set }
+#define CONFIG_VARIABLE_INT_PERCENT(name, set)   { #name, &name, DEFAULT_INT_PERCENT, set }
+#define CONFIG_VARIABLE_FLOAT(name, set)         { #name, &name, DEFAULT_FLOAT, set }
+#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) { #name, &name, DEFAULT_FLOAT_PERCENT, set }
+#define CONFIG_VARIABLE_STRING(name, set)        { #name, &name, DEFAULT_STRING, set }
+#define CONFIG_VARIABLE_OTHER(name, set)         { #name, &name, DEFAULT_OTHER, set }
 
 static default_t cvars[] =
 {
-    CONFIG_VARIABLE_INT          (am_grid,                 am_grid,                       1),
-    CONFIG_VARIABLE_INT          (am_rotatemode,           am_rotatemode,                 1),
-    CONFIG_VARIABLE_INT          (episode,                 selectedepisode,               8),
-    CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,             9),
-    CONFIG_VARIABLE_INT          (gp_automap,              gamepadautomap,                2),
-    CONFIG_VARIABLE_INT          (gp_automap_clearmark,    gamepadautomapclearmark,       2),
-    CONFIG_VARIABLE_INT          (gp_automap_followmode,   gamepadautomapfollowmode,      2),
-    CONFIG_VARIABLE_INT          (gp_automap_grid,         gamepadautomapgrid,            2),
-    CONFIG_VARIABLE_INT          (gp_automap_mark,         gamepadautomapmark,            2),
-    CONFIG_VARIABLE_INT          (gp_automap_maxzoom,      gamepadautomapmaxzoom,         2),
-    CONFIG_VARIABLE_INT          (gp_automap_rotatemode,   gamepadautomaprotatemode,      2),
-    CONFIG_VARIABLE_INT          (gp_automap_zoomin,       gamepadautomapzoomin,          2),
-    CONFIG_VARIABLE_INT          (gp_automap_zoomout,      gamepadautomapzoomout,         2),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,        gamepadleftdeadzone_percent,   0),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,       gamepadrightdeadzone_percent,  0),
-    CONFIG_VARIABLE_INT          (gp_fire,                 gamepadfire,                   2),
-    CONFIG_VARIABLE_INT          (gp_menu,                 gamepadmenu,                   2),
-    CONFIG_VARIABLE_INT          (gp_nextweapon,           gamepadnextweapon,             2),
-    CONFIG_VARIABLE_INT          (gp_prevweapon,           gamepadprevweapon,             2),
-    CONFIG_VARIABLE_INT          (gp_run,                  gamepadrun,                    2),
-    CONFIG_VARIABLE_INT          (gp_sensitivity,          gamepadsensitivity,            0),
-    CONFIG_VARIABLE_INT          (gp_swapthumbsticks,      gamepadlefthanded,             1),
-    CONFIG_VARIABLE_INT          (gp_use,                  gamepaduse,                    2),
-    CONFIG_VARIABLE_INT          (gp_vibrate,              gamepadvibrate,                1),
-    CONFIG_VARIABLE_INT          (gp_weapon1,              gamepadweapon1,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon2,              gamepadweapon2,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon3,              gamepadweapon3,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon4,              gamepadweapon4,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon5,              gamepadweapon5,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon6,              gamepadweapon6,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon7,              gamepadweapon7,                2),
-    CONFIG_VARIABLE_STRING       (iwadfolder,              iwadfolder,                    0),
-    CONFIG_VARIABLE_KEY          (key_automap,             key_automap,                   3),
-    CONFIG_VARIABLE_KEY          (key_automap_clearmark,   key_automap_clearmark,         3),
-    CONFIG_VARIABLE_KEY          (key_automap_followmode,  key_automap_followmode,        3),
-    CONFIG_VARIABLE_KEY          (key_automap_grid,        key_automap_grid,              3),
-    CONFIG_VARIABLE_KEY          (key_automap_mark,        key_automap_mark,              3),
-    CONFIG_VARIABLE_KEY          (key_automap_maxzoom,     key_automap_maxzoom,           3),
-    CONFIG_VARIABLE_KEY          (key_automap_rotatemode,  key_automap_rotatemode,        3),
-    CONFIG_VARIABLE_KEY          (key_automap_zoomin,      key_automap_zoomin,            3),
-    CONFIG_VARIABLE_KEY          (key_automap_zoomout,     key_automap_zoomout,           3),
-    CONFIG_VARIABLE_KEY          (key_down,                key_down,                      3),
-    CONFIG_VARIABLE_KEY          (key_down2,               key_down2,                     3),
-    CONFIG_VARIABLE_KEY          (key_fire,                key_fire,                      3),
-    CONFIG_VARIABLE_KEY          (key_left,                key_left,                      3),
-    CONFIG_VARIABLE_KEY          (key_prevweapon,          key_prevweapon,                3),
-    CONFIG_VARIABLE_KEY          (key_nextweapon,          key_nextweapon,                3),
-    CONFIG_VARIABLE_KEY          (key_right,               key_right,                     3),
-    CONFIG_VARIABLE_KEY          (key_run,                 key_run,                       3),
-    CONFIG_VARIABLE_KEY          (key_strafe,              key_strafe,                    3),
-    CONFIG_VARIABLE_KEY          (key_strafeleft,          key_strafeleft,                3),
-    CONFIG_VARIABLE_KEY          (key_strafeleft2,         key_strafeleft2,               3),
-    CONFIG_VARIABLE_KEY          (key_straferight,         key_straferight,               3),
-    CONFIG_VARIABLE_KEY          (key_straferight2,        key_straferight2,              3),
-    CONFIG_VARIABLE_KEY          (key_up,                  key_up,                        3),
-    CONFIG_VARIABLE_KEY          (key_up2,                 key_up2,                       3),
-    CONFIG_VARIABLE_KEY          (key_use,                 key_use,                       3),
-    CONFIG_VARIABLE_KEY          (key_weapon1,             key_weapon1,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon2,             key_weapon2,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon3,             key_weapon3,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon4,             key_weapon4,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon5,             key_weapon5,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon6,             key_weapon6,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon7,             key_weapon7,                   3),
-    CONFIG_VARIABLE_FLOAT        (m_acceleration,          mouse_acceleration,            0),
-    CONFIG_VARIABLE_INT          (m_doubleclick_use,       dclick_use,                    1),
-    CONFIG_VARIABLE_INT          (m_fire,                  mousebfire,                    4),
-    CONFIG_VARIABLE_INT          (m_forward,               mousebforward,                 4),
-    CONFIG_VARIABLE_INT          (m_nextweapon,            mousebnextweapon,              4),
-    CONFIG_VARIABLE_INT          (m_novertical,            novert,                        1),
-    CONFIG_VARIABLE_INT          (m_prevweapon,            mousebprevweapon,              4),
-    CONFIG_VARIABLE_INT          (m_sensitivity,           mousesensitivity,              0),
-    CONFIG_VARIABLE_INT          (m_strafe,                mousebstrafe,                  4),
-    CONFIG_VARIABLE_INT          (m_threshold,             mouse_threshold,               0),
-    CONFIG_VARIABLE_INT          (m_use,                   mousebuse,                     4),
-    CONFIG_VARIABLE_INT          (mapfixes,                mapfixes,                      1),
-    CONFIG_VARIABLE_INT          (messages,                messages,                      1),
-    CONFIG_VARIABLE_STRING       (playername,              playername,                    0),
-    CONFIG_VARIABLE_INT          (pm_alwaysrun,            alwaysrun,                     1),
-    CONFIG_VARIABLE_INT          (pm_centerweapon,         centerweapon,                  1),
-    CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,              playerbob,                     0),
-    CONFIG_VARIABLE_INT          (runcount,                runcount,                      0),
-    CONFIG_VARIABLE_INT          (r_brightmaps,            brightmaps,                    1),
-    CONFIG_VARIABLE_INT          (r_corpses_mirrored,      corpses_mirror,                1),
-    CONFIG_VARIABLE_INT          (r_corpses_moreblood,     corpses_moreblood,             1),
-    CONFIG_VARIABLE_INT          (r_corpses_nudge,         corpses_nudge,                 1),
-    CONFIG_VARIABLE_INT          (r_corpses_slide,         corpses_slide,                 1),
-    CONFIG_VARIABLE_INT          (r_corpses_smearblood,    corpses_smearblood,            1),
-    CONFIG_VARIABLE_INT          (r_detail,                graphicdetail,                 6),
-    CONFIG_VARIABLE_INT          (r_floatbob,              floatbob,                      1),
-    CONFIG_VARIABLE_FLOAT        (r_gamma,                 gammalevel,                   11),
-    CONFIG_VARIABLE_INT          (r_homindicator,          homindicator,                  1),
-    CONFIG_VARIABLE_INT          (r_hud,                   hud,                           1),
-    CONFIG_VARIABLE_INT          (r_liquid_bob,            animatedliquid,                1),
-    CONFIG_VARIABLE_INT          (r_liquid_clipsprites,    footclip,                      1),
-    CONFIG_VARIABLE_INT          (r_liquid_ripple,         swirlingliquid,                1),
-    CONFIG_VARIABLE_INT          (r_lowpixelheight,        pixelheight,                   0),
-    CONFIG_VARIABLE_INT          (r_lowpixelwidth,         pixelwidth,                    0),
-    CONFIG_VARIABLE_INT          (r_maxbloodsplats,        maxbloodsplats,                7),
-    CONFIG_VARIABLE_INT          (r_mirrorweapons,         mirrorweapons,                 1),
-    CONFIG_VARIABLE_INT          (r_rockettrails,          smoketrails,                   1),
-    CONFIG_VARIABLE_INT          (r_shadows,               shadows,                       1),
-    CONFIG_VARIABLE_INT          (r_translucency,          translucency,                  1),
-    CONFIG_VARIABLE_INT          (r_viewsize,              screensize,                    0),
-    CONFIG_VARIABLE_INT          (s_maxslicetime,          snd_maxslicetime_ms,           0),
-    CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,           musicvolume_percent,           0),
-    CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,             sfxvolume_percent,             0),
-    CONFIG_VARIABLE_STRING       (s_timiditycfgpath,       timidity_cfg_path,             0),
-    CONFIG_VARIABLE_INT          (savegame,                selectedsavegame,              0),
-    CONFIG_VARIABLE_INT          (skilllevel,              selectedskilllevel,           10),
-    CONFIG_VARIABLE_INT          (spritefixes,             spritefixes,                   1),
-    CONFIG_VARIABLE_INT          (vid_capfps,              capfps,                        1),
-#if defined(SDL20)
-    CONFIG_VARIABLE_INT          (vid_display,             display,                       0),
+    CONFIG_VARIABLE_INT          (alwaysrun,                             BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_allmapcdwallcolor,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_allmapwallcolor,                    NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_backcolor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_cdwallcolor,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_cheat,                              CHEATALIAS ),
+    CONFIG_VARIABLE_INT          (am_external,                           BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_fdwallcolor,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_followmode,                         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_grid,                               BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_gridcolor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_markcolor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_playercolor,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_rotatemode,                         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_teleportercolor,                    NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_thingcolor,                         NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_tswallcolor,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_wallcolor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_xhaircolor,                         NOALIAS    ),
+    CONFIG_VARIABLE_INT          (centerweapon,                          BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (con_obituaries,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (con_timestamps,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (episode,                               NOALIAS    ),
+    CONFIG_VARIABLE_INT          (expansion,                             NOALIAS    ),
+    CONFIG_VARIABLE_INT          (faceback,                              NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                      NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                     NOALIAS    ),
+    CONFIG_VARIABLE_INT          (gp_sensitivity,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (gp_swapthumbsticks,                    BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (gp_vibrate,                            BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (iwadfolder,                            NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT        (m_acceleration,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (m_doubleclick_use,                     BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (m_novertical,                          BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (m_sensitivity,                         NOALIAS    ),
+    CONFIG_VARIABLE_INT          (m_threshold,                           NOALIAS    ),
+    CONFIG_VARIABLE_INT          (messages,                              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (movebob,                               NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (playername,                            NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_althud,                              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_blood,                               BLOODALIAS ),
+    CONFIG_VARIABLE_INT          (r_bloodsplats_max,                     NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_brightmaps,                          BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_color,                       BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_mirrored,                    BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_moreblood,                   BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_nudge,                       BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_slide,                       BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_smearblood,                  BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_detail,                              DETAILALIAS),
+    CONFIG_VARIABLE_INT          (r_diskicon,                            BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_fixmaperrors,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_fixspriteoffsets,                    BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_floatbob,                            BOOLALIAS  ),
+    CONFIG_VARIABLE_FLOAT        (r_gamma,                               GAMMAALIAS ),
+    CONFIG_VARIABLE_INT          (r_homindicator,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_hud,                                 BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_bob,                          BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_clipsprites,                  BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_current,                      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_lowerview,                    BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_swirl,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_OTHER        (r_lowpixelsize,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_mirroredweapons,                     BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_playersprites,                       BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_rockettrails,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_screensize,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_shadows,                             BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_shakescreen,                         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_translucency,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,                         NOALIAS    ),
+    CONFIG_VARIABLE_INT          (s_randommusic,                         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (s_randompitch,                         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,                           NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (s_timiditycfgpath,                     NOALIAS    ),
+    CONFIG_VARIABLE_INT          (savegame,                              NOALIAS    ),
+    CONFIG_VARIABLE_INT          (skilllevel,                            NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_cheated,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_damageinflicted,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,                   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,                           NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,                    NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,                   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_arachnotrons,      NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_archviles,         NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_baronsofhell,      NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_cacodemons,        NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_heavyweapondudes,  NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_cyberdemons,       NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_demons,            NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_hellknights,       NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_imps,              NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_lostsouls,         NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_mancubi,           NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_painelementals,    NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_revenants,         NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_shotgunguys,       NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_spectres,          NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_spidermasterminds, NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_zombiemen,         NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_runs,                             NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired,                       NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit,                         NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_time,                             NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (stillbob,                              NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_capfps,                            BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_display,                           NOALIAS    ),
+#if !defined(WIN32)
+    CONFIG_VARIABLE_STRING       (vid_driver,                            NOALIAS    ),
 #endif
-    CONFIG_VARIABLE_INT          (vid_fullscreen,          fullscreen,                    1),
-#if defined(SDL20)
-    CONFIG_VARIABLE_STRING       (vid_scaledriver,         scaledriver,                   0),
-    CONFIG_VARIABLE_STRING       (vid_scalefilter,         scalefilter,                   0),
-#endif
-    CONFIG_VARIABLE_INT          (vid_screenheight,        screenheight,                  5),
-    CONFIG_VARIABLE_INT          (vid_screenwidth,         screenwidth,                   5),
-#if !defined(WIN32) || !defined(SDL20)
-    CONFIG_VARIABLE_STRING       (vid_videodriver,         videodriver,                   0),
-#endif
-#if defined(SDL20)
-    CONFIG_VARIABLE_INT          (vid_vsync,               vsync,                         1),
-#endif
-    CONFIG_VARIABLE_INT          (vid_widescreen,          widescreen,                    1),
-    CONFIG_VARIABLE_STRING       (vid_windowposition,      windowposition,                0),
-    CONFIG_VARIABLE_INT          (vid_windowheight,        windowheight,                  0),
-    CONFIG_VARIABLE_INT          (vid_windowwidth,         windowwidth,                   0)
-};
-
-#define INVALIDKEY      -1
-
-static const int scantokey[128] =
-{
-    0,             27,             '1',           '2',
-    '3',           '4',            '5',           '6',
-    '7',           '8',            '9',           '0',
-    '-',           '=',            KEY_BACKSPACE, 9,
-    'q',           'w',            'e',           'r',
-    't',           'y',            'u',           'i',
-    'o',           'p',            '[',           ']',
-    13,            KEY_RCTRL,      'a',           's',
-    'd',           'f',            'g',           'h',
-    'j',           'k',            'l',           ';',
-    '\'',          KEY_TILDE,      KEY_RSHIFT,    '\\',
-    'z',           'x',            'c',           'v',
-    'b',           'n',            'm',           ',',
-    '.',           '/',            KEY_RSHIFT,    KEYP_MULTIPLY,
-    KEY_RALT,      ' ',            INVALIDKEY,    INVALIDKEY,
-    INVALIDKEY,    INVALIDKEY,     INVALIDKEY,    INVALIDKEY,
-    INVALIDKEY,    INVALIDKEY,     INVALIDKEY,    INVALIDKEY,
-    INVALIDKEY,    KEY_PAUSE,      KEY_SCRLCK,    KEY_HOME,
-    KEY_UPARROW,   KEY_PGUP,       KEY_MINUS,     KEY_LEFTARROW,
-    KEYP_5,        KEY_RIGHTARROW, KEYP_PLUS,     KEY_END,
-    KEY_DOWNARROW, KEY_PGDN,       KEY_INS,       KEY_DEL,
-    0,             0,              0,             INVALIDKEY,
-    INVALIDKEY,    0,              0,             0,
-    0,             0,              0,             0,
-    0,             0,              0,             0,
-    0,             0,              0,             0,
-    0,             0,              0,             0,
-    0,             0,              0,             0,
-    0,             0,              0,             0,
-    0,             0,              0,             0,
-    0,             0,              0,             0,
-    0,             0,              0,             0
+    CONFIG_VARIABLE_INT          (vid_fullscreen,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (vid_scaledriver,                       NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_scalefilter,                       NOALIAS    ),
+    CONFIG_VARIABLE_OTHER        (vid_screenresolution,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_vsync,                             BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_widescreen,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_OTHER        (vid_windowposition,                    NOALIAS    ),
+    CONFIG_VARIABLE_OTHER        (vid_windowsize,                        NOALIAS    )
 };
 
 alias_t aliases[] =
 {
-    { "off",                            0,  1 }, { "on",                             1,  1 },
-    { "0",                              0,  1 }, { "1",                              1,  1 },
-    { "no",                             0,  1 }, { "yes",                            1,  1 },
-    { "false",                          0,  1 }, { "true",                           1,  1 },
-    { "-",                              0,  2 }, { "none",                           0,  2 },
-    { "dpadup",                         1,  2 }, { "dpaddown",                       2,  2 },
-    { "dpadleft",                       4,  2 }, { "dpadright",                      8,  2 },
-    { "start",                         16,  2 }, { "back",                          32,  2 },
-    { "leftthumb",                     64,  2 }, { "rightthumb",                   128,  2 },
-    { "leftshoulder",                 256,  2 }, { "LS",                           256,  2 },
-    { "leftbutton",                   256,  2 }, { "LB",                           256,  2 },
-    { "rightshoulder",                512,  2 }, { "RS",                           512,  2 },
-    { "rightbutton",                  512,  2 }, { "RB",                           512,  2 },
-    { "lefttrigger",                 1024,  2 }, { "LT",                          1024,  2 },
-    { "righttrigger",                2048,  2 }, { "RT",                          2048,  2 },
-    { "gamepad1",                    4096,  2 }, { "gamepad2",                    8192,  2 },
-    { "gamepad3",                   16384,  2 }, { "gamepad4",                   32768,  2 },
-    { "-",                              0,  3 }, { "none",                           0,  3 },
-    { "\'+\'",                         13,  3 }, { "backspace",                     14,  3 },
-    { "tab",                           15,  3 }, { "enter",                         28,  3 },
-    { "ctrl",                          29,  3 }, { "shift",                         42,  3 },
-    { "alt",                           56,  3 }, { "space",                         57,  3 },
-    { "home",                          71,  3 }, { "up",                            72,  3 },
-    { "pageup",                        73,  3 }, { "left",                          75,  3 },
-    { "right",                         77,  3 }, { "end",                           79,  3 },
-    { "down",                          80,  3 }, { "pagedown",                      81,  3 },
-    { "insert",                        82,  3 }, { "del",                           83,  3 },
-    { "-",                             -1,  4 }, { "none",                          -1,  4 },
-    { "left",                           0,  4 }, { "mouse1",                         0,  4 },
-    { "middle",                         1,  4 }, { "mouse2",                         1,  4 },
-    { "right",                          2,  4 }, { "mouse3",                         2,  4 },
-#if !defined(SDL20)
-    { "wheelup",                        3,  4 }, { "wheeldown",                      4,  4 },
-#endif
-    { "mouse4",                         3,  4 }, { "mouse5",                         4,  4 },
-    { "mouse6",                         5,  4 }, { "mouse7",                         6,  4 },
-    { "mouse8",                         7,  4 },
-#if defined(SDL20)
-    { "wheelup",                        8,  4 }, { "wheeldown",                      9,  4 },
-#endif
-    { "desktop",                        0,  5 }, { "low",                            0,  6 },
-    { "high",                           1,  6 }, { "-",                              0,  7 },
-    { "none",                           0,  7 }, { "off",                            0,  7 },
-    { "no",                             0,  7 }, { "false",                          0,  7 },
-    { "unlimited",                  32768,  7 }, { "on",                         32768,  7 },
-    { "yes",                        32768,  7 }, { "true",                       32768,  7 },
-    { "\"Knee-Deep in the Dead\"",      0,  8 }, { "\"The Shores of Hell\"",         1,  8 },
-    { "\"Inferno\"",                    2,  8 }, { "\"Thy Flesh Consumed\"",         3,  8 },
-    { "\"Hell on Earth\"",              0,  9 }, { "\"No Rest for the Living\"",     1,  9 },
-    { "\"I\'m too young to die.\"",     0, 10 }, { "\"Hey, not too rough.\"",        1, 10 },
-    { "\"Hurt me plenty.\"",            2, 10 }, { "\"Ultra-Violence.\"",            3, 10 },
-    { "\"Nightmare!\"",                 4, 10 }, { "off",                            1, 11 },
-    { "",                               0,  0 }
+    { "off",           0, BOOLALIAS   }, { "on",            1, BOOLALIAS   },
+    { "0",             0, BOOLALIAS   }, { "1",             1, BOOLALIAS   },
+    { "no",            0, BOOLALIAS   }, { "yes",           1, BOOLALIAS   },
+    { "false",         0, BOOLALIAS   }, { "true",          1, BOOLALIAS   },
+    { "low",           0, DETAILALIAS }, { "high",          1, DETAILALIAS },
+    { "off",           1, GAMMAALIAS  }, { "none",          0, BLOODALIAS  },
+    { "red",           1, BLOODALIAS  }, { "all",           2, BLOODALIAS  },
+    { "off",           0, CHEATALIAS  }, { "all",           1, CHEATALIAS  },
+    { "things",        2, CHEATALIAS  }, { "",              0, NOALIAS     }
 };
 
 char *striptrailingzero(float value, int precision)
 {
     size_t      len;
-    static char result[100];
+    char        result[100];
 
     M_snprintf(result, sizeof(result), "%.*f",
         (precision == 2 ? 2 : (value != floor(value))), value);
     len = strlen(result);
     if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
         result[len - 1] = '\0';
-    return result;
+    return strdup(result);
 }
 
-static void SaveDefaultCollection(void)
+static void SaveBind(FILE *file, char *action, int value, controltype_t type)
+{
+    int i = 0;
+
+    while (controls[i].type)
+    {
+        if (controls[i].type == type && controls[i].value == value)
+        {
+            char *control = controls[i].control;
+
+            if (strlen(control) == 1)
+                fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);
+            else
+                fprintf(file, "bind %s %s\n", control, action);
+            break;
+        }
+        ++i;
+    }
+}
+
+//
+// M_SaveCVARs
+//
+void M_SaveCVARs(void)
 {
     int         i;
-    FILE        *f = fopen(PACKAGE_CONFIG, "w");
+    FILE        *file = fopen(configfile, "w");
 
-    if (!f)
+    if (!file)
         return; // can't write the file, but don't complain
+
+    if (returntowidescreen)
+        vid_widescreen = true;
 
     for (i = 0; i < arrlen(cvars); i++)
     {
-        int     chars_written;
-
         // Print the name and line up all values at 30 characters
-        chars_written = fprintf(f, "%s ", cvars[i].name);
-
-        for (; chars_written < 30; ++chars_written)
-            fprintf(f, " ");
+        fprintf(file, "%s ", cvars[i].name);
 
         // Print the value
         switch (cvars[i].type)
         {
-            case DEFAULT_KEY:
-            {
-                // use the untranslated version if we can, to reduce
-                // the possibility of screwing up the user's config
-                // file
-                int     v = *(int *)cvars[i].location;
-
-                if (cvars[i].untranslated && v == cvars[i].original_translated)
-                {
-                    // Has not been changed since the last time we
-                    // read the config file.
-                    int         j = 0;
-                    boolean     flag = false;
-
-                    v = cvars[i].untranslated;
-                    while (aliases[j].text[0])
-                    {
-                        if (v == aliases[j].value && cvars[i].set == aliases[j].set)
-                        {
-                            fprintf(f, "%s", aliases[j].text);
-                            flag = true;
-                            break;
-                        }
-                        j++;
-                    }
-                    if (flag)
-                        break;
-
-                    if (isprint(scantokey[v]))
-                        fprintf(f, "\'%c\'", scantokey[v]);
-                    else
-                        fprintf(f, "%i", v);
-                }
-                else
-                {
-                    // search for a reverse mapping back to a scancode
-                    // in the scantokey table
-                    int         s;
-
-                    for (s = 0; s < 128; ++s)
-                    {
-                        if (scantokey[s] == v)
-                        {
-                            int         j = 0;
-                            boolean     flag = false;
-
-                            v = s;
-                            while (aliases[j].text[0])
-                            {
-                                if (v == aliases[j].value && cvars[i].set == aliases[j].set)
-                                {
-                                    fprintf(f, "%s", aliases[j].text);
-                                    flag = true;
-                                    break;
-                                }
-                                j++;
-                            }
-                            if (flag)
-                                break;
-
-                            if (isprint(scantokey[v]))
-                                fprintf(f, "\'%c\'", scantokey[v]);
-                            else
-                                fprintf(f, "%i", v);
-                            break;
-                        }
-                    }
-                }
-
-                break;
-            }
-
             case DEFAULT_INT:
             {
                 int         j = 0;
-                boolean     flag = false;
+                dboolean    flag = false;
                 int         v = *(int *)cvars[i].location;
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
-                        fprintf(f, "%s", aliases[j].text);
+                        fprintf(file, "%s", aliases[j].text);
                         flag = true;
                         break;
                     }
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%i", *(int *)cvars[i].location);
+                    fprintf(file, "%i", *(int *)cvars[i].location);
                 break;
             }
 
-            case DEFAULT_INT_HEX:
-                fprintf(f, "0x%x", *(int *)cvars[i].location);
+            case DEFAULT_INT_UNSIGNED:
+            {
+                fprintf(file, "%u", *(unsigned int *)cvars[i].location);
                 break;
+            }
 
             case DEFAULT_INT_PERCENT:
             {
                 int         j = 0;
-                boolean     flag = false;
+                dboolean    flag = false;
                 int         v = *(int *)cvars[i].location;
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
-                        fprintf(f, "%s", aliases[j].text);
+                        fprintf(file, "%s", aliases[j].text);
                         flag = true;
                         break;
                     }
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%i%%", *(int *)cvars[i].location);
+                    fprintf(file, "%i%%", *(int *)cvars[i].location);
                 break;
             }
 
             case DEFAULT_FLOAT:
             {
                 int         j = 0;
-                boolean     flag = false;
+                dboolean    flag = false;
                 float       v = *(float *)cvars[i].location;
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
-                        fprintf(f, "%s", aliases[j].text);
+                        fprintf(file, "%s", aliases[j].text);
                         flag = true;
                         break;
                     }
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%s", striptrailingzero(*(float *)cvars[i].location, 2));
+                    fprintf(file, "%s", striptrailingzero(*(float *)cvars[i].location, 2));
                 break;
             }
 
             case DEFAULT_FLOAT_PERCENT:
             {
                 int         j = 0;
-                boolean     flag = false;
+                dboolean    flag = false;
                 float       v = *(float *)cvars[i].location;
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
-                        fprintf(f, "%s", aliases[j].text);
+                        fprintf(file, "%s", aliases[j].text);
                         flag = true;
                         break;
                     }
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%s%%", striptrailingzero(*(float *)cvars[i].location, 1));
+                    fprintf(file, "%s%%", striptrailingzero(*(float *)cvars[i].location, 1));
                 break;
             }
 
             case DEFAULT_STRING:
-                fprintf(f, "\"%s\"", *(char **)cvars[i].location);
+                fprintf(file, "\"%s\"", *(char **)cvars[i].location);
+                break;
+
+            case DEFAULT_OTHER:
+                fprintf(file, "%s", *(char **)cvars[i].location);
                 break;
         }
 
-        fprintf(f, "\n");
+        fprintf(file, "\n");
     }
 
-    fclose(f);
+    fprintf(file, "\n");
+
+    i = 0;
+    while (actions[i].action[0])
+    {
+        if (actions[i].keyboard)
+            SaveBind(file, actions[i].action, *(int *)actions[i].keyboard, keyboardcontrol);
+        if (actions[i].mouse)
+            SaveBind(file, actions[i].action, *(int *)actions[i].mouse, mousecontrol);
+        if (actions[i].gamepad)
+            SaveBind(file, actions[i].action, *(int *)actions[i].gamepad, gamepadcontrol);
+        ++i;
+    }
+
+    fclose(file);
+
+    if (returntowidescreen)
+        vid_widescreen = false;
 }
 
 // Parses integer values in the configuration file
-static int ParseIntParameter(char *strparm, int set)
+static int ParseIntParameter(char *strparm, int aliastype)
 {
-    int parm;
+    int parm = 0;
     int i = 0;
 
     while (aliases[i].text[0])
     {
-        if (!strcasecmp(strparm, aliases[i].text) && set == aliases[i].set)
+        if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return aliases[i].value;
         i++;
     }
 
-    if (strparm[0] == '\'' && strparm[2] == '\'')
-        for (i = 0; i < 128; ++i)
-            if (tolower(strparm[1]) == scantokey[i])
-                return i;
-
-    if (strparm[0] == '0' && strparm[1] == 'x')
-        sscanf(strparm + 2, "%10x", &parm);
-    else
-        sscanf(strparm, "%10i", &parm);
+    sscanf(strparm, "%10i", &parm);
 
     return parm;
 }
 
 // Parses float values in the configuration file
-static float ParseFloatParameter(char *strparm, int set)
+static float ParseFloatParameter(char *strparm, int aliastype)
 {
     int     i = 0;
 
     while (aliases[i].text[0])
     {
-        if (!strcasecmp(strparm, aliases[i].text) && set == aliases[i].set)
+        if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return (float)aliases[i].value;
         i++;
     }
@@ -689,38 +537,295 @@ static float ParseFloatParameter(char *strparm, int set)
     return (float)atof(strparm);
 }
 
-static boolean LoadDefaultCollection(void)
+void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3);
+
+static void M_CheckCVARs(void)
+{
+    if (alwaysrun != false && alwaysrun != true)
+        alwaysrun = alwaysrun_default;
+
+    am_allmapcdwallcolor = BETWEEN(am_allmapcdwallcolor_min, am_allmapcdwallcolor,
+        am_allmapcdwallcolor_max);
+
+    am_allmapfdwallcolor = BETWEEN(am_allmapfdwallcolor_min, am_allmapfdwallcolor,
+        am_allmapfdwallcolor_max);
+
+    am_allmapwallcolor = BETWEEN(am_allmapwallcolor_min, am_allmapwallcolor,
+        am_allmapwallcolor_max);
+
+    am_backcolor = BETWEEN(am_backcolor_min, am_backcolor, am_backcolor_max);
+
+    am_cdwallcolor = BETWEEN(am_cdwallcolor_min, am_cdwallcolor, am_cdwallcolor_max);
+
+    am_cheat = am_cheat_default;
+
+    if (am_external != false && am_external != true)
+        am_external = am_external_default;
+
+    am_fdwallcolor = BETWEEN(am_fdwallcolor_min, am_fdwallcolor, am_fdwallcolor_max);
+
+    am_followmode = am_followmode_default;
+
+    if (am_grid != false && am_grid != true)
+        am_grid = am_grid_default;
+
+    am_gridcolor = BETWEEN(am_gridcolor_min, am_gridcolor, am_gridcolor_max);
+
+    am_markcolor = BETWEEN(am_markcolor_min, am_markcolor, am_markcolor_max);
+
+    am_playercolor = BETWEEN(am_playercolor_min, am_playercolor, am_playercolor_max);
+
+    if (am_rotatemode != false && am_rotatemode != true)
+        am_rotatemode = am_rotatemode_default;
+
+    am_teleportercolor = BETWEEN(am_teleportercolor_min, am_teleportercolor,
+        am_teleportercolor_max);
+
+    am_thingcolor = BETWEEN(am_thingcolor_min, am_thingcolor, am_thingcolor_max);
+
+    am_tswallcolor = BETWEEN(am_tswallcolor_min, am_tswallcolor, am_tswallcolor_max);
+
+    am_wallcolor = BETWEEN(am_wallcolor_min, am_wallcolor, am_wallcolor_max);
+
+    am_xhaircolor = BETWEEN(am_xhaircolor_min, am_xhaircolor, am_xhaircolor_max);
+
+    if (centerweapon != false && centerweapon != true)
+        centerweapon = centerweapon_default;
+
+    if (con_obituaries != false && con_obituaries != true)
+        con_obituaries = con_obituaries_default;
+
+    if (con_timestamps != false && con_timestamps != true)
+        con_timestamps = con_timestamps_default;
+
+    episode = BETWEEN(episode_min, episode, episode_max - (gamemode == registered));
+
+    expansion = BETWEEN(expansion_min, expansion, expansion_max);
+
+    faceback = BETWEEN(faceback_min, faceback, faceback_max);
+
+    gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
+    gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
+
+    gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
+    gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
+
+    gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
+    gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
+        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
+
+    if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
+        gp_swapthumbsticks = gp_swapthumbsticks_default;
+
+    if (gp_vibrate != false && gp_vibrate != true)
+        gp_vibrate = gp_vibrate_default;
+
+    if (m_doubleclick_use != false && m_doubleclick_use != true)
+        m_doubleclick_use = m_doubleclick_use_default;
+
+    if (m_novertical != false && m_novertical != true)
+        m_novertical = m_novertical_default;
+
+    m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
+
+    if (messages != false && messages != true)
+        messages = messages_default;
+
+    movebob = BETWEEN(movebob_min, movebob, movebob_max);
+
+    if (r_althud != false && r_althud != true)
+        r_althud = r_althud_default;
+
+    if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all)
+        r_blood = r_blood_default;
+
+    r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
+
+    if (r_brightmaps != false && r_brightmaps != true)
+        r_brightmaps = r_brightmaps_default;
+
+    if (r_corpses_mirrored != false && r_corpses_mirrored != true)
+        r_corpses_mirrored = r_corpses_mirrored_default;
+
+    if (r_corpses_moreblood != false && r_corpses_moreblood != true)
+        r_corpses_moreblood = r_corpses_moreblood_default;
+
+    if (r_corpses_nudge != false && r_corpses_nudge != true)
+        r_corpses_nudge = r_corpses_nudge_default;
+
+    if (r_corpses_slide != false && r_corpses_slide != true)
+        r_corpses_slide = r_corpses_slide_default;
+
+    if (r_corpses_smearblood != false && r_corpses_smearblood != true)
+        r_corpses_smearblood = r_corpses_smearblood_default;
+
+    if (r_detail != r_detail_low && r_detail != r_detail_high)
+        r_detail = r_detail_default;
+
+    if (r_diskicon != false && r_diskicon != true)
+        r_diskicon = r_diskicon_default;
+
+    if (r_fixmaperrors != false && r_fixmaperrors != true)
+        r_fixmaperrors = r_fixmaperrors_default;
+
+    if (r_fixspriteoffsets != false && r_fixspriteoffsets != true)
+        r_fixspriteoffsets = r_fixspriteoffsets_default;
+
+    if (r_floatbob != false && r_floatbob != true)
+        r_floatbob = r_floatbob_default;
+
+    r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
+    gammaindex = 0;
+    while (gammaindex < GAMMALEVELS)
+        if (gammalevels[gammaindex++] == r_gamma)
+        break;
+    if (gammaindex == GAMMALEVELS)
+    {
+        gammaindex = 0;
+        while (gammalevels[gammaindex++] != r_gamma_default);
+    }
+    --gammaindex;
+
+    if (r_homindicator != false && r_homindicator != true)
+        r_homindicator = r_homindicator_default;
+
+    if (r_hud != false && r_hud != true)
+        r_hud = r_hud_default;
+
+    if (r_liquid_bob != false && r_liquid_bob != true)
+        r_liquid_bob = r_liquid_bob_default;
+
+    if (r_liquid_clipsprites != false && r_liquid_clipsprites != true)
+        r_liquid_clipsprites = r_liquid_clipsprites_default;
+
+    if (r_liquid_current != false && r_liquid_current != true)
+        r_liquid_current = r_liquid_current_default;
+
+    if (r_liquid_lowerview != false && r_liquid_lowerview != true)
+        r_liquid_lowerview = r_liquid_lowerview_default;
+
+    if (r_liquid_swirl != false && r_liquid_swirl != true)
+        r_liquid_swirl = r_liquid_swirl_default;
+
+    if (r_mirroredweapons != false && r_mirroredweapons != true)
+        r_mirroredweapons = r_mirroredweapons_default;
+
+    if (r_playersprites != false && r_playersprites != true)
+        r_playersprites = r_playersprites_default;
+
+    if (r_rockettrails != false && r_rockettrails != true)
+        r_rockettrails = r_rockettrails_default;
+
+    r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
+
+    if (r_shadows != false && r_shadows != true)
+        r_shadows = r_shadows_default;
+
+    if (r_shakescreen != false && r_shakescreen != true)
+        r_shakescreen = r_shakescreen_default;
+
+    if (r_translucency != false && r_translucency != true)
+        r_translucency = r_translucency_default;
+
+    musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 15 + 50) / 100;
+
+    if (s_randommusic != false && s_randommusic != true)
+        s_randommusic = s_randommusic_default;
+
+    if (s_randompitch != false && s_randompitch != true)
+        s_randompitch = s_randompitch_default;
+
+    sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 15 + 50) / 100;
+
+    savegame = BETWEEN(savegame_min, savegame, savegame_max);
+
+    skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
+
+    stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
+
+    if (vid_capfps != false && vid_capfps != true)
+        vid_capfps = vid_capfps_default;
+
+    if (vid_fullscreen != false && vid_fullscreen != true)
+        vid_fullscreen = vid_fullscreen_default;
+
+    if (!M_StringCompare(vid_scaledriver, vid_scaledriver_direct3d)
+        && !M_StringCompare(vid_scaledriver, vid_scaledriver_opengl)
+        && !M_StringCompare(vid_scaledriver, vid_scaledriver_software))
+        vid_scaledriver = vid_scaledriver_default;
+
+    if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
+        && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)
+        && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
+        vid_scalefilter = vid_scalefilter_default;
+
+    if (vid_vsync != false && vid_vsync != true)
+        vid_vsync = vid_vsync_default;
+
+    if (vid_widescreen != false && vid_widescreen != true)
+        vid_widescreen = vid_widescreen_default;
+    if (vid_widescreen || r_screensize == r_screensize_max)
+    {
+        returntowidescreen = true;
+        vid_widescreen = false;
+    }
+    else
+        r_hud = true;
+
+    M_SaveCVARs();
+}
+
+//
+// M_LoadCVARs
+//
+void M_LoadCVARs(char *filename)
 {
     int         i;
-    FILE        *f;
-    char        defname[80];
-    char        strparm[256];
+    FILE        *file;
+    char        control[32];
+    char        action[32];
+    char        defname[32] = "";
+    char        strparm[256] = "";
+
+    configfile = strdup(filename);
 
     // read the file in, overriding any set defaults
-    f = fopen(PACKAGE_CONFIG, "r");
+    file = fopen(filename, "r");
 
-    if (!f)
-        // File not opened, but don't complain
-        return false;
-
-    while (!feof(f))
+    if (!file)
     {
-        if (fscanf(f, "%79s %255[^\n]\n", defname, strparm) != 2)
+        if (stat_runs)
+            C_Output("%s wasn't found. Using the defaults for all CVARs and recreating %s.",
+                uppercase(filename), uppercase(PACKAGE_CONFIG));
+        else
+            C_Output("Created %s.", uppercase(filename));
+        M_CheckCVARs();
+        return;
+    }
+
+    while (!feof(file))
+    {
+        if (fscanf(file, "bind %31s %31[^\n]\n", control, action) == 2)
+        {
+            C_StripQuotes(control);
+            C_StripQuotes(action);
+            C_Bind("", control, action, "");
+            continue;
+        }
+        else if (fscanf(file, "%31s %255[^\n]\n", defname, strparm) != 2)
             // This line doesn't match
             continue;
 
-        // Strip off trailing non-printable characters (\r characters
-        // from DOS text files)
-        while (strlen(strparm) > 0 && !isprint(strparm[strlen(strparm) - 1]))
+        // Strip off trailing non-printable characters (\r characters from DOS text files)
+        while (strlen(strparm) > 0 && !isprint((unsigned char)strparm[strlen(strparm) - 1]))
             strparm[strlen(strparm) - 1] = '\0';
 
         // Find the setting in the list
         for (i = 0; i < arrlen(cvars); ++i)
         {
             char        *s;
-            int         intparm;
 
-            if (strcmp(defname, cvars[i].name) != 0)
+            if (!M_StringCompare(defname, cvars[i].name))
                 continue;       // not this one
 
             // parameter found
@@ -733,37 +838,33 @@ static boolean LoadDefaultCollection(void)
                     break;
 
                 case DEFAULT_INT:
-                case DEFAULT_INT_HEX:
-                    *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].set);
+                    *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].aliastype);
+                    break;
+
+                case DEFAULT_INT_UNSIGNED:
+                    sscanf(strparm, "%10u", (unsigned int *)cvars[i].location);
                     break;
 
                 case DEFAULT_INT_PERCENT:
                     s = strdup(strparm);
-                    if (s[strlen(s) - 1] == '%')
+                    if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
-                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].set);
-                    break;
-
-                case DEFAULT_KEY:
-                    // translate scancodes read from config
-                    // file (save the old value in untranslated)
-                    intparm = ParseIntParameter(strparm, cvars[i].set);
-                    cvars[i].untranslated = intparm;
-                    intparm = (intparm >= 0 && intparm < 128 ? scantokey[intparm] : INVALIDKEY);
-
-                    cvars[i].original_translated = intparm;
-                    *(int *)cvars[i].location = intparm;
+                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].aliastype);
                     break;
 
                 case DEFAULT_FLOAT:
-                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].set);
+                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].aliastype);
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
                     s = strdup(strparm);
-                    if (s[strlen(s) - 1] == '%')
+                    if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
-                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].set);
+                    *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].aliastype);
+                    break;
+
+                case DEFAULT_OTHER:
+                    *(char **)cvars[i].location = strdup(strparm);
                     break;
             }
 
@@ -772,435 +873,8 @@ static boolean LoadDefaultCollection(void)
         }
     }
 
-    fclose(f);
-    return true;
-}
+    fclose(file);
 
-//
-// M_SaveDefaults
-//
-void M_SaveDefaults(void)
-{
-    if (returntowidescreen)
-        widescreen = true;
-    SaveDefaultCollection();
-    if (returntowidescreen)
-        widescreen = false;
-}
-
-static void M_CheckDefaults(void)
-{
-    if (alwaysrun != false && alwaysrun != true)
-        alwaysrun = ALWAYSRUN_DEFAULT;
-
-    if (animatedliquid != false && animatedliquid != true)
-        animatedliquid = ANIMATEDLIQUID_DEFAULT;
-
-    if (brightmaps != false && brightmaps != true)
-        brightmaps = BRIGHTMAPS_DEFAULT;
-
-    if (capfps != false && capfps != true)
-        capfps = CAPFPS_DEFAULT;
-
-    if (centerweapon != false && centerweapon != true)
-        centerweapon = CENTERWEAPON_DEFAULT;
-
-    if (corpses_mirror != false && corpses_mirror != true)
-        corpses_mirror = CORPSES_MIRROR_DEFAULT;
-
-    if (corpses_moreblood != false && corpses_moreblood != true)
-        corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
-
-    if (corpses_nudge != false && corpses_nudge != true)
-        corpses_nudge = CORPSES_NUDGE_DEFAULT;
-
-    if (corpses_slide != false && corpses_slide != true)
-        corpses_slide = CORPSES_SLIDE_DEFAULT;
-
-    if (corpses_smearblood != false && corpses_smearblood != true)
-        corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
-
-    if (dclick_use != false && dclick_use != true)
-        dclick_use = DCLICKUSE_DEFAULT;
-
-    if (floatbob != false && floatbob != true)
-        floatbob = FLOATBOB_DEFAULT;
-
-    if (footclip != false && footclip != true)
-        footclip = FOOTCLIP_DEFAULT;
-
-    if (fullscreen != false && fullscreen != true)
-        fullscreen = FULLSCREEN_DEFAULT;
-
-    if (gamepadautomap < 0 || gamepadautomap > GAMEPAD_Y
-        || (gamepadautomap & (gamepadautomap - 1)))
-        gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
-
-    if (gamepadautomapclearmark < 0 || gamepadautomapclearmark > GAMEPAD_Y
-        || (gamepadautomapclearmark & (gamepadautomapclearmark - 1)))
-        gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
-
-    if (gamepadautomapfollowmode < 0 || gamepadautomapfollowmode > GAMEPAD_Y
-        || (gamepadautomapfollowmode & (gamepadautomapfollowmode - 1)))
-        gamepadautomapfollowmode = GAMEPADAUTOMAPFOLLOWMODE_DEFAULT;
-
-    if (gamepadautomapgrid < 0 || gamepadautomapgrid > GAMEPAD_Y
-        || (gamepadautomapgrid & (gamepadautomapgrid - 1)))
-        gamepadautomapgrid = GAMEPADAUTOMAPGRID_DEFAULT;
-
-    if (gamepadautomapmark < 0 || gamepadautomapmark > GAMEPAD_Y
-        || (gamepadautomapmark & (gamepadautomapmark - 1)))
-        gamepadautomapmark = GAMEPADAUTOMAPMARK_DEFAULT;
-
-    if (gamepadautomapmaxzoom < 0 || gamepadautomapmaxzoom > GAMEPAD_Y
-        || (gamepadautomapmaxzoom & (gamepadautomapmaxzoom - 1)))
-        gamepadautomapmaxzoom = GAMEPADAUTOMAPMAXZOOM_DEFAULT;
-
-    if (gamepadautomaprotatemode < 0 || gamepadautomaprotatemode > GAMEPAD_Y
-        || (gamepadautomaprotatemode & (gamepadautomaprotatemode - 1)))
-        gamepadautomaprotatemode = GAMEPADAUTOMAPROTATEMODE_DEFAULT;
-
-    if (gamepadautomapzoomin < 0 || gamepadautomapzoomin > GAMEPAD_Y
-        || (gamepadautomapzoomin & (gamepadautomapzoomin - 1)))
-        gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
-
-    if (gamepadautomapzoomout < 0 || gamepadautomapzoomout > GAMEPAD_Y
-        || (gamepadautomapzoomout & (gamepadautomapzoomout - 1)))
-        gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
-
-    if (gamepadfire < 0 || gamepadfire > GAMEPAD_Y || (gamepadfire & (gamepadfire - 1)))
-        gamepadfire = GAMEPADFIRE_DEFAULT;
-
-    gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone_percent,
-        GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
-
-    gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN, gamepadrightdeadzone_percent,
-        GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
-
-    if (gamepadlefthanded != false && gamepadlefthanded != true)
-        gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
-
-    if (gamepadmenu < 0 || gamepadmenu > GAMEPAD_Y || (gamepadmenu & (gamepadmenu - 1)))
-        gamepadmenu = GAMEPADMENU_DEFAULT;
-
-    if (gamepadnextweapon < 0 || gamepadnextweapon > GAMEPAD_Y
-        || (gamepadnextweapon & (gamepadnextweapon - 1)))
-        gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
-
-    if (gamepadprevweapon < 0 || gamepadprevweapon > GAMEPAD_Y
-        || (gamepadprevweapon & (gamepadprevweapon - 1)))
-        gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
-
-    gamepadsensitivity = BETWEEN(GAMEPADSENSITIVITY_MIN, gamepadsensitivity,
-        GAMEPADSENSITIVITY_MAX);
-    gamepadsensitivityf = (!gamepadsensitivity ? 0.0f :
-        GAMEPADSENSITIVITY_OFFSET + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX *
-        GAMEPADSENSITIVITY_FACTOR);
-
-    if (gamepadrun < 0 || gamepadrun > GAMEPAD_Y || (gamepadrun & (gamepadrun - 1)))
-        gamepadrun = GAMEPADRUN_DEFAULT;
-
-    if (gamepaduse < 0 || gamepaduse > GAMEPAD_Y || (gamepaduse & (gamepaduse - 1)))
-        gamepaduse = GAMEPADUSE_DEFAULT;
-
-    if (gamepadvibrate != false && gamepadvibrate != true)
-        gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
-
-    if (gamepadweapon1 < 0 || gamepadweapon1 > GAMEPAD_Y
-        || (gamepadweapon1 & (gamepadweapon1 - 1)))
-        gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon2 < 0 || gamepadweapon2 > GAMEPAD_Y
-        || (gamepadweapon2 & (gamepadweapon2 - 1)))
-        gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon3 < 0 || gamepadweapon3 > GAMEPAD_Y
-        || (gamepadweapon3 & (gamepadweapon3 - 1)))
-        gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon4 < 0 || gamepadweapon4 > GAMEPAD_Y
-        || (gamepadweapon4 & (gamepadweapon4 - 1)))
-        gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon5 < 0 || gamepadweapon5 > GAMEPAD_Y
-        || (gamepadweapon5 & (gamepadweapon5 - 1)))
-        gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon6 < 0 || gamepadweapon6 > GAMEPAD_Y
-        || (gamepadweapon6 & (gamepadweapon6 - 1)))
-        gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y
-        || (gamepadweapon7 & (gamepadweapon7 - 1)))
-        gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
-
-    gammalevel = BETWEENF(GAMMALEVEL_MIN, gammalevel, GAMMALEVEL_MAX);
-    gammaindex = 0;
-    while (gammaindex < GAMMALEVELS)
-        if (gammalevels[gammaindex++] == gammalevel)
-            break;
-    if (gammaindex == GAMMALEVELS)
-    {
-        gammaindex = 0;
-        while (gammalevels[gammaindex++] != GAMMALEVEL_DEFAULT);
-    }
-    --gammaindex;
-
-    if (graphicdetail != LOW && graphicdetail != HIGH)
-        graphicdetail = GRAPHICDETAIL_DEFAULT;
-
-    if (am_grid != false && am_grid != true)
-        am_grid = GRID_DEFAULT;
-
-    if (homindicator != false && homindicator != true)
-        homindicator = HOMINDICATOR_DEFAULT;
-
-    if (hud != false && hud != true)
-        hud = HUD_DEFAULT;
-
-    if (key_automap == INVALIDKEY)
-        key_automap = KEYAUTOMAP_DEFAULT;
-
-    if (key_automap_clearmark == INVALIDKEY)
-        key_automap_clearmark = KEYAUTOMAPCLEARMARK_DEFAULT;
-
-    if (key_automap_followmode == INVALIDKEY)
-        key_automap_followmode = KEYAUTOMAPFOLLOWMODE_DEFAULT;
-
-    if (key_automap_grid == INVALIDKEY)
-        key_automap_grid = KEYAUTOMAPGRID_DEFAULT;
-
-    if (key_automap_mark == INVALIDKEY)
-        key_automap_mark = KEYAUTOMAPMARK_DEFAULT;
-
-    if (key_automap_maxzoom == INVALIDKEY)
-        key_automap_maxzoom = KEYAUTOMAPMAXZOOM_DEFAULT;
-
-    if (key_automap_rotatemode == INVALIDKEY)
-        key_automap_rotatemode = KEYAUTOMAPROTATEMODE_DEFAULT;
-
-    if (key_automap_zoomin == INVALIDKEY)
-        key_automap_zoomin = KEYAUTOMAPZOOMIN_DEFAULT;
-
-    if (key_automap_zoomout == INVALIDKEY)
-        key_automap_zoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
-
-    if (key_down == INVALIDKEY)
-        key_down = KEYDOWN_DEFAULT;
-
-    if (key_down2 == INVALIDKEY)
-        key_down2 = KEYDOWN2_DEFAULT;
-
-    if (key_fire == INVALIDKEY)
-        key_fire = KEYFIRE_DEFAULT;
-
-    if (key_left == INVALIDKEY)
-        key_left = KEYLEFT_DEFAULT;
-
-    if (key_nextweapon == INVALIDKEY)
-        key_nextweapon = KEYNEXTWEAPON_DEFAULT;
-
-    if (key_prevweapon == INVALIDKEY)
-        key_prevweapon = KEYPREVWEAPON_DEFAULT;
-
-    if (key_right == INVALIDKEY)
-        key_right = KEYRIGHT_DEFAULT;
-
-    if (key_run == INVALIDKEY)
-        key_run = KEYRUN_DEFAULT;
-
-    if (key_strafe == INVALIDKEY)
-        key_strafe = KEYSTRAFE_DEFAULT;
-
-    if (key_strafeleft == INVALIDKEY)
-        key_strafeleft = KEYSTRAFELEFT_DEFAULT;
-
-    if (key_strafeleft2 == INVALIDKEY)
-        key_strafeleft2 = KEYSTRAFELEFT2_DEFAULT;
-
-    if (key_straferight == INVALIDKEY)
-        key_straferight = KEYSTRAFERIGHT_DEFAULT;
-
-    if (key_straferight2 == INVALIDKEY)
-        key_straferight2 = KEYSTRAFERIGHT2_DEFAULT;
-
-    if (key_up == INVALIDKEY)
-        key_up = KEYUP_DEFAULT;
-
-    if (key_up2 == INVALIDKEY)
-        key_up2 = KEYUP2_DEFAULT;
-
-    if (key_use == INVALIDKEY)
-        key_use = KEYUSE_DEFAULT;
-
-    if (key_weapon1 == INVALIDKEY)
-        key_weapon1 = KEYWEAPON1_DEFAULT;
-
-    if (key_weapon2 == INVALIDKEY)
-        key_weapon2 = KEYWEAPON2_DEFAULT;
-
-    if (key_weapon3 == INVALIDKEY)
-        key_weapon3 = KEYWEAPON3_DEFAULT;
-
-    if (key_weapon4 == INVALIDKEY)
-        key_weapon4 = KEYWEAPON4_DEFAULT;
-
-    if (key_weapon5 == INVALIDKEY)
-        key_weapon5 = KEYWEAPON5_DEFAULT;
-
-    if (key_weapon6 == INVALIDKEY)
-        key_weapon6 = KEYWEAPON6_DEFAULT;
-
-    if (key_weapon7 == INVALIDKEY)
-        key_weapon7 = KEYWEAPON7_DEFAULT;
-
-    if (mapfixes != false && mapfixes != true)
-        mapfixes = MAPFIXES_DEFAULT;
-
-    if (messages != false && messages != true)
-        messages = MESSAGES_DEFAULT;
-
-    if (mirrorweapons != false && mirrorweapons != true)
-        mirrorweapons = MIRRORWEAPONS_DEFAULT;
-
-#if defined(SDL20)
-    if (display < 1 || display > DISPLAY_MAX)
-        display = DISPLAY_DEFAULT;
-#endif
-
-    maxbloodsplats = BETWEEN(MAXBLOODSPLATS_MIN, maxbloodsplats, MAXBLOODSPLATS_MAX);
-
-    if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
-        mousebfire = MOUSEFIRE_DEFAULT;
-
-    if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS || mousebforward == mousebfire)
-        mousebforward = MOUSEFORWARD_DEFAULT;
-
-#if defined(SDL20)
-    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS + 2
-#else
-    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS
-#endif
-        || mousebprevweapon == mousebfire || mousebprevweapon == mousebforward)
-        mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
-
-#if defined(SDL20)
-    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS + 2
-#else
-    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS
-#endif
-        || mousebnextweapon == mousebfire || mousebnextweapon == mousebforward
-        || mousebnextweapon == mousebprevweapon)
-        mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
-
-    mousesensitivity = BETWEEN(MOUSESENSITIVITY_MIN, mousesensitivity, MOUSESENSITIVITY_MAX);
-
-    if (mousebstrafe < -1 || mousebstrafe > MAX_MOUSE_BUTTONS || mousebstrafe == mousebfire
-        || mousebstrafe == mousebforward || mousebstrafe == mousebprevweapon
-        || mousebstrafe == mousebnextweapon)
-        mousebstrafe = MOUSESTRAFE_DEFAULT;
-
-    if (mousebuse < -1 || mousebuse > MAX_MOUSE_BUTTONS || mousebuse == mousebfire
-        || mousebuse == mousebforward || mousebuse == mousebprevweapon
-        || mousebuse == mousebnextweapon || mousebuse == mousebstrafe)
-        mousebuse = MOUSEUSE_DEFAULT;
-
-    musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX) * 15 + 50) / 100;
-
-    if (novert != false && novert != true)
-        novert = NOVERT_DEFAULT;
-
-    pixelwidth = BETWEEN(PIXELWIDTH_MIN, pixelwidth, PIXELWIDTH_MAX);
-    while (SCREENWIDTH % pixelwidth)
-        --pixelwidth;
-
-    pixelheight = BETWEEN(PIXELHEIGHT_MIN, pixelheight, PIXELHEIGHT_MAX);
-    while (SCREENHEIGHT % pixelheight)
-        --pixelheight;
-
-    playerbob = BETWEEN(PLAYERBOB_MIN, playerbob, PLAYERBOB_MAX);
-
-    if (am_rotatemode != false && am_rotatemode != true)
-        am_rotatemode = ROTATEMODE_DEFAULT;
-
-    runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
-
-#if defined(SDL20)
-    if (strcasecmp(scaledriver, "opengl") && strcasecmp(scaledriver, "direct3d")
-        && strcasecmp(scaledriver, "software") && strcasecmp(scaledriver, "opengles")
-        && strcasecmp(scaledriver, "opengles2"))
-        scaledriver = SCALEDRIVER_DEFAULT;
-
-    if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear"))
-        scalefilter = SCALEFILTER_DEFAULT;
-#endif
-
-    screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
-
-    if (screenwidth && screenheight
-        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
-    {
-        screenwidth = SCREENWIDTH_DEFAULT;
-        screenheight = SCREENHEIGHT_DEFAULT;
-    }
-
-    selectedepisode = BETWEEN(EPISODE_MIN, selectedepisode,
-        EPISODE_MAX - (gamemode == registered));
-
-    selectedexpansion = BETWEEN(EXPANSION_MIN, selectedexpansion, EXPANSION_MAX);
-
-    selectedsavegame = BETWEEN(0, selectedsavegame, 5);
-
-    selectedskilllevel = BETWEEN(SKILLLEVEL_MIN, selectedskilllevel, SKILLLEVEL_MAX);
-
-    sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
-
-    if (shadows != false && shadows != true)
-        shadows = SHADOWS_DEFAULT;
-
-    if (smoketrails != false && smoketrails != true)
-        smoketrails = SMOKETRAILS_DEFAULT;
-
-    if (spritefixes != false && spritefixes != true)
-        spritefixes = SPRITEFIXES_DEFAULT;
-
-    if (swirlingliquid != false && swirlingliquid != true)
-        swirlingliquid = SWIRLINGLIQUID_DEFAULT;
-
-    if (translucency != false && translucency != true)
-        translucency = TRANSLUCENCY_DEFAULT;
-
-#if defined(SDL20)
-    if (vsync != false && vsync != true)
-        vsync = VSYNC_DEFAULT;
-#endif
-
-    if (widescreen != false && widescreen != true)
-        widescreen = WIDESCREEN_DEFAULT;
-    if (widescreen || screensize == SCREENSIZE_MAX)
-    {
-        returntowidescreen = true;
-        widescreen = false;
-    }
-    else
-        hud = true;
-
-    if (windowwidth < ORIGINALWIDTH || windowheight < ORIGINALWIDTH * 3 / 4)
-        windowheight = WINDOWHEIGHT_DEFAULT;
-    windowwidth = windowheight * 4 / 3;
-
-    M_SaveDefaults();
-}
-
-//
-// M_LoadDefaults
-//
-void M_LoadDefaults(void)
-{
-    if (LoadDefaultCollection())
-        C_Output("Loaded CVARs from %s.", uppercase(PACKAGE_CONFIG));
-    else
-        C_Output("%s not found. Using defaults for all CVARs and creating %s.",
-            uppercase(PACKAGE_CONFIG), uppercase(PACKAGE_CONFIG));
-    M_CheckDefaults();
+    C_Output("Loaded CVARs from %s.", uppercase(filename));
+    M_CheckCVARs();
 }

@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -79,8 +79,8 @@
 #define gamepadthumbRXright             pow((gamepadthumbRX - gamepadrightdeadzone) /\
                                         ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
 
-#define GAMEPADSENSITIVITY_OFFSET       1.0f
-#define GAMEPADSENSITIVITY_FACTOR       3.0f
+#define GP_SENSITIVITY_OFFSET           1.0f
+#define GP_SENSITIVITY_FACTOR           3.0f
 
 int damagevibrationtics;
 int weaponvibrationtics;
@@ -89,22 +89,21 @@ extern int      gamepadbuttons;
 extern short    gamepadthumbLX;
 extern short    gamepadthumbLY;
 extern short    gamepadthumbRX;
-extern boolean  vibrate;
+extern dboolean vibrate;
 extern int      currentmotorspeed;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;
 
+extern int      gamepadalwaysrun;
 extern int      gamepadautomap;
 extern int      gamepadfire;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
-extern boolean  gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
 extern int      gamepadrun;
 extern int      gamepaduse;
-extern boolean  gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -113,7 +112,9 @@ extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 
-extern int      gamepadsensitivity;
+extern int      gp_sensitivity;
+extern dboolean gp_swapthumbsticks;
+extern dboolean gp_vibrate;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);

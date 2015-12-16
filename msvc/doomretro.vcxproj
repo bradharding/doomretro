@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -13,8 +13,11 @@
   <PropertyGroup Label="Globals">
     <ProjectName>doomretro</ProjectName>
     <ProjectGuid>{8B744A3B-8F18-41A0-85A3-293816E85B6E}</ProjectGuid>
-    <RootNamespace>DoomEngine</RootNamespace>
+    <RootNamespace>DoomRetro</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <WindowsTargetPlatformVersion>
+    </WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -23,12 +26,12 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <UseOfAtl>false</UseOfAtl>
     <UseOfMfc>false</UseOfMfc>
-    <PlatformToolset>v90</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v90</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -48,15 +51,12 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\..\SDL2\SDL2-2.0.3\include;$(ProjectDir)\..\SDL2\SDL2_mixer-2.0.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\..\SDL2\SDL2-2.0.3\lib\x86;$(ProjectDir)\..\SDL2\SDL2_mixer-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\..\SDL2\SDL2-2.0.4\include;$(ProjectDir)\..\SDL2\SDL2_mixer-2.0.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\..\SDL2\SDL2-2.0.4\lib\x86;$(ProjectDir)\..\SDL2\SDL2_mixer-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">doomretro</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExecutablePath>$(ExecutablePath);$(MSBuildFrameworkToolsPath32);</ExecutablePath>
@@ -64,11 +64,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.4\include;$(ProjectDir)..\SDL2_mixer-2.0.0\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <ExpandAttributedSource>true</ExpandAttributedSource>
@@ -88,6 +88,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateMapFile>true</GenerateMapFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.4\lib\x86;$(ProjectDir)..\SDL2_mixer-2.0.0\lib\x86;</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <Culture>0x0c09</Culture>
@@ -98,11 +99,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.4\include;$(ProjectDir)..\SDL2_mixer-2.0.0\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_VCLIBS_VERSION=1;_MSC_PLATFORM_TOOLSET=$(PlatformToolsetVersion);%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -110,7 +111,7 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <MinimalRebuild>
       </MinimalRebuild>
@@ -132,7 +133,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TurnOffAssemblyGeneration>false</TurnOffAssemblyGeneration>
@@ -148,6 +149,7 @@
       <EnableUAC>false</EnableUAC>
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>false</MapExports>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.4\lib\x86;$(ProjectDir)..\SDL2_mixer-2.0.0\lib\x86;</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>..\src\manifest.xml</AdditionalManifestFiles>
@@ -248,6 +250,7 @@
     <ClInclude Include="..\src\am_map.h" />
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />
+    <ClInclude Include="..\src\sc_man.h" />
     <ClInclude Include="..\src\version.h" />
     <ClInclude Include="..\src\doomdata.h" />
     <ClInclude Include="..\src\doomdef.h" />
@@ -261,7 +264,7 @@
     <ClInclude Include="..\src\d_items.h" />
     <ClInclude Include="..\src\d_iwad.h" />
     <ClInclude Include="..\src\d_main.h" />
-    <ClInclude Include="..\src\d_net.h" />
+    <ClInclude Include="..\src\d_loop.h" />
     <ClInclude Include="..\src\d_player.h" />
     <ClInclude Include="..\src\d_think.h" />
     <ClInclude Include="..\src\d_ticcmd.h" />
@@ -271,7 +274,6 @@
     <ClInclude Include="..\src\hu_lib.h" />
     <ClInclude Include="..\src\hu_stuff.h" />
     <ClInclude Include="..\src\info.h" />
-    <ClInclude Include="..\src\inttypes.h" />
     <ClInclude Include="..\src\i_gamepad.h" />
     <ClInclude Include="..\src\i_tinttab.h" />
     <ClInclude Include="..\src\i_swap.h" />
@@ -310,7 +312,6 @@
     <ClInclude Include="..\src\r_state.h" />
     <ClInclude Include="..\src\r_things.h" />
     <ClInclude Include="..\src\sounds.h" />
-    <ClInclude Include="..\src\stdint.h" />
     <ClInclude Include="..\src\st_lib.h" />
     <ClInclude Include="..\src\st_stuff.h" />
     <ClInclude Include="..\src\s_sound.h" />
@@ -337,13 +338,14 @@
     <ClCompile Include="..\src\mus2mid.c" />
     <ClCompile Include="..\src\p_fix.c" />
     <ClCompile Include="..\src\p_genlin.c" />
+    <ClCompile Include="..\src\sc_man.c" />
     <ClCompile Include="..\src\sounds.c" />
     <ClCompile Include="..\src\s_sound.c" />
     <ClCompile Include="..\src\am_map.c" />
     <ClCompile Include="..\src\d_items.c" />
     <ClCompile Include="..\src\d_iwad.c" />
     <ClCompile Include="..\src\d_main.c" />
-    <ClCompile Include="..\src\d_net.c" />
+    <ClCompile Include="..\src\d_loop.c" />
     <ClCompile Include="..\src\f_finale.c" />
     <ClCompile Include="..\src\f_wipe.c" />
     <ClCompile Include="..\src\g_game.c" />
@@ -414,6 +416,7 @@
     <None Include="..\README.md" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
+    <None Include="..\res\NOLIQUID" />
     <None Include="..\res\VERSION" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.osx" />

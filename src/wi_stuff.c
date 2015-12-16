@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -43,6 +43,7 @@
 #include "i_video.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "p_setup.h"
 #include "s_sound.h"
 #include "v_data.h"
 #include "v_video.h"
@@ -51,7 +52,7 @@
 #include "z_zone.h"
 
 // Ty 03/17/98: flag that new par times have been loaded in d_deh
-extern boolean deh_pars;  
+extern dboolean deh_pars;
 
 //
 // Data needed to add patches to full screen intermission pics.
@@ -298,10 +299,10 @@ static int              NUMCMAPS;
 //
 
 // You Are Here graphic
-static patch_t          *yah[3] = { NULL, NULL, NULL };
+static patch_t          *yah[3];
 
 // splat
-static patch_t          *splat[2] = { NULL, NULL };
+static patch_t          *splat[2];
 
 // %, : graphics
 static patch_t          *percent;
@@ -416,23 +417,35 @@ void WI_drawLF(void)
 {
     int         x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
     int         y = WI_TITLEY;
-    char        name[9];
+    int         titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
 
     // draw <LevelName>
-    if (gamemode == commercial)
-        M_snprintf(name, 9, "CWILV%2.2d", wbs->last);
-    else
-        M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
-    if (W_CheckMultipleLumps(name) > 1 && !nerve)
+    if (titlepatch)
     {
-        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
-                              lnames[wbs->last], false);
-        y += SHORT(lnames[wbs->last]->height) + 2;
+        patch_t *patch = W_CacheLumpNum(titlepatch, PU_STATIC);
+
+        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+        y += SHORT(patch->height) + 2;
     }
     else
     {
-        WI_drawWILV(y, mapname);
-        y += 14;
+        char    name[9];
+
+        if (gamemode == commercial)
+            M_snprintf(name, 9, "CWILV%2.2d", wbs->last);
+        else
+            M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
+        if (W_CheckMultipleLumps(name) > 1 && !nerve)
+        {
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
+                lnames[wbs->last], false);
+            y += SHORT(lnames[wbs->last]->height) + 2;
+        }
+        else
+        {
+            WI_drawWILV(y, mapname);
+            y += 14;
+        }
     }
 
     // draw "Finished!"
@@ -444,27 +457,38 @@ void WI_drawEL(void)
 {
     int         x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
     int         y = WI_TITLEY;
-    char        name[9];
+    int         titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
 
     // draw "Entering"
     V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
 
     // draw level
     y += 14;
-    if (gamemode == commercial)
-        M_snprintf(name, 9, "CWILV%2.2d", wbs->next);
+    if (titlepatch)
+    {
+        patch_t *patch = W_CacheLumpNum(titlepatch, PU_STATIC);
+
+        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+    }
     else
-        M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
-    if (W_CheckMultipleLumps(name) > 1 && !nerve)
-        V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
-                              lnames[wbs->next], false);
-    else
-        WI_drawWILV(y, nextmapname);
+    {
+        char    name[9];
+
+        if (gamemode == commercial)
+            M_snprintf(name, 9, "CWILV%2.2d", wbs->next);
+        else
+            M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
+        if (W_CheckMultipleLumps(name) > 1 && !nerve)
+            V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
+                lnames[wbs->next], false);
+        else
+            WI_drawWILV(y, nextmapname);
+    }
 }
 
 void WI_drawOnLnode(int n, patch_t *c[])
 {
-    boolean     fits = false;
+    dboolean    fits = false;
     int         i = 0;
 
     do
@@ -478,7 +502,7 @@ void WI_drawOnLnode(int n, patch_t *c[])
             fits = true;
         else
             i++;
-    } while (!fits && i != 2 && c[i] != NULL);
+    } while (!fits && i != 2 && c[i]);
 
     if (fits && i < 2)
     {
@@ -557,8 +581,7 @@ void WI_updateAnimatedBack(void)
 
                 case ANIM_LEVEL:
                     // gawd-awful hack for level anims
-                    if (!(state == StatCount && i == 7)
-                        && wbs->next == a->data1)
+                    if (!(state == StatCount && i == 7) && wbs->next == a->data1)
                     {
                         a->ctr++;
                         if (a->ctr == a->nanims)
@@ -712,7 +735,7 @@ void WI_updateNoState(void)
         G_WorldDone();
 }
 
-static boolean snl_pointeron = false;
+static dboolean snl_pointeron;
 
 void WI_initShowNextLoc(void)
 {
@@ -802,7 +825,7 @@ void WI_initStats(void)
 void WI_updateStats(void)
 {
     //e6y
-    static boolean      play_early_explosion = true;
+    static dboolean     play_early_explosion = true;
 
     WI_updateAnimatedBack();
 
@@ -812,8 +835,8 @@ void WI_updateStats(void)
         cnt_kills = (int)(plrs[me].skills * 100) / wbs->maxkills;
         cnt_items = (int)(plrs[me].sitems * 100) / wbs->maxitems;
         cnt_secret = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
-        cnt_time = (int)(plrs[me].stime) / TICRATE;
-        cnt_par = (int)(wbs->partime) / TICRATE;
+        cnt_time = (int)plrs[me].stime / TICRATE;
+        cnt_par = (int)wbs->partime / TICRATE;
         S_StartSound(NULL, sfx_barexp);
         sp_state = 10;
     }
@@ -887,9 +910,9 @@ void WI_updateStats(void)
             }
         }
 
-        if (cnt_par >= (int)(wbs->partime) / TICRATE)
+        if (cnt_par >= (int)wbs->partime / TICRATE)
         {
-            cnt_par = (int)(wbs->partime) / TICRATE;
+            cnt_par = (int)wbs->partime / TICRATE;
 
             if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
             {
@@ -924,12 +947,12 @@ void WI_updateStats(void)
 }
 
 extern void M_DrawString(int x, int y, char *str);
-extern boolean canmodify;
+extern dboolean canmodify;
 
 void WI_drawStats(void)
 {
     // line height
-    int lh = (3 * SHORT(num[0]->height)) / 2;
+    int lh = 3 * SHORT(num[0]->height) / 2;
 
     WI_slamBackground();
 
@@ -957,10 +980,11 @@ void WI_drawStats(void)
     V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false);
     WI_drawTime(ORIGINALWIDTH / 2 - SP_TIMEX * 2, SP_TIMEY, cnt_time);
 
-    if (canmodify || deh_pars)
+    if (wbs->partime)
     {
-        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 + 3, SP_TIMEY + 1, par, false);
-        WI_drawTime(ORIGINALWIDTH - SP_TIMEX - 2, SP_TIMEY, cnt_par);
+        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 - FREEDOOM * 17 + 3, SP_TIMEY + 1,
+            par, false);
+        WI_drawTime(ORIGINALWIDTH - SP_TIMEX - 2 - FREEDOOM * 17, SP_TIMEY, cnt_par);
     }
 }
 
@@ -969,18 +993,10 @@ void WI_checkForAccelerate(void)
     if (!menuactive && !paused && !consoleactive)
     {
         player_t        *player = &players[0];
-
-#if defined(SDL20)
         const Uint8     *keystate = SDL_GetKeyboardState(NULL);
 
         if ((player->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN]
             || keystate[SDL_SCANCODE_KP_ENTER])
-#else
-        Uint8           *keystate = SDL_GetKeyState(NULL);
-
-        if ((player->cmd.buttons & BT_ATTACK) || keystate[SDLK_RETURN]
-            || keystate[SDLK_KP_ENTER])
-#endif
         {
             if (!player->attackdown)
                 acceleratestage = 1;
@@ -1010,7 +1026,7 @@ void WI_Ticker(void)
 
     if (bcnt == 1)
         // intermission music
-        S_ChangeMusic((gamemode == commercial ? mus_dm2int : mus_inter), true, false);
+        S_ChangeMusic((gamemode == commercial ? mus_dm2int : mus_inter), true, false, false);
 
     WI_checkForAccelerate();
 
@@ -1032,7 +1048,7 @@ void WI_Ticker(void)
 
 typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 
-// Common load/unload function.  Iterates over all the graphics
+// Common load/unload function. Iterates over all the graphics
 // lumps to be loaded/unloaded into memory.
 static void WI_loadUnloadData(load_callback_t callback)
 {
@@ -1197,7 +1213,7 @@ void WI_Drawer(void)
     }
 }
 
-extern void P_MapName(int episode, int map);
+extern void P_MapName(int ep, int map);
 extern char maptitle[128];
 
 void WI_initVariables(wbstartstruct_t *wbstartstruct)

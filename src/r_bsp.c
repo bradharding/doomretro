@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -50,7 +50,7 @@ line_t          *linedef;
 sector_t        *frontsector;
 sector_t        *backsector;
 
-boolean         doorclosed;
+dboolean        doorclosed;
 
 drawseg_t       *drawsegs;
 unsigned int    maxdrawsegs;
@@ -87,7 +87,7 @@ typedef struct
 // theoretically possible is a function of screen width, a static limit is
 // okay in this case. It used to be 32, which was way too small.
 //
-// This limit was frequently mistaken for the visplane limit in some Doom
+// This limit was frequently mistaken for the visplane limit in some DOOM
 // editing FAQs, where visplanes were said to "double" if a pillar or other
 // object split the view's space into two pieces horizontally. That did not
 // have anything to do with visplanes, but it had everything to do with these
@@ -237,9 +237,9 @@ void R_ClearClipSegs(void)
 // killough 1/18/98 -- This function is used to fix the automap bug which
 // showed lines behind closed doors simply because the door had a dropoff.
 //
-// It assumes that Doom has already ruled out a door being closed because
+// It assumes that DOOM has already ruled out a door being closed because
 // of front-back closure (e.g. front floor is taller than back ceiling).
-boolean R_DoorClosed(void)
+dboolean R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
@@ -259,9 +259,9 @@ boolean R_DoorClosed(void)
 // [AM] Interpolate the passed sector, if prudent.
 void R_MaybeInterpolateSector(sector_t* sector)
 {
-    if (!capfps &&
+    if (!vid_capfps
         // Only if we moved the sector last tic.
-        sector->oldgametic == gametic - 1)
+        && sector->oldgametic == gametic - 1)
     {
         // Interpolate between current and last floor/ceiling position.
         if (sector->floorheight != sector->oldfloorheight)
@@ -295,7 +295,7 @@ void R_MaybeInterpolateSector(sector_t* sector)
 // killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
 //
 sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
-    int *ceilinglightlevel, boolean back)
+    int *ceilinglightlevel, dboolean back)
 {
     if (floorlightlevel)
         *floorlightlevel = (sec->floorlightsec == -1 ? sec->lightlevel :
@@ -403,8 +403,8 @@ static void R_AddLine(seg_t *line)
 
     curline = line;
 
-    angle1 = R_GetVertexViewAngle(line->v1);
-    angle2 = R_GetVertexViewAngle(line->v2);
+    angle1 = R_PointToAngleEx(line->v1->x, line->v1->y);
+    angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
 
     // Clip to view edges.
     span = angle1 - angle2;
@@ -460,7 +460,7 @@ static void R_AddLine(seg_t *line)
         goto clipsolid;
 
     // [AM] Interpolate sector movement before
-    //      running clipping tests.  Frontsector
+    //      running clipping tests. Frontsector
     //      should already be interpolated.
     R_MaybeInterpolateSector(backsector);
 
@@ -534,7 +534,7 @@ static const int checkcoord[12][4] =
     { 2, 1, 3, 0 }
 };
 
-static boolean R_CheckBBox(const fixed_t *bspcoord)
+static dboolean R_CheckBBox(const fixed_t *bspcoord)
 {
     int         boxpos;
     const int   *check;
@@ -563,10 +563,10 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
 
     // cph - replaced old code, which was unclear and badly commented
     // Much more efficient code now
-    if ((signed int)angle1 < (signed int)angle2) 
+    if ((signed int)angle1 < (signed int)angle2)
     {
         // Either angle1 or angle2 is behind us, so it doesn't matter if we
-        // change it to the corect sign
+        // change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
             angle1 = INT_MAX;           // which is ANG180 - 1
         else
@@ -592,7 +592,7 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
 
     // SoM: To account for the rounding error of the old BSP system, I needed to
     // make adjustments.
-    // SoM: Moved this to before the "does not cross a pixel" check to fix 
+    // SoM: Moved this to before the "does not cross a pixel" check to fix
     // another slime trail
     if (sx1 > 0)
         sx1--;
@@ -628,7 +628,7 @@ static void R_Subsector(int num)
 
     frontsector = sub->sector;
 
-    // [AM] Interpolate sector movement.  Usually only needed
+    // [AM] Interpolate sector movement. Usually only needed
     //      when you're standing inside the sector.
     R_MaybeInterpolateSector(frontsector);
 
@@ -656,7 +656,7 @@ static void R_Subsector(int num)
             frontsector->ceiling_xoffs,                         // killough 3/7/98
             frontsector->ceiling_yoffs) : NULL);
 
-    // killough 9/18/98: Fix underwater slowdown, by passing real sector 
+    // killough 9/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite
     // lightlevels on floor & ceiling lightlevels in the surrounding area.
     //
@@ -666,12 +666,19 @@ static void R_Subsector(int num)
     // That is part of the 242 effect!!!  If you simply pass sub->sector to
     // the old code you will not get correct lighting for underwater sprites!!!
     // Either you must pass the fake sector and handle validcount here, on the
-    // real sector, or you must account for the lighting in some other way, 
+    // real sector, or you must account for the lighting in some other way,
     // like passing it as an argument.
-    R_AddSprites(sub->sector, (floorlightlevel + ceilinglightlevel) / 2);
+    if (sub->sector->validcount != validcount)
+    {
+        sub->sector->validcount = validcount;
+        R_AddSprites(sub->sector, (floorlightlevel + ceilinglightlevel) / 2);
+    }
 
     while (count--)
+    {
         R_AddLine(line++);
+        curline = NULL;
+    }
 }
 
 //

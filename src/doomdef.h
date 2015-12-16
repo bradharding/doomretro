@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -56,14 +56,20 @@
 
 //
 // The packed attribute forces structures to be packed into the minimum
-// space necessary.  If this is not done, the compiler may align structure
+// space necessary. If this is not done, the compiler may align structure
 // fields differently to optimize memory access, inflating the overall
-// structure size.  It is important to use the packed attribute on certain
+// structure size. It is important to use the packed attribute on certain
 // structures where alignment is important, particularly data read/written
 // to disk.
 //
 #if defined(__GNUC__)
+
+#if defined(__clang__)
 #define PACKEDATTR      __attribute__((packed))
+#else
+#define PACKEDATTR      __attribute__((packed,gcc_struct))
+#endif
+
 #else
 #define PACKEDATTR
 #endif
@@ -73,7 +79,7 @@
 //
 
 // Game mode handling - identify IWAD version
-//  to handle IWAD dependend animations etc.
+//  to handle IWAD dependent animations etc.
 typedef enum
 {
     shareware,          // DOOM 1 shareware, E1, M9
@@ -97,28 +103,30 @@ typedef enum
 // What version are we emulating?
 typedef enum
 {
-    exe_doom_1_9,       // Doom 1.9: used for shareware, registered and commercial
-    exe_ultimate,       // Ultimate Doom (retail)
-    exe_final           // Final Doom
+    exe_doom_1_9,       // DOOM 1.9: used for shareware, registered and commercial
+    exe_ultimate,       // Ultimate DOOM (retail)
+    exe_final           // Final DOOM
 } GameVersion_t;
 
 // Screen width and height.
 
-#define ORIGINALWIDTH   320
-#define ORIGINALHEIGHT  200
+#define ORIGINALWIDTH           320
+#define ORIGINALHEIGHT          200
 
-#define SCREENSCALE     2
+#define ORIGINALSBARHEIGHT      32
 
-#define SCREENWIDTH     (ORIGINALWIDTH * SCREENSCALE)
-#define SCREENHEIGHT    (ORIGINALHEIGHT * SCREENSCALE)
+#define SCREENSCALE             2
 
-#define SBARHEIGHT      (32 * SCREENSCALE)
+#define SCREENWIDTH             (ORIGINALWIDTH * SCREENSCALE)
+#define SCREENHEIGHT            (ORIGINALHEIGHT * SCREENSCALE)
+
+#define SBARHEIGHT              (ORIGINALSBARHEIGHT * SCREENSCALE)
 
 // The maximum number of players, multiplayer/networking.
-#define MAXPLAYERS      4
+#define MAXPLAYERS              4
 
 // State updates, number of tics / second.
-#define TICRATE         35
+#define TICRATE                 35
 
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
@@ -136,14 +144,14 @@ typedef enum
 //
 
 // Skill flags.
-#define MTF_EASY        1
-#define MTF_NORMAL      2
-#define MTF_HARD        4
+#define MTF_EASY                1
+#define MTF_NORMAL              2
+#define MTF_HARD                4
 
 // Deaf monsters/do not react to sound.
-#define MTF_AMBUSH      8
+#define MTF_AMBUSH              8
 
-#define MTF_NETGAME     16
+#define MTF_NETGAME             16
 
 typedef enum
 {

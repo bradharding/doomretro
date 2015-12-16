@@ -1,37 +1,37 @@
 /*
 ========================================================================
 
-                               DOOM RETRO
+                               DOOM Retro
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
 
-  Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright (C) 2013-2015 Brad Harding.
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
 
-  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
-  For a complete list of credits, see the accompanying AUTHORS file.
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see the accompanying AUTHORS file.
 
-  This file is part of DOOM RETRO.
+  This file is part of DOOM Retro.
 
-  DOOM RETRO is free software: you can redistribute it and/or modify it
+  DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  DOOM RETRO is distributed in the hope that it will be useful, but
+  DOOM Retro is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. DOOM RETRO is in no way affiliated with nor endorsed by
-  id Software LLC.
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
 
 ========================================================================
 */
@@ -50,10 +50,11 @@ extern fixed_t          dc_iscale;
 extern fixed_t          dc_texturemid;
 extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
-extern boolean          dc_topsparkle;
-extern boolean          dc_bottomsparkle;
-extern fixed_t          dc_blood;
+extern dboolean         dc_topsparkle;
+extern dboolean         dc_bottomsparkle;
+extern byte             *dc_blood;
 extern byte             *dc_colormask;
+extern byte             *dc_tranmap;
 extern int              dc_baseclip;
 
 // first pixel in a column
@@ -63,16 +64,17 @@ extern byte             *tinttab;
 extern byte             *tinttab25;
 extern byte             *tinttab33;
 extern byte             *tinttab40;
-extern byte             *tinttab50;
 extern byte             *tinttab66;
+extern byte             *tranmap;
 extern byte             *tinttabred;
-extern byte             *tinttabredwhite;
+extern byte             *tinttabredwhite1;
+extern byte             *tinttabredwhite2;
 extern byte             *tinttabgreen;
 extern byte             *tinttabblue;
-extern byte             *tinttabred50;
+extern byte             *tinttabred33;
 extern byte             *tinttabredwhite50;
-extern byte             *tinttabgreen50;
-extern byte             *tinttabblue50;
+extern byte             *tinttabgreen33;
+extern byte             *tinttabblue33;
 
 // The span blitting interface.
 // Hook in assembler or system specific BLT
@@ -87,12 +89,13 @@ void R_DrawTranslucent50Column(void);
 void R_DrawTranslucent33Column(void);
 void R_DrawTranslucentGreenColumn(void);
 void R_DrawTranslucentRedColumn(void);
-void R_DrawTranslucentRedWhiteColumn(void);
+void R_DrawTranslucentRedWhiteColumn1(void);
+void R_DrawTranslucentRedWhiteColumn2(void);
 void R_DrawTranslucentRedWhite50Column(void);
 void R_DrawTranslucentBlueColumn(void);
-void R_DrawTranslucentGreen50Column(void);
-void R_DrawTranslucentRed50Column(void);
-void R_DrawTranslucentBlue50Column(void);
+void R_DrawTranslucentGreen33Column(void);
+void R_DrawTranslucentRed33Column(void);
+void R_DrawTranslucentBlue33Column(void);
 void R_DrawRedToBlueColumn(void);
 void R_DrawTranslucentRedToBlue33Column(void);
 void R_DrawRedToGreenColumn(void);
