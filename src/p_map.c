@@ -1983,8 +1983,6 @@ void PIT_ChangeSector(mobj_t *thing)
 // of a moving sector instead of all in bounding box of the
 // sector. Both more accurate and faster.
 // [BH] renamed from P_CheckSector to P_ChangeSector to replace old one entirely
-// [BH] greatly optimized from killough's version. no longer requires nested loops, or use of
-//  msecnode_t::visited.
 //
 dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 {
@@ -1996,39 +1994,54 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
     crushchange = crunch;
     isliquidsector = isliquid[sector->floorpic];
 
+    // Mark all things invalid
+    for (n = sector->touching_thinglist; n; n = n->m_snext)
+        n->visited = false;
+
     if (isliquidsector)
     {
-        for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
-        {
-            mobj = n->m_thing;
-            if (mobj)
-            {
-                type = mobj->type;
-                if (type == MT_BLOODSPLAT)
+        do
+            for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
+                if (!n->visited)                                        // unprocessed thing found
                 {
-                    P_UnsetThingPosition(mobj);
-                    --r_bloodsplats_total;
+                    n->visited = true;                                  // mark thing as processed
+                    mobj = n->m_thing;
+                    if (mobj)
+                    {
+                        type = mobj->type;
+                        if (type == MT_BLOODSPLAT)
+                        {
+                            P_UnsetThingPosition(mobj);
+                            --r_bloodsplats_total;
+                        }
+                        else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
+                            PIT_ChangeSector(mobj);                     // process it
+                    }
+                    break;                                              // exit and start over
                 }
-                else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                    PIT_ChangeSector(mobj);                     // process it
-            }
-        }
+        while (n);      // repeat from scratch until all things left are marked valid
     }
     else
     {
         sector->floor_xoffs = 0;
         sector->floor_yoffs = 0;
 
-        for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
-        {
-            mobj = n->m_thing;
-            if (mobj)
-            {
-                type = mobj->type;
-                if (type != MT_BLOODSPLAT && type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                    PIT_ChangeSector(mobj);                     // process it
-            }
-        }
+        do
+            for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
+                if (!n->visited)                                        // unprocessed thing found
+                {
+                    n->visited = true;                                  // mark thing as processed
+                    mobj = n->m_thing;
+                    if (mobj)
+                    {
+                        type = mobj->type;
+                        if (type != MT_BLOODSPLAT && type != MT_SHADOW
+                            && !(mobj->flags & MF_NOBLOCKMAP))
+                            PIT_ChangeSector(mobj);                     // process it
+                    }
+                    break;                                              // exit and start over
+                }
+        while (n);      // repeat from scratch until all things left are marked valid
     }
 
     return nofit;
