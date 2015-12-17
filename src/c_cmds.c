@@ -518,8 +518,7 @@ consolecmd_t consolecmds[] =
     CMD       (quit, exit, null_func1, quit_cmd_func2, 0, "", "Quits ~"PACKAGE_NAME"~."),
     CMD       (resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "", "Resurrects the player."),
     CMD       (save, "", save_cmd_func1, save_cmd_func2, 1, "~filename~.save", "Saves the game to a file."),
-    CMD       (spawn, "", spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
-    CMD       (summon, "", spawn_cmd_func1, spawn_cmd_func2, 1, "", ""),
+    CMD       (spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CMD       (thinglist, "", game_func1, thinglist_cmd_func2, 0, "", "Shows a list of things in the current map."),
     CMD       (unbind, "", null_func1, unbind_cmd_func2, 1, "~control~", "Unbinds the action from a control."),
 
