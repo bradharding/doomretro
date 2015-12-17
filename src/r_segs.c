@@ -358,7 +358,7 @@ void R_RenderSegLoop(void)
         {
             bottom = MIN(yl - 1, floorclip[rw_x] - 1);
 
-            if (top <= bottom)
+            if (top <= bottom && ceilingplane)
             {
                 ceilingplane->top[rw_x] = top;
                 ceilingplane->bottom[rw_x] = bottom;
@@ -379,7 +379,7 @@ void R_RenderSegLoop(void)
         {
 
             top = MAX(yh, ceilingclip[rw_x]) + 1;
-            if (top <= bottom)
+            if (top <= bottom && floorplane)
             {
                 floorplane->top[rw_x] = top;
                 floorplane->bottom[rw_x] = bottom;
