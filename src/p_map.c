@@ -1901,7 +1901,7 @@ void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 //
 // PIT_ChangeSector
 //
-dboolean PIT_ChangeSector(mobj_t *thing)
+void PIT_ChangeSector(mobj_t *thing)
 {
     int flags = thing->flags;
     int flags2 = thing->flags2;
@@ -1912,7 +1912,7 @@ dboolean PIT_ChangeSector(mobj_t *thing)
         thing->flags2 &= ~MF2_FEETARECLIPPED;
 
     if (P_ThingHeightClip(thing))
-        return true;    // keep checking
+        return;         // keep checking
 
     // crunch bodies to giblets
     if (thing->health <= 0 && (flags2 & MF2_CRUSHABLE))
@@ -1920,7 +1920,7 @@ dboolean PIT_ChangeSector(mobj_t *thing)
         if (thing->type == MT_PLAYER)
         {
             nofit = true;
-            return true;
+            return;
         }
 
         if (!(flags & MF_FUZZ) && !(flags & MF_NOBLOOD))
@@ -1951,7 +1951,7 @@ dboolean PIT_ChangeSector(mobj_t *thing)
         P_RemoveMobj(thing);
 
         // keep checking
-        return true;
+        return;
     }
 
     // crunch dropped items
@@ -1962,11 +1962,11 @@ dboolean PIT_ChangeSector(mobj_t *thing)
         P_RemoveMobj(thing);
 
         // keep checking
-        return true;
+        return;
     }
 
     if (!(flags & MF_SHOOTABLE))
-        return true;    // assume it is bloody gibs or something
+        return;         // assume it is bloody gibs or something
 
     nofit = true;
 
@@ -1974,7 +1974,7 @@ dboolean PIT_ChangeSector(mobj_t *thing)
         P_DamageMobj(thing, NULL, NULL, 10);
 
     // keep checking (crush other things)
-    return true;
+    return;
 }
 
 //
