@@ -1,7 +1,7 @@
 /*
 ========================================================================
 
-                               DOOM Retro
+                           D O O M  R e t r o
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
@@ -1356,8 +1356,7 @@ dboolean C_Responder(event_t *ev)
         {
             if (outputhistory != -1)
             {
-                ++outputhistory;
-                if (outputhistory + 10 == consolestrings)
+                if (++outputhistory + 10 == consolestrings)
                     outputhistory = -1;
             }
         }
@@ -1365,13 +1364,14 @@ dboolean C_Responder(event_t *ev)
     return true;
 }
 
-static int dayofweek(int day, int month, int year)
+static int dayofweek(int d, int m, int y)
 {
-    int adjustment = (14 - month) / 12;
-    int m = month + 12 * adjustment - 2;
-    int y = year - adjustment;
+    int adjustment = (14 - m) / 12;
 
-    return ((day + (13 * m - 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7);
+    m += 12 * adjustment - 2;
+    y -= adjustment;
+
+    return ((d + (13 * m - 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7);
 }
 
 void C_PrintCompileDate(void)
@@ -1393,7 +1393,7 @@ void C_PrintCompileDate(void)
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
-    C_Output("This %i-bit %s binary of ~"PACKAGE_NAMEANDVERSIONSTRING"~ was built on %s, %s %i, "
+    C_Output("This %i-bit %s binary of ~" PACKAGE_NAMEANDVERSIONSTRING "~ was built on %s, %s %i, "
         "%i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
         days[dayofweek(day, month + 1, year)], months[month], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));

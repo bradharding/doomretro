@@ -1,7 +1,7 @@
 /*
 ========================================================================
 
-                               DOOM Retro
+                           D O O M  R e t r o
          The classic, refined DOOM source port. For Windows PC.
 
 ========================================================================
@@ -2167,8 +2167,8 @@ static dboolean save_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 
 static void save_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    G_SaveGame(-1, "", M_StringJoin(savegamefolder, parm1,
-        (M_StringEndsWith(parm1, ".save") ? "" : ".save"), NULL));
+    G_SaveGame(-1, "", M_StringJoin(savegamefolder, parm1, (M_StringEndsWith(parm1, ".save") ? "" :
+        ".save"), NULL));
 }
 
 //
@@ -2188,8 +2188,8 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-                || (mobjinfo[i].name2[0] && M_StringCompare(parm, removespaces(mobjinfo[i].name2))))
+            if (M_StringCompare(parm, removespaces(mobjinfo[i].name1)) || (mobjinfo[i].name2[0]
+                && M_StringCompare(parm, removespaces(mobjinfo[i].name2))))
             {
                 dboolean    spawn = true;
 
