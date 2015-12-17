@@ -1941,7 +1941,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     {
         if (!memcmp(nodes, "xNd4\0\0\0\0", 8))
             format = DEEPBSP;
-        else if (!memcmp(nodes, "XNOD", 4))
+        else if (!memcmp(nodes, "XNOD", 4) && !W_LumpLength(lumpnum + ML_SEGS))
                 format = ZDBSPX;
         else if (!memcmp(nodes, "ZNOD", 4))
             I_Error("Compressed ZDoom nodes are not supported.");
