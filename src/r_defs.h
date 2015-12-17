@@ -958,16 +958,11 @@ typedef struct visplane_s
     int                 maxx;
     fixed_t             height;
     fixed_t             xoffs, yoffs;   // killough 2/28/98: Support scrolling flats
-    // leave pads for [minx-1]/[maxx+1]
-    unsigned short      pad1;
+
     // Here lies the rub for all
     //  dynamic resize/change of resolution.
     unsigned short      top[SCREENWIDTH];
-    unsigned short      pad2;
-    unsigned short      pad3;
-    // See above.
     unsigned short      bottom[SCREENWIDTH];
-    unsigned short      pad4;
 
     sector_t            *sector;        // [BH] Support animated liquid sectors
 } visplane_t;
