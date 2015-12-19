@@ -1937,7 +1937,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     int         b;
 
     if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b, PU_CACHE))
-        && W_LumpLength(b) > 0)
+        && W_LumpLength(b))
     {
         if (!memcmp(nodes, "xNd4\0\0\0\0", 8))
             format = DEEPBSP;

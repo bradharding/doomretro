@@ -424,8 +424,7 @@ void AM_SetColors(void)
 
 void AM_Init(void)
 {
-    byte        *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
-    int         x;
+    int x;
 
     mask = Z_Malloc(256, PU_STATIC, NULL);
     for (x = 0; x < 256; ++x)
