@@ -105,7 +105,6 @@ extern int              am_xhaircolor;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
-extern char             *configfile;
 extern int              episode;
 extern int              expansion;
 extern int              faceback;
@@ -564,7 +563,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (centerweapon, "", bool_cvars_func1, bool_cvars_func2, "Toggles the centering of the player's weapon when firing."),
     CVAR_BOOL (con_obituaries, "", bool_cvars_func1, bool_cvars_func2, "Toggles obituaries in the console when monsters are killed."),
     CVAR_BOOL (con_timestamps, "", bool_cvars_func1, bool_cvars_func2, "Toggles timestamps in the console for player messages."),
-    CVAR_STR  (configfile, "", null_func1, str_cvars_func2, "The path of the configuration file."),
     CVAR_INT  (episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM~ episode in the menu."),
     CVAR_INT  (expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM II~ expansion in the menu."),
     CVAR_INT  (faceback, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The color behind the player's face in the status bar."),

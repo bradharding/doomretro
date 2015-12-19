@@ -54,8 +54,6 @@
 #include "p_local.h"
 #include "version.h"
 
-char                    *configfile = PACKAGE_CONFIG;
-
 extern dboolean         alwaysrun;
 extern int              am_allmapcdwallcolor;
 extern int              am_allmapfdwallcolor;
@@ -176,19 +174,20 @@ extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
 
+extern char             *packageconfig;
 extern int              gamepadleftdeadzone;
 extern int              gamepadrightdeadzone;
 extern int              pixelwidth;
 extern int              pixelheight;
 extern dboolean         returntowidescreen;
 
-#define CONFIG_VARIABLE_INT(name, set)           { #name, &name, DEFAULT_INT, set }
-#define CONFIG_VARIABLE_INT_UNSIGNED(name, set)  { #name, &name, DEFAULT_INT_UNSIGNED, set }
-#define CONFIG_VARIABLE_INT_PERCENT(name, set)   { #name, &name, DEFAULT_INT_PERCENT, set }
-#define CONFIG_VARIABLE_FLOAT(name, set)         { #name, &name, DEFAULT_FLOAT, set }
-#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) { #name, &name, DEFAULT_FLOAT_PERCENT, set }
-#define CONFIG_VARIABLE_STRING(name, set)        { #name, &name, DEFAULT_STRING, set }
-#define CONFIG_VARIABLE_OTHER(name, set)         { #name, &name, DEFAULT_OTHER, set }
+#define CONFIG_VARIABLE_INT(name, set)           { #name, &name, DEFAULT_INT, set, "" }
+#define CONFIG_VARIABLE_INT_UNSIGNED(name, set)  { #name, &name, DEFAULT_INT_UNSIGNED, set, "" }
+#define CONFIG_VARIABLE_INT_PERCENT(name, set)   { #name, &name, DEFAULT_INT_PERCENT, set, "" }
+#define CONFIG_VARIABLE_FLOAT(name, set)         { #name, &name, DEFAULT_FLOAT, set, "" }
+#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) { #name, &name, DEFAULT_FLOAT_PERCENT, set, "" }
+#define CONFIG_VARIABLE_STRING(name, set)        { #name, &name, DEFAULT_STRING, set, "" }
+#define CONFIG_VARIABLE_OTHER(name, set)         { #name, &name, DEFAULT_OTHER, set, "" }
 
 static default_t cvars[] =
 {
@@ -366,7 +365,7 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 void M_SaveCVARs(void)
 {
     int         i;
-    FILE        *file = fopen(configfile, "w");
+    FILE        *file = fopen(packageconfig, "w");
 
     if (!file)
         return; // can't write the file, but don't complain
@@ -376,7 +375,13 @@ void M_SaveCVARs(void)
 
     for (i = 0; i < arrlen(cvars); i++)
     {
-        // Print the name and line up all values at 30 characters
+        if (cvars[i].preserve[0])
+        {
+            fprintf(file, "%s\n", cvars[i].preserve);
+            continue;
+        }
+
+        // Print the name
         fprintf(file, "%s ", cvars[i].name);
 
         // Print the value
@@ -786,8 +791,7 @@ void M_LoadCVARs(char *filename)
     char        action[32];
     char        defname[32] = "";
     char        strparm[256] = "";
-
-    configfile = strdup(filename);
+    dboolean    external = !M_StringCompare(filename, packageconfig);
 
     // read the file in, overriding any set defaults
     file = fopen(filename, "r");
@@ -867,6 +871,9 @@ void M_LoadCVARs(char *filename)
                     *(char **)cvars[i].location = strdup(strparm);
                     break;
             }
+
+            if (external)
+                cvars[i].preserve = M_StringJoin(defname, " ", strparm, NULL);
 
             // finish
             break;

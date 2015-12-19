@@ -103,6 +103,8 @@ char                    *pwadfile = "";
 
 char                    *iwadfolder = iwadfolder_default;
 
+char                    *packageconfig;
+
 dboolean                devparm;        // started game with -devparm
 dboolean                nomonsters;     // checkparm of -nomonsters
 dboolean                fastparm;       // checkparm of -fast
@@ -1256,8 +1258,9 @@ static void D_DoomMainSetup(void)
     int         choseniwad = 0;
     static char lumpname[6];
     char        *exefolder = M_GetExecutableFolder();
-    char        *packageconfig = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
     char        *packagewad = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+
+    packageconfig = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
 
     C_Output("");
     C_PrintCompileDate();
