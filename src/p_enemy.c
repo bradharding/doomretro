@@ -966,9 +966,8 @@ void A_PosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
 
     S_StartSound(actor, sfx_pistol);
-    P_LineAttack(actor, actor->angle, MISSILERANGE, P_AimLineAttack(actor,
-        actor->angle + ((P_Random() - P_Random()) << 20), MISSILERANGE),
-        ((P_Random() % 5) + 1) * 3);
+    P_LineAttack(actor, actor->angle + ((P_Random() - P_Random()) << 20), MISSILERANGE,
+        P_AimLineAttack(actor, actor->angle, MISSILERANGE), ((P_Random() % 5) + 1) * 3);
 }
 
 void A_SPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
