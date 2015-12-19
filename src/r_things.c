@@ -1225,7 +1225,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
             vis->colormap = fixedcolormap;      // fixed color
         else
         {
-            if (bflash || (frame & FF_FULLBRIGHT))
+            if (bflash || (frame & FF_FULLBRIGHT) || viewplayer->damagecount)
                 vis->colormap = fullcolormap;   // full bright
             else
             {
