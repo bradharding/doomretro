@@ -25,7 +25,7 @@
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM Retro. If not, see <http://www.gnu.org/licenses/>.
+  along with DOOM Retro. If not, see http://www.gnu.org/licenses/.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
@@ -1480,7 +1480,17 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
             gamemission = doom2;
     }
     else if (sscanf(parm1, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) != 2)
-        return false;
+    {
+        if (FREEDOOM && sscanf(parm1, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+        {
+            static char     lump[5];
+
+            M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
+            return (W_CheckNumForName(lump) >= 0);
+        }
+        else
+            return false;
+    }
 
     return (W_CheckNumForName(parm1) >= 0);
 }
