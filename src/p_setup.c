@@ -1955,7 +1955,6 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
 }
 
 extern dboolean idclev;
-extern dboolean oldweaponsowned[];
 
 //
 // P_SetupLevel
