@@ -1183,7 +1183,8 @@ void M_UpdateSaveGameName(int i)
                     if (bfgedition)
                     {
                         for (j = 0; j < 33; ++j)
-                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
+                            if (M_StringCompare(savegamestrings[i],
+                                RemoveMapNum(*mapnames2_bfg[j])))
                             {
                                 match = true;
                                 break;
@@ -2449,8 +2450,10 @@ dboolean M_Responder(event_t *ev)
                 keydown = key;
                 if (saveCharIndex > 0)
                 {
-                    for (i = saveCharIndex - 1; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)
-                        savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i + 1];
+                    size_t      j;
+
+                    for (j = saveCharIndex - 1; j < strlen(savegamestrings[saveSlot]); ++j)
+                        savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
                     saveCharIndex--;
                     caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
@@ -2462,8 +2465,10 @@ dboolean M_Responder(event_t *ev)
                 keydown = key;
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
-                    for (i = saveCharIndex; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)
-                        savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i + 1];
+                    size_t      j;
+
+                    for (j = saveCharIndex; j < strlen(savegamestrings[saveSlot]); ++j)
+                        savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
                     caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
@@ -2544,8 +2549,8 @@ dboolean M_Responder(event_t *ev)
 
             default:
                 ch = toupper(ch);
-                if (ch >= ' ' && ch <= '_'
-                    && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH
+                if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveSlot])
+                    + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH
                     && !(modstate & (KMOD_ALT | KMOD_CTRL)))
                 {
                     keydown = key;
@@ -3059,7 +3064,8 @@ dboolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &OptionsDef && !i && !usergame)
                         return true;
-                    if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
+                    if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i],
+                        s_EMPTYSTRING))
                         return true;
                     if (itemOn != i)
                         S_StartSound(NULL, sfx_pstop);
@@ -3108,7 +3114,8 @@ dboolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &OptionsDef && !i && !usergame)
                         return true;
-                    if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
+                    if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i],
+                        s_EMPTYSTRING))
                         return true;
                     if (itemOn != i)
                         S_StartSound(NULL, sfx_pstop);
