@@ -61,6 +61,7 @@ void P_SetLiquids(void);
 void P_UpdateSpecials(void);
 
 dboolean P_SectorActive(special_e t, sector_t *sec);
+dboolean P_SectorHasLightSpecial(sector_t *sec);
 
 dboolean P_CheckTag(line_t *line);
 

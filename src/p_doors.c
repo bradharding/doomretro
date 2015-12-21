@@ -127,7 +127,7 @@ void T_VerticalDoor(vldoor_t *door)
 
                 if (door->lighttag)
                     EV_LightTurnOnPartway(door->line, level);
-                else
+                else if (!P_SectorHasLightSpecial(door->sector))
                     EV_LightByAdjacentSectors(door->sector, level);
             }
 
@@ -200,7 +200,7 @@ void T_VerticalDoor(vldoor_t *door)
 
                 if (door->lighttag)
                     EV_LightTurnOnPartway(door->line, level);
-                else
+                else if (!P_SectorHasLightSpecial(door->sector))
                     EV_LightByAdjacentSectors(door->sector, level);
             }
 
