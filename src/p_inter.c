@@ -518,6 +518,11 @@ dboolean P_GiveAllCards(player_t *player)
         {
             if (player->cards[i] == CARDNOTFOUNDYET)
             {
+                if ((i == it_blueskull && player->cards[it_bluecard] == CARDNOTFOUNDYET)
+                    || (i == it_redskull && player->cards[it_redcard] == CARDNOTFOUNDYET)
+                    || (i == it_yellowskull && player->cards[it_yellowcard] == CARDNOTFOUNDYET))
+                    continue;
+
                 P_GiveCard(player, i);
                 result = true;
             }
