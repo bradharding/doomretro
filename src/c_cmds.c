@@ -581,7 +581,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (messages, "", bool_cvars_func1, bool_cvars_func2, "Toggles messages."),
     CVAR_INT  (movebob, "", null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when moving."),
     CVAR_STR  (playername, "", null_func1, playername_cvar_func2, "The name of the player used in messages."),
-    CVAR_BOOL (r_althud, "", bool_cvars_func1, bool_cvars_func2, "Toggles the display of an alternate HUD when the HUD is on."),
+    CVAR_BOOL (r_althud, "", bool_cvars_func1, bool_cvars_func2, "Toggles the display of an alternate heads up display when in\nwidescreen mode."),
     CVAR_INT  (r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters (all, none or\nred)."),
     CVAR_INT  (r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The maximum number of blood splats allowed in a map (0 to\n1048576)."),
     CVAR_INT  (r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOALIAS, "The total number of blood splats in the current map."),
