@@ -116,6 +116,8 @@
 		8AD637321B3338E400605ECA /* p_genlin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_genlin.c; path = ../../src/p_genlin.c; sourceTree = "<group>"; };
 		9F385F281C28ADAF00BD4F2B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = "<group>"; };
 		9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_mixer.framework; sourceTree = "<group>"; };
+		9F385F2C1C28B0D100BD4F2B /* sc_man.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sc_man.c; path = ../../src/sc_man.c; sourceTree = "<group>"; };
+		9F385F2D1C28B0D100BD4F2B /* sc_man.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sc_man.h; path = ../../src/sc_man.h; sourceTree = "<group>"; };
 		AB5A80C21A8DABE100AF539F /* doomretroapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = doomretroapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5A80C61A8DABE100AF539F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = doomretroapp/Info.plist; sourceTree = "<group>"; };
 		AB5A81D21A8DAEB600AF539F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -338,6 +340,8 @@
 		AB5A80E81A8DAD0100AF539F /* doomretro */ = {
 			isa = PBXGroup;
 			children = (
+				9F385F2C1C28B0D100BD4F2B /* sc_man.c */,
+				9F385F2D1C28B0D100BD4F2B /* sc_man.h */,
 				AB5A81DA1A8DB9EB00AF539F /* am_map.c */,
 				AB5A81DB1A8DB9EB00AF539F /* am_map.h */,
 				AB5A81DC1A8DB9EB00AF539F /* c_cmds.c */,
@@ -610,6 +614,7 @@
 				AB5A82BF1A8DB9EB00AF539F /* st_stuff.c in Sources */,
 				AB5A827D1A8DB9EB00AF539F /* d_items.c in Sources */,
 				AB5A827F1A8DB9EB00AF539F /* d_main.c in Sources */,
+				9F385F2E1C28B0D100BD4F2B /* sc_man.c in Sources */,
 				AB5A82941A8DB9EB00AF539F /* m_config.c in Sources */,
 				AB5A82A61A8DB9EB00AF539F /* p_lights.c in Sources */,
 				AB5A82BA1A8DB9EB00AF539F /* r_sky.c in Sources */,
