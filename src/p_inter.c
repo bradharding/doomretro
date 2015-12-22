@@ -511,21 +511,27 @@ void P_GiveCard(player_t *player, card_t card)
 dboolean P_GiveAllCards(player_t *player)
 {
     int         i;
+    dboolean    skulliscard = true;
     dboolean    result = false;
 
-    for (i = NUMCARDS - 1; i >= 0; i--)
-        if (player->cards[i] != CARDNOTINMAP)
+    for (i = 0; i < numlines; ++i)
+        if (lines[i].special >= GenLockedBase
+            && !((lines[i].special & LockedNKeys) >> LockedNKeysShift))
         {
-            if (player->cards[i] == CARDNOTFOUNDYET)
-            {
-                if ((i == it_blueskull && player->cards[it_bluecard] == CARDNOTFOUNDYET)
-                    || (i == it_redskull && player->cards[it_redcard] == CARDNOTFOUNDYET)
-                    || (i == it_yellowskull && player->cards[it_yellowcard] == CARDNOTFOUNDYET))
-                    continue;
+            skulliscard = false;
+            break;
+        }
 
-                P_GiveCard(player, i);
-                result = true;
-            }
+    for (i = NUMCARDS - 1; i >= 0; --i)
+        if (player->cards[i] != CARDNOTINMAP && player->cards[i] == CARDNOTFOUNDYET)
+        {
+            if (skulliscard && ((i == it_blueskull && player->cards[it_bluecard] == CARDNOTFOUNDYET)
+                || (i == it_redskull && player->cards[it_redcard] == CARDNOTFOUNDYET)
+                || (i == it_yellowskull && player->cards[it_yellowcard] == CARDNOTFOUNDYET)))
+                continue;
+
+            P_GiveCard(player, i);
+            result = true;
         }
 
     return result;
