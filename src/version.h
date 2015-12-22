@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__VERSION__)
-#define __VERSION__
+#if !defined(__DOOMRETRO_VERSION__)
+#define __DOOMRETRO_VERSION__
 
 #define PACKAGE_VERSION                 2,0,0,0
 #define PACKAGE_VERSIONSTRING           "2.0"
