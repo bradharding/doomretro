@@ -457,11 +457,6 @@ dboolean PIT_CheckThing(mobj_t *thing)
     if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
         return true;
 
-    // [BH] don't hit if either thing is a corpse, which may still be solid if
-    // they are still going through their death sequence.
-    if (!(thing->flags2 & MF2_RESURRECTING) && ((flags & MF_CORPSE) || (tmflags & MF_CORPSE)))
-        return true;
-
     // [BH] specify standard radius of 20 for pickups here as thing->radius
     // has been changed to allow better clipping
     blockdist = ((flags & MF_SPECIAL) ? 20 * FRACUNIT : thing->radius) + tmthing->radius;
@@ -567,6 +562,11 @@ dboolean PIT_CheckThing(mobj_t *thing)
             P_TouchSpecialThing(thing, tmthing);                // can remove thing
         return !solid;
     }
+
+    // [BH] don't hit if either thing is a corpse, which may still be solid if
+    // they are still going through their death sequence.
+    if (!(thing->flags2 & MF2_RESURRECTING) && ((flags & MF_CORPSE) || (tmflags & MF_CORPSE)))
+        return true;
 
     // RjY
     // an attempt to handle blocking hanging bodies
