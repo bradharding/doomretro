@@ -872,7 +872,7 @@ void M_LoadCVARs(char *filename)
                     break;
             }
 
-            if (external)
+            if (!external)
                 cvars[i].preserve = M_StringJoin(defname, " ", strparm, NULL);
 
             // finish
