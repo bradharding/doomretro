@@ -2046,6 +2046,7 @@ dboolean EV_DoDonut(line_t *line)
 //
 void P_SpawnSpecials(void)
 {
+    line_t      *line;
     sector_t    *sector;
     int         i;
 
@@ -2123,17 +2124,17 @@ void P_SpawnSpecials(void)
 
     P_SpawnPushers();                   // phares 3/20/98: New pusher model using linedefs
 
-    for (i = 0; i < numlines; i++)
+    for (line = lines, i = 0; i < numlines; ++i, ++line)
     {
         int sec;
         int s;
 
-        switch (lines[i].special)
+        switch (line->special)
         {
             // killough 3/7/98:
             // support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
-                sec = sides[*lines[i].sidenum].sector - sectors;
+                sec = sides[*line->sidenum].sector - sectors;
                 for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
                     sectors[s].heightsec = sec;
                 break;
@@ -2141,7 +2142,7 @@ void P_SpawnSpecials(void)
             // killough 3/16/98: Add support for setting
             // floor lighting independently (e.g. lava)
             case Floor_ChangeBrightnessToThisBrightness:
-                sec = sides[*lines[i].sidenum].sector - sectors;
+                sec = sides[*line->sidenum].sector - sectors;
                 for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
                     sectors[s].floorlightsec = sec;
                 break;
@@ -2149,7 +2150,7 @@ void P_SpawnSpecials(void)
             // killough 4/11/98: Add support for setting
             // ceiling lighting independently
             case Ceiling_ChangeBrightnessToThisBrightness:
-                sec = sides[*lines[i].sidenum].sector - sectors;
+                sec = sides[*line->sidenum].sector - sectors;
                 for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
                     sectors[s].ceilinglightsec = sec;
                 break;

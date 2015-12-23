@@ -655,7 +655,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         // cards
-        // leave cards for everyone
         case SPR_BKEY:
             if (player->cards[it_bluecard] <= 0)
             {
