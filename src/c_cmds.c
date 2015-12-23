@@ -416,6 +416,7 @@ static void am_cheat_cvar_func2(char *, char *, char *, char *);
 static void am_external_cvar_func2(char *, char *, char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
+static void gp_sensitivity_cvar_func2(char *, char *, char *, char *);
 static void playername_cvar_func2(char *, char *, char *, char *);
 static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
@@ -569,7 +570,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME (gametime, "", null_func1, time_cvars_func2, "The amount of time since ~"PACKAGE_NAME"~ started."),
     CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT, "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT, "The dead zone of the gamepad's right thumbstick."),
-    CVAR_INT  (gp_sensitivity, "", null_func1, int_cvars_func2, CF_NONE, NOALIAS, "The gamepad's sensitivity."),
+    CVAR_INT  (gp_sensitivity, "", null_func1, gp_sensitivity_cvar_func2, CF_NONE, NOALIAS, "The gamepad's sensitivity."),
     CVAR_BOOL (gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL (gp_vibrate, "", bool_cvars_func1, bool_cvars_func2, "Toggles vibration for XInput gamepads."),
     CVAR_STR  (iwadfolder, "", null_func1, str_cvars_func2, "The folder where an IWAD file was last opened."),
@@ -2597,6 +2598,26 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
     else
         C_Output("%s%%", striptrailingzero((M_StringCompare(cmd, stringize(gp_deadzone_left)) ?
             gp_deadzone_left : gp_deadzone_right), 1));
+}
+
+static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (parm1[0])
+    {
+        int     value = -1;
+
+        sscanf(parm1, "%10i", &value);
+
+        if (value >= gp_sensitivity_min && value <= gp_sensitivity_max)
+        {
+            gp_sensitivity = value;
+            M_SaveCVARs();
+            gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
+                + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
+        }
+    }
+    else
+        C_Output("%i", gp_sensitivity);
 }
 
 //
