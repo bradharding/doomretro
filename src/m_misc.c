@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2016 Brad Harding.
+  Copyright ï¿½ 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright ï¿½ 2013-2016 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
   For a list of credits, see the accompanying AUTHORS file.
@@ -142,7 +142,7 @@ char *M_ExtractFolder(char *path)
 
     M_StringCopy(folder, path, MAX_PATH);
 
-    pos = strrchr(folder, '\\');
+    pos = strrchr(folder, DIR_SEPARATOR);
     if (pos)
         *pos = '\0';
 
