@@ -419,8 +419,6 @@ typedef struct
     default_type_t      type;
 
     alias_type_t        aliastype;
-
-    char                *preserve;
 } default_t;
 
 typedef struct
