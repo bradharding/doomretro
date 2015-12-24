@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2016 Brad Harding.
+  Copyright Â© 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright Â© 2013-2016 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
   For a list of credits, see the accompanying AUTHORS file.
@@ -940,7 +940,7 @@ static int D_ChooseIWAD(void)
                             iwadfound = 1;
                             sharewareiwad = M_StringCompare(iwadpass, "DOOM1.WAD");
                             isDOOM2 = M_StringCompare(iwadpass, "DOOM2.WAD");
-                            iwadfolder = strdup(fullpath);
+                            iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
                         }
                     }
@@ -1257,10 +1257,13 @@ static void D_DoomMainSetup(void)
     int         p;
     int         choseniwad = 0;
     static char lumpname[6];
-    char        *exefolder = M_GetExecutableFolder();
-    char        *packagewad = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+    const char  *resourcefolder = M_GetResourceFolder();
+    const char  *appdatafolder = M_GetAppDataFolder();
+    const char  *packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+    
+    M_MakeDirectory(appdatafolder);
 
-    packageconfig = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
+    packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
 
     C_Output("");
     C_PrintCompileDate();
@@ -1317,14 +1320,7 @@ static void D_DoomMainSetup(void)
     else
         C_Output("~"PACKAGE_NAME"~ has been run %s times.", commify(SafeAdd(stat_runs, 1)));
 
-#if !defined(__MACOSX__)
     if (!M_FileExists(packagewad))
-#else
-    NSString *packageWadFullpath =
-        [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@PACKAGE_WAD];
-
-    if (!M_FileExists((char *)[packageWadFullpath UTF8String]))
-#endif
         I_Error("%s can't be found.\nPlease reinstall " PACKAGE_NAME ".", uppercase(packagewad));
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
@@ -1379,11 +1375,7 @@ static void D_DoomMainSetup(void)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
                 "specifying one with the '-iwad' command-line parameter.");
 
-#if !defined(__MACOSX__)
     if (!W_MergeFile(packagewad, true))
-#else
-    if (!W_MergeFile((char*)[packageWadFullpath UTF8String], true))
-#endif
         I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
 
     if (!CheckPackageWADVersion())

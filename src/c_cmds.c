@@ -932,19 +932,21 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         char    filename[MAX_PATH];
         FILE    *file;
-        char    *exefolder = M_GetExecutableFolder();
+        const char *appdatafolder = M_GetAppDataFolder();
 
+        M_MakeDirectory(appdatafolder);
+        
         if (!parm1[0])
         {
             int count = 0;
 
-            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt", exefolder);
+            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt", appdatafolder);
             while (M_FileExists(filename))
                 M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump (%i).txt",
-                    exefolder, ++count);
+                    appdatafolder, ++count);
         }
         else
-            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"%s", exefolder, parm1);
+            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"%s", appdatafolder, parm1);
 
         file = fopen(filename, "wt");
 

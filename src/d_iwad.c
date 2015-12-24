@@ -539,7 +539,10 @@ void D_SetSaveGameFolder(void)
     if (!iwad_name)
         iwad_name = "unknown.wad";
 
-    savegamefolder = M_StringJoin(M_GetExecutableFolder(), DIR_SEPARATOR_S, "savegames",
+    const char *appdatafolder = M_GetAppDataFolder();
+    M_MakeDirectory(appdatafolder);
+    
+    savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames",
         DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
