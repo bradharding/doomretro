@@ -53,6 +53,7 @@
 
 #include "doomdef.h"
 #include "m_fixed.h"
+#include "m_misc.h"
 #include "i_system.h"
 #include "z_zone.h"
 
@@ -149,27 +150,31 @@ char *M_ExtractFolder(char *path)
     return folder;
 }
 
-const char *M_GetAppDataFolder(void)
+char *M_GetAppDataFolder(void)
 {
     //On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
 #if defined(__MACOSX__)
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSURL *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory inDomains: NSUserDomainMask].firstObject;
-    NSURL *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent: @PACKAGE_NAME];
+    NSFileManager      *manager = [NSFileManager defaultManager];
+    NSURL              *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory
+                           inDomains: NSUserDomainMask].firstObject;
+    NSURL              *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent:
+                           @PACKAGE_NAME];
+
     return appSupportURL.fileSystemRepresentation;
 #else
-    //On Windows and Linux, store generated files in the same folder as the executable.
-    //TODO: on Windows this should probably use %APPDATA%/PACKAGE_NAME,
-    //and on Unix it should probably use somewhere within ~.
+    // On Windows and Linux, store generated files in the same folder as the executable.
+    // TODO: on Windows this should probably use %APPDATA%/PACKAGE_NAME,
+    // and on Unix it should probably use somewhere within ~.
     return M_GetExecutableFolder();
 #endif
 }
 
-const char *M_GetResourceFolder(void)
+char *M_GetResourceFolder(void)
 {
 #if defined(__MACOSX__)
-    //On OSX, load resources from the Contents/Resources folder within the application bundle.
-    NSURL *resourceURL = [NSBundle mainBundle].resourceURL;
+    // On OSX, load resources from the Contents/Resources folder within the application bundle.
+    NSURL       *resourceURL = [NSBundle mainBundle].resourceURL;
+
     return resourceURL.fileSystemRepresentation;
 #else
     //On Windows and Linux, load resources from the same folder as the executable.
@@ -191,13 +196,13 @@ char *M_GetExecutableFolder(void)
     if (pos)
         *pos = '\0';
 
-    //FIXME: the string returned here is allocated on the heap,
-    //but that is inconsistent with the non-windows branch below
-    //and no caller of this method bothers to free the returned
-    //string anyway.
-    //Instead this method should return an address on the stack,
-    //and make it the caller's responsibility to copy the string
-    //if it's needed beyond the stack scope.
+    // FIXME: the string returned here is allocated on the heap,
+    // but that is inconsistent with the non-windows branch below
+    // and no caller of this method bothers to free the returned
+    // string anyway.
+    // Instead this method should return an address on the stack,
+    // and make it the caller's responsibility to copy the string
+    // if it's needed beyond the stack scope.
     return folder;
 #else
     return ".";
@@ -259,7 +264,7 @@ int M_ReadFile(char *name, byte **buffer)
 
 // Return a newly-malloced string with all the strings given as arguments
 // concatenated together.
-char *M_StringJoin(const char *s, ...)
+char *M_StringJoin(char *s, ...)
 {
     char *result, *v;
     va_list args;

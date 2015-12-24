@@ -534,12 +534,12 @@ extern char     *pwadfile;
 //
 void D_SetSaveGameFolder(void)
 {
-    char *iwad_name = SaveGameIWADName();
+    char        *iwad_name = SaveGameIWADName();
+    char        *appdatafolder = M_GetAppDataFolder();
 
     if (!iwad_name)
         iwad_name = "unknown.wad";
 
-    const char *appdatafolder = M_GetAppDataFolder();
     M_MakeDirectory(appdatafolder);
     
     savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames",

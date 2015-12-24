@@ -1257,9 +1257,9 @@ static void D_DoomMainSetup(void)
     int         p;
     int         choseniwad = 0;
     static char lumpname[6];
-    const char  *resourcefolder = M_GetResourceFolder();
-    const char  *appdatafolder = M_GetAppDataFolder();
-    const char  *packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+    char        *resourcefolder = M_GetResourceFolder();
+    char        *appdatafolder = M_GetAppDataFolder();
+    char        *packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
     
     M_MakeDirectory(appdatafolder);
 
