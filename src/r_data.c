@@ -361,40 +361,47 @@ static void R_GenerateComposite(int texnum)
 //
 // Rewritten by Lee Killough for performance and to fix Medusa bug
 //
-static void R_GenerateLookup(int texnum)
+void R_GenerateLookup(int texnum)
 {
-    const texture_t     *texture = textures[texnum];
+    texture_t           *texture = textures[texnum];
+    byte                *patchcount = (byte *)Z_Malloc(texture->width, PU_STATIC, &patchcount);
+    byte                *postcount = (byte *)Z_Malloc(texture->width, PU_STATIC, &postcount);
+    texpatch_t          *patch;
+    int                 x;
+    int                 i;
+    short               *collump;
+    unsigned int        *colofs;        // killough 4/9/98: make 32-bit
+    unsigned int        *colofs2;       // [crispy] original column offsets
+    int                 csize = 0;      // killough 10/98
 
-    // Composited texture not created yet.
-    short               *collump = texturecolumnlump[texnum];
-    unsigned int        *colofs = texturecolumnofs[texnum];
-    unsigned int        *colofs2 = texturecolumnofs2[texnum];   // [crispy] original column offsets
+                                        // Composited texture not created yet.
+    texturecomposite[texnum] = 0;
 
-    // killough 4/9/98: keep count of posts in addition to patches.
-    // Part of fix for Medusa bug for multipatched 2s normals.
-    struct
+    texturecompositesize[texnum] = 0;
+    collump = texturecolumnlump[texnum];
+    colofs = texturecolumnofs[texnum];
+    colofs2 = texturecolumnofs2[texnum]; // [crispy] original column offsets
+
+    // Now count the number of columns
+    //  that are covered by more than one patch.
+    // Fill in the lump / offset, so columns
+    //  with only a single patch are all done.
+    memset(patchcount, 0, texture->width);
+    memset(postcount, 0, texture->width);
+
+    for (i = 0, patch = texture->patches; i < texture->patchcount; ++i, ++patch)
     {
-        unsigned int    patches;
-        unsigned int    posts;
-    } *count = calloc(sizeof(*count), texture->width);
+        patch_t *realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
+        int     x1 = patch->originx;
+        int     x2 = MIN(x1 + SHORT(realpatch->width), texture->width);
 
-    // killough 12/98: First count the number of patches per column.
-    const texpatch_t   *patch = texture->patches;
-    int                i = texture->patchcount;
+        x = MAX(0, x1);
 
-    while (--i >= 0)
-    {
-        int             pat = patch->patch;
-        const patch_t   *realpatch = (patch_t *)W_CacheLumpNum(pat, PU_CACHE);
-        int             x1 = MAX(0, (patch++)->originx);
-        int             x2 = MIN(x1 + SHORT(realpatch->width), texture->width);
-        const int       *cofs = realpatch->columnofs - x1;
-
-        for (; x1 < x2; ++x1)
+        for (; x < x2; x++)
         {
-            count[x1].patches++;
-            collump[x1] = pat;
-            colofs[x1] = colofs2[x1] = LONG(cofs[x1]) + 3;
+            patchcount[x]++;
+            collump[x] = patch->patch;
+            colofs[x] = colofs2[x] = LONG(realpatch->columnofs[x - x1]) + 3;
         }
     }
 
@@ -412,26 +419,30 @@ static void R_GenerateLookup(int texnum)
     if (texture->patchcount > 1 && texture->height < 256)
     {
         // killough 12/98: Warn about a common column construction bug
-        unsigned int            limit = texture->height * 3 + 3;   // absolute column size limit
+        unsigned int    limit = texture->height * 3 + 3;        // absolute column size limit
 
         for (i = texture->patchcount, patch = texture->patches; --i >= 0;)
         {
-            int                 pat = patch->patch;
-            const patch_t       *realpatch = (patch_t *)W_CacheLumpNum(pat, PU_CACHE);
-            int                 x1 = MAX(0, (patch++)->originx);
+            const patch_t       *realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
+            int                 x;
+            int                 x1 = patch++->originx;
             int                 x2 = MIN(x1 + SHORT(realpatch->width), texture->width);
             const int           *cofs = realpatch->columnofs - x1;
 
-            for (; x1 < x2; ++x1)
-                if (count[x1].patches > 1)               // Only multipatched columns
+            x1 = MAX(0, x1);
+
+            for (x = x1; x < x2; ++x)
+                if (patchcount[x] > 1) // Only multipatched columns
                 {
-                    const column_t      *col = (column_t *)((byte *)realpatch + LONG(cofs[x1]));
+                    const column_t      *col = (column_t *)((byte *)realpatch + LONG(cofs[x]));
                     const byte          *base = (const byte *)col;
 
                     // count posts
-                    for (; col->topdelta != 0xFF; count[x1].posts++)
+                    for (; col->topdelta != 0xFF; ++postcount[x])
                         if ((unsigned int)((byte *)col - base) <= limit)
                             col = (column_t *)((byte *)col + col->length + 4);
+                        else
+                            break;
                 }
         }
     }
@@ -440,39 +451,33 @@ static void R_GenerateLookup(int texnum)
     //  that are covered by more than one patch.
     // Fill in the lump / offset, so columns
     //  with only a single patch are all done.
-    texturecomposite[texnum] = 0;
-
+    for (x = 0; x < texture->width; ++x)
     {
-        int     x = texture->width;
-        int     height = texture->height;
-        int     csize = 0;                              // killough 10/98
+        if (patchcount[x] > 1)
+            // Use the cached block.
+            // [crispy] moved up here, the rest in this loop
+            // applies to single-patched textures as well
+            collump[x] = -1;
 
-        while (--x >= 0)
-        {
-            if (count[x].patches > 1)                   // killough 4/9/98
-                // [crispy] moved up here, the rest in this loop
-                // applies to single-patched textures as well
-                collump[x] = -1;                        // mark lump as multipatched
+        // killough 1/25/98, 4/9/98:
+        //
+        // Fix Medusa bug, by adding room for column header
+        // and trailer bytes for each post in merged column.
+        // For now, just allocate conservatively 4 bytes
+        // per post per patch per column, since we don't
+        // yet know how many posts the merged column will
+        // require, and it's bounded above by this limit.
+        colofs[x] = csize + 3;          // three header bytes in a column
+                                        // killough 12/98: add room for one extra post
+        csize += 4 * postcount[x] + 5;  // 1 stop byte plus 4 bytes per post
 
-            // killough 1/25/98, 4/9/98:
-            //
-            // Fix Medusa bug, by adding room for column header
-            // and trailer bytes for each post in merged column.
-            // For now, just allocate conservatively 4 bytes
-            // per post per patch per column, since we don't
-            // yet know how many posts the merged column will
-            // require, and it's bounded above by this limit.
-            colofs[x] = csize + 3;                      // three header bytes in a column
-
-            // killough 12/98: add room for one extra post
-            csize += 4 * count[x].posts + 5;            // 1 stop byte plus 4 bytes per post
-
-            csize += height;                            // height bytes of texture data
-        }
-
-        texturecompositesize[texnum] = csize;
+        csize += texture->height;      // height bytes of texture data
     }
-    free(count);                                        // killough 4/9/98
+
+    texturecompositesize[texnum] = csize;
+
+    Z_Free(patchcount);
+    Z_Free(postcount);
 }
 
 //
