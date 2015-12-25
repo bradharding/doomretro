@@ -347,7 +347,7 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
     {
         if (controls[i].type == type && controls[i].value == value)
         {
-            char *control = controls[i].control;
+            char        *control = controls[i].control;
 
             if (strlen(control) == 1)
                 fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);

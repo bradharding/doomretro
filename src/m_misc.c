@@ -177,7 +177,7 @@ char *M_GetResourceFolder(void)
 
     return resourceURL.fileSystemRepresentation;
 #else
-    //On Windows and Linux, load resources from the same folder as the executable.
+    // On Windows and Linux, load resources from the same folder as the executable.
     return M_GetExecutableFolder();
 #endif
 }
@@ -214,10 +214,8 @@ char *M_GetExecutableFolder(void)
 //
 dboolean M_WriteFile(char *name, void *source, int length)
 {
-    FILE        *handle;
+    FILE        *handle = fopen(name, "wb");
     int         count;
-
-    handle = fopen(name, "wb");
 
     if (!handle)
         return false;
@@ -236,11 +234,11 @@ dboolean M_WriteFile(char *name, void *source, int length)
 //
 int M_ReadFile(char *name, byte **buffer)
 {
-    FILE        *handle;
-    int         count, length;
+    FILE        *handle = fopen(name, "rb");
+    int         count;
+    int         length;
     byte        *buf;
 
-    handle = fopen(name, "rb");
     if (!handle)
     {
         I_Error("Couldn't read file %s", name);
@@ -266,11 +264,10 @@ int M_ReadFile(char *name, byte **buffer)
 // concatenated together.
 char *M_StringJoin(char *s, ...)
 {
-    char *result, *v;
-    va_list args;
-    size_t result_len;
-
-    result_len = strlen(s) + 1;
+    char        *result;
+    char        *v;
+    va_list     args;
+    size_t      result_len = strlen(s) + 1;
 
     va_start(args, s);
     for (;;)
@@ -331,10 +328,8 @@ char *M_TempFile(char *s)
 
 dboolean M_StrToInt(const char *str, int *result)
 {
-    return (sscanf(str, " 0x%2x", result) == 1
-            || sscanf(str, " 0X%2x", result) == 1
-            || sscanf(str, " 0%3o", result) == 1
-            || sscanf(str, " %10d", result) == 1);
+    return (sscanf(str, " 0x%2x", result) == 1 || sscanf(str, " 0X%2x", result) == 1
+        || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10d", result) == 1);
 }
 
 //
@@ -344,13 +339,10 @@ dboolean M_StrToInt(const char *str, int *result)
 //
 char *M_StrCaseStr(char *haystack, char *needle)
 {
-    unsigned int        haystack_len;
-    unsigned int        needle_len;
+    unsigned int        haystack_len = strlen(haystack);
+    unsigned int        needle_len = strlen(needle);
     unsigned int        len;
     unsigned int        i;
-
-    haystack_len = strlen(haystack);
-    needle_len = strlen(needle);
 
     if (haystack_len < needle_len)
         return NULL;
@@ -366,11 +358,10 @@ char *M_StrCaseStr(char *haystack, char *needle)
 
 char *stristr(char *ch1, char *ch2)
 {
-    char        *chN1, *chN2;
+    char        *chN1 = strdup(ch1);
+    char        *chN2 = strdup(ch2);
     char        *chRet = NULL;
 
-    chN1 = strdup(ch1);
-    chN2 = strdup(ch2);
     if (chN1 && chN2)
     {
         char    *chNdx = chN1;
@@ -390,6 +381,7 @@ char *stristr(char *ch1, char *ch2)
         if (chNdx)
             chRet = ch1 + (chNdx - chN1);
     }
+
     free(chN1);
     free(chN2);
 
@@ -431,7 +423,8 @@ dboolean M_StringStartsWith(char *s, char *prefix)
 // Returns true if 's' ends with the specified suffix.
 dboolean M_StringEndsWith(char *s, char *suffix)
 {
-    return (strlen(s) >= strlen(suffix) && !M_StringCompare(s + strlen(s) - strlen(suffix), suffix) == 0);
+    return (strlen(s) >= strlen(suffix) && !M_StringCompare(s + strlen(s) - strlen(suffix),
+        suffix) == 0);
 }
 
 // Safe, portable vsnprintf().
@@ -440,9 +433,7 @@ int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
     int result;
 
     if (buf_len < 1)
-    {
         return 0;
-    }
 
     // Windows (and other OSes?) has a vsnprintf() that doesn't always
     // append a trailing \0. So we must do it, and write into a buffer

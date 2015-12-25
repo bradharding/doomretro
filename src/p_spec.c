@@ -2135,7 +2135,7 @@ void P_SpawnSpecials(void)
             // support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
                 sec = sides[*line->sidenum].sector - sectors;
-                for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
+                for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].heightsec = sec;
                 break;
 
@@ -2143,7 +2143,7 @@ void P_SpawnSpecials(void)
             // floor lighting independently (e.g. lava)
             case Floor_ChangeBrightnessToThisBrightness:
                 sec = sides[*line->sidenum].sector - sectors;
-                for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
+                for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].floorlightsec = sec;
                 break;
 
@@ -2151,7 +2151,7 @@ void P_SpawnSpecials(void)
             // ceiling lighting independently
             case Ceiling_ChangeBrightnessToThisBrightness:
                 sec = sides[*line->sidenum].sector - sectors;
-                for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
+                for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].ceilinglightsec = sec;
                 break;
 
@@ -2165,7 +2165,7 @@ void P_SpawnSpecials(void)
             // or ceiling texture, to distinguish floor and ceiling sky.
             case TransferSkyTextureToTaggedSectors:
             case TransferSkyTextureToTaggedSectors_Flipped:
-                for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
+                for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].sky = i | PL_SKYFLAT;
                 break;
         }
