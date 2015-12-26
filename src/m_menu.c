@@ -1398,20 +1398,20 @@ void M_SfxVol(int choice)
             case 0:
                 if (sfxVolume > 0)
                 {
-                    S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
+                    S_SetSfxVolume((int)(--sfxVolume * 127.0f / 15.0f));
                     S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 15;
-                    C_Input("%s %i%%", stringize(s_sfxvolume), s_sfxvolume);
+                    C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
             case 1:
                 if (sfxVolume < 15)
                 {
-                    S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
+                    S_SetSfxVolume((int)(++sfxVolume * 127.0f / 15.0f));
                     S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 15;
-                    C_Input("%s %i%%", stringize(s_sfxvolume), s_sfxvolume);
+                    C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1428,20 +1428,20 @@ void M_MusicVol(int choice)
             case 0:
                 if (musicVolume > 0)
                 {
-                    S_SetMusicVolume((int)(--musicVolume * (127.0f / 15.0f)));
+                    S_SetMusicVolume((int)(--musicVolume * 127.0f / 15.0f));
                     S_StartSound(NULL, sfx_stnmov);
                     s_musicvolume = musicVolume * 100 / 15;
-                    C_Input("%s %i%%", stringize(s_musicvolume), s_musicvolume);
+                    C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
             case 1:
                 if (musicVolume < 15)
                 {
-                    S_SetMusicVolume((int)(++musicVolume * (127.0f / 15.0f)));
+                    S_SetMusicVolume((int)(++musicVolume * 127.0f / 15.0f));
                     S_StartSound(NULL, sfx_stnmov);
                     s_musicvolume = musicVolume * 100 / 15;
-                    C_Input("%s %i%%", stringize(s_musicvolume), s_musicvolume);
+                    C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1711,7 +1711,7 @@ void M_ChangeMessages(int choice)
     messages = !messages;
     if (menuactive)
         message_dontpause = true;
-    C_Input("%s %s", stringize(messages), (messages ? "on" : "off"));
+    C_StrCVAROutput(stringize(messages), (messages ? "on" : "off"));
     HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false);
     message_dontfuckwithme = true;
     M_SaveCVARs();
@@ -1892,7 +1892,7 @@ void M_ChangeSensitivity(int choice)
                         ++gp_sensitivity;
                     gp_sensitivity -= 2;
                     I_SetGamepadSensitivity(gp_sensitivity);
-                    C_Input("%s %i", stringize(gp_sensitivity), gp_sensitivity);
+                    C_IntCVAROutput(stringize(gp_sensitivity), gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -1905,7 +1905,7 @@ void M_ChangeSensitivity(int choice)
                         --gp_sensitivity;
                     gp_sensitivity += 2;
                     I_SetGamepadSensitivity(gp_sensitivity);
-                    C_Input("%s %i", stringize(gp_sensitivity), gp_sensitivity);
+                    C_IntCVAROutput(stringize(gp_sensitivity), gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -1922,7 +1922,7 @@ void M_ChangeSensitivity(int choice)
                     if (m_sensitivity & 1)
                         ++m_sensitivity;
                     m_sensitivity -= 2;
-                    C_Input("%s %i", stringize(m_sensitivity), m_sensitivity);
+                    C_IntCVAROutput(stringize(m_sensitivity), m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -1934,7 +1934,7 @@ void M_ChangeSensitivity(int choice)
                     if (m_sensitivity & 1)
                         --m_sensitivity;
                     m_sensitivity += 2;
-                    C_Input("%s %i", stringize(m_sensitivity), m_sensitivity);
+                    C_IntCVAROutput("m_sensitivity", m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -1947,7 +1947,7 @@ void M_ChangeDetail(int choice)
 {
     blurred = false;
     r_detail = !r_detail;
-    C_Input("%s %s", stringize(r_detail), (r_detail == r_detail_low ? "low" : "high"));
+    C_StrCVAROutput(stringize(r_detail), (r_detail == r_detail_low ? "low" : "high"));
     if (!menuactive)
     {
         HU_PlayerMessage((r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI), false);
@@ -1968,12 +1968,12 @@ void M_SizeDisplay(int choice)
                 if (!r_hud)
                 {
                     r_hud = true;
-                    C_Input("%s on", stringize(r_hud));
+                    C_StrCVAROutput(stringize(r_hud), "on");
                 }
                 else
                 {
                     R_SetViewSize(--r_screensize);
-                    C_Input("%s %i", stringize(r_screensize), r_screensize);
+                    C_IntCVAROutput(stringize(r_screensize), r_screensize);
                 }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
@@ -1983,12 +1983,12 @@ void M_SizeDisplay(int choice)
                 if (!r_hud)
                 {
                     r_hud = true;
-                    C_Input("%s on", stringize(r_hud));
+                    C_StrCVAROutput(stringize(r_hud), "on");
                 }
                 else if (vid_widescreen)
                 {
                     I_ToggleWidescreen(false);
-                    C_Input("%s off", stringize(vid_widescreen));
+                    C_StrCVAROutput(stringize(vid_widescreen), "off");
                 }
                 else
                     returntowidescreen = false;
@@ -1998,7 +1998,7 @@ void M_SizeDisplay(int choice)
             else if (r_screensize > r_screensize_min)
             {
                 R_SetViewSize(--r_screensize);
-                C_Input("%s %i", stringize(r_screensize), r_screensize);
+                C_IntCVAROutput(stringize(r_screensize), r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
@@ -2011,7 +2011,7 @@ void M_SizeDisplay(int choice)
                 if (r_hud)
                 {
                     r_hud = false;
-                    C_Input("%s off", stringize(r_hud));
+                    C_StrCVAROutput(stringize(r_hud), "off");
                     S_StartSound(NULL, sfx_stnmov);
                     M_SaveCVARs();
                 }
@@ -2029,11 +2029,11 @@ void M_SizeDisplay(int choice)
                     {
                         I_ToggleWidescreen(true);
                         if (vid_widescreen)
-                            C_Input("%s on", stringize(vid_widescreen));
+                            C_StrCVAROutput(stringize(vid_widescreen), "on");
                         else
                         {
                             R_SetViewSize(++r_screensize);
-                            C_Input("%s %i", stringize(r_screensize), r_screensize);
+                            C_IntCVAROutput(stringize(r_screensize), r_screensize);
                         }
                     }
                 }
@@ -2043,7 +2043,7 @@ void M_SizeDisplay(int choice)
             else if (r_screensize < r_screensize_max)
             {
                 R_SetViewSize(++r_screensize);
-                C_Input("%s %i", stringize(r_screensize), r_screensize);
+                C_IntCVAROutput(stringize(r_screensize), r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
@@ -2247,15 +2247,15 @@ void M_ChangeGamma(dboolean shift)
         S_StartSound(NULL, sfx_stnmov);
 
         if (r_gamma == 1.0f)
-            C_Input("%s off", stringize(r_gamma));
+            C_StrCVAROutput(stringize(r_gamma), "off");
         else
         {
             static char buf[128];
 
-            M_snprintf(buf, sizeof(buf), "%s %.2f", stringize(r_gamma), r_gamma);
+            M_snprintf(buf, sizeof(buf), "%.2f", r_gamma);
             if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
                 buf[strlen(buf) - 1] = '\0';
-            C_Input(buf);
+            C_StrCVAROutput(stringize(r_gamma), buf);
         }
     }
 

@@ -578,7 +578,7 @@ static void AM_toggleFollowMode(void)
     am_followmode = !am_followmode;
     if (am_followmode)
         m_paninc.x = m_paninc.y = 0;
-    C_Input("%s %s", stringize(am_followmode), (am_followmode ? "on" : "off"));
+    C_StrCVAROutput(stringize(am_followmode), (am_followmode ? "on" : "off"));
     HU_PlayerMessage((am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
@@ -587,7 +587,7 @@ static void AM_toggleFollowMode(void)
 static void AM_toggleGrid(void)
 {
     am_grid = !am_grid;
-    C_Input("%s %s", stringize(am_grid), (am_grid ? "on" : "off"));
+    C_StrCVAROutput(stringize(am_grid), (am_grid ? "on" : "off"));
     HU_PlayerMessage((am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
@@ -651,7 +651,7 @@ static void AM_clearMarks(void)
 static void AM_toggleRotateMode(void)
 {
     am_rotatemode = !am_rotatemode;
-    C_Input("%s %s", stringize(am_rotatemode), (am_rotatemode ? "on" : "off"));
+    C_StrCVAROutput(stringize(am_rotatemode), (am_rotatemode ? "on" : "off"));
     HU_PlayerMessage((am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;

@@ -82,8 +82,8 @@
 #define GP_SENSITIVITY_OFFSET           0.2f
 #define GP_SENSITIVITY_FACTOR           4.0f
 
-int damagevibrationtics;
-int weaponvibrationtics;
+int             damagevibrationtics;
+int             weaponvibrationtics;
 
 extern int      gamepadbuttons;
 extern short    gamepadthumbLX;

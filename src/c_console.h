@@ -100,6 +100,9 @@ undohistory_t           *undohistory;
 
 void C_Print(stringtype_t type, char *string, ...);
 void C_Input(char *string, ...);
+void C_IntCVAROutput(char *cvar, int value);
+void C_PctCVAROutput(char *cvar, int value);
+void C_StrCVAROutput(char *cvar, char *string);
 void C_Output(char *string, ...);
 void C_TabbedOutput(int tabs[8], char *string, ...);
 void C_Warning(char *string, ...);

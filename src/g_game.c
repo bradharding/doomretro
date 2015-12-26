@@ -645,7 +645,7 @@ void G_ToggleAlwaysRun(evtype_t type)
 
     if (!consoleactive)
         players[0].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
-    C_Input("%s %s", stringize(alwaysrun), (alwaysrun ? "on" : "off"));
+    C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
     message_dontfuckwithme = true;
     if (menuactive)
     {
