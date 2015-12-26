@@ -610,8 +610,7 @@ static void M_CheckCVARs(void)
     gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
 
     gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
-    gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
-        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
+    I_SetGamepadSensitivity(gp_sensitivity);
 
     if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
         gp_swapthumbsticks = gp_swapthumbsticks_default;

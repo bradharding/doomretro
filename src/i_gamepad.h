@@ -79,8 +79,8 @@
 #define gamepadthumbRXright             pow((gamepadthumbRX - gamepadrightdeadzone) /\
                                         ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
 
-#define GP_SENSITIVITY_OFFSET           1.0f
-#define GP_SENSITIVITY_FACTOR           3.0f
+#define GP_SENSITIVITY_OFFSET           0.2f
+#define GP_SENSITIVITY_FACTOR           4.0f
 
 int damagevibrationtics;
 int weaponvibrationtics;
@@ -93,6 +93,7 @@ extern dboolean vibrate;
 extern int      currentmotorspeed;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;
+extern float    gamepadsensitivity;
 
 extern int      gamepadalwaysrun;
 extern int      gamepadautomap;
@@ -126,5 +127,6 @@ void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY);
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY);
 void XInputVibration(int motorspeed);
 void (*gamepadfunc)(void);
+void I_SetGamepadSensitivity(int value);
 
 #endif

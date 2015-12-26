@@ -210,7 +210,6 @@ extern gamestate_t      wipegamestate;
 
 extern int              m_sensitivity;
 extern int              gp_sensitivity;
-extern float            gamepadsensitivityf;
 
 // Needed to store the number of the dummy sky flat.
 // Used for rendering,

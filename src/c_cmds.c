@@ -2614,8 +2614,7 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char 
         {
             gp_sensitivity = value;
             M_SaveCVARs();
-            gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
-                + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
+            I_SetGamepadSensitivity(gp_sensitivity);
         }
     }
     else

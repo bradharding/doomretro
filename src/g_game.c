@@ -373,13 +373,13 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->angleturn -= angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX > 0)
             cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbRXright
-                * gamepadsensitivityf);
+                * gamepadsensitivity);
 
         if (gamekeydown[key_left])
             cmd->angleturn += angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX < 0)
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft
-                * gamepadsensitivityf);
+                * gamepadsensitivity);
     }
 
     if (gamekeydown[key_up] || gamekeydown[key_up2])

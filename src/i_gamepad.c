@@ -68,6 +68,7 @@ int                     gamepadbuttons = 0;
 short                   gamepadthumbLX;
 short                   gamepadthumbLY;
 short                   gamepadthumbRX;
+float                   gamepadsensitivity;
 
 dboolean                vibrate = false;
 
@@ -336,4 +337,10 @@ void I_PollXInputGamepad(void)
         }
     }
 #endif
+}
+
+void I_SetGamepadSensitivity(int value)
+{
+    gamepadsensitivity = (!value ? 0.0f : GP_SENSITIVITY_OFFSET
+        + GP_SENSITIVITY_FACTOR * value / gp_sensitivity_max);
 }

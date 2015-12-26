@@ -79,7 +79,6 @@
 //
 int             m_sensitivity = m_sensitivity_default;
 int             gp_sensitivity = gp_sensitivity_default;
-float           gamepadsensitivityf;
 
 // Show messages has default, false = off, true = on
 dboolean        messages = messages_default;
@@ -1892,8 +1891,7 @@ void M_ChangeSensitivity(int choice)
                     if (gp_sensitivity & 1)
                         ++gp_sensitivity;
                     gp_sensitivity -= 2;
-                    gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
-                        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
+                    I_SetGamepadSensitivity(gp_sensitivity);
                     C_Input("%s %i", stringize(gp_sensitivity), gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
@@ -1906,8 +1904,7 @@ void M_ChangeSensitivity(int choice)
                     if (gp_sensitivity & 1)
                         --gp_sensitivity;
                     gp_sensitivity += 2;
-                    gamepadsensitivityf = GP_SENSITIVITY_OFFSET
-                        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR;
+                    I_SetGamepadSensitivity(gp_sensitivity);
                     C_Input("%s %i", stringize(gp_sensitivity), gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
