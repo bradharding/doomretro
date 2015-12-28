@@ -77,24 +77,27 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                 if (P_TeleportMove(thing, m->x, m->y, m->z, false))     // killough 8/9/98
                 {
-                    mobj_t          *fog;
-                    unsigned int    an;
+                    mobj_t  *fog;
+                    fixed_t newx = m->x;
+                    fixed_t newy = m->y;
 
-                    thing->z = thing->floorz;
-
-                    if (player)
-                        player->viewz = thing->z + player->viewheight;
-
-                    // spawn teleport fog at source and destination
+                    // spawn teleport fog at source
                     fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
                     fog->angle = thing->angle;
                     S_StartSound(fog, sfx_telept);
-                    an = (m->angle >> ANGLETOFINESHIFT);
-                    fog = P_SpawnMobj(m->x + 20 * finecosine[an],
-                        m->y + 20 * finesine[an], thing->z, MT_TFOG);
-                    fog->angle = m->angle;
 
-                    // emit sound, where?
+                    // spawn teleport fog at destination
+                    thing->z = thing->floorz;
+                    if (player)
+                    {
+                        unsigned int    an = m->angle >> ANGLETOFINESHIFT;
+
+                        newx += 20 * finecosine[an];
+                        newy += 20 * finesine[an];
+                        player->viewz = thing->z + player->viewheight;
+                    }
+                    fog = P_SpawnMobj(newx, newy, thing->z, MT_TFOG);
+                    fog->angle = m->angle;
                     S_StartSound(fog, sfx_telept);
 
                     if (player)
