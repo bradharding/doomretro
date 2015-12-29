@@ -1442,6 +1442,11 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     callback("STARMS", &armsbg);
     callback("STARMS2", &armsbg2);
 
+    armsbg->leftoffset = 0;
+    armsbg->topoffset = 0;
+    armsbg2->leftoffset = 0;
+    armsbg2->topoffset = 0;
+
     // arms ownership widgets
     // [BH] now manually drawn
     for (i = 0; i < 6; i++)
@@ -1458,6 +1463,11 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // status bar background bits
     callback("STBAR", &sbar);
     callback("STBAR2", &sbar2); // [BH] double resolution
+
+    sbar->leftoffset = 0;
+    sbar->topoffset = 0;
+    sbar2->leftoffset = 0;
+    sbar2->topoffset = 0;
 
     // face states
     facenum = 0;
