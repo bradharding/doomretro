@@ -661,10 +661,10 @@ static void D_FirstUse(void)
 {
     char *msg = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with all "
         "DOOM source ports, the actual content required to play\nDOOM isn\xe2\x80\x99t included "
-        "with " PACKAGE_NAME ".\n\nIn the following window, please navigate to where one of the "
-        "official \xe2\x80\x9cIWAD files\xe2\x80\x9d\n(such as DOOM.WAD or DOOM2.WAD) has "
+        "with " PACKAGE_NAME ".\n\nIn the WAD launcher that follows, please navigate to where one "
+        "of the official \xe2\x80\x9cIWAD\nfiles\xe2\x80\x9d (such as DOOM.WAD or DOOM2.WAD) has "
         "previously been installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be "
-        "selected by clicking or " CTRL "-clicking on them.\nGo to the " PACKAGE_NAME " Wiki for "
+        "selected by clicking or " CTRL "-clicking on them.\nVisit the " PACKAGE_NAME " Wiki for "
         "more information.";
 
     const SDL_MessageBoxButtonData buttons[] =
@@ -673,7 +673,7 @@ static void D_FirstUse(void)
         {                                       0, 0, "&Wiki"   },
 #endif
         { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "&Cancel" },
-        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "&OK"     }
+        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "&Next >" }
     };
 
     const SDL_MessageBoxData messageboxdata =
