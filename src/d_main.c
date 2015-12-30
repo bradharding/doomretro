@@ -662,10 +662,10 @@ static void D_FirstUse(void)
     char *msg = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with all "
         "DOOM source ports, the actual content required to play\nDOOM isn\xe2\x80\x99t included "
         "with " PACKAGE_NAME ".\n\nIn the WAD launcher that follows, please navigate to where one "
-        "of the official \xe2\x80\x9cIWAD\nfiles\xe2\x80\x9d (such as DOOM.WAD or DOOM2.WAD) has "
-        "previously been installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be "
-        "selected by clicking or " CTRL "-clicking on them.\nVisit the " PACKAGE_NAME " Wiki for "
-        "more information.";
+        "of the official \xe2\x80\x9cIWADs\xe2\x80\x9d\n(such as DOOM.WAD or DOOM2.WAD) has "
+        "previously been installed.\n\nOnce " PACKAGE_NAME " knows where these IWAD(s) are, "
+        "additional \xe2\x80\x9cPWADs\xe2\x80\x9d may then be\nselected by clicking or " CTRL
+        "-clicking on them.\n\nVisit the " PACKAGE_NAME " Wiki for more information.";
 
     const SDL_MessageBoxButtonData buttons[] =
     {
