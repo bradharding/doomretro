@@ -346,10 +346,10 @@ typedef struct
     // when it reaches 0, start going down
     int         topcountdown;
 
-    //jff 1/31/98 keep track of line door is triggered by
+    // jff 1/31/98 keep track of line door is triggered by
     line_t      *line;
 
-    //killough 10/98: sector tag for gradual lighting effects
+    // killough 10/98: sector tag for gradual lighting effects
     int         lighttag;
 } vldoor_t;
 

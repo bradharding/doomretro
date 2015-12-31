@@ -659,13 +659,13 @@ static dboolean D_IsUnsupportedPWAD(char *filename)
 
 static void D_FirstUse(void)
 {
-    char *msg = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with all "
+    char *msg = "Thank you for downloading "PACKAGE_NAME"!\n\nPlease note that, as with all "
         "DOOM source ports, the actual content required to play\nDOOM isn\xe2\x80\x99t included "
-        "with " PACKAGE_NAME ".\n\nIn the WAD launcher that follows, please navigate to where one "
+        "with "PACKAGE_NAME".\n\nIn the WAD launcher that follows, please navigate to where one "
         "of the official \xe2\x80\x9cIWADs\xe2\x80\x9d\n(such as DOOM.WAD or DOOM2.WAD) has "
-        "previously been installed.\n\nOnce " PACKAGE_NAME " knows where these IWAD(s) are, "
-        "additional \xe2\x80\x9cPWADs\xe2\x80\x9d may then be\nselected by clicking or " CTRL
-        "-clicking on them.\n\nVisit the " PACKAGE_NAME " Wiki for more information.";
+        "previously been installed.\n\nOnce "PACKAGE_NAME" knows where these IWAD(s) are, "
+        "additional \xe2\x80\x9cPWADs\xe2\x80\x9d may then be\nselected by clicking or "CTRL
+        "-clicking on them.\n\nVisit the "PACKAGE_NAME" Wiki for more information.";
 
     const SDL_MessageBoxButtonData buttons[] =
     {
@@ -725,8 +725,8 @@ static int D_ChooseIWAD(void)
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = iwadfolder;
-    ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
-                 | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER);
+    ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST
+        | OFN_FILEMUSTEXIST | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     fileopenedok = GetOpenFileName(&ofn);
@@ -746,7 +746,7 @@ static int D_ChooseIWAD(void)
 
     if (fileopenedok)
     {
-        dboolean onlyoneselected;
+        dboolean        onlyoneselected;
 
         iwadfound = 0;
         startuptimer = I_GetTimeMS();
@@ -761,13 +761,11 @@ static int D_ChooseIWAD(void)
 #endif
         if (onlyoneselected)
         {
-            char        *file;
 #if defined(WIN32)
-            file = (char*)ofn.lpstrFile;
+            char        *file = (char *)ofn.lpstrFile;
 #elif defined(__MACOSX__)
             NSURL       *url = [urls objectAtIndex:0];
-
-            file = (char *)[url fileSystemRepresentation];
+            char        *file = (char *)[url fileSystemRepresentation];
 #endif
 
             // check if it's a valid and supported IWAD
@@ -807,8 +805,7 @@ static int D_ChooseIWAD(void)
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                    M_ExtractFolder(file), (iwadrequired == doom ? "DOOM.WAD" :
-                    "DOOM2.WAD"));
+                    M_ExtractFolder(file), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                 IdentifyIWADByName(fullpath);
                 if (W_AddFile(fullpath, true))
                 {
@@ -928,9 +925,8 @@ static int D_ChooseIWAD(void)
                 szFile = (char *)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
 #endif
 
-                if (D_IsDOOMIWAD(fullpath)
-                    || (W_WadType(fullpath) == IWAD
-                        && !D_IsUnsupportedIWAD(fullpath)))
+                if (D_IsDOOMIWAD(fullpath) || (W_WadType(fullpath) == IWAD
+                    && !D_IsUnsupportedIWAD(fullpath)))
                 {
                     if (!iwadfound)
                     {
@@ -1276,8 +1272,6 @@ static void D_DoomMainSetup(void)
 
     iwadfile = D_FindIWAD();
 
-    iwadfolder = Z_Malloc(MAX_PATH, PU_STATIC, NULL);
-
     modifiedgame = false;
 
     D_ProcessDehCommandLine();
@@ -1321,7 +1315,7 @@ static void D_DoomMainSetup(void)
         C_Output("~"PACKAGE_NAME"~ has been run %s times.", commify(SafeAdd(stat_runs, 1)));
 
     if (!M_FileExists(packagewad))
-        I_Error("%s can't be found.\nPlease reinstall " PACKAGE_NAME ".", uppercase(packagewad));
+        I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
 
