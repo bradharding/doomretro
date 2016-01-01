@@ -320,19 +320,6 @@ alias_t aliases[] =
     { "red",   1, BLOODALIAS  }, { "all",   2, BLOODALIAS  }, { "",      0, NOALIAS     }
 };
 
-char *striptrailingzero(float value, int precision)
-{
-    size_t      len;
-    char        result[100];
-
-    M_snprintf(result, sizeof(result), "%.*f",
-        (precision == 2 ? 2 : (value != floor(value))), value);
-    len = strlen(result);
-    if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
-        result[len - 1] = '\0';
-    return strdup(result);
-}
-
 static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 {
     int i = 0;

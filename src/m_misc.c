@@ -709,3 +709,15 @@ char *convertsize(const int size)
 
     return result;
 }
+
+char *striptrailingzero(float value, int precision)
+{
+    size_t      len;
+    char        *result = malloc(100 * sizeof(char));
+
+    M_snprintf(result, 100, "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
+    len = strlen(result);
+    if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
+        result[len - 1] = '\0';
+    return result;
+}

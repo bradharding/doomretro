@@ -89,5 +89,6 @@ const char *leafname(const char *path);
 char *removeext(const char *file);
 dboolean isvowel(const char ch);
 char *convertsize(const int size);
+char *striptrailingzero(float value, int precision);
 
 #endif
