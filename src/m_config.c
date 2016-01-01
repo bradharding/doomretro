@@ -60,7 +60,6 @@ extern int              am_allmapfdwallcolor;
 extern int              am_allmapwallcolor;
 extern int              am_backcolor;
 extern int              am_cdwallcolor;
-extern int              am_cheat;
 extern dboolean         am_external;
 extern int              am_fdwallcolor;
 extern dboolean         am_followmode;
@@ -197,7 +196,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_allmapwallcolor,                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_backcolor,                          NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                        NOALIAS    ),
-    CONFIG_VARIABLE_INT          (am_cheat,                              CHEATALIAS ),
     CONFIG_VARIABLE_INT          (am_external,                           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_followmode,                         BOOLALIAS  ),
@@ -315,15 +313,11 @@ static default_t cvars[] =
 
 alias_t aliases[] =
 {
-    { "off",           0, BOOLALIAS   }, { "on",            1, BOOLALIAS   },
-    { "0",             0, BOOLALIAS   }, { "1",             1, BOOLALIAS   },
-    { "no",            0, BOOLALIAS   }, { "yes",           1, BOOLALIAS   },
-    { "false",         0, BOOLALIAS   }, { "true",          1, BOOLALIAS   },
-    { "low",           0, DETAILALIAS }, { "high",          1, DETAILALIAS },
-    { "off",           1, GAMMAALIAS  }, { "none",          0, BLOODALIAS  },
-    { "red",           1, BLOODALIAS  }, { "all",           2, BLOODALIAS  },
-    { "off",           0, CHEATALIAS  }, { "all",           1, CHEATALIAS  },
-    { "things",        2, CHEATALIAS  }, { "",              0, NOALIAS     }
+    { "off",   0, BOOLALIAS   }, { "on",    1, BOOLALIAS   }, { "0",     0, BOOLALIAS   },
+    { "1",     1, BOOLALIAS   }, { "no",    0, BOOLALIAS   }, { "yes",   1, BOOLALIAS   },
+    { "false", 0, BOOLALIAS   }, { "true",  1, BOOLALIAS   }, { "low",   0, DETAILALIAS },
+    { "high",  1, DETAILALIAS }, { "off",   1, GAMMAALIAS  }, { "none",  0, BLOODALIAS  },
+    { "red",   1, BLOODALIAS  }, { "all",   2, BLOODALIAS  }, { "",      0, NOALIAS     }
 };
 
 char *striptrailingzero(float value, int precision)
@@ -555,8 +549,6 @@ static void M_CheckCVARs(void)
     am_backcolor = BETWEEN(am_backcolor_min, am_backcolor, am_backcolor_max);
 
     am_cdwallcolor = BETWEEN(am_cdwallcolor_min, am_cdwallcolor, am_cdwallcolor_max);
-
-    am_cheat = am_cheat_default;
 
     if (am_external != false && am_external != true)
         am_external = am_external_default;

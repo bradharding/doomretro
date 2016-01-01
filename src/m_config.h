@@ -41,13 +41,6 @@
 
 typedef enum
 {
-    am_cheat_off,
-    am_cheat_all,
-    am_cheat_things
-} am_cheat_values_e;
-
-typedef enum
-{
     r_blood_none,
     r_blood_red,
     r_blood_all
@@ -80,10 +73,6 @@ typedef enum
 #define am_cdwallcolor_min                      0
 #define am_cdwallcolor_default                  160
 #define am_cdwallcolor_max                      255
-
-#define am_cheat_min                            am_cheat_off
-#define am_cheat_default                        am_cheat_off
-#define am_cheat_max                            am_cheat_things
 
 #define am_external_default                     false
 
@@ -401,8 +390,7 @@ typedef enum
     BOOLALIAS,
     DETAILALIAS,
     GAMMAALIAS,
-    BLOODALIAS,
-    CHEATALIAS
+    BLOODALIAS
 } alias_type_t;
 
 typedef struct
