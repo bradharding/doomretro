@@ -630,6 +630,8 @@ static void D_CheckSupportedPWAD(char *filename)
         nerve = true;
         expansion = 1;
     }
+    else if (M_StringCompare(leafname(filename), "BREACH.WAD"))
+        breach = true;
     else if (M_StringCompare(leafname(filename), "CHEX.WAD"))
         chex = true;
     else if (M_StringCompare(leafname(filename), "BTSX_E1.WAD"))

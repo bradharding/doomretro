@@ -2283,7 +2283,8 @@ static int QualifyMap(int map)
 
 char *P_GetMapAuthor(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].author : "");
+    return (MAPINFO && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author :
+        (breach && map == 1 ? "Alun \"Viggles\" Bestor" : ""));
 }
 
 void P_GetMapLiquids(int map)

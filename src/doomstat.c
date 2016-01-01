@@ -47,6 +47,7 @@ char            *gamedescription;
 dboolean        nerve = false;
 dboolean        bfgedition = false;
 
+dboolean        breach = false;
 dboolean        chex = false;
 dboolean        chexdeh = false;
 dboolean        hacx = false;

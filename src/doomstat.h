@@ -89,6 +89,7 @@ extern int              gamemap;
 extern dboolean         nerve;
 extern dboolean         bfgedition;
 
+extern dboolean         breach;
 extern dboolean         chex;
 extern dboolean         chexdeh;
 extern dboolean         hacx;
