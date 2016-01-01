@@ -138,9 +138,6 @@ dboolean                returntowidescreen = false;
 
 dboolean                window_focused;
 
-// Empty mouse cursor
-static SDL_Cursor       *cursors[2];
-
 #if !defined(WIN32)
 char                    envstring[255];
 #endif
@@ -233,24 +230,6 @@ static void UpdateFocus(void)
         sendpause = true;
         blurred = false;
     }
-}
-
-// Show or hide the mouse cursor. We have to use different techniques
-// depending on the OS.
-static void SetShowCursor(dboolean show)
-{
-    // On Windows, using SDL_ShowCursor() adds lag to the mouse input,
-    // so work around this by setting an invisible cursor instead. On
-    // other systems, it isn't possible to change the cursor, so this
-    // hack has to be Windows-only. (Thanks to entryway for this)
-#if defined(WIN32)
-    SDL_SetCursor(cursors[show]);
-#else
-    SDL_ShowCursor(show);
-#endif
-
-    // When the cursor is hidden, grab the input.
-    SDL_SetRelativeMouseMode(!show);
 }
 
 int translatekey[] =
@@ -349,7 +328,7 @@ static void FreeSurfaces(void)
 
 void I_ShutdownGraphics(void)
 {
-    SetShowCursor(true);
+    SDL_SetRelativeMouseMode(false);
     FreeSurfaces();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
@@ -608,12 +587,12 @@ static void UpdateGrab(void)
 
     if (grab && !currently_grabbed)
     {
-        SetShowCursor(false);
+        SDL_SetRelativeMouseMode(true);
         CenterMouse();
     }
     else if (!grab && currently_grabbed)
     {
-        SetShowCursor(true);
+        SDL_SetRelativeMouseMode(false);
 
         SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH,
             windowheight - 16);
@@ -850,17 +829,6 @@ void I_SetPalette(byte *playpal)
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
-}
-
-static void CreateCursors(void)
-{
-    static Uint8        empty_cursor_data;
-
-    // Save the default cursor so it can be recalled later
-    cursors[1] = SDL_GetCursor();
-
-    // Create an empty cursor
-    cursors[0] = SDL_CreateCursor(&empty_cursor_data, &empty_cursor_data, 1, 1, 0, 0);
 }
 
 void I_RestoreFocus(void)
@@ -1494,9 +1462,6 @@ void I_InitGraphics(void)
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
         I_Error("I_InitGraphics: %s", SDL_GetError());
-
-    CreateCursors();
-    SDL_SetCursor(cursors[0]);
 
     numdisplays = SDL_GetNumVideoDisplays();
     displays = Z_Malloc(numdisplays, PU_STATIC, NULL);
