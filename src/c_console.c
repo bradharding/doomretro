@@ -303,14 +303,16 @@ void C_PlayerMessage(char *string, ...)
 {
     va_list     argptr;
     char        buffer[1024] = "";
+    dboolean    prevplayermessage = (consolestrings
+        && console[consolestrings - 1].type == playermessagestring);
 
     va_start(argptr, string);
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings && M_StringCompare(console[consolestrings - 1].string, buffer))
+    if (prevplayermessage && M_StringCompare(console[consolestrings - 1].string, buffer))
         M_snprintf(console[consolestrings - 1].string, 1024, "%s (2)", buffer);
-    else if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, buffer))
+    else if (prevplayermessage && M_StringStartsWith(console[consolestrings - 1].string, buffer))
     {
         char    *count = strrchr(console[consolestrings - 1].string, '(') + 1;
 
