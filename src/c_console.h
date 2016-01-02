@@ -72,10 +72,10 @@ typedef enum
 
 typedef struct
 {
-    char                *string;
+    char                string[1024];
     stringtype_t        type;
     int                 tabs[8];
-    char                *timestamp;
+    char                timestamp[9];
 } console_t;
 
 console_t               *console;

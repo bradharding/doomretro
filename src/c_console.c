@@ -190,10 +190,10 @@ void C_Print(stringtype_t type, char *string, ...)
     va_end(argptr);
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-    console[consolestrings].string = strdup(buffer);
+    M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings].type = type;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings].timestamp = "";
+    console[consolestrings].timestamp[0] = '\0';
     ++consolestrings;
     outputhistory = -1;
     C_DebugOutput(buffer);
@@ -209,10 +209,10 @@ void C_Input(char *string, ...)
     va_end(argptr);
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-    console[consolestrings].string = strdup(buffer);
+    M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings].type = inputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings].timestamp = "";
+    console[consolestrings].timestamp[0] = '\0';
     ++consolestrings;
     outputhistory = -1;
     C_DebugOutput(buffer);
@@ -249,10 +249,10 @@ void C_Output(char *string, ...)
     va_end(argptr);
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-    console[consolestrings].string = strdup(buffer);
+    M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings].type = outputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings].timestamp = "";
+    console[consolestrings].timestamp[0] = '\0';
     ++consolestrings;
     outputhistory = -1;
     C_DebugOutput(buffer);
@@ -268,10 +268,10 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
     va_end(argptr);
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-    console[consolestrings].string = strdup(buffer);
+    M_StringCopy(console[consolestrings].string, buffer, 1024);
     console[consolestrings].type = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
-    console[consolestrings].timestamp = "";
+    console[consolestrings].timestamp[0] = '\0';
     ++consolestrings;
     outputhistory = -1;
     C_DebugOutput(buffer);
@@ -289,10 +289,10 @@ void C_Warning(char *string, ...)
     if (consolestrings && !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-        console[consolestrings].string = strdup(buffer);
+        M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].type = warningstring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-        console[consolestrings].timestamp = "";
+        console[consolestrings].timestamp[0] = '\0';
         ++consolestrings;
         outputhistory = -1;
         C_DebugOutput(buffer);
@@ -309,33 +309,25 @@ void C_PlayerMessage(char *string, ...)
     va_end(argptr);
 
     if (consolestrings && M_StringCompare(console[consolestrings - 1].string, buffer))
-    {
-        M_snprintf(buffer, sizeof(buffer), "%s (2)", console[consolestrings - 1].string);
-        console[consolestrings - 1].string = strdup(buffer);
-    }
+        M_snprintf(console[consolestrings - 1].string, 1024, "%s (2)", buffer);
     else if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, buffer))
     {
         char    *count = strrchr(console[consolestrings - 1].string, '(') + 1;
 
         count[strlen(count) - 1] = '\0';
-
-        M_snprintf(buffer, sizeof(buffer), "%s (%i)", buffer, atoi(count) + 1);
-        console[consolestrings - 1].string = strdup(buffer);
+        M_snprintf(console[consolestrings - 1].string, 1024, "%s (%i)", buffer, atoi(count) + 1);
     }
     else
     {
-        time_t          rawtime;
-        struct tm       *timeinfo;
+        time_t  rawtime;
 
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-        console[consolestrings].string = strdup(buffer);
+        M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].type = playermessagestring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
 
         time(&rawtime);
-        timeinfo = localtime(&rawtime);
-        strftime(buffer, sizeof(buffer), "%H:%M:%S", timeinfo);
-        console[consolestrings].timestamp = strdup(buffer);
+        strftime(console[consolestrings].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
 
         ++consolestrings;
     }
