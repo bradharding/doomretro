@@ -305,30 +305,36 @@ void C_PlayerMessage(char *string, ...)
     char        buffer[1024] = "";
     dboolean    prevplayermessage = (consolestrings
         && console[consolestrings - 1].type == playermessagestring);
+    time_t      rawtime;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
+    time(&rawtime);
+
     if (prevplayermessage && M_StringCompare(console[consolestrings - 1].string, buffer))
+    {
         M_snprintf(console[consolestrings - 1].string, 1024, "%s (2)", buffer);
+
+        strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+    }
     else if (prevplayermessage && M_StringStartsWith(console[consolestrings - 1].string, buffer))
     {
         char    *count = strrchr(console[consolestrings - 1].string, '(') + 1;
 
         count[strlen(count) - 1] = '\0';
         M_snprintf(console[consolestrings - 1].string, 1024, "%s (%i)", buffer, atoi(count) + 1);
+
+        strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
     else
     {
-        time_t  rawtime;
-
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
         M_StringCopy(console[consolestrings].string, buffer, 1024);
         console[consolestrings].type = playermessagestring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
 
-        time(&rawtime);
         strftime(console[consolestrings].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
 
         ++consolestrings;
