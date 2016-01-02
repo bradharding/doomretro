@@ -570,7 +570,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (gp_sensitivity, "", null_func1, gp_sensitivity_cvar_func2, CF_NONE, NOALIAS, "The gamepad's sensitivity."),
     CVAR_BOOL (gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL (gp_vibrate, "", bool_cvars_func1, bool_cvars_func2, "Toggles vibration for XInput gamepads."),
-    CVAR_STR  (iwadfolder, "", null_func1, str_cvars_func2, "The folder where an IWAD file was last opened."),
+    CVAR_STR  (iwadfolder, "", null_func1, str_cvars_func2, "The folder where an IWAD was last opened."),
     CVAR_FLOAT(m_acceleration, "", float_cvars_func1, float_cvars_func2, CF_NONE, "The amount the mouse accelerates."),
     CVAR_BOOL (m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, "Toggles double-clicking a mouse button for the +use action."),
     CVAR_BOOL (m_novertical, "", bool_cvars_func1, bool_cvars_func2, "Toggles no vertical movement of the mouse."),
