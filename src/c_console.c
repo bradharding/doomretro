@@ -370,7 +370,6 @@ static void C_DrawDivider(int y)
     if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
             screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
-    C_DebugOutput(DIVIDERSTRING);
 }
 
 static struct
