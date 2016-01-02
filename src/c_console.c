@@ -635,7 +635,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     size_t              len = strlen(text);
     unsigned char       prevletter = '\0';
 
-    y -= (CONSOLEHEIGHT - consoleheight);
+    y -= CONSOLEHEIGHT - consoleheight;
 
     if (len > 80)
         while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 2)
@@ -654,30 +654,27 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
         unsigned char   nextletter = text[i + 1];
 
         if (letter == ITALICS && prevletter != ITALICS)
-        {
-            italics = !italics;
-            if (!italics)
-                ++x;
-        }
+            x += (!(italics = !italics));
         else
         {
             patch_t     *patch = NULL;
 
             if (letter == ITALICS)
                 italics = false;
-            if (letter == '\t')
+            else if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
             else if (letter == '\xC2' && nextletter == '\xB0')
             {
                 patch = degree;
                 ++i;
             }
+            else if (letter == 215)
+                patch = multiply;
             else
                 patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknownchar : consolefont[c]);
 
-            if (letter == 215)
-                patch = multiply;
-            else if (prevletter == ' ' || prevletter == '\t' || prevletter == '(' || !i)
+            
+            if (prevletter == ' ' || prevletter == '\t' || prevletter == '(' || !i)
             {
                 if (letter == '\'')
                     patch = lsquote;
