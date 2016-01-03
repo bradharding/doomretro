@@ -69,6 +69,7 @@
 
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
+#define CONSOLETEXTMAXLENGTH    1024
 #define CONSOLELINES            11
 #define CONSOLELINEHEIGHT       14
 
@@ -183,14 +184,14 @@ void C_DebugOutput(char *string)
 void C_Print(stringtype_t type, char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
 
     va_start(argptr, string);
-    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-    M_StringCopy(console[consolestrings].string, buffer, 1024);
+    M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = type;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
     console[consolestrings].timestamp[0] = '\0';
@@ -202,14 +203,14 @@ void C_Print(stringtype_t type, char *string, ...)
 void C_Input(char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
 
     va_start(argptr, string);
-    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-    M_StringCopy(console[consolestrings].string, buffer, 1024);
+    M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = inputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
     console[consolestrings].timestamp[0] = '\0';
@@ -242,14 +243,14 @@ void C_StrCVAROutput(char *cvar, char *string)
 void C_Output(char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
 
     va_start(argptr, string);
-    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-    M_StringCopy(console[consolestrings].string, buffer, 1024);
+    M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
     console[consolestrings].timestamp[0] = '\0';
@@ -261,14 +262,14 @@ void C_Output(char *string, ...)
 void C_TabbedOutput(int tabs[8], char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
 
     va_start(argptr, string);
-    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
     console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-    M_StringCopy(console[consolestrings].string, buffer, 1024);
+    M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     console[consolestrings].timestamp[0] = '\0';
@@ -280,16 +281,16 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
 void C_Warning(char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
 
     va_start(argptr, string);
-    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
     if (consolestrings && !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-        M_StringCopy(console[consolestrings].string, buffer, 1024);
+        M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = warningstring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
         console[consolestrings].timestamp[0] = '\0';
@@ -302,20 +303,20 @@ void C_Warning(char *string, ...)
 void C_PlayerMessage(char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
     dboolean    prevplayermessage = (consolestrings
         && console[consolestrings - 1].type == playermessagestring);
     time_t      rawtime;
 
     va_start(argptr, string);
-    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
     time(&rawtime);
 
     if (prevplayermessage && M_StringCompare(console[consolestrings - 1].string, buffer))
     {
-        M_snprintf(console[consolestrings - 1].string, 1024, "%s (2)", buffer);
+        M_snprintf(console[consolestrings - 1].string, CONSOLETEXTMAXLENGTH, "%s (2)", buffer);
 
         strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
@@ -324,14 +325,15 @@ void C_PlayerMessage(char *string, ...)
         char    *count = strrchr(console[consolestrings - 1].string, '(') + 1;
 
         count[strlen(count) - 1] = '\0';
-        M_snprintf(console[consolestrings - 1].string, 1024, "%s (%i)", buffer, atoi(count) + 1);
+        M_snprintf(console[consolestrings - 1].string, CONSOLETEXTMAXLENGTH, "%s (%i)", buffer,
+            atoi(count) + 1);
 
         strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
     else
     {
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
-        M_StringCopy(console[consolestrings].string, buffer, 1024);
+        M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = playermessagestring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
 
