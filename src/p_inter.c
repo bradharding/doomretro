@@ -525,9 +525,9 @@ dboolean P_GiveAllCards(player_t *player)
     for (i = NUMCARDS - 1; i >= 0; --i)
         if (player->cards[i] != CARDNOTINMAP && player->cards[i] == CARDNOTFOUNDYET)
         {
-            if (skulliscard && ((i == it_blueskull && player->cards[it_bluecard] == CARDNOTFOUNDYET)
-                || (i == it_redskull && player->cards[it_redcard] == CARDNOTFOUNDYET)
-                || (i == it_yellowskull && player->cards[it_yellowcard] == CARDNOTFOUNDYET)))
+            if (skulliscard && ((i == it_blueskull && player->cards[it_bluecard] != CARDNOTINMAP)
+                || (i == it_redskull && player->cards[it_redcard] != CARDNOTINMAP)
+                || (i == it_yellowskull && player->cards[it_yellowcard] != CARDNOTINMAP)))
                 continue;
 
             P_GiveCard(player, i);
