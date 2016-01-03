@@ -1817,7 +1817,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             else if (y > max_y)
                 max_y = y;
         }
-        C_TabbedOutput(tabs, "Dimensions\t%sx%s",
+        C_TabbedOutput(tabs, "Dimensions\t%s\xD7%s",
             commify((max_x - min_x) >> FRACBITS), commify((max_y - min_y) >> FRACBITS));
     }
 
