@@ -85,36 +85,38 @@
 #define DIVIDER                 "~~~"
 #define ITALICS                 '~'
 
+#if !defined(WIN32)
 #define CARETBLINKTIME          530
+#endif
 
 dboolean        consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
 static int      consolewait;
 
-dboolean        forceblurredraw = false;
+static dboolean forceblurredraw = false;
 
-patch_t         *unknownchar;
-patch_t         *consolefont[CONSOLEFONTSIZE];
-patch_t         *lsquote;
-patch_t         *ldquote;
-patch_t         *degree;
-patch_t         *multiply;
+static patch_t  *unknownchar;
+static patch_t  *consolefont[CONSOLEFONTSIZE];
+static patch_t  *lsquote;
+static patch_t  *ldquote;
+static patch_t  *degree;
+static patch_t  *multiply;
 
-int             spacewidth;
+static int      spacewidth;
 
-char            consoleinput[255] = "";
+static char     consoleinput[255] = "";
 int             consolestrings = 0;
 
-int             undolevels = 0;
+static int      undolevels = 0;
 
-patch_t         *caret;
-int             caretpos = 0;
+static patch_t  *caret;
+static int      caretpos = 0;
 static dboolean showcaret = true;
 static int      caretwait;
 static int      caretblinktime;
-int             selectstart = 0;
-int             selectend = 0;
+static int      selectstart = 0;
+static int      selectend = 0;
 
 char            consolecheat[255] = "";
 char            consolecheatparm[3] = "";
@@ -123,15 +125,15 @@ static int      autocomplete = -1;
 static char     autocompletetext[255] = "";
 
 static int      inputhistory = -1;
-char            currentinput[255] = "";
+static char     currentinput[255] = "";
 
 static int      outputhistory = -1;
 
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 dboolean        con_timestamps = con_timestamps_default;
-int             timestampx;
-int             zerowidth;
+static int      timestampx;
+static int      zerowidth;
 
 extern dboolean r_translucency;
 extern byte     *tinttab75;
