@@ -351,7 +351,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 
         // new floor thinker
         rtn = true;
-        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
+        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
         P_AddThinker(&floor->thinker);
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
@@ -645,7 +645,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
 
         // new floor thinker
         rtn = true;
-        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
+        floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
         P_AddThinker(&floor->thinker);
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
@@ -713,7 +713,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
 
                 sec = tsec;
                 secnum = newsecnum;
-                floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, 0);
+                floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
                 P_AddThinker(&floor->thinker);
 
                 sec->floordata = floor;
@@ -763,7 +763,7 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
 
         // create and initialize new elevator thinker
         rtn = true;
-        elevator = Z_Malloc(sizeof(*elevator), PU_LEVSPEC, 0);
+        elevator = Z_Calloc(1, sizeof(*elevator), PU_LEVSPEC, NULL);
         P_AddThinker(&elevator->thinker);
         sec->floordata = elevator;
         sec->ceilingdata = elevator;

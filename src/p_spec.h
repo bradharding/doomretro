@@ -295,7 +295,7 @@ extern platlist_t      *activeplats;
 
 void T_PlatRaise(plat_t *plat);
 
-int EV_DoPlat(line_t *line, plattype_e type, int amount);
+dboolean EV_DoPlat(line_t *line, plattype_e type, int amount);
 
 void P_AddActivePlat(plat_t *plat);
 void P_RemoveActivePlat(plat_t *plat);

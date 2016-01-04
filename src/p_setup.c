@@ -1640,7 +1640,7 @@ static int P_GroupLines(void)
 
     // allocate line tables for each sector
     {
-        line_t  **linebuffer = Z_Malloc(total * sizeof(line_t *), PU_LEVEL, 0);
+        line_t  **linebuffer = Z_Malloc(total * sizeof(line_t *), PU_LEVEL, NULL);
 
         for (i = 0, sector = sectors; i < numsectors; i++, sector++)
         {

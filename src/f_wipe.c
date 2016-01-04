@@ -52,7 +52,7 @@ static byte     *wipe_scr;
 void wipe_shittyColMajorXform(short *array)
 {
     int         x, y;
-    short       *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, 0);
+    short       *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     for (y = 0; y < SCREENHEIGHT; y++)
         for (x = 0; x < SCREENWIDTH / 2; x++)
@@ -82,7 +82,7 @@ dboolean wipe_initMelt(void)
 
     // setup initial column positions
     // (y < 0 => not ready to scroll yet)
-    y = Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, 0);
+    y = Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, NULL);
     y[0] = y[1] = -(rand() % 16);
     for (i = 2; i < SCREENWIDTH - 1; i += 2)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + (rand() % 3) - 1, 0);

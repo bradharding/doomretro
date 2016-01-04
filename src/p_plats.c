@@ -152,11 +152,11 @@ void T_PlatRaise(plat_t *plat)
 // Do Platforms
 //  "amount" is only used for SOME platforms.
 //
-int EV_DoPlat(line_t *line, plattype_e type, int amount)
+dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 {
     plat_t      *plat;
     int         secnum = -1;
-    int         rtn = 0;
+    dboolean    rtn = false;
     sector_t    *sec = NULL;
 
     // Activate all <type> plats that are in_stasis
@@ -168,7 +168,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
 
         case toggleUpDn:
             P_ActivateInStasis(line->tag);
-            rtn = 1;
+            rtn = true;
             break;
 
         default:
@@ -183,8 +183,8 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
             continue;
 
         // Find lowest & highest floors around sector
-        rtn = 1;
-        plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, 0);
+        rtn = true;
+        plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, NULL);
         P_AddThinker(&plat->thinker);
 
         plat->type = type;

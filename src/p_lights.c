@@ -63,7 +63,7 @@ void T_FireFlicker(fireflicker_t *flick)
 //
 void P_SpawnFireFlicker(sector_t *sector)
 {
-    fireflicker_t       *flick = Z_Malloc(sizeof(*flick), PU_LEVSPEC, 0);
+    fireflicker_t       *flick = Z_Calloc(1, sizeof(*flick), PU_LEVSPEC, NULL);
 
     P_AddThinker(&flick->thinker);
 
@@ -106,7 +106,7 @@ void T_LightFlash(lightflash_t *flash)
 //
 void P_SpawnLightFlash(sector_t *sector)
 {
-    lightflash_t        *flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
+    lightflash_t        *flash = Z_Calloc(1, sizeof(*flash), PU_LEVSPEC, NULL);
 
     P_AddThinker(&flash->thinker);
 
@@ -151,7 +151,7 @@ void T_StrobeFlash(strobe_t *flash)
 //
 void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
 {
-    strobe_t    *flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
+    strobe_t    *flash = Z_Calloc(1, sizeof(*flash), PU_LEVSPEC, NULL);
 
     P_AddThinker(&flash->thinker);
 
@@ -274,7 +274,7 @@ void T_Glow(glow_t *g)
 
 void P_SpawnGlowingLight(sector_t *sector)
 {
-    glow_t      *glow = Z_Malloc(sizeof(*glow), PU_LEVSPEC, 0);
+    glow_t      *glow = Z_Calloc(1, sizeof(*glow), PU_LEVSPEC, NULL);
 
     P_AddThinker(&glow->thinker);
 

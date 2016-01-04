@@ -368,7 +368,7 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
 
         // new door thinker
         rtn = true;
-        door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+        door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
         P_AddThinker(&door->thinker);
         sec->ceilingdata = door;
 
@@ -626,7 +626,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     }
 
     // new door thinker
-    door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, 0);
+    door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
     P_AddThinker(&door->thinker);
     sec->ceilingdata = door;
     door->thinker.function = T_VerticalDoor;
@@ -686,7 +686,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 //
 void P_SpawnDoorCloseIn30(sector_t *sec)
 {
-    vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, 0);
+    vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
     P_AddThinker(&door->thinker);
 
@@ -708,7 +708,7 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
 //
 void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
 {
-    vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, 0);
+    vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
     P_AddThinker(&door->thinker);
 
