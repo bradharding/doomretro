@@ -139,7 +139,7 @@ char *M_ExtractFolder(char *path)
     if (!path[0])
         return "";
 
-    folder = (char *)malloc(MAX_PATH);
+    folder = malloc(MAX_PATH);
 
     M_StringCopy(folder, path, MAX_PATH);
 
@@ -186,8 +186,11 @@ char *M_GetExecutableFolder(void)
 {
 #if defined(WIN32)
     char        *pos;
-    char        *folder = (char *)malloc(MAX_PATH);
+    char        *folder = malloc(MAX_PATH);
     TCHAR       buffer[MAX_PATH];
+
+    if (!folder)
+        return NULL;
 
     GetModuleFileName(NULL, buffer, MAX_PATH);
     M_StringCopy(folder, buffer, MAX_PATH);
@@ -196,13 +199,6 @@ char *M_GetExecutableFolder(void)
     if (pos)
         *pos = '\0';
 
-    // FIXME: the string returned here is allocated on the heap,
-    // but that is inconsistent with the non-windows branch below
-    // and no caller of this method bothers to free the returned
-    // string anyway.
-    // Instead this method should return an address on the stack,
-    // and make it the caller's responsibility to copy the string
-    // if it's needed beyond the stack scope.
     return folder;
 #else
     return ".";
@@ -691,33 +687,42 @@ static const char       *sizes[] = { "MB", "KB", " bytes" };
 
 char *convertsize(const int size)
 {
-    char        *result = (char *)malloc(sizeof(char) * 20);
-    int         multiplier = 1024ULL * 1024ULL;
-    int         i;
+    char        *result = malloc(20 * sizeof(char));
 
-    for (i = 0; i < sizeof(sizes) / sizeof(*sizes); i++, multiplier /= 1024)
+    if (result)
     {
-        if (size < multiplier)
-            continue;
-        if (!(size % multiplier))
-            M_snprintf(result, 20, "%s%s", commify(size / multiplier), sizes[i]);
-        else
-            M_snprintf(result, 20, "%.2f%s", (float)size / multiplier, sizes[i]);
-        return result;
+        int         multiplier = 1024ULL * 1024ULL;
+        int         i;
+
+        for (i = 0; i < sizeof(sizes) / sizeof(*sizes); i++, multiplier /= 1024)
+        {
+            if (size < multiplier)
+                continue;
+            if (!(size % multiplier))
+                M_snprintf(result, 20, "%s%s", commify(size / multiplier), sizes[i]);
+            else
+                M_snprintf(result, 20, "%.2f%s", (float)size / multiplier, sizes[i]);
+            return result;
+        }
+        strcpy(result, "0");
     }
-    strcpy(result, "0");
 
     return result;
 }
 
 char *striptrailingzero(float value, int precision)
 {
-    size_t      len;
     char        *result = malloc(100 * sizeof(char));
 
-    M_snprintf(result, 100, "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
-    len = strlen(result);
-    if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
-        result[len - 1] = '\0';
+    if (result)
+    {
+        size_t  len;
+
+        M_snprintf(result, 100, "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
+        len = strlen(result);
+        if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
+            result[len - 1] = '\0';
+    }
+
     return result;
 }

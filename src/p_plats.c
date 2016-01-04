@@ -309,7 +309,7 @@ void P_ActivateInStasis(int tag)
 
     for (platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
     {
-        plat_t  *plat = platlist->plat;                         // for one in stasis with right tag
+        plat_t  *plat = platlist->plat;                 // for one in stasis with right tag
 
         if (plat->tag == tag && plat->status == in_stasis)
         {
@@ -332,11 +332,11 @@ dboolean EV_StopPlat(line_t *line)
 
     for (platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
     {
-        plat_t  *plat = platlist->plat;                         // for one with the tag not in stasis
+        plat_t  *plat = platlist->plat;                 // for one with the tag not in stasis
 
         if (plat->status != in_stasis && plat->tag == line->tag)
         {
-            plat->oldstatus = plat->status;                     // put it in stasis
+            plat->oldstatus = plat->status;             // put it in stasis
             plat->status = in_stasis;
             plat->thinker.function = NULL;
         }
@@ -350,9 +350,8 @@ dboolean EV_StopPlat(line_t *line)
 //
 void P_AddActivePlat(plat_t *plat)
 {
-    platlist_t  *list;
+    platlist_t  *list = malloc(sizeof(*list));
 
-    list = malloc(sizeof(*list));
     list->plat = plat;
     plat->list = list;
     if ((list->next = activeplats))

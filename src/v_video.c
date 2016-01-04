@@ -733,7 +733,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 
     to <<= 8;
 
-    for (; col < w; col++, desttop++)
+    for (; col < w; ++col, ++desttop)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -742,7 +742,8 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
         {
             byte        *source = (byte *)column + 3;
             byte        *dest = desttop + column->topdelta * SCREENWIDTH;
-            int         count = column->length;
+            byte        length = column->length;
+            byte        count = length;
 
             while (count--)
             {
@@ -751,7 +752,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
                 *dest = tinttab60[(dot == from ? to : (dot << 8)) + *dest];
                 dest += SCREENWIDTH;
             }
-            column = (column_t *)((byte *)column + column->length + 4);
+            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }
