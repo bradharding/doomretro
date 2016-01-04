@@ -703,20 +703,21 @@ void I_Blit_NearestLinear_ShowFPS(void)
 void I_Blit_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
+    static int      angle = 1;
 
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderClear(renderer);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-1000, 1000) / 1000.0, NULL,
-        SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, (angle = -angle), NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
 
 void I_Blit_NearestLinear_Shake(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
+    static int      angle = 1;
 
     UpdateGrab();
 
@@ -724,8 +725,7 @@ void I_Blit_NearestLinear_Shake(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-1000, 1000) / 1000.0, NULL,
-        SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, (angle = -angle), NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
     SDL_RenderPresent(renderer);
@@ -737,6 +737,7 @@ void I_Blit_ShowFPS_Shake(void)
     static int      frames = -1;
     static Uint32   starttime;
     static Uint32   currenttime;
+    static int      angle = 1;
 
     UpdateGrab();
 
@@ -753,8 +754,7 @@ void I_Blit_ShowFPS_Shake(void)
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderClear(renderer);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-1000, 1000) / 1000.0, NULL,
-        SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, (angle = -angle), NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
 
@@ -764,6 +764,7 @@ void I_Blit_NearestLinear_ShowFPS_Shake(void)
     static int      frames = -1;
     static Uint32   starttime;
     static Uint32   currenttime;
+    static int      angle = 1;
 
     UpdateGrab();
 
@@ -781,8 +782,7 @@ void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, M_RandomInt(-1000, 1000) / 1000.0, NULL,
-        SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, (angle = -angle), NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
     SDL_RenderPresent(renderer);
