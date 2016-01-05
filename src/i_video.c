@@ -1289,8 +1289,11 @@ static void SetVideoMode(dboolean output)
 
             M_snprintf(text, sizeof(text), "The gamma correction level is %.2f.",
                 gammalevels[gammaindex]);
-            if (text[strlen(text) - 1] == '0' && text[strlen(text) - 2] == '0')
+            if (text[strlen(text) - 2] == '0' && text[strlen(text) - 3] == '0')
+            {
+                text[strlen(text) - 2] = '.';
                 text[strlen(text) - 1] = '\0';
+            }
             C_Output(text);
         }
     }
