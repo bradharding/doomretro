@@ -2682,17 +2682,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         if (value >= 0.0f)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
-            gammaindex = 0;
-            while (gammaindex < GAMMALEVELS)
-                if (gammalevels[gammaindex++] == r_gamma)
-                    break;
-            if (gammaindex == GAMMALEVELS)
-            {
-                gammaindex = 0;
-                while (gammalevels[gammaindex++] != r_gamma_default);
-            }
-            --gammaindex;
-
+            I_SetGamma(r_gamma);
             I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
             M_SaveCVARs();
         }

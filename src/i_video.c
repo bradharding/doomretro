@@ -1403,6 +1403,23 @@ void I_InitGammaTables(void)
             gammatable[i][j] = (byte)(pow(j / 255.0, 1.0 / gammalevels[i]) * 255.0 + 0.5);
 }
 
+void I_SetGamma(float value)
+{
+    gammaindex = 0;
+    while (gammaindex < GAMMALEVELS)
+    {
+        if (gammalevels[gammaindex] == value)
+            break;
+        ++gammaindex;
+    }
+    if (gammaindex == GAMMALEVELS)
+    {
+        gammaindex = 0;
+        while (gammalevels[gammaindex] != r_gamma_default)
+            ++gammaindex;
+    }
+}
+
 void I_InitKeyboard(void)
 {
 #if defined(WIN32)
