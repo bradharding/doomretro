@@ -654,14 +654,17 @@ static void M_CheckCVARs(void)
     r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     gammaindex = 0;
     while (gammaindex < GAMMALEVELS)
-        if (gammalevels[gammaindex++] == r_gamma)
-        break;
+    {
+        if (gammalevels[gammaindex] == r_gamma)
+            break;
+        ++gammaindex;
+    }
     if (gammaindex == GAMMALEVELS)
     {
         gammaindex = 0;
-        while (gammalevels[gammaindex++] != r_gamma_default);
+        while (gammalevels[gammaindex] != r_gamma_default)
+            ++gammaindex;
     }
-    --gammaindex;
 
     if (r_homindicator != false && r_homindicator != true)
         r_homindicator = r_homindicator_default;
