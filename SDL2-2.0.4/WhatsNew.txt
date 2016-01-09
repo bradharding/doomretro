@@ -34,9 +34,11 @@ General:
 * Added a hint SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN to prevent window interaction while cursor is hidden
 * Added SDL_GetDisplayDPI() to get the DPI information for a display
 * Added SDL_JoystickCurrentPowerLevel() to get the battery level of a joystick
+* Added SDL_JoystickFromInstanceID(), as a helper function, to get the SDL_Joystick* that an event is referring to.
+* Added SDL_GameControllerFromInstanceID(), as a helper function, to get the SDL_GameController* that an event is referring to.
 
 Windows:
-* Added support for Windows Phone 8.1
+* Added support for Windows Phone 8.1 and Windows 10/UWP (Universal Windows Platform)
 * Timer resolution is now 1 ms by default, adjustable with the SDL_HINT_TIMER_RESOLUTION hint
 * SDLmain no longer depends on the C runtime, so you can use the same .lib in both Debug and Release builds
 * Added SDL_SetWindowsMessageHook() to set a function to be called for every windows message before TranslateMessage()
@@ -63,18 +65,19 @@ Linux:
 * Enabled building with Mir and Wayland support by default.
 * Added IBus IME support
 * Added a hint SDL_HINT_IME_INTERNAL_EDITING to control whether IBus should handle text editing internally instead of sending SDL_TEXTEDITING events
+* Added a hint SDL_HINT_VIDEO_X11_NET_WM_PING to allow disabling _NET_WM_PING protocol handling in SDL_CreateWindow()
 * Added support for multiple audio devices when using Pulseaudio
 * Fixed duplicate mouse events when using relative mouse motion
 
 iOS:
 * Added support for iOS 8
+* The SDL_WINDOW_ALLOW_HIGHDPI window flag now enables high-dpi support, and SDL_GL_GetDrawableSize() or SDL_GetRendererOutputSize() gets the window resolution in pixels
+* SDL_GetWindowSize() and display mode sizes are in the "DPI-independent points" / "screen coordinates" coordinate space rather than pixels (matches OS X behavior)
+* Added native resolution support for the iPhone 6 Plus
 * Added support for MFi game controllers
 * Added support for the hint SDL_HINT_ACCELEROMETER_AS_JOYSTICK
 * Added sRGB OpenGL ES context support on iOS 7+
-* Added native resolution support for the iPhone 6 Plus
 * Added support for SDL_DisableScreenSaver(), SDL_EnableScreenSaver() and the hint SDL_HINT_VIDEO_ALLOW_SCREENSAVER
-* The SDL_WINDOW_ALLOW_HIGHDPI window flag now enables high-dpi support, and SDL_GL_GetDrawableSize() or SDL_GetRendererOutputSize() gets the window resolution in pixels
-* SDL_GetWindowSize() and display mode sizes are in the "DPI-independent points" coordinate space rather than pixels (matches OS X behavior)
 * SDL_SysWMinfo now contains the OpenGL ES framebuffer and color renderbuffer objects used by the window's active GLES view
 * Fixed various rotation and orientation issues
 * Fixed memory leaks

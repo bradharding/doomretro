@@ -1,3 +1,13 @@
+2.0.1:
+Sam Lantinga - Tue Jul  7 11:40:33 PDT 2015
+ * Added support for 'smpl' format loop points in music WAV files
+Sam Lantinga - Sat Aug 23 10:57:26 2014
+ * Fixed floating point exception in Mix_Volume()
+David Ludwig - Mon Apr 14 22:15:36 2014
+ * Added support for building for Windows RT and Windows Phone
+Isaac Burns - Sun Sep 15 21:50:27 PDT 2013
+ * Added support for loading MP3 files as sound chunks
+
 2.0.0:
 Sam Lantinga - Sun Jun  9 14:45:30 PDT 2013
  * Made libmodplug the default MOD player as it is now in the public domain
