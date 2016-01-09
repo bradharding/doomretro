@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2016 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2015 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -184,20 +184,6 @@ extern "C" {
  *  By default SDL will not use XRandR because of window manager issues.
  */
 #define SDL_HINT_VIDEO_X11_XRANDR           "SDL_VIDEO_X11_XRANDR"
-
-/**
- *  \brief  A variable controlling whether the X11 _NET_WM_PING protocol should be supported.
- *
- *  This variable can be set to the following values:
- *    "0"       - Disable _NET_WM_PING
- *    "1"       - Enable _NET_WM_PING
- *
- *  By default SDL will use _NET_WM_PING, but for applications that know they
- *  will not always be able to respond to ping requests in a timely manner they can
- *  turn it off to avoid the window manager thinking the app is hung.
- *  The hint is checked in CreateWindow.
- */
-#define SDL_HINT_VIDEO_X11_NET_WM_PING      "SDL_VIDEO_X11_NET_WM_PING"
 
 /**
  *  \brief  A variable controlling whether the window frame and title bar are interactive when the cursor is hidden 
