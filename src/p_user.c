@@ -212,21 +212,13 @@ void P_ReduceDamageCount(player_t *player)
 {
     if (r_shakescreen)
     {
-        static dboolean shaking = false;
-
         if (player->damagecount)
-            if (--player->damagecount && !shaking)
-            {
+            if (--player->damagecount)
                 blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake
                     : I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake
                     : I_Blit_Shake));
-                shaking = true;
-            }
             else
-            {
                 I_UpdateBlitFunc();
-                shaking = false;
-            }
     }
     else if (player->damagecount)
         --player->damagecount;
@@ -271,7 +263,7 @@ void P_DeathThink(player_t *player)
         angle_t angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
         angle_t delta = angle - mo->angle;
 
-        if (delta < ANG5 || delta >(unsigned int) - ANG5)
+        if (delta < ANG5 || delta > (unsigned int)(-ANG5))
         {
             // Looking at killer, so fade damage flash down.
             mo->angle = angle;
