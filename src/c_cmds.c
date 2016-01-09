@@ -262,6 +262,7 @@ extern int              mousebfire;
 extern int              mousebforward;
 extern int              mousebprevweapon;
 extern int              mousebnextweapon;
+extern int              mousebrun;
 extern int              mousebstrafe;
 extern int              mousebuse;
 
@@ -345,7 +346,7 @@ action_t actions[] =
     { "+prevweapon",   &key_prevweapon,         &mousebprevweapon, &gamepadprevweapon        },
     { "+right",        &key_right,              NULL,              NULL                      },
     { "+rotatemode",   &key_automap_rotatemode, NULL,              &gamepadautomaprotatemode },
-    { "+run",          &key_run,                NULL,              &gamepadrun               },
+    { "+run",          &key_run,                &mousebrun,        &gamepadrun               },
     { "+strafe",       &key_strafe,             &mousebstrafe,     NULL                      },
     { "+strafeleft",   &key_strafeleft,         NULL,              NULL                      },
     { "+strafeleft2",  &key_strafeleft2,        NULL,              NULL                      },

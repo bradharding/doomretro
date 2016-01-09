@@ -150,6 +150,7 @@ int             key_alwaysrun = KEYALWAYSRUN_DEFAULT;
 
 int             mousebfire = MOUSEFIRE_DEFAULT;
 int             mousebstrafe = MOUSESTRAFE_DEFAULT;
+int             mousebrun = MOUSERUN_DEFAULT;
 int             mousebforward = MOUSEFORWARD_DEFAULT;
 int             mousebuse = MOUSEUSE_DEFAULT;
 int             mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
@@ -349,7 +350,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
-    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + alwaysrun == 1);
+    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + mousebuttons[mousebrun]
+        + alwaysrun == 1);
 
     // use two stage accelerative turning
     // on the keyboard

@@ -371,6 +371,7 @@ typedef enum
 #define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
 #define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
 #define MOUSESTRAFE_DEFAULT                     -1
+#define MOUSERUN_DEFAULT                        -1
 #define MOUSEUSE_DEFAULT                        -1
 
 typedef enum
