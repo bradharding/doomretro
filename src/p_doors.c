@@ -390,20 +390,23 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
                 door->topheight -= 4 * FRACUNIT;
                 door->direction = -1;
                 door->speed = VDOORSPEED * 4;
-                S_StartSectorSound(&door->sector->soundorg, sfx_bdcls);
+                if (sec->ceilingheight != sec->floorheight)
+                    S_StartSectorSound(&door->sector->soundorg, sfx_bdcls);
                 break;
 
             case doorClose:
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 door->direction = -1;
-                S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
+                if (sec->ceilingheight != sec->floorheight)
+                    S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                 break;
 
             case doorClose30ThenOpen:
                 door->topheight = sec->ceilingheight;
                 door->direction = -1;
-                S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
+                if (sec->ceilingheight != sec->floorheight)
+                    S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                 break;
 
             case doorBlazeRaise:
