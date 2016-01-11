@@ -811,23 +811,16 @@ void F_CastDrawer(void)
 //
 void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
 {
-    column_t    *column;
-    byte        *source;
-    byte        *dest;
-    byte        *desttop;
-
-    column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-
-    desttop = screens[0] + x;
+    column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+    byte        *desttop = screens[0] + x;
 
     // step through the posts in a column
     while (column->topdelta != 0xff)
     {
-        int         count = (column->length << FRACBITS) / fracstep;
-        fixed_t     frac = 0;
-
-        source = (byte *)column + 3;
-        dest = desttop + column->topdelta * SCREENWIDTH;
+        int     count = (column->length << FRACBITS) / fracstep;
+        fixed_t frac = 0;
+        byte    *dest = desttop + column->topdelta * SCREENWIDTH;
+        byte    *source = (byte *)column + 3;
 
         while (count--)
         {

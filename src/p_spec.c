@@ -2221,7 +2221,6 @@ void T_Scroll(scroll_t *s)
         sector_t        *sec;
         fixed_t         height, waterheight;    // killough 4/4/98: add waterheight
         msecnode_t      *node;
-        mobj_t          *thing;
 
         case sc_side:                           // killough 3/7/98: Scroll wall texture
             side = sides + s->affectee;
@@ -2254,13 +2253,16 @@ void T_Scroll(scroll_t *s)
             // Move objects only if on floor or underwater,
             // non-floating, and clipped.
             for (node = sec->touching_thinglist; node; node = node->m_snext)
-                if (!((thing = node->m_thing)->flags & MF_NOCLIP)
-                    && (!((thing->flags & MF_NOGRAVITY) || thing->z > height)
-                    || thing->z < waterheight))
+            {
+                mobj_t  *thing = node->m_thing;
+
+                if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY)
+                    || thing->z > height) || thing->z < waterheight))
                 {
                     thing->momx += dx;
                     thing->momy += dy;
                 }
+            }
             break;
 
         case sc_carry_ceiling:       // to be added later
@@ -2636,7 +2638,6 @@ dboolean PIT_PushThing(mobj_t* thing)
 void T_Pusher(pusher_t *p)
 {
     sector_t    *sec;
-    mobj_t      *thing;
     msecnode_t  *node;
     int         xspeed, yspeed;
     int         ht = 0;
@@ -2691,7 +2692,8 @@ void T_Pusher(pusher_t *p)
     node = sec->touching_thinglist;                     // things touching this sector
     for (; node; node = node->m_snext)
     {
-        thing = node->m_thing;
+        mobj_t  *thing = node->m_thing;
+
         if (!thing->player || (thing->flags & (MF_NOGRAVITY | MF_NOCLIP)))
             continue;
         if (p->type == p_wind)
@@ -2704,8 +2706,8 @@ void T_Pusher(pusher_t *p)
                 }
                 else                                    // on ground
                 {
-                    xspeed = (p->x_mag) >> 1;           // half force
-                    yspeed = (p->y_mag) >> 1;
+                    xspeed = p->x_mag >> 1;             // half force
+                    yspeed = p->y_mag >> 1;
                 }
             else                                        // special water sector
             {
@@ -2719,8 +2721,8 @@ void T_Pusher(pusher_t *p)
                         xspeed = yspeed = 0;            // no force
                     else                                // wading in water
                     {
-                        xspeed = (p->x_mag) >> 1;       // half force
-                        yspeed = (p->y_mag) >> 1;
+                        xspeed = p->x_mag >> 1;         // half force
+                        yspeed = p->y_mag >> 1;
                     }
             }
         }
