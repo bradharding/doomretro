@@ -350,7 +350,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
-    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + mousebuttons[mousebrun]
+    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + !!mousebuttons[mousebrun]
         + alwaysrun == 1);
 
     // use two stage accelerative turning
