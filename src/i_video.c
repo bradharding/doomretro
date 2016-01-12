@@ -232,6 +232,12 @@ static void UpdateFocus(void)
     }
 }
 
+static void SetShowCursor(dboolean show)
+{
+    SDL_ShowCursor(show);
+    SDL_SetRelativeMouseMode(!show);
+}
+
 int translatekey[] =
 {
     0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
@@ -328,7 +334,7 @@ static void FreeSurfaces(void)
 
 void I_ShutdownGraphics(void)
 {
-    SDL_SetRelativeMouseMode(false);
+    SetShowCursor(true);
     FreeSurfaces();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
@@ -587,12 +593,12 @@ static void UpdateGrab(void)
 
     if (grab && !currently_grabbed)
     {
-        SDL_SetRelativeMouseMode(true);
+        SetShowCursor(false);
         CenterMouse();
     }
     else if (!grab && currently_grabbed)
     {
-        SDL_SetRelativeMouseMode(false);
+        SetShowCursor(true);
 
         SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH,
             windowheight - 16);
