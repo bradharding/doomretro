@@ -42,7 +42,6 @@
 #include <string.h>
 
 #if defined(WIN32)
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 void I_ShutdownWindows32(void);

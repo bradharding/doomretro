@@ -173,7 +173,8 @@ void R_FixWiggle(sector_t *sector)
     static int  lastheight;
 
     // disallow negative heights, force cache initialization
-    int         height = MAX(1, (sector->interpceilingheight - sector->interpfloorheight) >> FRACBITS);
+    int         height = MAX(1, (sector->interpceilingheight
+                    - sector->interpfloorheight) >> FRACBITS);
 
     // early out?
     if (height != lastheight)

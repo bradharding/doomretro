@@ -77,9 +77,6 @@ static void AddIWADDir(char *dir)
 // of installed IWAD files. The registry is inspected to find special
 // keys installed by the Windows installers for various CD versions
 // of DOOM. From these keys we can deduce where to find an IWAD.
-
-#define WIN32_LEAN_AND_MEAN
-
 #include <windows.h>
 
 typedef struct

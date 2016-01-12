@@ -50,8 +50,6 @@ int     windowborderwidth = 0;
 int     windowborderheight = 0;
 
 #if defined(WIN32)
-#define WIN32_LEAN_AND_MEAN
-
 #include <windows.h>
 
 #include "d_main.h"
