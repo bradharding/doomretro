@@ -65,9 +65,9 @@ float                   gp_deadzone_right = gp_deadzone_right_default;
 static SDL_Joystick     *gamepad;
 
 int                     gamepadbuttons = 0;
-short                   gamepadthumbLX;
-short                   gamepadthumbLY;
-short                   gamepadthumbRX;
+short                   gamepadthumbLX = 0;
+short                   gamepadthumbLY = 0;
+short                   gamepadthumbRX = 0;
 float                   gamepadsensitivity;
 
 dboolean                vibrate = false;
