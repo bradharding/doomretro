@@ -78,7 +78,7 @@
 #define GIVECMDSHORTFORMAT      "~items~"
 #define GIVECMDLONGFORMAT       "ammo|armor|health|keys|weapons|all|~item~"
 #define KILLCMDFORMAT           "player|all|~monster~"
-#define MAPCMDFORMAT            "E~x~M~y~|MAP~xy~"
+#define MAPCMDFORMAT            "E~x~M~y~|MAP~xy~|first|previous|next|last"
 #define SPAWNCMDFORMAT          "~monster~|~item~"
 
 extern dboolean         alwaysrun;
@@ -1433,6 +1433,7 @@ static void load_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static int      mapcmdepisode;
 static int      mapcmdmap;
+static char     mapcmdlump[7];
 
 extern dboolean samelevel;
 extern menu_t   EpiDef;
@@ -1443,10 +1444,136 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     if (!parm1[0])
         return true;
 
-    parm1 = uppercase(parm1);
     mapcmdepisode = 0;
     mapcmdmap = 0;
 
+    if (M_StringCompare(parm1, "FIRST"))
+    {
+        if (gamestate != GS_LEVEL)
+            return false;
+        if (gamemode == commercial)
+        {
+            if (gamemap == 1)
+                return false;
+            mapcmdepisode = gameepisode;
+            mapcmdmap = 1;
+            M_StringCopy(mapcmdlump, "MAP01", 6);
+        }
+        else
+        {
+            if (gameepisode == 1 && gamemap == 1)
+                return false;
+            mapcmdepisode = 1;
+            mapcmdmap = 1;
+            M_StringCopy(mapcmdlump, "E1M1", 5);
+        }
+        return true;
+    }
+    else if (M_StringCompare(parm1, "PREVIOUS") || M_StringCompare(parm1, "PREV"))
+    {
+        if (gamestate != GS_LEVEL)
+            return false;
+        if (gamemode == commercial)
+        {
+            if (gamemap == 1)
+                return false;
+            mapcmdepisode = gameepisode;
+            mapcmdmap = gamemap - 1;
+            M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+        }
+        else
+        {
+            if (gamemap == 1)
+            {
+                if (gameepisode == 1)
+                    return false;
+                else
+                {
+                    mapcmdepisode = gameepisode - 1;
+                    mapcmdmap = 8;
+                }
+            }
+            else
+            {
+                mapcmdepisode = gameepisode;
+                mapcmdmap = gamemap - 1;
+            }
+            M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+        }
+        return true;
+    }
+    else if (M_StringCompare(parm1, "NEXT"))
+    {
+        if (gamestate != GS_LEVEL)
+            return false;
+        if (gamemode == commercial)
+        {
+            if (gamemap == 30)
+                return false;
+            mapcmdepisode = gameepisode;
+            mapcmdmap = gamemap + 1;
+            M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+        }
+        else
+        {
+            if (gamemap == 1)
+            {
+                if (gameepisode == (gamemode == retail ? 4 : gamemode == shareware ? 1 : 3))
+                    return false;
+                else
+                {
+                    mapcmdepisode = gameepisode + 1;
+                    mapcmdmap = 1;
+                }
+            }
+            else
+            {
+                mapcmdepisode = gameepisode;
+                mapcmdmap = gamemap + 1;
+            }
+            M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+        }
+        return true;
+    }
+    else if (M_StringCompare(parm1, "LAST"))
+    {
+        if (gamestate != GS_LEVEL)
+            return false;
+        if (gamemode == commercial)
+        {
+            if (gamemap == 30)
+                return false;
+            mapcmdepisode = gameepisode;
+            mapcmdmap = 30;
+            M_StringCopy(mapcmdlump, "MAP30", 6);
+        }
+        else if (gamemode == retail)
+        {
+            if (gameepisode == 4 && gamemap == 8)
+                return false;
+            mapcmdepisode = 4;
+            mapcmdmap = 8;
+            M_StringCopy(mapcmdlump, "E4M8", 5);
+        }
+        else if (gamemode == shareware)
+        {
+            if (gameepisode == 1 && gamemap == 8)
+                return false;
+            mapcmdepisode = 1;
+            mapcmdmap = 8;
+            M_StringCopy(mapcmdlump, "E1M8", 5);
+        }
+        else
+        {
+            if (gameepisode == 4 && gamemap == 8)
+                return false;
+            mapcmdepisode = 3;
+            mapcmdmap = 8;
+            M_StringCopy(mapcmdlump, "E3M8", 5);
+        }
+        return true;
+    }
+    M_StringCopy(mapcmdlump, parm1, 7);
     if (gamemode == commercial)
     {
         if (BTSX)
@@ -1510,7 +1637,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     gamemap = mapcmdmap;
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."),
-        uppercase(parm1));
+        uppercase(mapcmdlump));
     C_Output(buffer);
     players[0].message = buffer;
     message_dontfuckwithme = true;
