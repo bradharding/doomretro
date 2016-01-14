@@ -148,6 +148,8 @@ void I_SDL_ShutdownMusic(void)
         Mix_HaltMusic();
         music_initialized = false;
 
+        free(tempmusicfilename);
+
         if (sdl_was_initialized)
         {
             Mix_CloseAudio();
@@ -288,7 +290,6 @@ void *I_SDL_RegisterSong(void *data, int len)
             ConvertMus(data, len, tempmusicfilename);
             music = Mix_LoadMUS(tempmusicfilename);
             remove(tempmusicfilename);
-            free(tempmusicfilename);
         }
         else
         {
