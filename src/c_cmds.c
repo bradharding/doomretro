@@ -1508,7 +1508,7 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
             return false;
         if (gamemode == commercial)
         {
-            if (gamemap == 30)
+            if (gamemap == (gamemission == pack_nerve ? 8 : 30))
                 return false;
             mapcmdepisode = gameepisode;
             mapcmdmap = gamemap + 1;
@@ -1541,11 +1541,22 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
             return false;
         if (gamemode == commercial)
         {
-            if (gamemap == 30)
-                return false;
-            mapcmdepisode = gameepisode;
-            mapcmdmap = 30;
-            M_StringCopy(mapcmdlump, "MAP30", 6);
+            if (gamemission == pack_nerve)
+            {
+                if (gamemap == 8)
+                    return false;
+                mapcmdepisode = gameepisode;
+                mapcmdmap = 8;
+                M_StringCopy(mapcmdlump, "MAP08", 6);
+            }
+            else
+            {
+                if (gamemap == 30)
+                    return false;
+                mapcmdepisode = gameepisode;
+                mapcmdmap = 30;
+                M_StringCopy(mapcmdlump, "MAP30", 6);
+            }
         }
         else if (gamemode == retail)
         {
