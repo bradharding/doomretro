@@ -59,6 +59,8 @@ static dboolean         sdl_was_initialized;
 static dboolean         musicpaused;
 static int              current_music_volume;
 
+static char             *tempmusicfilename;
+
 char                    *s_timiditycfgpath = s_timiditycfgpath_default;
 
 static char             *temp_timidity_cfg;
@@ -180,6 +182,8 @@ dboolean I_SDL_InitMusic(void)
 
     SDL_PauseAudio(0);
 
+    tempmusicfilename = M_TempFile(PACKAGE".mid");
+
     sdl_was_initialized = true;
     music_initialized = true;
 
@@ -279,30 +283,19 @@ void *I_SDL_RegisterSong(void *data, int len)
     Mix_Music   *music = NULL;
 
     if (music_initialized)
-        if (len > 4 && memcmp(data, "MUS", 3))
+        if (!memcmp(data, "MUS", 3))
         {
-            SDL_RWops       *rwops = SDL_RWFromMem(data, len);
-
-            if (rwops)
-                music = Mix_LoadMUS_RW(rwops, SDL_TRUE);
+            ConvertMus(data, len, tempmusicfilename);
+            music = Mix_LoadMUS(tempmusicfilename);
+            remove(tempmusicfilename);
+            free(tempmusicfilename);
         }
         else
         {
-            char    *filename = M_TempFile(PACKAGE".mid");
+            SDL_RWops   *rwops = SDL_RWFromMem(data, len);
 
-            if (len > 4 && !memcmp(data, "MThd", 4))
-                M_WriteFile(filename, data, len);
-            else
-                // Assume a MUS file and try to convert
-                ConvertMus(data, len, filename);
-
-            // Load the MIDI
-            music = Mix_LoadMUS(filename);
-
-            // remove file now
-            remove(filename);
-
-            free(filename);
+            if (rwops)
+                music = Mix_LoadMUS_RW(rwops, SDL_TRUE);
         }
 
     return music;
