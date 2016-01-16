@@ -1446,6 +1446,7 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 
     mapcmdepisode = 0;
     mapcmdmap = 0;
+    parm1 = uppercase(parm1);
 
     if (M_StringCompare(parm1, "FIRST"))
     {
