@@ -90,6 +90,9 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
             psp->sy = state->misc2 << FRACBITS;
         }
 
+        if (state->dehacked)
+            weaponinfo[player->readyweapon].dehacked = true;
+
         // Call action routine.
         // Modified handling.
         if (state->action)

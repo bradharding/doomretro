@@ -1132,6 +1132,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     vissprite_t         *vis;
     vissprite_t         avis;
     state_t             *state;
+    dboolean            dehacked = weaponinfo[viewplayer->readyweapon].dehacked;
 
     // decide which patch to use
     state = psp->state;
@@ -1144,7 +1145,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     flip = (dboolean)(sprframe->flip & 1);
 
     // calculate edges of the shape
-    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (state->dehacked ? spriteoffset[lump] :
+    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (dehacked ? spriteoffset[lump] :
         newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS;
 
@@ -1218,8 +1219,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                 /* SPR_BFGF */ tlcolfunc
             };
 
-            vis->colfunc = (bflash && spr <= SPR_BFGF && !state->dehacked ? colfuncs[spr] :
-                basecolfunc);
+            vis->colfunc = (bflash && spr <= SPR_BFGF && !dehacked ? colfuncs[spr] : basecolfunc);
         }
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color
@@ -1312,7 +1312,10 @@ void R_DrawPlayerSprites(void)
         bflash = false;
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
+            {
                 bflash = true;
+                break;
+            }
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
                 R_DrawPSprite(psp, false);

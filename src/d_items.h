@@ -40,6 +40,7 @@
 #define __D_ITEMS__
 
 #include "doomdef.h"
+#include "doomtype.h"
 
 // Weapon info: sprite frames, ammunition use.
 typedef struct
@@ -53,6 +54,7 @@ typedef struct
 
     int         motorspeed;
     int         tics;
+    dboolean    dehacked;
 } weaponinfo_t;
 
 extern weaponinfo_t     weaponinfo[NUMWEAPONS];
