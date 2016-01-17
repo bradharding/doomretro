@@ -101,6 +101,7 @@ extern dboolean         BTSXE2B;
 extern dboolean         BTSXE3;
 extern dboolean         BTSXE3A;
 extern dboolean         BTSXE3B;
+extern dboolean         E1M8B;
 
 extern dboolean         DMENUPIC;
 extern dboolean         FREEDOOM;

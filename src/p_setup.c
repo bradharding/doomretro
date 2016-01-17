@@ -2284,7 +2284,8 @@ static int QualifyMap(int map)
 char *P_GetMapAuthor(int map)
 {
     return (MAPINFO && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author :
-        (breach && map == 1 ? "Alun \"Viggles\" Bestor" : ""));
+        (breach && map == 1 ? "Alun \"Viggles\" Bestor" :
+        (E1M8B && map == 8 ? "John Romero" : "")));
 }
 
 void P_GetMapLiquids(int map)
@@ -2302,7 +2303,7 @@ int P_GetMapMusic(int map)
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].name : "");
+    return (MAPINFO ? mapinfo[QualifyMap(map)].name : (E1M8B && map == 8 ? "Tech Gone Bad" : ""));
 }
 
 int P_GetMapNext(int map)
