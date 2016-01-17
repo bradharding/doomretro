@@ -543,7 +543,7 @@ static void HU_DrawHUD(void)
 #define ALTHUD_Y        300
 
 #define WHITE           4
-#define GRAY            102
+#define GRAY            98
 #define GREEN           114
 #define RED             180
 #define BLUE            200
