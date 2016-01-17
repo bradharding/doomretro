@@ -1824,7 +1824,9 @@ void P_MapName(int ep, int map)
     {
         case doom:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", ep, map);
-            if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
+            if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+            else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1832,15 +1834,15 @@ void P_MapName(int ep, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
-            else if (mapinfoname[0])
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, *mapnames[(ep - 1) * 9 + map - 1], sizeof(maptitle));
             break;
 
         case doom2:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehcount == 1)
+            if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+            else if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1848,8 +1850,6 @@ void P_MapName(int ep, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
-            else if (mapinfoname[0])
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] :
                     *mapnames2[map - 1]), sizeof(maptitle));
@@ -1865,7 +1865,9 @@ void P_MapName(int ep, int map)
 
         case pack_plut:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
+            if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+            else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1873,15 +1875,15 @@ void P_MapName(int ep, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
-            else if (mapinfoname[0])
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
             break;
 
         case pack_tnt:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
+            if (mapinfoname[0])
+                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
+            else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1889,8 +1891,6 @@ void P_MapName(int ep, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
-            else if (mapinfoname[0])
-                M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
             break;
