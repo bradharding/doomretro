@@ -161,6 +161,8 @@ extern dboolean splashscreen;
 extern dboolean skipaction;
 extern dboolean skippsprinterp;
 
+extern int      key_console;
+
 //
 // PROTOTYPES
 //
@@ -2609,7 +2611,7 @@ dboolean M_Responder(event_t *ev)
         }
 
         // Console
-        else if (key == KEY_TILDE && !keydown)
+        else if (key == key_console && !keydown)
         {
             keydown = key;
             if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens)
@@ -2622,8 +2624,7 @@ dboolean M_Responder(event_t *ev)
         }
 
         // Help key
-        else if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1)
-                 && !keydown)
+        else if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown)
         {
             keydown = key;
             if (functionkey == KEY_F1)

@@ -233,6 +233,7 @@ extern int              key_automap_maxzoom;
 extern int              key_automap_rotatemode;
 extern int              key_automap_zoomin;
 extern int              key_automap_zoomout;
+extern int              key_console;
 extern int              key_down;
 extern int              key_down2;
 extern int              key_fire;
@@ -268,6 +269,7 @@ extern int              pixelwidth;
 extern int              pixelheight;
 extern int              screenheight;
 extern int              screenwidth;
+extern char             gamekeyaction[NUMKEYS][256];
 
 control_t controls[] =
 {
@@ -297,31 +299,32 @@ control_t controls[] =
     { "b",             keyboardcontrol, 'b'             }, { "n",             keyboardcontrol, 'n'             },
     { "m",             keyboardcontrol, 'm'             }, { ",",             keyboardcontrol, ','             },
     { ".",             keyboardcontrol, '.'             }, { "/",             keyboardcontrol, '/'             },
-    { "alt",           keyboardcontrol, KEY_RALT        }, { "space",         keyboardcontrol, ' '             },
-    { "numlock",       keyboardcontrol, KEY_NUMLOCK     }, { "capslock",      keyboardcontrol, KEY_CAPSLOCK    },
-    { "scrolllock",    keyboardcontrol, KEY_SCRLCK      }, { "home",          keyboardcontrol, KEY_HOME        },
-    { "up",            keyboardcontrol, KEY_UPARROW     }, { "pageup",        keyboardcontrol, KEY_PGUP        },
-    { "left",          keyboardcontrol, KEY_LEFTARROW   }, { "right",         keyboardcontrol, KEY_RIGHTARROW  },
-    { "end",           keyboardcontrol, KEY_END         }, { "down",          keyboardcontrol, KEY_DOWNARROW   },
-    { "pagedown",      keyboardcontrol, KEY_PGDN        }, { "insert",        keyboardcontrol, KEY_INS         },
-    { "delete",        keyboardcontrol, KEY_DEL         }, { "mouse1",        mousecontrol,    0               },
-    { "mouse2",        mousecontrol,    1               }, { "mouse3",        mousecontrol,    2               },
-    { "mouse4",        mousecontrol,    3               }, { "mouse5",        mousecontrol,    4               },
-    { "mouse6",        mousecontrol,    5               }, { "mouse7",        mousecontrol,    6               },
-    { "mouse8",        mousecontrol,    7               }, { "mouse9",        mousecontrol,    8               },
-    { "mouse10",       mousecontrol,    9               }, { "mouse11",       mousecontrol,    10              },
-    { "mouse12",       mousecontrol,    11              }, { "mouse13",       mousecontrol,    12              },
-    { "mouse14",       mousecontrol,    13              }, { "mouse15",       mousecontrol,    14              },
-    { "mouse16",       mousecontrol,    15              }, { "wheelup",       mousecontrol,    MOUSE_WHEELUP   },
-    { "wheeldown",     mousecontrol,    MOUSE_WHEELDOWN }, { "dpadup",        gamepadcontrol,  1               },
-    { "dpaddown",      gamepadcontrol,  2               }, { "dpadleft",      gamepadcontrol,  4               },
-    { "dpadright",     gamepadcontrol,  8               }, { "start",         gamepadcontrol,  16              },
-    { "back",          gamepadcontrol,  32              }, { "leftthumb",     gamepadcontrol,  64              },
-    { "rightthumb",    gamepadcontrol,  128             }, { "leftshoulder",  gamepadcontrol,  256             },
-    { "rightshoulder", gamepadcontrol,  512             }, { "lefttrigger",   gamepadcontrol,  1024            },
-    { "righttrigger",  gamepadcontrol,  2048            }, { "gamepad1",      gamepadcontrol,  4096            },
-    { "gamepad2",      gamepadcontrol,  8192            }, { "gamepad3",      gamepadcontrol,  16384           },
-    { "gamepad4",      gamepadcontrol,  32768           }, { "",              0,               0               }
+    { "tilde",         keyboardcontrol, KEY_TILDE       }, { "alt",           keyboardcontrol, KEY_RALT        },
+    { "space",         keyboardcontrol, ' '             }, { "numlock",       keyboardcontrol, KEY_NUMLOCK     },
+    { "capslock",      keyboardcontrol, KEY_CAPSLOCK    }, { "scrolllock",    keyboardcontrol, KEY_SCRLCK      },
+    { "home",          keyboardcontrol, KEY_HOME        }, { "up",            keyboardcontrol, KEY_UPARROW     },
+    { "pageup",        keyboardcontrol, KEY_PGUP        }, { "left",          keyboardcontrol, KEY_LEFTARROW   },
+    { "right",         keyboardcontrol, KEY_RIGHTARROW  }, { "end",           keyboardcontrol, KEY_END         },
+    { "down",          keyboardcontrol, KEY_DOWNARROW   }, { "pagedown",      keyboardcontrol, KEY_PGDN        },
+    { "insert",        keyboardcontrol, KEY_INS         }, { "delete",        keyboardcontrol, KEY_DEL         },
+    { "mouse1",        mousecontrol,    0               }, { "mouse2",        mousecontrol,    1               },
+    { "mouse3",        mousecontrol,    2               }, { "mouse4",        mousecontrol,    3               },
+    { "mouse5",        mousecontrol,    4               }, { "mouse6",        mousecontrol,    5               },
+    { "mouse7",        mousecontrol,    6               }, { "mouse8",        mousecontrol,    7               },
+    { "mouse9",        mousecontrol,    8               }, { "mouse10",       mousecontrol,    9               },
+    { "mouse11",       mousecontrol,    10              }, { "mouse12",       mousecontrol,    11              },
+    { "mouse13",       mousecontrol,    12              }, { "mouse14",       mousecontrol,    13              },
+    { "mouse15",       mousecontrol,    14              }, { "mouse16",       mousecontrol,    15              },
+    { "wheelup",       mousecontrol,    MOUSE_WHEELUP   }, { "wheeldown",     mousecontrol,    MOUSE_WHEELDOWN },
+    { "dpadup",        gamepadcontrol,  1               }, { "dpaddown",      gamepadcontrol,  2               },
+    { "dpadleft",      gamepadcontrol,  4               }, { "dpadright",     gamepadcontrol,  8               },
+    { "start",         gamepadcontrol,  16              }, { "back",          gamepadcontrol,  32              },
+    { "leftthumb",     gamepadcontrol,  64              }, { "rightthumb",    gamepadcontrol,  128             },
+    { "leftshoulder",  gamepadcontrol,  256             }, { "rightshoulder", gamepadcontrol,  512             },
+    { "lefttrigger",   gamepadcontrol,  1024            }, { "righttrigger",  gamepadcontrol,  2048            },
+    { "gamepad1",      gamepadcontrol,  4096            }, { "gamepad2",      gamepadcontrol,  8192            },
+    { "gamepad3",      gamepadcontrol,  16384           }, { "gamepad4",      gamepadcontrol,  32768           },
+    { "",              0,               0               }
 };
 
 action_t actions[] =
@@ -331,6 +334,7 @@ action_t actions[] =
     { "+back",         &key_down,               NULL,              NULL                      },
     { "+back2",        &key_down2,              NULL,              NULL                      },
     { "+clearmark",    &key_automap_clearmark,  NULL,              &gamepadautomapclearmark  },
+    { "+console",      &key_console,            NULL,              NULL                      },
     { "+fire",         &key_fire,               &mousebfire,       &gamepadfire              },
     { "+followmode",   &key_automap_followmode, NULL,              &gamepadautomapfollowmode },
     { "+forward",      &key_up,                 &mousebforward,    NULL                      },
