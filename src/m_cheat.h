@@ -78,28 +78,6 @@ void cht_GetParam(cheatseq_t *cht, char *buffer);
 extern dboolean idbehold;
 extern int      leveltime;
 
-extern int      key_right;
-extern int      key_left;
-extern int      key_up;
-extern int      key_up2;
-extern int      key_down;
-extern int      key_down2;
-extern int      key_strafeleft;
-extern int      key_straferight;
-extern int      key_fire;
-extern int      key_use;
-extern int      key_strafe;
-extern int      key_run;
-extern int      key_prevweapon;
-extern int      key_nextweapon;
-extern int      key_weapon1;
-extern int      key_weapon2;
-extern int      key_weapon3;
-extern int      key_weapon4;
-extern int      key_weapon5;
-extern int      key_weapon6;
-extern int      key_weapon7;
-
 extern cheatseq_t cheat_mus;
 extern cheatseq_t cheat_mus_xy;
 extern cheatseq_t cheat_god;

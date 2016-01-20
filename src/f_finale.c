@@ -593,9 +593,6 @@ stopattack:
 // F_CastResponder
 //
 
-extern int      key_use;
-extern int      key_fire;
-
 dboolean F_CastResponder(event_t *ev)
 {
     mobjtype_t  type;

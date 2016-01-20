@@ -55,6 +55,7 @@
 #include "i_video.h"
 #include "m_cheat.h"
 #include "m_config.h"
+#include "m_controls.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -199,71 +200,6 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
-
-extern int              gamepadalwaysrun;
-extern int              gamepadautomap;
-extern int              gamepadautomapclearmark;
-extern int              gamepadautomapfollowmode;
-extern int              gamepadautomapgrid;
-extern int              gamepadautomapmark;
-extern int              gamepadautomapmaxzoom;
-extern int              gamepadautomaprotatemode;
-extern int              gamepadautomapzoomin;
-extern int              gamepadautomapzoomout;
-extern int              gamepadfire;
-extern int              gamepadmenu;
-extern int              gamepadnextweapon;
-extern int              gamepadprevweapon;
-extern int              gamepadrun;
-extern int              gamepaduse;
-extern int              gamepadweapon1;
-extern int              gamepadweapon2;
-extern int              gamepadweapon3;
-extern int              gamepadweapon4;
-extern int              gamepadweapon5;
-extern int              gamepadweapon6;
-extern int              gamepadweapon7;
-extern int              key_alwaysrun;
-extern int              key_automap;
-extern int              key_automap_clearmark;
-extern int              key_automap_followmode;
-extern int              key_automap_grid;
-extern int              key_automap_mark;
-extern int              key_automap_maxzoom;
-extern int              key_automap_rotatemode;
-extern int              key_automap_zoomin;
-extern int              key_automap_zoomout;
-extern int              key_console;
-extern int              key_down;
-extern int              key_down2;
-extern int              key_fire;
-extern int              key_left;
-extern int              key_nextweapon;
-extern int              key_prevweapon;
-extern int              key_right;
-extern int              key_run;
-extern int              key_strafe;
-extern int              key_strafeleft;
-extern int              key_strafeleft2;
-extern int              key_straferight;
-extern int              key_straferight2;
-extern int              key_up;
-extern int              key_up2;
-extern int              key_use;
-extern int              key_weapon1;
-extern int              key_weapon2;
-extern int              key_weapon3;
-extern int              key_weapon4;
-extern int              key_weapon5;
-extern int              key_weapon6;
-extern int              key_weapon7;
-extern int              mousebfire;
-extern int              mousebforward;
-extern int              mousebprevweapon;
-extern int              mousebnextweapon;
-extern int              mousebrun;
-extern int              mousebstrafe;
-extern int              mousebuse;
 
 extern int              pixelwidth;
 extern int              pixelheight;

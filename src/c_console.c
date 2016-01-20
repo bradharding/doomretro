@@ -139,8 +139,6 @@ extern dboolean r_translucency;
 extern byte     *tinttab75;
 extern int      fps;
 extern dboolean alwaysrun;
-extern int      key_alwaysrun;
-extern int      key_console;
 
 void G_ToggleAlwaysRun(evtype_t type);
 int FindNearestColor(byte *palette, int red, int green, int blue);
@@ -986,6 +984,12 @@ dboolean C_Responder(event_t *ev)
         int             i;
         SDL_Keymod      modstate = SDL_GetModState();
 
+        if (key == key_console)
+        {
+            consoledirection = -1;
+            return true;
+        }
+
         switch (key)
         {
             case KEY_BACKSPACE:
@@ -1325,40 +1329,38 @@ dboolean C_Responder(event_t *ev)
                     if ((modstate & KMOD_SHIFT)
                         || (key_alwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
                         ch = shiftxform[ch];
-                    if (ch >= ' ' && ch < '~' && ch != '`')
-                        if (C_TextWidth(consoleinput) + (ch == ' ' ? spacewidth :
-                            consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
-                            && !(modstate & KMOD_ALT))
+                    if (ch >= ' ' && ch < '~' && ch != '`'
+                        && C_TextWidth(consoleinput) + (ch == ' ' ? spacewidth :
+                        consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
+                        && !(modstate & KMOD_ALT))
+                    {
+                        C_AddToUndoHistory();
+                        if (selectstart < selectend)
                         {
-                            C_AddToUndoHistory();
-                            if (selectstart < selectend)
-                            {
-                                // replace selected text with a character
-                                consoleinput[selectstart] = ch;
-                                for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
-                                    consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
-                                consoleinput[selectstart + i - selectend + 1] = '\0';
-                                caretpos = selectend = selectstart + 1;
-                                caretwait = I_GetTimeMS() + caretblinktime;
-                                showcaret = true;
-                            }
-                            else
-                            {
-                                // insert a character
-                                if (strlen(consoleinput) < 255)
-                                    consoleinput[strlen(consoleinput) + 1] = '\0';
-                                for (i = strlen(consoleinput); i > caretpos; --i)
-                                    consoleinput[i] = consoleinput[i - 1];
-                                consoleinput[caretpos++] = ch;
-                            }
-                            selectstart = selectend = caretpos;
+                            // replace selected text with a character
+                            consoleinput[selectstart] = ch;
+                            for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
+                                consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
+                            consoleinput[selectstart + i - selectend + 1] = '\0';
+                            caretpos = selectend = selectstart + 1;
                             caretwait = I_GetTimeMS() + caretblinktime;
                             showcaret = true;
-                            autocomplete = -1;
-                            inputhistory = -1;
                         }
-                        else if (key == key_console)
-                            consoledirection = -1;
+                        else
+                        {
+                            // insert a character
+                            if (strlen(consoleinput) < 255)
+                                consoleinput[strlen(consoleinput) + 1] = '\0';
+                            for (i = strlen(consoleinput); i > caretpos; --i)
+                                consoleinput[i] = consoleinput[i - 1];
+                            consoleinput[caretpos++] = ch;
+                        }
+                        selectstart = selectend = caretpos;
+                        caretwait = I_GetTimeMS() + caretblinktime;
+                        showcaret = true;
+                        autocomplete = -1;
+                        inputhistory = -1;
+                    }
                 }
         }
     }

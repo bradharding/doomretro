@@ -161,8 +161,6 @@ extern dboolean splashscreen;
 extern dboolean skipaction;
 extern dboolean skippsprinterp;
 
-extern int      key_console;
-
 //
 // PROTOTYPES
 //

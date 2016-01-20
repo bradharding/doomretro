@@ -187,8 +187,6 @@ dboolean                alwaysrun = alwaysrun_default;
 
 extern dboolean         am_external;
 
-extern int              key_alwaysrun;
-
 extern int              windowborderwidth;
 extern int              windowborderheight;
 

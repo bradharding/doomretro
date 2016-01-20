@@ -250,11 +250,12 @@
     <ClInclude Include="..\src\am_map.h" />
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />
+    <ClInclude Include="..\src\doomkeys.h" />
     <ClInclude Include="..\src\sc_man.h" />
     <ClInclude Include="..\src\version.h" />
     <ClInclude Include="..\src\doomdata.h" />
     <ClInclude Include="..\src\doomdef.h" />
-    <ClInclude Include="..\src\doomkeys.h" />
+    <ClInclude Include="..\src\m_controls.h" />
     <ClInclude Include="..\src\doomstat.h" />
     <ClInclude Include="..\src\doomtype.h" />
     <ClInclude Include="..\src\dstrings.h" />
@@ -336,6 +337,7 @@
     <ClCompile Include="..\src\memio.c" />
     <ClCompile Include="..\src\midifile.c" />
     <ClCompile Include="..\src\mus2mid.c" />
+    <ClCompile Include="..\src\m_controls.c" />
     <ClCompile Include="..\src\p_fix.c" />
     <ClCompile Include="..\src\p_genlin.c" />
     <ClCompile Include="..\src\sc_man.c" />

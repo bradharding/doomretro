@@ -41,7 +41,7 @@
 
 #include <stdio.h>
 
-#include "doomkeys.h"
+#include "m_controls.h"
 
 #if defined(WIN32)
 #define snprintf        _snprintf

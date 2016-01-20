@@ -43,6 +43,8 @@
 #include "d_event.h"
 #include "d_ticcmd.h"
 
+#define NUMKEYS         256
+
 //
 // GAME
 //

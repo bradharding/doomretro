@@ -40,6 +40,7 @@
 #define __I_GAMEPAD__
 
 #include <math.h>
+#include "doomtype.h"
 
 #define GAMEPAD_DPAD_UP                 0x0001
 #define GAMEPAD_DPAD_DOWN               0x0002
