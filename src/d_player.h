@@ -55,6 +55,10 @@
 // as commands per game tick.
 #include "d_ticcmd.h"
 
+#define NOARMOR         0
+#define GREENARMOR      1
+#define BLUEARMOR       2
+
 //
 // Player states.
 //

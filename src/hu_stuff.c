@@ -495,7 +495,7 @@ static void HU_DrawHUD(void)
 
     if (armor)
     {
-        patch_t     *patch = (plr->armortype == 1 ? greenarmorpatch : bluearmorpatch);
+        patch_t     *patch = (plr->armortype == GREENARMOR ? greenarmorpatch : bluearmorpatch);
         int         armor_x = HUD_ARMOR_X;
 
         if (patch)
@@ -660,7 +660,10 @@ static void HU_DrawAltHUD(void)
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 158, ALTHUD_Y + 13, altendpatch, 0, 0);
 
     if (armor)
-        V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, armor / plr->armortype + 1, 6, GRAY);
+        if (plr->armortype == GREENARMOR)
+            V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, MIN(armor, 100) + 1, 6, GRAY);
+        else
+            V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, armor / 2 + 1, 6, GRAY);
 
     if (health)
     {

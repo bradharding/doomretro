@@ -630,7 +630,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             else
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             if (!player->armortype)
-                player->armortype = 1;
+                player->armortype = GREENARMOR;
             HU_PlayerMessage(s_GOTARMBONUS, true);
             break;
 
@@ -1248,13 +1248,13 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 
         if (tplayer->armortype)
         {
-            int saved = damage / (tplayer->armortype == 1 ? 3 : 2);
+            int saved = damage / (tplayer->armortype == GREENARMOR ? 3 : 2);
 
             if (tplayer->armorpoints <= saved)
             {
                 // armor is used up
                 saved = tplayer->armorpoints;
-                tplayer->armortype = 0;
+                tplayer->armortype = NOARMOR;
             }
             tplayer->armorpoints -= saved;
             damage -= saved;
