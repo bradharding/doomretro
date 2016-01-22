@@ -41,7 +41,7 @@
 
 dboolean P_GiveBody(player_t *player, int num);
 void P_GiveMegaHealth(player_t *player);
-dboolean P_GiveArmor(player_t *player, int armortype);
+dboolean P_GiveArmor(player_t *player, armortype_t armortype);
 void P_GiveCard(player_t *player, card_t card);
 dboolean P_GiveAllCards(player_t *player);
 dboolean P_GivePower(player_t *player, int power);

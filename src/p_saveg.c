@@ -647,8 +647,8 @@ static void saveg_read_player_t(player_t *str)
     // int armorpoints
     str->armorpoints = saveg_read32();
 
-    // int armortype
-    str->armortype = saveg_read32();
+    // armortype_t armortype
+    str->armortype = (armortype_t)saveg_read_enum();
 
     // int powers[NUMPOWERS]
     for (i = 0; i < NUMPOWERS; ++i)
@@ -819,8 +819,8 @@ static void saveg_write_player_t(player_t *str)
     // int armorpoints
     saveg_write32(str->armorpoints);
 
-    // int armortype
-    saveg_write32(str->armortype);
+    // armortype_t armortype
+    saveg_write_enum(str->armortype);
 
     // int powers[NUMPOWERS]
     for (i = 0; i < NUMPOWERS; ++i)

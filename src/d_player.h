@@ -55,9 +55,12 @@
 // as commands per game tick.
 #include "d_ticcmd.h"
 
-#define NOARMOR         0
-#define GREENARMOR      1
-#define BLUEARMOR       2
+typedef enum
+{
+    NOARMOR             = 0,
+    GREENARMOR          = 1,
+    BLUEARMOR           = 2
+} armortype_t;
 
 //
 // Player states.
@@ -124,7 +127,7 @@ typedef struct player_s
     int                 health;
     int                 armorpoints;
     // Armor type is 0-2.
-    int                 armortype;
+    armortype_t         armortype;
 
     // Power ups. invinc and invis are tic counters.
     int                 powers[NUMPOWERS];

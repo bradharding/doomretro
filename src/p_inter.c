@@ -403,7 +403,7 @@ void P_GiveMegaHealth(player_t *player)
 // Returns false if the armor is worse
 // than the current armor.
 //
-dboolean P_GiveArmor(player_t *player, int armortype)
+dboolean P_GiveArmor(player_t *player, armortype_t armortype)
 {
     int hits = armortype * 100;
 
