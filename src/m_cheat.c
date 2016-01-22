@@ -92,7 +92,7 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
 
         cht->param_chars_read = 0;
 
-        if (cht->chars_read && (!cht->actionkey || cht->chars_read > 1))
+        if (cht->chars_read && !cht->actionkey)
             cheatkey = key;
     }
     else if (cht->param_chars_read < cht->parameter_chars)
