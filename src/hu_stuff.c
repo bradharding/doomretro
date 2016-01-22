@@ -544,6 +544,7 @@ static void HU_DrawHUD(void)
 
 #define WHITE           4
 #define GRAY            98
+#define DARKGRAY        104
 #define GREEN           114
 #define RED             180
 #define BLUE            200
@@ -569,6 +570,7 @@ static patch_t  *altnum[10];
 static patch_t  *altweapon[NUMWEAPONS];
 static patch_t  *altendpatch;
 static patch_t  *altleftpatch;
+static patch_t  *altarmpatch;
 static patch_t  *altrightpatch;
 static patch_t  *altmarkpatch;
 static patch_t  *altkeypatch;
@@ -592,6 +594,7 @@ void HU_AltInit(void)
     }
 
     altleftpatch = W_CacheLumpName("DRHUDL", PU_CACHE);
+    altarmpatch = W_CacheLumpName("DRHUDARM", PU_CACHE);
     altrightpatch = W_CacheLumpName("DRHUDR", PU_CACHE);
 
     altendpatch = W_CacheLumpName("DRHUDE", PU_CACHE);
@@ -661,9 +664,17 @@ static void HU_DrawAltHUD(void)
 
     if (armor)
         if (plr->armortype == GREENARMOR)
+        {
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE, DARKGRAY);
             V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, MIN(armor, 100) + 1, 6, GRAY);
+        }
         else
+        {
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE, GRAY);
             V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, armor / 2 + 1, 6, GRAY);
+        }
+    else
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE, DARKGRAY);
 
     if (health)
     {
