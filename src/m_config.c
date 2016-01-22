@@ -174,8 +174,6 @@ extern char             *vid_windowposition;
 extern char             *vid_windowsize;
 
 extern char             *packageconfig;
-extern int              gamepadleftdeadzone;
-extern int              gamepadrightdeadzone;
 extern int              pixelwidth;
 extern int              pixelheight;
 extern dboolean         returntowidescreen;

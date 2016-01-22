@@ -41,9 +41,7 @@
 #include "m_config.h"
 #include "p_local.h"
 
-//
-// controls (have defaults)
-//
+int     key_alwaysrun = KEYALWAYSRUN_DEFAULT;
 int     key_automap = KEYAUTOMAP_DEFAULT;
 int     key_automap_clearmark = KEYAUTOMAPCLEARMARK_DEFAULT;
 int     key_automap_followmode = KEYAUTOMAPFOLLOWMODE_DEFAULT;
@@ -54,20 +52,23 @@ int     key_automap_rotatemode = KEYAUTOMAPROTATEMODE_DEFAULT;
 int     key_automap_zoomin = KEYAUTOMAPZOOMIN_DEFAULT;
 int     key_automap_zoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
 int     key_console = KEYCONSOLE_DEFAULT;
-int     key_right = KEYRIGHT_DEFAULT;
-int     key_left = KEYLEFT_DEFAULT;
-int     key_up = KEYUP_DEFAULT;
-int     key_up2 = KEYUP2_DEFAULT;
 int     key_down = KEYDOWN_DEFAULT;
 int     key_down2 = KEYDOWN2_DEFAULT;
+int     key_fire = KEYFIRE_DEFAULT;
+int     key_left = KEYLEFT_DEFAULT;
+int     key_menu = KEY_ESCAPE;
+int     key_nextweapon = KEYNEXTWEAPON_DEFAULT;
+int     key_prevweapon = KEYPREVWEAPON_DEFAULT;
+int     key_right = KEYRIGHT_DEFAULT;
+int     key_run = KEYRUN_DEFAULT;
+int     key_strafe = KEYSTRAFE_DEFAULT;
 int     key_strafeleft = KEYSTRAFELEFT_DEFAULT;
 int     key_strafeleft2 = KEYSTRAFELEFT2_DEFAULT;
 int     key_straferight = KEYSTRAFERIGHT_DEFAULT;
 int     key_straferight2 = KEYSTRAFERIGHT2_DEFAULT;
-int     key_fire = KEYFIRE_DEFAULT;
+int     key_up = KEYUP_DEFAULT;
+int     key_up2 = KEYUP2_DEFAULT;
 int     key_use = KEYUSE_DEFAULT;
-int     key_strafe = KEYSTRAFE_DEFAULT;
-int     key_run = KEYRUN_DEFAULT;
 int     key_weapon1 = KEYWEAPON1_DEFAULT;
 int     key_weapon2 = KEYWEAPON2_DEFAULT;
 int     key_weapon3 = KEYWEAPON3_DEFAULT;
@@ -75,17 +76,14 @@ int     key_weapon4 = KEYWEAPON4_DEFAULT;
 int     key_weapon5 = KEYWEAPON5_DEFAULT;
 int     key_weapon6 = KEYWEAPON6_DEFAULT;
 int     key_weapon7 = KEYWEAPON7_DEFAULT;
-int     key_prevweapon = KEYPREVWEAPON_DEFAULT;
-int     key_nextweapon = KEYNEXTWEAPON_DEFAULT;
-int     key_alwaysrun = KEYALWAYSRUN_DEFAULT;
 
 int     mousebfire = MOUSEFIRE_DEFAULT;
-int     mousebstrafe = MOUSESTRAFE_DEFAULT;
-int     mousebrun = MOUSERUN_DEFAULT;
 int     mousebforward = MOUSEFORWARD_DEFAULT;
-int     mousebuse = MOUSEUSE_DEFAULT;
-int     mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
 int     mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
+int     mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
+int     mousebrun = MOUSERUN_DEFAULT;
+int     mousebstrafe = MOUSESTRAFE_DEFAULT;
+int     mousebuse = MOUSEUSE_DEFAULT;
 
 int     gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
 int     gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
@@ -99,8 +97,6 @@ int     gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
 int     gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
 int     gamepadfire = GAMEPADFIRE_DEFAULT;
 int     gamepadmenu = GAMEPADMENU_DEFAULT;
-int     gamepadleftdeadzone;
-int     gamepadrightdeadzone;
 int     gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 int     gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 int     gamepadrun = GAMEPADRUN_DEFAULT;

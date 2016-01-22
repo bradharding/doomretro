@@ -95,24 +95,8 @@ extern int      currentmotorspeed;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;
 extern float    gamepadsensitivity;
-
-extern int      gamepadalwaysrun;
-extern int      gamepadautomap;
-extern int      gamepadfire;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
-extern int      gamepadmenu;
-extern int      gamepadnextweapon;
-extern int      gamepadprevweapon;
-extern int      gamepadrun;
-extern int      gamepaduse;
-extern int      gamepadweapon1;
-extern int      gamepadweapon2;
-extern int      gamepadweapon3;
-extern int      gamepadweapon4;
-extern int      gamepadweapon5;
-extern int      gamepadweapon6;
-extern int      gamepadweapon7;
 
 extern int      gp_sensitivity;
 extern dboolean gp_swapthumbsticks;

@@ -52,6 +52,7 @@ static XINPUTSETSTATE pXInputSetState;
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "m_config.h"
+#include "m_controls.h"
 #include "m_fixed.h"
 #include "m_misc.h"
 #include "SDL.h"
@@ -67,6 +68,8 @@ short                   gamepadthumbLX = 0;
 short                   gamepadthumbLY = 0;
 short                   gamepadthumbRX = 0;
 float                   gamepadsensitivity;
+int                     gamepadleftdeadzone;
+int                     gamepadrightdeadzone;
 
 dboolean                vibrate = false;
 

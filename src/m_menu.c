@@ -2318,7 +2318,7 @@ dboolean M_Responder(event_t *ev)
             // previous/exit menu
             else if (gamepadbuttons & GAMEPAD_B)
             {
-                key = KEY_ESCAPE;
+                key = KEY_BACKSPACE;
                 gamepadwait = I_GetTime() + 8;
                 gamepadpress = true;
                 usinggamepad = true;
@@ -2327,7 +2327,7 @@ dboolean M_Responder(event_t *ev)
             // exit menu
             else if (gamepadbuttons & gamepadmenu)
             {
-                key = KEY_ESCAPE;
+                key = key_menu;
                 currentMenu = &MainDef;
                 itemOn = MainDef.lastOn;
                 gamepadwait = I_GetTime() + 8;
@@ -2380,7 +2380,7 @@ dboolean M_Responder(event_t *ev)
             // open menu
             if (gamepadbuttons & gamepadmenu)
             {
-                key = KEY_ESCAPE;
+                key = key_menu;
                 gamepadwait = I_GetTime() + 8;
                 usinggamepad = true;
             }
@@ -2399,7 +2399,7 @@ dboolean M_Responder(event_t *ev)
         // previous menu
         else if (ev->data1 & MOUSE_RIGHTBUTTON)
         {
-            key = KEY_ESCAPE;
+            key = KEY_BACKSPACE;
             mousewait = I_GetTime() + 5;
             usinggamepad = false;
         }
@@ -2566,7 +2566,7 @@ dboolean M_Responder(event_t *ev)
     if (messageToPrint && !keydown)
     {
         keydown = key;
-        if (messageNeedsInput && key != KEY_ESCAPE && tolower(key) != 'y' && tolower(key) != 'n'
+        if (messageNeedsInput && key != key_menu && tolower(key) != 'y' && tolower(key) != 'n'
             && !(modstate & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
@@ -2796,7 +2796,7 @@ dboolean M_Responder(event_t *ev)
     // Pop-up menu?
     if (!menuactive)
     {
-        if (key == KEY_ESCAPE && !keydown && !splashscreen && !consoleheight)
+        if (key == key_menu && !keydown && !splashscreen && !consoleheight)
         {
             keydown = key;
             if (paused)
@@ -3012,7 +3012,7 @@ dboolean M_Responder(event_t *ev)
             return skipaction;
         }
 
-        else if ((key == KEY_ESCAPE || key == KEY_BACKSPACE) && !keydown)
+        else if ((key == key_menu || key == KEY_BACKSPACE) && !keydown)
         {
             // Deactivate menu or go back to previous menu
             keydown = key;
