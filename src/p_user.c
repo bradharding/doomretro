@@ -110,8 +110,8 @@ void P_CalcHeight(player_t *player)
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        player->bob = (bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 100) :
-            MAXBOB * stillbob / 100);
+        player->bob = (bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) :
+            MAXBOB * stillbob / 400);
 
         bob = FixedMul(player->bob / 2, finesine[angle]);
 
