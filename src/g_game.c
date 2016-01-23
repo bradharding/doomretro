@@ -528,6 +528,7 @@ void G_DoLoadLevel(void)
         int     i;
 
         p->health = initial_health;
+        p->backpack = false;
         p->armorpoints = 0;
         p->armortype = NOARMOR;
         p->readyweapon = p->pendingweapon = wp_pistol;
@@ -537,6 +538,7 @@ void G_DoLoadLevel(void)
         memset(p->weaponowned, false, sizeof(p->weaponowned));
         p->weaponowned[wp_fist] = true;
         p->weaponowned[wp_pistol] = true;
+        memset(p->ammo, false, sizeof(p->ammo));
         p->ammo[am_clip] = initial_bullets;
 
         for (i = 0; i < NUMAMMO; ++i)
