@@ -453,6 +453,34 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 }
 
 //
+// G_ResetPlayer
+// [BH] Reset player's health, armor, weapons and ammo
+//
+static void G_ResetPlayer(player_t *player)
+{
+    int     i;
+
+    player->health = initial_health;
+
+    player->armorpoints = 0;
+    player->armortype = NOARMOR;
+
+    player->readyweapon = player->pendingweapon = wp_pistol;
+    player->preferredshotgun = wp_shotgun;
+    player->fistorchainsaw = wp_fist;
+    player->shotguns = false;
+    memset(player->weaponowned, false, sizeof(player->weaponowned));
+    player->weaponowned[wp_fist] = true;
+    player->weaponowned[wp_pistol] = true;
+
+    memset(player->ammo, false, sizeof(player->ammo));
+    player->ammo[am_clip] = initial_bullets;
+    for (i = 0; i < NUMAMMO; ++i)
+        player->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
+    player->backpack = false;
+}
+
+//
 // G_DoLoadLevel
 //
 void G_DoLoadLevel(void)
@@ -523,27 +551,9 @@ void G_DoLoadLevel(void)
     p->deaths = 0;
     memset(p->mobjcount, 0, sizeof(p->mobjcount));
 
+    // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if (pistolstart)
-    {
-        int     i;
-
-        p->health = initial_health;
-        p->backpack = false;
-        p->armorpoints = 0;
-        p->armortype = NOARMOR;
-        p->readyweapon = p->pendingweapon = wp_pistol;
-        p->preferredshotgun = wp_shotgun;
-        p->fistorchainsaw = wp_fist;
-        p->shotguns = false;
-        memset(p->weaponowned, false, sizeof(p->weaponowned));
-        p->weaponowned[wp_fist] = true;
-        p->weaponowned[wp_pistol] = true;
-        memset(p->ammo, false, sizeof(p->ammo));
-        p->ammo[am_clip] = initial_bullets;
-
-        for (i = 0; i < NUMAMMO; ++i)
-            p->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
-    }
+        G_ResetPlayer(p);
 
     M_ClearRandom();
 
