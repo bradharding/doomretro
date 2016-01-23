@@ -329,6 +329,7 @@ static void mapstats_cmd_func2(char *, char *, char *, char *);
 static void noclip_cmd_func2(char *, char *, char *, char *);
 static void nomonsters_cmd_func2(char *, char *, char *, char *);
 static void notarget_cmd_func2(char *, char *, char *, char *);
+static void pistolstart_cmd_func2(char *, char *, char *, char *);
 static void playerstats_cmd_func2(char *, char *, char *, char *);
 static void quit_cmd_func2(char *, char *, char *, char *);
 static dboolean resurrect_cmd_func1(char *, char *, char *, char *);
@@ -451,6 +452,7 @@ consolecmd_t consolecmds[] =
     CMD       (noclip, "", game_func1, noclip_cmd_func2, 1, "[on|off]", "Toggles collision detection for the player."),
     CMD       (nomonsters, "", null_func1, nomonsters_cmd_func2, 1, "[on|off]", "Toggles the presence of monsters in maps."),
     CMD       (notarget, "", game_func1, notarget_cmd_func2, 1, "[on|off]", "Toggles the player as a target."),
+    CMD       (pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[on|off]", "Toggles resetting the player's health, armor, weapons and ammo at the\nstart of each map."),
     CMD       (playerstats, "", null_func1, playerstats_cmd_func2, 0, "", "Shows statistics about the player."),
     CMD       (quit, exit, null_func1, quit_cmd_func2, 0, "", "Quits ~"PACKAGE_NAME"~."),
     CMD       (resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "", "Resurrects the player."),
@@ -1995,6 +1997,28 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else
         HU_PlayerMessage(s_STSTR_NTOFF, false);
+}
+
+//
+// pistolstart cmd
+//
+static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    player_t    *player = &players[0];
+
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0)
+            player->cheats &= ~CF_PISTOLSTART;
+        else if (value == 1)
+            player->cheats |= CF_PISTOLSTART;
+    }
+    else
+        player->cheats ^= CF_PISTOLSTART;
+
+    HU_PlayerMessage((player->cheats & CF_PISTOLSTART ? s_STSTR_PSON : s_STSTR_PSOFF), false);
 }
 
 static void C_PlayerStats_Game(void)

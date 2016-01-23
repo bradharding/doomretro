@@ -460,6 +460,7 @@ void G_DoLoadLevel(void)
     int         ep;
     int         map = (gameepisode - 1) * 10 + gamemap;
     char        *author = P_GetMapAuthor(map);
+    player_t    *p = &players[0];
 
     HU_DrawDisk();
 
@@ -511,16 +512,36 @@ void G_DoLoadLevel(void)
 
     gamestate = GS_LEVEL;
 
-    if (players[0].playerstate == PST_DEAD)
-        players[0].playerstate = PST_REBORN;
+    if (p->playerstate == PST_DEAD)
+        p->playerstate = PST_REBORN;
 
-    players[0].damageinflicted = 0;
-    players[0].damagereceived = 0;
-    players[0].cheated = 0;
-    players[0].shotshit = 0;
-    players[0].shotsfired = 0;
-    players[0].deaths = 0;
-    memset(players[0].mobjcount, 0, sizeof(players[0].mobjcount));
+    p->damageinflicted = 0;
+    p->damagereceived = 0;
+    p->cheated = 0;
+    p->shotshit = 0;
+    p->shotsfired = 0;
+    p->deaths = 0;
+    memset(p->mobjcount, 0, sizeof(p->mobjcount));
+
+    if (p->cheats & CF_PISTOLSTART)
+    {
+        int     i;
+
+        p->health = initial_health;
+        p->armorpoints = 0;
+        p->armortype = NOARMOR;
+        p->readyweapon = p->pendingweapon = wp_pistol;
+        p->preferredshotgun = wp_shotgun;
+        p->fistorchainsaw = wp_fist;
+        p->shotguns = false;
+        memset(p->weaponowned, false, sizeof(p->weaponowned));
+        p->weaponowned[wp_fist] = true;
+        p->weaponowned[wp_pistol] = true;
+        p->ammo[am_clip] = initial_bullets;
+
+        for (i = 0; i < NUMAMMO; ++i)
+            p->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
+    }
 
     M_ClearRandom();
 

@@ -330,6 +330,8 @@ extern char     *s_STSTR_GODON;
 extern char     *s_STSTR_GODOFF;
 extern char     *s_STSTR_NMON;
 extern char     *s_STSTR_NMOFF;
+extern char     *s_STSTR_PSON;
+extern char     *s_STSTR_PSOFF;
 
 extern char     *s_E1TEXT;
 extern char     *s_E2TEXT;
