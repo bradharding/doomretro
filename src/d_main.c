@@ -1280,14 +1280,15 @@ static void D_DoomMainSetup(void)
     D_ProcessDehCommandLine();
 
     if (nomonsters = M_CheckParm("-nomonsters"))
-        C_Output("Found -NOMONSTERS parameter on command-line. No monsters will be spawned.");
+        C_Output("A -NOMONSTERS parameter was found on the command-line. No monsters will be "
+            "spawned.");
 
     if (pistolstart = M_CheckParm("-pistolstart"))
-        C_Output("Found -PISTOLSTART parameter on command-line. The player's health, armor, "
-            "weapons and ammo will be reset at the start of each map.");
+        C_Output("A -PISTOLSTART parameter was found on the command-line. The player will start "
+            "maps with only a pistol.");
 
     if (fastparm = M_CheckParm("-fast"))
-        C_Output("Found -FAST parameter on command-line. Monsters will be faster.");
+        C_Output("A -FAST parameter was found on the command-line. Monsters will be faster.");
 
     devparm = M_CheckParm("-devparm");
 
@@ -1305,7 +1306,8 @@ static void D_DoomMainSetup(void)
         forwardmove[1] *= scale / 100;
         sidemove[0] *= scale / 100;
         sidemove[1] *= scale / 100;
-        C_Output("Found -TURBO parameter on command-line. The player will be %i%% faster.", scale);
+        C_Output("A -TURBO parameter was found on the command-line. The player will be %i%% "
+            "faster.", scale);
     }
 
     // Load configuration files before initializing other subsystems.
@@ -1479,8 +1481,8 @@ static void D_DoomMainSetup(void)
 
             skilllevel = startskill = (skill_t)temp;
             M_SaveCVARs();
-            C_Output("Found -SKILL parameter on command-line. Skill level is now \"%s\".",
-                skilllevels[startskill]);
+            C_Output("A -SKILL parameter was found on the command-line. The skill level is now "
+                "\"%s\".", skilllevels[startskill]);
         }
     }
 
@@ -1511,8 +1513,8 @@ static void D_DoomMainSetup(void)
             else
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
-            C_Output("Found -EPISODE parameter on command-line. Episode is now \"%s\".",
-                episodes[episode]);
+            C_Output("An -EPISODE parameter was found on the command-line. The episode is now "
+                "\"%s\".", episodes[episode]);
         }
     }
 
@@ -1536,19 +1538,19 @@ static void D_DoomMainSetup(void)
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("Found -EXPANSION parameter on command-line. Expansion is now \"%s\".",
-                expansions[expansion]);
+            C_Output("An -EXPANSION parameter was found on the command-line. The expansion is now "
+                "\"%s\".", expansions[expansion]);
         }
     }
 
     p = M_CheckParmWithArgs("-warp", 1, 1);
     if (p)
-        C_Output("Found -WARP parameter on command-line.");
+        C_Output("A -WARP parameter was found on the command-line.");
     else
     {
         p = M_CheckParmWithArgs("+map", 1, 1);
         if (p)
-            C_Output("Found +MAP parameter on command-line.");
+            C_Output("A +MAP parameter was found on the command-line.");
     }
     if (p)
     {

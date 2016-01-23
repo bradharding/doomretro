@@ -452,7 +452,7 @@ consolecmd_t consolecmds[] =
     CMD       (noclip, "", game_func1, noclip_cmd_func2, 1, "[on|off]", "Toggles collision detection for the player."),
     CMD       (nomonsters, "", null_func1, nomonsters_cmd_func2, 1, "[on|off]", "Toggles the presence of monsters in maps."),
     CMD       (notarget, "", game_func1, notarget_cmd_func2, 1, "[on|off]", "Toggles the player as a target."),
-    CMD       (pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[on|off]", "Toggles resetting the player's health, armor, weapons and ammo at the\nstart of each map."),
+    CMD       (pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[on|off]", "Toggles the player starting each map with only a pistol."),
     CMD       (playerstats, "", null_func1, playerstats_cmd_func2, 0, "", "Shows statistics about the player."),
     CMD       (quit, exit, null_func1, quit_cmd_func2, 0, "", "Quits ~"PACKAGE_NAME"~."),
     CMD       (resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "", "Resurrects the player."),

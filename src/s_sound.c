@@ -140,7 +140,6 @@ static void InitMusicModule(void)
     C_Warning("The initialization of music failed.");
 }
 
-dboolean nosound = false;
 dboolean nosfx = false;
 dboolean nomusic = false;
 
@@ -153,56 +152,55 @@ void S_Init(int sfxvol, int musicvol)
 {
     if (M_CheckParm("-nosound") > 0)
     {
-        C_Output("Found -NOSOUND parameter on command-line. Music and SFX have been disabled.");
-        nosound = true;
+        C_Output("A -NOSOUND parameter was found on the command-line. Both sound effects and "
+            "music have been disabled.");
         nomusic = true;
         nosfx = true;
     }
+
     if (M_CheckParm("-nomusic") > 0)
     {
-        C_Output("Found -NOMUSIC parameter on command-line. Music has been disabled.");
+        C_Output("A -NOMUSIC parameter was found on the command-line. Music has been disabled.");
         nomusic = true;
     }
+
     if (M_CheckParm("-nosfx") > 0)
     {
-        C_Output("Found -NOSFX parameter on command-line. SFX have been disabled.");
+        C_Output("A -NOSFX parameter was found on the command-line. Sound effects have been "
+            "disabled.");
         nosfx = true;
     }
 
-    // Initialize the sound and music subsystems.
-    if (!nosound)
+    // This is kind of a hack. If native MIDI is enabled, set up
+    // the TIMIDITY_CFG environment variable here before SDL_mixer
+    // is opened.
+    if (!nomusic)
+        I_InitTimidityConfig();
+
+    if (!nosfx)
     {
-        // This is kind of a hack. If native MIDI is enabled, set up
-        // the TIMIDITY_CFG environment variable here before SDL_mixer
-        // is opened.
-        if (!nomusic)
-            I_InitTimidityConfig();
+        int i;
 
-        if (!nosfx)
-        {
-            int i;
+        InitSfxModule();
+        S_SetSfxVolume(sfxvol);
 
-            InitSfxModule();
-            S_SetSfxVolume(sfxvol);
+        // Allocating the internal channels for mixing
+        // (the maximum number of sounds rendered
+        // simultaneously) within zone memory.
+        channels = (channel_t *)calloc(numChannels, sizeof(channel_t));
 
-            // Allocating the internal channels for mixing
-            // (the maximum number of sounds rendered
-            // simultaneously) within zone memory.
-            channels = (channel_t *)calloc(numChannels, sizeof(channel_t));
+        // Note that sounds have not been cached (yet).
+        for (i = 1; i < NUMSFX; i++)
+            S_sfx[i].lumpnum = -1;
+    }
 
-            // Note that sounds have not been cached (yet).
-            for (i = 1; i < NUMSFX; i++)
-                S_sfx[i].lumpnum = -1;
-        }
+    if (!nomusic)
+    {
+        InitMusicModule();
+        S_SetMusicVolume(musicvol);
 
-        if (!nomusic)
-        {
-            InitMusicModule();
-            S_SetMusicVolume(musicvol);
-
-            // no sounds are playing, and they are not mus_paused
-            mus_paused = false;
-        }
+        // no sounds are playing, and they are not mus_paused
+        mus_paused = false;
     }
 }
 
