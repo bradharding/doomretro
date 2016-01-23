@@ -552,7 +552,7 @@ void G_DoLoadLevel(void)
     memset(p->mobjcount, 0, sizeof(p->mobjcount));
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
-    if (pistolstart)
+    if (pistolstart || P_GetMapPistolStart(map))
         G_ResetPlayer(p);
 
     M_ClearRandom();
@@ -715,6 +715,7 @@ dboolean G_Responder(event_t *ev)
             else if (key < NUMKEYS)
             {
                 gamekeydown[key] = true;
+                    C_ValidateInput(gamekeyaction[key]);
                 if (vibrate)
                 {
                     vibrate = false;

@@ -67,9 +67,10 @@
 #define MCMD_NEXT               4
 #define MCMD_NOLIQUID           5
 #define MCMD_PAR                6
-#define MCMD_SECRETNEXT         7
-#define MCMD_SKY1               8
-#define MCMD_TITLEPATCH         9
+#define MCMD_PISTOLSTART        7
+#define MCMD_SECRETNEXT         8
+#define MCMD_SKY1               9
+#define MCMD_TITLEPATCH         10
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -82,6 +83,7 @@ struct mapinfo_s
     int         next;
     int         noliquid[NUMLIQUIDS];
     int         par;
+    dboolean    pistolstart;
     int         secretnext;
     int         sky1texture;
     int         sky1scrolldelta;
@@ -171,6 +173,7 @@ static char *mapcmdnames[] =
     "NEXT",
     "NOLIQUID",
     "PAR",
+    "PISTOLSTART",
     "SECRETNEXT",
     "SKY1",
     "TITLEPATCH",
@@ -185,6 +188,7 @@ static int mapcmdids[] =
     MCMD_NEXT,
     MCMD_NOLIQUID,
     MCMD_PAR,
+    MCMD_PISTOLSTART,
     MCMD_SECRETNEXT,
     MCMD_SKY1,
     MCMD_TITLEPATCH
@@ -2232,6 +2236,10 @@ static void InitMapInfo(void)
                         info->par = sc_Number;
                         break;
 
+                    case MCMD_PISTOLSTART:
+                        info->pistolstart = true;
+                        break;
+
                     case MCMD_SECRETNEXT:
                     {
                         int     nextepisode = 0;
@@ -2322,6 +2330,11 @@ void P_GetMapNoLiquids(int map)
 int P_GetMapPar(int map)
 {
     return (MAPINFO ? mapinfo[QualifyMap(map)].par : 0);
+}
+
+dboolean P_GetMapPistolStart(int map)
+{
+    return (MAPINFO ? mapinfo[QualifyMap(map)].pistolstart : false);
 }
 
 int P_GetMapSecretNext(int map)
