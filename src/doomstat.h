@@ -51,6 +51,7 @@
 // Command line parameters.
 //
 extern  dboolean        nomonsters;     // checkparm of -nomonsters
+extern  dboolean        pistolstart;    // [BH] checkparm of -pistolstart
 extern  dboolean        fastparm;       // checkparm of -fast
 
 extern  dboolean        devparm;        // DEBUG: launched with -devparm

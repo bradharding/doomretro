@@ -523,7 +523,7 @@ void G_DoLoadLevel(void)
     p->deaths = 0;
     memset(p->mobjcount, 0, sizeof(p->mobjcount));
 
-    if (p->cheats & CF_PISTOLSTART)
+    if (pistolstart)
     {
         int     i;
 

@@ -105,6 +105,7 @@ char                    *packageconfig;
 
 dboolean                devparm;        // started game with -devparm
 dboolean                nomonsters;     // checkparm of -nomonsters
+dboolean                pistolstart;    // [BH] checkparm of -pistolstart
 dboolean                fastparm;       // checkparm of -fast
 
 unsigned int            stat_runs = 0;
@@ -1280,6 +1281,10 @@ static void D_DoomMainSetup(void)
 
     if (nomonsters = M_CheckParm("-nomonsters"))
         C_Output("Found -NOMONSTERS parameter on command-line. No monsters will be spawned.");
+
+    if (pistolstart = M_CheckParm("-pistolstart"))
+        C_Output("Found -PISTOLSTART parameter on command-line. The player's health, armor, "
+            "weapons and ammo will be reset at the start of each map.");
 
     if (fastparm = M_CheckParm("-fast"))
         C_Output("Found -FAST parameter on command-line. Monsters will be faster.");

@@ -93,9 +93,7 @@ typedef enum
 
     CF_ALLMAP_THINGS    = 32,
 
-    CF_CHOPPERS         = 64,
-
-    CF_PISTOLSTART      = 128
+    CF_CHOPPERS         = 64
 } cheat_t;
 
 //

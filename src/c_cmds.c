@@ -2004,21 +2004,19 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    player_t    *player = &players[0];
-
     if (parm1[0])
     {
         int     value = C_LookupValueFromAlias(parm1, 1);
 
         if (value == 0)
-            player->cheats &= ~CF_PISTOLSTART;
+            pistolstart = false;
         else if (value == 1)
-            player->cheats |= CF_PISTOLSTART;
+            pistolstart = true;
     }
     else
-        player->cheats ^= CF_PISTOLSTART;
+        pistolstart = !pistolstart;
 
-    HU_PlayerMessage((player->cheats & CF_PISTOLSTART ? s_STSTR_PSON : s_STSTR_PSOFF), false);
+    HU_PlayerMessage((pistolstart ? s_STSTR_PSON : s_STSTR_PSOFF), false);
 }
 
 static void C_PlayerStats_Game(void)
