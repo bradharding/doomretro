@@ -1280,15 +1280,14 @@ static void D_DoomMainSetup(void)
     D_ProcessDehCommandLine();
 
     if (nomonsters = M_CheckParm("-nomonsters"))
-        C_Output("A -NOMONSTERS parameter was found on the command-line. No monsters will be "
-            "spawned.");
+        C_Output("\"-NOMONSTERS\" was found on the command-line. No monsters will be spawned.");
 
     if (pistolstart = M_CheckParm("-pistolstart"))
-        C_Output("A -PISTOLSTART parameter was found on the command-line. The player will start "
-            "maps with only a pistol.");
+        C_Output("\"-PISTOLSTART\" was found on the command-line. The player will start each map "
+            "with only a pistol.");
 
     if (fastparm = M_CheckParm("-fast"))
-        C_Output("A -FAST parameter was found on the command-line. Monsters will be faster.");
+        C_Output("\"-FAST\" was found on the command-line. Monsters will be faster.");
 
     devparm = M_CheckParm("-devparm");
 
@@ -1306,8 +1305,8 @@ static void D_DoomMainSetup(void)
         forwardmove[1] *= scale / 100;
         sidemove[0] *= scale / 100;
         sidemove[1] *= scale / 100;
-        C_Output("A -TURBO parameter was found on the command-line. The player will be %i%% "
-            "faster.", scale);
+        C_Output("\"-TURBO %s\" was found on the command-line. The player will be %i%% faster.",
+            myargv[p + 1], scale);
     }
 
     // Load configuration files before initializing other subsystems.
@@ -1376,7 +1375,7 @@ static void D_DoomMainSetup(void)
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
-                "specifying one with the '-iwad' command-line parameter.");
+                "specifying one with the -IWAD command-line parameter.");
 
     if (!W_MergeFile(packagewad, true))
         I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
@@ -1481,8 +1480,8 @@ static void D_DoomMainSetup(void)
 
             skilllevel = startskill = (skill_t)temp;
             M_SaveCVARs();
-            C_Output("A -SKILL parameter was found on the command-line. The skill level is now "
-                "\"%s\".", skilllevels[startskill]);
+            C_Output("\"-SKILL %s\" was found on the command-line. The skill level is now \"%s\".",
+                myargv[p + 1], skilllevels[startskill]);
         }
     }
 
@@ -1491,10 +1490,8 @@ static void D_DoomMainSetup(void)
     {
         int     temp = myargv[p + 1][0] - '0';
 
-        if ((gamemode == shareware && temp == 1)
-            || (temp >= 1
-                && ((gamemode == registered && temp <= 3)
-                    || (gamemode == retail && temp <= 4))))
+        if ((gamemode == shareware && temp == 1) || (temp >= 1 && ((gamemode == registered
+            && temp <= 3) || (gamemode == retail && temp <= 4))))
         {
             char *episodes[] =
             {
@@ -1513,8 +1510,8 @@ static void D_DoomMainSetup(void)
             else
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
-            C_Output("An -EPISODE parameter was found on the command-line. The episode is now "
-                "\"%s\".", episodes[episode]);
+            C_Output("\"-EPISODE %s\" was found on the command-line. The episode is now \"%s\".",
+                myargv[p + 1], episodes[episode]);
         }
     }
 
@@ -1538,19 +1535,19 @@ static void D_DoomMainSetup(void)
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An -EXPANSION parameter was found on the command-line. The expansion is now "
-                "\"%s\".", expansions[expansion]);
+            C_Output("\"-EXPANSION %s\" was found on the command-line. The expansion is now "
+                "\"%s\".", myargv[p + 1], expansions[expansion]);
         }
     }
 
     p = M_CheckParmWithArgs("-warp", 1, 1);
     if (p)
-        C_Output("A -WARP parameter was found on the command-line.");
+        C_Output("\"-WARP %s\" was found on the command-line.", myargv[p + 1]);
     else
     {
         p = M_CheckParmWithArgs("+map", 1, 1);
         if (p)
-            C_Output("A +MAP parameter was found on the command-line.");
+            C_Output("\"+MAP %s\" was found on the command-line.", myargv[p + 1]);
     }
     if (p)
     {

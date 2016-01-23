@@ -152,22 +152,21 @@ void S_Init(int sfxvol, int musicvol)
 {
     if (M_CheckParm("-nosound") > 0)
     {
-        C_Output("A -NOSOUND parameter was found on the command-line. Both sound effects and "
-            "music have been disabled.");
+        C_Output("\"-NOSOUND\" was found on the command-line. Both sound effects and music have "
+            "been disabled.");
         nomusic = true;
         nosfx = true;
     }
 
     if (M_CheckParm("-nomusic") > 0)
     {
-        C_Output("A -NOMUSIC parameter was found on the command-line. Music has been disabled.");
+        C_Output("\"-NOMUSIC\" was found on the command-line. Music has been disabled.");
         nomusic = true;
     }
 
     if (M_CheckParm("-nosfx") > 0)
     {
-        C_Output("A -NOSFX parameter was found on the command-line. Sound effects have been "
-            "disabled.");
+        C_Output("\"-NOSFX\" was found on the command-line. Sound effects have been disabled.");
         nosfx = true;
     }
 
