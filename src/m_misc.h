@@ -71,7 +71,7 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement);
 char *M_StringJoin(char *s, ...);
 dboolean M_StringStartsWith(char *s, char *prefix);
 dboolean M_StringEndsWith(char *s, char *suffix);
-int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
+int M_vsnprintf(char *buf, size_t buf_len, const char *s, __va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 char *M_SubString(const char *str, size_t begin, size_t len);
 dboolean M_StringCompare(const char *str1, const char *str2);
