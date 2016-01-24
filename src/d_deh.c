@@ -165,7 +165,7 @@ char    *s_GOTYELWCARD = GOTYELWCARD;
 char    *s_GOTREDCARD = GOTREDCARD;
 char    *s_GOTBLUESKUL = GOTBLUESKUL;
 char    *s_GOTYELWSKUL = GOTYELWSKUL;
-char    *s_GOTREDSKULL = GOTREDSKULL;
+char    *s_GOTREDSKUL = GOTREDSKUL;
 
 char    *s_GOTINVUL = GOTINVUL;
 char    *s_GOTBERSERK = GOTBERSERK;
@@ -629,7 +629,7 @@ deh_strs deh_strlookup[] =
     { &s_GOTREDCARD,           "GOTREDCARD",           false },
     { &s_GOTBLUESKUL,          "GOTBLUESKUL",          false },
     { &s_GOTYELWSKUL,          "GOTYELWSKUL",          false },
-    { &s_GOTREDSKULL,          "GOTREDSKULL",          false },
+    { &s_GOTREDSKUL,           "GOTREDSKUL",           false },
 
     { &s_GOTINVUL,             "GOTINVUL",             false },
     { &s_GOTBERSERK,           "GOTBERSERK",           false },

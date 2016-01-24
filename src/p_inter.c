@@ -704,7 +704,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->cards[it_redskull] <= 0)
             {
                 P_GiveCard(player, it_redskull);
-                HU_PlayerMessage(s_GOTREDSKULL, true);
+                HU_PlayerMessage(s_GOTREDSKUL, true);
                 break;
             }
             return;
