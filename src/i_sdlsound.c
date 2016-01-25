@@ -134,7 +134,7 @@ static dboolean FindAndFreeSound(void)
 
     while (snd)
     {
-        if (snd->use_count == 0)
+        if (!snd->use_count)
         {
             FreeAllocatedSound(snd);
             return true;

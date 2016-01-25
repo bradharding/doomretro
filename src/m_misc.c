@@ -412,14 +412,14 @@ dboolean M_StringCompare(const char *str1, const char *str2)
 // Returns true if 's' begins with the specified prefix.
 dboolean M_StringStartsWith(char *s, char *prefix)
 {
-    return (strlen(s) > strlen(prefix) && strncasecmp(s, prefix, strlen(prefix)) == 0);
+    return (strlen(s) > strlen(prefix) && !strncasecmp(s, prefix, strlen(prefix)));
 }
 
 // Returns true if 's' ends with the specified suffix.
 dboolean M_StringEndsWith(char *s, char *suffix)
 {
-    return (strlen(s) >= strlen(suffix) && !M_StringCompare(s + strlen(s) - strlen(suffix),
-        suffix) == 0);
+    return (strlen(s) >= strlen(suffix) && M_StringCompare(s + strlen(s) - strlen(suffix),
+        suffix));
 }
 
 // Safe, portable vsnprintf().

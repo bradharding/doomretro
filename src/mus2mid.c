@@ -488,7 +488,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     if (mem_fread(&controllervalue, 1, 1, musinput) != 1)
                         return true;
 
-                    if (controllernumber == 0)
+                    if (!controllernumber)
                     {
                         if (WriteChangePatch(channel, controllervalue, midioutput))
                             return true;
@@ -528,7 +528,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     return true;
 
                 timedelay = timedelay * 128 + (working & 0x7F);
-                if ((working & 0x80) == 0)
+                if (!(working & 0x80))
                     break;
             }
             queuedtime += timedelay;

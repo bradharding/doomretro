@@ -769,12 +769,13 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         // ammo
         case SPR_CLIP:
-            if (!(ammo = P_GiveAmmo(player, am_clip, (special->flags & MF_DROPPED) == 0)))
+            if (!(ammo = P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED))))
                 return;
             if (ammo == clipammo[am_clip] || (deh_strlookup[p_GOTCLIP].assigned && dehacked))
                 HU_PlayerMessage(s_GOTCLIP, true);
             else
-                HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2), true);
+                HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2),
+                    true);
             break;
 
         case SPR_AMMO:

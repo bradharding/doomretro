@@ -105,7 +105,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
     if ((int)frame > maxframe)
         maxframe = frame;
 
-    if (rotation == 0)
+    if (!rotation)
     {
         int r;
 

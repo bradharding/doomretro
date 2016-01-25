@@ -148,7 +148,7 @@ size_t W_POSIX_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t b
             perror("W_POSIX_Read");
             break;
         }
-        else if (result == 0)
+        else if (!result)
             break;
 
         // Successfully read some bytes
