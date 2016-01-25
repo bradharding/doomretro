@@ -71,6 +71,7 @@ GOTREDCARD = %s picked up a red keycard.
 GOTBLUESKUL = %s picked up a blue skull key.
 GOTYELWSKUL = %s picked up a yellow skull key.
 GOTREDSKUL = %s picked up a red skull key.
+GOTREDSKULL = %s picked up a red skull key.
 GOTINVUL = Invulnerability!
 GOTBERSERK = Berserk!
 GOTINVIS = Partial Invisibility!

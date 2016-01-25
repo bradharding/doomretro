@@ -104,7 +104,7 @@
 #define GOTREDCARD              "Picked up a red keycard."
 #define GOTBLUESKUL             "Picked up a blue skull key."
 #define GOTYELWSKUL             "Picked up a yellow skull key."
-#define GOTREDSKUL              "Picked up a red skull key."
+#define GOTREDSKULL             "Picked up a red skull key."
 
 #define GOTINVUL                "Invulnerability!"
 #define GOTBERSERK              "Berserk!"

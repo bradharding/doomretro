@@ -165,7 +165,8 @@ char    *s_GOTYELWCARD = GOTYELWCARD;
 char    *s_GOTREDCARD = GOTREDCARD;
 char    *s_GOTBLUESKUL = GOTBLUESKUL;
 char    *s_GOTYELWSKUL = GOTYELWSKUL;
-char    *s_GOTREDSKUL = GOTREDSKUL;
+char    *s_GOTREDSKUL = GOTREDSKULL;
+char    *s_GOTREDSKULL = GOTREDSKULL;
 
 char    *s_GOTINVUL = GOTINVUL;
 char    *s_GOTBERSERK = GOTBERSERK;
@@ -630,6 +631,7 @@ deh_strs deh_strlookup[] =
     { &s_GOTBLUESKUL,          "GOTBLUESKUL",          false },
     { &s_GOTYELWSKUL,          "GOTYELWSKUL",          false },
     { &s_GOTREDSKUL,           "GOTREDSKUL",           false },
+    { &s_GOTREDSKULL,          "GOTREDSKULL",          false },
 
     { &s_GOTINVUL,             "GOTINVUL",             false },
     { &s_GOTBERSERK,           "GOTBERSERK",           false },
@@ -3109,6 +3111,15 @@ dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
 
             if (M_StrCaseStr(deh_strlookup[i].lookup, "HUSTR"))
                 addtocount = true;
+
+            // [BH] allow either GOTREDSKUL or GOTREDSKULL
+            if (M_StringCompare(deh_strlookup[i].lookup, "GOTREDSKUL")
+                && !deh_strlookup[p_GOTREDSKULL].assigned)
+            {
+                s_GOTREDSKULL = s_GOTREDSKUL;
+                deh_strlookup[p_GOTREDSKULL].assigned = true;
+                return true;
+            }
 
             break;
         }
