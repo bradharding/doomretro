@@ -57,6 +57,7 @@
 #include "m_cheat.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "m_random.h"
 #include "p_local.h"
 #include "SDL.h"
 #include "SDL_mixer.h"
@@ -612,6 +613,9 @@ static void C_DrawBackground(int height)
 
     for (i = 0; i < height; ++i)
         screens[0][i] = tinttab50[c_blurscreen[i] + consoletintcolor];
+
+    for (i = 0; i < height; ++i)
+        screens[0][i] = colormaps[0][256 * M_RandomInt(0, 10) + screens[0][i]];
 
     for (i = height - 2; i > 1; i -= 3)
     {
