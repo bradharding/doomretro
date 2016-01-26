@@ -543,8 +543,7 @@ static void HU_DrawHUD(void)
 #define ALTHUD_Y        300
 
 #define WHITE           4
-#define GRAY            98
-#define DARKGRAY        104
+#define GRAY            100
 #define GREEN           114
 #define RED             180
 #define BLUE            200
@@ -646,11 +645,12 @@ static int AltHUDNumberWidth(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    int health = MAX(0, plr->health);
-    int armor = plr->armorpoints;
-    int color = (health <= 20 ? RED : (health >= 100 ? GREEN : WHITE));
-    int keys = 0;
-    int i = 0;
+    int         health = MAX(0, plr->health);
+    int         armor = plr->armorpoints;
+    armortype_t armortype = plr->armortype;
+    int         color = (health <= 20 ? RED : (health >= 100 ? GREEN : WHITE));
+    int         keys = 0;
+    int         i = 0;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 34 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     health = MIN(health, 100);
@@ -662,14 +662,10 @@ static void HU_DrawAltHUD(void)
     if (health < 100)
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 158, ALTHUD_Y + 13, altendpatch, 0, 0);
 
+    color = (armortype == NOARMOR ? GRAY : (armortype == GREENARMOR ? 122 : 204));
+    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE, color);
     if (armor)
-    {
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE,
-            (plr->armortype == GREENARMOR ? DARKGRAY : GRAY));
-        V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, armor / 2 + 1, 6, GRAY);
-    }
-    else
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE, DARKGRAY);
+        V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, armor / 2 + 1, 6, color);
 
     if (health)
     {
