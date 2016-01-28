@@ -622,12 +622,10 @@ static void GetUpscaledTextureSize(int width, int height)
 
 void I_Blit(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
-
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -635,12 +633,10 @@ void I_Blit(void)
 
 void I_Blit_NearestLinear(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
-
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
@@ -651,7 +647,6 @@ void I_Blit_NearestLinear(void)
 
 void I_Blit_ShowFPS(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
     static Uint32   starttime;
     static Uint32   currenttime;
@@ -669,7 +664,7 @@ void I_Blit_ShowFPS(void)
     C_UpdateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -677,7 +672,6 @@ void I_Blit_ShowFPS(void)
 
 void I_Blit_NearestLinear_ShowFPS(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
     static Uint32   starttime;
     static Uint32   currenttime;
@@ -695,7 +689,7 @@ void I_Blit_NearestLinear_ShowFPS(void)
     C_UpdateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
@@ -706,13 +700,12 @@ void I_Blit_NearestLinear_ShowFPS(void)
 
 void I_Blit_Shake(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      angle = 1;
 
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, (angle = -angle), NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
@@ -720,13 +713,12 @@ void I_Blit_Shake(void)
 
 void I_Blit_NearestLinear_Shake(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      angle = 1;
 
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, (angle = -angle), NULL, SDL_FLIP_NONE);
@@ -737,7 +729,6 @@ void I_Blit_NearestLinear_Shake(void)
 
 void I_Blit_ShowFPS_Shake(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
     static Uint32   starttime;
     static Uint32   currenttime;
@@ -756,7 +747,7 @@ void I_Blit_ShowFPS_Shake(void)
     C_UpdateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, (angle = -angle), NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
@@ -764,7 +755,6 @@ void I_Blit_ShowFPS_Shake(void)
 
 void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
     static int      frames = -1;
     static Uint32   starttime;
     static Uint32   currenttime;
@@ -783,7 +773,7 @@ void I_Blit_NearestLinear_ShowFPS_Shake(void)
     C_UpdateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, (angle = -angle), NULL, SDL_FLIP_NONE);
@@ -800,10 +790,8 @@ void I_UpdateBlitFunc(void)
 
 void I_Blit_Automap(void)
 {
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
-
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
-    SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, pitch);
+    SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(maprenderer);
     SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
     SDL_RenderPresent(maprenderer);
