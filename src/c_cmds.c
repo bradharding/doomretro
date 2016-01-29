@@ -3124,13 +3124,10 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
 
         GetWindowPosition();
 
-        if (!M_StringCompare(vid_windowposition, parm1))
-        {
-            M_SaveCVARs();
+        M_SaveCVARs();
 
-            if (!vid_fullscreen)
-                SDL_SetWindowPosition(window, windowx, windowy);
-        }
+        if (!vid_fullscreen)
+            SDL_SetWindowPosition(window, windowx, windowy);
     }
     else
         C_Output("%s", vid_windowposition);
@@ -3147,13 +3144,10 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 
         GetWindowSize();
 
-        if (!M_StringCompare(vid_windowsize, parm1))
-        {
-            M_SaveCVARs();
+        M_SaveCVARs();
 
-            if (!vid_fullscreen)
-                SDL_SetWindowSize(window, windowwidth, windowheight);
-        }
+        if (!vid_fullscreen)
+            SDL_SetWindowSize(window, windowwidth, windowheight);
     }
     else
         C_Output(formatsize(vid_windowsize));
