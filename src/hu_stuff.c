@@ -546,7 +546,7 @@ static void HU_DrawHUD(void)
 #define GRAY            100
 #define GREEN           114
 #define RED             180
-#define BLUE            200
+#define BLUE            196
 #define YELLOW          231
 
 typedef struct
@@ -647,7 +647,6 @@ static void HU_DrawAltHUD(void)
 {
     int         health = MAX(0, plr->health);
     int         armor = plr->armorpoints;
-    armortype_t armortype = plr->armortype;
     int         color = (health <= 20 ? RED : (health >= 100 ? GREEN : WHITE));
     int         keys = 0;
     int         i = 0;
@@ -662,10 +661,9 @@ static void HU_DrawAltHUD(void)
     if (health < 100)
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 158, ALTHUD_Y + 13, altendpatch, 0, 0);
 
-    color = (armortype == NOARMOR ? GRAY : (armortype == GREENARMOR ? 122 : 204));
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE, color);
+    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE, GRAY);
     if (armor)
-        V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, armor / 2 + 1, 6, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, armor / 2 + 1, 6, GRAY);
 
     if (health)
     {
