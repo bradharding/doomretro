@@ -546,7 +546,7 @@ static void HU_DrawHUD(void)
 #define GRAY            100
 #define GREEN           114
 #define RED             180
-#define BLUE            196
+#define BLUE            200
 #define YELLOW          231
 
 typedef struct
