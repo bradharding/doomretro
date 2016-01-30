@@ -1827,7 +1827,8 @@ void P_MapName(int ep, int map)
     switch (gamemission)
     {
         case doom:
-            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", ep, map);
+            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, (E1M8B && ep == 1 && map == 8 ?
+                "B" : ""));
             if (mapinfoname[0])
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
