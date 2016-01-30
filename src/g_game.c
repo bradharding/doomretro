@@ -715,7 +715,6 @@ dboolean G_Responder(event_t *ev)
             else if (key < NUMKEYS)
             {
                 gamekeydown[key] = true;
-                    C_ValidateInput(gamekeyaction[key]);
                 if (vibrate)
                 {
                     vibrate = false;
