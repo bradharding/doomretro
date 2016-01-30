@@ -105,6 +105,5 @@ typedef struct
 extern action_t         actions[];
 extern control_t        controls[];
 extern consolecmd_t     consolecmds[];
-extern int              numconsolecmds;
 
 #endif

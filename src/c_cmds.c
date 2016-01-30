@@ -429,8 +429,6 @@ static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
 #define CVAR_TIME(name, alt, cond, func, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc }
 
-int     numconsolecmds;
-
 consolecmd_t consolecmds[] =
 {
     // console commands

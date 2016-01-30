@@ -111,6 +111,7 @@ static int      spacewidth;
 
 static char     consoleinput[255] = "";
 int             consolestrings = 0;
+int             numconsolecmds;
 
 static int      undolevels = 0;
 
