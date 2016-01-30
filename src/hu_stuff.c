@@ -661,9 +661,9 @@ static void HU_DrawAltHUD(void)
     if (health < 100)
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 158, ALTHUD_Y + 13, altendpatch, 0, 0);
 
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y + 1, altarmpatch, WHITE, GRAY);
+    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, GRAY);
     if (armor)
-        V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 2, armor / 2 + 1, 6, GRAY);
+        V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 1, armor / 2 + 1, 6, GRAY);
 
     if (health)
     {
