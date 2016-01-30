@@ -534,30 +534,27 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
     do
     {
         mobj_t  *th;
-        angle_t an = actor->angle;
+        mobj_t  *mo = player->mo;
+        angle_t an = mo->angle;
         angle_t an1 = ((P_Random() & 127) - 64) * (ANG90 / 768) + an;
         angle_t an2 = ((P_Random() & 127) - 64) * (ANG90 / 640) + ANG90;
-        fixed_t slope;
+        fixed_t slope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
 
-        do
+        if (!linetarget)
+            slope = P_AimLineAttack(mo, an += 1 << 26, 16 * 64 * FRACUNIT);
+        if (!linetarget)
+            slope = P_AimLineAttack(mo, an -= 2 << 26, 16 * 64 * FRACUNIT);
+        if (!linetarget)
         {
-            slope = P_AimLineAttack(actor, an, 16 * 64 * FRACUNIT);
-            if (!linetarget)
-                slope = P_AimLineAttack(actor, an += 1 << 26, 16 * 64 * FRACUNIT);
-            if (!linetarget)
-                slope = P_AimLineAttack(actor, an -= 2 << 26, 16 * 64 * FRACUNIT);
-            if (!linetarget)
-            {
-                slope = 0;
-                an = actor->angle;
-            }
-        } while (!linetarget);
-        an1 += an - actor->angle;
+            slope = 0;
+            an = mo->angle;
+        }
+        an1 += an - mo->angle;
         an2 += tantoangle[slope >> DBITS];
 
-        th = P_SpawnMobj(actor->x, actor->y, actor->z + 62 * FRACUNIT
+        th = P_SpawnMobj(mo->x, mo->y, mo->z + 62 * FRACUNIT
             - player->psprites[ps_weapon].sy, type);
-        P_SetTarget(&th->target, actor);
+        P_SetTarget(&th->target, mo);
         th->angle = an1;
         th->momx = finecosine[an1 >> ANGLETOFINESHIFT] * 25;
         th->momy = finesine[an1 >> ANGLETOFINESHIFT] * 25;
