@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include <ctype.h>
 #include <math.h>
 #include <time.h>
 
@@ -1902,6 +1903,14 @@ void P_MapName(int ep, int map)
 
         default:
             break;
+    }
+
+    if (strlen(maptitle) >= 4 && M_StringStartsWith(uppercase(maptitle), "MAP")
+        && isdigit(maptitle[3]))
+    {
+        maptitle[0] = 'M';
+        maptitle[1] = 'A';
+        maptitle[2] = 'P';
     }
 
     if (!mapnumonly)
