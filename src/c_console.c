@@ -609,10 +609,8 @@ static void C_DrawBackground(int height)
     blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
 
     for (i = 0; i < height; ++i)
-        screens[0][i] = tinttab50[c_blurscreen[i] + consoletintcolor];
-
-    for (i = 0; i < height; ++i)
-        screens[0][i] = colormaps[0][256 * M_RandomInt(0, 10) + screens[0][i]];
+        screens[0][i] = colormaps[0][256 * M_RandomInt(0, 10) + tinttab50[c_blurscreen[i]
+            + consoletintcolor]];
 
     for (i = height - 2; i > 1; i -= 3)
     {
