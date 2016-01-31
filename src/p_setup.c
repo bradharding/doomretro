@@ -1905,13 +1905,19 @@ void P_MapName(int ep, int map)
             break;
     }
 
-    if (strlen(maptitle) >= 4 && M_StringStartsWith(uppercase(maptitle), "MAP")
-        && isdigit(maptitle[3]))
-    {
-        maptitle[0] = 'M';
-        maptitle[1] = 'A';
-        maptitle[2] = 'P';
-    }
+    if (strlen(maptitle) >= 4)
+        if (M_StringStartsWith(uppercase(maptitle), "MAP") && isdigit(maptitle[3]))
+        {
+            maptitle[0] = 'M';
+            maptitle[1] = 'A';
+            maptitle[2] = 'P';
+        }
+        else if (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1]) && toupper(maptitle[2]) == 'M'
+            && isdigit(maptitle[3]))
+        {
+            maptitle[0] = 'E';
+            maptitle[2] = 'M';
+        }
 
     if (!mapnumonly)
     {
