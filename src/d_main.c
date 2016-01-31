@@ -1381,7 +1381,7 @@ static void D_DoomMainSetup(void)
         I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
 
     if (!CheckPackageWADVersion())
-        I_Error("The wrong version of %s was found.\nPlease reinstall "PACKAGE_NAME".",
+        I_Error("%s is the wrong version.\nPlease reinstall "PACKAGE_NAME".",
             uppercase(packagewad));
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
