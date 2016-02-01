@@ -1235,9 +1235,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_ExitLevel:
-            // killough 10/98: prevent zombies from exiting levels
-            if (!(thing->player && thing->player->health <= 0))
-                G_ExitLevel();
+            G_ExitLevel();
             break;
 
         case W1_Floor_StartMovingUpAndDown:
