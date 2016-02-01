@@ -531,7 +531,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_corpses_smearblood, "", bool_cvars_func1, bool_cvars_func2, "Toggles corpses producing blood splats as they slide."),
     CVAR_BOOL (r_detail, "", r_detail_cvar_func1, r_detail_cvar_func2, "Toggles the graphic detail (low or high)."),
     CVAR_BOOL (r_diskicon, "", bool_cvars_func1, bool_cvars_func2, "Toggles showing a disk icon when loading and saving."),
-    CVAR_BOOL (r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, "Toggles the fixing of mapping errors in the ~DOOM~ IWADs."),
+    CVAR_BOOL (r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, "Toggles the fixing of mapping errors in the ~DOOM~ and ~DOOM II~ IWADs."),
     CVAR_BOOL (r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, "Toggles the fixing of sprite offsets."),
     CVAR_BOOL (r_floatbob, "", bool_cvars_func1, bool_cvars_func2, "Toggles powerups bobbing up and down."),
     CVAR_FLOAT(r_gamma, "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE, "The gamma correction level (off or 0.50 to 2.0)."),
