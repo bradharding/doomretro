@@ -1467,43 +1467,50 @@ void G_DoSaveGame(void)
     save_stream = fopen(temp_savegame_file, "wb");
 
     if (!save_stream)
-        return;
-
-    P_WriteSaveGameHeader(savedescription);
-
-    P_ArchivePlayers();
-    P_ArchiveWorld();
-    P_ArchiveThinkers();
-    P_ArchiveSpecials();
-    P_ArchiveMap();
-
-    P_WriteSaveGameEOF();
-
-    // Finish up, close the savegame file.
-    fclose(save_stream);
-
-    // Now rename the temporary savegame file to the actual savegame
-    // file, overwriting the old savegame if there was one there.
-    remove(savegame_file);
-    rename(temp_savegame_file, savegame_file);
-
-    if (consoleactive)
-        C_Output("%s saved.", uppercase(savename));
+    {
+        menuactive = false;
+        consoleheight = 1;
+        consoledirection = 1;
+        C_Warning("%s couldn't be saved.", uppercase(savename));
+    }
     else
     {
-        static char     buffer[1024];
+        P_WriteSaveGameHeader(savedescription);
 
-        M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
-        HU_PlayerMessage(buffer, false);
-        message_dontfuckwithme = true;
-        S_StartSound(NULL, sfx_swtchx);
+        P_ArchivePlayers();
+        P_ArchiveWorld();
+        P_ArchiveThinkers();
+        P_ArchiveSpecials();
+        P_ArchiveMap();
+
+        P_WriteSaveGameEOF();
+
+        // Finish up, close the savegame file.
+        fclose(save_stream);
+
+        // Now rename the temporary savegame file to the actual savegame
+        // file, overwriting the old savegame if there was one there.
+        remove(savegame_file);
+        rename(temp_savegame_file, savegame_file);
+
+        if (consoleactive)
+            C_Output("%s saved.", uppercase(savename));
+        else
+        {
+            static char     buffer[1024];
+
+            M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
+            HU_PlayerMessage(buffer, false);
+            message_dontfuckwithme = true;
+            S_StartSound(NULL, sfx_swtchx);
+        }
+
+        // draw the pattern into the back screen
+        R_FillBackScreen();
     }
 
     gameaction = ga_nothing;
-    M_StringCopy(savedescription, "", sizeof(savedescription));
-
-    // draw the pattern into the back screen
-    R_FillBackScreen();
+    savedescription[0] = '\0';
 
     drawdisk = false;
 }
