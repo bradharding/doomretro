@@ -78,6 +78,5 @@ thinker_t *P_IndexToThinker(uint32_t index);
 void P_RestoreTargets(void);
 
 extern FILE *save_stream;
-extern dboolean savegame_error;
 
 #endif

@@ -53,7 +53,6 @@
 
 FILE    *save_stream;
 int     savegamelength;
-dboolean savegame_error;
 
 void P_SpawnShadow(mobj_t *actor);
 
@@ -94,16 +93,14 @@ static byte saveg_read8(void)
 {
     byte        result;
 
-    if (fread(&result, 1, 1, save_stream) < 1)
-        savegame_error = true;
+    fread(&result, 1, 1, save_stream);
 
     return result;
 }
 
 static void saveg_write8(byte value)
 {
-    if (fwrite(&value, 1, 1, save_stream) < 1)
-        savegame_error = true;
+    fwrite(&value, 1, 1, save_stream);
 }
 
 static short saveg_read16(void)

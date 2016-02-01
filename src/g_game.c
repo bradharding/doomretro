@@ -1382,8 +1382,6 @@ void G_DoLoadGame(void)
     if (!save_stream)
         return;
 
-    savegame_error = false;
-
     if (!P_ReadSaveGameHeader(savedescription))
     {
         fclose(save_stream);
@@ -1470,8 +1468,6 @@ void G_DoSaveGame(void)
 
     if (!save_stream)
         return;
-
-    savegame_error = false;
 
     P_WriteSaveGameHeader(savedescription);
 
