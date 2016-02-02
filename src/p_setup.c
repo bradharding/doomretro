@@ -1985,6 +1985,7 @@ void P_SetupLevel(int ep, int map)
     int         lumpnum;
 
     totalkills = totalitems = totalsecret = 0;
+    memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
     wminfo.partime = 0;
     players[0].killcount = players[0].secretcount = players[0].itemcount = 0;
 

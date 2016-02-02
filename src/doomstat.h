@@ -167,6 +167,7 @@ extern dboolean         viewactive;
 extern int              totalkills;
 extern int              totalitems;
 extern int              totalsecret;
+extern int              monstercount[NUMMOBJTYPES];
 
 // Timer, for scores.
 extern int              levelstarttic;  // gametic at level start

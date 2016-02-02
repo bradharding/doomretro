@@ -2076,6 +2076,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
                 P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true);
 
             totalkills++;
+            monstercount[type]++;
         }
     }
 
