@@ -143,8 +143,6 @@ typedef struct
 // More precisely, initialize STMINUS,
 //  everything else is done somewhere else.
 //
-void STlib_init(void);
-
 // Number widget routines
 void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolean *on, int width);
 

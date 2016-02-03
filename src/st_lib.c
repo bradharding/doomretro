@@ -47,16 +47,6 @@
 
 extern int r_detail;
 
-//
-//  Loads and store the sttminus lump.
-//
-patch_t *sttminus;
-
-void STlib_init(void)
-{
-    sttminus = W_CacheLumpName("STTMINUS", PU_STATIC);
-}
-
 void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolean *on, int width)
 {
     n->x = x;
@@ -94,8 +84,8 @@ const char *lownums[10] =
 
 void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
 {
-    int         i;
-    int         j = (y * SCREENWIDTH + x) * SCREENSCALE;
+    int i;
+    int j = (y * SCREENWIDTH + x) * SCREENSCALE;
 
     for (i = 0; i < 96; i++)
     {
@@ -134,25 +124,22 @@ const char *highnums[10] =
 
 void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
 {
-    int         i;
-    int         j = (y * SCREENWIDTH + x) * SCREENSCALE;
+    int i;
+    int j = (y * SCREENWIDTH + x) * SCREENSCALE;
 
     for (i = 0; i < 96; i++)
     {
         char    dot = highnums[number][i];
+        int     xx, yy;
 
         if (dot == '1')
         {
-            int xx, yy;
-
             for (yy = 0; yy < SCREENSCALE; ++yy)
                 for (xx = 0; xx < SCREENSCALE; ++xx)
                     screens[0][j + i / 8 * SCREENWIDTH + i % 8] = color;
         }
         else if (dot == '2')
         {
-            int xx, yy;
-
             for (yy = 0; yy < SCREENSCALE; ++yy)
                 for (xx = 0; xx < SCREENSCALE; ++xx)
                     screens[0][j + i / 8 * SCREENWIDTH + i % 8] = shadow;
@@ -170,38 +157,21 @@ void STlib_drawNum(st_number_t *n)
     int         numdigits = n->width;
     int         num = *n->num;
 
-    int         w = SHORT(n->p[0]->width);
+    patch_t     *patch = n->p[0];
+    int         w = SHORT(patch->width);
+    int         h = SHORT(patch->height);
     int         x = n->x;
 
-    int         neg;
-
     n->oldnum = *n->num;
-
-    neg = (num < 0);
-
-    if (neg)
-    {
-        if (numdigits == 2 && num < -9)
-            num = -9;
-        else if (numdigits == 3 && num < -99)
-            num = -99;
-
-        num = -num;
-    }
-
-    // clear the area
-    x = n->x - numdigits * w;
 
     // if non-number, do not draw it
     if (num == 1994)
         return;
 
-    x = n->x;
-
     // in the special case of 0, you draw 0
     if (!num)
     {
-        if (SHORT(n->p[0]->height) == 6 && !STYSNUM0)
+        if (h == 6 && !STYSNUM0)
         {
             if (r_detail == r_detail_low)
                 STlib_drawLowNum(0, 160, 47, x - w, n->y);
@@ -209,28 +179,25 @@ void STlib_drawNum(st_number_t *n)
                 STlib_drawHighNum(0, 160, 47, x - w, n->y);
         }
         else
-            V_DrawPatch(x - w, n->y, FG, n->p[0]);
+            V_DrawPatch(x - w, n->y, FG, patch);
     }
+    else
 
-    // draw the new number
-    while (num && numdigits--)
-    {
-        x -= w;
-        if (SHORT(n->p[0]->height) == 6 && !STYSNUM0)
+        // draw the new number
+        while (num && numdigits--)
         {
-            if (r_detail == r_detail_low)
-                STlib_drawLowNum(num % 10, 160, 47, x, n->y);
+            x -= w;
+            if (h == 6 && !STYSNUM0)
+            {
+                if (r_detail == r_detail_low)
+                    STlib_drawLowNum(num % 10, 160, 47, x, n->y);
+                else
+                    STlib_drawHighNum(num % 10, 160, 47, x, n->y);
+            }
             else
-                STlib_drawHighNum(num % 10, 160, 47, x, n->y);
+               V_DrawPatch(x, n->y, FG, n->p[num % 10]);
+            num /= 10;
         }
-        else
-           V_DrawPatch(x, n->y, FG, n->p[num % 10]);
-        num /= 10;
-    }
-
-    // draw a minus sign if necessary
-    if (neg)
-        V_DrawPatch(x - 8, n->y, FG, sttminus);
 }
 
 void STlib_updateNum(st_number_t *n)
@@ -239,8 +206,8 @@ void STlib_updateNum(st_number_t *n)
         STlib_drawNum(n);
 }
 
-void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl,
-                       int *num, dboolean *on, patch_t *percent)
+void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, dboolean *on,
+    patch_t *percent)
 {
     STlib_initNum(&p->n, x, y, pl, num, on, 3);
     p->p = percent;
