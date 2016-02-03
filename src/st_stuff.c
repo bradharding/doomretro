@@ -1601,9 +1601,12 @@ void ST_createWidgets(void)
         &st_statusbaron, tallpercent);
 
     // keyboxes 0-2
-    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X, ST_KEY0Y, keys, &keyboxes[0], &st_statusbaron);
-    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X, ST_KEY1Y, keys, &keyboxes[1], &st_statusbaron);
-    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X, ST_KEY2Y, keys, &keyboxes[2], &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + STBAR, ST_KEY0Y, keys, &keyboxes[0],
+        &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + STBAR, ST_KEY1Y, keys, &keyboxes[1],
+        &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + STBAR, ST_KEY2Y, keys, &keyboxes[2],
+        &st_statusbaron);
 
     // ammo count (all four kinds)
     STlib_initNum(&w_ammo[0], ST_AMMO0X, ST_AMMO0Y, shortnum, &plyr->ammo[0], &st_statusbaron,
