@@ -233,61 +233,6 @@ void STlib_drawNum(st_number_t *n)
         V_DrawPatch(x - 8, n->y, FG, sttminus);
 }
 
-void STlib_DrawNumber(st_number_t *n)
-{
-    int         num = *n->num;
-    int         x = n->x;
-    int         y = n->y;
-    int         w = SHORT(n->p[0]->width);
-
-    if (num == 1994)
-        return;
-
-    if (num < 10)
-        V_DrawPatch(x + 14, y, FG, n->p[num]);
-    else if (num < 100)
-    {
-        V_DrawPatch(x + 7, y, FG, n->p[num / 10]);
-        V_DrawPatch(x + 7 + w, y, FG, n->p[num % 10]);
-    }
-    else
-    {
-        V_DrawPatch(x, n->y, FG, n->p[num / 100]);
-        V_DrawPatch(x + w, y, FG, n->p[(num - num / 100 * 100) / 10]);
-        V_DrawPatch(x + 2 * w, y, FG, n->p[num % 10]);
-    }
-}
-
-void STlib_DrawPercent(st_percent_t *per)
-{
-    int         num = *per->n.num;
-    int         x = per->n.x;
-    int         y = per->n.y;
-    int         w = SHORT(per->n.p[0]->width);
-
-    if (num == 1994)
-        return;
-
-    if (num < 10)
-    {
-        V_DrawPatch(x + 14, y, FG, per->n.p[num]);
-        V_DrawPatch(x + 14 + w, y, FG, per->p);
-    }
-    else if (num < 100)
-    {
-        V_DrawPatch(x + 7, y, FG, per->n.p[num / 10]);
-        V_DrawPatch(x + 7 + w, y, FG, per->n.p[num % 10]);
-        V_DrawPatch(x + 7 + 2 * w, y, FG, per->p);
-    }
-    else
-    {
-        V_DrawPatch(x, y, FG, per->n.p[num / 100]);
-        V_DrawPatch(x + w, y, FG, per->n.p[(num - num / 100 * 100) / 10]);
-        V_DrawPatch(x + 2 * w, y, FG, per->n.p[num % 10]);
-        V_DrawPatch(x + 3 * w, y, FG, per->p);
-    }
-}
-
 void STlib_updateNum(st_number_t *n)
 {
     if (*n->on)

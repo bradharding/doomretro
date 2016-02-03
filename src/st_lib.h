@@ -169,8 +169,4 @@ void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, dboolean *val,
 void STlib_updateBinIcon(st_binicon_t *bi, dboolean refresh);
 void STlib_updateBigBinIcon(st_binicon_t *bi, dboolean refresh);
 
-void STlib_DrawNumber(st_number_t *n);
-
-void STlib_DrawPercent(st_percent_t *n);
-
 #endif
