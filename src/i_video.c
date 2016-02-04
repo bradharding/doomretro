@@ -232,8 +232,8 @@ static void UpdateFocus(void)
 
 static void SetShowCursor(dboolean show)
 {
-    SDL_ShowCursor(show);
     SDL_SetRelativeMouseMode(!show);
+    SDL_GetRelativeMouseState(NULL, NULL);
 }
 
 int translatekey[] =
