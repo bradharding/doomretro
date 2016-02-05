@@ -39,6 +39,7 @@
 #include <stdio.h>
 
 #include "c_console.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "i_video.h"
 #include "m_argv.h"
@@ -52,7 +53,6 @@ int     windowborderheight = 0;
 #if defined(WIN32)
 #include <windows.h>
 
-#include "d_main.h"
 #include "doomdef.h"
 #include "m_argv.h"
 #include "SDL_syswm.h"
@@ -246,8 +246,6 @@ void I_ShutdownWindows32(void)
     I_AccessibilityShortcutKeys(true);
 }
 #endif
-
-void D_DoomMain(void);
 
 int main(int argc, char **argv)
 {
