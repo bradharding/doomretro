@@ -1501,6 +1501,7 @@ void I_InitGraphics(void)
         SDL_SetPaletteColors(mappalette, colors, 0, 256);
 
     UpdateFocus();
+    UpdateGrab();
 
     screens[0] = surface->pixels;
     if (!mapwindow)
