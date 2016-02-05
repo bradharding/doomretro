@@ -247,6 +247,8 @@ void I_ShutdownWindows32(void)
 }
 #endif
 
+void D_DoomMain(void);
+
 int main(int argc, char **argv)
 {
 #if defined(WIN32)
