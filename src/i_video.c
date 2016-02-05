@@ -1500,9 +1500,6 @@ void I_InitGraphics(void)
     if (mappalette)
         SDL_SetPaletteColors(mappalette, colors, 0, 256);
 
-    UpdateFocus();
-    UpdateGrab();
-
     screens[0] = surface->pixels;
     if (!mapwindow)
     {
@@ -1514,4 +1511,7 @@ void I_InitGraphics(void)
     blitfunc();
 
     while (SDL_PollEvent(&dummy));
+
+    UpdateFocus();
+    UpdateGrab();
 }
