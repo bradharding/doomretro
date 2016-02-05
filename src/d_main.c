@@ -1471,11 +1471,11 @@ static void D_DoomMainSetup(void)
         {
             char *skilllevels[] =
             {
-                { "I\'m too young to die" },
-                { "Hey, not too rough"    },
-                { "Hurt me plenty"        },
-                { "Ultra-Violence"        },
-                { "Nightmare"             }
+                "I\'m too young to die",
+                "Hey, not too rough",
+                "Hurt me plenty",
+                "Ultra-Violence",
+                "Nightmare"             
             };
 
             skilllevel = startskill = (skill_t)temp;
@@ -1495,10 +1495,10 @@ static void D_DoomMainSetup(void)
         {
             char *episodes[] =
             {
-                { "Knee-Deep in the Dead" },
-                { "The Shores of Hell"    },
-                { "Inferno"               },
-                { "Thy Flesh Consumed"    }
+                "Knee-Deep in the Dead",
+                "The Shores of Hell",
+                "Inferno",
+                "Thy Flesh Consumed"
             };
 
             startepisode = temp;
@@ -1524,8 +1524,8 @@ static void D_DoomMainSetup(void)
         {
             char *expansions[] =
             {
-                { "Hell on Earth"          },
-                { "No Rest for the Living" }
+                "Hell on Earth",
+                "No Rest for the Living"
             };
 
             gamemission = (temp == 1 ? doom2 : pack_nerve);

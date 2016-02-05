@@ -289,7 +289,7 @@ void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy, int ca
 static void R_GenerateComposite(int texnum)
 {
     byte                *block = Z_Calloc(1, texturecompositesize[texnum], PU_STATIC,
-                            &texturecomposite[texnum]);
+                            (void **) &texturecomposite[texnum]);
     texture_t           *texture = textures[texnum];
 
     short               width = texture->width;
@@ -381,8 +381,8 @@ void R_GenerateLookup(int texnum)
     texture_t           *texture = textures[texnum];
     short               width = texture->width;
     short               height = texture->height;
-    byte                *patchcount = (byte *)Z_Malloc(width, PU_STATIC, &patchcount);
-    byte                *postcount = (byte *)Z_Malloc(width, PU_STATIC, &postcount);
+    byte                *patchcount = (byte *)Z_Malloc(width, PU_STATIC, (void **) &patchcount);
+    byte                *postcount = (byte *)Z_Malloc(width, PU_STATIC, (void **) &postcount);
     texpatch_t          *patch;
     int                 x;
     int                 i;

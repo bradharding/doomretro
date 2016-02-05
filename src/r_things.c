@@ -320,7 +320,7 @@ void R_InitSprites(char **namelist)
     for (i = 0; i < SCREENWIDTH; i++)
         negonearray[i] = -1;
 
-    R_InitSpriteDefs(namelist);
+    R_InitSpriteDefs((const char * const*) namelist);
 
     num_vissprite = 0;
     num_vissprite_alloc = 128;
