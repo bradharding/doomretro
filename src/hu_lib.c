@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2016 Brad Harding.
+  Copyright Â© 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright Â© 2013-2016 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
   For a list of credits, see the accompanying AUTHORS file.
@@ -151,7 +151,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     {
         unsigned char   c = toupper(l->l[i]);
 
-        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == '°'))
+        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == 'Â°'))
         {
             int j = c - '!';
 
@@ -168,7 +168,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 #endif
             }
 
-            if (l->l[i] == '°')
+            if (l->l[i] == 'Â°')
                 if (STCFN034)
                     continue;
                 else
