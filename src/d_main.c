@@ -163,6 +163,19 @@ void D_ProcessEvents(void)
 
         if (wipe && ev->type == ev_mouse)
             continue;
+
+#if !defined(WIN32)
+        // Handle alt+enter on non Windows systems
+        static dboolean enter_down = false;
+        if (altdown && !enter_down && ev->type == ev_keydown && ev->data1 == KEY_ENTER) {
+            enter_down = true;
+            I_ToggleFullscreen();
+            continue;
+        }
+        if (ev->type == ev_keyup && ev->data1 == KEY_ENTER)
+            enter_down = false;
+#endif
+
         if (C_Responder(ev))
             continue;           // console ate the event
         if (M_Responder(ev))
