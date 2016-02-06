@@ -620,25 +620,6 @@ char *removespaces(const char *input)
     return p;
 }
 
-char *removenewlines(const char *input)
-{
-    char        *p = malloc(strlen(input) + 1);
-
-    if (p)
-    {
-        char    *p2 = p;
-
-        while (*input != '\0')
-            if (*input != '\n')
-                *p2++ = *input++;
-            else
-                ++input;
-        *p2 = '\0';
-    }
-
-    return p;
-}
-
 char *makevalidfilename(const char *input)
 {
     char        *newstr = strdup(input);

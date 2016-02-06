@@ -83,7 +83,6 @@ char *commify(int value);
 dboolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 char *removespaces(const char *input);
-char *removenewlines(const char *input);
 char *makevalidfilename(const char *input);
 const char *leafname(const char *path);
 char *removeext(const char *file);

@@ -1246,6 +1246,20 @@ static void D_ProcessDehInWad(void)
             ProcessDehFile(NULL, i);
 }
 
+void D_ParseStartupString(const char *string)
+{
+    size_t      i;
+    size_t      start;
+    size_t      len = strlen(string);
+
+    for (i = 0, start = 0; i < len; ++i)
+        if (string[i] == '\n' || i == len - 1)
+        {
+            C_Output("%s", M_SubString(string, start, i - start));
+            start = i + 1;
+        }
+}
+
 //
 // D_DoomMainSetup
 //
@@ -1661,15 +1675,15 @@ static void D_DoomMainSetup(void)
     {
         C_AddConsoleDivider();
         if (*startup1)
-            C_Output(removenewlines(startup1));
+            D_ParseStartupString(startup1);
         if (*startup2)
-            C_Output(removenewlines(startup2));
+            D_ParseStartupString(startup2);
         if (*startup3)
-            C_Output(removenewlines(startup3));
+            D_ParseStartupString(startup3);
         if (*startup4)
-            C_Output(removenewlines(startup4));
+            D_ParseStartupString(startup4);
         if (*startup5)
-            C_Output(removenewlines(startup5));
+            D_ParseStartupString(startup5);
     }
 }
 

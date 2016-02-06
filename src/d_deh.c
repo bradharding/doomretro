@@ -3174,7 +3174,7 @@ void lfstrip(char *s)    // strip the \r and/or \n off of a line
 {
     char        *p = s + strlen(s);
 
-    while (p > s && (*--p=='\r' || *p=='\n'))
+    while (p > s && (*--p == '\r' || *p == '\n'))
         *p = 0;
 }
 
@@ -3235,7 +3235,9 @@ int deh_GetData(char *s, char *k, long *l, char **strval)
             break;
         buffer[i] = *t;                 // copy it
     }
-    buffer[--i] = '\0';                 // terminate the key before the '='
+    if (isspace(buffer[i - 1]))
+        --i;
+    buffer[i] = '\0';                   // terminate the key before the '='
     if (!*t)                            // end of string with no equal sign
         okrc = false;
     else
