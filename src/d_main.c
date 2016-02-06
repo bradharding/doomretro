@@ -159,15 +159,18 @@ void D_ProcessEvents(void)
 {
     for (; eventtail != eventhead; eventtail = (eventtail + 1) & (MAXEVENTS - 1))
     {
-        event_t *ev = events + eventtail;
+        event_t         *ev = events + eventtail;
+#if !defined(WIN32)
+        static dboolean enter_down = false;
+#endif
 
         if (wipe && ev->type == ev_mouse)
             continue;
 
 #if !defined(WIN32)
         // Handle alt+enter on non Windows systems
-        static dboolean enter_down = false;
-        if (altdown && !enter_down && ev->type == ev_keydown && ev->data1 == KEY_ENTER) {
+        if (altdown && !enter_down && ev->type == ev_keydown && ev->data1 == KEY_ENTER)
+        {
             enter_down = true;
             I_ToggleFullscreen();
             continue;
