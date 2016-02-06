@@ -106,6 +106,7 @@ static patch_t  *ldquote;
 static patch_t  *rdquote;
 static patch_t  *degree;
 static patch_t  *multiply;
+static patch_t  *warning;
 
 static int      spacewidth;
 
@@ -501,6 +502,7 @@ void C_Init(void)
     rdquote = W_CacheLumpName("DRFON148", PU_STATIC);
     degree = W_CacheLumpName("DRFON176", PU_STATIC);
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
+    warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
 
     caret = W_CacheLumpName("CARET", PU_STATIC);
 
@@ -651,6 +653,12 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             text[len + 2] = '\0';
             --len;
         }
+
+    if (color1 == consolewarningcolor)
+    {
+        V_DrawConsoleChar(x, y, warning, color1, color2, false, tinttab);
+        x += SHORT(warning->width) + 2;
+    }
 
     for (i = 0; i < len; ++i)
     {
