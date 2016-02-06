@@ -159,7 +159,7 @@ void STlib_drawNum(st_number_t *n)
 
     patch_t     *patch = n->p[0];
     int         w = SHORT(patch->width);
-    int         h = SHORT(patch->height);
+    dboolean    smallnum = (SHORT(patch->height) == 6 && !STYSNUM0);
     int         x = n->x;
 
     n->oldnum = *n->num;
@@ -171,7 +171,7 @@ void STlib_drawNum(st_number_t *n)
     // in the special case of 0, you draw 0
     if (!num)
     {
-        if (h == 6 && !STYSNUM0)
+        if (smallnum)
         {
             if (r_detail == r_detail_low)
                 STlib_drawLowNum(0, 160, 47, x - w, n->y);
@@ -187,7 +187,7 @@ void STlib_drawNum(st_number_t *n)
         while (num && numdigits--)
         {
             x -= w;
-            if (h == 6 && !STYSNUM0)
+            if (smallnum)
             {
                 if (r_detail == r_detail_low)
                     STlib_drawLowNum(num % 10, 160, 47, x, n->y);
