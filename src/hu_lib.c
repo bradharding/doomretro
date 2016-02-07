@@ -134,14 +134,14 @@ static struct
 
 void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 {
-    int                 i;
-    int                 w = 0;
-    int                 tw = 0;
-    int                 x, y;
-    int                 xx, yy;
-    static char         prev;
-    byte                *fb1 = (external ? mapscreen : screens[0]);
-    byte                *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
+    int         i;
+    int         w = 0;
+    int         tw = 0;
+    int         x, y;
+    int         xx, yy;
+    static char prev;
+    byte        *fb1 = (external ? mapscreen : screens[0]);
+    byte        *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
 
     // draw the new stuff
     x = l->x;
@@ -151,7 +151,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     {
         unsigned char   c = toupper(l->l[i]);
 
-        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == '°'))
+        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == '\xB0'))
         {
             int j = c - '!';
 
@@ -163,12 +163,12 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 else if (c == '\'')
                     j = 65;
 #if defined(WIN32)
-                else if (c == '\u2019')
+                else if (c == '\x92')
                     j = 65;
 #endif
             }
 
-            if (l->l[i] == '°')
+            if (l->l[i] == '\xB0')
                 if (STCFN034)
                     continue;
                 else
