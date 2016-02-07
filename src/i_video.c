@@ -60,6 +60,11 @@
 #include "SDL_syswm.h"
 #endif
 
+#if defined(X11)
+#include <X11/Xlib.h>
+#include <X11/XKBlib.h>
+#endif
+
 #define MAXUPSCALEWIDTH         5
 #define MAXUPSCALEHEIGHT        6
 
@@ -337,6 +342,16 @@ void I_ShutdownGraphics(void)
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
+#if defined(X11)
+void I_SetXKBCapslockState(dboolean enabled)
+{
+    Display *dpy = XOpenDisplay(0);
+    XkbLockModifiers(dpy, XkbUseCoreKbd, 2, enabled * 2);
+    XFlush(dpy);
+    XCloseDisplay(dpy);
+}
+#endif
+
 void I_ShutdownKeyboard(void)
 {
 #if defined(WIN32)
@@ -346,6 +361,10 @@ void I_ShutdownKeyboard(void)
             keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
             keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
         }
+#endif
+#if defined(X11)
+    if (key_alwaysrun == KEY_CAPSLOCK && (SDL_GetModState() & KMOD_CAPS) && !capslock)
+            I_SetXKBCapslockState(false);
 #endif
 }
 
@@ -1428,6 +1447,16 @@ void I_InitKeyboard(void)
             keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
             keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
         }
+    }
+#endif
+#if defined(X11)
+    if (key_alwaysrun == KEY_CAPSLOCK)
+    {
+        capslock = (SDL_GetModState() & KMOD_CAPS) > 0;
+        if (alwaysrun && !capslock)
+            I_SetXKBCapslockState(true);
+        if (!alwaysrun && capslock)
+            I_SetXKBCapslockState(false);
     }
 #endif
 }
