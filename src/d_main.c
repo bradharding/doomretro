@@ -927,7 +927,7 @@ static int D_ChooseIWAD(void)
             iwadpass += lstrlen(iwadpass) + 1;
 
             // find and add IWAD first
-            while (iwadpass[0])
+            while (*iwadpass)
             {
                 static char     fullpath[MAX_PATH];
 
@@ -1031,7 +1031,7 @@ static int D_ChooseIWAD(void)
 #if defined(WIN32)
                 pwadpass1 += lstrlen(pwadpass1) + 1;
 
-                while (!iwadfound && pwadpass1[0])
+                while (!iwadfound && *pwadpass1)
                 {
                     static char     fullpath[MAX_PATH];
 
@@ -1124,7 +1124,7 @@ static int D_ChooseIWAD(void)
 #if defined(WIN32)
                     pwadpass2 += lstrlen(pwadpass2) + 1;
 
-                    while (pwadpass2[0])
+                    while (*pwadpass2)
                     {
                         static char     fullpath[MAX_PATH];
 
@@ -1180,7 +1180,7 @@ static int D_ChooseIWAD(void)
                 // process any config files
                 cfgpass += lstrlen(cfgpass) + 1;
 
-                while (cfgpass[0])
+                while (*cfgpass)
                 {
                     static char     fullpath[MAX_PATH];
 
@@ -1204,7 +1204,7 @@ static int D_ChooseIWAD(void)
                 // process any dehacked files last of all
                 dehpass += lstrlen(dehpass) + 1;
 
-                while (dehpass[0])
+                while (*dehpass)
                 {
                     static char     fullpath[MAX_PATH];
 

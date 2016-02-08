@@ -462,14 +462,13 @@ extern int      cardsfound;
 dboolean ST_Responder(event_t *ev)
 {
     // if a user keypress...
-    if (ev->type == ev_keydown || consolecheat[0])
+    if (ev->type == ev_keydown || *consolecheat)
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
             int i;
 
-            if (!consolecheat[0] && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic
-                && musicVolume)
+            if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
 
             // 'dqd' cheat for toggleable god mode

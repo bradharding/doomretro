@@ -387,7 +387,7 @@ static int C_LookupValueFromAlias(const char *text, int aliastype)
 {
     int i = 0;
 
-    while (aliases[i].text[0])
+    while (*aliases[i].text)
     {
         if (aliastype == aliases[i].type && M_StringCompare(text, aliases[i].text))
             return aliases[i].value;
@@ -400,7 +400,7 @@ static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
 {
     int i = 0;
 
-    while (aliases[i].text[0])
+    while (*aliases[i].text)
     {
         if (aliastype == aliases[i].type && value == aliases[i].value)
             return aliases[i].text;
@@ -667,7 +667,7 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
 {
     int i = 0;
 
-    while (actions[i].action[0])
+    while (*actions[i].action)
     {
         if (i != keep)
         {
@@ -688,12 +688,12 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
 
 void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (!parm1[0])
+    if (!*parm1)
     {
         int     action = 0;
         int     count = 1;
 
-        while (actions[action].action[0])
+        while (*actions[action].action)
         {
             if (actions[action].keyboard)
                 C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard,
@@ -718,13 +718,13 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
             ++i;
         }
 
-        if (controls[i].control[0])
+        if (*controls[i].control)
         {
             int action = 0;
 
-            if (!parm2[0])
+            if (!*parm2)
             {
-                while (actions[action].action[0])
+                while (*actions[action].action)
                 {
                     if (controls[i].type == keyboardcontrol && actions[action].keyboard
                         && controls[i].value == *(int *)actions[action].keyboard)
@@ -740,7 +740,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
             }
             else if (M_StringCompare(parm2, "none"))
             {
-                while (actions[action].action[0])
+                while (*actions[action].action)
                 {
                     switch (controls[i].type)
                     {
@@ -752,6 +752,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                                 M_SaveCVARs();
                             }
                             break;
+
                         case mousecontrol:
                             if (actions[action].mouse
                                 && controls[i].value == *(int *)actions[action].mouse)
@@ -760,6 +761,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                                 M_SaveCVARs();
                             }
                             break;
+
                         case gamepadcontrol:
                             if (actions[action].gamepad
                                 && controls[i].value == *(int *)actions[action].gamepad)
@@ -776,14 +778,14 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
             {
                 dboolean        bound = false;
 
-                while (actions[action].action[0])
+                while (*actions[action].action)
                 {
                     if (M_StringCompare(parm2, actions[action].action))
                         break;
                     ++action;
                 }
 
-                if (actions[action].action[0])
+                if (*actions[action].action)
                 {
                     switch (controls[i].type)
                     {
@@ -795,6 +797,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                                 C_UnbindDuplicates(action, keyboardcontrol, controls[i].value);
                             }
                             break;
+
                         case mousecontrol:
                             if (actions[action].mouse)
                             {
@@ -803,6 +806,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                                 C_UnbindDuplicates(action, mousecontrol, controls[i].value);
                             }
                             break;
+
                         case gamepadcontrol:
                             if (actions[action].gamepad)
                             {
@@ -813,7 +817,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                             break;
                     }
 
-                    if (cmd[0])
+                    if (*cmd)
                         M_SaveCVARs();
                 }
 
@@ -844,10 +848,10 @@ static void cmdlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     int count = 1;
     int tabs[8] = { 40, 192, 0, 0, 0, 0, 0, 0 };
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
-        if (consolecmds[i].type == CT_CMD && consolecmds[i].description[0]
-            && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
+        if (consolecmds[i].type == CT_CMD && *consolecmds[i].description
+            && (!*parm1 || wildcard(consolecmds[i].name, parm1)))
             C_TabbedOutput(tabs, "%i.\t%s %s\t%s", count++, consolecmds[i].name,
                 consolecmds[i].format, consolecmds[i].description);
         ++i;
@@ -867,7 +871,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
         M_MakeDirectory(appdatafolder);
         
-        if (!parm1[0])
+        if (!*parm1)
         {
             int count = 0;
 
@@ -925,7 +929,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             }
                     }
 
-                    if (con_timestamps && console[i].timestamp[0])
+                    if (con_timestamps && *console[i].timestamp)
                     {
                         for (spaces = 0; spaces < 91 - outpos; ++spaces)
                             fputc(' ', file);
@@ -951,9 +955,9 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     int count = 1;
     int tabs[8] = { 35, 179, 257, 0, 0, 0, 0, 0 };
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
-        if (consolecmds[i].type == CT_CVAR && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
+        if (consolecmds[i].type == CT_CVAR && (!*parm1 || wildcard(consolecmds[i].name, parm1)))
         {
             char        description1[255];
             char        description2[255] = "";
@@ -1002,7 +1006,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, description1);
             }
 
-            if (description2[0])
+            if (*description2)
                 C_TabbedOutput(tabs, "\t\t\t%s", description2);
         }
         ++i;
@@ -1040,7 +1044,7 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     if (gamestate != GS_LEVEL)
         return false;
 
-    if (!parm[0])
+    if (!*parm)
         return true;
 
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "health") || M_StringCompare(parm,
@@ -1050,7 +1054,7 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 
     for (i = 0; i < NUMMOBJTYPES; i++)
         if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm,
-            removespaces(mobjinfo[i].name1)) || (mobjinfo[i].name2[0] && M_StringCompare(parm,
+            removespaces(mobjinfo[i].name1)) || (*mobjinfo[i].name2 && M_StringCompare(parm,
             removespaces(mobjinfo[i].name2)))))
             return true;
 
@@ -1061,7 +1065,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
 
-    if (!parm[0])
+    if (!*parm)
         C_Output("%s %s", cmd, GIVECMDLONGFORMAT);
     else
     {
@@ -1109,7 +1113,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             for (i = 0; i < NUMMOBJTYPES; i++)
                 if ((mobjinfo[i].flags & MF_SPECIAL)
                     && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-                        || (mobjinfo[i].name2[0]
+                        || (*mobjinfo[i].name2
                             && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))))
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
@@ -1134,7 +1138,7 @@ static void god_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     player_t    *player = &players[0];
 
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
@@ -1170,11 +1174,11 @@ static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
         char    *parm = M_StringJoin(parm1, parm2, parm3, NULL);
         int     i;
 
-        if (!parm[0])
+        if (!*parm)
             return true;
 
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
-            || (playername[0] && M_StringCompare(parm, playername)))
+            || (*playername && M_StringCompare(parm, playername)))
             return !!players[0].mo->health;
 
         if (M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
@@ -1183,8 +1187,8 @@ static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
         for (i = 0; i < NUMMOBJTYPES; i++)
             if (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
                 || M_StringCompare(parm, removespaces(mobjinfo[i].plural1))
-                || (mobjinfo[i].name2[0] && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
-                || (mobjinfo[i].plural2[0] &&
+                || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
+                || (*mobjinfo[i].plural2 &&
                     M_StringCompare(parm, removespaces(mobjinfo[i].plural2))))
             {
                 dboolean    kill = true;
@@ -1226,10 +1230,10 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
     static char buffer[1024];
 
-    if (!parm[0])
+    if (!*parm)
         C_Output("%s %s", cmd, KILLCMDFORMAT);
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
-        || (playername[0] && M_StringCompare(parm, playername)))
+        || (*playername && M_StringCompare(parm, playername)))
     {
         players[0].health = 0;
         P_KillMobj(players[0].mo, players[0].mo);
@@ -1354,7 +1358,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static dboolean load_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (parm1[0] != '\0');
+    return *parm1;
 }
 
 static void load_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -1376,7 +1380,7 @@ extern int      idclevtics;
 
 static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (!parm1[0])
+    if (!*parm1)
         return true;
 
     mapcmdepisode = 0;
@@ -1570,7 +1574,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     static char buffer[1024];
 
-    if (!parm1[0])
+    if (!*parm1)
     {
         C_Output("%s %s", cmd, MAPCMDFORMAT);
         return;
@@ -1823,9 +1827,9 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         int     i = (gamemission == doom ? gameepisode * 10 : 0) + gamemap;
         char    *author = P_GetMapAuthor(i);
 
-        if (author[0])
+        if (*author)
             C_TabbedOutput(tabs, "Author\t%s", author);
-        else if (canmodify && authors[i][gamemission][0])
+        else if (canmodify && *authors[i][gamemission])
             C_TabbedOutput(tabs, "Author\t%s", authors[i][gamemission]);
     }
 
@@ -1911,7 +1915,7 @@ static void noclip_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     player_t    *player = &players[0];
 
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, 1);
 
@@ -1931,7 +1935,7 @@ static void noclip_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void nomonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, 1);
 
@@ -1953,7 +1957,7 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     player_t    *player = &players[0];
 
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, 1);
 
@@ -1997,7 +2001,7 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, 1);
 
@@ -2296,7 +2300,7 @@ static void resurrect_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3
 //
 static dboolean save_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (parm1[0] != '\0' && gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
+    return (*parm1 && gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
 
 static void save_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -2314,7 +2318,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
 
-    if (!parm[0])
+    if (!*parm)
         return true;
 
     if (gamestate == GS_LEVEL)
@@ -2322,7 +2326,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (M_StringCompare(parm, removespaces(mobjinfo[i].name1)) || (mobjinfo[i].name2[0]
+            if (M_StringCompare(parm, removespaces(mobjinfo[i].name1)) || (*mobjinfo[i].name2
                 && M_StringCompare(parm, removespaces(mobjinfo[i].name2))))
             {
                 dboolean    spawn = true;
@@ -2358,7 +2362,7 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
 
-    if (!parm[0])
+    if (!*parm)
     {
         C_Output("%s %s", cmd, SPAWNCMDFORMAT);
         return;
@@ -2416,19 +2420,19 @@ static void unbind_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static dboolean bool_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, BOOLALIAS) >= 0);
+    return (!*parm1 || C_LookupValueFromAlias(parm1, BOOLALIAS) >= 0);
 }
 
 static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_BOOLEAN))
         {
-            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            if (*parm1 && !(consolecmds[i].flags & CF_READONLY))
             {
                 int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
@@ -2451,7 +2455,7 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 static void color_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int_cvars_func2(cmd, parm1, parm2, parm3);
-    if (parm1[0])
+    if (*parm1)
         AM_SetColors();
 }
 
@@ -2462,10 +2466,10 @@ static dboolean float_cvars_func1(char *cmd, char *parm1, char *parm2, char *par
 {
     int i = 0;
 
-    if (!parm1[0])
+    if (!*parm1)
         return true;
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_FLOAT))
@@ -2485,12 +2489,12 @@ static void float_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_FLOAT))
         {
-            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            if (*parm1 && !(consolecmds[i].flags & CF_READONLY))
             {
                 float     value = -1.0f;
 
@@ -2516,10 +2520,10 @@ static dboolean int_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3
 {
     int i = 0;
 
-    if (!parm1[0])
+    if (!*parm1)
         return true;
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_INTEGER))
@@ -2539,12 +2543,12 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_INTEGER))
         {
-            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            if (*parm1 && !(consolecmds[i].flags & CF_READONLY))
             {
                 int     value = C_LookupValueFromAlias(parm1, consolecmds[i].aliases);
 
@@ -2574,7 +2578,7 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_STRING))
@@ -2584,7 +2588,7 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
-            else if (parm1[0])
+            else if (*parm1)
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
                 M_SaveCVARs();
@@ -2604,7 +2608,7 @@ static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_TIME))
@@ -2658,7 +2662,7 @@ static dboolean gp_deadzone_cvars_func1(char *cmd, char *parm1, char *parm2, cha
 {
     float value;
 
-    if (!parm1[0])
+    if (!*parm1)
         return true;
     if (parm1[strlen(parm1) - 1] == '%')
         parm1[strlen(parm1) - 1] = 0;
@@ -2667,7 +2671,7 @@ static dboolean gp_deadzone_cvars_func1(char *cmd, char *parm1, char *parm2, cha
 
 static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         float   value = 0;
 
@@ -2694,7 +2698,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
 
 static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = -1;
 
@@ -2716,7 +2720,7 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         if (!M_StringCompare(parm1, EMPTYVALUE))
         {
@@ -2733,14 +2737,14 @@ static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 //
 static dboolean r_blood_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
+    return (!*parm1 || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
 }
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
 static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, BLOODALIAS);
 
@@ -2761,12 +2765,12 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static dboolean r_detail_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, DETAILALIAS) >= 0);
+    return (!*parm1 || C_LookupValueFromAlias(parm1, DETAILALIAS) >= 0);
 }
 
 static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int value = C_LookupValueFromAlias(parm1, DETAILALIAS);
 
@@ -2789,7 +2793,7 @@ static dboolean r_gamma_cvar_func1(char *cmd, char *parm1, char *parm2, char *pa
 {
     float       value = -1.0f;
 
-    if (!parm1[0] || M_StringCompare(parm1, "off"))
+    if (!*parm1 || M_StringCompare(parm1, "off"))
         return true;
 
     sscanf(parm1, "%10f", &value);
@@ -2799,7 +2803,7 @@ static dboolean r_gamma_cvar_func1(char *cmd, char *parm1, char *parm2, char *pa
 
 static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         float   value = -1.0f;
 
@@ -2834,7 +2838,7 @@ static void r_hud_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         r_lowpixelsize = strdup(parm1);
 
@@ -2852,7 +2856,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 static void r_screensize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = -1;
 
@@ -2903,7 +2907,7 @@ static dboolean s_volume_cvars_func1(char *cmd, char *parm1, char *parm2, char *
 {
     int value = -1;
 
-    if (!parm1[0])
+    if (!*parm1)
         return true;
     if (parm1[strlen(parm1) - 1] == '%')
         parm1[strlen(parm1) - 1] = 0;
@@ -2917,7 +2921,7 @@ static dboolean s_volume_cvars_func1(char *cmd, char *parm1, char *parm2, char *
 
 static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int value = 0;
 
@@ -2951,7 +2955,7 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
 //
 static void vid_display_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = -1;
 
@@ -2973,7 +2977,7 @@ static void vid_display_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 //
 static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
@@ -2989,7 +2993,7 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 static dboolean vid_scaledriver_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!parm1[0] || M_StringCompare(parm1, EMPTYVALUE)
+    return (!*parm1 || M_StringCompare(parm1, EMPTYVALUE)
         || M_StringCompare(parm1, vid_scaledriver_direct3d)
         || M_StringCompare(parm1, vid_scaledriver_opengl)
         || M_StringCompare(parm1, vid_scaledriver_software));
@@ -2997,7 +3001,7 @@ static dboolean vid_scaledriver_cvar_func1(char *cmd, char *parm1, char *parm2, 
 
 static void vid_scaledriver_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         if (M_StringCompare(parm1, EMPTYVALUE))
         {
@@ -3021,14 +3025,14 @@ static void vid_scaledriver_cvar_func2(char *cmd, char *parm1, char *parm2, char
 //
 static dboolean vid_scalefilter_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!parm1[0] || M_StringCompare(parm1, vid_scalefilter_nearest)
+    return (!*parm1 || M_StringCompare(parm1, vid_scalefilter_nearest)
         || M_StringCompare(parm1, vid_scalefilter_linear)
         || M_StringCompare(parm1, vid_scalefilter_nearest_linear));
 }
 
 static void vid_scalefilter_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         if (!M_StringCompare(parm1, vid_scalefilter))
         {
@@ -3046,7 +3050,7 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parm1, char *parm2, char
 //
 static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         vid_screenresolution = strdup(parm1);
 
@@ -3069,7 +3073,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2,
 //
 static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
@@ -3088,7 +3092,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 //
 static void vid_vsync_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
@@ -3108,7 +3112,7 @@ static void vid_vsync_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm
 //
 static void vid_widescreen_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
@@ -3147,7 +3151,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         vid_windowposition = strdup(parm1);
 
@@ -3167,7 +3171,7 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
 //
 static void vid_windowsize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (parm1[0])
+    if (*parm1)
     {
         vid_windowsize = strdup(parm1);
 

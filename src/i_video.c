@@ -1119,7 +1119,7 @@ static void SetVideoMode(dboolean output)
     {
         const char      *displayname = SDL_GetDisplayName(displayindex);
 
-        if (displayname[0])
+        if (*displayname)
             C_Output("Using display %i of %i called \"%s\".", displayindex + 1, numdisplays,
                 displayname);
         else

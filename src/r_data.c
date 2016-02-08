@@ -916,7 +916,7 @@ void R_InitSpriteLumps(void)
             {
                 int j = 0;
 
-                while (sproffsets[j].name[0])
+                while (*sproffsets[j].name)
                 {
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump
                         && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)

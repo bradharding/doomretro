@@ -490,7 +490,7 @@ void C_Init(void)
     int         j = CONSOLEFONTSTART;
     char        buffer[9];
 
-    while (consolecmds[numconsolecmds++].name[0]);
+    while (*consolecmds[numconsolecmds++].name);
 
     unknownchar = W_CacheLumpName("DRFON000", PU_STATIC);
     for (i = 0; i < CONSOLEFONTSIZE; i++)
@@ -853,7 +853,7 @@ void C_Drawer(void)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
                     consolecolors[console[i].type], NOBACKGROUNDCOLOR, tinttab66, console[i].tabs,
                     true);
-                if (con_timestamps && console[i].timestamp[0])
+                if (con_timestamps && *console[i].timestamp)
                     C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
         }
@@ -872,7 +872,7 @@ void C_Drawer(void)
             for (i = selectstart; i < selectend; ++i)
                 middletext[i - selectstart] = consoleinput[i];
             middletext[i - selectstart] = '\0';
-            if (middletext[0])
+            if (*middletext)
             {
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NULL, notabs, false);
@@ -901,7 +901,7 @@ void C_Drawer(void)
             for (i = selectstart; i < selectend; ++i)
                 middletext[i - selectstart] = consoleinput[i];
             middletext[i - selectstart] = '\0';
-            if (middletext[0])
+            if (*middletext)
             {
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NULL, notabs, false);
@@ -915,7 +915,7 @@ void C_Drawer(void)
             for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                 righttext[i - selectend] = consoleinput[i];
             righttext[i - selectend] = '\0';
-            if (righttext[0])
+            if (*righttext)
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, righttext, consoleinputcolor,
                     NOBACKGROUNDCOLOR, NULL, notabs, false);
         }
@@ -935,7 +935,7 @@ dboolean C_ValidateInput(char *input)
 {
     int i = 0;
 
-    while (consolecmds[i].name[0])
+    while (*consolecmds[i].name)
     {
         char    cmd[256] = "";
 
@@ -1073,7 +1073,7 @@ dboolean C_Responder(event_t *ev)
 
             // confirm input
             case KEY_ENTER:
-                if (consoleinput[0])
+                if (*consoleinput)
                 {
                     if (C_ValidateInput(consoleinput))
                     {
@@ -1176,7 +1176,7 @@ dboolean C_Responder(event_t *ev)
 
             // autocomplete
             case KEY_TAB:
-                if (consoleinput[0])
+                if (*consoleinput)
                 {
                     int direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     int start = autocomplete;
@@ -1190,7 +1190,7 @@ dboolean C_Responder(event_t *ev)
                         autocomplete += direction;
                         if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
                             && consolecmds[autocomplete].type != CT_CHEAT
-                            && consolecmds[autocomplete].description[0])
+                            && *consolecmds[autocomplete].description)
                         {
                             M_StringCopy(consoleinput, consolecmds[autocomplete].name,
                                 sizeof(consoleinput));

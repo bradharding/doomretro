@@ -123,7 +123,7 @@ void I_InitTimidityConfig(void)
 
 void CheckTimidityConfig(void)
 {
-    if (s_timiditycfgpath[0])
+    if (*s_timiditycfgpath)
         if (M_FileExists(s_timiditycfgpath))
             C_Output("Using TiMidity configuration file %s.", uppercase(s_timiditycfgpath));
         else

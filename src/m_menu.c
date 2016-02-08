@@ -3263,7 +3263,7 @@ void M_Drawer(void)
     {
         char    *name = currentMenu->menuitems[i].name;
 
-        if (name[0])
+        if (*name)
         {
             if (!strcmp(name, "M_NMARE"))
             {

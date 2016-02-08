@@ -1830,7 +1830,7 @@ void P_MapName(int ep, int map)
         case doom:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, (E1M8B && ep == 1 && map == 8 ?
                 "B" : ""));
-            if (mapinfoname[0])
+            if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
             {
@@ -1846,7 +1846,7 @@ void P_MapName(int ep, int map)
 
         case doom2:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (mapinfoname[0])
+            if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehcount == 1)
             {
@@ -1863,7 +1863,7 @@ void P_MapName(int ep, int map)
 
         case pack_nerve:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (mapinfoname[0])
+            if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
                 M_StringCopy(maptitle, *mapnamesn[map - 1], sizeof(maptitle));
@@ -1871,7 +1871,7 @@ void P_MapName(int ep, int map)
 
         case pack_plut:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (mapinfoname[0])
+            if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
@@ -1887,7 +1887,7 @@ void P_MapName(int ep, int map)
 
         case pack_tnt:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (mapinfoname[0])
+            if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {

@@ -568,7 +568,7 @@ void G_DoLoadLevel(void)
     ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
     P_MapName(ep, gamemap);
 
-    if (author[0])
+    if (*author)
         C_Print(titlestring, "%s by %s", mapnumandtitle, author);
     else
         C_Print(titlestring, mapnumandtitle);
@@ -1430,7 +1430,7 @@ void G_DoLoadGame(void)
 
 void G_LoadedGameMessage(void)
 {
-    if (savedescription[0])
+    if (*savedescription)
     {
         static char     buffer[1024];
 

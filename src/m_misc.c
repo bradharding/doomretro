@@ -135,7 +135,7 @@ char *M_ExtractFolder(char *path)
     char        *pos;
     char        *folder;
 
-    if (!path[0])
+    if (!*path)
         return "";
 
     folder = malloc(MAX_PATH);

@@ -366,7 +366,7 @@ void M_SaveCVARs(void)
                 dboolean    flag = false;
                 int         v = *(int *)cvars[i].location;
 
-                while (aliases[j].text[0])
+                while (*aliases[j].text)
                 {
                     if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
@@ -393,7 +393,7 @@ void M_SaveCVARs(void)
                 dboolean    flag = false;
                 int         v = *(int *)cvars[i].location;
 
-                while (aliases[j].text[0])
+                while (*aliases[j].text)
                 {
                     if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
@@ -414,7 +414,7 @@ void M_SaveCVARs(void)
                 dboolean    flag = false;
                 float       v = *(float *)cvars[i].location;
 
-                while (aliases[j].text[0])
+                while (*aliases[j].text)
                 {
                     if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
@@ -435,7 +435,7 @@ void M_SaveCVARs(void)
                 dboolean    flag = false;
                 float       v = *(float *)cvars[i].location;
 
-                while (aliases[j].text[0])
+                while (*aliases[j].text)
                 {
                     if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
@@ -465,7 +465,7 @@ void M_SaveCVARs(void)
     fprintf(file, "\n");
 
     i = 0;
-    while (actions[i].action[0])
+    while (*actions[i].action)
     {
         if (actions[i].keyboard)
             SaveBind(file, actions[i].action, *(int *)actions[i].keyboard, keyboardcontrol);
@@ -488,7 +488,7 @@ static int ParseIntParameter(char *strparm, int aliastype)
     int parm = 0;
     int i = 0;
 
-    while (aliases[i].text[0])
+    while (*aliases[i].text)
     {
         if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return aliases[i].value;
@@ -505,7 +505,7 @@ static float ParseFloatParameter(char *strparm, int aliastype)
 {
     int     i = 0;
 
-    while (aliases[i].text[0])
+    while (*aliases[i].text)
     {
         if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return (float)aliases[i].value;
