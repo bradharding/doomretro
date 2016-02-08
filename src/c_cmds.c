@@ -1527,6 +1527,16 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     M_StringCopy(mapcmdlump, parm1, 7);
     if (gamemode == commercial)
     {
+        mapcmdepisode = 1;
+        if (gamestate != GS_LEVEL && gamemission == pack_nerve)
+            gamemission = doom2;
+
+        if (sscanf(parm1, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm1, "MAP%2i", &mapcmdmap) == 1)
+            if (BTSX && W_CheckMultipleLumps(parm1) == 1)
+                return false;
+            else
+                return (W_CheckNumForName(parm1) >= 0);
+
         if (BTSX)
         {
             if (sscanf(parm1, "MAP%02iC", &mapcmdmap) == 1)
@@ -1545,14 +1555,6 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
                 }
             }
         }
-        if (sscanf(parm1, "MAP0%1i", &mapcmdmap) != 1)
-            if (sscanf(parm1, "MAP%2i", &mapcmdmap) != 1)
-                return false;
-        if (BTSX && W_CheckMultipleLumps(parm1) == 1)
-            return false;
-        mapcmdepisode = 1;
-        if (gamestate != GS_LEVEL && gamemission == pack_nerve)
-            gamemission = doom2;
     }
     else if (sscanf(parm1, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) != 2)
     {
