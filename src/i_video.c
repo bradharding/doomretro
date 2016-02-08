@@ -58,9 +58,7 @@
 
 #if defined(WIN32)
 #include "SDL_syswm.h"
-#endif
-
-#if defined(X11)
+#elif defined(X11)
 #include <X11/Xlib.h>
 #include <X11/XKBlib.h>
 #endif
@@ -343,9 +341,10 @@ void I_ShutdownGraphics(void)
 }
 
 #if defined(X11)
-void I_SetXKBCapslockState(dboolean enabled)
+static void I_SetXKBCapslockState(dboolean enabled)
 {
-    Display *dpy = XOpenDisplay(0);
+    Display     *dpy = XOpenDisplay(0);
+
     XkbLockModifiers(dpy, XkbUseCoreKbd, 2, enabled * 2);
     XFlush(dpy);
     XCloseDisplay(dpy);
@@ -355,16 +354,14 @@ void I_SetXKBCapslockState(dboolean enabled)
 void I_ShutdownKeyboard(void)
 {
 #if defined(WIN32)
-    if (key_alwaysrun == KEY_CAPSLOCK)
-        if ((GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
-        {
-            keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-            keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
-        }
-#endif
-#if defined(X11)
+    if (key_alwaysrun == KEY_CAPSLOCK && (GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
+    {
+        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
+    }
+#elif defined(X11)
     if (key_alwaysrun == KEY_CAPSLOCK && (SDL_GetModState() & KMOD_CAPS) && !capslock)
-            I_SetXKBCapslockState(false);
+        I_SetXKBCapslockState(false);
 #endif
 }
 
@@ -1437,9 +1434,9 @@ void I_SetGamma(float value)
 
 void I_InitKeyboard(void)
 {
-#if defined(WIN32)
     if (key_alwaysrun == KEY_CAPSLOCK)
     {
+#if defined(WIN32)
         capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
 
         if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
@@ -1447,18 +1444,15 @@ void I_InitKeyboard(void)
             keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
             keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
         }
-    }
-#endif
-#if defined(X11)
-    if (key_alwaysrun == KEY_CAPSLOCK)
-    {
-        capslock = (SDL_GetModState() & KMOD_CAPS) > 0;
+#elif defined(X11)
+        capslock = (SDL_GetModState() & KMOD_CAPS);
+
         if (alwaysrun && !capslock)
             I_SetXKBCapslockState(true);
-        if (!alwaysrun && capslock)
+        else if (!alwaysrun && capslock)
             I_SetXKBCapslockState(false);
-    }
 #endif
+    }
 }
 
 void I_InitGraphics(void)
