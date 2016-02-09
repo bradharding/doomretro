@@ -1532,7 +1532,8 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
             gamemission = doom2;
 
         if (sscanf(parm1, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm1, "MAP%2i", &mapcmdmap) == 1)
-            if (BTSX && W_CheckMultipleLumps(parm1) == 1)
+            if ((BTSX && W_CheckMultipleLumps(parm1) == 1)
+                || (gamemission == pack_nerve && mapcmdmap > 9))
                 return false;
             else
                 return (W_CheckNumForName(parm1) >= 0);
