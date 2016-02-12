@@ -991,7 +991,9 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     dboolean    gibbed;
     mobjtype_t  item;
     mobjtype_t  type = target->type;
+    mobjinfo_t  *info = &mobjinfo[type];
     mobj_t      *mo;
+    int         gibhealth;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
@@ -1067,10 +1069,11 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     else
         target->flags2 &= ~MF2_NOLIQUIDBOB;
 
-    if ((gibbed = (target->health < -target->info->spawnhealth && target->info->xdeathstate)))
-        P_SetMobjState(target, target->info->xdeathstate);
+    gibhealth = info->gibhealth;
+    if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate)))
+        P_SetMobjState(target, info->xdeathstate);
     else
-        P_SetMobjState(target, target->info->deathstate);
+        P_SetMobjState(target, info->deathstate);
 
     target->tics = MAX(1, target->tics - (P_Random() & 3));
 
@@ -1084,15 +1087,15 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (source->player)
             C_PlayerMessage("%s %s %s%s with your %s.", titlecase(playername), (type == MT_BARREL ?
                 "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
-                (isvowel(target->info->name1[0]) ? "an " : "a ")), (target->player ?
+                (isvowel(info->name1[0]) ? "an " : "a ")), (target->player ?
                 (!M_StringCompare(playername, playername_default) ? "themselves" : "yourself") :
-                target->info->name1), weapondescription[source->player->readyweapon]);
+                info->name1), weapondescription[source->player->readyweapon]);
         else
-            C_PlayerMessage("%s%s %s %s%s.", (isvowel(source->info->name1[0]) ? "An " : "A "),
-                source->info->name1, (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" :
-                "killed")), (target->player ? "" : (source->type == target->type ? "another " :
-                (isvowel(target->info->name1[0]) ? "an " : "a "))), (target->player ? playername :
-                target->info->name1));
+            C_PlayerMessage("%s%s %s %s%s.", (isvowel(info->name1[0]) ? "An " : "A "), info->name1,
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                (target->player ? "" : (source->type == target->type ? "another " :
+                (isvowel(info->name1[0]) ? "an " : "a "))), (target->player ? playername :
+                info->name1));
 
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.
