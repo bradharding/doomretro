@@ -1562,21 +1562,18 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
             }
         }
     }
-    else if (sscanf(parm1, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) != 2)
+    else if (sscanf(parm1, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
     {
-        if (FREEDOOM && sscanf(parm1, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-        {
-            static char     lump[5];
-
-            M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
-            return (W_CheckNumForName(lump) >= 0);
-        }
-        else
-            return false;
-
         episode = mapcmdepisode - 1;
 
         return (W_CheckNumForName(parm1) >= 0);
+    }
+    else if (FREEDOOM && sscanf(parm1, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+    {
+        static char     lump[5];
+
+        M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
+        return (W_CheckNumForName(lump) >= 0);
     }
 
     return false;
