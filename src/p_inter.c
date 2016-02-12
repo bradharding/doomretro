@@ -1152,6 +1152,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     int         flags = target->flags;
     dboolean    corpse = (flags & MF_CORPSE);
     int         type = target->type;
+    mobjinfo_t  *info = &mobjinfo[type];
 
     if (!(flags & MF_SHOOTABLE) && (!corpse || !r_corpses_slide))
         return;
@@ -1177,7 +1178,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         || splayer->readyweapon != wp_chainsaw))
     {
         unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
-        fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
+        fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / info->mass;
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health
@@ -1295,19 +1296,19 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 
         // [crispy] the lethal pellet of a point-blank SSG blast
         // gets an extra damage boost for the occasional gib chance
-        if (splayer && splayer->readyweapon == wp_supershotgun && target->info->xdeathstate
-            && P_CheckMeleeRange(target) && damage >= 10)
-            target->health -= target->info->spawnhealth;
+        if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
+            && P_CheckMeleeRange(target) && damage >= 10 && info->gibhealth < 0)
+            target->health = info->gibhealth;
 
         P_KillMobj(source, target);
         return;
     }
 
-    if (P_Random() < target->info->painchance && !(flags & MF_SKULLFLY))
+    if (P_Random() < info->painchance && !(flags & MF_SKULLFLY))
     {
         target->flags |= MF_JUSTHIT;                            // fight back!
 
-        P_SetMobjState(target, target->info->painstate);
+        P_SetMobjState(target, info->painstate);
     }
 
     target->reactiontime = 0;                                   // we're awake now...
@@ -1322,8 +1323,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 
         P_SetTarget(&target->target, source);                   // killough 11/98
         target->threshold = BASETHRESHOLD;
-        if (target->state == &states[target->info->spawnstate]
-            && target->info->seestate != S_NULL)
-            P_SetMobjState(target, target->info->seestate);
+        if (target->state == &states[info->spawnstate] && info->seestate != S_NULL)
+            P_SetMobjState(target, info->seestate);
     }
 }
