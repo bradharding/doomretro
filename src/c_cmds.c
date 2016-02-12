@@ -1456,7 +1456,7 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
         }
         else
         {
-            if (gamemap == 1)
+            if (gamemap == 8)
             {
                 if (gameepisode == (gamemode == retail ? 4 : gamemode == shareware ? 1 : 3))
                     return false;
