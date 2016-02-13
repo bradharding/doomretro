@@ -1289,6 +1289,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     target->health -= damage;
     if (target->health <= 0)
     {
+        int gibhealth = info->gibhealth;
+
         if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
             target->colfunc = tlredcolfunc;
         else if (type == MT_BRUISER || type == MT_KNIGHT)
@@ -1297,8 +1299,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         // [crispy] the lethal pellet of a point-blank SSG blast
         // gets an extra damage boost for the occasional gib chance
         if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
-            && P_CheckMeleeRange(target) && damage >= 10 && info->gibhealth < 0)
-            target->health = info->gibhealth;
+            && P_CheckMeleeRange(target) && damage >= 10 && gibhealth < 0)
+            target->health = gibhealth - 1;
 
         P_KillMobj(source, target);
         return;
