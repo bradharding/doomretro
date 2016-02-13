@@ -467,7 +467,7 @@ static dboolean LockSound(sfxinfo_t *sfxinfo)
 // Retrieve the raw data lump index
 //  for a given SFX name.
 //
-int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
+int I_GetSfxLumpNum(sfxinfo_t *sfx)
 {
     char        namebuf[9];
 
@@ -479,7 +479,7 @@ int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
     return W_GetNumForName(namebuf);
 }
 
-void I_SDL_UpdateSoundParams(int handle, int vol, int sep)
+void I_UpdateSoundParams(int handle, int vol, int sep)
 {
     int         left, right;
 
@@ -504,7 +504,7 @@ void I_SDL_UpdateSoundParams(int handle, int vol, int sep)
 // Pitching (that is, increased speed of playback)
 //  is set, but currently not used by mixing.
 //
-int I_SDL_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
+int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 {
     allocated_sound_t   *snd;
 
@@ -550,12 +550,12 @@ int I_SDL_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitc
     channels_playing[channel] = snd;
 
     // set separation, etc.
-    I_SDL_UpdateSoundParams(channel, vol, sep);
+    I_UpdateSoundParams(channel, vol, sep);
 
     return channel;
 }
 
-void I_SDL_StopSound(int handle)
+void I_StopSound(int handle)
 {
     if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
         return;
@@ -567,7 +567,7 @@ void I_SDL_StopSound(int handle)
     ReleaseSoundOnChannel(handle);
 }
 
-dboolean I_SDL_SoundIsPlaying(int handle)
+dboolean I_SoundIsPlaying(int handle)
 {
     if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
         return false;
@@ -578,13 +578,13 @@ dboolean I_SDL_SoundIsPlaying(int handle)
 //
 // Periodically called to update the sound system
 //
-void I_SDL_UpdateSound(void)
+void I_UpdateSound(void)
 {
     int i;
 
     // Check all channels to see if a sound has finished
     for (i = 0; i < NUM_CHANNELS; ++i)
-        if (channels_playing[i] && !I_SDL_SoundIsPlaying(i))
+        if (channels_playing[i] && !I_SoundIsPlaying(i))
             // Sound has finished playing on this channel,
             // but sound data has not been released to cache
             ReleaseSoundOnChannel(i);
@@ -601,7 +601,7 @@ dboolean I_AnySoundStillPlaying(void)
     return result;
 }
 
-void I_SDL_ShutdownSound(void)
+void I_ShutdownSound(void)
 {
     if (!sound_initialized)
         return;
@@ -631,7 +631,7 @@ static int GetSliceSize(void)
     return 1024;
 }
 
-dboolean I_SDL_InitSound(void)
+dboolean I_InitSound(void)
 {
     int i;
 

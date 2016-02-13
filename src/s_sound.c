@@ -116,7 +116,7 @@ dboolean                s_randompitch = s_randompitch_default;
 // in snd_sfxdevice.
 static void InitSfxModule(void)
 {
-    if (I_SDL_InitSound())
+    if (I_InitSound())
     {
         C_Output("SFX playing at a sample rate of %.1fkHz on %i channels.",
             snd_samplerate / 1000.0f, numChannels);
@@ -129,7 +129,7 @@ static void InitSfxModule(void)
 // Initialize music according to snd_musicdevice.
 static void InitMusicModule(void)
 {
-    if (I_SDL_InitMusic())
+    if (I_InitMusic())
     {
         C_Output("Using General MIDI for music.");
 
@@ -205,8 +205,8 @@ void S_Init(int sfxvol, int musicvol)
 
 void S_Shutdown(void)
 {
-    I_SDL_ShutdownSound();
-    I_SDL_ShutdownMusic();
+    I_ShutdownSound();
+    I_ShutdownMusic();
 }
 
 static void S_StopChannel(int cnum)
@@ -218,8 +218,8 @@ static void S_StopChannel(int cnum)
         int     i;
 
         // stop the sound playing
-        if (I_SDL_SoundIsPlaying(c->handle))
-            I_SDL_StopSound(c->handle);
+        if (I_SoundIsPlaying(c->handle))
+            I_StopSound(c->handle);
 
         // check to see if other channels are playing the sound
         for (i = 0; i < numChannels; ++i)
@@ -456,13 +456,13 @@ void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
 
     // Get lumpnum if necessary
     // killough 2/28/98: make missing sounds non-fatal
-    if (sfx->lumpnum < 0 && (sfx->lumpnum = I_SDL_GetSfxLumpNum(sfx)) < 0)
+    if (sfx->lumpnum < 0 && (sfx->lumpnum = I_GetSfxLumpNum(sfx)) < 0)
         return;
 
     // Assigns the handle to one of the channels in the
     //  mix/output buffer.
     // e6y: [Fix] Crash with zero-length sounds.
-    if ((handle = I_SDL_StartSound(sfx, cnum, volume, sep, pitch)) != -1)
+    if ((handle = I_StartSound(sfx, cnum, volume, sep, pitch)) != -1)
     {
         channels[cnum].handle = handle;
         channels[cnum].pitch = pitch;
@@ -486,7 +486,7 @@ void S_PauseSound(void)
 {
     if (mus_playing && !mus_paused)
     {
-        I_SDL_PauseSong();
+        I_PauseSong();
         mus_paused = true;
     }
 }
@@ -495,7 +495,7 @@ void S_ResumeSound(void)
 {
     if (mus_playing && mus_paused)
     {
-        I_SDL_ResumeSong();
+        I_ResumeSong();
         mus_paused = false;
     }
 }
@@ -510,7 +510,7 @@ void S_UpdateSounds(mobj_t *listener)
     if (nosfx)
         return;
 
-    I_SDL_UpdateSound();
+    I_UpdateSound();
 
     for (cnum = 0; cnum < numChannels; ++cnum)
     {
@@ -519,7 +519,7 @@ void S_UpdateSounds(mobj_t *listener)
 
         if (sfx)
         {
-            if (I_SDL_SoundIsPlaying(c->handle))
+            if (I_SoundIsPlaying(c->handle))
             {
                 // initialize parameters
                 int     volume = snd_SfxVolume;
@@ -544,7 +544,7 @@ void S_UpdateSounds(mobj_t *listener)
                     if (!S_AdjustSoundParams(listener, c->origin, &volume, &sep))
                         S_StopChannel(cnum);
                     else
-                        I_SDL_UpdateSoundParams(c->handle, volume, sep);
+                        I_UpdateSoundParams(c->handle, volume, sep);
                 }
             }
             else
@@ -553,13 +553,13 @@ void S_UpdateSounds(mobj_t *listener)
         }
     }
 
-    if (!nomusic && s_randommusic && !I_SDL_MusicIsPlaying())
+    if (!nomusic && s_randommusic && !I_MusicIsPlaying())
         S_ChangeMusic(S_GetMusicNum(), false, false, false);
 }
 
 void S_SetMusicVolume(int volume)
 {
-    I_SDL_SetMusicVolume(volume);
+    I_SetMusicVolume(volume);
 }
 
 void S_SetSfxVolume(int volume)
@@ -597,7 +597,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
 
     // Load & register it
     music->data = W_CacheLumpNum(music->lumpnum, PU_STATIC);
-    handle = I_SDL_RegisterSong(music->data, W_LumpLength(music->lumpnum));
+    handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
 
     if (!handle)
     {
@@ -608,7 +608,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     music->handle = handle;
 
     // Play it
-    I_SDL_PlaySong(handle, looping);
+    I_PlaySong(handle, looping);
 
     mus_playing = music;
 }
@@ -618,10 +618,10 @@ void S_StopMusic(void)
     if (mus_playing)
     {
         if (mus_paused)
-            I_SDL_ResumeSong();
+            I_ResumeSong();
 
-        I_SDL_StopSong();
-        I_SDL_UnRegisterSong(mus_playing->handle);
+        I_StopSong();
+        I_UnRegisterSong(mus_playing->handle);
         W_ReleaseLumpNum(mus_playing->lumpnum);
         mus_playing->data = NULL;
         mus_playing = NULL;

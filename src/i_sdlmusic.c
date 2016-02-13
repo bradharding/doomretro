@@ -74,16 +74,13 @@ static dboolean WriteWrapperTimidityConfig(char *write_path)
     char        *p;
     FILE        *fstream;
 
-    if (!strcmp(s_timiditycfgpath, ""))
+    if (!*s_timiditycfgpath)
         return false;
 
-    fstream = fopen(write_path, "w");
-
-    if (!fstream)
+    if (!(fstream = fopen(write_path, "w")))
         return false;
 
-    p = strrchr(s_timiditycfgpath, DIR_SEPARATOR);
-    if (p)
+    if ((p = strrchr(s_timiditycfgpath, DIR_SEPARATOR)))
     {
         char    *path = strdup(s_timiditycfgpath);
 
@@ -109,11 +106,7 @@ void I_InitTimidityConfig(void)
     // Set the TIMIDITY_CFG environment variable to point to the temporary
     // config file.
     if (success)
-    {
-        char    *env_string = M_StringJoin("TIMIDITY_CFG=", temp_timidity_cfg, NULL);
-
-        putenv(env_string);
-    }
+        putenv(M_StringJoin("TIMIDITY_CFG=", temp_timidity_cfg, NULL));
     else
     {
         free(temp_timidity_cfg);
@@ -141,7 +134,7 @@ static void RemoveTimidityConfig(void)
 }
 
 // Shutdown music
-void I_SDL_ShutdownMusic(void)
+void I_ShutdownMusic(void)
 {
     if (music_initialized)
     {
@@ -168,7 +161,7 @@ static dboolean SDLIsInitialized(void)
 }
 
 // Initialize music subsystem
-dboolean I_SDL_InitMusic(void)
+dboolean I_InitMusic(void)
 {
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
@@ -179,7 +172,7 @@ dboolean I_SDL_InitMusic(void)
             SAMPLECOUNT * snd_samplerate / 11025) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
-            I_Error("Error initializing SDL_mixer: %s", Mix_GetError());
+            I_Error("Error initializing SDL2_mixer: %s", Mix_GetError());
         }
 
     SDL_PauseAudio(0);
@@ -206,7 +199,7 @@ static void UpdateMusicVolume(void)
 }
 
 // Set music volume (0 - 127)
-void I_SDL_SetMusicVolume(int volume)
+void I_SetMusicVolume(int volume)
 {
     // Internal state variable.
     current_music_volume = volume;
@@ -215,15 +208,15 @@ void I_SDL_SetMusicVolume(int volume)
 }
 
 // Start playing a mid
-void I_SDL_PlaySong(void *handle, int looping)
+void I_PlaySong(void *handle, int looping)
 {
     if (!music_initialized || !handle)
         return;
 
-    Mix_PlayMusic((Mix_Music *)handle, looping ? -1 : 1);
+    Mix_PlayMusic((Mix_Music *)handle, (looping ? -1 : 1));
 }
 
-void I_SDL_PauseSong(void)
+void I_PauseSong(void)
 {
     if (!music_initialized)
         return;
@@ -233,7 +226,7 @@ void I_SDL_PauseSong(void)
     UpdateMusicVolume();
 }
 
-void I_SDL_ResumeSong(void)
+void I_ResumeSong(void)
 {
     if (!music_initialized)
         return;
@@ -243,7 +236,7 @@ void I_SDL_ResumeSong(void)
     UpdateMusicVolume();
 }
 
-void I_SDL_StopSong(void)
+void I_StopSong(void)
 {
     if (!music_initialized)
         return;
@@ -251,7 +244,7 @@ void I_SDL_StopSong(void)
     Mix_HaltMusic();
 }
 
-void I_SDL_UnRegisterSong(void *handle)
+void I_UnRegisterSong(void *handle)
 {
     if (!music_initialized || !handle)
         return;
@@ -263,11 +256,11 @@ static dboolean ConvertMus(byte *musdata, int len, char *filename)
 {
     MEMFILE     *instream = mem_fopen_read(musdata, len);
     MEMFILE     *outstream = mem_fopen_write();
-    void        *outbuf;
     int         result = mus2mid(instream, outstream);
 
     if (!result)
     {
+        void    *outbuf;
         size_t  outbuf_len;
 
         mem_get_buf(outstream, &outbuf, &outbuf_len);
@@ -280,11 +273,14 @@ static dboolean ConvertMus(byte *musdata, int len, char *filename)
     return result;
 }
 
-void *I_SDL_RegisterSong(void *data, int len)
+void *I_RegisterSong(void *data, int len)
 {
-    Mix_Music   *music = NULL;
+    if (!music_initialized)
+        return false;
+    else
+    {
+        Mix_Music       *music = NULL;
 
-    if (music_initialized)
         if (!memcmp(data, "MUS", 3))
         {
             ConvertMus(data, len, tempmusicfilename);
@@ -296,14 +292,15 @@ void *I_SDL_RegisterSong(void *data, int len)
             SDL_RWops   *rwops = SDL_RWFromMem(data, len);
 
             if (rwops)
-                music = Mix_LoadMUS_RW(rwops, SDL_TRUE);
+                music = Mix_LoadMUS_RW(rwops, SDL_FALSE);
         }
 
-    return music;
+        return music;
+    }
 }
 
 // Is the song playing?
-dboolean I_SDL_MusicIsPlaying(void)
+dboolean I_MusicIsPlaying(void)
 {
     if (!music_initialized)
         return false;
