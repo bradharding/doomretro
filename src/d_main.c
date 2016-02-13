@@ -609,22 +609,20 @@ static void LoadCfgFile(char *path)
 
 static dboolean D_IsDOOMIWAD(char *filename)
 {
-    return (M_StringCompare(leafname(filename), "DOOM.WAD")
-        || M_StringCompare(leafname(filename), "DOOM1.WAD")
-        || M_StringCompare(leafname(filename), "DOOM2.WAD")
-        || M_StringCompare(leafname(filename), "PLUTONIA.WAD")
-        || M_StringCompare(leafname(filename), "TNT.WAD")
-        || (hacx = M_StringCompare(leafname(filename), "HACX.WAD")));
+    const char  *leaf = leafname(filename);
+
+    return (M_StringCompare(leaf, "DOOM.WAD") || M_StringCompare(leaf, "DOOM1.WAD")
+        || M_StringCompare(leaf, "DOOM2.WAD") || M_StringCompare(leaf, "PLUTONIA.WAD")
+        || M_StringCompare(leaf, "TNT.WAD") || (hacx = M_StringCompare(leaf, "HACX.WAD")));
 }
 
 static dboolean D_IsUnsupportedIWAD(char *filename)
 {
-    return (M_StringCompare(leafname(filename), "HERETIC1.WAD")
-        || M_StringCompare(leafname(filename), "HERETIC.WAD")
-        || M_StringCompare(leafname(filename), "HEXEN.WAD")
-        || M_StringCompare(leafname(filename), "HEXDD.WAD")
-        || M_StringCompare(leafname(filename), "STRIFE0.WAD")
-        || M_StringCompare(leafname(filename), "STRIFE1.WAD"));
+    const char  *leaf = leafname(filename);
+
+    return (M_StringCompare(leaf, "HERETIC1.WAD") || M_StringCompare(leaf, "HERETIC.WAD")
+        || M_StringCompare(leaf, "HEXEN.WAD") || M_StringCompare(leaf, "HEXDD.WAD")
+        || M_StringCompare(leaf, "STRIFE0.WAD") || M_StringCompare(leaf, "STRIFE1.WAD"));
 }
 
 static dboolean D_IsCfgFile(char *filename)
@@ -640,26 +638,28 @@ static dboolean D_IsDehFile(char *filename)
 
 static void D_CheckSupportedPWAD(char *filename)
 {
-    if (M_StringCompare(leafname(filename), "NERVE.WAD"))
+    const char  *leaf = leafname(filename);
+
+    if (M_StringCompare(leaf, "NERVE.WAD"))
     {
         nerve = true;
         expansion = 1;
     }
-    else if (M_StringCompare(leafname(filename), "BREACH.WAD"))
+    else if (M_StringCompare(leaf, "BREACH.WAD"))
         breach = true;
-    else if (M_StringCompare(leafname(filename), "CHEX.WAD"))
+    else if (M_StringCompare(leaf, "CHEX.WAD"))
         chex = true;
-    else if (M_StringCompare(leafname(filename), "BTSX_E1.WAD"))
+    else if (M_StringCompare(leaf, "BTSX_E1.WAD"))
         BTSX = BTSXE1 = true;
-    else if (M_StringCompare(leafname(filename), "BTSX_E2A.WAD"))
+    else if (M_StringCompare(leaf, "BTSX_E2A.WAD"))
         BTSX = BTSXE2 = BTSXE2A = true;
-    else if (M_StringCompare(leafname(filename), "BTSX_E2B.WAD"))
+    else if (M_StringCompare(leaf, "BTSX_E2B.WAD"))
         BTSX = BTSXE2 = BTSXE2B = true;
-    else if (M_StringCompare(leafname(filename), "BTSX_E3A.WAD"))
+    else if (M_StringCompare(leaf, "BTSX_E3A.WAD"))
         BTSX = BTSXE3 = BTSXE3A = true;
-    else if (M_StringCompare(leafname(filename), "BTSX_E3B.WAD"))
+    else if (M_StringCompare(leaf, "BTSX_E3B.WAD"))
         BTSX = BTSXE3 = BTSXE3B = true;
-    else if (M_StringCompare(leafname(filename), "E1M8B.WAD"))
+    else if (M_StringCompare(leaf, "E1M8B.WAD"))
         E1M8B = true;
 }
 

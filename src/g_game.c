@@ -828,15 +828,6 @@ dboolean G_Responder(event_t *ev)
     return false;
 }
 
-static byte saveg_read8(FILE *file)
-{
-    byte        result;
-
-    if (fread(&result, 1, 1, file) < 1)
-        return 0;
-    return result;
-}
-
 void D_Display(void);
 
 char    savename[256];

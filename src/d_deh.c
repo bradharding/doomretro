@@ -64,9 +64,9 @@ typedef struct
     FILE        *f;
 } DEHFILE;
 
-dboolean addtocount;
-int     dehcount = 0;
-dboolean dehacked = false;
+dboolean        addtocount;
+int             dehcount = 0;
+dboolean        dehacked = false;
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -1735,7 +1735,7 @@ static actionf_t deh_codeptr[NUMSTATES];
 dboolean CheckPackageWADVersion(void)
 {
     DEHFILE     infile, *filein = &infile;
-    char        inbuffer[DEH_BUFFERMAX];
+    char        inbuffer[32];
     int         i;
 
     for (i = 0; i < numlumps; ++i)
