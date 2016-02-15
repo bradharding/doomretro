@@ -1264,27 +1264,24 @@ static void SetVideoMode(dboolean output)
 
         if (vid_capfps)
             C_Output("The framerate is capped at %i FPS.", TICRATE);
+        else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+        {
+            SDL_DisplayMode displaymode;
+
+            SDL_GetWindowDisplayMode(window, &displaymode);
+            C_Output("The framerate is capped at the display's refresh rate of %iHz.",
+                displaymode.refresh_rate);
+        }
         else
         {
-            if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+            if (vid_vsync)
             {
-                SDL_DisplayMode displaymode;
-
-                SDL_GetWindowDisplayMode(window, &displaymode);
-                C_Output("The framerate is capped at the display's refresh rate of %iHz.",
-                    displaymode.refresh_rate);
+                if (M_StringCompare(rendererinfo.name, "software"))
+                    C_Warning("Vertical synchronization can't be enabled in software.");
+                else
+                    C_Warning("Vertical synchronization can't be enabled.");
             }
-            else
-            {
-                if (vid_vsync)
-                {
-                    if (M_StringCompare(rendererinfo.name, "software"))
-                        C_Warning("Vertical synchronization can't be enabled in software.");
-                    else
-                        C_Warning("Vertical synchronization can't be enabled.");
-                }
-                C_Output("The framerate is uncapped.");
-            }
+            C_Output("The framerate is uncapped.");
         }
 
         C_Output("Using the 256-color palette from the PLAYPAL lump in %s file %s.",
