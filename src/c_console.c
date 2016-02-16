@@ -236,7 +236,7 @@ void C_PctCVAROutput(char *cvar, int value)
 {
     if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
         --consolestrings;
-    C_Input("%s %i%s%%", cvar, value);
+    C_Input("%s %i%%", cvar, value);
 }
 
 void C_StrCVAROutput(char *cvar, char *string)
