@@ -1401,7 +1401,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(--sfxVolume * 127.0f / 15.0f));
                     S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 15;
-                    C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
+                    C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1411,7 +1411,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(++sfxVolume * 127.0f / 15.0f));
                     S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 15;
-                    C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
+                    C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
                 }
                 break;
