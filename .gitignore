@@ -214,3 +214,4 @@ msvc/Debug/doomretro.cfg
 # Files built on Unix systems
 *.[oa]
 src/doomretro
+*.db
