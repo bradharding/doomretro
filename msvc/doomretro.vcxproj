@@ -354,7 +354,7 @@
     <ClCompile Include="..\src\hu_lib.c" />
     <ClCompile Include="..\src\hu_stuff.c" />
     <ClCompile Include="..\src\i_gamepad.c" />
-    <ClCompile Include="..\src\i_main.c" />
+    <ClCompile Include="..\src\doomretro.c" />
     <ClCompile Include="..\src\i_tinttab.c" />
     <ClCompile Include="..\src\i_system.c" />
     <ClCompile Include="..\src\i_timer.c" />

@@ -23,6 +23,7 @@
 		AB5A827D1A8DB9EB00AF539F /* d_items.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E41A8DB9EB00AF539F /* d_items.c */; };
 		AB5A827E1A8DB9EB00AF539F /* d_iwad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E61A8DB9EB00AF539F /* d_iwad.c */; };
 		AB5A827F1A8DB9EB00AF539F /* d_main.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E81A8DB9EB00AF539F /* d_main.c */; };
+		AB5A82891A8DB9EB00AF539F /* doomretro.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82031A8DB9EB00AF539F /* doomretro.c */; };
 		AB5A82811A8DB9EB00AF539F /* doomstat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F21A8DB9EB00AF539F /* doomstat.c */; };
 		AB5A82821A8DB9EB00AF539F /* dstrings.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F51A8DB9EB00AF539F /* dstrings.c */; };
 		AB5A82831A8DB9EB00AF539F /* f_finale.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F71A8DB9EB00AF539F /* f_finale.c */; };
@@ -31,7 +32,6 @@
 		AB5A82861A8DB9EB00AF539F /* hu_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81FD1A8DB9EB00AF539F /* hu_lib.c */; };
 		AB5A82871A8DB9EB00AF539F /* hu_stuff.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81FF1A8DB9EB00AF539F /* hu_stuff.c */; };
 		AB5A82881A8DB9EB00AF539F /* i_gamepad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82011A8DB9EB00AF539F /* i_gamepad.c */; };
-		AB5A82891A8DB9EB00AF539F /* i_main.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82031A8DB9EB00AF539F /* i_main.c */; };
 		AB5A828A1A8DB9EB00AF539F /* i_sdlmusic.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82041A8DB9EB00AF539F /* i_sdlmusic.c */; };
 		AB5A828B1A8DB9EB00AF539F /* i_sdlsound.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82051A8DB9EB00AF539F /* i_sdlsound.c */; };
 		AB5A828C1A8DB9EB00AF539F /* i_system.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82071A8DB9EB00AF539F /* i_system.c */; };
@@ -144,6 +144,7 @@
 		AB5A81EF1A8DB9EB00AF539F /* doomdata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomdata.h; path = ../src/doomdata.h; sourceTree = SOURCE_ROOT; };
 		AB5A81F01A8DB9EB00AF539F /* doomdef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomdef.h; path = ../src/doomdef.h; sourceTree = SOURCE_ROOT; };
 		AB5A81F11A8DB9EB00AF539F /* doomkeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomkeys.h; path = ../src/doomkeys.h; sourceTree = SOURCE_ROOT; };
+		AB5A82031A8DB9EB00AF539F /* doomretro.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = doomretro.c; path = ../src/doomretro.c; sourceTree = SOURCE_ROOT; };
 		AB5A81F21A8DB9EB00AF539F /* doomstat.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = doomstat.c; path = ../src/doomstat.c; sourceTree = SOURCE_ROOT; };
 		AB5A81F31A8DB9EB00AF539F /* doomstat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomstat.h; path = ../src/doomstat.h; sourceTree = SOURCE_ROOT; };
 		AB5A81F41A8DB9EB00AF539F /* doomtype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomtype.h; path = ../src/doomtype.h; sourceTree = SOURCE_ROOT; };
@@ -161,7 +162,6 @@
 		AB5A82001A8DB9EB00AF539F /* hu_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hu_stuff.h; path = ../src/hu_stuff.h; sourceTree = SOURCE_ROOT; };
 		AB5A82011A8DB9EB00AF539F /* i_gamepad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_gamepad.c; path = ../src/i_gamepad.c; sourceTree = SOURCE_ROOT; };
 		AB5A82021A8DB9EB00AF539F /* i_gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_gamepad.h; path = ../src/i_gamepad.h; sourceTree = SOURCE_ROOT; };
-		AB5A82031A8DB9EB00AF539F /* i_main.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_main.c; path = ../src/i_main.c; sourceTree = SOURCE_ROOT; };
 		AB5A82041A8DB9EB00AF539F /* i_sdlmusic.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_sdlmusic.c; path = ../src/i_sdlmusic.c; sourceTree = SOURCE_ROOT; };
 		AB5A82051A8DB9EB00AF539F /* i_sdlsound.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_sdlsound.c; path = ../src/i_sdlsound.c; sourceTree = SOURCE_ROOT; };
 		AB5A82061A8DB9EB00AF539F /* i_swap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_swap.h; path = ../src/i_swap.h; sourceTree = SOURCE_ROOT; };
@@ -369,6 +369,7 @@
 				AB5A81EF1A8DB9EB00AF539F /* doomdata.h */,
 				AB5A81F01A8DB9EB00AF539F /* doomdef.h */,
 				AB5A81F11A8DB9EB00AF539F /* doomkeys.h */,
+				AB5A82031A8DB9EB00AF539F /* doomretro.c */,
 				AB5A81F21A8DB9EB00AF539F /* doomstat.c */,
 				AB5A81F31A8DB9EB00AF539F /* doomstat.h */,
 				AB5A81F41A8DB9EB00AF539F /* doomtype.h */,
@@ -386,7 +387,6 @@
 				AB5A82001A8DB9EB00AF539F /* hu_stuff.h */,
 				AB5A82011A8DB9EB00AF539F /* i_gamepad.c */,
 				AB5A82021A8DB9EB00AF539F /* i_gamepad.h */,
-				AB5A82031A8DB9EB00AF539F /* i_main.c */,
 				AB5A82041A8DB9EB00AF539F /* i_sdlmusic.c */,
 				AB5A82051A8DB9EB00AF539F /* i_sdlsound.c */,
 				AB5A82061A8DB9EB00AF539F /* i_swap.h */,
@@ -629,7 +629,7 @@
 				AB5A82AD1A8DB9EB00AF539F /* p_setup.c in Sources */,
 				AB5A82961A8DB9EB00AF539F /* m_menu.c in Sources */,
 				AB5A82B51A8DB9EB00AF539F /* r_data.c in Sources */,
-				AB5A82891A8DB9EB00AF539F /* i_main.c in Sources */,
+				AB5A82891A8DB9EB00AF539F /* doomretro.c in Sources */,
 				AB5A82C81A8DB9EB00AF539F /* wi_stuff.c in Sources */,
 				AB5A82BC1A8DB9EB00AF539F /* s_sound.c in Sources */,
 				AB5A828F1A8DB9EB00AF539F /* i_video.c in Sources */,
