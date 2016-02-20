@@ -2042,7 +2042,7 @@ void deh_procThing(DEHFILE *fpin, char *line)
             if (!M_StringCompare(key, deh_mobjinfo[ix]))
                 continue;
 
-            if (!M_StringCompare(key, "Bits"))
+            if (!M_StringCompare(key, "Bits") && !M_StringCompare(key, "Bits2"))
             {
                 pix = (int *)&mobjinfo[indexnum];
                 pix[ix] = (int)value;
@@ -2055,7 +2055,12 @@ void deh_procThing(DEHFILE *fpin, char *line)
                 // e6y: Correction of wrong processing of Bits parameter if its value is equal to
                 // zero
                 if (bGetData == 1)
-                    mobjinfo[indexnum].flags = value;
+                {
+                    if (M_StringCompare(key, "Bits"))
+                        mobjinfo[indexnum].flags = value;
+                    else
+                        mobjinfo[indexnum].flags2 = value;
+                }
                 else
                 {
                     // figure out what the bits are
@@ -2085,9 +2090,18 @@ void deh_procThing(DEHFILE *fpin, char *line)
                     }
 
                     // Don't worry about conversion -- simply print values
-                    if (devparm)
-                        C_Output("Bits = 0x%08lX = %ld.", value, value);
-                    mobjinfo[indexnum].flags = value; // e6y
+                    if (M_StringCompare(key, "Bits"))
+                    {
+                        if (devparm)
+                            C_Output("Bits = 0x%08lX = %ld.", value, value);
+                        mobjinfo[indexnum].flags = value; // e6y
+                    }
+                    else
+                    {
+                        if (devparm)
+                            C_Output("Bits2 = 0x%08lX = %ld.", value, value);
+                        mobjinfo[indexnum].flags2 = value; // e6y
+                    }
                 }
             }
             if (devparm)
