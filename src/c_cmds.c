@@ -562,7 +562,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, "The filter used to scale the display (\"nearest\", \"linear\" or\n\"nearest_linear\")."),
     CVAR_SIZE (vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2, "The screen's resolution when fullscreen (desktop or\n~width~\xD7~height~)."),
     CVAR_BOOL (vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, "Toggles the display of the average frames per second."),
-    CVAR_BOOL (vid_vsync, "", bool_cvars_func1, vid_vsync_cvar_func2, "Toggles vertical synchronization with the display's refresh rate."),
+    CVAR_BOOL (vid_vsync, "", bool_cvars_func1, vid_vsync_cvar_func2, "Toggles vertical synchronization with the display's refresh\nrate."),
     CVAR_BOOL (vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, "Toggles widescreen mode."),
     CVAR_POS  (vid_windowposition, "", null_func1, vid_windowposition_cvar_func2, "The position of the window on the desktop (centered or\n(~width~,~height~))."),
     CVAR_SIZE (vid_windowsize, "", null_func1, vid_windowsize_cvar_func2, "The size of the window on the desktop (~width~\xD7~height~)."),
