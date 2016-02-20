@@ -1341,6 +1341,7 @@ typedef struct
     statenum_t  nextstate;
     long        misc1;
     long        misc2;
+    dboolean    translucent;
     dboolean    dehacked;
 } state_t;
 

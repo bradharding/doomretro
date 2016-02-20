@@ -1219,7 +1219,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                 /* SPR_BFGF */ tlcolfunc
             };
 
-            vis->colfunc = (bflash && spr <= SPR_BFGF && !dehacked ? colfuncs[spr] : basecolfunc);
+            vis->colfunc = (bflash && spr <= SPR_BFGF && (!dehacked || state->translucent) ?
+                colfuncs[spr] : basecolfunc);
         }
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color
