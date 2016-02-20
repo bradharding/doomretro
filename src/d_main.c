@@ -1262,7 +1262,7 @@ static void D_ProcessDehInWad(void)
             ProcessDehFile(NULL, i);
 }
 
-void D_ParseStartupString(const char *string)
+static void D_ParseStartupString(const char *string)
 {
     size_t      i;
     size_t      start;
