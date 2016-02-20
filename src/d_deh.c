@@ -1929,8 +1929,8 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
     // for this one, we just read 'em until we hit a blank line
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
-        int     i = 0;                          // looper
-        dboolean found = false;                  // know if we found this one during lookup or not
+        int             i = 0;                  // looper
+        dboolean        found = false;          // know if we found this one during lookup or not
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2961,9 +2961,7 @@ void deh_procError(DEHFILE *fpin, char *line)
     char        inbuffer[DEH_BUFFERMAX];
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
-    if (!M_StringStartsWith(inbuffer, "Patch File for DeHackEd")
-        && !M_StringStartsWith(inbuffer, "Doom version")
-        && !M_StringStartsWith(inbuffer, "Patch format"))
+    if (devparm)
         C_Warning("Ignoring \"%s\".", inbuffer);
     return;
 }
