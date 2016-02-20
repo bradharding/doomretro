@@ -118,6 +118,8 @@ typedef enum
 #define am_xhaircolor_default                   4
 #define am_xhaircolor_max                       255
 
+#define autoload_default                        true
+
 #define centerweapon_default                    true
 
 #define con_obituaries_default                  false

@@ -73,6 +73,7 @@ extern int              am_thingcolor;
 extern int              am_tswallcolor;
 extern int              am_wallcolor;
 extern int              am_xhaircolor;
+extern dboolean         autoload;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
@@ -207,6 +208,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_tswallcolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_wallcolor,                          NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_xhaircolor,                         NOALIAS    ),
+    CONFIG_VARIABLE_INT          (autoload,                              BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (centerweapon,                          BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_timestamps,                        BOOLALIAS  ),
@@ -564,6 +566,9 @@ static void M_CheckCVARs(void)
     am_wallcolor = BETWEEN(am_wallcolor_min, am_wallcolor, am_wallcolor_max);
 
     am_xhaircolor = BETWEEN(am_xhaircolor_min, am_xhaircolor, am_xhaircolor_max);
+
+    if (autoload != false && autoload != true)
+        autoload = autoload_default;
 
     if (centerweapon != false && centerweapon != true)
         centerweapon = centerweapon_default;

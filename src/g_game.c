@@ -112,6 +112,7 @@ dboolean        precache = true;        // if true, load all graphics at start
 
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
+dboolean        autoload = autoload_default;
 dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
 dboolean        gp_vibrate = gp_vibrate_default;
 
@@ -1055,7 +1056,7 @@ void G_PlayerReborn(void)
 //
 void G_DoReborn(void)
 {
-    gameaction = (quickSaveSlot < 0 ? ga_loadlevel : ga_reloadgame);
+    gameaction = (quickSaveSlot >= 0 && autoload ? ga_reloadgame : ga_loadlevel);
 }
 
 void G_ScreenShot(void)
