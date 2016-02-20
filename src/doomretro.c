@@ -53,8 +53,6 @@ int     windowborderheight = 0;
 #if defined(WIN32)
 #include <windows.h>
 
-#include "doomdef.h"
-#include "m_argv.h"
 #include "SDL_syswm.h"
 
 #if !defined(SM_CXPADDEDBORDER)
@@ -269,14 +267,12 @@ int main(int argc, char **argv)
     SystemParametersInfo(SPI_GETFILTERKEYS, sizeof(FILTERKEYS), &g_StartupFilterKeys, 0);
 
     I_AccessibilityShortcutKeys(false);
+
+    I_SetProcessDPIAware();
 #endif
 
     myargc = argc;
     myargv = argv;
-
-#if defined(WIN32)
-    I_SetProcessDPIAware();
-#endif
 
     D_DoomMain();
 
