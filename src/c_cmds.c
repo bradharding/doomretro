@@ -123,6 +123,7 @@ extern int              m_threshold;
 extern int              movebob;
 extern char             *playername;
 extern dboolean         r_althud;
+extern int              r_berserkintensity;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern int              r_bloodsplats_total;
@@ -511,6 +512,7 @@ consolecmd_t consolecmds[] =
     CMD       (playerstats, "", null_func1, playerstats_cmd_func2, 0, "", "Shows statistics about the player."),
     CMD       (quit, exit, null_func1, quit_cmd_func2, 0, "", "Quits ~"PACKAGE_NAME"~."),
     CVAR_BOOL (r_althud, "", bool_cvars_func1, bool_cvars_func2, "Toggles the display of an alternate heads up display when in\nwidescreen mode."),
+    CVAR_INT  (r_berserkintensity, "", null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The intensity of the screen's red haze when the player has the\nberserk power-up and their fists selected."),
     CVAR_INT  (r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters (all, none or\nred)."),
     CVAR_INT  (r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The maximum number of blood splats allowed in a map (0 to\n1,048,576)."),
     CVAR_INT  (r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOALIAS, "The total number of blood splats in the current map."),

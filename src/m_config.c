@@ -95,6 +95,7 @@ extern int              m_threshold;
 extern int              movebob;
 extern char             *playername;
 extern dboolean         r_althud;
+extern int              r_berserkintensity;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern dboolean         r_brightmaps;
@@ -230,6 +231,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (movebob,                               NOALIAS    ),
     CONFIG_VARIABLE_STRING       (playername,                            NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_althud,                              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (r_berserkintensity,                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_blood,                               BLOODALIAS ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                     NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_brightmaps,                          BOOLALIAS  ),
@@ -615,6 +617,9 @@ static void M_CheckCVARs(void)
 
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;
+
+    r_berserkintensity = BETWEEN(r_berserkintensity_min, r_berserkintensity,
+        r_berserkintensity_max);
 
     if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all)
         r_blood = r_blood_default;

@@ -282,6 +282,7 @@ dboolean                        idmus = false;
 dboolean                        samelevel;
 
 int                             faceback = faceback_default;
+int                             r_berserkintensity = r_berserkintensity_default;
 
 unsigned int                    stat_cheated = 0;
 
@@ -1311,7 +1312,7 @@ void ST_doPaletteStuff(void)
         if (plyr->bonuscount)
             palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
         else
-            palette = STARTREDPALS + MIN((count + 14) >> 3, NUMREDPALS - 1);
+            palette = MIN((count >> 3) + NUMREDPALS * r_berserkintensity / 100, NUMREDPALS);
     }
     else if (count)
         palette = STARTREDPALS + MIN((count + 7) >> 3, NUMREDPALS - 1);
