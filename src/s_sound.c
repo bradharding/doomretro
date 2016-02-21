@@ -575,7 +575,7 @@ void S_StartMusic(int music_id)
 void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean mapstart)
 {
     musicinfo_t *music = &S_music[music_id];
-    void        *handle;
+    void        *handle = NULL;
     int         mapinfomusic;
 
     if (nomusic || (mus_playing == music && !cheating))
@@ -585,7 +585,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     S_StopMusic();
 
     // get lumpnum if necessary
-    if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)))
+    if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) > 0)
         music->lumpnum = mapinfomusic;
     else if (!music->lumpnum)
     {
@@ -595,9 +595,12 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
         music->lumpnum = W_GetNumForName(namebuf);
     }
 
-    // Load & register it
-    music->data = W_CacheLumpNum(music->lumpnum, PU_STATIC);
-    handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
+    if (music->lumpnum != -1)
+    {
+        // Load & register it
+        music->data = W_CacheLumpNum(music->lumpnum, PU_STATIC);
+        handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
+    }
 
     if (!handle)
     {
