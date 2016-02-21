@@ -113,6 +113,7 @@ dboolean        precache = true;        // if true, load all graphics at start
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 dboolean        autoload = autoload_default;
+dboolean        autosave = autosave_default;
 dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
 dboolean        gp_vibrate = gp_vibrate_default;
 
