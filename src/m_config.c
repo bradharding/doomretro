@@ -80,7 +80,7 @@ extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
 extern int              episode;
 extern int              expansion;
-extern int              faceback;
+extern int              facebackcolor;
 extern float            gp_deadzone_left;
 extern float            gp_deadzone_right;
 extern int              gp_sensitivity;
@@ -217,7 +217,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (con_timestamps,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (episode,                               NOALIAS    ),
     CONFIG_VARIABLE_INT          (expansion,                             NOALIAS    ),
-    CONFIG_VARIABLE_INT          (faceback,                              NOALIAS    ),
+    CONFIG_VARIABLE_INT          (facebackcolor,                         NOALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                      NOALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                     NOALIAS    ),
     CONFIG_VARIABLE_INT          (gp_sensitivity,                        NOALIAS    ),
@@ -590,7 +590,7 @@ static void M_CheckCVARs(void)
 
     expansion = BETWEEN(expansion_min, expansion, expansion_max);
 
-    faceback = BETWEEN(faceback_min, faceback, faceback_max);
+    facebackcolor = BETWEEN(facebackcolor_min, facebackcolor, facebackcolor_max);
 
     gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
     gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);

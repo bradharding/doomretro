@@ -281,7 +281,7 @@ dboolean                        idmus = false;
 
 dboolean                        samelevel;
 
-int                             faceback = faceback_default;
+int                             facebackcolor = facebackcolor_default;
 int                             r_berserkintensity = r_berserkintensity_default;
 
 unsigned int                    stat_cheated = 0;
@@ -1363,8 +1363,9 @@ void ST_drawWidgets(dboolean refresh)
     for (i = 0; i < armsnum; i++)
         STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
-    if (faceback != faceback_default)
-        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, faceback);
+    if (facebackcolor != facebackcolor_default)
+        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT,
+            facebackcolor);
 
     STlib_updateMultIcon(&w_faces, refresh);
 

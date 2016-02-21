@@ -107,7 +107,7 @@ extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
 extern int              episode;
 extern int              expansion;
-extern int              faceback;
+extern int              facebackcolor;
 extern int              gametime;
 extern float            gp_deadzone_left;
 extern float            gp_deadzone_right;
@@ -467,7 +467,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM~ episode in the menu."),
     CMD       (exitmap, "", game_func1, exitmap_cmd_func2, 0, "", "Exits the current map."),
     CVAR_INT  (expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM II~ expansion in the menu."),
-    CVAR_INT  (faceback, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The color behind the player's face in the status bar."),
+    CVAR_INT  (facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The color behind the player's face in the status bar."),
     CVAR_TIME (gametime, "", null_func1, time_cvars_func2, "The amount of time since ~"PACKAGE_NAME"~ started."),
     CMD       (give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT, "Gives items to the player."),
     CMD       (god, "", god_cmd_func1, god_cmd_func2, 1, "[on|off]", "Toggles god mode."),
