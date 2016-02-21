@@ -703,7 +703,8 @@ static void M_CheckCVARs(void)
     if (r_translucency != false && r_translucency != true)
         r_translucency = r_translucency_default;
 
-    musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 15 + 50) / 100;
+    s_musicvolume = BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max);
+    musicVolume = (s_musicvolume * 15 + 50) / 100;
 
     if (s_randommusic != false && s_randommusic != true)
         s_randommusic = s_randommusic_default;
@@ -711,7 +712,8 @@ static void M_CheckCVARs(void)
     if (s_randompitch != false && s_randompitch != true)
         s_randompitch = s_randompitch_default;
 
-    sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 15 + 50) / 100;
+    s_sfxvolume = BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max);
+    sfxVolume = (s_sfxvolume * 15 + 50) / 100;
 
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
 
