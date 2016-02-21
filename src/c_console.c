@@ -783,6 +783,23 @@ void C_UpdateFPS(void)
     }
 }
 
+static void C_Glitch(void)
+{
+    int i;
+    int glitches = M_RandomInt(1, 10);
+
+    for (i = 0; i < glitches; ++i)
+    {
+        int j;
+        int shift = M_RandomInt(1, 20);
+        int y = SCREENWIDTH * M_RandomInt(1, consoleheight + 1);
+
+        for (j = y; j >= y - SCREENWIDTH * 2; --j)
+            if (j >= 0 && j - shift >= 0)
+                screens[0][j] = screens[0][j - shift];
+    }
+
+}
 void C_Drawer(void)
 {
     if (consoleheight)
@@ -829,6 +846,9 @@ void C_Drawer(void)
         C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_BRANDINGSTRING) - CONSOLETEXTX + 1,
             CONSOLEHEIGHT - 17, PACKAGE_BRANDINGSTRING, consolebrandingcolor, NOBACKGROUNDCOLOR,
             tinttab25, notabs, false);
+
+        // glitch effect
+        C_Glitch();
 
         // draw console text
         if (outputhistory == -1)
