@@ -1195,7 +1195,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     }
     else
     {
-        if (spr == SPR_SHT2 && (!frame || frame >= 8))
+        if (spr == SPR_SHT2 && (!frame || frame >= 8) && !dehacked)
             vis->colfunc = R_DrawSuperShotgunColumn;
         else
         {
