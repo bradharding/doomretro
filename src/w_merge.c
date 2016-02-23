@@ -274,8 +274,11 @@ static void AddSpriteLump(lumpinfo_t *lump)
     if (!ValidSpriteLumpName(lump->name))
         return;
 
-    MISFA0 += M_StringCompare(lump->name, "MISFA0");
-    MISFB0 += M_StringCompare(lump->name, "MISFB0");
+    if (lump->wad_file->type == PWAD)
+    {
+        MISFA0 += M_StringCompare(lump->name, "MISFA0");
+        MISFB0 += M_StringCompare(lump->name, "MISFB0");
+    }
 
     if (M_StringCompare(leafname(lump->wad_file->path), PACKAGE_WAD)
         && (M_StringCompare(lump->name, "MISFA0") || M_StringCompare(lump->name, "MISFB0"))
