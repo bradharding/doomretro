@@ -1211,7 +1211,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                 /* SPR_CHGG */ basecolfunc,
                 /* SPR_CHGF */ tlredwhitecolfunc2,
                 /* SPR_MISG */ basecolfunc,
-                /* SPR_MISF */ tlredwhitecolfunc1,
+                /* SPR_MISF */ tlredwhitecolfunc2,
                 /* SPR_SAWG */ basecolfunc,
                 /* SPR_PLSG */ basecolfunc,
                 /* SPR_PLSF */ tlcolfunc,
