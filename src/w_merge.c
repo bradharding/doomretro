@@ -43,6 +43,7 @@
 #include "info.h"
 #include "i_system.h"
 #include "m_misc.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -269,6 +270,10 @@ static void AddSpriteLump(lumpinfo_t *lump)
     int                 i;
 
     if (!ValidSpriteLumpName(lump->name))
+        return;
+
+    if (BTSX && M_StringCompare(leafname(lump->wad_file->path), PACKAGE_WAD)
+        && (M_StringCompare(lump->name, "MISFA0") || M_StringCompare(lump->name, "MISFB0")))
         return;
 
     // first angle
