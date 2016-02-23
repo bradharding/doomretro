@@ -268,12 +268,18 @@ static void AddSpriteLump(lumpinfo_t *lump)
     sprite_frame_t      *sprite;
     int                 angle_num;
     int                 i;
+    static int          MISFA0;
+    static int          MISFB0;
 
     if (!ValidSpriteLumpName(lump->name))
         return;
 
-    if (BTSX && M_StringCompare(leafname(lump->wad_file->path), PACKAGE_WAD)
-        && (M_StringCompare(lump->name, "MISFA0") || M_StringCompare(lump->name, "MISFB0")))
+    MISFA0 += M_StringCompare(lump->name, "MISFA0");
+    MISFB0 += M_StringCompare(lump->name, "MISFB0");
+
+    if (M_StringCompare(leafname(lump->wad_file->path), PACKAGE_WAD)
+        && (M_StringCompare(lump->name, "MISFA0") || M_StringCompare(lump->name, "MISFB0"))
+        && (MISFA0 > 2 || MISFB0 > 2))
         return;
 
     // first angle
