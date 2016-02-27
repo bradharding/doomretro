@@ -533,7 +533,7 @@ void F_CastTicker(void)
                 caststate = &states[mobjinfo[castorder[castnum].type].missilestate];
         }
         if (caststate == &states[S_PLAY_ATK1])
-            S_StartSound (NULL, sfx_dshtgn);
+            S_StartSound(NULL, sfx_dshtgn);
     }
 
     if (castattacking)

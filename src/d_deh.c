@@ -1655,6 +1655,7 @@ void A_Face();
 void A_Scratch();
 void A_PlaySound();
 void A_RandomJump();
+void A_CounterJump();
 void A_LineEffect();
 void A_FireOldBFG();
 void A_BetaSkullAttack();
@@ -1752,6 +1753,7 @@ static const deh_bexptr deh_bexptrs[] =
     { A_Scratch,         "A_Scratch"         },   // killough 11/98
     { A_PlaySound,       "A_PlaySound"       },   // killough 11/98
     { A_RandomJump,      "A_RandomJump"      },   // killough 11/98
+    { A_CounterJump,     "A_CounterJump"     },   // [BH]
     { A_LineEffect,      "A_LineEffect"      },   // killough 11/98
 
     { A_FireOldBFG,      "A_FireOldBFG"      },   // killough 7/19/98: classic BFG firing function
