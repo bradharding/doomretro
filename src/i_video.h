@@ -119,8 +119,8 @@ extern dboolean         blurred;
 extern dboolean         splashscreen;
 extern dboolean         noinput;
 
-extern void             (*blitfunc)(void);
-extern void             (*mapblitfunc)(void);
+void (*blitfunc)(void);
+void (*mapblitfunc)(void);
 
 extern dboolean         vid_showfps;
 extern dboolean         wipe;

@@ -946,7 +946,8 @@ void WI_updateStats(void)
     }
 }
 
-extern void M_DrawString(int x, int y, char *str);
+void M_DrawString(int x, int y, char *str);
+
 extern dboolean canmodify;
 
 void WI_drawStats(void)
@@ -1213,8 +1214,9 @@ void WI_Drawer(void)
     }
 }
 
-extern void P_MapName(int ep, int map);
-extern char maptitle[128];
+void P_MapName(int ep, int map);
+
+extern char     maptitle[128];
 
 void WI_initVariables(wbstartstruct_t *wbstartstruct)
 {

@@ -453,9 +453,6 @@ void F_StartCast(void)
 //
 void F_CastTicker(void)
 {
-    int st;
-    int sfx;
-
     if (--casttics > 0)
         return;                         // not time to change state yet
 
@@ -474,6 +471,9 @@ void F_CastTicker(void)
     }
     else
     {
+        int     st;
+        int     sfx = 0;
+
         // just advance to next state in animation
         if (caststate == &states[S_PLAY_ATK1])
             goto stopattack;            // Oh, gross hack!
@@ -484,69 +484,32 @@ void F_CastTicker(void)
         // sound hacks....
         switch (st)
         {
-            case S_PLAY_ATK1:
-                sfx = sfx_dshtgn;
-                break;
-            case S_POSS_ATK2:
-                sfx = sfx_pistol;
-                break;
-            case S_SPOS_ATK2:
-                sfx = sfx_shotgn;
-                break;
-            case S_VILE_ATK2:
-                sfx = sfx_vilatk;
-                break;
-            case S_SKEL_FIST2:
-                sfx = sfx_skeswg;
-                break;
-            case S_SKEL_FIST4:
-                sfx = sfx_skepch;
-                break;
-            case S_SKEL_MISS2:
-                sfx = sfx_skeatk;
-                break;
+            case S_PLAY_ATK1:  sfx = sfx_dshtgn; break;
+            case S_POSS_ATK2:  sfx = sfx_pistol; break;
+            case S_SPOS_ATK2:  sfx = sfx_shotgn; break;
+            case S_VILE_ATK2:  sfx = sfx_vilatk; break;
+            case S_SKEL_FIST2: sfx = sfx_skeswg; break;
+            case S_SKEL_FIST4: sfx = sfx_skepch; break;
+            case S_SKEL_MISS2: sfx = sfx_skeatk; break;
             case S_FATT_ATK8:
             case S_FATT_ATK5:
-            case S_FATT_ATK2:
-                sfx = sfx_firsht;
-                break;
+            case S_FATT_ATK2:  sfx = sfx_firsht; break;
             case S_CPOS_ATK2:
             case S_CPOS_ATK3:
-            case S_CPOS_ATK4:
-                sfx = sfx_shotgn;
-                break;
-            case S_TROO_ATK3:
-                sfx = sfx_claw;
-                break;
-            case S_SARG_ATK2:
-                sfx = sfx_sgtatk;
-                break;
+            case S_CPOS_ATK4:  sfx = sfx_shotgn; break;
+            case S_TROO_ATK3:  sfx = sfx_claw;   break;
+            case S_SARG_ATK2:  sfx = sfx_sgtatk; break;
             case S_BOSS_ATK2:
             case S_BOS2_ATK2:
-            case S_HEAD_ATK2:
-                sfx = sfx_firsht;
-                break;
-            case S_SKULL_ATK2:
-                sfx = sfx_sklatk;
-                break;
+            case S_HEAD_ATK2:  sfx = sfx_firsht; break;
+            case S_SKULL_ATK2: sfx = sfx_sklatk; break;
             case S_SPID_ATK2:
-            case S_SPID_ATK3:
-                sfx = sfx_shotgn;
-                break;
-            case S_BSPI_ATK2:
-                sfx = sfx_plasma;
-                break;
+            case S_SPID_ATK3:  sfx = sfx_shotgn; break;
+            case S_BSPI_ATK2:  sfx = sfx_plasma; break;
             case S_CYBER_ATK2:
             case S_CYBER_ATK4:
-            case S_CYBER_ATK6:
-                sfx = sfx_rlaunc;
-                break;
-            case S_PAIN_ATK3:
-                sfx = sfx_sklatk;
-                break;
-            default:
-                sfx = 0;
-                break;
+            case S_CYBER_ATK6: sfx = sfx_rlaunc; break;
+            case S_PAIN_ATK3:  sfx = sfx_sklatk; break;
         }
 
         if (sfx)
@@ -574,7 +537,6 @@ void F_CastTicker(void)
     }
 
     if (castattacking)
-    {
         if (castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate])
         {
 stopattack:
@@ -582,7 +544,6 @@ stopattack:
             castframes = 0;
             caststate = &states[mobjinfo[castorder[castnum].type].seestate];
         }
-    }
 
     casttics = caststate->tics;
     if (casttics == -1)
@@ -631,18 +592,12 @@ dboolean F_CastResponder(event_t *ev)
         // rotate (taken from Eternity Engine)
         if (ev->data1 == KEY_LEFTARROW)
         {
-            if (castrot == 14)
-                castrot = 0;
-            else
-                castrot += 2;
+            castrot = (castrot == 14 ? 0 : castrot + 2);
             return true;
         }
-        if (ev->data1 == KEY_RIGHTARROW)
+        else if (ev->data1 == KEY_RIGHTARROW)
         {
-            if (!castrot)
-                castrot = 14;
-            else
-                castrot -= 2;
+            castrot = (!castrot ? 014 : castrot - 2);
             return true;
         }
     }

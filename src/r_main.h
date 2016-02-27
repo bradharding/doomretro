@@ -107,33 +107,33 @@ extern fixed_t          fractionaltic;
 // Function pointers to switch refresh/drawing functions.
 // Used to select shadow mode etc.
 //
-extern void (*colfunc)(void);
-extern void (*wallcolfunc)(void);
-extern void (*fbwallcolfunc)(void);
-extern void (*transcolfunc)(void);
-extern void (*basecolfunc)(void);
-extern void (*fuzzcolfunc)(void);
-extern void (*tlcolfunc)(void);
-extern void (*tl50colfunc)(void);
-extern void (*tl33colfunc)(void);
-extern void (*tlgreencolfunc)(void);
-extern void (*tlredcolfunc)(void);
-extern void (*tlredwhitecolfunc1)(void);
-extern void (*tlredwhitecolfunc2)(void);
-extern void (*tlredwhite50colfunc)(void);
-extern void (*tlbluecolfunc)(void);
-extern void (*tlgreen33colfunc)(void);
-extern void (*tlred33colfunc)(void);
-extern void (*tlblue33colfunc)(void);
-extern void (*redtobluecolfunc)(void);
-extern void (*tlredtoblue33colfunc)(void);
-extern void (*skycolfunc)(void);
-extern void (*redtogreencolfunc)(void);
-extern void (*tlredtogreen33colfunc)(void);
-extern void (*psprcolfunc)(void);
-extern void (*spanfunc)(void);
-extern void (*bloodsplatcolfunc)(void);
-extern void (*megaspherecolfunc)(void);
+void (*colfunc)(void);
+void (*wallcolfunc)(void);
+void (*fbwallcolfunc)(void);
+void (*transcolfunc)(void);
+void (*basecolfunc)(void);
+void (*fuzzcolfunc)(void);
+void (*tlcolfunc)(void);
+void (*tl50colfunc)(void);
+void (*tl33colfunc)(void);
+void (*tlgreencolfunc)(void);
+void (*tlredcolfunc)(void);
+void (*tlredwhitecolfunc1)(void);
+void (*tlredwhitecolfunc2)(void);
+void (*tlredwhite50colfunc)(void);
+void (*tlbluecolfunc)(void);
+void (*tlgreen33colfunc)(void);
+void (*tlred33colfunc)(void);
+void (*tlblue33colfunc)(void);
+void (*redtobluecolfunc)(void);
+void (*tlredtoblue33colfunc)(void);
+void (*skycolfunc)(void);
+void (*redtogreencolfunc)(void);
+void (*tlredtogreen33colfunc)(void);
+void (*psprcolfunc)(void);
+void (*spanfunc)(void);
+void (*bloodsplatcolfunc)(void);
+void (*megaspherecolfunc)(void);
 
 //
 // Utility functions.
