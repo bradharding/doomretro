@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__R_DATA__)
-#define __R_DATA__
+#if !defined(__R_DATA_H__)
+#define __R_DATA_H__
 
 #include "r_defs.h"
 #include "r_state.h"

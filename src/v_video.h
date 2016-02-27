@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__V_VIDEO__)
-#define __V_VIDEO__
+#if !defined(__V_VIDEO_H__)
+#define __V_VIDEO_H__
 
 #include "r_data.h"
 
@@ -45,7 +45,7 @@
 // VIDEO
 //
 
-fixed_t DX, DY, DXI, DYI;
+fixed_t         DX, DY, DXI, DYI;
 
 // Screen 0 is the screen updated by I_Update screen.
 // Screen 1 is an extra buffer.

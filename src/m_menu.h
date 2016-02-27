@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__M_MENU__)
-#define __M_MENU__
+#if !defined(__M_MENU_H__)
+#define __M_MENU_H__
 
 #include "d_event.h"
 

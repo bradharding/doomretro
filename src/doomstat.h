@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__D_STATE__)
-#define __D_STATE__
+#if !defined(__DOOMSTAT_H__)
+#define __DOOMSTAT_H__
 
 // We need globally shared data structures,
 //  for defining the global state variables.

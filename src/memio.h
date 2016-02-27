@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(MEMIO_H)
-#define MEMIO_H
+#if !defined(__MEMIO_H__)
+#define __MEMIO_H__
 
 #include <stdio.h>
 #include <stdlib.h>

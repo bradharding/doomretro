@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_SAVEG__)
-#define __P_SAVEG__
+#if !defined(__P_SAVEG_H__)
+#define __P_SAVEG_H__
 
 #include <stdio.h>
 

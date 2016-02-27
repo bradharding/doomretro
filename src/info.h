@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__INFO__)
-#define __INFO__
+#if !defined(__INFO_H__)
+#define __INFO_H__
 
 #include "doomtype.h"
 #include "d_think.h"

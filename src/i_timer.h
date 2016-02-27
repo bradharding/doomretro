@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__I_TIMER__)
-#define __I_TIMER__
+#if !defined(__I_TIMER_H__)
+#define __I_TIMER_H__
 
 // Called by D_DoomLoop,
 // returns current time in tics.

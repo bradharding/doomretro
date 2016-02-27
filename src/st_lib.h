@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__ST_LIB__)
-#define __ST_LIB__
+#if !defined(__ST_LIB_H__)
+#define __ST_LIB_H__
 
 #include "r_defs.h"
 

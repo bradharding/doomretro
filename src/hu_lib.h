@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__HULIB__)
-#define __HULIB__
+#if !defined(__HU_LIB_H__)
+#define __HU_LIB_H__
 
 // We are referring to patches.
 #include "r_defs.h"

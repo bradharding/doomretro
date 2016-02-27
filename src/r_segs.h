@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__R_SEGS__)
-#define __R_SEGS__
+#if !defined(__R_SEGS_H__)
+#define __R_SEGS_H__
 
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2);
 

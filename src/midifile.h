@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__MIDIFILE__)
-#define __MIDIFILE__
+#if !defined(__MIDIFILE_H__)
+#define __MIDIFILE_H__
 
 typedef struct  midi_file_s midi_file_t;
 typedef struct  midi_track_iter_s midi_track_iter_t;

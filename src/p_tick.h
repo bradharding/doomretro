@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_TICK__)
-#define __P_TICK__
+#if !defined(__P_TICK_H__)
+#define __P_TICK_H__
 
 #ifdef __GNUG__
 #pragma interface

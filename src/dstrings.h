@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__DSTRINGS__)
-#define __DSTRINGS__
+#if !defined(__DSTRINGS_H__)
+#define __DSTRINGS_H__
 
 // All important printed strings.
 #include "d_englsh.h"

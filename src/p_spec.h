@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_SPEC__)
-#define __P_SPEC__
+#if !defined(__P_SPEC_H__)
+#define __P_SPEC_H__
 
 //jff 2/23/98 identify the special classes that can share sectors
 typedef enum

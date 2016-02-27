@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_MOBJ__)
-#define __P_MOBJ__
+#if !defined(__P_MOBJ_H__)
+#define __P_MOBJ_H__
 
 #include "doomdata.h"
 #include "info.h"

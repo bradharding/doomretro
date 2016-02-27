@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__ST_STUFF__)
-#define __ST_STUFF__
+#if !defined(__ST_STUFF_H__)
+#define __ST_STUFF_H__
 
 #include "doomtype.h"
 #include "d_event.h"

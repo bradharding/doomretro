@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__W_WAD__)
-#define __W_WAD__
+#if !defined(__W_WAD_H__)
+#define __W_WAD_H__
 
 #include <stdio.h>
 

@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__M_FIXED__)
-#define __M_FIXED__
+#if !defined(__M_FIXED_H__)
+#define __M_FIXED_H__
 
 //
 // Fixed point, 32bit as 16.16.

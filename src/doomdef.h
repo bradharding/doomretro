@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__DOOMDEF__)
-#define __DOOMDEF__
+#if !defined(__DOOMDEF_H__)
+#define __DOOMDEF_H__
 
 #include <stdio.h>
 

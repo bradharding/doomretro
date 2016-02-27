@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__D_MAIN__)
-#define __D_MAIN__
+#if !defined(__D_MAIN_H__)
+#define __D_MAIN_H__
 
 #include "d_event.h"
 

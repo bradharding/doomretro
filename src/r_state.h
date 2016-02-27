@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__R_STATE__)
-#define __R_STATE__
+#if !defined(__R_STATE_H__)
+#define __R_STATE_H__
 
 // Need data structure definitions.
 #include "d_player.h"

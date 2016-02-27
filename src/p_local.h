@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_LOCAL__)
-#define __P_LOCAL__
+#if !defined(__P_LOCAL_H__)
+#define __P_LOCAL_H__
 
 #include "d_main.h"
 #include "m_config.h"

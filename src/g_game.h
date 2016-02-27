@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__G_GAME__)
-#define __G_GAME__
+#if !defined(__G_GAME_H__)
+#define __G_GAME_H__
 
 #include "doomdef.h"
 #include "d_event.h"

@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__D_LOOP__)
-#define __D_LOOP__
+#if !defined(__D_LOOP_H__)
+#define __D_LOOP_H__
 
 // Networking and tic handling related.
 #define BACKUPTICS      128

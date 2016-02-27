@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__C_CMDS__)
-#define __C_CMDS__
+#if !defined(__C_CMDS_H__)
+#define __C_CMDS_H__
 
 #include "doomtype.h"
 

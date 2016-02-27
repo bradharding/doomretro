@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_SETUP__)
-#define __P_SETUP__
+#if !defined(__P_SETUP_H__)
+#define __P_SETUP_H__
 
 void P_SetupLevel(int ep, int map);
 void P_MapName(int ep, int map);

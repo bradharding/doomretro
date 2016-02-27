@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__D_ITEMS__)
-#define __D_ITEMS__
+#if !defined(__D_ITEMS_H__)
+#define __D_ITEMS_H__
 
 #include "doomdef.h"
 #include "doomtype.h"

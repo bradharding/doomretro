@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__I_SYSTEM__)
-#define __I_SYSTEM__
+#if !defined(__I_SYSTEM_H__)
+#define __I_SYSTEM_H__
 
 #include "d_event.h"
 

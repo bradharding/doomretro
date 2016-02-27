@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__D_DEH__)
-#define __D_DEH__
+#if !defined(__D_DEH_H__)
+#define __D_DEH_H__
 
 #include "doomtype.h"
 

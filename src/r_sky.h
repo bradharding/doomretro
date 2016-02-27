@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__R_SKY__)
-#define __R_SKY__
+#if !defined(__R_SKY_H__)
+#define __R_SKY_H__
 
 #include "m_fixed.h"
 

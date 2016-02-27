@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_PSPR__)
-#define __P_PSPR__
+#if !defined(__P_PSPR_H__)
+#define __P_PSPR_H__
 
 // Basic data types.
 // Needs fixed point, and BAM angles.

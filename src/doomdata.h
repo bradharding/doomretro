@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__DOOMDATA__)
-#define __DOOMDATA__
+#if !defined(__DOOMDATA_H__)
+#define __DOOMDATA_H__
 
 // The most basic types we use, portability.
 #include "doomtype.h"

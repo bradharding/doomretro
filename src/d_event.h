@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__D_EVENT__)
-#define __D_EVENT__
+#if !defined(__D_EVENT_H__)
+#define __D_EVENT_H__
 
 #include "doomtype.h"
 #include "i_video.h"

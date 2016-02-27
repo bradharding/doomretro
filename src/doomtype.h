@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__DOOMTYPE__)
-#define __DOOMTYPE__
+#if !defined(__DOOMTYPE_H__)
+#define __DOOMTYPE_H__
 
 #include <inttypes.h>
 #include <limits.h>

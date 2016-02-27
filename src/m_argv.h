@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__M_ARGV__)
-#define __M_ARGV__
+#if !defined(__M_ARGV_H__)
+#define __M_ARGV_H__
 
 //
 // MISC

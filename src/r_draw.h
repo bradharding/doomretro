@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__R_DRAW__)
-#define __R_DRAW__
+#if !defined(__R_DRAW_H__)
+#define __R_DRAW_H__
 
 #define R_ADDRESS(scrn, px, py) \
     (screens[scrn] + (viewwindowy + (py)) * SCREENWIDTH + (viewwindowx + (px)))

@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__C_CONSOLE__)
-#define __C_CONSOLE__
+#if !defined(__C_CONSOLE_H__)
+#define __C_CONSOLE_H__
 
 #include "doomtype.h"
 #include "d_event.h"

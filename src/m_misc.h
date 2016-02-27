@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__M_MISC__)
-#define __M_MISC__
+#if !defined(__M_MISC_H__)
+#define __M_MISC_H__
 
 #include <stdio.h>
 #include <stdlib.h>

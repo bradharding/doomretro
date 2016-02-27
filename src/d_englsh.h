@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__D_ENGLSH__)
-#define __D_ENGLSH__
+#if !defined(__D_ENGLSH_H__)
+#define __D_ENGLSH_H__
 
 //
 //  Printed strings for translation

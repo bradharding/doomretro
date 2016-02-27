@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__AM_MAP__)
-#define __AM_MAP__
+#if !defined(__AM_MAP_H__)
+#define __AM_MAP_H__
 
 #include "d_event.h"
 #include "m_cheat.h"

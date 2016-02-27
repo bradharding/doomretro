@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__M_RANDOM__)
-#define __M_RANDOM__
+#if !defined(__M_RANDOM_H__)
+#define __M_RANDOM_H__
 
 // Returns a number from 0 to 255,
 // from a lookup table.

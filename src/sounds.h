@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__SOUNDS__)
-#define __SOUNDS__
+#if !defined(__SOUNDS_H__)
+#define __SOUNDS_H__
 
 // so that the individual game logic and sound driver code agree
 #define NORM_PITCH      127

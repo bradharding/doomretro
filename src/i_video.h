@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__I_VIDEO__)
-#define __I_VIDEO__
+#if !defined(__I_VIDEO_H__)
+#define __I_VIDEO_H__
 
 #include "doomtype.h"
 #include "SDL.h"

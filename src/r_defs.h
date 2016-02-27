@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__R_DEFS__)
-#define __R_DEFS__
+#if !defined(__R_DEFS_H__)
+#define __R_DEFS_H__
 
 #include "p_mobj.h"
 

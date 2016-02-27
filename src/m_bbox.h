@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__M_BBOX__)
-#define __M_BBOX__
+#if !defined(__M_BBOX_H__)
+#define __M_BBOX_H__
 
 #include <limits.h>
 

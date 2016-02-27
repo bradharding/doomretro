@@ -36,17 +36,17 @@
 ========================================================================
 */
 
-#if !defined(__Z_ZONE__)
-#define __Z_ZONE__
+#if !defined(__Z_ZONE_H__)
+#define __Z_ZONE_H__
 
 // Include system definitions so that prototypes become
 // active before macro replacements below are in effect.
-
-#include "doomtype.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+
+#include "doomtype.h"
 
 //
 // ZONE MEMORY

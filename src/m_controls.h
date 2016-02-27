@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__M_CONTROLS__)
-#define __M_CONTROLS__
+#if !defined(__M_CONTROLS_H__)
+#define __M_CONTROLS_H__
 
 #include "doomkeys.h"
 

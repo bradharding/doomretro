@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__S_SOUND__)
-#define __S_SOUND__
+#if !defined(__S_SOUND_H__)
+#define __S_SOUND_H__
 
 #include "p_mobj.h"
 #include "r_defs.h"

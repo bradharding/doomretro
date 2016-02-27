@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__V_DATA__)
-#define __V_DATA__
+#if !defined(__V_DATA_H__)
+#define __V_DATA_H__
 
 extern char     *wilv[];
 extern char     *redcharset[];

@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__M_CONFIG__)
-#define __M_CONFIG__
+#if !defined(__M_CONFIG_H__)
+#define __M_CONFIG_H__
 
 typedef enum
 {

@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_FIX__)
-#define __P_FIX__
+#if !defined(__P_FIX_H__)
+#define __P_FIX_H__
 
 #define DEFAULT 0x7FFF
 #define REMOVE  0

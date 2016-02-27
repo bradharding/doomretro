@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__R_PLANE__)
-#define __R_PLANE__
+#if !defined(__R_PLANE_H__)
+#define __R_PLANE_H__
 
 #include "r_data.h"
 

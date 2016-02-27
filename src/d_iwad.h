@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__D_IWAD__)
-#define __D_IWAD__
+#if !defined(__D_IWAD_H__)
+#define __D_IWAD_H__
 
 char *D_FindWADByName(char *filename);
 char *D_TryFindWADByName(char *filename);

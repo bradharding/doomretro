@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__DOOMKEYS__)
-#define __DOOMKEYS__
+#if !defined(__DOOMKEYS_H__)
+#define __DOOMKEYS_H__
 
 //
 // DOOM keyboard definition.

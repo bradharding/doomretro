@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__F_FINALE__)
-#define __F_FINALE__
+#if !defined(__F_FINALE_H__)
+#define __F_FINALE_H__
 
 #include "doomtype.h"
 #include "d_event.h"
