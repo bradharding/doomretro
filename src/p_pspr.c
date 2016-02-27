@@ -80,6 +80,7 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
         }
 
         state = &states[stnum];
+        state->num = stnum;
         psp->state = state;
         psp->tics = state->tics;        // could be 0
 

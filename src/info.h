@@ -1343,6 +1343,7 @@ typedef struct
     long        misc2;
     dboolean    translucent;
     dboolean    dehacked;
+    int         num;
 } state_t;
 
 extern state_t  states[NUMSTATES];

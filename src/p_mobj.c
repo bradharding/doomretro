@@ -135,6 +135,7 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         mobj->tics = st->tics;
         mobj->sprite = st->sprite;
         mobj->frame = st->frame;
+        mobj->state->num = state;
 
         // Modified handling.
         // Call action functions when the state is set

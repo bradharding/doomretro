@@ -2216,6 +2216,32 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 }
 
+void A_CounterJump(mobj_t *actor, player_t *player, pspdef_t *psp)
+{
+    static int count[NUMSTATES];
+
+    if (psp)
+    {
+        state_t *state = psp->state;
+
+        if (++count[state->num] == state->misc2)
+        {
+            count[state->num] = 0;
+            P_SetPsprite(player, psp - &player->psprites[0], state->misc1);
+        }
+    }
+    else
+    {
+        state_t *state = actor->state;
+
+        if (++count[state->num] == state->misc2)
+        {
+            count[state->num] = 0;
+            P_SetMobjState(actor, state->misc1);
+        }
+    }
+}
+
 //
 // This allows linedef effects to be activated inside deh frames.
 //
