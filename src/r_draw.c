@@ -550,6 +550,27 @@ void R_DrawSuperShotgunColumn(void)
         byte    dot = source[frac >> FRACBITS];
 
         if (dot != 71)
+            *dest = colormap[dot];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+    *dest = colormap[source[frac >> FRACBITS]];
+}
+
+void R_DrawTranslucentSuperShotgunColumn(void)
+{
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+
+    while (--count)
+    {
+        byte    dot = source[frac >> FRACBITS];
+
+        if (dot != 71)
             *dest = colormap[tinttabredwhite1[(*dest << 8) + dot]];
         dest += SCREENWIDTH;
         frac += fracstep;

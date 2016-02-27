@@ -102,6 +102,7 @@ void R_DrawRedToGreenColumn(void);
 void R_DrawTranslucentRedToGreen33Column(void);
 void R_DrawPlayerSpriteColumn(void);
 void R_DrawSuperShotgunColumn(void);
+void R_DrawTranslucentSuperShotgunColumn(void);
 void R_DrawShadowColumn(void);
 void R_DrawSpectreShadowColumn(void);
 void R_DrawSolidShadowColumn(void);
