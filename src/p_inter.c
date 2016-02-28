@@ -906,8 +906,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
         player->itemcount++;
         stat_itemspickedup = SafeAdd(stat_itemspickedup, 1);
     }
-    if (special->shadow)
-        P_RemoveMobjShadow(special);
     P_RemoveMobj(special);
     P_AddBonus(player, BONUSADD);
 

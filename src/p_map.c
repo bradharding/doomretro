@@ -1946,8 +1946,6 @@ void PIT_ChangeSector(mobj_t *thing)
 
         S_StartSound(thing, sfx_slop);
 
-        if (thing->shadow)
-            P_RemoveMobjShadow(thing);
         P_RemoveMobj(thing);
 
         // keep checking
@@ -1957,8 +1955,6 @@ void PIT_ChangeSector(mobj_t *thing)
     // crunch dropped items
     if (flags & MF_DROPPED)
     {
-        if (thing->shadow)
-            P_RemoveMobjShadow(thing);
         P_RemoveMobj(thing);
 
         // keep checking

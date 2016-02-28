@@ -2081,8 +2081,6 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // remove self (i.e., cube).
-    if (actor->shadow)
-        P_RemoveMobjShadow(actor);
     P_RemoveMobj(actor);
 }
 

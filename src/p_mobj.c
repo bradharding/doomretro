@@ -120,11 +120,6 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         if (state == S_NULL)
         {
             mobj->state = (state_t *)S_NULL;
-
-            // [BH] Remove mobj's shadow if it has one
-            if (shadow)
-                P_RemoveMobjShadow(mobj);
-
             P_RemoveMobj(mobj);
             ret = false;
             break;                                              // killough 4/9/98
@@ -303,9 +298,6 @@ void P_XYMovement(mobj_t *mo)
                     if (type == MT_BFG)
                         // [BH] still play sound when firing BFG into sky
                         S_StartSound(mo, mo->info->deathsound);
-                    else if (type == MT_ROCKET && mo->shadow)
-                        // [BH] remove shadow from rockets
-                        P_RemoveMobjShadow(mo);
                     P_RemoveMobj(mo);
                     return;
                 }
@@ -559,8 +551,6 @@ void P_NightmareRespawn(mobj_t *mobj)
     mo->reactiontime = 18;
 
     // remove the old monster
-    if (mobj->shadow)
-        P_RemoveMobjShadow(mobj);
     P_RemoveMobj(mobj);
 }
 
@@ -789,6 +779,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 //
 void P_RemoveMobj(mobj_t *mobj)
 {
+    P_RemoveMobjShadow(mobj);
+
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
 
@@ -815,6 +807,9 @@ void P_RemoveMobj(mobj_t *mobj)
 //
 void P_RemoveMobjShadow(mobj_t *mobj)
 {
+    if (!mobj->shadow)
+        return;
+
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj->shadow);
 
