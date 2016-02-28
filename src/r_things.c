@@ -743,13 +743,13 @@ void R_ProjectSprite(mobj_t *thing)
         else
             rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
-        flip = ((dboolean)(sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
+        flip = (!!(sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = ((dboolean)(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
+        flip = (!!(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
     if (thing->state->dehacked)
@@ -1033,13 +1033,13 @@ void R_ProjectShadow(mobj_t *thing)
         else
             rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
-        flip = ((dboolean)(sprframe->flip & (1 << rot)) || (thing->flags2 & MF2_MIRRORED));
+        flip = (!!(sprframe->flip & (1 << rot)) || (thing->flags2 & MF2_MIRRORED));
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = ((dboolean)(sprframe->flip & 1) || (thing->flags2 & MF2_MIRRORED));
+        flip = (!!(sprframe->flip & 1) || (thing->flags2 & MF2_MIRRORED));
     }
 
     // calculate edges of the shape
@@ -1142,7 +1142,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
 
     lump = sprframe->lump[0];
-    flip = (dboolean)(sprframe->flip & 1);
+    flip = !!(sprframe->flip & 1);
 
     // calculate edges of the shape
     tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (dehacked ? spriteoffset[lump] :

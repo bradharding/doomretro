@@ -1677,7 +1677,7 @@ static void D_DoomMainSetup(void)
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else
-            D_StartTitle((dboolean)M_CheckParm("-nosplash"));    // start up intro loop
+            D_StartTitle(!!M_CheckParm("-nosplash"));    // start up intro loop
     }
 
     startuptimer = I_GetTimeMS() - startuptimer;

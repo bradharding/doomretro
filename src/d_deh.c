@@ -1458,8 +1458,7 @@ static char *deh_state[] =
     // This is set in a separate "Pointer" block from Dehacked
     "Codep Frame",      // pointer to first use of action (actionf_t)
     "Unknown 1",        // .misc1 (long)
-    "Unknown 2",        // .misc2 (long)
-    "Translucent"       // .translucent (dboolean)
+    "Unknown 2"         // .misc2 (long)
 };
 
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
@@ -2245,11 +2244,11 @@ void deh_procFrame(DEHFILE *fpin, char *line)
             states[indexnum].misc2 = value;                     // long
             states[indexnum].dehacked = dehacked = !BTSX;
         }
-        else if (M_StringCompare(key, deh_state[7]))            // Translucent
+        else if (M_StringCompare(key, "translucent"))           // Translucent
         {
             if (devparm)
                 C_Output(" - translucent = %ld", value);
-            states[indexnum].translucent = (dboolean)value;     // dboolean
+            states[indexnum].translucent = !!value;             // dboolean
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else
