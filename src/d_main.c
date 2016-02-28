@@ -1449,15 +1449,15 @@ static void D_DoomMainSetup(void)
     // Generate the WAD hash table. Speed things up a bit.
     W_GenerateHashTable();
 
+    I_InitGamepad();
+
+    I_InitGraphics();
+
     D_IdentifyVersion();
     InitGameVersion();
     D_ProcessDehInWad();
     D_SetGameDescription();
     D_SetSaveGameFolder();
-
-    I_InitGamepad();
-
-    I_InitGraphics();
 
     // Check for -file in shareware
     if (modifiedgame)
