@@ -81,7 +81,7 @@ dboolean F_CastResponder(event_t *ev);
 void F_CastDrawer(void);
 
 void WI_checkForAccelerate(void);    // killough 3/28/98: used to
-void A_RandomJump();
+void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 extern int acceleratestage;          // accelerate intermission screens
 static int midstage;                 // whether we're in "mid-stage"
 
@@ -479,7 +479,7 @@ void F_CastTicker(void)
         // just advance to next state in animation
         if (!castdeath && caststate == &states[S_PLAY_ATK1])
             goto stopattack;            // Oh, gross hack!
-        if ((caststate->action == A_RandomJump) && P_Random() < caststate->misc2)
+        if (caststate->action == A_RandomJump && P_Random() < caststate->misc2)
             st = caststate->misc1;
         else
             st = caststate->nextstate;
