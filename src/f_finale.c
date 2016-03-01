@@ -47,6 +47,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_misc.h"
+#include "m_random.h"
 #include "p_local.h"
 #include "s_sound.h"
 #include "SDL.h"
@@ -80,6 +81,7 @@ dboolean F_CastResponder(event_t *ev);
 void F_CastDrawer(void);
 
 void WI_checkForAccelerate(void);    // killough 3/28/98: used to
+void A_RandomJump();
 extern int acceleratestage;          // accelerate intermission screens
 static int midstage;                 // whether we're in "mid-stage"
 
@@ -475,9 +477,12 @@ void F_CastTicker(void)
         int     sfx = 0;
 
         // just advance to next state in animation
-        if (caststate == &states[S_PLAY_ATK1])
+        if (!castdeath && caststate == &states[S_PLAY_ATK1])
             goto stopattack;            // Oh, gross hack!
-        st = caststate->nextstate;
+        if ((caststate->action == A_RandomJump) && P_Random() < caststate->misc2)
+            st = caststate->misc1;
+        else
+            st = caststate->nextstate;
         caststate = &states[st];
         castframes++;
 
@@ -516,7 +521,7 @@ void F_CastTicker(void)
             S_StartSound(NULL, sfx);
     }
 
-    if (castframes == 12)
+    if (!castdeath && castframes == 12)
     {
         // go into attack frame
         castattacking = true;
@@ -547,7 +552,18 @@ stopattack:
 
     casttics = caststate->tics;
     if (casttics == -1)
-        casttics = 15;
+    {
+        if (caststate->action == A_RandomJump)
+        {
+            if (P_Random() < caststate->misc2)
+                caststate = &states[caststate->misc1];
+            else
+                caststate = &states[caststate->nextstate];
+            casttics = caststate->tics;
+        }
+        if (casttics == -1)
+            casttics = 15;
+    }
 }
 
 //
@@ -612,6 +628,14 @@ dboolean F_CastResponder(event_t *ev)
         castdeathflip = rand() & 1;
     caststate = &states[mobjinfo[type].deathstate];
     casttics = caststate->tics;
+    if (casttics == -1 && caststate->action == A_RandomJump)
+    {
+        if (P_Random() < caststate->misc2)
+            caststate = &states [caststate->misc1];
+        else
+            caststate = &states [caststate->nextstate];
+        casttics = caststate->tics;
+    }
     castrot = 0;
     castframes = 0;
     castattacking = false;
