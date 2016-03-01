@@ -2612,7 +2612,7 @@ dboolean M_Responder(event_t *ev)
         else if (key == key_console && !keydown)
         {
             keydown = key;
-            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens)
+            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !wipe)
             {
                 consoleheight = MAX(1, consoleheight);
                 consoledirection = 1;
