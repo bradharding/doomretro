@@ -380,8 +380,6 @@ void D_Display(void)
 //
 void D_DoomLoop(void)
 {
-    TryRunTics();
-
     R_ExecuteSetViewSize();
 
     D_StartGameLoop();
