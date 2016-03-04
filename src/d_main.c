@@ -1406,7 +1406,7 @@ static void D_DoomMainSetup(void)
                 "specifying one with the -IWAD command-line parameter.");
 
     if (!W_MergeFile(packagewad, true))
-        I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
+        I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
 
     if (!CheckPackageWADVersion())
         I_Error("%s is the wrong version.\nPlease reinstall "PACKAGE_NAME".",
