@@ -68,14 +68,6 @@ static const unsigned char rndtable[256] = {
 };
 
 int     rndindex = 0;
-int     prndindex = 0;
-
-// Which one is deterministic?
-int P_Random(void)
-{
-    prndindex = (prndindex + 1) & 0xFF;
-    return rndtable[prndindex];
-}
 
 int M_Random(void)
 {
@@ -100,8 +92,6 @@ int M_RandomIntNoRepeat(int lower, int upper, int previous)
 
 void M_ClearRandom(void)
 {
-    prndindex = 0;
-
     // Seed the M_Random counter from the system time
     rndindex = time(NULL) & 0xFF;
 }

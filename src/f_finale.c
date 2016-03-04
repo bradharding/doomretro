@@ -479,7 +479,7 @@ void F_CastTicker(void)
         // just advance to next state in animation
         if (!castdeath && caststate == &states[S_PLAY_ATK1])
             goto stopattack;            // Oh, gross hack!
-        if (caststate->action == A_RandomJump && P_Random() < caststate->misc2)
+        if (caststate->action == A_RandomJump && M_Random() < caststate->misc2)
             st = caststate->misc1;
         else
             st = caststate->nextstate;
@@ -555,7 +555,7 @@ stopattack:
     {
         if (caststate->action == A_RandomJump)
         {
-            if (P_Random() < caststate->misc2)
+            if (M_Random() < caststate->misc2)
                 caststate = &states[caststate->misc1];
             else
                 caststate = &states[caststate->nextstate];
@@ -630,7 +630,7 @@ dboolean F_CastResponder(event_t *ev)
     casttics = caststate->tics;
     if (casttics == -1 && caststate->action == A_RandomJump)
     {
-        if (P_Random() < caststate->misc2)
+        if (M_Random() < caststate->misc2)
             caststate = &states [caststate->misc1];
         else
             caststate = &states [caststate->nextstate];

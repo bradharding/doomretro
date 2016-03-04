@@ -166,7 +166,7 @@ void P_ExplodeMissile(mobj_t *mo)
 
     P_SetMobjState(mo, mo->info->deathstate);
 
-    mo->tics = MAX(1, mo->tics - (P_Random() & 3));
+    mo->tics = MAX(1, mo->tics - (M_Random() & 3));
 
     mo->flags &= ~MF_MISSILE;
 
@@ -679,7 +679,7 @@ void P_MobjThinker(mobj_t *mobj)
         {
             mobj->movecount++;
 
-            if (mobj->movecount >= 12 * TICRATE && !(leveltime & 31) && P_Random() <= 4)
+            if (mobj->movecount >= 12 * TICRATE && !(leveltime & 31) && M_Random() <= 4)
                 P_NightmareRespawn(mobj);
         }
     }
@@ -746,12 +746,12 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->floorz = sector->floorheight;
     mobj->ceilingz = sector->ceilingheight;
 
-    // [BH] initialize bobbing powerups
+    // [BH] initialize bobbing things
     if (r_floatbob)
-        mobj->floatbob = P_Random();
+        mobj->floatbob = M_Random();
 
-    mobj->z = (z == ONFLOORZ ? mobj->floorz :
-              (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
+    mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height :
+        z));
 
     // [AM] Do not interpolate on spawn.
     mobj->interp = false;
@@ -1026,7 +1026,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     flags = mobj->flags;
 
     if (mobj->tics > 0)
-        mobj->tics = 1 + (P_Random() % mobj->tics);
+        mobj->tics = 1 + (M_Random() % mobj->tics);
 
     if (flags & MF_COUNTITEM)
         totalitems++;
@@ -1084,10 +1084,10 @@ extern angle_t  shootangle;
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
-    mobj_t      *th = P_SpawnMobj(x, y, z + ((P_Random() - P_Random()) << 10), MT_PUFF);
+    mobj_t      *th = P_SpawnMobj(x, y, z + ((M_Random() - M_Random()) << 10), MT_PUFF);
 
     th->momz = FRACUNIT;
-    th->tics = MAX(1, th->tics - (P_Random() & 3));
+    th->tics = MAX(1, th->tics - (M_Random() & 3));
 
     th->angle = angle;
 
@@ -1119,10 +1119,10 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
-    mobj_t      *th = P_SpawnMobj(x, y, z + ((P_Random() - P_Random()) << 10), MT_TRAIL);
+    mobj_t      *th = P_SpawnMobj(x, y, z + ((M_Random() - M_Random()) << 10), MT_TRAIL);
 
     th->momz = FRACUNIT / 2;
-    th->tics -= (P_Random() & 3);
+    th->tics -= (M_Random() & 3);
 
     th->angle = angle;
 
@@ -1158,7 +1158,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         st = &states[info->spawnstate];
 
         th->state = st;
-        th->tics = MAX(1, st->tics - (P_Random() & 3));
+        th->tics = MAX(1, st->tics - (M_Random() & 3));
         th->sprite = st->sprite;
         th->frame = st->frame;
 
@@ -1171,7 +1171,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->dropoffz = th->floorz = th->subsector->sector->floorheight;
         th->ceilingz = th->subsector->sector->ceilingheight;
 
-        th->z = BETWEEN(minz, z + ((P_Random() - P_Random()) << 10), maxz);
+        th->z = BETWEEN(minz, z + ((M_Random() - M_Random()) << 10), maxz);
 
         th->thinker.function = P_MobjThinker;
         P_AddThinker(&th->thinker);
@@ -1181,7 +1181,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->momz = FRACUNIT * (2 + i / 6);
 
         th->angle = angle;
-        angle += ((P_Random() - P_Random()) * 0xb60b60);
+        angle += ((M_Random() - M_Random()) * 0xb60b60);
 
         if (damage <= 12 && th->state->nextstate)
             P_SetMobjState(th, th->state->nextstate);
@@ -1274,7 +1274,7 @@ void P_SpawnShadow(mobj_t *actor)
 //
 void P_CheckMissileSpawn(mobj_t *th)
 {
-    th->tics = MAX(1, th->tics - (P_Random() & 3));
+    th->tics = MAX(1, th->tics - (M_Random() & 3));
 
     // move a little forward so an angle can
     // be computed if it immediately explodes
@@ -1311,7 +1311,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 
     // fuzzy player
     if (dest->flags & MF_FUZZ)
-        an += (P_Random() - P_Random()) << 20;
+        an += (M_Random() - M_Random()) << 20;
 
     th->angle = an;
     an >>= ANGLETOFINESHIFT;

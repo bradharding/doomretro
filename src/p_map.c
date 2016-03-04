@@ -487,7 +487,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
     // check for skulls slamming into things
     if ((tmflags & MF_SKULLFLY) && (flags & MF_SOLID))
     {
-        damage = ((P_Random() % 8) + 1) * tmthing->info->damage;
+        damage = ((M_Random() % 8) + 1) * tmthing->info->damage;
 
         P_DamageMobj(thing, tmthing, tmthing, damage);
 
@@ -530,7 +530,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
             return !(flags & MF_SOLID);                         // didn't do any damage
 
         // damage / explode
-        damage = ((P_Random() % 8) + 1) * tmthing->info->damage;
+        damage = ((M_Random() % 8) + 1) * tmthing->info->damage;
         P_DamageMobj(thing, tmthing, tmthing->target, damage);
 
         if (thing->type != MT_BARREL)

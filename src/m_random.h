@@ -44,7 +44,7 @@
 int M_Random(void);
 
 // As M_Random, but used only by the play simulation.
-int P_Random(void);
+int M_Random(void);
 
 void M_ClearRandom(void);
 int M_RandomIntNoRepeat(int lower, int upper, int previous);

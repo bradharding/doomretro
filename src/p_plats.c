@@ -257,7 +257,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
                     plat->high = sec->floorheight;
 
                 plat->wait = TICRATE * PLATWAIT;
-                plat->status = (plat_e)(P_Random() & 1);
+                plat->status = (plat_e)(M_Random() & 1);
 
                 S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;

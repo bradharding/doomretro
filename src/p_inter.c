@@ -1073,7 +1073,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     else
         P_SetMobjState(target, info->deathstate);
 
-    target->tics = MAX(1, target->tics - (P_Random() & 3));
+    target->tics = MAX(1, target->tics - (M_Random() & 3));
 
     if ((type == MT_BARREL || type == MT_PAIN || type == MT_SKULL) && target->shadow)
         P_RemoveMobjShadow(target);
@@ -1117,10 +1117,10 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     }
 
     mo = P_SpawnMobj(target->x, target->y, target->floorz + FRACUNIT * target->height / 2, item);
-    mo->momx += P_Random() << 8;
-    mo->momy += P_Random() << 8;
-    mo->momz = FRACUNIT * 5 + (P_Random() << 10);
-    mo->angle = target->angle + ((P_Random() - P_Random()) << 20);
+    mo->momx += M_Random() << 8;
+    mo->momy += M_Random() << 8;
+    mo->momz = FRACUNIT * 5 + (M_Random() << 10);
+    mo->angle = target->angle + ((M_Random() - M_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
     if (r_mirroredweapons && (rand() & 1))
     {
@@ -1180,7 +1180,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health
-            && target->z - inflicter->z > 64 * FRACUNIT && (P_Random() & 1))
+            && target->z - inflicter->z > 64 * FRACUNIT && (M_Random() & 1))
         {
             ang += ANG180;
             thrust *= 4;
@@ -1304,7 +1304,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         return;
     }
 
-    if (P_Random() < info->painchance && !(flags & MF_SKULLFLY))
+    if (M_Random() < info->painchance && !(flags & MF_SKULLFLY))
     {
         target->flags |= MF_JUSTHIT;                            // fight back!
 
