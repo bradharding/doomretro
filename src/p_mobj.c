@@ -734,8 +734,9 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->blood = info->blood;
 
     // [BH] set random pitch for monster sounds when spawned
-    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL ?
-        NORM_PITCH + 16 - M_RandomInt(0, 16) : NORM_PITCH);
+    mobj->pitch = NORM_PITCH;
+    if ((mobj->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL)
+        mobj->pitch += M_RandomInt(-16, 16);
 
     // set subsector and/or block links
     P_SetThingPosition(mobj);
