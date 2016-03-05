@@ -570,7 +570,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, "Toggles the display of the average frames per second."),
     CVAR_BOOL (vid_vsync, "", bool_cvars_func1, vid_vsync_cvar_func2, "Toggles vertical synchronization with the display's refresh\nrate."),
     CVAR_BOOL (vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, "Toggles widescreen mode."),
-    CVAR_POS  (vid_windowposition, "", null_func1, vid_windowposition_cvar_func2, "The position of the window on the desktop (centered or\n(~width~,~height~))."),
+    CVAR_POS  (vid_windowposition, "", null_func1, vid_windowposition_cvar_func2, "The position of the window on the desktop (centered or (~x~,~y~))."),
     CVAR_SIZE (vid_windowsize, "", null_func1, vid_windowsize_cvar_func2, "The size of the window on the desktop (~width~\xD7~height~)."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
