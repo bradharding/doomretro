@@ -526,7 +526,7 @@ void G_DoLoadLevel(void)
                 case 3:
                     skytexture = R_TextureNumForName("SKY3");
                     break;
-                case 4:                             // Special Edition sky
+                case 4:                         // Special Edition sky
                     skytexture = R_TextureNumForName("SKY4");
                     break;
             }
@@ -539,7 +539,7 @@ void G_DoLoadLevel(void)
     levelstarttic = gametic;                    // for time calculation
 
     if (wipegamestate == GS_LEVEL)
-        wipegamestate = (gamestate_t)(-1);      // force a wipe
+        wipegamestate = GS_NONE;                // force a wipe
 
     gamestate = GS_LEVEL;
 

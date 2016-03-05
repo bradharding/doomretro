@@ -209,7 +209,7 @@ void D_Display(void)
     static dboolean     viewactivestate;
     static dboolean     menuactivestate;
     static dboolean     pausedstate = false;
-    static gamestate_t  oldgamestate = (gamestate_t)(-1);
+    static gamestate_t  oldgamestate = GS_NONE;
     static int          borderdrawcount;
     static int          saved_gametic = -1;
     int                 nowtime;
@@ -217,15 +217,14 @@ void D_Display(void)
     int                 wipestart;
     dboolean            done;
 
-    realframe = (vid_capfps || gametic > saved_gametic);
-    if (realframe)
+    if ((realframe = (vid_capfps || gametic > saved_gametic)))
         saved_gametic = gametic;
 
     // change the view size if needed
     if (setsizeneeded)
     {
         R_ExecuteSetViewSize();
-        oldgamestate = (gamestate_t)(-1);         // force background redraw
+        oldgamestate = GS_NONE; // force background redraw
         borderdrawcount = 3;
     }
 
@@ -284,8 +283,8 @@ void D_Display(void)
         {
             if (scaledviewwidth != SCREENWIDTH)
             {
-                if (menuactive || menuactivestate || !viewactivestate || vid_showfps
-                    || paused || pausedstate || message_on || consoleheight > CONSOLETOP)
+                if (menuactive || menuactivestate || !viewactivestate || vid_showfps || paused
+                    || pausedstate || message_on || consoleheight > CONSOLETOP)
                     borderdrawcount = 3;
                 if (borderdrawcount)
                 {
@@ -336,7 +335,7 @@ void D_Display(void)
         M_Drawer();             // menu is drawn even on top of everything
 
         // normal update
-        blitfunc();             // page flip or blit buffer
+        blitfunc();             // blit buffer
 
         mapblitfunc();
 

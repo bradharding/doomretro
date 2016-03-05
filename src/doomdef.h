@@ -133,6 +133,7 @@ typedef enum
 // the game final animation, or title screen.
 typedef enum
 {
+    GS_NONE = -1,
     GS_LEVEL,
     GS_INTERMISSION,
     GS_FINALE,
