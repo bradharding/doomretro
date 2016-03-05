@@ -68,10 +68,12 @@ short                   gamepadthumbLX = 0;
 short                   gamepadthumbLY = 0;
 short                   gamepadthumbRX = 0;
 float                   gamepadsensitivity;
-int                     gamepadleftdeadzone;
-int                     gamepadrightdeadzone;
+short                   gamepadleftdeadzone;
+short                   gamepadrightdeadzone;
 
 dboolean                vibrate = false;
+int                     damagevibrationtics;
+int                     weaponvibrationtics;
 
 extern dboolean         idclev;
 extern dboolean         idmus;
