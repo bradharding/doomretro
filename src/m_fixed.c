@@ -39,6 +39,40 @@
 #include "doomtype.h"
 #include "m_fixed.h"
 
+int ABS(int a)
+{
+    int b = a >> 31;
+
+    return ((a ^ b) - b);
+}
+
+int MAX(int a, int b)
+{
+    b = a - b;
+    return (a - (b & (b >> 31)));
+}
+
+int MIN(int a, int b)
+{
+    a = a - b;
+    return (b + (a & (a >> 31)));
+}
+
+int BETWEEN(int a, int b, int c)
+{
+    return MAX(a, MIN(b, c));
+}
+
+float BETWEENF(float a, float b, float c)
+{
+    return ((b = (b < a ? a : b)) > c ? c : b);
+}
+
+int SIGN(int a)
+{
+    return (1 | (a >> 31));
+}
+
 fixed_t FixedMul(fixed_t a, fixed_t b)
 {
     return (((int64_t)a * (int64_t)b) >> FRACBITS);

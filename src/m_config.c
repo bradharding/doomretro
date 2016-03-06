@@ -592,10 +592,10 @@ static void M_CheckCVARs(void)
 
     facebackcolor = BETWEEN(facebackcolor_min, facebackcolor, facebackcolor_max);
 
-    gp_deadzone_left = BETWEEN(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
+    gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
     gamepadleftdeadzone = (short)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
 
-    gp_deadzone_right = BETWEEN(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
+    gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
     gamepadrightdeadzone = (short)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
 
     gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
@@ -664,7 +664,7 @@ static void M_CheckCVARs(void)
     if (r_floatbob != false && r_floatbob != true)
         r_floatbob = r_floatbob_default;
 
-    r_gamma = BETWEEN(r_gamma_min, r_gamma, r_gamma_max);
+    r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
 
     if (r_homindicator != false && r_homindicator != true)

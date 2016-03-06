@@ -42,18 +42,18 @@
 //
 // Fixed point, 32bit as 16.16.
 //
-#define FRACBITS                16
-#define FRACUNIT                (1 << FRACBITS)
-#define FIXED2DOUBLE(x)         (x / (double)FRACUNIT)
-
-#define ABS(a)                  ((a) < 0 ? -(a) : (a))
-#define MAX(a, b)               ((a) > (b) ? (a) : (b))
-#define MIN(a, b)               ((a) < (b) ? (a) : (b))
-#define BETWEEN(a, b, c)        ((a) > (b) ? (a) : ((b) > (c) ? (c) : (b)))
-#define SIGN(a)                 ((a) < 0 ? -1 : 1)
+#define FRACBITS        16
+#define FRACUNIT        (1 << FRACBITS)
+#define FIXED2DOUBLE(x) (x / (double)FRACUNIT)
 
 typedef int fixed_t;
 
+int ABS(int a);
+int MAX(int a, int b);
+int MIN(int a, int b);
+int BETWEEN(int a, int b, int c);
+float BETWEENF(float a, float b, float c);
+int SIGN(int a);
 fixed_t FixedMul(fixed_t a, fixed_t b);
 fixed_t FixedDiv(fixed_t a, fixed_t b);
 unsigned int SafeAdd(unsigned int a, unsigned int b);
