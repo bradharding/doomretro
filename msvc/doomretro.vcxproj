@@ -332,8 +332,8 @@
     <ClCompile Include="..\src\dstrings.c" />
     <ClCompile Include="..\src\d_deh.c" />
     <ClCompile Include="..\src\info.c" />
-    <ClCompile Include="..\src\i_sdlmusic.c" />
-    <ClCompile Include="..\src\i_sdlsound.c" />
+    <ClCompile Include="..\src\i_music.c" />
+    <ClCompile Include="..\src\i_sound.c" />
     <ClCompile Include="..\src\memio.c" />
     <ClCompile Include="..\src\midifile.c" />
     <ClCompile Include="..\src\mus2mid.c" />

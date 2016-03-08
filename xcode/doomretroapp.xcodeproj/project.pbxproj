@@ -32,8 +32,8 @@
 		AB5A82861A8DB9EB00AF539F /* hu_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81FD1A8DB9EB00AF539F /* hu_lib.c */; };
 		AB5A82871A8DB9EB00AF539F /* hu_stuff.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81FF1A8DB9EB00AF539F /* hu_stuff.c */; };
 		AB5A82881A8DB9EB00AF539F /* i_gamepad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82011A8DB9EB00AF539F /* i_gamepad.c */; };
-		AB5A828A1A8DB9EB00AF539F /* i_sdlmusic.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82041A8DB9EB00AF539F /* i_sdlmusic.c */; };
-		AB5A828B1A8DB9EB00AF539F /* i_sdlsound.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82051A8DB9EB00AF539F /* i_sdlsound.c */; };
+		AB5A828A1A8DB9EB00AF539F /* i_music.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82041A8DB9EB00AF539F /* i_music.c */; };
+		AB5A828B1A8DB9EB00AF539F /* i_sound.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82051A8DB9EB00AF539F /* i_sound.c */; };
 		AB5A828C1A8DB9EB00AF539F /* i_system.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82071A8DB9EB00AF539F /* i_system.c */; };
 		AB5A828D1A8DB9EB00AF539F /* i_timer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82091A8DB9EB00AF539F /* i_timer.c */; };
 		AB5A828E1A8DB9EB00AF539F /* i_tinttab.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A820B1A8DB9EB00AF539F /* i_tinttab.c */; };
@@ -162,8 +162,8 @@
 		AB5A82001A8DB9EB00AF539F /* hu_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hu_stuff.h; path = ../src/hu_stuff.h; sourceTree = SOURCE_ROOT; };
 		AB5A82011A8DB9EB00AF539F /* i_gamepad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_gamepad.c; path = ../src/i_gamepad.c; sourceTree = SOURCE_ROOT; };
 		AB5A82021A8DB9EB00AF539F /* i_gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_gamepad.h; path = ../src/i_gamepad.h; sourceTree = SOURCE_ROOT; };
-		AB5A82041A8DB9EB00AF539F /* i_sdlmusic.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_sdlmusic.c; path = ../src/i_sdlmusic.c; sourceTree = SOURCE_ROOT; };
-		AB5A82051A8DB9EB00AF539F /* i_sdlsound.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_sdlsound.c; path = ../src/i_sdlsound.c; sourceTree = SOURCE_ROOT; };
+		AB5A82041A8DB9EB00AF539F /* i_music.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_music.c; path = ../src/i_music.c; sourceTree = SOURCE_ROOT; };
+		AB5A82051A8DB9EB00AF539F /* i_sound.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_sound.c; path = ../src/i_sound.c; sourceTree = SOURCE_ROOT; };
 		AB5A82061A8DB9EB00AF539F /* i_swap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_swap.h; path = ../src/i_swap.h; sourceTree = SOURCE_ROOT; };
 		AB5A82071A8DB9EB00AF539F /* i_system.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_system.c; path = ../src/i_system.c; sourceTree = SOURCE_ROOT; };
 		AB5A82081A8DB9EB00AF539F /* i_system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_system.h; path = ../src/i_system.h; sourceTree = SOURCE_ROOT; };
@@ -387,8 +387,8 @@
 				AB5A82001A8DB9EB00AF539F /* hu_stuff.h */,
 				AB5A82011A8DB9EB00AF539F /* i_gamepad.c */,
 				AB5A82021A8DB9EB00AF539F /* i_gamepad.h */,
-				AB5A82041A8DB9EB00AF539F /* i_sdlmusic.c */,
-				AB5A82051A8DB9EB00AF539F /* i_sdlsound.c */,
+				AB5A82041A8DB9EB00AF539F /* i_music.c */,
+				AB5A82051A8DB9EB00AF539F /* i_sound.c */,
 				AB5A82061A8DB9EB00AF539F /* i_swap.h */,
 				AB5A82071A8DB9EB00AF539F /* i_system.c */,
 				AB5A82081A8DB9EB00AF539F /* i_system.h */,
@@ -612,7 +612,7 @@
 				AB5A82831A8DB9EB00AF539F /* f_finale.c in Sources */,
 				AB5A82821A8DB9EB00AF539F /* dstrings.c in Sources */,
 				AB5A82A41A8DB9EB00AF539F /* p_floor.c in Sources */,
-				AB5A828B1A8DB9EB00AF539F /* i_sdlsound.c in Sources */,
+				AB5A828B1A8DB9EB00AF539F /* i_sound.c in Sources */,
 				AB5A82C31A8DB9EB00AF539F /* w_file_stdc.c in Sources */,
 				AB5A82B21A8DB9EB00AF539F /* p_tick.c in Sources */,
 				AB5A82A71A8DB9EB00AF539F /* p_map.c in Sources */,
@@ -651,7 +651,7 @@
 				AB5A82811A8DB9EB00AF539F /* doomstat.c in Sources */,
 				AB5A82AB1A8DB9EB00AF539F /* p_pspr.c in Sources */,
 				AB5A828E1A8DB9EB00AF539F /* i_tinttab.c in Sources */,
-				AB5A828A1A8DB9EB00AF539F /* i_sdlmusic.c in Sources */,
+				AB5A828A1A8DB9EB00AF539F /* i_music.c in Sources */,
 				AB5A82B11A8DB9EB00AF539F /* p_telept.c in Sources */,
 				AB5A82C01A8DB9EB00AF539F /* v_data.c in Sources */,
 				AB5A82AF1A8DB9EB00AF539F /* p_spec.c in Sources */,

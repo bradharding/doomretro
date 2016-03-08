@@ -83,7 +83,7 @@ fixed_t FixedDiv(fixed_t a, fixed_t b)
     if ((ABS(a) >> 14) >= ABS(b))
         return ((a ^ b) >> 31) ^ INT_MAX;
     else
-        return (fixed_t)(((int64_t) a << FRACBITS) / b);
+        return (fixed_t)(((int64_t)a << FRACBITS) / b);
 }
 
 unsigned int SafeAdd(unsigned int a, unsigned int b)
