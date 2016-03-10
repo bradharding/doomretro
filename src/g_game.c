@@ -1468,6 +1468,12 @@ void G_DoSaveGame(void)
     // a corrupted one, or if a savegame buffer overrun occurs.
     save_stream = fopen(temp_savegame_file, "wb");
 
+    if (gameaction == ga_autosavegame)
+    {
+        M_UpdateSaveGameName(quickSaveSlot);
+        M_StringCopy(savedescription, M_GetSaveGameName(quickSaveSlot), sizeof(savedescription));
+    }
+
     if (!save_stream)
     {
         menuactive = false;

@@ -1243,6 +1243,11 @@ void M_UpdateSaveGameName(int i)
     }
 }
 
+char *M_GetSaveGameName(int i)
+{
+    return savegamestrings[i];
+}
+
 void M_SaveSelect(int choice)
 {
     // we are going to be intercepting all chars
