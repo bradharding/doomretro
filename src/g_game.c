@@ -1511,7 +1511,8 @@ void G_DoSaveGame(void)
                 s_GGSAVED), titlecase(savedescription));
             HU_PlayerMessage(buffer, false);
             message_dontfuckwithme = true;
-            S_StartSound(NULL, sfx_swtchx);
+            if (gameaction != ga_autosavegame)
+                S_StartSound(NULL, sfx_swtchx);
         }
 
         // draw the pattern into the back screen
