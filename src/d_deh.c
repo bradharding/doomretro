@@ -216,6 +216,7 @@ char    *s_PD_ALL3 = "";
 char    *s_PD_ALL6 = "";
 
 char    *s_GGSAVED = GGSAVED;
+char    *s_GGAUTOSAVED = "";
 char    *s_GGLOADED = "";
 char    *s_GSCREENSHOT = GSCREENSHOT;
 
@@ -681,6 +682,7 @@ deh_strs deh_strlookup[] =
     { &s_PD_ALL6,              "PD_ALL6",              false },
 
     { &s_GGSAVED,              "GGSAVED",              false },
+    { &s_GGAUTOSAVED,          "GGAUTOSAVED",          false },
     { &s_GGLOADED,             "GGLOADED",             false },
     { &s_GSCREENSHOT,          "GSCREENSHOT",          false },
 

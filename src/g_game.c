@@ -832,7 +832,7 @@ dboolean G_Responder(event_t *ev)
 
 void D_Display(void);
 
-char    savename[256];
+static char     savename[256];
 
 //
 // G_Ticker
@@ -856,28 +856,37 @@ void G_Ticker(void)
             case ga_loadlevel:
                 G_DoLoadLevel();
                 break;
+
             case ga_reloadgame:
                 M_StringCopy(savename, P_SaveGameFile(quickSaveSlot), sizeof(savename));
                 G_DoLoadGame();
                 break;
+
             case ga_newgame:
                 G_DoNewGame();
                 break;
+
             case ga_loadgame:
                 G_DoLoadGame();
                 break;
+
+            case ga_autosavegame:
             case ga_savegame:
                 G_DoSaveGame();
                 break;
+
             case ga_completed:
                 G_DoCompleted();
                 break;
+
             case ga_victory:
                 F_StartFinale();
                 break;
+
             case ga_worlddone:
                 G_DoWorldDone();
                 break;
+
             case ga_screenshot:
                 if ((usergame || gamestate == GS_LEVEL)
                     && !idbehold && !(players[0].cheats & CF_MYPOS))
@@ -903,8 +912,6 @@ void G_Ticker(void)
                 else
                     C_Warning("No screenshot was saved.");
                 gameaction = ga_nothing;
-                break;
-            case ga_nothing:
                 break;
         }
     }
@@ -1346,7 +1353,8 @@ void G_DoWorldDone(void)
     gamestate = GS_LEVEL;
     gamemap = wminfo.next + 1;
     G_DoLoadLevel();
-    gameaction = ga_nothing;
+    if (quickSaveSlot >= 0 && autosave)
+        gameaction = ga_autosavegame;
     viewactive = true;
     markpointnum = 0;
 }
@@ -1493,7 +1501,8 @@ void G_DoSaveGame(void)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
+            M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED :
+                s_GGSAVED), titlecase(savedescription));
             HU_PlayerMessage(buffer, false);
             message_dontfuckwithme = true;
             S_StartSound(NULL, sfx_swtchx);
@@ -1504,7 +1513,6 @@ void G_DoSaveGame(void)
     }
 
     gameaction = ga_nothing;
-    savedescription[0] = '\0';
 
     drawdisk = false;
 }
