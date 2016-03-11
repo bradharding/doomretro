@@ -1306,15 +1306,17 @@ static void D_DoomMainSetup(void)
 
     D_ProcessDehCommandLine();
 
-    if (nomonsters = M_CheckParm("-nomonsters"))
+    if ((nomonsters = M_CheckParm("-nomonsters")))
         C_Output("\"-NOMONSTERS\" was found on the command-line. No monsters will be spawned.");
 
-    if (pistolstart = M_CheckParm("-pistolstart"))
+    if ((pistolstart = M_CheckParm("-pistolstart")))
         C_Output("\"-PISTOLSTART\" was found on the command-line. The player will start each map "
             "with only a pistol.");
 
-    if (fastparm = M_CheckParm("-fast"))
+    if ((fastparm = M_CheckParm("-fast")))
         C_Output("\"-FAST\" was found on the command-line. Monsters will be faster.");
+    else if ((fastparm = M_CheckParm("-fastmonsters")))
+        C_Output("\"-FASTMONSTERS\" was found on the command-line. Monsters will be faster.");
 
     devparm = M_CheckParm("-devparm");
 
