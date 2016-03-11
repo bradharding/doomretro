@@ -334,6 +334,8 @@ extern char     *s_STSTR_NMON;
 extern char     *s_STSTR_NMOFF;
 extern char     *s_STSTR_PSON;
 extern char     *s_STSTR_PSOFF;
+extern char     *s_STSTR_FMON;
+extern char     *s_STSTR_FMOFF;
 
 extern char     *s_E1TEXT;
 extern char     *s_E2TEXT;

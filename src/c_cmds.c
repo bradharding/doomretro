@@ -316,6 +316,8 @@ static void condump_cmd_func2(char *, char *, char *, char *);
 static void cvarlist_cmd_func2(char *, char *, char *, char *);
 static void endgame_cmd_func2(char *, char *, char *, char *);
 static void exitmap_cmd_func2(char *, char *, char *, char *);
+static dboolean fastmonsters_cmd_func1(char *, char *, char *, char *);
+static void fastmonsters_cmd_func2(char *, char *, char *, char *);
 static dboolean give_cmd_func1(char *, char *, char *, char *);
 static void give_cmd_func2(char *, char *, char *, char *);
 static dboolean god_cmd_func1(char *, char *, char *, char *);
@@ -468,6 +470,7 @@ consolecmd_t consolecmds[] =
     CMD       (exitmap, "", game_func1, exitmap_cmd_func2, 0, "", "Exits the current map."),
     CVAR_INT  (expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM II~ expansion in the menu."),
     CVAR_INT  (facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The color behind the player's face in the status bar."),
+    CMD       (fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[on|off]", "Toggles fast monsters."),
     CVAR_TIME (gametime, "", null_func1, time_cvars_func2, "The amount of time since ~"PACKAGE_NAME"~ started."),
     CMD       (give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT, "Gives items to the player."),
     CMD       (god, "", god_cmd_func1, god_cmd_func2, 1, "[on|off]", "Toggles god mode."),
@@ -1035,6 +1038,50 @@ static void exitmap_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     G_ExitLevel();
     C_HideConsoleFast();
+}
+
+//
+// fastmonsters cmd
+//
+void G_SetFastMonsters(dboolean toggle);
+
+static dboolean fastmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    return (skilllevel != sk_nightmare);
+}
+
+static void fastmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0)
+        {
+            if (!fastparm)
+                return;
+            fastparm = false;
+        }
+        else if (value == 1)
+        {
+            if (fastparm)
+                return;
+            fastparm = true;
+        }
+    }
+    else
+        fastparm = !fastparm;
+
+    if (fastparm)
+    {
+        G_SetFastMonsters(true);
+        HU_PlayerMessage(s_STSTR_FMON, false);
+    }
+    else
+    {
+        G_SetFastMonsters(false);
+        HU_PlayerMessage(s_STSTR_FMOFF, false);
+    }
 }
 
 //

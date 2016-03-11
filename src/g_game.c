@@ -1576,34 +1576,37 @@ void G_DoNewGame(void)
     infight = false;
 }
 
-void G_SetFastParms(int fast_pending)
+void G_SetFastMonsters(dboolean toggle)
+{
+    int     i;
+
+    if (toggle)
+    {
+        for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
+            if (states[i].tics != 1)
+                states[i].tics >>= 1;
+
+        mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
+        mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
+        mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
+    }
+    else
+    {
+        for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
+            states[i].tics <<= 1;
+
+        mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
+        mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
+        mobjinfo[MT_TROOPSHOT].speed = 10 * FRACUNIT;
+    }
+}
+
+static void G_SetFastParms(int fast_pending)
 {
     static int  fast;
 
     if (fast != fast_pending)
-    {
-        int     i;
-
-        if ((fast = fast_pending))
-        {
-            for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
-                if (states[i].tics != 1)
-                    states[i].tics >>= 1;
-
-            mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
-            mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
-            mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
-        }
-        else
-        {
-            for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
-                states[i].tics <<= 1;
-
-            mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
-            mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
-            mobjinfo[MT_TROOPSHOT].speed = 10 * FRACUNIT;
-        }
-    }
+        G_SetFastMonsters((fast = fast_pending));
 }
 
 void G_InitNew(skill_t skill, int ep, int map)
