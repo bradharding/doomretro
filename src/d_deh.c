@@ -1660,7 +1660,6 @@ void A_Face(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_PlaySound(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
-void A_CounterJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -1758,7 +1757,6 @@ static const deh_bexptr deh_bexptrs[] =
     { A_Scratch,         "A_Scratch"         },   // killough 11/98
     { A_PlaySound,       "A_PlaySound"       },   // killough 11/98
     { A_RandomJump,      "A_RandomJump"      },   // killough 11/98
-    { A_CounterJump,     "A_CounterJump"     },   // [BH]
     { A_LineEffect,      "A_LineEffect"      },   // killough 11/98
 
     { A_FireOldBFG,      "A_FireOldBFG"      },   // killough 7/19/98: classic BFG firing function
