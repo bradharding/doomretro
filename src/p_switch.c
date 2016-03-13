@@ -43,59 +43,85 @@
 #include "g_game.h"
 #include "m_misc.h"
 #include "i_system.h"
+#include "i_swap.h"
 #include "p_local.h"
 #include "s_sound.h"
+#include "w_wad.h"
+#include "z_zone.h"
 
-int                     switchlist[MAXSWITCHES * 2 + 1];
+// killough 2/8/98: Remove switch limit
+static int *switchlist;         // killough
+static int max_numswitches;     // killough
+static int numswitches;         // killough
 
-extern int              numtextures;
-extern texture_t        **textures;
+button_t  buttonlist[MAXBUTTONS];
 
 //
-// P_InitSwitchList
-// Only called at game initialization.
-// For each SW1xxxxx texture we look for a corresponding SW2xxxxx texture. (JAD 27/09/11)
+// P_InitSwitchList()
+//
+// Only called at game initialization in order to list the set of switches
+// and buttons known to the engine. This enables their texture to change
+// when activated, and in the case of buttons, change back after a timeout.
+//
+// This routine modified to read its data from a predefined lump or
+// PWAD lump called SWITCHES rather than a static table in this module to
+// allow wad designers to insert or modify switches.
+//
+// Lump format is an array of byte packed switchlist_t structures, terminated
+// by a structure with episode == -0. The lump can be generated from a
+// text source file using SWANTBLS.EXE, distributed with the BOOM utils.
+// The standard list of switches and animations is contained in the example
+// source text file DEFSWANI.DAT also in the BOOM util distribution.
+//
+// Rewritten by Lee Killough to remove limit 2/8/98
 //
 void P_InitSwitchList(void)
 {
-    int         i = 0;
-    int         count = 0;
-    int         *ptr_B;
-    texture_t   **ptr_1;
-    char        sw2name[9];
+    int                 i;
+    int                 index = 0;
+    int                 episode = (gamemode == registered || gamemode == retail ? 2 :
+                            (gamemode == commercial ? 3 : 1));
+    switchlist_t        *alphSwitchList;                // jff 3/23/98 pointer to switch table
+    int                 lump = W_GetNumForName2("SWITCHES");    // cph - new wad lump handling
 
-    sw2name[8] = 0;
+    // jff 3/23/98 read the switch table from a predefined lump
+    alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump, PU_STATIC);
 
-    ptr_1 = textures;
-    ptr_B = switchlist;
-
-    do
+    for (i = 0;; ++i)
     {
-        texture_t       *ptr_2 = *ptr_1++;
-
-        if (!strncasecmp(ptr_2->name, "SW1", 3))
+        if (index + 1 >= max_numswitches)
+            switchlist = Z_Realloc(switchlist, sizeof(*switchlist)
+                * (max_numswitches = max_numswitches ? max_numswitches * 2 : 8));
+        if (SHORT(alphSwitchList[i].episode) <= episode)        // jff 5/11/98 endianess
         {
-            int j;
+            int texture1;
+            int texture2;
 
-            strncpy(sw2name, ptr_2->name, 8);
-            sw2name[2] = '2';
-            j = R_CheckTextureNumForName(sw2name);
-            if (j != -1)
+            if (!SHORT(alphSwitchList[i].episode))
+                break;
+
+            // Ignore switches referencing unknown texture names, instead of exiting.
+            // Warn if either one is missing, but only add if both are valid.
+            texture1 = R_CheckTextureNumForName(alphSwitchList[i].name1);
+            if (texture1 == -1)
+                C_Warning("Switch %i in SWITCHES lump has an unknown texture of %s.", i,
+                    alphSwitchList[i].name1);
+            texture2 = R_CheckTextureNumForName(alphSwitchList[i].name2);
+            if (texture2 == -1)
+                C_Warning("Switch %i in SWITCHES lump has an unknown texture of %s.", i,
+                    alphSwitchList[i].name2);
+            if (texture1 != -1 && texture2 != -1)
             {
-                if (count < MAXSWITCHES)
-                {
-                    *ptr_B++ = i;
-                    *ptr_B++ = j;
-                }
-                count++;
+                switchlist[index++] = texture1;
+                switchlist[index++] = texture2;
             }
         }
     }
-    while (++i < numtextures);
 
-    *ptr_B = -1;
+    numswitches = index / 2;
+    switchlist[index] = -1;
+    W_ReleaseLumpNum(lump);
 }
-
 //
 // Start a button counting down till it turns off.
 //
