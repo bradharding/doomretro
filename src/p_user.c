@@ -421,7 +421,8 @@ void P_PlayerThink(player_t *player)
                  || (newweapon == wp_shotgun && !player->ammo[am_shell])
                  || (newweapon == wp_missile && !player->ammo[am_misl])
                  || (newweapon == wp_plasma && !player->ammo[am_cell])
-                 || (newweapon == wp_bfg && player->ammo[am_cell] < bfgcells))
+                 || (newweapon == wp_bfg && player->ammo[am_cell] < bfgcells
+                     && bfgcells == BFGCELLS))
             newweapon = wp_nochange;
 
         // Select the preferred shotgun.

@@ -255,6 +255,9 @@ extern mobj_t           **blocklinks;   // for thing chains
 //
 // P_INTER
 //
+
+#define BFGCELLS        40
+
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher);
 
 void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage);

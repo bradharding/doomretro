@@ -168,7 +168,8 @@ dboolean P_CheckAmmo(player_t *player)
         player->pendingweapon = wp_chainsaw;
     else if (player->weaponowned[wp_missile] && player->ammo[am_misl])
         player->pendingweapon = wp_missile;
-    else if (player->weaponowned[wp_bfg] && player->ammo[am_cell] >= bfgcells)
+    else if (player->weaponowned[wp_bfg] && (player->ammo[am_cell] >= bfgcells
+        || bfgcells != BFGCELLS))
         player->pendingweapon = wp_bfg;
     else
         // If everything fails.
