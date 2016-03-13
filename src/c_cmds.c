@@ -79,7 +79,8 @@
 #define GIVECMDSHORTFORMAT      "~items~"
 #define GIVECMDLONGFORMAT       "ammo|armor|health|keys|weapons|all|~item~"
 #define KILLCMDFORMAT           "player|all|~monster~"
-#define MAPCMDFORMAT            "E~x~M~y~|MAP~xy~|first|previous|next|last"
+#define MAPCMDSHORTFORMAT       "E~x~M~y~|MAP~xy~"
+#define MAPCMDLONGFORMAT        "E~x~M~y~|MAP~xy~|first|previous|next|last"
 #define SPAWNCMDFORMAT          "~monster~|~item~"
 
 extern dboolean         alwaysrun;
@@ -504,7 +505,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (m_novertical, "", bool_cvars_func1, bool_cvars_func2, "Toggles no vertical movement of the mouse."),
     CVAR_INT  (m_sensitivity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The mouse's sensitivity."),
     CVAR_INT  (m_threshold, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The mouse's acceleration threshold."),
-    CMD       (map, warp, map_cmd_func1, map_cmd_func2, 1, MAPCMDFORMAT, "Warps to a map."),
+    CMD       (map, warp, map_cmd_func1, map_cmd_func2, 1, MAPCMDSHORTFORMAT, "Warps to a map."),
     CMD       (maplist, "", null_func1, maplist_cmd_func2, 0, "", "Shows a list of the available maps."),
     CMD       (mapstats, "", game_func1, mapstats_cmd_func2, 0, "", "Shows statistics about the current map."),
     CVAR_BOOL (messages, "", bool_cvars_func1, bool_cvars_func2, "Toggles messages."),
@@ -1642,7 +1643,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (!*parm1)
     {
-        C_Output("%s %s", cmd, MAPCMDFORMAT);
+        C_Output("%s %s", cmd, MAPCMDLONGFORMAT);
         return;
     }
     samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
