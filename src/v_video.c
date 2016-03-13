@@ -69,8 +69,8 @@ extern dboolean r_translucency;
 //
 // V_CopyRect
 //
-void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height,
-                int destx, int desty, int destscrn)
+void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty,
+    int destscrn)
 {
     byte        *src;
     byte        *dest;

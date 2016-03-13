@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__P_INTER__)
-#define __P_INTER__
+#if !defined(__P_INTER_H__)
+#define __P_INTER_H__
 
 dboolean P_GiveBody(player_t *player, int num);
 void P_GiveMegaHealth(player_t *player);

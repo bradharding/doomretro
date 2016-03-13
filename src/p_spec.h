@@ -218,16 +218,13 @@ typedef struct
     degenmobj_t *soundorg;
 } button_t;
 
-// max # of wall switches in a level
-#define MAXSWITCHES             100
-
 // 4 players, 4 buttons each at once, max.
 #define MAXBUTTONS              32
 
 // 1 second, in ticks.
 #define BUTTONTIME              35
 
-button_t buttonlist[MAXBUTTONS];
+extern button_t buttonlist[MAXBUTTONS];
 
 void P_ChangeSwitchTexture(line_t *line, int useAgain);
 
