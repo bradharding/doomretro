@@ -4264,7 +4264,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "BFG-9000",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "BFG",
         /* plural2              */ ""
     },
 
