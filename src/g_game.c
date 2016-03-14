@@ -1064,7 +1064,7 @@ void G_PlayerReborn(void)
 //
 void G_DoReborn(void)
 {
-    gameaction = (quickSaveSlot >= 0 && autoload ? ga_reloadgame : ga_loadlevel);
+    gameaction = (quickSaveSlot >= 0 && autoload && !pistolstart ? ga_reloadgame : ga_loadlevel);
 }
 
 void G_ScreenShot(void)
@@ -1353,7 +1353,7 @@ void G_DoWorldDone(void)
     gamestate = GS_LEVEL;
     gamemap = wminfo.next + 1;
     G_DoLoadLevel();
-    if (quickSaveSlot >= 0 && autosave)
+    if (quickSaveSlot >= 0 && autosave && !pistolstart)
         gameaction = ga_autosavegame;
     viewactive = true;
     markpointnum = 0;
