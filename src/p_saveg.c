@@ -774,6 +774,10 @@ static void saveg_read_player_t(player_t *str)
 
     // int deaths
     str->deaths = saveg_read32();
+
+    // int mobjcount[NUMMOBJTYPES];
+    for (i = 0; i < NUMMOBJTYPES; ++i)
+        str->mobjcount[i] = saveg_read32();
 }
 
 static void saveg_write_player_t(player_t *str)
@@ -941,6 +945,10 @@ static void saveg_write_player_t(player_t *str)
 
     // int deaths
     saveg_write32(str->deaths);
+
+    // int mobjcount[NUMMOBJTYPES]
+    for (i = 0; i < NUMMOBJTYPES; ++i)
+        saveg_write32(str->mobjcount[i]);
 }
 
 //
