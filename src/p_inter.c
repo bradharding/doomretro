@@ -56,33 +56,35 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
+#define MAXHEALTH       100
+
 // Ty 03/07/98 - add deh externals
 // Maximums and such were hardcoded values. Need to externalize those for
 // dehacked support (and future flexibility). Most var names came from the key
 // strings used in dehacked.
-int initial_health = 100;
-int initial_bullets = 50;
-int maxhealth = 100;
-int max_armor = 200;
-int green_armor_class = 1;
-int blue_armor_class = 2;
-int max_soul = 200;
-int soul_health = 100;
-int mega_health = 200;
-int god_health = 100;
-int idfa_armor = 200;
-int idfa_armor_class = 2;
-int idkfa_armor = 200;
-int idkfa_armor_class = 2;
-int bfgcells = BFGCELLS;
-int species_infighting = 0;
+int             initial_health = 100;
+int             initial_bullets = 50;
+int             maxhealth = MAXHEALTH;
+int             max_armor = 200;
+int             green_armor_class = 1;
+int             blue_armor_class = 2;
+int             max_soul = 200;
+int             soul_health = 100;
+int             mega_health = 200;
+int             god_health = 100;
+int             idfa_armor = 200;
+int             idfa_armor_class = 2;
+int             idkfa_armor = 200;
+int             idkfa_armor_class = 2;
+int             bfgcells = BFGCELLS;
+int             species_infighting = 0;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
-int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
+int             maxammo[NUMAMMO] = { 200, 50, 300, 50 };
+int             clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
-char *weapondescription[] =
+char            *weapondescription[] =
 {
     "fist",
     "pistol",
@@ -374,10 +376,10 @@ dboolean P_GiveAllWeapons(player_t *player)
 //
 dboolean P_GiveBody(player_t *player, int num)
 {
-    if (player->health >= maxhealth)
+    if (player->health >= MAXHEALTH)
         return false;
 
-    player->health = MIN(player->health + num, maxhealth);
+    player->health = MIN(player->health + num, MAXHEALTH);
     player->mo->health = player->health;
 
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
