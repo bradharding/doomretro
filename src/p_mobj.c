@@ -675,7 +675,7 @@ void P_MobjThinker(mobj_t *mobj)
     else
     {
         // check for nightmare respawn
-        if ((flags & MF_SHOOTABLE) && respawnmonsters)
+        if ((flags & MF_SHOOTABLE) && (gameskill == sk_nightmare || respawnparm))
         {
             mobj->movecount++;
 

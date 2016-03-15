@@ -89,7 +89,6 @@ gamestate_t     oldgamestate;
 gameaction_t    gameaction;
 gamestate_t     gamestate = GS_TITLESCREEN;
 skill_t         gameskill;
-dboolean        respawnmonsters;
 int             gameepisode;
 int             gamemap;
 
@@ -533,8 +532,6 @@ void G_DoLoadLevel(void)
         }
 
     skyscrolldelta = P_GetMapSky1ScrollDelta(map);
-
-    respawnmonsters = (gameskill == sk_nightmare);
 
     levelstarttic = gametic;                    // for time calculation
 
@@ -1639,8 +1636,6 @@ void G_InitNew(skill_t skill, int ep, int map)
 
     if (map > 9 && gamemode != commercial)
         map = 9;
-
-    respawnmonsters = (skill == sk_nightmare);
 
     // [BH] Fix demon speed bug. See doomwiki.org/wiki/Demon_speed_bug.
     G_SetFastParms(fastparm || skill == sk_nightmare);

@@ -51,6 +51,7 @@
 // Command line parameters.
 //
 extern  dboolean        nomonsters;     // checkparm of -nomonsters
+extern  dboolean        respawnparm;    // checkparm of -respawn
 extern  dboolean        pistolstart;    // [BH] checkparm of -pistolstart
 extern  dboolean        fastparm;       // checkparm of -fast
 
@@ -132,9 +133,6 @@ extern dboolean         STCFN121;
 extern dboolean         STYSNUM0;
 extern dboolean         TITLEPIC;
 extern dboolean         WISCRT2;
-
-// Nightmare mode flag, single player.
-extern dboolean         respawnmonsters;
 
 // -------------------------
 // Internal parameters for sound rendering.

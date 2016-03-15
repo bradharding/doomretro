@@ -338,6 +338,8 @@ static void notarget_cmd_func2(char *, char *, char *, char *);
 static void pistolstart_cmd_func2(char *, char *, char *, char *);
 static void playerstats_cmd_func2(char *, char *, char *, char *);
 static void quit_cmd_func2(char *, char *, char *, char *);
+static dboolean respawnmonsters_cmd_func1(char *, char *, char *, char *);
+static void respawnmonsters_cmd_func2(char *, char *, char *, char *);
 static dboolean resurrect_cmd_func1(char *, char *, char *, char *);
 static void resurrect_cmd_func2(char *, char *, char *, char *);
 static dboolean save_cmd_func1(char *, char *, char *, char *);
@@ -550,6 +552,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_shadows, "", bool_cvars_func1, bool_cvars_func2, "Toggles sprites casting shadows."),
     CVAR_BOOL (r_shakescreen, "", bool_cvars_func1, bool_cvars_func2, "Toggles shaking of the screen when the player is injured."),
     CVAR_BOOL (r_translucency, "", bool_cvars_func1, bool_cvars_func2, "Toggles translucency in sprites and textures."),
+    CMD       (respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, 1, "[on|off]", "Toggles respawning monsters."),
     CMD       (resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "", "Resurrects the player."),
     CVAR_INT  (s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT,  NOALIAS, "The music volume."),
     CVAR_BOOL (s_randommusic, "", bool_cvars_func1, bool_cvars_func2, "Toggles the randomizing of music at the start of each map."),
@@ -2346,6 +2349,31 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
 static void quit_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     I_Quit(true);
+}
+
+//
+// respawnmonsters cmd
+//
+static dboolean respawnmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    return (skilllevel != sk_nightmare);
+}
+
+static void respawnmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0)
+            respawnparm = false;
+        else if (value == 1)
+            respawnparm = true;
+    }
+    else
+        respawnparm = !respawnparm;
+
+    HU_PlayerMessage((respawnparm ? s_STSTR_RMON : s_STSTR_RMOFF), false);
 }
 
 //

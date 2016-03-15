@@ -105,6 +105,7 @@ char                    *packageconfig;
 
 dboolean                devparm;        // started game with -devparm
 dboolean                nomonsters;     // checkparm of -nomonsters
+dboolean                respawnparm;    // checkparm of -respawn
 dboolean                pistolstart;    // [BH] checkparm of -pistolstart
 dboolean                fastparm;       // checkparm of -fast
 
@@ -1305,6 +1306,12 @@ static void D_DoomMainSetup(void)
     modifiedgame = false;
 
     D_ProcessDehCommandLine();
+
+    if ((fastparm = M_CheckParm("-respawn")))
+        C_Output("\"-RESPAWN\" was found on the command-line. Monsters will be respawned.");
+    else if ((fastparm = M_CheckParm("-respawnmonsters")))
+        C_Output("\"-RESPAWNMONSTERS\" was found on the command-line. Monsters will be "
+            "respawned.");
 
     if ((nomonsters = M_CheckParm("-nomonsters")))
         C_Output("\"-NOMONSTERS\" was found on the command-line. No monsters will be spawned.");
