@@ -191,6 +191,7 @@ extern unsigned int     stat_shotsfired;
 extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
 extern int              stillbob;
+extern int              turbo;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -376,6 +377,8 @@ static void r_lowpixelsize_cvar_func2(char *, char *, char *, char *);
 static void r_screensize_cvar_func2(char *, char *, char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *, char *, char *);
 static void s_volume_cvars_func2(char *, char *, char *, char *);
+static dboolean turbo_cvar_func1(char *, char *, char *, char *);
+static void turbo_cvar_func2(char *, char *, char *, char *);
 static void vid_display_cvar_func2(char *, char *, char *, char *);
 static void vid_fullscreen_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scaledriver_cvar_func1(char *, char *, char *, char *);
@@ -564,6 +567,7 @@ consolecmd_t consolecmds[] =
     CMD       (spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CVAR_INT  (stillbob, "", null_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when still."),
     CMD       (thinglist, "", game_func1, thinglist_cmd_func2, 0, "", "Shows a list of things in the current map."),
+    CVAR_INT  (turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT,  NOALIAS, "The speed of the player."),
     CMD       (unbind, "", null_func1, unbind_cmd_func2, 1, "~control~", "Unbinds the action from a control."),
     CVAR_BOOL (vid_capfps, "", bool_cvars_func1, bool_cvars_func2, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS, "The display used to render the game."),
@@ -3045,6 +3049,39 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
     else
         C_Output("%i%%", (M_StringCompare(cmd, stringize(s_musicvolume)) ? s_musicvolume :
             s_sfxvolume));
+}
+
+//
+// turbo cvar
+//
+static dboolean turbo_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int value = -1;
+
+    if (!*parm1)
+        return true;
+
+    sscanf(parm1, "%10i", &value);
+    return (value >= turbo_min && value <= turbo_max);
+}
+
+static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        int     value = -1;
+
+        sscanf(parm1, "%10i", &value);
+
+        if (value >= turbo_min && value <= turbo_max && value != turbo)
+        {
+            turbo = value;
+            M_SaveCVARs();
+            G_SetMovementSpeed(turbo);
+        }
+    }
+    else
+        C_Output("%i%%", turbo);
 }
 
 //

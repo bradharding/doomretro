@@ -100,6 +100,7 @@ char                    *iwadfile = "";
 char                    *pwadfile = "";
 
 char                    *iwadfolder = iwadfolder_default;
+int                     turbo = turbo_default;
 
 char                    *packageconfig;
 
@@ -1307,6 +1308,10 @@ static void D_DoomMainSetup(void)
 
     D_ProcessDehCommandLine();
 
+    // Load configuration files before initializing other subsystems.
+    p = M_CheckParmWithArgs("-config", 1, 1);
+    M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
+
     if ((fastparm = M_CheckParm("-respawn")))
         C_Output("\"-RESPAWN\" was found on the command-line. Monsters will be respawned.");
     else if ((fastparm = M_CheckParm("-respawnmonsters")))
@@ -1331,23 +1336,21 @@ static void D_DoomMainSetup(void)
     p = M_CheckParm("-turbo");
     if (p)
     {
-        int             scale = 200;
-        extern int      forwardmove[2];
-        extern int      sidemove[2];
+        int     scale = 200;
 
         if (p < myargc - 1)
+        {
             scale = BETWEEN(10, atoi(myargv[p + 1]), 400);
-        forwardmove[0] *= scale / 100;
-        forwardmove[1] *= scale / 100;
-        sidemove[0] *= scale / 100;
-        sidemove[1] *= scale / 100;
-        C_Output("\"-TURBO %s\" was found on the command-line. The player will be %i%% faster.",
-            myargv[p + 1], scale);
+            C_Output("\"-TURBO %s\" was found on the command-line. The player will be %i%% their "
+                "normal speed.", myargv[p + 1], scale);
+        }
+        else
+            C_Output("\"-TURBO\" was found on the command-line. The player will be twice as"
+                "fast.");
+        G_SetMovementSpeed(scale);
     }
-
-    // Load configuration files before initializing other subsystems.
-    p = M_CheckParmWithArgs("-config", 1, 1);
-    M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
+    else
+        G_SetMovementSpeed(turbo);
 
     // init subsystems
     V_Init();

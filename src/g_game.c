@@ -1606,6 +1606,14 @@ static void G_SetFastParms(int fast_pending)
         G_SetFastMonsters((fast = fast_pending));
 }
 
+void G_SetMovementSpeed(int scale)
+{
+    forwardmove[0] *= scale / 100;
+    forwardmove[1] *= scale / 100;
+    sidemove[0] *= scale / 100;
+    sidemove[1] *= scale / 100;
+}
+
 void G_InitNew(skill_t skill, int ep, int map)
 {
     if (paused)

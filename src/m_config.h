@@ -286,6 +286,10 @@ typedef enum
 #define stillbob_default                        0
 #define stillbob_max                            100
 
+#define turbo_min                               10
+#define turbo_default                           100
+#define turbo_max                               400
+
 #define vid_capfps_default                      false
 
 #define vid_display_min                         1
