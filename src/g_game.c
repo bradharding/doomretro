@@ -118,8 +118,14 @@ dboolean        gp_vibrate = gp_vibrate_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
-fixed_t         forwardmove[2] = { 0x19, 0x32 };
-fixed_t         sidemove[2] = { 0x18, 0x28 };
+#define FORWARDMOVE0    0x19
+#define FORWARDMOVE1    0x32
+
+#define SIDEMOVE0       0x18
+#define SIDEMOVE1       0x28
+
+fixed_t         forwardmove[2] = { FORWARDMOVE0, FORWARDMOVE1 };
+fixed_t         sidemove[2] = { SIDEMOVE0, SIDEMOVE1 };
 fixed_t         angleturn[3] = { 640, 1280, 320 };      // + slow turn
 fixed_t         gamepadangleturn[2] = { 640, 960 };
 
@@ -1608,10 +1614,10 @@ static void G_SetFastParms(int fast_pending)
 
 void G_SetMovementSpeed(int scale)
 {
-    forwardmove[0] *= scale / 100;
-    forwardmove[1] *= scale / 100;
-    sidemove[0] *= scale / 100;
-    sidemove[1] *= scale / 100;
+    forwardmove[0] = FORWARDMOVE0 * scale / 100;
+    forwardmove[1] = FORWARDMOVE1 * scale / 100;
+    sidemove[0] = SIDEMOVE0 * scale / 100;
+    sidemove[1] = SIDEMOVE1 * scale / 100;
 }
 
 void G_InitNew(skill_t skill, int ep, int map)
