@@ -1615,7 +1615,7 @@ static void G_SetFastParms(int fast_pending)
 void G_SetMovementSpeed(int scale)
 {
     forwardmove[0] = FORWARDMOVE0 * scale / 100;
-    forwardmove[1] = FORWARDMOVE1 * scale / 100;
+    forwardmove[1] = MIN(FORWARDMOVE1 * scale / 100, 127);
     sidemove[0] = SIDEMOVE0 * scale / 100;
     sidemove[1] = SIDEMOVE1 * scale / 100;
 }
