@@ -1306,6 +1306,8 @@ static void D_DoomMainSetup(void)
 
     modifiedgame = false;
 
+    P_InitExtraMobjs();
+
     D_ProcessDehCommandLine();
 
     // Load configuration files before initializing other subsystems.

@@ -1386,3 +1386,44 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     P_CheckMissileSpawn(th);
 }
+
+void P_InitExtraMobjs(void)
+{
+    int i;
+
+    for (i = MT_EXTRA00; i <= MT_EXTRA99; ++i)
+    {
+        mobjinfo[i].doomednum = -1;
+        mobjinfo[i].spawnstate = S_NULL;
+        mobjinfo[i].spawnhealth = 0;
+        mobjinfo[i].gibhealth = 0;
+        mobjinfo[i].seestate = S_NULL;
+        mobjinfo[i].seesound = sfx_None;
+        mobjinfo[i].reactiontime = 0;
+        mobjinfo[i].attacksound = sfx_None;
+        mobjinfo[i].painstate = S_NULL;
+        mobjinfo[i].painchance = 0;
+        mobjinfo[i].painsound = sfx_None;
+        mobjinfo[i].meleestate = S_NULL;
+        mobjinfo[i].missilestate = S_NULL;
+        mobjinfo[i].deathstate = S_NULL;
+        mobjinfo[i].xdeathstate = S_NULL;
+        mobjinfo[i].deathsound = sfx_None;
+        mobjinfo[i].speed = 0;
+        mobjinfo[i].radius = 0;
+        mobjinfo[i].height = 0;
+        mobjinfo[i].projectilepassheight = 0;
+        mobjinfo[i].mass = 0;
+        mobjinfo[i].damage = 0;
+        mobjinfo[i].activesound = sfx_None;
+        mobjinfo[i].flags = 0;
+        mobjinfo[i].flags2 = 0;
+        mobjinfo[i].raisestate = S_NULL;
+        mobjinfo[i].frames = 0;
+        mobjinfo[i].blood = 0;
+        mobjinfo[i].name1[0] = '\0';
+        mobjinfo[i].plural1[0] = '\0';
+        mobjinfo[i].name2[0] = '\0';
+        mobjinfo[i].plural2[0] = '\0';
+    }
+}
