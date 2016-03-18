@@ -64,7 +64,7 @@
 // strings used in dehacked.
 int             initial_health = 100;
 int             initial_bullets = 50;
-int             maxhealth = MAXHEALTH;
+int             maxhealth = MAXHEALTH * 2;
 int             max_armor = 200;
 int             green_armor_class = 1;
 int             blue_armor_class = 2;
@@ -616,8 +616,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(player->cheats & CF_GODMODE))
             {
                 player->health++;       // can go over 100%
-                if (player->health > maxhealth * 2)
-                    player->health = maxhealth * 2;
+                if (player->health > maxhealth)
+                    player->health = maxhealth;
                 else
                     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 player->mo->health = player->health;
