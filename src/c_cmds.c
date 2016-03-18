@@ -863,7 +863,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
     int count = 1;
-    int tabs[8] = { 40, 192, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 40, 204, 0, 0, 0, 0, 0, 0 };
 
     while (*consolecmds[i].name)
     {
