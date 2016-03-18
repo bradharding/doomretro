@@ -292,10 +292,10 @@ char    *s_HUSTR_28 = HUSTR_28;
 char    *s_HUSTR_29 = HUSTR_29;
 char    *s_HUSTR_30 = HUSTR_30;
 char    *s_HUSTR_31 = HUSTR_31;
-char    *s_HUSTR_32 = HUSTR_32;
 char    *s_HUSTR_31_BFG = "";
+char    *s_HUSTR_32 = HUSTR_32;
 char    *s_HUSTR_32_BFG = "";
-char    *s_HUSTR_33_BFG = "";
+char    *s_HUSTR_33 = "";
 char    *s_PHUSTR_1 = PHUSTR_1;
 char    *s_PHUSTR_2 = PHUSTR_2;
 char    *s_PHUSTR_3 = PHUSTR_3;
@@ -762,10 +762,10 @@ deh_strs deh_strlookup[] =
     { &s_HUSTR_29,             "HUSTR_29",             false },
     { &s_HUSTR_30,             "HUSTR_30",             false },
     { &s_HUSTR_31,             "HUSTR_31",             false },
-    { &s_HUSTR_32,             "HUSTR_32",             false },
     { &s_HUSTR_31_BFG,         "HUSTR_31_BFG",         false },
+    { &s_HUSTR_32,             "HUSTR_32",             false },
     { &s_HUSTR_32_BFG,         "HUSTR_32_BFG",         false },
-    { &s_HUSTR_33_BFG,         "HUSTR_33_BFG",         false },
+    { &s_HUSTR_33,             "HUSTR_33",             false },
     { &s_PHUSTR_1,             "PHUSTR_1",             false },
     { &s_PHUSTR_2,             "PHUSTR_2",             false },
     { &s_PHUSTR_3,             "PHUSTR_3",             false },
@@ -1167,7 +1167,7 @@ char **mapnames2_bfg[] =     // DOOM 2 map names.
     &s_HUSTR_30,
     &s_HUSTR_31_BFG,
     &s_HUSTR_32_BFG,
-    &s_HUSTR_33_BFG
+    &s_HUSTR_33
 };
 
 char **mapnamesp[] =    // Plutonia WAD map names.
