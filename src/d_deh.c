@@ -1442,12 +1442,12 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
     { "RESURRECTING",              MF2_RESURRECTING              },
     { "NOFOOTCLIP",                MF2_NOFOOTCLIP                },
     { "NOLIQUIDBOB",               MF2_NOLIQUIDBOB               },
-    { "MF2_FEETARECLIPPED",        MF2_FEETARECLIPPED            },
-    { "MF2_SHADOW",                MF2_SHADOW                    },
-    { "MF2_BLOOD",                 MF2_BLOOD                     },
-    { "MF2_DONOTMAP",              MF2_DONOTMAP                  },
-    { "MF2_SMOKETRAIL",            MF2_SMOKETRAIL                },
-    { "MF2_CRUSHABLE",             MF2_CRUSHABLE                 }
+    { "FEETARECLIPPED",            MF2_FEETARECLIPPED            },
+    { "SHADOW",                    MF2_SHADOW                    },
+    { "BLOOD",                     MF2_BLOOD                     },
+    { "DONOTMAP",                  MF2_DONOTMAP                  },
+    { "SMOKETRAIL",                MF2_SMOKETRAIL                },
+    { "CRUSHABLE",                 MF2_CRUSHABLE                 }
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"
