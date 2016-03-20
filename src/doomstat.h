@@ -201,10 +201,6 @@ extern wbstartstruct_t  wminfo;
 
 // File handling stuff.
 extern char             *savegamefolder;
-extern char             basedefault[1024];
-
-// if true, load all graphics at level load
-extern dboolean         precache;
 
 // wipegamestate can be set to -1
 //  to force a wipe on the next draw

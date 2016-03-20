@@ -107,8 +107,6 @@ int             levelstarttic;          // gametic at level start
 int             totalkills, totalitems, totalsecret;    // for intermission
 int             monstercount[NUMMOBJTYPES];
 
-dboolean        precache = true;        // if true, load all graphics at start
-
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 dboolean        autoload = autoload_default;
