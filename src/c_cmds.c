@@ -1312,44 +1312,45 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else
     {
-        int     i;
+        int     i, j;
         int     kills = 0;
 
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "monsters"))
         {
-            for (i = 0; i < numsectors; ++i)
-            {
-                mobj_t      *thing = sectors[i].thinglist;
-
-                while (thing)
+            for (i = 1; i <= 2; ++i)
+                for (j = 0; j < numsectors; ++j)
                 {
-                    if (thing->health > 0)
-                    {
-                        mobjtype_t      type = thing->type;
+                    mobj_t      *thing = sectors[j].thinglist;
 
-                        if (type == MT_PAIN)
+                    while (thing)
+                    {
+                        if (thing->health > 0)
                         {
-                            A_Fall(thing, NULL, NULL);
-                            P_SetMobjState(thing, S_PAIN_DIE6);
-                            players[0].killcount++;
-                            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
-                            kills++;
-                        }
-                        else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER
-                            && type != MT_BARREL && type != MT_BOSSBRAIN)
-                        {
-                            P_DamageMobj(thing, NULL, NULL, thing->health);
-                            if (!(thing->flags & MF_NOBLOOD))
+                            mobjtype_t      type = thing->type;
+
+                            if (type == MT_PAIN)
                             {
-                                thing->momx += FRACUNIT * M_RandomInt(-1, 1);
-                                thing->momy += FRACUNIT * M_RandomInt(-1, 1);
+                                A_Fall(thing, NULL, NULL);
+                                P_SetMobjState(thing, S_PAIN_DIE6);
+                                players[0].killcount++;
+                                stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+                                kills++;
                             }
-                            kills++;
+                            else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER
+                                && type != MT_BARREL && type != MT_BOSSBRAIN)
+                            {
+                                P_DamageMobj(thing, NULL, NULL, thing->health);
+                                if (!(thing->flags & MF_NOBLOOD))
+                                {
+                                    thing->momx += FRACUNIT * M_RandomInt(-1, 1);
+                                    thing->momy += FRACUNIT * M_RandomInt(-1, 1);
+                                }
+                                kills++;
+                            }
                         }
+                        thing = thing->snext;
                     }
-                    thing = thing->snext;
                 }
-            }
 
             if (kills)
             {
@@ -1368,38 +1369,39 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             mobjtype_t  type = P_FindDoomedNum(killcmdtype);
             int         dead = 0;
 
-            for (i = 0; i < numsectors; ++i)
-            {
-                mobj_t      *thing = sectors[i].thinglist;
-
-                while (thing)
+            for (i = 1; i <= 2; ++i)
+                for (j = 0; j < numsectors; ++j)
                 {
-                    if (type == thing->type)
-                        if (type == MT_PAIN)
-                        {
-                            if (thing->health > 0)
+                    mobj_t      *thing = sectors[j].thinglist;
+
+                    while (thing)
+                    {
+                        if (type == thing->type)
+                            if (type == MT_PAIN)
                             {
-                                A_Fall(thing, NULL, NULL);
-                                P_SetMobjState(thing, S_PAIN_DIE6);
-                                players[0].killcount++;
-                                stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+                                if (thing->health > 0)
+                                {
+                                    A_Fall(thing, NULL, NULL);
+                                    P_SetMobjState(thing, S_PAIN_DIE6);
+                                    players[0].killcount++;
+                                    stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+                                    kills++;
+                                }
+                                else
+                                    dead++;
+                            }
+                            else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
+                            {
+                                P_DamageMobj(thing, NULL, NULL, thing->health);
+                                thing->momx += FRACUNIT * M_RandomInt(-1, 1);
+                                thing->momy += FRACUNIT * M_RandomInt(-1, 1);
                                 kills++;
                             }
-                            else
+                            else if (thing->flags & MF_CORPSE)
                                 dead++;
-                        }
-                        else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
-                        {
-                            P_DamageMobj(thing, NULL, NULL, thing->health);
-                            thing->momx += FRACUNIT * M_RandomInt(-1, 1);
-                            thing->momy += FRACUNIT * M_RandomInt(-1, 1);
-                            kills++;
-                        }
-                        else if (thing->flags & MF_CORPSE)
-                            dead++;
-                        thing = thing->snext;
+                            thing = thing->snext;
+                    }
                 }
-            }
 
             if (kills)
             {
