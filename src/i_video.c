@@ -360,7 +360,7 @@ void I_ShutdownKeyboard(void)
         keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
     }
 #elif defined(X11)
-    if (key_alwaysrun == KEY_CAPSLOCK && (SDL_GetModState() & KMOD_CAPS) && !capslock)
+    if (key_alwaysrun == KEY_CAPSLOCK)
         I_SetXKBCapslockState(false);
 #endif
 }
