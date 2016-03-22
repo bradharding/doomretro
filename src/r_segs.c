@@ -213,6 +213,8 @@ static void R_DrawMaskedColumn(column_t *column)
     int         topdelta = -1;
     int         lastlength = 0;
     fixed_t     texturemid = dc_texturemid;
+    int         ceilingclip = mceilingclip[dc_x] + 1;
+    int         floorclip = mfloorclip[dc_x] - 1;
 
     while ((td = column->topdelta) != 0xFF)
     {
@@ -224,9 +226,8 @@ static void R_DrawMaskedColumn(column_t *column)
         // calculate unclipped screen coordinates for post
         topscreen = sprtopscreen + spryscale * topdelta;
 
-        dc_yl = MAX((int)((topscreen + FRACUNIT - 1) >> FRACBITS), mceilingclip[dc_x] + 1);
-        dc_yh = MIN((int)((topscreen + spryscale * lastlength) >> FRACBITS),
-            mfloorclip[dc_x] - 1);
+        dc_yl = MAX((int)((topscreen + FRACUNIT - 1) >> FRACBITS), ceilingclip);
+        dc_yh = MIN((int)((topscreen + spryscale * lastlength) >> FRACBITS), floorclip);
 
         if (dc_yh < viewheight && dc_yl <= dc_yh)
         {
