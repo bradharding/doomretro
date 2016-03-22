@@ -117,6 +117,7 @@ PD_ALL6 = %s need%s all six keys to open this door.
 GGSAVED = "%s" saved
 GGAUTOSAVED = "%s" autosaved
 GGLOADED = "%s" loaded
+GGAUTOLOADED = "%s" autoloaded
 GSCREENSHOT = "%s" saved
 ALWAYSRUNOFF = Always run OFF
 ALWAYSRUNON = Always run ON

@@ -201,7 +201,7 @@ extern dboolean         setsizeneeded;
 extern dboolean         message_on;
 extern int              r_detail;
 extern int              viewheight2;
-extern dboolean         loadedgame;
+extern gameaction_t     loadaction;
 
 void R_ExecuteSetViewSize(void);
 void G_LoadedGameMessage(void);
@@ -372,7 +372,7 @@ void D_Display(void)
     }
     while (!done);
 
-    if (loadedgame)
+    if (loadaction != ga_nothing)
         G_LoadedGameMessage();
 }
 

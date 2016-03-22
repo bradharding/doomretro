@@ -195,7 +195,7 @@ static int      dclicks2;
 static int      savegameslot;
 static char     savedescription[SAVESTRINGSIZE];
 
-dboolean        loadedgame = false;
+gameaction_t    loadaction = ga_nothing;
 
 extern dboolean alwaysrun;
 extern int      st_palette;
@@ -858,7 +858,7 @@ void G_Ticker(void)
                 G_DoLoadLevel();
                 break;
 
-            case ga_reloadgame:
+            case ga_autoloadgame:
                 M_StringCopy(savename, P_SaveGameFile(quickSaveSlot), sizeof(savename));
                 G_DoLoadGame();
                 break;
@@ -1065,7 +1065,7 @@ void G_PlayerReborn(void)
 //
 void G_DoReborn(void)
 {
-    gameaction = (quickSaveSlot >= 0 && autoload && !pistolstart ? ga_reloadgame : ga_loadlevel);
+    gameaction = (quickSaveSlot >= 0 && autoload && !pistolstart ? ga_autoloadgame : ga_loadlevel);
 }
 
 void G_ScreenShot(void)
@@ -1378,6 +1378,7 @@ void G_DoLoadGame(void)
 {
     int savedleveltime = leveltime;
 
+    loadaction = gameaction;
     gameaction = ga_nothing;
 
     save_stream = fopen(savename, "rb");
@@ -1421,8 +1422,6 @@ void G_DoLoadGame(void)
     // draw the pattern into the back screen
     R_FillBackScreen();
 
-    loadedgame = true;
-
     if (consoleactive)
     {
         C_Output("%s loaded.", uppercase(savename));
@@ -1436,12 +1435,13 @@ void G_LoadedGameMessage(void)
     {
         static char     buffer[1024];
 
-        M_snprintf(buffer, sizeof(buffer), s_GGLOADED, titlecase(savedescription));
+        M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED :
+            s_GGLOADED), titlecase(savedescription));
         HU_PlayerMessage(buffer, false);
         message_dontfuckwithme = true;
     }
 
-    loadedgame = false;
+    loadaction = ga_nothing;
 }
 
 //
