@@ -284,7 +284,7 @@ static void R_MakeSpans(visplane_t *pl)
     }
 }
 
-// Ripple Effect from Eternity Engine (r_ripple.cpp) by Simon Howard
+// Ripple Effect from SMMU (r_ripple.cpp) by Simon Howard
 #define AMP             2
 #define AMP2            2
 #define SPEED           40
