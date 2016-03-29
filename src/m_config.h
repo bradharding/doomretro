@@ -120,8 +120,6 @@ typedef enum
 
 #define autoload_default                        true
 
-#define autosave_default                        true
-
 #define centerweapon_default                    true
 
 #define con_obituaries_default                  false

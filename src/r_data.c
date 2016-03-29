@@ -502,7 +502,7 @@ void R_GenerateLookup(int texnum)
 //
 byte *R_GetColumn(int tex, int col, dboolean opaque)
 {
-    int         lump;
+    int lump;
 
     col &= texturewidthmask[tex];
     lump = texturecolumnlump[tex][col];

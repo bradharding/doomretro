@@ -110,7 +110,6 @@ int             monstercount[NUMMOBJTYPES];
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 dboolean        autoload = autoload_default;
-dboolean        autosave = autosave_default;
 dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
 dboolean        gp_vibrate = gp_vibrate_default;
 
@@ -871,7 +870,6 @@ void G_Ticker(void)
                 G_DoLoadGame();
                 break;
 
-            case ga_autosavegame:
             case ga_savegame:
                 G_DoSaveGame();
                 break;
@@ -1354,8 +1352,6 @@ void G_DoWorldDone(void)
     gamestate = GS_LEVEL;
     gamemap = wminfo.next + 1;
     G_DoLoadLevel();
-    if (quickSaveSlot >= 0 && autosave && !pistolstart)
-        gameaction = ga_autosavegame;
     viewactive = true;
     markpointnum = 0;
 }
@@ -1469,12 +1465,6 @@ void G_DoSaveGame(void)
     // a corrupted one, or if a savegame buffer overrun occurs.
     save_stream = fopen(temp_savegame_file, "wb");
 
-    if (gameaction == ga_autosavegame)
-    {
-        M_UpdateSaveGameName(quickSaveSlot);
-        M_StringCopy(savedescription, M_GetSaveGameName(quickSaveSlot), sizeof(savedescription));
-    }
-
     if (!save_stream)
     {
         menuactive = false;
@@ -1508,12 +1498,10 @@ void G_DoSaveGame(void)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED :
-                s_GGSAVED), titlecase(savedescription));
+            M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
             HU_PlayerMessage(buffer, false);
             message_dontfuckwithme = true;
-            if (gameaction != ga_autosavegame)
-                S_StartSound(NULL, sfx_swtchx);
+            S_StartSound(NULL, sfx_swtchx);
         }
 
         // draw the pattern into the back screen

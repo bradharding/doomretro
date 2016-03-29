@@ -102,7 +102,6 @@ extern int              am_tswallcolor;
 extern int              am_wallcolor;
 extern int              am_xhaircolor;
 extern dboolean         autoload;
-extern dboolean         autosave;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
@@ -462,7 +461,6 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (am_wallcolor, am_wallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of solid walls in the automap."),
     CVAR_INT  (am_xhaircolor, am_xhaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the crosshair in the automap."),
     CVAR_BOOL (autoload, "", bool_cvars_func1, bool_cvars_func2, "Toggles automatically loading the last savegame after the\nplayer dies."),
-    CVAR_BOOL (autosave, "", bool_cvars_func1, bool_cvars_func2, "Toggles automatically saving the last savegame when the\nplayer progresses to the next map."),
     CMD       (bind, "", null_func1, C_Bind, 2, "[~control~ [+~action~]]", "Binds an action to a control."),
     CVAR_BOOL (centerweapon, "", bool_cvars_func1, bool_cvars_func2, "Toggles the centering of the player's weapon when firing."),
     CMD       (clear, "", null_func1, clear_cmd_func2, 0, "", "Clears the console."),
