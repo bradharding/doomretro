@@ -258,6 +258,7 @@ extern mobj_t           **blocklinks;   // for thing chains
 //
 
 #define BFGCELLS        40
+#define MAXHEALTH       100
 
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher);
 

@@ -57,6 +57,7 @@ extern fixed_t *finecosine;
 fixed_t finetangent[FINEANGLES / 2];
 
 // Binary Angle Measurement, BAM.
+#define ANG5                    (ANG90 / 18)
 #define ANG45                   0x20000000
 #define ANG90                   0x40000000
 #define ANG180                  0x80000000

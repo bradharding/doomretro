@@ -229,7 +229,6 @@ void P_ReduceDamageCount(player_t *player)
 // Fall on your face when dying.
 // Decrease POV height to floor height.
 //
-#define ANG5    (ANG90 / 18)
 
 void P_DeathThink(player_t *player)
 {
