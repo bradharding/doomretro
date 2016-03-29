@@ -661,12 +661,12 @@ void I_Blit_NearestLinear(void)
     SDL_RenderPresent(renderer);
 }
 
+static int      frames = -1;
+static Uint32   starttime;
+static Uint32   currenttime;
+
 void I_Blit_ShowFPS(void)
 {
-    static int      frames = -1;
-    static Uint32   starttime;
-    static Uint32   currenttime;
-
     UpdateGrab();
 
     ++frames;
@@ -688,10 +688,6 @@ void I_Blit_ShowFPS(void)
 
 void I_Blit_NearestLinear_ShowFPS(void)
 {
-    static int      frames = -1;
-    static Uint32   starttime;
-    static Uint32   currenttime;
-
     UpdateGrab();
 
     ++frames;
@@ -716,7 +712,7 @@ void I_Blit_NearestLinear_ShowFPS(void)
 
 void I_Blit_Shake(void)
 {
-    static int      angle = 1;
+    static int  angle = 1;
 
     UpdateGrab();
 
@@ -729,7 +725,7 @@ void I_Blit_Shake(void)
 
 void I_Blit_NearestLinear_Shake(void)
 {
-    static int      angle = 1;
+    static int  angle = 1;
 
     UpdateGrab();
 
@@ -745,10 +741,7 @@ void I_Blit_NearestLinear_Shake(void)
 
 void I_Blit_ShowFPS_Shake(void)
 {
-    static int      frames = -1;
-    static Uint32   starttime;
-    static Uint32   currenttime;
-    static int      angle = 1;
+    static int  angle = 1;
 
     UpdateGrab();
 
@@ -771,10 +764,7 @@ void I_Blit_ShowFPS_Shake(void)
 
 void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
-    static int      frames = -1;
-    static Uint32   starttime;
-    static Uint32   currenttime;
-    static int      angle = 1;
+    static int  angle = 1;
 
     UpdateGrab();
 
