@@ -69,6 +69,7 @@ int     key_straferight2 = KEYSTRAFERIGHT2_DEFAULT;
 int     key_up = KEYUP_DEFAULT;
 int     key_up2 = KEYUP2_DEFAULT;
 int     key_use = KEYUSE_DEFAULT;
+int     key_use2 = KEYUSE2_DEFAULT;
 int     key_weapon1 = KEYWEAPON1_DEFAULT;
 int     key_weapon2 = KEYWEAPON2_DEFAULT;
 int     key_weapon3 = KEYWEAPON3_DEFAULT;

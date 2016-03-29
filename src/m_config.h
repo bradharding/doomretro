@@ -369,6 +369,7 @@ typedef enum
 #define KEYUP_DEFAULT                           KEY_UPARROW
 #define KEYUP2_DEFAULT                          'w'
 #define KEYUSE_DEFAULT                          ' '
+#define KEYUSE2_DEFAULT                         'e'
 #define KEYWEAPON1_DEFAULT                      '1'
 #define KEYWEAPON2_DEFAULT                      '2'
 #define KEYWEAPON3_DEFAULT                      '3'

@@ -323,6 +323,7 @@ static dboolean actionkey(char key)
         || key == key_straferight
         || key == key_fire
         || key == key_use
+        || key == key_use2
         || key == key_strafe
         || key == key_run
         || key == key_prevweapon

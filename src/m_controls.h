@@ -69,6 +69,7 @@ extern int      key_straferight;
 extern int      key_up2;
 extern int      key_up;
 extern int      key_use;
+extern int      key_use2;
 extern int      key_weapon1;
 extern int      key_weapon2;
 extern int      key_weapon3;

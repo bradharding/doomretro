@@ -295,6 +295,7 @@ action_t actions[] =
     { "+straferight",  &key_straferight,        NULL,              NULL                      },
     { "+straferight2", &key_straferight2,       NULL,              NULL                      },
     { "+use",          &key_use,                &mousebuse,        &gamepaduse               },
+    { "+use2",         &key_use2,               NULL,              NULL                      },
     { "+weapon1",      &key_weapon1,            NULL,              &gamepadweapon1           },
     { "+weapon2",      &key_weapon2,            NULL,              &gamepadweapon2           },
     { "+weapon3",      &key_weapon3,            NULL,              &gamepadweapon3           },
