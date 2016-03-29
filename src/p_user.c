@@ -467,10 +467,6 @@ void P_PlayerThink(player_t *player)
 
     // Counters, time dependent power ups.
 
-    // Strength counts up to diminish fade.
-    if (player->powers[pw_strength])
-        player->powers[pw_strength]++;
-
     if (player->powers[pw_invulnerability] > 0)
         player->powers[pw_invulnerability]--;
 
