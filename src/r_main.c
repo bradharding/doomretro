@@ -638,6 +638,7 @@ void R_Init(void)
     R_InitLightTables();
     R_InitSkyMap();
     R_InitTranslationTables();
+    R_InitPatches();
     R_InitColumnFunctions();
 }
 

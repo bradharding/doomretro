@@ -251,6 +251,7 @@
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />
     <ClInclude Include="..\src\doomkeys.h" />
+    <ClInclude Include="..\src\r_patch.h" />
     <ClInclude Include="..\src\sc_man.h" />
     <ClInclude Include="..\src\version.h" />
     <ClInclude Include="..\src\doomdata.h" />
@@ -340,6 +341,7 @@
     <ClCompile Include="..\src\m_controls.c" />
     <ClCompile Include="..\src\p_fix.c" />
     <ClCompile Include="..\src\p_genlin.c" />
+    <ClCompile Include="..\src\r_patch.c" />
     <ClCompile Include="..\src\sc_man.c" />
     <ClCompile Include="..\src\sounds.c" />
     <ClCompile Include="..\src\s_sound.c" />
