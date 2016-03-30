@@ -225,19 +225,16 @@ void R_InitTextures(void)
 {
     const maptexture_t  *mtexture;
     texture_t           *texture;
-    const mappatch_t    *mpatch;
-    texpatch_t          *patch;
     int                 i, j;
     int                 maptex_lump[2] = { -1, -1 };
-    const int           *maptex;
-    const int           *maptex1, *maptex2;
+    const int           *maptex1;
+    const int           *maptex2;
     char                name[9];
     int                 names_lump; // cph - new wad lump handling
     const char          *names; // cph -
     const char          *name_p;// const*'s
     int                 *patchlookup;
     int                 nummappatches;
-    int                 offset;
     int                 maxoff, maxoff2;
     int                 numtextures1, numtextures2;
     const int           *directory;
@@ -259,14 +256,16 @@ void R_InitTextures(void)
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
     //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
-    maptex = maptex1 = W_CacheLumpNum(maptex_lump[0] = W_GetNumForName("TEXTURE1"), PU_STATIC);
-    numtextures1 = LONG(*maptex);
+    maptex_lump[0] = W_GetNumForName("TEXTURE1");
+    maptex1 = W_CacheLumpNum(maptex_lump[0], PU_STATIC);
+    numtextures1 = LONG(*maptex1);
     maxoff = W_LumpLength(maptex_lump[0]);
-    directory = maptex + 1;
+    directory = maptex1 + 1;
 
     if (W_CheckNumForName("TEXTURE2") != -1)
     {
-        maptex2 = W_CacheLumpNum(maptex_lump[1] = W_GetNumForName("TEXTURE2"), PU_STATIC);
+        maptex_lump[1] = W_GetNumForName("TEXTURE2");
+        maptex2 = W_CacheLumpNum(maptex_lump[1], PU_STATIC);
         numtextures2 = LONG(*maptex2);
         maxoff2 = W_LumpLength(maptex_lump[1]);
     }
@@ -285,12 +284,16 @@ void R_InitTextures(void)
 
     for (i = 0; i < numtextures; ++i, ++directory)
     {
+        const mappatch_t        *mpatch;
+        texpatch_t              *patch;
+        int                     offset;
+
         if (i == numtextures1)
         {
             // Start looking in second texture file.
-            maptex = maptex2;
+            maptex1 = maptex2;
             maxoff = maxoff2;
-            directory = maptex + 1;
+            directory = maptex1 + 1;
         }
 
         offset = LONG(*directory);
@@ -298,7 +301,7 @@ void R_InitTextures(void)
         if (offset > maxoff)
             I_Error("R_InitTextures: Bad texture directory");
 
-        mtexture = (const maptexture_t *)((const byte *)maptex + offset);
+        mtexture = (const maptexture_t *)((const byte *)maptex1 + offset);
 
         texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t)
             * (SHORT(mtexture->patchcount) - 1), PU_STATIC, 0);
@@ -323,8 +326,8 @@ void R_InitTextures(void)
             patch->originy = SHORT(mpatch->originy);
             patch->patch = patchlookup[SHORT(mpatch->patch)];
             if (patch->patch == -1)
-                C_Warning("Missing patch %d in texture %.8s.",
-                    SHORT(mpatch->patch), texture->name);       // killough 4/17/98
+                C_Warning("Missing patch %d in texture %.8s.", SHORT(mpatch->patch),
+                    texture->name);     // killough 4/17/98
         }
 
         for (j = 1; j * 2 <= texture->width; j <<= 1);

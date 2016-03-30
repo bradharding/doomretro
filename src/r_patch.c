@@ -99,13 +99,16 @@ void R_InitPatches(void)
 
 static int getPatchIsNotTileable(const patch_t *patch)
 {
-    int                 x = 0, numPosts, lastColumnDelta = 0;
+    int                 x = 0;
+    int                 lastColumnDelta = 0;
     const column_t      *column;
     int                 cornerCount = 0;
     int                 hasAHole = 0;
 
     for (x = 0; x < SHORT(patch->width); ++x)
     {
+        int             numPosts = 0;
+
         column = (const column_t *)((const byte *)patch + LONG(patch->columnofs[x]));
 
         if (!x)
@@ -113,7 +116,6 @@ static int getPatchIsNotTileable(const patch_t *patch)
         else if (lastColumnDelta != column->topdelta)
             hasAHole = 1;
 
-        numPosts = 0;
         while (column->topdelta != 0xFF)
         {
             // check to see if a corner pixel filled
@@ -207,7 +209,7 @@ static void createPatch(int id)
     rpatch_t            *patch;
     const int           patchNum = id;
     const patch_t       *oldPatch;
-    const column_t      *oldColumn, *oldPrevColumn, *oldNextColumn;
+    const column_t      *oldColumn;
     int                 x, y;
     int                 pixelDataSize;
     int                 columnsDataSize;
@@ -276,7 +278,9 @@ static void createPatch(int id)
     numPostsUsedSoFar = 0;
     for (x = 0; x < patch->width; ++x)
     {
-        int     top = -1;
+        int             top = -1;
+        const column_t  *oldPrevColumn;
+        const column_t  *oldNextColumn;
 
         oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
 
@@ -418,9 +422,10 @@ static void switchPosts(rpost_t *post1, rpost_t *post2)
 
 static void removePostFromColumn(rcolumn_t *column, int post)
 {
-    int i;
-
     if (post < column->numPosts)
+    {
+        int     i;
+
         for (i = post; i < column->numPosts - 1; ++i)
         {
             rpost_t     *post1 = &column->posts[i];
@@ -429,6 +434,7 @@ static void removePostFromColumn(rcolumn_t *column, int post)
             post1->topdelta = post2->topdelta;
             post1->length = post2->length;
         }
+    }
     column->numPosts--;
 }
 
@@ -439,7 +445,7 @@ static void createTextureCompositePatch(int id)
     texpatch_t          *texpatch;
     int                 patchNum;
     const patch_t       *oldPatch;
-    const column_t      *oldColumn, *oldPrevColumn, *oldNextColumn;
+    const column_t      *oldColumn;
     int                 i, x, y;
     int                 oy, count;
     int                 pixelDataSize;
@@ -541,8 +547,10 @@ static void createTextureCompositePatch(int id)
 
         for (x = 0; x < SHORT(oldPatch->width); ++x)
         {
-            int top = -1;
-            int tx = texpatch->originx + x;
+            int                 top = -1;
+            int                 tx = texpatch->originx + x;
+            const column_t      *oldPrevColumn;
+            const column_t      *oldNextColumn;
 
             if (tx < 0)
                 continue;
@@ -666,15 +674,15 @@ static void createTextureCompositePatch(int id)
         {
             rpost_t     *post1 = &column->posts[i];
             rpost_t     *post2 = &column->posts[i + 1];
-            int         length;
 
             if (post2->topdelta - post1->topdelta < 0)
                 switchPosts(post1, post2);
 
             if (post1->topdelta + post1->length >= post2->topdelta)
             {
-                length = (post1->length + post2->length)
-                    - ((post1->topdelta + post1->length) - post2->topdelta);
+                int     length = (post1->length + post2->length) - ((post1->topdelta
+                    + post1->length) - post2->topdelta);
+
                 if (post1->length < length)
                     post1->length = length;
                 removePostFromColumn(column, i + 1);
