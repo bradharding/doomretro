@@ -152,7 +152,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.4\lib\x86;$(ProjectDir)..\SDL2_mixer-2.0.1\lib\x86;</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>..\src\manifest.xml</AdditionalManifestFiles>
+      <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
       <EnableDPIAwareness>
       </EnableDPIAwareness>
     </Manifest>
@@ -425,7 +425,7 @@
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.osx" />
     <None Include="..\src\Makefile.rpi" />
-    <None Include="..\src\manifest.xml" />
+    <None Include="..\src\doomretro.manifest" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />
