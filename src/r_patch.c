@@ -349,9 +349,9 @@ static void createPatch(int id)
         }
     }
 
-    if (1 || (patch->flags & PATCH_ISNOTTILEABLE))
     {
-        const rcolumn_t *column, *prevColumn;
+        const rcolumn_t *column;
+        const rcolumn_t *prevColumn;
 
         // copy the patch image down and to the right where there are
         // holes to eliminate the black halo from bilinear filtering
@@ -392,9 +392,6 @@ static void createPatch(int id)
                     column->pixels[y] = column->pixels[y - 1];  // copy the color from above
             }
         }
-
-        // verify that the patch truly is non-rectangular since
-        // this determines tiling later on
     }
 
     W_ReleaseLumpNum(patchNum);
@@ -406,7 +403,8 @@ typedef struct
     unsigned short      patches;
     unsigned short      posts;
     unsigned short      posts_used;
-} count_t;
+}
+count_t;
 
 static void switchPosts(rpost_t *post1, rpost_t *post2)
 {
@@ -440,8 +438,8 @@ static void removePostFromColumn(rcolumn_t *column, int post)
 
 static void createTextureCompositePatch(int id)
 {
-    rpatch_t            *composite_patch;
-    texture_t           *texture;
+    rpatch_t            *composite_patch = &texture_composites[id];
+    texture_t           *texture = textures[id];
     texpatch_t          *texpatch;
     int                 patchNum;
     const patch_t       *oldPatch;
@@ -456,10 +454,6 @@ static void createTextureCompositePatch(int id)
     const unsigned char *oldColumnPixelData;
     int                 numPostsUsedSoFar;
     count_t             *countsInColumn;
-
-    composite_patch = &texture_composites[id];
-
-    texture = textures[id];
 
     composite_patch->width = texture->width;
     composite_patch->height = texture->height;
@@ -693,9 +687,9 @@ static void createTextureCompositePatch(int id)
         }
     }
 
-    if (1 || (composite_patch->flags & PATCH_ISNOTTILEABLE))
     {
-        const rcolumn_t *column, *prevColumn;
+        const rcolumn_t *column;
+        const rcolumn_t *prevColumn;
 
         // copy the patch image down and to the right where there are
         // holes to eliminate the black halo from bilinear filtering
@@ -738,9 +732,6 @@ static void createTextureCompositePatch(int id)
                     column->pixels[y] = column->pixels[y - 1];  // copy the color from above
             }
         }
-
-        // verify that the patch truly is non-rectangular since
-        // this determines tiling later on
     }
 
     free(countsInColumn);
@@ -748,8 +739,6 @@ static void createTextureCompositePatch(int id)
 
 rpatch_t *R_CacheTextureCompositePatchNum(int id)
 {
-    const int   locks = 1;
-
     if (!texture_composites)
         I_Error("R_CacheTextureCompositePatchNum: Composite patches not initialized");
 
@@ -757,22 +746,16 @@ rpatch_t *R_CacheTextureCompositePatchNum(int id)
         createTextureCompositePatch(id);
 
     // cph - if wasn't locked but now is, tell z_zone to hold it
-    if (!texture_composites[id].locks && locks)
+    if (!texture_composites[id].locks)
         Z_ChangeTag(texture_composites[id].data, PU_STATIC);
-    texture_composites[id].locks += locks;
+    texture_composites[id].locks++;
 
     return &texture_composites[id];
 }
 
 void R_UnlockTextureCompositePatchNum(int id)
 {
-    const int   unlocks = 1;
-
-    texture_composites[id].locks -= unlocks;
-
-    // cph - Note: must only tell z_zone to make purgeable if currently locked,
-    // else it might already have been purged
-    if (unlocks && !texture_composites[id].locks)
+    if (!--texture_composites[id].locks)
         Z_ChangeTag(texture_composites[id].data, PU_CACHE);
 }
 
@@ -786,11 +769,7 @@ rcolumn_t *R_GetPatchColumnWrapped(rpatch_t *patch, int columnIndex)
 
 rcolumn_t *R_GetPatchColumnClamped(rpatch_t *patch, int columnIndex)
 {
-    if (columnIndex < 0)
-        columnIndex = 0;
-    if (columnIndex >= patch->width)
-        columnIndex = patch->width - 1;
-    return &patch->columns[columnIndex];
+    return &patch->columns[BETWEEN(0, columnIndex, patch->width - 1)];
 }
 
 rcolumn_t *R_GetPatchColumn(rpatch_t *patch, int columnIndex)
