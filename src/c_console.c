@@ -706,7 +706,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             else
                 patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknownchar : consolefont[c]);
 
-
             if (!italics)
             {
                 int     j = 0;
