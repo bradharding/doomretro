@@ -224,11 +224,11 @@ static void R_DrawMaskedColumn(const rpatch_t *patch, const rcolumn_t *column)
         dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), mceilingclip[dc_x] + 1);
         dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), mfloorclip[dc_x] - 1);
 
-        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) +
-            FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-
         if (dc_yl <= dc_yh && dc_yh < viewheight)
         {
+            dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+                + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+
             dc_source = column->pixels + post->topdelta;
             colfunc();
         }
