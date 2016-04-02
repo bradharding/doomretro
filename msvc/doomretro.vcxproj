@@ -94,7 +94,7 @@
       <Culture>0x0c09</Culture>
     </ResourceCompile>
     <Manifest>
-      <AdditionalManifestFiles>..\src\manifest.xml</AdditionalManifestFiles>
+      <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
