@@ -147,6 +147,7 @@ extern dboolean         r_liquid_bob;
 extern dboolean         r_liquid_clipsprites;
 extern dboolean         r_liquid_current;
 extern dboolean         r_liquid_lowerview;
+extern dboolean         r_liquid_slowdown;
 extern dboolean         r_liquid_swirl;
 extern char             *r_lowpixelsize;
 extern dboolean         r_mirroredweapons;
@@ -545,6 +546,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_liquid_clipsprites, "", bool_cvars_func1, bool_cvars_func2, "Toggles the bottom of sprites being clipped in liquid sectors."),
     CVAR_BOOL (r_liquid_current, "", bool_cvars_func1, bool_cvars_func2, "Toggles a slight current being applied to liquid sectors."),
     CVAR_BOOL (r_liquid_lowerview, "", bool_cvars_func1, bool_cvars_func2, "Toggles lowering the player's view in liquid sectors."),
+    CVAR_BOOL (r_liquid_slowdown, "", bool_cvars_func1, bool_cvars_func2, "Toggles slowing down the player when in a liquid sector."),
     CVAR_BOOL (r_liquid_swirl, "", bool_cvars_func1, bool_cvars_func2, "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2, "The size of pixels when the graphic detail is low (~width~\xD7~height~)."),
     CVAR_BOOL (r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, "Toggles randomly mirroring weapons dropped by monsters."),

@@ -112,14 +112,19 @@ wbstartstruct_t wminfo;                 // parms for world map / intermission
 dboolean        autoload = autoload_default;
 dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
 dboolean        gp_vibrate = gp_vibrate_default;
+dboolean        r_liquid_slowdown = r_liquid_slowdown_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
+#define SLOWFORWARDMOVE 0x11
 #define FORWARDMOVE0    0x19
 #define FORWARDMOVE1    0x32
 
+#define SLOWSIDEMOVE    0x0F
 #define SIDEMOVE0       0x18
 #define SIDEMOVE1       0x28
+
+#define SLOWANGLETURN   1280
 
 fixed_t         forwardmove[2] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[2] = { SIDEMOVE0, SIDEMOVE1 };
@@ -437,6 +442,14 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         side += mousex * 2;
     else
         cmd->angleturn -= mousex * 0x8;
+
+    // [BH] slow down player when in liquid
+    if (r_liquid_slowdown && players[0].mo && isliquid[players[0].mo->subsector->sector->floorpic])
+    {
+        forward = BETWEEN(-SLOWFORWARDMOVE, forward, SLOWFORWARDMOVE);
+        side = BETWEEN(-SLOWSIDEMOVE, side, SLOWSIDEMOVE);
+        cmd->angleturn = BETWEEN(-SLOWANGLETURN, cmd->angleturn, SLOWANGLETURN);
+    }
 
     mousex = 0;
     mousey = 0;

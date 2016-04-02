@@ -240,6 +240,8 @@ typedef enum
 
 #define r_liquid_lowerview_default              true
 
+#define r_liquid_slowdown_default               false
+
 #define r_lowpixelsize_default                  "2x2"
 
 #define r_mirroredweapons_default               false
