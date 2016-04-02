@@ -60,10 +60,10 @@ void G_RemoveChoppers(void);
 
 int             movebob = movebob_default;
 int             stillbob = stillbob_default;
-int             r_liquid_lowerview = r_liquid_lowerview_default;
-int             r_shakescreen = r_shakescreen_default;
+dboolean        r_liquid_lowerview = r_liquid_lowerview_default;
+dboolean        r_shakescreen = r_shakescreen_default;
 
-dboolean onground;
+dboolean        onground;
 
 //
 // P_Thrust

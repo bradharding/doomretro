@@ -232,8 +232,6 @@ typedef enum
 
 #define r_liquid_bob_default                    true
 
-#define r_liquid_swirl_default                  true
-
 #define r_liquid_clipsprites_default            true
 
 #define r_liquid_current_default                true
@@ -241,6 +239,8 @@ typedef enum
 #define r_liquid_lowerview_default              true
 
 #define r_liquid_slowdown_default               false
+
+#define r_liquid_swirl_default                  true
 
 #define r_lowpixelsize_default                  "2x2"
 

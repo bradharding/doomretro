@@ -561,9 +561,8 @@ sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
     int         i, linecount = sec->linecount;
 
     for (i = 0; i < linecount; i++)
-        if (twoSided(secnum, i)
-            && (sec = getSector(secnum, i,
-            getSide(secnum, i, 0)->sector - sectors == secnum))->floorheight == floordestheight)
+        if (twoSided(secnum, i) && (sec = getSector(secnum, i, getSide(secnum, i, 0)->sector
+            - sectors == secnum))->floorheight == floordestheight)
             return sec;
 
     return NULL;
@@ -591,9 +590,8 @@ sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
     int         i, linecount = sec->linecount;
 
     for (i = 0; i < linecount; i++)
-        if (twoSided(secnum, i)
-            && (sec = getSector(secnum, i,
-            getSide(secnum, i, 0)->sector - sectors == secnum))->ceilingheight == ceildestheight)
+        if (twoSided(secnum, i) && (sec = getSector(secnum, i, getSide(secnum, i, 0)->sector
+            - sectors == secnum))->ceilingheight == ceildestheight)
             return sec;
 
     return NULL;
