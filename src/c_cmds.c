@@ -566,7 +566,7 @@ consolecmd_t consolecmds[] =
     CMD       (spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CVAR_INT  (stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when still."),
     CMD       (thinglist, "", game_func1, thinglist_cmd_func2, 0, "", "Shows a list of things in the current map."),
-    CVAR_INT  (turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT,  NOALIAS, "The speed of the player."),
+    CVAR_INT  (turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT,  NOALIAS, "The speed of the player (10% to 400%)."),
     CMD       (unbind, "", null_func1, unbind_cmd_func2, 1, "~control~", "Unbinds the action from a control."),
     CVAR_BOOL (vid_capfps, "", bool_cvars_func1, bool_cvars_func2, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS, "The display used to render the game."),
