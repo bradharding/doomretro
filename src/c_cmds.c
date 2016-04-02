@@ -1812,7 +1812,9 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 #define AM      "American McGee"
 #define BK      "Brian Kidby"
 #define CB      "Christopher Buteau"
+#define DB      "David Blanshine"
 #define DC      "Dario Casali"
+#define DC2     "David Calvin"
 #define DJ      "Dean Johnson"
 #define DO      "Drake O'Brien"
 #define JA      "John Anderson"
@@ -1839,6 +1841,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 #define WW      "William D. Whitaker"
 #define AMSP    AM" and "SP
 #define BKTH2   BK" and "TH2
+#define DC2DB   DC2", "DB
 #define DCMC    DC" and "MC
 #define DCTH2   DC" and "TH2
 #define JRTH    JR" and "TH
@@ -1870,7 +1873,7 @@ char *authors[][6] =
     /* 17 */ { JR,    JR,    TM,    DCMC,  "" },
     /* 18 */ { SPTH,  SP,    DCTH2, DCMC,  "" },
     /* 19 */ { JR,    SP,    TH2,   DCMC,  "" },
-    /* 20 */ { "",    JR,    DO,    DCMC,  "" },
+    /* 20 */ { DC2DB, JR,    DO,    DCMC,  "" },
     /* 21 */ { SPTH,  SP,    DO,    DCMC,  "" },
     /* 22 */ { SPTH,  AM,    CB,    DCMC,  "" },
     /* 23 */ { SPTH,  SP,    PT,    DCMC,  "" },
@@ -1881,15 +1884,15 @@ char *authors[][6] =
     /* 28 */ { SP,    SP,    MC,    DCMC,  "" },
     /* 29 */ { SP,    JR,    JS,    DCMC,  "" },
     /* 30 */ { "",    SP,    JS,    DCMC,  "" },
-    /* 31 */ { "",    SP,    DC,    DCMC,  "" },
-    /* 32 */ { "",    SP,    DC,    DCMC,  "" },
+    /* 31 */ { SP,    SP,    DC,    DCMC,  "" },
+    /* 32 */ { SP,    SP,    DC,    DCMC,  "" },
     /* 33 */ { SPTH,  MB,    "",    "",    "" },
-    /* 34 */ { "",    "",    "",    "",    "" },
-    /* 35 */ { "",    "",    "",    "",    "" },
-    /* 36 */ { "",    "",    "",    "",    "" },
-    /* 37 */ { "",    "",    "",    "",    "" },
-    /* 38 */ { "",    "",    "",    "",    "" },
-    /* 39 */ { "",    "",    "",    "",    "" },
+    /* 34 */ { SP,    "",    "",    "",    "" },
+    /* 35 */ { SP,    "",    "",    "",    "" },
+    /* 36 */ { SP,    "",    "",    "",    "" },
+    /* 37 */ { SPTH,  "",    "",    "",    "" },
+    /* 38 */ { SP,    "",    "",    "",    "" },
+    /* 39 */ { SP,    "",    "",    "",    "" },
     /* 40 */ { "",    "",    "",    "",    "" },
     /* 41 */ { AM,    "",    "",    "",    "" },
     /* 42 */ { JR,    "",    "",    "",    "" },
