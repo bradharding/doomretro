@@ -238,8 +238,6 @@ typedef enum
 
 #define r_liquid_lowerview_default              true
 
-#define r_liquid_slowdown_default               false
-
 #define r_liquid_swirl_default                  true
 
 #define r_lowpixelsize_default                  "2x2"
