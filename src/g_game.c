@@ -1377,7 +1377,7 @@ void G_LoadGame(char *name)
 
 void G_DoLoadGame(void)
 {
-    int savedleveltime = leveltime;
+    int savedleveltime;
 
     loadaction = gameaction;
     gameaction = ga_nothing;
@@ -1392,6 +1392,8 @@ void G_DoLoadGame(void)
         fclose(save_stream);
         return;
     }
+
+    savedleveltime = leveltime;
 
     // load a base level
     G_InitNew(gameskill, gameepisode, gamemap);
