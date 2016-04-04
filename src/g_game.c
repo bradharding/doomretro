@@ -1379,6 +1379,8 @@ void G_DoLoadGame(void)
 {
     int savedleveltime;
 
+    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+
     loadaction = gameaction;
     gameaction = ga_nothing;
 
@@ -1562,6 +1564,8 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 
 void G_DoNewGame(void)
 {
+    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+
     if (vid_widescreen)
         I_ToggleWidescreen(true);
 
