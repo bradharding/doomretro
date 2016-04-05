@@ -73,7 +73,6 @@ int                     screenheightarray[SCREENWIDTH];
 
 // variables used to look up and range check thing_t sprites patches
 spritedef_t             *sprites;
-int                     numsprites;
 
 static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
@@ -160,7 +159,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
 // properties across standard DOOM sprites:
 #define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
 
-static void R_InitSpriteDefs(const char *const *namelist)
+static void R_InitSpriteDefs(void)
 {
     size_t              numentries = lastspritelump - firstspritelump + 1;
     unsigned int        i;
@@ -171,15 +170,10 @@ static void R_InitSpriteDefs(const char *const *namelist)
         int     next;
     } *hash;
 
-    if (!numentries || !*namelist)
+    if (!numentries)
         return;
 
-    // count the number of sprite names
-    for (i = 0; namelist[i]; ++i);
-
-    numsprites = (signed int)i;
-
-    sprites = Z_Calloc(numsprites, sizeof(*sprites), PU_STATIC, NULL);
+    sprites = Z_Calloc(NUMSPRITES, sizeof(*sprites), PU_STATIC, NULL);
 
     // Create hash table based on just the first four letters of each sprite
     // killough 1/31/98
@@ -198,9 +192,9 @@ static void R_InitSpriteDefs(const char *const *namelist)
 
     // scan all the lump names for each of the names,
     //  noting the highest frame letter.
-    for (i = 0; i < (unsigned int)numsprites; ++i)
+    for (i = 0; i < NUMSPRITES; ++i)
     {
-        const char      *spritename = namelist[i];
+        const char      *spritename = sprnames[i];
         int             j = hash[R_SpriteNameHash(spritename) % numentries].index;
 
         if (j >= 0)
@@ -272,7 +266,7 @@ static void R_InitSpriteDefs(const char *const *namelist)
                             for (rot = 0; rot < 16; ++rot)
                                 if (sprtemp[frame].lump[rot] == -1)
                                     I_Error("R_InitSprites: Frame %c of sprite %.8s frame %c is "
-                                        "missing rotations", frame + 'A', namelist[i]);
+                                        "missing rotations", frame + 'A', sprnames[i]);
                             break;
                     }
 
@@ -313,14 +307,14 @@ static int              num_shadowvissprite;
 // R_InitSprites
 // Called at program start.
 //
-void R_InitSprites(char **namelist)
+void R_InitSprites(void)
 {
     int i;
 
     for (i = 0; i < SCREENWIDTH; i++)
         negonearray[i] = -1;
 
-    R_InitSpriteDefs((const char *const *)namelist);
+    R_InitSpriteDefs();
 
     num_vissprite = 0;
     num_vissprite_alloc = 128;

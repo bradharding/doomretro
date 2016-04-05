@@ -323,10 +323,8 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
 static dboolean PIT_CrossLine(line_t *ld)
 {
     return (!((ld->flags ^ ML_TWOSIDED) & (ML_TWOSIDED | ML_BLOCKING | ML_BLOCKMONSTERS))
-        || tmbbox[BOXLEFT]   > ld->bbox[BOXRIGHT]
-        || tmbbox[BOXRIGHT]  < ld->bbox[BOXLEFT]
-        || tmbbox[BOXTOP]    < ld->bbox[BOXBOTTOM]
-        || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]
+        || tmbbox[BOXLEFT] > ld->bbox[BOXRIGHT] || tmbbox[BOXRIGHT] < ld->bbox[BOXLEFT]
+        || tmbbox[BOXTOP] < ld->bbox[BOXBOTTOM] || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]
         || P_PointOnLineSide(pe_x, pe_y, ld) == P_PointOnLineSide(ls_x, ls_y, ld));
 }
 
@@ -351,10 +349,8 @@ static int untouched(line_t *ld)
 //
 static dboolean PIT_CheckLine(line_t *ld)
 {
-    if (tmbbox[BOXRIGHT] <= ld->bbox[BOXLEFT]
-        || tmbbox[BOXLEFT] >= ld->bbox[BOXRIGHT]
-        || tmbbox[BOXTOP] <= ld->bbox[BOXBOTTOM]
-        || tmbbox[BOXBOTTOM] >= ld->bbox[BOXTOP])
+    if (tmbbox[BOXRIGHT] <= ld->bbox[BOXLEFT] || tmbbox[BOXLEFT] >= ld->bbox[BOXRIGHT]
+        || tmbbox[BOXTOP] <= ld->bbox[BOXBOTTOM] || tmbbox[BOXBOTTOM] >= ld->bbox[BOXTOP])
         return true;                                    // didn't hit it
 
     if (P_BoxOnLineSide(tmbbox, ld) != -1)

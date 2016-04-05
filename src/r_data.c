@@ -657,7 +657,7 @@ int R_TextureNumForName(char *name)
 //
 void R_PrecacheLevel(void)
 {
-    byte        *hitlist = malloc(MAX(numtextures, MAX(numflats, numsprites)));
+    byte        *hitlist = malloc(MAX(numtextures, MAX(numflats, NUMSPRITES)));
     thinker_t   *th;
     int         i;
     int         j;
@@ -704,12 +704,12 @@ void R_PrecacheLevel(void)
         }
 
     // Precache sprites.
-    memset(hitlist, 0, numsprites);
+    memset(hitlist, 0, NUMSPRITES);
 
     for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
         hitlist[((mobj_t *)th)->sprite] = 1;
 
-    for (i = 0; i < numsprites; i++)
+    for (i = 0; i < NUMSPRITES; i++)
         if (hitlist[i])
             for (j = 0; j < sprites[i].numframes; j++)
             {

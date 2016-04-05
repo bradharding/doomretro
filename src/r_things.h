@@ -61,7 +61,7 @@ extern fixed_t  viewheightfrac;
 extern dboolean r_playersprites;
 
 void R_AddSprites(sector_t *sec, int lightlevel);
-void R_InitSprites(char **namelist);
+void R_InitSprites(void);
 void R_ClearSprites(void);
 void R_DrawPlayerSprites(void);
 void R_DrawMasked(void);
