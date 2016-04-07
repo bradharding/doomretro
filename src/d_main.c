@@ -1446,8 +1446,8 @@ static void D_DoomMainSetup(void)
     M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
     M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);
     M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
-    STARMS = (W_CheckMultipleLumps("STARMS") > 2);
-    STBAR = (W_CheckMultipleLumps("STBAR") > 2);
+    STARMS = W_CheckMultipleLumps("STARMS");
+    STBAR = W_CheckMultipleLumps("STBAR");
     STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
     STCFN039 = (W_CheckMultipleLumps("STCFN039") > 1);
     STCFN121 = (W_CheckMultipleLumps("STCFN121") > 1);

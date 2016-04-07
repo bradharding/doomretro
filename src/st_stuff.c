@@ -431,7 +431,7 @@ void ST_refreshBackground(void)
 {
     if (st_statusbaron)
     {
-        if (STBAR || r_detail == r_detail_low)
+        if (STBAR >= 3 || r_detail == r_detail_low)
             V_DrawPatch(ST_X, 0, BG, sbar);
         else
             V_DrawBigPatch(ST_X, 0, BG, sbar2);
@@ -1352,7 +1352,7 @@ void ST_drawWidgets(dboolean refresh)
 
     STlib_updatePercent(&w_armor, refresh);
 
-    if (STBAR || r_detail == r_detail_low)
+    if (STBAR >= 3 || r_detail == r_detail_low)
         STlib_updateBinIcon(&w_armsbg, refresh);
     else
         STlib_updateBigBinIcon(&w_armsbg2, refresh);
@@ -1508,12 +1508,12 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
-    if (M_StringCompare(lumpname, "STARMS") && STARMS)
-        *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", (FREEDOOM || hacx ? 1 : 2)),
-            PU_STATIC);
-    else if (M_StringCompare(lumpname, "STBAR") && STBAR)
-        *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", (FREEDOOM || hacx ? 1 : 2)),
-            PU_STATIC);
+    if (M_StringCompare(lumpname, "STARMS"))
+        *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", (STARMS <= 2 ? STARMS :
+            (STARMS == 3 ? (FREEDOOM || hacx ? 1 : 2) : 3))), PU_STATIC);
+    else if (M_StringCompare(lumpname, "STBAR"))
+        *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", (STBAR <= 2 ? STBAR :
+            (STBAR == 3 ? (FREEDOOM || hacx ? 1 : 2) : 3))), PU_STATIC);
     else
         *variable = W_CacheLumpName(lumpname, PU_STATIC);
 }
@@ -1571,14 +1571,14 @@ void ST_createWidgets(void)
     int  i;
 
     // ready weapon ammo
-    STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + !STBAR, tallnum,
+    STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2), tallnum,
         &plyr->ammo[weaponinfo[plyr->readyweapon].ammo], &st_statusbaron, ST_AMMOWIDTH);
 
     // the last weapon type
     w_ready.data = plyr->readyweapon;
 
     // health percentage
-    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + !STBAR, tallnum, &plyr->health,
+    STlib_initPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2), tallnum, &plyr->health,
         &st_statusbaron, tallpercent);
 
     // arms background
@@ -1597,15 +1597,15 @@ void ST_createWidgets(void)
     STlib_initMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex, &st_statusbaron);
 
     // armor percentage - should be colored later
-    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + !STBAR, tallnum, &plyr->armorpoints,
+    STlib_initPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2), tallnum, &plyr->armorpoints,
         &st_statusbaron, tallpercent);
 
     // keyboxes 0-2
-    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + STBAR, ST_KEY0Y, keys, &keyboxes[0],
+    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR == 2), ST_KEY0Y, keys, &keyboxes[0],
         &st_statusbaron);
-    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + STBAR, ST_KEY1Y, keys, &keyboxes[1],
+    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR == 2), ST_KEY1Y, keys, &keyboxes[1],
         &st_statusbaron);
-    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + STBAR, ST_KEY2Y, keys, &keyboxes[2],
+    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR == 2), ST_KEY2Y, keys, &keyboxes[2],
         &st_statusbaron);
 
     // ammo count (all four kinds)
