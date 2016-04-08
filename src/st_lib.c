@@ -159,7 +159,7 @@ void STlib_drawNum(st_number_t *n)
 
     patch_t     *patch = n->p[0];
     int         w = SHORT(patch->width);
-    dboolean    smallnum = (SHORT(patch->height) == 6 && !STYSNUM0);
+    dboolean    smallnum = (SHORT(patch->height) == 6 && !STYSNUM0 && STBAR == 2);
     int         x = n->x;
 
     n->oldnum = *n->num;
@@ -244,7 +244,7 @@ void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
 {
     if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        if (STYSNUM0)
+        if (STYSNUM0 || STBAR > 2)
             V_DrawPatch(mi->x, mi->y, FG, mi->p[*mi->inum]);
         else
         {
