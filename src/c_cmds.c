@@ -1927,7 +1927,8 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
         else
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
-        i = W_CheckNumForName(lumpname);
+        i = (nerve && gamemission == doom2 ? W_GetNumForName2(lumpname) :
+            W_CheckNumForName(lumpname));
         C_TabbedOutput(tabs, "%s\t%s", (lumpinfo[i]->wad_file->type == IWAD ? "IWAD" : "PWAD"),
             uppercase(leafname(lumpinfo[i]->wad_file->path)));
     }
