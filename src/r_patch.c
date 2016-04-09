@@ -278,41 +278,9 @@ static void createPatch(int id)
     numPostsUsedSoFar = 0;
     for (x = 0; x < patch->width; ++x)
     {
-        int             top = -1;
-        const column_t  *oldPrevColumn;
-        const column_t  *oldNextColumn;
+        int     top = -1;
 
         oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
-
-        if (patch->flags & PATCH_ISNOTTILEABLE)
-        {
-            // non-tiling
-            if (!x)
-                oldPrevColumn = 0;
-            else
-                oldPrevColumn = (const column_t *)((const byte *)oldPatch
-                    + LONG(oldPatch->columnofs[x - 1]));
-            if (x == patch->width - 1)
-                oldNextColumn = 0;
-            else
-                oldNextColumn = (const column_t *)((const byte *)oldPatch
-                    + LONG(oldPatch->columnofs[x + 1]));
-        }
-        else
-        {
-            // tiling
-            int prevColumnIndex = x - 1;
-            int nextColumnIndex = x + 1;
-
-            while (prevColumnIndex < 0)
-                prevColumnIndex += patch->width;
-            while (nextColumnIndex >= patch->width)
-                nextColumnIndex -= patch->width;
-            oldPrevColumn = (const column_t *)((const byte *)oldPatch
-                + LONG(oldPatch->columnofs[prevColumnIndex]));
-            oldNextColumn = (const column_t *)((const byte *)oldPatch
-                + LONG(oldPatch->columnofs[nextColumnIndex]));
-        }
 
         // setup the column's data
         patch->columns[x].pixels = patch->pixels + x * patch->height;
@@ -541,10 +509,8 @@ static void createTextureCompositePatch(int id)
 
         for (x = 0; x < SHORT(oldPatch->width); ++x)
         {
-            int                 top = -1;
-            int                 tx = texpatch->originx + x;
-            const column_t      *oldPrevColumn;
-            const column_t      *oldNextColumn;
+            int top = -1;
+            int tx = texpatch->originx + x;
 
             if (tx < 0)
                 continue;
@@ -552,21 +518,6 @@ static void createTextureCompositePatch(int id)
                 break;
 
             oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
-
-            {
-                // tiling
-                int     prevColumnIndex = x - 1;
-                int     nextColumnIndex = x + 1;
-
-                while (prevColumnIndex < 0)
-                    prevColumnIndex += SHORT(oldPatch->width);
-                while (nextColumnIndex >= SHORT(oldPatch->width))
-                    nextColumnIndex -= SHORT(oldPatch->width);
-                oldPrevColumn = (const column_t *)((const byte *)oldPatch
-                    + LONG(oldPatch->columnofs[prevColumnIndex]));
-                oldNextColumn = (const column_t *)((const byte *)oldPatch
-                    + LONG(oldPatch->columnofs[nextColumnIndex]));
-            }
 
             while (oldColumn->topdelta != 0xFF)
             {
@@ -581,6 +532,7 @@ static void createTextureCompositePatch(int id)
                 oldColumnPixelData = (const byte *)oldColumn + 3;
                 oy = texpatch->originy;
                 count = oldColumn->length;
+
                 // the original renderer had several bugs which we reproduce here
                 if (countsInColumn[tx].patches > 1)
                 {
