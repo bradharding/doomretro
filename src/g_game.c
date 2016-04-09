@@ -1129,17 +1129,21 @@ void ST_doRefresh(void);
 
 void G_DoCompleted(void)
 {
-    int map = (gameepisode - 1) * 10 + gamemap;
-    int nextmap = P_GetMapNext(map);
-    int par = P_GetMapPar(map);
-    int secretnextmap = P_GetMapSecretNext(map);
+    int         map = (gameepisode - 1) * 10 + gamemap;
+    int         nextmap = P_GetMapNext(map);
+    int         par = P_GetMapPar(map);
+    int         secretnextmap = P_GetMapSecretNext(map);
+    player_t    *player = &players[0];
 
     gameaction = ga_nothing;
 
     I_UpdateBlitFunc();
 
     // [BH] allow the exit switch to turn on before the screen wipes
-    R_RenderPlayerView(&players[0]);
+    player->mo->x = 0;
+    player->mo->y = 0;
+    player->mo->z = 0;
+    R_RenderPlayerView(player);
     I_Sleep(700);
 
     if (vid_widescreen)
