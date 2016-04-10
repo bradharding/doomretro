@@ -214,9 +214,6 @@ extern int              gp_sensitivity;
 //  as well as tracking projectiles etc.
 extern int              skyflatnum;
 
-// Netgame stuff (buffers and pointers, i.e. indices).
-extern int              maketic;
-
 extern ticcmd_t         netcmds[BACKUPTICS];
 
 #endif

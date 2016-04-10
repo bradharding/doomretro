@@ -330,7 +330,7 @@ void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp)
     // check for fire
     //  (if a weaponchange is pending, let it go through instead)
     if ((player->cmd.buttons & BT_ATTACK) && player->pendingweapon == wp_nochange
-        && player->health)
+        && player->health > 0)
     {
         player->refire++;
         P_FireWeapon(player);

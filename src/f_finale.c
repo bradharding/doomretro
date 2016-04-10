@@ -82,9 +82,10 @@ void F_CastDrawer(void);
 
 void WI_checkForAccelerate(void);    // killough 3/28/98: used to
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
-extern int acceleratestage;          // accelerate intermission screens
-static int midstage;                 // whether we're in "mid-stage"
 
+static int      midstage;            // whether we're in "mid-stage"
+
+extern int      acceleratestage;     // accelerate intermission screens
 extern dboolean r_shadows;
 
 //

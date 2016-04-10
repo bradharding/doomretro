@@ -534,7 +534,7 @@ dboolean ST_Responder(event_t *ev)
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
-                     && plyr->health)
+                     && plyr->health > 0)
             {
                 dboolean        ammogiven = false;
                 dboolean        armorgiven = false;
@@ -590,7 +590,7 @@ dboolean ST_Responder(event_t *ev)
             // 'kfa' cheat for key full ammo
             else if (cht_CheckCheat(&cheat_ammo, ev->data2) && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
-                     && plyr->health)
+                     && plyr->health > 0)
             {
                 dboolean        ammogiven = false;
                 dboolean        armorgiven = false;
@@ -703,7 +703,7 @@ dboolean ST_Responder(event_t *ev)
             else if (cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial
                      && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
-                     && plyr->health)
+                     && plyr->health > 0)
             {
                 plyr->cheats ^= CF_NOCLIP;
 
@@ -730,7 +730,7 @@ dboolean ST_Responder(event_t *ev)
             else if (cht_CheckCheat(&cheat_commercial_noclip, ev->data2) && gamemode == commercial
                 && gameskill != sk_nightmare
                 // [BH] can only enter cheat while player is alive
-                && plyr->health)
+                && plyr->health > 0)
             {
                 plyr->cheats ^= CF_NOCLIP;
 
@@ -758,7 +758,7 @@ dboolean ST_Responder(event_t *ev)
             {
                 if (cht_CheckCheat(&cheat_powerup[i], ev->data2) && gameskill != sk_nightmare
                     // [BH] can only enter cheat while player is alive
-                    && plyr->health)
+                    && plyr->health > 0)
                 {
                     if ((i != pw_strength && plyr->powers[i] >= 0
                         && plyr->powers[i] <= STARTFLASHING)
@@ -870,7 +870,7 @@ dboolean ST_Responder(event_t *ev)
             if (cht_CheckCheat(&cheat_powerup[6], ev->data2)
                 && gameskill != sk_nightmare
                 // [BH] can only enter cheat while player is alive
-                && plyr->health)
+                && plyr->health > 0)
             {
                 // [BH] message stays on screen until parameter entered or another key
                 //  pressed to cancel. Code is in hu_stuff.c.
@@ -881,7 +881,7 @@ dboolean ST_Responder(event_t *ev)
             else if (cht_CheckCheat(&cheat_choppers, ev->data2)
                      && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
-                     && plyr->health)
+                     && plyr->health > 0)
             {
                 if (!(plyr->cheats & CF_CHOPPERS))
                 {

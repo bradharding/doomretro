@@ -141,9 +141,7 @@ dboolean        con_timestamps = con_timestamps_default;
 static int      timestampx;
 static int      zerowidth;
 
-extern byte     *tinttab75;
 extern int      fps;
-extern dboolean alwaysrun;
 
 void G_ToggleAlwaysRun(evtype_t type);
 int FindNearestColor(byte *palette, int red, int green, int blue);

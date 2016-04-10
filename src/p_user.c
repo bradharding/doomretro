@@ -45,9 +45,7 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-extern dboolean oldweaponsowned[];
 extern dboolean skipaction;
-extern dboolean r_liquid_clipsprites;
 
 void G_RemoveChoppers(void);
 

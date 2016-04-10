@@ -48,7 +48,6 @@
 #include "z_zone.h"
 
 extern dboolean r_hud;
-extern dboolean r_liquid_bob;
 extern char     *playername;
 
 //

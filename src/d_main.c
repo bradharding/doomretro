@@ -124,7 +124,6 @@ dboolean                forcewipe = false;
 
 dboolean                splashscreen;
 
-extern int              expansion;
 extern dboolean         alwaysrun;
 
 int                     startuptimer;

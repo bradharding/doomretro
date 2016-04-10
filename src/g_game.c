@@ -204,7 +204,6 @@ extern dboolean alwaysrun;
 extern int      st_palette;
 extern int      pagetic;
 extern dboolean transferredsky;
-extern dboolean messages;
 
 void G_RemoveChoppers(void)
 {

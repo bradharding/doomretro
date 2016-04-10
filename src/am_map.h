@@ -77,14 +77,9 @@ void AM_SetColors(void);
 
 void D_PostEvent(event_t *ev);
 
-extern byte     *tinttab60;
 extern byte     *tinttab80;
 
 extern dboolean message_dontfuckwithme;
-extern dboolean message_clearable;
-extern dboolean idbehold;
-extern dboolean idclev;
-extern dboolean idmus;
 
 extern int      viewheight2;
 
