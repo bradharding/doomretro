@@ -301,7 +301,7 @@ void R_DrawWallColumn(void)
             heightmask <<= FRACBITS;
 
             if (frac < 0)
-                while ((frac += heightmask) <  0);
+                while ((frac += heightmask) < 0);
             else
                 while (frac >= heightmask)
                     frac -= heightmask;
@@ -416,7 +416,7 @@ void R_DrawFullbrightWallColumn(void)
             heightmask <<= FRACBITS;
 
             if (frac < 0)
-                while ((frac += heightmask) <  0);
+                while ((frac += heightmask) < 0);
             else
                 while (frac >= heightmask)
                     frac -= heightmask;
@@ -602,7 +602,7 @@ void R_DrawSkyColumn(void)
             heightmask <<= FRACBITS;
 
             if (frac < 0)
-                while ((frac += heightmask) <  0);
+                while ((frac += heightmask) < 0);
             else
                 while (frac >= heightmask)
                     frac -= heightmask;
