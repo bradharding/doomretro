@@ -285,9 +285,6 @@ static void saveg_read_mobj_t(mobj_t *str)
     // fixed_t momz
     str->momz = saveg_read32();
 
-    // int validcount
-    str->validcount = saveg_read32();
-
     // mobjtype_t type
     str->type = (mobjtype_t)saveg_read_enum();
 
@@ -443,9 +440,6 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // fixed_t momz
     saveg_write32(str->momz);
-
-    // int validcount
-    saveg_write32(str->validcount);
 
     // mobjtype_t type
     saveg_write_enum(str->type);
