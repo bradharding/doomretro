@@ -1387,8 +1387,8 @@ void A_Fire(mobj_t *actor, player_t *player, pspdef_t *psp)
     actor->y = dest->y + FixedMul(24 * FRACUNIT, finesine[an]);
     actor->z = dest->z;
     P_SetThingPosition(actor);
-    actor->floorz = dest->floorz;
-    actor->ceilingz = dest->ceilingz;
+    actor->floorz = actor->subsector->sector->floorheight;
+    actor->ceilingz = actor->subsector->sector->ceilingheight;
 }
 
 void A_StartFire(mobj_t *actor, player_t *player, pspdef_t *psp)
