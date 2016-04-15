@@ -290,7 +290,10 @@ typedef enum
     MF2_SMOKETRAIL                = 0x02000000,
 
     // Object can be crushed into blood splats by moving sectors
-    MF2_CRUSHABLE                 = 0x04000000
+    MF2_CRUSHABLE                 = 0x04000000,
+
+    // All objects are being killed
+    MF2_MASSACRE                  = 0x08000000
 } mobjflag2_t;
 
 // Map Object definition.

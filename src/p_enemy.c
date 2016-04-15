@@ -1295,7 +1295,6 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
         yh = (viletryy - bmaporgy + MAXRADIUS * 2) >> MAPBLOCKSHIFT;
 
         for (bx = xl; bx <= xh; bx++)
-        {
             for (by = yl; by <= yh; by++)
             {
                 // Call PIT_VileCheck to check
@@ -1345,7 +1344,6 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     return;
                 }
             }
-        }
     }
 
     // Return to normal attack.
@@ -2075,8 +2073,11 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
                 // telefrag anything in this spot
                 P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true);
 
-            totalkills++;
-            monstercount[type]++;
+            if (newmobj->flags & MF_COUNTKILL)
+            {
+                totalkills++;
+                monstercount[type]++;
+            }
         }
     }
 
@@ -2163,10 +2164,27 @@ void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    state_t     *state = actor->state;
+    mobjtype_t  type = (mobjtype_t)actor->state->misc1;
 
-    if (state->misc1)
-        P_SpawnMobj(actor->x, actor->y, (state->misc2 << FRACBITS) + actor->z, state->misc1 - 1);
+    if (type)
+    {
+        mobj_t  *newmobj;
+
+        --type;
+
+        // If we're in massacre mode then don't spawn anything killable.
+        if (!(actor->flags2 & MF2_MASSACRE) || !(mobjinfo[type].flags & MF_COUNTKILL))
+        {
+            newmobj = P_SpawnMobj(actor->x, actor->y, (actor->state->misc2 << FRACBITS) + actor->z,
+                type);
+
+            if (newmobj->flags & MF_COUNTKILL)
+            {
+                totalkills++;
+                monstercount[type]++;
+            }
+        }
+    }
 }
 
 void A_Turn(mobj_t *actor, player_t *player, pspdef_t *psp)
