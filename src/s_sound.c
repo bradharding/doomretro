@@ -81,8 +81,18 @@ typedef struct
     int                 pitch;
 } channel_t;
 
+// [crispy] "sound objects" hold the coordinates of removed map objects
+typedef struct
+{
+    thinker_t           dummy;
+    fixed_t             x;
+    fixed_t             y;
+    fixed_t             z;
+} sobj_t;
+
 // The set of channels available
 static channel_t        *channels;
+static sobj_t           *sobjs;
 
 int                     s_musicvolume = s_musicvolume_default;
 int                     s_sfxvolume = s_sfxvolume_default;
@@ -187,6 +197,7 @@ void S_Init(int sfxvol, int musicvol)
         // (the maximum number of sounds rendered
         // simultaneously) within zone memory.
         channels = (channel_t *)calloc(numChannels, sizeof(channel_t));
+        sobjs = Z_Malloc(numChannels * sizeof(sobj_t), PU_STATIC, 0);
 
         // Note that sounds have not been cached (yet).
         for (i = 1; i < NUMSFX; i++)
@@ -310,6 +321,42 @@ void S_Start(void)
     mus_paused = false;
 
     S_ChangeMusic(S_GetMusicNum(), !s_randommusic, false, true);
+}
+
+void S_StopSound(mobj_t *origin)
+{
+    int cnum;
+
+    for (cnum = 0; cnum < numChannels; ++cnum)
+        if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
+        {
+            S_StopChannel(cnum);
+            break;
+        }
+}
+
+// [crispy] removed map objects may finish their sounds
+// When map objects are removed from the map by P_RemoveMobj(), instead of
+// stopping their sounds, their coordinates are transfered to "sound objects"
+// so stereo positioning and distance calculations continue to work even after
+// the corresponding map object has already disappeared.
+// Thanks to jeff-d and kb1 for discussing this feature and the former for the
+// original implementation idea: https://www.doomworld.com/vb/post/1585325
+void S_UnlinkSound(mobj_t *origin)
+{
+    int cnum;
+
+    for (cnum = 0; cnum < numChannels; ++cnum)
+        if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
+        {
+            sobj_t *const       sobj = &sobjs[cnum];
+
+            sobj->x = origin->x;
+            sobj->y = origin->y;
+            sobj->z = origin->z;
+            channels[cnum].origin = (mobj_t *)sobj;
+            break;
+        }
 }
 
 //
