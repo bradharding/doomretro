@@ -1950,15 +1950,17 @@ void P_UnArchiveThinkers(void)
 uint32_t P_ThinkerToIndex(thinker_t *thinker)
 {
     thinker_t   *th;
-    uint32_t    i;
+    uint32_t    i = 0;
 
     if (!thinker)
         return 0;
 
-    for (th = thinkerclasscap[th_mobj].cnext, i = 1; th != &thinkerclasscap[th_mobj];
-        th = th->cnext, ++i)
+    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    {
+        ++i;
         if (th == thinker)
             return i;
+    }
 
     return 0;
 }
@@ -1966,14 +1968,13 @@ uint32_t P_ThinkerToIndex(thinker_t *thinker)
 thinker_t *P_IndexToThinker(uint32_t index)
 {
     thinker_t   *th;
-    uint32_t    i;
+    uint32_t    i = 0;
 
     if (!index)
         return NULL;
 
-    for (th = thinkerclasscap[th_mobj].cnext, i = 1; th != &thinkerclasscap[th_mobj];
-        th = th->cnext, ++i)
-        if (i == index)
+    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+        if (++i == index)
             return th;
 
     return NULL;
