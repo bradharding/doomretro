@@ -154,7 +154,7 @@ extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern int              r_screensize;
 extern dboolean         r_shadows;
-extern dboolean         r_shakescreen;
+extern int              r_shakescreen;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
@@ -552,7 +552,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, "Toggles rocket trails behind player and Cyberdemon rockets."),
     CVAR_INT  (r_screensize, "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOALIAS, "The screen size."),
     CVAR_BOOL (r_shadows, "", bool_cvars_func1, bool_cvars_func2, "Toggles sprites casting shadows."),
-    CVAR_BOOL (r_shakescreen, "", bool_cvars_func1, bool_cvars_func2, "Toggles shaking of the screen when the player is injured."),
+    CVAR_INT  (r_shakescreen, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the screen shakes when the player is injured."),
     CVAR_BOOL (r_translucency, "", bool_cvars_func1, bool_cvars_func2, "Toggles translucency in sprites and textures."),
     CMD       (respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, 1, "[on|off]", "Toggles respawning monsters."),
     CMD       (resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "", "Resurrects the player."),

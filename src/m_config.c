@@ -123,7 +123,7 @@ extern dboolean         r_mirroredweapons;
 extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern dboolean         r_shadows;
-extern dboolean         r_shakescreen;
+extern int              r_shakescreen;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
@@ -261,7 +261,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_rockettrails,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_screensize,                          NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_shadows,                             BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_shakescreen,                         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (r_shakescreen,                         NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_translucency,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,                         NOALIAS    ),
     CONFIG_VARIABLE_INT          (s_randommusic,                         BOOLALIAS  ),
@@ -699,8 +699,7 @@ static void M_CheckCVARs(void)
     if (r_shadows != false && r_shadows != true)
         r_shadows = r_shadows_default;
 
-    if (r_shakescreen != false && r_shakescreen != true)
-        r_shakescreen = r_shakescreen_default;
+    r_shakescreen = BETWEEN(r_shakescreen_min, r_shakescreen, r_shakescreen_max);
 
     if (r_translucency != false && r_translucency != true)
         r_translucency = r_translucency_default;

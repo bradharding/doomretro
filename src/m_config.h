@@ -254,7 +254,9 @@ typedef enum
 
 #define r_shadows_default                       true
 
-#define r_shakescreen_default                   true
+#define r_shakescreen_min                       0
+#define r_shakescreen_default                   100
+#define r_shakescreen_max                       100
 
 #define r_translucency_default                  true
 
