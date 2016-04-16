@@ -651,8 +651,6 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             tr_x;
     fixed_t             tr_y;
 
-    fixed_t             gxt;
-    fixed_t             gyt;
     fixed_t             gzt;
 
     fixed_t             tz;
@@ -693,10 +691,7 @@ void R_ProjectSprite(mobj_t *thing)
     tr_x = fx - viewx;
     tr_y = fy - viewy;
 
-    gxt = FixedMul(tr_x, viewcos);
-    gyt = -FixedMul(tr_y, viewsin);
-
-    tz = gxt - gyt;
+    tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // thing is behind view plane?
     if (tz < MINZ)
@@ -704,9 +699,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    gxt = -FixedMul(tr_x, viewsin);
-    gyt = FixedMul(tr_y, viewcos);
-    tx = -(gyt + gxt);
+    tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
     // too far off the side?
     if (ABS(tx) > (tz << 2))
@@ -877,10 +870,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     fixed_t             tr_x = fx - viewx;
     fixed_t             tr_y = fy - viewy;
 
-    fixed_t             gxt = FixedMul(tr_x, viewcos);
-    fixed_t             gyt = -FixedMul(tr_y, viewsin);
-
-    fixed_t             tz = gxt - gyt;
+    fixed_t             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // thing is behind view plane?
     if (tz < MINZ)
@@ -891,9 +881,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     if (xscale < FRACUNIT / 2)
         return;
 
-    gxt = -FixedMul(tr_x, viewsin);
-    gyt = FixedMul(tr_y, viewcos);
-    tx = -(gyt + gxt);
+    tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
     // too far off the side?
     if (ABS(tx) > (tz << 2))
@@ -979,10 +967,7 @@ void R_ProjectShadow(mobj_t *thing)
     fixed_t             tr_x = fx - viewx;
     fixed_t             tr_y = fy - viewy;
 
-    fixed_t             gxt = FixedMul(tr_x, viewcos);
-    fixed_t             gyt = -FixedMul(tr_y, viewsin);
-
-    fixed_t             tz = gxt - gyt;
+    fixed_t             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // thing is behind view plane?
     if (tz < MINZ)
@@ -993,9 +978,7 @@ void R_ProjectShadow(mobj_t *thing)
     if (xscale < FRACUNIT / 2)
         return;
 
-    gxt = -FixedMul(tr_x, viewsin);
-    gyt = FixedMul(tr_y, viewcos);
-    tx = -(gyt + gxt);
+    tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
     // too far off the side?
     if (ABS(tx) > (tz << 2))
