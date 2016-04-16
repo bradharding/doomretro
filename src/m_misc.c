@@ -40,8 +40,10 @@
 #include <stdarg.h>
 
 #if defined(WIN32)
+#pragma warning( disable : 4091 )
 #include <windows.h>
 #include <io.h>
+#include <ShlObj.h>
 #if defined(_MSC_VER)
 #include <direct.h>
 #endif
@@ -54,10 +56,10 @@
 #include "m_fixed.h"
 #include "m_misc.h"
 #include "i_system.h"
+#include "version.h"
 #include "z_zone.h"
 
 #if defined(__MACOSX__)
-#include "version.h"
 #import <Cocoa/Cocoa.h>
 #endif
 
@@ -151,19 +153,25 @@ char *M_ExtractFolder(char *path)
 
 char *M_GetAppDataFolder(void)
 {
-    //On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
-#if defined(__MACOSX__)
-    NSFileManager      *manager = [NSFileManager defaultManager];
-    NSURL              *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory
-                           inDomains: NSUserDomainMask].firstObject;
-    NSURL              *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent:
-                           @PACKAGE_NAME];
+#if defined(WIN32)
+    // On Windows, store generated application files in <user name>\Application Data\DOOM Retro
+    TCHAR       buffer[MAX_PATH];
+
+    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, buffer)))
+        return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
+    else
+        return M_GetExecutableFolder();
+#elif defined(__MACOSX__)
+    // On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
+    NSFileManager       *manager = [NSFileManager defaultManager];
+    NSURL               *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory
+                            inDomains: NSUserDomainMask].firstObject;
+    NSURL               *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent:
+                            @PACKAGE_NAME];
 
     return appSupportURL.fileSystemRepresentation;
 #else
-    // On Windows and Linux, store generated files in the same folder as the executable.
-    // TODO: on Windows this should probably use %APPDATA%/PACKAGE_NAME,
-    // and on Unix it should probably use somewhere within ~.
+    // TODO: On Linux, store generated application files in /home/<user name>/.config
     return M_GetExecutableFolder();
 #endif
 }
