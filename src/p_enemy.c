@@ -2168,15 +2168,13 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (type)
     {
-        mobj_t  *newmobj;
-
         --type;
 
         // If we're in massacre mode then don't spawn anything killable.
         if (!(actor->flags2 & MF2_MASSACRE) || !(mobjinfo[type].flags & MF_COUNTKILL))
         {
-            newmobj = P_SpawnMobj(actor->x, actor->y, (actor->state->misc2 << FRACBITS) + actor->z,
-                type);
+            mobj_t      *newmobj = P_SpawnMobj(actor->x, actor->y,
+                            (actor->state->misc2 << FRACBITS) + actor->z, type);
 
             if (newmobj->flags & MF_COUNTKILL)
             {

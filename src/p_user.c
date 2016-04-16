@@ -101,9 +101,9 @@ void P_CalcHeight(player_t *player)
         player->viewz = MIN(mo->z + VIEWHEIGHT, mo->ceilingz - 4 * FRACUNIT);
     else if (player->playerstate == PST_LIVE)
     {
-        int     angle = (FINEANGLES / 20 * leveltime) & FINEMASK;
-        fixed_t bob = ((FixedMul(player->momx, player->momx)
-            + FixedMul(player->momy, player->momy)) >> 2);
+        fixed_t momx = player->momx;
+        fixed_t momy = player->momy;
+        fixed_t bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
 
         // Regular movement bobbing
         // (needs to be calculated for gun swing
@@ -111,7 +111,7 @@ void P_CalcHeight(player_t *player)
         player->bob = (bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) :
             MAXBOB * stillbob / 400);
 
-        bob = FixedMul(player->bob / 2, finesine[angle]);
+        bob = FixedMul(player->bob / 2, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
 
         // move viewheight
         player->viewheight += player->deltaviewheight;
