@@ -50,6 +50,7 @@
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <pwd.h>
 #endif
 
 #include "doomdef.h"
@@ -171,8 +172,14 @@ char *M_GetAppDataFolder(void)
 
     return appSupportURL.fileSystemRepresentation;
 #else
-    // TODO: On Linux, store generated application files in /home/<user name>/.config
-    return M_GetExecutableFolder();
+    // On Linux, store generated application files in /home/<username>/.config/DOOM Retro
+    const char          *buffer;
+
+    if ((buffer = getenv("XDG_CONFIG_HOME")) == NULL)
+        if ((buffer = getenv("HOME")) == NULL)
+            buffer = getpwuid(getuid())->pw_dir;
+
+    return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
 #endif
 }
 
