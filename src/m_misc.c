@@ -172,14 +172,13 @@ char *M_GetAppDataFolder(void)
 
     return appSupportURL.fileSystemRepresentation;
 #else
-    // On Linux, store generated application files in /home/<username>/.config/DOOM Retro
+    // On Linux, store generated application files in /home/<username>/.config/doomretro
     const char          *buffer;
 
-    if ((buffer = getenv("XDG_CONFIG_HOME")) == NULL)
-        if ((buffer = getenv("HOME")) == NULL)
-            buffer = getpwuid(getuid())->pw_dir;
+    if (!(buffer = getenv("HOME")))
+        buffer = getpwuid(getuid())->pw_dir;
 
-    return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
+    return M_StringJoin(buffer, DIR_SEPARATOR_S".config"DIR_SEPARATOR_S, PACKAGE, NULL);
 #endif
 }
 
