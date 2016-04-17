@@ -346,6 +346,9 @@ void S_UnlinkSound(mobj_t *origin)
 {
     int cnum;
 
+    if (!nosfx)
+        return;
+
     for (cnum = 0; cnum < numChannels; ++cnum)
         if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
         {
