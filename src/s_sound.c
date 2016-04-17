@@ -128,12 +128,12 @@ static void InitSfxModule(void)
 {
     if (I_InitSound())
     {
-        C_Output("SFX playing at a sample rate of %.1fkHz on %i channels.",
+        C_Output("Sound effects playing at a sample rate of %.1fkHz on %i channels.",
             snd_samplerate / 1000.0f, numChannels);
         return;
     }
 
-    C_Output("The initialization of SFX failed.");
+    C_Output("The initialization of sound effects failed.");
 }
 
 // Initialize music according to snd_musicdevice.

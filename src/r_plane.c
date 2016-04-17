@@ -378,14 +378,14 @@ void R_DrawPlanes(void)
                     int         x;
                     int         texture;
                     int         offset;
-                    angle_t     an, flip;
+                    angle_t     flip;
                     rpatch_t    *tex_patch;
 
                     // killough 10/98: allow skies to come from sidedefs.
                     // Allows scrolling and/or animated skies, as well as
                     // arbitrary multiple skies per level without having
                     // to use info lumps.
-                    an = viewangle;
+                    angle_t     an = viewangle;
 
                     if (picnum & PL_SKYFLAT)
                     {
@@ -422,10 +422,6 @@ void R_DrawPlanes(void)
                         flip = 0;                       // DOOM flips it
                     }
 
-                    // Sky is always drawn full bright,
-                    //  i.e. colormaps[0] is used.
-                    // Because of this hack, sky is not affected
-                    //  by INVUL inverse mapping.
                     dc_colormap = (fixedcolormap ? fixedcolormap : fullcolormap);
 
                     dc_texheight = textureheight[texture] >> FRACBITS;
@@ -454,8 +450,7 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    dboolean    liquid = isliquid[picnum];
-                    dboolean    swirling = (liquid && r_liquid_swirl);
+                    dboolean    swirling = (isliquid[picnum] && r_liquid_swirl);
                     int         lumpnum = firstflat + flattranslation[picnum];
 
                     ds_source = (swirling ? R_DistortedFlat(picnum) :

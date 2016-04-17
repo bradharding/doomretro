@@ -184,8 +184,8 @@ void P_ExplodeMissile(mobj_t *mo)
 // P_XYMovement
 //
 #define STOPSPEED       0x1000
-#define FRICTION        0xe800
-#define WATERFRICTION   0xfb00
+#define FRICTION        0xE800
+#define WATERFRICTION   0xFB00
 
 int     puffcount = 0;
 
@@ -286,8 +286,7 @@ void P_XYMovement(mobj_t *mo)
             else if (flags & MF_MISSILE)
             {
                 // explode a missile
-                if (ceilingline
-                    && ceilingline->backsector
+                if (ceilingline && ceilingline->backsector
                     && ceilingline->backsector->ceilingpic == skyflatnum
                     && mo->z > ceilingline->backsector->ceilingheight)
                 {
@@ -317,8 +316,7 @@ void P_XYMovement(mobj_t *mo)
     if (corpse && !(flags & MF_NOBLOOD) && r_corpses_slide && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
-        int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS)
-                    >> 1;
+        int     radius = spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS >> 1;
         int     i;
         int     max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
         int     x = mo->x;
@@ -694,7 +692,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobjinfo_t  *info = &mobjinfo[type];
     sector_t    *sector;
     static int  prevx, prevy, prevz;
-    static int  prevbob;
 
     mobj->type = type;
     mobj->info = info;
@@ -749,7 +746,11 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     // [BH] initialize bobbing things
     if (r_floatbob)
+    {
+        static int      prevbob;
+
         mobj->floatbob = prevbob = (x == prevx && y == prevy && z == prevz ? prevbob : M_Random());
+    }
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height :
         z));
@@ -882,19 +883,13 @@ extern int lastepisode;
 
 void P_SpawnPlayer(const mapthing_t *mthing)
 {
-    player_t    *p;
-    fixed_t     x, y, z;
+    player_t    *p = &players[0];
     mobj_t      *mobj;
-
-    p = &players[0];
 
     if (p->playerstate == PST_REBORN)
         G_PlayerReborn();
 
-    x = mthing->x << FRACBITS;
-    y = mthing->y << FRACBITS;
-    z = ONFLOORZ;
-    mobj = P_SpawnMobj(x, y, z, MT_PLAYER);
+    mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, MT_PLAYER);
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) :
         ANG45 * (mthing->angle / 45));
