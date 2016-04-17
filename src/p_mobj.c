@@ -1015,12 +1015,12 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
-        totalkills++;
-        monstercount[i]++;
-
         // don't spawn any monsters if -nomonsters
         if (nomonsters && i != MT_KEEN)
             return;
+
+        totalkills++;
+        monstercount[i]++;
     }
 
     // spawn it
