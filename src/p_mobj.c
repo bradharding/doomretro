@@ -794,9 +794,6 @@ void P_RemoveMobj(mobj_t *mobj)
     // [crispy] removed map objects may finish their sounds
     S_UnlinkSound(mobj);
 
-    // stop any playing sound
-    S_StopSound(mobj);
-
     // Delete all nodes on the current sector_list
     if (sector_list)
     {
@@ -1086,7 +1083,6 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 // P_SpawnPuff
 //
 extern fixed_t  attackrange;
-extern angle_t  shootangle;
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
@@ -1187,7 +1183,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->momz = FRACUNIT * (2 + i / 6);
 
         th->angle = angle;
-        angle += ((M_Random() - M_Random()) * 0xb60b60);
+        angle += ((M_Random() - M_Random()) * 0xB60B60);
 
         if (damage <= 12 && th->state->nextstate)
             P_SetMobjState(th, th->state->nextstate);

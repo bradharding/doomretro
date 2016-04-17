@@ -282,7 +282,7 @@ static dboolean P_IsOnLift(const mobj_t *actor)
                 case SR_Lift_MoveToSameFloorHeight_Fast:
                     return true;
             }
-        }
+    }
 
     return false;
 }
@@ -303,7 +303,7 @@ static int P_IsUnderDamage(mobj_t *actor)
 
     for (seclist = actor->touching_sectorlist; seclist; seclist = seclist->m_tnext)
     {
-        const ceiling_t *cl = seclist->m_sector->ceilingdata;   // Crushing ceiling
+        const ceiling_t         *cl = seclist->m_sector->ceilingdata;   // Crushing ceiling
 
         if (cl && cl->thinker.function == T_MoveCeiling)
             dir |= cl->direction;
@@ -324,7 +324,7 @@ fixed_t         yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -
 extern line_t   **spechit;
 extern int      numspechit;
 
-static dboolean P_Move(mobj_t *actor, dboolean dropoff)   // killough 9/12/98
+static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
 {
     fixed_t     tryx, tryy;
     fixed_t     deltax, deltay;

@@ -471,7 +471,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
         S_StartSound(actor, sfx_sawful);
         return;
     }
-    S_StartSound (actor, sfx_sawhit);
+    S_StartSound(actor, sfx_sawhit);
 
     // turn to face target
     angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
@@ -525,7 +525,7 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int         type = MT_PLASMA1;
+    mobjtype_t  type = MT_PLASMA1;
 
     if (!player)
         return;
@@ -555,8 +555,8 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         an1 += an - mo->angle;
         an2 += tantoangle[slope >> DBITS];
 
-        th = P_SpawnMobj(mo->x, mo->y, mo->z + 62 * FRACUNIT
-            - player->psprites[ps_weapon].sy, type);
+        th = P_SpawnMobj(mo->x, mo->y, mo->z + 62 * FRACUNIT - player->psprites[ps_weapon].sy,
+            type);
         P_SetTarget(&th->target, mo);
         th->angle = an1;
         th->momx = finecosine[an1 >> ANGLETOFINESHIFT] * 25;
