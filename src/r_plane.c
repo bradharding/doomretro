@@ -465,7 +465,7 @@ void R_DrawPlanes(void)
                     yoffs = pl->yoffs;
                     planeheight = ABS(pl->height - viewz);
 
-                    if (liquid && pl->sector && r_liquid_bob && isliquid[pl->sector->floorpic])
+                    if (liquid && r_liquid_bob)
                         planeheight -= animatedliquiddiff;
 
                     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT)
