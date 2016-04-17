@@ -174,8 +174,7 @@ void P_ExplodeMissile(mobj_t *mo)
     if (mo->type == MT_ROCKET)
     {
         mo->colfunc = tlcolfunc;
-        if (mo->shadow)
-            P_RemoveMobjShadow(mo);
+        P_RemoveMobjShadow(mo);
     }
 
     S_StartSound(mo, mo->info->deathsound);
