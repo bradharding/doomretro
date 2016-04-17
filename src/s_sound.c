@@ -323,21 +323,6 @@ void S_Start(void)
     S_ChangeMusic(S_GetMusicNum(), !s_randommusic, false, true);
 }
 
-void S_StopSound(mobj_t *origin)
-{
-    int cnum;
-
-    if (nosfx)
-        return;
-
-    for (cnum = 0; cnum < numChannels; ++cnum)
-        if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
-        {
-            S_StopChannel(cnum);
-            break;
-        }
-}
-
 // [crispy] removed map objects may finish their sounds
 // When map objects are removed from the map by P_RemoveMobj(), instead of
 // stopping their sounds, their coordinates are transfered to "sound objects"

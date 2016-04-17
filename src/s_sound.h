@@ -92,8 +92,6 @@ void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id);
 
 void S_StopSounds(void);
 
-// Stop sound for thing at <origin>
-void S_StopSound(mobj_t *origin);
 void S_UnlinkSound(mobj_t *origin);
 
 // Start music using <music_id> from sounds.h
