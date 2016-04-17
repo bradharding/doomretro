@@ -1905,7 +1905,7 @@ void PIT_ChangeSector(mobj_t *thing)
     int flags = thing->flags;
     int flags2 = thing->flags2;
 
-    if (isliquidsector && !(flags2 & MF2_NOFOOTCLIP))
+    if (isliquidsector && !(flags2 & MF2_NOFOOTCLIP) && !(thing->info->flags & MF_SPAWNCEILING))
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
