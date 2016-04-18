@@ -627,6 +627,7 @@ void R_StoreWallRange(int start, int stop)
     {
         extern int      *openings;              // dropoff overflow
         extern size_t   maxopenings;
+
         size_t          pos = lastopening - openings;
         size_t          need = (rw_stopx - start) * sizeof(*lastopening) + pos;
 

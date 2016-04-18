@@ -119,8 +119,6 @@ dboolean                r_homindicator = r_homindicator_default;
 int                     r_frame_count;
 
 extern int              viewheight2;
-extern int              gametic;
-extern dboolean         canmodify;
 
 void (*colfunc)(void);
 void (*wallcolfunc)(void);

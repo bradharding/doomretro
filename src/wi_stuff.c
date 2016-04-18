@@ -51,9 +51,6 @@
 #include "wi_stuff.h"
 #include "z_zone.h"
 
-// Ty 03/17/98: flag that new par times have been loaded in d_deh
-extern dboolean deh_pars;
-
 //
 // Data needed to add patches to full screen intermission pics.
 // Patches are statistics messages, and animations.
@@ -361,8 +358,6 @@ void WI_drawWILVchar(int x, int y, int i)
 
 char            *mapname = "";
 char            *nextmapname = "";
-
-extern char     *mapnames[][6];
 
 int chartoi[130] =
 {
@@ -947,8 +942,6 @@ void WI_updateStats(void)
 }
 
 void M_DrawString(int x, int y, char *str);
-
-extern dboolean canmodify;
 
 void WI_drawStats(void)
 {

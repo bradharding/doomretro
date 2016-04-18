@@ -492,7 +492,7 @@ void R_InitSpriteLumps(void)
 //
 // killough 4/4/98: Add support for C_START/C_END markers
 //
-extern int FindNearestColor(byte *palette, int red, int green, int blue);
+int FindNearestColor(byte *palette, int red, int green, int blue);
 
 byte grays[256];
 

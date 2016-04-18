@@ -177,8 +177,6 @@ extern char             *vid_windowposition;
 extern char             *vid_windowsize;
 
 extern char             *packageconfig;
-extern int              pixelwidth;
-extern int              pixelheight;
 extern dboolean         returntowidescreen;
 
 #define CONFIG_VARIABLE_INT(name, set)           { #name, &name, DEFAULT_INT, set }

@@ -1001,8 +1001,6 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 const int       _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 extern int      fuzztable[SCREENWIDTH * SCREENHEIGHT];
-extern dboolean menuactive;
-extern dboolean paused;
 
 void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {

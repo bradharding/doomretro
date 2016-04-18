@@ -93,7 +93,7 @@ void *W_CacheLumpName(char *name, int tag);
 
 void W_GenerateHashTable(void);
 
-extern unsigned int W_LumpNameHash(const char *s);
+unsigned int W_LumpNameHash(const char *s);
 
 void W_ReleaseLumpNum(lumpindex_t lump);
 void W_ReleaseLumpName(char *name);
