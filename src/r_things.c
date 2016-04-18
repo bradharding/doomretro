@@ -546,7 +546,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-    if (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency)
+    if (fixedcolormap && r_translucency)
     {
         if (colfunc == tlcolfunc)
             colfunc = tl50colfunc;
@@ -566,6 +566,35 @@ void R_DrawVisSprite(vissprite_t *vis)
     else
         dc_baseclip = -1;
 
+    fuzzpos = 0;
+
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
+        R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
+            + LONG(patch->columnofs[frac >> FRACBITS])));
+
+    colfunc = basecolfunc;
+}
+
+//
+// R_DrawPVisSprite
+//
+void R_DrawPVisSprite(vissprite_t *vis)
+{
+    fixed_t     frac = vis->startfrac;
+    fixed_t     xiscale = vis->xiscale;
+    fixed_t     x2 = vis->x2;
+    patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+
+    dc_colormap = vis->colormap;
+    colfunc = vis->colfunc;
+
+    dc_iscale = ABS(xiscale);
+    dc_texturemid = vis->texturemid;
+
+    spryscale = vis->scale;
+    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+
+    dc_baseclip = -1;
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
@@ -1096,7 +1125,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     int                 lump;
     dboolean            flip;
     vissprite_t         *vis;
-    vissprite_t         avis;
+    static vissprite_t  avis[NUMPSPRITES];
+    vissprite_t         tempvis;
     state_t             *state;
     dboolean            dehacked = weaponinfo[viewplayer->readyweapon].dehacked;
 
@@ -1127,15 +1157,11 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         return;
 
     // store information in a vissprite
-    vis = &avis;
-    vis->mobjflags = 0;
-    vis->mobjflags2 = 0;
+    vis = &tempvis;
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->scale = pspriteyscale;
-    vis->blood = 0;
-    vis->footclip = 0;
 
     if (flip)
     {
@@ -1164,31 +1190,34 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         if (spr == SPR_SHT2 && (!frame || frame >= 8) && !dehacked)
             vis->colfunc = (r_translucency ? R_DrawTranslucentSuperShotgunColumn :
                 R_DrawSuperShotgunColumn);
-        else
+        else if (r_translucency)
         {
-            void (*colfuncs[])(void) =
+            void(*colfuncs[])(void) =
             {
-                /* n/a      */ NULL,
-                /* SPR_SHTG */ basecolfunc,
-                /* SPR_PUNG */ basecolfunc,
-                /* SPR_PISG */ basecolfunc,
-                /* SPR_PISF */ tlcolfunc,
-                /* SPR_SHTF */ tlcolfunc,
-                /* SPR_SHT2 */ tlredwhitecolfunc1,
-                /* SPR_CHGG */ basecolfunc,
-                /* SPR_CHGF */ tlredwhitecolfunc2,
-                /* SPR_MISG */ basecolfunc,
-                /* SPR_MISF */ tlredwhitecolfunc2,
-                /* SPR_SAWG */ basecolfunc,
-                /* SPR_PLSG */ basecolfunc,
-                /* SPR_PLSF */ tlcolfunc,
-                /* SPR_BFGG */ basecolfunc,
-                /* SPR_BFGF */ tlcolfunc
+                /* n/a      */ NULL,               NULL,
+                /* SPR_SHTG */ basecolfunc,        basecolfunc,
+                /* SPR_PUNG */ basecolfunc,        basecolfunc,
+                /* SPR_PISG */ basecolfunc,        basecolfunc,
+                /* SPR_PISF */ tlcolfunc,          tl50colfunc,
+                /* SPR_SHTF */ tlcolfunc,          tl50colfunc,
+                /* SPR_SHT2 */ tlredwhitecolfunc1, tlredwhite50colfunc,
+                /* SPR_CHGG */ basecolfunc,        basecolfunc,
+                /* SPR_CHGF */ tlredwhitecolfunc2, tlredwhite50colfunc,
+                /* SPR_MISG */ basecolfunc,        basecolfunc,
+                /* SPR_MISF */ tlredwhitecolfunc2, tlredwhite50colfunc,
+                /* SPR_SAWG */ basecolfunc,        basecolfunc,
+                /* SPR_PLSG */ basecolfunc,        basecolfunc,
+                /* SPR_PLSF */ tlcolfunc,          tl50colfunc,
+                /* SPR_BFGG */ basecolfunc,        basecolfunc,
+                /* SPR_BFGF */ tlcolfunc,          tl50colfunc
             };
 
-            vis->colfunc = (bflash && spr <= SPR_BFGF && (!dehacked || state->translucent) ?
-                colfuncs[spr] : basecolfunc);
+            vis->colfunc = (bflash && spr <= SPR_BFGF && (!dehacked || state->translucent)
+                ? colfuncs[spr * 2 + !!fixedcolormap] : basecolfunc);
         }
+        else
+            vis->colfunc = basecolfunc;
+
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color
         else
@@ -1247,7 +1276,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         }
     }
 
-    R_DrawVisSprite(vis);
+    R_DrawPVisSprite(vis);
 }
 
 //
