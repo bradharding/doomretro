@@ -1125,7 +1125,6 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     int                 lump;
     dboolean            flip;
     vissprite_t         *vis;
-    static vissprite_t  avis[NUMPSPRITES];
     vissprite_t         tempvis;
     state_t             *state;
     dboolean            dehacked = weaponinfo[viewplayer->readyweapon].dehacked;

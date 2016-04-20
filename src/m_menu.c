@@ -183,6 +183,7 @@ void M_SizeDisplay(int choice);
 void M_Sound(int choice);
 
 void M_FinishReadThis(int choice);
+void M_FinishControls(int choice);
 void M_LoadSelect(int choice);
 void M_SaveSelect(int choice);
 void M_ReadSaveStrings(void);
@@ -194,6 +195,7 @@ void M_DrawReadThis(void);
 void M_DrawNewGame(void);
 void M_DrawEpisode(void);
 void M_DrawExpansion(void);
+void M_DrawControls(void);
 void M_DrawOptions(void);
 void M_DrawSound(void);
 void M_DrawLoad(void);
@@ -367,6 +369,27 @@ menu_t OptionsDef =
     &MainDef,
     OptionsMenu,
     M_DrawOptions,
+    56, 33,
+    0
+};
+
+enum
+{
+    ctrlsempty,
+    ctrls_end
+} controls_e;
+
+menuitem_t ControlsMenu[] =
+{
+    { 1, "", M_FinishControls, NULL }
+};
+
+menu_t ControlsDef =
+{
+    ctrls_end,
+    &OptionsDef,
+    ControlsMenu,
+    M_DrawControls,
     56, 33,
     0
 };
@@ -1723,13 +1746,23 @@ void M_ChangeMessages(int choice)
 }
 
 //
-// M_EndGame
+// M_Controls
 //
 void M_Controls(int choice)
 {
+    M_SetupNextMenu(&ControlsDef);
+}
+
+void M_DrawControls(void)
+{
     M_DarkBackground();
 
-    M_DrawCenteredString(8 + OFFSET, uppercase(s_M_OPTIONS));
+    M_DrawCenteredString(8 + OFFSET, uppercase(s_M_CONTROLS));
+}
+
+void M_FinishControls(int choice)
+{
+    M_SetupNextMenu(&OptionsDef);
 }
 
 //
@@ -1792,11 +1825,6 @@ void M_EndGame(int choice)
 //
 // M_ReadThis
 //
-void M_ReadThis(int choice)
-{
-    M_FinishReadThis(0);
-}
-
 void M_FinishReadThis(int choice)
 {
     M_SetupNextMenu(&MainDef);
