@@ -171,9 +171,9 @@ void M_ChooseSkill(int choice);
 void M_LoadGame(int choice);
 void M_SaveGame(int choice);
 void M_Options(int choice);
-void M_EndGame(int choice);
 void M_QuitDOOM(int choice);
 
+void M_Controls(int choice);
 void M_ChangeMessages(int choice);
 void M_ChangeSensitivity(int choice);
 void M_SfxVol(int choice);
@@ -338,7 +338,7 @@ menu_t NewDef =
 
 enum
 {
-    endgame,
+    controls,
     msgs,
     detail,
     scrnsize,
@@ -351,7 +351,7 @@ enum
 
 menuitem_t OptionsMenu[]=
 {
-    {  1, "M_ENDGAM", M_EndGame,           &s_M_ENDGAME          },
+    {  1, "M_CTRLS",  M_Controls,          &s_M_CONTROLS         },
     {  1, "M_MESSG",  M_ChangeMessages,    &s_M_MESSAGES         },
     {  1, "M_DETAIL", M_ChangeDetail,      &s_M_GRAPHICDETAIL    },
     {  2, "M_SCRNSZ", M_SizeDisplay,       &s_M_SCREENSIZE       },
@@ -1725,6 +1725,16 @@ void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
+void M_Controls(int choice)
+{
+    M_DarkBackground();
+
+    M_DrawCenteredString(8 + OFFSET, uppercase(s_M_OPTIONS));
+}
+
+//
+// M_EndGame
+//
 dboolean        endinggame = false;
 
 void M_EndingGame(void)
@@ -2852,8 +2862,6 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 3
                         && (!usergame || gamestate != GS_LEVEL || !players[0].health))
                         ++itemOn;
-                    if (currentMenu == &OptionsDef && !itemOn && !usergame)
-                        ++itemOn;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
                 } while (currentMenu->menuitems[itemOn].status == -1);
@@ -2915,8 +2923,6 @@ dboolean M_Responder(event_t *ev)
                         --itemOn;
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         --itemOn;
-                    if (currentMenu == &OptionsDef && !itemOn && !usergame)
-                        itemOn = currentMenu->numitems - 1;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
                 } while (currentMenu->menuitems[itemOn].status == -1);
@@ -3005,8 +3011,6 @@ dboolean M_Responder(event_t *ev)
                     if ((!usergame || gamestate != GS_LEVEL) && currentMenu == &MainDef
                         && itemOn == 3)
                         return true;
-                    if (!usergame && currentMenu == &OptionsDef && !itemOn)
-                        return true;
                     if (currentMenu != &LoadDef && (currentMenu != &NewDef || itemOn == 4))
                         S_StartSound(NULL, sfx_pistol);
                     currentMenu->menuitems[itemOn].routine(itemOn);
@@ -3063,8 +3067,6 @@ dboolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
-                    if (currentMenu == &OptionsDef && !i && !usergame)
-                        return true;
                     if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i],
                         s_EMPTYSTRING))
                         return true;
@@ -3112,8 +3114,6 @@ dboolean M_Responder(event_t *ev)
                             || !players[0].health))
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
-                        return true;
-                    if (currentMenu == &OptionsDef && !i && !usergame)
                         return true;
                     if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i],
                         s_EMPTYSTRING))
@@ -3315,8 +3315,6 @@ void M_Drawer(void)
     {
         patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
 
-        if (currentMenu == &OptionsDef && !itemOn && !usergame)
-            ++itemOn;
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET + chex, patch);
         else
