@@ -44,6 +44,7 @@
 #include <Windows.h>
 #endif
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
@@ -340,7 +341,7 @@ menu_t NewDef =
 
 enum
 {
-    controls,
+    ctrls,
     msgs,
     detail,
     scrnsize,
@@ -663,7 +664,7 @@ static struct
     { 'p', 'a', -2 }, { 't', 'o', -1 }, { 'v', 'e', -1 }, { 'y', ',', -3 },
     { 'y', '.', -2 }, { 'y', 'o', -1 }, { 't', 'a', -1 }, { 'l', 'o', -1 },
     { ' ', 'V', -2 }, { ' ', 'y', -2 }, { ' ', 't', -1 }, { 'l', ' ', -1 },
-    { 't', ' ', -1 }, {  0,   0,   0 }
+    { 'L', 'S', -1 }, { 't', ' ', -1 }, {  0,   0,   0 }
 };
 
 static struct
@@ -1755,9 +1756,68 @@ void M_Controls(int choice)
 
 void M_DrawControls(void)
 {
+    int i = 0;
+    int y = 30 + OFFSET;
+
     M_DarkBackground();
 
     M_DrawCenteredString(8 + OFFSET, uppercase(s_M_CONTROLS));
+
+    while (*actions[i].action)
+    {
+        if (*actions[i].description
+            && (!i || !M_StringCompare(actions[i].description, actions[i - 1].description)))
+        {
+            int j = 0;
+            int x = 130;
+
+            M_WriteText(10, y, actions[i].description, true);
+
+            while (*controls[j].control)
+            {
+                if (actions[i].keyboard && controls[j].type == keyboardcontrol
+                    && *(int *)actions[i].keyboard == controls[j].value)
+                {
+                    if (x > 130)
+                    {
+                        M_WriteText(x, y, ", ", true);
+                        x += M_StringWidth(", ");
+                    }
+                    M_WriteText(x, y, controls[j].control, true);
+                    x += M_StringWidth(controls[j].control);
+                }
+
+                if (actions[i].mouse && controls[j].type == mousecontrol
+                    && *(int *)actions[i].mouse == controls[j].value)
+                {
+                    if (x > 130)
+                    {
+                        M_WriteText(x, y, ", ", true);
+                        x += M_StringWidth(", ");
+                    }
+                    M_WriteText(x, y, controls[j].control, true);
+                    x += M_StringWidth(controls[j].control);
+                }
+
+                if (actions[i].gamepad && controls[j].type == gamepadcontrol
+                    && *(int *)actions[i].gamepad == controls[j].value)
+                {
+                    if (x > 130)
+                    {
+                        M_WriteText(x, y, ", ", true);
+                        x += M_StringWidth(", ");
+                    }
+                    M_WriteText(x, y, controls[j].control, true);
+                    x += M_StringWidth(controls[j].control);
+                }
+
+                ++j;
+            }
+
+            y += 9;
+        }
+        ++i;
+    }
 }
 
 void M_FinishControls(int choice)
@@ -3027,6 +3087,7 @@ dboolean M_Responder(event_t *ev)
                     I_ToggleWidescreen(true);
                 return true;
             }
+
             if (currentMenu->menuitems[itemOn].routine &&
                 currentMenu->menuitems[itemOn].status)
             {
@@ -3286,6 +3347,9 @@ void M_Drawer(void)
 
     if (currentMenu->routine)
         currentMenu->routine();         // call Draw routine
+
+    if (currentMenu == &ControlsDef)
+        return;
 
     // DRAW MENU
     x = currentMenu->x;
