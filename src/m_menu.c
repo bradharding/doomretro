@@ -3023,7 +3023,7 @@ dboolean M_Responder(event_t *ev)
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
                 R_SetViewSize(r_screensize);
-                if (returntowidescreen)
+                if (returntowidescreen && gamestate == GS_LEVEL)
                     I_ToggleWidescreen(true);
                 return true;
             }
