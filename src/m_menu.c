@@ -44,7 +44,6 @@
 #include <Windows.h>
 #endif
 
-#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
@@ -174,7 +173,7 @@ void M_SaveGame(int choice);
 void M_Options(int choice);
 void M_QuitDOOM(int choice);
 
-void M_Controls(int choice);
+void M_EndGame(int choice);
 void M_ChangeMessages(int choice);
 void M_ChangeSensitivity(int choice);
 void M_SfxVol(int choice);
@@ -184,7 +183,6 @@ void M_SizeDisplay(int choice);
 void M_Sound(int choice);
 
 void M_FinishReadThis(int choice);
-void M_FinishControls(int choice);
 void M_LoadSelect(int choice);
 void M_SaveSelect(int choice);
 void M_ReadSaveStrings(void);
@@ -196,7 +194,6 @@ void M_DrawReadThis(void);
 void M_DrawNewGame(void);
 void M_DrawEpisode(void);
 void M_DrawExpansion(void);
-void M_DrawControls(void);
 void M_DrawOptions(void);
 void M_DrawSound(void);
 void M_DrawLoad(void);
@@ -354,7 +351,7 @@ enum
 
 menuitem_t OptionsMenu[]=
 {
-    {  1, "M_CTRLS",  M_Controls,          &s_M_CONTROLS         },
+    {  1, "M_ENDGAM", M_EndGame,           &s_M_ENDGAME          },
     {  1, "M_MESSG",  M_ChangeMessages,    &s_M_MESSAGES         },
     {  1, "M_DETAIL", M_ChangeDetail,      &s_M_GRAPHICDETAIL    },
     {  2, "M_SCRNSZ", M_SizeDisplay,       &s_M_SCREENSIZE       },
@@ -371,28 +368,6 @@ menu_t OptionsDef =
     OptionsMenu,
     M_DrawOptions,
     56, 33,
-    0
-};
-
-enum
-{
-    ctrlsempty,
-    ctrls_end
-} controls_e;
-
-menuitem_t ControlsMenu[] =
-{
-    { 1, "", M_FinishControls, NULL }
-};
-
-menu_t ControlsDef =
-{
-    ctrls_end,
-    &OptionsDef,
-    ControlsMenu,
-    M_DrawControls,
-    56, 33,
-    0
 };
 
 enum
@@ -1747,85 +1722,6 @@ void M_ChangeMessages(int choice)
 }
 
 //
-// M_Controls
-//
-void M_Controls(int choice)
-{
-    M_SetupNextMenu(&ControlsDef);
-}
-
-void M_DrawControls(void)
-{
-    int i = 0;
-    int y = 30 + OFFSET;
-
-    M_DarkBackground();
-
-    M_DrawCenteredString(8 + OFFSET, uppercase(s_M_CONTROLS));
-
-    while (*actions[i].action)
-    {
-        if (*actions[i].description
-            && (!i || !M_StringCompare(actions[i].description, actions[i - 1].description)))
-        {
-            int j = 0;
-            int x = 130;
-
-            M_WriteText(10, y, actions[i].description, true);
-
-            while (*controls[j].control)
-            {
-                if (actions[i].keyboard && controls[j].type == keyboardcontrol
-                    && *(int *)actions[i].keyboard == controls[j].value)
-                {
-                    if (x > 130)
-                    {
-                        M_WriteText(x, y, ", ", true);
-                        x += M_StringWidth(", ");
-                    }
-                    M_WriteText(x, y, controls[j].control, true);
-                    x += M_StringWidth(controls[j].control);
-                }
-
-                if (actions[i].mouse && controls[j].type == mousecontrol
-                    && *(int *)actions[i].mouse == controls[j].value)
-                {
-                    if (x > 130)
-                    {
-                        M_WriteText(x, y, ", ", true);
-                        x += M_StringWidth(", ");
-                    }
-                    M_WriteText(x, y, controls[j].control, true);
-                    x += M_StringWidth(controls[j].control);
-                }
-
-                if (actions[i].gamepad && controls[j].type == gamepadcontrol
-                    && *(int *)actions[i].gamepad == controls[j].value)
-                {
-                    if (x > 130)
-                    {
-                        M_WriteText(x, y, ", ", true);
-                        x += M_StringWidth(", ");
-                    }
-                    M_WriteText(x, y, controls[j].control, true);
-                    x += M_StringWidth(controls[j].control);
-                }
-
-                ++j;
-            }
-
-            y += 9;
-        }
-        ++i;
-    }
-}
-
-void M_FinishControls(int choice)
-{
-    M_SetupNextMenu(&OptionsDef);
-}
-
-//
 // M_EndGame
 //
 dboolean        endinggame = false;
@@ -2950,6 +2846,8 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 3
                         && (!usergame || gamestate != GS_LEVEL || !players[0].health))
                         ++itemOn;
+                    if (currentMenu == &OptionsDef && !itemOn && !usergame)
+                        ++itemOn;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
                 } while (currentMenu->menuitems[itemOn].status == -1);
@@ -3010,6 +2908,8 @@ dboolean M_Responder(event_t *ev)
                         && (!usergame || gamestate != GS_LEVEL || !players[0].health))
                         --itemOn;
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
+                        --itemOn;
+                    if (currentMenu == &OptionsDef && !itemOn && !usergame)
                         --itemOn;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
@@ -3100,6 +3000,8 @@ dboolean M_Responder(event_t *ev)
                     if ((!usergame || gamestate != GS_LEVEL) && currentMenu == &MainDef
                         && itemOn == 3)
                         return true;
+                    if (!usergame && currentMenu == &OptionsDef && !itemOn)
+                        return true;
                     if (currentMenu != &LoadDef && (currentMenu != &NewDef || itemOn == 4))
                         S_StartSound(NULL, sfx_pistol);
                     currentMenu->menuitems[itemOn].routine(itemOn);
@@ -3156,6 +3058,8 @@ dboolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
+                    if (currentMenu == &OptionsDef && !i && !usergame)
+                        return true;
                     if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i],
                         s_EMPTYSTRING))
                         return true;
@@ -3203,6 +3107,8 @@ dboolean M_Responder(event_t *ev)
                             || !players[0].health))
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
+                        return true;
+                    if (currentMenu == &OptionsDef && !i && !usergame)
                         return true;
                     if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i],
                         s_EMPTYSTRING))
@@ -3348,9 +3254,6 @@ void M_Drawer(void)
     if (currentMenu->routine)
         currentMenu->routine();         // call Draw routine
 
-    if (currentMenu == &ControlsDef)
-        return;
-
     // DRAW MENU
     x = currentMenu->x;
     y = currentMenu->y;
@@ -3407,6 +3310,8 @@ void M_Drawer(void)
     {
         patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
 
+        if (currentMenu == &OptionsDef && !itemOn && !usergame)
+            ++itemOn;
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET + chex, patch);
         else
