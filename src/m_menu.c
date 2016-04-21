@@ -171,9 +171,9 @@ void M_ChooseSkill(int choice);
 void M_LoadGame(int choice);
 void M_SaveGame(int choice);
 void M_Options(int choice);
+void M_EndGame(int choice);
 void M_QuitDOOM(int choice);
 
-void M_EndGame(int choice);
 void M_ChangeMessages(int choice);
 void M_ChangeSensitivity(int choice);
 void M_SfxVol(int choice);
@@ -214,7 +214,7 @@ void M_ClearMenus(void);
 
 enum
 {
-    new_game = 0,
+    new_game,
     options,
     load_game,
     save_game,
@@ -233,12 +233,12 @@ menuitem_t MainMenu[] =
 
 menu_t MainDef =
 {
-    main_end,           // # of menu items
+    5,                  // # of menu items
     NULL,               // previous menu
     MainMenu,           // menuitem_t ->
     M_DrawMainMenu,     // drawing routine ->
     98, 77,             // x, y
-    0                   // lastOn
+    new_game            // lastOn
 };
 
 //
@@ -338,7 +338,7 @@ menu_t NewDef =
 
 enum
 {
-    ctrls,
+    endgame,
     msgs,
     detail,
     scrnsize,
@@ -368,6 +368,7 @@ menu_t OptionsDef =
     OptionsMenu,
     M_DrawOptions,
     56, 33,
+    endgame
 };
 
 enum
@@ -388,7 +389,7 @@ menu_t ReadDef =
     ReadMenu,
     M_DrawReadThis,
     330, 175,
-    0
+    rdthsempty
 };
 
 //
@@ -419,7 +420,7 @@ menu_t SoundDef =
     SoundMenu,
     M_DrawSound,
     89, 64,
-    0
+    sfx_vol
 };
 
 //
@@ -454,7 +455,7 @@ menu_t LoadDef =
     LoadGameMenu,
     M_DrawLoad,
     67, 51,
-    0
+    load1
 };
 
 //
@@ -478,7 +479,7 @@ menu_t SaveDef =
     SaveGameMenu,
     M_DrawSave,
     67, 51,
-    0
+    load1
 };
 
 int height;
