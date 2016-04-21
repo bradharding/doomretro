@@ -375,6 +375,7 @@ static void r_gamma_cvar_func2(char *, char *, char *, char *);
 static void r_hud_cvar_func2(char *, char *, char *, char *);
 static void r_lowpixelsize_cvar_func2(char *, char *, char *, char *);
 static void r_screensize_cvar_func2(char *, char *, char *, char *);
+static void r_translucency_cvar_func2(char *, char *, char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *, char *, char *);
 static void s_volume_cvars_func2(char *, char *, char *, char *);
 static dboolean turbo_cvar_func1(char *, char *, char *, char *);
@@ -553,7 +554,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (r_screensize, "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOALIAS, "The screen size."),
     CVAR_BOOL (r_shadows, "", bool_cvars_func1, bool_cvars_func2, "Toggles sprites casting shadows."),
     CVAR_INT  (r_shakescreen, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the screen shakes when the player is injured."),
-    CVAR_BOOL (r_translucency, "", bool_cvars_func1, bool_cvars_func2, "Toggles translucency in sprites and textures."),
+    CVAR_BOOL (r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, "Toggles translucency in sprites and textures."),
     CMD       (respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, 1, "[on|off]", "Toggles respawning monsters."),
     CMD       (resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "", "Resurrects the player."),
     CVAR_INT  (s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT,  NOALIAS, "The music volume."),
@@ -3012,6 +3013,47 @@ static void r_screensize_cvar_func2(char *cmd, char *parm1, char *parm2, char *p
     }
     else
         C_Output("%i", r_screensize);
+}
+
+//
+// r_translucency cvar
+//
+static void r_translucency_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
+
+        if ((value == 0 || value == 1) && value != r_translucency)
+        {
+            int i;
+
+            r_translucency = !!value;
+            M_SaveCVARs();
+            R_InitColumnFunctions();
+
+            for (i = 0; i < numsectors; ++i)
+            {
+                mobj_t   *mo = sectors[i].thinglist;
+
+                while (mo)
+                {
+                    mobjtype_t  type = mo->type;
+
+                    if (type == MT_BLOODSPLAT)
+                        mo->colfunc = bloodsplatcolfunc;
+                    else if (type == MT_SHADOW)
+                        mo->colfunc = (mo->shadow->type == MT_SHADOWS ? R_DrawSpectreShadowColumn :
+                            (r_translucency ? R_DrawShadowColumn : R_DrawSolidShadowColumn));
+                    else
+                        mo->colfunc = mo->info->colfunc;
+                    mo = mo->snext;
+                }
+            }
+        }
+    }
+    else
+        C_Output(C_LookupAliasFromValue(r_translucency, BOOLALIAS));
 }
 
 //
