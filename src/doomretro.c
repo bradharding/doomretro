@@ -100,8 +100,8 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
                     DWORD       vkCode = ((KBDLLHOOKSTRUCT *)lParam)->vkCode;
 
                     if (vkCode == VK_LWIN || vkCode == VK_RWIN)
-                        bEatKeystroke = (gamestate == GS_LEVEL && !vid_fullscreen && !menuactive
-                            && !paused && !consoleactive);
+                        bEatKeystroke = ((!menuactive && !paused && !consoleactive)
+                            || vid_fullscreen);
                     else if (vkCode == VK_SNAPSHOT)
                     {
                         if (wParam == WM_KEYDOWN)
