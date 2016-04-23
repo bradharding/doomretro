@@ -1468,6 +1468,8 @@ void I_InitGraphics(void)
             "not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch, linked.major,
             linked.minor, linked.patch);
 
+    SDL_DisableScreenSaver();
+
     while (i < UCHAR_MAX)
         keys[i++] = true;
     keys['v'] = keys['V'] = false;
