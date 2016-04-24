@@ -750,7 +750,8 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
             {
                 byte    dot = *source++;
 
-                *dest = tinttab60[(dot == from ? to : (dot << 8)) + *dest];
+                if (dot)
+                    *dest = tinttab60[(dot == from ? to : (dot << 8)) + *dest];
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + length + 4);
