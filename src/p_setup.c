@@ -1087,7 +1087,7 @@ void P_LoadThings(int lump)
             P_SpawnMapThing(&mt, i);
     }
 
-    srand((unsigned int)time(NULL));
+    M_ClearRandom();
 
     W_ReleaseLumpNum(lump);
 }
