@@ -1015,6 +1015,10 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         monstercount[i]++;
     }
 
+    // [BH] don't spawn any monster corpses if -nomonsters
+    if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && i != MT_MISC62)
+        return;
+
     // spawn it
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
