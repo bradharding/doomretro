@@ -567,6 +567,7 @@ altkeypic_t altkeypics[NUMCARDS] =
 };
 
 static patch_t  *altnum[10];
+static patch_t  *altnum2[10];
 static patch_t  *altweapon[NUMWEAPONS];
 static patch_t  *altendpatch;
 static patch_t  *altleftpatch;
@@ -583,8 +584,10 @@ void HU_AltInit(void)
 
     for (i = 0; i < 10; i++)
     {
-        M_snprintf(buffer, 9, "DRHUD%i", i);
+        M_snprintf(buffer, 7, "DRHUD%i", i);
         altnum[i] = W_CacheLumpName(buffer, PU_STATIC);
+        M_snprintf(buffer, 9, "DRHUD%i_2", i);
+        altnum2[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
 
     for (i = 1; i < NUMWEAPONS; i++)
@@ -644,13 +647,47 @@ static int AltHUDNumberWidth(int val)
     return (width + SHORT(altnum[val % 10]->width));
 }
 
+static void DrawAltHUDNumber2(int x, int y, int val)
+{
+    int         oldval = val;
+    patch_t     *patch;
+
+    if (val > 99)
+    {
+        patch = altnum2[val / 100];
+        V_DrawAltHUDPatch(x, y, patch, WHITE, GRAY);
+        x += SHORT(patch->width) + 1;
+    }
+    val %= 100;
+    if (val > 9 || oldval > 99)
+    {
+        patch = altnum2[val / 10];
+        V_DrawAltHUDPatch(x, y, patch, WHITE, GRAY);
+        x += SHORT(patch->width) + 1;
+    }
+    V_DrawAltHUDPatch(x, y, altnum2[val % 10], WHITE, GRAY);
+}
+
+static int AltHUDNumber2Width(int val)
+{
+    int oldval = val;
+    int width = 0;
+
+    if (val > 99)
+        width += SHORT(altnum2[val / 100]->width) + 1;
+    val %= 100;
+    if (val > 9 || oldval > 99)
+        width += SHORT(altnum2[val / 10]->width) + 1;
+    return (width + SHORT(altnum2[val % 10]->width));
+}
+
 static void HU_DrawAltHUD(void)
 {
-    int         health = MAX(0, plr->health);
-    int         armor = plr->armorpoints;
-    int         color = (health <= 20 ? RED : (health >= 100 ? GREEN : WHITE));
-    int         keys = 0;
-    int         i = 0;
+    int health = MAX(0, plr->health);
+    int armor = plr->armorpoints;
+    int color = (health <= 20 ? RED : (health >= 100 ? GREEN : WHITE));
+    int keys = 0;
+    int i = 0;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     health = MIN(health, 100);
@@ -663,6 +700,7 @@ static void HU_DrawAltHUD(void)
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 158, ALTHUD_Y + 13, altendpatch, 0, 0);
 
     V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, GRAY);
+    DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor);
     if (armor)
         V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 1, armor / 2 + 1, 6, GRAY);
 
