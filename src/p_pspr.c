@@ -205,8 +205,11 @@ void P_FireWeapon(player_t *player)
     if (readyweapon == wp_fist && !linetarget)
         return;
 
-    player->shotsfired++;
-    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+    if (weaponinfo[readyweapon].ammo != am_noammo)
+    {
+        player->shotsfired++;
+        stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+    }
 
     P_NoiseAlert(player->mo, player->mo);
 
