@@ -45,7 +45,10 @@
 #include "p_local.h"
 #include "s_sound.h"
 
+extern fixed_t  animatedliquiddiff;
 extern dboolean skipaction;
+
+extern dboolean r_liquid_bob;
 
 void G_RemoveChoppers(void);
 
@@ -140,7 +143,7 @@ void P_CalcHeight(player_t *player)
     else
         player->viewz = mo->z + player->viewheight;
 
-    if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
+    if (mo->flags2 & MF2_FEETARECLIPPED)
     {
         dboolean                    liquid = true;
         const struct msecnode_s     *seclist;
@@ -153,7 +156,13 @@ void P_CalcHeight(player_t *player)
             }
 
         if (liquid)
-            player->viewz -= FOOTCLIPSIZE;
+            if (player->playerstate == PST_DEAD && r_liquid_bob)
+            {
+                player->viewz -= animatedliquiddiff;
+                return;
+            }
+            else if (r_liquid_lowerview)
+                player->viewz -= FOOTCLIPSIZE;
     }
 
     player->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, player->viewz, mo->ceilingz - 4 * FRACUNIT);
