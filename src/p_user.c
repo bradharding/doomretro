@@ -158,7 +158,7 @@ void P_CalcHeight(player_t *player)
         if (liquid)
             if (player->playerstate == PST_DEAD && r_liquid_bob)
             {
-                player->viewz -= animatedliquiddiff;
+                player->viewz += animatedliquiddiff;
                 return;
             }
             else if (r_liquid_lowerview)
