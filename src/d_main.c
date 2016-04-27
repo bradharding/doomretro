@@ -657,6 +657,8 @@ static void D_CheckSupportedPWAD(char *filename)
         BTSX = BTSXE3 = BTSXE3A = true;
     else if (M_StringCompare(leaf, "BTSX_E3B.WAD"))
         BTSX = BTSXE3 = BTSXE3B = true;
+    else if (M_StringCompare(leaf, "E1M4B.WAD"))
+        E1M4B = true;
     else if (M_StringCompare(leaf, "E1M8B.WAD"))
         E1M8B = true;
 }

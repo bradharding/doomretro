@@ -1828,8 +1828,8 @@ void P_MapName(int ep, int map)
     switch (gamemission)
     {
         case doom:
-            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, (E1M8B && ep == 1 && map == 8 ?
-                "B" : ""));
+            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, ((E1M4B && ep == 1 && map == 4)
+                || (E1M8B && ep == 1 && map == 8) ? "B" : ""));
             if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
@@ -2310,7 +2310,7 @@ char *P_GetMapAuthor(int map)
 {
     return (MAPINFO && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author :
         (breach && map == 1 ? "Alun \"Viggles\" Bestor" :
-        (E1M8B && map == 8 ? "John Romero" : "")));
+        ((E1M4B && map == 4) || (E1M8B && map == 8) ? "John Romero" : "")));
 }
 
 void P_GetMapLiquids(int map)
@@ -2328,7 +2328,8 @@ int P_GetMapMusic(int map)
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].name : (E1M8B && map == 8 ? "Tech Gone Bad" : ""));
+    return (MAPINFO ? mapinfo[QualifyMap(map)].name : (E1M4B && map == 4 ? "Phobos Mission Control"
+        : (E1M8B && map == 8 ? "Tech Gone Bad" : "")));
 }
 
 int P_GetMapNext(int map)

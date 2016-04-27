@@ -59,6 +59,7 @@ dboolean        BTSXE2B = false;
 dboolean        BTSXE3 = false;
 dboolean        BTSXE3A = false;
 dboolean        BTSXE3B = false;
+dboolean        E1M4B = false;
 dboolean        E1M8B = false;
 
 // Set if homebrew PWAD stuff has been added.
