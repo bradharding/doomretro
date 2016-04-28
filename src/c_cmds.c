@@ -1393,12 +1393,15 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         }
                         else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
                         {
-                            int r;
-
                             thing->flags2 |= MF2_MASSACRE;
                             P_DamageMobj(thing, NULL, NULL, thing->health);
-                            thing->momx += FRACUNIT * (r = M_RandomInt(-1, 1));
-                            thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+                            if (!(thing->flags & MF_NOBLOOD))
+                            {
+                                int r;
+
+                                thing->momx += FRACUNIT * (r = M_RandomInt(-1, 1));
+                                thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
+                            }
                             kills++;
                         }
                         else if (thing->flags & MF_CORPSE)
