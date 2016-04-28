@@ -201,10 +201,6 @@ void P_FireWeapon(player_t *player)
     P_SetMobjState(player->mo, S_PLAY_ATK1);
     P_SetPsprite(player, ps_weapon, weaponinfo[readyweapon].atkstate);
 
-    // [BH] no noise alert if not punching a monster
-    if (readyweapon == wp_fist && !linetarget)
-        return;
-
     if (weaponinfo[readyweapon].ammo != am_noammo)
     {
         player->shotsfired++;
