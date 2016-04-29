@@ -545,6 +545,7 @@ static void HU_DrawHUD(void)
 
 #define WHITE           4
 #define GRAY            92
+#define DARKGRAY        104
 #define GREEN           114
 #define RED             180
 #define BLUE            200
@@ -699,12 +700,14 @@ static void HU_DrawAltHUD(void)
     if (health < 100)
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 158, ALTHUD_Y + 13, altendpatch, 0, 0);
 
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, GRAY);
     if (armor)
     {
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, GRAY);
         DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor);
         V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 1, armor / 2 + 1, 6, GRAY);
     }
+    else
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, DARKGRAY);
 
     if (health)
     {
