@@ -329,10 +329,8 @@ static void R_InitPointToAngle(void)
 //
 void R_InitTextureMapping(void)
 {
-    int         i;
-    int         x;
-    int         t;
-    fixed_t     focallength;
+    int                 i;
+    int                 x;
 
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x
@@ -344,22 +342,19 @@ void R_InitTextureMapping(void)
 
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
-    focallength = FixedDiv(centerxfrac, hitan);
+    fixed_t             focallength = FixedDiv(centerxfrac, hitan);
 
     for (i = 0; i < FINEANGLES / 2; i++)
     {
         fixed_t tangent = finetangent[i];
 
         if (tangent > hitan)
-            t = -1;
+            viewangletox[i] = -1;
         else if (tangent < lotan)
-            t = highend;
+            viewangletox[i] = highend;
         else
-        {
-            t = (centerxfrac - FixedMul(tangent, focallength) + FRACUNIT - 1) >> FRACBITS;
-            t = BETWEEN(-1, t, highend);
-        }
-        viewangletox[i] = t;
+            viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength)
+                + FRACUNIT - 1) >> FRACBITS, highend);
     }
 
     // Scan viewangletox[] to generate xtoviewangle[]:
@@ -373,12 +368,10 @@ void R_InitTextureMapping(void)
 
     // Take out the fencepost cases from viewangletox.
     for (i = 0; i < FINEANGLES / 2; i++)
-    {
         if (viewangletox[i] == -1)
             viewangletox[i] = 0;
         else if (viewangletox[i] == highend)
             viewangletox[i]--;
-    }
 
     clipangle = xtoviewangle[0];
 }
@@ -403,12 +396,14 @@ void R_InitLightTables(void)
     //  for each level / distance combination.
     for (i = 0; i < LIGHTLEVELS; i++)
     {
-        int j, startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        int     j;
+        int     startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (j = 0; j < MAXLIGHTZ; j++)
         {
             int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT);
-            int t, level = BETWEEN(0, startmap - (scale >>= LIGHTSCALESHIFT) / DISTMAP,
+            int t;
+            int level = BETWEEN(0, startmap - (scale >>= LIGHTSCALESHIFT) / DISTMAP,
                 NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: Initialize multiple colormaps
@@ -482,18 +477,10 @@ void R_ExecuteSetViewSize(void)
 
     // planes
     for (i = 0; i < viewheight; i++)
-    {
-        fixed_t dy = ABS(((i - viewheight / 2) << FRACBITS) + FRACUNIT / 2);
-
-        yslope[i] = FixedDiv(projectiony, dy);
-    }
+        yslope[i] = FixedDiv(projectiony, ABS(((i - viewheight / 2) << FRACBITS) + FRACUNIT / 2));
 
     for (i = 0; i < viewwidth; i++)
-    {
-        fixed_t cosadj = ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]);
-
-        distscale[i] = FixedDiv(FRACUNIT, cosadj);
-    }
+        distscale[i] = FixedDiv(FRACUNIT, ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]));
 
     // Calculate the light levels to use
     //  for each level / scale combination.
