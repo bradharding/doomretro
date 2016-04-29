@@ -648,7 +648,7 @@ static int AltHUDNumberWidth(int val)
     return (width + SHORT(altnum[val % 10]->width));
 }
 
-static void DrawAltHUDNumber2(int x, int y, int val)
+static void DrawAltHUDNumber2(int x, int y, int val, int color)
 {
     int         oldval = val;
     patch_t     *patch;
@@ -656,17 +656,17 @@ static void DrawAltHUDNumber2(int x, int y, int val)
     if (val > 99)
     {
         patch = altnum2[val / 100];
-        V_DrawAltHUDPatch(x, y, patch, WHITE, GRAY);
+        V_DrawAltHUDPatch(x, y, patch, WHITE, color);
         x += SHORT(patch->width) + 1;
     }
     val %= 100;
     if (val > 9 || oldval > 99)
     {
         patch = altnum2[val / 10];
-        V_DrawAltHUDPatch(x, y, patch, WHITE, GRAY);
+        V_DrawAltHUDPatch(x, y, patch, WHITE, color);
         x += SHORT(patch->width) + 1;
     }
-    V_DrawAltHUDPatch(x, y, altnum2[val % 10], WHITE, GRAY);
+    V_DrawAltHUDPatch(x, y, altnum2[val % 10], WHITE, color);
 }
 
 static int AltHUDNumber2Width(int val)
@@ -702,10 +702,20 @@ static void HU_DrawAltHUD(void)
 
     if (armor)
     {
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE,
-            (plr->armortype == GREENARMOR ? GRAY : WHITE));
-        DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor);
-        V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 1, armor / 2 + 1, 6, GRAY);
+        if (plr->armortype == GREENARMOR)
+        {
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, GRAY);
+            DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
+                GRAY);
+            V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 1, armor / 2 + 1, 6, GRAY);
+        }
+        else
+        {
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, WHITE);
+            DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
+                WHITE);
+            V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 1, armor / 2 + 1, 6, WHITE);
+        }
     }
     else
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, DARKGRAY);
