@@ -542,6 +542,11 @@ char    *s_CAPTION_FREEDM = "";
 char    *s_CAPTION_BTSXE1 = "";
 char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_BTSXE3 = "";
+char    *s_CAPTION_E1M4B = "";
+char    *s_CAPTION_E1M8B = "";
+
+char    *s_AUTHOR_BESTOR = "";
+char    *s_AUTHOR_ROMERO = "";
 
 char    *bgflatE1 = "FLOOR4_8";
 char    *bgflatE2 = "SFLR6_1";
@@ -1008,6 +1013,10 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE1,       "CAPTION_BTSXE1",       false },
     { &s_CAPTION_BTSXE2,       "CAPTION_BTSXE2",       false },
     { &s_CAPTION_BTSXE3,       "CAPTION_BTSXE3",       false },
+    { &s_CAPTION_E1M4B,        "CAPTION_E1M4B",        false },
+    { &s_CAPTION_E1M8B,        "CAPTION_E1M8B",        false },
+    { &s_AUTHOR_BESTOR,        "AUTHOR_BESTOR",        false },
+    { &s_AUTHOR_ROMERO,        "AUTHOR_ROMERO",        false },
 
     { &bgflatE1,               "BGFLATE1",             false },
     { &bgflatE2,               "BGFLATE2",             false },

@@ -41,6 +41,7 @@
 #include <time.h>
 
 #include "c_console.h"
+#include "d_deh.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
@@ -2308,9 +2309,9 @@ static int QualifyMap(int map)
 
 char *P_GetMapAuthor(int map)
 {
-    return (MAPINFO && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author :
-        (breach && map == 1 ? "Alun \"Viggles\" Bestor" :
-        ((E1M4B && map == 4) || (E1M8B && map == 8) ? "John Romero" : "")));
+    return (MAPINFO && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author
+        : (breach && map == 1 ? s_AUTHOR_BESTOR : ((E1M4B && map == 4) || (E1M8B && map == 8)
+        ? s_AUTHOR_ROMERO : "")));
 }
 
 void P_GetMapLiquids(int map)
@@ -2328,8 +2329,8 @@ int P_GetMapMusic(int map)
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].name : (E1M4B && map == 4 ? "Phobos Mission Control"
-        : (E1M8B && map == 8 ? "Tech Gone Bad" : "")));
+    return (MAPINFO ? mapinfo[QualifyMap(map)].name : (E1M4B && map == 4 ? s_CAPTION_E1M4B
+        : (E1M8B && map == 8 ? s_CAPTION_E1M8B : "")));
 }
 
 int P_GetMapNext(int map)
