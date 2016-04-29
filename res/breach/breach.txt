@@ -81,7 +81,7 @@ May Not Run With        : Vanilla/Chocolate Doom, insufficiently
                           limit-removing ports.
 Tested With             : ZDoom 2.7.1, Zandronum 2.0 and 3.0alpha,
                           Doom Retro 1.9, PrBoom+ 2.5.1.2,
-		           Eternity 3.34.37, Doomsday 1.15.0
+                          Eternity 3.34.37, Doomsday 1.15.0
 
 
 
