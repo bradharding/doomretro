@@ -167,7 +167,7 @@ typedef enum
 #define m_novertical_default                    true
 
 #define m_sensitivity_min                       0
-#define m_sensitivity_default                   24
+#define m_sensitivity_default                   32
 #define m_sensitivity_max                       128
 
 #define m_threshold_min                         0
