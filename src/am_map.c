@@ -1797,23 +1797,22 @@ static void AM_setFrameVariables(void)
     if (am_rotatemode)
     {
         int     angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
-        float   dx, dy;
-        fixed_t r;
+        fixed_t x = m_x + m_w / 2;
+        fixed_t y = m_y + m_h / 2;
+        float   dx = (float)(m_x2 - x);
+        float   dy = (float)(m_y2 - y);
+        fixed_t r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.sin = finesine[angle];
         am_frame.cos = finecosine[angle];
 
-        am_frame.centerx = m_x + m_w / 2;
-        am_frame.centery = m_y + m_h / 2;
+        am_frame.centerx = x;
+        am_frame.centery = y;
 
-        dx = (float)(m_x2 - am_frame.centerx);
-        dy = (float)(m_y2 - am_frame.centery);
-        r = (fixed_t)sqrt(dx * dx + dy * dy);
-
-        am_frame.bbox[BOXLEFT] = am_frame.centerx - r;
-        am_frame.bbox[BOXRIGHT] = am_frame.centerx + r;
-        am_frame.bbox[BOXBOTTOM] = am_frame.centery - r;
-        am_frame.bbox[BOXTOP] = am_frame.centery + r;
+        am_frame.bbox[BOXLEFT] = x - r;
+        am_frame.bbox[BOXRIGHT] = x + r;
+        am_frame.bbox[BOXBOTTOM] = y - r;
+        am_frame.bbox[BOXTOP] = y + r;
     }
     else
     {
