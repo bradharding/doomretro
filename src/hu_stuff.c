@@ -539,7 +539,7 @@ static void HU_DrawHUD(void)
     }
 }
 
-#define ALTHUD_LEFT_X   22
+#define ALTHUD_LEFT_X   21
 #define ALTHUD_RIGHT_X  459
 #define ALTHUD_Y        300
 
@@ -692,10 +692,10 @@ static void HU_DrawAltHUD(void)
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     health = MIN(health, 100);
-    V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 13, health + 1, 8, color);
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 39, ALTHUD_Y + 1, altleftpatch, 0, 0);
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 58, ALTHUD_Y + 13, altendpatch, WHITE, color);
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 58 + health - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color);
+    V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health + 1, 8, color);
+    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, 0, 0);
+    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
+    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color);
 
     if (health < 100)
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 158, ALTHUD_Y + 13, altendpatch, 0, 0);
@@ -704,21 +704,21 @@ static void HU_DrawAltHUD(void)
     {
         if (plr->armortype == GREENARMOR)
         {
-            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, GRAY);
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, GRAY);
             DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
                 GRAY);
-            V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 1, armor / 2 + 1, 6, GRAY);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 1, armor / 2 + 1, 6, GRAY);
         }
         else
         {
-            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, WHITE);
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, WHITE);
             DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
                 WHITE);
-            V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 1, armor / 2 + 1, 6, WHITE);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 1, armor / 2 + 1, 6, WHITE);
         }
     }
     else
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 42, ALTHUD_Y, altarmpatch, WHITE, DARKGRAY);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, DARKGRAY);
 
     if (health)
     {
