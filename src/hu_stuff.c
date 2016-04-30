@@ -544,6 +544,7 @@ static void HU_DrawHUD(void)
 #define ALTHUD_Y        300
 
 #define WHITE           4
+#define LIGHTGRAY       84
 #define GRAY            92
 #define DARKGRAY        104
 #define GREEN           114
@@ -711,10 +712,10 @@ static void HU_DrawAltHUD(void)
         }
         else
         {
-            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, WHITE);
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, LIGHTGRAY);
             DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
-                WHITE);
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 1, armor / 2 + 1, 6, WHITE);
+                LIGHTGRAY);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 1, armor / 2 + 1, 6, LIGHTGRAY);
         }
     }
     else
