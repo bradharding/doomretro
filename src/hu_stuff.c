@@ -693,7 +693,7 @@ static void HU_DrawAltHUD(void)
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     health = MIN(health, 100);
     V_FillTransRect(ALTHUD_LEFT_X + 58, ALTHUD_Y + 13, health + 1, 8, color);
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, 0, 0);
+    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 39, ALTHUD_Y + 1, altleftpatch, 0, 0);
     V_DrawAltHUDPatch(ALTHUD_LEFT_X + 58, ALTHUD_Y + 13, altendpatch, WHITE, color);
     V_DrawAltHUDPatch(ALTHUD_LEFT_X + 58 + health - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color);
 
