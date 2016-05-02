@@ -2911,7 +2911,7 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         --itemOn;
                     if (currentMenu == &OptionsDef && !itemOn && !usergame)
-                        --itemOn;
+                        itemOn = currentMenu->numitems - 1;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
                 } while (currentMenu->menuitems[itemOn].status == -1);
