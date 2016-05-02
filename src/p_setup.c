@@ -294,6 +294,9 @@ void P_LoadVertexes(int lump)
                 {
                     vertexes[i].x = SHORT(vertexfix[j].newx) << FRACBITS;
                     vertexes[i].y = SHORT(vertexfix[j].newy) << FRACBITS;
+                    if (devparm)
+                        C_Warning("The position of vertex %s has been changed to (%i,%i).",
+                            commify(vertexfix[j].vertex), vertexfix[j].newx, vertexfix[j].newy);
                     break;
                 }
                 j++;
@@ -413,7 +416,7 @@ void P_LoadSegs(int lump)
         if (li->linedef->special >= BOOMLINESPECIALS)
             boomlinespecials = true;
 
-        // Apply any map-specific fixes.
+        // [BH] Apply any map-specific fixes.
         if (canmodify && r_fixmaperrors)
         {
             int j = 0;
@@ -426,19 +429,42 @@ void P_LoadSegs(int lump)
                     && gamemap == linefix[j].map
                     && side == linefix[j].side)
                 {
-                    if (linefix[j].toptexture[0] != '\0')
+                    if (*linefix[j].toptexture)
+                    {
                         li->sidedef->toptexture = R_TextureNumForName(linefix[j].toptexture);
-                    if (linefix[j].middletexture[0] != '\0')
+                        if (devparm)
+                            C_Warning("The top texture of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), linefix[j].toptexture);
+                    }
+                    if (*linefix[j].middletexture)
+                    {
                         li->sidedef->midtexture = R_TextureNumForName(linefix[j].middletexture);
-                    if (linefix[j].bottomtexture[0] != '\0')
+                        if (devparm)
+                            C_Warning("The middle texture of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), linefix[j].middletexture);
+                    }
+                    if (*linefix[j].bottomtexture)
+                    {
                         li->sidedef->bottomtexture = R_TextureNumForName(linefix[j].bottomtexture);
+                        if (devparm)
+                            C_Warning("The bottom texture of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), linefix[j].bottomtexture);
+                    }
                     if (linefix[j].offset != DEFAULT)
                     {
                         li->offset = SHORT(linefix[j].offset) << FRACBITS;
                         li->sidedef->textureoffset = 0;
+                        if (devparm)
+                            C_Warning("The offset of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), commify(linefix[j].offset));
                     }
                     if (linefix[j].rowoffset != DEFAULT)
+                    {
                         li->sidedef->rowoffset = SHORT(linefix[j].rowoffset) << FRACBITS;
+                        if (devparm)
+                            C_Warning("The row offset of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), commify(linefix[j].rowoffset));
+                    }
                     if (linefix[j].flags & ML_DONTDRAW)
                         li->linedef->hidden = true;
                     if (linefix[j].flags != DEFAULT)
@@ -447,11 +473,24 @@ void P_LoadSegs(int lump)
                             li->linedef->flags &= ~linefix[j].flags;
                         else
                             li->linedef->flags |= linefix[j].flags;
+                        if (devparm)
+                            C_Warning("The flags of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), commify(li->linedef->flags));
                     }
                     if (linefix[j].special != DEFAULT)
+                    {
                         li->linedef->special = linefix[j].special;
+                        if (devparm)
+                            C_Warning("The special of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), commify(linefix[j].special));
+                    }
                     if (linefix[j].tag != DEFAULT)
+                    {
                         li->linedef->tag = linefix[j].tag;
+                        if (devparm)
+                            C_Warning("The tag of linedef %s has been changed to %s.",
+                                commify(linefix[j].linedef), commify(linefix[j].tag));
+                    }
                     break;
                 }
                 j++;
@@ -653,7 +692,7 @@ void P_LoadSectors(int lump)
         ss->floorlightsec = -1; // sector used to get floor lighting
         ss->ceilinglightsec = -1;
 
-        // Apply any level-specific fixes.
+        // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors)
         {
             int j = 0;
@@ -665,18 +704,48 @@ void P_LoadSectors(int lump)
                     && gameepisode == sectorfix[j].epsiode
                     && gamemap == sectorfix[j].map)
                 {
-                    if (sectorfix[j].floorpic[0] != '\0')
+                    if (*sectorfix[j].floorpic)
+                    {
                         ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
-                    if (sectorfix[j].ceilingpic[0] != '\0')
+                        if (devparm)
+                            C_Warning("The floor texture of sector %s has been changed to %s.",
+                                commify(sectorfix[j].sector), sectorfix[j].floorpic);
+                    }
+                    if (*sectorfix[j].ceilingpic)
+                    {
                         ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
+                        if (devparm)
+                            C_Warning("The ceiling texture of sector %s has been changed to %s.",
+                                commify(sectorfix[j].sector), sectorfix[j].ceilingpic);
+                    }
                     if (sectorfix[j].floorheight != DEFAULT)
+                    {
                         ss->floorheight = SHORT(sectorfix[j].floorheight) << FRACBITS;
+                        if (devparm)
+                            C_Warning("The floor height of sector %s has been changed to %s.",
+                                commify(sectorfix[j].sector), commify(sectorfix[j].floorheight));
+                    }
                     if (sectorfix[j].ceilingheight != DEFAULT)
+                    {
                         ss->ceilingheight = SHORT(sectorfix[j].ceilingheight) << FRACBITS;
+                        if (devparm)
+                            C_Warning("The ceiling height of sector %s has been changed to %s.",
+                                commify(sectorfix[j].sector), commify(sectorfix[j].ceilingheight));
+                    }
                     if (sectorfix[j].special != DEFAULT)
+                    {
                         ss->special = SHORT(sectorfix[j].special) << FRACBITS;
+                        if (devparm)
+                            C_Warning("The special of sector %s has been changed to %s.",
+                                commify(sectorfix[j].sector), commify(sectorfix[j].special));
+                    }
                     if (sectorfix[j].tag != DEFAULT)
+                    {
                         ss->tag = SHORT(sectorfix[j].tag) << FRACBITS;
+                        if (devparm)
+                            C_Warning("The tag of sector %s has been changed to %s.",
+                                commify(sectorfix[j].sector), commify(sectorfix[j].tag));
+                    }
                     break;
                 }
                 j++;
@@ -1048,7 +1117,7 @@ void P_LoadThings(int lump)
         mt.type = SHORT(mt.type);
         mt.options = SHORT(mt.options);
 
-        // Apply any level-specific fixes.
+        // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors)
         {
             int j = 0;
@@ -1069,11 +1138,24 @@ void P_LoadThings(int lump)
                     {
                         mt.x = SHORT(thingfix[j].newx);
                         mt.y = SHORT(thingfix[j].newy);
+                        if (devparm)
+                            C_Warning("The position of thing %s has been changed to (%i,%i).",
+                                commify(thingfix[j].thing), mt.x, mt.y);
                     }
                     if (thingfix[j].angle != DEFAULT)
+                    {
                         mt.angle = SHORT(thingfix[j].angle);
+                        if (devparm)
+                            C_Warning("The angle of thing %s has been changed to %i.",
+                                commify(thingfix[j].thing), thingfix[j].angle);
+                    }
                     if (thingfix[j].options != DEFAULT)
+                    {
                         mt.options = thingfix[j].options;
+                        if (devparm)
+                            C_Warning("The flags of thing %s has been changed to %i.",
+                                commify(thingfix[j].thing), thingfix[j].options);
+                    }
                     break;
                 }
                 j++;
