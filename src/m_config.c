@@ -615,6 +615,9 @@ static void M_CheckCVARs(void)
 
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
 
+    if (!*playername)
+        playername = strdup(playername_default);
+
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;
 
