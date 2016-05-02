@@ -161,23 +161,24 @@ void D_ProcessEvents(void)
     for (; eventtail != eventhead; eventtail = (eventtail + 1) & (MAXEVENTS - 1))
     {
         event_t         *ev = events + eventtail;
-#if !defined(WIN32)
-        static dboolean enter_down = false;
-#endif
 
         if (wipe && ev->type == ev_mouse)
             continue;
 
 #if !defined(WIN32)
-        // Handle alt+enter on non Windows systems
-        if (altdown && !enter_down && ev->type == ev_keydown && ev->data1 == KEY_ENTER)
         {
-            enter_down = true;
-            I_ToggleFullscreen();
-            continue;
+            static dboolean     enter_down = false;
+
+            // Handle ALT+ENTER on non-Windows systems
+            if (altdown && !enter_down && ev->type == ev_keydown && ev->data1 == KEY_ENTER)
+            {
+                enter_down = true;
+                I_ToggleFullscreen();
+                continue;
+            }
+            if (ev->type == ev_keyup && ev->data1 == KEY_ENTER)
+                enter_down = false;
         }
-        if (ev->type == ev_keyup && ev->data1 == KEY_ENTER)
-            enter_down = false;
 #endif
 
         if (C_Responder(ev))
@@ -264,7 +265,7 @@ void D_Display(void)
     {
         HU_Erase();
 
-        ST_Drawer(viewheight == SCREENHEIGHT, true);
+        ST_Drawer((viewheight == SCREENHEIGHT), true);
 
         // draw the view directly
         R_RenderPlayerView(&players[0]);
