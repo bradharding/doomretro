@@ -102,7 +102,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     if (player)
                     {
-                        // [BH] teleport can be drawn on automap
+                        // [BH] teleport can be drawn on AutoMap
                         if (line->backsector)
                         {
                             int j;

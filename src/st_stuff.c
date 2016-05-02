@@ -444,8 +444,8 @@ void ST_refreshBackground(void)
 // ST_AutomapEvent
 //
 // haleyjd 09/29/04: Replaces the weird hack Dave Taylor put into
-// ST_Responder to toggle the status bar when the automap is toggled.
-// The automap now calls this function instead of sending fake events
+// ST_Responder to toggle the status bar when the AutoMap is toggled.
+// The AutoMap now calls this function instead of sending fake events
 // to ST_Responder, allowing that function to be minimized.
 //
 void ST_AutomapEvent(int type)

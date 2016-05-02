@@ -138,7 +138,7 @@ void P_InitPicAnims(void)
     isliquid = Z_Malloc(size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
 
-    // [BH] indicate obvious teleport textures for automap
+    // [BH] indicate obvious teleport textures for AutoMap
     if (BTSX)
     {
         isteleport[R_CheckFlatNumForName("SLIME09")] = true;

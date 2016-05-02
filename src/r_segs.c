@@ -586,10 +586,10 @@ void R_StoreWallRange(int start, int stop)
 
     linedef = curline->linedef;
 
-    // mark the segment as visible for automap
+    // mark the segment as visible for AutoMap
     linedef->flags |= ML_MAPPED;
 
-    // [BH] if in automap, we're done now that line is mapped
+    // [BH] if in AutoMap, we're done now that line is mapped
     if (automapactive)
         return;
 
@@ -759,10 +759,10 @@ void R_StoreWallRange(int start, int stop)
         }
 
         // killough 1/17/98: this test is required if the fix
-        // for the automap bug (r_bsp.c) is used, or else some
+        // for the AutoMap bug (r_bsp.c) is used, or else some
         // sprites will be displayed behind closed doors. That
         // fix prevents lines behind closed doors with dropoffs
-        // from being displayed on the automap.
+        // from being displayed on the AutoMap.
         //
         // killough 4/7/98: make doorclosed external variable
         {

@@ -283,7 +283,7 @@ typedef enum
     // Object is blood
     MF2_BLOOD                     = 0x00800000,
 
-    // Object's thing triangle is not displayed in automap
+    // Object's thing triangle is not displayed in AutoMap
     MF2_DONOTMAP                  = 0x01000000,
 
     // Object has smoke trail

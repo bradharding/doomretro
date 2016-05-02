@@ -134,7 +134,7 @@ byte    *gridcolor;
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
 #define INITSCALEMTOF           125114
-// how much the automap moves window per tic in map coordinates
+// how much the AutoMap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
 #define F_PANINC                (8 << speedtoggle)
 // how much zoom-in per tic
@@ -161,7 +161,7 @@ typedef struct
 } mline_t;
 
 //
-// The vector graphics for the automap.
+// The vector graphics for the AutoMap.
 //  A line drawing of the player pointing right,
 //   starting from the middle.
 //
@@ -658,11 +658,11 @@ static void AM_toggleRotateMode(void)
 }
 
 //
-// Handle events (user inputs) in automap mode
+// Handle events (user inputs) in AutoMap mode
 //
 dboolean AM_Responder(event_t *ev)
 {
-    int                 rc = false;
+    int rc = false;
 
     direction = 0;
     modstate = SDL_GetModState();
@@ -778,7 +778,7 @@ dboolean AM_Responder(event_t *ev)
                     AM_toggleZoomIn();
                 }
 
-                // leave automap
+                // leave AutoMap
                 else if (key == AM_ENDKEY && !(modstate & KMOD_ALT) && keydown != AM_ENDKEY)
                 {
                     keydown = key;
@@ -1144,7 +1144,7 @@ void AM_Ticker(void)
 }
 
 //
-// Clear automap frame buffer.
+// Clear AutoMap frame buffer.
 //
 void AM_clearFB(void)
 {
@@ -1623,7 +1623,7 @@ static void AM_drawThings(void)
     for (i = 0; i < numsectors; ++i)
     {
         // e6y
-        // Two-pass method for better usability of automap:
+        // Two-pass method for better usability of AutoMap:
         // The first one will draw all things except enemies
         // The second one is for enemies only
         // Stop after first pass if the current sector has no enemies

@@ -82,7 +82,7 @@ line_t          **spechit;
 static int      spechit_max;
 int             numspechit;
 
-angle_t         shootangle;     // [BH] angle of blood and puffs for automap
+angle_t         shootangle;     // [BH] angle of blood and puffs for AutoMap
 
 // Temporary holder for thing_sectorlist threads
 msecnode_t      *sector_list = NULL;    // phares 3/16/98

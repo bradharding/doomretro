@@ -267,9 +267,9 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 // sorta called by HU_Erase and just better darn get things straight
 void HUlib_eraseTextLine(hu_textline_t *l)
 {
-    // Only erases when NOT in automap and the screen is reduced,
+    // Only erases when NOT in AutoMap and the screen is reduced,
     // and the text must either need updating or refreshing
-    // (because of a recent change back from the automap)
+    // (because of a recent change back from the AutoMap)
     if (!automapactive && viewwindowx && l->needsupdate)
     {
         int     y;

@@ -145,23 +145,23 @@ typedef struct
 // Sound rendering: don't let sound cross two of these.
 #define ML_SOUNDBLOCK           64
 
-// Don't draw on the automap at all.
+// Don't draw on the AutoMap at all.
 #define ML_DONTDRAW             128
 
-// Set if already seen, thus drawn in automap.
+// Set if already seen, thus drawn in AutoMap.
 #define ML_MAPPED               256
 
 //jff 3/21/98 Set if line absorbs use by player
 //allow multiple push/switch triggers to be used on one push
 #define ML_PASSUSE              512
 
-// [BH] Line will be shown as a wall in automap.
+// [BH] Line will be shown as a wall in AutoMap.
 #define ML_DRAWASWALL           1024
 
 // [BH] Line will trigger sector 666 if no monsters.
 #define ML_TRIGGER666           2048
 
-// [BH] Line won't be shown as teleporter in automap.
+// [BH] Line won't be shown as teleporter in AutoMap.
 #define ML_TELEPORTTRIGGERED    4096
 
 // Sector definition, from editing.

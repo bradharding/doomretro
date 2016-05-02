@@ -691,7 +691,7 @@ dboolean G_Responder(event_t *ev)
             return true;        // status window ate it
         if (!mapwindow)
             if (AM_Responder(ev))
-                return true;    // automap ate it
+                return true;    // AutoMap ate it
     }
 
     if (gamestate == GS_FINALE)

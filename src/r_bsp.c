@@ -234,7 +234,7 @@ void R_ClearClipSegs(void)
     newend = solidsegs + 2;
 }
 
-// killough 1/18/98 -- This function is used to fix the automap bug which
+// killough 1/18/98 -- This function is used to fix the AutoMap bug which
 // showed lines behind closed doors simply because the door had a dropoff.
 //
 // It assumes that DOOM has already ruled out a door being closed because
@@ -474,7 +474,7 @@ static void R_AddLine(seg_t *line)
         || backsector->interpfloorheight >= frontsector->interpceilingheight)
         goto clipsolid;
 
-    // This fixes the automap floor height bug -- killough 1/18/98:
+    // This fixes the AutoMap floor height bug -- killough 1/18/98:
     // killough 4/7/98: optimize: save result in doorclosed for use in r_segs.c
     if ((doorclosed = R_DoorClosed()))
         goto clipsolid;
