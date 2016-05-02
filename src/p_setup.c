@@ -465,8 +465,6 @@ void P_LoadSegs(int lump)
                             C_Warning("The row offset of linedef %s has been changed to %s.",
                                 commify(linefix[j].linedef), commify(linefix[j].rowoffset));
                     }
-                    if (linefix[j].flags & ML_DONTDRAW)
-                        li->linedef->hidden = true;
                     if (linefix[j].flags != DEFAULT)
                     {
                         if (li->linedef->flags & linefix[j].flags)
@@ -1196,7 +1194,6 @@ static void P_LoadLineDefs(int lump)
         vertex_t                *v1, *v2;
 
         ld->flags = (unsigned short)SHORT(mld->flags);
-        ld->hidden = false;
 
         ld->special = SHORT(mld->special);
 

@@ -233,8 +233,6 @@ typedef struct line_s
     // Animation related.
     unsigned short      flags;
 
-    dboolean            hidden;
-
     short               special;
     short               tag;
 
