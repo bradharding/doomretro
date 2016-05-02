@@ -472,7 +472,7 @@ void P_LoadSegs(int lump)
                         else
                             li->linedef->flags |= linefix[j].flags;
                         if (devparm)
-                            C_Warning("The flags of linedef %s has been changed to %s.",
+                            C_Warning("The flags of linedef %s have been changed to %s.",
                                 commify(linefix[j].linedef), commify(li->linedef->flags));
                     }
                     if (linefix[j].special != DEFAULT)
@@ -1151,7 +1151,7 @@ void P_LoadThings(int lump)
                     {
                         mt.options = thingfix[j].options;
                         if (devparm)
-                            C_Warning("The flags of thing %s has been changed to %i.",
+                            C_Warning("The flags of thing %s have been changed to %i.",
                                 commify(thingfix[j].thing), thingfix[j].options);
                     }
                     break;
