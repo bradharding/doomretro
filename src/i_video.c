@@ -331,7 +331,7 @@ static void FreeSurfaces(void)
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    I_DestroyExternalAutomap();
+    I_DestroyExternalAutoMap();
 }
 
 void I_ShutdownGraphics(void)
@@ -799,7 +799,7 @@ void I_UpdateBlitFunc(void)
         (nearestlinear ? I_Blit_NearestLinear : I_Blit));
 }
 
-void I_Blit_Automap(void)
+void I_Blit_AutoMap(void)
 {
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
@@ -847,7 +847,7 @@ void I_RestoreFocus(void)
 #endif
 }
 
-void I_CreateExternalAutomap(dboolean output)
+void I_CreateExternalAutoMap(dboolean output)
 {
     if (!am_external)
         return;
@@ -884,7 +884,7 @@ void I_CreateExternalAutomap(dboolean output)
     SDL_SetPaletteColors(mappalette, colors, 0, 256);
 
     mapscreen = mapsurface->pixels;
-    mapblitfunc = I_Blit_Automap;
+    mapblitfunc = I_Blit_AutoMap;
 
     map_rect.w = SCREENWIDTH;
     map_rect.h = SCREENHEIGHT - SBARHEIGHT;
@@ -895,7 +895,7 @@ void I_CreateExternalAutomap(dboolean output)
         C_Output("Created an external AutoMap on display %i.", am_displayindex + 1);
 }
 
-void I_DestroyExternalAutomap(void)
+void I_DestroyExternalAutoMap(void)
 {
     SDL_FreePalette(mappalette);
     SDL_FreeSurface(mapbuffer);
@@ -1360,7 +1360,7 @@ void I_RestartGraphics(void)
     SetVideoMode(false);
     if (vid_widescreen)
         I_ToggleWidescreen(true);
-    I_CreateExternalAutomap(false);
+    I_CreateExternalAutoMap(false);
 
 #if defined(WIN32)
     I_InitWindows32();
@@ -1504,7 +1504,7 @@ void I_InitGraphics(void)
     SetVideoMode(true);
 
     mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    I_CreateExternalAutomap(true);
+    I_CreateExternalAutoMap(true);
 
 #if defined(WIN32)
     I_InitWindows32();

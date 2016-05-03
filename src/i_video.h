@@ -81,9 +81,9 @@ void I_Blit_NearestLinear_Shake(void);
 void I_Blit_ShowFPS_Shake(void);
 void I_Blit_NearestLinear_ShowFPS_Shake(void);
 void I_UpdateBlitFunc(void);
-void I_Blit_Automap(void);
-void I_CreateExternalAutomap(dboolean output);
-void I_DestroyExternalAutomap(void);
+void I_Blit_AutoMap(void);
+void I_CreateExternalAutoMap(dboolean output);
+void I_DestroyExternalAutoMap(void);
 
 void I_ToggleFullscreen(void);
 

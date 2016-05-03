@@ -58,7 +58,7 @@
 
 // Called by main loop.
 dboolean ST_Responder(event_t *ev);
-void ST_AutomapEvent(int type);
+void ST_AutoMapEvent(int type);
 
 // Called by main loop.
 void ST_Ticker(void);
@@ -71,13 +71,6 @@ void ST_Start(void);
 
 // Called by startup code.
 void ST_Init(void);
-
-// States for status bar code.
-typedef enum
-{
-    AutomapState,
-    FirstPersonState
-} st_stateenum_t;
 
 extern cheatseq_t       cheat_mus;
 extern cheatseq_t       cheat_mus_xy;

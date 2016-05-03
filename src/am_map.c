@@ -64,7 +64,7 @@
 
 #define MASKCOLOR               251
 
-// Automap colors
+// AutoMap colors
 int     am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 int     am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 int     am_allmapwallcolor = am_allmapwallcolor_default;
@@ -80,7 +80,7 @@ int     am_tswallcolor = am_tswallcolor_default;
 int     am_wallcolor = am_wallcolor_default;
 int     am_xhaircolor = am_xhaircolor_default;
 
-// Automap color priorities
+// AutoMap color priorities
 #define PLAYERPRIORITY          12
 #define THINGPRIORITY           11
 #define WALLPRIORITY            10
@@ -458,7 +458,7 @@ static void AM_initVariables(dboolean mainwindow)
     }
 
     // inform the status bar of the change
-    ST_AutomapEvent(AM_MSGENTERED);
+    ST_AutoMapEvent(AM_MSGENTERED);
 }
 
 //
@@ -487,7 +487,7 @@ void AM_Stop(void)
 {
     automapactive = false;
     HU_ClearMessages();
-    ST_AutomapEvent(AM_MSGEXITED);
+    ST_AutoMapEvent(AM_MSGEXITED);
     stopped = true;
 }
 
@@ -1152,7 +1152,7 @@ void AM_clearFB(void)
 }
 
 //
-// Automap clipping of lines.
+// AutoMap clipping of lines.
 //
 // Based on Cohen-Sutherland clipping algorithm but with a slightly
 // faster reject and precalculated slopes. If the speed is needed,
