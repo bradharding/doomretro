@@ -50,6 +50,7 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "SDL_image.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -1304,7 +1305,7 @@ extern char             maptitle[128];
 extern dboolean         splashscreen;
 extern int              titlesequence;
 
-dboolean V_SaveBMP(SDL_Window *window, char *path)
+dboolean V_SavePNG(SDL_Window *window, char *path)
 {
     dboolean            result = false;
     SDL_Surface         *surface = SDL_GetWindowSurface(window);
@@ -1328,7 +1329,7 @@ dboolean V_SaveBMP(SDL_Window *window, char *path)
 
                 if (screenshot)
                 {
-                    result = !SDL_SaveBMP(screenshot, path);
+                    result = !IMG_SavePNG(screenshot, path);
                     SDL_FreeSurface(screenshot);
                 }
             }
@@ -1384,16 +1385,16 @@ dboolean V_ScreenShot(void)
     do
     {
         if (!count)
-            M_snprintf(lbmname, sizeof(lbmname), "%s.bmp", makevalidfilename(mapname));
+            M_snprintf(lbmname, sizeof(lbmname), "%s.png", makevalidfilename(mapname));
         else
-            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", makevalidfilename(mapname), count);
+            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
         ++count;
         M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S PACKAGE_NAME, folder);
         M_MakeDirectory(lbmpath);
         M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", lbmpath, lbmname);
     } while (M_FileExists(lbmpath));
 
-    result = V_SaveBMP(window, lbmpath);
+    result = V_SavePNG(window, lbmpath);
 
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
@@ -1401,14 +1402,14 @@ dboolean V_ScreenShot(void)
 
         do
         {
-            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", makevalidfilename(mapname), count);
+            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
             ++count;
             M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S PACKAGE_NAME, folder);
             M_MakeDirectory(lbmpath);
             M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", lbmpath, lbmname);
         } while (M_FileExists(lbmpath));
 
-        result = V_SaveBMP(mapwindow, lbmpath);
+        result = V_SavePNG(mapwindow, lbmpath);
     }
 
     return result;
