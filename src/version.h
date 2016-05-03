@@ -39,14 +39,14 @@
 #if !defined(__VERSION_H__)
 #define __VERSION_H__
 
-#define PACKAGE_VERSION                 2,1,3,0
-#define PACKAGE_VERSIONSTRING           "2.1.3"
+#define PACKAGE_VERSION                 2,1,4,0
+#define PACKAGE_VERSIONSTRING           "2.1.4"
 #if defined (_DEBUG)
-#define PACKAGE_BRANDINGSTRING          "DOOM Retro v2.1.3 (Debug Build)"
+#define PACKAGE_BRANDINGSTRING          "DOOM Retro v2.1.4 (Debug Build)"
 #else
-#define PACKAGE_BRANDINGSTRING          "DOOM Retro v2.1.3"
+#define PACKAGE_BRANDINGSTRING          "DOOM Retro v2.1.4"
 #endif
-#define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v2.1.3"
+#define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v2.1.4"
 #define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM Retro v2.1.2"
 
 #define PACKAGE                         "doomretro"
