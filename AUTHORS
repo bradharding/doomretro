@@ -144,6 +144,10 @@ Libraries Utilized
 Simple DirectMedia Layer (SDL)
     Sam Lantinga et al.
 
+SDL_image
+    Sam Lantinga
+    Mattias Engdegård
+
 SDL_mixer
     Sam Lantinga
     Stephane Peter
