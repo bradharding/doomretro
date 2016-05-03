@@ -1205,8 +1205,8 @@ static void P_LoadLineDefs(int lump)
 
         ld->tranlump = -1;   // killough 4/11/98: no translucency by default
 
-        ld->slopetype = !ld->dx ? ST_VERTICAL : !ld->dy ? ST_HORIZONTAL :
-            FixedDiv(ld->dy, ld->dx) > 0 ? ST_POSITIVE : ST_NEGATIVE;
+        ld->slopetype = (!ld->dx ? ST_VERTICAL : (!ld->dy ? ST_HORIZONTAL :
+            (FixedDiv(ld->dy, ld->dx) > 0 ? ST_POSITIVE : ST_NEGATIVE)));
 
         if (v1->x < v2->x)
         {
@@ -1477,11 +1477,11 @@ static void P_CreateBlockMap(void)
             int dy = (ady < 0 ? -1 : 1);
 
             // difference in preferring to move across y (>0) instead of x (<0)
-            int diff = !adx ? 1 : !ady ? -1 :
+            int diff = (!adx ? 1 : (!ady ? -1 :
                 (((x >> MAPBTOFRAC) << MAPBTOFRAC)
                 + (dx > 0 ? MAPBLOCKUNITS - 1 : 0) - x) * (ady = abs(ady)) * dx
                 - (((y >> MAPBTOFRAC) << MAPBTOFRAC)
-                + (dy > 0 ? MAPBLOCKUNITS - 1 : 0) - y) * (adx = abs(adx)) * dy;
+                + (dy > 0 ? MAPBLOCKUNITS - 1 : 0) - y) * (adx = abs(adx)) * dy));
 
             // starting block, and pointer to its blocklist structure
             int b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
