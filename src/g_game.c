@@ -900,20 +900,25 @@ void G_Ticker(void)
 
                 if (V_ScreenShot())
                 {
-                    static char     message[512];
+                    static char     buffer1[512];
+                    static char     buffer2[512];
 
                     S_StartSound(NULL, sfx_swtchx);
-                    M_snprintf(message, sizeof(message), s_GSCREENSHOT, uppercase(lbmname));
-                    HU_PlayerMessage(message, false);
+
+                    M_snprintf(buffer1, sizeof(buffer1), s_GSCREENSHOT, uppercase(lbmname));
+                    players[0].message = buffer1;
                     message_dontfuckwithme = true;
                     if (menuactive)
                     {
                         message_dontpause = true;
                         blurred = false;
                     }
+
+                    M_snprintf(buffer2, sizeof(buffer2), s_GSCREENSHOT, uppercase(lbmpath));
+                    C_Output("%s.", buffer2);
                 }
                 else
-                    C_Warning("No screenshot was saved.");
+                    C_Warning("No screenshot was taken.");
                 gameaction = ga_nothing;
                 break;
         }

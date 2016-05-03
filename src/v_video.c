@@ -1292,10 +1292,6 @@ void V_Init(void)
     GetPixelSize();
 }
 
-#if !defined(MAX_PATH)
-#define MAX_PATH        260
-#endif
-
 char                    lbmname[MAX_PATH];
 char                    lbmpath[MAX_PATH];
 
@@ -1398,8 +1394,7 @@ dboolean V_ScreenShot(void)
 
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
-        C_Output(s_GSCREENSHOT, uppercase(lbmname));
-
+        static char     buffer[512];
         do
         {
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
@@ -1410,6 +1405,9 @@ dboolean V_ScreenShot(void)
         } while (M_FileExists(lbmpath));
 
         result = V_SavePNG(mapwindow, lbmpath);
+
+        M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, uppercase(lbmpath));
+        C_Output("%s.", buffer);
     }
 
     return result;

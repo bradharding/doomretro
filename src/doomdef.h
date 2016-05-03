@@ -54,6 +54,10 @@
 #include <strings.h>
 #endif
 
+#if !defined(MAX_PATH)
+#define MAX_PATH        260
+#endif
+
 //
 // The packed attribute forces structures to be packed into the minimum
 // space necessary. If this is not done, the compiler may align structure
