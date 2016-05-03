@@ -903,7 +903,7 @@ void G_Ticker(void)
                     static char     message[512];
 
                     S_StartSound(NULL, sfx_swtchx);
-                    M_snprintf(message, sizeof(message), s_GSCREENSHOT, lbmname);
+                    M_snprintf(message, sizeof(message), s_GSCREENSHOT, uppercase(lbmname));
                     HU_PlayerMessage(message, false);
                     message_dontfuckwithme = true;
                     if (menuactive)

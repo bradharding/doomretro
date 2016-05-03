@@ -1398,7 +1398,7 @@ dboolean V_ScreenShot(void)
 
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
-        C_Output(s_GSCREENSHOT, lbmname);
+        C_Output(s_GSCREENSHOT, uppercase(lbmname));
 
         do
         {
