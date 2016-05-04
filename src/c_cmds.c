@@ -2930,7 +2930,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         float   value = -1.0f;
 
         if (M_StringCompare(parm1, "off"))
-            r_gamma = 1.0f;
+            value = 1.0f;
         else
             sscanf(parm1, "%10f", &value);
 
