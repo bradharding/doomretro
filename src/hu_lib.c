@@ -255,7 +255,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
                 if (r_translucency && !hacx)
                 {
-                    color = tinttab33[(*dest2 << 8) + color];
+                    color = tinttab25[(*dest2 << 8) + color];
                     if (color >= 168 && color <= 175)
                         color -= 144;
                 }
