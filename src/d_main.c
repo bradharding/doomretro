@@ -122,7 +122,7 @@ dboolean                advancetitle;
 dboolean                wipe = true;
 dboolean                forcewipe = false;
 
-dboolean                splashscreen;
+dboolean                splashscreen = false;
 
 extern dboolean         alwaysrun;
 
