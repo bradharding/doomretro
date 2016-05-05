@@ -1104,9 +1104,6 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     {
         P_SetMobjState(th, S_PUFF3);
 
-        // [BH] but still make a sound
-        S_StartSound(th, sfx_punch);
-
         // [BH] vibrate XInput gamepads
         if (gp_vibrate && vibrate)
         {
@@ -1373,6 +1370,8 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
         z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(x, y, z, type);
+
+    P_NoiseAlert(source, source);
 
     if (th->info->seesound)
         S_StartSound(th, th->info->seesound);

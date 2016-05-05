@@ -1513,6 +1513,8 @@ dboolean PTR_AimTraverse(intercept_t *in)
     return false;                       // don't go any farther
 }
 
+dboolean        hitwall;
+
 //
 // PTR_ShootTraverse
 //
@@ -1582,6 +1584,8 @@ hitline:
 
         // Spawn bullet puffs.
         P_SpawnPuff(x, y, z, shootangle);
+
+        hitwall = true;
 
         // don't go any farther
         return false;

@@ -59,6 +59,8 @@ unsigned int    stat_shotshit = 0;
 dboolean        successfulshot;
 dboolean        skippsprinterp = false;
 
+extern dboolean hitwall;
+
 void P_CheckMissileSpawn(mobj_t *th);
 
 //
@@ -206,8 +208,6 @@ void P_FireWeapon(player_t *player)
         player->shotsfired++;
         stat_shotsfired = SafeAdd(stat_shotsfired, 1);
     }
-
-    P_NoiseAlert(player->mo, player->mo);
 
     if (gp_vibrate && vibrate)
     {
@@ -442,15 +442,18 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (player->powers[pw_strength])
         damage *= 10;
 
+    hitwall = false;
     P_LineAttack(actor, angle, MELEERANGE, slope, damage);
 
-    if (!linetarget)
-        return;
+    if (linetarget || hitwall)
+    {
+        P_NoiseAlert(player->mo, player->mo);
+        S_StartSound(actor, sfx_punch);
 
-    S_StartSound(actor, sfx_punch);
-
-    // turn to face target
-    actor->angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
+        // turn to face target
+        if (linetarget)
+            actor->angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
+    }
 }
 
 //
@@ -464,6 +467,8 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // use meleerange + 1 so the puff doesn't skip the flash
     P_LineAttack(actor, angle, MELEERANGE + 1, slope, damage);
+
+    P_NoiseAlert(player->mo, player->mo);
 
     if (!linetarget)
     {
@@ -628,6 +633,8 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!player)
         return;
 
+    P_NoiseAlert(player->mo, player->mo);
+
     S_StartSound(actor, sfx_pistol);
 
     P_SetMobjState(actor, S_PLAY_ATK2);
@@ -659,6 +666,8 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (!player)
         return;
+
+    P_NoiseAlert(player->mo, player->mo);
 
     S_StartSound(actor, sfx_shotgn);
     P_SetMobjState(actor, S_PLAY_ATK2);
@@ -693,6 +702,8 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (!player)
         return;
+
+    P_NoiseAlert(player->mo, player->mo);
 
     S_StartSound(actor, sfx_dshtgn);
     P_SetMobjState(actor, S_PLAY_ATK2);
@@ -749,7 +760,10 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     if (player->ammo[weaponinfo[player->readyweapon].ammo])
+    {
+        P_NoiseAlert(player->mo, player->mo);
         S_StartSound(actor, sfx_pistol);
+    }
     else
         return;
 
@@ -800,6 +814,8 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     int         i;
     mobj_t      *mo = actor->target;
+
+    P_NoiseAlert(mo->player->mo, mo->player->mo);
 
     // offset angles from its attack angle
     for (i = 0; i < 40; i++)
