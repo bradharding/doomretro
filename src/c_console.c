@@ -309,7 +309,7 @@ void C_PlayerMessage(char *string, ...)
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH] = "";
     dboolean    prevplayermessage = (consolestrings
-        && console[consolestrings - 1].type == playermessagestring);
+                    && console[consolestrings - 1].type == playermessagestring);
     time_t      rawtime;
 
     va_start(argptr, string);
