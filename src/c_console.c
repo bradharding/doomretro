@@ -71,6 +71,7 @@
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
 #define CONSOLETEXTMAXLENGTH    1024
+#define CONSOLETEXTPIXELWIDTH   (SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 2)
 #define CONSOLELINES            11
 #define CONSOLELINEHEIGHT       14
 
@@ -81,7 +82,7 @@
 #define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 #define CONSOLESCROLLBARY       (CONSOLETEXTY + 1)
 
-#define CONSOLEDIVIDERWIDTH     (SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH)
+#define CONSOLEDIVIDERWIDTH     (CONSOLETEXTPIXELWIDTH - 2)
 
 #define DIVIDER                 "~~~"
 #define ITALICS                 '~'
@@ -468,7 +469,7 @@ static void C_DrawScrollbar(void)
         if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
                 screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x]
-                    + consolescrollbartrackcolor];
+                + consolescrollbartrackcolor];
 
     // Draw scrollbar face
     facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
@@ -643,7 +644,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     y -= CONSOLEHEIGHT - consoleheight;
 
     if (len > 80)
-        while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 2)
+        while (C_TextWidth(text) > CONSOLETEXTPIXELWIDTH)
         {
             text[len - 1] = '.';
             text[len] = '.';

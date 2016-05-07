@@ -1245,9 +1245,9 @@ static void SetVideoMode(dboolean output)
         if (nearestlinear)
         {
             C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
-                "interpolation,", SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
+                "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
                 commify(upscaledheight * SCREENHEIGHT));
-            C_Output("    and then down to %s\xD7%s using linear filtering.",
+            C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
                 commify(height * 4 / 3), commify(height));
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear))
