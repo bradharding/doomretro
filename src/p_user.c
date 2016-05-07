@@ -221,14 +221,12 @@ void P_ReduceDamageCount(player_t *player)
         --player->damagecount;
 
     if (r_shakescreen)
-    {
         if (player->damagecount)
             blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake
                 : I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake
                 : I_Blit_Shake));
         else
             I_UpdateBlitFunc();
-    }
 }
 
 //
@@ -278,10 +276,8 @@ void P_DeathThink(player_t *player)
 
             facingkiller = true;
         }
-        else if (delta < ANG180)
-            mo->angle += ANG5;
         else
-            mo->angle -= ANG5;
+            mo->angle += (delta < ANG180 ? ANG5 : -ANG5);
     }
     else
         P_ReduceDamageCount(player);
@@ -289,9 +285,9 @@ void P_DeathThink(player_t *player)
     if (consoleheight)
         return;
 
-    if (((player->cmd.buttons & BT_USE)
-        || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
-        || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER]))
+    if (((player->cmd.buttons & BT_USE) || ((player->cmd.buttons & BT_ATTACK)
+        && !player->damagecount && count > TICRATE * 2) || keystate[SDL_SCANCODE_RETURN]
+        || keystate[SDL_SCANCODE_KP_ENTER]))
     {
         count = 0;
         damagevibrationtics = 1;
@@ -316,8 +312,7 @@ void P_ResurrectPlayer(player_t *player)
     x = player->mo->x;
     y = player->mo->y;
     angle = player->mo->angle >> ANGLETOFINESHIFT;
-    thing = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle],
-        ONFLOORZ, MT_TFOG);
+    thing = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle], ONFLOORZ, MT_TFOG);
     thing->angle = player->mo->angle;
     S_StartSound(thing, sfx_telept);
 
@@ -435,12 +430,10 @@ void P_PlayerThink(player_t *player)
         else if (newweapon == wp_shotgun)
         {
             if ((!player->weaponowned[wp_shotgun] || player->readyweapon == wp_shotgun)
-                && player->weaponowned[wp_supershotgun]
-                && player->ammo[am_shell] >= 2)
+                && player->weaponowned[wp_supershotgun] && player->ammo[am_shell] >= 2)
                 player->preferredshotgun = wp_supershotgun;
             else if (player->readyweapon == wp_supershotgun
-                     || (player->preferredshotgun == wp_supershotgun
-                         && player->ammo[am_shell] == 1))
+                || (player->preferredshotgun == wp_supershotgun && player->ammo[am_shell] == 1))
                 player->preferredshotgun = wp_shotgun;
             newweapon = player->preferredshotgun;
         }
@@ -496,6 +489,7 @@ void P_PlayerThink(player_t *player)
     if (player->powers[pw_invulnerability] > 4 * 32
         || (player->powers[pw_invulnerability] & 8))
         player->fixedcolormap = INVERSECOLORMAP;
-    else player->fixedcolormap = (player->powers[pw_infrared] > 4 * 32
-                                  || (player->powers[pw_infrared] & 8));
+    else
+        player->fixedcolormap = (player->powers[pw_infrared] > 4 * 32
+            || (player->powers[pw_infrared] & 8));
 }
