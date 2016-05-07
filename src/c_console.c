@@ -60,6 +60,7 @@
 #include "m_random.h"
 #include "p_local.h"
 #include "SDL.h"
+#include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "v_video.h"
 #include "version.h"
@@ -1457,6 +1458,7 @@ void C_PrintSDLVersions(void)
         C_Output("Using version %i.%i.%i of SDL2.DLL.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
-    C_Output("Using version %i.%i.%i of SDL2_MIXER.DLL.",
-        SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
+    C_Output("Using version %i.%i.%i of SDL2_MIXER.DLL and version %i.%i.%i of SDL2_IMAGE.DLL.",
+        SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
+        SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 }

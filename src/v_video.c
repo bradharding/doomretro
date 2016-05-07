@@ -46,6 +46,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
+#include "i_system.h"
 #include "i_video.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -1278,8 +1279,19 @@ void V_LowGraphicDetail(int height)
 //
 void V_Init(void)
 {
-    int         i;
-    byte        *base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
+    int                 i;
+    byte                *base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
+    const SDL_version   *linked = IMG_Linked_Version();
+
+    if (linked->major != SDL_IMAGE_MAJOR_VERSION || linked->minor != SDL_IMAGE_MINOR_VERSION)
+        I_Error("The wrong version of SDL2_IMAGE.DLL was found. "PACKAGE_NAME" requires "
+            "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
+            SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+
+    if (linked->patch != SDL_IMAGE_PATCHLEVEL)
+        C_Warning("The wrong version of SDL2_IMAGE.DLL was found. "PACKAGE_NAME" requires "
+            "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
+            SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 
     for (i = 0; i < 4; i++)
         screens[i] = base + i * SCREENWIDTH * SCREENHEIGHT;
@@ -1321,7 +1333,7 @@ dboolean V_SavePNG(SDL_Window *window, char *path)
                 pixels, rect.w * 4))
             {
                 SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, rect.w, rect.h, 32,
-                    rect.w * 4, 0, 0, 0, 0);
+                                    rect.w * 4, 0, 0, 0, 0);
 
                 if (screenshot)
                 {

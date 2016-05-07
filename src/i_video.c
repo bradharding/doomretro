@@ -1262,7 +1262,7 @@ static void SetVideoMode(dboolean output)
             C_Output("The framerate is capped at %i FPS.", TICRATE);
         else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
         {
-            SDL_DisplayMode displaymode;
+            SDL_DisplayMode     displaymode;
 
             SDL_GetWindowDisplayMode(window, &displaymode);
             C_Output("The framerate is capped at the display's refresh rate of %iHz.",
@@ -1289,8 +1289,7 @@ static void SetVideoMode(dboolean output)
         {
             static char     text[128];
 
-            M_snprintf(text, sizeof(text), "The gamma correction level is %.2f.",
-                gammalevels[gammaindex]);
+            M_snprintf(text, sizeof(text), "The gamma correction level is %.2f.", r_gamma);
             if (text[strlen(text) - 2] == '0' && text[strlen(text) - 3] == '0')
             {
                 text[strlen(text) - 2] = '.';

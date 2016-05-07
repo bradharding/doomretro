@@ -633,7 +633,8 @@ static int GetSliceSize(void)
 
 dboolean I_InitSound(void)
 {
-    int i;
+    int                 i;
+    const SDL_version   *linked = Mix_Linked_Version();
 
     // No sounds yet
     for (i = 0; i < NUM_CHANNELS; ++i)
@@ -642,19 +643,15 @@ dboolean I_InitSound(void)
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
         return false;
 
-    {
-        const SDL_version       *linked = Mix_Linked_Version();
+    if (linked->major != SDL_MIXER_MAJOR_VERSION || linked->minor != SDL_MIXER_MINOR_VERSION)
+        I_Error("The wrong version of SDL2_MIXER.DLL was found. "PACKAGE_NAME" requires "
+            "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
+            SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
-        if (linked->major != MIX_MAJOR_VERSION || linked->minor != MIX_MINOR_VERSION)
-            I_Error("The wrong version of SDL2_MIXER.DLL was found. "PACKAGE_NAME" requires "
-                "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
-                MIX_MAJOR_VERSION, MIX_MINOR_VERSION, MIX_PATCHLEVEL);
-
-        if (linked->patch != MIX_PATCHLEVEL)
-            C_Warning("The wrong version of SDL2_MIXER.DLL was found. "PACKAGE_NAME" requires "
-                "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
-                MIX_MAJOR_VERSION, MIX_MINOR_VERSION, MIX_PATCHLEVEL);
-    }
+    if (linked->patch != SDL_MIXER_PATCHLEVEL)
+        C_Warning("The wrong version of SDL2_MIXER.DLL was found. "PACKAGE_NAME" requires "
+            "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
+            SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (Mix_OpenAudio(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize()) < 0)
         return false;
