@@ -36,13 +36,8 @@
 ========================================================================
 */
 
-#include <stdlib.h>
-#include <string.h>
-
 #include "doomstat.h"
-#include "m_config.h"
 #include "p_local.h"
-#include "r_local.h"
 #include "z_zone.h"
 
 // killough 1/6/98: replaced globals with statics where appropriate

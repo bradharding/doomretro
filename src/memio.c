@@ -36,20 +36,17 @@
 ========================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "memio.h"
-
 #include "z_zone.h"
 
-typedef enum {
+typedef enum
+{
     MODE_READ,
     MODE_WRITE
 } memfile_mode_t;
 
-struct _MEMFILE {
+struct _MEMFILE
+{
     unsigned char       *buf;
     size_t              buflen;
     size_t              alloced;

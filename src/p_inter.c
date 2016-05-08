@@ -36,19 +36,13 @@
 ========================================================================
 */
 
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
-#include "dstrings.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_timer.h"
-#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"

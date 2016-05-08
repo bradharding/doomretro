@@ -45,10 +45,6 @@
 #define E2M2    (gamemission == doom && gameepisode == 2 && gamemap == 2 && canmodify)
 #define MAP12   (gamemission == doom2 && gamemap == 12 && canmodify)
 
-#if defined(_MSC_VER)
-#pragma pack(push, 1)
-#endif
-
 typedef struct
 {
     int         mission;
@@ -114,9 +110,5 @@ typedef struct
 } thingfix_t;
 
 extern thingfix_t thingfix[];
-
-#if defined(_MSC_VER)
-#pragma pack(pop)
-#endif
 
 #endif

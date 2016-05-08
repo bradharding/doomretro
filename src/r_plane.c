@@ -38,10 +38,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
-#include "i_system.h"
-#include "i_timer.h"
 #include "p_local.h"
-#include "r_local.h"
 #include "r_sky.h"
 #include "w_wad.h"
 #include "z_zone.h"

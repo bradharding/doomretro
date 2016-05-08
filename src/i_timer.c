@@ -37,7 +37,6 @@
 */
 
 #include "doomdef.h"
-#include "i_timer.h"
 #include "SDL.h"
 
 //

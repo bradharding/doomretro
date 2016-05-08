@@ -43,17 +43,6 @@
 // SCREEN WIPE PACKAGE
 //
 
-enum
-{
-    // simple gradual pixel change for 8-bit only
-    wipe_ColorXForm,
-
-    // weird screen melt
-    wipe_Melt,
-
-    wipe_NUMWIPES
-};
-
 dboolean wipe_StartScreen(void);
 dboolean wipe_EndScreen(void);
 dboolean wipe_ScreenWipe(int tics);

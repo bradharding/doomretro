@@ -40,12 +40,8 @@
 
 #include "c_console.h"
 #include "d_deh.h"
-#include "d_think.h"
-#include "doomdef.h"
 #include "doomstat.h"
 #include "dstrings.h"
-#include "g_game.h"
-#include "info.h"
 #include "m_cheat.h"
 #include "m_misc.h"
 #include "p_local.h"
@@ -1299,7 +1295,7 @@ typedef struct
 
 #define DEH_BUFFERMAX   1024    // input buffer area size, hardcoded for now
 // killough 8/9/98: make DEH_BLOCKMAX self-adjusting
-#define DEH_BLOCKMAX    (sizeof(deh_blocks) / sizeof(*deh_blocks))      // size of array
+#define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
 #define DEH_MOBJINFOMAX 28      // number of ints in the mobjinfo_t structure (!)
 
@@ -1374,8 +1370,8 @@ static char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 // killough 10/98:
 //
 // Convert array to struct to allow multiple values, make array size variable
-#define DEH_MOBJFLAGMAX (sizeof(deh_mobjflags) / sizeof(*deh_mobjflags))
-#define DEH_MOBJFLAG2MAX (sizeof(deh_mobjflags2) / sizeof(*deh_mobjflags2))
+#define DEH_MOBJFLAGMAX         arrlen(deh_mobjflags)
+#define DEH_MOBJFLAG2MAX        arrlen(deh_mobjflags2)
 
 struct deh_mobjflags_s
 {
@@ -2334,7 +2330,7 @@ void deh_procPointer(DEHFILE *fpin, char *line)
                     (void *)deh_codeptr[value], value, indexnum);
 
             // Write BEX-oriented line to match:
-            for (i = 0; i < sizeof(deh_bexptrs) / sizeof(*deh_bexptrs); i++)
+            for (i = 0; i < arrlen(deh_bexptrs); i++)
                 if (!memcmp(&deh_bexptrs[i].cptr, &deh_codeptr[value], sizeof(actionf_t)))
                 {
                     if (devparm)

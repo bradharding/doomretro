@@ -53,7 +53,6 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
-#include "d_main.h"
 #include "doomstat.h"
 #include "f_finale.h"
 #include "f_wipe.h"
@@ -63,16 +62,13 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
-#include "i_video.h"
 #include "m_argv.h"
-#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_saveg.h"
 #include "p_setup.h"
 #include "s_sound.h"
-#include "SDL.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
@@ -82,7 +78,7 @@
 #include "z_zone.h"
 
 //
-// D-DoomLoop()
+// D_DoomLoop()
 // Not a globally visible function,
 //  just included for source reference,
 //  called by D_DoomMain, never exits.

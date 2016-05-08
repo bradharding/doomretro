@@ -37,14 +37,12 @@
 */
 
 #include "c_console.h"
-#include "d_deh.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_tick.h"
-#include "r_patch.h"
 #include "r_sky.h"
 #include "w_wad.h"
 #include "z_zone.h"

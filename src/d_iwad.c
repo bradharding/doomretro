@@ -36,23 +36,14 @@
 ========================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-
 #include "c_console.h"
 #include "d_deh.h"
-#include "d_iwad.h"
-#include "doomdef.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_argv.h"
-#include "m_config.h"
 #include "m_misc.h"
 #include "version.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 // Array of locations to search for IWAD files
 //
@@ -86,7 +77,7 @@ typedef struct
     char        *value;
 } registry_value_t;
 
-#define UNINSTALLER_STRING "\\uninstl.exe /S "
+#define UNINSTALLER_STRING      "\\uninstl.exe /S "
 
 // Keys installed by the various CD editions. These are actually the
 // commands to invoke the uninstaller and look like this:
@@ -98,9 +89,9 @@ typedef struct
 // [AlexMax] From the perspective of a 64-bit executable, 32-bit registry
 // keys are located in a different spot.
 #if _WIN64
-#define SOFTWARE_KEY "Software\\Wow6432Node"
+#define SOFTWARE_KEY            "Software\\Wow6432Node"
 #else
-#define SOFTWARE_KEY "Software"
+#define SOFTWARE_KEY            "Software"
 #endif
 
 static registry_value_t uninstall_values[] =
@@ -150,7 +141,6 @@ static registry_value_t root_path_keys[] =
     },
 
     // Ultimate Doom
-
     {
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\GOG.com\\Games\\1435827232",
@@ -158,7 +148,6 @@ static registry_value_t root_path_keys[] =
     },
 
     // Doom II
-
     {
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\GOG.com\\Games\\1435848814",
@@ -166,7 +155,6 @@ static registry_value_t root_path_keys[] =
     },
 
     // Final Doom
-
     {
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\GOG.com\\Games\\1435848742",
@@ -261,7 +249,6 @@ static void CheckUninstallStrings(void)
 }
 
 // Check for GOG.com and Doom: Collector's Edition
-
 static void CheckInstallRootPaths(void)
 {
     size_t      i;
@@ -426,7 +413,7 @@ static void BuildIWADDirList(void)
 //
 char *D_FindWADByName(char *name)
 {
-    int         i;
+    int i;
 
     // Absolute path?
     if (M_FileExists(name))

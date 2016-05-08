@@ -37,8 +37,6 @@
 */
 
 #include <ctype.h>
-#include <stdio.h>
-#include <time.h>
 
 #if defined(WIN32)
 #include <Windows.h>
@@ -46,7 +44,6 @@
 
 #include "c_console.h"
 #include "d_deh.h"
-#include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "g_game.h"
@@ -55,22 +52,17 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
-#include "i_video.h"
-#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_saveg.h"
 #include "s_sound.h"
-#include "SDL.h"
 #include "v_data.h"
 #include "v_video.h"
-#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define SKULLXOFF       -32
 #define LINEHEIGHT      17
 #define OFFSET          (vid_widescreen ? 0 : 17)
 
@@ -212,7 +204,7 @@ void M_ClearMenus(void);
 // DOOM MENU
 //
 
-enum
+typedef enum
 {
     new_game,
     options,
@@ -220,7 +212,7 @@ enum
     save_game,
     quit_doom,
     main_end
-} main_e;
+} main_t;
 
 menuitem_t MainMenu[] =
 {
@@ -245,14 +237,14 @@ menu_t MainDef =
 // EPISODE SELECT
 //
 
-enum
+typedef enum
 {
     ep1,
     ep2,
     ep3,
     ep4,
     ep_end
-} episodes_e;
+} episodes_t;
 
 menuitem_t EpisodeMenu[] =
 {
@@ -276,12 +268,12 @@ menu_t EpiDef =
 // EXPANSION SELECT
 //
 
-enum
+typedef enum
 {
     ex1,
     ex2,
     ex_end
-} expansions_e;
+} expansions_t;
 
 menuitem_t ExpansionMenu[] =
 {
@@ -303,7 +295,7 @@ menu_t ExpDef =
 // NEW GAME
 //
 
-enum
+typedef enum
 {
     killthings,
     toorough,
@@ -311,7 +303,7 @@ enum
     violence,
     nightmare,
     newg_end
-} newgame_e;
+} newgame_t;
 
 menuitem_t NewGameMenu[] =
 {
@@ -336,7 +328,7 @@ menu_t NewDef =
 // OPTIONS MENU
 //
 
-enum
+typedef enum
 {
     endgame,
     msgs,
@@ -347,7 +339,7 @@ enum
     option_empty2,
     soundvol,
     opt_end
-} options_e;
+} options_t;
 
 menuitem_t OptionsMenu[]=
 {
@@ -371,11 +363,11 @@ menu_t OptionsDef =
     endgame
 };
 
-enum
+typedef enum
 {
     rdthsempty,
     read_end
-} read_e;
+} read_t;
 
 menuitem_t ReadMenu[] =
 {
@@ -396,14 +388,14 @@ menu_t ReadDef =
 // SOUND VOLUME MENU
 //
 
-enum
+typedef enum
 {
     sfx_vol,
     sfx_empty1,
     music_vol,
     sfx_empty2,
     sound_end
-} sound_e;
+} sound_t;
 
 menuitem_t SoundMenu[] =
 {
@@ -427,7 +419,7 @@ menu_t SoundDef =
 // LOAD GAME MENU
 //
 
-enum
+typedef enum
 {
     load1,
     load2,
@@ -436,7 +428,7 @@ enum
     load5,
     load6,
     load_end
-} load_e;
+} load_t;
 
 menuitem_t LoadGameMenu[] =
 {

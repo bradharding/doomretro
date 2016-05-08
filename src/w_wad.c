@@ -39,7 +39,6 @@
 #include <ctype.h>
 
 #include "c_console.h"
-#include "doomdef.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"

@@ -41,7 +41,6 @@
 
 // Include system definitions so that prototypes become
 // active before macro replacements below are in effect.
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>

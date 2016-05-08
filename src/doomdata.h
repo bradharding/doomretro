@@ -39,9 +39,6 @@
 #if !defined(__DOOMDATA_H__)
 #define __DOOMDATA_H__
 
-// The most basic types we use, portability.
-#include "doomtype.h"
-
 // Some global defines, that configure the game.
 #include "doomdef.h"
 
@@ -89,6 +86,7 @@ typedef struct
     char        toptexture[8];
     char        bottomtexture[8];
     char        midtexture[8];
+
     // Front sector, towards viewer.
     short       sector;
 } PACKEDATTR mapsidedef_t;
@@ -102,6 +100,7 @@ typedef struct
     unsigned short      flags;
     short               special;
     short               tag;
+
     // proff 07/23/2006 - support more than 32768 sidedefs
     // use the unsigned value and special case the -1
     // sidenum[1] will be -1 (NO_INDEX) if one sided

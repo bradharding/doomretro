@@ -45,7 +45,7 @@
 
 // killough 4/19/98:
 // Convert LOS info to struct for reentrancy and efficiency of data locality
-typedef struct los_s
+typedef struct
 {
     fixed_t     sightzstart, t2x, t2y;  // eye z of looker
     divline_t   strace;                 // from t1 to t2

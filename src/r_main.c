@@ -37,11 +37,8 @@
 */
 
 #include "c_console.h"
-#include "d_loop.h"
 #include "doomstat.h"
 #include "i_timer.h"
-#include "m_config.h"
-#include "m_menu.h"
 #include "p_local.h"
 #include "r_sky.h"
 #include "v_video.h"

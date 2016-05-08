@@ -71,7 +71,7 @@ typedef enum
     CT_CHEAT = 3
 } cmdtype_t;
 
-typedef enum
+enum
 {
     CF_NONE            =   0,
     CF_BOOLEAN         =   1,
@@ -83,7 +83,7 @@ typedef enum
     CF_SIZE            =  64,
     CF_STRING          = 128,
     CF_TIME            = 256,
-} cmdflags_t;
+};
 
 typedef struct
 {

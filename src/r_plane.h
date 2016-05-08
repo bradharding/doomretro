@@ -39,8 +39,6 @@
 #if !defined(__R_PLANE_H__)
 #define __R_PLANE_H__
 
-#include "r_data.h"
-
 // killough 10/98: special mask indicates sky flat comes from sidedef
 #define PL_SKYFLAT      0x80000000
 

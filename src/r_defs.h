@@ -808,7 +808,7 @@ typedef post_t column_t;
 // Could even use more than 32 levels.
 typedef byte lighttable_t;
 
-typedef struct drawseg_s
+typedef struct
 {
     seg_t               *curline;
     int                 x1;
@@ -861,7 +861,7 @@ typedef struct
 // A vissprite_t is a thing
 //  that will be drawn during a refresh.
 // I.e. a sprite object that is partly visible.
-typedef struct vissprite_s
+typedef struct
 {
     int                 x1;
     int                 x2;

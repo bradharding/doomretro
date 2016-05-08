@@ -36,12 +36,9 @@
 ========================================================================
 */
 
-#include <string.h>
-
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "m_misc.h"
 #include "i_system.h"
 #include "i_swap.h"
 #include "p_local.h"

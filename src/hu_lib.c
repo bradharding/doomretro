@@ -37,19 +37,15 @@
 */
 
 #include <ctype.h>
-#include <string.h>
 
 #include "am_map.h"
-#include "d_deh.h"
 #include "doomstat.h"
-#include "dstrings.h"
 #include "hu_lib.h"
 #include "i_swap.h"
 #include "r_local.h"
 #include "v_data.h"
 #include "v_video.h"
 
-extern dboolean automapactive;
 extern dboolean vid_widescreen;
 extern dboolean r_translucency;
 

@@ -39,8 +39,6 @@
 #if !defined(__M_CHEAT_H__)
 #define __M_CHEAT_H__
 
-#include <stdlib.h>
-
 //
 // CHEAT SEQUENCE PACKAGE
 //

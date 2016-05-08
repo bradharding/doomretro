@@ -38,9 +38,7 @@
 
 #include "am_map.h"
 #include "c_console.h"
-#include "d_deh.h"
 #include "doomstat.h"
-#include "dstrings.h"
 #include "i_system.h"
 #include "m_misc.h"
 #include "p_local.h"
@@ -1997,7 +1995,7 @@ void P_RestoreTargets(void)
 //
 // P_ArchiveSpecials
 //
-enum
+typedef enum
 {
     tc_ceiling,
     tc_door,
@@ -2012,7 +2010,7 @@ enum
     tc_fireflicker,     // killough 10/4/98
     tc_button,
     tc_endspecials
-} specials_e;
+} specials_t;
 
 void P_ArchiveSpecials(void)
 {

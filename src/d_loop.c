@@ -37,14 +37,11 @@
 */
 
 #include "d_main.h"
-#include "m_argv.h"
+#include "doomstat.h"
+#include "g_game.h"
 #include "m_menu.h"
 #include "i_system.h"
 #include "i_timer.h"
-#include "i_video.h"
-#include "g_game.h"
-#include "doomdef.h"
-#include "doomstat.h"
 
 // Maximum time that we wait in TryRunTics() for netgame data to be
 // received before we bail out and render a frame anyway.

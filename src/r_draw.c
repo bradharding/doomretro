@@ -37,12 +37,9 @@
 */
 
 #include "c_console.h"
-#include "doomstat.h"
-#include "m_random.h"
 #include "r_local.h"
 #include "st_stuff.h"
 #include "v_video.h"
-#include "w_wad.h"
 #include "z_zone.h"
 
 //
@@ -61,8 +58,6 @@ int     viewheight2;
 int     viewwindowx;
 int     viewwindowy;
 int     fuzztable[SCREENWIDTH * SCREENHEIGHT];
-
-extern int      r_screensize;
 
 // Color tables for different players,
 //  translate a limited part to another

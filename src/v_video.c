@@ -43,11 +43,9 @@
 
 #include "c_console.h"
 #include "d_deh.h"
-#include "d_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
-#include "i_video.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"

@@ -39,7 +39,6 @@
 #if !defined(__D_EVENT_H__)
 #define __D_EVENT_H__
 
-#include "doomtype.h"
 #include "i_video.h"
 
 //
@@ -82,7 +81,7 @@ typedef enum
 //
 // Button/action code definitions.
 //
-typedef enum
+enum
 {
     // Press "Fire".
     BT_ATTACK           = 1,
@@ -109,7 +108,7 @@ typedef enum
     //  occupy the second byte of buttons.
     BTS_SAVEMASK        = (4 + 8 + 16),
     BTS_SAVESHIFT       = 2
-} buttoncode_t;
+};
 
 //
 // GLOBAL VARIABLES

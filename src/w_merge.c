@@ -38,9 +38,6 @@
 
 #include <ctype.h>
 
-#include "doomdef.h"
-#include "doomstat.h"
-#include "info.h"
 #include "i_system.h"
 #include "m_misc.h"
 #include "version.h"

@@ -44,13 +44,13 @@ typedef enum
     r_blood_none,
     r_blood_red,
     r_blood_all
-} r_blood_values_e;
+} r_blood_values_t;
 
 typedef enum
 {
     r_detail_low,
     r_detail_high
-} r_detail_values_e;
+} r_detail_values_t;
 
 #define alwaysrun_default                       false
 

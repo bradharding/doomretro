@@ -43,7 +43,7 @@
 //  Printed strings for translation
 //
 
-///
+//
 // d_main.C
 //
 #define D_DEVSTR                "Development mode ON.\n"

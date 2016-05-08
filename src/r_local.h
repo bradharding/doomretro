@@ -39,15 +39,6 @@
 #if !defined(__R_LOCAL_H__)
 #define __R_LOCAL_H__
 
-// Binary Angles, sine/cosine/atan lookups.
-#include "tables.h"
-
-// Screen size related parameters.
-#include "doomdef.h"
-
-// Include the refresh/render data structs.
-#include "r_data.h"
-
 //
 // Separate header file for each module.
 //

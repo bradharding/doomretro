@@ -36,13 +36,8 @@
 ========================================================================
 */
 
-#include <errno.h>
-#include <stdarg.h>
-
 #if defined(WIN32)
 #pragma warning( disable : 4091 )
-#include <windows.h>
-#include <io.h>
 #include <ShlObj.h>
 #if defined(_MSC_VER)
 #include <direct.h>
@@ -54,9 +49,9 @@
 #endif
 
 #include "doomdef.h"
+#include "i_system.h"
 #include "m_fixed.h"
 #include "m_misc.h"
-#include "i_system.h"
 #include "version.h"
 #include "z_zone.h"
 
@@ -83,9 +78,7 @@ void M_MakeDirectory(const char *path)
 // Check if a file exists
 dboolean M_FileExists(const char *filename)
 {
-    FILE        *fstream;
-
-    fstream = fopen(filename, "r");
+    FILE        *fstream = fopen(filename, "r");
 
     if (fstream)
     {
@@ -103,11 +96,10 @@ dboolean M_FileExists(const char *filename)
 //
 long M_FileLength(FILE *handle)
 {
-    long        savedpos;
     long        length;
 
     // save the current position in the file
-    savedpos = ftell(handle);
+    long        savedpos = ftell(handle);
 
     // jump to the end and find the length
     fseek(handle, 0, SEEK_END);

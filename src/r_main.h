@@ -39,7 +39,6 @@
 #if !defined(__R_MAIN_H__)
 #define __R_MAIN_H__
 
-#include "d_player.h"
 #include "r_data.h"
 
 //

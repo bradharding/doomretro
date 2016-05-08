@@ -43,7 +43,6 @@
 #include "dstrings.h"
 #include "g_game.h"
 #include "hu_stuff.h"
-#include "i_video.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"

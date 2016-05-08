@@ -39,17 +39,12 @@
 #if defined(WIN32)
 #pragma warning( disable : 4091 )
 #include <ShlObj.h>
-#include <Xinput.h>
 #endif
 
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
-#include "i_video.h"
-#include "m_argv.h"
-#include "m_config.h"
-#include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "version.h"

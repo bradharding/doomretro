@@ -55,8 +55,6 @@ static XINPUTSETSTATE pXInputSetState;
 #include "m_controls.h"
 #include "m_fixed.h"
 #include "m_misc.h"
-#include "SDL.h"
-#include "SDL_joystick.h"
 
 float                   gp_deadzone_left = gp_deadzone_left_default;
 float                   gp_deadzone_right = gp_deadzone_right_default;

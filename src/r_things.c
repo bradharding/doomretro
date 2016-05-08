@@ -1237,7 +1237,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     //e6y: interpolation for weapon bobbing
     if (!vid_capfps)
     {
-        typedef struct interpolate_s
+        typedef struct
         {
             int x1;
             int x1_prev;

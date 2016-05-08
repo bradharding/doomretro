@@ -41,9 +41,8 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "mus2mid.h"
-#include "SDL.h"
-#include "SDL_mixer.h"
 #include "s_sound.h"
+#include "SDL_mixer.h"
 #include "version.h"
 #include "z_zone.h"
 

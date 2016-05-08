@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <stdio.h>
-
 #include "doomtype.h"
 #include "m_argv.h"
 #include "w_file.h"

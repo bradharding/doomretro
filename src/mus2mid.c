@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <stdio.h>
-
 #include "doomdef.h"
 #include "i_swap.h"
 #include "mus2mid.h"
@@ -50,24 +48,24 @@
 // MUS event codes
 typedef enum
 {
-    mus_releasekey = 0x00,
-    mus_presskey = 0x10,
-    mus_pitchwheel = 0x20,
-    mus_systemevent = 0x30,
-    mus_changecontroller = 0x40,
-    mus_scoreend = 0x60
+    mus_releasekey         = 0x00,
+    mus_presskey           = 0x10,
+    mus_pitchwheel         = 0x20,
+    mus_systemevent        = 0x30,
+    mus_changecontroller   = 0x40,
+    mus_scoreend           = 0x60
 } musevent;
 
 // MIDI event codes
 typedef enum
 {
-    midi_releasekey = 0x80,
-    midi_presskey = 0x90,
-    midi_aftertouchkey = 0xa0,
-    midi_changecontroller = 0xb0,
-    midi_changepatch = 0xc0,
+    midi_releasekey        = 0x80,
+    midi_presskey          = 0x90,
+    midi_aftertouchkey     = 0xa0,
+    midi_changecontroller  = 0xb0,
+    midi_changepatch       = 0xc0,
     midi_aftertouchchannel = 0xd0,
-    midi_pitchwheel = 0xe0
+    midi_pitchwheel        = 0xe0
 } midievent;
 
 #if defined(_MSC_VER)

@@ -41,7 +41,6 @@
 
 // We need globally shared data structures,
 //  for defining the global state variables.
-#include "doomdata.h"
 #include "d_loop.h"
 
 // We need the player data structure as well.

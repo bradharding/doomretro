@@ -39,7 +39,6 @@
 #if !defined(__MEMIO_H__)
 #define __MEMIO_H__
 
-#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct _MEMFILE MEMFILE;

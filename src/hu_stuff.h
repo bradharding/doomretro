@@ -39,8 +39,6 @@
 #if !defined(__HU_STUFF_H__)
 #define __HU_STUFF_H__
 
-#include "d_event.h"
-
 //
 // Globally visible constants.
 //

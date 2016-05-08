@@ -36,9 +36,6 @@
 ========================================================================
 */
 
-#include <stdlib.h>
-
-#include "doomtype.h"
 #include "i_system.h"
 #include "m_misc.h"
 #include "sc_man.h"

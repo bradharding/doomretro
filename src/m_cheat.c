@@ -37,10 +37,8 @@
 */
 
 #include <ctype.h>
-#include <string.h>
 
 #include "c_console.h"
-#include "doomtype.h"
 #include "doomdef.h"
 #include "m_cheat.h"
 #include "m_misc.h"

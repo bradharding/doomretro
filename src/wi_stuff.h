@@ -39,14 +39,12 @@
 #if !defined(__WI_STUFF_H__)
 #define __WI_STUFF_H__
 
-#include "doomdef.h"
-
 // States for the intermission
 typedef enum
 {
     NoState = -1,
     StatCount,
-    ShowNextLoc,
+    ShowNextLoc
 } stateenum_t;
 
 // Called by main loop, animate the intermission.

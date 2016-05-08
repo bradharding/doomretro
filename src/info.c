@@ -38,8 +38,6 @@
 
 #include "d_player.h"
 #include "info.h"
-#include "p_mobj.h"
-#include "p_pspr.h"
 #include "r_defs.h"
 #include "sounds.h"
 

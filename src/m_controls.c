@@ -36,7 +36,6 @@
 ========================================================================
 */
 
-#include "doomkeys.h"
 #include "i_gamepad.h"
 #include "m_config.h"
 #include "p_local.h"

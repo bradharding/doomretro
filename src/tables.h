@@ -48,13 +48,13 @@
 #define ANGLETOFINESHIFT        19
 
 // Effective size is 10240.
-fixed_t finesine[5 * FINEANGLES / 4];
+fixed_t         finesine[5 * FINEANGLES / 4];
 
 // Re-use data, is just PI/2 phase shift.
-extern fixed_t *finecosine;
+extern fixed_t  *finecosine;
 
 // Effective size is 4096.
-fixed_t finetangent[FINEANGLES / 2];
+fixed_t         finetangent[FINEANGLES / 2];
 
 // Binary Angle Measurement, BAM.
 #define ANG5                    (ANG90 / 18)
@@ -72,6 +72,6 @@ typedef unsigned angle_t;
 // Effective size is 2049;
 // The +1 size is to handle the case when x==y
 //  without additional checking.
-angle_t tantoangle[SLOPERANGE + 1];
+angle_t         tantoangle[SLOPERANGE + 1];
 
 #endif

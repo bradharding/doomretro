@@ -100,13 +100,11 @@ typedef struct
     int                 patch;
 } texpatch_t;
 
-// A maptexturedef_t describes a rectangular texture,
+// A texture_t describes a rectangular texture,
 //  which is composed of one or more mappatch_t structures
 //  that arrange graphic patches.
 
-typedef struct texture_s texture_t;
-
-struct texture_s
+typedef struct
 {
     // Keep name for switch changing, etc.
     char                name[8];
@@ -125,7 +123,7 @@ struct texture_s
     //  are drawn back to front into the cached texture.
     short               patchcount;
     texpatch_t          patches[1];
-};
+} texture_t;
 
 // Retrieve column data for span blitting.
 byte *R_GetTextureColumn(rpatch_t *texpatch, int col);

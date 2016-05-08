@@ -186,7 +186,6 @@ dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *));
 
 #define PT_ADDLINES     1
 #define PT_ADDTHINGS    2
-#define PT_EARLYOUT     4
 
 extern divline_t        dlTrace;
 

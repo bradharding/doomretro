@@ -36,13 +36,10 @@
 ========================================================================
 */
 
-#include "doomstat.h"
-#include "r_main.h"
-#include "p_spec.h"
-#include "p_tick.h"
 #include "m_random.h"
+#include "p_local.h"
+#include "p_tick.h"
 #include "s_sound.h"
-#include "sounds.h"
 #include "z_zone.h"
 
 //

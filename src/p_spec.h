@@ -389,7 +389,7 @@ typedef enum
     genSilentCrusher
 } ceiling_e;
 
-typedef struct ceiling_s
+typedef struct
 {
     thinker_t                   thinker;
     ceiling_e                   type;

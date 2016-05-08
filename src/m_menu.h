@@ -39,8 +39,6 @@
 #if !defined(__M_MENU_H__)
 #define __M_MENU_H__
 
-#include "d_event.h"
-
 typedef struct
 {
     short               status;
@@ -60,7 +58,7 @@ typedef struct menu_s
     int                 lastOn;
 } menu_t;
 
-dboolean startingnewgame;
+dboolean        startingnewgame;
 
 //
 // MENUS

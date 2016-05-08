@@ -39,8 +39,6 @@
 #if !defined(__ST_STUFF_H__)
 #define __ST_STUFF_H__
 
-#include "doomtype.h"
-#include "d_event.h"
 #include "m_cheat.h"
 
 // Size of statusbar.

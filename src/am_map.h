@@ -40,7 +40,6 @@
 #define __AM_MAP_H__
 
 #include "d_event.h"
-#include "m_cheat.h"
 #include "m_fixed.h"
 
 #define MAPBITS         12
@@ -73,32 +72,29 @@ void AM_Start(dboolean mainwindow);
 void AM_Stop(void);
 
 void AM_Init(void);
-void AM_SetColors(void);
+void AM_setColors(void);
 
-void D_PostEvent(event_t *ev);
+extern byte             *tinttab80;
 
-extern byte     *tinttab80;
+extern dboolean         message_dontfuckwithme;
 
-extern dboolean message_dontfuckwithme;
+extern int              viewheight2;
 
-extern int      viewheight2;
-
-extern mpoint_t *markpoints;
-extern int      markpointnum;
-extern int      markpointnum_max;
+extern mpoint_t         *markpoints;
+extern int              markpointnum;
+extern int              markpointnum_max;
 
 dboolean keystate(int key);
 
-typedef struct am_frame_s
+typedef struct
 {
-    fixed_t centerx;
-    fixed_t centery;
-    fixed_t sin;
-    fixed_t cos;
-
-    fixed_t bbox[4];
+    fixed_t             centerx;
+    fixed_t             centery;
+    fixed_t             sin;
+    fixed_t             cos;
+    fixed_t             bbox[4];
 } am_frame_t;
 
-extern am_frame_t am_frame;
+extern am_frame_t       am_frame;
 
 #endif

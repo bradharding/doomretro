@@ -40,7 +40,6 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
-#include "i_video.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_setup.h"

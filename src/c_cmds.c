@@ -36,26 +36,17 @@
 ========================================================================
 */
 
-#if defined(WIN32)
-#include <Windows.h>
-#include <XInput.h>
-#endif
+#include <ctype.h>
 
 #include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
-#include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
-#include "i_swap.h"
 #include "i_system.h"
-#include "i_video.h"
-#include "m_cheat.h"
-#include "m_config.h"
-#include "m_controls.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -64,8 +55,6 @@
 #include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
-#include "SDL.h"
-#include "sounds.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
@@ -2578,7 +2567,7 @@ static void color_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int_cvars_func2(cmd, parm1, parm2, parm3);
     if (*parm1)
-        AM_SetColors();
+        AM_setColors();
 }
 
 //

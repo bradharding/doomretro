@@ -69,7 +69,6 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "r_main.h"
-#include "r_patch.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

@@ -39,11 +39,7 @@
 #if !defined(__G_GAME_H__)
 #define __G_GAME_H__
 
-#include "doomdef.h"
-#include "d_event.h"
-#include "d_ticcmd.h"
-
-#define NUMKEYS         256
+#define NUMKEYS 256
 
 //
 // GAME

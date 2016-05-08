@@ -50,7 +50,7 @@ enum
     BOXBOTTOM,
     BOXLEFT,
     BOXRIGHT
-};      // bbox coordinates
+};
 
 // Bounding box functions.
 void M_ClearBox(fixed_t *box);

@@ -37,18 +37,14 @@
 */
 
 #include "c_console.h"
-#include "d_deh.h"
-#include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
-#include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
 #include "st_stuff.h"
-#include "w_wad.h"
 #include "z_zone.h"
 
 void G_PlayerReborn(void);

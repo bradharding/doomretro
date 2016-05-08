@@ -39,8 +39,6 @@
 #if !defined(__I_GAMEPAD_H__)
 #define __I_GAMEPAD_H__
 
-#include <math.h>
-
 #include "doomtype.h"
 
 #define GAMEPAD_DPAD_UP                 0x0001

@@ -36,15 +36,10 @@
 ========================================================================
 */
 
-#include <stdio.h>
-
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
-#include "i_video.h"
 #include "m_argv.h"
-#include "m_fixed.h"
-#include "m_misc.h"
 #include "version.h"
 
 int     windowborderwidth = 0;
@@ -79,7 +74,7 @@ void I_SetProcessDPIAware(void)
 
 HHOOK           g_hKeyboardHook;
 
-extern int      vid_fullscreen;
+extern dboolean vid_fullscreen;
 extern dboolean window_focused;
 
 void G_ScreenShot(void);

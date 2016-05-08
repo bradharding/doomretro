@@ -39,8 +39,6 @@
 #if !defined(__D_TICCMD_H__)
 #define __D_TICCMD_H__
 
-#include "doomtype.h"
-
 // The data sampled per tick (single player)
 // and transmitted to other peers (multiplayer).
 // Mainly movements/button commands per game tick,

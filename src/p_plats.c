@@ -36,13 +36,12 @@
 ========================================================================
 */
 
-#include "i_system.h"
-#include "z_zone.h"
+#include "doomstat.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
-#include "doomstat.h"
+#include "z_zone.h"
 
 platlist_t      *activeplats;   // killough 2/14/98: made global again
 

@@ -36,11 +36,6 @@
 ========================================================================
 */
 
-#include <stdarg.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
 #if defined(WIN32)
 #include <windows.h>
 
@@ -50,22 +45,13 @@ void I_ShutdownWindows32(void);
 #endif
 
 #include "c_console.h"
-#include "d_loop.h"
-#include "doomdef.h"
 #include "doomstat.h"
-#include "g_game.h"
 #include "i_gamepad.h"
 #include "i_timer.h"
-#include "i_video.h"
-#include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "s_sound.h"
-#include "SDL.h"
 #include "version.h"
-#include "w_merge.h"
-#include "w_wad.h"
-#include "z_zone.h"
 
 extern dboolean vid_widescreen;
 extern dboolean returntowidescreen;

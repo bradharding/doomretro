@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include "doomdata.h"
-#include "doomdef.h"
 #include "p_fix.h"
 #include "r_defs.h"
 

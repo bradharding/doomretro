@@ -36,28 +36,15 @@
 ========================================================================
 */
 
-#define _USE_MATH_DEFINES
-
-#include <math.h>
-
-#if defined(WIN32)
-#include <Windows.h>
-#include <Xinput.h>
-#endif
-
 #include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
-#include "dstrings.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
-#include "i_video.h"
 #include "m_bbox.h"
-#include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
-#include "SDL.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "z_zone.h"
@@ -157,7 +144,8 @@ byte    *gridcolor;
 
 typedef struct
 {
-    mpoint_t    a, b;
+    mpoint_t    a;
+    mpoint_t    b;
 } mline_t;
 
 //
@@ -301,6 +289,7 @@ static void AM_restoreScaleAndLoc(void)
 {
     m_w = old_m_w;
     m_h = old_m_h;
+
     if (am_followmode)
     {
         m_x = (plr->mo->x >> FRACTOMAPBITS) - m_w / 2;
@@ -381,7 +370,7 @@ static void AM_changeWindowLoc(void)
     m_y2 = m_y + m_h;
 }
 
-void AM_SetColors(void)
+void AM_setColors(void)
 {
     byte        *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
     int         x, y;
@@ -431,7 +420,7 @@ void AM_Init(void)
 
     priorities = Z_Malloc(256 * 256, PU_STATIC, NULL);
 
-    AM_SetColors();
+    AM_setColors();
 }
 
 static void AM_initVariables(dboolean mainwindow)
@@ -1761,7 +1750,7 @@ static void AM_drawMarks(void)
     }
 }
 
-static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
+static __inline void AM_drawScaledPixel(int x, int y, byte *color)
 {
     byte        *dest = mapscreen + (y * 2 - 1) * mapwidth + x * 2 - 1;
 
@@ -1781,15 +1770,15 @@ static void AM_drawCrosshair(void)
 {
     byte        *color = tinttab60 + (am_xhaircolor << 8);
 
-    AM_DrawScaledPixel(CENTERX - 2, CENTERY, color);
-    AM_DrawScaledPixel(CENTERX - 1, CENTERY, color);
-    AM_DrawScaledPixel(CENTERX, CENTERY, color);
-    AM_DrawScaledPixel(CENTERX + 1, CENTERY, color);
-    AM_DrawScaledPixel(CENTERX + 2, CENTERY, color);
-    AM_DrawScaledPixel(CENTERX, CENTERY - 2, color);
-    AM_DrawScaledPixel(CENTERX, CENTERY - 1, color);
-    AM_DrawScaledPixel(CENTERX, CENTERY + 1, color);
-    AM_DrawScaledPixel(CENTERX, CENTERY + 2, color);
+    AM_drawScaledPixel(CENTERX - 2, CENTERY, color);
+    AM_drawScaledPixel(CENTERX - 1, CENTERY, color);
+    AM_drawScaledPixel(CENTERX, CENTERY, color);
+    AM_drawScaledPixel(CENTERX + 1, CENTERY, color);
+    AM_drawScaledPixel(CENTERX + 2, CENTERY, color);
+    AM_drawScaledPixel(CENTERX, CENTERY - 2, color);
+    AM_drawScaledPixel(CENTERX, CENTERY - 1, color);
+    AM_drawScaledPixel(CENTERX, CENTERY + 1, color);
+    AM_drawScaledPixel(CENTERX, CENTERY + 2, color);
 }
 
 static void AM_setFrameVariables(void)

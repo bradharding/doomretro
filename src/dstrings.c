@@ -37,7 +37,6 @@
 */
 
 #include "d_deh.h"
-#include "dstrings.h"
 
 char **endmsg[] =
 {

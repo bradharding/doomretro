@@ -36,11 +36,6 @@
 ========================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-
 #include "doomdef.h"
 #include "doomtype.h"
 #include "i_swap.h"
@@ -49,7 +44,6 @@
 
 #define HEADER_CHUNK_ID "MThd"
 #define TRACK_CHUNK_ID  "MTrk"
-#define MAX_BUFFER_SIZE 0x10000
 
 #if defined(_MSC_VER)
 #pragma pack(push)
@@ -107,7 +101,7 @@ struct midi_file_s
 // Check the header of a chunk:
 static dboolean CheckChunkHeader(chunk_header_t *chunk, char *expected_id)
 {
-    return (!memcmp((char *)chunk->chunk_id, expected_id, 4));
+    return !memcmp((char *)chunk->chunk_id, expected_id, 4);
 }
 
 // Read a single byte. Returns false on error.

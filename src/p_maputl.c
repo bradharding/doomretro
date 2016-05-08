@@ -36,7 +36,6 @@
 ========================================================================
 */
 
-#include <stdlib.h>
 #include "m_bbox.h"
 #include "p_local.h"
 #include "z_zone.h"

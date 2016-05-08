@@ -36,10 +36,7 @@
 ========================================================================
 */
 
-#include <ctype.h>
-
 #include "d_deh.h"
-#include "dstrings.h"
 #include "hu_stuff.h"
 #include "m_misc.h"
 #include "p_local.h"

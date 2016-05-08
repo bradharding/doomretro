@@ -39,8 +39,6 @@
 #if !defined(__P_SAVEG_H__)
 #define __P_SAVEG_H__
 
-#include <stdio.h>
-
 // maximum size of a savegame description
 #define SAVESTRINGSIZE          256
 #define SAVESTRINGPIXELWIDTH    186
@@ -77,6 +75,6 @@ uint32_t P_ThinkerToIndex(thinker_t *thinker);
 thinker_t *P_IndexToThinker(uint32_t index);
 void P_RestoreTargets(void);
 
-extern FILE *save_stream;
+extern FILE     *save_stream;
 
 #endif

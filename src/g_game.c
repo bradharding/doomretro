@@ -38,24 +38,18 @@
 
 #if defined(WIN32)
 #include <Windows.h>
-#include <Xinput.h>
 #endif
 
 #include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
-#include "d_main.h"
 #include "doomstat.h"
-#include "dstrings.h"
 #include "f_finale.h"
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"
-#include "i_video.h"
-#include "m_argv.h"
-#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -65,7 +59,6 @@
 #include "p_tick.h"
 #include "r_sky.h"
 #include "s_sound.h"
-#include "SDL.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -83,7 +76,6 @@ void G_DoWorldDone(void);
 void G_DoSaveGame(void);
 
 // Game state the last time G_Ticker was called.
-
 gamestate_t     oldgamestate;
 
 gameaction_t    gameaction;

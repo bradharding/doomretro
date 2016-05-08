@@ -37,13 +37,13 @@
 */
 
 #include "d_event.h"
+#include "doomstat.h"
 #include "i_gamepad.h"
-#include "m_random.h"
 #include "m_menu.h"
+#include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
-#include "doomstat.h"
 
 #define LOWERSPEED              6 * FRACUNIT
 #define RAISESPEED              6 * FRACUNIT

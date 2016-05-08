@@ -37,16 +37,12 @@
 */
 
 #include <ctype.h>
-#include <math.h>
-#include <time.h>
 
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
-#include "g_game.h"
 #include "i_swap.h"
 #include "i_system.h"
-#include "m_argv.h"
 #include "m_bbox.h"
 #include "m_misc.h"
 #include "m_random.h"
