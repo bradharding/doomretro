@@ -40,9 +40,9 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_system.h"
-#include "i_tinttab.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -80,8 +80,6 @@ dboolean                vid_widescreen = vid_widescreen_default;
 char                    *vid_windowposition = vid_windowposition_default;
 
 dboolean                manuallypositioning = false;
-
-int                     closesttowhite;
 
 SDL_Window              *window = NULL;
 int                     windowid = 0;
@@ -1477,7 +1475,7 @@ void I_InitGraphics(void)
     keys['l'] = keys['L'] = false;
 
     I_InitTintTables(doompal);
-    closesttowhite = FindNearestColor(doompal, 255, 255, 255);
+    FindNearestColors(doompal);
 
     I_InitGammaTables();
 

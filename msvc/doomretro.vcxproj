@@ -277,7 +277,7 @@
     <ClInclude Include="..\src\hu_stuff.h" />
     <ClInclude Include="..\src\info.h" />
     <ClInclude Include="..\src\i_gamepad.h" />
-    <ClInclude Include="..\src\i_tinttab.h" />
+    <ClInclude Include="..\src\i_colors.h" />
     <ClInclude Include="..\src\i_swap.h" />
     <ClInclude Include="..\src\i_system.h" />
     <ClInclude Include="..\src\i_timer.h" />
@@ -357,7 +357,7 @@
     <ClCompile Include="..\src\hu_stuff.c" />
     <ClCompile Include="..\src\i_gamepad.c" />
     <ClCompile Include="..\src\doomretro.c" />
-    <ClCompile Include="..\src\i_tinttab.c" />
+    <ClCompile Include="..\src\i_colors.c" />
     <ClCompile Include="..\src\i_system.c" />
     <ClCompile Include="..\src\i_timer.c" />
     <ClCompile Include="..\src\i_video.c" />

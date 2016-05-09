@@ -45,6 +45,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_timer.h"
@@ -526,6 +527,27 @@ void C_Init(void)
         }
     }
 
+    consolecaretcolor = nearestcolors[consolecaretcolor];
+    consolehighfpscolor = nearestcolors[consolehighfpscolor];
+    consoleinputcolor = nearestcolors[consoleinputcolor];
+    consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
+    consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
+    consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
+    consolelowfpscolor = nearestcolors[consolelowfpscolor];
+    consoletitlecolor = nearestcolors[consoletitlecolor];
+    consolememorycolor = nearestcolors[consolememorycolor];
+    consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
+    consoletimestampcolor = nearestcolors[consoletimestampcolor];
+    consoleoutputcolor = nearestcolors[consoleoutputcolor];
+    consolebrandingcolor = nearestcolors[consolebrandingcolor];
+    consolewarningcolor = nearestcolors[consolewarningcolor];
+    consoledividercolor = nearestcolors[consoledividercolor];
+    consoletintcolor = nearestcolors[consoletintcolor];
+    consoleedgecolor1 = nearestcolors[consoleedgecolor1];
+    consoleedgecolor2 = nearestcolors[consoleedgecolor2];
+    consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor];
+    consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
+
     consolecolors[inputstring] = consoleinputtooutputcolor;
     consolecolors[outputstring] = consoleoutputcolor;
     consolecolors[dividerstring] = consoledividercolor;
@@ -538,11 +560,6 @@ void C_Init(void)
     consoleedgecolor2 <<= 8;
     consolescrollbartrackcolor <<= 8;
     consoledividercolor <<= 8;
-
-    consolecaretcolor = closesttowhite;
-    consoleinputcolor = closesttowhite;
-    consoleselectedinputcolor = closesttowhite;
-    consoleinputtooutputcolor = closesttowhite;
 }
 
 void C_HideConsole(void)

@@ -36,9 +36,16 @@
 ========================================================================
 */
 
-#if !defined(__I_TINTTAB_H__)
-#define __I_TINTTAB_H__
+#if !defined(__I_COLORS_H__)
+#define __I_COLORS_H__
+
+#include "doomtype.h"
+
+#define NUM_COLORS     256
+
+extern byte     nearestcolors[NUM_COLORS];
 
 void I_InitTintTables(byte *palette);
+void FindNearestColors(byte *palette);
 
 #endif

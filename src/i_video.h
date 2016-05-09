@@ -137,6 +137,4 @@ extern SDL_Window       *window;
 extern SDL_Window       *mapwindow;
 extern byte             *mapscreen;
 
-extern int              closesttowhite;
-
 #endif
