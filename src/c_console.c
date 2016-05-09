@@ -481,6 +481,7 @@ void C_Init(void)
     int         i;
     int         j = CONSOLEFONTSTART;
     char        buffer[9];
+    byte        *playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
     while (*consolecmds[numconsolecmds++].name);
 
@@ -511,7 +512,6 @@ void C_Init(void)
 
     if (W_CheckMultipleLumps("STCFN065") > 1)
     {
-        byte    *playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
         int     red = 0, green = 0, blue = 0, total = 0;
 
         V_AverageColorInPatch(W_CacheLumpName("STCFN065", PU_STATIC), &red, &green, &blue, &total);
@@ -538,6 +538,11 @@ void C_Init(void)
     consoleedgecolor2 <<= 8;
     consolescrollbartrackcolor <<= 8;
     consoledividercolor <<= 8;
+
+    consolecaretcolor = closesttowhite;
+    consoleinputcolor = closesttowhite;
+    consoleselectedinputcolor = closesttowhite;
+    consoleinputtooutputcolor = closesttowhite;
 }
 
 void C_HideConsole(void)

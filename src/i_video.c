@@ -81,6 +81,8 @@ char                    *vid_windowposition = vid_windowposition_default;
 
 dboolean                manuallypositioning = false;
 
+int                     closesttowhite;
+
 SDL_Window              *window = NULL;
 int                     windowid = 0;
 static SDL_Renderer     *renderer;
@@ -1475,6 +1477,7 @@ void I_InitGraphics(void)
     keys['l'] = keys['L'] = false;
 
     I_InitTintTables(doompal);
+    closesttowhite = FindNearestColor(doompal, 255, 255, 255);
 
     I_InitGammaTables();
 
