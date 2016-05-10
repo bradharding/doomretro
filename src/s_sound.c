@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <ctype.h>
+
 #include "c_console.h"
 #include "doomstat.h"
 #include "m_argv.h"
@@ -45,6 +47,7 @@
 #include "p_setup.h"
 #include "w_wad.h"
 #include "s_sound.h"
+#include "sc_man.h"
 #include "z_zone.h"
 
 // when to clip out sounds
@@ -66,6 +69,8 @@
 
 #define NORM_PRIORITY   64
 #define NORM_SEP        128
+
+#define TIDNUM(x)       ((int)(x->id & 0xFFFF)) // thing identifier
 
 typedef struct
 {
@@ -112,6 +117,9 @@ static int              snd_SfxVolume;
 
 // Whether songs are mus_paused
 static dboolean         mus_paused;
+
+// music currently should play
+static int              musicnum_current;
 
 // Music currently being played
 musicinfo_t             *mus_playing = NULL;
@@ -616,6 +624,10 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     void        *handle = NULL;
     int         mapinfomusic;
 
+    // current music which should play
+    musicnum_current = music_id;
+    musinfo.current_item = -1;
+
     if (nomusic || (mus_playing == music && !cheating))
         return;
 
@@ -666,5 +678,128 @@ void S_StopMusic(void)
         W_ReleaseLumpNum(mus_playing->lumpnum);
         mus_playing->data = NULL;
         mus_playing = NULL;
+    }
+}
+
+void S_RestartMusic(dboolean cheating, dboolean mapstart)
+{
+    if (musinfo.current_item != -1)
+        S_ChangeMusInfoMusic(musinfo.current_item, true);
+    else if (musicnum_current > mus_None && musicnum_current < NUMMUSIC)
+        S_ChangeMusic(musicnum_current, true, cheating, mapstart);
+}
+
+void S_ChangeMusInfoMusic(int lumpnum, int looping)
+{
+    musicinfo_t *music;
+
+    if (nomusic)
+        return;
+
+    if (mus_playing && mus_playing->lumpnum == lumpnum)
+        return;
+
+    music = &S_music[NUMMUSIC];
+
+    if (music->lumpnum == lumpnum)
+        return;
+
+    // shutdown old music
+    S_StopMusic();
+
+    // save lumpnum
+    music->lumpnum = lumpnum;
+
+    // load & register it
+    music->data = W_CacheLumpNum(music->lumpnum, PU_CACHE);
+    music->handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
+
+    // play it
+    I_PlaySong(music->handle, looping);
+
+    mus_playing = music;
+
+    musinfo.current_item = lumpnum;
+}
+
+musinfo_t musinfo;
+
+//
+// S_ParseMusInfo
+// Parses MUSINFO lump.
+//
+void S_ParseMusInfo(char *mapid)
+{
+    memset(&musinfo, 0, sizeof(musinfo));
+    musinfo.current_item = -1;
+
+    S_music[NUMMUSIC].lumpnum = -1;
+
+    if (W_CheckNumForName("MUSINFO") != -1)
+    {
+        int num, lumpnum;
+        int inMap = false;
+
+        SC_Open("MUSINFO");
+
+        while (SC_GetString())
+        {
+            if (inMap || SC_Compare(mapid))
+            {
+                if (!inMap)
+                {
+                    SC_GetString();
+                    inMap = true;
+                }
+
+                if (toupper(sc_String[0]) == 'E' || toupper(sc_String[0]) == 'M')
+                    break;
+
+                // Check number in range
+                if (M_StrToInt(sc_String, &num) && num > 0 && num < MAX_MUS_ENTRIES)
+                    if (SC_GetString())
+                    {
+                        lumpnum = W_CheckNumForName(sc_String);
+
+                        if (lumpnum >= 0)
+                            musinfo.items[num] = lumpnum;
+                    }
+            }
+        }
+
+        SC_Close();
+    }
+}
+
+void MusInfoThinker(mobj_t *thing)
+{
+    if (musinfo.mapthing != thing && thing->subsector->sector == players[0].mo->subsector->sector)
+    {
+        musinfo.lastmapthing = musinfo.mapthing;
+        musinfo.mapthing = thing;
+        musinfo.tics = 30;
+    }
+}
+
+void T_MAPMusic(void)
+{
+    if (musinfo.tics < 0 || !musinfo.mapthing)
+        return;
+
+    if (musinfo.tics > 0)
+        musinfo.tics--;
+    else if (!musinfo.tics && musinfo.lastmapthing != musinfo.mapthing)
+    {
+        int arraypt = TIDNUM(musinfo.mapthing);
+
+        if (arraypt >= 0 && arraypt < MAX_MUS_ENTRIES)
+        {
+            int lumpnum = musinfo.items[arraypt];
+
+            if (lumpnum >= 0 && lumpnum < numlumps)
+                S_ChangeMusInfoMusic(lumpnum, true);
+        }
+
+        musinfo.tics = -1;
     }
 }

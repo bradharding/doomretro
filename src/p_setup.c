@@ -2177,6 +2177,9 @@ void P_SetupLevel(int ep, int map)
 
     P_InitCards(&players[0]);
 
+    if (gamemode != shareware)
+        S_ParseMusInfo(lumpname);
+
     // set up world state
     P_SpawnSpecials();
 

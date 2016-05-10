@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "p_local.h"
 #include "p_tick.h"
+#include "s_sound.h"
 #include "z_zone.h"
 
 int     leveltime;
@@ -223,6 +224,9 @@ static void P_RunThinkers(void)
             currentthinker->function(currentthinker);
         currentthinker = currentthinker->next;
     }
+
+    // Dedicated thinkers
+    T_MAPMusic();
 }
 
 //

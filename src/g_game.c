@@ -1413,6 +1413,9 @@ void G_DoLoadGame(void)
 
     P_MapEnd();
 
+    if (musinfo.current_item != -1)
+        S_ChangeMusInfoMusic(musinfo.current_item, true);
+
     if (!P_ReadSaveGameEOF())
         I_Error("Bad savegame");
 

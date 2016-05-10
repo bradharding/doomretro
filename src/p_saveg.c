@@ -375,6 +375,9 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // int pitch
     str->pitch = saveg_read32();
+
+    // int id
+    str->id = saveg_read32();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -519,6 +522,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // int pitch
     saveg_write32(str->pitch);
+
+    // int id
+    saveg_write32(str->id);
 }
 
 //

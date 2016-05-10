@@ -412,6 +412,8 @@ typedef struct mobj_s
     fixed_t             nudge;
 
     int                 pitch;
+
+    int                 id;
 } mobj_t;
 
 #endif

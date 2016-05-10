@@ -120,4 +120,22 @@ void CheckTimidityConfig(void);
 
 dboolean I_AnySoundStillPlaying(void);
 
+#define MAX_MUS_ENTRIES 64
+
+typedef struct musinfo_s
+{
+    mobj_t      *mapthing;
+    mobj_t      *lastmapthing;
+    int         tics;
+    int         current_item;
+    int         items[MAX_MUS_ENTRIES];
+} musinfo_t;
+
+extern musinfo_t musinfo;
+
+void S_ChangeMusInfoMusic(int lumpnum, int looping);
+void S_ParseMusInfo(char *mapid);
+void MusInfoThinker(mobj_t *thing);
+void T_MAPMusic(void);
+
 #endif

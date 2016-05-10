@@ -564,6 +564,12 @@ void P_MobjThinker(mobj_t *mobj)
     player_t    *player = mobj->player;
     sector_t    *sector = mobj->subsector->sector;
 
+    if (mobj->type == MT_MUSICSOURCE)
+    {
+        MusInfoThinker(mobj);
+        return;
+    }
+
     // [AM] Handle interpolation unless we're an active player.
     if (!(player && mobj == player->mo))
     {
@@ -964,6 +970,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     fixed_t     x, y, z;
     short       type = mthing->type;
     int         flags;
+    int         id = 0;
 
     // check for players specially
     if (type == Player1Start)
@@ -987,6 +994,13 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 
     if (!(mthing->options & bit))
         return;
+
+    if (type >= 14101 && type <= 14164)
+    {
+        // Use the ambient number
+        id = type - 14100;              // Mus change
+        type = MusicSource;             // MT_MUSICSOURCE
+    }
 
     // find which type to spawn
 
@@ -1022,6 +1036,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;
+    mobj->id = id;
 
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
