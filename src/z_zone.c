@@ -120,18 +120,18 @@ void *Z_Realloc(void *ptr, size_t size)
     void        *newp = realloc(ptr, size);
 
     if (!newp && size)
-        I_Error("Z_Realloc: Failure trying to reallocate %i bytes", size);
+        I_Error("Z_Realloc: Failure trying to reallocate %lu bytes", (unsigned long)size);
     else
         ptr = newp;
 
     return ptr;
 }
 
-void Z_Free(void *p)
+void Z_Free(void *ptr)
 {
-    memblock_t  *block = (memblock_t *)((char *)p - HEADER_SIZE);
+    memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
 
-    if (!p)
+    if (!ptr)
         return;
 
     if (block->user)                                    // Nullify user if one exists
