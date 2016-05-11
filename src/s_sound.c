@@ -681,14 +681,6 @@ void S_StopMusic(void)
     }
 }
 
-void S_RestartMusic(dboolean cheating, dboolean mapstart)
-{
-    if (musinfo.current_item != -1)
-        S_ChangeMusInfoMusic(musinfo.current_item, true);
-    else if (musicnum_current > mus_None && musicnum_current < NUMMUSIC)
-        S_ChangeMusic(musicnum_current, true, cheating, mapstart);
-}
-
 void S_ChangeMusInfoMusic(int lumpnum, int looping)
 {
     musicinfo_t *music;

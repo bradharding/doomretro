@@ -2177,9 +2177,6 @@ void P_SetupLevel(int ep, int map)
 
     P_InitCards(&players[0]);
 
-    if (gamemode != shareware)
-        S_ParseMusInfo(lumpname);
-
     // set up world state
     P_SpawnSpecials();
 
@@ -2189,6 +2186,9 @@ void P_SetupLevel(int ep, int map)
     R_PrecacheLevel();
 
     S_Start();
+
+    if (gamemode != shareware)
+        S_ParseMusInfo(lumpname);
 }
 
 int     liquidlumps = 0;
