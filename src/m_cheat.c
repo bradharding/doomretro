@@ -37,6 +37,7 @@
 */
 
 #include <ctype.h>
+#include <string.h>
 
 #include "c_console.h"
 #include "doomdef.h"
