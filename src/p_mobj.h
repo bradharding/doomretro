@@ -241,7 +241,7 @@ typedef enum
     // Convert all red to blue, then apply 33% alpha translucency
     MF2_TRANSLUCENT_REDTOBLUE_33  = 0x00000100,
     // Apply 33% alpha translucency on all blue
-    MF2_TRANSLUCENT_BLUE_33       = 0x00000200,
+    MF2_TRANSLUCENT_BLUE_25       = 0x00000200,
 
     // Convert all red to green
     MF2_REDTOGREEN                = 0x00000400,

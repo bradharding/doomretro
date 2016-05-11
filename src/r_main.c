@@ -133,7 +133,7 @@ void (*tlredwhite50colfunc)(void);
 void (*tlbluecolfunc)(void);
 void (*tlgreen33colfunc)(void);
 void (*tlred33colfunc)(void);
-void (*tlblue33colfunc)(void);
+void (*tlblue25colfunc)(void);
 void (*redtobluecolfunc)(void);
 void (*transcolfunc)(void);
 void (*spanfunc)(void);
@@ -533,7 +533,7 @@ void R_InitColumnFunctions(void)
         tlbluecolfunc = R_DrawTranslucentBlueColumn;
         tlgreen33colfunc = R_DrawTranslucentGreen33Column;
         tlred33colfunc = R_DrawTranslucentRed33Column;
-        tlblue33colfunc = R_DrawTranslucentBlue33Column;
+        tlblue25colfunc = R_DrawTranslucentBlue25Column;
         tlredtoblue33colfunc = R_DrawTranslucentRedToBlue33Column;
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
         bloodsplatcolfunc = R_DrawBloodSplatColumn;
@@ -552,7 +552,7 @@ void R_InitColumnFunctions(void)
         tlbluecolfunc = R_DrawColumn;
         tlgreen33colfunc = R_DrawColumn;
         tlred33colfunc = R_DrawColumn;
-        tlblue33colfunc = R_DrawColumn;
+        tlblue25colfunc = R_DrawColumn;
         tlredtoblue33colfunc = R_DrawRedToBlueColumn;
         tlredtogreen33colfunc = R_DrawRedToGreenColumn;
         bloodsplatcolfunc = R_DrawSolidBloodSplatColumn;
@@ -593,8 +593,8 @@ void R_InitColumnFunctions(void)
             info->colfunc = tlredtogreen33colfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
             info->colfunc = tlredtoblue33colfunc;
-        else if (flags2 & MF2_TRANSLUCENT_BLUE_33)
-            info->colfunc = tlblue33colfunc;
+        else if (flags2 & MF2_TRANSLUCENT_BLUE_25)
+            info->colfunc = tlblue25colfunc;
         else if (flags2 & MF2_REDTOGREEN)
             info->colfunc = redtogreencolfunc;
         else if (flags2 & MF2_REDTOBLUE)

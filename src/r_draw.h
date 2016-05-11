@@ -74,7 +74,7 @@ extern byte             *tinttabblue;
 extern byte             *tinttabred33;
 extern byte             *tinttabredwhite50;
 extern byte             *tinttabgreen33;
-extern byte             *tinttabblue33;
+extern byte             *tinttabblue25;
 
 // The span blitting interface.
 // Hook in assembler or system specific BLT
@@ -95,7 +95,7 @@ void R_DrawTranslucentRedWhite50Column(void);
 void R_DrawTranslucentBlueColumn(void);
 void R_DrawTranslucentGreen33Column(void);
 void R_DrawTranslucentRed33Column(void);
-void R_DrawTranslucentBlue33Column(void);
+void R_DrawTranslucentBlue25Column(void);
 void R_DrawRedToBlueColumn(void);
 void R_DrawTranslucentRedToBlue33Column(void);
 void R_DrawRedToGreenColumn(void);

@@ -555,7 +555,7 @@ void R_DrawVisSprite(vissprite_t *vis)
         else if (colfunc == tlgreencolfunc)
             colfunc = tlgreen33colfunc;
         else if (colfunc == tlbluecolfunc)
-            colfunc = tlblue33colfunc;
+            colfunc = tlblue25colfunc;
         else if (colfunc == tlredwhitecolfunc1 || colfunc == tlredwhitecolfunc2)
             colfunc = tlredwhite50colfunc;
     }

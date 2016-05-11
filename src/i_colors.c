@@ -99,7 +99,7 @@ byte    *tinttabblue;
 byte    *tinttabred33;
 byte    *tinttabredwhite50;
 byte    *tinttabgreen33;
-byte    *tinttabblue33;
+byte    *tinttabblue25;
 
 static struct
 {
@@ -287,5 +287,5 @@ void I_InitTintTables(byte *palette)
     tinttabred33 = GenerateTintTable(palette, 33, general, REDS);
     tinttabredwhite50 = GenerateTintTable(palette, 50, general, (REDS | WHITES));
     tinttabgreen33 = GenerateTintTable(palette, 33, general, GREENS);
-    tinttabblue33 = GenerateTintTable(palette, 33, general, BLUES);
+    tinttabblue25 = GenerateTintTable(palette, 25, general, BLUES);
 }

@@ -123,7 +123,7 @@ void (*tlredwhite50colfunc)(void);
 void (*tlbluecolfunc)(void);
 void (*tlgreen33colfunc)(void);
 void (*tlred33colfunc)(void);
-void (*tlblue33colfunc)(void);
+void (*tlblue25colfunc)(void);
 void (*redtobluecolfunc)(void);
 void (*tlredtoblue33colfunc)(void);
 void (*skycolfunc)(void);
