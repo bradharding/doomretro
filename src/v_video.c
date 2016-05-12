@@ -1427,7 +1427,7 @@ void V_AverageColorInPatch(patch_t *patch, int *red, int *green, int *blue, int 
 {
     int         col = 0;
     int         w = SHORT(patch->width);
-    int         red1 = 0, blue1 = 0, green1 = 0;
+    int         red1 = -1, blue1 = -1, green1 = -1;
     byte        *playpal = W_CacheLumpNum(W_GetNumForName2("PLAYPAL"), PU_CACHE);
 
     for (; col < w; col++)
@@ -1453,7 +1453,7 @@ void V_AverageColorInPatch(patch_t *patch, int *red, int *green, int *blue, int 
                 byte    g = playpal[color * 3 + 1];
                 byte    b = playpal[color * 3 + 2];
 
-                if (!red1)
+                if (red1 < 0)
                 {
                     red1 = r;
                     blue1 = g;
