@@ -64,6 +64,8 @@ int             pixelwidth;
 int             pixelheight;
 char            *r_lowpixelsize = r_lowpixelsize_default;
 
+char            screenshotfolder[MAX_PATH] = "";
+
 extern dboolean r_translucency;
 
 //
@@ -1280,6 +1282,9 @@ void V_Init(void)
     int                 i;
     byte                *base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
     const SDL_version   *linked = IMG_Linked_Version();
+#if defined(WIN32)
+    char                buffer[1024];
+#endif
 
     if (linked->major != SDL_IMAGE_MAJOR_VERSION || linked->minor != SDL_IMAGE_MINOR_VERSION)
         I_Error("The wrong version of SDL2_IMAGE.DLL was found. "PACKAGE_NAME" requires "
@@ -1300,6 +1305,14 @@ void V_Init(void)
     DYI = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
 
     GetPixelSize();
+
+#if defined(WIN32)
+    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, buffer)))
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S PACKAGE_NAME,
+            buffer);
+    else
+#endif
+        M_StringCopy(screenshotfolder, M_GetExecutableFolder(), sizeof(screenshotfolder));
 }
 
 char                    lbmname[MAX_PATH];
@@ -1353,15 +1366,7 @@ dboolean V_ScreenShot(void)
 {
     dboolean    result = false;
     char        mapname[128];
-    char        folder[MAX_PATH] = "";
     int         count = 0;
-
-#if defined(WIN32)
-    HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
-
-    if (hr != S_OK)
-        return false;
-#endif
 
     switch (gamestate)
     {
@@ -1395,9 +1400,8 @@ dboolean V_ScreenShot(void)
         else
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
         ++count;
-        M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S PACKAGE_NAME, folder);
-        M_MakeDirectory(lbmpath);
-        M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", lbmpath, lbmname);
+        M_MakeDirectory(screenshotfolder);
+        M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", screenshotfolder, lbmname);
     } while (M_FileExists(lbmpath));
 
     result = V_SavePNG(window, lbmpath);
@@ -1409,9 +1413,9 @@ dboolean V_ScreenShot(void)
         {
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
             ++count;
-            M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S PACKAGE_NAME, folder);
-            M_MakeDirectory(lbmpath);
-            M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", lbmpath, lbmname);
+            M_MakeDirectory(screenshotfolder);
+            M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", screenshotfolder,
+                lbmname);
         } while (M_FileExists(lbmpath));
 
         result = V_SavePNG(mapwindow, lbmpath);
