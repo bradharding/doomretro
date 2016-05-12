@@ -129,22 +129,22 @@ void *Z_Realloc(void *ptr, size_t size)
 
 void Z_Free(void *ptr)
 {
-    memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
+    //memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
 
-    if (!ptr)
-        return;
+    //if (!ptr)
+    //    return;
 
-    if (block->user)                                    // Nullify user if one exists
-        *block->user = NULL;
+    //if (block->user)                                    // Nullify user if one exists
+    //    *block->user = NULL;
 
-    if (block == block->next)
-        blockbytag[block->tag] = NULL;
-    else if (blockbytag[block->tag] == block)
-        blockbytag[block->tag] = block->next;
-    block->prev->next = block->next;
-    block->next->prev = block->prev;
+    //if (block == block->next)
+    //    blockbytag[block->tag] = NULL;
+    //else if (blockbytag[block->tag] == block)
+    //    blockbytag[block->tag] = block->next;
+    //block->prev->next = block->next;
+    //block->next->prev = block->prev;
 
-    free(block);
+    //free(block);
 }
 
 void Z_FreeTags(int32_t lowtag, int32_t hightag)
@@ -177,37 +177,37 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
 
 void Z_ChangeTag(void *ptr, int32_t tag)
 {
-    memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
+    //memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
+    //return;
+    //// proff - added sanity check, this can happen when an empty lump is locked
+    //if (!ptr)
+    //    return;
 
-    // proff - added sanity check, this can happen when an empty lump is locked
-    if (!ptr)
-        return;
+    //// proff - do nothing if tag doesn't differ
+    //if (tag == block->tag)
+    //    return;
 
-    // proff - do nothing if tag doesn't differ
-    if (tag == block->tag)
-        return;
+    //if (block == block->next)
+    //    blockbytag[block->tag] = NULL;
+    //else if (blockbytag[block->tag] == block)
+    //    blockbytag[block->tag] = block->next;
+    //block->prev->next = block->next;
+    //block->next->prev = block->prev;
 
-    if (block == block->next)
-        blockbytag[block->tag] = NULL;
-    else if (blockbytag[block->tag] == block)
-        blockbytag[block->tag] = block->next;
-    block->prev->next = block->next;
-    block->next->prev = block->prev;
+    //if (!blockbytag[tag])
+    //{
+    //    blockbytag[tag] = block;
+    //    block->next = block->prev = block;
+    //}
+    //else
+    //{
+    //    blockbytag[tag]->prev->next = block;
+    //    block->prev = blockbytag[tag]->prev;
+    //    block->next = blockbytag[tag];
+    //    blockbytag[tag]->prev = block;
+    //}
 
-    if (!blockbytag[tag])
-    {
-        blockbytag[tag] = block;
-        block->next = block->prev = block;
-    }
-    else
-    {
-        blockbytag[tag]->prev->next = block;
-        block->prev = blockbytag[tag]->prev;
-        block->next = blockbytag[tag];
-        blockbytag[tag]->prev = block;
-    }
-
-    block->tag = tag;
+    //block->tag = tag;
 }
 
 void Z_ChangeUser(void *ptr, void **user)

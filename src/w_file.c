@@ -58,20 +58,13 @@ static wad_file_class_t *wad_file_classes[] =
 #if defined(HAVE_MMAP)
     &posix_wad_file,
 #endif
-    &stdc_wad_file,
+    &stdc_wad_file
 };
 
 wad_file_t *W_OpenFile(char *path)
 {
     wad_file_t  *result;
     int         i;
-
-    //!
-    // Use the OS's virtual memory subsystem to map WAD files
-    // directly into memory.
-    //
-    if (!M_CheckParm("-mmap"))
-        return stdc_wad_file.OpenFile(path);
 
     // Try all classes in order until we find one that works
     result = NULL;
