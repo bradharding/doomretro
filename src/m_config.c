@@ -36,10 +36,8 @@
 ========================================================================
 */
 
-#if defined(WIN32)
-#pragma warning( disable : 4091 )
-#include <ShlObj.h>
-#endif
+#include <ctype.h>
+#include <string.h>
 
 #include "c_cmds.h"
 #include "c_console.h"
