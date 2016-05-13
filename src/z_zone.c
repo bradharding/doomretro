@@ -209,13 +209,3 @@ void Z_ChangeTag(void *ptr, int32_t tag)
 
     //block->tag = tag;
 }
-
-void Z_ChangeUser(void *ptr, void **user)
-{
-    memblock_t  *block;
-
-    block = (memblock_t *)((byte *)ptr - sizeof(memblock_t));
-
-    block->user = user;
-    *user = ptr;
-}
