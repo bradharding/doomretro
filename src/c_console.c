@@ -1470,13 +1470,8 @@ void C_PrintCompileDate(void)
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 
 #if defined(_MSC_FULL_VER)
-    {
-        char    ver[9];
-        
-        itoa(_MSC_FULL_VER, ver, 10);
-        C_Output("It was compiled using Microsoft C/C++ Optimizing Compiler v%c%c.%c%c.%c%c%c%c.",
-            ver[0], ver[1], ver[2], ver[3], ver[4], ver[5], ver[6], ver[7]);
-    }
+        C_Output("It was compiled using Microsoft C/C++ Optimizing Compiler v%d.%02d.%d.",
+            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000);
 #endif
 }
 
