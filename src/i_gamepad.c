@@ -198,7 +198,7 @@ void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
 
 void I_PollDirectInputGamepad(void)
 {
-    if (gamepad)
+    if (gamepad && !noinput)
     {
         int     hat = SDL_JoystickGetHat(gamepad, 0);
 
@@ -285,7 +285,7 @@ void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
 void I_PollXInputGamepad(void)
 {
 #if defined(WIN32)
-    if (gamepad)
+    if (gamepad && !noinput)
     {
         XINPUT_STATE    state;
         XINPUT_GAMEPAD  Gamepad;

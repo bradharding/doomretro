@@ -444,6 +444,9 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
+                if (noinput)
+                    return;
+
                 if (m_sensitivity || menuactive)
                 {
                     idclev = false;
