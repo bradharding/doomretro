@@ -737,7 +737,7 @@ static void HU_DrawAltHUD(void)
             color);
 
         if (health < 100)
-            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 160, ALTHUD_Y + 15, altendpatch, WHITE, white);
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 160, ALTHUD_Y + 13, altendpatch, WHITE, white);
     }
 
     if (armor)
