@@ -1468,6 +1468,16 @@ void C_PrintCompileDate(void)
         "%i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
         days[dayofweek(day, month + 1, year)], months[month], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
+
+#if defined(_MSC_FULL_VER)
+    {
+        char    ver[9];
+        
+        itoa(_MSC_FULL_VER, ver, 10);
+        C_Output("It was compiled using Microsoft C/C++ Optimizing Compiler v%c%c.%c%c.%c%c%c%c.",
+            ver[0], ver[1], ver[2], ver[3], ver[4], ver[5], ver[6], ver[7]);
+    }
+#endif
 }
 
 void C_PrintSDLVersions(void)

@@ -178,7 +178,7 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
 void Z_ChangeTag(void *ptr, int32_t tag)
 {
     //memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
-    //return;
+
     //// proff - added sanity check, this can happen when an empty lump is locked
     //if (!ptr)
     //    return;
