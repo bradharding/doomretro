@@ -714,26 +714,26 @@ static void HU_DrawAltHUD(void)
     int keys = 0;
     int i = 0;
 
-    DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 14, health);
+    DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     if (health > 100)
     {
         int     health1 = MIN(health, 100);
 
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, health - 99, 8, color);
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, health1 + 1, 8, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health - 99, 8, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health1 + 1, 8, color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, altendpatch, WHITE, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health1 - 2, ALTHUD_Y + 15, altmarkpatch, WHITE,
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health1 - 2, ALTHUD_Y + 13, altmarkpatch, WHITE,
             color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE,
             color);
     }
     else
     {
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, health + 1, 8, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health + 1, 8, color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, altendpatch, WHITE, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 2, ALTHUD_Y + 15, altmarkpatch, WHITE,
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 2, ALTHUD_Y + 13, altmarkpatch, WHITE,
             color);
 
         if (health < 100)
