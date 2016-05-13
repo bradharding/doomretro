@@ -540,7 +540,7 @@ static void HU_DrawHUD(void)
 
 #define ALTHUD_LEFT_X   21
 #define ALTHUD_RIGHT_X  459
-#define ALTHUD_Y        300
+#define ALTHUD_Y        299
 
 #define WHITE           4
 #define LIGHTGRAY       86
@@ -575,6 +575,7 @@ static patch_t  *altleftpatch;
 static patch_t  *altarmpatch;
 static patch_t  *altrightpatch;
 static patch_t  *altmarkpatch;
+static patch_t  *altmark2patch;
 static patch_t  *altkeypatch;
 static patch_t  *altskullpatch;
 
@@ -612,6 +613,7 @@ void HU_AltInit(void)
 
     altendpatch = W_CacheLumpName("DRHUDE", PU_CACHE);
     altmarkpatch = W_CacheLumpName("DRHUDI", PU_CACHE);
+    altmark2patch = W_CacheLumpName("DRHUDI_2", PU_CACHE);
 
     altkeypatch = W_CacheLumpName("DRHUDKEY", PU_CACHE);
     altskullpatch = W_CacheLumpName("DRHUDSKU", PU_CACHE);
@@ -712,15 +714,31 @@ static void HU_DrawAltHUD(void)
     int keys = 0;
     int i = 0;
 
-    DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
-    health = MIN(health, 100);
-    V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health + 1, 8, color);
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
-    V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color);
+    DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 14, health);
+    if (health > 100)
+    {
+        int     health1 = MIN(health, 100);
 
-    if (health < 100)
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 160, ALTHUD_Y + 13, altendpatch, WHITE, white);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, health - 99, 8, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, health1 + 1, 8, color);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, altendpatch, WHITE, color);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health1 - 2, ALTHUD_Y + 15, altmarkpatch, WHITE,
+            color);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE,
+            color);
+    }
+    else
+    {
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, health + 1, 8, color);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 15, altendpatch, WHITE, color);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 2, ALTHUD_Y + 15, altmarkpatch, WHITE,
+            color);
+
+        if (health < 100)
+            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 160, ALTHUD_Y + 15, altendpatch, WHITE, white);
+    }
 
     if (armor)
     {
