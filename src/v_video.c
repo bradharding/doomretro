@@ -1308,7 +1308,7 @@ void V_Init(void)
 
 #if defined(WIN32)
     if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, buffer)))
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S PACKAGE_NAME,
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S PACKAGE_NAME,
             buffer);
     else
 #endif
@@ -1401,7 +1401,7 @@ dboolean V_ScreenShot(void)
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
         ++count;
         M_MakeDirectory(screenshotfolder);
-        M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", screenshotfolder, lbmname);
+        M_snprintf(lbmpath, sizeof(lbmpath), "%s"DIR_SEPARATOR_S"%s", screenshotfolder, lbmname);
     } while (M_FileExists(lbmpath));
 
     result = V_SavePNG(window, lbmpath);
@@ -1414,7 +1414,7 @@ dboolean V_ScreenShot(void)
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
             ++count;
             M_MakeDirectory(screenshotfolder);
-            M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", screenshotfolder,
+            M_snprintf(lbmpath, sizeof(lbmpath), "%s"DIR_SEPARATOR_S"%s", screenshotfolder,
                 lbmname);
         } while (M_FileExists(lbmpath));
 

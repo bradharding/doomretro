@@ -156,11 +156,11 @@ char *M_GetAppDataFolder(void)
         return M_GetExecutableFolder();
 #elif defined(__MACOSX__)
     // On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
-    NSFileManager       *manager = [NSFileManager defaultManager];
-    NSURL               *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory
-                            inDomains: NSUserDomainMask].firstObject;
-    NSURL               *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent:
-                            @PACKAGE_NAME];
+    NSFileManager     *manager = [NSFileManager defaultManager];
+    NSURL             *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory
+                          inDomains: NSUserDomainMask].firstObject;
+    NSURL             *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent:
+                          @PACKAGE_NAME];
 
     return appSupportURL.fileSystemRepresentation;
 #else
