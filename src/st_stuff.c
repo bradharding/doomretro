@@ -1306,7 +1306,7 @@ void ST_doPaletteStuff(void)
 
     if (plyr->powers[pw_strength] && (plyr->pendingweapon == wp_fist
         || (plyr->readyweapon == wp_fist && plyr->pendingweapon == wp_nochange))
-        && plyr->health > 0)
+        && plyr->health > 0 && r_berserkintensity)
     {
         if (plyr->bonuscount)
             palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
