@@ -161,6 +161,7 @@ int             consolememorycolor = 88;
 int             consoleplayermessagecolor = 161;
 int             consoletimestampcolor = 100;
 int             consoleoutputcolor = 88;
+int             consoleboldcolor = 4;
 int             consolebrandingcolor = 100;
 int             consolewarningcolor = 180;
 int             consoledividercolor = 100;
@@ -544,6 +545,7 @@ void C_Init(void)
     consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
     consoletimestampcolor = nearestcolors[consoletimestampcolor];
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
+    consoleboldcolor = nearestcolors[consoleboldcolor];
     consolebrandingcolor = nearestcolors[consolebrandingcolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
@@ -899,7 +901,7 @@ void C_Drawer(void)
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
-                    consolecolors[console[i].type], NOBACKGROUNDCOLOR, 4, tinttab66,
+                    consolecolors[console[i].type], NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66,
                     console[i].tabs, true);
                 if (con_timestamps && *console[i].timestamp)
                     C_DrawTimeStamp(timestampx, y, console[i].timestamp);
