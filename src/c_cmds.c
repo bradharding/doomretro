@@ -903,13 +903,20 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 {
                     unsigned int        inpos;
                     unsigned int        spaces;
-                    unsigned int        len = strlen(console[i].string);
+                    char                *string = strdup(console[i].string);
+                    unsigned int        len;
                     unsigned int        outpos = 0;
                     int                 tabcount = 0;
 
+                    strreplace(string, "<b>", "");
+                    strreplace(string, "</b>", "");
+                    strreplace(string, "<i>", "");
+                    strreplace(string, "</i>", "");
+                    len = strlen(string);
+
                     for (inpos = 0; inpos < len; ++inpos)
                     {
-                        char    ch = console[i].string[inpos];
+                        char    ch = string[inpos];
 
                         if (ch != '\n')
                             if (ch == '\t')
