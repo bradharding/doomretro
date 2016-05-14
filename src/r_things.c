@@ -38,6 +38,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "i_colors.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "p_local.h"
@@ -1186,7 +1187,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     }
     else
     {
-        if (spr == SPR_SHT2 && (!frame || frame >= 8) && !dehacked)
+        if (spr == SPR_SHT2 && (!frame || frame >= 8) && !dehacked && nearestcolors[71] == 71)
             vis->colfunc = (r_translucency ? R_DrawTranslucentSuperShotgunColumn :
                 R_DrawSuperShotgunColumn);
         else if (r_translucency)
