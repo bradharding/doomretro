@@ -910,7 +910,7 @@ void G_Ticker(void)
                     C_Output("%s.", buffer2);
                 }
                 else
-                    C_Warning("No screenshot was taken.");
+                    C_Warning("A screenshot couldn't be taken.");
                 gameaction = ga_nothing;
                 break;
         }
