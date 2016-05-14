@@ -391,8 +391,8 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 int     italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, dboolean italics,
-    byte *tinttab)
+void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, int backgroundcolor,
+    dboolean italics, byte *tinttab)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -416,21 +416,19 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, dbo
                 int     height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP)
-                {
-                    if (color2 == -1)
+                    if (backgroundcolor == NOBACKGROUNDCOLOR)
                     {
                         if (*source)
                             if (italics)
-                                *(dest + italicize[height]) = (!tinttab ? color1 :
-                                    tinttab[(color1 << 8) + *(dest + italicize[height])]);
+                                *(dest + italicize[height]) = (!tinttab ? color :
+                                    tinttab[(color << 8) + *(dest + italicize[height])]);
                             else
-                                *dest = (!tinttab ? color1 : tinttab[(color1 << 8) + *dest]);
+                                *dest = (!tinttab ? color : tinttab[(color << 8) + *dest]);
                     }
                     else if (*source == WHITE)
-                        *dest = color1;
-                    else if (*dest != color1)
-                        *dest = color2;
-                }
+                        *dest = color;
+                    else if (*dest != color)
+                        *dest = backgroundcolor;
                 ++source;
                 dest += SCREENWIDTH;
             }

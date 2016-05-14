@@ -46,6 +46,7 @@
 #define CONSOLEFONTEND          '~'
 #define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
+#define NOBOLDCOLOR             -1
 #define NOBACKGROUNDCOLOR       -1
 
 #define CONSOLEHEIGHT           (SCREENHEIGHT - SBARHEIGHT) / 2
