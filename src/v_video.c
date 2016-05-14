@@ -1292,7 +1292,7 @@ void V_Init(void)
             SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 
     if (linked->patch != SDL_IMAGE_PATCHLEVEL)
-        C_Warning("The wrong version of SDL2_IMAGE.DLL was found. "PACKAGE_NAME" requires "
+        C_Warning("The wrong version of SDL2_IMAGE.DLL was found. <i>"PACKAGE_NAME"</i> requires "
             "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
             SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 

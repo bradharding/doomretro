@@ -79,7 +79,6 @@
 #define CONSOLEDIVIDERWIDTH     (CONSOLETEXTPIXELWIDTH - 2)
 
 #define DIVIDER                 "~~~"
-#define ITALICS                 '~'
 #define NOQUOTE                 0
 #define LDQUOTE                 1
 #define RDQUOTE                 2
@@ -425,7 +424,12 @@ static int C_TextWidth(char *text)
         char    nextletter = text[i + 1];
         int     j = 0;
 
-        if (letter == '\xc2' && nextletter == '\xb0')
+        if (letter == '<' && i < len - 2 && text[i + 1] == 'i' && text[i + 2] == '>')
+            i += 2;
+        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'i'
+            && text[i + 3] == '>')
+            i += 3;
+        else if (letter == '\xC2' && nextletter == '\xB0')
         {
             w += SHORT(degree->width);
             ++i;
@@ -687,19 +691,26 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     {
         unsigned char   letter = text[i];
         int             c = letter - CONSOLEFONTSTART;
-        unsigned char   nextletter = text[i + 1];
 
-        if (letter == ITALICS && prevletter != ITALICS)
-            x += (!(italics = !italics));
+        if (letter == '<' && i < len - 2 && text[i + 1] == 'i' && text[i + 2] == '>')
+        {
+            italics = true;
+            i += 2;
+        }
+        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'i'
+            && text[i + 3] == '>')
+        {
+            italics = false;
+            i += 3;
+            ++x;
+        }
         else
         {
             patch_t     *patch = NULL;
 
-            if (letter == ITALICS)
-                italics = false;
-            else if (letter == '\t')
+            if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
-            else if (letter == '\xC2' && nextletter == '\xB0')
+            else if (letter == '\xC2' && text[i + 1] == '\xB0')
             {
                 patch = degree;
                 ++i;
@@ -1464,8 +1475,8 @@ void C_PrintCompileDate(void)
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
-    C_Output("This %i-bit %s binary of ~" PACKAGE_NAMEANDVERSIONSTRING "~ was built on %s, %s %i, "
-        "%i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
+    C_Output("This %i-bit %s binary of <i>" PACKAGE_NAMEANDVERSIONSTRING "</i> was built on %s, "
+        "%s %i, %i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
         days[dayofweek(day, month + 1, year)], months[month], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 

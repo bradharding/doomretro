@@ -65,12 +65,12 @@
 #define MAX_PATH                260
 #endif
 
-#define GIVECMDSHORTFORMAT      "~items~"
-#define GIVECMDLONGFORMAT       "ammo|armor|health|keys|weapons|all|~item~"
-#define KILLCMDFORMAT           "player|all|~monster~"
-#define MAPCMDSHORTFORMAT       "E~x~M~y~|MAP~xy~"
-#define MAPCMDLONGFORMAT        "E~x~M~y~|MAP~xy~|first|previous|next|last"
-#define SPAWNCMDFORMAT          "~monster~|~item~"
+#define GIVECMDSHORTFORMAT      "<i>items</i>"
+#define GIVECMDLONGFORMAT       "ammo|armor|health|keys|weapons|all|<i>item</i>"
+#define KILLCMDFORMAT           "player|all|<i>monster</i>"
+#define MAPCMDSHORTFORMAT       "E<i>x</i>M<i>y</i>|MAP<i>xy</i>"
+#define MAPCMDLONGFORMAT        "E<i>x</i>M<i>y</i>|MAP<i>xy</i>|first|previous|next|last"
+#define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 
 extern dboolean         alwaysrun;
 extern int              am_allmapcdwallcolor;
@@ -452,21 +452,21 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (am_wallcolor, am_wallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of solid walls in the AutoMap."),
     CVAR_INT  (am_xhaircolor, am_xhaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS, "The color of the crosshair in the AutoMap."),
     CVAR_BOOL (autoload, "", bool_cvars_func1, bool_cvars_func2, "Toggles automatically loading the last savegame after the\nplayer dies."),
-    CMD       (bind, "", null_func1, C_Bind, 2, "[~control~ [+~action~]]", "Binds an action to a control."),
+    CMD       (bind, "", null_func1, C_Bind, 2, "[<i>control</i> [+<i>action</i>]]", "Binds an action to a control."),
     CVAR_BOOL (centerweapon, "", bool_cvars_func1, bool_cvars_func2, "Toggles the centering of the player's weapon when firing."),
     CMD       (clear, "", null_func1, clear_cmd_func2, 0, "", "Clears the Console."),
-    CMD       (cmdlist, "", null_func1, cmdlist_cmd_func2, 1, "[~searchstring~]", "Shows a list of Console commands."),
+    CMD       (cmdlist, "", null_func1, cmdlist_cmd_func2, 1, "[<i>searchstring</i>]", "Shows a list of Console commands."),
     CVAR_BOOL (con_obituaries, "", bool_cvars_func1, bool_cvars_func2, "Toggles obituaries in the Console when monsters are killed."),
     CVAR_BOOL (con_timestamps, "", bool_cvars_func1, bool_cvars_func2, "Toggles timestamps in the Console for player messages."),
-    CMD       (condump, "", null_func1, condump_cmd_func2, 1, "[~filename~.txt]", "Dumps the Console to a file."),
-    CMD       (cvarlist, "", null_func1, cvarlist_cmd_func2, 1, "[~searchstring~]", "Shows a list of Console variables."),
+    CMD       (condump, "", null_func1, condump_cmd_func2, 1, "[<i>filename</i>.txt]", "Dumps the Console to a file."),
+    CMD       (cvarlist, "", null_func1, cvarlist_cmd_func2, 1, "[<i>searchstring</i>]", "Shows a list of Console variables."),
     CMD       (endgame, "", game_func1, endgame_cmd_func2, 0, "", "Ends a game."),
-    CVAR_INT  (episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM~ episode in the menu."),
+    CVAR_INT  (episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected <i>DOOM</i> episode in the menu."),
     CMD       (exitmap, "", game_func1, exitmap_cmd_func2, 0, "", "Exits the current map."),
-    CVAR_INT  (expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected ~DOOM II~ expansion in the menu."),
+    CVAR_INT  (expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected <i>DOOM II</i> expansion in the menu."),
     CVAR_INT  (facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The color behind the player's face in the status bar."),
     CMD       (fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[on|off]", "Toggles fast monsters."),
-    CVAR_TIME (gametime, "", null_func1, time_cvars_func2, "The amount of time since ~"PACKAGE_NAME"~ started."),
+    CVAR_TIME (gametime, "", null_func1, time_cvars_func2, "The amount of time since <i>"PACKAGE_NAME"</i> started."),
     CMD       (give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT, "Gives items to the player."),
     CMD       (god, "", god_cmd_func1, god_cmd_func2, 1, "[on|off]", "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT, "The dead zone of the gamepad's left thumbstick."),
@@ -493,7 +493,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT (idspispopd, 0),
     CVAR_STR  (iwadfolder, "", null_func1, str_cvars_func2, "The folder where an IWAD was last opened."),
     CMD       (kill, "", kill_cmd_func1, kill_cmd_func2, 1, KILLCMDFORMAT, "Kills the player, all monsters or a type of monster."),
-    CMD       (load, "", load_cmd_func1, load_cmd_func2, 1, "~filename~.save", "Loads a game from a file."),
+    CMD       (load, "", load_cmd_func1, load_cmd_func2, 1, "<i>filename</i>.save", "Loads a game from a file."),
     CVAR_FLOAT(m_acceleration, "", float_cvars_func1, float_cvars_func2, CF_NONE, "The amount the mouse accelerates."),
     CVAR_BOOL (m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, "Toggles double-clicking a mouse button for the +use action."),
     CVAR_BOOL (m_novertical, "", bool_cvars_func1, bool_cvars_func2, "Toggles no vertical movement of the mouse."),
@@ -510,7 +510,7 @@ consolecmd_t consolecmds[] =
     CMD       (pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[on|off]", "Toggles the player starting each map with only a pistol."),
     CVAR_STR  (playername, "", null_func1, playername_cvar_func2, "The name of the player used in player messages."),
     CMD       (playerstats, "", null_func1, playerstats_cmd_func2, 0, "", "Shows statistics about the player."),
-    CMD       (quit, exit, null_func1, quit_cmd_func2, 0, "", "Quits ~"PACKAGE_NAME"~."),
+    CMD       (quit, exit, null_func1, quit_cmd_func2, 0, "", "Quits <i>"PACKAGE_NAME"</i>."),
     CVAR_BOOL (r_althud, "", bool_cvars_func1, bool_cvars_func2, "Toggles the display of an alternate heads up display when in\nwidescreen mode."),
     CVAR_INT  (r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The intensity of the screen's red haze when the player has the\nberserk power-up and their fists selected."),
     CVAR_INT  (r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters (all, none or\nred)."),
@@ -525,18 +525,18 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_corpses_smearblood, "", bool_cvars_func1, bool_cvars_func2, "Toggles corpses producing blood splats as they slide."),
     CVAR_BOOL (r_detail, "", r_detail_cvar_func1, r_detail_cvar_func2, "Toggles the graphic detail (low or high)."),
     CVAR_BOOL (r_diskicon, "", bool_cvars_func1, bool_cvars_func2, "Toggles showing a disk icon when loading and saving."),
-    CVAR_BOOL (r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, "Toggles the fixing of mapping errors in the ~DOOM~ and ~DOOM II~\nIWADs."),
+    CVAR_BOOL (r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, "Toggles the fixing of mapping errors in the <i>DOOM</i> and <i>DOOM II</i>\nIWADs."),
     CVAR_BOOL (r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, "Toggles the fixing of sprite offsets."),
     CVAR_BOOL (r_floatbob, "", bool_cvars_func1, bool_cvars_func2, "Toggles some power-ups bobbing up and down."),
     CVAR_FLOAT(r_gamma, "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE, "The gamma correction level (off or 0.50 to 2.0)."),
     CVAR_BOOL (r_homindicator, "", bool_cvars_func1, bool_cvars_func2, "Toggles the flashing Hall of Mirrors indicator."),
     CVAR_BOOL (r_hud, "", bool_cvars_func1, r_hud_cvar_func2, "Toggles the heads-up display when in widescreen mode."),
     CVAR_BOOL (r_liquid_bob, "", bool_cvars_func1, bool_cvars_func2, "Toggles the bobbing effect of liquid sectors."),
-    CVAR_BOOL (r_liquid_clipsprites, "", bool_cvars_func1, bool_cvars_func2, "Toggles the bottom of sprites being clipped when in a liquid sector."),
+    CVAR_BOOL (r_liquid_clipsprites, "", bool_cvars_func1, bool_cvars_func2, "Toggles the bottom of sprites being clipped when in a liquid\nsector."),
     CVAR_BOOL (r_liquid_current, "", bool_cvars_func1, bool_cvars_func2, "Toggles a slight current being applied to liquid sectors."),
     CVAR_BOOL (r_liquid_lowerview, "", bool_cvars_func1, bool_cvars_func2, "Toggles lowering the player's view when in a liquid sector."),
     CVAR_BOOL (r_liquid_swirl, "", bool_cvars_func1, bool_cvars_func2, "Toggles the swirl effect of liquid sectors."),
-    CVAR_SIZE (r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2, "The size of pixels when the graphic detail is low (~width~\xD7~height~)."),
+    CVAR_SIZE (r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2, "The size of pixels when the graphic detail is low (<i>width</i>\xD7<i>height</i>)."),
     CVAR_BOOL (r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL (r_playersprites, "", bool_cvars_func1, bool_cvars_func2,"Toggles the display of the player's weapon."),
     CVAR_BOOL (r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, "Toggles trails behind player and Cyberdemon rockets."),
@@ -551,13 +551,13 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (s_randompitch, "", bool_cvars_func1, bool_cvars_func2, "Toggles randomizing the pitch of monster sound effects."),
     CVAR_INT  (s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOALIAS, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, "", null_func1, str_cvars_func2, "The path of Timidity's configuration file."),
-    CMD       (save, "", save_cmd_func1, save_cmd_func2, 1, "~filename~.save", "Saves the game to a file."),
+    CMD       (save, "", save_cmd_func1, save_cmd_func2, 1, "<i>filename</i>.save", "Saves the game to a file."),
     CVAR_INT  (skilllevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS, "The currently selected skill level in the menu."),
     CMD       (spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CVAR_INT  (stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS, "The amount the player bobs when still."),
     CMD       (thinglist, "", game_func1, thinglist_cmd_func2, 0, "", "Shows a list of things in the current map."),
     CVAR_INT  (turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT,  NOALIAS, "The speed of the player (10% to 400%)."),
-    CMD       (unbind, "", null_func1, unbind_cmd_func2, 1, "~control~", "Unbinds the action from a control."),
+    CMD       (unbind, "", null_func1, unbind_cmd_func2, 1, "<i>control</i>", "Unbinds the action from a control."),
     CVAR_BOOL (vid_capfps, "", bool_cvars_func1, bool_cvars_func2, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS, "The display used to render the game."),
 #if !defined(WIN32)
@@ -566,12 +566,12 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vid_fullscreen, "", bool_cvars_func1, vid_fullscreen_cvar_func2, "Toggles between fullscreen and a window."),
     CVAR_STR  (vid_scaledriver, "", vid_scaledriver_cvar_func1, vid_scaledriver_cvar_func2, "The driver used to scale the display (\"\", \"direct3d\", \"opengl\"\nor \"software\")."),
     CVAR_STR  (vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, "The filter used to scale the display (\"nearest\", \"linear\" or\n\"nearest_linear\")."),
-    CVAR_SIZE (vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2, "The screen's resolution when fullscreen (desktop or\n~width~\xD7~height~)."),
+    CVAR_SIZE (vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2, "The screen's resolution when fullscreen (desktop or\n<i>width</i>\xD7<i>height</i>)."),
     CVAR_BOOL (vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, "Toggles the display of the average frames per second."),
     CVAR_BOOL (vid_vsync, "", bool_cvars_func1, vid_vsync_cvar_func2, "Toggles vertical synchronization with the display's refresh\nrate."),
     CVAR_BOOL (vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, "Toggles widescreen mode."),
-    CVAR_POS  (vid_windowposition, "", null_func1, vid_windowposition_cvar_func2, "The position of the window on the desktop (centered or (~x~,~y~))."),
-    CVAR_SIZE (vid_windowsize, "", null_func1, vid_windowsize_cvar_func2, "The size of the window on the desktop (~width~\xD7~height~)."),
+    CVAR_POS  (vid_windowposition, "", null_func1, vid_windowposition_cvar_func2, "The position of the window on the desktop (centered or (<i>x</i>,<i>y</i>))."),
+    CVAR_SIZE (vid_windowsize, "", null_func1, vid_windowsize_cvar_func2, "The size of the window on the desktop (<i>width</i>\xD7<i>height</i>)."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
@@ -871,9 +871,9 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (consolestrings)
     {
-        char    filename[MAX_PATH];
-        FILE    *file;
-        const char *appdatafolder = M_GetAppDataFolder();
+        char            filename[MAX_PATH];
+        FILE            *file;
+        const char      *appdatafolder = M_GetAppDataFolder();
 
         M_MakeDirectory(appdatafolder);
         
@@ -881,7 +881,8 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             int count = 0;
 
-            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt", appdatafolder);
+            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt",
+                appdatafolder);
             while (M_FileExists(filename))
                 M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump (%i).txt",
                     appdatafolder, ++count);
@@ -1935,7 +1936,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     C_TabbedOutput(tabs, "Lines\t%s\t%s", commify(numlines), convertsize(sizelines));
 
     C_TabbedOutput(tabs, "Line specials\t%s-compatible",
-        (boomlinespecials ? "~BOOM~" : "Vanilla"));
+        (boomlinespecials ? "<i>BOOM</i>" : "Vanilla"));
 
     C_TabbedOutput(tabs, "Sides\t%s\t%s", commify(numsides), convertsize(sizesides));
 
@@ -2107,7 +2108,7 @@ static void C_PlayerStats_Game(void)
     int         time2 = stat_time / TICRATE;
     player_t    *player = &players[0];
 
-    C_TabbedOutput(tabs, "\t~Current Map~\t~Total~");
+    C_TabbedOutput(tabs, "\t<i>Current Map</i>\t<i>Total</i>");
 
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map revealed\t100%%\t-");
@@ -2262,7 +2263,7 @@ static void C_PlayerStats_NoGame(void)
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
     int time2 = stat_time / TICRATE;
 
-    C_TabbedOutput(tabs, "\t~Total~");
+    C_TabbedOutput(tabs, "\t<i>Total</i>");
 
     C_TabbedOutput(tabs, "Monsters killed\t%s", commify(stat_monsterskilled));
 

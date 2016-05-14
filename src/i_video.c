@@ -1462,9 +1462,9 @@ void I_InitGraphics(void)
             linked.minor, linked.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning("The wrong version of SDL2.DLL was found. "PACKAGE_NAME" requires v%d.%d.%d, "
-            "not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch, linked.major,
-            linked.minor, linked.patch);
+        C_Warning("The wrong version of SDL2.DLL was found. <i>"PACKAGE_NAME"</i> requires "
+            "v%d.%d.%d, not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch,
+            linked.major, linked.minor, linked.patch);
 
     SDL_DisableScreenSaver();
 
