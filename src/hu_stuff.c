@@ -747,14 +747,14 @@ static void HU_DrawAltHUD(void)
             V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, gray);
             DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
                 gray);
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 1, armor / 2 + 1, 6, gray);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor / 2 + 1, 4, gray);
         }
         else
         {
             V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, lightgray);
             DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
                 lightgray);
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 1, armor / 2 + 1, 6, lightgray);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor / 2 + 1, 4, lightgray);
         }
     }
     else
