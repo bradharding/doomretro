@@ -892,13 +892,12 @@ void G_Ticker(void)
 
                 if (V_ScreenShot())
                 {
-                    static char     buffer1[512];
-                    static char     buffer2[512];
+                    static char     buffer[512];
 
                     S_StartSound(NULL, sfx_swtchx);
 
-                    M_snprintf(buffer1, sizeof(buffer1), s_GSCREENSHOT, uppercase(lbmname));
-                    players[0].message = buffer1;
+                    M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, uppercase(lbmname));
+                    players[0].message = buffer;
                     message_dontfuckwithme = true;
                     if (menuactive)
                     {
@@ -906,8 +905,7 @@ void G_Ticker(void)
                         blurred = false;
                     }
 
-                    M_snprintf(buffer2, sizeof(buffer2), s_GSCREENSHOT, uppercase(lbmpath));
-                    C_Output("%s.", buffer2);
+                    C_Output("<b>%s</b> saved.", lbmpath);
                 }
                 else
                     C_Warning("A screenshot couldn't be taken.");
@@ -1432,7 +1430,7 @@ void G_DoLoadGame(void)
 
     if (consoleactive)
     {
-        C_Output("%s loaded.", uppercase(savename));
+        C_Output("<b>%s</b> loaded.", savename);
         C_HideConsoleFast();
     }
 }
@@ -1505,7 +1503,7 @@ void G_DoSaveGame(void)
         rename(temp_savegame_file, savegame_file);
 
         if (consoleactive)
-            C_Output("%s saved.", uppercase(savename));
+            C_Output("<b>%s</b> saved.", savename);
         else
         {
             static char     buffer[1024];

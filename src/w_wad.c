@@ -220,9 +220,9 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
         lumphash = NULL;
     }
 
-    C_Output("%s %s lump%s from %.4s file %s.", (automatic ? "Automatically added" : "Added"),
-        commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
-        header.identification, uppercase(filename));
+    C_Output("%s %s lump%s from %.4s file <b>%s</b>.", (automatic ? "Automatically added" :
+        "Added"), commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
+        header.identification, filename);
 
     return wad_file;
 }

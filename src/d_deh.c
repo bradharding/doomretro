@@ -1832,17 +1832,17 @@ void ProcessDehFile(char *filename, int lumpnum)
         if (!(infile.f = fopen(filename, "rt")))
             return;             // should be checked up front anyway
         infile.lump = NULL;
-        C_Output("Parsed DeHackEd%s file %s.",
+        C_Output("Parsed DeHackEd%s file <b>%s</b>.",
             (M_StringEndsWith(uppercase(filename), "BEX") ? " with BOOM extensions" : ""),
-            uppercase(filename));
+            filename);
     }
     else                        // DEH file comes from lump indicated by second argument
     {
         infile.size = W_LumpLength(lumpnum);
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
         filename = lumpinfo[lumpnum]->wad_file->path;
-        C_Output("Parsed DEHACKED lump from %s file %s.",
-            (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), uppercase(filename));
+        C_Output("Parsed DEHACKED lump from %s file <b>%s</b>.",
+            (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
     }
 
     {
@@ -1911,13 +1911,13 @@ void ProcessDehFile(char *filename, int lumpnum)
             }
 
             if (devparm)
-                C_Output("Branching to include file %s...", nextfile);
+                C_Output("Branching to include file <b>%s</b>...", nextfile);
 
             ProcessDehFile(nextfile, 0); // do the included file
 
             includenotext = oldnotext;
             if (devparm)
-                C_Output("...continuing with %s", filename);
+                C_Output("...continuing with <b>%s</b>", filename);
             continue;
         }
 

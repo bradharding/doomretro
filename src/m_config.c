@@ -768,10 +768,10 @@ void M_LoadCVARs(char *filename)
     if (!file)
     {
         if (stat_runs)
-            C_Output("%s wasn't found. Using the defaults for all CVARs and recreating %s.",
-                uppercase(filename), uppercase(PACKAGE_CONFIG));
+            C_Output("<b>%s</b> wasn't found. Using the defaults for all CVARs and recreating "
+                "<b>%s</b>.", filename, PACKAGE_CONFIG);
         else
-            C_Output("Created %s.", uppercase(filename));
+            C_Output("Created <b>%s</b>.", filename);
         M_CheckCVARs();
         return;
     }
@@ -848,6 +848,6 @@ void M_LoadCVARs(char *filename)
 
     fclose(file);
 
-    C_Output("Loaded CVARs from %s.", uppercase(filename));
+    C_Output("Loaded CVARs from <b>%s</b>.", filename);
     M_CheckCVARs();
 }

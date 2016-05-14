@@ -1490,7 +1490,7 @@ void C_PrintCompileDate(void)
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
-    C_Output("This %i-bit %s binary of <i>" PACKAGE_NAMEANDVERSIONSTRING "</i> was built on %s, "
+    C_Output("This %i-bit %s binary of <i>"PACKAGE_NAMEANDVERSIONSTRING"</i> was built on %s, "
         "%s %i, %i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
         days[dayofweek(day, month + 1, year)], months[month], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
@@ -1506,13 +1506,14 @@ void C_PrintSDLVersions(void)
     int revision = SDL_GetRevisionNumber();
 
     if (revision)
-        C_Output("Using version %i.%i.%i (Revision %i) of SDL2.DLL.",
+        C_Output("Using version %i.%i.%i (Revision %i) of <b>sdl2.dll</b>.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, revision);
     else
-        C_Output("Using version %i.%i.%i of SDL2.DLL.",
+        C_Output("Using version %i.%i.%i of <b>sdl2.dll</b>.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
-    C_Output("Using version %i.%i.%i of SDL2_MIXER.DLL and version %i.%i.%i of SDL2_IMAGE.DLL.",
-        SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
-        SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+    C_Output("Using version %i.%i.%i of <b>sdl2_mixer.dll</b> and version %i.%i.%i of "
+        "<b>sdl2_image.dll</b>.", SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION,
+        SDL_MIXER_PATCHLEVEL, SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION,
+        SDL_IMAGE_PATCHLEVEL);
 }

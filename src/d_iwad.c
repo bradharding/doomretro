@@ -534,7 +534,7 @@ void D_SetSaveGameFolder(void)
         DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
-    C_Output("Savegames will be saved and loaded in %s.", uppercase(savegamefolder));
+    C_Output("Savegames will be saved and loaded in <b>%s</b>.", savegamefolder);
 }
 
 //

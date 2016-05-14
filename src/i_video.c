@@ -1279,8 +1279,8 @@ static void SetVideoMode(dboolean output)
             C_Output("The framerate is uncapped.");
         }
 
-        C_Output("Using the 256-color palette from the PLAYPAL lump in %s file %s.",
-            (playpalwad->type == IWAD ? "IWAD" : "PWAD"), uppercase(playpalwad->path));
+        C_Output("Using the 256-color palette from the PLAYPAL lump in %s file <b>%s</b>.",
+            (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
             C_Output("Gamma correction is off.");
@@ -1457,12 +1457,12 @@ void I_InitGraphics(void)
     SDL_VERSION(&compiled);
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error("The wrong version of SDL2.DLL was found. "PACKAGE_NAME" requires v%d.%d.%d, "
+        I_Error("The wrong version of sdl2.dll was found. "PACKAGE_NAME" requires v%d.%d.%d, "
             "not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch, linked.major,
             linked.minor, linked.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning("The wrong version of SDL2.DLL was found. <i>"PACKAGE_NAME"</i> requires "
+        C_Warning("The wrong version of sdl2.dll was found. <i>"PACKAGE_NAME"</i> requires "
             "v%d.%d.%d, not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch,
             linked.major, linked.minor, linked.patch);
 

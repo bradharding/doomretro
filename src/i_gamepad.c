@@ -118,11 +118,11 @@ void I_InitGamepad(void)
             static int  initcount;
 
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                M_StringCopy(XInputDLL, "XINPUT1_4.DLL", 16);
+                M_StringCopy(XInputDLL, "XInput1_4.dll", 16);
             else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                M_StringCopy(XInputDLL, "XINPUT9_1_0.DLL", 16);
+                M_StringCopy(XInputDLL, "XInput9_1_0.dll", 16);
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
-                M_StringCopy(XInputDLL, "XINPUT1_3.DLL", 16);
+                M_StringCopy(XInputDLL, "XInput1_3.dll", 16);
 
             ++initcount;
 
@@ -143,7 +143,7 @@ void I_InitGamepad(void)
                         gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
                             I_PollThumbs_XInput_RightHanded);
                         if (initcount == 1)
-                            C_Output("XInput gamepad detected. Using %s.", XInputDLL);
+                            C_Output("XInput gamepad detected. Using <b>%s</b>.", XInputDLL);
                     }
                 }
                 else
