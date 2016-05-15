@@ -43,7 +43,8 @@
 #include "z_zone.h"
 
 #define MAX_STRING_SIZE 256
-#define ASCII_COMMENT   ';'
+#define ASCII_COMMENT1  ';'
+#define ASCII_COMMENT2  '/'
 #define ASCII_QUOTE     '\"'
 
 static void CheckOpen(void);
@@ -130,7 +131,8 @@ dboolean SC_GetString(void)
             sc_End = true;
             return false;
         }
-        if (*ScriptPtr != ASCII_COMMENT)
+        if (*ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2
+            && *(ScriptPtr + 1) != ASCII_COMMENT2)
             foundToken = true;
         else
         {
@@ -157,7 +159,8 @@ dboolean SC_GetString(void)
         ScriptPtr++;
     }
     else
-        while (*ScriptPtr > 32 && *ScriptPtr != ASCII_COMMENT)
+        while (*ScriptPtr > 32 && *ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2
+            && *(ScriptPtr + 1) != ASCII_COMMENT2)
         {
             *text++ = *ScriptPtr++;
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
