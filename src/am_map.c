@@ -41,6 +41,7 @@
 #include "d_deh.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "m_bbox.h"
 #include "m_misc.h"
@@ -375,39 +376,39 @@ void AM_setColors(void)
     byte        *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
     int         x, y;
 
-    *(priority + am_playercolor) = PLAYERPRIORITY;
-    *(priority + am_thingcolor) = THINGPRIORITY;
-    *(priority + am_wallcolor) = WALLPRIORITY;
-    *(priority + am_allmapwallcolor) = ALLMAPWALLPRIORITY;
-    *(priority + am_cdwallcolor) = CDWALLPRIORITY;
-    *(priority + am_allmapcdwallcolor) = ALLMAPCDWALLPRIORITY;
-    *(priority + am_fdwallcolor) = FDWALLPRIORITY;
-    *(priority + am_allmapfdwallcolor) = ALLMAPFDWALLPRIORITY;
-    *(priority + am_teleportercolor) = TELEPORTERPRIORITY;
-    *(priority + am_tswallcolor) = TSWALLPRIORITY;
-    *(priority + am_gridcolor) = GRIDPRIORITY;
+    *(priority + nearestcolors[am_playercolor]) = PLAYERPRIORITY;
+    *(priority + nearestcolors[am_thingcolor]) = THINGPRIORITY;
+    *(priority + nearestcolors[am_wallcolor]) = WALLPRIORITY;
+    *(priority + nearestcolors[am_allmapwallcolor]) = ALLMAPWALLPRIORITY;
+    *(priority + nearestcolors[am_cdwallcolor]) = CDWALLPRIORITY;
+    *(priority + nearestcolors[am_allmapcdwallcolor]) = ALLMAPCDWALLPRIORITY;
+    *(priority + nearestcolors[am_fdwallcolor]) = FDWALLPRIORITY;
+    *(priority + nearestcolors[am_allmapfdwallcolor]) = ALLMAPFDWALLPRIORITY;
+    *(priority + nearestcolors[am_teleportercolor]) = TELEPORTERPRIORITY;
+    *(priority + nearestcolors[am_tswallcolor]) = TSWALLPRIORITY;
+    *(priority + nearestcolors[am_gridcolor]) = GRIDPRIORITY;
 
-    *(priority + MASKCOLOR) = MASKPRIORITY;
+    *(priority + nearestcolors[MASKCOLOR]) = MASKPRIORITY;
 
-    *(mask + MASKCOLOR) = am_backcolor;
+    *(mask + nearestcolors[MASKCOLOR]) = nearestcolors[am_backcolor];
 
     for (x = 0; x < 256; ++x)
         for (y = 0; y < 256; ++y)
             *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
 
-    playercolor = priorities + (am_playercolor << 8);
-    thingcolor = priorities + (am_thingcolor << 8);
-    wallcolor = priorities + (am_wallcolor << 8);
-    allmapwallcolor = priorities + (am_allmapwallcolor << 8);
-    cdwallcolor = priorities + (am_cdwallcolor << 8);
-    allmapcdwallcolor = priorities + (am_allmapcdwallcolor << 8);
-    fdwallcolor = priorities + (am_fdwallcolor << 8);
-    allmapfdwallcolor = priorities + (am_allmapfdwallcolor << 8);
-    teleportercolor = priorities + (am_teleportercolor << 8);
-    tswallcolor = priorities + (am_tswallcolor << 8);
-    gridcolor = priorities + (am_gridcolor << 8);
+    playercolor = priorities + (nearestcolors[am_playercolor] << 8);
+    thingcolor = priorities + (nearestcolors[am_thingcolor] << 8);
+    wallcolor = priorities + (nearestcolors[am_wallcolor] << 8);
+    allmapwallcolor = priorities + (nearestcolors[am_allmapwallcolor] << 8);
+    cdwallcolor = priorities + (nearestcolors[am_cdwallcolor] << 8);
+    allmapcdwallcolor = priorities + (nearestcolors[am_allmapcdwallcolor] << 8);
+    fdwallcolor = priorities + (nearestcolors[am_fdwallcolor] << 8);
+    allmapfdwallcolor = priorities + (nearestcolors[am_allmapfdwallcolor] << 8);
+    teleportercolor = priorities + (nearestcolors[am_teleportercolor] << 8);
+    tswallcolor = priorities + (nearestcolors[am_tswallcolor] << 8);
+    gridcolor = priorities + (nearestcolors[am_gridcolor] << 8);
 
-    maskcolor = priorities + (MASKCOLOR << 8);
+    maskcolor = priorities + (nearestcolors[MASKCOLOR] << 8);
 }
 
 void AM_Init(void)
@@ -1737,8 +1738,9 @@ static void AM_drawMarks(void)
                         byte    *dest = mapscreen + fy * mapwidth + fx;
 
                         if (src == '2')
-                            *dest = am_markcolor;
-                        else if (src == '1' && *dest != am_markcolor && *dest != am_gridcolor)
+                            *dest = nearestcolors[am_markcolor];
+                        else if (src == '1' && *dest != nearestcolors[am_markcolor]
+                            && *dest != nearestcolors[am_gridcolor])
                             *dest = *(*dest + tinttab80);
                     }
                 }
@@ -1768,7 +1770,7 @@ static __inline void AM_drawScaledPixel(int x, int y, byte *color)
 
 static void AM_drawCrosshair(void)
 {
-    byte        *color = tinttab60 + (am_xhaircolor << 8);
+    byte        *color = tinttab60 + (nearestcolors[am_xhaircolor] << 8);
 
     AM_drawScaledPixel(CENTERX - 2, CENTERY, color);
     AM_drawScaledPixel(CENTERX - 1, CENTERY, color);
