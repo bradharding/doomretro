@@ -519,48 +519,60 @@ static void M_CheckCVARs(void)
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = alwaysrun_default;
 
-    am_allmapcdwallcolor = BETWEEN(am_allmapcdwallcolor_min, am_allmapcdwallcolor,
-        am_allmapcdwallcolor_max);
+    if (am_allmapcdwallcolor < am_allmapcdwallcolor_min
+        || am_allmapcdwallcolor > am_allmapcdwallcolor_max)
+        am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 
-    am_allmapfdwallcolor = BETWEEN(am_allmapfdwallcolor_min, am_allmapfdwallcolor,
-        am_allmapfdwallcolor_max);
+    if (am_allmapfdwallcolor < am_allmapfdwallcolor_min
+        || am_allmapfdwallcolor > am_allmapfdwallcolor_max)
+        am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 
-    am_allmapwallcolor = BETWEEN(am_allmapwallcolor_min, am_allmapwallcolor,
-        am_allmapwallcolor_max);
+    if (am_allmapwallcolor < am_allmapwallcolor_min || am_allmapwallcolor > am_allmapwallcolor_max)
+        am_allmapwallcolor = am_allmapwallcolor_default;
 
-    am_backcolor = BETWEEN(am_backcolor_min, am_backcolor, am_backcolor_max);
+    if (am_backcolor < am_backcolor_min || am_backcolor > am_backcolor_max)
+        am_backcolor = am_backcolor_default;
 
-    am_cdwallcolor = BETWEEN(am_cdwallcolor_min, am_cdwallcolor, am_cdwallcolor_max);
+    if (am_cdwallcolor < am_cdwallcolor_min || am_cdwallcolor > am_cdwallcolor_max)
+        am_cdwallcolor = am_cdwallcolor_default;
 
     if (am_external != false && am_external != true)
         am_external = am_external_default;
 
-    am_fdwallcolor = BETWEEN(am_fdwallcolor_min, am_fdwallcolor, am_fdwallcolor_max);
+    if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)
+        am_fdwallcolor = am_fdwallcolor_default;
 
     am_followmode = am_followmode_default;
 
     if (am_grid != false && am_grid != true)
         am_grid = am_grid_default;
 
-    am_gridcolor = BETWEEN(am_gridcolor_min, am_gridcolor, am_gridcolor_max);
+    if (am_gridcolor < am_gridcolor_min || am_gridcolor > am_gridcolor_max)
+        am_gridcolor = am_gridcolor_default;
 
-    am_markcolor = BETWEEN(am_markcolor_min, am_markcolor, am_markcolor_max);
+    if (am_markcolor < am_markcolor_min || am_markcolor > am_markcolor_max)
+        am_markcolor = am_markcolor_default;
 
-    am_playercolor = BETWEEN(am_playercolor_min, am_playercolor, am_playercolor_max);
+    if (am_playercolor < am_playercolor_min || am_playercolor > am_playercolor_max)
+        am_playercolor = am_playercolor_default;
 
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = am_rotatemode_default;
 
-    am_teleportercolor = BETWEEN(am_teleportercolor_min, am_teleportercolor,
-        am_teleportercolor_max);
+    if (am_teleportercolor < am_teleportercolor_min || am_teleportercolor > am_teleportercolor_max)
+        am_teleportercolor = am_teleportercolor_default;
 
-    am_thingcolor = BETWEEN(am_thingcolor_min, am_thingcolor, am_thingcolor_max);
+    if (am_thingcolor < am_thingcolor_min || am_thingcolor > am_thingcolor_max)
+        am_thingcolor = am_thingcolor_default;
 
-    am_tswallcolor = BETWEEN(am_tswallcolor_min, am_tswallcolor, am_tswallcolor_max);
+    if (am_tswallcolor < am_tswallcolor_min || am_tswallcolor > am_tswallcolor_max)
+        am_tswallcolor = am_tswallcolor_default;
 
-    am_wallcolor = BETWEEN(am_wallcolor_min, am_wallcolor, am_wallcolor_max);
+    if (am_wallcolor < am_wallcolor_min || am_wallcolor > am_wallcolor_max)
+        am_wallcolor = am_wallcolor_default;
 
-    am_xhaircolor = BETWEEN(am_xhaircolor_min, am_xhaircolor, am_xhaircolor_max);
+    if (am_xhaircolor < am_xhaircolor_min || am_xhaircolor > am_xhaircolor_max)
+        am_xhaircolor = am_xhaircolor_default;
 
     if (autoload != false && autoload != true)
         autoload = autoload_default;
@@ -578,7 +590,8 @@ static void M_CheckCVARs(void)
 
     expansion = BETWEEN(expansion_min, expansion, expansion_max);
 
-    facebackcolor = BETWEEN(facebackcolor_min, facebackcolor, facebackcolor_max);
+    if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
+        facebackcolor = facebackcolor_default;
 
     gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
     gamepadleftdeadzone = (short)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
