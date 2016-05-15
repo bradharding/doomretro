@@ -55,6 +55,10 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
+    // [BH] Don't teleport corpses once kill ccmd used
+    if (thing->flags2 & MF2_MASSACRE)
+        return false;
+
     // killough 1/31/98: improve performance by using
     // P_FindSectorFromLineTag instead of simple linear search.
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
