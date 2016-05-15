@@ -60,6 +60,8 @@
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
+fixed_t         DX, DY, DXI, DYI;
+
 int             pixelwidth;
 int             pixelheight;
 char            *r_lowpixelsize = r_lowpixelsize_default;
@@ -1423,54 +1425,4 @@ dboolean V_ScreenShot(void)
     }
 
     return result;
-}
-
-void V_AverageColorInPatch(patch_t *patch, int *red, int *green, int *blue, int *total)
-{
-    int         col = 0;
-    int         w = SHORT(patch->width);
-    int         red1 = -1, blue1 = -1, green1 = -1;
-    byte        *playpal = W_CacheLumpNum(W_GetNumForName2("PLAYPAL"), PU_CACHE);
-
-    for (; col < w; col++)
-    {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-        int             td;
-        int             topdelta = -1;
-        int             lastlength = 0;
-
-        // step through the posts in a column
-        while ((td = column->topdelta) != 0xFF)
-        {
-            byte        *source = (byte *)column + 3;
-            int         count;
-
-            topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
-            count = lastlength = column->length;
-
-            while (count--)
-            {
-                byte    color = *source++;
-                byte    r = playpal[color * 3];
-                byte    g = playpal[color * 3 + 1];
-                byte    b = playpal[color * 3 + 2];
-
-                if (red1 < 0)
-                {
-                    red1 = r;
-                    blue1 = g;
-                    green1 = b;
-                    continue;
-                }
-                else if (r == red1 && g == green1 && b == blue1)
-                    continue;
-
-                *red += r;
-                *green += g;
-                *blue += b;
-                (*total)++;
-            }
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
 }

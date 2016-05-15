@@ -517,22 +517,6 @@ void C_Init(void)
         - CONSOLESCROLLBARWIDTH + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
-    if (W_CheckMultipleLumps("STCFN065") > 1)
-    {
-        int     red = 0, green = 0, blue = 0, total = 0;
-
-        V_AverageColorInPatch(W_CacheLumpName("STCFN065", PU_STATIC), &red, &green, &blue, &total);
-        V_AverageColorInPatch(W_CacheLumpName("STCFN066", PU_STATIC), &red, &green, &blue, &total);
-        V_AverageColorInPatch(W_CacheLumpName("STCFN067", PU_STATIC), &red, &green, &blue, &total);
-        if (total > 0)
-        {
-            int color = FindNearestColor(playpal, red / total, green / total, blue / total);
-
-            if (color < 176 || color > 191)
-                consoleplayermessagecolor = color;
-        }
-    }
-
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
     consoleinputcolor = nearestcolors[consoleinputcolor];

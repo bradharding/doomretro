@@ -45,8 +45,6 @@
 // VIDEO
 //
 
-fixed_t         DX, DY, DXI, DYI;
-
 // Screen 0 is the screen updated by I_Update screen.
 // Screen 1 is an extra buffer.
 extern byte     *screens[5];
@@ -112,7 +110,5 @@ void V_LowGraphicDetail(int height);
 void V_DrawBlock(int x, int y, int width, int height, byte *src);
 
 dboolean V_ScreenShot(void);
-
-void V_AverageColorInPatch(patch_t *patch, int *red, int *green, int *blue, int *total);
 
 #endif
