@@ -548,12 +548,12 @@ char *formatsize(const char *str)
     return newstr;
 }
 
-char *commify(int value)
+char *commify(int64_t value)
 {
     char        result[64];
 
-    M_snprintf(result, sizeof(result), "%i", value);
-    if (ABS(value) >= 1000)
+    M_snprintf(result, sizeof(result), "%lli", value);
+    if (value <= -1000 || value >= 1000)
     {
         char        *pt;
         int         n;
