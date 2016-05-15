@@ -114,15 +114,15 @@ void I_InitGamepad(void)
         else
         {
 #if defined(WIN32)
-            char        *XInputDLL = malloc(16);
+            char        *XInputDLL;
             static int  initcount;
 
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                M_StringCopy(XInputDLL, "XInput1_4.dll", 16);
+                XInputDLL = "XInput1_4.dll";
             else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                M_StringCopy(XInputDLL, "XInput9_1_0.dll", 16);
+                XInputDLL = "XInput9_1_0.dll";
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
-                M_StringCopy(XInputDLL, "XInput1_3.dll", 16);
+                XInputDLL = "XInput1_3.dll";
 
             ++initcount;
 
@@ -143,18 +143,19 @@ void I_InitGamepad(void)
                         gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
                             I_PollThumbs_XInput_RightHanded);
                         if (initcount == 1)
-                            C_Output("XInput gamepad detected. Using <b>%s</b>.", XInputDLL);
+                            C_Output("An XInput gamepad is connected. Using <b>%s</b>.",
+                                XInputDLL);
                     }
                 }
                 else
                     FreeLibrary(pXInputDLL);
             }
             else if (initcount == 1)
-                C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
-
-            free(XInputDLL);
+                C_Output("A DirectInput gamepad called \"%s\" is connected.",
+                    SDL_JoystickName(gamepad));
 #else
-            C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
+            C_Output("A DirectInput gamepad called \"%s\" is connected.",
+                SDL_JoystickName(gamepad));
 #endif
 
             SDL_JoystickEventState(SDL_ENABLE);
