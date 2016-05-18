@@ -162,12 +162,12 @@ int             consoleplayermessagecolor = 161;
 int             consoletimestampcolor = 100;
 int             consoleoutputcolor = 88;
 int             consoleboldcolor = 4;
-int             consolebrandingcolor = 100;
+int             consolebrandingcolor = 176;
 int             consolewarningcolor = 180;
 int             consoledividercolor = 100;
 int             consoletintcolor = 5;
-int             consoleedgecolor1 = 105;
-int             consoleedgecolor2 = 100;
+int             consoleedgecolor1 = 176;
+int             consoleedgecolor2 = 176;
 int             consolescrollbartrackcolor = 100;
 int             consolescrollbarfacecolor = 88;
 
