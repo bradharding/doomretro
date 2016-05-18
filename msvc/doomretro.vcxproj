@@ -429,6 +429,7 @@
     <None Include="..\src\Makefile.osx" />
     <None Include="..\src\Makefile.rpi" />
     <None Include="..\src\doomretro.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />

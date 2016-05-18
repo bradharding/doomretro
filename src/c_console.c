@@ -647,7 +647,7 @@ static void C_DrawBackground(int height)
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int boldcolor,
-    byte *tinttab, int tabs[8], dboolean matchingquotes)
+    byte *tinttab, int tabs[8], dboolean formatting)
 {
     dboolean            bold = false;
     dboolean            italics = false;
@@ -680,25 +680,26 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
         unsigned char   letter = text[i];
         int             c = letter - CONSOLEFONTSTART;
 
-        if (letter == '<' && i < len - 2 && text[i + 1] == 'b' && text[i + 2] == '>')
+        if (letter == '<' && i < len - 2 && text[i + 1] == 'b' && text[i + 2] == '>' && formatting)
         {
             bold = true;
             i += 2;
         }
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'b'
-            && text[i + 3] == '>')
+            && text[i + 3] == '>' && formatting)
         {
             bold = false;
             i += 3;
             ++x;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == 'i' && text[i + 2] == '>')
+        else if (letter == '<' && i < len - 2 && text[i + 1] == 'i' && text[i + 2] == '>'
+            && formatting)
         {
             italics = true;
             i += 2;
         }
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'i'
-            && text[i + 3] == '>')
+            && text[i + 3] == '>' && formatting)
         {
             italics = false;
             i += 3;
@@ -717,7 +718,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             }
             else if (letter == 215)
                 patch = multiply;
-            else if (letter == '\"' && matchingquotes)
+            else if (letter == '\"' && formatting)
             {
                 if (prevquote == NOQUOTE || prevquote == RDQUOTE)
                 {
