@@ -411,7 +411,7 @@ static struct
     { 'x',  'j',  -2 }, { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
 };
 
-static int C_TextWidth(char *text)
+static int C_TextWidth(char *text, dboolean formatting)
 {
     size_t      i;
     size_t      len = strlen(text);
@@ -426,10 +426,10 @@ static int C_TextWidth(char *text)
         int     j = 0;
 
         if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i')
-            && text[i + 2] == '>')
+            && text[i + 2] == '>' && formatting)
             i += 2;
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && (text[i + 2] == 'b'
-            || text[i + 2] == 'i') && text[i + 3] == '>')
+            || text[i + 2] == 'i') && text[i + 3] == '>' && formatting)
             i += 3;
         else if (letter == '\xC2' && nextletter == '\xB0')
         {
@@ -513,7 +513,7 @@ void C_Init(void)
 #endif
 
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timestampx = SCREENWIDTH - C_TextWidth("00:00:00") - CONSOLETEXTX * 2
+    timestampx = SCREENWIDTH - C_TextWidth("00:00:00", false) - CONSOLETEXTX * 2
         - CONSOLESCROLLBARWIDTH + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
@@ -660,7 +660,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     y -= CONSOLEHEIGHT - consoleheight;
 
     if (len > 80)
-        while (C_TextWidth(text) > CONSOLETEXTPIXELWIDTH)
+        while (C_TextWidth(text, formatting) > CONSOLETEXTPIXELWIDTH)
         {
             text[len - 1] = '.';
             text[len] = '.';
@@ -813,8 +813,8 @@ void C_UpdateFPS(void)
 
         M_snprintf(buffer, 16, "%i FPS", fps);
 
-        C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
-            buffer, (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor));
+        C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
+            CONSOLETEXTY, buffer, (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor));
     }
 }
 
@@ -861,9 +861,9 @@ void C_Drawer(void)
         C_DrawBackground(consoleheight);
 
         // draw branding
-        C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_BRANDINGSTRING) - CONSOLETEXTX + 1,
-            CONSOLEHEIGHT - 17, PACKAGE_BRANDINGSTRING, consolebrandingcolor, NOBACKGROUNDCOLOR,
-            NOBOLDCOLOR, tinttab25, notabs, false);
+        C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_BRANDINGSTRING, false) - CONSOLETEXTX
+            + 1, CONSOLEHEIGHT - 17, PACKAGE_BRANDINGSTRING, consolebrandingcolor,
+            NOBACKGROUNDCOLOR, NOBOLDCOLOR, tinttab25, notabs, false);
 
         // draw console text
         if (outputhistory == -1)
@@ -899,7 +899,7 @@ void C_Drawer(void)
         lefttext[i] = '\0';
         C_DrawConsoleText(x, CONSOLEHEIGHT - 17, lefttext, consoleinputcolor, NOBACKGROUNDCOLOR,
             NOBOLDCOLOR, NULL, notabs, false);
-        x += C_TextWidth(lefttext);
+        x += C_TextWidth(lefttext, false);
 
         // draw any selected text to left of caret
         if (selectstart < caretpos)
@@ -911,7 +911,7 @@ void C_Drawer(void)
             {
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false);
-                x += C_TextWidth(middletext);
+                x += C_TextWidth(middletext, false);
             }
         }
 
@@ -940,7 +940,7 @@ void C_Drawer(void)
             {
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middletext, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false);
-                x += C_TextWidth(middletext);
+                x += C_TextWidth(middletext, false);
             }
         }
 
@@ -1345,7 +1345,7 @@ dboolean C_Responder(event_t *ev)
                         M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0,
                             selectstart), SDL_GetClipboardText(), M_SubString(consoleinput,
                             selectend, strlen(consoleinput) - selectend));
-                        if (C_TextWidth(buffer) <= CONSOLEINPUTPIXELWIDTH)
+                        if (C_TextWidth(buffer, false) <= CONSOLEINPUTPIXELWIDTH)
                         {
                             C_AddToUndoHistory();
                             M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
@@ -1389,7 +1389,7 @@ dboolean C_Responder(event_t *ev)
                         || (key_alwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
                         ch = shiftxform[ch];
                     if (ch >= ' ' && ch < '~' && ch != '`'
-                        && C_TextWidth(consoleinput) + (ch == ' ' ? spacewidth :
+                        && C_TextWidth(consoleinput, false) + (ch == ' ' ? spacewidth :
                         consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
                         && !(modstate & KMOD_ALT))
                     {
