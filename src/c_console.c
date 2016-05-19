@@ -166,8 +166,7 @@ int             consolebrandingcolor = 176;
 int             consolewarningcolor = 180;
 int             consoledividercolor = 100;
 int             consoletintcolor = 5;
-int             consoleedgecolor1 = 176;
-int             consoleedgecolor2 = 176;
+int             consoleedgecolor = 176;
 int             consolescrollbartrackcolor = 100;
 int             consolescrollbarfacecolor = 88;
 
@@ -534,8 +533,7 @@ void C_Init(void)
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
     consoletintcolor = nearestcolors[consoletintcolor];
-    consoleedgecolor1 = nearestcolors[consoleedgecolor1];
-    consoleedgecolor2 = nearestcolors[consoleedgecolor2];
+    consoleedgecolor = nearestcolors[consoleedgecolor];
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor];
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
 
@@ -547,8 +545,7 @@ void C_Init(void)
     consolecolors[playermessagestring] = consoleplayermessagecolor;
 
     consoletintcolor <<= 8;
-    consoleedgecolor1 <<= 8;
-    consoleedgecolor2 <<= 8;
+    consoleedgecolor <<= 8;
     consolescrollbartrackcolor <<= 8;
     consoledividercolor <<= 8;
 }
@@ -635,11 +632,8 @@ static void C_DrawBackground(int height)
             screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
     }
 
-    for (i = height - SCREENWIDTH * 3; i < height - SCREENWIDTH * 2; ++i)
-        screens[0][i] = tinttab25[consoleedgecolor1 + screens[0][i]];
-
-    for (i = height - SCREENWIDTH * 2; i < height; ++i)
-        screens[0][i] = tinttab25[consoleedgecolor2 + screens[0][i]];
+    for (i = height - SCREENWIDTH * 3; i < height; ++i)
+        screens[0][i] = tinttab25[consoleedgecolor + screens[0][i]];
 
     for (j = 1; j <= 4; ++j)
         for (i = height; i < height + SCREENWIDTH * j; ++i)
