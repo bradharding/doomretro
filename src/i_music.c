@@ -275,7 +275,7 @@ static dboolean ConvertMus(byte *musdata, int len, char *filename)
 void *I_RegisterSong(void *data, int len)
 {
     if (!music_initialized)
-        return false;
+        return NULL;
     else
     {
         Mix_Music       *music = NULL;
