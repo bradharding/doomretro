@@ -38,6 +38,11 @@
 
 #include <ctype.h>
 
+#if defined(WIN32)
+#include <windows.h>
+#include <ShellAPI.h>
+#endif
+
 #include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
@@ -516,8 +521,13 @@ consolecmd_t consolecmds[] =
         "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL(gp_vibrate, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles vibration for XInput gamepads."),
+#if defined(WIN32)
     CMD(help, "", null_func1, help_cmd_func2, 0, "",
-        "Shows the help screen."),
+        "Opens the <i>"PACKAGE_NAME" Wiki</i>."),
+#else
+    CMD(help, "", null_func1, help_cmd_func2, 0, "",
+        "Opens the help screen."),
+#endif
     CMD_CHEAT(idbeholda, 0),
     CMD_CHEAT(idbeholdl, 0),
     CMD_CHEAT(idbeholdi, 0),
@@ -1358,8 +1368,12 @@ static void god_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void help_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
+#if defined(WIN32)
+    ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_HELP_URL, NULL, NULL, SW_SHOWNORMAL);
+#else
     C_HideConsoleFast();
     M_ShowHelp();
+#endif
 }
 
 //

@@ -710,7 +710,8 @@ static void D_FirstUse(void)
 #if defined(WIN32)
         if (buttons[buttonid].buttonid == 0)
         {
-            ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_URL, NULL, NULL, SW_SHOWNORMAL);
+            ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_START_URL, NULL, NULL,
+                SW_SHOWNORMAL);
             I_Quit(false);
         }
         else
