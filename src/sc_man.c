@@ -52,8 +52,8 @@ static void CheckOpen(void);
 char            *sc_String;
 int             sc_Number;
 int             sc_Line;
-bool            sc_End;
-bool            sc_Crossed;
+dboolean        sc_End;
+dboolean        sc_Crossed;
 
 static char     ScriptName[16];
 static char     *ScriptBuffer;
@@ -61,9 +61,9 @@ static char     *ScriptPtr;
 static char     *ScriptEndPtr;
 static char     StringBuffer[MAX_STRING_SIZE];
 static int      ScriptLumpNum;
-static bool     ScriptOpen = false;
+static dboolean ScriptOpen = false;
 static int      ScriptSize;
-static bool     AlreadyGot = false;
+static dboolean AlreadyGot = false;
 
 void SC_Open(char *name)
 {
@@ -93,10 +93,10 @@ void SC_Close(void)
     }
 }
 
-bool SC_GetString(void)
+dboolean SC_GetString(void)
 {
     char        *text;
-    bool        foundToken;
+    dboolean    foundToken;
 
     CheckOpen();
     if (AlreadyGot)
@@ -178,7 +178,7 @@ void SC_MustGetString(void)
         SC_GetString();
 }
 
-bool SC_GetNumber(void)
+dboolean SC_GetNumber(void)
 {
     CheckOpen();
     if (SC_GetString())
@@ -220,7 +220,7 @@ int SC_MustMatchString(char **strings)
     return i;
 }
 
-bool SC_Compare(char *text)
+dboolean SC_Compare(char *text)
 {
     return M_StringCompare(text, sc_String);
 }

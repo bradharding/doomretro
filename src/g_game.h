@@ -73,18 +73,18 @@ void G_WorldDone(void);
 void G_BuildTiccmd(ticcmd_t *cmd);
 
 void G_Ticker(void);
-bool G_Responder(event_t *ev);
+dboolean G_Responder(event_t *ev);
 
 void G_ScreenShot(void);
-void I_ToggleWidescreen(bool toggle);
+void I_ToggleWidescreen(dboolean toggle);
 
 void G_SetMovementSpeed(int scale);
 
-extern bool     canmodify;
-extern bool     flag667;
-extern bool     message_dontpause;
-extern bool     vibrate;
-extern bool     gamepadpress;
+extern dboolean canmodify;
+extern dboolean flag667;
+extern dboolean message_dontpause;
+extern dboolean vibrate;
+extern dboolean gamepadpress;
 extern char     lbmname[MAX_PATH];
 extern char     lbmpath[MAX_PATH];
 extern char     mapnumandtitle[512];
@@ -94,7 +94,7 @@ extern int      keydown;
 extern int      markpointnum;
 extern int      quickSaveSlot;
 extern int      st_facecount;
-extern bool     oldweaponsowned[NUMWEAPONS];
-extern bool     blurred;
+extern dboolean oldweaponsowned[NUMWEAPONS];
+extern dboolean blurred;
 
 #endif

@@ -54,7 +54,7 @@ typedef struct
 
     int         motorspeed;
     int         tics;
-    bool        dehacked;
+    dboolean    dehacked;
 } weaponinfo_t;
 
 extern weaponinfo_t     weaponinfo[NUMWEAPONS];

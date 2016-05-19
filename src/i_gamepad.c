@@ -69,15 +69,15 @@ float                   gamepadsensitivity;
 short                   gamepadleftdeadzone;
 short                   gamepadrightdeadzone;
 
-bool                    vibrate = false;
+dboolean                vibrate = false;
 int                     damagevibrationtics;
 int                     weaponvibrationtics;
 
-extern bool             idclev;
-extern bool             idmus;
-extern bool             idbehold;
-extern bool             menuactive;
-extern bool             message_clearable;
+extern dboolean         idclev;
+extern dboolean         idmus;
+extern dboolean         idbehold;
+extern dboolean         menuactive;
+extern dboolean         message_clearable;
 
 #if defined(WIN32)
 HMODULE                 pXInputDLL;

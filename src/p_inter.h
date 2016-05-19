@@ -39,21 +39,21 @@
 #if !defined(__P_INTER_H__)
 #define __P_INTER_H__
 
-bool P_GiveBody(player_t *player, int num);
+dboolean P_GiveBody(player_t *player, int num);
 void P_GiveMegaHealth(player_t *player);
-bool P_GiveArmor(player_t *player, armortype_t armortype);
+dboolean P_GiveArmor(player_t *player, armortype_t armortype);
 void P_GiveCard(player_t *player, card_t card);
-bool P_GiveAllCards(player_t *player);
-bool P_GivePower(player_t *player, int power);
-bool P_GiveAllWeapons(player_t *player);
-bool P_GiveBackpack(player_t *player, bool giveammo);
-bool P_GiveFullAmmo(player_t *player);
+dboolean P_GiveAllCards(player_t *player);
+dboolean P_GivePower(player_t *player, int power);
+dboolean P_GiveAllWeapons(player_t *player);
+dboolean P_GiveBackpack(player_t *player, dboolean giveammo);
+dboolean P_GiveFullAmmo(player_t *player);
 void P_AddBonus(player_t *player, int amount);
 void G_RemoveChoppers(void);
 void P_ChangeKillStat(mobjtype_t type, unsigned int value);
 void P_KillMobj(mobj_t *source, mobj_t *target);
 
-extern bool     message_dontfuckwithme;
-extern bool     oldweaponsowned[NUMWEAPONS];
+extern dboolean message_dontfuckwithme;
+extern dboolean oldweaponsowned[NUMWEAPONS];
 
 #endif

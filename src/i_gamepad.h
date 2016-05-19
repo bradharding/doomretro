@@ -89,7 +89,7 @@ extern int      gamepadbuttons;
 extern short    gamepadthumbLX;
 extern short    gamepadthumbLY;
 extern short    gamepadthumbRX;
-extern bool     vibrate;
+extern dboolean vibrate;
 extern int      currentmotorspeed;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;
@@ -98,8 +98,8 @@ extern short    gamepadleftdeadzone;
 extern short    gamepadrightdeadzone;
 
 extern int      gp_sensitivity;
-extern bool     gp_swapthumbsticks;
-extern bool     gp_vibrate;
+extern dboolean gp_swapthumbsticks;
+extern dboolean gp_vibrate;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);

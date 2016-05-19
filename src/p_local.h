@@ -117,10 +117,10 @@ extern mobj_t                   *bloodsplats[r_bloodsplats_max_max];
 extern int                      r_bloodsplats_total;
 extern int                      r_bloodsplats_max;
 
-extern bool                     r_corpses_mirrored;
-extern bool                     r_corpses_moreblood;
-extern bool                     r_corpses_slide;
-extern bool                     r_corpses_smearblood;
+extern dboolean                 r_corpses_mirrored;
+extern dboolean                 r_corpses_moreblood;
+extern dboolean                 r_corpses_slide;
+extern dboolean                 r_corpses_smearblood;
 
 void P_InitCards(player_t *player);
 
@@ -129,7 +129,7 @@ mobjtype_t P_FindDoomedNum(unsigned int type);
 
 void P_RemoveMobj(mobj_t *th);
 void P_RemoveMobjShadow(mobj_t *th);
-bool P_SetMobjState(mobj_t *mobj, statenum_t state);
+dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
@@ -161,14 +161,14 @@ typedef struct
 typedef struct
 {
     fixed_t     frac;           // along trace line
-    bool        isaline;
+    dboolean    isaline;
     union {
         mobj_t  *thing;
         line_t  *line;
     } d;
 } intercept_t;
 
-typedef bool (*traverser_t)(intercept_t *in);
+typedef dboolean (*traverser_t)(intercept_t *in);
 
 fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy);
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line);
@@ -181,16 +181,16 @@ extern fixed_t          lowfloor;
 
 void P_LineOpening(line_t *linedef);
 
-bool P_BlockLinesIterator(int x, int y, bool func(line_t *));
-bool P_BlockThingsIterator(int x, int y, bool func(mobj_t *));
+dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *));
+dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *));
 
 #define PT_ADDLINES     1
 #define PT_ADDTHINGS    2
 
 extern divline_t        dlTrace;
 
-bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
-                       bool (*trav)(intercept_t *));
+dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
+                       dboolean (*trav)(intercept_t *));
 
 void P_UnsetThingPosition(mobj_t *thing);
 void P_SetThingPosition(mobj_t *thing);
@@ -202,8 +202,8 @@ void P_SetBloodSplatPosition(mobj_t *splat);
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
-extern bool             floatok;
-extern bool             felldown;       // killough 11/98: indicates object pushed off ledge
+extern dboolean         floatok;
+extern dboolean         felldown;       // killough 11/98: indicates object pushed off ledge
 extern fixed_t          tmfloorz;
 extern fixed_t          tmceilingz;
 extern fixed_t          tmbbox[4];      // phares 3/20/98
@@ -211,19 +211,19 @@ extern fixed_t          tmbbox[4];      // phares 3/20/98
 extern line_t           *ceilingline;
 extern line_t           *blockline;
 
-extern bool             infight;
+extern dboolean         infight;
 
-bool P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
+dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
 mobj_t *P_CheckOnmobj(mobj_t *thing);
 void P_FakeZMovement(mobj_t *mo);
-bool P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, bool dropoff);
-bool P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
-bool P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, bool boss);
+dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff);
+dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
+dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean boss);
 void P_SlideMove(mobj_t *mo);
-bool P_CheckSight(mobj_t *t1, mobj_t *t2);
+dboolean P_CheckSight(mobj_t *t1, mobj_t *t2);
 void P_UseLines(player_t *player);
 
-bool P_ChangeSector(sector_t *sector, bool crunch);
+dboolean P_ChangeSector(sector_t *sector, dboolean crunch);
 void P_FreeSecNodeList(void);
 
 extern mobj_t           *linetarget;    // who got hit (or NULL)

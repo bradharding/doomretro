@@ -63,8 +63,8 @@ typedef enum
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-extern bool     con_obituaries;
-extern bool     r_rockettrails;
+extern dboolean con_obituaries;
+extern dboolean r_rockettrails;
 extern int      stat_monsterskilled;
 
 //
@@ -135,7 +135,7 @@ void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
 //
 // P_CheckMeleeRange
 //
-bool P_CheckMeleeRange(mobj_t *actor)
+dboolean P_CheckMeleeRange(mobj_t *actor)
 {
     mobj_t      *pl = actor->target;
 
@@ -159,7 +159,7 @@ bool P_CheckMeleeRange(mobj_t *actor)
 //
 // P_CheckMissileRange
 //
-static bool P_CheckMissileRange(mobj_t *actor)
+static dboolean P_CheckMissileRange(mobj_t *actor)
 {
     fixed_t     dist;
     mobjtype_t  type;
@@ -220,7 +220,7 @@ static bool P_CheckMissileRange(mobj_t *actor)
 // or that a monster should stay on the lift for a while
 // while it goes up or down.
 //
-static bool P_IsOnLift(const mobj_t *actor)
+static dboolean P_IsOnLift(const mobj_t *actor)
 {
     const sector_t      *sec = actor->subsector->sector;
     line_t              line;
@@ -322,11 +322,11 @@ fixed_t         yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -
 extern line_t   **spechit;
 extern int      numspechit;
 
-static bool P_Move(mobj_t *actor, bool dropoff) // killough 9/12/98
+static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
 {
     fixed_t     tryx, tryy;
     fixed_t     deltax, deltay;
-    bool        try_ok;
+    dboolean    try_ok;
     int         movefactor = ORIG_FRICTION_FACTOR;      // killough 10/98
     int         friction = ORIG_FRICTION;
     int         speed;
@@ -446,10 +446,10 @@ static bool P_Move(mobj_t *actor, bool dropoff) // killough 9/12/98
 //
 // killough 9/12/98: Same as P_Move, except smarter
 //
-static bool P_SmartMove(mobj_t *actor)
+static dboolean P_SmartMove(mobj_t *actor)
 {
     mobj_t      *target = actor->target;
-    bool        on_lift;
+    dboolean    on_lift;
     int         under_damage;
 
     // killough 9/12/98: Stay on a lift if target is on one
@@ -483,7 +483,7 @@ static bool P_SmartMove(mobj_t *actor)
 // If a door is in the way,
 // an OpenDoor call is made to start it opening.
 //
-static bool P_TryWalk(mobj_t *actor)
+static dboolean P_TryWalk(mobj_t *actor)
 {
     if (!P_SmartMove(actor))
         return false;
@@ -570,7 +570,7 @@ static fixed_t  dropoff_deltax;
 static fixed_t  dropoff_deltay;
 static fixed_t  floorz;
 
-static bool PIT_AvoidDropoff(line_t *line)
+static dboolean PIT_AvoidDropoff(line_t *line)
 {
     if (line->backsector                                // Ignore one-sided linedefs
         && tmbbox[BOXRIGHT]  > line->bbox[BOXLEFT]
@@ -655,7 +655,7 @@ static void P_NewChaseDir(mobj_t *actor)
 
 #define MONS_LOOK_RANGE (32 * 64 * FRACUNIT)
 
-static bool P_LookForMonsters(mobj_t *actor)
+static dboolean P_LookForMonsters(mobj_t *actor)
 {
     thinker_t   *think;
 
@@ -689,7 +689,7 @@ static bool P_LookForMonsters(mobj_t *actor)
 // If allaround is false, only look 180 degrees in front.
 // Returns true if a player is targeted.
 //
-static bool P_LookForPlayers(mobj_t *actor, bool allaround)
+static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
 {
     player_t    *player;
     mobj_t      *mo;
@@ -1228,10 +1228,10 @@ mobj_t  *corpsehit;
 fixed_t viletryx;
 fixed_t viletryy;
 
-bool PIT_VileCheck(mobj_t *thing)
+dboolean PIT_VileCheck(mobj_t *thing)
 {
     int         maxdist;
-    bool        check;
+    dboolean    check;
     fixed_t     height;
     fixed_t     radius;
 
@@ -1728,7 +1728,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RadiusAttack(actor, actor->target, 128);
 }
 
-bool    flag667 = false;
+dboolean        flag667 = false;
 
 //
 // A_BossDeath

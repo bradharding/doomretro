@@ -60,7 +60,7 @@ void I_SetProcessDPIAware(void)
 
     if (hLibrary)
     {
-        typedef BOOL (*SETPROCESSDPIAWARE)();
+        typedef dboolean (*SETPROCESSDPIAWARE)();
 
         SETPROCESSDPIAWARE pSetProcessDPIAware =
             (SETPROCESSDPIAWARE)GetProcAddress(hLibrary, "SetProcessDPIAware");
@@ -74,14 +74,14 @@ void I_SetProcessDPIAware(void)
 
 HHOOK           g_hKeyboardHook;
 
-extern bool     vid_fullscreen;
-extern bool     window_focused;
+extern dboolean vid_fullscreen;
+extern dboolean window_focused;
 
 void G_ScreenShot(void);
 
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-    bool        bEatKeystroke = false;
+    dboolean    bEatKeystroke = false;
 
     if (nCode == HC_ACTION)
         switch (wParam)
@@ -113,7 +113,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 WNDPROC oldProc;
 HICON   icon;
 
-bool MouseShouldBeGrabbed(void);
+dboolean MouseShouldBeGrabbed(void);
 void I_InitGamepad(void);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -164,7 +164,7 @@ STICKYKEYS      g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
 TOGGLEKEYS      g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
 FILTERKEYS      g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
 
-void I_AccessibilityShortcutKeys(bool bAllowKeys)
+void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
 {
     if (bAllowKeys)
     {

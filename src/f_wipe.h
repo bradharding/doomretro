@@ -43,10 +43,10 @@
 // SCREEN WIPE PACKAGE
 //
 
-bool wipe_StartScreen(void);
-bool wipe_EndScreen(void);
-bool wipe_ScreenWipe(int tics);
+dboolean wipe_StartScreen(void);
+dboolean wipe_EndScreen(void);
+dboolean wipe_ScreenWipe(int tics);
 
-extern bool     vid_widescreen;
+extern dboolean vid_widescreen;
 
 #endif

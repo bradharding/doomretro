@@ -60,7 +60,7 @@
 //
 typedef struct
 {
-    bool        istexture;
+    dboolean    istexture;
     int         picnum;
     int         basepic;
     int         numpics;
@@ -92,7 +92,7 @@ typedef struct
 
 int             stat_secretsrevealed = 0;
 
-bool            r_liquid_bob = r_liquid_bob_default;
+dboolean        r_liquid_bob = r_liquid_bob_default;
 
 fixed_t         animatedliquiddiff;
 fixed_t         animatedliquidxdir;
@@ -123,17 +123,17 @@ static void P_SpawnPushers(void);       // phares 3/20/98
 
 extern char     *playername;
 extern int      numflats;
-extern bool     canmodify;
+extern dboolean canmodify;
 
-bool            *isliquid;
-bool            *isteleport;
+dboolean        *isliquid;
+dboolean        *isteleport;
 
 //
 // P_InitPicAnims
 //
 void P_InitPicAnims(void)
 {
-    int size = (numflats + 1) * sizeof(bool);
+    int size = (numflats + 1) * sizeof(dboolean);
 
     isliquid = Z_Malloc(size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
@@ -676,7 +676,7 @@ int P_FindMinSurroundingLight(sector_t *sector, int min)
 //  generalized locked doors
 //
 // killough 11/98: reformatted
-bool P_CanUnlockGenDoor(line_t *line, player_t *player)
+dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 {
     static char buffer[1024];
 
@@ -839,7 +839,7 @@ bool P_CanUnlockGenDoor(line_t *line, player_t *player)
 //  succeeding in starting multiple specials on one sector
 //
 // killough 11/98: reformatted
-bool P_SectorActive(special_e t, sector_t *sec)
+dboolean P_SectorActive(special_e t, sector_t *sec)
 {
     return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :     // thinker of same
@@ -851,7 +851,7 @@ bool P_SectorActive(special_e t, sector_t *sec)
 // P_SectorHasLightSpecial()
 //
 // [BH] Returns true if sector has a light special
-bool P_SectorHasLightSpecial(sector_t *sec)
+dboolean P_SectorHasLightSpecial(sector_t *sec)
 {
     short       special = sec->special;
 
@@ -870,7 +870,7 @@ bool P_SectorHasLightSpecial(sector_t *sec)
 //
 // jff 2/27/98 Added to check for zero tag allowed for regular special types
 //
-bool P_CheckTag(line_t *line)
+dboolean P_CheckTag(line_t *line)
 {
     // tag not zero, allowed
     if (line->tag)
@@ -975,7 +975,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is walkover generalized linedef type
-        bool    (*linefunc)(line_t *) = NULL;
+        dboolean(*linefunc)(line_t *) = NULL;
 
         // check each range of generalized linedefs
         if ((unsigned int)line->special >= GenFloorBase)
@@ -1060,7 +1060,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     if (!thing->player)
     {
-        bool    okay = false;
+        dboolean        okay = false;
 
         switch (line->special)
         {
@@ -1666,7 +1666,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     // jff 02/04/98 add check here for generalized linedef
     // pointer to line function is NULL by default, set non-null if
     // line special is gun triggered generalized linedef type
-    bool        (*linefunc)(line_t *line) = NULL;
+    dboolean    (*linefunc)(line_t *line) = NULL;
 
     // check each range of generalized linedefs
     if ((unsigned int)line->special >= GenFloorBase)
@@ -1955,13 +1955,13 @@ void P_UpdateSpecials(void)
 //
 // Special Stuff that cannot be categorized
 //
-bool EV_DoDonut(line_t *line)
+dboolean EV_DoDonut(line_t *line)
 {
     sector_t    *s1;
     sector_t    *s2;
     sector_t    *s3;
     int         secnum = -1;
-    bool        rtn = false;
+    dboolean    rtn = false;
     int         i;
     floormove_t *floor;
 
@@ -2579,7 +2579,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
 pusher_t        *tmpusher;      // pusher structure for blockmap searches
 
-bool PIT_PushThing(mobj_t* thing)
+dboolean PIT_PushThing(mobj_t* thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {

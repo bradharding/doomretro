@@ -84,12 +84,12 @@ skill_t         gameskill;
 int             gameepisode;
 int             gamemap;
 
-bool            paused;
-bool            sendpause;              // send a pause event next tic
-bool            sendsave;               // send a save event next tic
-bool            usergame;               // ok to save / end game
+dboolean        paused;
+dboolean        sendpause;              // send a pause event next tic
+dboolean        sendsave;               // send a save event next tic
+dboolean        usergame;               // ok to save / end game
 
-bool            viewactive;
+dboolean        viewactive;
 
 player_t        players[MAXPLAYERS];
 
@@ -101,9 +101,9 @@ int             monstercount[NUMMOBJTYPES];
 
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
-bool            autoload = autoload_default;
-bool            gp_swapthumbsticks = gp_swapthumbsticks_default;
-bool            gp_vibrate = gp_vibrate_default;
+dboolean        autoload = autoload_default;
+dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
+dboolean        gp_vibrate = gp_vibrate_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -166,25 +166,25 @@ struct
 
 #define SLOWTURNTICS    6
 
-bool            gamekeydown[NUMKEYS];
+dboolean        gamekeydown[NUMKEYS];
 char            gamekeyaction[NUMKEYS][256];
 static int      turnheld;                       // for accelerative turning
 
-static bool     mousearray[MAX_MOUSE_BUTTONS + 1];
-static bool     *mousebuttons = &mousearray[1]; // allow [-1]
+static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
+static dboolean *mousebuttons = &mousearray[1]; // allow [-1]
 
-bool            skipaction;
+dboolean        skipaction;
 
 int             mousex;
 int             mousey;
 
-bool            m_doubleclick_use = m_doubleclick_use_default;
+dboolean        m_doubleclick_use = m_doubleclick_use_default;
 
 static int      dclicktime;
-static bool     dclickstate;
+static dboolean dclickstate;
 static int      dclicks;
 static int      dclicktime2;
-static bool     dclickstate2;
+static dboolean dclickstate2;
 static int      dclicks2;
 
 static int      savegameslot;
@@ -192,10 +192,10 @@ static char     savedescription[SAVESTRINGSIZE];
 
 gameaction_t    loadaction = ga_nothing;
 
-extern bool     alwaysrun;
+extern dboolean alwaysrun;
 extern int      st_palette;
 extern int      pagetic;
-extern bool     transferredsky;
+extern dboolean transferredsky;
 
 void G_RemoveChoppers(void)
 {
@@ -266,7 +266,7 @@ static void G_PrevWeapon(void)
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
-    bool        strafe;
+    dboolean    strafe;
     int         run;
     int         forward = 0;
     int         side = 0;
@@ -382,7 +382,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (m_doubleclick_use)
     {
-        bool    bstrafe;
+        dboolean        bstrafe;
 
         // forward double click
         if (mousebuttons[mousebforward] != dclickstate && dclicktime > 1)
@@ -617,13 +617,13 @@ void G_ToggleAlwaysRun(evtype_t type)
     M_SaveCVARs();
 }
 
-extern bool     splashscreen;
+extern dboolean splashscreen;
 
 //
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
 //
-bool G_Responder(event_t *ev)
+dboolean G_Responder(event_t *ev)
 {
     int key;
     int mousebutton;
@@ -1100,7 +1100,7 @@ int npars[9] =
 //
 // G_DoCompleted
 //
-bool    secretexit;
+dboolean        secretexit;
 
 void G_ExitLevel(void)
 {
@@ -1363,7 +1363,7 @@ void G_DoWorldDone(void)
 // G_InitFromSavegame
 // Can be called by the startup code or the menu task.
 //
-extern bool     setsizeneeded;
+extern dboolean setsizeneeded;
 
 void R_ExecuteSetViewSize(void);
 
@@ -1577,7 +1577,7 @@ void G_DoNewGame(void)
     infight = false;
 }
 
-void G_SetFastMonsters(bool toggle)
+void G_SetFastMonsters(dboolean toggle)
 {
     int     i;
 

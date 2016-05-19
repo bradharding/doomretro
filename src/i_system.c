@@ -53,8 +53,8 @@ void I_ShutdownWindows32(void);
 #include "s_sound.h"
 #include "version.h"
 
-extern bool     vid_widescreen;
-extern bool     returntowidescreen;
+extern dboolean vid_widescreen;
+extern dboolean returntowidescreen;
 
 #if defined(WIN32)
 typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
@@ -211,7 +211,7 @@ void I_PrintWindowsVersion(void)
 //
 // I_Quit
 //
-void I_Quit(bool shutdown)
+void I_Quit(dboolean shutdown)
 {
     if (shutdown)
     {
@@ -246,7 +246,7 @@ void I_WaitVBL(int count)
 //
 // I_Error
 //
-static bool     already_quitting;
+static dboolean already_quitting;
 
 void I_Error(char *error, ...)
 {

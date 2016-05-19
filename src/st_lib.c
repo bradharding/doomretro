@@ -44,7 +44,7 @@
 
 extern int      r_detail;
 
-void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, bool *on, int width)
+void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolean *on, int width)
 {
     n->x = x;
     n->y = y;
@@ -156,7 +156,7 @@ void STlib_drawNum(st_number_t *n)
 
     patch_t     *patch = n->p[0];
     int         w = SHORT(patch->width);
-    bool        smallnum = (SHORT(patch->height) == 6 && !STYSNUM0 && STBAR == 2);
+    dboolean    smallnum = (SHORT(patch->height) == 6 && !STYSNUM0 && STBAR == 2);
     int         x = n->x;
 
     n->oldnum = *n->num;
@@ -203,7 +203,7 @@ void STlib_updateNum(st_number_t *n)
         STlib_drawNum(n);
 }
 
-void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, bool *on,
+void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, dboolean *on,
     patch_t *percent)
 {
     STlib_initNum(&p->n, x, y, pl, num, on, 3);
@@ -218,7 +218,7 @@ void STlib_updatePercent(st_percent_t *per, int refresh)
     STlib_updateNum(&per->n);
 }
 
-void STlib_initMultIcon(st_multicon_t *i, int x, int y, patch_t **il, int *inum, bool *on)
+void STlib_initMultIcon(st_multicon_t *i, int x, int y, patch_t **il, int *inum, dboolean *on)
 {
     i->x = x;
     i->y = y;
@@ -228,7 +228,7 @@ void STlib_initMultIcon(st_multicon_t *i, int x, int y, patch_t **il, int *inum,
     i->p = il;
 }
 
-void STlib_updateMultIcon(st_multicon_t *mi, bool refresh)
+void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh)
 {
     if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
@@ -237,7 +237,7 @@ void STlib_updateMultIcon(st_multicon_t *mi, bool refresh)
     }
 }
 
-void STlib_updateArmsIcon(st_multicon_t *mi, bool refresh, int i)
+void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
 {
     if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
@@ -254,7 +254,7 @@ void STlib_updateArmsIcon(st_multicon_t *mi, bool refresh, int i)
     }
 }
 
-void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, bool *val, bool *on)
+void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, dboolean *val, dboolean *on)
 {
     b->x = x;
     b->y = y;
@@ -264,7 +264,7 @@ void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, bool *val, boo
     b->p = i;
 }
 
-void STlib_updateBinIcon(st_binicon_t *bi, bool refresh)
+void STlib_updateBinIcon(st_binicon_t *bi, dboolean refresh)
 {
     if (*bi->on && (bi->oldval != *bi->val || refresh))
     {
@@ -275,7 +275,7 @@ void STlib_updateBinIcon(st_binicon_t *bi, bool refresh)
     }
 }
 
-void STlib_updateBigBinIcon(st_binicon_t *bi, bool refresh)
+void STlib_updateBigBinIcon(st_binicon_t *bi, dboolean refresh)
 {
     if (*bi->on && (bi->oldval != *bi->val || refresh))
     {

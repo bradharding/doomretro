@@ -89,7 +89,7 @@ typedef struct
 {
     char                *name;
     char                *alternate;
-    bool                (*func1)(char *cmd, char *parm1, char *parm2, char *parm3);
+    dboolean            (*func1)(char *cmd, char *parm1, char *parm2, char *parm3);
     void                (*func2)(char *cmd, char *parm1, char *parm2, char *parm3);
     int                 parameters;
     cmdtype_t           type;

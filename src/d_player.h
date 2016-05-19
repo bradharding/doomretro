@@ -134,7 +134,7 @@ typedef struct player_s
     int                 cards[NUMCARDS];
     int                 neededcard;
     int                 neededcardflash;
-    bool                backpack;
+    dboolean            backpack;
 
     weapontype_t        readyweapon;
 
@@ -187,13 +187,13 @@ typedef struct player_s
     pspdef_t            psprites[NUMPSPRITES];
 
     // True if secret level has been done.
-    bool                didsecret;
+    dboolean            didsecret;
 
     weapontype_t        preferredshotgun;
     int                 shotguns;
     weapontype_t        fistorchainsaw;
-    bool                invulnbeforechoppers;
-    bool                chainsawbeforechoppers;
+    dboolean            invulnbeforechoppers;
+    dboolean            chainsawbeforechoppers;
     weapontype_t        weaponbeforechoppers;
 
     // [AM] Previous position of viewz before think.
@@ -229,7 +229,7 @@ typedef struct
     int                 epsd;           // episode # (0-2)
 
     // if true, splash the secret level
-    bool                didsecret;
+    dboolean            didsecret;
 
     // previous and next levels, origin 0
     int                 last;

@@ -400,7 +400,7 @@ typedef struct mobj_s
     int                 blood;
 
     // [AM] If true, ok to interpolate this tic.
-    bool                interp;
+    dboolean            interp;
 
     // [AM] Previous position of mobj before think.
     //      Used to interpolate between positions.

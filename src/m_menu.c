@@ -73,7 +73,7 @@ int             m_sensitivity = m_sensitivity_default;
 int             gp_sensitivity = gp_sensitivity_default;
 
 // Show messages has default, false = off, true = on
-bool            messages = messages_default;
+dboolean        messages = messages_default;
 
 int             r_detail = r_detail_default;
 
@@ -83,14 +83,14 @@ int             r_screensize = r_screensize_default;
 int             quickSaveSlot;
 
 // true = message to be printed
-bool            messageToPrint;
+dboolean        messageToPrint;
 // ...and here is the message string!
 char            *messageString;
 
 int             messageLastMenuActive;
 
 // timed message = no input from user
-bool            messageNeedsInput;
+dboolean        messageNeedsInput;
 
 void (*messageRoutine)(int response);
 
@@ -102,10 +102,10 @@ int             saveCharIndex;          // which char we're editing
 // old save description before edit
 char            saveOldString[SAVESTRINGSIZE];
 
-bool            inhelpscreens;
-bool            menuactive;
-bool            savegames = false;
-bool            startingnewgame = false;
+dboolean        inhelpscreens;
+dboolean        menuactive;
+dboolean        savegames = false;
+dboolean        startingnewgame = false;
 
 char            savegamestrings[10][SAVESTRINGSIZE];
 
@@ -124,7 +124,7 @@ int             skilllevel = skilllevel_default;
 
 static int      functionkey;
 
-static bool     usinggamepad;
+static dboolean usinggamepad;
 
 // graphic name of skulls
 char            *skullName[2] = { "M_SKULL1", "M_SKULL2" };
@@ -137,21 +137,21 @@ byte            *tempscreen2;
 byte            *blurscreen1;
 byte            *blurscreen2;
 
-bool            blurred = false;
-bool            blurredmap = false;
+dboolean        blurred = false;
+dboolean        blurredmap = false;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
-extern bool     message_dontfuckwithme;
+extern dboolean message_dontfuckwithme;
 
 extern int      st_palette;
 
-extern bool     wipe;
-extern bool     r_hud;
+extern dboolean wipe;
+extern dboolean r_hud;
 
-extern bool     splashscreen;
+extern dboolean splashscreen;
 
-extern bool     skipaction;
-extern bool     skippsprinterp;
+extern dboolean skipaction;
+extern dboolean skippsprinterp;
 
 //
 // PROTOTYPES
@@ -194,10 +194,10 @@ void M_DrawSave(void);
 void M_DrawSaveLoadBorder(int x, int y);
 void M_SetupNextMenu(menu_t *menudef);
 void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor);
-void M_WriteText(int x, int y, char *string, bool shadow);
+void M_WriteText(int x, int y, char *string, dboolean shadow);
 int M_StringWidth(char *string);
 int M_StringHeight(char *string);
-void M_StartMessage(char *string, void *routine, bool input);
+void M_StartMessage(char *string, void *routine, dboolean input);
 void M_ClearMenus(void);
 
 //
@@ -583,7 +583,7 @@ void M_DarkBlueBackground(void)
 // M_DrawChar
 //  draw a character on screen
 //
-void M_DrawChar(int x, int y, int i, bool overlapping)
+void M_DrawChar(int x, int y, int i, dboolean overlapping)
 {
     int x1, y1;
     int w = strlen(redcharset[i]) / 18;
@@ -662,9 +662,9 @@ void M_DrawString(int x, int y, char *str)
 
     for (i = 0; (unsigned int)i < strlen(str); ++i)
     {
-        int     j = -1;
-        int     k = 0;
-        bool    overlapping = false;
+        int             j = -1;
+        int             k = 0;
+        dboolean        overlapping = false;
 
         if (str[i] < 123)
             j = chartoi[(int)str[i]];
@@ -836,7 +836,7 @@ static byte saveg_read8(FILE *file)
 //
 // M_CheckSaveGame
 //
-bool M_CheckSaveGame(int choice)
+dboolean M_CheckSaveGame(int choice)
 {
     FILE        *handle;
     int         ep;
@@ -1000,7 +1000,7 @@ void M_LoadGame(int choice)
 #define CARETBLINKTIME  530
 
 static int      caretblinktime;
-static bool     showcaret;
+static dboolean showcaret;
 static int      caretwait;
 
 //
@@ -1122,7 +1122,7 @@ const char *RemoveMapNum(const char *str)
 
 void M_UpdateSaveGameName(int i)
 {
-    bool        match = false;
+    dboolean    match = false;
 
     if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
         match = true;
@@ -1700,7 +1700,7 @@ void M_Options(int choice)
 //
 // Toggle messages on/off
 //
-bool    message_dontpause = false;
+dboolean        message_dontpause = false;
 
 void M_ChangeMessages(int choice)
 {
@@ -1717,7 +1717,7 @@ void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-bool    endinggame = false;
+dboolean        endinggame = false;
 
 void M_EndingGame(void)
 {
@@ -1806,9 +1806,9 @@ int quitsounds2[8] =
     sfx_sgtatk
 };
 
-bool            quitting;
+dboolean        quitting;
 
-extern bool     waspaused;
+extern dboolean waspaused;
 
 void M_QuitResponse(int key)
 {
@@ -2072,7 +2072,7 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
     V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
 }
 
-void M_StartMessage(char *string, void *routine, bool input)
+void M_StartMessage(char *string, void *routine, dboolean input)
 {
     messageLastMenuActive = menuactive;
     messageToPrint = true;
@@ -2126,7 +2126,7 @@ int M_StringHeight(char *string)
 //
 //  Write a char
 //
-void M_DrawSmallChar(int x, int y, int i, bool shadow)
+void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
 {
     int w;
     int x1, y1;
@@ -2141,7 +2141,7 @@ void M_DrawSmallChar(int x, int y, int i, bool shadow)
 //
 // Write a string
 //
-void M_WriteText(int x, int y, char *string, bool shadow)
+void M_WriteText(int x, int y, char *string, dboolean shadow)
 {
     int         w;
     char        *ch = string;
@@ -2218,7 +2218,7 @@ void M_ShowHelp(void)
         R_SetViewSize(8);
 }
 
-void M_ChangeGamma(bool shift)
+void M_ChangeGamma(dboolean shift)
 {
     static int  gammawait;
 
@@ -2279,11 +2279,11 @@ void M_ChangeGamma(bool shift)
 //
 // M_Responder
 //
-int     gamepadwait = 0;
-int     mousewait = 0;
-bool    gamepadpress = false;
+int             gamepadwait = 0;
+int             mousewait = 0;
+dboolean        gamepadpress = false;
 
-bool M_Responder(event_t *ev)
+dboolean M_Responder(event_t *ev)
 {
     // key is the key pressed, ch is the actual character typed
     int         ch = 0;
@@ -2480,7 +2480,7 @@ bool M_Responder(event_t *ev)
             case KEY_ENTER:
                 if (!keydown)
                 {
-                    bool        allspaces = true;
+                    dboolean    allspaces = true;
 
                     keydown = key;
                     for (i = 0; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)

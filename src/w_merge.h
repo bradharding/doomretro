@@ -40,6 +40,6 @@
 #define __W_MERGE_H__
 
 // Add a new WAD and merge it into the main directory
-bool W_MergeFile(char *filename, bool automatic);
+dboolean W_MergeFile(char *filename, dboolean automatic);
 
 #endif

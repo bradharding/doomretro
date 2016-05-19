@@ -42,12 +42,12 @@
 
 // killough 1/6/98: replaced globals with statics where appropriate
 
-static bool     segtextured;            // True if any of the segs textures might be visible.
+static dboolean segtextured;            // True if any of the segs textures might be visible.
 
-static bool     markfloor;              // False if the back side is the same plane.
-bool            markceiling;
+static dboolean markfloor;              // False if the back side is the same plane.
+dboolean        markceiling;
 
-static bool     maskedtexture;
+static dboolean maskedtexture;
 static int      toptexture;
 static int      midtexture;
 static int      bottomtexture;
@@ -96,15 +96,15 @@ lighttable_t    **walllights;
 
 static int      *maskedtexturecol;      // dropoff overflow
 
-bool            r_brightmaps = r_brightmaps_default;
-bool            r_liquid_current = r_liquid_current_default;
+dboolean        r_brightmaps = r_brightmaps_default;
+dboolean        r_liquid_current = r_liquid_current_default;
 
 extern fixed_t  animatedliquiddiff;
 extern fixed_t  animatedliquidxoffs;
 extern fixed_t  animatedliquidyoffs;
-extern bool     doorclosed;
-extern bool     r_liquid_bob;
-extern bool     r_translucency;
+extern dboolean doorclosed;
+extern dboolean r_liquid_bob;
+extern dboolean r_translucency;
 
 //
 // R_FixWiggle()
@@ -335,18 +335,18 @@ void R_RenderSegLoop(void)
 {
     rpatch_t    *tex_patch;
     fixed_t     texturecolumn = 0;
-    bool        usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]);
+    dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]);
 
     for (; rw_x < rw_stopx; ++rw_x)
     {
         // mark floor / ceiling areas
-        int     yl = (int)((topfrac + heightunit - 1) >> heightbits);
-        int     yh = (int)(bottomfrac >> heightbits);
+        int             yl = (int)((topfrac + heightunit - 1) >> heightbits);
+        int             yh = (int)(bottomfrac >> heightbits);
 
         // no space above wall?
-        int     bottom;
-        int     top = ceilingclip[rw_x] + 1;
-        bool    bottomclipped = false;
+        int             bottom;
+        int             top = ceilingclip[rw_x] + 1;
+        dboolean        bottomclipped = false;
 
         yl = MAX(yl, top);
 
@@ -761,7 +761,7 @@ void R_StoreWallRange(int start, int stop)
         //
         // killough 4/7/98: make doorclosed external variable
         {
-            extern bool doorclosed;
+            extern dboolean doorclosed;
 
             if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
             {

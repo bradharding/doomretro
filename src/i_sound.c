@@ -65,7 +65,7 @@ struct allocated_sound_s
     allocated_sound_t           *next;
 };
 
-static bool                     sound_initialized;
+static dboolean                 sound_initialized;
 
 static allocated_sound_t        *channels_playing[NUM_CHANNELS];
 
@@ -122,7 +122,7 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 // Search from the tail backwards along the allocated sounds list, find
 // and free a sound that is not in use, to free up memory. Return true
 // for success.
-static bool FindAndFreeSound(void)
+static dboolean FindAndFreeSound(void)
 {
     allocated_sound_t   *snd;
 
@@ -287,7 +287,7 @@ static void ReleaseSoundOnChannel(int channel)
         FreeAllocatedSound(snd);
 }
 
-static bool ConvertibleRatio(int freq1, int freq2)
+static dboolean ConvertibleRatio(int freq1, int freq2)
 {
     int ratio;
 
@@ -309,7 +309,7 @@ static bool ConvertibleRatio(int freq1, int freq2)
 
 // Generic sound expansion function for any sample rate.
 // Returns number of clipped samples (always 0).
-static bool ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int length)
+static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int length)
 {
     SDL_AudioCVT        convertor;
     allocated_sound_t   *snd;
@@ -396,7 +396,7 @@ static bool ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
 
 // Load and convert a sound effect
 // Returns true if successful
-static bool CacheSFX(sfxinfo_t *sfxinfo)
+static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 {
     int                 lumpnum;
     unsigned int        lumplen;
@@ -447,7 +447,7 @@ static bool CacheSFX(sfxinfo_t *sfxinfo)
 }
 
 // Load a SFX chunk into memory and ensure that it is locked.
-static bool LockSound(sfxinfo_t *sfxinfo)
+static dboolean LockSound(sfxinfo_t *sfxinfo)
 {
     // If the sound isn't loaded, load it now
     if (!GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH))
@@ -563,7 +563,7 @@ void I_StopSound(int handle)
     ReleaseSoundOnChannel(handle);
 }
 
-bool I_SoundIsPlaying(int handle)
+dboolean I_SoundIsPlaying(int handle)
 {
     if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
         return false;
@@ -586,9 +586,9 @@ void I_UpdateSound(void)
             ReleaseSoundOnChannel(i);
 }
 
-bool I_AnySoundStillPlaying(void)
+dboolean I_AnySoundStillPlaying(void)
 {
-    bool        result = false;
+    dboolean    result = false;
     int         i;
 
     for (i = 0; i < NUM_CHANNELS; i++)
@@ -627,7 +627,7 @@ static int GetSliceSize(void)
     return 1024;
 }
 
-bool I_InitSound(void)
+dboolean I_InitSound(void)
 {
     int                 i;
     const SDL_version   *linked = Mix_Linked_Version();

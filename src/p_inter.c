@@ -89,8 +89,8 @@ char            *weapondescription[] =
     "super shotgun"
 };
 
-bool            con_obituaries = con_obituaries_default;
-bool            r_mirroredweapons = r_mirroredweapons_default;
+dboolean        con_obituaries = con_obituaries_default;
+dboolean        r_mirroredweapons = r_mirroredweapons_default;
 
 unsigned int    stat_damageinflicted = 0;
 unsigned int    stat_damagereceived = 0;
@@ -116,8 +116,8 @@ unsigned int    stat_monsterskilled_zombiemen = 0;
 unsigned int    stat_itemspickedup = 0;
 
 extern char     *playername;
-extern bool     r_althud;
-extern bool     r_hud;
+extern dboolean r_althud;
+extern dboolean r_hud;
 
 //
 // GET STUFF
@@ -205,10 +205,10 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
 //
 // P_GiveBackpack
 //
-bool P_GiveBackpack(player_t *player, bool giveammo)
+dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
 {
     int         i;
-    bool        result = false;
+    dboolean    result = false;
 
     if (!player->backpack)
     {
@@ -234,10 +234,10 @@ bool P_GiveBackpack(player_t *player, bool giveammo)
 //
 // P_GiveFullAmmo
 //
-bool P_GiveFullAmmo(player_t *player)
+dboolean P_GiveFullAmmo(player_t *player)
 {
     int         i;
-    bool        result = false;
+    dboolean    result = false;
 
     for (i = 0; i < NUMAMMO; i++)
         if (player->ammo[i] < player->maxammo[i])
@@ -269,10 +269,10 @@ void P_AddBonus(player_t *player, int amount)
 // P_GiveWeapon
 // The weapon name may have a MF_DROPPED flag ORed in.
 //
-bool P_GiveWeapon(player_t *player, weapontype_t weapon, bool dropped)
+dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 {
-    bool        gaveammo = false;
-    bool        gaveweapon = false;
+    dboolean    gaveammo = false;
+    dboolean    gaveweapon = false;
     ammotype_t  ammotype = weaponinfo[weapon].ammo;
 
     if (ammotype != am_noammo)
@@ -299,9 +299,9 @@ bool P_GiveWeapon(player_t *player, weapontype_t weapon, bool dropped)
 //
 // P_GiveAllWeapons
 //
-bool P_GiveAllWeapons(player_t *player)
+dboolean P_GiveAllWeapons(player_t *player)
 {
-    bool        result = false;
+    dboolean    result = false;
 
     if (!oldweaponsowned[wp_shotgun])
     {
@@ -366,7 +366,7 @@ bool P_GiveAllWeapons(player_t *player)
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
-bool P_GiveBody(player_t *player, int num)
+dboolean P_GiveBody(player_t *player, int num)
 {
     if (player->health >= MAXHEALTH)
         return false;
@@ -397,7 +397,7 @@ void P_GiveMegaHealth(player_t *player)
 // Returns false if the armor is worse
 // than the current armor.
 //
-bool P_GiveArmor(player_t *player, armortype_t armortype)
+dboolean P_GiveArmor(player_t *player, armortype_t armortype)
 {
     int hits = armortype * 100;
 
@@ -502,11 +502,11 @@ void P_GiveCard(player_t *player, card_t card)
 //
 // P_GiveAllCards
 //
-bool P_GiveAllCards(player_t *player)
+dboolean P_GiveAllCards(player_t *player)
 {
     int         i;
-    bool        skulliscard = true;
-    bool        result = false;
+    dboolean    skulliscard = true;
+    dboolean    result = false;
 
     for (i = 0; i < numlines; ++i)
         if (lines[i].special >= GenLockedBase
@@ -534,7 +534,7 @@ bool P_GiveAllCards(player_t *player)
 //
 // P_GivePower
 //
-bool P_GivePower(player_t *player, int power)
+dboolean P_GivePower(player_t *player, int power)
 {
     static const int tics[NUMPOWERS] =
     {
@@ -980,7 +980,7 @@ void P_ChangeKillStat(mobjtype_t type, unsigned int value)
 //
 void P_KillMobj(mobj_t *source, mobj_t *target)
 {
-    bool        gibbed;
+    dboolean    gibbed;
     mobjtype_t  item;
     mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
@@ -1124,7 +1124,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     }
 }
 
-bool P_CheckMeleeRange(mobj_t *actor);
+dboolean P_CheckMeleeRange(mobj_t *actor);
 
 //
 // P_DamageMobj
@@ -1142,7 +1142,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     player_t    *splayer = NULL;
     player_t    *tplayer;
     int         flags = target->flags;
-    bool        corpse = flags & MF_CORPSE;
+    dboolean    corpse = flags & MF_CORPSE;
     int         type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
 

@@ -122,7 +122,7 @@ static const byte controller_map[] =
 static int channel_map[NUM_CHANNELS];
 
 // Write timestamp to a MIDI file.
-static bool WriteTime(unsigned int time, MEMFILE *midioutput)
+static dboolean WriteTime(unsigned int time, MEMFILE *midioutput)
 {
     unsigned int        buffer = time & 0x7F;
     byte                writeval;
@@ -153,7 +153,7 @@ static bool WriteTime(unsigned int time, MEMFILE *midioutput)
 }
 
 // Write end track
-static bool WriteEndTrack(MEMFILE *midioutput)
+static dboolean WriteEndTrack(MEMFILE *midioutput)
 {
     byte        endtrack[] = { 0xFF, 0x2F, 0x00 };
 
@@ -168,7 +168,7 @@ static bool WriteEndTrack(MEMFILE *midioutput)
 }
 
 // Write a key press event
-static bool WritePressKey(byte channel, byte key, byte velocity, MEMFILE *midioutput)
+static dboolean WritePressKey(byte channel, byte key, byte velocity, MEMFILE *midioutput)
 {
     byte        working = midi_presskey | channel;
 
@@ -193,7 +193,7 @@ static bool WritePressKey(byte channel, byte key, byte velocity, MEMFILE *midiou
 }
 
 // Write a key release event
-static bool WriteReleaseKey(byte channel, byte key, MEMFILE *midioutput)
+static dboolean WriteReleaseKey(byte channel, byte key, MEMFILE *midioutput)
 {
     byte        working = midi_releasekey | channel;
 
@@ -218,7 +218,7 @@ static bool WriteReleaseKey(byte channel, byte key, MEMFILE *midioutput)
 }
 
 // Write a pitch wheel/bend event
-static bool WritePitchWheel(byte channel, short wheel, MEMFILE *midioutput)
+static dboolean WritePitchWheel(byte channel, short wheel, MEMFILE *midioutput)
 {
     byte        working = midi_pitchwheel | channel;
 
@@ -243,7 +243,7 @@ static bool WritePitchWheel(byte channel, short wheel, MEMFILE *midioutput)
 }
 
 // Write a patch change event
-static bool WriteChangePatch(byte channel, byte patch, MEMFILE *midioutput)
+static dboolean WriteChangePatch(byte channel, byte patch, MEMFILE *midioutput)
 {
     byte        working = midi_changepatch | channel;
 
@@ -263,7 +263,7 @@ static bool WriteChangePatch(byte channel, byte patch, MEMFILE *midioutput)
 }
 
 // Write a valued controller change event
-static bool WriteChangeController_Valued(byte channel, byte control, byte value,
+static dboolean WriteChangeController_Valued(byte channel, byte control, byte value,
     MEMFILE *midioutput)
 {
     byte        working = midi_changecontroller | channel;
@@ -296,7 +296,7 @@ static bool WriteChangeController_Valued(byte channel, byte control, byte value,
 }
 
 // Write a valueless controller change event
-static bool WriteChangeController_Valueless(byte channel, byte control, MEMFILE *midioutput)
+static dboolean WriteChangeController_Valueless(byte channel, byte control, MEMFILE *midioutput)
 {
     return WriteChangeController_Valued(channel, control, 0, midioutput);
 }
@@ -348,9 +348,9 @@ static int GetMIDIChannel(int mus_channel, MEMFILE *midioutput)
     }
 }
 
-static bool ReadMusHeader(MEMFILE *file, musheader *header)
+static dboolean ReadMusHeader(MEMFILE *file, musheader *header)
 {
-    bool        result = (mem_fread(&header->id, sizeof(byte), 4, file) == 4
+    dboolean    result = (mem_fread(&header->id, sizeof(byte), 4, file) == 4
         && mem_fread(&header->scorelength, sizeof(short), 1, file) == 1
         && mem_fread(&header->scorestart, sizeof(short), 1, file) == 1
         && mem_fread(&header->primarychannels, sizeof(short), 1, file) == 1
@@ -373,7 +373,7 @@ static bool ReadMusHeader(MEMFILE *file, musheader *header)
 // a stream (midioutput).
 //
 // Returns 0 on success or 1 on failure.
-bool mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
+dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 {
     // Header for the MUS file
     musheader           musfileheader;

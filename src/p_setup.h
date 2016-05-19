@@ -52,7 +52,7 @@ char *P_GetMapName(int map);
 int P_GetMapNext(int map);
 void P_GetMapNoLiquids(int map);
 int P_GetMapPar(int map);
-bool P_GetMapPistolStart(int map);
+dboolean P_GetMapPistolStart(int map);
 int P_GetMapSecretNext(int map);
 int P_GetMapSky1Texture(int map);
 int P_GetMapSky1ScrollDelta(int map);

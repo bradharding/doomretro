@@ -109,9 +109,9 @@ lighttable_t            **colormaps;
 // bumped light from gun blasts
 int                     extralight;
 
-bool                    r_translucency = r_translucency_default;
+dboolean                r_translucency = r_translucency_default;
 
-bool                    r_homindicator = r_homindicator_default;
+dboolean                r_homindicator = r_homindicator_default;
 
 int                     r_frame_count;
 
@@ -416,8 +416,8 @@ void R_InitLightTables(void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-bool    setsizeneeded;
-int     setblocks;
+dboolean        setsizeneeded;
+int             setblocks;
 
 void R_SetViewSize(int blocks)
 {

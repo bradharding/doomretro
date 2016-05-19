@@ -42,19 +42,19 @@
 extern char     *sc_String;
 extern int      sc_Number;
 extern int      sc_Line;
-extern bool     sc_End;
-extern bool     sc_Crossed;
-extern bool     sc_FileScripts;
+extern dboolean sc_End;
+extern dboolean sc_Crossed;
+extern dboolean sc_FileScripts;
 extern char     *sc_ScriptsDir;
 
 void SC_Open(char *name);
 void SC_Close(void);
-bool SC_GetString(void);
+dboolean SC_GetString(void);
 void SC_MustGetString(void);
-bool SC_GetNumber(void);
+dboolean SC_GetNumber(void);
 void SC_MustGetNumber(void);
 void SC_UnGet(void);
-bool SC_Compare(char *text);
+dboolean SC_Compare(char *text);
 int SC_MatchString(char **strings);
 int SC_MustMatchString(char **strings);
 void SC_ScriptError(char *message);

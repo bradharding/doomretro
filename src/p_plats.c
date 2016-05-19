@@ -151,11 +151,11 @@ void T_PlatRaise(plat_t *plat)
 // Do Platforms
 //  "amount" is only used for SOME platforms.
 //
-bool EV_DoPlat(line_t *line, plattype_e type, int amount)
+dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 {
     plat_t      *plat;
     int         secnum = -1;
-    bool        rtn = false;
+    dboolean    rtn = false;
     sector_t    *sec = NULL;
 
     // Activate all <type> plats that are in_stasis
@@ -325,7 +325,7 @@ void P_ActivateInStasis(int tag)
 // EV_StopPlat()
 // Handler for "stop perpetual floor" linedef type
 //
-bool EV_StopPlat(line_t *line)
+dboolean EV_StopPlat(line_t *line)
 {
     platlist_t  *platlist;
 

@@ -116,6 +116,6 @@ enum
 
 extern gameaction_t     gameaction;
 
-extern bool             altdown;
+extern dboolean         altdown;
 
 #endif

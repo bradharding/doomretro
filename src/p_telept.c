@@ -45,7 +45,7 @@ void P_CalcHeight(player_t *player);
 //
 // TELEPORTATION
 //
-bool EV_Teleport(line_t *line, int side, mobj_t *thing)
+dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
     thinker_t   *thinker;
     int         i;
@@ -140,7 +140,7 @@ bool EV_Teleport(line_t *line, int side, mobj_t *thing)
 // Silent TELEPORTATION, by Lee Killough
 // Primarily for rooms-over-rooms etc.
 //
-bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
+dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 {
     int         i;
     mobj_t      *m;
@@ -222,7 +222,7 @@ bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 // maximum fixed_t units to move object to avoid hiccups
 #define FUDGEFACTOR 10
 
-bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse)
+dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse)
 {
     int         i;
     line_t      *l;
@@ -261,7 +261,7 @@ bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse)
             player_t    *player = (thing->player && thing->player->mo == thing ? thing->player : NULL);
 
             // Whether walking towards first side of exit linedef steps down
-            bool        stepdown = (l->frontsector->floorheight < l->backsector->floorheight);
+            dboolean    stepdown = (l->frontsector->floorheight < l->backsector->floorheight);
 
             // Height of thing above ground
             fixed_t z = thing->z - thing->floorz;

@@ -72,28 +72,28 @@
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 
-extern bool             alwaysrun;
+extern dboolean         alwaysrun;
 extern int              am_allmapcdwallcolor;
 extern int              am_allmapfdwallcolor;
 extern int              am_allmapwallcolor;
 extern int              am_backcolor;
 extern int              am_cdwallcolor;
-extern bool             am_external;
+extern dboolean         am_external;
 extern int              am_fdwallcolor;
-extern bool             am_grid;
+extern dboolean         am_grid;
 extern int              am_gridcolor;
 extern int              am_markcolor;
 extern int              am_playercolor;
-extern bool             am_rotatemode;
+extern dboolean         am_rotatemode;
 extern int              am_teleportercolor;
 extern int              am_thingcolor;
 extern int              am_tswallcolor;
 extern int              am_wallcolor;
 extern int              am_xhaircolor;
-extern bool             autoload;
-extern bool             centerweapon;
-extern bool             con_obituaries;
-extern bool             con_timestamps;
+extern dboolean         autoload;
+extern dboolean         centerweapon;
+extern dboolean         con_obituaries;
+extern dboolean         con_timestamps;
 extern int              episode;
 extern int              expansion;
 extern int              facebackcolor;
@@ -101,53 +101,53 @@ extern int              gametime;
 extern float            gp_deadzone_left;
 extern float            gp_deadzone_right;
 extern int              gp_sensitivity;
-extern bool             gp_swapthumbsticks;
-extern bool             gp_vibrate;
+extern dboolean         gp_swapthumbsticks;
+extern dboolean         gp_vibrate;
 extern char             *iwadfolder;
-extern bool             messages;
+extern dboolean         messages;
 extern float            m_acceleration;
-extern bool             m_doubleclick_use;
-extern bool             m_novertical;
+extern dboolean         m_doubleclick_use;
+extern dboolean         m_novertical;
 extern int              m_sensitivity;
 extern int              m_threshold;
 extern int              movebob;
 extern char             *playername;
-extern bool             r_althud;
+extern dboolean         r_althud;
 extern int              r_berserkintensity;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern int              r_bloodsplats_total;
-extern bool             r_brightmaps;
-extern bool             r_corpses_color;
-extern bool             r_corpses_mirrored;
-extern bool             r_corpses_moreblood;
-extern bool             r_corpses_nudge;
-extern bool             r_corpses_slide;
-extern bool             r_corpses_smearblood;
+extern dboolean         r_brightmaps;
+extern dboolean         r_corpses_color;
+extern dboolean         r_corpses_mirrored;
+extern dboolean         r_corpses_moreblood;
+extern dboolean         r_corpses_nudge;
+extern dboolean         r_corpses_slide;
+extern dboolean         r_corpses_smearblood;
 extern int              r_detail;
 extern int              r_diskicon;
-extern bool             r_fixmaperrors;
-extern bool             r_fixspriteoffsets;
-extern bool             r_floatbob;
+extern dboolean         r_fixmaperrors;
+extern dboolean         r_fixspriteoffsets;
+extern dboolean         r_floatbob;
 extern float            r_gamma;
-extern bool             r_homindicator;
-extern bool             r_hud;
-extern bool             r_liquid_bob;
-extern bool             r_liquid_clipsprites;
-extern bool             r_liquid_current;
-extern bool             r_liquid_lowerview;
-extern bool             r_liquid_swirl;
+extern dboolean         r_homindicator;
+extern dboolean         r_hud;
+extern dboolean         r_liquid_bob;
+extern dboolean         r_liquid_clipsprites;
+extern dboolean         r_liquid_current;
+extern dboolean         r_liquid_lowerview;
+extern dboolean         r_liquid_swirl;
 extern char             *r_lowpixelsize;
-extern bool             r_mirroredweapons;
-extern bool             r_playersprites;
-extern bool             r_rockettrails;
+extern dboolean         r_mirroredweapons;
+extern dboolean         r_playersprites;
+extern dboolean         r_rockettrails;
 extern int              r_screensize;
-extern bool             r_shadows;
+extern dboolean         r_shadows;
 extern int              r_shakescreen;
-extern bool             r_translucency;
+extern dboolean         r_translucency;
 extern int              s_musicvolume;
-extern bool             s_randommusic;
-extern bool             s_randompitch;
+extern dboolean         s_randommusic;
+extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern int              skilllevel;
@@ -180,17 +180,17 @@ extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
 extern int              stillbob;
 extern int              turbo;
-extern bool             vid_capfps;
+extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
 extern char             *vid_driver;
 #endif
-extern bool             vid_fullscreen;
+extern dboolean         vid_fullscreen;
 extern char             *vid_scaledriver;
 extern char             *vid_scalefilter;
 extern char             *vid_screenresolution;
-extern bool             vid_vsync;
-extern bool             vid_widescreen;
+extern dboolean         vid_vsync;
+extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
 
@@ -297,9 +297,9 @@ action_t actions[] =
     { "",              NULL,                    NULL,              NULL                      }
 };
 
-static bool cheat_func1(char *, char *, char *, char *);
-static bool game_func1(char *, char *, char *, char *);
-static bool null_func1(char *, char *, char *, char *);
+static dboolean cheat_func1(char *, char *, char *, char *);
+static dboolean game_func1(char *, char *, char *, char *);
+static dboolean null_func1(char *, char *, char *, char *);
 
 static void clear_cmd_func2(char *, char *, char *, char *);
 static void cmdlist_cmd_func2(char *, char *, char *, char *);
@@ -307,18 +307,18 @@ static void condump_cmd_func2(char *, char *, char *, char *);
 static void cvarlist_cmd_func2(char *, char *, char *, char *);
 static void endgame_cmd_func2(char *, char *, char *, char *);
 static void exitmap_cmd_func2(char *, char *, char *, char *);
-static bool fastmonsters_cmd_func1(char *, char *, char *, char *);
+static dboolean fastmonsters_cmd_func1(char *, char *, char *, char *);
 static void fastmonsters_cmd_func2(char *, char *, char *, char *);
-static bool give_cmd_func1(char *, char *, char *, char *);
+static dboolean give_cmd_func1(char *, char *, char *, char *);
 static void give_cmd_func2(char *, char *, char *, char *);
-static bool god_cmd_func1(char *, char *, char *, char *);
+static dboolean god_cmd_func1(char *, char *, char *, char *);
 static void god_cmd_func2(char *, char *, char *, char *);
 static void help_cmd_func2(char *, char *, char *, char *);
-static bool kill_cmd_func1(char *, char *, char *, char *);
+static dboolean kill_cmd_func1(char *, char *, char *, char *);
 static void kill_cmd_func2(char *, char *, char *, char *);
-static bool load_cmd_func1(char *, char *, char *, char *);
+static dboolean load_cmd_func1(char *, char *, char *, char *);
 static void load_cmd_func2(char *, char *, char *, char *);
-static bool map_cmd_func1(char *, char *, char *, char *);
+static dboolean map_cmd_func1(char *, char *, char *, char *);
 static void map_cmd_func2(char *, char *, char *, char *);
 static void maplist_cmd_func2(char *, char *, char *, char *);
 static void mapstats_cmd_func2(char *, char *, char *, char *);
@@ -328,52 +328,52 @@ static void notarget_cmd_func2(char *, char *, char *, char *);
 static void pistolstart_cmd_func2(char *, char *, char *, char *);
 static void playerstats_cmd_func2(char *, char *, char *, char *);
 static void quit_cmd_func2(char *, char *, char *, char *);
-static bool respawnmonsters_cmd_func1(char *, char *, char *, char *);
+static dboolean respawnmonsters_cmd_func1(char *, char *, char *, char *);
 static void respawnmonsters_cmd_func2(char *, char *, char *, char *);
-static bool resurrect_cmd_func1(char *, char *, char *, char *);
+static dboolean resurrect_cmd_func1(char *, char *, char *, char *);
 static void resurrect_cmd_func2(char *, char *, char *, char *);
-static bool save_cmd_func1(char *, char *, char *, char *);
+static dboolean save_cmd_func1(char *, char *, char *, char *);
 static void save_cmd_func2(char *, char *, char *, char *);
-static bool spawn_cmd_func1(char *, char *, char *, char *);
+static dboolean spawn_cmd_func1(char *, char *, char *, char *);
 static void spawn_cmd_func2(char *, char *, char *, char *);
 static void thinglist_cmd_func2(char *, char *, char *, char *);
 static void unbind_cmd_func2(char *, char *, char *, char *);
 
-static bool bool_cvars_func1(char *, char *, char *, char *);
+static dboolean bool_cvars_func1(char *, char *, char *, char *);
 static void bool_cvars_func2(char *, char *, char *, char *);
 static void color_cvars_func2(char *, char *, char *, char *);
-static bool float_cvars_func1(char *, char *, char *, char *);
+static dboolean float_cvars_func1(char *, char *, char *, char *);
 static void float_cvars_func2(char *, char *, char *, char *);
-static bool int_cvars_func1(char *, char *, char *, char *);
+static dboolean int_cvars_func1(char *, char *, char *, char *);
 static void int_cvars_func2(char *, char *, char *, char *);
 static void str_cvars_func2(char *, char *, char *, char *);
 static void time_cvars_func2(char *, char *, char *, char *);
 
 static void am_external_cvar_func2(char *, char *, char *, char *);
-static bool gp_deadzone_cvars_func1(char *, char *, char *, char *);
+static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *, char *, char *);
 static void playername_cvar_func2(char *, char *, char *, char *);
 static void alwaysrun_cvar_func2(char *, char *, char *, char *);
-static bool r_blood_cvar_func1(char *, char *, char *, char *);
+static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
 static void r_blood_cvar_func2(char *, char *, char *, char *);
-static bool r_detail_cvar_func1(char *, char *, char *, char *);
+static dboolean r_detail_cvar_func1(char *, char *, char *, char *);
 static void r_detail_cvar_func2(char *, char *, char *, char *);
-static bool r_gamma_cvar_func1(char *, char *, char *, char *);
+static dboolean r_gamma_cvar_func1(char *, char *, char *, char *);
 static void r_gamma_cvar_func2(char *, char *, char *, char *);
 static void r_hud_cvar_func2(char *, char *, char *, char *);
 static void r_lowpixelsize_cvar_func2(char *, char *, char *, char *);
 static void r_screensize_cvar_func2(char *, char *, char *, char *);
 static void r_translucency_cvar_func2(char *, char *, char *, char *);
-static bool s_volume_cvars_func1(char *, char *, char *, char *);
+static dboolean s_volume_cvars_func1(char *, char *, char *, char *);
 static void s_volume_cvars_func2(char *, char *, char *, char *);
-static bool turbo_cvar_func1(char *, char *, char *, char *);
+static dboolean turbo_cvar_func1(char *, char *, char *, char *);
 static void turbo_cvar_func2(char *, char *, char *, char *);
 static void vid_display_cvar_func2(char *, char *, char *, char *);
 static void vid_fullscreen_cvar_func2(char *, char *, char *, char *);
-static bool vid_scaledriver_cvar_func1(char *, char *, char *, char *);
+static dboolean vid_scaledriver_cvar_func1(char *, char *, char *, char *);
 static void vid_scaledriver_cvar_func2(char *, char *, char *, char *);
-static bool vid_scalefilter_cvar_func1(char *, char *, char *, char *);
+static dboolean vid_scalefilter_cvar_func1(char *, char *, char *, char *);
 static void vid_scalefilter_cvar_func2(char *, char *, char *, char *);
 static void vid_screenresolution_cvar_func2(char *, char *, char *, char *);
 static void vid_showfps_cvar_func2(char *, char *, char *, char *);
@@ -698,7 +698,7 @@ consolecmd_t consolecmds[] =
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
 
-static bool cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (gamestate != GS_LEVEL)
         return false;
@@ -756,12 +756,12 @@ static bool cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     return false;
 }
 
-static bool game_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean game_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (gamestate == GS_LEVEL);
 }
 
-static bool null_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean null_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return true;
 }
@@ -904,7 +904,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
             }
             else
             {
-                bool    bound = false;
+                dboolean        bound = false;
 
                 while (*actions[action].action)
                 {
@@ -1128,7 +1128,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count++, consolecmds[i].name,
-                    C_LookupAliasFromValue(*(bool *)consolecmds[i].variable,
+                    C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
                         consolecmds[i].aliases), description1);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count++, consolecmds[i].name,
@@ -1189,9 +1189,9 @@ static void exitmap_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // fastmonsters cmd
 //
-void G_SetFastMonsters(bool toggle);
+void G_SetFastMonsters(dboolean toggle);
 
-static bool fastmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean fastmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (skilllevel != sk_nightmare);
 }
@@ -1235,7 +1235,7 @@ static void fastmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
 //
 extern int      cardsfound;
 
-static bool give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
     int         i;
@@ -1329,7 +1329,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // god cmd
 //
-static bool god_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean god_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
@@ -1367,7 +1367,7 @@ static void help_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static int      killcmdtype = NUMMOBJTYPES;
 
-static bool kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1394,7 +1394,7 @@ static bool kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
                     M_StringCompare(parm, removespaces(mobjinfo[i].plural2)))
                 || atoi(parm) == killcmdtype))
             {
-                bool    kill = true;
+                dboolean        kill = true;
 
                 if (gamemode != commercial)
                 {
@@ -1568,7 +1568,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // load cmd
 //
-static bool load_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean load_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return *parm1;
 }
@@ -1586,11 +1586,11 @@ static int      mapcmdepisode;
 static int      mapcmdmap;
 static char     mapcmdlump[7];
 
-extern bool     samelevel;
+extern dboolean samelevel;
 extern menu_t   EpiDef;
 extern int      idclevtics;
 
-static bool map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (!*parm1)
         return true;
@@ -1851,13 +1851,13 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     // search through lumps for maps
     for (i = 0; i < numlumps; ++i)
     {
-        int     ep = 0;
-        int     map = 0;
-        char    lump[8];
-        char    wad[MAX_PATH];
-        bool    replaced;
-        bool    pwad;
-        char    mapinfoname[128];
+        int             ep = 0;
+        int             map = 0;
+        char            lump[8];
+        char            wad[MAX_PATH];
+        dboolean        replaced;
+        dboolean        pwad;
+        char            mapinfoname[128];
 
         M_StringCopy(lump, uppercase(lumpinfo[i]->name), 8);
 
@@ -2517,7 +2517,7 @@ static void quit_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // respawnmonsters cmd
 //
-static bool respawnmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean respawnmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (skilllevel != sk_nightmare);
 }
@@ -2542,7 +2542,7 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char 
 //
 // resurrect cmd
 //
-static bool resurrect_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean resurrect_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (gamestate == GS_LEVEL && players[0].playerstate == PST_DEAD);
 }
@@ -2555,7 +2555,7 @@ static void resurrect_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3
 //
 // save cmd
 //
-static bool save_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean save_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (*parm1 && gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
@@ -2571,7 +2571,7 @@ static void save_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static int      spawncmdtype = NUMMOBJTYPES;
 
-static bool spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
 
@@ -2589,7 +2589,7 @@ static bool spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
                 || atoi(parm) == spawncmdtype))
             {
-                bool    spawn = true;
+                dboolean        spawn = true;
 
                 if (gamemode != commercial)
                 {
@@ -2676,9 +2676,9 @@ static void unbind_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// bool cvars
+// dboolean cvars
 //
-static bool bool_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean bool_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!*parm1 || C_LookupValueFromAlias(parm1, BOOLALIAS) >= 0);
 }
@@ -2698,12 +2698,12 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
                 if (value == 0 || value == 1)
                 {
-                    *(bool *)consolecmds[i].variable = !!value;
+                    *(dboolean *)consolecmds[i].variable = !!value;
                     M_SaveCVARs();
                 }
             }
             else
-                C_Output(C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, BOOLALIAS));
+                C_Output(C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLALIAS));
         }
         ++i;
     }
@@ -2722,7 +2722,7 @@ static void color_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // float cvars
 //
-static bool float_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean float_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -2776,7 +2776,7 @@ static void float_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // int cvars
 //
-static bool int_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean int_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
@@ -2895,7 +2895,7 @@ static void alwaysrun_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm
 //
 static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    bool        am_external_old = am_external;
+    dboolean    am_external_old = am_external;
 
     bool_cvars_func2(cmd, parm1, "", "");
     if (am_external != am_external_old)
@@ -2918,7 +2918,7 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 //
 // gp_deadzone_left and gp_deadzone_right cvars
 //
-static bool gp_deadzone_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean gp_deadzone_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     float value;
 
@@ -2995,7 +2995,7 @@ static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 //
 // r_blood cvar
 //
-static bool r_blood_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean r_blood_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!*parm1 || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
 }
@@ -3023,7 +3023,7 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // r_detail cvar
 //
-static bool r_detail_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean r_detail_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!*parm1 || C_LookupValueFromAlias(parm1, DETAILALIAS) >= 0);
 }
@@ -3049,7 +3049,7 @@ static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
 //
 extern int      st_palette;
 
-static bool r_gamma_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean r_gamma_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     float       value = -1.0f;
 
@@ -3204,7 +3204,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 // s_musicvolume and s_sfxvolume cvars
 //
-static bool s_volume_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean s_volume_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int value = -1;
 
@@ -3254,7 +3254,7 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
 //
 // turbo cvar
 //
-static bool turbo_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean turbo_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int value = -1;
 
@@ -3325,7 +3325,7 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 // vid_scaledriver cvar
 //
-static bool vid_scaledriver_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean vid_scaledriver_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!*parm1 || M_StringCompare(parm1, EMPTYVALUE)
         || M_StringCompare(parm1, vid_scaledriver_direct3d)
@@ -3357,7 +3357,7 @@ static void vid_scaledriver_cvar_func2(char *cmd, char *parm1, char *parm2, char
 //
 // vid_scalefilter cvar
 //
-static bool vid_scalefilter_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean vid_scalefilter_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!*parm1 || M_StringCompare(parm1, vid_scalefilter_nearest)
         || M_StringCompare(parm1, vid_scalefilter_linear)

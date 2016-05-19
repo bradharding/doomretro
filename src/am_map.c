@@ -202,7 +202,7 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-bool                    automapactive = false;
+dboolean                automapactive = false;
 
 static unsigned int     mapwidth;
 static unsigned int     mapheight;
@@ -249,16 +249,16 @@ mpoint_t                *markpoints = NULL;     // where the points are
 int                     markpointnum = 0;       // next point to be assigned
 int                     markpointnum_max = 0;
 
-bool                    am_external = am_external_default;
-bool                    am_followmode = am_followmode_default;
-bool                    am_grid = am_grid_default;
-bool                    am_rotatemode = am_rotatemode_default;
+dboolean                am_external = am_external_default;
+dboolean                am_followmode = am_followmode_default;
+dboolean                am_grid = am_grid_default;
+dboolean                am_rotatemode = am_rotatemode_default;
 
-static bool             stopped = true;
+static dboolean         stopped = true;
 
-bool                    bigstate = false;
+dboolean                bigstate = false;
 byte                    *area;
-static bool             movement;
+static dboolean         movement;
 int                     keydown;
 int                     direction;
 
@@ -424,7 +424,7 @@ void AM_Init(void)
     AM_setColors();
 }
 
-static void AM_initVariables(bool mainwindow)
+static void AM_initVariables(dboolean mainwindow)
 {
     automapactive = mainwindow;
 
@@ -484,7 +484,7 @@ void AM_Stop(void)
 int     lastlevel = -1;
 int     lastepisode = -1;
 
-void AM_Start(bool mainwindow)
+void AM_Start(dboolean mainwindow)
 {
     if (!stopped)
         AM_Stop();
@@ -525,9 +525,9 @@ static void AM_maxOutWindowScale(void)
 }
 
 SDL_Keymod      modstate;
-bool            speedtoggle;
+dboolean        speedtoggle;
 
-static bool AM_getSpeedToggle(void)
+static dboolean AM_getSpeedToggle(void)
 {
     return (!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER) + !!(modstate & KMOD_SHIFT) == 1);
 }
@@ -650,7 +650,7 @@ static void AM_toggleRotateMode(void)
 //
 // Handle events (user inputs) in AutoMap mode
 //
-bool AM_Responder(event_t *ev)
+dboolean AM_Responder(event_t *ev)
 {
     int rc = false;
 
@@ -659,7 +659,7 @@ bool AM_Responder(event_t *ev)
 
     if (!menuactive && !paused)
     {
-        static bool     backbuttondown;
+        static dboolean backbuttondown;
 
         if (!(gamepadbuttons & gamepadautomap))
             backbuttondown = false;
@@ -1147,7 +1147,7 @@ void AM_clearFB(void)
 // Based on Cohen-Sutherland clipping algorithm but with a slightly
 // faster reject and precalculated slopes. If the speed is needed,
 // use a hash algorithm to handle the common cases.
-static bool AM_clipMline(int *x0, int *y0, int *x1, int *y1)
+static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
 {
     enum
     {
@@ -1200,9 +1200,9 @@ static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth)
     {
-        byte    *dot = mapscreen + y + x;
-        bool    attop = (y < maparea);
-        bool    atbottom = (y < mapbottom);
+        byte            *dot = mapscreen + y + x;
+        dboolean        attop = (y < maparea);
+        dboolean        atbottom = (y < mapbottom);
 
         if (attop)
             _PUTDOT(dot, color);
@@ -1409,8 +1409,8 @@ static void AM_drawGrid(void)
 //
 static void AM_drawWalls(void)
 {
-    bool        allmap = plr->powers[pw_allmap];
-    bool        cheating = (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS));
+    dboolean    allmap = plr->powers[pw_allmap];
+    dboolean    cheating = (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS));
     int         i = 0;
 
     while (i < numlines)

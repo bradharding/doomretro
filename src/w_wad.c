@@ -125,7 +125,7 @@ unsigned int W_LumpNameHash(const char *s)
 //  with multiple lumps.
 // Other files are single lumps with the base filename
 //  for the lump name.
-wad_file_t *W_AddFile(char *filename, bool automatic)
+wad_file_t *W_AddFile(char *filename, dboolean automatic)
 {
     wadinfo_t   header;
     lumpindex_t i;
@@ -227,7 +227,7 @@ wad_file_t *W_AddFile(char *filename, bool automatic)
     return wad_file;
 }
 
-bool IsFreedoom(const char *iwadname)
+dboolean IsFreedoom(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     filelump_t  lump;
@@ -262,7 +262,7 @@ bool IsFreedoom(const char *iwadname)
     return result;
 }
 
-bool HasDehackedLump(const char *pwadname)
+dboolean HasDehackedLump(const char *pwadname)
 {
     FILE        *fp = fopen(pwadname, "rb");
     filelump_t  lump;

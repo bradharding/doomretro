@@ -50,7 +50,7 @@ line_t          *linedef;
 sector_t        *frontsector;
 sector_t        *backsector;
 
-bool            doorclosed;
+dboolean        doorclosed;
 
 drawseg_t       *drawsegs;
 unsigned int    maxdrawsegs;
@@ -239,7 +239,7 @@ void R_ClearClipSegs(void)
 //
 // It assumes that DOOM has already ruled out a door being closed because
 // of front-back closure (e.g. front floor is taller than back ceiling).
-bool R_DoorClosed(void)
+dboolean R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
@@ -295,7 +295,7 @@ void R_MaybeInterpolateSector(sector_t* sector)
 // killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
 //
 sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
-    int *ceilinglightlevel, bool back)
+    int *ceilinglightlevel, dboolean back)
 {
     if (floorlightlevel)
         *floorlightlevel = (sec->floorlightsec == -1 ? sec->lightlevel :
@@ -535,7 +535,7 @@ static const int checkcoord[12][4] =
     { 2, 1, 3, 0 }
 };
 
-static bool R_CheckBBox(const fixed_t *bspcoord)
+static dboolean R_CheckBBox(const fixed_t *bspcoord)
 {
     int         boxpos;
     const int   *check;

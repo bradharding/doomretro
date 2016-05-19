@@ -78,23 +78,23 @@ spritedef_t             *sprites;
 static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
 
-bool                    r_liquid_clipsprites = r_liquid_clipsprites_default;
+dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
 
-bool                    r_playersprites = r_playersprites_default;
+dboolean                r_playersprites = r_playersprites_default;
 
 extern fixed_t          animatedliquiddiff;
-extern bool             inhelpscreens;
-extern bool             r_liquid_bob;
-extern bool             r_shadows;
-extern bool             r_translucency;
-extern bool             skippsprinterp;
+extern dboolean         inhelpscreens;
+extern dboolean         r_liquid_bob;
+extern dboolean         r_shadows;
+extern dboolean         r_translucency;
+extern dboolean         skippsprinterp;
 
 //
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
 static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int frame, char rot,
-    bool flipped)
+    dboolean flipped)
 {
     unsigned int        rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ?
         rot - 'A' + 10 : 17));
@@ -666,7 +666,7 @@ void R_ProjectSprite(mobj_t *thing)
     spriteframe_t       *sprframe;
     int                 lump;
 
-    bool                flip;
+    dboolean            flip;
 
     vissprite_t         *vis;
 
@@ -984,7 +984,7 @@ void R_ProjectShadow(mobj_t *thing)
     spriteframe_t       *sprframe;
     int                 lump;
 
-    bool                flip;
+    dboolean            flip;
 
     vissprite_t         *vis;
 
@@ -1113,9 +1113,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 // R_DrawPSprite
 //
-static bool     bflash;
+static dboolean bflash;
 
-static void R_DrawPSprite(pspdef_t *psp, bool invisibility)
+static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
 {
     fixed_t             tx;
     int                 x1, x2;
@@ -1124,11 +1124,11 @@ static void R_DrawPSprite(pspdef_t *psp, bool invisibility)
     long                frame;
     spriteframe_t       *sprframe;
     int                 lump;
-    bool                flip;
+    dboolean            flip;
     vissprite_t         *vis;
     vissprite_t         tempvis;
     state_t             *state;
-    bool                dehacked = weaponinfo[viewplayer->readyweapon].dehacked;
+    dboolean            dehacked = weaponinfo[viewplayer->readyweapon].dehacked;
 
     // decide which patch to use
     state = psp->state;
