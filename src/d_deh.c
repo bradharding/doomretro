@@ -60,9 +60,9 @@ typedef struct
     FILE        *f;
 } DEHFILE;
 
-dboolean        addtocount;
-int             dehcount = 0;
-dboolean        dehacked = false;
+bool    addtocount;
+int     dehcount = 0;
+bool    dehacked = false;
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -99,7 +99,7 @@ int dehfgetc(DEHFILE *fp)
 }
 
 // variables used in other routines
-dboolean deh_pars = false;       // in wi_stuff to allow pars in modified games
+bool    deh_pars = false;                       // in wi_stuff to allow pars in modified games
 
 // #include "d_deh.h" -- we don't do that here but we declare the
 // variables. This externalizes everything that there is a string
@@ -1265,7 +1265,7 @@ void lfstrip(char *);           // strip the \r and/or \n off of a line
 void rstrip(char *);            // strip trailing whitespace
 char *ptr_lstrip(char *);       // point past leading whitespace
 int deh_GetData(char *, char *, long *, char **);
-dboolean deh_procStringSub(char *, char *, char *);
+bool deh_procStringSub(char *, char *, char *);
 char *dehReformatStr(char *);
 
 // Prototypes for block processing functions
@@ -1322,7 +1322,7 @@ static deh_block deh_blocks[] =
 };
 
 // flag to skip included deh-style text, used with INCLUDE NOTEXT directive
-static dboolean includenotext;
+static bool     includenotext;
 
 // MOBJINFO - Dehacked block name = "Thing"
 // Usage: Thing nn (name)
@@ -1779,7 +1779,7 @@ static const deh_bexptr deh_bexptrs[] =
 // to hold startup code pointers from INFO.C
 static actionf_t deh_codeptr[NUMSTATES];
 
-dboolean CheckPackageWADVersion(void)
+bool CheckPackageWADVersion(void)
 {
     DEHFILE     infile, *filein = &infile;
     char        inbuffer[32];
@@ -1870,7 +1870,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     // loop until end of file
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
-        dboolean                match;
+        bool                    match;
         unsigned int            i;
         static unsigned int     last_i = DEH_BLOCKMAX - 1;
         static long             filepos;
@@ -1892,7 +1892,7 @@ void ProcessDehFile(char *filename, int lumpnum)
             // killough 10/98: moved to here
 
             char        *nextfile;
-            dboolean    oldnotext = includenotext;      // killough 10/98
+            bool        oldnotext = includenotext;      // killough 10/98
 
             // killough 10/98: exclude if inside wads (only to discourage
             // the practice, since the code could otherwise handle it)
@@ -1976,8 +1976,8 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
     // for this one, we just read 'em until we hit a blank line
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
-        int             i = 0;                  // looper
-        dboolean        found = false;          // know if we found this one during lookup or not
+        int     i = 0;                          // looper
+        bool    found = false;                  // know if we found this one during lookup or not
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2261,7 +2261,7 @@ void deh_procFrame(DEHFILE *fpin, char *line)
         {
             if (devparm)
                 C_Output(" - translucent = %ld", value);
-            states[indexnum].translucent = !!value;             // dboolean
+            states[indexnum].translucent = !!value;             // bool
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else
@@ -2655,7 +2655,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
     strncpy(inbuffer, line, DEH_BUFFERMAX);
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
-        dboolean    success = false;
+        bool    success = false;
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2927,7 +2927,7 @@ void deh_procText(DEHFILE *fpin, char *line)
     int         i;                              // loop variable
     int         fromlen, tolen;                 // as specified on the text block line
     int         usedlen;                        // shorter of fromlen and tolen if not matched
-    dboolean    found = false;                  // to allow early exit once found
+    bool        found = false;                  // to allow early exit once found
     char        *line2 = NULL;                  // duplicate line for rerouting
 
     // Ty 04/11/98 - Included file may have NOTEXT skip flag set
@@ -3071,7 +3071,7 @@ void deh_procStrings(DEHFILE *fpin, char *line)
     static int  maxstrlen = 128;        // maximum string length, bumped 128 at a time as needed
                                         // holds the final result of the string after concatenation
     static char *holdstring;
-    dboolean    found = false;          // looking for string continuation
+    bool        found = false;          // looking for string continuation
 
     if (devparm)
         C_Output("Processing extended string substitution");
@@ -3145,11 +3145,11 @@ void deh_procStrings(DEHFILE *fpin, char *line)
 // Args:    key       -- place to put the mnemonic for the string if found
 //          lookfor   -- original value string to look for
 //          newstring -- string to put in its place if found
-// Returns: dboolean: True if string found, false if not
+// Returns: bool: True if string found, false if not
 //
-dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
+bool deh_procStringSub(char *key, char *lookfor, char *newstring)
 {
-    dboolean    found = false;  // loop exit flag
+    bool        found = false;  // loop exit flag
     int         i;              // looper
 
     for (i = 0; i < deh_numstrlookup; i++)

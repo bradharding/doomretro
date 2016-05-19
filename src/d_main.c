@@ -100,31 +100,31 @@ int                     turbo = turbo_default;
 
 char                    *packageconfig;
 
-dboolean                devparm;        // started game with -devparm
-dboolean                nomonsters;     // checkparm of -nomonsters
-dboolean                respawnparm;    // checkparm of -respawn
-dboolean                pistolstart;    // [BH] checkparm of -pistolstart
-dboolean                fastparm;       // checkparm of -fast
+bool                    devparm;        // started game with -devparm
+bool                    nomonsters;     // checkparm of -nomonsters
+bool                    respawnparm;    // checkparm of -respawn
+bool                    pistolstart;    // [BH] checkparm of -pistolstart
+bool                    fastparm;       // checkparm of -fast
 
 unsigned int            stat_runs = 0;
 
 skill_t                 startskill;
 int                     startepisode;
 int                     startmap;
-dboolean                autostart;
+bool                    autostart;
 int                     startloadgame;
 
-dboolean                advancetitle;
-dboolean                wipe = true;
-dboolean                forcewipe = false;
+bool                    advancetitle;
+bool                    wipe = true;
+bool                    forcewipe = false;
 
-dboolean                splashscreen = false;
-
-extern dboolean         alwaysrun;
+bool                    splashscreen = false;
 
 int                     startuptimer;
 
-dboolean                realframe;
+bool                    realframe;
+
+extern bool             alwaysrun;
 
 //
 // EVENT HANDLING
@@ -163,7 +163,7 @@ void D_ProcessEvents(void)
 
 #if !defined(WIN32)
         {
-            static dboolean     enter_down = false;
+            static bool enter_down = false;
 
             // Handle ALT+ENTER on non-Windows systems
             if (altdown && !enter_down && ev->type == ev_keydown && ev->data1 == KEY_ENTER)
@@ -191,10 +191,10 @@ void D_ProcessEvents(void)
 //
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
-gamestate_t     wipegamestate = GS_TITLESCREEN;
+gamestate_t             wipegamestate = GS_TITLESCREEN;
 
-extern dboolean         setsizeneeded;
-extern dboolean         message_on;
+extern bool             setsizeneeded;
+extern bool             message_on;
 extern int              r_detail;
 extern int              viewheight2;
 extern gameaction_t     loadaction;
@@ -204,16 +204,16 @@ void G_LoadedGameMessage(void);
 
 void D_Display(void)
 {
-    static dboolean     viewactivestate;
-    static dboolean     menuactivestate;
-    static dboolean     pausedstate = false;
+    static bool         viewactivestate;
+    static bool         menuactivestate;
+    static bool         pausedstate = false;
     static gamestate_t  oldgamestate = GS_NONE;
     static int          borderdrawcount;
     static int          saved_gametic = -1;
     int                 nowtime;
     int                 tics;
     int                 wipestart;
-    dboolean            done;
+    bool                done;
 
     if ((realframe = (vid_capfps || gametic > saved_gametic)))
         saved_gametic = gametic;
@@ -455,7 +455,7 @@ void D_AdvanceTitle(void)
 //
 void D_DoAdvanceTitle(void)
 {
-    static dboolean     flag = true;
+    static bool flag = true;
 
     players[0].playerstate = PST_LIVE;  // not reborn
     advancetitle = false;
@@ -556,7 +556,7 @@ void ProcessDehFile(char *filename, int lump);
 static char     dehfiles[MAXDEHFILES][MAX_PATH];
 static int      dehfilecount;
 
-dboolean DehFileProcessed(char *path)
+bool DehFileProcessed(char *path)
 {
     int i;
 
@@ -602,7 +602,7 @@ static void LoadCfgFile(char *path)
         M_LoadCVARs(cfgpath);
 }
 
-static dboolean D_IsDOOMIWAD(char *filename)
+static bool D_IsDOOMIWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
@@ -611,7 +611,7 @@ static dboolean D_IsDOOMIWAD(char *filename)
         || M_StringCompare(leaf, "TNT.WAD") || (hacx = M_StringCompare(leaf, "HACX.WAD")));
 }
 
-static dboolean D_IsUnsupportedIWAD(char *filename)
+static bool D_IsUnsupportedIWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
@@ -620,12 +620,12 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
         || M_StringCompare(leaf, "STRIFE0.WAD") || M_StringCompare(leaf, "STRIFE1.WAD"));
 }
 
-static dboolean D_IsCfgFile(char *filename)
+static bool D_IsCfgFile(char *filename)
 {
     return (M_StringCompare(filename + strlen(filename) - 4, ".cfg"));
 }
 
-static dboolean D_IsDehFile(char *filename)
+static bool D_IsDehFile(char *filename)
 {
     return (M_StringCompare(filename + strlen(filename) - 4, ".deh")
         || M_StringCompare(filename + strlen(filename) - 4, ".bex"));
@@ -660,7 +660,7 @@ static void D_CheckSupportedPWAD(char *filename)
         E1M8B = true;
 }
 
-static dboolean D_IsUnsupportedPWAD(char *filename)
+static bool D_IsUnsupportedPWAD(char *filename)
 {
     return (M_StringCompare(leafname(filename), "VOICES.WAD"));
 }
@@ -724,7 +724,7 @@ static void D_FirstUse(void)
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;
-    dboolean            fileopenedok = false;
+    bool                fileopenedok = false;
 
 #if defined(WIN32)
     OPENFILENAME        ofn;
@@ -762,7 +762,7 @@ static int D_ChooseIWAD(void)
 
     if (fileopenedok)
     {
-        dboolean        onlyoneselected;
+        bool    onlyoneselected;
 
         iwadfound = 0;
         startuptimer = I_GetTimeMS();
@@ -911,8 +911,8 @@ static int D_ChooseIWAD(void)
         // more than one file was selected
         else
         {
-            dboolean    isDOOM2 = false;
-            dboolean    sharewareiwad = false;
+            bool        isDOOM2 = false;
+            bool        sharewareiwad = false;
 
 #if defined(WIN32)
             LPSTR       iwadpass = ofn.lpstrFile;
@@ -1117,7 +1117,7 @@ static int D_ChooseIWAD(void)
                 // if an iwad has now been found, make second pass through the pwads to merge them
                 if (iwadfound)
                 {
-                    dboolean    mapspresent = false;
+                    bool        mapspresent = false;
 #if defined(WIN32)
                     pwadpass2 += lstrlen(pwadpass2) + 1;
 
@@ -1229,7 +1229,7 @@ static int D_ChooseIWAD(void)
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
-dboolean CheckPackageWADVersion(void);
+bool CheckPackageWADVersion(void);
 
 static void D_ProcessDehCommandLine(void)
 {
@@ -1237,7 +1237,7 @@ static void D_ProcessDehCommandLine(void)
 
     if (p || (p = M_CheckParm("-bex")))
     {
-        dboolean        deh = true;
+        bool    deh = true;
 
         while (++p < myargc)
             if (*myargv[p] == '-')

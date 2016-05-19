@@ -74,12 +74,12 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, int backgroundcolor,
-    dboolean italics, byte *tinttab);
+    bool italics, byte *tinttab);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
-dboolean V_EmptyPatch(patch_t *patch);
-void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag);
+bool V_EmptyPatch(patch_t *patch);
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag);
 void V_DrawFlippedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch);
@@ -101,7 +101,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch);
 void V_DrawPagePatch(patch_t *patch);
 
-void V_DrawPixel(int x, int y, byte color, dboolean shadow);
+void V_DrawPixel(int x, int y, byte color, bool shadow);
 
 void GetPixelSize(void);
 void V_LowGraphicDetail(int height);
@@ -109,6 +109,6 @@ void V_LowGraphicDetail(int height);
 // Draw a linear block of pixels into the view buffer.
 void V_DrawBlock(int x, int y, int width, int height, byte *src);
 
-dboolean V_ScreenShot(void);
+bool V_ScreenShot(void);
 
 #endif

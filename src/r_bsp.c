@@ -50,7 +50,7 @@ line_t          *linedef;
 sector_t        *frontsector;
 sector_t        *backsector;
 
-dboolean        doorclosed;
+bool            doorclosed;
 
 drawseg_t       *drawsegs;
 unsigned int    maxdrawsegs;
@@ -239,7 +239,7 @@ void R_ClearClipSegs(void)
 //
 // It assumes that DOOM has already ruled out a door being closed because
 // of front-back closure (e.g. front floor is taller than back ceiling).
-dboolean R_DoorClosed(void)
+bool R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
@@ -295,7 +295,7 @@ void R_MaybeInterpolateSector(sector_t* sector)
 // killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
 //
 sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
-    int *ceilinglightlevel, dboolean back)
+    int *ceilinglightlevel, bool back)
 {
     if (floorlightlevel)
         *floorlightlevel = (sec->floorlightsec == -1 ? sec->lightlevel :
@@ -309,7 +309,8 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
     {
         const sector_t  *s = &sectors[sec->heightsec];
         int             heightsec = viewplayer->mo->subsector->sector->heightsec;
-        int             underwater = (heightsec != -1 && viewz <= sectors[heightsec].interpfloorheight);
+        int             underwater = (heightsec != -1
+                            && viewz <= sectors[heightsec].interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;
@@ -534,7 +535,7 @@ static const int checkcoord[12][4] =
     { 2, 1, 3, 0 }
 };
 
-static dboolean R_CheckBBox(const fixed_t *bspcoord)
+static bool R_CheckBBox(const fixed_t *bspcoord)
 {
     int         boxpos;
     const int   *check;

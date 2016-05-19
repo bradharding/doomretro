@@ -55,43 +55,43 @@
 typedef struct
 {
     // left-justified position of scrolling text window
-    int         x;
-    int         y;
+    int                 x;
+    int                 y;
 
-    patch_t     **f;                            // font
-    int         sc;                             // start character
-    char        l[HU_MAXLINELENGTH + 1];        // line of text
-    int         len;                            // current line length
+    patch_t             **f;                            // font
+    int                 sc;                             // start character
+    char                l[HU_MAXLINELENGTH + 1];        // line of text
+    int                 len;                            // current line length
 
     // whether this line needs to be updated
-    int         needsupdate;
+    int                 needsupdate;
 } hu_textline_t;
 
 // Scrolling Text window widget
 //  (child of Text Line widget)
 typedef struct
 {
-    hu_textline_t       l[HU_MAXLINES];         // text lines to draw
-    int                 h;                      // height in lines
-    int                 cl;                     // current line number
+    hu_textline_t       l[HU_MAXLINES];                 // text lines to draw
+    int                 h;                              // height in lines
+    int                 cl;                             // current line number
 
-    // pointer to dboolean stating whether to update window
-    dboolean            *on;
-    dboolean            laston;                 // last value of *->on.
+    // pointer to bool stating whether to update window
+    bool                *on;
+    bool                laston;                         // last value of *->on.
 } hu_stext_t;
 
 // Input Text Line widget
 //  (child of Text Line widget)
 typedef struct
 {
-    hu_textline_t       l;                      // text line to input on
+    hu_textline_t       l;                              // text line to input on
 
     // left margin past which I am not to delete characters
     int                 lm;
 
-    // pointer to dboolean stating whether to update window
-    dboolean            *on;
-    dboolean            laston;                 // last value of *->on;
+    // pointer to bool stating whether to update window
+    bool                *on;
+    bool                laston;                         // last value of *->on;
 } hu_itext_t;
 
 //
@@ -105,10 +105,10 @@ typedef struct
 void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
 
 // returns success
-dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch);
+bool HUlib_addCharToTextLine(hu_textline_t *t, char ch);
 
 // draws text line
-void HUlib_drawTextLine(hu_textline_t *l, dboolean external);
+void HUlib_drawTextLine(hu_textline_t *l, bool external);
 
 // erases text line
 void HUlib_eraseTextLine(hu_textline_t *l);
@@ -118,7 +118,7 @@ void HUlib_eraseTextLine(hu_textline_t *l);
 //
 
 // ?
-void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on);
+void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, bool *on);
 
 // ?
 void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg);
@@ -129,9 +129,9 @@ void HUlib_drawSText(hu_stext_t *s);
 // erases all stext lines
 void HUlib_eraseSText(hu_stext_t *s);
 
-extern dboolean STCFN034;
-extern dboolean idbehold;
-extern dboolean s_STSTR_BEHOLD2;
+extern bool     STCFN034;
+extern bool     idbehold;
+extern bool     s_STSTR_BEHOLD2;
 extern byte     *tempscreen;
 extern byte     *tinttab33;
 extern byte     *tinttab50;

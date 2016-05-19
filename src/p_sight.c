@@ -91,7 +91,7 @@ static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 // Returns true
 //  if strace crosses the given subsector successfully.
 //
-static dboolean P_CrossSubsector(int num)
+static bool P_CrossSubsector(int num)
 {
     seg_t       *seg;
     int         count;
@@ -208,7 +208,7 @@ static dboolean P_CrossSubsector(int num)
 // Returns true
 //  if strace crosses the given node successfully.
 //
-static dboolean P_CrossBSPNode(int bspnum)
+static bool P_CrossBSPNode(int bspnum)
 {
     while (!(bspnum & NF_SUBSECTOR))
     {
@@ -233,7 +233,7 @@ static dboolean P_CrossBSPNode(int bspnum)
 //  if a straight line between t1 and t2 is unobstructed.
 // Uses REJECT.
 //
-dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
+bool P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
     const sector_t      *s1 = t1->subsector->sector;
     const sector_t      *s2 = t2->subsector->sector;

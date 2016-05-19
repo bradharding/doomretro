@@ -49,13 +49,13 @@
 #define CHANNELS        2
 #define SAMPLECOUNT     512
 
-static dboolean         music_initialized;
+static bool             music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
-static dboolean         sdl_was_initialized;
+static bool             sdl_was_initialized;
 
-static dboolean         musicpaused;
+static bool             musicpaused;
 static int              current_music_volume;
 
 static char             *tempmusicfilename;
@@ -68,7 +68,7 @@ static char             *temp_timidity_cfg;
 // config file for Timidity to point to the actual config file. This
 // is needed to inject a "dir" command so that the patches are read
 // relative to the actual config file.
-static dboolean WriteWrapperTimidityConfig(char *write_path)
+static bool WriteWrapperTimidityConfig(char *write_path)
 {
     char        *p;
     FILE        *fstream;
@@ -96,7 +96,7 @@ static dboolean WriteWrapperTimidityConfig(char *write_path)
 
 void I_InitTimidityConfig(void)
 {
-    dboolean    success;
+    bool        success;
 
     temp_timidity_cfg = M_TempFile("timidity.cfg");
 
@@ -151,7 +151,7 @@ void I_ShutdownMusic(void)
     }
 }
 
-static dboolean SDLIsInitialized(void)
+static bool SDLIsInitialized(void)
 {
     int         freq, channels;
     Uint16      format;
@@ -160,7 +160,7 @@ static dboolean SDLIsInitialized(void)
 }
 
 // Initialize music subsystem
-dboolean I_InitMusic(void)
+bool I_InitMusic(void)
 {
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
@@ -251,7 +251,7 @@ void I_UnRegisterSong(void *handle)
     Mix_FreeMusic(handle);
 }
 
-static dboolean ConvertMus(byte *musdata, int len, char *filename)
+static bool ConvertMus(byte *musdata, int len, char *filename)
 {
     MEMFILE     *instream = mem_fopen_read(musdata, len);
     MEMFILE     *outstream = mem_fopen_write();
@@ -299,7 +299,7 @@ void *I_RegisterSong(void *data, int len)
 }
 
 // Is the song playing?
-dboolean I_MusicIsPlaying(void)
+bool I_MusicIsPlaying(void)
 {
     if (!music_initialized)
         return false;

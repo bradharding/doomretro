@@ -99,13 +99,13 @@ struct midi_file_s
 };
 
 // Check the header of a chunk:
-static dboolean CheckChunkHeader(chunk_header_t *chunk, char *expected_id)
+static bool CheckChunkHeader(chunk_header_t *chunk, char *expected_id)
 {
     return !memcmp((char *)chunk->chunk_id, expected_id, 4);
 }
 
 // Read a single byte. Returns false on error.
-static dboolean ReadByte(byte *result, FILE *stream)
+static bool ReadByte(byte *result, FILE *stream)
 {
     int c;
 
@@ -122,7 +122,7 @@ static dboolean ReadByte(byte *result, FILE *stream)
 }
 
 // Read a variable-length value.
-static dboolean ReadVariableLength(unsigned int *result, FILE *stream)
+static bool ReadVariableLength(unsigned int *result, FILE *stream)
 {
     int         i;
     byte        b;
@@ -178,7 +178,7 @@ static void *ReadByteSequence(unsigned int num_bytes, FILE *stream)
 // Read a MIDI channel event.
 // two_param indicates that the event type takes two parameters
 // (three byte) otherwise it is single parameter (two byte)
-static dboolean ReadChannelEvent(midi_event_t *event, byte event_type, dboolean two_param, FILE *stream)
+static bool ReadChannelEvent(midi_event_t *event, byte event_type, bool two_param, FILE *stream)
 {
     byte        b;
 
@@ -205,7 +205,7 @@ static dboolean ReadChannelEvent(midi_event_t *event, byte event_type, dboolean 
 }
 
 // Read sysex event:
-static dboolean ReadSysExEvent(midi_event_t *event, int event_type, FILE *stream)
+static bool ReadSysExEvent(midi_event_t *event, int event_type, FILE *stream)
 {
     event->event_type = (midi_event_type_t)event_type;
 
@@ -222,7 +222,7 @@ static dboolean ReadSysExEvent(midi_event_t *event, int event_type, FILE *stream
 }
 
 // Read meta event:
-static dboolean ReadMetaEvent(midi_event_t *event, FILE *stream)
+static bool ReadMetaEvent(midi_event_t *event, FILE *stream)
 {
     byte        b;
 
@@ -247,7 +247,7 @@ static dboolean ReadMetaEvent(midi_event_t *event, FILE *stream)
     return true;
 }
 
-static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FILE *stream)
+static bool ReadEvent(midi_event_t *event, unsigned int *last_event_type, FILE *stream)
 {
     byte        event_type;
 
@@ -331,7 +331,7 @@ static void FreeEvent(midi_event_t *event)
 }
 
 // Read and check the track chunk header
-static dboolean ReadTrackHeader(midi_track_t *track, FILE *stream)
+static bool ReadTrackHeader(midi_track_t *track, FILE *stream)
 {
     size_t              records_read;
     chunk_header_t      chunk_header;
@@ -349,7 +349,7 @@ static dboolean ReadTrackHeader(midi_track_t *track, FILE *stream)
     return true;
 }
 
-static dboolean ReadTrack(midi_track_t *track, FILE *stream)
+static bool ReadTrack(midi_track_t *track, FILE *stream)
 {
     midi_event_t        *new_events = NULL;
     unsigned int        last_event_type;
@@ -410,7 +410,7 @@ static void FreeTrack(midi_track_t *track)
     free(track->events);
 }
 
-static dboolean ReadAllTracks(midi_file_t *file, FILE *stream)
+static bool ReadAllTracks(midi_file_t *file, FILE *stream)
 {
     unsigned int        i;
 
@@ -431,7 +431,7 @@ static dboolean ReadAllTracks(midi_file_t *file, FILE *stream)
 }
 
 // Read and check the header chunk.
-static dboolean ReadFileHeader(midi_file_t *file, FILE *stream)
+static bool ReadFileHeader(midi_file_t *file, FILE *stream)
 {
     size_t              records_read;
     unsigned int        format_type;

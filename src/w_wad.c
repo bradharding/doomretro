@@ -75,8 +75,8 @@ typedef struct
 //
 
 // Location of each lump on disk.
-lumpinfo_t      **lumpinfo;
-int             numlumps = 0;
+lumpinfo_t              **lumpinfo;
+int                     numlumps = 0;
 
 // Hash table for fast lookups
 static lumpindex_t      *lumphash;
@@ -125,7 +125,7 @@ unsigned int W_LumpNameHash(const char *s)
 //  with multiple lumps.
 // Other files are single lumps with the base filename
 //  for the lump name.
-wad_file_t *W_AddFile(char *filename, dboolean automatic)
+wad_file_t *W_AddFile(char *filename, bool automatic)
 {
     wadinfo_t   header;
     lumpindex_t i;
@@ -227,7 +227,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
     return wad_file;
 }
 
-dboolean IsFreedoom(const char *iwadname)
+bool IsFreedoom(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     filelump_t  lump;
@@ -262,7 +262,7 @@ dboolean IsFreedoom(const char *iwadname)
     return result;
 }
 
-dboolean HasDehackedLump(const char *pwadname)
+bool HasDehackedLump(const char *pwadname)
 {
     FILE        *fp = fopen(pwadname, "rb");
     filelump_t  lump;

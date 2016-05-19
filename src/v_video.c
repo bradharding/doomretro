@@ -68,7 +68,7 @@ char            *r_lowpixelsize = r_lowpixelsize_default;
 
 char            screenshotfolder[MAX_PATH] = "";
 
-extern dboolean r_translucency;
+extern bool     r_translucency;
 
 //
 // V_CopyRect
@@ -394,7 +394,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 int     italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
 void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, int backgroundcolor,
-    dboolean italics, byte *tinttab)
+    bool italics, byte *tinttab)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -439,7 +439,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, int backgroundco
     }
 }
 
-dboolean V_EmptyPatch(patch_t *patch)
+bool V_EmptyPatch(patch_t *patch)
 {
     int col = 0;
     int w = SHORT(patch->width);
@@ -499,7 +499,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
 {
     int         col = 0;
     byte        *desttop;
@@ -1193,7 +1193,7 @@ void V_DrawBlock(int x, int y, int width, int height, byte *src)
     }
 }
 
-void V_DrawPixel(int x, int y, byte color, dboolean shadow)
+void V_DrawPixel(int x, int y, byte color, bool shadow)
 {
     byte        *dest = &screens[0][y * SCREENSCALE * SCREENWIDTH + x * SCREENSCALE];
 
@@ -1315,19 +1315,19 @@ void V_Init(void)
         M_StringCopy(screenshotfolder, M_GetExecutableFolder(), sizeof(screenshotfolder));
 }
 
-char                    lbmname[MAX_PATH];
-char                    lbmpath[MAX_PATH];
+char            lbmname[MAX_PATH];
+char            lbmpath[MAX_PATH];
 
-extern dboolean         vid_widescreen;
-extern dboolean         inhelpscreens;
-extern char             maptitle[128];
-extern dboolean         splashscreen;
-extern int              titlesequence;
+extern bool     vid_widescreen;
+extern bool     inhelpscreens;
+extern char     maptitle[128];
+extern bool     splashscreen;
+extern int      titlesequence;
 
-dboolean V_SavePNG(SDL_Window *window, char *path)
+bool V_SavePNG(SDL_Window *window, char *path)
 {
-    dboolean            result = false;
-    SDL_Surface         *surface = SDL_GetWindowSurface(window);
+    bool        result = false;
+    SDL_Surface *surface = SDL_GetWindowSurface(window);
 
     if (surface)
     {
@@ -1362,9 +1362,9 @@ dboolean V_SavePNG(SDL_Window *window, char *path)
     return result;
 }
 
-dboolean V_ScreenShot(void)
+bool V_ScreenShot(void)
 {
-    dboolean    result = false;
+    bool        result = false;
     char        mapname[128];
     int         count = 0;
 

@@ -42,6 +42,6 @@
 #include "doomtype.h"
 #include "memio.h"
 
-dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput);
+bool mus2mid(MEMFILE *musinput, MEMFILE *midioutput);
 
 #endif

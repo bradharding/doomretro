@@ -72,7 +72,7 @@ struct lumpinfo_s
 extern lumpinfo_t       **lumpinfo;
 extern int              numlumps;
 
-wad_file_t *W_AddFile(char *filename, dboolean automatic);
+wad_file_t *W_AddFile(char *filename, bool automatic);
 int W_WadType(char *filename);
 
 lumpindex_t W_CheckNumForName(char *name);
@@ -97,7 +97,7 @@ void W_ReleaseLumpNum(lumpindex_t lump);
 void W_ReleaseLumpName(char *name);
 
 int IWADRequiredByPWAD(const char *pwadname);
-dboolean IsFreedoom(const char *iwadname);
-dboolean HasDehackedLump(const char *pwadname);
+bool IsFreedoom(const char *iwadname);
+bool HasDehackedLump(const char *pwadname);
 
 #endif

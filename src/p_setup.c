@@ -81,7 +81,7 @@ struct mapinfo_s
     int         next;
     int         noliquid[NUMLIQUIDS];
     int         par;
-    dboolean    pistolstart;
+    bool        pistolstart;
     int         secretnext;
     int         sky1texture;
     int         sky1scrolldelta;
@@ -192,11 +192,11 @@ static int mapcmdids[] =
     MCMD_TITLEPATCH
 };
 
-dboolean        canmodify;
-dboolean        transferredsky;
-dboolean        MAPINFO;
+bool            canmodify;
+bool            transferredsky;
+bool            MAPINFO;
 
-dboolean        r_fixmaperrors = r_fixmaperrors_default;
+bool            r_fixmaperrors = r_fixmaperrors_default;
 
 static int      current_episode = -1;
 static int      current_map = -1;
@@ -204,8 +204,8 @@ static int      samelevel;
 
 mapformat_t     mapformat;
 
-dboolean        boomlinespecials;
-dboolean        blockmaprecreated;
+bool            boomlinespecials;
+bool            blockmaprecreated;
 
 extern fixed_t  animatedliquiddiff;
 extern fixed_t  animatedliquidxdir;
@@ -1080,7 +1080,7 @@ void P_LoadThings(int lump)
     for (i = 0; i < numthings; i++)
     {
         mapthing_t      mt = data[i];
-        dboolean        spawn = true;
+        bool            spawn = true;
 
         // Do not spawn cool, new monsters if !commercial
         if (gamemode != commercial)
@@ -1898,7 +1898,7 @@ extern int      dehcount;
 // Determine map name to use
 void P_MapName(int ep, int map)
 {
-    dboolean    mapnumonly = false;
+    bool        mapnumonly = false;
     char        *mapinfoname = P_GetMapName((ep - 1) * 10 + map);
 
     switch (gamemission)
@@ -2050,7 +2050,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     return format;
 }
 
-extern dboolean idclev;
+extern bool     idclev;
 
 //
 // P_SetupLevel
@@ -2429,7 +2429,7 @@ int P_GetMapPar(int map)
     return (MAPINFO ? mapinfo[QualifyMap(map)].par : 0);
 }
 
-dboolean P_GetMapPistolStart(int map)
+bool P_GetMapPistolStart(int map)
 {
     return (MAPINFO ? mapinfo[QualifyMap(map)].pistolstart : false);
 }

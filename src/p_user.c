@@ -43,9 +43,9 @@
 #include "s_sound.h"
 
 extern fixed_t  animatedliquiddiff;
-extern dboolean skipaction;
+extern bool     skipaction;
 
-extern dboolean r_liquid_bob;
+extern bool     r_liquid_bob;
 
 void G_RemoveChoppers(void);
 
@@ -58,10 +58,10 @@ void G_RemoveChoppers(void);
 
 int             movebob = movebob_default;
 int             stillbob = stillbob_default;
-dboolean        r_liquid_lowerview = r_liquid_lowerview_default;
+bool            r_liquid_lowerview = r_liquid_lowerview_default;
 int             r_shakescreen = r_shakescreen_default;
 
-dboolean        onground;
+bool            onground;
 
 //
 // P_Thrust
@@ -142,7 +142,7 @@ void P_CalcHeight(player_t *player)
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
     {
-        dboolean                    liquid = true;
+        bool                        liquid = true;
         const struct msecnode_s     *seclist;
 
         for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
@@ -234,11 +234,11 @@ void P_ReduceDamageCount(player_t *player)
 
 void P_DeathThink(player_t *player)
 {
-    static int          count;
-    static dboolean     facingkiller;
-    mobj_t              *mo = player->mo;
-    mobj_t              *attacker = player->attacker;
-    const Uint8         *keystate = SDL_GetKeyboardState(NULL);
+    static int  count;
+    static bool facingkiller;
+    mobj_t      *mo = player->mo;
+    mobj_t      *attacker = player->attacker;
+    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;

@@ -66,7 +66,7 @@ struct _wad_file_s
     // Length of the file, in bytes.
     unsigned int        length;
 
-    dboolean            freedoom;
+    bool                freedoom;
 
     char                path[260];
 

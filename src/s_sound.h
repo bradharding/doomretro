@@ -43,18 +43,18 @@
 #include "sounds.h"
 
 extern int      snd_samplerate;
-extern dboolean s_randompitch;
+extern bool s_randompitch;
 
-dboolean I_InitSound(void);
+bool I_InitSound(void);
 void I_ShutdownSound(void);
 int I_GetSfxLumpNum(sfxinfo_t *sfx);
 void I_UpdateSoundParams(int handle, int vol, int sep);
 int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 void I_StopSound(int handle);
-dboolean I_SoundIsPlaying(int handle);
+bool I_SoundIsPlaying(int handle);
 void I_UpdateSound(void);
 
-dboolean I_InitMusic(void);
+bool I_InitMusic(void);
 void I_ShutdownMusic(void);
 void I_SetMusicVolume(int volume);
 void I_PauseSong(void);
@@ -63,7 +63,7 @@ void *I_RegisterSong(void *data, int len);
 void I_UnRegisterSong(void *handle);
 void I_PlaySong(void *handle, int looping);
 void I_StopSong(void);
-dboolean I_MusicIsPlaying(void);
+bool I_MusicIsPlaying(void);
 
 //
 // Initializes sound stuff, including volume
@@ -98,7 +98,7 @@ void S_StartMusic(int music_id);
 
 // Start music using <music_id> from sounds.h,
 //  and set whether looping
-void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean mapstart);
+void S_ChangeMusic(int music_id, bool looping, bool cheating, bool mapstart);
 
 // Stops the music fer sure.
 void S_StopMusic(void);
@@ -118,7 +118,7 @@ void S_SetSfxVolume(int volume);
 void I_InitTimidityConfig(void);
 void CheckTimidityConfig(void);
 
-dboolean I_AnySoundStillPlaying(void);
+bool I_AnySoundStillPlaying(void);
 
 #define MAX_MUS_ENTRIES 64
 

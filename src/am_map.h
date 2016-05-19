@@ -55,7 +55,7 @@ typedef struct
 } mpoint_t;
 
 // Called by main loop.
-dboolean AM_Responder(event_t *ev);
+bool AM_Responder(event_t *ev);
 
 // Called by main loop.
 void AM_Ticker(void);
@@ -65,7 +65,7 @@ void AM_Ticker(void);
 void AM_Drawer(void);
 void AM_clearFB(void);
 
-void AM_Start(dboolean mainwindow);
+void AM_Start(bool mainwindow);
 
 // Called to force the AutoMap to quit
 // if the level is completed while it is up.
@@ -76,7 +76,7 @@ void AM_setColors(void);
 
 extern byte             *tinttab80;
 
-extern dboolean         message_dontfuckwithme;
+extern bool             message_dontfuckwithme;
 
 extern int              viewheight2;
 
@@ -84,7 +84,7 @@ extern mpoint_t         *markpoints;
 extern int              markpointnum;
 extern int              markpointnum_max;
 
-dboolean keystate(int key);
+bool keystate(int key);
 
 typedef struct
 {

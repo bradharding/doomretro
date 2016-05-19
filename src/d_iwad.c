@@ -50,7 +50,7 @@
 // "128 IWAD search directories should be enough for anybody".
 #define MAX_IWAD_DIRS   128
 
-static dboolean iwad_dirs_built;
+static bool     iwad_dirs_built;
 static char     *iwad_dirs[MAX_IWAD_DIRS];
 static int      num_iwad_dirs;
 

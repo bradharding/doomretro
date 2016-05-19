@@ -44,11 +44,11 @@
 
 #include "doomtype.h"
 
-dboolean M_WriteFile(char *name, void *source, int length);
+bool M_WriteFile(char *name, void *source, int length);
 int M_ReadFile(char *name, byte **buffer);
 void M_MakeDirectory(const char *dir);
 char *M_TempFile(char *s);
-dboolean M_FileExists(const char *file);
+bool M_FileExists(const char *file);
 long M_FileLength(FILE *handle);
 char *M_ExtractFolder(char *path);
 
@@ -64,29 +64,29 @@ char *M_GetResourceFolder(void);
 char *M_GetAppDataFolder(void);
 
 char *M_GetExecutableFolder(void);
-dboolean M_StrToInt(const char *str, unsigned int *result);
+bool M_StrToInt(const char *str, unsigned int *result);
 char *M_StrCaseStr(char *haystack, char *needle);
-dboolean M_StringCopy(char *dest, char *src, size_t dest_size);
+bool M_StringCopy(char *dest, char *src, size_t dest_size);
 char *M_StringReplace(char *haystack, char *needle, char *replacement);
 char *M_StringJoin(char *s, ...);
-dboolean M_StringStartsWith(char *s, char *prefix);
-dboolean M_StringEndsWith(char *s, char *suffix);
+bool M_StringStartsWith(char *s, char *prefix);
+bool M_StringEndsWith(char *s, char *suffix);
 int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 char *M_SubString(const char *str, size_t begin, size_t len);
-dboolean M_StringCompare(const char *str1, const char *str2);
+bool M_StringCompare(const char *str1, const char *str2);
 char *uppercase(const char *str);
 char *lowercase(const char *str);
 char *titlecase(const char *str);
 char *formatsize(const char *str);
 char *commify(int64_t value);
-dboolean wildcard(char *input, char *pattern);
+bool wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 char *removespaces(const char *input);
 char *makevalidfilename(const char *input);
 const char *leafname(const char *path);
 char *removeext(const char *file);
-dboolean isvowel(const char ch);
+bool isvowel(const char ch);
 char *convertsize(const int size);
 char *striptrailingzero(float value, int precision);
 void strreplace(char *target, const char *needle, const char *replacement);

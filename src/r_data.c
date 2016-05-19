@@ -87,7 +87,7 @@ fixed_t         *spritetopoffset;
 fixed_t         *newspriteoffset;
 fixed_t         *newspritetopoffset;
 
-dboolean        r_fixspriteoffsets = r_fixspriteoffsets_default;
+bool            r_fixspriteoffsets = r_fixspriteoffsets_default;
 
 static byte notgray[256] =
 {
@@ -200,7 +200,7 @@ static struct
     { "ZELDOOR",  redonly        }, { "",         0              }
 };
 
-extern dboolean r_brightmaps;
+extern bool     r_brightmaps;
 
 //
 // R_GetTextureColumn
@@ -496,7 +496,7 @@ byte grays[256];
 
 void R_InitColormaps(void)
 {
-    dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    bool        COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     int         i;
     byte        *palsrc, *palette;
     wad_file_t  *colormapwad;

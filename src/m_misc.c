@@ -76,7 +76,7 @@ void M_MakeDirectory(const char *path)
 }
 
 // Check if a file exists
-dboolean M_FileExists(const char *filename)
+bool M_FileExists(const char *filename)
 {
     FILE        *fstream = fopen(filename, "r");
 
@@ -113,7 +113,7 @@ long M_FileLength(FILE *handle)
 
 // Safe string copy function that works like OpenBSD's strlcpy().
 // Returns true if the string was not truncated.
-dboolean M_StringCopy(char *dest, char *src, size_t dest_size)
+bool M_StringCopy(char *dest, char *src, size_t dest_size)
 {
     if (dest_size >= 1)
     {
@@ -213,7 +213,7 @@ char *M_GetExecutableFolder(void)
 //
 // M_WriteFile
 //
-dboolean M_WriteFile(char *name, void *source, int length)
+bool M_WriteFile(char *name, void *source, int length)
 {
     FILE        *handle = fopen(name, "wb");
     int         count;
@@ -327,7 +327,7 @@ char *M_TempFile(char *s)
     return M_StringJoin(tempdir, DIR_SEPARATOR_S, s, NULL);
 }
 
-dboolean M_StrToInt(const char *str, unsigned int *result)
+bool M_StrToInt(const char *str, unsigned int *result)
 {
     return (sscanf(str, " 0x%2x", result) == 1 || sscanf(str, " 0X%2x", result) == 1
         || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10d", result) == 1);
@@ -410,19 +410,19 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
 
 // Returns true if 'str1' and 'str2' are the same.
 // (Case-insensitive, return value reverse of strcasecmp() to avoid confusion.
-dboolean M_StringCompare(const char *str1, const char *str2)
+bool M_StringCompare(const char *str1, const char *str2)
 {
     return !strcasecmp(str1, str2);
 }
 
 // Returns true if 's' begins with the specified prefix.
-dboolean M_StringStartsWith(char *s, char *prefix)
+bool M_StringStartsWith(char *s, char *prefix)
 {
     return (strlen(s) > strlen(prefix) && !strncasecmp(s, prefix, strlen(prefix)));
 }
 
 // Returns true if 's' ends with the specified suffix.
-dboolean M_StringEndsWith(char *s, char *suffix)
+bool M_StringEndsWith(char *s, char *suffix)
 {
     return (strlen(s) >= strlen(suffix) && M_StringCompare(s + strlen(s) - strlen(suffix),
         suffix));
@@ -576,7 +576,7 @@ char *commify(int64_t value)
     return strdup(result);
 }
 
-dboolean wildcard(char *input, char *pattern)
+bool wildcard(char *input, char *pattern)
 {
     int i, z;
 
@@ -664,7 +664,7 @@ char *removeext(const char *file)
     return newstr;
 }
 
-dboolean isvowel(const char ch)
+bool isvowel(const char ch)
 {
     return (!!strchr("aeiou", ch));
 }

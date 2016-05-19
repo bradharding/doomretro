@@ -87,12 +87,12 @@
 #define CARETBLINKTIME          530
 #endif
 
-dboolean        consoleactive = false;
+bool            consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
 static int      consolewait;
 
-static dboolean forceblurredraw = false;
+static bool     forceblurredraw = false;
 
 static patch_t  *unknownchar;
 static patch_t  *consolefont[CONSOLEFONTSIZE];
@@ -112,7 +112,7 @@ static int      undolevels = 0;
 
 static patch_t  *caret;
 static int      caretpos = 0;
-static dboolean showcaret = true;
+static bool     showcaret = true;
 static int      caretwait;
 static int      caretblinktime;
 static int      selectstart = 0;
@@ -131,7 +131,7 @@ static int      outputhistory = -1;
 
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-dboolean        con_timestamps = con_timestamps_default;
+bool            con_timestamps = con_timestamps_default;
 static int      timestampx;
 static int      zerowidth;
 
@@ -303,7 +303,7 @@ void C_PlayerMessage(char *string, ...)
 {
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH] = "";
-    dboolean    prevplayermessage = (consolestrings
+    bool        prevplayermessage = (consolestrings
                     && console[consolestrings - 1].type == playermessagestring);
     time_t      rawtime;
 
@@ -411,7 +411,7 @@ static struct
     { 'x',  'j',  -2 }, { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
 };
 
-static int C_TextWidth(char *text, dboolean formatting)
+static int C_TextWidth(char *text, bool formatting)
 {
     size_t      i;
     size_t      len = strlen(text);
@@ -591,8 +591,8 @@ static void DoBlurScreen(int x1, int y1, int x2, int y2, int i)
 
 static void C_DrawBackground(int height)
 {
-    static dboolean     blurred;
-    int                 i, j;
+    static bool blurred;
+    int         i, j;
 
     height = (height + 5) * SCREENWIDTH;
 
@@ -647,10 +647,10 @@ static void C_DrawBackground(int height)
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int boldcolor,
-    byte *tinttab, int tabs[8], dboolean formatting)
+    byte *tinttab, int tabs[8], bool formatting)
 {
-    dboolean            bold = false;
-    dboolean            italics = false;
+    bool                bold = false;
+    bool                italics = false;
     size_t              i;
     int                 tab = -1;
     size_t              len = strlen(text);
@@ -822,14 +822,14 @@ void C_Drawer(void)
 {
     if (consoleheight)
     {
-        int             i;
-        int             x = CONSOLETEXTX;
-        int             start;
-        int             end;
-        char            *lefttext = Z_Malloc(512, PU_STATIC, NULL);
-        char            *middletext = Z_Malloc(512, PU_STATIC, NULL);
-        char            *righttext = Z_Malloc(512, PU_STATIC, NULL);
-        dboolean        prevconsoleactive = consoleactive;
+        int     i;
+        int     x = CONSOLETEXTX;
+        int     start;
+        int     end;
+        char    *lefttext = Z_Malloc(512, PU_STATIC, NULL);
+        char    *middletext = Z_Malloc(512, PU_STATIC, NULL);
+        char    *righttext = Z_Malloc(512, PU_STATIC, NULL);
+        bool    prevconsoleactive = consoleactive;
 
         // adjust console height
         if (consolewait < I_GetTime())
@@ -966,7 +966,7 @@ void C_Drawer(void)
         consoleactive = false;
 }
 
-dboolean C_ValidateInput(char *input)
+bool C_ValidateInput(char *input)
 {
     int i = 0;
 
@@ -1031,7 +1031,7 @@ dboolean C_ValidateInput(char *input)
     return false;
 }
 
-dboolean C_Responder(event_t *ev)
+bool C_Responder(event_t *ev)
 {
     if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)
         return false;

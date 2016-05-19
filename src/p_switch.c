@@ -200,7 +200,7 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
+bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 {
     if (side)
         return false;
@@ -209,7 +209,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is push or switch generalized linedef type
-        dboolean (*linefunc)(line_t *line) = NULL;
+        bool    (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
         if ((unsigned int)line->special >= GenFloorBase)

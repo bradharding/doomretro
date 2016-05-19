@@ -82,7 +82,7 @@ void I_Blit_ShowFPS_Shake(void);
 void I_Blit_NearestLinear_ShowFPS_Shake(void);
 void I_UpdateBlitFunc(void);
 void I_Blit_AutoMap(void);
-void I_CreateExternalAutoMap(dboolean output);
+void I_CreateExternalAutoMap(bool output);
 void I_DestroyExternalAutoMap(void);
 
 void I_ToggleFullscreen(void);
@@ -100,37 +100,37 @@ void I_SetGamma(float value);
 extern float            m_acceleration;
 extern int              m_threshold;
 
-extern dboolean         sendpause;
-extern dboolean         quitting;
+extern bool             sendpause;
+extern bool             quitting;
 extern int              r_screensize;
 
 extern int              keydown;
 
-extern dboolean         idclev;
-extern dboolean         idmus;
-extern dboolean         idbehold;
-extern dboolean         message_clearable;
+extern bool             idclev;
+extern bool             idmus;
+extern bool             idbehold;
+extern bool             message_clearable;
 
 extern int              gammaindex;
 extern float            r_gamma;
 extern float            gammalevels[GAMMALEVELS];
 
-extern dboolean         blurred;
-extern dboolean         splashscreen;
-extern dboolean         noinput;
+extern bool             blurred;
+extern bool             splashscreen;
+extern bool             noinput;
 
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
-extern dboolean         vid_showfps;
-extern dboolean         wipe;
+extern bool             vid_showfps;
+extern bool             wipe;
 
 extern int              windowx;
 extern int              windowy;
 extern int              windowheight;
 extern int              windowwidth;
 
-extern dboolean         nearestlinear;
+extern bool             nearestlinear;
 
 extern SDL_Window       *window;
 

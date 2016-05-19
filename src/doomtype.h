@@ -41,21 +41,7 @@
 
 #include <inttypes.h>
 #include <limits.h>
-
-#if defined(__cplusplus)
-
-// Use built in bool type with C++.
-typedef bool dboolean;
-
-#else
-
-typedef enum
-{
-    false,
-    true
-} dboolean;
-
-#endif
+#include <stdbool.h>
 
 typedef uint8_t byte;
 

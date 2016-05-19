@@ -358,7 +358,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     // int blood
     str->blood = saveg_read32();
 
-    // dboolean interp
+    // bool interp
     str->interp = saveg_read32();
 
     // int oldx
@@ -505,7 +505,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     // int blood
     saveg_write32(str->blood);
 
-    // dboolean interp
+    // bool interp
     saveg_write32(str->interp);
 
     // int oldx
@@ -662,7 +662,7 @@ static void saveg_read_player_t(player_t *str)
     // int neededcardflash
     str->neededcardflash = saveg_read32();
 
-    // dboolean backpack
+    // bool backpack
     str->backpack = saveg_read32();
 
     // weapontype_t readyweapon
@@ -671,7 +671,7 @@ static void saveg_read_player_t(player_t *str)
     // weapontype_t pendingweapon
     str->pendingweapon = (weapontype_t)saveg_read_enum();
 
-    // dboolean weaponowned[NUMWEAPONS]
+    // bool weaponowned[NUMWEAPONS]
     for (i = 0; i < NUMWEAPONS; ++i)
         str->weaponowned[i] = saveg_read32();
 
@@ -731,7 +731,7 @@ static void saveg_read_player_t(player_t *str)
     for (i = 0; i < NUMPSPRITES; ++i)
         saveg_read_pspdef_t(&str->psprites[i]);
 
-    // dboolean didsecret
+    // bool didsecret
     str->didsecret = saveg_read32();
 
     // weapontype_t preferredshotgun
@@ -743,10 +743,10 @@ static void saveg_read_player_t(player_t *str)
     // weapontype_t fistorchainsaw
     str->fistorchainsaw = (weapontype_t)saveg_read_enum();
 
-    // dboolean invulnbeforechoppers
+    // bool invulnbeforechoppers
     str->invulnbeforechoppers = saveg_read32();
 
-    // dboolean chainsawbeforechoppers
+    // bool chainsawbeforechoppers
     str->chainsawbeforechoppers = saveg_read32();
 
     // weapontype_t weaponbeforechoppers
@@ -835,7 +835,7 @@ static void saveg_write_player_t(player_t *str)
     // int neededcardflash
     saveg_write32(str->neededcardflash);
 
-    // dboolean backpack
+    // bool backpack
     saveg_write32(str->backpack);
 
     // weapontype_t readyweapon
@@ -844,7 +844,7 @@ static void saveg_write_player_t(player_t *str)
     // weapontype_t pendingweapon
     saveg_write_enum(str->pendingweapon);
 
-    // dboolean weaponowned[NUMWEAPONS]
+    // bool weaponowned[NUMWEAPONS]
     for (i = 0; i < NUMWEAPONS; ++i)
         saveg_write32(str->weaponowned[i]);
 
@@ -902,7 +902,7 @@ static void saveg_write_player_t(player_t *str)
     for (i = 0; i < NUMPSPRITES; ++i)
         saveg_write_pspdef_t(&str->psprites[i]);
 
-    // dboolean didsecret
+    // bool didsecret
     saveg_write32(str->didsecret);
 
     // weapontype_t prefferedshotgun
@@ -914,10 +914,10 @@ static void saveg_write_player_t(player_t *str)
     // int fistorchainsaw
     saveg_write32(str->fistorchainsaw);
 
-    // dboolean invulnbeforechoppers
+    // bool invulnbeforechoppers
     saveg_write32(str->invulnbeforechoppers);
 
-    // dboolean chainsawbeforechoppers
+    // bool chainsawbeforechoppers
     saveg_write32(str->chainsawbeforechoppers);
 
     // weapontype_t weaponbeforechoppers
@@ -972,7 +972,7 @@ static void saveg_read_ceiling_t(ceiling_t *str)
     // fixed_t oldspeed
     str->oldspeed = saveg_read32();
 
-    // dboolean crush
+    // bool crush
     str->crush = saveg_read32();
 
     // int newspecial
@@ -1013,7 +1013,7 @@ static void saveg_write_ceiling_t(ceiling_t *str)
     // fixed_t oldspeed
     saveg_write32(str->oldspeed);
 
-    // dboolean crush
+    // bool crush
     saveg_write32(str->crush);
 
     // int newspecial
@@ -1105,7 +1105,7 @@ static void saveg_read_floormove_t(floormove_t *str)
     // floor_e type
     str->type = (floor_e)saveg_read_enum();
 
-    // dboolean crush
+    // bool crush
     str->crush = saveg_read32();
 
     // sector_t *sector
@@ -1126,7 +1126,7 @@ static void saveg_read_floormove_t(floormove_t *str)
     // fixed_t speed
     str->speed = saveg_read32();
 
-    // dboolean stopsound
+    // bool stopsound
     str->stopsound = saveg_read32();
 }
 
@@ -1135,7 +1135,7 @@ static void saveg_write_floormove_t(floormove_t *str)
     // floor_e type
     saveg_write_enum(str->type);
 
-    // dboolean crush
+    // bool crush
     saveg_write32(str->crush);
 
     // sector_t *sector
@@ -1156,7 +1156,7 @@ static void saveg_write_floormove_t(floormove_t *str)
     // fixed_t speed
     saveg_write32(str->speed);
 
-    // dboolean stopsound
+    // bool stopsound
     saveg_write32(str->stopsound);
 }
 
@@ -1192,7 +1192,7 @@ static void saveg_read_plat_t(plat_t *str)
     // plat_e oldstatus
     str->oldstatus = (plat_e)saveg_read_enum();
 
-    // dboolean crush
+    // bool crush
     str->crush = saveg_read32();
 
     // int tag
@@ -1231,7 +1231,7 @@ static void saveg_write_plat_t(plat_t *str)
     // plat_e oldstatus
     saveg_write_enum(str->oldstatus);
 
-    // dboolean crush
+    // bool crush
     saveg_write32(str->crush);
 
     // int tag
@@ -1612,7 +1612,7 @@ void P_WriteSaveGameHeader(char *description)
 //
 // Read the header for a savegame
 //
-dboolean P_ReadSaveGameHeader(char *description)
+bool P_ReadSaveGameHeader(char *description)
 {
     int         i;
     byte        a, b, c;
@@ -1654,7 +1654,7 @@ dboolean P_ReadSaveGameHeader(char *description)
 //
 // Read the end of file marker. Returns true if read successfully.
 //
-dboolean P_ReadSaveGameEOF(void)
+bool P_ReadSaveGameEOF(void)
 {
     return (saveg_read8() == SAVEGAME_EOF);
 }
@@ -2029,7 +2029,7 @@ void P_ArchiveSpecials(void)
     {
         if (!th->function)
         {
-            dboolean            done_one = false;
+            bool                done_one = false;
 
             ceilinglist_t       *ceilinglist;
             platlist_t          *platlist;

@@ -49,12 +49,12 @@
 // ------------------------
 // Command line parameters.
 //
-extern  dboolean        nomonsters;     // checkparm of -nomonsters
-extern  dboolean        respawnparm;    // checkparm of -respawn
-extern  dboolean        pistolstart;    // [BH] checkparm of -pistolstart
-extern  dboolean        fastparm;       // checkparm of -fast
+extern  bool            nomonsters;     // checkparm of -nomonsters
+extern  bool            respawnparm;    // checkparm of -respawn
+extern  bool            pistolstart;    // [BH] checkparm of -pistolstart
+extern  bool            fastparm;       // checkparm of -fast
 
-extern  dboolean        devparm;        // DEBUG: launched with -devparm
+extern  bool            devparm;        // DEBUG: launched with -devparm
 
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
@@ -65,7 +65,7 @@ extern GameVersion_t    gameversion;
 extern char             *gamedescription;
 
 // Set if homebrew PWAD stuff has been added.
-extern  dboolean        modifiedgame;
+extern  bool            modifiedgame;
 
 // -------------------------------------------
 // Selected skill type, map etc.
@@ -80,59 +80,59 @@ extern int              startmap;
 // the -loadgame option. If this has not been provided, this is -1.
 extern int              startloadgame;
 
-extern dboolean         autostart;
+extern bool             autostart;
 
 // Selected by user.
 extern skill_t          gameskill;
 extern int              gameepisode;
 extern int              gamemap;
 
-extern dboolean         nerve;
-extern dboolean         bfgedition;
+extern bool             nerve;
+extern bool             bfgedition;
 
-extern dboolean         breach;
-extern dboolean         chex;
-extern dboolean         chexdeh;
-extern dboolean         hacx;
-extern dboolean         BTSX;
-extern dboolean         BTSXE1;
-extern dboolean         BTSXE2;
-extern dboolean         BTSXE2A;
-extern dboolean         BTSXE2B;
-extern dboolean         BTSXE3;
-extern dboolean         BTSXE3A;
-extern dboolean         BTSXE3B;
-extern dboolean         E1M4B;
-extern dboolean         E1M8B;
+extern bool             breach;
+extern bool             chex;
+extern bool             chexdeh;
+extern bool             hacx;
+extern bool             BTSX;
+extern bool             BTSXE1;
+extern bool             BTSXE2;
+extern bool             BTSXE2A;
+extern bool             BTSXE2B;
+extern bool             BTSXE3;
+extern bool             BTSXE3A;
+extern bool             BTSXE3B;
+extern bool             E1M4B;
+extern bool             E1M8B;
 
-extern dboolean         DMENUPIC;
-extern dboolean         FREEDOOM;
-extern dboolean         FREEDM;
-extern dboolean         M_DOOM;
-extern dboolean         M_EPISOD;
-extern dboolean         M_GDHIGH;
-extern dboolean         M_GDLOW;
-extern dboolean         M_LOADG;
-extern dboolean         M_LSCNTR;
-extern dboolean         M_MSENS;
-extern dboolean         M_MSGOFF;
-extern dboolean         M_MSGON;
-extern dboolean         M_NEWG;
-extern dboolean         M_NMARE;
-extern dboolean         M_OPTTTL;
-extern dboolean         M_PAUSE;
-extern dboolean         M_SAVEG;
-extern dboolean         M_SKILL;
-extern dboolean         M_SKULL1;
-extern dboolean         M_SVOL;
+extern bool             DMENUPIC;
+extern bool             FREEDOOM;
+extern bool             FREEDM;
+extern bool             M_DOOM;
+extern bool             M_EPISOD;
+extern bool             M_GDHIGH;
+extern bool             M_GDLOW;
+extern bool             M_LOADG;
+extern bool             M_LSCNTR;
+extern bool             M_MSENS;
+extern bool             M_MSGOFF;
+extern bool             M_MSGON;
+extern bool             M_NEWG;
+extern bool             M_NMARE;
+extern bool             M_OPTTTL;
+extern bool             M_PAUSE;
+extern bool             M_SAVEG;
+extern bool             M_SKILL;
+extern bool             M_SKULL1;
+extern bool             M_SVOL;
 extern int              STARMS;
 extern int              STBAR;
-extern dboolean         STCFN034;
-extern dboolean         STCFN039;
-extern dboolean         STCFN121;
-extern dboolean         STYSNUM0;
-extern dboolean         TITLEPIC;
-extern dboolean         WISCRT2;
+extern bool             STCFN034;
+extern bool             STCFN039;
+extern bool             STCFN121;
+extern bool             STYSNUM0;
+extern bool             TITLEPIC;
+extern bool             WISCRT2;
 
 // -------------------------
 // Internal parameters for sound rendering.
@@ -151,12 +151,12 @@ extern int              musicVolume;
 // Status flags for refresh.
 //
 
-extern dboolean         automapactive;  // In AutoMap mode?
-extern dboolean         am_followmode;  // Following player in AutoMap mode?
-extern dboolean         menuactive;     // Menu overlayed?
-extern dboolean         paused;         // Game Pause?
+extern bool             automapactive;  // In AutoMap mode?
+extern bool             am_followmode;  // Following player in AutoMap mode?
+extern bool             menuactive;     // Menu overlayed?
+extern bool             paused;         // Game Pause?
 
-extern dboolean         viewactive;
+extern bool             viewactive;
 
 // -------------------------------------
 // Scores, rating.
@@ -171,7 +171,7 @@ extern int              monstercount[NUMMOBJTYPES];
 extern int              levelstarttic;  // gametic at level start
 extern int              leveltime;      // tics in game play for par
 
-extern dboolean         usergame;
+extern bool             usergame;
 
 //?
 extern gamestate_t      gamestate;
@@ -185,8 +185,8 @@ extern gamestate_t      gamestate;
 extern int              gametic;
 extern int              gametime;
 
-extern dboolean         vid_capfps;
-extern dboolean         realframe;
+extern bool             vid_capfps;
+extern bool             realframe;
 
 // Bookkeeping on players - state.
 extern player_t         players[MAXPLAYERS];

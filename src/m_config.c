@@ -47,80 +47,80 @@
 #include "p_local.h"
 #include "version.h"
 
-extern dboolean         alwaysrun;
+extern bool             alwaysrun;
 extern int              am_allmapcdwallcolor;
 extern int              am_allmapfdwallcolor;
 extern int              am_allmapwallcolor;
 extern int              am_backcolor;
 extern int              am_cdwallcolor;
-extern dboolean         am_external;
+extern bool             am_external;
 extern int              am_fdwallcolor;
-extern dboolean         am_followmode;
-extern dboolean         am_grid;
+extern bool             am_followmode;
+extern bool             am_grid;
 extern int              am_gridcolor;
 extern int              am_markcolor;
 extern int              am_playercolor;
-extern dboolean         am_rotatemode;
+extern bool             am_rotatemode;
 extern int              am_teleportercolor;
 extern int              am_thingcolor;
 extern int              am_tswallcolor;
 extern int              am_wallcolor;
 extern int              am_xhaircolor;
-extern dboolean         autoload;
-extern dboolean         centerweapon;
-extern dboolean         con_obituaries;
-extern dboolean         con_timestamps;
+extern bool             autoload;
+extern bool             centerweapon;
+extern bool             con_obituaries;
+extern bool             con_timestamps;
 extern int              episode;
 extern int              expansion;
 extern int              facebackcolor;
 extern float            gp_deadzone_left;
 extern float            gp_deadzone_right;
 extern int              gp_sensitivity;
-extern dboolean         gp_swapthumbsticks;
-extern dboolean         gp_vibrate;
+extern bool             gp_swapthumbsticks;
+extern bool             gp_vibrate;
 extern char             *iwadfolder;
-extern dboolean         messages;
+extern bool             messages;
 extern float            m_acceleration;
-extern dboolean         m_doubleclick_use;
-extern dboolean         m_novertical;
+extern bool             m_doubleclick_use;
+extern bool             m_novertical;
 extern int              m_sensitivity;
 extern int              m_threshold;
 extern int              movebob;
 extern char             *playername;
-extern dboolean         r_althud;
+extern bool             r_althud;
 extern int              r_berserkintensity;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
-extern dboolean         r_brightmaps;
-extern dboolean         r_corpses_color;
-extern dboolean         r_corpses_mirrored;
-extern dboolean         r_corpses_moreblood;
-extern dboolean         r_corpses_nudge;
-extern dboolean         r_corpses_slide;
-extern dboolean         r_corpses_smearblood;
+extern bool             r_brightmaps;
+extern bool             r_corpses_color;
+extern bool             r_corpses_mirrored;
+extern bool             r_corpses_moreblood;
+extern bool             r_corpses_nudge;
+extern bool             r_corpses_slide;
+extern bool             r_corpses_smearblood;
 extern int              r_detail;
-extern dboolean         r_diskicon;
-extern dboolean         r_fixmaperrors;
-extern dboolean         r_fixspriteoffsets;
-extern dboolean         r_floatbob;
+extern bool             r_diskicon;
+extern bool             r_fixmaperrors;
+extern bool             r_fixspriteoffsets;
+extern bool             r_floatbob;
 extern float            r_gamma;
-extern dboolean         r_homindicator;
-extern dboolean         r_hud;
-extern dboolean         r_liquid_bob;
-extern dboolean         r_liquid_clipsprites;
-extern dboolean         r_liquid_current;
-extern dboolean         r_liquid_lowerview;
-extern dboolean         r_liquid_swirl;
+extern bool             r_homindicator;
+extern bool             r_hud;
+extern bool             r_liquid_bob;
+extern bool             r_liquid_clipsprites;
+extern bool             r_liquid_current;
+extern bool             r_liquid_lowerview;
+extern bool             r_liquid_swirl;
 extern char             *r_lowpixelsize;
-extern dboolean         r_mirroredweapons;
-extern dboolean         r_playersprites;
-extern dboolean         r_rockettrails;
-extern dboolean         r_shadows;
+extern bool             r_mirroredweapons;
+extern bool             r_playersprites;
+extern bool             r_rockettrails;
+extern bool             r_shadows;
 extern int              r_shakescreen;
-extern dboolean         r_translucency;
+extern bool             r_translucency;
 extern int              s_musicvolume;
-extern dboolean         s_randommusic;
-extern dboolean         s_randompitch;
+extern bool             s_randommusic;
+extern bool             s_randompitch;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern int              savegame;
@@ -155,22 +155,22 @@ extern unsigned int     stat_shotsfired;
 extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
 extern int              turbo;
-extern dboolean         vid_capfps;
+extern bool             vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
 extern char             *vid_driver;
 #endif
-extern dboolean         vid_fullscreen;
+extern bool             vid_fullscreen;
 extern char             *vid_scaledriver;
 extern char             *vid_scalefilter;
 extern char             *vid_screenresolution;
-extern dboolean         vid_vsync;
-extern dboolean         vid_widescreen;
+extern bool             vid_vsync;
+extern bool             vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
 
 extern char             *packageconfig;
-extern dboolean         returntowidescreen;
+extern bool             returntowidescreen;
 
 #define CONFIG_VARIABLE_INT(name, set)           { #name, &name, DEFAULT_INT, set }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)  { #name, &name, DEFAULT_INT_UNSIGNED, set }
@@ -359,9 +359,9 @@ void M_SaveCVARs(void)
         {
             case DEFAULT_INT:
             {
-                int         j = 0;
-                dboolean    flag = false;
-                int         v = *(int *)cvars[i].location;
+                int     j = 0;
+                bool    flag = false;
+                int     v = *(int *)cvars[i].location;
 
                 while (*aliases[j].text)
                 {
@@ -386,9 +386,9 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT_PERCENT:
             {
-                int         j = 0;
-                dboolean    flag = false;
-                int         v = *(int *)cvars[i].location;
+                int     j = 0;
+                bool    flag = false;
+                int     v = *(int *)cvars[i].location;
 
                 while (*aliases[j].text)
                 {
@@ -408,7 +408,7 @@ void M_SaveCVARs(void)
             case DEFAULT_FLOAT:
             {
                 int         j = 0;
-                dboolean    flag = false;
+                bool        flag = false;
                 float       v = *(float *)cvars[i].location;
 
                 while (*aliases[j].text)
@@ -429,7 +429,7 @@ void M_SaveCVARs(void)
             case DEFAULT_FLOAT_PERCENT:
             {
                 int         j = 0;
-                dboolean    flag = false;
+                bool        flag = false;
                 float       v = *(float *)cvars[i].location;
 
                 while (*aliases[j].text)

@@ -51,11 +51,11 @@ char *P_TempSaveGameFile(void);
 char *P_SaveGameFile(int slot);
 
 // Savegame file header read/write functions
-dboolean P_ReadSaveGameHeader(char *description);
+bool P_ReadSaveGameHeader(char *description);
 void P_WriteSaveGameHeader(char *description);
 
 // Savegame end-of-file read/write functions
-dboolean P_ReadSaveGameEOF(void);
+bool P_ReadSaveGameEOF(void);
 void P_WriteSaveGameEOF(void);
 
 // Persistent storage/archiving.

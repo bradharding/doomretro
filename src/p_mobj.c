@@ -57,15 +57,15 @@ mobj_t                  *bloodsplats[r_bloodsplats_max_max];
 int                     r_bloodsplats_total;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
-dboolean                r_corpses_color = r_corpses_color_default;
-dboolean                r_corpses_mirrored = r_corpses_mirrored_default;
-dboolean                r_corpses_moreblood = r_corpses_moreblood_default;
-dboolean                r_corpses_nudge = r_corpses_nudge_default;
-dboolean                r_corpses_slide = r_corpses_slide_default;
-dboolean                r_corpses_smearblood = r_corpses_smearblood_default;
-dboolean                r_floatbob = r_floatbob_default;
-dboolean                r_shadows = r_shadows_default;
-dboolean                r_rockettrails = r_rockettrails_default;
+bool                    r_corpses_color = r_corpses_color_default;
+bool                    r_corpses_mirrored = r_corpses_mirrored_default;
+bool                    r_corpses_moreblood = r_corpses_moreblood_default;
+bool                    r_corpses_nudge = r_corpses_nudge_default;
+bool                    r_corpses_slide = r_corpses_slide_default;
+bool                    r_corpses_smearblood = r_corpses_smearblood_default;
+bool                    r_floatbob = r_floatbob_default;
+bool                    r_shadows = r_shadows_default;
+bool                    r_rockettrails = r_rockettrails_default;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -80,12 +80,12 @@ static fixed_t floatbobdiffs[64] =
 };
 
 extern fixed_t          animatedliquiddiffs[64];
-extern dboolean         r_liquid_bob;
-extern dboolean         r_mirroredweapons;
-extern dboolean         r_translucency;
+extern bool             r_liquid_bob;
+extern bool             r_mirroredweapons;
+extern bool             r_translucency;
 extern msecnode_t       *sector_list;   // phares 3/16/98
 
-dboolean P_IsVoodooDoll(mobj_t *mobj)
+bool P_IsVoodooDoll(mobj_t *mobj)
 {
     return (mobj->player && mobj->player->mo != mobj);
 }
@@ -95,7 +95,7 @@ dboolean P_IsVoodooDoll(mobj_t *mobj)
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
+bool P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     state_t             *st;
 
@@ -104,7 +104,7 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
     statenum_t          *seenstate = seenstate_tab;             // pointer to table
     static int          recursion;                              // detects recursion
     statenum_t          i = state;                              // initial state
-    dboolean            ret = true;                             // return value
+    bool                ret = true;                             // return value
     statenum_t          tempstate[NUMSTATES];                   // for use with recursion
     mobj_t              *shadow = mobj->shadow;
 
@@ -192,7 +192,7 @@ void P_XYMovement(mobj_t *mo)
     mobjtype_t  type = mo->type;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
-    dboolean    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
+    bool        corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
 
     if (!(mo->momx | mo->momy))
     {

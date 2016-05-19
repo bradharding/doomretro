@@ -74,7 +74,7 @@ static char     *finaleflat;
 
 void F_StartCast(void);
 void F_CastTicker(void);
-dboolean F_CastResponder(event_t *ev);
+bool F_CastResponder(event_t *ev);
 void F_CastDrawer(void);
 
 void WI_checkForAccelerate(void);    // killough 3/28/98: used to
@@ -83,7 +83,7 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 static int      midstage;            // whether we're in "mid-stage"
 
 extern int      acceleratestage;     // accelerate intermission screens
-extern dboolean r_shadows;
+extern bool     r_shadows;
 
 //
 // F_StartFinale
@@ -197,7 +197,7 @@ void F_StartFinale(void)
     finalecount = 0;
 }
 
-dboolean F_Responder(event_t *ev)
+bool F_Responder(event_t *ev)
 {
     if (finalestage == F_STAGE_CAST)
         return F_CastResponder(ev);
@@ -277,7 +277,7 @@ static struct
 //
 extern patch_t *hu_font[HU_FONTSIZE];
 
-void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
+void M_DrawSmallChar(int x, int y, int i, bool shadow);
 
 void F_TextWrite(void)
 {
@@ -417,12 +417,12 @@ int             castnum;
 int             casttics;
 state_t         *caststate;
 int             castrot;
-dboolean        castdeath;
-dboolean        castdeathflip;
+bool            castdeath;
+bool            castdeathflip;
 int             castframes;
 int             castonmelee;
-dboolean        castattacking;
-dboolean        firstevent;
+bool            castattacking;
+bool            firstevent;
 
 extern char     *playername;
 
@@ -568,7 +568,7 @@ stopattack:
 // F_CastResponder
 //
 
-dboolean F_CastResponder(event_t *ev)
+bool F_CastResponder(event_t *ev)
 {
     mobjtype_t  type;
 
@@ -696,7 +696,7 @@ void F_CastPrint(char *text)
 //
 // F_CastDrawer
 //
-extern dboolean r_translucency;
+extern bool     r_translucency;
 
 void F_CastDrawer(void)
 {
@@ -704,7 +704,7 @@ void F_CastDrawer(void)
     spriteframe_t       *sprframe;
     int                 lump;
     int                 rot = 0;
-    dboolean            flip;
+    bool                flip;
     patch_t             *patch;
     int                 y = ORIGINALHEIGHT - 30;
     mobjtype_t          type = castorder[castnum].type;

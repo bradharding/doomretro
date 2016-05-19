@@ -47,8 +47,8 @@
 #include "v_data.h"
 #include "v_video.h"
 
-extern dboolean vid_widescreen;
-extern dboolean r_translucency;
+extern bool     vid_widescreen;
+extern bool     r_translucency;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
 {
@@ -66,7 +66,7 @@ void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
     HUlib_clearTextLine(t);
 }
 
-dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
+bool HUlib_addCharToTextLine(hu_textline_t *t, char ch)
 {
     if (t->len == HU_MAXLINELENGTH)
         return false;
@@ -129,7 +129,7 @@ static struct
     { 0,   0,     0 }
 };
 
-void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
+void HUlib_drawTextLine(hu_textline_t *l, bool external)
 {
     int         i;
     int         w = 0;
@@ -289,7 +289,7 @@ void HUlib_eraseTextLine(hu_textline_t *l)
         l->needsupdate--;
 }
 
-void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on)
+void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, bool *on)
 {
     int i;
 

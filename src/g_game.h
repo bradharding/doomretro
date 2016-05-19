@@ -39,6 +39,8 @@
 #if !defined(__G_GAME_H__)
 #define __G_GAME_H__
 
+#include "i_video.h"
+
 #define NUMKEYS 256
 
 //
@@ -71,18 +73,18 @@ void G_WorldDone(void);
 void G_BuildTiccmd(ticcmd_t *cmd);
 
 void G_Ticker(void);
-dboolean G_Responder(event_t *ev);
+bool G_Responder(event_t *ev);
 
 void G_ScreenShot(void);
-void I_ToggleWidescreen(dboolean toggle);
+void I_ToggleWidescreen(bool toggle);
 
 void G_SetMovementSpeed(int scale);
 
-extern dboolean canmodify;
-extern dboolean flag667;
-extern dboolean message_dontpause;
-extern dboolean vibrate;
-extern dboolean gamepadpress;
+extern bool     canmodify;
+extern bool     flag667;
+extern bool     message_dontpause;
+extern bool     vibrate;
+extern bool     gamepadpress;
 extern char     lbmname[MAX_PATH];
 extern char     lbmpath[MAX_PATH];
 extern char     mapnumandtitle[512];
@@ -92,7 +94,7 @@ extern int      keydown;
 extern int      markpointnum;
 extern int      quickSaveSlot;
 extern int      st_facecount;
-extern dboolean oldweaponsowned[NUMWEAPONS];
-extern dboolean blurred;
+extern bool     oldweaponsowned[NUMWEAPONS];
+extern bool     blurred;
 
 #endif

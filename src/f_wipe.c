@@ -66,7 +66,7 @@ void wipe_shittyColMajorXform(short *array)
 static int      *y;
 static int      speed;
 
-dboolean wipe_initMelt(void)
+bool wipe_initMelt(void)
 {
     int i;
 
@@ -90,9 +90,9 @@ dboolean wipe_initMelt(void)
     return false;
 }
 
-dboolean wipe_doMelt(int tics)
+bool wipe_doMelt(int tics)
 {
-    dboolean    done = true;
+    bool        done = true;
 
     while (tics--)
     {
@@ -138,7 +138,7 @@ dboolean wipe_doMelt(int tics)
     return done;
 }
 
-dboolean wipe_exitMelt(void)
+bool wipe_exitMelt(void)
 {
     Z_Free(y);
     Z_Free(wipe_scr_start);
@@ -146,14 +146,14 @@ dboolean wipe_exitMelt(void)
     return false;
 }
 
-dboolean wipe_StartScreen(void)
+bool wipe_StartScreen(void)
 {
     wipe_scr_start = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     I_ReadScreen(wipe_scr_start);
     return false;
 }
 
-dboolean wipe_EndScreen(void)
+bool wipe_EndScreen(void)
 {
     wipe_scr_end = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     I_ReadScreen(wipe_scr_end);
@@ -161,10 +161,10 @@ dboolean wipe_EndScreen(void)
     return false;
 }
 
-dboolean wipe_ScreenWipe(int tics)
+bool wipe_ScreenWipe(int tics)
 {
     // when zero, stop the wipe
-    static dboolean     go;
+    static bool         go;
 
     // initial stuff
     if (!go)

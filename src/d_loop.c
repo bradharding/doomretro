@@ -72,7 +72,7 @@ int             skiptics = 0;
 //
 int             lasttime;
 
-static dboolean BuildNewTic(void)
+static bool BuildNewTic(void)
 {
     ticcmd_t    cmd;
 
@@ -132,7 +132,7 @@ void D_StartGameLoop(void)
 //
 // TryRunTics
 //
-extern dboolean advancetitle;
+extern bool     advancetitle;
 
 void TryRunTics(void)
 {

@@ -51,15 +51,15 @@
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 
-dboolean        centerweapon = centerweapon_default;
+bool            centerweapon = centerweapon_default;
 
 unsigned int    stat_shotsfired = 0;
 unsigned int    stat_shotshit = 0;
 
-dboolean        successfulshot;
-dboolean        skippsprinterp = false;
+bool            successfulshot;
+bool            skippsprinterp = false;
 
-extern dboolean hitwall;
+extern bool     hitwall;
 
 void P_CheckMissileSpawn(mobj_t *th);
 
@@ -136,7 +136,7 @@ void P_BringUpWeapon(player_t *player)
 // Returns true if there is enough ammo to shoot.
 // If not, selects the next weapon to use.
 //
-dboolean P_CheckAmmo(player_t *player)
+bool P_CheckAmmo(player_t *player)
 {
     weapontype_t        readyweapon = player->readyweapon;
     ammotype_t          ammo = weaponinfo[readyweapon].ammo;
@@ -614,7 +614,7 @@ static void P_BulletSlope(mobj_t *mo)
 //
 // P_GunShot
 //
-void P_GunShot(mobj_t *actor, dboolean accurate)
+void P_GunShot(mobj_t *actor, bool accurate)
 {
     int         damage = 5 * (M_Random() % 3 + 1);
     angle_t     angle = actor->angle;

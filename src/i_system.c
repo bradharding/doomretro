@@ -53,8 +53,8 @@ void I_ShutdownWindows32(void);
 #include "s_sound.h"
 #include "version.h"
 
-extern dboolean vid_widescreen;
-extern dboolean returntowidescreen;
+extern bool     vid_widescreen;
+extern bool     returntowidescreen;
 
 #if defined(WIN32)
 typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
@@ -77,13 +77,13 @@ void I_PrintWindowsVersion(void)
 
     if (pRtlGetVersion && pGetProductInfo)
     {
-        char      bits[10] = "";
-        char      *infoname;
-        char      *typename = "";
+        char            bits[10] = "";
+        char            *infoname;
+        char            *typename = "";
 
         if (pIsWow64Process)
         {
-            BOOL Wow64Process = FALSE;
+            BOOL        Wow64Process = FALSE;
 
             pIsWow64Process(GetCurrentProcess(), &Wow64Process);
             strcpy(bits, (Wow64Process ? " (64-bit)" : " (32-bit)"));
@@ -211,7 +211,7 @@ void I_PrintWindowsVersion(void)
 //
 // I_Quit
 //
-void I_Quit(dboolean shutdown)
+void I_Quit(bool shutdown)
 {
     if (shutdown)
     {
@@ -246,7 +246,7 @@ void I_WaitVBL(int count)
 //
 // I_Error
 //
-static dboolean already_quitting;
+static bool     already_quitting;
 
 void I_Error(char *error, ...)
 {

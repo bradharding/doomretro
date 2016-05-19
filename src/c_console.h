@@ -81,7 +81,7 @@ typedef struct
 
 console_t               *console;
 
-extern dboolean         consoleactive;
+extern bool             consoleactive;
 extern int              consoleheight;
 extern int              consoledirection;
 
@@ -113,7 +113,7 @@ void C_Init(void);
 void C_HideConsole(void);
 void C_HideConsoleFast(void);
 void C_Drawer(void);
-dboolean C_Responder(event_t *ev);
+bool C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_StripQuotes(char *string);
