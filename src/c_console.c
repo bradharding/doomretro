@@ -101,6 +101,7 @@ static patch_t  *rdquote;
 static patch_t  *degree;
 static patch_t  *multiply;
 static patch_t  *warning;
+static patch_t  *brand;
 
 static int      spacewidth;
 
@@ -502,6 +503,7 @@ void C_Init(void)
     degree = W_CacheLumpName("DRFON176", PU_STATIC);
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
     warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
+    brand = W_CacheLumpName("DRBRAND", PU_STATIC);
 
     caret = W_CacheLumpName("CARET", PU_STATIC);
 
@@ -588,8 +590,8 @@ static void DoBlurScreen(int x1, int y1, int x2, int y2, int i)
 
 static void C_DrawBackground(int height)
 {
-    static dboolean blurred;
-    int         i, j;
+    static dboolean     blurred;
+    int                 i, j;
 
     height = (height + 5) * SCREENWIDTH;
 
@@ -665,7 +667,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
     if (color1 == consolewarningcolor)
     {
-        V_DrawConsoleChar(x, y, warning, color1, color2, false, tinttab);
+        V_DrawConsolePatch(x, y, warning, color1, color2, false, tinttab);
         x += SHORT(warning->width) + 2;
     }
 
@@ -752,7 +754,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (patch)
             {
-                V_DrawConsoleChar(x, y, patch, (bold ? boldcolor : color1), color2, italics,
+                V_DrawConsolePatch(x, y, patch, (bold ? boldcolor : color1), color2, italics,
                     tinttab);
                 x += SHORT(patch->width);
             }
@@ -776,7 +778,7 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleChar(x, y, patch, color, NOBACKGROUNDCOLOR, false, tinttab75);
+            V_DrawConsolePatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, tinttab75);
             x += SHORT(patch->width);
         }
     }
@@ -793,7 +795,7 @@ static void C_DrawTimeStamp(int x, int y, char *text)
     {
         patch_t *patch = consolefont[text[i] - CONSOLEFONTSTART];
 
-        V_DrawConsoleChar(x + (text[i] == '1' ? (zerowidth - SHORT(patch->width)) / 2 : 0), y,
+        V_DrawConsolePatch(x + (text[i] == '1' ? (zerowidth - SHORT(patch->width)) / 2 : 0), y,
             patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
         x += (isdigit(text[i]) ? zerowidth : SHORT(patch->width));
     }
@@ -855,9 +857,8 @@ void C_Drawer(void)
         C_DrawBackground(consoleheight);
 
         // draw branding
-        C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_BRANDINGSTRING, false) - CONSOLETEXTX
-            + 1, CONSOLEHEIGHT - 17, PACKAGE_BRANDINGSTRING, consolebrandingcolor,
-            NOBACKGROUNDCOLOR, NOBOLDCOLOR, tinttab25, notabs, false);
+        V_DrawConsolePatch(SCREENWIDTH - brand->width - CONSOLETEXTX + 1, consoleheight
+            - brand->height - 6, brand, consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab25);
 
         // draw console text
         if (outputhistory == -1)
@@ -917,10 +918,10 @@ void C_Drawer(void)
         }
         if (showcaret)
             if (selectend > caretpos)
-                V_DrawConsoleChar(x, consoleheight - 17, caret, consoleselectedinputcolor,
+                V_DrawConsolePatch(x, consoleheight - 17, caret, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, false, NULL);
             else
-                V_DrawConsoleChar(x, consoleheight - 17, caret, consolecaretcolor,
+                V_DrawConsolePatch(x, consoleheight - 17, caret, consolecaretcolor,
                     NOBACKGROUNDCOLOR, false, NULL);
         x += SHORT(caret->width);
 
