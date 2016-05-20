@@ -39,6 +39,10 @@
 #if !defined(__W_FILE_H__)
 #define __W_FILE_H__
 
+#if defined(__OpenBSD__)
+#include <stdio.h>
+#endif
+
 typedef struct _wad_file_s wad_file_t;
 
 typedef struct
