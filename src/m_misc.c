@@ -59,6 +59,10 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#if defined(__OpenBSD__)
+#include <errno.h>
+#endif
+
 #if !defined(MAX_PATH)
 #define MAX_PATH        260
 #endif
