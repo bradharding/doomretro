@@ -42,6 +42,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#if defined(__OpenBSD__)
+#include <stdarg.h>
+#endif
+
 #include "doomtype.h"
 
 dboolean M_WriteFile(char *name, void *source, int length);
