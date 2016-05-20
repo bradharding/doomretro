@@ -45,6 +45,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "doomstat.h"
 #include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
@@ -592,6 +593,7 @@ static void C_DrawBackground(int height)
 {
     static dboolean     blurred;
     int                 i, j;
+    static int          r[SCREENWIDTH * SCREENHEIGHT];
 
     height = (height + 5) * SCREENWIDTH;
 
@@ -616,14 +618,15 @@ static void C_DrawBackground(int height)
 
     for (i = 0; i < height; i += 4)
     {
-        int     r = M_RandomInt(0, 10);
+        if (!(gametic & 3))
+            r[i] = M_RandomInt(0, 10);
 
-        screens[0][i] = colormaps[0][256 * r + tinttab50[c_blurscreen[i] + consoletintcolor]];
-        screens[0][i + 1] = colormaps[0][256 * r + tinttab50[c_blurscreen[i + 1]
+        screens[0][i] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i] + consoletintcolor]];
+        screens[0][i + 1] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i + 1]
             + consoletintcolor]];
-        screens[0][i + 2] = colormaps[0][256 * r + tinttab50[c_blurscreen[i + 2]
+        screens[0][i + 2] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i + 2]
             + consoletintcolor]];
-        screens[0][i + 3] = colormaps[0][256 * r + tinttab50[c_blurscreen[i + 3]
+        screens[0][i + 3] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i + 3]
             + consoletintcolor]];
     }
 
