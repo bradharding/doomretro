@@ -717,13 +717,11 @@ static void HU_DrawAltHUD(void)
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     if (health > 100)
     {
-        int     health1 = MIN(health, 100);
-
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health - 99, 8, color);
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health1 + 1, 8, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health - 100, 8, color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health1 - 2, ALTHUD_Y + 13, altmarkpatch, WHITE,
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE,
             color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE,
             color);
