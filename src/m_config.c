@@ -638,6 +638,9 @@ static void M_CheckCVARs(void)
     if (r_brightmaps != false && r_brightmaps != true)
         r_brightmaps = r_brightmaps_default;
 
+    if (r_corpses_color != false && r_corpses_color != true)
+        r_corpses_color = r_corpses_color_default;
+
     if (r_corpses_mirrored != false && r_corpses_mirrored != true)
         r_corpses_mirrored = r_corpses_mirrored_default;
 
