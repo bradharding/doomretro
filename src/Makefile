@@ -38,7 +38,7 @@
 
 OPTFLAGS = -O2
 CFLAGS = $(OPTFLAGS) -g `sdl2-config --cflags`
-LDFLAGS = -g `sdl2-config --libs` -lSDL2_mixer -lm
+LDFLAGS = -g `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lm
 
 # If you don't want to compile with X11 bindings,
 # set the NOX11 variable, e.g. make NOX11=1
