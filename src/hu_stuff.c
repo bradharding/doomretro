@@ -733,9 +733,6 @@ static void HU_DrawAltHUD(void)
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 2, ALTHUD_Y + 13, altmarkpatch, WHITE,
             color);
-
-        if (health < 100)
-            V_DrawAltHUDPatch(ALTHUD_LEFT_X + 160, ALTHUD_Y + 13, altendpatch, WHITE, white);
     }
 
     if (armor)
@@ -773,9 +770,6 @@ static void HU_DrawAltHUD(void)
             V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color);
             V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE,
                 color);
-
-            if (ammo < 100)
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE, white);
         }
         else
         {
@@ -789,11 +783,7 @@ static void HU_DrawAltHUD(void)
                 white);
     }
     else
-    {
         V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
-        V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, white);
-        V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE, white);
-    }
 
     while (i < NUMCARDS)
         if (plr->cards[i++] > 0)
