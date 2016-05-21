@@ -1284,10 +1284,10 @@ static void D_DoomMainSetup(void)
     int         p;
     int         choseniwad = 0;
     static char lumpname[6];
-    char        *resourcefolder = M_GetResourceFolder();
     char        *appdatafolder = M_GetAppDataFolder();
-    char        *packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
-    
+    char        *packagewad = M_StringJoin(M_GetResourceFolder(), DIR_SEPARATOR_S, PACKAGE_WAD,
+                    NULL);
+
     M_MakeDirectory(appdatafolder);
 
     packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
@@ -1363,7 +1363,7 @@ static void D_DoomMainSetup(void)
         C_Output("<i>"PACKAGE_NAME"</i> has been run %s times.", commify(SafeAdd(stat_runs, 1)));
 
     if (!M_FileExists(packagewad))
-        I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
+        I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", packagewad);
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
 
@@ -1418,11 +1418,10 @@ static void D_DoomMainSetup(void)
                 "specifying one with the -IWAD command-line parameter.");
 
     if (!W_MergeFile(packagewad, true))
-        I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", uppercase(packagewad));
+            I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
 
     if (!CheckPackageWADVersion())
-        I_Error("%s is the wrong version.\nPlease reinstall "PACKAGE_NAME".",
-            uppercase(packagewad));
+        I_Error("%s is the wrong version.\nPlease reinstall "PACKAGE_NAME".", packagewad);
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);

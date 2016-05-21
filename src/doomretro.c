@@ -40,6 +40,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "m_argv.h"
+#include "m_misc.h"
 #include "version.h"
 
 int     windowborderwidth = 0;
@@ -209,6 +210,24 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
     }
 }
 
+void I_LoadResources(void)
+{
+    HRSRC               resource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
+    unsigned int        resourcesize = SizeofResource(NULL, resource);
+    HGLOBAL             resourcedata = LoadResource(NULL, resource);
+    void                *pbinarydata = LockResource(resourcedata);
+    char                *resourcefolder = M_GetResourceFolder();
+    FILE                *stream;
+
+    M_MakeDirectory(resourcefolder);
+
+    if ((stream = fopen(M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL), "wb")))
+    {
+        fwrite((char *)pbinarydata, sizeof(char), resourcesize, stream);
+        fclose(stream);
+    }
+}
+
 void I_InitWindows32(void)
 {
     HINSTANCE           handle = GetModuleHandle(NULL);
@@ -264,6 +283,8 @@ int main(int argc, char **argv)
     I_AccessibilityShortcutKeys(false);
 
     I_SetProcessDPIAware();
+
+    I_LoadResources();
 #endif
 
     myargc = argc;

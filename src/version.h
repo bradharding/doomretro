@@ -41,11 +41,6 @@
 
 #define PACKAGE_VERSION                 2,1,4,0
 #define PACKAGE_VERSIONSTRING           "2.1.4"
-#if defined (_DEBUG)
-#define PACKAGE_BRANDINGSTRING          "DOOM Retro v2.1.4 (Debug Build)"
-#else
-#define PACKAGE_BRANDINGSTRING          "DOOM Retro v2.1.4"
-#endif
 #define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v2.1.4"
 #define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM Retro v2.1.4"
 
@@ -58,6 +53,7 @@
 #define PACKAGE_NAME                    "DOOM Retro"
 #define PACKAGE_SAVE                    "doomretro%d.save"
 #define PACKAGE_WAD                     "doomretro.wad"
+#define PACKAGE_WAD_PATH                "..\\res\\doomretro.wad"
 #define PACKAGE_WIKI_START_URL          "http://start.doomretro.com/"
 #define PACKAGE_WIKI_HELP_URL           "http://help.doomretro.com/"
 

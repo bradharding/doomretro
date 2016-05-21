@@ -180,13 +180,16 @@ char *M_GetAppDataFolder(void)
 
 char *M_GetResourceFolder(void)
 {
-#if defined(__MACOSX__)
+#if defined(WIN32)
+    // On Windows and Linux, load resources from <username>\AppData\Local\DOOM Retro.
+    return M_GetAppDataFolder();
+#elif defined(__MACOSX__)
     // On OSX, load resources from the Contents/Resources folder within the application bundle.
     NSURL       *resourceURL = [NSBundle mainBundle].resourceURL;
 
     return resourceURL.fileSystemRepresentation;
 #else
-    // On Windows and Linux, load resources from the same folder as the executable.
+    // On Linux, load resources from the same folder as the executable.
     return M_GetExecutableFolder();
 #endif
 }
