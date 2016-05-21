@@ -246,6 +246,7 @@ linefix_t linefix[] =
     { doom2,            1,   8,     276,    1, "COMPTALL", "",            "",            DEFAULT,   DEFAULT, ML_DONTPEGBOTTOM,        DEFAULT,                                    DEFAULT },
     { doom2,            1,   8,     598,    0, "",         "GRAY5",       "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
 
+    { doom2,            1,  10,     638,    0, "",         "",            "",            DEFAULT,        72, DEFAULT,                 DEFAULT,                                    DEFAULT },
     { doom2,            1,  10,     880,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                    DEFAULT },
     { doom2,            1,  10,     899,    1, "",         "-",           "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
     { doom2,            1,  10,     900,    1, "",         "-",           "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
