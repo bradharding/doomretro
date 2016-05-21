@@ -93,7 +93,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.4\lib\x86;$(ProjectDir)..\SDL2_mixer-2.0.1\lib\x86;$(ProjectDir)..\SDL2_image-2.0.1\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
-      <Culture>0x0c09</Culture>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
@@ -159,6 +159,9 @@
       <EnableDPIAwareness>
       </EnableDPIAwareness>
     </Manifest>
+    <ResourceCompile>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuildStep Include="..\src\doomdata.h" />
