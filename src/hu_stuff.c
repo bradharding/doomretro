@@ -772,11 +772,7 @@ static void HU_DrawAltHUD(void)
                 color);
         }
         else
-        {
             V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
-            V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, white);
-            V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE, white);
-        }
 
         if (weapon)
             V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE,
