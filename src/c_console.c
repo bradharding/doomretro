@@ -489,7 +489,6 @@ void C_Init(void)
     int         i;
     int         j = CONSOLEFONTSTART;
     char        buffer[9];
-    byte        *playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
     while (*consolecmds[numconsolecmds++].name);
 
