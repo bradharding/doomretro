@@ -212,17 +212,19 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
 
 void I_LoadResources(void)
 {
-    HRSRC               resource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
-    unsigned int        resourcesize = SizeofResource(NULL, resource);
-    HGLOBAL             resourcedata = LoadResource(NULL, resource);
-    void                *pbinarydata = LockResource(resourcedata);
-    char                *resourcefolder = M_GetResourceFolder();
-    FILE                *stream;
+    char        *resourcefolder = M_GetResourceFolder();
+    char        *file = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+    FILE        *stream;
 
     M_MakeDirectory(resourcefolder);
 
-    if ((stream = fopen(M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL), "wb")))
+    if ((stream = fopen(file, "wb")))
     {
+        HRSRC               resource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
+        unsigned int        resourcesize = SizeofResource(NULL, resource);
+        HGLOBAL             resourcedata = LoadResource(NULL, resource);
+        void                *pbinarydata = LockResource(resourcedata);
+
         fwrite((char *)pbinarydata, sizeof(char), resourcesize, stream);
         fclose(stream);
     }

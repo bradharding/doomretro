@@ -234,11 +234,11 @@ void P_ReduceDamageCount(player_t *player)
 
 void P_DeathThink(player_t *player)
 {
-    static int  count;
-    static dboolean facingkiller;
-    mobj_t      *mo = player->mo;
-    mobj_t      *attacker = player->attacker;
-    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+    static int          count;
+    static dboolean     facingkiller;
+    mobj_t              *mo = player->mo;
+    mobj_t              *attacker = player->attacker;
+    const Uint8         *keystate = SDL_GetKeyboardState(NULL);
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
