@@ -618,7 +618,7 @@ static void C_DrawBackground(int height)
     for (i = 0; i < height; i += 4)
     {
         if (!(gametic & 3))
-            r[i] = M_RandomInt(0, 10);
+            r[i] = M_RandomInt(0, 7);
 
         screens[0][i] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i] + consoletintcolor]];
         screens[0][i + 1] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i + 1]
