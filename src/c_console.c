@@ -688,7 +688,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
         {
             bold = false;
             i += 3;
-            ++x;
         }
         else if (letter == '<' && i < len - 2 && text[i + 1] == 'i' && text[i + 2] == '>'
             && formatting)
