@@ -118,6 +118,14 @@ typedef enum
 #define am_xhaircolor_default                   4
 #define am_xhaircolor_max                       255
 
+#define ammo_min                                0
+#define ammo_default                            50
+#define ammo_max                                300
+
+#define armor_min                               0
+#define armor_default                           0
+#define armor_max                               200
+
 #define autoload_default                        true
 
 #define centerweapon_default                    true
@@ -153,6 +161,10 @@ typedef enum
 #define gp_swapthumbsticks_default              false
 
 #define gp_vibrate_default                      true
+
+#define health_min                              0
+#define health_default                          100
+#define health_max                              200
 
 #define iwadfolder_default                      "C:\\"
 

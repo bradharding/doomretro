@@ -77,6 +77,10 @@
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 
+int     ammo;
+int     armor;
+int     health;
+
 extern dboolean         alwaysrun;
 extern int              am_allmapcdwallcolor;
 extern int              am_allmapfdwallcolor;
@@ -358,6 +362,7 @@ static void am_external_cvar_func2(char *, char *, char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *, char *, char *);
+static void player_cvars_func2(char *, char *, char *, char *);
 static void playername_cvar_func2(char *, char *, char *, char *);
 static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
@@ -475,6 +480,10 @@ consolecmd_t consolecmds[] =
         "The color of solid walls in the automap."),
     CVAR_INT(am_xhaircolor, am_xhaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of the crosshair in the automap."),
+    CVAR_INT(ammo, "", game_func1, player_cvars_func2, CF_NONE, NOALIAS,
+        "The amount of ammo the player currently has."),
+    CVAR_INT(armor, armour, game_func1, player_cvars_func2, CF_NONE, NOALIAS,
+        "The amount of armor the player currently has."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles automatically loading the last savegame after the\nplayer dies."),
     CMD(bind, "", null_func1, C_Bind, 2, "[<i>control</i> [<b>+</b><i>action</i>]]",
@@ -521,6 +530,8 @@ consolecmd_t consolecmds[] =
         "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL(gp_vibrate, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles vibration for XInput gamepads."),
+    CVAR_INT(health, "", game_func1, player_cvars_func2, CF_NONE, NOALIAS,
+        "The amount of health the player currently has."),
 #if defined(WIN32)
     CMD(help, "", null_func1, help_cmd_func2, 0, "",
         "Opens the <i>"PACKAGE_NAME" Wiki</i>."),
@@ -1136,7 +1147,17 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 M_StringCopy(description2, p, 255);
             }
 
-            if (consolecmds[i].flags & CF_BOOLEAN)
+            if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", count++, consolecmds[i].name,
+                    (gamestate == GS_LEVEL ? players[0].ammo[weaponinfo[players[0].readyweapon].ammo] : 0),
+                    description1);
+            else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", count++, consolecmds[i].name,
+                    (gamestate == GS_LEVEL ? players[0].armorpoints : 0), description1);
+            else if (M_StringCompare(consolecmds[i].name, stringize(health)))
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", count++, consolecmds[i].name,
+                    (gamestate == GS_LEVEL ? players[0].health : 0), description1);
+            else if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count++, consolecmds[i].name,
                     C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
                         consolecmds[i].aliases), description1);
@@ -2987,6 +3008,66 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char 
     }
     else
         C_Output("%i", gp_sensitivity);
+}
+
+//
+// ammo, armor and health cvars
+//
+static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (M_StringCompare(cmd, stringize(ammo)))
+    {
+        ammotype_t      ammotype = weaponinfo[players[0].readyweapon].ammo;
+
+        if (*parm1)
+        {
+            int value = -1;
+
+            sscanf(parm1, "%10i", &value);
+
+            if (value >= 0 && value <= players[0].maxammo[ammotype])
+            {
+                players[0].ammo[ammotype] = value;
+                M_SaveCVARs();
+            }
+        }
+        else
+            C_Output("%i", players[0].ammo[ammotype]);
+    }
+    else if (M_StringCompare(cmd, stringize(armor)))
+    {
+        if (*parm1)
+        {
+            int value = -1;
+
+            sscanf(parm1, "%10i", &value);
+
+            if (value >= 0 && value <= max_armor)
+            {
+                players[0].armorpoints = value;
+                M_SaveCVARs();
+            }
+        }
+        else
+            C_Output("%i", players[0].armorpoints);
+    }
+    else if (M_StringCompare(cmd, stringize(health)))
+    {
+        if (*parm1)
+        {
+            int value = -1;
+
+            sscanf(parm1, "%10i", &value);
+
+            if (value >= 0 && value <= maxhealth)
+            {
+                players[0].health = value;
+                M_SaveCVARs();
+            }
+        }
+        else
+            C_Output("%i", players[0].health);
+    }
 }
 
 //
