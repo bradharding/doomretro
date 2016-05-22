@@ -585,7 +585,6 @@ static int      gray;
 static int      darkgray;
 static int      green;
 static int      red;
-static int      blue;
 static int      yellow;
 
 void HU_AltInit(void)
@@ -634,7 +633,6 @@ void HU_AltInit(void)
     darkgray = nearestcolors[DARKGRAY];
     green = nearestcolors[GREEN];
     red = nearestcolors[RED];
-    blue = nearestcolors[BLUE];
     yellow = nearestcolors[YELLOW];
 }
 
@@ -747,7 +745,7 @@ static void HU_DrawAltHUD(void)
 
         }
         else
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor + 1, 4, color);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor, 4, color);
     }
     else
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, darkgray);

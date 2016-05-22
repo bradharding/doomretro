@@ -82,7 +82,7 @@ enum
     CF_READONLY        =  32,
     CF_SIZE            =  64,
     CF_STRING          = 128,
-    CF_TIME            = 256,
+    CF_TIME            = 256
 };
 
 typedef struct
