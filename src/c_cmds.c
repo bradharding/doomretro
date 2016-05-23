@@ -3030,7 +3030,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             if (value >= 0 && player->playerstate == PST_LIVE && ammotype != am_noammo)
             {
-                player->ammo[ammotype] = MAX(value, player->maxammo[ammotype]);
+                player->ammo[ammotype] = MIN(value, player->maxammo[ammotype]);
                 P_CheckAmmo(player);
                 if (player->pendingweapon != wp_nochange)
                     C_HideConsole();
@@ -3046,7 +3046,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             sscanf(parm1, "%10i", &value);
 
             if (value >= 0)
-                player->armorpoints = MAX(value, max_armor);
+                player->armorpoints = MIN(value, max_armor);
         }
         else
             C_Output("%i%%", player->armorpoints);
@@ -3057,9 +3057,10 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && player->playerstate == PST_LIVE)
+            if (value >= 0 && player->playerstate == PST_LIVE && !(player->cheats & CF_GODMODE)
+                && !player->powers[pw_invulnerability])
             {
-                player->health = player->mo->health = MAX(value, maxhealth);
+                player->health = player->mo->health = MIN(value, maxhealth);
                 if (!value)
                 {
                     P_KillMobj(player->mo, player->mo);
