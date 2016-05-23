@@ -3013,11 +3013,15 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 // ammo, armor and health cvars
 //
+dboolean P_CheckAmmo(player_t *player);
+
 static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
+    player_t    *player = &players[0];
+
     if (M_StringCompare(cmd, stringize(ammo)))
     {
-        ammotype_t      ammotype = weaponinfo[players[0].readyweapon].ammo;
+        ammotype_t      ammotype = weaponinfo[player->readyweapon].ammo;
 
         if (*parm1)
         {
@@ -3025,14 +3029,16 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && value <= players[0].maxammo[ammotype])
+            if (value >= 0 && value <= player->maxammo[ammotype]
+                && player->playerstate == PST_LIVE && ammotype != am_noammo)
             {
-                players[0].ammo[ammotype] = value;
-                M_SaveCVARs();
+                player->ammo[ammotype] = value;
+                if (!value)
+                    P_CheckAmmo(player);
             }
         }
         else
-            C_Output("%i", players[0].ammo[ammotype]);
+            C_Output("%i", player->ammo[ammotype]);
     }
     else if (M_StringCompare(cmd, stringize(armor)))
     {
@@ -3043,13 +3049,10 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             sscanf(parm1, "%10i", &value);
 
             if (value >= 0 && value <= max_armor)
-            {
-                players[0].armorpoints = value;
-                M_SaveCVARs();
-            }
+                player->armorpoints = value;
         }
         else
-            C_Output("%i", players[0].armorpoints);
+            C_Output("%i", player->armorpoints);
     }
     else if (M_StringCompare(cmd, stringize(health)))
     {
@@ -3059,14 +3062,18 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && value <= maxhealth)
+            if (value >= 0 && value <= maxhealth && player->playerstate == PST_LIVE)
             {
-                players[0].health = value;
-                M_SaveCVARs();
+                player->health = value;
+                if (!value)
+                {
+                    P_KillMobj(player->mo, player->mo);
+                    C_HideConsole();
+                }
             }
         }
         else
-            C_Output("%i", players[0].health);
+            C_Output("%i", player->health);
     }
 }
 
