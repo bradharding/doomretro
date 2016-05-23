@@ -3066,6 +3066,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             if (value >= 0 && value <= maxhealth && player->playerstate == PST_LIVE)
             {
                 player->health = value;
+                player->mo->health = value;
                 if (!value)
                 {
                     P_KillMobj(player->mo, player->mo);
