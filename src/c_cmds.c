@@ -481,9 +481,9 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_xhaircolor, am_xhaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of the crosshair in the automap."),
     CVAR_INT(ammo, "", game_func1, player_cvars_func2, CF_NONE, NOALIAS,
-        "The amount of ammo the player currently has."),
-    CVAR_INT(armor, armour, game_func1, player_cvars_func2, CF_NONE, NOALIAS,
-        "The amount of armor the player currently has."),
+        "The player's current ammo."),
+    CVAR_INT(armor, armour, game_func1, player_cvars_func2, CF_PERCENT, NOALIAS,
+        "The player's current armor."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles automatically loading the last savegame after the\nplayer dies."),
     CMD(bind, "", null_func1, C_Bind, 2, "[<i>control</i> [<b>+</b><i>action</i>]]",
@@ -530,8 +530,8 @@ consolecmd_t consolecmds[] =
         "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL(gp_vibrate, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles vibration for XInput gamepads."),
-    CVAR_INT(health, "", game_func1, player_cvars_func2, CF_NONE, NOALIAS,
-        "The amount of health the player currently has."),
+    CVAR_INT(health, "", game_func1, player_cvars_func2, CF_PERCENT, NOALIAS,
+        "The player's current health."),
 #if defined(WIN32)
     CMD(help, "", null_func1, help_cmd_func2, 0, "",
         "Opens the <i>"PACKAGE_NAME" Wiki</i>."),
@@ -1152,10 +1152,10 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     (gamestate == GS_LEVEL ? players[0].ammo[weaponinfo[players[0].readyweapon].ammo] : 0),
                     description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count++, consolecmds[i].name,
                     (gamestate == GS_LEVEL ? players[0].armorpoints : 0), description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count++, consolecmds[i].name,
                     (gamestate == GS_LEVEL ? players[0].health : 0), description1);
             else if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count++, consolecmds[i].name,
@@ -3053,7 +3053,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 player->armorpoints = value;
         }
         else
-            C_Output("%i", player->armorpoints);
+            C_Output("%i%%", player->armorpoints);
     }
     else if (M_StringCompare(cmd, stringize(health)))
     {
@@ -3074,7 +3074,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             }
         }
         else
-            C_Output("%i", player->health);
+            C_Output("%i%%", player->health);
     }
 }
 
