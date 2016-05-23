@@ -3018,6 +3018,7 @@ dboolean P_CheckAmmo(player_t *player);
 static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     player_t    *player = &players[0];
+    int         value = -1;
 
     if (M_StringCompare(cmd, stringize(ammo)))
     {
@@ -3025,14 +3026,11 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
         if (*parm1)
         {
-            int value = -1;
-
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && value <= player->maxammo[ammotype]
-                && player->playerstate == PST_LIVE && ammotype != am_noammo)
+            if (value >= 0 && player->playerstate == PST_LIVE && ammotype != am_noammo)
             {
-                player->ammo[ammotype] = value;
+                player->ammo[ammotype] = MAX(value, player->maxammo[ammotype]);
                 P_CheckAmmo(player);
                 if (player->pendingweapon != wp_nochange)
                     C_HideConsole();
@@ -3045,12 +3043,10 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         if (*parm1)
         {
-            int value = -1;
-
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && value <= max_armor)
-                player->armorpoints = value;
+            if (value >= 0)
+                player->armorpoints = MAX(value, max_armor);
         }
         else
             C_Output("%i%%", player->armorpoints);
@@ -3059,14 +3055,11 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         if (*parm1)
         {
-            int value = -1;
-
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && value <= maxhealth && player->playerstate == PST_LIVE)
+            if (value >= 0 && player->playerstate == PST_LIVE)
             {
-                player->health = value;
-                player->mo->health = value;
+                player->health = player->mo->health = MAX(value, maxhealth);
                 if (!value)
                 {
                     P_KillMobj(player->mo, player->mo);
