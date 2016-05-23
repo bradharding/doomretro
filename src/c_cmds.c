@@ -3033,8 +3033,9 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 && player->playerstate == PST_LIVE && ammotype != am_noammo)
             {
                 player->ammo[ammotype] = value;
-                if (!value)
-                    P_CheckAmmo(player);
+                P_CheckAmmo(player);
+                if (player->pendingweapon != wp_nochange)
+                    C_HideConsole();
             }
         }
         else
