@@ -162,6 +162,9 @@
     <ResourceCompile>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy /Y $(TargetDir)..\..\res\$(ProjectName).wad $(TargetDir)$(ProjectName).wad</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuildStep Include="..\src\doomdata.h" />
