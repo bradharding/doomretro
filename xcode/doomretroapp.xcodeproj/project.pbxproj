@@ -23,7 +23,6 @@
 		AB5A827D1A8DB9EB00AF539F /* d_items.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E41A8DB9EB00AF539F /* d_items.c */; };
 		AB5A827E1A8DB9EB00AF539F /* d_iwad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E61A8DB9EB00AF539F /* d_iwad.c */; };
 		AB5A827F1A8DB9EB00AF539F /* d_main.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E81A8DB9EB00AF539F /* d_main.c */; };
-		AB5A82891A8DB9EB00AF539F /* doomretro.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82031A8DB9EB00AF539F /* doomretro.c */; };
 		AB5A82811A8DB9EB00AF539F /* doomstat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F21A8DB9EB00AF539F /* doomstat.c */; };
 		AB5A82821A8DB9EB00AF539F /* dstrings.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F51A8DB9EB00AF539F /* dstrings.c */; };
 		AB5A82831A8DB9EB00AF539F /* f_finale.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F71A8DB9EB00AF539F /* f_finale.c */; };
@@ -31,19 +30,18 @@
 		AB5A82851A8DB9EB00AF539F /* g_game.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81FB1A8DB9EB00AF539F /* g_game.c */; };
 		AB5A82861A8DB9EB00AF539F /* hu_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81FD1A8DB9EB00AF539F /* hu_lib.c */; };
 		AB5A82871A8DB9EB00AF539F /* hu_stuff.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81FF1A8DB9EB00AF539F /* hu_stuff.c */; };
-		AB5A828E1A8DB9EB00AF539F /* i_colors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A820B1A8DB9EB00AF539F /* i_colors.c */; };
 		AB5A82881A8DB9EB00AF539F /* i_gamepad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82011A8DB9EB00AF539F /* i_gamepad.c */; };
+		AB5A82891A8DB9EB00AF539F /* doomretro.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82031A8DB9EB00AF539F /* doomretro.c */; };
 		AB5A828A1A8DB9EB00AF539F /* i_music.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82041A8DB9EB00AF539F /* i_music.c */; };
 		AB5A828B1A8DB9EB00AF539F /* i_sound.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82051A8DB9EB00AF539F /* i_sound.c */; };
 		AB5A828C1A8DB9EB00AF539F /* i_system.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82071A8DB9EB00AF539F /* i_system.c */; };
 		AB5A828D1A8DB9EB00AF539F /* i_timer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82091A8DB9EB00AF539F /* i_timer.c */; };
+		AB5A828E1A8DB9EB00AF539F /* i_colors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A820B1A8DB9EB00AF539F /* i_colors.c */; };
 		AB5A828F1A8DB9EB00AF539F /* i_video.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A820D1A8DB9EB00AF539F /* i_video.c */; };
 		AB5A82901A8DB9EB00AF539F /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A820F1A8DB9EB00AF539F /* info.c */; };
 		AB5A82911A8DB9EB00AF539F /* m_argv.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82121A8DB9EB00AF539F /* m_argv.c */; };
 		AB5A82921A8DB9EB00AF539F /* m_bbox.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82141A8DB9EB00AF539F /* m_bbox.c */; };
 		AB5A82931A8DB9EB00AF539F /* m_cheat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82161A8DB9EB00AF539F /* m_cheat.c */; };
-		AB5A82941A8DB9EB00AF539F /* m_config.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82181A8DB9EB00AF539F /* m_config.c */; };
-		AB5A82941A8DB9EB00AF539F /* m_controls.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82181A8DB9EB00AF539F /* m_controls.c */; };
 		AB5A82951A8DB9EB00AF539F /* m_fixed.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A821A1A8DB9EB00AF539F /* m_fixed.c */; };
 		AB5A82961A8DB9EB00AF539F /* m_menu.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A821C1A8DB9EB00AF539F /* m_menu.c */; };
 		AB5A82971A8DB9EB00AF539F /* m_misc.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A821E1A8DB9EB00AF539F /* m_misc.c */; };
@@ -93,7 +91,12 @@
 		AB5A82C71A8DB9EB00AF539F /* w_wad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82721A8DB9EB00AF539F /* w_wad.c */; };
 		AB5A82C81A8DB9EB00AF539F /* wi_stuff.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82741A8DB9EB00AF539F /* wi_stuff.c */; };
 		AB5A82CA1A8DB9EB00AF539F /* z_zone.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82771A8DB9EB00AF539F /* z_zone.c */; };
-		AB5A82CC1A8DBAF700AF539F /* doomretro.wad in Resources */ = {isa = PBXBuildFile; fileRef = AB5A82CB1A8DBAF700AF539F /* doomretro.wad */; };
+		F3C1ED641CF5028600C3E94F /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; };
+		F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F3C1ED6A1CF508B500C3E94F /* m_config.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED661CF508B500C3E94F /* m_config.c */; };
+		F3C1ED6B1CF508B500C3E94F /* r_patch.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED681CF508B500C3E94F /* r_patch.c */; };
+		F3C1ED6C1CF508FC00C3E94F /* m_controls.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82181A8DB9EB00AF539F /* m_controls.c */; };
+		F3C1ED701CF50ABE00C3E94F /* doomretro.wad in Resources */ = {isa = PBXBuildFile; fileRef = F3C1ED6F1CF50ABB00C3E94F /* doomretro.wad */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,6 +106,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */,
 				9F385F321C29C03100BD4F2B /* SDL2_mixer.framework in CopyFiles */,
 				9F385F331C29C03100BD4F2B /* SDL2.framework in CopyFiles */,
 			);
@@ -144,7 +148,6 @@
 		AB5A81EF1A8DB9EB00AF539F /* doomdata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomdata.h; path = ../src/doomdata.h; sourceTree = SOURCE_ROOT; };
 		AB5A81F01A8DB9EB00AF539F /* doomdef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomdef.h; path = ../src/doomdef.h; sourceTree = SOURCE_ROOT; };
 		AB5A81F11A8DB9EB00AF539F /* doomkeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomkeys.h; path = ../src/doomkeys.h; sourceTree = SOURCE_ROOT; };
-		AB5A82031A8DB9EB00AF539F /* doomretro.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = doomretro.c; path = ../src/doomretro.c; sourceTree = SOURCE_ROOT; };
 		AB5A81F21A8DB9EB00AF539F /* doomstat.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = doomstat.c; path = ../src/doomstat.c; sourceTree = SOURCE_ROOT; };
 		AB5A81F31A8DB9EB00AF539F /* doomstat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomstat.h; path = ../src/doomstat.h; sourceTree = SOURCE_ROOT; };
 		AB5A81F41A8DB9EB00AF539F /* doomtype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doomtype.h; path = ../src/doomtype.h; sourceTree = SOURCE_ROOT; };
@@ -160,10 +163,9 @@
 		AB5A81FE1A8DB9EB00AF539F /* hu_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hu_lib.h; path = ../src/hu_lib.h; sourceTree = SOURCE_ROOT; };
 		AB5A81FF1A8DB9EB00AF539F /* hu_stuff.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = hu_stuff.c; path = ../src/hu_stuff.c; sourceTree = SOURCE_ROOT; };
 		AB5A82001A8DB9EB00AF539F /* hu_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hu_stuff.h; path = ../src/hu_stuff.h; sourceTree = SOURCE_ROOT; };
-		AB5A820B1A8DB9EB00AF539F /* i_colors.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_colors.c; path = ../src/i_colors.c; sourceTree = SOURCE_ROOT; };
-		AB5A820C1A8DB9EB00AF539F /* i_colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_colors.h; path = ../src/i_colors.h; sourceTree = SOURCE_ROOT; };
 		AB5A82011A8DB9EB00AF539F /* i_gamepad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_gamepad.c; path = ../src/i_gamepad.c; sourceTree = SOURCE_ROOT; };
 		AB5A82021A8DB9EB00AF539F /* i_gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_gamepad.h; path = ../src/i_gamepad.h; sourceTree = SOURCE_ROOT; };
+		AB5A82031A8DB9EB00AF539F /* doomretro.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = doomretro.c; path = ../src/doomretro.c; sourceTree = SOURCE_ROOT; };
 		AB5A82041A8DB9EB00AF539F /* i_music.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_music.c; path = ../src/i_music.c; sourceTree = SOURCE_ROOT; };
 		AB5A82051A8DB9EB00AF539F /* i_sound.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_sound.c; path = ../src/i_sound.c; sourceTree = SOURCE_ROOT; };
 		AB5A82061A8DB9EB00AF539F /* i_swap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_swap.h; path = ../src/i_swap.h; sourceTree = SOURCE_ROOT; };
@@ -171,6 +173,8 @@
 		AB5A82081A8DB9EB00AF539F /* i_system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_system.h; path = ../src/i_system.h; sourceTree = SOURCE_ROOT; };
 		AB5A82091A8DB9EB00AF539F /* i_timer.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_timer.c; path = ../src/i_timer.c; sourceTree = SOURCE_ROOT; };
 		AB5A820A1A8DB9EB00AF539F /* i_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_timer.h; path = ../src/i_timer.h; sourceTree = SOURCE_ROOT; };
+		AB5A820B1A8DB9EB00AF539F /* i_colors.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_colors.c; path = ../src/i_colors.c; sourceTree = SOURCE_ROOT; };
+		AB5A820C1A8DB9EB00AF539F /* i_colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_colors.h; path = ../src/i_colors.h; sourceTree = SOURCE_ROOT; };
 		AB5A820D1A8DB9EB00AF539F /* i_video.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = i_video.c; path = ../src/i_video.c; sourceTree = SOURCE_ROOT; };
 		AB5A820E1A8DB9EB00AF539F /* i_video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_video.h; path = ../src/i_video.h; sourceTree = SOURCE_ROOT; };
 		AB5A820F1A8DB9EB00AF539F /* info.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = info.c; path = ../src/info.c; sourceTree = SOURCE_ROOT; };
@@ -182,8 +186,6 @@
 		AB5A82151A8DB9EB00AF539F /* m_bbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_bbox.h; path = ../src/m_bbox.h; sourceTree = SOURCE_ROOT; };
 		AB5A82161A8DB9EB00AF539F /* m_cheat.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_cheat.c; path = ../src/m_cheat.c; sourceTree = SOURCE_ROOT; };
 		AB5A82171A8DB9EB00AF539F /* m_cheat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_cheat.h; path = ../src/m_cheat.h; sourceTree = SOURCE_ROOT; };
-		AB5A82181A8DB9EB00AF539F /* m_config.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_config.c; path = ../src/m_config.c; sourceTree = SOURCE_ROOT; };
-		AB5A82191A8DB9EB00AF539F /* m_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_config.h; path = ../src/m_config.h; sourceTree = SOURCE_ROOT; };
 		AB5A82181A8DB9EB00AF539F /* m_controls.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_controls.c; path = ../src/m_controls.c; sourceTree = SOURCE_ROOT; };
 		AB5A82191A8DB9EB00AF539F /* m_controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_controls.h; path = ../src/m_controls.h; sourceTree = SOURCE_ROOT; };
 		AB5A821A1A8DB9EB00AF539F /* m_fixed.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_fixed.c; path = ../src/m_fixed.c; sourceTree = SOURCE_ROOT; };
@@ -276,7 +278,12 @@
 		AB5A82751A8DB9EB00AF539F /* wi_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wi_stuff.h; path = ../src/wi_stuff.h; sourceTree = SOURCE_ROOT; };
 		AB5A82771A8DB9EB00AF539F /* z_zone.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = z_zone.c; path = ../src/z_zone.c; sourceTree = SOURCE_ROOT; };
 		AB5A82781A8DB9EB00AF539F /* z_zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = z_zone.h; path = ../src/z_zone.h; sourceTree = SOURCE_ROOT; };
-		AB5A82CB1A8DBAF700AF539F /* doomretro.wad */ = {isa = PBXFileReference; lastKnownFileType = file; name = doomretro.wad; path = ../msvc/Release/doomretro.wad; sourceTree = "<group>"; };
+		F3C1ED631CF5028600C3E94F /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = "<group>"; };
+		F3C1ED661CF508B500C3E94F /* m_config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = m_config.c; path = ../../src/m_config.c; sourceTree = "<group>"; };
+		F3C1ED671CF508B500C3E94F /* m_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_config.h; path = ../../src/m_config.h; sourceTree = "<group>"; };
+		F3C1ED681CF508B500C3E94F /* r_patch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = r_patch.c; path = ../../src/r_patch.c; sourceTree = "<group>"; };
+		F3C1ED691CF508B500C3E94F /* r_patch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = r_patch.h; path = ../../src/r_patch.h; sourceTree = "<group>"; };
+		F3C1ED6F1CF50ABB00C3E94F /* doomretro.wad */ = {isa = PBXFileReference; lastKnownFileType = file; name = doomretro.wad; path = doomretroapp/doomretro.wad; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +291,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3C1ED641CF5028600C3E94F /* SDL2_image.framework in Frameworks */,
 				AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */,
 				9F385F291C28ADAF00BD4F2B /* SDL2.framework in Frameworks */,
 				9F385F2B1C28ADBC00BD4F2B /* SDL2_mixer.framework in Frameworks */,
@@ -296,6 +304,7 @@
 		9F385F2F1C29BFA400BD4F2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3C1ED631CF5028600C3E94F /* SDL2_image.framework */,
 				9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */,
 				9F385F281C28ADAF00BD4F2B /* SDL2.framework */,
 				AB5A81D21A8DAEB600AF539F /* Cocoa.framework */,
@@ -306,9 +315,9 @@
 		9F385F301C29BFAF00BD4F2B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F3C1ED6F1CF50ABB00C3E94F /* doomretro.wad */,
 				8A6AB8161B49BE8100E0666A /* doomretro.icns */,
 				AB5A80C61A8DABE100AF539F /* Info.plist */,
-				AB5A82CB1A8DBAF700AF539F /* doomretro.wad */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -343,6 +352,10 @@
 		AB5A80E81A8DAD0100AF539F /* doomretro */ = {
 			isa = PBXGroup;
 			children = (
+				F3C1ED661CF508B500C3E94F /* m_config.c */,
+				F3C1ED671CF508B500C3E94F /* m_config.h */,
+				F3C1ED681CF508B500C3E94F /* r_patch.c */,
+				F3C1ED691CF508B500C3E94F /* r_patch.h */,
 				9F385F2C1C28B0D100BD4F2B /* sc_man.c */,
 				9F385F2D1C28B0D100BD4F2B /* sc_man.h */,
 				AB5A81DA1A8DB9EB00AF539F /* am_map.c */,
@@ -407,8 +420,6 @@
 				AB5A82151A8DB9EB00AF539F /* m_bbox.h */,
 				AB5A82161A8DB9EB00AF539F /* m_cheat.c */,
 				AB5A82171A8DB9EB00AF539F /* m_cheat.h */,
-				AB5A82181A8DB9EB00AF539F /* m_config.c */,
-				AB5A82191A8DB9EB00AF539F /* m_config.h */,
 				AB5A82181A8DB9EB00AF539F /* m_controls.c */,
 				AB5A82191A8DB9EB00AF539F /* m_controls.h */,
 				AB5A821A1A8DB9EB00AF539F /* m_fixed.c */,
@@ -565,8 +576,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3C1ED701CF50ABE00C3E94F /* doomretro.wad in Resources */,
 				8A6AB8171B49BE8100E0666A /* doomretro.icns in Resources */,
-				AB5A82CC1A8DBAF700AF539F /* doomretro.wad in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +588,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3C1ED6C1CF508FC00C3E94F /* m_controls.c in Sources */,
+				F3C1ED6B1CF508B500C3E94F /* r_patch.c in Sources */,
+				F3C1ED6A1CF508B500C3E94F /* m_config.c in Sources */,
 				AB5A82B61A8DB9EB00AF539F /* r_draw.c in Sources */,
 				AB5A82AA1A8DB9EB00AF539F /* p_plats.c in Sources */,
 				AB5A82C71A8DB9EB00AF539F /* w_wad.c in Sources */,
@@ -620,8 +634,6 @@
 				AB5A827D1A8DB9EB00AF539F /* d_items.c in Sources */,
 				AB5A827F1A8DB9EB00AF539F /* d_main.c in Sources */,
 				9F385F2E1C28B0D100BD4F2B /* sc_man.c in Sources */,
-				AB5A82941A8DB9EB00AF539F /* m_config.c in Sources */,
-				AB5A82941A8DB9EB00AF539F /* m_controls.c in Sources */,
 				AB5A82A61A8DB9EB00AF539F /* p_lights.c in Sources */,
 				AB5A82BA1A8DB9EB00AF539F /* r_sky.c in Sources */,
 				AB5A82901A8DB9EB00AF539F /* info.c in Sources */,
@@ -697,6 +709,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -733,6 +746,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -742,6 +756,7 @@
 		AB5A80E31A8DABE100AF539F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -752,6 +767,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/SDL2_mixer.framework/Headers",
+					"$(PROJECT_DIR)/SDL2_image.framework/Headers",
 				);
 				INFOPLIST_FILE = doomretroapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -762,6 +778,7 @@
 		AB5A80E41A8DABE100AF539F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -772,6 +789,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/SDL2_mixer.framework/Headers",
+					"$(PROJECT_DIR)/SDL2_image.framework/Headers",
 				);
 				INFOPLIST_FILE = doomretroapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
