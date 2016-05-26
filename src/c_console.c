@@ -533,10 +533,10 @@ void C_Init(void)
     consoleboldcolor = nearestcolors[consoleboldcolor];
     consolebrandingcolor = nearestcolors[consolebrandingcolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
-    consoledividercolor = nearestcolors[consoledividercolor];
-    consoletintcolor = nearestcolors[consoletintcolor];
-    consoleedgecolor = nearestcolors[consoleedgecolor];
-    consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor];
+    consoledividercolor = nearestcolors[consoledividercolor] << 8;
+    consoletintcolor = nearestcolors[consoletintcolor] << 8;
+    consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
+    consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
@@ -545,11 +545,6 @@ void C_Init(void)
     consolecolors[titlestring] = consoletitlecolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
-
-    consoletintcolor <<= 8;
-    consoleedgecolor <<= 8;
-    consolescrollbartrackcolor <<= 8;
-    consoledividercolor <<= 8;
 }
 
 void C_HideConsole(void)
