@@ -151,10 +151,10 @@ char *M_ExtractFolder(char *path)
 char *M_GetAppDataFolder(void)
 {
 #if defined(WIN32)
-    // On Windows, store generated application files in <username>\AppData\Local\DOOM Retro.
+    // On Windows, store generated application files in <username>\DOOM Retro.
     TCHAR       buffer[MAX_PATH];
 
-    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, buffer)))
+    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
         return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
     else
         return M_GetExecutableFolder();
