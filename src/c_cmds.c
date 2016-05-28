@@ -596,7 +596,7 @@ consolecmd_t consolecmds[] =
     CMD(quit, exit, null_func1, quit_cmd_func2, 0, "",
         "Quits <i>"PACKAGE_NAME"</i>."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2,
-        "Toggles the display of an alternate heads up display when in\nwidescreen mode."),
+        "Toggles the display of an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The intensity of the screen's red haze when the player has the\nberserk power-up and their fists selected."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS,
@@ -1876,12 +1876,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     int         i, j;
     int         count = 0;
     int         tabs[8] = { 40, 90, 350, 0, 0, 0, 0, 0 };
-    char        **maplist;
-
-    // initialize map list
-    maplist = malloc(numlumps * sizeof(char *));
-    for (i = 0; i < numlumps; ++i)
-        maplist[i] = malloc(256 * sizeof(char));
+    char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
 
     // search through lumps for maps
     for (i = 0; i < numlumps; ++i)
