@@ -1369,16 +1369,24 @@ void I_RestartGraphics(void)
 
 void I_ToggleFullscreen(void)
 {
-    vid_fullscreen = !vid_fullscreen;
-    M_SaveCVARs();
-    if (vid_fullscreen)
+    dboolean    fullscreen = !vid_fullscreen;
+
+    if (SDL_SetWindowFullscreen(window, (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_FALSE)))
     {
-        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-        C_StrCVAROutput(stringize(vid_fullscreen), "on");
+        menuactive = false;
+        consoleheight = 1;
+        consoledirection = 1;
+        C_Warning("Unable to switch to %s mode.", (fullscreen ? "fullscreen" : "windowed"));
+        return;
     }
+
+    vid_fullscreen = fullscreen;
+    M_SaveCVARs();
+
+    if (vid_fullscreen)
+        C_StrCVAROutput(stringize(vid_fullscreen), "on");
     else
     {
-        SDL_SetWindowFullscreen(window, SDL_FALSE);
         C_StrCVAROutput(stringize(vid_fullscreen), "off");
 
         SDL_SetWindowSize(window, windowwidth, windowheight);
