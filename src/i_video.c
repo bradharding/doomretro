@@ -853,7 +853,7 @@ void I_CreateExternalAutoMap(dboolean output)
 
     if (numdisplays == 1 && output)
     {
-        C_Warning("Only one display was found. No external AutoMap was created.");
+        C_Warning("Only one display was found. No external automap was created.");
         return;
     }
 

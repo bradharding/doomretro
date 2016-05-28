@@ -1124,7 +1124,6 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     long                frame;
     spriteframe_t       *sprframe;
     int                 lump;
-    dboolean            flip;
     vissprite_t         *vis;
     vissprite_t         tempvis;
     state_t             *state;
@@ -1138,7 +1137,6 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
 
     lump = sprframe->lump[0];
-    flip = !!(sprframe->flip & 1);
 
     // calculate edges of the shape
     tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (dehacked ? spriteoffset[lump] :
@@ -1163,7 +1161,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->scale = pspriteyscale;
 
-    if (flip)
+    if (!!(sprframe->flip & 1))
     {
         vis->xiscale = -pspriteiscale;
         vis->startfrac = spritewidth[lump] - 1;

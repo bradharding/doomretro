@@ -334,7 +334,7 @@ char *M_TempFile(char *s)
 dboolean M_StrToInt(const char *str, unsigned int *result)
 {
     return (sscanf(str, " 0x%2x", result) == 1 || sscanf(str, " 0X%2x", result) == 1
-        || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10d", result) == 1);
+        || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10u", result) == 1);
 }
 
 //
