@@ -375,7 +375,6 @@ static void DoMerge(void)
                     current_section = SECTION_SPRITES;
 
                 newlumps[num_newlumps++] = lump;
-
                 break;
 
             case SECTION_FLATS:
@@ -403,7 +402,6 @@ static void DoMerge(void)
                     if (lumpindex < 0)
                         newlumps[num_newlumps++] = lump;
                 }
-
                 break;
 
             case SECTION_SPRITES:
@@ -430,7 +428,6 @@ static void DoMerge(void)
                     if (SpriteLumpNeeded(lump))
                         newlumps[num_newlumps++] = lump;
                 }
-
                 break;
         }
     }

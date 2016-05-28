@@ -436,21 +436,27 @@ void P_InitCards(player_t *player)
                 case SPR_BKEY:
                     player->cards[it_bluecard] = CARDNOTFOUNDYET;
                     break;
+
                 case SPR_RKEY:
                     player->cards[it_redcard] = CARDNOTFOUNDYET;
                     break;
+
                 case SPR_YKEY:
                     player->cards[it_yellowcard] = CARDNOTFOUNDYET;
                     break;
+
                 case SPR_BSKU:
                     player->cards[it_blueskull] = CARDNOTFOUNDYET;
                     break;
+
                 case SPR_RSKU:
                     player->cards[it_redskull] = CARDNOTFOUNDYET;
                     break;
+
                 case SPR_YSKU:
                     player->cards[it_yellowskull] = CARDNOTFOUNDYET;
                     break;
+
                 default:
                     break;
             }
@@ -471,6 +477,7 @@ void P_InitCards(player_t *player)
                 if (player->cards[it_blueskull] == CARDNOTINMAP)
                     player->cards[it_bluecard] = CARDNOTFOUNDYET;
                 break;
+
             case DR_Door_Red_OpenWaitClose:
             case D1_Door_Red_OpenStay:
             case SR_Door_Red_OpenStay_Fast:
@@ -478,6 +485,7 @@ void P_InitCards(player_t *player)
                 if (player->cards[it_redskull] == CARDNOTINMAP)
                     player->cards[it_redcard] = CARDNOTFOUNDYET;
                 break;
+
             case DR_Door_Yellow_OpenWaitClose:
             case D1_Door_Yellow_OpenStay:
             case SR_Door_Yellow_OpenStay_Fast:
@@ -554,6 +562,7 @@ dboolean P_GivePower(player_t *player, int power)
         case pw_strength:
             P_GiveBody(player, 100);
             break;
+
         case pw_invisibility:
             player->mo->flags |= MF_FUZZ;
             break;
@@ -912,63 +921,79 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 }
 
 //
-// P_ChangeKillStat
+// P_UpdateKillStat
 //
-void P_ChangeKillStat(mobjtype_t type, unsigned int value)
+void P_UpdateKillStat(mobjtype_t type, unsigned int value)
 {
     switch (type)
     {
         case MT_BABY:
             stat_monsterskilled_arachnotrons = SafeAdd(stat_monsterskilled_arachnotrons, value);
             break;
+
         case MT_VILE:
             stat_monsterskilled_archviles = SafeAdd(stat_monsterskilled_archviles, value);
             break;
+
         case MT_BRUISER:
             stat_monsterskilled_baronsofhell = SafeAdd(stat_monsterskilled_baronsofhell, value);
             break;
+
         case MT_HEAD:
             stat_monsterskilled_cacodemons = SafeAdd(stat_monsterskilled_cacodemons, value);
             break;
+
         case MT_CYBORG:
             stat_monsterskilled_cyberdemons = SafeAdd(stat_monsterskilled_cyberdemons, value);
             break;
+
         case MT_SERGEANT:
             stat_monsterskilled_demons = SafeAdd(stat_monsterskilled_demons, value);
             break;
+
         case MT_CHAINGUY:
             stat_monsterskilled_heavyweapondudes = SafeAdd(stat_monsterskilled_heavyweapondudes,
                 value);
             break;
+
         case MT_KNIGHT:
             stat_monsterskilled_hellknights = SafeAdd(stat_monsterskilled_hellknights, value);
             break;
+
         case MT_TROOP:
             stat_monsterskilled_imps = SafeAdd(stat_monsterskilled_imps, value);
             break;
+
         case MT_SKULL:
             stat_monsterskilled_lostsouls = SafeAdd(stat_monsterskilled_lostsouls, value);
             break;
+
         case MT_FATSO:
             stat_monsterskilled_mancubi = SafeAdd(stat_monsterskilled_mancubi, value);
             break;
+
         case MT_PAIN:
             stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals,
                 value);
             break;
+
         case MT_UNDEAD:
             stat_monsterskilled_revenants = SafeAdd(stat_monsterskilled_revenants, value);
             break;
+
         case MT_SHOTGUY:
             stat_monsterskilled_shotgunguys = SafeAdd(stat_monsterskilled_shotgunguys, value);
             break;
+
         case MT_SHADOWS:
             stat_monsterskilled_spectres = SafeAdd(stat_monsterskilled_spectres, value);
             break;
+
         case MT_SPIDER:
             stat_monsterskilled_spidermasterminds = SafeAdd(stat_monsterskilled_spidermasterminds,
                 value);
             break;
+
         case MT_POSSESSED:
             stat_monsterskilled_zombiemen = SafeAdd(stat_monsterskilled_zombiemen, value);
             break;
@@ -1030,7 +1055,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             source->player->killcount++;
             source->player->mobjcount[type]++;
             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
-            P_ChangeKillStat(type, 1);
+            P_UpdateKillStat(type, 1);
         }
     }
     else if (target->flags & MF_COUNTKILL)
@@ -1039,7 +1064,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         players[0].killcount++;
         players[0].mobjcount[type]++;
         stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
-        P_ChangeKillStat(type, 1);
+        P_UpdateKillStat(type, 1);
     }
 
     if (type == MT_BARREL && source && source->player)

@@ -116,14 +116,17 @@ void F_StartFinale(void)
                     finaleflat = bgflatE1;
                     finaletext = s_E1TEXT;
                     break;
+
                 case 2:
                     finaleflat = bgflatE2;
                     finaletext = s_E2TEXT;
                     break;
+
                 case 3:
                     finaleflat = bgflatE3;
                     finaletext = s_E3TEXT;
                     break;
+
                 case 4:
                     finaleflat = bgflatE4;
                     finaletext = s_E4TEXT;
@@ -146,6 +149,7 @@ void F_StartFinale(void)
                     finaletext = (gamemission == pack_tnt ? s_T1TEXT :
                         (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
                     break;
+
                 case 8:
                     if (gamemission == pack_nerve)
                     {
@@ -153,31 +157,37 @@ void F_StartFinale(void)
                         finaletext = s_N1TEXT;
                     }
                     break;
+
                 case 11:
                     finaleflat = bgflat11;
                     finaletext = (gamemission == pack_tnt ? s_T2TEXT :
                         (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
                     break;
+
                 case 20:
                     finaleflat = bgflat20;
                     finaletext = (gamemission == pack_tnt ? s_T3TEXT :
                         (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
                     break;
+
                 case 30:
                     finaleflat = bgflat30;
                     finaletext = (gamemission == pack_tnt ? s_T4TEXT :
                         (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
                     break;
+
                 case 15:
                     finaleflat = bgflat15;
                     finaletext = (gamemission == pack_tnt ? s_T5TEXT :
                         (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
                     break;
+
                 case 31:
                     finaleflat = bgflat31;
                     finaletext = (gamemission == pack_tnt ? s_T6TEXT :
                         (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
                     break;
+
                 default:
                     // Ouch.
                     break;
@@ -878,12 +888,15 @@ static void F_ArtScreenDrawer(void)
             case 1:
                 lumpname = (gamemode == retail ? "CREDIT" : "HELP2");
                 break;
+
             case 2:
                 lumpname = "VICTORY2";
                 break;
+
             case 4:
                 lumpname = "ENDPIC";
                 break;
+
             default:
                 return;
         }
@@ -902,9 +915,11 @@ void F_Drawer(void)
         case F_STAGE_CAST:
             F_CastDrawer();
             break;
+
         case F_STAGE_TEXT:
             F_TextWrite();
             break;
+
         case F_STAGE_ARTSCREEN:
             F_ArtScreenDrawer();
             break;

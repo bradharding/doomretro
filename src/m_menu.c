@@ -1337,6 +1337,7 @@ void M_DrawReadThis(void)
             else
                 lumpname = (gamemode == commercial ? "HELP" : "HELP2");
             break;
+
         case exe_final:
             lumpname = "HELP";
             break;
@@ -1402,6 +1403,7 @@ void M_SfxVol(int choice)
                     M_SaveCVARs();
                 }
                 break;
+
             case 1:
                 if (sfxVolume < 15)
                 {
@@ -1432,6 +1434,7 @@ void M_MusicVol(int choice)
                     M_SaveCVARs();
                 }
                 break;
+
             case 1:
                 if (musicVolume < 15)
                 {

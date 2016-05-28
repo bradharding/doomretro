@@ -365,9 +365,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             }
             else if (gamepadbuttons & *gamepadweapons[i])
             {
-                if (players[0].readyweapon != i
-                    || (i == wp_fist && players[0].weaponowned[wp_chainsaw])
-                    || (i == wp_shotgun && players[0].weaponowned[wp_supershotgun]))
+                player_t        *player = &players[0];
+
+                if (player->readyweapon != i || (i == wp_fist && player->weaponowned[wp_chainsaw])
+                    || (i == wp_shotgun && player->weaponowned[wp_supershotgun]))
                 {
                     cmd->buttons |= BT_CHANGE;
                     cmd->buttons |= i << BT_WEAPONSHIFT;
@@ -489,7 +490,7 @@ void G_DoLoadLevel(void)
     int         ep;
     int         map = (gameepisode - 1) * 10 + gamemap;
     char        *author = P_GetMapAuthor(map);
-    player_t    *p = &players[0];
+    player_t    *player = &players[0];
 
     HU_DrawDisk();
 
@@ -518,12 +519,15 @@ void G_DoLoadLevel(void)
                 case 1:
                     skytexture = R_TextureNumForName("SKY1");
                     break;
+
                 case 2:
                     skytexture = R_TextureNumForName("SKY2");
                     break;
+
                 case 3:
                     skytexture = R_TextureNumForName("SKY3");
                     break;
+
                 case 4:                         // Special Edition sky
                     skytexture = R_TextureNumForName("SKY4");
                     break;
@@ -539,20 +543,20 @@ void G_DoLoadLevel(void)
 
     gamestate = GS_LEVEL;
 
-    if (p->playerstate == PST_DEAD)
-        p->playerstate = PST_REBORN;
+    if (player->playerstate == PST_DEAD)
+        player->playerstate = PST_REBORN;
 
-    p->damageinflicted = 0;
-    p->damagereceived = 0;
-    p->cheated = 0;
-    p->shotshit = 0;
-    p->shotsfired = 0;
-    p->deaths = 0;
-    memset(p->mobjcount, 0, sizeof(p->mobjcount));
+    player->damageinflicted = 0;
+    player->damagereceived = 0;
+    player->cheated = 0;
+    player->shotshit = 0;
+    player->shotsfired = 0;
+    player->deaths = 0;
+    memset(player->mobjcount, 0, sizeof(player->mobjcount));
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if (pistolstart || P_GetMapPistolStart(map))
-        G_ResetPlayer(p);
+        G_ResetPlayer(player);
 
     M_ClearRandom();
 
@@ -837,9 +841,10 @@ static char     savename[256];
 void G_Ticker(void)
 {
     ticcmd_t    *cmd;
+    player_t    *player = &players[0];
 
     // do player reborn if needed
-    if (players[0].playerstate == PST_REBORN)
+    if (player->playerstate == PST_REBORN)
         G_DoReborn();
 
     P_MapEnd();
@@ -883,8 +888,8 @@ void G_Ticker(void)
                 break;
 
             case ga_screenshot:
-                if ((usergame || gamestate == GS_LEVEL)
-                    && !idbehold && !(players[0].cheats & CF_MYPOS))
+                if ((usergame || gamestate == GS_LEVEL) && !idbehold
+                    && !(player->cheats & CF_MYPOS))
                 {
                     HU_ClearMessages();
                     D_Display();
@@ -897,7 +902,7 @@ void G_Ticker(void)
                     S_StartSound(NULL, sfx_swtchx);
 
                     M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, uppercase(lbmname));
-                    players[0].message = buffer;
+                    player->message = buffer;
                     message_dontfuckwithme = true;
                     if (menuactive)
                     {
@@ -916,13 +921,13 @@ void G_Ticker(void)
 
     // get commands, check consistency,
     // and build new consistency check
-    cmd = &players[0].cmd;
+    cmd = &player->cmd;
     memcpy(cmd, &netcmds[gametic % BACKUPTICS], sizeof(ticcmd_t));
 
     // check for special buttons
-    if (players[0].cmd.buttons & BT_SPECIAL)
+    if (player->cmd.buttons & BT_SPECIAL)
     {
-        switch (players[0].cmd.buttons & BT_SPECIALMASK)
+        switch (player->cmd.buttons & BT_SPECIALMASK)
         {
             case BTS_PAUSE:
                 paused ^= 1;
@@ -937,7 +942,7 @@ void G_Ticker(void)
                         XInputVibration(idlemotorspeed);
                     }
 
-                    players[0].fixedcolormap = 0;
+                    player->fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
                     I_UpdateBlitFunc();
                 }
@@ -957,7 +962,7 @@ void G_Ticker(void)
                 break;
 
             case BTS_SAVEGAME:
-                savegameslot = (players[0].cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
+                savegameslot = (player->cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
                 gameaction = ga_savegame;
                 break;
         }
@@ -1002,22 +1007,22 @@ void G_Ticker(void)
 // G_PlayerFinishLevel
 // Can when a player completes a level.
 //
-void G_PlayerFinishLevel(int player)
+void G_PlayerFinishLevel(void)
 {
-    player_t    *p = &players[player];
+    player_t    *player = &players[0];
 
-    memset(p->powers, 0, sizeof(p->powers));
-    memset(p->cards, 0, sizeof(p->cards));
-    p->mo->flags &= ~MF_FUZZ;           // cancel invisibility
-    p->extralight = 0;                  // cancel gun flashes
-    p->fixedcolormap = 0;               // cancel ir goggles
-    p->damagecount = 0;                 // no palette changes
-    p->bonuscount = 0;
+    memset(player->powers, 0, sizeof(player->powers));
+    memset(player->cards, 0, sizeof(player->cards));
+    player->mo->flags &= ~MF_FUZZ;      // cancel invisibility
+    player->extralight = 0;             // cancel gun flashes
+    player->fixedcolormap = 0;          // cancel ir goggles
+    player->damagecount = 0;            // no palette changes
+    player->bonuscount = 0;
 
     // [BH] switch to chainsaw if player has it and ends map with fists selected
-    if (p->readyweapon == wp_fist && p->weaponowned[wp_chainsaw])
-        p->readyweapon = wp_chainsaw;
-    p->fistorchainsaw = (p->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
+    if (player->readyweapon == wp_fist && player->weaponowned[wp_chainsaw])
+        player->readyweapon = wp_chainsaw;
+    player->fistorchainsaw = (player->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
 }
 
 //
@@ -1027,31 +1032,31 @@ void G_PlayerFinishLevel(int player)
 //
 void G_PlayerReborn(void)
 {
-    player_t    *p = &players[0];
+    player_t    *player = &players[0];
     int         i;
-    int         killcount = p->killcount;
-    int         itemcount = p->itemcount;
-    int         secretcount = p->secretcount;
+    int         killcount = player->killcount;
+    int         itemcount = player->itemcount;
+    int         secretcount = player->secretcount;
 
-    memset(p, 0, sizeof(*p));
+    memset(player, 0, sizeof(*player));
 
-    p->killcount = killcount;
-    p->itemcount = itemcount;
-    p->secretcount = secretcount;
+    player->killcount = killcount;
+    player->itemcount = itemcount;
+    player->secretcount = secretcount;
 
-    p->usedown = p->attackdown = true;          // don't do anything immediately
-    p->playerstate = PST_LIVE;
-    p->health = initial_health;
-    p->readyweapon = p->pendingweapon = wp_pistol;
-    p->preferredshotgun = wp_shotgun;
-    p->fistorchainsaw = wp_fist;
-    p->shotguns = false;
-    p->weaponowned[wp_fist] = true;
-    p->weaponowned[wp_pistol] = true;
-    p->ammo[am_clip] = initial_bullets;
+    player->usedown = player->attackdown = true;        // don't do anything immediately
+    player->playerstate = PST_LIVE;
+    player->health = initial_health;
+    player->readyweapon = player->pendingweapon = wp_pistol;
+    player->preferredshotgun = wp_shotgun;
+    player->fistorchainsaw = wp_fist;
+    player->shotguns = false;
+    player->weaponowned[wp_fist] = true;
+    player->weaponowned[wp_pistol] = true;
+    player->ammo[am_clip] = initial_bullets;
 
     for (i = 0; i < NUMAMMO; ++i)
-        p->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
+        player->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
 
     markpointnum = 0;
     infight = false;
@@ -1147,7 +1152,7 @@ void G_DoCompleted(void)
         ST_doRefresh();
     }
 
-    G_PlayerFinishLevel(0);     // take away cards and stuff
+    G_PlayerFinishLevel();      // take away cards and stuff
 
     if (automapactive)
         AM_Stop();
@@ -1175,13 +1180,14 @@ void G_DoCompleted(void)
                     EpiDef.lastOn = episode;
                 }
                 break;
+
             case 9:
-                players[0].didsecret = true;
+                player->didsecret = true;
                 break;
         }
     }
 
-    wminfo.didsecret = players[0].didsecret;
+    wminfo.didsecret = player->didsecret;
     wminfo.epsd = gameepisode - 1;
     wminfo.last = gamemap - 1;
 
@@ -1201,14 +1207,17 @@ void G_DoCompleted(void)
                     if (bfgedition)
                         wminfo.next = 32;
                     break;
+
                 case 4:
                     // [BH] exit to secret level in No Rest For The Living
                     if (gamemission == pack_nerve)
                         wminfo.next = 8;
                     break;
+
                 case 15:
                     wminfo.next = 30;
                     break;
+
                 case 31:
                     wminfo.next = 31;
                     break;
@@ -1222,10 +1231,12 @@ void G_DoCompleted(void)
                     // [BH] return to MAP05 after secret level in No Rest For The Living
                     wminfo.next = (gamemission == pack_nerve ? 4 : gamemap);
                     break;
+
                 case 31:
                 case 32:
                     wminfo.next = 15;
                     break;
+
                 case 33:
                     // [BH] return to MAP03 after secret level in BFG Edition
                     if (bfgedition)
@@ -1233,6 +1244,7 @@ void G_DoCompleted(void)
                         wminfo.next = 2;
                         break;
                     }
+
                 default:
                    wminfo.next = gamemap;
                    break;
@@ -1251,12 +1263,15 @@ void G_DoCompleted(void)
                 case 1:
                     wminfo.next = 3;
                     break;
+
                 case 2:
                     wminfo.next = 5;
                     break;
+
                 case 3:
                     wminfo.next = 6;
                     break;
+
                 case 4:
                     wminfo.next = 2;
                     break;
@@ -1300,9 +1315,9 @@ void G_DoCompleted(void)
 
     wminfo.pnum = 0;
 
-    wminfo.plyr[0].skills = players[0].killcount;
-    wminfo.plyr[0].sitems = players[0].itemcount;
-    wminfo.plyr[0].ssecret = players[0].secretcount;
+    wminfo.plyr[0].skills = player->killcount;
+    wminfo.plyr[0].sitems = player->itemcount;
+    wminfo.plyr[0].ssecret = player->secretcount;
     wminfo.plyr[0].stime = leveltime;
 
     gamestate = GS_INTERMISSION;
@@ -1337,6 +1352,7 @@ void G_WorldDone(void)
                 case 31:
                     if (!secretexit)
                         break;
+
                 case 6:
                 case 11:
                 case 20:

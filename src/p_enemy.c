@@ -1327,7 +1327,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     players[0].killcount--;
                     stat_monsterskilled--;
-                    P_ChangeKillStat(corpsehit->type, -1);
+                    P_UpdateKillStat(corpsehit->type, -1);
 
                     // [BH] display an obituary message in the console
                     if (con_obituaries)
