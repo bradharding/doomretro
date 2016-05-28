@@ -1134,9 +1134,9 @@ void G_DoCompleted(void)
     I_UpdateBlitFunc();
 
     // [BH] allow the exit switch to turn on before the screen wipes
-    player->mo->x = 0;
-    player->mo->y = 0;
-    player->mo->z = 0;
+    player->mo->momx = 0;
+    player->mo->momy = 0;
+    player->mo->momz = 0;
     R_RenderPlayerView(player);
     I_Sleep(700);
 
