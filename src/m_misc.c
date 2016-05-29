@@ -234,37 +234,6 @@ dboolean M_WriteFile(char *name, void *source, int length)
     return true;
 }
 
-//
-// M_ReadFile
-//
-int M_ReadFile(char *name, byte **buffer)
-{
-    FILE        *handle = fopen(name, "rb");
-    int         count;
-    int         length;
-    byte        *buf;
-
-    if (!handle)
-    {
-        I_Error("Couldn't read file %s", name);
-        return 0;
-    }
-
-    // find the size of the file by seeking to the end and
-    // reading the current position
-    length = M_FileLength(handle);
-
-    buf = Z_Malloc(length, PU_STATIC, NULL);
-    count = fread(buf, 1, length, handle);
-    fclose(handle);
-
-    if (count < length)
-        I_Error("Couldn't read file %s", name);
-
-    *buffer = buf;
-    return length;
-}
-
 // Return a newly-malloced string with all the strings given as arguments
 // concatenated together.
 char *M_StringJoin(char *s, ...)
