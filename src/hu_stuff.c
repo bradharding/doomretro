@@ -823,7 +823,7 @@ static void HU_DrawAltHUD(void)
             {
                 altkeypic_t    altkeypic = altkeypics[i];
 
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 10 * (card - 1), ALTHUD_Y, altkeypic.patch,
+                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 11 * (card - 1), ALTHUD_Y, altkeypic.patch,
                     WHITE, altkeypic.color);
             }
         }
