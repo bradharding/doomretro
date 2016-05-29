@@ -83,9 +83,6 @@
 		AB5A82BF1A8DB9EB00AF539F /* st_stuff.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82621A8DB9EB00AF539F /* st_stuff.c */; };
 		AB5A82C01A8DB9EB00AF539F /* v_data.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82661A8DB9EB00AF539F /* v_data.c */; };
 		AB5A82C11A8DB9EB00AF539F /* v_video.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82681A8DB9EB00AF539F /* v_video.c */; };
-		AB5A82C21A8DB9EB00AF539F /* w_file_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A826B1A8DB9EB00AF539F /* w_file_posix.c */; };
-		AB5A82C31A8DB9EB00AF539F /* w_file_stdc.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A826C1A8DB9EB00AF539F /* w_file_stdc.c */; };
-		AB5A82C41A8DB9EB00AF539F /* w_file_win32.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A826D1A8DB9EB00AF539F /* w_file_win32.c */; };
 		AB5A82C51A8DB9EB00AF539F /* w_file.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A826E1A8DB9EB00AF539F /* w_file.c */; };
 		AB5A82C61A8DB9EB00AF539F /* w_merge.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82701A8DB9EB00AF539F /* w_merge.c */; };
 		AB5A82C71A8DB9EB00AF539F /* w_wad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82721A8DB9EB00AF539F /* w_wad.c */; };
@@ -265,9 +262,6 @@
 		AB5A82681A8DB9EB00AF539F /* v_video.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = v_video.c; path = ../src/v_video.c; sourceTree = SOURCE_ROOT; };
 		AB5A82691A8DB9EB00AF539F /* v_video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = v_video.h; path = ../src/v_video.h; sourceTree = SOURCE_ROOT; };
 		AB5A826A1A8DB9EB00AF539F /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../src/version.h; sourceTree = SOURCE_ROOT; };
-		AB5A826B1A8DB9EB00AF539F /* w_file_posix.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = w_file_posix.c; path = ../src/w_file_posix.c; sourceTree = SOURCE_ROOT; };
-		AB5A826C1A8DB9EB00AF539F /* w_file_stdc.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = w_file_stdc.c; path = ../src/w_file_stdc.c; sourceTree = SOURCE_ROOT; };
-		AB5A826D1A8DB9EB00AF539F /* w_file_win32.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = w_file_win32.c; path = ../src/w_file_win32.c; sourceTree = SOURCE_ROOT; };
 		AB5A826E1A8DB9EB00AF539F /* w_file.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = w_file.c; path = ../src/w_file.c; sourceTree = SOURCE_ROOT; };
 		AB5A826F1A8DB9EB00AF539F /* w_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = w_file.h; path = ../src/w_file.h; sourceTree = SOURCE_ROOT; };
 		AB5A82701A8DB9EB00AF539F /* w_merge.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = w_merge.c; path = ../src/w_merge.c; sourceTree = SOURCE_ROOT; };
@@ -500,9 +494,6 @@
 				AB5A82681A8DB9EB00AF539F /* v_video.c */,
 				AB5A82691A8DB9EB00AF539F /* v_video.h */,
 				AB5A826A1A8DB9EB00AF539F /* version.h */,
-				AB5A826B1A8DB9EB00AF539F /* w_file_posix.c */,
-				AB5A826C1A8DB9EB00AF539F /* w_file_stdc.c */,
-				AB5A826D1A8DB9EB00AF539F /* w_file_win32.c */,
 				AB5A826E1A8DB9EB00AF539F /* w_file.c */,
 				AB5A826F1A8DB9EB00AF539F /* w_file.h */,
 				AB5A82701A8DB9EB00AF539F /* w_merge.c */,
@@ -613,21 +604,18 @@
 				AB5A82CA1A8DB9EB00AF539F /* z_zone.c in Sources */,
 				AB5A82B71A8DB9EB00AF539F /* r_main.c in Sources */,
 				AB5A82B01A8DB9EB00AF539F /* p_switch.c in Sources */,
-				AB5A82C21A8DB9EB00AF539F /* w_file_posix.c in Sources */,
 				AB5A82A51A8DB9EB00AF539F /* p_inter.c in Sources */,
 				AB5A82A21A8DB9EB00AF539F /* p_enemy.c in Sources */,
 				AB5A829F1A8DB9EB00AF539F /* mus2mid.c in Sources */,
 				AB5A828C1A8DB9EB00AF539F /* i_system.c in Sources */,
 				AB5A82AC1A8DB9EB00AF539F /* p_saveg.c in Sources */,
 				AB5A82A31A8DB9EB00AF539F /* p_fix.c in Sources */,
-				AB5A82C41A8DB9EB00AF539F /* w_file_win32.c in Sources */,
 				AB5A82C61A8DB9EB00AF539F /* w_merge.c in Sources */,
 				AB5A82B41A8DB9EB00AF539F /* r_bsp.c in Sources */,
 				AB5A82831A8DB9EB00AF539F /* f_finale.c in Sources */,
 				AB5A82821A8DB9EB00AF539F /* dstrings.c in Sources */,
 				AB5A82A41A8DB9EB00AF539F /* p_floor.c in Sources */,
 				AB5A828B1A8DB9EB00AF539F /* i_sound.c in Sources */,
-				AB5A82C31A8DB9EB00AF539F /* w_file_stdc.c in Sources */,
 				AB5A82B21A8DB9EB00AF539F /* p_tick.c in Sources */,
 				AB5A82A71A8DB9EB00AF539F /* p_map.c in Sources */,
 				AB5A82BF1A8DB9EB00AF539F /* st_stuff.c in Sources */,

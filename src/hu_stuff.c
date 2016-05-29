@@ -238,8 +238,8 @@ void HU_Stop(void)
 
 void HU_Start(void)
 {
-    int         len;
-    char        *s = Z_Malloc(133, PU_STATIC, NULL);
+    char        *s = strdup(automaptitle);
+    int         len = strlen(s);
 
     if (headsupactive)
         HU_Stop();
@@ -256,8 +256,6 @@ void HU_Start(void)
     // create the map title widget
     HUlib_initTextLine(&w_title, HU_TITLEX, HU_TITLEY, hu_font, HU_FONTSTART);
 
-    strcpy(s, automaptitle);
-    len = strlen(s);
     while (M_StringWidth(s) > ORIGINALWIDTH - 6)
     {
         s[len - 1] = s[len] = s[len + 1] = '.';
@@ -267,8 +265,6 @@ void HU_Start(void)
 
     while (*s)
         HUlib_addCharToTextLine(&w_title, *(s++));
-
-    Z_Free(s);
 
     headsupactive = true;
 
