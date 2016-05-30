@@ -1689,7 +1689,8 @@ static void D_DoomMainSetup(void)
             D_StartTitle(!!M_CheckParm("-nosplash"));    // start up intro loop
     }
 
-    C_Output("Startup took %.2f seconds to complete.", (I_GetTimeMS() - startuptimer) / 1000.0f);
+    C_Output("Startup took %s seconds to complete.",
+        striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 2));
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if nonblank
     // The expectation is that these will be set in a .bex file
