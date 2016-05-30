@@ -2396,7 +2396,7 @@ void deh_procSounds(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_sfxinfo[6]))      // Neg. One 2
             S_sfx[indexnum].lumpnum = value;
         else if (devparm)
-            C_Output("Invalid sound string index for \"%s\"", key);
+            C_Warning("Invalid sound string index for \"%s\"", key);
     }
     return;
 }
