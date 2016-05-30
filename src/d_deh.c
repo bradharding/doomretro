@@ -576,6 +576,53 @@ char    *s_COPYRIGHT1 = COPYRIGHT1;
 char    *s_COPYRIGHT2 = COPYRIGHT2;
 char    *s_COPYRIGHT3 = COPYRIGHT3;
 
+char    *s_OB_SUICIDE = "";
+char    *s_OB_FALLING = "";
+char    *s_OB_CRUSH = "";
+char    *s_OB_EXIT = "";
+char    *s_OB_WATER = "";
+char    *s_OB_SLIME = "";
+char    *s_OB_LAVA = "";
+char    *s_OB_BARREL = "";
+char    *s_OB_SPLASH = "";
+char    *s_OB_R_SPLASH = "";
+char    *s_OB_ROCKET = "";
+char    *s_OB_KILLEDSELF = "";
+char    *s_OB_STEALTHBABY = "";
+char    *s_OB_STEALTHVILE = "";
+char    *s_OB_STEALTHBARON = "";
+char    *s_OB_STEALTHCACO = "";
+char    *s_OB_STEALTHCHAINGUY = "";
+char    *s_OB_STEALTHDEMON = "";
+char    *s_OB_STEALTHKNIGHT = "";
+char    *s_OB_STEALTHIMP = "";
+char    *s_OB_STEALTHFATSO = "";
+char    *s_OB_STEALTHUNDEAD = "";
+char    *s_OB_STEALTHSHOTGUY = "";
+char    *s_OB_STEALTHZOMBIE = "";
+char    *s_OB_UNDEADHIT = "";
+char    *s_OB_IMPHIT = "";
+char    *s_OB_CACOHIT = "";
+char    *s_OB_DEMONHIT = "";
+char    *s_OB_SPECTREHIT = "";
+char    *s_OB_BARONHIT = "";
+char    *s_OB_KNIGHTHIT = "";
+char    *s_OB_ZOMBIE = "";
+char    *s_OB_SHOTGUY = "";
+char    *s_OB_VILE = "";
+char    *s_OB_UNDEAD = "";
+char    *s_OB_FATSO = "";
+char    *s_OB_CHAINGUY = "";
+char    *s_OB_SKULL = "";
+char    *s_OB_IMP = "";
+char    *s_OB_CACO = "";
+char    *s_OB_BARON = "";
+char    *s_OB_KNIGHT = "";
+char    *s_OB_SPIDER = "";
+char    *s_OB_BABY = "";
+char    *s_OB_CYBORG = "";
+char    *s_OB_WOLFSS = "";
+
 // end d_deh.h variable declarations
 // ====================================================================
 
@@ -1046,7 +1093,54 @@ deh_strs deh_strlookup[] =
 
     { &s_COPYRIGHT1,           "COPYRIGHT1",           false },
     { &s_COPYRIGHT2,           "COPYRIGHT2",           false },
-    { &s_COPYRIGHT3,           "COPYRIGHT3",           false }
+    { &s_COPYRIGHT3,           "COPYRIGHT3",           false },
+
+    { &s_OB_SUICIDE,           "OB_SUICIDE",           false },
+    { &s_OB_FALLING,           "OB_FALLING",           false },
+    { &s_OB_CRUSH,             "OB_CRUSH",             false },
+    { &s_OB_EXIT,              "OB_EXIT",              false },
+    { &s_OB_WATER,             "OB_WATER",             false },
+    { &s_OB_SLIME,             "OB_SLIME",             false },
+    { &s_OB_LAVA,              "OB_LAVA",              false },
+    { &s_OB_BARREL,            "OB_BARREL",            false },
+    { &s_OB_SPLASH,            "OB_SPLASH",            false },
+    { &s_OB_R_SPLASH,          "OB_R_SPLASH",          false },
+    { &s_OB_ROCKET,            "OB_ROCKET",            false },
+    { &s_OB_KILLEDSELF,        "OB_KILLEDSELF",        false },
+    { &s_OB_STEALTHBABY,       "OB_STEALTHBABY",       false },
+    { &s_OB_STEALTHVILE,       "OB_STEALTHVILE",       false },
+    { &s_OB_STEALTHBARON,      "OB_STEALTHBARON",      false },
+    { &s_OB_STEALTHCACO,       "OB_STEALTHCACO",       false },
+    { &s_OB_STEALTHCHAINGUY,   "OB_STEALTHCHAINGUY",   false },
+    { &s_OB_STEALTHDEMON,      "OB_STEALTHDEMON",      false },
+    { &s_OB_STEALTHKNIGHT,     "OB_STEALTHKNIGHT",     false },
+    { &s_OB_STEALTHIMP,        "OB_STEALTHIMP",        false },
+    { &s_OB_STEALTHFATSO,      "OB_STEALTHFATSO",      false },
+    { &s_OB_STEALTHUNDEAD,     "OB_STEALTHUNDEAD",     false },
+    { &s_OB_STEALTHSHOTGUY,    "OB_STEALTHSHOTGUY",    false },
+    { &s_OB_STEALTHZOMBIE,     "OB_STEALTHZOMBIE",     false },
+    { &s_OB_UNDEADHIT,         "OB_UNDEADHIT",         false },
+    { &s_OB_IMPHIT,            "OB_IMPHIT",            false },
+    { &s_OB_CACOHIT,           "OB_CACOHIT",           false },
+    { &s_OB_DEMONHIT,          "OB_DEMONHIT",          false },
+    { &s_OB_SPECTREHIT,        "OB_SPECTREHIT",        false },
+    { &s_OB_BARONHIT,          "OB_BARONHIT",          false },
+    { &s_OB_KNIGHTHIT,         "OB_KNIGHTHIT",         false },
+    { &s_OB_ZOMBIE,            "OB_ZOMBIE",            false },
+    { &s_OB_SHOTGUY,           "OB_SHOTGUY",           false },
+    { &s_OB_VILE,              "OB_VILE",              false },
+    { &s_OB_UNDEAD,            "OB_UNDEAD",            false },
+    { &s_OB_FATSO,             "OB_FATSO",             false },
+    { &s_OB_CHAINGUY,          "OB_CHAINGUY",          false },
+    { &s_OB_SKULL,             "OB_SKULL",             false },
+    { &s_OB_IMP,               "OB_IMP",               false },
+    { &s_OB_CACO,              "OB_CACO",              false },
+    { &s_OB_BARON,             "OB_BARON",             false },
+    { &s_OB_KNIGHT,            "OB_KNIGHT",            false },
+    { &s_OB_SPIDER,            "OB_SPIDER",            false },
+    { &s_OB_BABY,              "OB_BABY",              false },
+    { &s_OB_CYBORG,            "OB_CYBORG",            false },
+    { &s_OB_WOLFSS,            "OB_WOLFSS",            false }
 };
 
 static int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
