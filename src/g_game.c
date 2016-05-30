@@ -1539,13 +1539,9 @@ void G_DoSaveGame(void)
     drawdisk = false;
 }
 
-//
-// G_InitNew
-// Can be called by the startup code or the menu task.
-//
-skill_t         d_skill;
-int             d_episode;
-int             d_map;
+skill_t d_skill;
+int     d_episode;
+int     d_map;
 
 void G_DeferredInitNew(skill_t skill, int ep, int map)
 {
@@ -1634,6 +1630,10 @@ void G_SetMovementSpeed(int scale)
     sidemove[1] = SIDEMOVE1 * scale / 100;
 }
 
+//
+// G_InitNew
+// Can be called by the startup code or the menu task.
+//
 void G_InitNew(skill_t skill, int ep, int map)
 {
     if (paused)
