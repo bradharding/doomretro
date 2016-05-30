@@ -137,46 +137,45 @@ dboolean        con_timestamps = con_timestamps_default;
 static int      timestampx;
 static int      zerowidth;
 
-extern int      fps;
-
-void G_ToggleAlwaysRun(evtype_t type);
-int FindNearestColor(byte *palette, int red, int green, int blue);
-
 static const char *shiftxform =
 {
     "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+<_>?"
     ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
 };
 
-byte            c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
-byte            c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
+static byte     c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
+static byte     c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
-int             consolecaretcolor = 4;
-int             consolehighfpscolor = 116;
-int             consoleinputcolor = 4;
-int             consoleselectedinputcolor = 4;
-int             consoleselectedinputbackgroundcolor = 100;
-int             consoleinputtooutputcolor = 4;
-int             consolelowfpscolor = 180;
-int             consoletitlecolor = 88;
-int             consolememorycolor = 88;
-int             consoleplayermessagecolor = 161;
-int             consoletimestampcolor = 100;
-int             consoleoutputcolor = 88;
-int             consoleboldcolor = 4;
-int             consolebrandingcolor = 176;
-int             consolewarningcolor = 180;
-int             consoledividercolor = 100;
-int             consoletintcolor = 5;
-int             consoleedgecolor = 176;
-int             consolescrollbartrackcolor = 100;
-int             consolescrollbarfacecolor = 88;
+static int      consolecaretcolor = 4;
+static int      consolehighfpscolor = 116;
+static int      consoleinputcolor = 4;
+static int      consoleselectedinputcolor = 4;
+static int      consoleselectedinputbackgroundcolor = 100;
+static int      consoleinputtooutputcolor = 4;
+static int      consolelowfpscolor = 180;
+static int      consoletitlecolor = 88;
+static int      consolememorycolor = 88;
+static int      consoleplayermessagecolor = 161;
+static int      consoletimestampcolor = 100;
+static int      consoleoutputcolor = 88;
+static int      consoleboldcolor = 4;
+static int      consolebrandingcolor = 176;
+static int      consolewarningcolor = 180;
+static int      consoledividercolor = 100;
+static int      consoletintcolor = 5;
+static int      consoleedgecolor = 176;
+static int      consolescrollbartrackcolor = 100;
+static int      consolescrollbarfacecolor = 88;
 
-int             consolecolors[STRINGTYPES];
+static int      consolecolors[STRINGTYPES];
+
+extern int      fps;
+
+void G_ToggleAlwaysRun(evtype_t type);
 
 void C_DebugOutput(char *string)
 {
-#if defined(_MSC_VER) && defined (_DEBUG)
+#if defined(_MSC_VER) && defined(_DEBUG)
     OutputDebugString(M_StringJoin(string, "\n", NULL));
 #endif
 }
@@ -957,7 +956,7 @@ void C_Drawer(void)
         consoleactive = false;
 }
 
-dboolean C_ValidateInput(char *input)
+static dboolean C_ValidateInput(char *input)
 {
     int i = 0;
 
