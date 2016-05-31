@@ -1269,7 +1269,7 @@ static void D_ParseStartupString(const char *string)
     for (i = 0, start = 0; i < len; ++i)
         if (string[i] == '\n' || i == len - 1)
         {
-            C_Output("%s", M_SubString(string, start, i - start));
+            C_Output(M_SubString(string, start, i - start));
             start = i + 1;
         }
 }
@@ -1298,6 +1298,8 @@ static void D_DoomMainSetup(void)
 #if defined(WIN32)
     I_PrintWindowsVersion();
 #endif
+
+    I_PrintSystemInfo();
 
     C_PrintSDLVersions();
 
@@ -1398,7 +1400,7 @@ static void D_DoomMainSetup(void)
         do
             for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
             {
-                char        *file = D_TryFindWADByName(myargv[p]);
+                char    *file = D_TryFindWADByName(myargv[p]);
 
                 if (iwadfile)
                 {

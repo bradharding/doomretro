@@ -3590,7 +3590,7 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
             SDL_SetWindowPosition(window, windowx, windowy);
     }
     else
-        C_Output("%s", vid_windowposition);
+        C_Output(vid_windowposition);
 }
 
 //
