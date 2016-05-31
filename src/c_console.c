@@ -852,8 +852,8 @@ void C_Drawer(void)
         C_DrawBackground(consoleheight);
 
         // draw branding
-        V_DrawConsolePatch(SCREENWIDTH - brand->width - CONSOLETEXTX + 1, consoleheight
-            - brand->height - 6, brand, consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab25);
+        V_DrawConsolePatch(SCREENWIDTH - brand->width, consoleheight - brand->height + 2, brand,
+            consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab25);
 
         // draw console text
         if (outputhistory == -1)
