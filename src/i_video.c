@@ -327,7 +327,8 @@ static void FreeSurfaces(void)
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    I_DestroyExternalAutoMap();
+    if (mapwindow)
+        I_DestroyExternalAutoMap();
 }
 
 void I_ShutdownGraphics(void)
@@ -1358,7 +1359,8 @@ void I_RestartGraphics(void)
     SetVideoMode(false);
     if (vid_widescreen)
         I_ToggleWidescreen(true);
-    I_CreateExternalAutoMap(false);
+    if (mapwindow)
+        I_CreateExternalAutoMap(false);
 
 #if defined(WIN32)
     I_InitWindows32();
