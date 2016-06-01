@@ -1219,7 +1219,7 @@ typedef struct
     long        misc2;
     dboolean    translucent;
     dboolean    dehacked;
-    int         num;
+    statenum_t  num;
 } state_t;
 
 extern state_t  states[NUMSTATES];
