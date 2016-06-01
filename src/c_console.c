@@ -1467,10 +1467,10 @@ void C_PrintCompileDate(void)
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
-    C_Output("This %i-bit %s binary of <i>"PACKAGE_NAMEANDVERSIONSTRING"</i> was built on %s, "
-        "%s %i, %i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
-        days[dayofweek(day, month + 1, year)], months[month], day, year,
-        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
+    C_Output("This %i-bit %s binary of <i>"PACKAGE_NAMEANDVERSIONSTRING"</i> was built at "
+        "%i:%02i%s on %s, %s %i, %i.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
+        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"),
+        days[dayofweek(day, month + 1, year)], months[month], day, year);
 
 #if defined(_MSC_FULL_VER)
         C_Output("It was compiled using Microsoft C/C++ Optimizing Compiler v%d.%02d.%d.",
