@@ -3507,7 +3507,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
         if ((value == 0 || value == 1) && value != vid_showfps)
         {
             vid_showfps = !!value;
-            I_UpdateBlitFunc();
+            I_UpdateBlitFunc(players[0].damagecount);
         }
     }
     else

@@ -218,12 +218,7 @@ void P_ReduceDamageCount(player_t *player)
         --player->damagecount;
 
     if (r_shakescreen)
-        if (player->damagecount)
-            blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake
-                : I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake
-                : I_Blit_Shake));
-        else
-            I_UpdateBlitFunc();
+        I_UpdateBlitFunc(player->damagecount);
 }
 
 //

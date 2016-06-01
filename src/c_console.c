@@ -846,7 +846,7 @@ void C_Drawer(void)
         }
 
         // cancel any screen shake
-        I_UpdateBlitFunc();
+        I_UpdateBlitFunc(false);
 
         // draw background and bottom edge
         C_DrawBackground(consoleheight);
