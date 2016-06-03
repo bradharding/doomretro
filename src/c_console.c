@@ -586,8 +586,6 @@ static void C_DrawBackground(int height)
 {
     static dboolean     blurred;
     int                 i, j;
-    static int          r[SCREENWIDTH * SCREENHEIGHT];
-    dboolean            randomize = !(gametic & 3);
 
     height = (height + 5) * SCREENWIDTH;
 
@@ -610,16 +608,8 @@ static void C_DrawBackground(int height)
 
     blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
 
-    for (i = 0; i < height; i += 4)
-    {
-        if (randomize)
-            r[i] = 256 * M_RandomInt(0, 7);
-
-        screens[0][i] = colormaps[0][r[i] + tinttab50[c_blurscreen[i] + consoletintcolor]];
-        screens[0][i + 1] = colormaps[0][r[i] + tinttab50[c_blurscreen[i + 1] + consoletintcolor]];
-        screens[0][i + 2] = colormaps[0][r[i] + tinttab50[c_blurscreen[i + 2] + consoletintcolor]];
-        screens[0][i + 3] = colormaps[0][r[i] + tinttab50[c_blurscreen[i + 3] + consoletintcolor]];
-    }
+    for (i = 0; i < height; ++i)
+        screens[0][i] = tinttab50[c_blurscreen[i] + consoletintcolor];
 
     for (i = height - 2; i > 1; i -= 3)
     {
