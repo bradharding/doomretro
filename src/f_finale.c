@@ -622,7 +622,7 @@ dboolean F_CastResponder(event_t *ev)
         }
         else if (ev->data1 == KEY_RIGHTARROW)
         {
-            castrot = (!castrot ? 014 : castrot - 2);
+            castrot = (!castrot ? 14 : castrot - 2);
             return true;
         }
     }
