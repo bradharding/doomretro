@@ -488,7 +488,7 @@ consolecmd_t consolecmds[] =
         "Toggles automatically loading the last savegame after the\nplayer dies."),
     CMD(bind, "", null_func1, C_Bind, 2, "[<i>control</i> [<b>+</b><i>action</i>]]",
         "Binds an action to a control."),
-    CVAR_BOOL(centerweapon, "", bool_cvars_func1, bool_cvars_func2,
+    CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2,
         "Toggles the centering of the player's weapon when firing."),
     CMD(clear, "", null_func1, clear_cmd_func2, 0, "",
         "Clears the console."),
