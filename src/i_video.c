@@ -915,7 +915,8 @@ void GetWindowPosition(void)
 {
     int x = 0, y = 0;
 
-    if (M_StringCompare(vid_windowposition, vid_windowposition_centered))
+    if (M_StringCompare(vid_windowposition, vid_windowposition_centered)
+        || M_StringCompare(vid_windowposition, vid_windowposition_centred))
     {
         windowx = 0;
         windowy = 0;

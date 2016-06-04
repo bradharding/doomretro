@@ -334,6 +334,7 @@ typedef enum
 #define vid_widescreen_default                  false
 
 #define vid_windowposition_centered             "centered"
+#define vid_windowposition_centred              "centred"
 #define vid_windowposition_default              vid_windowposition_centered
 
 #define vid_windowsize_default                  "768x480"
