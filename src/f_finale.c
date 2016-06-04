@@ -639,10 +639,8 @@ dboolean F_CastResponder(event_t *ev)
     casttics = caststate->tics;
     if (casttics == -1 && caststate->action == A_RandomJump)
     {
-        if (M_Random() < caststate->misc2)
-            caststate = &states [caststate->misc1];
-        else
-            caststate = &states [caststate->nextstate];
+        caststate = &states[(M_Random() < caststate->misc2 ? caststate->misc1 :
+            caststate->nextstate)];
         casttics = caststate->tics;
     }
     castrot = 0;
@@ -746,7 +744,6 @@ void F_CastDrawer(void)
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
         if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
-        {
             if (r_translucency)
             {
                 if (type == MT_SHADOWS)
@@ -756,7 +753,6 @@ void F_CastDrawer(void)
             }
             else
                 V_DrawFlippedSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
-        }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawFlippedTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
@@ -770,7 +766,6 @@ void F_CastDrawer(void)
         patch->leftoffset = spriteoffset[lump] >> FRACBITS;
 
         if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
-        {
             if (r_translucency)
             {
                 if (type == MT_SHADOWS)
@@ -780,7 +775,6 @@ void F_CastDrawer(void)
             }
             else
                 V_DrawSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
-        }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);

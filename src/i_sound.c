@@ -236,16 +236,14 @@ static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo,
 static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
 {
     allocated_sound_t   *outsnd;
-    Sint16              *inp, *outp;
-    Sint16              *srcbuf, *dstbuf;
-    Uint32              srclen, dstlen;
-
-    srcbuf = (Sint16 *)insnd->chunk.abuf;
-    srclen = insnd->chunk.alen;
+    Sint16              *outp;
+    Sint16              *srcbuf = (Sint16 *)insnd->chunk.abuf;
+    Uint32              srclen = insnd->chunk.alen;
+    Sint16              *dstbuf;
 
     // determine ratio pitch:NORM_PITCH and apply to srclen, then invert.
     // This is an approximation of vanilla behavior based on measurements
-    dstlen = (int)((1 + (1 - (float)pitch / NORM_PITCH)) * srclen);
+    Uint32              dstlen = (int)((1 + (1 - (float)pitch / NORM_PITCH)) * srclen);
 
     // ensure that the new buffer is an even length
     if (!(dstlen % 2))
@@ -261,7 +259,8 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     // loop over output buffer. find corresponding input cell, copy over
     for (outp = dstbuf; outp < dstbuf + dstlen / 2; ++outp)
     {
-        inp = srcbuf + (int)((float)(outp - dstbuf) / dstlen * srclen);
+        Sint16  *inp = srcbuf + (int)((float)(outp - dstbuf) / dstlen * srclen);
+
         *outp = *inp;
     }
 

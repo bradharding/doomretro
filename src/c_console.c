@@ -856,16 +856,16 @@ void C_Drawer(void)
         }
         for (i = start; i < end; ++i)
         {
-            int y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
-                    - CONSOLELINEHEIGHT / 2 + 1;
+            int                 y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES
+                                    - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
+            stringtype_t        type = console[i].type;
 
-            if (console[i].type == dividerstring)
+            if (type == dividerstring)
                 C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
             else
             {
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
-                    consolecolors[console[i].type], NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66,
-                    console[i].tabs, true);
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
+                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true);
                 if (con_timestamps && *console[i].timestamp)
                     C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
