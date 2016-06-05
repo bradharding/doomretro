@@ -795,7 +795,7 @@ void R_StoreWallRange(int start, int stop)
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
 
-        markfloor = (worldlow != worldbottom
+        markfloor = ((worldlow != worldbottom || liquidoffset)
             || backsector->floorpic != frontsector->floorpic
             || backsector->lightlevel != frontsector->lightlevel
 
