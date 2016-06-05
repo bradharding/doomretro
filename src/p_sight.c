@@ -113,6 +113,7 @@ static dboolean P_CrossSubsector(int num)
     for (; count; seg++, count--)
     {
         line_t  *line = seg->linedef;
+        fixed_t frac;
 
         if (line->bbox[BOXLEFT] > los.bbox[BOXRIGHT]
             || line->bbox[BOXRIGHT] < los.bbox[BOXLEFT]
@@ -184,19 +185,17 @@ static dboolean P_CrossSubsector(int num)
         else
             return false;
 
-        {
-            // crosses a two sided line
-            fixed_t     frac = P_InterceptVector2(&los.strace, &divl);
+        // crosses a two sided line
+        frac = P_InterceptVector2(&los.strace, &divl);
 
-            if (front->floorheight != back->floorheight)
-                los.bottomslope = MAX(los.bottomslope, FixedDiv(openbottom - los.sightzstart, frac));
+        if (front->floorheight != back->floorheight)
+            los.bottomslope = MAX(los.bottomslope, FixedDiv(openbottom - los.sightzstart, frac));
 
-            if (front->ceilingheight != back->ceilingheight)
-                los.topslope = MIN(los.topslope, FixedDiv(opentop - los.sightzstart, frac));
+        if (front->ceilingheight != back->ceilingheight)
+            los.topslope = MIN(los.topslope, FixedDiv(opentop - los.sightzstart, frac));
 
-            if (los.topslope <= los.bottomslope)
-                return false;               // stop
-        }
+        if (los.topslope <= los.bottomslope)
+            return false;               // stop
     }
 
     // passed the subsector ok
@@ -213,7 +212,7 @@ static dboolean P_CrossBSPNode(int bspnum)
     while (!(bspnum & NF_SUBSECTOR))
     {
         const node_t    *bsp = nodes + bspnum;
-        int             side1 = (P_DivlineSide(los.strace.x, los.strace.y, (divline_t *)bsp) & 1);
+        int             side1 = P_DivlineSide(los.strace.x, los.strace.y, (divline_t *)bsp) & 1;
         int             side2 = P_DivlineSide(los.t2x, los.t2y, (divline_t *)bsp);
 
         if (side1 == side2)
@@ -237,7 +236,7 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
     const sector_t      *s1 = t1->subsector->sector;
     const sector_t      *s2 = t2->subsector->sector;
-    int                 pnum = (s1 - sectors) * numsectors + (s2 - sectors);
+    int                 pnum = (s1 - sectors) * numsectors + s2 - sectors;
 
     // First check for trivial rejection.
     // Determine subsector entries in REJECT table.

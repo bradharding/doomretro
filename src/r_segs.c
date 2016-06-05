@@ -761,7 +761,7 @@ void R_StoreWallRange(int start, int stop)
         //
         // killough 4/7/98: make doorclosed external variable
         {
-            extern dboolean doorclosed;
+            extern dboolean     doorclosed;
 
             if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
             {

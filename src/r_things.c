@@ -798,14 +798,14 @@ void R_ProjectSprite(mobj_t *thing)
     {
         int     phs = viewplayer->mo->subsector->sector->heightsec;
 
-        if (phs != -1 && viewz < sectors[phs].floorheight ?
-            thing->z >= sectors[heightsec].floorheight :
-            gzt < sectors[heightsec].floorheight)
+        if (phs != -1 && viewz < sectors[phs].interpfloorheight ?
+            thing->z >= sectors[heightsec].interpfloorheight :
+            gzt < sectors[heightsec].interpfloorheight)
             return;
-        if (phs != -1 && viewz > sectors[phs].ceilingheight ?
-            gzt < sectors[heightsec].ceilingheight &&
-            viewz >= sectors[heightsec].ceilingheight :
-            thing->z >= sectors[heightsec].ceilingheight)
+        if (phs != -1 && viewz > sectors[phs].interpceilingheight ?
+            gzt < sectors[heightsec].interpceilingheight &&
+            viewz >= sectors[heightsec].interpceilingheight :
+            thing->z >= sectors[heightsec].interpceilingheight)
             return;
     }
 

@@ -164,20 +164,20 @@ void P_LineOpening(line_t *linedef)
     front = linedef->frontsector;
     back = linedef->backsector;
 
-    if (front->ceilingheight < back->ceilingheight)
-        opentop = front->ceilingheight;
+    if (front->interpceilingheight < back->interpceilingheight)
+        opentop = front->interpceilingheight;
     else
-        opentop = back->ceilingheight;
+        opentop = back->interpceilingheight;
 
-    if (front->floorheight > back->floorheight)
+    if (front->interpfloorheight > back->interpfloorheight)
     {
-        openbottom = front->floorheight;
-        lowfloor = back->floorheight;
+        openbottom = front->interpfloorheight;
+        lowfloor = back->interpfloorheight;
     }
     else
     {
-        openbottom = back->floorheight;
-        lowfloor = front->floorheight;
+        openbottom = back->interpfloorheight;
+        lowfloor = front->interpfloorheight;
     }
 
     openrange = opentop - openbottom;
