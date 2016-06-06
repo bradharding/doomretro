@@ -330,8 +330,10 @@ void IdentifyIWADByName(char *name)
 
     for (i = 0; i < arrlen(iwads); ++i)
     {
+        char    *iwad = M_StringJoin(iwads[i].name, ".wad", NULL);
+
         // Check if the filename is this IWAD name.
-        if (M_StringCompare(name, iwads[i].name))
+        if (M_StringCompare(name, iwad))
         {
             gamemission = iwads[i].mission;
             break;
