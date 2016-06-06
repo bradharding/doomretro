@@ -236,7 +236,7 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
     const sector_t      *s1 = t1->subsector->sector;
     const sector_t      *s2 = t2->subsector->sector;
-    int                 pnum = (s1 - sectors) * numsectors + s2 - sectors;
+    int                 pnum = (int)(s1 - sectors) * numsectors + (int)(s2 - sectors);
 
     // First check for trivial rejection.
     // Determine subsector entries in REJECT table.
