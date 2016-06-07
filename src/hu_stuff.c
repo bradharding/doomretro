@@ -880,8 +880,8 @@ void HU_Ticker(void)
     dboolean    idmypos = plr->cheats & CF_MYPOS;
 
     // tick down message counter if message is up
-    if (((!menuactive && !paused) || inhelpscreens || message_dontpause) && !idbehold && !idmypos
-        && message_counter && !--message_counter)
+    if (((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause)
+        && !idbehold && !idmypos && message_counter && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
