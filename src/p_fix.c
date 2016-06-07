@@ -156,6 +156,7 @@ linefix_t linefix[] =
 
     { doom,             3,   9,      24,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DR_Door_OpenWaitClose_AlsoMonsters,         DEFAULT },
     { doom,             3,   9,     102,    1, "",         "",            "STONE",       DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
+    { doom,             3,   9,     445,    1, "",         "",            "GRAY4",       DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
 
     { doom,             4,   1,     252,    1, "SUPPORT3", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
     { doom,             4,   1,     253,    1, "SUPPORT3", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
