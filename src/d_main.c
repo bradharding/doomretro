@@ -725,7 +725,7 @@ static void D_FirstUse(void)
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;
-    dboolean            fileopenedok = false;
+    dboolean            fileopenedok;
 
 #if defined(WIN32)
     OPENFILENAME        ofn;

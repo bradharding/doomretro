@@ -429,7 +429,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
             if (P_UseSpecialLine(actor, spechit[numspechit], 0))
                 good |= (spechit[numspechit] == blockline ? 1 : 2);
 
-        return good && ((M_Random() >= 230) ^ (good & 1));
+        return (good && ((M_Random() >= 230) ^ (good & 1)));
     }
     else
         actor->flags &= ~MF_INFLOAT;

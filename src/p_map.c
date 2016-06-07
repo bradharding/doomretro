@@ -1356,7 +1356,6 @@ void P_SlideMove(mobj_t *mo)
             PT_ADDLINES, PTR_SlideTraverse);
 
         // move up to the wall
-
         if (bestslidefrac == FRACUNIT + 1)
         {
             // the move must have hit the middle, so stairstep
