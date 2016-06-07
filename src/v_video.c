@@ -1410,19 +1410,18 @@ dboolean V_ScreenShot(void)
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
         static char     buffer[512];
+
         do
         {
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
             ++count;
-            M_MakeDirectory(screenshotfolder);
             M_snprintf(lbmpath, sizeof(lbmpath), "%s"DIR_SEPARATOR_S"%s", screenshotfolder,
                 lbmname);
         } while (M_FileExists(lbmpath));
 
         result = V_SavePNG(mapwindow, lbmpath);
 
-        M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, uppercase(lbmpath));
-        C_Output("%s.", buffer);
+        C_Output("<b>%s</b> saved.", lbmpath);
     }
 
     return result;

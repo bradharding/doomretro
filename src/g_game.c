@@ -901,7 +901,7 @@ void G_Ticker(void)
 
                     S_StartSound(NULL, sfx_swtchx);
 
-                    M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, uppercase(lbmname));
+                    M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname);
                     player->message = buffer;
                     message_dontfuckwithme = true;
                     if (menuactive)
