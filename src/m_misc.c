@@ -63,6 +63,10 @@
 #include <errno.h>
 #endif
 
+#if defined(__linux__)
+#include <errno.h>
+#endif
+
 #if !defined(MAX_PATH)
 #define MAX_PATH        260
 #endif
