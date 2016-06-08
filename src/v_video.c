@@ -1326,38 +1326,26 @@ extern int      titlesequence;
 
 dboolean V_SavePNG(SDL_Window *window, char *path)
 {
-    dboolean    result = false;
-    SDL_Surface *surface = SDL_GetWindowSurface(window);
+    dboolean            result = false;
+    SDL_Renderer        *renderer = SDL_GetRenderer(window);
 
-    if (surface)
+    if (renderer)
     {
-        int             bytes = surface->format->BytesPerPixel;
-        unsigned char   *pixels = malloc(surface->w * surface->h * bytes);
+        int             w, h;
+        SDL_Surface     *screenshot;
 
-        if (pixels)
+        SDL_GetRendererOutputSize(renderer, &w, &h);
+        w = (vid_widescreen ? h * 16 / 10 : h * 4 / 3);
+        screenshot = SDL_CreateRGBSurface(0, w, h, 32, 0x00FF0000, 0x0000FF00, 0x000000FF,
+            0xFF000000);
+
+        if (screenshot)
         {
-            SDL_Renderer        *renderer = SDL_GetRenderer(window);
-            SDL_Rect            rect = surface->clip_rect;
-
-            rect.w = (vid_widescreen ? rect.h * 16 / 10 : rect.h * 4 / 3);
-            rect.x = (surface->w - rect.w) / 2;
-            if (renderer && !SDL_RenderReadPixels(renderer, &rect, surface->format->format, pixels,
-                rect.w * bytes))
-            {
-                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, rect.w, rect.h,
-                                    surface->format->BitsPerPixel, rect.w * bytes, 0, 0, 0, 0);
-
-                if (screenshot)
-                {
-                    result = !IMG_SavePNG(screenshot, path);
-                    SDL_FreeSurface(screenshot);
-                }
-            }
-
-            free(pixels);
+            SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels,
+                screenshot->pitch);
+            result = !IMG_SavePNG(screenshot, path);
+            SDL_FreeSurface(screenshot);
         }
-
-        SDL_FreeSurface(surface);
     }
 
     return result;
