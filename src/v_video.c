@@ -1331,19 +1331,26 @@ dboolean V_SavePNG(SDL_Window *window, char *path)
 
     if (renderer)
     {
-        int             w, h;
+        int             rendererwidth, rendererheight;
+        int             width, height;
         SDL_Surface     *screenshot;
 
-        SDL_GetRendererOutputSize(renderer, &w, &h);
-        w = (vid_widescreen ? h * 16 / 10 : h * 4 / 3);
-        screenshot = SDL_CreateRGBSurface(0, w, h, 32, 0x00FF0000, 0x0000FF00, 0x000000FF,
+        SDL_GetRendererOutputSize(renderer, &rendererwidth, &rendererheight);
+        width = (vid_widescreen ? rendererheight * 16 / 10 : rendererheight * 4 / 3);
+        height = rendererheight;
+        if (width > rendererwidth)
+        {
+            width = rendererwidth;
+            height = (vid_widescreen ? rendererwidth * 10 / 16 : rendererwidth * 3 / 4);
+        }
+        screenshot = SDL_CreateRGBSurface(0, width, height, 32, 0x00FF0000, 0x0000FF00, 0x000000FF,
             0xFF000000);
 
         if (screenshot)
         {
-            SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels,
-                screenshot->pitch);
-            result = !IMG_SavePNG(screenshot, path);
+            if (!SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels,
+                screenshot->pitch))
+                result = !IMG_SavePNG(screenshot, path);
             SDL_FreeSurface(screenshot);
         }
     }
