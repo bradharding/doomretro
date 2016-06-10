@@ -801,7 +801,7 @@ static void HU_DrawAltHUD(void)
             {
                 altkeypic_t     altkeypic = altkeypics[plr->neededcard];
 
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 10 * cardsfound, ALTHUD_Y, altkeypic.patch,
+                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 11 * cardsfound, ALTHUD_Y, altkeypic.patch,
                     WHITE, altkeypic.color);
             }
         }
