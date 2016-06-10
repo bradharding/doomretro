@@ -86,6 +86,7 @@
 #define KEY_PGUP        (0x80 + 0x49)
 #define KEY_PGDN        (0x80 + 0x51)
 #define KEY_INS         (0x80 + 0x52)
+#define KEY_PRINTSCREEN (0x80 + 0x59)
 #define KEY_DEL         (0x80 + 0x60)
 
 #define KEY_TILDE       '`'

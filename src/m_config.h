@@ -376,6 +376,11 @@ typedef enum
 #define KEYPREVWEAPON_DEFAULT                   0
 #define KEYRIGHT_DEFAULT                        KEY_RIGHTARROW
 #define KEYRUN_DEFAULT                          KEY_RSHIFT
+#if defined(WIN32)
+#define KEYSCREENSHOT_DEFAULT                   KEY_PRINTSCREEN
+#else
+#define KEYSCREENSHOT_DEFAULT                   0
+#endif
 #define KEYSTRAFE_DEFAULT                       KEY_RALT
 #define KEYSTRAFELEFT_DEFAULT                   'a'
 #define KEYSTRAFELEFT2_DEFAULT                  ','

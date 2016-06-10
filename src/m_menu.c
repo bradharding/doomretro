@@ -2788,6 +2788,10 @@ dboolean M_Responder(event_t *ev)
         return false;
     }
 
+    // screenshot
+    if (key == key_screenshot && key != KEY_PRINTSCREEN)
+        G_ScreenShot();
+
     // Pop-up menu?
     if (!menuactive)
     {

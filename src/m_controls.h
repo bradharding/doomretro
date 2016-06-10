@@ -61,6 +61,7 @@ extern int      key_nextweapon;
 extern int      key_prevweapon;
 extern int      key_right;
 extern int      key_run;
+extern int      key_screenshot;
 extern int      key_strafe;
 extern int      key_strafeleft2;
 extern int      key_strafeleft;
