@@ -70,14 +70,14 @@
 #define CONSOLELINES            11
 #define CONSOLELINEHEIGHT       14
 
-#define CONSOLEINPUTPIXELWIDTH  500
+#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - SHORT(brand->width) - 2)
 
 #define CONSOLESCROLLBARWIDTH   3
-#define CONSOLESCROLLBARHEIGHT  ((CONSOLELINES - 1) * CONSOLELINEHEIGHT - 4)
+#define CONSOLESCROLLBARHEIGHT  ((CONSOLELINES - 1) * CONSOLELINEHEIGHT - 1)
 #define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 #define CONSOLESCROLLBARY       (CONSOLETEXTY + 1)
 
-#define CONSOLEDIVIDERWIDTH     (CONSOLETEXTPIXELWIDTH - 2)
+#define CONSOLEDIVIDERWIDTH     (CONSOLETEXTPIXELWIDTH - CONSOLETEXTX + 1)
 
 #define DIVIDER                 "~~~"
 #define NOQUOTE                 0
@@ -137,46 +137,45 @@ dboolean        con_timestamps = con_timestamps_default;
 static int      timestampx;
 static int      zerowidth;
 
-extern int      fps;
-
-void G_ToggleAlwaysRun(evtype_t type);
-int FindNearestColor(byte *palette, int red, int green, int blue);
-
 static const char *shiftxform =
 {
     "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+<_>?"
     ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
 };
 
-byte            c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
-byte            c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
+static byte     c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
+static byte     c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
-int             consolecaretcolor = 4;
-int             consolehighfpscolor = 116;
-int             consoleinputcolor = 4;
-int             consoleselectedinputcolor = 4;
-int             consoleselectedinputbackgroundcolor = 100;
-int             consoleinputtooutputcolor = 4;
-int             consolelowfpscolor = 180;
-int             consoletitlecolor = 88;
-int             consolememorycolor = 88;
-int             consoleplayermessagecolor = 161;
-int             consoletimestampcolor = 100;
-int             consoleoutputcolor = 88;
-int             consoleboldcolor = 4;
-int             consolebrandingcolor = 176;
-int             consolewarningcolor = 180;
-int             consoledividercolor = 100;
-int             consoletintcolor = 5;
-int             consoleedgecolor = 176;
-int             consolescrollbartrackcolor = 100;
-int             consolescrollbarfacecolor = 88;
+static int      consolecaretcolor = 4;
+static int      consolehighfpscolor = 116;
+static int      consoleinputcolor = 4;
+static int      consoleselectedinputcolor = 4;
+static int      consoleselectedinputbackgroundcolor = 100;
+static int      consoleinputtooutputcolor = 4;
+static int      consolelowfpscolor = 180;
+static int      consoletitlecolor = 88;
+static int      consolememorycolor = 88;
+static int      consoleplayermessagecolor = 161;
+static int      consoletimestampcolor = 100;
+static int      consoleoutputcolor = 88;
+static int      consoleboldcolor = 4;
+static int      consolebrandingcolor = 176;
+static int      consolewarningcolor = 180;
+static int      consoledividercolor = 100;
+static int      consoletintcolor = 5;
+static int      consoleedgecolor = 176;
+static int      consolescrollbartrackcolor = 100;
+static int      consolescrollbarfacecolor = 88;
 
-int             consolecolors[STRINGTYPES];
+static int      consolecolors[STRINGTYPES];
+
+extern int      fps;
+
+void G_ToggleAlwaysRun(evtype_t type);
 
 void C_DebugOutput(char *string)
 {
-#if defined(_MSC_VER) && defined (_DEBUG)
+#if defined(_MSC_VER) && defined(_DEBUG)
     OutputDebugString(M_StringJoin(string, "\n", NULL));
 #endif
 }
@@ -533,10 +532,10 @@ void C_Init(void)
     consoleboldcolor = nearestcolors[consoleboldcolor];
     consolebrandingcolor = nearestcolors[consolebrandingcolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
-    consoledividercolor = nearestcolors[consoledividercolor];
-    consoletintcolor = nearestcolors[consoletintcolor];
-    consoleedgecolor = nearestcolors[consoleedgecolor];
-    consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor];
+    consoledividercolor = nearestcolors[consoledividercolor] << 8;
+    consoletintcolor = nearestcolors[consoletintcolor] << 8;
+    consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
+    consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
@@ -545,11 +544,6 @@ void C_Init(void)
     consolecolors[titlestring] = consoletitlecolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
-
-    consoletintcolor <<= 8;
-    consoleedgecolor <<= 8;
-    consolescrollbartrackcolor <<= 8;
-    consoledividercolor <<= 8;
 }
 
 void C_HideConsole(void)
@@ -592,7 +586,6 @@ static void C_DrawBackground(int height)
 {
     static dboolean     blurred;
     int                 i, j;
-    static int          r[SCREENWIDTH * SCREENHEIGHT];
 
     height = (height + 5) * SCREENWIDTH;
 
@@ -615,19 +608,8 @@ static void C_DrawBackground(int height)
 
     blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
 
-    for (i = 0; i < height; i += 4)
-    {
-        if (!(gametic & 3))
-            r[i] = M_RandomInt(0, 7);
-
-        screens[0][i] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i] + consoletintcolor]];
-        screens[0][i + 1] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i + 1]
-            + consoletintcolor]];
-        screens[0][i + 2] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i + 2]
-            + consoletintcolor]];
-        screens[0][i + 3] = colormaps[0][256 * r[i] + tinttab50[c_blurscreen[i + 3]
-            + consoletintcolor]];
-    }
+    for (i = 0; i < height; ++i)
+        screens[0][i] = tinttab50[c_blurscreen[i] + consoletintcolor];
 
     for (i = height - 2; i > 1; i -= 3)
     {
@@ -852,14 +834,14 @@ void C_Drawer(void)
         }
 
         // cancel any screen shake
-        I_UpdateBlitFunc();
+        I_UpdateBlitFunc(false);
 
         // draw background and bottom edge
         C_DrawBackground(consoleheight);
 
         // draw branding
-        V_DrawConsolePatch(SCREENWIDTH - brand->width - CONSOLETEXTX + 1, consoleheight
-            - brand->height - 6, brand, consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab25);
+        V_DrawConsolePatch(SCREENWIDTH - brand->width, consoleheight - brand->height + 2, brand,
+            consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab25);
 
         // draw console text
         if (outputhistory == -1)
@@ -874,16 +856,16 @@ void C_Drawer(void)
         }
         for (i = start; i < end; ++i)
         {
-            int y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
-                    - CONSOLELINEHEIGHT / 2 + 1;
+            int                 y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES
+                                    - consolestrings)) - CONSOLELINEHEIGHT / 2 + 1;
+            stringtype_t        type = console[i].type;
 
-            if (console[i].type == dividerstring)
+            if (type == dividerstring)
                 C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
             else
             {
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
-                    consolecolors[console[i].type], NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66,
-                    console[i].tabs, true);
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
+                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true);
                 if (con_timestamps && *console[i].timestamp)
                     C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
@@ -962,7 +944,7 @@ void C_Drawer(void)
         consoleactive = false;
 }
 
-dboolean C_ValidateInput(char *input)
+static dboolean C_ValidateInput(char *input)
 {
     int i = 0;
 
@@ -1473,10 +1455,10 @@ void C_PrintCompileDate(void)
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
-    C_Output("This %i-bit %s binary of <i>"PACKAGE_NAMEANDVERSIONSTRING"</i> was built on %s, "
-        "%s %i, %i at %i:%02i%s.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
-        days[dayofweek(day, month + 1, year)], months[month], day, year,
-        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
+    C_Output("This %i-bit %s binary of <i>"PACKAGE_NAMEANDVERSIONSTRING"</i> was built at "
+        "%i:%02i%s on %s, %s %i, %i.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
+        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"),
+        days[dayofweek(day, month + 1, year)], months[month], day, year);
 
 #if defined(_MSC_FULL_VER)
         C_Output("It was compiled using Microsoft C/C++ Optimizing Compiler v%d.%02d.%d.",
@@ -1489,8 +1471,8 @@ void C_PrintSDLVersions(void)
     int revision = SDL_GetRevisionNumber();
 
     if (revision)
-        C_Output("Using version %i.%i.%i (Revision %i) of <b>sdl2.dll</b>.",
-            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, revision);
+        C_Output("Using version %i.%i.%i (Revision %s) of <b>sdl2.dll</b>.",
+            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, commify(revision));
     else
         C_Output("Using version %i.%i.%i of <b>sdl2.dll</b>.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);

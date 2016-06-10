@@ -1326,37 +1326,33 @@ extern int      titlesequence;
 
 dboolean V_SavePNG(SDL_Window *window, char *path)
 {
-    dboolean    result = false;
-    SDL_Surface *surface = SDL_GetWindowSurface(window);
+    dboolean            result = false;
+    SDL_Renderer        *renderer = SDL_GetRenderer(window);
 
-    if (surface)
+    if (renderer)
     {
-        unsigned char   *pixels = malloc(surface->w * surface->h * 4);
+        int             rendererwidth, rendererheight;
+        int             width, height;
+        SDL_Surface     *screenshot;
 
-        if (pixels)
+        SDL_GetRendererOutputSize(renderer, &rendererwidth, &rendererheight);
+        width = (vid_widescreen ? rendererheight * 16 / 10 : rendererheight * 4 / 3);
+        height = rendererheight;
+        if (width > rendererwidth)
         {
-            SDL_Renderer        *renderer = SDL_GetRenderer(window);
-            SDL_Rect            rect = surface->clip_rect;
-
-            rect.w = (vid_widescreen ? rect.h * 16 / 10 : rect.h * 4 / 3);
-            rect.x = (surface->w - rect.w) / 2;
-            if (renderer && !SDL_RenderReadPixels(renderer, &rect, SDL_PIXELFORMAT_ARGB8888,
-                pixels, rect.w * 4))
-            {
-                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, rect.w, rect.h, 32,
-                                    rect.w * 4, 0, 0, 0, 0);
-
-                if (screenshot)
-                {
-                    result = !IMG_SavePNG(screenshot, path);
-                    SDL_FreeSurface(screenshot);
-                }
-            }
-
-            free(pixels);
+            width = rendererwidth;
+            height = (vid_widescreen ? rendererwidth * 10 / 16 : rendererwidth * 3 / 4);
         }
+        screenshot = SDL_CreateRGBSurface(0, width, height, 32, 0x00FF0000, 0x0000FF00, 0x000000FF,
+            0xFF000000);
 
-        SDL_FreeSurface(surface);
+        if (screenshot)
+        {
+            if (!SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels,
+                screenshot->pitch))
+                result = !IMG_SavePNG(screenshot, path);
+            SDL_FreeSurface(screenshot);
+        }
     }
 
     return result;
@@ -1408,20 +1404,17 @@ dboolean V_ScreenShot(void)
 
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
-        static char     buffer[512];
         do
         {
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
             ++count;
-            M_MakeDirectory(screenshotfolder);
             M_snprintf(lbmpath, sizeof(lbmpath), "%s"DIR_SEPARATOR_S"%s", screenshotfolder,
                 lbmname);
         } while (M_FileExists(lbmpath));
 
         result = V_SavePNG(mapwindow, lbmpath);
 
-        M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, uppercase(lbmpath));
-        C_Output("%s.", buffer);
+        C_Output("<b>%s</b> saved.", lbmpath);
     }
 
     return result;

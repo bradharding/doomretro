@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
+#include "i_system.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
@@ -95,21 +96,17 @@ dboolean P_IsVoodooDoll(mobj_t *mobj)
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
+// [crispy] Use a heuristic approach to detect infinite state cycles: Count the number
+// of times the loop in P_SetMobjState() executes and exit with an error once
+// an arbitrary very large limit is reached.
+
+#define MOBJ_CYCLE_LIMIT        1000000
+
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
-    state_t             *st;
-
-    // killough 4/9/98: remember states seen, to detect cycles:
-    static statenum_t   seenstate_tab[NUMSTATES];               // fast transition table
-    statenum_t          *seenstate = seenstate_tab;             // pointer to table
-    static int          recursion;                              // detects recursion
-    statenum_t          i = state;                              // initial state
-    dboolean            ret = true;                             // return value
-    statenum_t          tempstate[NUMSTATES];                   // for use with recursion
-    mobj_t              *shadow = mobj->shadow;
-
-    if (recursion++)                                            // if recursion detected,
-        memset((seenstate = tempstate), 0, sizeof(tempstate));  // clear state table
+    state_t     *st;
+    int         cycle_counter = 0;
+    mobj_t      *shadow = mobj->shadow;
 
     do
     {
@@ -117,8 +114,7 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
-            ret = false;
-            break;                                              // killough 4/9/98
+            return false;
         }
 
         st = &states[state];
@@ -133,24 +129,21 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         if (st->action)
             st->action(mobj, NULL, NULL);
 
-        seenstate[state] = 1 + st->nextstate;                   // killough 4/9/98
-
         state = st->nextstate;
-    } while (!mobj->tics && !seenstate[state]);                 // killough 4/9/98
 
-    if (!--recursion)
-        for (; (state = seenstate[i]); i = state - 1)
-            seenstate[i] = 0;                           // killough 4/9/98: erase memory of states
+        if (cycle_counter++ > MOBJ_CYCLE_LIMIT)
+            I_Error("P_SetMobjState: Infinite state cycle detected!");
+    } while (!mobj->tics);
 
     // [BH] Use same sprite frame for shadow as mobj
-    if (ret && shadow)
+    if (shadow)
     {
         shadow->sprite = mobj->sprite;
         shadow->frame = mobj->frame;
         shadow->angle = mobj->angle;
     }
 
-    return ret;
+    return true;
 }
 
 //
@@ -743,8 +736,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     sector = mobj->subsector->sector;
     mobj->dropoffz =           // killough 11/98: for tracking dropoffs
-    mobj->floorz = sector->floorheight;
-    mobj->ceilingz = sector->ceilingheight;
+    mobj->floorz = sector->interpfloorheight;
+    mobj->ceilingz = sector->interpceilingheight;
 
     // [BH] initialize bobbing things
     if (r_floatbob)

@@ -91,7 +91,7 @@ void D_DoomLoop(void);
 // Location where savegames are stored
 char                    *savegamefolder;
 
-// location of IWAD and WAD files
+// location of IWAD and PWAD files
 char                    *iwadfile = "";
 char                    *pwadfile = "";
 
@@ -721,11 +721,145 @@ static void D_FirstUse(void)
     }
 }
 
+dboolean D_CheckParms(void)
+{
+    dboolean    result = false;
+
+    if (myargc == 2 && M_StringEndsWith(myargv[1], ".wad"))
+    {
+        // check if it's a valid and supported IWAD
+        if (D_IsDOOMIWAD(myargv[1]) || (W_WadType(myargv[1]) == IWAD
+            && !D_IsUnsupportedIWAD(myargv[1])))
+        {
+            IdentifyIWADByName(myargv[1]);
+            if (W_AddFile(myargv[1], false))
+            {
+                result = true;
+                iwadfolder = strdup(M_ExtractFolder(myargv[1]));
+
+                // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
+                if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
+                {
+                    static char     fullpath[MAX_PATH];
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        M_ExtractFolder(myargv[1]), "NERVE.WAD");
+                    if (W_MergeFile(fullpath, true))
+                    {
+                        modifiedgame = true;
+                        nerve = true;
+                        expansion = 0;
+                    }
+                }
+            }
+        }
+
+        // if it's a PWAD, determine the IWAD required and try loading that as well
+        else if (W_WadType(myargv[1]) == PWAD && !D_IsUnsupportedPWAD(myargv[1]))
+        {
+            int             iwadrequired = IWADRequiredByPWAD(myargv[1]);
+            static char     fullpath[MAX_PATH];
+
+            if (iwadrequired == indetermined)
+                iwadrequired = doom2;
+
+            // try the current folder first
+            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                M_ExtractFolder(myargv[1]), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+            IdentifyIWADByName(fullpath);
+            if (W_AddFile(fullpath, true))
+            {
+                result = true;
+                iwadfolder = strdup(M_ExtractFolder(fullpath));
+                D_CheckSupportedPWAD(myargv[1]);
+                if (W_MergeFile(myargv[1], false))
+                {
+                    modifiedgame = true;
+                    pwadfile = lowercase(removeext(leafname(myargv[1])));
+                    LoadCfgFile(myargv[1]);
+                    LoadDehFile(myargv[1]);
+                }
+            }
+            else
+            {
+                // otherwise try the iwadfolder setting in doomretro.cfg
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
+                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                IdentifyIWADByName(fullpath);
+                if (W_AddFile(fullpath, true))
+                {
+                    result = true;
+                    D_CheckSupportedPWAD(myargv[1]);
+                    if (W_MergeFile(myargv[1], false))
+                    {
+                        modifiedgame = true;
+                        pwadfile = lowercase(removeext(leafname(myargv[1])));
+                        LoadCfgFile(myargv[1]);
+                        LoadDehFile(myargv[1]);
+                    }
+                }
+                else
+                {
+                    // still nothing? try the DOOMWADDIR environment variable
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
+                            "DOOM2.WAD"));
+                    IdentifyIWADByName(fullpath);
+                    if (W_AddFile(fullpath, true))
+                    {
+                        result = true;
+                        D_CheckSupportedPWAD(myargv[1]);
+                        if (W_MergeFile(myargv[1], false))
+                        {
+                            modifiedgame = true;
+                            pwadfile = lowercase(removeext(leafname(myargv[1])));
+                            LoadCfgFile(myargv[1]);
+                            LoadDehFile(myargv[1]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (BTSX)
+        {
+            static char     fullpath[MAX_PATH];
+
+            if (BTSXE2A && !BTSXE2B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                    M_ExtractFolder(myargv[1]), "BTSX_E2B.WAD");
+                return W_MergeFile(fullpath, true);
+            }
+            else if (!BTSXE2A && BTSXE2B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                    M_ExtractFolder(myargv[1]), "BTSX_E2A.WAD");
+                return W_MergeFile(fullpath, true);
+            }
+            else if (BTSXE3A && !BTSXE3B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                    M_ExtractFolder(myargv[1]), "BTSX_E3B.WAD");
+                return W_MergeFile(fullpath, true);
+            }
+            else if (!BTSXE3A && BTSXE3B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                    M_ExtractFolder(myargv[1]), "BTSX_E3A.WAD");
+                return W_MergeFile(fullpath, true);
+            }
+        }
+    }
+
+    return result;
+}
+
 #if defined(WIN32) || defined(__MACOSX__)
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;
-    dboolean            fileopenedok = false;
+    dboolean            fileopenedok;
 
 #if defined(WIN32)
     OPENFILENAME        ofn;
@@ -1269,7 +1403,7 @@ static void D_ParseStartupString(const char *string)
     for (i = 0, start = 0; i < len; ++i)
         if (string[i] == '\n' || i == len - 1)
         {
-            C_Output("%s", M_SubString(string, start, i - start));
+            C_Output(M_SubString(string, start, i - start));
             start = i + 1;
         }
 }
@@ -1298,6 +1432,8 @@ static void D_DoomMainSetup(void)
 #if defined(WIN32)
     I_PrintWindowsVersion();
 #endif
+
+    I_PrintSystemInfo();
 
     C_PrintSDLVersions();
 
@@ -1367,38 +1503,39 @@ static void D_DoomMainSetup(void)
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
 
-    if (iwadfile)
-    {
-        startuptimer = I_GetTimeMS();
-        if (W_AddFile(iwadfile, false))
-            stat_runs = SafeAdd(stat_runs, 1);
-    }
-    else if (!p)
-    {
-        if (!stat_runs)
-            D_FirstUse();
+    if (!(choseniwad = D_CheckParms()))
+        if (iwadfile)
+        {
+            startuptimer = I_GetTimeMS();
+            if (W_AddFile(iwadfile, false))
+                stat_runs = SafeAdd(stat_runs, 1);
+        }
+        else if (!p)
+        {
+            if (!stat_runs)
+                D_FirstUse();
 
 #if defined(WIN32) || defined(__MACOSX__)
-        do
-        {
-            if ((choseniwad = D_ChooseIWAD()) == -1)
-                I_Quit(false);
+            do
+            {
+                if ((choseniwad = D_ChooseIWAD()) == -1)
+                    I_Quit(false);
 #if defined(WIN32)
-            else if (!choseniwad)
-                PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
+                else if (!choseniwad)
+                    PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
-        } while (!choseniwad);
+            } while (!choseniwad);
 #endif
 
-        stat_runs = SafeAdd(stat_runs, 1);
-    }
+            stat_runs = SafeAdd(stat_runs, 1);
+        }
     M_SaveCVARs();
 
     if (p > 0)
         do
             for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
             {
-                char        *file = D_TryFindWADByName(myargv[p]);
+                char    *file = D_TryFindWADByName(myargv[p]);
 
                 if (iwadfile)
                 {
@@ -1689,7 +1826,8 @@ static void D_DoomMainSetup(void)
             D_StartTitle(!!M_CheckParm("-nosplash"));    // start up intro loop
     }
 
-    C_Output("Startup took %.2f seconds to complete.", (I_GetTimeMS() - startuptimer) / 1000.0f);
+    C_Output("Startup took %s seconds to complete.",
+        striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 2));
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if nonblank
     // The expectation is that these will be set in a .bex file

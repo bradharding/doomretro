@@ -1502,6 +1502,24 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     callback("BRDR_TR", &brdr_tr);
     callback("BRDR_BL", &brdr_bl);
     callback("BRDR_BR", &brdr_br);
+
+    // [BH] fix display of viewborder for wads that have these patches without offsets
+    brdr_t->leftoffset = 0;
+    brdr_t->topoffset = -5;
+    brdr_b->leftoffset = 0;
+    brdr_b->topoffset = 0;
+    brdr_l->leftoffset = -5;
+    brdr_l->topoffset = 0;
+    brdr_r->leftoffset = 0;
+    brdr_r->topoffset = 0;
+    brdr_tl->leftoffset = -5;
+    brdr_tl->topoffset = -5;
+    brdr_tr->leftoffset = 0;
+    brdr_tr->topoffset = -5;
+    brdr_bl->leftoffset = -5;
+    brdr_bl->topoffset = 0;
+    brdr_br->leftoffset = 0;
+    brdr_br->topoffset = 0;
 }
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)

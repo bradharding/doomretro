@@ -277,18 +277,22 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                         if (linefunc(line))
                             line->special = 0;
                     return true;
+
                 case PushMany:
                     if (!side)
                         linefunc(line);
                     return true;
+
                 case SwitchOnce:
                     if (linefunc(line))
                         P_ChangeSwitchTexture(line, 0);
                     return true;
+
                 case SwitchMany:
                     if (linefunc(line))
                         P_ChangeSwitchTexture(line, 1);
                     return true;
+
                 default:
                     // if not a switch/push type, do nothing here
                     return false;
@@ -347,6 +351,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 EV_DoFloor(&junk, lowerFloorToLowest);
                 line->flags &= ~ML_TRIGGER666;
             }
+
         case D1_Door_OpenStay_Fast:
             EV_VerticalDoor(line, thing);
             break;

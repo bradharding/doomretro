@@ -158,7 +158,8 @@ void P_CalcHeight(player_t *player)
                 player->viewz += animatedliquiddiff;
                 return;
             }
-            else if (r_liquid_lowerview)
+            else if (r_liquid_lowerview
+                && ABS(mo->z - mo->subsector->sector->floorheight) <= 24 * FRACUNIT)
                 player->viewz -= FOOTCLIPSIZE;
     }
 
@@ -218,12 +219,7 @@ void P_ReduceDamageCount(player_t *player)
         --player->damagecount;
 
     if (r_shakescreen)
-        if (player->damagecount)
-            blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake
-                : I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake
-                : I_Blit_Shake));
-        else
-            I_UpdateBlitFunc();
+        I_UpdateBlitFunc(player->damagecount);
 }
 
 //

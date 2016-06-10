@@ -236,7 +236,7 @@ static void SetShowCursor(dboolean show)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-int translatekey[] =
+static int translatekey[] =
 {
     0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
     'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -262,7 +262,7 @@ int translatekey[] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-int TranslateKey2(int key)
+static int TranslateKey2(int key)
 {
     switch (key)
     {
@@ -327,7 +327,8 @@ static void FreeSurfaces(void)
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    I_DestroyExternalAutoMap();
+    if (mapwindow)
+        I_DestroyExternalAutoMap();
 }
 
 void I_ShutdownGraphics(void)
@@ -636,7 +637,7 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
-void I_Blit(void)
+static void I_Blit(void)
 {
     UpdateGrab();
 
@@ -647,7 +648,7 @@ void I_Blit(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_Blit_NearestLinear(void)
+static void I_Blit_NearestLinear(void)
 {
     UpdateGrab();
 
@@ -665,7 +666,7 @@ static int      frames = -1;
 static Uint32   starttime;
 static Uint32   currenttime;
 
-void I_Blit_ShowFPS(void)
+static void I_Blit_ShowFPS(void)
 {
     UpdateGrab();
 
@@ -686,7 +687,7 @@ void I_Blit_ShowFPS(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_Blit_NearestLinear_ShowFPS(void)
+static void I_Blit_NearestLinear_ShowFPS(void)
 {
     UpdateGrab();
 
@@ -710,7 +711,7 @@ void I_Blit_NearestLinear_ShowFPS(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_Blit_Shake(void)
+static void I_Blit_Shake(void)
 {
     static int  angle = 1;
 
@@ -724,7 +725,7 @@ void I_Blit_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_Blit_NearestLinear_Shake(void)
+static void I_Blit_NearestLinear_Shake(void)
 {
     static int  angle = 1;
 
@@ -741,7 +742,7 @@ void I_Blit_NearestLinear_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_Blit_ShowFPS_Shake(void)
+static void I_Blit_ShowFPS_Shake(void)
 {
     static int  angle = 1;
 
@@ -765,7 +766,7 @@ void I_Blit_ShowFPS_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_Blit_NearestLinear_ShowFPS_Shake(void)
+static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
     static int  angle = 1;
 
@@ -792,10 +793,14 @@ void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_UpdateBlitFunc(void)
+void I_UpdateBlitFunc(dboolean shake)
 {
-    blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
-        (nearestlinear ? I_Blit_NearestLinear : I_Blit));
+    if (shake)
+        blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake :
+            I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake  : I_Blit_Shake));
+    else
+        blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
+            (nearestlinear ? I_Blit_NearestLinear : I_Blit));
 }
 
 void I_Blit_AutoMap(void)
@@ -807,7 +812,7 @@ void I_Blit_AutoMap(void)
     SDL_RenderPresent(maprenderer);
 }
 
-void nullfunc(void) {}
+static void nullfunc(void) {}
 
 //
 // I_ReadScreen
@@ -834,7 +839,7 @@ void I_SetPalette(byte *playpal)
     SDL_SetPaletteColors(palette, colors, 0, 256);
 }
 
-void I_RestoreFocus(void)
+static void I_RestoreFocus(void)
 {
 #if defined(WIN32)
     SDL_SysWMinfo       info;
@@ -853,7 +858,7 @@ void I_CreateExternalAutoMap(dboolean output)
 
     if (numdisplays == 1 && output)
     {
-        C_Warning("Only one display was found. No external AutoMap was created.");
+        C_Warning("Only one display was found. No external automap was created.");
         return;
     }
 
@@ -910,7 +915,8 @@ void GetWindowPosition(void)
 {
     int x = 0, y = 0;
 
-    if (M_StringCompare(vid_windowposition, vid_windowposition_centered))
+    if (M_StringCompare(vid_windowposition, vid_windowposition_centered)
+        || M_StringCompare(vid_windowposition, vid_windowposition_centred))
     {
         windowx = 0;
         windowy = 0;
@@ -964,7 +970,7 @@ void GetWindowSize(void)
     }
 }
 
-dboolean ValidScreenMode(int width, int height)
+static dboolean ValidScreenMode(int width, int height)
 {
     SDL_DisplayMode     mode;
     const int           modecount = SDL_GetNumDisplayModes(displayindex);
@@ -1358,7 +1364,8 @@ void I_RestartGraphics(void)
     SetVideoMode(false);
     if (vid_widescreen)
         I_ToggleWidescreen(true);
-    I_CreateExternalAutoMap(false);
+    if (mapwindow)
+        I_CreateExternalAutoMap(false);
 
 #if defined(WIN32)
     I_InitWindows32();
@@ -1369,16 +1376,25 @@ void I_RestartGraphics(void)
 
 void I_ToggleFullscreen(void)
 {
-    vid_fullscreen = !vid_fullscreen;
-    M_SaveCVARs();
-    if (vid_fullscreen)
+    dboolean    fullscreen = !vid_fullscreen;
+
+    if (SDL_SetWindowFullscreen(window, (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP :
+        SDL_FALSE)) < 0)
     {
-        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-        C_StrCVAROutput(stringize(vid_fullscreen), "on");
+        menuactive = false;
+        consoleheight = 1;
+        consoledirection = 1;
+        C_Warning("Unable to switch to %s mode.", (fullscreen ? "fullscreen" : "windowed"));
+        return;
     }
+
+    vid_fullscreen = fullscreen;
+    M_SaveCVARs();
+
+    if (vid_fullscreen)
+        C_StrCVAROutput(stringize(vid_fullscreen), "on");
     else
     {
-        SDL_SetWindowFullscreen(window, SDL_FALSE);
         C_StrCVAROutput(stringize(vid_fullscreen), "off");
 
         SDL_SetWindowSize(window, windowwidth, windowheight);
@@ -1396,7 +1412,7 @@ void I_ToggleFullscreen(void)
     }
 }
 
-void I_InitGammaTables(void)
+static void I_InitGammaTables(void)
 {
     int i;
     int j;

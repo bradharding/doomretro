@@ -429,7 +429,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
             if (P_UseSpecialLine(actor, spechit[numspechit], 0))
                 good |= (spechit[numspechit] == blockline ? 1 : 2);
 
-        return good && ((M_Random() >= 230) ^ (good & 1));
+        return (good && ((M_Random() >= 230) ^ (good & 1)));
     }
     else
         actor->flags &= ~MF_INFLOAT;
@@ -1327,7 +1327,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     players[0].killcount--;
                     stat_monsterskilled--;
-                    P_ChangeKillStat(corpsehit->type, -1);
+                    P_UpdateKillStat(corpsehit->type, -1);
 
                     // [BH] display an obituary message in the console
                     if (con_obituaries)

@@ -63,6 +63,13 @@
 #include <errno.h>
 #endif
 
+#if defined(__linux__)
+#include <dirent.h>
+#include <errno.h>
+#include "libgen.h"
+#include <unistd.h>
+#endif
+
 #if !defined(MAX_PATH)
 #define MAX_PATH        260
 #endif
@@ -151,10 +158,10 @@ char *M_ExtractFolder(char *path)
 char *M_GetAppDataFolder(void)
 {
 #if defined(WIN32)
-    // On Windows, store generated application files in <username>\AppData\Local\DOOM Retro.
+    // On Windows, store generated application files in <username>\DOOM Retro.
     TCHAR       buffer[MAX_PATH];
 
-    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, buffer)))
+    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
         return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
     else
         return M_GetExecutableFolder();
@@ -180,7 +187,23 @@ char *M_GetAppDataFolder(void)
 
 char *M_GetResourceFolder(void)
 {
-#if defined(__MACOSX__)
+#if defined(__linux__)
+    // On Linux, first assume that the executable is in .../bin and try to load resources from
+    // .../share/doomretro. If that's not available, then load resources from the same folder
+    // as the executable.
+    char        *executableFolder = M_GetExecutableFolder();
+    char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S ".."
+                    DIR_SEPARATOR_S "share" DIR_SEPARATOR_S "doomretro", NULL);
+    DIR         *resourceDir = opendir(resourceFolder);
+
+    if (resourceDir)
+    {
+        closedir(resourceDir);
+        return resourceFolder;
+    }
+
+    return executableFolder;
+#elif defined(__MACOSX__)
     // On OSX, load resources from the Contents/Resources folder within the application bundle.
     NSURL       *resourceURL = [NSBundle mainBundle].resourceURL;
 
@@ -209,6 +232,17 @@ char *M_GetExecutableFolder(void)
         *pos = '\0';
 
     return folder;
+#elif defined(__linux__)
+    char        *folder = malloc(MAX_PATH);
+    ssize_t     len = readlink("/proc/self/exe", folder, MAX_PATH - 1);
+
+    if (len == -1)
+        return ".";
+    else
+    {
+        folder[len] = '\0';
+        return dirname(folder);
+    }
 #else
     return ".";
 #endif
@@ -232,37 +266,6 @@ dboolean M_WriteFile(char *name, void *source, int length)
         return false;
 
     return true;
-}
-
-//
-// M_ReadFile
-//
-int M_ReadFile(char *name, byte **buffer)
-{
-    FILE        *handle = fopen(name, "rb");
-    int         count;
-    int         length;
-    byte        *buf;
-
-    if (!handle)
-    {
-        I_Error("Couldn't read file %s", name);
-        return 0;
-    }
-
-    // find the size of the file by seeking to the end and
-    // reading the current position
-    length = M_FileLength(handle);
-
-    buf = Z_Malloc(length, PU_STATIC, NULL);
-    count = fread(buf, 1, length, handle);
-    fclose(handle);
-
-    if (count < length)
-        I_Error("Couldn't read file %s", name);
-
-    *buffer = buf;
-    return length;
 }
 
 // Return a newly-malloced string with all the strings given as arguments
@@ -334,7 +337,7 @@ char *M_TempFile(char *s)
 dboolean M_StrToInt(const char *str, unsigned int *result)
 {
     return (sscanf(str, " 0x%2x", result) == 1 || sscanf(str, " 0X%2x", result) == 1
-        || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10d", result) == 1);
+        || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10u", result) == 1);
 }
 
 //

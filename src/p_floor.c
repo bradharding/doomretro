@@ -583,6 +583,7 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
                     sec->special = secm->special;
                 }
                 break;
+
             default:
                 break;
         }
@@ -654,6 +655,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                 stairsize = 8 * FRACUNIT;
                 crushing = false;
                 break;
+
             case turbo16:
                 speed = FLOORSPEED * 4;
                 stairsize = 16 * FRACUNIT;

@@ -2600,6 +2600,7 @@ dboolean PIT_PushThing(mobj_t* thing)
         {
             int x = (thing->x - sx) >> FRACBITS;
             int y = (thing->y - sy) >> FRACBITS;
+
             speed = (fixed_t)(((int64_t)tmpusher->magnitude << 23) / (x * x + y * y + 1));
         }
 

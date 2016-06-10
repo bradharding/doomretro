@@ -36,56 +36,41 @@
 ========================================================================
 */
 
-#include "doomtype.h"
-#include "m_argv.h"
+#include <stdio.h>
+
+#include "m_misc.h"
 #include "w_file.h"
-
-extern wad_file_class_t stdc_wad_file;
-
-#if defined(WIN32)
-extern wad_file_class_t win32_wad_file;
-#endif
-
-#if defined(HAVE_MMAP)
-extern wad_file_class_t posix_wad_file;
-#endif
-
-static wad_file_class_t *wad_file_classes[] =
-{
-#if defined(WIN32)
-    &win32_wad_file,
-#endif
-#if defined(HAVE_MMAP)
-    &posix_wad_file,
-#endif
-    &stdc_wad_file
-};
+#include "z_zone.h"
 
 wad_file_t *W_OpenFile(char *path)
 {
     wad_file_t  *result;
-    int         i;
+    FILE        *fstream = fopen(path, "rb");
 
-    // Try all classes in order until we find one that works
-    result = NULL;
+    if (!fstream)
+        return NULL;
 
-    for (i = 0; i < arrlen(wad_file_classes); ++i)
-    {
-        result = wad_file_classes[i]->OpenFile(path);
-
-        if (result)
-            break;
-    }
+    // Create a new wad_file_t to hold the file handle.
+    result = Z_Malloc(sizeof(wad_file_t), PU_STATIC, NULL);
+    result->length = M_FileLength(fstream);
+    result->fstream = fstream;
 
     return result;
 }
 
 void W_CloseFile(wad_file_t *wad)
 {
-    wad->file_class->CloseFile(wad);
+    fclose(wad->fstream);
+    Z_Free(wad);
 }
 
+// Read data from the specified position in the file into the
+// provided buffer. Returns the number of bytes read.
 size_t W_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len)
 {
-    return wad->file_class->Read(wad, offset, buffer, buffer_len);
+    // Jump to the specified position in the file.
+    fseek(wad->fstream, offset, SEEK_SET);
+
+    // Read into the buffer.
+    return fread(buffer, 1, buffer_len, wad->fstream);
 }

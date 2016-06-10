@@ -488,7 +488,7 @@ consolecmd_t consolecmds[] =
         "Toggles automatically loading the last savegame after the\nplayer dies."),
     CMD(bind, "", null_func1, C_Bind, 2, "[<i>control</i> [<b>+</b><i>action</i>]]",
         "Binds an action to a control."),
-    CVAR_BOOL(centerweapon, "", bool_cvars_func1, bool_cvars_func2,
+    CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2,
         "Toggles the centering of the player's weapon when firing."),
     CMD(clear, "", null_func1, clear_cmd_func2, 0, "",
         "Clears the console."),
@@ -596,7 +596,7 @@ consolecmd_t consolecmds[] =
     CMD(quit, exit, null_func1, quit_cmd_func2, 0, "",
         "Quits <i>"PACKAGE_NAME"</i>."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2,
-        "Toggles the display of an alternate heads up display when in\nwidescreen mode."),
+        "Toggles the display of an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The intensity of the screen's red haze when the player has the\nberserk power-up and their fists selected."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS,
@@ -608,7 +608,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles brightmaps on certain wall textures."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2,
-        "Toggles corpses of marines having randomly colored praetor\nsuits."),
+        "Toggles corpses of marines having randomly colored Praetor\nsuits."),
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles corpses being randomly mirrored."),
     CVAR_BOOL(r_corpses_moreblood, "", bool_cvars_func1, bool_cvars_func2,
@@ -665,7 +665,7 @@ consolecmd_t consolecmds[] =
         "Toggles respawning monsters."),
     CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "",
         "Resurrects the player."),
-    CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT,  NOALIAS,
+    CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOALIAS,
         "The music volume."),
     CVAR_BOOL(s_randommusic, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles randomizing the music at the start of each map."),
@@ -685,7 +685,7 @@ consolecmd_t consolecmds[] =
         "The amount the player bobs when still."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, 0, "",
         "Shows a list of things in the current map."),
-    CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT,  NOALIAS,
+    CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOALIAS,
         "The speed of the player (<b>10%</b> to <b>400%</b>)."),
     CMD(unbind, "", null_func1, unbind_cmd_func2, 1, "<i>control</i>",
         "Unbinds the action from a control."),
@@ -1876,12 +1876,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     int         i, j;
     int         count = 0;
     int         tabs[8] = { 40, 90, 350, 0, 0, 0, 0, 0 };
-    char        **maplist;
-
-    // initialize map list
-    maplist = malloc(numlumps * sizeof(char *));
-    for (i = 0; i < numlumps; ++i)
-        maplist[i] = malloc(256 * sizeof(char));
+    char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
 
     // search through lumps for maps
     for (i = 0; i < numlumps; ++i)
@@ -3512,7 +3507,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
         if ((value == 0 || value == 1) && value != vid_showfps)
         {
             vid_showfps = !!value;
-            I_UpdateBlitFunc();
+            I_UpdateBlitFunc(players[0].damagecount);
         }
     }
     else
@@ -3595,7 +3590,7 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
             SDL_SetWindowPosition(window, windowx, windowy);
     }
     else
-        C_Output("%s", vid_windowposition);
+        C_Output(vid_windowposition);
 }
 
 //

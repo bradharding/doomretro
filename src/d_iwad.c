@@ -304,13 +304,13 @@ static struct
     char                *name;
     GameMission_t       mission;
 } iwads[] = {
-    { "doom2.wad",    doom2      },
-    { "doom2.wad",    pack_nerve },
-    { "plutonia.wad", pack_plut  },
-    { "tnt.wad",      pack_tnt   },
-    { "doom.wad",     doom       },
-    { "doom1.wad",    doom       },
-    { "hacx.wad",     doom2      }
+    { "doom2",    doom2      },
+    { "doom2",    pack_nerve },
+    { "plutonia", pack_plut  },
+    { "tnt",      pack_tnt   },
+    { "doom",     doom       },
+    { "doom1",    doom       },
+    { "hacx",     doom2      }
 };
 
 // When given an IWAD with the '-iwad' parameter,
@@ -330,8 +330,10 @@ void IdentifyIWADByName(char *name)
 
     for (i = 0; i < arrlen(iwads); ++i)
     {
+        char    *iwad = M_StringJoin(iwads[i].name, ".wad", NULL);
+
         // Check if the filename is this IWAD name.
-        if (M_StringCompare(name, iwads[i].name))
+        if (M_StringCompare(name, iwad))
         {
             gamemission = iwads[i].mission;
             break;
@@ -522,7 +524,7 @@ void D_SetSaveGameFolder(void)
     char        *appdatafolder = M_GetAppDataFolder();
 
     if (!iwad_name)
-        iwad_name = "unknown.wad";
+        iwad_name = "unknown";
 
     M_MakeDirectory(appdatafolder);
     

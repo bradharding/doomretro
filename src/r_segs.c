@@ -209,12 +209,11 @@ static void R_DrawMaskedColumn(const rpatch_t *patch, const rcolumn_t *column)
     for (i = 0; i < column->numPosts; ++i)
     {
         const rpost_t   *post = &column->posts[i];
-        int64_t         topscreen;
         int             length = post->length;
         int             topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
-        topscreen = sprtopscreen + spryscale * topdelta + 1;
+        int64_t         topscreen = sprtopscreen + spryscale * topdelta + 1;
 
         dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), mceilingclip[dc_x] + 1);
         dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), mfloorclip[dc_x] - 1);
@@ -577,7 +576,9 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_StoreWallRange(int start, int stop)
 {
-    int64_t     dx, dy, dx1, dy1, len;
+    int64_t     dx, dy;
+    int64_t     dx1, dy1;
+    int64_t     len;
 
     linedef = curline->linedef;
 
@@ -622,7 +623,6 @@ void R_StoreWallRange(int start, int stop)
     {
         extern int      *openings;              // dropoff overflow
         extern size_t   maxopenings;
-
         size_t          pos = lastopening - openings;
         size_t          need = (rw_stopx - start) * sizeof(*lastopening) + pos;
 
@@ -761,7 +761,7 @@ void R_StoreWallRange(int start, int stop)
         //
         // killough 4/7/98: make doorclosed external variable
         {
-            extern dboolean doorclosed;
+            extern dboolean     doorclosed;
 
             if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
             {
@@ -795,7 +795,7 @@ void R_StoreWallRange(int start, int stop)
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
 
-        markfloor = (worldlow != worldbottom
+        markfloor = ((worldlow != worldbottom || liquidoffset)
             || backsector->floorpic != frontsector->floorpic
             || backsector->lightlevel != frontsector->lightlevel
 

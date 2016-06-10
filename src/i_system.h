@@ -55,5 +55,6 @@ void I_Quit(dboolean shutdown);
 void I_Error(char *error, ...);
 
 void I_PrintWindowsVersion(void);
+void I_PrintSystemInfo(void);
 
 #endif

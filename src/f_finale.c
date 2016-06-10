@@ -116,14 +116,17 @@ void F_StartFinale(void)
                     finaleflat = bgflatE1;
                     finaletext = s_E1TEXT;
                     break;
+
                 case 2:
                     finaleflat = bgflatE2;
                     finaletext = s_E2TEXT;
                     break;
+
                 case 3:
                     finaleflat = bgflatE3;
                     finaletext = s_E3TEXT;
                     break;
+
                 case 4:
                     finaleflat = bgflatE4;
                     finaletext = s_E4TEXT;
@@ -146,6 +149,7 @@ void F_StartFinale(void)
                     finaletext = (gamemission == pack_tnt ? s_T1TEXT :
                         (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
                     break;
+
                 case 8:
                     if (gamemission == pack_nerve)
                     {
@@ -153,31 +157,37 @@ void F_StartFinale(void)
                         finaletext = s_N1TEXT;
                     }
                     break;
+
                 case 11:
                     finaleflat = bgflat11;
                     finaletext = (gamemission == pack_tnt ? s_T2TEXT :
                         (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
                     break;
+
                 case 20:
                     finaleflat = bgflat20;
                     finaletext = (gamemission == pack_tnt ? s_T3TEXT :
                         (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
                     break;
+
                 case 30:
                     finaleflat = bgflat30;
                     finaletext = (gamemission == pack_tnt ? s_T4TEXT :
                         (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
                     break;
+
                 case 15:
                     finaleflat = bgflat15;
                     finaletext = (gamemission == pack_tnt ? s_T5TEXT :
                         (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
                     break;
+
                 case 31:
                     finaleflat = bgflat31;
                     finaletext = (gamemission == pack_tnt ? s_T6TEXT :
                         (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
                     break;
+
                 default:
                     // Ouch.
                     break;
@@ -612,7 +622,7 @@ dboolean F_CastResponder(event_t *ev)
         }
         else if (ev->data1 == KEY_RIGHTARROW)
         {
-            castrot = (!castrot ? 014 : castrot - 2);
+            castrot = (!castrot ? 14 : castrot - 2);
             return true;
         }
     }
@@ -629,10 +639,8 @@ dboolean F_CastResponder(event_t *ev)
     casttics = caststate->tics;
     if (casttics == -1 && caststate->action == A_RandomJump)
     {
-        if (M_Random() < caststate->misc2)
-            caststate = &states [caststate->misc1];
-        else
-            caststate = &states [caststate->nextstate];
+        caststate = &states[(M_Random() < caststate->misc2 ? caststate->misc1 :
+            caststate->nextstate)];
         casttics = caststate->tics;
     }
     castrot = 0;
@@ -736,7 +744,6 @@ void F_CastDrawer(void)
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
         if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
-        {
             if (r_translucency)
             {
                 if (type == MT_SHADOWS)
@@ -746,7 +753,6 @@ void F_CastDrawer(void)
             }
             else
                 V_DrawFlippedSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
-        }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawFlippedTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
@@ -760,7 +766,6 @@ void F_CastDrawer(void)
         patch->leftoffset = spriteoffset[lump] >> FRACBITS;
 
         if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
-        {
             if (r_translucency)
             {
                 if (type == MT_SHADOWS)
@@ -770,7 +775,6 @@ void F_CastDrawer(void)
             }
             else
                 V_DrawSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
-        }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
@@ -878,12 +882,15 @@ static void F_ArtScreenDrawer(void)
             case 1:
                 lumpname = (gamemode == retail ? "CREDIT" : "HELP2");
                 break;
+
             case 2:
                 lumpname = "VICTORY2";
                 break;
+
             case 4:
                 lumpname = "ENDPIC";
                 break;
+
             default:
                 return;
         }
@@ -902,9 +909,11 @@ void F_Drawer(void)
         case F_STAGE_CAST:
             F_CastDrawer();
             break;
+
         case F_STAGE_TEXT:
             F_TextWrite();
             break;
+
         case F_STAGE_ARTSCREEN:
             F_ArtScreenDrawer();
             break;

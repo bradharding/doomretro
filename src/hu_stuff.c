@@ -238,8 +238,8 @@ void HU_Stop(void)
 
 void HU_Start(void)
 {
-    int         len;
-    char        *s = "";
+    char        *s = strdup(automaptitle);
+    int         len = strlen(s);
 
     if (headsupactive)
         HU_Stop();
@@ -256,10 +256,6 @@ void HU_Start(void)
     // create the map title widget
     HUlib_initTextLine(&w_title, HU_TITLEX, HU_TITLEY, hu_font, HU_FONTSTART);
 
-    s = Z_Malloc(133, PU_STATIC, NULL);
-    strcpy(s, automaptitle);
-
-    len = strlen(s);
     while (M_StringWidth(s) > ORIGINALWIDTH - 6)
     {
         s[len - 1] = s[len] = s[len + 1] = '.';
@@ -276,7 +272,7 @@ void HU_Start(void)
 }
 
 static void DrawHUDNumber(int *x, int y, int val, byte *tinttab,
-                          void (*hudnumfunc)(int, int, patch_t *, byte *))
+    void (*hudnumfunc)(int, int, patch_t *, byte *))
 {
     int         oldval = val;
     patch_t     *patch;
@@ -473,7 +469,7 @@ static void HU_DrawHUD(void)
                 }
 
                 if (showkey)
-                    hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, tinttab66);
+                    hudfunc(keypic_x - SHORT(patch->width) - 6, HUD_KEYS_Y, patch, tinttab66);
             }
         }
         else
@@ -719,8 +715,7 @@ static void HU_DrawAltHUD(void)
         V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health - 100, 8, color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE,
-            color);
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE, color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE,
             color);
     }
@@ -824,7 +819,7 @@ static void HU_DrawAltHUD(void)
             {
                 altkeypic_t    altkeypic = altkeypics[i];
 
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 10 * (card - 1), ALTHUD_Y, altkeypic.patch,
+                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 11 * (card - 1), ALTHUD_Y, altkeypic.patch,
                     WHITE, altkeypic.color);
             }
         }
@@ -882,11 +877,11 @@ extern int      direction;
 
 void HU_Ticker(void)
 {
-    dboolean    idmypos = (players[0].cheats & CF_MYPOS);
+    dboolean    idmypos = plr->cheats & CF_MYPOS;
 
     // tick down message counter if message is up
-    if (((!menuactive && !paused) || inhelpscreens || message_dontpause) && !idbehold && !idmypos
-        && message_counter && !--message_counter)
+    if (((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause)
+        && !idbehold && !idmypos && message_counter && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
