@@ -383,7 +383,7 @@ void P_LoadSegs(int lump)
         // http://www.doomworld.com/idgames/index.php?id=12647
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
-            char buffer[] = "Seg %s references an invalid vertex of %s.";
+            char        *buffer = "Seg %s references an invalid vertex of %s.";
 
             if (v1 >= numvertexes)
                 C_Warning(buffer, commify(i), commify(v1));

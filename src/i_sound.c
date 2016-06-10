@@ -124,9 +124,7 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 // for success.
 static dboolean FindAndFreeSound(void)
 {
-    allocated_sound_t   *snd;
-
-    snd = allocated_sounds_tail;
+    allocated_sound_t   *snd = allocated_sounds_tail;
 
     while (snd)
     {
@@ -151,11 +149,9 @@ static void ReserveCacheSpace(size_t len)
     // Keep freeing sound effects that aren't currently being played,
     // until there is enough space for the new sound.
     while (allocated_sounds_size + len > CACHESIZE)
-    {
         // Free a sound. If there is nothing more to free, stop.
         if (!FindAndFreeSound())
             break;
-    }
 }
 
 // Allocate a block for a new sound effect.
@@ -288,8 +284,6 @@ static void ReleaseSoundOnChannel(int channel)
 
 static dboolean ConvertibleRatio(int freq1, int freq2)
 {
-    int ratio;
-
     if (freq1 > freq2)
         return ConvertibleRatio(freq2, freq1);
     else if (freq2 % freq1)
@@ -297,7 +291,7 @@ static dboolean ConvertibleRatio(int freq1, int freq2)
     else
     {
         // Check the ratio is a power of 2
-        ratio = freq2 / freq1;
+        int     ratio = freq2 / freq1;
 
         while (!(ratio & 1))
             ratio >>= 1;
@@ -311,18 +305,15 @@ static dboolean ConvertibleRatio(int freq1, int freq2)
 static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int length)
 {
     SDL_AudioCVT        convertor;
-    allocated_sound_t   *snd;
     Mix_Chunk           *chunk;
-    uint32_t            expanded_length;
 
     // Calculate the length of the expanded version of the sample.
-    expanded_length = (uint32_t)(((uint64_t)length * mixer_freq) / samplerate);
-
     // Double up twice: 8 -> 16 bit and mono -> stereo
-    expanded_length *= 4;
+    uint32_t            expanded_length = (uint32_t)(((uint64_t)length * mixer_freq) / samplerate)
+                           * 4;
 
     // Allocate a chunk in which to expand the sound
-    snd = AllocateSound(sfxinfo, expanded_length);
+    allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length);
 
     if (!snd)
         return false;
@@ -358,12 +349,8 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 
         for (i = 0; i < expanded_length; ++i)
         {
-            Sint16      sample;
-            int         src;
-
-            src = (i * expand_ratio) >> 8;
-
-            sample = (data[src] | (data[src] << 8)) - 32768;
+            int         src = (i * expand_ratio) >> 8;
+            Sint16      sample = (data[src] | (data[src] << 8)) - 32768;
 
             // expand 8->16 bits, mono->stereo
             expanded[i * 2] = expanded[i * 2 + 1] = sample;
@@ -397,23 +384,17 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 // Returns true if successful
 static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 {
-    int                 lumpnum;
-    unsigned int        lumplen;
     int                 samplerate;
     unsigned int        length;
-    byte                *data;
 
     // need to load the sound
-    lumpnum = sfxinfo->lumpnum;
-    data = W_CacheLumpNum(lumpnum, PU_STATIC);
-    lumplen = W_LumpLength(lumpnum);
+    int                 lumpnum = sfxinfo->lumpnum;
+    byte                *data = W_CacheLumpNum(lumpnum, PU_STATIC);
+    unsigned int        lumplen = W_LumpLength(lumpnum);
 
     // Check the header, and ensure this is a valid sound
     if (lumplen < 8 || data[0] != 0x03 || data[1] != 0x00)
-    {
-        // Invalid sound
-        return false;
-    }
+        return false;   // Invalid sound
 
     // 16 bit sample rate field, 32 bit length field
     samplerate = ((data[3] << 8) | data[2]);
@@ -476,7 +457,7 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
 
 void I_UpdateSoundParams(int handle, int vol, int sep)
 {
-    int         left, right;
+    int left, right;
 
     if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
         return;
@@ -611,10 +592,8 @@ void I_ShutdownSound(void)
 // The result must be a power of two.
 static int GetSliceSize(void)
 {
-    int limit;
+    int limit = snd_samplerate * MAX_SOUND_SLICE_TIME / 1000;
     int n;
-
-    limit = snd_samplerate * MAX_SOUND_SLICE_TIME / 1000;
 
     // Try all powers of two, not exceeding the limit.
     for (n = 0; ; ++n)

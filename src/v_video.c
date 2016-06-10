@@ -1404,8 +1404,6 @@ dboolean V_ScreenShot(void)
 
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
-        static char     buffer[512];
-
         do
         {
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);

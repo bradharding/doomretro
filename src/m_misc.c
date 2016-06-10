@@ -191,14 +191,17 @@ char *M_GetResourceFolder(void)
     // On Linux, first assume that the executable is in .../bin and try to load resources from
     // .../share/doomretro. If that's not available, then load resources from the same folder
     // as the executable.
-    char *executableFolder = M_GetExecutableFolder();
-    char *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S ".." DIR_SEPARATOR_S "share" DIR_SEPARATOR_S "doomretro", NULL);
-    DIR *resourceDir = opendir(resourceFolder);
+    char        *executableFolder = M_GetExecutableFolder();
+    char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S ".."
+                    DIR_SEPARATOR_S "share" DIR_SEPARATOR_S "doomretro", NULL);
+    DIR         *resourceDir = opendir(resourceFolder);
+
     if (resourceDir)
     {
         closedir(resourceDir);
         return resourceFolder;
     }
+
     return executableFolder;
 #elif defined(__MACOSX__)
     // On OSX, load resources from the Contents/Resources folder within the application bundle.
@@ -230,12 +233,11 @@ char *M_GetExecutableFolder(void)
 
     return folder;
 #elif defined(__linux__)
-    char *folder = malloc(MAX_PATH);
-    ssize_t len = readlink("/proc/self/exe", folder, MAX_PATH - 1);
+    char        *folder = malloc(MAX_PATH);
+    ssize_t     len = readlink("/proc/self/exe", folder, MAX_PATH - 1);
+
     if (len == -1)
-    {
         return ".";
-    }
     else
     {
         folder[len] = '\0';
