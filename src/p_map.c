@@ -552,11 +552,9 @@ dboolean PIT_CheckThing(mobj_t *thing)
     // check for special pickup
     if (flags & MF_SPECIAL)
     {
-        dboolean        solid = ((flags & MF_SOLID) != 0);
-
         if (tmflags & MF_PICKUP)
-            P_TouchSpecialThing(thing, tmthing);                // can remove thing
-        return !solid;
+            P_TouchSpecialThing(thing, tmthing, true);          // can remove thing
+        return !(flags & MF_SOLID);
     }
 
     // [BH] don't hit if either thing is a corpse, which may still be solid if

@@ -1351,7 +1351,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
-                    P_TouchSpecialThing(thing, player->mo);
+                    P_TouchSpecialThing(thing, player->mo, false);
                     C_HideConsole();
                     break;
                 }
