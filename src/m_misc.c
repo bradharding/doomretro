@@ -57,6 +57,9 @@
 
 #if defined(__MACOSX__)
 #import <Cocoa/Cocoa.h>
+#include <dirent.h>
+#include <libgen.h>
+#include <mach-o/dyld.h>
 #endif
 
 #if defined(__OpenBSD__)
@@ -66,7 +69,7 @@
 #if defined(__linux__)
 #include <dirent.h>
 #include <errno.h>
-#include "libgen.h"
+#include <libgen.h>
 #include <unistd.h>
 #endif
 
@@ -187,11 +190,11 @@ char *M_GetAppDataFolder(void)
 
 char *M_GetResourceFolder(void)
 {
-#if defined(__linux__)
-    // On Linux, first assume that the executable is in .../bin and try to load resources from
-    // .../share/doomretro. If that's not available, then load resources from the same folder
-    // as the executable.
     char        *executableFolder = M_GetExecutableFolder();
+
+#if defined(__linux__) || defined(__MACOSX__)
+    // On Linux and OS X, first assume that the executable is in .../bin and
+    // try to load resources from .../share/doomretro.
     char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S ".."
                     DIR_SEPARATOR_S "share" DIR_SEPARATOR_S "doomretro", NULL);
     DIR         *resourceDir = opendir(resourceFolder);
@@ -201,16 +204,19 @@ char *M_GetResourceFolder(void)
         closedir(resourceDir);
         return resourceFolder;
     }
-
-    return executableFolder;
-#elif defined(__MACOSX__)
-    // On OSX, load resources from the Contents/Resources folder within the application bundle.
+#if defined(__MACOSX__)
+    // On OSX, load resources from the Contents/Resources folder within the application bundle
+    // if ../share/doomretro is not available.
     NSURL       *resourceURL = [NSBundle mainBundle].resourceURL;
-
     return resourceURL.fileSystemRepresentation;
 #else
-    // On Windows and Linux, load resources from the same folder as the executable.
-    return M_GetExecutableFolder();
+    // And on Linux, fall back to the same folder as the executable.
+    return executableFolder;
+#endif
+
+#else
+    // On Windows, load resources from the same folder as the executable.
+    return executableFolder;
 #endif
 }
 
@@ -233,15 +239,26 @@ char *M_GetExecutableFolder(void)
 
     return folder;
 #elif defined(__linux__)
-    char        *folder = malloc(MAX_PATH);
-    ssize_t     len = readlink("/proc/self/exe", folder, MAX_PATH - 1);
+    char        *exe = malloc(MAX_PATH);
+    ssize_t     len = readlink("/proc/self/exe", exe, MAX_PATH - 1);
 
     if (len == -1)
         return ".";
     else
     {
-        folder[len] = '\0';
-        return dirname(folder);
+        exe[len] = '\0';
+        return dirname(exe);
+    }
+#elif defined(__MACOSX__)
+    char        *exe = malloc(MAX_PATH);
+    ssize_t     len = MAX_PATH;
+    if (!_NSGetExecutablePath(exe, &len))
+    {
+        return dirname(exe);
+    }
+    else
+    {
+        return ".";
     }
 #else
     return ".";
