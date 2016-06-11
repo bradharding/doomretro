@@ -687,6 +687,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobjinfo_t  *info = &mobjinfo[type];
     sector_t    *sector;
     static int  prevx, prevy, prevz;
+    static int  prevbob;
 
     mobj->type = type;
     mobj->info = info;
@@ -740,12 +741,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->ceilingz = sector->interpceilingheight;
 
     // [BH] initialize bobbing things
-    if (r_floatbob)
-    {
-        static int      prevbob;
-
-        mobj->floatbob = prevbob = (x == prevx && y == prevy && z == prevz ? prevbob : M_Random());
-    }
+    mobj->floatbob = prevbob = (x == prevx && y == prevy && z == prevz ? prevbob : M_Random());
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height :
         z));
