@@ -1170,7 +1170,6 @@ static void SetVideoMode(dboolean output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect "
                     "ratio.", commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
                     (acronym[0] ? ")" : ""), ratio);
-            GetUpscaledTextureSize(width, height);
         }
         else
         {
@@ -1189,7 +1188,6 @@ static void SetVideoMode(dboolean output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
                     commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
                     (acronym[0] ? ")" : ""), ratio);
-            GetUpscaledTextureSize(width, height);
         }
     }
     else
@@ -1220,8 +1218,10 @@ static void SetVideoMode(dboolean output)
                 C_Output("Created a resizable window with dimensions %s\xD7%s at (%i,%i).",
                     commify(width), commify(height), windowx, windowy);
         }
-        GetUpscaledTextureSize(windowwidth, windowheight);
     }
+
+    if (nearestlinear)
+        GetUpscaledTextureSize(width, height);
 
     windowid = SDL_GetWindowID(window);
 
