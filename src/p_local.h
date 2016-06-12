@@ -97,6 +97,9 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum);
 //
 // P_USER
 //
+// 16 pixels of bob
+#define MAXBOB                  0x100000
+
 void P_PlayerThink(player_t *player);
 void P_ResurrectPlayer(player_t *player);
 
@@ -255,7 +258,6 @@ extern mobj_t           **blocklinks;   // for thing chains
 //
 // P_INTER
 //
-
 #define BFGCELLS        40
 #define MAXHEALTH       100
 

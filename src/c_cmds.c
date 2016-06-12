@@ -202,6 +202,7 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
+extern dboolean         weaponbob;
 
 extern int              pixelwidth;
 extern int              pixelheight;
@@ -582,7 +583,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(messages, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles player messages."),
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
-        "The amount the player bobs when moving."),
+        "The amount the player's view bobs up and down when they move."),
     CMD(noclip, "", game_func1, noclip_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles collision detection for the player."),
     CMD(nomonsters, "", null_func1, nomonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -684,7 +685,7 @@ consolecmd_t consolecmds[] =
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
         "Spawns a <i>monster</i> or <i>item</i>."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
-        "The amount the player bobs when still."),
+        "The amount the player's view bobs up and when they stand still."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, 0, "",
         "Shows a list of things in the current map."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOALIAS,
@@ -717,6 +718,8 @@ consolecmd_t consolecmds[] =
         "The position of the window on the desktop (<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
     CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop (<i>width</i><b>\xD7</b><i>height</i>)."),
+    CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
+        "The amount the player's weapon bobs up and down when they move."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };

@@ -52,6 +52,7 @@
 #define MAXMOTORSPEED           65535
 
 dboolean        centerweapon = centerweapon_default;
+int             weaponbob = weaponbob_default;
 
 unsigned int    stat_shotsfired = 0;
 unsigned int    stat_shotshit = 0;
@@ -60,6 +61,7 @@ dboolean        successfulshot;
 dboolean        skippsprinterp = false;
 
 extern dboolean hitwall;
+extern int      stillbob;
 
 void P_CheckMissileSpawn(mobj_t *th);
 
@@ -305,7 +307,12 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         // bob the weapon based on movement speed
         int     angle = (128 * leveltime) & FINEMASK;
-        int     bob = player->bob;
+        fixed_t momx = player->momx;
+        fixed_t momy = player->momy;
+        fixed_t bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
+
+        bob = (bob ? MAX(MIN(bob, MAXBOB) * weaponbob / 100, MAXBOB * stillbob / 400) :
+            MAXBOB * stillbob / 400);
 
         // [BH] smooth out weapon bob by zeroing out really small bobs
         if (bob < FRACUNIT / 2)

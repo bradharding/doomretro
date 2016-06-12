@@ -53,9 +53,6 @@ void G_RemoveChoppers(void);
 // Movement
 //
 
-// 16 pixels of bob
-#define MAXBOB  0x100000
-
 int             movebob = movebob_default;
 int             stillbob = stillbob_default;
 dboolean        r_liquid_lowerview = r_liquid_lowerview_default;

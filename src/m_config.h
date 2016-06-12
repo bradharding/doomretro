@@ -339,6 +339,10 @@ typedef enum
 
 #define vid_windowsize_default                  "768x480"
 
+#define weaponbob_min                           0
+#define weaponbob_default                       75
+#define weaponbob_max                           100
+
 #define GAMEPADALWAYSRUN_DEFAULT                0
 #define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
 #define GAMEPADAUTOMAPCLEARMARK_DEFAULT         0
