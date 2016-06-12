@@ -1785,20 +1785,21 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
+    fixed_t     x = m_x + m_w / 2;
+    fixed_t     y = m_y + m_h / 2;
+
+    am_frame.centerx = x;
+    am_frame.centery = y;
+
     if (am_rotatemode)
     {
         int     angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
-        fixed_t x = m_x + m_w / 2;
-        fixed_t y = m_y + m_h / 2;
         float   dx = (float)(m_x2 - x);
         float   dy = (float)(m_y2 - y);
         fixed_t r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.sin = finesine[angle];
         am_frame.cos = finecosine[angle];
-
-        am_frame.centerx = x;
-        am_frame.centery = y;
 
         am_frame.bbox[BOXLEFT] = x - r;
         am_frame.bbox[BOXRIGHT] = x + r;
