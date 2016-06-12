@@ -493,7 +493,7 @@ void C_Init(void)
     brand = W_CacheLumpName("DRBRAND", PU_STATIC);
     divider = W_CacheLumpName("DRDIVIDE", PU_STATIC);
 
-    caret = W_CacheLumpName("CARET", PU_STATIC);
+    caret = W_CacheLumpName("DRCARET", PU_STATIC);
 
 #if defined(WIN32)
     caretblinktime = GetCaretBlinkTime();
