@@ -103,6 +103,7 @@ static patch_t  *degree;
 static patch_t  *multiply;
 static patch_t  *warning;
 static patch_t  *brand;
+static patch_t  *divider;
 
 static int      spacewidth;
 
@@ -360,19 +361,6 @@ void C_AddConsoleDivider(void)
         C_Print(dividerstring, DIVIDER);
 }
 
-static void C_DrawDivider(int y)
-{
-    int i;
-
-    y *= SCREENWIDTH;
-    if (y >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
-            screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
-    if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
-            screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
-}
-
 static struct
 {
     char        char1;
@@ -503,6 +491,7 @@ void C_Init(void)
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
     warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
     brand = W_CacheLumpName("DRBRAND", PU_STATIC);
+    divider = W_CacheLumpName("DRDIVIDE", PU_STATIC);
 
     caret = W_CacheLumpName("CARET", PU_STATIC);
 
@@ -532,7 +521,7 @@ void C_Init(void)
     consoleboldcolor = nearestcolors[consoleboldcolor];
     consolebrandingcolor = nearestcolors[consolebrandingcolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
-    consoledividercolor = nearestcolors[consoledividercolor] << 8;
+    consoledividercolor = nearestcolors[consoledividercolor];
     consoletintcolor = nearestcolors[consoletintcolor] << 8;
     consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
@@ -861,7 +850,8 @@ void C_Drawer(void)
             stringtype_t        type = console[i].type;
 
             if (type == dividerstring)
-                C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
+                V_DrawConsolePatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
+                    consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
