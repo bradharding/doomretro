@@ -1315,8 +1315,10 @@ void V_Init(void)
         M_StringCopy(screenshotfolder, M_GetExecutableFolder(), sizeof(screenshotfolder));
 }
 
-char            lbmname[MAX_PATH];
-char            lbmpath[MAX_PATH];
+char            lbmname1[MAX_PATH];
+char            lbmname2[MAX_PATH];
+char            lbmpath1[MAX_PATH];
+char            lbmpath2[MAX_PATH];
 
 extern dboolean vid_widescreen;
 extern dboolean inhelpscreens;
@@ -1392,29 +1394,31 @@ dboolean V_ScreenShot(void)
     do
     {
         if (!count)
-            M_snprintf(lbmname, sizeof(lbmname), "%s.png", makevalidfilename(mapname));
+            M_snprintf(lbmname1, sizeof(lbmname1), "%s.png", makevalidfilename(mapname));
         else
-            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
+            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%i).png", makevalidfilename(mapname),
+                count);
         ++count;
         M_MakeDirectory(screenshotfolder);
-        M_snprintf(lbmpath, sizeof(lbmpath), "%s"DIR_SEPARATOR_S"%s", screenshotfolder, lbmname);
-    } while (M_FileExists(lbmpath));
+        M_snprintf(lbmpath1, sizeof(lbmpath1), "%s"DIR_SEPARATOR_S"%s", screenshotfolder,
+            lbmname1);
+    } while (M_FileExists(lbmpath1));
 
-    result = V_SavePNG(window, lbmpath);
+    result = V_SavePNG(window, lbmpath1);
 
+    lbmpath2[0] = '\0';
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
         do
         {
-            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).png", makevalidfilename(mapname), count);
+            M_snprintf(lbmname2, sizeof(lbmname2), "%s (%i).png", makevalidfilename(mapname),
+                count);
             ++count;
-            M_snprintf(lbmpath, sizeof(lbmpath), "%s"DIR_SEPARATOR_S"%s", screenshotfolder,
-                lbmname);
-        } while (M_FileExists(lbmpath));
+            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s", screenshotfolder,
+                lbmname2);
+        } while (M_FileExists(lbmpath2));
 
-        result = V_SavePNG(mapwindow, lbmpath);
-
-        C_Output("<b>%s</b> saved.", lbmpath);
+        V_SavePNG(mapwindow, lbmpath2);
     }
 
     return result;

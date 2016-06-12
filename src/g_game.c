@@ -901,7 +901,7 @@ void G_Ticker(void)
 
                     S_StartSound(NULL, sfx_swtchx);
 
-                    M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname);
+                    M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
                     player->message = buffer;
                     message_dontfuckwithme = true;
                     if (menuactive)
@@ -910,7 +910,9 @@ void G_Ticker(void)
                         blurred = false;
                     }
 
-                    C_Output("<b>%s</b> saved.", lbmpath);
+                    C_Output("<b>%s</b> saved.", lbmpath1);
+                    if (*lbmpath2)
+                        C_Output("<b>%s</b> saved.", lbmpath2);
                 }
                 else
                     C_Warning("A screenshot couldn't be taken.");
