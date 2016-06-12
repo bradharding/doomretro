@@ -2453,7 +2453,7 @@ dboolean M_Responder(event_t *ev)
                 break;
 
             // delete character right of caret
-            case KEY_DEL:
+            case KEY_DELETE:
                 keydown = key;
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {

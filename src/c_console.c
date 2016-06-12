@@ -469,7 +469,7 @@ static void C_DrawScrollbar(void)
         if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
                 screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x]
-                + consolescrollbartrackcolor];
+                    + consolescrollbartrackcolor];
 
     // Draw scrollbar face
     facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
@@ -1057,7 +1057,7 @@ dboolean C_Responder(event_t *ev)
                 }
                 break;
 
-            case KEY_DEL:
+            case KEY_DELETE:
                 if (selectstart < selectend)
                 {
                     // delete selected text
@@ -1265,14 +1265,14 @@ dboolean C_Responder(event_t *ev)
                 break;
 
             // scroll output up
-            case KEY_PGUP:
+            case KEY_PAGEUP:
                 if (consolestrings > CONSOLELINES)
                     outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1)
                         : MAX(0, outputhistory - 1));
                 break;
 
             // scroll output down
-            case KEY_PGDN:
+            case KEY_PAGEDOWN:
                 if (outputhistory != -1)
                 {
                     ++outputhistory;

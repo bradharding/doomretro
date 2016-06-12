@@ -638,9 +638,9 @@ dboolean G_Responder(event_t *ev)
         if (!menuactive && !consoleheight
             && ((ev->type == ev_keydown
                  && ev->data1 != KEY_PAUSE
-                 && ev->data1 != KEY_RSHIFT
-                 && ev->data1 != KEY_RALT
-                 && ev->data1 != KEY_RCTRL
+                 && ev->data1 != KEY_SHIFT
+                 && ev->data1 != KEY_ALT
+                 && ev->data1 != KEY_CTRL
                  && ev->data1 != KEY_CAPSLOCK
                  && ev->data1 != KEY_NUMLOCK
                  && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12)

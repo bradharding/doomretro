@@ -370,18 +370,18 @@ typedef enum
 #define KEYCONSOLE_DEFAULT                      KEY_TILDE
 #define KEYDOWN_DEFAULT                         KEY_DOWNARROW
 #define KEYDOWN2_DEFAULT                        's'
-#define KEYFIRE_DEFAULT                         KEY_RCTRL
+#define KEYFIRE_DEFAULT                         KEY_CTRL
 #define KEYLEFT_DEFAULT                         KEY_LEFTARROW
 #define KEYNEXTWEAPON_DEFAULT                   0
 #define KEYPREVWEAPON_DEFAULT                   0
 #define KEYRIGHT_DEFAULT                        KEY_RIGHTARROW
-#define KEYRUN_DEFAULT                          KEY_RSHIFT
+#define KEYRUN_DEFAULT                          KEY_SHIFT
 #if defined(WIN32)
 #define KEYSCREENSHOT_DEFAULT                   KEY_PRINTSCREEN
 #else
 #define KEYSCREENSHOT_DEFAULT                   0
 #endif
-#define KEYSTRAFE_DEFAULT                       KEY_RALT
+#define KEYSTRAFE_DEFAULT                       KEY_ALT
 #define KEYSTRAFELEFT_DEFAULT                   'a'
 #define KEYSTRAFELEFT2_DEFAULT                  ','
 #define KEYSTRAFERIGHT_DEFAULT                  'd'
