@@ -248,9 +248,9 @@ void P_XYMovement(mobj_t *mo)
                 if (blockline)
                 {
                     fixed_t     r = ((blockline->dx >> FRACBITS) * mo->momx
-                        + (blockline->dy >> FRACBITS) * mo->momy)
-                        / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
-                        + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
+                                    + (blockline->dy >> FRACBITS) * mo->momy)
+                                    / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
+                                    + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
                     fixed_t     x = FixedMul(r, blockline->dx);
                     fixed_t     y = FixedMul(r, blockline->dy);
 

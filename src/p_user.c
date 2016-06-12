@@ -58,7 +58,7 @@ int             stillbob = stillbob_default;
 dboolean        r_liquid_lowerview = r_liquid_lowerview_default;
 int             r_shakescreen = r_shakescreen_default;
 
-dboolean        onground;
+static dboolean onground;
 
 //
 // P_Thrust
