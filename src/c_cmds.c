@@ -60,6 +60,7 @@
 #include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
+#include "sounds.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
@@ -75,6 +76,7 @@
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
+#define PLAYCMDFORMAT           "<i>lump</i>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 
 int     ammo;
@@ -338,6 +340,8 @@ static void noclip_cmd_func2(char *, char *, char *, char *);
 static void nomonsters_cmd_func2(char *, char *, char *, char *);
 static void notarget_cmd_func2(char *, char *, char *, char *);
 static void pistolstart_cmd_func2(char *, char *, char *, char *);
+static dboolean play_cmd_func1(char *, char *, char *, char *);
+static void play_cmd_func2(char *, char *, char *, char *);
 static void playerstats_cmd_func2(char *, char *, char *, char *);
 static void quit_cmd_func2(char *, char *, char *, char *);
 static dboolean respawnmonsters_cmd_func1(char *, char *, char *, char *);
@@ -592,6 +596,8 @@ consolecmd_t consolecmds[] =
         "Toggles the player as a target."),
     CMD(pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles the player starting each map with only a pistol."),
+    CMD(play, "", play_cmd_func1, play_cmd_func2, 1, PLAYCMDFORMAT,
+        "Plays a sound or music lump."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2,
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, 0, "",
@@ -2284,6 +2290,58 @@ static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
     HU_PlayerMessage((pistolstart ? s_STSTR_PSON : s_STSTR_PSOFF), false);
 }
 
+//
+// play cmd
+//
+static int      playcmdid;
+static int      playcmdtype;
+
+static dboolean play_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int         i;
+    char        namebuf[9];
+
+    if (!*parm1)
+        return true;
+
+    for (i = 1; i < NUMSFX; ++i)
+    {
+        M_snprintf(namebuf, sizeof(namebuf), "ds%s", S_sfx[i].name);
+        if (M_StringCompare(parm1, namebuf) && W_CheckNumForName(namebuf) != -1)
+        {
+            playcmdid = i;
+            playcmdtype = 1;
+            return true;
+        }
+    }
+
+    for (i = 1; i < NUMMUSIC; ++i)
+    {
+        M_snprintf(namebuf, sizeof(namebuf), "d_%s", S_music[i].name);
+        if (M_StringCompare(parm1, namebuf) && W_CheckNumForName(namebuf) != -1)
+        {
+            playcmdid = i;
+            playcmdtype = 2;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void play_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (!*parm1)
+        C_Output("%s %s", cmd, PLAYCMDFORMAT);
+    else if (playcmdtype == 1)
+        S_StartSound(NULL, playcmdid);
+    else
+        S_ChangeMusic(playcmdid, true, false, false);
+}
+
+//
+// playerstats cmd
+//
 static void C_PlayerStats_Game(void)
 {
     int         tabs[8] = { 160, 270, 0, 0, 0, 0, 0, 0 };
@@ -2530,9 +2588,6 @@ static void C_PlayerStats_NoGame(void)
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 }
 
-//
-// playerstats cmd
-//
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (gamestate == GS_LEVEL)
