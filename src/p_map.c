@@ -918,7 +918,6 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         // killough 10/98: Allow dropoffs in controlled circumstances
         // killough 11/98: Improve symmetry of clipping on stairs
         if (!(thing->flags & (MF_DROPOFF | MF_FLOAT)))
-        {
             if (!dropoff)
             {
                 if (thing->floorz - tmfloorz > 24 * FRACUNIT
@@ -926,19 +925,13 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
                     return false;
             }
             else
-            {
                 // dropoff allowed -- check for whether it fell more than 24
                 felldown = (!(thing->flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
-            }
-        }
 
         // killough 11/98: prevent falling objects from going up too many steps
-        if ((thing->flags2 & MF2_FALLING)
-            && tmfloorz - thing->z > FixedMul(thing->momx, thing->momx) +
-                                     FixedMul(thing->momy, thing->momy))
-        {
+        if ((thing->flags2 & MF2_FALLING) && tmfloorz - thing->z
+             > FixedMul(thing->momx, thing->momx) + FixedMul(thing->momy, thing->momy))
             return false;
-        }
     }
 
     // the move is ok,
