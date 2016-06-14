@@ -1296,7 +1296,8 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     for (i = 0; i < NUMMOBJTYPES; i++)
         if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm,
             removespaces(mobjinfo[i].name1)) || (*mobjinfo[i].name2 && M_StringCompare(parm,
-            removespaces(mobjinfo[i].name2))) || atoi(parm) == mobjinfo[i].doomednum))
+            removespaces(mobjinfo[i].name2))) || (*mobjinfo[i].name3 && M_StringCompare(parm,
+                removespaces(mobjinfo[i].name3))) || atoi(parm) == mobjinfo[i].doomednum))
             return true;
 
     return false;
@@ -1356,6 +1357,8 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
                         || (*mobjinfo[i].name2
                             && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
+                        || (*mobjinfo[i].name3
+                            && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
                     || atoi(parm) == mobjinfo[i].doomednum))
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
@@ -1438,6 +1441,9 @@ static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
                 || (*mobjinfo[i].plural2 &&
                     M_StringCompare(parm, removespaces(mobjinfo[i].plural2)))
+                || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
+                || (*mobjinfo[i].plural3 &&
+                    M_StringCompare(parm, removespaces(mobjinfo[i].plural3)))
                 || atoi(parm) == killcmdtype))
             {
                 dboolean        kill = true;
