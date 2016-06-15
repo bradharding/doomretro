@@ -5966,7 +5966,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead player",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead marine",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6005,7 +6005,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead zombieman",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead former human",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6044,9 +6044,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead demon",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead pinky demon",
         /* plural2              */ "",
-        /* name3                */ "",
+        /* name3                */ "dead pinky",
         /* plural3              */ ""
     },
 
@@ -6161,9 +6161,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead shotgun guy",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "dead former human sergeant",
         /* plural2              */ "",
-        /* name3                */ "",
+        /* name3                */ "dead sergeant",
         /* plural3              */ ""
     },
 
