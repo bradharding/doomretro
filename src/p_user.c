@@ -155,8 +155,7 @@ void P_CalcHeight(player_t *player)
                 player->viewz += animatedliquiddiff;
                 return;
             }
-            else if (r_liquid_lowerview
-                && ABS(mo->z - mo->subsector->sector->floorheight) <= 24 * FRACUNIT)
+            else if (r_liquid_lowerview)
                 player->viewz -= FOOTCLIPSIZE;
     }
 
