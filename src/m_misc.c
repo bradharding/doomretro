@@ -252,14 +252,11 @@ char *M_GetExecutableFolder(void)
 #elif defined(__MACOSX__)
     char        *exe = malloc(MAX_PATH);
     ssize_t     len = MAX_PATH;
+
     if (!_NSGetExecutablePath(exe, &len))
-    {
         return dirname(exe);
-    }
     else
-    {
         return ".";
-    }
 #else
     return ".";
 #endif

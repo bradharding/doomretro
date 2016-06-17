@@ -151,7 +151,9 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 //
 void P_ExplodeMissile(mobj_t *mo)
 {
-    mo->momx = mo->momy = mo->momz = 0;
+    mo->momx = 0;
+    mo->momy = 0;
+    mo->momz = 0;
 
     P_SetMobjState(mo, mo->info->deathstate);
 

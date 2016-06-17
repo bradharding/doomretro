@@ -416,10 +416,16 @@ static void I_GetEvent(void)
                 if (event.data1)
                 {
                     if (altdown && event.data1 == KEY_TAB)
-                        event.data1 = event.data2 = 0;
+                    {
+                        event.data1 = 0;
+                        event.data2 = 0;
+                    }
 
                     if (!isdigit(event.data2))
-                        idclev = idmus = false;
+                    {
+                        idclev = false;
+                        idmus = false;
+                    }
 
                     if (idbehold && keys[event.data2])
                     {
@@ -546,7 +552,7 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_MOVED:
                             if (!vid_fullscreen && !manuallypositioning)
                             {
-                                char        pos[16] = "";
+                                char    pos[16] = "";
 
                                 windowx = Event->window.data1;
                                 windowy = Event->window.data2;

@@ -149,10 +149,7 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
         num <<= 1;
 
     oldammo = player->ammo[ammo];
-    player->ammo[ammo] += num;
-
-    if (player->ammo[ammo] > player->maxammo[ammo])
-        player->ammo[ammo] = player->maxammo[ammo];
+    player->ammo[ammo] = MIN(player->ammo[ammo] + num, player->maxammo[ammo]);
 
     if (r_hud && !r_althud && num && ammo == weaponinfo[player->readyweapon].ammo)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
@@ -167,32 +164,26 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     {
         case am_clip:
             if (player->readyweapon == wp_fist)
-            {
                 if (player->weaponowned[wp_chaingun])
                     player->pendingweapon = wp_chaingun;
                 else
                     player->pendingweapon = wp_pistol;
-            }
             break;
 
         case am_shell:
             if (player->readyweapon == wp_fist || player->readyweapon == wp_pistol)
-            {
                 if (player->weaponowned[wp_supershotgun]
                     && player->preferredshotgun == wp_supershotgun
                     && player->ammo[am_shell] >= 2)
                     player->pendingweapon = wp_supershotgun;
                 else if (player->weaponowned[wp_shotgun])
                     player->pendingweapon = wp_shotgun;
-            }
             break;
 
         case am_cell:
             if (player->readyweapon == wp_fist || player->readyweapon == wp_pistol)
-            {
                 if (player->weaponowned[wp_plasma])
                     player->pendingweapon = wp_plasma;
-            }
             break;
 
         default:
@@ -217,6 +208,7 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
         player->backpack = true;
 
     }
+
     for (i = 0; i < NUMAMMO; i++)
     {
         if (player->ammo[i] < player->maxammo[i])
@@ -225,9 +217,11 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
             if (r_hud && !r_althud && (ammotype_t)i == weaponinfo[player->readyweapon].ammo)
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
+
         if (giveammo)
             P_GiveAmmo(player, (ammotype_t)i, 1);
     }
+
     return result;
 }
 
@@ -250,6 +244,7 @@ dboolean P_GiveFullAmmo(player_t *player)
     {
         if (r_hud && !r_althud)
             ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+
         return true;
     }
     else
@@ -290,6 +285,7 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
     {
         if (r_hud && !r_althud)
             ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+
         return true;
     }
     else
@@ -309,18 +305,21 @@ dboolean P_GiveAllWeapons(player_t *player)
         player->weaponowned[wp_shotgun] = true;
         oldweaponsowned[wp_shotgun] = true;
     }
+
     if (!oldweaponsowned[wp_chaingun])
     {
         result = true;
         player->weaponowned[wp_chaingun] = true;
         oldweaponsowned[wp_chaingun] = true;
     }
+
     if (!oldweaponsowned[wp_missile])
     {
         result = true;
         player->weaponowned[wp_missile] = true;
         oldweaponsowned[wp_missile] = true;
     }
+
     if (gamemode != shareware)
     {
         if (!oldweaponsowned[wp_plasma])
@@ -329,6 +328,7 @@ dboolean P_GiveAllWeapons(player_t *player)
             player->weaponowned[wp_plasma] = true;
             oldweaponsowned[wp_plasma] = true;
         }
+
         if (!oldweaponsowned[wp_bfg])
         {
             result = true;
@@ -336,6 +336,7 @@ dboolean P_GiveAllWeapons(player_t *player)
             oldweaponsowned[wp_bfg] = true;
         }
     }
+
     if (!oldweaponsowned[wp_chainsaw])
     {
         result = true;
@@ -346,6 +347,7 @@ dboolean P_GiveAllWeapons(player_t *player)
         if (player->readyweapon == wp_fist)
             player->pendingweapon = wp_chainsaw;
     }
+
     if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
     {
         player->preferredshotgun = wp_supershotgun;
@@ -356,8 +358,8 @@ dboolean P_GiveAllWeapons(player_t *player)
         if (player->readyweapon == wp_shotgun)
             player->pendingweapon = wp_supershotgun;
     }
-    player->shotguns = (player->weaponowned[wp_shotgun]
-        || player->weaponowned[wp_supershotgun]);
+
+    player->shotguns = (player->weaponowned[wp_shotgun] || player->weaponowned[wp_supershotgun]);
 
     return result;
 }
@@ -388,6 +390,7 @@ void P_GiveMegaHealth(player_t *player)
     {
         if (player->health < mega_health)
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
         player->health = player->mo->health = mega_health;
     }
 }

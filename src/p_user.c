@@ -308,7 +308,7 @@ void P_ResurrectPlayer(player_t *player)
     // telefrag anything in this spot
     P_TeleportMove(thing, thing->x, thing->y, thing->z, true);
 
-    // respawn the player.
+    // respawn the player
     thing = P_SpawnMobj(x, y, ONFLOORZ, MT_PLAYER);
     thing->angle = player->mo->angle;
     thing->player = player;
