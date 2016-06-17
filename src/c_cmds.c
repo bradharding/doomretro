@@ -1653,8 +1653,6 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (M_StringCompare(parm1, "FIRST"))
     {
-        if (gamestate != GS_LEVEL)
-            return false;
         if (gamemode == commercial)
         {
             if (gamemap == 1)
@@ -1741,8 +1739,6 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else if (M_StringCompare(parm1, "LAST"))
     {
-        if (gamestate != GS_LEVEL)
-            return false;
         if (gamemode == commercial)
         {
             if (gamemission == pack_nerve)
