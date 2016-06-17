@@ -1646,197 +1646,214 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (!*parm1)
         return true;
+    else
+    {
+        char            *map = uppercase(parm1);
+        dboolean        result = false;
 
-    mapcmdepisode = 0;
-    mapcmdmap = 0;
-    parm1 = uppercase(parm1);
+        mapcmdepisode = 0;
+        mapcmdmap = 0;
 
-    if (M_StringCompare(parm1, "FIRST"))
-    {
-        if (gamemode == commercial)
+        if (M_StringCompare(map, "FIRST"))
         {
-            if (gamemap == 1)
-                return false;
-            mapcmdepisode = gameepisode;
-            mapcmdmap = 1;
-            M_StringCopy(mapcmdlump, "MAP01", 6);
-        }
-        else
-        {
-            if (gameepisode == 1 && gamemap == 1)
-                return false;
-            mapcmdepisode = 1;
-            mapcmdmap = 1;
-            M_StringCopy(mapcmdlump, "E1M1", 5);
-        }
-        return true;
-    }
-    else if (M_StringCompare(parm1, "PREVIOUS") || M_StringCompare(parm1, "PREV"))
-    {
-        if (gamestate != GS_LEVEL)
-            return false;
-        if (gamemode == commercial)
-        {
-            if (gamemap == 1)
-                return false;
-            mapcmdepisode = gameepisode;
-            mapcmdmap = gamemap - 1;
-            M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
-        }
-        else
-        {
-            if (gamemap == 1)
+            if (gamemode == commercial)
             {
-                if (gameepisode == 1)
-                    return false;
-                else
+                if (gamemap != 1)
                 {
-                    mapcmdepisode = gameepisode - 1;
-                    mapcmdmap = 8;
-                }
-            }
-            else
-            {
-                mapcmdepisode = gameepisode;
-                mapcmdmap = gamemap - 1;
-            }
-            M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
-        }
-        return true;
-    }
-    else if (M_StringCompare(parm1, "NEXT"))
-    {
-        if (gamestate != GS_LEVEL)
-            return false;
-        if (gamemode == commercial)
-        {
-            if (gamemap == (gamemission == pack_nerve ? 8 : 30))
-                return false;
-            mapcmdepisode = gameepisode;
-            mapcmdmap = gamemap + 1;
-            M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
-        }
-        else
-        {
-            if (gamemap == 8)
-            {
-                if (gameepisode == (gamemode == retail ? 4 : gamemode == shareware ? 1 : 3))
-                    return false;
-                else
-                {
-                    mapcmdepisode = gameepisode + 1;
+                    mapcmdepisode = gameepisode;
                     mapcmdmap = 1;
+                    M_StringCopy(mapcmdlump, "MAP01", 6);
+                    result = true;
                 }
             }
             else
             {
-                mapcmdepisode = gameepisode;
-                mapcmdmap = gamemap + 1;
+                if (!(gameepisode == 1 && gamemap == 1))
+                {
+                    mapcmdepisode = 1;
+                    mapcmdmap = 1;
+                    M_StringCopy(mapcmdlump, "E1M1", 5);
+                    result = true;
+                }
             }
-            M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
         }
-        return true;
-    }
-    else if (M_StringCompare(parm1, "LAST"))
-    {
-        if (gamemode == commercial)
+        else if ((M_StringCompare(map, "PREVIOUS") || M_StringCompare(map, "PREV"))
+            && gamestate == GS_LEVEL)
         {
-            if (gamemission == pack_nerve)
+            if (gamemode == commercial)
+            {
+                if (gamemap != 1)
+                {
+                    mapcmdepisode = gameepisode;
+                    mapcmdmap = gamemap - 1;
+                    M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+                    result = true;
+                }
+            }
+            else
+            {
+                if (gamemap == 1)
+                {
+                    if (gameepisode != 1)
+                    {
+                        mapcmdepisode = gameepisode - 1;
+                        mapcmdmap = 8;
+                        result = true;
+                    }
+                }
+                else
+                {
+                    mapcmdepisode = gameepisode;
+                    mapcmdmap = gamemap - 1;
+                    result = true;
+                }
+                M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+            }
+        }
+        else if (M_StringCompare(map, "NEXT") && gamestate == GS_LEVEL)
+        {
+            if (gamemode == commercial)
+            {
+                if (gamemap != (gamemission == pack_nerve ? 8 : 30))
+                {
+                    mapcmdepisode = gameepisode;
+                    mapcmdmap = gamemap + 1;
+                    M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+                    result = true;
+                }
+            }
+            else
             {
                 if (gamemap == 8)
-                    return false;
-                mapcmdepisode = gameepisode;
-                mapcmdmap = 8;
-                M_StringCopy(mapcmdlump, "MAP08", 6);
+                {
+                    if (gameepisode != (gamemode == retail ? 4 : gamemode == shareware ? 1 : 3))
+                    {
+                        mapcmdepisode = gameepisode + 1;
+                        mapcmdmap = 1;
+                        result = true;
+                    }
+                }
+                else
+                {
+                    mapcmdepisode = gameepisode;
+                    mapcmdmap = gamemap + 1;
+                    result = true;
+                }
+                M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+            }
+        }
+        else if (M_StringCompare(map, "LAST"))
+        {
+            if (gamemode == commercial)
+            {
+                if (gamemission == pack_nerve)
+                {
+                    if (gamemap != 8)
+                    {
+                        mapcmdepisode = gameepisode;
+                        mapcmdmap = 8;
+                        M_StringCopy(mapcmdlump, "MAP08", 6);
+                        result = true;
+                    }
+                }
+                else
+                {
+                    if (gamemap != 30)
+                    {
+                        mapcmdepisode = gameepisode;
+                        mapcmdmap = 30;
+                        M_StringCopy(mapcmdlump, "MAP30", 6);
+                        result = true;
+                    }
+                }
+            }
+            else if (gamemode == retail)
+            {
+                if (!(gameepisode == 4 && gamemap == 8))
+                {
+                    mapcmdepisode = 4;
+                    mapcmdmap = 8;
+                    M_StringCopy(mapcmdlump, "E4M8", 5);
+                    result = true;
+                }
+            }
+            else if (gamemode == shareware)
+            {
+                if (!(gameepisode == 1 && gamemap == 8))
+                {
+                    mapcmdepisode = 1;
+                    mapcmdmap = 8;
+                    M_StringCopy(mapcmdlump, "E1M8", 5);
+                    result = true;
+                }
             }
             else
             {
-                if (gamemap == 30)
-                    return false;
-                mapcmdepisode = gameepisode;
-                mapcmdmap = 30;
-                M_StringCopy(mapcmdlump, "MAP30", 6);
+                if (!(gameepisode == 4 && gamemap == 8))
+                {
+                    mapcmdepisode = 3;
+                    mapcmdmap = 8;
+                    M_StringCopy(mapcmdlump, "E3M8", 5);
+                    result = true;
+                }
             }
-        }
-        else if (gamemode == retail)
-        {
-            if (gameepisode == 4 && gamemap == 8)
-                return false;
-            mapcmdepisode = 4;
-            mapcmdmap = 8;
-            M_StringCopy(mapcmdlump, "E4M8", 5);
-        }
-        else if (gamemode == shareware)
-        {
-            if (gameepisode == 1 && gamemap == 8)
-                return false;
-            mapcmdepisode = 1;
-            mapcmdmap = 8;
-            M_StringCopy(mapcmdlump, "E1M8", 5);
         }
         else
         {
-            if (gameepisode == 4 && gamemap == 8)
-                return false;
-            mapcmdepisode = 3;
-            mapcmdmap = 8;
-            M_StringCopy(mapcmdlump, "E3M8", 5);
-        }
-        return true;
-    }
-    M_StringCopy(mapcmdlump, parm1, 7);
-    if (gamemode == commercial)
-    {
-        mapcmdepisode = 1;
-
-        if (sscanf(parm1, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm1, "MAP%2i", &mapcmdmap) == 1)
-            if ((BTSX && W_CheckMultipleLumps(parm1) == 1)
-                || (gamemission == pack_nerve && mapcmdmap > 9))
-                return false;
-            else
+            M_StringCopy(mapcmdlump, map, 7);
+            if (gamemode == commercial)
             {
-                if (gamestate != GS_LEVEL && gamemission == pack_nerve)
-                {
-                    gamemission = doom2;
-                    expansion = 0;
-                }
-                return (W_CheckNumForName(parm1) >= 0);
-            }
+                mapcmdepisode = 1;
 
-        if (BTSX)
-        {
-            if (sscanf(parm1, "MAP%02iC", &mapcmdmap) == 1)
-                return (W_CheckNumForName(parm1) >= 0);
-            else
-            {
-                if (sscanf(parm1, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
-                    sscanf(parm1, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
-                if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
-                    || (mapcmdepisode == 3 && BTSXE3)))
-                {
-                    static char     lump[6];
+                if (sscanf(map, "MAP0%1i", &mapcmdmap) == 1
+                    || sscanf(map, "MAP%2i", &mapcmdmap) == 1)
+                    if (!((BTSX && W_CheckMultipleLumps(map) == 1)
+                        || (gamemission == pack_nerve && mapcmdmap > 9)))
+                    {
+                        if (gamestate != GS_LEVEL && gamemission == pack_nerve)
+                        {
+                            gamemission = doom2;
+                            expansion = 0;
+                        }
+                        result = (W_CheckNumForName(map) >= 0);
+                    }
 
-                    M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
-                    return (W_CheckMultipleLumps(lump) == 2);
+                if (BTSX)
+                {
+                    if (sscanf(map, "MAP%02iC", &mapcmdmap) == 1)
+                        result = (W_CheckNumForName(map) >= 0);
+                    else
+                    {
+                        if (sscanf(map, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
+                            sscanf(map, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
+                        if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1)
+                            || (mapcmdepisode == 2 && BTSXE2) || (mapcmdepisode == 3 && BTSXE3)))
+                        {
+                            static char     lump[6];
+
+                            M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
+                            result = (W_CheckMultipleLumps(lump) == 2);
+                        }
+                    }
                 }
             }
+            else if (sscanf(map, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+            {
+                episode = mapcmdepisode - 1;
+                result = (W_CheckNumForName(map) >= 0);
+            }
+            else if (FREEDOOM && sscanf(map, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+            {
+                static char     lump[5];
+
+                M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
+                result = (W_CheckNumForName(lump) >= 0);
+            }
         }
-    }
-    else if (sscanf(parm1, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-    {
-        episode = mapcmdepisode - 1;
 
-        return (W_CheckNumForName(parm1) >= 0);
+        free(map);
+        return result;
     }
-    else if (FREEDOOM && sscanf(parm1, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-    {
-        static char     lump[5];
-
-        M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
-        return (W_CheckNumForName(lump) >= 0);
-    }
-
-    return false;
 }
 
 static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
