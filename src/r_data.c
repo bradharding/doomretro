@@ -324,7 +324,7 @@ void R_InitTextures(void)
             patch->originy = SHORT(mpatch->originy);
             patch->patch = patchlookup[SHORT(mpatch->patch)];
             if (patch->patch == -1)
-                C_Warning("Patch %d is missing in the %.8s texture.", SHORT(mpatch->patch),
+                C_Warning("Patch %i is missing in the %.8s texture.", SHORT(mpatch->patch),
                     texture->name);     // killough 4/17/98
         }
 

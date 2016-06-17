@@ -2034,7 +2034,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         }
 
         if (devparm)
-            C_Output("Processing function [%d] for %s", i, deh_blocks[i].key);
+            C_Output("Processing function [%i] for %s", i, deh_blocks[i].key);
         deh_blocks[i].fptr(filein, inbuffer);           // call function
 
         if (!filein->lump)                              // back up line start
@@ -2089,10 +2089,10 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         }
 
         if (devparm)
-            C_Output("Processing pointer at index %d: %s", indexnum, mnemonic);
+            C_Output("Processing pointer at index %i: %s", indexnum, mnemonic);
         if (indexnum < 0 || indexnum >= NUMSTATES)
         {
-            C_Warning("Bad pointer number %d of %d.", indexnum, NUMSTATES);
+            C_Warning("Bad pointer number %i of %i.", indexnum, NUMSTATES);
             return;     // killough 10/98: fix SegViol
         }
         strcpy(key, "A_");      // reusing the key area to prefix the mnemonic
@@ -2104,7 +2104,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
             {   // Ty 06/01/98  - add to states[].action for new djgcc version
                 states[indexnum].action = deh_bexptrs[i].cptr;  // assign
                 if (devparm)
-                    C_Output(" - applied %s from codeptr[%d] to states[%d]",
+                    C_Output(" - applied %s from codeptr[%i] to states[%i]",
                         deh_bexptrs[i].lookup, i, indexnum);
                 found = true;
             }
@@ -2112,7 +2112,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         }
 
         if (!found)
-            C_Warning("Invalid frame pointer mnemonic \"%s\" at %d.", mnemonic, indexnum);
+            C_Warning("Invalid frame pointer mnemonic \"%s\" at %i.", mnemonic, indexnum);
     }
     return;
 }
@@ -2144,7 +2144,7 @@ void deh_procThing(DEHFILE *fpin, char *line)
     // killough 8/98: allow hex numbers in input:
     ix = sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
-        C_Output("count = %d, Thing %d", ix, indexnum);
+        C_Output("count = %i, Thing %i", ix, indexnum);
 
     // Note that the mobjinfo[] array is base zero, but object numbers
     // in the dehacked file start with one. Grumble.
@@ -2266,7 +2266,7 @@ void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].projectilepassheight = 0;
             }
             if (devparm)
-                C_Output("Assigned %d to %s (%d) at index %d.", (int)value, key, indexnum, ix);
+                C_Output("Assigned %i to %s (%i) at index %i.", (int)value, key, indexnum, ix);
         }
     }
     return;
@@ -2291,9 +2291,9 @@ void deh_procFrame(DEHFILE *fpin, char *line)
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
-        C_Output("Processing Frame at index %d: %s", indexnum, key);
+        C_Output("Processing Frame at index %i: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMSTATES)
-        C_Warning("Bad frame number %d of %d.", indexnum, NUMSTATES);
+        C_Warning("Bad frame number %i of %i.", indexnum, NUMSTATES);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -2390,10 +2390,10 @@ void deh_procPointer(DEHFILE *fpin, char *line)
     }
 
     if (devparm)
-        C_Output("Processing Pointer at index %d: %s", indexnum, key);
+        C_Output("Processing Pointer at index %i: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMSTATES)
     {
-        C_Warning("Bad pointer number %d of %d.", indexnum, NUMSTATES);
+        C_Warning("Bad pointer number %i of %i.", indexnum, NUMSTATES);
         return;
     }
 
@@ -2412,7 +2412,7 @@ void deh_procPointer(DEHFILE *fpin, char *line)
 
         if (value < 0 || value >= NUMSTATES)
         {
-            C_Warning("Bad pointer number %ld of %d.", value, NUMSTATES);
+            C_Warning("Bad pointer number %ld of %i.", value, NUMSTATES);
             return;
         }
 
@@ -2420,7 +2420,7 @@ void deh_procPointer(DEHFILE *fpin, char *line)
         {
             states[indexnum].action = deh_codeptr[value];
             if (devparm)
-                C_Output(" - applied %p from codeptr[%ld] to states[%d]",
+                C_Output(" - applied %p from codeptr[%ld] to states[%i]",
                     (void *)deh_codeptr[value], value, indexnum);
 
             // Write BEX-oriented line to match:
@@ -2428,7 +2428,7 @@ void deh_procPointer(DEHFILE *fpin, char *line)
                 if (!memcmp(&deh_bexptrs[i].cptr, &deh_codeptr[value], sizeof(actionf_t)))
                 {
                     if (devparm)
-                        C_Output("BEX [CODEPTR] -> FRAME %d = %s",
+                        C_Output("BEX [CODEPTR] -> FRAME %i = %s",
                             indexnum, &deh_bexptrs[i].lookup[2]);
                     break;
                 }
@@ -2459,9 +2459,9 @@ void deh_procSounds(DEHFILE *fpin, char *line)
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
-        C_Output("Processing Sounds at index %d: %s", indexnum, key);
+        C_Output("Processing Sounds at index %i: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMSFX)
-        C_Warning("Bad sound number %d of %d.", indexnum, NUMSFX);
+        C_Warning("Bad sound number %i of %i.", indexnum, NUMSFX);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -2514,9 +2514,9 @@ void deh_procAmmo(DEHFILE *fpin, char *line)
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
-        C_Output("Processing Ammo at index %d: %s", indexnum, key);
+        C_Output("Processing Ammo at index %i: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMAMMO)
-        C_Warning("Bad ammo number %d of %d.", indexnum, NUMAMMO);
+        C_Warning("Bad ammo number %i of %i.", indexnum, NUMAMMO);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -2559,9 +2559,9 @@ void deh_procWeapon(DEHFILE *fpin, char *line)
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
-        C_Output("Processing Weapon at index %d: %s", indexnum, key);
+        C_Output("Processing Weapon at index %i: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMWEAPONS)
-        C_Warning("Bad weapon number %d of %d.", indexnum, NUMAMMO);
+        C_Warning("Bad weapon number %i of %i.", indexnum, NUMAMMO);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -2612,7 +2612,7 @@ void deh_procSprite(DEHFILE *fpin, char *line) // Not supported
 
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
-    C_Warning("Ignoring sprite offset change at index %d: \"%s\".", indexnum, key);
+    C_Warning("Ignoring sprite offset change at index %i: \"%s\".", indexnum, key);
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin)) break;
@@ -2671,7 +2671,7 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
-        C_Output("Processing Par value at index %d: %s", indexnum, key);
+        C_Output("Processing Par value at index %i: %s", indexnum, key);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -2691,12 +2691,12 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
             { // is 2
                 // Ty 07/11/98 - wrong range check, not zero-based
                 if (level < 1 || level > 32)    // base 0 array (but 1-based parm)
-                    C_Warning("Invalid MAPxy value MAP%d.", level);
+                    C_Warning("Invalid MAPxy value MAP%i.", level);
                 else
                 {
                     oldpar = cpars[level - 1];
                     if (devparm)
-                        C_Output("Changed par time for MAP%02d from %d to %d seconds",
+                        C_Output("Changed par time for MAP%02d from %i to %i seconds",
                             level, oldpar, partime);
                     cpars[level - 1] = partime;
                     deh_pars = true;
@@ -2711,13 +2711,13 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
             // Note that episode 4 does not have par times per original design
             // in Ultimate DOOM so that is not supported here.
             if (episode < 1 || episode > 3 || level < 1 || level > 9)
-                C_Warning("Invalid ExMx values E%dM%d.", episode, level);
+                C_Warning("Invalid ExMx values E%iM%i.", episode, level);
             else
             {
                 oldpar = pars[episode][level];
                 pars[episode][level] = partime;
                 if (devparm)
-                    C_Output("Changed par time for E%dM%d from %d to %d seconds",
+                    C_Output("Changed par time for E%iM%i from %i to %i seconds",
                         episode, level, oldpar, partime);
                 deh_pars = true;
             }
@@ -2927,7 +2927,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         }
 
         if (success && devparm)
-            C_Output("Assigned new cheat '%s' to cheat '%s' at index %d",
+            C_Output("Assigned new cheat '%s' to cheat '%s' at index %i",
                 p, cheat_mus.sequence, iy);
 
         if (devparm)
@@ -3038,7 +3038,7 @@ void deh_procText(DEHFILE *fpin, char *line)
     // killough 8/98: allow hex numbers in input:
     sscanf(line, "%31s %10i %10i", key, &fromlen, &tolen);
     if (devparm)
-        C_Output("Processing Text (key = %s, from = %d, to = %d)", key, fromlen, tolen);
+        C_Output("Processing Text (key = %s, from = %i, to = %i)", key, fromlen, tolen);
 
     // killough 10/98: fix incorrect usage of feof
     {
@@ -3062,7 +3062,7 @@ void deh_procText(DEHFILE *fpin, char *line)
             if (!strncasecmp(sprnames[i], inbuffer, fromlen))           // not first char
             {
                 if (devparm)
-                    C_Output("Changing name of sprite at index %d from %s to %*s",
+                    C_Output("Changing name of sprite at index %i from %s to %*s",
                         i, sprnames[i], tolen, &inbuffer[fromlen]);
                 // Ty 03/18/98 - not using strdup because length is fixed
 
@@ -3081,7 +3081,7 @@ void deh_procText(DEHFILE *fpin, char *line)
     {
         usedlen = (fromlen < tolen ? fromlen : tolen);
         if (fromlen != tolen)
-            C_Warning("Mismatched lengths from %d to %d. Using %d.", fromlen, tolen, usedlen);
+            C_Warning("Mismatched lengths from %i to %i. Using %i.", fromlen, tolen, usedlen);
 
         // Try sound effects entries - see sounds.c
         for (i = 1; i < NUMSFX; i++)
@@ -3125,7 +3125,7 @@ void deh_procText(DEHFILE *fpin, char *line)
     if (!found) // Nothing we want to handle here -- see if strings can deal with it.
     {
         if (devparm)
-            C_Output("Checking text area through strings for \"%.12s%s\" from = %d to = %d",
+            C_Output("Checking text area through strings for \"%.12s%s\" from = %i to = %i",
                 inbuffer, (strlen(inbuffer) > 12 ? "..." : ""), fromlen, tolen);
         if ((size_t)fromlen <= strlen(inbuffer))
         {
@@ -3200,7 +3200,7 @@ void deh_procStrings(DEHFILE *fpin, char *line)
             // killough 11/98: allocate enough the first time
             maxstrlen += strlen(holdstring) + strlen(inbuffer) - maxstrlen;
             if (devparm)
-                C_Output("* increased buffer from to %d for buffer size %d",
+                C_Output("* increased buffer from to %i for buffer size %i",
                     maxstrlen, (int)strlen(inbuffer));
             holdstring = Z_Realloc(holdstring, maxstrlen * sizeof(*holdstring));
         }

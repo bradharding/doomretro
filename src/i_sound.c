@@ -619,12 +619,12 @@ dboolean I_InitSound(void)
 
     if (linked->major != SDL_MIXER_MAJOR_VERSION || linked->minor != SDL_MIXER_MINOR_VERSION)
         I_Error("The wrong version of sdl2_mixer.dll was found. "PACKAGE_NAME" requires "
-            "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
+            "v%i.%i.%i, not v%i.%i.%i.", linked->major, linked->minor, linked->patch,
             SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (linked->patch != SDL_MIXER_PATCHLEVEL)
         C_Warning("The wrong version of sdl2_mixer.dll was found. "PACKAGE_NAME" requires "
-            "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
+            "v%i.%i.%i, not v%i.%i.%i.", linked->major, linked->minor, linked->patch,
             SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (Mix_OpenAudio(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize()) < 0)

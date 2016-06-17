@@ -51,7 +51,7 @@
 #define PACKAGE_ICON_PATH               "..\\res\\doomretro.ico"
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define PACKAGE_NAME                    "DOOM Retro"
-#define PACKAGE_SAVE                    "doomretro%d.save"
+#define PACKAGE_SAVE                    "doomretro%i.save"
 #define PACKAGE_WAD                     "doomretro.wad"
 #define PACKAGE_WIKI_START_URL          "http://start.doomretro.com/"
 #define PACKAGE_WIKI_HELP_URL           "http://help.doomretro.com/"
