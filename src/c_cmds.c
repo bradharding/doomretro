@@ -609,7 +609,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The intensity of the screen's red haze when the player has the\nberserk power-up and their fists selected."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS,
-        "The color of the blood of the player and monsters (<b>all</b>, <b>none</b> or\n<b>red</b>)."),
+        "The colors of the blood of the player and monsters (<b>all</b>, <b>none</b> or\n<b>red</b>)."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
         "The maximum number of blood splats allowed in a map (<b>0</b> to\n<b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOALIAS,
@@ -627,7 +627,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_corpses_slide, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles corpses reacting to barrel and rocket explosions."),
     CVAR_BOOL(r_corpses_smearblood, "", bool_cvars_func1, bool_cvars_func2,
-        "Toggles corpses producing blood splats as they slide."),
+        "Toggles corpses leaving blood splats as they slide."),
     CVAR_BOOL(r_detail, "", r_detail_cvar_func1, r_detail_cvar_func2,
         "Toggles the graphic detail (<b>low</b> or <b>high</b>)."),
     CVAR_BOOL(r_diskicon, "", bool_cvars_func1, bool_cvars_func2,
@@ -639,7 +639,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_floatbob, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles some power-ups bobbing up and down."),
     CVAR_FLOAT(r_gamma, "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE,
-        "The gamma correction level (<b>off</b> or <b>0.50</b> to <b>2.0</b>)."),
+        "The gamma correction level (<b>off</b>, or <b>0.50</b> to <b>2.0</b>)."),
     CVAR_BOOL(r_homindicator, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles the flashing Hall of Mirrors indicator."),
     CVAR_BOOL(r_hud, "", bool_cvars_func1, r_hud_cvar_func2,
@@ -1973,7 +1973,6 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     // sort the map list
     for (i = 0; i < count; i++)
         for (j = i + 1; j < count; j++)
-        {
             if (strcmp(maplist[i], maplist[j]) > 0)
             {
                 char    temp[256];
@@ -1982,7 +1981,6 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 strcpy(maplist[i], maplist[j]);
                 strcpy(maplist[j], temp);
             }
-        }
 
     // display the map list
     for (i = 0; i < count; ++i)
