@@ -55,7 +55,6 @@ extern int              am_backcolor;
 extern int              am_cdwallcolor;
 extern dboolean         am_external;
 extern int              am_fdwallcolor;
-extern dboolean         am_followmode;
 extern dboolean         am_grid;
 extern int              am_gridcolor;
 extern int              am_markcolor;
@@ -191,7 +190,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_external,                           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                        NOALIAS    ),
-    CONFIG_VARIABLE_INT          (am_followmode,                         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_grid,                               BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_gridcolor,                          NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_markcolor,                          NOALIAS    ),
@@ -543,8 +541,6 @@ static void M_CheckCVARs(void)
 
     if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)
         am_fdwallcolor = am_fdwallcolor_default;
-
-    am_followmode = am_followmode_default;
 
     if (am_grid != false && am_grid != true)
         am_grid = am_grid_default;
