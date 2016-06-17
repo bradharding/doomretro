@@ -168,6 +168,7 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
+extern int              weaponbob;
 
 extern char             *packageconfig;
 extern dboolean         returntowidescreen;
@@ -303,7 +304,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (vid_vsync,                             BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_widescreen,                        BOOLALIAS  ),
     CONFIG_VARIABLE_OTHER        (vid_windowposition,                    NOALIAS    ),
-    CONFIG_VARIABLE_OTHER        (vid_windowsize,                        NOALIAS    )
+    CONFIG_VARIABLE_OTHER        (vid_windowsize,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                             NOALIAS    )
 };
 
 alias_t aliases[] =
@@ -762,6 +764,8 @@ static void M_CheckCVARs(void)
     }
     else
         r_hud = true;
+
+    weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
 
     M_SaveCVARs();
 }
