@@ -1498,7 +1498,7 @@ void G_DoSaveGame(void)
         menuactive = false;
         consoleheight = 1;
         consoledirection = 1;
-        C_Warning("%s couldn't be saved.", uppercase(savename));
+        C_Warning("<b>%s</b> couldn't be saved.", savename);
     }
     else
     {

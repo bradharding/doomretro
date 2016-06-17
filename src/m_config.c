@@ -491,7 +491,7 @@ static int ParseIntParameter(char *strparm, int aliastype)
     {
         if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return aliases[i].value;
-        i++;
+        ++i;
     }
 
     sscanf(strparm, "%10i", &parm);
@@ -502,13 +502,13 @@ static int ParseIntParameter(char *strparm, int aliastype)
 // Parses float values in the configuration file
 static float ParseFloatParameter(char *strparm, int aliastype)
 {
-    int     i = 0;
+    int i = 0;
 
     while (*aliases[i].text)
     {
         if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return (float)aliases[i].value;
-        i++;
+        ++i;
     }
 
     return (float)atof(strparm);

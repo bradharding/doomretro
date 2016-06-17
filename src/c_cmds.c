@@ -1874,7 +1874,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     gamemap = mapcmdmap;
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."),
-        uppercase(mapcmdlump));
+        mapcmdlump);
     C_Output(buffer);
     players[0].message = buffer;
     message_dontfuckwithme = true;
