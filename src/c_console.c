@@ -1160,7 +1160,8 @@ dboolean C_Responder(event_t *ev)
                     outputhistory = 0;
                 else if (caretpos > 0)
                 {
-                    caretpos = selectstart = selectend = 0;
+                    selectend = ((modstate & KMOD_SHIFT) ? caretpos : 0);
+                    caretpos = selectstart = 0;
                     caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
@@ -1172,7 +1173,8 @@ dboolean C_Responder(event_t *ev)
                     outputhistory = -1;
                 else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
-                    caretpos = selectstart = selectend = strlen(consoleinput);
+                    selectstart = ((modstate & KMOD_SHIFT) ? caretpos : strlen(consoleinput));
+                    caretpos = selectend = strlen(consoleinput);
                     caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
