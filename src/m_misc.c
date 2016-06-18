@@ -542,7 +542,8 @@ char *titlecase(const char *str)
 
         newstr[0] = toupper(newstr[0]);
         for (i = 1; i < len; ++i)
-            if (!isalnum((unsigned char)newstr[i - 1]) && isalnum((unsigned char)newstr[i]))
+            if ((newstr[i - 1] == ' ' || ((i == 1 || newstr[i - 2] == ' ')
+                && !isalnum((unsigned char)newstr[i - 1]))) && isalnum((unsigned char)newstr[i]))
                 newstr[i] = toupper(newstr[i]);
     }
 
