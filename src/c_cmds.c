@@ -161,6 +161,7 @@ extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
+extern int              savegame;
 extern int              skilllevel;
 extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
@@ -686,6 +687,8 @@ consolecmd_t consolecmds[] =
         "The path of Timidity's configuration file."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, "<i>filename</i><b>.save</b>",
         "Saves the game to a file."),
+    CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
+        "The currently selected savegame in the menu."),
     CVAR_INT(skilllevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
         "The currently selected skill level in the menu."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
