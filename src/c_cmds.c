@@ -76,7 +76,7 @@
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
-#define PLAYCMDFORMAT           "<i>lumpname</i>"
+#define PLAYCMDFORMAT           "<i>music</i>|<i>sound</i>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 
 int     ammo;
