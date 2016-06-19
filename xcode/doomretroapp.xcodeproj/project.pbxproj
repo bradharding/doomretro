@@ -278,7 +278,6 @@
 		F3C1ED671CF508B500C3E94F /* m_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_config.h; path = ../../src/m_config.h; sourceTree = "<group>"; };
 		F3C1ED681CF508B500C3E94F /* r_patch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = r_patch.c; path = ../../src/r_patch.c; sourceTree = "<group>"; };
 		F3C1ED691CF508B500C3E94F /* r_patch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = r_patch.h; path = ../../src/r_patch.h; sourceTree = "<group>"; };
-		F3C1ED6F1CF50ABB00C3E94F /* doomretro.wad */ = {isa = PBXFileReference; lastKnownFileType = file; name = doomretro.wad; path = doomretroapp/doomretro.wad; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,7 +309,7 @@
 		9F385F301C29BFAF00BD4F2B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F3C1ED6F1CF50ABB00C3E94F /* doomretro.wad */,
+				F31526701D16F69100824B66 /* doomretro.wad */,
 				8A6AB8161B49BE8100E0666A /* doomretro.icns */,
 				AB5A80C61A8DABE100AF539F /* Info.plist */,
 			);
@@ -320,7 +319,6 @@
 		AB5A80B91A8DABE100AF539F = {
 			isa = PBXGroup;
 			children = (
-				F31526701D16F69100824B66 /* doomretro.wad */,
 				9F385F2F1C29BFA400BD4F2B /* Frameworks */,
 				9F385F301C29BFAF00BD4F2B /* Resources */,
 				AB5A80C41A8DABE100AF539F /* doomretroapp */,
