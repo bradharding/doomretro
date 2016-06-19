@@ -39,9 +39,9 @@
 #if !defined(__VERSION_H__)
 #define __VERSION_H__
 
-#define PACKAGE_VERSION                 2,3,0,0
-#define PACKAGE_VERSIONSTRING           "2.3"
-#define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v2.3"
+#define PACKAGE_VERSION                 2,2,3,0
+#define PACKAGE_VERSIONSTRING           "2.2.3"
+#define PACKAGE_NAMEANDVERSIONSTRING    "DOOM Retro v2.2.3"
 #define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM Retro v2.1.4"
 
 #define PACKAGE                         "doomretro"
@@ -51,7 +51,7 @@
 #define PACKAGE_ICON_PATH               "..\\res\\doomretro.ico"
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define PACKAGE_NAME                    "DOOM Retro"
-#define PACKAGE_SAVE                    "doomretro%d.save"
+#define PACKAGE_SAVE                    "doomretro%i.save"
 #define PACKAGE_WAD                     "doomretro.wad"
 #define PACKAGE_WIKI_START_URL          "http://start.doomretro.com/"
 #define PACKAGE_WIKI_HELP_URL           "http://help.doomretro.com/"

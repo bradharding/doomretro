@@ -40,6 +40,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "m_argv.h"
+#include "m_controls.h"
 #include "version.h"
 
 int     windowborderwidth = 0;
@@ -97,7 +98,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
                     if (vkCode == VK_LWIN || vkCode == VK_RWIN)
                         bEatKeystroke = ((!menuactive && !paused && !consoleactive)
                             || vid_fullscreen);
-                    else if (vkCode == VK_SNAPSHOT)
+                    else if (key_screenshot == KEY_PRINTSCREEN && vkCode == VK_SNAPSHOT)
                     {
                         if (wParam == WM_KEYDOWN)
                             G_ScreenShot();

@@ -1446,6 +1446,8 @@ typedef struct
     char        plural1[100];
     char        name2[100];
     char        plural2[100];
+    char        name3[100];
+    char        plural3[100];
     void        (*colfunc)(void);
 } mobjinfo_t;
 

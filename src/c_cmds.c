@@ -60,6 +60,7 @@
 #include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
+#include "sounds.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
@@ -75,6 +76,7 @@
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
+#define PLAYCMDFORMAT           "<i>music</i>|<i>sound</i>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 
 int     ammo;
@@ -159,6 +161,7 @@ extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
+extern int              savegame;
 extern int              skilllevel;
 extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
@@ -202,6 +205,7 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
+extern dboolean         weaponbob;
 
 extern int              pixelwidth;
 extern int              pixelheight;
@@ -225,44 +229,45 @@ control_t controls[] =
     { "i",             keyboardcontrol, 'i'             }, { "o",             keyboardcontrol, 'o'             },
     { "p",             keyboardcontrol, 'p'             }, { "[",             keyboardcontrol, '['             },
     { "]",             keyboardcontrol, ']'             }, { "enter",         keyboardcontrol, KEY_ENTER       },
-    { "ctrl",          keyboardcontrol, KEY_RCTRL       }, { "a",             keyboardcontrol, 'a'             },
+    { "ctrl",          keyboardcontrol, KEY_CTRL        }, { "a",             keyboardcontrol, 'a'             },
     { "s",             keyboardcontrol, 's'             }, { "d",             keyboardcontrol, 'd'             },
     { "f",             keyboardcontrol, 'f'             }, { "g",             keyboardcontrol, 'g'             },
     { "h",             keyboardcontrol, 'h'             }, { "j",             keyboardcontrol, 'j'             },
     { "k",             keyboardcontrol, 'k'             }, { "l",             keyboardcontrol, 'l'             },
     { ";",             keyboardcontrol, ';'             }, { "\'",            keyboardcontrol, '\''            },
-    { "shift",         keyboardcontrol, KEY_RSHIFT      }, { "\\",            keyboardcontrol, '\\'            },
+    { "shift",         keyboardcontrol, KEY_SHIFT       }, { "\\",            keyboardcontrol, '\\'            },
     { "z",             keyboardcontrol, 'z'             }, { "x",             keyboardcontrol, 'x'             },
     { "c",             keyboardcontrol, 'c'             }, { "v",             keyboardcontrol, 'v'             },
     { "b",             keyboardcontrol, 'b'             }, { "n",             keyboardcontrol, 'n'             },
     { "m",             keyboardcontrol, 'm'             }, { ",",             keyboardcontrol, ','             },
     { ".",             keyboardcontrol, '.'             }, { "/",             keyboardcontrol, '/'             },
-    { "tilde",         keyboardcontrol, KEY_TILDE       }, { "alt",           keyboardcontrol, KEY_RALT        },
+    { "tilde",         keyboardcontrol, KEY_TILDE       }, { "alt",           keyboardcontrol, KEY_ALT         },
     { "space",         keyboardcontrol, ' '             }, { "numlock",       keyboardcontrol, KEY_NUMLOCK     },
-    { "capslock",      keyboardcontrol, KEY_CAPSLOCK    }, { "scrolllock",    keyboardcontrol, KEY_SCRLCK      },
+    { "capslock",      keyboardcontrol, KEY_CAPSLOCK    }, { "scrolllock",    keyboardcontrol, KEY_SCROLLLOCK  },
     { "home",          keyboardcontrol, KEY_HOME        }, { "up",            keyboardcontrol, KEY_UPARROW     },
-    { "pageup",        keyboardcontrol, KEY_PGUP        }, { "left",          keyboardcontrol, KEY_LEFTARROW   },
+    { "pageup",        keyboardcontrol, KEY_PAGEUP      }, { "left",          keyboardcontrol, KEY_LEFTARROW   },
     { "right",         keyboardcontrol, KEY_RIGHTARROW  }, { "end",           keyboardcontrol, KEY_END         },
-    { "down",          keyboardcontrol, KEY_DOWNARROW   }, { "pagedown",      keyboardcontrol, KEY_PGDN        },
-    { "insert",        keyboardcontrol, KEY_INS         }, { "delete",        keyboardcontrol, KEY_DEL         },
-    { "escape",        keyboardcontrol, KEY_ESCAPE      }, { "mouse1",        mousecontrol,    0               },
-    { "mouse2",        mousecontrol,    1               }, { "mouse3",        mousecontrol,    2               },
-    { "mouse4",        mousecontrol,    3               }, { "mouse5",        mousecontrol,    4               },
-    { "mouse6",        mousecontrol,    5               }, { "mouse7",        mousecontrol,    6               },
-    { "mouse8",        mousecontrol,    7               }, { "mouse9",        mousecontrol,    8               },
-    { "mouse10",       mousecontrol,    9               }, { "mouse11",       mousecontrol,    10              },
-    { "mouse12",       mousecontrol,    11              }, { "mouse13",       mousecontrol,    12              },
-    { "mouse14",       mousecontrol,    13              }, { "mouse15",       mousecontrol,    14              },
-    { "mouse16",       mousecontrol,    15              }, { "wheelup",       mousecontrol,    MOUSE_WHEELUP   },
-    { "wheeldown",     mousecontrol,    MOUSE_WHEELDOWN }, { "dpadup",        gamepadcontrol,  1               },
-    { "dpaddown",      gamepadcontrol,  2               }, { "dpadleft",      gamepadcontrol,  4               },
-    { "dpadright",     gamepadcontrol,  8               }, { "start",         gamepadcontrol,  16              },
-    { "back",          gamepadcontrol,  32              }, { "leftthumb",     gamepadcontrol,  64              },
-    { "rightthumb",    gamepadcontrol,  128             }, { "leftshoulder",  gamepadcontrol,  256             },
-    { "rightshoulder", gamepadcontrol,  512             }, { "lefttrigger",   gamepadcontrol,  1024            },
-    { "righttrigger",  gamepadcontrol,  2048            }, { "gamepad1",      gamepadcontrol,  4096            },
-    { "gamepad2",      gamepadcontrol,  8192            }, { "gamepad3",      gamepadcontrol,  16384           },
-    { "gamepad4",      gamepadcontrol,  32768           }, { "",              0,               0               }
+    { "down",          keyboardcontrol, KEY_DOWNARROW   }, { "pagedown",      keyboardcontrol, KEY_PAGEDOWN    },
+    { "insert",        keyboardcontrol, KEY_INSERT      }, { "printscreen",   keyboardcontrol, KEY_PRINTSCREEN },
+    { "delete",        keyboardcontrol, KEY_DELETE      }, { "escape",        keyboardcontrol, KEY_ESCAPE      },
+    { "mouse1",        mousecontrol,    0               }, { "mouse2",        mousecontrol,    1               },
+    { "mouse3",        mousecontrol,    2               }, { "mouse4",        mousecontrol,    3               },
+    { "mouse5",        mousecontrol,    4               }, { "mouse6",        mousecontrol,    5               },
+    { "mouse7",        mousecontrol,    6               }, { "mouse8",        mousecontrol,    7               },
+    { "mouse9",        mousecontrol,    8               }, { "mouse10",       mousecontrol,    9               },
+    { "mouse11",       mousecontrol,    10              }, { "mouse12",       mousecontrol,    11              },
+    { "mouse13",       mousecontrol,    12              }, { "mouse14",       mousecontrol,    13              },
+    { "mouse15",       mousecontrol,    14              }, { "mouse16",       mousecontrol,    15              },
+    { "wheelup",       mousecontrol,    MOUSE_WHEELUP   }, { "wheeldown",     mousecontrol,    MOUSE_WHEELDOWN },
+    { "dpadup",        gamepadcontrol,  1               }, { "dpaddown",      gamepadcontrol,  2               },
+    { "dpadleft",      gamepadcontrol,  4               }, { "dpadright",     gamepadcontrol,  8               },
+    { "start",         gamepadcontrol,  16              }, { "back",          gamepadcontrol,  32              },
+    { "leftthumb",     gamepadcontrol,  64              }, { "rightthumb",    gamepadcontrol,  128             },
+    { "leftshoulder",  gamepadcontrol,  256             }, { "rightshoulder", gamepadcontrol,  512             },
+    { "lefttrigger",   gamepadcontrol,  1024            }, { "righttrigger",  gamepadcontrol,  2048            },
+    { "gamepad1",      gamepadcontrol,  4096            }, { "gamepad2",      gamepadcontrol,  8192            },
+    { "gamepad3",      gamepadcontrol,  16384           }, { "gamepad4",      gamepadcontrol,  32768           },
+    { "",              0,               0               }
 };
 
 action_t actions[] =
@@ -287,6 +292,7 @@ action_t actions[] =
     { "+right",        &key_right,              NULL,              NULL                      },
     { "+rotatemode",   &key_automap_rotatemode, NULL,              &gamepadautomaprotatemode },
     { "+run",          &key_run,                &mousebrun,        &gamepadrun               },
+    { "+screenshot",   &key_screenshot,         NULL,              NULL                      },
     { "+strafe",       &key_strafe,             &mousebstrafe,     NULL                      },
     { "+strafeleft",   &key_strafeleft,         NULL,              NULL                      },
     { "+strafeleft2",  &key_strafeleft2,        NULL,              NULL                      },
@@ -335,6 +341,8 @@ static void noclip_cmd_func2(char *, char *, char *, char *);
 static void nomonsters_cmd_func2(char *, char *, char *, char *);
 static void notarget_cmd_func2(char *, char *, char *, char *);
 static void pistolstart_cmd_func2(char *, char *, char *, char *);
+static dboolean play_cmd_func1(char *, char *, char *, char *);
+static void play_cmd_func2(char *, char *, char *, char *);
 static void playerstats_cmd_func2(char *, char *, char *, char *);
 static void quit_cmd_func2(char *, char *, char *, char *);
 static dboolean respawnmonsters_cmd_func1(char *, char *, char *, char *);
@@ -580,7 +588,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(messages, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles player messages."),
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
-        "The amount the player bobs when moving."),
+        "The amount the player's view bobs up and down when they move."),
     CMD(noclip, "", game_func1, noclip_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles collision detection for the player."),
     CMD(nomonsters, "", null_func1, nomonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -589,6 +597,8 @@ consolecmd_t consolecmds[] =
         "Toggles the player as a target."),
     CMD(pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles the player starting each map with only a pistol."),
+    CMD(play, "", play_cmd_func1, play_cmd_func2, 1, PLAYCMDFORMAT,
+        "Plays a sound or music lump."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2,
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, 0, "",
@@ -600,7 +610,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The intensity of the screen's red haze when the player has the\nberserk power-up and their fists selected."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS,
-        "The color of the blood of the player and monsters (<b>all</b>, <b>none</b> or\n<b>red</b>)."),
+        "The colors of the blood of the player and monsters (<b>all</b>, <b>none</b> or\n<b>red</b>)."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
         "The maximum number of blood splats allowed in a map (<b>0</b> to\n<b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOALIAS,
@@ -618,7 +628,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_corpses_slide, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles corpses reacting to barrel and rocket explosions."),
     CVAR_BOOL(r_corpses_smearblood, "", bool_cvars_func1, bool_cvars_func2,
-        "Toggles corpses producing blood splats as they slide."),
+        "Toggles corpses leaving blood splats as they slide."),
     CVAR_BOOL(r_detail, "", r_detail_cvar_func1, r_detail_cvar_func2,
         "Toggles the graphic detail (<b>low</b> or <b>high</b>)."),
     CVAR_BOOL(r_diskicon, "", bool_cvars_func1, bool_cvars_func2,
@@ -630,7 +640,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_floatbob, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles some power-ups bobbing up and down."),
     CVAR_FLOAT(r_gamma, "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE,
-        "The gamma correction level (<b>off</b> or <b>0.50</b> to <b>2.0</b>)."),
+        "The gamma correction level (<b>off</b>, or <b>0.50</b> to <b>2.0</b>)."),
     CVAR_BOOL(r_homindicator, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles the flashing Hall of Mirrors indicator."),
     CVAR_BOOL(r_hud, "", bool_cvars_func1, r_hud_cvar_func2,
@@ -677,12 +687,14 @@ consolecmd_t consolecmds[] =
         "The path of Timidity's configuration file."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, "<i>filename</i><b>.save</b>",
         "Saves the game to a file."),
+    CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
+        "The currently selected savegame in the menu."),
     CVAR_INT(skilllevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
         "The currently selected skill level in the menu."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
         "Spawns a <i>monster</i> or <i>item</i>."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
-        "The amount the player bobs when still."),
+        "The amount the player's view bobs up and when they stand still."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, 0, "",
         "Shows a list of things in the current map."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOALIAS,
@@ -715,6 +727,8 @@ consolecmd_t consolecmds[] =
         "The position of the window on the desktop (<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
     CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop (<i>width</i><b>\xD7</b><i>height</i>)."),
+    CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
+        "The amount the player's weapon bobs up and down when they\nmove."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
@@ -1285,7 +1299,8 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     for (i = 0; i < NUMMOBJTYPES; i++)
         if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm,
             removespaces(mobjinfo[i].name1)) || (*mobjinfo[i].name2 && M_StringCompare(parm,
-            removespaces(mobjinfo[i].name2))) || atoi(parm) == mobjinfo[i].doomednum))
+            removespaces(mobjinfo[i].name2))) || (*mobjinfo[i].name3 && M_StringCompare(parm,
+                removespaces(mobjinfo[i].name3))) || atoi(parm) == mobjinfo[i].doomednum))
             return true;
 
     return false;
@@ -1345,11 +1360,13 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
                         || (*mobjinfo[i].name2
                             && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
+                        || (*mobjinfo[i].name3
+                            && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
                     || atoi(parm) == mobjinfo[i].doomednum))
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
-                    P_TouchSpecialThing(thing, player->mo);
+                    P_TouchSpecialThing(thing, player->mo, false);
                     C_HideConsole();
                     break;
                 }
@@ -1427,6 +1444,9 @@ static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
                 || (*mobjinfo[i].plural2 &&
                     M_StringCompare(parm, removespaces(mobjinfo[i].plural2)))
+                || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
+                || (*mobjinfo[i].plural3 &&
+                    M_StringCompare(parm, removespaces(mobjinfo[i].plural3)))
                 || atoi(parm) == killcmdtype))
             {
                 dboolean        kill = true;
@@ -1629,201 +1649,214 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (!*parm1)
         return true;
+    else
+    {
+        char            *map = uppercase(parm1);
+        dboolean        result = false;
 
-    mapcmdepisode = 0;
-    mapcmdmap = 0;
-    parm1 = uppercase(parm1);
+        mapcmdepisode = 0;
+        mapcmdmap = 0;
 
-    if (M_StringCompare(parm1, "FIRST"))
-    {
-        if (gamestate != GS_LEVEL)
-            return false;
-        if (gamemode == commercial)
+        if (M_StringCompare(map, "FIRST"))
         {
-            if (gamemap == 1)
-                return false;
-            mapcmdepisode = gameepisode;
-            mapcmdmap = 1;
-            M_StringCopy(mapcmdlump, "MAP01", 6);
-        }
-        else
-        {
-            if (gameepisode == 1 && gamemap == 1)
-                return false;
-            mapcmdepisode = 1;
-            mapcmdmap = 1;
-            M_StringCopy(mapcmdlump, "E1M1", 5);
-        }
-        return true;
-    }
-    else if (M_StringCompare(parm1, "PREVIOUS") || M_StringCompare(parm1, "PREV"))
-    {
-        if (gamestate != GS_LEVEL)
-            return false;
-        if (gamemode == commercial)
-        {
-            if (gamemap == 1)
-                return false;
-            mapcmdepisode = gameepisode;
-            mapcmdmap = gamemap - 1;
-            M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
-        }
-        else
-        {
-            if (gamemap == 1)
+            if (gamemode == commercial)
             {
-                if (gameepisode == 1)
-                    return false;
-                else
+                if (gamemap != 1)
                 {
-                    mapcmdepisode = gameepisode - 1;
-                    mapcmdmap = 8;
-                }
-            }
-            else
-            {
-                mapcmdepisode = gameepisode;
-                mapcmdmap = gamemap - 1;
-            }
-            M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
-        }
-        return true;
-    }
-    else if (M_StringCompare(parm1, "NEXT"))
-    {
-        if (gamestate != GS_LEVEL)
-            return false;
-        if (gamemode == commercial)
-        {
-            if (gamemap == (gamemission == pack_nerve ? 8 : 30))
-                return false;
-            mapcmdepisode = gameepisode;
-            mapcmdmap = gamemap + 1;
-            M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
-        }
-        else
-        {
-            if (gamemap == 8)
-            {
-                if (gameepisode == (gamemode == retail ? 4 : gamemode == shareware ? 1 : 3))
-                    return false;
-                else
-                {
-                    mapcmdepisode = gameepisode + 1;
+                    mapcmdepisode = gameepisode;
                     mapcmdmap = 1;
+                    M_StringCopy(mapcmdlump, "MAP01", 6);
+                    result = true;
                 }
             }
             else
             {
-                mapcmdepisode = gameepisode;
-                mapcmdmap = gamemap + 1;
+                if (!(gameepisode == 1 && gamemap == 1))
+                {
+                    mapcmdepisode = 1;
+                    mapcmdmap = 1;
+                    M_StringCopy(mapcmdlump, "E1M1", 5);
+                    result = true;
+                }
             }
-            M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
         }
-        return true;
-    }
-    else if (M_StringCompare(parm1, "LAST"))
-    {
-        if (gamestate != GS_LEVEL)
-            return false;
-        if (gamemode == commercial)
+        else if ((M_StringCompare(map, "PREVIOUS") || M_StringCompare(map, "PREV"))
+            && gamestate == GS_LEVEL)
         {
-            if (gamemission == pack_nerve)
+            if (gamemode == commercial)
+            {
+                if (gamemap != 1)
+                {
+                    mapcmdepisode = gameepisode;
+                    mapcmdmap = gamemap - 1;
+                    M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+                    result = true;
+                }
+            }
+            else
+            {
+                if (gamemap == 1)
+                {
+                    if (gameepisode != 1)
+                    {
+                        mapcmdepisode = gameepisode - 1;
+                        mapcmdmap = 8;
+                        result = true;
+                    }
+                }
+                else
+                {
+                    mapcmdepisode = gameepisode;
+                    mapcmdmap = gamemap - 1;
+                    result = true;
+                }
+                M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+            }
+        }
+        else if (M_StringCompare(map, "NEXT") && gamestate == GS_LEVEL)
+        {
+            if (gamemode == commercial)
+            {
+                if (gamemap != (gamemission == pack_nerve ? 8 : 30))
+                {
+                    mapcmdepisode = gameepisode;
+                    mapcmdmap = gamemap + 1;
+                    M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+                    result = true;
+                }
+            }
+            else
             {
                 if (gamemap == 8)
-                    return false;
-                mapcmdepisode = gameepisode;
-                mapcmdmap = 8;
-                M_StringCopy(mapcmdlump, "MAP08", 6);
+                {
+                    if (gameepisode != (gamemode == retail ? 4 : gamemode == shareware ? 1 : 3))
+                    {
+                        mapcmdepisode = gameepisode + 1;
+                        mapcmdmap = 1;
+                        result = true;
+                    }
+                }
+                else
+                {
+                    mapcmdepisode = gameepisode;
+                    mapcmdmap = gamemap + 1;
+                    result = true;
+                }
+                M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+            }
+        }
+        else if (M_StringCompare(map, "LAST"))
+        {
+            if (gamemode == commercial)
+            {
+                if (gamemission == pack_nerve)
+                {
+                    if (gamemap != 8)
+                    {
+                        mapcmdepisode = gameepisode;
+                        mapcmdmap = 8;
+                        M_StringCopy(mapcmdlump, "MAP08", 6);
+                        result = true;
+                    }
+                }
+                else
+                {
+                    if (gamemap != 30)
+                    {
+                        mapcmdepisode = gameepisode;
+                        mapcmdmap = 30;
+                        M_StringCopy(mapcmdlump, "MAP30", 6);
+                        result = true;
+                    }
+                }
+            }
+            else if (gamemode == retail)
+            {
+                if (!(gameepisode == 4 && gamemap == 8))
+                {
+                    mapcmdepisode = 4;
+                    mapcmdmap = 8;
+                    M_StringCopy(mapcmdlump, "E4M8", 5);
+                    result = true;
+                }
+            }
+            else if (gamemode == shareware)
+            {
+                if (!(gameepisode == 1 && gamemap == 8))
+                {
+                    mapcmdepisode = 1;
+                    mapcmdmap = 8;
+                    M_StringCopy(mapcmdlump, "E1M8", 5);
+                    result = true;
+                }
             }
             else
             {
-                if (gamemap == 30)
-                    return false;
-                mapcmdepisode = gameepisode;
-                mapcmdmap = 30;
-                M_StringCopy(mapcmdlump, "MAP30", 6);
+                if (!(gameepisode == 4 && gamemap == 8))
+                {
+                    mapcmdepisode = 3;
+                    mapcmdmap = 8;
+                    M_StringCopy(mapcmdlump, "E3M8", 5);
+                    result = true;
+                }
             }
-        }
-        else if (gamemode == retail)
-        {
-            if (gameepisode == 4 && gamemap == 8)
-                return false;
-            mapcmdepisode = 4;
-            mapcmdmap = 8;
-            M_StringCopy(mapcmdlump, "E4M8", 5);
-        }
-        else if (gamemode == shareware)
-        {
-            if (gameepisode == 1 && gamemap == 8)
-                return false;
-            mapcmdepisode = 1;
-            mapcmdmap = 8;
-            M_StringCopy(mapcmdlump, "E1M8", 5);
         }
         else
         {
-            if (gameepisode == 4 && gamemap == 8)
-                return false;
-            mapcmdepisode = 3;
-            mapcmdmap = 8;
-            M_StringCopy(mapcmdlump, "E3M8", 5);
-        }
-        return true;
-    }
-    M_StringCopy(mapcmdlump, parm1, 7);
-    if (gamemode == commercial)
-    {
-        mapcmdepisode = 1;
-
-        if (sscanf(parm1, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm1, "MAP%2i", &mapcmdmap) == 1)
-            if ((BTSX && W_CheckMultipleLumps(parm1) == 1)
-                || (gamemission == pack_nerve && mapcmdmap > 9))
-                return false;
-            else
+            M_StringCopy(mapcmdlump, map, 7);
+            if (gamemode == commercial)
             {
-                if (gamestate != GS_LEVEL && gamemission == pack_nerve)
-                {
-                    gamemission = doom2;
-                    expansion = 0;
-                }
-                return (W_CheckNumForName(parm1) >= 0);
-            }
+                mapcmdepisode = 1;
 
-        if (BTSX)
-        {
-            if (sscanf(parm1, "MAP%02iC", &mapcmdmap) == 1)
-                return (W_CheckNumForName(parm1) >= 0);
-            else
-            {
-                if (sscanf(parm1, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
-                    sscanf(parm1, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
-                if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
-                    || (mapcmdepisode == 3 && BTSXE3)))
-                {
-                    static char     lump[6];
+                if (sscanf(map, "MAP0%1i", &mapcmdmap) == 1
+                    || sscanf(map, "MAP%2i", &mapcmdmap) == 1)
+                    if (!((BTSX && W_CheckMultipleLumps(map) == 1)
+                        || (gamemission == pack_nerve && mapcmdmap > 9)))
+                    {
+                        if (gamestate != GS_LEVEL && gamemission == pack_nerve)
+                        {
+                            gamemission = doom2;
+                            expansion = 0;
+                        }
+                        result = (W_CheckNumForName(map) >= 0);
+                    }
 
-                    M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
-                    return (W_CheckMultipleLumps(lump) == 2);
+                if (BTSX)
+                {
+                    if (sscanf(map, "MAP%02iC", &mapcmdmap) == 1)
+                        result = (W_CheckNumForName(map) >= 0);
+                    else
+                    {
+                        if (sscanf(map, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
+                            sscanf(map, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
+                        if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1)
+                            || (mapcmdepisode == 2 && BTSXE2) || (mapcmdepisode == 3 && BTSXE3)))
+                        {
+                            static char     lump[6];
+
+                            M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
+                            result = (W_CheckMultipleLumps(lump) == 2);
+                        }
+                    }
                 }
             }
+            else if (sscanf(map, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+            {
+                episode = mapcmdepisode - 1;
+                result = (W_CheckNumForName(map) >= 0);
+            }
+            else if (FREEDOOM && sscanf(map, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+            {
+                static char     lump[5];
+
+                M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
+                result = (W_CheckNumForName(lump) >= 0);
+            }
         }
-    }
-    else if (sscanf(parm1, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-    {
-        episode = mapcmdepisode - 1;
 
-        return (W_CheckNumForName(parm1) >= 0);
+        free(map);
+        return result;
     }
-    else if (FREEDOOM && sscanf(parm1, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-    {
-        static char     lump[5];
-
-        M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
-        return (W_CheckNumForName(lump) >= 0);
-    }
-
-    return false;
 }
 
 static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -1844,7 +1877,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     gamemap = mapcmdmap;
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."),
-        uppercase(mapcmdlump));
+        mapcmdlump);
     C_Output(buffer);
     players[0].message = buffer;
     message_dontfuckwithme = true;
@@ -1960,7 +1993,6 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     // sort the map list
     for (i = 0; i < count; i++)
         for (j = i + 1; j < count; j++)
-        {
             if (strcmp(maplist[i], maplist[j]) > 0)
             {
                 char    temp[256];
@@ -1969,7 +2001,6 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 strcpy(maplist[i], maplist[j]);
                 strcpy(maplist[j], temp);
             }
-        }
 
     // display the map list
     for (i = 0; i < count; ++i)
@@ -2279,6 +2310,58 @@ static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
     HU_PlayerMessage((pistolstart ? s_STSTR_PSON : s_STSTR_PSOFF), false);
 }
 
+//
+// play cmd
+//
+static int      playcmdid;
+static int      playcmdtype;
+
+static dboolean play_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int         i;
+    char        namebuf[9];
+
+    if (!*parm1)
+        return true;
+
+    for (i = 1; i < NUMSFX; ++i)
+    {
+        M_snprintf(namebuf, sizeof(namebuf), "ds%s", S_sfx[i].name);
+        if (M_StringCompare(parm1, namebuf) && W_CheckNumForName(namebuf) != -1)
+        {
+            playcmdid = i;
+            playcmdtype = 1;
+            return true;
+        }
+    }
+
+    for (i = 1; i < NUMMUSIC; ++i)
+    {
+        M_snprintf(namebuf, sizeof(namebuf), "d_%s", S_music[i].name);
+        if (M_StringCompare(parm1, namebuf) && W_CheckNumForName(namebuf) != -1)
+        {
+            playcmdid = i;
+            playcmdtype = 2;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void play_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (!*parm1)
+        C_Output("%s %s", cmd, PLAYCMDFORMAT);
+    else if (playcmdtype == 1)
+        S_StartSound(NULL, playcmdid);
+    else
+        S_ChangeMusic(playcmdid, true, false, false);
+}
+
+//
+// playerstats cmd
+//
 static void C_PlayerStats_Game(void)
 {
     int         tabs[8] = { 160, 270, 0, 0, 0, 0, 0, 0 };
@@ -2525,9 +2608,6 @@ static void C_PlayerStats_NoGame(void)
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 }
 
-//
-// playerstats cmd
-//
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (gamestate == GS_LEVEL)

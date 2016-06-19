@@ -53,15 +53,12 @@ void G_RemoveChoppers(void);
 // Movement
 //
 
-// 16 pixels of bob
-#define MAXBOB  0x100000
-
 int             movebob = movebob_default;
 int             stillbob = stillbob_default;
 dboolean        r_liquid_lowerview = r_liquid_lowerview_default;
 int             r_shakescreen = r_shakescreen_default;
 
-dboolean        onground;
+static dboolean onground;
 
 //
 // P_Thrust
@@ -158,8 +155,7 @@ void P_CalcHeight(player_t *player)
                 player->viewz += animatedliquiddiff;
                 return;
             }
-            else if (r_liquid_lowerview
-                && ABS(mo->z - mo->subsector->sector->floorheight) <= 24 * FRACUNIT)
+            else if (r_liquid_lowerview)
                 player->viewz -= FOOTCLIPSIZE;
     }
 
@@ -312,7 +308,7 @@ void P_ResurrectPlayer(player_t *player)
     // telefrag anything in this spot
     P_TeleportMove(thing, thing->x, thing->y, thing->z, true);
 
-    // respawn the player.
+    // respawn the player
     thing = P_SpawnMobj(x, y, ONFLOORZ, MT_PLAYER);
     thing->angle = player->mo->angle;
     thing->player = player;

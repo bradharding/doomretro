@@ -2453,7 +2453,7 @@ dboolean M_Responder(event_t *ev)
                 break;
 
             // delete character right of caret
-            case KEY_DEL:
+            case KEY_DELETE:
                 keydown = key;
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
@@ -2787,6 +2787,10 @@ dboolean M_Responder(event_t *ev)
         M_ChangeGamma(modstate & KMOD_SHIFT);
         return false;
     }
+
+    // screenshot
+    if (key == key_screenshot && key != KEY_PRINTSCREEN)
+        G_ScreenShot();
 
     // Pop-up menu?
     if (!menuactive)

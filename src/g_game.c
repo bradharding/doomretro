@@ -638,9 +638,9 @@ dboolean G_Responder(event_t *ev)
         if (!menuactive && !consoleheight
             && ((ev->type == ev_keydown
                  && ev->data1 != KEY_PAUSE
-                 && ev->data1 != KEY_RSHIFT
-                 && ev->data1 != KEY_RALT
-                 && ev->data1 != KEY_RCTRL
+                 && ev->data1 != KEY_SHIFT
+                 && ev->data1 != KEY_ALT
+                 && ev->data1 != KEY_CTRL
                  && ev->data1 != KEY_CAPSLOCK
                  && ev->data1 != KEY_NUMLOCK
                  && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12)
@@ -901,7 +901,7 @@ void G_Ticker(void)
 
                     S_StartSound(NULL, sfx_swtchx);
 
-                    M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname);
+                    M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
                     player->message = buffer;
                     message_dontfuckwithme = true;
                     if (menuactive)
@@ -910,7 +910,9 @@ void G_Ticker(void)
                         blurred = false;
                     }
 
-                    C_Output("<b>%s</b> saved.", lbmpath);
+                    C_Output("<b>%s</b> saved.", lbmpath1);
+                    if (*lbmpath2)
+                        C_Output("<b>%s</b> saved.", lbmpath2);
                 }
                 else
                     C_Warning("A screenshot couldn't be taken.");
@@ -1496,7 +1498,7 @@ void G_DoSaveGame(void)
         menuactive = false;
         consoleheight = 1;
         consoledirection = 1;
-        C_Warning("%s couldn't be saved.", uppercase(savename));
+        C_Warning("<b>%s</b> couldn't be saved.", savename);
     }
     else
     {

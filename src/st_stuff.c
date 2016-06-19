@@ -1421,9 +1421,9 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // Load the numbers, tall and short
     for (i = 0; i < 10; i++)
     {
-        M_snprintf(namebuf, 9, "STTNUM%d", i);
+        M_snprintf(namebuf, 9, "STTNUM%i", i);
         callback(namebuf, &tallnum[i]);
-        M_snprintf(namebuf, 9, "STYSNUM%d", i);
+        M_snprintf(namebuf, 9, "STYSNUM%i", i);
         callback(namebuf, &shortnum[i]);
     }
 
@@ -1434,7 +1434,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // key cards
     for (i = 0; i < NUMCARDS; i++)
     {
-        M_snprintf(namebuf, 9, "STKEYS%d", i);
+        M_snprintf(namebuf, 9, "STKEYS%i", i);
         callback(namebuf, &keys[i]);
     }
 
@@ -1451,7 +1451,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // [BH] now manually drawn
     for (i = 0; i < 6; i++)
     {
-        M_snprintf(namebuf, 9, "STGNUM%d", i + 2);
+        M_snprintf(namebuf, 9, "STGNUM%i", i + 2);
 
         // gray #
         callback(namebuf, &arms[i][0]);
@@ -1475,18 +1475,18 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     {
         for (j = 0; j < ST_NUMSTRAIGHTFACES; j++)
         {
-            M_snprintf(namebuf, 9, "STFST%d%d", i, j);
+            M_snprintf(namebuf, 9, "STFST%i%i", i, j);
             callback(namebuf, &faces[facenum++]);
         }
-        M_snprintf(namebuf, 9, "STFTR%d0", i);          // turn right
+        M_snprintf(namebuf, 9, "STFTR%i0", i);          // turn right
         callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, 9, "STFTL%d0", i);          // turn left
+        M_snprintf(namebuf, 9, "STFTL%i0", i);          // turn left
         callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, 9, "STFOUCH%d", i);         // ouch!
+        M_snprintf(namebuf, 9, "STFOUCH%i", i);         // ouch!
         callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, 9, "STFEVL%d", i);          // evil grin ;)
+        M_snprintf(namebuf, 9, "STFEVL%i", i);          // evil grin ;)
         callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, 9, "STFKILL%d", i);         // pissed off
+        M_snprintf(namebuf, 9, "STFKILL%i", i);         // pissed off
         callback(namebuf, &faces[facenum++]);
     }
     callback("STFGOD0", &faces[facenum++]);

@@ -242,24 +242,24 @@ static int translatekey[] =
     'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9',
     '0', KEY_ENTER, KEY_ESCAPE, KEY_BACKSPACE, KEY_TAB, ' ', KEY_MINUS, KEY_EQUALS, '[', ']', '\\',
     '\\', ';', '\'', KEY_TILDE, ',', '.', '/', KEY_CAPSLOCK, KEY_F1, KEY_F2, KEY_F3, KEY_F4,
-    KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, 0, KEY_SCRLCK, KEY_PAUSE,
-    KEY_INS, KEY_HOME, KEY_PGUP, KEY_DEL, KEY_END, KEY_PGDN, KEY_RIGHTARROW, KEY_LEFTARROW,
-    KEY_DOWNARROW, KEY_UPARROW, KEY_NUMLOCK, KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS, KEYP_PLUS,
-    KEYP_ENTER, KEYP_1, KEYP_2, KEYP_3, KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9, KEYP_0,
-    KEYP_PERIOD, 0, 0, 0, KEYP_EQUALS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, 0, KEY_SCROLLLOCK,
+    KEY_PAUSE, KEY_INSERT, KEY_HOME, KEY_PAGEUP, KEY_DELETE, KEY_END, KEY_PAGEDOWN, KEY_RIGHTARROW,
+    KEY_LEFTARROW, KEY_DOWNARROW, KEY_UPARROW, KEY_NUMLOCK, KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS,
+    KEYP_PLUS, KEYP_ENTER, KEYP_1, KEYP_2, KEYP_3, KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9,
+    KEYP_0, KEYP_PERIOD, 0, 0, 0, KEYP_EQUALS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, KEY_RCTRL, KEY_RSHIFT, KEY_RALT, 0, KEY_RCTRL, KEY_RSHIFT, KEY_RALT, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 static int TranslateKey2(int key)
@@ -286,15 +286,15 @@ static int TranslateKey2(int key)
         case KEY_F11:          return SDL_SCANCODE_F11;
         case KEY_F12:          return SDL_SCANCODE_F12;
         case KEY_BACKSPACE:    return SDL_SCANCODE_BACKSPACE;
-        case KEY_DEL:          return SDL_SCANCODE_DELETE;
+        case KEY_DELETE:       return SDL_SCANCODE_DELETE;
         case KEY_PAUSE:        return SDL_SCANCODE_PAUSE;
         case KEY_EQUALS:       return SDL_SCANCODE_EQUALS;
         case KEY_MINUS:        return SDL_SCANCODE_MINUS;
-        case KEY_RSHIFT:       return SDL_SCANCODE_RSHIFT;
-        case KEY_RCTRL:        return SDL_SCANCODE_RCTRL;
-        case KEY_RALT:         return SDL_SCANCODE_RALT;
+        case KEY_SHIFT:        return SDL_SCANCODE_RSHIFT;
+        case KEY_CTRL:         return SDL_SCANCODE_RCTRL;
+        case KEY_ALT:          return SDL_SCANCODE_RALT;
         case KEY_CAPSLOCK:     return SDL_SCANCODE_CAPSLOCK;
-        case KEY_SCRLCK:       return SDL_SCANCODE_SCROLLLOCK;
+        case KEY_SCROLLLOCK:   return SDL_SCANCODE_SCROLLLOCK;
         case KEYP_0:           return SDL_SCANCODE_KP_0;
         case KEYP_1:           return SDL_SCANCODE_KP_1;
         case KEYP_3:           return SDL_SCANCODE_KP_3;
@@ -304,7 +304,7 @@ static int TranslateKey2(int key)
         case KEYP_PERIOD:      return SDL_SCANCODE_KP_PERIOD;
         case KEYP_MULTIPLY:    return SDL_SCANCODE_KP_MULTIPLY;
         case KEYP_DIVIDE:      return SDL_SCANCODE_KP_DIVIDE;
-        case KEY_INS:          return SDL_SCANCODE_INSERT;
+        case KEY_INSERT:       return SDL_SCANCODE_INSERT;
         case KEY_NUMLOCK:      return SDL_SCANCODE_NUMLOCKCLEAR;
         default:               return key;
     }
@@ -416,10 +416,16 @@ static void I_GetEvent(void)
                 if (event.data1)
                 {
                     if (altdown && event.data1 == KEY_TAB)
-                        event.data1 = event.data2 = 0;
+                    {
+                        event.data1 = 0;
+                        event.data2 = 0;
+                    }
 
                     if (!isdigit(event.data2))
-                        idclev = idmus = false;
+                    {
+                        idclev = false;
+                        idmus = false;
+                    }
 
                     if (idbehold && keys[event.data2])
                     {
@@ -546,7 +552,7 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_MOVED:
                             if (!vid_fullscreen && !manuallypositioning)
                             {
-                                char        pos[16] = "";
+                                char    pos[16] = "";
 
                                 windowx = Event->window.data1;
                                 windowy = Event->window.data2;
@@ -1170,7 +1176,6 @@ static void SetVideoMode(dboolean output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect "
                     "ratio.", commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
                     (acronym[0] ? ")" : ""), ratio);
-            GetUpscaledTextureSize(width, height);
         }
         else
         {
@@ -1189,7 +1194,6 @@ static void SetVideoMode(dboolean output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
                     commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
                     (acronym[0] ? ")" : ""), ratio);
-            GetUpscaledTextureSize(width, height);
         }
     }
     else
@@ -1220,8 +1224,10 @@ static void SetVideoMode(dboolean output)
                 C_Output("Created a resizable window with dimensions %s\xD7%s at (%i,%i).",
                     commify(width), commify(height), windowx, windowy);
         }
-        GetUpscaledTextureSize(windowwidth, windowheight);
     }
+
+    if (nearestlinear)
+        GetUpscaledTextureSize(width, height);
 
     windowid = SDL_GetWindowID(window);
 
@@ -1473,13 +1479,13 @@ void I_InitGraphics(void)
     SDL_VERSION(&compiled);
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error("The wrong version of sdl2.dll was found. "PACKAGE_NAME" requires v%d.%d.%d, "
-            "not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch, linked.major,
+        I_Error("The wrong version of sdl2.dll was found. "PACKAGE_NAME" requires v%i.%i.%i, "
+            "not v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch, linked.major,
             linked.minor, linked.patch);
 
     if (linked.patch != compiled.patch)
         C_Warning("The wrong version of sdl2.dll was found. <i>"PACKAGE_NAME"</i> requires "
-            "v%d.%d.%d, not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch,
+            "v%i.%i.%i, not v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch,
             linked.major, linked.minor, linked.patch);
 
     SDL_DisableScreenSaver();

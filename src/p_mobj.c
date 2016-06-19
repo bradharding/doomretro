@@ -151,7 +151,9 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 //
 void P_ExplodeMissile(mobj_t *mo)
 {
-    mo->momx = mo->momy = mo->momz = 0;
+    mo->momx = 0;
+    mo->momy = 0;
+    mo->momz = 0;
 
     P_SetMobjState(mo, mo->info->deathstate);
 
@@ -248,9 +250,9 @@ void P_XYMovement(mobj_t *mo)
                 if (blockline)
                 {
                     fixed_t     r = ((blockline->dx >> FRACBITS) * mo->momx
-                        + (blockline->dy >> FRACBITS) * mo->momy)
-                        / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
-                        + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
+                                    + (blockline->dy >> FRACBITS) * mo->momy)
+                                    / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
+                                    + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
                     fixed_t     x = FixedMul(r, blockline->dx);
                     fixed_t     y = FixedMul(r, blockline->dy);
 
@@ -687,6 +689,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobjinfo_t  *info = &mobjinfo[type];
     sector_t    *sector;
     static int  prevx, prevy, prevz;
+    static int  prevbob;
 
     mobj->type = type;
     mobj->info = info;
@@ -740,12 +743,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->ceilingz = sector->interpceilingheight;
 
     // [BH] initialize bobbing things
-    if (r_floatbob)
-    {
-        static int      prevbob;
-
-        mobj->floatbob = prevbob = (x == prevx && y == prevy && z == prevz ? prevbob : M_Random());
-    }
+    mobj->floatbob = prevbob = (x == prevx && y == prevy && z == prevz ? prevbob : M_Random());
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height :
         z));

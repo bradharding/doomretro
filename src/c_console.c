@@ -103,6 +103,7 @@ static patch_t  *degree;
 static patch_t  *multiply;
 static patch_t  *warning;
 static patch_t  *brand;
+static patch_t  *divider;
 
 static int      spacewidth;
 
@@ -360,19 +361,6 @@ void C_AddConsoleDivider(void)
         C_Print(dividerstring, DIVIDER);
 }
 
-static void C_DrawDivider(int y)
-{
-    int i;
-
-    y *= SCREENWIDTH;
-    if (y >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
-            screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
-    if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
-            screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
-}
-
 static struct
 {
     char        char1;
@@ -469,7 +457,7 @@ static void C_DrawScrollbar(void)
         if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
                 screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x]
-                + consolescrollbartrackcolor];
+                    + consolescrollbartrackcolor];
 
     // Draw scrollbar face
     facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
@@ -503,8 +491,9 @@ void C_Init(void)
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
     warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
     brand = W_CacheLumpName("DRBRAND", PU_STATIC);
+    divider = W_CacheLumpName("DRDIVIDE", PU_STATIC);
 
-    caret = W_CacheLumpName("CARET", PU_STATIC);
+    caret = W_CacheLumpName("DRCARET", PU_STATIC);
 
 #if defined(WIN32)
     caretblinktime = GetCaretBlinkTime();
@@ -532,7 +521,7 @@ void C_Init(void)
     consoleboldcolor = nearestcolors[consoleboldcolor];
     consolebrandingcolor = nearestcolors[consolebrandingcolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
-    consoledividercolor = nearestcolors[consoledividercolor] << 8;
+    consoledividercolor = nearestcolors[consoledividercolor];
     consoletintcolor = nearestcolors[consoletintcolor] << 8;
     consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
@@ -861,7 +850,8 @@ void C_Drawer(void)
             stringtype_t        type = console[i].type;
 
             if (type == dividerstring)
-                C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
+                V_DrawConsolePatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
+                    consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
@@ -997,7 +987,8 @@ static dboolean C_ValidateInput(char *input)
             C_StripQuotes(parm3);
             if ((M_StringCompare(cmd, consolecmds[i].name)
                 || M_StringCompare(cmd, consolecmds[i].alternate))
-                && consolecmds[i].func1(consolecmds[i].name, parm1, parm2, parm3))
+                && consolecmds[i].func1(consolecmds[i].name, parm1, parm2, parm3)
+                && (consolecmds[i].parameters || (!*parm1 && !*parm2 && !*parm3)))
             {
                 C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
                 consolecmds[i].func2(consolecmds[i].name, parm1, parm2, parm3);
@@ -1057,7 +1048,7 @@ dboolean C_Responder(event_t *ev)
                 }
                 break;
 
-            case KEY_DEL:
+            case KEY_DELETE:
                 if (selectstart < selectend)
                 {
                     // delete selected text
@@ -1169,7 +1160,8 @@ dboolean C_Responder(event_t *ev)
                     outputhistory = 0;
                 else if (caretpos > 0)
                 {
-                    caretpos = selectstart = selectend = 0;
+                    selectend = ((modstate & KMOD_SHIFT) ? caretpos : 0);
+                    caretpos = selectstart = 0;
                     caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
@@ -1181,7 +1173,8 @@ dboolean C_Responder(event_t *ev)
                     outputhistory = -1;
                 else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
-                    caretpos = selectstart = selectend = strlen(consoleinput);
+                    selectstart = ((modstate & KMOD_SHIFT) ? caretpos : strlen(consoleinput));
+                    caretpos = selectend = strlen(consoleinput);
                     caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
@@ -1265,14 +1258,14 @@ dboolean C_Responder(event_t *ev)
                 break;
 
             // scroll output up
-            case KEY_PGUP:
+            case KEY_PAGEUP:
                 if (consolestrings > CONSOLELINES)
                     outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1)
                         : MAX(0, outputhistory - 1));
                 break;
 
             // scroll output down
-            case KEY_PGDN:
+            case KEY_PAGEDOWN:
                 if (outputhistory != -1)
                 {
                     ++outputhistory;
@@ -1461,7 +1454,7 @@ void C_PrintCompileDate(void)
         days[dayofweek(day, month + 1, year)], months[month], day, year);
 
 #if defined(_MSC_FULL_VER)
-        C_Output("It was compiled using Microsoft C/C++ Optimizing Compiler v%d.%02d.%d.",
+        C_Output("It was compiled using Microsoft C/C++ Optimizing Compiler v%i.%02i.%i.",
             _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000);
 #endif
 }

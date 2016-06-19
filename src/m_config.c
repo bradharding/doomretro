@@ -55,7 +55,6 @@ extern int              am_backcolor;
 extern int              am_cdwallcolor;
 extern dboolean         am_external;
 extern int              am_fdwallcolor;
-extern dboolean         am_followmode;
 extern dboolean         am_grid;
 extern int              am_gridcolor;
 extern int              am_markcolor;
@@ -168,6 +167,7 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
+extern int              weaponbob;
 
 extern char             *packageconfig;
 extern dboolean         returntowidescreen;
@@ -190,7 +190,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_external,                           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                        NOALIAS    ),
-    CONFIG_VARIABLE_INT          (am_followmode,                         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_grid,                               BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_gridcolor,                          NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_markcolor,                          NOALIAS    ),
@@ -303,7 +302,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (vid_vsync,                             BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_widescreen,                        BOOLALIAS  ),
     CONFIG_VARIABLE_OTHER        (vid_windowposition,                    NOALIAS    ),
-    CONFIG_VARIABLE_OTHER        (vid_windowsize,                        NOALIAS    )
+    CONFIG_VARIABLE_OTHER        (vid_windowsize,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                             NOALIAS    )
 };
 
 alias_t aliases[] =
@@ -489,7 +489,7 @@ static int ParseIntParameter(char *strparm, int aliastype)
     {
         if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return aliases[i].value;
-        i++;
+        ++i;
     }
 
     sscanf(strparm, "%10i", &parm);
@@ -500,13 +500,13 @@ static int ParseIntParameter(char *strparm, int aliastype)
 // Parses float values in the configuration file
 static float ParseFloatParameter(char *strparm, int aliastype)
 {
-    int     i = 0;
+    int i = 0;
 
     while (*aliases[i].text)
     {
         if (M_StringCompare(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return (float)aliases[i].value;
-        i++;
+        ++i;
     }
 
     return (float)atof(strparm);
@@ -541,8 +541,6 @@ static void M_CheckCVARs(void)
 
     if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)
         am_fdwallcolor = am_fdwallcolor_default;
-
-    am_followmode = am_followmode_default;
 
     if (am_grid != false && am_grid != true)
         am_grid = am_grid_default;
@@ -762,6 +760,8 @@ static void M_CheckCVARs(void)
     }
     else
         r_hud = true;
+
+    weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
 
     M_SaveCVARs();
 }

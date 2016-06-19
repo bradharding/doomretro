@@ -2397,7 +2397,7 @@ char *P_GetMapAuthor(int map)
 
 void P_GetMapLiquids(int map)
 {
-    int i = 0;
+    int i;
 
     for (i = 0; i < liquidlumps; ++i)
         isliquid[mapinfo[QualifyMap(map)].liquid[i]] = true;
@@ -2421,7 +2421,7 @@ int P_GetMapNext(int map)
 
 void P_GetMapNoLiquids(int map)
 {
-    int i = 0;
+    int i;
 
     for (i = 0; i < noliquidlumps; ++i)
         isliquid[mapinfo[QualifyMap(map)].noliquid[i]] = false;

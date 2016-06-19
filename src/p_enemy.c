@@ -393,7 +393,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
         // open any specials
         int     good;
 
-        if (actor->flags & MF_FLOAT && floatok)
+        if ((actor->flags & MF_FLOAT) && floatok)
         {
             if (actor->z < tmfloorz)          // must adjust height
                 actor->z += FLOATSPEED;

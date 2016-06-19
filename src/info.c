@@ -1599,7 +1599,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "player",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Zombieman (MT_POSSESSED)
@@ -1635,8 +1637,10 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 2 * FRACUNIT,
         /* name1                */ "zombieman",
         /* plural1              */ "zombiemen",
-        /* name2                */ "",
-        /* plural2              */ ""
+        /* name2                */ "former human",
+        /* plural2              */ "former humans",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Shotgun Guy (MT_SHOTGUY)
@@ -1672,8 +1676,10 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 2 * FRACUNIT,
         /* name1                */ "shotgun guy",
         /* plural1              */ "shotgun guys",
-        /* name2                */ "",
-        /* plural2              */ ""
+        /* name2                */ "former human sergeant",
+        /* plural2              */ "former human sergeants",
+        /* name3                */ "sergeant",
+        /* plural3              */ "sergeants"
     },
 
     // Arch-vile (MT_VILE)
@@ -1710,7 +1716,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "arch-vile",
         /* plural1              */ "arch-viles",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Arch-vile Fire (MT_FIRE)
@@ -1747,7 +1755,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "arch-vile fire",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Revenant (MT_UNDEAD)
@@ -1784,7 +1794,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "revenant",
         /* plural1              */ "revenants",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Revenant Projectile (MT_TRACER)
@@ -1821,7 +1833,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "revenant projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Smoke (MT_SMOKE)
@@ -1858,7 +1872,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "smoke",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Mancubus (MT_FATSO)
@@ -1895,7 +1911,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "mancubus",
         /* plural1              */ "mancubi",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Mancubus Projectile (MT_FATSHOT)
@@ -1932,7 +1950,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "mancubus projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Heavy Weapon Dude (MT_CHAINGUY)
@@ -1969,7 +1989,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "heavy weapon dude",
         /* plural1              */ "heavy weapon dudes",
         /* name2                */ "chaingunner",
-        /* plural2              */ "chaingunners"
+        /* plural2              */ "chaingunners",
+        /* name3                */ "former commando",
+        /* plural3              */ "former commandos"
     },
 
     // Imp (MT_TROOP)
@@ -2006,7 +2028,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "imp",
         /* plural1              */ "imps",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Demon (MT_SERGEANT)
@@ -2043,7 +2067,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "demon",
         /* plural1              */ "demons",
         /* name2                */ "pinky demon",
-        /* plural2              */ "pinky demons"
+        /* plural2              */ "pinky demons",
+        /* name3                */ "pinky",
+        /* plural3              */ "pinkies"
     },
 
     // Spectre (MT_SHADOWS)
@@ -2080,7 +2106,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "spectre",
         /* plural1              */ "spectres",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Cacodemon (MT_HEAD)
@@ -2117,7 +2145,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "cacodemon",
         /* plural1              */ "cacodemons",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Baron of Hell (MT_BRUISER)
@@ -2154,7 +2184,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "baron of hell",
         /* plural1              */ "barons of hell",
         /* name2                */ "baron",
-        /* plural2              */ "barons"
+        /* plural2              */ "barons",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Baron of Hell and Hell Knight Projectile (MT_BRUISERSHOT)
@@ -2191,7 +2223,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "baron of hell/hell knight projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hell Knight (MT_KNIGHT)
@@ -2228,7 +2262,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hell knight",
         /* plural1              */ "hell knights",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Lost Soul (MT_SKULL)
@@ -2265,7 +2301,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "lost soul",
         /* plural1              */ "lost souls",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Spider Mastermind (MT_SPIDER)
@@ -2302,7 +2340,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "spider mastermind",
         /* plural1              */ "spider masterminds",
         /* name2                */ "spiderdemon",
-        /* plural2              */ "spiderdemons"
+        /* plural2              */ "spiderdemons",
+        /* name3                */ "the spider mastermind",
+        /* plural3              */ ""
     },
 
     // Arachnotron (MT_BABY)
@@ -2339,7 +2379,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "arachnotron",
         /* plural1              */ "arachnotrons",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Cyberdemon (MT_CYBORG)
@@ -2376,7 +2418,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "cyberdemon",
         /* plural1              */ "cyberdemons",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Pain Elemental (MT_PAIN)
@@ -2413,7 +2457,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "pain elemental",
         /* plural1              */ "pain elementals",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Wolfenstein SS (MT_WOLFSS)
@@ -2448,9 +2494,11 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
         /* name1                */ "wolfenstein ss",
-        /* plural1              */ "wolfenstein ss",
-        /* name2                */ "",
-        /* plural2              */ ""
+        /* plural1              */ "",
+        /* name2                */ "ss nazi",
+        /* plural2              */ "ss nazis",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Commander Keen (MT_KEEN)
@@ -2487,7 +2535,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "commander keen",
         /* plural1              */ "commander keens",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Boss Brain (MT_BOSSBRAIN)
@@ -2524,7 +2574,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "icon of sin",
         /* plural1              */ "",
         /* name2                */ "boss brain",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Monsters Spawner (MT_BOSSSPIT)
@@ -2561,7 +2613,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "monsters spawner",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Monsters Target (MT_BOSSTARGET)
@@ -2598,7 +2652,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "monsters target",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Boss Brain Projectile (MT_SPAWNSHOT)
@@ -2635,7 +2691,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "icon of sin projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Boss Brain Teleport Fog (MT_SPAWNFIRE)
@@ -2672,7 +2730,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "icon of sin teleport fog",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Barrel (MT_BARREL)
@@ -2709,7 +2769,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "barrel",
         /* plural1              */ "barrels",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Imp Projectile (MT_TROOPSHOT)
@@ -2746,7 +2808,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "imp projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Cacodemon Projectile (MT_HEADSHOT)
@@ -2783,7 +2847,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "cacodemon projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Rocket Launcher Projectile (MT_ROCKET)
@@ -2820,7 +2886,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "rocket launcher projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Plasma Rifle Projectile (MT_PLASMA)
@@ -2857,7 +2925,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "plasma rifle projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // BFG-9000 Projectile (MT_BFG)
@@ -2894,7 +2964,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "BFG-9000 projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Arachnotron Projectile (MT_ARACHPLAZ)
@@ -2931,7 +3003,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "arachnotron projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Bullet Puff (MT_PUFF)
@@ -2968,7 +3042,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "bullet puff",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Blood (MT_BLOOD)
@@ -3005,7 +3081,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "red blood",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Teleport Fog (MT_TFOG)
@@ -3042,7 +3120,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "teleport fog",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Item Fog (MT_IFOG)
@@ -3079,7 +3159,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "item fog",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Teleport Destination (MT_TELEPORTMAN)
@@ -3116,7 +3198,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "teleport destination",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // BFG-9000 Secondary Projectile (MT_EXTRABFG)
@@ -3153,7 +3237,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "BFG-9000 secondary projectile",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Green Armor (MT_MISC0)
@@ -3190,7 +3276,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "green armor",
         /* plural1              */ "",
         /* name2                */ "green armour",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Blue Armor (MT_MISC1)
@@ -3227,7 +3315,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "blue armor",
         /* plural1              */ "",
         /* name2                */ "blue armour",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Health Bonus (MT_MISC2)
@@ -3264,7 +3354,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "health bonus",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Armor Bonus (MT_MISC3)
@@ -3301,7 +3393,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "armor bonus",
         /* plural1              */ "",
         /* name2                */ "armour bonus",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Blue Keycard (MT_MISC4)
@@ -3338,7 +3432,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "blue keycard",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Red Keycard (MT_MISC5)
@@ -3375,7 +3471,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "red keycard",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Yellow Keycard (MT_MISC6)
@@ -3412,7 +3510,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "yellow keycard",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Yellow Skull Key (MT_MISC7)
@@ -3449,7 +3549,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "yellow skull key",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Red Skull Key (MT_MISC8)
@@ -3486,7 +3588,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "red skull key",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Blue Skull Key (MT_MISC9)
@@ -3523,7 +3627,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "blue skull key",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Stimpack (MT_MISC10)
@@ -3560,7 +3666,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "stimpack",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Medikit (MT_MISC11)
@@ -3597,7 +3705,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "medikit",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // SoulSphere (MT_MISC12)
@@ -3634,7 +3744,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "soulsphere",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Invulnerability (MT_INV)
@@ -3671,7 +3783,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "invulnerability",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Berserk (MT_MISC13)
@@ -3708,7 +3822,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "berserk",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Partial Invisibility (MT_INS)
@@ -3745,7 +3861,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "partial invisibility",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Radiation Shielding Suit (MT_MISC14)
@@ -3782,7 +3900,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "radiation shielding suit",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Computer Area Map (MT_MISC15)
@@ -3819,7 +3939,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "computer area map",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Light Amplification Visor (MT_MISC16)
@@ -3856,7 +3978,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "light amplification visor",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MegaSphere (MT_MEGA)
@@ -3893,7 +4017,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "megasphere",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Clip (MT_CLIP)
@@ -3930,7 +4056,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "clip",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Box of Bullets (MT_MISC17)
@@ -3967,7 +4095,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "box of bullets",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Rocket (MT_MISC18)
@@ -4004,7 +4134,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "rocket",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Box of Rockets (MT_MISC19)
@@ -4041,7 +4173,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "box of rockets",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Cell (MT_MISC20)
@@ -4078,7 +4212,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "cell",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Cell Pack (MT_MISC21)
@@ -4115,7 +4251,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "cell pack",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Shotgun Shells (MT_MISC22)
@@ -4152,7 +4290,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "shotgun shells",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Box of Shells (MT_MISC23)
@@ -4189,7 +4329,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "box of shells",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Backpack (MT_MISC24)
@@ -4226,7 +4368,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "backpack",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // BFG-9000 (MT_MISC25)
@@ -4263,7 +4407,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "BFG-9000",
         /* plural1              */ "",
         /* name2                */ "BFG",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Chaingun (MT_CHAINGUN)
@@ -4300,7 +4446,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "chaingun",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Chainsaw (MT_MISC26)
@@ -4337,7 +4485,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "chainsaw",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Rocket Launcher (MT_MISC27)
@@ -4374,7 +4524,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "rocket launcher",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Plasma Rifle (MT_MISC28)
@@ -4411,7 +4563,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "plasma rifle",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Shotgun (MT_SHOTGUN)
@@ -4448,7 +4602,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "shotgun",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Super Shotgun (MT_SUPERSHOTGUN)
@@ -4485,7 +4641,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "super shotgun",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Tall techno floor lamp (MT_MISC29)
@@ -4522,7 +4680,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "tall techno floor lamp",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short techno floor lamp (MT_MISC30)
@@ -4559,7 +4719,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "short techno floor lamp",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Floor lamp (MT_MISC31)
@@ -4596,7 +4758,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "floor lamp",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Tall green column (MT_MISC32)
@@ -4633,7 +4797,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "tall green column",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short green column (MT_MISC33)
@@ -4670,7 +4836,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "short green column",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Tall red column (MT_MISC34)
@@ -4707,7 +4875,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "tall red column",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short red column (MT_MISC35)
@@ -4744,7 +4914,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "short red column",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short red column with skull (MT_MISC36)
@@ -4781,7 +4953,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "short red column with skull",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short green column with beating heart (MT_MISC37)
@@ -4818,7 +4992,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "short green column with beating heart",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Evil eye (MT_MISC38)
@@ -4855,7 +5031,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "evil eye",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Floating skull rock (MT_MISC39)
@@ -4892,7 +5070,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "floating skull rock",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Torched tree (MT_MISC40)
@@ -4929,7 +5109,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "torched tree",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Tall blue firestick (MT_MISC41)
@@ -4966,7 +5148,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "tall blue firestick",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Tall green firestick (MT_MISC42)
@@ -5003,7 +5187,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "tall green firestick",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Tall red firestick (MT_MISC43)
@@ -5040,7 +5226,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "tall red firestick",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short blue firestick (MT_MISC44)
@@ -5077,7 +5265,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "short blue firestick",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short green firestick (MT_MISC45)
@@ -5114,7 +5304,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "short green firestick",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short red firestick (MT_MISC46)
@@ -5151,7 +5343,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "short red firestick",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Stalagmite (MT_MISC47)
@@ -5188,7 +5382,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "stalagmite",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Tall techno pillar (MT_MISC48)
@@ -5225,7 +5421,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "tall techno pillar",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Candlestick (MT_MISC49)
@@ -5262,7 +5460,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "candlestick",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Candelabra (MT_MISC50)
@@ -5299,7 +5499,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "candelabra",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging victim (twitching, blocking) (MT_MISC51)
@@ -5336,7 +5538,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging victim (twitching, blocking)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging victim (arms out, blocking) (MT_MISC52)
@@ -5373,7 +5577,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging victim (arms out, blocking)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging victim (one-legged, blocking) (MT_MISC53)
@@ -5410,7 +5616,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging victim (one-legged, blocking)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging pair of legs (blocking) (MT_MISC54)
@@ -5447,7 +5655,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging pair of legs (blocking)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging leg (blocking) (MT_MISC55, MT_MISC59)
@@ -5484,7 +5694,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging leg (blocking)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging victim (arms out) (MT_MISC56)
@@ -5521,7 +5733,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging victim (arms out)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging pair of legs (MT_MISC57)
@@ -5558,7 +5772,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging pair of legs",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging victim (one-legged) (MT_MISC58)
@@ -5595,7 +5811,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging victim (one-legged)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging leg (MT_MISC59)
@@ -5632,7 +5850,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging leg",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging victim (twitching) (MT_MISC60)
@@ -5669,7 +5889,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging victim (twitching)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Dead Cacodemon (MT_MISC61)
@@ -5706,7 +5928,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "dead cacodemon",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Dead Player (MT_MISC62)
@@ -5742,8 +5966,10 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead player",
         /* plural1              */ "",
-        /* name2                */ "",
-        /* plural2              */ ""
+        /* name2                */ "dead marine",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Dead Zombieman (MT_MISC63)
@@ -5779,8 +6005,10 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead zombieman",
         /* plural1              */ "",
-        /* name2                */ "",
-        /* plural2              */ ""
+        /* name2                */ "dead former human",
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Dead Demon (MT_MISC64)
@@ -5816,8 +6044,10 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead demon",
         /* plural1              */ "",
-        /* name2                */ "",
-        /* plural2              */ ""
+        /* name2                */ "dead pinky demon",
+        /* plural2              */ "",
+        /* name3                */ "dead pinky",
+        /* plural3              */ ""
     },
 
     // Dead Lost Soul, invisible (MT_MISC65)
@@ -5854,7 +6084,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "dead lost soul",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Dead Imp (MT_MISC66)
@@ -5891,7 +6123,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "dead imp",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Dead Shotgun Guy (MT_MISC67)
@@ -5927,8 +6161,10 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "dead shotgun guy",
         /* plural1              */ "",
-        /* name2                */ "",
-        /* plural2              */ ""
+        /* name2                */ "dead former human sergeant",
+        /* plural2              */ "",
+        /* name3                */ "dead sergeant",
+        /* plural3              */ ""
     },
 
     // Bloody mess 1 (MT_MISC68)
@@ -5965,7 +6201,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "bloody mess 1",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Bloody mess 2 (MT_MISC69)
@@ -6002,7 +6240,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "bloody mess 2",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Five skulls shishkebab (MT_MISC70)
@@ -6039,7 +6279,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "five skulls shishkebab",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Pool of blood and bones (MT_MISC71)
@@ -6076,7 +6318,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "pool of blood and bones",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Skull on a pole (MT_MISC72)
@@ -6113,7 +6357,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "skull on a pole",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Pile of skulls and candles (MT_MISC73)
@@ -6150,7 +6396,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "pile of skulls and candles",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Impaled human (MT_MISC74)
@@ -6187,7 +6435,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "impaled human",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Twitching impaled human (MT_MISC75)
@@ -6224,7 +6474,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "twitching impaled human",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Large brown tree (MT_MISC76)
@@ -6261,7 +6513,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "large brown tree",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Burning Barrel (MT_MISC77)
@@ -6298,7 +6552,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "burning barrel",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging victim (guts removed) (MT_MISC78)
@@ -6335,7 +6591,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging victim (guts removed)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging victim (guts and brain removed) (MT_MISC79)
@@ -6372,7 +6630,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging victim (guts and brain removed)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging torso (looking down) (MT_MISC80)
@@ -6409,7 +6669,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging torso (looking down)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging torso (open skull) (MT_MISC81)
@@ -6446,7 +6708,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging torso (open skull)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging torso (looking up) (MT_MISC82)
@@ -6483,7 +6747,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging torso (looking up)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Hanging torso (brain removed) (MT_MISC83)
@@ -6520,7 +6786,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "hanging torso (brain removed)",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Pool of blood and guts (MT_MISC84)
@@ -6557,7 +6825,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "pool of blood and guts",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Pool of blood (MT_MISC85)
@@ -6594,7 +6864,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "pool of blood",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Pool of brains (MT_MISC86)
@@ -6631,7 +6903,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "pool of brains",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_PUSH
@@ -6668,7 +6942,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_PULL
@@ -6705,7 +6981,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_DOGS
@@ -6742,7 +7020,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_PLASMA1
@@ -6779,7 +7059,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_PLASMA2
@@ -6816,7 +7098,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_SCEPTRE
@@ -6853,7 +7137,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_BIBLE
@@ -6890,7 +7176,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_MUSICSOURCE
@@ -6927,7 +7215,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // MT_GIBDTH
@@ -6964,7 +7254,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Blue Blood (MT_BLUEBLOOD)
@@ -7001,7 +7293,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "blue blood",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Green Blood (MT_GREENBLOOD)
@@ -7038,7 +7332,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "green blood",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Fuzzy Blood (MT_FUZZYBLOOD)
@@ -7075,7 +7371,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "fuzzy blood",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Blood Splat (MT_BLOODSPLAT)
@@ -7112,10 +7410,12 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "blood splat",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
-    // Smoke Trail (MT_TRAIL)
+    // Rocket Trail (MT_TRAIL)
     {
         /* doomednum            */ -1,
         /* spawnstate           */ S_TRAIL,
@@ -7149,7 +7449,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "rocket trail",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Shadow (MT_SHADOW)
@@ -7186,7 +7488,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* name1                */ "shadow",
         /* plural1              */ "",
         /* name2                */ "",
-        /* plural2              */ ""
+        /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     }
 };
 

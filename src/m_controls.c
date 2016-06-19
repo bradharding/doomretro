@@ -60,6 +60,7 @@ int     key_nextweapon = KEYNEXTWEAPON_DEFAULT;
 int     key_prevweapon = KEYPREVWEAPON_DEFAULT;
 int     key_right = KEYRIGHT_DEFAULT;
 int     key_run = KEYRUN_DEFAULT;
+int     key_screenshot = KEYSCREENSHOT_DEFAULT;
 int     key_strafe = KEYSTRAFE_DEFAULT;
 int     key_strafeleft = KEYSTRAFELEFT_DEFAULT;
 int     key_strafeleft2 = KEYSTRAFELEFT2_DEFAULT;

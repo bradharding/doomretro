@@ -229,7 +229,7 @@ void SC_ScriptError(char *message)
 {
     if (!message)
         message = "Bad syntax.";
-    I_Error("Script error, \"%s\" line %d: %s", ScriptName, sc_Line, message);
+    I_Error("Script error, \"%s\" line %i: %s", ScriptName, sc_Line, message);
 }
 
 static void CheckOpen(void)
