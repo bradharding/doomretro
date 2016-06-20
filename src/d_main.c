@@ -748,7 +748,6 @@ dboolean D_CheckParms(void)
                     {
                         modifiedgame = true;
                         nerve = true;
-                        expansion = 0;
                     }
                 }
             }
@@ -939,7 +938,6 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
-                            expansion = 0;
                         }
                     }
                 }
@@ -1300,7 +1298,6 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
-                            expansion = 0;
                         }
                     }
                 }
