@@ -1311,7 +1311,7 @@ void ST_doPaletteStuff(void)
         if (plyr->bonuscount)
             palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
         else
-            palette = MIN((count >> 3) + NUMREDPALS * r_berserkintensity / 100, NUMREDPALS);
+            palette = MIN((count >> 3) + r_berserkintensity, NUMREDPALS);
     }
     else if (count)
         palette = STARTREDPALS + MIN((count + 7) >> 3, NUMREDPALS - 1);

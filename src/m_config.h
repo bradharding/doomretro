@@ -195,8 +195,8 @@ typedef enum
 #define r_althud_default                        false
 
 #define r_berserkintensity_min                  0
-#define r_berserkintensity_default              33
-#define r_berserkintensity_max                  100
+#define r_berserkintensity_default              2
+#define r_berserkintensity_max                  8
 
 #define r_blood_min                             r_blood_none
 #define r_blood_default                         r_blood_all
