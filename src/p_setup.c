@@ -1985,7 +1985,8 @@ void P_MapName(int ep, int map)
     }
 
     if (strlen(maptitle) >= 4)
-        if (M_StringStartsWith(uppercase(maptitle), "MAP") && isdigit(maptitle[3]))
+        if (toupper(maptitle[0]) == 'M' && toupper(maptitle[1]) == 'A'
+            && toupper(maptitle[2]) == 'P' && isdigit(maptitle[3]))
         {
             maptitle[0] = 'M';
             maptitle[1] = 'A';
@@ -2000,9 +2001,9 @@ void P_MapName(int ep, int map)
 
     if (!mapnumonly)
     {
-        char    *pos;
+        char    *pos = strchr(maptitle, ':');
 
-        if ((pos = strchr(maptitle, ':')))
+        if (pos)
         {
             if (M_StringStartsWith(uppercase(maptitle), "LEVEL"))
             {

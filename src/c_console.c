@@ -174,13 +174,6 @@ extern int      fps;
 
 void G_ToggleAlwaysRun(evtype_t type);
 
-void C_DebugOutput(char *string)
-{
-#if defined(_MSC_VER) && defined(_DEBUG)
-    OutputDebugString(M_StringJoin(string, "\n", NULL));
-#endif
-}
-
 void C_Print(stringtype_t type, char *string, ...)
 {
     va_list     argptr;
@@ -194,10 +187,8 @@ void C_Print(stringtype_t type, char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = type;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings].timestamp[0] = '\0';
-    ++consolestrings;
+    console[consolestrings++].timestamp[0] = '\0';
     outputhistory = -1;
-    C_DebugOutput(buffer);
 }
 
 void C_Input(char *string, ...)
@@ -213,10 +204,8 @@ void C_Input(char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = inputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings].timestamp[0] = '\0';
-    ++consolestrings;
+    console[consolestrings++].timestamp[0] = '\0';
     outputhistory = -1;
-    C_DebugOutput(buffer);
 }
 
 void C_IntCVAROutput(char *cvar, int value)
@@ -253,10 +242,8 @@ void C_Output(char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings].timestamp[0] = '\0';
-    ++consolestrings;
+    console[consolestrings++].timestamp[0] = '\0';
     outputhistory = -1;
-    C_DebugOutput(buffer);
 }
 
 void C_TabbedOutput(int tabs[8], char *string, ...)
@@ -272,10 +259,8 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
-    console[consolestrings].timestamp[0] = '\0';
-    ++consolestrings;
+    console[consolestrings++].timestamp[0] = '\0';
     outputhistory = -1;
-    C_DebugOutput(buffer);
 }
 
 void C_Warning(char *string, ...)
@@ -293,10 +278,8 @@ void C_Warning(char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = warningstring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-        console[consolestrings].timestamp[0] = '\0';
-        ++consolestrings;
+        console[consolestrings++].timestamp[0] = '\0';
         outputhistory = -1;
-        C_DebugOutput(buffer);
     }
 }
 
@@ -317,7 +300,6 @@ void C_PlayerMessage(char *string, ...)
     if (prevplayermessage && M_StringCompare(console[consolestrings - 1].string, buffer))
     {
         M_snprintf(console[consolestrings - 1].string, CONSOLETEXTMAXLENGTH, "%s (2)", buffer);
-
         strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
     else if (prevplayermessage && M_StringStartsWith(console[consolestrings - 1].string, buffer))
@@ -327,7 +309,6 @@ void C_PlayerMessage(char *string, ...)
         count[strlen(count) - 1] = '\0';
         M_snprintf(console[consolestrings - 1].string, CONSOLETEXTMAXLENGTH, "%s (%i)", buffer,
             atoi(count) + 1);
-
         strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
     else
@@ -336,13 +317,9 @@ void C_PlayerMessage(char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = playermessagestring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-
-        strftime(console[consolestrings].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
-
-        ++consolestrings;
+        strftime(console[consolestrings++].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
     outputhistory = -1;
-    C_DebugOutput(buffer);
 }
 
 static void C_AddToUndoHistory(void)
