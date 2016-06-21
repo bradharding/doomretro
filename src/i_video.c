@@ -83,7 +83,7 @@ dboolean                manuallypositioning = false;
 
 SDL_Window              *window = NULL;
 int                     windowid = 0;
-static SDL_Renderer     *renderer;
+SDL_Renderer            *renderer;
 static SDL_Texture      *texture;
 static SDL_Texture      *texture_upscaled;
 static SDL_Surface      *surface;

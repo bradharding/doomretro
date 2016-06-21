@@ -1315,45 +1315,46 @@ void V_Init(void)
         M_StringCopy(screenshotfolder, M_GetExecutableFolder(), sizeof(screenshotfolder));
 }
 
-char            lbmname1[MAX_PATH];
-char            lbmname2[MAX_PATH];
-char            lbmpath1[MAX_PATH];
-char            lbmpath2[MAX_PATH];
+char                    lbmname1[MAX_PATH];
+char                    lbmname2[MAX_PATH];
+char                    lbmpath1[MAX_PATH];
+char                    lbmpath2[MAX_PATH];
 
-extern dboolean vid_widescreen;
-extern dboolean inhelpscreens;
-extern char     maptitle[128];
-extern dboolean splashscreen;
-extern int      titlesequence;
+extern dboolean         vid_widescreen;
+extern dboolean         inhelpscreens;
+extern char             maptitle[128];
+extern dboolean         splashscreen;
+extern int              titlesequence;
 
 dboolean V_SavePNG(SDL_Window *window, char *path)
 {
-    dboolean            result = false;
-    SDL_Renderer        *renderer = SDL_GetRenderer(window);
+    dboolean    result = false;
 
     if (renderer)
     {
-        int             rendererwidth, rendererheight;
-        int             width, height;
-        SDL_Surface     *screenshot;
+        int             rendererwidth;
+        int             rendererheight;
 
-        SDL_GetRendererOutputSize(renderer, &rendererwidth, &rendererheight);
-        width = (vid_widescreen ? rendererheight * 16 / 10 : rendererheight * 4 / 3);
-        height = rendererheight;
-        if (width > rendererwidth)
+        if (!SDL_GetRendererOutputSize(renderer, &rendererwidth, &rendererheight))
         {
-            width = rendererwidth;
-            height = (vid_widescreen ? rendererwidth * 10 / 16 : rendererwidth * 3 / 4);
-        }
-        screenshot = SDL_CreateRGBSurface(0, width, height, 32, 0x00FF0000, 0x0000FF00, 0x000000FF,
-            0xFF000000);
+            int         width = (vid_widescreen ? rendererheight * 16 / 10 : rendererheight * 4 / 3);
+            int         height = rendererheight;
+            SDL_Surface *screenshot;
 
-        if (screenshot)
-        {
-            if (!SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels,
-                screenshot->pitch))
-                result = !IMG_SavePNG(screenshot, path);
-            SDL_FreeSurface(screenshot);
+            if (width > rendererwidth)
+            {
+                width = rendererwidth;
+                height = (vid_widescreen ? rendererwidth * 10 / 16 : rendererwidth * 3 / 4);
+            }
+
+            if ((screenshot = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0)))
+            {
+                if (!SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888,
+                    screenshot->pixels, screenshot->pitch))
+                    result = !IMG_SavePNG(screenshot, path);
+
+                SDL_FreeSurface(screenshot);
+            }
         }
     }
 

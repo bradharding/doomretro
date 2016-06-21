@@ -125,6 +125,7 @@ extern int              windowwidth;
 extern dboolean         nearestlinear;
 
 extern SDL_Window       *window;
+extern SDL_Renderer     *renderer;
 
 extern SDL_Window       *mapwindow;
 extern byte             *mapscreen;
