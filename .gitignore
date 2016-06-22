@@ -192,9 +192,14 @@ Desktop.ini
 $RECYCLE.BIN/
 *.bak
 
+*.exp
+
 savegames/
 screenshots/
-*.exp
+msvc/Release/doomretro.cfg
+msvc/Release/doomretro.wad
+msvc/Debug/doomretro.cfg
+msvc/Debug/doomretro.wad
 
 # =========================
 # OSX detritus
@@ -207,11 +212,6 @@ screenshots/
 xcuserdata/
 project.xcworkspace/
 DerivedData/
-
-msvc/Release/doomretro.cfg
-msvc/Release/doomretro.wad
-msvc/Debug/doomretro.cfg
-msvc/Debug/doomretro.wad
 
 # Files built on Unix systems
 *.[oa]
