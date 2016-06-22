@@ -193,6 +193,7 @@ $RECYCLE.BIN/
 *.bak
 
 savegames/
+screenshots/
 *.exp
 
 # =========================

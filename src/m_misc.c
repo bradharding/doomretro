@@ -161,13 +161,17 @@ char *M_ExtractFolder(char *path)
 char *M_GetAppDataFolder(void)
 {
 #if defined(WIN32)
-    // On Windows, store generated application files in <username>\DOOM Retro.
-    TCHAR       buffer[MAX_PATH];
+    #if !defined(PORTABILITY)
+        // On Windows, store generated application files in <username>\DOOM Retro.
+        TCHAR       buffer[MAX_PATH];
 
-    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
-        return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
-    else
+        if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
+            return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
+        else
+            return M_GetExecutableFolder();
+    #else
         return M_GetExecutableFolder();
+    #endif
 #elif defined(__MACOSX__)
     // On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
     NSFileManager     *manager = [NSFileManager defaultManager];

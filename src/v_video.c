@@ -1282,8 +1282,8 @@ void V_Init(void)
     int                 i;
     byte                *base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
     const SDL_version   *linked = IMG_Linked_Version();
-#if defined(WIN32)
-    char                buffer[1024];
+#if defined(WIN32) && !defined(PORTABILITY)
+    char                buffer[MAX_PATH];
 #endif
 
     if (linked->major != SDL_IMAGE_MAJOR_VERSION || linked->minor != SDL_IMAGE_MINOR_VERSION)
@@ -1306,13 +1306,17 @@ void V_Init(void)
 
     GetPixelSize();
 
-#if defined(WIN32)
+#if defined(WIN32) && !defined(PORTABILITY)
     if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, buffer)))
         M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S PACKAGE_NAME,
             buffer);
     else
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S PACKAGE_NAME,
+            M_GetExecutableFolder());
+#else
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots",
+            M_GetExecutableFolder());
 #endif
-        M_StringCopy(screenshotfolder, M_GetExecutableFolder(), sizeof(screenshotfolder));
 }
 
 char            lbmname1[MAX_PATH];
