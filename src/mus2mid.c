@@ -61,11 +61,11 @@ typedef enum
 {
     midi_releasekey        = 0x80,
     midi_presskey          = 0x90,
-    midi_aftertouchkey     = 0xa0,
-    midi_changecontroller  = 0xb0,
-    midi_changepatch       = 0xc0,
-    midi_aftertouchchannel = 0xd0,
-    midi_pitchwheel        = 0xe0
+    midi_aftertouchkey     = 0xA0,
+    midi_changecontroller  = 0xB0,
+    midi_changepatch       = 0xC0,
+    midi_aftertouchchannel = 0xD0,
+    midi_pitchwheel        = 0xE0
 } midievent;
 
 #if defined(_MSC_VER)

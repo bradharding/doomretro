@@ -1412,11 +1412,11 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 
 static void ST_loadUnloadGraphics(load_callback_t callback)
 {
-    int    i;
-    int    j;
-    int    facenum;
+    int         i;
+    int         j;
+    int         facenum;
 
-    char   namebuf[9];
+    char        namebuf[9];
 
     // Load the numbers, tall and short
     for (i = 0; i < 10; i++)
@@ -1563,7 +1563,7 @@ void ST_unloadData(void)
 
 void ST_initData(void)
 {
-    int    i;
+    int i;
 
     st_firsttime = true;
     plyr = &players[0];
@@ -1669,7 +1669,7 @@ void ST_Stop(void)
 
 void ST_Init(void)
 {
-    int    i;
+    int i;
 
     ST_loadData();
     screens[4] = Z_Malloc(ST_WIDTH * SBARHEIGHT, PU_STATIC, NULL);

@@ -43,17 +43,18 @@
 #include "m_controls.h"
 #include "version.h"
 
-int     windowborderwidth = 0;
-int     windowborderheight = 0;
-
 #if defined(WIN32)
-#include <windows.h>
 
 #include "SDL_syswm.h"
+
+#include <windows.h>
 
 #if !defined(SM_CXPADDEDBORDER)
 #define SM_CXPADDEDBORDER       92
 #endif
+
+int     windowborderwidth = 0;
+int     windowborderheight = 0;
 
 void I_SetProcessDPIAware(void)
 {
@@ -129,12 +130,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     else if (msg == WM_SYSCOMMAND)
     {
-        if ((wParam & 0xfff0) == SC_MAXIMIZE)
+        if ((wParam & 0xFFF0) == SC_MAXIMIZE)
         {
             I_ToggleFullscreen();
             return true;
         }
-        else if ((wParam & 0xfff0) == SC_KEYMENU)
+        else if ((wParam & 0xFFF0) == SC_KEYMENU)
             return false;
     }
     else if (msg == WM_SYSKEYDOWN && wParam == VK_RETURN && !(lParam & 0x40000000))

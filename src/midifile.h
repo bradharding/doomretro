@@ -46,15 +46,15 @@ typedef enum
 {
     MIDI_EVENT_NOTE_OFF        = 0x80,
     MIDI_EVENT_NOTE_ON         = 0x90,
-    MIDI_EVENT_AFTERTOUCH      = 0xa0,
-    MIDI_EVENT_CONTROLLER      = 0xb0,
-    MIDI_EVENT_PROGRAM_CHANGE  = 0xc0,
-    MIDI_EVENT_CHAN_AFTERTOUCH = 0xd0,
-    MIDI_EVENT_PITCH_BEND      = 0xe0,
+    MIDI_EVENT_AFTERTOUCH      = 0xA0,
+    MIDI_EVENT_CONTROLLER      = 0xB0,
+    MIDI_EVENT_PROGRAM_CHANGE  = 0xC0,
+    MIDI_EVENT_CHAN_AFTERTOUCH = 0xD0,
+    MIDI_EVENT_PITCH_BEND      = 0xE0,
 
-    MIDI_EVENT_SYSEX           = 0xf0,
-    MIDI_EVENT_SYSEX_SPLIT     = 0xf7,
-    MIDI_EVENT_META            = 0xff
+    MIDI_EVENT_SYSEX           = 0xF0,
+    MIDI_EVENT_SYSEX_SPLIT     = 0xF7,
+    MIDI_EVENT_META            = 0xFF
 } midi_event_type_t;
 
 typedef enum
@@ -67,7 +67,7 @@ typedef enum
     MIDI_CONTROLLER_DATA_ENTRY      = 0x5,
 
     MIDI_CONTROLLER_MAIN_VOLUME     = 0x7,
-    MIDI_CONTROLLER_PAN             = 0xa
+    MIDI_CONTROLLER_PAN             = 0xA
 } midi_controller_t;
 
 typedef enum
@@ -83,13 +83,13 @@ typedef enum
     MIDI_META_CUE_POINT             = 0x7,
 
     MIDI_META_CHANNEL_PREFIX        = 0x20,
-    MIDI_META_END_OF_TRACK          = 0x2f,
+    MIDI_META_END_OF_TRACK          = 0x2F,
 
     MIDI_META_SET_TEMPO             = 0x51,
     MIDI_META_SMPTE_OFFSET          = 0x54,
     MIDI_META_TIME_SIGNATURE        = 0x58,
     MIDI_META_KEY_SIGNATURE         = 0x59,
-    MIDI_META_SEQUENCER_SPECIFIC    = 0x7f
+    MIDI_META_SEQUENCER_SPECIFIC    = 0x7F
 } midi_meta_event_type_t;
 
 typedef struct

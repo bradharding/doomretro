@@ -794,7 +794,7 @@ void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
     byte        *desttop = screens[0] + x;
 
     // step through the posts in a column
-    while (column->topdelta != 0xff)
+    while (column->topdelta != 0xFF)
     {
         int     count = (column->length << FRACBITS) / fracstep;
         fixed_t frac = 0;

@@ -57,7 +57,7 @@
 // handles maximum brightness (torches, muzzle flare, light sources)
 //
 #define FF_FULLBRIGHT   0x8000  // flag in thing->frame
-#define FF_FRAMEMASK    0x7fff
+#define FF_FRAMEMASK    0x7FFF
 
 //
 // Overlay psprites are scaled shapes
