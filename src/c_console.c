@@ -677,7 +677,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (patch)
             {
-                V_DrawConsolePatch(x, y, patch, (bold ? boldcolor : (italics ?
+                V_DrawConsolePatch(x, y, patch, (bold ? (italics ? color1 : boldcolor) : (italics ?
                     consoleitalicscolor : color1)), color2, italics, tinttab);
                 x += SHORT(patch->width);
             }
@@ -1399,7 +1399,7 @@ void C_PrintCompileDate(void)
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
-    C_Output("This %i-bit %s binary of <i>"PACKAGE_NAMEANDVERSIONSTRING"</i> was built at "
+    C_Output("This %i-bit %s binary of <i><b>"PACKAGE_NAMEANDVERSIONSTRING"</b></i> was built at "
         "%i:%02i%s on %s, %s %i, %i.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"),
         days[dayofweek(day, month + 1, year)], months[month], day, year);

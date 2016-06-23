@@ -1491,9 +1491,10 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (stat_runs < 2)
-        C_Output("<i>"PACKAGE_NAME"</i> has been run %s.", (!stat_runs ? "once" : "twice"));
+        C_Output("<i><b>"PACKAGE_NAME"</b></i> has been run %s.", (!stat_runs ? "once" : "twice"));
     else
-        C_Output("<i>"PACKAGE_NAME"</i> has been run %s times.", commify(SafeAdd(stat_runs, 1)));
+        C_Output("<i><b>"PACKAGE_NAME"</b></i> has been run %s times.",
+            commify(SafeAdd(stat_runs, 1)));
 
     if (!M_FileExists(packagewad))
         I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", packagewad);
