@@ -80,9 +80,6 @@
 #define CONSOLEDIVIDERWIDTH     (CONSOLETEXTPIXELWIDTH - CONSOLETEXTX + 1)
 
 #define DIVIDER                 "~~~"
-#define NOQUOTE                 0
-#define LDQUOTE                 1
-#define RDQUOTE                 2
 
 #if !defined(WIN32)
 #define CARETBLINKTIME          530
@@ -97,8 +94,6 @@ static dboolean forceblurredraw = false;
 
 static patch_t  *unknownchar;
 static patch_t  *consolefont[CONSOLEFONTSIZE];
-static patch_t  *ldquote;
-static patch_t  *rdquote;
 static patch_t  *degree;
 static patch_t  *multiply;
 static patch_t  *warning;
@@ -462,8 +457,6 @@ void C_Init(void)
         M_snprintf(buffer, 9, "DRFON%03d", j++);
         consolefont[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
-    ldquote = W_CacheLumpName("DRFON147", PU_STATIC);
-    rdquote = W_CacheLumpName("DRFON148", PU_STATIC);
     degree = W_CacheLumpName("DRFON176", PU_STATIC);
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
     warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
@@ -601,7 +594,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     int                 tab = -1;
     size_t              len = strlen(text);
     unsigned char       prevletter = '\0';
-    int                 prevquote = NOQUOTE;
 
     y -= CONSOLEHEIGHT - consoleheight;
 
@@ -663,26 +655,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             }
             else if (letter == 215)
                 patch = multiply;
-            else if (letter == '\"' && formatting)
-            {
-                if (prevquote == NOQUOTE || prevquote == RDQUOTE)
-                {
-                    int j;
-
-                    for (j = i + 1; (size_t)j < len; ++j)
-                        if (text[j] == '\"')
-                        {
-                            patch = ldquote;
-                            prevquote = LDQUOTE;
-                            break;
-                        }
-                }
-                else if (prevquote == LDQUOTE)
-                {
-                    patch = rdquote;
-                    prevquote = RDQUOTE;
-                }
-            }
             else
                 patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknownchar : consolefont[c]);
 
