@@ -76,7 +76,7 @@
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
-#define PLAYCMDFORMAT           "<i>music</i>|<i>sound</i>"
+#define PLAYCMDFORMAT           "<i>sound</i>|<i>music</i>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 
 int     ammo;
@@ -598,7 +598,7 @@ consolecmd_t consolecmds[] =
     CMD(pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles the player starting each map with only a pistol."),
     CMD(play, "", play_cmd_func1, play_cmd_func2, 1, PLAYCMDFORMAT,
-        "Plays a sound or music lump."),
+        "Plays a <i>sound</i> or <i>music</i> lump."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2,
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, 0, "",
