@@ -155,6 +155,7 @@ static int      consoleplayermessagecolor = 161;
 static int      consoletimestampcolor = 100;
 static int      consoleoutputcolor = 88;
 static int      consoleboldcolor = 4;
+static int      consoleitalicscolor = 98;
 static int      consolebrandingcolor = 176;
 static int      consolewarningcolor = 180;
 static int      consoledividercolor = 100;
@@ -489,6 +490,7 @@ void C_Init(void)
     consoletimestampcolor = nearestcolors[consoletimestampcolor];
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
     consoleboldcolor = nearestcolors[consoleboldcolor];
+    consoleitalicscolor = nearestcolors[consoleitalicscolor];
     consolebrandingcolor = nearestcolors[consolebrandingcolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
@@ -675,8 +677,8 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (patch)
             {
-                V_DrawConsolePatch(x, y, patch, (bold ? boldcolor : color1), color2, italics,
-                    tinttab);
+                V_DrawConsolePatch(x, y, patch, (bold ? boldcolor : (italics ?
+                    consoleitalicscolor : color1)), color2, italics, tinttab);
                 x += SHORT(patch->width);
             }
         }
