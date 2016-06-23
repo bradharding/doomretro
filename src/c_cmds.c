@@ -525,7 +525,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time since <i>"PACKAGE_NAME"</i> started."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
-        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, <b>all</b> or certain\n<i>items</i> to the player."),
+        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, <b>all</b> or certain <i>items</i> to\nthe player."),
     CMD(god, "", god_cmd_func1, god_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
@@ -1008,8 +1008,7 @@ static void clear_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 static void cmdlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
-    int count = 1;
-    int tabs[8] = { 40, 204, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 174, 0, 0, 0, 0, 0, 0, 0 };
 
     while (*consolecmds[i].name)
     {
@@ -1029,11 +1028,11 @@ static void cmdlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 M_StringCopy(description2, p, 255);
             }
 
-            C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", count++, consolecmds[i].name,
-                consolecmds[i].format, description1);
+            C_TabbedOutput(tabs, "<b>%s</b> %s\t%s", consolecmds[i].name, consolecmds[i].format,
+                description1);
 
             if (*description2)
-                C_TabbedOutput(tabs, "\t\t%s", description2);
+                C_TabbedOutput(tabs, "\t%s", description2);
         }
         ++i;
     }
@@ -1142,7 +1141,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
     int count = 1;
-    int tabs[8] = { 35, 179, 257, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 149, 257, 0, 0, 0, 0, 0, 0 };
 
     while (*consolecmds[i].name)
     {
@@ -1162,52 +1161,51 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             }
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%i</b>\t%s", consolecmds[i].name,
                     (gamestate == GS_LEVEL ? players[0].ammo[weaponinfo[players[0].readyweapon].ammo] : 0),
                     description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%i%%</b>\t%s", consolecmds[i].name,
                     (gamestate == GS_LEVEL ? players[0].armorpoints : 0), description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%i%%</b>\t%s", consolecmds[i].name,
                     (gamestate == GS_LEVEL ? players[0].health : 0), description1);
             else if (consolecmds[i].flags & CF_BOOLEAN)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%s</b>\t%s", consolecmds[i].name,
                     C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
                         consolecmds[i].aliases), description1);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%i%%</b>\t%s", consolecmds[i].name,
                     *(int *)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_INTEGER)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%s</b>\t%s", consolecmds[i].name,
                     C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                         consolecmds[i].aliases), description1);
             else if (consolecmds[i].flags & CF_FLOAT)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%s</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%s%s</b>\t%s", consolecmds[i].name,
                     striptrailingzero(*(float *)consolecmds[i].variable,
                         ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
                     ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), description1);
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t\"%.8s%s\"</b>\t%s", count++,
-                    consolecmds[i].name, *(char **)consolecmds[i].variable,
-                    (strlen(*(char **)consolecmds[i].variable) > 8 ? "..." : ""), description1);
+                C_TabbedOutput(tabs, "<b>%s\t\"%.14s%s\"</b>\t%s", consolecmds[i].name,
+                    *(char **)consolecmds[i].variable,
+                    (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""), description1);
             else if (consolecmds[i].flags & CF_POSITION)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%s</b>\t%s", consolecmds[i].name,
                     *(char **)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_SIZE)
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "<b>%s\t%s</b>\t%s", consolecmds[i].name,
                     formatsize(*(char **)consolecmds[i].variable), description1);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int     tics = *(int *)consolecmds[i].variable / TICRATE;
 
-                C_TabbedOutput(tabs, "%i.\t<b>%s\t%02i:%02i:%02i</b>\t%s", count++,
-                    consolecmds[i].name, tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60,
-                    description1);
+                C_TabbedOutput(tabs, "<b>%s\t%02i:%02i:%02i</b>\t%s", consolecmds[i].name,
+                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, description1);
             }
 
             if (*description2)
-                C_TabbedOutput(tabs, "\t\t\t%s", description2);
+                C_TabbedOutput(tabs, "\t\t%s", description2);
         }
         ++i;
     }
