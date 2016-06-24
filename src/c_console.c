@@ -70,7 +70,8 @@
 #define CONSOLELINES            11
 #define CONSOLELINEHEIGHT       14
 
-#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - SHORT(brand->width) - 2)
+#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - C_TextWidth(consoleprompt) \
+                                    - SHORT(brand->width) - 2)
 
 #define CONSOLESCROLLBARWIDTH   3
 #define CONSOLESCROLLBARHEIGHT  ((CONSOLELINES - 1) * CONSOLELINEHEIGHT - 1)
