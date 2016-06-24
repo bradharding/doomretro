@@ -55,6 +55,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#define RMAPINFO_SCRIPT_NAME    "RMAPINFO"
 #define MAPINFO_SCRIPT_NAME     "MAPINFO"
 
 #define NUMLIQUIDS              256
@@ -194,6 +195,7 @@ static int mapcmdids[] =
 
 dboolean        canmodify;
 dboolean        transferredsky;
+dboolean        RMAPINFO;
 dboolean        MAPINFO;
 
 dboolean        r_fixmaperrors = r_fixmaperrors_default;
@@ -2207,8 +2209,9 @@ static void InitMapInfo(void)
     int         mcmdvalue;
     mapinfo_t   *info;
 
-    if (!(MAPINFO = (W_CheckNumForName(MAPINFO_SCRIPT_NAME) >= 0)))
-        return;
+    if (!(RMAPINFO = MAPINFO = (W_CheckNumForName(RMAPINFO_SCRIPT_NAME) >= 0)))
+        if (!(MAPINFO = (W_CheckNumForName(MAPINFO_SCRIPT_NAME) >= 0)))
+            return;
 
     info = mapinfo;
 
@@ -2228,7 +2231,7 @@ static void InitMapInfo(void)
         info->noliquid[i] = -1;
     }
 
-    SC_Open(MAPINFO_SCRIPT_NAME);
+    SC_Open(RMAPINFO ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
     while (SC_GetString())
     {
         if (!SC_Compare("MAP"))
