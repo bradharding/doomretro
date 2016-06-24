@@ -2209,8 +2209,8 @@ static void InitMapInfo(void)
     int         mcmdvalue;
     mapinfo_t   *info;
 
-    if (!(RMAPINFO = MAPINFO = (W_CheckNumForName(RMAPINFO_SCRIPT_NAME) >= 0)))
-        if (!(MAPINFO = (W_CheckNumForName(MAPINFO_SCRIPT_NAME) >= 0)))
+    if ((RMAPINFO = MAPINFO = W_CheckNumForName(RMAPINFO_SCRIPT_NAME)) < 0)
+        if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
             return;
 
     info = mapinfo;
@@ -2231,7 +2231,7 @@ static void InitMapInfo(void)
         info->noliquid[i] = -1;
     }
 
-    SC_Open(RMAPINFO ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
+    SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
     while (SC_GetString())
     {
         if (!SC_Compare("MAP"))
@@ -2385,6 +2385,10 @@ static void InitMapInfo(void)
     }
     SC_Close();
     mapcount = mapmax;
+
+    C_Output("Parsed %s lump from %s file <b>%s</b>.", (RMAPINFO >= 0 ? "RMAPINFO" :
+        "MAPINFO"), (lumpinfo[MAPINFO]->wad_file->type == IWAD ? "IWAD" : "PWAD"),
+        lumpinfo[MAPINFO]->wad_file->path);
 }
 
 static int QualifyMap(int map)
