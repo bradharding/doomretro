@@ -104,6 +104,7 @@ extern int              am_xhaircolor;
 extern dboolean         autoload;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
+extern dboolean         con_prompt;
 extern dboolean         con_timestamps;
 extern int              episode;
 extern int              expansion;
@@ -504,6 +505,8 @@ consolecmd_t consolecmds[] =
         "Shows a list of console commands."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles obituaries in the console when monsters are killed."),
+    CVAR_BOOL(con_prompt, "", bool_cvars_func1, bool_cvars_func2,
+        "Toggles the prompt in the console."),
     CVAR_BOOL(con_timestamps, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles timestamps in the console for player messages."),
     CMD(condump, "", null_func1, condump_cmd_func2, 1, "[<i>filename</i><b>.txt</b>]",

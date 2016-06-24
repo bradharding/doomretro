@@ -88,6 +88,7 @@
 dboolean        consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
+char            consoleprompt[96];
 static int      consolewait;
 
 static dboolean forceblurredraw = false;
@@ -129,6 +130,7 @@ static int      outputhistory = -1;
 
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
+dboolean        con_prompt = con_prompt_default;
 dboolean        con_timestamps = con_timestamps_default;
 static int      timestampx;
 static int      zerowidth;
@@ -813,6 +815,14 @@ void C_Drawer(void)
                 if (con_timestamps && *console[i].timestamp)
                     C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
+        }
+
+        // draw prompt
+        if (con_prompt && *consoleprompt)
+        {
+            C_DrawConsoleText(x, CONSOLEHEIGHT - 17, consoleprompt, consoleinputcolor,
+                NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false);
+            x += C_TextWidth(consoleprompt, false);
         }
 
         // draw input text to left of caret

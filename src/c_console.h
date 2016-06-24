@@ -84,6 +84,7 @@ console_t               *console;
 extern dboolean         consoleactive;
 extern int              consoleheight;
 extern int              consoledirection;
+extern char             consoleprompt[96];
 
 extern char             consolecheat[255];
 extern char             consolecheatparm[3];

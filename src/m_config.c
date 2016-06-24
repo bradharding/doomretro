@@ -68,6 +68,7 @@ extern int              am_xhaircolor;
 extern dboolean         autoload;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
+extern dboolean         con_prompt;
 extern dboolean         con_timestamps;
 extern int              episode;
 extern int              expansion;
@@ -203,6 +204,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (autoload,                              BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (centerweapon,                          BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (con_prompt,                            BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_timestamps,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (episode,                               NOALIAS    ),
     CONFIG_VARIABLE_INT          (expansion,                             NOALIAS    ),
@@ -580,6 +582,9 @@ static void M_CheckCVARs(void)
 
     if (con_obituaries != false && con_obituaries != true)
         con_obituaries = con_obituaries_default;
+
+    if (con_prompt != false && con_prompt != true)
+        con_prompt = con_prompt_default;
 
     if (con_timestamps != false && con_timestamps != true)
         con_timestamps = con_timestamps_default;

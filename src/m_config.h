@@ -132,6 +132,8 @@ typedef enum
 
 #define con_obituaries_default                  false
 
+#define con_prompt_default                      true
+
 #define con_timestamps_default                  true
 
 #define episode_min                             0
