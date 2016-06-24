@@ -1291,7 +1291,7 @@ static void SetVideoMode(dboolean output)
             C_Output("The framerate is uncapped.");
         }
 
-        C_Output("Using the 256-color palette from the PLAYPAL lump in %s file <b>%s</b>.",
+        C_Output("Using the 256-color palette from the <b>PLAYPAL</b> lump in %s file <b>%s</b>.",
             (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)

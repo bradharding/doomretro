@@ -2386,8 +2386,8 @@ static void InitMapInfo(void)
     SC_Close();
     mapcount = mapmax;
 
-    C_Output("Parsed %s lump from %s file <b>%s</b>.", (RMAPINFO >= 0 ? "RMAPINFO" :
-        "MAPINFO"), (lumpinfo[MAPINFO]->wad_file->type == IWAD ? "IWAD" : "PWAD"),
+    C_Output("Parsed the <b>%sMAPINFO</b> lump in %s file <b>%s</b>.",
+        (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wad_file->type == IWAD ? "IWAD" : "PWAD"),
         lumpinfo[MAPINFO]->wad_file->path);
 }
 
