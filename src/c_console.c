@@ -146,6 +146,7 @@ static byte     c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
 static int      consolecaretcolor = 4;
 static int      consolehighfpscolor = 116;
+static int      consolepromptcolor = 100;
 static int      consoleinputcolor = 4;
 static int      consoleselectedinputcolor = 4;
 static int      consoleselectedinputbackgroundcolor = 100;
@@ -485,6 +486,7 @@ void C_Init(void)
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
     consoleinputcolor = nearestcolors[consoleinputcolor];
+    consolepromptcolor = nearestcolors[consolepromptcolor];
     consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
     consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
     consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
@@ -820,8 +822,8 @@ void C_Drawer(void)
         // draw prompt
         if (con_prompt && *consoleprompt)
         {
-            C_DrawConsoleText(x, CONSOLEHEIGHT - 17, consoleprompt, consoleinputcolor,
-                NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false);
+            C_DrawConsoleText(x, CONSOLEHEIGHT - 17, consoleprompt, consolepromptcolor,
+                NOBACKGROUNDCOLOR, NOBOLDCOLOR, tinttab66, notabs, false);
             x += C_TextWidth(consoleprompt, false);
         }
 
