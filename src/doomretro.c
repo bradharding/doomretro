@@ -43,6 +43,9 @@
 #include "m_controls.h"
 #include "version.h"
 
+int     windowborderwidth = 0;
+int     windowborderheight = 0;
+
 #if defined(WIN32)
 
 #include "SDL_syswm.h"
@@ -52,9 +55,6 @@
 #if !defined(SM_CXPADDEDBORDER)
 #define SM_CXPADDEDBORDER       92
 #endif
-
-int     windowborderwidth = 0;
-int     windowborderheight = 0;
 
 void I_SetProcessDPIAware(void)
 {
