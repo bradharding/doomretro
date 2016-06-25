@@ -1328,7 +1328,9 @@ dboolean C_Responder(event_t *ev)
                         ch = shiftxform[ch];
                     if (ch >= ' ' && ch < '~' && ch != '`'
                         && C_TextWidth(consoleinput, false) + (ch == ' ' ? spacewidth :
-                        consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
+                        consolefont[ch - CONSOLEFONTSTART]->width) - (selectstart < selectend ?
+                        C_TextWidth(M_SubString(consoleinput, selectstart,
+                        selectend - selectstart), false) : 0)<= CONSOLEINPUTPIXELWIDTH
                         && !(modstate & KMOD_ALT))
                     {
                         C_AddToUndoHistory();
