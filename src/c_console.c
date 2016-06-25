@@ -70,8 +70,7 @@
 #define CONSOLELINES            11
 #define CONSOLELINEHEIGHT       14
 
-#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - C_TextWidth(consoleprompt, false) \
-                                    - SHORT(brand->width) - 2)
+#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - SHORT(brand->width) - 2)
 
 #define CONSOLESCROLLBARWIDTH   3
 #define CONSOLESCROLLBARHEIGHT  ((CONSOLELINES - 1) * CONSOLELINEHEIGHT - 1)
@@ -89,7 +88,6 @@
 dboolean        consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
-char            consoleprompt[96];
 static int      consolewait;
 
 static dboolean forceblurredraw = false;
@@ -131,7 +129,6 @@ static int      outputhistory = -1;
 
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-dboolean        con_prompt = con_prompt_default;
 dboolean        con_timestamps = con_timestamps_default;
 static int      timestampx;
 static int      zerowidth;
@@ -147,7 +144,6 @@ static byte     c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
 static int      consolecaretcolor = 4;
 static int      consolehighfpscolor = 116;
-static int      consolepromptcolor = 100;
 static int      consoleinputcolor = 4;
 static int      consoleselectedinputcolor = 4;
 static int      consoleselectedinputbackgroundcolor = 100;
@@ -487,7 +483,6 @@ void C_Init(void)
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
     consoleinputcolor = nearestcolors[consoleinputcolor];
-    consolepromptcolor = nearestcolors[consolepromptcolor];
     consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
     consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
     consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
@@ -818,14 +813,6 @@ void C_Drawer(void)
                 if (con_timestamps && *console[i].timestamp)
                     C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
-        }
-
-        // draw prompt
-        if (con_prompt && *consoleprompt)
-        {
-            C_DrawConsoleText(x, CONSOLEHEIGHT - 17, consoleprompt, consolepromptcolor,
-                NOBACKGROUNDCOLOR, NOBOLDCOLOR, tinttab50, notabs, false);
-            x += C_TextWidth(consoleprompt, false);
         }
 
         // draw input text to left of caret

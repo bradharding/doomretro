@@ -463,7 +463,6 @@ void D_DoAdvanceTitle(void)
     paused = false;
     gameaction = ga_nothing;
     gamestate = GS_TITLESCREEN;
-    consoleprompt[0] = '\0';
     blurred = false;
     noinput = false;
 
