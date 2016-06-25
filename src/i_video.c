@@ -59,6 +59,8 @@
 #include <X11/XKBlib.h>
 #endif
 
+#define MAXDISPLAYS             8
+
 #define MAXUPSCALEWIDTH         5
 #define MAXUPSCALEHEIGHT        6
 
@@ -857,11 +859,22 @@ static void I_RestoreFocus(void)
 #endif
 }
 
+static void GetDisplays(void)
+{
+    int i;
+
+    numdisplays = MIN(SDL_GetNumVideoDisplays(), MAXDISPLAYS);
+
+    for (i = 0; i < numdisplays; ++i)
+        SDL_GetDisplayBounds(i, &displays[i]);
+}
+
 void I_CreateExternalAutoMap(dboolean output)
 {
     if (!am_external)
         return;
 
+    GetDisplays();
     if (numdisplays == 1)
     {
         if (output)
@@ -1109,12 +1122,9 @@ static void PositionOnCurrentDisplay(void)
 
 static void SetVideoMode(dboolean output)
 {
-    int i;
     int flags = SDL_RENDERER_TARGETTEXTURE;
     int width, height;
 
-    for (i = 0; i < numdisplays; ++i)
-        SDL_GetDisplayBounds(i, &displays[i]);
     displayindex = vid_display - 1;
     if (displayindex < 0 || displayindex >= numdisplays)
     {
@@ -1516,8 +1526,8 @@ void I_InitGraphics(void)
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
         I_Error("I_InitGraphics: %s", SDL_GetError());
 
-    numdisplays = SDL_GetNumVideoDisplays();
-    displays = Z_Malloc(numdisplays, PU_STATIC, NULL);
+    GetDisplays();
+    displays = Z_Malloc(MAXDISPLAYS, PU_STATIC, NULL);
 
 #if defined(_DEBUG)
     vid_fullscreen = false;
