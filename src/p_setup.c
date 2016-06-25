@@ -2101,7 +2101,7 @@ void P_SetupLevel(int ep, int map)
 
     mapformat = P_CheckMapFormat(lumpnum);
 
-    M_snprintf(consoleprompt, sizeof(consoleprompt), "%s\\%s: ",
+    M_snprintf(consoleprompt, sizeof(consoleprompt), "[%s\\%s] ",
         uppercase(leafname(lumpinfo[lumpnum]->wad_file->path)), mapnum);
 
     canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || gamemission == pack_nerve

@@ -824,7 +824,7 @@ void C_Drawer(void)
         if (con_prompt && *consoleprompt)
         {
             C_DrawConsoleText(x, CONSOLEHEIGHT - 17, consoleprompt, consolepromptcolor,
-                NOBACKGROUNDCOLOR, NOBOLDCOLOR, tinttab66, notabs, false);
+                NOBACKGROUNDCOLOR, NOBOLDCOLOR, tinttab50, notabs, false);
             x += C_TextWidth(consoleprompt, false);
         }
 
@@ -1330,7 +1330,7 @@ dboolean C_Responder(event_t *ev)
                         && C_TextWidth(consoleinput, false) + (ch == ' ' ? spacewidth :
                         consolefont[ch - CONSOLEFONTSTART]->width) - (selectstart < selectend ?
                         C_TextWidth(M_SubString(consoleinput, selectstart,
-                        selectend - selectstart), false) : 0)<= CONSOLEINPUTPIXELWIDTH
+                        selectend - selectstart), false) : 0) <= CONSOLEINPUTPIXELWIDTH
                         && !(modstate & KMOD_ALT))
                     {
                         C_AddToUndoHistory();
