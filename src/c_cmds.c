@@ -241,7 +241,7 @@ control_t controls[] =
     { "b",             keyboardcontrol, 'b'             }, { "n",             keyboardcontrol, 'n'             },
     { "m",             keyboardcontrol, 'm'             }, { ",",             keyboardcontrol, ','             },
     { ".",             keyboardcontrol, '.'             }, { "/",             keyboardcontrol, '/'             },
-    { "tilde",         keyboardcontrol, KEY_TILDE       }, { "alt",           keyboardcontrol, KEY_ALT         },
+    { "tilde",         keyboardcontrol, '`'             }, { "alt",           keyboardcontrol, KEY_ALT         },
     { "space",         keyboardcontrol, ' '             }, { "numlock",       keyboardcontrol, KEY_NUMLOCK     },
     { "capslock",      keyboardcontrol, KEY_CAPSLOCK    }, { "scrolllock",    keyboardcontrol, KEY_SCROLLLOCK  },
     { "home",          keyboardcontrol, KEY_HOME        }, { "up",            keyboardcontrol, KEY_UPARROW     },

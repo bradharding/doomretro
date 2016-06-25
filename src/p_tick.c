@@ -66,7 +66,7 @@ void P_InitThinkers(void)
     int i;
 
     // killough 8/29/98: initialize threaded lists
-    for (i = 0; i < NUMTHCLASS; i++)
+    for (i = 0; i < NUMTHCLASS; ++i)
         thinkerclasscap[i].cprev = thinkerclasscap[i].cnext = &thinkerclasscap[i];
 
     thinkercap.prev = thinkercap.next = &thinkercap;
@@ -246,6 +246,6 @@ void P_Ticker(void)
     P_MapEnd();
 
     // for par times
-    leveltime++;
+    ++leveltime;
     stat_time = SafeAdd(stat_time, 1);
 }

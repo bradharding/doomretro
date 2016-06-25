@@ -87,8 +87,6 @@
 #define KEY_PRINTSCREEN (0x80 + 0x59)
 #define KEY_DELETE      (0x80 + 0x60)
 
-#define KEY_TILDE       '`'
-
 #define KEYP_0          0x100
 #define KEYP_1          KEY_END
 #define KEYP_2          KEY_DOWNARROW

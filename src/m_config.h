@@ -371,7 +371,7 @@ typedef enum
 #define KEYAUTOMAPROTATEMODE_DEFAULT            'r'
 #define KEYAUTOMAPZOOMIN_DEFAULT                KEY_EQUALS
 #define KEYAUTOMAPZOOMOUT_DEFAULT               KEY_MINUS
-#define KEYCONSOLE_DEFAULT                      KEY_TILDE
+#define KEYCONSOLE_DEFAULT                      '`'
 #define KEYDOWN_DEFAULT                         KEY_DOWNARROW
 #define KEYDOWN2_DEFAULT                        's'
 #define KEYFIRE_DEFAULT                         KEY_CTRL

@@ -994,16 +994,14 @@ static void P_LoadZNodes(int lump)
     }
     else
     {
-        int     size = newVerts * (sizeof(newvertarray[0].x) + sizeof(newvertarray[0].y));
-
-        data += size;
+        data += newVerts * (sizeof(newvertarray[0].x) + sizeof(newvertarray[0].y));
 
         // P_LoadVertexes reset numvertexes, need to increase it again
         numvertexes = orgVerts + newVerts;
     }
 
     // Read the subsectors
-    numSubs = *((const unsigned int*)data);
+    numSubs = *((const unsigned int *)data);
     data += sizeof(numSubs);
 
     numsubsectors = numSubs;
@@ -1023,7 +1021,7 @@ static void P_LoadZNodes(int lump)
     data += numSubs * sizeof(mapsubsector_znod_t);
 
     // Read the segs
-    numSegs = *((const unsigned int*)data);
+    numSegs = *((const unsigned int *)data);
     data += sizeof(numSegs);
 
     // The number of segs stored should match the number of
@@ -1038,7 +1036,7 @@ static void P_LoadZNodes(int lump)
     data += numsegs * sizeof(mapseg_znod_t);
 
     // Read nodes
-    numNodes = *((const unsigned int*)data);
+    numNodes = *((const unsigned int *)data);
     data += sizeof(numNodes);
 
     numnodes = numNodes;
