@@ -195,8 +195,8 @@ static int mapcmdids[] =
 
 dboolean        canmodify;
 dboolean        transferredsky;
-dboolean        RMAPINFO;
-dboolean        MAPINFO;
+lumpindex_t     RMAPINFO;
+lumpindex_t     MAPINFO;
 
 dboolean        r_fixmaperrors = r_fixmaperrors_default;
 
