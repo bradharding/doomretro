@@ -474,7 +474,7 @@ menu_t SaveDef =
     load1
 };
 
-int height;
+static int height;
 
 static void DoBlurScreen(byte *tempscreen, byte *blurscreen, int x1, int y1, int x2, int y2, int i)
 {
@@ -520,17 +520,26 @@ void M_DarkBackground(void)
     {
         BlurScreen(screens[0], tempscreen1, blurscreen1);
 
+        for (i = 0; i < height; ++i)
+            blurscreen1[i] = tinttab50[blurscreen1[i]];
+
         if (mapwindow)
+        {
             BlurScreen(mapscreen, tempscreen2, blurscreen2);
+
+            for (i = 0; i < (SCREENHEIGHT * SBARHEIGHT) * SCREENWIDTH; ++i)
+                blurscreen2[i] = tinttab50[blurscreen2[i]];
+        }
+
         blurred = true;
     }
 
     for (i = 0; i < height; ++i)
-        screens[0][i] = tinttab50[blurscreen1[i]];
+        screens[0][i] = blurscreen1[i];
 
     if (mapwindow)
-        for (i = 0; i < height; ++i)
-            mapscreen[i] = tinttab50[blurscreen2[i]];
+        for (i = 0; i < (SCREENHEIGHT * SBARHEIGHT) * SCREENWIDTH; ++i)
+            mapscreen[i] = blurscreen2[i];
 
     if (r_detail == r_detail_low)
         V_LowGraphicDetail(height);
