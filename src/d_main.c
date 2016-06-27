@@ -635,34 +635,34 @@ static void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
-    if (M_StringCompare(leaf, "NERVE.WAD"))
+    if (M_StringCompare(leaf, "nerve.wad"))
     {
         nerve = true;
         expansion = 1;
     }
-    else if (M_StringCompare(leaf, "BREACH.WAD"))
+    else if (M_StringCompare(leaf, "breach.wad"))
         breach = true;
-    else if (M_StringCompare(leaf, "CHEX.WAD"))
+    else if (M_StringCompare(leaf, "chex.wad"))
         chex = true;
-    else if (M_StringCompare(leaf, "BTSX_E1.WAD"))
+    else if (M_StringCompare(leaf, "btsx_e1.wad"))
         BTSX = BTSXE1 = true;
-    else if (M_StringCompare(leaf, "BTSX_E2A.WAD"))
+    else if (M_StringCompare(leaf, "btsx_e2a.wad"))
         BTSX = BTSXE2 = BTSXE2A = true;
-    else if (M_StringCompare(leaf, "BTSX_E2B.WAD"))
+    else if (M_StringCompare(leaf, "btsx_e2b.wad"))
         BTSX = BTSXE2 = BTSXE2B = true;
-    else if (M_StringCompare(leaf, "BTSX_E3A.WAD"))
+    else if (M_StringCompare(leaf, "btsx_e3a.wad"))
         BTSX = BTSXE3 = BTSXE3A = true;
-    else if (M_StringCompare(leaf, "BTSX_E3B.WAD"))
+    else if (M_StringCompare(leaf, "btsx_e3b.wad"))
         BTSX = BTSXE3 = BTSXE3B = true;
-    else if (M_StringCompare(leaf, "E1M4B.WAD"))
+    else if (M_StringCompare(leaf, "e1m4b.wad"))
         E1M4B = true;
-    else if (M_StringCompare(leaf, "E1M8B.WAD"))
+    else if (M_StringCompare(leaf, "e1m8b.wad"))
         E1M8B = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (M_StringCompare(leafname(filename), "VOICES.WAD"));
+    return (M_StringCompare(leafname(filename), "voices.wad"));
 }
 
 #if defined(__MACOSX__)
@@ -737,13 +737,13 @@ dboolean D_CheckParms(void)
                 result = true;
                 iwadfolder = strdup(M_ExtractFolder(myargv[1]));
 
-                // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
+                // if doom2.wad is selected, load nerve.wad automatically if present
+                if (M_StringCompare(leafname(myargv[1]), "doom2.wad"))
                 {
                     static char     fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        M_ExtractFolder(myargv[1]), "NERVE.WAD");
+                        M_ExtractFolder(myargv[1]), "nerve.wad");
                     if (W_MergeFile(fullpath, true))
                     {
                         modifiedgame = true;
@@ -764,7 +764,7 @@ dboolean D_CheckParms(void)
 
             // try the current folder first
             M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                M_ExtractFolder(myargv[1]), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                M_ExtractFolder(myargv[1]), (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
             IdentifyIWADByName(fullpath);
             if (W_AddFile(fullpath, true))
             {
@@ -783,7 +783,7 @@ dboolean D_CheckParms(void)
             {
                 // otherwise try the iwadfolder setting in doomretro.cfg
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                 IdentifyIWADByName(fullpath);
                 if (W_AddFile(fullpath, true))
                 {
@@ -801,8 +801,8 @@ dboolean D_CheckParms(void)
                 {
                     // still nothing? try the DOOMWADDIR environment variable
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
-                            "DOOM2.WAD"));
+                        getenv("DOOMWADDIR"), (iwadrequired == doom ? "doom.wad" :
+                            "doom2.wad"));
                     IdentifyIWADByName(fullpath);
                     if (W_AddFile(fullpath, true))
                     {
@@ -827,25 +827,25 @@ dboolean D_CheckParms(void)
             if (BTSXE2A && !BTSXE2B)
             {
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                    M_ExtractFolder(myargv[1]), "BTSX_E2B.WAD");
+                    M_ExtractFolder(myargv[1]), "btsx_e2b.wad");
                 return W_MergeFile(fullpath, true);
             }
             else if (!BTSXE2A && BTSXE2B)
             {
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                    M_ExtractFolder(myargv[1]), "BTSX_E2A.WAD");
+                    M_ExtractFolder(myargv[1]), "btsx_e2a.wad");
                 return W_MergeFile(fullpath, true);
             }
             else if (BTSXE3A && !BTSXE3B)
             {
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                    M_ExtractFolder(myargv[1]), "BTSX_E3B.WAD");
+                    M_ExtractFolder(myargv[1]), "btsx_e3b.wad");
                 return W_MergeFile(fullpath, true);
             }
             else if (!BTSXE3A && BTSXE3B)
             {
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                    M_ExtractFolder(myargv[1]), "BTSX_E3A.WAD");
+                    M_ExtractFolder(myargv[1]), "btsx_e3a.wad");
                 return W_MergeFile(fullpath, true);
             }
         }
@@ -927,13 +927,13 @@ static int D_ChooseIWAD(void)
                     iwadfound = 1;
                     iwadfolder = strdup(M_ExtractFolder(file));
 
-                    // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    if (M_StringCompare(leafname(file), "DOOM2.WAD"))
+                    // if doom2.wad is selected, load nerve.wad automatically if present
+                    if (M_StringCompare(leafname(file), "doom2.wad"))
                     {
                         static char     fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            M_ExtractFolder(file), "NERVE.WAD");
+                            M_ExtractFolder(file), "nerve.wad");
                         if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
@@ -954,7 +954,7 @@ static int D_ChooseIWAD(void)
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                    M_ExtractFolder(file), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    M_ExtractFolder(file), (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                 IdentifyIWADByName(fullpath);
                 if (W_AddFile(fullpath, true))
                 {
@@ -973,7 +973,7 @@ static int D_ChooseIWAD(void)
                 {
                     // otherwise try the iwadfolder setting in doomretro.cfg
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                     IdentifyIWADByName(fullpath);
                     if (W_AddFile(fullpath, true))
                     {
@@ -991,8 +991,8 @@ static int D_ChooseIWAD(void)
                     {
                         // still nothing? try the DOOMWADDIR environment variable
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
-                            "DOOM2.WAD"));
+                            getenv("DOOMWADDIR"), (iwadrequired == doom ? "doom.wad" :
+                            "doom2.wad"));
                         IdentifyIWADByName(fullpath);
                         if (W_AddFile(fullpath, true))
                         {
@@ -1017,25 +1017,25 @@ static int D_ChooseIWAD(void)
                 if (BTSXE2A && !BTSXE2B)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        M_ExtractFolder(file), "BTSX_E2B.WAD");
+                        M_ExtractFolder(file), "btsx_e2b.wad");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE2A && BTSXE2B)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        M_ExtractFolder(file), "BTSX_E2A.WAD");
+                        M_ExtractFolder(file), "btsx_e2a.wad");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (BTSXE3A && !BTSXE3B)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        M_ExtractFolder(file), "BTSX_E3B.WAD");
+                        M_ExtractFolder(file), "btsx_e3b.wad");
                     return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE3A && BTSXE3B)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        M_ExtractFolder(file), "BTSX_E3A.WAD");
+                        M_ExtractFolder(file), "btsx_e3a.wad");
                     return W_MergeFile(fullpath, true);
                 }
             }
@@ -1083,8 +1083,8 @@ static int D_ChooseIWAD(void)
                         if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
-                            sharewareiwad = M_StringCompare(iwadpass, "DOOM1.WAD");
-                            isDOOM2 = M_StringCompare(iwadpass, "DOOM2.WAD");
+                            sharewareiwad = M_StringCompare(iwadpass, "doom1.wad");
+                            isDOOM2 = M_StringCompare(iwadpass, "doom2.wad");
                             iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
                         }
@@ -1092,12 +1092,12 @@ static int D_ChooseIWAD(void)
                 }
 
                 // if it's NERVE.WAD, try to open DOOM2.WAD with it
-                else if (M_StringCompare(iwadpass, "NERVE.WAD"))
+                else if (M_StringCompare(iwadpass, "nerve.wad"))
                 {
                     static char     fullpath2[MAX_PATH];
 
                     // try the current folder first
-                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad",
                         szFile);
                     IdentifyIWADByName(fullpath2);
                     if (W_AddFile(fullpath2, true))
@@ -1114,7 +1114,7 @@ static int D_ChooseIWAD(void)
                     else
                     {
                         // otherwise try the iwadfolder setting in doomretro.cfg
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad",
                             iwadfolder);
                         IdentifyIWADByName(fullpath2);
                         if (W_AddFile(fullpath2, true))
@@ -1132,7 +1132,7 @@ static int D_ChooseIWAD(void)
                         {
                             // still nothing? try the DOOMWADDIR environment variable
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S
-                                "DOOM2.WAD", getenv("DOOMWADDIR"));
+                                "doom2.wad", getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
                             if (W_AddFile(fullpath2, true))
                             {
@@ -1185,7 +1185,7 @@ static int D_ChooseIWAD(void)
 
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                szFile, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                szFile, (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                             IdentifyIWADByName(fullpath2);
                             if (W_AddFile(fullpath2, true))
                             {
@@ -1196,7 +1196,7 @@ static int D_ChooseIWAD(void)
                             {
                                 // otherwise try the iwadfolder setting in doomretro.cfg
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                    iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                    iwadfolder, (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                                 IdentifyIWADByName(fullpath2);
                                 if (W_AddFile(fullpath2, true))
                                     iwadfound = 1;
@@ -1205,7 +1205,7 @@ static int D_ChooseIWAD(void)
                                     // still nothing? try the DOOMWADDIR environment variable
                                     M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S
                                         "%s", getenv("DOOMWADDIR"), (iwadrequired == doom ?
-                                        "DOOM.WAD" : "DOOM2.WAD"));
+                                        "doom.wad" : "doom2.wad"));
                                     IdentifyIWADByName(fullpath2);
                                     if (W_AddFile(fullpath2, true))
                                         iwadfound = 1;
@@ -1218,19 +1218,19 @@ static int D_ChooseIWAD(void)
 #endif
                 }
 
-                // if still no iwad found, then try DOOM2.WAD
+                // if still no iwad found, then try doom2.wad
                 if (!iwadfound)
                 {
                     // try the current folder first
-                    IdentifyIWADByName("DOOM2.WAD");
-                    if (W_AddFile("DOOM2.WAD", true))
+                    IdentifyIWADByName("doom2.wad");
+                    if (W_AddFile("doom2.wad", true))
                         iwadfound = 1;
                     else
                     {
                         static char fullpath2[MAX_PATH];
 
                         // otherwise try the iwadfolder setting in doomretro.cfg
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad",
                             iwadfolder);
                         IdentifyIWADByName(fullpath2);
                         if (W_AddFile(fullpath2, true))
@@ -1239,7 +1239,7 @@ static int D_ChooseIWAD(void)
                         {
                             // still nothing? try the DOOMWADDIR environment variable
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S
-                                "DOOM2.WAD", getenv("DOOMWADDIR"));
+                                "doom2.wad", getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
                             if (W_AddFile(fullpath2, true))
                                 iwadfound = 1;
@@ -1286,14 +1286,14 @@ static int D_ChooseIWAD(void)
 #endif
                     }
 
-                    // try to autoload NERVE.WAD if DOOM2.WAD is the iwad and none of the pwads
+                    // try to autoload nerve.wad if doom2.wad is the iwad and none of the pwads
                     // have maps present
                     if (isDOOM2 && !mapspresent)
                     {
                         static char     fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile,
-                            "NERVE.WAD");
+                            "nerve.wad");
                         if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
