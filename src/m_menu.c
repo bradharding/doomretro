@@ -527,19 +527,17 @@ void M_DarkBackground(void)
         {
             BlurScreen(mapscreen, tempscreen2, blurscreen2);
 
-            for (i = 0; i < (SCREENHEIGHT * SBARHEIGHT) * SCREENWIDTH; ++i)
+            for (i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; ++i)
                 blurscreen2[i] = tinttab50[blurscreen2[i]];
         }
 
         blurred = true;
     }
 
-    for (i = 0; i < height; ++i)
-        screens[0][i] = blurscreen1[i];
+    memcpy(screens[0], blurscreen1, height);
 
     if (mapwindow)
-        for (i = 0; i < (SCREENHEIGHT * SBARHEIGHT) * SCREENWIDTH; ++i)
-            mapscreen[i] = blurscreen2[i];
+        memcpy(mapscreen, blurscreen2, (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH);
 
     if (r_detail == r_detail_low)
         V_LowGraphicDetail(height);
