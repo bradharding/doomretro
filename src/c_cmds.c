@@ -694,7 +694,7 @@ consolecmd_t consolecmds[] =
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
         "Spawns a <i>monster</i> or <i>item</i>."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
-        "The amount the player's view and weapon bob up and when they stand still."),
+        "The amount the player's view and weapon bob up and when they\nstand still."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, 0, "",
         "Shows a list of things in the current map."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOALIAS,
