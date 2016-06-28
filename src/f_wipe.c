@@ -54,8 +54,8 @@ void wipe_shittyColMajorXform(short *array)
     int         x, y;
     short       *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
-    for (y = 0; y < SCREENHEIGHT; y++)
-        for (x = 0; x < SCREENWIDTH / 2; x++)
+    for (y = 0; y < SCREENHEIGHT; ++y)
+        for (x = 0; x < SCREENWIDTH / 2; ++x)
             dest[x * SCREENHEIGHT + y] = array[y * SCREENWIDTH / 2 + x];
 
     memcpy(array, dest, SCREENWIDTH * SCREENHEIGHT);
@@ -98,11 +98,11 @@ dboolean wipe_doMelt(int tics)
     {
         int     i;
 
-        for (i = 0; i < SCREENWIDTH / 2; i++)
+        for (i = 0; i < SCREENWIDTH / 2; ++i)
         {
             if (y[i] < 0)
             {
-                y[i]++;
+                ++y[i];
                 done = false;
                 continue;
             }
@@ -125,7 +125,7 @@ dboolean wipe_doMelt(int tics)
                 s = &((short *)wipe_scr_start)[i * SCREENHEIGHT];
                 d = &((short *)wipe_scr)[y[i] * SCREENWIDTH / 2 + i];
                 idx = 0;
-                for (j = SCREENHEIGHT - y[i]; j; j--)
+                for (j = SCREENHEIGHT - y[i]; j; --j)
                 {
                     d[idx] = *s++;
                     idx += SCREENWIDTH / 2;
