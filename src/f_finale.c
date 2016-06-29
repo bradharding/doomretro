@@ -72,10 +72,9 @@ static int              finalecount;
 static char     *finaletext;
 static char     *finaleflat;
 
-void F_StartCast(void);
-void F_CastTicker(void);
-dboolean F_CastResponder(event_t *ev);
-void F_CastDrawer(void);
+static void F_StartCast(void);
+static void F_CastTicker(void);
+static dboolean F_CastResponder(event_t *ev);
 
 void WI_checkForAccelerate(void);    // killough 3/28/98: used to
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -84,6 +83,7 @@ static int      midstage;            // whether we're in "mid-stage"
 
 extern int      acceleratestage;     // accelerate intermission screens
 extern dboolean r_shadows;
+extern dboolean r_translucency;
 
 //
 // F_StartFinale
@@ -289,13 +289,13 @@ extern patch_t *hu_font[HU_FONTSIZE];
 
 void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
 
-void F_TextWrite(void)
+static void F_TextWrite(void)
 {
     // draw some of the text onto the screen
     byte        *src;
     byte        *dest;
     int         x, y, w;
-    int         count = FixedDiv(((finalecount - 10) * FRACUNIT), TextSpeed()) >> FRACBITS;
+    int         count = FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS;
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
@@ -439,7 +439,7 @@ extern char     *playername;
 //
 // F_StartCast
 //
-void F_StartCast(void)
+static void F_StartCast(void)
 {
     firstevent = true;
     wipegamestate = GS_NONE;    // force a screen wipe
@@ -461,7 +461,7 @@ void F_StartCast(void)
 //
 // F_CastTicker
 //
-void F_CastTicker(void)
+static void F_CastTicker(void)
 {
     if (--casttics > 0)
         return;                         // not time to change state yet
@@ -577,8 +577,7 @@ stopattack:
 //
 // F_CastResponder
 //
-
-dboolean F_CastResponder(event_t *ev)
+static dboolean F_CastResponder(event_t *ev)
 {
     mobjtype_t  type;
 
@@ -652,17 +651,13 @@ dboolean F_CastResponder(event_t *ev)
     return true;
 }
 
-void F_CastPrint(char *text)
+static void F_CastPrint(char *text)
 {
-    const char  *ch;
+    const char  *ch = text;
     int         c;
     int         cx;
     int         w;
-    int         width;
-
-    // find width
-    ch = text;
-    width = 0;
+    int         width = 0;
 
     while (ch)
     {
@@ -704,9 +699,7 @@ void F_CastPrint(char *text)
 //
 // F_CastDrawer
 //
-extern dboolean r_translucency;
-
-void F_CastDrawer(void)
+static void F_CastDrawer(void)
 {
     spritedef_t         *sprdef;
     spriteframe_t       *sprframe;
@@ -788,7 +781,7 @@ void F_CastDrawer(void)
 //
 // F_DrawPatchCol
 //
-void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
+static void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
 {
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
     byte        *desttop = screens[0] + x;
@@ -814,7 +807,7 @@ void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
 //
 // F_BunnyScroll
 //
-void F_BunnyScroll(void)
+static void F_BunnyScroll(void)
 {
     int                 scrolled;
     int                 x;

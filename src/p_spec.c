@@ -283,7 +283,7 @@ sector_t *getSector(int currentSector, int line, int side)
 // Given the sector number and the line number,
 //  it will tell you whether the line is two-sided or not.
 //
-int twoSided(int sector, int line)
+dboolean twoSided(int sector, int line)
 {
     // jff 1/26/98 return what is actually needed, whether the line
     // has two sidedefs, rather than whether the 2S flag is set

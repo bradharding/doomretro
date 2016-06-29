@@ -140,21 +140,21 @@ static int getPatchIsNotTileable(const patch_t *patch)
     return hasAHole;
 }
 
-static int getIsSolidAtSpot(const column_t *column, int spot)
+static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 {
     if (!column)
-        return 0;
+        return false;
 
     while (column->topdelta != 0xFF)
     {
         if (spot < column->topdelta)
-            return 0;
+            return false;
         if (spot >= column->topdelta && spot <= column->topdelta + column->length)
-            return 1;
+            return true;
         column = (const column_t *)((const byte *)column + 3 + column->length + 1);
     }
 
-    return 0;
+    return false;
 }
 
 // Checks if the lump can be a Doom patch

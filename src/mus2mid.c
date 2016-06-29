@@ -372,7 +372,7 @@ static dboolean ReadMusHeader(MEMFILE *file, musheader *header)
 // Read a MUS file from a stream (musinput) and output a MIDI file to
 // a stream (midioutput).
 //
-// Returns 0 on success or 1 on failure.
+// Returns false on success or true on failure.
 dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 {
     // Header for the MUS file

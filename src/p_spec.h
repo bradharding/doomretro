@@ -74,7 +74,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing);
 
 void P_PlayerInSpecialSector(player_t *player);
 
-int twoSided(int sector, int line);
+dboolean twoSided(int sector, int line);
 
 sector_t *getSector(int currentSector, int line, int side);
 
@@ -170,10 +170,10 @@ void T_StrobeFlash(strobe_t *flash);
 
 void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync);
 
-int EV_StartLightStrobing(line_t *line);
-int EV_TurnTagLightsOff(line_t *line);
+dboolean EV_StartLightStrobing(line_t *line);
+dboolean EV_TurnTagLightsOff(line_t *line);
 
-int EV_LightTurnOn(line_t *line, int bright);
+dboolean EV_LightTurnOn(line_t *line, int bright);
 
 void EV_LightTurnOnPartway(line_t *line, fixed_t level);        // killough 10/10/98
 void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level);
@@ -836,4 +836,5 @@ dboolean EV_DoGenCrusher(line_t *line);
 dboolean EV_DoGenDoor(line_t *line);
 
 dboolean EV_DoGenLockedDoor(line_t *line);
+
 #endif

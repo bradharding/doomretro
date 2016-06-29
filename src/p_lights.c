@@ -171,7 +171,7 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
 //
 // Start strobing lights (usually from a trigger)
 //
-int EV_StartLightStrobing(line_t *line)
+dboolean EV_StartLightStrobing(line_t *line)
 {
     int secnum = -1;
 
@@ -184,13 +184,14 @@ int EV_StartLightStrobing(line_t *line)
 
         P_SpawnStrobeFlash(sec, SLOWDARK, 0);
     }
-    return 1;
+
+    return true;
 }
 
 //
 // TURN LINE'S TAG LIGHTS OFF
 //
-int EV_TurnTagLightsOff(line_t *line)
+dboolean EV_TurnTagLightsOff(line_t *line)
 {
     int i;
 
@@ -210,13 +211,14 @@ int EV_TurnTagLightsOff(line_t *line)
                 min = temp->lightlevel;
         sector->lightlevel = min;
     }
-    return 1;
+
+    return true;
 }
 
 //
 // TURN LINE'S TAG LIGHTS ON
 //
-int EV_LightTurnOn(line_t *line, int bright)
+dboolean EV_LightTurnOn(line_t *line, int bright)
 {
     int i;
 
@@ -240,7 +242,8 @@ int EV_LightTurnOn(line_t *line, int bright)
         }
         sector->lightlevel = tbright;
     }
-    return 1;
+
+    return true;
 }
 
 //

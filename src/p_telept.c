@@ -179,7 +179,7 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 
                 // Attempt to teleport, aborting if blocked
                 if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 8/9/98
-                    return 0;
+                    return false;
 
                 // Rotate thing according to difference in angles
                 thing->angle += angle;
@@ -298,7 +298,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
             // Attempt to teleport, aborting if blocked
             if (!P_TeleportMove(thing, x, y, z, false)) // killough 8/9/98
-                return 0;
+                return false;
 
             // Adjust z position to be same height above ground as before.
             // Ground level at the exit is measured as the higher of the
