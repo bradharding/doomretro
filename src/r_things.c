@@ -839,7 +839,7 @@ void R_ProjectSprite(mobj_t *thing)
 
         vis->texturemid = gzt - viewz - clipfeet;
 
-        if (r_liquid_bob && isliquid[sector->floorpic])
+        if (r_liquid_bob)
             clipfeet += animatedliquiddiff;
 
         vis->footclip = clipfeet;
