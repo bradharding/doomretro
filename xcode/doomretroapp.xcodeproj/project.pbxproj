@@ -47,7 +47,6 @@
 		AB5A82971A8DB9EB00AF539F /* m_misc.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A821E1A8DB9EB00AF539F /* m_misc.c */; };
 		AB5A82981A8DB9EB00AF539F /* m_random.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82201A8DB9EB00AF539F /* m_random.c */; };
 		AB5A829D1A8DB9EB00AF539F /* memio.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82261A8DB9EB00AF539F /* memio.c */; };
-		AB5A829E1A8DB9EB00AF539F /* midifile.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82281A8DB9EB00AF539F /* midifile.c */; };
 		AB5A829F1A8DB9EB00AF539F /* mus2mid.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822A1A8DB9EB00AF539F /* mus2mid.c */; };
 		AB5A82A01A8DB9EB00AF539F /* p_ceilng.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822C1A8DB9EB00AF539F /* p_ceilng.c */; };
 		AB5A82A11A8DB9EB00AF539F /* p_doors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822D1A8DB9EB00AF539F /* p_doors.c */; };
@@ -195,8 +194,6 @@
 		AB5A82211A8DB9EB00AF539F /* m_random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_random.h; path = ../src/m_random.h; sourceTree = SOURCE_ROOT; };
 		AB5A82261A8DB9EB00AF539F /* memio.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = memio.c; path = ../src/memio.c; sourceTree = SOURCE_ROOT; };
 		AB5A82271A8DB9EB00AF539F /* memio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = memio.h; path = ../src/memio.h; sourceTree = SOURCE_ROOT; };
-		AB5A82281A8DB9EB00AF539F /* midifile.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = midifile.c; path = ../src/midifile.c; sourceTree = SOURCE_ROOT; };
-		AB5A82291A8DB9EB00AF539F /* midifile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = midifile.h; path = ../src/midifile.h; sourceTree = SOURCE_ROOT; };
 		AB5A822A1A8DB9EB00AF539F /* mus2mid.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = mus2mid.c; path = ../src/mus2mid.c; sourceTree = SOURCE_ROOT; };
 		AB5A822B1A8DB9EB00AF539F /* mus2mid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mus2mid.h; path = ../src/mus2mid.h; sourceTree = SOURCE_ROOT; };
 		AB5A822C1A8DB9EB00AF539F /* p_ceilng.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = p_ceilng.c; path = ../src/p_ceilng.c; sourceTree = SOURCE_ROOT; };
@@ -426,8 +423,6 @@
 				AB5A82211A8DB9EB00AF539F /* m_random.h */,
 				AB5A82261A8DB9EB00AF539F /* memio.c */,
 				AB5A82271A8DB9EB00AF539F /* memio.h */,
-				AB5A82281A8DB9EB00AF539F /* midifile.c */,
-				AB5A82291A8DB9EB00AF539F /* midifile.h */,
 				AB5A822A1A8DB9EB00AF539F /* mus2mid.c */,
 				AB5A822B1A8DB9EB00AF539F /* mus2mid.h */,
 				AB5A822C1A8DB9EB00AF539F /* p_ceilng.c */,
@@ -586,7 +581,6 @@
 				AB5A82AA1A8DB9EB00AF539F /* p_plats.c in Sources */,
 				AB5A82C71A8DB9EB00AF539F /* w_wad.c in Sources */,
 				AB5A82931A8DB9EB00AF539F /* m_cheat.c in Sources */,
-				AB5A829E1A8DB9EB00AF539F /* midifile.c in Sources */,
 				AB5A82BE1A8DB9EB00AF539F /* st_lib.c in Sources */,
 				AB5A82921A8DB9EB00AF539F /* m_bbox.c in Sources */,
 				AB5A827C1A8DB9EB00AF539F /* d_deh.c in Sources */,
