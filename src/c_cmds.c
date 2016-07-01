@@ -1882,6 +1882,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     if (gamestate == GS_LEVEL)
     {
         idclevtics = MAPCHANGETICS;
+        drawdisk = true;
         C_HideConsole();
     }
     else
