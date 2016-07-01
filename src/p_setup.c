@@ -1925,7 +1925,7 @@ void P_MapName(int ep, int map)
 
         case doom2:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (*mapinfoname)
+            if (*mapinfoname && !BTSXE2)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehcount == 1)
             {
