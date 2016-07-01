@@ -618,7 +618,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 // generalized linedef types
 #define GenFloorBase          0x6000
 #define GenCeilingBase        0x4000
-#define GenDoorBase           0x3c00
+#define GenDoorBase           0x3C00
 #define GenLockedBase         0x3800
 #define GenLiftBase           0x3400
 #define GenStairsBase         0x3000
@@ -629,7 +629,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
 // define masks and shifts for the floor type fields
 #define FloorCrush            0x1000
-#define FloorChange           0x0c00
+#define FloorChange           0x0C00
 #define FloorTarget           0x0380
 #define FloorDirection        0x0040
 #define FloorModel            0x0020
@@ -644,7 +644,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
 // define masks and shifts for the ceiling type fields
 #define CeilingCrush          0x1000
-#define CeilingChange         0x0c00
+#define CeilingChange         0x0C00
 #define CeilingTarget         0x0380
 #define CeilingDirection      0x0040
 #define CeilingModel          0x0020
@@ -659,7 +659,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
 // define masks and shifts for the lift type fields
 #define LiftTarget            0x0300
-#define LiftDelay             0x00c0
+#define LiftDelay             0x00C0
 #define LiftMonster           0x0020
 #define LiftSpeed             0x0018
 
@@ -671,7 +671,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 // define masks and shifts for the stairs type fields
 #define StairIgnore           0x0200
 #define StairDirection        0x0100
-#define StairStep             0x00c0
+#define StairStep             0x00C0
 #define StairMonster          0x0020
 #define StairSpeed            0x0018
 
@@ -703,7 +703,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
 // define masks and shifts for the locked door type fields
 #define LockedNKeys           0x0200
-#define LockedKey             0x01c0
+#define LockedKey             0x01C0
 #define LockedKind            0x0020
 #define LockedSpeed           0x0018
 

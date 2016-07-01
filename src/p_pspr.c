@@ -869,11 +869,9 @@ void A_BFGsound(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void P_SetupPsprites(player_t *player)
 {
-    int i;
-
     // remove all psprites
-    for (i = 0; i < NUMPSPRITES; i++)
-        player->psprites[i].state = NULL;
+    player->psprites[ps_weapon].state = NULL;
+    player->psprites[ps_flash].state = NULL;
 
     // spawn the gun
     player->pendingweapon = player->readyweapon;
