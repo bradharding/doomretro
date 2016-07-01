@@ -239,16 +239,14 @@ void P_DeathThink(player_t *player)
     P_MovePsprites(player);
 
     // fall to the ground
+    if (player->viewheight > 6 * FRACUNIT)
+        player->viewheight -= FRACUNIT;
+
+    if (player->viewheight < 6 * FRACUNIT)
+        player->viewheight = 6 * FRACUNIT;
+
     player->deltaviewheight = 0;
     onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
-    if (onground)
-    {
-        if (player->viewheight > 6 * FRACUNIT)
-            player->viewheight -= FRACUNIT;
-
-        if (player->viewheight < 6 * FRACUNIT)
-            player->viewheight = 6 * FRACUNIT;
-    }
     P_CalcHeight(player);
 
     if (attacker && attacker != mo && !facingkiller)
