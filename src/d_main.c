@@ -332,6 +332,9 @@ void D_Display(void)
         // menus go directly to the screen
         M_Drawer();             // menu is drawn even on top of everything
 
+        if (drawdisk)
+            HU_DrawDisk();
+
         // normal update
         blitfunc();             // blit buffer
 

@@ -829,12 +829,8 @@ static void HU_DrawAltHUD(void)
 void HU_DrawDisk(void)
 {
     if (r_diskicon && stdisk)
-    {
         V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
             HU_MSGY * SCREENSCALE, 0, stdisk);
-        if (!consoleheight)
-            blitfunc();
-    }
 }
 
 void HU_Drawer(void)
@@ -859,9 +855,6 @@ void HU_Drawer(void)
         if (mapwindow && realframe)
             HUlib_drawTextLine(&w_title, true);
     }
-
-    if (drawdisk)
-        HU_DrawDisk();
 }
 
 void HU_Erase(void)
