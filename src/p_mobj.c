@@ -1262,7 +1262,7 @@ void P_SpawnShadow(mobj_t *actor)
 
     mobj->flags2 = MF2_DONOTMAP;
 
-    mobj->colfunc = (actor->type == MT_SHADOWS ? R_DrawSpectreShadowColumn :
+    mobj->colfunc = ((actor->flags & MF_FUZZ) ? R_DrawFuzzyShadowColumn :
         (r_translucency ? R_DrawShadowColumn : R_DrawSolidShadowColumn));
     mobj->projectfunc = R_ProjectShadow;
 

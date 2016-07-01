@@ -3359,7 +3359,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parm1, char *parm2, char 
                     if (type == MT_BLOODSPLAT)
                         mo->colfunc = bloodsplatcolfunc;
                     else if (type == MT_SHADOW)
-                        mo->colfunc = (mo->shadow->type == MT_SHADOWS ? R_DrawSpectreShadowColumn :
+                        mo->colfunc = (mo->shadow->type == MT_SHADOWS ? R_DrawFuzzyShadowColumn :
                             (r_translucency ? R_DrawShadowColumn : R_DrawSolidShadowColumn));
                     else
                         mo->colfunc = mo->info->colfunc;

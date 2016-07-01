@@ -210,7 +210,7 @@ void R_DrawShadowColumn(void)
     *dest = tinttab25[*dest];
 }
 
-void R_DrawSpectreShadowColumn(void)
+void R_DrawFuzzyShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl + 1;
     byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
