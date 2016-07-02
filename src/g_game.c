@@ -1560,6 +1560,8 @@ void G_DeferredInitNew(skill_t skill, int ep, int map)
 // G_DeferredLoadLevel
 // [BH] Called when the IDCLEV cheat is used.
 //
+extern msecnode_t       *sector_list;
+
 void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 {
     int         i;
@@ -1571,6 +1573,7 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
     gameaction = ga_loadlevel;
     markpointnum = 0;
     infight = false;
+    sector_list = NULL;
 
     for (i = 0; i < NUMPOWERS; ++i)
         if (player->powers[i] > 0)
