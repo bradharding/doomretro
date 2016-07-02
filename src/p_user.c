@@ -94,9 +94,7 @@ void P_CalcHeight(player_t *player)
 {
     mobj_t      *mo = player->mo;
 
-    if (!onground)
-        player->viewz = MIN(mo->z + VIEWHEIGHT, mo->ceilingz - 4 * FRACUNIT);
-    else if (player->playerstate == PST_LIVE)
+    if (player->playerstate == PST_LIVE)
     {
         fixed_t momx = player->momx;
         fixed_t momy = player->momy;
