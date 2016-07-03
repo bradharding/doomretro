@@ -2783,10 +2783,47 @@ static void teleport_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else
     {
-        long int x = strtol(parm1, NULL, 10) << FRACBITS;
-        long int y = strtol(parm2, NULL, 10) << FRACBITS;
+        int x = INT_MAX;
+        int y = INT_MAX;
 
-        P_TeleportMove(players[0].mo, x, y, ONFLOORZ, false);
+        sscanf(parm1, "%10i", &x);
+        sscanf(parm2, "%10i", &y);
+        if (x != INT_MAX && y != INT_MAX)
+        {
+            player_t    *player = &players[0];
+            mobj_t      *mo = player->mo;
+            fixed_t     oldx = mo->x;
+            fixed_t     oldy = mo->y;
+            fixed_t     oldz = mo->z;
+
+            x <<= FRACBITS;
+            y <<= FRACBITS;
+            if (P_TeleportMove(mo, x, y, ONFLOORZ, false))
+            {
+                unsigned int    an = mo->angle >> ANGLETOFINESHIFT;
+
+                // spawn teleport fog at source
+                mobj_t          *fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
+
+                fog->angle = mo->angle;
+                S_StartSound(fog, sfx_telept);
+
+                C_HideConsole();
+
+                // spawn teleport fog at destination
+                mo->z = mo->floorz;
+                player->viewz = mo->z + player->viewheight;
+                fog = P_SpawnMobj(x + 20 * finecosine[an], y + 20 * finesine[an], mo->z, MT_TFOG);
+                fog->angle = mo->angle;
+                S_StartSound(fog, sfx_telept);
+
+                mo->reactiontime = 18;
+                player->psprites[ps_weapon].sx = 0;
+                player->psprites[ps_weapon].sy = WEAPONTOP;
+                player->momx = player->momy = 0;
+                mo->momx = mo->momy = mo->momz = 0;
+            }
+        }
     }
 }
 
