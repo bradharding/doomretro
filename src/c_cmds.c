@@ -1313,7 +1313,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
 
     if (!*parm)
-        C_Output("%s %s", cmd, GIVECMDLONGFORMAT);
+        C_Output("<b>%s</b> %s", cmd, GIVECMDLONGFORMAT);
     else
     {
         player_t    *player = &players[0];
@@ -1491,7 +1491,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     static char buffer[1024];
 
     if (!*parm)
-        C_Output("%s %s", cmd, KILLCMDFORMAT);
+        C_Output("<b>%s</b> %s", cmd, KILLCMDFORMAT);
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
         || (*playername && M_StringCompare(parm, playername)))
     {
@@ -1867,7 +1867,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (!*parm1)
     {
-        C_Output("%s %s", cmd, MAPCMDLONGFORMAT);
+        C_Output("<b>%s</b> %s", cmd, MAPCMDLONGFORMAT);
         return;
     }
     samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
@@ -2355,7 +2355,7 @@ static dboolean play_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 static void play_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (!*parm1)
-        C_Output("%s %s", cmd, PLAYCMDFORMAT);
+        C_Output("<b>%s</b> %s", cmd, PLAYCMDFORMAT);
     else if (playcmdtype == 1)
         S_StartSound(NULL, playcmdid);
     else
@@ -2737,7 +2737,7 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (!*parm)
     {
-        C_Output("%s %s", cmd, SPAWNCMDFORMAT);
+        C_Output("<b>%s</b> %s", cmd, SPAWNCMDFORMAT);
         return;
     }
     else
