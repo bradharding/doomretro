@@ -700,7 +700,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The amount the player's view and weapon bob up and when they\nstand still."),
     CMD(teleport, "", game_func1, teleport_cmd_func2, 2, TELEPORTCMDFORMAT,
-        "Teleports the player to the (<i>x</i>,<i>y</i>) coordinates in the current map."),
+        "Teleports the player to (<i>x</i>,<i>y</i>) in the current map."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, 0, "",
         "Shows a list of things in the current map."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOALIAS,
