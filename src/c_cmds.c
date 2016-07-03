@@ -74,10 +74,13 @@
 #define GIVECMDSHORTFORMAT      "<i>items</i>"
 #define GIVECMDLONGFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
+#define LOADCMDFORMAT           "<i>filename</i><b>.save</b>"
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
 #define PLAYCMDFORMAT           "<i>sound</i>|<i>music</i>"
+#define SAVECMDFORMAT           "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
+#define UNBINDCMDFORMAT         "<i>control</i>"
 #define WARPCMDFORMAT           "<i>x</i> <i>y</i>"
 
 int     ammo;
@@ -332,7 +335,6 @@ static void god_cmd_func2(char *, char *, char *, char *);
 static void help_cmd_func2(char *, char *, char *, char *);
 static dboolean kill_cmd_func1(char *, char *, char *, char *);
 static void kill_cmd_func2(char *, char *, char *, char *);
-static dboolean load_cmd_func1(char *, char *, char *, char *);
 static void load_cmd_func2(char *, char *, char *, char *);
 static dboolean map_cmd_func1(char *, char *, char *, char *);
 static void map_cmd_func2(char *, char *, char *, char *);
@@ -569,7 +571,7 @@ consolecmd_t consolecmds[] =
         "The folder where an IWAD was last opened."),
     CMD(kill, "", kill_cmd_func1, kill_cmd_func2, 1, KILLCMDFORMAT,
         "Kills the <b>player</b>, <b>all</b> monsters or a type of <i>monster</i>."),
-    CMD(load, "", load_cmd_func1, load_cmd_func2, 1, "<i>filename</i><b>.save</b>",
+    CMD(load, "", null_func1, load_cmd_func2, 1, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_FLOAT(m_acceleration, "", float_cvars_func1, float_cvars_func2, CF_NONE,
         "The amount the mouse accelerates."),
@@ -687,7 +689,7 @@ consolecmd_t consolecmds[] =
         "The sound effects volume."),
     CVAR_STR(s_timiditycfgpath, "", null_func1, str_cvars_func2,
         "The path of Timidity's configuration file."),
-    CMD(save, "", save_cmd_func1, save_cmd_func2, 1, "<i>filename</i><b>.save</b>",
+    CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,
         "Saves the game to a file."),
     CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
         "The currently selected savegame in the menu."),
@@ -701,7 +703,7 @@ consolecmd_t consolecmds[] =
         "Shows a list of things in the current map."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOALIAS,
         "The speed of the player (<b>10%</b> to <b>400%</b>)."),
-    CMD(unbind, "", null_func1, unbind_cmd_func2, 1, "<i>control</i>",
+    CMD(unbind, "", null_func1, unbind_cmd_func2, 1, UNBINDCMDFORMAT,
         "Unbinds the action from a <i>control</i>."),
     CVAR_BOOL(vid_capfps, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles capping of the framerate at 35 FPS."),
@@ -729,7 +731,7 @@ consolecmd_t consolecmds[] =
         "The position of the window on the desktop (<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
     CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop (<i>width</i><b>\xD7</b><i>height</i>)."),
-    CMD(warp, "", game_func1, warp_cmd_func2, 2, "<i>x</i> <i>y</i>",
+    CMD(warp, "", game_func1, warp_cmd_func2, 2, WARPCMDFORMAT,
         "Warps the player to the (<i>x</i>,<i>y</i>) coordinates in the current map."),
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The amount the player's weapon bobs up and down when they\nmove."),
@@ -1625,13 +1627,14 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // load cmd
 //
-static dboolean load_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
-{
-    return *parm1;
-}
-
 static void load_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
+    if (!*parm1)
+    {
+        C_Output("<b>%s</b> %s", cmd, LOADCMDFORMAT);
+        return;
+    }
+
     G_LoadGame(M_StringJoin(savegamefolder, parm1,
         (M_StringEndsWith(parm1, ".save") ? "" : ".save"), NULL));
 }
@@ -2670,11 +2673,17 @@ static void resurrect_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3
 //
 static dboolean save_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (*parm1 && gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
+    return (gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
 
 static void save_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
+    if (!*parm1)
+    {
+        C_Output("<b>%s</b> %s", cmd, SAVECMDFORMAT);
+        return;
+    }
+
     G_SaveGame(-1, "", M_StringJoin(savegamefolder, parm1, (M_StringEndsWith(parm1, ".save") ? "" :
         ".save"), NULL));
 }
@@ -2785,6 +2794,12 @@ static void thinglist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3
 //
 static void unbind_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
+    if (!*parm1)
+    {
+        C_Output("<b>%s</b> %s", cmd, UNBINDCMDFORMAT);
+        return;
+    }
+
     C_Bind(cmd, parm1, "none", "");
 }
 
