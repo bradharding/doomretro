@@ -1764,6 +1764,7 @@ void M_EndGameResponse(int key)
     S_StartSound(NULL, sfx_swtchx);
     I_WaitVBL(2 * TICRATE);
     MainDef.lastOn = 0;
+    st_palette = 0;
     M_EndingGame();
 }
 
