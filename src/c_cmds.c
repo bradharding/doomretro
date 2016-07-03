@@ -78,6 +78,7 @@
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
 #define PLAYCMDFORMAT           "<i>sound</i>|<i>music</i>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
+#define WARPCMDFORMAT           "<i>x</i> <i>y</i>"
 
 int     ammo;
 int     armor;
@@ -355,6 +356,7 @@ static dboolean spawn_cmd_func1(char *, char *, char *, char *);
 static void spawn_cmd_func2(char *, char *, char *, char *);
 static void thinglist_cmd_func2(char *, char *, char *, char *);
 static void unbind_cmd_func2(char *, char *, char *, char *);
+static void warp_cmd_func2(char *, char *, char *, char *);
 
 static dboolean bool_cvars_func1(char *, char *, char *, char *);
 static void bool_cvars_func2(char *, char *, char *, char *);
@@ -579,7 +581,7 @@ consolecmd_t consolecmds[] =
         "The mouse's sensitivity."),
     CVAR_INT(m_threshold, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
         "The mouse's acceleration threshold."),
-    CMD(map, warp, map_cmd_func1, map_cmd_func2, 1, MAPCMDSHORTFORMAT,
+    CMD(map, "", map_cmd_func1, map_cmd_func2, 1, MAPCMDSHORTFORMAT,
         "Warps to a map."),
     CMD(maplist, "", null_func1, maplist_cmd_func2, 0, "",
         "Shows a list of the available maps."),
@@ -727,6 +729,8 @@ consolecmd_t consolecmds[] =
         "The position of the window on the desktop (<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
     CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop (<i>width</i><b>\xD7</b><i>height</i>)."),
+    CMD(warp, "", game_func1, warp_cmd_func2, 2, "<i>x</i> <i>y</i>",
+        "Warps the player to the (<i>x</i>,<i>y</i>) coordinates in the current map."),
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The amount the player's weapon bobs up and down when they\nmove."),
 
@@ -2782,6 +2786,25 @@ static void thinglist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3
 static void unbind_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     C_Bind(cmd, parm1, "none", "");
+}
+
+//
+// warp cmd
+//
+static void warp_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (!*parm1 && !*parm2)
+    {
+        C_Output("<b>%s</b> %s", cmd, WARPCMDFORMAT);
+        return;
+    }
+    else
+    {
+        long int x = strtol(parm1, NULL, 10) << FRACBITS;
+        long int y = strtol(parm2, NULL, 10) << FRACBITS;
+
+        P_TeleportMove(players[0].mo, x, y, ONFLOORZ, false);
+    }
 }
 
 //
