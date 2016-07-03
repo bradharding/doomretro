@@ -1288,6 +1288,9 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
     int         i;
+    int         num = -1;
+
+    sscanf(parm, "%10i", &num);
 
     if (gamestate != GS_LEVEL)
         return false;
@@ -1304,7 +1307,7 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
         if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm,
             removespaces(mobjinfo[i].name1)) || (*mobjinfo[i].name2 && M_StringCompare(parm,
             removespaces(mobjinfo[i].name2))) || (*mobjinfo[i].name3 && M_StringCompare(parm,
-                removespaces(mobjinfo[i].name3))) || atoi(parm) == mobjinfo[i].doomednum))
+                removespaces(mobjinfo[i].name3))) || (num == mobjinfo[i].doomednum && num != -1)))
             return true;
 
     return false;
@@ -1358,6 +1361,9 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         else
         {
             int i;
+            int num = -1;
+
+            sscanf(parm, "%10i", &num);
 
             for (i = 0; i < NUMMOBJTYPES; i++)
                 if ((mobjinfo[i].flags & MF_SPECIAL)
@@ -1366,7 +1372,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
                         || (*mobjinfo[i].name3
                             && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
-                    || atoi(parm) == mobjinfo[i].doomednum))
+                    || (num == mobjinfo[i].doomednum && num != -1)))
                 {
                     mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
@@ -1442,6 +1448,10 @@ static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 
         for (i = 0; i < NUMMOBJTYPES; i++)
         {
+            int num = -1;
+
+            sscanf(parm, "%10i", &num);
+
             killcmdtype = mobjinfo[i].doomednum;
             if (killcmdtype >= 0 && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
                 || M_StringCompare(parm, removespaces(mobjinfo[i].plural1))
@@ -1451,7 +1461,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
                 || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
                 || (*mobjinfo[i].plural3 &&
                     M_StringCompare(parm, removespaces(mobjinfo[i].plural3)))
-                || atoi(parm) == killcmdtype))
+                || (num == killcmdtype && num != -1)))
             {
                 dboolean        kill = true;
 
@@ -2706,10 +2716,14 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
 
         for (i = 0; i < NUMMOBJTYPES; i++)
         {
+            int num = -1;
+
+            sscanf(parm, "%10i", &num);
+
             spawncmdtype = mobjinfo[i].doomednum;
             if (spawncmdtype >= 0 && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
-                || atoi(parm) == spawncmdtype))
+                || (num == spawncmdtype&& num != -1)))
             {
                 dboolean        spawn = true;
 
