@@ -1234,9 +1234,12 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 
             if (oldsplat)
                 P_UnsetThingPosition(oldsplat);
-        }
 
-        bloodsplats[r_bloodsplats_total++ % r_bloodsplats_max] = newsplat;
+            bloodsplats[r_bloodsplats_total % r_bloodsplats_max] = newsplat;
+        }
+        else
+            bloodsplats[r_bloodsplats_total++ % r_bloodsplats_max] = newsplat;
+
 
         if (target)
             target->bloodsplats = MAX(0, target->bloodsplats - 1);
