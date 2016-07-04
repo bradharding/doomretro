@@ -1212,7 +1212,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = (MF2_DONOTMAP | (rand() & 1) * MF2_MIRRORED);
+        newsplat->flags2 = (MF2_DONOTMAP | ((rand() & 1) * MF2_MIRRORED));
         if (blood == FUZZYBLOOD)
         {
             newsplat->flags = MF_FUZZ;
@@ -1228,7 +1228,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         newsplat->subsector = subsec;
         P_SetBloodSplatPosition(newsplat);
 
-        if (r_bloodsplats_total > r_bloodsplats_max)
+        if (r_bloodsplats_total >= r_bloodsplats_max)
         {
             mobj_t      *oldsplat = bloodsplats[r_bloodsplats_total % r_bloodsplats_max];
 
@@ -1239,7 +1239,6 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         }
         else
             bloodsplats[r_bloodsplats_total++ % r_bloodsplats_max] = newsplat;
-
 
         if (target)
             target->bloodsplats = MAX(0, target->bloodsplats - 1);
