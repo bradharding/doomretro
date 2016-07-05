@@ -583,9 +583,15 @@ static void C_DrawBackground(int height)
             screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
     }
 
-    for (i = height - SCREENWIDTH * 3; i < height; ++i)
-        screens[0][i] = tinttab25[consoleedgecolor + screens[0][i]];
+    // draw branding
+    V_DrawConsolePatch(SCREENWIDTH - brand->width, consoleheight - brand->height + 2, brand,
+        consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab50);
 
+    // draw bottom edge
+    for (i = height - SCREENWIDTH * 3; i < height; ++i)
+        screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
+
+    // draw shadow
     for (j = 1; j <= 4; ++j)
         for (i = height; i < height + SCREENWIDTH * j; ++i)
             screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
@@ -782,10 +788,6 @@ void C_Drawer(void)
 
         // draw background and bottom edge
         C_DrawBackground(consoleheight);
-
-        // draw branding
-        V_DrawConsolePatch(SCREENWIDTH - brand->width, consoleheight - brand->height + 2, brand,
-            consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab25);
 
         // draw console text
         if (outputhistory == -1)
