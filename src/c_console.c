@@ -1411,8 +1411,9 @@ void C_PrintCompileDate(void)
         days[dayofweek(day, month + 1, year)], months[month], day, year);
 
 #if defined(_MSC_FULL_VER)
-        C_Output("It was compiled using Microsoft C/C++ Optimizing Compiler v%i.%02i.%i.",
-            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000);
+        C_Output("It was compiled using <i><b>Microsoft C/C++ Optimizing Compiler "
+            "v%i.%02i.%i</b></i>.", _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000,
+            _MSC_FULL_VER % 100000);
 #endif
 }
 
