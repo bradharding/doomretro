@@ -908,7 +908,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    if (xscale < FRACUNIT / 2)
+    if (xscale < FRACUNIT / 4)
         return;
 
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
@@ -1005,7 +1005,7 @@ void R_ProjectShadow(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    if (xscale < FRACUNIT / 2)
+    if (xscale < FRACUNIT / 4)
         return;
 
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
