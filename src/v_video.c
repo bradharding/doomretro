@@ -1271,8 +1271,8 @@ void V_LowGraphicDetail(void)
             byte        *dot = screens[0] + y + x;
             int         xx, yy;
 
-            for (yy = 0; yy < hh; yy += SCREENWIDTH)
-                for (xx = 0; xx < pixelwidth; ++xx)
+            for (yy = 0; yy < hh && y + yy < h; yy += SCREENWIDTH)
+                for (xx = 0; xx < pixelwidth && x + xx < w; ++xx)
                     *(dot + yy + xx) = *dot;
         }
 }
