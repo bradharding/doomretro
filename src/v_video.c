@@ -1264,6 +1264,7 @@ void V_LowGraphicDetail(void)
     int w = viewwindowx + viewwidth;
     int h = (viewwindowy + viewheight) * SCREENWIDTH;
     int hh = pixelheight * SCREENWIDTH;
+    int offset = (hh + pixelwidth) / 2;
 
     for (y = viewwindowy * SCREENWIDTH; y < h; y += hh)
         for (x = viewwindowx; x < w; x += pixelwidth)
@@ -1273,7 +1274,7 @@ void V_LowGraphicDetail(void)
 
             for (yy = 0; yy < hh && y + yy < h; yy += SCREENWIDTH)
                 for (xx = 0; xx < pixelwidth && x + xx < w; ++xx)
-                    *(dot + yy + xx) = *dot;
+                    *(dot + yy + xx) = *(dot + offset);
         }
 }
 
