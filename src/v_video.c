@@ -49,6 +49,7 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "r_main.h"
 #include "SDL_image.h"
 #include "v_video.h"
 #include "version.h"
@@ -1257,19 +1258,21 @@ void GetPixelSize(void)
     }
 }
 
-void V_LowGraphicDetail(int height)
+void V_LowGraphicDetail(void)
 {
     int x, y;
-    int h = pixelheight * SCREENWIDTH;
+    int w = viewwindowx + viewwidth;
+    int h = (viewwindowy + viewheight) * SCREENWIDTH;
+    int hh = pixelheight * SCREENWIDTH;
 
-    for (y = 0; y < height; y += h)
-        for (x = 0; x < SCREENWIDTH; x += pixelwidth)
+    for (y = viewwindowy * SCREENWIDTH; y < h; y += hh)
+        for (x = viewwindowx; x < w; x += pixelwidth)
         {
             byte        *dot = screens[0] + y + x;
             int         xx, yy;
 
-            for (yy = 0; yy < h; yy += SCREENWIDTH)
-                for (xx = 0; xx < pixelwidth; xx++)
+            for (yy = 0; yy < hh; yy += SCREENWIDTH)
+                for (xx = 0; xx < pixelwidth; ++xx)
                     *(dot + yy + xx) = *dot;
         }
 }
