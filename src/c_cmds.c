@@ -3355,7 +3355,7 @@ static void r_hud_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// r_lowpixelsiz cvar
+// r_lowpixelsize cvar
 //
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3363,7 +3363,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
     {
         r_lowpixelsize = strdup(parm1);
 
-        GetPixelSize();
+        GetPixelSize(false);
 
         if (!M_StringCompare(r_lowpixelsize, parm1))
             M_SaveCVARs();

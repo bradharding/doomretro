@@ -1229,7 +1229,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
     }
 }
 
-void GetPixelSize(void)
+void GetPixelSize(dboolean reset)
 {
     int     width = -1;
     int     height = -1;
@@ -1248,7 +1248,7 @@ void GetPixelSize(void)
         pixelwidth = width;
         pixelheight = height;
     }
-    else
+    else if (reset)
     {
         pixelwidth = 2;
         pixelheight = 2;
@@ -1310,7 +1310,7 @@ void V_Init(void)
     DY = (SCREENHEIGHT << FRACBITS) / ORIGINALHEIGHT;
     DYI = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
 
-    GetPixelSize();
+    GetPixelSize(true);
 
 #if defined(WIN32) && !defined(PORTABILITY)
     if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, buffer)))

@@ -103,7 +103,7 @@ void V_DrawPagePatch(patch_t *patch);
 
 void V_DrawPixel(int x, int y, byte color, dboolean shadow);
 
-void GetPixelSize(void);
+void GetPixelSize(dboolean reset);
 void V_LowGraphicDetail(void);
 
 // Draw a linear block of pixels into the view buffer.
