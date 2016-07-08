@@ -77,6 +77,10 @@
 #include "wi_stuff.h"
 #include "z_zone.h"
 
+#if !defined(WIN32)
+#include <wordexp.h>
+#endif
+
 //
 // D_DoomLoop()
 // Not a globally visible function,
@@ -728,6 +732,10 @@ dboolean D_CheckParms(void)
 {
     dboolean    result = false;
 
+#if !defined(WIN32)
+    wordexp_t p;
+#endif
+
     if (myargc == 2 && M_StringEndsWith(myargv[1], ".wad"))
     {
         // check if it's a valid and supported IWAD
@@ -785,8 +793,22 @@ dboolean D_CheckParms(void)
             else
             {
                 // otherwise try the iwadfolder setting in doomretro.cfg
+#if defined(WIN32)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
                     (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#else
+                if (!wordexp(iwadfolder, &p, 0) && p.we_wordc > 0)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", p.we_wordv[0],
+                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    wordfree(&p);
+                }
+                else
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
+                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                }
+#endif
                 IdentifyIWADByName(fullpath);
                 if (W_AddFile(fullpath, true))
                 {
@@ -803,9 +825,24 @@ dboolean D_CheckParms(void)
                 else
                 {
                     // still nothing? try the DOOMWADDIR environment variable
+#if defined(WIN32)
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
                             "DOOM2.WAD"));
+#else
+                    if (getenv("DOOMWADDIR") && !wordexp(getenv("DOOMWADDIR"), &p, 0) && p.we_wordc > 0)
+                    {  
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                            p.we_wordv[0], (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        wordfree(&p);
+                    }
+                    else
+                    {
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                            getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
+                                "DOOM2.WAD"));
+                    }
+#endif
                     IdentifyIWADByName(fullpath);
                     if (W_AddFile(fullpath, true))
                     {
