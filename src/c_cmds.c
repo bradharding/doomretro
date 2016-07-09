@@ -3647,12 +3647,10 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2,
 {
     if (*parm1)
     {
-        vid_screenresolution = strdup(parm1);
-
-        GetScreenResolution();
-
         if (!M_StringCompare(vid_screenresolution, parm1))
         {
+            vid_screenresolution = strdup(parm1);
+            GetScreenResolution();
             M_SaveCVARs();
 
             if (vid_fullscreen)
@@ -3748,14 +3746,17 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
 {
     if (*parm1)
     {
-        vid_windowposition = strdup(parm1);
+        if (!M_StringCompare(vid_windowposition, parm1))
+        {
+            vid_windowposition = strdup(parm1);
 
-        GetWindowPosition();
+            GetWindowPosition();
 
-        M_SaveCVARs();
+            M_SaveCVARs();
 
-        if (!vid_fullscreen)
-            SDL_SetWindowPosition(window, windowx, windowy);
+            if (!vid_fullscreen)
+                SDL_SetWindowPosition(window, windowx, windowy);
+        }
     }
     else
         C_Output(vid_windowposition);
@@ -3768,14 +3769,15 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 {
     if (*parm1)
     {
-        vid_windowsize = strdup(parm1);
+        if (!M_StringCompare(vid_windowsize, parm1))
+        {
+            vid_windowsize = strdup(parm1);
+            GetWindowSize();
+            M_SaveCVARs();
 
-        GetWindowSize();
-
-        M_SaveCVARs();
-
-        if (!vid_fullscreen)
-            SDL_SetWindowSize(window, windowwidth, windowheight);
+            if (!vid_fullscreen)
+                SDL_SetWindowSize(window, windowwidth, windowheight);
+        }
     }
     else
         C_Output(formatsize(vid_windowsize));
