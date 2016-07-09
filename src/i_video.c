@@ -1122,8 +1122,10 @@ static void PositionOnCurrentDisplay(void)
 
 static void SetVideoMode(dboolean output)
 {
-    int flags = SDL_RENDERER_TARGETTEXTURE;
-    int width, height;
+    int                 flags = SDL_RENDERER_TARGETTEXTURE;
+    int                 width, height;
+    unsigned int        rmask, gmask, bmask, amask;
+    int                 bpp;
 
     displayindex = vid_display - 1;
     if (displayindex < 0 || displayindex >= numdisplays)
@@ -1323,7 +1325,10 @@ static void SetVideoMode(dboolean output)
     }
 
     surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
-    buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
+
+    SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask,
+        &amask);
+    buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
     SDL_FillRect(buffer, NULL, 0);
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
