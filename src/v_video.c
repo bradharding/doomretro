@@ -1268,16 +1268,20 @@ void V_LowGraphicDetail(void)
     int offsety = pixelheight / 2 * SCREENWIDTH;
 
     for (y = viewwindowy * SCREENWIDTH; y < h; y += hh)
+    {
+        int dy = MIN(y + offsety, h - 1);
+
         for (x = viewwindowx; x < w; x += pixelwidth)
         {
             byte        *src = *screens + y + x;
-            byte        *dest = *screens + MIN(y + offsety, h - 1) + MIN(x + offsetx, w - 1);
+            byte        *dest = *screens + dy + MIN(x + offsetx, w - 1);
             int         xx, yy;
 
             for (yy = 0; yy < hh && y + yy < h; yy += SCREENWIDTH)
                 for (xx = 0; xx < pixelwidth && x + xx < w; ++xx)
                     *(src + yy + xx) = *dest;
         }
+    }
 }
 
 //

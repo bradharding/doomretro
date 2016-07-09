@@ -1330,6 +1330,7 @@ static void SetVideoMode(dboolean output)
         &amask);
     buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
     SDL_FillRect(buffer, NULL, 0);
+
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
             SDL_HINT_OVERRIDE);
@@ -1340,6 +1341,7 @@ static void SetVideoMode(dboolean output)
             SDL_HINT_OVERRIDE);
     texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT);
+
     palette = SDL_AllocPalette(256);
     SDL_SetSurfacePalette(surface, palette);
 
