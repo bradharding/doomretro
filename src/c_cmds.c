@@ -2660,9 +2660,10 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (*consolecmds[i].name)
     {
-        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parm1, consolecmds[i].name))
+        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parm1, consolecmds[i].name)
+            && !(consolecmds[i].flags & CF_READONLY))
         {
-            consolecmds[i].func2(consolecmds[i].name, consolecmds[i].defaultvalue, "", "");
+            consolecmds[i].func2(parm1, consolecmds[i].defaultvalue, "", "");
             break;
         }
         ++i;
