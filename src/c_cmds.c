@@ -1146,7 +1146,6 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
-    int count = 1;
     int tabs[8] = { 149, 257, 0, 0, 0, 0, 0, 0 };
 
     while (*consolecmds[i].name)

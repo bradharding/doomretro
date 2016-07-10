@@ -512,12 +512,12 @@ static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
 //
 void M_DarkBackground(void)
 {
-    int i;
-
     height = (SCREENHEIGHT - vid_widescreen * SBARHEIGHT) * SCREENWIDTH;
 
     if (!blurred)
     {
+        int i;
+
         BlurScreen(screens[0], tempscreen1, blurscreen1);
 
         for (i = 0; i < height; ++i)
