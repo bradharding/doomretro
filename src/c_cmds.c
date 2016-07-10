@@ -78,6 +78,7 @@
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
 #define PLAYCMDFORMAT           "<i>sound</i>|<i>music</i>"
+#define RESETCMDFORMAT          "<i>cvar</i>"
 #define SAVECMDFORMAT           "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 #define TELEPORTCMDFORMAT       "<i>x</i> <i>y</i>"
@@ -348,6 +349,7 @@ static dboolean play_cmd_func1(char *, char *, char *, char *);
 static void play_cmd_func2(char *, char *, char *, char *);
 static void playerstats_cmd_func2(char *, char *, char *, char *);
 static void quit_cmd_func2(char *, char *, char *, char *);
+static void reset_cmd_func2(char *, char *, char *, char *);
 static dboolean respawnmonsters_cmd_func1(char *, char *, char *, char *);
 static void respawnmonsters_cmd_func2(char *, char *, char *, char *);
 static dboolean resurrect_cmd_func1(char *, char *, char *, char *);
@@ -433,24 +435,26 @@ static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
 }
 
 #define CMD(name, alt, cond, func, parms, form, desc) \
-    { #name, #alt, cond, func, parms, CT_CMD, CF_NONE, NULL, 0, 0, 0, form, desc }
+    { #name, #alt, cond, func, parms, CT_CMD, CF_NONE, NULL, 0, 0, 0, form, desc, "" }
 #define CMD_CHEAT(name, parms) \
-    { #name, "", cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, "", "" }
+    { #name, "", cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, "", "", "" }
 #define CVAR_BOOL(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, 1, false, true, "", desc }
+    { #name, #alt, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, 1, false, true, "", desc, \
+      STR(name##_default) }
 #define CVAR_INT(name, alt, cond, func, flags, aliases, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, aliases, name##_min, \
-      name##_max, "", desc }
+      name##_max, "", desc, STR(name##_default) }
 #define CVAR_FLOAT(name, alt, cond, func, flags, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, "", desc }
+    { #name, #alt, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, "", desc, \
+      STR(name##_default) }
 #define CVAR_POS(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, "", desc }
+    { #name, #alt, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, "", desc, name##_default }
 #define CVAR_SIZE(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_SIZE, &name, 0, 0, 0, "", desc }
+    { #name, #alt, cond, func, 1, CT_CVAR, CF_SIZE, &name, 0, 0, 0, "", desc, name##_default }
 #define CVAR_STR(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_STRING, &name, 0, 0, 0, "", desc }
+    { #name, #alt, cond, func, 1, CT_CVAR, CF_STRING, &name, 0, 0, 0, "", desc, name##_default }
 #define CVAR_TIME(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc }
+    { #name, #alt, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc, "" }
 
 consolecmd_t consolecmds[] =
 {
@@ -675,6 +679,8 @@ consolecmd_t consolecmds[] =
         "The amount the screen shakes when the player is attacked."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2,
         "Toggles the translucency of sprites and textures."),
+    CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
+        "Resets <i>cvar</i> to its default value."),
     CMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles respawning monsters."),
     CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "",
@@ -2637,6 +2643,30 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
 static void quit_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     I_Quit(true);
+}
+
+//
+// reset cmd
+//
+static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int i = 0;
+
+    if (!*parm1)
+    {
+        C_Output("<b>%s</b> %s", cmd, RESETCMDFORMAT);
+        return;
+    }
+
+    while (*consolecmds[i].name)
+    {
+        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parm1, consolecmds[i].name))
+        {
+            consolecmds[i].func2(consolecmds[i].name, consolecmds[i].defaultvalue, "", "");
+            break;
+        }
+        ++i;
+    }
 }
 
 //

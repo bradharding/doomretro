@@ -100,6 +100,7 @@ typedef struct
     int                 maximumvalue;
     char                *format;
     char                *description;
+    char                *defaultvalue;
 } consolecmd_t;
 
 extern action_t         actions[];
