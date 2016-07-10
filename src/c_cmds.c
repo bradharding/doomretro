@@ -350,6 +350,7 @@ static void play_cmd_func2(char *, char *, char *, char *);
 static void playerstats_cmd_func2(char *, char *, char *, char *);
 static void quit_cmd_func2(char *, char *, char *, char *);
 static void reset_cmd_func2(char *, char *, char *, char *);
+static void resetall_cmd_func2(char *, char *, char *, char *);
 static dboolean respawnmonsters_cmd_func1(char *, char *, char *, char *);
 static void respawnmonsters_cmd_func2(char *, char *, char *, char *);
 static dboolean resurrect_cmd_func1(char *, char *, char *, char *);
@@ -681,6 +682,8 @@ consolecmd_t consolecmds[] =
         "Toggles the translucency of sprites and textures."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
         "Resets a <i>cvar</i> to its default value."),
+    CMD(resetall, "", null_func1, resetall_cmd_func2, 0, "",
+        "Resets all CVARs to their default values."),
     CMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles respawning monsters."),
     CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "",
@@ -2666,6 +2669,22 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             consolecmds[i].func2(parm1, consolecmds[i].defaultvalue, "", "");
             break;
         }
+        ++i;
+    }
+}
+
+//
+// resetall cmd
+//
+static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int i = 0;
+
+    while (*consolecmds[i].name)
+    {
+        if (consolecmds[i].type == CT_CVAR && !(consolecmds[i].flags & CF_READONLY))
+            consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultvalue ?
+                consolecmds[i].defaultvalue : "\"\""), "", "");
         ++i;
     }
 }
