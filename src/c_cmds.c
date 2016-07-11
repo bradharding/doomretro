@@ -71,6 +71,7 @@
 #define MAX_PATH                260
 #endif
 
+#define BINDCMDFORMAT           "[<i>control</i> [<b>+</b><i>action</i>]]"
 #define GIVECMDSHORTFORMAT      "<i>items</i>"
 #define GIVECMDLONGFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
@@ -321,6 +322,7 @@ static dboolean cheat_func1(char *, char *, char *, char *);
 static dboolean game_func1(char *, char *, char *, char *);
 static dboolean null_func1(char *, char *, char *, char *);
 
+static void bindlist_cmd_func2(char *, char *, char *, char *);
 static void clear_cmd_func2(char *, char *, char *, char *);
 static void cmdlist_cmd_func2(char *, char *, char *, char *);
 static void condump_cmd_func2(char *, char *, char *, char *);
@@ -503,8 +505,10 @@ consolecmd_t consolecmds[] =
         "The player's armor."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles automatically loading the last savegame after the\nplayer dies."),
-    CMD(bind, "", null_func1, C_Bind, 2, "[<i>control</i> [<b>+</b><i>action</i>]]",
+    CMD(bind, "", null_func1, C_Bind, 2, BINDCMDFORMAT,
         "Binds an <i>action</i> to a <i>control</i>."),
+    CMD(bindlist, "", null_func1, bindlist_cmd_func2, 0, "",
+        "Shows a list of all bound controls."),
     CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2,
         "Toggles the centering of the player's weapon when firing."),
     CMD(clear, "", null_func1, clear_cmd_func2, 0, "",
@@ -819,28 +823,6 @@ static dboolean null_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // bind cmd
 //
-static void C_DisplayBinds(char *action, int value, controltype_t type, int count)
-{
-    int i = 0;
-    int tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
-
-    while (controls[i].type)
-    {
-        if (controls[i].type == type && controls[i].value == value)
-        {
-            char *control = controls[i].control;
-
-            if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "%i.\t\'%s\'\t%s", count, (control[0] == '=' ? "+" : control),
-                    action);
-            else
-                C_TabbedOutput(tabs, "%i.\t%s\t%s", count, control, action);
-            break;
-        }
-        ++i;
-    }
-}
-
 static void C_UnbindDuplicates(int keep, controltype_t type, int value)
 {
     int i = 0;
@@ -866,143 +848,172 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
 
 void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
 {
+    int i = 0;
+
     if (!*parm1)
     {
-        int     action = 0;
-        int     count = 1;
+        C_Output("<b>%s</b> %s", cmd, BINDCMDFORMAT);
+        return;
+    }
 
-        while (*actions[action].action)
+    while (controls[i].type)
+    {
+        if (M_StringCompare(parm1, controls[i].control))
+            break;
+        ++i;
+    }
+
+    if (*controls[i].control)
+    {
+        int action = 0;
+
+        if (!*parm2)
         {
-            if (actions[action].keyboard)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard,
-                    keyboardcontrol, count++);
-            if (actions[action].mouse)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse, mousecontrol,
-                    count++);
-            if (actions[action].gamepad)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad,
-                    gamepadcontrol, count++);
-            ++action;
+            while (*actions[action].action)
+            {
+                if (controls[i].type == keyboardcontrol && actions[action].keyboard
+                    && controls[i].value == *(int *)actions[action].keyboard)
+                    C_Output(actions[action].action);
+                else if (controls[i].type == mousecontrol && actions[action].mouse
+                    && controls[i].value == *(int *)actions[action].mouse)
+                    C_Output(actions[action].action);
+                else if (controls[i].type == gamepadcontrol && actions[action].gamepad
+                    && controls[i].value == *(int *)actions[action].gamepad)
+                    C_Output(actions[action].action);
+                ++action;
+            }
+        }
+        else if (M_StringCompare(parm2, "none"))
+        {
+            while (*actions[action].action)
+            {
+                switch (controls[i].type)
+                {
+                    case keyboardcontrol:
+                        if (actions[action].keyboard
+                            && controls[i].value == *(int *)actions[action].keyboard)
+                        {
+                            *(int *)actions[action].keyboard = 0;
+                            M_SaveCVARs();
+                        }
+                        break;
+
+                    case mousecontrol:
+                        if (actions[action].mouse
+                            && controls[i].value == *(int *)actions[action].mouse)
+                        {
+                            *(int *)actions[action].mouse = -1;
+                            M_SaveCVARs();
+                        }
+                        break;
+
+                    case gamepadcontrol:
+                        if (actions[action].gamepad
+                            && controls[i].value == *(int *)actions[action].gamepad)
+                        {
+                            *(int *)actions[action].gamepad = 0;
+                            M_SaveCVARs();
+                        }
+                        break;
+                }
+                ++action;
+            }
+        }
+        else
+        {
+            dboolean        bound = false;
+
+            while (*actions[action].action)
+            {
+                if (M_StringCompare(parm2, actions[action].action))
+                    break;
+                ++action;
+            }
+
+            if (*actions[action].action)
+            {
+                switch (controls[i].type)
+                {
+                    case keyboardcontrol:
+                        if (actions[action].keyboard)
+                        {
+                            *(int *)actions[action].keyboard = controls[i].value;
+                            bound = true;
+                            C_UnbindDuplicates(action, keyboardcontrol, controls[i].value);
+                        }
+                        break;
+
+                    case mousecontrol:
+                        if (actions[action].mouse)
+                        {
+                            *(int *)actions[action].mouse = controls[i].value;
+                            bound = true;
+                            C_UnbindDuplicates(action, mousecontrol, controls[i].value);
+                        }
+                        break;
+
+                    case gamepadcontrol:
+                        if (actions[action].gamepad)
+                        {
+                            *(int *)actions[action].gamepad = controls[i].value;
+                            bound = true;
+                            C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
+                        }
+                        break;
+                }
+
+                if (*cmd)
+                    M_SaveCVARs();
+            }
+
+            if (!bound)
+                C_Warning("The %s action can't be bound to %s.", parm2, controls[i].control);
         }
     }
-    else
+}
+
+//
+// bindlist cmd
+//
+static void C_DisplayBinds(char *action, int value, controltype_t type, int count)
+{
+    int i = 0;
+    int tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
+
+    while (controls[i].type)
     {
-        int     i = 0;
-
-        while (controls[i].type)
+        if (controls[i].type == type && controls[i].value == value)
         {
-            if (M_StringCompare(parm1, controls[i].control))
-                break;
-            ++i;
-        }
+            char *control = controls[i].control;
 
-        if (*controls[i].control)
-        {
-            int action = 0;
-
-            if (!*parm2)
-            {
-                while (*actions[action].action)
-                {
-                    if (controls[i].type == keyboardcontrol && actions[action].keyboard
-                        && controls[i].value == *(int *)actions[action].keyboard)
-                        C_Output(actions[action].action);
-                    else if (controls[i].type == mousecontrol && actions[action].mouse
-                        && controls[i].value == *(int *)actions[action].mouse)
-                        C_Output(actions[action].action);
-                    else if (controls[i].type == gamepadcontrol && actions[action].gamepad
-                        && controls[i].value == *(int *)actions[action].gamepad)
-                        C_Output(actions[action].action);
-                    ++action;
-                }
-            }
-            else if (M_StringCompare(parm2, "none"))
-            {
-                while (*actions[action].action)
-                {
-                    switch (controls[i].type)
-                    {
-                        case keyboardcontrol:
-                            if (actions[action].keyboard
-                                && controls[i].value == *(int *)actions[action].keyboard)
-                            {
-                                *(int *)actions[action].keyboard = 0;
-                                M_SaveCVARs();
-                            }
-                            break;
-
-                        case mousecontrol:
-                            if (actions[action].mouse
-                                && controls[i].value == *(int *)actions[action].mouse)
-                            {
-                                *(int *)actions[action].mouse = -1;
-                                M_SaveCVARs();
-                            }
-                            break;
-
-                        case gamepadcontrol:
-                            if (actions[action].gamepad
-                                && controls[i].value == *(int *)actions[action].gamepad)
-                            {
-                                *(int *)actions[action].gamepad = 0;
-                                M_SaveCVARs();
-                            }
-                            break;
-                    }
-                    ++action;
-                }
-            }
+            if (strlen(control) == 1)
+                C_TabbedOutput(tabs, "%i.\t\'%s\'\t%s", count, (control[0] == '=' ? "+" : control),
+                    action);
             else
-            {
-                dboolean        bound = false;
-
-                while (*actions[action].action)
-                {
-                    if (M_StringCompare(parm2, actions[action].action))
-                        break;
-                    ++action;
-                }
-
-                if (*actions[action].action)
-                {
-                    switch (controls[i].type)
-                    {
-                        case keyboardcontrol:
-                            if (actions[action].keyboard)
-                            {
-                                *(int *)actions[action].keyboard = controls[i].value;
-                                bound = true;
-                                C_UnbindDuplicates(action, keyboardcontrol, controls[i].value);
-                            }
-                            break;
-
-                        case mousecontrol:
-                            if (actions[action].mouse)
-                            {
-                                *(int *)actions[action].mouse = controls[i].value;
-                                bound = true;
-                                C_UnbindDuplicates(action, mousecontrol, controls[i].value);
-                            }
-                            break;
-
-                        case gamepadcontrol:
-                            if (actions[action].gamepad)
-                            {
-                                *(int *)actions[action].gamepad = controls[i].value;
-                                bound = true;
-                                C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
-                            }
-                            break;
-                    }
-
-                    if (*cmd)
-                        M_SaveCVARs();
-                }
-
-                if (!bound)
-                    C_Warning("The %s action can't be bound to %s.", parm2, controls[i].control);
-            }
+                C_TabbedOutput(tabs, "%i.\t%s\t%s", count, control, action);
+            break;
         }
+        ++i;
+    }
+}
+
+static void bindlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int     action = 0;
+    int     count = 1;
+
+    while (*actions[action].action)
+    {
+        if (actions[action].keyboard)
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard,
+                keyboardcontrol, count++);
+        if (actions[action].mouse)
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse, mousecontrol,
+                count++);
+        if (actions[action].gamepad)
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad,
+                gamepadcontrol, count++);
+        ++action;
     }
 }
 
