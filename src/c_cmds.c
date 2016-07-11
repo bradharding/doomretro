@@ -71,7 +71,7 @@
 #define MAX_PATH                260
 #endif
 
-#define BINDCMDFORMAT           "[<i>control</i> [<b>+</b><i>action</i>]]"
+#define BINDCMDFORMAT           "<i>control</i> [<b>+</b><i>action</i>]"
 #define GIVECMDSHORTFORMAT      "<i>items</i>"
 #define GIVECMDLONGFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
