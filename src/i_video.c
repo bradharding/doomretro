@@ -1239,8 +1239,7 @@ static void SetVideoMode(dboolean output)
         }
     }
 
-    if (nearestlinear)
-        GetUpscaledTextureSize(width, height);
+    GetUpscaledTextureSize(width, height);
 
     windowid = SDL_GetWindowID(window);
 
