@@ -878,6 +878,8 @@ sectorfix_t sectorfix[] =
 
     { pack_nerve,       1,   4,    868, "",        "",             DEFAULT,       DEFAULT,       0, DEFAULT },
 
+    { pack_plut,        1,   4,    103, "RROCK03", "",             DEFAULT,       DEFAULT, DEFAULT, DEFAULT },
+
     { pack_plut,        1,   8,    130, "",        "",             DEFAULT,             0, DEFAULT, DEFAULT },
 
     { pack_plut,        1,  26,    156, "",        "",             DEFAULT,       DEFAULT,       0, DEFAULT },
