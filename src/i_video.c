@@ -1134,6 +1134,7 @@ static void SetVideoMode(dboolean output)
             C_Warning("Unable to find display %i.", vid_display);
         displayindex = vid_display_default - 1;
     }
+
     if (output)
     {
         const char      *displayname = SDL_GetDisplayName(displayindex);
@@ -1161,6 +1162,7 @@ static void SetVideoMode(dboolean output)
         }
         else
             nearestlinear = false;
+
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
 
@@ -1182,9 +1184,12 @@ static void SetVideoMode(dboolean output)
             acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME,
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
-                (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
+                (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE))))
+                I_Error("SDL_CreateWindow failed: %s", SDL_GetError());
+
             if (output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect "
                     "ratio.", commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
@@ -1200,9 +1205,12 @@ static void SetVideoMode(dboolean output)
             acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if(!(window = SDL_CreateWindow(PACKAGE_NAME,
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
-                (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
+                (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE))))
+                I_Error("SDL_CreateWindow failed: %s", SDL_GetError());
+
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
                     commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
@@ -1220,19 +1228,25 @@ static void SetVideoMode(dboolean output)
 
         width = windowwidth;
         height = windowheight;
+
         if (!windowx && !windowy)
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME,
+                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height,
-                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
+                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
+                I_Error("SDL_CreateWindow failed: %s", SDL_GetError());
+
             if (output)
                 C_Output("Created a resizable window with dimensions %s\xD7%s centered on the "
                     "screen.", commify(width), commify(height));
         }
         else
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height,
-                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height,
+                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
+                I_Error("SDL_CreateWindow failed: %s", SDL_GetError());
+
             if (output)
                 C_Output("Created a resizable window with dimensions %s\xD7%s at (%i,%i).",
                     commify(width), commify(height), windowx, windowy);
@@ -1247,61 +1261,66 @@ static void SetVideoMode(dboolean output)
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
 
-    renderer = SDL_CreateRenderer(window, -1, flags);
+    if (!(renderer = SDL_CreateRenderer(window, -1, flags)))
+        I_Error("SDL_CreateRenderer failed: %s", SDL_GetError());
 
-    SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
+    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
+        I_Error("SDL_RenderSetLogicalSize failed: %s", SDL_GetError());
 
     if (output)
     {
         SDL_RendererInfo        rendererinfo;
         wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
 
-        SDL_GetRendererInfo(renderer, &rendererinfo);
-        if (M_StringCompare(rendererinfo.name, vid_scaledriver_direct3d))
-            C_Output("The screen is rendered using hardware acceleration with the <b><i>Direct3D "
-                "9</b></i> API.");
-        else if (M_StringCompare(rendererinfo.name, vid_scaledriver_opengl))
-            C_Output("The screen is rendered using hardware acceleration with the "
-                "<b><i>OpenGL</b></i> API.");
-        else if (M_StringCompare(rendererinfo.name, vid_scaledriver_software))
-            C_Output("The screen is rendered in software.");
-
-        if (nearestlinear)
+        if (!SDL_GetRendererInfo(renderer, &rendererinfo))
         {
-            C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
-                "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
-                commify(upscaledheight * SCREENHEIGHT));
-            C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
-                commify(height * 4 / 3), commify(height));
-        }
-        else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear))
-            C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
-                SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
-        else
-            C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
-                "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3),
-                commify(height));
+            if (M_StringCompare(rendererinfo.name, vid_scaledriver_direct3d))
+                C_Output("The screen is rendered using hardware acceleration with the "
+                    "<b><i>Direct3D 9</b></i> API.");
+            else if (M_StringCompare(rendererinfo.name, vid_scaledriver_opengl))
+                C_Output("The screen is rendered using hardware acceleration with the "
+                    "<b><i>OpenGL</b></i> API.");
+            else if (M_StringCompare(rendererinfo.name, vid_scaledriver_software))
+                C_Output("The screen is rendered in software.");
 
-        if (vid_capfps)
-            C_Output("The framerate is capped at %i FPS.", TICRATE);
-        else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
-        {
-            SDL_DisplayMode     displaymode;
-
-            SDL_GetWindowDisplayMode(window, &displaymode);
-            C_Output("The framerate is capped at the display's refresh rate of %iHz.",
-                displaymode.refresh_rate);
-        }
-        else
-        {
-            if (vid_vsync)
+            if (nearestlinear)
             {
-                if (M_StringCompare(rendererinfo.name, "software"))
-                    C_Warning("Vertical synchronization can't be enabled in software.");
-                else
-                    C_Warning("Vertical synchronization can't be enabled.");
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
+                    "interpolation.", SCREENWIDTH, SCREENHEIGHT,
+                    commify(upscaledwidth * SCREENWIDTH), commify(upscaledheight * SCREENHEIGHT));
+                C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
+                    commify(height * 4 / 3), commify(height));
             }
-            C_Output("The framerate is uncapped.");
+            else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear))
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
+                    SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
+            else
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
+                    "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3),
+                    commify(height));
+
+            if (vid_capfps)
+                C_Output("The framerate is capped at %i FPS.", TICRATE);
+            else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+            {
+                SDL_DisplayMode     displaymode;
+
+                if (!SDL_GetWindowDisplayMode(window, &displaymode))
+                    C_Output("The framerate is capped at the display's refresh rate of %iHz.",
+                        displaymode.refresh_rate);
+            }
+            else
+            {
+                if (vid_vsync)
+                {
+                    if (M_StringCompare(rendererinfo.name, "software"))
+                        C_Warning("Vertical synchronization can't be enabled in software.");
+                    else
+                        C_Warning("Vertical synchronization can't be enabled.");
+                }
+
+                C_Output("The framerate is uncapped.");
+            }
         }
 
         C_Output("Using the 256-color palette from the <b>PLAYPAL</b> lump in %s file <b>%s</b>.",
@@ -1323,26 +1342,33 @@ static void SetVideoMode(dboolean output)
         }
     }
 
-    surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
+    if (!(surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
+        I_Error("SDL_CreateRGBSurface failed: %s", SDL_GetError());
 
     SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask,
         &amask);
-    buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask);
+    if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask,
+        amask)))
+        I_Error("SDL_CreateRGBSurface failed: %s", SDL_GetError());
     SDL_FillRect(buffer, NULL, 0);
 
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
             SDL_HINT_OVERRIDE);
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
-        SCREENWIDTH, SCREENHEIGHT);
+    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+        I_Error("SDL_CreateTexture failed: %s", SDL_GetError());
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
             SDL_HINT_OVERRIDE);
-    texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT);
+    if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+        I_Error("SDL_CreateTexture failed: %s", SDL_GetError());
 
-    palette = SDL_AllocPalette(256);
-    SDL_SetSurfacePalette(surface, palette);
+    if (!(palette = SDL_AllocPalette(256)))
+        I_Error("SDL_AllocPalette failed: %s", SDL_GetError());
+    if (SDL_SetSurfacePalette(surface, palette) < 0)
+        I_Error("SDL_SetSurfacePalette failed: %s", SDL_GetError());
 
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
