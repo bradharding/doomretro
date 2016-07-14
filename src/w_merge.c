@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 
+#include "doomstat.h"
 #include "i_system.h"
 #include "m_misc.h"
 #include "version.h"
@@ -279,7 +280,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
     if (M_StringCompare(leafname(lump->wad_file->path), PACKAGE_WAD)
         && (M_StringCompare(lump->name, "MISFA0") || M_StringCompare(lump->name, "MISFB0"))
-        && (MISFA0 > 2 || MISFB0 > 2))
+        && ((MISFA0 > 2 || MISFB0 > 2) || hacx))
         return;
 
     // first angle
