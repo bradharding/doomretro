@@ -109,9 +109,6 @@ int                     sfxVolume;
 // Maximum volume of music.
 int                     musicVolume;
 
-// Sound sample rate to use for digital output (Hz)
-int                     snd_samplerate = 44100;
-
 // Internal volume level, ranging from 0-127
 static int              snd_SfxVolume;
 
@@ -137,7 +134,7 @@ static void InitSfxModule(void)
     if (I_InitSound())
     {
         C_Output("Sound effects playing at a sample rate of %.1fkHz on %i channels.",
-            snd_samplerate / 1000.0f, numChannels);
+            SAMPLERATE / 1000.0f, numChannels);
         return;
     }
 

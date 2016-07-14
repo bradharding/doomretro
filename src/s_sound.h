@@ -42,7 +42,9 @@
 #include "r_defs.h"
 #include "sounds.h"
 
-extern int      snd_samplerate;
+// Sound sample rate to use for digital output (Hz)
+#define SAMPLERATE      44100
+
 extern dboolean s_randompitch;
 
 dboolean I_InitSound(void);

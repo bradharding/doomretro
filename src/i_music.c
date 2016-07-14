@@ -167,8 +167,8 @@ dboolean I_InitMusic(void)
     if (!SDLIsInitialized())
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             I_Error("Unable to set up sound: %s", SDL_GetError());
-        else if (Mix_OpenAudio(snd_samplerate, MIX_DEFAULT_FORMAT, CHANNELS,
-            SAMPLECOUNT * snd_samplerate / 11025) < 0)
+        else if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS,
+            SAMPLECOUNT * SAMPLERATE / 11025) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             I_Error("Error initializing SDL2_mixer: %s", Mix_GetError());

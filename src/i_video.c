@@ -183,7 +183,7 @@ int                     fps = 0;
 float                   m_acceleration = m_acceleration_default;
 int                     m_threshold = m_threshold_default;
 
-int                     capslock;
+static dboolean         capslock = false;
 dboolean                alwaysrun = alwaysrun_default;
 
 extern dboolean         am_external;
@@ -1494,7 +1494,7 @@ void I_InitKeyboard(void)
     if (key_alwaysrun == KEY_CAPSLOCK)
     {
 #if defined(WIN32)
-        capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
+        capslock = (dboolean)(GetKeyState(VK_CAPITAL) & 0x0001);
 
         if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
         {
