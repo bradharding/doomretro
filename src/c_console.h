@@ -112,6 +112,7 @@ void C_Warning(char *string, ...);
 void C_PlayerMessage(char *string, ...);
 void C_AddConsoleDivider(void);
 void C_Init(void);
+void C_ShowConsole(void);
 void C_HideConsole(void);
 void C_HideConsoleFast(void);
 void C_Drawer(void);

@@ -1496,9 +1496,8 @@ void G_DoSaveGame(void)
     if (!save_stream)
     {
         menuactive = false;
-        consoleheight = 1;
-        consoledirection = 1;
-        C_Warning("<b>%s</b> couldn't be saved.", savename);
+        C_ShowConsole();
+        C_Warning("%s couldn't be saved.", savename);
     }
     else
     {

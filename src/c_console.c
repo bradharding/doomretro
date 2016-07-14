@@ -511,6 +511,14 @@ void C_Init(void)
     consolecolors[playermessagestring] = consoleplayermessagecolor;
 }
 
+void C_ShowConsole(void)
+{
+    consoleheight = MAX(1, consoleheight);
+    consoledirection = 1;
+    showcaret = true;
+    caretwait = 0;
+}
+
 void C_HideConsole(void)
 {
     consoledirection = -1;
@@ -974,7 +982,7 @@ dboolean C_Responder(event_t *ev)
 
         if (key == key_console)
         {
-            consoledirection = -1;
+            C_HideConsole();
             return true;
         }
 
@@ -1236,7 +1244,7 @@ dboolean C_Responder(event_t *ev)
 
             // close console
             case KEY_ESCAPE:
-                consoledirection = -1;
+                C_HideConsole();
                 break;
 
             // change gamma correction level

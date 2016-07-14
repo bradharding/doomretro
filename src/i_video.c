@@ -1432,8 +1432,7 @@ void I_ToggleFullscreen(void)
         SDL_FALSE)) < 0)
     {
         menuactive = false;
-        consoleheight = 1;
-        consoledirection = 1;
+        C_ShowConsole();
         C_Warning("Unable to switch to %s mode.", (fullscreen ? "fullscreen" : "windowed"));
         return;
     }

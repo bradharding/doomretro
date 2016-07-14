@@ -989,8 +989,7 @@ void M_LoadSelect(int choice)
     else
     {
         menuactive = false;
-        consoleheight = 1;
-        consoledirection = 1;
+        C_ShowConsole();
         C_Warning("This savegame requires a different WAD.");
     }
 }
@@ -2617,8 +2616,7 @@ dboolean M_Responder(event_t *ev)
             keydown = key;
             if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !wipe)
             {
-                consoleheight = MAX(1, consoleheight);
-                consoledirection = 1;
+                C_ShowConsole();
                 return true;
             }
             return false;
