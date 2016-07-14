@@ -841,18 +841,21 @@ void C_Drawer(void)
         }
 
         // draw caret
-        if (caretwait < I_GetTimeMS())
+        if (consoledirection == 1)
         {
-            showcaret = !showcaret;
-            caretwait = I_GetTimeMS() + caretblinktime;
+            if (caretwait < I_GetTimeMS())
+            {
+                showcaret = !showcaret;
+                caretwait = I_GetTimeMS() + caretblinktime;
+            }
+            if (showcaret)
+                if (selectend > caretpos)
+                    V_DrawConsolePatch(x, consoleheight - 17, caret, consoleselectedinputcolor,
+                        consoleselectedinputbackgroundcolor, false, NULL);
+                else
+                    V_DrawConsolePatch(x, consoleheight - 17, caret, consolecaretcolor,
+                        NOBACKGROUNDCOLOR, false, NULL);
         }
-        if (showcaret)
-            if (selectend > caretpos)
-                V_DrawConsolePatch(x, consoleheight - 17, caret, consoleselectedinputcolor,
-                    consoleselectedinputbackgroundcolor, false, NULL);
-            else
-                V_DrawConsolePatch(x, consoleheight - 17, caret, consolecaretcolor,
-                    NOBACKGROUNDCOLOR, false, NULL);
         x += SHORT(caret->width);
 
         // draw any selected text to right of caret
