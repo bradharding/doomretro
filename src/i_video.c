@@ -1398,7 +1398,8 @@ void I_ToggleWidescreen(dboolean toggle)
     {
         vid_widescreen = false;
 
-        ST_doRefresh();
+        if (gamestate == GS_LEVEL)
+            ST_doRefresh();
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
