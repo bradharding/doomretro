@@ -195,12 +195,11 @@ char *M_GetAppDataFolder(void)
 char *M_GetResourceFolder(void)
 {
     char        *executableFolder = M_GetExecutableFolder();
-
 #if defined(__linux__) || defined(__MACOSX__)
     // On Linux and OS X, first assume that the executable is in .../bin and
     // try to load resources from .../share/doomretro.
-    char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S ".."
-                    DIR_SEPARATOR_S "share" DIR_SEPARATOR_S "doomretro", NULL);
+    char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
+                    DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
     DIR         *resourceDir = opendir(resourceFolder);
 
     if (resourceDir)
@@ -208,10 +207,12 @@ char *M_GetResourceFolder(void)
         closedir(resourceDir);
         return resourceFolder;
     }
+
 #if defined(__MACOSX__)
     // On OSX, load resources from the Contents/Resources folder within the application bundle
     // if ../share/doomretro is not available.
     NSURL       *resourceURL = [NSBundle mainBundle].resourceURL;
+
     return resourceURL.fileSystemRepresentation;
 #else
     // And on Linux, fall back to the same folder as the executable.
