@@ -639,7 +639,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_corpses_nudge, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles corpses being nudged when monsters walk over them."),
     CVAR_BOOL(r_corpses_slide, "", bool_cvars_func1, bool_cvars_func2,
-        "Toggles corpses reacting to barrel and rocket explosions."),
+        "Toggles corpses sliding when near barrel and rocket explosions."),
     CVAR_BOOL(r_corpses_smearblood, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles corpses leaving blood splats as they slide."),
     CVAR_BOOL(r_detail, "", r_detail_cvar_func1, r_detail_cvar_func2,
