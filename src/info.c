@@ -1907,7 +1907,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_FATT_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 2 * FRACUNIT,
         /* name1                */ "mancubus",
         /* plural1              */ "mancubi",
         /* name2                */ "",
