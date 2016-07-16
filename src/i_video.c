@@ -1271,15 +1271,20 @@ static void SetVideoMode(dboolean output)
     {
         SDL_RendererInfo        rendererinfo;
         wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
-
         if (!SDL_GetRendererInfo(renderer, &rendererinfo))
         {
             if (M_StringCompare(rendererinfo.name, vid_scaledriver_direct3d))
                 C_Output("The screen is rendered using hardware acceleration with the "
                     "<b><i>Direct3D 9</b></i> API.");
             else if (M_StringCompare(rendererinfo.name, vid_scaledriver_opengl))
+            {
+                int     major, minor;
+
+                SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
+                SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
                 C_Output("The screen is rendered using hardware acceleration with the "
-                    "<b><i>OpenGL</b></i> API.");
+                    "<b><i>OpenGL %i.%i</b></i> API.", major, minor);
+            }
             else if (M_StringCompare(rendererinfo.name, vid_scaledriver_software))
                 C_Output("The screen is rendered in software.");
 
