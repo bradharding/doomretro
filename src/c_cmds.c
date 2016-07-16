@@ -3283,6 +3283,9 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             if (value >= 0 && player->playerstate == PST_LIVE && !(player->cheats & CF_GODMODE)
                 && !player->powers[pw_invulnerability])
             {
+                if (!player->mo)
+                    return;
+
                 player->health = player->mo->health = MIN(value, maxhealth);
                 if (!value)
                 {
