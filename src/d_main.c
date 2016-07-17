@@ -1274,7 +1274,7 @@ static int D_ChooseIWAD(void)
                         iwadfound = 1;
                     else
                     {
-                        static char fullpath2[MAX_PATH];
+                        static char     fullpath2[MAX_PATH];
 
                         // otherwise try the iwadfolder setting in doomretro.cfg
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
@@ -1493,9 +1493,9 @@ static void D_DoomMainSetup(void)
     p = M_CheckParmWithArgs("-config", 1, 1);
     M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
 
-    if ((fastparm = M_CheckParm("-respawn")))
+    if ((respawnparm = M_CheckParm("-respawn")))
         C_Output("\"-RESPAWN\" was found on the command-line. Monsters will be respawned.");
-    else if ((fastparm = M_CheckParm("-respawnmonsters")))
+    else if ((respawnparm = M_CheckParm("-respawnmonsters")))
         C_Output("\"-RESPAWNMONSTERS\" was found on the command-line. Monsters will be "
             "respawned.");
 
