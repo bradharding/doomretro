@@ -1153,15 +1153,14 @@ static void SetVideoMode(dboolean output)
         nearestlinear = true;
     else
     {
+        nearestlinear = false;
+
         if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
             && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest))
         {
             vid_scalefilter = vid_scalefilter_default;
-            nearestlinear = true;
             M_SaveCVARs();
         }
-        else
-            nearestlinear = false;
 
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
@@ -1271,6 +1270,7 @@ static void SetVideoMode(dboolean output)
     {
         SDL_RendererInfo        rendererinfo;
         wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
+
         if (!SDL_GetRendererInfo(renderer, &rendererinfo))
         {
             if (M_StringCompare(rendererinfo.name, vid_scaledriver_direct3d))

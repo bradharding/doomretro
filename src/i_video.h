@@ -122,8 +122,6 @@ extern int              windowy;
 extern int              windowheight;
 extern int              windowwidth;
 
-extern dboolean         nearestlinear;
-
 extern SDL_Window       *window;
 extern SDL_Renderer     *renderer;
 
