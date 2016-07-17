@@ -156,7 +156,7 @@ static dboolean SDLIsInitialized(void)
     int         freq, channels;
     Uint16      format;
 
-    return (!!Mix_QuerySpec(&freq, &format, &channels));
+    return !!Mix_QuerySpec(&freq, &format, &channels);
 }
 
 // Initialize music subsystem
@@ -166,12 +166,12 @@ dboolean I_InitMusic(void)
     // and have the responsibility to shut it down later on.
     if (!SDLIsInitialized())
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-            I_Error("Unable to set up sound: %s", SDL_GetError());
+            return false;
         else if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS,
             SAMPLECOUNT * SAMPLERATE / 11025) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
-            I_Error("Error initializing SDL2_mixer: %s", Mix_GetError());
+            return false;
         }
 
     SDL_PauseAudio(0);

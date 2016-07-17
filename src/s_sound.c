@@ -127,6 +127,9 @@ int                     numChannels = 32;
 dboolean                s_randommusic = s_randommusic_default;
 dboolean                s_randompitch = s_randompitch_default;
 
+dboolean                nosfx = false;
+dboolean                nomusic = false;
+
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
 static void InitSfxModule(void)
@@ -138,7 +141,8 @@ static void InitSfxModule(void)
         return;
     }
 
-    C_Output("The initialization of sound effects failed.");
+    C_Warning("Sound effects couldn't be initialized.");
+    nosfx = true;
 }
 
 // Initialize music according to snd_musicdevice.
@@ -152,11 +156,9 @@ static void InitMusicModule(void)
         return;
     }
 
-    C_Warning("The initialization of music failed.");
+    C_Warning("Music couldn't be initialized.");
+    nomusic = true;
 }
-
-dboolean        nosfx = false;
-dboolean        nomusic = false;
 
 //
 // Initializes sound stuff, including volume
