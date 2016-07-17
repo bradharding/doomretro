@@ -198,7 +198,7 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
                 infoname = "10";
 
-            C_Output("Running on Microsoft Windows %s%s%s%s%ws%s%s.",
+            C_Output("Running on <i>Microsoft Windows %s%s%s%s%ws%s%s</i>.",
                 infoname, (strlen(typename) ? " " : ""), (strlen(typename) ? typename : ""),
                 (wcslen(info.szCSDVersion) ? " (" : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""),
