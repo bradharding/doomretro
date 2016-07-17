@@ -524,8 +524,8 @@ static void AM_maxOutWindowScale(void)
     AM_activateNewScale();
 }
 
-SDL_Keymod      modstate;
-dboolean        speedtoggle;
+static SDL_Keymod       modstate;
+static dboolean         speedtoggle;
 
 static dboolean AM_getSpeedToggle(void)
 {

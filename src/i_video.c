@@ -389,7 +389,6 @@ static void CenterMouse(void)
 
 dboolean        altdown = false;
 dboolean        waspaused = false;
-
 dboolean        noinput = true;
 
 static void I_GetEvent(void)
