@@ -630,7 +630,8 @@ dboolean I_InitSound(void)
     if (Mix_OpenAudio(SAMPLERATE, AUDIO_S16SYS, 2, GetSliceSize()) < 0)
         return false;
 
-    Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels);
+    if (!Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels))
+        return false;
 
     Mix_AllocateChannels(NUM_CHANNELS);
 
