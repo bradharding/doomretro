@@ -693,7 +693,7 @@ char *removeext(const char *file)
 
 dboolean isvowel(const char ch)
 {
-    return (!!strchr("aeiou", ch));
+    return !!strchr("aeiou", ch);
 }
 
 static const char       *sizes[] = { "MB", "KB", " bytes" };

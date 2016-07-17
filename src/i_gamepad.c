@@ -93,7 +93,10 @@ void I_InitGamepad(void)
         I_PollThumbs_DirectInput_RightHanded);
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
+    {
+        C_Warning("Gamepads couldn't be initialized.");
         return;
+    }
     else
     {
         int     i;
