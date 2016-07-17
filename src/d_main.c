@@ -611,11 +611,18 @@ static void LoadCfgFile(char *path)
 
 static dboolean D_IsDOOMIWAD(char *filename)
 {
+    dboolean    result;
     const char  *leaf = leafname(filename);
 
-    return (M_StringCompare(leaf, "DOOM.WAD") || M_StringCompare(leaf, "DOOM1.WAD")
+    result = (M_StringCompare(leaf, "DOOM.WAD") || M_StringCompare(leaf, "DOOM1.WAD")
         || M_StringCompare(leaf, "DOOM2.WAD") || M_StringCompare(leaf, "PLUTONIA.WAD")
         || M_StringCompare(leaf, "TNT.WAD") || (hacx = M_StringCompare(leaf, "HACX.WAD")));
+
+    if (result && W_WadType(filename) == PWAD)
+        C_Warning("The header of %s appears to be incorrect. It should be an IWAD rather than a "
+            "PWAD.", leaf);
+
+    return result;
 }
 
 static dboolean D_IsUnsupportedIWAD(char *filename)
