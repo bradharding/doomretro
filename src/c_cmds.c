@@ -3306,7 +3306,12 @@ static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 {
     if (*parm1)
     {
-        if (!M_StringCompare(parm1, EMPTYVALUE))
+        if (M_StringCompare(parm1, EMPTYVALUE) && *playername)
+        {
+            playername = "";
+            M_SaveCVARs();
+        }
+        else if (!M_StringCompare(parm1, playername))
         {
             playername = strdup(parm1);
             M_SaveCVARs();
