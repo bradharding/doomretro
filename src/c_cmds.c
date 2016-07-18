@@ -421,6 +421,7 @@ static int C_LookupValueFromAlias(const char *text, int aliastype)
             return aliases[i].value;
         ++i;
     }
+
     return -1;
 }
 
@@ -434,6 +435,7 @@ static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
             return aliases[i].text;
         ++i;
     }
+
     return commify(value);
 }
 
@@ -843,6 +845,7 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
 
         ++i;
     }
+
     M_SaveCVARs();
 }
 
@@ -984,7 +987,7 @@ static void C_DisplayBinds(char *action, int value, controltype_t type, int coun
     {
         if (controls[i].type == type && controls[i].value == value)
         {
-            char *control = controls[i].control;
+            char        *control = controls[i].control;
 
             if (strlen(control) == 1)
                 C_TabbedOutput(tabs, "%i.\t\'%s\'\t%s", count, (control[0] == '=' ? "+" : control),
@@ -2954,7 +2957,7 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             {
                 int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
-                if (value == 0 || value == 1)
+                if ((value == 0 || value == 1) && value != *(dboolean *)consolecmds[i].variable)
                 {
                     *(dboolean *)consolecmds[i].variable = !!value;
                     M_SaveCVARs();
@@ -3018,7 +3021,7 @@ static void float_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
                 sscanf(parm1, "%10f", &value);
 
-                if (value >= 0.0f)
+                if (value >= 0.0f && value != *(float *)consolecmds[i].variable)
                 {
                     *(float *)consolecmds[i].variable = value;
                     M_SaveCVARs();
@@ -3073,7 +3076,7 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 if (value < 0)
                     sscanf(parm1, "%10i", &value);
 
-                if (value >= 0)
+                if (value >= 0 && value != *(int *)consolecmds[i].variable)
                 {
                     *(int *)consolecmds[i].variable = value;
                     M_SaveCVARs();
@@ -3101,12 +3104,12 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_STRING))
         {
-            if (M_StringCompare(parm1, EMPTYVALUE))
+            if (M_StringCompare(parm1, EMPTYVALUE) && **(char **)consolecmds[i].variable)
             {
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
-            else if (*parm1)
+            else if (*parm1 && M_StringCompare(parm1, *(char **)consolecmds[i].variable))
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
                 M_SaveCVARs();
@@ -3197,17 +3200,20 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%10f", &value);
 
-        if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
+        if (M_StringCompare(cmd, stringize(gp_deadzone_left)) && gp_deadzone_left != value)
         {
             gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
             gamepadleftdeadzone = (short)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
+
+            M_SaveCVARs();
         }
-        else
+        else if (gp_deadzone_right != value)
         {
             gp_deadzone_right = BETWEENF(gp_deadzone_right_min, value, gp_deadzone_right_max);
             gamepadrightdeadzone = (short)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
+
+            M_SaveCVARs();
         }
-        M_SaveCVARs();
     }
     else
         C_Output("%s%%", striptrailingzero((M_StringCompare(cmd, stringize(gp_deadzone_left)) ?
@@ -3222,7 +3228,7 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 
         sscanf(parm1, "%10i", &value);
 
-        if (value >= gp_sensitivity_min && value <= gp_sensitivity_max)
+        if (value >= gp_sensitivity_min && value <= gp_sensitivity_max && gp_sensitivity != value)
         {
             gp_sensitivity = value;
             M_SaveCVARs();
@@ -3337,7 +3343,7 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         int     value = C_LookupValueFromAlias(parm1, BLOODALIAS);
 
-        if (value >= 0)
+        if (value >= 0 && r_blood != value)
         {
             r_blood = value;
             P_BloodSplatSpawner = (r_blood == r_blood_none ? P_NullBloodSplatSpawner :
@@ -3361,9 +3367,9 @@ static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
 {
     if (*parm1)
     {
-        int value = C_LookupValueFromAlias(parm1, DETAILALIAS);
+        int     value = C_LookupValueFromAlias(parm1, DETAILALIAS);
 
-        if (value == 0 || value == 1)
+        if ((value == 0 || value == 1) && r_detail != value)
         {
             r_detail = !!value;
             M_SaveCVARs();
@@ -3401,7 +3407,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         else
             sscanf(parm1, "%10f", &value);
 
-        if (value >= 0.0f)
+        if (value >= 0.0f && r_gamma != value)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
@@ -3451,7 +3457,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parm1, char *parm2, char *p
 
         sscanf(parm1, "%10i", &value);
 
-        if (value >= r_screensize_min && value <= r_screensize_max)
+        if (value >= r_screensize_min && value <= r_screensize_max && value != r_screensize)
         {
             if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
@@ -3557,23 +3563,26 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
 
         if (parm1[strlen(parm1) - 1] == '%')
             parm1[strlen(parm1) - 1] = 0;
+
         sscanf(parm1, "%10i", &value);
 
-        if (M_StringCompare(cmd, stringize(s_musicvolume)))
+        if (M_StringCompare(cmd, stringize(s_musicvolume)) && s_musicvolume != value)
         {
             s_musicvolume = value;
             musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume,
                 s_musicvolume_max) * 15 + 50) / 100;
             S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
+
+            M_SaveCVARs();
         }
-        else
+        else if (s_sfxvolume != value)
         {
             s_sfxvolume = value;
             sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 15 + 50) / 100;
             S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
-        }
 
-        M_SaveCVARs();
+            M_SaveCVARs();
+        }
     }
     else
         C_Output("%i%%", (M_StringCompare(cmd, stringize(s_musicvolume)) ? s_musicvolume :
@@ -3591,6 +3600,7 @@ static dboolean turbo_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm
         return true;
 
     sscanf(parm1, "%10i", &value);
+
     return (value >= turbo_min && value <= turbo_max);
 }
 
@@ -3666,7 +3676,7 @@ static void vid_scaledriver_cvar_func2(char *cmd, char *parm1, char *parm2, char
 {
     if (*parm1)
     {
-        if (M_StringCompare(parm1, EMPTYVALUE))
+        if (M_StringCompare(parm1, EMPTYVALUE) && *vid_scaledriver)
         {
             vid_scaledriver = "";
             M_SaveCVARs();
