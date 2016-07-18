@@ -711,8 +711,8 @@ static void HU_DrawAltHUD(void)
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     if (health > 100)
     {
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, color);
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health - 100, 8, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 100 + 1, 8, color);
+        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, health - 100 + 1, 8, color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE, color);
@@ -735,12 +735,12 @@ static void HU_DrawAltHUD(void)
         DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color);
         if (armor > 100)
         {
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, 101, 4, color);
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor - 100, 4, color);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, 100 + 1, 4, color);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor - 100 + 1, 4, color);
 
         }
         else
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor, 4, color);
+            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor + 1, 4, color);
     }
     else
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, darkgray);
