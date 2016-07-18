@@ -61,8 +61,7 @@ typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL(WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef BOOL(WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
-#define PRODUCT_PROFESSIONAL    0x00000030
-#define PRODUCT_CORE            0x00000065
+#define PRODUCT_CORE    0x00000065
 
 void I_PrintWindowsVersion(void)
 {
@@ -161,18 +160,7 @@ void I_PrintWindowsVersion(void)
                 typename = "Home";
         }
 
-        if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
-        {
-            infoname = (info.dwMinorVersion < 10 ? "95" :
-                (info.dwMinorVersion < 90 ? "98" : "Me"));
-
-            C_Output("Running on Microsoft Windows %s%s%s%s%ws%s%s.",
-                infoname, (strlen(typename) ? " " : ""), (strlen(typename) ? typename : ""),
-                (wcslen(info.szCSDVersion) ? " (" : ""),
-                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""),
-                (wcslen(info.szCSDVersion) ? ")" : ""), bits);
-        }
-        else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
+        if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
             infoname = "NT";
             if (info.dwMajorVersion == 5)
