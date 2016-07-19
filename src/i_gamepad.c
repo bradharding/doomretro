@@ -94,7 +94,7 @@ void I_InitGamepad(void)
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
     {
-        C_Warning("Gamepads couldn't be initialized.");
+        C_Warning("Gamepad support couldn't be initialized.");
         return;
     }
     else

@@ -88,7 +88,6 @@ dboolean        M_SVOL = false;
 int             STARMS = 0;
 int             STBAR = 0;
 dboolean        STCFN034 = false;
-dboolean        STCFN039 = false;
 dboolean        STCFN121 = false;
 dboolean        STYSNUM0 = false;
 dboolean        TITLEPIC = false;

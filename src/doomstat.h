@@ -128,7 +128,6 @@ extern dboolean         M_SVOL;
 extern int              STARMS;
 extern int              STBAR;
 extern dboolean         STCFN034;
-extern dboolean         STCFN039;
 extern dboolean         STCFN121;
 extern dboolean         STYSNUM0;
 extern dboolean         TITLEPIC;

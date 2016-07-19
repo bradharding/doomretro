@@ -2915,7 +2915,7 @@ static void thinglist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3
 
     for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
-        mobj_t      *mobj = (mobj_t *)th;
+        mobj_t  *mobj = (mobj_t *)th;
 
         C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, mobjinfo[mobj->type].name1,
             mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);

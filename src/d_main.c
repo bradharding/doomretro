@@ -1629,7 +1629,6 @@ static void D_DoomMainSetup(void)
     STARMS = W_CheckMultipleLumps("STARMS");
     STBAR = W_CheckMultipleLumps("STBAR");
     STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
-    STCFN039 = (W_CheckMultipleLumps("STCFN039") > 1);
     STCFN121 = (W_CheckMultipleLumps("STCFN121") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
@@ -1696,7 +1695,7 @@ static void D_DoomMainSetup(void)
                 "Hey, not too rough",
                 "Hurt me plenty",
                 "Ultra-Violence",
-                "Nightmare"             
+                "Nightmare"
             };
 
             skilllevel = startskill = (skill_t)temp;
