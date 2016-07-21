@@ -196,10 +196,6 @@ void ST_doRefresh(void);
 
 dboolean MouseShouldBeGrabbed(void)
 {
-    // if the window doesn't have focus, never grab it
-    if (!window_focused)
-        return false;
-
     // always grab the mouse when full screen (don't want to
     // see the mouse pointer)
     if (vid_fullscreen)
@@ -207,6 +203,10 @@ dboolean MouseShouldBeGrabbed(void)
 
     // when menu is active or game is paused, release the mouse
     if (menuactive || consoleactive || paused)
+        return false;
+
+    // if the window doesn't have focus, never grab it
+    if (!window_focused)
         return false;
 
     // only grab mouse when playing levels
@@ -1498,7 +1498,7 @@ void I_InitKeyboard(void)
     if (key_alwaysrun == KEY_CAPSLOCK)
     {
 #if defined(WIN32)
-        capslock = (dboolean)(GetKeyState(VK_CAPITAL) & 0x0001);
+        capslock = !!(GetKeyState(VK_CAPITAL) & 0x0001);
 
         if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
         {
@@ -1561,7 +1561,7 @@ void I_InitGraphics(void)
 #endif
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-        I_Error("I_InitGraphics: %s", SDL_GetError());
+        I_Error("SDL_InitSubSystem failed: %s", SDL_GetError());
 
     displays = Z_Malloc(MAXDISPLAYS, PU_STATIC, NULL);
     GetDisplays();

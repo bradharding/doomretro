@@ -735,10 +735,11 @@ static void C_DrawTimeStamp(int x, int y, char *text)
     for (i = 0; i < len; ++i)
     {
         patch_t *patch = consolefont[text[i] - CONSOLEFONTSTART];
+        int     width = SHORT(patch->width);
 
-        V_DrawConsolePatch(x + (text[i] == '1' ? (zerowidth - SHORT(patch->width)) / 2 : 0), y,
-            patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
-        x += (isdigit(text[i]) ? zerowidth : SHORT(patch->width));
+        V_DrawConsolePatch(x + (text[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch,
+            consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
+        x += (isdigit(text[i]) ? zerowidth : width);
     }
 }
 
@@ -763,9 +764,9 @@ void C_Drawer(void)
         int             x = CONSOLETEXTX;
         int             start;
         int             end;
-        char            *lefttext = Z_Malloc(512, PU_STATIC, NULL);
-        char            *middletext = Z_Malloc(512, PU_STATIC, NULL);
-        char            *righttext = Z_Malloc(512, PU_STATIC, NULL);
+        char            *lefttext = malloc(512 * sizeof(char));
+        char            *middletext = malloc(512 * sizeof(char));
+        char            *righttext = malloc(512 * sizeof(char));
         dboolean        prevconsoleactive = consoleactive;
 
         // adjust console height
@@ -891,9 +892,9 @@ void C_Drawer(void)
                     NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false);
         }
 
-        Z_Free(lefttext);
-        Z_Free(middletext);
-        Z_Free(righttext);
+        free(lefttext);
+        free(middletext);
+        free(righttext);
 
         // draw the scrollbar
         C_DrawScrollbar();
