@@ -1168,7 +1168,8 @@ void WI_loadData(void)
     // Background image
     if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))
     {
-        M_StringCopy(bg_lumpname, (DMENUPIC ? "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
+        M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ?
+            "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
         bg_lumpname[8] = '\0';
     }
     else
