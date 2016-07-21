@@ -1529,13 +1529,16 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
         || (*playername && M_StringCompare(parm, playername)))
     {
-        players[0].health = 0;
-        P_KillMobj(players[0].mo, players[0].mo);
+        player_t    *player = &players[0];
+
+        player->health = 0;
+        player->attacker = NULL;
+        P_KillMobj(player->mo, player->mo);
         M_snprintf(buffer, sizeof(buffer), "%s killed %s", playername,
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));
         buffer[0] = toupper(buffer[0]);
         C_Output("%s.", buffer);
-        players[0].message = buffer;
+        player->message = buffer;
         message_dontfuckwithme = true;
         C_HideConsole();
     }
