@@ -1997,7 +1997,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     && (pwad || !BTSX))
                     if (BTSX)
                     {
-                        if (strchr(*mapnames2[map], ':'))
+                        if (!M_StringCompare(wad, "doom2.wad"))
                             M_snprintf(maplist[count++], 256, "%s",
                                 M_StringReplace(*mapnames2[map], ": ", "\t"));
                     }
