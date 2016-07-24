@@ -1850,6 +1850,7 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 
                 if (sscanf(map, "MAP0%1i", &mapcmdmap) == 1
                     || sscanf(map, "MAP%2i", &mapcmdmap) == 1)
+                {
                     if (!((BTSX && W_CheckMultipleLumps(map) == 1)
                         || (gamemission == pack_nerve && mapcmdmap > 9)))
                     {
@@ -1860,8 +1861,8 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
                         }
                         result = (W_CheckNumForName(map) >= 0);
                     }
-
-                if (BTSX)
+                }
+                else if (BTSX)
                 {
                     if (sscanf(map, "MAP%02iC", &mapcmdmap) == 1)
                         result = (W_CheckNumForName(map) >= 0);
