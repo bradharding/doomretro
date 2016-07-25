@@ -784,8 +784,10 @@ int             iquetail;
 //
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
-        && (mobj->type != MT_INV) && (mobj->type != MT_INS))
+    int         flags = mobj->flags;
+    mobjtype_t  type = mobj->type;
+
+    if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED) && type != MT_INV && type != MT_INS)
     {
         itemrespawnque[iquehead] = mobj->spawnpoint;
         itemrespawntime[iquehead] = leveltime;
@@ -844,54 +846,6 @@ void P_RemoveMobjShadow(mobj_t *mobj)
 }
 
 //
-// P_RespawnSpecials
-//
-void P_RespawnSpecials(void)
-{
-    fixed_t     x, y, z;
-    subsector_t *ss;
-    mobj_t      *mo;
-    mapthing_t  *mthing;
-    int         i;
-
-    if (!respawnitems)
-        return;
-
-    // nothing left to respawn?
-    if (iquehead == iquetail)
-        return;
-
-    // wait at least 30 seconds
-    if (leveltime - itemrespawntime[iquetail] < 30 * TICRATE)
-        return;
-
-    mthing = &itemrespawnque[iquetail];
-
-    x = mthing->x << FRACBITS;
-    y = mthing->y << FRACBITS;
-
-    // spawn a teleport fog at the new spot
-    ss = R_PointInSubsector(x, y);
-    mo = P_SpawnMobj(x, y, ss->sector->floorheight, MT_IFOG);
-    S_StartSound(mo, sfx_itmbk);
-
-    // find which type to spawn
-    for (i = 0; i < NUMMOBJTYPES; i++)
-        if (mthing->type == mobjinfo[i].doomednum)
-            break;
-
-    // spawn it
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
-
-    mo = P_SpawnMobj(x, y, z, i);
-    mo->spawnpoint = *mthing;
-    mo->angle = ANG45 * (mthing->angle / 45);
-
-    // pull it from the que
-    iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
-}
-
-//
 // P_FindDoomedNum
 // Finds a mobj type with a matching doomednum
 // killough 8/24/98: rewrote to use hashing
@@ -925,6 +879,53 @@ mobjtype_t P_FindDoomedNum(unsigned int type)
     while ((i < NUMMOBJTYPES) && ((unsigned int)mobjinfo[i].doomednum != type))
         i = hash[i].next;
     return i;
+}
+
+//
+// P_RespawnSpecials
+//
+void P_RespawnSpecials(void)
+{
+    fixed_t     x, y, z;
+    subsector_t *ss;
+    mobj_t      *mo;
+    mapthing_t  *mthing;
+    int         i;
+
+    if (!respawnitems)
+        return;
+
+    // nothing left to respawn?
+    if (iquehead == iquetail)
+        return;
+
+    // wait at least 30 seconds
+    if (leveltime - itemrespawntime[iquetail] < 30 * TICRATE)
+        return;
+
+    mthing = &itemrespawnque[iquetail];
+
+    x = mthing->x << FRACBITS;
+    y = mthing->y << FRACBITS;
+
+    // spawn a teleport fog at the new spot
+    ss = R_PointInSubsector(x, y);
+    mo = P_SpawnMobj(x, y, ss->sector->floorheight, MT_IFOG);
+    S_StartSound(mo, sfx_itmbk);
+
+    // find which type to spawn
+    // killough 8/23/98: use table for faster lookup
+    i = P_FindDoomedNum(mthing->type);
+
+    // spawn it
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+
+    mo = P_SpawnMobj(x, y, z, i);
+    mo->spawnpoint = *mthing;
+    mo->angle = ANG45 * (mthing->angle / 45);
+
+    // pull it from the que
+    iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
 }
 
 //

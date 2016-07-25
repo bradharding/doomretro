@@ -110,7 +110,7 @@ void P_ResurrectPlayer(player_t *player);
 #define ONCEILINGZ              INT_MAX
 
 // Time interval for item respawning.
-#define ITEMQUEUESIZE           128
+#define ITEMQUEUESIZE           512
 
 #define CARDNOTFOUNDYET         -1
 #define CARDNOTINMAP            0
