@@ -669,7 +669,7 @@ void P_MobjThinker(mobj_t *mobj)
     else
     {
         // check for nightmare respawn
-        if ((flags & MF_COUNTKILL) && (gameskill == sk_nightmare || respawnparm))
+        if ((flags & MF_COUNTKILL) && (gameskill == sk_nightmare || respawnmonsters))
         {
             mobj->movecount++;
 
@@ -774,11 +774,28 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     return mobj;
 }
 
+mapthing_t      itemrespawnque[ITEMQUEUESIZE];
+int             itemrespawntime[ITEMQUEUESIZE];
+int             iquehead;
+int             iquetail;
+
 //
 // P_RemoveMobj
 //
 void P_RemoveMobj(mobj_t *mobj)
 {
+    if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
+        && (mobj->type != MT_INV) && (mobj->type != MT_INS))
+    {
+        itemrespawnque[iquehead] = mobj->spawnpoint;
+        itemrespawntime[iquehead] = leveltime;
+        iquehead = (iquehead + 1) & (ITEMQUEUESIZE - 1);
+
+        // lose one off the end?
+        if (iquehead == iquetail)
+            iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
+    }
+
     P_RemoveMobjShadow(mobj);
 
     // unlink from sector and block lists
@@ -824,6 +841,54 @@ void P_RemoveMobjShadow(mobj_t *mobj)
     }
 
     mobj->shadow = NULL;
+}
+
+//
+// P_RespawnSpecials
+//
+void P_RespawnSpecials(void)
+{
+    fixed_t     x, y, z;
+    subsector_t *ss;
+    mobj_t      *mo;
+    mapthing_t  *mthing;
+    int         i;
+
+    if (!respawnitems)
+        return;
+
+    // nothing left to respawn?
+    if (iquehead == iquetail)
+        return;
+
+    // wait at least 30 seconds
+    if (leveltime - itemrespawntime[iquetail] < 30 * TICRATE)
+        return;
+
+    mthing = &itemrespawnque[iquetail];
+
+    x = mthing->x << FRACBITS;
+    y = mthing->y << FRACBITS;
+
+    // spawn a teleport fog at the new spot
+    ss = R_PointInSubsector(x, y);
+    mo = P_SpawnMobj(x, y, ss->sector->floorheight, MT_IFOG);
+    S_StartSound(mo, sfx_itmbk);
+
+    // find which type to spawn
+    for (i = 0; i < NUMMOBJTYPES; i++)
+        if (mthing->type == mobjinfo[i].doomednum)
+            break;
+
+    // spawn it
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+
+    mo = P_SpawnMobj(x, y, z, i);
+    mo->spawnpoint = *mthing;
+    mo->angle = ANG45 * (mthing->angle / 45);
+
+    // pull it from the que
+    iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
 }
 
 //

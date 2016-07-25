@@ -353,6 +353,7 @@ static void playerstats_cmd_func2(char *, char *, char *, char *);
 static void quit_cmd_func2(char *, char *, char *, char *);
 static void reset_cmd_func2(char *, char *, char *, char *);
 static void resetall_cmd_func2(char *, char *, char *, char *);
+static void respawnitems_cmd_func2(char *, char *, char *, char *);
 static dboolean respawnmonsters_cmd_func1(char *, char *, char *, char *);
 static void respawnmonsters_cmd_func2(char *, char *, char *, char *);
 static dboolean resurrect_cmd_func1(char *, char *, char *, char *);
@@ -690,6 +691,8 @@ consolecmd_t consolecmds[] =
         "Resets a console variable to its default value."),
     CMD(resetall, "", null_func1, resetall_cmd_func2, 0, "",
         "Resets all console variables to their default values."),
+    CMD(respawnitems, "", null_func1, respawnitems_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
+        "Toggles respawning items."),
     CMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles respawning monsters."),
     CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "",
@@ -2708,6 +2711,26 @@ static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
+// respawnitems cmd
+//
+static void respawnitems_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0)
+            respawnitems = false;
+        else if (value == 1)
+            respawnitems = true;
+    }
+    else
+        respawnitems = !respawnitems;
+
+    HU_PlayerMessage((respawnitems ? s_STSTR_RION : s_STSTR_RIOFF), false);
+}
+
+//
 // respawnmonsters cmd
 //
 static dboolean respawnmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -2722,14 +2745,14 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char 
         int     value = C_LookupValueFromAlias(parm1, 1);
 
         if (value == 0)
-            respawnparm = false;
+            respawnmonsters = false;
         else if (value == 1)
-            respawnparm = true;
+            respawnmonsters = true;
     }
     else
-        respawnparm = !respawnparm;
+        respawnmonsters = !respawnmonsters;
 
-    HU_PlayerMessage((respawnparm ? s_STSTR_RMON : s_STSTR_RMOFF), false);
+    HU_PlayerMessage((respawnmonsters ? s_STSTR_RMON : s_STSTR_RMOFF), false);
 }
 
 //

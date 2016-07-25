@@ -104,11 +104,12 @@ int                     turbo = turbo_default;
 
 char                    *packageconfig;
 
-dboolean                devparm;        // started game with -devparm
-dboolean                nomonsters;     // checkparm of -nomonsters
-dboolean                respawnparm;    // checkparm of -respawn
-dboolean                pistolstart;    // [BH] checkparm of -pistolstart
-dboolean                fastparm;       // checkparm of -fast
+dboolean                devparm;                // started game with -devparm
+dboolean                nomonsters;             // checkparm of -nomonsters
+dboolean                respawnitems = false;
+dboolean                respawnmonsters;        // checkparm of -respawn
+dboolean                pistolstart;            // [BH] checkparm of -pistolstart
+dboolean                fastparm;               // checkparm of -fast
 
 unsigned int            stat_runs = 0;
 
@@ -1493,9 +1494,9 @@ static void D_DoomMainSetup(void)
     p = M_CheckParmWithArgs("-config", 1, 1);
     M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
 
-    if ((respawnparm = M_CheckParm("-respawn")))
+    if ((respawnmonsters = M_CheckParm("-respawn")))
         C_Output("<b>-respawn</b> was found on the command-line. Monsters will be respawned.");
-    else if ((respawnparm = M_CheckParm("-respawnmonsters")))
+    else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
         C_Output("<b>-respawnmonsters</b> was found on the command-line. Monsters will be "
             "respawned.");
 

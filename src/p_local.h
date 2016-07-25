@@ -125,6 +125,13 @@ extern dboolean                 r_corpses_moreblood;
 extern dboolean                 r_corpses_slide;
 extern dboolean                 r_corpses_smearblood;
 
+extern mapthing_t               itemrespawnque[ITEMQUEUESIZE];
+extern int                      itemrespawntime[ITEMQUEUESIZE];
+extern int                      iquehead;
+extern int                      iquetail;
+
+void P_RespawnSpecials(void);
+
 void P_InitCards(player_t *player);
 
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);

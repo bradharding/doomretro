@@ -426,6 +426,8 @@ char    *s_STSTR_PSON = "";
 char    *s_STSTR_PSOFF = "";
 char    *s_STSTR_FMON = "";
 char    *s_STSTR_FMOFF = "";
+char    *s_STSTR_RION = "";
+char    *s_STSTR_RIOFF = "";
 char    *s_STSTR_RMON = "";
 char    *s_STSTR_RMOFF = "";
 
@@ -945,6 +947,8 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_PSOFF,          "STSTR_PSOFF",          false },
     { &s_STSTR_FMON,           "STSTR_FMON",           false },
     { &s_STSTR_FMOFF,          "STSTR_FMOFF",          false },
+    { &s_STSTR_RION,           "STSTR_RION",           false },
+    { &s_STSTR_RIOFF,          "STSTR_RIOFF",          false },
     { &s_STSTR_RMON,           "STSTR_RMON",           false },
     { &s_STSTR_RMOFF,          "STSTR_RMOFF",          false },
 
