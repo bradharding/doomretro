@@ -196,6 +196,10 @@ void ST_doRefresh(void);
 
 dboolean MouseShouldBeGrabbed(void)
 {
+    // if the window doesn't have focus, never grab it
+    if (!window_focused)
+        return false;
+
     // always grab the mouse when full screen (don't want to
     // see the mouse pointer)
     if (vid_fullscreen)
@@ -203,10 +207,6 @@ dboolean MouseShouldBeGrabbed(void)
 
     // when menu is active or game is paused, release the mouse
     if (menuactive || consoleactive || paused)
-        return false;
-
-    // if the window doesn't have focus, never grab it
-    if (!window_focused)
         return false;
 
     // only grab mouse when playing levels
