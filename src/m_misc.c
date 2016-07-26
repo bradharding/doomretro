@@ -769,3 +769,12 @@ void strreplace(char *target, const char *needle, const char *replacement)
 
     strcpy(target, buffer);
 }
+
+void encrypt(char *string, char *key)
+{
+    size_t      i;
+    size_t      len = strlen(string);
+
+    for (i = 0; i < len; ++i)
+        string[i] ^= key[i];
+}
