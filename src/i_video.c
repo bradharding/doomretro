@@ -607,11 +607,10 @@ void I_StartTic(void)
     gamepadfunc();
 }
 
-dboolean        currently_grabbed = false;
-
 static void UpdateGrab(void)
 {
-    dboolean    grab = MouseShouldBeGrabbed();
+    dboolean            grab = MouseShouldBeGrabbed();
+    static dboolean     currently_grabbed;
 
     if (grab && !currently_grabbed)
     {

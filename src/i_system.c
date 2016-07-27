@@ -77,7 +77,6 @@ void I_PrintWindowsVersion(void)
     if (pRtlGetVersion && pGetProductInfo)
     {
         char            bits[10] = "";
-        char            *infoname;
         char            *typename = "";
 
         if (pIsWow64Process)
@@ -162,7 +161,8 @@ void I_PrintWindowsVersion(void)
 
         if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
-            infoname = "NT";
+            char        *infoname = "NT";
+
             if (info.dwMajorVersion == 5)
             {
                 if (info.dwMinorVersion == 0)
