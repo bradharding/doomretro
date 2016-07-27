@@ -179,6 +179,7 @@ extern dboolean         returntowidescreen;
 #define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) { #name, &name, DEFAULT_FLOAT_PERCENT, set }
 #define CONFIG_VARIABLE_STRING(name, set)        { #name, &name, DEFAULT_STRING, set }
 #define CONFIG_VARIABLE_OTHER(name, set)         { #name, &name, DEFAULT_OTHER, set }
+#define BLANKLINE                                { "",    "",    DEFAULT_OTHER, NOALIAS }
 
 static default_t cvars[] =
 {
@@ -260,6 +261,23 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,                     NOALIAS    ),
     CONFIG_VARIABLE_INT          (savegame,                              NOALIAS    ),
     CONFIG_VARIABLE_INT          (skilllevel,                            NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (stillbob,                              NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (turbo,                                 NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_capfps,                            BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_display,                           NOALIAS    ),
+#if !defined(WIN32)
+    CONFIG_VARIABLE_STRING       (vid_driver,                            NOALIAS    ),
+#endif
+    CONFIG_VARIABLE_INT          (vid_fullscreen,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (vid_scaledriver,                       NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_scalefilter,                       NOALIAS    ),
+    CONFIG_VARIABLE_OTHER        (vid_screenresolution,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_vsync,                             BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_widescreen,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_OTHER        (vid_windowposition,                    NOALIAS    ),
+    CONFIG_VARIABLE_OTHER        (vid_windowsize,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                             NOALIAS    ),
+    BLANKLINE,
     CONFIG_VARIABLE_INT_ENCRYPTED(stat_cheated,                          NOALIAS    ),
     CONFIG_VARIABLE_INT_ENCRYPTED(stat_damageinflicted,                  NOALIAS    ),
     CONFIG_VARIABLE_INT_ENCRYPTED(stat_damagereceived,                   NOALIAS    ),
@@ -287,23 +305,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_ENCRYPTED(stat_secretsrevealed,                  NOALIAS    ),
     CONFIG_VARIABLE_INT_ENCRYPTED(stat_shotsfired,                       NOALIAS    ),
     CONFIG_VARIABLE_INT_ENCRYPTED(stat_shotshit,                         NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(stat_time,                             NOALIAS    ),
-    CONFIG_VARIABLE_INT_PERCENT  (stillbob,                              NOALIAS    ),
-    CONFIG_VARIABLE_INT_PERCENT  (turbo,                                 NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_capfps,                            BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (vid_display,                           NOALIAS    ),
-#if !defined(WIN32)
-    CONFIG_VARIABLE_STRING       (vid_driver,                            NOALIAS    ),
-#endif
-    CONFIG_VARIABLE_INT          (vid_fullscreen,                        BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (vid_scaledriver,                       NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (vid_scalefilter,                       NOALIAS    ),
-    CONFIG_VARIABLE_OTHER        (vid_screenresolution,                  NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_vsync,                             BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (vid_widescreen,                        BOOLALIAS  ),
-    CONFIG_VARIABLE_OTHER        (vid_windowposition,                    NOALIAS    ),
-    CONFIG_VARIABLE_OTHER        (vid_windowsize,                        NOALIAS    ),
-    CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                             NOALIAS    )
+    CONFIG_VARIABLE_INT_ENCRYPTED(stat_time,                             NOALIAS    )
 };
 
 alias_t aliases[] =
@@ -352,6 +354,12 @@ void M_SaveCVARs(void)
 
     for (i = 0; i < arrlen(cvars); i++)
     {
+        if (!*cvars[i].name)
+        {
+            fprintf(file, "\n");
+            continue;
+        }
+
         // Print the name
         fprintf(file, "%s ", cvars[i].name);
 
