@@ -776,5 +776,5 @@ void encrypt(char *string, char *key)
     size_t      len = strlen(string);
 
     for (i = 0; i < len; ++i)
-        string[i] ^= key[i];
+        string[i] = tolower(string[i]) ^ tolower(key[i]);
 }
