@@ -391,7 +391,7 @@ void M_SaveCVARs(void)
             {
                 M_snprintf(buffer, sizeof(buffer), "%010u", *(unsigned int *)cvars[i].location);
                 encrypt(buffer, cvars[i].name);
-                fputs(buffer, file);
+                fprintf(file, "\"%s\"", buffer);
                 break;
             }
 
@@ -842,8 +842,10 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_INT_ENCRYPTED:
-                    encrypt(strparm, cvars[i].name);
-                    sscanf(strparm, "%10u", (unsigned int *)cvars[i].location);
+                    s = strdup(strparm + 1);
+                    s[strlen(s) - 1] = '\0';
+                    encrypt(s, cvars[i].name);
+                    sscanf(s, "%10u", (unsigned int *)cvars[i].location);
                     break;
 
                 case DEFAULT_INT_PERCENT:
