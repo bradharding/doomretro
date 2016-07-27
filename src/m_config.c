@@ -172,17 +172,28 @@ extern int              weaponbob;
 extern char             *packageconfig;
 extern dboolean         returntowidescreen;
 
-#define CONFIG_VARIABLE_INT(name, set)                  { #name, &name, DEFAULT_INT, set }
-#define CONFIG_VARIABLE_INT_ENCRYPTED(name, var, set)   { #name, &var,  DEFAULT_INT_ENCRYPTED, set }
-#define CONFIG_VARIABLE_INT_PERCENT(name, set)          { #name, &name, DEFAULT_INT_PERCENT, set }
-#define CONFIG_VARIABLE_FLOAT(name, set)                { #name, &name, DEFAULT_FLOAT, set }
-#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set)        { #name, &name, DEFAULT_FLOAT_PERCENT, set }
-#define CONFIG_VARIABLE_STRING(name, set)               { #name, &name, DEFAULT_STRING, set }
-#define CONFIG_VARIABLE_OTHER(name, set)                { #name, &name, DEFAULT_OTHER, set }
-#define BLANKLINE                                       { "",    "",    DEFAULT_OTHER, NOALIAS }
+#define CONFIG_VARIABLE_INT(name, set) \
+    { #name,          &name, DEFAULT_INT,           set     }
+#define CONFIG_VARIABLE_INT_ENCRYPTED(name, var, set) \
+    { #name,          &var,  DEFAULT_INT_ENCRYPTED, set     }
+#define CONFIG_VARIABLE_INT_PERCENT(name, set) \
+    { #name,          &name, DEFAULT_INT_PERCENT,   set     }
+#define CONFIG_VARIABLE_FLOAT(name, set) \
+    { #name,          &name, DEFAULT_FLOAT,         set     }
+#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) \
+    { #name,          &name, DEFAULT_FLOAT_PERCENT, set     }
+#define CONFIG_VARIABLE_STRING(name, set) \
+    { #name,          &name, DEFAULT_STRING,        set     }
+#define CONFIG_VARIABLE_OTHER(name, set) \
+    { #name,          &name, DEFAULT_OTHER,         set     }
+#define BLANKLINE \
+    { "",             "",    DEFAULT_OTHER,         NOALIAS }
+#define COMMENT(text) \
+    { "; "##text"\n", "",    DEFAULT_OTHER,         NOALIAS }
 
 static default_t cvars[] =
 {
+    COMMENT("CVARs"),
     CONFIG_VARIABLE_INT          (alwaysrun,                             BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_allmapcdwallcolor,                  NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,                  NOALIAS    ),
@@ -278,6 +289,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                        NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                             NOALIAS    ),
     BLANKLINE,
+    COMMENT("player stats"),
     CONFIG_VARIABLE_INT_ENCRYPTED(BNHIHKJFXQ, stat_cheated,                          NOALIAS),
     CONFIG_VARIABLE_INT_ENCRYPTED(RQJQXPNUPT, stat_damageinflicted,                  NOALIAS),
     CONFIG_VARIABLE_INT_ENCRYPTED(JSLMIQPMBM, stat_damagereceived,                   NOALIAS),
@@ -356,7 +368,13 @@ void M_SaveCVARs(void)
     {
         if (!*cvars[i].name)
         {
-            fprintf(file, "\n");
+            fputs("\n", file);
+            continue;
+        }
+
+        if (cvars[i].name[0] == ';')
+        {
+            fputs(cvars[i].name, file);
             continue;
         }
 
@@ -376,7 +394,7 @@ void M_SaveCVARs(void)
                 {
                     if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
-                        fprintf(file, "%s", aliases[j].text);
+                        fputs(aliases[j].text, file);
                         flag = true;
                         break;
                     }
@@ -405,7 +423,7 @@ void M_SaveCVARs(void)
                 {
                     if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
-                        fprintf(file, "%s", aliases[j].text);
+                        fputs(aliases[j].text, file);
                         flag = true;
                         break;
                     }
@@ -426,7 +444,7 @@ void M_SaveCVARs(void)
                 {
                     if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
-                        fprintf(file, "%s", aliases[j].text);
+                        fputs(aliases[j].text, file);
                         flag = true;
                         break;
                     }
@@ -447,7 +465,7 @@ void M_SaveCVARs(void)
                 {
                     if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
-                        fprintf(file, "%s", aliases[j].text);
+                        fputs(aliases[j].text, file);
                         flag = true;
                         break;
                     }
@@ -463,14 +481,16 @@ void M_SaveCVARs(void)
                 break;
 
             case DEFAULT_OTHER:
-                fprintf(file, "%s", *(char **)cvars[i].location);
+                fputs(*(char **)cvars[i].location, file);
                 break;
         }
 
-        fprintf(file, "\n");
+        fputs("\n", file);
     }
 
-    fprintf(file, "\n");
+    fputs("\n", file);
+
+    fputs("; bound controls\n", file);
 
     i = 0;
     while (*actions[i].action)
@@ -814,6 +834,9 @@ void M_LoadCVARs(char *filename)
         }
         else if (fscanf(file, "%31s %255[^\n]\n", defname, strparm) != 2)
             // This line doesn't match
+            continue;
+
+        if (defname[0] == ';')
             continue;
 
         // Strip off trailing non-printable characters (\r characters from DOS text files)
