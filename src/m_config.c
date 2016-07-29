@@ -174,8 +174,8 @@ extern dboolean         returntowidescreen;
 
 #define CONFIG_VARIABLE_INT(name, set) \
     { #name,          &name, DEFAULT_INT,           set     }
-#define CONFIG_VARIABLE_INT_ENCRYPTED(name, var, set) \
-    { #name,          &var,  DEFAULT_INT_ENCRYPTED, set     }
+#define CONFIG_VARIABLE_INT_UNSIGNED(name, set) \
+    { #name,          &name, DEFAULT_INT_UNSIGNED,  set     }
 #define CONFIG_VARIABLE_INT_PERCENT(name, set) \
     { #name,          &name, DEFAULT_INT_PERCENT,   set     }
 #define CONFIG_VARIABLE_FLOAT(name, set) \
@@ -289,35 +289,35 @@ static default_t cvars[] =
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOALIAS    ),
     BLANKLINE,
-    COMMENT("player statistics data"),
-    CONFIG_VARIABLE_INT_ENCRYPTED(BNHIHKJFXQ, stat_cheated,                          NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(RQJQXPNUPT, stat_damageinflicted,                  NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(JSLMIQPMBM, stat_damagereceived,                   NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(WVTYFGPBEQ, stat_deaths,                           NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(XDXBRHDXZH, stat_itemspickedup,                    NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(YJQDJEGIHM, stat_monsterskilled,                   NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(EHZKDOQVWA, stat_monsterskilled_arachnotrons,      NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(WUNVLFUYQG, stat_monsterskilled_archviles,         NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(LUYZSVBAKK, stat_monsterskilled_baronsofhell,      NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(SJLXKJJYZP, stat_monsterskilled_cacodemons,        NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(LBVOZJDQUH, stat_monsterskilled_heavyweapondudes,  NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(VFTSWOYOKN, stat_monsterskilled_cyberdemons,       NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(WBKPENEIPE, stat_monsterskilled_demons,            NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(LSMHDFGFAZ, stat_monsterskilled_hellknights,       NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(EMYWEFRROD, stat_monsterskilled_imps,              NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(GIZRQEGGFA, stat_monsterskilled_lostsouls,         NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(HNVDMGIAUB, stat_monsterskilled_mancubi,           NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(DAYUQUDSVH, stat_monsterskilled_painelementals,    NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(CHLPCLIFCE, stat_monsterskilled_revenants,         NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(TUGPLJQQWS, stat_monsterskilled_shotgunguys,       NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(RVZESIVGNW, stat_monsterskilled_spectres,          NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(NCUCMDBDAP, stat_monsterskilled_spidermasterminds, NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(UPRXPZSBZU, stat_monsterskilled_zombiemen,         NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(VFLNJZGORP, stat_runs,                             NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(ACWARIVBEN, stat_secretsrevealed,                  NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(SWCFTCDARH, stat_shotsfired,                       NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(NBEUAAFMBK, stat_shotshit,                         NOALIAS    ),
-    CONFIG_VARIABLE_INT_ENCRYPTED(XEYEIUJJED, stat_time,                             NOALIAS    )
+    COMMENT("player statistics"),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_cheated,                                      NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_damageinflicted,                              NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,                               NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,                                       NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,                                NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,                               NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_arachnotrons,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_archviles,                     NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_baronsofhell,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_cacodemons,                    NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_heavyweapondudes,              NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_cyberdemons,                   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_demons,                        NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_hellknights,                   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_imps,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_lostsouls,                     NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_mancubi,                       NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_painelementals,                NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_revenants,                     NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_shotgunguys,                   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_spectres,                      NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_spidermasterminds,             NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_zombiemen,                     NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_runs,                                         NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed,                              NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotsfired,                                   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_shotshit,                                     NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_time,                                         NOALIAS    )
 };
 
 alias_t aliases[] =
@@ -405,11 +405,9 @@ void M_SaveCVARs(void)
                 break;
             }
 
-            case DEFAULT_INT_ENCRYPTED:
+            case DEFAULT_INT_UNSIGNED:
             {
-                M_snprintf(buffer, sizeof(buffer), "%010u", *(unsigned int *)cvars[i].location);
-                encrypt(buffer, cvars[i].name);
-                fprintf(file, "\"%s\"", buffer);
+                fprintf(file, "%u", *(unsigned int *)cvars[i].location);
                 break;
             }
 
@@ -864,11 +862,8 @@ void M_LoadCVARs(char *filename)
                     *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].aliastype);
                     break;
 
-                case DEFAULT_INT_ENCRYPTED:
-                    s = strdup(strparm + 1);
-                    s[strlen(s) - 1] = '\0';
-                    encrypt(s, cvars[i].name);
-                    sscanf(s, "%10u", (unsigned int *)cvars[i].location);
+                case DEFAULT_INT_UNSIGNED:
+                    sscanf(strparm, "%10u", (unsigned int *)cvars[i].location);
                     break;
 
                 case DEFAULT_INT_PERCENT:
