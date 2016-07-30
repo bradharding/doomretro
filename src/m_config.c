@@ -356,7 +356,6 @@ void M_SaveCVARs(void)
 {
     int         i;
     FILE        *file = fopen(packageconfig, "w");
-    char        buffer[1024];
 
     if (!file)
         return; // can't write the file, but don't complain
