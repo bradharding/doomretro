@@ -619,10 +619,6 @@ static dboolean D_IsDOOMIWAD(char *filename)
         || M_StringCompare(leaf, "DOOM2.WAD") || M_StringCompare(leaf, "PLUTONIA.WAD")
         || M_StringCompare(leaf, "TNT.WAD") || (hacx = M_StringCompare(leaf, "HACX.WAD")));
 
-    if (result && W_WadType(filename) == PWAD)
-        C_Warning("The header of %s appears to be incorrect. It should be an IWAD rather than a "
-            "PWAD.", leaf);
-
     return result;
 }
 
