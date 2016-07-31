@@ -101,7 +101,7 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum);
 #define MAXBOB                  0x100000
 
 void P_PlayerThink(player_t *player);
-void P_ResurrectPlayer(player_t *player);
+void P_ResurrectPlayer(player_t *player, int health);
 
 //
 // P_MOBJ

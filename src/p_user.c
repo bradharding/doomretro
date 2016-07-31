@@ -285,7 +285,7 @@ void P_DeathThink(player_t *player)
         count++;
 }
 
-void P_ResurrectPlayer(player_t *player)
+void P_ResurrectPlayer(player_t *player, int health)
 {
     fixed_t     x, y;
     int         angle;
@@ -309,12 +309,12 @@ void P_ResurrectPlayer(player_t *player)
     thing = P_SpawnMobj(x, y, ONFLOORZ, MT_PLAYER);
     thing->angle = player->mo->angle;
     thing->player = player;
-    thing->health = initial_health;
+    thing->health = health;
     thing->reactiontime = 18;
     player->mo = thing;
     player->playerstate = PST_LIVE;
     player->viewheight = VIEWHEIGHT;
-    player->health = initial_health;
+    player->health = health;
     infight = false;
     P_SetupPsprites(player);
     P_MapEnd();

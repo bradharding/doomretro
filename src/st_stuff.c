@@ -476,7 +476,7 @@ dboolean ST_Responder(event_t *ev)
             {
                 // [BH] if player is dead, resurrect them first
                 if (!plyr->health)
-                    P_ResurrectPlayer(plyr);
+                    P_ResurrectPlayer(plyr, initial_health);
 
                 plyr->cheats ^= CF_GODMODE;
                 if (plyr->cheats & CF_GODMODE)

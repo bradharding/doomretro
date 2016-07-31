@@ -2765,7 +2765,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parm1, char *parm2, char *p
 
 static void resurrect_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    P_ResurrectPlayer(&players[0]);
+    P_ResurrectPlayer(&players[0], initial_health);
 }
 
 //
@@ -3313,17 +3313,23 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && player->playerstate == PST_LIVE && !(player->cheats & CF_GODMODE)
+            if (value >= 0 && !(player->cheats & CF_GODMODE)
                 && !player->powers[pw_invulnerability])
             {
                 if (!player->mo)
                     return;
 
-                player->health = player->mo->health = MIN(value, maxhealth);
-                if (!value)
+                value = MIN(value, maxhealth);
+                if (!player->health && value)
+                    P_ResurrectPlayer(player, value);
+                else
                 {
-                    P_KillMobj(player->mo, player->mo);
-                    C_HideConsole();
+                    player->health = player->mo->health = value;
+                    if (!value)
+                    {
+                        P_KillMobj(player->mo, player->mo);
+                        C_HideConsole();
+                    }
                 }
             }
         }
