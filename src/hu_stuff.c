@@ -726,7 +726,7 @@ static void HU_DrawAltHUD(void)
             color);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
         V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - (health < 100) - 2, ALTHUD_Y + 13,
+        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13,
             altmarkpatch, WHITE, color);
     }
 
