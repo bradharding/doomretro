@@ -2414,10 +2414,10 @@ static void C_PlayerStats_Game(void)
     int         time2 = stat_time / TICRATE;
     player_t    *player = &players[0];
 
-    C_TabbedOutput(tabs, "\t<i>Current Map</i>\t<i>Total</i>");
+    C_TabbedOutput(tabs, "\t<b><i>Current Map</i></b>\t<b><i>Total</i></b>");
 
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
-        C_TabbedOutput(tabs, "Map revealed\t100%%\t-");
+        C_TabbedOutput(tabs, "Map revealed\t<b>100%%</b>\t-");
     else
     {
         int     i = 0;
@@ -2429,136 +2429,157 @@ static void C_PlayerStats_Game(void)
         i = 0;
         while (i < totallines)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
-        C_TabbedOutput(tabs, "Map revealed\t%s%%\t-",
+        C_TabbedOutput(tabs, "Map revealed\t<b>%s%%</b>\t-",
             striptrailingzero(totallinesmapped * 100.0f / totallines, 1));
     }
 
-    C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(player->killcount), commify(totalkills),
         (totalkills ? player->killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
 
     if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_BABY].plural1),
-            commify(player->mobjcount[MT_BABY]), commify(monstercount[MT_BABY]),
+    {
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            titlecase(mobjinfo[MT_BABY].plural1), commify(player->mobjcount[MT_BABY]),
+            commify(monstercount[MT_BABY]),
             (monstercount[MT_BABY] ? player->mobjcount[MT_BABY] * 100 / monstercount[MT_BABY] : 0),
             commify(stat_monsterskilled_arachnotrons));
 
-    if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_VILE].plural1),
-            commify(player->mobjcount[MT_VILE]), commify(monstercount[MT_VILE]),
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            titlecase(mobjinfo[MT_VILE].plural1), commify(player->mobjcount[MT_VILE]),
+            commify(monstercount[MT_VILE]),
             (monstercount[MT_VILE] ? player->mobjcount[MT_VILE] * 100 / monstercount[MT_VILE] : 0),
             commify(stat_monsterskilled_archviles));
+    }
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_BRUISER].plural1),
-        commify(player->mobjcount[MT_BRUISER]), commify(monstercount[MT_BRUISER]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_BRUISER].plural1), commify(player->mobjcount[MT_BRUISER]),
+        commify(monstercount[MT_BRUISER]),
         (monstercount[MT_BRUISER] ? player->mobjcount[MT_BRUISER] * 100 / monstercount[MT_BRUISER]
         : 0), commify(stat_monsterskilled_baronsofhell));
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_HEAD].plural1),
-        commify(player->mobjcount[MT_HEAD]), commify(monstercount[MT_HEAD]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_HEAD].plural1), commify(player->mobjcount[MT_HEAD]),
+        commify(monstercount[MT_HEAD]),
         (monstercount[MT_HEAD] ? player->mobjcount[MT_HEAD] * 100 / monstercount[MT_HEAD] : 0),
         commify(stat_monsterskilled_cacodemons));
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_CYBORG].plural1),
-        commify(player->mobjcount[MT_CYBORG]), commify(monstercount[MT_CYBORG]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_CYBORG].plural1), commify(player->mobjcount[MT_CYBORG]),
+        commify(monstercount[MT_CYBORG]),
         (monstercount[MT_CYBORG] ? player->mobjcount[MT_CYBORG] * 100 / monstercount[MT_CYBORG]
         : 0), commify(stat_monsterskilled_cyberdemons));
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_SERGEANT].plural1),
-        commify(player->mobjcount[MT_SERGEANT]), commify(monstercount[MT_SERGEANT]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_SERGEANT].plural1), commify(player->mobjcount[MT_SERGEANT]),
+        commify(monstercount[MT_SERGEANT]),
         (monstercount[MT_SERGEANT] ? player->mobjcount[MT_SERGEANT] * 100
         / monstercount[MT_SERGEANT] : 0), commify(stat_monsterskilled_demons));
 
     if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_CHAINGUY].plural1),
-            commify(player->mobjcount[MT_CHAINGUY]), commify(monstercount[MT_CHAINGUY]),
+    {
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            titlecase(mobjinfo[MT_CHAINGUY].plural1), commify(player->mobjcount[MT_CHAINGUY]),
+            commify(monstercount[MT_CHAINGUY]),
             (monstercount[MT_CHAINGUY] ? player->mobjcount[MT_CHAINGUY] * 100
             / monstercount[MT_CHAINGUY] : 0), commify(stat_monsterskilled_heavyweapondudes));
 
-    if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_KNIGHT].plural1),
-            commify(player->mobjcount[MT_KNIGHT]), commify(monstercount[MT_KNIGHT]),
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            titlecase(mobjinfo[MT_KNIGHT].plural1), commify(player->mobjcount[MT_KNIGHT]),
+            commify(monstercount[MT_KNIGHT]),
             (monstercount[MT_KNIGHT] ? player->mobjcount[MT_KNIGHT] * 100 / monstercount[MT_KNIGHT]
             : 0), commify(stat_monsterskilled_hellknights));
+    }
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_TROOP].plural1),
-        commify(player->mobjcount[MT_TROOP]), commify(monstercount[MT_TROOP]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_TROOP].plural1), commify(player->mobjcount[MT_TROOP]),
+        commify(monstercount[MT_TROOP]),
         (monstercount[MT_TROOP] ? player->mobjcount[MT_TROOP] * 100 / monstercount[MT_TROOP] : 0),
         commify(stat_monsterskilled_imps));
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_SKULL].plural1),
-        commify(player->mobjcount[MT_SKULL]), commify(monstercount[MT_SKULL]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_SKULL].plural1), commify(player->mobjcount[MT_SKULL]),
+        commify(monstercount[MT_SKULL]),
         (monstercount[MT_SKULL] ? player->mobjcount[MT_SKULL] * 100 / monstercount[MT_SKULL] : 0),
         commify(stat_monsterskilled_lostsouls));
 
     if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_FATSO].plural1),
-            commify(player->mobjcount[MT_FATSO]), commify(monstercount[MT_FATSO]),
+    {
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            titlecase(mobjinfo[MT_FATSO].plural1), commify(player->mobjcount[MT_FATSO]),
+            commify(monstercount[MT_FATSO]),
             (monstercount[MT_FATSO] ? player->mobjcount[MT_FATSO] * 100 / monstercount[MT_FATSO]
             : 0), commify(stat_monsterskilled_mancubi));
 
-    if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_PAIN].plural1),
-            commify(player->mobjcount[MT_PAIN]), commify(monstercount[MT_PAIN]),
+        C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+            titlecase(mobjinfo[MT_PAIN].plural1), commify(player->mobjcount[MT_PAIN]),
+            commify(monstercount[MT_PAIN]),
             (monstercount[MT_PAIN] ? player->mobjcount[MT_PAIN] * 100 / monstercount[MT_PAIN] : 0),
             commify(stat_monsterskilled_painelementals));
+    }
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_UNDEAD].plural1),
-        commify(player->mobjcount[MT_UNDEAD]), commify(monstercount[MT_UNDEAD]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_UNDEAD].plural1), commify(player->mobjcount[MT_UNDEAD]),
+        commify(monstercount[MT_UNDEAD]),
         (monstercount[MT_UNDEAD] ? player->mobjcount[MT_UNDEAD] * 100 / monstercount[MT_UNDEAD]
         : 0), commify(stat_monsterskilled_revenants));
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_SHOTGUY].plural1),
-        commify(player->mobjcount[MT_SHOTGUY]), commify(monstercount[MT_SHOTGUY]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_SHOTGUY].plural1), commify(player->mobjcount[MT_SHOTGUY]),
+        commify(monstercount[MT_SHOTGUY]),
         (monstercount[MT_SHOTGUY] ? player->mobjcount[MT_SHOTGUY] * 100 / monstercount[MT_SHOTGUY]
         : 0), commify(stat_monsterskilled_shotgunguys));
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_SHADOWS].plural1),
-        commify(player->mobjcount[MT_SHADOWS]), commify(monstercount[MT_SHADOWS]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_SHADOWS].plural1), commify(player->mobjcount[MT_SHADOWS]),
+        commify(monstercount[MT_SHADOWS]),
         (monstercount[MT_SHADOWS] ? player->mobjcount[MT_SHADOWS] * 100 / monstercount[MT_SHADOWS]
         : 0), commify(stat_monsterskilled_spectres));
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_SPIDER].plural1),
-        commify(player->mobjcount[MT_SPIDER]), commify(monstercount[MT_SPIDER]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_SPIDER].plural1), commify(player->mobjcount[MT_SPIDER]),
+        commify(monstercount[MT_SPIDER]),
         (monstercount[MT_SPIDER] ? player->mobjcount[MT_SPIDER] * 100 / monstercount[MT_SPIDER]
         : 0), commify(stat_monsterskilled_spidermasterminds));
 
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s", titlecase(mobjinfo[MT_POSSESSED].plural1),
-        commify(player->mobjcount[MT_POSSESSED]), commify(monstercount[MT_POSSESSED]),
+    C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        titlecase(mobjinfo[MT_POSSESSED].plural1), commify(player->mobjcount[MT_POSSESSED]),
+        commify(monstercount[MT_POSSESSED]),
         (monstercount[MT_POSSESSED] ? player->mobjcount[MT_POSSESSED] * 100
         / monstercount[MT_POSSESSED] : 0), commify(stat_monsterskilled_zombiemen));
 
-    C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "Items picked up\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(player->itemcount), commify(totalitems),
         (totalitems ? player->itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
 
-    C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "Secrets revealed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(player->secretcount), commify(totalsecret),
         (totalsecret ? player->secretcount * 100 / totalsecret : 0),
         commify(stat_secretsrevealed));
 
-    C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\t%02i:%02i:%02i",
+    C_TabbedOutput(tabs, "Time played\t<b>%02i:%02i:%02i</b>\t<b>%02i:%02i:%02i</b>",
         time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60,
         time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage inflicted\t%s\t%s",
+    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s</b>\t<b>%s</b>",
         commify(player->damageinflicted), commify(stat_damageinflicted));
 
-    C_TabbedOutput(tabs, "Damage received\t%s\t%s",
+    C_TabbedOutput(tabs, "Damage received\t<b>%s</b>\t<b>%s</b>",
         commify(player->damagereceived), commify(stat_damagereceived));
 
-    C_TabbedOutput(tabs, "Deaths\t%s\t%s", commify(player->deaths), commify(stat_deaths));
+    C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>",
+        commify(player->deaths), commify(stat_deaths));
 
-    C_TabbedOutput(tabs, "Cheated\t%s\t%s",
+    C_TabbedOutput(tabs, "Cheated\t<b>%s</b>\t<b>%s</b>",
         commify(player->cheated), commify(stat_cheated));
 
-    C_TabbedOutput(tabs, "Shots fired\t%s\t%s",
+    C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>\t<b>%s</b>",
         commify(player->shotsfired), commify(stat_shotsfired));
 
-    C_TabbedOutput(tabs, "Shots hit\t%s\t%s",
+    C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>\t<b>%s</b>",
         commify(player->shotshit), commify(stat_shotshit));
 
-    C_TabbedOutput(tabs, "Weapon accuracy\t%s%%\t%s%%",
+    C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>\t<b>%s%%</b>",
         (player->shotsfired ? striptrailingzero(player->shotshit * 100.0f / player->shotsfired,
         1) : "0"), (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired,
         1) : "0"));
@@ -2571,85 +2592,88 @@ static void C_PlayerStats_NoGame(void)
 
     C_TabbedOutput(tabs, "\t<i>Total</i>");
 
-    C_TabbedOutput(tabs, "Monsters killed\t%s", commify(stat_monsterskilled));
+    C_TabbedOutput(tabs, "Monsters killed\t<b>%s</b>", commify(stat_monsterskilled));
 
     if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_BABY].plural1),
+    {
+        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_BABY].plural1),
             commify(stat_monsterskilled_arachnotrons));
 
-    if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_VILE].plural1),
+        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_VILE].plural1),
             commify(stat_monsterskilled_archviles));
+    }
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_BRUISER].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_BRUISER].plural1),
         commify(stat_monsterskilled_baronsofhell));
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_HEAD].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_HEAD].plural1),
         commify(stat_monsterskilled_cacodemons));
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_CYBORG].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_CYBORG].plural1),
         commify(stat_monsterskilled_cyberdemons));
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_SERGEANT].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SERGEANT].plural1),
         commify(stat_monsterskilled_demons));
 
     if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_CHAINGUY].plural1),
+    {
+        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_CHAINGUY].plural1),
             commify(stat_monsterskilled_heavyweapondudes));
 
-    if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_KNIGHT].plural1),
+        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_KNIGHT].plural1),
             commify(stat_monsterskilled_hellknights));
+    }
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_TROOP].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_TROOP].plural1),
         commify(stat_monsterskilled_imps));
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_SKULL].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SKULL].plural1),
         commify(stat_monsterskilled_lostsouls));
 
     if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_FATSO].plural1),
+    {
+        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_FATSO].plural1),
             commify(stat_monsterskilled_mancubi));
 
-    if (gamemode == commercial)
-        C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_PAIN].plural1),
+        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_PAIN].plural1),
             commify(stat_monsterskilled_painelementals));
+    }
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_UNDEAD].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_UNDEAD].plural1),
         commify(stat_monsterskilled_revenants));
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_SHOTGUY].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SHOTGUY].plural1),
         commify(stat_monsterskilled_shotgunguys));
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_SHADOWS].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SHADOWS].plural1),
         commify(stat_monsterskilled_spectres));
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_SPIDER].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SPIDER].plural1),
         commify(stat_monsterskilled_spidermasterminds));
 
-    C_TabbedOutput(tabs, "   %s\t%s", titlecase(mobjinfo[MT_POSSESSED].plural1),
+    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_POSSESSED].plural1),
         commify(stat_monsterskilled_zombiemen));
 
-    C_TabbedOutput(tabs, "Items picked up\t%s", commify(stat_itemspickedup));
+    C_TabbedOutput(tabs, "Items picked up\t<b>%s</b>", commify(stat_itemspickedup));
 
-    C_TabbedOutput(tabs, "Secrets revealed\t%s", commify(stat_secretsrevealed));
+    C_TabbedOutput(tabs, "Secrets revealed\t<b>%s</b>", commify(stat_secretsrevealed));
 
-    C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i",
+    C_TabbedOutput(tabs, "Time played\t<b>%02i:%02i:%02i</b>",
         time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage inflicted\t%s", commify(stat_damageinflicted));
+    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s</b>", commify(stat_damageinflicted));
 
-    C_TabbedOutput(tabs, "Damage received\t%s", commify(stat_damagereceived));
+    C_TabbedOutput(tabs, "Damage received\t<b>%s</b>", commify(stat_damagereceived));
 
-    C_TabbedOutput(tabs, "Deaths\t%s", commify(stat_deaths));
+    C_TabbedOutput(tabs, "Deaths\t<b>%s</b>", commify(stat_deaths));
 
-    C_TabbedOutput(tabs, "Cheated\t%s", commify(stat_cheated));
+    C_TabbedOutput(tabs, "Cheated\t<b>%s</b>", commify(stat_cheated));
 
-    C_TabbedOutput(tabs, "Shots fired\t%s", commify(stat_shotsfired));
+    C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>", commify(stat_shotsfired));
 
-    C_TabbedOutput(tabs, "Shots hit\t%s", commify(stat_shotshit));
+    C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>", commify(stat_shotshit));
 
-    C_TabbedOutput(tabs, "Weapon accuracy\t%s%%",
+    C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>",
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 }
 
