@@ -2408,6 +2408,24 @@ static void play_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // playerstats cmd
 //
+#define UNITSPERFOOT    16
+
+static char *distance(fixed_t units)
+{
+    char        *result = malloc(20 * sizeof(char));
+
+    units /= UNITSPERFOOT;
+    if (units < 5280)
+        M_snprintf(result, 20, "%s %s", commify(units), (units == 1 ? "foot" : "feet"));
+    else
+    {
+        units /= 5280;
+        M_snprintf(result, 20, "%s mile%s", commify(units), (units == 1 ? "" : "s"));
+    }
+
+    return result;
+}
+
 static void C_PlayerStats_Game(void)
 {
     int         tabs[8] = { 160, 270, 0, 0, 0, 0, 0, 0 };
@@ -2585,8 +2603,8 @@ static void C_PlayerStats_Game(void)
         1) : "0"), (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired,
         1) : "0"));
 
-    C_TabbedOutput(tabs, "Distance travelled\t<b>%s feet</b>\t<b>%s feet</b>",
-        commify(player->distancetravelled / 8), commify(stat_distancetravelled / 8));
+    C_TabbedOutput(tabs, "Distance travelled\t<b>%s</b>\t<b>%s</b>",
+        distance(player->distancetravelled), distance(stat_distancetravelled));
 }
 
 static void C_PlayerStats_NoGame(void)
@@ -2681,7 +2699,7 @@ static void C_PlayerStats_NoGame(void)
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 
     C_TabbedOutput(tabs, "Distance travelled\t<b>%s feet</b>",
-        commify(stat_distancetravelled / 8));
+        distance(stat_distancetravelled));
 }
 
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
