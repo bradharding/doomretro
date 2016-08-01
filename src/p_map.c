@@ -956,7 +956,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         fixed_t dy = (y - oldy) >> FRACBITS;
         fixed_t dist = (fixed_t)sqrt(dx * dx + dy * dy);
 
-        stat_distancetravelled += dist;
+        stat_distancetravelled = SafeAdd(stat_distancetravelled, dist);
         thing->player->distancetravelled += dist;
     }
 
