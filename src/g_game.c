@@ -552,6 +552,7 @@ void G_DoLoadLevel(void)
     player->shotshit = 0;
     player->shotsfired = 0;
     player->deaths = 0;
+    player->distancetravelled = 0;
     memset(player->mobjcount, 0, sizeof(player->mobjcount));
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start

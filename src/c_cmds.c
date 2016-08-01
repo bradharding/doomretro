@@ -173,6 +173,7 @@ extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
+extern unsigned int     stat_distancetravelled;
 extern unsigned int     stat_itemspickedup;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_monsterskilled_arachnotrons;
@@ -2583,6 +2584,9 @@ static void C_PlayerStats_Game(void)
         (player->shotsfired ? striptrailingzero(player->shotshit * 100.0f / player->shotsfired,
         1) : "0"), (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired,
         1) : "0"));
+
+    C_TabbedOutput(tabs, "Distance travelled\t<b>%s feet</b>\t<b>%s feet</b>",
+        commify(player->distancetravelled / 8), commify(stat_distancetravelled / 8));
 }
 
 static void C_PlayerStats_NoGame(void)
@@ -2590,7 +2594,7 @@ static void C_PlayerStats_NoGame(void)
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
     int time2 = stat_time / TICRATE;
 
-    C_TabbedOutput(tabs, "\t<i>Total</i>");
+    C_TabbedOutput(tabs, "\t<b><i>Total</i></b>");
 
     C_TabbedOutput(tabs, "Monsters killed\t<b>%s</b>", commify(stat_monsterskilled));
 
@@ -2675,6 +2679,9 @@ static void C_PlayerStats_NoGame(void)
 
     C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>",
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
+
+    C_TabbedOutput(tabs, "Distance travelled\t<b>%s feet</b>",
+        commify(stat_distancetravelled / 8));
 }
 
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)

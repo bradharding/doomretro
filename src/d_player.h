@@ -208,6 +208,7 @@ typedef struct player_s
     int                 shotsfired;
     int                 deaths;
     int                 mobjcount[NUMMOBJTYPES];
+    int                 distancetravelled;
 } player_t;
 
 //

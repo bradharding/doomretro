@@ -776,6 +776,9 @@ static void saveg_read_player_t(player_t *str)
     // int mobjcount[NUMMOBJTYPES];
     for (i = 0; i < NUMMOBJTYPES; ++i)
         str->mobjcount[i] = saveg_read32();
+
+    // int distancetravelled
+    str->distancetravelled = saveg_read32();
 }
 
 static void saveg_write_player_t(player_t *str)
@@ -947,6 +950,9 @@ static void saveg_write_player_t(player_t *str)
     // int mobjcount[NUMMOBJTYPES]
     for (i = 0; i < NUMMOBJTYPES; ++i)
         saveg_write32(str->mobjcount[i]);
+
+    // int distancetravelled
+    saveg_write32(str->distancetravelled);
 }
 
 //

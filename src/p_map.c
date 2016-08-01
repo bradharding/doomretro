@@ -88,6 +88,8 @@ dboolean        infight;
 
 mobj_t          *onmobj;
 
+unsigned int    stat_distancetravelled = 0;
+
 extern dboolean successfulshot;
 extern dboolean stat_shotshit;
 
@@ -947,6 +949,16 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     thing->y = y;
 
     P_SetThingPosition(thing);
+
+    if (thing->player)
+    {
+        fixed_t dx = (x - oldx) >> FRACBITS;
+        fixed_t dy = (y - oldy) >> FRACBITS;
+        fixed_t dist = (fixed_t)sqrt(dx * dx + dy * dy);
+
+        stat_distancetravelled += dist;
+        thing->player->distancetravelled += dist;
+    }
 
     newsec = thing->subsector->sector;
 
