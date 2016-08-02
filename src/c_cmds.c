@@ -2746,8 +2746,7 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>",
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 
-    C_TabbedOutput(tabs, "Distance travelled\t<b>%s feet</b>",
-        distance(stat_distancetravelled));
+    C_TabbedOutput(tabs, "Distance travelled\t<b>%s</b>", distance(stat_distancetravelled));
 }
 
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
