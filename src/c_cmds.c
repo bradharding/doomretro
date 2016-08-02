@@ -1407,6 +1407,10 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     break;
                 }
         }
+
+        player->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
     }
 }
 
@@ -1434,7 +1438,16 @@ static void god_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     else
         player->cheats ^= CF_GODMODE;
 
-    C_Output((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF);
+    if (player->cheats & CF_GODMODE)
+    {
+        C_Output(s_STSTR_GODON);
+
+        player->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+        C_Output(s_STSTR_GODOFF);
 }
 
 //
@@ -1598,6 +1611,10 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 players[0].message = buffer;
                 message_dontfuckwithme = true;
                 C_HideConsole();
+
+                players[0].cheated++;
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                M_SaveCVARs();
             }
             else
                 C_Output("No monsters %s kill.", (!totalkills ? "to" : "left to"));
@@ -1655,6 +1672,10 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 players[0].message = buffer;
                 message_dontfuckwithme = true;
                 C_HideConsole();
+
+                players[0].cheated++;
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                M_SaveCVARs();
             }
             else
                 C_Output("No %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
@@ -1937,6 +1958,10 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         G_DeferredInitNew(skilllevel, gameepisode, gamemap);
         C_HideConsoleFast();
     }
+
+    players[0].cheated++;
+    stat_cheated = SafeAdd(stat_cheated, 1);
+    M_SaveCVARs();
 }
 
 //
@@ -2267,7 +2292,16 @@ static void noclip_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     else
         player->cheats ^= CF_NOCLIP;
 
-    HU_PlayerMessage(((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
+    if (player->cheats & CF_NOCLIP)
+    {
+        HU_PlayerMessage(s_STSTR_NCON, false);
+
+        player->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+        HU_PlayerMessage(s_STSTR_NCOFF, false);
 }
 
 //
@@ -2287,7 +2321,16 @@ static void nomonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm
     else
         nomonsters = !nomonsters;
 
-    HU_PlayerMessage((nomonsters ? s_STSTR_NMON : s_STSTR_NMOFF), false);
+    if (nomonsters)
+    {
+        HU_PlayerMessage(s_STSTR_NMON, false);
+
+        players[0].cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+        HU_PlayerMessage(s_STSTR_NMOFF, false);
 }
 
 //
@@ -2330,6 +2373,11 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             P_SetTarget(&sectors[i].soundtarget, NULL);
         }
+
+        player->cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+
         HU_PlayerMessage(s_STSTR_NTON, false);
     }
     else
@@ -2776,7 +2824,16 @@ static void respawnitems_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
     else
         respawnitems = !respawnitems;
 
-    HU_PlayerMessage((respawnitems ? s_STSTR_RION : s_STSTR_RIOFF), false);
+    if (respawnitems)
+    {
+        HU_PlayerMessage(s_STSTR_RION, false);
+
+        players[0].cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+        HU_PlayerMessage(s_STSTR_RIOFF, false);
 }
 
 //
@@ -2815,6 +2872,10 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parm1, char *parm2, char *p
 static void resurrect_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     P_ResurrectPlayer(&players[0], initial_health);
+
+    players[0].cheated++;
+    stat_cheated = SafeAdd(stat_cheated, 1);
+    M_SaveCVARs();
 }
 
 //
@@ -2920,7 +2981,12 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             ++monstercount[thing->type];
         }
         else if (flags & MF_COUNTITEM)
-            ++totalitems;
+        {
+            totalitems++;
+            players[0].cheated++;
+            stat_cheated = SafeAdd(stat_cheated, 1);
+            M_SaveCVARs();
+        }
     }
 }
 
@@ -2975,6 +3041,10 @@ static void teleport_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 player->psprites[ps_weapon].sy = WEAPONTOP;
                 player->momx = player->momy = 0;
                 mo->momx = mo->momy = mo->momz = 0;
+
+                player->cheated++;
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                M_SaveCVARs();
             }
         }
     }
