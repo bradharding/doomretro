@@ -130,6 +130,7 @@ int                     startuptimer;
 dboolean                realframe;
 
 extern dboolean         alwaysrun;
+extern unsigned int     stat_cheated;
 
 //
 // EVENT HANDLING
@@ -1497,7 +1498,11 @@ static void D_DoomMainSetup(void)
             "respawned.");
 
     if ((nomonsters = M_CheckParm("-nomonsters")))
+    {
         C_Output("<b>-nomonsters</b> was found on the command-line. No monsters will be spawned.");
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
 
     if ((pistolstart = M_CheckParm("-pistolstart")))
         C_Output("<b>-pistolstart</b> was found on the command-line. The player will start each "
@@ -1526,6 +1531,12 @@ static void D_DoomMainSetup(void)
             C_Output("<b>-turbo</b> was found on the command-line. The player will be twice as "
                 "fast.");
         G_SetMovementSpeed(scale);
+
+        if (scale > turbo_default)
+        {
+            stat_cheated = SafeAdd(stat_cheated, 1);
+            M_SaveCVARs();
+        }
     }
     else
         G_SetMovementSpeed(turbo);
@@ -1809,6 +1820,9 @@ static void D_DoomMainSetup(void)
         }
         else if (W_CheckNumForName(lumpname) >= 0)
             autostart = true;
+
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
     }
 
     p = M_CheckParmWithArgs("-loadgame", 1, 1);
