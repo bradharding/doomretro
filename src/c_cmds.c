@@ -3767,6 +3767,11 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         if (value >= turbo_min && value <= turbo_max && value != turbo)
         {
             turbo = value;
+            if (turbo > turbo_default)
+            {
+                players[0].cheated++;
+                stat_cheated = SafeAdd(stat_cheated, 1);
+            }
             M_SaveCVARs();
             G_SetMovementSpeed(turbo);
         }
