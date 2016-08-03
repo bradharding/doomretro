@@ -655,14 +655,16 @@ void AM_addToPath(void)
         int y = plr->mo->y;
 
         if (pathpointnum)
-            if (ABS(pathpoints[pathpointnum - 1].x - x) < 16 * FRACUNIT  
+            if (ABS(pathpoints[pathpointnum - 1].x - x) < 16 * FRACUNIT
                 && ABS(pathpoints[pathpointnum - 1].y - y) < 16 * FRACUNIT)
                 return;
+
         if (pathpointnum >= pathpointnum_max)
         {
             pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
             pathpoints = (mpoint_t *)realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
         }
+
         pathpoints[pathpointnum].x = x >> FRACTOMAPBITS;
         pathpoints[pathpointnum].y = y >> FRACTOMAPBITS;
         ++pathpointnum;
