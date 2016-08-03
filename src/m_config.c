@@ -585,6 +585,12 @@ static void M_CheckCVARs(void)
     if (am_markcolor < am_markcolor_min || am_markcolor > am_markcolor_max)
         am_markcolor = am_markcolor_default;
 
+    if (am_path != false && am_path != true)
+        am_path = am_path_default;
+
+    if (am_pathcolor < am_pathcolor_min || am_pathcolor > am_pathcolor_max)
+        am_pathcolor = am_pathcolor_default;
+
     if (am_playercolor < am_playercolor_min || am_playercolor > am_playercolor_max)
         am_playercolor = am_playercolor_default;
 
