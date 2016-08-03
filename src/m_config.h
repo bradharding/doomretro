@@ -92,6 +92,12 @@ typedef enum
 #define am_markcolor_default                    100
 #define am_markcolor_max                        255
 
+#define am_path_default                         false
+
+#define am_pathcolor_min                        0
+#define am_pathcolor_default                    96
+#define am_pathcolor_max                        255
+
 #define am_playercolor_min                      0
 #define am_playercolor_default                  4
 #define am_playercolor_max                      255

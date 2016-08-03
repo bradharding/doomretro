@@ -2315,6 +2315,7 @@ void P_ArchiveMap(void)
 {
     saveg_write32(automapactive);
     saveg_write32(markpointnum);
+    saveg_write32(pathpointnum);
 
     if (markpointnum)
     {
@@ -2326,6 +2327,17 @@ void P_ArchiveMap(void)
             saveg_write32(markpoints[i].y);
         }
     }
+
+    if (pathpointnum)
+    {
+        int     i;
+
+        for (i = 0; i < pathpointnum; ++i)
+        {
+            saveg_write32(pathpoints[i].x);
+            saveg_write32(pathpoints[i].y);
+        }
+    }
 }
 
 //
@@ -2335,6 +2347,7 @@ void P_UnArchiveMap(void)
 {
     automapactive = saveg_read32();
     markpointnum = saveg_read32();
+    pathpointnum = saveg_read32();
 
     if (automapactive || mapwindow)
         AM_Start(automapactive);
@@ -2353,6 +2366,23 @@ void P_UnArchiveMap(void)
         {
             markpoints[i].x = saveg_read32();
             markpoints[i].y = saveg_read32();
+        }
+    }
+
+    if (pathpointnum)
+    {
+        int     i;
+
+        while (pathpointnum >= pathpointnum_max)
+        {
+            pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
+            pathpoints = Z_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
+        }
+
+        for (i = 0; i < pathpointnum; ++i)
+        {
+            pathpoints[i].x = saveg_read32();
+            pathpoints[i].y = saveg_read32();
         }
     }
 }

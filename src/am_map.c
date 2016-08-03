@@ -61,6 +61,7 @@ int     am_cdwallcolor = am_cdwallcolor_default;
 int     am_fdwallcolor = am_fdwallcolor_default;
 int     am_gridcolor = am_gridcolor_default;
 int     am_markcolor = am_markcolor_default;
+int     am_pathcolor = am_pathcolor_default;
 int     am_playercolor = am_playercolor_default;
 int     am_teleportercolor = am_teleportercolor_default;
 int     am_thingcolor = am_thingcolor_default;
@@ -69,8 +70,9 @@ int     am_wallcolor = am_wallcolor_default;
 int     am_xhaircolor = am_xhaircolor_default;
 
 // AutoMap color priorities
-#define PLAYERPRIORITY          12
-#define THINGPRIORITY           11
+#define PLAYERPRIORITY          13
+#define THINGPRIORITY           12
+#define PATHPRIORITY            11
 #define WALLPRIORITY            10
 #define ALLMAPWALLPRIORITY      9
 #define MASKPRIORITY            8
@@ -87,6 +89,7 @@ byte    *mask;
 
 byte    *playercolor;
 byte    *thingcolor;
+byte    *pathcolor;
 byte    *wallcolor;
 byte    *allmapwallcolor;
 byte    *maskcolor;
@@ -249,9 +252,14 @@ mpoint_t                *markpoints = NULL;     // where the points are
 int                     markpointnum = 0;       // next point to be assigned
 int                     markpointnum_max = 0;
 
+mpoint_t                *pathpoints = NULL;
+int                     pathpointnum = 0;
+int                     pathpointnum_max = 0;
+
 dboolean                am_external = am_external_default;
 dboolean                am_followmode = am_followmode_default;
 dboolean                am_grid = am_grid_default;
+dboolean                am_path = am_path_default;
 dboolean                am_rotatemode = am_rotatemode_default;
 
 static dboolean         stopped = true;
@@ -378,6 +386,7 @@ void AM_setColors(void)
 
     *(priority + nearestcolors[am_playercolor]) = PLAYERPRIORITY;
     *(priority + nearestcolors[am_thingcolor]) = THINGPRIORITY;
+    *(priority + nearestcolors[am_pathcolor]) = PATHPRIORITY;
     *(priority + nearestcolors[am_wallcolor]) = WALLPRIORITY;
     *(priority + nearestcolors[am_allmapwallcolor]) = ALLMAPWALLPRIORITY;
     *(priority + nearestcolors[am_cdwallcolor]) = CDWALLPRIORITY;
@@ -398,6 +407,7 @@ void AM_setColors(void)
 
     playercolor = priorities + (nearestcolors[am_playercolor] << 8);
     thingcolor = priorities + (nearestcolors[am_thingcolor] << 8);
+    pathcolor = priorities + (nearestcolors[am_pathcolor] << 8);
     wallcolor = priorities + (nearestcolors[am_wallcolor] << 8);
     allmapwallcolor = priorities + (nearestcolors[am_allmapwallcolor] << 8);
     cdwallcolor = priorities + (nearestcolors[am_cdwallcolor] << 8);
@@ -634,6 +644,28 @@ static void AM_clearMarks(void)
             message_dontfuckwithme = true;
             message_clearable = true;
         }
+    }
+}
+
+void AM_addToPath(void)
+{
+    if (plr)
+    {
+        int x = plr->mo->x;
+        int y = plr->mo->y;
+
+        if (pathpointnum)
+            if (ABS(pathpoints[pathpointnum - 1].x - x) < 16 * FRACUNIT  
+                && ABS(pathpoints[pathpointnum - 1].y - y) < 16 * FRACUNIT)
+                return;
+        if (pathpointnum >= pathpointnum_max)
+        {
+            pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
+            pathpoints = (mpoint_t *)realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
+        }
+        pathpoints[pathpointnum].x = x >> FRACTOMAPBITS;
+        pathpoints[pathpointnum].y = y >> FRACTOMAPBITS;
+        ++pathpointnum;
     }
 }
 
@@ -1752,6 +1784,35 @@ static void AM_drawMarks(void)
     }
 }
 
+void AM_drawPath(void)
+{
+    if (pathpointnum >= 1)
+    {
+        int i;
+
+        if (am_rotatemode)
+            for (i = 1; i < pathpointnum; ++i)
+            {
+                mpoint_t    start;
+                mpoint_t    end;
+
+                start.x = pathpoints[i - 1].x;
+                start.y = pathpoints[i - 1].y;
+                end.x = pathpoints[i].x;
+                end.y = pathpoints[i].y;
+
+                AM_rotatePoint(&start);
+                AM_rotatePoint(&end);
+
+                AM_drawMline(start.x, start.y, end.x, end.y, pathcolor);
+            }
+        else
+            for (i = 1; i < pathpointnum; ++i)
+                AM_drawMline(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x,
+                    pathpoints[i].y, pathcolor);
+    }
+}
+
 static __inline void AM_drawScaledPixel(int x, int y, byte *color)
 {
     byte        *dest = mapscreen + (y * 2 - 1) * mapwidth + x * 2 - 1;
@@ -1822,6 +1883,8 @@ void AM_Drawer(void)
     AM_drawWalls();
     if (am_grid)
         AM_drawGrid();
+    if (am_path)
+        AM_drawPath();
     if (plr->cheats & CF_ALLMAP_THINGS)
         AM_drawThings();
     if (markpointnum)

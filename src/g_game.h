@@ -93,7 +93,6 @@ extern char     mapnumandtitle[512];
 extern int      mousewait;
 extern int      gamepadwait;
 extern int      keydown;
-extern int      markpointnum;
 extern int      quickSaveSlot;
 extern int      st_facecount;
 extern dboolean oldweaponsowned[NUMWEAPONS];

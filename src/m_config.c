@@ -58,6 +58,8 @@ extern int              am_fdwallcolor;
 extern dboolean         am_grid;
 extern int              am_gridcolor;
 extern int              am_markcolor;
+extern dboolean         am_path;
+extern int              am_pathcolor;
 extern int              am_playercolor;
 extern dboolean         am_rotatemode;
 extern int              am_teleportercolor;
@@ -206,6 +208,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_grid,                                           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_gridcolor,                                      NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_markcolor,                                      NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_path,                                           BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_pathcolor,                                      NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_playercolor,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_rotatemode,                                     BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_teleportercolor,                                NOALIAS    ),

@@ -100,6 +100,8 @@ extern int              am_fdwallcolor;
 extern dboolean         am_grid;
 extern int              am_gridcolor;
 extern int              am_markcolor;
+extern dboolean         am_path;
+extern int              am_pathcolor;
 extern int              am_playercolor;
 extern dboolean         am_rotatemode;
 extern int              am_teleportercolor;
@@ -489,6 +491,10 @@ consolecmd_t consolecmds[] =
         "The color of the grid in the automap."),
     CVAR_INT(am_markcolor, am_markcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of marks in the automap."),
+    CVAR_BOOL(am_path, "", bool_cvars_func1, bool_cvars_func2,
+        "Toggles the player's path in the automap."),
+    CVAR_INT(am_pathcolor, am_pathcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
+        "The color of the player's path in the automap."),
     CVAR_INT(am_playercolor, am_playercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of the player in the automap."),
     CVAR_BOOL (am_rotatemode, "", bool_cvars_func1, bool_cvars_func2,

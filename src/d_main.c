@@ -272,6 +272,9 @@ void D_Display(void)
         // draw the view directly
         R_RenderPlayerView(&players[0]);
 
+        if (am_path)
+            AM_addToPath();
+
         if ((mapwindow && realframe) || automapactive)
             AM_Drawer();
 

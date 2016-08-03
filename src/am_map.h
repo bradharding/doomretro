@@ -73,6 +73,7 @@ void AM_Stop(void);
 
 void AM_Init(void);
 void AM_setColors(void);
+void AM_addToPath(void);
 
 extern byte             *tinttab80;
 
@@ -83,6 +84,11 @@ extern int              viewheight2;
 extern mpoint_t         *markpoints;
 extern int              markpointnum;
 extern int              markpointnum_max;
+
+extern dboolean         am_path;
+extern mpoint_t         *pathpoints;
+extern int              pathpointnum;
+extern int              pathpointnum_max;
 
 dboolean keystate(int key);
 
