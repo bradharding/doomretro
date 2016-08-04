@@ -1062,7 +1062,6 @@ void G_PlayerReborn(void)
         player->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
 
     markpointnum = 0;
-    pathpointnum = 0;
     infight = false;
 }
 
@@ -1377,7 +1376,6 @@ void G_DoWorldDone(void)
     G_DoLoadLevel();
     viewactive = true;
     markpointnum = 0;
-    pathpointnum = 0;
 }
 
 //
@@ -1554,7 +1552,6 @@ void G_DeferredInitNew(skill_t skill, int ep, int map)
     d_map = map;
     gameaction = ga_newgame;
     markpointnum = 0;
-    pathpointnum = 0;
     startingnewgame = true;
     infight = false;
 }
@@ -1575,7 +1572,6 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
     d_map = map;
     gameaction = ga_loadlevel;
     markpointnum = 0;
-    pathpointnum = 0;
     infight = false;
     sector_list = NULL;
 
@@ -1595,7 +1591,6 @@ void G_DoNewGame(void)
     G_InitNew(d_skill, d_episode, d_map);
     gameaction = ga_nothing;
     markpointnum = 0;
-    pathpointnum = 0;
     infight = false;
 }
 

@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 
+#include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -2172,6 +2173,8 @@ void P_SetupLevel(int ep, int map)
 
     r_bloodsplats_total = 0;
     memset(bloodsplats, 0, sizeof(mobj_t *) * r_bloodsplats_max);
+
+    pathpointnum = 0;
 
     P_SetLiquids();
     P_GetMapLiquids((ep - 1) * 10 + map);
