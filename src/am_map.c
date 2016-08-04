@@ -662,7 +662,7 @@ void AM_addToPath(void)
         if (pathpointnum >= pathpointnum_max)
         {
             pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
-            pathpoints = (mpoint_t *)realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
+            pathpoints = Z_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
         }
 
         pathpoints[pathpointnum].x = x >> FRACTOMAPBITS;

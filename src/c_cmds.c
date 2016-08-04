@@ -3336,7 +3336,7 @@ static void am_path_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     dboolean    am_path_old = am_path;
 
     bool_cvars_func2(cmd, parm1, "", "");
-    if (am_path != am_path_old)
+    if (!am_path && am_path_old)
         pathpointnum = 0;
 }
 
