@@ -649,26 +649,23 @@ static void AM_clearMarks(void)
 
 void AM_addToPath(void)
 {
-    if (plr)
+    int x = players[0].mo->x;
+    int y = players[0].mo->y;
+
+    if (pathpointnum)
+        if (ABS(pathpoints[pathpointnum - 1].x - x) < 16 * FRACUNIT
+            && ABS(pathpoints[pathpointnum - 1].y - y) < 16 * FRACUNIT)
+            return;
+
+    if (pathpointnum >= pathpointnum_max)
     {
-        int x = plr->mo->x;
-        int y = plr->mo->y;
-
-        if (pathpointnum)
-            if (ABS(pathpoints[pathpointnum - 1].x - x) < 16 * FRACUNIT
-                && ABS(pathpoints[pathpointnum - 1].y - y) < 16 * FRACUNIT)
-                return;
-
-        if (pathpointnum >= pathpointnum_max)
-        {
-            pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
-            pathpoints = Z_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
-        }
-
-        pathpoints[pathpointnum].x = x >> FRACTOMAPBITS;
-        pathpoints[pathpointnum].y = y >> FRACTOMAPBITS;
-        ++pathpointnum;
+        pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
+        pathpoints = Z_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
     }
+
+    pathpoints[pathpointnum].x = x >> FRACTOMAPBITS;
+    pathpoints[pathpointnum].y = y >> FRACTOMAPBITS;
+    ++pathpointnum;
 }
 
 static void AM_toggleRotateMode(void)
