@@ -380,6 +380,7 @@ static void str_cvars_func2(char *, char *, char *, char *);
 static void time_cvars_func2(char *, char *, char *, char *);
 
 static void am_external_cvar_func2(char *, char *, char *, char *);
+static void am_path_cvar_func2(char *, char *, char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *, char *, char *);
@@ -491,13 +492,13 @@ consolecmd_t consolecmds[] =
         "The color of the grid in the automap."),
     CVAR_INT(am_markcolor, am_markcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of marks in the automap."),
-    CVAR_BOOL(am_path, "", bool_cvars_func1, bool_cvars_func2,
+    CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2,
         "Toggles the player's path in the automap."),
     CVAR_INT(am_pathcolor, am_pathcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of the player's path in the automap."),
     CVAR_INT(am_playercolor, am_playercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of the player in the automap."),
-    CVAR_BOOL (am_rotatemode, "", bool_cvars_func1, bool_cvars_func2,
+    CVAR_BOOL(am_rotatemode, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles rotate mode in the automap."),
     CVAR_INT(am_teleportercolor, am_teleportercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of teleporters in the automap."),
@@ -3325,6 +3326,18 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
                 AM_Stop();
         }
     }
+}
+
+//
+// am_path cvar
+//
+static void am_path_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    dboolean    am_path_old = am_path;
+
+    bool_cvars_func2(cmd, parm1, "", "");
+    if (am_path != am_path_old)
+        pathpointnum = 0;
 }
 
 //
