@@ -273,7 +273,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     memset(cmd, 0, sizeof(ticcmd_t));
 
-    if (automapactive && !am_followmode)
+    if (automapactive && !am_followmode && players[0].health > 0)
         return;
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
