@@ -123,6 +123,7 @@ extern int              gp_sensitivity;
 extern dboolean         gp_swapthumbsticks;
 extern dboolean         gp_vibrate;
 extern char             *iwadfolder;
+extern char             *language;
 extern dboolean         messages;
 extern float            m_acceleration;
 extern dboolean         m_doubleclick_use;
@@ -591,6 +592,8 @@ consolecmd_t consolecmds[] =
         "The folder where an IWAD was last opened."),
     CMD(kill, "", kill_cmd_func1, kill_cmd_func2, 1, KILLCMDFORMAT,
         "Kills the <b>player</b>, <b>all</b> monsters or a type of <i>monster</i>."),
+    CVAR_STR(language, "", null_func1, str_cvars_func2,
+        "The language of text in the console."),
     CMD(load, "", null_func1, load_cmd_func2, 1, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_FLOAT(m_acceleration, "", float_cvars_func1, float_cvars_func2, CF_NONE,
@@ -2470,11 +2473,28 @@ static char *distance(fixed_t units)
     char        *result = malloc(20 * sizeof(char));
 
     units /= UNITSPERFOOT;
-    if (units < 5280)
-        M_snprintf(result, 20, "%s %s", commify(units), (units == 1 ? "foot" : "feet"));
+
+    if (M_StringCompare(language, language_english_uk))
+    {
+        float   metres = units * 3.28084f;
+
+        if (!metres)
+            M_StringCopy(result, "0 metres", 20);
+        else if (metres < 1000.0f)
+            M_snprintf(result, 20, "%s metre%s", striptrailingzero(metres, 2),
+                (metres == 1.0f ? "" : "s"));
+        else
+            M_snprintf(result, 20, "%s kilometre%s", striptrailingzero(metres / 1000.0f, 2),
+                (metres == 1000.0f ? "" : "s"));
+    }
     else
-        M_snprintf(result, 20, "%s mile%s", striptrailingzero(units / 5280.0f, 2),
-            (units == 5280 ? "" : "s"));
+    {
+        if (units < 5280)
+            M_snprintf(result, 20, "%s %s", commify(units), (units == 1 ? "foot" : "feet"));
+        else
+            M_snprintf(result, 20, "%s mile%s", striptrailingzero(units / 5280.0f, 2),
+                (units == 5280 ? "" : "s"));
+    }
 
     return result;
 }

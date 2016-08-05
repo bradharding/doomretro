@@ -80,6 +80,7 @@ extern int              gp_sensitivity;
 extern dboolean         gp_swapthumbsticks;
 extern dboolean         gp_vibrate;
 extern char             *iwadfolder;
+extern char             *language;
 extern dboolean         messages;
 extern float            m_acceleration;
 extern dboolean         m_doubleclick_use;
@@ -230,6 +231,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,                                BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (gp_vibrate,                                        BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (iwadfolder,                                        NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (language,                                          NOALIAS    ),
     CONFIG_VARIABLE_FLOAT        (m_acceleration,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,                                 BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (m_novertical,                                      BOOLALIAS  ),
@@ -658,6 +660,10 @@ static void M_CheckCVARs(void)
         messages = messages_default;
 
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
+
+    if (!M_StringCompare(language, language_english_uk)
+        && !M_StringCompare(language, language_english_us))
+        language = language_default;
 
     if (!*playername)
         playername = strdup(playername_default);

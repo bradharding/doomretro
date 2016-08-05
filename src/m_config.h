@@ -174,6 +174,10 @@ typedef enum
 
 #define iwadfolder_default                      "C:\\"
 
+#define language_english_uk                     "English (UK)"
+#define language_english_us                     "English (US)"
+#define language_default                        language_english_us
+
 #define messages_default                        false
 
 #define m_acceleration_min                      0
