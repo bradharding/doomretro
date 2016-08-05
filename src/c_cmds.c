@@ -3247,21 +3247,29 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int i = 0;
+    char        *parm = malloc(256);
+    int         i = 0;
+
+    parm = parm1;
+    if (*parm2)
+        parm = M_StringJoin(parm, " ", parm2, NULL);
+    if (*parm3)
+        parm = M_StringJoin(parm, " ", parm3, NULL);
 
     while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_STRING))
         {
-            if (M_StringCompare(parm1, EMPTYVALUE) && **(char **)consolecmds[i].variable)
+            if (M_StringCompare(parm, EMPTYVALUE) && **(char **)consolecmds[i].variable)
             {
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
-            else if (*parm1 && !M_StringCompare(parm1, *(char **)consolecmds[i].variable))
+            else if (*parm && !M_StringCompare(parm, *(char **)consolecmds[i].variable))
             {
-                *(char **)consolecmds[i].variable = strdup(parm1);
+                C_StripQuotes(parm);
+                *(char **)consolecmds[i].variable = strdup(parm);
                 M_SaveCVARs();
             }
             else
@@ -3290,6 +3298,8 @@ static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
         ++i;
     }
+
+    free(parm);
 }
 
 //
