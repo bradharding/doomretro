@@ -3298,6 +3298,8 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
         ++i;
     }
+
+    free(parm);
 }
 
 //
@@ -3318,8 +3320,6 @@ static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
         ++i;
     }
-
-    free(parm);
 }
 
 //
