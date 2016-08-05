@@ -714,7 +714,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOALIAS,
         "The sound effects volume."),
     CVAR_STR(s_timiditycfgpath, "", null_func1, str_cvars_func2,
-        "The path of Timidity's configuration file."),
+        "The path of <i><b>TiMidity's</b></i> configuration file."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,
         "Saves the game to a file."),
     CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
