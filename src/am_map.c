@@ -838,7 +838,7 @@ dboolean AM_Responder(event_t *ev)
                 }
 
                 // mark spot
-                else if (key == AM_MARKKEY && plr->health > 0)
+                else if (key == AM_MARKKEY)
                 {
                     if (keydown != AM_MARKKEY)
                     {
@@ -1008,7 +1008,7 @@ dboolean AM_Responder(event_t *ev)
                     AM_toggleGrid();
 
                 // mark spot
-                else if ((gamepadbuttons & gamepadautomapmark) && plr->health > 0)
+                else if ((gamepadbuttons & gamepadautomapmark))
                     AM_addMark();
 
                 // clear mark(s)
