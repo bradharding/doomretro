@@ -2473,10 +2473,8 @@ static char *distance(fixed_t units)
     if (units < 5280)
         M_snprintf(result, 20, "%s %s", commify(units), (units == 1 ? "foot" : "feet"));
     else
-    {
-        units /= 5280;
-        M_snprintf(result, 20, "%s mile%s", commify(units), (units == 1 ? "" : "s"));
-    }
+        M_snprintf(result, 20, "%s mile%s", striptrailingzero(units / 5280.0f, 2),
+            (units == 5280 ? "" : "s"));
 
     return result;
 }
