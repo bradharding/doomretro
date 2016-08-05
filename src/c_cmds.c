@@ -3259,7 +3259,7 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
-            else if (*parm1 && M_StringCompare(parm1, *(char **)consolecmds[i].variable))
+            else if (*parm1 && !M_StringCompare(parm1, *(char **)consolecmds[i].variable))
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
                 M_SaveCVARs();
