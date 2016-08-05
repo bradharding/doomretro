@@ -2476,7 +2476,7 @@ static char *distance(fixed_t units)
 
     if (M_StringCompare(language, language_english_uk))
     {
-        float   metres = units * 3.28084f;
+        float   metres = units / 3.28084f;
 
         if (!metres)
             M_StringCopy(result, "0 metres", 20);
