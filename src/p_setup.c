@@ -2175,6 +2175,7 @@ void P_SetupLevel(int ep, int map)
     memset(bloodsplats, 0, sizeof(mobj_t *) * r_bloodsplats_max);
 
     pathpointnum = 0;
+    pathpointnum_max = 0;
 
     P_SetLiquids();
     P_GetMapLiquids((ep - 1) * 10 + map);
