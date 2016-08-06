@@ -99,8 +99,8 @@ char                    *savegamefolder;
 char                    *iwadfile = "";
 char                    *pwadfile = "";
 
-char                    *language = language_default;
 char                    *iwadfolder = iwadfolder_default;
+int                     units = units_default;
 int                     turbo = turbo_default;
 
 char                    *packageconfig;

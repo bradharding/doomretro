@@ -202,6 +202,7 @@ extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
 extern int              stillbob;
 extern int              turbo;
+extern int              units;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -402,6 +403,8 @@ static dboolean s_volume_cvars_func1(char *, char *, char *, char *);
 static void s_volume_cvars_func2(char *, char *, char *, char *);
 static dboolean turbo_cvar_func1(char *, char *, char *, char *);
 static void turbo_cvar_func2(char *, char *, char *, char *);
+static dboolean units_cvar_func1(char *, char *, char *, char *);
+static void units_cvar_func2(char *, char *, char *, char *);
 static void vid_display_cvar_func2(char *, char *, char *, char *);
 static void vid_fullscreen_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scaledriver_cvar_func1(char *, char *, char *, char *);
@@ -592,8 +595,6 @@ consolecmd_t consolecmds[] =
         "The folder where an IWAD was last opened."),
     CMD(kill, "", kill_cmd_func1, kill_cmd_func2, 1, KILLCMDFORMAT,
         "Kills the <b>player</b>, <b>all</b> monsters or a type of <i>monster</i>."),
-    CVAR_STR(language, "", null_func1, str_cvars_func2,
-        "The language of text in the console."),
     CMD(load, "", null_func1, load_cmd_func2, 1, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_FLOAT(m_acceleration, "", float_cvars_func1, float_cvars_func2, CF_NONE,
@@ -736,6 +737,8 @@ consolecmd_t consolecmds[] =
         "The speed of the player (<b>10%</b> to <b>400%</b>)."),
     CMD(unbind, "", null_func1, unbind_cmd_func2, 1, UNBINDCMDFORMAT,
         "Unbinds the action from a <i>control</i>."),
+    CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2,
+        "The units used in the <b>playerstats</b> console command."),
     CVAR_BOOL(vid_capfps, "", bool_cvars_func1, bool_cvars_func2,
         "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS,
@@ -2468,15 +2471,15 @@ static void play_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 #define UNITSPERFOOT    16
 
-static char *distance(fixed_t units)
+static char *distance(fixed_t value)
 {
     char        *result = malloc(20 * sizeof(char));
 
-    units /= UNITSPERFOOT;
+    value /= UNITSPERFOOT;
 
-    if (M_StringCompare(language, language_english_uk))
+    if (units == units_metric)
     {
-        float   metres = units / 3.28084f;
+        float   metres = value / 3.28084f;
 
         if (!metres)
             M_StringCopy(result, "0 metres", 20);
@@ -2489,11 +2492,11 @@ static char *distance(fixed_t units)
     }
     else
     {
-        if (units < 5280)
-            M_snprintf(result, 20, "%s %s", commify(units), (units == 1 ? "foot" : "feet"));
+        if (value < 5280)
+            M_snprintf(result, 20, "%s %s", commify(value), (value == 1 ? "foot" : "feet"));
         else
-            M_snprintf(result, 20, "%s mile%s", striptrailingzero(units / 5280.0f, 2),
-                (units == 5280 ? "" : "s"));
+            M_snprintf(result, 20, "%s mile%s", striptrailingzero(value / 5280.0f, 2),
+                (value == 5280 ? "" : "s"));
     }
 
     return result;
@@ -3824,6 +3827,30 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else
         C_Output("%i%%", turbo);
+}
+
+//
+// units cvar
+//
+static dboolean units_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    return (!*parm1 || C_LookupValueFromAlias(parm1, UNITSALIAS) >= 0);
+}
+
+static void units_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        int     value = C_LookupValueFromAlias(parm1, UNITSALIAS);
+
+        if ((value == 0 || value == 1) && units != value)
+        {
+            units = !!value;
+            M_SaveCVARs();
+        }
+    }
+    else
+        C_Output(C_LookupAliasFromValue(units, UNITSALIAS));
 }
 
 //

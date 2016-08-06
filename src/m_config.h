@@ -52,6 +52,12 @@ typedef enum
     r_detail_high
 } r_detail_values_t;
 
+typedef enum
+{
+    units_imperial,
+    units_metric
+} units_values_t;
+
 #define alwaysrun_default                       false
 
 #define am_allmapcdwallcolor_min                0
@@ -173,10 +179,6 @@ typedef enum
 #define health_max                              200
 
 #define iwadfolder_default                      "C:\\"
-
-#define language_english_uk                     "English (UK)"
-#define language_english_us                     "English (US)"
-#define language_default                        language_english_us
 
 #define messages_default                        false
 
@@ -312,6 +314,8 @@ typedef enum
 #define turbo_default                           100
 #define turbo_max                               400
 
+#define units_default                           units_imperial
+
 #define vid_capfps_default                      false
 
 #define vid_display_min                         1
@@ -437,7 +441,8 @@ typedef enum
     BOOLALIAS,
     DETAILALIAS,
     GAMMAALIAS,
-    BLOODALIAS
+    BLOODALIAS,
+    UNITSALIAS
 } alias_type_t;
 
 typedef struct
