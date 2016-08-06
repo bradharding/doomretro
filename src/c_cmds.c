@@ -3511,21 +3511,33 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (*parm1)
+    char        *parm = malloc(256);
+    int         i = 0;
+
+    parm = parm1;
+    if (*parm2)
+        parm = M_StringJoin(parm, " ", parm2, NULL);
+    if (*parm3)
+        parm = M_StringJoin(parm, " ", parm3, NULL);
+
+    if (*parm)
     {
-        if (M_StringCompare(parm1, EMPTYVALUE) && *playername)
+        if (M_StringCompare(parm, EMPTYVALUE) && *playername)
         {
             playername = "";
             M_SaveCVARs();
         }
-        else if (!M_StringCompare(parm1, playername))
+        else if (!M_StringCompare(parm, playername))
         {
-            playername = strdup(parm1);
+            C_StripQuotes(parm);
+            playername = strdup(parm);
             M_SaveCVARs();
         }
     }
     else
         C_Output("\"%s\"", playername);
+
+    free(parm);
 }
 
 //
