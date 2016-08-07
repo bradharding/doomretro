@@ -70,9 +70,6 @@ int     am_wallcolor = am_wallcolor_default;
 int     am_xhaircolor = am_xhaircolor_default;
 
 // AutoMap color priorities
-#define PLAYERPRIORITY          13
-#define THINGPRIORITY           12
-#define PATHPRIORITY            11
 #define WALLPRIORITY            10
 #define ALLMAPWALLPRIORITY      9
 #define MASKPRIORITY            8
@@ -87,9 +84,11 @@ int     am_xhaircolor = am_xhaircolor_default;
 byte    *priorities;
 byte    *mask;
 
-byte    *playercolor;
-byte    *thingcolor;
-byte    *pathcolor;
+byte    playercolor;
+byte    thingcolor;
+byte    pathcolor;
+byte    backcolor;
+
 byte    *wallcolor;
 byte    *allmapwallcolor;
 byte    *maskcolor;
@@ -384,9 +383,6 @@ void AM_setColors(void)
     byte        *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
     int         x, y;
 
-    *(priority + nearestcolors[am_playercolor]) = PLAYERPRIORITY;
-    *(priority + nearestcolors[am_thingcolor]) = THINGPRIORITY;
-    *(priority + nearestcolors[am_pathcolor]) = PATHPRIORITY;
     *(priority + nearestcolors[am_wallcolor]) = WALLPRIORITY;
     *(priority + nearestcolors[am_allmapwallcolor]) = ALLMAPWALLPRIORITY;
     *(priority + nearestcolors[am_cdwallcolor]) = CDWALLPRIORITY;
@@ -399,15 +395,17 @@ void AM_setColors(void)
 
     *(priority + nearestcolors[MASKCOLOR]) = MASKPRIORITY;
 
-    *(mask + nearestcolors[MASKCOLOR]) = nearestcolors[am_backcolor];
+    playercolor = nearestcolors[am_playercolor];
+    thingcolor = nearestcolors[am_thingcolor];
+    pathcolor = nearestcolors[am_pathcolor];
+    backcolor = nearestcolors[am_backcolor];
+
+    *(mask + nearestcolors[MASKCOLOR]) = backcolor;
 
     for (x = 0; x < 256; ++x)
         for (y = 0; y < 256; ++y)
             *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
 
-    playercolor = priorities + (nearestcolors[am_playercolor] << 8);
-    thingcolor = priorities + (nearestcolors[am_thingcolor] << 8);
-    pathcolor = priorities + (nearestcolors[am_pathcolor] << 8);
     wallcolor = priorities + (nearestcolors[am_wallcolor] << 8);
     allmapwallcolor = priorities + (nearestcolors[am_allmapwallcolor] << 8);
     cdwallcolor = priorities + (nearestcolors[am_cdwallcolor] << 8);
@@ -1169,7 +1167,7 @@ void AM_Ticker(void)
 //
 void AM_clearFB(void)
 {
-    memset(mapscreen, am_backcolor, maparea);
+    memset(mapscreen, backcolor, maparea);
 }
 
 //
@@ -1225,6 +1223,12 @@ static __inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth && y < maparea)
         _PUTDOT(mapscreen + y + x, color);
+}
+
+static __inline void PUTDOT2(unsigned int x, unsigned int y, byte color)
+{
+    if (x < mapwidth && y < maparea)
+        *(mapscreen + y + x) = color;
 }
 
 static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
@@ -1357,6 +1361,90 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
     }
 }
 
+static void AM_drawFline2(int x0, int y0, int x1, int y1, byte color)
+{
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+
+    if (!dy)
+    {
+        if (dx)
+        {
+            // horizontal line
+            int     sx = SIGN(dx);
+
+            x0 = BETWEEN(-1, x0, mapwidth - 1);
+            x1 = BETWEEN(-1, x1, mapwidth - 1);
+
+            y0 *= mapwidth;
+
+            PUTDOT2(x0, y0, color);
+            while (x0 != x1)
+                PUTDOT2(x0 += sx, y0, color);
+        }
+    }
+    else if (!dx)
+    {
+        // vertical line
+        int     sy = SIGN(dy) * mapwidth;
+
+        y0 = BETWEEN(-(signed int)mapwidth, y0 * mapwidth, mapbottom);
+        y1 = BETWEEN(-(signed int)mapwidth, y1 * mapwidth, mapbottom);
+
+        PUTDOT2(x0, y0, color);
+        while (y0 != y1)
+            PUTDOT2(x0, y0 += sy, color);
+    }
+    else
+    {
+        int     sx = SIGN(dx);
+        int     sy = SIGN(dy) * mapwidth;
+
+        dx = ABS(dx);
+        dy = ABS(dy);
+        y0 *= mapwidth;
+        PUTDOT2(x0, y0, color);
+        if (dx == dy)
+        {
+            // diagonal line
+            while (x0 != x1)
+                PUTDOT2(x0 += sx, y0 += sy, color);
+        }
+        else
+        {
+            if (dx > dy)
+            {
+                // x-major line
+                int     error = (dy <<= 1) - dx;
+
+                dx <<= 1;
+                while (x0 != x1)
+                {
+                    int mask = ~(error >> 31);
+
+                    PUTDOT2(x0 += sx, y0 += (sy & mask), color);
+                    error += dy - (dx & mask);
+                }
+            }
+            else
+            {
+                // y-major line
+                int     error = (dx <<= 1) - dy;
+
+                dy <<= 1;
+                y1 *= mapwidth;
+                while (y0 != y1)
+                {
+                    int mask = ~(error >> 31);
+
+                    PUTDOT2(x0 += (sx & mask), y0 += sy, color);
+                    error += dx - (dy & mask);
+                }
+            }
+        }
+    }
+}
+
 //
 // Clip lines, draw visible parts of lines.
 //
@@ -1364,6 +1452,12 @@ static void AM_drawMline(int x0, int y0, int x1, int y1, byte *color)
 {
     if (AM_clipMline(&x0, &y0, &x1, &y1))
         AM_drawFline(x0, y0, x1, y1, color, PUTDOT);
+}
+
+static void AM_drawMline2(int x0, int y0, int x1, int y1, byte color)
+{
+    if (AM_clipMline(&x0, &y0, &x1, &y1))
+        AM_drawFline2(x0, y0, x1, y1, color);
 }
 
 static void AM_drawBigMline(int x0, int y0, int x1, int y1, byte *color)
@@ -1538,7 +1632,7 @@ static void AM_drawWalls(void)
 }
 
 static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale, angle_t angle,
-    byte *color, fixed_t x, fixed_t y)
+    byte color, fixed_t x, fixed_t y)
 {
     int i;
 
@@ -1569,7 +1663,7 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
             AM_rotate(&x1, &y1, angle);
             AM_rotate(&x2, &y2, angle);
         }
-        AM_drawMline(x + x1, y + y1, x + x2, y + y2, color);
+        AM_drawMline2(x + x1, y + y1, x + x2, y + y2, color);
     }
 }
 
@@ -1803,11 +1897,11 @@ void AM_drawPath(void)
                 AM_rotatePoint(&start);
                 AM_rotatePoint(&end);
 
-                AM_drawMline(start.x, start.y, end.x, end.y, pathcolor);
+                AM_drawMline2(start.x, start.y, end.x, end.y, pathcolor);
             }
         else
             for (i = 1; i < pathpointnum; ++i)
-                AM_drawMline(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x,
+                AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x,
                     pathpoints[i].y, pathcolor);
     }
 }
