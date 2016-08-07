@@ -2504,7 +2504,7 @@ static char *distance(fixed_t value)
 
 static void C_PlayerStats_Game(void)
 {
-    int         tabs[8] = { 160, 270, 0, 0, 0, 0, 0, 0 };
+    int         tabs[8] = { 160, 280, 0, 0, 0, 0, 0, 0 };
     int         time1 = leveltime / TICRATE;
     int         time2 = stat_time / TICRATE;
     player_t    *player = &players[0];
