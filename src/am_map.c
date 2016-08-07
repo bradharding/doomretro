@@ -87,6 +87,7 @@ byte    *mask;
 byte    playercolor;
 byte    thingcolor;
 byte    pathcolor;
+byte    markcolor;
 byte    backcolor;
 
 byte    *wallcolor;
@@ -398,6 +399,7 @@ void AM_setColors(void)
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
     pathcolor = nearestcolors[am_pathcolor];
+    markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
 
     *(mask + nearestcolors[MASKCOLOR]) = backcolor;
@@ -1863,10 +1865,9 @@ static void AM_drawMarks(void)
                         byte    *dest = mapscreen + fy * mapwidth + fx;
 
                         if (src == '2')
-                            *dest = nearestcolors[am_markcolor];
-                        else if (src == '1' && *dest != nearestcolors[am_markcolor]
-                            && *dest != nearestcolors[am_gridcolor])
-                            *dest = *(*dest + tinttab80);
+                            *dest = markcolor;
+                        else if (src == '1')
+                            *dest = *(*dest + tinttab66);
                     }
                 }
             }
