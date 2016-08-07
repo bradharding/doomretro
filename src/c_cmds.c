@@ -3014,6 +3014,8 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             stat_cheated = SafeAdd(stat_cheated, 1);
             M_SaveCVARs();
         }
+
+        C_HideConsole();
     }
 }
 
