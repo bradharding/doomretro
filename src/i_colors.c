@@ -261,7 +261,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESI
 
 void I_InitTintTables(byte *palette)
 {
-    int lump;
+    lumpindex_t lump;
 
     tinttab = GenerateTintTable(palette, ADDITIVE, general, ALL);
 

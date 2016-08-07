@@ -270,7 +270,7 @@ static dboolean         movement;
 int                     keydown;
 int                     direction;
 
-am_frame_t              am_frame;
+static am_frame_t       am_frame;
 
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
@@ -369,10 +369,8 @@ static void AM_changeWindowLoc(void)
         fixed_t w = m_w / 2;
         fixed_t h = m_h / 2;
 
-        m_x += incx;
-        m_y += incy;
-        m_x = BETWEEN(min_x, m_x + w, max_x) - w;
-        m_y = BETWEEN(min_y, m_y + h, max_y) - h;
+        m_x = BETWEEN(min_x, m_x + w + incx, max_x) - w;
+        m_y = BETWEEN(min_y, m_y + h + incy, max_y) - h;
     }
 
     m_x2 = m_x + m_w;
@@ -402,6 +400,9 @@ void AM_setColors(void)
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
 
+    for (x = 0; x < 256; ++x)
+        *(mask + x) = x;
+
     *(mask + nearestcolors[MASKCOLOR]) = backcolor;
 
     for (x = 0; x < 256; ++x)
@@ -423,12 +424,7 @@ void AM_setColors(void)
 
 void AM_Init(void)
 {
-    int x;
-
     mask = Z_Malloc(256, PU_STATIC, NULL);
-    for (x = 0; x < 256; ++x)
-        *(mask + x) = x;
-
     priorities = Z_Malloc(256 * 256, PU_STATIC, NULL);
 
     AM_setColors();
@@ -621,7 +617,7 @@ static void AM_addMark(void)
     message_clearable = true;
 }
 
-int     markpress = 0;
+static int      markpress;
 
 static void AM_clearMarks(void)
 {
@@ -665,6 +661,7 @@ void AM_addToPath(void)
 
     pathpoints[pathpointnum].x = x;
     pathpoints[pathpointnum].y = y;
+
     ++pathpointnum;
 }
 
@@ -1270,8 +1267,8 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
     {
         byte    *dot = mapscreen + y + x;
 
-        if (*dot != *(tinttab60 + am_playercolor))
-            *dot = *(tinttab60 + (*dot << 8) + am_playercolor);
+        if (*dot != *(tinttab60 + playercolor))
+            *dot = *(tinttab60 + (*dot << 8) + playercolor);
     }
 }
 

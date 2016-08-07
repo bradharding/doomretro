@@ -3514,7 +3514,6 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = malloc(256);
-    int         i = 0;
 
     parm = parm1;
     if (*parm2)
