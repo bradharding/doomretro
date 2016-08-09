@@ -2484,7 +2484,7 @@ static char *distance(fixed_t value)
         if (!metres)
             M_StringCopy(result, "0 metres", 20);
         else if (metres < 1000.0f)
-            M_snprintf(result, 20, "%s metre%s", striptrailingzero(metres, 2),
+            M_snprintf(result, 20, "%s metre%s", striptrailingzero(metres, 1),
                 (metres == 1.0f ? "" : "s"));
         else
             M_snprintf(result, 20, "%s kilometre%s", striptrailingzero(metres / 1000.0f, 2),
