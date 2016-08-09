@@ -193,7 +193,7 @@ extern dboolean         returntowidescreen;
 #define BLANKLINE \
     { "",             "",    DEFAULT_OTHER,         NOALIAS }
 #define COMMENT(text) \
-    { "; "##text"\n", "",    DEFAULT_OTHER,         NOALIAS }
+    { "; \"##text\"\n", "",    DEFAULT_OTHER,         NOALIAS }
 
 static default_t cvars[] =
 {
