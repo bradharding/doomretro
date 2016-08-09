@@ -193,11 +193,11 @@ extern dboolean         returntowidescreen;
 #define BLANKLINE \
     { "",             "",    DEFAULT_OTHER,         NOALIAS }
 #define COMMENT(text) \
-    { "; "##text"\n", "",    DEFAULT_OTHER,         NOALIAS }
+    { text,           "",    DEFAULT_OTHER,         NOALIAS }
 
 static default_t cvars[] =
 {
-    COMMENT("console variables"),
+    COMMENT("; console variables\n"),
     CONFIG_VARIABLE_INT          (alwaysrun,                                         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_allmapcdwallcolor,                              NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,                              NOALIAS    ),
@@ -296,7 +296,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOALIAS    ),
     BLANKLINE,
-    COMMENT("player statistics"),
+    COMMENT("; player statistics\n"),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_cheated,                                      NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damageinflicted,                              NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,                               NOALIAS    ),

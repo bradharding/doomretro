@@ -101,6 +101,4 @@ typedef struct
     fixed_t             bbox[4];
 } am_frame_t;
 
-extern am_frame_t       am_frame;
-
 #endif
