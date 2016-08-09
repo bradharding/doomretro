@@ -270,7 +270,7 @@ static dboolean         movement;
 int                     keydown;
 int                     direction;
 
-static am_frame_t       am_frame;
+am_frame_t       am_frame;
 
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
