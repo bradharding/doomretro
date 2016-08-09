@@ -483,7 +483,10 @@ void M_SaveCVARs(void)
             }
 
             case DEFAULT_STRING:
-                fprintf(file, "\"%s\"", *(char **)cvars[i].location);
+                if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE))
+                    fprintf(file, "%s", *(char **)cvars[i].location);
+                else
+                    fprintf(file, "\"%s\"", *(char **)cvars[i].location);
                 break;
 
             case DEFAULT_OTHER:
