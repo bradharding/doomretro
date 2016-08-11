@@ -1529,6 +1529,7 @@ static void R_DrawSprite(vissprite_t *spr)
         if ((mh = sectors[spr->heightsec].interpfloorheight) > spr->gz
             && (h = centeryfrac - FixedMul(mh -= viewz, spr->scale)) >= 0
             && (h >>= FRACBITS) < viewheight)
+        {
             if (mh <= 0 || (phs != -1 && viewz > sectors[phs].interpfloorheight))
             {                          // clip bottom
                 for (x = x1; x <= x2; x++)
@@ -1540,10 +1541,12 @@ static void R_DrawSprite(vissprite_t *spr)
                     for (x = x1; x <= x2; x++)
                         if (cliptop[x] == -2 || h > cliptop[x])
                             cliptop[x] = h;
+        }
 
         if ((mh = sectors[spr->heightsec].ceilingheight) < spr->gzt
             && (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0
             && (h >>= FRACBITS) < viewheight)
+        {
             if (phs != -1 && viewz >= sectors[phs].ceilingheight)
             {                         // clip bottom
                 for (x = x1; x <= x2; x++)
@@ -1554,6 +1557,7 @@ static void R_DrawSprite(vissprite_t *spr)
                 for (x = x1; x <= x2; x++)
                     if (cliptop[x] == -2 || h > cliptop[x])
                         cliptop[x] = h;
+        }
     }
 
     // all clipping has been performed, so draw the sprite

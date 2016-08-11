@@ -935,6 +935,9 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                             M_SaveCVARs();
                         }
                         break;
+
+                    default:
+                        break;
                 }
                 ++action;
             }
@@ -979,6 +982,9 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                             bound = true;
                             C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
                         }
+                        break;
+
+                    default:
                         break;
                 }
 
@@ -1139,6 +1145,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         char    ch = string[inpos];
 
                         if (ch != '\n')
+                        {
                             if (ch == '\t')
                             {
                                 unsigned int    tabstop = console[i].tabs[tabcount] / 5;
@@ -1161,6 +1168,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                                 fputc(ch, file);
                                 ++outpos;
                             }
+                        }
                     }
 
                     if (con_timestamps && *console[i].timestamp)
@@ -1644,6 +1652,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 while (thing)
                 {
                     if (type == thing->type)
+                    {
                         if (type == MT_PAIN)
                         {
                             if (thing->health > 0)
@@ -1673,6 +1682,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         else if (thing->flags & MF_CORPSE)
                             dead++;
                         thing = thing->snext;
+                    }
                 }
             }
 
@@ -2038,6 +2048,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             case doom2:
                 if (!M_StringCompare(wad, "nerve.wad") && (!replaced || pwad || nerve)
                     && (pwad || !BTSX))
+                {
                     if (BTSX)
                     {
                         if (!M_StringCompare(wad, "doom2.wad"))
@@ -2050,6 +2061,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             titlecase(*mapinfoname ? mapinfoname : (bfgedition ?
                             *mapnames2_bfg[map] : *mapnames2[map]))), (modifiedgame && !nerve ?
                             wad : ""));
+                }
                 break;
 
             case pack_nerve:
@@ -2070,6 +2082,9 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced
                         && dehcount == 1 && !*mapinfoname ? "-" : titlecase(*mapinfoname ?
                         mapinfoname : *mapnamest[map])), (modifiedgame ? wad : ""));
+                break;
+
+            default:
                 break;
         }
     }

@@ -273,6 +273,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (pendingweapon != wp_nochange || !player->health)
     {
         if (gp_vibrate && vibrate)
+        {
             if (pendingweapon == wp_chainsaw)
             {
                 idlemotorspeed = CHAINSAWIDLEMOTORSPEED;
@@ -283,6 +284,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
                 idlemotorspeed = 0;
                 XInputVibration(idlemotorspeed);
             }
+        }
 
         // change weapon (pending weapon should already be validated)
         P_SetPsprite(player, ps_weapon, weaponinfo[readyweapon].downstate);

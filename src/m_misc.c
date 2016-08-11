@@ -183,7 +183,7 @@ char *M_GetAppDataFolder(void)
     return appSupportURL.fileSystemRepresentation;
 #else
     // On Linux, store generated application files in /home/<username>/.config/doomretro
-    const char          *buffer;
+    char        *buffer;
 
     if (!(buffer = getenv("HOME")))
         buffer = getpwuid(getuid())->pw_dir;

@@ -262,6 +262,9 @@ void D_Display(void)
             case GS_TITLESCREEN:
                 D_PageDrawer();
                 break;
+
+            default:
+                break;
         }
     }
     else
@@ -1561,6 +1564,7 @@ static void D_DoomMainSetup(void)
     p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
 
     if (!(choseniwad = D_CheckParms()))
+    {
         if (iwadfile)
         {
             startuptimer = I_GetTimeMS();
@@ -1586,6 +1590,7 @@ static void D_DoomMainSetup(void)
 
             stat_runs = SafeAdd(stat_runs, 1);
         }
+    }
     M_SaveCVARs();
 
     if (p > 0)

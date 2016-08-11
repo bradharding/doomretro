@@ -164,26 +164,32 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     {
         case am_clip:
             if (player->readyweapon == wp_fist)
+            {
                 if (player->weaponowned[wp_chaingun])
                     player->pendingweapon = wp_chaingun;
                 else
                     player->pendingweapon = wp_pistol;
+            }
             break;
 
         case am_shell:
             if (player->readyweapon == wp_fist || player->readyweapon == wp_pistol)
+            {
                 if (player->weaponowned[wp_supershotgun]
                     && player->preferredshotgun == wp_supershotgun
                     && player->ammo[am_shell] >= 2)
                     player->pendingweapon = wp_supershotgun;
                 else if (player->weaponowned[wp_shotgun])
                     player->pendingweapon = wp_shotgun;
+            }
             break;
 
         case am_cell:
             if (player->readyweapon == wp_fist || player->readyweapon == wp_pistol)
+            {
                 if (player->weaponowned[wp_plasma])
                     player->pendingweapon = wp_plasma;
+            }
             break;
 
         default:
@@ -798,11 +804,13 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
             if (!(ammo = P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED))))
                 return;
             if (message)
+            {
                 if (ammo == clipammo[am_clip] || (deh_strlookup[p_GOTCLIP].assigned && dehacked))
                     HU_PlayerMessage(s_GOTCLIP, true);
                 else
                     HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2),
-                    true);
+                        true);
+            }
             break;
 
         case SPR_AMMO:
@@ -816,10 +824,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
             if (!(ammo = P_GiveAmmo(player, am_misl, 1)))
                 return;
             if (message)
+            {
                 if (ammo == clipammo[am_misl] || (deh_strlookup[p_GOTROCKET].assigned && dehacked))
                     HU_PlayerMessage(s_GOTROCKET, true);
                 else
                     HU_PlayerMessage(s_GOTROCKETX2, true);
+            }
             break;
 
         case SPR_BROK:
@@ -833,10 +843,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
             if (!(ammo = P_GiveAmmo(player, am_cell, 1)))
                 return;
             if (message)
+            {
                 if (ammo == clipammo[am_cell] || (deh_strlookup[p_GOTCELL].assigned && dehacked))
                     HU_PlayerMessage(s_GOTCELL, true);
                 else
                     HU_PlayerMessage(s_GOTCELLX2, true);
+            }
             break;
 
         case SPR_CELP:
@@ -850,11 +862,13 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
             if (!(ammo = P_GiveAmmo(player, am_shell, 1)))
                 return;
             if (message)
+            {
                 if (ammo == clipammo[am_shell] || (deh_strlookup[p_GOTSHELLS].assigned
                     && dehacked))
                     HU_PlayerMessage(s_GOTSHELLS, true);
                 else
                     HU_PlayerMessage(s_GOTSHELLSX2, true);
+            }
             break;
 
         case SPR_SBOX:
@@ -1036,6 +1050,9 @@ void P_UpdateKillStat(mobjtype_t type, unsigned int value)
         case MT_POSSESSED:
             stat_monsterskilled_zombiemen = SafeAdd(stat_monsterskilled_zombiemen, value);
             break;
+
+        default:
+            break;
     }
 }
 
@@ -1140,6 +1157,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         return;
 
     if (con_obituaries && source)
+    {
         if (source->player)
             C_PlayerMessage("%s %s %s%s with your %s.", titlecase(playername), (type == MT_BARREL ?
                 "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
@@ -1152,6 +1170,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
                 "killed")), (target->player ? "" : (source->type == target->type ? "another " :
                 (isvowel(info->name1[0]) ? "an " : "a "))), (target->player ? playername :
                 info->name1));
+    }
 
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.

@@ -563,7 +563,7 @@ static void P_LoadSegs_V4(int lump)
         }
 
         // killough 5/3/98: ignore 2s flag if second sidedef missing:
-        if ((ldef->flags & ML_TWOSIDED) && ldef->sidenum[side ^ 1] != -1)
+        if ((ldef->flags & ML_TWOSIDED) && ldef->sidenum[side ^ 1] != NO_INDEX)
             li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
         {
@@ -778,10 +778,12 @@ void P_LoadNodes(int lump)
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
     if (!data || !numnodes)
+    {
         if (numsubsectors == 1)
             C_Warning("This map has no nodes and only one subsector.");
         else
             I_Error("This map has no nodes.");
+    }
 
     for (i = 0; i < numnodes; i++)
     {
@@ -840,10 +842,12 @@ static void P_LoadNodes_V4(int lump)
     data = data + 8;
 
     if (!data || !numnodes)
+    {
         if (numsubsectors == 1)
             C_Warning("This map has no nodes and only one subsector.");
         else
             I_Error("This map has no nodes.");
+    }
 
     for (i = 0; i < numnodes; i++)
     {
@@ -1986,6 +1990,7 @@ void P_MapName(int ep, int map)
     }
 
     if (strlen(maptitle) >= 4)
+    {
         if (toupper(maptitle[0]) == 'M' && toupper(maptitle[1]) == 'A'
             && toupper(maptitle[2]) == 'P' && isdigit(maptitle[3]))
         {
@@ -1999,6 +2004,7 @@ void P_MapName(int ep, int map)
             maptitle[0] = 'E';
             maptitle[2] = 'M';
         }
+    }
 
     if (!mapnumonly)
     {

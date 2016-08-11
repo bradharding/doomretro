@@ -849,10 +849,12 @@ void HU_Drawer(void)
     else
     {
         if (vid_widescreen && r_hud)
+        {
             if (r_althud)
                 HU_DrawAltHUD();
             else
                 HU_DrawHUD();
+        }
 
         if (mapwindow && realframe)
             HUlib_drawTextLine(&w_title, true);

@@ -964,16 +964,20 @@ void R_StoreWallRange(int start, int stop)
 
     // render it
     if (markceiling)
+    {
         if (ceilingplane)   // killough 4/11/98: add NULL ptr checks
             ceilingplane = R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1);
         else
             markceiling = 0;
+    }
 
     if (markfloor)
+    {
         if (floorplane)     // killough 4/11/98: add NULL ptr checks
             floorplane = R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
         else
             markfloor = 0;
+    }
 
     R_RenderSegLoop();
 

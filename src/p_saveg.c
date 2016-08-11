@@ -1402,8 +1402,8 @@ static void saveg_write_fireflicker_t(fireflicker_t *str)
 
 static void saveg_read_elevator_t(elevator_t *str)
 {
-    // floor_e type
-    str->type = (floor_e)saveg_read_enum();
+    // elevator_e type
+    str->type = (elevator_e)saveg_read_enum();
 
     // sector_t *sector
     str->sector = &sectors[saveg_read32()];
@@ -1423,7 +1423,7 @@ static void saveg_read_elevator_t(elevator_t *str)
 
 static void saveg_write_elevator_t(elevator_t *str)
 {
-    // floor_e type
+    // elevator_e type
     saveg_write_enum(str->type);
 
     // sector_t *sector

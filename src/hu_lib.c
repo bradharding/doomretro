@@ -83,7 +83,7 @@ static void HU_drawDot(int x, int y, char src)
 {
     byte        *dest = &tempscreen[y * SCREENWIDTH + x];
 
-    if (src == '\xFB')
+    if (src == 251)
         *dest = 0;
     else if (src != ' ')
         *dest = src;
@@ -148,7 +148,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     {
         unsigned char   c = toupper(l->l[i]);
 
-        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == '\xB0'))
+        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == 176))
         {
             int j = c - '!';
 
@@ -160,16 +160,18 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 else if (c == '\'')
                     j = 65;
 #if defined(WIN32)
-                else if (c == '\x92')
+                else if (c == 146)
                     j = 65;
 #endif
             }
 
-            if (l->l[i] == '\xB0')
+            if (l->l[i] == 176)
+            {
                 if (STCFN034)
                     continue;
                 else
                     j = 66;
+            }
 
             if (STCFN034)
             {
@@ -227,7 +229,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                         byte    *dest = &tempscreen[((8 + y1) * SCREENSCALE + y2) * SCREENWIDTH +
                                                     x1 * SCREENSCALE + x2];
 
-                        if (src == '\xFB')
+                        if (src == 251)
                             *dest = 0;
                         else if (src != ' ')
                             *dest = src;

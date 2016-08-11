@@ -1534,7 +1534,7 @@ static void AM_drawGrid(void)
 static void AM_drawWalls(void)
 {
     dboolean    allmap = plr->powers[pw_allmap];
-    dboolean    cheating = (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS));
+    dboolean    cheating = plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
     int         i = 0;
 
     while (i < numlines)
@@ -1596,8 +1596,8 @@ static void AM_drawWalls(void)
                     }
                 }
                 if (!backsector || (secret && !cheating))
-                    AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor :
-                        (allmap ? allmapwallcolor : maskcolor)));
+                    AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y,
+                        (mapped || cheating ? wallcolor : (allmap ? allmapwallcolor : maskcolor)));
                 else if (backsector->floorheight != frontsector->floorheight)
                 {
                     if (mapped || cheating)

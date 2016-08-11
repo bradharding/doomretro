@@ -187,8 +187,10 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
 
     type = actor->type;
     if (type == MT_VILE)
+    {
         if (dist > 14 * 64)
             return false;               // too far away
+    }
     else if (type == MT_UNDEAD)
     {
         if (dist < 196)

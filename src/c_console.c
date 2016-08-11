@@ -668,7 +668,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
-            else if (letter == '\xC2' && text[i + 1] == '\xB0')
+            else if (letter == 194 && text[i + 1] == 176)
             {
                 patch = degree;
                 ++i;
@@ -858,12 +858,14 @@ void C_Drawer(void)
                 caretwait = I_GetTimeMS() + caretblinktime;
             }
             if (showcaret)
+            {
                 if (selectend > caretpos)
                     V_DrawConsolePatch(x, consoleheight - 17, caret, consoleselectedinputcolor,
                         consoleselectedinputbackgroundcolor, false, NULL);
                 else
                     V_DrawConsolePatch(x, consoleheight - 17, caret, consolecaretcolor,
                         NOBACKGROUNDCOLOR, false, NULL);
+            }
         }
         x += SHORT(caret->width);
 

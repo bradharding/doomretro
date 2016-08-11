@@ -1221,6 +1221,9 @@ void M_UpdateSaveGameName(int i)
                             break;
                         }
                     break;
+
+                default:
+                    break;
             }
         }
     }
@@ -1346,6 +1349,9 @@ void M_DrawReadThis(void)
 
         case exe_final:
             lumpname = "HELP";
+            break;
+
+        default:
             break;
     }
     if (W_CheckNumForName(lumpname) >= 0)
@@ -2946,8 +2952,8 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentMenu == &OptionsDef
-            && itemOn == 1)) && !inhelpscreens)
+        else if ((key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentMenu == &OptionsDef
+            && itemOn == 1))) && !inhelpscreens)
         {
             // Slide slider left
             if (currentMenu->menuitems[itemOn].routine
@@ -2962,8 +2968,8 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentMenu == &OptionsDef
-            && itemOn == 1)) && !inhelpscreens)
+        else if ((key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentMenu == &OptionsDef
+            && itemOn == 1))) && !inhelpscreens)
         {
             // Slide slider right
             if (currentMenu->menuitems[itemOn].routine

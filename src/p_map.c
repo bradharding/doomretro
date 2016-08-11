@@ -532,6 +532,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
         P_DamageMobj(thing, tmthing, tmthing->target, damage);
 
         if (thing->type != MT_BARREL)
+        {
             if (tmthing->type == MT_PLASMA)
             {
                 players[0].shotshit++;
@@ -546,6 +547,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
                 }
                 tmthing->nudge++;
             }
+        }
 
         // don't traverse anymore
         return false;
@@ -920,6 +922,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         // killough 10/98: Allow dropoffs in controlled circumstances
         // killough 11/98: Improve symmetry of clipping on stairs
         if (!(thing->flags & (MF_DROPOFF | MF_FLOAT)))
+        {
             if (!dropoff)
             {
                 if (thing->floorz - tmfloorz > 24 * FRACUNIT
@@ -929,6 +932,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
             else
                 // dropoff allowed -- check for whether it fell more than 24
                 felldown = (!(thing->flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
+        }
 
         // killough 11/98: prevent falling objects from going up too many steps
         if ((thing->flags2 & MF2_FALLING) && tmfloorz - thing->z

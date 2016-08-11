@@ -283,6 +283,9 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED;
                 break;
+
+            default:
+                break;
         }
 
         ceiling->tag = sec->tag;

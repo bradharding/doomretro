@@ -728,8 +728,8 @@ void S_ParseMusInfo(char *mapid)
 
     if (W_CheckNumForName("MUSINFO") != -1)
     {
-        int num, lumpnum;
-        int inMap = false;
+        unsigned int    num;
+        int             inMap = false;
 
         SC_Open("MUSINFO");
 
@@ -750,7 +750,7 @@ void S_ParseMusInfo(char *mapid)
                 if (M_StrToInt(sc_String, &num) && num > 0 && num < MAX_MUS_ENTRIES)
                     if (SC_GetString())
                     {
-                        lumpnum = W_CheckNumForName(sc_String);
+                        int     lumpnum = W_CheckNumForName(sc_String);
 
                         if (lumpnum >= 0)
                             musinfo.items[num] = lumpnum;

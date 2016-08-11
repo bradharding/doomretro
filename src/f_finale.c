@@ -737,6 +737,7 @@ static void F_CastDrawer(void)
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
         if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
+        {
             if (r_translucency)
             {
                 if (type == MT_SHADOWS)
@@ -746,6 +747,7 @@ static void F_CastDrawer(void)
             }
             else
                 V_DrawFlippedSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+        }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawFlippedTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
@@ -759,6 +761,7 @@ static void F_CastDrawer(void)
         patch->leftoffset = spriteoffset[lump] >> FRACBITS;
 
         if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
+        {
             if (r_translucency)
             {
                 if (type == MT_SHADOWS)
@@ -768,6 +771,7 @@ static void F_CastDrawer(void)
             }
             else
                 V_DrawSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+        }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);

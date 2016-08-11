@@ -148,6 +148,7 @@ void P_CalcHeight(player_t *player)
             }
 
         if (liquid)
+        {
             if (player->playerstate == PST_DEAD && r_liquid_bob)
             {
                 player->viewz += animatedliquiddiff;
@@ -155,6 +156,7 @@ void P_CalcHeight(player_t *player)
             }
             else if (r_liquid_lowerview)
                 player->viewz -= FOOTCLIPSIZE;
+        }
     }
 
     player->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, player->viewz, mo->ceilingz - 4 * FRACUNIT);

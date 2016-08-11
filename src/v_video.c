@@ -419,19 +419,23 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int color, int backgroundc
                 int     height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP)
+                {
                     if (backgroundcolor == NOBACKGROUNDCOLOR)
                     {
                         if (*source)
+                        {
                             if (italics)
                                 *(dest + italicize[height]) = (!tinttab ? color :
                                     tinttab[(color << 8) + *(dest + italicize[height])]);
                             else
                                 *dest = (!tinttab ? color : tinttab[(color << 8) + *dest]);
+                        }
                     }
                     else if (*source == WHITE)
                         *dest = color;
                     else if (*dest != color)
                         *dest = backgroundcolor;
+                }
                 ++source;
                 dest += SCREENWIDTH;
             }

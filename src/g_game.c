@@ -503,6 +503,7 @@ void G_DoLoadLevel(void)
 
     skytexture = P_GetMapSky1Texture(map);
     if (!skytexture || skytexture == R_CheckTextureNumForName("SKY1TALL"))
+    {
         if (gamemode == commercial)
         {
             skytexture = R_TextureNumForName("SKY3");
@@ -533,6 +534,7 @@ void G_DoLoadLevel(void)
                     break;
             }
         }
+    }
 
     skyscrolldelta = P_GetMapSky1ScrollDelta(map);
 
@@ -919,6 +921,9 @@ void G_Ticker(void)
                     C_Warning("A screenshot couldn't be taken.");
                 gameaction = ga_nothing;
                 break;
+
+            default:
+                break;
         }
     }
 
@@ -997,6 +1002,9 @@ void G_Ticker(void)
 
         case GS_TITLESCREEN:
             D_PageTicker();
+            break;
+
+        default:
             break;
     }
 }

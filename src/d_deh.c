@@ -3281,6 +3281,7 @@ dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
             }
 
             if (devparm)
+            {
                 if (key)
                     C_Output("Assigned key %s to \"%s\"", key, newstring);
                 else
@@ -3292,6 +3293,7 @@ dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
                     C_Output("%s = %s", deh_strlookup[i].lookup, dehReformatStr(newstring));
                     C_Output("*END BEX");
                 }
+            }
 
             deh_strlookup[i].assigned = true;
 
@@ -3407,11 +3409,11 @@ char *ptr_lstrip(char *p)       // point past leading whitespace
 //
 int deh_GetData(char *s, char *k, long *l, char **strval)
 {
-    char        *t;                     // current char
-    int         val;                    // to hold value of pair
-    char        buffer[DEH_MAXKEYLEN];  // to hold key in progress
-    int         okrc = 1;               // assume good unless we have problems
-    int         i;                      // iterator
+    char                *t;                     // current char
+    unsigned int        val;                    // to hold value of pair
+    char                buffer[DEH_MAXKEYLEN];  // to hold key in progress
+    int                 okrc = 1;               // assume good unless we have problems
+    int                 i;                      // iterator
 
     *buffer = '\0';
     val = 0;                            // defaults in case not otherwise set
