@@ -95,13 +95,13 @@ typedef enum
 #define am_gridcolor_max                        255
 
 #define am_markcolor_min                        0
-#define am_markcolor_default                    100
+#define am_markcolor_default                    95
 #define am_markcolor_max                        255
 
 #define am_path_default                         false
 
 #define am_pathcolor_min                        0
-#define am_pathcolor_default                    100
+#define am_pathcolor_default                    95
 #define am_pathcolor_max                        255
 
 #define am_playercolor_min                      0
