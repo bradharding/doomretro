@@ -1930,9 +1930,9 @@ void ProcessDehFile(char *filename, int lumpnum)
         if (!(infile.f = fopen(filename, "rt")))
             return;             // should be checked up front anyway
         infile.lump = NULL;
-        C_Output("Parsed the DeHackEd%s file <b>%s</b>.",
-            (M_StringEndsWith(uppercase(filename), "BEX") ? " with BOOM extensions" : ""),
-            filename);
+        C_Output("Parsed the <b><i>DeHackEd%s</i></b> file <b>%s</b>.",
+            (M_StringEndsWith(uppercase(filename), "BEX") ? " with <b><i>BOOM</i></b> extensions"
+            : ""), filename);
     }
     else                        // DEH file comes from lump indicated by second argument
     {
