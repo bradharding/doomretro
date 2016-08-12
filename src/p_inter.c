@@ -148,6 +148,9 @@ static void P_AddAmmo(player_t *player, ammotype_t ammo, int num)
             player->itemspickedup_ammo_rockets += num;
             stat_itemspickedup_ammo_rockets = SafeAdd(stat_itemspickedup_ammo_rockets, num);
             break;
+
+        default:
+            break;
     }
 }
 //

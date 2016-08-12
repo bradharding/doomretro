@@ -61,8 +61,8 @@
 
 #define MAXDISPLAYS             8
 
-#define MAXUPSCALEWIDTH         5
-#define MAXUPSCALEHEIGHT        6
+#define MAXUPSCALEWIDTH         (1600 / ORIGINALWIDTH)
+#define MAXUPSCALEHEIGHT        (1200 / ORIGINALHEIGHT)
 
 // CVARs
 dboolean                m_novertical = m_novertical_default;

@@ -2698,10 +2698,10 @@ static void C_PlayerStats_Game(void)
         time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60,
         time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s hit points</b>\t<b>%s hit points</b>",
+    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s</b>\t<b>%s</b>",
         commify(player->damageinflicted), commify(stat_damageinflicted));
 
-    C_TabbedOutput(tabs, "Damage received\t<b>%s hit points</b>\t<b>%s hit points</b>",
+    C_TabbedOutput(tabs, "Damage received\t<b>%s</b>\t<b>%s</b>",
         commify(player->damagereceived), commify(stat_damagereceived));
 
     C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>",
@@ -2815,9 +2815,9 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Time played\t<b>%02i:%02i:%02i</b>",
         time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s hit points</b>", commify(stat_damageinflicted));
+    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s</b>", commify(stat_damageinflicted));
 
-    C_TabbedOutput(tabs, "Damage received\t<b>%s hit points</b>", commify(stat_damagereceived));
+    C_TabbedOutput(tabs, "Damage received\t<b>%s</b>", commify(stat_damagereceived));
 
     C_TabbedOutput(tabs, "Deaths\t<b>%s</b>", commify(stat_deaths));
 
