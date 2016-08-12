@@ -178,6 +178,12 @@ extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
 extern unsigned int     stat_distancetravelled;
 extern unsigned int     stat_itemspickedup;
+extern unsigned int     stat_itemspickedup_ammo_bullets;
+extern unsigned int     stat_itemspickedup_ammo_cells;
+extern unsigned int     stat_itemspickedup_ammo_rockets;
+extern unsigned int     stat_itemspickedup_ammo_shells;
+extern unsigned int     stat_itemspickedup_armor;
+extern unsigned int     stat_itemspickedup_health;
 extern unsigned int     stat_mapscompleted;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_monsterskilled_arachnotrons;
@@ -2665,6 +2671,24 @@ static void C_PlayerStats_Game(void)
         commify(player->itemcount), commify(totalitems),
         (totalitems ? player->itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
 
+    C_TabbedOutput(tabs, "   Ammo - Bullets\t<b>%s</b>\t<b>%s</b>",
+        commify(player->itemspickedup_ammo_bullets), commify(stat_itemspickedup_ammo_bullets));
+
+    C_TabbedOutput(tabs, "   Ammo - Cells\t<b>%s</b>\t<b>%s</b>",
+        commify(player->itemspickedup_ammo_cells), commify(stat_itemspickedup_ammo_cells));
+
+    C_TabbedOutput(tabs, "   Ammo - Rockets\t<b>%s</b>\t<b>%s</b>",
+        commify(player->itemspickedup_ammo_rockets), commify(stat_itemspickedup_ammo_rockets));
+
+    C_TabbedOutput(tabs, "   Ammo - Shells\t<b>%s</b>\t<b>%s</b>",
+        commify(player->itemspickedup_ammo_shells), commify(stat_itemspickedup_ammo_shells));
+
+    C_TabbedOutput(tabs, "   Armor\t<b>%s</b>\t<b>%s</b>",
+        commify(player->itemspickedup_armor), commify(stat_itemspickedup_armor));
+
+    C_TabbedOutput(tabs, "   Health\t<b>%s</b>\t<b>%s</b>",
+        commify(player->itemspickedup_health), commify(stat_itemspickedup_health));
+
     C_TabbedOutput(tabs, "Secrets revealed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(player->secretcount), commify(totalsecret),
         (totalsecret ? player->secretcount * 100 / totalsecret : 0),
@@ -2773,6 +2797,18 @@ static void C_PlayerStats_NoGame(void)
         commify(stat_monsterskilled_zombiemen));
 
     C_TabbedOutput(tabs, "Items picked up\t<b>%s</b>", commify(stat_itemspickedup));
+
+    C_TabbedOutput(tabs, "   Ammo - Bullets\t<b>%s</b>", commify(stat_itemspickedup_ammo_bullets));
+
+    C_TabbedOutput(tabs, "   Ammo - Cells\t<b>%s</b>", commify(stat_itemspickedup_ammo_cells));
+
+    C_TabbedOutput(tabs, "   Ammo - Rockets\t<b>%s</b>", commify(stat_itemspickedup_ammo_rockets));
+
+    C_TabbedOutput(tabs, "   Ammo - Shells\t<b>%s</b>", commify(stat_itemspickedup_ammo_shells));
+
+    C_TabbedOutput(tabs, "   Armor\t<b>%s</b>", commify(stat_itemspickedup_armor));
+
+    C_TabbedOutput(tabs, "   Health\t<b>%s</b>", commify(stat_itemspickedup_health));
 
     C_TabbedOutput(tabs, "Secrets revealed\t<b>%s</b>", commify(stat_secretsrevealed));
 

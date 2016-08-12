@@ -779,6 +779,24 @@ static void saveg_read_player_t(player_t *str)
 
     // int distancetravelled
     str->distancetravelled = saveg_read32();
+
+    // int itemspickedup_ammo_bullets
+    str->itemspickedup_ammo_bullets = saveg_read32();
+
+    // int itemspickedup_ammo_cells
+    str->itemspickedup_ammo_cells = saveg_read32();
+
+    // int itemspickedup_ammo_rockets
+    str->itemspickedup_ammo_rockets = saveg_read32();
+
+    // int itemspickedup_ammo_shells
+    str->itemspickedup_ammo_shells = saveg_read32();
+
+    // int itemspickedup_armor
+    str->itemspickedup_armor = saveg_read32();
+
+    // int itemspickedup_health
+    str->itemspickedup_health = saveg_read32();
 }
 
 static void saveg_write_player_t(player_t *str)
@@ -953,6 +971,18 @@ static void saveg_write_player_t(player_t *str)
 
     // int distancetravelled
     saveg_write32(str->distancetravelled);
+
+    // int itemspickedup_ammo_bullets
+    saveg_write32(str->itemspickedup_ammo_bullets);
+
+    // int itemspickedup_ammo_cells
+    saveg_write32(str->itemspickedup_ammo_cells);
+
+    // int itemspickedup_ammo_rockets
+    saveg_write32(str->itemspickedup_ammo_rockets);
+
+    // int itemspickedup_ammo_shells
+    saveg_write32(str->itemspickedup_ammo_shells);
 }
 
 //

@@ -209,6 +209,12 @@ typedef struct player_s
     int                 deaths;
     int                 mobjcount[NUMMOBJTYPES];
     int                 distancetravelled;
+    int                 itemspickedup_ammo_bullets;
+    int                 itemspickedup_ammo_cells;
+    int                 itemspickedup_ammo_rockets;
+    int                 itemspickedup_ammo_shells;
+    int                 itemspickedup_armor;
+    int                 itemspickedup_health;
 } player_t;
 
 //

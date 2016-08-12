@@ -133,6 +133,12 @@ extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
 extern unsigned int     stat_distancetravelled;
 extern unsigned int     stat_itemspickedup;
+extern unsigned int     stat_itemspickedup_ammo_bullets;
+extern unsigned int     stat_itemspickedup_ammo_cells;
+extern unsigned int     stat_itemspickedup_ammo_rockets;
+extern unsigned int     stat_itemspickedup_ammo_shells;
+extern unsigned int     stat_itemspickedup_armor;
+extern unsigned int     stat_itemspickedup_health;
 extern unsigned int     stat_mapscompleted;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_monsterskilled_arachnotrons;
@@ -304,6 +310,12 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,                                       NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_distancetravelled,                            NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,                                NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_ammo_bullets,                   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_ammo_cells,                     NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_ammo_rockets,                   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_ammo_shells,                    NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_armor,                          NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_health,                         NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_mapscompleted,                                NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,                               NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_arachnotrons,                  NOALIAS    ),

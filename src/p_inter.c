@@ -95,6 +95,13 @@ dboolean        r_mirroredweapons = r_mirroredweapons_default;
 unsigned int    stat_damageinflicted = 0;
 unsigned int    stat_damagereceived = 0;
 unsigned int    stat_deaths = 0;
+unsigned int    stat_itemspickedup = 0;
+unsigned int    stat_itemspickedup_ammo_bullets = 0;
+unsigned int    stat_itemspickedup_ammo_cells = 0;
+unsigned int    stat_itemspickedup_ammo_rockets = 0;
+unsigned int    stat_itemspickedup_ammo_shells = 0;
+unsigned int    stat_itemspickedup_armor = 0;
+unsigned int    stat_itemspickedup_health = 0;
 unsigned int    stat_monsterskilled = 0;
 unsigned int    stat_monsterskilled_arachnotrons = 0;
 unsigned int    stat_monsterskilled_archviles = 0;
@@ -113,12 +120,36 @@ unsigned int    stat_monsterskilled_shotgunguys = 0;
 unsigned int    stat_monsterskilled_spectres = 0;
 unsigned int    stat_monsterskilled_spidermasterminds = 0;
 unsigned int    stat_monsterskilled_zombiemen = 0;
-unsigned int    stat_itemspickedup = 0;
 
 extern char     *playername;
 extern dboolean r_althud;
 extern dboolean r_hud;
 
+static void P_AddAmmo(player_t *player, ammotype_t ammo, int num)
+{
+    switch (ammo)
+    {
+        case am_clip:
+            player->itemspickedup_ammo_bullets += num;
+            stat_itemspickedup_ammo_bullets = SafeAdd(stat_itemspickedup_ammo_bullets, num);
+            break;
+
+        case am_shell:
+            player->itemspickedup_ammo_shells += num;
+            stat_itemspickedup_ammo_shells = SafeAdd(stat_itemspickedup_ammo_shells, num);
+            break;
+
+        case am_cell:
+            player->itemspickedup_ammo_cells += num;
+            stat_itemspickedup_ammo_cells = SafeAdd(stat_itemspickedup_ammo_cells, num);
+            break;
+
+        case am_misl:
+            player->itemspickedup_ammo_rockets += num;
+            stat_itemspickedup_ammo_rockets = SafeAdd(stat_itemspickedup_ammo_rockets, num);
+            break;
+    }
+}
 //
 // GET STUFF
 //
@@ -149,12 +180,14 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
         num <<= 1;
 
     oldammo = player->ammo[ammo];
-    player->ammo[ammo] = MIN(player->ammo[ammo] + num, player->maxammo[ammo]);
+    player->ammo[ammo] = MIN(oldammo + num, player->maxammo[ammo]);
 
     if (r_hud && !r_althud && num && ammo == weaponinfo[player->readyweapon].ammo)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
-    // If non zero ammo, don't change up weapons, player was lower on purpose.
+    P_AddAmmo(player, ammo, player->ammo[ammo] - oldammo);
+
+    // If non-zero ammo, don't change up weapons, player was lower on purpose.
     if (oldammo)
         return num;
 
@@ -212,7 +245,6 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
         for (i = 0; i < NUMAMMO; i++)
             player->maxammo[i] *= 2;
         player->backpack = true;
-
     }
 
     for (i = 0; i < NUMAMMO; i++)
@@ -242,6 +274,7 @@ dboolean P_GiveFullAmmo(player_t *player)
     for (i = 0; i < NUMAMMO; i++)
         if (player->ammo[i] < player->maxammo[i])
         {
+            P_AddAmmo(player, i, player->maxammo[i] - player->ammo[i]);
             player->ammo[i] = player->maxammo[i];
             result = true;
         }
@@ -370,19 +403,30 @@ dboolean P_GiveAllWeapons(player_t *player)
     return result;
 }
 
+static void P_AddHealth(player_t *player, int num)
+{
+    player->itemspickedup_health += num;
+    stat_itemspickedup_health = SafeAdd(stat_itemspickedup_health, num);
+}
+
 //
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
 dboolean P_GiveBody(player_t *player, int num)
 {
+    int oldhealth;
+
     if (player->health >= MAXHEALTH)
         return false;
 
-    player->health = MIN(player->health + num, MAXHEALTH);
+    oldhealth = player->health;
+    player->health = MIN(oldhealth + num, MAXHEALTH);
     player->mo->health = player->health;
 
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
+    P_AddHealth(player, player->health - oldhealth);
 
     return true;
 }
@@ -395,10 +439,20 @@ void P_GiveMegaHealth(player_t *player)
     if (!(player->cheats & CF_GODMODE))
     {
         if (player->health < mega_health)
+        {
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
+            P_AddHealth(player, mega_health - player->health);
+        }
 
         player->health = player->mo->health = mega_health;
     }
+}
+
+static void P_AddArmor(player_t *player, int num)
+{
+    player->itemspickedup_armor += num;
+    stat_itemspickedup_armor = SafeAdd(stat_itemspickedup_armor, num);
 }
 
 //
@@ -414,6 +468,7 @@ dboolean P_GiveArmor(player_t *player, armortype_t armortype)
         return false;   // don't pick up
 
     player->armortype = armortype;
+    P_AddArmor(player, hits - player->armorpoints);
     player->armorpoints = hits;
     armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
@@ -639,11 +694,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
             break;
 
         case SPR_BON2:
-            player->armorpoints++;      // can go over 100%
-            if (player->armorpoints > max_armor)
-                player->armorpoints = max_armor;
-            else
+            if (player->armorpoints < max_armor)
+            {
+                player->armorpoints++;
+                P_AddArmor(player, 1);
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+            }
             if (!player->armortype)
                 player->armortype = GREENARMOR;
             if (message)
@@ -653,6 +709,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
         case SPR_SOUL:
             if (!(player->cheats & CF_GODMODE))
             {
+                P_AddHealth(player, soul_health - player->health);
                 player->health += soul_health;
                 if (player->health > max_soul)
                     player->health = max_soul;
