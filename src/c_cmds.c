@@ -178,6 +178,7 @@ extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
 extern unsigned int     stat_distancetravelled;
 extern unsigned int     stat_itemspickedup;
+extern unsigned int     stat_mapscompleted;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_monsterskilled_arachnotrons;
 extern unsigned int     stat_monsterskilled_archviles;
@@ -2543,6 +2544,8 @@ static void C_PlayerStats_Game(void)
             striptrailingzero(totallinesmapped * 100.0f / totallines, 1));
     }
 
+    C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
+
     C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(player->killcount), commify(totalkills),
         (totalkills ? player->killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
@@ -2704,6 +2707,8 @@ static void C_PlayerStats_NoGame(void)
     int time2 = stat_time / TICRATE;
 
     C_TabbedOutput(tabs, "\t<b><i>Total</i></b>");
+
+    C_TabbedOutput(tabs, "Maps completed\t<b>%s</b>", commify(stat_mapscompleted));
 
     C_TabbedOutput(tabs, "Monsters killed\t<b>%s</b>", commify(stat_monsterskilled));
 

@@ -133,6 +133,7 @@ extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
 extern unsigned int     stat_distancetravelled;
 extern unsigned int     stat_itemspickedup;
+extern unsigned int     stat_mapscompleted;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_monsterskilled_arachnotrons;
 extern unsigned int     stat_monsterskilled_archviles;
@@ -303,6 +304,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,                                       NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_distancetravelled,                            NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,                                NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_mapscompleted,                                NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,                               NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_arachnotrons,                  NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled_archviles,                     NOALIAS    ),

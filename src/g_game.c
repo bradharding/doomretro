@@ -192,6 +192,8 @@ static char     savedescription[SAVESTRINGSIZE];
 
 gameaction_t    loadaction = ga_nothing;
 
+unsigned int    stat_mapscompleted = 0;
+
 extern dboolean alwaysrun;
 extern int      st_palette;
 extern int      pagetic;
@@ -1334,6 +1336,8 @@ void G_DoCompleted(void)
     gamestate = GS_INTERMISSION;
     viewactive = false;
     automapactive = false;
+
+    stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
 
     WI_Start(&wminfo);
 }
