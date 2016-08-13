@@ -259,6 +259,7 @@ linefix_t linefix[] =
     { doom2,            1,  12,     648,    1, "",         "",            "PIPES",       DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
     { doom2,            1,  12,     773,    1, "",         "",            "PANCASE2",    DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
 
+    { doom2,            1,  13,     273,    1, "GRAYVINE", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
     { doom2,            1,  13,     305,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
     { doom2,            1,  13,     308,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
     { doom2,            1,  13,     318,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                    DEFAULT },
