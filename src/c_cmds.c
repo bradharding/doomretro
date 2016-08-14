@@ -2220,16 +2220,16 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
 
-    C_TabbedOutput(tabs, "Title\t%s", mapnumandtitle);
+    C_TabbedOutput(tabs, "Title\t<b>%s</b>", mapnumandtitle);
 
     {
         int     i = (gamemission == doom ? gameepisode * 10 : 0) + gamemap;
         char    *author = P_GetMapAuthor(i);
 
         if (*author)
-            C_TabbedOutput(tabs, "Author\t%s", author);
+            C_TabbedOutput(tabs, "Author\t<b>%s</b>", author);
         else if (canmodify && *authors[i][gamemission])
-            C_TabbedOutput(tabs, "Author\t%s", authors[i][gamemission]);
+            C_TabbedOutput(tabs, "Author\t<b>%s</b>", authors[i][gamemission]);
     }
 
     {
@@ -2242,36 +2242,43 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
         i = (nerve && gamemission == doom2 ? W_GetNumForName2(lumpname) :
             W_CheckNumForName(lumpname));
-        C_TabbedOutput(tabs, "%s\t%s", (lumpinfo[i]->wad_file->type == IWAD ? "IWAD" : "PWAD"),
-            uppercase(leafname(lumpinfo[i]->wad_file->path)));
+        C_TabbedOutput(tabs, "%s\t<b>%s</b>", (lumpinfo[i]->wad_file->type == IWAD ? "IWAD" :
+            "PWAD"), uppercase(leafname(lumpinfo[i]->wad_file->path)));
     }
 
-    C_TabbedOutput(tabs, "Things\t%s\t%s", commify(numthings), convertsize(sizethings));
+    C_TabbedOutput(tabs, "Things\t<b>%s</b>\t<b>%s</b>",
+        commify(numthings), convertsize(sizethings));
 
-    C_TabbedOutput(tabs, "Lines\t%s\t%s", commify(numlines), convertsize(sizelines));
+    C_TabbedOutput(tabs, "Lines\t<b>%s</b>\t<b>%s</b>",
+        commify(numlines), convertsize(sizelines));
 
-    C_TabbedOutput(tabs, "Line specials\t%s-compatible",
+    C_TabbedOutput(tabs, "Line specials\t<b>%s-compatible</b>",
         (boomlinespecials ? "<i>BOOM</i>" : "Vanilla"));
 
-    C_TabbedOutput(tabs, "Sides\t%s\t%s", commify(numsides), convertsize(sizesides));
+    C_TabbedOutput(tabs, "Sides\t<b>%s</b>\t<b>%s</b>",
+        commify(numsides), convertsize(sizesides));
 
-    C_TabbedOutput(tabs, "Vertices\t%s\t%s", commify(numvertexes), convertsize(sizevertexes));
+    C_TabbedOutput(tabs, "Vertices\t<b>%s</b>\t<b>%s</b>",
+        commify(numvertexes), convertsize(sizevertexes));
 
-    C_TabbedOutput(tabs, "Segments\t%s\t%s", commify(numsegs), convertsize(sizesegs));
+    C_TabbedOutput(tabs, "Segments\t<b>%s</b>\t<b>%s</b>",
+        commify(numsegs), convertsize(sizesegs));
 
-    C_TabbedOutput(tabs, "Subsectors\t%s\t%s", commify(numsubsectors),
-        convertsize(sizesubsectors));
+    C_TabbedOutput(tabs, "Subsectors\t<b>%s</b>\t<b>%s</b>",
+        commify(numsubsectors), convertsize(sizesubsectors));
 
-    C_TabbedOutput(tabs, "Nodes\t%s\t%s", commify(numnodes), convertsize(sizenodes));
+    C_TabbedOutput(tabs, "Nodes\t<b>%s</b>\t<b>%s</b>",
+        commify(numnodes), convertsize(sizenodes));
 
-    C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :
-        (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
-            "ZDoom uncompressed extended nodes")));
+    C_TabbedOutput(tabs, "Node format\t<b>%s</b>",
+        (mapformat == DOOMBSP ? "Regular nodes" : (mapformat == DEEPBSP ?
+            "DeePBSP v4 extended nodes" : "ZDoom uncompressed extended nodes")));
 
-    C_TabbedOutput(tabs, "Sectors\t%s\t%s", commify(numsectors), convertsize(sizesectors));
+    C_TabbedOutput(tabs, "Sectors\t<b>%s</b>\t<b>%s</b>",
+        commify(numsectors), convertsize(sizesectors));
 
     if (blockmaprecreated)
-        C_TabbedOutput(tabs, "Blockmap\tRecreated");
+        C_TabbedOutput(tabs, "Blockmap\t<b>Recreated</b>");
 
     {
         int     i;
@@ -2294,7 +2301,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             else if (y > max_y)
                 max_y = y;
         }
-        C_TabbedOutput(tabs, "Dimensions\t%s\xD7%s",
+        C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s</b>",
             commify((max_x - min_x) >> FRACBITS), commify((max_y - min_y) >> FRACBITS));
     }
 
@@ -2304,7 +2311,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
         if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "Music title\t%s", mus_playing->title);
+            C_TabbedOutput(tabs, "Music title\t<b>%s</b>", mus_playing->title);
     }
 }
 
