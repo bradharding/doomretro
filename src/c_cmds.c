@@ -757,7 +757,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_fullscreen, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLALIAS,
         "Toggles between fullscreen and a window."),
     CVAR_STR(vid_scaledriver, "", vid_scaledriver_cvar_func1, vid_scaledriver_cvar_func2,
-        "The driver used to scale the display (<b>\"\"</b>, <b>\"direct3d\"</b>, <b>\"opengl\"</b>\nor <b>\"software\"</b>)."),
+        "The driver used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b> or\n<b>\"software\"</b>)."),
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2,
         "The filter used to scale the display (<b>\"nearest\"</b>, <b>\"linear\"</b> or\n<b>\"nearest_linear\"</b>)."),
     CVAR_SIZE(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
