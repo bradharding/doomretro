@@ -1322,7 +1322,7 @@ void V_Init(void)
             M_GetExecutableFolder());
 #else
         M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots",
-            M_GetExecutableFolder());
+            M_GetAppDataFolder());
 #endif
 }
 
