@@ -1272,8 +1272,15 @@ static void SetVideoMode(dboolean output)
         if (!SDL_GetRendererInfo(renderer, &rendererinfo))
         {
             if (M_StringCompare(rendererinfo.name, vid_scaledriver_direct3d))
+            {
                 C_Output("The screen is rendered using hardware acceleration with the "
                     "<b><i>Direct3D 9.0</b></i> API.");
+                if (!M_StringCompare(vid_scaledriver, vid_scaledriver_direct3d))
+                {
+                    vid_scaledriver = vid_scaledriver_direct3d;
+                    M_SaveCVARs();
+                }
+            }
             else if (M_StringCompare(rendererinfo.name, vid_scaledriver_opengl))
             {
                 int     major, minor;
@@ -1282,9 +1289,21 @@ static void SetVideoMode(dboolean output)
                 SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
                 C_Output("The screen is rendered using hardware acceleration with the "
                     "<b><i>OpenGL %i.%i</b></i> API.", major, minor);
+                if (!M_StringCompare(vid_scaledriver, vid_scaledriver_opengl))
+                {
+                    vid_scaledriver = vid_scaledriver_opengl;
+                    M_SaveCVARs();
+                }
             }
             else if (M_StringCompare(rendererinfo.name, vid_scaledriver_software))
+            {
                 C_Output("The screen is rendered in software.");
+                if (!M_StringCompare(vid_scaledriver, vid_scaledriver_software))
+                {
+                    vid_scaledriver = vid_scaledriver_software;
+                    M_SaveCVARs();
+                }
+            }
 
             if (nearestlinear)
             {
