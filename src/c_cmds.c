@@ -3972,8 +3972,7 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 static dboolean vid_scaledriver_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!*parm1 || M_StringCompare(parm1, EMPTYVALUE)
-        || M_StringCompare(parm1, vid_scaledriver_direct3d)
+    return (!*parm1 || M_StringCompare(parm1, vid_scaledriver_direct3d)
         || M_StringCompare(parm1, vid_scaledriver_opengl)
         || M_StringCompare(parm1, vid_scaledriver_software));
 }
@@ -3982,13 +3981,7 @@ static void vid_scaledriver_cvar_func2(char *cmd, char *parm1, char *parm2, char
 {
     if (*parm1)
     {
-        if (M_StringCompare(parm1, EMPTYVALUE) && *vid_scaledriver)
-        {
-            vid_scaledriver = "";
-            M_SaveCVARs();
-            I_RestartGraphics();
-        }
-        else if (!M_StringCompare(parm1, vid_scaledriver))
+        if (!M_StringCompare(parm1, vid_scaledriver))
         {
             vid_scaledriver = strdup(parm1);
             M_SaveCVARs();
