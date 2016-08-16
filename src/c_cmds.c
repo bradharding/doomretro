@@ -763,7 +763,7 @@ consolecmd_t consolecmds[] =
     CVAR_SIZE(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
         "The screen's resolution when fullscreen (<b>desktop</b> or\n<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLALIAS,
-        "Toggles the display of the average frames per second."),
+        "Toggles the display of the average number of frames per second."),
     CVAR_BOOL(vid_vsync, "", bool_cvars_func1, vid_vsync_cvar_func2, BOOLALIAS,
         "Toggles vertical synchronization with the display's refresh\nrate."),
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLALIAS,
