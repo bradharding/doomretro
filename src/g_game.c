@@ -596,7 +596,7 @@ void G_DoLoadLevel(void)
     paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
-    SDL_SetWindowTitle(window, mapnumandtitle);
+    M_SetWindowCaption();
 
     if (automapactive || mapwindow)
         AM_Start(automapactive);

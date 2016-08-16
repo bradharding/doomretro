@@ -60,6 +60,7 @@
 #include "s_sound.h"
 #include "v_data.h"
 #include "v_video.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -1569,6 +1570,8 @@ void M_SetWindowCaption(void)
         if (bfgedition)
             M_snprintf(caption, sizeof(caption), "%s (%s)", caption, s_CAPTION_BFGEDITION);
     }
+
+    M_snprintf(caption, sizeof(caption), "%s - "PACKAGE_NAME, caption);
 
     SDL_SetWindowTitle(window, caption);
 }
