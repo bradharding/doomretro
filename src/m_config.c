@@ -171,7 +171,7 @@ extern int              vid_display;
 extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
-extern char             *vid_scaledriver;
+extern char             *vid_scaleapi;
 extern char             *vid_scalefilter;
 extern char             *vid_screenresolution;
 extern dboolean         vid_vsync;
@@ -294,7 +294,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (vid_driver,                                        NOALIAS    ),
 #endif
     CONFIG_VARIABLE_INT          (vid_fullscreen,                                    BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (vid_scaledriver,                                   NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_scaleapi,                                      NOALIAS    ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,                                   NOALIAS    ),
     CONFIG_VARIABLE_OTHER        (vid_screenresolution,                              NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_vsync,                                         BOOLALIAS  ),
@@ -798,10 +798,10 @@ static void M_CheckCVARs(void)
     if (vid_fullscreen != false && vid_fullscreen != true)
         vid_fullscreen = vid_fullscreen_default;
 
-    if (!M_StringCompare(vid_scaledriver, vid_scaledriver_direct3d)
-        && !M_StringCompare(vid_scaledriver, vid_scaledriver_opengl)
-        && !M_StringCompare(vid_scaledriver, vid_scaledriver_software))
-        vid_scaledriver = vid_scaledriver_default;
+    if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl)
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_software))
+        vid_scaleapi = vid_scaleapi_default;
 
     if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)

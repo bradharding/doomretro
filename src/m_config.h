@@ -328,10 +328,10 @@ typedef enum
 
 #define vid_fullscreen_default                  true
 
-#define vid_scaledriver_direct3d                "direct3d"
-#define vid_scaledriver_opengl                  "opengl"
-#define vid_scaledriver_software                "software"
-#define vid_scaledriver_default                 ""
+#define vid_scaleapi_direct3d                   "direct3d"
+#define vid_scaleapi_opengl                     "opengl"
+#define vid_scaleapi_software                   "software"
+#define vid_scaleapi_default                    ""
 
 #define vid_scalefilter_linear                  "linear"
 #define vid_scalefilter_nearest                 "nearest"

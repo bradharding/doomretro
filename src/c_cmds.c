@@ -216,7 +216,7 @@ extern int              vid_display;
 extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
-extern char             *vid_scaledriver;
+extern char             *vid_scaleapi;
 extern char             *vid_scalefilter;
 extern char             *vid_screenresolution;
 extern dboolean         vid_vsync;
@@ -414,8 +414,8 @@ static dboolean units_cvar_func1(char *, char *, char *, char *);
 static void units_cvar_func2(char *, char *, char *, char *);
 static void vid_display_cvar_func2(char *, char *, char *, char *);
 static void vid_fullscreen_cvar_func2(char *, char *, char *, char *);
-static dboolean vid_scaledriver_cvar_func1(char *, char *, char *, char *);
-static void vid_scaledriver_cvar_func2(char *, char *, char *, char *);
+static dboolean vid_scaleapi_cvar_func1(char *, char *, char *, char *);
+static void vid_scaleapi_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scalefilter_cvar_func1(char *, char *, char *, char *);
 static void vid_scalefilter_cvar_func2(char *, char *, char *, char *);
 static void vid_screenresolution_cvar_func2(char *, char *, char *, char *);
@@ -756,8 +756,8 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_BOOL(vid_fullscreen, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLALIAS,
         "Toggles between fullscreen and a window."),
-    CVAR_STR(vid_scaledriver, "", vid_scaledriver_cvar_func1, vid_scaledriver_cvar_func2,
-        "The driver used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b> or\n<b>\"software\"</b>)."),
+    CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2,
+        "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b> or\n<b>\"software\"</b>)."),
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2,
         "The filter used to scale the display (<b>\"nearest\"</b>, <b>\"linear\"</b> or\n<b>\"nearest_linear\"</b>)."),
     CVAR_SIZE(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
@@ -3968,28 +3968,28 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 }
 
 //
-// vid_scaledriver cvar
+// vid_scaleapi cvar
 //
-static dboolean vid_scaledriver_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!*parm1 || M_StringCompare(parm1, vid_scaledriver_direct3d)
-        || M_StringCompare(parm1, vid_scaledriver_opengl)
-        || M_StringCompare(parm1, vid_scaledriver_software));
+    return (!*parm1 || M_StringCompare(parm1, vid_scaleapi_direct3d)
+        || M_StringCompare(parm1, vid_scaleapi_opengl)
+        || M_StringCompare(parm1, vid_scaleapi_software));
 }
 
-static void vid_scaledriver_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+static void vid_scaleapi_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (*parm1)
     {
-        if (!M_StringCompare(parm1, vid_scaledriver))
+        if (!M_StringCompare(parm1, vid_scaleapi))
         {
-            vid_scaledriver = strdup(parm1);
+            vid_scaleapi = strdup(parm1);
             M_SaveCVARs();
             I_RestartGraphics();
         }
     }
     else
-        C_Output("\"%s\"", vid_scaledriver);
+        C_Output("\"%s\"", vid_scaleapi);
 }
 
 //

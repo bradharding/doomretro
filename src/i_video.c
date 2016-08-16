@@ -72,7 +72,7 @@ int                     vid_display = vid_display_default;
 char                    *vid_driver = vid_driver_default;
 #endif
 dboolean                vid_fullscreen = vid_fullscreen_default;
-char                    *vid_scaledriver = vid_scaledriver_default;
+char                    *vid_scaleapi = vid_scaleapi_default;
 char                    *vid_scalefilter = vid_scalefilter_default;
 char                    *vid_screenresolution = vid_screenresolution_default;
 dboolean                vid_showfps = false;
@@ -1163,7 +1163,7 @@ static void SetVideoMode(dboolean output)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
 
-    SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaledriver, SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
 
     GetWindowPosition();
     GetWindowSize();
@@ -1271,17 +1271,17 @@ static void SetVideoMode(dboolean output)
 
         if (!SDL_GetRendererInfo(renderer, &rendererinfo))
         {
-            if (M_StringCompare(rendererinfo.name, vid_scaledriver_direct3d))
+            if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
             {
                 C_Output("The screen is rendered using hardware acceleration with the "
                     "<b><i>Direct3D 9.0</b></i> API.");
-                if (!M_StringCompare(vid_scaledriver, vid_scaledriver_direct3d))
+                if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
                 {
-                    vid_scaledriver = vid_scaledriver_direct3d;
+                    vid_scaleapi = vid_scaleapi_direct3d;
                     M_SaveCVARs();
                 }
             }
-            else if (M_StringCompare(rendererinfo.name, vid_scaledriver_opengl))
+            else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
             {
                 int     major, minor;
 
@@ -1289,18 +1289,18 @@ static void SetVideoMode(dboolean output)
                 SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
                 C_Output("The screen is rendered using hardware acceleration with the "
                     "<b><i>OpenGL %i.%i</b></i> API.", major, minor);
-                if (!M_StringCompare(vid_scaledriver, vid_scaledriver_opengl))
+                if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
-                    vid_scaledriver = vid_scaledriver_opengl;
+                    vid_scaleapi = vid_scaleapi_opengl;
                     M_SaveCVARs();
                 }
             }
-            else if (M_StringCompare(rendererinfo.name, vid_scaledriver_software))
+            else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
             {
                 C_Output("The screen is rendered in software.");
-                if (!M_StringCompare(vid_scaledriver, vid_scaledriver_software))
+                if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
                 {
-                    vid_scaledriver = vid_scaledriver_software;
+                    vid_scaleapi = vid_scaleapi_software;
                     M_SaveCVARs();
                 }
             }
