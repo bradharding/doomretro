@@ -585,25 +585,24 @@ dboolean DehFileProcessed(char *path)
     return false;
 }
 
-
 static char *FindDehPath(char *path, char *ext, char *pattern)
 {
     // Returns a malloc'd path to the .deh file that matches a WAD path.
     // Or NULL if no matching .deh file can be found.
     // The pattern (not used in Windows) is the fnmatch pattern to search for.
-
 #if defined(WIN32)
-    char *dehpath = M_StringReplace(path, ".wad", ".deh");
-    return M_StringJoin(dehpath, "") if M_FileExists(dehpath) else NULL;
+    char        *dehpath = M_StringReplace(path, ".wad", ext);
+
+    return (M_FileExists(dehpath) ? dehpath : NULL);
 #else
-    // Used to safely call dirname and basename, which can modify their input.
-    char temp[256];
+    // Used to safely call dirname and basename, which can modfy their input.
+    char                temp[256];
 
-    char *dehdir = NULL;
-    char *dehpattern = NULL;
+    char                *dehdir = NULL;
+    char                *dehpattern = NULL;
 
-    DIR *dirp = NULL;
-    struct dirent *dit = NULL;
+    DIR                 *dirp = NULL;
+    struct dirent       *dit = NULL;
 
     M_StringCopy(temp, path, 256);
     dehpattern = M_StringReplace(basename(temp), ".wad", pattern);
@@ -623,16 +622,14 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 #endif
 }
 
-
 static void LoadDehFile(char *path)
 {
     if (!M_ParmExists("-nodeh") && !HasDehackedLump(path))
     {
-        char            *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
+        char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
 
         if (dehpath)
         {
-            printf("dehpath (bex) is %s\n", dehpath);
             if (!DehFileProcessed(dehpath))
             {
                 if (chex)
@@ -660,8 +657,6 @@ static void LoadDehFile(char *path)
         }
     }
 }
-
-
 
 static void LoadCfgFile(char *path)
 {
