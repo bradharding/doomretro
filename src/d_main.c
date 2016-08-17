@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <stdio.h>
+
 #if defined(WIN32)
 #pragma comment(lib, "winmm.lib")
 
@@ -78,7 +80,11 @@
 #include "z_zone.h"
 
 #if !defined(WIN32)
+#include <dirent.h>
+#include <fnmatch.h>
+#include <libgen.h>
 #include <wordexp.h>
+#include <sys/types.h>
 #endif
 
 //
@@ -582,33 +588,83 @@ dboolean DehFileProcessed(char *path)
     return false;
 }
 
+
+static char *FindDehPath(char *path, char *ext, char *pattern)
+{
+    // Returns a malloc'd path to the .deh file that matches a WAD path.
+    // Or NULL if no matching .deh file can be found.
+    // The pattern (not used in Windows) is the fnmatch pattern to search for.
+
+#if defined(WIN32)
+    char *dehpath = M_StringReplace(path, ".wad", ".deh");
+    return M_StringJoin(dehpath, "") if M_FileExists(dehpath) else NULL;
+#else
+    // Used to safely call dirname and basename, which can modify their input.
+    char temp[256];
+
+    char *dehdir = NULL;
+    char *dehpattern = NULL;
+
+    DIR *dirp = NULL;
+    struct dirent *dit = NULL;
+
+    M_StringCopy(temp, path, 256);
+    dehpattern = M_StringReplace(basename(temp), ".wad", pattern);
+    M_StringCopy(temp, path, 256);
+    dehdir = dirname(temp);
+    dirp = opendir(dehdir);
+    while ((dit = readdir(dirp)))
+    {
+        if (!fnmatch(dehpattern, dit->d_name, 0))
+        {
+            closedir(dirp);
+            return M_StringJoin(dehdir, DIR_SEPARATOR_S, dit->d_name, "");
+        }
+    }
+    closedir(dirp);
+    return NULL;
+#endif
+}
+
+
 static void LoadDehFile(char *path)
 {
     if (!M_ParmExists("-nodeh") && !HasDehackedLump(path))
     {
-        char            *dehpath = M_StringReplace(path, ".wad", ".bex");
+        char            *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
 
-        if (M_FileExists(dehpath) && !DehFileProcessed(dehpath))
+        if (dehpath)
         {
-            if (chex)
-                chexdeh = true;
-            ProcessDehFile(dehpath, 0);
-            if (dehfilecount < MAXDEHFILES)
-                M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
-        }
-        else
-        {
-            char        *dehpath = M_StringReplace(path, ".wad", ".deh");
-
-            if (M_FileExists(dehpath) && !DehFileProcessed(dehpath))
+            printf("dehpath (bex) is %s\n", dehpath);
+            if (!DehFileProcessed(dehpath))
             {
+                if (chex)
+                    chexdeh = true;
                 ProcessDehFile(dehpath, 0);
                 if (dehfilecount < MAXDEHFILES)
                     M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
             }
+            free(dehpath);
+        }
+        else
+        {
+            char        *dehpath = FindDehPath(path, ".deh", ".[Dd][Ee][Hh]");
+
+            if (dehpath)
+            {
+                if (!DehFileProcessed(dehpath))
+                {
+                    ProcessDehFile(dehpath, 0);
+                    if (dehfilecount < MAXDEHFILES)
+                        M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
+                }
+                free(dehpath);
+            }
         }
     }
 }
+
+
 
 static void LoadCfgFile(char *path)
 {
@@ -782,6 +838,8 @@ dboolean D_CheckParms(void)
             int             iwadrequired = IWADRequiredByPWAD(myargv[1]);
             static char     fullpath[MAX_PATH];
 
+            printf("Trying to load iwad\n");
+
             if (iwadrequired == indetermined)
                 iwadrequired = doom2;
 
@@ -843,7 +901,7 @@ dboolean D_CheckParms(void)
                             "DOOM2.WAD"));
 #else
                     if (getenv("DOOMWADDIR") && !wordexp(getenv("DOOMWADDIR"), &p, 0) && p.we_wordc > 0)
-                    {  
+                    {
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                             p.we_wordv[0], (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                         wordfree(&p);
