@@ -583,6 +583,11 @@ static int      green;
 static int      red;
 static int      yellow;
 
+static int      coloroffset;
+
+void (*althudfunc)(int, int, patch_t *, int, int);
+void (*fillrectfunc)(int, int, int, int, int, int);
+
 void HU_AltInit(void)
 {
     int         i;
@@ -630,6 +635,19 @@ void HU_AltInit(void)
     green = nearestcolors[GREEN];
     red = nearestcolors[RED];
     yellow = nearestcolors[YELLOW];
+
+    if (r_translucency)
+    {
+        althudfunc = V_DrawTranslucentAltHUDPatch;
+        fillrectfunc = V_FillTransRect;
+        coloroffset = 0;
+    }
+    else
+    {
+        althudfunc = V_DrawAltHUDPatch;
+        fillrectfunc = V_FillRect;
+        coloroffset = 4;
+    }
 }
 
 static void DrawAltHUDNumber(int x, int y, int val)
@@ -640,17 +658,17 @@ static void DrawAltHUDNumber(int x, int y, int val)
     if (val > 99)
     {
         patch = altnum[val / 100];
-        V_DrawAltHUDPatch(x, y, patch, WHITE, white);
+        althudfunc(x, y, patch, WHITE, white);
         x += SHORT(patch->width) + 2;
     }
     val %= 100;
     if (val > 9 || oldval > 99)
     {
         patch = altnum[val / 10];
-        V_DrawAltHUDPatch(x, y, patch, WHITE, white);
+        althudfunc(x, y, patch, WHITE, white);
         x += SHORT(patch->width) + 2;
     }
-    V_DrawAltHUDPatch(x, y, altnum[val % 10], WHITE, white);
+    althudfunc(x, y, altnum[val % 10], WHITE, white);
 }
 
 static int AltHUDNumberWidth(int val)
@@ -674,17 +692,17 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color)
     if (val > 99)
     {
         patch = altnum2[val / 100];
-        V_DrawAltHUDPatch(x, y, patch, WHITE, color);
+        althudfunc(x, y, patch, WHITE, color);
         x += SHORT(patch->width) + 1;
     }
     val %= 100;
     if (val > 9 || oldval > 99)
     {
         patch = altnum2[val / 10];
-        V_DrawAltHUDPatch(x, y, patch, WHITE, color);
+        althudfunc(x, y, patch, WHITE, color);
         x += SHORT(patch->width) + 1;
     }
-    V_DrawAltHUDPatch(x, y, altnum2[val % 10], WHITE, color);
+    althudfunc(x, y, altnum2[val % 10], WHITE, color);
 }
 
 static int AltHUDNumber2Width(int val)
@@ -704,48 +722,50 @@ static void HU_DrawAltHUD(void)
 {
     int health = MAX(0, plr->health);
     int armor = plr->armorpoints;
-    int color = (health <= 20 ? red : (health >= 100 ? green : white));
+    int color2 = (health <= 20 ? red : (health >= 100 ? green : white));
+    int color1 = color2 + coloroffset;
     int keys = 0;
     int i = 0;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
     if (health > 100)
     {
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, color);
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
-            8, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10,
-            altmark2patch, WHITE, color);
+        fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, color1);
+        fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
+            8, color2);
+        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
+        althudfunc(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color2);
+        althudfunc(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE, color1);
+        althudfunc(ALTHUD_LEFT_X + 60 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10,
+            altmark2patch, WHITE, color2);
     }
     else
     {
-        V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8,
-            color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 60 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13,
-            altmarkpatch, WHITE, color);
+        fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8,
+            color1);
+        althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
+        althudfunc(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color1);
+        althudfunc(ALTHUD_LEFT_X + 60 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13,
+            altmarkpatch, WHITE, color1);
     }
 
     if (armor)
     {
-        color = (plr->armortype == GREENARMOR ? gray : lightgray);
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, color);
-        DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color);
+        color2 = (plr->armortype == GREENARMOR ? gray : lightgray);
+        color1 = color2 + coloroffset;
+        althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, color2);
+        DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color2);
         if (armor > 100)
         {
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, 100 + 1, 4, color);
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4,
-                color);
+            fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, 100 + 1, 4, color1);
+            fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4,
+                color2);
         }
         else
-            V_FillTransRect(ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor + (armor == 100), 4, color);
+            fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, armor + (armor == 100), 4, color1);
     }
     else
-        V_DrawAltHUDPatch(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, darkgray);
+        althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, darkgray);
 
     if (health)
     {
@@ -759,22 +779,21 @@ static void HU_DrawAltHUD(void)
 
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 1, ammo);
             ammo = 100 * ammo / plr->maxammo[ammotype];
-            color = (ammo <= 15 ? yellow : white);
-            V_FillTransRect(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, color);
-            V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
-            V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color);
-            V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE,
-                color);
+            color1 = (ammo <= 15 ? yellow : white);
+            fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, color1);
+            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
+            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color1);
+            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE,
+                color1);
         }
         else
-            V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
+            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
 
         if (weapon)
-            V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE,
-                white);
+            althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, white);
     }
     else
-        V_DrawAltHUDPatch(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
+        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
 
     while (i < NUMCARDS)
         if (plr->cards[i++] > 0)
@@ -803,8 +822,8 @@ static void HU_DrawAltHUD(void)
             {
                 altkeypic_t     altkeypic = altkeypics[plr->neededcard];
 
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 11 * cardsfound, ALTHUD_Y, altkeypic.patch,
-                    WHITE, altkeypic.color);
+                althudfunc(ALTHUD_RIGHT_X + 11 * cardsfound, ALTHUD_Y, altkeypic.patch, WHITE,
+                    altkeypic.color);
             }
         }
         else
@@ -821,8 +840,8 @@ static void HU_DrawAltHUD(void)
             {
                 altkeypic_t    altkeypic = altkeypics[i];
 
-                V_DrawAltHUDPatch(ALTHUD_RIGHT_X + 11 * (card - 1), ALTHUD_Y, altkeypic.patch,
-                    WHITE, altkeypic.color);
+                althudfunc(ALTHUD_RIGHT_X + 11 * (card - 1), ALTHUD_Y, altkeypic.patch, WHITE,
+                    altkeypic.color);
             }
         }
     }

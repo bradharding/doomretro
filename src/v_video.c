@@ -94,7 +94,7 @@ void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int dest
 //
 // V_FillRect
 //
-void V_FillRect(int scrn, int x, int y, int width, int height, byte color)
+void V_FillRect(int scrn, int x, int y, int width, int height, int color)
 {
     byte        *dest = screens[scrn] + y * SCREENWIDTH + x;
 
@@ -105,9 +105,9 @@ void V_FillRect(int scrn, int x, int y, int width, int height, byte color)
     }
 }
 
-void V_FillTransRect(int x, int y, int width, int height, int color)
+void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
 {
-    byte        *dest = screens[0] + y * SCREENWIDTH + x;
+    byte        *dest = screens[scrn] + y * SCREENWIDTH + x;
     byte        *dot;
     int         xx, yy;
 
@@ -734,6 +734,37 @@ void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab
 }
 
 void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
+{
+    int         col = 0;
+    byte        *desttop = screens[0] + y * SCREENWIDTH + x;
+    int         w = SHORT(patch->width);
+
+    for (; col < w; ++col, ++desttop)
+    {
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            byte        length = column->length;
+            byte        count = length;
+
+            while (count--)
+            {
+                byte    dot = *source++;
+
+                if (dot)
+                    *dest = (dot == from ? to : dot);
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
