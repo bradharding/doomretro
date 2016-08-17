@@ -596,7 +596,8 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     return (M_FileExists(dehpath) ? dehpath : NULL);
 #else
     // Used to safely call dirname and basename, which can modfy their input.
-    char                temp[256];
+    size_t              pathlen = strlen(path);
+    char                *pathcopy = (char *)malloc((pathlen + 1) * sizeof(char));
 
     char                *dehdir = NULL;
     char                *dehpattern = NULL;
@@ -604,20 +605,22 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     DIR                 *dirp = NULL;
     struct dirent       *dit = NULL;
 
-    M_StringCopy(temp, path, 256);
-    dehpattern = M_StringReplace(basename(temp), ".wad", pattern);
-    M_StringCopy(temp, path, 256);
-    dehdir = dirname(temp);
+    M_StringCopy(pathcopy, path, pathlen);
+    dehpattern = M_StringReplace(basename(pathcopy), ".wad", pattern);
+    M_StringCopy(pathcopy, path, pathlen);
+    dehdir = dirname(pathcopy);
     dirp = opendir(dehdir);
     while ((dit = readdir(dirp)))
     {
         if (!fnmatch(dehpattern, dit->d_name, 0))
         {
             closedir(dirp);
+            free(pathcopy);
             return M_StringJoin(dehdir, DIR_SEPARATOR_S, dit->d_name, "");
         }
     }
     closedir(dirp);
+    free(pathcopy);
     return NULL;
 #endif
 }
