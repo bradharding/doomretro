@@ -165,6 +165,7 @@ extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
 extern int              units;
 extern int              turbo;
+extern char             *version;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -288,6 +289,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                                          NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                                             NOALIAS    ),
     CONFIG_VARIABLE_INT          (units,                                             UNITSALIAS ),
+    CONFIG_VARIABLE_STRING       (version,                                           NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,                                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,                                       NOALIAS    ),
 #if !defined(WIN32)
@@ -791,6 +793,8 @@ static void M_CheckCVARs(void)
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
 
     turbo = BETWEEN(turbo_min, turbo, turbo_max);
+
+    version = version_default;
 
     if (vid_capfps != false && vid_capfps != true)
         vid_capfps = vid_capfps_default;

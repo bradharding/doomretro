@@ -85,9 +85,11 @@
 #define TELEPORTCMDFORMAT       "<i>x</i> <i>y</i>"
 #define UNBINDCMDFORMAT         "<i>control</i>"
 
-int     ammo;
-int     armor;
-int     health;
+int                     ammo;
+int                     armor;
+int                     health;
+
+char                    *version = version_default;
 
 extern dboolean         alwaysrun;
 extern int              am_allmapcdwallcolor;
@@ -472,8 +474,9 @@ static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
     { #name, #alt, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, "", desc, name##_default }
 #define CVAR_SIZE(name, alt, cond, func, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, CF_SIZE, &name, 0, 0, 0, "", desc, name##_default }
-#define CVAR_STR(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_STRING, &name, 0, 0, 0, "", desc, name##_default }
+#define CVAR_STR(name, alt, cond, func, flags, desc) \
+    { #name, #alt, cond, func, 1, CT_CVAR, (CF_STRING | flags), &name, 0, 0, 0, "", desc, \
+      name##_default }
 #define CVAR_TIME(name, alt, cond, func, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc, "" }
 
@@ -598,7 +601,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(idmus, 1),
     CMD_CHEAT(idmypos, 0),
     CMD_CHEAT(idspispopd, 0),
-    CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2,
+    CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CMD(kill, "", kill_cmd_func1, kill_cmd_func2, 1, KILLCMDFORMAT,
         "Kills the <b>player</b>, <b>all</b> monsters or a type of <i>monster</i>."),
@@ -634,7 +637,7 @@ consolecmd_t consolecmds[] =
         "Toggles the player starting each map with only a pistol."),
     CMD(play, "", play_cmd_func1, play_cmd_func2, 1, PLAYCMDFORMAT,
         "Plays a <i>sound</i> or <i>music</i> lump."),
-    CVAR_STR(playername, "", null_func1, playername_cvar_func2,
+    CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, 0, "",
         "Shows statistics about the player."),
@@ -724,7 +727,7 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the pitch of monster sound effects."),
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOALIAS,
         "The sound effects volume."),
-    CVAR_STR(s_timiditycfgpath, "", null_func1, str_cvars_func2,
+    CVAR_STR(s_timiditycfgpath, "", null_func1, str_cvars_func2, CF_NONE,
         "The path of <i><b>TiMidity's</b></i> configuration file."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,
         "Saves the game to a file."),
@@ -746,19 +749,21 @@ consolecmd_t consolecmds[] =
         "Unbinds the action from a <i>control</i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSALIAS,
         "The units used in the <b>playerstats</b> console command (<b>imperial</b> or\n<b>metric</b>)."),
+    CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
+        "<i><b>"PACKAGE_NAME"</b></i>'s version."),
     CVAR_BOOL(vid_capfps, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS,
         "The display used to render the game."),
 #if !defined(WIN32)
-    CVAR_STR(vid_driver, "", null_func1, str_cvars_func2,
+    CVAR_STR(vid_driver, "", null_func1, str_cvars_func2, CF_NONE,
         "The video driver used to render the game."),
 #endif
     CVAR_BOOL(vid_fullscreen, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLALIAS,
         "Toggles between fullscreen and a window."),
-    CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2,
+    CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b> or\n<b>\"software\"</b>)."),
-    CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2,
+    CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale the display (<b>\"nearest\"</b>, <b>\"linear\"</b> or\n<b>\"nearest_linear\"</b>)."),
     CVAR_SIZE(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
         "The screen's resolution when fullscreen (<b>desktop</b> or\n<i>width</i><b>\xD7</b><i>height</i>)."),

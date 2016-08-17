@@ -316,6 +316,8 @@ typedef enum
 
 #define units_default                           units_imperial
 
+#define version_default                         PACKAGE_VERSIONSTRING
+
 #define vid_capfps_default                      false
 
 #define vid_display_min                         1
