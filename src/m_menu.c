@@ -2803,8 +2803,15 @@ dboolean M_Responder(event_t *ev)
     }
 
     // screenshot
-    if (key == key_screenshot && key != KEY_PRINTSCREEN)
+    if (key == key_screenshot) {
+#if defined(__linux__)
         G_ScreenShot();
+#else
+        if (key != KEY_PRINTSCREEN) {
+            G_ScreenShot();
+        }
+#endif
+    }
 
     // Pop-up menu?
     if (!menuactive)
