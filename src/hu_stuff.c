@@ -110,6 +110,11 @@ void (*hudfunc)(int, int, patch_t *, byte *);
 void (*hudnumfunc)(int, int, patch_t *, byte *);
 void (*godhudfunc)(int, int, patch_t *, byte *);
 
+static int              coloroffset;
+
+void (*althudfunc)(int, int, patch_t *, int, int);
+void (*fillrectfunc)(int, int, int, int, int, int);
+
 static struct
 {
     char        *patchname;
@@ -163,6 +168,28 @@ patch_t *HU_LoadHUDKeyPatch(int keypicnum)
         return NULL;
 }
 
+void HU_SetTranslucency(void)
+{
+    if (r_translucency)
+    {
+        hudfunc = V_DrawTranslucentHUDPatch;
+        hudnumfunc = V_DrawTranslucentHUDNumberPatch;
+        godhudfunc = V_DrawTranslucentYellowHUDPatch;
+        althudfunc = V_DrawTranslucentAltHUDPatch;
+        fillrectfunc = V_FillTransRect;
+        coloroffset = 0;
+    }
+    else
+    {
+        hudfunc = V_DrawHUDPatch;
+        hudnumfunc = V_DrawHUDPatch;
+        godhudfunc = V_DrawYellowHUDPatch;
+        althudfunc = V_DrawAltHUDPatch;
+        fillrectfunc = V_FillRect;
+        coloroffset = 4;
+    }
+}
+
 void HU_Init(void)
 {
     int         i;
@@ -207,19 +234,6 @@ void HU_Init(void)
         keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
     }
 
-    if (r_translucency)
-    {
-        hudfunc = V_DrawTranslucentHUDPatch;
-        hudnumfunc = V_DrawTranslucentHUDNumberPatch;
-        godhudfunc = V_DrawTranslucentYellowHUDPatch;
-    }
-    else
-    {
-        hudfunc = V_DrawHUDPatch;
-        hudnumfunc = V_DrawHUDPatch;
-        godhudfunc = V_DrawYellowHUDPatch;
-    }
-
     if ((lump = W_CheckNumForName("STDISK")) >= 0)
         stdisk = W_CacheLumpNum(lump, PU_CACHE);
 
@@ -229,6 +243,8 @@ void HU_Init(void)
         s_GOTMEDINEED = s_GOTMEDINEED2;
 
     HU_AltInit();
+
+    HU_SetTranslucency();
 }
 
 void HU_Stop(void)
@@ -583,11 +599,6 @@ static int      green;
 static int      red;
 static int      yellow;
 
-static int      coloroffset;
-
-void (*althudfunc)(int, int, patch_t *, int, int);
-void (*fillrectfunc)(int, int, int, int, int, int);
-
 void HU_AltInit(void)
 {
     int         i;
@@ -635,19 +646,6 @@ void HU_AltInit(void)
     green = nearestcolors[GREEN];
     red = nearestcolors[RED];
     yellow = nearestcolors[YELLOW];
-
-    if (r_translucency)
-    {
-        althudfunc = V_DrawTranslucentAltHUDPatch;
-        fillrectfunc = V_FillTransRect;
-        coloroffset = 0;
-    }
-    else
-    {
-        althudfunc = V_DrawAltHUDPatch;
-        fillrectfunc = V_FillRect;
-        coloroffset = 4;
-    }
 }
 
 static void DrawAltHUDNumber(int x, int y, int val)

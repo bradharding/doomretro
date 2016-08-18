@@ -82,6 +82,7 @@
 // HEADS UP TEXT
 //
 void HU_Init(void);
+void HU_SetTranslucency(void);
 void HU_Start(void);
 
 void HU_Ticker(void);

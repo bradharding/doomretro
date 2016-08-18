@@ -3792,6 +3792,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 
             r_translucency = !!value;
             M_SaveCVARs();
+            HU_SetTranslucency();
             R_InitColumnFunctions();
 
             for (i = 0; i < numsectors; ++i)
