@@ -721,7 +721,7 @@ static void HU_DrawAltHUD(void)
     int health = MAX(0, plr->health);
     int armor = plr->armorpoints;
     int color2 = (health <= 20 ? red : (health >= 100 ? green : white));
-    int color1 = color2 + coloroffset;
+    int color1 = color2 + (color2 == green ? coloroffset : 0);
     int keys = 0;
     int i = 0;
 
