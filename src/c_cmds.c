@@ -575,7 +575,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL(gp_vibrate, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles vibration for XInput gamepads."),
+        "Toggles vibration for <i><b>XInput</b></i> gamepads."),
     CVAR_INT(health, "", game_func1, player_cvars_func2, CF_PERCENT, NOALIAS,
         "The player's health."),
 #if defined(WIN32)
@@ -700,7 +700,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles the display of the player's weapon."),
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles the trails behind player and Cyberdemon rockets."),
+        "Toggles the trails behind player and cyberdemon rockets."),
     CVAR_INT(r_screensize, "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOALIAS,
         "The screen size (<b>0</b> to <b>8</b>)."),
     CVAR_BOOL(r_shadows, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
