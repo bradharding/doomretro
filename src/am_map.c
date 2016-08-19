@@ -1892,6 +1892,9 @@ void AM_drawPath(void)
                 end.x = pathpoints[i].x;
                 end.y = pathpoints[i].y;
 
+                if (ABS(start.x - end.x) > FRACUNIT * 4 || ABS(start.y - end.y) > FRACUNIT * 4)
+                    continue;
+
                 AM_rotatePoint(&start);
                 AM_rotatePoint(&end);
 
@@ -1899,8 +1902,10 @@ void AM_drawPath(void)
             }
         else
             for (i = 1; i < pathpointnum; ++i)
-                AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x,
-                    pathpoints[i].y, pathcolor);
+                if (ABS(pathpoints[i - 1].x - pathpoints[i].x) <= FRACUNIT * 4
+                    && ABS(pathpoints[i - 1].y - pathpoints[i].y) <= FRACUNIT * 4)
+                    AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x,
+                        pathpoints[i].y, pathcolor);
     }
 }
 
