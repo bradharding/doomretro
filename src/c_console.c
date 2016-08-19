@@ -167,6 +167,7 @@ static int      consolescrollbarfacecolor = 88;
 static int      consolecolors[STRINGTYPES];
 
 extern int      fps;
+extern dboolean r_translucency;
 
 void G_ToggleAlwaysRun(evtype_t type);
 
@@ -498,7 +499,7 @@ void C_Init(void)
     consolebrandingcolor = nearestcolors[consolebrandingcolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
-    consoletintcolor = nearestcolors[consoletintcolor] << 8;
+    consoletintcolor = nearestcolors[consoletintcolor];
     consoleedgecolor = consolebrandingcolor << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
@@ -562,34 +563,40 @@ static void C_DrawBackground(int height)
 
     height = (height + 5) * SCREENWIDTH;
 
-    if (!blurred || forceblurredraw)
+    if (r_translucency)
     {
-        forceblurredraw = false;
+        if (!blurred || forceblurredraw)
+        {
+            forceblurredraw = false;
+
+            for (i = 0; i < height; ++i)
+                c_blurscreen[i] = screens[0][i];
+
+            DoBlurScreen(0, 0, SCREENWIDTH - 1, height, 1);
+            DoBlurScreen(1, 0, SCREENWIDTH, height, -1);
+            DoBlurScreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
+            DoBlurScreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
+            DoBlurScreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+            DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
+            DoBlurScreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+            DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+        }
+
+        blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
 
         for (i = 0; i < height; ++i)
-            c_blurscreen[i] = screens[0][i];
+            screens[0][i] = tinttab50[(consoletintcolor << 8) + c_blurscreen[i]];
 
-        DoBlurScreen(0, 0, SCREENWIDTH - 1, height, 1);
-        DoBlurScreen(1, 0, SCREENWIDTH, height, -1);
-        DoBlurScreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-        DoBlurScreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
-        DoBlurScreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-        DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-        DoBlurScreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-        DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+        for (i = height - 2; i > 1; i -= 3)
+        {
+            screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
+            if (((i - 1) % SCREENWIDTH) < SCREENWIDTH - 2)
+                screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
+        }
     }
-
-    blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
-
-    for (i = 0; i < height; ++i)
-        screens[0][i] = tinttab50[c_blurscreen[i] + consoletintcolor];
-
-    for (i = height - 2; i > 1; i -= 3)
-    {
-        screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
-        if (((i - 1) % SCREENWIDTH) < SCREENWIDTH - 2)
-            screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
-    }
+    else
+        for (i = 0; i < height; ++i)
+            screens[0][i] = consoletintcolor;
 
     // draw branding
     V_DrawConsolePatch(SCREENWIDTH - brand->width, consoleheight - brand->height + 2, brand,
@@ -600,9 +607,15 @@ static void C_DrawBackground(int height)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
     // draw shadow
-    for (j = 1; j <= 4; ++j)
-        for (i = height; i < height + SCREENWIDTH * j; ++i)
-            screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
+    if (r_translucency)
+        for (j = 1; j <= 4; ++j)
+            for (i = height; i < height + SCREENWIDTH * j; ++i)
+                screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
+    else
+        for (j = 1; j <= 2; ++j)
+            for (i = height; i < height + SCREENWIDTH * j; ++i)
+                screens[0][i] = 0;
+
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int boldcolor,
