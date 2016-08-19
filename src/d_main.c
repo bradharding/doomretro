@@ -600,20 +600,23 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     char                *pathcopy = (char *)malloc((pathlen + 1) * sizeof(char));
     char                *dehdir = NULL;
     char                *dehpattern = NULL;
+    char                *dehfullpath = NULL;
     DIR                 *dirp = NULL;
     struct dirent       *dit = NULL;
 
-    M_StringCopy(pathcopy, path, pathlen);
+    M_StringCopy(pathcopy, path, pathlen + 1);
     dehpattern = M_StringReplace(basename(pathcopy), ".wad", pattern);
+    dehpattern = M_StringReplace(basename(pathcopy), ".WAD", pattern);
     M_StringCopy(pathcopy, path, pathlen);
     dehdir = dirname(pathcopy);
     dirp = opendir(dehdir);
     while ((dit = readdir(dirp)))
         if (!fnmatch(dehpattern, dit->d_name, 0))
         {
+            dehfullpath = M_StringJoin(dehdir, DIR_SEPARATOR_S, dit->d_name, "");
             closedir(dirp);
             free(pathcopy);
-            return M_StringJoin(dehdir, DIR_SEPARATOR_S, dit->d_name, "");
+            return dehfullpath;
         }
     closedir(dirp);
     free(pathcopy);
