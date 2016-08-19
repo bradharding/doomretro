@@ -608,13 +608,12 @@ static void C_DrawBackground(int height)
 
     // draw shadow
     if (r_translucency)
-        for (j = 1; j <= 4; ++j)
-            for (i = height; i < height + SCREENWIDTH * j; ++i)
+        for (j = SCREENWIDTH; j <= 4 * SCREENWIDTH; j += SCREENWIDTH)
+            for (i = height; i < height + j; ++i)
                 screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
     else
-        for (j = 1; j <= 2; ++j)
-            for (i = height; i < height + SCREENWIDTH * j; ++i)
-                screens[0][i] = 0;
+        for (i = height; i < height + SCREENWIDTH; ++i)
+            screens[0][i] = 0;
 
 }
 
