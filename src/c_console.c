@@ -737,7 +737,8 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsolePatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, tinttab75);
+            V_DrawConsolePatch(x, y, patch, color, NOBACKGROUNDCOLOR, false,
+                (r_translucency ? tinttab75 : NULL));
             x += SHORT(patch->width);
         }
     }
