@@ -97,6 +97,7 @@ extern int              am_allmapfdwallcolor;
 extern int              am_allmapwallcolor;
 extern int              am_backcolor;
 extern int              am_cdwallcolor;
+extern int              am_crosshaircolor;
 extern dboolean         am_external;
 extern int              am_fdwallcolor;
 extern dboolean         am_grid;
@@ -110,7 +111,6 @@ extern int              am_teleportercolor;
 extern int              am_thingcolor;
 extern int              am_tswallcolor;
 extern int              am_wallcolor;
-extern int              am_xhaircolor;
 extern dboolean         autoload;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
@@ -494,6 +494,8 @@ consolecmd_t consolecmds[] =
         "The color of the automap's background."),
     CVAR_INT(am_cdwallcolor, am_cdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of lines with a change in ceiling height in the automap."),
+    CVAR_INT(am_crosshaircolor, am_crosshaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
+        "The color of the crosshair in the automap."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, BOOLALIAS,
         "Toggles rendering of the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
@@ -522,8 +524,6 @@ consolecmd_t consolecmds[] =
         "The color of lines with no change in height in the automap."),
     CVAR_INT(am_wallcolor, am_wallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of solid walls in the automap."),
-    CVAR_INT(am_xhaircolor, am_xhaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of the crosshair in the automap."),
     CVAR_INT(ammo, "", game_func1, player_cvars_func2, CF_NONE, NOALIAS,
         "The player's ammo."),
     CVAR_INT(armor, armour, game_func1, player_cvars_func2, CF_PERCENT, NOALIAS,
@@ -660,7 +660,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles corpses being randomly mirrored."),
     CVAR_BOOL(r_corpses_moreblood, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles blood splats around corpses that are spawned when\na map is loaded."),
+        "Toggles blood splats around corpses that are spawned when a\nmap is loaded."),
     CVAR_BOOL(r_corpses_nudge, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles corpses being nudged when monsters walk over them."),
     CVAR_BOOL(r_corpses_slide, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
@@ -694,7 +694,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_liquid_swirl, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
-        "The size of pixels when the <b>r_detail</b> is <b>low</b> (<i>width</i><b>\xD7</b><i>height</i>)."),
+        "The size of pixels when the graphic detail is low (<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,

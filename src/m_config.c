@@ -53,6 +53,7 @@ extern int              am_allmapfdwallcolor;
 extern int              am_allmapwallcolor;
 extern int              am_backcolor;
 extern int              am_cdwallcolor;
+extern int              am_crosshaircolor;
 extern dboolean         am_external;
 extern int              am_fdwallcolor;
 extern dboolean         am_grid;
@@ -66,7 +67,6 @@ extern int              am_teleportercolor;
 extern int              am_thingcolor;
 extern int              am_tswallcolor;
 extern int              am_wallcolor;
-extern int              am_xhaircolor;
 extern dboolean         autoload;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
@@ -212,6 +212,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_allmapwallcolor,                                NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_backcolor,                                      NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                                    NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_crosshaircolor,                                 NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_external,                                       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_grid,                                           BOOLALIAS  ),
@@ -225,7 +226,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_thingcolor,                                     NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_tswallcolor,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_wallcolor,                                      NOALIAS    ),
-    CONFIG_VARIABLE_INT          (am_xhaircolor,                                     NOALIAS    ),
     CONFIG_VARIABLE_INT          (autoload,                                          BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (centerweapon,                                      BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,                                    BOOLALIAS  ),
@@ -592,6 +592,9 @@ static void M_CheckCVARs(void)
     if (am_cdwallcolor < am_cdwallcolor_min || am_cdwallcolor > am_cdwallcolor_max)
         am_cdwallcolor = am_cdwallcolor_default;
 
+    if (am_crosshaircolor < am_crosshaircolor_min || am_crosshaircolor > am_crosshaircolor_max)
+        am_crosshaircolor = am_crosshaircolor_default;
+
     if (am_external != false && am_external != true)
         am_external = am_external_default;
 
@@ -630,9 +633,6 @@ static void M_CheckCVARs(void)
 
     if (am_wallcolor < am_wallcolor_min || am_wallcolor > am_wallcolor_max)
         am_wallcolor = am_wallcolor_default;
-
-    if (am_xhaircolor < am_xhaircolor_min || am_xhaircolor > am_xhaircolor_max)
-        am_xhaircolor = am_xhaircolor_default;
 
     if (autoload != false && autoload != true)
         autoload = autoload_default;

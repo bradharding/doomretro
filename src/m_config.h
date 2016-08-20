@@ -80,6 +80,10 @@ typedef enum
 #define am_cdwallcolor_default                  160
 #define am_cdwallcolor_max                      255
 
+#define am_crosshaircolor_min                   0
+#define am_crosshaircolor_default               4
+#define am_crosshaircolor_max                   255
+
 #define am_external_default                     false
 
 #define am_fdwallcolor_min                      0
@@ -125,10 +129,6 @@ typedef enum
 #define am_wallcolor_min                        0
 #define am_wallcolor_default                    176
 #define am_wallcolor_max                        255
-
-#define am_xhaircolor_min                       0
-#define am_xhaircolor_default                   4
-#define am_xhaircolor_max                       255
 
 #define ammo_min                                0
 #define ammo_default                            50

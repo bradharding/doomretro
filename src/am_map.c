@@ -58,6 +58,7 @@ int     am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 int     am_allmapwallcolor = am_allmapwallcolor_default;
 int     am_backcolor = am_backcolor_default;
 int     am_cdwallcolor = am_cdwallcolor_default;
+int     am_crosshaircolor = am_crosshaircolor_default;
 int     am_fdwallcolor = am_fdwallcolor_default;
 int     am_gridcolor = am_gridcolor_default;
 int     am_markcolor = am_markcolor_default;
@@ -67,7 +68,6 @@ int     am_teleportercolor = am_teleportercolor_default;
 int     am_thingcolor = am_thingcolor_default;
 int     am_tswallcolor = am_tswallcolor_default;
 int     am_wallcolor = am_wallcolor_default;
-int     am_xhaircolor = am_xhaircolor_default;
 
 // AutoMap color priorities
 #define WALLPRIORITY            10
@@ -100,6 +100,7 @@ byte    *cdwallcolor;
 byte    *allmapcdwallcolor;
 byte    *tswallcolor;
 byte    *gridcolor;
+byte    *crosshaircolor;
 
 #define AM_PANDOWNKEY           key_down
 #define AM_PANDOWNKEY2          key_down2
@@ -399,6 +400,7 @@ void AM_setColors(void)
     pathcolor = nearestcolors[am_pathcolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
+    crosshaircolor = tinttab60 + (nearestcolors[am_crosshaircolor] << 8);
 
     for (x = 0; x < 256; ++x)
         *(mask + x) = x;
@@ -1927,17 +1929,15 @@ static __inline void AM_drawScaledPixel(int x, int y, byte *color)
 
 static void AM_drawCrosshair(void)
 {
-    byte        *color = tinttab60 + (nearestcolors[am_xhaircolor] << 8);
-
-    AM_drawScaledPixel(CENTERX - 2, CENTERY, color);
-    AM_drawScaledPixel(CENTERX - 1, CENTERY, color);
-    AM_drawScaledPixel(CENTERX, CENTERY, color);
-    AM_drawScaledPixel(CENTERX + 1, CENTERY, color);
-    AM_drawScaledPixel(CENTERX + 2, CENTERY, color);
-    AM_drawScaledPixel(CENTERX, CENTERY - 2, color);
-    AM_drawScaledPixel(CENTERX, CENTERY - 1, color);
-    AM_drawScaledPixel(CENTERX, CENTERY + 1, color);
-    AM_drawScaledPixel(CENTERX, CENTERY + 2, color);
+    AM_drawScaledPixel(CENTERX - 2, CENTERY, crosshaircolor);
+    AM_drawScaledPixel(CENTERX - 1, CENTERY, crosshaircolor);
+    AM_drawScaledPixel(CENTERX, CENTERY, crosshaircolor);
+    AM_drawScaledPixel(CENTERX + 1, CENTERY, crosshaircolor);
+    AM_drawScaledPixel(CENTERX + 2, CENTERY, crosshaircolor);
+    AM_drawScaledPixel(CENTERX, CENTERY - 2, crosshaircolor);
+    AM_drawScaledPixel(CENTERX, CENTERY - 1, crosshaircolor);
+    AM_drawScaledPixel(CENTERX, CENTERY + 1, crosshaircolor);
+    AM_drawScaledPixel(CENTERX, CENTERY + 2, crosshaircolor);
 }
 
 static void AM_setFrameVariables(void)

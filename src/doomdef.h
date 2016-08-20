@@ -113,7 +113,6 @@ typedef enum
 } GameVersion_t;
 
 // Screen width and height.
-
 #define ORIGINALWIDTH           320
 #define ORIGINALHEIGHT          200
 
@@ -126,8 +125,7 @@ typedef enum
 
 #define SBARHEIGHT              (ORIGINALSBARHEIGHT * SCREENSCALE)
 
-// The maximum number of players, multiplayer/networking.
-#define MAXPLAYERS              4
+#define MAXPLAYERS              1
 
 // State updates, number of tics / second.
 #define TICRATE                 35
