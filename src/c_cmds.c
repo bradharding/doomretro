@@ -218,6 +218,7 @@ extern int              vid_display;
 extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
+extern dboolean         vid_motionblur;
 extern char             *vid_scaleapi;
 extern char             *vid_scalefilter;
 extern char             *vid_screenresolution;
@@ -416,6 +417,7 @@ static dboolean units_cvar_func1(char *, char *, char *, char *);
 static void units_cvar_func2(char *, char *, char *, char *);
 static void vid_display_cvar_func2(char *, char *, char *, char *);
 static void vid_fullscreen_cvar_func2(char *, char *, char *, char *);
+static void vid_motionblur_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scaleapi_cvar_func1(char *, char *, char *, char *);
 static void vid_scaleapi_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scalefilter_cvar_func1(char *, char *, char *, char *);
@@ -761,6 +763,8 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_BOOL(vid_fullscreen, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLALIAS,
         "Toggles between fullscreen and a window."),
+    CVAR_BOOL(vid_motionblur, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
+        "Toggles motion blur."),
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b> or\n<b>\"software\"</b>)."),
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,

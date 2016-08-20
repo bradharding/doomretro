@@ -170,6 +170,9 @@ void P_MovePlayer(player_t *player)
     ticcmd_t    *cmd = &player->cmd;
     mobj_t      *mo = player->mo;
 
+    if (vid_motionblur)
+        I_ToggleMotionBlur(!!(cmd->angleturn | cmd->forwardmove | cmd->sidemove));
+
     mo->angle += cmd->angleturn << FRACBITS;
     onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 

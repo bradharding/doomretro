@@ -78,6 +78,7 @@ void I_CreateExternalAutoMap(dboolean output);
 void I_DestroyExternalAutoMap(void);
 
 void I_ToggleFullscreen(void);
+void I_ToggleMotionBlur(dboolean toggle);
 
 // Wait for vertical retrace or pause a bit.
 void I_WaitVBL(int count);
@@ -114,6 +115,7 @@ extern dboolean         noinput;
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
+extern dboolean         vid_motionblur;
 extern dboolean         vid_showfps;
 extern dboolean         wipe;
 

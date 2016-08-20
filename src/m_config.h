@@ -330,6 +330,8 @@ typedef enum
 
 #define vid_fullscreen_default                  true
 
+#define vid_motionblur_default                  false
+
 #define vid_scaleapi_direct3d                   "direct3d"
 #define vid_scaleapi_opengl                     "opengl"
 #define vid_scaleapi_software                   "software"
