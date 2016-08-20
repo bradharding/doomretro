@@ -534,7 +534,7 @@ void C_HideConsoleFast(void)
 
 void C_StripQuotes(char *string)
 {
-    size_t len = strlen(string);
+    size_t      len = strlen(string);
 
     if (len > 2 && ((string[0] == '\"' && string[len - 1] == '\"')
         || (string[0] == '\'' && string[len - 1] == '\'')))
@@ -756,7 +756,7 @@ static void C_DrawTimeStamp(int x, int y, char *text)
         int     width = SHORT(patch->width);
 
         V_DrawConsolePatch(x + (text[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch,
-            consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
+            consoletimestampcolor, NOBACKGROUNDCOLOR, false, (r_translucency ? tinttab25 : NULL));
         x += (isdigit(text[i]) ? zerowidth : width);
     }
 }
