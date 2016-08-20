@@ -958,8 +958,11 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     {
         fixed_t dist = (fixed_t)hypot((x - oldx) >> FRACBITS, (y - oldy) >> FRACBITS);
 
-        stat_distancetravelled = SafeAdd(stat_distancetravelled, dist);
-        thing->player->distancetravelled += dist;
+        if (dist)
+        {
+            stat_distancetravelled = SafeAdd(stat_distancetravelled, dist);
+            thing->player->distancetravelled += dist;
+        }
     }
 
     newsec = thing->subsector->sector;
