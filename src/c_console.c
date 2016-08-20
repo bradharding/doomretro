@@ -586,16 +586,21 @@ static void C_DrawBackground(int height)
 
         for (i = 0; i < height; ++i)
             screens[0][i] = tinttab50[(consoletintcolor << 8) + c_blurscreen[i]];
+
+        for (i = height - 2; i > 1; i -= 3)
+        {
+            screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
+            if (((i - 1) % SCREENWIDTH) < SCREENWIDTH - 2)
+                screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
+        }
     }
     else
+    {
         for (i = 0; i < height; ++i)
             screens[0][i] = consoletintcolor;
 
-    for (i = height - 2; i > 1; i -= 3)
-    {
-        screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
-        if (((i - 1) % SCREENWIDTH) < SCREENWIDTH - 2)
-            screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
+        for (i = height - 2; i > 1; i -= 3)
+            screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
     }
 
     // draw branding
