@@ -352,7 +352,7 @@ void R_InitTextures(void)
         textures[i]->index = -1;
     while (--i >= 0)
     {
-        int     j = W_LumpNameHash(textures[i]->name) % (unsigned int)numtextures;
+        j = W_LumpNameHash(textures[i]->name) % (unsigned int)numtextures;
 
         textures[i]->next = textures[j]->index; // Prepend to chain
         textures[j]->index = i;

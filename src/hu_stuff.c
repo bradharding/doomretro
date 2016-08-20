@@ -473,9 +473,7 @@ static void HU_DrawHUD(void)
 
         if (plr->neededcardflash)
         {
-            patch_t     *patch = keypic[plr->neededcard].patch;
-
-            if (patch)
+            if ((patch = keypic[plr->neededcard].patch))
             {
                 if (!gamepaused && keywait < currenttime)
                 {
@@ -495,22 +493,16 @@ static void HU_DrawHUD(void)
         }
 
         for (i = 0; i < NUMCARDS; i++)
-            if (plr->cards[i] > 0)
-            {
-                patch_t     *patch = keypic[i].patch;
-
-                if (patch)
-                    hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
-                        HUD_KEYS_Y, patch, tinttab66);
-            }
+            if (plr->cards[i] > 0 && (patch = keypic[i].patch))
+                hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
+                    HUD_KEYS_Y, patch, tinttab66);
     }
 
     if (armor)
     {
-        patch_t     *patch = (plr->armortype == GREENARMOR ? greenarmorpatch : bluearmorpatch);
         int         armor_x = HUD_ARMOR_X;
 
-        if (patch)
+        if ((patch = (plr->armortype == GREENARMOR ? greenarmorpatch : bluearmorpatch)))
         {
             armor_x -= SHORT(patch->width);
             hudfunc(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, tinttab66);

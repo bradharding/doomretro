@@ -321,35 +321,15 @@ void P_SetBloodSplatPosition(mobj_t *splat)
 {
     mobj_t      **link = &splat->subsector->sector->thinglist;
     mobj_t      *snext = *link;
-    fixed_t     x = splat->x;
-    fixed_t     y = splat->y;
-    int         blockx = (x - bmaporgx) >> MAPBLOCKSHIFT;
-    int         blocky = (y - bmaporgy) >> MAPBLOCKSHIFT;
 
     if ((splat->snext = snext))
         snext->sprev = &splat->snext;
     splat->sprev = link;
     *link = splat;
 
-    P_CreateSecNodeList(splat, x, y);
+    P_CreateSecNodeList(splat, splat->x, splat->y);
     splat->touching_sectorlist = sector_list;
     sector_list = NULL;
-
-    if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
-    {
-        mobj_t  **link = &blocklinks[blocky * bmapwidth + blockx];
-        mobj_t  *bnext = *link;
-
-        if ((splat->bnext = bnext))
-            bnext->bprev = &splat->bnext;
-        splat->bprev = link;
-        *link = splat;
-    }
-    else
-    {
-        splat->bnext = NULL;
-        splat->bprev = NULL;
-    }
 }
 
 //

@@ -2285,10 +2285,11 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     tmy = saved_tmy;
     if (tmthing)
     {
-        tmbbox[BOXTOP] = tmy + tmthing->radius;
-        tmbbox[BOXBOTTOM] = tmy - tmthing->radius;
-        tmbbox[BOXRIGHT] = tmx + tmthing->radius;
-        tmbbox[BOXLEFT] = tmx - tmthing->radius;
+        radius = tmthing->radius;
+        tmbbox[BOXTOP] = tmy + radius;
+        tmbbox[BOXBOTTOM] = tmy - radius;
+        tmbbox[BOXRIGHT] = tmx + radius;
+        tmbbox[BOXLEFT] = tmx - radius;
     }
 }
 
