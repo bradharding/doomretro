@@ -794,7 +794,7 @@ dboolean D_CheckParms(void)
 {
     dboolean    result = false;
 
-#if !defined(WIN32)
+#if !defined(WIN32) && !defined()
     wordexp_t p;
 #endif
 
