@@ -169,11 +169,14 @@ void P_MovePlayer(player_t *player)
 {
     ticcmd_t    *cmd = &player->cmd;
     mobj_t      *mo = player->mo;
+    short       angleturn = cmd->angleturn;
+    char        forwardmove = cmd->forwardmove;
+    char        sidemove = cmd->sidemove;
 
     if (vid_motionblur)
-        I_ToggleMotionBlur(!!(cmd->angleturn | cmd->forwardmove | cmd->sidemove));
+        I_SetMotionBlur(!!(angleturn | forwardmove | sidemove) ? vid_motionblur : 0);
 
-    mo->angle += cmd->angleturn << FRACBITS;
+    mo->angle += angleturn << FRACBITS;
     onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 
     // killough 10/98:
@@ -182,7 +185,7 @@ void P_MovePlayer(player_t *player)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if (cmd->forwardmove | cmd->sidemove)       // killough 10/98
+    if (forwardmove | sidemove)                 // killough 10/98
     {
         if (onground)                           // killough 8/9/98
         {
@@ -194,16 +197,16 @@ void P_MovePlayer(player_t *player)
             // On ice, make it depend on effort.
             int bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
 
-            if (cmd->forwardmove)
+            if (forwardmove)
             {
-                P_Bob(player, mo->angle, cmd->forwardmove * bobfactor);
-                P_Thrust(player, mo->angle, cmd->forwardmove * movefactor);
+                P_Bob(player, mo->angle, forwardmove * bobfactor);
+                P_Thrust(player, mo->angle, forwardmove * movefactor);
             }
 
-            if (cmd->sidemove)
+            if (sidemove)
             {
-                P_Bob(player, mo->angle - ANG90, cmd->sidemove * bobfactor);
-                P_Thrust(player, mo->angle - ANG90, cmd->sidemove * movefactor);
+                P_Bob(player, mo->angle - ANG90, sidemove * bobfactor);
+                P_Thrust(player, mo->angle - ANG90, sidemove * movefactor);
             }
         }
 

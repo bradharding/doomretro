@@ -72,7 +72,7 @@ int                     vid_display = vid_display_default;
 char                    *vid_driver = vid_driver_default;
 #endif
 dboolean                vid_fullscreen = vid_fullscreen_default;
-dboolean                vid_motionblur = vid_motionblur_default;
+int                     vid_motionblur = vid_motionblur_default;
 char                    *vid_scaleapi = vid_scaleapi_default;
 char                    *vid_scalefilter = vid_scalefilter_default;
 char                    *vid_screenresolution = vid_screenresolution_default;
@@ -1119,10 +1119,10 @@ static void PositionOnCurrentDisplay(void)
         SDL_SetWindowPosition(window, windowx, windowy);
 }
 
-void I_ToggleMotionBlur(dboolean toggle)
+void I_SetMotionBlur(int percent)
 {
-    SDL_SetSurfaceAlphaMod(surface, 255 - 128 * toggle);
-    SDL_SetSurfaceBlendMode(surface, (toggle ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE));
+    SDL_SetSurfaceAlphaMod(surface, 255 - 128 * percent / 100);
+    SDL_SetSurfaceBlendMode(surface, (percent ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE));
 }
 
 static void SetVideoMode(dboolean output)
