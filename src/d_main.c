@@ -794,7 +794,7 @@ dboolean D_CheckParms(void)
 {
     dboolean    result = false;
 
-#if !defined(WIN32) && !defined()
+#if !defined(WIN32) && !defined(__OpenBSD__)
     wordexp_t p;
 #endif
 
