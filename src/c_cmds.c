@@ -499,7 +499,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_crosshaircolor, am_crosshaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of the crosshair in the automap."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, BOOLALIAS,
-        "Toggles rendering of the automap on an external display."),
+        "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of lines with a change in floor height in the automap."),
     CVAR_BOOL(am_followmode, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,

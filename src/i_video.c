@@ -1192,7 +1192,7 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE))))
-                I_Error("SDL_CreateWindow failed: %s", SDL_GetError());
+                I_Error("SDL_CreateWindow failed: \"%s\"", SDL_GetError());
 
             if (output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect "
@@ -1213,7 +1213,7 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE))))
-                I_Error("SDL_CreateWindow failed: %s", SDL_GetError());
+                I_Error("SDL_CreateWindow failed: \"%s\"", SDL_GetError());
 
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
@@ -1239,7 +1239,7 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
-                I_Error("SDL_CreateWindow failed: %s", SDL_GetError());
+                I_Error("SDL_CreateWindow failed: \"%s\"", SDL_GetError());
 
             if (output)
                 C_Output("Created a resizable window with dimensions %s\xD7%s centered on the "
@@ -1249,7 +1249,7 @@ static void SetVideoMode(dboolean output)
         {
             if (!(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
-                I_Error("SDL_CreateWindow failed: %s", SDL_GetError());
+                I_Error("SDL_CreateWindow failed: \"%s\"", SDL_GetError());
 
             if (output)
                 C_Output("Created a resizable window with dimensions %s\xD7%s at (%i,%i).",
@@ -1266,10 +1266,10 @@ static void SetVideoMode(dboolean output)
     displaycentery = displayheight / 2;
 
     if (!(renderer = SDL_CreateRenderer(window, -1, flags)))
-        I_Error("SDL_CreateRenderer failed: %s", SDL_GetError());
+        I_Error("SDL_CreateRenderer failed: \"%s\"", SDL_GetError());
 
     if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
-        I_Error("SDL_RenderSetLogicalSize failed: %s", SDL_GetError());
+        I_Error("SDL_RenderSetLogicalSize failed: \"%s\"", SDL_GetError());
 
     if (output)
     {
@@ -1372,7 +1372,7 @@ static void SetVideoMode(dboolean output)
     }
 
     if (!(surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
-        I_Error("SDL_CreateRGBSurface failed: %s", SDL_GetError());
+        I_Error("SDL_CreateRGBSurface failed: \"%s\"", SDL_GetError());
 
     if (vid_motionblur)
         C_Output("Motion blur is on.");
@@ -1381,7 +1381,7 @@ static void SetVideoMode(dboolean output)
         &amask);
     if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask,
         amask)))
-        I_Error("SDL_CreateRGBSurface failed: %s", SDL_GetError());
+        I_Error("SDL_CreateRGBSurface failed: \"%s\"", SDL_GetError());
     SDL_FillRect(buffer, NULL, 0);
 
     if (nearestlinear)
@@ -1389,18 +1389,18 @@ static void SetVideoMode(dboolean output)
             SDL_HINT_OVERRIDE);
     if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
-        I_Error("SDL_CreateTexture failed: %s", SDL_GetError());
+        I_Error("SDL_CreateTexture failed: \"%s\"", SDL_GetError());
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
             SDL_HINT_OVERRIDE);
     if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
-        I_Error("SDL_CreateTexture failed: %s", SDL_GetError());
+        I_Error("SDL_CreateTexture failed: \"%s\"", SDL_GetError());
 
     if (!(palette = SDL_AllocPalette(256)))
-        I_Error("SDL_AllocPalette failed: %s", SDL_GetError());
+        I_Error("SDL_AllocPalette failed: \"%s\"", SDL_GetError());
     if (SDL_SetSurfacePalette(surface, palette) < 0)
-        I_Error("SDL_SetSurfacePalette failed: %s", SDL_GetError());
+        I_Error("SDL_SetSurfacePalette failed: \"%s\"", SDL_GetError());
 
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
@@ -1589,7 +1589,7 @@ void I_InitGraphics(void)
 #endif
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-        I_Error("SDL_InitSubSystem failed: %s", SDL_GetError());
+        I_Error("SDL_InitSubSystem failed: \"%s\"", SDL_GetError());
 
     displays = Z_Malloc(MAXDISPLAYS, PU_STATIC, NULL);
     GetDisplays();
