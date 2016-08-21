@@ -1374,7 +1374,7 @@ static void SetVideoMode(dboolean output)
     if (!(surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
         I_Error("SDL_CreateRGBSurface failed: \"%s\"", SDL_GetError());
 
-    if (vid_motionblur)
+    if (vid_motionblur && output)
         C_Output("Motion blur is on.");
 
     SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask,
