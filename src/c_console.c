@@ -653,7 +653,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     for (i = 0; i < len; ++i)
     {
         unsigned char   letter = text[i];
-        unsigned char   nextletter = text[i + 1];
         int             c = letter - CONSOLEFONTSTART;
 
         if (letter == '<' && i < len - 2 && text[i + 1] == 'b' && text[i + 2] == '>' && formatting)
@@ -686,7 +685,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
-            else if (letter == 194 && nextletter == 176)
+            else if (letter == 194 && text[i + 1] == 176)
             {
                 patch = degree;
                 ++i;
