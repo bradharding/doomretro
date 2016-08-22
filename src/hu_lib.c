@@ -79,7 +79,7 @@ dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
     }
 }
 
-static void HU_drawDot(int x, int y, unsigned char src)
+static void HU_drawDot(int x, int y, char src)
 {
     byte        *dest = &tempscreen[y * SCREENWIDTH + x];
 
@@ -98,10 +98,10 @@ static void HU_drawChar(int x, int y, int ch)
     for (y1 = 0; y1 < 10; y1++)
         for (x1 = 0; x1 < w; x1++)
         {
-            unsigned char       src = smallcharset[ch][y1 * w + x1];
-            int                 i = (x + x1) * SCREENSCALE;
-            int                 j = (y + y1) * SCREENSCALE;
-            int                 xx, yy;
+            char        src = smallcharset[ch][y1 * w + x1];
+            int         i = (x + x1) * SCREENSCALE;
+            int         j = (y + y1) * SCREENSCALE;
+            int         xx, yy;
 
             for (yy = 0; yy < SCREENSCALE; ++yy)
                 for (xx = 0; xx < SCREENSCALE; ++xx)
@@ -148,7 +148,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     {
         unsigned char   c = toupper(l->l[i]);
 
-        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || c == 176))
+        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == 176))
         {
             int j = c - '!';
 
@@ -165,7 +165,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 #endif
             }
 
-            if (c == 176)
+            if (l->l[i] == 176)
             {
                 if (STCFN034)
                     continue;
@@ -220,7 +220,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
         for (y1 = 0; y1 < 4; y1++)
             for (x1 = 0; x1 < ORIGINALWIDTH; x1++)
             {
-                unsigned char   src = (automapactive && !vid_widescreen ?
+                char    src = (automapactive && !vid_widescreen ?
                     underscores2[y1 * ORIGINALWIDTH + x1] : underscores1[y1 * ORIGINALWIDTH + x1]);
 
                 for (y2 = 0; y2 < SCREENSCALE; y2++)
