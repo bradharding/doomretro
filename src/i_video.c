@@ -869,6 +869,9 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutoMap(dboolean output)
 {
+    unsigned int        rmask, gmask, bmask, amask;
+    int                 bpp;
+
     if (!am_external)
         return;
 
@@ -906,7 +909,15 @@ void I_CreateExternalAutoMap(dboolean output)
         I_Error("SDL_CreateRGBSurface() failed on line %i in %s: \"%s\"",
             __LINE__, __FILE__, SDL_GetError());
 
-    if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
+    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask,
+        &bmask, &amask))
+    {
+        if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask,
+            bmask, amask)))
+            I_Error("SDL_CreateRGBSurface() failed on line %i in %s: \"%s\"",
+                __LINE__, __FILE__, SDL_GetError());
+    }
+    else if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
         I_Error("SDL_CreateRGBSurface() failed on line %i in %s: \"%s\"",
             __LINE__, __FILE__, SDL_GetError());
 
