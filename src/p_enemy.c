@@ -61,6 +61,27 @@ typedef enum
     NUMDIRS
 } dirtype_t;
 
+dirtype_t opposite[9] =
+{
+    DI_WEST,
+    DI_SOUTHWEST,
+    DI_SOUTH,
+    DI_SOUTHEAST,
+    DI_EAST,
+    DI_NORTHEAST,
+    DI_NORTH,
+    DI_NORTHWEST,
+    DI_NODIR
+};
+
+dirtype_t diags[4] =
+{
+    DI_NORTHWEST,
+    DI_NORTHEAST,
+    DI_SOUTHWEST,
+    DI_SOUTHEAST
+};
+
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 extern dboolean con_obituaries;
@@ -504,57 +525,97 @@ static dboolean P_TryWalk(mobj_t *actor)
 //
 static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
 {
-    dirtype_t   xdir, ydir, tdir;
-    dirtype_t   olddir = actor->movedir;
-    dirtype_t   turnaround = olddir;
+    dirtype_t   d[2];
+    int         tdir;
+    dirtype_t   olddir = (dirtype_t)actor->movedir;
+    dirtype_t   turnaround = opposite[olddir];
+    dboolean    attempts[NUMDIRS - 1];
 
-    // find reverse direction
-    if (turnaround != DI_NODIR)
-        turnaround ^= 4;
+    memset(&attempts, false, sizeof(attempts));
 
-    xdir = (deltax >  10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
-    ydir = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay >  10 * FRACUNIT ? DI_NORTH : DI_NODIR));
+    d[0] = (deltax >  10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
+    d[1] = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay >  10 * FRACUNIT ? DI_NORTH : DI_NODIR));
 
     // try direct route
-    if (xdir != DI_NODIR && ydir != DI_NODIR && turnaround !=
-        (actor->movedir = deltay < 0 ? deltax > 0 ? DI_SOUTHEAST : DI_SOUTHWEST :
-        deltax > 0 ? DI_NORTHEAST : DI_NORTHWEST) && P_TryWalk(actor))
-        return;
+    if (d[0] != DI_NODIR && d[1] != DI_NODIR)
+    {
+        actor->movedir = diags[((deltay < 0) << 1) + (deltax > 0)];
+        if (actor->movedir != turnaround)
+        {
+            attempts[actor->movedir] = true;
+            if (P_TryWalk(actor))
+                return;
+        }
+    }
 
     // try other directions
     if (M_Random() > 200 || ABS(deltay) > ABS(deltax))
     {
-        tdir = xdir;
-        xdir = ydir;
-        ydir = tdir;
+        tdir = d[0];
+        d[0] = d[1];
+        d[1] = tdir;
     }
 
-    if ((xdir == turnaround ? xdir = DI_NODIR : xdir) != DI_NODIR
-        && (actor->movedir = xdir, P_TryWalk(actor)))
-        return;         // either moved forward or attacked
+    if (d[0] == turnaround)
+        d[0] = DI_NODIR;
+    if (d[1] == turnaround)
+        d[1] = DI_NODIR;
 
-    if ((ydir == turnaround ? ydir = DI_NODIR : ydir) != DI_NODIR
-        && (actor->movedir = ydir, P_TryWalk(actor)))
-        return;
+    if (d[0] != DI_NODIR && !attempts[d[0]])
+    {
+        actor->movedir = d[0];
+        attempts[d[0]] = true;
+        if (P_TryWalk(actor))
+            return;     // either moved forward or attacked
+    }
+
+    if (d[1] != DI_NODIR && !attempts[d[1]])
+    {
+        actor->movedir = d[1];
+        attempts[d[1]] = true;
+        if (P_TryWalk(actor))
+            return;
+    }
 
     // there is no direct path to the player, so pick another direction.
-    if (olddir != DI_NODIR && (actor->movedir = olddir, P_TryWalk(actor)))
-        return;
+    if (olddir != DI_NODIR && attempts[olddir] == false)
+    {
+        actor->movedir = olddir;
+        attempts[olddir] = true;
+        if (P_TryWalk(actor))
+            return;
+    }
 
     // randomly determine direction of search
     if (M_Random() & 1)
     {
         for (tdir = DI_EAST; tdir <= DI_SOUTHEAST; tdir++)
-            if (tdir != turnaround && (actor->movedir = tdir, P_TryWalk(actor)))
-                return;
+            if (tdir != turnaround && !attempts[tdir])
+            {
+                actor->movedir = tdir;
+                attempts[tdir] = true;
+                if (P_TryWalk(actor))
+                    return;
+            }
     }
     else
-        for (tdir = DI_SOUTHEAST; tdir != DI_EAST - 1; tdir--)
-            if (tdir != turnaround && (actor->movedir = tdir, P_TryWalk(actor)))
-                return;
+        for (tdir = DI_SOUTHEAST; tdir != (DI_EAST - 1); tdir--)
+            if (tdir != turnaround && !attempts[tdir])
+            {
+                actor->movedir = tdir;
+                attempts[tdir] = true;
+                if (P_TryWalk(actor))
+                    return;
+            }
 
-    if ((actor->movedir = turnaround) != DI_NODIR && !P_TryWalk(actor))
-        actor->movedir = DI_NODIR;
+    if (turnaround != DI_NODIR && !attempts[turnaround])
+    {
+        actor->movedir = turnaround;
+        if (P_TryWalk(actor))
+            return;
+    }
+
+    actor->movedir = DI_NODIR;  // cannot move
 }
 
 //
