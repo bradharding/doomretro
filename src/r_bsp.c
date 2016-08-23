@@ -329,6 +329,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
             tempsec->floor_yoffs = s->floor_yoffs;
 
             if (underwater)
+            {
                 if (s->ceilingpic == skyflatnum)
                 {
                     tempsec->interpfloorheight = tempsec->interpceilingheight + 1;
@@ -342,6 +343,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
                     tempsec->ceiling_xoffs = s->ceiling_xoffs;
                     tempsec->ceiling_yoffs = s->ceiling_yoffs;
                 }
+            }
 
             tempsec->lightlevel = s->lightlevel;
 
