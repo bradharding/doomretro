@@ -1682,6 +1682,7 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
     else
     {
         P_SetTarget(&newmobj->target, actor->target);
+        P_SetMobjState(newmobj, S_SKULL_ATK2);  // [BH] put in attack state
         A_SkullAttack(newmobj, NULL, NULL);
     }
 }
