@@ -888,23 +888,44 @@ void I_CreateExternalAutoMap(dboolean output)
 
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
-    mapwindow = SDL_CreateWindow("Automap - "PACKAGE_NAME,
+    if (!(mapwindow = SDL_CreateWindow("Automap - "PACKAGE_NAME,
         SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP)))
+        I_Error("SDL_CreateWindow() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
 
-    maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE);
+    if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
+        I_Error("SDL_CreateRenderer() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
 
-    SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT);
+    if (SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT) < 0)
+        I_Error("SDL_RenderSetLogicalSize() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
 
-    mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
-    mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
+    if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
+        I_Error("SDL_CreateRGBSurface() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
+
+    if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
+        I_Error("SDL_CreateRGBSurface() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
+
     SDL_FillRect(mapbuffer, NULL, 0);
-    maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT);
 
-    mappalette = SDL_AllocPalette(256);
-    SDL_SetSurfacePalette(mapsurface, mappalette);
-    SDL_SetPaletteColors(mappalette, colors, 0, 256);
+    if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+        I_Error("SDL_CreateTexture() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
+
+    if (!(mappalette = SDL_AllocPalette(256)))
+        I_Error("SDL_AllocPalette() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
+    if (SDL_SetSurfacePalette(mapsurface, mappalette) < 0)
+        I_Error("SDL_SetSurfacePalette() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
+    if (SDL_SetPaletteColors(mappalette, colors, 0, 256) < 0)
+        I_Error("SDL_SetPaletteColors() failed on line %i in %s: \"%s\"",
+            __LINE__, __FILE__, SDL_GetError());
 
     mapscreen = mapsurface->pixels;
     mapblitfunc = I_Blit_AutoMap;
