@@ -1405,12 +1405,18 @@ static void SetVideoMode(dboolean output)
     if (vid_motionblur && output)
         C_Output("Motion blur is on.");
 
-    SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask,
-        &amask);
-    if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask,
-        amask)))
+    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask,
+        &amask))
+    {
+        if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask,
+            amask)))
+            I_Error("SDL_CreateRGBSurface() failed on line %i in %s: \"%s\"",
+                __LINE__, __FILE__, SDL_GetError());
+    }
+    else if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
         I_Error("SDL_CreateRGBSurface() failed on line %i in %s: \"%s\"",
             __LINE__, __FILE__, SDL_GetError());
+
     SDL_FillRect(buffer, NULL, 0);
 
     if (nearestlinear)
