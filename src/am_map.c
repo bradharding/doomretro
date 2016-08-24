@@ -694,7 +694,7 @@ dboolean AM_Responder(event_t *ev)
         if (!(gamepadbuttons & gamepadautomap))
             backbuttondown = false;
 
-        if (!automapactive)
+        if (!automapactive && !mapwindow)
         {
             if ((ev->type == ev_keydown
                  && ev->data1 == AM_STARTKEY
@@ -799,7 +799,8 @@ dboolean AM_Responder(event_t *ev)
                 }
 
                 // leave AutoMap
-                else if (key == AM_ENDKEY && !(modstate & KMOD_ALT) && keydown != AM_ENDKEY)
+                else if (key == AM_ENDKEY && !(modstate & KMOD_ALT) && keydown != AM_ENDKEY
+                    && !mapwindow)
                 {
                     keydown = key;
                     viewactive = true;
