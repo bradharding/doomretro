@@ -3363,11 +3363,14 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
-            else if (*parm && !M_StringCompare(parm, *(char **)consolecmds[i].variable))
+            else if (*parm)
             {
-                C_StripQuotes(parm);
-                *(char **)consolecmds[i].variable = strdup(parm);
-                M_SaveCVARs();
+                if (!M_StringCompare(parm, *(char **)consolecmds[i].variable))
+                {
+                    C_StripQuotes(parm);
+                    *(char **)consolecmds[i].variable = strdup(parm);
+                    M_SaveCVARs();
+                }
             }
             else
                 C_Output("\"%s\"", *(char **)consolecmds[i].variable);
