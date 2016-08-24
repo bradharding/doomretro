@@ -169,14 +169,10 @@ void P_MovePlayer(player_t *player)
 {
     ticcmd_t    *cmd = &player->cmd;
     mobj_t      *mo = player->mo;
-    short       angleturn = cmd->angleturn;
     char        forwardmove = cmd->forwardmove;
     char        sidemove = cmd->sidemove;
 
-    if (vid_motionblur)
-        I_SetMotionBlur(!!(angleturn | forwardmove | sidemove) ? vid_motionblur : 0);
-
-    mo->angle += angleturn << FRACBITS;
+    mo->angle += cmd->angleturn << FRACBITS;
     onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 
     // killough 10/98:
@@ -362,6 +358,10 @@ void P_PlayerThink(player_t *player)
         cmd->sidemove = 0;
         mo->flags &= ~MF_JUSTATTACKED;
     }
+
+    if (vid_motionblur)
+        I_SetMotionBlur(!!(cmd->angleturn | cmd->forwardmove | cmd->sidemove) ?
+            vid_motionblur : 0);
 
     if (player->playerstate == PST_DEAD)
     {
