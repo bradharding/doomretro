@@ -3356,7 +3356,7 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_STRING))
+            && (consolecmds[i].flags & CF_STRING) && !(consolecmds[i].flags & CF_READONLY))
         {
             if (M_StringCompare(parm, EMPTYVALUE) && **(char **)consolecmds[i].variable)
             {
