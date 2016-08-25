@@ -628,7 +628,7 @@ consolecmd_t consolecmds[] =
         "Toggles player messages."),
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The amount the player's view bobs up and down when they move."),
-    CMD_CHEAT("\x6D\x75\x6D\x75", 0),
+    CMD_CHEAT(mumu, 0),
     CMD(noclip, "", game_func1, noclip_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles collision detection for the player."),
     CMD(nomonsters, "", null_func1, nomonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",

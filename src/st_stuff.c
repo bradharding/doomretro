@@ -309,7 +309,7 @@ cheatseq_t cheat_clev = CHEAT("idclev", 0);
 cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
 cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
-cheatseq_t cheat_buddha = CHEAT("\x6D\x75\x6D\x75", 0);
+cheatseq_t cheat_buddha = CHEAT("mumu", 0);
 
 static dboolean actionkey(char key)
 {
@@ -976,7 +976,7 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);
 
-                plyr->cheats |= CF_BUDDHA;
+                plyr->cheats ^= CF_BUDDHA;
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 players[0].cheated++;

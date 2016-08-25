@@ -70,21 +70,6 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
-extern cheatseq_t       cheat_mus;
-extern cheatseq_t       cheat_mus_xy;
-extern cheatseq_t       cheat_god;
-extern cheatseq_t       cheat_ammo;
-extern cheatseq_t       cheat_ammonokey;
-extern cheatseq_t       cheat_noclip;
-extern cheatseq_t       cheat_commercial_noclip;
-extern cheatseq_t       cheat_powerup[7];
-extern cheatseq_t       cheat_choppers;
-extern cheatseq_t       cheat_buddha;
-extern cheatseq_t       cheat_clev;
-extern cheatseq_t       cheat_clev_xy;
-extern cheatseq_t       cheat_mypos;
-extern cheatseq_t       cheat_amap;
-
 extern dboolean         vid_widescreen;
 extern dboolean         returntowidescreen;
 
