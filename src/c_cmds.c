@@ -417,7 +417,6 @@ static dboolean units_cvar_func1(char *, char *, char *, char *);
 static void units_cvar_func2(char *, char *, char *, char *);
 static void vid_display_cvar_func2(char *, char *, char *, char *);
 static void vid_fullscreen_cvar_func2(char *, char *, char *, char *);
-static void vid_motionblur_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scaleapi_cvar_func1(char *, char *, char *, char *);
 static void vid_scaleapi_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scalefilter_cvar_func1(char *, char *, char *, char *);
