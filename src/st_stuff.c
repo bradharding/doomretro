@@ -309,6 +309,7 @@ cheatseq_t cheat_clev = CHEAT("idclev", 0);
 cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
 cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
+cheatseq_t cheat_buddha = CHEAT("\x6D\x75\x6D\x75", 0);
 
 static dboolean actionkey(char key)
 {
@@ -353,6 +354,7 @@ static void ST_InitCheats(void)
     cheat_powerup[5].actionkey = actionkey(cheat_powerup[5].sequence[0]);
     cheat_powerup[6].actionkey = actionkey(cheat_powerup[6].sequence[0]);
     cheat_choppers.actionkey = actionkey(cheat_choppers.sequence[0]);
+    cheat_buddha.actionkey = actionkey(cheat_buddha.sequence[0]);
     cheat_clev.actionkey = actionkey(cheat_clev.sequence[0]);
     cheat_clev_xy.actionkey = actionkey(cheat_clev_xy.sequence[0]);
     cheat_mypos.actionkey = actionkey(cheat_mypos.sequence[0]);
@@ -850,6 +852,7 @@ dboolean ST_Responder(event_t *ev)
                     cheat_clev_xy.param_chars_read = 0;
                     cheat_mypos.chars_read = 0;
                     cheat_amap.chars_read = 0;
+                    cheat_buddha.chars_read = 0;
                     cheatkey = '\0';
 
                     // [BH] always display message
@@ -955,6 +958,25 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);
+
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                players[0].cheated++;
+            }
+
+            else if (cht_CheckCheat(&cheat_buddha, ev->data2))
+            {
+                C_Input(cheat_buddha.sequence);
+
+                HU_PlayerMessage(s_STSTR_BUDDHA, false);
+
+                // [BH] always display message
+                if (!consoleactive)
+                    message_dontfuckwithme = true;
+
+                // [BH] play sound
+                S_StartSound(NULL, sfx_getpow);
+
+                plyr->cheats |= CF_BUDDHA;
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 players[0].cheated++;

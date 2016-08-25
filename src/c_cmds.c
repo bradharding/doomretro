@@ -628,6 +628,7 @@ consolecmd_t consolecmds[] =
         "Toggles player messages."),
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
         "The amount the player's view bobs up and down when they move."),
+    CMD_CHEAT("\x6D\x75\x6D\x75", 0),
     CMD(noclip, "", game_func1, noclip_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles collision detection for the player."),
     CMD(nomonsters, "", null_func1, nomonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -817,6 +818,8 @@ static dboolean cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     else if (M_StringCompare(cmd, cheat_powerup[6].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
     else if (M_StringCompare(cmd, cheat_choppers.sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (M_StringCompare(cmd, cheat_buddha.sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
     else if (M_StringCompare(cmd, cheat_mypos.sequence))
         return true;

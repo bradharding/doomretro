@@ -283,6 +283,7 @@ STSTR_NCOFF = No clipping mode OFF
 STSTR_BEHOLD = inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?
 STSTR_BEHOLDON = Power-up toggled ON
 STSTR_BEHOLDOFF = Power-up toggled OFF
+STSTR_BUDDHA = Que saudade!
 STSTR_CHOPPERS = "...doesn't suck." - GM
 STSTR_CLEV = Warping to %s...
 STSTR_CLEVSAME = Restarting %s...

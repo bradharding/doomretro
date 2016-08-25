@@ -79,6 +79,7 @@ extern cheatseq_t       cheat_noclip;
 extern cheatseq_t       cheat_commercial_noclip;
 extern cheatseq_t       cheat_powerup[7];
 extern cheatseq_t       cheat_choppers;
+extern cheatseq_t       cheat_buddha;
 extern cheatseq_t       cheat_clev;
 extern cheatseq_t       cheat_clev_xy;
 extern cheatseq_t       cheat_mypos;

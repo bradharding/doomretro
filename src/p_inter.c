@@ -1128,6 +1128,13 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mobj_t      *mo;
     int         gibhealth;
 
+    if (target->player && (players[0].cheats & CF_BUDDHA))
+    {
+        players[0].health = 1;
+        players[0].mo->health = 1;
+        return;
+    }
+
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
     if (type == MT_SKULL)
