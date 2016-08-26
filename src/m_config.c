@@ -796,6 +796,9 @@ static void M_CheckCVARs(void)
 
     turbo = BETWEEN(turbo_min, turbo, turbo_max);
 
+    if (units != units_imperial && units != units_metric)
+        units = units_default;
+
     version = version_default;
 
     if (vid_capfps != false && vid_capfps != true)
