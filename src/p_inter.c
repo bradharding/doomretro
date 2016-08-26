@@ -1408,8 +1408,11 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         }
         tplayer->health = MAX(0, tplayer->health - damage);     // mirror mobj health here for Dave
 
-        players[0].damagereceived += damage;
-        stat_damagereceived = SafeAdd(stat_damagereceived, damage);
+        if (!(tplayer->cheats & CF_BUDDHA) || tplayer->health >= 1)
+        {
+            tplayer->damagereceived += damage;
+            stat_damagereceived = SafeAdd(stat_damagereceived, damage);
+        }
 
         tplayer->attacker = source;
         damagecount = tplayer->damagecount + damage;    // add damage after armor / invuln
@@ -1420,7 +1423,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 
         tplayer->damagecount = damagecount;
 
-        if (gp_vibrate && vibrate && tplayer == &players[0])
+        if (gp_vibrate && vibrate)
         {
             XInputVibration(30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000);
             damagevibrationtics += BETWEEN(12, damage, 100);
