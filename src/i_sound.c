@@ -273,6 +273,8 @@ static void ReleaseSoundOnChannel(int channel)
     if (!snd)
         return;
 
+    Mix_HaltChannel(channel);
+
     channels_playing[channel] = NULL;
 
     UnlockAllocatedSound(snd);
@@ -535,8 +537,6 @@ void I_StopSound(int handle)
 {
     if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
         return;
-
-    Mix_HaltChannel(handle);
 
     // Sound data is no longer needed; release the
     // sound data being used for this channel
