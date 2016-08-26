@@ -2031,6 +2031,8 @@ static mobj_t *A_NextBrainTarget(void)
     return found;
 }
 
+extern dboolean massacre;
+
 void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t      *targ;
@@ -2041,7 +2043,7 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (gameskill <= sk_easy && !easy)
         return;
 
-    if (nomonsters)
+    if (nomonsters || massacre)
         return;
 
     // shoot a cube at current target
@@ -2084,7 +2086,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
             return;
         }
 
-        if (!nomonsters)
+        if (!nomonsters && !massacre)
         {
             mobj_t      *fog;
             mobj_t      *newmobj;

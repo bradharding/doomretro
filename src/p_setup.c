@@ -2062,6 +2062,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
 }
 
 extern dboolean idclev;
+extern dboolean massacre;
 
 //
 // P_SetupLevel
@@ -2182,6 +2183,8 @@ void P_SetupLevel(int ep, int map)
 
     pathpointnum = 0;
     pathpointnum_max = 0;
+
+    massacre = false;
 
     P_SetLiquids();
     P_GetMapLiquids((ep - 1) * 10 + map);

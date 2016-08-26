@@ -1506,6 +1506,7 @@ static void help_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 // kill cmd
 //
 static int      killcmdtype = NUMMOBJTYPES;
+dboolean        massacre = false;
 
 static dboolean kill_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1605,9 +1606,10 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "monsters"))
         {
+            massacre = true;
             for (i = 0; i < numsectors; ++i)
             {
-                mobj_t      *thing = sectors[i].thinglist;
+                mobj_t  *thing = sectors[i].thinglist;
 
                 while (thing)
                 {
@@ -1630,7 +1632,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             P_DamageMobj(thing, NULL, NULL, thing->health);
                             if (!(thing->flags & MF_NOBLOOD))
                             {
-                                int r;
+                                int     r;
 
                                 thing->momx += FRACUNIT * (r = M_RandomInt(-1, 1));
                                 thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
@@ -1665,7 +1667,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             for (i = 0; i < numsectors; ++i)
             {
-                mobj_t      *thing = sectors[i].thinglist;
+                mobj_t  *thing = sectors[i].thinglist;
 
                 while (thing)
                 {
@@ -1690,7 +1692,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             P_DamageMobj(thing, NULL, NULL, thing->health);
                             if (!(thing->flags & MF_NOBLOOD))
                             {
-                                int r;
+                                int     r;
 
                                 thing->momx += FRACUNIT * (r = M_RandomInt(-1, 1));
                                 thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
