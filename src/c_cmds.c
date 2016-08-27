@@ -459,27 +459,29 @@ static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
 }
 
 #define CMD(name, alt, cond, func, parms, form, desc) \
-    { #name, #alt, cond, func, parms, CT_CMD, CF_NONE, NULL, 0, 0, 0, form, desc, "" }
+    { #name, #alt, cond, func, parms, CT_CMD, CF_NONE, NULL, 0, 0, 0, form, desc, 0, 0 }
 #define CMD_CHEAT(name, parms) \
-    { #name, "", cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, "", "", "" }
+    { #name, "", cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, "", "", 0, 0 }
 #define CVAR_BOOL(name, alt, cond, func, aliases, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, aliases, false, true, "", desc, \
-      STR(name##_default) }
+      name##_default, 0 }
 #define CVAR_INT(name, alt, cond, func, flags, aliases, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, aliases, name##_min, \
-      name##_max, "", desc, STR(name##_default) }
+      name##_max, "", desc, name##_default, 0 }
 #define CVAR_FLOAT(name, alt, cond, func, flags, desc) \
     { #name, #alt, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, "", desc, \
-      STR(name##_default) }
+      name##_default, 0 }
 #define CVAR_POS(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, "", desc, name##_default }
+    { #name, #alt, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, "", desc, 0, \
+      name##_default }
 #define CVAR_SIZE(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, CF_SIZE, &name, 0, 0, 0, "", desc, name##_default }
+    { #name, #alt, cond, func, 1, CT_CVAR, CF_SIZE, &name, 0, 0, 0, "", desc, 0, name##_default }
 #define CVAR_STR(name, alt, cond, func, flags, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, (CF_STRING | flags), &name, 0, 0, 0, "", desc, \
+    { #name, #alt, cond, func, 1, CT_CVAR, (CF_STRING | flags), &name, 0, 0, 0, "", desc, 0, \
       name##_default }
 #define CVAR_TIME(name, alt, cond, func, desc) \
-    { #name, #alt, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc, "" }
+    { #name, #alt, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc, 0, \
+      "" }
 
 consolecmd_t consolecmds[] =
 {
@@ -2876,18 +2878,22 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
-    if (!*parm1)
-    {
-        C_Output("<b>%s</b> %s", cmd, RESETCMDFORMAT);
-        return;
-    }
-
     while (*consolecmds[i].name)
     {
+        int     flags = consolecmds[i].flags;
+
         if (consolecmds[i].type == CT_CVAR && M_StringCompare(parm1, consolecmds[i].name)
-            && !(consolecmds[i].flags & CF_READONLY))
+            && !(flags & CF_READONLY))
         {
-            consolecmds[i].func2(parm1, consolecmds[i].defaultvalue, "", "");
+            if (flags & (CF_BOOLEAN | CF_INTEGER))
+                consolecmds[i].func2(consolecmds[i].name,
+                    C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
+                        consolecmds[i].aliases), "", "");
+            else if (flags & CF_FLOAT)
+                consolecmds[i].func2(consolecmds[i].name,
+                    striptrailingzero(consolecmds[i].defaultnumber, 1), "", "");
+            else
+                consolecmds[i].func2(consolecmds[i].name, consolecmds[i].defaultstring, "", "");
             break;
         }
         ++i;
@@ -2903,9 +2909,20 @@ static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (*consolecmds[i].name)
     {
-        if (consolecmds[i].type == CT_CVAR && !(consolecmds[i].flags & CF_READONLY))
-            consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultvalue ?
-                consolecmds[i].defaultvalue : "\"\""), "", "");
+        int     flags = consolecmds[i].flags;
+
+        if (consolecmds[i].type == CT_CVAR && !(flags & CF_READONLY))
+        {
+            if (flags & (CF_BOOLEAN | CF_INTEGER))
+                consolecmds[i].func2(consolecmds[i].name,
+                    C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
+                        consolecmds[i].aliases), "", "");
+            else if (flags & CF_FLOAT)
+                consolecmds[i].func2(consolecmds[i].name,
+                    striptrailingzero(consolecmds[i].defaultnumber, 1), "", "");
+            else
+                consolecmds[i].func2(consolecmds[i].name, consolecmds[i].defaultstring, "", "");
+        }
         ++i;
     }
 }
@@ -3351,7 +3368,6 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     char        *parm = malloc(256);
     int         i = 0;
 
-    parm = parm1;
     if (*parm2)
         parm = M_StringJoin(parm, " ", parm2, NULL);
     if (*parm3)
