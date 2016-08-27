@@ -559,7 +559,7 @@ static void DoBlurScreen(int x1, int y1, int x2, int y2, int i)
 static void C_DrawBackground(int height)
 {
     static dboolean     blurred;
-    int                 i, j;
+    int                 i;
 
     height = (height + 5) * SCREENWIDTH;
 
@@ -613,9 +613,13 @@ static void C_DrawBackground(int height)
 
     // draw shadow
     if (r_translucency)
+    {
+        int     j;
+
         for (j = SCREENWIDTH; j <= 4 * SCREENWIDTH; j += SCREENWIDTH)
             for (i = height; i < height + j; ++i)
                 screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
+    }
     else
         for (i = height; i < height + SCREENWIDTH; ++i)
             screens[0][i] = 0;
