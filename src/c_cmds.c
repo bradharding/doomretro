@@ -2899,7 +2899,8 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 consolecmds[i].func2(consolecmds[i].name,
                     striptrailingzero(consolecmds[i].defaultnumber, 1), "", "");
             else
-                consolecmds[i].func2(consolecmds[i].name, consolecmds[i].defaultstring, "", "");
+                consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
+                    consolecmds[i].defaultstring : "\"\""), "", "");
             break;
         }
         ++i;
@@ -2927,7 +2928,8 @@ static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 consolecmds[i].func2(consolecmds[i].name,
                     striptrailingzero(consolecmds[i].defaultnumber, 1), "", "");
             else
-                consolecmds[i].func2(consolecmds[i].name, consolecmds[i].defaultstring, "", "");
+                consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
+                    consolecmds[i].defaultstring : "\"\""), "", "");
         }
         ++i;
     }
@@ -3371,30 +3373,29 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    char        *parm = malloc(256);
-    int         i = 0;
+    int i = 0;
 
     if (*parm2)
-        parm = M_StringJoin(parm, " ", parm2, NULL);
+        parm1 = M_StringJoin(parm1, " ", parm2, NULL);
     if (*parm3)
-        parm = M_StringJoin(parm, " ", parm3, NULL);
+        parm1 = M_StringJoin(parm1, " ", parm3, NULL);
 
     while (*consolecmds[i].name)
     {
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_STRING) && !(consolecmds[i].flags & CF_READONLY))
         {
-            if (M_StringCompare(parm, EMPTYVALUE) && **(char **)consolecmds[i].variable)
+            if (M_StringCompare(parm1, EMPTYVALUE) && **(char **)consolecmds[i].variable)
             {
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
-            else if (*parm)
+            else if (*parm1)
             {
-                if (!M_StringCompare(parm, *(char **)consolecmds[i].variable))
+                if (!M_StringCompare(parm1, *(char **)consolecmds[i].variable))
                 {
-                    C_StripQuotes(parm);
-                    *(char **)consolecmds[i].variable = strdup(parm);
+                    C_StripQuotes(parm1);
+                    *(char **)consolecmds[i].variable = strdup(parm1);
                     M_SaveCVARs();
                 }
             }
@@ -3404,8 +3405,6 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
         ++i;
     }
-
-    free(parm);
 }
 
 //
