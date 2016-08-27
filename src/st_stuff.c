@@ -334,7 +334,8 @@ static dboolean actionkey(char key)
         || key == key_weapon4
         || key == key_weapon5
         || key == key_weapon6
-        || key == key_weapon7);
+        || key == key_weapon7
+        || key == key_automap_mark);
 }
 
 static void ST_InitCheats(void)
