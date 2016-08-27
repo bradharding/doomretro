@@ -83,6 +83,7 @@ char *lowercase(const char *str);
 char *titlecase(const char *str);
 char *formatsize(const char *str);
 char *commify(int64_t value);
+char *uncommify(const char *input);
 dboolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 char *removespaces(const char *input);

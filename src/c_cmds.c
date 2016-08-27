@@ -2893,8 +2893,8 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             if (flags & (CF_BOOLEAN | CF_INTEGER))
                 consolecmds[i].func2(consolecmds[i].name,
-                    C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
-                        consolecmds[i].aliases), "", "");
+                    uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
+                    consolecmds[i].aliases)), "", "");
             else if (flags & CF_FLOAT)
                 consolecmds[i].func2(consolecmds[i].name,
                     striptrailingzero(consolecmds[i].defaultnumber, 1), "", "");
@@ -2922,8 +2922,8 @@ static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             if (flags & (CF_BOOLEAN | CF_INTEGER))
                 consolecmds[i].func2(consolecmds[i].name,
-                    C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
-                        consolecmds[i].aliases), "", "");
+                    uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
+                        consolecmds[i].aliases)), "", "");
             else if (flags & CF_FLOAT)
                 consolecmds[i].func2(consolecmds[i].name,
                     striptrailingzero(consolecmds[i].defaultnumber, 1), "", "");

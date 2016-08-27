@@ -603,6 +603,25 @@ char *commify(int64_t value)
     return strdup(result);
 }
 
+char *uncommify(const char *input)
+{
+    char        *p = malloc(strlen(input) + 1);
+
+    if (p)
+    {
+        char    *p2 = p;
+
+        while (*input != '\0')
+            if (*input != ',')
+                *p2++ = *input++;
+            else
+                ++input;
+        *p2 = '\0';
+    }
+
+    return p;
+}
+
 dboolean wildcard(char *input, char *pattern)
 {
     int i, z;
