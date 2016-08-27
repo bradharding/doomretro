@@ -427,13 +427,13 @@ void M_SaveCVARs(void)
                     j++;
                 }
                 if (!flag)
-                    fprintf(file, "%i", *(int *)cvars[i].location);
+                    fprintf(file, "%s", commify(*(int *)cvars[i].location));
                 break;
             }
 
             case DEFAULT_INT_UNSIGNED:
             {
-                fprintf(file, "%u", *(unsigned int *)cvars[i].location);
+                fprintf(file, "%s", commify(*(unsigned int *)cvars[i].location));
                 break;
             }
 
@@ -454,7 +454,7 @@ void M_SaveCVARs(void)
                     j++;
                 }
                 if (!flag)
-                    fprintf(file, "%i%%", *(int *)cvars[i].location);
+                    fprintf(file, "%s%%", commify(*(int *)cvars[i].location));
                 break;
             }
 
@@ -882,6 +882,8 @@ void M_LoadCVARs(char *filename)
         // Strip off trailing non-printable characters (\r characters from DOS text files)
         while (strlen(strparm) > 0 && !isprint((unsigned char)strparm[strlen(strparm) - 1]))
             strparm[strlen(strparm) - 1] = '\0';
+
+        M_StringCopy(strparm, uncommify(strparm), 256);
 
         // Find the setting in the list
         for (i = 0; i < arrlen(cvars); ++i)
