@@ -983,6 +983,12 @@ static void saveg_write_player_t(player_t *str)
 
     // int itemspickedup_ammo_shells
     saveg_write32(str->itemspickedup_ammo_shells);
+
+    // int itemspickedup_armor
+    saveg_write32(str->itemspickedup_armor);
+
+    // int itemspickedup_health
+    saveg_write32(str->itemspickedup_health);
 }
 
 //
