@@ -2414,7 +2414,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 10 * FRACUNIT,
         /* name1                */ "cyberdemon",
         /* plural1              */ "cyberdemons",
         /* name2                */ "",
