@@ -981,7 +981,7 @@ static dboolean C_ValidateInput(char *input)
                 && (consolecmds[i].parameters || (!*parm1 && !*parm2 && !*parm3)))
             {
                 C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
-                consolecmds[i].func2(consolecmds[i].name, parm1, parm2, parm3);
+                consolecmds[i].func2(consolecmds[i].name, uncommify(parm1), parm2, parm3);
                 return true;
             }
         }
