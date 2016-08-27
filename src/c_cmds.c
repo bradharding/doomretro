@@ -2878,6 +2878,12 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
 
+    if (!*parm1)
+    {
+        C_Output("<b>%s</b> %s", cmd, RESETCMDFORMAT);
+        return;
+    }
+
     while (*consolecmds[i].name)
     {
         int     flags = consolecmds[i].flags;
