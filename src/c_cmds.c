@@ -397,7 +397,6 @@ static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *, char *, char *);
 static void player_cvars_func2(char *, char *, char *, char *);
-static void playername_cvar_func2(char *, char *, char *, char *);
 static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
 static void r_blood_cvar_func2(char *, char *, char *, char *);
@@ -641,7 +640,7 @@ consolecmd_t consolecmds[] =
         "Toggles the player starting each map with only a pistol."),
     CMD(play, "", play_cmd_func1, play_cmd_func2, 1, PLAYCMDFORMAT,
         "Plays a <i>sound</i> or <i>music</i> lump."),
-    CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
+    CVAR_STR(playername, "", null_func1, str_cvars_func2, CF_NONE,
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, 0, "",
         "Shows statistics about the player."),
@@ -788,6 +787,20 @@ consolecmd_t consolecmds[] =
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
+
+static int C_GetIndex(const char *cmd)
+{
+    int i = 0;
+
+    while (*consolecmds[i].name)
+    {
+        if (M_StringCompare(cmd, consolecmds[i].name))
+            break;
+        ++i;
+    }
+
+    return i;
+}
 
 static dboolean cheat_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3213,7 +3226,7 @@ static void unbind_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// dboolean cvars
+// boolean cvars
 //
 static dboolean bool_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3240,7 +3253,16 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 }
             }
             else
-                C_Output(C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLALIAS));
+            {
+                C_Output(removenewlines(consolecmds[i].description));
+                if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
+                    C_Output("It is currently set to its default of <b>%s</b>.",
+                        C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLALIAS));
+                else
+                    C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                        C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLALIAS),
+                        C_LookupAliasFromValue((dboolean)consolecmds[i].defaultnumber, BOOLALIAS));
+            }
         }
         ++i;
     }
@@ -3304,7 +3326,16 @@ static void float_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 }
             }
             else
-                C_Output(striptrailingzero(*(float *)consolecmds[i].variable, 2));
+            {
+                C_Output(removenewlines(consolecmds[i].description));
+                if (*(float *)consolecmds[i].variable == consolecmds[i].defaultnumber)
+                    C_Output("It is currently set to its default of <b>%s</b>.",
+                        striptrailingzero(*(float *)consolecmds[i].variable, 2));
+                else
+                    C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                        striptrailingzero(*(float *)consolecmds[i].variable, 2),
+                        striptrailingzero(consolecmds[i].defaultnumber, 2));
+            }
         }
         ++i;
     }
@@ -3358,11 +3389,33 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     M_SaveCVARs();
                 }
             }
-            else if (consolecmds[i].flags & CF_PERCENT)
-                C_Output("%i%%", *(int *)consolecmds[i].variable);
             else
-                C_Output(C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
-                    consolecmds[i].aliases));
+            {
+                C_Output(removenewlines(consolecmds[i].description));
+                if (consolecmds[i].flags & CF_PERCENT)
+                {
+                    if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                        C_Output("It is currently set to its default of <b>%i%%</b>.",
+                            *(int *)consolecmds[i].variable);
+                    else
+                        C_Output("It is currently set to <b>%i%%</b> and its default is "
+                            "<b>%i%%</b>.", *(int *)consolecmds[i].variable,
+                            (int)consolecmds[i].defaultnumber);
+                }
+                else
+                {
+                    if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                        C_Output("It is currently set to its default of <b>%s</b>.",
+                            C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
+                            consolecmds[i].aliases));
+                    else
+                        C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                            C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
+                            consolecmds[i].aliases),
+                            C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
+                            consolecmds[i].aliases));
+                }
+            }
         }
         ++i;
     }
@@ -3382,17 +3435,21 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (*consolecmds[i].name)
     {
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_STRING) && !(consolecmds[i].flags & CF_READONLY))
+        if (M_StringCompare(cmd, consolecmds[i].name)
+            && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_STRING))
         {
-            if (M_StringCompare(parm1, EMPTYVALUE) && **(char **)consolecmds[i].variable)
+            if (M_StringCompare(parm1, EMPTYVALUE)
+                && **(char **)consolecmds[i].variable
+                && !(consolecmds[i].flags & CF_READONLY))
             {
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
             else if (*parm1)
             {
-                if (!M_StringCompare(parm1, *(char **)consolecmds[i].variable))
+                if (!M_StringCompare(parm1, *(char **)consolecmds[i].variable)
+                    && !(consolecmds[i].flags & CF_READONLY))
                 {
                     C_StripQuotes(parm1);
                     *(char **)consolecmds[i].variable = strdup(parm1);
@@ -3400,7 +3457,18 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 }
             }
             else
-                C_Output("\"%s\"", *(char **)consolecmds[i].variable);
+            {
+                C_Output(removenewlines(consolecmds[i].description));
+                if (consolecmds[i].flags & CF_READONLY)
+                    C_Output("It is currently set to <b>\"%s\"</b>.",
+                        *(char **)consolecmds[i].variable);
+                else if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
+                    C_Output("It is currently set to its default of <b>\"%s\"</b>.",
+                        *(char **)consolecmds[i].variable);
+                else
+                    C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.",
+                        *(char **)consolecmds[i].variable, consolecmds[i].defaultstring);
+            }
             break;
         }
         ++i;
@@ -3416,12 +3484,15 @@ static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (*consolecmds[i].name)
     {
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name)
+            && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_TIME))
         {
             int tics = *(int *)consolecmds[i].variable / TICRATE;
 
-            C_Output("%02i:%02i:%02i", tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
+            C_Output(removenewlines(consolecmds[i].description));
+            C_Output("It is currently set to <b>%02i:%02i:%02i</b>.",
+                tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
         }
         ++i;
     }
@@ -3512,28 +3583,37 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
             M_SaveCVARs();
         }
     }
+    else if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_left))].description));
+        if (gp_deadzone_left == gp_deadzone_left_default)
+            C_Output("It is currently set to its default of <b>%s%%</b>.",
+                striptrailingzero(gp_deadzone_left, 2));
+        else
+            C_Output("It is currently set to <b>%s%%</b> and its default is <b>%s%%</b>.",
+                striptrailingzero(gp_deadzone_left, 2),
+                striptrailingzero(gp_deadzone_left_default, 2));
+    }
     else
-        C_Output("%s%%", striptrailingzero((M_StringCompare(cmd, stringize(gp_deadzone_left)) ?
-            gp_deadzone_left : gp_deadzone_right), 1));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_right))].description));
+        if (gp_deadzone_right == gp_deadzone_right_default)
+            C_Output("It is currently set to its default of <b>%s%%</b>.",
+                striptrailingzero(gp_deadzone_right, 2));
+        else
+            C_Output("It is currently set to <b>%s%%</b> and its default is <b>%s%%</b>.",
+                striptrailingzero(gp_deadzone_right, 2),
+                striptrailingzero(gp_deadzone_right_default, 2));
+    }
 }
 
 static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (*parm1)
-    {
-        int     value = -1;
+    int gp_sensitivity_old = gp_sensitivity;
 
-        sscanf(parm1, "%10i", &value);
-
-        if (value >= gp_sensitivity_min && value <= gp_sensitivity_max && gp_sensitivity != value)
-        {
-            gp_sensitivity = value;
-            M_SaveCVARs();
-            I_SetGamepadSensitivity(gp_sensitivity);
-        }
-    }
-    else
-        C_Output("%i", gp_sensitivity);
+    int_cvars_func2(cmd, parm1, "", "");
+    if (gp_sensitivity != gp_sensitivity_old)
+        I_SetGamepadSensitivity(gp_sensitivity);
 }
 
 //
@@ -3563,7 +3643,10 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             }
         }
         else
-            C_Output("%i", player->ammo[ammotype]);
+        {
+            C_Output(removenewlines(consolecmds[C_GetIndex(stringize(ammo))].description));
+            C_Output("It is currently set to <b>%i</b>.", player->ammo[ammotype]);
+        }
     }
     else if (M_StringCompare(cmd, stringize(armor)))
     {
@@ -3575,7 +3658,10 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 player->armorpoints = MIN(value, max_armor);
         }
         else
-            C_Output("%i%%", player->armorpoints);
+        {
+            C_Output(removenewlines(consolecmds[C_GetIndex(stringize(armor))].description));
+            C_Output("It is currently set to <b>%i%%</b>.", player->armorpoints);
+        }
     }
     else if (M_StringCompare(cmd, stringize(health)))
     {
@@ -3604,36 +3690,11 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             }
         }
         else
-            C_Output("%i%%", player->health);
-    }
-}
-
-//
-// playername cvar
-//
-static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
-{
-    if (*parm2)
-        parm1 = M_StringJoin(parm1, " ", parm2, NULL);
-    if (*parm3)
-        parm1 = M_StringJoin(parm1, " ", parm3, NULL);
-
-    if (*parm1)
-    {
-        if (M_StringCompare(parm1, EMPTYVALUE) && *playername)
         {
-            playername = "";
-            M_SaveCVARs();
-        }
-        else if (!M_StringCompare(parm1, playername))
-        {
-            C_StripQuotes(parm1);
-            playername = strdup(parm1);
-            M_SaveCVARs();
+            C_Output(removenewlines(consolecmds[C_GetIndex(stringize(health))].description));
+            C_Output("It is currently set to <b>%i%%</b>.", player->health);
         }
     }
-    else
-        C_Output("\"%s\"", playername);
 }
 
 //
@@ -3661,7 +3722,16 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(r_blood, BLOODALIAS));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_blood))].description));
+        if (r_blood == r_blood_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_blood, BLOODALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_blood, BLOODALIAS),
+                C_LookupAliasFromValue(r_blood_default, BLOODALIAS));
+    }
 }
 
 //
@@ -3685,7 +3755,16 @@ static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(r_detail, DETAILALIAS));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_detail))].description));
+        if (r_detail == r_detail_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_detail, DETAILALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_detail, DETAILALIAS),
+                C_LookupAliasFromValue(r_detail_default, DETAILALIAS));
+    }
 }
 
 //
@@ -3725,7 +3804,16 @@ static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
     }
     else
-        C_Output(r_gamma == 1.0f ? "off" : striptrailingzero(r_gamma, 2));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_gamma))].description));
+        if (r_gamma == r_gamma_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                (r_gamma == 1.0f ? "off" : striptrailingzero(r_gamma, 2)));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                (r_gamma == 1.0f ? "off" : striptrailingzero(r_gamma, 2)),
+                (r_gamma_default == 1.0f ? "off" : striptrailingzero(r_gamma_default, 2)));
+    }
 }
 
 //
@@ -3752,7 +3840,15 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
             M_SaveCVARs();
     }
     else
-        C_Output(formatsize(r_lowpixelsize));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_lowpixelsize))].description));
+        if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                formatsize(r_lowpixelsize));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                formatsize(r_lowpixelsize), formatsize(r_lowpixelsize_default));
+    }
 }
 
 //
@@ -3801,7 +3897,14 @@ static void r_screensize_cvar_func2(char *cmd, char *parm1, char *parm2, char *p
         }
     }
     else
-        C_Output("%i", r_screensize);
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_screensize))].description));
+        if (r_screensize == r_screensize_default)
+            C_Output("It is currently set to its default of <b>%i</b>.", r_screensize);
+        else
+            C_Output("It is currently set to <b>%i</b> and its default is <b>%i</b>.",
+                r_screensize, r_screensize_default);
+    }
 }
 
 //
@@ -3843,7 +3946,16 @@ static void r_translucency_cvar_func2(char *cmd, char *parm1, char *parm2, char 
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(r_translucency, BOOLALIAS));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_translucency))].description));
+        if (r_translucency == r_translucency_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_translucency, BOOLALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_translucency, BOOLALIAS),
+                C_LookupAliasFromValue(r_translucency_default, BOOLALIAS));
+    }
 }
 
 //
@@ -3894,9 +4006,24 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
             M_SaveCVARs();
         }
     }
+    else if (M_StringCompare(cmd, stringize(s_musicvolume)))
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(s_musicvolume))].description));
+        if (s_musicvolume == s_musicvolume_default)
+            C_Output("It is currently set to its default of <b>%i%%</b>.", s_musicvolume);
+        else
+            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
+                s_musicvolume, s_musicvolume_default);
+    }
     else
-        C_Output("%i%%", (M_StringCompare(cmd, stringize(s_musicvolume)) ? s_musicvolume :
-            s_sfxvolume));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(s_sfxvolume))].description));
+        if (s_sfxvolume == s_sfxvolume_default)
+            C_Output("It is currently set to its default of <b>%i%%</b>.", s_sfxvolume);
+        else
+            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
+                s_sfxvolume, s_sfxvolume_default);
+    }
 }
 
 //
@@ -3935,7 +4062,14 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
     }
     else
-        C_Output("%i%%", turbo);
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(turbo))].description));
+        if (turbo == turbo_default)
+            C_Output("It is currently set to its default of <b>%i%%</b>.", turbo);
+        else
+            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
+                turbo, turbo_default);
+    }
 }
 
 //
@@ -3959,7 +4093,16 @@ static void units_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(units, UNITSALIAS));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(units))].description));
+        if (units == units_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(units, UNITSALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(units, UNITSALIAS),
+                C_LookupAliasFromValue(units_default, UNITSALIAS));
+    }
 }
 
 //
@@ -3967,21 +4110,11 @@ static void units_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void vid_display_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (*parm1)
-    {
-        int     value = -1;
+    int vid_display_old = vid_display;
 
-        sscanf(parm1, "%10i", &value);
-
-        if (value >= vid_display_min && value <= vid_display_max && value != vid_display)
-        {
-            vid_display = value;
-            M_SaveCVARs();
-            I_RestartGraphics();
-        }
-    }
-    else
-        C_Output("%i", vid_display);
+    int_cvars_func2(cmd, parm1, "", "");
+    if (vid_display != vid_display_old)
+        I_RestartGraphics();
 }
 
 //
@@ -3989,15 +4122,11 @@ static void vid_display_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 //
 static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (*parm1)
-    {
-        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
+    dboolean    vid_fullscreen_old = vid_fullscreen;
 
-        if ((value == 0 || value == 1) && value != vid_fullscreen)
-            I_ToggleFullscreen();
-    }
-    else
-        C_Output(C_LookupAliasFromValue(vid_fullscreen, BOOLALIAS));
+    bool_cvars_func2(cmd, parm1, "", "");
+    if (vid_fullscreen != vid_fullscreen_old)
+        I_ToggleFullscreen();
 }
 
 //
@@ -4022,7 +4151,14 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parm1, char *parm2, char *p
         }
     }
     else
-        C_Output("\"%s\"", vid_scaleapi);
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_scaleapi))].description));
+        if (M_StringCompare(vid_scaleapi, vid_scaleapi_default))
+            C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_scaleapi);
+        else
+            C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.",
+                vid_scaleapi, vid_scaleapi_default);
+    }
 }
 
 //
@@ -4047,7 +4183,14 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parm1, char *parm2, char
         }
     }
     else
-        C_Output("\"%s\"", vid_scalefilter);
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_scalefilter))].description));
+        if (M_StringCompare(vid_scalefilter, vid_scalefilter_default))
+            C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_scalefilter);
+        else
+            C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.",
+                vid_scalefilter, vid_scalefilter_default);
+    }
 }
 
 //
@@ -4068,7 +4211,15 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2,
         }
     }
     else
-        C_Output(formatsize(vid_screenresolution));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_screenresolution))].description));
+        if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                formatsize(vid_screenresolution));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                formatsize(vid_screenresolution), formatsize(vid_screenresolution_default));
+    }
 }
 
 //
@@ -4076,18 +4227,11 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2,
 //
 static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (*parm1)
-    {
-        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
+    dboolean    vid_showfps_old = vid_showfps;
 
-        if ((value == 0 || value == 1) && value != vid_showfps)
-        {
-            vid_showfps = !!value;
-            I_UpdateBlitFunc(players[0].damagecount);
-        }
-    }
-    else
-        C_Output(C_LookupAliasFromValue(vid_showfps, BOOLALIAS));
+    bool_cvars_func2(cmd, parm1, "", "");
+    if (vid_showfps != vid_showfps_old)
+        I_UpdateBlitFunc(players[0].damagecount);
 }
 
 //
@@ -4095,19 +4239,11 @@ static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 //
 static void vid_vsync_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (*parm1)
-    {
-        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
+    dboolean    vid_vsync_old = vid_vsync;
 
-        if ((value == 0 || value == 1) && value != vid_vsync)
-        {
-            vid_vsync = !!value;
-            M_SaveCVARs();
-            I_RestartGraphics();
-        }
-    }
-    else
-        C_Output(C_LookupAliasFromValue(vid_vsync, BOOLALIAS));
+    bool_cvars_func2(cmd, parm1, "", "");
+    if (vid_vsync != vid_vsync_old)
+        I_RestartGraphics();
 }
 
 //
@@ -4115,38 +4251,33 @@ static void vid_vsync_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm
 //
 static void vid_widescreen_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (*parm1)
-    {
-        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
+    dboolean    vid_widescreen_old = vid_widescreen;
 
-        if ((value == 0 || value == 1) && value != vid_widescreen)
+    bool_cvars_func2(cmd, parm1, "", "");
+    if (vid_widescreen != vid_widescreen_old)
+    {
+        if (vid_widescreen)
         {
-            vid_widescreen = !!value;
-            if (vid_widescreen)
+            if (gamestate == GS_LEVEL)
             {
-                if (gamestate == GS_LEVEL)
-                {
-                    I_ToggleWidescreen(true);
-                    if (vid_widescreen)
-                        S_StartSound(NULL, sfx_stnmov);
-                }
-                else
-                {
-                    returntowidescreen = true;
-                    r_hud = true;
-                }
+                I_ToggleWidescreen(true);
+                if (vid_widescreen)
+                    S_StartSound(NULL, sfx_stnmov);
             }
             else
             {
-                I_ToggleWidescreen(false);
-                if (!vid_widescreen)
-                    S_StartSound(NULL, sfx_stnmov);
+                returntowidescreen = true;
+                r_hud = true;
+                M_SaveCVARs();
             }
-            M_SaveCVARs();
+        }
+        else
+        {
+            I_ToggleWidescreen(false);
+            if (!vid_widescreen)
+                S_StartSound(NULL, sfx_stnmov);
         }
     }
-    else
-        C_Output(C_LookupAliasFromValue(vid_widescreen, BOOLALIAS));
 }
 
 //
@@ -4169,7 +4300,14 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
         }
     }
     else
-        C_Output(vid_windowposition);
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_windowposition))].description));
+        if (M_StringCompare(vid_windowposition, vid_windowposition_default))
+            C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_windowposition);
+        else
+            C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.",
+                vid_windowposition, vid_windowposition_default);
+    }
 }
 
 //
@@ -4190,5 +4328,13 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
         }
     }
     else
-        C_Output(formatsize(vid_windowsize));
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_windowsize))].description));
+        if (M_StringCompare(vid_windowsize, vid_windowsize_default))
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                formatsize(vid_windowsize));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                formatsize(vid_windowsize), formatsize(vid_windowsize_default));
+    }
 }

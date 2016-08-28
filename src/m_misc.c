@@ -672,6 +672,22 @@ char *removespaces(const char *input)
     return p;
 }
 
+char *removenewlines(const char *str)
+{
+    char        *newstr;
+    char        *p;
+
+    p = newstr = strdup(str);
+    while (*p != '\0')
+    {
+        if (*p == '\n')
+            *p = ' ';
+        ++p;
+    }
+
+    return newstr;
+}
+
 char *makevalidfilename(const char *input)
 {
     char        *newstr = strdup(input);
