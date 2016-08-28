@@ -608,7 +608,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 
     M_StringCopy(pathcopy, path, pathlen + 1);
     dehpattern = M_StringReplace(basename(pathcopy), ".wad", pattern);
-    dehpattern = M_StringReplace(basename(pathcopy), ".WAD", pattern);
+    dehpattern = M_StringReplace(dehpattern, ".WAD", pattern);
     M_StringCopy(pathcopy, path, pathlen);
     dehdir = dirname(pathcopy);
     dirp = opendir(dehdir);
