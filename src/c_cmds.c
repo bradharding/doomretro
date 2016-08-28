@@ -3733,7 +3733,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static void r_hud_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    if (vid_widescreen || r_screensize == r_screensize_max)
+    if (vid_widescreen || r_screensize == r_screensize_max || !*parm1)
         bool_cvars_func2(cmd, parm1, "", "");
 }
 
