@@ -3373,10 +3373,11 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     while (*consolecmds[i].name)
     {
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_INTEGER) && !(consolecmds[i].flags & CF_READONLY))
+        if (M_StringCompare(cmd, consolecmds[i].name)
+            && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_INTEGER))
         {
-            if (*parm1)
+            if (*parm1 && !(consolecmds[i].flags & CF_READONLY))
             {
                 int     value = C_LookupValueFromAlias(parm1, consolecmds[i].aliases);
 
