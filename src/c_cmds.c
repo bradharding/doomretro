@@ -3588,22 +3588,22 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
         C_Output(removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_left))].description));
         if (gp_deadzone_left == gp_deadzone_left_default)
             C_Output("It is currently set to its default of <b>%s%%</b>.",
-                striptrailingzero(gp_deadzone_left, 2));
+                striptrailingzero(gp_deadzone_left, 1));
         else
             C_Output("It is currently set to <b>%s%%</b> and its default is <b>%s%%</b>.",
-                striptrailingzero(gp_deadzone_left, 2),
-                striptrailingzero(gp_deadzone_left_default, 2));
+                striptrailingzero(gp_deadzone_left, 1),
+                striptrailingzero(gp_deadzone_left_default, 1));
     }
     else
     {
         C_Output(removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_right))].description));
         if (gp_deadzone_right == gp_deadzone_right_default)
             C_Output("It is currently set to its default of <b>%s%%</b>.",
-                striptrailingzero(gp_deadzone_right, 2));
+                striptrailingzero(gp_deadzone_right, 1));
         else
             C_Output("It is currently set to <b>%s%%</b> and its default is <b>%s%%</b>.",
-                striptrailingzero(gp_deadzone_right, 2),
-                striptrailingzero(gp_deadzone_right_default, 2));
+                striptrailingzero(gp_deadzone_right, 1),
+                striptrailingzero(gp_deadzone_right_default, 1));
     }
 }
 
