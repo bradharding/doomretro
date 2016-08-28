@@ -3395,7 +3395,10 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 C_Output(removenewlines(consolecmds[i].description));
                 if (consolecmds[i].flags & CF_PERCENT)
                 {
-                    if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                    if (consolecmds[i].flags & CF_READONLY)
+                        C_Output("It is currently set to <b>%i%%</b>.",
+                            *(int *)consolecmds[i].variable);
+                    else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                         C_Output("It is currently set to its default of <b>%i%%</b>.",
                             *(int *)consolecmds[i].variable);
                     else
@@ -3405,7 +3408,11 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 }
                 else
                 {
-                    if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                    if (consolecmds[i].flags & CF_READONLY)
+                        C_Output("It is currently set to <b>%s</b>.",
+                            C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
+                            consolecmds[i].aliases));
+                    else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                         C_Output("It is currently set to its default of <b>%s</b>.",
                             C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                             consolecmds[i].aliases));
