@@ -4308,9 +4308,9 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
     {
         C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_windowposition))].description));
         if (M_StringCompare(vid_windowposition, vid_windowposition_default))
-            C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_windowposition);
+            C_Output("It is currently set to its default of <b>%s</b>.", vid_windowposition);
         else
-            C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.",
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 vid_windowposition, vid_windowposition_default);
     }
 }
