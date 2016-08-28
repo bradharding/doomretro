@@ -4064,12 +4064,16 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(turbo))].description));
+        char *description = removenewlines(consolecmds[C_GetIndex(stringize(turbo))].description);
+
+        strreplace(description, "%", "%%");
+        C_Output(description);
         if (turbo == turbo_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", turbo);
         else
             C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
                 turbo, turbo_default);
+        free(description);
     }
 }
 
