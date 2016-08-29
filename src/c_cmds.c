@@ -2569,7 +2569,7 @@ static void C_PlayerStats_Game(void)
     C_TabbedOutput(tabs, "\t<b><i>Current Map</i></b>\t<b><i>Total</i></b>");
 
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
-        C_TabbedOutput(tabs, "Map revealed\t<b>100%%</b>\t-");
+        C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
     else
     {
         int     i = 0;
@@ -2581,7 +2581,7 @@ static void C_PlayerStats_Game(void)
         i = 0;
         while (i < totallines)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
-        C_TabbedOutput(tabs, "Map revealed\t<b>%s%%</b>\t-",
+        C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-",
             striptrailingzero(totallinesmapped * 100.0f / totallines, 1));
     }
 
