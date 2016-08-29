@@ -2224,6 +2224,10 @@ static void InitMapInfo(void)
         if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
             return;
 
+    // [BH] Ignore MAPINFO lump from nerve.wad of Xbox Live Arcade version
+    if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wad_file->path), "NERVE.WAD"))
+        return;
+
     info = mapinfo;
 
     info->author[0] = '\0';
