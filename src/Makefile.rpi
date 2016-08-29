@@ -39,7 +39,7 @@
 #[sneakernets] For Compilation on Raspberry Pi ONLY
 OPTIMIZE = -Ofast -fomit-frame-pointer -funroll-loops
 CFLAGS = $(OPTIMIZE) -g `sdl-config --cflags ` $(INCLUDES)
-LDFLAGS = -g `sdl-config --libs` -lSDL_mixer -lm
+LDFLAGS = -g `sdl-config --libs` -lSDL_mixer -lSDL2_image -lm
 
 SRCS := $(shell find . -name '*.c')
 
