@@ -2103,7 +2103,12 @@ void P_SetupLevel(int ep, int map)
     if (nerve && gamemission == doom2)
         lumpnum = W_GetNumForName2(lumpname);
     else
+    {
+        if (gamemission == pack_nerve && W_CheckMultipleLumps(lumpname) == 1)
+            I_Error("The map marker \"%s\" can't be found in PWAD NERVE.WAD.", lumpname);
+
         lumpnum = W_GetNumForName(lumpname);
+    }
 
     mapformat = P_CheckMapFormat(lumpnum);
 
