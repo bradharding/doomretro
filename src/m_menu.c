@@ -2576,22 +2576,23 @@ dboolean M_Responder(event_t *ev)
     // Take care of any messages that need input
     if (messageToPrint && !keydown)
     {
-        keydown = key;
-        if (messageNeedsInput && key != key_menu && tolower(key) != 'y' && tolower(key) != 'n'
+        ch = tolower(ch);
+        if (messageNeedsInput && key != key_menu && ch != 'y' && ch != 'n'
             && !(modstate & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
             return false;
         }
+        keydown = key;
         menuactive = messageLastMenuActive;
         messageToPrint = false;
         if (messageRoutine)
-            messageRoutine(tolower(key));
+            messageRoutine(ch);
         functionkey = 0;
         if (endinggame)
             endinggame = false;
         else
-            S_StartSound(NULL, currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx);
+            S_StartSound(NULL, (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx));
         return true;
     }
 
