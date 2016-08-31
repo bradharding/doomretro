@@ -45,6 +45,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_bbox.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_fix.h"
@@ -215,6 +216,9 @@ extern fixed_t  animatedliquidxdir;
 extern fixed_t  animatedliquidydir;
 extern fixed_t  animatedliquidxoffs;
 extern fixed_t  animatedliquidyoffs;
+
+extern menu_t   MainDef;
+extern menu_t   NewDef;
 
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
@@ -2103,12 +2107,7 @@ void P_SetupLevel(int ep, int map)
     if (nerve && gamemission == doom2)
         lumpnum = W_GetNumForName2(lumpname);
     else
-    {
-        if (gamemission == pack_nerve && W_CheckMultipleLumps(lumpname) == 1)
-            I_Error("The map marker \"%s\" can't be found in PWAD NERVE.WAD.", lumpname);
-
         lumpnum = W_GetNumForName(lumpname);
-    }
 
     mapformat = P_CheckMapFormat(lumpnum);
 
@@ -2229,10 +2228,6 @@ static void InitMapInfo(void)
         if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
             return;
 
-    // [BH] Ignore MAPINFO lump from nerve.wad of Xbox Live Arcade version
-    if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wad_file->path), "NERVE.WAD"))
-        return;
-
     info = mapinfo;
 
     info->author[0] = '\0';
@@ -2276,7 +2271,19 @@ static void InitMapInfo(void)
             }
         }
         if (map < 1 || map > 99)
+        {
+            if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wad_file->path), "NERVE.WAD"))
+            {
+                C_Warning("The map markers in PWAD %s are invalid.",
+                    lumpinfo[MAPINFO]->wad_file->path);
+                nerve = false;
+                NewDef.prevMenu = &MainDef;
+                MAPINFO = -1;
+                return;
+            }
+
             SC_ScriptError(NULL);
+        }
 
         info = &mapinfo[map];
 
