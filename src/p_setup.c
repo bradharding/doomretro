@@ -44,6 +44,7 @@
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_argv.h"
 #include "m_bbox.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -2223,6 +2224,9 @@ static void InitMapInfo(void)
     int         mapmax = 1;
     int         mcmdvalue;
     mapinfo_t   *info;
+
+    if (M_ParmExists("-nomapinfo"))
+        return;
 
     if ((RMAPINFO = MAPINFO = W_CheckNumForName(RMAPINFO_SCRIPT_NAME)) < 0)
         if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
