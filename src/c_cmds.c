@@ -2281,7 +2281,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         commify(numlines), convertsize(sizelines));
 
     C_TabbedOutput(tabs, "Line specials\t<b>%s-compatible</b>",
-        (boomlinespecials ? "<i>BOOM</i>" : "Vanilla"));
+        (boomlinespecials ? "<i><b>BOOM</b></i>" : "Vanilla"));
 
     C_TabbedOutput(tabs, "Sides\t<b>%s</b>\t<b>%s</b>",
         commify(numsides), convertsize(sizesides));
