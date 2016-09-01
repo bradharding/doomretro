@@ -752,7 +752,7 @@ char *convertsize(const int size)
                 M_snprintf(result, 20, "%.2f%s", (float)size / multiplier, sizes[i]);
             return result;
         }
-        strcpy(result, "0");
+        strcpy(result, "0 bytes");
     }
 
     return result;
