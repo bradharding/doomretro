@@ -360,8 +360,7 @@ void P_PlayerThink(player_t *player)
     }
 
     if (vid_motionblur)
-        I_SetMotionBlur(!!(cmd->angleturn | cmd->forwardmove | cmd->sidemove) && !automapactive ?
-            vid_motionblur : 0);
+        I_SetMotionBlur(cmd->angleturn >= 1280 && !automapactive ? vid_motionblur : 0);
 
     if (player->playerstate == PST_DEAD)
     {
