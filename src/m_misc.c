@@ -248,7 +248,10 @@ char *M_GetExecutableFolder(void)
     ssize_t     len = readlink("/proc/self/exe", exe, MAX_PATH - 1);
 
     if (len == -1)
+    {
+        free(exe);
         return ".";
+    }
     else
     {
         exe[len] = '\0';
