@@ -751,6 +751,14 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
                 return false;
 
     // check lines
+    if (thing->flags & MF_SPECIAL)
+    {
+        radius = 20 * FRACUNIT;
+        tmbbox[BOXTOP] = y + radius;
+        tmbbox[BOXBOTTOM] = y - radius;
+        tmbbox[BOXRIGHT] = x + radius;
+        tmbbox[BOXLEFT] = x - radius;
+    }
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
     xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
     yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
@@ -895,9 +903,6 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
 
     felldown = false;           // killough 11/98
     floatok = false;
-
-    if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED))
-        thing->radius = 20 * FRACUNIT;
 
     if (!P_CheckPosition(thing, x, y))
         return false;           // solid wall or thing
@@ -1140,9 +1145,6 @@ dboolean P_ThingHeightClip(mobj_t *thing)
     dboolean    onfloor = (thing->z == thing->floorz);
     fixed_t     oldfloorz = thing->floorz; // haleyjd
     int         flags2 = thing->flags2;
-
-    if (thing->flags & MF_SPECIAL)
-        thing->radius = MIN(20 * FRACUNIT, thing->radius);
 
     P_CheckPosition(thing, thing->x, thing->y);
 
