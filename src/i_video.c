@@ -873,8 +873,9 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutoMap(dboolean output)
 {
-    unsigned int        rmask, gmask, bmask, amask;
-    int                 bpp;
+    Uint32      pixelformat;
+    Uint32      rmask, gmask, bmask, amask;
+    int         bpp;
 
     if (!am_external)
         return;
@@ -909,8 +910,8 @@ void I_CreateExternalAutoMap(dboolean output)
     if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
-    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask,
-        &bmask, &amask))
+    pixelformat = SDL_GetWindowPixelFormat(mapwindow);
+    if (SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask))
     {
         if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask,
             bmask, amask)))
@@ -921,8 +922,8 @@ void I_CreateExternalAutoMap(dboolean output)
 
     SDL_FillRect(mapbuffer, NULL, 0);
 
-    if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+    if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING,
+        SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
 
     if (!(mappalette = SDL_AllocPalette(256)))
@@ -1153,10 +1154,11 @@ void I_SetMotionBlur(int percent)
 
 static void SetVideoMode(dboolean output)
 {
-    int                 flags = SDL_RENDERER_TARGETTEXTURE;
-    int                 width, height;
-    unsigned int        rmask, gmask, bmask, amask;
-    int                 bpp;
+    int         flags = SDL_RENDERER_TARGETTEXTURE;
+    int         width, height;
+    Uint32      pixelformat;
+    Uint32      rmask, gmask, bmask, amask;
+    int         bpp;
 
     displayindex = vid_display - 1;
     if (displayindex < 0 || displayindex >= numdisplays)
@@ -1403,8 +1405,8 @@ static void SetVideoMode(dboolean output)
     if (vid_motionblur && output)
         C_Output("There is %i%% motion blur.", vid_motionblur);
 
-    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask,
-        &amask))
+    pixelformat = SDL_GetWindowPixelFormat(window);
+    if (SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask))
     {
         if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask,
             amask)))
@@ -1418,14 +1420,14 @@ static void SetVideoMode(dboolean output)
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
             SDL_HINT_OVERRIDE);
-    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+    if (!(texture = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_STREAMING,
+        SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
             SDL_HINT_OVERRIDE);
-    if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+    if (!(texture_upscaled = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
+        upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
 
     if (!(palette = SDL_AllocPalette(256)))
