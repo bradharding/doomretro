@@ -1403,7 +1403,7 @@ static void SetVideoMode(dboolean output)
         I_SDLError("SDL_CreateRGBSurface");
 
     if (vid_motionblur && output)
-        C_Output("There is %i%% motion blur.", vid_motionblur);
+        C_Output("There will be %i%% motion blur when the player turns quickly.", vid_motionblur);
 
     pixelformat = SDL_GetWindowPixelFormat(window);
     if (SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask))

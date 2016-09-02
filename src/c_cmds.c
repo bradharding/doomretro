@@ -765,7 +765,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_fullscreen, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLALIAS,
         "Toggles between fullscreen and a window."),
     CVAR_INT(vid_motionblur, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
-        "The amount of motion blur when the player turns."),
+        "The amount of motion blur when the player turns quickly."),
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b> or\n<b>\"software\"</b>)."),
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
