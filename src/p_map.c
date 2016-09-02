@@ -703,8 +703,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     int         bx;
     int         by;
     subsector_t *newsubsec;
-    fixed_t     radius = ((thing->flags & MF_SPECIAL) ? MIN(20 * FRACUNIT, thing->radius) :
-                    thing->radius);
+    fixed_t     radius = thing->radius;
 
     tmthing = thing;
 
@@ -892,23 +891,27 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     fixed_t     oldx;
     fixed_t     oldy;
     sector_t    *newsec;
+    int         flags = thing->flags;
 
     felldown = false;           // killough 11/98
     floatok = false;
 
+    if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED))
+        thing->radius = 20 * FRACUNIT;
+
     if (!P_CheckPosition(thing, x, y))
         return false;           // solid wall or thing
 
-    if (!(thing->flags & MF_NOCLIP))
+    if (!(flags & MF_NOCLIP))
     {
         // killough 7/26/98: reformatted slightly
         // killough 8/1/98: Possibly allow escape if otherwise stuck
         if (tmceilingz - tmfloorz < thing->height       // doesn't fit
             // mobj must lower to fit
-            || (floatok = true, !(thing->flags & MF_TELEPORT)
+            || (floatok = true, !(flags & MF_TELEPORT)
                 && tmceilingz - thing->z < thing->height)
             // too big a step up
-            || (!(thing->flags & MF_TELEPORT)
+            || (!(flags & MF_TELEPORT)
                 && tmfloorz - thing->z > 24 * FRACUNIT))
         {
             return (tmunstuck
@@ -921,7 +924,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         // Prevent monsters from getting stuck hanging off ledges
         // killough 10/98: Allow dropoffs in controlled circumstances
         // killough 11/98: Improve symmetry of clipping on stairs
-        if (!(thing->flags & (MF_DROPOFF | MF_FLOAT)))
+        if (!(flags & (MF_DROPOFF | MF_FLOAT)))
         {
             if (!dropoff)
             {
@@ -931,7 +934,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
             }
             else
                 // dropoff allowed -- check for whether it fell more than 24
-                felldown = (!(thing->flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
+                felldown = (!(flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
         }
 
         // killough 11/98: prevent falling objects from going up too many steps
@@ -975,7 +978,6 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
 
     // if any special lines were hit, do the effect
     if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)))
-    {
         while (numspechit--)
         {
             // see if the line was crossed
@@ -985,7 +987,6 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
             if (oldside != P_PointOnLineSide(thing->x, thing->y, ld) && ld->special)
                 P_CrossSpecialLine(ld, oldside, thing);
         }
-    }
 
     // [BH] update shadow position as well
     if (thing->shadow)
@@ -1139,6 +1140,9 @@ dboolean P_ThingHeightClip(mobj_t *thing)
     dboolean    onfloor = (thing->z == thing->floorz);
     fixed_t     oldfloorz = thing->floorz; // haleyjd
     int         flags2 = thing->flags2;
+
+    if (thing->flags & MF_SPECIAL)
+        thing->radius = MIN(20 * FRACUNIT, thing->radius);
 
     P_CheckPosition(thing, thing->x, thing->y);
 
