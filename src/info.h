@@ -1431,6 +1431,7 @@ typedef struct
     int         deathsound;
     int         speed;
     int         radius;
+    int         pickupradius;
     int         height;
     int         projectilepassheight;
     int         mass;

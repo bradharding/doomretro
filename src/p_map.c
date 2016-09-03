@@ -457,7 +457,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
 
     // [BH] specify standard radius of 20 for pickups here as thing->radius
     // has been changed to allow better clipping
-    blockdist = ((flags & MF_SPECIAL) ? 20 * FRACUNIT : thing->radius) + tmthing->radius;
+    blockdist = thing->info->pickupradius + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
         return true;            // didn't hit it
@@ -751,14 +751,11 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
                 return false;
 
     // check lines
-    if (thing->flags & MF_SPECIAL)
-    {
-        radius = 20 * FRACUNIT;
-        tmbbox[BOXTOP] = y + radius;
-        tmbbox[BOXBOTTOM] = y - radius;
-        tmbbox[BOXRIGHT] = x + radius;
-        tmbbox[BOXLEFT] = x - radius;
-    }
+    radius = thing->info->pickupradius;
+    tmbbox[BOXTOP] = y + radius;
+    tmbbox[BOXBOTTOM] = y - radius;
+    tmbbox[BOXRIGHT] = x + radius;
+    tmbbox[BOXLEFT] = x - radius;
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
     xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
     yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
