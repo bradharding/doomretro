@@ -751,11 +751,14 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
                 return false;
 
     // check lines
-    radius = thing->info->pickupradius;
-    tmbbox[BOXTOP] = y + radius;
-    tmbbox[BOXBOTTOM] = y - radius;
-    tmbbox[BOXRIGHT] = x + radius;
-    tmbbox[BOXLEFT] = x - radius;
+    if (!(thing->flags & MF_DROPPED))
+    {
+        radius = thing->info->pickupradius;
+        tmbbox[BOXTOP] = y + radius;
+        tmbbox[BOXBOTTOM] = y - radius;
+        tmbbox[BOXRIGHT] = x + radius;
+        tmbbox[BOXLEFT] = x - radius;
+    }
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
     xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
     yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
