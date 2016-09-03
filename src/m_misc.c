@@ -175,7 +175,7 @@ char *M_GetAppDataFolder(void)
     #endif
 #else
     // On Linux and OS X, if ../share/doomretro doesn't exist then we're dealing with
-    // a portable installation, and we write
+    // a portable installation, and we write doomretro.cfg to the executable directory.
     char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
                     DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
     DIR         *resourceDir = opendir(resourceFolder);
