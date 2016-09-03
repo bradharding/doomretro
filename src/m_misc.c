@@ -160,19 +160,22 @@ char *M_ExtractFolder(char *path)
 
 char *M_GetAppDataFolder(void)
 {
-    char *executableFolder = M_GetExecutableFolder();
-#if defined(WIN32)
-    #if !defined(PORTABILITY)
-        // On Windows, store generated application files in <username>\DOOM Retro.
-        TCHAR       buffer[MAX_PATH];
+    char        *executableFolder = M_GetExecutableFolder();
 
-        if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
-            return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
-        else
-            return executableFolder;
-    #else
+#if defined(WIN32)
+
+#if !defined(PORTABILITY)
+    // On Windows, store generated application files in <username>\DOOM Retro.
+    TCHAR   buffer[MAX_PATH];
+
+    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
+        return M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
+    else
         return executableFolder;
-    #endif
+#else
+    return executableFolder;
+#endif
+
 #else
     // On Linux and OS X, if ../share/doomretro doesn't exist then we're dealing with
     // a portable installation, and we write doomretro.cfg to the executable directory.
@@ -186,16 +189,16 @@ char *M_GetAppDataFolder(void)
 
 #if defined(__MACOSX__)
         // On OSX, store generated application files in ~/Library/Application Support/DOOM Retro.
-        NSFileManager     *manager = [NSFileManager defaultManager];
-        NSURL             *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory
-                              inDomains: NSUserDomainMask].firstObject;
-        NSURL             *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent:
-                              @PACKAGE_NAME];
+        NSFileManager   *manager = [NSFileManager defaultManager];
+        NSURL           *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory
+                            inDomains: NSUserDomainMask].firstObject;
+        NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent:
+                            @PACKAGE_NAME];
 
         return appSupportURL.fileSystemRepresentation;
 #else
         // On Linux, store generated application files in /home/<username>/.config/doomretro
-        char        *buffer;
+        char            *buffer;
 
         if (!(buffer = getenv("HOME")))
             buffer = getpwuid(getuid())->pw_dir;
@@ -204,17 +207,15 @@ char *M_GetAppDataFolder(void)
 #endif
     }
     else
-    {
         return executableFolder;
-    }
-
 #endif
 }
 
 char *M_GetResourceFolder(void)
 {
     char        *executableFolder = M_GetExecutableFolder();
-#if defined(__linux__) || defined(__MACOSX__)
+
+#if !defined(WIN32)
     // On Linux and OS X, first assume that the executable is in .../bin and
     // try to load resources from .../share/doomretro.
     char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
