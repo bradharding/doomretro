@@ -966,9 +966,12 @@ dboolean ST_Responder(event_t *ev)
 
             else if (cht_CheckCheat(&cheat_buddha, ev->data2))
             {
+                plyr->cheats ^= CF_BUDDHA;
+
                 C_Input(cheat_buddha.sequence);
 
-                HU_PlayerMessage(s_STSTR_BUDDHA, false);
+                if (plyr->cheats & CF_BUDDHA)
+                    HU_PlayerMessage(s_STSTR_BUDDHA, false);
 
                 // [BH] always display message
                 if (!consoleactive)
@@ -976,8 +979,6 @@ dboolean ST_Responder(event_t *ev)
 
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);
-
-                plyr->cheats ^= CF_BUDDHA;
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 players[0].cheated++;
