@@ -1716,8 +1716,8 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         }
                         else if (thing->flags & MF_CORPSE)
                             dead++;
-                        thing = thing->snext;
                     }
+                    thing = thing->snext;
                 }
             }
 
