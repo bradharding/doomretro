@@ -238,7 +238,8 @@ static void UpdateFocus(void)
 
 static void SetShowCursor(dboolean show)
 {
-    SDL_SetRelativeMouseMode(!show);
+    if (SDL_SetRelativeMouseMode(!show) < 0)
+        I_SDLError("SDL_SetRelativeMouseMode");
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
@@ -564,7 +565,9 @@ static void I_GetEvent(void)
                                 M_snprintf(pos, sizeof(pos), "(%i,%i)", windowx, windowy);
                                 vid_windowposition = strdup(pos);
 
-                                vid_display = SDL_GetWindowDisplayIndex(window) + 1;
+                                if ((vid_display = SDL_GetWindowDisplayIndex(window)) < 0)
+                                    I_SDLError("SDL_GetWindowDisplayIndex");
+                                ++vid_display;
                                 M_SaveCVARs();
                             }
                             manuallypositioning = false;
@@ -846,7 +849,8 @@ void I_SetPalette(byte *playpal)
         colors[i].b = gammatable[gammaindex][*playpal++];
     }
 
-    SDL_SetPaletteColors(palette, colors, 0, 256);
+    if (SDL_SetPaletteColors(palette, colors, 0, 256) < 0)
+        I_SDLError("SDL_SetPaletteColors");
 }
 
 static void I_RestoreFocus(void)
@@ -856,7 +860,8 @@ static void I_RestoreFocus(void)
 
     SDL_VERSION(&info.version);
 
-    SDL_GetWindowWMInfo(window, &info);
+    if (!SDL_GetWindowWMInfo(window, &info))
+        I_SDLError("SDL_GetWindowWMInfo");
     SetFocus(info.info.win.window);
 #endif
 }
@@ -868,7 +873,8 @@ static void GetDisplays(void)
     numdisplays = MIN(SDL_GetNumVideoDisplays(), MAXDISPLAYS);
 
     for (i = 0; i < numdisplays; ++i)
-        SDL_GetDisplayBounds(i, &displays[i]);
+        if (SDL_GetDisplayBounds(i, &displays[i]) < 0)
+            I_SDLError("SDL_GetDisplayBounds");
 }
 
 void I_CreateExternalAutoMap(dboolean output)
@@ -1451,7 +1457,8 @@ void I_ToggleWidescreen(dboolean toggle)
             R_SetViewSize(r_screensize);
         }
 
-        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
+        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT) < 0)
+            I_SDLError("SDL_RenderSetLogicalSize");
         src_rect.h = SCREENHEIGHT - SBARHEIGHT;
     }
     else
@@ -1461,13 +1468,15 @@ void I_ToggleWidescreen(dboolean toggle)
         if (gamestate == GS_LEVEL)
             ST_doRefresh();
 
-        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
+        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
+            I_SDLError("SDL_RenderSetLogicalSize");
         src_rect.h = SCREENHEIGHT;
     }
 
     returntowidescreen = false;
 
-    SDL_SetPaletteColors(palette, colors, 0, 256);
+    if (SDL_SetPaletteColors(palette, colors, 0, 256) < 0)
+        I_SDLError("SDL_SetPaletteColors");
 }
 
 #if defined(WIN32)
@@ -1647,7 +1656,8 @@ void I_InitGraphics(void)
 
     I_SetPalette(doompal);
     if (mappalette)
-        SDL_SetPaletteColors(mappalette, colors, 0, 256);
+        if (SDL_SetPaletteColors(mappalette, colors, 0, 256) < 0)
+            I_SDLError("SDL_SetPaletteColors");
 
     screens[0] = surface->pixels;
     if (!mapwindow)
