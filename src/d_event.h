@@ -113,9 +113,7 @@ enum
 //
 // GLOBAL VARIABLES
 //
-
 extern gameaction_t     gameaction;
-
 extern dboolean         altdown;
 
 #endif

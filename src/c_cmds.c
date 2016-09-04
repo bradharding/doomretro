@@ -232,7 +232,6 @@ extern int              pixelwidth;
 extern int              pixelheight;
 extern int              screenheight;
 extern int              screenwidth;
-extern char             gamekeyaction[NUMKEYS][256];
 
 control_t controls[] =
 {

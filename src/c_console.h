@@ -49,7 +49,7 @@
 #define NOBOLDCOLOR             -1
 #define NOBACKGROUNDCOLOR       -1
 
-#define CONSOLEHEIGHT           (SCREENHEIGHT - SBARHEIGHT) / 2
+#define CONSOLEHEIGHT           ((SCREENHEIGHT - SBARHEIGHT) / 2)
 
 #define CONSOLETOP              0
 
@@ -59,8 +59,6 @@
 #define EMPTYVALUE              "\"\""
 
 #define stringize(x)            #x
-#define STR(x)                  stringize(x)
-
 
 typedef enum
 {

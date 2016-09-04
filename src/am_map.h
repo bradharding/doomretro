@@ -75,8 +75,6 @@ void AM_Init(void);
 void AM_setColors(void);
 void AM_addToPath(void);
 
-extern byte             *tinttab80;
-
 extern dboolean         message_dontfuckwithme;
 
 extern int              viewheight2;

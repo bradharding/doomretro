@@ -133,7 +133,6 @@ extern dboolean STCFN034;
 extern dboolean idbehold;
 extern dboolean s_STSTR_BEHOLD2;
 extern byte     *tempscreen;
-extern byte     *tinttab33;
 extern byte     *tinttab50;
 extern int      r_screensize;
 

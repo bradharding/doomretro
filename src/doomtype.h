@@ -51,17 +51,13 @@ typedef enum
 typedef uint8_t byte;
 
 #if defined(WIN32)
-
 #define DIR_SEPARATOR   '\\'
 #define DIR_SEPARATOR_S "\\"
 #define PATH_SEPARATOR  ';'
-
 #else
-
 #define DIR_SEPARATOR   '/'
 #define DIR_SEPARATOR_S "/"
 #define PATH_SEPARATOR  ':'
-
 #endif
 
 #define arrlen(array) (sizeof(array) / sizeof(*array))
