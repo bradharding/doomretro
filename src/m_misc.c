@@ -63,7 +63,10 @@
 #endif
 
 #if defined(__OpenBSD__)
+#include <dirent.h>
 #include <errno.h>
+#include <libgen.h>
+#include <unistd.h>
 #endif
 
 #if defined(__linux__)
