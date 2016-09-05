@@ -324,7 +324,7 @@ typedef enum
 #define vid_display_default                     1
 #define vid_display_max                         INT_MAX
 
-#if !defined(win32)
+#if !defined(WIN32)
 #define vid_driver_default                      ""
 #endif
 

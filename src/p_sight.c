@@ -223,7 +223,7 @@ static dboolean P_CrossBSPNode(int bspnum)
             else
                 bspnum = bsp->children[side1 ^ 1];      // cross the ending side
     }
-    return P_CrossSubsector((bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR)));
+    return P_CrossSubsector(bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR));
 }
 
 //
@@ -264,7 +264,6 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 
     // An unobstructed LOS is possible.
     // Now look from eyes of t1 to any part of t2.
-
     validcount++;
 
     los.sightzstart = t1->z + t1->height - (t1->height >> 2);
