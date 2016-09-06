@@ -115,8 +115,6 @@ dboolean        gp_vibrate = gp_vibrate_default;
 #define SIDEMOVE0       0x18
 #define SIDEMOVE1       0x28
 
-#define SLOWANGLETURN   1280
-
 fixed_t         forwardmove[2] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[2] = { SIDEMOVE0, SIDEMOVE1 };
 fixed_t         angleturn[3] = { 640, 1280, 320 };      // + slow turn
