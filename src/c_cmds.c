@@ -2938,7 +2938,7 @@ static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         consolecmds[i].aliases)), "", "");
             else if (flags & CF_FLOAT)
                 consolecmds[i].func2(consolecmds[i].name,
-                    striptrailingzero(consolecmds[i].defaultnumber, 1), "", "");
+                    striptrailingzero(consolecmds[i].defaultnumber, 2), "", "");
             else
                 consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
                     consolecmds[i].defaultstring : "\"\""), "", "");
