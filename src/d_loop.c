@@ -137,7 +137,7 @@ extern dboolean advancetitle;
 void TryRunTics(void)
 {
     // get real tics
-    int entertic = I_GetTime();
+    int entertic;
     int counts;
 
     // get available tics
@@ -147,6 +147,8 @@ void TryRunTics(void)
 
     if (!counts && !vid_capfps)
         return;
+
+    entertic = I_GetTime();
 
     if (counts < 1)
         counts = 1;
