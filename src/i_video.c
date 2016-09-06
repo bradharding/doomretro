@@ -1201,7 +1201,9 @@ static void SetVideoMode(dboolean output)
             M_SaveCVARs();
         }
 
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, (M_StringCompare(vid_scaleapi,
+            vid_scaleapi_direct3d) && M_StringCompare(vid_scalefilter, vid_scalefilter_linear) ?
+            "best" : vid_scalefilter), SDL_HINT_OVERRIDE);
     }
 
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
@@ -1427,8 +1429,8 @@ static void SetVideoMode(dboolean output)
         SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
     if (nearestlinear)
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
-            SDL_HINT_OVERRIDE);
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, (M_StringCompare(vid_scaleapi,
+            vid_scaleapi_direct3d) ? "best" : vid_scalefilter_linear), SDL_HINT_OVERRIDE);
     if (!(texture_upscaled = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
         upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
