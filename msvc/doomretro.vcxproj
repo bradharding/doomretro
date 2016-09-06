@@ -425,6 +425,7 @@
     <None Include="..\AUTHORS" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
+    <None Include="..\releasenotes.md" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\NOLIQUID" />
