@@ -719,8 +719,9 @@ int M_BigStringWidth(char *str)
     int         i;
     int         w = 0;
     static char prev;
+    size_t      len = strlen(str);
 
-    for (i = 0; (unsigned int)i < strlen(str); ++i)
+    for (i = 0; (unsigned int)i < len; ++i)
     {
         int     j = chartoi[(int)str[i]];
         int     k = 0;
@@ -818,8 +819,7 @@ void M_ReadSaveStrings(void)
 
         M_StringCopy(name, P_SaveGameFile(i), sizeof(name));
 
-        handle = fopen(name, "rb");
-        if (!handle)
+        if (!(handle = fopen(name, "rb")))
         {
             M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, SAVESTRINGSIZE);
             LoadGameMenu[i].status = 0;
@@ -846,12 +846,10 @@ static byte saveg_read8(FILE *file)
 //
 dboolean M_CheckSaveGame(int choice)
 {
-    FILE        *handle;
+    FILE        *handle = fopen(P_SaveGameFile(itemOn), "rb");
     int         ep;
     int         mission;
     int         i;
-
-    handle = fopen(P_SaveGameFile(itemOn), "rb");
 
     if (!handle)
         return true;
@@ -871,7 +869,8 @@ dboolean M_CheckSaveGame(int choice)
             return true;
         if (gamemission == pack_nerve)
         {
-            ExpDef.lastOn = expansion = ex1;
+            ExpDef.lastOn = ex1;
+            expansion = ex1;
             gamemission = doom2;
             return true;
         }
@@ -884,7 +883,8 @@ dboolean M_CheckSaveGame(int choice)
             return true;
         if (gamemission == doom2 && nerve)
         {
-            ExpDef.lastOn = expansion = ex2;
+            ExpDef.lastOn = ex2;
+            expansion = ex2;
             gamemission = pack_nerve;
             return true;
         }
@@ -1243,11 +1243,6 @@ void M_UpdateSaveGameName(int i)
             --len;
         }
     }
-}
-
-char *M_GetSaveGameName(int i)
-{
-    return savegamestrings[i];
 }
 
 void M_SaveSelect(int choice)

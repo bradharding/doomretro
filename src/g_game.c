@@ -1388,10 +1388,6 @@ void G_DoWorldDone(void)
     markpointnum = 0;
 }
 
-//
-// G_InitFromSavegame
-// Can be called by the startup code or the menu task.
-//
 extern dboolean setsizeneeded;
 
 void R_ExecuteSetViewSize(void);
@@ -1411,9 +1407,7 @@ void G_DoLoadGame(void)
     loadaction = gameaction;
     gameaction = ga_nothing;
 
-    save_stream = fopen(savename, "rb");
-
-    if (!save_stream)
+    if (!(save_stream = fopen(savename, "rb")))
         return;
 
     if (!P_ReadSaveGameHeader(savedescription))

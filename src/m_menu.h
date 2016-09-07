@@ -95,7 +95,6 @@ void M_DrawCenteredString(int y, char *str);
 void M_SetWindowCaption(void);
 
 void M_UpdateSaveGameName(int i);
-char *M_GetSaveGameName(int i);
 
 extern int      r_screensize;
 extern int      gamepadmenu;

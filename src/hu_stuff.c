@@ -274,7 +274,9 @@ void HU_Start(void)
 
     while (M_StringWidth(s) > ORIGINALWIDTH - 6)
     {
-        s[len - 1] = s[len] = s[len + 1] = '.';
+        s[len - 1] = '.';
+        s[len] = '.';
+        s[len + 1] = '.';
         s[len + 2] = '\0';
         --len;
     }
