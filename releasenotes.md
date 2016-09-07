@@ -1,7 +1,47 @@
+### DOOM Retro v2.3
+
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Motion blur when the player turns quickly can now be enabled by setting the new `vid_motionblur` CVAR to a value greater than its default of `0%`.
+* The `am_xhaircolor` CVAR has been renamed to `am_crosshaircolor`.
+* The `vid_scaledriver` CVAR has been renamed to `vid_scaleapi`.
+* The default of `vid_scaleapi` is now `direct3d` rather than `""`.
+* Anisotropic filtering will now be used in preference to linear filtering when the `vid_scalefilter` CVAR is `linear` and the `vid_scaleapi` CVAR is `direct3d`.
+* A bug has been fixed whereby some CVARs weren't being reset to their correct values or at all when using either the `reset` or `resetall` CCMDs.
+* Toggling “always run” using the <kbd>CAPSLOCK</kbd> while in the console will no longer inadvertantly affect player messages from appearing.
+* Minor changes have been made to some elements of the console.
+* A new `-nomapinfo` command-line parameter has been implemented that will stop any `MAPINFO` lumps from being parsed in PWADs at startup.
+* If there is a `MAPINFO` lump present in `nerve.wad` that contains invalid map markers, the PWAD will no longer exit with an error, and a warning will be displayed in the console.
+* The <kbd>SHIFT</kbd> key will now be ignored when pressing <kbd>Y</kbd> or <kbd>N</kbd> in response to a centered message.
+* A bug has been fixed whereby no value would be displayed when entering the `r_hud` CVAR in the console without a value.
+* When entering a CVAR in the console without a value, the CVAR’s description, current value and default value will now be displayed.
+* The shadows of Cyberdemons have been raised slightly.
+* The values of CVARs in `doomretro.cfg` now have thousands delimiters.
+* Thousands delimiters may now be used when entering values of CVARs in the console.
+* Monster spawners are now disabled when using `kill all` in the console.
+* All automap controls (such as pressing the <kbd>G</kbd> key to toggle the grid) may now be used when there’s an external automap, provided they don’t conflict with other controls.
+* Lost Souls spawned by Pain Elementals now start in their attack frame.
+* The `playerstats` CCMD now also displays the number of maps completed, the distance travelled by the player, and the amount of ammo (broke down into bullets, cells, rockets and shells), armor and health picked up by the player.
+* The units used to display the distance travelled by the player in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
+* The alternate HUD is now enabled by default.
+* When the `r_translucency` CVAR is `off`, the console and the alternate HUD will no longer be translucent.
+* The effects when changing the `r_translucency` CVAR will now be immediate in the HUD and alternate HUD.
+* “DOOM Retro” now appears at the end of the window’s caption.
+* A texture has been corrected in MAP13 of `doom2.wad`.
+* The player’s path may now be displayed in the automap by enabling the new `am_path` CVAR. It is `off` by default.
+* The color of the player’s path may be changed using the new `am_pathcolor` CVAR. It is `95` by default.
+* The console is now hidden when using the `spawn` CCMD.
+* Spaces are now allowed in the `playername` CVAR.
+* The values of the `r_detail` CVAR are now displayed correctly in the output of the `cvarlist` CCMD.
+* Use and fire actions can now respawn the player when dead and in the automap.
+* A bug has been fixed that stopped some string CVARs from being able to be changed in the console.
+* The digits in the status bar are no longer lower by 1 pixel in *Back To Saturn X*.
+* The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters.
+* The player will now be resurrected if the `health` CVAR is changed in the console and they are dead.
+
 ### DOOM Retro v2.2.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The shadows of mancubi have been raised slightly.
+* The shadows of Mancubi have been raised slightly.
 * The `resetall` CCMD will no longer cause a crash when used while not in a game.
 * A warning will now be displayed in the console if gamepad initialization fails.
 * A bug has been fixed whereby the `vid_scalefilter` CVAR would default to `"nearest_linear"` rather than `"nearest"` if invalid.
@@ -434,7 +474,7 @@
 * The number of times the player cheats, both in the current map and overall, as well as the overall amount of time spent playing *DOOM Retro*, are now displayed in the output of the `playerstats` CCMD.
 * *BOOM’s* `MF_TRANSLUCENT` flag is now supported in *DeHackEd* lumps and files.
 * When binding an action to a control using the `bind` CCMD, any other actions that are bound to that same control will now be unbound.
-* A bug has been fixed whereby the mouse pointer wouldn’t be released when pressing <kbd>ALT</kbd>&nbsp;+&nbsp;<kbd>TAB</kbd> to switch to the desktop.
+* A bug has been fixed whereby the mouse pointer wouldn’t be released when pressing <kbd>ALT</kbd> + <kbd>TAB</kbd> to switch to the desktop.
 * The game will now pause slightly when the player uses a switch to exit a map, to stop the switch’s sound from stuttering.
 * Support has been added for certain hacks to the `NODE` lump of a map. See [here](http://doomwiki.org/wiki/Linguortal) for more information.
 * The chaingunner’s refire frame is now fullbright.
