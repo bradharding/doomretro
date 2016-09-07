@@ -19,6 +19,7 @@
 * Thousands delimiters may now be used when entering values of CVARs in the console.
 * Monster spawners are now disabled when using `kill all` in the console.
 * All automap controls (such as pressing the <kbd>G</kbd> key to toggle the grid) may now be used when there’s an external automap, provided they don’t conflict with other controls.
+* A bug has been fixed whereby certain items wouldn’t teleport in some rare instances. (An example of this is one of the yellow skull keys in MAP23 of [*Going Down*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/gd).)
 * Lost Souls spawned by Pain Elementals now start in their attack frame.
 * The `playerstats` CCMD now also displays the number of maps completed, the distance travelled by the player, and the amount of ammo (broke down into bullets, cells, rockets and shells), armor and health picked up by the player.
 * The units used to display the distance travelled by the player in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
