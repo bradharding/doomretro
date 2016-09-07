@@ -38,6 +38,7 @@
 * The digits in the status bar are no longer lower by 1 pixel in *Back To Saturn X*.
 * The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters.
 * The player will now be resurrected if the `health` CVAR is changed in the console and they are dead.
+* There is now a read-only `version` CVAR that indicates what version of *DOOM Retro* created `doomretro.cfg`.
 
 ### DOOM Retro v2.2.5
 
