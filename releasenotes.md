@@ -21,24 +21,24 @@
 * All automap controls (such as pressing the <kbd>G</kbd> key to toggle the grid) may now be used when there’s an external automap, provided they don’t conflict with other controls.
 * A bug has been fixed whereby certain items wouldn’t teleport in some rare instances. (An example of this is one of the yellow skull keys in MAP23 of [*Going Down*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/gd).)
 * Lost Souls spawned by Pain Elementals now start in their attack frame.
-* The `playerstats` CCMD now also displays the number of maps completed, the distance travelled by the player, and the amount of ammo (broke down into bullets, cells, rockets and shells), armor and health picked up by the player.
+* The `playerstats` CCMD now also displays the number of maps completed, the distance travelled by the player, and the amount of ammo (broken down by bullets, cells, rockets and shells), armor and health picked up by the player.
 * The units used to display the distance travelled by the player in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
 * The alternate HUD is now enabled by default.
 * When the `r_translucency` CVAR is `off`, the console and the alternate HUD will no longer be translucent.
-* The effects when changing the `r_translucency` CVAR will now be immediate in the HUD and alternate HUD.
-* “DOOM Retro” now appears at the end of the window’s caption.
+* The effects of changing the `r_translucency` CVAR will now be immediate in both the HUD and alternate HUD.
+* “- DOOM Retro” now appears at the end of the window’s caption.
 * A texture has been corrected in MAP13 of `doom2.wad`.
 * The player’s path may now be displayed in the automap by enabling the new `am_path` CVAR. It is `off` by default.
 * The color of the player’s path may be changed using the new `am_pathcolor` CVAR. It is `95` by default.
 * The console is now hidden when using the `spawn` CCMD.
 * Spaces are now allowed in the `playername` CVAR.
 * The values of the `r_detail` CVAR are now displayed correctly in the output of the `cvarlist` CCMD.
-* Use and fire actions can now respawn the player when dead and in the automap.
+* Use and fire actions can now respawn a dead player when in the automap.
 * A bug has been fixed that stopped some string CVARs from being able to be changed in the console.
-* The digits in the status bar are no longer lower by 1 pixel in *Back To Saturn X*.
+* The digits in the status bar are no longer lowered by 1 pixel in *Back To Saturn X*.
 * The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters.
-* The player will now be resurrected if the `health` CVAR is changed in the console and they are dead.
-* There is now a read-only `version` CVAR that indicates what version of *DOOM Retro* created `doomretro.cfg`.
+* The player will now be resurrected if the `health` CVAR is changed in the console when they are dead.
+* There is now a read-only `version` CVAR that indicates which version of *DOOM Retro* created `doomretro.cfg`.
 
 ### DOOM Retro v2.2.5
 

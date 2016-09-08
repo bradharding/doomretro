@@ -1190,7 +1190,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                 R_DrawSuperShotgunColumn);
         else if (r_translucency)
         {
-            void(*colfuncs[])(void) =
+            void (*colfuncs[])(void) =
             {
                 /* n/a      */ NULL,               NULL,
                 /* SPR_SHTG */ basecolfunc,        basecolfunc,
