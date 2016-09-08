@@ -1382,9 +1382,9 @@ static void SetVideoMode(dboolean output)
                 if (vid_vsync)
                 {
                     if (M_StringCompare(rendererinfo.name, "software"))
-                        C_Warning("Vertical synchronization can't be enabled in software.");
+                        C_Warning("Vertical sync can't be enabled in software.");
                     else
-                        C_Warning("Vertical synchronization can't be enabled.");
+                        C_Warning("Vertical sync can't be enabled.");
                 }
 
                 C_Output("The framerate is uncapped.");

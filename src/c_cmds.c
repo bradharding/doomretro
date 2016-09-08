@@ -774,7 +774,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLALIAS,
         "Toggles showing the average number of frames per second."),
     CVAR_BOOL(vid_vsync, "", bool_cvars_func1, vid_vsync_cvar_func2, BOOLALIAS,
-        "Toggles vertical synchronization with the display's refresh\nrate."),
+        "Toggles vertical sync with the display's refresh\nrate."),
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLALIAS,
         "Toggles widescreen mode."),
     CVAR_POS(vid_windowposition, "", null_func1, vid_windowposition_cvar_func2,
