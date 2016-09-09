@@ -39,6 +39,7 @@
 * The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters.
 * The player will now be resurrected if the `health` CVAR is changed in the console when they are dead.
 * There is now a read-only `version` CVAR that indicates which version of *DOOM Retro* created `doomretro.cfg`.
+* The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.
 
 ### DOOM Retro v2.2.5
 
