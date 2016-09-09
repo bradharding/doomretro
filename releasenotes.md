@@ -4,12 +4,12 @@
 * Motion blur when the player turns quickly can now be enabled by setting the new `vid_motionblur` CVAR to a value greater than its default of `0%`.
 * The `am_xhaircolor` CVAR has been renamed to `am_crosshaircolor`.
 * The `vid_scaledriver` CVAR has been renamed to `vid_scaleapi`.
-* The default of `vid_scaleapi` is now `direct3d` rather than `""`.
+* The default of the `vid_scaleapi` CVAR is no longer `""`. When *DOOM Retro* is run for the first time, the best API is chosen based on what is available: `"direct3d"`, `"opengl"` or `"software"`.
 * A bug has been fixed whereby some CVARs weren’t being reset to their correct values or at all when using either the `reset` or `resetall` CCMDs.
-* Toggling “always run” using the <kbd>CAPSLOCK</kbd> while in the console will no longer inadvertently affect player messages from appearing.
+* Toggling “always run” using the <kbd>CAPSLOCK</kbd> key while in the console will no longer inadvertently affect player messages from appearing.
 * Minor changes have been made to some elements of the console.
 * A new `-nomapinfo` command-line parameter has been implemented that will stop any `MAPINFO` lumps from being parsed in PWADs at startup.
-* If there is a `MAPINFO` lump present in `nerve.wad` that contains invalid map markers, the PWAD will no longer exit with an error, and a warning will be displayed in the console.
+* If there is a `MAPINFO` lump present in `nerve.wad` that contains invalid map markers, the PWAD will no longer exit with an error, and a warning will be displayed in the console instead.
 * The <kbd>SHIFT</kbd> key will now be ignored when pressing <kbd>Y</kbd> or <kbd>N</kbd> in response to a centered message.
 * A bug has been fixed whereby no value would be displayed when entering the `r_hud` CVAR in the console without a value.
 * When entering a CVAR in the console without a value, the CVAR’s description, current value and default value will now be displayed.
