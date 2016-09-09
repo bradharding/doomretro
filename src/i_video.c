@@ -1154,7 +1154,7 @@ static void PositionOnCurrentDisplay(void)
 
 void I_SetMotionBlur(int percent)
 {
-    SDL_SetSurfaceAlphaMod(surface, 255 - 128 * percent / 100);
+    SDL_SetSurfaceAlphaMod(surface, SDL_ALPHA_OPAQUE - 128 * percent / 100);
     SDL_SetSurfaceBlendMode(surface, (percent ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE));
 }
 
@@ -1201,9 +1201,7 @@ static void SetVideoMode(dboolean output)
             M_SaveCVARs();
         }
 
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, (M_StringCompare(vid_scaleapi,
-            vid_scaleapi_direct3d) && M_StringCompare(vid_scalefilter, vid_scalefilter_linear) ?
-            "best" : vid_scalefilter), SDL_HINT_OVERRIDE);
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
 
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
@@ -1354,15 +1352,12 @@ static void SetVideoMode(dboolean output)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
                     "interpolation.", SCREENWIDTH, SCREENHEIGHT,
                     commify(upscaledwidth * SCREENWIDTH), commify(upscaledheight * SCREENHEIGHT));
-                C_Output("It is then scaled down to %s\xD7%s using %s filtering.",
-                    commify(height * 4 / 3), commify(height), (M_StringCompare(vid_scaleapi,
-                        vid_scaleapi_direct3d) ? "anisotropic" : "linear"));
+                C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
+                    commify(height * 4 / 3), commify(height));
             }
             else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear))
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using %s filtering.",
-                    SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height),
-                    (M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d) ? "anisotropic" :
-                    "linear"));
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
+                    SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
             else
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
                     "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3),
@@ -1433,8 +1428,8 @@ static void SetVideoMode(dboolean output)
         SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
     if (nearestlinear)
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, (M_StringCompare(vid_scaleapi,
-            vid_scaleapi_direct3d) ? "best" : vid_scalefilter_linear), SDL_HINT_OVERRIDE);
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
+            SDL_HINT_OVERRIDE);
     if (!(texture_upscaled = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
         upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");

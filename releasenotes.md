@@ -5,7 +5,6 @@
 * The `am_xhaircolor` CVAR has been renamed to `am_crosshaircolor`.
 * The `vid_scaledriver` CVAR has been renamed to `vid_scaleapi`.
 * The default of `vid_scaleapi` is now `direct3d` rather than `""`.
-* Anisotropic filtering will now be used in preference to linear filtering when the `vid_scalefilter` CVAR is `linear` and the `vid_scaleapi` CVAR is `direct3d`.
 * A bug has been fixed whereby some CVARs weren't being reset to their correct values or at all when using either the `reset` or `resetall` CCMDs.
 * Toggling “always run” using the <kbd>CAPSLOCK</kbd> while in the console will no longer inadvertantly affect player messages from appearing.
 * Minor changes have been made to some elements of the console.
