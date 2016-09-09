@@ -1551,26 +1551,30 @@ static void D_DoomMainSetup(void)
     M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
 
     if ((respawnmonsters = M_CheckParm("-respawn")))
-        C_Output("<b>-respawn</b> was found on the command-line. Monsters will be respawned.");
-    else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
-        C_Output("<b>-respawnmonsters</b> was found on the command-line. Monsters will be "
+        C_Output("A <b>-respawn</b> parameter was found on the command-line. Monsters will be "
             "respawned.");
+    else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
+        C_Output("A <b>-respawnmonsters</b> parameter was found on the command-line. Monsters "
+            "will be respawned.");
 
     if ((nomonsters = M_CheckParm("-nomonsters")))
     {
-        C_Output("<b>-nomonsters</b> was found on the command-line. No monsters will be spawned.");
+        C_Output("A <b>-nomonsters</b> parameter was found on the command-line. No monsters "
+            "will be spawned.");
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
 
     if ((pistolstart = M_CheckParm("-pistolstart")))
-        C_Output("<b>-pistolstart</b> was found on the command-line. The player will start each "
-            "map with only a pistol.");
+        C_Output("A <b>-pistolstart</b> parameter was found on the command-line. The player "
+            "will start each map with only a pistol.");
 
     if ((fastparm = M_CheckParm("-fast")))
-        C_Output("<b>-fast</b> was found on the command-line. Monsters will be faster.");
+        C_Output("A <b>-fast</b> parameter was found on the command-line. Monsters will be "
+            "faster.");
     else if ((fastparm = M_CheckParm("-fastmonsters")))
-        C_Output("<b>-fastmonsters</b> was found on the command-line. Monsters will be faster.");
+        C_Output("A <b>-fastmonsters</b> parameter was found on the command-line. Monsters will "
+            "be faster.");
 
     devparm = M_CheckParm("-devparm");
 
@@ -1583,12 +1587,12 @@ static void D_DoomMainSetup(void)
         if (p < myargc - 1)
         {
             scale = BETWEEN(10, atoi(myargv[p + 1]), 400);
-            C_Output("<b>-turbo %s</b> was found on the command-line. The player will be %i%% "
-                "their normal speed.", myargv[p + 1], scale);
+            C_Output("A <b>-turbo %s</b> parameter was found on the command-line. The player "
+                "will be %i%% their normal speed.", myargv[p + 1], scale);
         }
         else
-            C_Output("<b>-turbo</b> was found on the command-line. The player will be twice as "
-                "fast.");
+            C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will "
+                "be twice as fast.");
         G_SetMovementSpeed(scale);
 
         if (scale > turbo_default)
@@ -1769,8 +1773,8 @@ static void D_DoomMainSetup(void)
 
             skilllevel = startskill = (skill_t)temp;
             M_SaveCVARs();
-            C_Output("<b>-skill %s</b> was found on the command-line. The skill level is now "
-                "\"%s\".", myargv[p + 1], skilllevels[startskill]);
+            C_Output("A <b>-skill %s</b> parameter was found on the command-line. The skill "
+                "level is now \"%s\".", myargv[p + 1], skilllevels[startskill]);
         }
     }
 
@@ -1799,8 +1803,8 @@ static void D_DoomMainSetup(void)
             else
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
-            C_Output("<b>-episode %s</b> was found on the command-line. The episode is now "
-                "\"%s\".", myargv[p + 1], episodes[episode]);
+            C_Output("An <b>-episode %s</b> parameter was found on the command-line. The episode "
+                "is now \"%s\".", myargv[p + 1], episodes[episode]);
         }
     }
 
@@ -1824,19 +1828,19 @@ static void D_DoomMainSetup(void)
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("<b>-expansion %s</b> was found on the command-line. The expansion is now "
-                "\"%s\".", myargv[p + 1], expansions[expansion]);
+            C_Output("An <b>-expansion %s</b> parameter was found on the command-line. The "
+                "expansion is now \"%s\".", myargv[p + 1], expansions[expansion]);
         }
     }
 
     p = M_CheckParmWithArgs("-warp", 1, 1);
     if (p)
-        C_Output("<b>-warp %s</b> was found on the command-line.", myargv[p + 1]);
+        C_Output("A <b>-warp %s</b> parameter was found on the command-line.", myargv[p + 1]);
     else
     {
         p = M_CheckParmWithArgs("+map", 1, 1);
         if (p)
-            C_Output("<b>+map %s</b> was found on the command-line.", myargv[p + 1]);
+            C_Output("A <b>+map %s</b> parameter was found on the command-line.", myargv[p + 1]);
     }
     if (p)
     {
