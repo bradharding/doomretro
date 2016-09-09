@@ -1248,7 +1248,7 @@ state_t states[NUMSTATES] =
     // Floor Lamp (MT_MISC31)
     { SPR_COLU,  0 | FF_FULLBRIGHT,               -1,               NULL,              S_NULL          }, // S_COLU
 
-    // Grey Stalagmite (unused)
+    // Gray Stalagmite (unused)
     { SPR_SMT2,  0,                               -1,               NULL,              S_NULL          }, // S_STALAG
 
     // Hanging victim, twitching (MT_MISC51 and MT_MISC60)
