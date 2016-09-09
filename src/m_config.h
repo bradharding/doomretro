@@ -167,7 +167,7 @@ typedef enum
 #define gp_deadzone_right_max                   100.0f
 
 #define gp_sensitivity_min                      0
-#define gp_sensitivity_default                  48
+#define gp_sensitivity_default                  64
 #define gp_sensitivity_max                      128
 
 #define gp_swapthumbsticks_default              false

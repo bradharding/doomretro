@@ -39,6 +39,7 @@
 * The player will now be resurrected if the `health` CVAR is changed in the console when they are dead.
 * There is now a read-only `version` CVAR that indicates which version of *DOOM Retro* created `doomretro.cfg`.
 * The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.
+* The default gamepad sensitivity has been increased from `48` to `64`.
 
 ### DOOM Retro v2.2.5
 
