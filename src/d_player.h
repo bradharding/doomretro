@@ -210,7 +210,7 @@ typedef struct player_s
     int                 shotsfired;
     int                 deaths;
     int                 mobjcount[NUMMOBJTYPES];
-    int                 distancetravelled;
+    int                 distancetraveled;
     int                 itemspickedup_ammo_bullets;
     int                 itemspickedup_ammo_cells;
     int                 itemspickedup_ammo_rockets;

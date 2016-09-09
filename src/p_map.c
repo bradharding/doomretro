@@ -88,7 +88,7 @@ dboolean        infight;
 
 mobj_t          *onmobj;
 
-unsigned int    stat_distancetravelled = 0;
+unsigned int    stat_distancetraveled = 0;
 
 extern dboolean successfulshot;
 extern dboolean stat_shotshit;
@@ -968,8 +968,8 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
 
         if (dist)
         {
-            stat_distancetravelled = SafeAdd(stat_distancetravelled, dist);
-            thing->player->distancetravelled += dist;
+            stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
+            thing->player->distancetraveled += dist;
         }
     }
 

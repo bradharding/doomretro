@@ -777,8 +777,8 @@ static void saveg_read_player_t(player_t *str)
     for (i = 0; i < NUMMOBJTYPES; ++i)
         str->mobjcount[i] = saveg_read32();
 
-    // int distancetravelled
-    str->distancetravelled = saveg_read32();
+    // int distancetraveled
+    str->distancetraveled = saveg_read32();
 
     // int itemspickedup_ammo_bullets
     str->itemspickedup_ammo_bullets = saveg_read32();
@@ -969,8 +969,8 @@ static void saveg_write_player_t(player_t *str)
     for (i = 0; i < NUMMOBJTYPES; ++i)
         saveg_write32(str->mobjcount[i]);
 
-    // int distancetravelled
-    saveg_write32(str->distancetravelled);
+    // int distancetraveled
+    saveg_write32(str->distancetraveled);
 
     // int itemspickedup_ammo_bullets
     saveg_write32(str->itemspickedup_ammo_bullets);

@@ -178,7 +178,7 @@ extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
-extern unsigned int     stat_distancetravelled;
+extern unsigned int     stat_distancetraveled;
 extern unsigned int     stat_itemspickedup;
 extern unsigned int     stat_itemspickedup_ammo_bullets;
 extern unsigned int     stat_itemspickedup_ammo_cells;
@@ -2755,8 +2755,8 @@ static void C_PlayerStats_Game(void)
         1) : "0"), (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired,
         1) : "0"));
 
-    C_TabbedOutput(tabs, "Distance travelled\t<b>%s</b>\t<b>%s</b>",
-        distance(player->distancetravelled), distance(stat_distancetravelled));
+    C_TabbedOutput(tabs, "Distance traveled\t<b>%s</b>\t<b>%s</b>",
+        distance(player->distancetraveled), distance(stat_distancetraveled));
 }
 
 static void C_PlayerStats_NoGame(void)
@@ -2864,7 +2864,7 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>",
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 
-    C_TabbedOutput(tabs, "Distance travelled\t<b>%s</b>", distance(stat_distancetravelled));
+    C_TabbedOutput(tabs, "Distance traveled\t<b>%s</b>", distance(stat_distancetraveled));
 }
 
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
