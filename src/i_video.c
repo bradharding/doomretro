@@ -1311,6 +1311,7 @@ static void SetVideoMode(dboolean output)
     {
         SDL_RendererInfo        rendererinfo;
         wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
+        dboolean                iwad = (playpalwad->type == IWAD);
 
         if (!SDL_GetRendererInfo(renderer, &rendererinfo))
         {
@@ -1391,8 +1392,8 @@ static void SetVideoMode(dboolean output)
             }
         }
 
-        C_Output("Using the 256-color palette from the <b>PLAYPAL</b> lump in %s file <b>%s</b>.",
-            (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
+        C_Output("Using %s 256-color palette from the <b>PLAYPAL</b> lump in %s file <b>%s</b>.",
+            (iwad ? "the" : "a custom"), (iwad ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
             C_Output("Gamma correction is off.");
