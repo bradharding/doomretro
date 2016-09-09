@@ -1113,7 +1113,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 // R_DrawPSprite
 //
-static dboolean bflash;
+static dboolean muzzleflash;
 
 static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
 {
@@ -1185,7 +1185,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     }
     else
     {
-        if (spr == SPR_SHT2 && (!frame || frame >= 8) && !dehacked && nearestcolors[71] == 71)
+        if (spr == SPR_SHT2 && (!frame || (frame & FF_FULLBRIGHT)) && !dehacked
+            && nearestcolors[71] == 71)
             vis->colfunc = (r_translucency ? R_DrawTranslucentSuperShotgunColumn :
                 R_DrawSuperShotgunColumn);
         else if (r_translucency)
@@ -1210,8 +1211,12 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                 /* SPR_BFGF */ tlcolfunc,          tl50colfunc
             };
 
-            vis->colfunc = (bflash && spr <= SPR_BFGF && (!dehacked || state->translucent)
-                ? colfuncs[spr * 2 + !!fixedcolormap] : basecolfunc);
+            if (spr == SPR_SHT2)
+                vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) ?
+                    tlredwhitecolfunc1 : basecolfunc);
+            else
+                vis->colfunc = (muzzleflash && spr <= SPR_BFGF && (!dehacked || state->translucent) ?
+                    colfuncs[spr * 2 + !!fixedcolormap] : basecolfunc);
         }
         else
             vis->colfunc = basecolfunc;
@@ -1220,7 +1225,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
             vis->colormap = fixedcolormap;      // fixed color
         else
         {
-            if (bflash || (frame & FF_FULLBRIGHT))
+            if (muzzleflash || (frame & FF_FULLBRIGHT))
                 vis->colormap = fullcolormap;   // full bright
             else
             {
@@ -1304,13 +1309,15 @@ void R_DrawPlayerSprites(void)
     }
     else
     {
-        bflash = false;
+        muzzleflash = false;
+
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
             {
-                bflash = true;
+                muzzleflash = true;
                 break;
             }
+
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
                 R_DrawPSprite(psp, false);
