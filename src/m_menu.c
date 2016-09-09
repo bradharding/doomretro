@@ -2316,7 +2316,7 @@ dboolean M_Responder(event_t *ev)
             // activate menu item
             if (gamepadbuttons & GAMEPAD_A)
             {
-                key = (messageToPrint && messageNeedsInput ? 'y' : KEY_ENTER);
+                key = (messageToPrint && messageNeedsInput ? (ch = 'y') : KEY_ENTER);
                 gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 5);
                 usinggamepad = true;
             }
@@ -2324,7 +2324,7 @@ dboolean M_Responder(event_t *ev)
             // previous/exit menu
             else if (gamepadbuttons & GAMEPAD_B)
             {
-                key = KEY_BACKSPACE;
+                key = (messageToPrint && messageNeedsInput ? (ch = 'n') : KEY_BACKSPACE);
                 gamepadwait = I_GetTime() + 8;
                 gamepadpress = true;
                 usinggamepad = true;
