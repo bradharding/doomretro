@@ -340,7 +340,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->buttons |= BT_ATTACK;
 
         if (gamekeydown[key_use] || gamekeydown[key_use2] || mousebuttons[mousebuse]
-            || (gamepadbuttons & gamepaduse))
+            || (gamepadbuttons & (gamepaduse | gamepaduse2)))
         {
             cmd->buttons |= BT_USE;
             dclicks = 0;        // clear double clicks if hit use button

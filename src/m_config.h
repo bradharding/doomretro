@@ -379,6 +379,7 @@ typedef enum
 #define GAMEPADPREVWEAPON_DEFAULT               GAMEPAD_Y
 #define GAMEPADRUN_DEFAULT                      GAMEPAD_LEFT_TRIGGER
 #define GAMEPADUSE_DEFAULT                      GAMEPAD_A
+#define GAMEPADUSE2_DEFAULT                     GAMEPAD_RIGHT_THUMB
 #define GAMEPADWEAPON_DEFAULT                   0
 
 #define KEYALWAYSRUN_DEFAULT                    KEY_CAPSLOCK

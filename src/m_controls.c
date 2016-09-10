@@ -102,6 +102,7 @@ int     gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 int     gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 int     gamepadrun = GAMEPADRUN_DEFAULT;
 int     gamepaduse = GAMEPADUSE_DEFAULT;
+int     gamepaduse2 = GAMEPADUSE2_DEFAULT;
 int     gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
 int     gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
 int     gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
