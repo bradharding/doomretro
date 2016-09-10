@@ -40,8 +40,8 @@
 * There is now a read-only `version` CVAR that indicates which version of *DOOM Retro* created `doomretro.cfg`.
 * The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.
 * The default gamepad sensitivity has been increased from `48` to `64`.
-* The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to use doors, switches, etc. It is bound to the `+use2` action.
-* A bug has been fixed whereby certain stats were being reset at startup.
+* The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc. It is bound to the `+use2` action.
+* A bug has been fixed whereby certain player stats were being reset at startup.
 
 ### DOOM Retro v2.2.5
 
