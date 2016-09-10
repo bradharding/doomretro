@@ -77,7 +77,7 @@ void I_SetProcessDPIAware(void)
 HHOOK           g_hKeyboardHook;
 
 extern dboolean vid_fullscreen;
-extern dboolean window_focused;
+extern dboolean windowfocused;
 
 void G_ScreenShot(void);
 
@@ -92,7 +92,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
             case WM_SYSKEYDOWN:
             case WM_KEYUP:
             case WM_SYSKEYUP:
-                if (window_focused)
+                if (windowfocused)
                 {
                     DWORD       vkCode = ((KBDLLHOOKSTRUCT *)lParam)->vkCode;
 

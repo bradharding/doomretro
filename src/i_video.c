@@ -80,10 +80,10 @@ char                    *vid_scaleapi = vid_scaleapi_default;
 char                    *vid_scalefilter = vid_scalefilter_default;
 char                    *vid_screenresolution = vid_screenresolution_default;
 dboolean                vid_showfps = false;
-char                    *vid_windowsize = vid_windowsize_default;
 dboolean                vid_vsync = vid_vsync_default;
 dboolean                vid_widescreen = vid_widescreen_default;
 char                    *vid_windowposition = vid_windowposition_default;
+char                    *vid_windowsize = vid_windowsize_default;
 
 dboolean                manuallypositioning = false;
 
@@ -106,7 +106,8 @@ static SDL_Surface      *mapbuffer;
 static SDL_Palette      *mappalette;
 
 dboolean                nearestlinear = false;
-int                     upscaledwidth, upscaledheight;
+int                     upscaledwidth;
+int                     upscaledheight;
 
 static int              displayindex;
 static int              am_displayindex;
@@ -114,7 +115,7 @@ static int              numdisplays;
 static SDL_Rect         *displays;
 
 // Bit mask of mouse button state
-static unsigned int     mouse_button_state;
+static unsigned int     mousebuttonstate;
 
 static int              buttons[MAX_MOUSE_BUTTONS + 1] =
 {
@@ -141,7 +142,7 @@ int                     displaycentery;
 
 dboolean                returntowidescreen = false;
 
-dboolean                window_focused;
+dboolean                windowfocused;
 
 #if !defined(WIN32)
 char                    envstring[255];
@@ -201,7 +202,7 @@ void ST_doRefresh(void);
 dboolean MouseShouldBeGrabbed(void)
 {
     // if the window doesn't have focus, never grab it
-    if (!window_focused)
+    if (!windowfocused)
         return false;
 
     // always grab the mouse when full screen (don't want to
@@ -217,7 +218,7 @@ dboolean MouseShouldBeGrabbed(void)
     return (gamestate == GS_LEVEL);
 }
 
-// Update the value of window_focused when we get a focus event
+// Update the value of windowfocused when we get a focus event
 //
 // We try to make ourselves be well-behaved: the grab on the mouse
 // is removed if we lose focus (such as a popup window appearing),
@@ -227,9 +228,9 @@ static void UpdateFocus(void)
     Uint32      state = SDL_GetWindowFlags(window);
 
     // We should have input (keyboard) focus and be visible (not minimized)
-    window_focused = ((state & SDL_WINDOW_INPUT_FOCUS) && (state & SDL_WINDOW_SHOWN));
+    windowfocused = ((state & SDL_WINDOW_INPUT_FOCUS) && (state & SDL_WINDOW_SHOWN));
 
-    if (!window_focused && !menuactive && gamestate == GS_LEVEL && !paused && !consoleactive)
+    if (!windowfocused && !menuactive && gamestate == GS_LEVEL && !paused && !consoleactive)
     {
         sendpause = true;
         blurred = false;
@@ -370,15 +371,15 @@ void I_ShutdownKeyboard(void)
 #endif
 }
 
-static int AccelerateMouse(int val)
+static int AccelerateMouse(int value)
 {
-    if (val < 0)
-        return -AccelerateMouse(-val);
+    if (value < 0)
+        return -AccelerateMouse(-value);
 
-    if (val > m_threshold)
-        return (int)((val - m_threshold) * m_acceleration + m_threshold);
+    if (value > m_threshold)
+        return (int)((value - m_threshold) * m_acceleration + m_threshold);
     else
-        return val;
+        return value;
 }
 
 // Warp the mouse back to the middle of the screen
@@ -471,8 +472,8 @@ static void I_GetEvent(void)
                         idbehold = false;
                     }
                     event.type = ev_mouse;
-                    mouse_button_state |= buttons[Event->button.button];
-                    event.data1 = mouse_button_state;
+                    mousebuttonstate |= buttons[Event->button.button];
+                    event.data1 = mousebuttonstate;
                     event.data2 = 0;
                     event.data3 = 0;
                     D_PostEvent(&event);
@@ -484,8 +485,8 @@ static void I_GetEvent(void)
                 {
                     keydown = 0;
                     event.type = ev_mouse;
-                    mouse_button_state &= ~buttons[Event->button.button];
-                    event.data1 = mouse_button_state;
+                    mousebuttonstate &= ~buttons[Event->button.button];
+                    event.data1 = mousebuttonstate;
                     event.data2 = 0;
                     event.data3 = 0;
                     D_PostEvent(&event);
@@ -591,7 +592,7 @@ static void I_ReadMouse(void)
     if (x || y)
     {
         ev.type = ev_mouse;
-        ev.data1 = mouse_button_state;
+        ev.data1 = mousebuttonstate;
         ev.data2 = AccelerateMouse(x);
         ev.data3 = (m_novertical ? 0 : -AccelerateMouse(y));
 
@@ -830,9 +831,9 @@ static void nullfunc(void) {}
 //
 // I_ReadScreen
 //
-void I_ReadScreen(byte *scr)
+void I_ReadScreen(byte *screen)
 {
-    memcpy(scr, screens[0], SCREENWIDTH * SCREENHEIGHT);
+    memcpy(screen, screens[0], SCREENWIDTH * SCREENHEIGHT);
 }
 
 //
@@ -890,7 +891,7 @@ void I_CreateExternalAutoMap(dboolean output)
     if (numdisplays == 1)
     {
         if (output)
-            C_Warning("Only one display was found. No external automap was created.");
+            C_Warning("Only one display was found. An external automap couldn't be created.");
         return;
     }
 
@@ -1024,22 +1025,24 @@ void GetWindowSize(void)
 
 static dboolean ValidScreenMode(int width, int height)
 {
-    SDL_DisplayMode     mode;
-    const int           modecount = SDL_GetNumDisplayModes(displayindex);
-    int                 i;
+    const int   modecount = SDL_GetNumDisplayModes(displayindex);
+    int         i;
 
     for (i = 0; i < modecount; i++)
     {
+        SDL_DisplayMode mode;
+
         SDL_GetDisplayMode(displayindex, i, &mode);
         if (width == mode.w && height == mode.h)
             return true;
     }
+
     return false;
 }
 
 void GetScreenResolution(void)
 {
-    if (M_StringCompare(vid_screenresolution, "desktop"))
+    if (M_StringCompare(vid_screenresolution, vid_screenresolution_desktop))
     {
         screenwidth = 0;
         screenheight = 0;
@@ -1066,7 +1069,7 @@ void GetScreenResolution(void)
         {
             screenwidth = 0;
             screenheight = 0;
-            vid_screenresolution = "desktop";
+            vid_screenresolution = vid_screenresolution_desktop;
 
             M_SaveCVARs();
         }
@@ -1537,11 +1540,14 @@ void I_ToggleFullscreen(void)
 static void I_InitGammaTables(void)
 {
     int i;
-    int j;
 
     for (i = 0; i < GAMMALEVELS; ++i)
+    {
+        int     j;
+
         for (j = 0; j < 256; ++j)
             gammatable[i][j] = (byte)(pow(j / 255.0, 1.0 / gammalevels[i]) * 255.0 + 0.5);
+    }
 }
 
 void I_SetGamma(float value)
