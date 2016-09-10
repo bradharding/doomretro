@@ -964,7 +964,7 @@ dboolean ST_Responder(event_t *ev)
                 players[0].cheated++;
             }
 
-            else if (cht_CheckCheat(&cheat_buddha, ev->data2))
+            else if (cht_CheckCheat(&cheat_buddha, ev->data2) && plyr->health > 0)
             {
                 plyr->cheats ^= CF_BUDDHA;
 
