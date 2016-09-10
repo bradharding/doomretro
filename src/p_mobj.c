@@ -1486,6 +1486,7 @@ void P_InitExtraMobjs(void)
         mobjinfo[i].deathsound = sfx_None;
         mobjinfo[i].speed = 0;
         mobjinfo[i].radius = 0;
+        mobjinfo[i].pickupradius = 0;
         mobjinfo[i].height = 0;
         mobjinfo[i].projectilepassheight = 0;
         mobjinfo[i].mass = 0;
