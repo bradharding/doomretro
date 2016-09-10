@@ -312,7 +312,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damageinflicted,                              NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,                               NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,                                       NOALIAS    ),
-    CONFIG_VARIABLE_INT_UNSIGNED (stat_distancetraveled,                            NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_distancetraveled,                             NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,                                NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_ammo_bullets,                   NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup_ammo_cells,                     NOALIAS    ),
@@ -843,14 +843,13 @@ static void M_CheckCVARs(void)
 void M_LoadCVARs(char *filename)
 {
     int         i;
-    FILE        *file;
-    char        control[32];
-    char        action[32];
-    char        defname[32] = "";
+    char        control[64] = "";
+    char        action[64] = "";
+    char        defname[64] = "";
     char        strparm[256] = "";
 
     // read the file in, overriding any set defaults
-    file = fopen(filename, "r");
+    FILE        *file = fopen(filename, "r");
 
     if (!file)
     {
@@ -865,14 +864,14 @@ void M_LoadCVARs(char *filename)
 
     while (!feof(file))
     {
-        if (fscanf(file, "bind %31s %31[^\n]\n", control, action) == 2)
+        if (fscanf(file, "bind %63s %63[^\n]\n", control, action) == 2)
         {
             C_StripQuotes(control);
             C_StripQuotes(action);
             C_Bind("", control, action, "");
             continue;
         }
-        else if (fscanf(file, "%31s %255[^\n]\n", defname, strparm) != 2)
+        else if (fscanf(file, "%63s %255[^\n]\n", defname, strparm) != 2)
             // This line doesn't match
             continue;
 

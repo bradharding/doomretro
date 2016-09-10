@@ -4,7 +4,7 @@
 * Motion blur when the player turns quickly can now be enabled by setting the new `vid_motionblur` CVAR to a value greater than its default of `0%`.
 * The `am_xhaircolor` CVAR has been renamed to `am_crosshaircolor`.
 * The `vid_scaledriver` CVAR has been renamed to `vid_scaleapi`.
-* The default of the `vid_scaleapi` CVAR is no longer `""`. When *DOOM Retro* is run for the first time, the best API is chosen based on what is available: `"direct3d"`, `"opengl"` or `"software"`.
+* The default of the `vid_scaleapi` CVAR is no longer `""`. When *DOOM Retro* is run for the first time, the best available API is chosen: `"direct3d"`, `"opengl"` or `"software"`.
 * A bug has been fixed whereby some CVARs weren’t being reset to their correct values or at all when using either the `reset` or `resetall` CCMDs.
 * Toggling “always run” using the <kbd>CAPSLOCK</kbd> key while in the console will no longer inadvertently affect player messages from appearing.
 * Minor changes have been made to some elements of the console.
@@ -41,6 +41,7 @@
 * The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.
 * The default gamepad sensitivity has been increased from `48` to `64`.
 * The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to use doors, switches, etc. It is bound to the `+use2` action.
+* A bug has been fixed whereby certain stats were being reset at startup.
 
 ### DOOM Retro v2.2.5
 
