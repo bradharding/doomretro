@@ -971,11 +971,13 @@ dboolean ST_Responder(event_t *ev)
                 C_Input(cheat_buddha.sequence);
 
                 if (plyr->cheats & CF_BUDDHA)
+                {
                     HU_PlayerMessage(s_STSTR_BUDDHA, false);
 
-                // [BH] always display message
-                if (!consoleactive)
-                    message_dontfuckwithme = true;
+                    // [BH] always display message
+                    if (!consoleactive)
+                        message_dontfuckwithme = true;
+                }
 
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);
@@ -987,23 +989,25 @@ dboolean ST_Responder(event_t *ev)
             else if ((automapactive || mapwindow)
                 && cht_CheckCheat(&cheat_amap, ev->data2))
             {
-              if (plyr->cheats & CF_ALLMAP)
-              {
-                  plyr->cheats ^= CF_ALLMAP;
-                  plyr->cheats ^= CF_ALLMAP_THINGS;
-                  stat_cheated = SafeAdd(stat_cheated, 1);
-                  players[0].cheated++;
-              }
-              else if (plyr->cheats & CF_ALLMAP_THINGS)
-                  plyr->cheats ^= CF_ALLMAP_THINGS;
-              else
-              {
-                  plyr->cheats ^= CF_ALLMAP;
-                  stat_cheated = SafeAdd(stat_cheated, 1);
-                  players[0].cheated++;
-              }
+                if (plyr->cheats & CF_ALLMAP)
+                {
+                    plyr->cheats ^= CF_ALLMAP;
+                    plyr->cheats ^= CF_ALLMAP_THINGS;
 
-              S_StartSound(NULL, sfx_getpow);
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
+                }
+                else if (plyr->cheats & CF_ALLMAP_THINGS)
+                    plyr->cheats ^= CF_ALLMAP_THINGS;
+                else
+                {
+                    plyr->cheats ^= CF_ALLMAP;
+
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
+                }
+
+                S_StartSound(NULL, sfx_getpow);
             }
         }
 
