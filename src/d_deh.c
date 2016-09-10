@@ -2271,6 +2271,8 @@ void deh_procThing(DEHFILE *fpin, char *line)
                 pix[ix] = (int)value;
                 if (M_StringCompare(key, "Height"))
                     mobjinfo[indexnum].projectilepassheight = 0;
+                else if (M_StringCompare(key, "Width"))
+                    mobjinfo[indexnum].pickupradius = (int)value;
             }
             if (devparm)
                 C_Output("Assigned %i to %s (%i) at index %i.", (int)value, key, indexnum, ix);
