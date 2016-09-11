@@ -853,11 +853,7 @@ void M_LoadCVARs(char *filename)
 
     if (!file)
     {
-        if (stat_runs)
-            C_Output("<b>%s</b> wasn't found. Using the defaults for all CVARs and recreating "
-                "<b>%s</b>.", filename, PACKAGE_CONFIG);
-        else
-            C_Output("Created <b>%s</b>.", filename);
+        C_Output("Created <b>%s</b>.", filename);
         M_CheckCVARs();
         return;
     }
