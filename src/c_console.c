@@ -1451,8 +1451,8 @@ void C_PrintCompileDate(void)
 
 #if defined(_MSC_FULL_VER)
         C_Output("It was compiled using <i><b>Microsoft C/C++ Optimizing Compiler "
-            "v%i.%02i.%i</b></i>.", _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000,
-            _MSC_FULL_VER % 100000);
+            "v%i.%02i.%i.%i</b></i>.", _MSC_FULL_VER / 10000000,
+            (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000, _MSC_BUILD);
 #endif
 }
 
