@@ -2076,15 +2076,24 @@ void P_SetupLevel(int ep, int map)
 {
     char        lumpname[6];
     int         lumpnum;
+    player_t    *player = &players[0];
 
     totalkills = totalitems = totalsecret = 0;
     memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
     wminfo.partime = 0;
-    players[0].killcount = players[0].secretcount = players[0].itemcount = 0;
+    player->killcount = 0;
+    player->secretcount = 0;
+    player->itemcount = 0;
 
     // Initial height of PointOfView
     // will be set by player think.
-    players[0].viewz = 1;
+    player->viewz = 1;
+
+    if (!samelevel)
+    {
+        player->cheats &= ~CF_ALLMAP;
+        player->cheats &= ~CF_ALLMAP_THINGS;
+    }
 
     idclev = false;
 
@@ -2197,7 +2206,7 @@ void P_SetupLevel(int ep, int map)
 
     P_LoadThings(lumpnum + ML_THINGS);
 
-    P_InitCards(&players[0]);
+    P_InitCards(player);
 
     // set up world state
     P_SpawnSpecials();
