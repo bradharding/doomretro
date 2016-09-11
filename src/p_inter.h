@@ -53,7 +53,6 @@ void G_RemoveChoppers(void);
 void P_UpdateKillStat(mobjtype_t type, unsigned int value);
 void P_KillMobj(mobj_t *source, mobj_t *target);
 
-extern dboolean message_dontfuckwithme;
 extern dboolean oldweaponsowned[NUMWEAPONS];
 
 #endif

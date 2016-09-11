@@ -291,7 +291,7 @@
 
 * “Pistol start” gameplay is now supported. By using the `pistolstart` CCMD, (or specifying `-pistolstart` on the command-line), the player’s health, armor, weapons and ammo will be reset at the start of each map. Also, a `PISTOLSTART` definition may now be used in `MAPINFO` lumps.
 * The muzzle flash of the player’s rocket launcher has been fixed.
-* The `+menu` action can now be bound to a key, with `esc` being the default.
+* The `+menu` action can now be bound to a key, with `escape` being the default.
 * The `+console` action can now be bound to a key, with `tilde` being the default.
 * The amount of bobbing has been reduced for higher values of the `stillbob` CVAR.
 * A bug has been fixed whereby successive movement keys would not register if a cheat existed that started with a movement key (as is the case in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/)).
@@ -310,7 +310,7 @@
 * A rare bug has been fixed whereby the player’s view would continuously move or turn in one direction by itself.
 * The `+run` action now works correctly when bound to a mouse button.
 * The sound of a door closing is no longer played if the player walks over a line to trigger the door, and the door is already closed.
-* It is now possible to warp to a map using `first`, `prev`[`ious`], `next` and `last` as the parameter for the `map` CCMD.
+* It is now possible to warp to a map using `first`, `prev`/`previous`, `next` and `last` as the parameter for the `map` CCMD.
 * A bug has been fixed whereby the muzzle flash of some weapons could be offset from the muzzle in some rare instances.
 * The file `smpeg2.dll` is now included with *DOOM Retro* again.
 
@@ -839,7 +839,7 @@
 * A bug has been fixed whereby the value of the `bloodsplats` setting in `doomretro.cfg` was always set to the default of `unlimited` regardless of what it was changed to.
 * If a setting in `doomretro.cfg` that has a range of values is set out of range, it will be capped at the minimum or maximum, rather than changed back to the default.
 * A `mapfixes` setting in `doomretro.cfg` has been implemented to allow the several hundred map-specific fixes that *DOOM Retro* applies to be enabled or disabled by type. The default is `linedefs|sectors|things|vertexes`.
-* The weapon number keys can now be changed by altering the `key_weaponx` settings in `doomretro.cfg`.
+* The weapon number keys can now be changed by altering the `key_weapon1` to `key_weapon7` settings in `doomretro.cfg`.
 * A bug has been fixed whereby some combinations of flags used by the `corpses` setting in `doomretro.cfg` weren’t being considered valid.
 * Key settings in `doomretro.cfg` can no longer be set to function keys.
 * The controls set by `gamepad_prevweapon` and `gamepad_nextweapon` can no longer be used when the game is paused.
@@ -995,7 +995,7 @@
 * A bug has been fixed whereby the <kbd>CAPSLOCK</kbd> key was not being turned off when quitting the game.
 * Pressing <kbd>CAPSLOCK</kbd> during a game will now display an `ALWAYS RUN ON/OFF` message. If when quitting the game the <kbd>CAPSLOCK</kbd> key is still on, it will be turned back on the next time *DOOM Retro* is started.
 * In the previous version of *DOOM Retro*, the default video driver was changed from *Windows GDI* to *DirectX* to help in improving performance in fullscreen mode. If *DirectX* wasn’t installed, *DOOM Retro* would exit with an error. Now, if one video driver fails, *DOOM Retro* will try the other driver before exiting with an error.
-* All in-game messages are now output to `stdout.txt`, whether messages are enabled or not.</li>
+* All in-game messages are now output to `stdout.txt`, whether messages are enabled or not.
 * Whenever the player or a monster is killed, a message is displayed in `stdout.txt`.
 * Minor changes have been made to a few messages.
 * A bug has been fixed whereby *DOOM Retro* would exit with an error if the `IDDQD` cheat was used to resurrect a dead player.
@@ -1103,7 +1103,7 @@
   * Set `dclick_use` to `true` so double-clicking the mouse buttons set by `mouse_forward` and `mouse_strafe` above will perform a use action.
 * A bug has been fixed whereby the values `middle` and `right` representing mouse buttons in `doomretro.cfg` were switched.
 * Now pressing a key the first time on a finale text screen will display all the text, and a second press will then advance to the next map.
-* A bug has been fixed whereby pressing the <kbd>SPACEBAR</kbd> to advance a finale text screen would carry over to the following map, and cause the player to use a switch if they started directly in front of one (such as is the case for *MAP07: Dead Simple* in *DOOM II: Hell On Earth*).
+* A bug has been fixed whereby pressing <kbd>SPACE</kbd> to advance a finale text screen would carry over to the following map, and cause the player to use a switch if they started directly in front of one (such as is the case for *MAP07: Dead Simple* in *DOOM II: Hell On Earth*).
 * The flashing key in the HUD will now be updated if the player tries opening another locked door that requires a different key to the one currently flashing.
 
 ### DOOM Retro v1.4.3
@@ -1162,12 +1162,9 @@
 * When *DOOM Retro* is opened for the first time the following message is now displayed:
   > Thank you for downloading DOOM RETRO!
   >
-  > Please note that, as with all DOOM source ports, no actual map data is
-  > distributed with DOOM RETRO.
+  > Please note that, as with all DOOM source ports, no actual map data is distributed with DOOM RETRO.
   >
-  > In the dialog box that follows, please navigate to where an official
-  > release of DOOM or DOOM II has been installed and select a “WAD file”
-  > that DOOM RETRO requires (such as DOOM.WAD or DOOM2.WAD).
+  > In the dialog box that follows, please navigate to where an official release of DOOM or DOOM II has been installed and select a “WAD file” that DOOM RETRO requires (such as DOOM.WAD or DOOM2.WAD).
 * There are now 2 levels of graphic detail, “HIGH” and “LOW”, adjustable through either the options menu or by pressing the <kbd>F5</kbd> key. The “HIGH” level has the same graphic detail as in previous versions of *DOOM Retro*. It has an effective resolution of 640×400 (or 640×336 in widescreen) and is the default. The “LOW” level is new, and has an effective resolution of 320×200 (the resolution used in *Vanilla DOOM*).
 * When the title screen is displayed, it will now alternate with the credits screen.
 * The gray text in the status bar is now twice the resolution when the graphic detail is set to “HIGH”.
@@ -1226,7 +1223,7 @@
 * The background is now blurred when in a menu or the game is paused. This effect may be disabled by changing the `menublur` setting in `default.cfg` to false.
 * The green blood of Hell Knights and Barons of Hell is now slightly darker.
 * A bug has been fixed that existed in *Vanilla DOOM* that caused monsters to be able to see the player through walls, or not see the player when they should have, in some instances. Thank you to 倉敷楠花 (Nanka Kurashiki) for bringing this to my attention.
-* The <kbd>PRINTSCRN</kbd> key and <kbd>ALT</kbd> + <kbd>ENTER</kbd> have been added to the help screen.
+* The <kbd>PRINTSCREEN</kbd> key and <kbd>ALT</kbd> + <kbd>ENTER</kbd> have been added to the help screen.
 * The “HELP” title has been added to the help screen in *DOOM II* to be consistent with the other versions of *DOOM*.
 * The player’s weapon is no longer displayed in the help screen’s background.
 * Switching between widescreen and non-widescreen modes is now much cleaner. The status bar will no longer briefly appear at the bottom of the screen.
@@ -1240,7 +1237,7 @@
 * Tweaks have been made to the animations of Zombiemen, Shotgun Guys and Mancubi.
 * Screenshots are now saved as a 256-color *Windows* BMP, reducing their size in kilobytes by more than 66%.
 * Pillarboxes are no longer saved in screenshots.
-* The <kbd>PRINTSCRN</kbd> key now no longer saves the screen to the clipboard when taking a screenshot.
+* The <kbd>PRINTSCREEN</kbd> key now no longer saves the screen to the clipboard when taking a screenshot.
 * Rotation in the automap is now more accurate.
 * A bug has been fixed whereby the crosshair could still decelerate from panning while the menu was displayed.
 * The red crosses in stimpacks are now darker to be consistent with medikits.

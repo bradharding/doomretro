@@ -168,7 +168,7 @@ void T_LightFlash(lightflash_t *flash);
 void P_SpawnLightFlash(sector_t *sector);
 void T_StrobeFlash(strobe_t *flash);
 
-void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync);
+void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, dboolean inSync);
 
 dboolean EV_StartLightStrobing(line_t *line);
 dboolean EV_TurnTagLightsOff(line_t *line);

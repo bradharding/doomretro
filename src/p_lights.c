@@ -149,7 +149,7 @@ void T_StrobeFlash(strobe_t *flash)
 // After the map has been loaded, scan each sector
 // for specials that spawn thinkers
 //
-void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
+void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, dboolean inSync)
 {
     strobe_t    *flash = Z_Calloc(1, sizeof(*flash), PU_LEVSPEC, NULL);
 
@@ -182,7 +182,7 @@ dboolean EV_StartLightStrobing(line_t *line)
         if (P_SectorActive(lighting_special, sec))
             continue;
 
-        P_SpawnStrobeFlash(sec, SLOWDARK, 0);
+        P_SpawnStrobeFlash(sec, SLOWDARK, false);
     }
 
     return true;

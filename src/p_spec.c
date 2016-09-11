@@ -2052,15 +2052,15 @@ void P_SpawnSpecials(void)
                 break;
 
             case LightBlinks_2Hz:
-                P_SpawnStrobeFlash(sector, FASTDARK, 0);
+                P_SpawnStrobeFlash(sector, FASTDARK, false);
                 break;
 
             case LightBlinks_1Hz:
-                P_SpawnStrobeFlash(sector, SLOWDARK, 0);
+                P_SpawnStrobeFlash(sector, SLOWDARK, false);
                 break;
 
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                P_SpawnStrobeFlash(sector, FASTDARK, 0);
+                P_SpawnStrobeFlash(sector, FASTDARK, false);
                 sector->special = DamageNegative10Or20PercentHealthAndLightBlinks_2Hz;
                 break;
 
@@ -2077,11 +2077,11 @@ void P_SpawnSpecials(void)
                 break;
 
             case LightBlinks_1HzSynchronized:
-                P_SpawnStrobeFlash(sector, SLOWDARK, 1);
+                P_SpawnStrobeFlash(sector, SLOWDARK, true);
                 break;
 
             case LightBlinks_2HzSynchronized:
-                P_SpawnStrobeFlash(sector, FASTDARK, 1);
+                P_SpawnStrobeFlash(sector, FASTDARK, true);
                 break;
 
             case Door_OpenClose_OpensAfter5Min:
