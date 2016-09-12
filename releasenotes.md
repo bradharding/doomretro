@@ -6,6 +6,7 @@
 * The `vid_scaledriver` CVAR has been renamed to `vid_scaleapi`.
 * The default of the `vid_scaleapi` CVAR is no longer `""`. When *DOOM Retro* is run for the first time, the best available API is chosen: `"direct3d"`, `"opengl"` or `"software"`.
 * A bug has been fixed whereby some CVARs weren’t being reset to their correct values or at all when using either the `reset` or `resetall` CCMDs.
+* Entering `reset all` in the console will now work the same as using the `resetall` CCMD.
 * Toggling “always run” using the <kbd>CAPSLOCK</kbd> key while in the console will no longer inadvertently affect player messages from appearing.
 * Minor changes have been made to some elements of the console.
 * A new `-nomapinfo` command-line parameter has been implemented that will stop any `MAPINFO` lumps from being parsed in PWADs at startup.

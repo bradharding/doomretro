@@ -2897,6 +2897,12 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         return;
     }
 
+    if (M_StringCompare(parm1, "all"))
+    {
+        resetall_cmd_func2("resetall", NULL, NULL, NULL);
+        return;
+    }
+
     while (*consolecmds[i].name)
     {
         int     flags = consolecmds[i].flags;
