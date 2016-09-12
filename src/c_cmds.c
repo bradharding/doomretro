@@ -397,6 +397,7 @@ static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *, char *, char *);
 static void player_cvars_func2(char *, char *, char *, char *);
 static void alwaysrun_cvar_func2(char *, char *, char *, char *);
+static void playername_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
 static void r_blood_cvar_func2(char *, char *, char *, char *);
 static dboolean r_detail_cvar_func1(char *, char *, char *, char *);
@@ -639,7 +640,7 @@ consolecmd_t consolecmds[] =
         "Toggles the player starting each map with only a pistol."),
     CMD(play, "", play_cmd_func1, play_cmd_func2, 1, PLAYCMDFORMAT,
         "Plays a <i>sound</i> or <i>music</i> lump."),
-    CVAR_STR(playername, "", null_func1, str_cvars_func2, CF_NONE,
+    CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, 0, "",
         "Shows statistics about the player."),
@@ -3702,6 +3703,18 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             C_Output("It is currently set to <b>%i%%</b>.", player->health);
         }
     }
+}
+
+//
+// playername cvar
+//
+
+static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (M_StringCompare(parm1, EMPTYVALUE))
+        str_cvars_func2(cmd, playername_default, NULL, NULL);
+    else
+        str_cvars_func2(cmd, parm1, parm2, parm3);
 }
 
 //
