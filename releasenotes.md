@@ -29,8 +29,9 @@
 * A texture has been corrected in MAP13 of `doom2.wad`.
 * The player’s path may now be displayed in the automap by enabling the new `am_path` CVAR. It is `off` by default.
 * The color of the player’s path may be changed using the new `am_pathcolor` CVAR. It is `95` by default.
-* The console is now hidden when using the `spawn` CCMD.
+* The console now automatically closed when the `spawn` CCMD is used.
 * Spaces are now allowed in the `playername` CVAR.
+* Change the `playername` CVAR back to its default, `"you"`, if it is changed to an empty string.
 * The values of the `r_detail` CVAR are now displayed correctly in the output of the `cvarlist` CCMD.
 * Use and fire actions can now respawn a dead player when in the automap.
 * A bug has been fixed that stopped some string CVARs from being able to be changed in the console.
@@ -43,7 +44,8 @@
 * The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc. It is bound to the `+use2` action.
 * A bug has been fixed whereby certain player stats were being reset at startup.
 * The effects of the `IDDT` cheat are removed from the automap when the player changes levels.
-* Change the `playername` CVAR back to its default, `"you"`, if it is changed to an empty string.
+
+---
 
 ### DOOM Retro v2.2.5
 
@@ -62,6 +64,8 @@
 * A `respawnitems` CCMD has been implemented that allows most items to be respawned 30 seconds after the player picks them up, replicating what happens in *DOOM* multiplayer.
 * The contents of `doomretro.cfg` have been rearranged slightly and commented.
 
+---
+
 ### DOOM Retro v2.2.4
 
 * Blood splats and shadows are now drawn at greater distances.
@@ -77,6 +81,8 @@
 * The floor texture of sector 103 in MAP04 of `plutonia.wad` has been fixed.
 * A bug has been fixed whereby rocket launcher frames would be shown when firing the photon ’zooka in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The text caret’s animation now resets each time the console is open, and is hidden when the console closes.
+
+---
 
 ### DOOM Retro v2.2.3
 
@@ -98,6 +104,8 @@
 * The value of `r_lowpixelsize` will no longer affect the display of the title screen when the menu is open.
 * The <kbd>F5</kbd> key can no longer be used to change the graphic detail when the automap is open.
 
+---
+
 ### DOOM Retro v2.2.2
 
 * One IWAD or PWAD may now be specified on the command-line without the need for the `-iwad` or `-file` command-line parameters.
@@ -117,6 +125,8 @@
 * Parameters can no longer be entered at the end of CCMDs that don’t use them.
 * The player’s view will no longer jump slightly when dropping down between two liquid sectors greater than 24 units apart.
 
+---
+
 ### DOOM Retro v2.2.1
 
 * *DOOM Retro* is now back to supporting *Windows XP* again.
@@ -128,6 +138,8 @@
 * Bobbing liquid sectors will now animate correctly if adjacent to a masked texture.
 * The `centerweapon` CVAR can now also be entered as `centreweapon`.
 * The `centered` value for the `vid_windowposition` CVAR can now also be entered as `centred`.
+
+---
 
 ### DOOM Retro v2.2
 
@@ -172,6 +184,8 @@
 * *ZDoom’s* obituary strings are now ignored in `DEHACKED` patches so warnings aren’t displayed in the console at startup.
 * A bug has been fixed whereby a frame would be skipped when rotating monsters in the *DOOM II* cast sequence.
 
+---
+
 ### DOOM Retro v2.1.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -190,6 +204,8 @@
 * Improvements have been made to the accuracy of “Weapon accuracy” in the output of the `playerstats` CCMD.
 * The corpses of monsters are no longer spawned if “No monsters” has been set.
 
+---
+
 ### DOOM Retro v2.1.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -207,6 +223,8 @@
 * The <kbd>WINDOWS</kbd> key can no longer be pressed when fullscreen, as intended.
 * The *Windows* screensaver is now disabled while *DOOM Retro* is running.
 
+---
+
 ### DOOM Retro v2.1.1
 
 * Pain elementals can now shoot lost souls through two-sided walls that have the `ML_BLOCKMONSTERS` flag, as is possible in *Vanilla DOOM*. (An example of this is at the end of MAP04 in [`requiem.wad`](https://www.doomworld.com/idgames/levels/doom2/megawads/requiem).)
@@ -217,6 +235,8 @@
 * Multiple `STBAR` lumps are now better handled. (For example, now the correct status bar will be displayed if `JPCP_HUDjpn.wad` is loaded along with [`JPCP_1st.wad`](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/jenesis).)
 * Double-resolution yellow and gray digits will no longer be displayed in the status bar if a `STBAR` lump from a PWAD is used.
 * The correct WAD is displayed in the output of the `mapstats` in *DOOM II: Hell On Earth* if `nerve.wad` is also present.
+
+---
 
 ### DOOM Retro v2.1
 
@@ -261,6 +281,8 @@
 * The <kbd>E</kbd> key may now be pressed as an alternative to <kbd>SPACE</kbd> to use doors, switches, etc. It is bound to the `+use2` action.
 * When the `vid_showfps` CVAR is enabled, the frames per second is now displayed correctly while the screen shakes when the player is injured.
 
+---
+
 ### DOOM Retro v2.0.5
 
 * Bugs have been fixed whereby using `map next` in the console would warp the player to the next episode rather than the next map, and `map ExMy` wouldn’t warp at all.
@@ -268,6 +290,8 @@
 * The amount of negative health a monster must receive to be gibbed can now be changed using a `Gib health` parameter in *DeHackEd* lumps.
 * An invalid character will no longer be displayed in the console when changing the music or SFX volume in the menu.
 * A bug has been fixed whereby when adjusting the SFX volume in the menu, the music volume was being displayed in the console instead.
+
+---
 
 ### DOOM Retro v2.0.4
 
@@ -289,6 +313,8 @@
 * A bug has been fixed whereby using the `map` CCMD would cause the game to crash in some instances.
 * The selected episode or expansion in the menu is set as necessary when using the `map` CCMD.
 
+---
+
 ### DOOM Retro v2.0.3
 
 * “Pistol start” gameplay is now supported. By using the `pistolstart` CCMD, (or specifying `-pistolstart` on the command-line), the player’s health, armor, weapons and ammo will be reset at the start of each map. Also, a `PISTOLSTART` definition may now be used in `MAPINFO` lumps.
@@ -307,6 +333,8 @@
 * A random static effect has been applied to the console’s background.
 * The effects of changing the `vid_windowposition` and `vid_windowsize` CVARs while in the console and in a window is now immediate.
 
+---
+
 ### DOOM Retro v2.0.2
 
 * A rare bug has been fixed whereby the player’s view would continuously move or turn in one direction by itself.
@@ -316,11 +344,15 @@
 * A bug has been fixed whereby the muzzle flash of some weapons could be offset from the muzzle in some rare instances.
 * The file `smpeg2.dll` is now included with *DOOM Retro* again.
 
+---
+
 ### DOOM Retro v2.0.1
 
 * A bug has been fixed whereby the screen wouldn’t stop shaking after the player was killed in some instances.
 * The `+run` action may now be bound to a mouse button.
 * The player’s weapon will no longer be fullbright while the player is injured.
+
+---
 
 ### DOOM Retro v2.0
 
@@ -410,6 +442,8 @@
 * The small digits used in the status bar and for marks in the automap are now consistent with those used in the console.
 * A bug has been fixed whereby if the `r_gamma` CVAR was set to `2.0`, the gamma correction level would still be set to the default of `0.75` at startup.
 
+---
+
 ### DOOM Retro v1.9
 
 * *DOOM Retro* now allows the automap to be shown on a second display. This feature may be enabled using the `am_external` CVAR, and will display a fullscreen 16:10 automap in the first display it finds that is not the main display set by the `vid_display` CVAR. While this external automap is displayed, the <kbd>TAB</kbd> key is disabled, and the `IDDT` cheat can be entered at any time. Also, the automap’s usual controls are unavailable, but the grid and rotate mode may still be toggled in the console using the relevant CVARs.
@@ -474,6 +508,8 @@
 * A warning is now displayed in the console when a music lump can’t be played.
 * Tilde characters are now removed from the files saved using the `condump` CCMD.
 
+---
+
 ### DOOM Retro v1.8.5
 
 * More than one instance of `-file` may now appear on the command-line.
@@ -485,6 +521,8 @@
 * The game will now pause slightly when the player uses a switch to exit a map, to stop the switch’s sound from stuttering.
 * Support has been added for certain hacks to the `NODE` lump of a map. See [here](http://doomwiki.org/wiki/Linguortal) for more information.
 * The chaingunner’s refire frame is now fullbright.
+
+---
 
 ### DOOM Retro v1.8.4
 
@@ -505,6 +543,8 @@
 * The game will no longer crash when trying to bind an action to an invalid control using the `bind` CCMD. And now a warning will be displayed in the console advising that it couldn’t be bound.
 * The `+alwaysrun` action can now be bound to a gamepad button.
 
+---
+
 ### DOOM Retro v1.8.3
 
 * A bug has been fixed whereby some platforms would move silently.
@@ -518,10 +558,14 @@
 * A bug has been fixed whereby the game would crash when trying to draw teleport lines in the automap in some instances.
 * The game will no longer crash when trying to use the <kbd>F9</kbd> to quickload a game in some rare instances.
 
+---
+
 ### DOOM Retro v1.8.2
 
 * Although quite often the same folder, *DOOM Retro* will now put savegames in the same folder as the executable, rather than the current working folder.
 * A bug has been fixed whereby sprites would appear through closed doors in some instances.
+
+---
 
 ### DOOM Retro v1.8.1
 
@@ -540,6 +584,8 @@
 * The liquid swirl animation is now applied to flats using the `SLIME05` texture.
 * Brightmaps will no longer be rendered when the player has an invulnerability power-up, or in areas with a *BOOM* colormap.
 * A crash will no longer occur when a *BOOM* pusher or puller thing is present in a map.
+
+---
 
 ### DOOM Retro v1.8
 
@@ -654,6 +700,8 @@
 * A bug has been fixed whereby warnings weren’t being displayed in the console.
 * The <kbd>WINDOWS</kbd> key is now only disabled during a game, and not while the game is in a menu, paused, in the console, or on the title screen.
 
+---
+
 ### DOOM Retro v1.7.1
 
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
@@ -688,6 +736,8 @@
 * The console is now automatically closed when using the `endgame`, `exitmap`, `kill` and `map` CCMDs.
 * A bug has been fixed whereby the map name in the automap was displayed incorrectly when using *ZDL* to launch the game.
 * The “fuzzy” edges of Spectre shadows are now paused while the console is open.
+
+---
 
 ### DOOM Retro v1.7
 
@@ -731,6 +781,8 @@
 * The automap will no longer disappear, nor the game crash, when zooming out in very large maps.
 * Translucency is now applied to MegaSpheres as originally intended.
 
+---
+
 ### DOOM Retro v1.6.7
 
 * A bug has been fixed whereby *DOOM Retro* would crash at startup when trying to run in a screen resolution that wasn’t widescreen.
@@ -749,6 +801,8 @@
 * Diminished lighting from the player has been enhanced.
 * Blood splats are now only spawned at the same height as corpses as they slide.
 
+---
+
 ### DOOM Retro v1.6.6
 
 * The new liquid animation that was introduced in *DOOM Retro v1.6.5* has been improved upon such that the entire textures of the sectors will now also rise and fall, rather than just their edges.
@@ -761,6 +815,8 @@
 * The teleporter texture used in *Back to Saturn X* no longer animates like a liquid.
 * Savegames will now be placed in the `savegames\DOOM2.WAD\` folder rather than the `savegames\unknown.wad\` folder when `nerve.wad` is loaded.
 * The player’s weapon is now recentered after teleporting.
+
+---
 
 ### DOOM Retro v1.6.5
 
@@ -794,6 +850,8 @@
 * The edges of shadows are now black when the `translucency` setting in `doomretro.cfg` to `false`.
 * The `sfxvolume` and `musicvolume` settings in `doomretro.cfg` will no longer round down to `0%` when set to `6%`.
 
+---
+
 ### DOOM Retro v1.6.4
 
 * Several optimizations have been made in an attempt to further improve the overall performance of *DOOM Retro*.
@@ -817,6 +875,8 @@
 * The overall gamepad sensitivity has been increased even more, and the default of `gamepad_sensitivity` has now been doubled from `16` to `32`.
 * The player will now bob as intended when `playerbob` is greater than `75%`.
 * Changes have been made to the messages displayed when adding and clearing marks.
+
+---
 
 ### DOOM Retro v1.6.3
 
@@ -857,6 +917,8 @@
 * A bug has been fixed present in *Vanilla DOOM* whereby the vertical position of an Arch-vile’s fire attack could be set incorrectly in some instances.
 * There is no longer any small upward thrust when the player is receives an Arch-vile’s fire attack while “no clipping mode” is on using the `IDCLIP` cheat.
 
+---
+
 ### DOOM Retro v1.6.2
 
 * A bug, inadvertently introduced in v1.6.1, has been fixed whereby the wrong colored keys would appear in the HUD.
@@ -871,6 +933,8 @@
 * Several minor changes have been made to the properties of pickups in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The <kbd>,</kbd> and <kbd>.</kbd> keys can now also be used to strafe left and right, as they could in *Vanilla DOOM*. They are changed using the `key_strafeleft2` and `key_straferight2` settings in `doomretro.cfg`.
 * Shifted characters are now allowed when entering savegame descriptions. (In *Vanilla DOOM*, pressing <kbd>SHIFT</kbd> + <kbd>/</kbd>, for example, would still display “/” rather than “?”.)
+
+---
 
 ### DOOM Retro v1.6.1
 
@@ -888,6 +952,8 @@
 * Blood splats are now green in *Chex Quest* as intended.
 * A bug has been fixed whereby switching to and from the chainsaw using the number keys really quickly would cause either a crash, or the player’s weapon to disappear completely.
 * The player’s weapon bob is now consistent with *Vanilla DOOM*.
+
+---
 
 ### DOOM Retro v1.6
 
@@ -986,6 +1052,8 @@
 * A bug has been fixed whereby you could switch weapons when zooming in the automap if both actions were set to the gamepad’s left and right shoulder buttons.
 * Skies with heights other than 128 pixels are now rendered correctly.
 
+---
+
 ### DOOM Retro v1.5.2
 
 * Monster targets are now completely restored upon loading a game, regardless of whether they were targeting the player, or they were infighting.
@@ -1001,6 +1069,8 @@
 * Whenever the player or a monster is killed, a message is displayed in `stdout.txt`.
 * Minor changes have been made to a few messages.
 * A bug has been fixed whereby *DOOM Retro* would exit with an error if the `IDDQD` cheat was used to resurrect a dead player.
+
+---
 
 ### DOOM Retro v1.5.1
 
@@ -1026,6 +1096,8 @@
 * Further improvements have been made to how custom menu graphics from PWADs are displayed.
 * *DOOM Retro* will no longer crash if the player walks over a very deep hole.
 * The intensity of the vibration effect for XInput-compatible controllers when the player fires a weapon or is injured has been increased. Previously, the effect on the *Logitech F710 controller* could barely be felt.
+
+---
 
 ### DOOM Retro v1.5
 
@@ -1108,6 +1180,8 @@
 * A bug has been fixed whereby pressing <kbd>SPACE</kbd> to advance a finale text screen would carry over to the following map, and cause the player to use a switch if they started directly in front of one (such as is the case for *MAP07: Dead Simple* in *DOOM II: Hell On Earth*).
 * The flashing key in the HUD will now be updated if the player tries opening another locked door that requires a different key to the one currently flashing.
 
+---
+
 ### DOOM Retro v1.4.3
 
 * The screen size can now be adjusted correctly in the options menu when not in a game.
@@ -1127,6 +1201,8 @@
 * There are now two settings in `doomretro.cfg` that control how many blood splats appear. `bloodsplats_total` (previously known as just `bloodsplats`) controls the total number of blood splats spawned in a level. It’s default is still `unlimited`. `bloodsplats_visible` is a new setting that specifies the number of blood splats that will appear on the screen at any one time. It’s default is `1024`.
 * A bug has been fixed whereby use of the `-episode`, `-skill` and `-warp` command-line parameters would cause the game to silently crash.
 * Gamepads now work correctly.
+
+---
 
 ### DOOM Retro v1.4.2
 
@@ -1149,6 +1225,8 @@
 * A flashing HOM (“Hall of Mirrors”) indicator has been implemented. The screen will flash red in place of missing textures, but not when the player has enabled “no clipping mode” using the `IDCLIP` or `IDSPISPOPD` cheats.
 * When saving a game, the savegame description will only be updated to the current map name if it hasn’t been changed to something other than map name previously.
 
+---
+
 ### DOOM Retro v1.4.1
 
 * A bug has been fixed whereby the sound would become disabled if adjusting the volume through the menu or pausing and then unpausing the game.
@@ -1157,6 +1235,8 @@
 * When a Heavy Weapon Dude is killed, their corpse is no longer randomly mirrored.
 * Projectiles will now pass through map decorations like they do in *Vanilla DOOM*. (Please note that this particular change means savegames from previous versions of *DOOM Retro* won’t work with *DOOM Retro v1.4.1*.)
 * If music can’t be loaded for a particular map, that map will still load without music rather than the game exiting with an error.
+
+---
 
 ### DOOM Retro v1.4
 
@@ -1209,6 +1289,8 @@
 * The lighting in maps is now calculated differently.
 * The small ‘3’ and ‘8’ digits used for marks in the automap, and the small ‘3’ digit in the status bar, have been altered slightly.
 * There is now a chance that the super shotgun may gib a monster when fired at point blank range. (This idea has been taken from Fabian Greffrath’s *Crispy DOOM*.)
+
+---
 
 ### DOOM Retro v1.3
 
@@ -1266,6 +1348,8 @@
 * There are no longer any overlapping drop shadows in the menus.
 * Keys are now positioned correctly in the status bar.
 
+---
+
 ### DOOM Retro v1.2.1
 
 * *DOOM Retro* is now compiled using *Microsoft Visual Studio Express 2013 for Windows Desktop*.
@@ -1313,6 +1397,8 @@
 * Only one instance of `doomretro.exe` can be run at a time.
 * The player arrow in the automap will now be translucent while the player has a partial invisibility power-up.
 * In *DOOM II (BFG Edition)*, since `TITLEPIC` isn’t present in the IWAD, the otherwise unused `DMENUPIC` is now used instead of `INTERPIC`.
+
+---
 
 ### DOOM Retro v1.1
 
