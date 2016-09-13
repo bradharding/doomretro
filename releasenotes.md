@@ -5,7 +5,7 @@
 * The `am_xhaircolor` CVAR has been renamed to `am_crosshaircolor`.
 * The `vid_scaledriver` CVAR has been renamed to `vid_scaleapi`.
 * The default of the `vid_scaleapi` CVAR is no longer `""`. When *DOOM Retro* is run for the first time, the best available API is chosen: `"direct3d"`, `"opengl"` or `"software"`.
-* A bug has been fixed whereby some CVARs weren’t being reset to their correct values or at all when using either the `reset` or `resetall` CCMDs.
+* A bug has been fixed whereby some CVARs weren’t being reset to their correct values, or at all, when using either the `reset` or `resetall` CCMDs.
 * Entering `reset all` in the console will now work the same as using the `resetall` CCMD.
 * Toggling “always run” using the <kbd>CAPSLOCK</kbd> key while in the console will no longer inadvertently affect player messages from appearing.
 * Minor changes have been made to some elements of the console.
@@ -30,11 +30,11 @@
 * A texture has been corrected in MAP13 of `doom2.wad`.
 * The player’s path may now be displayed in the automap by enabling the new `am_path` CVAR. It is `off` by default.
 * The color of the player’s path may be changed using the new `am_pathcolor` CVAR. It is `95` by default.
-* The console now automatically closed when the `spawn` CCMD is used.
+* The console is now automatically closed when the `spawn` CCMD is used.
 * Spaces are now allowed in the `playername` CVAR.
-* Change the `playername` CVAR back to its default, `"you"`, if it is changed to an empty string.
+* The `playername` CVAR is now changed back to its default, `"you"`, if it is changed to an empty string.
 * The values of the `r_detail` CVAR are now displayed correctly in the output of the `cvarlist` CCMD.
-* Use and fire actions can now respawn a dead player when in the automap.
+* The `+use` and `+fire` actions will now respawn a dead player when in the automap.
 * A bug has been fixed that stopped some string CVARs from being able to be changed in the console.
 * The digits in the status bar are no longer lowered by 1 pixel in *Back To Saturn X*.
 * The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters.
@@ -43,7 +43,7 @@
 * The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.
 * The default gamepad sensitivity has been increased from `48` to `64`.
 * The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc. It is bound to the `+use2` action.
-* A bug has been fixed whereby certain player stats were being reset at startup.
+* A bug has been fixed whereby certain player stats were being reset to `0` at startup.
 * The effects of the `IDDT` cheat are removed from the automap when the player changes levels.
 
 ---

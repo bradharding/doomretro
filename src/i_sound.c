@@ -49,7 +49,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define NUM_CHANNELS            32
 #define MAX_SOUND_SLICE_TIME    28
 #define CACHESIZE               64 * 1024 * 1024
 

@@ -44,6 +44,7 @@
 
 // Sound sample rate to use for digital output (Hz)
 #define SAMPLERATE      44100
+#define NUM_CHANNELS    32
 
 extern dboolean s_randompitch;
 

@@ -47,9 +47,6 @@
 #define CHEAT(value, parameters) \
     { value, sizeof(value) - 1, parameters, 0, 0, "", 0, false }
 
-#define MAX_CHEAT_LEN           25
-#define MAX_CHEAT_PARAMS        5
-
 #define TIMELIMIT               (TICRATE * 2)
 
 typedef struct
@@ -62,7 +59,7 @@ typedef struct
     // state used during the game
     size_t      chars_read;
     int         param_chars_read;
-    char        parameter_buf[MAX_CHEAT_PARAMS];
+    char        parameter_buf[5];
 
     int         timeout;
 
