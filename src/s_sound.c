@@ -131,7 +131,7 @@ static void InitSfxModule(void)
 {
     if (I_InitSound())
     {
-        C_Output("Sound effects playing at a sample rate of %.1fkHz on %i channels.",
+        C_Output("Sound effects will play at a sample rate of %.1fkHz on %i channels.",
             SAMPLERATE / 1000.0f, NUM_CHANNELS);
         return;
     }
