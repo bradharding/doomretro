@@ -88,10 +88,6 @@ void R_UnlockTextureCompositePatchNum(int id);
 rcolumn_t *R_GetPatchColumnWrapped(rpatch_t *patch, int columnIndex);
 rcolumn_t *R_GetPatchColumnClamped(rpatch_t *patch, int columnIndex);
 
-// returns R_GetPatchColumnWrapped for square, non-holed textures
-// and R_GetPatchColumnClamped otherwise
-rcolumn_t *R_GetPatchColumn(rpatch_t *patch, int columnIndex);
-
 void R_InitPatches(void);
 
 #endif
