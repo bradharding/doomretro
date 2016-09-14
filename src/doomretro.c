@@ -39,6 +39,7 @@
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
+#include "i_gamepad.h"
 #include "m_argv.h"
 #include "m_controls.h"
 #include "version.h"
@@ -116,7 +117,6 @@ WNDPROC oldProc;
 HICON   icon;
 
 dboolean MouseShouldBeGrabbed(void);
-void I_InitGamepad(void);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
