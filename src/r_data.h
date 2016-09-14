@@ -43,8 +43,6 @@
 #include "r_patch.h"
 #include "r_state.h"
 
-#define NO_TEXTURE      0
-
 #if defined(_MSC_VER)
 #pragma pack(push)
 #pragma pack(1)

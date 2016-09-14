@@ -621,7 +621,7 @@ int R_CheckFlatNumForName(char *name)
 //
 int R_CheckTextureNumForName(char *name)
 {
-    int i = NO_TEXTURE;
+    int i = 0;
 
     if (*name != '-')
     {

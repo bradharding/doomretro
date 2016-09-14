@@ -66,7 +66,7 @@ static dboolean onground;
 // P_Thrust
 // Moves the given origin along a given angle.
 //
-void P_Thrust(player_t *player, angle_t angle, fixed_t move)
+static void P_Thrust(player_t *player, angle_t angle, fixed_t move)
 {
     player->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
     player->mo->momy += FixedMul(move, finesine[angle]);
@@ -82,7 +82,7 @@ void P_Thrust(player_t *player, angle_t angle, fixed_t move)
 // occur on conveyors, unless the player walks on one, and bobbing should be
 // reduced at a regular rate, even on ice (where the player coasts).
 //
-void P_Bob(player_t *player, angle_t angle, fixed_t move)
+static void P_Bob(player_t *player, angle_t angle, fixed_t move)
 {
     player->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
     player->momy += FixedMul(move, finesine[angle]);
@@ -167,7 +167,7 @@ void P_CalcHeight(player_t *player)
 //
 // P_MovePlayer
 //
-void P_MovePlayer(player_t *player)
+static void P_MovePlayer(player_t *player)
 {
     ticcmd_t    *cmd = &player->cmd;
     mobj_t      *mo = player->mo;
@@ -213,7 +213,10 @@ void P_MovePlayer(player_t *player)
     }
 }
 
-void P_ReduceDamageCount(player_t *player)
+//
+// P_ReduceDamageCount
+//
+static void P_ReduceDamageCount(player_t *player)
 {
     if (player->damagecount)
         --player->damagecount;
@@ -227,8 +230,7 @@ void P_ReduceDamageCount(player_t *player)
 // Fall on your face when dying.
 // Decrease POV height to floor height.
 //
-
-void P_DeathThink(player_t *player)
+static void P_DeathThink(player_t *player)
 {
     static int          count;
     static dboolean     facingkiller;
@@ -291,6 +293,9 @@ void P_DeathThink(player_t *player)
         count++;
 }
 
+//
+// P_ResurrectPlayer
+//
 void P_ResurrectPlayer(player_t *player, int health)
 {
     fixed_t     x, y;

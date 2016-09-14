@@ -109,11 +109,8 @@ lighttable_t            **colormaps;
 // bumped light from gun blasts
 int                     extralight;
 
-dboolean                r_translucency = r_translucency_default;
-
 dboolean                r_homindicator = r_homindicator_default;
-
-int                     r_frame_count;
+dboolean                r_translucency = r_translucency_default;
 
 extern int              viewheight2;
 
@@ -729,8 +726,6 @@ void R_SetupFrame(player_t *player)
 //
 void R_RenderPlayerView(player_t *player)
 {
-    ++r_frame_count;
-
     R_SetupFrame(player);
 
     // Clear buffers.

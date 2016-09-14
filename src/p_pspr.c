@@ -182,7 +182,10 @@ dboolean P_CheckAmmo(player_t *player)
     return false;
 }
 
-void P_SubtractAmmo(player_t *player, int amount)
+//
+// P_SubtractAmmo
+//
+static void P_SubtractAmmo(player_t *player, int amount)
 {
     ammotype_t  ammotype = weaponinfo[player->readyweapon].ammo;
 
