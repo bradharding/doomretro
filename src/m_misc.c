@@ -446,18 +446,32 @@ char *stristr(char *ch1, char *ch2)
 //
 char *M_StringReplace(char *haystack, char *needle, char *replacement)
 {
-    static char buffer[4096];
-    char        *p;
+    char        buffer[1024] = "";
+    char        *insert_point = &buffer[0];
+    const char  *tmp = haystack;
+    size_t      needle_len = strlen(needle);
+    size_t      repl_len = strlen(replacement);
 
-    if (!(p = stristr(haystack, needle)))
-        return haystack;
+    while (1)
+    {
+        const char      *p = strstr(tmp, needle);
 
-    strncpy(buffer, haystack, p - haystack);
-    buffer[p - haystack] = '\0';
+        if (!p)
+        {
+            strcpy(insert_point, tmp);
+            break;
+        }
 
-    sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
+        memcpy(insert_point, tmp, p - tmp);
+        insert_point += p - tmp;
 
-    return buffer;
+        memcpy(insert_point, replacement, repl_len);
+        insert_point += repl_len;
+
+        tmp = p + needle_len;
+    }
+
+    strcpy(haystack, buffer);
 }
 
 // Returns true if 'str1' and 'str2' are the same.
@@ -799,34 +813,4 @@ char *striptrailingzero(float value, int precision)
     }
 
     return result;
-}
-
-void strreplace(char *target, const char *needle, const char *replacement)
-{
-    char        buffer[1024] = "";
-    char        *insert_point = &buffer[0];
-    const char  *tmp = target;
-    size_t      needle_len = strlen(needle);
-    size_t      repl_len = strlen(replacement);
-
-    while (1)
-    {
-        const char      *p = strstr(tmp, needle);
-
-        if (!p)
-        {
-            strcpy(insert_point, tmp);
-            break;
-        }
-
-        memcpy(insert_point, tmp, p - tmp);
-        insert_point += p - tmp;
-
-        memcpy(insert_point, replacement, repl_len);
-        insert_point += repl_len;
-
-        tmp = p + needle_len;
-    }
-
-    strcpy(target, buffer);
 }

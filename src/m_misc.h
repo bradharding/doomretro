@@ -94,6 +94,5 @@ char *removeext(const char *file);
 dboolean isvowel(const char ch);
 char *convertsize(const int size);
 char *striptrailingzero(float value, int precision);
-void strreplace(char *target, const char *needle, const char *replacement);
 
 #endif

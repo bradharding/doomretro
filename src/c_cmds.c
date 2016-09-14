@@ -1167,10 +1167,10 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     unsigned int        outpos = 0;
                     int                 tabcount = 0;
 
-                    strreplace(string, "<b>", "");
-                    strreplace(string, "</b>", "");
-                    strreplace(string, "<i>", "");
-                    strreplace(string, "</i>", "");
+                    M_StringReplace(string, "<b>", "");
+                    M_StringReplace(string, "</b>", "");
+                    M_StringReplace(string, "<i>", "");
+                    M_StringReplace(string, "</i>", "");
                     len = strlen(string);
 
                     for (inpos = 0; inpos < len; ++inpos)
@@ -4091,7 +4091,7 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         char *description = removenewlines(consolecmds[C_GetIndex(stringize(turbo))].description);
 
-        strreplace(description, "%", "%%");
+        M_StringReplace(description, "%", "%%");
         C_Output(description);
         if (turbo == turbo_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", turbo);
