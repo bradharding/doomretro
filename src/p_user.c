@@ -366,8 +366,12 @@ void P_PlayerThink(player_t *player)
         mo->flags &= ~MF_JUSTATTACKED;
     }
 
-    I_SetMotionBlur(((vid_motionblur && ABS(cmd->angleturn) >= MOTIONBLUR_THRESHOLD)
-        || (r_shakescreen && player->damagecount)) && !automapactive ? vid_motionblur : 0);
+    if (r_shakescreen && player->damagecount && !automapactive)
+        I_SetMotionBlur(100);
+    else if (vid_motionblur && ABS(cmd->angleturn) >= MOTIONBLUR_THRESHOLD && !automapactive)
+        I_SetMotionBlur(vid_motionblur);
+    else
+        I_SetMotionBlur(0);
 
     if (player->playerstate == PST_DEAD)
     {
