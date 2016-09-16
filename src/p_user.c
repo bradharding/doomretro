@@ -338,8 +338,9 @@ void P_ResurrectPlayer(player_t *player, int health)
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t    *cmd = &player->cmd;
-    mobj_t      *mo = player->mo;
+    ticcmd_t            *cmd = &player->cmd;
+    mobj_t              *mo = player->mo;
+    static dboolean     motionblur;
 
     // [AM] Assume we can interpolate at the beginning
     //      of the tic.
@@ -367,11 +368,20 @@ void P_PlayerThink(player_t *player)
     }
 
     if (r_shakescreen && player->damagecount && !automapactive)
+    {
+        motionblur = true;
         I_SetMotionBlur(100);
+    }
     else if (vid_motionblur && ABS(cmd->angleturn) >= MOTIONBLUR_THRESHOLD && !automapactive)
+    {
+        motionblur = true;
         I_SetMotionBlur(vid_motionblur);
-    else
+    }
+    else if (motionblur)
+    {
+        motionblur = false;
         I_SetMotionBlur(0);
+    }
 
     if (player->playerstate == PST_DEAD)
     {
