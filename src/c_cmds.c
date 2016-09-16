@@ -3737,12 +3737,12 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && player->playerstate == PST_LIVE && ammotype != am_noammo)
+            if (value >= 0 && value != player->ammo[ammotype] && player->playerstate == PST_LIVE
+                && ammotype != am_noammo)
             {
                 player->ammo[ammotype] = MIN(value, player->maxammo[ammotype]);
                 P_CheckAmmo(player);
-                if (player->pendingweapon != wp_nochange)
-                    C_HideConsole();
+                C_HideConsole();
             }
         }
         else
@@ -3757,8 +3757,11 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0)
+            if (value >= 0 && value != player->armorpoints)
+            {
                 player->armorpoints = MIN(value, max_armor);
+                C_HideConsole();
+            }
         }
         else
         {
@@ -3783,12 +3786,11 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     P_ResurrectPlayer(player, value);
                 else
                 {
-                    player->health = player->mo->health = value;
-                    if (!value)
-                    {
-                        P_KillMobj(player->mo, player->mo);
-                        C_HideConsole();
-                    }
+                    if (value < player->health)
+                        P_DamageMobj(player->mo, NULL, NULL, player->health - value);
+                    else
+                        player->health = player->mo->health = value;
+                    C_HideConsole();
                 }
             }
         }
