@@ -367,8 +367,6 @@ void P_PlayerThink(player_t *player)
     }
 
     if (vid_motionblur)
-        I_SetMotionBlur(ABS(cmd->angleturn) >= MOTIONBLUR_THRESHOLD && !automapactive ?
-            vid_motionblur : 0);
 
     if (player->playerstate == PST_DEAD)
     {
