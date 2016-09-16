@@ -41,8 +41,9 @@
 * The player will now be resurrected if the `health` CVAR is changed in the console when they are dead.
 * There is now a read-only `version` CVAR that indicates which version of *DOOM Retro* created `doomretro.cfg`.
 * The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.
-* The default gamepad sensitivity has been increased from `48` to `64`.
-* The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc. It is bound to the `+use2` action.
+* The default gamepad sensitivity (set using the `gp_senstivity` CVAR) has been increased from `48` to `64`.
+* The `+forward2`, `+back2`, `+strafeleft2`, `straferight2` and `+use2` actions have been removed. The controls that were bound to these actions are now bound to `+forward`, `+back`, `+strafeleft`, `straferight` and `+use`, respectively.
+* The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc. It is bound to the `+use` action.
 * A bug has been fixed whereby certain player stats were being reset to `0` at startup.
 * The effects of the `IDDT` cheat are removed from the automap when the player changes levels.
 
