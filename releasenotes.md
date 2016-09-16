@@ -46,7 +46,7 @@
 * The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc. It is bound to the `+use` action.
 * A bug has been fixed whereby certain player stats were being reset to `0` at startup.
 * The effects of the `IDDT` cheat are removed from the automap when the player changes levels.
-* The shaking of the screen when the player is injured and the `r_shakescreen` CVAR is `on` has been improved slightly._
+* The shaking of the screen when the player is injured and the `r_shakescreen` CVAR is `on` has been improved slightly.
 
 ---
 

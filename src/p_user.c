@@ -376,7 +376,7 @@ void P_PlayerThink(player_t *player)
     }
 
     // Move around.
-    // Reactiontime is used to prevent movement for a bit after a teleport.
+    // Reaction time is used to prevent movement for a bit after a teleport.
     if (mo->reactiontime)
         mo->reactiontime--;
     else

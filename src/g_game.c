@@ -466,7 +466,8 @@ static void G_ResetPlayer(player_t *player)
     player->armorpoints = 0;
     player->armortype = NOARMOR;
 
-    player->readyweapon = player->pendingweapon = wp_pistol;
+    player->readyweapon = wp_pistol;
+    player->pendingweapon = wp_pistol;
     player->preferredshotgun = wp_shotgun;
     player->fistorchainsaw = wp_fist;
     player->shotguns = false;

@@ -1021,7 +1021,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
         }
         else
         {
-            dboolean        bound = false;
+            dboolean    bound = false;
 
             while (*actions[action].action)
             {
@@ -4178,7 +4178,7 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else
     {
-        char *description = removenewlines(consolecmds[C_GetIndex(stringize(turbo))].description);
+        char    *description = removenewlines(consolecmds[C_GetIndex(stringize(turbo))].description);
 
         strreplace(description, "%", "%%");
         C_Output(description);
