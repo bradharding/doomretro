@@ -21,8 +21,13 @@
 * All automap controls (such as pressing the <kbd>G</kbd> key to toggle the grid) may now be used when there’s an external automap, provided they don’t conflict with other controls.
 * A bug has been fixed whereby certain items wouldn’t teleport in some rare instances. (An example of this is one of the yellow skull keys in MAP23 of [*Going Down*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/gd).)
 * Lost Souls spawned by Pain Elementals now start in their attack frame.
-* The `playerstats` CCMD now also displays the number of maps completed, the distance traveled by the player, and the amount of ammo (broken down by bullets, cells, rockets and shells), armor and health picked up by the player.
-* The units used to display the distance traveled by the player in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
+* The `playerstats` CCMD now displays 8 new stats:
+  * the number of maps completed,
+  * the distance traveled,
+  * the amount of ammo picked up (broken down by bullets, cells, rockets and shells),
+  * the amount of armor picked up, and
+  * the amount of health picked up.
+* The units used to display the distance traveled in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
 * The alternate HUD is now enabled by default.
 * When the `r_translucency` CVAR is `off`, the console and the alternate HUD will no longer be translucent.
 * The effects of changing the `r_translucency` CVAR will now be immediate in both the HUD and alternate HUD.
@@ -43,7 +48,7 @@
 * The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.
 * The default gamepad sensitivity (set using the `gp_senstivity` CVAR) has been increased from `48` to `64`.
 * The `+forward2`, `+back2`, `+strafeleft2`, `straferight2` and `+use2` actions have been removed. The controls that were bound to these actions are now bound to `+forward`, `+back`, `+strafeleft`, `straferight` and `+use`, respectively.
-* The right thumbstick on gamepads may now be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc. It is bound to the `+use` action.
+* The right thumbstick on gamepads is now bound to the `+use` action and may be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc.
 * A bug has been fixed whereby certain player stats were being reset to `0` at startup.
 * The effects of the `IDDT` cheat are removed from the automap when the player changes levels.
 * The shaking of the screen when the player is injured and the `r_shakescreen` CVAR is `on` has been improved slightly.
