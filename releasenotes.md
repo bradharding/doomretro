@@ -45,6 +45,7 @@
 * The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters.
 * The console is now automatically closed when the `ammo`, `armor` and `health` CVARs are changed.
 * If the `health` CVAR is changed to a smaller value, the effects of the damage to the player will now be shown.
+* If the `ammo`, `armor` and `health` CVARs are changed to a larger value, the screen will now flash.
 * The player will now be resurrected if the `health` CVAR is changed in the console when they are dead.
 * There is now a read-only `version` CVAR that indicates which version of *DOOM Retro* created `doomretro.cfg`.
 * The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.

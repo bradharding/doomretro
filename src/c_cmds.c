@@ -3740,6 +3740,8 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             if (value >= 0 && value != player->ammo[ammotype] && player->playerstate == PST_LIVE
                 && ammotype != am_noammo)
             {
+                if (value > player->ammo[ammotype])
+                    P_AddBonus(player, BONUSADD);
                 player->ammo[ammotype] = MIN(value, player->maxammo[ammotype]);
                 P_CheckAmmo(player);
                 C_HideConsole();
@@ -3759,6 +3761,8 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             if (value >= 0 && value != player->armorpoints)
             {
+                if (value > player->armorpoints)
+                    P_AddBonus(player, BONUSADD);
                 player->armorpoints = MIN(value, max_armor);
                 C_HideConsole();
             }
@@ -3781,6 +3785,8 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 if (!player->mo)
                     return;
 
+                if (value > player->health)
+                    P_AddBonus(player, BONUSADD);
                 value = MIN(value, maxhealth);
                 if (!player->health && value)
                     P_ResurrectPlayer(player, value);
