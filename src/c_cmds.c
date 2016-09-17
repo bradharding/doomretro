@@ -1106,7 +1106,12 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
             }
 
             if (!bound)
-                C_Warning("The %s action can't be bound to %s.", parm2, controls[i].control);
+            {
+                if (strlen(controls[i].control) == 1)
+                    C_Warning("The %s action can't be bound to '%s'.", parm2, controls[i].control);
+                else
+                    C_Warning("The %s action can't be bound to %s.", parm2, controls[i].control);
+            }
         }
     }
 }
