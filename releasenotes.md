@@ -58,6 +58,8 @@
 
 ---
 
+###### Saturday, July 30, 2016
+
 ### DOOM Retro v2.2.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -77,6 +79,8 @@
 
 ---
 
+###### Saturday, July 16, 2016
+
 ### DOOM Retro v2.2.4
 
 * Blood splats and shadows are now drawn at greater distances.
@@ -94,6 +98,8 @@
 * The text caret’s animation now resets each time the console is open, and is hidden when the console closes.
 
 ---
+
+###### Tuesday, July 5, 2016
 
 ### DOOM Retro v2.2.3
 
@@ -117,6 +123,8 @@
 
 ---
 
+###### Saturday, June 18, 2016
+
 ### DOOM Retro v2.2.2
 
 * One IWAD or PWAD may now be specified on the command-line without the need for the `-iwad` or `-file` command-line parameters.
@@ -138,6 +146,8 @@
 
 ---
 
+###### Thursday, June 9, 2016
+
 ### DOOM Retro v2.2.1
 
 * *DOOM Retro* is now back to supporting *Windows XP* again.
@@ -151,6 +161,8 @@
 * The `centered` value for the `vid_windowposition` CVAR can now also be entered as `centred`.
 
 ---
+
+###### Saturday, June 4, 2016
 
 ### DOOM Retro v2.2
 
@@ -197,6 +209,8 @@
 
 ---
 
+###### Tuesday, May 3, 2016
+
 ### DOOM Retro v2.1.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -217,6 +231,8 @@
 
 ---
 
+###### Sunday, April 24, 2016
+
 ### DOOM Retro v2.1.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -236,6 +252,8 @@
 
 ---
 
+###### Saturday, April 9, 2016
+
 ### DOOM Retro v2.1.1
 
 * Pain elementals can now shoot lost souls through two-sided walls that have the `ML_BLOCKMONSTERS` flag, as is possible in *Vanilla DOOM*. (An example of this is at the end of MAP04 in [`requiem.wad`](https://www.doomworld.com/idgames/levels/doom2/megawads/requiem).)
@@ -248,6 +266,8 @@
 * The correct WAD is displayed in the output of the `mapstats` in *DOOM II: Hell On Earth* if `nerve.wad` is also present.
 
 ---
+
+###### Saturday, April 2, 2016
 
 ### DOOM Retro v2.1
 
@@ -294,6 +314,8 @@
 
 ---
 
+###### Thursday, February 18, 2016
+
 ### DOOM Retro v2.0.5
 
 * Bugs have been fixed whereby using `map next` in the console would warp the player to the next episode rather than the next map, and `map ExMy` wouldn’t warp at all.
@@ -303,6 +325,8 @@
 * A bug has been fixed whereby when adjusting the SFX volume in the menu, the music volume was being displayed in the console instead.
 
 ---
+
+###### Wednesday, February 10, 2016
 
 ### DOOM Retro v2.0.4
 
@@ -326,6 +350,8 @@
 
 ---
 
+###### Saturday, January 30, 2016
+
 ### DOOM Retro v2.0.3
 
 * “Pistol start” gameplay is now supported. By using the `pistolstart` CCMD, (or specifying `-pistolstart` on the command-line), the player’s health, armor, weapons and ammo will be reset at the start of each map. Also, a `PISTOLSTART` definition may now be used in `MAPINFO` lumps.
@@ -346,6 +372,8 @@
 
 ---
 
+###### Sunday, January 17, 2016
+
 ### DOOM Retro v2.0.2
 
 * A rare bug has been fixed whereby the player’s view would continuously move or turn in one direction by itself.
@@ -357,6 +385,8 @@
 
 ---
 
+###### Sunday, January 10, 2016
+
 ### DOOM Retro v2.0.1
 
 * A bug has been fixed whereby the screen wouldn’t stop shaking after the player was killed in some instances.
@@ -364,6 +394,8 @@
 * The player’s weapon will no longer be fullbright while the player is injured.
 
 ---
+
+###### Saturday, January 9, 2016
 
 ### DOOM Retro v2.0
 
@@ -455,6 +487,8 @@
 
 ---
 
+###### Wednesday, October 21, 2015
+
 ### DOOM Retro v1.9
 
 * *DOOM Retro* now allows the automap to be shown on a second display. This feature may be enabled using the `am_external` CVAR, and will display a fullscreen 16:10 automap in the first display it finds that is not the main display set by the `vid_display` CVAR. While this external automap is displayed, the <kbd>TAB</kbd> key is disabled, and the `IDDT` cheat can be entered at any time. Also, the automap’s usual controls are unavailable, but the grid and rotate mode may still be toggled in the console using the relevant CVARs.
@@ -521,6 +555,8 @@
 
 ---
 
+###### Saturday, September 5, 2015
+
 ### DOOM Retro v1.8.5
 
 * More than one instance of `-file` may now appear on the command-line.
@@ -534,6 +570,8 @@
 * The chaingunner’s refire frame is now fullbright.
 
 ---
+
+###### Saturday, August 29, 2015
 
 ### DOOM Retro v1.8.4
 
@@ -556,6 +594,8 @@
 
 ---
 
+###### Thursday, August 20, 2015
+
 ### DOOM Retro v1.8.3
 
 * A bug has been fixed whereby some platforms would move silently.
@@ -571,12 +611,16 @@
 
 ---
 
+###### Wednesday, August 12, 2015
+
 ### DOOM Retro v1.8.2
 
 * Although quite often the same folder, *DOOM Retro* will now put savegames in the same folder as the executable, rather than the current working folder.
 * A bug has been fixed whereby sprites would appear through closed doors in some instances.
 
 ---
+
+###### Sunday, August 9, 2015
 
 ### DOOM Retro v1.8.1
 
@@ -597,6 +641,8 @@
 * A crash will no longer occur when a *BOOM* pusher or puller thing is present in a map.
 
 ---
+
+###### Sunday, August 2, 2015
 
 ### DOOM Retro v1.8
 
@@ -715,6 +761,8 @@
 
 ### DOOM Retro v1.7.1
 
+###### Thursday, May 14, 2015
+
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * The stray brown pixel in the super shotgun’s sprite has now been removed from all the frames that it appears.
 * Red blood splats are now slightly darker.
@@ -749,6 +797,8 @@
 * The “fuzzy” edges of Spectre shadows are now paused while the console is open.
 
 ---
+
+###### Monday, April 20, 2015
 
 ### DOOM Retro v1.7
 
@@ -794,6 +844,8 @@
 
 ---
 
+###### Tuesday, February 3, 2015
+
 ### DOOM Retro v1.6.7
 
 * A bug has been fixed whereby *DOOM Retro* would crash at startup when trying to run in a screen resolution that wasn’t widescreen.
@@ -814,6 +866,8 @@
 
 ---
 
+###### Sunday, January 25, 2015
+
 ### DOOM Retro v1.6.6
 
 * The new liquid animation that was introduced in *DOOM Retro v1.6.5* has been improved upon such that the entire textures of the sectors will now also rise and fall, rather than just their edges.
@@ -828,6 +882,8 @@
 * The player’s weapon is now recentered after teleporting.
 
 ---
+
+###### Monday, January 19, 2015
 
 ### DOOM Retro v1.6.5
 
@@ -863,6 +919,8 @@
 
 ---
 
+###### Wednesday, December 10, 2014
+
 ### DOOM Retro v1.6.4
 
 * Several optimizations have been made in an attempt to further improve the overall performance of *DOOM Retro*.
@@ -888,6 +946,8 @@
 * Changes have been made to the messages displayed when adding and clearing marks.
 
 ---
+
+###### Tuesday, November 25, 2014
 
 ### DOOM Retro v1.6.3
 
@@ -930,6 +990,8 @@
 
 ---
 
+###### Saturday, November 8, 2014
+
 ### DOOM Retro v1.6.2
 
 * A bug, inadvertently introduced in v1.6.1, has been fixed whereby the wrong colored keys would appear in the HUD.
@@ -946,6 +1008,8 @@
 * Shifted characters are now allowed when entering savegame descriptions. (In *Vanilla DOOM*, pressing <kbd>SHIFT</kbd> + <kbd>/</kbd>, for example, would still display “/” rather than “?”.)
 
 ---
+
+###### Tuesday, November 4, 2014
 
 ### DOOM Retro v1.6.1
 
@@ -965,6 +1029,8 @@
 * The player’s weapon bob is now consistent with *Vanilla DOOM*.
 
 ---
+
+###### Saturday, October 25, 2014
 
 ### DOOM Retro v1.6
 
@@ -1065,6 +1131,8 @@
 
 ---
 
+###### Friday, August 15, 2014
+
 ### DOOM Retro v1.5.2
 
 * Monster targets are now completely restored upon loading a game, regardless of whether they were targeting the player, or they were infighting.
@@ -1082,6 +1150,8 @@
 * A bug has been fixed whereby *DOOM Retro* would exit with an error if the `IDDQD` cheat was used to resurrect a dead player.
 
 ---
+
+###### Thursday, August 7, 2014
 
 ### DOOM Retro v1.5.1
 
@@ -1109,6 +1179,8 @@
 * The intensity of the vibration effect for XInput-compatible controllers when the player fires a weapon or is injured has been increased. Previously, the effect on the *Logitech F710 controller* could barely be felt.
 
 ---
+
+###### Thursday, July 17, 2014
 
 ### DOOM Retro v1.5
 
@@ -1193,6 +1265,8 @@
 
 ---
 
+###### Tuesday, May 13, 2014
+
 ### DOOM Retro v1.4.3
 
 * The screen size can now be adjusted correctly in the options menu when not in a game.
@@ -1214,6 +1288,8 @@
 * Gamepads now work correctly.
 
 ---
+
+###### Tuesday, May 6, 2014
 
 ### DOOM Retro v1.4.2
 
@@ -1238,6 +1314,8 @@
 
 ---
 
+###### Tuesday, April 29, 2014
+
 ### DOOM Retro v1.4.1
 
 * A bug has been fixed whereby the sound would become disabled if adjusting the volume through the menu or pausing and then unpausing the game.
@@ -1248,6 +1326,8 @@
 * If music can’t be loaded for a particular map, that map will still load without music rather than the game exiting with an error.
 
 ---
+
+###### Friday, April 25, 2014
 
 ### DOOM Retro v1.4
 
@@ -1302,6 +1382,8 @@
 * There is now a chance that the super shotgun may gib a monster when fired at point blank range. (This idea has been taken from Fabian Greffrath’s *Crispy DOOM*.)
 
 ---
+
+###### Tuesday, April 1, 2014
 
 ### DOOM Retro v1.3
 
@@ -1361,6 +1443,8 @@
 
 ---
 
+###### Saturday, March 1, 2014
+
 ### DOOM Retro v1.2.1
 
 * *DOOM Retro* is now compiled using *Microsoft Visual Studio Express 2013 for Windows Desktop*.
@@ -1411,9 +1495,11 @@
 
 ---
 
+###### Friday, January 24, 2014
+
 ### DOOM Retro v1.1
 
-* The source code is no longer distributed with *DOOM Retro* itself, and has instead been made separately available in a *GitHub* repository. Please visit this site to follow the latest daily developments, and report any issues that you may encounter.
+* The source code is no longer distributed with *DOOM Retro* itself, and has instead been made separately available in a [*GitHub* repository](http://github.com/bradharding/doomretro). Please visit this site to follow the latest daily developments, and report any [issues](http://github.com/bradharding/doomretro/issues) that you may encounter.
 * The correct and complete version information is now displayed when right-clicking on `doomretro.exe` and selecting “Properties”.
 * The `–file` command-line parameter may no longer be used with *DOOM Shareware’s* WAD file, `doom1.wad`.
 * If a `default.cfg` file is present in the game folder, it will now be used in preference to the `default.cfg` saved in `AppData\Local\DOOM RETRO` for the current *Windows* user.
