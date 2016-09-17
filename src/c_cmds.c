@@ -1035,8 +1035,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                 switch (controls[i].type)
                 {
                     case keyboardcontrol:
-                        if (actions[action].keyboard1
-                            && *(int *)actions[action].keyboard1 != controls[i].value)
+                        if (actions[action].keyboard1)
                         {
                             if (actions[action].keyboard2)
                             {
@@ -1056,8 +1055,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                         break;
 
                     case mousecontrol:
-                        if (actions[action].mouse1
-                            && *(int *)actions[action].mouse1 != controls[i].value)
+                        if (actions[action].mouse1)
                         {
                             if (actions[action].mouse2)
                             {
@@ -1077,8 +1075,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
                         break;
 
                     case gamepadcontrol:
-                        if (actions[action].gamepad1
-                            && *(int *)actions[action].gamepad1 != controls[i].value)
+                        if (actions[action].gamepad1)
                         {
                             if (actions[action].gamepad2)
                             {
