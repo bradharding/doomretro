@@ -629,7 +629,7 @@ static void C_DrawBackground(int height)
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int boldcolor,
     byte *tinttab, int tabs[8], dboolean formatting)
 {
-    dboolean            bold = false;
+    int                 bold = 0;
     dboolean            italics = false;
     size_t              i;
     int                 tab = -1;
@@ -657,28 +657,25 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     for (i = 0; i < len; ++i)
     {
         unsigned char   letter = text[i];
-        unsigned char   nextletter = text[i + 1];
-        int             c = letter - CONSOLEFONTSTART;
 
-        if (letter == '<' && i < len - 2 && text[i + 1] == 'b' && text[i + 2] == '>' && formatting)
+        if (letter == '<' && text[i + 1] == 'b' && text[i + 2] == '>' && formatting)
         {
-            bold = true;
+            bold = (italics ? 2 : 1);
             i += 2;
         }
-        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'b'
-            && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && text[i + 1] == '/' && text[i + 2] == 'b' && text[i + 3] == '>'
+            && formatting)
         {
-            bold = false;
+            bold = 0;
             i += 3;
         }
-        else if (letter == '<' && i < len - 2 && text[i + 1] == 'i' && text[i + 2] == '>'
-            && formatting)
+        else if (letter == '<' && text[i + 1] == 'i' && text[i + 2] == '>' && formatting)
         {
             italics = true;
             i += 2;
         }
-        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && text[i + 2] == 'i'
-            && text[i + 3] == '>' && formatting)
+        else if (letter == '<' && text[i + 1] == '/' && text[i + 2] == 'i' && text[i + 3] == '>'
+            && formatting)
         {
             italics = false;
             i += 3;
@@ -686,7 +683,9 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
         }
         else
         {
-            patch_t     *patch = NULL;
+            patch_t             *patch = NULL;
+            unsigned char       nextletter = text[i + 1];
+            int                 c = letter - CONSOLEFONTSTART;
 
             if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
@@ -717,8 +716,9 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (patch)
             {
-                V_DrawConsolePatch(x, y, patch, (bold ? (italics ? color1 : boldcolor) : (italics ?
-                    consoleitalicscolor : color1)), color2, italics, tinttab);
+                
+                V_DrawConsolePatch(x, y, patch, (bold == 1 ? boldcolor : (bold == 2 ? color1 :
+                    (italics ? consoleitalicscolor : color1))), color2, italics, tinttab);
                 x += SHORT(patch->width);
             }
         }

@@ -2372,7 +2372,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         commify(numlines), convertsize(sizelines));
 
     C_TabbedOutput(tabs, "Line specials\t<b>%s-compatible</b>",
-        (boomlinespecials ? "<i><b>BOOM</b></i>" : "Vanilla"));
+        (boomlinespecials ? "<i>BOOM</i>" : "Vanilla"));
 
     C_TabbedOutput(tabs, "Sides\t<b>%s</b>\t<b>%s</b>",
         commify(numsides), convertsize(sizesides));
@@ -2657,7 +2657,7 @@ static void C_PlayerStats_Game(void)
     int         time2 = stat_time / TICRATE;
     player_t    *player = &players[0];
 
-    C_TabbedOutput(tabs, "\t<b><i>Current Map</i></b>\t<b><i>Total</i></b>");
+    C_TabbedOutput(tabs, "\t<i><b>Current Map</b></i>\t<i><b>Total</b></i>");
 
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
@@ -2856,7 +2856,7 @@ static void C_PlayerStats_NoGame(void)
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
     int time2 = stat_time / TICRATE;
 
-    C_TabbedOutput(tabs, "\t<b><i>Total</i></b>");
+    C_TabbedOutput(tabs, "\t<i><b>Total</b></i>");
 
     C_TabbedOutput(tabs, "Maps completed\t<b>%s</b>", commify(stat_mapscompleted));
 

@@ -1319,7 +1319,7 @@ static void SetVideoMode(dboolean output)
             if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
             {
                 C_Output("The screen is rendered using hardware acceleration with the "
-                    "<b><i>Direct3D 9.0</b></i> API.");
+                    "<i><b>Direct3D 9.0</b></i> API.");
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
                 {
                     vid_scaleapi = vid_scaleapi_direct3d;
@@ -1333,7 +1333,7 @@ static void SetVideoMode(dboolean output)
                 SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
                 SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
                 C_Output("The screen is rendered using hardware acceleration with the "
-                    "<b><i>OpenGL %i.%i</b></i> API.", major, minor);
+                    "<i><b>OpenGL %i.%i</b></i> API.", major, minor);
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
                     vid_scaleapi = vid_scaleapi_opengl;
