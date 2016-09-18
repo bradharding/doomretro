@@ -1191,32 +1191,34 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                 R_DrawSuperShotgunColumn);
         else if (r_translucency)
         {
-            void (*colfuncs[])(void) =
-            {
-                /* n/a      */ NULL,               NULL,
-                /* SPR_SHTG */ basecolfunc,        basecolfunc,
-                /* SPR_PUNG */ basecolfunc,        basecolfunc,
-                /* SPR_PISG */ basecolfunc,        basecolfunc,
-                /* SPR_PISF */ tlcolfunc,          tl50colfunc,
-                /* SPR_SHTF */ tlcolfunc,          tl50colfunc,
-                /* SPR_SHT2 */ tlredwhitecolfunc1, tlredwhite50colfunc,
-                /* SPR_CHGG */ basecolfunc,        basecolfunc,
-                /* SPR_CHGF */ tlredwhitecolfunc2, tlredwhite50colfunc,
-                /* SPR_MISG */ basecolfunc,        basecolfunc,
-                /* SPR_MISF */ tlredwhitecolfunc2, tlredwhite50colfunc,
-                /* SPR_SAWG */ basecolfunc,        basecolfunc,
-                /* SPR_PLSG */ basecolfunc,        basecolfunc,
-                /* SPR_PLSF */ tlcolfunc,          tl50colfunc,
-                /* SPR_BFGG */ basecolfunc,        basecolfunc,
-                /* SPR_BFGF */ tlcolfunc,          tl50colfunc
-            };
-
             if (spr == SPR_SHT2)
                 vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) ?
                     tlredwhitecolfunc1 : basecolfunc);
             else
-                vis->colfunc = (muzzleflash && spr <= SPR_BFGF && (!dehacked || state->translucent) ?
-                    colfuncs[spr * 2 + !!fixedcolormap] : basecolfunc);
+            {
+                void (*colfuncs[])(void) =
+                {
+                    /* n/a      */ NULL,               NULL,
+                    /* SPR_SHTG */ basecolfunc,        basecolfunc,
+                    /* SPR_PUNG */ basecolfunc,        basecolfunc,
+                    /* SPR_PISG */ basecolfunc,        basecolfunc,
+                    /* SPR_PISF */ tlcolfunc,          tl50colfunc,
+                    /* SPR_SHTF */ tlcolfunc,          tl50colfunc,
+                    /* SPR_SHT2 */ tlredwhitecolfunc1, tlredwhite50colfunc,
+                    /* SPR_CHGG */ basecolfunc,        basecolfunc,
+                    /* SPR_CHGF */ tlredwhitecolfunc2, tlredwhite50colfunc,
+                    /* SPR_MISG */ basecolfunc,        basecolfunc,
+                    /* SPR_MISF */ tlredwhitecolfunc2, tlredwhite50colfunc,
+                    /* SPR_SAWG */ basecolfunc,        basecolfunc,
+                    /* SPR_PLSG */ basecolfunc,        basecolfunc,
+                    /* SPR_PLSF */ tlcolfunc,          tl50colfunc,
+                    /* SPR_BFGG */ basecolfunc,        basecolfunc,
+                    /* SPR_BFGF */ tlcolfunc,          tl50colfunc
+                };
+
+                vis->colfunc = (muzzleflash && spr <= SPR_BFGF && (!dehacked
+                    || state->translucent) ? colfuncs[spr * 2 + !!fixedcolormap] : basecolfunc);
+            }
         }
         else
             vis->colfunc = basecolfunc;
