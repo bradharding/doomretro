@@ -1127,11 +1127,13 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mobjinfo_t  *info = &mobjinfo[type];
     mobj_t      *mo;
     int         gibhealth;
+    player_t    *player = &players[0];
 
-    if (target->player && (players[0].cheats & CF_BUDDHA))
+    if (target->player && (player->cheats & CF_BUDDHA))
     {
-        players[0].health = 1;
-        players[0].mo->health = 1;
+        player->health = 1;
+        player->mo->health = 1;
+        S_StartSound(player->mo, player->mo->info->painsound);
         return;
     }
 
@@ -1184,8 +1186,8 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     else if (target->flags & MF_COUNTKILL)
     {
         // count all monster deaths, even those caused by other monsters
-        players[0].killcount++;
-        players[0].mobjcount[type]++;
+        player->killcount++;
+        player->mobjcount[type]++;
         stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
         P_UpdateKillStat(type, 1);
     }
@@ -1203,7 +1205,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (automapactive)
             AM_Stop();          // don't die in auto map, switch view prior to dying
 
-        players[0].deaths++;
+        player->deaths++;
         stat_deaths = SafeAdd(stat_deaths, 1);
     }
     else
