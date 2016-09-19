@@ -679,7 +679,7 @@
 * The input in the console will now be restored after viewing the input history using the <kbd>&uarr;</kbd> key.
 * The `r_playersprites` CVAR has now been implemented allowing the player’s weapon to be hidden.
 * Several changes have been made to the descriptions of CCMDs and CVARs when using the `cmdlist` and `cvarlist` CCMDs in the console.
-* A new `mapstats` CCMD has been implemented that will show the following information about the current map: map title, map author, node format, if the blockmap was recreated, total vertices, total sides, total lines, if *Boom*-compatible line specials are present, total sectors, total things, map size and music title.
+* A new `mapstats` CCMD has been implemented that will show the following information about the current map: map title, map author, node format, if the blockmap was recreated, total vertices, total sides, total lines, if *BOOM*-compatible line specials are present, total sectors, total things, map size and music title.
 * The `r_maxbloodsplats` CVAR has been renamed to `r_bloodsplats_max`. Also, when it is set to `0`, it will now be shown as `0` rather than `off`.
 * The `totalbloodsplats` CVAR has been renamed to `r_bloodsplats_total`.
 * The `r_mirrorweapons` CVAR has been renamed to `r_mirroredweapons`.
@@ -697,7 +697,7 @@
 * Improvements have been made to the consistency by which blood splats are spawned when a monster is shot, and when a corpse slides along the floor.
 * A feature is now available that randomizes the pitch of monster sounds. It is disabled by default, and can be enabled using the `s_randompitch` CVAR.
 * If a PWAD is loaded, the window caption will now be changed to its filename while no map is loaded.
-* A bug has now been fixed whereby the operation of the mousewheel to select the previous/next weapon was reversed, and would no longer work at all if the user attempted to change it using the `bind` CCMD.
+* A bug has now been fixed whereby the operation of the mouse wheel to select the previous/next weapon was reversed, and would no longer work at all if the user attempted to change it using the `bind` CCMD.
 * The console now opens and closes slightly faster.
 * The background of the console now has a slight diagonal pattern, and a drop shadow.
 * The scrollbar track and dividers in the console are now translucent.
@@ -1045,7 +1045,7 @@
 * Since they all cast shadows now, the Lost Soul, Cacodemon and Pain Elemental are higher off the ground in *DOOM II’s* cast sequence.
 * Deaths are now randomly flipped in the cast sequence.
 * It is now possible to warp to episodes beyond episode 4 using the `-warp` command-line parameter.
-* *DOOM Retro* now supports [*DeHackEd*](http://doomwiki.org/wiki/Dehacked) files and lumps, including those with BOOM extensions. *DeHackEd* files may be opened by using the `-deh` or `-bex` command-line parameters. `DEHACKED` lumps will automatically be parsed unless `-nodeh` is specified on the command-line.
+* *DOOM Retro* now supports [*DeHackEd*](http://doomwiki.org/wiki/Dehacked) files and lumps, including those with *BOOM* extensions. *DeHackEd* files may be opened by using the `-deh` or `-bex` command-line parameters. `DEHACKED` lumps will automatically be parsed unless `-nodeh` is specified on the command-line.
 * If a map from a PWAD is loaded, and no `DEHACKED` lump is present in the PWAD specifying its name, then the PWAD’s name will also be included in the automap.
 * The intermission screen is now displayed at the end of `ExM8`.
 * The amount of kills is now correctly capped at 100% on the intermission screen in all instances.
@@ -1217,7 +1217,7 @@
 * A bug has been fixed whereby *DOOM Retro* may have crashed silently after selecting a WAD in the WAD launcher.
 * The command-line parameter `-expansion` may now be used. Use `-expansion 1` to autostart *DOOM II: Hell On Earth*, and use `-expansion 2` to autostart *DOOM II: No Rest For The Living* (if `nerve.wad` is specified using `-file` or `-pwad`).
 * The value that can be specified by the `-warp` command-line parameter can now be of the form `ExMy` or `MAPxy`.
-* If a [*Freedoom*](http://freedoom.github.io/) IWAD is loaded in *DOOM Retro*, a message is displayed explaining that “FREEDOOM requires a BOOM-compatible source port, and is therefore unable to be opened”. This message won’t be displayed if the IWAD is loaded with an additional PWAD, so *FREEDOOM* can be used as a resource for the maps present in that PWAD.
+* If a [*Freedoom*](http://freedoom.github.io/) IWAD is loaded in *DOOM Retro*, a message is displayed explaining that “FREEDOOM requires a BOOM-compatible source port, and is therefore unable to be opened”. This message won’t be displayed if the IWAD is loaded with an additional PWAD, so *Freedoom* can be used as a resource for the maps present in that PWAD.
 * Further improvements have been made when using custom graphics in PWADs, particularly if [*Freedoom*](http://freedoom.github.io/) is being used.
 * A bug from *Vanilla DOOM* has been fixed whereby corrupt texture names would be displayed in the error if a texture couldn’t be found. See the [*DOOM Wiki*](http://doomwiki.org/wiki/Absurd_texture_name_in_error_message) for more information.
 * A bug has been fixed whereby pressing the <kbd>ENTER</kbd> key or the left mouse button when in the help screen wouldn’t restore widescreen mode.

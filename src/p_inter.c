@@ -1140,7 +1140,11 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
     if (type == MT_SKULL)
-        target->momx = target->momy = target->momz = 0;
+    {
+        target->momx = 0;
+        target->momy = 0;
+        target->momz = 0;
+    }
     else
         target->flags &= ~MF_NOGRAVITY;
 

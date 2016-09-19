@@ -678,7 +678,7 @@ consolecmd_t consolecmds[] =
     CVAR_FLOAT(r_gamma, "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE,
         "The gamma correction level (<b>off</b>, or <b>0.50</b> to <b>2.0</b>)."),
     CVAR_BOOL(r_homindicator, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles the flashing Hall of Mirrors indicator."),
+        "Toggles the flashing \"Hall of Mirrors\" indicator."),
     CVAR_BOOL(r_hud, "", bool_cvars_func1, r_hud_cvar_func2, BOOLALIAS,
         "Toggles the heads-up display when in widescreen mode."),
     CVAR_BOOL(r_liquid_bob, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
