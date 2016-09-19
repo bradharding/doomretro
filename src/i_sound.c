@@ -638,12 +638,5 @@ dboolean I_InitSound(void)
 
     sound_initialized = true;
 
-    {
-        const char      *driver = SDL_GetCurrentAudioDriver();
-
-        if (driver)
-            C_Output("Sound was initialized using the \"%s\" driver.", driver);
-    }
-
     return true;
 }
