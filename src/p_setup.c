@@ -2193,7 +2193,8 @@ void P_SetupLevel(int ep, int map)
     P_CalcSegsLength();
 
     r_bloodsplats_total = 0;
-    memset(bloodsplats, 0, sizeof(mobj_t *) * r_bloodsplats_max);
+    P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
+        P_NullBloodSplatSpawner : P_SpawnBloodSplat);
 
     pathpointnum = 0;
     pathpointnum_max = 0;

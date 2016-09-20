@@ -1909,8 +1909,6 @@ static dboolean crushchange;
 static dboolean nofit;
 static dboolean isliquidsector;
 
-void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
-
 //
 // PIT_ChangeSector
 //

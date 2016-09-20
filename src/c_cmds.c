@@ -3830,8 +3830,6 @@ static dboolean r_blood_cvar_func1(char *cmd, char *parm1, char *parm2, char *pa
     return (!*parm1 || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
 }
 
-void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
-
 static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (*parm1)
@@ -3841,8 +3839,8 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         if (value >= 0 && r_blood != value)
         {
             r_blood = value;
-            P_BloodSplatSpawner = (r_blood == r_blood_none ? P_NullBloodSplatSpawner :
-                P_SpawnBloodSplat);
+            P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
+                P_NullBloodSplatSpawner : P_SpawnBloodSplat);
             M_SaveCVARs();
         }
     }

@@ -54,9 +54,7 @@ void P_SpawnShadow(mobj_t *actor);
 
 int                     r_blood = r_blood_default;
 int                     r_bloodsplats_max = r_bloodsplats_max_default;
-mobj_t                  *bloodsplats[r_bloodsplats_max_max];
 int                     r_bloodsplats_total;
-void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
 dboolean                r_corpses_color = r_corpses_color_default;
 dboolean                r_corpses_mirrored = r_corpses_mirrored_default;
@@ -1294,17 +1292,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         newsplat->subsector = subsec;
         P_SetBloodSplatPosition(newsplat);
 
-        if (r_bloodsplats_total >= r_bloodsplats_max)
-        {
-            mobj_t      *oldsplat = bloodsplats[r_bloodsplats_total % r_bloodsplats_max];
-
-            if (oldsplat)
-                P_UnsetThingPosition(oldsplat);
-
-            bloodsplats[r_bloodsplats_total % r_bloodsplats_max] = newsplat;
-        }
-        else
-            bloodsplats[r_bloodsplats_total++ % r_bloodsplats_max] = newsplat;
+        if (++r_bloodsplats_total >= r_bloodsplats_max)
+            P_BloodSplatSpawner = P_NullBloodSplatSpawner;
 
         if (target)
             target->bloodsplats = MAX(0, target->bloodsplats - 1);

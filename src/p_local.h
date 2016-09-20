@@ -115,8 +115,9 @@ void P_ResurrectPlayer(player_t *player, int health);
 #define CARDNOTFOUNDYET         -1
 #define CARDNOTINMAP            0
 
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
+
 extern int                      r_blood;
-extern mobj_t                   *bloodsplats[r_bloodsplats_max_max];
 extern int                      r_bloodsplats_total;
 extern int                      r_bloodsplats_max;
 
