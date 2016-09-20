@@ -395,6 +395,7 @@ static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static void playername_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
 static void r_blood_cvar_func2(char *, char *, char *, char *);
+static void r_bloodsplats_max_cvar_func2(char *, char *, char *, char *);
 static dboolean r_detail_cvar_func1(char *, char *, char *, char *);
 static void r_detail_cvar_func2(char *, char *, char *, char *);
 static dboolean r_gamma_cvar_func1(char *, char *, char *, char *);
@@ -647,7 +648,7 @@ consolecmd_t consolecmds[] =
         "The intensity of the screen's red haze when the player has the\nberserk power-up and their fists selected (<b>0</b> to <b>8</b>)."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODALIAS,
         "The colors of the blood of the player and monsters (<b>all</b>, <b>none</b> or\n<b>red</b>)."),
-    CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
+    CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, r_bloodsplats_max_cvar_func2, CF_NONE, NOALIAS,
         "The maximum number of blood splats allowed in a map (<b>0</b> to\n<b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOALIAS,
         "The total number of blood splats in the current map."),
@@ -3855,6 +3856,16 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 C_LookupAliasFromValue(r_blood, BLOODALIAS),
                 C_LookupAliasFromValue(r_blood_default, BLOODALIAS));
     }
+}
+
+static void r_bloodsplats_max_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int r_bloodsplats_max_old = r_bloodsplats_max;
+
+    int_cvars_func2(cmd, parm1, "", "");
+    if (r_bloodsplats_max != r_bloodsplats_max_old)
+        P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
+            P_NullBloodSplatSpawner : P_SpawnBloodSplat);
 }
 
 //
