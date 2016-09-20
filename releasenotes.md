@@ -23,11 +23,11 @@
 * Lost Souls spawned by Pain Elementals now start in their attack frame.
 * The `playerstats` CCMD now displays 8 new stats:
   * the number of maps completed,
-  * the distance traveled,
+  * the distance traveled (where 1 foot equals 16 map units),
   * the amount of ammo picked up (broken down by bullets, cells, rockets and shells),
   * the amount of armor picked up, and
   * the amount of health picked up.
-* The units used to display the distance traveled in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
+* The units used to display the “Distance traveled” in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
 * The effects of changing the `r_translucency` CVAR will now be immediate in the HUD.
 * When the `r_translucency` CVAR is `off`, the console and the alternate HUD will no longer be translucent.
 * The alternate HUD is now enabled by default.
