@@ -920,7 +920,8 @@ void I_CreateExternalAutoMap(dboolean output)
     else if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
-    SDL_FillRect(mapbuffer, NULL, 0);
+    if (SDL_FillRect(mapbuffer, NULL, 0) < 0)
+        I_SDLError("SDL_FillRect");
 
     if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT)))
@@ -1415,7 +1416,8 @@ static void SetVideoMode(dboolean output)
     else if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
-    SDL_FillRect(buffer, NULL, 0);
+    if (SDL_FillRect(buffer, NULL, 0) < 0)
+        I_SDLError("SDL_FillRect");
 
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
@@ -1595,8 +1597,8 @@ void I_InitGraphics(void)
     SDL_VERSION(&compiled);
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error("The wrong version of sdl2.dll was found. "PACKAGE_NAME" requires v%i.%i.%i, "
-            "not v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch, linked.major,
+        I_Error("The wrong version of sdl2.dll was found. "PACKAGE_NAME" requires v%i.%i.%i, not "
+            "v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch, linked.major,
             linked.minor, linked.patch);
 
     if (linked.patch != compiled.patch)

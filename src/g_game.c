@@ -107,11 +107,9 @@ dboolean        gp_vibrate = gp_vibrate_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
-#define SLOWFORWARDMOVE 0x11
 #define FORWARDMOVE0    0x19
 #define FORWARDMOVE1    0x32
 
-#define SLOWSIDEMOVE    0x0F
 #define SIDEMOVE0       0x18
 #define SIDEMOVE1       0x28
 
