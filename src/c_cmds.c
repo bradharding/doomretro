@@ -483,45 +483,45 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLALIAS,
         "Toggles the player always running when moving."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of lines with a change in ceiling height in the automap\nwhen the player has the computer area map power-up."),
+        "The color of lines with a change in ceiling height in the automap\nwhen the player has the computer area map power-up (<b>0</b> to\n<b>255</b>)."),
     CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of lines with a change in floor height in the automap\nwhen the player has the computer area map power-up."),
+        "The color of lines with a change in floor height in the automap\nwhen the player has the computer area map power-up (<b>0</b> to\n<b>255</b>)."),
     CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of solid walls in the automap when the player has the\ncomputer area map power-up."),
+        "The color of solid walls in the automap when the player has the\ncomputer area map power-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_backcolor, am_backcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of the automap's background."),
+        "The color of the automap's background (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_cdwallcolor, am_cdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of lines with a change in ceiling height in the automap."),
+        "The color of lines with a change in ceiling height in the automap\n(<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_crosshaircolor, am_crosshaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of the crosshair in the automap."),
+        "The color of the crosshair in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, BOOLALIAS,
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of lines with a change in floor height in the automap."),
+        "The color of lines with a change in floor height in the automap\n(<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_followmode, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles the grid in the automap."),
     CVAR_INT(am_gridcolor, am_gridcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of the grid in the automap."),
+        "The color of the grid in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_markcolor, am_markcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of marks in the automap."),
+        "The color of marks in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2, BOOLALIAS,
         "Toggles the player's path in the automap."),
     CVAR_INT(am_pathcolor, am_pathcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of the player's path in the automap."),
+        "The color of the player's path in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_playercolor, am_playercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of the player in the automap."),
+        "The color of the player in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_rotatemode, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles rotate mode in the automap."),
     CVAR_INT(am_teleportercolor, am_teleportercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of teleporters in the automap."),
+        "The color of teleporters in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_thingcolor, am_thingcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of things in the automap."),
+        "The color of things in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_tswallcolor, am_tswallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of lines with no change in height in the automap."),
+        "The color of lines with no change in height in the automap (<b>0</b> to\n<b>255</b>)."),
     CVAR_INT(am_wallcolor, am_wallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
-        "The color of solid walls in the automap."),
+        "The color of solid walls in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(ammo, "", game_func1, player_cvars_func2, CF_NONE, NOALIAS,
         "The player's ammo."),
     CVAR_INT(armor, armour, game_func1, player_cvars_func2, CF_PERCENT, NOALIAS,
@@ -555,7 +555,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
         "The currently selected <i><b>DOOM II</b></i> expansion in the menu."),
     CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
-        "The color behind the player's face in the status bar."),
+        "The color behind the player's face in the status bar (<b>0</b> to <b>255</b>)."),
     CMD(fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
@@ -1327,6 +1327,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             char        description1[255];
             char        description2[255] = "";
+            char        description3[255] = "";
             char        *p;
 
             M_StringCopy(description1, consolecmds[i].description, 255);
@@ -1336,6 +1337,13 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 *p = '\0';
                 ++p;
                 M_StringCopy(description2, p, 255);
+            }
+
+            if ((p = strchr(description2, '\n')))
+            {
+                *p = '\0';
+                ++p;
+                M_StringCopy(description3, p, 255);
             }
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
@@ -1384,6 +1392,9 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             if (*description2)
                 C_TabbedOutput(tabs, "\t\t%s", description2);
+
+            if (*description3)
+                C_TabbedOutput(tabs, "\t\t%s", description3);
         }
         ++i;
     }
