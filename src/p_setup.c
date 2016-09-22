@@ -1016,7 +1016,7 @@ static void P_LoadZNodes(int lump)
 
     numsubsectors = numSubs;
     if (numsubsectors <= 0)
-        I_Error("There are no subsectors in this map.");
+        I_Error("This map has no subsectors.");
 
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
 

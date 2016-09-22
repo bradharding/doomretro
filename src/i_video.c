@@ -65,7 +65,7 @@
 #define MAXUPSCALEWIDTH         (1600 / ORIGINALWIDTH)
 #define MAXUPSCALEHEIGHT        (1200 / ORIGINALHEIGHT)
 
-#define I_SDLError(func)        I_Error(func"() failed on line %i of %s: \"%s\"", \
+#define I_SDLError(func)        I_Error(func"() failed on line %i of %s: \"%s\".", \
                                     (__LINE__ - 1), leafname(__FILE__), SDL_GetError())
 
 // CVARs

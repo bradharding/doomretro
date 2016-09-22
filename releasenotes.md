@@ -20,16 +20,16 @@
 * Monster spawners are now disabled when using `kill all` in the console.
 * All automap controls (such as pressing the <kbd>G</kbd> key to toggle the grid) may now be used when there’s an external automap, provided they don’t conflict with other controls.
 * A bug has been fixed whereby certain items wouldn’t teleport in some rare instances. (An example of this is one of the yellow skull keys in MAP23 of [*Going Down*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/gd).)
-* Lost Souls spawned by Pain Elementals now start in their attack frame.
+* Lost Souls spawned by Pain Elementals now move towards their target in their attack frame.
 * The `playerstats` CCMD now displays 8 new stats:
   * the number of maps completed,
   * the distance traveled (where 1 foot equals 16 map units),
   * the amount of ammo picked up (broken down by bullets, cells, rockets and shells),
   * the amount of armor picked up, and
   * the amount of health picked up.
-* The units used to display the “Distance traveled” in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
+* The units used to display the “Distance traveled” stat in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
 * The effects of changing the `r_translucency` CVAR will now be immediate in the HUD.
-* When the `r_translucency` CVAR is `off`, the console and the alternate HUD will no longer be translucent.
+* When the `r_translucency` CVAR is `off`, the console and the alternate HUD will now no longer be translucent.
 * The alternate HUD is now enabled by default.
 * “DOOM Retro” now appears at the end of the window’s caption.
 * A texture has been corrected in MAP13 of `doom2.wad`.
@@ -53,7 +53,7 @@
 * The `+forward2`, `+back2`, `+strafeleft2`, `straferight2` and `+use2` actions have been removed. The controls that were bound to these actions are now bound to `+forward`, `+back`, `+strafeleft`, `straferight` and `+use`, respectively.
 * The right thumbstick on gamepads is now bound to the `+use` action and may be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc.
 * A bug has been fixed whereby certain player stats were being reset to `0` at startup.
-* The effects of the `IDDT` cheat are removed from the automap when the player changes levels.
+* The effects of the `IDDT` cheat are now removed from the automap when the player changes levels.
 * The shaking of the screen when the player is injured and the `r_shakescreen` CVAR is `on` has been improved slightly.
 * A bug has been fixed whereby firing the chaingun would increase the “Shots Fired” stat by 1, but increase the “Shots Hit” stat by 2 if the shot successfully hit a monster.
 
