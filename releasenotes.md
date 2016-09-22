@@ -55,6 +55,7 @@
 * A bug has been fixed whereby certain player stats were being reset to `0` at startup.
 * The effects of the `IDDT` cheat are removed from the automap when the player changes levels.
 * The shaking of the screen when the player is injured and the `r_shakescreen` CVAR is `on` has been improved slightly.
+* A bug has been fixed whereby firing the chaingun would increase the “Shots Fired” stat by 1, but increase the “Shots Hit” stat by 2 if the shot successfully hit a monster.
 
 ---
 
