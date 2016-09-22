@@ -2155,7 +2155,9 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_SpawnSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     S_StartSound(actor, sfx_boscub);
-    A_SpawnFly(actor, NULL, NULL);
+
+    if (actor->type == MT_SPAWNSHOT)
+        A_SpawnFly(actor, NULL, NULL);
 }
 
 void A_PlayerScream(mobj_t *actor, player_t *player, pspdef_t *psp)
