@@ -57,6 +57,7 @@
 * The shaking of the screen when the player is injured and the `r_shakescreen` CVAR is `on` has been improved slightly.
 * A bug has been fixed whereby firing the chaingun would increase the “Shots Fired” stat by 1, but would increase the “Shots Hit” stat by 2 if the shot successfully hit a monster.
 * If the player has the invulnerability power-up when using `kill player` in the console, the inverted screen effect will now be removed.
+* The map title in the automap is now positioned better when using a taller character set from a PWAD (such as [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens)).
 
 ---
 
