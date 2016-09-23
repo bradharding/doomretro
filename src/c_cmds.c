@@ -1708,6 +1708,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
         player->health = 0;
         player->attacker = NULL;
+        player->cheats &= ~CF_BUDDHA;
         P_KillMobj(player->mo, player->mo);
         M_snprintf(buffer, sizeof(buffer), "%s killed %s", playername,
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));

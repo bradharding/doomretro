@@ -1129,14 +1129,6 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     int         gibhealth;
     player_t    *player = &players[0];
 
-    if (target->player && (player->cheats & CF_BUDDHA))
-    {
-        player->health = 1;
-        player->mo->health = 1;
-        S_StartSound(player->mo, player->mo->info->painsound);
-        return;
-    }
-
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
     if (type == MT_SKULL)
@@ -1412,7 +1404,26 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
             tplayer->armorpoints -= saved;
             damage -= saved;
         }
-        tplayer->health = MAX(0, tplayer->health - damage);     // mirror mobj health here for Dave
+
+        tplayer->health -= damage;
+        target->health -= damage;
+        tplayer->mo->health -= damage;
+
+        if (tplayer->health <= 0)
+        {
+            if (tplayer->cheats & CF_BUDDHA)
+            {
+                tplayer->health = 1;
+                target->health = 1;
+                tplayer->mo->health = 1;
+            }
+            else
+            {
+                tplayer->health = 0;
+                target->health = 0;
+                tplayer->mo->health = 0;
+            }
+        }
 
         if (!(tplayer->cheats & CF_BUDDHA) || tplayer->health >= 1)
         {
@@ -1435,26 +1446,28 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
             damagevibrationtics += BETWEEN(12, damage, 100);
         }
     }
-
-    // do the damage
-    target->health -= damage;
-    if (target->health <= 0)
+    else
     {
-        int gibhealth = info->gibhealth;
+        // do the damage
+        target->health -= damage;
+        if (target->health <= 0)
+        {
+            int gibhealth = info->gibhealth;
 
-        if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
-            target->colfunc = tlredcolfunc;
-        else if (type == MT_BRUISER || type == MT_KNIGHT)
-            target->colfunc = redtogreencolfunc;
+            if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+                target->colfunc = tlredcolfunc;
+            else if (type == MT_BRUISER || type == MT_KNIGHT)
+                target->colfunc = redtogreencolfunc;
 
-        // [crispy] the lethal pellet of a point-blank SSG blast
-        // gets an extra damage boost for the occasional gib chance
-        if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
-            && P_CheckMeleeRange(target) && damage >= 10 && gibhealth < 0)
-            target->health = gibhealth - 1;
+            // [crispy] the lethal pellet of a point-blank SSG blast
+            // gets an extra damage boost for the occasional gib chance
+            if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
+                && P_CheckMeleeRange(target) && damage >= 10 && gibhealth < 0)
+                target->health = gibhealth - 1;
 
-        P_KillMobj(source, target);
-        return;
+            P_KillMobj(source, target);
+            return;
+        }
     }
 
     if (M_Random() < info->painchance && !(flags & MF_SKULLFLY))
