@@ -559,7 +559,7 @@ consolecmd_t consolecmds[] =
     CMD(fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
-        "The amount of time since <i><b>"PACKAGE_NAME"</b></i> started."),
+        "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
         "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, <b>all</b> or certain <i>items</i> to\nthe player."),
     CMD(god, "", god_cmd_func1, god_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",

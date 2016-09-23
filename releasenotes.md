@@ -18,7 +18,7 @@
 * The values of CVARs in `doomretro.cfg` now have thousands delimiters.
 * Thousands delimiters may now be used when entering values of CVARs in the console.
 * Monster spawners are now disabled when using `kill all` in the console.
-* All automap controls (such as pressing the <kbd>G</kbd> key to toggle the grid) may now be used when there’s an external automap, provided they don’t conflict with other controls.
+* All automap controls (pressing the <kbd>G</kbd> key to toggle the grid for instance) may now be used when there’s an external automap, provided they don’t conflict with any other controls.
 * A bug has been fixed whereby certain items wouldn’t teleport in some rare instances. (An example of this is one of the yellow skull keys in MAP23 of [*Going Down*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/gd).)
 * Lost Souls spawned by Pain Elementals now move towards their target in their attack frame.
 * The `playerstats` CCMD now displays 8 new stats:
@@ -55,7 +55,7 @@
 * A bug has been fixed whereby certain player stats were being reset to `0` at startup.
 * The effects of the `IDDT` cheat are now removed from the automap when the player changes levels.
 * The shaking of the screen when the player is injured and the `r_shakescreen` CVAR is `on` has been improved slightly.
-* A bug has been fixed whereby firing the chaingun would increase the “Shots Fired” stat by 1, but increase the “Shots Hit” stat by 2 if the shot successfully hit a monster.
+* A bug has been fixed whereby firing the chaingun would increase the “Shots Fired” stat by 1, but would increase the “Shots Hit” stat by 2 if the shot successfully hit a monster.
 
 ---
 
