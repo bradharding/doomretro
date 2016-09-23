@@ -800,6 +800,9 @@ void C_Drawer(void)
             consolewait = I_GetTime();
         }
 
+        if (vid_motionblur && consoleheight < CONSOLEHEIGHT)
+            I_SetMotionBlur(0);
+
         consoleactive = (consoledirection == 1);
 
         // cancel any gamepad vibrations

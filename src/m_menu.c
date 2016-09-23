@@ -3192,6 +3192,9 @@ void M_StartControlPanel(void)
     players[0].fixedcolormap = 0;
     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
     I_UpdateBlitFunc(false);
+
+    if (vid_motionblur)
+        I_SetMotionBlur(0);
 }
 
 //
