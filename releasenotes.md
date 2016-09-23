@@ -8,7 +8,7 @@
 * A bug has been fixed whereby some CVARs weren’t being reset to their correct values, or at all, when using either the `reset` or `resetall` CCMDs.
 * Entering `reset all` in the console will now work the same as entering the `resetall` CCMD.
 * Toggling “always run” using the <kbd>CAPSLOCK</kbd> key while in the console will no longer inadvertently affect player messages from appearing.
-* Minor changes have been made to some elements of the console.
+* Many minor changes have been made to text that is output to the console.
 * A new `-nomapinfo` command-line parameter has been implemented that will stop any `MAPINFO` lumps from being parsed in PWADs at startup.
 * If there is a `MAPINFO` lump present in `nerve.wad` that contains invalid map markers, the PWAD will no longer exit with an error, and a warning will be displayed in the console instead.
 * The <kbd>SHIFT</kbd> key will now be ignored when pressing <kbd>Y</kbd> or <kbd>N</kbd> in response to a centered message.
@@ -56,6 +56,7 @@
 * The effects of the `IDDT` cheat are now removed from the automap when the player changes levels.
 * The shaking of the screen when the player is injured and the `r_shakescreen` CVAR is `on` has been improved slightly.
 * A bug has been fixed whereby firing the chaingun would increase the “Shots Fired” stat by 1, but would increase the “Shots Hit” stat by 2 if the shot successfully hit a monster.
+* If the player has the invulnerability power-up when using `kill player` in the console, the inverted screen effect will now be removed.
 
 ---
 
