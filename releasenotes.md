@@ -48,7 +48,7 @@
 * If the `ammo`, `armor` and `health` CVARs are changed to a larger value, the screen will now flash.
 * The player will now be resurrected if the `health` CVAR is changed in the console when they are dead.
 * There is now a read-only `version` CVAR that indicates which version of *DOOM Retro* created `doomretro.cfg`.
-* The super shotgun will now be displayed correctly when fired in *Ancient Aliens*.
+* The super shotgun will now be displayed correctly when fired in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * The default gamepad sensitivity (set using the `gp_senstivity` CVAR) has been increased from `48` to `64`.
 * The `+forward2`, `+back2`, `+strafeleft2`, `straferight2` and `+use2` actions have been removed. The controls that were bound to these actions are now bound to `+forward`, `+back`, `+strafeleft`, `straferight` and `+use`, respectively.
 * The right thumbstick on gamepads is now bound to the `+use` action and may be pressed as an alternative to the <kbd>A</kbd> button to open doors, use switches, etc.
@@ -181,9 +181,9 @@
 * Screenshots are now saved as PNG files rather than *Windows* BMP files.
 * The full path of the file is now displayed in the console when a screenshot is taken.
 * The player’s view will no longer briefly change before the screen wipes when exiting a map.
-* The view border is now displayed correctly for PWADs such as `valiant.wad` and `aaliens_rc2.wad`.
+* The view border is now displayed correctly for PWADs such as [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) and [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * The positions of the shadows of some monsters have been improved.
-* The flats `SLIME09` to `SLIME12` no longer animate as liquid in *Ancient Aliens*.
+* The flats `SLIME09` to `SLIME12` no longer animate as liquid in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * The `help` CCMD will now open the console section of the *DOOM Retro Wiki* in the default browser.
 * There are now `ammo`, `armor` and `health` CVARs that allow changing the player’s ammo, armor and health to specific values.
 * The texture offset of linedef 638 in MAP10 of `doom2.wad` has been corrected.
@@ -200,8 +200,8 @@
 * Player messages are now always yellow in the console.
 * Color CVARs are now set to their defaults, rather than the closest valid value, if invalid at startup.
 * C++ style comments are now allowed in `MAPINFO` lumps.
-* The correct colors are now preserved in the automap, the console and the alternate HUD if a PWAD contains a custom `PLAYPAL` lump. (An example of such a PWAD is skillsaw’s recently released MegaWAD, *Ancient Aliens*.)
-* A bug has been fixed whereby parts of the super shotgun would be transparent in *Ancient Aliens*.
+* The correct colors are now preserved in the automap, the console and the alternate HUD if a PWAD contains a custom `PLAYPAL` lump. (An example of such a PWAD is skillsaw’s recently released MegaWAD, [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).)
+* A bug has been fixed whereby parts of the super shotgun would be transparent in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * The `r_corpses_color` CVAR is now validated at startup.
 * If `am_external` is on but there’s only one display found, there will no longer be a crash if the graphics system is restarted.
 * The number of logical cores and amount of system RAM is now displayed in the console at startup.
@@ -306,7 +306,7 @@
 * The value set by `Max Health` in *DeHackEd* files and lumps is now only applied to health bonuses.
 * 100 extra things (numbered 152 to 251) have been added for use in *DeHackEd* files and lumps.
 * Things with the same (x,y,z) coordinates now bob in sync with each other if they are in liquid. 
-* The Arachnorbs in [`valiant.wad`](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) are now killed when using the `kill` CCMD.
+* The Arachnorbs in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) are now killed when using the `kill` CCMD.
 * Map names changed using a `MAPINFO` lump are now shown in the output of the `maplist` CCMD.
 * The <kbd>WINDOWS</kbd> key can no longer be used at any time when fullscreen. It can only be used when in a window, and the game is paused, or the menu or console is open.
 * Wall textures that are both animated and translucent can now be rendered correctly without causing a crash.
@@ -336,7 +336,7 @@
   * The correct status bar is now displayed.
   * The projectiles of the nuker are no longer translucent.
   * The smoke trails have been removed from the projectiles of the photon ’zooka.
-* The “B” in John Romero’s `E1M8B.wad` is now displayed when the map starts, and in the automap.
+* The “B” in John Romero’s [*E1M8B: Tech Gone Bad*](https://twitter.com/romero/status/688054778790834176) is now displayed when the map starts, and in the automap.
 * Dead players can now trigger actions that allow them to exit a map.
 * The total number of monsters, and the percentage killed, are now displayed for each type of monster in the output of the `playerstats` CCMD.
 * The position of keys when using a custom status bar has been corrected.
@@ -363,7 +363,7 @@
 * A bug has been fixed whereby successive movement keys would not register if a cheat existed that started with a movement key (as is the case in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/)).
 * The armor bar in the alternate HUD is now slightly lighter.
 * A bug has been fixed whereby map names from `MAPINFO` lumps weren’t being displayed.
-* The map title and author of John Romero’s recently released `E1M8B.wad` is now displayed when the map starts, and in the automap.
+* The map title and author of John Romero’s recently released [*E1M8B: Tech Gone Bad*](https://twitter.com/romero/status/688054778790834176) is now displayed when the map starts, and in the automap.
 * The `GOTREDSKULL` string may now also be spelled as `GOTREDSKUL` in *DeHackEd* lumps.
 * Pressing <kbd>ALT</kbd> + <kbd>F4</kbd> to quit *DOOM Retro* now works again.
 * Stylized quotes are now used in place of double quotes in the console.
@@ -1218,7 +1218,7 @@
 * A bug has been fixed whereby *DOOM Retro* may have crashed silently after selecting a WAD in the WAD launcher.
 * The command-line parameter `-expansion` may now be used. Use `-expansion 1` to autostart *DOOM II: Hell On Earth*, and use `-expansion 2` to autostart *DOOM II: No Rest For The Living* (if `nerve.wad` is specified using `-file` or `-pwad`).
 * The value that can be specified by the `-warp` command-line parameter can now be of the form `ExMy` or `MAPxy`.
-* If a [*Freedoom*](http://freedoom.github.io/) IWAD is loaded in *DOOM Retro*, a message is displayed explaining that “FREEDOOM requires a BOOM-compatible source port, and is therefore unable to be opened”. This message won’t be displayed if the IWAD is loaded with an additional PWAD, so *Freedoom* can be used as a resource for the maps present in that PWAD.
+* If a [*Freedoom*](http://freedoom.github.io/) IWAD is loaded in *DOOM Retro*, a message is displayed explaining that “FREEDOOM requires a BOOM-compatible source port, and is therefore unable to be opened”. This message won’t be displayed if the IWAD is loaded with an additional PWAD, so [*Freedoom*](http://freedoom.github.io/) can be used as a resource for the maps present in that PWAD.
 * Further improvements have been made when using custom graphics in PWADs, particularly if [*Freedoom*](http://freedoom.github.io/) is being used.
 * A bug from *Vanilla DOOM* has been fixed whereby corrupt texture names would be displayed in the error if a texture couldn’t be found. See the [*DOOM Wiki*](http://doomwiki.org/wiki/Absurd_texture_name_in_error_message) for more information.
 * A bug has been fixed whereby pressing the <kbd>ENTER</kbd> key or the left mouse button when in the help screen wouldn’t restore widescreen mode.
