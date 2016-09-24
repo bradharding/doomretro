@@ -1,7 +1,7 @@
 ### DOOM Retro v2.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Changes have been made to the format of savegames such that they are not compatible with previous versions of *DOOM Retro*.
+* Changes have been made to the format of savegames and so are not compatible with previous versions of *DOOM Retro*.
 * Motion blur when the player turns quickly can now be enabled by setting the new `vid_motionblur` CVAR to a value greater than its default of `0%`.
 * The `am_xhaircolor` CVAR has been renamed to `am_crosshaircolor`.
 * The `vid_scaledriver` CVAR has been renamed to `vid_scaleapi`.
@@ -22,20 +22,20 @@
 * All automap controls (pressing the <kbd>G</kbd> key to toggle the grid for instance) may now be used when there’s an external automap, provided they don’t conflict with any other controls.
 * A bug has been fixed whereby certain items wouldn’t teleport in some rare instances. (An example of this is one of the yellow skull keys in MAP23 of [*Going Down*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/gd).)
 * Lost Souls spawned by Pain Elementals now move towards their target in their attack frame.
-* The `playerstats` CCMD now displays 8 new stats:
+* The `playerstats` CCMD now displays 8 additional stats:
   * the number of maps completed,
   * the distance traveled (where 1 foot equals 16 map units),
   * the amount of ammo picked up (broken down by bullets, cells, rockets and shells),
   * the amount of armor picked up, and
   * the amount of health picked up.
-* The units used to display the “Distance traveled” stat in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
+* The units used to display the new “Distance traveled” stat in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
 * The effects of changing the `r_translucency` CVAR will now be immediate in the HUD.
 * When the `r_translucency` CVAR is `off`, the console and the alternate HUD will now no longer be translucent.
 * The alternate HUD is now enabled by default.
 * “DOOM Retro” now appears at the end of the window’s caption.
 * A texture has been corrected in MAP13 of `doom2.wad`.
 * The player’s path may now be displayed in the automap by enabling the new `am_path` CVAR. It is `off` by default.
-* The color of the player’s path may be changed using the new `am_pathcolor` CVAR. It is `95` by default.
+* The color of the player’s path may be changed using the new `am_pathcolor` CVAR. It is `95` (a light gray) by default.
 * The console is now automatically closed when the `spawn` CCMD is used.
 * Spaces are now allowed in the `playername` CVAR.
 * The `playername` CVAR is now changed back to its default, `"you"`, if it is changed to an empty string.
