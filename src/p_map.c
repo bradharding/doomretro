@@ -1635,11 +1635,11 @@ hitline:
         P_SpawnPuff(x, y, z, shootangle);
     else
     {
-        mobjtype_t type = th->type;
+        mobjtype_t      type = th->type;
 
         if (type == MT_SKULL)
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
-        else if (r_blood != r_blood_none)
+        else if (r_blood != r_blood_none && th->blood)
         {
             if (type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
@@ -1813,6 +1813,7 @@ int     bombdamage;
 dboolean PIT_RadiusAttack(mobj_t *thing)
 {
     fixed_t     dist;
+    mobjtype_t  type;
 
     if (!(thing->flags & MF_SHOOTABLE)
         // [BH] allow corpses to react to blast damage
@@ -1821,12 +1822,13 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
 
     // Boss spider and cyborg
     // take no damage from concussion.
-    if (thing->type == MT_CYBORG || thing->type == MT_SPIDER)
+    type = thing->type;
+    if (type == MT_CYBORG || type == MT_SPIDER)
         return true;
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
 
-    if (thing->type == MT_BOSSBRAIN)
+    if (type == MT_BOSSBRAIN)
     {
         // [BH] if killing boss in DOOM II MAP30, use old code that
         //  doesn't use z height in blast radius
@@ -1856,7 +1858,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
         P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist);
 
         // [BH] count number of times player's rockets hit a monster
-        if (bombspot->type == MT_ROCKET && thing->type != MT_BARREL && !(thing->flags & MF_CORPSE))
+        if (bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
         {
             if (bombspot->nudge == 1)
             {
@@ -1934,7 +1936,7 @@ void PIT_ChangeSector(mobj_t *thing)
             return;
         }
 
-        if (!(flags & MF_FUZZ) && !(flags & MF_NOBLOOD))
+        if (!(flags & MF_FUZZ) && !(flags & MF_NOBLOOD) && thing->blood)
         {
             int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]]
                          >> FRACBITS) >> 1) + 12;
