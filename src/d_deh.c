@@ -1933,17 +1933,12 @@ void ProcessDehFile(char *filename, int lumpnum)
         if (!(infile.f = fopen(filename, "rt")))
             return;             // should be checked up front anyway
         infile.lump = NULL;
-        C_Output("Parsed the <i><b>DeHackEd%s</b></i> file <b>%s</b>.",
-            (M_StringEndsWith(uppercase(filename), "BEX") ? " with <i><b>BOOM</b></i> extensions"
-            : ""), filename);
     }
     else                        // DEH file comes from lump indicated by second argument
     {
         infile.size = W_LumpLength(lumpnum);
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
         filename = lumpinfo[lumpnum]->wad_file->path;
-        C_Output("Parsed the <b>DEHACKED</b> lump in %s file <b>%s</b>.",
-            (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
     }
 
     {
@@ -2055,6 +2050,14 @@ void ProcessDehFile(char *filename, int lumpnum)
 
     if (addtocount)
         ++dehcount;
+
+    if (infile.lump)
+        C_Output("Parsed the <b>DEHACKED</b> lump in %s file <b>%s</b>.",
+            (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
+    else
+        C_Output("Parsed the <i><b>DeHackEd%s</b></i> file <b>%s</b>.",
+            (M_StringEndsWith(uppercase(filename), "BEX") ? " with <i><b>BOOM</b></i> extensions"
+                : ""), filename);
 }
 
 // ====================================================================
