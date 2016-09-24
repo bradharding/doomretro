@@ -1,6 +1,7 @@
 ### DOOM Retro v2.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Changes have been made to the format of savegames such that they are not compatible with previous versions of *DOOM Retro*.
 * Motion blur when the player turns quickly can now be enabled by setting the new `vid_motionblur` CVAR to a value greater than its default of `0%`.
 * The `am_xhaircolor` CVAR has been renamed to `am_crosshaircolor`.
 * The `vid_scaledriver` CVAR has been renamed to `vid_scaleapi`.
