@@ -4005,11 +4005,10 @@ static void r_screensize_cvar_func2(char *cmd, char *parm1, char *parm2, char *p
 {
     if (*parm1)
     {
-        int     value = -1;
+        int     value = parm1[0] - '0';
 
-        sscanf(parm1, "%10i", &value);
-
-        if (value >= r_screensize_min && value <= r_screensize_max && value != r_screensize)
+        if (strlen(parm1) == 1 && value >= r_screensize_min && value <= r_screensize_max
+            && value != r_screensize)
         {
             if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
