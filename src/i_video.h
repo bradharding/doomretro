@@ -73,9 +73,9 @@ void I_ShutdownKeyboard(void);
 void I_SetPalette(byte *palette);
 
 void I_UpdateBlitFunc(dboolean shake);
-void I_Blit_AutoMap(void);
-void I_CreateExternalAutoMap(dboolean output);
-void I_DestroyExternalAutoMap(void);
+void I_Blit_Automap(void);
+void I_CreateExternalAutomap(dboolean output);
+void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(void);
 void I_SetMotionBlur(int percent);

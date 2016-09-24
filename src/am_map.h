@@ -61,13 +61,13 @@ dboolean AM_Responder(event_t *ev);
 void AM_Ticker(void);
 
 // Called by main loop,
-// called instead of view drawer if AutoMap active.
+// called instead of view drawer if automap active.
 void AM_Drawer(void);
 void AM_clearFB(void);
 
 void AM_Start(dboolean mainwindow);
 
-// Called to force the AutoMap to quit
+// Called to force the automap to quit
 // if the level is completed while it is up.
 void AM_Stop(void);
 

@@ -52,7 +52,7 @@
 
 #define MASKCOLOR               251
 
-// AutoMap colors
+// Automap colors
 int     am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 int     am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 int     am_allmapwallcolor = am_allmapwallcolor_default;
@@ -69,7 +69,7 @@ int     am_thingcolor = am_thingcolor_default;
 int     am_tswallcolor = am_tswallcolor_default;
 int     am_wallcolor = am_wallcolor_default;
 
-// AutoMap color priorities
+// Automap color priorities
 #define WALLPRIORITY            10
 #define ALLMAPWALLPRIORITY      9
 #define MASKPRIORITY            8
@@ -126,7 +126,7 @@ byte    *crosshaircolor;
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
 #define INITSCALEMTOF           125114
-// how much the AutoMap moves window per tic in map coordinates
+// how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
 #define F_PANINC                (8 << speedtoggle)
 // how much zoom-in per tic
@@ -154,7 +154,7 @@ typedef struct
 } mline_t;
 
 //
-// The vector graphics for the AutoMap.
+// The vector graphics for the automap.
 //  A line drawing of the player pointing right,
 //   starting from the middle.
 //
@@ -456,7 +456,7 @@ static void AM_initVariables(dboolean mainwindow)
     }
 
     // inform the status bar of the change
-    ST_AutoMapEvent(AM_MSGENTERED);
+    ST_AutomapEvent(AM_MSGENTERED);
 }
 
 //
@@ -485,7 +485,7 @@ void AM_Stop(void)
 {
     automapactive = false;
     HU_ClearMessages();
-    ST_AutoMapEvent(AM_MSGEXITED);
+    ST_AutomapEvent(AM_MSGEXITED);
     stopped = true;
 }
 
@@ -678,7 +678,7 @@ static void AM_toggleRotateMode(void)
 }
 
 //
-// Handle events (user inputs) in AutoMap mode
+// Handle events (user inputs) in automap mode
 //
 dboolean AM_Responder(event_t *ev)
 {
@@ -798,7 +798,7 @@ dboolean AM_Responder(event_t *ev)
                     AM_toggleZoomIn();
                 }
 
-                // leave AutoMap
+                // leave automap
                 else if (key == AM_ENDKEY && !(modstate & KMOD_ALT) && keydown != AM_ENDKEY
                     && !mapwindow)
                 {
@@ -1165,7 +1165,7 @@ void AM_Ticker(void)
 }
 
 //
-// Clear AutoMap frame buffer.
+// Clear automap frame buffer.
 //
 void AM_clearFB(void)
 {
@@ -1173,7 +1173,7 @@ void AM_clearFB(void)
 }
 
 //
-// AutoMap clipping of lines.
+// Automap clipping of lines.
 //
 // Based on Cohen-Sutherland clipping algorithm but with a slightly
 // faster reject and precalculated slopes. If the speed is needed,
@@ -1740,7 +1740,7 @@ static void AM_drawThings(void)
     for (i = 0; i < numsectors; ++i)
     {
         // e6y
-        // Two-pass method for better usability of AutoMap:
+        // Two-pass method for better usability of automap:
         // The first one will draw all things except enemies
         // The second one is for enemies only
         // Stop after first pass if the current sector has no enemies

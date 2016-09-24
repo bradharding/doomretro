@@ -3638,13 +3638,13 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
     {
         if (am_external)
         {
-            I_CreateExternalAutoMap(false);
+            I_CreateExternalAutomap(false);
             if (gamestate == GS_LEVEL)
                 AM_Start(false);
         }
         else
         {
-            I_DestroyExternalAutoMap();
+            I_DestroyExternalAutomap();
             if (gamestate == GS_LEVEL)
                 AM_Stop();
         }

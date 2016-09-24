@@ -138,29 +138,29 @@ typedef struct
 // lower texture unpegged
 #define ML_DONTPEGBOTTOM        16
 
-// In AutoMap: don't map as two sided: IT'S A SECRET!
+// In automap: don't map as two sided: IT'S A SECRET!
 #define ML_SECRET               32
 
 // Sound rendering: don't let sound cross two of these.
 #define ML_SOUNDBLOCK           64
 
-// Don't draw on the AutoMap at all.
+// Don't draw on the automap at all.
 #define ML_DONTDRAW             128
 
-// Set if already seen, thus drawn in AutoMap.
+// Set if already seen, thus drawn in automap.
 #define ML_MAPPED               256
 
 //jff 3/21/98 Set if line absorbs use by player
 //allow multiple push/switch triggers to be used on one push
 #define ML_PASSUSE              512
 
-// [BH] Line will be shown as a wall in AutoMap.
+// [BH] Line will be shown as a wall in automap.
 #define ML_DRAWASWALL           1024
 
 // [BH] Line will trigger sector 666 if no monsters.
 #define ML_TRIGGER666           2048
 
-// [BH] Line won't be shown as teleporter in AutoMap.
+// [BH] Line won't be shown as teleporter in automap.
 #define ML_TELEPORTTRIGGERED    4096
 
 // Sector definition, from editing.

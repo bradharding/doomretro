@@ -41,7 +41,7 @@
 
 #include "m_cheat.h"
 
-// Size of statusbar.
+// Size of status bar.
 // Now sensitive for scaling.
 #define ST_WIDTH                SCREENWIDTH
 #define ST_Y                    (SCREENHEIGHT - SBARHEIGHT)
@@ -56,7 +56,7 @@
 
 // Called by main loop.
 dboolean ST_Responder(event_t *ev);
-void ST_AutoMapEvent(int type);
+void ST_AutomapEvent(int type);
 
 // Called by main loop.
 void ST_Ticker(void);

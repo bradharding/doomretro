@@ -229,7 +229,7 @@
 * The brightmap for the `SW2BRNGN` wall texture is now fixed.
 * Blood splats are now always spawned for monsters that bleed when using the `kill` CCMD.
 * Monsters will now be alerted when the player punches a wall or the air.
-* The full map title of John Romero’s new map, [*E1M4B: Phobos Mission Control*](https://twitter.com/romero/status/725032002244759552) is now displayed in both the console and AutoMap.
+* The full map title of John Romero’s new map, [*E1M4B: Phobos Mission Control*](https://twitter.com/romero/status/725032002244759552) is now displayed in both the console and automap.
 * The player’s view will now bob up and down if they die on a liquid sector.
 * Improvements have been made to the accuracy of “Weapon accuracy” in the output of the `playerstats` CCMD.
 * The corpses of monsters are no longer spawned if “No monsters” has been set.

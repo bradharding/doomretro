@@ -151,8 +151,8 @@ extern int              musicVolume;
 // Status flags for refresh.
 //
 
-extern dboolean         automapactive;  // In AutoMap mode?
-extern dboolean         am_followmode;  // Following player in AutoMap mode?
+extern dboolean         automapactive;  // In automap mode?
+extern dboolean         am_followmode;  // Following player in automap mode?
 extern dboolean         menuactive;     // Menu overlayed?
 extern dboolean         paused;         // Game Pause?
 
