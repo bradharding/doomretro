@@ -711,6 +711,8 @@ dboolean G_Responder(event_t *ev)
                 keydown = KEY_PAUSE;
                 sendpause = true;
                 blurred = false;
+                if (vid_motionblur)
+                    I_SetMotionBlur(0);
             }
             else if (key == key_alwaysrun && !keydown)
             {
