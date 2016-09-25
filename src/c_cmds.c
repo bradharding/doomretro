@@ -655,7 +655,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles brightmaps on certain wall textures."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles corpses of marines having randomly colored Praetor\nsuits."),
+        "Toggles corpses of marines being randomly colored."),
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles corpses being randomly mirrored."),
     CVAR_BOOL(r_corpses_moreblood, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,

@@ -60,7 +60,7 @@
 * If the player has the invulnerability power-up when using `kill player` in the console, the inverted screen effect will now be removed.
 * The map title in the automap is now positioned better when using a taller character set from a PWAD (such as [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens)).
 * The folder where savegames are saved and loaded can now be specified using the `-savedir` command-line parameter.
-* The Suicide Bombers in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) will no spawn dying marines when they explode.
+* The Suicide Bombers in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) will now explode as intended.
 
 ---
 
