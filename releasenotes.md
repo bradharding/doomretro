@@ -15,17 +15,17 @@
 * The <kbd>SHIFT</kbd> key will now be ignored when pressing <kbd>Y</kbd> or <kbd>N</kbd> in response to a centered message.
 * A bug has been fixed whereby no value would be displayed when entering the `r_hud` CVAR in the console without a value.
 * When entering a CVAR in the console without a value, the CVAR’s description, current value and default value will now be displayed.
-* The shadows of Cyberdemons have been raised slightly.
+* The shadows of cyberdemons have been raised slightly.
 * The values of CVARs in `doomretro.cfg` now have thousands delimiters.
 * Thousands delimiters may now be used when entering values of CVARs in the console.
 * Monster spawners are now disabled when using `kill all` in the console.
 * All automap controls (pressing the <kbd>G</kbd> key to toggle the grid for instance) may now be used when there’s an external automap, provided they don’t conflict with any other controls.
 * A bug has been fixed whereby certain items wouldn’t teleport in some rare instances. (An example of this is one of the yellow skull keys in MAP23 of [*Going Down*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/gd).)
-* Lost Souls spawned by Pain Elementals now move towards their target in their attack frame.
+* Lost souls spawned by pain elementals now move towards their target in their attack frame.
 * The `playerstats` CCMD now displays 8 additional stats:
   * the number of maps completed,
   * the distance traveled (where 1 foot equals 16 map units),
-  * the amount of ammo picked up (broken down by bullets, cells, rockets and shells),
+  * the amount of ammo picked up (divided into bullets, cells, rockets and shells),
   * the amount of armor picked up, and
   * the amount of health picked up.
 * The units used to display the new “Distance traveled” stat in the `playerstats` CCMD can be changed from `feet`/`miles` to `metres`/`kilometres` by changing the new `units` CVAR from its default of `imperial` to `metric`.
@@ -69,7 +69,7 @@
 ### DOOM Retro v2.2.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The shadows of Mancubi have been raised slightly.
+* The shadows of mancubi have been raised slightly.
 * The `resetall` CCMD will no longer cause a crash when used while not in a game.
 * A warning will now be displayed in the console if gamepad initialization fails.
 * A bug has been fixed whereby the `vid_scalefilter` CVAR would default to `"nearest_linear"` rather than `"nearest"` if invalid.
@@ -96,7 +96,7 @@
 * A `reset` CCMD has been implemented which will reset a CVAR to its default value.
 * A `resetall` CCMD has been implemented which will reset all CVARs to their default values.
 * A `bindlist` CCMD has been implemented which will list all the bound controls. Previously, entering the `bind` CCMD without any parameters would do this.
-* The individual monster kills displayed using the `playerstats` CCMD will no longer sometimes become corrupted when an Arch-vile resurrects one.
+* The individual monster kills displayed using the `playerstats` CCMD will no longer sometimes become corrupted when an arch-vile resurrects one.
 * If *DOOM Retro* fails to launch for some reason, a more descriptive error will now be displayed.
 * A bug has been fixed whereby changing the `vid_scalefilter` CVAR to `nearest_linear` in the console could fail in some instances.
 * The floor texture of sector 103 in MAP04 of `plutonia.wad` has been fixed.
@@ -189,7 +189,7 @@
 * The view border is now displayed correctly for PWADs such as [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) and [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * The positions of the shadows of some monsters have been improved.
 * The flats `SLIME09` to `SLIME12` no longer animate as liquid in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
-* The `help` CCMD will now open the console section of the *DOOM Retro Wiki* in the default browser.
+* The `help` CCMD will now open the “Console” chapter of the [*DOOM Retro Wiki*](http://wiki.doomretro.com) in the default browser.
 * There are now `ammo`, `armor` and `health` CVARs that allow changing the player’s ammo, armor and health to specific values.
 * The texture offset of linedef 638 in MAP10 of `doom2.wad` has been corrected.
 * The compiler used to build *DOOM Retro*, and its version, are now displayed in the console at startup.
@@ -210,7 +210,7 @@
 * The `r_corpses_color` CVAR is now validated at startup.
 * If `am_external` is on but there’s only one display found, there will no longer be a crash if the graphics system is restarted.
 * The number of logical cores and amount of system RAM is now displayed in the console at startup.
-* *ZDoom’s* obituary strings are now ignored in `DEHACKED` patches so warnings aren’t displayed in the console at startup.
+* [*ZDoom’s*](http://zdoom.org/) obituary strings are now ignored in `DEHACKED` patches so warnings aren’t displayed in the console at startup.
 * A bug has been fixed whereby a frame would be skipped when rotating monsters in the *DOOM II* cast sequence.
 
 ---
@@ -311,7 +311,7 @@
 * The value set by `Max Health` in *DeHackEd* files and lumps is now only applied to health bonuses.
 * 100 extra things (numbered 152 to 251) have been added for use in *DeHackEd* files and lumps.
 * Things with the same (x,y,z) coordinates now bob in sync with each other if they are in liquid. 
-* The Arachnorbs in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) are now killed when using the `kill` CCMD.
+* The arachnorbs in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) are now killed when using the `kill` CCMD.
 * Map names changed using a `MAPINFO` lump are now shown in the output of the `maplist` CCMD.
 * The <kbd>WINDOWS</kbd> key can no longer be used at any time when fullscreen. It can only be used when in a window, and the game is paused, or the menu or console is open.
 * Wall textures that are both animated and translucent can now be rendered correctly without causing a crash.
@@ -447,8 +447,8 @@
 * The z-height of line attacks when in liquid sectors is no longer adjusted.
 * Monsters now recognize when they are standing on *BOOM*-compatible lifts.
 * Corpses are now nudged with more momentum when they are in liquid.
-* Pain Elementals will no longer appear to open and close their mouth for no reason. They will now still try to spawn Lost Souls that won’t fit in the map, but they will explode instantly.
-* Whether Lost Souls spawned by Pain Elementals are above the ceiling or below the floor is now checked.
+* Pain elementals will no longer appear to open and close their mouth for no reason. They will now still try to spawn Lost Souls that won’t fit in the map, but they will explode instantly.
+* Whether lost souls spawned by pain elementals are above the ceiling or below the floor is now checked.
 * The possibility of a key flashing when switching to the widescreen HUD has been fixed.
 * Ceilings are now marked in the automap as no longer secret once they move.
 * Flashing elements in the widescreen HUD are now paused correctly when the game is paused.
@@ -670,7 +670,7 @@
 * The pillarboxes and letterboxes on the screen are now cleared each frame.
 * Configuration files (with the extension `.cfg`) may now be loaded through the WAD launcher.
 * If a CFG file exists in the same folder as a PWAD file with the same name, it will automatically be loaded.
-* Support has been added for maps with *DeepBSP* extended nodes v4 and *ZDoom* uncompressed normal nodes.
+* Support has been added for maps with *DeepBSP* extended nodes v4 and [*ZDoom*](http://zdoom.org/) uncompressed normal nodes.
 * Several rendering anomalies in maps have been resolved.
 * Any flats that are missing in a map will now be rendered as sky, and a warning displayed in the console, rather than *DOOM Retro* exiting with an error.
 * Further improvements have been made to the support for *DeHackEd* lumps.
@@ -788,7 +788,7 @@
 * The new `totalbloodsplats` CVAR shows the total number of blood splats currently in the map.
 * The `r_bloodsplats` CVAR has been renamed to `r_maxbloodsplats`.
 * If the player saves a game on one map, finishes that map and then starts the next one, if they then die without saving again, the savegame for the previous map will be loaded, rather than the player “pistol starting” on the new map.
-* The Arch-vile’s fire attack is no longer clipped in liquid.
+* The arch-vile’s fire attack is no longer clipped in liquid.
 * A bug has been fixed in some instances whereby some objects were still being clipped and bobbing when the sector they were in was no longer liquid.
 * The new `thinglist` CCMD will list all things in the current level, including their (x,y,z) coordinates.
 * The new `maplist` CCMD will list all the maps available to the player.
@@ -797,10 +797,10 @@
 * The widescreen HUD will now remain on the screen while the player is dead. No ammo will be displayed, though, to be consistent with the status bar.
 * The par time displayed on the intermission screen is now positioned better.
 * The normal use of the <kbd>CAPSLOCK</kbd> key is now disabled in the console, and will toggle the “always run” feature on/off instead.
-* A bug has been fixed whereby the value displayed by the `totalkills` command in the console wouldn’t take into account any Pain Elementals killed using the `kill` command.
+* A bug has been fixed whereby the value displayed by the `totalkills` command in the console wouldn’t take into account any pain elementals killed using the `kill` command.
 * The console is now automatically closed when using the `endgame`, `exitmap`, `kill` and `map` CCMDs.
-* A bug has been fixed whereby the map name in the automap was displayed incorrectly when using *ZDL* to launch the game.
-* The “fuzzy” edges of Spectre shadows are now paused while the console is open.
+* A bug has been fixed whereby the map name in the automap was displayed incorrectly when using [*ZDL*](http://zdoom.org/wiki/ZDL) to launch the game.
+* The “fuzzy” edges of spectre shadows are now paused while the console is open.
 
 ---
 
@@ -824,18 +824,18 @@
   * No sounds are made when they move up or down.
 * A bug has been fixed whereby if more than one flight of stairs was meant to be triggered at the same time, only one would be.
 * The gaps around “1” digits in the HUD have been removed.
-* A bug has been fixed whereby the game could crash when rendering Spectres in some instances.
+* A bug has been fixed whereby the game could crash when rendering spectres in some instances.
 * Underscores now appear under the message displayed when entering the `IDBEHOLD` cheat.
-* The map title will now be displayed correctly in the automap if a PWAD is loaded using ZDL.
+* The map title will now be displayed correctly in the automap if a PWAD is loaded using [*ZDL*](http://zdoom.org/wiki/ZDL).
 * Corrupt savegames will no be created if saving a game while a button is active.
 * Blood splats and shadows will no longer appear on sectors without floors.
-* The blood splats produced when the corpses of Barons of Hell and Hell Knights are crushed under a lowering sector are now the correct color.
+* The blood splats produced when the corpses of barons of hell and hell knights are crushed under a lowering sector are now the correct color.
 * The player’s weapon is no longer off to the right by 1 pixel in some instances.
 * The bottom right hand corner of the view border is now rendered correctly.
 * The message that is displayed when *DOOM Retro* is run for the first time now includes a button that opens the [*DOOM Retro Wiki*](http://wiki.doomretro.com) in the default browser.
 * The cursor keys will no longer make a sound when pressed on the help screen.
 * A bug has been fixed whereby decorative corpses wouldn’t smear blood when sliding in some instances.
-* Smoke trails are now displayed for Cyberdemon rockets as originally intended.
+* Smoke trails are now displayed for cyberdemon rockets as originally intended.
 * The “always run” setting is now remembered between games as originally intended.
 * If you load a savegame that had monsters but now the `-nomonsters` command-line parameter is enabled, the correct percentage of monsters you actually did kill now appears in the intermission.
 * A bug has been fixed whereby *DOOM Retro* would crash when trying to save a game in *Final DOOM* if the savegame description was changed to anything other than a map name.
@@ -882,7 +882,7 @@
 * All liquid sectors are now animated, avoiding issues where one liquid sector would be animated, but another liquid sector adjacent to it wouldn’t be.
 * A bug has been fixed whereby the liquid animation was stopping the player and/or monsters from being able to enter certain areas of some maps.
 * The brightmap for the `COMP2` wall texture has been fixed.
-* A bug has been fixed whereby other monsters could infight with Arch-viles.
+* A bug has been fixed whereby other monsters could infight with arch-viles.
 * The teleporter texture used in [*Back to Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back to Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) no longer animates like a liquid.
 * Savegames will now be placed in the `savegames\DOOM2.WAD\` folder rather than the `savegames\unknown.wad\` folder when `nerve.wad` is loaded.
 * The player’s weapon is now recentered after teleporting.
@@ -907,8 +907,8 @@
 * The total amount of blood splats that can be spawned when a corpse slides across the floor is now saved in savegames. This breaks savegame compatibility with previous versions of *DOOM Retro*.
 * Blood splats that are spawned around decorative corpses at the start of a map now come from this same total.
 * A bug has been fixed whereby it was possible for the screen to switch between the `TITLEPIC` and `CREDIT` lumps before wiping the screen after the player selects a skill level in the menu to start a new game.
-* The top and bottom edges of Spectre shadows are now “fuzzy”.
-* The top and bottom edges of Spectre shadows are now “fuzzy”, and also lighter, in *DOOM II’s* cast sequence, to match how they appear in the game.
+* The top and bottom edges of spectre shadows are now “fuzzy”.
+* The top and bottom edges of spectre shadows are now “fuzzy”, and also lighter, in *DOOM II’s* cast sequence, to match how they appear in the game.
 * A savegame slot that isn’t empty is now automatically selected in the load game menu if the player previously exited the save game menu while a savegame slot that is empty was selected.
 * The screen will now flash the same amount for keycards and skull keys as for other pickups.
 * The window can now be resized when in widescreen mode.
@@ -944,7 +944,7 @@
 * The “dead zones” of the left and right thumbsticks of gamepads can now be adjusted using the `gamepad_leftdeadzone` and `gamepad_rightdeadzone` settings in `doomretro.cfg`. They are `24%` and `26.5%` by default.
 * There are now settings for every control in the automap, for both the keyboard and gamepad, in `doomretro.cfg`.
 * The `sfx_volume` and `music_volume` settings in `doomretro.cfg` have had their underscores removed, and their values are now displayed as percentages.
-* Smoke trails are no longer displayed for Revenants’ non-homing rockets, as intended.
+* Smoke trails are no longer displayed for revenants’ non-homing rockets, as intended.
 * The menu may still be opened with the gamepad’s <kbd>START</kbd> button if `gamepad_sensitivity` has been reduced to `0`.
 * A bug has been fixed whereby the help screens wrongly indicated that the <kbd>A</kbd> and <kbd>D</kbd> keys were used to turn rather than strafe.
 * The overall gamepad sensitivity has been increased even more, and the default of `gamepad_sensitivity` has now been doubled from `16` to `32`.
@@ -984,15 +984,15 @@
 * The controls set by `gamepad_prevweapon` and `gamepad_nextweapon` can no longer be used when the game is paused.
 * Faster switching to the next and previous weapons is now allowed.
 * Improvements have been made to the menu in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
-* Smoke trails are no longer applied to Revenant non-homing rockets by default.
-* Instead of just `on` and `off`, the `smoketrails` setting in `doomretro.cfg` has been changed to allow smoke trails to be enabled or disabled depending on who fired the projectile. The setting can be any combination of the following flags: `player` (smoke trails for player rockets), `revenant1` (smoke trails for Revenant non-homing rockets), `revenant2` (smoke trails for Revenant homing rockets) and `cyberdemon` (smoke trails for Cyberdemon rockets). The default is `player|revenant2|cyberdemon`.
+* Smoke trails are no longer applied to revenant non-homing rockets by default.
+* Instead of just `on` and `off`, the `smoketrails` setting in `doomretro.cfg` has been changed to allow smoke trails to be enabled or disabled depending on who fired the projectile. The setting can be any combination of the following flags: `player` (smoke trails for player rockets), `revenant1` (smoke trails for Revenant non-homing rockets), `revenant2` (smoke trails for Revenant homing rockets) and `cyberdemon` (smoke trails for cyberdemon rockets). The default is `player|revenant2|cyberdemon`.
 * A bug has been fixed whereby pressing the <kbd>CAPSLOCK</kbd> key on the title screen will cause the use of the key to then become inverted (that is, turning <kbd>CAPSLOCK</kbd> on would turn “always run” off, and vice versa).
 * The display of the asterisk character is now allowed in a savegame description.
 * The player arrow in the automap is now displayed correctly when zoomed in.
 * A bug has hopefully been fixed that caused objects to sometimes disappear when standing on sector boundaries.
 * Several changes have been made to improve *DOOM Retro’s* *DeHackEd* support.
-* A bug has been fixed present in *Vanilla DOOM* whereby the vertical position of an Arch-vile’s fire attack could be set incorrectly in some instances.
-* There is no longer any small upward thrust when the player is receives an Arch-vile’s fire attack while “no clipping mode” is on using the `IDCLIP` cheat.
+* A bug has been fixed present in *Vanilla DOOM* whereby the vertical position of an arch-vile’s fire attack could be set incorrectly in some instances.
+* There is no longer any small upward thrust when the player is receives an arch-vile’s fire attack while “no clipping mode” is on using the `IDCLIP` cheat.
 
 ---
 
@@ -1047,8 +1047,8 @@
 * The player’s view is now lowered slightly when standing in liquid. Setting `footclip` to `false` in `doomretro.cfg` will also disable this.
 * Less friction is applied to corpses and dropped items when in liquid.
 * Blood splats are now drawn regardless of how far they are away from the player.
-* The firing animation of the Heavy Weapon Dude when facing to the right is now smoother.
-* Since they all cast shadows now, the Lost Soul, Cacodemon and Pain Elemental are higher off the ground in *DOOM II’s* cast sequence.
+* The firing animation of the heavy weapon dude when facing to the right is now smoother.
+* Since they all cast shadows now, the lost soul, cacodemon and pain elemental are higher off the ground in *DOOM II’s* cast sequence.
 * Deaths are now randomly flipped in the cast sequence.
 * It is now possible to warp to episodes beyond episode 4 using the `-warp` command-line parameter.
 * *DOOM Retro* now supports [*DeHackEd*](http://doomwiki.org/wiki/Dehacked) files and lumps, including those with *BOOM* extensions. *DeHackEd* files may be opened by using the `-deh` or `-bex` command-line parameters. `DEHACKED` lumps will automatically be parsed unless `-nodeh` is specified on the command-line.
@@ -1058,7 +1058,7 @@
 * Walls are now drawn with even greater precision, fixing many graphic anomalies that may appear when the player stands on a line with a change in height.
 * Fake contrast is no longer applied to walls in outdoor areas.
 * The position of floating items has been raised off the ground slightly.
-* A message is now displayed in `stdout.txt` when an Arch-vile resurrects a monster.
+* A message is now displayed in `stdout.txt` when an arch-vile resurrects a monster.
 * The mouse controls that select next and previous weapons can now be set by changing `mouse_nextweapon` and `mouse_prevweapon` in `doomretro.cfg`. They are set to `wheeldown` and `wheelup` by default.
 * The use action may now be bound to a mouse button by changing the `mouse_use` setting in `doomretro.cfg`. It is set to `none` by default.
 * The maximum mouse sensitivity has been doubled from `64` to `128`.
@@ -1096,7 +1096,7 @@
 * Monsters will now try to move away from tall drop offs.
 * When spawning blood splats around decorations when a map is loaded, blood splats will no longer be spawned on floors close to but higher than the decoration itself.
 * Textures `RROCK05` to `RROCK08`, and `SLIME09` to `SLIME12`, are no longer considered liquids, and therefore blood splats can now appear on them.
-* Further improvements have been made in detecting Mancubus fireball collisions.
+* Further improvements have been made in detecting mancubus fireball collisions.
 * Spawn cubes are no longer spawned when the `-nomonsters` command-line parameter is used.
 * A bug has been fixed whereby a flashing skull key in the HUD would cause other keys next to it to shift slightly.
 * In the automap, lines won’t be shown as being teleport lines (that is, in dark red) unless:
@@ -1104,8 +1104,8 @@
   * the player has been teleported by it, or,
   * the player is using the `IDDT` cheat.
 * All settings in `doomretro.cfg` are now validated at startup. If any setting is found to be invalid, it will be reset to its default.
-* Improvements have been made to the smoke trails of player and Cyberdemon rockets, and Revenant projectiles. The smoke will take slightly longer to dissipate, and is better randomized.
-* The heights of Revenants and Arch-viles have been restored to their lower defaults. Many maps rely on this, and so therefore this fixes instances whereby sometimes these monsters would be stuck and wouldn’t attack the player.
+* Improvements have been made to the smoke trails of player and cyberdemon rockets, and revenant projectiles. The smoke will take slightly longer to dissipate, and is better randomized.
+* The heights of revenants and arch-viles have been restored to their lower defaults. Many maps rely on this, and so therefore this fixes instances whereby sometimes these monsters would be stuck and wouldn’t attack the player.
 * A monster will no longer go fullbright when firing a projectile if they are facing away from the player.
 * A bug has been fixed whereby if an action was assigned to the <kbd>I</kbd> key, it wouldn’t work since “`I`” is the first character of every cheat.
 * The patch offsets for textures `SKY1` and `BIGDOOR7` have been corrected.
@@ -1129,7 +1129,7 @@
 * The number of characters that can be entered in a savegame slot is now calculated correctly.
 * If the <kbd>CAPSLOCK</kbd> key was on before *DOOM Retro* was run, it is now turned back on as necessary when quitting.
 * Player messages and the map name in the automap are now translucent and have drop shadows when using a PWAD with a custom character set.
-* A bug has been fixed whereby an Arch-vile could resurrect a monster for it to instantly become stuck in another monster.
+* A bug has been fixed whereby an arch-vile could resurrect a monster for it to instantly become stuck in another monster.
 * The player’s screen will no longer flash red if they are hit by a projectile while already dead.
 * A bug has been fixed whereby the game would crash when using the `-nosfx` or `-nosound` command-line parameters.
 * A bug has been fixed whereby you could switch weapons when zooming in the automap if both actions were set to the gamepad’s left and right shoulder buttons.
@@ -1204,14 +1204,14 @@
 * A bug has been fixed whereby mouse movement wasn’t smooth for some users.
 * The lower mouse sensitivity settings are now slightly slower. The default setting has been increased from `12` to `16` to accommodate for this.
 * Blood splats will no longer be spawned on additional animated flats present in PWADs.
-* Weapons dropped by Shotgun Guys and Heavy Weapon Dudes when they die are no longer randomly mirrored by default. This feature can be reenabled by changing the new `mirrorweapons` setting in `doomretro.cfg` to `true`.
+* Weapons dropped by shotgun guys and heavy weapon dudes when they die are no longer randomly mirrored by default. This feature can be reenabled by changing the new `mirrorweapons` setting in `doomretro.cfg` to `true`.
 * Blood is now randomly mirrored.
 * The limit has been removed on the number of monsters a Boss Brain can spawn.
 * A bug from *Vanilla DOOM* has been fixed whereby spawn cubes would miss east and west targets. See the [*DOOM Wiki*](http://doomwiki.org/wiki/Spawn_cubes_miss_east_and_west_targets) for more information.
-* A bug has been whereby shooting at a monster being raised by an Arch-vile could cause the game to crash.
-* Floating monsters (Cacodemons, Pain Elementals and Lost Souls) can no longer get stuck together.
-* The corpses of Cacodemons will no longer sometimes get suspended in midair.
-* A bug has been fixed whereby a frame in the Cacodemon’s death sequence wasn’t displaying correctly.
+* A bug has been whereby shooting at a monster being raised by an arch-vile could cause the game to crash.
+* Floating monsters (cacodemons, pain elementals and lost souls) can no longer get stuck together.
+* The corpses of cacodemons will no longer sometimes get suspended in midair.
+* A bug has been fixed whereby a frame in the cacodemon’s death sequence wasn’t displaying correctly.
 * Elements on the intermission screen are now positioned better if custom graphics from PWADs are used.
 * The player’s bob has been reduced by 25% to correspond with the latest official versions of *DOOM*. A `playerbob` setting has been created in `doomretro.cfg` to change this. The default value is `75%`.
 * The player’s weapon bob is now slightly smoother, and is centered when a shot is fired.
@@ -1253,7 +1253,7 @@
 * Translucency effects are now improved for white objects on a blue background.
 * A `homindicator` setting has been added to `doomretro.cfg`. It is `false` by default.
 * A bug has been fixed whereby the screen wouldn’t flash red if the player received only 1% damage.
-* The smoke trail of Revenant projectiles has been positioned better.
+* The smoke trail of revenant projectiles has been positioned better.
 * The `bloodsplatsvisible` setting has been removed.
 * Widescreen mode is now retained the next time *DOOM Retro* is run if it happens to crash in a 4:3 mode.
 * The chance of the super shotgun gibbing a monster at point blank range has been increased slightly.
@@ -1302,7 +1302,7 @@
 * Several more limits have been removed, allowing larger and more detailed maps to be loaded without crashing.
 * *DOOM Retro* will now try to fix some common map errors before loading a map.
 * Optimizations have been made to the loading of large levels, and the handling of gamepads.
-* The smoke trails of the player’s and Cyberdemon’s rockets can now be disabled by setting `smoketrails` to `false` in `doomretro.cfg`. It is `true` by default.
+* The smoke trails of the player’s and cyberdemon’s rockets can now be disabled by setting `smoketrails` to `false` in `doomretro.cfg`. It is `true` by default.
 * The limit on the size of savegames has been removed, allowing the game to be saved on larger maps without exiting with an error.
 * Several changes have been made to the HUD:
   * The HUD is now displayed in non-widescreen modes.
@@ -1327,7 +1327,7 @@
 * A bug has been fixed whereby the sound would become disabled if adjusting the volume through the menu or pausing and then unpausing the game.
 * The visplane limit has been removed, allowing for more detailed levels to run without crashing.
 * A sound will now be heard if a wrong selection is made in the WAD launcher and it needs to reopen.
-* When a Heavy Weapon Dude is killed, their corpse is no longer randomly mirrored.
+* When a heavy weapon dude is killed, their corpse is no longer randomly mirrored.
 * Projectiles will now pass through map decorations like they do in *Vanilla DOOM*. (Please note that this particular change means savegames from previous versions of *DOOM Retro* won’t work with *DOOM Retro v1.4.1*.)
 * If music can’t be loaded for a particular map, that map will still load without music rather than the game exiting with an error.
 
@@ -1347,7 +1347,7 @@
 * There are now 2 levels of graphic detail, “HIGH” and “LOW”, adjustable through either the options menu or by pressing the <kbd>F5</kbd> key. The “HIGH” level has the same graphic detail as in previous versions of *DOOM Retro*. It has an effective resolution of 640×400 (or 640×336 in widescreen) and is the default. The “LOW” level is new, and has an effective resolution of 320×200 (the resolution used in *Vanilla DOOM*).
 * When the title screen is displayed, it will now alternate with the credits screen.
 * The gray text in the status bar is now twice the resolution when the graphic detail is set to “HIGH”.
-* A bug has been fixed whereby the sounds of Revenant and Cyberdemon projectiles would become corrupted in some instances.
+* A bug has been fixed whereby the sounds of revenant and cyberdemon projectiles would become corrupted in some instances.
 * The file `default.cfg` has been renamed to `doomretro.cfg`.
 * The background when a menu is displayed or the game is paused is now in grayscale, as well as being blurred and darkened. This may be disabled by changing `grayscale` to `false` in `doomretro.cfg`.
 * The menu background’s blur is now calculated differently, and should resolve the performance issues some users were experiencing.
@@ -1365,12 +1365,12 @@
 * The first press of the <kbd>F11</kbd> key will now display the current gamma correction level. Further presses of the key before the message disappears will then increase the level (or decrease the level if the <kbd>SHIFT</kbd> key is held down).
 * Autorepeat is now allowed for the <kbd>F11</kbd> key.
 * The gamma correction level is now saved the moment it is changed.
-* The weapons dropped by Shotgun Guys and Heavy Weapon Dudes when they die are now mirrored horizontally at random, independent of their corpses.
+* The weapons dropped by shotgun guys and heavy weapon dudes when they die are now mirrored horizontally at random, independent of their corpses.
 * A bug has been fixed whereby the player was unable to pick up stimpacks or medikits in the *BFG Editions* of *DOOM* or *DOOM II*.
 * There is now slightly more blood.
 * Because of some significant improvements to the drawing of blood splats, the number of blood splats that may be in a map is now unlimited. The `bloodsplats` setting in `doomretro.cfg` may still be changed from unlimited to a value between `0` and `32768` inclusive.
 * Blood splats are now mirrored horizontally at random for some additional variation.
-* The blood and blood splats from Spectres, as well as the player when they have the partial invisibility power-up, now appear with the same “fuzz effect”.
+* The blood and blood splats from spectres, as well as the player when they have the partial invisibility power-up, now appear with the same “fuzz effect”.
 * Blood splats are now drawn first and no longer overlap other sprites, making them appear closer to the ground.
 * When the mouse sensitivity is set to 0, the mouse is disabled. (And similarly, when a gamepad is in use, it is also disabled.)
 * The translucency of blue and green blood has been reduced slightly.
@@ -1404,7 +1404,7 @@
 * If the player has no armor, the keys are displayed along the right side of the screen.
 * The type of armor the player has (either green or blue armor) is displayed.
 * The background is now blurred when in a menu or the game is paused. This effect may be disabled by changing the `menublur` setting in `default.cfg` to false.
-* The green blood of Hell Knights and Barons of Hell is now slightly darker.
+* The green blood of hell knights and barons of hell is now slightly darker.
 * A bug has been fixed that existed in *Vanilla DOOM* that caused monsters to be able to see the player through walls, or not see the player when they should have, in some instances. Thank you to 倉敷楠花 (Nanka Kurashiki) for bringing this to my attention.
 * The <kbd>PRINTSCREEN</kbd> key and <kbd>ALT</kbd> + <kbd>ENTER</kbd> have been added to the help screen.
 * The “HELP” title has been added to the help screen in *DOOM II* to be consistent with the other versions of *DOOM*.
@@ -1417,7 +1417,7 @@
 * *DOOM Retro* is now less likely to crash if certain settings in `default.cfg` are set incorrectly.
 * The `bloodsplats` setting in `default.cfg` is now a number rather than `true` or `false`, and is `1024` by default.
 * A bug has been fixed whereby over 700 different level-specific fixes (replacing missing or incorrect textures, moving stuck objects, etc.) weren’t being applied.
-* Tweaks have been made to the animations of Zombiemen, Shotgun Guys and Mancubi.
+* Tweaks have been made to the animations of zombiemen, shotgun guys and mancubi.
 * Screenshots are now saved as a 256-color *Windows* BMP, reducing their size in kilobytes by more than 66%.
 * Pillarboxes are no longer saved in screenshots.
 * The <kbd>PRINTSCREEN</kbd> key now no longer saves the screen to the clipboard when taking a screenshot.
@@ -1435,7 +1435,7 @@
 * Blood splats no longer appear on `RROCK0x` animated flats.
 * A bug has been fixed whereby if the “reject matrix” in a PWAD is empty, it will create an overflow and cause monsters to behave strangely. Thank you to jeff-d on the *Doomworld* forums for providing a solution to this.
 * The berserk power-up may now be toggled off using `IDBEHOLDS` cheat.
-* A bug has been fixed whereby the Lost Soul wouldn’t rotate correctly in *DOOM II’s* cast sequence.
+* A bug has been fixed whereby the lost soul wouldn’t rotate correctly in *DOOM II’s* cast sequence.
 * Translucency may be disabled by setting translucency setting in `default.cfg` to false.
 * The fuzz effect is now applied to the muzzle flash of the player’s weapon when they have the partial invisibility power-up.
 * A bug has been fixed whereby some floors weren’t rising or lowering when they should. Thank you to Jon Krazov for bringing this to my attention.
@@ -1457,7 +1457,7 @@
 * *DOOM Retro* is now distributed with version 1.2.14 of `SDL.dll` and version 1.2.12 of `SDL_mixer.dll`.
 * `doomretro.exe` now has a new icon.
 * If no IWAD file is specified using the `–iwad` command-line parameter, a standard *Windows* dialog box entitled “Where’s All the Data?” will now appear where one IWAD, and optionally one or more PWADs, can be selected.
-* *DOOM Retro* is now considerably more stable. The game will no longer crash when a Spectre is on the screen in some instances.
+* *DOOM Retro* is now considerably more stable. The game will no longer crash when a spectre is on the screen in some instances.
 * Many internal optimizations have been made.
 * A bug has been fixed that was present in *Vanilla DOOM* whereby bullets would pass through monsters in some instances.
 * Much greater mouse sensitivity can now be selected in the options menu.
@@ -1466,15 +1466,15 @@
 * The <kbd>+</kbd> and <kbd>–</kbd> keys, as well as moving left and right on a gamepad, can no longer be used to toggle messages on and off in the options menu.
 * When `default.cfg` is created for the first time, the keyboard control variables will now be saved as their actual character values rather than their scan codes.
 * Blood splats are now left on the ground wherever blood falls. (They may be disabled by setting `bloodsplats` to `false` in `default.cfg`.)
-* The fuzz effect of Spectres now looks better while the game is paused or a menu is displayed.
+* The fuzz effect of spectres now looks better while the game is paused or a menu is displayed.
 * A bug has been fixed whereby the chainsaw could not be selected by the player unless they also had a berserk power-up.
 * The screen will now be wiped at the same speed in widescreen mode.
 * If a value is out of range in `default.cfg`, the default for that value will be used rather than the closest valid value.
 * The `usegamma` value is now checked that it is in range when the game starts.
 * When the player stands where there is a change in height (either on the floor or ceiling), that edge is now drawn more accurately.
-* When in a confined area, Pain Elementals no longer try to spawn Lost Souls in the wrong places only for them to explode straight away.
-* When Lost Souls are killed, they now explode on the spot, rather than their explosion sometimes drifting upwards.
-* When Pain Elementals are killed, their explosion is now centered better.
+* When in a confined area, pain elementals no longer try to spawn lost souls in the wrong places only for them to explode straight away.
+* When lost souls are killed, they now explode on the spot, rather than their explosion sometimes drifting upwards.
+* When pain elementals are killed, their explosion is now centered better.
 * A bug has been fixed whereby messages weren’t always being cleared before taking a screenshot.
 * The state of flickering lights, active switches and moving platforms are now saved in savegames. This means that savegames from previous versions of *DOOM Retro* will no longer work.
 * When a monster is killed, there is a better chance of its corpse being mirrored horizontally if the corpse of the last monster to be killed wasn’t mirrored.
@@ -1492,7 +1492,7 @@
 * Monsters now can’t be rotated in the cast sequence until they are actually on the screen.
 * Z-coordinates are now taken into account when telefragging.
 * Arch-viles no longer resurrect monsters such that they become stuck in other monsters, or under doors.
-* A bug has been fixed whereby the game may crash when an Arch-vile resurrects a monster after a savegame has been loaded.
+* A bug has been fixed whereby the game may crash when an arch-vile resurrects a monster after a savegame has been loaded.
 * The boss in *MAP30: Icon Of Sin* at the end of *DOOM II: Hell On Earth* will now still make its alert sound when the level starts if `–nomonsters` is specified on the command-line.
 * A “rotate mode” is now available in the automap. Toggled on and off using the <kbd>R</kbd> key, it will dynamically orientate the level such that the player is always pointing towards the top of the screen. Rotate mode is off by default, and whether it is on or off is remembered between games.
 * Only one instance of `doomretro.exe` can be run at a time.
@@ -1513,12 +1513,12 @@
 * Gamepad controls can now be customized by editing the `default.cfg` file.
 * A bug has been fixed whereby the game wouldn’t be rendered correctly for displays with an aspect ratio less than 4:3 (that is, displays that aren’t widescreen).
 * In fullscreen mode on a widescreen display, increasing the screen size with the <kbd>+</kbd> key to the maximum will now show a widescreen mode without the status bar, and without any of the horizontal stretching prevalent in many other source ports. *DOOM Retro* will revert to the standard 4:3 aspect ratio when on the title, intermission, finale and help screens.
-* A bug has been fixed whereby parts of *MAP01: Entryway* and *MAP02: Underhalls* in *DOOM II: Hell On Earth* would become corrupted when using older versions of `doom2.wad`. Two barrels and a Shotgun Guy were missing from MAP02 as well. (Credit goes to Jon Krazov for his assistance.)
+* A bug has been fixed whereby parts of *MAP01: Entryway* and *MAP02: Underhalls* in *DOOM II: Hell On Earth* would become corrupted when using older versions of `doom2.wad`. Two barrels and a shotgun guy were missing from MAP02 as well. (Credit goes to Jon Krazov for his assistance.)
 * For a majority of translucent or partially translucent objects, their translucency is now calculated using additive blending rather than alpha blending, resulting in them appearing considerably brighter.
 * The blue lights in tall and short techno floor lamps (`MT_MISC29` and `MT_MISC30`) are now translucent.
 * The red and green lights in all switches, as well as the exit signs and many computer terminals that appear in most levels are now consistently bright regardless of the surrounding light levels, and the distance from the player (that is, they are “fullbright”).
 * Some minor cosmetic changes have been made to the status bar.
-* The corpses of Cyberdemons are no longer flipped horizontally at random.
+* The corpses of cyberdemons are no longer flipped horizontally at random.
 * When the player ends a level by flicking a switch, that switch will now turn on before the screen is wiped.
 * If the player has both the invulnerability and the light amplification visor power-ups, and the invulnerability power-up runs out first, the screen will now flash correctly between the inverted grayscale palette and the “fullbright” palette.
 * If the player has both a chainsaw and a berserk power-up, pressing the <kbd>1</kbd> key will now directly switch to either the chainsaw or the fist, depending on which weapon was selected last, rather than always switching to the chainsaw. This selection is also remembered when saving a game.
@@ -1526,8 +1526,8 @@
 * Monsters can no longer pass through tall level decorations.
 * A bug has been fixed whereby it took approximately twice as many rockets to kill the boss in *MAP30: Icon Of Sin* at the end of *DOOM II: Hell On Earth*.
 * Like what can be done at the end of *DOOM 64*, each monster can now be rotated using the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> cursor keys during the cast sequence in *DOOM II*.
-* The Lost Soul in the cast sequence in *DOOM II* is now partially translucent.
-* The explosions when the Lost Soul and the Pain Elemental die in the cast sequence in *DOOM II* are now translucent.
+* The lost soul in the cast sequence in *DOOM II* is now partially translucent.
+* The explosions when the lost soul and the pain elemental die in the cast sequence in *DOOM II* are now translucent.
 * A bug has been fixed whereby the cast sequence in *DOOM II* could not be advanced by pressing the <kbd>CTRL</kbd> key.
 * The help screen has been updated to include the new controls for the keyboard, mouse and gamepad, and fixing several inconsistencies. (Credit goes to Robin “FrightNight” Reisinger for his assistance.)
 * The text on the help screen now has drop shadows.
