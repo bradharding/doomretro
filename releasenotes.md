@@ -38,12 +38,12 @@
 * The color of the player’s path may be changed using the new `am_pathcolor` CVAR. It is `95` (a light gray) by default.
 * The console is now automatically closed when the `spawn` CCMD is used.
 * Spaces are now allowed in the `playername` CVAR.
-* The `playername` CVAR is now changed back to its default, `"you"`, if it is changed to an empty string.
+* The `playername` CVAR is now changed back to its default of `"you"` if it is changed to an empty string.
 * The values of the `r_detail` CVAR are now displayed correctly in the output of the `cvarlist` CCMD.
 * The `+use` and `+fire` actions will now respawn a dead player when in the automap.
 * A bug has been fixed that stopped some string CVARs from being able to be changed in the console.
 * The digits in the status bar are no longer lowered by 1 pixel in [*Back to Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back to Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
-* The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters.
+* The “Cheated” stat in the `playerstats` CCMD now increases when using some CCMDs and command-line parameters that would be considered cheating.
 * The console is now automatically closed when the `ammo`, `armor` and `health` CVARs are changed.
 * If the `health` CVAR is changed to a smaller value, the effects of the damage to the player will now be shown.
 * If the `ammo`, `armor` and `health` CVARs are changed to a larger value, the screen will now flash.
@@ -60,7 +60,8 @@
 * If the player has the invulnerability power-up when using `kill player` in the console, the inverted screen effect will now be removed.
 * The map title in the automap is now positioned better when using a taller character set from a PWAD (such as [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens)).
 * The folder where savegames are saved and loaded can now be specified using the `-savedir` command-line parameter.
-* The Suicide Bombers in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) will now explode as intended.
+* The suicide bombers in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) will now explode as intended.
+* If a `TITLEPIC` lump exists in a PWAD, and there is no `CREDIT` lump to accompany it, then the `CREDIT` lump in the IWAD won’t be displayed during the title sequence.
 
 ---
 
@@ -96,7 +97,7 @@
 * A `reset` CCMD has been implemented which will reset a CVAR to its default value.
 * A `resetall` CCMD has been implemented which will reset all CVARs to their default values.
 * A `bindlist` CCMD has been implemented which will list all the bound controls. Previously, entering the `bind` CCMD without any parameters would do this.
-* The individual monster kills displayed using the `playerstats` CCMD will no longer sometimes become corrupted when an arch-vile resurrects one.
+* The individual monster kills displayed using the `playerstats` CCMD will no longer sometimes become corrupted when an arch-vile resurrects a monster.
 * If *DOOM Retro* fails to launch for some reason, a more descriptive error will now be displayed.
 * A bug has been fixed whereby changing the `vid_scalefilter` CVAR to `nearest_linear` in the console could fail in some instances.
 * The floor texture of sector 103 in MAP04 of `plutonia.wad` has been fixed.

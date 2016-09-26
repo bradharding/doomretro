@@ -525,8 +525,21 @@ void D_DoAdvanceTitle(void)
             break;
     }
 
-    if (++titlesequence > 2)
-        titlesequence = 1;
+    if (W_CheckMultipleLumps((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"))) > 1)
+    {
+        if (W_CheckMultipleLumps("CREDIT") > 1)
+        {
+            if (++titlesequence > 2)
+                titlesequence = 1;
+        }
+        else
+            titlesequence = 1;
+    }
+    else
+    {
+        if (++titlesequence > 2)
+            titlesequence = 1;
+    }
 }
 
 //
