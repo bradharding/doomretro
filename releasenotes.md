@@ -97,7 +97,7 @@
 * A `reset` CCMD has been implemented which will reset a CVAR to its default value.
 * A `resetall` CCMD has been implemented which will reset all CVARs to their default values.
 * A `bindlist` CCMD has been implemented which will list all the bound controls. Previously, entering the `bind` CCMD without any parameters would do this.
-* The individual monster kills displayed using the `playerstats` CCMD will no longer sometimes become corrupted when an arch-vile resurrects a monster.
+* The individual monster kill stats displayed using the `playerstats` CCMD will no longer sometimes become corrupted when an arch-vile resurrects a monster.
 * If *DOOM Retro* fails to launch for some reason, a more descriptive error will now be displayed.
 * A bug has been fixed whereby changing the `vid_scalefilter` CVAR to `nearest_linear` in the console could fail in some instances.
 * The floor texture of sector 103 in MAP04 of `plutonia.wad` has been fixed.

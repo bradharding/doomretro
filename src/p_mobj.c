@@ -663,7 +663,12 @@ void P_MobjThinker(mobj_t *mobj)
     {
         // you can cycle through multiple states in a tic
         if (!--mobj->tics)
+        {
+            // [WDJ] This would segfault if mobj had been removed.
+            if (mobj->state == &states[S_NULL])
+                return;
             P_SetMobjState(mobj, mobj->state->nextstate);
+        }
     }
     else
     {
@@ -746,9 +751,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height :
         z));
-
-    // [AM] Do not interpolate on spawn.
-    mobj->interp = false;
 
     // [AM] Just in case interpolation is attempted...
     mobj->oldx = mobj->x;
@@ -963,8 +965,10 @@ void P_SpawnPlayer(const mapthing_t *mthing)
 
     p->viewz = p->mo->z + p->viewheight;
     p->psprites[ps_weapon].sx = 0;
-    p->mo->momx = p->mo->momy = 0;
-    p->momx = p->momy = 0;
+    p->mo->momx = 0;
+    p->mo->momy = 0;
+    p->momx = 0;
+    p->momy = 0;
 
     // setup gun psprite
     P_SetupPsprites(p);
