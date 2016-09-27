@@ -166,7 +166,8 @@ void P_ExplodeMissile(mobj_t *mo)
         P_RemoveMobjShadow(mo);
     }
 
-    S_StartSound(mo, mo->info->deathsound);
+    if (mo->info->deathsound)
+        S_StartSound(mo, mo->info->deathsound);
 }
 
 //
