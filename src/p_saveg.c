@@ -328,9 +328,6 @@ static void saveg_read_mobj_t(mobj_t *str)
     else
         str->player = NULL;
 
-    // int lastlook
-    str->lastlook = saveg_read32();
-
     // mapthing_t spawnpoint
     saveg_read_mapthing_t(&str->spawnpoint);
 
@@ -480,9 +477,6 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // struct player_s *player
     saveg_write32(str->player ? str->player - players + 1 : 0);
-
-    // int lastlook
-    saveg_write32(str->lastlook);
 
     // mapthing_t spawnpoint
     saveg_write_mapthing_t(&str->spawnpoint);
