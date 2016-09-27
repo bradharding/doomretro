@@ -48,7 +48,7 @@
 // Calculate # of glyphs in font.
 #define HU_FONTSIZE                     (HU_FONTEND - HU_FONTSTART + 1)
 
-#define HU_MSGX                         (automapactive && vid_fullscreen && !vid_widescreen ? 0 : 3)
+#define HU_MSGX                         3
 #define HU_MSGY                         2
 #define HU_MSGHEIGHT                    1       // in lines
 
