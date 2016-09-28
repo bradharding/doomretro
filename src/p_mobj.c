@@ -1196,7 +1196,7 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     mobj_t      *th = P_SpawnMobj(x, y, z + ((M_Random() - M_Random()) << 10), MT_TRAIL);
 
     th->momz = FRACUNIT / 2;
-    th->tics -= (M_Random() & 3);
+    th->tics -= M_Random() & 3;
 
     th->angle = angle;
 

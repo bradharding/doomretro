@@ -64,7 +64,7 @@ void I_PauseSong(void);
 void I_ResumeSong(void);
 void *I_RegisterSong(void *data, int len);
 void I_UnRegisterSong(void *handle);
-void I_PlaySong(void *handle, int looping);
+void I_PlaySong(void *handle, dboolean looping);
 void I_StopSong(void);
 dboolean I_MusicIsPlaying(void);
 

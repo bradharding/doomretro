@@ -655,13 +655,13 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
     if (delta > toucher->height || delta < -8 * FRACUNIT)
         return;         // out of reach
 
-    sound = sfx_itemup;
-    player = toucher->player;
-
     // Dead thing touching.
     // Can happen with a sliding player corpse.
     if (toucher->health <= 0)
         return;
+
+    sound = sfx_itemup;
+    player = toucher->player;
 
     // Identify by sprite.
     switch (special->sprite)
@@ -1188,7 +1188,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         P_UpdateKillStat(type, 1);
     }
 
-    if (type == MT_BARREL && source && source->player)
+    if (type == MT_BARREL && source)
         target->target = source;
 
     if (target->player)
@@ -1301,7 +1301,11 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         return;
 
     if (flags & MF_SKULLFLY)
-        target->momx = target->momy = target->momz = 0;
+    {
+        target->momx = 0;
+        target->momy = 0;
+        target->momz = 0;
+    }
 
     if (source)
         splayer = source->player;

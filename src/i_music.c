@@ -65,7 +65,7 @@ char                    *s_timiditycfgpath = s_timiditycfgpath_default;
 static char             *temp_timidity_cfg;
 
 // If the temp_timidity_cfg config variable is set, generate a "wrapper"
-// config file for Timidity to point to the actual config file. This
+// config file for TiMidity to point to the actual config file. This
 // is needed to inject a "dir" command so that the patches are read
 // relative to the actual config file.
 static dboolean WriteWrapperTimidityConfig(char *write_path)
@@ -118,7 +118,8 @@ void CheckTimidityConfig(void)
     if (*s_timiditycfgpath)
     {
         if (M_FileExists(s_timiditycfgpath))
-            C_Output("Using TiMidity configuration file <b>%s</b>.", s_timiditycfgpath);
+            C_Output("Using <i><b>TiMidity</b></i> configuration file <b>%s</b>.",
+                s_timiditycfgpath);
         else
             C_Warning("Can't find TiMidity configuration file %s.", s_timiditycfgpath);
     }
@@ -185,7 +186,7 @@ dboolean I_InitMusic(void)
     sdl_was_initialized = true;
     music_initialized = true;
 
-    // Once initialization is complete, the temporary Timidity config
+    // Once initialization is complete, the temporary TiMidity config
     // file can be removed.
     RemoveTimidityConfig();
 
@@ -211,7 +212,7 @@ void I_SetMusicVolume(int volume)
 }
 
 // Start playing a mid
-void I_PlaySong(void *handle, int looping)
+void I_PlaySong(void *handle, dboolean looping)
 {
     if (!music_initialized || !handle)
         return;

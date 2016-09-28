@@ -63,7 +63,7 @@ typedef enum
     NUMDIRS
 } dirtype_t;
 
-dirtype_t opposite[9] =
+dirtype_t opposite[] =
 {
     DI_WEST,
     DI_SOUTHWEST,
@@ -76,7 +76,7 @@ dirtype_t opposite[9] =
     DI_NODIR
 };
 
-dirtype_t diags[4] =
+dirtype_t diags[] =
 {
     DI_NORTHWEST,
     DI_NORTHEAST,
