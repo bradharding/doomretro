@@ -3806,7 +3806,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 value = MIN(value, maxhealth);
                 if (!player->health && value)
                     P_ResurrectPlayer(player, value);
-                else
+                else if (!(player->cheats & CF_GODMODE) || value > 0)
                 {
                     if (value < player->health)
                         P_DamageMobj(player->mo, NULL, NULL, player->health - value);
