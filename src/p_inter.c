@@ -1189,7 +1189,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     }
 
     if (type == MT_BARREL && source)
-        target->target = source;
+        P_SetTarget(&target->target, source);
 
     if (target->player)
     {
