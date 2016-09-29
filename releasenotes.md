@@ -48,7 +48,7 @@
 * If the `health` CVAR is changed to a smaller value, the effects of the damage to the player will now be shown.
 * If the `ammo`, `armor` and `health` CVARs are changed to a larger value, the screen will now flash.
 * The player will now be resurrected if the `health` CVAR is changed in the console when they are dead.
-* There is now a read-only `version` CVAR that indicates which version of *DOOM Retro* created `doomretro.cfg`.
+* There is now a read-only `version` CVAR that may be used to determine which version of *DOOM Retro* created a `doomretro.cfg` file.
 * The super shotgun will now be displayed correctly when fired in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * The default gamepad sensitivity (set using the `gp_senstivity` CVAR) has been increased from `48` to `64`.
 * The `+forward2`, `+back2`, `+strafeleft2`, `+straferight2` and `+use2` actions have been removed. The controls that were bound to these actions are now bound to `+forward`, `+back`, `+strafeleft`, `+straferight` and `+use`, respectively.
