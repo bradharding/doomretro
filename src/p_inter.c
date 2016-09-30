@@ -1410,7 +1410,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         }
 
         tplayer->health -= damage;
-        target->health -= damage;
         tplayer->mo->health -= damage;
 
         if (tplayer->health <= 0)
@@ -1418,13 +1417,11 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
             if (tplayer->cheats & CF_BUDDHA)
             {
                 tplayer->health = 1;
-                target->health = 1;
                 tplayer->mo->health = 1;
             }
             else
             {
                 tplayer->health = 0;
-                target->health = 0;
                 tplayer->mo->health = 0;
 
                 P_KillMobj(source, target);
