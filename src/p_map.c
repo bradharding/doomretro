@@ -134,7 +134,7 @@ dboolean PIT_StompThing(mobj_t *thing)
             return true;    // underneath
     }
 
-    P_DamageMobj(thing, tmthing, tmthing, 10000);       // Stomp!
+    P_DamageMobj(thing, tmthing, tmthing, 10000, true);   // Stomp!
 
     return true;
 }
@@ -487,7 +487,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
     {
         damage = ((M_Random() % 8) + 1) * tmthing->info->damage;
 
-        P_DamageMobj(thing, tmthing, tmthing, damage);
+        P_DamageMobj(thing, tmthing, tmthing, damage, true);
 
         tmthing->flags &= ~MF_SKULLFLY;
         tmthing->momx = tmthing->momy = tmthing->momz = 0;
@@ -529,7 +529,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
 
         // damage / explode
         damage = ((M_Random() % 8) + 1) * tmthing->info->damage;
-        P_DamageMobj(thing, tmthing, tmthing->target, damage);
+        P_DamageMobj(thing, tmthing, tmthing->target, damage, true);
 
         if (thing->type != MT_BARREL)
         {
@@ -1657,7 +1657,7 @@ hitline:
     if (la_damage)
     {
         successfulshot = true;
-        P_DamageMobj(th, shootthing, shootthing, la_damage);
+        P_DamageMobj(th, shootthing, shootthing, la_damage, true);
     }
 
     // don't go any farther
@@ -1855,7 +1855,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
     if (P_CheckSight(thing, bombspot))
     {
         // must be in direct path
-        P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist);
+        P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist, true);
 
         // [BH] count number of times player's rockets hit a monster
         if (bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
@@ -1980,7 +1980,7 @@ void PIT_ChangeSector(mobj_t *thing)
     nofit = true;
 
     if (crushchange && !(leveltime & 3))
-        P_DamageMobj(thing, NULL, NULL, 10);
+        P_DamageMobj(thing, NULL, NULL, 10, true);
 
     // keep checking (crush other things)
     return;

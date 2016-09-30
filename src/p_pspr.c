@@ -849,7 +849,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         for (j = 0; j < 15; j++)
             damage += (M_Random() & 7) + 1;
 
-        P_DamageMobj(linetarget, mo, mo, damage);
+        P_DamageMobj(linetarget, mo, mo, damage, true);
     }
 
     if (successfulshot)

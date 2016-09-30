@@ -1107,7 +1107,7 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (P_CheckMeleeRange(actor))
     {
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * 3);
+        P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * 3, true);
         return;
     }
 
@@ -1125,7 +1125,7 @@ void A_SargAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     A_FaceTarget(actor, NULL, NULL);
     if (P_CheckMeleeRange(actor))
-        P_DamageMobj(actor->target, actor, actor, (M_Random() % 10 + 1) * 4);
+        P_DamageMobj(actor->target, actor, actor, (M_Random() % 10 + 1) * 4, true);
 }
 
 void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1136,7 +1136,7 @@ void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
     if (P_CheckMeleeRange(actor))
     {
-        P_DamageMobj(actor->target, actor, actor, (M_Random() % 6 + 1) * 10);
+        P_DamageMobj(actor->target, actor, actor, (M_Random() % 6 + 1) * 10, true);
         return;
     }
 
@@ -1174,7 +1174,7 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (P_CheckMeleeRange(actor))
     {
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * 10);
+        P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * 10, true);
         return;
     }
 
@@ -1281,7 +1281,7 @@ void A_SkelFist(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (P_CheckMeleeRange(actor))
     {
         S_StartSound(actor, sfx_skepch);
-        P_DamageMobj(actor->target, actor, actor, ((M_Random() % 10) + 1) * 6);
+        P_DamageMobj(actor->target, actor, actor, ((M_Random() % 10) + 1) * 6, true);
     }
 }
 
@@ -1504,7 +1504,7 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     S_StartSound(actor, sfx_barexp);
-    P_DamageMobj(target, actor, actor, 20);
+    P_DamageMobj(target, actor, actor, 20, true);
 
     // [BH] don't apply upward momentum from vile attack to player when no clipping mode on
     if (!target->player || !(target->flags & MF_NOCLIP))
@@ -1638,7 +1638,7 @@ void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, actor->info->attacksound);
     A_FaceTarget(actor, NULL, NULL);
-    P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * actor->info->damage);
+    P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * actor->info->damage, true);
 }
 
 void A_Stop(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1680,7 +1680,7 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
         // ceiling of its new sector, or below the floor. If so, kill it.
         || newmobj->z > newmobj->subsector->sector->ceilingheight - newmobj->height
         || newmobj->z < newmobj->subsector->sector->floorheight)
-        P_DamageMobj(newmobj, actor, actor, 10000);
+        P_DamageMobj(newmobj, actor, actor, 10000, true);
     else
     {
         P_SetTarget(&newmobj->target, actor->target);
@@ -2177,7 +2177,7 @@ void A_PlayerScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 // killough 11/98: kill an object
 void A_Die(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_DamageMobj(actor, NULL, NULL, actor->health);
+    P_DamageMobj(actor, NULL, NULL, actor->health, true);
 }
 
 //
@@ -2269,7 +2269,7 @@ void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     (actor->target && (A_FaceTarget(actor, NULL, NULL), P_CheckMeleeRange(actor)) ? (state->misc2 ?
         S_StartSound(actor, state->misc2) : (void)0, P_DamageMobj(actor->target, actor, actor,
-            state->misc1)) : (void)0);
+            state->misc1, true)) : (void)0);
 }
 
 void A_PlaySound(mobj_t *actor, player_t *player, pspdef_t *psp)

@@ -1809,20 +1809,20 @@ void P_PlayerInSpecialSector(player_t *player)
             case DamageNegative5Or10PercentHealth:
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 10);
+                        P_DamageMobj(player->mo, NULL, NULL, 10, true);
                 break;
 
             case DamageNegative2Or5PercentHealth:
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 5);
+                        P_DamageMobj(player->mo, NULL, NULL, 5, true);
                 break;
 
             case DamageNegative10Or20PercentHealth:
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
                 if (!player->powers[pw_ironfeet] || M_Random() < 5)
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 20);
+                        P_DamageMobj(player->mo, NULL, NULL, 20, true);
                 break;
 
             case Secret:
@@ -1840,7 +1840,7 @@ void P_PlayerInSpecialSector(player_t *player)
                 player->powers[pw_invulnerability] = 0;
 
                 if (!(leveltime & 0x1F))
-                    P_DamageMobj(player->mo, NULL, NULL, 20);
+                    P_DamageMobj(player->mo, NULL, NULL, 20, true);
 
                 if (player->health <= 10)
                     G_ExitLevel();
@@ -1860,20 +1860,20 @@ void P_PlayerInSpecialSector(player_t *player)
             case 1:     // 2/5 damage per 31 ticks
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 5);
+                        P_DamageMobj(player->mo, NULL, NULL, 5, true);
                 break;
 
             case 2:     // 5/10 damage per 31 ticks
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 10);
+                        P_DamageMobj(player->mo, NULL, NULL, 10, true);
                 break;
 
             case 3:     // 10/20 damage per 31 ticks
                 if (!player->powers[pw_ironfeet] || M_Random() < 5)  // take damage even with suit
                 {
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 20);
+                        P_DamageMobj(player->mo, NULL, NULL, 20, true);
                 }
                 break;
         }

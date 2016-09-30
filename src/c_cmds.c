@@ -1749,7 +1749,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             && type != MT_BARREL && type != MT_BOSSBRAIN)
                         {
                             thing->flags2 |= MF2_MASSACRE;
-                            P_DamageMobj(thing, NULL, NULL, thing->health);
+                            P_DamageMobj(thing, NULL, NULL, thing->health, true);
                             if (!(thing->flags & MF_NOBLOOD))
                             {
                                 int     r;
@@ -1809,7 +1809,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
                         {
                             thing->flags2 |= MF2_MASSACRE;
-                            P_DamageMobj(thing, NULL, NULL, thing->health);
+                            P_DamageMobj(thing, NULL, NULL, thing->health, true);
                             if (!(thing->flags & MF_NOBLOOD))
                             {
                                 int     r;
@@ -3806,10 +3806,10 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 value = MIN(value, maxhealth);
                 if (!player->health && value)
                     P_ResurrectPlayer(player, value);
-                else if (!(player->cheats & CF_GODMODE) || value > 0)
+                else if (!(player->cheats & CF_BUDDHA) || value > 0)
                 {
                     if (value < player->health)
-                        P_DamageMobj(player->mo, NULL, NULL, player->health - value);
+                        P_DamageMobj(player->mo, NULL, NULL, player->health - value, false);
                     else
                         player->health = player->mo->health = value;
                     C_HideConsole();
