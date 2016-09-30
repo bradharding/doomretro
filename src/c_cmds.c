@@ -3766,7 +3766,8 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         else
         {
             C_Output(removenewlines(consolecmds[C_GetIndex(stringize(ammo))].description));
-            C_Output("It is currently set to <b>%i</b>.", player->ammo[ammotype]);
+            C_Output("It is currently set to <b>%i</b>.",
+                (ammotype == am_noammo ? 0 ? player->ammo[ammotype]));
         }
     }
     else if (M_StringCompare(cmd, stringize(armor)))
