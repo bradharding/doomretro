@@ -32,7 +32,6 @@
 * The effects of changing the `r_translucency` CVAR will now be immediate in the HUD.
 * When the `r_translucency` CVAR is `off`, the console and the alternate HUD will now no longer be translucent.
 * The alternate HUD is now enabled by default.
-* “DOOM Retro” now appears at the end of the window’s caption.
 * A texture has been corrected in MAP13 of `doom2.wad`.
 * The player’s path may now be displayed in the automap by enabling the new `am_path` CVAR. It is `off` by default.
 * The color of the player’s path may be changed using the new `am_pathcolor` CVAR. It is `95` (a light gray) by default.

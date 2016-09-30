@@ -1566,8 +1566,6 @@ void M_SetWindowCaption(void)
             M_snprintf(caption, sizeof(caption), "%s (%s)", caption, s_CAPTION_BFGEDITION);
     }
 
-    M_snprintf(caption, sizeof(caption), "%s - "PACKAGE_NAME, caption);
-
     SDL_SetWindowTitle(window, caption);
 }
 
