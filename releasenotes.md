@@ -1,5 +1,6 @@
 ### DOOM Retro v2.3.1
 
+* The correct value of the `ammo` CVAR is now displayed when the player has their fists or chainsaw selected.
 
 ---
 
