@@ -871,7 +871,7 @@ void R_ProjectSprite(mobj_t *thing)
     // get light level
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
-    else if ((frame & FF_FULLBRIGHT) && (rot <= 3 || rot >= 7))
+    else if (frame & FF_FULLBRIGHT)
         vis->colormap = fullcolormap;           // full bright
     else                                        // diminished light
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];

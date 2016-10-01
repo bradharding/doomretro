@@ -1,6 +1,8 @@
 ### DOOM Retro v2.3.1
 
 * The correct value of the `ammo` CVAR is now displayed when the player has their fists or chainsaw selected.
+* A bug has been fixed whereby lost souls wouldn’t be fullbright when facing away from the player.
+* Monsters will now always be fullbright when firing at any angle.
 
 ---
 
