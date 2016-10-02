@@ -3034,29 +3034,41 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 // resetall cmd
 //
+void C_VerifyResetAll(int key)
+{
+    messageToPrint = false;
+    if (key == 'y')
+    {
+        int i = 0;
+
+        S_StartSound(NULL, sfx_swtchx);
+
+        while (*consolecmds[i].name)
+        {
+            int     flags = consolecmds[i].flags;
+
+            if (consolecmds[i].type == CT_CVAR && !(flags & CF_READONLY))
+            {
+                if (flags & (CF_BOOLEAN | CF_INTEGER))
+                    consolecmds[i].func2(consolecmds[i].name,
+                        uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
+                            consolecmds[i].aliases)), "", "");
+                else if (flags & CF_FLOAT)
+                    consolecmds[i].func2(consolecmds[i].name,
+                        striptrailingzero(consolecmds[i].defaultnumber, 2), "", "");
+                else
+                    consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
+                        consolecmds[i].defaultstring : "\"\""), "", "");
+            }
+            ++i;
+        }
+    }
+}
+
 static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int i = 0;
-
-    while (*consolecmds[i].name)
-    {
-        int     flags = consolecmds[i].flags;
-
-        if (consolecmds[i].type == CT_CVAR && !(flags & CF_READONLY))
-        {
-            if (flags & (CF_BOOLEAN | CF_INTEGER))
-                consolecmds[i].func2(consolecmds[i].name,
-                    uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
-                        consolecmds[i].aliases)), "", "");
-            else if (flags & CF_FLOAT)
-                consolecmds[i].func2(consolecmds[i].name,
-                    striptrailingzero(consolecmds[i].defaultnumber, 2), "", "");
-            else
-                consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
-                    consolecmds[i].defaultstring : "\"\""), "", "");
-        }
-        ++i;
-    }
+    C_HideConsoleFast();
+    M_StartMessage("Are you sure you want to reset all CVARs?", C_VerifyResetAll, true);
 }
 
 //

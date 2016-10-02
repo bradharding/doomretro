@@ -96,6 +96,10 @@ void M_SetWindowCaption(void);
 
 void M_UpdateSaveGameName(int i);
 
+void M_StartMessage(char *string, void *routine, dboolean input);
+
+extern dboolean messageToPrint;
+
 extern int      r_screensize;
 extern int      gamepadmenu;
 extern dboolean nomusic;

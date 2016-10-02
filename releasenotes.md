@@ -4,6 +4,7 @@
 * A bug has been fixed whereby lost souls wouldn’t be fullbright at certain angles.
 * A previously implemented feature that caused monsters not to be fullbright when firing and facing away from the player now works correctly.
 * Minor changes have been made to text that is output to the console.
+* A confirmation message is now displayed when using the `resetall` CCMD.
 
 ---
 
