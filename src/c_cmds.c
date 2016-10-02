@@ -709,9 +709,9 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLALIAS,
         "Toggles the translucency of sprites and textures."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
-        "Resets a console variable to its default value."),
+        "Resets a CVAR to its default value."),
     CMD(resetall, "", null_func1, resetall_cmd_func2, 0, "",
-        "Resets all console variables to their default values."),
+        "Resets all CVARs to their default values."),
     CMD(respawnitems, "", null_func1, respawnitems_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles respawning items."),
     CMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -747,7 +747,7 @@ consolecmd_t consolecmds[] =
     CMD(unbind, "", null_func1, unbind_cmd_func2, 1, UNBINDCMDFORMAT,
         "Unbinds the action from a <i>control</i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSALIAS,
-        "The units used in the <b>playerstats</b> console command (<b>imperial</b> or\n<b>metric</b>)."),
+        "The units used in the <b>playerstats</b> CCMD (<b>imperial</b> or <b>metric</b>)."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"</b></i>'s version."),
     CVAR_BOOL(vid_capfps, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
@@ -3069,7 +3069,8 @@ void C_VerifyResetAll(int key)
 static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     C_HideConsoleFast();
-    M_StartMessage("Are you sure you want to reset all CVARs?", C_VerifyResetAll, true);
+    M_StartMessage("Are you sure you want to reset all\nCVARs to their default values?",
+        C_VerifyResetAll, true);
 }
 
 //

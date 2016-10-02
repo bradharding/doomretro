@@ -1465,7 +1465,7 @@ void C_PrintSDLVersions(void)
     int revision = SDL_GetRevisionNumber();
 
     if (revision)
-        C_Output("Using version %i.%i.%i (Revision %s) of <b>sdl2.dll</b>.",
+        C_Output("Using version %i.%i.%i (revision %s) of <b>sdl2.dll</b>.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, commify(revision));
     else
         C_Output("Using version %i.%i.%i of <b>sdl2.dll</b>.",
