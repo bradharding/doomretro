@@ -578,6 +578,10 @@ char *titlecase(const char *str)
                 newstr[i] = toupper(newstr[i]);
     }
 
+    strreplace(newstr, " Of ", " of ");
+    strreplace(newstr, " Or ", " or ");
+    strreplace(newstr, " The ", " the ");
+
     return newstr;
 }
 
