@@ -1397,7 +1397,7 @@ typedef struct
 // killough 8/9/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 29      // number of ints in the mobjinfo_t structure (!)
+#define DEH_MOBJINFOMAX 31      // number of ints in the mobjinfo_t structure (!)
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1460,7 +1460,9 @@ static char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Retro Bits",               // .flags2
     "Respawn frame",            // .raisestate
     "Frames",                   // .frames
-    "Blood"                     // .blood
+    "Fullbright",               // .fullbright
+    "Blood",                    // .blood
+    "Shadow offset"             // .shadowoffset
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
