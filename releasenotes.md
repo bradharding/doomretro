@@ -1,5 +1,6 @@
 ### DOOM Retro v2.3.1
 
+* *DOOM Retro* now uses version 2.0.5 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
 * The correct value of the `ammo` CVAR is now displayed when the player has their fists or chainsaw selected.
 * A bug has been fixed whereby lost souls wouldn’t be fullbright at certain angles.
 * A previously implemented feature that caused monsters not to be fullbright when firing and facing away from the player now works correctly.
