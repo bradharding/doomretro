@@ -1490,7 +1490,9 @@ void P_InitExtraMobjs(void)
         mobjinfo[i].flags2 = 0;
         mobjinfo[i].raisestate = S_NULL;
         mobjinfo[i].frames = 0;
+        mobjinfo[i].fullbright = false;
         mobjinfo[i].blood = 0;
+        mobjinfo[i].shadowoffset = 0;
         mobjinfo[i].name1[0] = '\0';
         mobjinfo[i].plural1[0] = '\0';
         mobjinfo[i].name2[0] = '\0';

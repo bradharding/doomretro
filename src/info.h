@@ -1441,6 +1441,7 @@ typedef struct
     int         flags2;
     int         raisestate;
     int         frames;
+    dboolean    fullbright;
     int         blood;
     int         shadowoffset;
     char        name1[100];
