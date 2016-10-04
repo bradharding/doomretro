@@ -2284,7 +2284,7 @@ static void InitMapInfo(void)
                 map += (episode - 1) * 10;
             }
         }
-        if (map < 1 || map > 99)
+        if (map < 0 || map > 99)
         {
             if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wad_file->path), "NERVE.WAD"))
             {
