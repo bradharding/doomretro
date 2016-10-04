@@ -1000,7 +1000,7 @@ static dboolean C_ValidateInput(char *input)
 
 dboolean C_Responder(event_t *ev)
 {
-    if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)
+    if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messageToPrint)
         return false;
 
     if (ev->type == ev_keydown)

@@ -3068,7 +3068,6 @@ void C_VerifyResetAll(int key)
 
 static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    C_HideConsoleFast();
     M_StartMessage("Are you sure you want to reset all\nCVARs to their default values?",
         C_VerifyResetAll, true);
 }
