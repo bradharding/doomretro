@@ -749,7 +749,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSALIAS,
         "The units used in the <b>playerstats</b> CCMD (<b>imperial</b> or <b>metric</b>)."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
-        "<i><b>"PACKAGE_NAME"</b></i>'s version."),
+        "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_BOOL(vid_capfps, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS,
