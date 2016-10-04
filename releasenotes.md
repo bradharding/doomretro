@@ -6,6 +6,7 @@
 * A previously implemented feature that caused monsters not to be fullbright when firing and facing away from the player now works correctly.
 * Minor changes have been made to text that is output to the console.
 * A confirmation message is now displayed when using the `resetall` CCMD.
+* If an invalid map marker is encountered in a PWAD’s `MAPINFO` lump, a warning will now be displayed and *DOOM Retro* will continue to parse the lump rather than exiting with an error.
 
 ---
 

@@ -2284,7 +2284,7 @@ static void InitMapInfo(void)
                 map += (episode - 1) * 10;
             }
         }
-        if (map < 0 || map > 99)
+        if (map < 1 || map > 99)
         {
             if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wad_file->path), "NERVE.WAD"))
             {
@@ -2295,8 +2295,12 @@ static void InitMapInfo(void)
                 MAPINFO = -1;
                 return;
             }
+            else
+            {
+                C_Warning("The MAPINFO lump contains an invalid map marker.");
+                continue;
+            }
 
-            SC_ScriptError(NULL);
         }
 
         info = &mapinfo[map];
