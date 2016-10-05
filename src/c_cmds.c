@@ -3208,6 +3208,9 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
                             spawn = false;
                             break;
                     }
+
+                    if (gamemode == shareware && spawncmdtype == Cyberdemon)
+                        spawn = false;
                 }
                 else if (spawncmdtype == WolfensteinSS && bfgedition)
                     spawncmdtype = Zombieman;
