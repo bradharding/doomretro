@@ -3215,6 +3215,15 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
                 else if (spawncmdtype == WolfensteinSS && bfgedition)
                     spawncmdtype = Zombieman;
 
+                if (!spawn)
+                {
+                    static char buffer[128];
+
+                    M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
+                    buffer[0] = toupper(buffer[0]);
+                    C_Warning("%s can't be spawned in <b><i>%s</i></b>.", buffer, gamedescription);
+                }
+
                 return spawn;
             }
         }

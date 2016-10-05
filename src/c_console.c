@@ -848,7 +848,8 @@ void C_Drawer(void)
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
-                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true);
+                    NOBACKGROUNDCOLOR, (type == warningstring ? consolewarningcolor :
+                    consoleboldcolor), tinttab66, console[i].tabs, true);
                 if (con_timestamps && *console[i].timestamp)
                     C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
