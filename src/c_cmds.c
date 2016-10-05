@@ -3189,43 +3189,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
             if (spawncmdtype >= 0 && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
                 || (num == spawncmdtype&& num != -1)))
-            {
-                dboolean        spawn = true;
-
-                if (gamemode != commercial)
-                {
-                    switch (spawncmdtype)
-                    {
-                        case Arachnotron:
-                        case ArchVile:
-                        case BossBrain:
-                        case HellKnight:
-                        case Mancubus:
-                        case PainElemental:
-                        case HeavyWeaponDude:
-                        case Revenant:
-                        case WolfensteinSS:
-                            spawn = false;
-                            break;
-                    }
-
-                    if (gamemode == shareware && spawncmdtype == Cyberdemon)
-                        spawn = false;
-                }
-                else if (spawncmdtype == WolfensteinSS && bfgedition)
-                    spawncmdtype = Zombieman;
-
-                if (!spawn)
-                {
-                    static char buffer[128];
-
-                    M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
-                    buffer[0] = toupper(buffer[0]);
-                    C_Warning("%s can't be spawned in <b><i>%s</i></b>.", buffer, gamedescription);
-                }
-
-                return spawn;
-            }
+                return true;
         }
     }
     return false;
@@ -3242,30 +3206,66 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else
     {
-        mobj_t      *player = players[0].mo;
-        fixed_t     x = player->x;
-        fixed_t     y = player->y;
-        angle_t     angle = player->angle >> ANGLETOFINESHIFT;
-        mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
-            ONFLOORZ, P_FindDoomedNum(spawncmdtype));
-        int         flags = thing->flags;
+        dboolean        spawn = true;
 
-        thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
-
-        if (flags & MF_COUNTKILL)
+        if (gamemode != commercial)
         {
-            ++totalkills;
-            ++monstercount[thing->type];
-        }
-        else if (flags & MF_COUNTITEM)
-        {
-            totalitems++;
-            players[0].cheated++;
-            stat_cheated = SafeAdd(stat_cheated, 1);
-            M_SaveCVARs();
-        }
+            switch (spawncmdtype)
+            {
+                case Arachnotron:
+                case ArchVile:
+                case BossBrain:
+                case HellKnight:
+                case Mancubus:
+                case PainElemental:
+                case HeavyWeaponDude:
+                case Revenant:
+                case WolfensteinSS:
+                    spawn = false;
+                    break;
+            }
 
-        C_HideConsole();
+            if (gamemode == shareware && spawncmdtype == Cyberdemon)
+                spawn = false;
+        }
+        else if (spawncmdtype == WolfensteinSS && bfgedition)
+            spawncmdtype = Zombieman;
+
+        if (!spawn)
+        {
+            static char buffer[128];
+
+            M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+            buffer[0] = toupper(buffer[0]);
+            C_Warning("%s can't be spawned in <b><i>%s</i></b>.", buffer, gamedescription);
+        }
+        else
+        {
+            mobj_t      *player = players[0].mo;
+            fixed_t     x = player->x;
+            fixed_t     y = player->y;
+            angle_t     angle = player->angle >> ANGLETOFINESHIFT;
+            mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle],
+                            y + 100 * finesine[angle], ONFLOORZ, P_FindDoomedNum(spawncmdtype));
+            int         flags = thing->flags;
+
+            thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+
+            if (flags & MF_COUNTKILL)
+            {
+                ++totalkills;
+                ++monstercount[thing->type];
+            }
+            else if (flags & MF_COUNTITEM)
+            {
+                totalitems++;
+                players[0].cheated++;
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                M_SaveCVARs();
+            }
+
+            C_HideConsole();
+        }
     }
 }
 
