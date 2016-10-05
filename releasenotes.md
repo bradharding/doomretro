@@ -8,6 +8,7 @@
 * A confirmation message is now displayed when using the `resetall` CCMD.
 * If an invalid map marker is encountered in a PWAD’s `MAPINFO` lump, a warning will now be displayed and *DOOM Retro* will continue to parse the lump rather than exiting with an error.
 * The game will no longer crash when trying to spawn a cyberdemon using the `spawn` CCMD in *DOOM Shareware*.
+* A bug has been fixed whereby the player’s death sound wasn’t being played when they died.
 
 ---
 
