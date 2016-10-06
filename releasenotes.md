@@ -10,6 +10,7 @@
 * The game will no longer crash when trying to spawn a cyberdemon using the `spawn` CCMD in *DOOM Shareware*.
 * An error is now displayed in the console when a monster can’t be spawned using the `spawn` CCMD.
 * A bug has been fixed whereby the player’s death sound wasn’t being played when they died.
+* Blood splats are no longer spawned around corpse decorations that are in a liquid sector.
 
 ---
 

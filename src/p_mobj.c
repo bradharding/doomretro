@@ -925,7 +925,7 @@ void P_RespawnSpecials(void)
     mo->spawnpoint = *mthing;
     mo->angle = ANG45 * (mthing->angle / 45);
 
-    // pull it from the que
+    // pull it from the queue
     iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
 }
 
@@ -1140,7 +1140,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD)) && mobj->blood && !chex && r_bloodsplats_max)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
-        if (r_corpses_moreblood)
+        if (r_corpses_moreblood && !isliquid[mobj->subsector->sector->floorpic])
             P_SpawnMoreBlood(mobj);
     }
 
