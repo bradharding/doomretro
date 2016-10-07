@@ -93,6 +93,9 @@ static int      consolewait;
 static dboolean forceblurredraw = false;
 
 static patch_t  *consolefont[CONSOLEFONTSIZE];
+static patch_t  *trademark;
+static patch_t  *copyright;
+static patch_t  *regomark;
 static patch_t  *degree;
 static patch_t  *multiply;
 static patch_t  *warning;
@@ -397,9 +400,29 @@ static int C_TextWidth(char *text, dboolean formatting)
         else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && (text[i + 2] == 'b'
             || text[i + 2] == 'i') && text[i + 3] == '>' && formatting)
             i += 3;
+        else if (letter == 153)
+        {
+            w += SHORT(trademark->width);
+            ++i;
+        }
+        else if (letter == 169)
+        {
+            w += SHORT(copyright->width);
+            ++i;
+        }
+        else if (letter == 174)
+        {
+            w += SHORT(regomark->width);
+            ++i;
+        }
         else if (letter == '\xC2' && nextletter == '\xB0')
         {
             w += SHORT(degree->width);
+            ++i;
+        }
+        else if (letter == 215)
+        {
+            w += SHORT(multiply->width);
             ++i;
         }
         else
@@ -462,13 +485,17 @@ void C_Init(void)
         M_snprintf(buffer, 9, "DRFON%03d", j++);
         consolefont[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
+
+    trademark = W_CacheLumpName("DRFON153", PU_STATIC);
+    copyright = W_CacheLumpName("DRFON169", PU_STATIC);
+    regomark = W_CacheLumpName("DRFON174", PU_STATIC);
     degree = W_CacheLumpName("DRFON176", PU_STATIC);
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
-    warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
-    brand = W_CacheLumpName("DRBRAND", PU_STATIC);
-    divider = W_CacheLumpName("DRDIVIDE", PU_STATIC);
 
+    brand = W_CacheLumpName("DRBRAND", PU_STATIC);
     caret = W_CacheLumpName("DRCARET", PU_STATIC);
+    divider = W_CacheLumpName("DRDIVIDE", PU_STATIC);
+    warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
 
 #if defined(WIN32)
     caretblinktime = GetCaretBlinkTime();
@@ -688,6 +715,12 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
+            else if (letter == 153)
+                patch = trademark;
+            else if (letter == 169)
+                patch = copyright;
+            else if (letter == 174)
+                patch = regomark;
             else if (letter == 194 && nextletter == 176)
             {
                 patch = degree;

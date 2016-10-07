@@ -3,6 +3,7 @@
 * *DOOM Retro* now uses version 2.0.5 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
 * A bug has been fixed whereby the connection of *DirectInput* gamepads were not being displayed in the console at startup.
 * Invalid characters are no longer displayed in the console.
+* “™”, “©” and “®” characters can now be displayed in the console.
 
 ---
 
