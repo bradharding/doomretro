@@ -3349,7 +3349,8 @@ void M_ClearMenus(void)
         XInputVibration(idlemotorspeed);
     }
 
-    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+    if (gamestate == GS_LEVEL)
+        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
 }
 
 //

@@ -4,6 +4,7 @@
 * A bug has been fixed whereby the connection of *DirectInput* gamepads were not being displayed in the console at startup.
 * Invalid characters are no longer displayed in the console.
 * “™”, “©” and “®” characters can now be displayed in the console.
+* The palette will no longer inadvertently change when exiting the menu in some rare instances.
 
 ---
 
