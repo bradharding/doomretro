@@ -1,5 +1,8 @@
 ### DOOM Retro v2.3.2
 
+* *DOOM Retro* now uses version 2.0.5 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
+* A bug has been fixed whereby the connection of *DirectInput* gamepads were not being displayed in the console at startup.
+
 ---
 
 ###### Thursday, October 6, 2016

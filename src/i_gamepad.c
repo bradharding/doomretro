@@ -145,7 +145,7 @@ void I_InitGamepad(void)
                         gamepadfunc = I_PollXInputGamepad;
                         gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
                             I_PollThumbs_XInput_RightHanded);
-                        if (initcount == 1)
+                        if (initcount++ == 1)
                             C_Output("An <i><b>XInput</b></i> gamepad is connected. Using "
                                 "<b>%s</b>.", XInputDLL);
                     }
@@ -153,7 +153,8 @@ void I_InitGamepad(void)
                 else
                     FreeLibrary(pXInputDLL);
             }
-            else if (initcount == 1)
+            
+            if (initcount == 1)
                 C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.",
                     SDL_JoystickName(gamepad));
 #else
