@@ -218,7 +218,7 @@ void I_PollDirectInputGamepad(void)
     {
         int     hat = SDL_JoystickGetHat(gamepad, 0);
 
-        gamepadbuttons = (GAMEPAD_X * SDL_JoystickGetButton(gamepad, 0)
+        gamepadbuttons = GAMEPAD_X * SDL_JoystickGetButton(gamepad, 0)
             | GAMEPAD_A * SDL_JoystickGetButton(gamepad, 1)
             | GAMEPAD_B * SDL_JoystickGetButton(gamepad, 2)
             | GAMEPAD_Y * SDL_JoystickGetButton(gamepad, 3)
@@ -229,11 +229,13 @@ void I_PollDirectInputGamepad(void)
             | GAMEPAD_BACK * SDL_JoystickGetButton(gamepad, 8)
             | GAMEPAD_START * SDL_JoystickGetButton(gamepad, 9)
             | GAMEPAD_LEFT_THUMB * SDL_JoystickGetButton(gamepad, 10)
-            | GAMEPAD_RIGHT_THUMB * SDL_JoystickGetButton(gamepad, 11)
-            | GAMEPAD_DPAD_UP * (hat & SDL_HAT_UP)
-            | GAMEPAD_DPAD_RIGHT * (hat & SDL_HAT_RIGHT)
-            | GAMEPAD_DPAD_DOWN * (hat & SDL_HAT_DOWN)
-            | GAMEPAD_DPAD_LEFT * (hat & SDL_HAT_LEFT));
+            | GAMEPAD_RIGHT_THUMB * SDL_JoystickGetButton(gamepad, 11);
+
+        if (hat != SDL_HAT_CENTERED)
+            gamepadbuttons |= GAMEPAD_DPAD_UP * (hat & SDL_HAT_UP)
+                | GAMEPAD_DPAD_RIGHT * (hat & SDL_HAT_RIGHT)
+                | GAMEPAD_DPAD_DOWN * (hat & SDL_HAT_DOWN)
+                | GAMEPAD_DPAD_LEFT * (hat & SDL_HAT_LEFT);
 
         if (gamepadbuttons)
         {
@@ -310,9 +312,9 @@ void I_PollXInputGamepad(void)
         pXInputGetState(0, &state);
         Gamepad = state.Gamepad;
 
-        gamepadbuttons = (Gamepad.wButtons
+        gamepadbuttons = Gamepad.wButtons
             | GAMEPAD_LEFT_TRIGGER * (Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
-            | GAMEPAD_RIGHT_TRIGGER * (Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD));
+            | GAMEPAD_RIGHT_TRIGGER * (Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
 
         if (damagevibrationtics)
             if (!--damagevibrationtics && !weaponvibrationtics)
