@@ -155,11 +155,22 @@ void I_InitGamepad(void)
             }
             
             if (initcount == 1)
-                C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.",
-                    SDL_JoystickName(gamepad));
+            {
+                const char      *name = SDL_JoystickName(gamepad);
+
+                if (*name)
+                    C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.",
+                        name);
+                else
+                    C_Output("A <i><b>DirectInput</b></i> gamepad is connected.");
+            }
 #else
-            C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.",
-                SDL_JoystickName(gamepad));
+            const char      *name = SDL_JoystickName(gamepad);
+
+            if (*name)
+                C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.", name);
+            else
+                C_Output("A <i><b>DirectInput</b></i> gamepad is connected.");
 #endif
 
             SDL_JoystickEventState(SDL_ENABLE);
