@@ -382,17 +382,17 @@ static struct
 
 static int C_TextWidth(char *text, dboolean formatting)
 {
-    size_t      i;
-    size_t      len = strlen(text);
-    char        prevletter = '\0';
-    int         w = 0;
+    size_t              i;
+    size_t              len = strlen(text);
+    unsigned char       prevletter = '\0';
+    int                 w = 0;
 
     for (i = 0; i < len; ++i)
     {
-        char    letter = text[i];
-        int     c = letter - CONSOLEFONTSTART;
-        char    nextletter = text[i + 1];
-        int     j = 0;
+        unsigned char   letter = text[i];
+        int             c = letter - CONSOLEFONTSTART;
+        unsigned char   nextletter = text[i + 1];
+        int             j = 0;
 
         if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i')
             && text[i + 2] == '>' && formatting)
@@ -415,7 +415,7 @@ static int C_TextWidth(char *text, dboolean formatting)
             w += SHORT(regomark->width);
             ++i;
         }
-        else if (letter == '\xC2' && nextletter == '\xB0')
+        else if (letter == 194 && nextletter == 176)
         {
             w += SHORT(degree->width);
             ++i;
