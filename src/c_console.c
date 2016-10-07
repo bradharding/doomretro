@@ -92,7 +92,6 @@ static int      consolewait;
 
 static dboolean forceblurredraw = false;
 
-static patch_t  *unknownchar;
 static patch_t  *consolefont[CONSOLEFONTSIZE];
 static patch_t  *degree;
 static patch_t  *multiply;
@@ -404,7 +403,7 @@ static int C_TextWidth(char *text, dboolean formatting)
             ++i;
         }
         else
-            w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? unknownchar->width : consolefont[c]->width);
+            w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? 0 : consolefont[c]->width);
 
         while (kern[j].char1)
         {
@@ -458,7 +457,6 @@ void C_Init(void)
 
     while (*consolecmds[numconsolecmds++].name);
 
-    unknownchar = W_CacheLumpName("DRFON000", PU_STATIC);
     for (i = 0; i < CONSOLEFONTSIZE; i++)
     {
         M_snprintf(buffer, 9, "DRFON%03d", j++);
@@ -697,8 +695,10 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             }
             else if (letter == 215)
                 patch = multiply;
+            else if (c >= 0 && c < CONSOLEFONTSIZE)
+                patch = consolefont[c];
             else
-                patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknownchar : consolefont[c]);
+                continue;
 
             if (!italics)
             {
