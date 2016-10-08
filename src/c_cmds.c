@@ -1267,11 +1267,11 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
                     for (inpos = 0; inpos < len; ++inpos)
                     {
-                        char    ch = string[inpos];
+                        unsigned char   letter = string[inpos];
 
-                        if (ch != '\n')
+                        if (letter != '\n')
                         {
-                            if (ch == '\t')
+                            if (letter == '\t')
                             {
                                 unsigned int    tabstop = console[i].tabs[tabcount] / 5;
 
@@ -1288,10 +1288,17 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                                     ++outpos;
                                 }
                             }
-                            else if (ch != '~')
+                            else
                             {
-                                fputc(ch, file);
-                                ++outpos;
+                                int     c = letter - CONSOLEFONTSTART;
+
+                                if (((c >= 0 && c < CONSOLEFONTSIZE) || letter == 153
+                                    || letter == 169 || letter == 174 || letter == 215)
+                                    && letter != '~')
+                                {
+                                    fputc(letter, file);
+                                    ++outpos;
+                                }
                             }
                         }
                     }
