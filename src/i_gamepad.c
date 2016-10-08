@@ -93,27 +93,18 @@ void I_InitGamepad(void)
         I_PollThumbs_DirectInput_RightHanded);
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
-    {
         C_Warning("Gamepad support couldn't be initialized.");
-        return;
-    }
     else
     {
         int     i;
         int     numgamepads = SDL_NumJoysticks();
 
         for (i = 0; i < numgamepads; ++i)
-        {
-            gamepad = SDL_JoystickOpen(i);
-            if (gamepad)
+            if ((gamepad = SDL_JoystickOpen(i)))
                 break;
-        }
 
         if (!gamepad)
-        {
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-            return;
-        }
         else
         {
 #if defined(WIN32)
@@ -165,7 +156,7 @@ void I_InitGamepad(void)
                     C_Output("A <i><b>DirectInput</b></i> gamepad is connected.");
             }
 #else
-            const char      *name = SDL_JoystickName(gamepad);
+            const char  *name = SDL_JoystickName(gamepad);
 
             if (*name)
                 C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.", name);
@@ -280,7 +271,8 @@ void XInputVibration(int motorspeed)
         XINPUT_VIBRATION    vibration;
 
         ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-        vibration.wLeftMotorSpeed = currentmotorspeed = motorspeed;
+        vibration.wLeftMotorSpeed = motorspeed;
+        currentmotorspeed = motorspeed;
         pXInputSetState(0, &vibration);
     }
 #endif
