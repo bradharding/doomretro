@@ -195,7 +195,7 @@ void I_ShutdownGamepad(void)
 
 static short __inline clamp(short value, short deadzone)
 {
-    return (ABS(value) < deadzone ? 0 : MAX(-SHRT_MAX, value));
+    return (ABS(value) < deadzone ? 0 : value);
 }
 
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)
@@ -218,18 +218,18 @@ void I_PollDirectInputGamepad(void)
     {
         int     hat = SDL_JoystickGetHat(gamepad, 0);
 
-        gamepadbuttons = GAMEPAD_X * SDL_JoystickGetButton(gamepad, 0)
-            | GAMEPAD_A * SDL_JoystickGetButton(gamepad, 1)
-            | GAMEPAD_B * SDL_JoystickGetButton(gamepad, 2)
-            | GAMEPAD_Y * SDL_JoystickGetButton(gamepad, 3)
-            | GAMEPAD_LEFT_SHOULDER * SDL_JoystickGetButton(gamepad, 4)
-            | GAMEPAD_RIGHT_SHOULDER * SDL_JoystickGetButton(gamepad, 5)
-            | GAMEPAD_LEFT_TRIGGER * SDL_JoystickGetButton(gamepad, 6)
-            | GAMEPAD_RIGHT_TRIGGER * SDL_JoystickGetButton(gamepad, 7)
-            | GAMEPAD_BACK * SDL_JoystickGetButton(gamepad, 8)
-            | GAMEPAD_START * SDL_JoystickGetButton(gamepad, 9)
-            | GAMEPAD_LEFT_THUMB * SDL_JoystickGetButton(gamepad, 10)
-            | GAMEPAD_RIGHT_THUMB * SDL_JoystickGetButton(gamepad, 11);
+        gamepadbuttons = (SDL_JoystickGetButton(gamepad, 0) << 14)
+            | (SDL_JoystickGetButton(gamepad, 1) << 12)
+            | (SDL_JoystickGetButton(gamepad, 2) << 13)
+            | (SDL_JoystickGetButton(gamepad, 3) << 15)
+            | (SDL_JoystickGetButton(gamepad, 4) << 8)
+            | (SDL_JoystickGetButton(gamepad, 5) << 9)
+            | (SDL_JoystickGetButton(gamepad, 6) << 10)
+            | (SDL_JoystickGetButton(gamepad, 7) << 11)
+            | (SDL_JoystickGetButton(gamepad, 8) << 5)
+            | (SDL_JoystickGetButton(gamepad, 9) << 4)
+            | (SDL_JoystickGetButton(gamepad, 10) << 6)
+            | (SDL_JoystickGetButton(gamepad, 11) << 7);
 
         if (hat)
             gamepadbuttons |= !!(hat & SDL_HAT_UP)
@@ -313,8 +313,8 @@ void I_PollXInputGamepad(void)
         Gamepad = state.Gamepad;
 
         gamepadbuttons = Gamepad.wButtons
-            | GAMEPAD_LEFT_TRIGGER * (Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
-            | GAMEPAD_RIGHT_TRIGGER * (Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
+            | GAMEPAD_LEFT_TRIGGER * (Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+            | GAMEPAD_RIGHT_TRIGGER * (Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
 
         if (damagevibrationtics)
             if (!--damagevibrationtics && !weaponvibrationtics)
