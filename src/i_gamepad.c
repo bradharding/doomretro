@@ -231,11 +231,11 @@ void I_PollDirectInputGamepad(void)
             | GAMEPAD_LEFT_THUMB * SDL_JoystickGetButton(gamepad, 10)
             | GAMEPAD_RIGHT_THUMB * SDL_JoystickGetButton(gamepad, 11);
 
-        if (hat != SDL_HAT_CENTERED)
-            gamepadbuttons |= GAMEPAD_DPAD_UP * (hat & SDL_HAT_UP)
-                | GAMEPAD_DPAD_RIGHT * (hat & SDL_HAT_RIGHT)
-                | GAMEPAD_DPAD_DOWN * (hat & SDL_HAT_DOWN)
-                | GAMEPAD_DPAD_LEFT * (hat & SDL_HAT_LEFT);
+        if (hat)
+            gamepadbuttons |= !!(hat & SDL_HAT_UP)
+                | (!!(hat & SDL_HAT_RIGHT) << 3)
+                | (!!(hat & SDL_HAT_DOWN) << 1)
+                | (!!(hat & SDL_HAT_LEFT) << 2);
 
         if (gamepadbuttons)
         {
