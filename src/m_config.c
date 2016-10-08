@@ -662,10 +662,10 @@ static void M_CheckCVARs(void)
         facebackcolor = facebackcolor_default;
 
     gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
-    gamepadleftdeadzone = (short)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
+    I_SetGamepadLeftDeadZone(gp_deadzone_left);
 
     gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
-    gamepadrightdeadzone = (short)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
+    I_SetGamepadRightDeadZone(gp_deadzone_right);
 
     gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
     I_SetGamepadSensitivity(gp_sensitivity);

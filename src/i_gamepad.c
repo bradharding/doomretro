@@ -313,8 +313,8 @@ void I_PollXInputGamepad(void)
         Gamepad = state.Gamepad;
 
         gamepadbuttons = Gamepad.wButtons
-            | GAMEPAD_LEFT_TRIGGER * (Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
-            | GAMEPAD_RIGHT_TRIGGER * (Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
+            | ((Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
+            | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11);
 
         if (damagevibrationtics)
             if (!--damagevibrationtics && !weaponvibrationtics)
@@ -362,4 +362,14 @@ void I_SetGamepadSensitivity(int value)
 {
     gamepadsensitivity = (!value ? 0.0f : GP_SENSITIVITY_OFFSET
         + GP_SENSITIVITY_FACTOR * value / gp_sensitivity_max);
+}
+
+void I_SetGamepadLeftDeadZone(float value)
+{
+    gamepadleftdeadzone = (short)(value * (float)SHRT_MAX / 100.0f);
+}
+
+void I_SetGamepadRightDeadZone(float value)
+{
+    gamepadrightdeadzone = (short)(value * (float)SHRT_MAX / 100.0f);
 }

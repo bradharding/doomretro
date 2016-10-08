@@ -3722,14 +3722,14 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
         if (M_StringCompare(cmd, stringize(gp_deadzone_left)) && gp_deadzone_left != value)
         {
             gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
-            gamepadleftdeadzone = (short)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
+            I_SetGamepadLeftDeadZone(gp_deadzone_left);
 
             M_SaveCVARs();
         }
         else if (gp_deadzone_right != value)
         {
             gp_deadzone_right = BETWEENF(gp_deadzone_right_min, value, gp_deadzone_right_max);
-            gamepadrightdeadzone = (short)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
+            I_SetGamepadRightDeadZone(gp_deadzone_right);
 
             M_SaveCVARs();
         }
