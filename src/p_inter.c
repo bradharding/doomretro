@@ -1119,7 +1119,7 @@ void P_UpdateKillStat(mobjtype_t type, unsigned int value)
 //
 // P_KillMobj
 //
-void P_KillMobj(mobj_t *source, mobj_t *target)
+void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 {
     dboolean    gibbed;
     mobjtype_t  item;
@@ -1223,17 +1223,20 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
     if (con_obituaries && source)
     {
-        if (source->player)
-            C_PlayerMessage("%s %s %s%s with your %s.", titlecase(playername), (type == MT_BARREL ?
-                "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
-                (isvowel(info->name1[0]) ? "an " : "a ")), (target->player ?
+        if (inflicter && inflicter->type == MT_BARREL)
+            C_PlayerMessage("An exploding barrel %s %s %s.", (gibbed ? "gibbed" : "killed"),
+                (isvowel(info->name1[0]) ? "an" : "a"), info->name1);
+        else if (source->player)
+            C_PlayerMessage("%s %s %s %s with your %s.", titlecase(playername),
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                (target->player ? "" : (isvowel(info->name1[0]) ? "an" : "a")), (target->player ?
                 (!M_StringCompare(playername, playername_default) ? "themselves" : "yourself") :
                 info->name1), weapondescription[source->player->readyweapon]);
         else
-            C_PlayerMessage("%s%s %s %s%s.", (isvowel(source->info->name1[0]) ? "An " : "A "),
+            C_PlayerMessage("%s %s %s %s %s.", (isvowel(source->info->name1[0]) ? "An" : "A"),
                 source->info->name1, (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" :
-                "killed")), (target->player ? "" : (source->type == target->type ? "another " :
-                (isvowel(info->name1[0]) ? "an " : "a "))), (target->player ? playername :
+                "killed")), (target->player ? "" : (source->type == target->type ? "another" :
+                (isvowel(info->name1[0]) ? "an" : "a"))), (target->player ? playername :
                 info->name1));
     }
 
@@ -1441,7 +1444,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (!tplayer->health)
         {
             target->health -= damage;
-            P_KillMobj(source, target);
+            P_KillMobj(target, inflicter, source);
             return;
         }
     }
@@ -1464,7 +1467,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 && P_CheckMeleeRange(target) && damage >= 10 && gibhealth < 0)
                 target->health = gibhealth - 1;
 
-            P_KillMobj(source, target);
+            P_KillMobj(target, inflicter, source);
             return;
         }
     }

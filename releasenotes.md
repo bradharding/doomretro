@@ -7,6 +7,7 @@
 * Invalid characters are no longer displayed in the console or the resulting text file of the `condump` CCMD.
 * “™”, “©” and “®” characters can now be displayed in the console.
 * The palette will no longer inadvertently change when exiting the menu in some rare instances.
+* When the `con_obituaries` CVAR is `on`, the obituaries are now displayed correctly when a barrel explodes.
 
 ---
 

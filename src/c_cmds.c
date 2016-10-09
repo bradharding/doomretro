@@ -1717,7 +1717,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         player->attacker = NULL;
         if (player->fixedcolormap == INVERSECOLORMAP)
             player->fixedcolormap = 0;
-        P_KillMobj(player->mo, player->mo);
+        P_KillMobj(player->mo, NULL, player->mo);
         M_snprintf(buffer, sizeof(buffer), "%s killed %s", playername,
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));
         buffer[0] = toupper(buffer[0]);

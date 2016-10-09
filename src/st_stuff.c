@@ -425,7 +425,6 @@ int mus[IDMUS_MAX][6] =
 //
 void ST_Stop(void);
 int ST_calcPainOffset(void);
-void P_KillMobj(mobj_t *source, mobj_t *target);
 
 extern int r_detail;
 
@@ -522,7 +521,7 @@ dboolean ST_Responder(event_t *ev)
                         // resurrect themselves, and now they have the audacity
                         // to disable it. Kill them!
                         plyr->attacker = NULL;
-                        P_KillMobj(NULL, plyr->mo);
+                        P_KillMobj(plyr->mo, NULL, NULL);
                     }
                     else
                     {
