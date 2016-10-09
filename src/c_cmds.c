@@ -3397,7 +3397,6 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             }
             else
             {
-                C_Output(removenewlines(consolecmds[i].description));
                 if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
                     C_Output("It is currently set to its default of <b>%s</b>.",
                         C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLALIAS));
@@ -3406,6 +3405,7 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLALIAS),
                         C_LookupAliasFromValue((dboolean)consolecmds[i].defaultnumber, BOOLALIAS));
             }
+            break;
         }
         ++i;
     }
@@ -3479,6 +3479,7 @@ static void float_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         striptrailingzero(*(float *)consolecmds[i].variable, 2),
                         striptrailingzero(consolecmds[i].defaultnumber, 2));
             }
+            break;
         }
         ++i;
     }
@@ -3567,6 +3568,7 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             consolecmds[i].aliases));
                 }
             }
+            break;
         }
         ++i;
     }
