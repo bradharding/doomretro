@@ -3397,6 +3397,7 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             }
             else
             {
+                C_Output(removenewlines(consolecmds[i].description));
                 if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
                     C_Output("It is currently set to its default of <b>%s</b>.",
                         C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLALIAS));
@@ -3721,12 +3722,15 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parm1, char *parm2, char *p
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%10f", &value);
 
-        if (M_StringCompare(cmd, stringize(gp_deadzone_left)) && gp_deadzone_left != value)
+        if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
         {
-            gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
-            I_SetGamepadLeftDeadZone(gp_deadzone_left);
+            if (gp_deadzone_left != value)
+            {
+                gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
+                I_SetGamepadLeftDeadZone(gp_deadzone_left);
 
-            M_SaveCVARs();
+                M_SaveCVARs();
+            }
         }
         else if (gp_deadzone_right != value)
         {

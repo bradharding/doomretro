@@ -8,6 +8,7 @@
 * “™”, “©” and “®” characters can now be displayed in the console.
 * The palette will no longer inadvertently change when exiting the menu in some rare instances.
 * When the `con_obituaries` CVAR is `on`, obituaries are now displayed correctly for monsters killed by a barrel exploding.
+* Fix a bug whereby trying to change the `gp_deadzone_left` CVAR would in some instances change the `gp_deadzone_right` CVAR instead.
 
 ---
 
