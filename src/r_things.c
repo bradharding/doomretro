@@ -1231,8 +1231,10 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                 vis->colormap = fullcolormap;   // full bright
             else
             {
-                int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> OLDLIGHTSEGSHIFT)
-                    + extralight * OLDLIGHTBRIGHT;
+                sector_t *sec = viewplayer->mo->subsector->sector;
+                short    lightlevel = (sec->floorlightsec == -1 ? sec->lightlevel :
+                             sectors[sec->floorlightsec].lightlevel);
+                int      lightnum = (lightlevel >> OLDLIGHTSEGSHIFT) + extralight * OLDLIGHTBRIGHT;
 
                 vis->colormap = psprscalelight[BETWEEN(0, lightnum, OLDLIGHTLEVELS - 1)]
                     [BETWEEN(0, lightnum + 16, OLDMAXLIGHTSCALE - 1)];
