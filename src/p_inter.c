@@ -1221,7 +1221,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (chex)
         return;
 
-    if (con_obituaries && source)
+    if (con_obituaries && source && source != target)
     {
         if (inflicter && inflicter->type == MT_BARREL)
             C_PlayerMessage("An exploding barrel %s %s %s.", (gibbed ? "gibbed" : "killed"),

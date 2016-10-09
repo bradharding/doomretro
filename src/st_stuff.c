@@ -521,7 +521,7 @@ dboolean ST_Responder(event_t *ev)
                         // resurrect themselves, and now they have the audacity
                         // to disable it. Kill them!
                         plyr->attacker = NULL;
-                        P_KillMobj(plyr->mo, NULL, NULL);
+                        P_KillMobj(plyr->mo, NULL, plyr->mo);
                     }
                     else
                     {
