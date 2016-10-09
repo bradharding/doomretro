@@ -358,10 +358,10 @@ void I_SetGamepadSensitivity(int value)
 
 void I_SetGamepadLeftDeadZone(float value)
 {
-    gamepadleftdeadzone = (short)(value * (float)SHRT_MAX / 100.0f);
+    gamepadleftdeadzone = (short)(value * SHRT_MAX / 100.0f);
 }
 
 void I_SetGamepadRightDeadZone(float value)
 {
-    gamepadrightdeadzone = (short)(value * (float)SHRT_MAX / 100.0f);
+    gamepadrightdeadzone = (short)(value * SHRT_MAX / 100.0f);
 }
