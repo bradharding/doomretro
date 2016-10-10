@@ -654,7 +654,7 @@ static void R_Subsector(int num)
         && sectors[frontsector->heightsec].floorpic == skyflatnum) ?
         R_FindPlane(frontsector->interpceilingheight,           // killough 3/8/98
             (frontsector->ceilingpic == skyflatnum              // killough 10/98
-            && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
+                && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
             ceilinglightlevel,                                  // killough 4/11/98
             frontsector->ceiling_xoffs,                         // killough 3/7/98
             frontsector->ceiling_yoffs) : NULL);
@@ -666,7 +666,7 @@ static void R_Subsector(int num)
     // 10/98 killough:
     //
     // NOTE: TeamTNT fixed this bug incorrectly, messing up sprite lighting!!!
-    // That is part of the 242 effect!!!  If you simply pass sub->sector to
+    // That is part of the 242 effect!!! If you simply pass sub->sector to
     // the old code you will not get correct lighting for underwater sprites!!!
     // Either you must pass the fake sector and handle validcount here, on the
     // real sector, or you must account for the lighting in some other way,
@@ -678,10 +678,7 @@ static void R_Subsector(int num)
     }
 
     while (count--)
-    {
         R_AddLine(line++);
-        curline = NULL;
-    }
 }
 
 //
