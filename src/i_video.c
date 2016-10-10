@@ -1484,8 +1484,7 @@ void I_RestartGraphics(void)
     SetVideoMode(false);
     if (vid_widescreen)
         I_ToggleWidescreen(true);
-    if (mapwindow)
-        I_CreateExternalAutomap(false);
+    I_CreateExternalAutomap(false);
 
 #if defined(WIN32)
     I_InitWindows32();

@@ -15,7 +15,8 @@
   * The arms background in the status bar is now positioned correctly.
   * There is also no longer any green or blue blood splats.
 * The effect enabled by the `r_liquid_current` CVAR is no longer applied to the surface of deep water sectors in *BOOM*-compatible maps.
-* A bug has been fixed whereby when the player tried opening a locked door requiring all six keys, the message displayed would indicate only three keys were required.
+* A bug has been fixed whereby when the player tried opening a locked door that required all six keys, the message displayed would indicate only three keys were required.
+* The external automap enabled using the `am_external` CVAR will now be recreated successfully when changing another CVAR that restarts the graphic subsystem.
 
 ---
 
