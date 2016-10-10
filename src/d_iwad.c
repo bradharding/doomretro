@@ -602,8 +602,10 @@ void D_SetGameDescription(void)
     gamedescription = (char *)malloc(64);
     gamedescription = PACKAGE_NAME;
 
-    if (chex)
+    if (chex1)
         gamedescription = s_CAPTION_CHEX;
+    else if (chex2)
+        gamedescription = s_CAPTION_CHEX2;
     else if (hacx)
         gamedescription = s_CAPTION_HACX;
     else if (BTSXE1)

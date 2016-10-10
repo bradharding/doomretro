@@ -49,6 +49,8 @@ dboolean        bfgedition = false;
 
 dboolean        breach = false;
 dboolean        chex = false;
+dboolean        chex1 = false;
+dboolean        chex2 = false;
 dboolean        chexdeh = false;
 dboolean        hacx = false;
 dboolean        BTSX = false;

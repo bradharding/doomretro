@@ -534,6 +534,7 @@ char    *s_CAPTION_BFGEDITION = "";
 char    *s_CAPTION_PLUTONIA = "";
 char    *s_CAPTION_TNT = "";
 char    *s_CAPTION_CHEX = "";
+char    *s_CAPTION_CHEX2 = "";
 char    *s_CAPTION_HACX = "";
 char    *s_CAPTION_FREEDOOM1 = "";
 char    *s_CAPTION_FREEDOOM2 = "";
@@ -1055,6 +1056,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_PLUTONIA,     "CAPTION_PLUTONIA",     false },
     { &s_CAPTION_TNT,          "CAPTION_TNT",          false },
     { &s_CAPTION_CHEX,         "CAPTION_CHEX",         false },
+    { &s_CAPTION_CHEX2,        "CAPTION_CHEX2",        false },
     { &s_CAPTION_HACX,         "CAPTION_HACX",         false },
     { &s_CAPTION_FREEDOOM1,    "CAPTION_FREEDOOM1",    false },
     { &s_CAPTION_FREEDOOM2,    "CAPTION_FREEDOOM2",    false },

@@ -444,6 +444,7 @@ extern char     *s_CAPTION_BFGEDITION;
 extern char     *s_CAPTION_PLUTONIA;
 extern char     *s_CAPTION_TNT;
 extern char     *s_CAPTION_CHEX;
+extern char     *s_CAPTION_CHEX2;
 extern char     *s_CAPTION_HACX;
 extern char     *s_CAPTION_FREEDOOM1;
 extern char     *s_CAPTION_FREEDOOM2;
