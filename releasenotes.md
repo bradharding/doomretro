@@ -14,6 +14,7 @@
 * The arms background in the status bar of [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) is now positioned correctly.
 * There is also no longer any green or blue blood in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The effect enabled by the `r_liquid_current` CVAR is no longer applied to the surface of deep water sectors in *BOOM*-compatible maps.
+* A bug has been fixed whereby when the player tried opening a locked door requiring all six keys, the message displayed would indicate only three keys were required.
 
 ---
 

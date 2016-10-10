@@ -806,7 +806,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 || player->cards[it_bluecard] <= 0 || player->cards[it_blueskull] <= 0
                 || player->cards[it_yellowcard] <= 0 || player->cards[it_yellowskull] <= 0))
             {
-                M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
+                M_snprintf(buffer, sizeof(buffer), s_PD_ALL6, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, true);
                 S_StartSound(player->mo, sfx_noway);
