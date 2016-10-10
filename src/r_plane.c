@@ -166,7 +166,10 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     unsigned int        hash;                                   // killough
 
     if (picnum == skyflatnum || (picnum & PL_SKYFLAT))          // killough 10/98
-        height = lightlevel = 0;                // killough 7/19/98: most skies map together
+    {
+        height = 0;                             // killough 7/19/98: most skies map together
+        lightlevel = 0;
+    }
 
     // New visplane algorithm uses hash table -- killough
     hash = visplane_hash(picnum, lightlevel, height);
@@ -186,7 +189,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     check->xoffs = xoffs;                                      // killough 2/28/98: Save offsets
     check->yoffs = yoffs;
 
-    memset(check->top, SHRT_MAX, sizeof(check->top));
+    memset(check->top, USHRT_MAX, sizeof(check->top));
 
     return check;
 }
@@ -224,7 +227,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         intrh = stop;
     }
 
-    for (x = intrl; x <= intrh && pl->top[x] == SHRT_MAX; x++);
+    for (x = intrl; x <= intrh && pl->top[x] == USHRT_MAX; x++);
 
     // [crispy] fix HOM if ceilingplane and floorplane are the same
     // visplane (e.g. both skies)
@@ -247,7 +250,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         pl = new_pl;
         pl->minx = start;
         pl->maxx = stop;
-        memset(pl->top, SHRT_MAX, sizeof(pl->top));
+        memset(pl->top, USHRT_MAX, sizeof(pl->top));
     }
 
     return pl;
@@ -457,7 +460,7 @@ void R_DrawPlanes(void)
                     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT)
                         + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
 
-                    pl->top[pl->minx - 1] = pl->top[pl->maxx + 1] = SHRT_MAX;
+                    pl->top[pl->minx - 1] = pl->top[pl->maxx + 1] = USHRT_MAX;
 
                     R_MakeSpans(pl);
 
