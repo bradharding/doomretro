@@ -1625,7 +1625,8 @@ void ST_createWidgets(void)
         &plyr->health, &st_statusbaron, tallpercent);
 
     // arms background
-    STlib_initBinIcon(&w_armsbg, ST_ARMSBGX, ST_ARMSBGY, armsbg, &st_statusbaron, &st_statusbaron);
+    STlib_initBinIcon(&w_armsbg, ST_ARMSBGX + hacx * 4, ST_ARMSBGY, armsbg, &st_statusbaron,
+        &st_statusbaron);
     STlib_initBinIcon(&w_armsbg2, ST_ARMSBGX * 2, ST_ARMSBGY * 2, armsbg2, &st_statusbaron,
         &st_statusbaron);
 
