@@ -12,6 +12,7 @@
 * A bug has been fixed whereby trying to change the `gp_deadzone_left` CVAR would in some instances change the `gp_deadzone_right` CVAR instead.
 * The player’s weapon will now be lit correctly when standing in a sector whose light level has been transfered from another sector. (An example of this is directly beyond the first door in MAP01 of [*Sunlust*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/sunlust).)
 * The arms background in the status bar of [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) is now positioned correctly.
+* There is also no longer any green or blue blood in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 
 ---
 

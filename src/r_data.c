@@ -479,6 +479,9 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_INS].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP);
         mobjinfo[MT_MISC14].flags2 &= ~(MF2_FLOATBOB | MF2_NOFOOTCLIP);
         mobjinfo[MT_BFG].flags2 &= ~MF2_TRANSLUCENT;
+        mobjinfo[MT_HEAD].blood = MT_BLOOD;
+        mobjinfo[MT_BRUISER].blood = MT_BLOOD;
+        mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
     }
 }
 
