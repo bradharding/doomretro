@@ -666,7 +666,7 @@ void R_StoreWallRange(int start, int stop)
             || viewz > sectors[frontsector->heightsec].interpfloorheight))
             worldbottom += animatedliquiddiff;
 
-        if (r_liquid_current)
+        if (r_liquid_current && frontsector->heightsec == -1)
         {
             frontsector->floor_xoffs = animatedliquidxoffs;
             frontsector->floor_yoffs = animatedliquidyoffs;
