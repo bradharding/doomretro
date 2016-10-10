@@ -726,7 +726,7 @@ static void D_CheckSupportedPWAD(char *filename)
     }
     else if (M_StringCompare(leaf, "breach.wad"))
         breach = true;
-    else if (M_StringCompare(leaf, "chex.wad"))
+    else if (M_StringCompare(leaf, "chex.wad") || M_StringCompare(leaf, "chex2.wad"))
         chex = true;
     else if (M_StringCompare(leaf, "btsx_e1.wad"))
         BTSX = BTSXE1 = true;
