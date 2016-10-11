@@ -372,6 +372,7 @@ void P_PlayerThink(player_t *player)
         motionblur = true;
         I_SetMotionBlur(100);
     }
+    else if (vid_motionblur && cmd->angleturn && !automapactive)
     {
         motionblur = true;
         I_SetMotionBlur(MIN(ABS(cmd->angleturn) / 960 * 100, 150));

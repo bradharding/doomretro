@@ -97,7 +97,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
     dboolean flipped)
 {
     unsigned int        rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ?
-        rot - 'A' + 10 : 17));
+                            rot - 'A' + 10 : 17));
 
     if (frame >= MAX_SPRITE_FRAMES || rotation > 16)
         I_Error("R_InstallSpriteLump: Bad frame characters in lump %s", lump->name);
@@ -117,7 +117,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
                 sprtemp[frame].lump[r] = lumpnum - firstspritelump;
                 if (flipped)
                     sprtemp[frame].flip |= (1 << r);
-                sprtemp[frame].rotate = false;  // jff 4/24/98 if any subbed, rotless
+                sprtemp[frame].rotate = 0;      // jff 4/24/98 if any subbed, rotless
             }
         }
         return;
@@ -131,7 +131,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
         sprtemp[frame].lump[rotation] = lumpnum - firstspritelump;
         if (flipped)
             sprtemp[frame].flip |= (1 << rotation);
-        sprtemp[frame].rotate = true;           //jff 4/24/98 only change if rot used
+        sprtemp[frame].rotate = 1;              // jff 4/24/98 only change if rot used
     }
 }
 

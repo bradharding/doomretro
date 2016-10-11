@@ -1480,8 +1480,6 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
     int         i;
     int         num = -1;
 
-    sscanf(parm, "%10i", &num);
-
     if (gamestate != GS_LEVEL)
         return false;
 
@@ -1492,6 +1490,8 @@ static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
         "weapons") || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
         || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys"))
         return true;
+
+    sscanf(parm, "%10i", &num);
 
     for (i = 0; i < NUMMOBJTYPES; i++)
         if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm,
