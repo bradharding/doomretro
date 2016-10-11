@@ -76,7 +76,7 @@ int                     vid_display = vid_display_default;
 char                    *vid_driver = vid_driver_default;
 #endif
 dboolean                vid_fullscreen = vid_fullscreen_default;
-int                     vid_motionblur = vid_motionblur_default;
+dboolean                vid_motionblur = vid_motionblur_default;
 char                    *vid_scaleapi = vid_scaleapi_default;
 char                    *vid_scalefilter = vid_scalefilter_default;
 char                    *vid_screenresolution = vid_screenresolution_default;

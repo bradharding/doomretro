@@ -115,7 +115,7 @@ extern dboolean         noinput;
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
-extern int              vid_motionblur;
+extern dboolean         vid_motionblur;
 extern dboolean         vid_showfps;
 extern dboolean         wipe;
 
