@@ -13,7 +13,9 @@
 * The player’s weapon will now be lit correctly when standing in a sector whose light level has been transfered from another sector. (An example of this is directly beyond the first door in MAP01 of [*Sunlust*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/sunlust).)
 * The following improvements have been made to [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) support:
   * The arms background in the status bar is now positioned correctly.
-  * There is also no longer any green or blue blood splats.
+  * There is no longer any green or blue blood splats.
+  * Obituaries are no longer displayed.
+* The individual monster kill stats displayed using the `playerstats` CCMD are no longer used in either [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) or [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * Support has been added for [*Chex Quest 2: Flemoids Take Chextropolis*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2).
 * A bug has been fixed whereby when the player tried opening a locked door that required all six keys, the message displayed would indicate only three keys were required.
 * The external automap enabled using the `am_external` CVAR will now be recreated successfully when changing another CVAR that restarts the graphic subsystem.

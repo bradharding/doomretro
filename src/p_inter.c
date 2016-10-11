@@ -1168,24 +1168,27 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         }
     }
 
-    if (source && source->player)
+    if (!chex && !hacx)
     {
-        // count for intermission
-        if (target->flags & MF_COUNTKILL)
+        if (source && source->player)
         {
-            source->player->killcount++;
-            source->player->mobjcount[type]++;
+            // count for intermission
+            if (target->flags & MF_COUNTKILL)
+            {
+                source->player->killcount++;
+                source->player->mobjcount[type]++;
+                stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+                P_UpdateKillStat(type, 1);
+            }
+        }
+        else if (target->flags & MF_COUNTKILL)
+        {
+            // count all monster deaths, even those caused by other monsters
+            player->killcount++;
+            player->mobjcount[type]++;
             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
             P_UpdateKillStat(type, 1);
         }
-    }
-    else if (target->flags & MF_COUNTKILL)
-    {
-        // count all monster deaths, even those caused by other monsters
-        player->killcount++;
-        player->mobjcount[type]++;
-        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
-        P_UpdateKillStat(type, 1);
     }
 
     if (type == MT_BARREL && source)
@@ -1221,7 +1224,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (chex)
         return;
 
-    if (con_obituaries && source && source != target)
+    if (con_obituaries && source && source != target && !hacx)
     {
         if (inflicter && inflicter->type == MT_BARREL)
             C_PlayerMessage("An exploding barrel %s %s %s.", (gibbed ? "gibbed" : "killed"),
