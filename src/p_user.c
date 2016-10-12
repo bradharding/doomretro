@@ -42,7 +42,7 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-#define MOTIONBLUR_THRESHOLD   960
+#define MOTIONBLUR_MAX         150
 
 extern fixed_t  animatedliquiddiff;
 extern dboolean skipaction;
@@ -370,12 +370,12 @@ void P_PlayerThink(player_t *player)
     if (r_shakescreen && player->damagecount && !automapactive)
     {
         motionblur = true;
-        I_SetMotionBlur(100);
+        I_SetMotionBlur(MOTIONBLUR_MAX);
     }
     else if (vid_motionblur && cmd->angleturn && !automapactive)
     {
         motionblur = true;
-        I_SetMotionBlur(MIN(ABS(cmd->angleturn) / 960 * 100, 150));
+        I_SetMotionBlur(MIN(ABS(cmd->angleturn) / 960 * 100, MOTIONBLUR_MAX));
     }
     else if (motionblur)
     {
