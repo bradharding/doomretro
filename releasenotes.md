@@ -19,6 +19,7 @@
 * Support has been added for [*Chex Quest 2: Flemoids Take Chextropolis*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2).
 * A bug has been fixed whereby when the player tried opening a locked door that required all six keys, the message displayed would indicate only three keys were required.
 * The external automap enabled using the `am_external` CVAR will now be recreated successfully when changing another CVAR that restarts the graphic subsystem.
+* The `vid_motionblur` CVAR is now boolean rather than a percentage, and is `off` by default. The motion blur effect it enables now better matches the player’s turning speed regardless of the control method used.
 
 ---
 
