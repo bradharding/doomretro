@@ -367,15 +367,18 @@ void P_PlayerThink(player_t *player)
         mo->flags &= ~MF_JUSTATTACKED;
     }
 
-    if (r_shakescreen && player->damagecount && !automapactive)
+    if (vid_motionblur)
     {
-        motionblur = true;
-        I_SetMotionBlur(MOTIONBLUR_MAX);
-    }
-    else if (vid_motionblur && cmd->angleturn && !automapactive)
-    {
-        motionblur = true;
-        I_SetMotionBlur(MIN(ABS(cmd->angleturn) / 960 * 100, MOTIONBLUR_MAX));
+        if (r_shakescreen && player->damagecount && !automapactive)
+        {
+            motionblur = true;
+            I_SetMotionBlur(MOTIONBLUR_MAX);
+        }
+        else if (cmd->angleturn && !automapactive)
+        {
+            motionblur = true;
+            I_SetMotionBlur(MIN(ABS(cmd->angleturn) / 960 * 100, MOTIONBLUR_MAX));
+        }
     }
     else if (motionblur)
     {
