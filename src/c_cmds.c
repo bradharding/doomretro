@@ -79,7 +79,7 @@
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
 #define PLAYCMDFORMAT           "<i>sound</i>|<i>music</i>"
-#define RESETCMDFORMAT          "<i>cvar</i>"
+#define RESETCMDFORMAT          "<i>CVAR</i>"
 #define SAVECMDFORMAT           "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 #define TELEPORTCMDFORMAT       "<i>x</i> <i>y</i>"
@@ -709,7 +709,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLALIAS,
         "Toggles the translucency of sprites and textures."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
-        "Resets a CVAR to its default value."),
+        "Resets a <i>CVAR</i> to its default value."),
     CMD(resetall, "", null_func1, resetall_cmd_func2, 0, "",
         "Resets all CVARs to their default values."),
     CMD(respawnitems, "", null_func1, respawnitems_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
