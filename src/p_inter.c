@@ -1226,21 +1226,27 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     if (con_obituaries && source && source != target && !hacx)
     {
-        if (inflicter && inflicter->type == MT_BARREL)
-            C_PlayerMessage("An exploding barrel %s %s %s.", (gibbed ? "gibbed" : "killed"),
-                (isvowel(info->name1[0]) ? "an" : "a"), info->name1);
+        if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
+            C_PlayerMessage("An exploding barrel %s %s %s.",
+                (gibbed ? "gibbed" : "killed"),
+                (isvowel(info->name1[0]) ? "an" : "a"),
+                info->name1);
         else if (source->player)
-            C_PlayerMessage("%s %s %s%s with your %s.", titlecase(playername), (type == MT_BARREL ?
-                "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
-                (isvowel(info->name1[0]) ? "an " : "a ")), (target->player ?
-                (!M_StringCompare(playername, playername_default) ? "themselves" : "yourself") :
-                info->name1), weapondescription[source->player->readyweapon]);
+            C_PlayerMessage("%s %s %s%s with your %s.",
+                titlecase(playername),
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                (target->player ? "" : (isvowel(info->name1[0]) ? "an " : "a ")),
+                (target->player ? (!M_StringCompare(playername, playername_default) ?
+                    "themselves" : "yourself") : info->name1),
+                weapondescription[source->player->readyweapon]);
         else
-            C_PlayerMessage("%s %s %s %s%s.", (isvowel(source->info->name1[0]) ? "An" : "A"),
-                source->info->name1, (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" :
-                "killed")), (target->player ? "" : (source->type == target->type ? "another " :
-                (isvowel(info->name1[0]) ? "an " : "a "))), (target->player ? playername :
-                info->name1));
+            C_PlayerMessage("%s %s %s %s%s.",
+                (isvowel(source->info->name1[0]) ? "An" : "A"),
+                source->info->name1,
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                (target->player ? "" : (source->type == target->type ? "another " :
+                    (isvowel(info->name1[0]) ? "an " : "a "))),
+                (target->player ? playername : info->name1));
     }
 
     // Drop stuff.
