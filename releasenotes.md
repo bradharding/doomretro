@@ -7,7 +7,8 @@
 * Invalid characters are no longer displayed in the console or the resulting text file of the `condump` CCMD.
 * “™”, “©” and “®” characters can now be displayed in the console.
 * The palette will no longer inadvertently change when exiting the menu in some rare instances.
-* When the `con_obituaries` CVAR is `on`, obituaries are now displayed correctly for monsters killed by a barrel exploding.
+* The `con_obituaries` CVAR, which enables obituaries in the console, is now `on` by default.
+* Obituaries are now displayed correctly for monsters killed by a barrel exploding.
 * An obituary is no longer displayed when using `kill player` in the console.
 * A bug has been fixed whereby trying to change the `gp_deadzone_left` CVAR would in some instances change the `gp_deadzone_right` CVAR instead.
 * All things, including the player’s weapon, will now be lit correctly when standing in a sector whose light level has been transfered from another sector. (An example of this is directly beyond the first door in MAP01 of [*Sunlust*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/sunlust).)

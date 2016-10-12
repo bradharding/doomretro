@@ -142,7 +142,7 @@ typedef enum
 
 #define centerweapon_default                    true
 
-#define con_obituaries_default                  false
+#define con_obituaries_default                  true
 
 #define con_timestamps_default                  true
 
