@@ -541,7 +541,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles obituaries in the console when monsters are killed."),
     CVAR_BOOL(con_timestamps, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles timestamps in the console next to player messages."),
+        "Toggles timestamps next to each player message and obituary\nin the console."),
     CMD(condump, "", null_func1, condump_cmd_func2, 1, "[<i>filename</i><b>.txt</b>]",
         "Dumps the console to a file."),
     CMD(cvarlist, "", null_func1, cvarlist_cmd_func2, 1, "[<i>searchstring</i>]",
