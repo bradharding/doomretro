@@ -752,7 +752,8 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             {
                 
                 V_DrawConsolePatch(x, y, patch, (bold == 1 ? boldcolor : (bold == 2 ? color1 :
-                    (italics ? consoleitalicscolor : color1))), color2, italics, tinttab);
+                    (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) :
+                    color1))), color2, italics, tinttab);
                 x += SHORT(patch->width);
             }
         }
