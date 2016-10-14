@@ -622,7 +622,7 @@ dboolean I_InitSound(void)
             SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (linked->patch != SDL_MIXER_PATCHLEVEL)
-        C_Warning("The wrong version of sdl2_mixer.dll was found. "PACKAGE_NAME" requires "
+        C_Warning("The wrong version of sdl2_mixer.dll was found. <i>"PACKAGE_NAME"</i> requires "
             "v%i.%i.%i, not v%i.%i.%i.", linked->major, linked->minor, linked->patch,
             SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 

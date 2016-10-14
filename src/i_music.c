@@ -121,7 +121,7 @@ void CheckTimidityConfig(void)
             C_Output("Using <i><b>TiMidity</b></i> configuration file <b>%s</b>.",
                 s_timiditycfgpath);
         else
-            C_Warning("Can't find TiMidity configuration file %s.", s_timiditycfgpath);
+            C_Warning("Can't find <i>TiMidity</i> configuration file %s.", s_timiditycfgpath);
     }
 }
 
