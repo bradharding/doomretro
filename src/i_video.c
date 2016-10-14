@@ -877,7 +877,11 @@ void I_CreateExternalAutomap(dboolean output)
     int         bpp;
 
     if (!am_external)
+    {
+        mapscreen = *screens;
+        mapblitfunc = nullfunc;
         return;
+    }
 
     GetDisplays();
     if (numdisplays == 1)
@@ -1405,6 +1409,8 @@ static void SetVideoMode(dboolean output)
     if (!(surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
+    screens[0] = surface->pixels;
+
     if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask,
         &amask))
     {
@@ -1655,13 +1661,6 @@ void I_InitGraphics(void)
     if (mappalette)
         if (SDL_SetPaletteColors(mappalette, colors, 0, 256) < 0)
             I_SDLError("SDL_SetPaletteColors");
-
-    screens[0] = surface->pixels;
-    if (!mapwindow)
-    {
-        mapscreen = *screens;
-        mapblitfunc = nullfunc;
-    }
 
     blitfunc = (nearestlinear ? I_Blit_NearestLinear : I_Blit);
     blitfunc();
