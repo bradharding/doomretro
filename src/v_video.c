@@ -77,13 +77,10 @@ extern dboolean r_translucency;
 void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty,
     int destscrn)
 {
-    byte        *src;
-    byte        *dest;
+    byte        *src = screens[srcscrn] + srcy * SCREENWIDTH + srcx;
+    byte        *dest = screens[destscrn] + desty * SCREENWIDTH + destx;
 
-    src = screens[srcscrn] + SCREENWIDTH * srcy + srcx;
-    dest = screens[destscrn] + SCREENWIDTH * desty + destx;
-
-    for (; height > 0; height--)
+    while (height--)
     {
         memcpy(dest, src, width);
         src += SCREENWIDTH;

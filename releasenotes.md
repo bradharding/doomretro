@@ -6,6 +6,7 @@
 * The directional pad on *DirectInput* gamepads now works correctly and won’t interfere with the other buttons.
 * Invalid characters are no longer displayed in the console or the resulting text file of the `condump` CCMD.
 * “™”, “©” and “®” characters can now be displayed in the console.
+* Minor changes have been made to text that is output to the console.
 * The palette will no longer inadvertently change when exiting the menu in some rare instances.
 * The `con_obituaries` CVAR, which enables obituaries in the console, is now `on` by default.
 * Obituaries are now displayed correctly for monsters killed by a barrel exploding.
@@ -20,7 +21,7 @@
 * Support has been added for [*Chex Quest 2: Flemoids Take Chextropolis*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2).
 * A bug has been fixed whereby when the player tried opening a locked door that required all six keys, the message displayed would indicate only three keys were required.
 * The external automap enabled using the `am_external` CVAR will now be recreated successfully when changing another CVAR that restarts the graphic subsystem.
-* The `vid_motionblur` CVAR is now boolean rather than a percentage, and is `off` by default. The motion blur effect it enables now better matches the player’s turning speed regardless of the control method used.
+* The `vid_motionblur` CVAR now has a value of either `on` or `off` rather than a percentage, and is `off` by default. The motion blur effect it enables now better matches the player’s turning speed regardless of the control method used.
 * The additional motion blur effect applied when the player is injured and the `r_shakescreen` CVAR is `on` will now only be applied when the `vid_motionblur` CVAR is also `on`.
 
 ---
