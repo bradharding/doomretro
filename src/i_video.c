@@ -97,6 +97,7 @@ static SDL_Surface      *surface;
 static SDL_Surface      *buffer;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
+static byte             *playpal;
 
 byte                    *mapscreen;
 SDL_Window              *mapwindow = NULL;
@@ -335,6 +336,7 @@ static void FreeSurfaces(void)
     SDL_DestroyTexture(texture_upscaled);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    window = NULL;
 
     if (mapwindow)
         I_DestroyExternalAutomap();
@@ -891,8 +893,6 @@ void I_CreateExternalAutomap(dboolean output)
         return;
     }
 
-    mapscreen = NULL;
-
     am_displayindex = 0;
     if (am_displayindex == displayindex)
         ++am_displayindex;
@@ -958,7 +958,7 @@ void I_DestroyExternalAutomap(void)
     SDL_DestroyRenderer(maprenderer);
     SDL_DestroyWindow(mapwindow);
     mapwindow = NULL;
-    mapscreen = *screens;
+    mapscreen = NULL;
     mapblitfunc = nullfunc;
 }
 
@@ -1442,6 +1442,8 @@ static void SetVideoMode(dboolean output)
     if (SDL_SetSurfacePalette(surface, palette) < 0)
         I_SDLError("SDL_SetSurfacePalette");
 
+    I_SetPalette(playpal);
+
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
 }
@@ -1593,7 +1595,6 @@ void I_InitGraphics(void)
 {
     int         i = 0;
     SDL_Event   dummy;
-    byte        *doompal = W_CacheLumpName("PLAYPAL", PU_CACHE);
     SDL_version linked;
     SDL_version compiled;
 
@@ -1621,8 +1622,9 @@ void I_InitGraphics(void)
     keys['a'] = keys['A'] = false;
     keys['l'] = keys['L'] = false;
 
-    I_InitTintTables(doompal);
-    FindNearestColors(doompal);
+    playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
+    I_InitTintTables(playpal);
+    FindNearestColors(playpal);
 
     I_InitGammaTables();
 
@@ -1656,11 +1658,6 @@ void I_InitGraphics(void)
     SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
     SDL_SetWindowTitle(window, PACKAGE_NAME);
-
-    I_SetPalette(doompal);
-    if (mappalette)
-        if (SDL_SetPaletteColors(mappalette, colors, 0, 256) < 0)
-            I_SDLError("SDL_SetPaletteColors");
 
     blitfunc = (nearestlinear ? I_Blit_NearestLinear : I_Blit);
     blitfunc();
