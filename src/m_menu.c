@@ -1562,7 +1562,7 @@ void M_SetWindowCaption(void)
             (expansion == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
         else
             M_StringCopy(caption, gamedescription, sizeof(caption));
-        if (bfgedition)
+        if (bfgedition && !BTSX)
             M_snprintf(caption, sizeof(caption), "%s (%s)", caption, s_CAPTION_BFGEDITION);
     }
 
