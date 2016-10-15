@@ -373,11 +373,17 @@ typedef enum
 #define GAMEPADAUTOMAPROTATEMODE_DEFAULT        0
 #define GAMEPADAUTOMAPZOOMIN_DEFAULT            GAMEPAD_RIGHT_SHOULDER
 #define GAMEPADAUTOMAPZOOMOUT_DEFAULT           GAMEPAD_LEFT_SHOULDER
+#define GAMEPADBACK_DEFAULT                     0
 #define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
+#define GAMEPADFORWARD_DEFAULT                  0
+#define GAMEPADLEFT_DEFAULT                     0
 #define GAMEPADMENU_DEFAULT                     GAMEPAD_START
 #define GAMEPADNEXTWEAPON_DEFAULT               GAMEPAD_B
 #define GAMEPADPREVWEAPON_DEFAULT               GAMEPAD_Y
+#define GAMEPADRIGHT_DEFAULT                    0
 #define GAMEPADRUN_DEFAULT                      GAMEPAD_LEFT_TRIGGER
+#define GAMEPADSTRAFELEFT_DEFAULT               0
+#define GAMEPADSTRAFERIGHT_DEFAULT              0
 #define GAMEPADUSE_DEFAULT                      GAMEPAD_A
 #define GAMEPADUSE2_DEFAULT                     GAMEPAD_RIGHT_THUMB
 #define GAMEPADWEAPON_DEFAULT                   0

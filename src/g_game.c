@@ -281,7 +281,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     // use two stage accelerative turning
     // on the keyboard
-    if (gamekeydown[key_right] || gamekeydown[key_left])
+    if (gamekeydown[key_right] || gamekeydown[key_left] || (gamepadbuttons & gamepadleft)
+        || (gamepadbuttons & gamepadright))
         ++turnheld;
     else
         turnheld = 0;
@@ -289,43 +290,45 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // let movement keys cancel each other out
     if (strafe)
     {
-        if (gamekeydown[key_right])
+        if (gamekeydown[key_right] || (gamepadbuttons & gamepadright))
             side += sidemove[run];
 
-        if (gamekeydown[key_left])
+        if (gamekeydown[key_left] || (gamepadbuttons & gamepadleft))
             side -= sidemove[run];
     }
     else
     {
-        if (gamekeydown[key_right])
+        if (gamekeydown[key_right] || (gamepadbuttons & gamepadright))
             cmd->angleturn -= angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX > 0)
             cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbRXright
                 * gamepadsensitivity);
 
-        if (gamekeydown[key_left])
+        if (gamekeydown[key_left] || (gamepadbuttons & gamepadleft))
             cmd->angleturn += angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX < 0)
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft
                 * gamepadsensitivity);
     }
 
-    if (gamekeydown[key_up] || gamekeydown[key_up2])
+    if (gamekeydown[key_up] || gamekeydown[key_up2] || (gamepadbuttons & gamepadforward))
         forward += forwardmove[run];
     else if (gamepadthumbLY < 0)
         forward += (int)(forwardmove[run] * gamepadthumbLYup);
 
-    if (gamekeydown[key_down] || gamekeydown[key_down2])
+    if (gamekeydown[key_down] || gamekeydown[key_down2] || (gamepadbuttons & gamepadback))
         forward -= forwardmove[run];
     else if (gamepadthumbLY > 0)
         forward -= (int)(forwardmove[run] * gamepadthumbLYdown);
 
-    if (gamekeydown[key_straferight] || gamekeydown[key_straferight2])
+    if (gamekeydown[key_straferight] || gamekeydown[key_straferight2]
+        || (gamepadbuttons & gamepadstraferight))
         side += sidemove[run];
     else if (gamepadthumbLX > 0)
         side += (int)(sidemove[run] * gamepadthumbLXright);
 
-    if (gamekeydown[key_strafeleft] || gamekeydown[key_strafeleft2])
+    if (gamekeydown[key_strafeleft] || gamekeydown[key_strafeleft2]
+        || (gamepadbuttons & gamepadstrafeleft))
         side -= sidemove[run];
     else if (gamepadthumbLX < 0)
         side -= (int)(sidemove[run] * gamepadthumbLXleft);
