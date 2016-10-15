@@ -123,13 +123,13 @@ fixed_t         gamepadangleturn[2] = { 640, 960 };
 
 static int *weapon_keys[] =
 {
-    &key_weapon1,
-    &key_weapon2,
-    &key_weapon3,
-    &key_weapon4,
-    &key_weapon5,
-    &key_weapon6,
-    &key_weapon7
+    &keyboardweapon1,
+    &keyboardweapon2,
+    &keyboardweapon3,
+    &keyboardweapon4,
+    &keyboardweapon5,
+    &keyboardweapon6,
+    &keyboardweapon7
 };
 
 static int *gamepadweapons[] =
@@ -274,15 +274,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (automapactive && !am_followmode && players[0].health > 0)
         return;
 
-    strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]
+    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe]
         || (gamepadbuttons & gamepadstrafe));
 
-    run = (gamekeydown[key_run] + !!mousebuttons[mousebrun] + !!(gamepadbuttons & gamepadrun)
+    run = (gamekeydown[keyboardrun] + !!mousebuttons[mouserun] + !!(gamepadbuttons & gamepadrun)
         + alwaysrun == 1);
 
     // use two stage accelerative turning
     // on the keyboard
-    if (gamekeydown[key_right] || gamekeydown[key_left] || (gamepadbuttons & gamepadleft)
+    if (gamekeydown[keyboardright] || gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft)
         || (gamepadbuttons & gamepadright))
         ++turnheld;
     else
@@ -291,44 +291,44 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // let movement keys cancel each other out
     if (strafe)
     {
-        if (gamekeydown[key_right] || (gamepadbuttons & gamepadright))
+        if (gamekeydown[keyboardright] || (gamepadbuttons & gamepadright))
             side += sidemove[run];
 
-        if (gamekeydown[key_left] || (gamepadbuttons & gamepadleft))
+        if (gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft))
             side -= sidemove[run];
     }
     else
     {
-        if (gamekeydown[key_right] || (gamepadbuttons & gamepadright))
+        if (gamekeydown[keyboardright] || (gamepadbuttons & gamepadright))
             cmd->angleturn -= angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX > 0)
             cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbRXright
                 * gamepadsensitivity);
 
-        if (gamekeydown[key_left] || (gamepadbuttons & gamepadleft))
+        if (gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft))
             cmd->angleturn += angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX < 0)
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft
                 * gamepadsensitivity);
     }
 
-    if (gamekeydown[key_up] || gamekeydown[key_up2] || (gamepadbuttons & gamepadforward))
+    if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
         forward += forwardmove[run];
     else if (gamepadthumbLY < 0)
         forward += (int)(forwardmove[run] * gamepadthumbLYup);
 
-    if (gamekeydown[key_down] || gamekeydown[key_down2] || (gamepadbuttons & gamepadback))
+    if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamepadbuttons & gamepadback))
         forward -= forwardmove[run];
     else if (gamepadthumbLY > 0)
         forward -= (int)(forwardmove[run] * gamepadthumbLYdown);
 
-    if (gamekeydown[key_straferight] || gamekeydown[key_straferight2]
+    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2]
         || (gamepadbuttons & gamepadstraferight))
         side += sidemove[run];
     else if (gamepadthumbLX > 0)
         side += (int)(sidemove[run] * gamepadthumbLXright);
 
-    if (gamekeydown[key_strafeleft] || gamekeydown[key_strafeleft2]
+    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2]
         || (gamepadbuttons & gamepadstrafeleft))
         side -= sidemove[run];
     else if (gamepadthumbLX < 0)
@@ -339,10 +339,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         skipaction = false;
     else
     {
-        if (mousebuttons[mousebfire] || gamekeydown[key_fire] || (gamepadbuttons & gamepadfire))
+        if (mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamepadbuttons & gamepadfire))
             cmd->buttons |= BT_ATTACK;
 
-        if (gamekeydown[key_use] || gamekeydown[key_use2] || mousebuttons[mousebuse]
+        if (gamekeydown[keyboarduse] || gamekeydown[keyboarduse2] || mousebuttons[mouseuse]
             || (gamepadbuttons & (gamepaduse | gamepaduse2)))
         {
             cmd->buttons |= BT_USE;
@@ -380,7 +380,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    if (mousebuttons[mousebforward])
+    if (mousebuttons[mouseforward])
         forward += forwardmove[run];
 
     if (m_doubleclick_use)
@@ -388,9 +388,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         dboolean        bstrafe;
 
         // forward double click
-        if (mousebuttons[mousebforward] != dclickstate && dclicktime > 1)
+        if (mousebuttons[mouseforward] != dclickstate && dclicktime > 1)
         {
-            dclickstate = mousebuttons[mousebforward];
+            dclickstate = mousebuttons[mouseforward];
             if (dclickstate)
                 ++dclicks;
             if (dclicks == 2)
@@ -408,7 +408,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
 
         // strafe double click
-        bstrafe = mousebuttons[mousebstrafe];
+        bstrafe = mousebuttons[mousestrafe];
         if (bstrafe != dclickstate2 && dclicktime2 > 1)
         {
             dclickstate2 = bstrafe;
@@ -609,7 +609,7 @@ void G_DoLoadLevel(void)
 void G_ToggleAlwaysRun(evtype_t type)
 {
 #if defined(WIN32)
-    alwaysrun = (key_alwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
+    alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
         (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
 #else
     alwaysrun = !alwaysrun;
@@ -679,7 +679,7 @@ dboolean G_Responder(event_t *ev)
             }
             return true;
         }
-        else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && ev->data1 == key_alwaysrun
+        else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && ev->data1 == keyboardalwaysrun
             && !keydown)
         {
             keydown = KEY_CAPSLOCK;
@@ -707,9 +707,9 @@ dboolean G_Responder(event_t *ev)
     {
         case ev_keydown:
             key = ev->data1;
-            if (key == key_prevweapon && !menuactive && !paused)
+            if (key == keyboardprevweapon && !menuactive && !paused)
                 G_PrevWeapon();
-            else if (key == key_nextweapon && !menuactive && !paused)
+            else if (key == keyboardnextweapon && !menuactive && !paused)
                 G_NextWeapon();
             else if (key == KEY_PAUSE && !menuactive && !keydown)
             {
@@ -719,9 +719,9 @@ dboolean G_Responder(event_t *ev)
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
             }
-            else if (key == key_alwaysrun && !keydown)
+            else if (key == keyboardalwaysrun && !keydown)
             {
-                keydown = key_alwaysrun;
+                keydown = keyboardalwaysrun;
                 G_ToggleAlwaysRun(ev_keydown);
             }
             else if (key < NUMKEYS)
@@ -760,9 +760,9 @@ dboolean G_Responder(event_t *ev)
             }
             if (!automapactive && !menuactive && !paused)
             {
-                if (mousebnextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousebnextweapon])
+                if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
                     G_NextWeapon();
-                else if (mousebprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousebprevweapon])
+                else if (mouseprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mouseprevweapon])
                     G_PrevWeapon();
             }
             if (!automapactive || am_followmode)
@@ -783,16 +783,16 @@ dboolean G_Responder(event_t *ev)
             {
                 if (ev->data1 < 0)
                 {
-                    if (mousebnextweapon == MOUSE_WHEELDOWN)
+                    if (mousenextweapon == MOUSE_WHEELDOWN)
                         G_NextWeapon();
-                    else if (mousebprevweapon == MOUSE_WHEELDOWN)
+                    else if (mouseprevweapon == MOUSE_WHEELDOWN)
                         G_PrevWeapon();
                 }
                 else if (ev->data1 > 0)
                 {
-                    if (mousebnextweapon == MOUSE_WHEELUP)
+                    if (mousenextweapon == MOUSE_WHEELUP)
                         G_NextWeapon();
-                    else if (mousebprevweapon == MOUSE_WHEELUP)
+                    else if (mouseprevweapon == MOUSE_WHEELUP)
                         G_PrevWeapon();
                 }
             }

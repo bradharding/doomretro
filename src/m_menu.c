@@ -2331,7 +2331,7 @@ dboolean M_Responder(event_t *ev)
             // exit menu
             else if (gamepadbuttons & gamepadmenu)
             {
-                key = key_menu;
+                key = keyboardmenu;
                 currentMenu = &MainDef;
                 itemOn = MainDef.lastOn;
                 gamepadwait = I_GetTime() + 8;
@@ -2384,7 +2384,7 @@ dboolean M_Responder(event_t *ev)
             // open menu
             if (gamepadbuttons & gamepadmenu)
             {
-                key = key_menu;
+                key = keyboardmenu;
                 gamepadwait = I_GetTime() + 8;
                 usinggamepad = true;
             }
@@ -2570,7 +2570,7 @@ dboolean M_Responder(event_t *ev)
     if (messageToPrint && !keydown)
     {
         ch = tolower(ch);
-        if (messageNeedsInput && key != key_menu && ch != 'y' && ch != 'n'
+        if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n'
             && !(modstate & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
@@ -2614,7 +2614,7 @@ dboolean M_Responder(event_t *ev)
         }
 
         // Console
-        else if (key == key_console && !keydown)
+        else if (key == keyboardconsole && !keydown)
         {
             keydown = key;
             if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !wipe)
@@ -2797,7 +2797,7 @@ dboolean M_Responder(event_t *ev)
     }
 
     // screenshot
-    if (key == key_screenshot)
+    if (key == keyboardscreenshot)
     {
 #if defined(WIN32)
         if (key != KEY_PRINTSCREEN)
@@ -2809,7 +2809,7 @@ dboolean M_Responder(event_t *ev)
     // Pop-up menu?
     if (!menuactive)
     {
-        if (key == key_menu && !keydown && !splashscreen && !consoleheight)
+        if (key == keyboardmenu && !keydown && !splashscreen && !consoleheight)
         {
             keydown = key;
             if (paused)
@@ -3026,7 +3026,7 @@ dboolean M_Responder(event_t *ev)
             return skipaction;
         }
 
-        else if ((key == key_menu || key == KEY_BACKSPACE) && !keydown)
+        else if ((key == keyboardmenu || key == KEY_BACKSPACE) && !keydown)
         {
             // Deactivate menu or go back to previous menu
             keydown = key;

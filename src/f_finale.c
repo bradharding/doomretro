@@ -595,8 +595,8 @@ static dboolean F_CastResponder(event_t *ev)
     if (menuactive || paused || consoleactive)
         return false;
 
-    if (ev->type == ev_keydown && ev->data1 != key_use && ev->data1 != key_use2
-        && ev->data1 != key_fire && ev->data1 != KEY_LEFTARROW && ev->data1 != KEY_RIGHTARROW
+    if (ev->type == ev_keydown && ev->data1 != keyboarduse && ev->data1 != keyboarduse2
+        && ev->data1 != keyboardfire && ev->data1 != KEY_LEFTARROW && ev->data1 != KEY_RIGHTARROW
         && ev->data1 != KEY_ENTER)
         return false;
 

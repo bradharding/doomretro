@@ -363,13 +363,13 @@ static void I_SetXKBCapslockState(dboolean enabled)
 void I_ShutdownKeyboard(void)
 {
 #if defined(WIN32)
-    if (key_alwaysrun == KEY_CAPSLOCK && (GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
+    if (keyboardalwaysrun == KEY_CAPSLOCK && (GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
     {
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
         keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
     }
 #elif defined(X11)
-    if (key_alwaysrun == KEY_CAPSLOCK)
+    if (keyboardalwaysrun == KEY_CAPSLOCK)
         I_SetXKBCapslockState(false);
 #endif
 }
@@ -1569,7 +1569,7 @@ void I_SetGamma(float value)
 
 void I_InitKeyboard(void)
 {
-    if (key_alwaysrun == KEY_CAPSLOCK)
+    if (keyboardalwaysrun == KEY_CAPSLOCK)
     {
 #if defined(WIN32)
         capslock = !!(GetKeyState(VK_CAPITAL) & 0x0001);

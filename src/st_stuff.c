@@ -313,29 +313,29 @@ cheatseq_t cheat_buddha = CHEAT("mumu", 0);
 
 static dboolean actionkey(char key)
 {
-    return (key == key_right
-        || key == key_left
-        || key == key_up
-        || key == key_up2
-        || key == key_down
-        || key == key_down2
-        || key == key_strafeleft
-        || key == key_straferight
-        || key == key_fire
-        || key == key_use
-        || key == key_use2
-        || key == key_strafe
-        || key == key_run
-        || key == key_prevweapon
-        || key == key_nextweapon
-        || key == key_weapon1
-        || key == key_weapon2
-        || key == key_weapon3
-        || key == key_weapon4
-        || key == key_weapon5
-        || key == key_weapon6
-        || key == key_weapon7
-        || key == key_automap_mark);
+    return (key == keyboardright
+        || key == keyboardleft
+        || key == keyboardforward
+        || key == keyboardforward2
+        || key == keyboardback
+        || key == keyboardback2
+        || key == keyboardstrafeleft
+        || key == keyboardstraferight
+        || key == keyboardfire
+        || key == keyboarduse
+        || key == keyboarduse2
+        || key == keyboardstrafe
+        || key == keyboardrun
+        || key == keyboardprevweapon
+        || key == keyboardnextweapon
+        || key == keyboardweapon1
+        || key == keyboardweapon2
+        || key == keyboardweapon3
+        || key == keyboardweapon4
+        || key == keyboardweapon5
+        || key == keyboardweapon6
+        || key == keyboardweapon7
+        || key == keyboardautomapmark);
 }
 
 static void ST_InitCheats(void)

@@ -1045,7 +1045,7 @@ dboolean C_Responder(event_t *ev)
         int             i;
         SDL_Keymod      modstate = SDL_GetModState();
 
-        if (key == key_console)
+        if (key == keyboardconsole)
         {
             C_HideConsole();
             return true;
@@ -1319,7 +1319,7 @@ dboolean C_Responder(event_t *ev)
 
             // toggle "always run"
             case KEY_CAPSLOCK:
-                if (key_alwaysrun == KEY_CAPSLOCK)
+                if (keyboardalwaysrun == KEY_CAPSLOCK)
                     G_ToggleAlwaysRun(ev_keydown);
                 break;
 
@@ -1390,7 +1390,7 @@ dboolean C_Responder(event_t *ev)
                 else
                 {
                     if ((modstate & KMOD_SHIFT)
-                        || (key_alwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
+                        || (keyboardalwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
                         ch = shiftxform[ch];
                     if (ch >= ' ' && ch < '~' && ch != '`'
                         && C_TextWidth(consoleinput, false) + (ch == ' ' ? spacewidth :

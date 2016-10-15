@@ -102,26 +102,26 @@ byte    *tswallcolor;
 byte    *gridcolor;
 byte    *crosshaircolor;
 
-#define AM_PANDOWNKEY           key_down
-#define AM_PANDOWNKEY2          key_down2
-#define AM_PANUPKEY             key_up
-#define AM_PANUPKEY2            key_up2
-#define AM_PANRIGHTKEY          key_right
-#define AM_PANRIGHTKEY2         key_straferight
-#define AM_PANRIGHTKEY3         key_straferight2
-#define AM_PANLEFTKEY           key_left
-#define AM_PANLEFTKEY2          key_strafeleft
-#define AM_PANLEFTKEY3          key_strafeleft2
-#define AM_ZOOMINKEY            key_automap_zoomin
-#define AM_ZOOMOUTKEY           key_automap_zoomout
-#define AM_STARTKEY             key_automap
-#define AM_ENDKEY               key_automap
-#define AM_GOBIGKEY             key_automap_maxzoom
-#define AM_FOLLOWKEY            key_automap_followmode
-#define AM_GRIDKEY              key_automap_grid
-#define AM_MARKKEY              key_automap_mark
-#define AM_CLEARMARKKEY         key_automap_clearmark
-#define AM_ROTATEKEY            key_automap_rotatemode
+#define AM_PANDOWNKEY           keyboardback
+#define AM_PANDOWNKEY2          keyboardback2
+#define AM_PANUPKEY             keyboardforward
+#define AM_PANUPKEY2            keyboardforward2
+#define AM_PANRIGHTKEY          keyboardright
+#define AM_PANRIGHTKEY2         keyboardstraferight
+#define AM_PANRIGHTKEY3         keyboardstraferight2
+#define AM_PANLEFTKEY           keyboardleft
+#define AM_PANLEFTKEY2          keyboardstrafeleft
+#define AM_PANLEFTKEY3          keyboardstrafeleft2
+#define AM_ZOOMINKEY            keyboardautomapzoomin
+#define AM_ZOOMOUTKEY           keyboardautomapzoomout
+#define AM_STARTKEY             keyboardautomap
+#define AM_ENDKEY               keyboardautomap
+#define AM_GOBIGKEY             keyboardautomapmaxzoom
+#define AM_FOLLOWKEY            keyboardautomapfollowmode
+#define AM_GRIDKEY              keyboardautomapgrid
+#define AM_MARKKEY              keyboardautomapmark
+#define AM_CLEARMARKKEY         keyboardautomapclearmark
+#define AM_ROTATEKEY            keyboardautomaprotatemode
 
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
