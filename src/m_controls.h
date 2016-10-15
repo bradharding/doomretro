@@ -106,6 +106,7 @@ extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
 extern int      gamepadright;
 extern int      gamepadrun;
+extern int      gamepadstrafe;
 extern int      gamepadstrafeleft;
 extern int      gamepadstraferight;
 extern int      gamepaduse;

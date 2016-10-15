@@ -312,7 +312,7 @@ action_t actions[] =
     { "+rotatemode",   &key_automap_rotatemode, NULL,              NULL,              NULL, &gamepadautomaprotatemode, NULL         },
     { "+run",          &key_run,                NULL,              &mousebrun,        NULL, &gamepadrun,               NULL         },
     { "+screenshot",   &key_screenshot,         NULL,              NULL,              NULL, NULL,                      NULL         },
-    { "+strafe",       &key_strafe,             NULL,              &mousebstrafe,     NULL, NULL,                      NULL         },
+    { "+strafe",       &key_strafe,             NULL,              &mousebstrafe,     NULL, &gamepadstrafe,            NULL         },
     { "+strafeleft",   &key_strafeleft,         &key_strafeleft2,  NULL,              NULL, &gamepadstrafeleft,        NULL         },
     { "+straferight",  &key_straferight,        &key_straferight2, NULL,              NULL, &gamepadstraferight,       NULL         },
     { "+use",          &key_use,                &key_use2,         &mousebuse,        NULL, &gamepaduse,               &gamepaduse2 },

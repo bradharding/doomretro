@@ -274,9 +274,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (automapactive && !am_followmode && players[0].health > 0)
         return;
 
-    strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
+    strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]
+        || (gamepadbuttons & gamepadstrafe));
 
-    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + !!mousebuttons[mousebrun]
+    run = (gamekeydown[key_run] + !!mousebuttons[mousebrun] + !!(gamepadbuttons & gamepadrun)
         + alwaysrun == 1);
 
     // use two stage accelerative turning

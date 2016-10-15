@@ -105,6 +105,7 @@ int     gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 int     gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 int     gamepadright = GAMEPADRIGHT_DEFAULT;
 int     gamepadrun = GAMEPADRUN_DEFAULT;
+int     gamepadstrafe = GAMEPADSTRAFE_DEFAULT;
 int     gamepadstrafeleft = GAMEPADSTRAFELEFT_DEFAULT;
 int     gamepadstraferight = GAMEPADSTRAFERIGHT_DEFAULT;
 int     gamepaduse = GAMEPADUSE_DEFAULT;
