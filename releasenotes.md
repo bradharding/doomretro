@@ -27,6 +27,7 @@
 * Gamepad buttons can now be bound to the `+back`, `+forward`, `+left`, `+right`, `+strafe`, `+strafeleft` and `+straferight` actions.
 * Bound controls are now saved in the correct order in `doomretro.cfg`.
 * “BFG Edition” is no longer added to the window caption when playing [*Back to Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) or [*Back to Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) and using the *DOOM II: Hell On Earth (BFG Edition)* IWAD.
+* A bug has been fixed whereby the window’s position wouldn’t be correctly restored at startup.
 
 ---
 
