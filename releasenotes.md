@@ -23,6 +23,7 @@
 * The external automap enabled using the `am_external` CVAR will now be recreated successfully when changing another CVAR that restarts the graphic subsystem.
 * The `vid_motionblur` CVAR now has a value of either `on` or `off` rather than a percentage, and is `off` by default. The motion blur effect it enables now better matches the player’s turning speed regardless of the control method used.
 * The additional motion blur effect applied when the player is injured and the `r_shakescreen` CVAR is `on` will now only be applied when the `vid_motionblur` CVAR is also `on`.
+* The `gp_vibrate` CVAR that toggles the vibration of *XInput* gamepads has now been split into two CVARs: `gp_vibrate_damage` for when the player is damaged, and `gp_vibrate_weapons` for when the player fires their weapon. Both are `on` by default.
 
 ---
 

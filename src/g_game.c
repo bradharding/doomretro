@@ -103,7 +103,8 @@ wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 dboolean        autoload = autoload_default;
 dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
-dboolean        gp_vibrate = gp_vibrate_default;
+dboolean        gp_vibrate_damage = gp_vibrate_damage_default;
+dboolean        gp_vibrate_weapons = gp_vibrate_weapons_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -944,7 +945,7 @@ void G_Ticker(void)
                 {
                     S_PauseSound();
 
-                    if (gp_vibrate && vibrate)
+                    if ((gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
                     {
                         restoremotorspeed = idlemotorspeed;
                         idlemotorspeed = 0;
@@ -960,7 +961,7 @@ void G_Ticker(void)
                     S_ResumeSound();
                     S_StartSound(NULL, sfx_swtchx);
 
-                    if (gp_vibrate && vibrate)
+                    if ((gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
                     {
                         idlemotorspeed = restoremotorspeed;
                         XInputVibration(idlemotorspeed);

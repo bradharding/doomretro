@@ -214,7 +214,7 @@ void P_FireWeapon(player_t *player)
         stat_shotsfired = SafeAdd(stat_shotsfired, 1);
     }
 
-    if (gp_vibrate && vibrate)
+    if (gp_vibrate_weapons && vibrate)
     {
         int     motorspeed = weaponinfo[readyweapon].motorspeed;
 
@@ -275,7 +275,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     //  if player is dead, put the weapon away
     if (pendingweapon != wp_nochange || !player->health)
     {
-        if (gp_vibrate && vibrate)
+        if ((gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
         {
             if (pendingweapon == wp_chainsaw)
             {

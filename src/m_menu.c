@@ -3180,7 +3180,7 @@ void M_StartControlPanel(void)
 
     S_StopSounds();
 
-    if (gp_vibrate && vibrate)
+    if ((gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
     {
         restoremotorspeed = idlemotorspeed;
         idlemotorspeed = 0;
@@ -3343,7 +3343,7 @@ void M_ClearMenus(void)
 {
     menuactive = false;
 
-    if (gp_vibrate && vibrate)
+    if ((gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
     {
         idlemotorspeed = restoremotorspeed;
         XInputVibration(idlemotorspeed);

@@ -78,7 +78,8 @@ extern float            gp_deadzone_left;
 extern float            gp_deadzone_right;
 extern int              gp_sensitivity;
 extern dboolean         gp_swapthumbsticks;
-extern dboolean         gp_vibrate;
+extern dboolean         gp_vibrate_damage;
+extern dboolean         gp_vibrate_weapons;
 extern char             *iwadfolder;
 extern dboolean         messages;
 extern float            m_acceleration;
@@ -238,7 +239,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOALIAS    ),
     CONFIG_VARIABLE_INT          (gp_sensitivity,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,                                BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (gp_vibrate,                                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (gp_vibrate_damage,                                 BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (gp_vibrate_weapons,                                BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (iwadfolder,                                        NOALIAS    ),
     CONFIG_VARIABLE_FLOAT        (m_acceleration,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,                                 BOOLALIAS  ),
@@ -673,8 +675,11 @@ static void M_CheckCVARs(void)
     if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
         gp_swapthumbsticks = gp_swapthumbsticks_default;
 
-    if (gp_vibrate != false && gp_vibrate != true)
-        gp_vibrate = gp_vibrate_default;
+    if (gp_vibrate_damage != false && gp_vibrate_damage != true)
+        gp_vibrate_damage = gp_vibrate_damage_default;
+
+    if (gp_vibrate_weapons != false && gp_vibrate_weapons != true)
+        gp_vibrate_weapons = gp_vibrate_weapons_default;
 
     if (m_doubleclick_use != false && m_doubleclick_use != true)
         m_doubleclick_use = m_doubleclick_use_default;

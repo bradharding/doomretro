@@ -123,7 +123,8 @@ extern float            gp_deadzone_left;
 extern float            gp_deadzone_right;
 extern int              gp_sensitivity;
 extern dboolean         gp_swapthumbsticks;
-extern dboolean         gp_vibrate;
+extern dboolean         gp_vibrate_damage;
+extern dboolean         gp_vibrate_weapons;
 extern char             *iwadfolder;
 extern char             *language;
 extern dboolean         messages;
@@ -572,8 +573,10 @@ consolecmd_t consolecmds[] =
         "The gamepad's sensitivity (<b>0</b> to <b>128</b>)."),
     CVAR_BOOL(gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles swapping the gamepad's left and right thumbsticks."),
-    CVAR_BOOL(gp_vibrate, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles vibration for <i><b>XInput</b></i> gamepads."),
+    CVAR_BOOL(gp_vibrate_damage, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
+        "Toggles the vibration of <i><b>XInput</b></i> gamepads when the player\nreceives damage."),
+    CVAR_BOOL(gp_vibrate_weapons, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
+        "Toggles the vibration of <i><b>XInput</b></i> gamepads when the player fires\ntheir weapon."),
     CVAR_INT(health, "", game_func1, player_cvars_func2, CF_PERCENT, NOALIAS,
         "The player's health."),
 #if defined(WIN32)

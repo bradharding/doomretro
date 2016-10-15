@@ -99,7 +99,8 @@ extern short    gamepadrightdeadzone;
 
 extern int      gp_sensitivity;
 extern dboolean gp_swapthumbsticks;
-extern dboolean gp_vibrate;
+extern dboolean gp_vibrate_damage;
+extern dboolean gp_vibrate_weapons;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);

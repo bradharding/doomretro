@@ -172,7 +172,9 @@ typedef enum
 
 #define gp_swapthumbsticks_default              false
 
-#define gp_vibrate_default                      true
+#define gp_vibrate_damage_default               true
+
+#define gp_vibrate_weapons_default              true
 
 #define health_min                              0
 #define health_default                          100
