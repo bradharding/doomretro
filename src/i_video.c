@@ -899,8 +899,7 @@ void I_CreateExternalAutomap(dboolean output)
 
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
-    if (!(mapwindow = SDL_CreateWindow("Automap - "PACKAGE_NAME,
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
+    if (!(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
         SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP)))
         I_SDLError("SDL_CreateWindow");
 
