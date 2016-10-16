@@ -670,7 +670,7 @@ void D_SetGameDescription(void)
     }
     else
     {
-        if (bfgedition && !BTSX)
+        if (bfgedition && !modifiedgame)
             C_Output("Playing \"%s (%s)\".", gamedescription, s_CAPTION_BFGEDITION);
         else
             C_Output("Playing \"%s\".", gamedescription);
