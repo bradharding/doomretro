@@ -959,6 +959,7 @@ void I_DestroyExternalAutomap(void)
     SDL_DestroyWindow(mapwindow);
     mapwindow = NULL;
     mapscreen = NULL;
+    mapblitfunc = nullfunc;
 }
 
 void GetWindowPosition(void)
