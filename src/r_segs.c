@@ -688,7 +688,10 @@ void R_StoreWallRange(int start, int stop)
 
     // calculate texture boundaries
     //  and decide if floor / ceiling marks are needed
-    midtexture = toptexture = bottomtexture = maskedtexture = 0;
+    midtexture = 0;
+    toptexture = 0;
+    bottomtexture = 0;
+    maskedtexture = 0;
     ds_p->maskedtexturecol = NULL;
 
     if (!backsector)
@@ -699,7 +702,8 @@ void R_StoreWallRange(int start, int stop)
         midtexfullbright = texturefullbright[midtexture];
 
         // a single sided line is terminal, so it must mark ends
-        markfloor = markceiling = true;
+        markfloor = true;
+        markceiling = true;
 
         if (linedef->flags & ML_DONTPEGBOTTOM)
             // bottom of texture at bottom
@@ -827,8 +831,11 @@ void R_StoreWallRange(int start, int stop)
 
         if (backsector->interpceilingheight <= frontsector->interpfloorheight
             || backsector->interpfloorheight >= frontsector->interpceilingheight)
+        {
             // closed door
-            markceiling = markfloor = true;
+            markceiling = true;
+            markfloor = true;
+        }
 
         if (worldhigh < worldtop)
         {
@@ -921,6 +928,7 @@ void R_StoreWallRange(int start, int stop)
     // if a floor / ceiling plane is on the wrong side
     //  of the view plane, it is definitely invisible
     //  and doesn't need to be marked.
+
     // killough 3/7/98: add deep water check
     if (frontsector->heightsec == -1)
     {
@@ -968,7 +976,7 @@ void R_StoreWallRange(int start, int stop)
         if (ceilingplane)   // killough 4/11/98: add NULL ptr checks
             ceilingplane = R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1);
         else
-            markceiling = 0;
+            markceiling = false;
     }
 
     if (markfloor)
@@ -976,7 +984,7 @@ void R_StoreWallRange(int start, int stop)
         if (floorplane)     // killough 4/11/98: add NULL ptr checks
             floorplane = R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
         else
-            markfloor = 0;
+            markfloor = false;
     }
 
     R_RenderSegLoop();
