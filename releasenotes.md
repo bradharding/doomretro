@@ -23,7 +23,7 @@
 * The external automap enabled using the `am_external` CVAR will now be recreated successfully when changing another CVAR that causes the graphics subsystem to be restarted.
 * The `vid_motionblur` CVAR now has a value of either `on` or `off` rather than a percentage, and is `off` by default. The motion blur effect it enables now better matches the player’s turning speed regardless of the control method used.
 * The additional motion blur effect applied when the player is injured and the `r_shakescreen` CVAR is `on` will now only be applied when the `vid_motionblur` CVAR is also `on`.
-* The `gp_vibrate` CVAR that toggles the vibration of *XInput* gamepads has now been split into two CVARs: `gp_vibrate_damage` for when the player is damaged, and `gp_vibrate_weapons` for when the player fires their weapon. Both are `on` by default.
+* The `gp_vibrate` CVAR that toggles the vibration of *XInput* gamepads has now been replaced by two CVARs: `gp_vibrate_damage` for the amount of vibration when the player is damaged, and `gp_vibrate_weapons` for the amount of vibration when the player fires their weapon. Both are `100%` by default.
 * Gamepad buttons can now be bound to the `+back`, `+forward`, `+left`, `+right`, `+strafe`, `+strafeleft` and `+straferight` actions.
 * Bound controls are now saved in the correct order in `doomretro.cfg`.
 * “(BFG Edition)” is no longer added to the end of the window’s caption when playing a PWAD with the *DOOM II: Hell On Earth (BFG Edition)* IWAD.

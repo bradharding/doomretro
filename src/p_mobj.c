@@ -1178,7 +1178,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
         // [BH] vibrate XInput gamepads
         if (gp_vibrate_damage && vibrate)
         {
-            int motorspeed = weaponinfo[wp_fist].motorspeed;
+            int motorspeed = weaponinfo[wp_fist].motorspeed * gp_vibrate_damage / 100;
 
             if (players[0].powers[pw_strength])
                 motorspeed *= 2;
