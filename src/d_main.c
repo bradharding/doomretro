@@ -525,7 +525,7 @@ void D_DoAdvanceTitle(void)
             break;
     }
 
-    if (W_CheckMultipleLumps("TITLEPIC") > 1)
+    if (W_CheckMultipleLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
     {
         if (W_CheckMultipleLumps("CREDIT") > 1)
         {
