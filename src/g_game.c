@@ -103,8 +103,8 @@ wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 dboolean        autoload = autoload_default;
 dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
-dboolean        gp_vibrate_damage = gp_vibrate_damage_default;
-dboolean        gp_vibrate_weapons = gp_vibrate_weapons_default;
+int             gp_vibrate_damage = gp_vibrate_damage_default;
+int             gp_vibrate_weapons = gp_vibrate_weapons_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
