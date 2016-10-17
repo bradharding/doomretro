@@ -878,12 +878,11 @@ void I_CreateExternalAutomap(dboolean output)
     Uint32      rmask, gmask, bmask, amask;
     int         bpp;
 
+    mapscreen = *screens;
+    mapblitfunc = nullfunc;
+
     if (!am_external)
-    {
-        mapscreen = *screens;
-        mapblitfunc = nullfunc;
         return;
-    }
 
     GetDisplays();
     if (numdisplays == 1)
