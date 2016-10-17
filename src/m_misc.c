@@ -702,6 +702,25 @@ char *removespaces(const char *input)
     return p;
 }
 
+char *trimwhitespace(char *input)
+{
+    char *end;
+
+    while (isspace((unsigned char)*input))
+        input++;
+
+    if (!*input)
+        return input;
+
+    end = input + strlen(input) - 1;
+    while (end > input && isspace((unsigned char)*end))
+        end--;
+
+    *(end + 1) = 0;
+
+    return input;
+}
+
 char *removenewlines(const char *str)
 {
     char        *newstr;

@@ -1912,7 +1912,7 @@ extern int      dehcount;
 void P_MapName(int ep, int map)
 {
     dboolean    mapnumonly = false;
-    char        *mapinfoname = P_GetMapName((ep - 1) * 10 + map);
+    char        *mapinfoname = trimwhitespace(P_GetMapName((ep - 1) * 10 + map));
 
     switch (gamemission)
     {
@@ -1930,7 +1930,8 @@ void P_MapName(int ep, int map)
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, *mapnames[(ep - 1) * 9 + map - 1], sizeof(maptitle));
+                M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]),
+                    sizeof(maptitle));
             break;
 
         case doom2:
@@ -1946,7 +1947,7 @@ void P_MapName(int ep, int map)
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] :
+                M_StringCopy(maptitle, trimwhitespace(bfgedition ? *mapnames2_bfg[map - 1] :
                     *mapnames2[map - 1]), sizeof(maptitle));
             break;
 
@@ -1955,7 +1956,7 @@ void P_MapName(int ep, int map)
             if (*mapinfoname)
                 M_snprintf(maptitle, sizeof(maptitle), "%s: %s", mapnum, mapinfoname);
             else
-                M_StringCopy(maptitle, *mapnamesn[map - 1], sizeof(maptitle));
+                M_StringCopy(maptitle, trimwhitespace(*mapnamesn[map - 1]), sizeof(maptitle));
             break;
 
         case pack_plut:
@@ -1971,7 +1972,7 @@ void P_MapName(int ep, int map)
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
+                M_StringCopy(maptitle, trimwhitespace(*mapnamesp[map - 1]), sizeof(maptitle));
             break;
 
         case pack_tnt:
@@ -1987,7 +1988,7 @@ void P_MapName(int ep, int map)
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
+                M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
             break;
 
         default:
@@ -2040,6 +2041,8 @@ void P_MapName(int ep, int map)
             M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
         M_StringCopy(automaptitle, mapnumandtitle, sizeof(automaptitle));
     }
+
+
 }
 
 static mapformat_t P_CheckMapFormat(int lumpnum)
