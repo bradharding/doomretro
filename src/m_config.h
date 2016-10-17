@@ -174,11 +174,11 @@ typedef enum
 
 #define gp_vibrate_damage_min                   0
 #define gp_vibrate_damage_default               100
-#define gp_vibrate_damage_max                   100
+#define gp_vibrate_damage_max                   200
 
 #define gp_vibrate_weapons_min                  0
 #define gp_vibrate_weapons_default              100
-#define gp_vibrate_weapons_max                  100
+#define gp_vibrate_weapons_max                  200
 
 #define health_min                              0
 #define health_default                          100

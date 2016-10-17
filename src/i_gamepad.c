@@ -266,6 +266,7 @@ int restoremotorspeed = 0;
 void XInputVibration(int motorspeed)
 {
 #if defined(WIN32)
+    motorspeed = MIN(motorspeed, 65535);
     if (motorspeed > currentmotorspeed || motorspeed == idlemotorspeed)
     {
         XINPUT_VIBRATION    vibration;
