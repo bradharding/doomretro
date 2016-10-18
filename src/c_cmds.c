@@ -387,6 +387,7 @@ static void str_cvars_func2(char *, char *, char *, char *);
 static void time_cvars_func2(char *, char *, char *, char *);
 
 static void am_external_cvar_func2(char *, char *, char *, char *);
+static dboolean am_followmode_cvar_func1(char *, char *, char *, char *);
 static void am_path_cvar_func2(char *, char *, char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
@@ -499,7 +500,7 @@ consolecmd_t consolecmds[] =
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of lines with a change in floor height in the automap\n(<b>0</b> to <b>255</b>)."),
-    CVAR_BOOL(am_followmode, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
+    CVAR_BOOL(am_followmode, "", am_followmode_cvar_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles the grid in the automap."),
@@ -3677,6 +3678,7 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
         if (am_external)
         {
             I_CreateExternalAutomap(false);
+            am_followmode = true;
             if (gamestate == GS_LEVEL)
                 AM_Start(false);
         }
@@ -3688,6 +3690,14 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
                 AM_Stop();
         }
     }
+}
+
+//
+// am_followmode cvar
+//
+static dboolean am_followmode_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    return (!mapwindow && gamestate == GS_LEVEL);
 }
 
 //

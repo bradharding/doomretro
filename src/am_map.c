@@ -818,7 +818,7 @@ dboolean AM_Responder(event_t *ev)
                 }
 
                 // toggle follow mode
-                else if (key == AM_FOLLOWKEY)
+                else if (key == AM_FOLLOWKEY && !mapwindow)
                 {
                     if (keydown != AM_FOLLOWKEY)
                     {

@@ -29,6 +29,7 @@
 * “(BFG Edition)” is no longer added to the end of the window’s caption when playing a PWAD with the *DOOM II: Hell On Earth (BFG Edition)* IWAD.
 * A bug has been fixed whereby the window’s position wouldn’t be correctly restored at startup.
 * A texture has been corrected in MAP18 of `doom2.wad`.
+* Follow mode can no longer be disabled while `am_external` is `on`.
 
 ---
 
