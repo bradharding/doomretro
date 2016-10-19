@@ -43,6 +43,7 @@
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_gamepad.h"
+#include "i_timer.h"
 #include "m_bbox.h"
 #include "m_misc.h"
 #include "p_local.h"
@@ -273,6 +274,8 @@ int                     direction;
 
 static am_frame_t       am_frame;
 
+extern int              gamepadwait;
+
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
 static void AM_activateNewScale(void)
@@ -465,7 +468,7 @@ static void AM_initVariables(dboolean mainwindow)
 //
 static void AM_LevelInit(void)
 {
-    am_followmode = true;
+    am_followmode = am_followmode_default;
     bigstate = false;
 
     AM_findMinMaxBoundaries();
@@ -574,7 +577,10 @@ static void AM_toggleFollowMode(void)
 {
     am_followmode = !am_followmode;
     if (am_followmode)
-        m_paninc.x = m_paninc.y = 0;
+    {
+        m_paninc.x = 0;
+        m_paninc.y = 0;
+    }
     C_StrCVAROutput(stringize(am_followmode), (am_followmode ? "on" : "off"));
     HU_PlayerMessage((am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF), false);
     message_dontfuckwithme = true;
@@ -970,10 +976,11 @@ dboolean AM_Responder(event_t *ev)
                     ftom_zoommul = M_ZOOMIN + 2000;
                 }
             }
-            else if (ev->type == ev_gamepad)
+            else if (ev->type == ev_gamepad && gamepadwait < I_GetTime())
             {
                 if ((gamepadbuttons & gamepadautomap) && !backbuttondown)
                 {
+                    gamepadwait = I_GetTime() + 8;
                     viewactive = true;
                     backbuttondown = true;
                     AM_Stop();
@@ -997,27 +1004,45 @@ dboolean AM_Responder(event_t *ev)
 
                 // toggle maximum zoom
                 else if ((gamepadbuttons & gamepadautomapmaxzoom) && !idclev && !idmus)
+                {
                     AM_toggleMaxZoom();
+                    gamepadwait = I_GetTime() + 12;
+                }
 
                 // toggle follow mode
                 else if (gamepadbuttons & gamepadautomapfollowmode)
+                {
                     AM_toggleFollowMode();
+                    gamepadwait = I_GetTime() + 12;
+                }
 
                 // toggle grid
                 else if (gamepadbuttons & gamepadautomapgrid)
+                {
                     AM_toggleGrid();
+                    gamepadwait = I_GetTime() + 12;
+                }
 
                 // mark spot
                 else if ((gamepadbuttons & gamepadautomapmark))
+                {
                     AM_addMark();
+                    gamepadwait = I_GetTime() + 12;
+                }
 
                 // clear mark(s)
                 else if (gamepadbuttons & gamepadautomapclearmark)
+                {
                     AM_clearMarks();
+                    gamepadwait = I_GetTime() + 12;
+                }
 
                 // toggle rotate mode
                 else if (gamepadbuttons & gamepadautomaprotatemode)
+                {
                     AM_toggleRotateMode();
+                    gamepadwait = I_GetTime() + 12;
+                }
 
                 if (!am_followmode)
                 {

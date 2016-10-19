@@ -30,6 +30,7 @@
 * A bug has been fixed whereby the window’s position wouldn’t be correctly restored at startup.
 * A texture has been corrected in MAP18 of `doom2.wad`.
 * Follow mode can no longer be disabled while `am_external` is `on`.
+* Pressing a gamepad button bound to the `+clearmark`, `+followmode`, `+grid`, `+mark`, `+maxzoom` or `+rotatemode` actions now works as intended.
 
 ---
 
