@@ -101,6 +101,8 @@ static patch_t  *multiply;
 static patch_t  *warning;
 static patch_t  *brand;
 static patch_t  *divider;
+static patch_t  *cmdlist;
+static patch_t  *cvarlist;
 
 static int      spacewidth;
 
@@ -159,6 +161,7 @@ static int      consoleoutputcolor = 88;
 static int      consoleboldcolor = 4;
 static int      consoleitalicscolor = 98;
 static int      consolebrandingcolor = 180;
+static int      consoleheadercolor = 180;
 static int      consolewarningcolor = 180;
 static int      consoledividercolor = 100;
 static int      consoletintcolor = 5;
@@ -497,6 +500,9 @@ void C_Init(void)
     divider = W_CacheLumpName("DRDIVIDE", PU_STATIC);
     warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
 
+    cmdlist = W_CacheLumpName("DRCMDLST", PU_STATIC);
+    cvarlist = W_CacheLumpName("DRCVRLST", PU_STATIC);
+
 #if defined(WIN32)
     caretblinktime = GetCaretBlinkTime();
 #else
@@ -523,6 +529,7 @@ void C_Init(void)
     consoleboldcolor = nearestcolors[consoleboldcolor];
     consoleitalicscolor = nearestcolors[consoleitalicscolor];
     consolebrandingcolor = nearestcolors[consolebrandingcolor];
+    consoleheadercolor = nearestcolors[consoleheadercolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
     consoletintcolor = nearestcolors[consoletintcolor];
@@ -879,6 +886,12 @@ void C_Drawer(void)
             if (type == dividerstring)
                 V_DrawConsolePatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
                     consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+            else if (M_StringCompare(console[i].string, CMDLISTTITLE))
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist,
+                    consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+            else if (M_StringCompare(console[i].string, CVARLISTTITLE))
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist,
+                    consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],

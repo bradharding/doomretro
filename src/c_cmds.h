@@ -41,6 +41,9 @@
 
 #include "doomtype.h"
 
+#define CMDLISTTITLE    "CCMD\tDESCRIPTION"
+#define CVARLISTTITLE   "CVAR\tDEFAULT\tDESCRIPTION"
+
 typedef enum
 {
     keyboardcontrol = 1,

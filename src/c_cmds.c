@@ -1191,6 +1191,8 @@ static void cmdlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     int i = 0;
     int tabs[8] = { 174, 0, 0, 0, 0, 0, 0, 0 };
 
+    C_TabbedOutput(tabs, CMDLISTTITLE);
+
     while (*consolecmds[i].name)
     {
         if (consolecmds[i].type == CT_CMD && *consolecmds[i].description
@@ -1331,6 +1333,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int i = 0;
     int tabs[8] = { 149, 257, 0, 0, 0, 0, 0, 0 };
+
+    C_TabbedOutput(tabs, CVARLISTTITLE);
 
     while (*consolecmds[i].name)
     {
