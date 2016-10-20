@@ -3,7 +3,7 @@
 
                                   (SDL)
 
-                                Version 2.0
+                                Version 2.0.5
 
 ---
 http://www.libsdl.org/
