@@ -2,7 +2,7 @@
 
 * *DOOM Retro* now uses version 2.0.5 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro’s* icon and splash screen have been redesigned.
+* Both *DOOM Retro’s* icon and splash screen have been redesigned.
 * A bug has been fixed whereby the initialization of *DirectInput* gamepads was not being displayed in the console at startup.
 * The directional pad on *DirectInput* gamepads now works correctly and won’t interfere with the other buttons.
 * Invalid characters are no longer displayed in the console or the resulting text file of the `condump` CCMD.
