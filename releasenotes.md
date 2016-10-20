@@ -2,6 +2,7 @@
 
 * *DOOM Retro* now uses version 2.0.5 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* *DOOM Retro’s* icon and splash screen have been redesigned.
 * A bug has been fixed whereby the initialization of *DirectInput* gamepads was not being displayed in the console at startup.
 * The directional pad on *DirectInput* gamepads now works correctly and won’t interfere with the other buttons.
 * Invalid characters are no longer displayed in the console or the resulting text file of the `condump` CCMD.
@@ -12,7 +13,7 @@
 * Obituaries are now displayed correctly for monsters killed by a barrel exploding.
 * An obituary is no longer displayed when using `kill player` in the console.
 * A bug has been fixed whereby trying to change the `gp_deadzone_left` CVAR would in some instances change the `gp_deadzone_right` CVAR instead.
-* All things, including the player’s weapon, will now be lit correctly when standing in a sector whose light level has been transfered from another sector. (An example of this is directly beyond the first door in MAP01 of [*Sunlust*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/sunlust).)
+* All sprites, including the player’s weapon, will now be lit correctly when in a sector whose light level has been transfered from another sector. (An example of this is directly beyond the first door in MAP01 of [*Sunlust*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/sunlust).)
 * The following improvements have been made to [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) support:
   * The arms background in the status bar is now positioned correctly.
   * There are no longer any green or blue blood splats.
