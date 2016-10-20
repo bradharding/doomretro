@@ -765,8 +765,9 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
                     color1))), color2, italics, tinttab);
                 x += SHORT(patch->width);
             }
+
+            prevletter = letter;
         }
-        prevletter = letter;
     }
 }
 
