@@ -2686,7 +2686,7 @@ static void C_PlayerStats_Game(void)
     int         time2 = stat_time / TICRATE;
     player_t    *player = &players[0];
 
-    C_TabbedOutput(tabs, "\t<i><b>Current Map</b></i>\t<i><b>Total</b></i>");
+    C_TabbedOutput(tabs, PLAYERSTATSTITLE);
 
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
@@ -2705,7 +2705,7 @@ static void C_PlayerStats_Game(void)
             striptrailingzero(totallinesmapped * 100.0f / totallines, 1));
     }
 
-    C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
+    C_TabbedOutput(tabs, "Maps completed\tn/a\t<b>%s</b>", commify(stat_mapscompleted));
 
     C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(player->killcount), commify(totalkills),
@@ -2882,110 +2882,111 @@ static void C_PlayerStats_Game(void)
 
 static void C_PlayerStats_NoGame(void)
 {
-    int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 160, 280, 0, 0, 0, 0, 0, 0 };
     int time2 = stat_time / TICRATE;
 
-    C_TabbedOutput(tabs, "\t<i><b>Total</b></i>");
+    C_TabbedOutput(tabs, PLAYERSTATSTITLE);
 
-    C_TabbedOutput(tabs, "Maps completed\t<b>%s</b>", commify(stat_mapscompleted));
+    C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
 
-    C_TabbedOutput(tabs, "Monsters killed\t<b>%s</b>", commify(stat_monsterskilled));
+    C_TabbedOutput(tabs, "Monsters killed\t-\t<b>%s</b>", commify(stat_monsterskilled));
 
     if (gamemode == commercial)
     {
-        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_BABY].plural1),
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_BABY].plural1),
             commify(stat_monsterskilled_arachnotrons));
 
-        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_VILE].plural1),
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_VILE].plural1),
             commify(stat_monsterskilled_archviles));
     }
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_BRUISER].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_BRUISER].plural1),
         commify(stat_monsterskilled_baronsofhell));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_HEAD].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_HEAD].plural1),
         commify(stat_monsterskilled_cacodemons));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_CYBORG].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_CYBORG].plural1),
         commify(stat_monsterskilled_cyberdemons));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SERGEANT].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_SERGEANT].plural1),
         commify(stat_monsterskilled_demons));
 
     if (gamemode == commercial)
     {
-        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_CHAINGUY].plural1),
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_CHAINGUY].plural1),
             commify(stat_monsterskilled_heavyweapondudes));
 
-        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_KNIGHT].plural1),
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_KNIGHT].plural1),
             commify(stat_monsterskilled_hellknights));
     }
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_TROOP].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_TROOP].plural1),
         commify(stat_monsterskilled_imps));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SKULL].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_SKULL].plural1),
         commify(stat_monsterskilled_lostsouls));
 
     if (gamemode == commercial)
     {
-        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_FATSO].plural1),
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_FATSO].plural1),
             commify(stat_monsterskilled_mancubi));
 
-        C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_PAIN].plural1),
+        C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_PAIN].plural1),
             commify(stat_monsterskilled_painelementals));
     }
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_UNDEAD].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_UNDEAD].plural1),
         commify(stat_monsterskilled_revenants));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SHOTGUY].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_SHOTGUY].plural1),
         commify(stat_monsterskilled_shotgunguys));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SHADOWS].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_SHADOWS].plural1),
         commify(stat_monsterskilled_spectres));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_SPIDER].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_SPIDER].plural1),
         commify(stat_monsterskilled_spidermasterminds));
 
-    C_TabbedOutput(tabs, "   %s\t<b>%s</b>", titlecase(mobjinfo[MT_POSSESSED].plural1),
+    C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_POSSESSED].plural1),
         commify(stat_monsterskilled_zombiemen));
 
-    C_TabbedOutput(tabs, "Items picked up\t<b>%s</b>", commify(stat_itemspickedup));
+    C_TabbedOutput(tabs, "Items picked up\t-\t<b>%s</b>", commify(stat_itemspickedup));
 
-    C_TabbedOutput(tabs, "   Ammo\t<b>%s bullets</b>", commify(stat_itemspickedup_ammo_bullets));
+    C_TabbedOutput(tabs, "   Ammo\t-\t<b>%s bullets</b>",
+        commify(stat_itemspickedup_ammo_bullets));
 
-    C_TabbedOutput(tabs, "\t<b>%s cells</b>", commify(stat_itemspickedup_ammo_cells));
+    C_TabbedOutput(tabs, "\t-\t<b>%s cells</b>", commify(stat_itemspickedup_ammo_cells));
 
-    C_TabbedOutput(tabs, "\t<b>%s rockets</b>", commify(stat_itemspickedup_ammo_rockets));
+    C_TabbedOutput(tabs, "\t-\t<b>%s rockets</b>", commify(stat_itemspickedup_ammo_rockets));
 
-    C_TabbedOutput(tabs, "\t<b>%s shells</b>", commify(stat_itemspickedup_ammo_shells));
+    C_TabbedOutput(tabs, "\t-\t<b>%s shells</b>", commify(stat_itemspickedup_ammo_shells));
 
-    C_TabbedOutput(tabs, "   Armor\t<b>%s</b>", commify(stat_itemspickedup_armor));
+    C_TabbedOutput(tabs, "   Armor\t-\t<b>%s</b>", commify(stat_itemspickedup_armor));
 
-    C_TabbedOutput(tabs, "   Health\t<b>%s</b>", commify(stat_itemspickedup_health));
+    C_TabbedOutput(tabs, "   Health\t-\t<b>%s</b>", commify(stat_itemspickedup_health));
 
-    C_TabbedOutput(tabs, "Secrets revealed\t<b>%s</b>", commify(stat_secretsrevealed));
+    C_TabbedOutput(tabs, "Secrets revealed\t-\t<b>%s</b>", commify(stat_secretsrevealed));
 
-    C_TabbedOutput(tabs, "Time played\t<b>%02i:%02i:%02i</b>",
+    C_TabbedOutput(tabs, "Time played\t-\t<b>%02i:%02i:%02i</b>",
         time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage inflicted\t<b>%s</b>", commify(stat_damageinflicted));
+    C_TabbedOutput(tabs, "Damage inflicted\t-\t<b>%s</b>", commify(stat_damageinflicted));
 
-    C_TabbedOutput(tabs, "Damage received\t<b>%s</b>", commify(stat_damagereceived));
+    C_TabbedOutput(tabs, "Damage received\t-\t<b>%s</b>", commify(stat_damagereceived));
 
-    C_TabbedOutput(tabs, "Deaths\t<b>%s</b>", commify(stat_deaths));
+    C_TabbedOutput(tabs, "Deaths\t-\t<b>%s</b>", commify(stat_deaths));
 
-    C_TabbedOutput(tabs, "Cheated\t<b>%s</b>", commify(stat_cheated));
+    C_TabbedOutput(tabs, "Cheated\t-\t<b>%s</b>", commify(stat_cheated));
 
-    C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>", commify(stat_shotsfired));
+    C_TabbedOutput(tabs, "Shots fired\t-\t<b>%s</b>", commify(stat_shotsfired));
 
-    C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>", commify(stat_shotshit));
+    C_TabbedOutput(tabs, "Shots hit\t-\t<b>%s</b>", commify(stat_shotshit));
 
-    C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>",
+    C_TabbedOutput(tabs, "Weapon accuracy\t-\t<b>%s%%</b>",
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 
-    C_TabbedOutput(tabs, "Distance traveled\t<b>%s</b>", distance(stat_distancetraveled));
+    C_TabbedOutput(tabs, "Distance traveled\t-\t<b>%s</b>", distance(stat_distancetraveled));
 }
 
 static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)

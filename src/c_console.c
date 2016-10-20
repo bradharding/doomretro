@@ -103,6 +103,7 @@ static patch_t  *brand;
 static patch_t  *divider;
 static patch_t  *cmdlist;
 static patch_t  *cvarlist;
+static patch_t  *playerstats;
 
 static int      spacewidth;
 
@@ -502,6 +503,7 @@ void C_Init(void)
 
     cmdlist = W_CacheLumpName("DRCMDLST", PU_STATIC);
     cvarlist = W_CacheLumpName("DRCVRLST", PU_STATIC);
+    playerstats = W_CacheLumpName("DRPLYRST", PU_STATIC);
 
 #if defined(WIN32)
     caretblinktime = GetCaretBlinkTime();
@@ -892,6 +894,9 @@ void C_Drawer(void)
             else if (M_StringCompare(console[i].string, CVARLISTTITLE))
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist,
                     consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+            else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                    playerstats, consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
