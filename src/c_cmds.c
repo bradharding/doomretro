@@ -4486,6 +4486,9 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
                 S_StartSound(NULL, sfx_stnmov);
         }
     }
+
+    if (!vid_widescreen)
+        returntowidescreen = false;
 }
 
 //
