@@ -30,8 +30,9 @@
 * “(BFG Edition)” is no longer added to the end of the window’s caption when playing a PWAD with the *DOOM II: Hell On Earth (BFG Edition)* IWAD.
 * A bug has been fixed whereby the window’s position wouldn’t be correctly restored at startup.
 * A texture has been corrected in MAP18 of `doom2.wad`.
-* Follow mode can no longer be disabled while `am_external` is `on`.
+* Follow mode can no longer be disabled while the `am_external` CVAR is `on`.
 * Pressing a gamepad button bound to the `+clearmark`, `+followmode`, `+grid`, `+mark`, `+maxzoom` or `+rotatemode` actions now works as intended in the automap.
+* The `vid_scaleapi` CVAR will now be reset correctly when using either the `reset` or `resetall` CCMDs.
 
 ---
 

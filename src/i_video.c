@@ -1159,10 +1159,14 @@ void I_SetMotionBlur(int percent)
 
 static void SetVideoMode(dboolean output)
 {
-    int         flags = SDL_RENDERER_TARGETTEXTURE;
-    int         width, height;
-    Uint32      rmask, gmask, bmask, amask;
-    int         bpp;
+    int                 flags = SDL_RENDERER_TARGETTEXTURE;
+    int                 width, height;
+    Uint32              rmask, gmask, bmask, amask;
+    int                 bpp;
+    SDL_RendererInfo    rendererinfo;
+    wad_file_t          *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
+    dboolean            iwad = (playpalwad->type == IWAD);
+
 
     displayindex = vid_display - 1;
     if (displayindex < 0 || displayindex >= numdisplays)
@@ -1303,25 +1307,22 @@ static void SetVideoMode(dboolean output)
     if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
         I_SDLError("SDL_RenderSetLogicalSize");
 
-    if (output)
+    if (!SDL_GetRendererInfo(renderer, &rendererinfo))
     {
-        SDL_RendererInfo        rendererinfo;
-        wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
-        dboolean                iwad = (playpalwad->type == IWAD);
-
-        if (!SDL_GetRendererInfo(renderer, &rendererinfo))
+        if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
-            if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
-            {
+            if (output)
                 C_Output("The screen is rendered using hardware acceleration with the "
                     "<i><b>Direct3D 9.0</b></i> API.");
-                if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
-                {
-                    vid_scaleapi = vid_scaleapi_direct3d;
-                    M_SaveCVARs();
-                }
+            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
+            {
+                vid_scaleapi = vid_scaleapi_direct3d;
+                M_SaveCVARs();
             }
-            else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
+        }
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
+        {
+            if (output)
             {
                 int     major, minor;
 
@@ -1329,22 +1330,28 @@ static void SetVideoMode(dboolean output)
                 SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
                 C_Output("The screen is rendered using hardware acceleration with the "
                     "<i><b>OpenGL %i.%i</b></i> API.", major, minor);
-                if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
-                {
-                    vid_scaleapi = vid_scaleapi_opengl;
-                    M_SaveCVARs();
-                }
-            }
-            else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
-            {
-                C_Output("The screen is rendered in software.");
-                if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
-                {
-                    vid_scaleapi = vid_scaleapi_software;
-                    M_SaveCVARs();
-                }
             }
 
+            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+            {
+                vid_scaleapi = vid_scaleapi_opengl;
+                M_SaveCVARs();
+            }
+        }
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
+        {
+            if (output)
+                C_Output("The screen is rendered in software.");
+
+            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software))
+            {
+                vid_scaleapi = vid_scaleapi_software;
+                M_SaveCVARs();
+            }
+        }
+
+        if (output)
+        {
             if (nearestlinear)
             {
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
@@ -1365,7 +1372,7 @@ static void SetVideoMode(dboolean output)
                 C_Output("The framerate is capped at %i FPS.", TICRATE);
             else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
             {
-                SDL_DisplayMode     displaymode;
+                SDL_DisplayMode displaymode;
 
                 if (!SDL_GetWindowDisplayMode(window, &displaymode))
                     C_Output("The framerate is capped at the display's refresh rate of %iHz.",
@@ -1384,7 +1391,10 @@ static void SetVideoMode(dboolean output)
                 C_Output("The framerate is uncapped.");
             }
         }
+    }
 
+    if (output)
+    {
         C_Output("Using %s 256-color palette from the <b>PLAYPAL</b> lump in %s file <b>%s</b>.",
             (iwad ? "the" : "a custom"), (iwad ? "IWAD" : "PWAD"), playpalwad->path);
 
@@ -1392,7 +1402,7 @@ static void SetVideoMode(dboolean output)
             C_Output("Gamma correction is off.");
         else
         {
-            static char     text[128];
+            static char text[128];
 
             M_snprintf(text, sizeof(text), "The gamma correction level is %.2f.", r_gamma);
             if (text[strlen(text) - 2] == '0' && text[strlen(text) - 3] == '0')
