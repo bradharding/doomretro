@@ -31,6 +31,7 @@
 * A bug has been fixed whereby the window’s position wouldn’t be correctly restored at startup.
 * A texture has been corrected in MAP18 of `doom2.wad`.
 * Follow mode can no longer be disabled while the `am_external` CVAR is `on`.
+* When using an automap function while the `am_external` CVAR is `on`, its message is now shown on the external automap rather than the main display.
 * Pressing a gamepad button bound to the `+clearmark`, `+followmode`, `+grid`, `+mark`, `+maxzoom` or `+rotatemode` actions now works as intended in the automap.
 * The `vid_scaleapi` and `vid_widescreen` CVARs will now be reset correctly when using either the `reset` or `resetall` CCMDs.
 

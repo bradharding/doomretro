@@ -284,7 +284,7 @@ void D_Display(void)
         if (am_path)
             AM_addToPath();
 
-        if ((mapwindow && realframe) || automapactive)
+        if (mapwindow || automapactive)
             AM_Drawer();
 
         // see if the border needs to be initially drawn

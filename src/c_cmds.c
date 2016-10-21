@@ -1468,12 +1468,12 @@ static void fastmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
     if (fastparm)
     {
         G_SetFastMonsters(true);
-        HU_PlayerMessage(s_STSTR_FMON, false);
+        HU_PlayerMessage(s_STSTR_FMON, false, false);
     }
     else
     {
         G_SetFastMonsters(false);
-        HU_PlayerMessage(s_STSTR_FMOFF, false);
+        HU_PlayerMessage(s_STSTR_FMOFF, false, false);
     }
 }
 
@@ -1730,7 +1730,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));
         buffer[0] = toupper(buffer[0]);
         C_Output("%s.", buffer);
-        player->message = buffer;
+        HU_SetPlayerMessage(buffer, false);
         message_dontfuckwithme = true;
         C_HideConsole();
     }
@@ -1784,7 +1784,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 M_snprintf(buffer, sizeof(buffer), "%s monster%s killed", commify(kills),
                     (kills == 1 ? "" : "s"));
                 C_Output("%s.", buffer);
-                players[0].message = buffer;
+                HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 C_HideConsole();
 
@@ -1847,7 +1847,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                     (type == MT_BARREL ? "exploded" : "killed"));
                 C_Output("%s.", buffer);
-                players[0].message = buffer;
+                HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 C_HideConsole();
 
@@ -2123,7 +2123,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."),
         mapcmdlump);
     C_Output(buffer);
-    players[0].message = buffer;
+    HU_SetPlayerMessage(buffer, false);
     message_dontfuckwithme = true;
     if (gamestate == GS_LEVEL)
     {
@@ -2484,14 +2484,14 @@ static void noclip_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (player->cheats & CF_NOCLIP)
     {
-        HU_PlayerMessage(s_STSTR_NCON, false);
+        HU_PlayerMessage(s_STSTR_NCON, false, false);
 
         player->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
     else
-        HU_PlayerMessage(s_STSTR_NCOFF, false);
+        HU_PlayerMessage(s_STSTR_NCOFF, false, false);
 }
 
 //
@@ -2513,14 +2513,14 @@ static void nomonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm
 
     if (nomonsters)
     {
-        HU_PlayerMessage(s_STSTR_NMON, false);
+        HU_PlayerMessage(s_STSTR_NMON, false, false);
 
         players[0].cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
     else
-        HU_PlayerMessage(s_STSTR_NMOFF, false);
+        HU_PlayerMessage(s_STSTR_NMOFF, false, false);
 }
 
 //
@@ -2568,10 +2568,10 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
 
-        HU_PlayerMessage(s_STSTR_NTON, false);
+        HU_PlayerMessage(s_STSTR_NTON, false, false);
     }
     else
-        HU_PlayerMessage(s_STSTR_NTOFF, false);
+        HU_PlayerMessage(s_STSTR_NTOFF, false, false);
 }
 
 //
@@ -2591,7 +2591,7 @@ static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
     else
         pistolstart = !pistolstart;
 
-    HU_PlayerMessage((pistolstart ? s_STSTR_PSON : s_STSTR_PSOFF), false);
+    HU_PlayerMessage((pistolstart ? s_STSTR_PSON : s_STSTR_PSOFF), false, false);
 }
 
 //
@@ -3107,14 +3107,14 @@ static void respawnitems_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
 
     if (respawnitems)
     {
-        HU_PlayerMessage(s_STSTR_RION, false);
+        HU_PlayerMessage(s_STSTR_RION, false, false);
 
         players[0].cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
     else
-        HU_PlayerMessage(s_STSTR_RIOFF, false);
+        HU_PlayerMessage(s_STSTR_RIOFF, false, false);
 }
 
 //
@@ -3139,7 +3139,7 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char 
     else
         respawnmonsters = !respawnmonsters;
 
-    HU_PlayerMessage((respawnmonsters ? s_STSTR_RMON : s_STSTR_RMOFF), false);
+    HU_PlayerMessage((respawnmonsters ? s_STSTR_RMON : s_STSTR_RMOFF), false, false);
 }
 
 //

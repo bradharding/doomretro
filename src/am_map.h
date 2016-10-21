@@ -76,6 +76,9 @@ void AM_setColors(void);
 void AM_addToPath(void);
 
 extern dboolean         message_dontfuckwithme;
+extern dboolean         message_external;
+
+extern int              gamepadwait;
 
 extern int              viewheight2;
 

@@ -328,7 +328,7 @@ void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg)
         HUlib_addCharToTextLine(&s->l[s->cl], *(msg++));
 }
 
-void HUlib_drawSText(hu_stext_t *s)
+void HUlib_drawSText(hu_stext_t *s, dboolean external)
 {
     int i;
 
@@ -347,7 +347,7 @@ void HUlib_drawSText(hu_stext_t *s)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        HUlib_drawTextLine(l, false); // no cursor, please
+        HUlib_drawTextLine(l, external); // no cursor, please
     }
 }
 

@@ -66,7 +66,8 @@ static hu_textline_t    w_title;
 
 dboolean                message_on;
 dboolean                message_dontfuckwithme;
-dboolean                message_clearable = false;
+dboolean                message_clearable;
+dboolean                message_external;
 static dboolean         message_nottobefuckedwith;
 
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
@@ -264,6 +265,8 @@ void HU_Start(void)
     message_on = false;
     message_dontfuckwithme = false;
     message_nottobefuckedwith = false;
+    message_clearable = false;
+    message_external = false;
 
     // create the message widget
     HUlib_initSText(&w_message, HU_MSGX, HU_MSGY, HU_MSGHEIGHT, hu_font, HU_FONTSTART,
@@ -848,15 +851,9 @@ void HU_DrawDisk(void)
 
 void HU_Drawer(void)
 {
-    w_message.l->x = HU_MSGX;
-    w_message.l->y = HU_MSGY;
-    HUlib_drawSText(&w_message);
+    HUlib_drawSText(&w_message, message_external);
     if (automapactive)
-    {
-        w_title.x = HU_TITLEX;
-        w_title.y = HU_TITLEY;
         HUlib_drawTextLine(&w_title, false);
-    }
     else
     {
         if (vid_widescreen && r_hud)
@@ -867,7 +864,7 @@ void HU_Drawer(void)
                 HU_DrawHUD();
         }
 
-        if (mapwindow && realframe)
+        if (mapwindow)
             HUlib_drawTextLine(&w_title, true);
     }
 }
@@ -898,6 +895,7 @@ void HU_Ticker(void)
             message_dontpause = false;
             blurred = false;
         }
+        message_external = false;
     }
 
     if (idbehold)
@@ -970,11 +968,17 @@ void HU_Ticker(void)
 
             Z_Free(s);
         }
-        plr->message = 0;
+        plr->message = NULL;
     }
 }
 
-void HU_PlayerMessage(char *message, dboolean ingame)
+void HU_SetPlayerMessage(char *message, dboolean external)
+{
+    plr->message = message;
+    message_external = (external && mapwindow);
+}
+
+void HU_PlayerMessage(char *message, dboolean ingame, dboolean external)
 {
     static char buffer[1024];
     char        lastchar;
@@ -988,7 +992,7 @@ void HU_PlayerMessage(char *message, dboolean ingame)
     lastchar = buffer[strlen(buffer) - 1];
 
     if (plr && !consoleactive && !message_dontfuckwithme)
-        plr->message = buffer;
+        HU_SetPlayerMessage(buffer, external);
 
     if (ingame)
         C_PlayerMessage("%s%s", buffer, (lastchar == '.' || lastchar == '!' ? "" : "."));
@@ -1001,11 +1005,12 @@ void HU_ClearMessages(void)
     if ((idbehold || (plr->cheats & CF_MYPOS)) && !message_clearable)
         return;
 
-    plr->message = 0;
+    plr->message = NULL;
     message_counter = 0;
     message_on = false;
     message_nottobefuckedwith = false;
     message_dontfuckwithme = false;
     message_dontpause = false;
     message_clearable = false;
+    message_external = false;
 }

@@ -693,7 +693,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
@@ -710,7 +710,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDC),
                     playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
@@ -727,7 +727,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUEC),
                     playername,  (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
@@ -744,7 +744,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC),
                     playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
@@ -761,7 +761,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDS),
                     playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
@@ -778,7 +778,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUES),
                     playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
@@ -795,7 +795,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 }
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS),
                     playername, (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
@@ -808,7 +808,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL6, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
@@ -818,7 +818,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, true);
+                HU_PlayerMessage(buffer, true, false);
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }

@@ -274,8 +274,6 @@ int                     direction;
 
 static am_frame_t       am_frame;
 
-extern int              gamepadwait;
-
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
 static void AM_activateNewScale(void)
@@ -582,7 +580,7 @@ static void AM_toggleFollowMode(void)
         m_paninc.y = 0;
     }
     C_StrCVAROutput(stringize(am_followmode), (am_followmode ? "on" : "off"));
-    HU_PlayerMessage((am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF), false);
+    HU_PlayerMessage((am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF), false, true);
     message_dontfuckwithme = true;
     message_clearable = true;
 }
@@ -591,7 +589,7 @@ static void AM_toggleGrid(void)
 {
     am_grid = !am_grid;
     C_StrCVAROutput(stringize(am_grid), (am_grid ? "on" : "off"));
-    HU_PlayerMessage((am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF), false);
+    HU_PlayerMessage((am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF), false, true);
     message_dontfuckwithme = true;
     message_clearable = true;
     M_SaveCVARs();
@@ -620,7 +618,7 @@ static void AM_addMark(void)
     markpoints[markpointnum].x = x;
     markpoints[markpointnum].y = y;
     M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT, ++markpointnum);
-    HU_PlayerMessage(message, false);
+    HU_PlayerMessage(message, false, true);
     message_dontfuckwithme = true;
     message_clearable = true;
 }
@@ -634,8 +632,9 @@ static void AM_clearMarks(void)
         if (++markpress == 5)
         {
             // clear all marks
-            HU_PlayerMessage(s_AMSTR_MARKSCLEARED, false);
+            HU_PlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
             message_dontfuckwithme = true;
+            message_clearable = true;
             markpointnum = 0;
         }
         else if (markpress == 1)
@@ -644,7 +643,7 @@ static void AM_clearMarks(void)
 
             // clear one mark
             M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, markpointnum--);
-            HU_PlayerMessage(message, false);
+            HU_PlayerMessage(message, false, true);
             message_dontfuckwithme = true;
             message_clearable = true;
         }
@@ -677,7 +676,7 @@ static void AM_toggleRotateMode(void)
 {
     am_rotatemode = !am_rotatemode;
     C_StrCVAROutput(stringize(am_rotatemode), (am_rotatemode ? "on" : "off"));
-    HU_PlayerMessage((am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF), false);
+    HU_PlayerMessage((am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF), false, true);
     message_dontfuckwithme = true;
     message_clearable = true;
     M_SaveCVARs();
