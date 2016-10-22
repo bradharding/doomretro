@@ -67,7 +67,7 @@
 #define CONSOLETEXTY            8
 #define CONSOLETEXTMAXLENGTH    1024
 #define CONSOLETEXTPIXELWIDTH   (SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 3)
-#define CONSOLELINES            11
+#define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 11 : 27)
 #define CONSOLELINEHEIGHT       14
 
 #define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - SHORT(brand->width) - 2)
@@ -558,12 +558,17 @@ void C_ShowConsole(void)
 void C_HideConsole(void)
 {
     consoledirection = -1;
+    if (gamestate == GS_TITLESCREEN)
+    {
+        consoleheight = 0;
+        consoleactive = false;
+    }
 }
 
 void C_HideConsoleFast(void)
 {
-    consoleheight = 0;
     consoledirection = -1;
+    consoleheight = 0;
     consoleactive = false;
 }
 
@@ -647,17 +652,20 @@ static void C_DrawBackground(int height)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
     // draw shadow
-    if (r_translucency)
+    if (gamestate != GS_TITLESCREEN)
     {
-        int     j;
+        if (r_translucency)
+        {
+            int     j;
 
-        for (j = SCREENWIDTH; j <= 4 * SCREENWIDTH; j += SCREENWIDTH)
-            for (i = height; i < height + j; ++i)
-                screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
+            for (j = SCREENWIDTH; j <= 4 * SCREENWIDTH; j += SCREENWIDTH)
+                for (i = height; i < height + j; ++i)
+                    screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
+        }
+        else
+            for (i = height; i < height + SCREENWIDTH; ++i)
+                screens[0][i] = 0;
     }
-    else
-        for (i = height; i < height + SCREENWIDTH; ++i)
-            screens[0][i] = 0;
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int boldcolor,
@@ -837,7 +845,9 @@ void C_Drawer(void)
         dboolean        prevconsoleactive = consoleactive;
 
         // adjust console height
-        if (consolewait < I_GetTime())
+        if (gamestate == GS_TITLESCREEN)
+            consoleheight = CONSOLEHEIGHT;
+        else if (consolewait < I_GetTime())
         {
             consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection,
                 CONSOLEHEIGHT);
@@ -1395,6 +1405,7 @@ dboolean C_Responder(event_t *ev)
 
                     // undo
                     else if (ch == 'z')
+                    {
                         if (undolevels)
                         {
                             --undolevels;
@@ -1404,6 +1415,7 @@ dboolean C_Responder(event_t *ev)
                             selectstart = undohistory[undolevels].selectstart;
                             selectend = undohistory[undolevels].selectend;
                         }
+                    }
                 }
                 else
                 {

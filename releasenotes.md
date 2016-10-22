@@ -1,5 +1,7 @@
 ### DOOM Retro v2.3.3
 
+* The console will now fill the entire screen when on the title screen.
+
 ---
 
 ###### Saturday, October 22, 2016
