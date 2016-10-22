@@ -944,7 +944,16 @@ void I_CreateExternalAutomap(dboolean output)
     I_RestoreFocus();
 
     if (output)
-        C_Output("Created an external automap on display %i.", am_displayindex + 1);
+    {
+        const char      *displayname = SDL_GetDisplayName(am_displayindex);
+
+        if (*displayname)
+            C_Output("Created an external automap on display %i of %i called \"%s\".",
+                am_displayindex + 1, numdisplays, displayname);
+        else
+            C_Output("Created an external automap on display %i of %i.", am_displayindex + 1,
+                numdisplays);
+    }
 }
 
 void I_DestroyExternalAutomap(void)
