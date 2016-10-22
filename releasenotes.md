@@ -1,3 +1,9 @@
+### DOOM Retro v2.3.3
+
+---
+
+###### Saturday, October 22, 2016
+
 ### DOOM Retro v2.3.2
 
 * *DOOM Retro* now uses version 2.0.5 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
