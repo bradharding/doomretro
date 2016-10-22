@@ -1050,8 +1050,8 @@ void M_DrawSave(void)
             for (j = 0; (unsigned int)j < strlen(savegamestrings[i]) - saveCharIndex; ++j)
                 right[j] = savegamestrings[i][j + saveCharIndex];
             right[j] = 0;
-            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + (STCFN121 ? pipechar->width : 3),
-                y - !M_LSCNTR, right, false);
+            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + (STCFN121 ? SHORT(pipechar->width) :
+                3), y - !M_LSCNTR, right, false);
         }
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)

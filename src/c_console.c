@@ -639,8 +639,8 @@ static void C_DrawBackground(int height)
     }
 
     // draw branding
-    V_DrawConsolePatch(SCREENWIDTH - brand->width, consoleheight - brand->height + 2, brand,
-        consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab50);
+    V_DrawConsolePatch(SCREENWIDTH - SHORT(brand->width), consoleheight - SHORT(brand->height) + 2,
+        brand, consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab50);
 
     // draw bottom edge
     for (i = height - SCREENWIDTH * 3; i < height; ++i)
@@ -658,7 +658,6 @@ static void C_DrawBackground(int height)
     else
         for (i = height; i < height + SCREENWIDTH; ++i)
             screens[0][i] = 0;
-
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int boldcolor,
@@ -1411,12 +1410,11 @@ dboolean C_Responder(event_t *ev)
                     if ((modstate & KMOD_SHIFT)
                         || (keyboardalwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
                         ch = shiftxform[ch];
-                    if (ch >= ' ' && ch < '~' && ch != '`'
-                        && C_TextWidth(consoleinput, false) + (ch == ' ' ? spacewidth :
-                        consolefont[ch - CONSOLEFONTSTART]->width) - (selectstart < selectend ?
-                        C_TextWidth(M_SubString(consoleinput, selectstart,
-                        selectend - selectstart), false) : 0) <= CONSOLEINPUTPIXELWIDTH
-                        && !(modstate & KMOD_ALT))
+                    if (ch >= ' ' && ch < '~' && ch != '`' && C_TextWidth(consoleinput, false)
+                        + (ch == ' ' ? spacewidth : SHORT(consolefont[ch
+                        - CONSOLEFONTSTART]->width)) - (selectstart < selectend ?
+                        C_TextWidth(M_SubString(consoleinput, selectstart, selectend - selectstart),
+                        false) : 0) <= CONSOLEINPUTPIXELWIDTH && !(modstate & KMOD_ALT))
                     {
                         C_AddToUndoHistory();
                         if (selectstart < selectend)
