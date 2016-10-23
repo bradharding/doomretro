@@ -974,7 +974,7 @@ void HU_Ticker(void)
 
 void HU_SetPlayerMessage(char *message, dboolean external)
 {
-    plr->message = message;
+    players[0].message = message;
     message_external = (external && mapwindow);
 }
 
