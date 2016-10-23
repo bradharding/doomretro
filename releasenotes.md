@@ -1,6 +1,7 @@
 ### DOOM Retro v2.3.3
 
 * The console will now fill the entire screen when on the title screen.
+* The scrollbar in the console is now hidden if all the text in the console fits on the screen.
 * A bug has been fixed whereby using the `map` CCMD when no game is being played would cause a crash.
 
 ---

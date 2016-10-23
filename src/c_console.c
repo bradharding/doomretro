@@ -455,9 +455,18 @@ static void C_DrawScrollbar(void)
     int faceend;
     int offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
 
-    // Draw scrollbar track
     trackstart = CONSOLESCROLLBARY * SCREENWIDTH;
     trackend = trackstart + CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
+
+    facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+        MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * SCREENWIDTH;
+    faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
+        * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * SCREENWIDTH;
+
+    if (trackstart == facestart && trackend == faceend)
+        return;
+
+    // Draw scrollbar track
     for (y = trackstart; y < trackend; y += SCREENWIDTH)
         if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
@@ -465,11 +474,6 @@ static void C_DrawScrollbar(void)
                     + consolescrollbartrackcolor];
 
     // Draw scrollbar face
-    facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-        MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * SCREENWIDTH;
-    faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-        * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * SCREENWIDTH;
-
     for (y = facestart; y < faceend; y += SCREENWIDTH)
         if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
