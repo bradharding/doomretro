@@ -5,7 +5,8 @@
 * The console will now fill the entire screen when on the title screen.
 * The scrollbar in the console is now hidden if all the text in the console fits on the screen.
 * A bug has been fixed whereby using the `map` CCMD when no game is being played would cause a crash.
-* The player will now be thrust the correct amount of distance when attacked by an Arch-vile, or in the blast radius of a rocket or barrel explosion.
+* The player will now be thrust away with the correct amount of force when attacked by an Arch-vile, or within the blast radius of a rocket or barrel explosion.
+* A time limit for each map can now be set using the new `timelimit` CVAR. It is `none` by default, and can also be a value in minutes. A time limit can similarly be set by using the new `-timer` command-line parameter.
 
 ---
 
