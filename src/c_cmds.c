@@ -211,6 +211,7 @@ extern unsigned int     stat_shotsfired;
 extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
 extern int              stillbob;
+extern int              timelimit;
 extern int              turbo;
 extern int              units;
 extern dboolean         vid_capfps;
@@ -229,6 +230,7 @@ extern char             *vid_windowposition;
 extern char             *vid_windowsize;
 extern dboolean         weaponbob;
 
+extern int              countdown;
 extern int              pixelwidth;
 extern int              pixelheight;
 extern int              screenheight;
@@ -408,6 +410,7 @@ static void r_screensize_cvar_func2(char *, char *, char *, char *);
 static void r_translucency_cvar_func2(char *, char *, char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *, char *, char *);
 static void s_volume_cvars_func2(char *, char *, char *, char *);
+static void timelimit_cvar_func2(char *, char *, char *, char *);
 static dboolean turbo_cvar_func1(char *, char *, char *, char *);
 static void turbo_cvar_func2(char *, char *, char *, char *);
 static dboolean units_cvar_func1(char *, char *, char *, char *);
@@ -746,6 +749,8 @@ consolecmd_t consolecmds[] =
         "Teleports the player to (<i>x</i>,<i>y</i>) in the current map."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, 0, "",
         "Shows a list of things in the current map."),
+    CVAR_INT(timelimit, "", int_cvars_func1, timelimit_cvar_func2, CF_NONE, TIMELIMITALIAS,
+        "The time limit for each map (<b>none</b> or in minutes)."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOALIAS,
         "The speed of the player (<b>10%</b> to <b>400%</b>)."),
     CMD(unbind, "", null_func1, unbind_cmd_func2, 1, UNBINDCMDFORMAT,
@@ -4227,6 +4232,38 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
         else
             C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
                 s_sfxvolume, s_sfxvolume_default);
+    }
+}
+
+//
+// timelimit cvar
+//
+static void timelimit_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        int     value = C_LookupValueFromAlias(parm1, TIMELIMITALIAS);
+
+        if (value == -1)
+            sscanf(parm1, "%10i", &value);
+
+        if (value >= timelimit_min && value <= timelimit_max && value != timelimit)
+        {
+            timelimit = value;
+            M_SaveCVARs();
+            countdown = timelimit * 60 * TICRATE;
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(timelimit))].description));
+        if (timelimit == timelimit_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(timelimit, TIMELIMITALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(timelimit, TIMELIMITALIAS),
+                C_LookupAliasFromValue(timelimit_default, TIMELIMITALIAS));
     }
 }
 

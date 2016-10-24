@@ -195,6 +195,10 @@ extern int      st_palette;
 extern int      pagetic;
 extern dboolean transferredsky;
 
+extern int      timelimit;
+extern int      timer;
+extern int      countdown;
+
 void G_RemoveChoppers(void)
 {
     player_t    *player = &players[0];
@@ -542,6 +546,11 @@ void G_DoLoadLevel(void)
     skyscrolldelta = P_GetMapSky1ScrollDelta(map);
 
     levelstarttic = gametic;                    // for time calculation
+
+    if (timer)
+        countdown = timer * 60 * TICRATE;
+    else if (timelimit)
+        countdown = timelimit * 60 * TICRATE;
 
     if (wipegamestate == GS_LEVEL)
         wipegamestate = GS_NONE;                // force a wipe

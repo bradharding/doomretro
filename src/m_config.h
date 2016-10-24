@@ -320,6 +320,10 @@ typedef enum
 #define turbo_default                           100
 #define turbo_max                               400
 
+#define timelimit_min                           0
+#define timelimit_default                       0
+#define timelimit_max                           INT_MAX
+
 #define units_default                           units_imperial
 
 #define version_default                         PACKAGE_VERSIONSTRING
@@ -460,7 +464,8 @@ typedef enum
     DETAILALIAS,
     GAMMAALIAS,
     BLOODALIAS,
-    UNITSALIAS
+    UNITSALIAS,
+    TIMELIMITALIAS
 } alias_type_t;
 
 typedef struct

@@ -165,6 +165,7 @@ extern unsigned int     stat_shotsfired;
 extern unsigned int     stat_shotshit;
 extern unsigned int     stat_time;
 extern int              units;
+extern int              timelimit;
 extern int              turbo;
 extern char             *version;
 extern dboolean         vid_capfps;
@@ -290,6 +291,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (savegame,                                          NOALIAS    ),
     CONFIG_VARIABLE_INT          (skilllevel,                                        NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                                          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (timelimit,                                         NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                                             NOALIAS    ),
     CONFIG_VARIABLE_INT          (units,                                             UNITSALIAS ),
     CONFIG_VARIABLE_STRING       (version,                                           NOALIAS    ),
@@ -350,12 +352,12 @@ static default_t cvars[] =
 
 alias_t aliases[] =
 {
-    { "off",    0, BOOLALIAS   }, { "on",       1, BOOLALIAS   }, { "0",        0, BOOLALIAS   },
-    { "1",      1, BOOLALIAS   }, { "no",       0, BOOLALIAS   }, { "yes",      1, BOOLALIAS   },
-    { "false",  0, BOOLALIAS   }, { "true",     1, BOOLALIAS   }, { "low",      0, DETAILALIAS },
-    { "high",   1, DETAILALIAS }, { "off",      1, GAMMAALIAS  }, { "none",     0, BLOODALIAS  },
-    { "red",    1, BLOODALIAS  }, { "all",      2, BLOODALIAS  }, { "imperial", 0, UNITSALIAS  },
-    { "metric", 1, UNITSALIAS  }, { "",         0, NOALIAS     }
+    { "off",    0, BOOLALIAS   }, { "on",       1, BOOLALIAS      }, { "0",        0, BOOLALIAS   },
+    { "1",      1, BOOLALIAS   }, { "no",       0, BOOLALIAS      }, { "yes",      1, BOOLALIAS   },
+    { "false",  0, BOOLALIAS   }, { "true",     1, BOOLALIAS      }, { "low",      0, DETAILALIAS },
+    { "high",   1, DETAILALIAS }, { "off",      1, GAMMAALIAS     }, { "none",     0, BLOODALIAS  },
+    { "red",    1, BLOODALIAS  }, { "all",      2, BLOODALIAS     }, { "imperial", 0, UNITSALIAS  },
+    { "metric", 1, UNITSALIAS  }, { "none",     0, TIMELIMITALIAS }, { "",         0, NOALIAS     }
 };
 
 static void SaveBind(FILE *file, char *action, int value, controltype_t type)
@@ -802,6 +804,8 @@ static void M_CheckCVARs(void)
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
 
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
+
+    timelimit = BETWEEN(timelimit_min, timelimit, timelimit_max);
 
     turbo = BETWEEN(turbo_min, turbo, turbo_max);
 

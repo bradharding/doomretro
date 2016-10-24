@@ -43,6 +43,7 @@
 #include "hu_stuff.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_argv.h"
 #include "m_bbox.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -93,6 +94,7 @@ typedef struct
 int             stat_secretsrevealed = 0;
 
 dboolean        r_liquid_bob = r_liquid_bob_default;
+int             timelimit = timelimit_default;
 
 fixed_t         animatedliquiddiff;
 fixed_t         animatedliquidxdir;
@@ -1897,11 +1899,20 @@ void P_PlayerInSpecialSector(player_t *player)
 
 line_t  *linespeciallist[MAXLINEANIMS];
 
+int     timer;
+int     countdown;
+
 void P_UpdateSpecials(void)
 {
     anim_t      *anim;
     int         pic;
     int         i;
+
+    if (timelimit || timer)
+    {
+        if (!--countdown)
+            G_ExitLevel();
+    }
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim = anims; anim < lastanim; anim++)
@@ -2037,6 +2048,22 @@ void P_SpawnSpecials(void)
     line_t      *line;
     sector_t    *sector;
     int         i;
+
+    if ((i = M_CheckParmWithArgs("-timer", 1, 1)))
+    {
+        timer = atoi(myargv[i + 1]);
+        M_SaveCVARs();
+        C_Output("A <b>-timer</b> parameter was found on the command-line. "
+            "The time limit for each map is %i minutes.", timer);
+    }
+
+    if (M_CheckParm("-avg"))
+    {
+        timer = 20;
+        M_SaveCVARs();
+        C_Output("An <b>-avg</b> parameter was found on the command-line. "
+            "The time limit for each map is %i minutes.", timer);
+    }
 
     // Init special SECTORs.
     sector = sectors;
