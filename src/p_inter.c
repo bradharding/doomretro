@@ -1335,7 +1335,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         || splayer->readyweapon != wp_chainsaw))
     {
         unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
-        fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / info->mass;
+        int             mass = (corpse ? MAX(200, info->mass) : info->mass);
+        fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / mass;
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health
