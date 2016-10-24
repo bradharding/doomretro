@@ -1629,7 +1629,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* pickupradius         */ 20 * FRACUNIT,
         /* height               */ 56 * FRACUNIT,
         /* projectilepassheight */ 0,
-        /* mass                 */ 1,
+        /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_posact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
