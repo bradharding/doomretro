@@ -692,7 +692,7 @@ char *removespaces(const char *input)
         char    *p2 = p;
 
         while (*input != '\0')
-            if (isalnum((unsigned char)*input))
+            if (!isspace((unsigned char)*input))
                 *p2++ = *input++;
             else
                 ++input;
