@@ -4202,7 +4202,7 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
             s_musicvolume = value;
             musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume,
                 s_musicvolume_max) * 15 + 50) / 100;
-            S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
+            S_SetMusicVolume((int)(musicVolume * 127 / 15.0));
 
             M_SaveCVARs();
         }
@@ -4210,7 +4210,7 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
         {
             s_sfxvolume = value;
             sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 15 + 50) / 100;
-            S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
+            S_SetSfxVolume((int)(sfxVolume * 127 / 15.0));
 
             M_SaveCVARs();
         }
