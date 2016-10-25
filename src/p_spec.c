@@ -94,7 +94,6 @@ typedef struct
 int             stat_secretsrevealed = 0;
 
 dboolean        r_liquid_bob = r_liquid_bob_default;
-int             timelimit = timelimit_default;
 
 fixed_t         animatedliquiddiff;
 fixed_t         animatedliquidxdir;
@@ -1908,7 +1907,7 @@ void P_UpdateSpecials(void)
     int         pic;
     int         i;
 
-    if (timelimit || timer)
+    if (timer)
     {
         if (!--countdown)
             G_ExitLevel();

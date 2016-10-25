@@ -6,7 +6,7 @@
 * The scrollbar in the console is now hidden if all the text in the console fits entirely on the screen.
 * A bug has been fixed whereby using the `map` CCMD when no game was being played would cause a crash.
 * The player will now be thrust away with the correct amount of force when attacked by an Arch-vile, or within the blast radius of a rocket or barrel explosion.
-* A time limit for each map can now be set using the new `timelimit` CVAR. It is `none` by default, and can be set to a value in minutes. A time limit can similarly be set by using the new `-timer` command-line parameter.
+* A time limit for each map can now be set using the `-timer` command-line parameter, as is possible in *Vanilla DOOM*.
 
 ---
 

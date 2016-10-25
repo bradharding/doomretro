@@ -137,7 +137,6 @@ dboolean                realframe;
 
 extern dboolean         alwaysrun;
 extern unsigned int     stat_cheated;
-extern int              timelimit;
 
 //
 // EVENT HANDLING
