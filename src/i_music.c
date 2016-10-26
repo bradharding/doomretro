@@ -37,6 +37,7 @@
 */
 
 #include "c_console.h"
+#include "i_midirpc.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -57,6 +58,10 @@ static dboolean         sdl_was_initialized;
 
 static dboolean         musicpaused;
 static int              current_music_volume;
+
+static dboolean         haveMidiServer;
+static dboolean         haveMidiClient;
+dboolean                serverMidiPlaying;
 
 static char             *tempmusicfilename;
 
@@ -151,6 +156,8 @@ void I_ShutdownMusic(void)
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             sdl_was_initialized = false;
         }
+
+        I_MidiRPCClientShutDown();
     }
 }
 
@@ -186,6 +193,9 @@ dboolean I_InitMusic(void)
     sdl_was_initialized = true;
     music_initialized = true;
 
+    // Initialize RPC server
+    haveMidiServer = I_MidiRPCInitServer();
+
     // Once initialization is complete, the temporary TiMidity config
     // file can be removed.
     RemoveTimidityConfig();
@@ -200,6 +210,9 @@ dboolean I_InitMusic(void)
 static void UpdateMusicVolume(void)
 {
     Mix_VolumeMusic((current_music_volume * MIX_MAX_VOLUME) / 127 * !musicpaused);
+
+    // adjust server volume
+    I_MidiRPCSetVolume(current_music_volume);
 }
 
 // Set music volume (0 - 127)
@@ -214,10 +227,13 @@ void I_SetMusicVolume(int volume)
 // Start playing a mid
 void I_PlaySong(void *handle, dboolean looping)
 {
-    if (!music_initialized || !handle)
+    if (!music_initialized)
         return;
 
-    Mix_PlayMusic((Mix_Music *)handle, (looping ? -1 : 1));
+    if (serverMidiPlaying)
+        I_MidiRPCPlaySong(looping);
+    else if (handle)
+        Mix_PlayMusic((Mix_Music *)handle, (looping ? -1 : 1));
 }
 
 void I_PauseSong(void)
@@ -226,6 +242,12 @@ void I_PauseSong(void)
         return;
 
     musicpaused = true;
+
+    if (serverMidiPlaying)
+    {
+        I_MidiRPCPauseSong();
+        return;
+    }
 
     UpdateMusicVolume();
 }
@@ -237,6 +259,12 @@ void I_ResumeSong(void)
 
     musicpaused = false;
 
+    if (serverMidiPlaying)
+    {
+        I_MidiRPCResumeSong();
+        return;
+    }
+
     UpdateMusicVolume();
 }
 
@@ -245,6 +273,12 @@ void I_StopSong(void)
     if (!music_initialized)
         return;
 
+    if (serverMidiPlaying)
+    {
+        I_MidiRPCStopSong();
+        serverMidiPlaying = false;
+    }
+
     Mix_HaltMusic();
 }
 
@@ -252,6 +286,12 @@ void I_UnRegisterSong(void *handle)
 {
     if (!music_initialized || !handle)
         return;
+
+    if (serverMidiPlaying)
+    {
+        I_MidiRPCStopSong();
+        serverMidiPlaying = false;
+    }
 
     Mix_FreeMusic(handle);
 }
@@ -290,6 +330,20 @@ void *I_RegisterSong(void *data, int len)
             ConvertMus(data, len, tempmusicfilename);
             music = Mix_LoadMUS(tempmusicfilename);
             remove(tempmusicfilename);
+
+            // Check for option to invoke RPC server if isMIDI
+            if (haveMidiServer)
+            {
+                // Init client if not yet started
+                if (!haveMidiClient)
+                    haveMidiClient = I_MidiRPCInitClient();
+
+                if (I_MidiRPCRegisterSong(data, len))
+                {
+                    serverMidiPlaying = true;
+                    return music; // server will play this song.
+                }
+            }
         }
         else
         {

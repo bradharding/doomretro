@@ -81,7 +81,7 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)doomretro.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -133,7 +133,7 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)doomretro.exe</OutputFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -258,10 +258,12 @@
     <CustomBuildStep Include="..\src\w_wad.h" />
     <CustomBuildStep Include="..\src\wi_stuff.h" />
     <CustomBuildStep Include="..\src\z_zone.h" />
+    <ClInclude Include="..\midiproc\midiproc.h" />
     <ClInclude Include="..\src\am_map.h" />
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />
     <ClInclude Include="..\src\doomkeys.h" />
+    <ClInclude Include="..\src\i_midirpc.h" />
     <ClInclude Include="..\src\r_patch.h" />
     <ClInclude Include="..\src\sc_man.h" />
     <ClInclude Include="..\src\version.h" />
@@ -337,12 +339,14 @@
     <ClInclude Include="..\src\z_zone.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\midiproc\midiproc_c.c" />
     <ClCompile Include="..\src\c_cmds.c" />
     <ClCompile Include="..\src\c_console.c" />
     <ClCompile Include="..\src\doomstat.c" />
     <ClCompile Include="..\src\dstrings.c" />
     <ClCompile Include="..\src\d_deh.c" />
     <ClCompile Include="..\src\info.c" />
+    <ClCompile Include="..\src\i_midirpc.c" />
     <ClCompile Include="..\src\i_music.c" />
     <ClCompile Include="..\src\i_sound.c" />
     <ClCompile Include="..\src\memio.c" />
