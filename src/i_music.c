@@ -215,12 +215,13 @@ dboolean I_InitMusic(void)
 //
 static void UpdateMusicVolume(void)
 {
-    Mix_VolumeMusic((current_music_volume * MIX_MAX_VOLUME) / 127 * !musicpaused);
-
 #if defined(WIN32)
     // adjust server volume
-    I_MidiRPCSetVolume(current_music_volume);
+    if (serverMidiPlaying)
+        I_MidiRPCSetVolume(current_music_volume);
+    else
 #endif
+        Mix_VolumeMusic((current_music_volume * MIX_MAX_VOLUME) / 127 * !musicpaused);
 }
 
 // Set music volume (0 - 127)
@@ -315,37 +316,16 @@ void I_UnRegisterSong(void *handle)
     Mix_FreeMusic(handle);
 }
 
-//static dboolean ConvertMus(byte *musdata, int len, char *filename)
-//{
-//    MEMFILE     *instream = mem_fopen_read(musdata, len);
-//    MEMFILE     *outstream = mem_fopen_write();
-//    int         result = mus2mid(instream, outstream);
-//
-//    if (!result)
-//    {
-//        void    *outbuf;
-//        size_t  outbuf_len;
-//
-//        mem_get_buf(outstream, &outbuf, &outbuf_len);
-//        M_WriteFile(filename, outbuf, outbuf_len);
-//    }
-//
-//    mem_fclose(instream);
-//    mem_fclose(outstream);
-//
-//    return result;
-//}
-
 void *I_RegisterSong(void *data, int len)
 {
     if (!music_initialized)
         return NULL;
     else
     {
-        int             err;
         dboolean        isMIDI = false;
         dboolean        isMUS = false;
         Mix_Music       *music = NULL;
+        SDL_RWops       *rwops;
 
         // Check for MIDI or MUS format first:
         if (len >= 14)
@@ -359,30 +339,24 @@ void *I_RegisterSong(void *data, int len)
         // If it's a MUS, convert it to MIDI now.
         if (isMUS)
         {
-            MIDI mididata;
-            UBYTE *mid;
-            int midlen;
+            MIDI        mididata;
+            UBYTE       *mid;
+            int         midlen;
 
-            //rw = NULL;
             memset(&mididata, 0, sizeof(MIDI));
 
-            if ((err = mmus2mid((byte *)data, (size_t)len, &mididata, 89, 0)))
-            {
-                //doom_printf("Error loading music: %d", err);
+            if (mmus2mid((byte *)data, (size_t)len, &mididata, 89, 0))
                 return NULL;
-            }
 
             // Hurrah! Let's make it a mid and give it to SDL_mixer
             MIDIToMidi(&mididata, &mid, &midlen);
-
-            // save memory block to free when unregistering
-            //music_block = mid;
 
             data = mid;
             len = midlen;
             isMIDI = true;   // now it's a MIDI.
         }
 
+#if defined(WIN32)
         // Check for option to invoke RPC server if isMIDI
         if (isMIDI && haveMidiServer)
         {
@@ -396,36 +370,10 @@ void *I_RegisterSong(void *data, int len)
                 return NULL; // server will play this song.
             }
         }
+#endif
 
-//        if (!memcmp(data, "MUS", 3))
-//        {
-//            ConvertMus(data, len, tempmusicfilename);
-//            music = Mix_LoadMUS(tempmusicfilename);
-//            remove(tempmusicfilename);
-//
-//#if defined(WIN32)
-//            // Check for option to invoke RPC server if isMIDI
-//            if (haveMidiServer)
-//            {
-//                // Init client if not yet started
-//                if (!haveMidiClient)
-//                    haveMidiClient = I_MidiRPCInitClient();
-//
-//                if (I_MidiRPCRegisterSong(data, len))
-//                {
-//                    serverMidiPlaying = true;
-//                    return music; // server will play this song.
-//                }
-//            }
-//#endif
-//        }
-//        else
-        {
-            SDL_RWops   *rwops = SDL_RWFromMem(data, len);
-
-            if (rwops)
-                music = Mix_LoadMUS_RW(rwops, SDL_FALSE);
-        }
+        if ((rwops = SDL_RWFromMem(data, len)))
+            music = Mix_LoadMUS_RW(rwops, SDL_FALSE);
 
         return music;
     }

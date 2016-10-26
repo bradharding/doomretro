@@ -106,7 +106,7 @@ static void StartSong(bool loop)
 //
 static void SetVolume(int volume)
 {
-   Mix_VolumeMusic((volume * 128) / 15);
+   Mix_VolumeMusic(volume);
 }
 
 static int paused_midi_volume;
