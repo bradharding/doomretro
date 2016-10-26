@@ -1,12 +1,13 @@
 ### DOOM Retro v2.3.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The music volume can now be adjusted independently of the sound effects volume.
 * Minor changes have been made to text that is output to the console.
 * The console will now fill the entire screen when opened using the <kbd>~</kbd> key on the title screen.
 * The scrollbar in the console is now hidden if all the text in the console fits entirely on the screen.
 * A bug has been fixed whereby using the `map` CCMD when no game was being played would cause a crash.
 * The player will now be thrust away with the correct amount of force when attacked by an Arch-vile, or within the blast radius of a rocket or barrel explosion.
-* A time limit for each map can now be set using the `-timer` command-line parameter, as is possible in *Vanilla DOOM*.
+* A time limit for each map can now be set using the `-timer` command-line parameter.
 
 ---
 

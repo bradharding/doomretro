@@ -218,7 +218,7 @@ static void UpdateMusicVolume(void)
 #if defined(WIN32)
     // adjust server volume
     if (serverMidiPlaying)
-        I_MidiRPCSetVolume(current_music_volume);
+        I_MidiRPCSetVolume((current_music_volume * MIX_MAX_VOLUME) / 127 * !musicpaused);
     else
 #endif
         Mix_VolumeMusic((current_music_volume * MIX_MAX_VOLUME) / 127 * !musicpaused);

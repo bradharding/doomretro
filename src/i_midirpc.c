@@ -1,58 +1,63 @@
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// Copyright (C) 2013 James Haley et al.
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
-//
-//----------------------------------------------------------------------------
-//
-// DESCRIPTION:
-//
-// Client Interface to RPC Midi Server
-//
-//-----------------------------------------------------------------------------
+/*
+========================================================================
+
+                           D O O M  R e t r o
+         The classic, refined DOOM source port. For Windows PC.
+
+========================================================================
+
+  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2016 Brad Harding.
+
+  DOOM Retro is a fork of Chocolate DOOM.
+  For a list of credits, see <http://credits.doomretro.com>.
+
+  This file is part of DOOM Retro.
+
+  DOOM Retro is free software: you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the
+  Free Software Foundation, either version 3 of the License, or (at your
+  option) any later version.
+
+  DOOM Retro is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with DOOM Retro. If not, see <https://www.gnu.org/licenses/>.
+
+  DOOM is a registered trademark of id Software LLC, a ZeniMax Media
+  company, in the US and/or other countries and is used without
+  permission. All other trademarks are the property of their respective
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
+
+========================================================================
+*/
+
+// Eternity Engine's Client Interface to RPC Midi Server by James Haley
 
 #if defined(WIN32)
 
 #include <windows.h>
-#include "../midiproc/midiproc.h"
 
+#include "../midiproc/midiproc.h"
 #include "c_console.h"
 #include "doomtype.h"
 #include "i_timer.h"
 #include "m_misc.h"
 
-#define DEBUGOUT(s) C_Output(s)
-
-//=============================================================================
 //
 // Data
 //
-
-static unsigned char *szStringBinding; // RPC client binding string
-static dboolean serverInit = false;        // if true, server was started
-static dboolean clientInit = false;        // if true, client was bound
+static unsigned char    *szStringBinding;       // RPC client binding string
+static dboolean         serverInit = false;     // if true, server was started
+static dboolean         clientInit = false;     // if true, client was bound
 
 // server process information
-static STARTUPINFO         si;
-static PROCESS_INFORMATION pi;
-
-//=============================================================================
-//
-// RPC Memory Management
-//
+static STARTUPINFO              si;
+static PROCESS_INFORMATION      pi;
 
 void __RPC_FAR * __RPC_USER midl_user_allocate(size_t size)
 {
@@ -64,7 +69,6 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
    free(p);
 }
 
-//=============================================================================
 //
 // RPC Wrappers
 //
@@ -75,19 +79,21 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 // If either server or client initialization failed, we don't try to make any
 // RPC calls.
 //
-#define CHECK_RPC_STATUS()        \
-   if(!serverInit || !clientInit) \
-      return false
+#define CHECK_RPC_STATUS()         \
+    if (!serverInit || !clientInit) \
+        return false
 
-#define MIDIRPC_MAXTRIES 50 // This number * 10 is the amount of time you can try to wait for.
+// This number * 10 is the amount of time you can try to wait for.
+#define MIDIRPC_MAXTRIES        50
 
 static dboolean I_MidiRPCWaitForServer()
 {
    int tries = 0;
-   while(RpcMgmtIsServerListening(hMidiRPCBinding) != RPC_S_OK)
+
+   while (RpcMgmtIsServerListening(hMidiRPCBinding) != RPC_S_OK)
    {
       I_Sleep(10);
-      if(++tries >= MIDIRPC_MAXTRIES)
+      if (++tries >= MIDIRPC_MAXTRIES)
          return false;
    }
    return true;
@@ -108,19 +114,14 @@ dboolean I_MidiRPCRegisterSong(void *data, int size)
    RpcTryExcept
    {
       MidiRPC_PrepareNewSong();
-
-      // TODO: Try passing it as one chunk; if this ends up not working, 
-      // I'll have to stream it in as smaller divisions.
       MidiRPC_AddChunk(rpcSize, (byte *)data);
    }
    RpcExcept(1)
    {
-       DEBUGOUT("I_MidiRPCRegisterSong failed");
       return false;
    }
    RpcEndExcept
 
-   DEBUGOUT("I_MidiRPCRegisterSong succeeded");
    return true;
 }
 
@@ -139,12 +140,10 @@ dboolean I_MidiRPCPlaySong(dboolean looping)
    }
    RpcExcept(1)
    {
-      DEBUGOUT("I_MidiRPCPlaySong failed");
       return false;
    }
    RpcEndExcept
 
-   DEBUGOUT("I_MidiRPCPlaySong succeeded");
    return true;
 }
 
@@ -163,12 +162,10 @@ dboolean I_MidiRPCStopSong()
    }
    RpcExcept(1)
    {
-      DEBUGOUT("I_MidiRPCStopSong failed");
       return false;
    }
    RpcEndExcept
 
-   DEBUGOUT("I_MidiRPCStopSong succeeded");
    return true;
 }
 
@@ -187,12 +184,10 @@ dboolean I_MidiRPCSetVolume(int volume)
    }
    RpcExcept(1)
    {
-      DEBUGOUT("I_MidiRPCSetVolume failed");
       return false;
    }
    RpcEndExcept
 
-   DEBUGOUT("I_MidiRPCSetVolume succeeded");
    return true;
 }
 
@@ -212,12 +207,10 @@ dboolean I_MidiRPCPauseSong()
    }
    RpcExcept(1)
    {
-      DEBUGOUT("I_MidiRPCPauseSong failed");
       return false;
    }
    RpcEndExcept
 
-   DEBUGOUT("I_MidiRPCPauseSong succeeded");
    return true;
 }
 
@@ -236,16 +229,13 @@ dboolean I_MidiRPCResumeSong()
    }
    RpcExcept(1)
    {
-      DEBUGOUT("I_MidiRPCResumeSong failed");
       return false;
    }
    RpcEndExcept
 
-   DEBUGOUT("I_MidiRPCResumeSong succeeded");
    return true;
 }
 
-//=============================================================================
 //
 // Public Interface
 //
@@ -257,32 +247,17 @@ dboolean I_MidiRPCResumeSong()
 //
 dboolean I_MidiRPCInitServer()
 {
-   char module[MAX_PATH+1];
-   dboolean result;
+   char         module[MAX_PATH+1];
 
-   M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe",
-       M_GetExecutableFolder());
+   M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe", M_GetExecutableFolder());
 
    // Look for executable file
    if(!M_FileExists(module))
-   {
-      DEBUGOUT("Could not find midiproc");
       return false;
-   }
 
    si.cb = sizeof(si);
 
-   result = CreateProcess(module, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-
-   if(result)
-   {
-      DEBUGOUT("RPC server started");
-      serverInit = true;
-   }
-   else
-      DEBUGOUT("CreateProcess failed to start midiproc");
-
-   return result;
+   return CreateProcess(module, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 }
 
 //
@@ -292,40 +267,19 @@ dboolean I_MidiRPCInitServer()
 //
 dboolean I_MidiRPCInitClient()
 {
-   RPC_STATUS status;
-
    // If server didn't start, client cannot be bound.
-   if(!serverInit)
+   if (!serverInit)
       return false;
 
    // Compose binding string
-   status =
-      RpcStringBindingCompose
-      (
-         NULL,
-         (RPC_CSTR)("ncalrpc"),
-         NULL,
-         (RPC_CSTR)("2d4dc2f9-ce90-4080-8a00-1cb819086970"),
-         NULL,
-         &szStringBinding
-      );
-
-   if(status)
-   {
-      DEBUGOUT("RPC binding composition failed");
+   if (RpcStringBindingCompose(NULL, (RPC_CSTR)"ncalrpc", NULL,
+      (RPC_CSTR)"2d4dc2f9-ce90-4080-8a00-1cb819086970", NULL, &szStringBinding))
       return false;
-   }
 
    // Create binding handle
-   status = RpcBindingFromStringBinding(szStringBinding, &hMidiRPCBinding);
-
-   if(status)
-   {
-      DEBUGOUT("RPC client binding failed");
+   if (RpcBindingFromStringBinding(szStringBinding, &hMidiRPCBinding))
       return false;
-   }
 
-   DEBUGOUT("RPC client initialized");
    clientInit = true;
 
    return I_MidiRPCWaitForServer();
@@ -339,7 +293,7 @@ dboolean I_MidiRPCInitClient()
 void I_MidiRPCClientShutDown()
 {
    // stop the server
-   if(serverInit)
+   if (serverInit)
    {
       RpcTryExcept
       {
@@ -347,20 +301,19 @@ void I_MidiRPCClientShutDown()
       }
       RpcExcept(1)
       {
-         DEBUGOUT("Exception thrown when stopping RPC server");
       }
       RpcEndExcept
 
       serverInit = false;
    }
 
-   if(szStringBinding)
+   if (szStringBinding)
    {
       RpcStringFree(&szStringBinding);
       szStringBinding = NULL;
    }
 
-   if(hMidiRPCBinding)
+   if (hMidiRPCBinding)
    {
       RpcBindingFree(&hMidiRPCBinding);
       hMidiRPCBinding = NULL;
@@ -377,11 +330,7 @@ void I_MidiRPCClientShutDown()
 dboolean I_MidiRPCReady()
 {
    CHECK_RPC_STATUS();
-
    return true;
 }
 
 #endif
-
-// EOF
-
