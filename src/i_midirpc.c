@@ -259,14 +259,22 @@ dboolean I_MidiRPCInitServer()
 
     // Look for executable file
     if (!M_FileExists(module))
+    {
+        C_Warning("The file midiproc.exe couldn't be found.");
         return false;
+    }
 
     si.cb = sizeof(si);
 
     result = CreateProcess(module, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 
     if (result)
+    {
+        C_Output("The file <b>midiproc.exe</b> will be used to play MUS and MIDI music lumps.");
         serverInit = true;
+    }
+    else
+        C_Warning("The file midiproc.exe couldn't be initialized.");
 
     return result;
 }
