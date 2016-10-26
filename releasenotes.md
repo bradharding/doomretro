@@ -1,7 +1,7 @@
 ### DOOM Retro v2.3.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The music volume can now be adjusted independently of the sound effects volume.
+* A limitation of the MIDI support in *Windows Vista* and above has now been overcome, allowing the music volume to be adjusted independently of the sound effects volume.
 * The default of the `s_musicvolume` CVAR is now `60%`.
 * Minor changes have been made to text that is output to the console.
 * The console will now fill the entire screen when opened using the <kbd>~</kbd> key on the title screen.

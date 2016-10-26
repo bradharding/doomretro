@@ -65,8 +65,6 @@ static dboolean         haveMidiClient;
 dboolean                serverMidiPlaying;
 #endif
 
-static char             *tempmusicfilename;
-
 char                    *s_timiditycfgpath = s_timiditycfgpath_default;
 
 static char             *temp_timidity_cfg;
@@ -150,8 +148,6 @@ void I_ShutdownMusic(void)
         Mix_HaltMusic();
         music_initialized = false;
 
-        free(tempmusicfilename);
-
         if (sdl_was_initialized)
         {
             Mix_CloseAudio();
@@ -192,8 +188,6 @@ dboolean I_InitMusic(void)
 
     SDL_PauseAudio(0);
 
-    tempmusicfilename = M_TempFile(PACKAGE".mid");
-
     sdl_was_initialized = true;
     music_initialized = true;
 
@@ -218,10 +212,10 @@ static void UpdateMusicVolume(void)
 #if defined(WIN32)
     // adjust server volume
     if (serverMidiPlaying)
-        I_MidiRPCSetVolume((current_music_volume * MIX_MAX_VOLUME) / 127 * !musicpaused);
+        I_MidiRPCSetVolume(current_music_volume * !musicpaused);
     else
 #endif
-        Mix_VolumeMusic((current_music_volume * MIX_MAX_VOLUME) / 127 * !musicpaused);
+        Mix_VolumeMusic(current_music_volume * !musicpaused);
 }
 
 // Set music volume (0 - 127)

@@ -43,6 +43,7 @@
 #include <windows.h>
 
 #include "../midiproc/midiproc.h"
+
 #include "c_console.h"
 #include "doomtype.h"
 #include "i_timer.h"
@@ -51,22 +52,25 @@
 //
 // Data
 //
-static unsigned char    *szStringBinding;       // RPC client binding string
-static dboolean         serverInit = false;     // if true, server was started
-static dboolean         clientInit = false;     // if true, client was bound
+static unsigned char            *szStringBinding;       // RPC client binding string
+static dboolean                 serverInit = false;     // if true, server was started
+static dboolean                 clientInit = false;     // if true, client was bound
 
 // server process information
 static STARTUPINFO              si;
 static PROCESS_INFORMATION      pi;
 
+//
+// RPC Memory Management
+//
 void __RPC_FAR * __RPC_USER midl_user_allocate(size_t size)
 {
-   return malloc(size);
+    return malloc(size);
 }
 
 void __RPC_USER midl_user_free(void __RPC_FAR *p)
 {
-   free(p);
+    free(p);
 }
 
 //
@@ -79,7 +83,7 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 // If either server or client initialization failed, we don't try to make any
 // RPC calls.
 //
-#define CHECK_RPC_STATUS()         \
+#define CHECK_RPC_STATUS()          \
     if (!serverInit || !clientInit) \
         return false
 
@@ -88,15 +92,16 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 
 static dboolean I_MidiRPCWaitForServer()
 {
-   int tries = 0;
+    int tries = 0;
 
-   while (RpcMgmtIsServerListening(hMidiRPCBinding) != RPC_S_OK)
-   {
-      I_Sleep(10);
-      if (++tries >= MIDIRPC_MAXTRIES)
-         return false;
-   }
-   return true;
+    while (RpcMgmtIsServerListening(hMidiRPCBinding) != RPC_S_OK)
+    {
+        I_Sleep(10);
+        if (++tries >= MIDIRPC_MAXTRIES)
+            return false;
+    }
+
+    return true;
 }
 
 //
@@ -107,22 +112,22 @@ static dboolean I_MidiRPCWaitForServer()
 //
 dboolean I_MidiRPCRegisterSong(void *data, int size)
 {
-   unsigned int rpcSize = (unsigned int)size;
+    unsigned int        rpcSize = (unsigned int)size;
 
-   CHECK_RPC_STATUS();
+    CHECK_RPC_STATUS();
 
-   RpcTryExcept
-   {
-      MidiRPC_PrepareNewSong();
-      MidiRPC_AddChunk(rpcSize, (byte *)data);
-   }
-   RpcExcept(1)
-   {
-      return false;
-   }
-   RpcEndExcept
+    RpcTryExcept
+    {
+        MidiRPC_PrepareNewSong();
+        MidiRPC_AddChunk(rpcSize, (byte *)data);
+    }
+    RpcExcept(1)
+    {
+        return false;
+    }
+    RpcEndExcept
 
-   return true;
+    return true;
 }
 
 //
@@ -132,19 +137,19 @@ dboolean I_MidiRPCRegisterSong(void *data, int size)
 //
 dboolean I_MidiRPCPlaySong(dboolean looping)
 {
-   CHECK_RPC_STATUS();
+    CHECK_RPC_STATUS();
 
-   RpcTryExcept
-   {
-      MidiRPC_PlaySong(looping ? TRUE : FALSE);
-   }
-   RpcExcept(1)
-   {
-      return false;
-   }
-   RpcEndExcept
+    RpcTryExcept
+    {
+        MidiRPC_PlaySong(looping ? TRUE : FALSE);
+    }
+    RpcExcept(1)
+    {
+        return false;
+    }
+    RpcEndExcept
 
-   return true;
+    return true;
 }
 
 // 
@@ -154,19 +159,19 @@ dboolean I_MidiRPCPlaySong(dboolean looping)
 //
 dboolean I_MidiRPCStopSong()
 {
-   CHECK_RPC_STATUS();
+    CHECK_RPC_STATUS();
 
-   RpcTryExcept
-   {
-      MidiRPC_StopSong();
-   }
-   RpcExcept(1)
-   {
-      return false;
-   }
-   RpcEndExcept
+    RpcTryExcept
+    {
+        MidiRPC_StopSong();
+    }
+    RpcExcept(1)
+    {
+        return false;
+    }
+    RpcEndExcept
 
-   return true;
+    return true;
 }
 
 //
@@ -176,19 +181,19 @@ dboolean I_MidiRPCStopSong()
 //
 dboolean I_MidiRPCSetVolume(int volume)
 {
-   CHECK_RPC_STATUS();
-   
-   RpcTryExcept
-   {
-      MidiRPC_ChangeVolume(volume);
-   }
-   RpcExcept(1)
-   {
-      return false;
-   }
-   RpcEndExcept
+    CHECK_RPC_STATUS();
 
-   return true;
+    RpcTryExcept
+    {
+        MidiRPC_ChangeVolume(volume);
+    }
+    RpcExcept(1)
+    {
+        return false;
+    }
+    RpcEndExcept
+
+    return true;
 }
 
 //
@@ -199,19 +204,19 @@ dboolean I_MidiRPCSetVolume(int volume)
 //
 dboolean I_MidiRPCPauseSong()
 {
-   CHECK_RPC_STATUS();
+    CHECK_RPC_STATUS();
 
-   RpcTryExcept
-   {
-      MidiRPC_PauseSong();
-   }
-   RpcExcept(1)
-   {
-      return false;
-   }
-   RpcEndExcept
+    RpcTryExcept
+    {
+        MidiRPC_PauseSong();
+    }
+    RpcExcept(1)
+    {
+        return false;
+    }
+    RpcEndExcept
 
-   return true;
+    return true;
 }
 
 //
@@ -221,19 +226,19 @@ dboolean I_MidiRPCPauseSong()
 //
 dboolean I_MidiRPCResumeSong()
 {
-   CHECK_RPC_STATUS();
+    CHECK_RPC_STATUS();
 
-   RpcTryExcept
-   {
-      MidiRPC_ResumeSong();
-   }
-   RpcExcept(1)
-   {
-      return false;
-   }
-   RpcEndExcept
+    RpcTryExcept
+    {
+        MidiRPC_ResumeSong();
+    }
+    RpcExcept(1)
+    {
+        return false;
+    }
+    RpcEndExcept
 
-   return true;
+    return true;
 }
 
 //
@@ -247,17 +252,23 @@ dboolean I_MidiRPCResumeSong()
 //
 dboolean I_MidiRPCInitServer()
 {
-   char         module[MAX_PATH+1];
+    char        module[MAX_PATH + 1];
+    dboolean    result;
 
-   M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe", M_GetExecutableFolder());
+    M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe", M_GetExecutableFolder());
 
-   // Look for executable file
-   if(!M_FileExists(module))
-      return false;
+    // Look for executable file
+    if (!M_FileExists(module))
+        return false;
 
-   si.cb = sizeof(si);
+    si.cb = sizeof(si);
 
-   return CreateProcess(module, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+    result = CreateProcess(module, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+
+    if (result)
+        serverInit = true;
+
+    return result;
 }
 
 //
@@ -267,22 +278,28 @@ dboolean I_MidiRPCInitServer()
 //
 dboolean I_MidiRPCInitClient()
 {
-   // If server didn't start, client cannot be bound.
-   if (!serverInit)
-      return false;
+    RPC_STATUS  status;
 
-   // Compose binding string
-   if (RpcStringBindingCompose(NULL, (RPC_CSTR)"ncalrpc", NULL,
-      (RPC_CSTR)"2d4dc2f9-ce90-4080-8a00-1cb819086970", NULL, &szStringBinding))
-      return false;
+    // If server didn't start, client cannot be bound.
+    if (!serverInit)
+        return false;
 
-   // Create binding handle
-   if (RpcBindingFromStringBinding(szStringBinding, &hMidiRPCBinding))
-      return false;
+    // Compose binding string
+    status = RpcStringBindingCompose(NULL, (RPC_CSTR)"ncalrpc", NULL,
+        (RPC_CSTR)"2d4dc2f9-ce90-4080-8a00-1cb819086970", NULL, &szStringBinding);
 
-   clientInit = true;
+    if (status)
+        return false;
 
-   return I_MidiRPCWaitForServer();
+    // Create binding handle
+    status = RpcBindingFromStringBinding(szStringBinding, &hMidiRPCBinding);
+
+    if (status)
+        return false;
+
+    clientInit = true;
+
+    return I_MidiRPCWaitForServer();
 }
 
 //
@@ -292,34 +309,34 @@ dboolean I_MidiRPCInitClient()
 //
 void I_MidiRPCClientShutDown()
 {
-   // stop the server
-   if (serverInit)
-   {
-      RpcTryExcept
-      {
-         MidiRPC_StopServer();
-      }
-      RpcExcept(1)
-      {
-      }
-      RpcEndExcept
+    // stop the server
+    if (serverInit)
+    {
+        RpcTryExcept
+        {
+            MidiRPC_StopServer();
+        }
+        RpcExcept(1)
+        {
+        }
+        RpcEndExcept
 
-      serverInit = false;
-   }
+        serverInit = false;
+    }
 
-   if (szStringBinding)
-   {
-      RpcStringFree(&szStringBinding);
-      szStringBinding = NULL;
-   }
+    if (szStringBinding)
+    {
+        RpcStringFree(&szStringBinding);
+        szStringBinding = NULL;
+    }
 
-   if (hMidiRPCBinding)
-   {
-      RpcBindingFree(&hMidiRPCBinding);
-      hMidiRPCBinding = NULL;
-   }
+    if (hMidiRPCBinding)
+    {
+        RpcBindingFree(&hMidiRPCBinding);
+        hMidiRPCBinding = NULL;
+    }
 
-   clientInit = false;
+    clientInit = false;
 }
 
 //
@@ -329,8 +346,9 @@ void I_MidiRPCClientShutDown()
 //
 dboolean I_MidiRPCReady()
 {
-   CHECK_RPC_STATUS();
-   return true;
+    CHECK_RPC_STATUS();
+
+    return true;
 }
 
 #endif
