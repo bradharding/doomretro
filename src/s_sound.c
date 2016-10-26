@@ -125,8 +125,6 @@ musicinfo_t             *mus_playing = NULL;
 dboolean                nosfx = false;
 dboolean                nomusic = false;
 
-extern dboolean         serverMidiPlaying;
-
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
 static void InitSfxModule(void)
@@ -651,7 +649,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
         handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
     }
 
-    if (!handle && !serverMidiPlaying)
+    if (!handle)
     {
         C_Warning("The D_%s music lump can't be played.", uppercase(music->name));
         return;
