@@ -125,6 +125,10 @@ musicinfo_t             *mus_playing = NULL;
 dboolean                nosfx = false;
 dboolean                nomusic = false;
 
+#if defined(WIN32)
+extern dboolean         serverMidiPlaying;
+#endif
+
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
 static void InitSfxModule(void)
@@ -650,10 +654,13 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     }
 
     if (!handle)
-    {
-        C_Warning("The D_%s music lump can't be played.", uppercase(music->name));
-        return;
-    }
+#if defined(WIN32)
+        if (!serverMidiPlaying)
+#endif
+        {
+            C_Warning("The D_%s music lump can't be played.", uppercase(music->name));
+            return;
+        }
 
     music->handle = handle;
 

@@ -315,26 +315,26 @@ void I_UnRegisterSong(void *handle)
     Mix_FreeMusic(handle);
 }
 
-static dboolean ConvertMus(byte *musdata, int len, char *filename)
-{
-    MEMFILE     *instream = mem_fopen_read(musdata, len);
-    MEMFILE     *outstream = mem_fopen_write();
-    int         result = mus2mid(instream, outstream);
-
-    if (!result)
-    {
-        void    *outbuf;
-        size_t  outbuf_len;
-
-        mem_get_buf(outstream, &outbuf, &outbuf_len);
-        M_WriteFile(filename, outbuf, outbuf_len);
-    }
-
-    mem_fclose(instream);
-    mem_fclose(outstream);
-
-    return result;
-}
+//static dboolean ConvertMus(byte *musdata, int len, char *filename)
+//{
+//    MEMFILE     *instream = mem_fopen_read(musdata, len);
+//    MEMFILE     *outstream = mem_fopen_write();
+//    int         result = mus2mid(instream, outstream);
+//
+//    if (!result)
+//    {
+//        void    *outbuf;
+//        size_t  outbuf_len;
+//
+//        mem_get_buf(outstream, &outbuf, &outbuf_len);
+//        M_WriteFile(filename, outbuf, outbuf_len);
+//    }
+//
+//    mem_fclose(instream);
+//    mem_fclose(outstream);
+//
+//    return result;
+//}
 
 void *I_RegisterSong(void *data, int len)
 {
@@ -342,31 +342,84 @@ void *I_RegisterSong(void *data, int len)
         return NULL;
     else
     {
+        int             err;
+        dboolean        isMIDI = false;
+        dboolean        isMUS = false;
         Mix_Music       *music = NULL;
 
-        if (!memcmp(data, "MUS", 3))
+        // Check for MIDI or MUS format first:
+        if (len >= 14)
         {
-            ConvertMus(data, len, tempmusicfilename);
-            music = Mix_LoadMUS(tempmusicfilename);
-            remove(tempmusicfilename);
-
-#if defined(WIN32)
-            // Check for option to invoke RPC server if isMIDI
-            if (haveMidiServer)
-            {
-                // Init client if not yet started
-                if (!haveMidiClient)
-                    haveMidiClient = I_MidiRPCInitClient();
-
-                if (I_MidiRPCRegisterSong(data, len))
-                {
-                    serverMidiPlaying = true;
-                    return music; // server will play this song.
-                }
-            }
-#endif
+            if (!memcmp(data, "MThd", 4)) // Is it a MIDI?
+                isMIDI = true;
+            else if (mmuscheckformat((byte *)data, len)) // Is it a MUS?
+                isMUS = true;
         }
-        else
+
+        // If it's a MUS, convert it to MIDI now.
+        if (isMUS)
+        {
+            MIDI mididata;
+            UBYTE *mid;
+            int midlen;
+
+            //rw = NULL;
+            memset(&mididata, 0, sizeof(MIDI));
+
+            if ((err = mmus2mid((byte *)data, (size_t)len, &mididata, 89, 0)))
+            {
+                //doom_printf("Error loading music: %d", err);
+                return NULL;
+            }
+
+            // Hurrah! Let's make it a mid and give it to SDL_mixer
+            MIDIToMidi(&mididata, &mid, &midlen);
+
+            // save memory block to free when unregistering
+            //music_block = mid;
+
+            data = mid;
+            len = midlen;
+            isMIDI = true;   // now it's a MIDI.
+        }
+
+        // Check for option to invoke RPC server if isMIDI
+        if (isMIDI && haveMidiServer)
+        {
+            // Init client if not yet started
+            if (!haveMidiClient)
+                haveMidiClient = I_MidiRPCInitClient();
+
+            if (I_MidiRPCRegisterSong(data, len))
+            {
+                serverMidiPlaying = true;
+                return NULL; // server will play this song.
+            }
+        }
+
+//        if (!memcmp(data, "MUS", 3))
+//        {
+//            ConvertMus(data, len, tempmusicfilename);
+//            music = Mix_LoadMUS(tempmusicfilename);
+//            remove(tempmusicfilename);
+//
+//#if defined(WIN32)
+//            // Check for option to invoke RPC server if isMIDI
+//            if (haveMidiServer)
+//            {
+//                // Init client if not yet started
+//                if (!haveMidiClient)
+//                    haveMidiClient = I_MidiRPCInitClient();
+//
+//                if (I_MidiRPCRegisterSong(data, len))
+//                {
+//                    serverMidiPlaying = true;
+//                    return music; // server will play this song.
+//                }
+//            }
+//#endif
+//        }
+//        else
         {
             SDL_RWops   *rwops = SDL_RWFromMem(data, len);
 

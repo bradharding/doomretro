@@ -1,552 +1,827 @@
-/*
-========================================================================
+//-----------------------------------------------------------------------------
+//
+// Copyright (C) 2013 James Haley et al.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see http://www.gnu.org/licenses/
+//
+//-----------------------------------------------------------------------------
+//
+// DESCRIPTION:
+//  This file supports conversion of MUS format music in memory
+//  to MIDI format 1 music in memory. 
+//
+//  The primary routine, mmus2mid, converts a block of memory in MUS format
+//  to an Allegro MIDI structure. This supports playing MUS lumps in a wad
+//  file with BOOM.
+//
+//  Another routine, Midi2MIDI, converts a block of memory in MIDI format 1 to
+//  an Allegro MIDI structure. This supports playing MIDI lumps in a wad
+//  file with BOOM.
+//
+//  For testing purposes, and to make a utility if desired, if the symbol
+//  STANDALONE is defined by uncommenting the definition below, a main
+//  routine is compiled that will convert a possibly wildcarded set of MUS
+//  files to a similarly named set of MIDI files.
+//
+//  Much of the code here is thanks to S. Bacquet's source for QMUS2MID.C
+//
+//-----------------------------------------------------------------------------
 
-                           D O O M  R e t r o
-         The classic, refined DOOM source port. For Windows PC.
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <inttypes.h> // haleyjd
 
-========================================================================
-
-  Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2016 Brad Harding.
-
-  DOOM Retro is a fork of Chocolate DOOM.
-  For a list of credits, see <http://credits.doomretro.com>.
-
-  This file is part of DOOM Retro.
-
-  DOOM Retro is free software: you can redistribute it and/or modify it
-  under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
-  option) any later version.
-
-  DOOM Retro is distributed in the hope that it will be useful, but
-  WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with DOOM Retro. If not, see <https://www.gnu.org/licenses/>.
-
-  DOOM is a registered trademark of id Software LLC, a ZeniMax Media
-  company, in the US and/or other countries and is used without
-  permission. All other trademarks are the property of their respective
-  holders. DOOM Retro is in no way affiliated with nor endorsed by
-  id Software.
-
-========================================================================
-*/
-
-#include "doomdef.h"
-#include "i_swap.h"
+#ifdef DJGPP // proff: I don't use allegro in windows
+#include <allegro.h>
+#endif // DJGPP
 #include "mus2mid.h"
 
-#define NUM_CHANNELS            32
-
-#define MIDI_PERCUSSION_CHAN    9
-#define MUS_PERCUSSION_CHAN     15
-
-// MUS event codes
-typedef enum
-{
-    mus_releasekey         = 0x00,
-    mus_presskey           = 0x10,
-    mus_pitchwheel         = 0x20,
-    mus_systemevent        = 0x30,
-    mus_changecontroller   = 0x40,
-    mus_scoreend           = 0x60
-} musevent;
-
-// MIDI event codes
-typedef enum
-{
-    midi_releasekey        = 0x80,
-    midi_presskey          = 0x90,
-    midi_aftertouchkey     = 0xA0,
-    midi_changecontroller  = 0xB0,
-    midi_changepatch       = 0xC0,
-    midi_aftertouchchannel = 0xD0,
-    midi_pitchwheel        = 0xE0
-} midievent;
-
-#if defined(_MSC_VER)
-#pragma pack(push)
-#pragma pack(1)
+//#define STANDALONE  /* uncomment this to make MMUS2MID.EXE */
+#ifndef STANDALONE
+#include "z_zone.h"
+#else
+#define emalloc(t, n) (t)(malloc(n))
+#define efree(p)      free(p)
 #endif
 
-// Structure to hold MUS file header
-typedef struct
-{
-    byte                id[4];
-    unsigned short      scorelength;
-    unsigned short      scorestart;
-    unsigned short      primarychannels;
-    unsigned short      secondarychannels;
-    unsigned short      instrumentcount;
-} PACKEDATTR musheader;
+// some macros to decode mus event bit fields
 
-#if defined(_MSC_VER)
+#define last(e)         ((UBYTE)((e) & 0x80))
+#define event_type(e)   ((UBYTE)(((e) & 0x7F) >> 4))
+#define channel(e)      ((UBYTE)((e) & 0x0F))
+
+// event types
+
+typedef enum
+{
+    RELEASE_NOTE,
+    PLAY_NOTE,
+    BEND_NOTE,
+    SYS_EVENT,
+    CNTL_CHANGE,
+    UNKNOWN_EVENT1,
+    SCORE_END,
+    UNKNOWN_EVENT2,
+} mus_event_t;
+
+// MUS format header structure
+
+// haleyjd 04/05/05: this structure is read directly from memory
+// and so it should be packed
+
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
+#endif
+
+struct tagMUSheader
+{
+    char        ID[4];            // identifier "MUS"0x1A
+    UWORD       ScoreLength;      // length of music portion
+    UWORD       ScoreStart;       // offset of music portion
+    UWORD       channels;         // count of primary channels
+    UWORD       SecChannels;      // count of secondary channels
+    UWORD       InstrCnt;         // number of instruments
+};
+
+typedef struct tagMUSheader MUSheader;
+
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 
-// Standard MIDI type 0 header + track header
-static const byte midiheader[] =
+// to keep track of information in a MIDI track
+
+typedef struct Track
 {
-    'M', 'T', 'h', 'd',         // Main header
-    0x00, 0x00, 0x00, 0x06,     // Header size
-    0x00, 0x00,                 // MIDI type (0)
-    0x00, 0x01,                 // Number of tracks
-    0x00, 0x46,                 // Resolution
-    'M', 'T', 'r', 'k',         // Start of track
-    0x00, 0x00, 0x00, 0x00      // Placeholder for track length
+    char  velocity;
+    int   deltaT;
+    UBYTE lastEvt;
+    int   alloced;
+} TrackInfo;
+
+// array of info about tracks
+
+static TrackInfo track[MIDI_TRACKS];
+
+// initial track size allocation
+static ULONG TRACKBUFFERSIZE = 1024L;
+
+// lookup table MUS -> MID controls 
+static UBYTE MUS2MIDcontrol[15] =
+{
+    0,         // Program change - not a MIDI control change
+    0x00,      // Bank select               
+    0x01,      // Modulation pot              
+    0x07,      // Volume                  
+    0x0A,      // Pan pot                 
+    0x0B,      // Expression pot              
+    0x5B,      // Reverb depth                
+    0x5D,      // Chorus depth                
+    0x40,      // Sustain pedal               
+    0x43,      // Soft pedal                
+    0x78,      // All sounds off              
+    0x7B,      // All notes off               
+    0x7E,      // Mono                    
+    0x7F,      // Poly                    
+    0x79       // Reset all controllers           
 };
 
-// Cached channel velocities
-static byte channelvelocities[] =
+// some strings of bytes used in the midi format 
+
+static UBYTE midikey[] =
+{ 0x00,0xff,0x59,0x02,0x00,0x00 };        // C major
+static UBYTE miditempo[] =
+{ 0x00,0xff,0x51,0x03,0x09,0xa3,0x1a };   // uS/qnote
+static UBYTE midihdr[] =
+{ 'M','T','h','d',0,0,0,6,0,1,0,0,0,0 };  // header (length 6, format 1)
+static UBYTE trackhdr[] =
+{ 'M','T','r','k' };                      // track header
+
+                                          // static routine prototypes
+
+                                          // proff: changed type for byte from char to unsigned char to avoid warning
+static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte);
+static int TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value);
+static ULONG ReadTime(UBYTE **musptrp);
+static char FirstChannelAvailable(signed char MUS2MIDchannel[]);
+static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel,
+    UBYTE MIDItrack, int nocomp);
+
+//
+// TWriteByte()
+//
+// write one byte to the selected MIDItrack, update current position
+// if track allocation exceeded, double it
+// if track not allocated, initially allocate TRACKBUFFERSIZE bytes
+//
+// Passed pointer to Allegro MIDI structure, number of the MIDI track being
+// written, and the byte to write.
+//
+// Returns 0 on success, MEMALLOC if a memory allocation error occurs
+//
+// proff: changed type for byte from char to unsigned char to avoid warning
+//
+static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 {
-    127, 127, 127, 127, 127, 127, 127, 127,
-    127, 127, 127, 127, 127, 127, 127, 127
-};
+    size_t pos = mididata->track[MIDItrack].len;
 
-// Timestamps between sequences of MUS events
-static unsigned int queuedtime;
-
-// Counter for the length of the track
-static unsigned int tracksize;
-
-static const byte controller_map[] =
-{
-    0x00, 0x20, 0x01, 0x07, 0x0A, 0x0B, 0x5B, 0x5D,
-    0x40, 0x43, 0x78, 0x7B, 0x7E, 0x7F, 0x79
-};
-
-static int channel_map[NUM_CHANNELS];
-
-// Write timestamp to a MIDI file.
-static dboolean WriteTime(unsigned int time, MEMFILE *midioutput)
-{
-    unsigned int        buffer = time & 0x7F;
-    byte                writeval;
-
-    while ((time >>= 7) != 0)
+    // proff: Added typecast to avoid warning
+    if (pos >= (size_t)track[MIDItrack].alloced)
     {
-        buffer <<= 8;
-        buffer |= ((time & 0x7F) | 0x80);
+        track[MIDItrack].alloced =        // double allocation
+            track[MIDItrack].alloced ?       // or set initial TRACKBUFFERSIZE
+            2 * track[MIDItrack].alloced :
+            TRACKBUFFERSIZE;
+
+        if (!(mididata->track[MIDItrack].data =     // attempt to reallocate
+            Z_Realloc(mididata->track[MIDItrack].data, sizeof(unsigned char *) * track[MIDItrack].alloced)))
+            return MEMALLOC;
     }
 
-    for (;;)
+    mididata->track[MIDItrack].data[pos] = byte;
+    mididata->track[MIDItrack].len++;
+    return 0;
+}
+
+//
+// TWriteVarLen()
+//
+// write the ULONG value to tracknum-th track, in midi format, which is
+// big endian, 7 bits per byte, with all bytes but the last flagged by
+// bit 8 being set, allowing the length to vary.
+//
+// Passed the Allegro MIDI structure, the track number to write,
+// and the ULONG value to encode in midi format there
+//
+// Returns 0 if sucessful, MEMALLOC if a memory allocation error occurs
+//
+static int TWriteVarLen(MIDI *mididata, int tracknum, ULONG value)
+{
+    ULONG buffer;
+
+    buffer = value & 0x7f;
+
+    while ((value >>= 7))         // terminates because value unsigned
     {
-        writeval = (byte)(buffer & 0xFF);
+        buffer <<= 8;               // note first value shifted in has bit 8 clear
+        buffer |= 0x80;             // all succeeding values do not
+        buffer += (value & 0x7f);
+    }
 
-        if (mem_fwrite(&writeval, 1, 1, midioutput) != 1)
-            return true;
+    while (1)                     // write bytes out in opposite order
+    {
+        // proff: Added typecast to avoid warning
+        if (TWriteByte(mididata, tracknum, (char)(buffer & 0xff))) // insure buffer masked
+            return MEMALLOC;
 
-        ++tracksize;
-
-        if ((buffer & 0x80) != 0)
+        if (buffer & 0x80)
             buffer >>= 8;
+        else                        // terminate on the byte with bit 8 clear
+            break;
+    }
+    return 0;
+}
+
+//
+// ReadTime()
+//
+// Read a time value from the MUS buffer, advancing the position in it
+//
+// A time value is a variable length sequence of 8 bit bytes, with all
+// but the last having bit 8 set.
+//
+// Passed a pointer to the pointer to the MUS buffer
+// Returns the integer unsigned long time value there and advances the pointer
+//
+static ULONG ReadTime(UBYTE **musptrp)
+{
+    ULONG timeval = 0;
+    int byte;
+
+    do    // shift each byte read up in the result until a byte with bit 8 clear
+    {
+        byte = *(*musptrp)++;
+        timeval = (timeval << 7) + (byte & 0x7F);
+    } while (byte & 0x80);
+
+    return timeval;
+}
+
+//
+// FirstChannelAvailable()
+//
+// Return the next unassigned MIDI channel number
+//
+// The assignment for MUS channel 15 is not counted in the caculation, that
+// being percussion and always assigned to MIDI channel 9 (base 0).
+//
+// Passed the array of MIDI channels assigned to MUS channels
+// Returns the maximum channel number unassigned unless that is 9 in which
+// case 10 is returned.
+//
+static char FirstChannelAvailable(signed char MUS2MIDchannel[])
+{
+    int i;
+    signed char max = -1;
+
+    // find the largest MIDI channel assigned so far
+    for (i = 0; i < 15; i++)
+    {
+        if (MUS2MIDchannel[i] > max)
+            max = MUS2MIDchannel[i];
+    }
+
+    return (max == 8 ? 10 : max + 1); // skip MIDI channel 9 (percussion)
+}
+
+//
+// MidiEvent()
+//
+// Constructs a MIDI event code, and writes it to the current MIDI track
+// unless its the same as the last event code and compression is enabled
+// in which case nothing is written.
+//
+// Passed the Allegro MIDI structure, the midi event code, the current
+// MIDI channel number, the current MIDI track number, and whether compression
+// (running status) is enabled.
+//
+// Returns the new event code if successful, 0 if a memory allocation error
+//
+static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel,
+    UBYTE MIDItrack, int nocomp)
+{
+    UBYTE newevent;
+
+    newevent = midicode | MIDIchannel;
+    if ((newevent != track[MIDItrack].lastEvt) || nocomp)
+    {
+        if (TWriteByte(mididata, MIDItrack, newevent))
+            return 0;                                    // indicates MEMALLOC error
+        track[MIDItrack].lastEvt = newevent;
+    }
+    return newevent;
+}
+
+#define MAX_HEADER_SCAN 32
+
+//
+// mmuscheckformat
+//
+// haleyjd 11/23/12:
+// Returns true if the data is a MUS.
+//
+dboolean mmuscheckformat(UBYTE *mus, int size)
+{
+    UBYTE *hptr = mus;
+    while (hptr < mus + size - sizeof(MUSheader) &&
+        hptr < mus + MAX_HEADER_SCAN &&
+        strncmp((const char *)hptr, "MUS\x1a", 4))
+        ++hptr;
+
+    if (hptr < mus + size - sizeof(MUSheader) &&
+        !strncmp((const char *)hptr, "MUS\x1a", 4))
+        return true;
+
+    return false;
+}
+
+//
+// mmus2mid()
+//
+// Convert a memory buffer containing MUS data to an Allegro MIDI structure
+// with specified time division and compression.
+//
+// Passed a pointer to the buffer containing MUS data, a pointer to the
+// Allegro MIDI structure, the divisions, and a flag whether to compress.
+//
+// Returns 0 if successful, otherwise an error code (see mmus2mid.h).
+//
+int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp)
+{
+    UWORD TrackCnt = 0;
+    UBYTE evt, MUSchannel, MIDIchannel, MIDItrack = 0;
+    int i, event, data;
+    UBYTE *musptr, *hptr;
+    size_t muslen;
+    static MUSheader MUSh;
+    ULONG DeltaTime, TotalTime = 0;
+    // proff: This arrays were too small
+    //  UBYTE MIDIchan2track[16];
+    //  signed char MUS2MIDchannel[16];
+    UBYTE MIDIchan2track[MIDI_TRACKS];
+    signed char MUS2MIDchannel[MIDI_TRACKS];
+
+    // haleyjd 04/04/10: don't bite off more than you can chew
+    if (size < sizeof(MUSheader))
+        return MUSDATAMT;
+
+    // haleyjd 04/04/10: scan forward for a MUS header. Evidently DMX was 
+    // capable of doing this, and would skip over any intervening data. That, 
+    // or DMX doesn't use the MUS header at all somehow.
+    hptr = mus;
+    while (hptr < mus + size - sizeof(MUSheader) &&
+        hptr < mus + MAX_HEADER_SCAN &&
+        strncmp((const char *)hptr, "MUS\x1a", 4))
+        ++hptr;
+
+    // if we found a likely header start, reset the mus pointer to that location,
+    // otherwise just leave it alone and pray.
+    if (hptr < mus + size - sizeof(MUSheader) &&
+        !strncmp((const char *)hptr, "MUS\x1a", 4))
+        mus = hptr;
+
+    // copy the MUS header from the MUS buffer to the MUSh header structure
+
+    memcpy(&MUSh, mus, sizeof(MUSheader));
+
+    // check some things and set length of MUS buffer from internal data
+
+    if (!(muslen = MUSh.ScoreLength + MUSh.ScoreStart))
+        return MUSDATAMT;     // MUS file empty
+
+    if (MUSh.channels > 15)       // MUSchannels + drum channel > 16
+        return TOOMCHAN;
+
+    musptr = mus + MUSh.ScoreStart; // init musptr to start of score
+
+    for (i = 0; i < MIDI_TRACKS; i++)   // init the track structure's tracks
+    {
+        MUS2MIDchannel[i] = -1;       // flag for channel not used yet
+        track[i].velocity = 64;
+        track[i].deltaT = 0;
+        track[i].lastEvt = 0;
+        free(mididata->track[i].data);//jff 3/5/98 remove old allocations
+        mididata->track[i].data = NULL;
+        track[i].alloced = 0;
+        mididata->track[i].len = 0;
+    }
+
+    if (!division)
+        division = 70;
+
+    // allocate the first track which is a special tempo/key track
+    // note multiple tracks means midi format 1
+
+    // set the divisions (ticks per quarter note)
+    mididata->divisions = division;
+
+    // allocate for midi tempo/key track, allow for end of track 
+    if (!(mididata->track[0].data =
+        Z_Realloc(mididata->track[0].data, sizeof(unsigned char *) * (sizeof(midikey) + sizeof(miditempo) + 4))))
+        return MEMALLOC;
+
+    // key C major
+    memcpy(mididata->track[0].data, midikey, sizeof(midikey));
+    // tempo uS/qnote 
+    memcpy(mididata->track[0].data + sizeof(midikey), miditempo, sizeof(miditempo));
+    mididata->track[0].len = sizeof(midikey) + sizeof(miditempo);
+
+    TrackCnt++;   // music tracks start at 1
+
+                  // process the MUS events in the MUS buffer
+
+    do
+    {
+        // get a mus event, decode its type and channel fields
+        event = *musptr++;
+        if ((evt = event_type(event)) == SCORE_END) //jff 1/23/98 use symbol
+            break;  // if end of score event, leave
+        MUSchannel = channel(event);
+
+        // if this channel not initialized, do so
+        if (MUS2MIDchannel[MUSchannel] == -1)
+        {
+            // set MIDIchannel and MIDItrack
+
+            MIDIchannel = MUS2MIDchannel[MUSchannel] =
+                (MUSchannel == 15 ? 9 : FirstChannelAvailable(MUS2MIDchannel));
+            // proff: Added typecast to avoid warning
+            MIDItrack = MIDIchan2track[MIDIchannel] = (unsigned char)(TrackCnt++);
+
+            if (TWriteByte(mididata, MIDItrack, 0x00)) // haleyjd 12/30/13: send all notes off 
+                goto err;
+            if (TWriteByte(mididata, MIDItrack, 0xB0 | MIDIchannel))
+                goto err;
+            if (TWriteByte(mididata, MIDItrack, 0x7B))
+                goto err;
+            if (TWriteByte(mididata, MIDItrack, 0x00))
+                goto err;
+        }
+        else // channel already allocated as a track, use those values
+        {
+            MIDIchannel = MUS2MIDchannel[MUSchannel];
+            MIDItrack = MIDIchan2track[MIDIchannel];
+        }
+
+        if (TWriteVarLen(mididata, MIDItrack, track[MIDItrack].deltaT))
+            goto err;
+        track[MIDItrack].deltaT = 0;
+
+        switch (evt)
+        {
+            case RELEASE_NOTE:
+                if (!MidiEvent(mididata, 0x90, MIDIchannel, MIDItrack, nocomp))
+                    goto err;
+
+                data = *musptr++;
+                // proff: Added typecast to avoid warning
+                if (TWriteByte(mididata, MIDItrack, (unsigned char)(data & 0x7F)))
+                    goto err;
+                if (TWriteByte(mididata, MIDItrack, 0))
+                    goto err;
+                break;
+
+            case PLAY_NOTE:
+                if (!MidiEvent(mididata, 0x90, MIDIchannel, MIDItrack, nocomp))
+                    goto err;
+
+                data = *musptr++;
+                // proff: Added typecast to avoid warning
+                if (TWriteByte(mididata, MIDItrack, (unsigned char)(data & 0x7F)))
+                    goto err;
+                if (data & 0x80)
+                    track[MIDItrack].velocity = (*musptr++) & 0x7f;
+                if (TWriteByte(mididata, MIDItrack, track[MIDItrack].velocity))
+                    goto err;
+                break;
+
+            case BEND_NOTE:
+                if (!MidiEvent(mididata, 0xE0, MIDIchannel, MIDItrack, nocomp))
+                    goto err;
+
+                data = *musptr++;
+                // proff: Added typecast to avoid warning
+                if (TWriteByte(mididata, MIDItrack, (unsigned char)((data & 1) << 6)))
+                    goto err;
+                // proff: Added typecast to avoid warning
+                if (TWriteByte(mididata, MIDItrack, (unsigned char)(data >> 1)))
+                    goto err;
+                break;
+
+            case SYS_EVENT:
+                if (!MidiEvent(mididata, 0xB0, MIDIchannel, MIDItrack, nocomp))
+                    goto err;
+
+                data = *musptr++;
+                if (data<10 || data>14)
+                    return BADSYSEVT;
+
+                if (TWriteByte(mididata, MIDItrack, MUS2MIDcontrol[data]))
+                    goto err;
+                if (data == 12)
+                {
+                    // proff: Added typecast to avoid warning
+                    if (TWriteByte(mididata, MIDItrack, (unsigned char)(MUSh.channels + 1)))
+                        goto err;
+                }
+                else if (TWriteByte(mididata, MIDItrack, 0))
+                    goto err;
+                break;
+
+            case CNTL_CHANGE:
+                data = *musptr++;
+                if (data>9)
+                    return BADCTLCHG;
+
+                if (data)
+                {
+                    if (!MidiEvent(mididata, 0xB0, MIDIchannel, MIDItrack, nocomp))
+                        goto err;
+
+                    if (TWriteByte(mididata, MIDItrack, MUS2MIDcontrol[data]))
+                        goto err;
+                }
+                else
+                {
+                    if (!MidiEvent(mididata, 0xC0, MIDIchannel, MIDItrack, nocomp))
+                        goto err;
+                }
+                data = *musptr++;
+                // Gez: Fix TNT.WAD's D_STALKS, based on Ben Ryves's fix in MUS2MID
+                if (data & 0x80)
+                    data = 0x7F;
+                // proff: Added typecast to avoid warning
+                if (TWriteByte(mididata, MIDItrack, (unsigned char)data))
+                    goto err;
+                break;
+
+            case UNKNOWN_EVENT1:   // mus events 5 and 7
+            case UNKNOWN_EVENT2:   // meaning not known
+                return BADMUSCTL;
+
+            case SCORE_END:
+                break;
+
+            default:
+                return BADMUSCTL;   // exit with error
+        }
+        if (last(event))
+        {
+            DeltaTime = ReadTime(&musptr);
+            TotalTime += DeltaTime;
+            for (i = 0; i < MIDI_TRACKS; i++) //jff 3/13/98 update all tracks
+                track[i].deltaT += DeltaTime; //whether allocated yet or not
+        }
+    } while ((evt != SCORE_END) && (size_t)(musptr - mus) < muslen);
+
+    if (evt != SCORE_END)
+        return MUSDATACOR;
+
+    // Now add an end of track to each mididata track, correct allocation
+
+    for (i = 0; i < MIDI_TRACKS; i++)
+    {
+        if (mididata->track[i].len)
+        {
+            if (TWriteByte(mididata, i, 0x00)) // midi end of track code
+                goto err;
+            if (TWriteByte(mididata, i, 0xFF))
+                goto err;
+            if (TWriteByte(mididata, i, 0x2F))
+                goto err;
+            if (TWriteByte(mididata, i, 0x00))
+                goto err;
+            // jff 1/23/98 fix failure to set data NULL, len 0 for unused tracks
+            // shorten allocation to proper length (important for Allegro)
+            if (!(mididata->track[i].data =
+                Z_Realloc(mididata->track[i].data, sizeof(unsigned char *) * mididata->track[i].len)))
+                return MEMALLOC;
+        }
         else
         {
-            queuedtime = 0;
-            return false;
+            free(mididata->track[i].data);
+            mididata->track[i].data = NULL;
         }
     }
+
+    return 0;
+err:
+    return MEMALLOC;
 }
 
-// Write end track
-static dboolean WriteEndTrack(MEMFILE *midioutput)
-{
-    byte        endtrack[] = { 0xFF, 0x2F, 0x00 };
-
-    if (WriteTime(queuedtime, midioutput))
-        return true;
-
-    if (mem_fwrite(endtrack, 1, 3, midioutput) != 3)
-        return true;
-
-    tracksize += 3;
-    return false;
-}
-
-// Write a key press event
-static dboolean WritePressKey(byte channel, byte key, byte velocity, MEMFILE *midioutput)
-{
-    byte        working = midi_presskey | channel;
-
-    if (WriteTime(queuedtime, midioutput))
-        return true;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    working = key & 0x7F;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    working = velocity & 0x7F;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    tracksize += 3;
-    return false;
-}
-
-// Write a key release event
-static dboolean WriteReleaseKey(byte channel, byte key, MEMFILE *midioutput)
-{
-    byte        working = midi_releasekey | channel;
-
-    if (WriteTime(queuedtime, midioutput))
-        return true;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    working = key & 0x7F;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    working = 0;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    tracksize += 3;
-    return false;
-}
-
-// Write a pitch wheel/bend event
-static dboolean WritePitchWheel(byte channel, short wheel, MEMFILE *midioutput)
-{
-    byte        working = midi_pitchwheel | channel;
-
-    if (WriteTime(queuedtime, midioutput))
-        return true;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    working = wheel & 0x7F;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    working = (wheel >> 7) & 0x7F;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    tracksize += 3;
-    return false;
-}
-
-// Write a patch change event
-static dboolean WriteChangePatch(byte channel, byte patch, MEMFILE *midioutput)
-{
-    byte        working = midi_changepatch | channel;
-
-    if (WriteTime(queuedtime, midioutput))
-        return true;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    working = patch & 0x7F;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    tracksize += 2;
-    return false;
-}
-
-// Write a valued controller change event
-static dboolean WriteChangeController_Valued(byte channel, byte control, byte value,
-    MEMFILE *midioutput)
-{
-    byte        working = midi_changecontroller | channel;
-
-    if (WriteTime(queuedtime, midioutput))
-        return true;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    working = control & 0x7F;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    // Quirk in vanilla DOOM? MUS controller values should be
-    // 7-bit, not 8-bit.
-    working = value;    // & 0x7F;
-
-    // Fix on said quirk to stop MIDI players from complaining that
-    // the value is out of range:
-    if (working & 0x80)
-        working = 0x7F;
-
-    if (mem_fwrite(&working, 1, 1, midioutput) != 1)
-        return true;
-
-    tracksize += 3;
-    return false;
-}
-
-// Write a valueless controller change event
-static dboolean WriteChangeController_Valueless(byte channel, byte control, MEMFILE *midioutput)
-{
-    return WriteChangeController_Valued(channel, control, 0, midioutput);
-}
-
-// Allocate a free MIDI channel.
-static int AllocateMIDIChannel(void)
-{
-    int result;
-    int max = -1;
-    int i;
-
-    // Find the current highest-allocated channel.
-    for (i = 0; i < NUM_CHANNELS; ++i)
-        if (channel_map[i] > max)
-            max = channel_map[i];
-
-    // max is now equal to the highest-allocated MIDI channel. We can
-    // now allocate the next available channel. This also works if
-    // no channels are currently allocated (max=-1)
-    result = max + 1;
-
-    // Don't allocate the MIDI percussion channel!
-    if (result == MIDI_PERCUSSION_CHAN)
-        ++result;
-
-    return result;
-}
-
-// Given a MUS channel number, get the MIDI channel number to use
-// in the outputted file.
-static int GetMIDIChannel(int mus_channel, MEMFILE *midioutput)
-{
-    // Find the MIDI channel to use for this MUS channel.
-    // MUS channel 15 is the percussion channel.
-
-    if (mus_channel == MUS_PERCUSSION_CHAN)
-        return MIDI_PERCUSSION_CHAN;
-    else
-    {
-        // If a MIDI channel hasn't been allocated for this MUS channel
-        // yet, allocate the next free MIDI channel.
-        if (channel_map[mus_channel] == -1)
-        {
-            channel_map[mus_channel] = AllocateMIDIChannel();
-            WriteChangeController_Valueless(channel_map[mus_channel], 0x7B, midioutput);
-        }
-
-        return channel_map[mus_channel];
-    }
-}
-
-static dboolean ReadMusHeader(MEMFILE *file, musheader *header)
-{
-    dboolean    result = (mem_fread(&header->id, sizeof(byte), 4, file) == 4
-        && mem_fread(&header->scorelength, sizeof(short), 1, file) == 1
-        && mem_fread(&header->scorestart, sizeof(short), 1, file) == 1
-        && mem_fread(&header->primarychannels, sizeof(short), 1, file) == 1
-        && mem_fread(&header->secondarychannels, sizeof(short), 1, file) == 1
-        && mem_fread(&header->instrumentcount, sizeof(short), 1, file) == 1);
-
-    if (result)
-    {
-        header->scorelength = SHORT(header->scorelength);
-        header->scorestart = SHORT(header->scorestart);
-        header->primarychannels = SHORT(header->primarychannels);
-        header->secondarychannels = SHORT(header->secondarychannels);
-        header->instrumentcount = SHORT(header->instrumentcount);
-    }
-
-    return result;
-}
-
-// Read a MUS file from a stream (musinput) and output a MIDI file to
-// a stream (midioutput).
 //
-// Returns false on success or true on failure.
-dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
+// ReadLength()
+//
+// Reads the length of a chunk in a midi buffer, advancing the pointer
+// 4 bytes, bigendian
+//
+// Passed a pointer to the pointer to a MIDI buffer
+// Returns the chunk length at the pointer position
+//
+size_t ReadLength(UBYTE **mid)
 {
-    // Header for the MUS file
-    musheader           musfileheader;
+    UBYTE *midptr = *mid;
 
-    // Descriptor for the current MUS event
-    byte                eventdescriptor;
-    int                 channel;        // Channel number
-    musevent            event;
+    size_t length = (*midptr++) << 24;
+    length += (*midptr++) << 16;
+    length += (*midptr++) << 8;
+    length += *midptr++;
+    *mid = midptr;
+    return length;
+}
 
-    // Bunch of vars read from MUS lump
-    byte                key;
-    byte                controllernumber;
-    byte                controllervalue;
+//
+// MidiToMIDI()
+//
+// Convert an in-memory copy of a MIDI format 0 or 1 file to 
+// an Allegro MIDI structure, that is valid or has been zeroed
+//
+// Passed a pointer to a memory buffer with MIDI format music in it and a
+// pointer to an Allegro MIDI structure. 
+//
+// Returns 0 if successful, BADMIDHDR if the buffer is not MIDI format
+//
+int MidiToMIDI(UBYTE *mid, MIDI *mididata)
+{
+    int i;
+    int ntracks;
 
-    // Buffer used for MIDI track size record
-    byte                tracksizebuffer[4];
+    // read the midi header
 
-    // Flag for when the score end marker is hit.
-    int                 hitscoreend = 0;
+    if (memcmp(mid, midihdr, 4))
+        return BADMIDHDR;
 
-    // Temp working byte
-    byte                working;
+    mididata->divisions = (mid[12] << 8) + mid[13];
+    ntracks = (mid[10] << 8) + mid[11];
 
-    // Used in building up time delays
-    unsigned int        timedelay;
+    if (ntracks >= MIDI_TRACKS)
+        return BADMIDHDR;
 
-    // Initialize channel map to mark all channels as unused.
-    for (channel = 0; channel < NUM_CHANNELS; ++channel)
-        channel_map[channel] = -1;
+    mid += 4;
+    mid += ReadLength(&mid);            // seek past header
 
-    // Grab the header
-    if (!ReadMusHeader(musinput, &musfileheader))
-        return true;
+                                        // now read each track
 
-    // Seek to where the data is held
-    if (mem_fseek(musinput, (long)musfileheader.scorestart, MEM_SEEK_SET) != 0)
-        return true;
-
-    // So, we can assume the MUS file is faintly legit. Let's start
-    // writing MIDI data...
-    mem_fwrite(midiheader, 1, sizeof(midiheader), midioutput);
-    tracksize = 0;
-
-    // Now, process the MUS file:
-    while (!hitscoreend)
+    for (i = 0; i < ntracks; i++)
     {
-        // Handle a block of events:
-        while (!hitscoreend)
+        while (memcmp(mid, trackhdr, 4))    // simply skip non-track data
         {
-            // Fetch channel number and event code:
-            if (mem_fread(&eventdescriptor, 1, 1, musinput) != 1)
-                return true;
-
-            channel = GetMIDIChannel(eventdescriptor & 0x0F, midioutput);
-            event = (musevent)(eventdescriptor & 0x70);
-
-            switch (event)
-            {
-                case mus_releasekey:
-                    if (mem_fread(&key, 1, 1, musinput) != 1)
-                        return true;
-
-                    if (WriteReleaseKey(channel, key, midioutput))
-                        return true;
-
-                    break;
-
-                case mus_presskey:
-                    if (mem_fread(&key, 1, 1, musinput) != 1)
-                        return true;
-
-                    if (key & 0x80)
-                    {
-                        if (mem_fread(&channelvelocities[channel], 1, 1, musinput) != 1)
-                            return true;
-
-                        channelvelocities[channel] &= 0x7F;
-                    }
-
-                    if (WritePressKey(channel, key, channelvelocities[channel], midioutput))
-                        return true;
-
-                    break;
-
-                case mus_pitchwheel:
-                    if (mem_fread(&key, 1, 1, musinput) != 1)
-                        break;
-                    if (WritePitchWheel(channel, (short)(key * 64), midioutput))
-                        return true;
-
-                    break;
-
-                case mus_systemevent:
-                    if (mem_fread(&controllernumber, 1, 1, musinput) != 1)
-                        return true;
-                    if (controllernumber < 10 || controllernumber > 14)
-                        return true;
-
-                    if (WriteChangeController_Valueless(channel, controller_map[controllernumber],
-                                                        midioutput))
-                        return true;
-
-                    break;
-
-                case mus_changecontroller:
-                    if (mem_fread(&controllernumber, 1, 1, musinput) != 1)
-                        return true;
-
-                    if (mem_fread(&controllervalue, 1, 1, musinput) != 1)
-                        return true;
-
-                    if (!controllernumber)
-                    {
-                        if (WriteChangePatch(channel, controllervalue, midioutput))
-                            return true;
-                    }
-                    else
-                    {
-                        if (controllernumber < 1 || controllernumber > 9)
-                            return true;
-
-                        if (WriteChangeController_Valued(channel, controller_map[controllernumber],
-                                                         controllervalue, midioutput))
-                            return true;
-                    }
-
-                    break;
-
-                case mus_scoreend:
-                    hitscoreend = 1;
-                    break;
-
-                default:
-                    return true;
-                    break;
-            }
-
-            if (eventdescriptor & 0x80)
-                break;
+            mid += 4;
+            mid += ReadLength(&mid);
         }
+        mid += 4;
+        mididata->track[i].len = ReadLength(&mid);  // get length, move mid past it
 
-        // Now we need to read the time code:
-        if (!hitscoreend)
+                                                    // read a track
+        mididata->track[i].data =
+            Z_Realloc(mididata->track[i].data, sizeof(unsigned char *) * mididata->track[i].len);
+        memcpy(mididata->track[i].data, mid, mididata->track[i].len);
+        mid += mididata->track[i].len;
+    }
+
+    for (; i < MIDI_TRACKS; i++)
+    {
+        if (mididata->track[i].len)
         {
-            timedelay = 0;
-            for (;;)
-            {
-                if (mem_fread(&working, 1, 1, musinput) != 1)
-                    return true;
-
-                timedelay = timedelay * 128 + (working & 0x7F);
-                if (!(working & 0x80))
-                    break;
-            }
-            queuedtime += timedelay;
+            free(mididata->track[i].data);
+            mididata->track[i].data = NULL;
+            mididata->track[i].len = 0;
         }
     }
 
-    // End of track
-    if (WriteEndTrack(midioutput))
-        return true;
-
-    // Write the track size into the stream
-    if (mem_fseek(midioutput, 18, MEM_SEEK_SET))
-        return true;
-
-    tracksizebuffer[0] = (tracksize >> 24) & 0xFF;
-    tracksizebuffer[1] = (tracksize >> 16) & 0xFF;
-    tracksizebuffer[2] = (tracksize >> 8) & 0xFF;
-    tracksizebuffer[3] = tracksize & 0xFF;
-
-    if (mem_fwrite(tracksizebuffer, 1, 4, midioutput) != 4)
-        return true;
-
-    return false;
+    return 0;
 }
+
+//#ifdef STANDALONE /* this code unused by BOOM provided for future portability */
+//                  /* it also provides a MUS to MID file converter*/
+// proff: I moved this down, because I need MIDItoMidi
+
+//
+// TWriteLength()
+//
+// Write the length of a MIDI chunk to a midi buffer. The length is four
+// bytes and is written byte-reversed for bigendian. The pointer to the
+// midi buffer is advanced.
+//
+// Passed a pointer to the pointer to a midi buffer, and the length to write
+// Returns nothing
+//
+static void TWriteLength(UBYTE **midiptr, size_t length)
+{
+    // proff: Added typecast to avoid warning
+    *(*midiptr)++ = (unsigned char)((length >> 24) & 0xff);
+    *(*midiptr)++ = (unsigned char)((length >> 16) & 0xff);
+    *(*midiptr)++ = (unsigned char)((length >> 8) & 0xff);
+    *(*midiptr)++ = (unsigned char)((length) & 0xff);
+}
+
+//
+// MIDIToMidi()
+//
+// This routine converts an Allegro MIDI structure to a midi 1 format file
+// in memory. It is used to support memory MUS -> MIDI conversion
+//
+// Passed a pointer to an Allegro MIDI structure, a pointer to a pointer to
+// a buffer containing midi data, and a pointer to a length return.
+// Returns 0 if successful, MEMALLOC if a memory allocation error occurs
+//
+int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen)
+{
+    size_t total;
+    int i, ntrks;
+    UBYTE *midiptr;
+
+    // calculate how long the mid buffer must be, and allocate
+
+    total = sizeof(midihdr);
+    for (i = 0, ntrks = 0; i < MIDI_TRACKS; i++)
+    {
+        if (mididata->track[i].len)
+        {
+            total += 8 + mididata->track[i].len; // Track hdr + track length
+            ntrks++;
+        }
+    }
+    if ((*mid = (UBYTE *)malloc(total)) == NULL)
+        return MEMALLOC;
+
+
+    // fill in number of tracks and bigendian divisions (ticks/qnote)
+    midihdr[10] = 0;
+    midihdr[11] = (UBYTE)ntrks;   // set number of tracks in header
+    midihdr[12] = (mididata->divisions >> 8) & 0x7f;
+    midihdr[13] = (mididata->divisions) & 0xff;
+
+    // write the midi header
+
+    midiptr = *mid;
+    memcpy(midiptr, midihdr, sizeof(midihdr));
+    midiptr += sizeof(midihdr);
+
+    // write the tracks
+
+    for (i = 0; i < MIDI_TRACKS; i++)
+    {
+        if (mididata->track[i].len)
+        {
+            memcpy(midiptr, trackhdr, sizeof(trackhdr));    // header
+            midiptr += sizeof(trackhdr);
+            TWriteLength(&midiptr, mididata->track[i].len);  // track length
+                                                             // data
+            memcpy(midiptr, mididata->track[i].data, mididata->track[i].len);
+            midiptr += mididata->track[i].len;
+        }
+    }
+
+    // return length information
+
+    *midlen = (int)(midiptr - *mid);
+
+    return 0;
+}
+
+//----------------------------------------------------------------------------
+//
+// $Log: mmus2mid.c,v $
+// Revision 1.12  1998/09/07  20:09:38  jim
+// Logical output routine added
+//
+// Revision 1.11  1998/07/14  20:07:21  jim
+// correction of minor errors
+//
+// Revision 1.10  1998/05/10  23:00:43  jim
+// formatted/documented mmus2mid
+//
+// Revision 1.9  1998/03/14  17:16:19  jim
+// Fixed track timing problem
+//
+// Revision 1.8  1998/03/05  16:59:55  jim
+// Fixed minor error in mus to midi conversion
+//
+// Revision 1.7  1998/02/08  15:15:47  jim
+// Added native midi support
+//
+// Revision 1.6  1998/01/26  19:23:54  phares
+// First rev with no ^Ms
+//
+// Revision 1.5  1998/01/23  20:26:20  jim
+// Fix bug causing leftover tracks to persist
+//
+// Revision 1.4  1998/01/21  17:41:13  rand
+// Added rcsid string back that Jim took out.
+//
+// Revision 1.3  1998/01/21  16:56:20  jim
+// Music fixed, defaults for cards added
+//
+// Revision 1.2  1998/01/19  23:36:15  rand
+// Added rcsid and Id: strings at top of file
+//
+// Revision 1.1.1.1  1998/01/19  14:03:10  rand
+// Lee's Jan 19 sources
+//
+//
+//----------------------------------------------------------------------------
