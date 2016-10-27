@@ -60,6 +60,8 @@ stdout.txt
 *.nativecodeanalysis.all.xml
 *.lastcodeanalysissucceeded
 *.opendb
+*.iobj
+*.ipdb
 
 # Chutzpah Test files
 _Chutzpah*
