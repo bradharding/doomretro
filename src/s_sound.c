@@ -149,8 +149,6 @@ static void InitMusicModule(void)
 {
     if (I_InitMusic())
     {
-        C_Output("Using General MIDI for music.");
-
         CheckTimidityConfig();
         return;
     }

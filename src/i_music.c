@@ -324,9 +324,9 @@ void *I_RegisterSong(void *data, int len)
         // Check for MIDI or MUS format first:
         if (len >= 14)
         {
-            if (!memcmp(data, "MThd", 4)) // Is it a MIDI?
+            if (!memcmp(data, "MThd", 4))                       // Is it a MIDI?
                 isMIDI = true;
-            else if (mmuscheckformat((byte *)data, len)) // Is it a MUS?
+            else if (mmuscheckformat((byte *)data, len))        // Is it a MUS?
                 isMUS = true;
         }
 
@@ -347,7 +347,7 @@ void *I_RegisterSong(void *data, int len)
 
             data = mid;
             len = midlen;
-            isMIDI = true;   // now it's a MIDI.
+            isMIDI = true;      // now it's a MIDI.
         }
 
 #if defined(WIN32)
@@ -361,7 +361,7 @@ void *I_RegisterSong(void *data, int len)
             if (I_MidiRPCRegisterSong(data, len))
             {
                 serverMidiPlaying = true;
-                return NULL; // server will play this song.
+                return NULL;    // server will play this song.
             }
         }
 #endif

@@ -36,10 +36,6 @@
 ========================================================================
 */
 
-#define _USE_MATH_DEFINES
-
-#include <math.h>
-
 #include "c_console.h"
 #include "i_system.h"
 #include "m_misc.h"
@@ -49,8 +45,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAX_SOUND_SLICE_TIME    28
 #define CACHESIZE               64 * 1024 * 1024
+#define MAX_SOUND_SLICE_TIME    28
 
 typedef struct allocated_sound_s allocated_sound_t;
 
