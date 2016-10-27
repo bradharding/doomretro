@@ -36,7 +36,7 @@
 #========================================================================
 #
 
-# Use this to build Doom Retro in Linux or OS X. Then run the executable.
+# Use this to build DOOM Retro in Linux or OS X. Then run the executable.
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
 
