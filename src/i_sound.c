@@ -265,10 +265,10 @@ static void ReleaseSoundOnChannel(int channel)
 {
     allocated_sound_t   *snd = channels_playing[channel];
 
+    Mix_HaltChannel(channel);
+
     if (!snd)
         return;
-
-    Mix_HaltChannel(channel);
 
     channels_playing[channel] = NULL;
 
