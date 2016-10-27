@@ -291,7 +291,7 @@ typedef enum
 #define r_translucency_default                  true
 
 #define s_musicvolume_min                       0
-#define s_musicvolume_default                   60
+#define s_musicvolume_default                   66
 #define s_musicvolume_max                       100
 
 #define s_randommusic_default                   false
