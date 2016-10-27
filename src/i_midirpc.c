@@ -260,7 +260,7 @@ dboolean I_MidiRPCInitServer()
     // Look for executable file
     if (!M_FileExists(module))
     {
-        C_Warning("The file midiproc.exe couldn't be found.");
+        C_Warning("The RPC server midiproc.exe couldn't be found.");
         return false;
     }
 
@@ -270,11 +270,11 @@ dboolean I_MidiRPCInitServer()
 
     if (result)
     {
-        C_Output("The file <b>midiproc.exe</b> will be used to play MUS and MIDI music lumps.");
+        C_Output("The RPC server <b>midiproc.exe</b> will be used to play MUS and MIDI music lumps.");
         serverInit = true;
     }
     else
-        C_Warning("The file midiproc.exe couldn't be initialized.");
+        C_Warning("The RPC server midiproc.exe couldn't be initialized.");
 
     return result;
 }
