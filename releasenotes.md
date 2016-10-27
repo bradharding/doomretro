@@ -6,7 +6,7 @@
 * Minor changes have been made to text that is output to the console.
 * The console will now fill the entire screen when opened using the <kbd>~</kbd> key on the title screen.
 * The scrollbar in the console is now hidden if all the text in the console fits entirely on the screen.
-* The left and right edges of the menu background are now blurred slightly.
+* The left and right edges of both the menu and console backgrounds are now softened slightly.
 * A bug has been fixed whereby using the `map` CCMD when no game was being played would cause a crash.
 * The player will now be thrust away with the correct amount of force when attacked by an Arch-vile, or within the blast radius of a rocket or barrel explosion.
 * A time limit for each map can now be set using the `-timer` command-line parameter.
