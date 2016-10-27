@@ -513,12 +513,12 @@ static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
 //
 void M_DarkBackground(void)
 {
+    int i;
+
     height = (SCREENHEIGHT - vid_widescreen * SBARHEIGHT) * SCREENWIDTH;
 
     if (!blurred)
     {
-        int i;
-
         BlurScreen(screens[0], tempscreen1, blurscreen1);
 
         for (i = 0; i < height; ++i)
@@ -542,6 +542,14 @@ void M_DarkBackground(void)
 
     if (r_detail == r_detail_low && viewactive)
         V_LowGraphicDetail();
+
+    for (i = 0; i < height; i += SCREENWIDTH)
+    {
+        screens[0][i] = tinttab50[screens[0][i]];
+        screens[0][i + 1] = tinttab25[screens[0][i + 1]];
+        screens[0][i + SCREENWIDTH - 2] = tinttab25[screens[0][i + SCREENWIDTH - 2]];
+        screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
+    }
 }
 
 static byte blues[] =
