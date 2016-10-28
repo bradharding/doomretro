@@ -244,7 +244,7 @@ typedef enum
 
 #define r_detail_default                        r_detail_high
 
-#define r_diskicon_default                      true
+#define r_diskicon_default                      false
 
 #define r_fixmaperrors_default                  true
 
