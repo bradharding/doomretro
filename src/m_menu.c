@@ -546,8 +546,6 @@ void M_DarkBackground(void)
     for (i = 0; i < height; i += SCREENWIDTH)
     {
         screens[0][i] = tinttab50[screens[0][i]];
-        screens[0][i + 1] = tinttab25[screens[0][i + 1]];
-        screens[0][i + SCREENWIDTH - 2] = tinttab25[screens[0][i + SCREENWIDTH - 2]];
         screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
     }
 }
