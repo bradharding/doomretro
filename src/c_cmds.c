@@ -3554,7 +3554,7 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 if (consolecmds[i].flags & CF_PERCENT)
                 {
                     if (consolecmds[i].flags & CF_READONLY)
-                        C_Output("It is currently set to <b>%i%%</b> and can't be changed.",
+                        C_Output("It is currently set to <b>%i%%</b> and is read-only.",
                             *(int *)consolecmds[i].variable);
                     else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                         C_Output("It is currently set to its default of <b>%i%%</b>.",
@@ -3567,7 +3567,7 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 else
                 {
                     if (consolecmds[i].flags & CF_READONLY)
-                        C_Output("It is currently set to <b>%s</b> and can't be changed.",
+                        C_Output("It is currently set to <b>%s</b> and is read-only.",
                             C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                             consolecmds[i].aliases));
                     else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
@@ -3627,7 +3627,7 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             {
                 C_Output(removenewlines(consolecmds[i].description));
                 if (consolecmds[i].flags & CF_READONLY)
-                    C_Output("It is currently set to <b>\"%s\"</b> and can't be changed.",
+                    C_Output("It is currently set to <b>\"%s\"</b> and is read-only.",
                         *(char **)consolecmds[i].variable);
                 else if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
                     C_Output("It is currently set to its default of <b>\"%s\"</b>.",
@@ -3658,7 +3658,7 @@ static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             int tics = *(int *)consolecmds[i].variable / TICRATE;
 
             C_Output(removenewlines(consolecmds[i].description));
-            C_Output("It is currently set to <b>%02i:%02i:%02i</b> and can't be changed.",
+            C_Output("It is currently set to <b>%02i:%02i:%02i</b> and is read-only.",
                 tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
         }
         ++i;

@@ -672,7 +672,7 @@ static void C_DrawBackground(int height)
     {
         if (r_translucency)
         {
-            int     j;
+            int j;
 
             for (j = SCREENWIDTH; j <= 4 * SCREENWIDTH; j += SCREENWIDTH)
                 for (i = height; i < height + j; ++i)
