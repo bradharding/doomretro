@@ -70,7 +70,7 @@
 #define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 11 : 27)
 #define CONSOLELINEHEIGHT       14
 
-#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - SHORT(brand->width) - 2)
+#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - brandwidth - 2)
 
 #define CONSOLESCROLLBARWIDTH   3
 #define CONSOLESCROLLBARHEIGHT  ((CONSOLELINES - 1) * CONSOLELINEHEIGHT - 1)
@@ -105,7 +105,9 @@ static patch_t  *cmdlist;
 static patch_t  *cvarlist;
 static patch_t  *playerstats;
 
-static int      spacewidth;
+static short    brandwidth;
+static short    brandheight;
+static short    spacewidth;
 
 static char     consoleinput[255] = "";
 int             consolestrings = 0;
@@ -513,6 +515,8 @@ void C_Init(void)
     caretblinktime = CARETBLINKTIME;
 #endif
 
+    brandwidth = SHORT(brand->width);
+    brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     timestampx = SCREENWIDTH - C_TextWidth("00:00:00", false) - CONSOLETEXTX * 2
         - CONSOLESCROLLBARWIDTH + 1;
@@ -646,8 +650,7 @@ static void C_DrawBackground(int height)
     }
 
     // draw branding
-    V_DrawConsolePatch(SCREENWIDTH - SHORT(brand->width), consoleheight - SHORT(brand->height) + 2,
-        consolebrandingcolor, brand);
+    V_DrawConsolePatch(SCREENWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
 
     // draw bottom edge
     for (i = height - SCREENWIDTH * 3; i < height; ++i)
@@ -661,10 +664,6 @@ static void C_DrawBackground(int height)
             screens[0][i] = tinttab50[screens[0][i]];
             screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
         }
-
-        for (i = height - SCREENWIDTH * 3 + 1; i < height - SCREENWIDTH * 2 - SHORT(brand->width)
-            + 1; ++i)
-            screens[0][i] = tinttab25[screens[0][i]];
 
         for (i = height - SCREENWIDTH + 1; i < height - 1; ++i)
             screens[0][i] = tinttab25[screens[0][i]];

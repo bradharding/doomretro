@@ -441,7 +441,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
     }
 }
 
-void V_DrawConsolePatch(int x, int y, int color, patch_t *patch)
+void V_DrawConsolePatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -464,12 +464,8 @@ void V_DrawConsolePatch(int x, int y, int color, patch_t *patch)
             {
                 int     height = topdelta + length - count;
 
-                if (y + height > CONSOLETOP)
-                {
-                    *dest = tinttab50[((*source ? *source : color) << 8) + *dest];
-                    if (!*source)
-                        *dest = tinttab25[*dest];
-                }
+                if (y + height > CONSOLETOP && *source)
+                    *dest = tinttab50[(*source << 8) + *dest];
                 ++source;
                 dest += SCREENWIDTH;
             }
