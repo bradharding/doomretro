@@ -170,7 +170,7 @@ static int      consoledividercolor = 100;
 static int      consoletintcolor = 5;
 static int      consoleedgecolor;
 static int      consolescrollbartrackcolor = 100;
-static int      consolescrollbarfacecolor = 88;
+static int      consolescrollbarfacecolor = 94;
 
 static int      consolecolors[STRINGTYPES];
 
