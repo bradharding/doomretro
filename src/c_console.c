@@ -647,7 +647,7 @@ static void C_DrawBackground(int height)
 
     // draw branding
     V_DrawConsolePatch(SCREENWIDTH - SHORT(brand->width), consoleheight - SHORT(brand->height) + 2,
-        brand, consolebrandingcolor, NOBACKGROUNDCOLOR, false, tinttab50);
+        consolebrandingcolor, brand);
 
     // draw bottom edge
     for (i = height - SCREENWIDTH * 3; i < height; ++i)
@@ -662,9 +662,12 @@ static void C_DrawBackground(int height)
             screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
         }
 
-        if (gamestate != GS_TITLESCREEN)
-            for (i = height - SCREENWIDTH + 1; i < height - 1; ++i)
-                screens[0][i] = tinttab25[screens[0][i]];
+        for (i = height - SCREENWIDTH * 3 + 1; i < height - SCREENWIDTH * 2 - SHORT(brand->width)
+            + 1; ++i)
+            screens[0][i] = tinttab25[screens[0][i]];
+
+        for (i = height - SCREENWIDTH + 1; i < height - 1; ++i)
+            screens[0][i] = tinttab25[screens[0][i]];
     }
 
     // draw shadow
@@ -708,7 +711,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
     if (color1 == consolewarningcolor)
     {
-        V_DrawConsolePatch(x, y, warning, color1, color2, false, tinttab);
+        V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, tinttab);
         x += SHORT(warning->width) + 2;
     }
 
@@ -783,7 +786,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             if (patch)
             {
                 
-                V_DrawConsolePatch(x, y, patch, (bold == 1 ? boldcolor : (bold == 2 ? color1 :
+                V_DrawConsoleTextPatch(x, y, patch, (bold == 1 ? boldcolor : (bold == 2 ? color1 :
                     (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) :
                     color1))), color2, italics, tinttab);
                 x += SHORT(patch->width);
@@ -809,7 +812,7 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsolePatch(x, y, patch, color, NOBACKGROUNDCOLOR, false,
+            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false,
                 (r_translucency ? tinttab75 : NULL));
             x += SHORT(patch->width);
         }
@@ -828,7 +831,7 @@ static void C_DrawTimeStamp(int x, int y, char *text)
         patch_t *patch = consolefont[text[i] - CONSOLEFONTSTART];
         int     width = SHORT(patch->width);
 
-        V_DrawConsolePatch(x + (text[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch,
+        V_DrawConsoleTextPatch(x + (text[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch,
             consoletimestampcolor, NOBACKGROUNDCOLOR, false, (r_translucency ? tinttab25 : NULL));
         x += (isdigit(text[i]) ? zerowidth : width);
     }
@@ -912,16 +915,16 @@ void C_Drawer(void)
             stringtype_t        type = console[i].type;
 
             if (type == dividerstring)
-                V_DrawConsolePatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
-                    consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight),
+                    divider, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else if (M_StringCompare(console[i].string, CMDLISTTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist,
-                    consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                    cmdlist, consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else if (M_StringCompare(console[i].string, CVARLISTTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist,
-                    consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                    cvarlist, consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     playerstats, consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else
             {
@@ -966,10 +969,10 @@ void C_Drawer(void)
             if (showcaret)
             {
                 if (selectend > caretpos)
-                    V_DrawConsolePatch(x, consoleheight - 17, caret, consoleselectedinputcolor,
+                    V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consoleselectedinputcolor,
                         consoleselectedinputbackgroundcolor, false, NULL);
                 else
-                    V_DrawConsolePatch(x, consoleheight - 17, caret, consolecaretcolor,
+                    V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consolecaretcolor,
                         NOBACKGROUNDCOLOR, false, NULL);
             }
         }

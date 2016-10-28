@@ -391,7 +391,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 int     italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-void V_DrawConsolePatch(int x, int y, patch_t *patch, int color, int backgroundcolor,
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor,
     dboolean italics, byte *tinttab)
 {
     int         col = 0;
@@ -432,6 +432,43 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int color, int backgroundc
                         *dest = color;
                     else if (*dest != color)
                         *dest = backgroundcolor;
+                }
+                ++source;
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawConsolePatch(int x, int y, int color, patch_t *patch)
+{
+    int         col = 0;
+    byte        *desttop = screens[0] + y * SCREENWIDTH + x;
+    int         w = SHORT(patch->width);
+
+    for (; col < w; col++, desttop++)
+    {
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        byte            topdelta;
+
+        // step through the posts in a column
+        while ((topdelta = column->topdelta) != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + topdelta * SCREENWIDTH;
+            byte        length = column->length;
+            int         count = length;
+
+            while (count--)
+            {
+                int     height = topdelta + length - count;
+
+                if (y + height > CONSOLETOP)
+                {
+                    *dest = tinttab50[((*source ? *source : color) << 8) + *dest];
+                    if (!*source)
+                        *dest = tinttab25[*dest];
                 }
                 ++source;
                 dest += SCREENWIDTH;
