@@ -270,7 +270,7 @@ dboolean I_MidiRPCInitServer()
 
     if (result)
     {
-        C_Output("The RPC server <b>midiproc.exe</b> will be used to play MUS and MIDI music lumps.");
+        C_Output("Using the RPC server <b>midiproc.exe</b> to play MUS and MIDI music lumps.");
         serverInit = true;
     }
     else

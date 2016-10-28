@@ -429,13 +429,13 @@ void M_SaveCVARs(void)
                     j++;
                 }
                 if (!flag)
-                    fprintf(file, "%s", commify(*(int *)cvars[i].location));
+                    fputs(commify(*(int *)cvars[i].location), file);
                 break;
             }
 
             case DEFAULT_INT_UNSIGNED:
             {
-                fprintf(file, "%s", commify(*(unsigned int *)cvars[i].location));
+                fputs(commify(*(unsigned int *)cvars[i].location), file);
                 break;
             }
 
@@ -477,7 +477,7 @@ void M_SaveCVARs(void)
                     j++;
                 }
                 if (!flag)
-                    fprintf(file, "%s", striptrailingzero(*(float *)cvars[i].location, 2));
+                    fputs(striptrailingzero(*(float *)cvars[i].location, 2), file);
                 break;
             }
 
@@ -504,7 +504,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_STRING:
                 if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE))
-                    fprintf(file, "%s", *(char **)cvars[i].location);
+                    fputs(*(char **)cvars[i].location, file);
                 else
                     fprintf(file, "\"%s\"", *(char **)cvars[i].location);
                 break;
