@@ -655,11 +655,15 @@ static void C_DrawBackground(int height)
 
     // soften left and right edges
     if (r_translucency)
+    {
         for (i = 0; i < height; i += SCREENWIDTH)
         {
             screens[0][i] = tinttab50[screens[0][i]];
             screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
         }
+        for (i = height - SCREENWIDTH + 1; i < height - 1; ++i)
+            screens[0][i] = tinttab25[screens[0][i]];
+    }
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)
