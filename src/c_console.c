@@ -653,7 +653,7 @@ static void C_DrawBackground(int height)
     for (i = height - SCREENWIDTH * 3; i < height; ++i)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
-    // soften left and right edges
+    // soften edges
     if (r_translucency)
     {
         for (i = 0; i < height; i += SCREENWIDTH)
@@ -661,8 +661,10 @@ static void C_DrawBackground(int height)
             screens[0][i] = tinttab50[screens[0][i]];
             screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
         }
-        for (i = height - SCREENWIDTH + 1; i < height - 1; ++i)
-            screens[0][i] = tinttab25[screens[0][i]];
+
+        if (gamestate != GS_TITLESCREEN)
+            for (i = height - SCREENWIDTH + 1; i < height - 1; ++i)
+                screens[0][i] = tinttab25[screens[0][i]];
     }
 
     // draw shadow
