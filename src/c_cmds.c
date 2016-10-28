@@ -3085,8 +3085,11 @@ void C_VerifyResetAll(int key)
 
 static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    M_StartMessage("Are you sure you want to reset all\nCVARs to their default values?",
-        C_VerifyResetAll, true);
+    static char buffer[128];
+
+    M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all\nCVARs to their "
+        "default values?\n\n%s", s_PRESSYN);
+    M_StartMessage(buffer, C_VerifyResetAll, true);
 }
 
 //
