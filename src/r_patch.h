@@ -69,7 +69,7 @@ typedef struct
     int                 leftoffset;
     int                 topoffset;
 
-    // this is the single malloc'ed/free'd array 
+    // this is the single malloc'ed/free'd array
     // for this patch
     unsigned char       *data;
 

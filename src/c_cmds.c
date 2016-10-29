@@ -1234,7 +1234,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         const char      *appdatafolder = M_GetAppDataFolder();
 
         M_MakeDirectory(appdatafolder);
-        
+
         if (!*parm1)
         {
             int count = 0;

@@ -144,7 +144,7 @@ void I_InitGamepad(void)
                 else
                     FreeLibrary(pXInputDLL);
             }
-            
+
             if (initcount == 1)
             {
                 const char      *name = SDL_JoystickName(gamepad);

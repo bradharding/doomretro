@@ -1949,7 +1949,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         static int      i;      // killough 10/98: only run once, by keeping index static
 
         // remember what they start as for deh xref
-        for (; i < EXTRASTATES; i++)  
+        for (; i < EXTRASTATES; i++)
             deh_codeptr[i] = states[i].action;
 
         // [BH] Initialize extra DeHacked states 1089 to 3999

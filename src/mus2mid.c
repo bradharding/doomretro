@@ -91,10 +91,10 @@ typedef struct tagMUSheader MUSheader;
 // to keep track of information in a MIDI track
 typedef struct Track
 {
-    char  velocity;
-    int   deltaT;
-    UBYTE lastEvt;
-    int   alloced;
+    char        velocity;
+    int         deltaT;
+    UBYTE       lastEvt;
+    int         alloced;
 } TrackInfo;
 
 // array of info about tracks
@@ -103,27 +103,27 @@ static TrackInfo track[MIDI_TRACKS];
 // initial track size allocation
 static ULONG TRACKBUFFERSIZE = 1024L;
 
-// lookup table MUS -> MID controls 
+// lookup table MUS -> MID controls
 static UBYTE MUS2MIDcontrol[15] =
 {
     0,          // Program change - not a MIDI control change
-    0x00,       // Bank select               
-    0x01,       // Modulation pot              
-    0x07,       // Volume                  
-    0x0A,       // Pan pot                 
-    0x0B,       // Expression pot              
-    0x5B,       // Reverb depth                
-    0x5D,       // Chorus depth                
-    0x40,       // Sustain pedal               
-    0x43,       // Soft pedal                
-    0x78,       // All sounds off              
-    0x7B,       // All notes off               
-    0x7E,       // Mono                    
-    0x7F,       // Poly                    
-    0x79        // Reset all controllers           
+    0x00,       // Bank select
+    0x01,       // Modulation pot
+    0x07,       // Volume
+    0x0A,       // Pan pot
+    0x0B,       // Expression pot
+    0x5B,       // Reverb depth
+    0x5D,       // Chorus depth
+    0x40,       // Sustain pedal
+    0x43,       // Soft pedal
+    0x78,       // All sounds off
+    0x7B,       // All notes off
+    0x7E,       // Mono
+    0x7F,       // Poly
+    0x79        // Reset all controllers
 };
 
-// some strings of bytes used in the midi format 
+// some strings of bytes used in the midi format
 static UBYTE midikey[] = { 0x00, 0xFF, 0x59, 0x02, 0x00 ,0x00 };                // C major
 static UBYTE miditempo[] = { 0x00, 0xFF, 0x51, 0x03, 0x09, 0xA3, 0x1A };        // uS/qnote
 static UBYTE midihdr[] = { 'M', 'T', 'h', 'd', 0, 0, 0, 6, 0, 1, 0, 0, 0, 0 };  // header (length 6, format 1)
@@ -339,8 +339,8 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp
     if (size < sizeof(MUSheader))
         return MUSDATAMT;
 
-    // haleyjd 04/04/10: scan forward for a MUS header. Evidently DMX was 
-    // capable of doing this, and would skip over any intervening data. That, 
+    // haleyjd 04/04/10: scan forward for a MUS header. Evidently DMX was
+    // capable of doing this, and would skip over any intervening data. That,
     // or DMX doesn't use the MUS header at all somehow.
     hptr = mus;
     while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN
@@ -385,7 +385,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp
     // set the divisions (ticks per quarter note)
     mididata->divisions = division;
 
-    // allocate for midi tempo/key track, allow for end of track 
+    // allocate for midi tempo/key track, allow for end of track
     if (!(mididata->track[0].data = Z_Realloc(mididata->track[0].data,
         sizeof(unsigned char *) * (sizeof(midikey) + sizeof(miditempo) + 4))))
         return MEMALLOC;
@@ -393,7 +393,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp
     // key C major
     memcpy(mididata->track[0].data, midikey, sizeof(midikey));
 
-    // tempo uS/qnote 
+    // tempo uS/qnote
     memcpy(mididata->track[0].data + sizeof(midikey), miditempo, sizeof(miditempo));
     mididata->track[0].len = sizeof(midikey) + sizeof(miditempo);
 
@@ -609,11 +609,11 @@ size_t ReadLength(UBYTE **mid)
 //
 // MidiToMIDI()
 //
-// Convert an in-memory copy of a MIDI format 0 or 1 file to 
+// Convert an in-memory copy of a MIDI format 0 or 1 file to
 // an Allegro MIDI structure, that is valid or has been zeroed
 //
 // Passed a pointer to a memory buffer with MIDI format music in it and a
-// pointer to an Allegro MIDI structure. 
+// pointer to an Allegro MIDI structure.
 //
 // Returns 0 if successful, BADMIDHDR if the buffer is not MIDI format
 //

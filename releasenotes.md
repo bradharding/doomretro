@@ -393,7 +393,7 @@
 * Monsters can now respawn when playing a skill level other than *Nightmare!* by using the `respawnmonsters` CCMD. The `-respawn` command-line parameter has also been reimplemented, and `-respawnmonsters` may also be used.
 * The value set by `Max Health` in *DeHackEd* files and lumps is now only applied to health bonuses.
 * 100 extra things (numbered 152 to 251) have been added for use in *DeHackEd* files and lumps.
-* Things with the same (x,y,z) coordinates now bob in sync with each other if they are in liquid. 
+* Things with the same (x,y,z) coordinates now bob in sync with each other if they are in liquid.
 * The arachnorbs in [*Valiant*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/valiant) are now killed when using the `kill` CCMD.
 * Map names changed using a `MAPINFO` lump are now shown in the output of the `maplist` CCMD.
 * The <kbd>WINDOWS</kbd> key can no longer be used at any time when fullscreen. It can only be used when in a window, and the game is paused, or the menu or console is open.
@@ -1050,7 +1050,7 @@
 * A bug has been fixed whereby extreme slowdown would occur if a large amount of monsters (and blood splats) were on a moving sector.
 * Pressing the window’s maximize button will now switch to fullscreen mode.
 * The messages displayed when the player picks up ammo are now accurate, since the amount can vary depending on the skill level chosen and/or whether a monster dropped it or not.
-* A bug has been fixed whereby monsters were not always remembering their last target when attacked by something else. This would affect monster infighting in some instances. 
+* A bug has been fixed whereby monsters were not always remembering their last target when attacked by something else. This would affect monster infighting in some instances.
 * Widescreen mode is now supported in windowed mode. Rather than displaying pillarboxes, the window will expand and contract horizontally as necessary when toggling widescreen mode on and off.
 * The display of the “screen size” slider in the options menu is now fixed when in windowed mode.
 * The width and height of the window are no longer set to be even numbers.

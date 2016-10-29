@@ -152,7 +152,7 @@ dboolean I_MidiRPCPlaySong(dboolean looping)
     return true;
 }
 
-// 
+//
 // I_MidiRPCStopSong
 //
 // Tell the RPC server to stop any currently playing song.
