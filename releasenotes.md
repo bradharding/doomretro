@@ -1,4 +1,4 @@
-### DOOM Retro v2.3.4
+### DOOM Retro v2.4
 
 ---
 
