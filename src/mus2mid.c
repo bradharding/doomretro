@@ -190,19 +190,19 @@ static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 //
 static int TWriteVarLen(MIDI *mididata, int tracknum, ULONG value)
 {
-    ULONG       buffer = value & 0x7f;
+    ULONG       buffer = value & 0x7F;
 
     while ((value >>= 7))               // terminates because value unsigned
     {
         buffer <<= 8;                   // note first value shifted in has bit 8 clear
         buffer |= 0x80;                 // all succeeding values do not
-        buffer += (value & 0x7f);
+        buffer += (value & 0x7F);
     }
 
     while (1)                           // write bytes out in opposite order
     {
         // proff: Added typecast to avoid warning
-        if (TWriteByte(mididata, tracknum, (char)(buffer & 0xff))) // insure buffer masked
+        if (TWriteByte(mididata, tracknum, (char)(buffer & 0xFF))) // insure buffer masked
             return MEMALLOC;
 
         if (buffer & 0x80)
@@ -293,12 +293,12 @@ static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE 
 #define MAX_HEADER_SCAN 32
 
 //
-// mmuscheckformat
+// muscheckformat
 //
 // haleyjd 11/23/12:
 // Returns true if the data is a MUS.
 //
-dboolean mmuscheckformat(UBYTE *mus, int size)
+dboolean muscheckformat(UBYTE *mus, int size)
 {
     UBYTE       *hptr = mus;
 
@@ -313,7 +313,7 @@ dboolean mmuscheckformat(UBYTE *mus, int size)
 }
 
 //
-// mmus2mid()
+// mus2mid()
 //
 // Convert a memory buffer containing MUS data to an Allegro MIDI structure
 // with specified time division and compression.
@@ -321,9 +321,9 @@ dboolean mmuscheckformat(UBYTE *mus, int size)
 // Passed a pointer to the buffer containing MUS data, a pointer to the
 // Allegro MIDI structure, the divisions, and a flag whether to compress.
 //
-// Returns 0 if successful, otherwise an error code (see mmus2mid.h).
+// Returns 0 if successful, otherwise an error code (see mus2mid.h).
 //
-int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp)
+int mus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp)
 {
     UWORD               TrackCnt = 0;
     UBYTE               evt, MUSchannel, MIDIchannel, MIDItrack = 0;
@@ -420,7 +420,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp
 
             if (TWriteByte(mididata, MIDItrack, 0x00))  // haleyjd 12/30/13: send all notes off
                 goto err;
-            if (TWriteByte(mididata, MIDItrack, 0xB0 | MIDIchannel))
+            if (TWriteByte(mididata, MIDItrack, (0xB0 | MIDIchannel)))
                 goto err;
             if (TWriteByte(mididata, MIDItrack, 0x7B))
                 goto err;
@@ -581,89 +581,9 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp
     }
 
     return 0;
+
 err:
     return MEMALLOC;
-}
-
-//
-// ReadLength()
-//
-// Reads the length of a chunk in a midi buffer, advancing the pointer
-// 4 bytes, bigendian
-//
-// Passed a pointer to the pointer to a MIDI buffer
-// Returns the chunk length at the pointer position
-//
-size_t ReadLength(UBYTE **mid)
-{
-    UBYTE       *midptr = *mid;
-    size_t      length = (*midptr++) << 24;
-
-    length += (*midptr++) << 16;
-    length += (*midptr++) << 8;
-    length += *midptr++;
-    *mid = midptr;
-    return length;
-}
-
-//
-// MidiToMIDI()
-//
-// Convert an in-memory copy of a MIDI format 0 or 1 file to
-// an Allegro MIDI structure, that is valid or has been zeroed
-//
-// Passed a pointer to a memory buffer with MIDI format music in it and a
-// pointer to an Allegro MIDI structure.
-//
-// Returns 0 if successful, BADMIDHDR if the buffer is not MIDI format
-//
-int MidiToMIDI(UBYTE *mid, MIDI *mididata)
-{
-    int i;
-    int ntracks;
-
-    // read the midi header
-    if (memcmp(mid, midihdr, 4))
-        return BADMIDHDR;
-
-    mididata->divisions = (mid[12] << 8) + mid[13];
-    ntracks = (mid[10] << 8) + mid[11];
-
-    if (ntracks >= MIDI_TRACKS)
-        return BADMIDHDR;
-
-    mid += 4;
-    mid += ReadLength(&mid);                            // seek past header
-
-    // now read each track
-    for (i = 0; i < ntracks; i++)
-    {
-        while (memcmp(mid, trackhdr, 4))                // simply skip non-track data
-        {
-            mid += 4;
-            mid += ReadLength(&mid);
-        }
-        mid += 4;
-        mididata->track[i].len = ReadLength(&mid);      // get length, move mid past it
-
-        // read a track
-        mididata->track[i].data = Z_Realloc(mididata->track[i].data,
-            sizeof(unsigned char *) * mididata->track[i].len);
-        memcpy(mididata->track[i].data, mid, mididata->track[i].len);
-        mid += mididata->track[i].len;
-    }
-
-    for (; i < MIDI_TRACKS; i++)
-    {
-        if (mididata->track[i].len)
-        {
-            free(mididata->track[i].data);
-            mididata->track[i].data = NULL;
-            mididata->track[i].len = 0;
-        }
-    }
-
-    return 0;
 }
 
 //
@@ -679,10 +599,10 @@ int MidiToMIDI(UBYTE *mid, MIDI *mididata)
 static void TWriteLength(UBYTE **midiptr, size_t length)
 {
     // proff: Added typecast to avoid warning
-    *(*midiptr)++ = (unsigned char)((length >> 24) & 0xff);
-    *(*midiptr)++ = (unsigned char)((length >> 16) & 0xff);
-    *(*midiptr)++ = (unsigned char)((length >> 8) & 0xff);
-    *(*midiptr)++ = (unsigned char)((length) & 0xff);
+    *(*midiptr)++ = (unsigned char)((length >> 24) & 0xFF);
+    *(*midiptr)++ = (unsigned char)((length >> 16) & 0xFF);
+    *(*midiptr)++ = (unsigned char)((length >> 8) & 0xFF);
+    *(*midiptr)++ = (unsigned char)((length) & 0xFF);
 }
 
 //
@@ -717,8 +637,8 @@ int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen)
     // fill in number of tracks and bigendian divisions (ticks/qnote)
     midihdr[10] = 0;
     midihdr[11] = (UBYTE)ntrks;   // set number of tracks in header
-    midihdr[12] = (mididata->divisions >> 8) & 0x7f;
-    midihdr[13] = (mididata->divisions) & 0xff;
+    midihdr[12] = (mididata->divisions >> 8) & 0x7F;
+    midihdr[13] = (mididata->divisions) & 0xFF;
 
     // write the midi header
     midiptr = *mid;

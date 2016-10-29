@@ -74,9 +74,8 @@ typedef struct MIDI                     // a midi file
     } track[MIDI_TRACKS];
 } MIDI;
 
-dboolean mmuscheckformat(UBYTE *mus, int size);
-int mmus2mid(UBYTE *mus, size_t size, MIDI *mid, UWORD division, int nocomp);
+dboolean muscheckformat(UBYTE *mus, int size);
+int mus2mid(UBYTE *mus, size_t size, MIDI *mid, UWORD division, int nocomp);
 int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen);
-int MidiToMIDI(UBYTE *mid, MIDI *mididata);
 
 #endif

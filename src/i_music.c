@@ -326,7 +326,7 @@ void *I_RegisterSong(void *data, int len)
         {
             if (!memcmp(data, "MThd", 4))                       // Is it a MIDI?
                 isMIDI = true;
-            else if (mmuscheckformat((byte *)data, len))        // Is it a MUS?
+            else if (muscheckformat((byte *)data, len))         // Is it a MUS?
                 isMUS = true;
         }
 
@@ -339,7 +339,7 @@ void *I_RegisterSong(void *data, int len)
 
             memset(&mididata, 0, sizeof(MIDI));
 
-            if (mmus2mid((byte *)data, (size_t)len, &mididata, 89, 0))
+            if (mus2mid((byte *)data, (size_t)len, &mididata, 89, 0))
                 return NULL;
 
             // Hurrah! Let's make it a mid and give it to SDL_mixer
