@@ -163,12 +163,11 @@ static int      consoletimestampcolor = 100;
 static int      consoleoutputcolor = 88;
 static int      consoleboldcolor = 4;
 static int      consoleitalicscolor = 98;
-static int      consolebrandingcolor = 180;
 static int      consoleheadercolor = 180;
 static int      consolewarningcolor = 180;
 static int      consoledividercolor = 100;
 static int      consoletintcolor = 5;
-static int      consoleedgecolor;
+static int      consoleedgecolor = 180;
 static int      consolescrollbartrackcolor = 100;
 static int      consolescrollbarfacecolor = 94;
 
@@ -536,12 +535,11 @@ void C_Init(void)
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
     consoleboldcolor = nearestcolors[consoleboldcolor];
     consoleitalicscolor = nearestcolors[consoleitalicscolor];
-    consolebrandingcolor = nearestcolors[consolebrandingcolor];
     consoleheadercolor = nearestcolors[consoleheadercolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
     consoletintcolor = nearestcolors[consoletintcolor];
-    consoleedgecolor = consolebrandingcolor << 8;
+    consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
 

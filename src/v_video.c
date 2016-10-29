@@ -44,6 +44,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
+#include "i_colors.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_config.h"
@@ -465,7 +466,7 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch)
                 int     height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP && *source)
-                    *dest = tinttab50[(*source << 8) + *dest];
+                    *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
                 ++source;
                 dest += SCREENWIDTH;
             }
