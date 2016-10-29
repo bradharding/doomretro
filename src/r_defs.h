@@ -778,9 +778,8 @@ typedef struct
     int                 children[2];
 } node_t;
 
-#if defined(_MSC_VER)
-#pragma pack(push)
-#pragma pack(1)
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
 #endif
 
 // posts are runs of non masked source pixels
@@ -790,7 +789,7 @@ typedef struct
     byte               length;          // length data bytes follows
 } PACKEDATTR post_t;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 
@@ -834,9 +833,8 @@ typedef struct
     int                 *maskedtexturecol;
 } drawseg_t;
 
-#if defined(_MSC_VER)
-#pragma pack(push)
-#pragma pack(1)
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
 #endif
 
 // Patches.
@@ -854,7 +852,7 @@ typedef struct
     // the [0] is &columnofs[width]
 } PACKEDATTR patch_t;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 

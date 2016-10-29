@@ -187,7 +187,7 @@ void T_FireFlicker(fireflicker_t *flick);
 // P_SWITCH
 //
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(push, 1)
 #endif
 
@@ -198,7 +198,7 @@ typedef struct
     short       episode;
 } switchlist_t;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 

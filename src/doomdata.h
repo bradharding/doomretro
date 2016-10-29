@@ -65,9 +65,8 @@ enum
     ML_BLOCKMAP         // LUT, motion clipping, walls/grid element
 };
 
-#if defined(_MSC_VER)
-#pragma pack(push)
-#pragma pack(1)
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
 #endif
 
 // A single Vertex.
@@ -278,7 +277,7 @@ typedef struct
     short               options;
 } PACKEDATTR mapthing_t;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 

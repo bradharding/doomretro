@@ -43,9 +43,8 @@
 #include "r_patch.h"
 #include "r_state.h"
 
-#if defined(_MSC_VER)
-#pragma pack(push)
-#pragma pack(1)
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
 #endif
 
 //
@@ -81,7 +80,7 @@ typedef struct
     mappatch_t          patches[1];
 } PACKEDATTR maptexture_t;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 

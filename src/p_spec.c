@@ -68,7 +68,7 @@ typedef struct
     int         speed;
 } anim_t;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(push, 1)
 #endif
 
@@ -83,7 +83,7 @@ typedef struct
     int         speed;
 } PACKEDATTR animdef_t;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 

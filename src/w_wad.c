@@ -46,9 +46,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#if defined(_MSC_VER)
-#pragma pack(push)
-#pragma pack(1)
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
 #endif
 
 typedef struct
@@ -66,7 +65,7 @@ typedef struct
     char        name[8];
 } PACKEDATTR filelump_t;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 
