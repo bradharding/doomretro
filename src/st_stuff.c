@@ -682,7 +682,8 @@ dboolean ST_Responder(event_t *ev)
 
                             C_Input("%s%c%c", cheat_mus_xy.sequence, buf[0], buf[1]);
 
-                            M_snprintf(msg, sizeof(msg), s_STSTR_MUS, S_music[musnum].name);
+                            M_snprintf(msg, sizeof(msg), s_STSTR_MUS,
+                                uppercase(S_music[musnum].name));
                             HU_PlayerMessage(msg, false, false);
 
                             // [BH] always display message
