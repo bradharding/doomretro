@@ -286,23 +286,17 @@ dboolean I_MidiRPCInitServer()
 //
 dboolean I_MidiRPCInitClient()
 {
-    RPC_STATUS  status;
-
     // If server didn't start, client cannot be bound.
     if (!serverInit)
         return false;
 
     // Compose binding string
-    status = RpcStringBindingCompose(NULL, (RPC_CSTR)"ncalrpc", NULL,
-        (RPC_CSTR)"2d4dc2f9-ce90-4080-8a00-1cb819086970", NULL, &szStringBinding);
-
-    if (status)
+    if (RpcStringBindingCompose(NULL, (RPC_CSTR)"ncalrpc", NULL,
+        (RPC_CSTR)"2d4dc2f9-ce90-4080-8a00-1cb819086970", NULL, &szStringBinding))
         return false;
 
     // Create binding handle
-    status = RpcBindingFromStringBinding(szStringBinding, &hMidiRPCBinding);
-
-    if (status)
+    if (RpcBindingFromStringBinding(szStringBinding, &hMidiRPCBinding))
         return false;
 
     clientInit = true;

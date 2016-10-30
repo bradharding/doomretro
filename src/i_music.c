@@ -339,7 +339,7 @@ void *I_RegisterSong(void *data, int len)
 
             memset(&mididata, 0, sizeof(MIDI));
 
-            if (mus2mid((byte *)data, (size_t)len, &mididata, 89, 0))
+            if (mus2mid((byte *)data, (size_t)len, &mididata, 89, false))
                 return NULL;
 
             // Hurrah! Let's make it a mid and give it to SDL_mixer
@@ -354,7 +354,7 @@ void *I_RegisterSong(void *data, int len)
         // Check for option to invoke RPC server if isMIDI
         if (isMIDI && haveMidiServer)
         {
-            // Init client if not yet started
+            // Initialize client if not yet started
             if (!haveMidiClient)
                 haveMidiClient = I_MidiRPCInitClient();
 

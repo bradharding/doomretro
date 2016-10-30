@@ -137,7 +137,7 @@ static int TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value);
 static ULONG ReadTime(UBYTE **musptrp);
 static char FirstChannelAvailable(signed char MUS2MIDchannel[]);
 static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel,
-    UBYTE MIDItrack, int nocomp);
+    UBYTE MIDItrack, dboolean nocomp);
 
 //
 // TWriteByte()
@@ -277,7 +277,7 @@ static char FirstChannelAvailable(signed char MUS2MIDchannel[])
 // Returns the new event code if successful, 0 if a memory allocation error
 //
 static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE MIDItrack,
-    int nocomp)
+    dboolean nocomp)
 {
     UBYTE       newevent = (midicode | MIDIchannel);
 
@@ -323,7 +323,7 @@ dboolean muscheckformat(UBYTE *mus, int size)
 //
 // Returns 0 if successful, otherwise an error code (see mus2mid.h).
 //
-int mus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, int nocomp)
+int mus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, dboolean nocomp)
 {
     UWORD               TrackCnt = 0;
     UBYTE               evt, MUSchannel, MIDIchannel, MIDItrack = 0;
