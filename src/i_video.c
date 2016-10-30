@@ -1383,6 +1383,9 @@ static void SetVideoMode(dboolean output)
             {
                 SDL_DisplayMode displaymode;
 
+                if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
+                    SDL_GL_SetSwapInterval(-1);
+
                 if (!SDL_GetWindowDisplayMode(window, &displaymode))
                     C_Output("The framerate is capped at the display's refresh rate of %iHz.",
                         displaymode.refresh_rate);

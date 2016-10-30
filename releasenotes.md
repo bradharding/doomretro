@@ -1,5 +1,8 @@
 ### DOOM Retro v2.4
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Vertical synchronization now works correctly when the `vid_vsync` CVAR is `on` and the `vid_scaleapi` CVAR is `opengl`.
+
 ---
 
 ###### Saturday, October 29, 2016
