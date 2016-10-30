@@ -383,7 +383,7 @@ typedef struct mobj_s
     int                 floatbob;
 
     void                (*colfunc)(void);
-    void                (*projectfunc)();
+    void                (*projectfunc)(struct mobj_s *);
 
     // a linked list of sectors where this object appears
     struct msecnode_s   *touching_sectorlist;   // phares 3/14/98
