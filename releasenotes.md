@@ -2,7 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The maximum allowable framerate can now be set using the new `vid_maxfps` CVAR. It can be a value between `35` and `1,000`, and is `200` by default.
-* Vertical synchronization now works correctly when the `vid_vsync` CVAR is `on`.
+* Vertical sync with the display’s refresh rate now works correctly when the `vid_vsync` CVAR is `on`.
 * The game will no longer crash when opening the console on the title screen and using the mouse wheel to scroll to the top.
 
 ---

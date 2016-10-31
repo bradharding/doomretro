@@ -657,6 +657,15 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
+static unsigned int starting_tick;
+
+void I_CapFramerate(void)
+{
+    if (1000 / maxfps > SDL_GetTicks() - starting_tick)
+        SDL_Delay(1000 / maxfps - (SDL_GetTicks() - starting_tick));
+    starting_tick = SDL_GetTicks();
+}
+
 static void I_Blit(void)
 {
     UpdateGrab();
