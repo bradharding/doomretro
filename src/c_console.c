@@ -1336,16 +1336,15 @@ dboolean C_Responder(event_t *ev)
             // scroll output up
             case KEY_PAGEUP:
                 if (consolestrings > CONSOLELINES)
-                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1)
-                        : MAX(0, outputhistory - 1));
+                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
+                        MAX(0, outputhistory - 1));
                 break;
 
             // scroll output down
             case KEY_PAGEDOWN:
                 if (outputhistory != -1)
                 {
-                    ++outputhistory;
-                    if (outputhistory + CONSOLELINES == consolestrings)
+                    if (++outputhistory + CONSOLELINES == consolestrings)
                         outputhistory = -1;
                 }
                 break;
@@ -1480,8 +1479,8 @@ dboolean C_Responder(event_t *ev)
         // scroll output up
         if (ev->data1 > 0)
         {
-            if (consolestrings > 10)
-                outputhistory = (outputhistory == -1 ? consolestrings - 11 :
+            if (consolestrings > CONSOLELINES)
+                outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
                     MAX(0, outputhistory - 1));
         }
 
@@ -1490,7 +1489,7 @@ dboolean C_Responder(event_t *ev)
         {
             if (outputhistory != -1)
             {
-                if (++outputhistory + 10 == consolestrings)
+                if (++outputhistory + CONSOLELINES == consolestrings)
                     outputhistory = -1;
             }
         }
