@@ -336,8 +336,8 @@ typedef enum
 
 #define vid_fullscreen_default                  true
 
-#define vid_maxfps_min                          TICRATE
-#define vid_maxfps_default                      1000
+#define vid_maxfps_min                          35
+#define vid_maxfps_default                      200
 #define vid_maxfps_max                          1000
 
 #define vid_motionblur_default                  false

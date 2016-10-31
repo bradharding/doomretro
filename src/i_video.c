@@ -117,7 +117,7 @@ static int              am_displayindex;
 static int              numdisplays;
 static SDL_Rect         *displays;
 
-int                     maxfps = 0;
+unsigned int            maxfps;
 
 // Bit mask of mouse button state
 static unsigned int     mousebuttonstate;
