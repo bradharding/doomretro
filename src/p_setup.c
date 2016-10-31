@@ -2041,8 +2041,6 @@ void P_MapName(int ep, int map)
             M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
         M_StringCopy(automaptitle, mapnumandtitle, sizeof(automaptitle));
     }
-
-
 }
 
 static mapformat_t P_CheckMapFormat(int lumpnum)

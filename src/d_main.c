@@ -214,6 +214,15 @@ extern gameaction_t     loadaction;
 void R_ExecuteSetViewSize(void);
 void G_LoadedGameMessage(void);
 
+static unsigned int starting_tick;
+
+void D_CapFPS(void)
+{
+    if (1000 / maxfps > SDL_GetTicks() - starting_tick)
+        SDL_Delay(1000 / maxfps - (SDL_GetTicks() - starting_tick));
+    starting_tick = SDL_GetTicks();
+}
+
 void D_Display(void)
 {
     static dboolean     viewactivestate;
@@ -354,6 +363,8 @@ void D_Display(void)
             HU_DrawDisk();
 
         // normal update
+        if (maxfps < vid_maxfps_default)
+            D_CapFPS();
         blitfunc();             // blit buffer
 
         mapblitfunc();
@@ -383,6 +394,8 @@ void D_Display(void)
         C_Drawer();
 
         M_Drawer();             // menu is drawn even on top of wipes
+        if (maxfps < vid_maxfps_default)
+            D_CapFPS();
         blitfunc();             // page flip or blit buffer
 
         mapblitfunc();

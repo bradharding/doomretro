@@ -76,6 +76,7 @@ int                     vid_display = vid_display_default;
 char                    *vid_driver = vid_driver_default;
 #endif
 dboolean                vid_fullscreen = vid_fullscreen_default;
+int                     vid_maxfps = vid_maxfps_default;
 dboolean                vid_motionblur = vid_motionblur_default;
 char                    *vid_scaleapi = vid_scaleapi_default;
 char                    *vid_scalefilter = vid_scalefilter_default;
@@ -115,6 +116,8 @@ static int              displayindex;
 static int              am_displayindex;
 static int              numdisplays;
 static SDL_Rect         *displays;
+
+int                     maxfps = 0;
 
 // Bit mask of mouse button state
 static unsigned int     mousebuttonstate;
@@ -1176,7 +1179,6 @@ static void SetVideoMode(dboolean output)
     wad_file_t          *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
     dboolean            iwad = (playpalwad->type == IWAD);
 
-
     displayindex = vid_display - 1;
     if (displayindex < 0 || displayindex >= numdisplays)
     {
@@ -1376,32 +1378,45 @@ static void SetVideoMode(dboolean output)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
                     "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3),
                     commify(height));
+        }
 
-            if (vid_capfps)
-                C_Output("The framerate is capped at %i FPS.", TICRATE);
-            else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+        maxfps = vid_maxfps;
+        if (vid_capfps)
+        {
+            if (output)
+                C_Output("The framerate is capped at 35 FPS.");
+        }
+        else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+        {
+            SDL_DisplayMode     displaymode;
+
+            if (!SDL_GetWindowDisplayMode(window, &displaymode))
             {
-                SDL_DisplayMode displaymode;
-
-                if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
-                    SDL_GL_SetSwapInterval(-1);
-
-                if (!SDL_GetWindowDisplayMode(window, &displaymode))
-                    C_Output("The framerate is capped at the display's refresh rate of %iHz.",
-                        displaymode.refresh_rate);
-            }
-            else
-            {
-                if (vid_vsync)
+                if (displaymode.refresh_rate < vid_maxfps)
                 {
-                    if (M_StringCompare(rendererinfo.name, "software"))
-                        C_Warning("Vertical sync can't be enabled in software.");
-                    else
-                        C_Warning("Vertical sync can't be enabled.");
+                    maxfps = displaymode.refresh_rate;
+                    if (output)
+                        C_Output("The framerate is synced to the display's refresh rate of %iHz.",
+                            maxfps);
                 }
-
-                C_Output("The framerate is uncapped.");
+                else if (output)
+                    C_Output("The framerate is capped at %i FPS.", vid_maxfps);
             }
+        }
+        else if (output)
+        {
+            if (vid_vsync)
+            {
+                if (M_StringCompare(rendererinfo.name, "software"))
+                    C_Warning("Vertical sync can't be enabled in software.");
+                else
+                    C_Warning("Vertical sync can't be enabled on this video card.");
+            }
+
+            if (vid_maxfps < vid_maxfps_default)
+                C_Output("The framerate is capped at %i FPS.", vid_maxfps);
+            else
+                C_Output("The framerate is uncapped.");
         }
     }
 

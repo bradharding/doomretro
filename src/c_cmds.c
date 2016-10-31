@@ -219,6 +219,7 @@ extern int              vid_display;
 extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
+extern int              vid_maxfps;
 extern dboolean         vid_motionblur;
 extern char             *vid_scaleapi;
 extern char             *vid_scalefilter;
@@ -415,6 +416,7 @@ static dboolean units_cvar_func1(char *, char *, char *, char *);
 static void units_cvar_func2(char *, char *, char *, char *);
 static void vid_display_cvar_func2(char *, char *, char *, char *);
 static void vid_fullscreen_cvar_func2(char *, char *, char *, char *);
+static void vid_maxfps_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scaleapi_cvar_func1(char *, char *, char *, char *);
 static void vid_scaleapi_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scalefilter_cvar_func1(char *, char *, char *, char *);
@@ -765,6 +767,8 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_BOOL(vid_fullscreen, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLALIAS,
         "Toggles between fullscreen and a window."),
+    CVAR_INT(vid_maxfps, "", int_cvars_func1, vid_maxfps_cvar_func2, CF_NONE, NOALIAS,
+        "The maximum allowable framerate (<b>35</b> to <b>1,000</b> frames per\nsecond)."),
     CVAR_BOOL(vid_motionblur, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles motion blur when the player turns quickly."),
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
@@ -4339,6 +4343,18 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
     bool_cvars_func2(cmd, parm1, "", "");
     if (vid_fullscreen != vid_fullscreen_old)
         I_ToggleFullscreen();
+}
+
+//
+// vid_maxfps cvar
+//
+static void vid_maxfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int vid_maxfps_old = vid_maxfps;
+
+    int_cvars_func2(cmd, parm1, "", "");
+    if (vid_maxfps != vid_maxfps_old)
+        I_RestartGraphics();
 }
 
 //

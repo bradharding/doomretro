@@ -173,6 +173,7 @@ extern int              vid_display;
 extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
+extern int              vid_maxfps;
 extern dboolean         vid_motionblur;
 extern char             *vid_scaleapi;
 extern char             *vid_scalefilter;
@@ -299,6 +300,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (vid_driver,                                        NOALIAS    ),
 #endif
     CONFIG_VARIABLE_INT          (vid_fullscreen,                                    BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_maxfps,                                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_motionblur,                                    BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_scaleapi,                                      NOALIAS    ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,                                   NOALIAS    ),
@@ -815,6 +817,8 @@ static void M_CheckCVARs(void)
 
     if (vid_fullscreen != false && vid_fullscreen != true)
         vid_fullscreen = vid_fullscreen_default;
+
+    vid_maxfps = BETWEEN(vid_maxfps_min, vid_maxfps, vid_maxfps_max);
 
     if (vid_motionblur != false && vid_motionblur != true)
         vid_motionblur = vid_motionblur_default;

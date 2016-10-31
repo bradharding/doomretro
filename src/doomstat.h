@@ -188,6 +188,8 @@ extern int              gametic;
 extern int              gametime;
 
 extern dboolean         vid_capfps;
+extern int              vid_maxfps;
+extern int              maxfps;
 extern dboolean         realframe;
 
 // Bookkeeping on players - state.
