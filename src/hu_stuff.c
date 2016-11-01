@@ -995,9 +995,11 @@ void HU_PlayerMessage(char *message, dboolean ingame, dboolean external)
         HU_SetPlayerMessage(buffer, external);
 
     if (ingame)
-        C_PlayerMessage("%s%s", buffer, (lastchar == '.' || lastchar == '!' ? "" : "."));
+        C_PlayerMessage("%s%s", buffer,
+            (lastchar == '.' || lastchar == '!' || lastchar == '\"' ? "" : "."));
     else
-        C_Output("%s%s", buffer, (lastchar == '.' || lastchar == '!' ? "" : "."));
+        C_Output("%s%s", buffer,
+            (lastchar == '.' || lastchar == '!' || lastchar == '\"' ? "" : "."));
 }
 
 void HU_ClearMessages(void)
