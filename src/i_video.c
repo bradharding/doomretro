@@ -1403,7 +1403,7 @@ static void SetVideoMode(dboolean output)
                             maxfps);
                 }
                 else if (output)
-                    C_Output("The framerate is capped at %i FPS.", vid_capfps);
+                    C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
             }
         }
         else if (output)
@@ -1416,7 +1416,7 @@ static void SetVideoMode(dboolean output)
                     C_Warning("Vertical sync can't be enabled on this video card.");
             }
 
-            C_Output("The framerate is capped at %i FPS.", vid_capfps);
+            C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
         }
     }
 
