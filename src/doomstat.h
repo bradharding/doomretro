@@ -187,8 +187,7 @@ extern gamestate_t      gamestate;
 extern int              gametic;
 extern int              gametime;
 
-extern dboolean         vid_capfps;
-extern int              vid_maxfps;
+extern int              vid_capfps;
 extern unsigned int     maxfps;
 extern dboolean         realframe;
 

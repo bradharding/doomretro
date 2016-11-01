@@ -227,7 +227,7 @@ void D_Display(void)
     int                 wipestart;
     dboolean            done;
 
-    if ((realframe = (vid_capfps || gametic > saved_gametic)))
+    if ((realframe = (vid_capfps == TICRATE || gametic > saved_gametic)))
         saved_gametic = gametic;
 
     // change the view size if needed
@@ -354,7 +354,8 @@ void D_Display(void)
             HU_DrawDisk();
 
         // normal update
-        I_CapFramerate();
+        if (maxfps)
+            I_CapFramerate();
         blitfunc();             // blit buffer
 
         mapblitfunc();
@@ -384,7 +385,8 @@ void D_Display(void)
         C_Drawer();
 
         M_Drawer();             // menu is drawn even on top of wipes
-        I_CapFramerate();
+        if (maxfps)
+            I_CapFramerate();
         blitfunc();             // page flip or blit buffer
 
         mapblitfunc();

@@ -76,7 +76,6 @@ int                     vid_display = vid_display_default;
 char                    *vid_driver = vid_driver_default;
 #endif
 dboolean                vid_fullscreen = vid_fullscreen_default;
-int                     vid_maxfps = vid_maxfps_default;
 dboolean                vid_motionblur = vid_motionblur_default;
 char                    *vid_scaleapi = vid_scaleapi_default;
 char                    *vid_scalefilter = vid_scalefilter_default;
@@ -1389,19 +1388,14 @@ static void SetVideoMode(dboolean output)
                     commify(height));
         }
 
-        maxfps = vid_maxfps;
-        if (vid_capfps)
-        {
-            if (output)
-                C_Output("The framerate is capped at 35 FPS.");
-        }
-        else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+        maxfps = (vid_capfps == TICRATE ? 0 : vid_capfps);
+        if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
         {
             SDL_DisplayMode     displaymode;
 
             if (!SDL_GetWindowDisplayMode(window, &displaymode))
             {
-                if (displaymode.refresh_rate < vid_maxfps)
+                if (displaymode.refresh_rate < vid_capfps)
                 {
                     maxfps = displaymode.refresh_rate;
                     if (output)
@@ -1409,7 +1403,7 @@ static void SetVideoMode(dboolean output)
                             maxfps);
                 }
                 else if (output)
-                    C_Output("The framerate is capped at %i FPS.", vid_maxfps);
+                    C_Output("The framerate is capped at %i FPS.", vid_capfps);
             }
         }
         else if (output)
@@ -1422,10 +1416,7 @@ static void SetVideoMode(dboolean output)
                     C_Warning("Vertical sync can't be enabled on this video card.");
             }
 
-            if (vid_maxfps < vid_maxfps_default)
-                C_Output("The framerate is capped at %i FPS.", vid_maxfps);
-            else
-                C_Output("The framerate is uncapped.");
+            C_Output("The framerate is capped at %i FPS.", vid_capfps);
         }
     }
 
