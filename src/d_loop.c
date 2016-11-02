@@ -145,7 +145,7 @@ void TryRunTics(void)
 
     counts = maketic - gametic;
 
-    if (!counts && vid_capfps > TICRATE)
+    if (!counts && !vid_capfps)
         return;
 
     entertic = I_GetTime();

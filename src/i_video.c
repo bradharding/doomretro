@@ -116,9 +116,6 @@ static int              am_displayindex;
 static int              numdisplays;
 static SDL_Rect         *displays;
 
-static unsigned int     maxfps;
-void                    (*capfpsfunc)(void);
-
 // Bit mask of mouse button state
 static unsigned int     mousebuttonstate;
 
@@ -657,21 +654,9 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
-static unsigned int     tics;
-static int              ms;
-
-void I_CapFramerate(void)
-{
-    if ((ms = 1000 / maxfps - (SDL_GetTicks() - tics)) > 0)
-        SDL_Delay(ms);
-    tics = SDL_GetTicks();
-}
-
 static void I_Blit(void)
 {
     UpdateGrab();
-
-    capfpsfunc();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -683,8 +668,6 @@ static void I_Blit(void)
 static void I_Blit_NearestLinear(void)
 {
     UpdateGrab();
-
-    capfpsfunc();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -714,8 +697,6 @@ static void I_Blit_ShowFPS(void)
     }
     C_UpdateFPS();
 
-    capfpsfunc();
-
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
@@ -737,8 +718,6 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     }
     C_UpdateFPS();
 
-    capfpsfunc();
-
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
@@ -753,8 +732,6 @@ static void I_Blit_Shake(void)
 {
     UpdateGrab();
 
-    capfpsfunc();
-
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
@@ -766,8 +743,6 @@ static void I_Blit_Shake(void)
 static void I_Blit_NearestLinear_Shake(void)
 {
     UpdateGrab();
-
-    capfpsfunc();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -794,8 +769,6 @@ static void I_Blit_ShowFPS_Shake(void)
     }
     C_UpdateFPS();
 
-    capfpsfunc();
-
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
@@ -817,8 +790,6 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
         starttime = currenttime;
     }
     C_UpdateFPS();
-
-    capfpsfunc();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -1404,50 +1375,29 @@ static void SetVideoMode(dboolean output)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
                     "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3),
                     commify(height));
-        }
 
-        maxfps = (vid_capfps == TICRATE ? 0 : vid_capfps);
-
-        if (vid_capfps == TICRATE)
-        {
-            maxfps = 0;
-            capfpsfunc = nullfunc;
-        }
-        else
-        {
-            maxfps = vid_capfps;
-            capfpsfunc = I_CapFramerate;
-        }
-
-        if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
-        {
-            SDL_DisplayMode     displaymode;
-
-            if (!SDL_GetWindowDisplayMode(window, &displaymode))
+            if (vid_capfps)
+                C_Output("The framerate is capped at %i FPS.", TICRATE);
+            else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
             {
-                if (displaymode.refresh_rate < vid_capfps)
+                SDL_DisplayMode displaymode;
+
+                if (!SDL_GetWindowDisplayMode(window, &displaymode))
+                    C_Output("The framerate is synced to the display's refresh rate of %iHz.",
+                        displaymode.refresh_rate);
+            }
+            else
+            {
+                if (vid_vsync)
                 {
-                    maxfps = displaymode.refresh_rate;
-                    capfpsfunc = I_CapFramerate;
-                    if (output)
-                        C_Output("The framerate is synced to the display's refresh rate of %iHz.",
-                            maxfps);
+                    if (M_StringCompare(rendererinfo.name, "software"))
+                        C_Warning("Vertical sync can't be enabled in software.");
+                    else
+                        C_Warning("Vertical sync can't be enabled on this video card.");
                 }
-                else if (output)
-                    C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
-            }
-        }
-        else if (output)
-        {
-            if (vid_vsync)
-            {
-                if (M_StringCompare(rendererinfo.name, "software"))
-                    C_Warning("Vertical sync can't be enabled in software.");
-                else
-                    C_Warning("Vertical sync can't be enabled on this video card.");
-            }
 
-            C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
+                C_Output("The framerate is uncapped.");
+            }
         }
     }
 

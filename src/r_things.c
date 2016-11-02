@@ -698,7 +698,7 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             topoffset;
 
     // [AM] Interpolate between current and last position, if prudent.
-    if (vid_capfps > TICRATE
+    if (!vid_capfps
         // Don't interpolate if the mobj did something
         // that would necessitate turning it off for a tic.
         && thing->interp
@@ -1242,8 +1242,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         }
     }
 
-    //e6y: interpolation for weapon bobbing
-    if (vid_capfps > TICRATE)
+    // e6y: interpolation for weapon bobbing
+    if (!vid_capfps)
     {
         typedef struct
         {

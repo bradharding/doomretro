@@ -1,8 +1,7 @@
 ### DOOM Retro v2.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Instead of toggling whether the framerate is capped at 35 FPS or not, the value of the `vid_capfps` CVAR is now the number of frames per second at which the framerate is capped. It can be between `35` and `1,000`, and is `200` by default.
-* Vertical sync with the display’s refresh rate now works correctly when the `vid_vsync` CVAR is `on`.
+* Minor changes have been made to text that is output to the console.
 * The game will no longer crash when opening the console on the title screen and using the mouse wheel to scroll to the top.
 
 ---

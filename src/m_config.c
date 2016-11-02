@@ -167,7 +167,7 @@ extern unsigned int     stat_time;
 extern int              units;
 extern int              turbo;
 extern char             *version;
-extern int              vid_capfps;
+extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
 extern char             *vid_driver;
@@ -293,7 +293,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                                             NOALIAS    ),
     CONFIG_VARIABLE_INT          (units,                                             UNITSALIAS ),
     CONFIG_VARIABLE_STRING       (version,                                           NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_capfps,                                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_capfps,                                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,                                       NOALIAS    ),
 #if !defined(WIN32)
     CONFIG_VARIABLE_STRING       (vid_driver,                                        NOALIAS    ),
@@ -810,7 +810,7 @@ static void M_CheckCVARs(void)
 
     version = version_default;
 
-    if (vid_capfps < vid_capfps_min || vid_capfps > vid_capfps_max)
+    if (vid_capfps != false || vid_capfps != true)
         vid_capfps = vid_capfps_default;
 
     if (vid_fullscreen != false && vid_fullscreen != true)
