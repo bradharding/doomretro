@@ -90,8 +90,6 @@ void R_SetViewSize(int blocks);
 
 void I_SetGamma(float value);
 
-void I_CapFramerate(void);
-
 extern float            m_acceleration;
 extern int              m_threshold;
 

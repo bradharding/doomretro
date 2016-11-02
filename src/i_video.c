@@ -116,7 +116,8 @@ static int              am_displayindex;
 static int              numdisplays;
 static SDL_Rect         *displays;
 
-unsigned int            maxfps;
+static unsigned int     maxfps;
+void                    (*capfpsfunc)(void);
 
 // Bit mask of mouse button state
 static unsigned int     mousebuttonstate;
@@ -656,18 +657,21 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
-static unsigned int starting_tick;
+static unsigned int     tics;
+static int              ms;
 
 void I_CapFramerate(void)
 {
-    if (1000 / maxfps > SDL_GetTicks() - starting_tick)
-        SDL_Delay(1000 / maxfps - (SDL_GetTicks() - starting_tick));
-    starting_tick = SDL_GetTicks();
+    if ((ms = 1000 / maxfps - (SDL_GetTicks() - tics)) > 0)
+        SDL_Delay(ms);
+    tics = SDL_GetTicks();
 }
 
 static void I_Blit(void)
 {
     UpdateGrab();
+
+    capfpsfunc();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -679,6 +683,8 @@ static void I_Blit(void)
 static void I_Blit_NearestLinear(void)
 {
     UpdateGrab();
+
+    capfpsfunc();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -708,6 +714,8 @@ static void I_Blit_ShowFPS(void)
     }
     C_UpdateFPS();
 
+    capfpsfunc();
+
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
@@ -729,6 +737,8 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     }
     C_UpdateFPS();
 
+    capfpsfunc();
+
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
@@ -743,6 +753,8 @@ static void I_Blit_Shake(void)
 {
     UpdateGrab();
 
+    capfpsfunc();
+
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
@@ -754,6 +766,8 @@ static void I_Blit_Shake(void)
 static void I_Blit_NearestLinear_Shake(void)
 {
     UpdateGrab();
+
+    capfpsfunc();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -780,6 +794,8 @@ static void I_Blit_ShowFPS_Shake(void)
     }
     C_UpdateFPS();
 
+    capfpsfunc();
+
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
@@ -801,6 +817,8 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
         starttime = currenttime;
     }
     C_UpdateFPS();
+
+    capfpsfunc();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -1389,6 +1407,18 @@ static void SetVideoMode(dboolean output)
         }
 
         maxfps = (vid_capfps == TICRATE ? 0 : vid_capfps);
+
+        if (vid_capfps == TICRATE)
+        {
+            maxfps = 0;
+            capfpsfunc = nullfunc;
+        }
+        else
+        {
+            maxfps = vid_capfps;
+            capfpsfunc = I_CapFramerate;
+        }
+
         if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
         {
             SDL_DisplayMode     displaymode;
@@ -1398,6 +1428,7 @@ static void SetVideoMode(dboolean output)
                 if (displaymode.refresh_rate < vid_capfps)
                 {
                     maxfps = displaymode.refresh_rate;
+                    capfpsfunc = I_CapFramerate;
                     if (output)
                         C_Output("The framerate is synced to the display's refresh rate of %iHz.",
                             maxfps);

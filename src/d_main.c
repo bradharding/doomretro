@@ -354,8 +354,6 @@ void D_Display(void)
             HU_DrawDisk();
 
         // normal update
-        if (maxfps)
-            I_CapFramerate();
         blitfunc();             // blit buffer
 
         mapblitfunc();
@@ -385,8 +383,6 @@ void D_Display(void)
         C_Drawer();
 
         M_Drawer();             // menu is drawn even on top of wipes
-        if (maxfps)
-            I_CapFramerate();
         blitfunc();             // page flip or blit buffer
 
         mapblitfunc();
