@@ -70,7 +70,7 @@
 
 // CVARs
 dboolean                m_novertical = m_novertical_default;
-int                     vid_capfps = vid_capfps_default;
+dboolean                vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
 #if !defined(WIN32)
 char                    *vid_driver = vid_driver_default;
