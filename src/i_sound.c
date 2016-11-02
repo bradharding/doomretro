@@ -622,8 +622,6 @@ dboolean I_InitSound(void)
             "v%i.%i.%i, not v%i.%i.%i.", linked->major, linked->minor, linked->patch,
             SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
-    Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MODPLUG | MIX_INIT_MP3 | MIX_INIT_OGG);
-
     if (Mix_OpenAudio(SAMPLERATE, AUDIO_S16SYS, 2, GetSliceSize()) < 0)
         return false;
 
