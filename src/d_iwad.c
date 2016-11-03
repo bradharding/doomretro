@@ -339,6 +339,9 @@ void IdentifyIWADByName(char *name)
             break;
         }
     }
+
+    if (M_StringCompare(name, "hacx.wad"))
+        hacx = true;
 }
 
 //
