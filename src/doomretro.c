@@ -40,6 +40,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
+#include "i_midirpc.h"
 #include "m_argv.h"
 #include "m_controls.h"
 #include "version.h"
@@ -211,6 +212,13 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
     }
 }
 
+LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
+{
+    I_MidiRPCClientShutDown();
+
+    return EXCEPTION_EXECUTE_HANDLER;
+}
+
 void I_InitWindows32(void)
 {
     HINSTANCE           handle = GetModuleHandle(NULL);
@@ -230,6 +238,10 @@ void I_InitWindows32(void)
     windowborderwidth = (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
     windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
         + GetSystemMetrics(SM_CYCAPTION);
+
+#ifndef _DEBUG
+    SetUnhandledExceptionFilter(ExceptionHandler);
+#endif
 }
 
 void I_ShutdownWindows32(void)
