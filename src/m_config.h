@@ -132,11 +132,11 @@ typedef enum
 
 #define ammo_min                                0
 #define ammo_default                            50
-#define ammo_max                                300
+#define ammo_max                                999
 
 #define armor_min                               0
 #define armor_default                           0
-#define armor_max                               200
+#define armor_max                               999
 
 #define autoload_default                        true
 
@@ -182,7 +182,7 @@ typedef enum
 
 #define health_min                              0
 #define health_default                          100
-#define health_max                              200
+#define health_max                              999
 
 #define iwadfolder_default                      "C:\\"
 
