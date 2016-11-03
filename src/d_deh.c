@@ -2983,13 +2983,13 @@ void deh_procMisc(DEHFILE *fpin, char *line)
             C_Output("Processing Misc item '%s'", key);
 
         if (M_StringCompare(key, deh_misc[0]))                      // Initial Health
-            initial_health = value;
+            initial_health = MIN(value, 999);
         else if (M_StringCompare(key, deh_misc[1]))                 // Initial Bullets
             initial_bullets = value;
         else if (M_StringCompare(key, deh_misc[2]))                 // Max Health
-            maxhealth = value;
+            maxhealth = MIN(value, 999);
         else if (M_StringCompare(key, deh_misc[3]))                 // Max Armor
-            max_armor = value;
+            max_armor = MIN(value, 999);
         else if (M_StringCompare(key, deh_misc[4]))                 // Green Armor Class
             green_armor_class = value;
         else if (M_StringCompare(key, deh_misc[5]))                 // Blue Armor Class
@@ -3017,6 +3017,7 @@ void deh_procMisc(DEHFILE *fpin, char *line)
         else
             C_Warning("Invalid misc item string index for \"%s\".", key);
     }
+    maxhealth = MAX(maxhealth, initial_health);
     return;
 }
 

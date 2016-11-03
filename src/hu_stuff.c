@@ -49,6 +49,7 @@
 #include "i_swap.h"
 #include "i_timer.h"
 #include "m_config.h"
+#include "p_local.h"
 #include "r_main.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -723,6 +724,7 @@ static void HU_DrawAltHUD(void)
     int i = 0;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
+    health = health * 200 / maxhealth;
     if (health > 100)
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, color1);
@@ -750,6 +752,7 @@ static void HU_DrawAltHUD(void)
         color1 = color2 + coloroffset;
         althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, color2);
         DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color2);
+        armor = armor * 200 / max_armor;
         if (armor > 100)
         {
             fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 2, 100 + 1, 4, color1);
