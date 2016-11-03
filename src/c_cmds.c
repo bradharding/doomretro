@@ -387,6 +387,7 @@ static void int_cvars_func2(char *, char *, char *, char *);
 static void str_cvars_func2(char *, char *, char *, char *);
 static void time_cvars_func2(char *, char *, char *, char *);
 
+static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static void am_external_cvar_func2(char *, char *, char *, char *);
 static dboolean am_followmode_cvar_func1(char *, char *, char *, char *);
 static void am_path_cvar_func2(char *, char *, char *, char *);
@@ -394,7 +395,6 @@ static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *, char *, char *);
 static void player_cvars_func2(char *, char *, char *, char *);
-static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static void playername_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
 static void r_blood_cvar_func2(char *, char *, char *, char *);
