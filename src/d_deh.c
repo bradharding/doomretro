@@ -3149,7 +3149,7 @@ void deh_procText(DEHFILE *fpin, char *line)
             inbuffer[fromlen] = '\0';
         }
 
-        deh_procStringSub(NULL, inbuffer, line2);
+        deh_procStringSub(NULL, inbuffer, trimwhitespace(line2));
     }
     free(line2);        // may be NULL, ignored by free()
     return;
@@ -3238,7 +3238,7 @@ void deh_procStrings(DEHFILE *fpin, char *line)
         if (*holdstring)        // didn't have a backslash, trap above would catch that
         {
             // go process the current string
-            found = deh_procStringSub(key, NULL, holdstring);   // supply key and not search string
+            found = deh_procStringSub(key, NULL, trimwhitespace(holdstring));
 
             if (!found)
                 C_Warning("Invalid string key \"%s\". Substitution skipped.", key);
