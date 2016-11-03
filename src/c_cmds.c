@@ -213,7 +213,7 @@ extern unsigned int     stat_time;
 extern int              stillbob;
 extern int              turbo;
 extern int              units;
-extern dboolean         vid_capfps;
+extern int              vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
 extern char             *vid_driver;
@@ -413,6 +413,7 @@ static dboolean turbo_cvar_func1(char *, char *, char *, char *);
 static void turbo_cvar_func2(char *, char *, char *, char *);
 static dboolean units_cvar_func1(char *, char *, char *, char *);
 static void units_cvar_func2(char *, char *, char *, char *);
+static void vid_capfps_cvar_func2(char *, char *, char *, char *);
 static void vid_display_cvar_func2(char *, char *, char *, char *);
 static void vid_fullscreen_cvar_func2(char *, char *, char *, char *);
 static dboolean vid_scaleapi_cvar_func1(char *, char *, char *, char *);
@@ -755,9 +756,9 @@ consolecmd_t consolecmds[] =
         "The units used in the <b>playerstats</b> CCMD (<b>imperial</b> or <b>metric</b>)."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
-    CVAR_BOOL(vid_capfps, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles capping of the framerate at 35 FPS."),
-    CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS,
+    CVAR_INT(vid_capfps, "", int_cvars_func1, vid_capfps_cvar_func2, CF_NONE, NOALIAS,
+        "The number of frames per second at which to cap the\nframerate (<b>35</b> to <b>1,000</b>)."),
+     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS,
         "The display used to render the game."),
 #if !defined(WIN32)
     CVAR_STR(vid_driver, "", null_func1, str_cvars_func2, CF_NONE,
@@ -4315,6 +4316,18 @@ static void units_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 C_LookupAliasFromValue(units, UNITSALIAS),
                 C_LookupAliasFromValue(units_default, UNITSALIAS));
     }
+}
+
+//
+// vid_capfps cvar
+//
+static void vid_capfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int vid_capfps_old = vid_capfps;
+
+    int_cvars_func2(cmd, parm1, "", "");
+    if (vid_capfps != vid_capfps_old)
+        I_RestartGraphics();
 }
 
 //

@@ -36,6 +36,16 @@
 ========================================================================
 */
 
+#if defined(WIN32)
+#include <windows.h>
+#include <mmsystem.h>
+
+#include "SDL_syswm.h"
+#elif defined(X11)
+#include <X11/Xlib.h>
+#include <X11/XKBlib.h>
+#endif
+
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -53,13 +63,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#if defined(WIN32)
-#include "SDL_syswm.h"
-#elif defined(X11)
-#include <X11/Xlib.h>
-#include <X11/XKBlib.h>
-#endif
-
 #define MAXDISPLAYS             8
 
 #define MAXUPSCALEWIDTH         (1600 / ORIGINALWIDTH)
@@ -70,7 +73,7 @@
 
 // CVARs
 dboolean                m_novertical = m_novertical_default;
-dboolean                vid_capfps = vid_capfps_default;
+int                     vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
 #if !defined(WIN32)
 char                    *vid_driver = vid_driver_default;
@@ -178,6 +181,11 @@ void                    (*blitfunc)(void);
 void                    (*mapblitfunc)(void);
 
 int                     fps = 0;
+
+#if defined(WIN32)
+static UINT             CapFPSTimer;
+HANDLE                  CapFPSEvent;
+#endif
 
 // Mouse acceleration
 //
@@ -327,6 +335,40 @@ dboolean keystate(int key)
     return keystate[TranslateKey2(key)];
 }
 
+void I_CapFPS(int fps)
+{
+#if defined(WIN32)
+    if (CapFPSTimer)
+    {
+        timeKillEvent(CapFPSTimer);
+        CapFPSTimer = 0;
+    }
+
+    if (!fps)
+    {
+        if (CapFPSEvent)
+        {
+            CloseHandle(CapFPSEvent);
+            CapFPSEvent = NULL;
+        }
+    }
+    else
+    {
+        if (!CapFPSEvent)
+            CapFPSEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
+
+        CapFPSTimer = timeSetEvent(1000 / fps, 0, (LPTIMECALLBACK)CapFPSEvent, 0,
+            (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
+
+        if (!CapFPSTimer)
+        {
+            CloseHandle(CapFPSEvent);
+            CapFPSEvent = NULL;
+        }
+    }
+#endif
+}
+
 static void FreeSurfaces(void)
 {
     SDL_FreePalette(palette);
@@ -345,6 +387,7 @@ static void FreeSurfaces(void)
 void I_ShutdownGraphics(void)
 {
     SetShowCursor(true);
+    I_CapFPS(0);
     FreeSurfaces();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
@@ -662,6 +705,12 @@ static void I_Blit(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
     SDL_RenderPresent(renderer);
 }
 
@@ -676,6 +725,12 @@ static void I_Blit_NearestLinear(void)
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
     SDL_RenderPresent(renderer);
 }
 
@@ -701,6 +756,12 @@ static void I_Blit_ShowFPS(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
     SDL_RenderPresent(renderer);
 }
 
@@ -725,6 +786,12 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
     SDL_RenderPresent(renderer);
 }
 
@@ -737,6 +804,12 @@ static void I_Blit_Shake(void)
     SDL_RenderClear(renderer);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
         M_RandomInt(-1000, 1000) / 1000.0 * r_shakescreen / 100.0, NULL, SDL_FLIP_NONE);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
     SDL_RenderPresent(renderer);
 }
 
@@ -752,6 +825,12 @@ static void I_Blit_NearestLinear_Shake(void)
         M_RandomInt(-1000, 1000) / 1000.0 * r_shakescreen / 100.0, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
     SDL_RenderPresent(renderer);
 }
 
@@ -774,6 +853,12 @@ static void I_Blit_ShowFPS_Shake(void)
     SDL_RenderClear(renderer);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
         M_RandomInt(-1000, 1000) / 1000.0 * r_shakescreen / 100.0, NULL, SDL_FLIP_NONE);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
     SDL_RenderPresent(renderer);
 }
 
@@ -799,6 +884,12 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
         M_RandomInt(-1000, 1000) / 1000.0 * r_shakescreen / 100.0, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
     SDL_RenderPresent(renderer);
 }
 
@@ -1375,18 +1466,35 @@ static void SetVideoMode(dboolean output)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
                     "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3),
                     commify(height));
+        }
 
-            if (vid_capfps)
-                C_Output("The framerate is capped at %i FPS.", TICRATE);
-            else if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+        if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+        {
+            SDL_DisplayMode     displaymode;
+
+            if (!SDL_GetWindowDisplayMode(window, &displaymode))
             {
-                SDL_DisplayMode displaymode;
+                int     refreshrate = displaymode.refresh_rate;
 
-                if (!SDL_GetWindowDisplayMode(window, &displaymode))
-                    C_Output("The framerate is synced to the display's refresh rate of %iHz.",
-                        displaymode.refresh_rate);
+                if (refreshrate < vid_capfps)
+                {
+                    I_CapFPS(refreshrate);
+                    if (output)
+                        C_Output("The framerate is synced to the display's refresh rate of %iHz.",
+                            refreshrate);
+                }
+                else
+                {
+                    I_CapFPS(vid_capfps);
+                    if (output)
+                        C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
+                }
             }
-            else
+        }
+        else
+        {
+            I_CapFPS(vid_capfps);
+            if (output)
             {
                 if (vid_vsync)
                 {
@@ -1396,7 +1504,7 @@ static void SetVideoMode(dboolean output)
                         C_Warning("Vertical sync can't be enabled on this video card.");
                 }
 
-                C_Output("The framerate is uncapped.");
+                C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
             }
         }
     }

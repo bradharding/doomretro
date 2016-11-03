@@ -227,7 +227,7 @@ void D_Display(void)
     int                 wipestart;
     dboolean            done;
 
-    if ((realframe = (vid_capfps || gametic > saved_gametic)))
+    if ((realframe = (vid_capfps == TICRATE || gametic > saved_gametic)))
         saved_gametic = gametic;
 
     // change the view size if needed
