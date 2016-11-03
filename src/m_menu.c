@@ -3440,4 +3440,7 @@ void M_Init(void)
     s_DOSY = s_OTHERY;
     s_DOSA = s_OTHERA;
 #endif
+
+    if (M_StringCompare(s_EMPTYSTRING, "null data"))
+        s_EMPTYSTRING = "-";
 }
