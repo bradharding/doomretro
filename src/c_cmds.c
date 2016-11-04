@@ -757,7 +757,7 @@ consolecmd_t consolecmds[] =
         "The units used in the <b>playerstats</b> CCMD (<b>imperial</b> or <b>metric</b>)."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
-    CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, NOALIAS,
+    CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPALIAS,
         "The frames per second at which to cap the framerate (<b>off</b>, or\n<b>35</b> to <b>1,000</b>)."),
      CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOALIAS,
         "The display used to render the game."),
