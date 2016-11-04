@@ -4378,11 +4378,11 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parm1, char *parm2, char *p
     else
     {
         C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_scaleapi))].description));
-        if (M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
+        if (M_StringCompare(vid_scaleapi, vid_scaleapi_default))
             C_Output("It is currently set to its default of <b>\"%s\"</b>.", vid_scaleapi);
         else
             C_Output("It is currently set to <b>\"%s\"</b> and its default is <b>\"%s\"</b>.",
-                vid_scaleapi, vid_scaleapi_direct3d);
+                vid_scaleapi, vid_scaleapi_default);
     }
 }
 

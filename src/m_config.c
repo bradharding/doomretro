@@ -819,8 +819,8 @@ static void M_CheckCVARs(void)
     if (vid_motionblur != false && vid_motionblur != true)
         vid_motionblur = vid_motionblur_default;
 
-    if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl)
+    if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl)
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_software))
         vid_scaleapi = vid_scaleapi_default;
 
