@@ -293,7 +293,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                                             NOALIAS    ),
     CONFIG_VARIABLE_INT          (units,                                             UNITSALIAS ),
     CONFIG_VARIABLE_STRING       (version,                                           NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_capfps,                                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_capfps,                                        CAPALIAS   ),
     CONFIG_VARIABLE_INT          (vid_display,                                       NOALIAS    ),
 #if !defined(WIN32)
     CONFIG_VARIABLE_STRING       (vid_driver,                                        NOALIAS    ),
@@ -355,7 +355,7 @@ alias_t aliases[] =
     { "false",  0, BOOLALIAS   }, { "true",     1, BOOLALIAS      }, { "low",      0, DETAILALIAS },
     { "high",   1, DETAILALIAS }, { "off",      1, GAMMAALIAS     }, { "none",     0, BLOODALIAS  },
     { "red",    1, BLOODALIAS  }, { "all",      2, BLOODALIAS     }, { "imperial", 0, UNITSALIAS  },
-    { "metric", 1, UNITSALIAS  }, { "",         0, NOALIAS     }
+    { "metric", 1, UNITSALIAS  }, { "off",      0, CAPALIAS       }, { "",         0, NOALIAS     }
 };
 
 static void SaveBind(FILE *file, char *action, int value, controltype_t type)
@@ -810,7 +810,7 @@ static void M_CheckCVARs(void)
 
     version = version_default;
 
-    if (vid_capfps < vid_capfps_min || vid_capfps > vid_capfps_max)
+    if ((vid_capfps > 0 && vid_capfps < vid_capfps_min) || vid_capfps > vid_capfps_max)
         vid_capfps = vid_capfps_default;
 
     if (vid_fullscreen != false && vid_fullscreen != true)

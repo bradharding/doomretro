@@ -462,7 +462,8 @@ typedef enum
     DETAILALIAS,
     GAMMAALIAS,
     BLOODALIAS,
-    UNITSALIAS
+    UNITSALIAS,
+    CAPALIAS
 } alias_type_t;
 
 typedef struct

@@ -1496,18 +1496,23 @@ static void SetVideoMode(dboolean output)
         }
         else
         {
-            I_CapFPS(vid_capfps);
+            if (vid_capfps)
+                I_CapFPS(vid_capfps);
+
             if (output)
             {
                 if (vid_vsync)
                 {
-                    if (M_StringCompare(rendererinfo.name, "software"))
+                    if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
                         C_Warning("Vertical sync can't be enabled in software.");
                     else
                         C_Warning("Vertical sync can't be enabled on this video card.");
                 }
 
-                C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
+                if (vid_capfps)
+                    C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
+                else
+                    C_Output("The framerate is uncapped.");
             }
         }
     }
