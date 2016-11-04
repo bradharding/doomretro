@@ -1763,7 +1763,8 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             kills++;
                         }
                         else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER
-                            && type != MT_BARREL && type != MT_BOSSBRAIN)
+                            && type != MT_BARREL && type != MT_BOSSBRAIN
+                            && (type != MT_HEAD || !hacx))
                         {
                             thing->flags2 |= MF2_MASSACRE;
                             P_DamageMobj(thing, NULL, NULL, thing->health, true);

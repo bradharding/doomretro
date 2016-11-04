@@ -11,6 +11,7 @@
   * The IWAD will now be identified correctly when it is loaded using the `-iwad` command-line parameter.
   * The health bar in the alternate HUD is now displayed correctly when the player’s health is greater than 200.
   * Using the <kbd>A</kbd> key to strafe left now works.
+  * Windows are no longer shattered when using `kill all` in the console.
 * The music will now stop if *DOOM Retro* crashes.
 
 ---
