@@ -216,7 +216,7 @@ LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 {
     I_MidiRPCClientShutDown();
 
-    return EXCEPTION_EXECUTE_HANDLER;
+    return EXCEPTION_CONTINUE_SEARCH;
 }
 
 void I_InitWindows32(void)
