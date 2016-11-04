@@ -8,8 +8,9 @@
 * The `vid_scaleapi` CVAR is now `"opengl"` by default.
 * The `vid_vsync` CVAR is now `on` by default.
 * The following improvements have been made to [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) support:
-  * The IWAD will now be identified correctly when loaded using the `-iwad` command-line parameter.
-  * The health bar in the alternate HUD is now displayed correctly when over 200.
+  * The IWAD will now be identified correctly when it is loaded using the `-iwad` command-line parameter.
+  * The health bar in the alternate HUD is now displayed correctly when the player’s health is greater than 200.
+  * Using the <kbd>A</kbd> key to strafe left now works.
 * The music will now stop if *DOOM Retro* crashes.
 
 ---

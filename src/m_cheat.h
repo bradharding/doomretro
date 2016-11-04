@@ -45,7 +45,7 @@
 
 // declaring a cheat
 #define CHEAT(value, parameters) \
-    { value, sizeof(value) - 1, parameters, 0, 0, "", 0, false }
+    { value, sizeof(value) - 1, parameters, 0, 0, "", 0 }
 
 #define TIMELIMIT               (TICRATE * 2)
 
@@ -62,8 +62,6 @@ typedef struct
     char        parameter_buf[5];
 
     int         timeout;
-
-    dboolean    actionkey;
 } cheatseq_t;
 
 int cht_CheckCheat(cheatseq_t *cht, unsigned char key);
