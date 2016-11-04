@@ -175,6 +175,7 @@ static int      consolecolors[STRINGTYPES];
 
 extern int      fps;
 extern dboolean r_translucency;
+extern dboolean windowfocused;
 
 void G_ToggleAlwaysRun(evtype_t type);
 
@@ -955,7 +956,7 @@ void C_Drawer(void)
         }
 
         // draw caret
-        if (consoledirection == 1)
+        if (consoledirection == 1 && windowfocused)
         {
             if (caretwait < I_GetTimeMS())
             {
@@ -971,6 +972,11 @@ void C_Drawer(void)
                     V_DrawConsoleTextPatch(x, consoleheight - 17, caret, consolecaretcolor,
                         NOBACKGROUNDCOLOR, false, NULL);
             }
+        }
+        else
+        {
+            showcaret = false;
+            caretwait = 0;
         }
         x += SHORT(caret->width);
 
