@@ -1482,7 +1482,6 @@ static void SetVideoMode(dboolean output)
 
                 if (refreshrate < vid_capfps)
                 {
-                    I_CapFPS(refreshrate);
                     if (output)
                         C_Output("The framerate is synced to the display's refresh rate of %iHz.",
                             refreshrate);
