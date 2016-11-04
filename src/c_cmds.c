@@ -4327,7 +4327,7 @@ static dboolean vid_capfps_cvar_func1(char *cmd, char *parm1, char *parm2, char 
 {
     int value = -1;
 
-    if (!*parm1 || M_StringCompare(parm1, "off"))
+    if (!*parm1 || M_StringCompare(parm1, "on") || M_StringCompare(parm1, "off"))
         return true;
 
     sscanf(parm1, "%10i", &value);
@@ -4339,20 +4339,17 @@ static void vid_capfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 {
     int vid_capfps_old = vid_capfps;
 
-    if (M_StringCompare(parm1, "off"))
-    {
+    if (M_StringCompare(parm1, "on"))
+        vid_capfps = TICRATE;
+    else if (M_StringCompare(parm1, "off"))
         vid_capfps = 0;
-        if (vid_capfps != vid_capfps_old)
-        {
-            M_SaveCVARs();
-            I_RestartGraphics();
-        }
-    }
     else
-    {
         int_cvars_func2(cmd, parm1, "", "");
-        if (vid_capfps != vid_capfps_old)
-            I_RestartGraphics();
+
+    if (vid_capfps != vid_capfps_old)
+    {
+        M_SaveCVARs();
+        I_RestartGraphics();
     }
 }
 
