@@ -34,7 +34,7 @@ Additional Credits      : Jani Saarijärvi for playtesting and invaluable
                           design advice.
                           The Doomworld forums for playtesting and vital
                           criticism.
-                          My wife, for her ”unending patience" (her words).
+                          My wife, for her "unending patience" (her words).
 
 ===========================================================================
 * What is included *

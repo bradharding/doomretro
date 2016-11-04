@@ -570,7 +570,7 @@ static void InitGameVersion(void)
         if (gamemission == doom2)
             gameversion = exe_doom_1_9;
         else
-            // Final DOOM: tnt or plutonia
+            // Final DOOM: TNT or Plutonia
             gameversion = exe_final;
     }
 
@@ -610,7 +610,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 
     return (M_FileExists(dehpath) ? dehpath : NULL);
 #else
-    // Used to safely call dirname and basename, which can modfy their input.
+    // Used to safely call dirname and basename, which can modify their input.
     size_t              pathlen = strlen(path);
     char                *pathcopy = (char *)malloc((pathlen + 1) * sizeof(char));
     char                *dehdir = NULL;
@@ -869,7 +869,7 @@ dboolean D_CheckParms(void)
             }
             else
             {
-                // otherwise try the iwadfolder setting in doomretro.cfg
+                // otherwise try the iwadfolder CVAR
 #if defined(WIN32) || defined(__OpenBSD__)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
                     (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
@@ -1270,10 +1270,10 @@ static int D_ChooseIWAD(void)
 #endif
             }
 
-            // merge any pwads
+            // merge any PWADs
             if (!sharewareiwad)
             {
-                // if no iwad has been selected, check each pwad to determine the iwad required
+                // if no IWAD has been selected, check each PWAD to determine the IWAD required
                 // and then try to load it first
 #if defined(WIN32)
                 pwadpass1 += lstrlen(pwadpass1) + 1;
@@ -1335,7 +1335,7 @@ static int D_ChooseIWAD(void)
 #endif
                 }
 
-                // if still no iwad found, then try DOOM2.WAD
+                // if still no IWAD found, then try DOOM2.WAD
                 if (!iwadfound)
                 {
                     // try the current folder first
@@ -1364,7 +1364,7 @@ static int D_ChooseIWAD(void)
                     }
                 }
 
-                // if an iwad has now been found, make second pass through the pwads to merge them
+                // if an IWAD has now been found, make second pass through the PWADs to merge them
                 if (iwadfound)
                 {
                     dboolean    mapspresent = false;
@@ -1403,7 +1403,7 @@ static int D_ChooseIWAD(void)
 #endif
                     }
 
-                    // try to autoload NERVE.WAD if DOOM2.WAD is the iwad and none of the pwads
+                    // try to autoload NERVE.WAD if DOOM2.WAD is the IWAD and none of the PWADs
                     // have maps present
                     if (isDOOM2 && !mapspresent)
                     {
@@ -1447,7 +1447,7 @@ static int D_ChooseIWAD(void)
             }
 
 #if defined(WIN32)
-                // process any dehacked files last of all
+                // process any DeHackEd files last of all
                 dehpass += lstrlen(dehpass) + 1;
 
                 while (*dehpass)
@@ -1600,12 +1600,12 @@ static void D_DoomMainSetup(void)
         if (p < myargc - 1)
         {
             scale = BETWEEN(10, atoi(myargv[p + 1]), 400);
-            C_Output("A <b>-turbo %s</b> parameter was found on the command-line. The player "
-                "will be %i%% their normal speed.", myargv[p + 1], scale);
+            C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be "
+                "%i%% their normal speed.", scale);
         }
         else
-            C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will "
-                "be twice as fast.");
+            C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be "
+                "twice as fast.");
         G_SetMovementSpeed(scale);
 
         if (scale > turbo_default)
@@ -1682,8 +1682,8 @@ static void D_DoomMainSetup(void)
         while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
-        I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
-                "specifying one with the -IWAD command-line parameter.");
+        I_Error("Game mode indeterminate. No IWAD file was found. Try\nspecifying one with the "
+            "-IWAD command-line parameter.");
 
     if (!W_MergeFile(packagewad, true))
             I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
@@ -1739,8 +1739,8 @@ static void D_DoomMainSetup(void)
     if (modifiedgame)
     {
         if (gamemode == shareware)
-            I_Error("You cannot use -FILE with the shareware version.\n"
-                    "Please purchase the full version.");
+            I_Error("You cannot use -FILE with the shareware version.\nPlease purchase the full "
+                "version.");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
@@ -1775,19 +1775,19 @@ static void D_DoomMainSetup(void)
 
         if (temp >= sk_baby && temp <= sk_nightmare)
         {
-            char *skilllevels[] =
+            char **skilllevels[] =
             {
-                "I\'m too young to die",
-                "Hey, not too rough",
-                "Hurt me plenty",
-                "Ultra-Violence",
-                "Nightmare"
+                &s_M_SKILLLEVEL1,
+                &s_M_SKILLLEVEL2,
+                &s_M_SKILLLEVEL3,
+                &s_M_SKILLLEVEL4,
+                &s_M_SKILLLEVEL5
             };
 
             skilllevel = startskill = (skill_t)temp;
             M_SaveCVARs();
-            C_Output("A <b>-skill %s</b> parameter was found on the command-line. The skill "
-                "level is now \"%s\".", myargv[p + 1], skilllevels[startskill]);
+            C_Output("A <b>-skill</b> parameter was found on the command-line. The skill level is "
+                "now \"%s\".", *skilllevels[startskill]);
         }
     }
 
@@ -1799,12 +1799,12 @@ static void D_DoomMainSetup(void)
         if ((gamemode == shareware && temp == 1) || (temp >= 1 && ((gamemode == registered
             && temp <= 3) || (gamemode == retail && temp <= 4))))
         {
-            char *episodes[] =
+            char **episodes[] =
             {
-                "Knee-Deep in the Dead",
-                "The Shores of Hell",
-                "Inferno",
-                "Thy Flesh Consumed"
+                &s_M_EPISODE1,
+                &s_M_EPISODE2,
+                &s_M_EPISODE3,
+                &s_M_EPISODE4
             };
 
             startepisode = temp;
@@ -1816,8 +1816,8 @@ static void D_DoomMainSetup(void)
             else
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
-            C_Output("An <b>-episode %s</b> parameter was found on the command-line. The episode "
-                "is now \"%s\".", myargv[p + 1], episodes[episode]);
+            C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is "
+                "now \"%s\".", *episodes[episode]);
         }
     }
 
@@ -1828,10 +1828,10 @@ static void D_DoomMainSetup(void)
 
         if (gamemode == commercial && temp <= (nerve ? 2 : 1))
         {
-            char *expansions[] =
+            char **expansions[] =
             {
-                "Hell on Earth",
-                "No Rest for the Living"
+                &s_M_EXPANSION1,
+                &s_M_EXPANSION2
             };
 
             gamemission = (temp == 1 ? doom2 : pack_nerve);
@@ -1841,19 +1841,19 @@ static void D_DoomMainSetup(void)
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An <b>-expansion %s</b> parameter was found on the command-line. The "
-                "expansion is now \"%s\".", myargv[p + 1], expansions[expansion]);
+            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion "
+                "is now \"%s\".", *expansions[expansion]);
         }
     }
 
     p = M_CheckParmWithArgs("-warp", 1, 1);
     if (p)
-        C_Output("A <b>-warp %s</b> parameter was found on the command-line.", myargv[p + 1]);
+        C_Output("A <b>-warp</b> parameter was found on the command-line.");
     else
     {
         p = M_CheckParmWithArgs("+map", 1, 1);
         if (p)
-            C_Output("A <b>+map %s</b> parameter was found on the command-line.", myargv[p + 1]);
+            C_Output("A <b>+map</b> parameter was found on the command-line.");
     }
     if (p)
     {
@@ -1962,7 +1962,7 @@ static void D_DoomMainSetup(void)
     C_Output("Startup took %s seconds to complete.",
         striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 2));
 
-    // Ty 04/08/98 - Add 5 lines of misc. data, only if nonblank
+    // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
     // The expectation is that these will be set in a .bex file
     if (*startup1 || *startup2 || *startup3 || *startup4 || *startup5)
     {

@@ -426,7 +426,6 @@
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
     <None Include="..\.travis.yml" />
-    <None Include="..\AUTHORS" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
     <None Include="..\releasenotes.md" />

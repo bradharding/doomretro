@@ -875,7 +875,7 @@ static dboolean null_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// bind cmd
+// bind CCMD
 //
 static void C_UnbindDuplicates(int keep, controltype_t type, int value)
 {
@@ -1121,7 +1121,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// bindlist cmd
+// bindlist CCMD
 //
 static void C_DisplayBinds(char *action, int value, controltype_t type, int count)
 {
@@ -1175,7 +1175,7 @@ static void bindlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// clear cmd
+// clear CCMD
 //
 extern int      consolestrings;
 
@@ -1186,7 +1186,7 @@ static void clear_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// cmdlist cmd
+// cmdlist CCMD
 //
 static void cmdlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1224,7 +1224,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// condump cmd
+// condump CCMD
 //
 static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1329,7 +1329,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// cvarlist cmd
+// cvarlist CCMD
 //
 static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1418,7 +1418,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// endgame cmd
+// endgame CCMD
 //
 static void endgame_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1427,7 +1427,7 @@ static void endgame_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// exitmap cmd
+// exitmap CCMD
 //
 static void exitmap_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1436,7 +1436,7 @@ static void exitmap_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// fastmonsters cmd
+// fastmonsters CCMD
 //
 void G_SetFastMonsters(dboolean toggle);
 
@@ -1480,7 +1480,7 @@ static void fastmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
 }
 
 //
-// give cmd
+// give CCMD
 //
 extern int      cardsfound;
 
@@ -1589,7 +1589,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// god cmd
+// god CCMD
 //
 static dboolean god_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1625,7 +1625,7 @@ static void god_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// help cmd
+// help CCMD
 //
 static void help_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1638,7 +1638,7 @@ static void help_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// kill cmd
+// kill CCMD
 //
 static int      killcmdtype = NUMMOBJTYPES;
 dboolean        massacre = false;
@@ -1865,7 +1865,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// load cmd
+// load CCMD
 //
 static void load_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -1880,7 +1880,7 @@ static void load_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// map cmd
+// map CCMD
 //
 static int      mapcmdepisode;
 static int      mapcmdmap;
@@ -2145,7 +2145,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// maplist cmd
+// maplist CCMD
 //
 extern int      dehcount;
 extern char     **mapnames[];
@@ -2266,7 +2266,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// mapstats cmd
+// mapstats CCMD
 //
 #define AA      "Andre Arsenault"
 #define AD      "Andrew Dowswell"
@@ -2466,7 +2466,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// noclip cmd
+// noclip CCMD
 //
 static void noclip_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -2497,7 +2497,7 @@ static void noclip_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// nomonsters cmd
+// nomonsters CCMD
 //
 static void nomonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -2526,7 +2526,7 @@ static void nomonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm
 }
 
 //
-// notarget cmd
+// notarget CCMD
 //
 static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -2577,7 +2577,7 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// pistolstart cmd
+// pistolstart CCMD
 //
 static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -2597,7 +2597,7 @@ static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
 }
 
 //
-// play cmd
+// play CCMD
 //
 static int      playcmdid;
 static int      playcmdtype;
@@ -2646,7 +2646,7 @@ static void play_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// playerstats cmd
+// playerstats CCMD
 //
 #define UNITSPERFOOT    16
 
@@ -3000,7 +3000,7 @@ static void playerstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
 }
 
 //
-// quit cmd
+// quit CCMD
 //
 static void quit_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3008,7 +3008,7 @@ static void quit_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// reset cmd
+// reset CCMD
 //
 static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3050,7 +3050,7 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// resetall cmd
+// resetall CCMD
 //
 void C_VerifyResetAll(int key)
 {
@@ -3094,7 +3094,7 @@ static void resetall_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// respawnitems cmd
+// respawnitems CCMD
 //
 static void respawnitems_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3123,7 +3123,7 @@ static void respawnitems_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
 }
 
 //
-// respawnmonsters cmd
+// respawnmonsters CCMD
 //
 static dboolean respawnmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3148,7 +3148,7 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char 
 }
 
 //
-// resurrect cmd
+// resurrect CCMD
 //
 static dboolean resurrect_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3165,7 +3165,7 @@ static void resurrect_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3
 }
 
 //
-// save cmd
+// save CCMD
 //
 static dboolean save_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3185,7 +3185,7 @@ static void save_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// spawn cmd
+// spawn CCMD
 //
 static int      spawncmdtype = NUMMOBJTYPES;
 
@@ -3291,7 +3291,7 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// teleport cmd
+// teleport CCMD
 //
 static void teleport_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3351,7 +3351,7 @@ static void teleport_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// thinglist cmd
+// thinglist CCMD
 //
 static void thinglist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3369,7 +3369,7 @@ static void thinglist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3
 }
 
 //
-// unbind cmd
+// unbind CCMD
 //
 static void unbind_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3383,7 +3383,7 @@ static void unbind_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// boolean cvars
+// boolean CVARs
 //
 static dboolean bool_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3427,7 +3427,7 @@ static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// color cvars
+// color CVARs
 //
 static void color_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3437,7 +3437,7 @@ static void color_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// float cvars
+// float CVARs
 //
 static dboolean float_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3501,7 +3501,7 @@ static void float_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// int cvars
+// integer CVARs
 //
 static dboolean int_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3590,7 +3590,7 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// str cvars
+// string CVARs
 //
 static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3644,7 +3644,7 @@ static void str_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// time cvars
+// time CVARs
 //
 static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3667,7 +3667,7 @@ static void time_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// alwaysrun cvar
+// alwaysrun CVAR
 //
 static void alwaysrun_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3676,7 +3676,7 @@ static void alwaysrun_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm
 }
 
 //
-// am_external cvar
+// am_external CVAR
 //
 static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3703,7 +3703,7 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 }
 
 //
-// am_followmode cvar
+// am_followmode CVAR
 //
 static dboolean am_followmode_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3711,7 +3711,7 @@ static dboolean am_followmode_cvar_func1(char *cmd, char *parm1, char *parm2, ch
 }
 
 //
-// am_path cvar
+// am_path CVAR
 //
 static void am_path_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3723,7 +3723,7 @@ static void am_path_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// gp_deadzone_left and gp_deadzone_right cvars
+// gp_deadzone_left and gp_deadzone_right CVARs
 //
 static dboolean gp_deadzone_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3798,7 +3798,7 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 }
 
 //
-// ammo, armor and health cvars
+// ammo, armor and health CVARs
 //
 dboolean P_CheckAmmo(player_t *player);
 
@@ -3888,7 +3888,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// playername cvar
+// playername CVAR
 //
 
 static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -3900,7 +3900,7 @@ static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 }
 
 //
-// r_blood cvar
+// r_blood CVAR
 //
 static dboolean r_blood_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3945,7 +3945,7 @@ static void r_bloodsplats_max_cvar_func2(char *cmd, char *parm1, char *parm2, ch
 }
 
 //
-// r_detail cvar
+// r_detail CVAR
 //
 static dboolean r_detail_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -3978,7 +3978,7 @@ static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
 }
 
 //
-// r_gamma cvar
+// r_gamma CVAR
 //
 extern int      st_palette;
 
@@ -4027,7 +4027,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// r_hud cvar
+// r_hud CVAR
 //
 static void r_hud_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4036,7 +4036,7 @@ static void r_hud_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// r_lowpixelsize cvar
+// r_lowpixelsize CVAR
 //
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4062,7 +4062,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 }
 
 //
-// r_screensize cvar
+// r_screensize CVAR
 //
 static void r_screensize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4117,7 +4117,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parm1, char *parm2, char *p
 }
 
 //
-// r_translucency cvar
+// r_translucency CVAR
 //
 static void r_translucency_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4168,7 +4168,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 }
 
 //
-// s_musicvolume and s_sfxvolume cvars
+// s_musicvolume and s_sfxvolume CVARs
 //
 static dboolean s_volume_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4236,7 +4236,7 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
 }
 
 //
-// turbo cvar
+// turbo CVAR
 //
 static dboolean turbo_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4286,7 +4286,7 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// units cvar
+// units CVAR
 //
 static dboolean units_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4319,7 +4319,7 @@ static void units_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 }
 
 //
-// vid_capfps cvar
+// vid_capfps CVAR
 //
 static void vid_capfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4331,7 +4331,7 @@ static void vid_capfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 }
 
 //
-// vid_display cvar
+// vid_display CVAR
 //
 static void vid_display_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4343,7 +4343,7 @@ static void vid_display_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 }
 
 //
-// vid_fullscreen cvar
+// vid_fullscreen CVAR
 //
 static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4355,7 +4355,7 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 }
 
 //
-// vid_scaleapi cvar
+// vid_scaleapi CVAR
 //
 static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4387,7 +4387,7 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parm1, char *parm2, char *p
 }
 
 //
-// vid_scalefilter cvar
+// vid_scalefilter CVAR
 //
 static dboolean vid_scalefilter_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4419,7 +4419,7 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parm1, char *parm2, char
 }
 
 //
-// vid_screenresolution cvar
+// vid_screenresolution CVAR
 //
 static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4448,7 +4448,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parm1, char *parm2,
 }
 
 //
-// vid_showfps cvar
+// vid_showfps CVAR
 //
 static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4460,7 +4460,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 }
 
 //
-// vid_vsync cvar
+// vid_vsync CVAR
 //
 static void vid_vsync_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4472,7 +4472,7 @@ static void vid_vsync_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm
 }
 
 //
-// vid_widescreen cvar
+// vid_widescreen CVAR
 //
 static void vid_widescreen_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4509,7 +4509,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 }
 
 //
-// vid_windowposition cvar
+// vid_windowposition CVAR
 //
 static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
@@ -4539,7 +4539,7 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parm1, char *parm2, c
 }
 
 //
-// vid_windowsize cvar
+// vid_windowsize CVAR
 //
 static void vid_windowsize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
