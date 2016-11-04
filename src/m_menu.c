@@ -155,6 +155,8 @@ extern dboolean splashscreen;
 extern dboolean skipaction;
 extern dboolean skippsprinterp;
 
+extern dboolean windowfocused;
+
 //
 // PROTOTYPES
 //
@@ -1070,26 +1072,34 @@ void M_DrawSave(void)
     // draw text caret
     if (saveStringEnter)
     {
-        if (caretwait < I_GetTimeMS())
+        if (windowfocused)
         {
-            showcaret = !showcaret;
-            caretwait = I_GetTimeMS() + caretblinktime;
-        }
-        if (showcaret)
-        {
-            int x = LoadDef.x - 2 + M_StringWidth(left);
-            int y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
-
-            if (STCFN121)
-                V_DrawPatch(x, y, 0, pipechar);
-            else
+            if (caretwait < I_GetTimeMS())
             {
-                int     xx, yy;
-
-                for (yy = 0; yy < 9; ++yy)
-                    for (xx = 0; xx < 3; ++xx)
-                        V_DrawPixel(x + xx, y + yy, (int)savecaret[yy * 3 + xx], false);
+                showcaret = !showcaret;
+                caretwait = I_GetTimeMS() + caretblinktime;
             }
+            if (showcaret)
+            {
+                int x = LoadDef.x - 2 + M_StringWidth(left);
+                int y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
+
+                if (STCFN121)
+                    V_DrawPatch(x, y, 0, pipechar);
+                else
+                {
+                    int     xx, yy;
+
+                    for (yy = 0; yy < 9; ++yy)
+                        for (xx = 0; xx < 3; ++xx)
+                            V_DrawPixel(x + xx, y + yy, (int)savecaret[yy * 3 + xx], false);
+                }
+            }
+        }
+        else
+        {
+            showcaret = false;
+            caretwait = 0;
         }
     }
 
@@ -3376,7 +3386,7 @@ void M_SetupNextMenu(menu_t *menudef)
 //
 void M_Ticker(void)
 {
-    if (!saveStringEnter || !whichSkull)
+    if ((!saveStringEnter || !whichSkull) && windowfocused)
     {
         if (--skullAnimCounter <= 0)
         {
