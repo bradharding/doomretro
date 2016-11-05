@@ -88,7 +88,6 @@
 dboolean        consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
-static int      consolewait;
 
 static dboolean forceblurredraw = false;
 
@@ -863,12 +862,9 @@ void C_Drawer(void)
         // adjust console height
         if (gamestate == GS_TITLESCREEN)
             consoleheight = CONSOLEHEIGHT;
-        else if (consolewait < I_GetTime())
-        {
+        else
             consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection,
                 CONSOLEHEIGHT);
-            consolewait = I_GetTime();
-        }
 
         if (vid_motionblur && consoleheight < CONSOLEHEIGHT)
             I_SetMotionBlur(0);
