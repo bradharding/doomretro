@@ -2059,7 +2059,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         C_Output("Parsed the <b>DEHACKED</b> lump in %s file <b>%s</b>.",
             (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
     else
-        C_Output("Parsed the <i><b>DeHackEd%s</b></i> file <b>%s</b>.",
+        C_Output("Parsed the <i><b>DeHackEd</b></i>%s file <b>%s</b>.",
             (M_StringEndsWith(uppercase(filename), "BEX") ? " with <i><b>BOOM</b></i> extensions"
                 : ""), filename);
 }
