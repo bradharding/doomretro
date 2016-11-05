@@ -141,6 +141,8 @@ extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern int              r_bloodsplats_total;
 extern dboolean         r_brightmaps;
+extern int              r_brightness;
+extern int              r_contrast;
 extern dboolean         r_corpses_color;
 extern dboolean         r_corpses_mirrored;
 extern dboolean         r_corpses_moreblood;
@@ -234,6 +236,7 @@ extern int              pixelwidth;
 extern int              pixelheight;
 extern int              screenheight;
 extern int              screenwidth;
+extern int              st_palette;
 
 control_t controls[] =
 {
@@ -399,6 +402,8 @@ static void playername_cvar_func2(char *, char *, char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *, char *, char *);
 static void r_blood_cvar_func2(char *, char *, char *, char *);
 static void r_bloodsplats_max_cvar_func2(char *, char *, char *, char *);
+static void r_brightness_cvar_func2(char *, char *, char *, char *);
+static void r_contrast_cvar_func2(char *, char *, char *, char *);
 static dboolean r_detail_cvar_func1(char *, char *, char *, char *);
 static void r_detail_cvar_func2(char *, char *, char *, char *);
 static dboolean r_gamma_cvar_func1(char *, char *, char *, char *);
@@ -661,6 +666,10 @@ consolecmd_t consolecmds[] =
         "The total number of blood splats in the current map."),
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles brightmaps on certain wall textures."),
+    CVAR_INT(r_brightness, "", int_cvars_func1, r_brightness_cvar_func2, CF_NONE, NOALIAS,
+        "The screen's brightness (<b>-255</b> to <b>255</b>)."),
+    CVAR_INT(r_contrast, "", int_cvars_func1, r_contrast_cvar_func2, CF_NONE, NOALIAS,
+        "The screen's contrast (<b>-255</b> to <b>255</b>)."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles corpses of marines being randomly colored."),
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
@@ -684,7 +693,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_floatbob, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles some power-ups bobbing up and down."),
     CVAR_FLOAT(r_gamma, "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE,
-        "The gamma correction level (<b>off</b>, or <b>0.50</b> to <b>2.0</b>)."),
+        "The screen's gamma correction level (<b>off</b>, or <b>0.50</b> to <b>2.0</b>)."),
     CVAR_BOOL(r_homindicator, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles the flashing \"Hall of Mirrors\" indicator."),
     CVAR_BOOL(r_hud, "", bool_cvars_func1, r_hud_cvar_func2, BOOLALIAS,
@@ -3936,6 +3945,9 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
 }
 
+//
+// r_bloodsplats_max CVAR
+//
 static void r_bloodsplats_max_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     int r_bloodsplats_max_old = r_bloodsplats_max;
@@ -3944,6 +3956,39 @@ static void r_bloodsplats_max_cvar_func2(char *cmd, char *parm1, char *parm2, ch
     if (r_bloodsplats_max != r_bloodsplats_max_old)
         P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
             P_NullBloodSplatSpawner : P_SpawnBloodSplat);
+}
+
+//
+// r_brightness CVAR
+//
+static void r_brightness_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int r_brightness_old = r_brightness_max;
+
+    int_cvars_func2(cmd, parm1, "", "");
+    if (r_brightness != r_brightness_old)
+    {
+        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+        M_SaveCVARs();
+    }
+}
+
+//
+// r_contrast CVAR
+//
+extern double   contrast;
+
+static void r_contrast_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    int r_contrast_old = r_contrast_max;
+
+    int_cvars_func2(cmd, parm1, "", "");
+    if (r_contrast != r_contrast_old)
+    {
+        contrast = (259.0 * (r_contrast + 255)) / (255.0 * (259 - r_contrast));
+        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+        M_SaveCVARs();
+    }
 }
 
 //
@@ -3982,8 +4027,6 @@ static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
 //
 // r_gamma CVAR
 //
-extern int      st_palette;
-
 static dboolean r_gamma_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     float       value = -1.0f;

@@ -94,6 +94,8 @@ extern int              r_berserkintensity;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern dboolean         r_brightmaps;
+extern int              r_brightness;
+extern int              r_contrast;
 extern dboolean         r_corpses_color;
 extern dboolean         r_corpses_mirrored;
 extern dboolean         r_corpses_moreblood;
@@ -183,6 +185,7 @@ extern char             *vid_windowposition;
 extern char             *vid_windowsize;
 extern int              weaponbob;
 
+extern double           contrast;
 extern char             *packageconfig;
 extern dboolean         returntowidescreen;
 
@@ -255,6 +258,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_blood,                                           BLOODALIAS ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                                 NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_brightmaps,                                      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_brightness,                                      NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_contrast,                                        NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_corpses_color,                                   BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,                                BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,                               BOOLALIAS  ),
@@ -708,6 +713,11 @@ static void M_CheckCVARs(void)
 
     if (r_brightmaps != false && r_brightmaps != true)
         r_brightmaps = r_brightmaps_default;
+
+    r_brightness = BETWEEN(r_brightness_min, r_brightness, r_brightness_max);
+
+    r_contrast = BETWEEN(r_contrast_min, r_contrast, r_contrast_max);
+    contrast = (259.0 * (r_contrast + 255)) / (255.0 * (259 - r_contrast));
 
     if (r_corpses_color != false && r_corpses_color != true)
         r_corpses_color = r_corpses_color_default;

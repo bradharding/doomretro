@@ -73,6 +73,8 @@
 
 // CVARs
 dboolean                m_novertical = m_novertical_default;
+int                     r_brightness = r_brightness_default;
+int                     r_contrast = r_contrast_default;
 int                     vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
 #if !defined(WIN32)
@@ -101,6 +103,7 @@ static SDL_Surface      *buffer;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
 static byte             *playpal;
+double                  contrast;
 
 byte                    *mapscreen;
 SDL_Window              *mapwindow = NULL;
@@ -927,13 +930,16 @@ void I_ReadScreen(byte *screen)
 //
 void I_SetPalette(byte *playpal)
 {
-    int i;
+    int         i;
 
     for (i = 0; i < 256; ++i)
     {
-        colors[i].r = gammatable[gammaindex][*playpal++];
-        colors[i].g = gammatable[gammaindex][*playpal++];
-        colors[i].b = gammatable[gammaindex][*playpal++];
+        colors[i].r = BETWEEN(0, (int)(contrast * (gammatable[gammaindex][*playpal++] - 128)
+            + 128 + r_brightness + 0.5), 255);
+        colors[i].g = BETWEEN(0, (int)(contrast * (gammatable[gammaindex][*playpal++] - 128)
+            + 128 + r_brightness + 0.5), 255);
+        colors[i].b = BETWEEN(0, (int)(contrast * (gammatable[gammaindex][*playpal++] - 128)
+            + 128 + r_brightness + 0.5), 255);
     }
 
     if (SDL_SetPaletteColors(palette, colors, 0, 256) < 0)
