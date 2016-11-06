@@ -667,9 +667,9 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles brightmaps on certain wall textures."),
     CVAR_INT(r_brightness, "", int_cvars_func1, r_brightness_cvar_func2, CF_NONE, NOALIAS,
-        "The screen's brightness (<b>-255</b> to <b>255</b>)."),
+        "The screen's brightness (<b>-50</b> to <b>50</b>)."),
     CVAR_INT(r_contrast, "", int_cvars_func1, r_contrast_cvar_func2, CF_NONE, NOALIAS,
-        "The screen's contrast (<b>-255</b> to <b>255</b>)."),
+        "The screen's contrast (<b>-50</b> to <b>50</b>)."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles corpses of marines being randomly colored."),
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
@@ -3965,7 +3965,7 @@ static void r_bloodsplats_max_cvar_func2(char *cmd, char *parm1, char *parm2, ch
 //
 static void r_brightness_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int r_brightness_old = r_brightness_max;
+    int r_brightness_old = r_brightness;
 
     int_cvars_func2(cmd, parm1, "", "");
     if (r_brightness != r_brightness_old)
@@ -3982,7 +3982,7 @@ extern double   contrast;
 
 static void r_contrast_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int r_contrast_old = r_contrast_max;
+    int r_contrast_old = r_contrast;
 
     int_cvars_func2(cmd, parm1, "", "");
     if (r_contrast != r_contrast_old)
