@@ -230,14 +230,6 @@ typedef enum
 
 #define r_brightmaps_default                    true
 
-#define r_brightness_min                       -50
-#define r_brightness_default                    0
-#define r_brightness_max                        50
-
-#define r_contrast_min                         -50
-#define r_contrast_default                      0
-#define r_contrast_max                          50
-
 #define r_corpses_color_default                 true
 
 #define r_corpses_mirrored_default              true
