@@ -4,7 +4,7 @@
 * Minor changes have been made to text that is output to the console.
 * The console now opens and closes faster.
 * The game will no longer crash when opening the console on the title screen and using the mouse wheel to scroll upwards.
-* Instead of toggling capping of the framerate at 35 FPS, the value of the `vid_capfps` CVAR is now the actual frames per second at which the framerate will be capped. It can be `off`, or between `35` and `1,000` FPS, and is `200` FPS by default. All interpolation is automatically disabled when this CVAR is `35` FPS.
+* Instead of toggling capping of the framerate at 35 FPS, the value of the `vid_capfps` CVAR is now the actual frames per second at which the framerate will be capped. It can be `off`, or between `35` and `1,000` FPS, and is `200` FPS by default. All interpolation is automatically disabled when this CVAR is set to `35` FPS. This CVAR has no effect if it is set to a value greater than the display’s refresh rate and the `vid_vsync` CVAR is `on`.
 * Vertical sync with the display’s refresh rate now works correctly when the `vid_vsync` CVAR is `on` and the `vid_scaleapi` CVAR is `"opengl"`.
 * The `vid_scaleapi` CVAR is now `"opengl"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest_linear"` by default.
