@@ -446,7 +446,7 @@ static int C_LookupValueFromAlias(const char *text, int aliastype)
         ++i;
     }
 
-    return -1;
+    return INT_MIN;
 }
 
 static char *C_LookupAliasFromValue(int value, alias_type_t aliastype)
@@ -3523,12 +3523,14 @@ static dboolean int_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3
 
     while (*consolecmds[i].name)
     {
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+        if (M_StringCompare(cmd, consolecmds[i].name)
+            && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_INTEGER))
         {
-            int value = -1;
+            int     value = C_LookupValueFromAlias(parm1, consolecmds[i].aliases);
 
-            sscanf(parm1, "%10i", &value);
+            if (value == INT_MIN)
+                sscanf(parm1, "%10i", &value);
 
             return (value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
         }
@@ -3551,10 +3553,10 @@ static void int_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             {
                 int     value = C_LookupValueFromAlias(parm1, consolecmds[i].aliases);
 
-                if (value < 0)
+                if (value == INT_MIN)
                     sscanf(parm1, "%10i", &value);
 
-                if (value >= 0 && value != *(int *)consolecmds[i].variable)
+                if (value != INT_MIN && value != *(int *)consolecmds[i].variable)
                 {
                     *(int *)consolecmds[i].variable = value;
                     M_SaveCVARs();
