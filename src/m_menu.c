@@ -1422,7 +1422,7 @@ void M_SfxVol(int choice)
             case 0:
                 if (sfxVolume > 0)
                 {
-                    S_SetSfxVolume((int)(--sfxVolume * 127 / 15.0));
+                    S_SetSfxVolume(--sfxVolume * 127 / 15);
                     S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 15;
                     C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
@@ -1433,7 +1433,7 @@ void M_SfxVol(int choice)
             case 1:
                 if (sfxVolume < 15)
                 {
-                    S_SetSfxVolume((int)(++sfxVolume * 127 / 15.0));
+                    S_SetSfxVolume(++sfxVolume * 127 / 15);
                     S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 15;
                     C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
@@ -1453,7 +1453,7 @@ void M_MusicVol(int choice)
             case 0:
                 if (musicVolume > 0)
                 {
-                    S_SetMusicVolume((int)(--musicVolume * 127 / 15.0));
+                    S_SetMusicVolume(--musicVolume * 127 / 15);
                     S_StartSound(NULL, sfx_stnmov);
                     s_musicvolume = musicVolume * 100 / 15;
                     C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
@@ -1464,7 +1464,7 @@ void M_MusicVol(int choice)
             case 1:
                 if (musicVolume < 15)
                 {
-                    S_SetMusicVolume((int)(++musicVolume * 127 / 15.0));
+                    S_SetMusicVolume(++musicVolume * 127 / 15);
                     S_StartSound(NULL, sfx_stnmov);
                     s_musicvolume = musicVolume * 100 / 15;
                     C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
