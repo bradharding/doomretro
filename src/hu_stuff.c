@@ -874,8 +874,10 @@ void HU_Drawer(void)
 
 void HU_Erase(void)
 {
-    HUlib_eraseSText(&w_message);
-    HUlib_eraseTextLine(&w_title);
+    if (message_on)
+        HUlib_eraseSText(&w_message);
+    if (mapwindow || automapactive)
+        HUlib_eraseTextLine(&w_title);
 }
 
 extern fixed_t  m_x, m_y, m_h, m_w;

@@ -1459,7 +1459,7 @@ static void fastmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
 {
     if (*parm1)
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if (value == 0)
         {
@@ -2485,7 +2485,7 @@ static void noclip_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (*parm1)
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if (value == 0)
             player->cheats &= ~CF_NOCLIP;
@@ -2514,7 +2514,7 @@ static void nomonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm
 {
     if (*parm1)
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if (value == 0)
             nomonsters = false;
@@ -2545,7 +2545,7 @@ static void notarget_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (*parm1)
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if (value == 0)
             player->cheats &= ~CF_NOTARGET;
@@ -2594,7 +2594,7 @@ static void pistolstart_cmd_func2(char *cmd, char *parm1, char *parm2, char *par
 {
     if (*parm1)
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if (value == 0)
             pistolstart = false;
@@ -3111,7 +3111,7 @@ static void respawnitems_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
 {
     if (*parm1)
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if (value == 0)
             respawnitems = false;
@@ -3145,7 +3145,7 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char 
 {
     if (*parm1)
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if (value == 0)
             respawnmonsters = false;
@@ -3398,7 +3398,7 @@ static void unbind_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static dboolean bool_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!*parm1 || C_LookupValueFromAlias(parm1, BOOLALIAS) >= 0);
+    return (!*parm1 || C_LookupValueFromAlias(parm1, BOOLALIAS) != INT_MIN);
 }
 
 static void bool_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -3917,7 +3917,7 @@ static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 //
 static dboolean r_blood_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!*parm1 || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
+    return (!*parm1 || C_LookupValueFromAlias(parm1, BLOODALIAS) != INT_MIN);
 }
 
 static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -3998,7 +3998,7 @@ static void r_contrast_cvar_func2(char *cmd, char *parm1, char *parm2, char *par
 //
 static dboolean r_detail_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!*parm1 || C_LookupValueFromAlias(parm1, DETAILALIAS) >= 0);
+    return (!*parm1 || C_LookupValueFromAlias(parm1, DETAILALIAS) != INT_MIN);
 }
 
 static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -4337,7 +4337,7 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static dboolean units_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (!*parm1 || C_LookupValueFromAlias(parm1, UNITSALIAS) >= 0);
+    return (!*parm1 || C_LookupValueFromAlias(parm1, UNITSALIAS) != INT_MIN);
 }
 
 static void units_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
