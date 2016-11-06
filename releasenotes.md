@@ -15,6 +15,7 @@
   * Windows are no longer shattered when using `kill all` in the console.
 * The music will now be stopped if *DOOM Retro* crashes.
 * The text carets in both the save game menu and the console will no longer be displayed, and the skull in the menu will no longer animate, while the window doesn’t have focus.
+* The screen’s brightness and contrast can now be changed using the new `r_brightness` and `r_contrast` CVARs. They can be values between `-50` and `50`, and are both `0` by default.
 
 ---
 
