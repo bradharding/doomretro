@@ -2045,7 +2045,7 @@ dboolean EV_DoDonut(line_t *line)
 void P_SpawnSpecials(void)
 {
     line_t      *line;
-    sector_t    *sector;
+    sector_t    *sector = sectors;
     int         i;
 
     if ((i = M_CheckParmWithArgs("-timer", 1, 1)))
@@ -2065,11 +2065,13 @@ void P_SpawnSpecials(void)
     }
 
     // Init special SECTORs.
-    sector = sectors;
     for (i = 0; i < numsectors; i++, sector++)
     {
         if (!sector->special)
             continue;
+
+        if (sector->special & SECRET_MASK)
+            ++totalsecret;
 
         switch (sector->special)
         {
