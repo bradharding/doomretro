@@ -2074,7 +2074,7 @@ void P_SpawnSpecials(void)
         if (sector->special & SECRET_MASK)
             ++totalsecret;
 
-        switch (sector->special)
+        switch (sector->special & 31)
         {
             case LightBlinks_Randomly:
                 P_SpawnLightFlash(sector);

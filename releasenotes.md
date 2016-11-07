@@ -18,6 +18,7 @@
 * A bug has been fixed whereby the music volume and sound effects volume were set incorrectly at startup in some instances.
 * The text carets in both the save game menu and the console will no longer be displayed, and the skull in the menu will no longer animate, while the window doesn’t have focus.
 * A bug has been fixed whereby certain secrets wouldn’t be counted in some *BOOM*-compatible maps.
+* Sectors with multiple effects in some *BOOM*-compatible maps will now be rendered correctly.
 
 ---
 
