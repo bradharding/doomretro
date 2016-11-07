@@ -1837,6 +1837,7 @@ void P_PlayerInSpecialSector(player_t *player)
 
             case DamageNegative10Or20PercentHealthAndEndLevel:
                 // for E1M8 finale
+                player->cheats &= ~CF_BUDDHA;
                 player->cheats &= ~CF_GODMODE;
                 player->powers[pw_invulnerability] = 0;
 
