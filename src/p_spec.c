@@ -2098,7 +2098,8 @@ void P_SpawnSpecials(void)
                 break;
 
             case Secret:
-                totalsecret++;
+                if (sector->special < 32)
+                    ++totalsecret;
                 break;
 
             case Door_CloseStay_After30sec:

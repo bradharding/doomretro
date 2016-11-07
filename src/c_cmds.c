@@ -37,6 +37,7 @@
 */
 
 #include <ctype.h>
+#include <float.h>
 
 #if defined(WIN32)
 #include <windows.h>
@@ -3454,11 +3455,11 @@ static dboolean float_cvars_func1(char *cmd, char *parm1, char *parm2, char *par
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_FLOAT))
         {
-            float       value = -1.0f;
+            float       value = FLT_MIN;
 
             sscanf(parm1, "%10f", &value);
 
-            return (value >= 0.0f);
+            return (value != FLT_MIN);
         }
         ++i;
     }
@@ -3476,11 +3477,11 @@ static void float_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             if (*parm1)
             {
-                float     value = -1.0f;
+                float     value = FLT_MIN;
 
                 sscanf(parm1, "%10f", &value);
 
-                if (value >= 0.0f && value != *(float *)consolecmds[i].variable)
+                if (value != FLT_MIN && value != *(float *)consolecmds[i].variable)
                 {
                     *(float *)consolecmds[i].variable = value;
                     M_SaveCVARs();
@@ -3810,7 +3811,7 @@ dboolean P_CheckAmmo(player_t *player);
 static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     player_t    *player = &players[0];
-    int         value = -1;
+    int         value = INT_MIN;
 
     if (M_StringCompare(cmd, stringize(ammo)))
     {
@@ -3820,11 +3821,12 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && value != player->ammo[ammotype] && player->playerstate == PST_LIVE
-                && ammotype != am_noammo)
+            if (value != INT_MIN && value != player->ammo[ammotype]
+                && player->playerstate == PST_LIVE && ammotype != am_noammo)
             {
                 if (value > player->ammo[ammotype])
                     P_AddBonus(player, BONUSADD);
+
                 player->ammo[ammotype] = MIN(value, player->maxammo[ammotype]);
                 P_CheckAmmo(player);
                 C_HideConsole();
@@ -3843,7 +3845,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && value != player->armorpoints)
+            if (value != INT_MIN && value != player->armorpoints)
             {
                 if (value > player->armorpoints)
                     P_AddBonus(player, BONUSADD);
@@ -3863,7 +3865,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             sscanf(parm1, "%10i", &value);
 
-            if (value >= 0 && !(player->cheats & CF_GODMODE)
+            if (value != INT_MIN && !(player->cheats & CF_GODMODE)
                 && !player->powers[pw_invulnerability])
             {
                 if (!player->mo)
@@ -3871,7 +3873,9 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
                 if (value > player->health)
                     P_AddBonus(player, BONUSADD);
+
                 value = MIN(value, maxhealth);
+
                 if (!player->health && value)
                     P_ResurrectPlayer(player, value);
                 else if (!(player->cheats & CF_BUDDHA) || value > 0)
@@ -3880,6 +3884,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                         P_DamageMobj(player->mo, NULL, NULL, player->health - value, false);
                     else
                         player->health = player->mo->health = value;
+
                     C_HideConsole();
                 }
             }
@@ -3918,7 +3923,7 @@ static void r_blood_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     {
         int     value = C_LookupValueFromAlias(parm1, BLOODALIAS);
 
-        if (value >= 0 && r_blood != value)
+        if (value != INT_MIN && r_blood != value)
         {
             r_blood = value;
             P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
@@ -3990,28 +3995,28 @@ static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
 //
 static dboolean r_gamma_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    float       value = -1.0f;
+    float       value = FLT_MIN;
 
     if (!*parm1 || M_StringCompare(parm1, "off"))
         return true;
 
     sscanf(parm1, "%10f", &value);
 
-    return (value >= 0.0f);
+    return (value != FLT_MIN);
 }
 
 static void r_gamma_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (*parm1)
     {
-        float   value = -1.0f;
+        float   value = FLT_MIN;
 
         if (M_StringCompare(parm1, "off"))
             value = 1.0f;
         else
             sscanf(parm1, "%10f", &value);
 
-        if (value >= 0.0f && r_gamma != value)
+        if (value != FLT_MIN && r_gamma != value)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
@@ -4178,12 +4183,13 @@ static void r_translucency_cvar_func2(char *cmd, char *parm1, char *parm2, char 
 //
 static dboolean s_volume_cvars_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int value = -1;
+    int value = INT_MIN;
 
     if (!*parm1)
         return true;
+
     if (parm1[strlen(parm1) - 1] == '%')
-        parm1[strlen(parm1) - 1] = 0;
+        parm1[strlen(parm1) - 1] = '\0';
 
     sscanf(parm1, "%10i", &value);
 
@@ -4196,10 +4202,10 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
 {
     if (*parm1)
     {
-        int value = 0;
+        int value = INT_MIN;
 
         if (parm1[strlen(parm1) - 1] == '%')
-            parm1[strlen(parm1) - 1] = 0;
+            parm1[strlen(parm1) - 1] = '\0';
 
         sscanf(parm1, "%10i", &value);
 
@@ -4245,7 +4251,7 @@ static void s_volume_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm
 //
 static dboolean turbo_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int value = -1;
+    int value = INT_MIN;
 
     if (!*parm1)
         return true;
@@ -4259,7 +4265,7 @@ static void turbo_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (*parm1)
     {
-        int     value = -1;
+        int     value = INT_MIN;
 
         sscanf(parm1, "%10i", &value);
 
@@ -4328,7 +4334,7 @@ static void units_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static dboolean vid_capfps_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    int value = -1;
+    int value = INT_MIN;
 
     if (!*parm1 || M_StringCompare(parm1, "on") || M_StringCompare(parm1, "off"))
         return true;

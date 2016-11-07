@@ -17,6 +17,7 @@
 * The music will now be stopped if *DOOM Retro* crashes.
 * A bug has been fixed whereby the music volume and sound effects volume were set incorrectly at startup in some instances.
 * The text carets in both the save game menu and the console will no longer be displayed, and the skull in the menu will no longer animate, while the window doesn’t have focus.
+* Objects will no longer be lit incorrectly in some rare instances.
 * A bug has been fixed whereby certain secrets wouldn’t be counted in some *BOOM*-compatible maps.
 * Sectors with multiple effects in some *BOOM*-compatible maps will now be rendered correctly.
 
