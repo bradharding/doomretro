@@ -1477,10 +1477,10 @@ static void SetVideoMode(dboolean output)
                 int     refreshrate = displaymode.refresh_rate;
 
                 if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
-                    if (SDL_GL_SetSwapInterval(-1) == -1)
+                    if (SDL_GL_SetSwapInterval(-1) < 0)
                         SDL_GL_SetSwapInterval(1);
 
-                if (refreshrate < vid_capfps)
+                if (refreshrate < vid_capfps || !vid_capfps)
                 {
                     if (output)
                         C_Output("The framerate is synced to the display's refresh rate of %iHz.",
