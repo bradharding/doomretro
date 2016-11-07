@@ -911,14 +911,11 @@ void C_Drawer(void)
                 V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight),
                     divider, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else if (M_StringCompare(console[i].string, CMDLISTTITLE))
-                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    cmdlist, consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
             else if (M_StringCompare(console[i].string, CVARLISTTITLE))
-                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    cvarlist, consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
             else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
-                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    playerstats, consoleheadercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
