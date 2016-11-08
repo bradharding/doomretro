@@ -81,9 +81,7 @@
 
 #define DIVIDER                 "~~~"
 
-#if !defined(WIN32)
-#define CARETBLINKTIME          530
-#endif
+#define CARETBLINKTIME          350
 
 dboolean        consoleactive = false;
 int             consoleheight = 0;
@@ -508,11 +506,7 @@ void C_Init(void)
     cvarlist = W_CacheLumpName("DRCVRLST", PU_STATIC);
     playerstats = W_CacheLumpName("DRPLYRST", PU_STATIC);
 
-#if defined(WIN32)
-    caretblinktime = GetCaretBlinkTime();
-#else
     caretblinktime = CARETBLINKTIME;
-#endif
 
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
