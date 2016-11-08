@@ -20,6 +20,7 @@
 * Objects will no longer be lit incorrectly in some rare instances.
 * A bug has been fixed whereby certain secrets wouldn’t be counted in some *BOOM*-compatible maps.
 * Sectors with multiple effects in some *BOOM*-compatible maps will now be rendered correctly.
+* The weapon keys <kbd>1</kbd> to <kbd>7</kbd> will no longer momentarily fail to work after entering an invalid parameter for the `IDMUSxy` cheat.
 
 ---
 
