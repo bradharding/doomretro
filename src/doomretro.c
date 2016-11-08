@@ -278,8 +278,6 @@ int main(int argc, char **argv)
     I_AccessibilityShortcutKeys(false);
 
     I_SetProcessDPIAware();
-
-    SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 #endif
 
     myargc = argc;

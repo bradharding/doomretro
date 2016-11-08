@@ -240,6 +240,11 @@ static void UpdateFocus(void)
     // We should have input (keyboard) focus and be visible (not minimized)
     windowfocused = ((state & SDL_WINDOW_INPUT_FOCUS) && (state & SDL_WINDOW_SHOWN));
 
+#if defined(WIN32)
+    SetPriorityClass(GetCurrentProcess(),
+        (windowfocused ? NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS));
+#endif
+
     if (!windowfocused && !menuactive && gamestate == GS_LEVEL && !paused && !consoleactive)
     {
         sendpause = true;
