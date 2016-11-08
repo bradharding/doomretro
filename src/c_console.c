@@ -54,6 +54,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "s_sound.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "v_video.h"
@@ -551,6 +552,8 @@ void C_ShowConsole(void)
     consoledirection = 1;
     showcaret = true;
     caretwait = 0;
+    if (gamestate == GS_TITLESCREEN)
+        S_StartSound(NULL, sfx_swtchn);
 }
 
 void C_HideConsole(void)
@@ -560,6 +563,7 @@ void C_HideConsole(void)
     {
         consoleheight = 0;
         consoleactive = false;
+        S_StartSound(NULL, sfx_swtchx);
     }
 }
 
