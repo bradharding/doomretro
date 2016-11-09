@@ -89,7 +89,7 @@ char *P_SaveGameFile(int slot)
 // Endian-safe integer read/write functions
 static byte saveg_read8(void)
 {
-    byte        result;
+    byte        result = -1;
 
     fread(&result, 1, 1, save_stream);
 

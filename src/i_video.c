@@ -1435,7 +1435,7 @@ static void SetVideoMode(dboolean output)
         {
             if (output)
                 C_Output("The screen is rendered using hardware acceleration with the "
-                    "<i><b>Direct3D 9.0</b></i> API.");
+                    "<i><b>Direct3D %s</b></i> API.", (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
                 vid_scaleapi = vid_scaleapi_direct3d;
