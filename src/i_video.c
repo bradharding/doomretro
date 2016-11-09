@@ -1505,8 +1505,7 @@ static void SetVideoMode(dboolean output)
         }
         else
         {
-            if (vid_capfps)
-                I_CapFPS(vid_capfps);
+            I_CapFPS(vid_capfps);
 
             if (output)
             {
