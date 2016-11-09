@@ -71,6 +71,10 @@
 #define I_SDLError(func)        I_Error(func"() failed on line %i of %s: \"%s\".", \
                                     (__LINE__ - 1), leafname(__FILE__), SDL_GetError())
 
+#if !defined(SDL_VIDEO_RENDER_D3D11)
+#define SDL_VIDEO_RENDER_D3D11  0
+#endif
+
 // CVARs
 dboolean                m_novertical = m_novertical_default;
 int                     vid_capfps = vid_capfps_default;
