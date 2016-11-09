@@ -10,7 +10,7 @@
 #  Copyright © 2013-2016 Brad Harding.
 #
 #  DOOM Retro is a fork of Chocolate DOOM.
-#  For a list of credits, see <http://credits.doomretro.com>.
+#  For a list of credits, see <http://wiki.doomretro.com/credits>.
 #
 #  This file is part of DOOM Retro.
 #
