@@ -1015,9 +1015,8 @@ void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-#define CARETBLINKTIME  530
+#define CARETBLINKTIME  350
 
-static int      caretblinktime;
 static dboolean showcaret;
 static int      caretwait;
 
@@ -1078,7 +1077,7 @@ void M_DrawSave(void)
             if (caretwait < I_GetTimeMS())
             {
                 showcaret = !showcaret;
-                caretwait = I_GetTimeMS() + caretblinktime;
+                caretwait = I_GetTimeMS() + CARETBLINKTIME;
             }
             if (showcaret)
             {
@@ -2476,7 +2475,7 @@ dboolean M_Responder(event_t *ev)
                     for (j = saveCharIndex - 1; j < strlen(savegamestrings[saveSlot]); ++j)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
                     saveCharIndex--;
-                    caretwait = I_GetTimeMS() + caretblinktime;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
                 break;
@@ -2490,7 +2489,7 @@ dboolean M_Responder(event_t *ev)
 
                     for (j = saveCharIndex; j < strlen(savegamestrings[saveSlot]); ++j)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
-                    caretwait = I_GetTimeMS() + caretblinktime;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
                 break;
@@ -2521,7 +2520,7 @@ dboolean M_Responder(event_t *ev)
                     if (savegamestrings[saveSlot][0] && !allspaces)
                     {
                         saveStringEnter = 0;
-                        caretwait = I_GetTimeMS() + caretblinktime;
+                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                         M_DoSave(saveSlot);
                     }
@@ -2533,7 +2532,7 @@ dboolean M_Responder(event_t *ev)
                 if (saveCharIndex > 0)
                 {
                     saveCharIndex--;
-                    caretwait = I_GetTimeMS() + caretblinktime;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
                 break;
@@ -2543,7 +2542,7 @@ dboolean M_Responder(event_t *ev)
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
                     saveCharIndex++;
-                    caretwait = I_GetTimeMS() + caretblinktime;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
                 break;
@@ -2553,7 +2552,7 @@ dboolean M_Responder(event_t *ev)
                 if (saveCharIndex > 0)
                 {
                     saveCharIndex = 0;
-                    caretwait = I_GetTimeMS() + caretblinktime;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
                 break;
@@ -2563,7 +2562,7 @@ dboolean M_Responder(event_t *ev)
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
                     saveCharIndex = strlen(savegamestrings[saveSlot]);
-                    caretwait = I_GetTimeMS() + caretblinktime;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
                 break;
@@ -2579,7 +2578,7 @@ dboolean M_Responder(event_t *ev)
                     for (i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; --i)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
                     savegamestrings[saveSlot][saveCharIndex++] = ch;
-                    caretwait = I_GetTimeMS() + caretblinktime;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
         }
@@ -3418,12 +3417,6 @@ void M_Init(void)
 
     pipechar = W_CacheLumpName((W_CheckNumForName("STCFN121") >= 0 ? "STCFN121" : "STCFN124"),
         PU_CACHE);
-
-#if defined(WIN32)
-    caretblinktime = GetCaretBlinkTime();
-#else
-    caretblinktime = CARETBLINKTIME;
-#endif
 
     if (autostart)
     {
