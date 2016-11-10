@@ -505,8 +505,10 @@ void D_DoAdvanceTitle(void)
 
             if (pagelump == creditlump)
                 forcewipe = true;
+
             pagelump = titlelump;
             pagetic = 20 * TICRATE;
+
             if (splashscreen)
             {
                 I_SetPalette(playpal);
@@ -514,8 +516,13 @@ void D_DoAdvanceTitle(void)
                 if (!TITLEPIC)
                     M_StartControlPanel();
             }
+
             M_SetWindowCaption();
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
+
+            if (devparm)
+                C_ShowConsole();
+
             break;
 
         case 2:
@@ -1534,7 +1541,7 @@ static void D_DoomMainSetup(void)
     static char lumpname[6];
     char        *appdatafolder = M_GetAppDataFolder();
     char        *packagewad = M_StringJoin(M_GetResourceFolder(), DIR_SEPARATOR_S, PACKAGE_WAD,
-                    NULL);
+        NULL);
 
     M_MakeDirectory(appdatafolder);
 
@@ -1679,14 +1686,14 @@ static void D_DoomMainSetup(void)
                     }
                 }
             }
-        while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
+    while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\nspecifying one with the "
             "-IWAD command-line parameter.");
 
     if (!W_MergeFile(packagewad, true))
-            I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
+        I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
 
     if (!CheckPackageWADVersion())
         I_Error("%s is the wrong version.\nPlease reinstall "PACKAGE_NAME".", packagewad);

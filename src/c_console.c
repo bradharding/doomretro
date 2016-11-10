@@ -549,7 +549,7 @@ void C_ShowConsole(void)
     consoledirection = 1;
     showcaret = true;
     caretwait = 0;
-    if (gamestate == GS_TITLESCREEN)
+    if (gamestate == GS_TITLESCREEN && !devparm)
         S_StartSound(NULL, sfx_swtchn);
 }
 

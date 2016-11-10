@@ -1,5 +1,7 @@
 ### DOOM Retro v2.3.5
 
+* The console is automatically opened at startup when `-devparm` is specified on the command-line.
+
 ---
 
 ###### Thursday, November 10, 2016
