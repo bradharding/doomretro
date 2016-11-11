@@ -5,6 +5,7 @@
 * If the `vid_scaleapi` CVAR is `"opengl"` and the version of the *OpenGL* API is less than 2.1, then it will be changed to `"direct3d"` instead.
 * If `-cdrom` is specified on the command-line and the `r_diskicon` CVAR is `on`, the `STCDROM` lump will be used instead of the `STDISK` lump.
 * The size of the grid in the automap can now be changed using the `am_gridsize` CVAR. It can be between `4` and `4,096`, and is `128` by default.
+* The last menu item to be selected is now remembered when using the <kbd>F2</kbd>, <kbd>F3</kbd> or <kbd>F4</kbd> keys to display a menu.
 
 ---
 

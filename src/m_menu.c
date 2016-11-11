@@ -2674,6 +2674,7 @@ dboolean M_Responder(event_t *ev)
             if (functionkey == KEY_F2)
             {
                 functionkey = 0;
+                currentMenu->lastOn = itemOn;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
             }
@@ -2681,6 +2682,7 @@ dboolean M_Responder(event_t *ev)
             {
                 functionkey = KEY_F2;
                 M_StartControlPanel();
+                itemOn = currentMenu->lastOn;
                 S_StartSound(NULL, sfx_swtchn);
                 M_SaveGame(0);
             }
@@ -2695,6 +2697,7 @@ dboolean M_Responder(event_t *ev)
             if (functionkey == KEY_F3)
             {
                 functionkey = 0;
+                currentMenu->lastOn = itemOn;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
             }
@@ -2702,6 +2705,7 @@ dboolean M_Responder(event_t *ev)
             {
                 functionkey = KEY_F3;
                 M_StartControlPanel();
+                itemOn = currentMenu->lastOn;
                 S_StartSound(NULL,sfx_swtchn);
                 M_LoadGame(0);
             }
@@ -2726,6 +2730,7 @@ dboolean M_Responder(event_t *ev)
                 if (functionkey == KEY_F4)
                 {
                     functionkey = 0;
+                    currentMenu->lastOn = itemOn;
                     M_ClearMenus();
                     S_StartSound(NULL, sfx_swtchx);
                 }
@@ -2734,7 +2739,7 @@ dboolean M_Responder(event_t *ev)
                     functionkey = KEY_F4;
                     M_StartControlPanel();
                     currentMenu = &SoundDef;
-                    itemOn = sfx_vol;
+                    itemOn = currentMenu->lastOn;
                     S_StartSound(NULL, sfx_swtchn);
                 }
                 return false;
