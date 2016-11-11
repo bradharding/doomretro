@@ -261,6 +261,7 @@ static void SetShowCursor(dboolean show)
 {
     if (SDL_SetRelativeMouseMode(!show) < 0)
         I_SDLError("SDL_SetRelativeMouseMode");
+
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
@@ -471,6 +472,7 @@ static void I_GetEvent(void)
 
                 event.data1 = translatekey[Event->key.keysym.scancode];
                 event.data2 = Event->key.keysym.sym;
+
                 if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
                     event.data2 = 0;
 
@@ -511,6 +513,7 @@ static void I_GetEvent(void)
 
                 if (event.data1)
                     D_PostEvent(&event);
+
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -521,12 +524,14 @@ static void I_GetEvent(void)
                 {
                     idclev = false;
                     idmus = false;
+
                     if (idbehold)
                     {
                         message_clearable = true;
                         HU_ClearMessages();
                         idbehold = false;
                     }
+
                     event.type = ev_mouse;
                     mousebuttonstate |= buttons[Event->button.button];
                     event.data1 = mousebuttonstate;
@@ -534,6 +539,7 @@ static void I_GetEvent(void)
                     event.data3 = 0;
                     D_PostEvent(&event);
                 }
+
                 break;
 
             case SDL_MOUSEBUTTONUP:
@@ -547,6 +553,7 @@ static void I_GetEvent(void)
                     event.data3 = 0;
                     D_PostEvent(&event);
                 }
+
                 break;
 
             case SDL_MOUSEWHEEL:
@@ -559,6 +566,7 @@ static void I_GetEvent(void)
                     event.data3 = 0;
                     D_PostEvent(&event);
                 }
+
                 break;
 
             case SDL_JOYBUTTONUP:
@@ -570,11 +578,13 @@ static void I_GetEvent(void)
                 {
                     keydown = 0;
                     C_HideConsoleFast();
+
                     if (paused)
                     {
                         paused = false;
                         waspaused = true;
                     }
+
                     S_StartSound(NULL, sfx_swtchn);
                     M_QuitDOOM(0);
                 }
@@ -582,6 +592,7 @@ static void I_GetEvent(void)
 
             case SDL_WINDOWEVENT:
                 if (Event->window.windowID == windowid)
+                {
                     switch (Event->window.event)
                     {
                         case SDL_WINDOWEVENT_FOCUS_GAINED:
@@ -610,6 +621,7 @@ static void I_GetEvent(void)
                                 displaycenterx = displaywidth / 2;
                                 displaycentery = displayheight / 2;
                             }
+
                             break;
 
                         case SDL_WINDOWEVENT_MOVED:
@@ -624,12 +636,16 @@ static void I_GetEvent(void)
 
                                 if ((vid_display = SDL_GetWindowDisplayIndex(window)) < 0)
                                     I_SDLError("SDL_GetWindowDisplayIndex");
+
                                 ++vid_display;
                                 M_SaveCVARs();
                             }
+
                             manuallypositioning = false;
                             break;
                     }
+                }
+
                 break;
 
             default:
@@ -640,20 +656,20 @@ static void I_GetEvent(void)
 
 static void I_ReadMouse(void)
 {
-    int         x, y;
-    event_t     ev;
+    int x, y;
 
     SDL_GetRelativeMouseState(&x, &y);
 
     if (x || y)
     {
+        event_t ev;
+
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
         ev.data2 = AccelerateMouse(x);
         ev.data3 = (m_novertical ? 0 : -AccelerateMouse(y));
 
         D_PostEvent(&ev);
-
     }
 
     if (MouseShouldBeGrabbed())
@@ -666,8 +682,10 @@ static void I_ReadMouse(void)
 void I_StartTic(void)
 {
     I_GetEvent();
+
     if (m_sensitivity)
         I_ReadMouse();
+
     gamepadfunc();
 }
 
@@ -754,12 +772,14 @@ static void I_Blit_ShowFPS(void)
 
     ++frames;
     currenttime = SDL_GetTicks();
+
     if (currenttime - starttime >= 1000)
     {
         fps = frames;
         frames = 0;
         starttime = currenttime;
     }
+
     C_UpdateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -781,12 +801,14 @@ static void I_Blit_NearestLinear_ShowFPS(void)
 
     ++frames;
     currenttime = SDL_GetTicks();
+
     if (currenttime - starttime >= 1000)
     {
         fps = frames;
         frames = 0;
         starttime = currenttime;
     }
+
     C_UpdateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -850,12 +872,14 @@ static void I_Blit_ShowFPS_Shake(void)
 
     ++frames;
     currenttime = SDL_GetTicks();
+
     if (currenttime - starttime >= 1000)
     {
         fps = frames;
         frames = 0;
         starttime = currenttime;
     }
+
     C_UpdateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -878,12 +902,14 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 
     ++frames;
     currenttime = SDL_GetTicks();
+
     if (currenttime - starttime >= 1000)
     {
         fps = frames;
         frames = 0;
         starttime = currenttime;
     }
+
     C_UpdateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -959,6 +985,7 @@ static void I_RestoreFocus(void)
 
     if (!SDL_GetWindowWMInfo(window, &info))
         I_SDLError("SDL_GetWindowWMInfo");
+
     SetFocus(info.info.win.window);
 #endif
 }
@@ -986,6 +1013,7 @@ void I_CreateExternalAutomap(dboolean output)
         return;
 
     GetDisplays();
+
     if (numdisplays == 1)
     {
         if (output)
@@ -993,9 +1021,7 @@ void I_CreateExternalAutomap(dboolean output)
         return;
     }
 
-    am_displayindex = 0;
-    if (am_displayindex == displayindex)
-        ++am_displayindex;
+    am_displayindex = !displayindex;
 
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
@@ -1012,11 +1038,9 @@ void I_CreateExternalAutomap(dboolean output)
     if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
-    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask,
-        &bmask, &amask))
+    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask))
     {
-        if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask,
-            bmask, amask)))
+        if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask)))
             I_SDLError("SDL_CreateRGBSurface");
     }
     else if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
@@ -1031,8 +1055,10 @@ void I_CreateExternalAutomap(dboolean output)
 
     if (!(mappalette = SDL_AllocPalette(256)))
         I_SDLError("SDL_AllocPalette");
+
     if (SDL_SetSurfacePalette(mapsurface, mappalette) < 0)
         I_SDLError("SDL_SetSurfacePalette");
+
     if (SDL_SetPaletteColors(mappalette, colors, 0, 256) < 0)
         I_SDLError("SDL_SetPaletteColors");
 
@@ -1049,11 +1075,10 @@ void I_CreateExternalAutomap(dboolean output)
         const char      *displayname = SDL_GetDisplayName(am_displayindex);
 
         if (*displayname)
-            C_Output("Created an external automap on display %i of %i called \"%s\".",
-                am_displayindex + 1, numdisplays, displayname);
+            C_Output("Created an external automap on display %i called \"%s\".",
+                am_displayindex + 1, displayname);
         else
-            C_Output("Created an external automap on display %i of %i.", am_displayindex + 1,
-                numdisplays);
+            C_Output("Created an external automap on display %i.", am_displayindex + 1);
     }
 }
 
@@ -1072,7 +1097,8 @@ void I_DestroyExternalAutomap(void)
 
 void GetWindowPosition(void)
 {
-    int x = 0, y = 0;
+    int x = 0;
+    int y = 0;
 
     if (M_StringCompare(vid_windowposition, vid_windowposition_centered)
         || M_StringCompare(vid_windowposition, vid_windowposition_centred))
@@ -1139,6 +1165,7 @@ static dboolean ValidScreenMode(int width, int height)
         SDL_DisplayMode mode;
 
         SDL_GetDisplayMode(displayindex, i, &mode);
+
         if (width == mode.w && height == mode.h)
             return true;
     }
@@ -1224,6 +1251,7 @@ static char *getacronym(int width, int height)
     {
         if (width == resolutions[i].width && height == resolutions[i].height)
             return resolutions[i].acronym;
+
         ++i;
     }
     return "";
@@ -1239,6 +1267,7 @@ static char *getaspectratio(int width, int height)
     {
         if (width == resolutions[i].width && height == resolutions[i].height)
             return resolutions[i].aspectratio;
+
         ++i;
     }
 
@@ -1253,6 +1282,7 @@ static char *getaspectratio(int width, int height)
 static void PositionOnCurrentDisplay(void)
 {
     manuallypositioning = true;
+
     if (!windowx && !windowy)
         SDL_SetWindowPosition(window,
             displays[displayindex].x + (displays[displayindex].w - windowwidth) / 2,
@@ -1282,6 +1312,7 @@ static void SetVideoMode(dboolean output)
     {
         if (output)
             C_Warning("Unable to find display %i.", vid_display);
+
         displayindex = vid_display_default - 1;
     }
 
@@ -1290,8 +1321,7 @@ static void SetVideoMode(dboolean output)
         const char      *displayname = SDL_GetDisplayName(displayindex);
 
         if (*displayname)
-            C_Output("Using display %i of %i called \"%s\".", displayindex + 1, numdisplays,
-                displayname);
+            C_Output("Using display %i of %i called \"%s\".", displayindex + 1, numdisplays, displayname);
         else
             C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
     }
@@ -1340,8 +1370,8 @@ static void SetVideoMode(dboolean output)
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
-                C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect "
-                    "ratio.", commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
+                C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
+                    commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
                     (acronym[0] ? ")" : ""), ratio);
         }
         else
@@ -1387,8 +1417,8 @@ static void SetVideoMode(dboolean output)
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
-                C_Output("Created a resizable window with dimensions %s\xD7%s centered on the "
-                    "screen.", commify(width), commify(height));
+                C_Output("Created a resizable window with dimensions %s\xD7%s centered on the screen.",
+                    commify(width), commify(height));
         }
         else
         {
@@ -1454,8 +1484,9 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the "
-                    "<i><b>Direct3D %s</b></i> API.", (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>Direct3D %s</b></i> API.",
+                    (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
+
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
                 vid_scaleapi = vid_scaleapi_direct3d;
@@ -1478,9 +1509,9 @@ static void SetVideoMode(dboolean output)
         {
             if (nearestlinear)
             {
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
-                    "interpolation.", SCREENWIDTH, SCREENHEIGHT,
-                    commify(upscaledwidth * SCREENWIDTH), commify(upscaledheight * SCREENHEIGHT));
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
+                    SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
+                    commify(upscaledheight * SCREENHEIGHT));
                 C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
                     commify(height * 4 / 3), commify(height));
             }
@@ -1488,9 +1519,8 @@ static void SetVideoMode(dboolean output)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
                     SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
             else
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
-                    "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3),
-                    commify(height));
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
+                    SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
         }
 
         if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
@@ -1502,18 +1532,20 @@ static void SetVideoMode(dboolean output)
                 int     refreshrate = displaymode.refresh_rate;
 
                 if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
+                {
                     if (SDL_GL_SetSwapInterval(-1) < 0)
                         SDL_GL_SetSwapInterval(1);
+                }
 
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {
                     if (output)
-                        C_Output("The framerate is synced to the display's refresh rate of %iHz.",
-                            refreshrate);
+                        C_Output("The framerate is synced to the display's refresh rate of %iHz.", refreshrate);
                 }
                 else
                 {
                     I_CapFPS(vid_capfps);
+
                     if (output)
                         C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
                 }
@@ -1553,11 +1585,13 @@ static void SetVideoMode(dboolean output)
             static char text[128];
 
             M_snprintf(text, sizeof(text), "The gamma correction level is %.2f.", r_gamma);
+
             if (text[strlen(text) - 2] == '0' && text[strlen(text) - 3] == '0')
             {
                 text[strlen(text) - 2] = '.';
                 text[strlen(text) - 1] = '\0';
             }
+
             C_Output(text);
         }
     }
@@ -1567,11 +1601,9 @@ static void SetVideoMode(dboolean output)
 
     screens[0] = surface->pixels;
 
-    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask,
-        &amask))
+    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(window), &bpp, &rmask, &gmask, &bmask, &amask))
     {
-        if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask,
-            amask)))
+        if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask)))
             I_SDLError("SDL_CreateRGBSurface");
     }
     else if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
@@ -1583,13 +1615,15 @@ static void SetVideoMode(dboolean output)
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
             SDL_HINT_OVERRIDE);
+
     if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
+
     if (nearestlinear)
     {
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
-            SDL_HINT_OVERRIDE);
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
+
         if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
             SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
             I_SDLError("SDL_CreateTexture");
@@ -1597,6 +1631,7 @@ static void SetVideoMode(dboolean output)
 
     if (!(palette = SDL_AllocPalette(256)))
         I_SDLError("SDL_AllocPalette");
+
     if (SDL_SetSurfacePalette(surface, palette) < 0)
         I_SDLError("SDL_SetSurfacePalette");
 
@@ -1620,6 +1655,7 @@ void I_ToggleWidescreen(dboolean toggle)
 
         if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT) < 0)
             I_SDLError("SDL_RenderSetLogicalSize");
+
         src_rect.h = SCREENHEIGHT - SBARHEIGHT;
     }
     else
@@ -1631,6 +1667,7 @@ void I_ToggleWidescreen(dboolean toggle)
 
         if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
             I_SDLError("SDL_RenderSetLogicalSize");
+
         src_rect.h = SCREENHEIGHT;
     }
 
@@ -1648,8 +1685,10 @@ void I_RestartGraphics(void)
 {
     FreeSurfaces();
     SetVideoMode(false);
+
     if (vid_widescreen)
         I_ToggleWidescreen(true);
+
     I_CreateExternalAutomap(false);
 
 #if defined(WIN32)
@@ -1663,8 +1702,7 @@ void I_ToggleFullscreen(void)
 {
     dboolean    fullscreen = !vid_fullscreen;
 
-    if (SDL_SetWindowFullscreen(window, (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP :
-        SDL_FALSE)) < 0)
+    if (SDL_SetWindowFullscreen(window, (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_FALSE)) < 0)
     {
         menuactive = false;
         C_ShowConsole();
@@ -1691,8 +1729,7 @@ void I_ToggleFullscreen(void)
         PositionOnCurrentDisplay();
 
         if (menuactive || consoleactive || paused || gamestate != GS_LEVEL)
-            SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH,
-                windowheight - 16);
+            SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH, windowheight - 16);
     }
 }
 
@@ -1716,6 +1753,7 @@ void I_SetGamma(float value)
     {
         if (gammalevels[gammaindex] == value)
             break;
+
         ++gammaindex;
     }
     if (gammaindex == GAMMALEVELS)
