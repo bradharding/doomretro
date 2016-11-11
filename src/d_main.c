@@ -1596,7 +1596,8 @@ static void D_DoomMainSetup(void)
         C_Output("A <b>-fastmonsters</b> parameter was found on the command-line. Monsters will "
             "be faster.");
 
-    devparm = M_CheckParm("-devparm");
+    if ((devparm = M_CheckParm("-devparm")))
+        C_Output("A <b>-devparm</b> parameter was found on the command-line. %s.", s_D_DEVSTR);
 
     // turbo option
     p = M_CheckParm("-turbo");

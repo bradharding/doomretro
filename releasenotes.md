@@ -1,5 +1,6 @@
 ### DOOM Retro v2.3.5
 
+* Minor changes have been made to text that is output to the console.
 * The console is automatically opened at startup when `-devparm` is specified on the command-line.
 * If the `vid_scaleapi` CVAR is `"opengl"` and the version of the *OpenGL* API is less than 2.1, then it will be changed to `"direct3d"` instead.
 * If `-cdrom` is specified on the command-line and the `r_diskicon` CVAR is `on`, the `STCDROM` lump will be used instead of the `STDISK` lump.
