@@ -1,6 +1,7 @@
 ### DOOM Retro v2.3.5
 
 * The console is automatically opened at startup when `-devparm` is specified on the command-line.
+* If the `vid_scaleapi` CVAR is `"opengl"` and the version of the *OpenGL* API is less than 2.1, then it will be changed to `"direct3d"` instead.
 
 ---
 

@@ -1419,20 +1419,36 @@ static void SetVideoMode(dboolean output)
     {
         if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
         {
-            if (output)
-            {
-                int     major, minor;
+            int     major, minor;
 
-                SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
-                SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
-                C_Output("The screen is rendered using hardware acceleration with the "
-                    "<i><b>OpenGL %i.%i</b></i> API.", major, minor);
-            }
+            SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
+            SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
 
-            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+            if (major * 10 + minor < 21)
             {
-                vid_scaleapi = vid_scaleapi_opengl;
+                if (output)
+                    C_Warning("<i>"PACKAGE_NAME"</i> requires at least <i>OpenGL 2.1</i>.");
+
+                vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
+                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
+
+                if (output)
+                    C_Output("The screen is now rendered using hardware acceleration with the "
+                        "<i><b>Direct3D %s</b></i> API instead.", (SDL_VIDEO_RENDER_D3D11 ?
+                        "11.0" : "9.0"));
+            }
+            else
+            {
+                if (output)
+                    C_Output("The screen is rendered using hardware acceleration with the "
+                        "<i><b>OpenGL %i.%i</b></i> API.", major, minor);
+
+                if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+                {
+                    vid_scaleapi = vid_scaleapi_opengl;
+                    M_SaveCVARs();
+                }
             }
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
