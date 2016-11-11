@@ -48,6 +48,7 @@
 #include "i_colors.h"
 #include "i_swap.h"
 #include "i_timer.h"
+#include "m_argv.h"
 #include "m_config.h"
 #include "p_local.h"
 #include "r_main.h"
@@ -236,7 +237,8 @@ void HU_Init(void)
         keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
     }
 
-    if ((lump = W_CheckNumForName("STDISK")) >= 0)
+    lump = W_CheckNumForName(M_CheckParm("-cdrom") ? "STCDROM" : "STDISK");
+    if (lump >= 0)
         stdisk = W_CacheLumpNum(lump, PU_CACHE);
 
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
