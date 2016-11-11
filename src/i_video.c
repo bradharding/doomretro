@@ -1571,11 +1571,13 @@ static void SetVideoMode(dboolean output)
         SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
     if (nearestlinear)
+    {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear,
             SDL_HINT_OVERRIDE);
-    if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
-        I_SDLError("SDL_CreateTexture");
+        if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+            SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+            I_SDLError("SDL_CreateTexture");
+    }
 
     if (!(palette = SDL_AllocPalette(256)))
         I_SDLError("SDL_AllocPalette");
