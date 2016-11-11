@@ -39,8 +39,7 @@
 // Eternity Engine's Client Interface to RPC Midi Server by James Haley
 
 #if defined(WIN32)
-
-#include <windows.h>
+#include <Windows.h>
 
 #include "../midiproc/midiproc.h"
 

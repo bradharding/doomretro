@@ -36,12 +36,12 @@
 ========================================================================
 */
 
+#if defined(WIN32)
+#include <Windows.h>
+#endif
+
 #include <ctype.h>
 #include <time.h>
-
-#if defined(WIN32)
-#include <windows.h>
-#endif
 
 #include "c_cmds.h"
 #include "c_console.h"

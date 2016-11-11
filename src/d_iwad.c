@@ -36,6 +36,10 @@
 ========================================================================
 */
 
+#if defined(WIN32)
+#include <Windows.h>
+#endif
+
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -68,8 +72,6 @@ static void AddIWADDir(char *dir)
 // of installed IWAD files. The registry is inspected to find special
 // keys installed by the Windows installers for various CD versions
 // of DOOM. From these keys we can deduce where to find an IWAD.
-#include <windows.h>
-
 typedef struct
 {
     HKEY        root;
@@ -99,32 +101,28 @@ static registry_value_t uninstall_values[] =
     // Ultimate DOOM, CD version (Depths of DOOM trilogy)
     {
         HKEY_LOCAL_MACHINE,
-        "Software\\Microsoft\\Windows\\CurrentVersion\\"
-            "Uninstall\\Ultimate Doom for Windows 95",
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ultimate Doom for Windows 95",
         "UninstallString",
     },
 
     // DOOM II, CD version (Depths of DOOM trilogy)
     {
         HKEY_LOCAL_MACHINE,
-        "Software\\Microsoft\\Windows\\CurrentVersion\\"
-            "Uninstall\\Doom II for Windows 95",
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom II for Windows 95",
         "UninstallString",
     },
 
     // Final DOOM
     {
         HKEY_LOCAL_MACHINE,
-        "Software\\Microsoft\\Windows\\CurrentVersion\\"
-            "Uninstall\\Final Doom for Windows 95",
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Final Doom for Windows 95",
         "UninstallString",
     },
 
     // Shareware version
     {
         HKEY_LOCAL_MACHINE,
-        "Software\\Microsoft\\Windows\\CurrentVersion\\"
-            "Uninstall\\Doom Shareware for Windows 95",
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom Shareware for Windows 95",
         "UninstallString",
     },
 };

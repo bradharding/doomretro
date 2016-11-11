@@ -52,7 +52,7 @@ int     windowborderheight = 0;
 
 #include "SDL_syswm.h"
 
-#include <windows.h>
+#include <Windows.h>
 
 #if !defined(SM_CXPADDEDBORDER)
 #define SM_CXPADDEDBORDER       92

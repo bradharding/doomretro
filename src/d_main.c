@@ -39,7 +39,7 @@
 #if defined(WIN32)
 #pragma comment(lib, "winmm.lib")
 
-#include <windows.h>
+#include <Windows.h>
 #include <Commdlg.h>
 #include <MMSystem.h>
 #include <ShellAPI.h>

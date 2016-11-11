@@ -37,7 +37,7 @@
 */
 
 #if defined(WIN32)
-#include <windows.h>
+#include <Windows.h>
 #include <mmsystem.h>
 
 #include "SDL_syswm.h"
