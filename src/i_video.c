@@ -68,8 +68,9 @@
 #define MAXUPSCALEWIDTH         (1600 / ORIGINALWIDTH)
 #define MAXUPSCALEHEIGHT        (1200 / ORIGINALHEIGHT)
 
-#define I_SDLError(func)        I_Error(func"() failed on line %i of %s: \"%s\".", \
-                                    (__LINE__ - 1), leafname(__FILE__), SDL_GetError())
+#define I_SDLError(func)        I_Error("The call to "func"() failed in %s on line %i of %s " \
+                                    "with the error:\n\"%s\".", __FUNCTION__, (__LINE__ - 1), \
+                                    leafname(__FILE__), SDL_GetError())
 
 #if !defined(SDL_VIDEO_RENDER_D3D11)
 #define SDL_VIDEO_RENDER_D3D11  0
@@ -1426,8 +1427,7 @@ static void SetVideoMode(dboolean output)
 
             if (major * 10 + minor < 21)
             {
-                if (output)
-                    C_Warning("<i>"PACKAGE_NAME"</i> requires at least <i>OpenGL 2.1</i>.");
+                C_Warning("<i>"PACKAGE_NAME"</i> requires at least <i>OpenGL 2.1</i>.");
 
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
