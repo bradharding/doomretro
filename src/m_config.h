@@ -94,6 +94,10 @@ typedef enum
 
 #define am_grid_default                         false
 
+#define am_gridsize_min                         4
+#define am_gridsize_default                     128
+#define am_gridsize_max                         4096
+
 #define am_gridcolor_min                        0
 #define am_gridcolor_default                    5
 #define am_gridcolor_max                        255

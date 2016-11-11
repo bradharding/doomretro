@@ -103,6 +103,7 @@ extern dboolean         am_external;
 extern int              am_fdwallcolor;
 extern dboolean         am_grid;
 extern int              am_gridcolor;
+extern int              am_gridsize;
 extern int              am_markcolor;
 extern dboolean         am_path;
 extern int              am_pathcolor;
@@ -511,6 +512,8 @@ consolecmd_t consolecmds[] =
         "Toggles the grid in the automap."),
     CVAR_INT(am_gridcolor, am_gridcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of the grid in the automap (<b>0</b> to <b>255</b>)."),
+    CVAR_INT(am_gridsize, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
+        "The size of the grid in the automap (<b>4</b> to <b>4,096</b>)."),
     CVAR_INT(am_markcolor, am_markcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of marks in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2, BOOLALIAS,

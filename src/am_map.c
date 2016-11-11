@@ -146,8 +146,6 @@ byte    *crosshaircolor;
 #define CXMTOF(x)               MTOF(x - m_x)
 #define CYMTOF(y)               (mapheight - MTOF(y - m_y))
 
-#define GRIDSIZE                (128 << MAPBITS)
-
 typedef struct
 {
     mpoint_t    a;
@@ -261,6 +259,7 @@ int                     pathpointnum_max = 0;
 dboolean                am_external = am_external_default;
 dboolean                am_followmode = am_followmode_default;
 dboolean                am_grid = am_grid_default;
+int                     am_gridsize = am_gridsize_default;
 dboolean                am_path = am_path_default;
 dboolean                am_rotatemode = am_rotatemode_default;
 
@@ -1513,12 +1512,12 @@ static void AM_drawGrid(void)
 
     // Figure out start of vertical gridlines
     start = m_x - extx;
-    if ((start - (bmaporgx >> FRACTOMAPBITS)) % GRIDSIZE)
-        start += GRIDSIZE - ((start - (bmaporgx >> FRACTOMAPBITS)) % GRIDSIZE);
+    if ((start - (bmaporgx >> FRACTOMAPBITS)) % (am_gridsize << MAPBITS))
+        start += (am_gridsize << MAPBITS) - ((start - (bmaporgx >> FRACTOMAPBITS)) % (am_gridsize << MAPBITS));
     end = m_x + minlen - extx;
 
     // draw vertical gridlines
-    for (x = start; x < end; x += GRIDSIZE)
+    for (x = start; x < end; x += (am_gridsize << MAPBITS))
     {
         ml.a.x = x;
         ml.b.x = x;
@@ -1534,12 +1533,12 @@ static void AM_drawGrid(void)
 
     // Figure out start of horizontal gridlines
     start = m_y - exty;
-    if ((start - (bmaporgy >> FRACTOMAPBITS)) % GRIDSIZE)
-        start += GRIDSIZE - ((start - (bmaporgy >> FRACTOMAPBITS)) % GRIDSIZE);
+    if ((start - (bmaporgy >> FRACTOMAPBITS)) % (am_gridsize << MAPBITS))
+        start += (am_gridsize << MAPBITS) - ((start - (bmaporgy >> FRACTOMAPBITS)) % (am_gridsize << MAPBITS));
     end = m_y + minlen - exty;
 
     // draw horizontal gridlines
-    for (y = start; y < end; y += GRIDSIZE)
+    for (y = start; y < end; y += (am_gridsize << MAPBITS))
     {
         ml.a.x = m_x - extx;
         ml.b.x = ml.a.x + minlen;
