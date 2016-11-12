@@ -308,12 +308,8 @@ void R_InitTextures(void)
         texture->height = SHORT(mtexture->height);
         texture->patchcount = SHORT(mtexture->patchcount);
 
-        {
-            size_t      j;
-
-            for (j = 0; j < sizeof(texture->name); ++j)
-                texture->name[j] = mtexture->name[j];
-        }
+        for (j = 0; j < sizeof(texture->name); ++j)
+            texture->name[j] = mtexture->name[j];
 
         mpatch = mtexture->patches;
         patch = texture->patches;

@@ -368,13 +368,16 @@ void I_CapFPS(int fps)
         if (!CapFPSEvent)
             CapFPSEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
 
-        CapFPSTimer = timeSetEvent(1000 / fps, 0, (LPTIMECALLBACK)CapFPSEvent, 0,
-            (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
-
-        if (!CapFPSTimer)
+        if (CapFPSEvent)
         {
-            CloseHandle(CapFPSEvent);
-            CapFPSEvent = NULL;
+            CapFPSTimer = timeSetEvent(1000 / fps, 0, (LPTIMECALLBACK)CapFPSEvent, 0,
+                (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
+
+            if (!CapFPSTimer)
+            {
+                CloseHandle(CapFPSEvent);
+                CapFPSEvent = NULL;
+            }
         }
     }
 #endif
