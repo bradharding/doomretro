@@ -2406,36 +2406,26 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             "PWAD"), uppercase(leafname(lumpinfo[i]->wad_file->path)));
     }
 
-    C_TabbedOutput(tabs, "Things\t<b>%s</b>\t<b>%s</b>",
-        commify(numthings), convertsize(sizethings));
+    C_TabbedOutput(tabs, "Type\t<b>%s-compatible</b>", (boomlinespecials ? "<i>BOOM</i>" : "Vanilla"));
 
-    C_TabbedOutput(tabs, "Lines\t<b>%s</b>\t<b>%s</b>",
-        commify(numlines), convertsize(sizelines));
+    C_TabbedOutput(tabs, "Things\t<b>%s</b>", commify(numthings));
 
-    C_TabbedOutput(tabs, "Line specials\t<b>%s-compatible</b>",
-        (boomlinespecials ? "<i>BOOM</i>" : "Vanilla"));
+    C_TabbedOutput(tabs, "Lines\t<b>%s</b>", commify(numlines));
 
-    C_TabbedOutput(tabs, "Sides\t<b>%s</b>\t<b>%s</b>",
-        commify(numsides), convertsize(sizesides));
+    C_TabbedOutput(tabs, "Sides\t<b>%s</b>", commify(numsides));
 
-    C_TabbedOutput(tabs, "Vertices\t<b>%s</b>\t<b>%s</b>",
-        commify(numvertexes), convertsize(sizevertexes));
+    C_TabbedOutput(tabs, "Vertices\t<b>%s</b>", commify(numvertexes));
 
-    C_TabbedOutput(tabs, "Segments\t<b>%s</b>\t<b>%s</b>",
-        commify(numsegs), convertsize(sizesegs));
+    C_TabbedOutput(tabs, "Segments\t<b>%s</b>", commify(numsegs));
 
-    C_TabbedOutput(tabs, "Subsectors\t<b>%s</b>\t<b>%s</b>",
-        commify(numsubsectors), convertsize(sizesubsectors));
+    C_TabbedOutput(tabs, "Subsectors\t<b>%s</b>", commify(numsubsectors));
 
-    C_TabbedOutput(tabs, "Nodes\t<b>%s</b>\t<b>%s</b>",
-        commify(numnodes), convertsize(sizenodes));
+    C_TabbedOutput(tabs, "Nodes\t<b>%s</b>", commify(numnodes));
 
-    C_TabbedOutput(tabs, "Node format\t<b>%s nodes</b>",
-        (mapformat == DOOMBSP ? "Regular" : (mapformat == DEEPBSP ?
-            "<i>DeePBSP v4</i> extended" : "<i>ZDoom</i> uncompressed extended")));
+    C_TabbedOutput(tabs, "Node format\t<b>%s</b>", (mapformat == DOOMBSP ? "Regular" :
+        (mapformat == DEEPBSP ? "<i>DeePBSP v4</i> extended" : "<i>ZDoom</i> uncompressed extended")));
 
-    C_TabbedOutput(tabs, "Sectors\t<b>%s</b>\t<b>%s</b>",
-        commify(numsectors), convertsize(sizesectors));
+    C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", commify(numsectors));
 
     if (blockmaprecreated)
         C_TabbedOutput(tabs, "Blockmap\t<b>Recreated</b>");
