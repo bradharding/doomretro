@@ -330,7 +330,7 @@ void *I_RegisterSong(void *data, int len)
                 isMUS = true;
         }
 
-        // If it's a MUS, convert it to MIDI now.
+        // If it's a MUS, convert it to MIDI now
         if (isMUS)
         {
             MIDI        mididata;
@@ -347,7 +347,7 @@ void *I_RegisterSong(void *data, int len)
 
             data = mid;
             len = midlen;
-            isMIDI = true;      // now it's a MIDI.
+            isMIDI = true;      // now it's a MIDI
         }
 
 #if defined(WIN32)
