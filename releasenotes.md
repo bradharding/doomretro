@@ -7,6 +7,7 @@
 * The size of the grid in the automap can now be changed using the `am_gridsize` CVAR. It is `128x128` by default.
 * The last menu item to be selected is now remembered when using the <kbd>F2</kbd>, <kbd>F3</kbd> or <kbd>F4</kbd> keys to display a menu.
 * Further improvements have been made to make sure objects are lit correctly in some rare instances.
+* The music volume is now set correctly at startup.
 
 ---
 

@@ -361,7 +361,8 @@ void *I_RegisterSong(void *data, int len)
             if (I_MidiRPCRegisterSong(data, len))
             {
                 serverMidiPlaying = true;
-                return NULL;    // server will play this song.
+                UpdateMusicVolume();
+                return NULL;    // server will play this song
             }
         }
 #endif
