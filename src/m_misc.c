@@ -780,33 +780,6 @@ dboolean isvowel(const char ch)
     return !!strchr("aeiou", ch);
 }
 
-static const char       *sizes[] = { "MB", "KB", " bytes" };
-
-char *convertsize(const int size)
-{
-    char        *result = malloc(20 * sizeof(char));
-
-    if (result)
-    {
-        int         multiplier = 1024ULL * 1024ULL;
-        int         i;
-
-        for (i = 0; i < sizeof(sizes) / sizeof(*sizes); i++, multiplier /= 1024)
-        {
-            if (size < multiplier)
-                continue;
-            if (!(size % multiplier))
-                M_snprintf(result, 20, "%s%s", commify(size / multiplier), sizes[i]);
-            else
-                M_snprintf(result, 20, "%.2f%s", (float)size / multiplier, sizes[i]);
-            return result;
-        }
-        strcpy(result, "0 bytes");
-    }
-
-    return result;
-}
-
 char *striptrailingzero(float value, int precision)
 {
     char        *result = malloc(100 * sizeof(char));
