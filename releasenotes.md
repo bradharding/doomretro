@@ -9,6 +9,7 @@
 * The last menu item to be selected is now remembered when using the <kbd>F2</kbd>, <kbd>F3</kbd> or <kbd>F4</kbd> keys to display a menu.
 * Further improvements have been made to make sure objects are lit correctly in all instances.
 * The music volume is now properly set at startup.
+* The console now opens and closes at a consistent speed.
 
 ---
 

@@ -853,13 +853,17 @@ void C_Drawer(void)
         char            *middletext = malloc(512 * sizeof(char));
         char            *righttext = malloc(512 * sizeof(char));
         dboolean        prevconsoleactive = consoleactive;
+        static int      consolewait;
 
         // adjust console height
         if (gamestate == GS_TITLESCREEN)
             consoleheight = CONSOLEHEIGHT;
-        else
+        else if (consolewait < I_GetTime())
+        {
+            consolewait = I_GetTime();
             consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection,
                 CONSOLEHEIGHT);
+        }
 
         if (vid_motionblur && consoleheight < CONSOLEHEIGHT)
             I_SetMotionBlur(0);
