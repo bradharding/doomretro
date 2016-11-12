@@ -10,6 +10,7 @@
 * Further improvements have been made to make sure objects are lit correctly in all instances.
 * The music volume is now properly set at startup.
 * The console now opens and closes at a consistent speed.
+* The music title is now displayed in the output of the `mapstats` CCMD as originally intended.
 
 ---
 

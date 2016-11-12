@@ -2457,7 +2457,11 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (mus_playing && !nomusic)
     {
-        int     lumps = W_CheckMultipleLumps(mus_playing->name);
+        static char     lumpname[9];
+        int             lumps;
+
+        M_snprintf(lumpname, sizeof(lumpname), "d_%s", mus_playing->name);
+        lumps = W_CheckMultipleLumps(lumpname);
 
         if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
