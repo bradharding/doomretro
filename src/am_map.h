@@ -73,6 +73,7 @@ void AM_Stop(void);
 
 void AM_Init(void);
 void AM_setColors(void);
+void AM_getGridSize(void);
 void AM_addToPath(void);
 
 extern dboolean         message_dontfuckwithme;

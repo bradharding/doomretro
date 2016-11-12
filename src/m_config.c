@@ -58,7 +58,7 @@ extern dboolean         am_external;
 extern int              am_fdwallcolor;
 extern dboolean         am_grid;
 extern int              am_gridcolor;
-extern int              am_gridsize;
+extern char             *am_gridsize;
 extern int              am_markcolor;
 extern dboolean         am_path;
 extern int              am_pathcolor;
@@ -220,7 +220,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_grid,                                           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_gridcolor,                                      NOALIAS    ),
-    CONFIG_VARIABLE_INT          (am_gridsize,                                       NOALIAS    ),
+    CONFIG_VARIABLE_OTHER        (am_gridsize,                                       NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_markcolor,                                      NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_path,                                           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_pathcolor,                                      NOALIAS    ),
@@ -618,8 +618,6 @@ static void M_CheckCVARs(void)
 
     if (am_gridcolor < am_gridcolor_min || am_gridcolor > am_gridcolor_max)
         am_gridcolor = am_gridcolor_default;
-
-    am_gridsize = BETWEEN(am_gridsize_min, am_gridsize, am_gridsize_max);
 
     if (am_markcolor < am_markcolor_min || am_markcolor > am_markcolor_max)
         am_markcolor = am_markcolor_default;

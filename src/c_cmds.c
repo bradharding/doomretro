@@ -103,7 +103,7 @@ extern dboolean         am_external;
 extern int              am_fdwallcolor;
 extern dboolean         am_grid;
 extern int              am_gridcolor;
-extern int              am_gridsize;
+extern char             *am_gridsize;
 extern int              am_markcolor;
 extern dboolean         am_path;
 extern int              am_pathcolor;
@@ -232,6 +232,8 @@ extern char             *vid_windowsize;
 extern dboolean         weaponbob;
 
 extern int              countdown;
+extern int              gridwidth;
+extern int              gridheight;
 extern int              pixelwidth;
 extern int              pixelheight;
 extern int              screenheight;
@@ -393,6 +395,7 @@ static void time_cvars_func2(char *, char *, char *, char *);
 static void alwaysrun_cvar_func2(char *, char *, char *, char *);
 static void am_external_cvar_func2(char *, char *, char *, char *);
 static dboolean am_followmode_cvar_func1(char *, char *, char *, char *);
+static void am_gridsize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3);
 static void am_path_cvar_func2(char *, char *, char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *, char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *, char *, char *);
@@ -512,8 +515,8 @@ consolecmd_t consolecmds[] =
         "Toggles the grid in the automap."),
     CVAR_INT(am_gridcolor, am_gridcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of the grid in the automap (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(am_gridsize, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
-        "The size of the grid in the automap (<b>4</b> to <b>4,096</b>)."),
+    CVAR_SIZE(am_gridsize, "", null_func1, am_gridsize_cvar_func2,
+        "The size of the grid in the automap (<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_INT(am_markcolor, am_markcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOALIAS,
         "The color of marks in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2, BOOLALIAS,
@@ -3717,6 +3720,32 @@ static void am_external_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 static dboolean am_followmode_cvar_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     return (!mapwindow && gamestate == GS_LEVEL);
+}
+
+//
+// am_gridsize CVAR
+//
+static void am_gridsize_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        am_gridsize = strdup(parm1);
+
+        AM_getGridSize();
+
+        if (!M_StringCompare(am_gridsize, parm1))
+            M_SaveCVARs();
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(am_gridsize))].description));
+        if (M_StringCompare(am_gridsize, am_gridsize_default))
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                formatsize(am_gridsize));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                formatsize(am_gridsize), formatsize(am_gridsize_default));
+    }
 }
 
 //

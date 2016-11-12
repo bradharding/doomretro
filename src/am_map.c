@@ -259,9 +259,12 @@ int                     pathpointnum_max = 0;
 dboolean                am_external = am_external_default;
 dboolean                am_followmode = am_followmode_default;
 dboolean                am_grid = am_grid_default;
-int                     am_gridsize = am_gridsize_default;
+char                    *am_gridsize = am_gridsize_default;
 dboolean                am_path = am_path_default;
 dboolean                am_rotatemode = am_rotatemode_default;
+
+int                     gridwidth;
+int                     gridheight;
 
 static dboolean         stopped = true;
 
@@ -424,12 +427,42 @@ void AM_setColors(void)
     maskcolor = priorities + (nearestcolors[MASKCOLOR] << 8);
 }
 
+void AM_getGridSize(void)
+{
+    int     width = -1;
+    int     height = -1;
+    char    *left = strtok(strdup(am_gridsize), "x");
+    char    *right = strtok(NULL, "x");
+
+    if (!right)
+        right = "";
+
+    sscanf(left, "%10i", &width);
+    sscanf(right, "%10i", &height);
+
+    if (width >= 4 && width <= 4096 && height >= 4 && height <= 4096)
+    {
+        gridwidth = width << MAPBITS;
+        gridheight = height << MAPBITS;
+    }
+    else
+    {
+        gridwidth = 128 << MAPBITS;
+        gridheight = 128 << MAPBITS;
+        am_gridsize = am_gridsize_default;
+
+        M_SaveCVARs();
+    }
+}
+
 void AM_Init(void)
 {
     mask = Z_Malloc(256, PU_STATIC, NULL);
     priorities = Z_Malloc(256 * 256, PU_STATIC, NULL);
 
     AM_setColors();
+
+    AM_getGridSize();
 }
 
 static void AM_initVariables(dboolean mainwindow)
@@ -1512,12 +1545,12 @@ static void AM_drawGrid(void)
 
     // Figure out start of vertical gridlines
     start = m_x - extx;
-    if ((start - (bmaporgx >> FRACTOMAPBITS)) % (am_gridsize << MAPBITS))
-        start += (am_gridsize << MAPBITS) - ((start - (bmaporgx >> FRACTOMAPBITS)) % (am_gridsize << MAPBITS));
+    if ((start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
+        start += gridwidth - ((start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth);
     end = m_x + minlen - extx;
 
     // draw vertical gridlines
-    for (x = start; x < end; x += (am_gridsize << MAPBITS))
+    for (x = start; x < end; x += gridwidth)
     {
         ml.a.x = x;
         ml.b.x = x;
@@ -1533,12 +1566,12 @@ static void AM_drawGrid(void)
 
     // Figure out start of horizontal gridlines
     start = m_y - exty;
-    if ((start - (bmaporgy >> FRACTOMAPBITS)) % (am_gridsize << MAPBITS))
-        start += (am_gridsize << MAPBITS) - ((start - (bmaporgy >> FRACTOMAPBITS)) % (am_gridsize << MAPBITS));
+    if ((start - (bmaporgy >> FRACTOMAPBITS)) % gridheight)
+        start += gridheight - ((start - (bmaporgy >> FRACTOMAPBITS)) % gridheight);
     end = m_y + minlen - exty;
 
     // draw horizontal gridlines
-    for (y = start; y < end; y += (am_gridsize << MAPBITS))
+    for (y = start; y < end; y += gridheight)
     {
         ml.a.x = m_x - extx;
         ml.b.x = ml.a.x + minlen;
