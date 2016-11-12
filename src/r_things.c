@@ -727,7 +727,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (tz < MINZ)
         return;
 
-    xscale = FixedDiv(projection, tz);
+    xscale = FixedDiv(centerxfrac, tz);
 
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
@@ -906,9 +906,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     if (tz < MINZ)
         return;
 
-    xscale = FixedDiv(projection, tz);
-
-    if (xscale < FRACUNIT / 4)
+    if ((xscale = FixedDiv(centerxfrac, tz)) < FRACUNIT / 4)
         return;
 
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
@@ -1003,9 +1001,7 @@ void R_ProjectShadow(mobj_t *thing)
     if (tz < MINZ)
         return;
 
-    xscale = FixedDiv(projection, tz);
-
-    if (xscale < FRACUNIT / 4)
+    if ((xscale = FixedDiv(centerxfrac, tz)) < FRACUNIT / 4)
         return;
 
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);

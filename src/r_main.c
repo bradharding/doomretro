@@ -57,8 +57,6 @@ int                     centery;
 
 fixed_t                 centerxfrac;
 fixed_t                 centeryfrac;
-fixed_t                 viewheightfrac;
-fixed_t                 projection;
 fixed_t                 projectiony;
 
 fixed_t                 viewx;
@@ -295,22 +293,21 @@ static void R_InitTables(void)
 
     // viewangle tangent table
     for (i = 0; i < FINEANGLES / 2; i++)
-        finetangent[i] = (int)(FRACUNIT * tanf((i - FINEANGLES / 4 + 0.5f) * (float)M_PI * 2
-            / FINEANGLES));
+        finetangent[i] = (int)(FRACUNIT * tan((i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES));
 
     // finesine table
     for (i = 0; i < 5 * FINEANGLES / 4; i++)
-        finesine[i] = (int)(FRACUNIT * sinf((i + 0.5f) * (float)M_PI * 2 / FINEANGLES));
+        finesine[i] = (int)(FRACUNIT * sin((i + 0.5) * M_PI * 2 / FINEANGLES));
 }
 
 static void R_InitPointToAngle(void)
 {
-    int         i;
+    int i;
 
     // slope (tangent) to angle lookup
     for (i = 0; i <= SLOPERANGE; i++)
     {
-        float   f = atanf((float)i / SLOPERANGE) / ((float)M_PI * 2);
+        double  f = atan((double)i / SLOPERANGE) / (M_PI * 2);
         long    t = (long)(0xFFFFFFFF * f);
 
         // this used to have PI (as defined above) written out longhand
@@ -446,13 +443,11 @@ void R_ExecuteSetViewSize(void)
     }
 
     viewwidth = scaledviewwidth;
-    viewheightfrac = viewheight << FRACBITS;
 
     centery = viewheight / 2;
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
     centeryfrac = centery << FRACBITS;
-    projection = centerxfrac;
     projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH
         * FRACUNIT;
 

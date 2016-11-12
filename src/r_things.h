@@ -56,8 +56,6 @@ extern fixed_t  pspritexscale;
 extern fixed_t  pspriteyscale;
 extern fixed_t  pspriteiscale;
 
-extern fixed_t  viewheightfrac;
-
 extern dboolean r_playersprites;
 
 void R_AddSprites(sector_t *sec, int lightlevel);
