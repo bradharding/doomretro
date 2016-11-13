@@ -47,7 +47,6 @@
 #define PACKAGE                         "doomretro"
 #define PACKAGE_CONFIG                  "doomretro.cfg"
 #define PACKAGE_COPYRIGHT               "\xA9 2013-2016 Brad Harding. All rights reserved."
-#define PACKAGE_DESCRIPTION             "DOOM Retro \xB7 The classic, refined DOOM source port. For Windows PC."
 #define PACKAGE_EMAIL                   "brad@doomretro.com"
 #define PACKAGE_ICON_PATH               "..\\res\\doomretro.ico"
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
