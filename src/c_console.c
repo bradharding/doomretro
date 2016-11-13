@@ -883,12 +883,24 @@ void C_Drawer(void)
             if (consoledirection == 1)
             {
                 if (consoleheight < CONSOLEHEIGHT)
-                    consoleheight = consoledown[consoleanim++];
+                {
+                    if (consoleheight > consoledown[consoleanim])
+                        consolewait = 0;
+                    else
+                        consoleheight = consoledown[consoleanim];
+                    ++consoleanim;
+                }
             }
             else
             {
                 if (consoleheight > -2)
-                    consoleheight = consoleup[consoleanim++];
+                {
+                    if (consoleheight < consoleup[consoleanim])
+                        consolewait = 0;
+                    else
+                        consoleheight = consoleup[consoleanim];
+                    ++consoleanim;
+                }
             }
         }
 
