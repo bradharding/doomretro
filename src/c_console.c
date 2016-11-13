@@ -67,15 +67,15 @@
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
 #define CONSOLETEXTMAXLENGTH    1024
-#define CONSOLETEXTPIXELWIDTH   (SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 3)
+#define CONSOLETEXTPIXELWIDTH   (CONSOLEWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 3)
 #define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 11 : 27)
 #define CONSOLELINEHEIGHT       14
 
-#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - brandwidth - 2)
+#define CONSOLEINPUTPIXELWIDTH  (CONSOLEWIDTH - CONSOLETEXTX - brandwidth - 2)
 
 #define CONSOLESCROLLBARWIDTH   3
 #define CONSOLESCROLLBARHEIGHT  ((CONSOLELINES - 1) * CONSOLELINEHEIGHT - 1)
-#define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
+#define CONSOLESCROLLBARX       (CONSOLEWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 #define CONSOLESCROLLBARY       (CONSOLETEXTY + 1)
 
 #define CONSOLEDIVIDERWIDTH     (CONSOLETEXTPIXELWIDTH - CONSOLETEXTX + 1)
@@ -215,6 +215,7 @@ void C_IntCVAROutput(char *cvar, int value)
 {
     if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
         --consolestrings;
+
     C_Input("%s %i", cvar, value);
 }
 
@@ -222,6 +223,7 @@ void C_PctCVAROutput(char *cvar, int value)
 {
     if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
         --consolestrings;
+
     C_Input("%s %i%%", cvar, value);
 }
 
@@ -229,6 +231,7 @@ void C_StrCVAROutput(char *cvar, char *string)
 {
     if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
         --consolestrings;
+
     C_Input("%s %s", cvar, string);
 }
 
@@ -439,39 +442,41 @@ static int C_TextWidth(char *text, dboolean formatting)
                 w += kern[j].adjust;
                 break;
             }
+
             ++j;
         }
         prevletter = letter;
     }
+
     return w;
 }
 
 static void C_DrawScrollbar(void)
 {
 
-    int trackstart = CONSOLESCROLLBARY * SCREENWIDTH;
-    int trackend = trackstart + CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
+    int trackstart = CONSOLESCROLLBARY * CONSOLEWIDTH;
+    int trackend = trackstart + CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
     int facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-            MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * SCREENWIDTH;
+            MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * CONSOLEWIDTH;
     int faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-            * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * SCREENWIDTH;
+            * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * CONSOLEWIDTH;
 
     if (trackstart == facestart && trackend == faceend)
         return;
     else
     {
         int     x, y;
-        int     offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
+        int     offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
 
         // Draw scrollbar track
-        for (y = trackstart; y < trackend; y += SCREENWIDTH)
+        for (y = trackstart; y < trackend; y += CONSOLEWIDTH)
             if (y - offset >= 0)
                 for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x]
                         + consolescrollbartrackcolor];
 
         // Draw scrollbar face
-        for (y = facestart; y < faceend; y += SCREENWIDTH)
+        for (y = facestart; y < faceend; y += CONSOLEWIDTH)
             if (y - offset >= 0)
                 for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
@@ -510,8 +515,7 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timestampx = SCREENWIDTH - C_TextWidth("00:00:00", false) - CONSOLETEXTX * 2
-        - CONSOLESCROLLBARWIDTH + 1;
+    timestampx = CONSOLEWIDTH - C_TextWidth("00:00:00", false) - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
     consolecaretcolor = nearestcolors[consolecaretcolor];
@@ -592,9 +596,9 @@ static void DoBlurScreen(int x1, int y1, int x2, int y2, int i)
 {
     int x, y;
 
-    memcpy(c_tempscreen, c_blurscreen, SCREENWIDTH * (CONSOLEHEIGHT + 5));
+    memcpy(c_tempscreen, c_blurscreen, CONSOLEWIDTH * (CONSOLEHEIGHT + 5));
 
-    for (y = y1; y < y2; y += SCREENWIDTH)
+    for (y = y1; y < y2; y += CONSOLEWIDTH)
         for (x = y + x1; x < y + x2; ++x)
             c_blurscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
 }
@@ -604,7 +608,7 @@ static void C_DrawBackground(int height)
     static dboolean     blurred;
     int                 i;
 
-    height = (height + 5) * SCREENWIDTH;
+    height = (height + 5) * CONSOLEWIDTH;
 
     if (r_translucency)
     {
@@ -615,14 +619,14 @@ static void C_DrawBackground(int height)
             for (i = 0; i < height; ++i)
                 c_blurscreen[i] = screens[0][i];
 
-            DoBlurScreen(0, 0, SCREENWIDTH - 1, height, 1);
-            DoBlurScreen(1, 0, SCREENWIDTH, height, -1);
-            DoBlurScreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-            DoBlurScreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
-            DoBlurScreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-            DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-            DoBlurScreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-            DoBlurScreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+            DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height, 1);
+            DoBlurScreen(1, 0, CONSOLEWIDTH, height, -1);
+            DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height - CONSOLEWIDTH, CONSOLEWIDTH + 1);
+            DoBlurScreen(1, CONSOLEWIDTH, CONSOLEWIDTH, height, -(CONSOLEWIDTH + 1));
+            DoBlurScreen(0, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH);
+            DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH, height, -CONSOLEWIDTH);
+            DoBlurScreen(1, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH - 1);
+            DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH - 1, height, -(CONSOLEWIDTH - 1));
         }
 
         blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
@@ -633,7 +637,8 @@ static void C_DrawBackground(int height)
         for (i = height - 2; i > 1; i -= 3)
         {
             screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
-            if (((i - 1) % SCREENWIDTH) < SCREENWIDTH - 2)
+
+            if (((i - 1) % CONSOLEWIDTH) < CONSOLEWIDTH - 2)
                 screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
         }
     }
@@ -647,22 +652,22 @@ static void C_DrawBackground(int height)
     }
 
     // draw branding
-    V_DrawConsolePatch(SCREENWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
+    V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
 
     // draw bottom edge
-    for (i = height - SCREENWIDTH * 3; i < height; ++i)
+    for (i = height - CONSOLEWIDTH * 3; i < height; ++i)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
     // soften edges
     if (r_translucency)
     {
-        for (i = 0; i < height; i += SCREENWIDTH)
+        for (i = 0; i < height; i += CONSOLEWIDTH)
         {
             screens[0][i] = tinttab50[screens[0][i]];
-            screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
+            screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
         }
 
-        for (i = height - SCREENWIDTH + 1; i < height - 1; ++i)
+        for (i = height - CONSOLEWIDTH + 1; i < height - 1; ++i)
             screens[0][i] = tinttab25[screens[0][i]];
     }
 
@@ -673,12 +678,12 @@ static void C_DrawBackground(int height)
         {
             int j;
 
-            for (j = SCREENWIDTH; j <= 4 * SCREENWIDTH; j += SCREENWIDTH)
+            for (j = CONSOLEWIDTH; j <= 4 * CONSOLEWIDTH; j += CONSOLEWIDTH)
                 for (i = height; i < height + j; ++i)
                     screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
         }
         else
-            for (i = height; i < height + SCREENWIDTH; ++i)
+            for (i = height; i < height + CONSOLEWIDTH; ++i)
                 screens[0][i] = 0;
     }
 }
@@ -840,7 +845,7 @@ void C_UpdateFPS(void)
 
         M_snprintf(buffer, 16, "%i FPS", fps);
 
-        C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
+        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
             CONSOLETEXTY, buffer, (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor));
     }
 }
@@ -1121,8 +1126,10 @@ dboolean C_Responder(event_t *ev)
                 {
                     // delete selected text
                     C_AddToUndoHistory();
+
                     for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
+
                     consoleinput[selectstart + i - selectend] = '\0';
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -1134,8 +1141,10 @@ dboolean C_Responder(event_t *ev)
                 {
                     // delete character left of caret
                     C_AddToUndoHistory();
+
                     for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
+
                     selectend = selectstart = --caretpos;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
@@ -1149,8 +1158,10 @@ dboolean C_Responder(event_t *ev)
                 {
                     // delete selected text
                     C_AddToUndoHistory();
+
                     for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
+
                     consoleinput[selectstart + i - selectend] = '\0';
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -1162,8 +1173,10 @@ dboolean C_Responder(event_t *ev)
                 {
                     // delete character right of caret
                     C_AddToUndoHistory();
+
                     for (i = caretpos; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
+
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                     autocomplete = -1;
@@ -1202,6 +1215,7 @@ dboolean C_Responder(event_t *ev)
                         --caretpos;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
+
                         if (selectstart <= caretpos)
                             selectend = caretpos;
                         else
@@ -1213,6 +1227,7 @@ dboolean C_Responder(event_t *ev)
                             caretpos = selectend = selectstart;
                         else
                             selectstart = selectend = --caretpos;
+
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                     }
@@ -1230,6 +1245,7 @@ dboolean C_Responder(event_t *ev)
                         ++caretpos;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
+
                         if (selectend >= caretpos)
                             selectstart = caretpos;
                         else
@@ -1241,18 +1257,19 @@ dboolean C_Responder(event_t *ev)
                             caretpos = selectstart = selectend;
                         else
                             selectstart = selectend = ++caretpos;
+
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                     }
                 }
                 else if (!(modstate & KMOD_SHIFT))
                     caretpos = selectend = selectstart = strlen(consoleinput);
+
                 break;
 
             // move caret to start
             case KEY_HOME:
-                if ((outputhistory != -1 || !caretpos) && outputhistory
-                    && consolestrings > CONSOLELINES)
+                if ((outputhistory != -1 || !caretpos) && outputhistory && consolestrings > CONSOLELINES)
                     outputhistory = 0;
                 else if (caretpos > 0)
                 {
@@ -1261,6 +1278,7 @@ dboolean C_Responder(event_t *ev)
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
+
                 break;
 
             // move caret to end
@@ -1290,12 +1308,13 @@ dboolean C_Responder(event_t *ev)
                         || (direction == 1 && autocomplete < numconsolecmds - 1))
                     {
                         autocomplete += direction;
+
                         if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
                             && consolecmds[autocomplete].type != CT_CHEAT
                             && *consolecmds[autocomplete].description)
                         {
-                            M_StringCopy(consoleinput, consolecmds[autocomplete].name,
-                                sizeof(consoleinput));
+                            M_StringCopy(consoleinput, consolecmds[autocomplete].name, sizeof(consoleinput));
+
                             if (consolecmds[autocomplete].parameters)
                             {
                                 int     length = strlen(consoleinput);
@@ -1317,9 +1336,10 @@ dboolean C_Responder(event_t *ev)
             case KEY_UPARROW:
                 if (inputhistory == -1)
                     M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
+
                 for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; --i)
-                    if (console[i].type == inputstring
-                        && !M_StringCompare(consoleinput, console[i].string))
+                {
+                    if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string))
                     {
                         inputhistory = i;
                         M_StringCopy(consoleinput, console[i].string, 255);
@@ -1328,6 +1348,8 @@ dboolean C_Responder(event_t *ev)
                         showcaret = true;
                         break;
                     }
+                }
+
                 break;
 
             // next input
@@ -1335,22 +1357,26 @@ dboolean C_Responder(event_t *ev)
                 if (inputhistory != -1)
                 {
                     for (i = inputhistory + 1; i < consolestrings; ++i)
-                        if (console[i].type == inputstring
-                            && !M_StringCompare(consoleinput, console[i].string))
+                    {
+                        if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string))
                         {
                             inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, 255);
                             break;
                         }
+                    }
+
                     if (i == consolestrings)
                     {
                         inputhistory = -1;
                         M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                     }
+
                     caretpos = selectstart = selectend = strlen(consoleinput);
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
+
                 break;
 
             // scroll output up
@@ -1358,6 +1384,7 @@ dboolean C_Responder(event_t *ev)
                 if (consolestrings > CONSOLELINES)
                     outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
                         MAX(0, outputhistory - 1));
+
                 break;
 
             // scroll output down
@@ -1367,6 +1394,7 @@ dboolean C_Responder(event_t *ev)
                     if (++outputhistory + CONSOLELINES == consolestrings)
                         outputhistory = -1;
                 }
+
                 break;
 
             // close console
@@ -1383,6 +1411,7 @@ dboolean C_Responder(event_t *ev)
             case KEY_CAPSLOCK:
                 if (keyboardalwaysrun == KEY_CAPSLOCK)
                     G_ToggleAlwaysRun(ev_keydown);
+
                 break;
 
             default:
@@ -1411,6 +1440,7 @@ dboolean C_Responder(event_t *ev)
                         M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0,
                             selectstart), SDL_GetClipboardText(), M_SubString(consoleinput,
                             selectend, strlen(consoleinput) - selectend));
+
                         if (C_TextWidth(buffer, false) <= CONSOLEINPUTPIXELWIDTH)
                         {
                             C_AddToUndoHistory();
@@ -1428,8 +1458,10 @@ dboolean C_Responder(event_t *ev)
                             C_AddToUndoHistory();
                             SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
                                 selectend - selectstart));
+
                             for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                                 consoleinput[selectstart + i - selectend] = consoleinput[i];
+
                             consoleinput[selectstart + i - selectend] = '\0';
                             caretpos = selectend = selectstart;
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -1443,8 +1475,7 @@ dboolean C_Responder(event_t *ev)
                         if (undolevels)
                         {
                             --undolevels;
-                            M_StringCopy(consoleinput, undohistory[undolevels].input,
-                                sizeof(consoleinput));
+                            M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
                             caretpos = undohistory[undolevels].caretpos;
                             selectstart = undohistory[undolevels].selectstart;
                             selectend = undohistory[undolevels].selectend;
@@ -1453,9 +1484,9 @@ dboolean C_Responder(event_t *ev)
                 }
                 else
                 {
-                    if ((modstate & KMOD_SHIFT)
-                        || (keyboardalwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
+                    if ((modstate & KMOD_SHIFT) || (keyboardalwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
                         ch = shiftxform[ch];
+
                     if (ch >= ' ' && ch < '~' && ch != '`' && C_TextWidth(consoleinput, false)
                         + (ch == ' ' ? spacewidth : SHORT(consolefont[ch
                         - CONSOLEFONTSTART]->width)) - (selectstart < selectend ?
@@ -1463,12 +1494,15 @@ dboolean C_Responder(event_t *ev)
                         false) : 0) <= CONSOLEINPUTPIXELWIDTH && !(modstate & KMOD_ALT))
                     {
                         C_AddToUndoHistory();
+
                         if (selectstart < selectend)
                         {
                             // replace selected text with a character
                             consoleinput[selectstart] = ch;
+
                             for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                                 consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
+
                             consoleinput[selectstart + i - selectend + 1] = '\0';
                             caretpos = selectend = selectstart + 1;
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -1479,8 +1513,10 @@ dboolean C_Responder(event_t *ev)
                             // insert a character
                             if (strlen(consoleinput) < 255)
                                 consoleinput[strlen(consoleinput) + 1] = '\0';
+
                             for (i = strlen(consoleinput); i > caretpos; --i)
                                 consoleinput[i] = consoleinput[i - 1];
+
                             consoleinput[caretpos++] = ch;
                         }
                         selectstart = selectend = caretpos;

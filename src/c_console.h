@@ -49,8 +49,8 @@
 #define NOBOLDCOLOR             -1
 #define NOBACKGROUNDCOLOR       -1
 
-#define CONSOLEHEIGHT           (gamestate != GS_TITLESCREEN ? (SCREENHEIGHT - SBARHEIGHT) / 2 : \
-                                SCREENHEIGHT - 5)
+#define CONSOLEWIDTH            SCREENWIDTH
+#define CONSOLEHEIGHT           (gamestate != GS_TITLESCREEN ? (SCREENHEIGHT - SBARHEIGHT) / 2 : SCREENHEIGHT - 5)
 
 #define CONSOLETOP              0
 

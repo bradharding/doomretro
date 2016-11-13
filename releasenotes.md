@@ -28,7 +28,7 @@
 * The `vid_scalefilter` CVAR is now `"nearest_linear"` by default.
 * The `vid_vsync` CVAR is now `on` by default.
 * The following improvements have been made to [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) support:
-  * The IWAD will now be identified correctly when it is loaded using the `-iwad` command-line parameter.
+  * `hacx.wad` will now be identified correctly when it is loaded using the `-iwad` command-line parameter.
   * The health bar in the alternate HUD is now displayed correctly when the player’s health is greater than 200.
   * Using the <kbd>A</kbd> key to strafe left now works.
   * Windows are no longer shattered when using `kill all` in the console.
@@ -37,7 +37,7 @@
 * The text carets in both the save game menu and the console will no longer be displayed, and the skull in the menu will no longer animate, while the window doesn’t have focus.
 * Objects will no longer be lit incorrectly in some rare instances.
 * A bug has been fixed whereby certain secrets wouldn’t be counted in some *BOOM*-compatible maps.
-* Sectors with multiple effects in some *BOOM*-compatible maps will now be rendered correctly.
+* Sectors with multiple effects in some *BOOM*-compatible maps will now behave correctly.
 * The weapon keys <kbd>1</kbd> to <kbd>7</kbd> will no longer momentarily fail to work after entering an invalid parameter for the `IDMUSxy` cheat.
 
 ---

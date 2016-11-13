@@ -228,9 +228,9 @@ void R_InitTextures(void)
     const int           *maptex1;
     const int           *maptex2;
     char                name[9];
-    int                 names_lump; // cph - new wad lump handling
-    const char          *names; // cph -
-    const char          *name_p;// const*'s
+    int                 names_lump;     // cph - new wad lump handling
+    const char          *names;         // cph -
+    const char          *name_p;        // const*'s
     int                 *patchlookup;
     int                 nummappatches;
     int                 maxoff, maxoff2;
@@ -356,7 +356,6 @@ void R_InitTextures(void)
 
     // [BH] Initialize partially fullbright textures.
     texturefullbright = Z_Malloc(numtextures * sizeof(*texturefullbright), PU_STATIC, 0);
-
     memset(texturefullbright, 0, numtextures * sizeof(*texturefullbright));
     if (r_brightmaps)
     {
@@ -365,10 +364,11 @@ void R_InitTextures(void)
         {
             if (fullbright[i].texture)
             {
-                int num = R_CheckTextureNumForName(fullbright[i].texture);
+                int     num = R_CheckTextureNumForName(fullbright[i].texture);
 
                 if (num != -1)
                     texturefullbright[num] = fullbright[i].colormask;
+
                 i++;
             }
         }
@@ -429,7 +429,7 @@ void R_InitSpriteLumps(void)
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
             if (r_fixspriteoffsets && !FREEDOOM && !hacx)
             {
-                int j = 0;
+                int     j = 0;
 
                 while (*sproffsets[j].name)
                 {
@@ -441,6 +441,7 @@ void R_InitSpriteLumps(void)
                         newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
                         break;
                     }
+
                     j++;
                 }
             }
