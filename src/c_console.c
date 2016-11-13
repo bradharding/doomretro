@@ -87,6 +87,7 @@
 dboolean        consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
+int             consoleanim = 0;
 
 static dboolean forceblurredraw = false;
 
@@ -547,6 +548,7 @@ void C_ShowConsole(void)
 {
     consoleheight = MAX(1, consoleheight);
     consoledirection = 1;
+    consoleanim = 0;
     showcaret = true;
     caretwait = 0;
     if (gamestate == GS_TITLESCREEN && !devparm)
@@ -556,6 +558,7 @@ void C_ShowConsole(void)
 void C_HideConsole(void)
 {
     consoledirection = -1;
+    consoleanim = 0;
     if (gamestate == GS_TITLESCREEN)
     {
         consoleheight = 0;
@@ -567,6 +570,7 @@ void C_HideConsole(void)
 void C_HideConsoleFast(void)
 {
     consoledirection = -1;
+    consoleanim = 0;
     consoleheight = 0;
     consoleactive = false;
 }
@@ -855,14 +859,32 @@ void C_Drawer(void)
         dboolean        prevconsoleactive = consoleactive;
         static int      consolewait;
 
+        int             consoledown[] =
+        {
+            14, 28, 42, 56, 70, 84, 98, 112, 126, 140, 152, 154, 156, 158, 160, 162, 164, 166, 168
+        };
+
+        int             consoleup[] =
+        {
+            154, 140, 126, 112, 98, 84, 70, 56, 42, 28, 14, 12, 10, 8, 6, 4, 2, 0, -2
+        };
+
         // adjust console height
         if (gamestate == GS_TITLESCREEN)
             consoleheight = CONSOLEHEIGHT;
         else if (consolewait < I_GetTime())
         {
             consolewait = I_GetTime();
-            consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection,
-                CONSOLEHEIGHT);
+            if (consoledirection == 1)
+            {
+                if (consoleheight < CONSOLEHEIGHT)
+                    consoleheight = consoledown[consoleanim++];
+            }
+            else
+            {
+                if (consoleheight > -2)
+                    consoleheight = consoleup[consoleanim++];
+            }
         }
 
         if (vid_motionblur && consoleheight < CONSOLEHEIGHT)

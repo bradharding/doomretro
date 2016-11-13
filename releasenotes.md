@@ -9,7 +9,7 @@
 * The last menu item to be selected is now remembered when using the <kbd>F2</kbd>, <kbd>F3</kbd> or <kbd>F4</kbd> keys to display a menu.
 * Further improvements have been made to make sure objects are lit correctly in all instances.
 * The music volume is now properly set at startup.
-* The console now opens and closes at a consistent speed.
+* The console now opens and closes at a consistent speed, slowing down as it is almost completely opened or closed.
 * The title of the currently playing music track, as well as the number of secret sectors, are now displayed in the output of the `mapstats` CCMD.
 
 ---
