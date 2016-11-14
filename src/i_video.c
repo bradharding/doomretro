@@ -1578,7 +1578,7 @@ static void SetVideoMode(dboolean output)
 
     if (output)
     {
-        C_Output("Using %s 256-color palette from the <b>PLAYPAL</b> lump in %s file <b>%s</b>.",
+        C_Output("Using %s 256-color palette from the <b>PLAYPAL</b> lump in %s <b>%s</b>.",
             (iwad ? "the" : "a custom"), (iwad ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)

@@ -1332,7 +1332,7 @@ static void condump_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             fclose(file);
 
-            C_Output("Dumped the console to the file <b>%s</b>.", filename);
+            C_Output("Dumped the console to <b>%s</b>.", filename);
         }
     }
 }

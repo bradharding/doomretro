@@ -382,9 +382,9 @@ static struct
     { 'p',  '\"', -1 }, { 'p',  '\'', -1 }, { 'p',  'j',  -2 }, { 'r',  ' ',  -1 },
     { 'r',  '\\', -1 }, { 'r',  '.',  -2 }, { 'r',  ',',  -2 }, { 'r',  '\"', -1 },
     { 'r',  '\'', -1 }, { 'r',  '_',  -1 }, { 'r',  'a',  -1 }, { 'r',  'j',  -2 },
-    { 's',  ',',  -1 }, { 's',  'j',  -2 }, { 't',  'j',  -2 }, { 'u',  'j',  -2 },
-    { 'v',  ',',  -1 }, { 'v',  'j',  -2 }, { 'w',  'j',  -2 }, { 'x',  'j',  -2 },
-    { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
+    { 's',  '\\', -1 }, { 's',  ',',  -1 }, { 's',  'j',  -2 }, { 't',  'j',  -2 },
+    { 'u',  'j',  -2 }, { 'v',  ',',  -1 }, { 'v',  'j',  -2 }, { 'w',  'j',  -2 },
+    { 'x',  'j',  -2 }, { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
 };
 
 static int C_TextWidth(char *text, dboolean formatting)
@@ -880,7 +880,7 @@ void C_Drawer(void)
             consoleheight = CONSOLEHEIGHT;
         else if (consolewait < I_GetTimeMS())
         {
-            consolewait = I_GetTimeMS() + 5;
+            consolewait = I_GetTimeMS() + 10;
             if (consoledirection == 1)
             {
                 if (consoleheight < CONSOLEHEIGHT)
