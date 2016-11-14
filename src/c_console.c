@@ -866,12 +866,13 @@ void C_Drawer(void)
 
         int             consoledown[] =
         {
-            14, 28, 42, 56, 70, 84, 98, 112, 126, 140, 152, 154, 156, 158, 160, 161, 162, 163, 164, 165, 166, 167, 168
+             14,  28,  42,  56,  70,  84,  98, 112, 126, 140, 150, 152,
+            154, 156, 158, 160, 161, 162, 163, 164, 165, 166, 167, 168
         };
 
         int             consoleup[] =
         {
-            154, 140, 126, 112, 98, 84, 70, 56, 42, 28, 14, 12, 10, 8, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4
+            154, 140, 126, 112,  98,  84,  70,  56,  42,  28,  14,   0
         };
 
         // adjust console height
@@ -879,7 +880,7 @@ void C_Drawer(void)
             consoleheight = CONSOLEHEIGHT;
         else if (consolewait < I_GetTimeMS())
         {
-            consolewait = I_GetTimeMS() + 3;
+            consolewait = I_GetTimeMS() + 5;
             if (consoledirection == 1)
             {
                 if (consoleheight < CONSOLEHEIGHT)
