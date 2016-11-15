@@ -718,9 +718,6 @@ static void saveg_read_player_t(player_t *str)
     // int fixedcolormap
     str->fixedcolormap = saveg_read32();
 
-    // int colormap
-    str->colormap = saveg_read32();
-
     // pspdef_t psprites[NUMPSPRITES]
     for (i = 0; i < NUMPSPRITES; ++i)
         saveg_read_pspdef_t(&str->psprites[i]);
@@ -909,9 +906,6 @@ static void saveg_write_player_t(player_t *str)
 
     // int fixedcolormap
     saveg_write32(str->fixedcolormap);
-
-    // int colormap
-    saveg_write32(str->colormap);
 
     // pspdef_t psprites[NUMPSPRITES]
     for (i = 0; i < NUMPSPRITES; ++i)

@@ -181,10 +181,6 @@ typedef struct player_s
     //  can be set to REDCOLORMAP for pain, etc.
     int                 fixedcolormap;
 
-    // Player skin colorshift,
-    //  0-3 for which color to draw player.
-    int                 colormap;
-
     // Overlay view sprites (gun, etc).
     pspdef_t            psprites[NUMPSPRITES];
 
