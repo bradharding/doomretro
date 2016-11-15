@@ -1526,6 +1526,8 @@ static void SetVideoMode(dboolean output)
                     SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
         }
 
+        I_CapFPS(0);
+
         if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
         {
             SDL_DisplayMode     displaymode;
@@ -1547,7 +1549,8 @@ static void SetVideoMode(dboolean output)
                 }
                 else
                 {
-                    I_CapFPS(vid_capfps);
+                    if (vid_capfps)
+                        I_CapFPS(vid_capfps);
 
                     if (output)
                         C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));
@@ -1556,7 +1559,8 @@ static void SetVideoMode(dboolean output)
         }
         else
         {
-            I_CapFPS(vid_capfps);
+            if (vid_capfps)
+                I_CapFPS(vid_capfps);
 
             if (output)
             {

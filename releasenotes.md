@@ -1,5 +1,7 @@
 ### DOOM Retro v2.4
 
+* A bug has been fixed whereby if the framerate was capped to a value less the display’s refresh rate by using the `vid_capfps` CVAR, it couldn’t be uncapped while the `vid_vsync` CVAR was `on` or without restarting *DOOM Retro*.
+
 ---
 
 ###### Tuesday, November 15, 2016
