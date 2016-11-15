@@ -44,6 +44,7 @@
 
 extern fixed_t  animatedliquiddiff;
 extern dboolean skipaction;
+extern dboolean software;
 
 extern dboolean r_liquid_bob;
 
@@ -219,7 +220,7 @@ static void P_ReduceDamageCount(player_t *player)
     if (player->damagecount)
         --player->damagecount;
 
-    if (r_shakescreen)
+    if (r_shakescreen && !software)
         I_UpdateBlitFunc(player->damagecount);
 }
 

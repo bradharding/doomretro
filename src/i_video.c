@@ -119,6 +119,8 @@ dboolean                nearestlinear = false;
 int                     upscaledwidth;
 int                     upscaledheight;
 
+dboolean                software;
+
 static int              displayindex;
 static int              am_displayindex;
 static int              numdisplays;
@@ -1349,6 +1351,7 @@ static void SetVideoMode(dboolean output)
     }
 
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
+    software = M_StringCompare(vid_scaleapi, vid_scaleapi_software);
 
     GetWindowPosition();
     GetWindowSize();
@@ -1498,6 +1501,8 @@ static void SetVideoMode(dboolean output)
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
         {
+            software = true;
+
             if (output)
                 C_Output("The screen is rendered in software.");
 
