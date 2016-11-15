@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby if the framerate was capped to a value less the display’s refresh rate by using the `vid_capfps` CVAR, it couldn’t be uncapped while the `vid_vsync` CVAR was `on` or without restarting *DOOM Retro*.
+* The HOM indicator no longer flashes when the window doesn’t have focus.
 
 ---
 
