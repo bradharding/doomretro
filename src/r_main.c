@@ -729,9 +729,14 @@ void R_RenderPlayerView(player_t *player)
     R_ClearPlanes();
     R_ClearSprites();
 
+    NetUpdate();
+
     if (automapactive)
     {
         R_RenderBSPNode(numnodes - 1);
+
+        NetUpdate();
+
         if (r_playersprites)
             R_DrawPlayerSprites();
     }
@@ -746,7 +751,14 @@ void R_RenderPlayerView(player_t *player)
         // The head node is the last node output.
         R_RenderBSPNode(numnodes - 1);
 
+        NetUpdate();
+
         R_DrawPlanes();
+
+        NetUpdate();
+
         R_DrawMasked();
+
+        NetUpdate();
     }
 }
