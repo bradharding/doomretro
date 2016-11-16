@@ -1502,6 +1502,7 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
         {
             software = true;
+            nearestlinear = false;
 
             if (output)
                 C_Output("The screen is rendered in software.");
