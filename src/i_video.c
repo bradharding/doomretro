@@ -1471,8 +1471,7 @@ static void SetVideoMode(dboolean output)
 
                 if (output)
                     C_Output("The screen is now rendered using hardware acceleration with the "
-                        "<i><b>Direct3D %s</b></i> API instead.", (SDL_VIDEO_RENDER_D3D11 ?
-                        "11.0" : "9.0"));
+                        "<i><b>Direct3D %s</b></i> API instead.", (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
             }
             else
             {
@@ -1513,6 +1512,10 @@ static void SetVideoMode(dboolean output)
                 vid_scaleapi = vid_scaleapi_software;
                 M_SaveCVARs();
             }
+
+            if (output && (M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
+                || M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear)))
+                C_Warning("Linear filtering can't be used in software.");
         }
 
         if (output)
