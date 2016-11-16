@@ -1503,6 +1503,7 @@ static void SetVideoMode(dboolean output)
         {
             software = true;
             nearestlinear = false;
+            SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
             if (output)
                 C_Output("The screen is rendered in software.");
@@ -1524,7 +1525,7 @@ static void SetVideoMode(dboolean output)
                 C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
                     commify(height * 4 / 3), commify(height));
             }
-            else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear))
+            else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
                     SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
             else
