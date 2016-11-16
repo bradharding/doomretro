@@ -1710,6 +1710,8 @@ void I_RestartGraphics(void)
 #endif
 
     M_SetWindowCaption();
+
+    forceconsoleblurredraw = true;
 }
 
 void I_ToggleFullscreen(void)

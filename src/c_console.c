@@ -89,7 +89,7 @@ int             consoleheight = 0;
 int             consoledirection = -1;
 int             consoleanim = 0;
 
-static dboolean forceblurredraw = false;
+dboolean        forceconsoleblurredraw = false;
 
 static patch_t  *consolefont[CONSOLEFONTSIZE];
 static patch_t  *trademark;
@@ -612,9 +612,9 @@ static void C_DrawBackground(int height)
 
     if (r_translucency)
     {
-        if (!blurred || forceblurredraw)
+        if (!blurred || forceconsoleblurredraw)
         {
-            forceblurredraw = false;
+            forceconsoleblurredraw = false;
 
             for (i = 0; i < height; ++i)
                 c_blurscreen[i] = screens[0][i];
@@ -1212,7 +1212,7 @@ dboolean C_Responder(event_t *ev)
                         autocomplete = -1;
                         inputhistory = -1;
                         outputhistory = -1;
-                        forceblurredraw = true;
+                        forceconsoleblurredraw = true;
                     }
 
                     return !consolecheat[0];

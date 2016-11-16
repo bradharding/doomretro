@@ -90,6 +90,8 @@ extern char             consolecheat[255];
 extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];
 
+extern dboolean         forceconsoleblurredraw;
+
 typedef struct
 {
     char                *input;
