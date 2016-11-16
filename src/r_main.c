@@ -747,7 +747,7 @@ void R_RenderPlayerView(player_t *player)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, 0);
         else if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused && windowfocused ? 176 : 0));
+                ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? 176 : 0));
 
         // The head node is the last node output.
         R_RenderBSPNode(numnodes - 1);
