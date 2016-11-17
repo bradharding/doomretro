@@ -1,5 +1,6 @@
 ### DOOM Retro v2.3.6
 
+* *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2017 RC*](https://www.visualstudio.com/vs/visual-studio-2017-rc/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the format of savegames and so are not compatible with previous versions of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
