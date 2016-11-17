@@ -579,8 +579,11 @@ char *titlecase(const char *str)
     }
 
     strreplace(newstr, " Of ", " of ");
+    strreplace(newstr, ": of ", ": Of ");
     strreplace(newstr, " Or ", " or ");
+    strreplace(newstr, ": or ", ": Or ");
     strreplace(newstr, " The ", " the ");
+    strreplace(newstr, ": the ", ": The ");
 
     return newstr;
 }
