@@ -2342,7 +2342,8 @@ static void InitMapInfo(void)
 
                     case MCMD_MUSIC:
                         SC_MustGetString();
-                        info->music = W_CheckNumForName(sc_String);
+                        if (!info->music)
+                            info->music = W_CheckNumForName(sc_String);
                         break;
 
                     case MCMD_NEXT:
