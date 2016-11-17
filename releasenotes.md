@@ -5,6 +5,7 @@
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby if the framerate was capped to a value less the display’s refresh rate by using the `vid_capfps` CVAR, it couldn’t be uncapped while the `vid_vsync` CVAR was `on` or without restarting *DOOM Retro*.
 * The effect enabled using the `r_shakescreen` CVAR requires hardware acceleration. If the `vid_scaleapi` CVAR is `"software"`, the screen will no longer momentarily freeze when the player is attacked and the `r_shakescreen` is not `0%`.
+* A bug has been fixed whereby the wrong map title could be displayed for MAP31 and MAP32 in some PWADs when used with the *BFG Edition* of `doom2.wad`.
 
 ---
 

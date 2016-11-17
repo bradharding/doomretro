@@ -1947,8 +1947,8 @@ void P_MapName(int ep, int map)
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, trimwhitespace(bfgedition ? *mapnames2_bfg[map - 1] :
-                    *mapnames2[map - 1]), sizeof(maptitle));
+                M_StringCopy(maptitle, trimwhitespace(bfgedition && !modifiedgame ?
+                    *mapnames2_bfg[map - 1] : *mapnames2[map - 1]), sizeof(maptitle));
             break;
 
         case pack_nerve:
