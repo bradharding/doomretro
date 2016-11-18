@@ -10,6 +10,7 @@
 * The wrong map title is no longer displayed for MAP31 and MAP32 in some PWADs when using the *BFG Edition* of `doom2.wad`.
 * A bug has been fixed whereby the `MAPINFO` lump in a PWAD could be parsed incorrectly and cause the wrong music to be played in a map.
 * Music will now be paused if either the menu or console is open and the window loses focus.
+* The game will no longer crash when trying to spawn a spider mastermind using the `spawn` CCMD in *DOOM Shareware*.
 
 ---
 
