@@ -257,7 +257,6 @@
     <CustomBuildStep Include="..\src\w_wad.h" />
     <CustomBuildStep Include="..\src\wi_stuff.h" />
     <CustomBuildStep Include="..\src\z_zone.h" />
-    <ClInclude Include="..\midiproc\midiproc.h" />
     <ClInclude Include="..\src\am_map.h" />
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />

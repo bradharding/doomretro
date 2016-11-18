@@ -1,8 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.25914.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doomretro", "doomretro.vcxproj", "{8B744A3B-8F18-41A0-85A3-293816E85B6E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "midiproc", "..\midiproc\midiproc.vcxproj", "{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,8 +18,14 @@ Global
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|Win32.ActiveCfg = Release|Win32
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|Win32.Build.0 = Release|Win32
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Template|Win32.ActiveCfg = Release|Win32
+		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Debug|Win32.Build.0 = Debug|Win32
+		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Release|Win32.ActiveCfg = Release|Win32
+		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Release|Win32.Build.0 = Release|Win32
+		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Template|Win32.ActiveCfg = Release|Win32
+		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Template|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = TRUE
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
