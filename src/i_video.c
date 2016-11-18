@@ -245,17 +245,29 @@ static void UpdateFocus(void)
     Uint32      state = SDL_GetWindowFlags(window);
 
     // We should have input (keyboard) focus and be visible (not minimized)
-    windowfocused = ((state & SDL_WINDOW_INPUT_FOCUS) && (state & SDL_WINDOW_SHOWN));
-
+    if ((windowfocused = ((state & SDL_WINDOW_INPUT_FOCUS) && (state & SDL_WINDOW_SHOWN))))
+    {
 #if defined(WIN32)
-    SetPriorityClass(GetCurrentProcess(),
-        (windowfocused ? NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS));
+        SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
 #endif
 
-    if (!windowfocused && !menuactive && gamestate == GS_LEVEL && !paused && !consoleactive)
+        if (menuactive || consoleactive)
+            S_ResumeSound();
+    }
+    else
     {
-        sendpause = true;
-        blurred = false;
+#if defined(WIN32)
+        SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
+#endif
+
+        if (gamestate == GS_LEVEL && !paused)
+        {
+            blurred = false;
+            if (menuactive || consoleactive)
+                S_PauseSound();
+            else
+                sendpause = true;
+        }
     }
 }
 

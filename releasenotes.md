@@ -9,6 +9,7 @@
 * A warning will now be displayed in the console, and *DOOM Retro* will default to nearest-neighbor interpolation, if the `vid_scaleapi` CVAR is `"software"` and the `vid_scalefilter` CVAR is anything other than `"nearest"`.
 * The wrong map title is no longer displayed for MAP31 and MAP32 in some PWADs when using the *BFG Edition* of `doom2.wad`.
 * A bug has been fixed whereby the `MAPINFO` lump in a PWAD could be parsed incorrectly and cause the wrong music to be played in a map.
+* Music will now be paused if either the menu or console is open and the window loses focus.
 
 ---
 
