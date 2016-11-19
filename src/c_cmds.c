@@ -3234,6 +3234,7 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     else
     {
         dboolean        spawn = true;
+        static char     buffer[128];
 
         if (gamemode != commercial)
         {
@@ -3248,25 +3249,25 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 case HeavyWeaponDude:
                 case Revenant:
                 case WolfensteinSS:
+                    M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+                    buffer[0] = toupper(buffer[0]);
+                    C_Warning("%s can't be spawned in <b><i>DOOM</i></b>.", buffer);
                     spawn = false;
                     break;
             }
 
             if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))
+            {
+                M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+                buffer[0] = toupper(buffer[0]);
+                C_Warning("%s can't be spawned in <b><i>DOOM Shareware</i></b>.", buffer);
                 spawn = false;
+            }
         }
         else if (spawncmdtype == WolfensteinSS && bfgedition)
             spawncmdtype = Zombieman;
 
-        if (!spawn)
-        {
-            static char buffer[128];
-
-            M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
-            buffer[0] = toupper(buffer[0]);
-            C_Warning("%s can't be spawned in <b><i>%s</i></b>.", buffer, gamedescription);
-        }
-        else
+        if (spawn)
         {
             mobj_t      *player = players[0].mo;
             fixed_t     x = player->x;
