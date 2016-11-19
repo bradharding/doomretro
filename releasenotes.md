@@ -1,5 +1,7 @@
 ### DOOM Retro v2.3.7
 
+* A message is now displayed when using the `IDCLEVxy` cheat in the console.
+
 ---
 
 ###### Saturday, November 19, 2016

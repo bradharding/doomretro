@@ -1020,6 +1020,7 @@ dboolean ST_Responder(event_t *ev)
                     HU_PlayerMessage(message, false, false);
 
                     // [BH] always display message
+                    plyr->message = message;
                     message_dontfuckwithme = true;
 
                     // [BH] play sound
