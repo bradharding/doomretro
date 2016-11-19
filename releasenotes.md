@@ -1,3 +1,9 @@
+### DOOM Retro v2.3.7
+
+---
+
+###### Saturday, November 19, 2016
+
 ### DOOM Retro v2.3.6
 
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2017 RC*](https://www.visualstudio.com/vs/visual-studio-2017-rc/).
