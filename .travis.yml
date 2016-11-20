@@ -1,6 +1,8 @@
 language: c
 
-compiler: clang
+compiler:
+   - clang
+   - gcc
 
 sudo: required
 
