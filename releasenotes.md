@@ -2,6 +2,7 @@
 
 * Minor changes have been made to text that is output to the console.
 * A message is now displayed when using the `IDCLEVxy` cheat in the console.
+* The average frames per second will no longer be shown when the `vid_showfps` is `on`, and the game is paused or the menu or console is open.
 
 ---
 
