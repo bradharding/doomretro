@@ -546,6 +546,14 @@ void *W_CacheLumpName(char *name, int tag)
 }
 
 //
+// W_CacheLumpName2
+//
+void *W_CacheLumpName2(char *name, int tag)
+{
+    return W_CacheLumpNum(W_GetNumForName2(name), tag);
+}
+
+//
 // Release a lump back to the cache, so that it can be reused later
 // without having to read from disk again, or alternatively, discarded
 // if we run out of memory.

@@ -88,6 +88,7 @@ void W_ReadLump(lumpindex_t lump, void *dest);
 
 void *W_CacheLumpNum(lumpindex_t lump, int tag);
 void *W_CacheLumpName(char *name, int tag);
+void *W_CacheLumpName2(char *name, int tag);
 
 void W_GenerateHashTable(void);
 

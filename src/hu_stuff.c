@@ -607,27 +607,27 @@ void HU_AltInit(void)
     for (i = 0; i < 10; i++)
     {
         M_snprintf(buffer, 7, "DRHUD%i", i);
-        altnum[i] = W_CacheLumpName(buffer, PU_STATIC);
+        altnum[i] = W_CacheLumpName2(buffer, PU_STATIC);
         M_snprintf(buffer, 9, "DRHUD%i_2", i);
-        altnum2[i] = W_CacheLumpName(buffer, PU_STATIC);
+        altnum2[i] = W_CacheLumpName2(buffer, PU_STATIC);
     }
 
     for (i = 1; i < NUMWEAPONS; i++)
     {
         M_snprintf(buffer, 9, "DRHUDWP%i", i);
-        altweapon[i] = W_CacheLumpName(buffer, PU_STATIC);
+        altweapon[i] = W_CacheLumpName2(buffer, PU_STATIC);
     }
 
-    altleftpatch = W_CacheLumpName("DRHUDL", PU_CACHE);
-    altarmpatch = W_CacheLumpName("DRHUDARM", PU_CACHE);
-    altrightpatch = W_CacheLumpName("DRHUDR", PU_CACHE);
+    altleftpatch = W_CacheLumpName2("DRHUDL", PU_CACHE);
+    altarmpatch = W_CacheLumpName2("DRHUDARM", PU_CACHE);
+    altrightpatch = W_CacheLumpName2("DRHUDR", PU_CACHE);
 
-    altendpatch = W_CacheLumpName("DRHUDE", PU_CACHE);
-    altmarkpatch = W_CacheLumpName("DRHUDI", PU_CACHE);
-    altmark2patch = W_CacheLumpName("DRHUDI_2", PU_CACHE);
+    altendpatch = W_CacheLumpName2("DRHUDE", PU_CACHE);
+    altmarkpatch = W_CacheLumpName2("DRHUDI", PU_CACHE);
+    altmark2patch = W_CacheLumpName2("DRHUDI_2", PU_CACHE);
 
-    altkeypatch = W_CacheLumpName("DRHUDKEY", PU_CACHE);
-    altskullpatch = W_CacheLumpName("DRHUDSKU", PU_CACHE);
+    altkeypatch = W_CacheLumpName2("DRHUDKEY", PU_CACHE);
+    altskullpatch = W_CacheLumpName2("DRHUDSKU", PU_CACHE);
 
     for (i = 0; i < NUMCARDS; i++)
         altkeypics[i].color = nearestcolors[altkeypics[i].color];
