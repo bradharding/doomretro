@@ -5,6 +5,7 @@
 * The average frames per second will no longer be shown when the `vid_showfps` CVAR is `on`, and the game is paused or the menu is open.
 * The lumps in `doomretro.wad` that are used for the alternate HUD can now be replaced by lumps in a PWAD.
 * The shadows of monsters are now interpolated along with the movement of the monsters themselves when the `r_shadows` CVAR is `on` and the `vid_capfps` CVAR is a value other than `35`.
+* The *BFG Edition* of `doom2.wad` will now be identified as an IWAD in the console, even though it has been incorrectly marked as a PWAD.
 
 ---
 

@@ -171,9 +171,10 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
         // Homebrew levels?
         if (strncmp(header.identification, "IWAD", 4)
             && strncmp(header.identification, "PWAD", 4))
-            I_Error("Wad file %s doesn't have IWAD or PWAD id\n", filename);
+            I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
 
-        wad_file->type = (!strncmp(header.identification, "IWAD", 4) ? IWAD : PWAD);
+        wad_file->type = (!strncmp(header.identification, "IWAD", 4)
+            || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
 
         header.numlumps = LONG(header.numlumps);
         header.infotableofs = LONG(header.infotableofs);
@@ -342,7 +343,7 @@ int W_WadType(char *filename)
 
     W_CloseFile(wad_file);
 
-    if (!strncmp(header.identification, "IWAD", 4))
+    if (!strncmp(header.identification, "IWAD", 4) || M_StringCompare(leafname(filename), "DOOM2.WAD"))
         return IWAD;
     else if (!strncmp(header.identification, "PWAD", 4))
         return PWAD;
