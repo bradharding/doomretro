@@ -839,7 +839,7 @@ static void C_DrawTimeStamp(int x, int y, char *text)
 
 void C_UpdateFPS(void)
 {
-    if (fps && !wipe && !paused && !menuactive && !consoleactive)
+    if (fps && !wipe && !paused && !menuactive)
     {
         static char     buffer[16];
 
