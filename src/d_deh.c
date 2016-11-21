@@ -2128,7 +2128,6 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         if (!found)
             C_Warning("Invalid frame pointer mnemonic \"%s\" at %i.", mnemonic, indexnum);
     }
-    return;
 }
 
 // ====================================================================
@@ -2285,7 +2284,6 @@ void deh_procThing(DEHFILE *fpin, char *line)
                 C_Output("Assigned %i to %s (%i) at index %i.", (int)value, key, indexnum, ix);
         }
     }
-    return;
 }
 
 // ====================================================================
@@ -2377,7 +2375,6 @@ void deh_procFrame(DEHFILE *fpin, char *line)
         else
             C_Warning("Invalid frame string index for \"%s\".", key);
     }
-    return;
 }
 
 // ====================================================================
@@ -2453,7 +2450,6 @@ void deh_procPointer(DEHFILE *fpin, char *line)
             C_Warning("Invalid frame pointer index for \"%s\" at %ld, xref %p.",
                 key, value, (void *)deh_codeptr[value]);
     }
-    return;
 }
 
 // ====================================================================
@@ -2508,7 +2504,6 @@ void deh_procSounds(DEHFILE *fpin, char *line)
         else if (devparm)
             C_Warning("Invalid sound string index for \"%s\"", key);
     }
-    return;
 }
 
 // ====================================================================
@@ -2553,7 +2548,6 @@ void deh_procAmmo(DEHFILE *fpin, char *line)
         else
             C_Warning("Invalid ammo string index for \"%s\".", key);
     }
-    return;
 }
 
 // ====================================================================
@@ -2606,7 +2600,6 @@ void deh_procWeapon(DEHFILE *fpin, char *line)
         else
             C_Warning("Invalid weapon string index for \"%s\".", key);
     }
-    return;
 }
 
 // ====================================================================
@@ -2639,7 +2632,6 @@ void deh_procSprite(DEHFILE *fpin, char *line) // Not supported
         if (devparm)
             C_Output("- %s", inbuffer);
     }
-    return;
 }
 
 extern int pars[5][10];
@@ -2739,7 +2731,6 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
             }
         }
     }
-    return;
 }
 
 // ====================================================================
@@ -2949,7 +2940,6 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         if (devparm)
             C_Output("- %s", inbuffer);
     }
-    return;
 }
 
 // ====================================================================
@@ -3018,7 +3008,6 @@ void deh_procMisc(DEHFILE *fpin, char *line)
             C_Warning("Invalid misc item string index for \"%s\".", key);
     }
     maxhealth = MAX(maxhealth, initial_health);
-    return;
 }
 
 // ====================================================================
@@ -3153,7 +3142,6 @@ void deh_procText(DEHFILE *fpin, char *line)
         deh_procStringSub(NULL, inbuffer, trimwhitespace(line2));
     }
     free(line2);        // may be NULL, ignored by free()
-    return;
 }
 
 void deh_procError(DEHFILE *fpin, char *line)
@@ -3163,7 +3151,6 @@ void deh_procError(DEHFILE *fpin, char *line)
     strncpy(inbuffer, line, DEH_BUFFERMAX);
     if (devparm)
         C_Warning("Ignoring \"%s\".", inbuffer);
-    return;
 }
 
 // ====================================================================
@@ -3247,7 +3234,6 @@ void deh_procStrings(DEHFILE *fpin, char *line)
             *holdstring = '\0';  // empty string for the next one
         }
     }
-    return;
 }
 
 // ====================================================================

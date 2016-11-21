@@ -994,8 +994,7 @@ void R_ProjectShadow(mobj_t *thing)
 
     fixed_t             fx;
     fixed_t             fy;
-    fixed_t             fz = thing->subsector->sector->interpfloorheight
-                            + thing->shadow->info->shadowoffset;
+    fixed_t             fz;
     angle_t             fangle;
 
     if (vid_capfps != TICRATE && thing->interp && !paused && !menuactive && !consoleactive)
@@ -1077,6 +1076,7 @@ void R_ProjectShadow(mobj_t *thing)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
+    fz = thing->subsector->sector->interpfloorheight + thing->shadow->info->shadowoffset;
     vis->gz = fz;
     vis->gzt = fz;
     vis->colfunc = thing->colfunc;

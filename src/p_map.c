@@ -1981,9 +1981,6 @@ void PIT_ChangeSector(mobj_t *thing)
 
     if (crushchange && !(leveltime & 3))
         P_DamageMobj(thing, NULL, NULL, 10, true);
-
-    // keep checking (crush other things)
-    return;
 }
 
 //
