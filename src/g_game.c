@@ -98,6 +98,7 @@ int             gametime = 0;
 int             levelstarttic;          // gametic at level start
 int             totalkills, totalitems, totalsecret;    // for intermission
 int             monstercount[NUMMOBJTYPES];
+int             barrelcount;
 
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 

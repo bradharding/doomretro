@@ -168,6 +168,7 @@ extern int              totalkills;
 extern int              totalitems;
 extern int              totalsecret;
 extern int              monstercount[NUMMOBJTYPES];
+extern int              barrelcount;
 
 // Timer, for scores.
 extern int              levelstarttic;  // gametic at level start

@@ -1089,6 +1089,8 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         totalkills++;
         monstercount[i]++;
     }
+    else if (i == MT_BARREL)
+        barrelcount++;
 
     // [BH] don't spawn any monster corpses if -nomonsters
     if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && i != MT_MISC62)

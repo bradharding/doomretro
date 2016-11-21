@@ -177,6 +177,7 @@ extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern int              savegame;
 extern int              skilllevel;
+extern unsigned int     stat_barrelsexploded;
 extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
@@ -2830,6 +2831,10 @@ static void C_PlayerStats_Game(void)
         (monstercount[MT_POSSESSED] ? player->mobjcount[MT_POSSESSED] * 100
         / monstercount[MT_POSSESSED] : 0), commify(stat_monsterskilled_zombiemen));
 
+    C_TabbedOutput(tabs, "Barrels exploded\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
+        commify(player->mobjcount[MT_BARREL]), commify(barrelcount),
+        (barrelcount ? player->mobjcount[MT_BARREL] * 100 / barrelcount : 0), commify(stat_barrelsexploded));
+
     C_TabbedOutput(tabs, "Items picked up\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
         commify(player->itemcount), commify(totalitems),
         (totalitems ? player->itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
@@ -2958,6 +2963,8 @@ static void C_PlayerStats_NoGame(void)
 
     C_TabbedOutput(tabs, "   %s\t-\t<b>%s</b>", titlecase(mobjinfo[MT_POSSESSED].plural1),
         commify(stat_monsterskilled_zombiemen));
+
+    C_TabbedOutput(tabs, "Barrels exploded\t-\t<b>%s</b>", commify(stat_barrelsexploded));
 
     C_TabbedOutput(tabs, "Items picked up\t-\t<b>%s</b>", commify(stat_itemspickedup));
 
@@ -3281,8 +3288,8 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
             if (flags & MF_COUNTKILL)
             {
-                ++totalkills;
-                ++monstercount[thing->type];
+                totalkills++;
+                monstercount[thing->type]++;
             }
             else if (flags & MF_COUNTITEM)
             {
@@ -3290,6 +3297,11 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 players[0].cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
+            }
+            else if (thing->type == MT_BARREL)
+            {
+                barrelcount++;
+                monstercount[thing->type]++;
             }
 
             C_HideConsole();

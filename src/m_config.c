@@ -129,6 +129,7 @@ extern char             *s_timiditycfgpath;
 extern int              savegame;
 extern int              skilllevel;
 extern int              stillbob;
+extern unsigned int     stat_barrelsexploded;
 extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
@@ -312,6 +313,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOALIAS    ),
     BLANKLINE,
     COMMENT("; player statistics\n"),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_barrelsexploded,                              NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_cheated,                                      NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damageinflicted,                              NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,                               NOALIAS    ),

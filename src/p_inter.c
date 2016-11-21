@@ -92,6 +92,7 @@ char            *weapondescription[] =
 dboolean        con_obituaries = con_obituaries_default;
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
 
+unsigned int    stat_barrelsexploded = 0;
 unsigned int    stat_damageinflicted = 0;
 unsigned int    stat_damagereceived = 0;
 unsigned int    stat_deaths = 0;
@@ -1171,24 +1172,18 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     if (!chex && !hacx)
     {
-        if (source && source->player)
-        {
-            // count for intermission
-            if (target->flags & MF_COUNTKILL)
-            {
-                source->player->killcount++;
-                source->player->mobjcount[type]++;
-                stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
-                P_UpdateKillStat(type, 1);
-            }
-        }
-        else if (target->flags & MF_COUNTKILL)
+        if (target->flags & MF_COUNTKILL)
         {
             // count all monster deaths, even those caused by other monsters
             player->killcount++;
             player->mobjcount[type]++;
             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
             P_UpdateKillStat(type, 1);
+        }
+        else if (type == MT_BARREL)
+        {
+            player->mobjcount[type]++;
+            stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
         }
     }
 
