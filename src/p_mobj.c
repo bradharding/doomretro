@@ -476,10 +476,7 @@ void P_ZMovement(mobj_t *mo)
         mo->z = mo->ceilingz - mo->height;
 
         if (!((mo->flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
-        {
             P_ExplodeMissile(mo);
-            return;
-        }
     }
 }
 
