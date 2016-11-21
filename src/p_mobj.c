@@ -576,6 +576,14 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->oldy = mobj->y;
         mobj->oldz = mobj->z;
         mobj->oldangle = mobj->angle;
+
+        if (mobj->shadow)
+        {
+            mobj->shadow->oldx = mobj->x;
+            mobj->shadow->oldy = mobj->y;
+            mobj->shadow->oldz = mobj->z;
+            mobj->shadow->oldangle = mobj->angle;
+        }
     }
 
     if (mobj->nudge > 0)
