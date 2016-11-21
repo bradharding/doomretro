@@ -986,16 +986,36 @@ void R_ProjectShadow(mobj_t *thing)
 
     vissprite_t         *vis;
 
-    fixed_t             fx = thing->x;
-    fixed_t             fy = thing->y;
+    // transform the origin point
+    fixed_t             tr_x;
+    fixed_t             tr_y;
+
+    fixed_t             tz;
+
+    fixed_t             fx;
+    fixed_t             fy;
     fixed_t             fz = thing->subsector->sector->interpfloorheight
-                             + thing->shadow->info->shadowoffset;
+                            + thing->shadow->info->shadowoffset;
+    angle_t             fangle;
+
+    if (vid_capfps != TICRATE && thing->interp && !paused && !menuactive && !consoleactive)
+    {
+        fx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
+        fy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
+        fangle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
+    }
+    else
+    {
+        fx = thing->x;
+        fy = thing->y;
+        fangle = thing->angle;
+    }
 
     // transform the origin point
-    fixed_t             tr_x = fx - viewx;
-    fixed_t             tr_y = fy - viewy;
+    tr_x = fx - viewx;
+    tr_y = fy - viewy;
 
-    fixed_t             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+    tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // thing is behind view plane?
     if (tz < MINZ)
@@ -1021,9 +1041,9 @@ void R_ProjectShadow(mobj_t *thing)
         angle_t ang = R_PointToAngle(fx, fy);
 
         if (sprframe->lump[0] == sprframe->lump[1])
-            rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9) >> 28;
+            rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9) >> 28;
         else
-            rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
+            rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
         flip = (!!(sprframe->flip & (1 << rot)) || (thing->flags2 & MF2_MIRRORED));
     }
