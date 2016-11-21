@@ -7,6 +7,7 @@
 * The lumps in `doomretro.wad` that are used for the alternate HUD can now be replaced by lumps in a PWAD.
 * When the `r_shadows` CVAR is `on` and the `vid_capfps` CVAR is a value other than `35`, the shadows of monsters are now interpolated along with the movement of the monsters themselves.
 * The *BFG Edition* of `doom2.wad` will now be identified as an IWAD in the console, even though it has been incorrectly marked as a PWAD.
+* The number of barrels exploded is now displayed when using the `playerstats` CCMD.
 
 ---
 
