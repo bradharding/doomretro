@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <math.h>
-
 #include "i_colors.h"
 #include "m_fixed.h"
 #include "w_wad.h"
@@ -197,7 +195,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
         int     r = r1 - r2;
         int     g = g1 - g2;
         int     b = b1 - b2;
-        double  difference = sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8));
+        double  difference = (((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8);
 
         if (difference < best_difference)
         {
