@@ -8,6 +8,7 @@
 * When the `r_shadows` CVAR is `on` and the `vid_capfps` CVAR is a value other than `35`, the shadows of monsters are now interpolated along with the movement of the monsters themselves.
 * The *BFG Edition* of `doom2.wad` will now be identified as an IWAD in the console, even though it has been incorrectly marked as a PWAD.
 * The number of barrels exploded is now displayed when using the `playerstats` CCMD.
+* The choice of colors used in the numerous translucent effects in *DOOM Retro* has improved.
 
 ---
 
