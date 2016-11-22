@@ -222,7 +222,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
 
     C_Output("%s %s lump%s from %.4s <b>%s</b>.", (automatic ? "Automatically added" :
         "Added"), commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
-        header.identification, filename);
+        (wad_file->type == IWAD ? "IWAD" : "PWAD"), filename);
 
     return wad_file;
 }
