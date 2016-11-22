@@ -1350,6 +1350,8 @@ void G_DoCompleted(void)
 
     stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
 
+    C_AddConsoleDivider();
+
     WI_Start(&wminfo);
 }
 
