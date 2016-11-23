@@ -9,7 +9,7 @@
 * The *BFG Edition* of `doom2.wad` will now be identified as an IWAD in the console, even though it has been incorrectly marked as a PWAD.
 * The number of barrels exploded is now displayed when using the `playerstats` CCMD.
 * The choice of colors used in the numerous translucent effects in *DOOM Retro* has improved.
-* Instead of being set to the currently selected item in the corresponding menu, the `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now set to strings of the episode, expansion, save game and skill level for the current game, respectively.
+* Instead of being set to the currently selected item in the corresponding menu, the `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now set to read-only strings of the episode, expansion, save game and skill level for the current game, respectively.
 
 ---
 

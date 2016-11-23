@@ -44,6 +44,7 @@
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
+
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -82,8 +83,13 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 static int      midstage;            // whether we're in "mid-stage"
 
 extern int      acceleratestage;     // accelerate intermission screens
+
+extern char     *episode;
+extern char     *expansion;
 extern dboolean r_shadows;
 extern dboolean r_translucency;
+extern char     *savegame;
+extern char     *skilllevel;
 
 //
 // F_StartFinale
@@ -245,7 +251,10 @@ void F_Ticker(void)
             if (gamemode != commercial)
             {
                 finalecount = 0;
-                finalestage = 1;
+                finalestage = F_STAGE_ARTSCREEN;
+                episode = "";
+                savegame = "";
+                skilllevel = "";
                 wipegamestate = GS_NONE;        // force a wipe
                 if (gameepisode == 3)
                     S_StartMusic(mus_bunny);
@@ -455,6 +464,9 @@ static void F_StartCast(void)
     castattacking = false;
     if (!M_StringCompare(playername, playername_default))
         s_CC_HERO = playername;
+    expansion = "";
+    savegame = "";
+    skilllevel = "";
     S_ChangeMusic(mus_evil, true, false, false);
 }
 

@@ -88,9 +88,9 @@ extern skill_t          gameskill;
 extern int              gameepisode;
 extern int              gamemap;
 
-extern char **episodes[];
-extern char **expansions[];
-extern char **skilllevels[];
+extern char             **episodes[];
+extern char             **expansions[];
+extern char             **skilllevels[];
 
 extern dboolean         nerve;
 extern dboolean         bfgedition;
