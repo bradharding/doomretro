@@ -1033,6 +1033,7 @@ dboolean ST_Responder(event_t *ev)
                     {
                         episodeselected = gameepisode - 1;
                         EpiDef.lastOn = episodeselected;
+                        episode = *episodes[gameepisode];
                     }
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;

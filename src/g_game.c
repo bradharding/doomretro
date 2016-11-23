@@ -1732,15 +1732,9 @@ void G_InitNew(skill_t skill, int ep, int map)
     gameskill = skill;
 
     if (gamemode == commercial)
-    {
-        episode = "";
         expansion = *(gamemission == pack_nerve ? &s_M_EXPANSION2 : &s_M_EXPANSION1);
-    }
     else
-    {
         episode = *episodes[gameepisode];
-        expansion = "";
-    }
 
     skilllevel = *skilllevels[gameskill];
 
