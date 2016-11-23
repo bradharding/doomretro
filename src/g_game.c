@@ -89,6 +89,29 @@ char            *expansion = expansion_default;
 char            *savegame = savegame_default;
 char            *skilllevel = skilllevel_default;
 
+char **episodes[] =
+{
+    &s_M_EPISODE1,
+    &s_M_EPISODE2,
+    &s_M_EPISODE3,
+    &s_M_EPISODE4
+};
+
+char **expansions[] =
+{
+    &s_M_EXPANSION1,
+    &s_M_EXPANSION2
+};
+
+char **skilllevels[] =
+{
+    &s_M_SKILLLEVEL1,
+    &s_M_SKILLLEVEL2,
+    &s_M_SKILLLEVEL3,
+    &s_M_SKILLLEVEL4,
+    &s_M_SKILLLEVEL5
+};
+
 dboolean        paused;
 dboolean        sendpause;              // send a pause event next tic
 dboolean        sendsave;               // send a save event next tic
@@ -1665,15 +1688,6 @@ void G_SetMovementSpeed(int scale)
 //
 void G_InitNew(skill_t skill, int ep, int map)
 {
-    char **skilllevels[] =
-    {
-        &s_M_SKILLLEVEL1,
-        &s_M_SKILLLEVEL2,
-        &s_M_SKILLLEVEL3,
-        &s_M_SKILLLEVEL4,
-        &s_M_SKILLLEVEL5
-    };
-
     if (paused)
     {
         paused = false;
@@ -1724,14 +1738,6 @@ void G_InitNew(skill_t skill, int ep, int map)
     }
     else
     {
-        char **episodes[] =
-        {
-            &s_M_EPISODE1,
-            &s_M_EPISODE2,
-            &s_M_EPISODE3,
-            &s_M_EPISODE4
-        };
-
         episode = *episodes[gameepisode];
         expansion = "";
     }

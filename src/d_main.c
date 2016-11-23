@@ -1783,15 +1783,6 @@ static void D_DoomMainSetup(void)
 
         if (temp >= sk_baby && temp <= sk_nightmare)
         {
-            char **skilllevels[] =
-            {
-                &s_M_SKILLLEVEL1,
-                &s_M_SKILLLEVEL2,
-                &s_M_SKILLLEVEL3,
-                &s_M_SKILLLEVEL4,
-                &s_M_SKILLLEVEL5
-            };
-
             skilllevelselected = startskill = (skill_t)temp;
             M_SaveCVARs();
             C_Output("A <b>-skill</b> parameter was found on the command-line. The skill level is "
@@ -1807,14 +1798,6 @@ static void D_DoomMainSetup(void)
         if ((gamemode == shareware && temp == 1) || (temp >= 1 && ((gamemode == registered
             && temp <= 3) || (gamemode == retail && temp <= 4))))
         {
-            char **episodes[] =
-            {
-                &s_M_EPISODE1,
-                &s_M_EPISODE2,
-                &s_M_EPISODE3,
-                &s_M_EPISODE4
-            };
-
             startepisode = temp;
             episodeselected = temp - 1;
             M_SaveCVARs();
@@ -1836,12 +1819,6 @@ static void D_DoomMainSetup(void)
 
         if (gamemode == commercial && temp <= (nerve ? 2 : 1))
         {
-            char **expansions[] =
-            {
-                &s_M_EXPANSION1,
-                &s_M_EXPANSION2
-            };
-
             gamemission = (temp == 1 ? doom2 : pack_nerve);
             expansionselected = temp - 1;
             M_SaveCVARs();
