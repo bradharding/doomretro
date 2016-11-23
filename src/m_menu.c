@@ -1760,6 +1760,10 @@ void M_EndingGame(void)
     if (gamemission == pack_nerve)
         gamemission = doom2;
     usergame = false;
+    episode = "";
+    expansion = "";
+    savegame = "";
+    skilllevel = "";
     C_AddConsoleDivider();
     M_SetWindowCaption();
     D_StartTitle(1);

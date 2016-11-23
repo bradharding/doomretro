@@ -2103,7 +2103,7 @@ static dboolean map_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
             }
             else if (sscanf(map, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
             {
-                episode = mapcmdepisode - 1;
+                episodeselected = mapcmdepisode - 1;
                 result = (W_CheckNumForName(map) >= 0);
             }
             else if (FREEDOOM && sscanf(map, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
@@ -2133,8 +2133,8 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     gameepisode = mapcmdepisode;
     if (gamemission == doom && gameepisode <= 4)
     {
-        episode = gameepisode - 1;
-        EpiDef.lastOn = episode;
+        episodeselected = gameepisode - 1;
+        EpiDef.lastOn = episodeselected;
     }
     gamemap = mapcmdmap;
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."),

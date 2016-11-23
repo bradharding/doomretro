@@ -405,7 +405,7 @@ void ST_AutomapEvent(int type)
 }
 
 extern char     cheatkey;
-extern int      episode;
+extern int      episodeselected;
 extern menu_t   EpiDef;
 
 // Respond to keyboard input events,
@@ -1031,8 +1031,8 @@ dboolean ST_Responder(event_t *ev)
                     gameepisode = epsd;
                     if (gamemission == doom && epsd <= 4)
                     {
-                        episode = gameepisode - 1;
-                        EpiDef.lastOn = episode;
+                        episodeselected = gameepisode - 1;
+                        EpiDef.lastOn = episodeselected;
                     }
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;
