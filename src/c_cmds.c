@@ -117,8 +117,10 @@ extern dboolean         autoload;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
-extern int              episode;
-extern int              expansion;
+extern char             *episode;
+extern int              episodeselected;
+extern char             *expansion;
+extern int              expansionselected;
 extern int              facebackcolor;
 extern int              gametime;
 extern float            gp_deadzone_left;
@@ -175,8 +177,10 @@ extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
-extern int              savegame;
-extern int              skilllevel;
+extern char             *savegame;
+extern int              savegameselected;
+extern char             *skilllevel;
+extern int              skilllevelselected;
 extern unsigned int     stat_barrelsexploded;
 extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
@@ -562,12 +566,12 @@ consolecmd_t consolecmds[] =
         "Shows a list of console variables."),
     CMD(endgame, "", game_func1, endgame_cmd_func2, 0, "",
         "Ends a game."),
-    CVAR_INT(episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
-        "The currently selected <i><b>DOOM</b></i> episode in the menu."),
+    CVAR_STR(episode, "", null_func1, str_cvars_func2, CF_READONLY,
+        "The current <i><b>DOOM</b></i> episode."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, 0, "",
         "Exits the current map."),
-    CVAR_INT(expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
-        "The currently selected <i><b>DOOM II</b></i> expansion in the menu."),
+    CVAR_STR(expansion, "", null_func1, str_cvars_func2, CF_READONLY,
+        "The current <i><b>DOOM II</b></i> expansion."),
     CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
         "The color behind the player's face in the status bar (<b>0</b> to <b>255</b>)."),
     CMD(fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -746,10 +750,10 @@ consolecmd_t consolecmds[] =
         "The path of <i><b>TiMidity's</b></i> configuration file."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,
         "Saves the game to a file."),
-    CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
-        "The currently selected savegame in the menu."),
-    CVAR_INT(skilllevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOALIAS,
-        "The currently selected skill level in the menu."),
+    CVAR_STR(savegame, "", null_func1, str_cvars_func2, CF_READONLY,
+        "The name of the current savegame."),
+    CVAR_STR(skilllevel, "", null_func1, str_cvars_func2, CF_READONLY,
+        "The current skill level."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
         "Spawns a <i>monster</i> or <i>item</i>."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
@@ -1452,7 +1456,7 @@ void G_SetFastMonsters(dboolean toggle);
 
 static dboolean fastmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (skilllevel != sk_nightmare);
+    return (gameskill != sk_nightmare);
 }
 
 static void fastmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
@@ -2146,7 +2150,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     }
     else
     {
-        G_DeferredInitNew(skilllevel, gameepisode, gamemap);
+        G_DeferredInitNew(gameskill, gameepisode, gamemap);
         C_HideConsoleFast();
     }
 
@@ -3140,7 +3144,7 @@ static void respawnitems_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
 //
 static dboolean respawnmonsters_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
-    return (skilllevel != sk_nightmare);
+    return (gameskill != sk_nightmare);
 }
 
 static void respawnmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)

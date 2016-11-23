@@ -72,8 +72,8 @@ extern dboolean         autoload;
 extern dboolean         centerweapon;
 extern dboolean         con_obituaries;
 extern dboolean         con_timestamps;
-extern int              episode;
-extern int              expansion;
+extern int              episodeselected;
+extern int              expansionselected;
 extern int              facebackcolor;
 extern float            gp_deadzone_left;
 extern float            gp_deadzone_right;
@@ -126,8 +126,8 @@ extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
-extern int              savegame;
-extern int              skilllevel;
+extern int              savegameselected;
+extern int              skilllevelselected;
 extern int              stillbob;
 extern unsigned int     stat_barrelsexploded;
 extern unsigned int     stat_cheated;
@@ -235,8 +235,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (centerweapon,                                      BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,                                    BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (con_timestamps,                                    BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (episode,                                           NOALIAS    ),
-    CONFIG_VARIABLE_INT          (expansion,                                         NOALIAS    ),
+    CONFIG_VARIABLE_INT          (episodeselected,                                   NOALIAS    ),
+    CONFIG_VARIABLE_INT          (expansionselected,                                 NOALIAS    ),
     CONFIG_VARIABLE_INT          (facebackcolor,                                     NOALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                                  NOALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOALIAS    ),
@@ -290,8 +290,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (s_randompitch,                                     BOOLALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,                                       NOALIAS    ),
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,                                 NOALIAS    ),
-    CONFIG_VARIABLE_INT          (savegame,                                          NOALIAS    ),
-    CONFIG_VARIABLE_INT          (skilllevel,                                        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (savegameselected,                                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (skilllevelselected,                                NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                                          NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                                             NOALIAS    ),
     CONFIG_VARIABLE_INT          (units,                                             UNITSALIAS ),
@@ -660,9 +660,9 @@ static void M_CheckCVARs(void)
     if (con_timestamps != false && con_timestamps != true)
         con_timestamps = con_timestamps_default;
 
-    episode = BETWEEN(episode_min, episode, episode_max - (gamemode == registered));
+    episodeselected = BETWEEN(episodeselected_min, episodeselected, episodeselected_max - (gamemode == registered));
 
-    expansion = BETWEEN(expansion_min, expansion, expansion_max);
+    expansionselected = BETWEEN(expansionselected_min, expansionselected, expansionselected_max);
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;
@@ -801,9 +801,9 @@ static void M_CheckCVARs(void)
     s_sfxvolume = BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max);
     sfxVolume = (s_sfxvolume * 15 + 50) / 100;
 
-    savegame = BETWEEN(savegame_min, savegame, savegame_max);
+    savegameselected = BETWEEN(savegameselected_min, savegameselected, savegameselected_max);
 
-    skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
+    skilllevelselected = BETWEEN(skilllevelselected_min, skilllevelselected, skilllevelselected_max);
 
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
 

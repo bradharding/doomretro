@@ -112,9 +112,9 @@ extern int      s_sfxvolume;
 extern dboolean vid_widescreen;
 extern dboolean r_hud;
 extern dboolean returntowidescreen;
-extern int      episode;
-extern int      expansion;
-extern int      savegame;
-extern int      skilllevel;
+extern int      episodeselected;
+extern int      expansionselected;
+extern int      savegameselected;
+extern int      skilllevelselected;
 
 #endif

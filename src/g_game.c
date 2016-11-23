@@ -84,6 +84,11 @@ skill_t         gameskill;
 int             gameepisode;
 int             gamemap;
 
+char            *episode = episode_default;
+char            *expansion = expansion_default;
+char            *savegame = savegame_default;
+char            *skilllevel = skilllevel_default;
+
 dboolean        paused;
 dboolean        sendpause;              // send a pause event next tic
 dboolean        sendsave;               // send a save event next tic
@@ -1145,7 +1150,7 @@ void G_SecretExitLevel(void)
     gameaction = ga_completed;
 }
 
-extern int      episode;
+extern int      episodeselected;
 extern menu_t   EpiDef;
 
 void ST_doRefresh(void);
@@ -1200,8 +1205,8 @@ void G_DoCompleted(void)
                 if ((gamemode == registered && gameepisode < 3)
                     || (gamemode == retail && gameepisode < 4))
                 {
-                    episode = gameepisode;
-                    EpiDef.lastOn = episode;
+                    episodeselected = gameepisode;
+                    EpiDef.lastOn = episodeselected;
                 }
                 break;
 
@@ -1660,6 +1665,15 @@ void G_SetMovementSpeed(int scale)
 //
 void G_InitNew(skill_t skill, int ep, int map)
 {
+    char **skilllevels[] =
+    {
+        &s_M_SKILLLEVEL1,
+        &s_M_SKILLLEVEL2,
+        &s_M_SKILLLEVEL3,
+        &s_M_SKILLLEVEL4,
+        &s_M_SKILLLEVEL5
+    };
+
     if (paused)
     {
         paused = false;
@@ -1702,6 +1716,27 @@ void G_InitNew(skill_t skill, int ep, int map)
     gameepisode = ep;
     gamemap = map;
     gameskill = skill;
+
+    if (gamemode == commercial)
+    {
+        episode = "";
+        expansion = *(gamemission == pack_nerve ? &s_M_EXPANSION2 : &s_M_EXPANSION1);
+    }
+    else
+    {
+        char **episodes[] =
+        {
+            &s_M_EPISODE1,
+            &s_M_EPISODE2,
+            &s_M_EPISODE3,
+            &s_M_EPISODE4
+        };
+
+        episode = *episodes[gameepisode];
+        expansion = "";
+    }
+
+    skilllevel = *skilllevels[gameskill];
 
     G_DoLoadLevel();
 }

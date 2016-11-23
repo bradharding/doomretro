@@ -727,7 +727,7 @@ static void D_CheckSupportedPWAD(char *filename)
     if (M_StringCompare(leaf, "NERVE.WAD"))
     {
         nerve = true;
-        expansion = 1;
+        expansionselected = 1;
     }
     else if (M_StringCompare(leaf, "breach.wad"))
         breach = true;
@@ -1231,7 +1231,7 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
-                            expansion = 1;
+                            expansionselected = 1;
                         }
                         break;
                     }
@@ -1248,7 +1248,7 @@ static int D_ChooseIWAD(void)
                             {
                                 modifiedgame = true;
                                 nerve = true;
-                                expansion = 1;
+                                expansionselected = 1;
                             }
                             break;
                         }
@@ -1265,7 +1265,7 @@ static int D_ChooseIWAD(void)
                                 {
                                     modifiedgame = true;
                                     nerve = true;
-                                    expansion = 1;
+                                    expansionselected = 1;
                                 }
                                 break;
                             }
@@ -1792,7 +1792,7 @@ static void D_DoomMainSetup(void)
                 &s_M_SKILLLEVEL5
             };
 
-            skilllevel = startskill = (skill_t)temp;
+            skilllevelselected = startskill = (skill_t)temp;
             M_SaveCVARs();
             C_Output("A <b>-skill</b> parameter was found on the command-line. The skill level is "
                 "now \"%s\".", *skilllevels[startskill]);
@@ -1816,7 +1816,7 @@ static void D_DoomMainSetup(void)
             };
 
             startepisode = temp;
-            episode = temp - 1;
+            episodeselected = temp - 1;
             M_SaveCVARs();
             startmap = 1;
             if (gamemode == commercial)
@@ -1825,7 +1825,7 @@ static void D_DoomMainSetup(void)
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
             C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is "
-                "now \"%s\".", *episodes[episode]);
+                "now \"%s\".", *episodes[episodeselected]);
         }
     }
 
@@ -1843,14 +1843,14 @@ static void D_DoomMainSetup(void)
             };
 
             gamemission = (temp == 1 ? doom2 : pack_nerve);
-            expansion = temp - 1;
+            expansionselected = temp - 1;
             M_SaveCVARs();
             startepisode = 1;
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
             C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion "
-                "is now \"%s\".", *expansions[expansion]);
+                "is now \"%s\".", *expansions[expansionselected]);
         }
     }
 
