@@ -1118,6 +1118,8 @@ void M_DoSave(int slot)
     savegames = true;
     functionkey = 0;
     quickSaveSlot = slot;
+
+    savegame = savegamestrings[slot];
 }
 
 //
