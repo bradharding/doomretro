@@ -281,7 +281,7 @@ void D_Display(void)
         // draw the view directly
         R_RenderPlayerView(&players[0]);
 
-        if (am_path)
+        if (am_path && !(players[0].cheats & CF_NOCLIP))
             AM_addToPath();
 
         if (mapwindow || automapactive)

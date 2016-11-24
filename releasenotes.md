@@ -10,6 +10,7 @@
 * The number of barrels exploded is now displayed when using the `playerstats` CCMD.
 * The choice of colors used in the numerous translucent effects in *DOOM Retro* has been improved.
 * Instead of being set to the currently selected item in the corresponding menu, the `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now set to read-only strings of the episode, expansion, save game and skill level for the current game.
+* The player’s path in the automap, enabled using the `am_path` CVAR, will no longer be plotted while the player is using the `IDCLIP`/`IDSPISPOPD` cheat, or `noclip` CCMD.
 
 ---
 
