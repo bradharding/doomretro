@@ -112,6 +112,9 @@ int             numsectors;
 int             sizesectors;
 sector_t        *sectors;
 
+int             numliquid;
+int             numdamaging;
+
 int             numsubsectors;
 int             sizesubsectors;
 subsector_t     *subsectors;
@@ -675,6 +678,8 @@ void P_LoadSectors(int lump)
     sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
+    numdamaging = 0;
+
     for (i = 0; i < numsectors; i++)
     {
         sector_t        *ss = sectors + i;
@@ -764,6 +769,18 @@ void P_LoadSectors(int lump)
         ss->interpfloorheight = ss->floorheight;
         ss->oldceilingheight = ss->ceilingheight;
         ss->interpceilingheight = ss->ceilingheight;
+
+        switch (ss->special)
+        {
+            case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
+            case DamageNegative5Or10PercentHealth:
+            case DamageNegative2Or5PercentHealth:
+            case DamageNegative10Or20PercentHealthAndEndLevel:
+            case DamageNegative10Or20PercentHealth:
+                numdamaging++;
+            default:
+                break;
+        }
     }
 
     W_ReleaseLumpNum(lump);

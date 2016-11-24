@@ -2436,7 +2436,11 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", commify(numsectors));
 
-    C_TabbedOutput(tabs, "Secret sectors\t<b>%s</b>", commify(totalsecret));
+    C_TabbedOutput(tabs, "   Secret\t<b>%s</b>", commify(totalsecret));
+
+    C_TabbedOutput(tabs, "   Liquid\t<b>%s</b>", commify(numliquid));
+
+    C_TabbedOutput(tabs, "   Damaging\t<b>%s</b>", commify(numdamaging));
 
     if (blockmaprecreated)
         C_TabbedOutput(tabs, "Blockmap\t<b>Recreated</b>");

@@ -251,6 +251,10 @@ void P_SetLiquids(void)
             sc_String))
             isliquid[lump] = false;
     }
+
+    numliquid = 0;
+    for (i = 0; i < numsectors; ++i)
+        numliquid += isliquid[sectors[i].floorpic];
 }
 
 //
