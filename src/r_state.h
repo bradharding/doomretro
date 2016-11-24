@@ -112,6 +112,8 @@ extern side_t           *sides;
 
 extern int              numthings;
 
+extern int              numdecorations;
+
 typedef enum
 {
     DOOMBSP = 0,

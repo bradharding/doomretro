@@ -2417,7 +2417,7 @@ static void mapstats_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     C_TabbedOutput(tabs, "   Pickups\t<b>%s</b>", commify(totalitems));
 
-    C_TabbedOutput(tabs, "   Decorations\t<b>%s</b>", commify(numthings - totalkills - totalitems));
+    C_TabbedOutput(tabs, "   Decorations\t<b>%s</b>", commify(numdecorations));
 
     C_TabbedOutput(tabs, "Lines\t<b>%s</b>", commify(numlines));
 

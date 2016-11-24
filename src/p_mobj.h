@@ -293,7 +293,10 @@ typedef enum
     MF2_CRUSHABLE                 = 0x04000000,
 
     // All objects are being killed
-    MF2_MASSACRE                  = 0x08000000
+    MF2_MASSACRE                  = 0x08000000,
+
+    // Object is a map decoration
+    MF2_DECORATION                = 0x10000000
 } mobjflag2_t;
 
 // Map Object definition.

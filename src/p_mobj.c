@@ -1155,6 +1155,9 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     if (r_corpses_color && (mobj->info->spawnstate == S_PLAY_DIE7
         || mobj->info->spawnstate == S_PLAY_XDIE9))
         mobj->flags |= (M_RandomInt(0, 3) << MF_TRANSSHIFT);
+
+    if (mobj->flags2 & MF2_DECORATION)
+        numdecorations++;
 }
 
 //

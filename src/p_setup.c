@@ -126,6 +126,8 @@ side_t          *sides;
 
 int             numthings;
 
+int             numdecorations;
+
 // BLOCKMAP
 // Created from axis aligned bounding box
 // of the map, a rectangular array of
@@ -1089,6 +1091,8 @@ void P_LoadThings(int lump)
     numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
     srand(numthings);
+
+    numdecorations = 0;
 
     for (i = 0; i < numthings; i++)
     {
