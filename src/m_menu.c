@@ -547,11 +547,19 @@ void M_DarkBackground(void)
         V_LowGraphicDetail();
 
     if (r_translucency)
+    {
         for (i = 0; i < height; i += SCREENWIDTH)
         {
             screens[0][i] = tinttab50[screens[0][i]];
             screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
         }
+
+        for (i = 1; i < SCREENWIDTH - 1; ++i)
+        {
+            screens[0][i] = tinttab50[screens[0][i]];
+            screens[0][i + height - SCREENWIDTH] = tinttab50[screens[0][i + height - SCREENWIDTH]];
+        }
+    }
 }
 
 static byte blues[] =
