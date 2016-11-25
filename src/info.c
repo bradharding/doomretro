@@ -7799,7 +7799,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
 };
 
 // [BH] Override offsets in wad file to provide better animation and positioning.
-//  Many of these offsets are taken from the DOOM 2 Minor Sprite Fixing Project v1.4
+//  Many of these offsets are taken from the DOOM 2 Minor Sprite Fixing Project
 //  by Revenant100, and then further refined by me.
 offset_t sproffsets[] =
 {
@@ -7815,7 +7815,7 @@ offset_t sproffsets[] =
     { "ARM1B0",     15,   15,  31,  17, MT_MISC0        }, //   15,   17
     { "ARM2A0",     15,   15,  31,  17, MT_MISC1        }, //   15,   17
     { "ARM2B0",     15,   15,  31,  17, MT_MISC1        }, //   15,   17
-    { "BAL2A0",      8,    8,  16,  16, MT_HEADSHOT     }, //    7,    8
+    { "BAL1A0",      7,    8,  15,  15, MT_TROOPSHOT    }, //    8,    8
     { "BAL2B0",      8,    7,  15,  15, MT_HEADSHOT     }, //    7,    7
     { "BAL2C0",     23,   25,  45,  48, MT_HEADSHOT     }, //   23,   24
     { "BAL2D0",     25,   23,  50,  42, MT_HEADSHOT     }, //   25,   21
