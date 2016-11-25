@@ -2131,7 +2131,7 @@ static void map_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
     if (gamemission == doom && gameepisode <= 4)
     {
         episodeselected = gameepisode - 1;
-        episode = *episodes[gameepisode];
+        episode = *episodes[episodeselected];
         EpiDef.lastOn = episodeselected;
     }
     gamemap = mapcmdmap;

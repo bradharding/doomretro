@@ -1734,7 +1734,7 @@ void G_InitNew(skill_t skill, int ep, int map)
     if (gamemode == commercial)
         expansion = *(gamemission == pack_nerve ? &s_M_EXPANSION2 : &s_M_EXPANSION1);
     else
-        episode = *episodes[gameepisode];
+        episode = *episodes[gameepisode - 1];
 
     skilllevel = *skilllevels[gameskill];
 
