@@ -96,7 +96,7 @@ MEMFILE *mem_fopen_write(void)
     MEMFILE     *file = Z_Malloc(sizeof(MEMFILE), PU_STATIC, NULL);
 
     file->alloced = 1024;
-    file->buf = Z_Malloc(file->alloced, PU_STATIC, 0);
+    file->buf = Z_Malloc(file->alloced, PU_STATIC, NULL);
     file->buflen = 0;
     file->position = 0;
     file->mode = MODE_WRITE;

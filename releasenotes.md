@@ -14,6 +14,7 @@
 * The player’s path in the automap, enabled using the `am_path` CVAR, will no longer be recorded while the player is in “no clipping mode” using the `IDCLIP`/`IDSPISPOPD` cheat or `noclip` CCMD.
 * Corpses will no longer perpetually shift back and forth over sector boundaries with small height differences.
 * The effects of changing the `r_brightmaps` CVAR from `off` to `on` are now immediate, and don’t require *DOOM Retro* to be restarted.
+* A bug has been fixed whereby the brightmap of the `SW1STON2` and `SW2STON2` switch textures wouldn’t be applied correctly in *DOOM* games.
 
 ---
 

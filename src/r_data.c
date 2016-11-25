@@ -173,34 +173,47 @@ static byte whiteonly[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
+#define DOOM1AND2       0
+#define DOOM1ONLY       1
+#define DOOM2ONLY       2
+
 static struct
 {
     char        texture[9];
+    int         game;
     byte        *colormask;
 } fullbright[] = {
-    { "COMP2",    notgrayorbrown }, { "COMPSTA1", notgray        }, { "COMPSTA2", notgray        },
-    { "COMPUTE1", notgrayorbrown }, { "COMPUTE2", notgrayorbrown }, { "COMPUTE3", notgrayorbrown },
-    { "EXITSIGN", notgray        }, { "EXITSTON", notgray        }, { "PLANET1",  notgray        },
-    { "SILVER2",  notgray        }, { "SILVER3",  notgrayorbrown }, { "SLADSKUL", redonly        },
-    { "SW1BRCOM", redonly        }, { "SW1BRIK",  redonly        }, { "SW1BRN1",  redonly        },
-    { "SW1COMM",  redonly        }, { "SW1DIRT",  redonly        }, { "SW1MET2",  redonly        },
-    { "SW1STARG", redonly        }, { "SW1STON1", redonly        }, { "SW1STON2", redonly        },
-    { "SW1STONE", redonly        }, { "SW1STRTN", redonly        }, { "SW2BLUE",  redonly        },
-    { "SW2BRCOM", greenonly2     }, { "SW2BRIK",  greenonly1     }, { "SW2BRN1",  greenonly1     },
-    { "SW2BRN2",  greenonly1     }, { "SW2BRNGN", greenonly2     }, { "SW2COMM",  greenonly1     },
-    { "SW2COMP",  redonly        }, { "SW2DIRT",  greenonly1     }, { "SW2EXIT",  notgray        },
-    { "SW2GRAY",  notgray        }, { "SW2GRAY1", notgray        }, { "SW2GSTON", redonly        },
-    { "SW2MARB",  greenonly1     }, { "SW2MET2",  greenonly1     }, { "SW2METAL", greenonly3     },
-    { "SW2MOD1",  notgrayorbrown }, { "SW2PANEL", redonly        }, { "SW2ROCK",  redonly        },
-    { "SW2SLAD",  redonly        }, { "SW2STARG", greenonly1     }, { "SW2STON1", greenonly1     },
-    { "SW2STON2", greenonly1     }, { "SW2STON6", redonly        }, { "SW2STONE", greenonly1     },
-    { "SW2STRTN", greenonly1     }, { "SW2TEK",   greenonly1     }, { "SW2VINE",  greenonly1     },
-    { "SW2WDMET", redonly        }, { "SW2WOOD",  redonly        }, { "SW2ZIM",   redonly        },
-    { "WOOD4",    redonly        }, { "WOODGARG", redonly        }, { "WOODSKUL", redonly        },
-    { "ZELDOOR",  redonly        }, { "",         0              }
+    { "COMP2",    DOOM1AND2, notgrayorbrown }, { "COMPSTA1", DOOM1AND2, notgray        },
+    { "COMPSTA2", DOOM1AND2, notgray        }, { "COMPUTE1", DOOM1AND2, notgrayorbrown },
+    { "COMPUTE2", DOOM1AND2, notgrayorbrown }, { "COMPUTE3", DOOM1AND2, notgrayorbrown },
+    { "EXITSIGN", DOOM1AND2, notgray        }, { "EXITSTON", DOOM1AND2, notgray        },
+    { "PLANET1",  DOOM1AND2, notgray        }, { "SILVER2",  DOOM1AND2, notgray        },
+    { "SILVER3",  DOOM1AND2, notgrayorbrown }, { "SLADSKUL", DOOM1AND2, redonly        },
+    { "SW1BRCOM", DOOM1AND2, redonly        }, { "SW1BRIK",  DOOM1AND2, redonly        },
+    { "SW1BRN1",  DOOM2ONLY, redonly        }, { "SW1COMM",  DOOM1AND2, redonly        },
+    { "SW1DIRT",  DOOM1AND2, redonly        }, { "SW1MET2",  DOOM1AND2, redonly        },
+    { "SW1STARG", DOOM2ONLY, redonly        }, { "SW1STON1", DOOM1AND2, redonly        },
+    { "SW1STON2", DOOM2ONLY, redonly        }, { "SW1STONE", DOOM1AND2, redonly        },
+    { "SW1STRTN", DOOM1AND2, redonly        }, { "SW2BLUE",  DOOM1AND2, redonly        },
+    { "SW2BRCOM", DOOM1AND2, greenonly2     }, { "SW2BRIK",  DOOM1AND2, greenonly1     },
+    { "SW2BRN1",  DOOM1AND2, greenonly1     }, { "SW2BRN2",  DOOM1AND2, greenonly1     },
+    { "SW2BRNGN", DOOM1AND2, greenonly2     }, { "SW2COMM",  DOOM1AND2, greenonly1     },
+    { "SW2COMP",  DOOM1AND2, redonly        }, { "SW2DIRT",  DOOM1AND2, greenonly1     },
+    { "SW2EXIT",  DOOM1AND2, notgray        }, { "SW2GRAY",  DOOM1AND2, notgray        },
+    { "SW2GRAY1", DOOM1AND2, notgray        }, { "SW2GSTON", DOOM1AND2, redonly        },
+    { "SW2MARB",  DOOM2ONLY, redonly        }, { "SW2MET2",  DOOM1AND2, greenonly1     },
+    { "SW2METAL", DOOM1AND2, greenonly3     }, { "SW2MOD1",  DOOM1AND2, notgrayorbrown },
+    { "SW2PANEL", DOOM1AND2, redonly        }, { "SW2ROCK",  DOOM1AND2, redonly        },
+    { "SW2SLAD",  DOOM1AND2, redonly        }, { "SW2STARG", DOOM2ONLY, greenonly1     },
+    { "SW2STON1", DOOM1AND2, greenonly1     }, { "SW2STON2", DOOM1ONLY, redonly        },
+    { "SW2STON2", DOOM2ONLY, greenonly1     }, { "SW2STON6", DOOM1AND2, redonly        },
+    { "SW2STONE", DOOM1AND2, greenonly1     }, { "SW2STRTN", DOOM1AND2, greenonly1     },
+    { "SW2TEK",   DOOM1AND2, greenonly1     }, { "SW2VINE",  DOOM1AND2, greenonly1     },
+    { "SW2WOOD",  DOOM1AND2, redonly        }, { "SW2ZIM",   DOOM1AND2, redonly        },
+    { "WOOD4",    DOOM1AND2, redonly        }, { "WOODGARG", DOOM1AND2, redonly        },
+    { "WOODSKUL", DOOM1AND2, redonly        }, { "ZELDOOR",  DOOM1AND2, redonly        },
+    { "",         0,         0              }
 };
-
-extern dboolean r_brightmaps;
 
 //
 // R_GetTextureColumn
@@ -277,8 +290,8 @@ void R_InitTextures(void)
 
     // killough 4/9/98: make column offsets 32-bit;
     // clean up malloc-ing to use sizeof
-    textures = Z_Malloc(numtextures * sizeof(*textures), PU_STATIC, 0);
-    textureheight = Z_Malloc(numtextures * sizeof(*textureheight), PU_STATIC, 0);
+    textures = Z_Malloc(numtextures * sizeof(*textures), PU_STATIC, NULL);
+    textureheight = Z_Malloc(numtextures * sizeof(*textureheight), PU_STATIC, NULL);
 
     for (i = 0; i < numtextures; ++i, ++directory)
     {
@@ -338,7 +351,7 @@ void R_InitTextures(void)
     // Create translation table for global animation.
     // killough 4/9/98: make column offsets 32-bit;
     // clean up malloc-ing to use sizeof
-    texturetranslation = Z_Malloc((numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, 0);
+    texturetranslation = Z_Malloc((numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, NULL);
 
     for (i = 0; i < numtextures; ++i)
         texturetranslation[i] = i;
@@ -355,21 +368,24 @@ void R_InitTextures(void)
     }
 
     // [BH] Initialize partially fullbright textures.
-    texturefullbright = Z_Malloc(numtextures * sizeof(*texturefullbright), PU_STATIC, 0);
-    memset(texturefullbright, 0, numtextures * sizeof(*texturefullbright));
+    texturefullbright = Z_Calloc(numtextures, sizeof(*texturefullbright), PU_STATIC, NULL);
 
     i = 0;
     while (fullbright[i].colormask)
     {
-        if (fullbright[i].texture)
+        int game = fullbright[i].game;
+
+        if (fullbright[i].texture && (game == DOOM1AND2
+            || (gamemission == doom && game == DOOM1ONLY)
+            || (gamemission != doom && game == DOOM2ONLY)))
         {
             int     num = R_CheckTextureNumForName(fullbright[i].texture);
 
             if (num != -1)
                 texturefullbright[num] = fullbright[i].colormask;
-
-            i++;
         }
+
+        i++;
     }
 }
 
