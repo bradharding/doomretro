@@ -1783,10 +1783,16 @@ static void D_DoomMainSetup(void)
 
         if (temp >= sk_baby && temp <= sk_nightmare)
         {
+            char        *string = titlecase(*skilllevels[startskill]);
+
             skilllevelselected = startskill = (skill_t)temp;
             M_SaveCVARs();
+
+            strreplace(string, ".", "");
+            strreplace(string, "!", "");
+
             C_Output("A <b>-skill</b> parameter was found on the command-line. The skill level is "
-                "now \"%s\".", *skilllevels[startskill]);
+                "now \"%s\".", string);
         }
     }
 

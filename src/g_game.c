@@ -1688,6 +1688,8 @@ void G_SetMovementSpeed(int scale)
 //
 void G_InitNew(skill_t skill, int ep, int map)
 {
+    char        *string = titlecase(*skilllevels[skill]);
+
     if (paused)
     {
         paused = false;
@@ -1736,7 +1738,10 @@ void G_InitNew(skill_t skill, int ep, int map)
     else
         episode = *episodes[gameepisode - 1];
 
-    skilllevel = *skilllevels[gameskill];
+    strreplace(string, ".", "");
+    strreplace(string, "!", "");
+
+    skilllevel = string;
 
     G_DoLoadLevel();
 }
