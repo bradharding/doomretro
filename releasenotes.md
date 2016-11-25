@@ -8,10 +8,11 @@
 * When the `r_shadows` CVAR is `on` and the `vid_capfps` CVAR is a value other than `35`, the shadows of monsters are now interpolated along with the movement of the monsters themselves.
 * The *BFG Edition* of `doom2.wad` will now be identified as an IWAD in the console, even though it has been incorrectly marked as a PWAD.
 * The number of barrels exploded is now displayed when using the `playerstats` CCMD.
+* The number of monsters, pickups and decorations, as well as the number of liquid and damaging sectors, are now displayed when using the `mapstats` CCMD.
 * The choice of colors used in the numerous translucent effects in *DOOM Retro* has been improved.
-* Instead of being set to the currently selected item in the corresponding menu, the `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now set to read-only strings of the episode, expansion, save game and skill level for the current game.
+* Instead of being set to the currently selected item in the corresponding menu, the `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now set to read-only strings of the episode, expansion, savegame and skill level for the current game.
 * The player’s path in the automap, enabled using the `am_path` CVAR, will no longer be recorded while the player is in “no clipping mode” using the `IDCLIP`/`IDSPISPOPD` cheat or `noclip` CCMD.
-* The number of monsters, pickups and decorations, as well as the number of liquid and damaging sectors, are now displayed in the output of the `mapstats` CCMD.
+* Corpses will no longer perpetually shift back and forth over sector boundaries of a small height difference.
 
 ---
 

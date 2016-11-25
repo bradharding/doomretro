@@ -650,9 +650,9 @@ void P_MobjThinker(mobj_t *mobj)
         // killough 9/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off
         // [RH] Be more restrictive to avoid pushing monsters/players down steps
-        if (!(flags & MF_NOGRAVITY) && !(flags2 & MF2_FLOATBOB)
-            && mobj->z > mobj->dropoffz && (mobj->health <= 0 || ((flags & MF_COUNTKILL)
-            && mobj->z - mobj->dropoffz > 24 * FRACUNIT)))
+        if (!(flags & MF_NOGRAVITY) && !(flags2 & MF2_FLOATBOB) && mobj->z > mobj->dropoffz
+            && ((mobj->health <= 0 && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
+                || ((flags & MF_COUNTKILL) && mobj->z - mobj->dropoffz > 24 * FRACUNIT)))
             P_ApplyTorque(mobj);
         else
         {
