@@ -357,20 +357,18 @@ void R_InitTextures(void)
     // [BH] Initialize partially fullbright textures.
     texturefullbright = Z_Malloc(numtextures * sizeof(*texturefullbright), PU_STATIC, 0);
     memset(texturefullbright, 0, numtextures * sizeof(*texturefullbright));
-    if (r_brightmaps)
+
+    i = 0;
+    while (fullbright[i].colormask)
     {
-        i = 0;
-        while (fullbright[i].colormask)
+        if (fullbright[i].texture)
         {
-            if (fullbright[i].texture)
-            {
-                int     num = R_CheckTextureNumForName(fullbright[i].texture);
+            int     num = R_CheckTextureNumForName(fullbright[i].texture);
 
-                if (num != -1)
-                    texturefullbright[num] = fullbright[i].colormask;
+            if (num != -1)
+                texturefullbright[num] = fullbright[i].colormask;
 
-                i++;
-            }
+            i++;
         }
     }
 }

@@ -12,7 +12,8 @@
 * The choice of colors used in the numerous translucent effects in *DOOM Retro* has been improved.
 * Instead of being set to the currently selected item in the corresponding menu, the `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now set to read-only strings of the episode, expansion, savegame and skill level for the current game.
 * The player’s path in the automap, enabled using the `am_path` CVAR, will no longer be recorded while the player is in “no clipping mode” using the `IDCLIP`/`IDSPISPOPD` cheat or `noclip` CCMD.
-* Corpses will no longer perpetually shift back and forth over sector boundaries of a small height difference.
+* Corpses will no longer perpetually shift back and forth over sector boundaries with small height differences.
+* The effects of changing the `r_brightmaps` CVAR from `off` to `on` are now immediate, and don’t require *DOOM Retro* to be restarted.
 
 ---
 
