@@ -3283,6 +3283,8 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 case TallTechnoFloorLamp:
                 case ShortTechnoFloorLamp:
                     M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+                    if (!*buffer)
+                        M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
                     buffer[0] = toupper(buffer[0]);
                     C_Warning("%s can't be spawned in <b><i>DOOM</i></b>.", buffer);
                     spawn = false;
@@ -3292,6 +3294,8 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))
             {
                 M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
+                if (!*buffer)
+                    M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
                 buffer[0] = toupper(buffer[0]);
                 C_Warning("%s can't be spawned in <b><i>DOOM Shareware</i></b>.", buffer);
                 spawn = false;
