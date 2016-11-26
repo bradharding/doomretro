@@ -17,6 +17,7 @@
 * Cacodemon and imp projectiles now “vibrate” slightly as they move.
 * A bug has been fixed whereby the brightmap of the `SW1STON2` and `SW2STON2` switch textures wouldn’t be applied correctly in *DOOM* games.
 * The “floating skull rock” decoration now casts a shadow when the `r_shadow` CVAR is `on`.
+* The game will no longer crash when using the `spawn` CCMD to try to spawn several decorations and pickups that don’t exist in *DOOM* but do in *DOOM II*.
 
 ---
 

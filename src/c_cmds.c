@@ -3231,10 +3231,16 @@ static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3
 
             sscanf(parm, "%10i", &num);
 
+            if (num != -1 && ((num >= 90 && num <= 2000) || num == 2009 || num == 2016 || num == 2017
+                || num == 2020 || num == 2021 || num == 2027 || (num >= 2029 && num <= 2034)
+                || (num >= 2036 && num <= 2044) || (num >= 2050 && num <= 3000) || num >= 3007))
+                return false;
+
             spawncmdtype = mobjinfo[i].doomednum;
+
             if (spawncmdtype >= 0 && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
-                || (num == spawncmdtype&& num != -1)))
+                || (num == spawncmdtype && num != -1)))
                 return true;
         }
     }
@@ -3259,15 +3265,23 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             switch (spawncmdtype)
             {
-                case Arachnotron:
-                case ArchVile:
-                case BossBrain:
-                case HellKnight:
-                case Mancubus:
+                case BurningBarrel:
                 case PainElemental:
-                case HeavyWeaponDude:
-                case Revenant:
+                case CommanderKeen:
+                case HangingVictimGutsRemoved:
+                case HangingVictimGutsAndBrainRemoved:
+                case HangingTorsoLookingDown:
+                case HangingTorsoOpenSkull:
+                case HangingTorsoLookingUp:
+                case HangingTorsoBrainRemoved:
+                case PoolOfBloodAndGuts:
+                case PoolOfBlood:
+                case PoolOfBrains:
+                case SuperShotgun:
+                case MegaSphere:
                 case WolfensteinSS:
+                case TallTechnoFloorLamp:
+                case ShortTechnoFloorLamp:
                     M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
                     buffer[0] = toupper(buffer[0]);
                     C_Warning("%s can't be spawned in <b><i>DOOM</i></b>.", buffer);
