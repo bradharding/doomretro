@@ -14,7 +14,6 @@
 * The player’s path in the automap, enabled using the `am_path` CVAR, will no longer be recorded while the player is in “no clipping mode” using the `IDCLIP`/`IDSPISPOPD` cheat or `noclip` CCMD.
 * Corpses will no longer perpetually shift back and forth over sector boundaries with small height differences.
 * The effect of changing the `r_brightmaps` CVAR from `off` to `on` is now immediate, and doesn’t require *DOOM Retro* to be restarted.
-* Cacodemon and imp projectiles now “vibrate” slightly as they move.
 * A bug has been fixed whereby the brightmap of the `SW1STON2` and `SW2STON2` switch textures wouldn’t be applied correctly in *DOOM* games.
 * The “floating skull rock” decoration now casts a shadow when the `r_shadow` CVAR is `on`.
 * The game will no longer crash when using the `spawn` CCMD to try to spawn several decorations and pickups that don’t exist in *DOOM* but do in *DOOM II*.
