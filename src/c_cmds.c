@@ -3310,8 +3310,9 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             fixed_t     x = player->x;
             fixed_t     y = player->y;
             angle_t     angle = player->angle >> ANGLETOFINESHIFT;
-            mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle],
-                            y + 100 * finesine[angle], ONFLOORZ, P_FindDoomedNum(spawncmdtype));
+            mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
+            mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
+                            ((mobjinfo[type].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ), type);
             int         flags = thing->flags;
 
             thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);

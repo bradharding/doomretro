@@ -16,7 +16,8 @@
 * The effect of changing the `r_brightmaps` CVAR from `off` to `on` is now immediate, and doesn’t require *DOOM Retro* to be restarted.
 * A bug has been fixed whereby the brightmap of the `SW1STON2` and `SW2STON2` switch textures wouldn’t be applied correctly in *DOOM* games.
 * The “floating skull rock” decoration now casts a shadow when the `r_shadow` CVAR is `on`.
-* The game will no longer crash when using the `spawn` CCMD to try to spawn several decorations and pickups that don’t exist in *DOOM* but do in *DOOM II*.
+* A crash will no longer occur when when trying to use the `spawn` CCMD to spawn certain decorations and pickups that don’t exist in *DOOM* but do in *DOOM II*.
+* Hanging decorations are now spawned on the ceiling when using the `spawn` CCMD.
 
 ---
 
@@ -34,7 +35,7 @@
 * The wrong map title is no longer displayed for MAP31 and MAP32 in some PWADs when using the *BFG Edition* of `doom2.wad`.
 * A bug has been fixed whereby the `MAPINFO` lump in a PWAD could be parsed incorrectly and cause the wrong music to be played in a map.
 * Music will now be paused if either the menu or console is open and the window loses focus.
-* The game will no longer crash when trying to spawn a spider mastermind using the `spawn` CCMD in *DOOM Shareware*.
+* A crash will no longer occur when when trying to spawn a spider mastermind using the `spawn` CCMD in *DOOM Shareware*.
 
 ---
 
