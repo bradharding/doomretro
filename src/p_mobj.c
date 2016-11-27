@@ -1027,7 +1027,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 // The fields of the mapthing should
 //  already be in host byte order.
 //
-void P_SpawnMapThing(mapthing_t *mthing, int index)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index)
 {
     int         i;
     int         bit;
@@ -1041,14 +1041,14 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     if (type == Player1Start)
     {
         P_SpawnPlayer(mthing);
-        return;
+        return NULL;
     }
     else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
-        return;
+        return NULL;
 
     // check for appropriate skill level
     if (mthing->options & 16)
-        return;
+        return NULL;
 
     if (gameskill == sk_baby)
         bit = 1;
@@ -1058,7 +1058,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         bit = 1 << (gameskill - 1);
 
     if (!(mthing->options & bit))
-        return;
+        return NULL;
 
     if (type >= 14101 && type <= 14164)
     {
@@ -1077,14 +1077,14 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         // [BH] make unknown thing type non-fatal and show console warning instead
         C_Warning("Thing %i at (%i,%i) has an unknown type of %i.",
             index, mthing->x, mthing->y, type);
-        return;
+        return NULL;
     }
 
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
         if (nomonsters && i != MT_KEEN)
-            return;
+            return NULL;
 
         totalkills++;
         monstercount[i]++;
@@ -1094,7 +1094,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 
     // [BH] don't spawn any monster corpses if -nomonsters
     if ((mobjinfo[i].flags & MF_CORPSE) && nomonsters && i != MT_MISC62)
-        return;
+        return NULL;
 
     // spawn it
     x = mthing->x << FRACBITS;
@@ -1115,7 +1115,6 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 
     if (flags & MF_COUNTITEM)
         totalitems++;
-
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) :
         ANG45 * (mthing->angle / 45));
     if (mobj->shadow)
@@ -1158,6 +1157,8 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 
     if (mobj->flags2 & MF2_DECORATION)
         numdecorations++;
+
+    return mobj;
 }
 
 //

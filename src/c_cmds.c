@@ -3214,6 +3214,8 @@ static void save_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 //
 static int      spawncmdtype = NUMMOBJTYPES;
 
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index);
+
 static dboolean spawn_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);
@@ -3265,6 +3267,12 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
         {
             switch (spawncmdtype)
             {
+                case ArchVile:
+                case HeavyWeaponDude:
+                case Revenant:
+                case Mancubus:
+                case Arachnotron:
+                case HellKnight:
                 case BurningBarrel:
                 case PainElemental:
                 case CommanderKeen:
@@ -3282,6 +3290,8 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 case WolfensteinSS:
                 case TallTechnoFloorLamp:
                 case ShortTechnoFloorLamp:
+                case BossBrain:
+                case MonstersSpawner:
                     M_StringCopy(buffer, mobjinfo[P_FindDoomedNum(spawncmdtype)].plural1, sizeof(buffer));
                     if (!*buffer)
                         M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[P_FindDoomedNum(spawncmdtype)].name1);
@@ -3311,16 +3321,22 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             fixed_t     y = player->y;
             angle_t     angle = player->angle >> ANGLETOFINESHIFT;
             mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
-            mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
-                            ((mobjinfo[type].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ), type);
-            int         flags = thing->flags;
+            int         flags = mobjinfo[type].flags;
+            mapthing_t  mthing;
+            mobj_t      *thing;
 
+            mthing.x = (x + 100 * finecosine[angle]) >> FRACBITS;
+            mthing.y = (y + 100 * finesine[angle]) >> FRACBITS;
+            mthing.angle = 0;
+            mthing.type = spawncmdtype;
+            mthing.options = 15;
+            thing = P_SpawnMapThing(&mthing, 0);
             thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 
             if (flags & MF_COUNTKILL)
             {
                 totalkills++;
-                monstercount[thing->type]++;
+                monstercount[type]++;
             }
             else if (flags & MF_COUNTITEM)
             {
@@ -3329,10 +3345,10 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
             }
-            else if (thing->type == MT_BARREL)
+            else if (type == MT_BARREL)
             {
                 barrelcount++;
-                monstercount[thing->type]++;
+                monstercount[type]++;
             }
 
             C_HideConsole();

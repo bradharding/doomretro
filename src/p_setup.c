@@ -92,7 +92,7 @@ struct mapinfo_s
     int         titlepatch;
 };
 
-void P_SpawnMapThing(mapthing_t *mthing, int index);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index);
 
 //
 // MAP related Lookup tables.
