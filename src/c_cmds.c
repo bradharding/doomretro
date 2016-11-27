@@ -236,13 +236,6 @@ extern char             *vid_windowposition;
 extern char             *vid_windowsize;
 extern dboolean         weaponbob;
 
-extern int              countdown;
-extern int              gridwidth;
-extern int              gridheight;
-extern int              pixelwidth;
-extern int              pixelheight;
-extern int              screenheight;
-extern int              screenwidth;
 extern int              st_palette;
 
 control_t controls[] =
@@ -1496,8 +1489,6 @@ static void fastmonsters_cmd_func2(char *cmd, char *parm1, char *parm2, char *pa
 //
 // give CCMD
 //
-extern int      cardsfound;
-
 static dboolean give_cmd_func1(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     char        *parm = M_StringJoin(parm1, parm2, parm3, NULL);

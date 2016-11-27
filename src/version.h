@@ -53,7 +53,7 @@
 #define PACKAGE_NAME                    "DOOM Retro"
 #define PACKAGE_SAVE                    "doomretro%i.save"
 #define PACKAGE_WAD                     "doomretro.wad"
-#define PACKAGE_WIKI_START_URL          "http://wiki.doomretro.com/starting-a-game"
-#define PACKAGE_WIKI_HELP_URL           "http://wiki.doomretro.com/the-console"
+#define PACKAGE_WIKI_START_URL          "http://wiki.doomretro.com/STARTING-A-GAME"
+#define PACKAGE_WIKI_HELP_URL           "http://wiki.doomretro.com/THE-CONSOLE"
 
 #endif

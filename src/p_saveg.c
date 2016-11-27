@@ -1661,7 +1661,7 @@ dboolean P_ReadSaveGameHeader(char *description)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning("This savegame requires %s.", read_vcheck);
+        C_Warning("This savegame requires <i>%s</i>.", read_vcheck);
         return false;   // bad version
     }
 
