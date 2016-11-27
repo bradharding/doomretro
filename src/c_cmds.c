@@ -1588,7 +1588,31 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                             && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
                     || (num == mobjinfo[i].doomednum && num != -1)))
                 {
-                    mobj_t *thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
+                    static char buffer[128];
+                    mobj_t      *thing;
+
+                    if (gamemode != commercial && i == MT_SUPERSHOTGUN)
+                    {
+                        M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
+                        if (!*buffer)
+                            M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[i].name1);
+                        buffer[0] = toupper(buffer[0]);
+                        C_Warning("%s can't be given to the player in <b><i>DOOM</i></b>.", buffer);
+                        return;
+                    }
+
+                    if (gamemode == shareware
+                        && (i == MT_MISC28 || i == MT_MISC25 || i == MT_MISC20 || i == MT_MISC21))
+                    {
+                        M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
+                        if (!*buffer)
+                            M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[i].name1);
+                        buffer[0] = toupper(buffer[0]);
+                        C_Warning("%s can't be given to the player in <b><i>DOOM Shareware</i></b>.", buffer);
+                        return;
+                    }
+
+                    thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
                     P_TouchSpecialThing(thing, player->mo, false);
                     C_HideConsole();

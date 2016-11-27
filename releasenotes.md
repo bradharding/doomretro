@@ -20,6 +20,7 @@
   * Hanging decorations are now spawned on the ceiling.
   * Things will now be in the same state as if they were spawned when the map started.
 * The “floating skull rock” decoration now casts a shadow when the `r_shadow` CVAR is `on`.
+* A crash will no longer occur when using the `give` CCMD to try to give the player the plasma rifle, BFG-9000 or cells in *DOOM Shareware*, or the super shotgun in *DOOM*.
 
 ---
 
