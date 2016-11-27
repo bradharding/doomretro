@@ -1834,7 +1834,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 M_SaveCVARs();
             }
             else
-                C_Output("No monsters %s kill.", (!totalkills ? "to" : "left to"));
+                C_Warning("There are no monsters %s kill.", (!totalkills ? "to" : "left to"));
         }
         else
         {
@@ -1897,7 +1897,7 @@ static void kill_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 M_SaveCVARs();
             }
             else
-                C_Output("No %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
+                C_Warning("There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
                     (type == MT_BARREL ? "explode" : "kill"));
         }
     }
