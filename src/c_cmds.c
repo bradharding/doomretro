@@ -3329,7 +3329,7 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             mthing.y = (y + 100 * finesine[angle]) >> FRACBITS;
             mthing.angle = 0;
             mthing.type = spawncmdtype;
-            mthing.options = 15;
+            mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
             thing = P_SpawnMapThing(&mthing, 0);
             thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 
