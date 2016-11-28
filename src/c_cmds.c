@@ -1582,7 +1582,7 @@ static void give_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     static char buffer[128];
                     mobj_t      *thing;
 
-                    if (gamemode != commercial && i == MT_SUPERSHOTGUN)
+                    if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                     {
                         M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
                         if (!*buffer)
