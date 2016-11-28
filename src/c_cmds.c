@@ -3345,28 +3345,30 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             mthing.angle = 0;
             mthing.type = spawncmdtype;
             mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
-            thing = P_SpawnMapThing(&mthing, 0);
-            thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+            if ((thing = P_SpawnMapThing(&mthing, 0)))
+            {
+                thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 
-            if (flags & MF_COUNTKILL)
-            {
-                totalkills++;
-                monstercount[type]++;
-            }
-            else if (flags & MF_COUNTITEM)
-            {
-                totalitems++;
-                players[0].cheated++;
-                stat_cheated = SafeAdd(stat_cheated, 1);
-                M_SaveCVARs();
-            }
-            else if (type == MT_BARREL)
-            {
-                barrelcount++;
-                monstercount[type]++;
-            }
+                if (flags & MF_COUNTKILL)
+                {
+                    totalkills++;
+                    monstercount[type]++;
+                }
+                else if (flags & MF_COUNTITEM)
+                {
+                    totalitems++;
+                    players[0].cheated++;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    M_SaveCVARs();
+                }
+                else if (type == MT_BARREL)
+                {
+                    barrelcount++;
+                    monstercount[MT_BARREL]++;
+                }
 
-            C_HideConsole();
+                C_HideConsole();
+            }
         }
     }
 }
