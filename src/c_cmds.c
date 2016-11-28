@@ -3365,7 +3365,10 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                 {
                     barrelcount++;
                     monstercount[MT_BARREL]++;
+                    numdecorations++;
                 }
+                else if (thing->flags2 & MF2_DECORATION)
+                    numdecorations++;
 
                 C_HideConsole();
             }
