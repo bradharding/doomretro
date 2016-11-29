@@ -103,6 +103,7 @@ extern dboolean         r_corpses_slide;
 extern dboolean         r_corpses_smearblood;
 extern int              r_detail;
 extern dboolean         r_diskicon;
+extern dboolean         r_dither;
 extern dboolean         r_fixmaperrors;
 extern dboolean         r_fixspriteoffsets;
 extern dboolean         r_floatbob;
@@ -266,6 +267,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_corpses_smearblood,                              BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_detail,                                          DETAILALIAS),
     CONFIG_VARIABLE_INT          (r_diskicon,                                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_dither,                                          BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_fixmaperrors,                                    BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_fixspriteoffsets,                                BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_floatbob,                                        BOOLALIAS  ),
@@ -736,6 +738,9 @@ static void M_CheckCVARs(void)
 
     if (r_diskicon != false && r_diskicon != true)
         r_diskicon = r_diskicon_default;
+
+    if (r_dither != false && r_dither != true)
+        r_dither = r_dither_default;
 
     if (r_fixmaperrors != false && r_fixmaperrors != true)
         r_fixmaperrors = r_fixmaperrors_default;

@@ -107,6 +107,7 @@ lighttable_t            **colormaps;
 // bumped light from gun blasts
 int                     extralight;
 
+dboolean                r_dither = r_dither_default;
 dboolean                r_homindicator = r_homindicator_default;
 dboolean                r_translucency = r_translucency_default;
 
@@ -516,7 +517,7 @@ void R_InitColumnFunctions(void)
     if (r_translucency)
     {
         tlcolfunc = R_DrawTranslucentColumn;
-        tl50colfunc = R_DrawTranslucent50Column;
+        tl50colfunc = (r_dither ? R_DrawDitheredColumn : R_DrawTranslucent50Column);
         tl33colfunc = R_DrawTranslucent33Column;
         tlgreencolfunc = R_DrawTranslucentGreenColumn;
         tlredcolfunc = R_DrawTranslucentRedColumn;

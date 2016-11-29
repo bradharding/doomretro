@@ -102,7 +102,9 @@ dboolean        r_liquid_current = r_liquid_current_default;
 extern fixed_t  animatedliquiddiff;
 extern fixed_t  animatedliquidxoffs;
 extern fixed_t  animatedliquidyoffs;
+
 extern dboolean doorclosed;
+extern dboolean r_dither;
 extern dboolean r_liquid_bob;
 extern dboolean r_translucency;
 
@@ -245,7 +247,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     curline = ds->curline;
 
     colfunc = (curline->linedef->tranlump >= 0 && r_translucency ?
-        R_DrawTranslucent50Column : R_DrawColumn);
+        (r_dither ? R_DrawDitheredColumn : R_DrawTranslucent50Column) : R_DrawColumn);
 
     frontsector = curline->frontsector;
     backsector = curline->backsector;

@@ -798,6 +798,34 @@ void R_DrawTranslucent50Column(void)
     *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
+void R_DrawDitheredColumn(void)
+{
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+
+    if (count < 0)
+        return;
+
+    if (((viewwindowy + dc_yl) & 1) == ((viewwindowx + dc_x) & 1))
+    {
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+
+    do
+    {
+        *dest = colormap[source[frac >> FRACBITS]];
+
+        dest += SCREENWIDTH * 2;
+        frac += fracstep * 2;
+
+    } while ((count -= 2) > 0);
+}
+
 void R_DrawTranslucent33Column(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;

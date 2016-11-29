@@ -153,6 +153,7 @@ extern dboolean         r_corpses_slide;
 extern dboolean         r_corpses_smearblood;
 extern int              r_detail;
 extern int              r_diskicon;
+extern dboolean         r_dither;
 extern dboolean         r_fixmaperrors;
 extern dboolean         r_fixspriteoffsets;
 extern dboolean         r_floatbob;
@@ -683,6 +684,8 @@ consolecmd_t consolecmds[] =
         "Toggles the graphic detail (<b>low</b> or <b>high</b>)."),
     CVAR_BOOL(r_diskicon, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles showing a disk icon when loading and saving."),
+    CVAR_BOOL(r_dither, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
+        "Toggles dithering of some translucent effects."),
     CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles the fixing of mapping errors in the <i><b>DOOM</b></i> and <i><b>DOOM II</b></i>\nIWADs."),
     CVAR_BOOL(r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
