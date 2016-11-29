@@ -406,6 +406,7 @@ static void r_blood_cvar_func2(char *, char *, char *, char *);
 static void r_bloodsplats_max_cvar_func2(char *, char *, char *, char *);
 static dboolean r_detail_cvar_func1(char *, char *, char *, char *);
 static void r_detail_cvar_func2(char *, char *, char *, char *);
+static void r_dither_cvar_func2(char *, char *, char *, char *);
 static dboolean r_gamma_cvar_func1(char *, char *, char *, char *);
 static void r_gamma_cvar_func2(char *, char *, char *, char *);
 static void r_hud_cvar_func2(char *, char *, char *, char *);
@@ -684,7 +685,7 @@ consolecmd_t consolecmds[] =
         "Toggles the graphic detail (<b>low</b> or <b>high</b>)."),
     CVAR_BOOL(r_diskicon, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles showing a disk icon when loading and saving."),
-    CVAR_BOOL(r_dither, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
+    CVAR_BOOL(r_dither, "", bool_cvars_func1, r_dither_cvar_func2, BOOLALIAS,
         "Toggles dithering of some translucent effects."),
     CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles the fixing of mapping errors in the <i><b>DOOM</b></i> and <i><b>DOOM II</b></i>\nIWADs."),
@@ -4098,6 +4099,35 @@ static void r_detail_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_detail, DETAILALIAS),
                 C_LookupAliasFromValue(r_detail_default, DETAILALIAS));
+    }
+}
+
+//
+// r_dither CVAR
+//
+static void r_dither_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm1)
+    {
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
+
+        if ((value == 0 || value == 1) && value != r_dither)
+        {
+            r_dither = !!value;
+            M_SaveCVARs();
+            R_InitColumnFunctions();
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_dither))].description));
+        if (r_dither == r_dither_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_dither, BOOLALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_dither, BOOLALIAS),
+                C_LookupAliasFromValue(r_dither_default, BOOLALIAS));
     }
 }
 
