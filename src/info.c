@@ -3847,7 +3847,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
-        /* flags2               */ (MF2_SHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP),
+        /* flags2               */ (MF2_SHADOW | MF2_TRANSLUCENT_BLUE_25 | MF2_FLOATBOB | MF2_NOFOOTCLIP),
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
