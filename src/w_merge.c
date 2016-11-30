@@ -78,6 +78,8 @@ static sprite_frame_t   *sprite_frames;
 static int              num_sprite_frames;
 static int              sprite_frames_alloced;
 
+dboolean                SHT2A0 = false;
+
 // Search in a list to find a lump with a particular name
 // Linear search (slow!)
 //
@@ -276,6 +278,9 @@ static void AddSpriteLump(lumpinfo_t *lump)
     {
         MISFA0 += M_StringCompare(lump->name, "MISFA0");
         MISFB0 += M_StringCompare(lump->name, "MISFB0");
+
+        if (M_StringCompare(lump->name, "SHT2A0"))
+            SHT2A0 = true;
     }
 
     if (M_StringCompare(leafname(lump->wad_file->path), PACKAGE_WAD)

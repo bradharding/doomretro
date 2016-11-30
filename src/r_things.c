@@ -88,6 +88,7 @@ extern dboolean         r_liquid_bob;
 extern dboolean         r_shadows;
 extern dboolean         r_translucency;
 extern dboolean         skippsprinterp;
+extern dboolean         SHT2A0;
 
 //
 // R_InstallSpriteLump
@@ -1201,7 +1202,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     }
     else
     {
-        if (spr == SPR_SHT2 && (!frame || (frame & FF_FULLBRIGHT)) && !dehacked
+        if (spr == SPR_SHT2 && (!frame || (frame & FF_FULLBRIGHT)) && !SHT2A0
             && nearestcolors[71] == 71)
             vis->colfunc = (r_translucency ? R_DrawTranslucentSuperShotgunColumn :
                 R_DrawSuperShotgunColumn);
