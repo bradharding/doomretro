@@ -3070,7 +3070,7 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 
     if (M_StringCompare(parm1, "all"))
     {
-        resetall_cmd_func2("resetall", NULL, NULL, NULL);
+        resetall_cmd_func2("resetall", "", "", "");
         return;
     }
 
@@ -3090,7 +3090,7 @@ static void reset_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
                     striptrailingzero(consolecmds[i].defaultnumber, 1), "", "");
             else
                 consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
-                    consolecmds[i].defaultstring : "\"\""), "", "");
+                    consolecmds[i].defaultstring : EMPTYVALUE), "", "");
             break;
         }
         ++i;
@@ -3124,7 +3124,7 @@ void C_VerifyResetAll(int key)
                         striptrailingzero(consolecmds[i].defaultnumber, 2), "", "");
                 else
                     consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
-                        consolecmds[i].defaultstring : "\"\""), "", "");
+                        consolecmds[i].defaultstring : EMPTYVALUE), "", "");
             }
             ++i;
         }
@@ -3357,26 +3357,11 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             {
                 thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 
-                if (flags & MF_COUNTKILL)
+                if (flags & MF_COUNTITEM)
                 {
-                    totalkills++;
-                    monstercount[type]++;
-                }
-                else if (flags & MF_COUNTITEM)
-                {
-                    totalitems++;
-                    players[0].cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
                 }
-                else if (type == MT_BARREL)
-                {
-                    barrelcount++;
-                    monstercount[MT_BARREL]++;
-                    numdecorations++;
-                }
-                else if (thing->flags2 & MF2_DECORATION)
-                    numdecorations++;
 
                 C_HideConsole();
             }
@@ -4020,7 +4005,7 @@ static void player_cvars_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 static void playername_cvar_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     if (M_StringCompare(parm1, EMPTYVALUE))
-        str_cvars_func2(cmd, playername_default, NULL, NULL);
+        str_cvars_func2(cmd, playername_default, "", "");
     else
         str_cvars_func2(cmd, parm1, parm2, parm3);
 }
