@@ -2338,7 +2338,7 @@ static void maplist_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 #define WW      "William D. Whitaker"
 #define AMSP    AM" and "SP
 #define BKTH2   BK" and "TH2
-#define DC2DB   DC2", "DB
+#define DC2DB   DC2" and "DB
 #define DCMC    DC" and "MC
 #define DCTH2   DC" and "TH2
 #define JRTH    JR" and "TH
@@ -3353,6 +3353,7 @@ static void spawn_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
             mthing.angle = 0;
             mthing.type = spawncmdtype;
             mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
+
             if ((thing = P_SpawnMapThing(&mthing, 0)))
             {
                 thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
