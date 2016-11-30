@@ -4,6 +4,7 @@
 * Minor changes have been made to text that is output to the console.
 * A message is now displayed when using the `IDCLEVxy` cheat in the console.
 * The average frames per second will no longer be shown when the `vid_showfps` CVAR is `on` and the game is paused or the menu is open.
+* Aspect ratio correction of the display can now be disabled using the new `vid_aspectratio` CVAR.
 * The lumps in `doomretro.wad` that are used for the alternate HUD can now be replaced by lumps in a PWAD.
 * When the `r_shadows` CVAR is `on` and the `vid_capfps` CVAR is a value other than `35`, the shadows of monsters are now interpolated along with the movement of the monsters themselves.
 * The *BFG Edition* of `doom2.wad` will now be identified as an IWAD in the console, even though it has been incorrectly marked as a PWAD.
