@@ -326,7 +326,7 @@ void S_Start(void)
     // start new music for the level
     mus_paused = false;
 
-    S_ChangeMusic(S_GetMusicNum(), !s_randommusic, false, true);
+    S_ChangeMusic(S_GetMusicNum(), true, false, true);
 }
 
 // [crispy] removed map objects may finish their sounds
@@ -597,9 +597,6 @@ void S_UpdateSounds(mobj_t *listener)
                 S_StopChannel(cnum);
         }
     }
-
-    if (!nomusic && s_randommusic && !I_MusicIsPlaying())
-        S_ChangeMusic(S_GetMusicNum(), false, false, false);
 }
 
 void S_SetMusicVolume(int volume)

@@ -373,16 +373,3 @@ void *I_RegisterSong(void *data, int len)
         return music;
     }
 }
-
-// Is the song playing?
-dboolean I_MusicIsPlaying(void)
-{
-    if (!music_initialized)
-        return false;
-
-#if defined(WIN32)
-    return (serverMidiPlaying || Mix_PlayingMusic());
-#else
-    return Mix_PlayingMusic();
-#endif
-}
