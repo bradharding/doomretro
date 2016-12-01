@@ -34,6 +34,7 @@
 
 #include <windows.h>
 #include <stdlib.h>
+
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "midiproc.h"
@@ -170,11 +171,11 @@ typedef unsigned char   midibyte;
 class SongBuffer
 {
 protected:
-    midibyte            *buffer;                // accumulated input
-    size_t              size;                   // size of input
-    size_t              allocated;              // amount of memory allocated (>= size)
+    midibyte            *buffer;                        // accumulated input
+    size_t              size;                           // size of input
+    size_t              allocated;                      // amount of memory allocated (>= size)
 
-    static const int    defaultSize = 128*1024; // 128 KB
+    static const int    defaultSize = 128 * 1024;       // 128 KB
 
 public:
     // Constructor
@@ -190,7 +191,7 @@ public:
     // Release the buffer.
     ~SongBuffer()
     {
-        if(buffer)
+        if (buffer)
         {
             free(buffer);
             buffer = NULL;
