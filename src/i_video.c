@@ -78,7 +78,6 @@
 
 // CVARs
 dboolean                m_novertical = m_novertical_default;
-dboolean                vid_aspectratio = vid_aspectratio_default;
 int                     vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
 #if !defined(WIN32)
@@ -1050,9 +1049,8 @@ void I_CreateExternalAutomap(dboolean output)
     if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
         I_SDLError("SDL_CreateRenderer");
 
-    if (vid_aspectratio)
-        if (SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT) < 0)
-            I_SDLError("SDL_RenderSetLogicalSize");
+    if (SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT) < 0)
+        I_SDLError("SDL_RenderSetLogicalSize");
 
     if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
@@ -1463,9 +1461,8 @@ static void SetVideoMode(dboolean output)
     if (!(renderer = SDL_CreateRenderer(window, -1, flags)))
         I_SDLError("SDL_CreateRenderer");
 
-    if (vid_aspectratio)
-        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
-            I_SDLError("SDL_RenderSetLogicalSize");
+    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
+        I_SDLError("SDL_RenderSetLogicalSize");
 
     if (!SDL_GetRendererInfo(renderer, &rendererinfo))
     {
@@ -1685,9 +1682,8 @@ void I_ToggleWidescreen(dboolean toggle)
             R_SetViewSize(r_screensize);
         }
 
-        if (vid_aspectratio)
-            if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT) < 0)
-                I_SDLError("SDL_RenderSetLogicalSize");
+        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT) < 0)
+            I_SDLError("SDL_RenderSetLogicalSize");
 
         src_rect.h = SCREENHEIGHT - SBARHEIGHT;
     }
@@ -1698,9 +1694,8 @@ void I_ToggleWidescreen(dboolean toggle)
         if (gamestate == GS_LEVEL)
             ST_doRefresh();
 
-        if (vid_aspectratio)
-            if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
-                I_SDLError("SDL_RenderSetLogicalSize");
+        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
+            I_SDLError("SDL_RenderSetLogicalSize");
 
         src_rect.h = SCREENHEIGHT;
     }
