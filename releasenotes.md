@@ -10,7 +10,7 @@
 * The number of barrels exploded is now displayed when using the `playerstats` CCMD.
 * The number of monsters, pickups and decorations, as well as the number of liquid and damaging sectors, are now displayed when using the `mapstats` CCMD.
 * The choice of colors used in the numerous translucent effects in *DOOM Retro* has been improved.
-* *BOOM*-compatible translucent wall textures can now be drawn using a dithering effect, enabled using the new `r_dither` CVAR that is `off` by default.
+* *BOOM*-compatible translucent wall textures are now drawn using a dithering effect. This can be disabled using the new `r_dither` CVAR.
 * Instead of being set to the currently selected item in the corresponding menu, the `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now set to read-only strings of the episode, expansion, savegame and skill level for the current game.
 * The player’s path in the automap, enabled using the `am_path` CVAR, will no longer be recorded while the player is in “no clipping mode”.
 * Corpses will no longer perpetually shift back and forth over sector boundaries with small height differences.
