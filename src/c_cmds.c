@@ -686,7 +686,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_diskicon, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles showing a disk icon when loading and saving."),
     CVAR_BOOL(r_dither, "", bool_cvars_func1, r_dither_cvar_func2, BOOLALIAS,
-        "Toggles dithering of translucent wall textures."),
+        "Toggles dithering of <i><b>BOOM</b></i>-compatible translucent wall\ntextures."),
     CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles the fixing of mapping errors in the <i><b>DOOM</b></i> and <i><b>DOOM II</b></i>\nIWADs."),
     CVAR_BOOL(r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
