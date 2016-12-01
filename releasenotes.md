@@ -23,6 +23,7 @@
   * Things will now be in the same state they would be if they were spawned when the map started.
 * The “floating skull rock” decoration now casts a shadow when the `r_shadow` CVAR is `on`.
 * A crash will no longer occur when using the `give` CCMD to try to give the player the plasma rifle, BFG-9000 or cells in *DOOM Shareware*, or the super shotgun in *DOOM*.
+* A bug has been fixed whereby when the `s_randommusic` CVAR was `on`, random music would attempt to start playing at the start of a map, but then stop, and the game would become unresponsive.
 
 ---
 
