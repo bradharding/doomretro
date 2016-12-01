@@ -382,7 +382,7 @@ dboolean I_MusicIsPlaying(void)
 
 #if defined(WIN32)
     return (serverMidiPlaying || Mix_PlayingMusic());
-#elif
+#else
     return Mix_PlayingMusic();
 #endif
 }
