@@ -694,7 +694,7 @@ dboolean PIT_CheckOnmobjZ(mobj_t * thing)
 //  speciallines[]
 //  numspeciallines
 //
-dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
+dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y, dboolean vertical)
 {
     int         xl;
     int         xh;
@@ -751,7 +751,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
                 return false;
 
     // check lines
-    if (!(thing->flags & MF_DROPPED))
+    if (!(thing->flags & MF_DROPPED) && !vertical)
     {
         radius = thing->info->pickupradius;
         tmbbox[BOXTOP] = y + radius;
@@ -904,7 +904,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     felldown = false;           // killough 11/98
     floatok = false;
 
-    if (!P_CheckPosition(thing, x, y))
+    if (!P_CheckPosition(thing, x, y, false))
         return false;           // solid wall or thing
 
     if (!(flags & MF_NOCLIP))
@@ -1146,7 +1146,7 @@ dboolean P_ThingHeightClip(mobj_t *thing)
     fixed_t     oldfloorz = thing->floorz; // haleyjd
     int         flags2 = thing->flags2;
 
-    P_CheckPosition(thing, thing->x, thing->y);
+    P_CheckPosition(thing, thing->x, thing->y, true);
 
     // what about stranding a monster partially off an edge?
     thing->floorz = tmfloorz;

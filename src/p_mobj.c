@@ -500,7 +500,7 @@ void P_NightmareRespawn(mobj_t *mobj)
     }
 
     // something is occupying it's position?
-    if (!P_CheckPosition(mobj, x, y))
+    if (!P_CheckPosition(mobj, x, y, false))
         return;         // no respawn
 
     // spawn a teleport fog at old spot
