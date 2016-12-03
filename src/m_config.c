@@ -210,7 +210,7 @@ extern dboolean         returntowidescreen;
 
 static default_t cvars[] =
 {
-    COMMENT("; console variables\n"),
+    COMMENT("; CVARs\n"),
     CONFIG_VARIABLE_INT          (alwaysrun,                                         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_allmapcdwallcolor,                              NOALIAS    ),
     CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,                              NOALIAS    ),
@@ -314,7 +314,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                                    NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOALIAS    ),
     BLANKLINE,
-    COMMENT("; player statistics\n"),
+    COMMENT("; player stats\n"),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_barrelsexploded,                              NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_cheated,                                      NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damageinflicted,                              NOALIAS    ),
