@@ -244,13 +244,18 @@ void P_UnsetThingPosition(mobj_t *thing)
     }
 }
 
+//
+// P_UnsetBloodSplatPosition
+//
 void P_UnsetBloodSplatPosition(mobj_t *splat)
 {
-    mobj_t  *bnext;
-    mobj_t  **bprev = splat->bprev;
+    mobj_t  **sprev = splat->sprev;
+    mobj_t  *snext = splat->snext;
 
-    if (bprev && (*bprev = bnext = splat->bnext))
-        bnext->bprev = bprev;
+    if ((*sprev = snext))
+        snext->sprev = sprev;
+
+    --r_bloodsplats_total;
 }
 
 //
