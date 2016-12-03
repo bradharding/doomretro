@@ -1,7 +1,7 @@
 ### DOOM Retro v2.3.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* A bug has been fixed whereby some objects would get suspended in mid-air when the sector they were on lowered in some rare instances.
+* A bug has been fixed whereby some objects would get suspended in midair when the sector they were on lowered in some rare instances.
 
 ---
 
