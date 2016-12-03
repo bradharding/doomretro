@@ -1324,7 +1324,7 @@ dboolean PIT_VileCheck(mobj_t *thing)
     corpsehit->radius = corpsehit->info->radius;
     corpsehit->flags |= MF_SOLID;
     corpsehit->flags2 |= MF2_RESURRECTING;
-    check = P_CheckPosition(corpsehit, corpsehit->x, corpsehit->y, false);
+    check = P_CheckPosition(corpsehit, corpsehit->x, corpsehit->y);
     corpsehit->height = height;
     corpsehit->radius = radius;
     corpsehit->flags &= ~MF_SOLID;
