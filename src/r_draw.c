@@ -194,16 +194,13 @@ void R_DrawColumn(void)
 
 void R_DrawShadowColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl + 1;
+    int32_t     count = dc_yh - dc_yl;
     byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
     byte        *body = tinttab40;
     byte        *edge = tinttab25;
 
-    if (--count)
-    {
-        *dest = edge[*dest];
-        dest += SCREENWIDTH;
-    }
+    *dest = edge[*dest];
+    dest += SCREENWIDTH;
     while (--count > 0)
     {
         *dest = body[*dest];
@@ -214,16 +211,13 @@ void R_DrawShadowColumn(void)
 
 void R_DrawFuzzyShadowColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl + 1;
+    int32_t     count = dc_yh - dc_yl;
     byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
     byte        *translucency = tinttab25;
 
-    if (--count)
-    {
-        if (!(rand() % 4) && !consoleactive)
-            *dest = translucency[*dest];
-        dest += SCREENWIDTH;
-    }
+    if (!(rand() % 4) && !consoleactive)
+        *dest = translucency[*dest];
+    dest += SCREENWIDTH;
     while (--count > 0)
     {
         *dest = translucency[*dest];
