@@ -1,5 +1,7 @@
 ### DOOM Retro v2.3.8
 
+* A bug has been fixed whereby some objects would get suspended in mid-air when the sector they were on lowered in some rare instances.
+
 ---
 
 ###### Friday, December 2, 2016
