@@ -1846,16 +1846,13 @@ void P_ArchiveThinkers(void)
     // save off the bloodsplats
     for (i = 0; i < numsectors; ++i)
     {
-        mobj_t   *mo = sectors[i].thinglist;
+        mobj_t   *mo = sectors[i].splatlist;
 
         while (mo)
         {
-            if (mo->type == MT_BLOODSPLAT)
-            {
-                saveg_write8(tc_bloodsplat);
-                saveg_write_pad();
-                saveg_write_mobj_t(mo);
-            }
+            saveg_write8(tc_bloodsplat);
+            saveg_write_pad();
+            saveg_write_mobj_t(mo);
             mo = mo->snext;
         }
     }
@@ -1907,12 +1904,19 @@ void P_UnArchiveThinkers(void)
     // remove the remaining bloodsplats and shadows
     for (i = 0; i < numsectors; ++i)
     {
-        mobj_t   *mo = sectors[i].thinglist;
+        mobj_t   *shadow = sectors[i].thinglist;
+        mobj_t   *splat = sectors[i].splatlist;
 
-        while (mo)
+        while (shadow)
         {
-            P_RemoveMobj(mo);
-            mo = mo->snext;
+            P_RemoveMobj(shadow);
+            shadow = shadow->snext;
+        }
+
+        while (splat)
+        {
+            P_UnsetBloodSplatPosition(splat);
+            splat = splat->snext;
         }
     }
     r_bloodsplats_total = 0;

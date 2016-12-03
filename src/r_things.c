@@ -433,8 +433,7 @@ static vissprite_t *R_NewVisSprite(fixed_t scale)
 }
 
 //
-// R_DrawMaskedColumn
-// Used for sprites and masked mid textures.
+// R_DrawMaskedSpriteColumn
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
@@ -1114,6 +1113,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
     spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
         LIGHTLEVELS - 1)];
+
+    for (thing = sec->splatlist; thing; thing = thing->snext)
+        thing->projectfunc(thing);
 
     // Handle all things in sector.
     if (fixedcolormap || isliquid[floorpic] || floorpic == skyflatnum || !r_shadows)

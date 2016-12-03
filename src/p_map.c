@@ -1994,61 +1994,38 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 {
     msecnode_t  *n;
     mobj_t      *mobj;
-    mobjtype_t  type;
 
     nofit = false;
     crushchange = crunch;
-    isliquidsector = isliquid[sector->floorpic];
 
-    // Mark all things invalid
-    for (n = sector->touching_thinglist; n; n = n->m_snext)
-        n->visited = false;
-
-    if (isliquidsector)
+    if ((isliquidsector = isliquid[sector->floorpic]))
     {
-        do
-            for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
-                if (!n->visited)                                        // unprocessed thing found
-                {
-                    n->visited = true;                                  // mark thing as processed
-                    mobj = n->m_thing;
-                    if (mobj)
-                    {
-                        type = mobj->type;
-                        if (type == MT_BLOODSPLAT)
-                        {
-                            P_UnsetThingPosition(mobj);
-                            --r_bloodsplats_total;
-                        }
-                        else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                            PIT_ChangeSector(mobj);                     // process it
-                    }
-                    break;                                              // exit and start over
-                }
-        while (n);      // repeat from scratch until all things left are marked valid
+        for (mobj = sector->splatlist; mobj; mobj = mobj->snext)
+            P_UnsetBloodSplatPosition(mobj);
     }
     else
     {
         sector->floor_xoffs = 0;
         sector->floor_yoffs = 0;
-
-        do
-            for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
-                if (!n->visited)                                        // unprocessed thing found
-                {
-                    n->visited = true;                                  // mark thing as processed
-                    mobj = n->m_thing;
-                    if (mobj)
-                    {
-                        type = mobj->type;
-                        if (type != MT_BLOODSPLAT && type != MT_SHADOW
-                            && !(mobj->flags & MF_NOBLOCKMAP))
-                            PIT_ChangeSector(mobj);                     // process it
-                    }
-                    break;                                              // exit and start over
-                }
-        while (n);      // repeat from scratch until all things left are marked valid
     }
+
+    // Mark all things invalid
+    for (n = sector->touching_thinglist; n; n = n->m_snext)
+        n->visited = false;
+
+    do
+        for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
+            if (!n->visited)                                        // unprocessed thing found
+            {
+                n->visited = true;                                  // mark thing as processed
+                if ((mobj = n->m_thing))
+                {
+                    if (mobj->type != MT_SHADOW  && !(mobj->flags & MF_NOBLOCKMAP))
+                        PIT_ChangeSector(mobj);                     // process it
+                }
+                break;                                              // exit and start over
+            }
+    while (n);      // repeat from scratch until all things left are marked valid
 
     return nofit;
 }

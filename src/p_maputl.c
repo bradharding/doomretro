@@ -244,6 +244,15 @@ void P_UnsetThingPosition(mobj_t *thing)
     }
 }
 
+void P_UnsetBloodSplatPosition(mobj_t *splat)
+{
+    mobj_t  *bnext;
+    mobj_t  **bprev = splat->bprev;
+
+    if (bprev && (*bprev = bnext = splat->bnext))
+        bnext->bprev = bprev;
+}
+
 //
 // P_SetThingPosition
 // Links a thing into both a block and a subsector
@@ -319,17 +328,13 @@ void P_SetThingPosition(mobj_t *thing)
 //
 void P_SetBloodSplatPosition(mobj_t *splat)
 {
-    mobj_t      **link = &splat->subsector->sector->thinglist;
+    mobj_t      **link = &splat->subsector->sector->splatlist;
     mobj_t      *snext = *link;
 
     if ((splat->snext = snext))
         snext->sprev = &splat->snext;
     splat->sprev = link;
     *link = splat;
-
-    P_CreateSecNodeList(splat, splat->x, splat->y);
-    splat->touching_sectorlist = sector_list;
-    sector_list = NULL;
 }
 
 //
