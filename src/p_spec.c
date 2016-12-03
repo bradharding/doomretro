@@ -254,7 +254,11 @@ void P_SetLiquids(void)
 
     numliquid = 0;
     for (i = 0; i < numsectors; ++i)
-        numliquid += isliquid[sectors[i].floorpic];
+        if (isliquid[sectors[i].floorpic])
+        {
+            sectors[i].isliquid = true;
+            ++numliquid;
+        }
 }
 
 //

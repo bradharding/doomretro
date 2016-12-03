@@ -278,7 +278,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     P_SetThingPosition(thing);
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
-    if (!(thing->flags2 & MF2_NOFOOTCLIP) && isliquid[newsec->floorpic])
+    if (!(thing->flags2 & MF2_NOFOOTCLIP) && newsec->isliquid)
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
@@ -976,7 +976,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     newsec = thing->subsector->sector;
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
-    if (!(thing->flags2 & MF2_NOFOOTCLIP) && isliquid[newsec->floorpic])
+    if (!(thing->flags2 & MF2_NOFOOTCLIP) && newsec->isliquid)
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
@@ -1998,7 +1998,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
     nofit = false;
     crushchange = crunch;
 
-    if ((isliquidsector = isliquid[sector->floorpic]))
+    if ((isliquidsector = sector->isliquid))
     {
         for (mobj = sector->splatlist; mobj; mobj = mobj->snext)
             P_UnsetBloodSplatPosition(mobj);
@@ -2014,17 +2014,19 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
         n->visited = false;
 
     do
+    {
         for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
             if (!n->visited)                                        // unprocessed thing found
             {
                 n->visited = true;                                  // mark thing as processed
                 if ((mobj = n->m_thing))
                 {
-                    if (mobj->type != MT_SHADOW  && !(mobj->flags & MF_NOBLOCKMAP))
+                    if (mobj->type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
                         PIT_ChangeSector(mobj);                     // process it
                 }
                 break;                                              // exit and start over
             }
+    }
     while (n);      // repeat from scratch until all things left are marked valid
 
     return nofit;

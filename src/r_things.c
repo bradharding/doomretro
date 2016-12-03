@@ -1109,7 +1109,6 @@ void R_ProjectShadow(mobj_t *thing)
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t      *thing;
-    short       floorpic = sec->floorpic;
 
     spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
         LIGHTLEVELS - 1)];
@@ -1118,7 +1117,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         thing->projectfunc(thing);
 
     // Handle all things in sector.
-    if (fixedcolormap || isliquid[floorpic] || floorpic == skyflatnum || !r_shadows)
+    if (fixedcolormap || sec->isliquid || sec->floorpic == skyflatnum || !r_shadows)
         for (thing = sec->thinglist; thing; thing = thing->snext)
         {
             if (thing->type != MT_SHADOW)

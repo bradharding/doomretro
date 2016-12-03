@@ -182,6 +182,8 @@ typedef struct
     // or ceilingpic, because the rest of DOOM needs to know which is sky
     // and which isn't, etc.
     int                 sky;
+
+    dboolean            isliquid;
 } sector_t;
 
 //

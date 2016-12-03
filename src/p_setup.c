@@ -2457,7 +2457,7 @@ void P_GetMapLiquids(int map)
     int i;
 
     for (i = 0; i < liquidlumps; ++i)
-        isliquid[mapinfo[QualifyMap(map)].liquid[i]] = true;
+        sectors[mapinfo[QualifyMap(map)].liquid[i]].isliquid = true;
 }
 
 int P_GetMapMusic(int map)
@@ -2481,7 +2481,7 @@ void P_GetMapNoLiquids(int map)
     int i;
 
     for (i = 0; i < noliquidlumps; ++i)
-        isliquid[mapinfo[QualifyMap(map)].noliquid[i]] = false;
+        sectors[mapinfo[QualifyMap(map)].noliquid[i]].isliquid = false;
 }
 
 int P_GetMapPar(int map)

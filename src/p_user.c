@@ -142,7 +142,7 @@ void P_CalcHeight(player_t *player)
         const struct msecnode_s     *seclist;
 
         for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-            if (!isliquid[seclist->m_sector->floorpic] || seclist->m_sector->heightsec != -1)
+            if (!seclist->m_sector->isliquid || seclist->m_sector->heightsec != -1)
             {
                 liquid = false;
                 break;

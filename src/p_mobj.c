@@ -596,7 +596,7 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     // [BH] don't clip sprite if no longer in liquid
-    if (!isliquid[sector->floorpic])
+    if (!sector->isliquid)
         mobj->flags2 &= ~MF2_FEETARECLIPPED;
 
     flags2 = mobj->flags2;
@@ -770,7 +770,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     if (mobj->flags2 & MF2_SHADOW)
         P_SpawnShadow(mobj);
 
-    if (!(mobj->flags2 & MF2_NOFOOTCLIP) && isliquid[sector->floorpic] && sector->heightsec == -1)
+    if (!(mobj->flags2 & MF2_NOFOOTCLIP) && sector->isliquid && sector->heightsec == -1)
         mobj->flags2 |= MF2_FEETARECLIPPED;
 
     prevx = x;
@@ -1146,7 +1146,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index)
     if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD)) && mobj->blood && !chex && r_bloodsplats_max)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
-        if (r_corpses_moreblood && !isliquid[mobj->subsector->sector->floorpic])
+        if (r_corpses_moreblood && !mobj->subsector->sector->isliquid)
             P_SpawnMoreBlood(mobj);
     }
 
@@ -1282,9 +1282,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 {
     subsector_t *subsec = R_PointInSubsector(x, y);
     sector_t    *sec = subsec->sector;
-    short       floorpic = sec->floorpic;
 
-    if (!isliquid[floorpic] && sec->floorheight <= maxheight && floorpic != skyflatnum)
+    if (!sec->isliquid && sec->floorheight <= maxheight && sec->floorpic != skyflatnum)
     {
         mobj_t  *newsplat = Z_Calloc(1, sizeof(*newsplat), PU_LEVEL, NULL);
 
