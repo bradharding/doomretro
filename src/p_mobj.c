@@ -1299,7 +1299,6 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         }
         else
             newsplat->colfunc = bloodsplatcolfunc;
-        newsplat->projectfunc = R_ProjectBloodSplat;
         newsplat->blood = blood;
 
         newsplat->x = x;
