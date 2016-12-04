@@ -114,34 +114,6 @@ dboolean                r_translucency = r_translucency_default;
 extern int              viewheight2;
 extern dboolean         windowfocused;
 
-void (*colfunc)(void);
-void (*wallcolfunc)(void);
-void (*fbwallcolfunc)(void);
-void (*basecolfunc)(void);
-void (*fuzzcolfunc)(void);
-void (*tlcolfunc)(void);
-void (*tl50colfunc)(void);
-void (*tl33colfunc)(void);
-void (*tlgreencolfunc)(void);
-void (*tlredcolfunc)(void);
-void (*tlredwhitecolfunc1)(void);
-void (*tlredwhitecolfunc2)(void);
-void (*tlredwhite50colfunc)(void);
-void (*tlbluecolfunc)(void);
-void (*tlgreen33colfunc)(void);
-void (*tlred33colfunc)(void);
-void (*tlblue25colfunc)(void);
-void (*redtobluecolfunc)(void);
-void (*transcolfunc)(void);
-void (*spanfunc)(void);
-void (*skycolfunc)(void);
-void (*redtogreencolfunc)(void);
-void (*tlredtoblue33colfunc)(void);
-void (*tlredtogreen33colfunc)(void);
-void (*psprcolfunc)(void);
-void (*bloodsplatcolfunc)(void);
-void (*megaspherecolfunc)(void);
-
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,
@@ -532,6 +504,7 @@ void R_InitColumnFunctions(void)
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
         bloodsplatcolfunc = R_DrawBloodSplatColumn;
         megaspherecolfunc = R_DrawMegaSphereColumn;
+        supershotguncolfunc = R_DrawTranslucentSuperShotgunColumn;
     }
     else
     {
@@ -551,6 +524,7 @@ void R_InitColumnFunctions(void)
         tlredtogreen33colfunc = R_DrawRedToGreenColumn;
         bloodsplatcolfunc = R_DrawSolidBloodSplatColumn;
         megaspherecolfunc = R_DrawSolidMegaSphereColumn;
+        supershotguncolfunc = R_DrawSuperShotgunColumn;
     }
 
     spanfunc = R_DrawSpan;

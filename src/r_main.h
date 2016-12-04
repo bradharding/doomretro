@@ -132,6 +132,7 @@ void (*psprcolfunc)(void);
 void (*spanfunc)(void);
 void (*bloodsplatcolfunc)(void);
 void (*megaspherecolfunc)(void);
+void (*supershotguncolfunc)(void);
 
 //
 // Utility functions.

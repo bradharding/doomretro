@@ -1199,8 +1199,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     {
         if (spr == SPR_SHT2 && (!frame || (frame & FF_FULLBRIGHT)) && !SHT2A0
             && nearestcolors[71] == 71)
-            vis->colfunc = (r_translucency ? R_DrawTranslucentSuperShotgunColumn :
-                R_DrawSuperShotgunColumn);
+            vis->colfunc = supershotguncolfunc;
         else if (r_translucency)
         {
             if (spr == SPR_SHT2)
