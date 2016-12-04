@@ -279,7 +279,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
         MISFA0 += M_StringCompare(lump->name, "MISFA0");
         MISFB0 += M_StringCompare(lump->name, "MISFB0");
 
-        if (M_StringCompare(lump->name, "SHT2A0"))
+        if (M_StringCompare(lump->name, "SHT2A0") && !BTSX)
             SHT2A0 = true;
     }
 
