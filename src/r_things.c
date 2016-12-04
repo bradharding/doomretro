@@ -77,6 +77,7 @@ spritedef_t             *sprites;
 
 static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
+static dboolean         interpolate;
 
 dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
 
@@ -698,12 +699,7 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             topoffset;
 
     // [AM] Interpolate between current and last position, if prudent.
-    if (vid_capfps != TICRATE
-        // Don't interpolate if the mobj did something
-        // that would necessitate turning it off for a tic.
-        && thing->interp
-        // Don't interpolate during a paused state.
-        && !paused && !menuactive && !consoleactive)
+    if (thing->interp && interpolate)
     {
         fx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
         fy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
@@ -997,7 +993,7 @@ void R_ProjectShadow(mobj_t *thing)
     fixed_t             fz;
     angle_t             fangle;
 
-    if (vid_capfps != TICRATE && thing->interp && !paused && !menuactive && !consoleactive)
+    if (thing->interp && interpolate)
     {
         fx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
         fy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
@@ -1070,8 +1066,6 @@ void R_ProjectShadow(mobj_t *thing)
     // store information in a vissprite
     vis = &shadowvissprites[num_shadowvissprite++];
 
-    vis->mobjflags = 0;
-    vis->mobjflags2 = 0;
     vis->type = MT_SHADOW;
     vis->scale = xscale;
     vis->gx = fx;
@@ -1117,7 +1111,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         R_ProjectBloodSplat(thing);
 
     // Handle all things in sector.
-    if (fixedcolormap || sec->isliquid || sec->floorpic == skyflatnum || !r_shadows)
+    if (sec->isliquid || fixedcolormap || sec->floorpic == skyflatnum || !r_shadows)
     {
         for (thing = sec->thinglist; thing; thing = thing->snext)
             if (thing->type != MT_SHADOW)
@@ -1613,6 +1607,8 @@ void R_DrawMasked(void)
 {
     drawseg_t   *ds;
     int         i;
+
+    interpolate = (vid_capfps != TICRATE && !paused && !menuactive && !consoleactive);
 
     // draw all blood splats
     for (i = num_bloodvissprite; --i >= 0;)
