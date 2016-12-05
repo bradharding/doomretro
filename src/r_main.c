@@ -39,6 +39,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_timer.h"
+#include "m_random.h"
 #include "p_local.h"
 #include "r_sky.h"
 #include "v_video.h"
@@ -109,8 +110,11 @@ int                     extralight;
 
 dboolean                r_dither = r_dither_default;
 dboolean                r_homindicator = r_homindicator_default;
+dboolean                r_shake_damage = r_shake_damage_default;
+dboolean                r_shake_explode = r_shake_explode_default;
 dboolean                r_translucency = r_translucency_default;
 
+extern int              explosiontics;
 extern int              viewheight2;
 extern dboolean         windowfocused;
 
@@ -651,6 +655,16 @@ void R_SetupFrame(player_t *player)
         viewangle = mo->angle;
     }
 
+    if ((explosiontics || (r_shake_damage && player->damagecount))
+        && !consoleactive && !menuactive && !paused)
+    {
+        viewx += M_RandomInt(-2, 2) * FRACUNIT;
+        viewy += M_RandomInt(-2, 2) * FRACUNIT;
+        viewz += M_RandomInt(0, 2) * FRACUNIT;
+        if (explosiontics)
+            --explosiontics;
+    }
+
     extralight = player->extralight << 1;
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
@@ -724,8 +738,17 @@ void R_RenderPlayerView(player_t *player)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
                 ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? 176 : 0));
 
-        // The head node is the last node output.
-        R_RenderBSPNode(numnodes - 1);
+        // Make displayed player invisible locally
+        if ((explosiontics || player->damagecount) && gamestate == GS_LEVEL)
+        {
+            player->mo->flags2 |= MF2_DONTDRAW;
+            R_RenderBSPNode(numnodes - 1);      // head node is the last node output
+            player->mo->flags2 &= ~MF2_DONTDRAW;
+        }
+        else
+        {
+            R_RenderBSPNode(numnodes - 1);      // head node is the last node output
+        }
 
         NetUpdate();
 

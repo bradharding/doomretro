@@ -84,10 +84,16 @@ dirtype_t diags[] =
     DI_SOUTHEAST
 };
 
+#define EXPLOSIONTICS   (3 * TICRATE)
+#define EXPLOSIONRANGE  (512 * FRACUNIT)
+
+int     explosiontics = 0;
+
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 extern dboolean con_obituaries;
 extern dboolean r_rockettrails;
+extern dboolean r_shake_explode;
 extern int      stat_monsterskilled;
 
 //
@@ -1791,6 +1797,12 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    if (actor->type == MT_BARREL && r_shake_explode)
+    {
+        if (viewplayer->mo->z <= viewplayer->mo->floorz
+            && P_ApproxDistance(actor->x - viewplayer->mo->x, actor->y - viewplayer->mo->y) < EXPLOSIONRANGE)
+            explosiontics = EXPLOSIONTICS;
+    }
     P_RadiusAttack(actor, actor->target, 128);
 }
 

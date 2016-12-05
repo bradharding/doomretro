@@ -65,8 +65,6 @@
 #include "wi_stuff.h"
 #include "z_zone.h"
 
-void G_PlayerReborn(void);
-
 void G_DoReborn(void);
 
 void G_DoLoadLevel(void);
@@ -220,6 +218,7 @@ gameaction_t    loadaction = ga_nothing;
 unsigned int    stat_mapscompleted = 0;
 
 extern dboolean alwaysrun;
+extern dboolean explosiontics;
 extern int      st_palette;
 extern int      pagetic;
 extern dboolean transferredsky;
@@ -993,7 +992,6 @@ void G_Ticker(void)
 
                     player->fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
-                    I_UpdateBlitFunc(false);
                 }
                 else
                 {
@@ -1112,6 +1110,7 @@ void G_PlayerReborn(void)
 
     markpointnum = 0;
     infight = false;
+    explosiontics = 0;
 }
 
 //
@@ -1187,8 +1186,6 @@ void G_DoCompleted(void)
     player_t    *player = &players[0];
 
     gameaction = ga_nothing;
-
-    I_UpdateBlitFunc(false);
 
     // [BH] allow the exit switch to turn on before the screen wipes
     player->mo->momx = 0;

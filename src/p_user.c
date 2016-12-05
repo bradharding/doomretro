@@ -57,7 +57,6 @@ void G_RemoveChoppers(void);
 int             movebob = movebob_default;
 int             stillbob = stillbob_default;
 dboolean        r_liquid_lowerview = r_liquid_lowerview_default;
-int             r_shakescreen = r_shakescreen_default;
 
 static dboolean onground;
 
@@ -213,18 +212,6 @@ static void P_MovePlayer(player_t *player)
 }
 
 //
-// P_ReduceDamageCount
-//
-static void P_ReduceDamageCount(player_t *player)
-{
-    if (player->damagecount)
-        --player->damagecount;
-
-    if (r_shakescreen && !software)
-        I_UpdateBlitFunc(player->damagecount);
-}
-
-//
 // P_DeathThink
 // Fall on your face when dying.
 // Decrease POV height to floor height.
@@ -265,15 +252,16 @@ static void P_DeathThink(player_t *player)
             // Looking at killer, so fade damage flash down.
             mo->angle = angle;
 
-            P_ReduceDamageCount(player);
+            if (player->damagecount)
+                player->damagecount--;
 
             facingkiller = true;
         }
         else
             mo->angle += (delta < ANG180 ? ANG5 : -ANG5);
     }
-    else
-        P_ReduceDamageCount(player);
+    else if (player->damagecount)
+        player->damagecount--;
 
     if (consoleheight)
         return;
@@ -495,7 +483,8 @@ void P_PlayerThink(player_t *player)
     if (player->powers[pw_ironfeet] > 0)
         player->powers[pw_ironfeet]--;
 
-    P_ReduceDamageCount(player);
+    if (player->damagecount)
+       player->damagecount--;
 
     if (player->bonuscount)
         player->bonuscount--;

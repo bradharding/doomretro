@@ -296,7 +296,10 @@ typedef enum
     MF2_MASSACRE                  = 0x08000000,
 
     // Object is a map decoration
-    MF2_DECORATION                = 0x10000000
+    MF2_DECORATION                = 0x10000000,
+
+    // Don't draw object
+    MF2_DONTDRAW                  = 0x20000000
 } mobjflag2_t;
 
 // Map Object definition.

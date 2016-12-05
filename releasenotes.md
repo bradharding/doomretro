@@ -2,6 +2,11 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the handling of large numbers of blood splats.
 * A bug has been fixed whereby in some rare instances objects would get suspended in midair when the sector they were on lowered.
+* The following changes have been made to the `r_shakescreen` CVAR:
+  * The CVAR has been renamed to `r_shake_damage`.
+  * The status bar, HUD, and alternate HUD no longer shake when the player is damaged.
+  * The effect now shakes the screen by randomly shifting it up, left and right, rather than rotating it left and right.
+* The screen will now shake when the player is near enought to a barrel when it explodes. This feature may be disabled using the new `r_shake_explode` CVAR.
 
 ---
 

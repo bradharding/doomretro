@@ -171,7 +171,8 @@ extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern int              r_screensize;
 extern dboolean         r_shadows;
-extern int              r_shakescreen;
+extern dboolean         r_shake_damage;
+extern dboolean         r_shake_explode;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
@@ -721,8 +722,10 @@ consolecmd_t consolecmds[] =
         "The screen size (<b>0</b> to <b>8</b>)."),
     CVAR_BOOL(r_shadows, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles sprites casting shadows."),
-    CVAR_INT(r_shakescreen, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOALIAS,
-        "The amount the screen shakes when the player is attacked."),
+    CVAR_BOOL(r_shake_damage, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
+        "Toggles shaking the screen when the player is damaged."),
+    CVAR_BOOL(r_shake_explode, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
+        "Toggles shaking the screen when the player is near an\nexploding barrel."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLALIAS,
         "Toggles the translucency of sprites and textures."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
@@ -4615,7 +4618,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parm1, char *parm2, char *pa
 
     bool_cvars_func2(cmd, parm1, "", "");
     if (vid_showfps != vid_showfps_old)
-        I_UpdateBlitFunc(players[0].damagecount);
+        I_UpdateBlitFunc();
 }
 
 //

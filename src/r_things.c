@@ -698,6 +698,9 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             offset;
     fixed_t             topoffset;
 
+    if (flags2 & MF2_DONTDRAW)
+        return;
+
     // [AM] Interpolate between current and last position, if prudent.
     if (thing->interp && interpolate)
     {
