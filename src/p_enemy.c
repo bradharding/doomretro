@@ -84,7 +84,7 @@ dirtype_t diags[] =
     DI_SOUTHEAST
 };
 
-#define EXPLOSIONTICS   (3 * TICRATE)
+#define EXPLOSIONTICS   (2 * TICRATE)
 #define EXPLOSIONRANGE  (512 * FRACUNIT)
 
 int     explosiontics = 0;
