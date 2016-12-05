@@ -660,7 +660,6 @@ void R_SetupFrame(player_t *player)
     {
         viewx += M_RandomInt(-2, 2) * FRACUNIT;
         viewy += M_RandomInt(-2, 2) * FRACUNIT;
-        viewz += M_RandomInt(0, 2) * FRACUNIT;
         if (explosiontics)
             --explosiontics;
     }
