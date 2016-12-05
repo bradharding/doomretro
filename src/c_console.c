@@ -148,12 +148,13 @@ static byte     c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
 static byte     c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
 static int      consolecaretcolor = 4;
+static int      consolelowfpscolor = 180;
+static int      consolemidfpscolor = 223;
 static int      consolehighfpscolor = 116;
 static int      consoleinputcolor = 4;
 static int      consoleselectedinputcolor = 4;
 static int      consoleselectedinputbackgroundcolor = 100;
 static int      consoleinputtooutputcolor = 4;
-static int      consolelowfpscolor = 180;
 static int      consoletitlecolor = 88;
 static int      consolememorycolor = 88;
 static int      consoleplayermessagecolor = 161;
@@ -519,12 +520,13 @@ void C_Init(void)
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
     consolecaretcolor = nearestcolors[consolecaretcolor];
+    consolelowfpscolor = nearestcolors[consolelowfpscolor];
+    consolemidfpscolor = nearestcolors[consolemidfpscolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
     consoleinputcolor = nearestcolors[consoleinputcolor];
     consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
     consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
     consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
-    consolelowfpscolor = nearestcolors[consolelowfpscolor];
     consoletitlecolor = nearestcolors[consoletitlecolor];
     consolememorycolor = nearestcolors[consolememorycolor];
     consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
@@ -846,7 +848,8 @@ void C_UpdateFPS(void)
         M_snprintf(buffer, 16, "%i FPS", fps);
 
         C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
-            CONSOLETEXTY, buffer, (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor));
+            CONSOLETEXTY, buffer, (fps < TICRATE ? consolelowfpscolor :
+            (vid_capfps == TICRATE || fps >= 60 ? consolehighfpscolor : consolemidfpscolor)));
     }
 }
 
