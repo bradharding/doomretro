@@ -655,14 +655,22 @@ void R_SetupFrame(player_t *player)
         viewangle = mo->angle;
     }
 
-    if ((explosiontics || (r_shake_damage && player->damagecount))
-        && !consoleactive && !menuactive && !paused)
+    if (explosiontics)
     {
-        viewx += M_RandomInt(-2, 2) * FRACUNIT;
-        viewy += M_RandomInt(-2, 2) * FRACUNIT;
-        viewz += M_RandomInt(-1, 1) * FRACUNIT;
-        if (explosiontics)
+        if (!consoleactive && !menuactive && !paused)
+        {
+            viewx += M_RandomInt(-2, 2) * FRACUNIT;
+            viewy += M_RandomInt(-2, 2) * FRACUNIT;
             --explosiontics;
+        }
+    }
+    else if (player->damagecount && r_shake_damage)
+    {
+        if (!consoleactive && !menuactive && !paused)
+        {
+            viewx += M_RandomInt(-1, 1) * FRACUNIT;
+            viewy += M_RandomInt(-1, 1) * FRACUNIT;
+        }
     }
 
     extralight = player->extralight << 1;
