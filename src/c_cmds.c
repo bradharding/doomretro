@@ -725,7 +725,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_shake_damage, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
         "Toggles shaking the screen when the player is damaged."),
     CVAR_BOOL(r_shake_explode, "", bool_cvars_func1, bool_cvars_func2, BOOLALIAS,
-        "Toggles shaking the screen when the player is near an\nexploding barrel."),
+        "Toggles shaking the screen when the player is near an\nexploding barrel or rocket."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLALIAS,
         "Toggles the translucency of sprites and textures."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
