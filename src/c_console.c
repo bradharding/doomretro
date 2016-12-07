@@ -1104,7 +1104,6 @@ static dboolean C_ValidateInput(char *input)
                 && consolecmds[i].func1(consolecmds[i].name, parm1, parm2, parm3)
                 && (consolecmds[i].parameters || (!*parm1 && !*parm2 && !*parm3)))
             {
-                C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
                 consolecmds[i].func2(consolecmds[i].name, uncommify(parm1), parm2, parm3);
                 return true;
             }
@@ -1202,6 +1201,7 @@ dboolean C_Responder(event_t *ev)
                 if (*consoleinput)
                 {
                     char        *strings[255];
+                    char        *input = strdup(consoleinput);
                     int         i = 0;
                     dboolean    validinput = false;
 
@@ -1216,6 +1216,8 @@ dboolean C_Responder(event_t *ev)
 
                     if (validinput)
                     {
+                        C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
+
                         // clear input
                         consoleinput[0] = '\0';
                         caretpos = selectstart = selectend = 0;
