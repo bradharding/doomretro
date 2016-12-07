@@ -1201,7 +1201,20 @@ dboolean C_Responder(event_t *ev)
             case KEY_ENTER:
                 if (*consoleinput)
                 {
-                    if (C_ValidateInput(consoleinput))
+                    char        *strings[255];
+                    int         i = 0;
+                    dboolean    validinput = false;
+
+                    strings[i] = strtok(consoleinput, ";");
+                    while (strings[i])
+                    {
+                        if (C_ValidateInput(strings[i]))
+                            validinput = true;
+
+                        strings[++i] = strtok(NULL, ";");
+                    }
+
+                    if (validinput)
                     {
                         // clear input
                         consoleinput[0] = '\0';

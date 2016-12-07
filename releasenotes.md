@@ -9,6 +9,7 @@
   * The screen now shakes by shifting the player’s view in random directions rather than randomly rotating the entire screen left and right.
 * The screen will now shake when the player is near enough to an exploding barrel or rocket. This feature may be disabled using the new `r_shake_explode` CVAR.
 * When the `vid_showfps` CVAR is `on`, the frames per second displayed will be amber in color if it is between 35 and 60 FPS.
+* Multiple commands, separated by semicolons, may now be entered in the console.
 
 ---
 
