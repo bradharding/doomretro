@@ -73,6 +73,7 @@
 #endif
 
 #define BINDCMDFORMAT           "<i>control</i> [<b>+</b><i>action</i>]"
+#define EXECCMDFORMAT           "<i>filename</i>"
 #define GIVECMDSHORTFORMAT      "<i>items</i>"
 #define GIVECMDLONGFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
@@ -344,6 +345,7 @@ static void cmdlist_cmd_func2(char *, char *, char *, char *);
 static void condump_cmd_func2(char *, char *, char *, char *);
 static void cvarlist_cmd_func2(char *, char *, char *, char *);
 static void endgame_cmd_func2(char *, char *, char *, char *);
+static void exec_cmd_func2(char *, char *, char *, char *);
 static void exitmap_cmd_func2(char *, char *, char *, char *);
 static dboolean fastmonsters_cmd_func1(char *, char *, char *, char *);
 static void fastmonsters_cmd_func2(char *, char *, char *, char *);
@@ -564,6 +566,8 @@ consolecmd_t consolecmds[] =
         "Ends a game."),
     CVAR_STR(episode, "", null_func1, str_cvars_func2, CF_READONLY,
         "The current <i><b>DOOM</b></i> episode."),
+    CMD(exec, "", null_func1, exec_cmd_func2, 1, "<i>filename</i>",
+        "Executes a series of commands stored in <i>filename</i>."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, 0, "",
         "Exits the current map."),
     CVAR_STR(expansion, "", null_func1, str_cvars_func2, CF_READONLY,
@@ -1438,6 +1442,42 @@ static void endgame_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
 {
     M_EndingGame();
     C_HideConsoleFast();
+}
+
+//
+// exec CCMD
+//
+static void exec_cmd_func2(char *cmd, char *parm1, char *parm2, char *parm3)
+{
+    if (*parm2)
+        parm1 = M_StringJoin(parm1, " ", parm2, NULL);
+    if (*parm3)
+        parm1 = M_StringJoin(parm1, " ", parm3, NULL);
+
+    if (!*parm1)
+        C_Output("<b>%s</b> %s", cmd, EXECCMDFORMAT);
+    else
+    {
+        FILE            *file = fopen(parm1, "r");
+
+        if (!file)
+            return;
+
+        while (!feof(file))
+        {
+            char        strparm[256] = "";
+
+            if (fscanf(file, "%255s\n", strparm) != 1)
+                continue;
+
+            if (strparm[0] == ';')
+                continue;
+
+            C_ValidateInput(strparm);
+        }
+
+        fclose(file);
+    }
 }
 
 //

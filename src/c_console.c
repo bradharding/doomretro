@@ -1048,7 +1048,7 @@ void C_Drawer(void)
         consoleactive = false;
 }
 
-static dboolean C_ValidateInput(char *input)
+dboolean C_ValidateInput(char *input)
 {
     int i = 0;
 
