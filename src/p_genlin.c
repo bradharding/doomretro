@@ -55,21 +55,21 @@
 //
 dboolean EV_DoGenFloor(line_t *line)
 {
-    int         secnum = -1;
-    dboolean    rtn = false;
-    dboolean    manual = false;
-    sector_t    *sec;
-    floormove_t *floor;
-    unsigned    value = (unsigned int)line->special - GenFloorBase;
+    int                 secnum = -1;
+    dboolean            rtn = false;
+    dboolean            manual = false;
+    sector_t            *sec;
+    floormove_t         *floor;
+    unsigned int        value = (unsigned int)line->special - GenFloorBase;
 
     // parse the bit fields in the line's special type
-    int         Crsh = (value & FloorCrush) >> FloorCrushShift;
-    int         ChgT = (value & FloorChange) >> FloorChangeShift;
-    int         Targ = (value & FloorTarget) >> FloorTargetShift;
-    int         Dirn = (value & FloorDirection) >> FloorDirectionShift;
-    int         ChgM = (value & FloorModel) >> FloorModelShift;
-    int         Sped = (value & FloorSpeed) >> FloorSpeedShift;
-    int         Trig = (value & TriggerType) >> TriggerTypeShift;
+    int                 Crsh = (value & FloorCrush) >> FloorCrushShift;
+    int                 ChgT = (value & FloorChange) >> FloorChangeShift;
+    int                 Targ = (value & FloorTarget) >> FloorTargetShift;
+    int                 Dirn = (value & FloorDirection) >> FloorDirectionShift;
+    int                 ChgM = (value & FloorModel) >> FloorModelShift;
+    int                 Sped = (value & FloorSpeed) >> FloorSpeedShift;
+    int                 Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)

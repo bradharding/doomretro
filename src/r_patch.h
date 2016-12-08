@@ -64,7 +64,7 @@ typedef struct
 {
     int                 width;
     int                 height;
-    unsigned            widthmask;
+    unsigned int        widthmask;
 
     int                 leftoffset;
     int                 topoffset;
