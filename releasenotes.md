@@ -10,6 +10,7 @@
 * The screen will now shake when the player is near enough to an exploding barrel or rocket. This feature may be disabled using the new `r_shake_explode` CVAR.
 * When the `vid_showfps` CVAR is `on`, the frames per second displayed will be amber in color if it is between 35 and 60 FPS.
 * An `exec` CCMD has been implemented which allows a series of commands stored in a file to be executed as if they had been typed in at the console directly.
+* Textures that have patches with negative offsets (such as `TEKWALL1` and `STEP2`) now appear correctly.
 
 ---
 

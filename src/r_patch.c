@@ -369,37 +369,6 @@ static void createTextureCompositePatch(int id)
                 oy = texpatch->originy;
                 count = oldColumn->length;
 
-                // the original renderer had several bugs which we reproduce here
-                if (countsInColumn[tx].patches > 1)
-                {
-                    // when there are multiple patches, then we need to handle the
-                    // column differently
-                    if (!i)
-                    {
-                        // draw first patch at original position, it will be partly
-                        // overdrawn below
-                        for (y = 0; y < count; ++y)
-                        {
-                            int ty = oy + top + y;
-
-                            if (ty < 0)
-                                continue;
-                            if (ty >= composite_patch->height)
-                                break;
-                            composite_patch->pixels[tx * composite_patch->height + ty]
-                                = oldColumnPixelData[y];
-                        }
-                    }
-                    // do the buggy clipping
-                    if (oy + top < 0)
-                    {
-                        count += oy;
-                        oy = 0;
-                    }
-                }
-                else
-                    oy = 0;     // with a single patch only negative y origins are wrong
-
                 // set up the post's data
                 post->topdelta = top + oy;
                 post->length = count;
