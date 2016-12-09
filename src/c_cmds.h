@@ -41,6 +41,8 @@
 
 #include "doomtype.h"
 
+#define MAXALIASES              256
+
 #define CMDLISTTITLE            "CCMD\tDESCRIPTION"
 #define CVARLISTTITLE           "CVAR\tDEFAULT\tDESCRIPTION"
 #define PLAYERSTATSTITLE        "STAT\tCURRENT MAP\tTOTAL"
@@ -111,8 +113,17 @@ typedef struct
     char                *defaultstring;
 } consolecmd_t;
 
+typedef struct
+{
+    char                name[128];
+    char                string[128];
+} alias_t;
+
 extern action_t         actions[];
 extern control_t        controls[];
 extern consolecmd_t     consolecmds[];
+extern alias_t          aliases[];
+
+void C_ExecuteAlias(char *alias);
 
 #endif

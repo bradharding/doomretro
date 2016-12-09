@@ -72,6 +72,7 @@
 #define MAX_PATH                260
 #endif
 
+#define ALIASCMDFORMAT          "<i>name</i> <b>\"</b><i>commands</i><b>\"</b>"
 #define BINDCMDFORMAT           "<i>control</i> [<b>+</b><i>action</i>]"
 #define EXECCMDFORMAT           "<i>filename</i>"
 #define GIVECMDSHORTFORMAT      "<i>items</i>"
@@ -86,6 +87,8 @@
 #define SPAWNCMDFORMAT          "<i>monster</i>|<i>item</i>"
 #define TELEPORTCMDFORMAT       "<i>x</i> <i>y</i>"
 #define UNBINDCMDFORMAT         "<i>control</i>"
+
+alias_t                 aliases[MAXALIASES];
 
 int                     ammo;
 int                     armor;
@@ -339,6 +342,7 @@ static dboolean cheat_func1(char *, char *);
 static dboolean game_func1(char *, char *);
 static dboolean null_func1(char *, char *);
 
+static void alias_cmd_func2(char *, char *);
 static void bindlist_cmd_func2(char *, char *);
 static void clear_cmd_func2(char *, char *);
 static void cmdlist_cmd_func2(char *, char *);
@@ -494,6 +498,8 @@ static char *C_LookupAliasFromValue(int value, valuealias_type_t valuealiastype)
 
 consolecmd_t consolecmds[] =
 {
+    CMD(alias, "", null_func1, alias_cmd_func2, 2, ALIASCMDFORMAT,
+        "Creates a new CCMD which executes all instructions in a string of commands."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player always running when moving."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -890,6 +896,62 @@ static dboolean game_func1(char *cmd, char *parms)
 static dboolean null_func1(char *cmd, char *parms)
 {
     return true;
+}
+
+//
+// alias CCMD
+//
+void C_ExecuteAlias(char *alias)
+{
+    int i;
+
+    for (i = 0; i < MAXALIASES; ++i)
+        if (M_StringCompare(alias, aliases[i].name))
+        {
+            char        *strings[255];
+            int         i = 0;
+
+            strings[i] = strtok(aliases[i].string, ";");
+            while (strings[i])
+            {
+                if (!C_ValidateInput(strings[i]))
+                    break;
+                strings[++i] = strtok(NULL, ";");
+            }
+            return;
+        }
+}
+
+static void alias_cmd_func2(char *cmd, char *parms)
+{
+    int         i;
+    char        parm1[128] = "";
+    char        parm2[128] = "";
+
+    sscanf(parms, "%128s %128[^\n]", parm1, parm2);
+
+    if (!*parm1)
+    {
+        C_Output("<b>%s</b> %s", cmd, ALIASCMDFORMAT);
+        return;
+    }
+
+    C_StripQuotes(parm2);
+
+    for (i = 0; i < MAXALIASES; ++i)
+        if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
+        {
+            M_StringCopy(aliases[i].string, parm2, 128);
+            return;
+        }
+
+    for (i = 0; i < MAXALIASES; ++i)
+        if (!*aliases[i].name)
+        {
+            M_StringCopy(aliases[i].name, parm1, 128);
+            M_StringCopy(aliases[i].string, parm2, 128);
+            return;
+        }
 }
 
 //
