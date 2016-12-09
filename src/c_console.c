@@ -1074,7 +1074,7 @@ dboolean C_ValidateInput(char *input)
                     if ((M_StringCompare(cmd, consolecmds[i].name)
                         || M_StringCompare(cmd, consolecmds[i].alternate))
                         && length == strlen(cmd) + 2
-                        && consolecmds[i].func1(consolecmds[i].name, consolecheatparm, "", ""))
+                        && consolecmds[i].func1(consolecmds[i].name, consolecheatparm))
                     {
                         M_StringCopy(consolecheat, cmd, 255);
                         return true;
@@ -1083,7 +1083,7 @@ dboolean C_ValidateInput(char *input)
             }
             else if ((M_StringCompare(input, consolecmds[i].name)
                 || M_StringCompare(input, consolecmds[i].alternate))
-                && consolecmds[i].func1(consolecmds[i].name, "", "", ""))
+                && consolecmds[i].func1(consolecmds[i].name, ""))
             {
                 M_StringCopy(consolecheat, input, 255);
                 return true;
@@ -1091,21 +1091,17 @@ dboolean C_ValidateInput(char *input)
         }
         else
         {
-            char        parm1[256] = "";
-            char        parm2[256] = "";
-            char        parm3[256] = "";
+            char        parms[128] = "";
 
-            sscanf(input, "%255s %255s %255s %255s", cmd, parm1, parm2, parm3);
-            C_StripQuotes(parm1);
-            C_StripQuotes(parm2);
-            C_StripQuotes(parm3);
+            sscanf(input, "%128s %128[^\n]", cmd, parms);
+            C_StripQuotes(parms);
             if ((M_StringCompare(cmd, consolecmds[i].name)
                 || M_StringCompare(cmd, consolecmds[i].alternate))
-                && consolecmds[i].func1(consolecmds[i].name, parm1, parm2, parm3)
-                && (consolecmds[i].parameters || (!*parm1 && !*parm2 && !*parm3)))
+                && consolecmds[i].func1(consolecmds[i].name, parms)
+                && (consolecmds[i].parameters || !*parms))
             {
                 C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
-                consolecmds[i].func2(consolecmds[i].name, uncommify(parm1), parm2, parm3);
+                consolecmds[i].func2(consolecmds[i].name, uncommify(parms));
                 return true;
             }
         }

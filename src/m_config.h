@@ -469,14 +469,14 @@ typedef enum
 
 typedef enum
 {
-    NOALIAS,
-    BOOLALIAS,
-    DETAILALIAS,
-    GAMMAALIAS,
-    BLOODALIAS,
-    UNITSALIAS,
-    CAPALIAS
-} alias_type_t;
+    NOVALUEALIAS,
+    BOOLVALUEALIAS,
+    DETAILVALUEALIAS,
+    GAMMAVALUEALIAS,
+    BLOODVALUEALIAS,
+    UNITSVALUEALIAS,
+    CAPVALUEALIAS
+} valuealias_type_t;
 
 typedef struct
 {
@@ -489,17 +489,17 @@ typedef struct
     // Type of the variable
     default_type_t      type;
 
-    alias_type_t        aliastype;
+    valuealias_type_t   valuealiastype;
 } default_t;
 
 typedef struct
 {
     char                *text;
     int                 value;
-    alias_type_t        type;
-} alias_t;
+    valuealias_type_t   type;
+} valuealias_t;
 
-extern alias_t          aliases[];
+extern valuealias_t     valuealiases[];
 
 void M_LoadCVARs(char *filename);
 void M_SaveCVARs(void);
