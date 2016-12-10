@@ -72,7 +72,7 @@
 #define MAX_PATH                260
 #endif
 
-#define ALIASCMDFORMAT          "<i>name</i> <b>\"</b><i>commands</i><b>\"</b>"
+#define ALIASCMDFORMAT          "<i>alias</i> <b>\"</b><i>commands</i><b>\"</b>"
 #define BINDCMDFORMAT           "<i>control</i> [<b>+</b><i>action</i>]"
 #define EXECCMDFORMAT           "<i>filename</i>"
 #define GIVECMDSHORTFORMAT      "<i>items</i>"
