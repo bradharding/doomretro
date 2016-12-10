@@ -551,6 +551,14 @@ void M_SaveCVARs(void)
         ++i;
     }
 
+    fputs("\n", file);
+
+    fputs("; aliases\n", file);
+
+    for (i = 0; i < MAXALIASES; ++i)
+        if (*aliases[i].name)
+            fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
+
     fclose(file);
 
     if (returntowidescreen)
@@ -590,7 +598,8 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
     return (float)atof(strparm);
 }
 
-void C_Bind(char *cmd, char *parm1, char *parm2, char *parm3);
+void alias_cmd_func2(char *cmd, char *parms);
+void bind_cmd_func2(char *cmd, char *parms);
 
 static void M_CheckCVARs(void)
 {
@@ -874,6 +883,8 @@ void M_LoadCVARs(char *filename)
     int         i;
     char        control[64] = "";
     char        action[64] = "";
+    char        alias[128] = "";
+    char        string[128] = "";
     char        defname[64] = "";
     char        strparm[256] = "";
 
@@ -887,13 +898,25 @@ void M_LoadCVARs(char *filename)
         return;
     }
 
+    for (i = 0; i < MAXALIASES; i++)
+    {
+        aliases[i].name[0] = '\0';
+        aliases[i].string[0] = '\0';
+    }
+
     while (!feof(file))
     {
         if (fscanf(file, "bind %63s %63[^\n]\n", control, action) == 2)
         {
             C_StripQuotes(control);
             C_StripQuotes(action);
-            C_Bind("", control, action, "");
+            bind_cmd_func2("", M_StringJoin(control, " ", action, NULL));
+            continue;
+        }
+        else if (fscanf(file, "alias %128s %128[^\n]\n", alias, string) == 2)
+        {
+            C_StripQuotes(string);
+            alias_cmd_func2("", M_StringJoin(alias, " ", string, NULL));
             continue;
         }
         else if (fscanf(file, "%63s %255[^\n]\n", defname, strparm) != 2)

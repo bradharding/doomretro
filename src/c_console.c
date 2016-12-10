@@ -497,12 +497,6 @@ void C_Init(void)
 
     while (*consolecmds[numconsolecmds++].name);
 
-    for (i = 0; i < MAXALIASES; i++)
-    {
-        aliases[i].name[0] = '\0';
-        aliases[i].string[0] = '\0';
-    }
-
     for (i = 0; i < CONSOLEFONTSIZE; i++)
     {
         M_snprintf(buffer, 9, "DRFON%03d", j++);

@@ -342,7 +342,8 @@ static dboolean cheat_func1(char *, char *);
 static dboolean game_func1(char *, char *);
 static dboolean null_func1(char *, char *);
 
-static void alias_cmd_func2(char *, char *);
+void alias_cmd_func2(char *, char *);
+void bind_cmd_func2(char *, char *);
 static void bindlist_cmd_func2(char *, char *);
 static void clear_cmd_func2(char *, char *);
 static void cmdlist_cmd_func2(char *, char *);
@@ -440,8 +441,6 @@ static void vid_vsync_cvar_func2(char *, char *);
 static void vid_widescreen_cvar_func2(char *, char *);
 static void vid_windowposition_cvar_func2(char *, char *);
 static void vid_windowsize_cvar_func2(char *, char *);
-
-void C_Bind(char *, char *);
 
 static int C_LookupValueFromAlias(const char *text, int valuealiastype)
 {
@@ -550,7 +549,7 @@ consolecmd_t consolecmds[] =
         "The player's armor."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically loading the last savegame after the\nplayer dies."),
-    CMD(bind, "", null_func1, C_Bind, 2, BINDCMDFORMAT,
+    CMD(bind, "", null_func1, bind_cmd_func2, 2, BINDCMDFORMAT,
         "Binds an <i>action</i> to a <i>control</i>."),
     CMD(bindlist, "", null_func1, bindlist_cmd_func2, 0, "",
         "Shows a list of all bound controls."),
@@ -922,7 +921,7 @@ void C_ExecuteAlias(char *alias)
         }
 }
 
-static void alias_cmd_func2(char *cmd, char *parms)
+void alias_cmd_func2(char *cmd, char *parms)
 {
     int         i;
     char        parm1[128] = "";
@@ -994,7 +993,7 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
     M_SaveCVARs();
 }
 
-void C_Bind(char *cmd, char *parms)
+void bind_cmd_func2(char *cmd, char *parms)
 {
     int         i = 0;
     char        parm1[128] = "";
@@ -3558,7 +3557,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    C_Bind(cmd, M_StringJoin(parms, " none", NULL));
+    bind_cmd_func2(cmd, M_StringJoin(parms, " none", NULL));
 }
 
 //

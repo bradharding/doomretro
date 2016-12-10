@@ -50,6 +50,7 @@
 #endif
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
@@ -1537,6 +1538,7 @@ static void D_ParseStartupString(const char *string)
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
+    int         i;
     int         p;
     int         choseniwad = 0;
     static char lumpname[6];
@@ -1564,6 +1566,12 @@ static void D_DoomMainSetup(void)
     modifiedgame = false;
 
     P_InitExtraMobjs();
+
+    for (i = 0; i < MAXALIASES; i++)
+    {
+        aliases[i].name[0] = '\0';
+        aliases[i].string[0] = '\0';
+    }
 
     D_ProcessDehCommandLine();
 
