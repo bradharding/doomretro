@@ -498,7 +498,7 @@ static char *C_LookupAliasFromValue(int value, valuealias_type_t valuealiastype)
 consolecmd_t consolecmds[] =
 {
     CMD(alias, "", null_func1, alias_cmd_func2, 2, ALIASCMDFORMAT,
-        "Creates a new CCMD which executes all instructions in a string of commands."),
+        "Creates an <i>alias</i> that executes a string of <i>commands</i>."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player always running when moving."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
