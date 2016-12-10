@@ -1,7 +1,7 @@
 ### DOOM Retro v2.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the handling of large numbers of blood splats.
-* *DOOM Retro’s* icon splash screen has been redesigned.
+* *DOOM Retro’s* splash screen has been redesigned.
 * A bug has been fixed whereby in some rare instances objects would get suspended in midair when the sector they were on lowered.
 * The following changes have been made to the `r_shakescreen` CVAR:
   * The CVAR has been renamed to `r_shake_damage`.
@@ -11,6 +11,7 @@
 * When the `vid_showfps` CVAR is `on`, the frames per second displayed will be amber in color if it is between 35 and 60 FPS.
 * An `exec` CCMD has been implemented which allows a series of commands stored in a file to be executed as if they had been typed in at the console directly.
 * Textures that have patches with negative offsets (such as `TEKWALL1` and `STEP2`) now appear correctly.
+* A bug has been fixed whereby monsters would continue to fire at the player’s corpse after killing them in some instances.
 
 ---
 
