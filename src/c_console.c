@@ -1113,9 +1113,7 @@ dboolean C_ValidateInput(char *input)
         ++i;
     }
 
-    C_ExecuteAlias(input);
-
-    return false;
+    return C_ExecuteAlias(input);
 }
 
 dboolean C_Responder(event_t *ev)

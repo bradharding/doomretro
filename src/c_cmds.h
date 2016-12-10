@@ -124,6 +124,6 @@ extern control_t        controls[];
 extern consolecmd_t     consolecmds[];
 extern alias_t          aliases[];
 
-void C_ExecuteAlias(char *alias);
+dboolean C_ExecuteAlias(char *alias);
 
 #endif

@@ -900,7 +900,7 @@ static dboolean null_func1(char *cmd, char *parms)
 //
 // alias CCMD
 //
-void C_ExecuteAlias(char *alias)
+dboolean C_ExecuteAlias(char *alias)
 {
     int i;
 
@@ -917,8 +917,9 @@ void C_ExecuteAlias(char *alias)
                     break;
                 strings[++i] = strtok(NULL, ";");
             }
-            return;
+            return true;
         }
+    return false;
 }
 
 void alias_cmd_func2(char *cmd, char *parms)
