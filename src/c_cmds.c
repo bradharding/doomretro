@@ -910,7 +910,7 @@ dboolean C_ExecuteAlias(char *alias)
             char        *strings[255];
             int         i = 0;
 
-            strings[i] = strtok(aliases[i].string, ";");
+            strings[i] = strtok(strdup(aliases[i].string), ";");
             while (strings[i])
             {
                 if (!C_ValidateInput(strings[i]))
