@@ -252,7 +252,7 @@ typedef enum
 
 #define r_diskicon_default                      false
 
-#define r_dither_default                        true
+#define r_dither_default                        false
 
 #define r_fixmaperrors_default                  true
 

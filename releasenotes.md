@@ -8,10 +8,11 @@
   * The status bar, HUD, and alternate HUD no longer shake when the player is damaged.
   * The screen now shakes by shifting the player’s view in random directions rather than randomly rotating the entire screen left and right.
 * The screen will now shake when the player is near enough to an exploding barrel or rocket. This feature may be disabled using the new `r_shake_explode` CVAR.
-* When the `vid_showfps` CVAR is `on`, the frames per second displayed will be amber in color if it is between 35 and 60 FPS.
+* When the `vid_showfps` CVAR is `on`, the frames per second displayed will be amber in color if between 35 and 60.
 * An `exec` CCMD has been implemented which allows a series of commands stored in a file to be executed as if they had been typed in at the console directly.
 * Textures that have patches with negative offsets (such as `TEKWALL1` and `STEP2`) now appear correctly.
 * A bug has been fixed whereby monsters would continue to fire at the player’s corpse after killing them in some instances.
+* The `r_dither` CVAR is now `off` by default.
 
 ---
 
