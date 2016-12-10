@@ -907,16 +907,18 @@ dboolean C_ExecuteAlias(char *alias)
     for (i = 0; i < MAXALIASES; ++i)
         if (M_StringCompare(alias, aliases[i].name))
         {
+            char        *string = strdup(aliases[i].string);
             char        *strings[255];
             int         i = 0;
 
-            strings[i] = strtok(strdup(aliases[i].string), ";");
+            strings[i] = strtok(string, ";");
             while (strings[i])
             {
                 if (!C_ValidateInput(strings[i]))
                     break;
                 strings[++i] = strtok(NULL, ";");
             }
+            free(string);
             return true;
         }
     return false;
