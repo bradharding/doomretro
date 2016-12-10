@@ -189,6 +189,7 @@ extern int              weaponbob;
 
 extern char             *packageconfig;
 extern dboolean         returntowidescreen;
+extern dboolean         startingup;
 
 #define CONFIG_VARIABLE_INT(name, set) \
     { #name,          &name, DEFAULT_INT,           set          }
@@ -392,9 +393,12 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 void M_SaveCVARs(void)
 {
     int         i;
-    FILE        *file = fopen(packageconfig, "w");
+    FILE        *file;
 
-    if (!file)
+    if (startingup)
+        return;
+
+    if (!(file = fopen(packageconfig, "w")))
         return; // can't write the file, but don't complain
 
     if (returntowidescreen)

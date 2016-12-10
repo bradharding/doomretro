@@ -131,6 +131,7 @@ dboolean                forcewipe = false;
 
 dboolean                splashscreen = false;
 
+dboolean                startingup;
 int                     startuptimer;
 
 dboolean                realframe;
@@ -1978,7 +1979,10 @@ static void D_DoomMainSetup(void)
 //
 void D_DoomMain(void)
 {
+    startingup = true;
     D_DoomMainSetup();          // CPhipps - setup out of main execution stack
+    startingup = false;
+    M_SaveCVARs();
 
     D_DoomLoop();               // never returns
 }
