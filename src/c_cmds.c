@@ -1528,7 +1528,7 @@ static void exec_cmd_func2(char *cmd, char *parms)
         {
             char        strparm[256] = "";
 
-            if (fscanf(file, "%255s\n", strparm) != 1)
+            if (fscanf(file, "%255[^\n]\n", strparm) != 1)
                 continue;
 
             if (strparm[0] == ';')
