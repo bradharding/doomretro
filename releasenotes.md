@@ -5,6 +5,7 @@
 * A bug has been fixed whereby in some rare instances objects would get suspended in midair when the sector they were on lowered.
 * The following changes have been made to the `r_shakescreen` CVAR:
   * The CVAR has been renamed to `r_shake_damage`.
+  * It now has a value of either `on` or `off`, rather than a value between `0%` and `100%`.
   * The status bar, HUD, and alternate HUD no longer shake when the player is damaged.
   * The screen now shakes by shifting the player’s view in random directions rather than randomly rotating the entire screen left and right.
 * The screen will now shake when the player is near enough to an exploding barrel or rocket. This feature may be disabled using the new `r_shake_explode` CVAR.
