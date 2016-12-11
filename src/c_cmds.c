@@ -72,7 +72,7 @@
 #define MAX_PATH                260
 #endif
 
-#define ALIASCMDFORMAT          "<i>alias</i> <b>\"</b><i>commands</i><b>\"</b>"
+#define ALIASCMDFORMAT          "<i>alias</i> [<b>\"</b><i>commands</i><b>\"</b>]"
 #define BINDCMDFORMAT           "<i>control</i> [<b>+</b><i>action</i>]"
 #define EXECCMDFORMAT           "<i>filename</i>"
 #define GIVECMDSHORTFORMAT      "<i>items</i>"
@@ -935,6 +935,19 @@ void alias_cmd_func2(char *cmd, char *parms)
     if (!*parm1)
     {
         C_Output("<b>%s</b> %s", cmd, ALIASCMDFORMAT);
+        return;
+    }
+
+    if (!*parm2)
+    {
+        for (i = 0; i < MAXALIASES; ++i)
+            if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
+            {
+                aliases[i].name[0] = '\0';
+                aliases[i].string[0] = '\0';
+                M_SaveCVARs();
+                return;
+            }
         return;
     }
 
