@@ -944,6 +944,7 @@ void alias_cmd_func2(char *cmd, char *parms)
         if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
         {
             M_StringCopy(aliases[i].string, parm2, 128);
+            M_SaveCVARs();
             return;
         }
 
@@ -952,6 +953,7 @@ void alias_cmd_func2(char *cmd, char *parms)
         {
             M_StringCopy(aliases[i].name, parm1, 128);
             M_StringCopy(aliases[i].string, parm2, 128);
+            M_SaveCVARs();
             return;
         }
 }
