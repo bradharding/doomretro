@@ -393,6 +393,7 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 void M_SaveCVARs(void)
 {
     int         i;
+    int         numaliases = 0;
     FILE        *file;
 
     if (startingup)
@@ -551,13 +552,19 @@ void M_SaveCVARs(void)
         ++i;
     }
 
-    fputs("\n", file);
-
-    fputs("; aliases\n", file);
-
     for (i = 0; i < MAXALIASES; ++i)
         if (*aliases[i].name)
-            fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
+            numaliases++;
+
+    if (numaliases)
+    {
+        fputs("\n", file);
+        fputs("; aliases\n", file);
+
+        for (i = 0; i < MAXALIASES; ++i)
+            if (*aliases[i].name)
+                fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
+    }
 
     fclose(file);
 
