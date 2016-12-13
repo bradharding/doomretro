@@ -992,6 +992,7 @@ void G_Ticker(void)
 
                     player->fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+                    I_UpdateBlitFunc(false);
                 }
                 else
                 {
@@ -1186,6 +1187,8 @@ void G_DoCompleted(void)
     player_t    *player = &players[0];
 
     gameaction = ga_nothing;
+
+    I_UpdateBlitFunc(false);
 
     // [BH] allow the exit switch to turn on before the screen wipes
     player->mo->momx = 0;

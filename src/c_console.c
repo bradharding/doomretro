@@ -931,6 +931,9 @@ void C_Drawer(void)
             XInputVibration(idlemotorspeed);
         }
 
+        // cancel any screen shake
+        I_UpdateBlitFunc(false);
+
         // draw background and bottom edge
         C_DrawBackground(consoleheight);
 

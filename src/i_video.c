@@ -209,6 +209,7 @@ static dboolean         capslock = false;
 dboolean                alwaysrun = alwaysrun_default;
 
 extern dboolean         am_external;
+extern int              r_shake_damage;
 
 extern int              windowborderwidth;
 extern int              windowborderheight;
@@ -843,9 +844,115 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     SDL_RenderPresent(renderer);
 }
 
-void I_UpdateBlitFunc(void)
+static void I_Blit_Shake(void)
 {
-    blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
+    UpdateGrab();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
+        M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
+    SDL_RenderPresent(renderer);
+}
+
+static void I_Blit_NearestLinear_Shake(void)
+{
+    UpdateGrab();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
+        M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
+    SDL_RenderPresent(renderer);
+}
+
+static void I_Blit_ShowFPS_Shake(void)
+{
+    UpdateGrab();
+
+    ++frames;
+    currenttime = SDL_GetTicks();
+
+    if (currenttime - starttime >= 1000)
+    {
+        fps = frames;
+        frames = 0;
+        starttime = currenttime;
+    }
+
+    C_UpdateFPS();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
+        M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
+    SDL_RenderPresent(renderer);
+}
+
+static void I_Blit_NearestLinear_ShowFPS_Shake(void)
+{
+    UpdateGrab();
+
+    ++frames;
+    currenttime = SDL_GetTicks();
+
+    if (currenttime - starttime >= 1000)
+    {
+        fps = frames;
+        frames = 0;
+        starttime = currenttime;
+    }
+
+    C_UpdateFPS();
+
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
+        M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+
+#if defined(WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
+    SDL_RenderPresent(renderer);
+}
+
+void I_UpdateBlitFunc(dboolean shake)
+{
+    if (shake)
+        blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake :
+            I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake : I_Blit_Shake));
+    else
+        blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
         (nearestlinear ? I_Blit_NearestLinear : I_Blit));
 }
 

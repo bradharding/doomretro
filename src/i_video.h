@@ -72,7 +72,7 @@ void I_ShutdownKeyboard(void);
 // Takes full 8 bit values.
 void I_SetPalette(byte *palette);
 
-void I_UpdateBlitFunc(void);
+void I_UpdateBlitFunc(dboolean shake);
 void I_Blit_Automap(void);
 void I_CreateExternalAutomap(dboolean output);
 void I_DestroyExternalAutomap(void);

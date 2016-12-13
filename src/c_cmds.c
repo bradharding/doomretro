@@ -175,7 +175,7 @@ extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern int              r_screensize;
 extern dboolean         r_shadows;
-extern dboolean         r_shake_damage;
+extern int              r_shake_damage;
 extern dboolean         r_shake_explode;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
@@ -731,8 +731,8 @@ consolecmd_t consolecmds[] =
         "The screen size (<b>0</b> to <b>8</b>)."),
     CVAR_BOOL(r_shadows, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles sprites casting shadows."),
-    CVAR_BOOL(r_shake_damage, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles shaking the screen when the player is damaged."),
+    CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+        "The amount the screen shakes when the player is attacked."),
     CVAR_BOOL(r_shake_explode, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles shaking the screen when the player is near an\nexploding barrel or rocket."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
@@ -4730,7 +4730,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
     if (vid_showfps != vid_showfps_old)
-        I_UpdateBlitFunc();
+        I_UpdateBlitFunc(!!players[0].damagecount);
 }
 
 //

@@ -110,7 +110,6 @@ int                     extralight;
 
 dboolean                r_dither = r_dither_default;
 dboolean                r_homindicator = r_homindicator_default;
-dboolean                r_shake_damage = r_shake_damage_default;
 dboolean                r_shake_explode = r_shake_explode_default;
 dboolean                r_translucency = r_translucency_default;
 
@@ -664,14 +663,6 @@ void R_SetupFrame(player_t *player)
             --explosiontics;
         }
     }
-    else if (player->damagecount && r_shake_damage)
-    {
-        if (!consoleactive && !menuactive && !paused)
-        {
-            viewx += M_RandomInt(-1, 1) * FRACUNIT;
-            viewy += M_RandomInt(-1, 1) * FRACUNIT;
-        }
-    }
 
     extralight = player->extralight << 1;
 
@@ -747,16 +738,14 @@ void R_RenderPlayerView(player_t *player)
                 ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? 176 : 0));
 
         // Make displayed player invisible locally
-        if ((explosiontics || player->damagecount) && gamestate == GS_LEVEL)
+        if (explosiontics && gamestate == GS_LEVEL)
         {
             player->mo->flags2 |= MF2_DONTDRAW;
             R_RenderBSPNode(numnodes - 1);      // head node is the last node output
             player->mo->flags2 &= ~MF2_DONTDRAW;
         }
         else
-        {
             R_RenderBSPNode(numnodes - 1);      // head node is the last node output
-        }
 
         NetUpdate();
 
