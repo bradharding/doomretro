@@ -1998,7 +1998,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
     nofit = false;
     crushchange = crunch;
 
-    if ((isliquidsector = sector->isliquid))
+    if ((isliquidsector = sector->isliquid = isliquid[sector->floorpic]))
     {
         for (mobj = sector->splatlist; mobj; mobj = mobj->snext)
             P_UnsetBloodSplatPosition(mobj);
