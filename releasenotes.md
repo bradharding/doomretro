@@ -11,6 +11,7 @@
 * A bug has been fixed whereby monsters would continue to fire at the player’s corpse after killing them in some instances.
 * The `r_dither` CVAR is now `off` by default.
 * Aliases can now be created using the new `alias` CCMD. These aliases can be entered into the console to execute a string of commands, and are saved in `doomretro.cfg`.
+* Small amounts of damage to the player are now more evident.
 
 ---
 

@@ -1436,9 +1436,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         tplayer->attacker = source;
         damagecount = tplayer->damagecount + damage;    // add damage after armor / invuln
 
-        if (damage > 0 && damagecount < 2)              // damagecount gets decremented before
-             damagecount = 2;                           // being used so needs to be at least 2
-        damagecount = MIN(damagecount, 100);            // teleport stomp does 10k points...
+        if (damage > 0 && damagecount < 8)
+             damagecount = 8;
+        damagecount = MIN(damagecount, 100);
 
         tplayer->damagecount = damagecount;
 
