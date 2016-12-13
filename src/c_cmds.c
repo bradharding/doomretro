@@ -930,7 +930,7 @@ void alias_cmd_func2(char *cmd, char *parms)
     char        parm1[128] = "";
     char        parm2[128] = "";
 
-    sscanf(parms, "%128s %128[^\n]", parm1, parm2);
+    sscanf(parms, "%127s %127[^\n]", parm1, parm2);
 
     if (!*parm1)
     {
@@ -1017,7 +1017,7 @@ void bind_cmd_func2(char *cmd, char *parms)
     char        parm1[128] = "";
     char        parm2[128] = "";
 
-    sscanf(parms, "%128s %128[^\n]", parm1, parm2);
+    sscanf(parms, "%127s %127[^\n]", parm1, parm2);
 
     if (!*parm1)
     {

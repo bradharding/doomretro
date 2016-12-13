@@ -888,8 +888,8 @@ static void M_CheckCVARs(void)
 void M_LoadCVARs(char *filename)
 {
     int         i;
-    char        control[64] = "";
-    char        action[64] = "";
+    char        control[128] = "";
+    char        action[128] = "";
     char        alias[128] = "";
     char        string[128] = "";
     char        defname[64] = "";
@@ -913,14 +913,14 @@ void M_LoadCVARs(char *filename)
 
     while (!feof(file))
     {
-        if (fscanf(file, "bind %63s %63[^\n]\n", control, action) == 2)
+        if (fscanf(file, "bind %127s %127[^\n]\n", control, action) == 2)
         {
             C_StripQuotes(control);
             C_StripQuotes(action);
             bind_cmd_func2("", M_StringJoin(control, " ", action, NULL));
             continue;
         }
-        else if (fscanf(file, "alias %128s %128[^\n]\n", alias, string) == 2)
+        else if (fscanf(file, "alias %127s %127[^\n]\n", alias, string) == 2)
         {
             C_StripQuotes(string);
             alias_cmd_func2("", M_StringJoin(alias, " ", string, NULL));
