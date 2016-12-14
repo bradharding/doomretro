@@ -1,4 +1,4 @@
-![](https://dl.dropbox.com/s/t9lsjpx3kjfykqb/title2.png)
+![](https://raw.githubusercontent.com/bradharding/www.doomretro.com/master/title2.png)
 
 #### The classic, refined DOOM source port. For Windows PC.
 
