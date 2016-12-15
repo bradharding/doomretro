@@ -190,7 +190,6 @@ extern int              weaponbob;
 
 extern char             *packageconfig;
 extern dboolean         returntowidescreen;
-extern dboolean         startingup;
 
 #define CONFIG_VARIABLE_INT(name, set) \
     { #name,          &name, DEFAULT_INT,           set          }
@@ -397,9 +396,6 @@ void M_SaveCVARs(void)
     int         i;
     int         numaliases = 0;
     FILE        *file;
-
-    if (startingup)
-        return;
 
     if (!(file = fopen(packageconfig, "w")))
         return; // can't write the file, but don't complain
