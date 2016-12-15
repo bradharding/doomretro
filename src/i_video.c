@@ -188,6 +188,7 @@ void                    (*blitfunc)(void);
 void                    (*mapblitfunc)(void);
 
 int                     fps = 0;
+int                     refreshrate;
 
 #if defined(WIN32)
 static UINT             CapFPSTimer;
@@ -1550,13 +1551,15 @@ static void SetVideoMode(dboolean output)
 
         I_CapFPS(0);
 
+        refreshrate = 0;
+
         if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
         {
             SDL_DisplayMode     displaymode;
 
             if (!SDL_GetWindowDisplayMode(window, &displaymode))
             {
-                int     refreshrate = displaymode.refresh_rate;
+                refreshrate = displaymode.refresh_rate;
 
                 if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
                 {

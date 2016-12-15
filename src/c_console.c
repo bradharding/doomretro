@@ -149,7 +149,6 @@ static byte     c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
 static int      consolecaretcolor = 4;
 static int      consolelowfpscolor = 180;
-static int      consolemidfpscolor = 223;
 static int      consolehighfpscolor = 116;
 static int      consoleinputcolor = 4;
 static int      consoleselectedinputcolor = 4;
@@ -173,6 +172,7 @@ static int      consolescrollbarfacecolor = 94;
 static int      consolecolors[STRINGTYPES];
 
 extern int      fps;
+extern int      refreshrate;
 extern dboolean r_translucency;
 extern dboolean windowfocused;
 
@@ -526,7 +526,6 @@ void C_Init(void)
 
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consolelowfpscolor = nearestcolors[consolelowfpscolor];
-    consolemidfpscolor = nearestcolors[consolemidfpscolor];
     consolehighfpscolor = nearestcolors[consolehighfpscolor];
     consoleinputcolor = nearestcolors[consoleinputcolor];
     consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
@@ -853,8 +852,8 @@ void C_UpdateFPS(void)
         M_snprintf(buffer, 16, "%i FPS", fps);
 
         C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
-            CONSOLETEXTY, buffer, (fps < TICRATE ? consolelowfpscolor :
-            (vid_capfps == TICRATE || fps >= 60 ? consolehighfpscolor : consolemidfpscolor)));
+            CONSOLETEXTY, buffer, (fps < (refreshrate ? refreshrate : TICRATE) ?
+            consolelowfpscolor : consolehighfpscolor));
     }
 }
 
