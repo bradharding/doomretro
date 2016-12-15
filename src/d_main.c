@@ -108,6 +108,7 @@ char                    *pwadfile = "";
 char                    *iwadfolder = iwadfolder_default;
 int                     units = units_default;
 int                     turbo = turbo_default;
+char                    *wad = wad_default;
 
 char                    *packageconfig;
 
@@ -132,7 +133,6 @@ dboolean                forcewipe = false;
 
 dboolean                splashscreen = false;
 
-dboolean                startingup;
 int                     startuptimer;
 
 dboolean                realframe;
@@ -993,10 +993,9 @@ static int D_ChooseIWAD(void)
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = NULL;
-    ofn.lpstrFile = szFile;
-    ofn.lpstrFile[0] = '\0';
+    ofn.lpstrFile = wad;
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD/PWAD Files (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
+    ofn.lpstrFilter = "IWADs/PWADs (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
@@ -1051,6 +1050,7 @@ static int D_ChooseIWAD(void)
                 if (W_AddFile(file, false))
                 {
                     iwadfound = 1;
+                    wad = strdup(leafname(file));
                     iwadfolder = strdup(M_ExtractFolder(file));
 
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
@@ -1077,6 +1077,8 @@ static int D_ChooseIWAD(void)
 
                 if (iwadrequired == indetermined)
                     iwadrequired = doom2;
+
+                wad = strdup(leafname(file));
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",

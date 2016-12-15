@@ -240,6 +240,7 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
+extern char             *wad;
 extern dboolean         weaponbob;
 
 extern int              st_palette;
@@ -807,6 +808,8 @@ consolecmd_t consolecmds[] =
         "The position of the window on the desktop (<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
     CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop (<i>width</i><b>\xD7</b><i>height</i>)."),
+    CVAR_STR(wad, "", null_func1, str_cvars_func2, CF_READONLY,
+        "The last WAD to be opened from from the WAD launcher."),
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs up and down when they\nmove."),
 

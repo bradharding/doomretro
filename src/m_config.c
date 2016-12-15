@@ -185,6 +185,7 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
+extern char             *wad;
 extern int              weaponbob;
 
 extern char             *packageconfig;
@@ -315,6 +316,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (vid_widescreen,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_OTHER        (vid_windowposition,                                NOVALUEALIAS    ),
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                                    NOVALUEALIAS    ),
+    CONFIG_VARIABLE_STRING       (wad,                                               NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOVALUEALIAS    ),
     BLANKLINE,
     COMMENT("; player stats\n"),
