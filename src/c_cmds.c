@@ -2124,7 +2124,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         {
             if (gamemode == commercial)
             {
-                if (gamemap != (gamemission == pack_nerve ? 8 : 30))
+                if (gamemap != (gamemission == pack_nerve ? 9 : (bfgedition ? 33 : 32)))
                 {
                     mapcmdepisode = gameepisode;
                     mapcmdmap = gamemap + 1;
@@ -2134,7 +2134,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             }
             else
             {
-                if (gamemap == 8)
+                if (gamemap == 9)
                 {
                     if (gameepisode != (gamemode == retail ? 4 : gamemode == shareware ? 1 : 3))
                     {
@@ -2158,52 +2158,52 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             {
                 if (gamemission == pack_nerve)
                 {
-                    if (gamemap != 8)
+                    if (gamemap != 9)
                     {
                         mapcmdepisode = gameepisode;
-                        mapcmdmap = 8;
-                        M_StringCopy(mapcmdlump, "MAP08", 6);
+                        mapcmdmap = 9;
+                        M_StringCopy(mapcmdlump, "MAP09", 6);
                         result = true;
                     }
                 }
                 else
                 {
-                    if (gamemap != 30)
+                    if (gamemap != (bfgedition ? 33 : 32))
                     {
                         mapcmdepisode = gameepisode;
-                        mapcmdmap = 30;
-                        M_StringCopy(mapcmdlump, "MAP30", 6);
+                        mapcmdmap = (bfgedition ? 33 : 32);
+                        M_snprintf(mapcmdlump, 6, "MAP%02i", (bfgedition ? 33 : 32));
                         result = true;
                     }
                 }
             }
             else if (gamemode == retail)
             {
-                if (!(gameepisode == 4 && gamemap == 8))
+                if (!(gameepisode == 4 && gamemap == 9))
                 {
                     mapcmdepisode = 4;
-                    mapcmdmap = 8;
-                    M_StringCopy(mapcmdlump, "E4M8", 5);
+                    mapcmdmap = 9;
+                    M_StringCopy(mapcmdlump, "E4M9", 5);
                     result = true;
                 }
             }
             else if (gamemode == shareware)
             {
-                if (!(gameepisode == 1 && gamemap == 8))
+                if (!(gameepisode == 1 && gamemap == 9))
                 {
                     mapcmdepisode = 1;
-                    mapcmdmap = 8;
-                    M_StringCopy(mapcmdlump, "E1M8", 5);
+                    mapcmdmap = 9;
+                    M_StringCopy(mapcmdlump, "E1M9", 5);
                     result = true;
                 }
             }
             else
             {
-                if (!(gameepisode == 4 && gamemap == 8))
+                if (!(gameepisode == 4 && gamemap == 9))
                 {
                     mapcmdepisode = 3;
-                    mapcmdmap = 8;
-                    M_StringCopy(mapcmdlump, "E3M8", 5);
+                    mapcmdmap = 9;
+                    M_StringCopy(mapcmdlump, "E3M9", 5);
                     result = true;
                 }
             }
