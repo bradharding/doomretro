@@ -379,7 +379,9 @@ typedef enum
 
 #define vid_windowsize_default                  "768x480"
 
+#if defined(WIN32)
 #define wad_default                             ""
+#endif
 
 #define weaponbob_min                           0
 #define weaponbob_default                       75
