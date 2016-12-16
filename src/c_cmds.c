@@ -80,7 +80,7 @@
 #define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
 #define LOADCMDFORMAT           "<i>filename</i><b>.save</b>"
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
-#define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>"
+#define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT           "<i>sound</i>|<i>music</i>"
 #define RESETCMDFORMAT          "<i>CVAR</i>"
 #define SAVECMDFORMAT           "<i>filename</i><b>.save</b>"
@@ -2206,6 +2206,23 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     M_StringCopy(mapcmdlump, "E3M8", 5);
                     result = true;
                 }
+            }
+        }
+        else if (M_StringCompare(map, "RANDOM"))
+        {
+            if (gamemode == commercial)
+            {
+                mapcmdepisode = gameepisode;
+                mapcmdmap = M_RandomIntNoRepeat(1, (gamemission == pack_nerve ? 9 : 32), gamemap);
+                M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+                result = true;
+            }
+            else
+            {
+                mapcmdepisode = 1;
+                mapcmdmap = M_RandomIntNoRepeat(1, 9, gamemap);
+                M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+                result = true;
             }
         }
         else
