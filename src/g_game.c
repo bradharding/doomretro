@@ -592,6 +592,12 @@ void G_DoLoadLevel(void)
     player->shotsfired = 0;
     player->deaths = 0;
     player->distancetraveled = 0;
+    player->itemspickedup_ammo_bullets = 0;
+    player->itemspickedup_ammo_cells = 0;
+    player->itemspickedup_ammo_rockets = 0;
+    player->itemspickedup_ammo_shells = 0;
+    player->itemspickedup_armor = 0;
+    player->itemspickedup_health = 0;
     memset(player->mobjcount, 0, sizeof(player->mobjcount));
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
