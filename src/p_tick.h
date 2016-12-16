@@ -39,7 +39,7 @@
 #if !defined(__P_TICK_H__)
 #define __P_TICK_H__
 
-#ifdef __GNUG__
+#if defined(__GNUG__)
 #pragma interface
 #endif
 

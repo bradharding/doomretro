@@ -120,8 +120,8 @@ extern dboolean         r_mirroredweapons;
 extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern dboolean         r_shadows;
+extern dboolean         r_shake_barrels;
 extern dboolean         r_shake_damage;
-extern dboolean         r_shake_explode;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
@@ -289,8 +289,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_rockettrails,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_screensize,                                      NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_shadows,                                         BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (r_shake_barrels,                                   BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                                    BOOLVALUEALIAS  ),
-    CONFIG_VARIABLE_INT          (r_shake_explode,                                   BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_translucency,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,                                     NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (s_randommusic,                                     BOOLVALUEALIAS  ),
@@ -813,10 +813,10 @@ static void M_CheckCVARs(void)
     if (r_shadows != false && r_shadows != true)
         r_shadows = r_shadows_default;
 
-    r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
+    if (r_shake_barrels != false && r_shake_barrels != true)
+        r_shake_barrels = r_shake_barrels_default;
 
-    if (r_shake_explode != false && r_shake_explode != true)
-        r_shake_explode = r_shake_explode_default;
+    r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
 
     if (r_translucency != false && r_translucency != true)
         r_translucency = r_translucency_default;

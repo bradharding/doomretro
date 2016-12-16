@@ -93,7 +93,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 extern dboolean con_obituaries;
 extern dboolean r_rockettrails;
-extern dboolean r_shake_explode;
+extern dboolean r_shake_barrels;
 extern int      stat_monsterskilled;
 
 //
@@ -1797,7 +1797,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (r_shake_explode)
+    if (r_shake_barrels && actor->type == MT_BARREL)
     {
         if (viewplayer->mo->z <= viewplayer->mo->floorz
             && P_ApproxDistance(actor->x - viewplayer->mo->x, actor->y - viewplayer->mo->y) < EXPLOSIONRANGE)

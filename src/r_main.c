@@ -110,7 +110,7 @@ int                     extralight;
 
 dboolean                r_dither = r_dither_default;
 dboolean                r_homindicator = r_homindicator_default;
-dboolean                r_shake_explode = r_shake_explode_default;
+dboolean                r_shake_barrels = r_shake_barrels_default;
 dboolean                r_translucency = r_translucency_default;
 
 extern int              explosiontics;

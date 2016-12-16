@@ -292,11 +292,11 @@ typedef enum
 
 #define r_shadows_default                       true
 
+#define r_shake_barrels_default                 true
+
 #define r_shake_damage_min                      0
 #define r_shake_damage_default                  50
 #define r_shake_damage_max                      100
-
-#define r_shake_explode_default                 true
 
 #define r_translucency_default                  true
 
