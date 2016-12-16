@@ -995,7 +995,7 @@ static int D_ChooseIWAD(void)
     ofn.hwndOwner = NULL;
     ofn.lpstrFile = wad;
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWADs/PWADs (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
+    ofn.lpstrFilter = "IWADs and PWADs (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
