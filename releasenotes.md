@@ -14,7 +14,7 @@
 * Aliases can now be created using the new `alias` CCMD. These aliases can be entered into the console to execute a string of commands, and are saved in `doomretro.cfg`.
 * Small amounts of damage to the player are now more evident.
 * The ammo, armor and health picked up in the current map as displayed by the `playerstats` CCMD is now correctly reset when the map changes.
-* The `map` CCMD now has a `random` parameter that will warp the player to a random map in the current episode or expansion.
+* The `map` CCMD now has a `random` parameter that will warp the player to a random map.
 
 ---
 

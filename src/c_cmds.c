@@ -2213,13 +2213,15 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
             if (gamemode == commercial)
             {
                 mapcmdepisode = gameepisode;
-                mapcmdmap = M_RandomIntNoRepeat(1, (gamemission == pack_nerve ? 9 : 32), gamemap);
+                mapcmdmap = M_RandomIntNoRepeat(1,
+                    (gamemission == pack_nerve ? 9 : (bfgedition ? 33 : 32)), gamemap);
                 M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
                 result = true;
             }
             else
             {
-                mapcmdepisode = 1;
+                mapcmdepisode = M_RandomIntNoRepeat(1,
+                    (gamemode == retail ? 4 : (gamemode == shareware ? 1 : 3)), gameepisode);
                 mapcmdmap = M_RandomIntNoRepeat(1, 9, gamemap);
                 M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
                 result = true;
