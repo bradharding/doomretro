@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <Windows.h>
 #include <XInput.h>
 
@@ -79,7 +79,7 @@ extern dboolean         idbehold;
 extern dboolean         menuactive;
 extern dboolean         message_clearable;
 
-#if defined(WIN32)
+#if defined(_WIN32)
 HMODULE                 pXInputDLL;
 #endif
 
@@ -107,7 +107,7 @@ void I_InitGamepad(void)
             SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         else
         {
-#if defined(WIN32)
+#if defined(_WIN32)
             char        *XInputDLL;
             static int  initcount;
 
@@ -171,7 +171,7 @@ void I_InitGamepad(void)
 
 void I_ShutdownGamepad(void)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     if (pXInputDLL)
         FreeLibrary(pXInputDLL);
 #endif
@@ -265,7 +265,7 @@ int restoremotorspeed = 0;
 
 void XInputVibration(int motorspeed)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     motorspeed = MIN(motorspeed, 65535);
     if (motorspeed > currentmotorspeed || motorspeed == idlemotorspeed)
     {
@@ -295,7 +295,7 @@ void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
 
 void I_PollXInputGamepad(void)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     if (gamepad && !noinput)
     {
         XINPUT_STATE    state;

@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #pragma warning( disable : 4091 )
 #include <Shlobj.h>
 #endif
@@ -1351,7 +1351,7 @@ void V_Init(void)
     int                 i;
     byte                *base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
     const SDL_version   *linked = IMG_Linked_Version();
-#if defined(WIN32) && !defined(PORTABILITY)
+#if defined(_WIN32) && !defined(PORTABILITY)
     char                buffer[MAX_PATH];
 #endif
 
@@ -1375,7 +1375,7 @@ void V_Init(void)
 
     GetPixelSize(true);
 
-#if defined(WIN32) && !defined(PORTABILITY)
+#if defined(_WIN32) && !defined(PORTABILITY)
     if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, buffer)))
         M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S PACKAGE_NAME,
             buffer);

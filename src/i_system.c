@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <Windows.h>
 
 void I_ShutdownWindows32(void);
@@ -56,7 +56,7 @@ void I_ShutdownWindows32(void);
 extern dboolean vid_widescreen;
 extern dboolean returntowidescreen;
 
-#if defined(WIN32)
+#if defined(_WIN32)
 typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL(WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef BOOL(WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
@@ -225,7 +225,7 @@ void I_Quit(dboolean shutdown)
         I_ShutdownGamepad();
     }
 
-#if defined(WIN32)
+#if defined(_WIN32)
     I_ShutdownWindows32();
 #endif
 
@@ -268,7 +268,7 @@ void I_Error(char *error, ...)
 
     I_ShutdownGamepad();
 
-#if defined(WIN32)
+#if defined(_WIN32)
     I_ShutdownWindows32();
 #endif
 

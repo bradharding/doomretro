@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #pragma comment(lib, "winmm.lib")
 
 #include <Windows.h>
@@ -78,7 +78,7 @@
 #include "wi_stuff.h"
 #include "z_zone.h"
 
-#if !defined(WIN32)
+#if !defined(_WIN32)
 #include <dirent.h>
 #include <fnmatch.h>
 #include <libgen.h>
@@ -108,7 +108,7 @@ char                    *pwadfile = "";
 char                    *iwadfolder = iwadfolder_default;
 int                     units = units_default;
 int                     turbo = turbo_default;
-#if defined(WIN32)
+#if defined(_WIN32)
 char                    *wad = wad_default;
 #endif
 
@@ -177,7 +177,7 @@ void D_ProcessEvents(void)
         if (wipe && ev->type == ev_mouse)
             continue;
 
-#if !defined(WIN32)
+#if !defined(_WIN32)
         {
             static dboolean enter_down = false;
 
@@ -616,7 +616,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     // Returns a malloc'd path to the .deh file that matches a WAD path.
     // Or NULL if no matching .deh file can be found.
     // The pattern (not used in Windows) is the fnmatch pattern to search for.
-#if defined(WIN32)
+#if defined(_WIN32)
     char        *dehpath = M_StringReplace(path, ".wad", ext);
 
     return (M_FileExists(dehpath) ? dehpath : NULL);
@@ -780,7 +780,7 @@ static void D_FirstUse(void)
 
     const SDL_MessageBoxButtonData buttons[] =
     {
-#if defined(WIN32)
+#if defined(_WIN32)
         {                                       0, 0, "&Wiki"   },
 #endif
         { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "&Cancel" },
@@ -802,7 +802,7 @@ static void D_FirstUse(void)
 
     if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
     {
-#if defined(WIN32)
+#if defined(_WIN32)
         if (buttons[buttonid].buttonid == 0)
         {
             ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_START_URL, NULL, NULL,
@@ -820,7 +820,7 @@ dboolean D_CheckParms(void)
 {
     dboolean    result = false;
 
-#if !defined(WIN32) && !defined(__OpenBSD__)
+#if !defined(_WIN32) && !defined(__OpenBSD__)
     wordexp_t p;
 #endif
 
@@ -881,7 +881,7 @@ dboolean D_CheckParms(void)
             else
             {
                 // otherwise try the iwadfolder CVAR
-#if defined(WIN32) || defined(__OpenBSD__)
+#if defined(_WIN32) || defined(__OpenBSD__)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
                     (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
 #else
@@ -913,7 +913,7 @@ dboolean D_CheckParms(void)
                 else
                 {
                     // still nothing? try the DOOMWADDIR environment variable
-#if defined(WIN32) || defined(__OpenBSD__)
+#if defined(_WIN32) || defined(__OpenBSD__)
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
                             "DOOM2.WAD"));
@@ -982,13 +982,13 @@ dboolean D_CheckParms(void)
     return result;
 }
 
-#if defined(WIN32) || defined(__MACOSX__)
+#if defined(_WIN32) || defined(__MACOSX__)
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;
     dboolean            fileopenedok;
 
-#if defined(WIN32)
+#if defined(_WIN32)
     OPENFILENAME        ofn;
     char                szFile[4096];
 
@@ -1029,7 +1029,7 @@ static int D_ChooseIWAD(void)
         startuptimer = I_GetTimeMS();
 
         // only one file was selected
-#if defined(WIN32)
+#if defined(_WIN32)
         onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
 #elif defined __MACOSX__
         NSArray *urls = [panel URLs];
@@ -1038,7 +1038,7 @@ static int D_ChooseIWAD(void)
 #endif
         if (onlyoneselected)
         {
-#if defined(WIN32)
+#if defined(_WIN32)
             char        *file = (char *)ofn.lpstrFile;
 #elif defined(__MACOSX__)
             NSURL       *url = [urls objectAtIndex:0];
@@ -1177,7 +1177,7 @@ static int D_ChooseIWAD(void)
             dboolean    isDOOM2 = false;
             dboolean    sharewareiwad = false;
 
-#if defined(WIN32)
+#if defined(_WIN32)
             LPSTR       iwadpass = ofn.lpstrFile;
             LPSTR       pwadpass1 = ofn.lpstrFile;
             LPSTR       pwadpass2 = ofn.lpstrFile;
@@ -1278,7 +1278,7 @@ static int D_ChooseIWAD(void)
                         }
                     }
                 }
-#if defined(WIN32)
+#if defined(_WIN32)
                 iwadpass += lstrlen(iwadpass) + 1;
 #endif
             }
@@ -1288,7 +1288,7 @@ static int D_ChooseIWAD(void)
             {
                 // if no IWAD has been selected, check each PWAD to determine the IWAD required
                 // and then try to load it first
-#if defined(WIN32)
+#if defined(_WIN32)
                 pwadpass1 += lstrlen(pwadpass1) + 1;
 
                 while (!iwadfound && *pwadpass1)
@@ -1343,7 +1343,7 @@ static int D_ChooseIWAD(void)
                             }
                         }
                     }
-#if defined(WIN32)
+#if defined(_WIN32)
                     pwadpass1 += lstrlen(pwadpass1) + 1;
 #endif
                 }
@@ -1381,7 +1381,7 @@ static int D_ChooseIWAD(void)
                 if (iwadfound)
                 {
                     dboolean    mapspresent = false;
-#if defined(WIN32)
+#if defined(_WIN32)
                     pwadpass2 += lstrlen(pwadpass2) + 1;
 
                     while (*pwadpass2)
@@ -1412,7 +1412,7 @@ static int D_ChooseIWAD(void)
                                 }
                             }
                         }
-#if defined(WIN32)
+#if defined(_WIN32)
                         pwadpass2 += lstrlen(pwadpass2) + 1;
 #endif
                     }
@@ -1436,7 +1436,7 @@ static int D_ChooseIWAD(void)
 
             if (iwadfound)
             {
-#if defined(WIN32)
+#if defined(_WIN32)
                 // process any config files
                 cfgpass += lstrlen(cfgpass) + 1;
 
@@ -1455,12 +1455,12 @@ static int D_ChooseIWAD(void)
 
                     if (D_IsCfgFile(fullpath))
                         M_LoadCVARs(fullpath);
-#if defined(WIN32)
+#if defined(_WIN32)
                     cfgpass += lstrlen(cfgpass) + 1;
 #endif
             }
 
-#if defined(WIN32)
+#if defined(_WIN32)
                 // process any DeHackEd files last of all
                 dehpass += lstrlen(dehpass) + 1;
 
@@ -1479,7 +1479,7 @@ static int D_ChooseIWAD(void)
 
                     if (D_IsDehFile(fullpath))
                         LoadDehFile(fullpath);
-#if defined(WIN32)
+#if defined(_WIN32)
                     dehpass += lstrlen(dehpass) + 1;
 #endif
                 }
@@ -1558,7 +1558,7 @@ static void D_DoomMainSetup(void)
     C_Output("");
     C_PrintCompileDate();
 
-#if defined(WIN32)
+#if defined(_WIN32)
     I_PrintWindowsVersion();
 #endif
 
@@ -1667,12 +1667,12 @@ static void D_DoomMainSetup(void)
             if (!stat_runs)
                 D_FirstUse();
 
-#if defined(WIN32) || defined(__MACOSX__)
+#if defined(_WIN32) || defined(__MACOSX__)
             do
             {
                 if ((choseniwad = D_ChooseIWAD()) == -1)
                     I_Quit(false);
-#if defined(WIN32)
+#if defined(_WIN32)
                 else if (!choseniwad)
                     PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif

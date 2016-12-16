@@ -173,7 +173,7 @@ extern int              turbo;
 extern char             *version;
 extern int              vid_capfps;
 extern int              vid_display;
-#if !defined(WIN32)
+#if !defined(_WIN32)
 extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
@@ -185,7 +185,7 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
-#if defined(WIN32)
+#if defined(_WIN32)
 extern char             *wad;
 #endif
 extern int              weaponbob;
@@ -305,7 +305,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (version,                                           NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,                                        CAPVALUEALIAS   ),
     CONFIG_VARIABLE_INT          (vid_display,                                       NOVALUEALIAS    ),
-#if !defined(WIN32)
+#if !defined(_WIN32)
     CONFIG_VARIABLE_STRING       (vid_driver,                                        NOVALUEALIAS    ),
 #endif
     CONFIG_VARIABLE_INT          (vid_fullscreen,                                    BOOLVALUEALIAS  ),
@@ -317,7 +317,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (vid_widescreen,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_OTHER        (vid_windowposition,                                NOVALUEALIAS    ),
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                                    NOVALUEALIAS    ),
-#if defined(WIN32)
+#if defined(_WIN32)
     CONFIG_VARIABLE_STRING       (wad,                                               NOVALUEALIAS    ),
 #endif
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOVALUEALIAS    ),

@@ -43,7 +43,7 @@
 
 #include "m_controls.h"
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #define snprintf        _snprintf
 #if (_MSC_VER < 1400)
 #define vsnprintf       _vsnprintf

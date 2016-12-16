@@ -159,7 +159,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                     j = 64;
                 else if (c == '\'')
                     j = 65;
-#if defined(WIN32)
+#if defined(_WIN32)
                 else if (c == 146)
                     j = 65;
 #endif

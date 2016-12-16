@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <Windows.h>
 #endif
 
@@ -648,7 +648,7 @@ void G_DoLoadLevel(void)
 
 void G_ToggleAlwaysRun(evtype_t type)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
         (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
 #else

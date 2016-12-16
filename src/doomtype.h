@@ -50,7 +50,7 @@ typedef enum
 
 typedef uint8_t byte;
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #define DIR_SEPARATOR   '\\'
 #define DIR_SEPARATOR_S "\\"
 #define PATH_SEPARATOR  ';'

@@ -48,7 +48,7 @@
 int     windowborderwidth = 0;
 int     windowborderheight = 0;
 
-#if defined(WIN32)
+#if defined(_WIN32)
 
 #include "SDL_syswm.h"
 
@@ -256,7 +256,7 @@ void I_ShutdownWindows32(void)
 
 int main(int argc, char **argv)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS)

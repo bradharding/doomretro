@@ -346,7 +346,7 @@ typedef enum
 #define vid_display_default                     1
 #define vid_display_max                         INT_MAX
 
-#if !defined(WIN32)
+#if !defined(_WIN32)
 #define vid_driver_default                      ""
 #endif
 
@@ -379,7 +379,7 @@ typedef enum
 
 #define vid_windowsize_default                  "768x480"
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #define wad_default                             ""
 #endif
 
@@ -432,7 +432,7 @@ typedef enum
 #define KEYPREVWEAPON_DEFAULT                   0
 #define KEYRIGHT_DEFAULT                        KEY_RIGHTARROW
 #define KEYRUN_DEFAULT                          KEY_SHIFT
-#if defined(WIN32)
+#if defined(_WIN32)
 #define KEYSCREENSHOT_DEFAULT                   KEY_PRINTSCREEN
 #else
 #define KEYSCREENSHOT_DEFAULT                   0

@@ -125,7 +125,7 @@ musicinfo_t             *mus_playing = NULL;
 dboolean                nosfx = false;
 dboolean                nomusic = false;
 
-#if defined(WIN32)
+#if defined(_WIN32)
 extern dboolean         serverMidiPlaying;
 #endif
 
@@ -649,7 +649,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     }
 
     if (!handle)
-#if defined(WIN32)
+#if defined(_WIN32)
         if (!serverMidiPlaying)
 #endif
         {

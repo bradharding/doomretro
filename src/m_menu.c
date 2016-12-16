@@ -38,7 +38,7 @@
 
 #include <ctype.h>
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <Windows.h>
 #endif
 
@@ -2837,7 +2837,7 @@ dboolean M_Responder(event_t *ev)
     // screenshot
     if (key == keyboardscreenshot)
     {
-#if defined(WIN32)
+#if defined(_WIN32)
         if (key != KEY_PRINTSCREEN)
 #endif
             G_ScreenShot();
@@ -3459,7 +3459,7 @@ void M_Init(void)
     else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
         EpiDef.numitems--;
 
-#if !defined(WIN32)
+#if !defined(_WIN32)
     s_DOSY = s_OTHERY;
     s_DOSA = s_OTHERA;
 #endif

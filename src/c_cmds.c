@@ -39,7 +39,7 @@
 #include <ctype.h>
 #include <float.h>
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <Windows.h>
 #include <ShellAPI.h>
 #endif
@@ -228,7 +228,7 @@ extern int              turbo;
 extern int              units;
 extern int              vid_capfps;
 extern int              vid_display;
-#if !defined(WIN32)
+#if !defined(_WIN32)
 extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
@@ -240,7 +240,7 @@ extern dboolean         vid_vsync;
 extern dboolean         vid_widescreen;
 extern char             *vid_windowposition;
 extern char             *vid_windowsize;
-#if defined(WIN32)
+#if defined(_WIN32)
 extern char             *wad;
 #endif
 extern dboolean         weaponbob;
@@ -604,7 +604,7 @@ consolecmd_t consolecmds[] =
         "The amount <i><b>XInput</b></i> gamepads vibrate when the player fires\ntheir weapon (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(health, "", game_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health."),
-#if defined(WIN32)
+#if defined(_WIN32)
     CMD(help, "", null_func1, help_cmd_func2, 0, "",
         "Opens the <i><b>"PACKAGE_NAME" Wiki</b></i>."),
 #else
@@ -786,7 +786,7 @@ consolecmd_t consolecmds[] =
         "The frames per second at which to cap the framerate (<b>off</b>, or\n<b>35</b> to <b>1,000</b>)."),
      CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to render the game."),
-#if !defined(WIN32)
+#if !defined(_WIN32)
     CVAR_STR(vid_driver, "", null_func1, str_cvars_func2, CF_NONE,
         "The video driver used to render the game."),
 #endif
@@ -810,7 +810,7 @@ consolecmd_t consolecmds[] =
         "The position of the window on the desktop (<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
     CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop (<i>width</i><b>\xD7</b><i>height</i>)."),
-#if defined(WIN32)
+#if defined(_WIN32)
     CVAR_STR(wad, "", null_func1, str_cvars_func2, CF_READONLY,
         "The last WAD to be opened using the WAD launcher."),
 #endif
@@ -1790,7 +1790,7 @@ static void god_cmd_func2(char *cmd, char *parms)
 //
 static void help_cmd_func2(char *cmd, char *parms)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_HELP_URL, NULL, NULL, SW_SHOWNORMAL);
 #else
     C_HideConsoleFast();

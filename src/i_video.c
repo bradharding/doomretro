@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <Windows.h>
 #include <mmsystem.h>
 
@@ -80,7 +80,7 @@
 dboolean                m_novertical = m_novertical_default;
 int                     vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
-#if !defined(WIN32)
+#if !defined(_WIN32)
 char                    *vid_driver = vid_driver_default;
 #endif
 dboolean                vid_fullscreen = vid_fullscreen_default;
@@ -156,7 +156,7 @@ dboolean                returntowidescreen = false;
 
 dboolean                windowfocused;
 
-#if !defined(WIN32)
+#if !defined(_WIN32)
 char                    envstring[255];
 #endif
 
@@ -190,7 +190,7 @@ void                    (*mapblitfunc)(void);
 int                     fps = 0;
 int                     refreshrate;
 
-#if defined(WIN32)
+#if defined(_WIN32)
 static UINT             CapFPSTimer;
 HANDLE                  CapFPSEvent;
 #endif
@@ -248,7 +248,7 @@ static void UpdateFocus(void)
     // We should have input (keyboard) focus and be visible (not minimized)
     if ((windowfocused = ((state & SDL_WINDOW_INPUT_FOCUS) && (state & SDL_WINDOW_SHOWN))))
     {
-#if defined(WIN32)
+#if defined(_WIN32)
         SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
 #endif
 
@@ -257,7 +257,7 @@ static void UpdateFocus(void)
     }
     else
     {
-#if defined(WIN32)
+#if defined(_WIN32)
         SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
 #endif
 
@@ -363,7 +363,7 @@ dboolean keystate(int key)
 
 void I_CapFPS(int fps)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSTimer)
     {
         timeKillEvent(CapFPSTimer);
@@ -434,7 +434,7 @@ static void I_SetXKBCapslockState(dboolean enabled)
 
 void I_ShutdownKeyboard(void)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     if (keyboardalwaysrun == KEY_CAPSLOCK && (GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
     {
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
@@ -752,7 +752,7 @@ static void I_Blit(void)
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSEvent)
         WaitForSingleObject(CapFPSEvent, 1000);
 #endif
@@ -772,7 +772,7 @@ static void I_Blit_NearestLinear(void)
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSEvent)
         WaitForSingleObject(CapFPSEvent, 1000);
 #endif
@@ -805,7 +805,7 @@ static void I_Blit_ShowFPS(void)
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSEvent)
         WaitForSingleObject(CapFPSEvent, 1000);
 #endif
@@ -837,7 +837,7 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSEvent)
         WaitForSingleObject(CapFPSEvent, 1000);
 #endif
@@ -855,7 +855,7 @@ static void I_Blit_Shake(void)
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
         M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSEvent)
         WaitForSingleObject(CapFPSEvent, 1000);
 #endif
@@ -876,7 +876,7 @@ static void I_Blit_NearestLinear_Shake(void)
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSEvent)
         WaitForSingleObject(CapFPSEvent, 1000);
 #endif
@@ -906,7 +906,7 @@ static void I_Blit_ShowFPS_Shake(void)
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
         M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSEvent)
         WaitForSingleObject(CapFPSEvent, 1000);
 #endif
@@ -939,7 +939,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     if (CapFPSEvent)
         WaitForSingleObject(CapFPSEvent, 1000);
 #endif
@@ -996,7 +996,7 @@ void I_SetPalette(byte *playpal)
 
 static void I_RestoreFocus(void)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     SDL_SysWMinfo       info;
 
     SDL_VERSION(&info.version);
@@ -1709,7 +1709,7 @@ void I_ToggleWidescreen(dboolean toggle)
         I_SDLError("SDL_SetPaletteColors");
 }
 
-#if defined(WIN32)
+#if defined(_WIN32)
 void I_InitWindows32(void);
 #endif
 
@@ -1723,7 +1723,7 @@ void I_RestartGraphics(void)
 
     I_CreateExternalAutomap(false);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     I_InitWindows32();
 #endif
 
@@ -1802,7 +1802,7 @@ void I_InitKeyboard(void)
 {
     if (keyboardalwaysrun == KEY_CAPSLOCK)
     {
-#if defined(WIN32)
+#if defined(_WIN32)
         capslock = !!(GetKeyState(VK_CAPITAL) & 0x0001);
 
         if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
@@ -1858,7 +1858,7 @@ void I_InitGraphics(void)
 
     I_InitGammaTables();
 
-#if !defined(WIN32)
+#if !defined(_WIN32)
     if (*vid_driver)
     {
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", vid_driver);
@@ -1881,7 +1881,7 @@ void I_InitGraphics(void)
     mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     I_CreateExternalAutomap(true);
 
-#if defined(WIN32)
+#if defined(_WIN32)
     I_InitWindows32();
 #endif
 

@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #pragma warning( disable : 4091 )
 #include <ShlObj.h>
 #if defined(_MSC_VER)
@@ -85,7 +85,7 @@
 //
 void M_MakeDirectory(const char *path)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     mkdir(path);
 #else
     mkdir(path, 0755);
@@ -165,7 +165,7 @@ char *M_GetAppDataFolder(void)
 {
     char        *executableFolder = M_GetExecutableFolder();
 
-#if defined(WIN32)
+#if defined(_WIN32)
 
 #if !defined(PORTABILITY)
     // On Windows, store generated application files in <username>\DOOM Retro.
@@ -218,7 +218,7 @@ char *M_GetResourceFolder(void)
 {
     char        *executableFolder = M_GetExecutableFolder();
 
-#if !defined(WIN32)
+#if !defined(_WIN32)
     // On Linux and OS X, first assume that the executable is in .../bin and
     // try to load resources from .../share/doomretro.
     char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
@@ -250,7 +250,7 @@ char *M_GetResourceFolder(void)
 
 char *M_GetExecutableFolder(void)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     char        *pos;
     char        *folder = malloc(MAX_PATH);
     TCHAR       buffer[MAX_PATH];
@@ -365,7 +365,7 @@ char *M_TempFile(char *s)
 {
     char *tempdir;
 
-#if defined(WIN32)
+#if defined(_WIN32)
     // Check the TEMP environment variable to find the location.
     tempdir = getenv("TEMP");
 

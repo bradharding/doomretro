@@ -2637,7 +2637,7 @@ void deh_procSprite(DEHFILE *fpin, char *line) // Not supported
 extern int pars[5][10];
 extern int cpars[33];
 
-#if !defined(WIN32)
+#if !defined(_WIN32)
 char *strlwr(char *str)
 {
     size_t      i;
