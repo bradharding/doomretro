@@ -1399,6 +1399,7 @@ static int D_ChooseIWAD(void)
                             D_CheckSupportedPWAD(fullpath);
                             if (W_MergeFile(fullpath, false))
                             {
+                                wad = strdup(leafname(fullpath));
                                 modifiedgame = true;
                                 LoadCfgFile(fullpath);
                                 LoadDehFile(fullpath);
