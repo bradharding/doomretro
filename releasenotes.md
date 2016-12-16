@@ -13,7 +13,7 @@
 * The `r_dither` CVAR is now `off` by default.
 * Aliases can now be created using the new `alias` CCMD. These aliases can be entered into the console to execute a string of commands, and are saved in `doomretro.cfg`.
 * Small amounts of damage to the player are now more evident.
-* The ammo, armor and health collected as displayed in the `playerstats` CCMD is now correctly resets when the map changes.
+* The ammo, armor and health picked up in the current map as displayed by the `playerstats` CCMD is now correctly reset when the map changes.
 
 ---
 
