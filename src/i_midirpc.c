@@ -111,14 +111,12 @@ static dboolean I_MidiRPCWaitForServer()
 //
 dboolean I_MidiRPCRegisterSong(void *data, int size)
 {
-    unsigned int        rpcSize = (unsigned int)size;
-
     CHECK_RPC_STATUS();
 
     RpcTryExcept
     {
         MidiRPC_PrepareNewSong();
-        MidiRPC_AddChunk(rpcSize, (byte *)data);
+        MidiRPC_AddChunk((unsigned int)size, (byte *)data);
     }
     RpcExcept(1)
     {
@@ -140,7 +138,7 @@ dboolean I_MidiRPCPlaySong(dboolean looping)
 
     RpcTryExcept
     {
-        MidiRPC_PlaySong(looping ? TRUE : FALSE);
+        MidiRPC_PlaySong(looping);
     }
     RpcExcept(1)
     {
@@ -291,7 +289,7 @@ dboolean I_MidiRPCInitClient()
 
     // Compose binding string
     if (RpcStringBindingCompose(NULL, (RPC_CSTR)"ncalrpc", NULL,
-        (RPC_CSTR)"2d4dc2f9-ce90-4080-8a00-1cb819086970", NULL, &szStringBinding))
+        (RPC_CSTR)"2D4DC2F9-CE90-4080-8A00-1CB819086970", NULL, &szStringBinding))
         return false;
 
     // Create binding handle

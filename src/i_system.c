@@ -183,7 +183,7 @@ void I_PrintWindowsVersion(void)
                 else if (info.dwMinorVersion == 3)
                     infoname = "8.1";
             }
-            else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
+            else if (info.dwMajorVersion == 10)
                 infoname = "10";
 
             C_Output("Running on <i><b>Microsoft Windows %s%s%s%s%ws%s%s</b></i>.",
