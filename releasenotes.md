@@ -15,6 +15,7 @@
 * Small amounts of damage to the player are now more evident.
 * The total amount of ammo, armor and health picked up in the current map that is displayed by the `playerstats` CCMD is now correctly reset when the map changes.
 * The `map` CCMD now has a `random` parameter that will warp the player to a random map.
+* Sky textures with heights other than 128 pixels will now be ignored if specified in `MAPINFO` lumps.
 
 ---
 
