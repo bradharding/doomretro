@@ -536,7 +536,9 @@ void G_DoLoadLevel(void)
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
 
     skytexture = P_GetMapSky1Texture(map);
-    if (!skytexture || skytexture == R_CheckTextureNumForName("SKY1TALL"))
+    if (!skytexture || skytexture == R_CheckTextureNumForName("SKY1TALL")
+        || skytexture == R_CheckTextureNumForName("SKY2TALL")
+        || skytexture == R_CheckTextureNumForName("SKY3TALL"))
     {
         if (gamemode == commercial)
         {
