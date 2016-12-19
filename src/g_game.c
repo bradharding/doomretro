@@ -536,9 +536,7 @@ void G_DoLoadLevel(void)
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
 
     skytexture = P_GetMapSky1Texture(map);
-    if (!skytexture || skytexture == R_CheckTextureNumForName("SKY1TALL")
-        || skytexture == R_CheckTextureNumForName("SKY2TALL")
-        || skytexture == R_CheckTextureNumForName("SKY3TALL"))
+    if (!skytexture || textureheight[skytexture] >> FRACBITS != 128)
     {
         if (gamemode == commercial)
         {
@@ -625,8 +623,8 @@ void G_DoLoadLevel(void)
 
     P_SetupLevel(ep, gamemap);
 
-    skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 && !transferredsky
-        && (gamemode != commercial || gamemap < 21) ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+    skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
+        R_DrawFlippedSkyColumn : R_DrawSkyColumn);
 
     gameaction = ga_nothing;
 
