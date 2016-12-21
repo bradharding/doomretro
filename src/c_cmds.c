@@ -1665,8 +1665,9 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
     if (!*parm)
         return true;
 
-    if (M_StringCompare(parm, "all") || M_StringCompare(parm, "health") || M_StringCompare(parm,
-        "weapons") || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
+    if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
+        || M_StringCompare(parm, "health") || M_StringCompare(parm, "weapons")
+        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "armor")
         || M_StringCompare(parm, "armour") || M_StringCompare(parm, "keys"))
         return true;
 
@@ -1676,7 +1677,7 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
         if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm,
             removespaces(mobjinfo[i].name1)) || (*mobjinfo[i].name2 && M_StringCompare(parm,
             removespaces(mobjinfo[i].name2))) || (*mobjinfo[i].name3 && M_StringCompare(parm,
-                removespaces(mobjinfo[i].name3))) || (num == mobjinfo[i].doomednum && num != -1)))
+            removespaces(mobjinfo[i].name3))) || (num == mobjinfo[i].doomednum && num != -1)))
             return true;
 
     return false;
@@ -1692,7 +1693,7 @@ static void give_cmd_func2(char *cmd, char *parms)
     {
         player_t    *player = &players[0];
 
-        if (M_StringCompare(parm, "all"))
+        if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
             P_GiveBackpack(player, false);
             P_GiveMegaHealth(player);
