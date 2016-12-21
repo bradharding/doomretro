@@ -357,6 +357,7 @@ static void exec_cmd_func2(char *, char *);
 static void exitmap_cmd_func2(char *, char *);
 static dboolean fastmonsters_cmd_func1(char *, char *);
 static void fastmonsters_cmd_func2(char *, char *);
+static void freeze_cmd_func2(char *, char *);
 static dboolean give_cmd_func1(char *, char *);
 static void give_cmd_func2(char *, char *);
 static dboolean god_cmd_func1(char *, char *);
@@ -584,6 +585,8 @@ consolecmd_t consolecmds[] =
         "The color behind the player's face in the status bar (<b>0</b> to <b>255</b>)."),
     CMD(fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
+    CMD(freeze, "", null_func1, freeze_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
+        "Toggles freezing of the game."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
@@ -1616,6 +1619,35 @@ static void fastmonsters_cmd_func2(char *cmd, char *parms)
         G_SetFastMonsters(false);
         HU_PlayerMessage(s_STSTR_FMOFF, false, false);
     }
+}
+
+//
+// freeze CCMD
+//
+static void freeze_cmd_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if (value == 0)
+            freeze = false;
+        else if (value == 1)
+            freeze = true;
+    }
+    else
+        freeze = !freeze;
+
+    if (freeze)
+    {
+        HU_PlayerMessage(s_STSTR_FON, false, false);
+
+        players[0].cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+        HU_PlayerMessage(s_STSTR_FOFF, false, false);
 }
 
 //

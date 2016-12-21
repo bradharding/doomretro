@@ -115,6 +115,7 @@ char                    *wad = wad_default;
 char                    *packageconfig;
 
 dboolean                devparm;                // started game with -devparm
+dboolean                freeze = false;
 dboolean                nomonsters;             // checkparm of -nomonsters
 dboolean                respawnitems = false;
 dboolean                respawnmonsters;        // checkparm of -respawn

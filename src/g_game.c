@@ -600,6 +600,8 @@ void G_DoLoadLevel(void)
     player->itemspickedup_health = 0;
     memset(player->mobjcount, 0, sizeof(player->mobjcount));
 
+    freeze = false;
+
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if (pistolstart || P_GetMapPistolStart(map))
         G_ResetPlayer(player);

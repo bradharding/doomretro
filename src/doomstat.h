@@ -49,13 +49,13 @@
 // ------------------------
 // Command line parameters.
 //
-extern  dboolean        nomonsters;             // checkparm of -nomonsters
-extern  dboolean        respawnitems;
-extern  dboolean        respawnmonsters;        // checkparm of -respawn
-extern  dboolean        pistolstart;            // [BH] checkparm of -pistolstart
-extern  dboolean        fastparm;               // checkparm of -fast
+extern dboolean         nomonsters;             // checkparm of -nomonsters
+extern dboolean         respawnitems;
+extern dboolean         respawnmonsters;        // checkparm of -respawn
+extern dboolean         pistolstart;            // [BH] checkparm of -pistolstart
+extern dboolean         fastparm;               // checkparm of -fast
 
-extern  dboolean        devparm;                // DEBUG: launched with -devparm
+extern dboolean         devparm;                // DEBUG: launched with -devparm
 
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
@@ -66,7 +66,7 @@ extern GameVersion_t    gameversion;
 extern char             *gamedescription;
 
 // Set if homebrew PWAD stuff has been added.
-extern  dboolean        modifiedgame;
+extern dboolean         modifiedgame;
 
 // -------------------------------------------
 // Selected skill type, map etc.
@@ -91,6 +91,8 @@ extern int              gamemap;
 extern char             **episodes[];
 extern char             **expansions[];
 extern char             **skilllevels[];
+
+extern dboolean         freeze;
 
 extern dboolean         nerve;
 extern dboolean         bfgedition;
