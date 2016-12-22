@@ -43,7 +43,7 @@
 #include <sys/stat.h>
 #include <inttypes.h>   // haleyjd
 
-#include "mus2mid.h"
+#include "mmus2mid.h"
 #include "z_zone.h"
 
 // some macros to decode mus event bit fields
@@ -313,7 +313,7 @@ dboolean muscheckformat(UBYTE *mus, int size)
 }
 
 //
-// mus2mid()
+// mmus2mid()
 //
 // Convert a memory buffer containing MUS data to an Allegro MIDI structure
 // with specified time division and compression.
@@ -321,9 +321,9 @@ dboolean muscheckformat(UBYTE *mus, int size)
 // Passed a pointer to the buffer containing MUS data, a pointer to the
 // Allegro MIDI structure, the divisions, and a flag whether to compress.
 //
-// Returns 0 if successful, otherwise an error code (see mus2mid.h).
+// Returns 0 if successful, otherwise an error code (see mmus2mid.h).
 //
-int mus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, dboolean nocomp)
+int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, dboolean nocomp)
 {
     UWORD               TrackCnt = 0;
     UBYTE               evt, MUSchannel, MIDIchannel, MIDItrack = 0;

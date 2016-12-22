@@ -41,7 +41,7 @@
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
-#include "mus2mid.h"
+#include "mmus2mid.h"
 #include "s_sound.h"
 #include "SDL_mixer.h"
 #include "version.h"
@@ -339,7 +339,7 @@ void *I_RegisterSong(void *data, int len)
 
             memset(&mididata, 0, sizeof(MIDI));
 
-            if (mus2mid((byte *)data, (size_t)len, &mididata, 89, false))
+            if (mmus2mid((byte *)data, (size_t)len, &mididata, 89, false))
                 return NULL;
 
             // Hurrah! Let's make it a mid and give it to SDL_mixer

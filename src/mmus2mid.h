@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__MUS2MID_H__)
-#define __MUS2MID_H__
+#if !defined(__MMUS2MID_H__)
+#define __MMUS2MID_H__
 
 #include "doomtype.h"
 
@@ -75,7 +75,7 @@ typedef struct MIDI                     // a midi file
 } MIDI;
 
 dboolean muscheckformat(UBYTE *mus, int size);
-int mus2mid(UBYTE *mus, size_t size, MIDI *mid, UWORD division, dboolean nocomp);
+int mmus2mid(UBYTE *mus, size_t size, MIDI *mid, UWORD division, dboolean nocomp);
 int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen);
 
 #endif
