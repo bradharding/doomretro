@@ -289,7 +289,7 @@ dboolean I_MidiRPCInitClient()
 
     // Compose binding string
     if (RpcStringBindingCompose(NULL, (RPC_CSTR)"ncalrpc", NULL,
-        (RPC_CSTR)"2D4DC2F9-CE90-4080-8A00-1CB819086970", NULL, &szStringBinding))
+        (RPC_CSTR)"2d4dc2f9-ce90-4080-8a00-1cb819086970", NULL, &szStringBinding))
         return false;
 
     // Create binding handle
