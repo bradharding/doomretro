@@ -356,7 +356,8 @@ void *I_RegisterSong(void *data, int len)
         {
             // Initialize client if not yet started
             if (!haveMidiClient)
-                haveMidiClient = I_MidiRPCInitClient();
+                if (!(haveMidiClient = I_MidiRPCInitClient()))
+                    C_Warning("The RPC client couldn't be initialized.");
 
             if (I_MidiRPCRegisterSong(data, len))
             {
