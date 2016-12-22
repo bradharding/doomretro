@@ -653,6 +653,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
     static int  prevsound;
     static int  prevtic;
 
+    if (freeze)
+        return;
+
     if (delta > toucher->height || delta < -8 * FRACUNIT)
         return;         // out of reach
 
