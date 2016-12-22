@@ -1916,6 +1916,9 @@ void P_UpdateSpecials(void)
     int         pic;
     int         i;
 
+    if (freeze)
+        return;
+
     if (timer)
     {
         if (!--countdown)

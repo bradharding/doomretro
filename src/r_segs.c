@@ -662,7 +662,7 @@ void R_StoreWallRange(int start, int stop)
     worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
-    if (frontsector->isliquid)
+    if (frontsector->isliquid && !freeze)
     {
         if (r_liquid_bob && (frontsector->heightsec == -1
             || viewz > sectors[frontsector->heightsec].interpfloorheight))
@@ -788,7 +788,7 @@ void R_StoreWallRange(int start, int stop)
         worldlow = backsector->interpfloorheight - viewz;
 
         // [BH] animate liquid sectors
-        if (r_liquid_bob && backsector->isliquid
+        if (r_liquid_bob && backsector->isliquid && !freeze
             && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (backsector->heightsec == -1
             || viewz > sectors[backsector->heightsec].interpfloorheight))
