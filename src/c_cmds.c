@@ -1641,6 +1641,7 @@ static void freeze_cmd_func2(char *cmd, char *parms)
     if (freeze)
     {
         HU_PlayerMessage(s_STSTR_FON, false, false);
+        C_HideConsole();
 
         players[0].cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);

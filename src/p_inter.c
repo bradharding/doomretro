@@ -1392,6 +1392,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         splayer->damageinflicted += damage;
         stat_damageinflicted = SafeAdd(stat_damageinflicted, damage);
     }
+
     if (tplayer)
     {
         int     damagecount;
@@ -1403,7 +1404,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         // Below certain threshold,
         // ignore damage in GOD mode, or with INVUL power.
-        if ((tplayer->cheats & CF_GODMODE)
+        if ((tplayer->cheats & CF_GODMODE) || freeze
             || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
