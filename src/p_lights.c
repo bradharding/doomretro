@@ -261,6 +261,9 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
 //
 void T_Glow(glow_t *g)
 {
+    if (freeze)
+        return;
+
     switch (g->direction)
     {
         case -1:
