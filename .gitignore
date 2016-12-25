@@ -62,6 +62,7 @@ stdout.txt
 *.opendb
 *.iobj
 *.ipdb
+*.bsc
 
 # Chutzpah Test files
 _Chutzpah*
