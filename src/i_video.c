@@ -188,6 +188,8 @@ void                    (*blitfunc)(void);
 void                    (*mapblitfunc)(void);
 
 int                     fps = 0;
+int                     minfps = INT_MAX;
+int                     maxfps = 0;
 int                     refreshrate;
 
 #if defined(_WIN32)
@@ -743,6 +745,28 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
+static void CalculateFPS(void)
+{
+    static int          frames = -1;
+    static Uint32       starttime;
+    static Uint32       currenttime;
+
+    ++frames;
+    currenttime = SDL_GetTicks();
+
+    if (currenttime - starttime >= 1000)
+    {
+        fps = frames;
+        frames = 0;
+        starttime = currenttime;
+    }
+
+    minfps = MIN(minfps, fps);
+    maxfps = MAX(maxfps, fps);
+
+    C_UpdateFPS();
+}
+
 static void I_Blit(void)
 {
     UpdateGrab();
@@ -780,25 +804,11 @@ static void I_Blit_NearestLinear(void)
     SDL_RenderPresent(renderer);
 }
 
-static int      frames = -1;
-static Uint32   starttime;
-static Uint32   currenttime;
-
 static void I_Blit_ShowFPS(void)
 {
     UpdateGrab();
 
-    ++frames;
-    currenttime = SDL_GetTicks();
-
-    if (currenttime - starttime >= 1000)
-    {
-        fps = frames;
-        frames = 0;
-        starttime = currenttime;
-    }
-
-    C_UpdateFPS();
+    CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -817,17 +827,7 @@ static void I_Blit_NearestLinear_ShowFPS(void)
 {
     UpdateGrab();
 
-    ++frames;
-    currenttime = SDL_GetTicks();
-
-    if (currenttime - starttime >= 1000)
-    {
-        fps = frames;
-        frames = 0;
-        starttime = currenttime;
-    }
-
-    C_UpdateFPS();
+    CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -888,17 +888,7 @@ static void I_Blit_ShowFPS_Shake(void)
 {
     UpdateGrab();
 
-    ++frames;
-    currenttime = SDL_GetTicks();
-
-    if (currenttime - starttime >= 1000)
-    {
-        fps = frames;
-        frames = 0;
-        starttime = currenttime;
-    }
-
-    C_UpdateFPS();
+    CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
@@ -918,17 +908,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
     UpdateGrab();
 
-    ++frames;
-    currenttime = SDL_GetTicks();
-
-    if (currenttime - starttime >= 1000)
-    {
-        fps = frames;
-        frames = 0;
-        starttime = currenttime;
-    }
-
-    C_UpdateFPS();
+    CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);

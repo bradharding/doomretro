@@ -4784,13 +4784,25 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
 //
 // vid_showfps CVAR
 //
+extern int      minfps;
+extern int      maxfps;
+
 static void vid_showfps_cvar_func2(char *cmd, char *parms)
 {
     dboolean    vid_showfps_old = vid_showfps;
 
     bool_cvars_func2(cmd, parms);
     if (vid_showfps != vid_showfps_old)
+    {
         I_UpdateBlitFunc(!!players[0].damagecount);
+        if (!vid_showfps)
+        {
+            C_Output("The minimum was %s FPS and the maximum was %s FPS.",
+                commify(minfps), commify(maxfps));
+            minfps = INT_MAX;
+            maxfps = 0;
+        }
+    }
 }
 
 //
