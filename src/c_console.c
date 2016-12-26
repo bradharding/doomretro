@@ -851,9 +851,15 @@ void C_UpdateFPS(void)
 
         M_snprintf(buffer, 16, "%i FPS", fps);
 
-        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
-            CONSOLETEXTY, buffer, (fps < (refreshrate ? refreshrate : TICRATE) ?
-            consolelowfpscolor : consolehighfpscolor));
+        if (fps < (refreshrate ? refreshrate : TICRATE))
+        {
+            C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
+                CONSOLETEXTY, buffer, consolelowfpscolor);
+            C_Warning("The FPS dropped below %i.", (refreshrate ? refreshrate : TICRATE));
+        }
+        else
+            C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
+                CONSOLETEXTY, buffer, consolehighfpscolor);
     }
 }
 
