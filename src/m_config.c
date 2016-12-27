@@ -47,6 +47,8 @@
 #include "p_local.h"
 #include "version.h"
 
+static dboolean         cvarsloaded = false;
+
 extern dboolean         alwaysrun;
 extern int              am_allmapcdwallcolor;
 extern int              am_allmapfdwallcolor;
@@ -400,6 +402,9 @@ void M_SaveCVARs(void)
     int         i;
     int         numaliases = 0;
     FILE        *file;
+
+    if (!cvarsloaded)
+        return;
 
     if (!(file = fopen(packageconfig, "w")))
         return; // can't write the file, but don't complain
@@ -898,6 +903,8 @@ void M_LoadCVARs(char *filename)
 
     // read the file in, overriding any set defaults
     FILE        *file = fopen(filename, "r");
+
+    cvarsloaded = true;
 
     if (!file)
     {
