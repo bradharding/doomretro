@@ -20,6 +20,7 @@
 * The `map` CCMD now has a `random` parameter that will warp the player to a random map.
 * All sky textures with a height other than 128 pixels will now be ignored if specified in a `MAPINFO` lump.
 * A `freeze` CCMD has been implemented that toggles freezing of gameplay while still allowing the player to move around.
+* A bug has been fixed whereby the <kbd>,</kbd> key couldn’t be bound nor unbound in the console.
 
 ---
 

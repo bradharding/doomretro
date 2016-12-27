@@ -645,7 +645,7 @@ char *uncommify(const char *input)
         char    *p2 = p;
 
         while (*input != '\0')
-            if (*input != ',')
+            if (*input != ',' || *(input + 1) == '\0')
                 *p2++ = *input++;
             else
                 ++input;
