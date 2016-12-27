@@ -745,24 +745,26 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
+Uint32  starttime;
+int     frames = -1;
+Uint32  currenttime;
+
 static void CalculateFPS(void)
 {
-    static int          frames = -1;
-    static Uint32       starttime;
-    static Uint32       currenttime;
-
     ++frames;
     currenttime = SDL_GetTicks();
 
     if (currenttime - starttime >= 1000)
     {
-        fps = frames;
+        if ((fps = frames))
+        {
+            minfps = MIN(minfps, fps);
+            maxfps = MAX(maxfps, fps);
+        }
+
         frames = 0;
         starttime = currenttime;
     }
-
-    minfps = MIN(minfps, fps);
-    maxfps = MAX(maxfps, fps);
 
     C_UpdateFPS();
 }
