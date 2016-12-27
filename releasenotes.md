@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the handling of large numbers of blood splats.
 * *DOOM Retro’s* splash screen has been redesigned.
+* The CVARs in `doomretro.cfg` will no longer be reset if *DOOM Retro* quits with an error during startup.
 * A bug has been fixed whereby in some rare instances objects would get suspended in midair when the sector they were on lowered.
 * The last WAD to be opened now prepopulates the `File name` field in *DOOM Retro’s* WAD launcher.
 * The `r_shakescreen` CVAR has been renamed to `r_shake_damage` and is now `50%` by default.
@@ -9,7 +10,7 @@
 * The following changes have been made to the `vid_showfps` CVAR:
   * When both the `vid_showfps` and `vid_vsync` CVARs are `on`, the frames per second displayed will be red if less than the display’s refresh rate.
   * If the frames per second drops too low, a warning will now be displayed in the console.
-  * If the `vid_showfps` CVAR is disabled in the console, the minimum and maximum FPS since the CVAR was enabled will now be displayed.
+  * If the CVAR is disabled in the console, the minimum and maximum FPS since the CVAR was enabled will now be displayed.
 * An `exec` CCMD has been implemented that allows a series of commands stored in a file to be executed at once as if they had been typed in the console individually.
 * Textures that have patches with negative offsets (such as `TEKWALL1` and `STEP2`) now appear correctly.
 * A bug has been fixed whereby monsters would continue to fire at the player’s corpse after killing them in some instances.
