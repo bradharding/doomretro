@@ -476,9 +476,13 @@ dboolean        noinput = true;
 
 static void I_GetEvent(void)
 {
-    event_t     event;
-    SDL_Event   SDLEvent;
-    SDL_Event   *Event = &SDLEvent;
+    event_t             event;
+    SDL_Event           SDLEvent;
+    SDL_Event           *Event = &SDLEvent;
+
+#if !defined(_WIN32)
+    static dboolean     enterdown;
+#endif
 
     while (SDL_PollEvent(Event))
     {
@@ -519,6 +523,16 @@ static void I_GetEvent(void)
                         HU_ClearMessages();
                     }
 
+#if !defined(_WIN32)
+                    // Handle ALT+ENTER on non-Windows systems
+                    if (altdown && ev->data1 == KEY_ENTER && !enterdown)
+                    {
+                        enterdown = true;
+                        I_ToggleFullscreen();
+                        return;
+                    }
+#endif
+
                     D_PostEvent(&event);
                 }
                 break;
@@ -530,6 +544,12 @@ static void I_GetEvent(void)
 
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
+
+#if !defined(_WIN32)
+                // Handle ALT+ENTER on non-Windows systems
+                if (ev->data1 == KEY_ENTER)
+                    enterdown = false;
+#endif
 
                 if (event.data1)
                     D_PostEvent(&event);
