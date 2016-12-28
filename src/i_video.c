@@ -525,7 +525,7 @@ static void I_GetEvent(void)
 
 #if !defined(_WIN32)
                     // Handle ALT+ENTER on non-Windows systems
-                    if (altdown && ev->data1 == KEY_ENTER && !enterdown)
+                    if (altdown && event.data1 == KEY_ENTER && !enterdown)
                     {
                         enterdown = true;
                         I_ToggleFullscreen();
@@ -547,7 +547,7 @@ static void I_GetEvent(void)
 
 #if !defined(_WIN32)
                 // Handle ALT+ENTER on non-Windows systems
-                if (ev->data1 == KEY_ENTER)
+                if (event.data1 == KEY_ENTER)
                     enterdown = false;
 #endif
 
