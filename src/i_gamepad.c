@@ -72,6 +72,9 @@ short                   gamepadrightdeadzone;
 dboolean                vibrate = false;
 int                     damagevibrationtics;
 int                     weaponvibrationtics;
+int                     currentmotorspeed = 0;
+int                     idlemotorspeed = 0;
+int                     restoremotorspeed = 0;
 
 extern dboolean         idclev;
 extern dboolean         idmus;
@@ -258,10 +261,6 @@ void I_PollDirectInputGamepad(void)
         }
     }
 }
-
-int currentmotorspeed = 0;
-int idlemotorspeed = 0;
-int restoremotorspeed = 0;
 
 void XInputVibration(int motorspeed)
 {

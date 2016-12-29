@@ -197,7 +197,6 @@ gamestate_t             wipegamestate = GS_TITLESCREEN;
 extern dboolean         setsizeneeded;
 extern dboolean         message_on;
 extern int              r_detail;
-extern int              viewheight2;
 extern gameaction_t     loadaction;
 
 void R_ExecuteSetViewSize(void);

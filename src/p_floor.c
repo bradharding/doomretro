@@ -43,8 +43,6 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-extern dboolean canmodify;
-
 //
 // FLOORS
 //
