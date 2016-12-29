@@ -1234,7 +1234,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 //
 // bindlist CCMD
 //
-static void C_DisplayBinds(char *action, int value, controltype_t type, int count)
+static void C_DisplayBinds(char *action, int value, controltype_t type, int *count)
 {
     int i = 0;
     int tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
@@ -1246,10 +1246,10 @@ static void C_DisplayBinds(char *action, int value, controltype_t type, int coun
             char        *control = controls[i].control;
 
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "%i.\t\'%s\'\t%s", count, (control[0] == '=' ? "+" : control),
+                C_TabbedOutput(tabs, "%i.\t\'%s\'\t%s", (*count)++, (control[0] == '=' ? "+" : control),
                     action);
             else
-                C_TabbedOutput(tabs, "%i.\t%s\t%s", count, control, action);
+                C_TabbedOutput(tabs, "%i.\t%s\t%s", (*count)++, control, action);
             break;
         }
         ++i;
@@ -1264,23 +1264,17 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
     while (*actions[action].action)
     {
         if (actions[action].keyboard1)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1,
-                keyboardcontrol, count++);
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1, keyboardcontrol, &count);
         if (actions[action].keyboard2)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2,
-                keyboardcontrol, count++);
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2, keyboardcontrol, &count);
         if (actions[action].mouse1)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse1, mousecontrol,
-                count++);
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse1, mousecontrol, &count);
         if (actions[action].mouse2)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse2, mousecontrol,
-                count++);
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse2, mousecontrol, &count);
         if (actions[action].gamepad1)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad1,
-                gamepadcontrol, count++);
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad1, gamepadcontrol, &count);
         if (actions[action].gamepad2)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad2,
-                gamepadcontrol, count++);
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad2, gamepadcontrol, &count);
         ++action;
     }
 }
