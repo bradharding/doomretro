@@ -100,6 +100,7 @@ static patch_t  *multiply;
 static patch_t  *warning;
 static patch_t  *brand;
 static patch_t  *divider;
+static patch_t  *bindlist;
 static patch_t  *cmdlist;
 static patch_t  *cvarlist;
 static patch_t  *playerstats;
@@ -514,6 +515,7 @@ void C_Init(void)
     divider = W_CacheLumpName("DRDIVIDE", PU_STATIC);
     warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
 
+    bindlist = W_CacheLumpName("DRBNDLST", PU_STATIC);
     cmdlist = W_CacheLumpName("DRCMDLST", PU_STATIC);
     cvarlist = W_CacheLumpName("DRCVRLST", PU_STATIC);
     playerstats = W_CacheLumpName("DRPLYRST", PU_STATIC);
@@ -962,6 +964,8 @@ void C_Drawer(void)
             if (type == dividerstring)
                 V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight),
                     divider, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+            else if (M_StringCompare(console[i].string, BINDLISTTITLE))
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
             else if (M_StringCompare(console[i].string, CMDLISTTITLE))
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
             else if (M_StringCompare(console[i].string, CVARLISTTITLE))

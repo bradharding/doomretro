@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the handling of large numbers of blood splats.
 * *DOOM Retro’s* splash screen has been redesigned.
+* Minor changes have been made to text that is output to the console.
 * The CVARs in `doomretro.cfg` will no longer be reset if *DOOM Retro* quits with an error during startup in some rare instances.
 * A bug has been fixed whereby in some rare instances objects would get suspended in midair when the sector they were on lowered.
 * The last WAD to be opened now prepopulates the `File name` field in *DOOM Retro’s* WAD launcher.

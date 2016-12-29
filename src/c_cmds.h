@@ -43,6 +43,7 @@
 
 #define MAXALIASES              256
 
+#define BINDLISTTITLE           "CONTROL\t+ACTION"
 #define CMDLISTTITLE            "CCMD\tDESCRIPTION"
 #define CVARLISTTITLE           "CVAR\tDEFAULT\tDESCRIPTION"
 #define PLAYERSTATSTITLE        "STAT\tCURRENT MAP\tTOTAL"

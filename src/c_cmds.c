@@ -1258,8 +1258,11 @@ static void C_DisplayBinds(char *action, int value, controltype_t type, int *cou
 
 static void bindlist_cmd_func2(char *cmd, char *parms)
 {
-    int     action = 0;
-    int     count = 1;
+    int tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
+    int action = 0;
+    int count = 1;
+
+    C_TabbedOutput(tabs, BINDLISTTITLE);
 
     while (*actions[action].action)
     {
