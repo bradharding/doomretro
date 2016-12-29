@@ -506,21 +506,21 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player always running when moving."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with a change in ceiling height in the automap\nwhen the player has the computer area map power-up (<b>0</b> to\n<b>255</b>)."),
+        "The color of lines with a change in ceiling height in the\nautomap when the player has the computer area map\npower-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with a change in floor height in the automap\nwhen the player has the computer area map power-up (<b>0</b> to\n<b>255</b>)."),
+        "The color of lines with a change in floor height in the\nautomap when the player has the computer area map\npower-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of solid walls in the automap when the player has the\ncomputer area map power-up (<b>0</b> to <b>255</b>)."),
+        "The color of solid walls in the automap when the player\nhas the computer area map power-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_backcolor, am_backcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the automap's background (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_cdwallcolor, am_cdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with a change in ceiling height in the automap\n(<b>0</b> to <b>255</b>)."),
+        "The color of lines with a change in ceiling height in the\nautomap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_crosshaircolor, am_crosshaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with a change in floor height in the automap\n(<b>0</b> to <b>255</b>)."),
+        "The color of lines with a change in floor height in the\nautomap (<b>0</b> to <b>255</b>)."),
     CVAR_BOOL(am_followmode, "", am_followmode_cvar_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -544,7 +544,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_thingcolor, am_thingcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of things in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_tswallcolor, am_tswallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with no change in height in the automap (<b>0</b> to\n<b>255</b>)."),
+        "The color of lines with no change in height in the\nautomap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_wallcolor, am_wallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of solid walls in the automap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(ammo, "", game_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -552,7 +552,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(armor, armour, game_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's armor."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles automatically loading the last savegame after the\nplayer dies."),
+        "Toggles automatically loading the last savegame after\nthe player dies."),
     CMD(bind, "", null_func1, bind_cmd_func2, 2, BINDCMDFORMAT,
         "Binds an <i>action</i> to a <i>control</i>."),
     CMD(bindlist, "", null_func1, bindlist_cmd_func2, 0, "",
@@ -564,9 +564,9 @@ consolecmd_t consolecmds[] =
     CMD(cmdlist, "", null_func1, cmdlist_cmd_func2, 1, "[<i>searchstring</i>]",
         "Shows a list of console commands."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles obituaries in the console when monsters are killed."),
+        "Toggles obituaries in the console when monsters are\nkilled."),
     CVAR_BOOL(con_timestamps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles timestamps next to player messages and obituaries in\nthe console."),
+        "Toggles timestamps next to player messages and\nobituaries in the console."),
     CMD(condump, "", null_func1, condump_cmd_func2, 1, "[<i>filename</i><b>.txt</b>]",
         "Dumps the console to a file."),
     CMD(cvarlist, "", null_func1, cvarlist_cmd_func2, 1, "[<i>searchstring</i>]",
@@ -582,7 +582,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(expansion, "", null_func1, str_cvars_func2, CF_READONLY,
         "The current <i><b>DOOM II</b></i> expansion."),
     CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color behind the player's face in the status bar (<b>0</b> to <b>255</b>)."),
+        "The color behind the player's face in the status bar (<b>0</b>\nto <b>255</b>)."),
     CMD(fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
     CMD(freeze, "", null_func1, freeze_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -590,7 +590,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
-        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, <b>all</b> or certain <i>items</i> to\nthe player."),
+        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, <b>all</b> or certain\n<i>items</i> to the player."),
     CMD(god, "", god_cmd_func1, god_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
@@ -600,11 +600,11 @@ consolecmd_t consolecmds[] =
     CVAR_INT(gp_sensitivity, "", int_cvars_func1, gp_sensitivity_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The gamepad's sensitivity (<b>0</b> to <b>128</b>)."),
     CVAR_BOOL(gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles swapping the gamepad's left and right thumbsticks."),
+        "Toggles swapping the gamepad's left and right\nthumbsticks."),
     CVAR_INT(gp_vibrate_damage, "", int_cvars_func1,int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount <i><b>XInput</b></i> gamepads vibrate when the player receives\ndamage (<b>0%</b> to <b>200%</b>)."),
+        "The amount <i><b>XInput</b></i> gamepads vibrate when the player\nreceives damage (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(gp_vibrate_weapons, "", int_cvars_func1,int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount <i><b>XInput</b></i> gamepads vibrate when the player fires\ntheir weapon (<b>0%</b> to <b>200%</b>)."),
+        "The amount <i><b>XInput</b></i> gamepads vibrate when the player\nfires their weapon (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(health, "", game_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health."),
 #if defined(_WIN32)
@@ -639,7 +639,7 @@ consolecmd_t consolecmds[] =
     CVAR_FLOAT(m_acceleration, "", float_cvars_func1, float_cvars_func2, CF_NONE,
         "The amount the mouse accelerates."),
     CVAR_BOOL(m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles double-clicking a mouse button for the <b>+use</b> action."),
+        "Toggles double-clicking a mouse button for the <b>+use</b>\naction."),
     CVAR_BOOL(m_novertical, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles no vertical movement of the mouse."),
     CVAR_INT(m_sensitivity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -655,7 +655,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(messages, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles player messages."),
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount the player's view bobs up and down when they move."),
+        "The amount the player's view bobs up and down when\nthey move."),
     CMD_CHEAT(mumu, 0),
     CMD(noclip, "", game_func1, noclip_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles no clipping mode."),
@@ -674,13 +674,13 @@ consolecmd_t consolecmds[] =
     CMD(quit, exit, null_func1, quit_cmd_func2, 0, "",
         "Quits <i><b>"PACKAGE_NAME"</b></i>."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles an alternate heads-up display when in widescreen\nmode."),
+        "Toggles an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The intensity of the screen's red haze when the player has the\nberserk power-up and their fists selected (<b>0</b> to <b>8</b>)."),
+        "The intensity of the screen's red haze when the player\nhas the berserk power-up and their fists selected (<b>0</b>\nto <b>8</b>)."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODVALUEALIAS,
-        "The colors of the blood of the player and monsters (<b>all</b>, <b>none</b> or\n<b>red</b>)."),
+        "The colors of the blood of the player and monsters (<b>all</b>,\n<b>none</b> or <b>red</b>)."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, r_bloodsplats_max_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The maximum number of blood splats allowed in a map (<b>0</b> to\n<b>1,048,576</b>)."),
+        "The maximum number of blood splats allowed in a map (<b>0</b>\nto <b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,
         "The total number of blood splats in the current map."),
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -690,9 +690,9 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles corpses being randomly mirrored."),
     CVAR_BOOL(r_corpses_moreblood, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles blood splats around corpses that are spawned when a\nmap is loaded."),
+        "Toggles blood splats around corpses that are spawned\nwhen a map is loaded."),
     CVAR_BOOL(r_corpses_nudge, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles corpses being nudged when monsters walk over them."),
+        "Toggles corpses being nudged when monsters walk over\nthem."),
     CVAR_BOOL(r_corpses_slide, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles corpses sliding in reaction to barrel and rocket\nexplosions."),
     CVAR_BOOL(r_corpses_smearblood, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -704,7 +704,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_dither, "", bool_cvars_func1, r_dither_cvar_func2, BOOLVALUEALIAS,
         "Toggles dithering of <i><b>BOOM</b></i>-compatible translucent wall\ntextures."),
     CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the fixing of mapping errors in the <i><b>DOOM</b></i> and <i><b>DOOM II</b></i>\nIWADs."),
+        "Toggles the fixing of mapping errors in the <i><b>DOOM</b></i> and\n<i><b>DOOM II</b></i> IWADs."),
     CVAR_BOOL(r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the fixing of sprite offsets."),
     CVAR_BOOL(r_floatbob, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -718,7 +718,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_liquid_bob, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the bobbing effect of liquid sectors."),
     CVAR_BOOL(r_liquid_clipsprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the bottom of sprites being clipped when in a liquid\nsector."),
+        "Toggles the bottom of sprites being clipped when in a\nliquid sector."),
     CVAR_BOOL(r_liquid_current, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles a slight current being applied to liquid sectors."),
     CVAR_BOOL(r_liquid_lowerview, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -728,11 +728,11 @@ consolecmd_t consolecmds[] =
     CVAR_SIZE(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
         "The size of the pixels when the graphic detail is low\n(<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles randomly mirroring the weapons dropped by monsters."),
+        "Toggles randomly mirroring the weapons dropped by\nmonsters."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles showing the player's weapon."),
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the trails behind rockets fired by the player and\ncyberdemons."),
+        "Toggles the trails behind rockets fired by the player\nand cyberdemons."),
     CVAR_INT(r_screensize, "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The screen size (<b>0</b> to <b>8</b>)."),
     CVAR_BOOL(r_shadows, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -740,7 +740,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_shake_barrels, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles shaking the screen when the player is near an\nexploding barrel."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount the screen shakes when the player is attacked."),
+        "The amount the screen shakes when the player is\nattacked."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of sprites and textures."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
@@ -772,7 +772,7 @@ consolecmd_t consolecmds[] =
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
         "Spawns a <i>monster</i> or <i>item</i>."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount the player's view and weapon bob up and down when\nthey stand still."),
+        "The amount the player's view and weapon bob up and\ndown when they stand still."),
     CMD(teleport, "", game_func1, teleport_cmd_func2, 2, TELEPORTCMDFORMAT,
         "Teleports the player to (<i>x</i>,<i>y</i>) in the current map."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, 0, "",
@@ -782,11 +782,11 @@ consolecmd_t consolecmds[] =
     CMD(unbind, "", null_func1, unbind_cmd_func2, 1, UNBINDCMDFORMAT,
         "Unbinds the action from a <i>control</i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
-        "The units used in the <b>playerstats</b> CCMD (<b>imperial</b> or <b>metric</b>)."),
+        "The units used in the <b>playerstats</b> CCMD (<b>imperial</b> or\n<b>metric</b>)."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
-        "The frames per second at which to cap the framerate (<b>off</b>, or\n<b>35</b> to <b>1,000</b>)."),
+        "The frames per second at which to cap the framerate\n(<b>off</b>, or <b>35</b> to <b>1,000</b>)."),
      CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to render the game."),
 #if !defined(_WIN32)
@@ -798,19 +798,19 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_motionblur, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles motion blur when the player turns quickly."),
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b> or\n<b>\"software\"</b>)."),
+        "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b>\nor <b>\"software\"</b>)."),
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
-        "The filter used to scale the display (<b>\"nearest\"</b>, <b>\"linear\"</b> or\n<b>\"nearest_linear\"</b>)."),
+        "The filter used to scale the display (<b>\"nearest\"</b>, <b>\"linear\"</b>\nor <b>\"nearest_linear\"</b>)."),
     CVAR_SIZE(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
         "The screen's resolution when fullscreen (<b>desktop</b> or\n<i>width</i><b>\xD7</b><i>height</i>)."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
-        "Toggles showing the average number of frames per second."),
+        "Toggles showing the average number of frames per\nsecond."),
     CVAR_BOOL(vid_vsync, "", bool_cvars_func1, vid_vsync_cvar_func2, BOOLVALUEALIAS,
         "Toggles vertical sync with the display's refresh rate."),
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
     CVAR_POS(vid_windowposition, "", null_func1, vid_windowposition_cvar_func2,
-        "The position of the window on the desktop (<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
+        "The position of the window on the desktop (<b>centered</b> or\n<b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
     CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop (<i>width</i><b>\xD7</b><i>height</i>)."),
 #if defined(_WIN32)
@@ -818,7 +818,7 @@ consolecmd_t consolecmds[] =
         "The last WAD to be opened using the WAD launcher."),
 #endif
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount the player's weapon bobs up and down when they\nmove."),
+        "The amount the player's weapon bobs up and down when\nthey move."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
@@ -1299,7 +1299,8 @@ static void clear_cmd_func2(char *cmd, char *parms)
 static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
     int i = 0;
-    int tabs[8] = { 174, 0, 0, 0, 0, 0, 0, 0 };
+    int count = 0;
+    int tabs[8] = { 40, 213, 0, 0, 0, 0, 0, 0 };
 
     C_TabbedOutput(tabs, CMDLISTTITLE);
 
@@ -1321,11 +1322,11 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 M_StringCopy(description2, p, 255);
             }
 
-            C_TabbedOutput(tabs, "<b>%s</b> %s\t%s", consolecmds[i].name, consolecmds[i].format,
-                description1);
+            C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", ++count, consolecmds[i].name,
+                consolecmds[i].format, description1);
 
             if (*description2)
-                C_TabbedOutput(tabs, "\t%s", description2);
+                C_TabbedOutput(tabs, "\t\t%s", description2);
         }
         ++i;
     }
@@ -1442,7 +1443,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
 static void cvarlist_cmd_func2(char *cmd, char *parms)
 {
     int i = 0;
-    int tabs[8] = { 149, 257, 0, 0, 0, 0, 0, 0 };
+    int count = 0;
+    int tabs[8] = { 40, 189, 297, 0, 0, 0, 0, 0 };
 
     C_TabbedOutput(tabs, CVARLISTTITLE);
 
@@ -1472,54 +1474,54 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
-                C_TabbedOutput(tabs, "<b>%s\t%i</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", ++count, consolecmds[i].name,
                     (gamestate == GS_LEVEL ? players[0].ammo[weaponinfo[players[0].readyweapon].ammo] : 0),
                     description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
-                C_TabbedOutput(tabs, "<b>%s\t%i%%</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
                     (gamestate == GS_LEVEL ? players[0].armorpoints : 0), description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
-                C_TabbedOutput(tabs, "<b>%s\t%i%%</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
                     (gamestate == GS_LEVEL ? players[0].health : 0), description1);
             else if (consolecmds[i].flags & CF_BOOLEAN)
-                C_TabbedOutput(tabs, "<b>%s\t%s</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
                     C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
                         consolecmds[i].aliases), description1);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
-                C_TabbedOutput(tabs, "<b>%s\t%i%%</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
                     *(int *)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_INTEGER)
-                C_TabbedOutput(tabs, "<b>%s\t%s</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
                     C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                         consolecmds[i].aliases), description1);
             else if (consolecmds[i].flags & CF_FLOAT)
-                C_TabbedOutput(tabs, "<b>%s\t%s%s</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%s</b>\t%s", ++count, consolecmds[i].name,
                     striptrailingzero(*(float *)consolecmds[i].variable,
                         ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
                     ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), description1);
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, "<b>%s\t\"%.14s%s\"</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t\"%.14s%s\"</b>\t%s", ++count, consolecmds[i].name,
                     *(char **)consolecmds[i].variable,
                     (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""), description1);
             else if (consolecmds[i].flags & CF_POSITION)
-                C_TabbedOutput(tabs, "<b>%s\t%s</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
                     *(char **)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_SIZE)
-                C_TabbedOutput(tabs, "<b>%s\t%s</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
                     formatsize(*(char **)consolecmds[i].variable), description1);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int     tics = *(int *)consolecmds[i].variable / TICRATE;
 
-                C_TabbedOutput(tabs, "<b>%s\t%02i:%02i:%02i</b>\t%s", consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t<b>%s\t%02i:%02i:%02i</b>\t%s", ++count, consolecmds[i].name,
                     tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, description1);
             }
 
             if (*description2)
-                C_TabbedOutput(tabs, "\t\t%s", description2);
+                C_TabbedOutput(tabs, "\t\t\t%s", description2);
 
             if (*description3)
-                C_TabbedOutput(tabs, "\t\t%s", description3);
+                C_TabbedOutput(tabs, "\t\t\t%s", description3);
         }
         ++i;
     }
