@@ -2228,6 +2228,12 @@ void deh_procThing(DEHFILE *fpin, char *line)
                                     strval);
 
                             value |= deh_mobjflags[iy].value;
+
+                            // [BH] hack to use vanilla height of dehacked hanging decorations
+                            if (deh_mobjflags[iy].value == MF_SPAWNCEILING
+                                && (mobjinfo[indexnum].flags2 & MF2_DECORATION))
+                                mobjinfo[indexnum].height = 16 * FRACUNIT;
+
                             break;
                         }
                         if (iy >= DEH_MOBJFLAGMAX)
