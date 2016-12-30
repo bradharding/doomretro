@@ -1010,6 +1010,7 @@ static int D_ChooseIWAD(void)
         dboolean        onlyoneselected;
 
         iwadfound = 0;
+        wad = "";
         startuptimer = I_GetTimeMS();
 
         // only one file was selected
@@ -1199,6 +1200,7 @@ static int D_ChooseIWAD(void)
                             iwadfound = 1;
                             sharewareiwad = M_StringCompare(iwadpass, "DOOM1.WAD");
                             isDOOM2 = M_StringCompare(iwadpass, "DOOM2.WAD");
+                            wad = strdup(leafname(fullpath));
                             iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
                         }
