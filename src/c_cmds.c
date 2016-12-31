@@ -2371,8 +2371,10 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 {
     int         i, j;
     int         count = 0;
-    int         tabs[8] = { 40, 90, 350, 0, 0, 0, 0, 0 };
+    int         tabs[8] = { 40, 93, 370, 0, 0, 0, 0, 0 };
     char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
+
+    C_TabbedOutput(tabs, MAPLISTTITLE);
 
     // search through lumps for maps
     for (i = 0; i < numlumps; ++i)

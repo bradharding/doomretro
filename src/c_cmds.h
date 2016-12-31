@@ -46,6 +46,7 @@
 #define BINDLISTTITLE           "CONTROL\t+ACTION"
 #define CMDLISTTITLE            "CCMD\tDESCRIPTION"
 #define CVARLISTTITLE           "CVAR\tDEFAULT\tDESCRIPTION"
+#define MAPLISTTITLE            "MAP\tNAME\tWAD"
 #define PLAYERSTATSTITLE        "STAT\tCURRENT MAP\tTOTAL"
 
 typedef enum

@@ -103,6 +103,7 @@ static patch_t  *divider;
 static patch_t  *bindlist;
 static patch_t  *cmdlist;
 static patch_t  *cvarlist;
+static patch_t  *maplist;
 static patch_t  *playerstats;
 
 static short    brandwidth;
@@ -518,6 +519,7 @@ void C_Init(void)
     bindlist = W_CacheLumpName("DRBNDLST", PU_STATIC);
     cmdlist = W_CacheLumpName("DRCMDLST", PU_STATIC);
     cvarlist = W_CacheLumpName("DRCVRLST", PU_STATIC);
+    maplist = W_CacheLumpName("DRMAPLST", PU_STATIC);
     playerstats = W_CacheLumpName("DRPLYRST", PU_STATIC);
 
     brandwidth = SHORT(brand->width);
@@ -970,6 +972,8 @@ void C_Drawer(void)
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
             else if (M_StringCompare(console[i].string, CVARLISTTITLE))
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
+            else if (M_StringCompare(console[i].string, MAPLISTTITLE))
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
             else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
             else
