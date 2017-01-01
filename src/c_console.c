@@ -1075,7 +1075,7 @@ dboolean C_ValidateInput(char *input)
 
     while (*consolecmds[i].name)
     {
-        char    cmd[256] = "";
+        char    cmd[128] = "";
 
         if (consolecmds[i].type == CT_CHEAT)
         {
@@ -1089,7 +1089,7 @@ dboolean C_ValidateInput(char *input)
                     consolecheatparm[1] = input[length - 1];
                     consolecheatparm[2] = '\0';
 
-                    M_StringCopy(cmd, input, 255);
+                    M_StringCopy(cmd, input, 127);
                     cmd[length - 2] = '\0';
 
                     if ((M_StringCompare(cmd, consolecmds[i].name)
@@ -1097,7 +1097,7 @@ dboolean C_ValidateInput(char *input)
                         && length == strlen(cmd) + 2
                         && consolecmds[i].func1(consolecmds[i].name, consolecheatparm))
                     {
-                        M_StringCopy(consolecheat, cmd, 255);
+                        M_StringCopy(consolecheat, cmd, 127);
                         return true;
                     }
                 }
@@ -1106,7 +1106,7 @@ dboolean C_ValidateInput(char *input)
                 || M_StringCompare(input, consolecmds[i].alternate))
                 && consolecmds[i].func1(consolecmds[i].name, ""))
             {
-                M_StringCopy(consolecheat, input, 255);
+                M_StringCopy(consolecheat, input, 127);
                 return true;
             }
         }
@@ -1114,7 +1114,7 @@ dboolean C_ValidateInput(char *input)
         {
             char        parms[128] = "";
 
-            sscanf(input, "%128s %128[^\n]", cmd, parms);
+            sscanf(input, "%127s %127[^\n]", cmd, parms);
             C_StripQuotes(parms);
             if ((M_StringCompare(cmd, consolecmds[i].name)
                 || M_StringCompare(cmd, consolecmds[i].alternate))

@@ -131,9 +131,6 @@ void Z_Free(void *ptr)
 {
     memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
 
-    if (!ptr)
-        return;
-
     if (block->user)                                    // Nullify user if one exists
         *block->user = NULL;
 
@@ -178,10 +175,6 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
 void Z_ChangeTag(void *ptr, int32_t tag)
 {
     memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
-
-    // proff - added sanity check, this can happen when an empty lump is locked
-    if (!ptr)
-        return;
 
     // proff - do nothing if tag doesn't differ
     if (tag == block->tag)
