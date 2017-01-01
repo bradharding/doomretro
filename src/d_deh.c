@@ -2234,6 +2234,9 @@ void deh_procThing(DEHFILE *fpin, char *line)
                                 && (mobjinfo[indexnum].flags2 & MF2_DECORATION))
                                 mobjinfo[indexnum].height = 16 * FRACUNIT;
 
+                            // [BH] no blood splats if thing is dehacked
+                            mobjinfo[indexnum].blood = 0;
+
                             break;
                         }
                         if (iy >= DEH_MOBJFLAGMAX)
