@@ -2413,7 +2413,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced
                         && dehcount == 1 && !*mapinfoname ? "-" : titlecase(*mapinfoname ?
-                        mapinfoname : *mapnames[ep * 9 + map])), (modifiedgame ? wad : ""));
+                        mapinfoname : *mapnames[ep * 9 + map])), wad);
                 break;
 
             case doom2:
@@ -2430,29 +2430,28 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                         M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced
                             && dehcount == 1 && !nerve && !*mapinfoname ? "-" :
                             titlecase(*mapinfoname ? mapinfoname : (bfgedition ?
-                            *mapnames2_bfg[map] : *mapnames2[map]))), (modifiedgame && !nerve ?
-                            wad : ""));
+                            *mapnames2_bfg[map] : *mapnames2[map]))), wad);
                 }
                 break;
 
             case pack_nerve:
                 if (M_StringCompare(wad, "nerve.wad"))
-                    M_snprintf(maplist[count++], 256, "%s\t%s", lump, titlecase(*mapinfoname ?
-                        mapinfoname : *mapnamesn[map]));
+                    M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
+                        titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]), wad);
                 break;
 
             case pack_plut:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced
                         && dehcount == 1 && !*mapinfoname ? "-" : titlecase(*mapinfoname ?
-                        mapinfoname : *mapnamesp[map])), (modifiedgame ? wad : ""));
+                        mapinfoname : *mapnamesp[map])), wad);
                 break;
 
             case pack_tnt:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced
                         && dehcount == 1 && !*mapinfoname ? "-" : titlecase(*mapinfoname ?
-                        mapinfoname : *mapnamest[map])), (modifiedgame ? wad : ""));
+                        mapinfoname : *mapnamest[map])), wad);
                 break;
 
             default:
