@@ -44,6 +44,7 @@
 #include "../midiproc/midiproc.h"
 
 #include "c_console.h"
+#include "doomstat.h"
 #include "doomtype.h"
 #include "i_timer.h"
 #include "m_misc.h"
@@ -95,7 +96,7 @@ static dboolean I_MidiRPCWaitForServer()
 
     while (RpcMgmtIsServerListening(hMidiRPCBinding) != RPC_S_OK)
     {
-        I_Sleep(10);
+        I_Sleep(10 + 10 * autostart);
         if (++tries >= MIDIRPC_MAXTRIES)
             return false;
     }
