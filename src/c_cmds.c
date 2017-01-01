@@ -2424,7 +2424,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     {
                         if (!M_StringCompare(wad, "doom2.wad"))
                             M_snprintf(maplist[count++], 256, "%s",
-                                M_StringReplace(*mapnames2[map], ": ", "\t"));
+                                titlecase(M_StringReplace(*mapnames2[map], ": ", "\t")));
                     }
                     else
                         M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced

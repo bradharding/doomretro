@@ -567,23 +567,19 @@ char *titlecase(const char *str)
     char        *newstr = strdup(str);
     size_t      len = strlen(newstr);
 
-    if (len > 1)
+    if (len > 0)
     {
-        size_t  i;
-
         newstr[0] = toupper(newstr[0]);
-        for (i = 1; i < len; ++i)
-            if ((newstr[i - 1] == ' ' || ((i == 1 || newstr[i - 2] == ' ')
-                && !isalnum((unsigned char)newstr[i - 1]))) && isalnum((unsigned char)newstr[i]))
-                newstr[i] = toupper(newstr[i]);
-    }
+        if (len > 1)
+        {
+            size_t  i;
 
-    strreplace(newstr, " Of ", " of ");
-    strreplace(newstr, ": of ", ": Of ");
-    strreplace(newstr, " Or ", " or ");
-    strreplace(newstr, ": or ", ": Or ");
-    strreplace(newstr, " The ", " the ");
-    strreplace(newstr, ": the ", ": The ");
+            for (i = 1; i < len; ++i)
+                if ((newstr[i - 1] != '\'' || (newstr[i - 1] == '\'' && newstr[i - 2] == ' '))
+                    && !isalnum((unsigned char)newstr[i - 1]) && isalnum((unsigned char)newstr[i]))
+                    newstr[i] = toupper(newstr[i]);
+        }
+    }
 
     return newstr;
 }
