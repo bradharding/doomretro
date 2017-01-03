@@ -806,7 +806,8 @@ void R_DrawDitheredColumn(void)
     {
         dest += SCREENWIDTH;
         frac += fracstep >> 1;
-        --count;
+        if (!--count)
+            return;
     }
 
     do
