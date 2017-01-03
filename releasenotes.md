@@ -16,6 +16,7 @@
 * Textures that have patches with negative offsets (such as `TEKWALL1` and `STEP2`) now appear correctly.
 * A bug has been fixed whereby monsters would continue to fire at the player’s corpse after killing them in some instances.
 * The `r_dither` CVAR is now `off` by default.
+* When the `r_dither` CVAR is `on`, multiple translucent wall textures are now visible through each other.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 * Aliases can now be created using the new `alias` CCMD. These aliases can be entered into the console to execute a string of commands, and are saved in `doomretro.cfg`.
 * Small amounts of damage to the player are now more evident.

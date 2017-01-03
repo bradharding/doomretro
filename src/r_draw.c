@@ -800,6 +800,7 @@ void R_DrawDitheredColumn(void)
     const fixed_t       fracstep = dc_iscale << 1;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
+    byte                *translucency = tranmap;
 
     if (((viewwindowy + dc_yl) & 1) == ((viewwindowx + dc_x) & 1))
     {
@@ -810,7 +811,7 @@ void R_DrawDitheredColumn(void)
 
     do
     {
-        *dest = colormap[source[frac >> FRACBITS]];
+        *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
         dest += SCREENWIDTH << 1;
         frac += fracstep;
     } while ((count -= 2) > 0);
