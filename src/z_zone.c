@@ -176,6 +176,9 @@ void Z_ChangeTag(void *ptr, int32_t tag)
 {
     memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
 
+    if (!ptr)
+        return;
+
     // proff - do nothing if tag doesn't differ
     if (tag == block->tag)
         return;
