@@ -1,5 +1,7 @@
 ### DOOM Retro v2.3.9
 
+* A bug has been fixed whereby multiple files couldn’t be loaded using *DOOM Retro’s* WAD launcher.
+
 ---
 
 ###### Friday, January 6, 2017
