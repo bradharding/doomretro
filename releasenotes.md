@@ -1,4 +1,10 @@
-### DOOM Retro v2.4
+### DOOM Retro v2.3.9
+
+---
+
+###### Friday, January 6, 2017
+
+### DOOM Retro v2.3.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the handling of large numbers of blood splats.
 * *DOOM Retro’s* splash screen has been redesigned.
