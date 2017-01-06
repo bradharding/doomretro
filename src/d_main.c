@@ -979,7 +979,8 @@ static int D_ChooseIWAD(void)
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = NULL;
-    ofn.lpstrFile = wad;
+    M_StringCopy(szFile, wad, 4096);
+    ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
     ofn.lpstrFilter = "IWADs and PWADs (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
     ofn.nFilterIndex = 1;
