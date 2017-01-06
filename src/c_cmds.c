@@ -4805,7 +4805,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
                 commify(minfps), commify(maxfps));
             minfps = INT_MAX;
             maxfps = 0;
-            starttime = 0;
+            starttime = SDL_GetTicks();
             frames = -1;
         }
     }

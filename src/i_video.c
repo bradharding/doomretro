@@ -772,9 +772,8 @@ Uint32  currenttime;
 static void CalculateFPS(void)
 {
     ++frames;
-    currenttime = SDL_GetTicks();
 
-    if (currenttime - starttime >= 1000)
+    if (starttime < (currenttime = SDL_GetTicks()) - 1000)
     {
         if ((fps = frames))
         {
