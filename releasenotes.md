@@ -1,5 +1,6 @@
 ### DOOM Retro v2.3.9
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby multiple files couldn’t be loaded using *DOOM Retro’s* WAD launcher.
 
 ---
