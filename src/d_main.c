@@ -766,9 +766,12 @@ static void D_FirstUse(void)
     {
 #if defined(_WIN32)
         {                                       0, 0, "&Wiki"   },
-#endif
         { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "&Cancel" },
         { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "&Next >" }
+#else
+        { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "Cancel"  },
+        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Next >"  }
+#endif
     };
 
     const SDL_MessageBoxData messageboxdata =
