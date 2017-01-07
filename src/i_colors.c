@@ -208,6 +208,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
     }
     return best_color;
 }
+
 void FindNearestColors(byte *palette)
 {
     int i;
@@ -285,7 +286,7 @@ void I_InitTintTables(byte *palette)
     tinttab80 = GenerateTintTable(palette, 80, general, ALL);
 
     tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ? W_CacheLumpNum(lump, PU_STATIC) :
-        tinttab50);
+        tinttab25);
 
     tinttabred = GenerateTintTable(palette, ADDITIVE, general, REDS);
     tinttabredwhite1 = GenerateTintTable(palette, ADDITIVE, general, (REDS | WHITES));
