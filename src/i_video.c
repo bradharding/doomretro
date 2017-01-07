@@ -1500,6 +1500,20 @@ static void SetVideoMode(dboolean output)
                 }
             }
         }
+#if !defined(_WIN32)
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
+        {
+            if (output)
+                C_Output("The screen is rendered using hardware acceleration with the "
+                    "<i><b>OpenGL ES</b></i> API.");
+        }
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
+        {
+            if (output)
+                C_Output("The screen is rendered using hardware acceleration with the "
+                    "<i><b>OpenGL ES 2</b></i> API.");
+        }
+#endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)

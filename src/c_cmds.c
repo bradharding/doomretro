@@ -4699,6 +4699,10 @@ static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || M_StringCompare(parms, vid_scaleapi_direct3d)
         || M_StringCompare(parms, vid_scaleapi_opengl)
+#if !defined(_WIN32)
+        || M_StringCompare(parms, vid_scaleapi_opengles)
+        || M_StringCompare(parms, vid_scaleapi_opengles2)
+#endif
         || M_StringCompare(parms, vid_scaleapi_software));
 }
 
