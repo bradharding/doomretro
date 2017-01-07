@@ -108,7 +108,7 @@ char                    *pwadfile = "";
 char                    *iwadfolder = iwadfolder_default;
 int                     units = units_default;
 int                     turbo = turbo_default;
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__MACOSX__)
 char                    *wad = wad_default;
 #endif
 
@@ -967,7 +967,7 @@ dboolean D_CheckParms(void)
 }
 
 #if defined(_WIN32) || defined(__MACOSX__)
-static int D_ChooseIWAD(void)
+static int D_OpenWADLauncher(void)
 {
     int                 iwadfound = -1;
     dboolean            fileopenedok;
@@ -1657,7 +1657,7 @@ static void D_DoomMainSetup(void)
 #if defined(_WIN32) || defined(__MACOSX__)
             do
             {
-                if ((choseniwad = D_ChooseIWAD()) == -1)
+                if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
 #if defined(_WIN32)
                 else if (!choseniwad)
