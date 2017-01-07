@@ -4274,9 +4274,13 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_dither)
         {
+            lumpindex_t lump;
+
             r_dither = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
+            tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ?
+                W_CacheLumpNum(lump, PU_STATIC) : (r_dither ? tinttab25 : tinttab50));
         }
     }
     else

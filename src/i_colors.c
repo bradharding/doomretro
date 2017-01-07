@@ -269,6 +269,8 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESI
     return result;
 }
 
+extern dboolean r_dither;
+
 void I_InitTintTables(byte *palette)
 {
     lumpindex_t lump;
@@ -286,7 +288,7 @@ void I_InitTintTables(byte *palette)
     tinttab80 = GenerateTintTable(palette, 80, general, ALL);
 
     tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ? W_CacheLumpNum(lump, PU_STATIC) :
-        tinttab25);
+        (r_dither ? tinttab25 : tinttab50));
 
     tinttabred = GenerateTintTable(palette, ADDITIVE, general, REDS);
     tinttabredwhite1 = GenerateTintTable(palette, ADDITIVE, general, (REDS | WHITES));
