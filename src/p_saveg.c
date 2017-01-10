@@ -1970,7 +1970,6 @@ void P_UnArchiveThinkers(void)
                     }
                     else
                         mobj->colfunc = bloodsplatcolfunc;
-                    mobj->projectfunc = R_ProjectBloodSplat;
 
                     ++r_bloodsplats_total;
                 }

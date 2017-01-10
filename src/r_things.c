@@ -876,7 +876,7 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
-void R_ProjectBloodSplat(mobj_t *thing)
+static void R_ProjectBloodSplat(mobj_t *thing)
 {
     fixed_t             tx;
 

@@ -65,7 +65,6 @@ void R_DrawPlayerSprites(void);
 void R_DrawMasked(void);
 
 void R_ProjectSprite(mobj_t *thing);
-void R_ProjectBloodSplat(mobj_t *thing);
 void R_ProjectShadow(mobj_t *thing);
 
 #endif
