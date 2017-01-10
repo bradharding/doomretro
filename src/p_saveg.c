@@ -1846,14 +1846,13 @@ void P_ArchiveThinkers(void)
     // save off the bloodsplats
     for (i = 0; i < numsectors; ++i)
     {
-        mobj_t   *mo = sectors[i].splatlist;
+        mobj_t   *mo;
 
-        while (mo)
+        for (mo = sectors[i].splatlist; mo; mo = mo->snext)
         {
             saveg_write8(tc_bloodsplat);
             saveg_write_pad();
             saveg_write_mobj_t(mo);
-            mo = mo->snext;
         }
     }
 
@@ -1961,7 +1960,7 @@ void P_UnArchiveThinkers(void)
 
                 if (r_bloodsplats_total < r_bloodsplats_max)
                 {
-                    P_SetThingPosition(mobj);
+                    P_SetBloodSplatPosition(mobj);
                     mobj->info = &mobjinfo[mobj->type];
 
                     if (mobj->blood == FUZZYBLOOD)

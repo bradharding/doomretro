@@ -1118,7 +1118,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     {
         for (thing = sec->thinglist; thing; thing = thing->snext)
             if (thing->type != MT_SHADOW)
-                thing->projectfunc(thing);
+                R_ProjectSprite(thing);
     }
     else
         for (thing = sec->thinglist; thing; thing = thing->snext)
