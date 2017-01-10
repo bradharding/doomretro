@@ -39,7 +39,7 @@
 language: c
 
 compiler:
-   - clang
+    - clang
 
 sudo: required
 
