@@ -666,6 +666,7 @@ void R_ProjectSprite(mobj_t *thing)
     spritedef_t         *sprdef;
     spriteframe_t       *sprframe;
     int                 lump;
+    fixed_t             width;
 
     dboolean            flip;
 
@@ -676,7 +677,6 @@ void R_ProjectSprite(mobj_t *thing)
     int                 flags = thing->flags;
     int                 flags2 = thing->flags2;
     int                 frame = thing->frame;
-    int                 type = thing->type;
 
     // transform the origin point
     fixed_t             tr_x;
@@ -757,6 +757,8 @@ void R_ProjectSprite(mobj_t *thing)
         flip = (!!(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
+    width = spritewidth[lump];
+
     if (thing->state->dehacked)
     {
         offset = spriteoffset[lump];
@@ -769,14 +771,14 @@ void R_ProjectSprite(mobj_t *thing)
     }
 
     // calculate edges of the shape
-    tx -= (flip ? spritewidth[lump] - offset : offset);
+    tx -= (flip ? width - offset : offset);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
     if (x1 > viewwidth)
         return;
 
-    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], xscale)) >> FRACBITS) - 1;
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + width, xscale)) >> FRACBITS) - 1;
 
     // off the left side
     if (x2 < 0)
@@ -792,6 +794,7 @@ void R_ProjectSprite(mobj_t *thing)
     // from the viewer, by either water or fake ceilings
     // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
     heightsec = sector->heightsec;
+
 
     if (heightsec != -1)   // only clip things which are in special sectors
     {
@@ -817,7 +820,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     vis->mobjflags = flags;
     vis->mobjflags2 = flags2;
-    vis->type = type;
+    vis->type = thing->type;
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
@@ -854,7 +857,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     if (flip)
     {
-        vis->startfrac = spritewidth[lump] - 1;
+        vis->startfrac = width - 1;
         vis->xiscale = -FixedDiv(FRACUNIT, xscale);
     }
     else
@@ -980,6 +983,7 @@ void R_ProjectShadow(mobj_t *thing)
     spritedef_t         *sprdef;
     spriteframe_t       *sprframe;
     int                 lump;
+    fixed_t             width;
 
     dboolean            flip;
 
@@ -1052,15 +1056,17 @@ void R_ProjectShadow(mobj_t *thing)
         flip = (!!(sprframe->flip & 1) || (thing->flags2 & MF2_MIRRORED));
     }
 
+    width = spritewidth[lump];
+
     // calculate edges of the shape
-    tx -= (flip ? spritewidth[lump] - newspriteoffset[lump] : newspriteoffset[lump]);
+    tx -= (flip ? width - newspriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
     if (x1 > viewwidth)
         return;
 
-    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], xscale)) >> FRACBITS) - 1;
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + width, xscale)) >> FRACBITS) - 1;
 
     // off the left side
     if (x2 < 0)
@@ -1084,7 +1090,7 @@ void R_ProjectShadow(mobj_t *thing)
 
     if (flip)
     {
-        vis->startfrac = spritewidth[lump] - 1;
+        vis->startfrac = width - 1;
         vis->xiscale = -FixedDiv(FRACUNIT, xscale);
     }
     else
