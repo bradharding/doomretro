@@ -676,7 +676,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The intensity of the screen's red haze when the player\nhas the berserk power-up and their fists selected (<b>0</b>\nto <b>8</b>)."),
+        "The intensity of the screen's red haze when the player\nhas the berserk power-up and their fist selected (<b>0</b>\nto <b>8</b>)."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODVALUEALIAS,
         "The colors of the blood of the player and monsters (<b>all</b>,\n<b>none</b> or <b>red</b>)."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, r_bloodsplats_max_cvar_func2, CF_NONE, NOVALUEALIAS,
