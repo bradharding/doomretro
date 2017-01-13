@@ -340,7 +340,8 @@ void R_DrawWallColumn(void)
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        else if (count & 2)
+
+        if (count & 2)
         {
             *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
             dest += SCREENWIDTH;
@@ -349,7 +350,8 @@ void R_DrawWallColumn(void)
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        else if (count & 4)
+
+        if (count & 4)
         {
             *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
             dest += SCREENWIDTH;
@@ -457,7 +459,8 @@ void R_DrawFullbrightWallColumn(void)
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        else if (count & 2)
+
+        if (count & 2)
         {
             dot = source[(frac >> FRACBITS) & heightmask];
             *dest = (colormask[dot] ? dot : colormap[dot]);
@@ -468,7 +471,8 @@ void R_DrawFullbrightWallColumn(void)
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        else if (count & 4)
+
+        if (count & 4)
         {
             dot = source[(frac >> FRACBITS) & heightmask];
             *dest = (colormask[dot] ? dot : colormap[dot]);
