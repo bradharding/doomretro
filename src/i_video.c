@@ -238,7 +238,6 @@ dboolean MouseShouldBeGrabbed(void)
     return (gamestate == GS_LEVEL);
 }
 
-
 static void SetShowCursor(dboolean show)
 {
     if (SDL_SetRelativeMouseMode(!show) < 0)

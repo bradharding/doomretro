@@ -389,6 +389,10 @@ void P_PlayerThink(player_t *player)
         return;
     }
 
+    // [BH] regenerate health up to 100 every 1 second
+    if ((player->cheats & CF_BUDDHA) && !(leveltime % TICRATE) && !player->damagecount)
+        player->mo->health = player->health = MIN(player->health + 1, initial_health);
+
     // Move around.
     // Reaction time is used to prevent movement for a bit after a teleport.
     if (mo->reactiontime)
