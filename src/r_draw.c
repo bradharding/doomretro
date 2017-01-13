@@ -363,6 +363,8 @@ void R_DrawWallColumn(void)
             dest += SCREENWIDTH;
             frac += fracstep;
             *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
         }
     }
 
@@ -486,6 +488,8 @@ void R_DrawFullbrightWallColumn(void)
             frac += fracstep;
             dot = source[(frac >> FRACBITS) & heightmask];
             *dest = (colormask[dot] ? dot : colormap[dot]);
+            dest += SCREENWIDTH;
+            frac += fracstep;
         }
     }
 
