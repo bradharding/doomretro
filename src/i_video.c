@@ -154,7 +154,7 @@ int                     displaycentery;
 
 dboolean                returntowidescreen = false;
 
-dboolean                windowfocused;
+dboolean                windowfocused = true;
 
 #if !defined(_WIN32)
 char                    envstring[255];
@@ -238,41 +238,6 @@ dboolean MouseShouldBeGrabbed(void)
     return (gamestate == GS_LEVEL);
 }
 
-// Update the value of windowfocused when we get a focus event
-//
-// We try to make ourselves be well-behaved: the grab on the mouse
-// is removed if we lose focus (such as a popup window appearing),
-// and we don't move the mouse around if we aren't focused either.
-static void UpdateFocus(void)
-{
-    Uint32      state = SDL_GetWindowFlags(window);
-
-    // We should have input (keyboard) focus and be visible (not minimized)
-    if ((windowfocused = ((state & SDL_WINDOW_INPUT_FOCUS) && (state & SDL_WINDOW_SHOWN))))
-    {
-#if defined(_WIN32)
-        SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
-#endif
-
-        if (menuactive || consoleactive)
-            S_ResumeSound();
-    }
-    else
-    {
-#if defined(_WIN32)
-        SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
-#endif
-
-        if (gamestate == GS_LEVEL && !paused)
-        {
-            blurred = false;
-            if (menuactive || consoleactive)
-                S_PauseSound();
-            else
-                sendpause = true;
-        }
-    }
-}
 
 static void SetShowCursor(dboolean show)
 {
@@ -636,9 +601,33 @@ static void I_GetEvent(void)
                     switch (Event->window.event)
                     {
                         case SDL_WINDOWEVENT_FOCUS_GAINED:
+                            windowfocused = true;
+
+#if defined(_WIN32)
+                            SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
+#endif
+
+                            if (menuactive || consoleactive)
+                                S_ResumeSound();
+
+                            break;
+
                         case SDL_WINDOWEVENT_FOCUS_LOST:
-                            // need to update our focus state
-                            UpdateFocus();
+                            windowfocused = false;
+
+#if defined(_WIN32)
+                            SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
+#endif
+
+                            if (gamestate == GS_LEVEL && !paused)
+                            {
+                                blurred = false;
+                                if (menuactive || consoleactive)
+                                    S_PauseSound();
+                                else
+                                    sendpause = true;
+                            }
+
                             break;
 
                         case SDL_WINDOWEVENT_EXPOSED:
@@ -1909,6 +1898,5 @@ void I_InitGraphics(void)
 
     while (SDL_PollEvent(&dummy));
 
-    UpdateFocus();
     UpdateGrab();
 }
