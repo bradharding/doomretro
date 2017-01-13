@@ -1,5 +1,7 @@
 ### DOOM Retro v2.3.10
 
+* A bug has been fixed whereby sectors may be incorrectly identified as liquid when loading a savegame in some rare instances.
+
 ---
 
 ###### Friday, January 13, 2017
@@ -9,7 +11,8 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby multiple files couldn’t be loaded using *DOOM Retro’s* WAD launcher.
 * Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
-* Savegames no longer become corrupted in some instances. They are not compatible with previous versions of *DOOM Retro*.
+* Savegames no longer become corrupted in some instances.
+* Savegames created using previous versions of *DOOM Retro* are not compatible with this version.
 
 ---
 

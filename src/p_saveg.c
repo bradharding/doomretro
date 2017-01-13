@@ -1793,6 +1793,7 @@ void P_UnArchiveWorld(void)
         sec->floordata = NULL;
         sec->lightingdata = NULL;
         sec->soundtarget = NULL;
+        sec->isliquid = isliquid[sec->floorpic];
     }
 
     // do lines
