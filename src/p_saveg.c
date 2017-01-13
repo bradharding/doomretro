@@ -1960,6 +1960,7 @@ void P_UnArchiveThinkers(void)
 
                 if (r_bloodsplats_total < r_bloodsplats_max)
                 {
+                    mobj->subsector = R_PointInSubsector(mobj->x, mobj->y);
                     P_SetBloodSplatPosition(mobj);
                     mobj->info = &mobjinfo[mobj->type];
 

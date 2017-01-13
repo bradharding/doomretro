@@ -9,6 +9,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby multiple files couldn’t be loaded using *DOOM Retro’s* WAD launcher.
 * Improvements have been made to translucent wall textures when the `r_dither` CVAR is `on`.
+* Savegames no longer become corrupted in some instances. They are not compatible with previous versions of *DOOM Retro*.
 
 ---
 
