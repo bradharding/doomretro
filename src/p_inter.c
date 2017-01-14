@@ -730,7 +730,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
 
         case SPR_MEGA:
             P_GiveMegaHealth(player);
-            P_GiveArmor(player, 2);
+            P_GiveArmor(player, blue_armor_class);
             if (message)
                 HU_PlayerMessage(s_GOTMSPHERE, true, false);
             sound = sfx_getpow;
