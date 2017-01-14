@@ -1997,11 +1997,8 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
             if (!n->visited)                                        // unprocessed thing found
             {
                 n->visited = true;                                  // mark thing as processed
-                if ((mobj = n->m_thing))
-                {
-                    if (mobj->type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                        PIT_ChangeSector(mobj);                     // process it
-                }
+                if ((mobj = n->m_thing) && !(mobj->flags & MF_NOBLOCKMAP))
+                    PIT_ChangeSector(mobj);                         // process it
                 break;                                              // exit and start over
             }
     }

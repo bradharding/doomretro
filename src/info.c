@@ -7754,47 +7754,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
-    },
-
-    // Shadow (MT_SHADOW)
-    {
-        /* doomednum            */ -1,
-        /* spawnstate           */ S_NULL,
-        /* spawnhealth          */ 0,
-        /* gibhealth            */ 0,
-        /* seestate             */ S_NULL,
-        /* seesound             */ sfx_None,
-        /* reactiontime         */ 0,
-        /* attacksound          */ sfx_None,
-        /* painstate            */ S_NULL,
-        /* painchance           */ 0,
-        /* painsound            */ sfx_None,
-        /* meleestate           */ S_NULL,
-        /* missilestate         */ S_NULL,
-        /* deathstate           */ S_NULL,
-        /* xdeathstate          */ S_NULL,
-        /* deathsound           */ sfx_None,
-        /* speed                */ 0,
-        /* radius               */ 0,
-        /* pickupradius         */ 0,
-        /* height               */ 0,
-        /* projectilepassheight */ 0,
-        /* mass                 */ 0,
-        /* damage               */ 0,
-        /* activesound          */ sfx_None,
-        /* flags                */ 0,
-        /* flags2               */ 0,
-        /* raisestate           */ S_NULL,
-        /* frames               */ 0,
-        /* fullbright           */ false,
-        /* blood                */ 0,
-        /* shadowoffset         */ 0,
-        /* name1                */ "shadow",
-        /* plural1              */ "",
-        /* name2                */ "",
-        /* plural2              */ "",
-        /* name3                */ "",
-        /* plural3              */ ""
     }
 };
 

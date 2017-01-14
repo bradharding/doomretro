@@ -1396,7 +1396,7 @@ void P_InitExtraMobjs(void)
 {
     int i;
 
-    for (i = MT_EXTRA00; i <= MT_EXTRA99; ++i)
+    for (i = MT_SHADOW; i <= MT_EXTRA99; ++i)
     {
         mobjinfo[i].doomednum = -1;
         mobjinfo[i].spawnstate = S_NULL;
