@@ -733,8 +733,7 @@ static void M_CheckCVARs(void)
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;
 
-    if (r_berserkintensity < r_berserkintensity_min || r_berserkintensity > r_berserkintensity_max)
-        r_berserkintensity = r_berserkintensity_default;
+    r_berserkintensity = BETWEEN(r_berserkintensity_min, r_berserkintensity, r_berserkintensity_max);
 
     if (r_blood != r_blood_none && r_blood != r_blood_red && r_blood != r_blood_all)
         r_blood = r_blood_default;
@@ -851,8 +850,7 @@ static void M_CheckCVARs(void)
 
     version = version_default;
 
-    if ((vid_capfps > 0 && vid_capfps < vid_capfps_min) || vid_capfps > vid_capfps_max)
-        vid_capfps = vid_capfps_default;
+    vid_capfps = (vid_capfps && vid_capfps < vid_capfps_min ? 0 : MIN(vid_capfps_default, vid_capfps_max));
 
     if (vid_fullscreen != false && vid_fullscreen != true)
         vid_fullscreen = vid_fullscreen_default;
