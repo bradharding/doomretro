@@ -174,7 +174,7 @@ typedef enum
     // Dropped by a demon, not level spawned.
     // E.g. ammo clips dropped by dying former humans.
     MF_DROPPED          = 0x00020000,
-    // Use fuzzy draw (shadow demons or spectres),
+    // Use fuzzy draw (spectres),
     //  temporary player invisibility powerup.
     MF_FUZZ             = 0x00040000,
     // Flag: don't bleed when shot (use puff),
@@ -274,11 +274,10 @@ typedef enum
     MF2_NOLIQUIDBOB               = 0x00100000,
 
     // Object's feet are now being clipped
-    // (when applied to object's shadow, shadow isn't drawn)
     MF2_FEETARECLIPPED            = 0x00200000,
 
-    // Object has a shadow
-    MF2_SHADOW                    = 0x00400000,
+    // Object casts a shadow
+    MF2_CASTSHADOW                = 0x00400000,
 
     // Object is blood
     MF2_BLOOD                     = 0x00800000,
@@ -397,8 +396,6 @@ typedef struct mobj_s
     short               gear;           // killough 11/98: used in torque simulation
 
     int                 bloodsplats;
-
-    struct mobj_s       *shadow;
 
     int                 blood;
 

@@ -50,7 +50,6 @@
 
 void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
-void P_SpawnShadow(mobj_t *actor);
 
 int                     r_blood = r_blood_default;
 int                     r_bloodsplats_max = r_bloodsplats_max_default;
@@ -104,7 +103,6 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     state_t     *st;
     int         cycle_counter = 0;
-    mobj_t      *shadow = mobj->shadow;
 
     do
     {
@@ -133,14 +131,6 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
             I_Error("P_SetMobjState: Infinite state cycle detected!");
     } while (!mobj->tics);
 
-    // [BH] Use same sprite frame for shadow as mobj
-    if (shadow)
-    {
-        shadow->sprite = mobj->sprite;
-        shadow->frame = mobj->frame;
-        shadow->angle = mobj->angle;
-    }
-
     return true;
 }
 
@@ -159,11 +149,11 @@ void P_ExplodeMissile(mobj_t *mo)
 
     mo->flags &= ~MF_MISSILE;
 
-    // [BH] make explosion translucent, remove shadow
+    // [BH] make explosion translucent
     if (mo->type == MT_ROCKET)
     {
         mo->colfunc = tlcolfunc;
-        P_RemoveMobjShadow(mo);
+        mo->flags2 &= ~MF2_CASTSHADOW;
     }
 
     if (mo->info->deathsound)
@@ -573,14 +563,6 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->oldy = mobj->y;
         mobj->oldz = mobj->z;
         mobj->oldangle = mobj->angle;
-
-        if (mobj->shadow)
-        {
-            mobj->shadow->oldx = mobj->x;
-            mobj->shadow->oldy = mobj->y;
-            mobj->shadow->oldz = mobj->z;
-            mobj->shadow->oldangle = mobj->angle;
-        }
     }
 
     if (freeze && !player)
@@ -769,10 +751,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function = P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
-    // [BH] spawn the mobj's shadow
-    if (mobj->flags2 & MF2_SHADOW)
-        P_SpawnShadow(mobj);
-
     if (!(mobj->flags2 & MF2_NOFOOTCLIP) && sector->isliquid && sector->heightsec == -1)
         mobj->flags2 |= MF2_FEETARECLIPPED;
 
@@ -807,8 +785,6 @@ void P_RemoveMobj(mobj_t *mobj)
             iquetail = (iquetail + 1) & (ITEMQUEUESIZE - 1);
     }
 
-    P_RemoveMobjShadow(mobj);
-
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
 
@@ -830,28 +806,6 @@ void P_RemoveMobj(mobj_t *mobj)
 
     // free block
     P_RemoveThinker((thinker_t *)mobj);
-}
-
-//
-// P_RemoveMobjShadow
-// [BH] Remove the shadow of a mobj
-//
-void P_RemoveMobjShadow(mobj_t *mobj)
-{
-    if (!mobj->shadow)
-        return;
-
-    // unlink from sector and block lists
-    P_UnsetThingPosition(mobj->shadow);
-
-    // Delete all nodes on the current sector_list
-    if (sector_list)
-    {
-        P_DelSeclist(sector_list);
-        sector_list = NULL;
-    }
-
-    mobj->shadow = NULL;
 }
 
 //
@@ -1120,8 +1074,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index)
         totalitems++;
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) :
         ANG45 * (mthing->angle / 45));
-    if (mobj->shadow)
-        mobj->shadow->angle = mobj->angle;
 
     // [BH] randomly mirror corpses
     if ((flags & MF_CORPSE) && r_corpses_mirrored)
@@ -1133,8 +1085,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index)
         {
             prev--;
             mobj->flags2 |= MF2_MIRRORED;
-            if (mobj->shadow)
-                mobj->shadow->flags2 |= MF2_MIRRORED;
         }
         else
             prev++;
@@ -1319,33 +1269,6 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 }
 
 void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target) {}
-
-//
-// P_SpawnShadow
-//
-void P_SpawnShadow(mobj_t *actor)
-{
-    mobj_t      *mobj = Z_Calloc(1, sizeof(*mobj), PU_LEVEL, NULL);
-
-    mobj->type = MT_SHADOW;
-    mobj->info = &mobjinfo[MT_SHADOW];
-    mobj->x = actor->x;
-    mobj->y = actor->y;
-
-    mobj->sprite = actor->state->sprite;
-    mobj->frame = actor->state->frame;
-
-    mobj->flags2 = MF2_DONOTMAP;
-
-    mobj->colfunc = ((actor->flags & MF_FUZZ) ? R_DrawFuzzyShadowColumn :
-        (r_translucency ? R_DrawShadowColumn : R_DrawSolidShadowColumn));
-    mobj->projectfunc = R_ProjectShadow;
-
-    P_SetThingPosition(mobj);
-
-    actor->shadow = mobj;
-    mobj->shadow = actor;
-}
 
 //
 // P_CheckMissileSpawn

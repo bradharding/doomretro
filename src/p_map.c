@@ -283,17 +283,6 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
 
-    // [BH] update shadow position as well
-    if (thing->shadow)
-    {
-        P_UnsetThingPosition(thing->shadow);
-
-        thing->shadow->x = thing->x;
-        thing->shadow->y = thing->y;
-
-        P_SetThingPosition(thing->shadow);
-    }
-
     return true;
 }
 
@@ -992,17 +981,6 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
             if (oldside != P_PointOnLineSide(thing->x, thing->y, ld) && ld->special)
                 P_CrossSpecialLine(ld, oldside, thing);
         }
-
-    // [BH] update shadow position as well
-    if (thing->shadow)
-    {
-        P_UnsetThingPosition(thing->shadow);
-
-        thing->shadow->x = thing->x;
-        thing->shadow->y = thing->y;
-
-        P_SetThingPosition(thing->shadow);
-    }
 
     return true;
 }

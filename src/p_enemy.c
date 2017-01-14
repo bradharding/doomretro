@@ -947,9 +947,6 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
             actor->angle += ANG90 / 2;
     }
 
-    if (actor->shadow)
-        actor->shadow->angle = actor->angle;
-
     if (!actor->target || !(actor->target->flags & MF_SHOOTABLE))
     {
         // look for a new target
@@ -1018,10 +1015,6 @@ void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (actor->target->flags & MF_FUZZ)
         actor->angle += (M_Random() - M_Random()) << 21;
-
-    // [BH] update shadow angle
-    if (actor->shadow)
-        actor->shadow->angle = actor->angle;
 }
 
 //
@@ -1390,8 +1383,6 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     corpsehit->radius = info->radius;
                     corpsehit->flags = info->flags;
                     corpsehit->flags2 = info->flags2;
-                    if (corpsehit->shadow)
-                        corpsehit->shadow->flags2 &= ~MF2_MIRRORED;
                     corpsehit->health = info->spawnhealth;
                     P_SetTarget(&corpsehit->target, NULL);
                     P_SetTarget(&corpsehit->lastenemy, NULL);

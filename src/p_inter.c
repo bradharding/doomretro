@@ -1165,8 +1165,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             {
                 prev--;
                 target->flags2 |= MF2_MIRRORED;
-                if (target->shadow)
-                    target->shadow->flags2 |= MF2_MIRRORED;
             }
             else
                 prev++;
@@ -1217,8 +1215,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     target->tics = MAX(1, target->tics - (M_Random() & 3));
 
-    if ((type == MT_BARREL || type == MT_PAIN || type == MT_SKULL) && target->shadow)
-        P_RemoveMobjShadow(target);
+    if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+        target->flags2 &= ~MF2_CASTSHADOW;
 
     if (chex)
         return;
@@ -1276,11 +1274,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     mo->angle = target->angle + ((M_Random() - M_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
     if (r_mirroredweapons && (rand() & 1))
-    {
         mo->flags2 |= MF2_MIRRORED;
-        if (mo->shadow)
-            mo->shadow->flags2 |= MF2_MIRRORED;
-    }
 }
 
 dboolean P_CheckMeleeRange(mobj_t *actor);

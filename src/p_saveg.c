@@ -52,8 +52,6 @@
 FILE    *save_stream;
 int     savegamelength;
 
-void P_SpawnShadow(mobj_t *actor);
-
 // Get the filename of a temporary file to write the savegame to. After
 // the file has been successfully saved, it will be renamed to the
 // real file.
@@ -348,9 +346,6 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // int bloodsplats
     str->bloodsplats = saveg_read32();
-
-    // struct mobj_s *shadow
-    str->shadow = NULL;
 
     // int blood
     str->blood = saveg_read32();
@@ -1901,17 +1896,10 @@ void P_UnArchiveThinkers(void)
 
     P_InitThinkers();
 
-    // remove the remaining bloodsplats and shadows
+    // remove the remaining bloodsplats
     for (i = 0; i < numsectors; ++i)
     {
-        mobj_t   *shadow = sectors[i].thinglist;
         mobj_t   *splat = sectors[i].splatlist;
-
-        while (shadow)
-        {
-            P_RemoveMobj(shadow);
-            shadow = shadow->snext;
-        }
 
         while (splat)
         {
@@ -1944,13 +1932,6 @@ void P_UnArchiveThinkers(void)
                 mobj->colfunc = mobj->info->colfunc;
                 mobj->projectfunc = R_ProjectSprite;
 
-                if (mobj->flags2 & MF2_SHADOW)
-                {
-                    P_SpawnShadow(mobj);
-
-                    if (mobj->flags2 & MF2_MIRRORED)
-                        mobj->shadow->flags2 |= MF2_MIRRORED;
-                }
                 P_AddThinker(&mobj->thinker);
                 break;
 
