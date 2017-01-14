@@ -391,7 +391,7 @@ void P_PlayerThink(player_t *player)
 
     // [BH] regenerate health up to 100 every 1 second
     if (player->mo->health < initial_health && (player->cheats & CF_BUDDHA)
-        && !(leveltime % (2 * TICRATE)) && !player->damagecount)
+        && !(leveltime % TICRATE) && !player->damagecount)
         player->mo->health = player->health = MIN(player->health + 1, initial_health);
 
     // Move around.
