@@ -214,6 +214,7 @@ dboolean                alwaysrun = alwaysrun_default;
 extern dboolean         am_external;
 extern int              r_shake_damage;
 
+extern int              st_palette;
 extern int              windowborderwidth;
 extern int              windowborderheight;
 
@@ -1670,7 +1671,7 @@ static void SetVideoMode(dboolean output)
     if (SDL_SetSurfacePalette(surface, palette) < 0)
         I_SDLError("SDL_SetSurfacePalette");
 
-    I_SetPalette(playpal);
+    I_SetPalette(playpal + st_palette * 768);
 
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;

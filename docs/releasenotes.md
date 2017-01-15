@@ -1,8 +1,9 @@
 ### DOOM Retro v2.3.10
 
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the rendering of shadows.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the rendering of shadows.
 * Changes have been made to the format of savegames and therefore savegames created using previous versions of *DOOM Retro* are not compatible with this version.
 * A bug has been fixed whereby sectors may be incorrectly identified as liquid when loading a savegame in some rare instances.
+* The screen effects from the berserk and radiation shielding suit power-up are now retained when changing a CVAR in the console that resets the graphics subsystem.
 
 ---
 
