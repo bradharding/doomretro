@@ -4460,6 +4460,14 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
                     mo->colfunc = mo->info->colfunc;
                     mo = mo->snext;
                 }
+
+                mo = sectors[i].splatlist;
+                while (mo)
+                {
+                    mo->colfunc = bloodsplatcolfunc;
+                    mo = mo->snext;
+                }
+
             }
         }
     }
