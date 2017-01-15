@@ -534,7 +534,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     spryscale = vis->scale;
 
-    if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
+    if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows && !mobj->subsector->sector->isliquid)
     {
         colfunc = mobj->shadowcolfunc;
         sprtopscreen = centeryfrac - FixedMul(mobj->floorz + mobj->info->shadowoffset - viewz, spryscale);
@@ -677,7 +677,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     fixed_t             tz;
 
-    angle_t             rot = 0;
+    angle_t             rot;
 
     sector_t            *sector = thing->subsector->sector;
 
@@ -786,19 +786,18 @@ void R_ProjectSprite(mobj_t *thing)
     // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
     heightsec = sector->heightsec;
 
-
     if (heightsec != -1)   // only clip things which are in special sectors
     {
         int     phs = viewplayer->mo->subsector->sector->heightsec;
 
-        if (phs != -1 && viewz < sectors[phs].interpfloorheight ?
+        if (phs != -1 && (viewz < sectors[phs].interpfloorheight ?
             thing->z >= sectors[heightsec].interpfloorheight :
-            gzt < sectors[heightsec].interpfloorheight)
+            gzt < sectors[heightsec].interpfloorheight))
             return;
-        if (phs != -1 && viewz > sectors[phs].interpceilingheight ?
+        if (phs != -1 && (viewz > sectors[phs].interpceilingheight ?
             gzt < sectors[heightsec].interpceilingheight &&
             viewz >= sectors[heightsec].interpceilingheight :
-            thing->z >= sectors[heightsec].interpceilingheight)
+            thing->z >= sectors[heightsec].interpceilingheight))
             return;
     }
 
