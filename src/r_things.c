@@ -534,7 +534,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     spryscale = vis->scale;
 
-    if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows && !mobj->subsector->sector->isliquid)
+    if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows && !vis->footclip)
     {
         colfunc = mobj->shadowcolfunc;
         sprtopscreen = centeryfrac - FixedMul(mobj->floorz + mobj->info->shadowoffset - viewz, spryscale);
