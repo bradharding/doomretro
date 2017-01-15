@@ -534,7 +534,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
     {
-        colfunc = (mobj->type == MT_SHADOWS ? R_DrawFuzzyShadowColumn : R_DrawShadowColumn);
+        colfunc = mobj->shadowcolfunc;
         spryscale = vis->scale;
         sprtopscreen = centeryfrac - FixedMul(mobj->subsector->sector->interpfloorheight
             + mobj->info->shadowoffset - viewz, spryscale);

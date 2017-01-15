@@ -4458,6 +4458,8 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
                 while (mo)
                 {
                     mo->colfunc = mo->info->colfunc;
+                    mo->shadowcolfunc = (r_translucency ? ((mo->flags & MF_FUZZ) ?
+                        R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
                     mo = mo->snext;
                 }
 

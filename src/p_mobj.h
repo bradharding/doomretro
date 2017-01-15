@@ -388,6 +388,7 @@ typedef struct mobj_s
     int                 floatbob;
 
     void                (*colfunc)(void);
+    void                (*shadowcolfunc)(void);
     void                (*projectfunc)(struct mobj_s *);
 
     // a linked list of sectors where this object appears

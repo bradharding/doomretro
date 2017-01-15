@@ -720,6 +720,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
     mobj->colfunc = info->colfunc;
+    mobj->shadowcolfunc = (r_translucency ? ((mobj->flags & MF_FUZZ) ? R_DrawFuzzyShadowColumn :
+        R_DrawShadowColumn) : R_DrawSolidShadowColumn);
     mobj->projectfunc = R_ProjectSprite;
     mobj->blood = info->blood;
 
