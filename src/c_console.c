@@ -622,10 +622,8 @@ static void C_DrawBackground(int height)
 
     if (r_translucency)
     {
-        if (!blurred || forceconsoleblurredraw)
+        if (!blurred)
         {
-            forceconsoleblurredraw = false;
-
             for (i = 0; i < height; ++i)
                 c_blurscreen[i] = screens[0][i];
 
@@ -640,6 +638,12 @@ static void C_DrawBackground(int height)
         }
 
         blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
+
+        if (forceconsoleblurredraw)
+        {
+            forceconsoleblurredraw = false;
+            blurred = false;
+        }
 
         for (i = 0; i < height; ++i)
             screens[0][i] = tinttab50[(consoletintcolor << 8) + c_blurscreen[i]];
