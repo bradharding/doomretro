@@ -532,12 +532,12 @@ void R_DrawVisSprite(vissprite_t *vis)
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
     mobj_t      *mobj = vis->mobj;
 
+    spryscale = vis->scale;
+
     if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
     {
         colfunc = mobj->shadowcolfunc;
-        spryscale = vis->scale;
-        sprtopscreen = centeryfrac - FixedMul(mobj->subsector->sector->interpfloorheight
-            + mobj->info->shadowoffset - viewz, spryscale);
+        sprtopscreen = centeryfrac - FixedMul(mobj->floorz + mobj->info->shadowoffset - viewz, spryscale);
         shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
         for (dc_x = vis->x1, frac = vis->startfrac; dc_x <= x2; dc_x++, frac += xiscale)
@@ -557,7 +557,6 @@ void R_DrawVisSprite(vissprite_t *vis)
             + ((mobj->flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
 
-    spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
     if (fixedcolormap && r_translucency)
