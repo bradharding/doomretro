@@ -1561,7 +1561,10 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
     { "BLOOD",                     MF2_BLOOD                     },
     { "DONOTMAP",                  MF2_DONOTMAP                  },
     { "SMOKETRAIL",                MF2_SMOKETRAIL                },
-    { "CRUSHABLE",                 MF2_CRUSHABLE                 }
+    { "CRUSHABLE",                 MF2_CRUSHABLE                 },
+    { "MASSACRE",                  MF2_MASSACRE                  },
+    { "DECORATION",                MF2_DECORATION                },
+    { "DONTDRAW",                  MF2_DONTDRAW                  }
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"
