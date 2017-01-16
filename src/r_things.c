@@ -534,15 +534,21 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     spryscale = vis->scale;
 
-    if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows && !vis->footclip)
+    if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
     {
-        colfunc = mobj->shadowcolfunc;
-        sprtopscreen = centeryfrac - FixedMul(mobj->floorz + mobj->info->shadowoffset - viewz, spryscale);
-        shift = (sprtopscreen * 9 / 10) >> FRACBITS;
+        sector_t    *sector = mobj->subsector->sector;
 
-        for (dc_x = vis->x1, frac = vis->startfrac; dc_x <= x2; dc_x++, frac += xiscale)
-            R_DrawMaskedShadowColumn((column_t *)((byte *)patch
-                + LONG(patch->columnofs[frac >> FRACBITS])));
+        if (!sector->isliquid)
+        {
+            colfunc = mobj->shadowcolfunc;
+            sprtopscreen = centeryfrac - FixedMul(sector->floorheight + mobj->info->shadowoffset
+                - viewz, spryscale);
+            shift = (sprtopscreen * 9 / 10) >> FRACBITS;
+
+            for (dc_x = vis->x1, frac = vis->startfrac; dc_x <= x2; dc_x++, frac += xiscale)
+                R_DrawMaskedShadowColumn((column_t *)((byte *)patch
+                    + LONG(patch->columnofs[frac >> FRACBITS])));
+        }
     }
 
     dc_colormap = vis->colormap;
@@ -809,7 +815,6 @@ void R_ProjectSprite(mobj_t *thing)
     vis->heightsec = heightsec;
 
     vis->mobj = thing;
-    vis->type = thing->type;
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
@@ -927,11 +932,10 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     // store information in a vissprite
     vis = &bloodvissprites[num_bloodvissprite++];
 
-    vis->type = MT_BLOODSPLAT;
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    fz = thing->subsector->sector->interpfloorheight;
+    fz = thing->subsector->sector->floorheight;
     vis->gz = fz;
     vis->gzt = fz + 1;
     vis->blood = thing->blood;
@@ -1264,10 +1268,7 @@ static void R_DrawBloodSprite(vissprite_t *spr)
 
     mfloorclip = clipbot;
     mceilingclip = cliptop;
-    if (spr->type == MT_BLOODSPLAT)
-        R_DrawBloodSplatVisSprite(spr);
-    else
-        R_DrawVisSprite(spr);
+    R_DrawBloodSplatVisSprite(spr);
 }
 
 static void R_DrawSprite(vissprite_t *spr)

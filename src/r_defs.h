@@ -893,8 +893,6 @@ typedef struct
 
     struct mobj_s       *mobj;
 
-    mobjtype_t          type;
-
     void                (*colfunc)(void);
 
     // foot clipping
