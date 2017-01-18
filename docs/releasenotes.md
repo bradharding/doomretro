@@ -6,6 +6,8 @@
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained when changing a CVAR in the console that resets the graphics subsystem.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
 * Further improvements have been made to the support of `DEHACKED` lumps.
+* The <kbd>CAPSLOCK</kbd> key will now turn on at startup if the `+autorun` action is bound to it, and the `autorun` CVAR is `on`.
+* A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter of the `bind` CCMD.
 
 ---
 
