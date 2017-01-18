@@ -618,7 +618,7 @@ void bind_cmd_func2(char *cmd, char *parms);
 static void M_CheckCVARs(void)
 {
     if (alwaysrun != false && alwaysrun != true)
-        alwaysrun = alwaysrun_default;
+        C_Output("fuck!");// alwaysrun = alwaysrun_default;
 
     if (am_allmapcdwallcolor < am_allmapcdwallcolor_min
         || am_allmapcdwallcolor > am_allmapcdwallcolor_max)
@@ -923,25 +923,24 @@ void M_LoadCVARs(char *filename)
 
     while (!feof(file))
     {
-        if (fscanf(file, "bind %127s %127[^\n]\n", control, action) == 2)
-        {
-            C_StripQuotes(control);
-            C_StripQuotes(action);
-            bind_cmd_func2("", M_StringJoin(control, " ", action, NULL));
-            continue;
-        }
-        else if (fscanf(file, "alias %127s %127[^\n]\n", alias, string) == 2)
-        {
-            C_StripQuotes(string);
-            alias_cmd_func2("", M_StringJoin(alias, " ", string, NULL));
-            continue;
-        }
-        else if (fscanf(file, "%63s %255[^\n]\n", defname, strparm) != 2)
+        if (fscanf(file, "%63s %255[^\n]\n", defname, strparm) != 2)
             // This line doesn't match
             continue;
 
         if (defname[0] == ';')
             continue;
+
+        if (M_StringCompare(defname, "bind"))
+        {
+            C_Output("bind %s", strparm);
+            bind_cmd_func2("", strparm);
+            continue;
+        }
+        else if (M_StringCompare(defname, "alias"))
+        {
+            alias_cmd_func2("", strparm);
+            continue;
+        }
 
         // Strip off trailing non-printable characters (\r characters from DOS text files)
         while (strlen(strparm) > 0 && !isprint((unsigned char)strparm[strlen(strparm) - 1]))

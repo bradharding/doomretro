@@ -1035,6 +1035,8 @@ void bind_cmd_func2(char *cmd, char *parms)
         return;
     }
 
+    C_StripQuotes(parm1);
+
     while (controls[i].type)
     {
         if (M_StringCompare(parm1, controls[i].control))
