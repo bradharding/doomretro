@@ -618,7 +618,7 @@ void bind_cmd_func2(char *cmd, char *parms);
 static void M_CheckCVARs(void)
 {
     if (alwaysrun != false && alwaysrun != true)
-        C_Output("fuck!");// alwaysrun = alwaysrun_default;
+        alwaysrun = alwaysrun_default;
 
     if (am_allmapcdwallcolor < am_allmapcdwallcolor_min
         || am_allmapcdwallcolor > am_allmapcdwallcolor_max)
