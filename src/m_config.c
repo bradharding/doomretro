@@ -454,10 +454,8 @@ void M_SaveCVARs(void)
             }
 
             case DEFAULT_INT_UNSIGNED:
-            {
                 fputs(commify(*(unsigned int *)cvars[i].location), file);
                 break;
-            }
 
             case DEFAULT_INT_PERCENT:
             {
@@ -565,8 +563,7 @@ void M_SaveCVARs(void)
 
     if (numaliases)
     {
-        fputs("\n", file);
-        fputs("; aliases\n", file);
+        fputs("\n; aliases\n", file);
 
         for (i = 0; i < MAXALIASES; ++i)
             if (*aliases[i].name)
@@ -611,9 +608,6 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
 
     return (float)atof(strparm);
 }
-
-void alias_cmd_func2(char *cmd, char *parms);
-void bind_cmd_func2(char *cmd, char *parms);
 
 static void M_CheckCVARs(void)
 {
@@ -890,6 +884,9 @@ static void M_CheckCVARs(void)
     M_SaveCVARs();
 }
 
+void alias_cmd_func2(char *cmd, char *parms);
+void bind_cmd_func2(char *cmd, char *parms);
+
 //
 // M_LoadCVARs
 //
@@ -932,7 +929,6 @@ void M_LoadCVARs(char *filename)
 
         if (M_StringCompare(defname, "bind"))
         {
-            C_Output("bind %s", strparm);
             bind_cmd_func2("", strparm);
             continue;
         }
