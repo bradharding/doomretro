@@ -608,10 +608,9 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     // Used to safely call dirname and basename, which can modify their input.
     size_t              pathlen = strlen(path);
     char                *pathcopy = (char *)malloc((pathlen + 1) * sizeof(char));
-    char                *dehdir = NULL;
-    char                *dehpattern = NULL;
-    char                *dehfullpath = NULL;
-    DIR                 *dirp = NULL;
+    char                *dehdir;
+    char                *dehpattern;
+    DIR                 *dirp;
     struct dirent       *dit = NULL;
 
     M_StringCopy(pathcopy, path, pathlen + 1);
@@ -623,13 +622,16 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     while ((dit = readdir(dirp)))
         if (!fnmatch(dehpattern, dit->d_name, 0))
         {
-            dehfullpath = M_StringJoin(dehdir, DIR_SEPARATOR_S, dit->d_name, "");
+            char        *dehfullpath = M_StringJoin(dehdir, DIR_SEPARATOR_S, dit->d_name, "");
+
             closedir(dirp);
             free(pathcopy);
+
             return dehfullpath;
         }
     closedir(dirp);
     free(pathcopy);
+
     return NULL;
 #endif
 }

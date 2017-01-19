@@ -626,9 +626,6 @@ void G_DoLoadLevel(void)
 
     P_SetupLevel(ep, gamemap);
 
-    skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
-        R_DrawFlippedSkyColumn : R_DrawSkyColumn);
-
     gameaction = ga_nothing;
 
     // clear cmd building stuff

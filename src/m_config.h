@@ -298,6 +298,8 @@ typedef enum
 #define r_shake_damage_default                  50
 #define r_shake_damage_max                      100
 
+#define r_textures_default                      true
+
 #define r_translucency_default                  true
 
 #define s_musicvolume_min                       0

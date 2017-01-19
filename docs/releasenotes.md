@@ -2,12 +2,13 @@
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the rendering of shadows.
 * Changes have been made to the format of savegames and therefore savegames created using previous versions of *DOOM Retro* are not compatible with this version.
-* A bug has been fixed whereby sectors may be incorrectly identified as liquid when loading a savegame in some rare instances.
+* A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained when changing a CVAR in the console that resets the graphics subsystem.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
 * Further improvements have been made to the support of `DEHACKED` lumps.
-* The <kbd>CAPSLOCK</kbd> key will now turn on at startup if the `+autorun` action is bound to it, and the `autorun` CVAR is `on`.
-* A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter of the `bind` CCMD.
+* The `autorun` CVAR will no longer be reset to `off` at startup.
+* A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
+* Textures on walls, flats and the sky can now be toggled off using the new `r_textures` CVAR.
 
 ---
 

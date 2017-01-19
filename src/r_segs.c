@@ -106,6 +106,7 @@ extern fixed_t  animatedliquidyoffs;
 extern dboolean doorclosed;
 extern dboolean r_dither;
 extern dboolean r_liquid_bob;
+extern dboolean r_textures;
 extern dboolean r_translucency;
 
 //
@@ -246,8 +247,14 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     // Use different light tables for horizontal / vertical.
     curline = ds->curline;
 
-    colfunc = (curline->linedef->tranlump >= 0 && r_translucency ?
-        (r_dither ? R_DrawDitheredColumn : R_DrawTranslucent50Column) : R_DrawColumn);
+    if (r_textures)
+        colfunc = (curline->linedef->tranlump >= 0 && r_translucency ?
+            (r_dither ? R_DrawDitheredColumn : R_DrawTranslucent50Column) : R_DrawColumn);
+    else
+    {
+        dc_color = MASKEDWALLCOLOR;
+        colfunc = R_DrawColorColumn;
+    }
 
     frontsector = curline->frontsector;
     backsector = curline->backsector;
@@ -590,6 +597,8 @@ void R_StoreWallRange(int start, int stop)
     // [BH] if in automap, we're done now that line is mapped
     if (automapactive)
         return;
+
+    dc_color = WALLCOLOR;
 
     sidedef = curline->sidedef;
 

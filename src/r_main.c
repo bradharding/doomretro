@@ -111,9 +111,12 @@ int                     extralight;
 dboolean                r_dither = r_dither_default;
 dboolean                r_homindicator = r_homindicator_default;
 dboolean                r_shake_barrels = r_shake_barrels_default;
+dboolean                r_textures = r_textures_default;
 dboolean                r_translucency = r_translucency_default;
 
+extern dboolean         canmodify;
 extern int              explosiontics;
+extern dboolean         transferredsky;
 extern int              viewheight2;
 extern dboolean         windowfocused;
 
@@ -530,11 +533,24 @@ void R_InitColumnFunctions(void)
         supershotguncolfunc = R_DrawSuperShotgunColumn;
     }
 
-    spanfunc = R_DrawSpan;
+    if (r_textures)
+    {
+        wallcolfunc = R_DrawWallColumn;
+        fbwallcolfunc = R_DrawFullbrightWallColumn;
+        skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
+            R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+        spanfunc = R_DrawSpan;
+    }
+    else
+    {
+        wallcolfunc = R_DrawColorColumn;
+        fbwallcolfunc = R_DrawColorColumn;
+        skycolfunc = R_DrawColorColumn;
+        spanfunc = R_DrawColorSpan;
+    }
+
     redtobluecolfunc = R_DrawRedToBlueColumn;
     redtogreencolfunc = R_DrawRedToGreenColumn;
-    wallcolfunc = R_DrawWallColumn;
-    fbwallcolfunc = R_DrawFullbrightWallColumn;
     psprcolfunc = R_DrawPlayerSpriteColumn;
 
     for (i = 0; i < NUMMOBJTYPES; i++)

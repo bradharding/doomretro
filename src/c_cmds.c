@@ -177,6 +177,7 @@ extern int              r_screensize;
 extern dboolean         r_shadows;
 extern dboolean         r_shake_barrels;
 extern int              r_shake_damage;
+extern dboolean         r_textures;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
@@ -424,6 +425,7 @@ static void r_gamma_cvar_func2(char *, char *);
 static void r_hud_cvar_func2(char *, char *);
 static void r_lowpixelsize_cvar_func2(char *, char *);
 static void r_screensize_cvar_func2(char *, char *);
+static void r_textures_cvar_func2(char *, char *);
 static void r_translucency_cvar_func2(char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *);
 static void s_volume_cvars_func2(char *, char *);
@@ -741,6 +743,8 @@ consolecmd_t consolecmds[] =
         "Toggles shaking the screen when the player is near an\nexploding barrel."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the screen shakes when the player is\nattacked."),
+    CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
+        "Toggles textures on walls, flats and the sky."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of sprites and textures."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
@@ -4485,6 +4489,35 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS),
                 C_LookupAliasFromValue(r_translucency_default, BOOLVALUEALIAS));
+    }
+}
+
+//
+// r_textures CVAR
+//
+static void r_textures_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_textures)
+        {
+            r_textures = !!value;
+            M_SaveCVARs();
+            R_InitColumnFunctions();
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_textures))].description));
+        if (r_textures == r_textures_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS),
+                C_LookupAliasFromValue(r_textures_default, BOOLVALUEALIAS));
     }
 }
 
