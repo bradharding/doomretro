@@ -210,49 +210,61 @@ void R_DrawColorColumn(void)
 void R_DrawShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl;
-    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
-    byte        *body = tinttab40;
-    byte        *edge = tinttab25;
 
-    *dest = edge[*dest];
-    dest += SCREENWIDTH;
-    while (--count > 0)
+    if (count)
     {
-        *dest = body[*dest];
+        byte    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        byte    *body = tinttab40;
+        byte    *edge = tinttab25;
+
+        *dest = edge[*dest];
         dest += SCREENWIDTH;
+        while (--count > 0)
+        {
+            *dest = body[*dest];
+            dest += SCREENWIDTH;
+        }
+        *dest = edge[*dest];
     }
-    *dest = edge[*dest];
 }
 
 void R_DrawFuzzyShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl;
-    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
-    byte        *translucency = tinttab25;
 
-    if (!(rand() % 4) && !consoleactive)
-        *dest = translucency[*dest];
-    dest += SCREENWIDTH;
-    while (--count > 0)
+    if (count)
     {
-        *dest = translucency[*dest];
+        byte    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        byte    *translucency = tinttab25;
+
+        if (!(rand() % 4) && !consoleactive)
+            *dest = translucency[*dest];
         dest += SCREENWIDTH;
+        while (--count > 0)
+        {
+            *dest = translucency[*dest];
+            dest += SCREENWIDTH;
+        }
+        if (!(rand() % 4) && !consoleactive)
+            *dest = translucency[*dest];
     }
-    if (!(rand() % 4) && !consoleactive)
-        *dest = translucency[*dest];
 }
 
 void R_DrawSolidShadowColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl + 1;
-    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
+    int32_t     count = dc_yh - dc_yl;
 
-    while (--count > 0)
+    if (count)
     {
+        byte    *dest = R_ADDRESS(0, dc_x, dc_yl);
+
+        while (--count > 0)
+        {
+            *dest = 0;
+            dest += SCREENWIDTH;
+        }
         *dest = 0;
-        dest += SCREENWIDTH;
     }
-    *dest = 0;
 }
 
 void R_DrawBloodSplatColumn(void)
