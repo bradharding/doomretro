@@ -744,7 +744,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the screen shakes when the player is\nattacked."),
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
-        "Toggles textures on walls, flats and the sky."),
+        "Toggles displaying all textures."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of sprites and textures."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,

@@ -438,7 +438,6 @@ void R_DrawPlanes(void)
                             dc_x = x;
                             dc_source = R_GetTextureColumn(tex_patch,
                                 (((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT) + offset);
-                            dc_color = SKYCOLOR;
                             skycolfunc();
                         }
                     }

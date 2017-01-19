@@ -632,7 +632,8 @@ void R_DrawBloodSplatVisSprite(vissprite_t *vis)
 
     colfunc = vis->colfunc;
 
-    dc_blood = tinttab75 + (vis->colormap[vis->blood] << 8);
+    dc_colormap = vis->colormap;
+    dc_blood = tinttab75 + (dc_colormap[vis->blood] << 8);
 
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);

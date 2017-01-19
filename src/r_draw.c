@@ -162,7 +162,6 @@ dboolean        dc_bottomsparkle;
 byte            *dc_blood;
 byte            *dc_colormask;
 int             dc_baseclip;
-byte            dc_color;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
@@ -197,7 +196,7 @@ void R_DrawColorColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    byte                color = dc_colormap[dc_color];
+    byte                color = dc_colormap[NOTEXTURECOLOR];
 
     while (--count)
     {
@@ -1403,7 +1402,7 @@ void R_DrawColorSpan(void)
 {
     unsigned int        count = ds_x2 - ds_x1 + 1;
     byte                *dest = R_ADDRESS(0, ds_x1, ds_y);
-    byte                color = ds_colormap[FLATCOLOR];
+    byte                color = ds_colormap[NOTEXTURECOLOR];
 
     while (--count)
         *dest++ = color;

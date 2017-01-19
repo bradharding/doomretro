@@ -42,10 +42,7 @@
 #define R_ADDRESS(scrn, px, py) \
     (screens[scrn] + (viewwindowy + (py)) * SCREENWIDTH + (viewwindowx + (px)))
 
-#define WALLCOLOR       82
-#define MASKEDWALLCOLOR 83
-#define FLATCOLOR       83
-#define SKYCOLOR        86
+#define NOTEXTURECOLOR  82
 
 extern lighttable_t     *dc_colormap;
 extern int              dc_x;
@@ -61,7 +58,6 @@ extern byte             *dc_blood;
 extern byte             *dc_colormask;
 extern byte             *dc_tranmap;
 extern int              dc_baseclip;
-extern byte             dc_color;
 
 // first pixel in a column
 extern byte             *dc_source;
