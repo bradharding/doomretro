@@ -80,6 +80,7 @@ static fixed_t floatbobdiffs[64] =
 extern fixed_t          animatedliquiddiffs[64];
 extern dboolean         r_liquid_bob;
 extern dboolean         r_mirroredweapons;
+extern dboolean         r_textures;
 extern dboolean         r_translucency;
 extern msecnode_t       *sector_list;   // phares 3/16/98
 
@@ -720,8 +721,11 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
     mobj->colfunc = info->colfunc;
-    mobj->shadowcolfunc = (r_translucency ? ((mobj->flags & MF_FUZZ) ? R_DrawFuzzyShadowColumn :
-        R_DrawShadowColumn) : R_DrawSolidShadowColumn);
+    if (r_textures)
+        mobj->shadowcolfunc = (r_translucency ? ((mobj->flags & MF_FUZZ) ?
+            R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
+    else
+        mobj->shadowcolfunc = R_DrawColorColumn;
     mobj->projectfunc = R_ProjectSprite;
     mobj->blood = info->blood;
 

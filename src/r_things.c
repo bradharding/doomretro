@@ -89,6 +89,7 @@ extern fixed_t          animatedliquiddiff;
 extern dboolean         inhelpscreens;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_shadows;
+extern dboolean         r_textures;
 extern dboolean         r_translucency;
 extern dboolean         skippsprinterp;
 extern dboolean         SHT2A0;
@@ -533,6 +534,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     mobj_t      *mobj = vis->mobj;
 
     spryscale = vis->scale;
+    dc_colormap = vis->colormap;
 
     if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
     {
@@ -551,7 +553,6 @@ void R_DrawVisSprite(vissprite_t *vis)
         }
     }
 
-    dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
 
     dc_iscale = ABS(xiscale);
@@ -823,7 +824,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
-    if ((flags & MF_FUZZ) && (menuactive || paused || consoleactive))
+    if ((flags & MF_FUZZ) && (menuactive || paused || consoleactive) && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = thing->colfunc;
@@ -941,7 +942,7 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     vis->gzt = fz + 1;
     vis->blood = thing->blood;
 
-    if ((thing->flags & MF_FUZZ) && (menuactive || paused || consoleactive))
+    if ((thing->flags & MF_FUZZ) && (menuactive || paused || consoleactive) && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = thing->colfunc;
@@ -1175,7 +1176,7 @@ void R_DrawPlayerSprites(void)
     mceilingclip = negonearray;
 
     // add all active psprites
-    if (invisibility > 128 || (invisibility & 8))
+    if ((invisibility > 128 || (invisibility & 8)) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251);
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
