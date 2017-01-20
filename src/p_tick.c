@@ -218,6 +218,9 @@ static void P_RunThinkers(void)
 {
     currentthinker = thinkercap.next;
 
+    if (freeze && !((mobj_t *)currentthinker)->player)
+        return;
+
     while (currentthinker != &thinkercap)
     {
         if (currentthinker->function)

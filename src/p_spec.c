@@ -2224,9 +2224,6 @@ void T_Scroll(scroll_t *s)
     fixed_t     dx = s->dx;
     fixed_t     dy = s->dy;
 
-    if (freeze)
-        return;
-
     if (s->control != -1)
     {
         // compute scroll amounts based on a sector's height changes

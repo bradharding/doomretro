@@ -10,7 +10,7 @@
 * The `autorun` CVAR will no longer be reset to `off` at startup.
 * A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
 * All textures can now be toggled off using the new `r_textures` CVAR.
-* Scrollers no longer move when freeze mode is enabled using the `freeze` CCMD.
+* Floors, ceilings, doors and scrollers no longer move, and no clipping mode is now enabled, when freeze mode is enabled using the `freeze` CCMD.
 
 ---
 
