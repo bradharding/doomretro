@@ -185,9 +185,14 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 // generalized line type behaviors.
 void T_MoveFloor(floormove_t *floor)
 {
-    sector_t    *sec = floor->sector;
-    result_e    res = T_MovePlane(sec, floor->speed, floor->floordestheight,
-                                  floor->crush, 0, floor->direction);
+    sector_t    *sec;
+    result_e    res;
+
+    if (freeze)
+        return;
+
+    sec = floor->sector;
+    res = T_MovePlane(sec, floor->speed, floor->floordestheight, floor->crush, 0, floor->direction);
 
     if (!(leveltime & 7)
         // [BH] don't make sound once floor is at its destination height
@@ -291,6 +296,9 @@ void T_MoveFloor(floormove_t *floor)
 void T_MoveElevator(elevator_t *elevator)
 {
     result_e    res;
+
+    if (freeze)
+        return;
 
     if (elevator->direction < 0)                // moving down
     {

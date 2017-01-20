@@ -368,10 +368,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // buttons
     if (skipaction)
         skipaction = false;
-    else
+    else if (!freeze)
     {
-        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamepadbuttons & gamepadfire))
-            && !freeze)
+        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamepadbuttons & gamepadfire)))
             cmd->buttons |= BT_ATTACK;
 
         if (gamekeydown[keyboarduse] || gamekeydown[keyboarduse2] || mousebuttons[mouseuse]

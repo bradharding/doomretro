@@ -37,6 +37,7 @@
 */
 
 #include "d_deh.h"
+#include "doomstat.h"
 #include "hu_stuff.h"
 #include "m_misc.h"
 #include "p_local.h"
@@ -57,6 +58,9 @@ extern char     *playername;
 void T_VerticalDoor(vldoor_t *door)
 {
     result_e    res;
+
+    if (freeze)
+        return;
 
     switch (door->direction)
     {

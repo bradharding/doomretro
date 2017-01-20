@@ -52,6 +52,9 @@ void T_PlatRaise(plat_t *plat)
 {
     result_e    res;
 
+    if (freeze)
+        return;
+
     switch (plat->status)
     {
         case up:

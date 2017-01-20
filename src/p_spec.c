@@ -2224,6 +2224,9 @@ void T_Scroll(scroll_t *s)
     fixed_t     dx = s->dx;
     fixed_t     dy = s->dy;
 
+    if (freeze)
+        return;
+
     if (s->control != -1)
     {
         // compute scroll amounts based on a sector's height changes
@@ -2672,6 +2675,9 @@ void T_Pusher(pusher_t *p)
     msecnode_t  *node;
     int         xspeed, yspeed;
     int         ht = 0;
+
+    if (freeze)
+        return;
 
     sec = sectors + p->affectee;
 
