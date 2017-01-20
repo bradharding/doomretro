@@ -4503,9 +4503,31 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_textures)
         {
+            int i;
+
             r_textures = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
+
+            for (i = 0; i < numsectors; ++i)
+            {
+                mobj_t   *mo = sectors[i].thinglist;
+
+                while (mo)
+                {
+                    mo->colfunc = mo->info->colfunc;
+                    mo->shadowcolfunc = (r_translucency ? ((mo->flags & MF_FUZZ) ?
+                        R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
+                    mo = mo->snext;
+                }
+
+                mo = sectors[i].splatlist;
+                while (mo)
+                {
+                    mo->colfunc = bloodsplatcolfunc;
+                    mo = mo->snext;
+                }
+            }
         }
     }
     else
