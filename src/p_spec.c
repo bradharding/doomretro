@@ -2221,7 +2221,11 @@ void P_SpawnSpecials(void)
 // killough 3/7/98
 void T_Scroll(scroll_t *s)
 {
-    fixed_t     dx = s->dx, dy = s->dy;
+    fixed_t     dx = s->dx;
+    fixed_t     dy = s->dy;
+
+    if (freeze)
+        return;
 
     if (s->control != -1)
     {
