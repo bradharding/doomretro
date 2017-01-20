@@ -413,11 +413,6 @@ void R_RenderSegLoop(void)
                 dc_yl = yl;
                 dc_yh = yh;
 
-                // [BH] for "sparkle" hack
-                dc_topsparkle = false;
-                dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl
-                    && rw_distance < (512 << FRACBITS));
-
                 dc_texturemid = rw_midtexturemid;
                 tex_patch = R_CacheTextureCompositePatchNum(midtexture);
                 dc_source = R_GetTextureColumn(tex_patch, texturecolumn);
@@ -447,13 +442,7 @@ void R_RenderSegLoop(void)
 
                 pixhigh += pixhighstep;
 
-                if (mid >= floorclip[rw_x])
-                {
-                    mid = floorclip[rw_x] - 1;
-                    dc_bottomsparkle = false;
-                }
-                else
-                    dc_bottomsparkle = true;
+                mid = MIN(mid, floorclip[rw_x] - 1);
 
                 if (mid >= yl)
                 {
@@ -461,11 +450,6 @@ void R_RenderSegLoop(void)
                     {
                         dc_yl = yl;
                         dc_yh = mid;
-
-                        // [BH] for "sparkle" hack
-                        dc_topsparkle = false;
-                        dc_bottomsparkle = (dc_bottomsparkle && dc_yh > dc_yl
-                            && rw_distance < (512 << FRACBITS));
 
                         dc_texturemid = rw_toptexturemid;
                         tex_patch = R_CacheTextureCompositePatchNum(toptexture);
@@ -501,13 +485,7 @@ void R_RenderSegLoop(void)
                 pixlow += pixlowstep;
 
                 // no space above wall?
-                if (mid <= ceilingclip[rw_x])
-                {
-                    mid = ceilingclip[rw_x] + 1;
-                    dc_topsparkle = false;
-                }
-                else
-                    dc_topsparkle = true;
+                mid = MAX(ceilingclip[rw_x] + 1, mid);
 
                 if (mid <= yh)
                 {
@@ -515,12 +493,6 @@ void R_RenderSegLoop(void)
                     {
                         dc_yl = mid;
                         dc_yh = yh;
-
-                        // [BH] for "sparkle" hack
-                        dc_topsparkle = (dc_topsparkle && dc_yh > dc_yl
-                            && rw_distance < (128 << FRACBITS));
-                        dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl
-                            && rw_distance < (512 << FRACBITS));
 
                         dc_texturemid = rw_bottomtexturemid;
                         tex_patch = R_CacheTextureCompositePatchNum(bottomtexture);

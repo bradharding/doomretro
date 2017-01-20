@@ -52,8 +52,6 @@ extern fixed_t          dc_iscale;
 extern fixed_t          dc_texturemid;
 extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
-extern dboolean         dc_topsparkle;
-extern dboolean         dc_bottomsparkle;
 extern byte             *dc_blood;
 extern byte             *dc_colormask;
 extern byte             *dc_tranmap;
