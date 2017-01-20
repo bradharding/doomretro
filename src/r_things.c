@@ -534,7 +534,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     mobj_t      *mobj = vis->mobj;
 
     spryscale = vis->scale;
-    dc_colormap = vis->colormap;
+    dc_colormap = vis->shadowcolormap;
 
     if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
     {
@@ -554,6 +554,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     colfunc = vis->colfunc;
+    dc_colormap = vis->colormap;
 
     dc_iscale = ABS(xiscale);
     dc_texturemid = vis->texturemid;
@@ -867,12 +868,13 @@ void R_ProjectSprite(mobj_t *thing)
     vis->patch = lump;
 
     // get light level
+    vis->shadowcolormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
     else if ((frame & FF_FULLBRIGHT) && (rot <= 4 || rot >= 12 || thing->info->fullbright))
         vis->colormap = fullcolormap;           // full bright
     else                                        // diminished light
-        vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->colormap = vis->shadowcolormap;
 }
 
 static void R_ProjectBloodSplat(mobj_t *thing)
