@@ -42,7 +42,7 @@
 #define R_ADDRESS(scrn, px, py) \
     (screens[scrn] + (viewwindowy + (py)) * SCREENWIDTH + (viewwindowx + (px)))
 
-#define NOTEXTURECOLOR  86
+#define NOTEXTURECOLOR  80
 
 extern lighttable_t     *dc_colormap;
 extern int              dc_x;
