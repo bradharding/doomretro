@@ -688,7 +688,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     angle_t             rot = 0;
 
-    sector_t            *sector = thing->subsector->sector;
+    sector_t            *sector;
+    fixed_t             floorheight;
 
     fixed_t             fx;
     fixed_t             fy;
@@ -793,6 +794,7 @@ void R_ProjectSprite(mobj_t *thing)
     // killough 3/27/98: exclude things totally separated
     // from the viewer, by either water or fake ceilings
     // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
+    sector = thing->subsector->sector;
     heightsec = sector->heightsec;
 
     if (heightsec != -1)   // only clip things which are in special sectors
@@ -821,7 +823,8 @@ void R_ProjectSprite(mobj_t *thing)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    vis->gz = fz;
+    floorheight = sector->interpfloorheight;
+    vis->gz = floorheight;
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
@@ -831,8 +834,8 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= sector->interpfloorheight + FRACUNIT
-        && heightsec == -1 && r_liquid_clipsprites)
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && heightsec == -1
+        && r_liquid_clipsprites)
     {
         fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
 
@@ -1322,13 +1325,12 @@ static void R_DrawSprite(vissprite_t *spr)
 
         // clip this piece of the sprite
         // killough 3/27/98: optimized and made much shorter
-        if ((ds->silhouette & SIL_BOTTOM)
-            && spr->mobj->subsector->sector->floorheight < ds->bsilheight)      // bottom sil
+        if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
             for (x = r1; x <= r2; x++)
                 if (clipbot[x] == -2)
                     clipbot[x] = ds->sprbottomclip[x];
 
-        if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)            // top sil
+        if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
             for (x = r1; x <= r2; x++)
                 if (cliptop[x] == -2)
                     cliptop[x] = ds->sprtopclip[x];
