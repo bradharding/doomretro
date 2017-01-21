@@ -686,7 +686,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     fixed_t             tz;
 
-    angle_t             rot;
+    angle_t             rot = 0;
 
     sector_t            *sector = thing->subsector->sector;
 
