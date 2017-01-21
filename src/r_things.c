@@ -1322,12 +1322,13 @@ static void R_DrawSprite(vissprite_t *spr)
 
         // clip this piece of the sprite
         // killough 3/27/98: optimized and made much shorter
-        if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+        if ((ds->silhouette & SIL_BOTTOM)
+            && spr->mobj->subsector->sector->floorheight < ds->bsilheight)      // bottom sil
             for (x = r1; x <= r2; x++)
                 if (clipbot[x] == -2)
                     clipbot[x] = ds->sprbottomclip[x];
 
-        if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+        if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)            // top sil
             for (x = r1; x <= r2; x++)
                 if (cliptop[x] == -2)
                     cliptop[x] = ds->sprtopclip[x];
