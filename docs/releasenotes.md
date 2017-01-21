@@ -14,6 +14,10 @@
   * All moving floors and ceilings, and scrolling textures, have been disabled,
   * Doors and switches can no longer be used by the player,
   * Clipping has been disabled.
+* The `r_dither` CVAR is now `off` by default.
+* The `vid_scaleapi` CVAR is now `"direct3d"` by default.
+* The `vid_scalefilter` CVAR is now `"nearest"` by default.
+* The `vid_vsync` CVAR is now `off` by default.
 
 ---
 

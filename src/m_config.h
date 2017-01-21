@@ -252,7 +252,7 @@ typedef enum
 
 #define r_diskicon_default                      false
 
-#define r_dither_default                        true
+#define r_dither_default                        false
 
 #define r_fixmaperrors_default                  true
 
@@ -363,19 +363,19 @@ typedef enum
 #define vid_scaleapi_opengles2                  "opengles2"
 #endif
 #define vid_scaleapi_software                   "software"
-#define vid_scaleapi_default                    "opengl"
+#define vid_scaleapi_default                    vid_scaleapi_direct3d
 
 #define vid_scalefilter_linear                  "linear"
 #define vid_scalefilter_nearest                 "nearest"
 #define vid_scalefilter_nearest_linear          "nearest_linear"
-#define vid_scalefilter_default                 vid_scalefilter_nearest_linear
+#define vid_scalefilter_default                 vid_scalefilter_nearest
 
 #define vid_screenresolution_desktop            "desktop"
 #define vid_screenresolution_default            vid_screenresolution_desktop
 
 #define vid_showfps_default                     false
 
-#define vid_vsync_default                       true
+#define vid_vsync_default                       false
 
 #define vid_widescreen_default                  false
 
