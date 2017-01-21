@@ -358,7 +358,6 @@ static void exec_cmd_func2(char *, char *);
 static void exitmap_cmd_func2(char *, char *);
 static dboolean fastmonsters_cmd_func1(char *, char *);
 static void fastmonsters_cmd_func2(char *, char *);
-static void freeze_cmd_func2(char *, char *);
 static dboolean give_cmd_func1(char *, char *);
 static void give_cmd_func2(char *, char *);
 static dboolean god_cmd_func1(char *, char *);
@@ -374,6 +373,7 @@ static void mapstats_cmd_func2(char *, char *);
 static void noclip_cmd_func2(char *, char *);
 static void nomonsters_cmd_func2(char *, char *);
 static void notarget_cmd_func2(char *, char *);
+static void photomode_cmd_func2(char *, char *);
 static void pistolstart_cmd_func2(char *, char *);
 static dboolean play_cmd_func1(char *, char *);
 static void play_cmd_func2(char *, char *);
@@ -587,8 +587,6 @@ consolecmd_t consolecmds[] =
         "The color behind the player's face in the status bar (<b>0</b>\nto <b>255</b>)."),
     CMD(fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
-    CMD(freeze, "", null_func1, freeze_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
-        "Toggles freezing of the game."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
@@ -665,6 +663,8 @@ consolecmd_t consolecmds[] =
         "Toggles the presence of monsters in maps."),
     CMD(notarget, "", game_func1, notarget_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles monsters not seeing the player as a target."),
+    CMD(photomode, "", null_func1, photomode_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
+        "Toggles photo mode."),
     CMD(pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles the player starting each map with only a pistol."),
     CMD(play, "", play_cmd_func1, play_cmd_func2, 1, PLAYCMDFORMAT,
@@ -1627,25 +1627,25 @@ static void fastmonsters_cmd_func2(char *cmd, char *parms)
 }
 
 //
-// freeze CCMD
+// photomode CCMD
 //
-static void freeze_cmd_func2(char *cmd, char *parms)
+static void photomode_cmd_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
         int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
         if (value == 0)
-            freeze = false;
+            photomode = false;
         else if (value == 1)
-            freeze = true;
+            photomode = true;
     }
     else
-        freeze = !freeze;
+        photomode = !photomode;
 
-    if (freeze)
+    if (photomode)
     {
-        HU_PlayerMessage(s_STSTR_FON, false, false);
+        HU_PlayerMessage(s_STSTR_PMON, false, false);
         C_HideConsole();
 
         players[0].cheated++;
@@ -1653,7 +1653,7 @@ static void freeze_cmd_func2(char *cmd, char *parms)
         M_SaveCVARs();
     }
     else
-        HU_PlayerMessage(s_STSTR_FOFF, false, false);
+        HU_PlayerMessage(s_STSTR_PMOFF, false, false);
 }
 
 //

@@ -92,7 +92,7 @@ extern char             **episodes[];
 extern char             **expansions[];
 extern char             **skilllevels[];
 
-extern dboolean         freeze;
+extern dboolean         photomode;
 
 extern dboolean         nerve;
 extern dboolean         bfgedition;

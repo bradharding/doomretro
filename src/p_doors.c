@@ -59,7 +59,7 @@ void T_VerticalDoor(vldoor_t *door)
 {
     result_e    res;
 
-    if (freeze)
+    if (photomode)
         return;
 
     switch (door->direction)

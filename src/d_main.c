@@ -115,7 +115,7 @@ char                    *wad = wad_default;
 char                    *packageconfig;
 
 dboolean                devparm;                // started game with -devparm
-dboolean                freeze = false;
+dboolean                photomode = false;
 dboolean                nomonsters;             // checkparm of -nomonsters
 dboolean                respawnitems = false;
 dboolean                respawnmonsters;        // checkparm of -respawn
@@ -269,7 +269,7 @@ void D_Display(void)
         // draw the view directly
         R_RenderPlayerView(&players[0]);
 
-        if (am_path && !(players[0].cheats & CF_NOCLIP) && !freeze)
+        if (am_path && !(players[0].cheats & CF_NOCLIP) && !photomode)
             AM_addToPath();
 
         if (mapwindow || automapactive)

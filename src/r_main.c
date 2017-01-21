@@ -770,7 +770,7 @@ void R_RenderPlayerView(player_t *player)
     }
     else
     {
-        if ((player->cheats & CF_NOCLIP) || freeze)
+        if ((player->cheats & CF_NOCLIP) || photomode)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, 0);
         else if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,

@@ -343,8 +343,8 @@ extern char     *s_STSTR_RION;
 extern char     *s_STSTR_RIOFF;
 extern char     *s_STSTR_RMON;
 extern char     *s_STSTR_RMOFF;
-extern char     *s_STSTR_FON;
-extern char     *s_STSTR_FOFF;
+extern char     *s_STSTR_PMON;
+extern char     *s_STSTR_PMOFF;
 
 extern char     *s_E1TEXT;
 extern char     *s_E2TEXT;

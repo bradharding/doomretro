@@ -10,7 +10,10 @@
 * The `autorun` CVAR will no longer be reset to `off` at startup.
 * A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
 * All textures can now be toggled off using the new `r_textures` CVAR.
-* Floors, ceilings, doors and scrollers no longer move, clipping mode is enabled, and the `+use` action is disabled when freeze mode is enabled using the `freeze` CCMD.
+* The `freeze` CCMD has been renamed to `photomode`. Photo mode assists the player in preparing the scene before taking a screenshot using the <kbd>PRINTSCREEN</kbd> key. The following changes have been made to this mode:
+  * All moving floors and ceilings, and scrolling textures, have been disabled,
+  * Doors and switches can no longer be used by the player,
+  * Clipping has been disabled.
 
 ---
 

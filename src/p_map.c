@@ -571,7 +571,8 @@ dboolean PIT_CheckThing(mobj_t *thing)
     // ones, by allowing the moving thing (tmthing) to move if it's non-solid,
     // despite another solid thing being in the way.
     // killough 4/11/98: Treat no-clipping things as not blocking
-    return (!((flags & MF_SOLID) && !(flags & MF_NOCLIP) && !freeze && (tmflags & MF_SOLID)) || unblocking);
+    return (!((flags & MF_SOLID) && !(flags & MF_NOCLIP) && !photomode && (tmflags & MF_SOLID))
+        || unblocking);
 }
 
 //
@@ -721,7 +722,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     ++validcount;
     numspechit = 0;
 
-    if ((tmthing->flags & MF_NOCLIP) || freeze)
+    if ((tmthing->flags & MF_NOCLIP) || photomode)
         return true;
 
     // Check things first, possibly picking things up.
@@ -803,7 +804,7 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
     ++validcount;
     numspechit = 0;
 
-    if ((tmthing->flags & MF_NOCLIP) || freeze)
+    if ((tmthing->flags & MF_NOCLIP) || photomode)
         return NULL;
 
     // check things first, possibly picking things up
@@ -896,7 +897,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
     if (!P_CheckPosition(thing, x, y))
         return false;           // solid wall or thing
 
-    if (!(flags & MF_NOCLIP) && !freeze)
+    if (!(flags & MF_NOCLIP) && !photomode)
     {
         // killough 7/26/98: reformatted slightly
         // killough 8/1/98: Possibly allow escape if otherwise stuck
@@ -971,7 +972,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         thing->flags2 &= ~MF2_FEETARECLIPPED;
 
     // if any special lines were hit, do the effect
-    if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)) && !freeze)
+    if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)) && !photomode)
         while (numspechit--)
         {
             // see if the line was crossed
