@@ -1916,7 +1916,7 @@ void P_UpdateSpecials(void)
     int         pic;
     int         i;
 
-    if (photomode)
+    if (freeze)
         return;
 
     if (timer)
@@ -2224,7 +2224,7 @@ void T_Scroll(scroll_t *s)
     fixed_t     dx = s->dx;
     fixed_t     dy = s->dy;
 
-    if (photomode)
+    if (freeze)
         return;
 
     if (s->control != -1)
@@ -2676,7 +2676,7 @@ void T_Pusher(pusher_t *p)
     int         xspeed, yspeed;
     int         ht = 0;
 
-    if (photomode)
+    if (freeze)
         return;
 
     sec = sectors + p->affectee;

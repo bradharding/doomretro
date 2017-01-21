@@ -54,7 +54,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
 {
     result_e    res;
 
-    if (photomode)
+    if (freeze)
         return;
 
     switch (ceiling->direction)

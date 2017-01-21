@@ -653,7 +653,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
     static int  prevsound;
     static int  prevtic;
 
-    if (photomode)
+    if (freeze)
         return;
 
     if (delta > toucher->height || delta < -8 * FRACUNIT)
@@ -1398,7 +1398,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         // Below certain threshold,
         // ignore damage in GOD mode, or with INVUL power.
-        if ((tplayer->cheats & CF_GODMODE) || photomode
+        if ((tplayer->cheats & CF_GODMODE) || freeze
             || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 

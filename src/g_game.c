@@ -368,7 +368,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // buttons
     if (skipaction)
         skipaction = false;
-    else if (!photomode)
+    else if (!freeze)
     {
         if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamepadbuttons & gamepadfire)))
             cmd->buttons |= BT_ATTACK;
@@ -608,7 +608,7 @@ void G_DoLoadLevel(void)
     player->itemspickedup_health = 0;
     memset(player->mobjcount, 0, sizeof(player->mobjcount));
 
-    photomode = false;
+    freeze = false;
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if (pistolstart || P_GetMapPistolStart(map))

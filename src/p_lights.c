@@ -51,7 +51,7 @@
 //
 void T_FireFlicker(fireflicker_t *flick)
 {
-    if (photomode)
+    if (freeze)
         return;
 
     if (--flick->count)
@@ -88,7 +88,7 @@ void P_SpawnFireFlicker(sector_t *sector)
 //
 void T_LightFlash(lightflash_t *flash)
 {
-    if (photomode)
+    if (freeze)
         return;
 
     if (--flash->count)
@@ -136,7 +136,7 @@ void P_SpawnLightFlash(sector_t *sector)
 //
 void T_StrobeFlash(strobe_t *flash)
 {
-    if (photomode)
+    if (freeze)
         return;
 
     if (--flash->count)
@@ -261,7 +261,7 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
 //
 void T_Glow(glow_t *g)
 {
-    if (photomode)
+    if (freeze)
         return;
 
     switch (g->direction)

@@ -188,7 +188,7 @@ void T_MoveFloor(floormove_t *floor)
     sector_t    *sec;
     result_e    res;
 
-    if (photomode)
+    if (freeze)
         return;
 
     sec = floor->sector;
@@ -297,7 +297,7 @@ void T_MoveElevator(elevator_t *elevator)
 {
     result_e    res;
 
-    if (photomode)
+    if (freeze)
         return;
 
     if (elevator->direction < 0)                // moving down

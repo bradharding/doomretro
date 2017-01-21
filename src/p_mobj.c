@@ -566,7 +566,7 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->oldangle = mobj->angle;
     }
 
-    if (photomode && !player)
+    if (freeze && !player)
         return;
 
     if (mobj->nudge > 0)

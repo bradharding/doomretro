@@ -52,7 +52,7 @@ void T_PlatRaise(plat_t *plat)
 {
     result_e    res;
 
-    if (photomode)
+    if (freeze)
         return;
 
     switch (plat->status)
