@@ -192,9 +192,9 @@ void R_DrawColumn(void)
 
 void R_DrawColorColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
-    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    byte                color = dc_colormap[NOTEXTURECOLOR];
+    int32_t     count = dc_yh - dc_yl + 1;
+    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
+    byte        color = dc_colormap[NOTEXTURECOLOR];
 
     while (--count)
     {
@@ -294,19 +294,19 @@ void R_DrawSolidBloodSplatColumn(void)
 
 void R_DrawWallColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl;
+    int32_t                     count = dc_yh - dc_yl;
 
     if (!count)
         return;
     else
     {
-        byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-        const fixed_t       fracstep = dc_iscale;
-        fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
-        const byte          *source = dc_source;
-        const lighttable_t  *colormap = dc_colormap;
-        const fixed_t       texheight = dc_texheight;
-        fixed_t             heightmask = texheight - 1;
+        byte                    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        const fixed_t           fracstep = dc_iscale;
+        fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
+        const fixed_t           texheight = dc_texheight;
+        fixed_t                 heightmask = texheight - 1;
 
         // [SL] Properly tile textures whose heights are not a power-of-2,
         // avoiding a tutti-frutti effect. From Eternity Engine.
@@ -396,27 +396,27 @@ void R_DrawWallColumn(void)
             }
         }
 
-        *dest = *(dest - SCREENWIDTH);
+        *dest = colormap[source[((frac - fracstep) >> FRACBITS) & heightmask]];
     }
 }
 
 void R_DrawFullbrightWallColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl;
+    int32_t                     count = dc_yh - dc_yl;
 
     if (!count)
         return;
     else
     {
-        byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-        const fixed_t       fracstep = dc_iscale;
-        fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
-        const byte          *source = dc_source;
-        const byte          *colormask = dc_colormask;
-        const lighttable_t  *colormap = dc_colormap;
-        const fixed_t       texheight = dc_texheight;
-        fixed_t             heightmask = texheight - 1;
-        byte                dot;
+        byte                    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        const fixed_t           fracstep = dc_iscale;
+        fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
+        const byte              *source = dc_source;
+        const byte              *colormask = dc_colormask;
+        const lighttable_t      *colormap = dc_colormap;
+        const fixed_t           texheight = dc_texheight;
+        fixed_t                 heightmask = texheight - 1;
+        byte                    dot;
 
         // [SL] Properly tile textures whose heights are not a power-of-2,
         // avoiding a tutti-frutti effect. From Eternity Engine.
@@ -522,7 +522,7 @@ void R_DrawFullbrightWallColumn(void)
             }
         }
 
-        *dest = *(dest - SCREENWIDTH);
+        *dest = colormap[source[((frac - fracstep) >> FRACBITS) & heightmask]];
     }
 }
 
