@@ -11,9 +11,9 @@
 * A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
 * All textures can now be toggled off using the new `r_textures` CVAR.
 * The following changes have been made to freeze mode enabled using the `freeze` CCMD:
-  * All moving floors and ceilings, and scrolling textures, have been disabled,
+  * All moving floors and ceilings, and scrolling textures, are now disabled,
   * Doors and switches can no longer be used by the player,
-  * Clipping has been disabled.
+  * Clipping is now disabled.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
