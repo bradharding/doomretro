@@ -1896,7 +1896,8 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                             break;
                     }
                 }
-                else if (killcmdtype == WolfensteinSS && bfgedition)
+                else if (killcmdtype == WolfensteinSS && bfgedition
+                    && !states[mobjinfo[MT_WOLFSS].spawnstate].dehacked)
                     killcmdtype = Zombieman;
 
                 if (!(mobjinfo[i].flags & MF_SHOOTABLE))
@@ -3517,7 +3518,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 spawn = false;
             }
         }
-        else if (spawncmdtype == WolfensteinSS && bfgedition)
+        else if (spawncmdtype == WolfensteinSS && bfgedition
+            && !states[mobjinfo[MT_WOLFSS].spawnstate].dehacked)
             spawncmdtype = Zombieman;
 
         if (spawn)

@@ -1174,7 +1174,8 @@ void P_LoadThings(int lump)
         }
 
         // Change each WolfensteinSS into Zombiemen in BFG Edition
-        if (mt.type == WolfensteinSS && bfgedition)
+        if (mt.type == WolfensteinSS && bfgedition
+            && !states[mobjinfo[MT_WOLFSS].spawnstate].dehacked)
             mt.type = Zombieman;
 
         if (spawn)
