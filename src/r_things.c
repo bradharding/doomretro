@@ -615,6 +615,7 @@ void R_DrawPVisSprite(vissprite_t *vis)
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
+    dc_baseclip = -1;
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
