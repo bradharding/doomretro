@@ -7,7 +7,7 @@
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained when changing a CVAR in the console that resets the graphics subsystem.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
 * Further improvements have been made to the support of `DEHACKED` lumps.
-* The `autorun` CVAR will no longer be reset to `off` at startup.
+* The `alwaysrun` CVAR will no longer be reset to `off` at startup.
 * A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
 * All textures can now be toggled off using the new `r_textures` CVAR.
 * The following changes have been made to freeze mode enabled using the `freeze` CCMD:
