@@ -2237,7 +2237,7 @@ void deh_procThing(DEHFILE *fpin, char *line)
                                 && (mobjinfo[indexnum].flags2 & MF2_DECORATION))
                                 mobjinfo[indexnum].height = 16 * FRACUNIT;
 
-                            // [BH] no blood splats if thing is dehacked
+                            // [BH] no blood splats if thing is dehacked...
                             mobjinfo[indexnum].blood = 0;
 
                             break;
@@ -2250,6 +2250,10 @@ void deh_procThing(DEHFILE *fpin, char *line)
                     if (devparm)
                         C_Output("Bits = 0x%08lX = %ld.", value, value);
                     mobjinfo[indexnum].flags = value; // e6y
+
+                    // [BH] ...but add blood splats if thing is still shootable
+                    if (value & MF_SHOOTABLE)
+                        mobjinfo[indexnum].blood = MT_BLOOD;
                 }
             }
             else if (M_StringCompare(key, "Retro Bits"))
