@@ -491,7 +491,7 @@ void R_InitColumnFunctions(void)
 
     if (r_textures)
     {
-        colfunc = basecolfunc = R_DrawColumn;
+        basecolfunc = R_DrawColumn;
         fuzzcolfunc = R_DrawFuzzColumn;
         transcolfunc = R_DrawTranslatedColumn;
         wallcolfunc = R_DrawWallColumn;
@@ -547,7 +547,7 @@ void R_InitColumnFunctions(void)
     }
     else
     {
-        colfunc = basecolfunc = R_DrawColorColumn;
+        basecolfunc = R_DrawColorColumn;
         fuzzcolfunc = R_DrawColorColumn;
         transcolfunc = R_DrawColorColumn;
         wallcolfunc = R_DrawColorColumn;

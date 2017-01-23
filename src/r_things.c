@@ -592,8 +592,6 @@ void R_DrawVisSprite(vissprite_t *vis)
     for (dc_x = vis->x1, frac = vis->startfrac; dc_x <= x2; dc_x++, frac += xiscale)
         R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
             + LONG(patch->columnofs[frac >> FRACBITS])));
-
-    colfunc = basecolfunc;
 }
 
 //
@@ -621,8 +619,6 @@ void R_DrawPVisSprite(vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
             + LONG(patch->columnofs[frac >> FRACBITS])));
-
-    colfunc = basecolfunc;
 }
 
 void R_DrawBloodSplatVisSprite(vissprite_t *vis)
@@ -645,8 +641,6 @@ void R_DrawBloodSplatVisSprite(vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         R_DrawMaskedBloodSplatColumn((column_t *)((byte *)patch
             + LONG(patch->columnofs[frac >> FRACBITS])));
-
-    colfunc = basecolfunc;
 }
 
 //
