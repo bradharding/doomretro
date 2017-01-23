@@ -487,14 +487,35 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 }
 
+static void G_SetInitialWeapon(player_t *player)
+{
+    int i;
+
+    player->weaponowned[wp_fist] = true;
+    player->weaponowned[wp_pistol] = true;
+
+    player->ammo[am_clip] = initial_bullets;
+    if (!initial_bullets && weaponinfo[wp_pistol].ammo != am_noammo)
+    {
+        player->readyweapon = wp_fist;
+        player->pendingweapon = wp_fist;
+    }
+    else
+    {
+        player->readyweapon = wp_pistol;
+        player->pendingweapon = wp_pistol;
+    }
+
+    for (i = 0; i < NUMAMMO; i++)
+        player->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
+}
+
 //
 // G_ResetPlayer
 // [BH] Reset player's health, armor, weapons and ammo
 //
 static void G_ResetPlayer(player_t *player)
 {
-    int     i;
-
     player->health = initial_health;
 
     player->armorpoints = 0;
@@ -504,23 +525,8 @@ static void G_ResetPlayer(player_t *player)
     player->fistorchainsaw = wp_fist;
     player->shotguns = false;
     memset(player->weaponowned, false, sizeof(player->weaponowned));
-    player->weaponowned[wp_fist] = true;
-    player->weaponowned[wp_pistol] = true;
-
     memset(player->ammo, false, sizeof(player->ammo));
-    if (initial_bullets)
-    {
-        player->ammo[am_clip] = initial_bullets;
-        player->readyweapon = wp_pistol;
-        player->pendingweapon = wp_pistol;
-    }
-    else
-    {
-        player->readyweapon = wp_fist;
-        player->pendingweapon = wp_fist;
-    }
-    for (i = 0; i < NUMAMMO; ++i)
-        player->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
+    G_SetInitialWeapon(player);
     player->backpack = false;
 }
 
@@ -1097,7 +1103,6 @@ void G_PlayerFinishLevel(void)
 void G_PlayerReborn(void)
 {
     player_t    *player = &players[0];
-    int         i;
     int         killcount = player->killcount;
     int         itemcount = player->itemcount;
     int         secretcount = player->secretcount;
@@ -1114,22 +1119,8 @@ void G_PlayerReborn(void)
     player->preferredshotgun = wp_shotgun;
     player->fistorchainsaw = wp_fist;
     player->shotguns = false;
-    player->weaponowned[wp_fist] = true;
-    player->weaponowned[wp_pistol] = true;
-    if (initial_bullets)
-    {
-        player->ammo[am_clip] = initial_bullets;
-        player->readyweapon = wp_pistol;
-        player->pendingweapon = wp_pistol;
-    }
-    else
-    {
-        player->readyweapon = wp_fist;
-        player->pendingweapon = wp_fist;
-    }
 
-    for (i = 0; i < NUMAMMO; ++i)
-        player->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
+    G_SetInitialWeapon(player);
 
     markpointnum = 0;
     infight = false;
