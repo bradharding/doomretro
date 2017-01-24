@@ -1400,7 +1400,7 @@ void R_DrawMasked(void)
     drawseg_t   *ds;
     int         i;
 
-    pausesprites = (menuactive || paused || consoleactive || freeze);
+    pausesprites = (menuactive || paused || consoleactive);
     interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
 
     // draw all blood splats

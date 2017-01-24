@@ -14,7 +14,6 @@
   * All moving floors and ceilings, and scrolling textures, are now disabled,
   * Doors and switches can no longer be used by the player,
   * Clipping is now disabled.
-  * The fuzz effect of Spectres and the partial invisibility power-up now pauses.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
