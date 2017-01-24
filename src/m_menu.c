@@ -3363,14 +3363,31 @@ void M_Drawer(void)
     }
     else if (currentMenu != &ReadDef)
     {
-        patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
+        patch_t         *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
+        int             y = currentMenu->y + itemOn * 16 - 5;
+
+        if (M_NGAME)
+        {
+            if (!M_SKULL1)
+                y += 2;
+            else
+            {
+                patch_t     *newgame = W_CacheLumpName("M_NGAME", PU_CACHE);
+
+                if (SHORT(newgame->width) != 1 || SHORT(newgame->height) != 1)
+                    y += OFFSET + chex;
+            }
+        }
+        else
+            y += OFFSET + chex;
 
         if (currentMenu == &OptionsDef && !itemOn && !usergame)
             ++itemOn;
+
         if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET + chex, patch);
+            M_DrawPatchWithShadow(x - 32, y, patch);
         else
-            M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, patch);
+            M_DrawPatchWithShadow(x - 26, y, patch);
     }
 }
 

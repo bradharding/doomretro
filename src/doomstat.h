@@ -127,6 +127,7 @@ extern dboolean         M_MSENS;
 extern dboolean         M_MSGOFF;
 extern dboolean         M_MSGON;
 extern dboolean         M_NEWG;
+extern dboolean         M_NGAME;
 extern dboolean         M_NMARE;
 extern dboolean         M_OPTTTL;
 extern dboolean         M_PAUSE;

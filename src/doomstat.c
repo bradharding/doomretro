@@ -80,6 +80,7 @@ dboolean        M_MSENS = false;
 dboolean        M_MSGOFF = false;
 dboolean        M_MSGON = false;
 dboolean        M_NEWG = false;
+dboolean        M_NGAME = false;
 dboolean        M_NMARE = false;
 dboolean        M_OPTTTL = false;
 dboolean        M_PAUSE = false;

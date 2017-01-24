@@ -1725,6 +1725,7 @@ static void D_DoomMainSetup(void)
     M_MSGOFF = (W_CheckMultipleLumps("M_MSGOFF") > 1);
     M_MSGON = (W_CheckMultipleLumps("M_MSGON") > 1);
     M_NEWG = (W_CheckMultipleLumps("M_NEWG") > 1);
+    M_NGAME = (W_CheckMultipleLumps("M_NGAME") > 1);
     M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
     M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
     M_PAUSE = (W_CheckMultipleLumps("M_PAUSE") > 1);
