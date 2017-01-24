@@ -77,8 +77,9 @@ spritedef_t             *sprites;
 
 static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
-static dboolean         interpolate;
 
+static dboolean         interpolatesprites;
+static dboolean         pausesprites;
 static dboolean         drawshadows;
 
 dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
@@ -697,7 +698,7 @@ void R_ProjectSprite(mobj_t *thing)
         return;
 
     // [AM] Interpolate between current and last position, if prudent.
-    if (thing->interp && interpolate)
+    if (thing->interp && interpolatesprites)
     {
         fx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
         fy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
@@ -822,7 +823,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
-    if ((flags & MF_FUZZ) && (menuactive || paused || consoleactive) && r_textures)
+    if ((flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = thing->colfunc;
@@ -941,7 +942,7 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     vis->gzt = fz + 1;
     vis->blood = thing->blood;
 
-    if ((thing->flags & MF_FUZZ) && (menuactive || paused || consoleactive) && r_textures)
+    if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = thing->colfunc;
@@ -1176,10 +1177,12 @@ void R_DrawPlayerSprites(void)
     if ((invisibility > 128 || (invisibility & 8)) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251);
+
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
                 R_DrawPSprite(psp, true);
-        if (menuactive || paused || consoleactive)
+
+        if (pausesprites)
             R_DrawPausedFuzzColumns();
         else
             R_DrawFuzzColumns();
@@ -1397,7 +1400,8 @@ void R_DrawMasked(void)
     drawseg_t   *ds;
     int         i;
 
-    interpolate = (vid_capfps != TICRATE && !paused && !menuactive && !consoleactive);
+    pausesprites = (menuactive || paused || consoleactive || freeze);
+    interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
 
     // draw all blood splats
     for (i = num_bloodvissprite; --i >= 0;)
