@@ -913,7 +913,7 @@ static void R_ProjectBloodSplat(mobj_t *thing)
         return;
 
     // decide which patch to use for sprite relative to player
-    lump = sprites[SPR_BLD2].spriteframes[thing->frame].lump[0];
+    lump = thing->frame;
     width = spritewidth[lump];
 
     // calculate edges of the shape
@@ -951,11 +951,9 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
 
-    vis->startfrac = 0;
     vis->xiscale = FixedDiv(FRACUNIT, xscale);
 
-    if (vis->x1 > x1)
-        vis->startfrac += vis->xiscale * (vis->x1 - x1);
+    vis->startfrac = vis->xiscale * (vis->x1 - x1);
     vis->patch = lump;
 
     // get light level

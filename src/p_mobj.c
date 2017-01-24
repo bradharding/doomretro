@@ -1249,7 +1249,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 
         newsplat->type = MT_BLOODSPLAT;
         newsplat->sprite = SPR_BLD2;
-        newsplat->frame = rand() & 7;
+        newsplat->frame = sprites[SPR_BLD2].spriteframes[rand() & 7].lump[0];
 
         newsplat->flags2 = (MF2_DONOTMAP | ((rand() & 1) * MF2_MIRRORED));
         if (blood == FUZZYBLOOD)

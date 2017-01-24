@@ -485,7 +485,6 @@ void P_PlayerThink(player_t *player)
     P_MovePsprites(player);
 
     // Counters, time dependent power ups.
-
     if (player->powers[pw_invulnerability] > 0)
         player->powers[pw_invulnerability]--;
 
