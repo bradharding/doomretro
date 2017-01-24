@@ -306,7 +306,7 @@ void R_DrawWallColumn(void)
     byte                dot;
 
     if (!count)
-        *dest = colormap[source[frac >> FRACBITS]];
+        *dest = *(dest + (dc_yl ? -SCREENWIDTH : SCREENWIDTH));
     else
     {
         // [SL] Properly tile textures whose heights are not a power-of-2,
@@ -414,10 +414,7 @@ void R_DrawFullbrightWallColumn(void)
     byte                dot;
 
     if (!count)
-    {
-        dot = source[(frac >> FRACBITS) & heightmask];
-        *dest = (colormask[dot] ? dot : colormap[dot]);
-    }
+        *dest = *(dest + (dc_yl ? -SCREENWIDTH : SCREENWIDTH));
     else
     {
 
@@ -534,14 +531,15 @@ void R_DrawPlayerSpriteColumn(void)
     byte                *dest = R_ADDRESS(1, dc_x, dc_yl);
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
 
     while (--count)
     {
-        *dest = dc_source[frac >> FRACBITS];
+        *dest = source[frac >> FRACBITS];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = dc_source[frac >> FRACBITS];
+    *dest = source[frac >> FRACBITS];
 }
 
 void R_DrawSuperShotgunColumn(void)
