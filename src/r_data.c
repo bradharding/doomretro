@@ -44,6 +44,7 @@
 #include "p_local.h"
 #include "p_tick.h"
 #include "r_sky.h"
+#include "sc_man.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -66,6 +67,8 @@ int             numflats;
 int             firstspritelump;
 int             lastspritelump;
 int             numspritelumps;
+
+dboolean        notranslucency = false;
 
 int             numtextures;
 texture_t       **textures;
@@ -214,6 +217,8 @@ static struct
     { "WOODSKUL", DOOM1AND2, redonly        }, { "ZELDOOR",  DOOM1AND2, redonly        },
     { "",         0,         0              }
 };
+
+extern char     *pwadfile;
 
 //
 // R_GetTextureColumn
@@ -462,6 +467,7 @@ void R_InitSpriteLumps(void)
         }
     }
 
+    // [BH] compatibility fixes
     if (FREEDOOM)
     {
         states[S_BAR1].tics = 0;
@@ -493,6 +499,17 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+    }
+
+    SC_Open("DRCOMPAT");
+    while (SC_GetString())
+    {
+        if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
+        {
+            SC_MustGetString();
+            if (M_StringCompare(pwadfile, removeext(sc_String)))
+                notranslucency = true;
+        }
     }
 }
 

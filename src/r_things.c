@@ -88,6 +88,7 @@ dboolean                r_playersprites = r_playersprites_default;
 
 extern fixed_t          animatedliquiddiff;
 extern dboolean         inhelpscreens;
+extern dboolean         notranslucency;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_shadows;
 extern dboolean         r_textures;
@@ -1063,7 +1064,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         if (spr == SPR_SHT2 && (!frame || (frame & FF_FULLBRIGHT)) && !SHT2A0
             && nearestcolors[71] == 71)
             vis->colfunc = supershotguncolfunc;
-        else if (r_translucency)
+        else if (r_translucency && !notranslucency)
         {
             if (spr == SPR_SHT2)
                 vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) ?

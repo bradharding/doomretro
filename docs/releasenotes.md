@@ -6,6 +6,7 @@
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained when changing a CVAR in the console that resets the graphics subsystem.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
+* A compatibility fix has been implemented that disables the translucency of the player’s weapons in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * Further improvements have been made to the support of `DEHACKED` lumps.
 * The `alwaysrun` CVAR will no longer be reset to `off` at startup.
 * A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
