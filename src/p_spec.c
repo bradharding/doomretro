@@ -240,16 +240,20 @@ void P_SetLiquids(void)
     }
     W_ReleaseLumpNum(lump);
 
-    // [BH] parse NOLIQUID lump to find animated textures that are not liquid in current wad
-    SC_Open("NOLIQUID");
+    // [BH] parse DRCOMPAT lump to find animated textures that are not liquid in current wad
+    SC_Open("DRCOMPAT");
     while (SC_GetString())
     {
-        int     lump = R_CheckFlatNumForName(sc_String);
+        if (M_StringCompare(sc_String, "NOLIQUID"))
+        {
+            int lump;
 
-        SC_MustGetString();
-        if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wad_file->path),
-            sc_String))
-            isliquid[lump] = false;
+            SC_MustGetString();
+            lump = R_CheckFlatNumForName(sc_String);
+            SC_MustGetString();
+            if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wad_file->path), sc_String))
+                isliquid[lump] = false;
+        }
     }
 
     numliquid = 0;
