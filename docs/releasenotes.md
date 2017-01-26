@@ -11,10 +11,10 @@
 * The `alwaysrun` CVAR will no longer be reset to `off` at startup.
 * A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
 * All textures can now be toggled off using the new `r_textures` CVAR.
-* The following changes have been made to freeze mode enabled using the `freeze` CCMD:
-  * All moving floors and ceilings, and scrolling textures, are now disabled,
-  * Doors and switches can no longer be used by the player,
-  * Clipping is now disabled.
+* The following improvements have been made to “freeze mode”, enabled using the `freeze` CCMD:
+  * All moving floors and ceilings, and scrolling textures, are now disabled.
+  * Doors and switches can no longer be used by the player.
+  * “No clipping mode” is now enabled.
   * Liquid sectors that are off of the screen when freeze mode is enabled are now drawn correctly.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
@@ -88,7 +88,7 @@
 * The effect of changing the `r_brightmaps` CVAR from `off` to `on` is now immediate, and doesn’t require *DOOM Retro* to be restarted.
 * A bug has been fixed whereby the brightmap of the `SW1STON2` and `SW2STON2` switch textures wouldn’t be applied correctly in *DOOM* but would in *DOOM II*.
 * The following changes have been made to the `spawn` CCMD:
-  * A crash will no longer occur when when trying to spawn certain decorations and pickups that don’t exist in *DOOM* but do in *DOOM II*.
+  * A crash will no longer occur when trying to spawn certain decorations and pickups that don’t exist in *DOOM* but do in *DOOM II*.
   * Hanging decorations are now spawned on the ceiling.
   * Things will now be in the same state they would be if they were spawned when the map started.
 * The “floating skull rock” decoration now casts a shadow when the `r_shadow` CVAR is `on`.
