@@ -157,7 +157,7 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
     return false;
 }
 
-// Checks if the lump can be a Doom patch
+// Checks if the lump can be a DOOM patch
 static dboolean CheckIfPatch(int lump)
 {
     int                 size;
@@ -167,7 +167,7 @@ static dboolean CheckIfPatch(int lump)
 
     size = W_LumpLength(lump);
 
-    // minimum length of a valid Doom patch
+    // minimum length of a valid DOOM patch
     if (size < 13)
         return false;
 

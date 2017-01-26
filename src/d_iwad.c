@@ -131,28 +131,28 @@ static registry_value_t uninstall_values[] =
 
 static registry_value_t root_path_keys[] =
 {
-    // Doom Collector's Edition
+    // DOOM Collector's Edition
     {
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\Activision\\DOOM Collector's Edition\\v1.0",
         "INSTALLPATH",
     },
 
-    // Ultimate Doom
+    // Ultimate DOOM
     {
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\GOG.com\\Games\\1435827232",
         "PATH",
     },
 
-    // Doom II
+    // DOOM II
     {
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\GOG.com\\Games\\1435848814",
         "PATH",
     },
 
-    // Final Doom
+    // Final DOOM
     {
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\GOG.com\\Games\\1435848742",
@@ -246,7 +246,7 @@ static void CheckUninstallStrings(void)
     }
 }
 
-// Check for GOG.com and Doom: Collector's Edition
+// Check for GOG.com and DOOM: Collector's Edition
 static void CheckInstallRootPaths(void)
 {
     size_t      i;

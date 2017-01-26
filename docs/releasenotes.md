@@ -4,7 +4,7 @@
 * Improvements have been made to *DOOM Retro’s* renderer.
 * Changes have been made to the format of savegames and therefore savegames created using previous versions of *DOOM Retro* are not compatible with this version.
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
-* The screen effects from the berserk and radiation shielding suit power-ups are now retained when changing a CVAR in the console that resets the graphics subsystem.
+* The screen effects from the berserk and radiation shielding suit power-ups are now retained after changing a CVAR in the console that resets the graphics subsystem.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
 * A compatibility fix has been implemented that disables the translucency of the player’s weapons in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * Further improvements have been made to the support of `DEHACKED` lumps.
@@ -15,7 +15,7 @@
   * All moving floors and ceilings, and scrolling textures, are now disabled,
   * Doors and switches can no longer be used by the player,
   * Clipping is now disabled.
-  * Liquid sectors that are off-screen when freeze mode is enabled are now drawn correctly.
+  * Liquid sectors that are off of the screen when freeze mode is enabled are now drawn correctly.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
