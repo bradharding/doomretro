@@ -19,6 +19,7 @@
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
 * The `vid_vsync` CVAR is now `off` by default.
+* A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
 
 ---
 

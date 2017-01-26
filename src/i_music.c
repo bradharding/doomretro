@@ -372,7 +372,8 @@ void *I_RegisterSong(void *data, int len)
 #endif
 
         if ((rwops = SDL_RWFromMem(data, len)))
-            music = Mix_LoadMUS_RW(rwops, SDL_FALSE);
+            if (!(music = Mix_LoadMUSType_RW(rwops, MUS_OGG, SDL_FALSE)))
+                music = Mix_LoadMUSType_RW(rwops, MUS_MP3_MAD, SDL_FALSE);
 
         return music;
     }
