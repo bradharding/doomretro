@@ -15,6 +15,7 @@
   * All moving floors and ceilings, and scrolling textures, are now disabled,
   * Doors and switches can no longer be used by the player,
   * Clipping is now disabled.
+  * Liquid sectors that are off-screen when freeze mode is enabled are now drawn correctly.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.

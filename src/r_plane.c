@@ -448,7 +448,7 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    dboolean        swirling = (isliquid[picnum] && r_liquid_swirl);
+                    dboolean        swirling = (isliquid[picnum] && r_liquid_swirl && !freeze);
                     int             lumpnum = firstflat + flattranslation[picnum];
 
                     ds_source = (swirling ? R_DistortedFlat(picnum) :
