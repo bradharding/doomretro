@@ -42,6 +42,11 @@
 #define R_ADDRESS(scrn, px, py) \
     (screens[scrn] + (viewwindowy + (py)) * SCREENWIDTH + (viewwindowx + (px)))
 
+// [BH] Compensate for rounding errors in DOOM's renderer by stretching wall
+//  columns by 1px. This eliminates the randomly-colored pixels ("sparkles")
+//  that appear at the bottom of some columns.
+#define SPARKLEFIX      64
+
 #define NOTEXTURECOLOR  80
 
 extern lighttable_t     *dc_colormap;
