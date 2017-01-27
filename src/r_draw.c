@@ -300,7 +300,6 @@ void R_DrawWallColumn(void)
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale;
     const fixed_t       fracstep = iscale - SPARKLEFIX;
     const byte          *source = dc_source;
-    const byte          *colormask = dc_colormask;
     const lighttable_t  *colormap = dc_colormap;
     const fixed_t       texheight = dc_texheight;
     fixed_t             heightmask = texheight - 1;
@@ -388,7 +387,6 @@ void R_DrawWallColumn(void)
             dest += SCREENWIDTH;
             frac += fracstep;
             *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-            dest += SCREENWIDTH;
         }
     }
 }
@@ -506,7 +504,6 @@ void R_DrawFullbrightWallColumn(void)
             frac += fracstep;
             dot = source[(frac >> FRACBITS) & heightmask];
             *dest = (colormask[dot] ? dot : colormap[dot]);
-            dest += SCREENWIDTH;
         }
     }
 }

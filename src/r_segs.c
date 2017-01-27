@@ -351,13 +351,16 @@ void R_RenderSegLoop(void)
         // no space above wall?
         int             bottom;
         int             top = ceilingclip[rw_x] + 1;
-        dboolean        bottomclipped = false;
 
-        yl = MAX(yl, top);
+        if (yl < top)
+            yl = top;
 
         if (markceiling)
         {
-            bottom = MIN(yl - 1, floorclip[rw_x] - 1);
+            bottom = yl - 1;
+
+            if (bottom >= floorclip[rw_x])
+                bottom = floorclip[rw_x] - 1;
 
             if (top <= bottom && ceilingplane)
             {
@@ -371,15 +374,15 @@ void R_RenderSegLoop(void)
 
         bottom = floorclip[rw_x] - 1;
         if (yh > bottom)
-        {
             yh = bottom;
-            bottomclipped = true;
-        }
 
         if (markfloor)
         {
 
-            top = MAX(yh, ceilingclip[rw_x]) + 1;
+            top = yh + 1;
+            if (top <= ceilingclip[rw_x])
+                top = ceilingclip[rw_x] + 1;
+
             if (top <= bottom && floorplane)
             {
                 floorplane->top[rw_x] = top;
@@ -485,7 +488,8 @@ void R_RenderSegLoop(void)
                 pixlow += pixlowstep;
 
                 // no space above wall?
-                mid = MAX(ceilingclip[rw_x] + 1, mid);
+                if (mid <= ceilingclip[rw_x])
+                    mid = ceilingclip[rw_x] + 1;
 
                 if (mid <= yh)
                 {
