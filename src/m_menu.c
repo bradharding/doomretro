@@ -3379,7 +3379,11 @@ void M_Drawer(void)
             }
         }
         else
+        {
             y += OFFSET + chex;
+            if (!M_SKULL1)
+                y += 2;
+        }
 
         if (currentMenu == &OptionsDef && !itemOn && !usergame)
             ++itemOn;
