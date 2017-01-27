@@ -603,8 +603,6 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_FOCUS_GAINED:
                             windowfocused = true;
 
-                            I_CapFPS(vid_capfps);
-
                             if (menuactive || consoleactive)
                                 S_ResumeSound();
 
@@ -612,8 +610,6 @@ static void I_GetEvent(void)
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:
                             windowfocused = false;
-
-                            I_CapFPS(1);
 
                             if (gamestate == GS_LEVEL && !paused)
                             {
