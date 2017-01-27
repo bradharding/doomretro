@@ -296,8 +296,9 @@ void R_DrawWallColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
-    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
+    const fixed_t       iscale = dc_iscale;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale;
+    const fixed_t       fracstep = iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const byte          *colormask = dc_colormask;
     const lighttable_t  *colormap = dc_colormap;
@@ -396,8 +397,9 @@ void R_DrawFullbrightWallColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
-    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
+    const fixed_t       iscale = dc_iscale;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale;
+    const fixed_t       fracstep = iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const byte          *colormask = dc_colormask;
     const lighttable_t  *colormap = dc_colormap;
@@ -1395,10 +1397,6 @@ void R_DrawColorSpan(void)
 
 //
 // R_InitBuffer
-// Creates lookup tables that avoid
-//  multiplies and other hassles
-//  for getting the framebuffer address
-//  of a pixel to draw.
 //
 void R_InitBuffer(int width, int height)
 {

@@ -112,7 +112,7 @@
 * The wrong map title is no longer displayed for MAP31 and MAP32 in some PWADs when using the *BFG Edition* of `doom2.wad`.
 * A bug has been fixed whereby the `MAPINFO` lump in a PWAD could be parsed incorrectly and cause the wrong music to be played in a map.
 * Music will now be paused if either the menu or console is open and the window loses focus.
-* A crash will no longer occur when when trying to spawn a spider mastermind using the `spawn` CCMD in *DOOM Shareware*.
+* A crash will no longer occur when trying to spawn a spider mastermind using the `spawn` CCMD in *DOOM Shareware*.
 
 ---
 
@@ -1228,7 +1228,7 @@
 * Faster switching to the next and previous weapons is now allowed.
 * Improvements have been made to the menu in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * Smoke trails are no longer applied to revenant non-homing rockets by default.
-* Instead of just `on` and `off`, the `smoketrails` setting in `doomretro.cfg` has been changed to allow smoke trails to be enabled or disabled depending on who fired the projectile. The setting can be any combination of the following flags: `player` (smoke trails for player rockets), `revenant1` (smoke trails for Revenant non-homing rockets), `revenant2` (smoke trails for Revenant homing rockets) and `cyberdemon` (smoke trails for cyberdemon rockets). The default is `player|revenant2|cyberdemon`.
+* Instead of just `on` and `off`, the `smoketrails` setting in `doomretro.cfg` has been changed to allow smoke trails to be enabled or disabled depending on who fired the projectile. The setting can be any combination of the following flags: `player` (smoke trails for player rockets), `revenant1` (smoke trails for revenant non-homing rockets), `revenant2` (smoke trails for revenant homing rockets) and `cyberdemon` (smoke trails for cyberdemon rockets). The default is `player|revenant2|cyberdemon`.
 * A bug has been fixed whereby pressing the <kbd>CAPSLOCK</kbd> key on the title screen will cause the use of the key to then become inverted (that is, turning <kbd>CAPSLOCK</kbd> on would turn “always run” off, and vice versa).
 * The display of the asterisk character is now allowed in a savegame description.
 * The player arrow in the automap is now displayed correctly when zoomed in.

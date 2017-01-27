@@ -557,7 +557,7 @@ void R_InitColormaps(void)
     // [BH] There's a typo in dcolors.c, the source code of the utility Id
     // Software used to construct the palettes and colormaps for DOOM (see
     // http://www.doomworld.com/idgames/?id=16644). When constructing colormap
-    // 32, which is used for the invulnerability powerup, the traditional
+    // 32, which is used for the invulnerability power-up, the traditional
     // Y luminance values are used (see http://en.wikipedia.org/wiki/YIQ), but a
     // value of 0.144 is used when it should be 0.114. So I've grabbed the
     // offending code from dcolor.c, corrected it, put it here, and now colormap

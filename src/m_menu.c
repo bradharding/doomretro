@@ -1397,7 +1397,7 @@ void M_DrawReadThis(void)
 }
 
 //
-// Change Sfx & Music volumes
+// Change SFX & Music volumes
 //
 void M_DrawSound(void)
 {
