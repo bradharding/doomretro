@@ -2696,6 +2696,12 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Music format\t<b>Ogg Vorbis</b>");
         else if (musictype == MUSTYPE_MP3)
             C_TabbedOutput(tabs, "Music format\t<b>MP3</b>");
+        else if (musictype == MUSTYPE_WAV)
+            C_TabbedOutput(tabs, "Music format\t<b>WAV</b>");
+        else if (musictype == MUSTYPE_FLAC)
+            C_TabbedOutput(tabs, "Music format\t<b>FLAC</b>");
+        else if (musictype == MUSTYPE_MOD)
+            C_TabbedOutput(tabs, "Music format\t<b>MOD</b>");
     }
 }
 

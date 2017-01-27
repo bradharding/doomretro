@@ -389,6 +389,12 @@ void *I_RegisterSong(void *data, int len)
                 musictype = MUSTYPE_OGG;
             else if ((music = Mix_LoadMUSType_RW(rwops, MUS_MP3, SDL_FALSE)))
                 musictype = MUSTYPE_MP3;
+            else if ((music = Mix_LoadMUSType_RW(rwops, MUS_WAV, SDL_FALSE)))
+                musictype = MUSTYPE_WAV;
+            else if ((music = Mix_LoadMUSType_RW(rwops, MUS_FLAC, SDL_FALSE)))
+                musictype = MUSTYPE_FLAC;
+            else if ((music = Mix_LoadMUSType_RW(rwops, MUS_MOD, SDL_FALSE)))
+                musictype = MUSTYPE_MOD;
         }
 
         return music;

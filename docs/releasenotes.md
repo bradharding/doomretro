@@ -22,7 +22,7 @@
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
 * The `vid_vsync` CVAR is now `off` by default.
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
-* The `mapstats` CCMD now displays the format of the currently playing music (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis` or `MP3`).
+* The `mapstats` CCMD now displays the format of the currently playing music (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`).
 * Objects no longer bob up and down when underwater.
 
 ---

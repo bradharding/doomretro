@@ -112,7 +112,10 @@ typedef enum
     MUSTYPE_MUS,
     MUSTYPE_MIDI,
     MUSTYPE_OGG,
-    MUSTYPE_MP3
+    MUSTYPE_MP3,
+    MUSTYPE_WAV,
+    MUSTYPE_FLAC,
+    MUSTYPE_MOD
 } musictype_t;
 
 extern musictype_t      musictype;
