@@ -8436,7 +8436,7 @@ offset_t sproffsets[] =
     { "SSWVU0",     28,   20,  57,  25, MT_WOLFSS       }, //   24,   20
     { "SSWVV0",     28,   15,  57,  20, MT_WOLFSS       }, //   24,   15
     { "STIMA0",      7,   13,  14,  15, MT_MISC10       }, //    7,   15
-    { "SUITA0",     12,   58,  24,  47, MT_MISC14       }, //   11,   51
+    { "SUITA0",     12,   54,  24,  47, MT_MISC14       }, //   11,   51
     { "TBLUA0",     13,   92,  26,  96, MT_MISC41       }, //   14,   92
     { "TBLUB0",     13,   92,  26,  96, MT_MISC41       }, //   14,   92
     { "TBLUC0",     13,   92,  26,  96, MT_MISC41       }, //   14,   92
