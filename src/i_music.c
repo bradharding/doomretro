@@ -59,6 +59,8 @@ static dboolean         sdl_was_initialized;
 static dboolean         musicpaused;
 static int              current_music_volume;
 
+musictype_t             musictype;
+
 #if defined(_WIN32)
 static dboolean         haveMidiServer;
 static dboolean         haveMidiClient;
@@ -321,13 +323,21 @@ void *I_RegisterSong(void *data, int len)
         Mix_Music       *music = NULL;
         SDL_RWops       *rwops;
 
+        musictype = MUSTYPE_NONE;
+
         // Check for MIDI or MUS format first:
         if (len >= 14)
         {
             if (!memcmp(data, "MThd", 4))                       // Is it a MIDI?
+            {
+                musictype = MUSTYPE_MIDI;
                 isMIDI = true;
+            }
             else if (muscheckformat((byte *)data, len))         // Is it a MUS?
+            {
+                musictype = MUSTYPE_MUS;
                 isMUS = true;
+            }
         }
 
         // If it's a MUS, convert it to MIDI now
@@ -372,8 +382,10 @@ void *I_RegisterSong(void *data, int len)
 #endif
 
         if ((rwops = SDL_RWFromMem(data, len)))
-            if (!(music = Mix_LoadMUSType_RW(rwops, MUS_OGG, SDL_FALSE)))
-                music = Mix_LoadMUSType_RW(rwops, MUS_MP3_MAD, SDL_FALSE);
+            if ((music = Mix_LoadMUSType_RW(rwops, MUS_OGG, SDL_FALSE)))
+                musictype = MUSTYPE_OGG;
+            else if ((music = Mix_LoadMUSType_RW(rwops, MUS_MP3_MAD, SDL_FALSE)))
+                musictype = MUSTYPE_MP3;
 
         return music;
     }

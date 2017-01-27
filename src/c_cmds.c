@@ -2687,6 +2687,15 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
             C_TabbedOutput(tabs, "Music title\t<b>%s</b>", mus_playing->title);
+
+        if (musictype == MUSTYPE_MUS)
+            C_TabbedOutput(tabs, "Music format\t<b>MIDI (converted from MUS)</b>");
+        else if (musictype == MUSTYPE_MIDI)
+            C_TabbedOutput(tabs, "Music format\t<b>MIDI</b>");
+        else if (musictype == MUSTYPE_OGG)
+            C_TabbedOutput(tabs, "Music format\t<b>Ogg Vorbis</b>");
+        else if (musictype == MUSTYPE_MUS)
+            C_TabbedOutput(tabs, "Music format\t<b>MP3</b>");
     }
 }
 

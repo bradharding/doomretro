@@ -21,6 +21,7 @@
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
 * The `vid_vsync` CVAR is now `off` by default.
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
+* The `mapstats` CCMD now displays the format of the currently playing music (MUS, MIDI, Ogg Vorbis or MP3).
 
 ---
 
@@ -798,7 +799,7 @@
 * The positions that blood splats are spawned are now more accurate when blood falls to the ground.
 * The `%` symbol will no longer disappear from the end of the `pm_walkbob` CVAR’s value.
 * The CVAR names will no longer be shown when entering the `gp_deadzone_left` or `gp_deadzone_right` CVARs to display their values.
-* *DOOM Retro* will now play MP3 and Ogg music lumps. This requires the files `libogg-0.dll`, `libvorbis-0.dll`, `libvorbisfile-3.dll` and `smpeg2.dll` all to be in the same folder as `doomretro.exe`.
+* *DOOM Retro* will now play MP3 and Ogg Vorbis music lumps. This requires the files `libogg-0.dll`, `libvorbis-0.dll`, `libvorbisfile-3.dll` and `smpeg2.dll` all to be in the same folder as `doomretro.exe`.
 * A warning is now displayed in the console when a music lump can’t be played.
 * Tilde characters are now removed from the files saved using the `condump` CCMD.
 

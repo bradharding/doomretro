@@ -62,10 +62,10 @@ struct sfxinfo_struct
     // up to 6-character name
     char        name[9];
 
-    // Sfx singularity (only one at a time)
+    // SFX singularity (only one at a time)
     int         singularity;
 
-    // Sfx priority
+    // SFX priority
     int         priority;
 
     // referenced sound if a link
@@ -74,7 +74,7 @@ struct sfxinfo_struct
     // volume if a link
     int         volume;
 
-    // lump number of sfx
+    // lump number of SFX
     int         lumpnum;
 };
 
@@ -105,6 +105,18 @@ extern sfxinfo_t        S_sfx[];
 extern musicinfo_t      S_music[];
 
 extern musicinfo_t      *mus_playing;
+
+typedef enum
+{
+    MUSTYPE_NONE,
+    MUSTYPE_MUS,
+    MUSTYPE_MIDI,
+    MUSTYPE_OGG,
+    MUSTYPE_MP3
+} musictype_t;
+
+extern musictype_t      musictype;
+
 //
 // Identifiers for all music in game.
 //
