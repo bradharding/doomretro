@@ -457,7 +457,7 @@ void WI_drawEL(void)
     V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
 
     // draw level
-    y += 14;
+    y += SHORT(entering->height) + 2;
     if (titlepatch)
     {
         patch_t *patch = W_CacheLumpNum(titlepatch, PU_STATIC);
