@@ -589,10 +589,10 @@ void P_MobjThinker(mobj_t *mobj)
 
     // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB)
-        && mobj->z <= sector->floorheight && !mobj->momz && r_liquid_bob)
+        && mobj->z <= sector->floorheight && !mobj->momz && sector->heightsec == -1 && r_liquid_bob)
         mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
 
-    // [BH] otherwise bob certain powerups
+    // [BH] otherwise bob certain power-ups
     else if ((flags2 & MF2_FLOATBOB) && r_floatbob)
         mobj->z = BETWEEN(mobj->floorz, mobj->z + floatbobdiffs[(mobj->floatbob + leveltime) & 63],
             mobj->ceilingz);
