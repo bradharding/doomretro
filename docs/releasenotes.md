@@ -1,4 +1,4 @@
-### DOOM Retro v2.3.10
+### DOOM Retro v2.4
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the rendering of shadows.
 * Improvements have been made to *DOOM Retro’s* renderer.
@@ -16,13 +16,13 @@
   * All moving floors and ceilings, and scrolling textures, are now disabled.
   * Doors and switches can no longer be used by the player.
   * “No clipping mode” is now enabled.
-  * Liquid sectors that are off of the screen when freeze mode is enabled are now drawn correctly.
+  * Liquid sectors that are off of the screen when this mode is enabled are now drawn correctly.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
 * The `vid_vsync` CVAR is now `off` by default.
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
-* The `mapstats` CCMD now displays the format of the currently playing music (MUS, MIDI, Ogg Vorbis or MP3).
+* The `mapstats` CCMD now displays the format of the currently playing music (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis` or `MP3`).
 * Objects no longer bob up and down when underwater.
 
 ---
