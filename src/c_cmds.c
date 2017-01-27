@@ -2694,7 +2694,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Music format\t<b>MIDI</b>");
         else if (musictype == MUSTYPE_OGG)
             C_TabbedOutput(tabs, "Music format\t<b>Ogg Vorbis</b>");
-        else if (musictype == MUSTYPE_MUS)
+        else if (musictype == MUSTYPE_MP3)
             C_TabbedOutput(tabs, "Music format\t<b>MP3</b>");
     }
 }
