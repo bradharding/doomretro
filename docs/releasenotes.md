@@ -5,6 +5,7 @@
 * Changes have been made to the format of savegames and therefore savegames created using previous versions of *DOOM Retro* are not compatible with this version.
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained after changing a CVAR in the console that resets the graphics subsystem.
+* The radiation shielding suit is now closer to the ground.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
 * A compatibility fix has been implemented that disables the translucency of the player’s weapons in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * Further improvements have been made to the support of `DEHACKED` lumps.
