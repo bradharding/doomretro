@@ -382,7 +382,9 @@ void *I_RegisterSong(void *data, int len)
 #endif
 
         if ((rwops = SDL_RWFromMem(data, len)))
-            if ((music = Mix_LoadMUSType_RW(rwops, MUS_OGG, SDL_FALSE)))
+            if ((music = Mix_LoadMUSType_RW(rwops, MUS_MID, SDL_FALSE)))
+                musictype = MUSTYPE_MIDI;
+            else if ((music = Mix_LoadMUSType_RW(rwops, MUS_OGG, SDL_FALSE)))
                 musictype = MUSTYPE_OGG;
             else if ((music = Mix_LoadMUSType_RW(rwops, MUS_MP3, SDL_FALSE)))
                 musictype = MUSTYPE_MP3;
