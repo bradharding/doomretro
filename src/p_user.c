@@ -97,17 +97,22 @@ void P_CalcHeight(player_t *player)
 
     if (player->playerstate == PST_LIVE)
     {
-        fixed_t momx = player->momx;
-        fixed_t momy = player->momy;
-        fixed_t bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
+        fixed_t bob = 0;
 
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        player->bob = (bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) :
-            MAXBOB * stillbob / 400);
+        if (!freeze)
+        {
+            fixed_t     momx = player->momx;
+            fixed_t     momy = player->momy;
 
-        bob = FixedMul(player->bob / 2, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
+            bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
+            player->bob = (bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) :
+                MAXBOB * stillbob / 400);
+
+            bob = FixedMul(player->bob / 2, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
+        }
 
         // move viewheight
         player->viewheight += player->deltaviewheight;

@@ -9,7 +9,7 @@
 * The “pile of skulls and candles” decoration now spawns with blood splats at its base when the `r_corpses_moreblood` CVAR is `on`.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
 * A compatibility fix has been implemented that disables the translucency of the player’s weapons in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
-* Further improvements have been made to the support of `DEHACKED` lumps.
+* Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The `alwaysrun` CVAR will no longer be reset to `off` at startup.
 * A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
 * All textures can now be toggled off using the new `r_textures` CVAR.
@@ -19,6 +19,7 @@
   * “No clipping mode” is now enabled.
   * Liquid sectors that are off of the screen when this mode is enabled are now drawn correctly.
   * The player’s face in the status bar will no longer move.
+  * The player and their weapon no longer bob up and down.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.

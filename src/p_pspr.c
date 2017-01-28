@@ -308,7 +308,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     else
         player->attackdown = false;
 
-    if (actor->momx || actor->momy || actor->momz)
+    if ((actor->momx || actor->momy || actor->momz) && !freeze)
     {
         // bob the weapon based on movement speed
         int     angle = (128 * leveltime) & FINEMASK;
