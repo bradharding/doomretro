@@ -1740,6 +1740,7 @@ static void D_DoomMainSetup(void)
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
+    DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 

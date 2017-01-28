@@ -142,6 +142,7 @@ extern dboolean         STCFN121;
 extern dboolean         STYSNUM0;
 extern dboolean         TITLEPIC;
 extern dboolean         WISCRT2;
+extern dboolean         DSSECRET;
 
 // -------------------------
 // Internal parameters for sound rendering.

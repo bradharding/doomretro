@@ -1803,7 +1803,7 @@ static void P_SecretFound(player_t *player)
     player->secretcount++;
     stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
 
-    if (W_CheckNumForName("dssecret") != -1)
+    if (DSSECRET)
         S_StartSound(NULL, sfx_secret);
 }
 

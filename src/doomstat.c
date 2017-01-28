@@ -95,3 +95,4 @@ dboolean        STCFN121 = false;
 dboolean        STYSNUM0 = false;
 dboolean        TITLEPIC = false;
 dboolean        WISCRT2 = false;
+dboolean        DSSECRET = false;
