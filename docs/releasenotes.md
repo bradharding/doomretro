@@ -25,6 +25,7 @@
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
 * The `mapstats` CCMD now displays the format of the currently playing music (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`).
 * Objects no longer bob up and down when underwater.
+* If a PWAD contains a sound lump called `DSSECRET`, it will now be played each time the player enters a secret sector.
 
 ---
 

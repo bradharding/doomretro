@@ -1798,6 +1798,15 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     }
 }
 
+static void P_SecretFound(player_t *player)
+{
+    player->secretcount++;
+    stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
+
+    if (W_CheckNumForName("dssecret") != -1)
+        S_StartSound(NULL, sfx_secret);
+}
+
 //
 // P_PlayerInSpecialSector
 // Called every tic frame
@@ -1839,10 +1848,8 @@ void P_PlayerInSpecialSector(player_t *player)
                 break;
 
             case Secret:
-                player->secretcount++;
-                stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
+                P_SecretFound(player);
                 sector->special = 0;
-
                 for (i = 0; i < sector->linecount; i++)
                     sector->lines[i]->flags &= ~ML_SECRET;
                 break;
@@ -1894,8 +1901,7 @@ void P_PlayerInSpecialSector(player_t *player)
 
         if (sector->special & SECRET_MASK)
         {
-            player->secretcount++;
-            stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
+            P_SecretFound(player);
             sector->special &= ~SECRET_MASK;
             if (sector->special < 32)   // if all extended bits clear,
                 sector->special = 0;    // sector is not special anymore

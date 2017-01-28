@@ -445,7 +445,8 @@ void R_RenderSegLoop(void)
 
                 pixhigh += pixhighstep;
 
-                mid = MIN(mid, floorclip[rw_x] - 1);
+                if (mid >= floorclip[rw_x])
+                    mid = floorclip[rw_x] - 1;
 
                 if (mid >= yl)
                 {

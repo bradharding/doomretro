@@ -117,7 +117,7 @@ musicinfo_t S_music[] =
 };
 
 //
-// Information about all the sfx
+// Information about all the SFX
 //
 sfxinfo_t S_sfx[] =
 {
@@ -237,5 +237,7 @@ sfxinfo_t S_sfx[] =
     { "dgatk",  sg_none,    70,                  0,  -1, 0 },
     { "dgact",  sg_none,   120,                  0,  -1, 0 },
     { "dgdth",  sg_none,    70,                  0,  -1, 0 },
-    { "dgpain", sg_none,    96,                  0,  -1, 0 }
+    { "dgpain", sg_none,    96,                  0,  -1, 0 },
+
+    { "secret", sg_none,    60,                  0,  -1, 0 }
 };
