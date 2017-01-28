@@ -187,6 +187,7 @@ void R_DrawColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[source[frac >> FRACBITS]];
 }
 
@@ -201,67 +202,62 @@ void R_DrawColorColumn(void)
         *dest = color;
         dest += SCREENWIDTH;
     }
+
     *dest = color;
 }
 
 void R_DrawShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl;
+    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
+    byte        *body = tinttab40;
+    byte        *edge = tinttab25;
 
-    if (count)
+    *dest = edge[*dest];
+    dest += SCREENWIDTH;
+
+    while (--count > 0)
     {
-        byte    *dest = R_ADDRESS(0, dc_x, dc_yl);
-        byte    *body = tinttab40;
-        byte    *edge = tinttab25;
-
-        *dest = edge[*dest];
+        *dest = body[*dest];
         dest += SCREENWIDTH;
-        while (--count > 0)
-        {
-            *dest = body[*dest];
-            dest += SCREENWIDTH;
-        }
-        *dest = edge[*dest];
     }
+
+    *dest = edge[*dest];
 }
 
 void R_DrawFuzzyShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl;
+    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
+    byte        *translucency = tinttab25;
 
-    if (count)
+    if (!(rand() % 4) && !consoleactive)
+        *dest = translucency[*dest];
+
+    dest += SCREENWIDTH;
+
+    while (--count > 0)
     {
-        byte    *dest = R_ADDRESS(0, dc_x, dc_yl);
-        byte    *translucency = tinttab25;
-
-        if (!(rand() % 4) && !consoleactive)
-            *dest = translucency[*dest];
+        *dest = translucency[*dest];
         dest += SCREENWIDTH;
-        while (--count > 0)
-        {
-            *dest = translucency[*dest];
-            dest += SCREENWIDTH;
-        }
-        if (!(rand() % 4) && !consoleactive)
-            *dest = translucency[*dest];
     }
+
+    if (!(rand() % 4) && !consoleactive)
+        *dest = translucency[*dest];
 }
 
 void R_DrawSolidShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl;
+    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
 
-    if (count)
+    while (--count > 0)
     {
-        byte    *dest = R_ADDRESS(0, dc_x, dc_yl);
-
-        while (--count > 0)
-        {
-            *dest = 0;
-            dest += SCREENWIDTH;
-        }
         *dest = 0;
+        dest += SCREENWIDTH;
     }
+
+    *dest = 0;
 }
 
 void R_DrawBloodSplatColumn(void)
@@ -275,6 +271,7 @@ void R_DrawBloodSplatColumn(void)
         *dest = *(*dest + blood);
         dest += SCREENWIDTH;
     }
+
     *dest = *(*dest + blood);
 }
 
@@ -289,6 +286,7 @@ void R_DrawSolidBloodSplatColumn(void)
         *dest = blood;
         dest += SCREENWIDTH;
     }
+
     *dest = blood;
 }
 
@@ -321,6 +319,7 @@ void R_DrawWallColumn(void)
         {
             *dest = colormap[source[frac >> FRACBITS]];
             dest += SCREENWIDTH;
+
             if ((frac += fracstep) >= heightmask)
                 frac -= heightmask;
         }
@@ -423,6 +422,7 @@ void R_DrawFullbrightWallColumn(void)
             dot = source[frac >> FRACBITS];
             *dest = (colormask[dot] ? dot : colormap[dot]);
             dest += SCREENWIDTH;
+
             if ((frac += fracstep) >= heightmask)
                 frac -= heightmask;
         }
@@ -522,6 +522,7 @@ void R_DrawPlayerSpriteColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = source[frac >> FRACBITS];
 }
 
@@ -536,13 +537,15 @@ void R_DrawSuperShotgunColumn(void)
 
     while (--count)
     {
-        byte    dot = source[frac >> FRACBITS];
+        byte            dot = source[frac >> FRACBITS];
 
         if (dot != 71)
             *dest = colormap[dot];
+
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[source[frac >> FRACBITS]];
 }
 
@@ -558,116 +561,113 @@ void R_DrawTranslucentSuperShotgunColumn(void)
 
     while (--count)
     {
-        byte    dot = source[frac >> FRACBITS];
+        byte            dot = source[frac >> FRACBITS];
 
         if (dot != 71)
             *dest = colormap[translucency[(*dest << 8) + dot]];
+
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[translucency[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
 void R_DrawSkyColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl + 1;
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
+    const fixed_t       fracstep = dc_iscale;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+    const fixed_t       texheight = dc_texheight;
+    fixed_t             heightmask = texheight - 1;
 
-    if (count <= 0)
-        return;
+    // [SL] Properly tile textures whose heights are not a power-of-2,
+    // avoiding a tutti-frutti effect. From Eternity Engine.
+    if (texheight & heightmask)
+    {
+        heightmask++;
+        heightmask <<= FRACBITS;
+
+        if (frac < 0)
+            while ((frac += heightmask) < 0);
+        else
+            while (frac >= heightmask)
+                frac -= heightmask;
+
+        while (count--)
+        {
+            *dest = colormap[source[frac >> FRACBITS]];
+            dest += SCREENWIDTH;
+
+            if ((frac += fracstep) >= heightmask)
+                frac -= heightmask;
+        }
+    }
     else
     {
-        byte                    *dest = R_ADDRESS(0, dc_x, dc_yl);
-        const fixed_t           fracstep = dc_iscale;
-        fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
-        const byte              *source = dc_source;
-        const lighttable_t      *colormap = dc_colormap;
-        const fixed_t           texheight = dc_texheight;
-        fixed_t                 heightmask = texheight - 1;
-
-        // [SL] Properly tile textures whose heights are not a power-of-2,
-        // avoiding a tutti-frutti effect. From Eternity Engine.
-        if (texheight & heightmask)
+        // texture height is a power-of-2
+        // do some loop unrolling
+        while (count >= 8)
         {
-            heightmask++;
-            heightmask <<= FRACBITS;
-
-            if (frac < 0)
-                while ((frac += heightmask) < 0);
-            else
-                while (frac >= heightmask)
-                    frac -= heightmask;
-
-            while (count--)
-            {
-                *dest = colormap[source[frac >> FRACBITS]];
-                dest += SCREENWIDTH;
-                if ((frac += fracstep) >= heightmask)
-                    frac -= heightmask;
-            }
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            count -= 8;
         }
-        else
+
+        if (count & 1)
         {
-            // texture height is a power-of-2
-            // do some loop unrolling
-            while (count >= 8)
-            {
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                count -= 8;
-            }
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+        }
 
-            if (count & 1)
-            {
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-            }
+        if (count & 2)
+        {
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+        }
 
-            if (count & 2)
-            {
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-            }
-
-            if (count & 4)
-            {
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-            }
+        if (count & 4)
+        {
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
         }
     }
 }
@@ -689,6 +689,7 @@ void R_DrawFlippedSkyColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     i = frac >> FRACBITS;
     *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
 }
@@ -708,6 +709,7 @@ void R_DrawRedToBlueColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[redtoblue[source[frac >> FRACBITS]]];
 }
 
@@ -727,6 +729,7 @@ void R_DrawTranslucentRedToBlue33Column(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[redtoblue[source[frac >> FRACBITS]]]];
 }
 
@@ -745,6 +748,7 @@ void R_DrawRedToGreenColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[redtogreen[source[frac >> FRACBITS]]];
 }
 
@@ -764,6 +768,7 @@ void R_DrawTranslucentRedToGreen33Column(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[redtogreen[source[frac >> FRACBITS]]]];
 }
 
@@ -783,6 +788,7 @@ void R_DrawTranslucentColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
@@ -802,6 +808,7 @@ void R_DrawTranslucent50Column(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
@@ -819,6 +826,7 @@ void R_DrawDitheredColumn(void)
     {
         dest += SCREENWIDTH;
         frac += fracstep >> 1;
+
         if (!--count)
             return;
     }
@@ -847,6 +855,7 @@ void R_DrawTranslucent33Column(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
@@ -866,6 +875,7 @@ void R_DrawMegaSphereColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[megasphere[source[frac >> FRACBITS]]]];
 }
 
@@ -884,6 +894,7 @@ void R_DrawSolidMegaSphereColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[megasphere[source[frac >> FRACBITS]]];
 }
 
@@ -903,6 +914,7 @@ void R_DrawTranslucentRedColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
@@ -922,6 +934,7 @@ void R_DrawTranslucentRedWhiteColumn1(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[translucency[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
@@ -941,6 +954,7 @@ void R_DrawTranslucentRedWhiteColumn2(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[translucency[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
@@ -960,6 +974,7 @@ void R_DrawTranslucentRedWhite50Column(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[translucency[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
@@ -979,6 +994,7 @@ void R_DrawTranslucentGreenColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
@@ -998,6 +1014,7 @@ void R_DrawTranslucentBlueColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
@@ -1017,6 +1034,7 @@ void R_DrawTranslucentRed33Column(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[translucency[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
@@ -1036,6 +1054,7 @@ void R_DrawTranslucentGreen33Column(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[translucency[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
@@ -1055,6 +1074,7 @@ void R_DrawTranslucentBlue25Column(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[translucency[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
