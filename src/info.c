@@ -6639,7 +6639,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ true,
-        /* blood                */ 0,
+        /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
         /* name1                */ "pile of skulls and candles",
         /* plural1              */ "",

@@ -5,7 +5,8 @@
 * Changes have been made to the format of savegames and therefore savegames created using previous versions of *DOOM Retro* are not compatible with this version.
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained after changing a CVAR in the console that resets the graphics subsystem.
-* The radiation shielding suit is now closer to the ground.
+* The radiation shielding suit power-up is now closer to the ground.
+* The “pile of skulls and candles” decoration now spawns with blood splats at its base when the `r_corpses_moreblood` CVAR is `on`.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
 * A compatibility fix has been implemented that disables the translucency of the player’s weapons in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * Further improvements have been made to the support of `DEHACKED` lumps.
@@ -23,7 +24,7 @@
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
 * The `vid_vsync` CVAR is now `off` by default.
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
-* The `mapstats` CCMD now displays the format of the currently playing music (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`).
+* The `mapstats` CCMD now displays the format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`).
 * Objects no longer bob up and down when underwater.
 * If a PWAD contains a sound lump called `DSSECRET`, it will now be played each time the player enters a secret sector.
 
