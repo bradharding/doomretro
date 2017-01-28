@@ -80,6 +80,11 @@ static fixed_t          xoffs, yoffs;                   // killough 2/28/98: fla
 fixed_t                 yslope[SCREENHEIGHT];
 fixed_t                 distscale[SCREENWIDTH];
 
+fixed_t                 cachedheight[SCREENHEIGHT];
+fixed_t                 cacheddistance[SCREENHEIGHT];
+fixed_t                 cachedxstep[SCREENHEIGHT];
+fixed_t                 cachedystep[SCREENHEIGHT];
+
 dboolean                r_liquid_swirl = r_liquid_swirl_default;
 
 //
@@ -87,7 +92,6 @@ dboolean                r_liquid_swirl = r_liquid_swirl_default;
 //
 // Uses global vars:
 //  planeheight
-//  ds_source
 //  viewx
 //  viewy
 //
@@ -101,12 +105,20 @@ static void R_MapPlane(int y, int x1, int x2)
     if (y == centery)
         return;
 
-    distance = FixedMul(planeheight, yslope[y]);
-
-    dx = x1 - centerx;
-    dy = ABS(centery - y);
-    ds_xstep = FixedMul(viewsin, planeheight) / dy;
-    ds_ystep = FixedMul(viewcos, planeheight) / dy;
+    if (planeheight != cachedheight[y])
+    {
+        distance = FixedMul(planeheight, yslope[y]);
+        dx = x1 - centerx;
+        dy = ABS(centery - y);
+        ds_xstep = FixedMul(viewsin, planeheight) / dy;
+        ds_ystep = FixedMul(viewcos, planeheight) / dy;
+    }
+    else
+    {
+        distance = cacheddistance[y];
+        ds_xstep = cachedxstep[y];
+        ds_ystep = cachedystep[y];
+    }
 
     ds_xfrac = viewx + xoffs + FixedMul(viewcos, distance) + dx * ds_xstep;
     ds_yfrac = -viewy + yoffs - FixedMul(viewsin, distance) + dx * ds_ystep;
@@ -135,6 +147,9 @@ void R_ClearPlanes(void)
         floorclip[i] = viewheight;
         ceilingclip[i] = -1;
     }
+
+    // texture calculation
+    memset(cachedheight, 0, sizeof(cachedheight));
 
     for (i = 0; i < MAXVISPLANES; i++)  // new code -- killough
         for (*freehead = visplanes[i], visplanes[i] = NULL; *freehead;)
