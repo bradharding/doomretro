@@ -150,6 +150,8 @@ extern char     *s_PD_ANY;
 extern char     *s_PD_ALL3;
 extern char     *s_PD_ALL6;
 
+extern char     *s_SECRET;
+
 extern char     *s_GGSAVED;
 extern char     *s_GGLOADED;
 extern char     *s_GGAUTOLOADED;

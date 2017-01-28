@@ -1804,7 +1804,10 @@ static void P_SecretFound(player_t *player)
     stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
 
     if (DSSECRET)
+    {
         S_StartSound(NULL, sfx_secret);
+        HU_PlayerMessage(s_SECRET, true, false);
+    }
 }
 
 //

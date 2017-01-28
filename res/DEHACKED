@@ -115,6 +115,7 @@ PD_YELLOWS = %s need%s a yellow skull key to open this door.
 PD_ANY = %s need%s any keycard or skull key to open this door.
 PD_ALL3 = %s need%s all three keys to open this door.
 PD_ALL6 = %s need%s all six keys to open this door.
+SECRET = You found a secret area!
 GGSAVED = "%s" saved
 GGLOADED = "%s" loaded
 GGAUTOLOADED = "%s" autoloaded

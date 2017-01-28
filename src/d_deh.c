@@ -211,6 +211,8 @@ char    *s_PD_ANY = "";
 char    *s_PD_ALL3 = "";
 char    *s_PD_ALL6 = "";
 
+char    *s_SECRET = "";
+
 char    *s_GGSAVED = GGSAVED;
 char    *s_GGLOADED = "";
 char    *s_GGAUTOLOADED = "";
@@ -738,6 +740,8 @@ deh_strs deh_strlookup[] =
     { &s_PD_ANY,               "PD_ANY",               false },
     { &s_PD_ALL3,              "PD_ALL3",              false },
     { &s_PD_ALL6,              "PD_ALL6",              false },
+
+    { &s_SECRET,               "SECRET",               false },
 
     { &s_GGSAVED,              "GGSAVED",              false },
     { &s_GGLOADED,             "GGLOADED",             false },
