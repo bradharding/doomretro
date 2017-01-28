@@ -1258,7 +1258,7 @@ void ST_updateWidgets(void)
 
     // refresh everything if this is him coming back to life
     // [BH] but only if not paused and no menu
-    if (!paused && !menuactive && !consoleactive)
+    if (!paused && !menuactive && !consoleactive && !freeze)
         ST_updateFaceWidget();
 }
 

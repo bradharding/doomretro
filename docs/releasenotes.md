@@ -17,6 +17,7 @@
   * Doors and switches can no longer be used by the player.
   * “No clipping mode” is now enabled.
   * Liquid sectors that are off of the screen when this mode is enabled are now drawn correctly.
+  * The player’s face in the status bar will no longer move.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
