@@ -157,52 +157,6 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
     return false;
 }
 
-// Checks if the lump can be a DOOM patch
-static dboolean CheckIfPatch(int lump)
-{
-    int                 size;
-    int                 width, height;
-    const patch_t       *patch;
-    dboolean            result;
-
-    size = W_LumpLength(lump);
-
-    // minimum length of a valid DOOM patch
-    if (size < 13)
-        return false;
-
-    patch = (const patch_t *)W_CacheLumpNum(lump, PU_STATIC);
-
-    width = SHORT(patch->width);
-    height = SHORT(patch->height);
-
-    result = (height > 0 && height <= 16384 && width > 0 && width <= 16384 && width < size / 4);
-
-    if (result)
-    {
-        // The dimensions seem like they might be valid for a patch, so
-        // check the column directory for extra security. All columns
-        // must begin after the column directory, and none of them must
-        // point past the end of the patch.
-        int     x;
-
-        for (x = 0; x < width; ++x)
-        {
-            unsigned int        ofs = LONG(patch->columnofs[x]);
-
-            // Need one byte for an empty column (but there's patches that don't know that!)
-            if (ofs < (unsigned int)width * 4 + 8 || ofs >= (unsigned int)size)
-            {
-                result = false;
-                break;
-            }
-        }
-    }
-
-    W_ReleaseLumpNum(lump);
-    return result;
-}
-
 typedef struct
 {
     unsigned short      patches;
