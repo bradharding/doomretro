@@ -96,67 +96,6 @@ void R_InitPatches(void)
         texture_composites = calloc(numtextures, sizeof(rpatch_t));
 }
 
-static int getPatchIsNotTileable(const patch_t *patch)
-{
-    int                 x = 0;
-    int                 lastColumnDelta = 0;
-    const column_t      *column;
-    int                 cornerCount = 0;
-    int                 hasAHole = 0;
-
-    for (x = 0; x < SHORT(patch->width); ++x)
-    {
-        int             numPosts = 0;
-
-        column = (const column_t *)((const byte *)patch + LONG(patch->columnofs[x]));
-
-        if (!x)
-            lastColumnDelta = column->topdelta;
-        else if (lastColumnDelta != column->topdelta)
-            hasAHole = 1;
-
-        while (column->topdelta != 0xFF)
-        {
-            // check to see if a corner pixel filled
-            if (!x && !column->topdelta)
-                cornerCount++;
-            else if (!x && column->topdelta + column->length >= SHORT(patch->height))
-                cornerCount++;
-            else if (x == SHORT(patch->width) - 1 && !column->topdelta)
-                cornerCount++;
-            else if (x == SHORT(patch->width) - 1
-                && column->topdelta + column->length >= SHORT(patch->height))
-                cornerCount++;
-
-            if (numPosts++)
-                hasAHole = 1;
-            column = (const column_t *)((const byte *)column + column->length + 4);
-        }
-    }
-
-    if (cornerCount == 4)
-        return 0;
-
-    return hasAHole;
-}
-
-static dboolean getIsSolidAtSpot(const column_t *column, int spot)
-{
-    if (!column)
-        return false;
-
-    while (column->topdelta != 0xFF)
-    {
-        if (spot < column->topdelta)
-            return false;
-        if (spot >= column->topdelta && spot <= column->topdelta + column->length)
-            return true;
-        column = (const column_t *)((const byte *)column + 3 + column->length + 1);
-    }
-
-    return false;
-}
-
 typedef struct
 {
     unsigned short      patches;
@@ -411,9 +350,6 @@ static void createTextureCompositePatch(int id)
 
             if (column->pixels[0] == 0xFF)
             {
-                // e6y: marking of all patches with holes
-                composite_patch->flags |= PATCH_HASHOLES;
-
                 // force the first pixel (which is a hole), to use
                 // the color from the next solid spot in the column
                 for (y = 0; y < composite_patch->height; ++y)
@@ -433,9 +369,6 @@ static void createTextureCompositePatch(int id)
                     continue;
 
                 // this pixel is a hole
-
-                // e6y: marking of all patches with holes
-                composite_patch->flags |= PATCH_HASHOLES;
 
                 if (x && prevColumn->pixels[y - 1] != 0xFF)
                     column->pixels[y] = prevColumn->pixels[y];  // copy the color from the left
