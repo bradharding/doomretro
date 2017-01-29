@@ -1805,8 +1805,11 @@ static void P_SecretFound(player_t *player)
 
     if (DSSECRET)
     {
+        static char     buffer[1024];
+
         S_StartSound(NULL, sfx_secret);
-        HU_PlayerMessage(s_SECRET, true, false);
+        M_snprintf(buffer, sizeof(buffer), s_SECRET, playername);
+        HU_PlayerMessage(buffer, true, false);
     }
 }
 
