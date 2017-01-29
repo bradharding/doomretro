@@ -117,6 +117,7 @@ char                    *packageconfig;
 dboolean                devparm;                // started game with -devparm
 dboolean                freeze = false;
 dboolean                nomonsters;             // checkparm of -nomonsters
+dboolean                regenhealth = false;
 dboolean                respawnitems = false;
 dboolean                respawnmonsters;        // checkparm of -respawn
 dboolean                pistolstart;            // [BH] checkparm of -pistolstart

@@ -50,6 +50,7 @@
 // Command line parameters.
 //
 extern dboolean         nomonsters;             // checkparm of -nomonsters
+extern dboolean         regenhealth;
 extern dboolean         respawnitems;
 extern dboolean         respawnmonsters;        // checkparm of -respawn
 extern dboolean         pistolstart;            // [BH] checkparm of -pistolstart

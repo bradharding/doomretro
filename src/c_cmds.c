@@ -379,6 +379,7 @@ static dboolean play_cmd_func1(char *, char *);
 static void play_cmd_func2(char *, char *);
 static void playerstats_cmd_func2(char *, char *);
 static void quit_cmd_func2(char *, char *);
+static void regenhealth_cmd_func2(char *, char *);
 static void reset_cmd_func2(char *, char *);
 static void resetall_cmd_func2(char *, char *);
 static void respawnitems_cmd_func2(char *, char *);
@@ -747,6 +748,8 @@ consolecmd_t consolecmds[] =
         "Toggles displaying all textures."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of sprites and textures."),
+    CMD(regenhealth, "", null_func1, regenhealth_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
+        "Toggles regenerating health."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
         "Resets a <i>CVAR</i> to its default value."),
     CMD(resetall, "", null_func1, resetall_cmd_func2, 0, "",
@@ -3337,6 +3340,35 @@ static void resetall_cmd_func2(char *cmd, char *parms)
     M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all\nCVARs to their "
         "default values?\n\n%s", s_PRESSYN);
     M_StartMessage(buffer, C_VerifyResetAll, true);
+}
+
+//
+// regenhealth CCMD
+//
+static void regenhealth_cmd_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if (value == 0)
+            regenhealth = false;
+        else if (value == 1)
+            regenhealth = true;
+    }
+    else
+        regenhealth = !regenhealth;
+
+    if (regenhealth)
+    {
+        HU_PlayerMessage(s_STSTR_RHON, false, false);
+
+        players[0].cheated++;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        M_SaveCVARs();
+    }
+    else
+        HU_PlayerMessage(s_STSTR_RHOFF, false, false);
 }
 
 //
