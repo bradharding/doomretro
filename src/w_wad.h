@@ -98,7 +98,6 @@ void W_ReleaseLumpNum(lumpindex_t lump);
 void W_ReleaseLumpName(char *name);
 
 int IWADRequiredByPWAD(const char *pwadname);
-dboolean IsFreedoom(const char *iwadname);
 dboolean HasDehackedLump(const char *pwadname);
 
 #endif

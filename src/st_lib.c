@@ -55,7 +55,7 @@ void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolea
     n->p = pl;
 }
 
-const char *lownums[10] =
+static const char *lownums[10] =
 {
     "111111001111110011221122112211221122112211221122"
     "112211221122112211111122111111220022222200222222",
@@ -79,7 +79,7 @@ const char *lownums[10] =
     "002211220022112211111122111111220022222200222222"
 };
 
-void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
+static void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
 {
     int i;
     int j = (y * SCREENWIDTH + x) * SCREENSCALE;
@@ -95,7 +95,7 @@ void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
     }
 }
 
-const char *highnums[10] =
+static const char *highnums[10] =
 {
     "011110001111110011021120112211221122112211221122"
     "112211221122112211111122011110220022222200022220",
@@ -119,7 +119,7 @@ const char *highnums[10] =
     "002211221102112211111122011110220022222200022220"
 };
 
-void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
+static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
 {
     int i;
     int j = (y * SCREENWIDTH + x) * SCREENSCALE;
@@ -149,7 +149,7 @@ void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
 //  based on differences from the old number.
 // Note: worth the trouble?
 //
-void STlib_drawNum(st_number_t *n)
+static void STlib_drawNum(st_number_t *n)
 {
     int         numdigits = n->width;
     int         num = *n->num;

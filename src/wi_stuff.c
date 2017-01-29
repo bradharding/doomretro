@@ -337,13 +337,13 @@ static patch_t          **lnames;
 //
 
 // slam background
-void WI_slamBackground(void)
+static void WI_slamBackground(void)
 {
     memcpy(screens[0], screens[1], SCREENWIDTH * SCREENHEIGHT);
 }
 
 // [BH] Draws character of "<Levelname>"
-void WI_drawWILVchar(int x, int y, int i)
+static void WI_drawWILVchar(int x, int y, int i)
 {
     int w;
     int x1, y1;
@@ -358,7 +358,7 @@ void WI_drawWILVchar(int x, int y, int i)
 char            *mapname = "";
 char            *nextmapname = "";
 
-int chartoi[130] =
+static const int chartoi[130] =
 {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 000 - 009
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 010 - 019
@@ -375,7 +375,7 @@ int chartoi[130] =
     23, 24, 25, -1, -1, -1, -1, -1, -1, -1, // 120 - 129
 };
 
-void WI_drawWILV(int y, char *str)
+static void WI_drawWILV(int y, char *str)
 {
     int i;
     int w = 0;
@@ -407,7 +407,7 @@ void WI_drawWILV(int y, char *str)
 }
 
 // Draws "<Levelname> Finished!"
-void WI_drawLF(void)
+static void WI_drawLF(void)
 {
     int         x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
     int         y = WI_TITLEY;
@@ -450,7 +450,7 @@ void WI_drawLF(void)
 }
 
 // Draws "Entering <LevelName>"
-void WI_drawEL(void)
+static void WI_drawEL(void)
 {
     int         x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
     int         y = WI_TITLEY;
@@ -483,7 +483,7 @@ void WI_drawEL(void)
     }
 }
 
-void WI_drawOnLnode(int n, patch_t *c[])
+static void WI_drawOnLnode(int n, patch_t *c[])
 {
     dboolean    fits = false;
     int         i = 0;
@@ -513,7 +513,7 @@ void WI_drawOnLnode(int n, patch_t *c[])
     }
 }
 
-void WI_initAnimatedBack(void)
+static void WI_initAnimatedBack(void)
 {
     int i;
 
@@ -541,7 +541,7 @@ void WI_initAnimatedBack(void)
 
 }
 
-void WI_updateAnimatedBack(void)
+static void WI_updateAnimatedBack(void)
 {
     int i;
 
@@ -591,7 +591,7 @@ void WI_updateAnimatedBack(void)
     }
 }
 
-void WI_drawAnimatedBack(void)
+static void WI_drawAnimatedBack(void)
 {
     int i;
 
@@ -616,7 +616,7 @@ void WI_drawAnimatedBack(void)
 //  otherwise only use as many as necessary.
 // Returns new x position.
 //
-int WI_drawNum(int x, int y, int n, int digits)
+static int WI_drawNum(int x, int y, int n, int digits)
 {
 
     int fontwidth = SHORT(num[0]->width);
@@ -667,7 +667,7 @@ int WI_drawNum(int x, int y, int n, int digits)
     return x;
 }
 
-void WI_drawPercent(int x, int y, int p)
+static void WI_drawPercent(int x, int y, int p)
 {
     if (p < 0)
         return;
@@ -680,7 +680,7 @@ void WI_drawPercent(int x, int y, int p)
 // Display level completion time and par,
 //  or "sucks" message if overflow.
 //
-void WI_drawTime(int x, int y, int t)
+static void WI_drawTime(int x, int y, int t)
 {
     if (t < 0)
         return;
@@ -710,21 +710,21 @@ void WI_drawTime(int x, int y, int t)
         V_DrawPatchWithShadow(x + 13 - SHORT(sucks->width), y + 1, sucks, false);
 }
 
-void WI_unloadData(void);
+static void WI_unloadData(void);
 
 void WI_End(void)
 {
     WI_unloadData();
 }
 
-void WI_initNoState(void)
+static void WI_initNoState(void)
 {
     state = NoState;
     acceleratestage = 0;
     cnt = (gamemode == commercial ? 1 * TICRATE : 10);
 }
 
-void WI_updateNoState(void)
+static void WI_updateNoState(void)
 {
     WI_updateAnimatedBack();
 
@@ -734,7 +734,7 @@ void WI_updateNoState(void)
 
 static dboolean snl_pointeron;
 
-void WI_initShowNextLoc(void)
+static void WI_initShowNextLoc(void)
 {
     if (gamemode != commercial && gamemap == 8)
     {
@@ -749,7 +749,7 @@ void WI_initShowNextLoc(void)
     WI_initAnimatedBack();
 }
 
-void WI_updateShowNextLoc(void)
+static void WI_updateShowNextLoc(void)
 {
     WI_updateAnimatedBack();
 
@@ -799,7 +799,7 @@ void WI_drawShowNextLoc(void)
         WI_drawEL();
 }
 
-void WI_drawNoState(void)
+static void WI_drawNoState(void)
 {
     snl_pointeron = true;
     WI_drawShowNextLoc();
@@ -807,7 +807,7 @@ void WI_drawNoState(void)
 
 static int      sp_state;
 
-void WI_initStats(void)
+static void WI_initStats(void)
 {
     state = StatCount;
     acceleratestage = 0;
@@ -819,7 +819,7 @@ void WI_initStats(void)
     WI_initAnimatedBack();
 }
 
-void WI_updateStats(void)
+static void WI_updateStats(void)
 {
     //e6y
     static dboolean play_early_explosion = true;
@@ -945,7 +945,7 @@ void WI_updateStats(void)
 
 void M_DrawString(int x, int y, char *str);
 
-void WI_drawStats(void)
+static void WI_drawStats(void)
 {
     // line height
     int lh = 3 * SHORT(num[0]->height) / 2;
@@ -1150,7 +1150,7 @@ static void WI_loadCallback(char *name, patch_t **variable)
     *variable = (patch_t *)W_CacheLumpName(name, PU_STATIC);
 }
 
-void WI_loadData(void)
+static void WI_loadData(void)
 {
     char        bg_lumpname[9];
     patch_t     *bg;
@@ -1187,7 +1187,7 @@ static void WI_unloadCallback(char *name, patch_t **variable)
     *variable = NULL;
 }
 
-void WI_unloadData(void)
+static void WI_unloadData(void)
 {
     WI_loadUnloadData(WI_unloadCallback);
 }
@@ -1214,7 +1214,7 @@ void P_MapName(int ep, int map);
 
 extern char     maptitle[128];
 
-void WI_initVariables(wbstartstruct_t *wbstartstruct)
+static void WI_initVariables(wbstartstruct_t *wbstartstruct)
 {
     wbs = wbstartstruct;
 

@@ -372,12 +372,11 @@ int mus[IDMUS_MAX][6] =
 //
 // STATUS BAR CODE
 //
-void ST_Stop(void);
-int ST_calcPainOffset(void);
+static int ST_calcPainOffset(void);
 
 extern int r_detail;
 
-void ST_refreshBackground(void)
+static void ST_refreshBackground(void)
 {
     if (st_statusbaron)
     {
@@ -1054,7 +1053,7 @@ dboolean ST_Responder(event_t *ev)
     return false;
 }
 
-int ST_calcPainOffset(void)
+static int ST_calcPainOffset(void)
 {
     int         health = MIN(plyr->health, 100);
     static int  lastcalc;
@@ -1074,7 +1073,7 @@ int ST_calcPainOffset(void)
 // the precedence of expressions is:
 //  dead > evil grin > turned head > straight ahead
 //
-void ST_updateFaceWidget(void)
+static void ST_updateFaceWidget(void)
 {
     int         i;
     static int  priority;
@@ -1238,7 +1237,7 @@ void ST_updateFaceWidget(void)
     st_facecount--;
 }
 
-void ST_updateWidgets(void)
+static void ST_updateWidgets(void)
 {
     static int largeammo = 1994; // means "n/a"
     int        i;
@@ -1281,7 +1280,7 @@ void ST_Ticker(void)
 
 int     st_palette = 0;
 
-void ST_doPaletteStuff(void)
+static void ST_doPaletteStuff(void)
 {
     int palette = 0;
     int count = plyr->damagecount;
@@ -1316,7 +1315,7 @@ void ST_doPaletteStuff(void)
     }
 }
 
-void ST_drawWidgets(dboolean refresh)
+static void ST_drawWidgets(dboolean refresh)
 {
     int i;
 
@@ -1516,12 +1515,12 @@ static void ST_loadCallback(char *lumpname, patch_t **variable)
         *variable = W_CacheLumpName(lumpname, PU_STATIC);
 }
 
-void ST_loadGraphics(void)
+static void ST_loadGraphics(void)
 {
     ST_loadUnloadGraphics(ST_loadCallback);
 }
 
-void ST_loadData(void)
+static void ST_loadData(void)
 {
     lu_palette = W_GetNumForName("PLAYPAL");
     ST_loadGraphics();
@@ -1533,17 +1532,12 @@ static void ST_unloadCallback(char *lumpname, patch_t **variable)
     *variable = NULL;
 }
 
-void ST_unloadGraphics(void)
+static void ST_unloadGraphics(void)
 {
     ST_loadUnloadGraphics(ST_unloadCallback);
 }
 
-void ST_unloadData(void)
-{
-    ST_unloadGraphics();
-}
-
-void ST_initData(void)
+static void ST_initData(void)
 {
     int i;
 
@@ -1564,7 +1558,7 @@ void ST_initData(void)
         keyboxes[i] = -1;
 }
 
-void ST_createWidgets(void)
+static void ST_createWidgets(void)
 {
     int i;
 
@@ -1630,16 +1624,6 @@ void ST_createWidgets(void)
 
 static dboolean st_stopped = true;
 
-void ST_Start(void)
-{
-    if (!st_stopped)
-        ST_Stop();
-
-    ST_initData();
-    ST_createWidgets();
-    st_stopped = false;
-}
-
 void ST_Stop(void)
 {
     if (st_stopped)
@@ -1648,6 +1632,16 @@ void ST_Stop(void)
     I_SetPalette((byte *)W_CacheLumpNum(lu_palette, PU_CACHE));
 
     st_stopped = true;
+}
+
+void ST_Start(void)
+{
+    if (!st_stopped)
+        ST_Stop();
+
+    ST_initData();
+    ST_createWidgets();
+    st_stopped = false;
 }
 
 void ST_Init(void)

@@ -80,7 +80,7 @@ int                     numlumps = 0;
 // Hash table for fast lookups
 static lumpindex_t      *lumphash;
 
-void ExtractFileBase(char *path, char *dest)
+static void ExtractFileBase(char *path, char *dest)
 {
     char        *src = path + strlen(path) - 1;
     char        *filename;
@@ -108,6 +108,41 @@ unsigned int W_LumpNameHash(const char *s)
 
     for (i = 0; i < 8 && s[i] != '\0'; ++i)
         result = ((result << 5) ^ result) ^ toupper(s[i]);
+
+    return result;
+}
+
+static dboolean IsFreedoom(const char *iwadname)
+{
+    FILE        *fp = fopen(iwadname, "rb");
+    filelump_t  lump;
+    wadinfo_t   header;
+    const char  *n = lump.name;
+    int         result = false;
+
+    if (!fp)
+        I_Error("Can't open IWAD: %s\n", iwadname);
+
+    // read IWAD header
+    if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
+    {
+        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+        // Determine game mode from levels present
+        // Must be a full set for whichever mode is present
+        for (header.numlumps = LONG(header.numlumps);
+            header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        {
+            if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' &&
+                n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
+            {
+                result = true;
+                break;
+            }
+        }
+    }
+
+    fclose(fp);
 
     return result;
 }
@@ -225,41 +260,6 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
         (wad_file->type == IWAD ? "IWAD" : "PWAD"), filename);
 
     return wad_file;
-}
-
-dboolean IsFreedoom(const char *iwadname)
-{
-    FILE        *fp = fopen(iwadname, "rb");
-    filelump_t  lump;
-    wadinfo_t   header;
-    const char  *n = lump.name;
-    int         result = false;
-
-    if (!fp)
-        I_Error("Can't open IWAD: %s\n", iwadname);
-
-    // read IWAD header
-    if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
-    {
-        fseek(fp, LONG(header.infotableofs), SEEK_SET);
-
-        // Determine game mode from levels present
-        // Must be a full set for whichever mode is present
-        for (header.numlumps = LONG(header.numlumps);
-            header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
-        {
-            if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' &&
-                n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
-            {
-                result = true;
-                break;
-            }
-        }
-    }
-
-    fclose(fp);
-
-    return result;
 }
 
 dboolean HasDehackedLump(const char *pwadname)
