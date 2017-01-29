@@ -323,6 +323,15 @@ void *I_RegisterSong(void *data, int len)
         Mix_Music       *music = NULL;
         SDL_RWops       *rwops;
 
+#if defined(_WIN32)
+        if (haveMidiServer && !haveMidiClient)
+            if (!(haveMidiClient = I_MidiRPCInitClient()))
+            {
+                C_Warning("The RPC client couldn't be initialized.");
+                I_MidiRPCClientShutDown();
+            }
+#endif
+
         musictype = MUSTYPE_NONE;
 
         // Check for MIDI or MUS format first:
@@ -363,22 +372,12 @@ void *I_RegisterSong(void *data, int len)
 #if defined(_WIN32)
         // Check for option to invoke RPC server if isMIDI
         if (isMIDI && haveMidiServer)
-        {
-            // Initialize client if not yet started
-            if (!haveMidiClient)
-                if (!(haveMidiClient = I_MidiRPCInitClient()))
-                {
-                    C_Warning("The RPC client couldn't be initialized.");
-                    I_MidiRPCClientShutDown();
-                }
-
             if (I_MidiRPCRegisterSong(data, len))
             {
                 serverMidiPlaying = true;
                 UpdateMusicVolume();
                 return NULL;    // server will play this song
             }
-        }
 #endif
 
         if ((rwops = SDL_RWFromMem(data, len)))
