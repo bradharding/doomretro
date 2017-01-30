@@ -1229,12 +1229,13 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 info->name1,
                 (gibbed ? "gibbed" : "killed"));
         else if (source->player)
-            C_PlayerMessage("%s %s %s%s with your %s.",
+            C_PlayerMessage("%s %s %s%s with %s %s.",
                 titlecase(playername),
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 (target->player ? "" : (isvowel(info->name1[0]) ? "an " : "a ")),
                 (target->player ? (!M_StringCompare(playername, playername_default) ?
                     "themselves" : "yourself") : info->name1),
+                (!M_StringCompare(playername, playername_default) ? "their" : "your"),
                 weapondescription[source->player->readyweapon]);
         else
             C_PlayerMessage("%s %s %s %s%s.",
