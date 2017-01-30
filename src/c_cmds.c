@@ -789,7 +789,7 @@ consolecmd_t consolecmds[] =
     CMD(unbind, "", null_func1, unbind_cmd_func2, 1, UNBINDCMDFORMAT,
         "Unbinds the action from a <i>control</i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
-        "The units used in the <b>mapstats</b> and <b>playerstats</b> CCMDs\n(<b>imperial</b> or\n<b>metric</b>)."),
+        "The units used in the <b>mapstats</b> and <b>playerstats</b> CCMDs\n(<b>imperial</b> or <b>metric</b>)."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
