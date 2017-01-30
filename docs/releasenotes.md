@@ -29,6 +29,7 @@
 * Objects no longer bob up and down when underwater.
 * If a PWAD contains a sound lump called `DSSECRET`, it will now be played along with a message being displayed when the player finds a secret area.
 * A `regenhealth` CCMD has been implemented that toggles the ability of the player’s health to regenerate up to 100% at a rate of 1% per second when it drops below 100%.
+* A bug has been fixed whereby the vertical position of projectiles fired to or from a monster or the player standing in liquid was incorrect when the `r_liquid_clipsprites` or `r_liquid_lowerview` CVARs were `off`.
 
 ---
 

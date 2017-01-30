@@ -79,6 +79,8 @@ static fixed_t floatbobdiffs[64] =
 
 extern fixed_t          animatedliquiddiffs[64];
 extern dboolean         r_liquid_bob;
+extern dboolean         r_liquid_clipsprites;
+extern dboolean         r_liquid_lowerview;
 extern dboolean         r_mirroredweapons;
 extern dboolean         r_textures;
 extern dboolean         r_translucency;
@@ -1307,7 +1309,8 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     int         speed;
 
     z = source->z + 4 * 8 * FRACUNIT;
-    if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1)
+    if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1
+        && r_liquid_clipsprites)
         z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(source->x, source->y, z, type);
@@ -1372,7 +1375,8 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     x = source->x;
     y = source->y;
     z = source->z + 4 * 8 * FRACUNIT;
-    if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1)
+    if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1
+        && r_liquid_lowerview)
         z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(x, y, z, type);
