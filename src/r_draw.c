@@ -508,25 +508,6 @@ void R_DrawFullbrightWallColumn(void)
     }
 }
 
-void R_DrawMaskedWallColumn(void)
-{
-    int32_t             count = dc_yh - dc_yl + 2;
-    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    fixed_t             frac = dc_texturefrac;
-    const fixed_t       fracstep = dc_iscale + SPARKLEFIX;
-    const byte          *source = dc_source;
-    const lighttable_t  *colormap = dc_colormap;
-
-    while (--count)
-    {
-        *dest = colormap[source[frac >> FRACBITS]];
-        dest += SCREENWIDTH;
-        frac += fracstep;
-    }
-
-    *dest = colormap[source[frac >> FRACBITS]];
-}
-
 void R_DrawPlayerSpriteColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;

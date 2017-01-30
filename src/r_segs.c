@@ -249,7 +249,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
     if (r_textures)
         colfunc = (curline->linedef->tranlump >= 0 && r_translucency ?
-            (r_dither ? R_DrawDitheredColumn : R_DrawTranslucent50Column) : R_DrawMaskedWallColumn);
+            (r_dither ? R_DrawDitheredColumn : R_DrawTranslucent50Column) : R_DrawColumn);
     else
         colfunc = R_DrawColorColumn;
 
