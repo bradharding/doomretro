@@ -789,7 +789,7 @@ consolecmd_t consolecmds[] =
     CMD(unbind, "", null_func1, unbind_cmd_func2, 1, UNBINDCMDFORMAT,
         "Unbinds the action from a <i>control</i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
-        "The units used in the <b>playerstats</b> CCMD (<b>imperial</b> or\n<b>metric</b>)."),
+        "The units used in the <b>mapstats</b> and <b>playerstats</b> CCMDs\n(<b>imperial</b> or\n<b>metric</b>)."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
@@ -2588,6 +2588,40 @@ char *authors[][6] =
     /* 49 */ { TW,    "",    "",    "",    "" }
 };
 
+#define UNITSPERFOOT    16
+
+static char *distance(fixed_t value, dboolean showunits)
+{
+    char        *result = malloc(20 * sizeof(char));
+
+    value /= UNITSPERFOOT;
+
+    if (units == units_metric)
+    {
+        float   metres = value / 3.28084f;
+
+        if (!metres)
+            M_StringCopy(result, (showunits ? "0 metres" : "0"), 20);
+        else if (metres < 1000.0f)
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(metres, 1),
+                (showunits ? " metre" : ""), (metres == 1.0f || !showunits ? "" : "s"));
+        else
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(metres / 1000.0f, 2),
+                (showunits ? " kilometre" : ""), (metres == 1000.0f || !showunits ? "" : "s"));
+    }
+    else
+    {
+        if (value < 5280)
+            M_snprintf(result, 20, "%s%s", commify(value),
+                (showunits ? (value == 1 ? " foot" : " feet") : ""));
+        else
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(value / 5280.0f, 2),
+                (showunits ? " mile" : ""), (value == 5280 || !showunits ? "" : "s"));
+    }
+
+    return result;
+}
+
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     int tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
@@ -2676,7 +2710,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 max_y = y;
         }
         C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s</b>",
-            commify((max_x - min_x) >> FRACBITS), commify((max_y - min_y) >> FRACBITS));
+            distance((max_x - min_x) >> FRACBITS, false),
+            distance((max_y - min_y) >> FRACBITS, true));
     }
 
     if (mus_playing && !nomusic)
@@ -2891,39 +2926,6 @@ static void play_cmd_func2(char *cmd, char *parms)
 //
 // playerstats CCMD
 //
-#define UNITSPERFOOT    16
-
-static char *distance(fixed_t value)
-{
-    char        *result = malloc(20 * sizeof(char));
-
-    value /= UNITSPERFOOT;
-
-    if (units == units_metric)
-    {
-        float   metres = value / 3.28084f;
-
-        if (!metres)
-            M_StringCopy(result, "0 metres", 20);
-        else if (metres < 1000.0f)
-            M_snprintf(result, 20, "%s metre%s", striptrailingzero(metres, 1),
-                (metres == 1.0f ? "" : "s"));
-        else
-            M_snprintf(result, 20, "%s kilometre%s", striptrailingzero(metres / 1000.0f, 2),
-                (metres == 1000.0f ? "" : "s"));
-    }
-    else
-    {
-        if (value < 5280)
-            M_snprintf(result, 20, "%s %s", commify(value), (value == 1 ? "foot" : "feet"));
-        else
-            M_snprintf(result, 20, "%s mile%s", striptrailingzero(value / 5280.0f, 2),
-                (value == 5280 ? "" : "s"));
-    }
-
-    return result;
-}
-
 static void C_PlayerStats_Game(void)
 {
     int         tabs[8] = { 160, 280, 0, 0, 0, 0, 0, 0 };
@@ -3126,7 +3128,7 @@ static void C_PlayerStats_Game(void)
         1) : "0"));
 
     C_TabbedOutput(tabs, "Distance traveled\t<b>%s</b>\t<b>%s</b>",
-        distance(player->distancetraveled), distance(stat_distancetraveled));
+        distance(player->distancetraveled, true), distance(stat_distancetraveled, true));
 }
 
 static void C_PlayerStats_NoGame(void)
@@ -3237,7 +3239,7 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Weapon accuracy\t-\t<b>%s%%</b>",
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 
-    C_TabbedOutput(tabs, "Distance traveled\t-\t<b>%s</b>", distance(stat_distancetraveled));
+    C_TabbedOutput(tabs, "Distance traveled\t-\t<b>%s</b>", distance(stat_distancetraveled, true));
 }
 
 static void playerstats_cmd_func2(char *cmd, char *parms)

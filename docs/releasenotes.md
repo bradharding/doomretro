@@ -25,11 +25,13 @@
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
 * The `vid_vsync` CVAR is now `off` by default.
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
-* The `mapstats` CCMD now displays the format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`).
+* The following improvements have been made to the `mapstats` CCMD:
+  * The format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`) is now displayed.
+  * The dimensions of the current map are now displayed in feet/miles or metres/kilometres as specified by the `units` CVAR.
 * Objects no longer bob up and down when underwater.
 * If a PWAD contains a sound lump called `DSSECRET`, it will now be played along with a message being displayed when the player finds a secret area.
 * A `regenhealth` CCMD has been implemented that toggles the ability of the player’s health to regenerate up to 100% at a rate of 1% per second when it drops below 100%.
-* A bug has been fixed whereby the vertical position of projectiles fired to or from a monster or the player standing in liquid was incorrect when the `r_liquid_clipsprites` or `r_liquid_lowerview` CVARs were `off`.
+* A bug has been fixed whereby projectiles fired to or from a monster or the player standing in liquid were still lowered when the `r_liquid_clipsprites` or `r_liquid_lowerview` CVARs were `off`.
 * A grammatical error has been fixed in the obituaries displayed in the console if the `playername` CVAR was changed from its default.
 
 ---
