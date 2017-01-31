@@ -88,6 +88,8 @@
 #define TELEPORTCMDFORMAT       "<i>x</i> <i>y</i>"
 #define UNBINDCMDFORMAT         "<i>control</i>"
 
+#define UNITSPERFOOT            16
+
 alias_t                 aliases[MAXALIASES];
 
 int                     ammo;
@@ -2588,40 +2590,6 @@ char *authors[][6] =
     /* 49 */ { TW,    "",    "",    "",    "" }
 };
 
-#define UNITSPERFOOT    16
-
-static char *distance(fixed_t value, dboolean showunits)
-{
-    char        *result = malloc(20 * sizeof(char));
-
-    value /= UNITSPERFOOT;
-
-    if (units == units_metric)
-    {
-        float   metres = value / 3.28084f;
-
-        if (!metres)
-            M_StringCopy(result, (showunits ? "0 metres" : "0"), 20);
-        else if (metres < 1000.0f)
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(metres, 1),
-                (showunits ? " metre" : ""), (metres == 1.0f || !showunits ? "" : "s"));
-        else
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(metres / 1000.0f, 2),
-                (showunits ? " kilometre" : ""), (metres == 1000.0f || !showunits ? "" : "s"));
-    }
-    else
-    {
-        if (value < 5280)
-            M_snprintf(result, 20, "%s%s", commify(value),
-                (showunits ? (value == 1 ? " foot" : " feet") : ""));
-        else
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(value / 5280.0f, 2),
-                (showunits ? " mile" : ""), (value == 5280 || !showunits ? "" : "s"));
-    }
-
-    return result;
-}
-
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     int tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
@@ -2694,6 +2662,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         int     max_x = INT_MIN;
         int     min_y = INT_MAX;
         int     max_y = INT_MIN;
+        int     width;
+        int     height;
 
         for (i = 0; i < numvertexes; ++i)
         {
@@ -2709,9 +2679,33 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             else if (y > max_y)
                 max_y = y;
         }
-        C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s</b>",
-            distance((max_x - min_x) >> FRACBITS, false),
-            distance((max_y - min_y) >> FRACBITS, true));
+
+        width = ((max_x - min_x) >> FRACBITS) / UNITSPERFOOT;
+        height = ((max_y - min_y) >> FRACBITS) / UNITSPERFOOT;
+
+        if (units == units_metric)
+        {
+            float   metricwidth = width / 3.28084f;
+            float   metricheight = height / 3.28084f;
+
+            if (metricwidth < 1000.0f && metricheight < 1000.0f)
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s metres</b>",
+                    striptrailingzero(metricwidth, 1), striptrailingzero(metricheight, 1));
+            else
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s kilometres</b>",
+                    striptrailingzero(metricwidth / 1000.0f, 1),
+                    striptrailingzero(metricheight / 1000.0f, 1));
+        }
+        else
+        {
+            if (width < 5280 && height < 5280)
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s feet</b>",
+                    commify(width), commify(height));
+            else
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s miles</b>",
+                    striptrailingzero(width / 5280.0f, 2),
+                    striptrailingzero(height / 5280.0f, 2));
+        }
     }
 
     if (mus_playing && !nomusic)
@@ -2921,6 +2915,38 @@ static void play_cmd_func2(char *cmd, char *parms)
         S_StartSound(NULL, playcmdid);
     else
         S_ChangeMusic(playcmdid, true, false, false);
+}
+
+static char *distance(fixed_t value, dboolean showunits)
+{
+    char        *result = malloc(20 * sizeof(char));
+
+    value /= UNITSPERFOOT;
+
+    if (units == units_metric)
+    {
+        float   metres = value / 3.28084f;
+
+        if (!metres)
+            M_StringCopy(result, (showunits ? "0 metres" : "0"), 20);
+        else if (metres < 1000.0f)
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(metres, 1),
+            (showunits ? " metre" : ""), (metres == 1.0f || !showunits ? "" : "s"));
+        else
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(metres / 1000.0f, 2),
+            (showunits ? " kilometre" : ""), (metres == 1000.0f || !showunits ? "" : "s"));
+    }
+    else
+    {
+        if (value < 5280)
+            M_snprintf(result, 20, "%s%s", commify(value),
+            (showunits ? (value == 1 ? " foot" : " feet") : ""));
+        else
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(value / 5280.0f, 2),
+            (showunits ? " mile" : ""), (value == 5280 || !showunits ? "" : "s"));
+    }
+
+    return result;
 }
 
 //
