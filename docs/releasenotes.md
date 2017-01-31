@@ -33,6 +33,7 @@
 * A `regenhealth` CCMD has been implemented that toggles the ability of the player’s health to regenerate up to 100% at a rate of 1% per second when it drops below 100%.
 * A bug has been fixed whereby projectiles fired to or from a monster or the player standing in liquid were still lowered when the `r_liquid_clipsprites` or `r_liquid_lowerview` CVARs were `off`.
 * A grammatical error has been fixed in the obituaries displayed in the console if the `playername` CVAR was changed from its default.
+* The `vid_capfps` CVAR will now be saved correctly in `doomretro.cfg`.
 
 ---
 
