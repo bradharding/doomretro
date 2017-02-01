@@ -1000,7 +1000,7 @@ static int D_OpenWADLauncher(void)
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = iwadfolder;
     ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST
-        | OFN_FILEMUSTEXIST | OFN_EXPLORER);
+        | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     fileopenedok = GetOpenFileName(&ofn);
@@ -1042,6 +1042,9 @@ static int D_OpenWADLauncher(void)
             NSURL       *url = [urls objectAtIndex:0];
             char        *file = (char *)[url fileSystemRepresentation];
 #endif
+
+            if (!M_StringCompare(file + strlen(file) - 3, "wad"))
+                file = M_StringJoin(file, ".wad", NULL);
 
             // check if it's a valid and supported IWAD
             if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
