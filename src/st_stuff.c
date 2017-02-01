@@ -311,6 +311,42 @@ cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
 cheatseq_t cheat_buddha = CHEAT("mumu", 0);
 
+static dboolean movekey(char key)
+{
+    return (key == keyboardright
+        || key == keyboardleft
+        || key == keyboardforward
+        || key == keyboardforward2
+        || key == keyboardback
+        || key == keyboardback2
+        || key == keyboardstrafeleft
+        || key == keyboardstraferight);
+}
+
+static void ST_InitCheats(void)
+{
+    cheat_mus.movekey = movekey(cheat_mus.sequence[0]);
+    cheat_mus_xy.movekey = movekey(cheat_mus_xy.sequence[0]);
+    cheat_god.movekey = movekey(cheat_god.sequence[0]);
+    cheat_ammo.movekey = movekey(cheat_ammo.sequence[0]);
+    cheat_ammonokey.movekey = movekey(cheat_ammonokey.sequence[0]);
+    cheat_noclip.movekey = movekey(cheat_noclip.sequence[0]);
+    cheat_commercial_noclip.movekey = movekey(cheat_commercial_noclip.sequence[0]);
+    cheat_powerup[0].movekey = movekey(cheat_powerup[0].sequence[0]);
+    cheat_powerup[1].movekey = movekey(cheat_powerup[1].sequence[0]);
+    cheat_powerup[2].movekey = movekey(cheat_powerup[2].sequence[0]);
+    cheat_powerup[3].movekey = movekey(cheat_powerup[3].sequence[0]);
+    cheat_powerup[4].movekey = movekey(cheat_powerup[4].sequence[0]);
+    cheat_powerup[5].movekey = movekey(cheat_powerup[5].sequence[0]);
+    cheat_powerup[6].movekey = movekey(cheat_powerup[6].sequence[0]);
+    cheat_choppers.movekey = movekey(cheat_choppers.sequence[0]);
+    cheat_buddha.movekey = movekey(cheat_buddha.sequence[0]);
+    cheat_clev.movekey = movekey(cheat_clev.sequence[0]);
+    cheat_clev_xy.movekey = movekey(cheat_clev_xy.sequence[0]);
+    cheat_mypos.movekey = movekey(cheat_mypos.sequence[0]);
+    cheat_amap.movekey = movekey(cheat_amap.sequence[0]);
+}
+
 #define NONE                    -1
 #define IDMUS_MAX               50
 
@@ -1655,4 +1691,6 @@ void ST_Init(void)
     // loading save game or entering IDFA/IDKFA cheat
     for (i = 0; i < NUMWEAPONS; i++)
         oldweaponsowned[i] = false;
+
+    ST_InitCheats();
 }

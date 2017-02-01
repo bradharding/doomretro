@@ -62,6 +62,8 @@ typedef struct
     char        parameter_buf[5];
 
     int         timeout;
+
+    dboolean    movekey;
 } cheatseq_t;
 
 int cht_CheckCheat(cheatseq_t *cht, unsigned char key);

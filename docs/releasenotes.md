@@ -28,13 +28,14 @@
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
 * The following improvements have been made to the `mapstats` CCMD:
   * The format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`) is now displayed.
-  * The dimensions of the current map are now displayed in feet/miles or metres/kilometres as specified by the `units` CVAR.
+  * The dimensions of the current map are now displayed in feet/miles or meters/kilometers as specified by the `units` CVAR.
 * Objects no longer bob up and down when underwater.
 * If a PWAD contains a sound lump called `DSSECRET`, it will now be played along with a message being displayed when the player finds a secret area.
 * A `regenhealth` CCMD has been implemented that toggles the ability of the player’s health to regenerate up to 100% at a rate of 1% per second when it drops below 100%.
 * A bug has been fixed whereby projectiles fired to or from a monster or the player standing in liquid were still lowered when the `r_liquid_clipsprites` or `r_liquid_lowerview` CVARs were `off`.
 * A grammatical error has been fixed in the obituaries displayed in the console if the `playername` CVAR was changed from its default.
 * The `vid_capfps` CVAR will now be saved correctly in `doomretro.cfg`.
+* Entering cheats will no longer interfere with moving the player in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 
 ---
 
