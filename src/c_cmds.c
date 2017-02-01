@@ -2689,10 +2689,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             float   metricheight = height / 3.28084f;
 
             if (metricwidth < 1000.0f && metricheight < 1000.0f)
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s metres</b>",
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s meters</b>",
                     striptrailingzero(metricwidth, 1), striptrailingzero(metricheight, 1));
             else
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s kilometres</b>",
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s kilometers</b>",
                     striptrailingzero(metricwidth / 1000.0f, 1),
                     striptrailingzero(metricheight / 1000.0f, 1));
         }
@@ -2925,16 +2925,16 @@ static char *distance(fixed_t value, dboolean showunits)
 
     if (units == units_metric)
     {
-        float   metres = value / 3.28084f;
+        float   meters = value / 3.28084f;
 
-        if (!metres)
-            M_StringCopy(result, (showunits ? "0 metres" : "0"), 20);
-        else if (metres < 1000.0f)
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(metres, 1),
-            (showunits ? " metre" : ""), (metres == 1.0f || !showunits ? "" : "s"));
+        if (!meters)
+            M_StringCopy(result, (showunits ? "0 meters" : "0"), 20);
+        else if (meters < 1000.0f)
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(meters, 1),
+            (showunits ? " meter" : ""), (meters == 1.0f || !showunits ? "" : "s"));
         else
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(metres / 1000.0f, 2),
-            (showunits ? " kilometre" : ""), (metres == 1000.0f || !showunits ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(meters / 1000.0f, 2),
+            (showunits ? " kilometer" : ""), (meters == 1000.0f || !showunits ? "" : "s"));
     }
     else
     {

@@ -8,6 +8,7 @@
 * The radiation shielding suit power-up is now closer to the ground.
 * The “pile of skulls and candles” decoration now spawns with blood splats at its base when the `r_corpses_moreblood` CVAR is `on`.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
+* Minor changes have been made to text that is output to the console.
 * A compatibility fix has been implemented that disables the translucency of the player’s weapons in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The `alwaysrun` CVAR will no longer be reset to `off` at startup.
