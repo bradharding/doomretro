@@ -1043,7 +1043,7 @@ static int D_OpenWADLauncher(void)
             char        *file = (char *)[url fileSystemRepresentation];
 #endif
 
-            if (!M_StringCompare(file + strlen(file) - 3, "wad"))
+            if (strlen(file) <= 4 || !M_StringCompare(file + strlen(file) - 4, ".wad"))
                 file = M_StringJoin(file, ".wad", NULL);
 
             // check if it's a valid and supported IWAD
