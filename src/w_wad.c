@@ -168,6 +168,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
     filelump_t  *filerover;
     lumpinfo_t  *filelumps;
     int         numfilelumps;
+    int         length;
 
     // open the file and add to directory
     wad_file_t  *wad_file = W_OpenFile(filename);
@@ -179,46 +180,24 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
 
     wad_file->freedoom = IsFreedoom(filename);
 
-    if (!M_StringCompare(filename + strlen(filename) - 3, "wad"))
-    {
-        // single lump file
+    // WAD file
+    W_Read(wad_file, 0, &header, sizeof(header));
 
-        // fraggle: Swap the filepos and size here. The WAD directory
-        // parsing code expects a little-endian directory, so will swap
-        // them back. Effectively we're constructing a "fake WAD directory"
-        // here, as it would appear on disk.
-        fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, NULL);
-        fileinfo->filepos = LONG(0);
-        fileinfo->size = LONG(wad_file->length);
+    // Homebrew levels?
+    if (strncmp(header.identification, "IWAD", 4)
+        && strncmp(header.identification, "PWAD", 4))
+        I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
 
-        // Name the lump after the base of the filename (without the
-        // extension).
-        ExtractFileBase(filename, fileinfo->name);
-        numfilelumps = 1;
-    }
-    else
-    {
-        int     length;
+    wad_file->type = (!strncmp(header.identification, "IWAD", 4)
+        || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
 
-        // WAD file
-        W_Read(wad_file, 0, &header, sizeof(header));
+    header.numlumps = LONG(header.numlumps);
+    header.infotableofs = LONG(header.infotableofs);
+    length = header.numlumps * sizeof(filelump_t);
+    fileinfo = Z_Malloc(length, PU_STATIC, NULL);
 
-        // Homebrew levels?
-        if (strncmp(header.identification, "IWAD", 4)
-            && strncmp(header.identification, "PWAD", 4))
-            I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
-
-        wad_file->type = (!strncmp(header.identification, "IWAD", 4)
-            || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
-
-        header.numlumps = LONG(header.numlumps);
-        header.infotableofs = LONG(header.infotableofs);
-        length = header.numlumps * sizeof(filelump_t);
-        fileinfo = Z_Malloc(length, PU_STATIC, NULL);
-
-        W_Read(wad_file, header.infotableofs, fileinfo, length);
-        numfilelumps = header.numlumps;
-    }
+    W_Read(wad_file, header.infotableofs, fileinfo, length);
+    numfilelumps = header.numlumps;
 
     // Increase size of numlumps array to accommodate the new file.
     filelumps = calloc(numfilelumps, sizeof(lumpinfo_t));
@@ -255,7 +234,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
         lumphash = NULL;
     }
 
-    C_Output("%s %s lump%s from %.4s <b>%s</b>.", (automatic ? "Automatically added" :
+    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" :
         "Added"), commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
         (wad_file->type == IWAD ? "IWAD" : "PWAD"), filename);
 
