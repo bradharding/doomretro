@@ -37,6 +37,7 @@
 * A grammatical error has been fixed in the obituaries displayed in the console if the `playername` CVAR was changed from its default.
 * The `vid_capfps` CVAR will now be saved correctly in `doomretro.cfg`.
 * Entering cheats will no longer interfere with moving the player in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
+* The bob of the player’s weapon will no longer become stuck when the `centerweapon` CVAR is `off` in some instances.
 
 ---
 
