@@ -1400,6 +1400,74 @@ static void P_LoadSideDefs2(int lump)
 }
 
 //
+// P_VerifyBlockMap
+//
+// haleyjd 03/04/10: do verification on validity of blockmap.
+//
+static dboolean P_VerifyBlockMap(int count)
+{
+    dboolean    isvalid = true;
+    int         x, y;
+    int         *maxoffs = blockmaplump + count;
+
+    for (y = 0; y < bmapheight; y++)
+    {
+        for (x = 0; x < bmapwidth; x++)
+        {
+            int offset;
+            int *list, *tmplist;
+            int *blockoffset;
+
+            offset = y * bmapwidth + x;
+            blockoffset = blockmaplump + offset + 4;
+
+            // check that block offset is in bounds
+            if (blockoffset >= maxoffs)
+            {
+                isvalid = false;
+                break;
+            }
+
+            offset = *blockoffset;
+            list = blockmaplump + offset;
+
+            // scan forward for a -1 terminator before maxoffs
+            for (tmplist = list; ; tmplist++)
+            {
+                // we have overflowed the lump?
+                if (tmplist >= maxoffs)
+                {
+                    isvalid = false;
+                    break;
+                }
+                if (*tmplist == -1) // found -1
+                    break;
+            }
+            if (!isvalid) // if the list is not terminated, break now
+                break;
+
+            // scan the list for out-of-range linedef indicies in list
+            for (tmplist = list; *tmplist != -1; tmplist++)
+            {
+                if (*tmplist < 0 || *tmplist >= numlines)
+                {
+                    isvalid = false;
+                    break;
+                }
+            }
+            if (!isvalid) // if a list has a bad linedef index, break now
+                break;
+        }
+
+        // break out early on any error
+        if (!isvalid)
+            break;
+    }
+
+    return isvalid;
+}
+
+//
 // killough 10/98:
 //
 // Rewritten to use faster algorithm.
@@ -1420,6 +1488,8 @@ static void P_CreateBlockMap(void)
     fixed_t     maxx = INT_MIN;
     fixed_t     maxy = INT_MIN;
     vertex_t    *vertex;
+
+    blockmaprecreated = true;
 
     // First find limits of map
     vertex = vertexes;
@@ -1599,10 +1669,7 @@ void P_LoadBlockMap(int lump)
 
     blockmaprecreated = false;
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
-    {
         P_CreateBlockMap();
-        blockmaprecreated = true;
-    }
     else
     {
         short   *wadblockmaplump = W_CacheLumpNum(lump, PU_LEVEL);
@@ -1634,6 +1701,13 @@ void P_LoadBlockMap(int lump)
         bmaporgy = blockmaplump[1] << FRACBITS;
         bmapwidth = blockmaplump[2];
         bmapheight = blockmaplump[3];
+
+        if (!P_VerifyBlockMap(count))
+        {
+            Z_Free(blockmaplump);
+            blockmaplump = NULL;
+            P_CreateBlockMap();
+        }
     }
 
     // Clear out mobj chains
