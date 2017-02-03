@@ -38,6 +38,7 @@
 
 #include "m_bbox.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "z_zone.h"
 
 extern msecnode_t       *sector_list;   // phares 3/16/98
@@ -364,12 +365,14 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
         return true;
     else
     {
-        int             offset = *(blockmap + y * bmapwidth + x);
-        const int       *list;
+        const int       *list = blockmaplump + *(blockmap + y * bmapwidth + x);
 
-        for (list = blockmaplump + offset + 1; *list != -1; ++list)
+        if (skipblstart)
+            ++list;
+
+        for (; *list != -1; ++list)
         {
-            line_t          *ld = &lines[*list];
+            line_t      *ld = &lines[*list];
 
             if (ld->validcount == validcount)
                 continue;       // line has already been checked

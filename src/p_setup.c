@@ -152,6 +152,8 @@ fixed_t         bmaporgy;
 // for thing chains
 mobj_t          **blocklinks;
 
+dboolean        skipblstart;            // MaxW: Skip initial blocklist short
+
 // REJECT
 // For fast sight rejection.
 // Speeds up enemy AI by skipping detailed
@@ -1410,6 +1412,8 @@ static dboolean P_VerifyBlockMap(int count)
     int         x, y;
     int         *maxoffs = blockmaplump + count;
 
+    skipblstart = true;
+
     for (y = 0; y < bmapheight; y++)
     {
         for (x = 0; x < bmapwidth; x++)
@@ -1430,6 +1434,9 @@ static dboolean P_VerifyBlockMap(int count)
 
             offset = *blockoffset;
             list = blockmaplump + offset;
+
+            if (*list)
+                skipblstart = false;
 
             // scan forward for a -1 terminator before maxoffs
             for (tmplist = list; ; tmplist++)
