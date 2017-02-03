@@ -88,7 +88,7 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
         return false
 
 // This number * 10 is the amount of time you can try to wait for.
-#define MIDIRPC_MAXTRIES        50
+#define MIDIRPC_MAXTRIES        100
 
 static dboolean I_MidiRPCWaitForServer()
 {
@@ -96,7 +96,7 @@ static dboolean I_MidiRPCWaitForServer()
 
     while (RpcMgmtIsServerListening(hMidiRPCBinding) != RPC_S_OK)
     {
-        I_Sleep(10 + 10 * autostart);
+        I_Sleep(10);
         if (++tries >= MIDIRPC_MAXTRIES)
             return false;
     }
