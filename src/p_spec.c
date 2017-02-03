@@ -2640,7 +2640,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
 pusher_t        *tmpusher;      // pusher structure for blockmap searches
 
-dboolean PIT_PushThing(mobj_t* thing)
+dboolean PIT_PushThing(mobj_t *thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {

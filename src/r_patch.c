@@ -206,9 +206,9 @@ static void createTextureCompositePatch(int id)
 
     // set out pixel, column, and post pointers into our data array
     composite_patch->pixels = composite_patch->data;
-    composite_patch->columns = (rcolumn_t*)((unsigned char*)composite_patch->pixels
+    composite_patch->columns = (rcolumn_t *)((unsigned char *)composite_patch->pixels
         + pixelDataSize);
-    composite_patch->posts = (rpost_t*)((unsigned char*)composite_patch->columns
+    composite_patch->posts = (rpost_t *)((unsigned char *)composite_patch->columns
         + columnsDataSize);
 
     // sanity check that we've got all the memory allocated we need

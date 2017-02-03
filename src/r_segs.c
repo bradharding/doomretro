@@ -379,9 +379,7 @@ void R_RenderSegLoop(void)
         if (markfloor)
         {
 
-            top = yh + 1;
-            if (top <= ceilingclip[rw_x])
-                top = ceilingclip[rw_x] + 1;
+            top = (yh < ceilingclip[rw_x] ? ceilingclip[rw_x] : yh) + 1;
 
             if (top <= bottom && floorplane)
             {

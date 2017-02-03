@@ -257,7 +257,7 @@ dboolean R_DoorClosed(void)
 }
 
 // [AM] Interpolate the passed sector, if prudent.
-void R_MaybeInterpolateSector(sector_t* sector)
+void R_MaybeInterpolateSector(sector_t *sector)
 {
     if (vid_capfps != TICRATE
         // Only if we moved the sector last tic.

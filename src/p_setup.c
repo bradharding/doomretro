@@ -1831,8 +1831,8 @@ static int P_GroupLines(void)
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
     {
-        fixed_t *bbox = (void*)sector->blockbox; // cph - For convenience, so
-        int     block;                           // I can use the old code unchanged
+        fixed_t *bbox = (void *)sector->blockbox;       // cph - For convenience, so
+        int     block;                                  // I can use the old code unchanged
 
         //e6y: fix sound origin for large levels
         sector->soundorg.x = bbox[BOXRIGHT] / 2 + bbox[BOXLEFT] / 2;
