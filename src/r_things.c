@@ -545,8 +545,8 @@ void R_DrawVisSprite(vissprite_t *vis)
         {
             dc_colormap = vis->shadowcolormap;
             colfunc = mobj->shadowcolfunc;
-            sprtopscreen = centeryfrac - FixedMul(sector->floorheight + mobj->info->shadowoffset
-                - viewz, spryscale);
+            sprtopscreen = centeryfrac - FixedMul(sector->interpfloorheight
+                + mobj->info->shadowoffset - viewz, spryscale);
             shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
             for (dc_x = vis->x1, frac = vis->startfrac; dc_x <= x2; dc_x++, frac += xiscale)
@@ -938,7 +938,7 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    fz = thing->subsector->sector->floorheight;
+    fz = thing->subsector->sector->interpfloorheight;
     vis->gz = fz;
     vis->gzt = fz + 1;
     vis->blood = thing->blood;
