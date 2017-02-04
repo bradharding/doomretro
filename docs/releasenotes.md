@@ -3,7 +3,7 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the rendering of shadows.
 * Improvements have been made to *DOOM Retro’s* renderer.
 * Changes have been made to the format of savegames and therefore savegames created using previous versions of *DOOM Retro* are not compatible with this version.
-* Maps built using [*ZokumBSP*](http://doom2.net/zokum/zokumbsp/), a new node/blockmap builder, are now supported.
+* Maps built using a new node/blockmap builder called [*ZokumBSP*](http://doom2.net/zokum/zokumbsp/) are now supported.
 * The filename of a WAD may now be entered manually in the WAD launcher without its “.WAD” extension.
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained after changing a CVAR in the console that resets the graphics subsystem.
@@ -24,9 +24,7 @@
   * The player’s face in the status bar will no longer move.
   * The player and their weapon no longer bob up and down.
 * The `r_dither` CVAR is now `off` by default.
-* The `vid_scaleapi` CVAR is now `"direct3d"` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
-* The `vid_vsync` CVAR is now `off` by default.
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
 * The following improvements have been made to the `mapstats` CCMD:
   * The format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`) is now displayed.

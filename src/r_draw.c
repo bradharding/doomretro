@@ -1377,6 +1377,7 @@ void R_DrawSpan(void)
         yfrac += ystep;
         count -= 8;
     }
+
     while (count >= 4)
     {
         *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
@@ -1393,6 +1394,7 @@ void R_DrawSpan(void)
         yfrac += ystep;
         count -= 4;
     }
+
     while (count-- > 0)
     {
         *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
@@ -1409,6 +1411,7 @@ void R_DrawColorSpan(void)
 
     while (--count)
         *dest++ = color;
+
     *dest = color;
 }
 

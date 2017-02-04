@@ -363,7 +363,7 @@ typedef enum
 #define vid_scaleapi_opengles2                  "opengles2"
 #endif
 #define vid_scaleapi_software                   "software"
-#define vid_scaleapi_default                    vid_scaleapi_direct3d
+#define vid_scaleapi_default                    vid_scaleapi_opengl
 
 #define vid_scalefilter_linear                  "linear"
 #define vid_scalefilter_nearest                 "nearest"
@@ -375,7 +375,7 @@ typedef enum
 
 #define vid_showfps_default                     false
 
-#define vid_vsync_default                       false
+#define vid_vsync_default                       true
 
 #define vid_widescreen_default                  false
 
