@@ -530,6 +530,7 @@ int     fuzzpos;
 void R_DrawVisSprite(vissprite_t *vis)
 {
     fixed_t     frac;
+    fixed_t     startfrac = vis->startfrac;
     fixed_t     xiscale = vis->xiscale;
     fixed_t     x2 = vis->x2;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
@@ -549,7 +550,7 @@ void R_DrawVisSprite(vissprite_t *vis)
                 + mobj->info->shadowoffset - viewz, spryscale);
             shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
-            for (dc_x = vis->x1, frac = vis->startfrac; dc_x <= x2; dc_x++, frac += xiscale)
+            for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; ++dc_x, frac += xiscale)
                 R_DrawMaskedShadowColumn((column_t *)((byte *)patch
                     + LONG(patch->columnofs[frac >> FRACBITS])));
         }
@@ -591,7 +592,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     fuzzpos = 0;
 
-    for (dc_x = vis->x1, frac = vis->startfrac; dc_x <= x2; dc_x++, frac += xiscale)
+    for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; ++dc_x, frac += xiscale)
         R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
             + LONG(patch->columnofs[frac >> FRACBITS])));
 }
