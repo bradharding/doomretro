@@ -1360,11 +1360,11 @@ static void R_DrawSprite(vissprite_t *spr)
                             cliptop[x] = h;
         }
 
-        if ((mh = sectors[spr->heightsec].ceilingheight) < spr->gzt
+        if ((mh = sectors[spr->heightsec].interpceilingheight) < spr->gzt
             && (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0
             && (h >>= FRACBITS) < viewheight)
         {
-            if (phs != -1 && viewz >= sectors[phs].ceilingheight)
+            if (phs != -1 && viewz >= sectors[phs].interpceilingheight)
             {                         // clip bottom
                 for (x = x1; x <= x2; x++)
                     if (clipbot[x] == -2 || h < clipbot[x])
