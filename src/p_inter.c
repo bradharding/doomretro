@@ -1233,9 +1233,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 titlecase(playername),
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 (target->player ? "" : (isvowel(info->name1[0]) ? "an " : "a ")),
-                (target->player ? (!M_StringCompare(playername, playername_default) ?
-                    "themselves" : "yourself") : info->name1),
-                (!M_StringCompare(playername, playername_default) ? "their" : "your"),
+                (target->player ? (M_StringCompare(playername, playername_default) ?
+                    "yourself" : "themselves") : info->name1),
+                (M_StringCompare(playername, playername_default) ? "your" : "their"),
                 weapondescription[source->player->readyweapon]);
         else
             C_PlayerMessage("%s %s %s %s%s.",
@@ -1244,7 +1244,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 (target->player ? "" : (source->type == target->type ? "another " :
                     (isvowel(info->name1[0]) ? "an " : "a "))),
-                (target->player ? playername : info->name1));
+                (target->player ? (M_StringCompare(playername, playername_default) ? playername :
+                    titlecase(playername)) : info->name1));
     }
 
     // Drop stuff.
