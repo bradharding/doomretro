@@ -536,7 +536,6 @@ void R_DrawVisSprite(vissprite_t *vis)
     mobj_t      *mobj = vis->mobj;
 
     spryscale = vis->scale;
-    dc_colormap = vis->shadowcolormap;
 
     if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
     {
@@ -544,6 +543,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
         if (!sector->isliquid)
         {
+            dc_colormap = vis->shadowcolormap;
             colfunc = mobj->shadowcolfunc;
             sprtopscreen = centeryfrac - FixedMul(sector->floorheight + mobj->info->shadowoffset
                 - viewz, spryscale);
