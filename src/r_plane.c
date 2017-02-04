@@ -100,18 +100,17 @@ dboolean                r_liquid_swirl = r_liquid_swirl_default;
 static void R_MapPlane(int y, int x1, int x2)
 {
     fixed_t     distance;
-    int         dx;
+    int         dx, dy;
 
-    if (y == centery)
+    if (!(dy = ABS(centery - y)))
         return;
 
     if (planeheight != cachedheight[y])
     {
-        int     dy = ABS(centery - y);
-
-        distance = FixedMul(planeheight, yslope[y]);
-        ds_xstep = FixedMul(viewsin, planeheight) / dy;
-        ds_ystep = FixedMul(viewcos, planeheight) / dy;
+        cachedheight[y] = planeheight;
+        distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
+        ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
+        ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
     }
     else
     {
