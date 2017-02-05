@@ -883,7 +883,6 @@ void P_MovePsprites(player_t *player)
     if (weapon && weapon->state->action == A_WeaponReady && !freeze)
     {
         // bob the weapon based on movement speed
-        int     angle = (128 * leveltime) & FINEMASK;
         fixed_t momx = player->momx;
         fixed_t momy = player->momy;
         fixed_t bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
@@ -899,6 +898,8 @@ void P_MovePsprites(player_t *player)
         }
         else
         {
+            int angle = (128 * leveltime) & FINEMASK;
+
             weapon->sx = FixedMul(bob, finecosine[angle]);
             weapon->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
         }
