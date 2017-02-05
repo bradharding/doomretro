@@ -307,25 +307,6 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
     else
         player->attackdown = false;
-
-    if (!freeze)
-    {
-        // bob the weapon based on movement speed
-        int     angle = (128 * leveltime) & FINEMASK;
-        fixed_t momx = player->momx;
-        fixed_t momy = player->momy;
-        fixed_t bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
-
-        bob = (bob ? MAX(MIN(bob, MAXBOB) * weaponbob / 100, MAXBOB * stillbob / 400) :
-            MAXBOB * stillbob / 400);
-
-        // [BH] smooth out weapon bob by zeroing out really small bobs
-        if (bob < FRACUNIT / 2)
-            bob = 0;
-
-        psp->sx = FixedMul(bob, finecosine[angle]);
-        psp->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
-    }
 }
 
 //
@@ -892,11 +873,32 @@ void P_MovePsprites(player_t *player)
 {
     int         i;
     pspdef_t    *psp = player->psprites;
+    pspdef_t    *pspw = &psp[ps_weapon];
+    pspdef_t    *pspf = &psp[ps_flash];
 
     for (i = 0; i < NUMPSPRITES; i++, psp++)
         if (psp->state && psp->tics != -1 && !--psp->tics)
             P_SetPsprite(player, i, psp->state->nextstate);
 
-    player->psprites[ps_flash].sx = player->psprites[ps_weapon].sx;
-    player->psprites[ps_flash].sy = player->psprites[ps_weapon].sy;
+    if (pspw && pspw->state->action == A_WeaponReady && !freeze)
+    {
+        // bob the weapon based on movement speed
+        int     angle = (128 * leveltime) & FINEMASK;
+        fixed_t momx = player->momx;
+        fixed_t momy = player->momy;
+        fixed_t bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
+
+        bob = (bob ? MAX(MIN(bob, MAXBOB) * weaponbob / 100, MAXBOB * stillbob / 400) :
+            MAXBOB * stillbob / 400);
+
+        // [BH] smooth out weapon bob by zeroing out really small bobs
+        if (bob < FRACUNIT / 2)
+            bob = 0;
+
+        pspw->sx = FixedMul(bob, finecosine[angle]);
+        pspw->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
+    }
+
+    pspf->sx = pspw->sx;
+    pspf->sy = pspw->sy;
 }
