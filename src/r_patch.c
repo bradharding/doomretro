@@ -84,6 +84,8 @@
 static rpatch_t         *patches = 0;
 static rpatch_t         *texture_composites = 0;
 
+static short            FIREBLU1;
+
 extern int              numtextures;
 extern texture_t        **textures;
 
@@ -94,6 +96,8 @@ void R_InitPatches(void)
 
     if (!texture_composites)
         texture_composites = calloc(numtextures, sizeof(rpatch_t));
+
+    FIREBLU1 = R_TextureNumForName("FIREBLU1");
 }
 
 typedef struct
@@ -261,6 +265,10 @@ static void createTextureCompositePatch(int id)
                 oldColumnPixelData = (const byte *)oldColumn + 3;
                 oy = texpatch->originy;
                 count = oldColumn->length;
+
+                // [BH] use incorrect y-origin for FIREBLU1
+                if (FIREBLU1)
+                    oy = 0;
 
                 // set up the post's data
                 post->topdelta = top + oy;
