@@ -226,6 +226,8 @@ extern dboolean transferredsky;
 extern int      timer;
 extern int      countdown;
 
+extern dboolean r_textures;
+
 void G_RemoveChoppers(void)
 {
     player_t    *player = &players[0];
@@ -638,6 +640,12 @@ void G_DoLoadLevel(void)
         C_Print(titlestring, mapnumandtitle);
 
     P_SetupLevel(ep, gamemap);
+
+    if (r_textures)
+        skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
+            R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+    else
+        skycolfunc = R_DrawColorColumn;
 
     gameaction = ga_nothing;
 
