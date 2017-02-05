@@ -84,6 +84,7 @@
 static rpatch_t         *patches = 0;
 static rpatch_t         *texture_composites = 0;
 
+static short            BIGDOOR7;
 static short            FIREBLU1;
 
 extern int              numtextures;
@@ -97,6 +98,7 @@ void R_InitPatches(void)
     if (!texture_composites)
         texture_composites = calloc(numtextures, sizeof(rpatch_t));
 
+    BIGDOOR7 = R_TextureNumForName("BIGDOOR7");
     FIREBLU1 = R_TextureNumForName("FIREBLU1");
 }
 
@@ -266,8 +268,8 @@ static void createTextureCompositePatch(int id)
                 oy = texpatch->originy;
                 count = oldColumn->length;
 
-                // [BH] use incorrect y-origin for FIREBLU1
-                if (id == FIREBLU1)
+                // [BH] use incorrect y-origin for certain textures
+                if (id == BIGDOOR7 || id == FIREBLU1)
                     oy = 0;
 
                 // set up the post's data

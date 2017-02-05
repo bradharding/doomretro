@@ -38,6 +38,7 @@
 * Entering cheats will no longer interfere with moving the player in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The bob of the player’s weapon will no longer become stuck when the `centerweapon` CVAR is `off` in some instances.
 * The bob of the chainsaw is now smoother when the player moves.
+* `BIGDOOR7` and `FIRBLU1` wall textures now display correctly.
 
 ---
 
