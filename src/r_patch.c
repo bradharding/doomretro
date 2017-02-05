@@ -267,7 +267,7 @@ static void createTextureCompositePatch(int id)
                 count = oldColumn->length;
 
                 // [BH] use incorrect y-origin for FIREBLU1
-                if (FIREBLU1)
+                if (id == FIREBLU1)
                     oy = 0;
 
                 // set up the post's data
