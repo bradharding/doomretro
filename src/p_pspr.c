@@ -873,14 +873,14 @@ void P_MovePsprites(player_t *player)
 {
     int         i;
     pspdef_t    *psp = player->psprites;
-    pspdef_t    *pspw = &psp[ps_weapon];
-    pspdef_t    *pspf = &psp[ps_flash];
+    pspdef_t    *weapon = &psp[ps_weapon];
+    pspdef_t    *flash = &psp[ps_flash];
 
     for (i = 0; i < NUMPSPRITES; i++, psp++)
         if (psp->state && psp->tics != -1 && !--psp->tics)
             P_SetPsprite(player, i, psp->state->nextstate);
 
-    if (pspw && pspw->state->action == A_WeaponReady && !freeze)
+    if (weapon && weapon->state->action == A_WeaponReady && !freeze)
     {
         // bob the weapon based on movement speed
         int     angle = (128 * leveltime) & FINEMASK;
@@ -894,16 +894,16 @@ void P_MovePsprites(player_t *player)
         // [BH] smooth out weapon bob by zeroing out really small bobs
         if (bob < FRACUNIT / 2)
         {
-            pspw->sx = 0;
-            pspw->sy = WEAPONTOP;
+            weapon->sx = 0;
+            weapon->sy = WEAPONTOP;
         }
         else
         {
-            pspw->sx = FixedMul(bob, finecosine[angle]);
-            pspw->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
+            weapon->sx = FixedMul(bob, finecosine[angle]);
+            weapon->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
         }
     }
 
-    pspf->sx = pspw->sx;
-    pspf->sy = pspw->sy;
+    flash->sx = weapon->sx;
+    flash->sy = weapon->sy;
 }
