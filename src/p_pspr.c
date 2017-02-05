@@ -893,10 +893,15 @@ void P_MovePsprites(player_t *player)
 
         // [BH] smooth out weapon bob by zeroing out really small bobs
         if (bob < FRACUNIT / 2)
-            bob = 0;
-
-        pspw->sx = FixedMul(bob, finecosine[angle]);
-        pspw->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
+        {
+            pspw->sx = 0;
+            pspw->sy = WEAPONTOP;
+        }
+        else
+        {
+            pspw->sx = FixedMul(bob, finecosine[angle]);
+            pspw->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
+        }
     }
 
     pspf->sx = pspw->sx;
