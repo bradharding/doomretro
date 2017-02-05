@@ -86,6 +86,7 @@ static rpatch_t         *texture_composites = 0;
 
 static short            BIGDOOR7;
 static short            FIREBLU1;
+static short            SKY1;
 
 extern int              numtextures;
 extern texture_t        **textures;
@@ -100,6 +101,7 @@ void R_InitPatches(void)
 
     BIGDOOR7 = R_TextureNumForName("BIGDOOR7");
     FIREBLU1 = R_TextureNumForName("FIREBLU1");
+    SKY1 = R_TextureNumForName("SKY1");
 }
 
 typedef struct
@@ -269,7 +271,7 @@ static void createTextureCompositePatch(int id)
                 count = oldColumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if (id == BIGDOOR7 || id == FIREBLU1)
+                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1)
                     oy = 0;
 
                 // set up the post's data
