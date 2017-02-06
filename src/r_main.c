@@ -495,6 +495,8 @@ void R_InitColumnFunctions(void)
         transcolfunc = R_DrawTranslatedColumn;
         wallcolfunc = R_DrawWallColumn;
         fbwallcolfunc = R_DrawFullbrightWallColumn;
+        skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
+            R_DrawFlippedSkyColumn : R_DrawSkyColumn);
         spanfunc = R_DrawSpan;
 
         if (r_translucency)
@@ -549,6 +551,7 @@ void R_InitColumnFunctions(void)
         transcolfunc = R_DrawColorColumn;
         wallcolfunc = R_DrawColorColumn;
         fbwallcolfunc = R_DrawColorColumn;
+        skycolfunc = R_DrawColorColumn;
         spanfunc = R_DrawColorSpan;
         tlcolfunc = R_DrawColorColumn;
         tl50colfunc = R_DrawColorColumn;
