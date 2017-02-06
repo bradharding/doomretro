@@ -417,9 +417,9 @@ void P_ZMovement(mobj_t *mo)
         //  and spawn a blood splat in its place
         if (mo->flags2 & MF2_BLOOD)
         {
-            P_RemoveMobj(mo);
             if (r_bloodsplats_max)
                 P_BloodSplatSpawner(mo->x, mo->y, mo->blood, mo->floorz, NULL);
+            P_RemoveMobj(mo);
             return;
         }
 
@@ -1247,13 +1247,13 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 
     if (!sec->isliquid && sec->floorheight <= maxheight && sec->floorpic != skyflatnum)
     {
-        mobj_t  *newsplat = Z_Calloc(1, sizeof(*newsplat), PU_LEVEL, NULL);
+        mobj_t  *newsplat = Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
         newsplat->type = MT_BLOODSPLAT;
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = sprites[SPR_BLD2].spriteframes[rand() & 7].lump[0];
 
-        newsplat->flags2 = (MF2_DONOTMAP | ((rand() & 1) * MF2_MIRRORED));
+        newsplat->flags2 = (rand() & 1) * MF2_MIRRORED;
         if (blood == FUZZYBLOOD)
         {
             newsplat->flags = MF_FUZZ;
