@@ -328,7 +328,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     }
 
     R_UnlockTextureCompositePatchNum(texnum);
-    curline = NULL;
 }
 
 //
@@ -339,19 +338,18 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 //
 void R_RenderSegLoop(void)
 {
-    rpatch_t    *tex_patch;
     fixed_t     texturecolumn = 0;
     dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]);
 
     for (; rw_x < rw_stopx; ++rw_x)
     {
         // mark floor / ceiling areas
-        int             yl = (int)((topfrac + heightunit - 1) >> heightbits);
-        int             yh = (int)(bottomfrac >> heightbits);
+        int     yl = (int)((topfrac + heightunit - 1) >> heightbits);
+        int     yh = (int)(bottomfrac >> heightbits);
 
         // no space above wall?
-        int             bottom;
-        int             top = ceilingclip[rw_x] + 1;
+        int     bottom;
+        int     top = ceilingclip[rw_x] + 1;
 
         if (yl < top)
             yl = top;
@@ -416,8 +414,8 @@ void R_RenderSegLoop(void)
                 dc_yh = yh;
 
                 dc_texturemid = rw_midtexturemid;
-                tex_patch = R_CacheTextureCompositePatchNum(midtexture);
-                dc_source = R_GetTextureColumn(tex_patch, texturecolumn);
+                dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture),
+                    texturecolumn);
                 dc_texheight = midtexheight;
 
                 // [BH] apply brightmap
@@ -429,7 +427,6 @@ void R_RenderSegLoop(void)
                     wallcolfunc();
 
                 R_UnlockTextureCompositePatchNum(midtexture);
-                tex_patch = NULL;
             }
             ceilingclip[rw_x] = viewheight;
             floorclip[rw_x] = -1;
@@ -455,8 +452,8 @@ void R_RenderSegLoop(void)
                         dc_yh = mid;
 
                         dc_texturemid = rw_toptexturemid;
-                        tex_patch = R_CacheTextureCompositePatchNum(toptexture);
-                        dc_source = R_GetTextureColumn(tex_patch, texturecolumn);
+                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture),
+                            texturecolumn);
                         dc_texheight = toptexheight;
 
                         // [BH] apply brightmap
@@ -468,7 +465,6 @@ void R_RenderSegLoop(void)
                             wallcolfunc();
 
                         R_UnlockTextureCompositePatchNum(toptexture);
-                        tex_patch = NULL;
                     }
                     ceilingclip[rw_x] = mid;
                 }
@@ -499,8 +495,8 @@ void R_RenderSegLoop(void)
                         dc_yh = yh;
 
                         dc_texturemid = rw_bottomtexturemid;
-                        tex_patch = R_CacheTextureCompositePatchNum(bottomtexture);
-                        dc_source = R_GetTextureColumn(tex_patch, texturecolumn);
+                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture),
+                            texturecolumn);
                         dc_texheight = bottomtexheight;
 
                         // [BH] apply brightmap
@@ -512,7 +508,6 @@ void R_RenderSegLoop(void)
                             wallcolfunc();
 
                         R_UnlockTextureCompositePatchNum(bottomtexture);
-                        tex_patch = NULL;
                     }
                     floorclip[rw_x] = mid;
                 }
@@ -689,7 +684,7 @@ void R_StoreWallRange(int start, int stop)
 
         if (linedef->flags & ML_DONTPEGBOTTOM)
             // bottom of texture at bottom
-            rw_midtexturemid = frontsector->interpfloorheight + textureheight[sidedef->midtexture]
+            rw_midtexturemid = frontsector->interpfloorheight + textureheight[midtexture]
                 - viewz + sidedef->rowoffset;
         else
             // top of texture at top

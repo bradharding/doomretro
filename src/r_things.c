@@ -871,7 +871,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->patch = lump;
 
     // get light level
-    vis->shadowcolormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+    vis->shadowcolormap = spritelights[xscale >> LIGHTSCALESHIFT];
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
     else if ((frame & FF_FULLBRIGHT) && (rot <= 4 || rot >= 12 || thing->info->fullbright))
@@ -966,7 +966,7 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
     else                                        // diminished light
-        vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->colormap = spritelights[xscale >> LIGHTSCALESHIFT];
 }
 
 //
@@ -978,8 +978,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t      *thing;
 
-    spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
-        LIGHTLEVELS - 1)];
+    spritelights = scalelight[(lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT];
 
     for (thing = sec->splatlist; thing; thing = thing->snext)
         R_ProjectBloodSplat(thing);
