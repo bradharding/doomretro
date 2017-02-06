@@ -465,7 +465,7 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
         if (dc_baseclip != -1)
             dc_yh = MIN(dc_baseclip, dc_yh);
 
-        if (dc_yl <= dc_yh && dc_yh < viewheight)
+        if (dc_yl <= dc_yh)
         {
             dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
                 + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
@@ -473,6 +473,7 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
             dc_source = (byte *)column + 3;
             colfunc();
         }
+
         column = (column_t *)((byte *)column + length + 4);
     }
 }
@@ -493,8 +494,9 @@ static void R_DrawMaskedBloodSplatColumn(column_t *column)
         dc_yl = MAX((int)(topscreen >> FRACBITS) + 1, ceilingclip);
         dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), floorclip);
 
-        if (dc_yl <= dc_yh && dc_yh < viewheight)
+        if (dc_yl <= dc_yh)
             colfunc();
+
         column = (column_t *)((byte *)column + length + 4);
     }
 }
@@ -515,8 +517,9 @@ static void R_DrawMaskedShadowColumn(column_t *column)
         dc_yl = MAX((int)(((topscreen >> FRACBITS) + 1) / 10 + shift), ceilingclip);
         dc_yh = MIN((int)(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift), floorclip);
 
-        if (dc_yl <= dc_yh && dc_yh < viewheight)
+        if (dc_yl <= dc_yh)
             colfunc();
+
         column = (column_t *)((byte *)column + length + 4);
     }
 }
@@ -1219,7 +1222,7 @@ static void R_DrawBloodSprite(vissprite_t *spr)
     int         x2 = spr->x2;
 
     // [RH] Quickly reject sprites with bad x ranges.
-    if (x1 > x2)
+    if (x1 >= x2)
         return;
 
     for (x = x1; x <= x2; x++)
@@ -1284,7 +1287,8 @@ static void R_DrawSprite(vissprite_t *spr)
     int         x1 = spr->x1;
     int         x2 = spr->x2;
 
-    if (x1 > x2)
+    // [RH] Quickly reject sprites with bad x ranges.
+    if (x1 >= x2)
         return;
 
     for (x = x1; x <= x2; x++)
