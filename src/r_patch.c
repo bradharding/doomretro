@@ -381,7 +381,6 @@ static void createTextureCompositePatch(int id)
                     continue;
 
                 // this pixel is a hole
-
                 if (x && prevColumn->pixels[y - 1] != 0xFF)
                     column->pixels[y] = prevColumn->pixels[y];  // copy the color from the left
                 else
