@@ -99,9 +99,9 @@ void R_InitPatches(void)
     if (!texture_composites)
         texture_composites = calloc(numtextures, sizeof(rpatch_t));
 
-    BIGDOOR7 = R_TextureNumForName("BIGDOOR7");
-    FIREBLU1 = R_TextureNumForName("FIREBLU1");
-    SKY1 = R_TextureNumForName("SKY1");
+    BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");
+    FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
+    SKY1 = R_CheckTextureNumForName("SKY1");
 }
 
 typedef struct
