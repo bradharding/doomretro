@@ -59,7 +59,6 @@ extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
 extern byte             *dc_blood;
 extern byte             *dc_colormask;
-extern byte             *dc_tranmap;
 extern int              dc_baseclip;
 
 // first pixel in a column
