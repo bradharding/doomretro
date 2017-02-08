@@ -380,7 +380,7 @@ void P_PlayerThink(player_t *player)
             if (player->damagecount)
                 motionblur = MAX(motionblur, 100);
         }
-        I_SetMotionBlur(motionblur);
+        I_SetMotionBlur(motionblur * vid_motionblur / 100);
     }
     else if (motionblur)
     {

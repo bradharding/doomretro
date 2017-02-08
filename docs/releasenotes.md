@@ -39,6 +39,7 @@
 * The bob of the player’s weapon will no longer become stuck when the `centerweapon` CVAR is `off` in some instances.
 * The bob of the chainsaw is now as smooth as the other weapons when the player moves.
 * `BIGDOOR7`, `FIRBLU1` and `SKY1` textures are now displayed correctly.
+* The `vid_motionblur` CVAR is now a value between `0%` and `100%`, instead of just `on` or `off`. Its default is `0%`.
 
 ---
 
