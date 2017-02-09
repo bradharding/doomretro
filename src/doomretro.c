@@ -239,7 +239,7 @@ void I_InitWindows32(void)
     windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
         + GetSystemMetrics(SM_CYCAPTION);
 
-#ifndef _DEBUG
+#if !defined(_DEBUG)
     SetUnhandledExceptionFilter(ExceptionHandler);
 #endif
 }

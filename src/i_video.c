@@ -1732,7 +1732,8 @@ void I_ToggleFullscreen(void)
 {
     dboolean    fullscreen = !vid_fullscreen;
 
-    if (SDL_SetWindowFullscreen(window, (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0)) < 0)
+    if (!M_StringCompare(vid_screenresolution, vid_screenresolution_desktop)
+        || SDL_SetWindowFullscreen(window, (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0)) < 0)
     {
         menuactive = false;
         C_ShowConsole();
