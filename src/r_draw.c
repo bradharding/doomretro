@@ -583,7 +583,6 @@ void R_DrawSkyColumn(void)
     const fixed_t       fracstep = dc_iscale;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
     const byte          *source = dc_source;
-    const lighttable_t  *colormap = dc_colormap;
     const fixed_t       texheight = dc_texheight;
     fixed_t             heightmask = texheight - 1;
 
@@ -602,7 +601,7 @@ void R_DrawSkyColumn(void)
 
         while (count--)
         {
-            *dest = colormap[source[frac >> FRACBITS]];
+            *dest = source[frac >> FRACBITS];
             dest += SCREENWIDTH;
 
             if ((frac += fracstep) >= heightmask)
@@ -615,28 +614,28 @@ void R_DrawSkyColumn(void)
         // do some loop unrolling
         while (count >= 8)
         {
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
             count -= 8;
@@ -644,33 +643,33 @@ void R_DrawSkyColumn(void)
 
         if (count & 1)
         {
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
 
         if (count & 2)
         {
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
 
         if (count & 4)
         {
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
             dest += SCREENWIDTH;
             frac += fracstep;
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+            *dest = source[(frac >> FRACBITS) & heightmask];
         }
     }
 }
@@ -682,19 +681,18 @@ void R_DrawFlippedSkyColumn(void)
     const fixed_t       fracstep = dc_iscale;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
     const byte          *source = dc_source;
-    const lighttable_t  *colormap = dc_colormap;
     fixed_t             i;
 
     while (--count)
     {
         i = frac >> FRACBITS;
-        *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
+        *dest = source[i > 127 ? 126 - (i & 127) : i];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
 
     i = frac >> FRACBITS;
-    *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
+    *dest = source[i > 127 ? 126 - (i & 127) : i];
 }
 
 void R_DrawRedToBlueColumn(void)
