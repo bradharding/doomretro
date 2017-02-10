@@ -1261,7 +1261,10 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
             newsplat->colfunc = fuzzcolfunc;
         }
         else
+        {
+            newsplat->flags = 0;
             newsplat->colfunc = bloodsplatcolfunc;
+        }
         newsplat->blood = blood;
 
         newsplat->x = x;
