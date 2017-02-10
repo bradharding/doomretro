@@ -298,6 +298,10 @@ typedef enum
 #define r_shake_damage_default                  50
 #define r_shake_damage_max                      100
 
+#define r_skycolor_min                          -1
+#define r_skycolor_default                      -1
+#define r_skycolor_max                          255
+
 #define r_textures_default                      true
 
 #define r_translucency_default                  true
@@ -489,7 +493,8 @@ typedef enum
     GAMMAVALUEALIAS,
     BLOODVALUEALIAS,
     UNITSVALUEALIAS,
-    CAPVALUEALIAS
+    CAPVALUEALIAS,
+    SKYVALUEALIAS
 } valuealias_type_t;
 
 typedef struct

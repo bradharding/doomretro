@@ -167,6 +167,8 @@ int             dc_baseclip;
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
 
+extern int      skycolor;
+
 //
 // A column is a vertical slice/span from a wall texture that,
 //  given the DOOM style restrictions on the view orientation,
@@ -693,6 +695,21 @@ void R_DrawFlippedSkyColumn(void)
 
     i = frac >> FRACBITS;
     *dest = source[i > 127 ? 126 - (i & 127) : i];
+}
+
+void R_DrawSkyColorColumn(void)
+{
+    int32_t     count = dc_yh - dc_yl + 1;
+    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    byte        color = skycolor;
+
+    while (--count)
+    {
+        *dest = color;
+        dest += SCREENWIDTH;
+    }
+
+    *dest = color;
 }
 
 void R_DrawRedToBlueColumn(void)

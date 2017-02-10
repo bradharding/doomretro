@@ -179,6 +179,7 @@ extern int              r_screensize;
 extern dboolean         r_shadows;
 extern dboolean         r_shake_barrels;
 extern int              r_shake_damage;
+extern int              r_skycolor;
 extern dboolean         r_textures;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
@@ -428,6 +429,7 @@ static void r_gamma_cvar_func2(char *, char *);
 static void r_hud_cvar_func2(char *, char *);
 static void r_lowpixelsize_cvar_func2(char *, char *);
 static void r_screensize_cvar_func2(char *, char *);
+static void r_skycolor_cvar_func2(char *, char *);
 static void r_textures_cvar_func2(char *, char *);
 static void r_translucency_cvar_func2(char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *);
@@ -746,6 +748,8 @@ consolecmd_t consolecmds[] =
         "Toggles shaking the screen when the player is near an\nexploding barrel."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the screen shakes when the player is\nattacked."),
+    CVAR_INT(r_skycolor, r_skycolour, int_cvars_func1, r_skycolor_cvar_func2, CF_NONE, NOVALUEALIAS,
+        "The color of the sky (<b>none</b>, or <b>0</b> to <b>255</b>)."),
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
         "Toggles displaying all textures."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
@@ -4567,6 +4571,27 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS),
                 C_LookupAliasFromValue(r_translucency_default, BOOLVALUEALIAS));
+    }
+}
+
+//
+// r_skycolor CVAR
+//
+static void r_skycolor_cvar_func2(char *cmd, char *parms)
+{
+    if (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_default)
+    {
+        r_skycolor = r_skycolor_default;
+        M_SaveCVARs();
+        R_InitColumnFunctions();
+    }
+    else
+    {
+        int r_skycolor_old = r_skycolor;
+
+        int_cvars_func2(cmd, parms);
+        if (r_skycolor != r_skycolor_old)
+            R_InitColumnFunctions();
     }
 }
 

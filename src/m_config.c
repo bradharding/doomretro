@@ -124,6 +124,7 @@ extern dboolean         r_rockettrails;
 extern dboolean         r_shadows;
 extern dboolean         r_shake_barrels;
 extern int              r_shake_damage;
+extern int              r_skycolor;
 extern dboolean         r_textures;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
@@ -293,7 +294,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_screensize,                                      NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_shadows,                                         BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_shake_barrels,                                   BOOLVALUEALIAS  ),
-    CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                                    BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                                    NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (r_skycolor,                                        SKYVALUEALIAS   ),
     CONFIG_VARIABLE_INT          (r_textures,                                        BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_translucency,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,                                     NOVALUEALIAS    ),
@@ -368,12 +370,16 @@ static default_t cvars[] =
 
 valuealias_t valuealiases[] =
 {
-    { "off",    0, BOOLVALUEALIAS   }, { "on",       1, BOOLVALUEALIAS      }, { "0",        0, BOOLVALUEALIAS   },
-    { "1",      1, BOOLVALUEALIAS   }, { "no",       0, BOOLVALUEALIAS      }, { "yes",      1, BOOLVALUEALIAS   },
-    { "false",  0, BOOLVALUEALIAS   }, { "true",     1, BOOLVALUEALIAS      }, { "low",      0, DETAILVALUEALIAS },
-    { "high",   1, DETAILVALUEALIAS }, { "off",      1, GAMMAVALUEALIAS     }, { "none",     0, BLOODVALUEALIAS  },
-    { "red",    1, BLOODVALUEALIAS  }, { "all",      2, BLOODVALUEALIAS     }, { "imperial", 0, UNITSVALUEALIAS  },
-    { "metric", 1, UNITSVALUEALIAS  }, { "off",      0, CAPVALUEALIAS       }, { "",         0, NOVALUEALIAS     }
+    { "off",      0, BOOLVALUEALIAS   }, { "on",      1, BOOLVALUEALIAS   },
+    { "0",        0, BOOLVALUEALIAS   }, { "1",       1, BOOLVALUEALIAS   },
+    { "no",       0, BOOLVALUEALIAS   }, { "yes",     1, BOOLVALUEALIAS   },
+    { "false",    0, BOOLVALUEALIAS   }, { "true",    1, BOOLVALUEALIAS   },
+    { "low",      0, DETAILVALUEALIAS }, { "high",    1, DETAILVALUEALIAS },
+    { "off",      1, GAMMAVALUEALIAS  }, { "none",    0, BLOODVALUEALIAS  },
+    { "red",      1, BLOODVALUEALIAS  }, { "all",     2, BLOODVALUEALIAS  },
+    { "imperial", 0, UNITSVALUEALIAS  }, { "metric",  1, UNITSVALUEALIAS  },
+    { "off",      0, CAPVALUEALIAS    }, { "none",   -1, SKYVALUEALIAS    },
+    { "",         0, NOVALUEALIAS     }
 };
 
 static void SaveBind(FILE *file, char *action, int value, controltype_t type)

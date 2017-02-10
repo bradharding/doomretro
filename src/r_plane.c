@@ -85,7 +85,10 @@ fixed_t                 cacheddistance[SCREENHEIGHT];
 fixed_t                 cachedxstep[SCREENHEIGHT];
 fixed_t                 cachedystep[SCREENHEIGHT];
 
+int                     skycolor;
+
 dboolean                r_liquid_swirl = r_liquid_swirl_default;
+int                     r_skycolor = r_skycolor_default;
 
 //
 // R_MapPlane

@@ -86,6 +86,7 @@ void R_DrawWallColumn(void);
 void R_DrawFullbrightWallColumn(void);
 void R_DrawSkyColumn(void);
 void R_DrawFlippedSkyColumn(void);
+void R_DrawSkyColorColumn(void);
 void R_DrawTranslucentColumn(void);
 void R_DrawTranslucent50Column(void);
 void R_DrawDitheredColumn(void);

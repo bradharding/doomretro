@@ -116,9 +116,12 @@ dboolean                r_translucency = r_translucency_default;
 
 extern dboolean         canmodify;
 extern int              explosiontics;
+extern int              skycolor;
 extern dboolean         transferredsky;
 extern int              viewheight2;
 extern dboolean         windowfocused;
+
+extern int              r_skycolor;
 
 //
 // R_PointOnSide
@@ -495,8 +498,14 @@ void R_InitColumnFunctions(void)
         transcolfunc = R_DrawTranslatedColumn;
         wallcolfunc = R_DrawWallColumn;
         fbwallcolfunc = R_DrawFullbrightWallColumn;
-        skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
-            R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+        if (r_skycolor != r_skycolor_default)
+        {
+            skycolfunc = R_DrawSkyColorColumn;
+            skycolor = r_skycolor;
+        }
+        else
+            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
+                R_DrawFlippedSkyColumn : R_DrawSkyColumn);
         spanfunc = R_DrawSpan;
 
         if (r_translucency)

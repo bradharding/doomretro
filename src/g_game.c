@@ -226,6 +226,9 @@ extern dboolean transferredsky;
 extern int      timer;
 extern int      countdown;
 
+extern int      skycolor;
+
+extern int      r_skycolor;
 extern dboolean r_textures;
 
 void G_RemoveChoppers(void)
@@ -642,10 +645,21 @@ void G_DoLoadLevel(void)
     P_SetupLevel(ep, gamemap);
 
     if (r_textures)
-        skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
-            R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+    {
+        if (r_skycolor != r_skycolor_default)
+        {
+            skycolfunc = R_DrawSkyColorColumn;
+            skycolor = r_skycolor;
+        }
+        else
+            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
+                R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+    }
     else
-        skycolfunc = R_DrawColorColumn;
+    {
+        skycolfunc = R_DrawSkyColorColumn;
+        skycolor = NOTEXTURECOLOR;
+    }
 
     gameaction = ga_nothing;
 
