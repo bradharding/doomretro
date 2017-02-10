@@ -174,10 +174,12 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
 
 void Z_ChangeTag(void *ptr, int32_t tag)
 {
-    memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
+    memblock_t  *block;
 
     if (!ptr)
         return;
+
+    block = (memblock_t *)((char *)ptr - HEADER_SIZE);
 
     // proff - do nothing if tag doesn't differ
     if (tag == block->tag)
