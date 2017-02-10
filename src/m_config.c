@@ -315,7 +315,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (vid_driver,                                        NOVALUEALIAS    ),
 #endif
     CONFIG_VARIABLE_INT          (vid_fullscreen,                                    BOOLVALUEALIAS  ),
-    CONFIG_VARIABLE_INT          (vid_motionblur,                                    NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (vid_motionblur,                                    NOVALUEALIAS    ),
     CONFIG_VARIABLE_STRING       (vid_scaleapi,                                      NOVALUEALIAS    ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,                                   NOVALUEALIAS    ),
     CONFIG_VARIABLE_OTHER        (vid_screenresolution,                              NOVALUEALIAS    ),
