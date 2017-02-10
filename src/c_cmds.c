@@ -2624,7 +2624,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             "PWAD"), uppercase(leafname(lumpinfo[i]->wad_file->path)));
     }
 
-    C_TabbedOutput(tabs, "Type\t<b>%s-compatible</b>", (boomlinespecials ? "<i>BOOM</i>" : "Vanilla"));
+    C_TabbedOutput(tabs, "Type\t<b>%s%s</b>", (boomlinespecials ? "<i>BOOM</i>-compatible" :
+        (numsegs < 32768 ? "Vanilla-compatible" : "limit removing")),
+        (numsegs < 32768 ? "" : " and limit removing"));
 
     C_TabbedOutput(tabs, "Things\t<b>%s</b>", commify(numthings));
 

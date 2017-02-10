@@ -29,6 +29,7 @@
 * The following improvements have been made to the `mapstats` CCMD:
   * The format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`) is now displayed.
   * The dimensions of the current map are now displayed in feet/miles or meters/kilometers as specified by the `units` CVAR.
+  * If the map is “limit removing” is now indicated.
 * Objects no longer bob up and down when underwater.
 * If a PWAD contains a sound lump called `DSSECRET`, it will now be played along with a message being displayed when the player finds a secret area.
 * A `regenhealth` CCMD has been implemented that toggles the ability of the player’s health to regenerate up to 100% at a rate of 1% per second when it drops below 100%.
