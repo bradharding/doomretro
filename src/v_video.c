@@ -1460,10 +1460,10 @@ dboolean V_ScreenShot(void)
             break;
     }
 
-    if (sscanf(mapname, "The %124[^\n]", mapname))
-        M_snprintf(mapname, sizeof(mapname), "%s, The", mapname);
-    else if (sscanf(mapname, "A %126[^\n]", mapname))
-        M_snprintf(mapname, sizeof(mapname), "%s, A", mapname);
+    if (M_StringStartsWith(mapname, "The "))
+        M_snprintf(mapname, sizeof(mapname), "%s, The", M_SubString(mapname, 4, strlen(mapname) - 4));
+    else if (M_StringStartsWith(mapname, "A "))
+        M_snprintf(mapname, sizeof(mapname), "%s, A", M_SubString(mapname, 2, strlen(mapname) - 2));
 
     do
     {
