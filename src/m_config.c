@@ -123,7 +123,7 @@ extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern dboolean         r_shadows;
 extern dboolean         r_shake_barrels;
-extern dboolean         r_shake_damage;
+extern int              r_shake_damage;
 extern dboolean         r_textures;
 extern dboolean         r_translucency;
 extern int              s_musicvolume;
