@@ -662,6 +662,8 @@ void G_DoLoadLevel(void)
         skycolor = NOTEXTURECOLOR;
     }
 
+    st_facecount = 0;
+
     gameaction = ga_nothing;
 
     // clear cmd building stuff
@@ -1529,6 +1531,8 @@ void G_DoLoadGame(void)
 
     // draw the pattern into the back screen
     R_FillBackScreen();
+
+    st_facecount = 0;
 
     if (consoleactive)
     {
