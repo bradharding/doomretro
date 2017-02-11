@@ -824,12 +824,6 @@ typedef struct
     // 0=none, 1=bottom, 2=top, 3=both
     int                 silhouette;
 
-    // do not clip sprites above this
-    fixed_t             bsilheight;
-
-    // do not clip sprites below this
-    fixed_t             tsilheight;
-
     // Pointers to lists for sprite clipping,
     //  all three adjusted so [x1] is first value.
     int                 *sprtopclip;

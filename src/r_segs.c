@@ -701,8 +701,6 @@ void R_StoreWallRange(int start, int stop)
         ds_p->silhouette = SIL_BOTH;
         ds_p->sprtopclip = screenheightarray;
         ds_p->sprbottomclip = negonearray;
-        ds_p->bsilheight = INT_MAX;
-        ds_p->tsilheight = INT_MIN;
     }
     else
     {
@@ -712,27 +710,13 @@ void R_StoreWallRange(int start, int stop)
         ds_p->sprtopclip = ds_p->sprbottomclip = NULL;
         ds_p->silhouette = 0;
 
-        if (frontsector->interpfloorheight > backsector->interpfloorheight)
-        {
+        if (frontsector->interpfloorheight > backsector->interpfloorheight
+            || backsector->interpfloorheight > viewz)
             ds_p->silhouette = SIL_BOTTOM;
-            ds_p->bsilheight = frontsector->interpfloorheight;
-        }
-        else if (backsector->interpfloorheight > viewz)
-        {
-            ds_p->silhouette = SIL_BOTTOM;
-            ds_p->bsilheight = INT_MAX;
-        }
 
-        if (frontsector->interpceilingheight < backsector->interpceilingheight)
-        {
+        if (frontsector->interpceilingheight < backsector->interpceilingheight
+            || backsector->interpceilingheight < viewz)
             ds_p->silhouette |= SIL_TOP;
-            ds_p->tsilheight = frontsector->interpceilingheight;
-        }
-        else if (backsector->interpceilingheight < viewz)
-        {
-            ds_p->silhouette |= SIL_TOP;
-            ds_p->tsilheight = INT_MIN;
-        }
 
         // killough 1/17/98: this test is required if the fix
         // for the automap bug (r_bsp.c) is used, or else some
@@ -747,14 +731,12 @@ void R_StoreWallRange(int start, int stop)
             if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
             {
                 ds_p->sprbottomclip = negonearray;
-                ds_p->bsilheight = INT_MAX;
                 ds_p->silhouette |= SIL_BOTTOM;
             }
 
             if (doorclosed || backsector->interpfloorheight >= frontsector->interpceilingheight)
             {
                 ds_p->sprtopclip = screenheightarray;
-                ds_p->tsilheight = INT_MIN;
                 ds_p->silhouette |= SIL_TOP;
             }
         }
@@ -982,14 +964,8 @@ void R_StoreWallRange(int start, int stop)
     }
 
     if (maskedtexture && !(ds_p->silhouette & SIL_TOP))
-    {
         ds_p->silhouette |= SIL_TOP;
-        ds_p->tsilheight = INT_MIN;
-    }
     if (maskedtexture && !(ds_p->silhouette & SIL_BOTTOM))
-    {
         ds_p->silhouette |= SIL_BOTTOM;
-        ds_p->bsilheight = INT_MAX;
-    }
     ++ds_p;
 }
