@@ -179,7 +179,7 @@ extern int      skycolor;
 
 void R_DrawColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -198,7 +198,7 @@ void R_DrawColumn(void)
 
 void R_DrawColorColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl + 1;
+    int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     byte        color = dc_colormap[NOTEXTURECOLOR];
 
@@ -213,7 +213,7 @@ void R_DrawColorColumn(void)
 
 void R_DrawShadowColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl;
+    int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     byte        *body = tinttab40;
     byte        *edge = tinttab25;
@@ -221,7 +221,7 @@ void R_DrawShadowColumn(void)
     *dest = edge[*dest];
     dest += SCREENWIDTH;
 
-    while (--count > 0)
+    while (--count)
     {
         *dest = body[*dest];
         dest += SCREENWIDTH;
@@ -232,7 +232,7 @@ void R_DrawShadowColumn(void)
 
 void R_DrawFuzzyShadowColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl;
+    int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     byte        *translucency = tinttab25;
 
@@ -241,7 +241,7 @@ void R_DrawFuzzyShadowColumn(void)
 
     dest += SCREENWIDTH;
 
-    while (--count > 0)
+    while (--count)
     {
         *dest = translucency[*dest];
         dest += SCREENWIDTH;
@@ -253,10 +253,10 @@ void R_DrawFuzzyShadowColumn(void)
 
 void R_DrawSolidShadowColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl;
+    int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
 
-    while (--count > 0)
+    while (--count)
     {
         *dest = 0;
         dest += SCREENWIDTH;
@@ -267,11 +267,11 @@ void R_DrawSolidShadowColumn(void)
 
 void R_DrawBloodSplatColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl + 1;
+    int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     byte        *blood = dc_blood;
 
-    while (--count > 0)
+    while (--count)
     {
         *dest = *(*dest + blood);
         dest += SCREENWIDTH;
@@ -282,11 +282,11 @@ void R_DrawBloodSplatColumn(void)
 
 void R_DrawSolidBloodSplatColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       blood = *dc_blood;
 
-    while (--count > 0)
+    while (--count)
     {
         *dest = blood;
         dest += SCREENWIDTH;
@@ -297,7 +297,7 @@ void R_DrawSolidBloodSplatColumn(void)
 
 void R_DrawWallColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       iscale = dc_iscale;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale;
@@ -397,7 +397,7 @@ void R_DrawWallColumn(void)
 
 void R_DrawFullbrightWallColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       iscale = dc_iscale;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale;
@@ -515,7 +515,7 @@ void R_DrawFullbrightWallColumn(void)
 
 void R_DrawPlayerSpriteColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft1 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -533,7 +533,7 @@ void R_DrawPlayerSpriteColumn(void)
 
 void R_DrawSuperShotgunColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -556,7 +556,7 @@ void R_DrawSuperShotgunColumn(void)
 
 void R_DrawTranslucentSuperShotgunColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -580,7 +580,7 @@ void R_DrawTranslucentSuperShotgunColumn(void)
 
 void R_DrawSkyColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       fracstep = dc_iscale;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
@@ -678,7 +678,7 @@ void R_DrawSkyColumn(void)
 
 void R_DrawFlippedSkyColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       fracstep = dc_iscale;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
@@ -699,7 +699,7 @@ void R_DrawFlippedSkyColumn(void)
 
 void R_DrawSkyColorColumn(void)
 {
-    int32_t     count = dc_yh - dc_yl + 1;
+    int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     byte        color = skycolor;
 
@@ -714,7 +714,7 @@ void R_DrawSkyColorColumn(void)
 
 void R_DrawRedToBlueColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -733,7 +733,7 @@ void R_DrawRedToBlueColumn(void)
 
 void R_DrawTranslucentRedToBlue33Column(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -753,7 +753,7 @@ void R_DrawTranslucentRedToBlue33Column(void)
 
 void R_DrawRedToGreenColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -772,7 +772,7 @@ void R_DrawRedToGreenColumn(void)
 
 void R_DrawTranslucentRedToGreen33Column(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -792,7 +792,7 @@ void R_DrawTranslucentRedToGreen33Column(void)
 
 void R_DrawTranslucentColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -812,7 +812,7 @@ void R_DrawTranslucentColumn(void)
 
 void R_DrawTranslucent50Column(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -832,7 +832,7 @@ void R_DrawTranslucent50Column(void)
 
 void R_DrawDitheredColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale << 1;
@@ -859,7 +859,7 @@ void R_DrawDitheredColumn(void)
 
 void R_DrawTranslucent33Column(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -879,7 +879,7 @@ void R_DrawTranslucent33Column(void)
 
 void R_DrawMegaSphereColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -899,7 +899,7 @@ void R_DrawMegaSphereColumn(void)
 
 void R_DrawSolidMegaSphereColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -918,7 +918,7 @@ void R_DrawSolidMegaSphereColumn(void)
 
 void R_DrawTranslucentRedColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -938,7 +938,7 @@ void R_DrawTranslucentRedColumn(void)
 
 void R_DrawTranslucentRedWhiteColumn1(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -958,7 +958,7 @@ void R_DrawTranslucentRedWhiteColumn1(void)
 
 void R_DrawTranslucentRedWhiteColumn2(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -978,7 +978,7 @@ void R_DrawTranslucentRedWhiteColumn2(void)
 
 void R_DrawTranslucentRedWhite50Column(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -998,7 +998,7 @@ void R_DrawTranslucentRedWhite50Column(void)
 
 void R_DrawTranslucentGreenColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -1018,7 +1018,7 @@ void R_DrawTranslucentGreenColumn(void)
 
 void R_DrawTranslucentBlueColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -1038,7 +1038,7 @@ void R_DrawTranslucentBlueColumn(void)
 
 void R_DrawTranslucentRed33Column(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -1058,7 +1058,7 @@ void R_DrawTranslucentRed33Column(void)
 
 void R_DrawTranslucentGreen33Column(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -1078,7 +1078,7 @@ void R_DrawTranslucentGreen33Column(void)
 
 void R_DrawTranslucentBlue25Column(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -1283,7 +1283,7 @@ byte    *translationtables;
 
 void R_DrawTranslatedColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
+    int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
@@ -1297,6 +1297,7 @@ void R_DrawTranslatedColumn(void)
         dest += SCREENWIDTH;
         frac += fracstep;
     }
+
     *dest = colormap[translation[source[frac >> FRACBITS]]];
 }
 
