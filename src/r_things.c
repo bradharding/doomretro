@@ -887,6 +887,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
 
     vissprite_t         *vis;
 
+    int                 flags = splat->flags;
     fixed_t             fx = splat->x;
     fixed_t             fy = splat->y;
 
@@ -937,7 +938,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     vis->gy = fy;
     vis->blood = splat->blood;
 
-    if ((splat->flags & BSF_FUZZ) && pausesprites && r_textures)
+    if ((flags & BSF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = splat->colfunc;
@@ -947,9 +948,17 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
 
-    vis->xiscale = FixedDiv(FRACUNIT, xscale);
+    if (flags & BSF_MIRRORED)
+    {
+        vis->startfrac = width - 1;
+        vis->xiscale = -FixedDiv(FRACUNIT, xscale);
+    }
+    else
+    {
+        vis->startfrac = 0;
+        vis->xiscale = FixedDiv(FRACUNIT, xscale);
+    }
 
-    vis->startfrac = vis->xiscale * (vis->x1 - x1);
     vis->patch = lump;
 
     // get light level
