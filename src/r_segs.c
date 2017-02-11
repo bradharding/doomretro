@@ -205,7 +205,7 @@ void R_FixWiggle(sector_t *sector)
     }
 }
 
-static void R_DrawMaskedColumn(const rcolumn_t *column)
+static void R_BlastMaskedSegColumn(const rcolumn_t *column)
 {
     int i;
     int ceilingclip = mceilingclip[dc_x] + 1;
@@ -322,7 +322,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
             // draw the texture
-            R_DrawMaskedColumn(R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
+            R_BlastMaskedSegColumn(R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
     }

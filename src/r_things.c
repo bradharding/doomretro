@@ -435,9 +435,7 @@ static vissprite_t *R_NewVisSprite(fixed_t scale)
 }
 
 //
-// R_DrawMaskedSpriteColumn
-// Masked means: partly transparent, i.e. stored
-//  in posts/runs of opaque pixels.
+// R_BlastSpriteColumn
 //
 int     *mfloorclip;
 int     *mceilingclip;
@@ -446,7 +444,7 @@ fixed_t spryscale;
 int64_t sprtopscreen;
 int64_t shift;
 
-static void R_DrawMaskedSpriteColumn(column_t *column)
+static void R_BlastSpriteColumn(column_t *column)
 {
     byte        topdelta;
     int         ceilingclip = mceilingclip[dc_x] + 1;
@@ -478,7 +476,7 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
     }
 }
 
-static void R_DrawMaskedBloodSplatColumn(column_t *column)
+static void R_BlastBloodSplatColumn(column_t *column)
 {
     byte        topdelta;
     int         ceilingclip = mceilingclip[dc_x] + 1;
@@ -501,7 +499,7 @@ static void R_DrawMaskedBloodSplatColumn(column_t *column)
     }
 }
 
-static void R_DrawMaskedShadowColumn(column_t *column)
+static void R_BlastShadowColumn(column_t *column)
 {
     byte        topdelta;
     int         ceilingclip = mceilingclip[dc_x] + 1;
@@ -554,8 +552,7 @@ void R_DrawVisSprite(vissprite_t *vis)
             shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
             for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; ++dc_x, frac += xiscale)
-                R_DrawMaskedShadowColumn((column_t *)((byte *)patch
-                    + LONG(patch->columnofs[frac >> FRACBITS])));
+                R_BlastShadowColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
         }
     }
 
@@ -596,8 +593,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; ++dc_x, frac += xiscale)
-        R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
-            + LONG(patch->columnofs[frac >> FRACBITS])));
+        R_BlastSpriteColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
 }
 
 //
@@ -623,8 +619,7 @@ void R_DrawPVisSprite(vissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
-            + LONG(patch->columnofs[frac >> FRACBITS])));
+        R_BlastSpriteColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
 }
 
 void R_DrawBloodSplatVisSprite(vissprite_t *vis)
@@ -645,8 +640,7 @@ void R_DrawBloodSplatVisSprite(vissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_DrawMaskedBloodSplatColumn((column_t *)((byte *)patch
-            + LONG(patch->columnofs[frac >> FRACBITS])));
+        R_BlastBloodSplatColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
 }
 
 //
@@ -895,7 +889,6 @@ static void R_ProjectBloodSplat(mobj_t *thing)
 
     fixed_t             fx = thing->x;
     fixed_t             fy = thing->y;
-    fixed_t             fz;
 
     fixed_t             width;
 
@@ -942,9 +935,6 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    fz = thing->subsector->sector->interpfloorheight;
-    vis->gz = fz;
-    vis->gzt = fz + 1;
     vis->blood = thing->blood;
 
     if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
@@ -952,7 +942,7 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     else
         vis->colfunc = thing->colfunc;
 
-    vis->texturemid = fz + 1 - viewz;
+    vis->texturemid = thing->subsector->sector->interpfloorheight + 1 - viewz;
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
