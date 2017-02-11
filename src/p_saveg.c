@@ -1969,7 +1969,7 @@ void P_UnArchiveThinkers(void)
 
                 if (r_bloodsplats_total < r_bloodsplats_max)
                 {
-                    splat->subsector = R_PointInSubsector(splat->x, splat->y);
+                    splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
                     P_SetBloodSplatPosition(splat);
                     splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
                     ++r_bloodsplats_total;

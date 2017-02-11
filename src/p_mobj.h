@@ -430,7 +430,7 @@ typedef struct bloodsplat_s
     struct bloodsplat_s *snext;
     struct bloodsplat_s **sprev;
     int                 frame;
-    struct subsector_s  *subsector;
+    struct sector_s     *sector;
     int                 flags;
     int                 blood;
 

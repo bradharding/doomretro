@@ -334,7 +334,7 @@ void P_SetThingPosition(mobj_t *thing)
 //
 void P_SetBloodSplatPosition(bloodsplat_t *splat)
 {
-    bloodsplat_t        **link = &splat->subsector->sector->splatlist;
+    bloodsplat_t        **link = &splat->sector->splatlist;
     bloodsplat_t        *snext = *link;
 
     if ((splat->snext = snext))

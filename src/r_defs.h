@@ -88,7 +88,7 @@ typedef struct
 // The SECTORS record, at runtime.
 // Stores things/mobjs.
 //
-typedef struct
+typedef struct sector_s
 {
     fixed_t             floorheight;
     fixed_t             ceilingheight;

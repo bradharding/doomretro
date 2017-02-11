@@ -1243,8 +1243,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target)
 {
-    subsector_t *subsec = R_PointInSubsector(x, y);
-    sector_t    *sec = subsec->sector;
+    sector_t    *sec = R_PointInSubsector(x, y)->sector;
 
     if (!sec->isliquid && sec->floorheight <= maxheight && sec->floorpic != skyflatnum)
     {
@@ -1264,7 +1263,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 
         splat->x = x;
         splat->y = y;
-        splat->subsector = subsec;
+        splat->sector = sec;
         P_SetBloodSplatPosition(splat);
 
         if (++r_bloodsplats_total >= r_bloodsplats_max)

@@ -942,7 +942,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     else
         vis->colfunc = splat->colfunc;
 
-    vis->texturemid = splat->subsector->sector->interpfloorheight + 1 - viewz;
+    vis->texturemid = splat->sector->interpfloorheight + 1 - viewz;
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
