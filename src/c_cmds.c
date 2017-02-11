@@ -3363,8 +3363,12 @@ void C_VerifyResetAll(int key)
             }
             ++i;
         }
+
+#if defined(_WIN32)
         wad = "";
         M_SaveCVARs();
+#endif
+
         C_Output("All CVARs have been reset to their default values.");
     }
 }
