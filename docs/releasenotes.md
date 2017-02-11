@@ -43,6 +43,7 @@
 * The `vid_motionblur` CVAR now accepts a value between `0%` and `100%`, rather than just `on` or `off`. Its default is `0%`.
 * An `r_skycolor` CVAR has been implemented that allows the player to override the current map’s sky texture and use a solid color for the sky instead. It accepts a value between `0` and `255`, or `none` (the default).
 * The `wad` CVAR is now reset whenever `reset iwadfolder` or `resetall` is used in the console.
+* There is no longer any delay with the player’s face in the status bar updating upon loading a savegame or progressing to the next map.
 
 ---
 
