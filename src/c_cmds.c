@@ -3326,6 +3326,14 @@ static void reset_cmd_func2(char *cmd, char *parms)
             else
                 consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
                     consolecmds[i].defaultstring : EMPTYVALUE));
+
+#if defined(_WIN32)
+            if (M_StringCompare(parms, stringize(iwadfolder)))
+            {
+                wad = "";
+                M_SaveCVARs();
+            }
+#endif
             break;
         }
         ++i;
