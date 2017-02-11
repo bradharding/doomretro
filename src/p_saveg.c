@@ -1608,6 +1608,36 @@ static void saveg_write_button_t(button_t *str)
     saveg_write32(str->btimer);
 }
 
+static void P_UnArchiveBloodSplat(mobj_t *str)
+{
+    str->x = saveg_read32();
+    str->y = saveg_read32();
+    str->snext = (mobj_t *)saveg_readp();
+    str->sprev = (mobj_t **)saveg_readp();
+    str->sprite = (spritenum_t)saveg_read_enum();
+    str->frame = saveg_read32();
+    str->type = (mobjtype_t)saveg_read_enum();
+    str->flags = saveg_read32();
+    str->flags2 = saveg_read32();
+    str->blood = saveg_read32();
+}
+
+static void P_ArchiveBloodSplat(mobj_t *str)
+{
+    saveg_write8(tc_bloodsplat);
+    saveg_write_pad();
+    saveg_write32(str->x);
+    saveg_write32(str->y);
+    saveg_writep(str->snext);
+    saveg_writep(str->sprev);
+    saveg_write_enum(str->sprite);
+    saveg_write32(str->frame);
+    saveg_write_enum(str->type);
+    saveg_write32(str->flags);
+    saveg_write32(str->flags2);
+    saveg_write32(str->blood);
+}
+
 //
 // Write the header for a savegame
 //
@@ -1819,12 +1849,6 @@ void P_UnArchiveWorld(void)
 //
 // Thinkers
 //
-typedef enum
-{
-    tc_end,
-    tc_mobj,
-    tc_bloodsplat
-} thinkerclass_t;
 
 //
 // P_ArchiveThinkers
@@ -1848,11 +1872,7 @@ void P_ArchiveThinkers(void)
         mobj_t   *mo;
 
         for (mo = sectors[i].splatlist; mo; mo = mo->snext)
-        {
-            saveg_write8(tc_bloodsplat);
-            saveg_write_pad();
-            saveg_write_mobj_t(mo);
-        }
+            P_ArchiveBloodSplat(mo);
     }
 
     // add a terminating marker
@@ -1946,7 +1966,7 @@ void P_UnArchiveThinkers(void)
             case tc_bloodsplat:
                 saveg_read_pad();
                 mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
-                saveg_read_mobj_t(mobj);
+                P_UnArchiveBloodSplat(mobj);
 
                 if (r_bloodsplats_total < r_bloodsplats_max)
                 {

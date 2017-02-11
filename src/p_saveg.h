@@ -44,6 +44,13 @@
 #define SAVESTRINGPIXELWIDTH    186
 #define VERSIONSIZE             24
 
+typedef enum
+{
+    tc_end,
+    tc_mobj,
+    tc_bloodsplat
+} thinkerclass_t;
+
 // temporary filename to use while saving.
 char *P_TempSaveGameFile(void);
 
