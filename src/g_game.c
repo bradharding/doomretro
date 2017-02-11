@@ -559,11 +559,12 @@ void G_DoLoadLevel(void)
     {
         if (gamemode == commercial)
         {
-            skytexture = R_TextureNumForName("SKY3");
             if (gamemap < 12)
                 skytexture = R_TextureNumForName("SKY1");
             else if (gamemap < 21)
                 skytexture = R_TextureNumForName("SKY2");
+            else
+                skytexture = R_TextureNumForName("SKY3");
         }
         else
         {
