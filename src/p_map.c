@@ -1972,15 +1972,16 @@ void PIT_ChangeSector(mobj_t *thing)
 dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 {
     msecnode_t  *n;
-    mobj_t      *mobj;
 
     nofit = false;
     crushchange = crunch;
 
     if ((isliquidsector = sector->isliquid = isliquid[sector->floorpic]))
     {
-        for (mobj = sector->splatlist; mobj; mobj = mobj->snext)
-            P_UnsetBloodSplatPosition(mobj);
+        bloodsplat_t    *splat;
+
+        for (splat = sector->splatlist; splat; splat = splat->snext)
+            P_UnsetBloodSplatPosition(splat);
     }
     else
     {
@@ -1997,6 +1998,8 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
         for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
             if (!n->visited)                                        // unprocessed thing found
             {
+                mobj_t  *mobj;
+
                 n->visited = true;                                  // mark thing as processed
                 if ((mobj = n->m_thing) && !(mobj->flags & MF_NOBLOCKMAP))
                     PIT_ChangeSector(mobj);                         // process it

@@ -205,9 +205,9 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     dboolean (*trav)(intercept_t *));
 
 void P_UnsetThingPosition(mobj_t *thing);
-void P_UnsetBloodSplatPosition(mobj_t *splat);
+void P_UnsetBloodSplatPosition(bloodsplat_t *splat);
 void P_SetThingPosition(mobj_t *thing);
-void P_SetBloodSplatPosition(mobj_t *splat);
+void P_SetBloodSplatPosition(bloodsplat_t *splat);
 
 //
 // P_MAP

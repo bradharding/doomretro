@@ -117,7 +117,7 @@ typedef struct
     // list of mobjs in sector
     mobj_t              *thinglist;
 
-    mobj_t              *splatlist;
+    bloodsplat_t        *splatlist;
 
     // thinker_t for reversible actions
     void                *floordata;             // jff 2/22/98 make thinkers on

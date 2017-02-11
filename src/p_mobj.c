@@ -1248,29 +1248,24 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
 
     if (!sec->isliquid && sec->floorheight <= maxheight && sec->floorpic != skyflatnum)
     {
-        mobj_t  *newsplat = Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
+        bloodsplat_t  *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
 
-        newsplat->type = MT_BLOODSPLAT;
-        newsplat->sprite = SPR_BLD2;
-        newsplat->frame = sprites[SPR_BLD2].spriteframes[rand() & 7].lump[0];
+        splat->frame = sprites[SPR_BLD2].spriteframes[rand() & 7].lump[0];
 
-        newsplat->flags2 = (rand() & 1) * MF2_MIRRORED;
+        splat->flags = (rand() & 1) * BSF_MIRRORED;
         if (blood == FUZZYBLOOD)
         {
-            newsplat->flags = MF_FUZZ;
-            newsplat->colfunc = fuzzcolfunc;
+            splat->flags |= BSF_FUZZ;
+            splat->colfunc = fuzzcolfunc;
         }
         else
-        {
-            newsplat->flags = 0;
-            newsplat->colfunc = bloodsplatcolfunc;
-        }
-        newsplat->blood = blood;
+            splat->colfunc = bloodsplatcolfunc;
+        splat->blood = blood;
 
-        newsplat->x = x;
-        newsplat->y = y;
-        newsplat->subsector = subsec;
-        P_SetBloodSplatPosition(newsplat);
+        splat->x = x;
+        splat->y = y;
+        splat->subsector = subsec;
+        P_SetBloodSplatPosition(splat);
 
         if (++r_bloodsplats_total >= r_bloodsplats_max)
             P_BloodSplatSpawner = P_NullBloodSplatSpawner;

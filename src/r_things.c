@@ -874,7 +874,7 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colormap = vis->shadowcolormap;
 }
 
-static void R_ProjectBloodSplat(mobj_t *thing)
+static void R_ProjectBloodSplat(bloodsplat_t *splat)
 {
     fixed_t             tx;
 
@@ -887,8 +887,8 @@ static void R_ProjectBloodSplat(mobj_t *thing)
 
     vissprite_t         *vis;
 
-    fixed_t             fx = thing->x;
-    fixed_t             fy = thing->y;
+    fixed_t             fx = splat->x;
+    fixed_t             fy = splat->y;
 
     fixed_t             width;
 
@@ -912,7 +912,7 @@ static void R_ProjectBloodSplat(mobj_t *thing)
         return;
 
     // decide which patch to use for sprite relative to player
-    lump = thing->frame;
+    lump = splat->frame;
     width = spritewidth[lump];
 
     // calculate edges of the shape
@@ -935,14 +935,14 @@ static void R_ProjectBloodSplat(mobj_t *thing)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    vis->blood = thing->blood;
+    vis->blood = splat->blood;
 
-    if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
+    if ((splat->flags & BSF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
-        vis->colfunc = thing->colfunc;
+        vis->colfunc = splat->colfunc;
 
-    vis->texturemid = thing->subsector->sector->interpfloorheight + 1 - viewz;
+    vis->texturemid = splat->subsector->sector->interpfloorheight + 1 - viewz;
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
@@ -966,13 +966,14 @@ static void R_ProjectBloodSplat(mobj_t *thing)
 // killough 9/18/98: add lightlevel as parameter, fixing underwater lighting
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
-    mobj_t      *thing;
+    bloodsplat_t        *splat;
+    mobj_t              *thing;
 
     spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
         LIGHTLEVELS - 1)];
 
-    for (thing = sec->splatlist; thing; thing = thing->snext)
-        R_ProjectBloodSplat(thing);
+    for (splat = sec->splatlist; splat; splat = splat->snext)
+        R_ProjectBloodSplat(splat);
 
     drawshadows = (r_shadows && !fixedcolormap && sec->floorpic != skyflatnum);
 

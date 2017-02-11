@@ -301,6 +301,12 @@ typedef enum
     MF2_DONTDRAW                  = 0x20000000
 } mobjflag2_t;
 
+typedef enum
+{
+    BSF_MIRRORED                  = 0x00000001,
+    BSF_FUZZ                      = 0x00000002
+} bloodsplatflag_t;
+
 // Map Object definition.
 typedef struct mobj_s
 {
@@ -416,5 +422,19 @@ typedef struct mobj_s
 
     int                 id;
 } mobj_t;
+
+typedef struct bloodsplat_s
+{
+    fixed_t             x;
+    fixed_t             y;
+    struct bloodsplat_s *snext;
+    struct bloodsplat_s **sprev;
+    int                 frame;
+    struct subsector_s  *subsector;
+    int                 flags;
+    int                 blood;
+
+    void (*colfunc)(void);
+} bloodsplat_t;
 
 #endif

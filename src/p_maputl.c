@@ -248,10 +248,10 @@ void P_UnsetThingPosition(mobj_t *thing)
 //
 // P_UnsetBloodSplatPosition
 //
-void P_UnsetBloodSplatPosition(mobj_t *splat)
+void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
 {
-    mobj_t  **sprev = splat->sprev;
-    mobj_t  *snext = splat->snext;
+    bloodsplat_t        **sprev = splat->sprev;
+    bloodsplat_t        *snext = splat->snext;
 
     if ((*sprev = snext))
         snext->sprev = sprev;
@@ -332,10 +332,10 @@ void P_SetThingPosition(mobj_t *thing)
 //
 // P_SetBloodSplatPosition
 //
-void P_SetBloodSplatPosition(mobj_t *splat)
+void P_SetBloodSplatPosition(bloodsplat_t *splat)
 {
-    mobj_t      **link = &splat->subsector->sector->splatlist;
-    mobj_t      *snext = *link;
+    bloodsplat_t        **link = &splat->subsector->sector->splatlist;
+    bloodsplat_t        *snext = *link;
 
     if ((splat->snext = snext))
         snext->sprev = &splat->snext;

@@ -1608,21 +1608,18 @@ static void saveg_write_button_t(button_t *str)
     saveg_write32(str->btimer);
 }
 
-static void P_UnArchiveBloodSplat(mobj_t *str)
+static void P_UnArchiveBloodSplat(bloodsplat_t *str)
 {
     str->x = saveg_read32();
     str->y = saveg_read32();
-    str->snext = (mobj_t *)saveg_readp();
-    str->sprev = (mobj_t **)saveg_readp();
-    str->sprite = (spritenum_t)saveg_read_enum();
+    str->snext = (bloodsplat_t *)saveg_readp();
+    str->sprev = (bloodsplat_t **)saveg_readp();
     str->frame = saveg_read32();
-    str->type = (mobjtype_t)saveg_read_enum();
     str->flags = saveg_read32();
-    str->flags2 = saveg_read32();
     str->blood = saveg_read32();
 }
 
-static void P_ArchiveBloodSplat(mobj_t *str)
+static void P_ArchiveBloodSplat(bloodsplat_t *str)
 {
     saveg_write8(tc_bloodsplat);
     saveg_write_pad();
@@ -1630,11 +1627,8 @@ static void P_ArchiveBloodSplat(mobj_t *str)
     saveg_write32(str->y);
     saveg_writep(str->snext);
     saveg_writep(str->sprev);
-    saveg_write_enum(str->sprite);
     saveg_write32(str->frame);
-    saveg_write_enum(str->type);
     saveg_write32(str->flags);
-    saveg_write32(str->flags2);
     saveg_write32(str->blood);
 }
 
@@ -1869,10 +1863,10 @@ void P_ArchiveThinkers(void)
     // save off the bloodsplats
     for (i = 0; i < numsectors; ++i)
     {
-        mobj_t   *mo;
+        bloodsplat_t    *splat;
 
-        for (mo = sectors[i].splatlist; mo; mo = mo->snext)
-            P_ArchiveBloodSplat(mo);
+        for (splat = sectors[i].splatlist; splat; splat = splat->snext)
+            P_ArchiveBloodSplat(splat);
     }
 
     // add a terminating marker
@@ -1922,7 +1916,7 @@ void P_UnArchiveThinkers(void)
     // remove the remaining bloodsplats
     for (i = 0; i < numsectors; ++i)
     {
-        mobj_t   *splat = sectors[i].splatlist;
+        bloodsplat_t    *splat = sectors[i].splatlist;
 
         while (splat)
         {
@@ -1936,7 +1930,6 @@ void P_UnArchiveThinkers(void)
     while (1)
     {
         byte    tclass = saveg_read8();
-        mobj_t  *mobj;
 
         switch (tclass)
         {
@@ -1944,8 +1937,11 @@ void P_UnArchiveThinkers(void)
                 return;         // end of list
 
             case tc_mobj:
+            {
+                mobj_t  *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+
                 saveg_read_mobj_t(mobj);
 
                 P_SetThingPosition(mobj);
@@ -1962,29 +1958,24 @@ void P_UnArchiveThinkers(void)
 
                 P_AddThinker(&mobj->thinker);
                 break;
+            }
 
             case tc_bloodsplat:
+            {
+                bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
-                P_UnArchiveBloodSplat(mobj);
+                P_UnArchiveBloodSplat(splat);
 
                 if (r_bloodsplats_total < r_bloodsplats_max)
                 {
-                    mobj->subsector = R_PointInSubsector(mobj->x, mobj->y);
-                    P_SetBloodSplatPosition(mobj);
-                    mobj->info = &mobjinfo[mobj->type];
-
-                    if (mobj->blood == FUZZYBLOOD)
-                    {
-                        mobj->flags = MF_FUZZ;
-                        mobj->colfunc = fuzzcolfunc;
-                    }
-                    else
-                        mobj->colfunc = bloodsplatcolfunc;
-
+                    splat->subsector = R_PointInSubsector(splat->x, splat->y);
+                    P_SetBloodSplatPosition(splat);
+                    splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
                     ++r_bloodsplats_total;
                 }
                 break;
+            }
 
             default:
                 I_Error("P_UnArchiveThinkers: Unknown tclass %i in savegame", tclass);

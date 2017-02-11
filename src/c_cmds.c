@@ -4535,62 +4535,6 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
 }
 
 //
-// r_translucency CVAR
-//
-static void r_translucency_cvar_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if ((value == 0 || value == 1) && value != r_translucency)
-        {
-            int i;
-
-            r_translucency = !!value;
-            M_SaveCVARs();
-            HU_SetTranslucency();
-            R_InitColumnFunctions();
-
-            for (i = 0; i < numsectors; ++i)
-            {
-                mobj_t   *mo = sectors[i].thinglist;
-
-                while (mo)
-                {
-                    mo->colfunc = mo->info->colfunc;
-                    if (r_textures)
-                        mo->shadowcolfunc = (r_translucency ? ((mo->flags & MF_FUZZ) ?
-                            R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
-                    else
-                        mo->shadowcolfunc = R_DrawColorColumn;
-                    mo = mo->snext;
-                }
-
-                mo = sectors[i].splatlist;
-                while (mo)
-                {
-                    mo->colfunc = bloodsplatcolfunc;
-                    mo = mo->snext;
-                }
-
-            }
-        }
-    }
-    else
-    {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_translucency))].description));
-        if (r_translucency == r_translucency_default)
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS));
-        else
-            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS),
-                C_LookupAliasFromValue(r_translucency_default, BOOLVALUEALIAS));
-    }
-}
-
-//
 // r_skycolor CVAR
 //
 static void r_skycolor_cvar_func2(char *cmd, char *parms)
@@ -4630,7 +4574,8 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
 
             for (i = 0; i < numsectors; ++i)
             {
-                mobj_t   *mo = sectors[i].thinglist;
+                mobj_t          *mo = sectors[i].thinglist;
+                bloodsplat_t    *splat = sectors[i].splatlist;
 
                 while (mo)
                 {
@@ -4643,11 +4588,10 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
                     mo = mo->snext;
                 }
 
-                mo = sectors[i].splatlist;
-                while (mo)
+                while (splat)
                 {
-                    mo->colfunc = bloodsplatcolfunc;
-                    mo = mo->snext;
+                    splat->colfunc = bloodsplatcolfunc;
+                    splat = splat->snext;
                 }
             }
         }
@@ -4662,6 +4606,61 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS),
                 C_LookupAliasFromValue(r_textures_default, BOOLVALUEALIAS));
+    }
+}
+
+//
+// r_translucency CVAR
+//
+static void r_translucency_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_translucency)
+        {
+            int i;
+
+            r_translucency = !!value;
+            M_SaveCVARs();
+            HU_SetTranslucency();
+            R_InitColumnFunctions();
+
+            for (i = 0; i < numsectors; ++i)
+            {
+                mobj_t          *mo = sectors[i].thinglist;
+                bloodsplat_t    *splat = sectors[i].splatlist;
+
+                while (mo)
+                {
+                    mo->colfunc = mo->info->colfunc;
+                    if (r_textures)
+                        mo->shadowcolfunc = (r_translucency ? ((mo->flags & MF_FUZZ) ?
+                            R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
+                    else
+                        mo->shadowcolfunc = R_DrawColorColumn;
+                    mo = mo->snext;
+                }
+
+                while (splat)
+                {
+                    splat->colfunc = bloodsplatcolfunc;
+                    splat = splat->snext;
+                }
+            }
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_translucency))].description));
+        if (r_translucency == r_translucency_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS),
+                C_LookupAliasFromValue(r_translucency_default, BOOLVALUEALIAS));
     }
 }
 
