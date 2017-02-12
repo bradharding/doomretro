@@ -937,14 +937,9 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     vis->gx = fx;
     vis->gy = fy;
     vis->blood = splat->blood;
-
-    if ((flags & BSF_FUZZ) && pausesprites && r_textures)
-        vis->colfunc = R_DrawPausedFuzzColumn;
-    else
-        vis->colfunc = splat->colfunc;
-
+    vis->colfunc = ((flags & BSF_FUZZ) && pausesprites && r_textures ?
+        R_DrawPausedFuzzColumn : splat->colfunc);
     vis->texturemid = splat->sector->interpfloorheight + 1 - viewz;
-
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
 

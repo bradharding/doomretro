@@ -316,6 +316,27 @@ static void saveg_write_mobj_t(mobj_t *str)
 }
 
 //
+// bloodsplat_t
+//
+static void saveg_read_bloodsplat_t(bloodsplat_t *str)
+{
+    str->x = saveg_read32();
+    str->y = saveg_read32();
+    str->frame = saveg_read32();
+    str->flags = saveg_read32();
+    str->blood = saveg_read32();
+}
+
+static void saveg_write_bloodsplat_t(bloodsplat_t *str)
+{
+    saveg_write32(str->x);
+    saveg_write32(str->y);
+    saveg_write32(str->frame);
+    saveg_write32(str->flags);
+    saveg_write32(str->blood);
+}
+
+//
 // ticcmd_t
 //
 static void saveg_read_ticcmd_t(ticcmd_t *str)
@@ -827,26 +848,6 @@ static void saveg_write_button_t(button_t *str)
     saveg_write32(str->btimer);
 }
 
-static void P_UnArchiveBloodSplat(bloodsplat_t *str)
-{
-    str->x = saveg_read32();
-    str->y = saveg_read32();
-    str->frame = saveg_read32();
-    str->flags = saveg_read32();
-    str->blood = saveg_read32();
-}
-
-static void P_ArchiveBloodSplat(bloodsplat_t *str)
-{
-    saveg_write8(tc_bloodsplat);
-    saveg_write_pad();
-    saveg_write32(str->x);
-    saveg_write32(str->y);
-    saveg_write32(str->frame);
-    saveg_write32(str->flags);
-    saveg_write32(str->blood);
-}
-
 //
 // Write the header for a savegame
 //
@@ -1080,7 +1081,11 @@ void P_ArchiveThinkers(void)
         bloodsplat_t    *splat;
 
         for (splat = sectors[i].splatlist; splat; splat = splat->snext)
-            P_ArchiveBloodSplat(splat);
+        {
+            saveg_write8(tc_bloodsplat);
+            saveg_write_pad();
+            saveg_write_bloodsplat_t(splat);
+        }
     }
 
     // add a terminating marker
@@ -1178,7 +1183,7 @@ void P_UnArchiveThinkers(void)
                 bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
 
                 saveg_read_pad();
-                P_UnArchiveBloodSplat(splat);
+                saveg_read_bloodsplat_t(splat);
 
                 if (r_bloodsplats_total < r_bloodsplats_max)
                 {
@@ -1247,23 +1252,6 @@ void P_RestoreTargets(void)
 //
 // P_ArchiveSpecials
 //
-typedef enum
-{
-    tc_ceiling,
-    tc_door,
-    tc_floor,
-    tc_plat,
-    tc_flash,
-    tc_strobe,
-    tc_glow,
-    tc_elevator,        // jff 2/22/98 new elevator type thinker
-    tc_scroll,          // killough 3/7/98: new scroll effect thinker
-    tc_pusher,          // phares 3/22/98:  new push/pull effect thinker
-    tc_fireflicker,     // killough 10/4/98
-    tc_button,
-    tc_endspecials
-} specials_t;
-
 void P_ArchiveSpecials(void)
 {
     thinker_t   *th;

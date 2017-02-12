@@ -551,8 +551,8 @@ void R_InitColormaps(void)
         colormaps[0] = W_CacheLumpName("COLORMAP", PU_STATIC);
     }
     colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wad_file;
-    C_Output("Using %i colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
-        numcolormaps, (numcolormaps > 1 ? "s" : ""),
+    C_Output("Using %s colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
+        (numcolormaps == 1 ? "the" : commify(numcolormaps)), (numcolormaps == 1 ? "" : "s"),
         (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
 
     // [BH] There's a typo in dcolors.c, the source code of the utility Id

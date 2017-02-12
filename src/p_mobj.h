@@ -126,7 +126,7 @@
 //
 // Misc. mobj flags
 //
-typedef enum
+typedef enum mobjflag_e
 {
     // Call P_SpecialThing when touched.
     MF_SPECIAL          = 0x00000001,
@@ -220,7 +220,7 @@ typedef enum
     MF_TRANSLUCENT      = 0x80000000    // phares
 } mobjflag_t;
 
-typedef enum
+typedef enum mobjflag2_e
 {
     // Apply additive translucency
     MF2_TRANSLUCENT               = 0x00000001,
@@ -301,7 +301,7 @@ typedef enum
     MF2_DONTDRAW                  = 0x20000000
 } mobjflag2_t;
 
-typedef enum
+typedef enum bloodsplatflag_e
 {
     BSF_MIRRORED                  = 0x00000001,
     BSF_FUZZ                      = 0x00000002

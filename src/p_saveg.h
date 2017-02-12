@@ -44,12 +44,29 @@
 #define SAVESTRINGPIXELWIDTH    186
 #define VERSIONSIZE             24
 
-typedef enum
+typedef enum thinkerclass_e
 {
     tc_end,
     tc_mobj,
     tc_bloodsplat
 } thinkerclass_t;
+
+typedef enum specials_e
+{
+    tc_ceiling,
+    tc_door,
+    tc_floor,
+    tc_plat,
+    tc_flash,
+    tc_strobe,
+    tc_glow,
+    tc_elevator,        // jff 2/22/98 new elevator type thinker
+    tc_scroll,          // killough 3/7/98: new scroll effect thinker
+    tc_pusher,          // phares 3/22/98:  new push/pull effect thinker
+    tc_fireflicker,     // killough 10/4/98
+    tc_button,
+    tc_endspecials
+} specials_t;
 
 // temporary filename to use while saving.
 char *P_TempSaveGameFile(void);
