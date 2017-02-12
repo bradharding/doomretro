@@ -831,8 +831,6 @@ static void P_UnArchiveBloodSplat(bloodsplat_t *str)
 {
     str->x = saveg_read32();
     str->y = saveg_read32();
-    str->snext = (bloodsplat_t *)saveg_readp();
-    str->sprev = (bloodsplat_t **)saveg_readp();
     str->frame = saveg_read32();
     str->flags = saveg_read32();
     str->blood = saveg_read32();
@@ -844,8 +842,6 @@ static void P_ArchiveBloodSplat(bloodsplat_t *str)
     saveg_write_pad();
     saveg_write32(str->x);
     saveg_write32(str->y);
-    saveg_writep(str->snext);
-    saveg_writep(str->sprev);
     saveg_write32(str->frame);
     saveg_write32(str->flags);
     saveg_write32(str->blood);
