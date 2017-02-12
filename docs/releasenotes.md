@@ -1,8 +1,8 @@
 ### DOOM Retro v2.4
 
-* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly in the rendering of shadows.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly when rendering blood splats and shadows.
 * Improvements have been made to *DOOM Retro’s* renderer.
-* Optimizations have been made to the format of savegames and therefore those created using previous versions of *DOOM Retro* are not compatible with this version.
+* Optimizations have been made to the size of savegames and therefore those created using previous versions of *DOOM Retro* are not compatible with this version.
 * Maps built using a new node/blockmap builder called [*ZokumBSP*](http://doom2.net/zokum/zokumbsp/) are now supported.
 * The filename of a WAD may now be entered manually in the WAD launcher without its “.WAD” extension.
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.

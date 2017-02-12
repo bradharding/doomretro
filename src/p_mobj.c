@@ -1269,8 +1269,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         if (++r_bloodsplats_total >= r_bloodsplats_max)
             P_BloodSplatSpawner = P_NullBloodSplatSpawner;
 
-        if (target)
-            target->bloodsplats = MAX(0, target->bloodsplats - 1);
+        if (target && target->bloodsplats)
+            target->bloodsplats--;
     }
 }
 
