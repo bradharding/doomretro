@@ -257,6 +257,8 @@ void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
         snext->sprev = sprev;
 
     --r_bloodsplats_total;
+
+    Z_Free(splat);
 }
 
 //
