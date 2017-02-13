@@ -1194,16 +1194,14 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     for (i = (damage >> 2) + 1; i; i--)
     {
         mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
-        state_t     *st;
+        state_t     *st = &states[info->spawnstate];
 
         th->type = color;
         th->info = info;
         th->x = x;
         th->y = y;
         th->flags = info->flags;
-        th->flags2 = (info->flags2 | (rand() & 1) * MF2_MIRRORED);
-
-        st = &states[info->spawnstate];
+        th->flags2 = info->flags2 | ((rand() & 1) * MF2_MIRRORED);
 
         th->state = st;
         th->tics = MAX(1, st->tics - (M_Random() & 3));
@@ -1216,8 +1214,8 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         P_SetThingPosition(th);
 
-        th->dropoffz = th->floorz = th->subsector->sector->floorheight;
-        th->ceilingz = th->subsector->sector->ceilingheight;
+        th->dropoffz = th->floorz = th->subsector->sector->interpfloorheight;
+        th->ceilingz = th->subsector->sector->interpceilingheight;
 
         th->z = BETWEEN(minz, z + ((M_Random() - M_Random()) << 10), maxz);
 
@@ -1229,7 +1227,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->momz = FRACUNIT * (2 + i / 6);
 
         th->angle = angle;
-        angle += ((M_Random() - M_Random()) * 0xB60B60);
+        angle += (M_Random() - M_Random()) * 0xB60B60;
 
         if (damage <= 12 && th->state->nextstate)
             P_SetMobjState(th, th->state->nextstate);
