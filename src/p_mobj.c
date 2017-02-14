@@ -941,6 +941,8 @@ void P_SpawnPlayer(const mapthing_t *mthing)
     p->momx = 0;
     p->momy = 0;
 
+    p->mo->flags2 |= MF2_DONTDRAW;
+
     // setup gun psprite
     P_SetupPsprites(p);
 

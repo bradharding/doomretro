@@ -785,14 +785,7 @@ void R_RenderPlayerView(player_t *player)
                 ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? 176 : 0));
 
         // Make displayed player invisible locally
-        if (explosiontics && gamestate == GS_LEVEL)
-        {
-            player->mo->flags2 |= MF2_DONTDRAW;
-            R_RenderBSPNode(numnodes - 1);      // head node is the last node output
-            player->mo->flags2 &= ~MF2_DONTDRAW;
-        }
-        else
-            R_RenderBSPNode(numnodes - 1);      // head node is the last node output
+        R_RenderBSPNode(numnodes - 1);  // head node is the last node output
 
         NetUpdate();
 
