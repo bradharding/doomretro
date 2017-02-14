@@ -1214,22 +1214,18 @@ static void R_DrawBloodSplatSprite(vissprite_t *spr)
     int         cliptop[SCREENWIDTH];
     int         x1 = spr->x1;
     int         x2 = spr->x2;
-    int         x = x2 - x1 + 1;
-    int         topclip = 0;
-    int         botclip = viewheight;
-    int         *clip1 = clipbot + x1;
-    int         *clip2 = cliptop + x1;
+    int         i;
 
     // [RH] Quickly reject sprites with bad x ranges.
     if (x1 >= x2)
         return;
 
     // initialize the clipping arrays
-    do
+    for (i = x1; i <= x2; i++)
     {
-        *clip1++ = botclip;
-        *clip2++ = topclip;
-    } while (--x);
+        cliptop[i] = 0;
+        clipbot[i] = viewheight;
+    }
 
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale
@@ -1255,13 +1251,13 @@ static void R_DrawBloodSplatSprite(vissprite_t *spr)
         // clip this piece of the sprite
         // killough 3/27/98: optimized and made much shorter
         if (silhouette & SIL_BOTTOM)
-            for (x = r1; x <= r2; x++)
-                if (clipbot[x] > ds->sprbottomclip[x])
-                    clipbot[x] = ds->sprbottomclip[x];
+            for (i = r1; i <= r2; i++)
+                if (clipbot[i] > ds->sprbottomclip[i])
+                    clipbot[i] = ds->sprbottomclip[i];
         if (silhouette & SIL_TOP)
-            for (x = r1; x <= r2; x++)
-                if (cliptop[x] < ds->sprtopclip[x])
-                    cliptop[x] = ds->sprtopclip[x];
+            for (i = r1; i <= r2; i++)
+                if (cliptop[i] < ds->sprtopclip[i])
+                    cliptop[i] = ds->sprtopclip[i];
     }
 
     // all clipping has been performed, so draw the sprite
@@ -1277,22 +1273,18 @@ static void R_DrawSprite(vissprite_t *spr)
     int         cliptop[SCREENWIDTH];
     int         x1 = spr->x1;
     int         x2 = spr->x2;
-    int         x = x2 - x1 + 1;
-    int         topclip = 0;
-    int         botclip = viewheight;
-    int         *clip1 = clipbot + x1;
-    int         *clip2 = cliptop + x1;
+    int         i;
 
     // [RH] Quickly reject sprites with bad x ranges.
     if (x1 >= x2)
         return;
 
     // initialize the clipping arrays
-    do
+    for (i = x1; i <= x2; i++)
     {
-        *clip1++ = botclip;
-        *clip2++ = topclip;
-    } while (--x);
+        cliptop[i] = 0;
+        clipbot[i] = viewheight;
+    }
 
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
@@ -1324,13 +1316,13 @@ static void R_DrawSprite(vissprite_t *spr)
         // clip this piece of the sprite
         // killough 3/27/98: optimized and made much shorter
         if (silhouette & SIL_BOTTOM)
-            for (x = r1; x <= r2; x++)
-                if (clipbot[x] > ds->sprbottomclip[x])
-                    clipbot[x] = ds->sprbottomclip[x];
+            for (i = r1; i <= r2; i++)
+                if (clipbot[i] > ds->sprbottomclip[i])
+                    clipbot[i] = ds->sprbottomclip[i];
         if (silhouette & SIL_TOP)
-            for (x = r1; x <= r2; x++)
-                if (cliptop[x] < ds->sprtopclip[x])
-                    cliptop[x] = ds->sprtopclip[x];
+            for (i = r1; i <= r2; i++)
+                if (cliptop[i] < ds->sprtopclip[i])
+                    cliptop[i] = ds->sprtopclip[i];
     }
 
     // killough 3/27/98:
@@ -1349,15 +1341,15 @@ static void R_DrawSprite(vissprite_t *spr)
         {
             if (mh <= 0 || (phs != -1 && viewz > sectors[phs].interpfloorheight))
             {                          // clip bottom
-                for (x = x1; x <= x2; x++)
-                    if (h < clipbot[x])
-                        clipbot[x] = h;
+                for (i = x1; i <= x2; i++)
+                    if (h < clipbot[i])
+                        clipbot[i] = h;
             }
             else                        // clip top
                 if (phs != -1 && viewz <= sectors[phs].interpfloorheight)       // killough 11/98
-                    for (x = x1; x <= x2; x++)
-                        if (h > cliptop[x])
-                            cliptop[x] = h;
+                    for (i = x1; i <= x2; i++)
+                        if (h > cliptop[i])
+                            cliptop[i] = h;
         }
 
         if ((mh = sectors[spr->heightsec].interpceilingheight) < spr->gzt
@@ -1366,14 +1358,14 @@ static void R_DrawSprite(vissprite_t *spr)
         {
             if (phs != -1 && viewz >= sectors[phs].interpceilingheight)
             {                         // clip bottom
-                for (x = x1; x <= x2; x++)
-                    if (h < clipbot[x])
-                        clipbot[x] = h;
+                for (i = x1; i <= x2; i++)
+                    if (h < clipbot[i])
+                        clipbot[i] = h;
             }
             else                       // clip top
-                for (x = x1; x <= x2; x++)
-                    if (h > cliptop[x])
-                        cliptop[x] = h;
+                for (i = x1; i <= x2; i++)
+                    if (h > cliptop[i])
+                        cliptop[i] = h;
         }
     }
 
