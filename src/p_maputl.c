@@ -258,7 +258,7 @@ void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
 
     --r_bloodsplats_total;
 
-    Z_Free(splat);
+    free(splat);
 }
 
 //

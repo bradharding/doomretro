@@ -43,6 +43,7 @@
 
 // Silhouette, needed for clipping Segs (mainly)
 // and sprites representing things.
+#define SIL_NONE        0
 #define SIL_BOTTOM      1
 #define SIL_TOP         2
 #define SIL_BOTH        3
