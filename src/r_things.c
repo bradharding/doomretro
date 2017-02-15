@@ -668,9 +668,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     int                 heightsec;
 
-    int                 flags = thing->flags;
     int                 flags2 = thing->flags2;
-    int                 frame = thing->frame;
+    int                 frame;
 
     // transform the origin point
     fixed_t             tr_x;
@@ -693,7 +692,7 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             offset;
     fixed_t             topoffset;
 
-    if ((flags2 & MF2_DONTDRAW) && thing->player && thing->player->mo == thing)
+    if (flags2 & MF2_DONTDRAW)
         return;
 
     // [AM] Interpolate between current and last position, if prudent.
@@ -731,6 +730,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     // decide which patch to use for sprite relative to player
     sprdef = &sprites[thing->sprite];
+    frame = thing->frame;
     sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
 
     if (sprframe->rotate)
@@ -822,7 +822,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
-    if ((flags & MF_FUZZ) && pausesprites && r_textures)
+    if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = thing->colfunc;
@@ -887,7 +887,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
 
     vissprite_t         *vis;
 
-    int                 flags = splat->flags;
+    int                 flags;
     fixed_t             fx = splat->x;
     fixed_t             fy = splat->y;
 
@@ -937,6 +937,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     vis->gx = fx;
     vis->gy = fy;
     vis->blood = splat->blood;
+    flags = splat->flags;
     vis->colfunc = ((flags & BSF_FUZZ) && pausesprites && r_textures ?
         R_DrawPausedFuzzColumn : splat->colfunc);
     vis->texturemid = splat->sector->interpfloorheight - viewz;

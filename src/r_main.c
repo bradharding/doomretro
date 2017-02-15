@@ -670,6 +670,7 @@ void R_SetupFrame(player_t *player)
     mobj_t      *mo = player->mo;
 
     viewplayer = player;
+    viewplayer->mo->flags2 |= MF2_DONTDRAW;
 
     // [AM] Interpolate the player camera if the feature is enabled.
 
