@@ -4418,7 +4418,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
     {
         float   value = FLT_MIN;
 
-        if (M_StringCompare(parms, "off"))
+        if (M_StringCompare(parms, "off") || M_StringCompare(parms, "false"))
             value = 1.0f;
         else
             sscanf(parms, "%10f", &value);
@@ -4834,9 +4834,11 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
 {
     int vid_capfps_old = vid_capfps;
 
-    if (M_StringCompare(parms, "on"))
+    if (M_StringCompare(parms, "on") || M_StringCompare(parms, "true")
+        || M_StringCompare(parms, "1"))
         vid_capfps = TICRATE;
-    else if (M_StringCompare(parms, "off"))
+    else if (M_StringCompare(parms, "off") || M_StringCompare(parms, "false")
+        || M_StringCompare(parms, "0"))
         vid_capfps = 0;
     else
         int_cvars_func2(cmd, parms);
