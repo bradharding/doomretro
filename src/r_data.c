@@ -491,7 +491,7 @@ void R_InitSpriteLumps(void)
     }
     else if (hacx)
     {
-        mobjinfo[MT_HEAD].flags2 |= MF2_DONOTMAP;
+        mobjinfo[MT_HEAD].flags2 |= MF2_DONTMAP;
         mobjinfo[MT_INV].flags2 &= ~MF2_TRANSLUCENT_33;
         mobjinfo[MT_INS].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP);
         mobjinfo[MT_MISC14].flags2 &= ~(MF2_FLOATBOB | MF2_NOFOOTCLIP);

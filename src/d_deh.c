@@ -1567,7 +1567,7 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
     { "FEETARECLIPPED",            MF2_FEETARECLIPPED            },
     { "CASTSHADOW",                MF2_CASTSHADOW                },
     { "BLOOD",                     MF2_BLOOD                     },
-    { "DONOTMAP",                  MF2_DONOTMAP                  },
+    { "DONTMAP",                   MF2_DONTMAP                   },
     { "SMOKETRAIL",                MF2_SMOKETRAIL                },
     { "CRUSHABLE",                 MF2_CRUSHABLE                 },
     { "MASSACRE",                  MF2_MASSACRE                  },

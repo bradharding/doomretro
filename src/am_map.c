@@ -1819,7 +1819,7 @@ static void AM_drawThings(void)
                     continue;
                 }
 
-                if (!(thing->flags2 & MF2_DONOTMAP))
+                if (!(thing->flags2 & MF2_DONTMAP))
                 {
                     mpoint_t    point;
                     int         fx;
