@@ -73,6 +73,7 @@
 #define MCMD_SECRETNEXT         8
 #define MCMD_SKY1               9
 #define MCMD_TITLEPATCH         10
+#define MCMD_NOBRIGHTMAP        11
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -178,6 +179,7 @@ static char *mapcmdnames[] =
     "SECRETNEXT",
     "SKY1",
     "TITLEPATCH",
+    "NOBRIGHTMAP",
     NULL
 };
 
@@ -192,7 +194,8 @@ static int mapcmdids[] =
     MCMD_PISTOLSTART,
     MCMD_SECRETNEXT,
     MCMD_SKY1,
-    MCMD_TITLEPATCH
+    MCMD_TITLEPATCH,
+    MCMD_NOBRIGHTMAP
 };
 
 dboolean        canmodify;
@@ -2508,6 +2511,18 @@ static void InitMapInfo(void)
                         SC_MustGetString();
                         info->titlepatch = W_CheckNumForName(sc_String);
                         break;
+
+                    case MCMD_NOBRIGHTMAP:
+                    {
+                        int     lump;
+
+                        SC_MustGetString();
+                        if ((lump = W_CheckNumForName(sc_String)) >= 0)
+                            for (i = 0; i < numsegs; i++)
+                                if (segs[i].sidedef->midtexture == lump)
+                                    segs[i].linedef->flags |= ML_NOBRIGHTMAP;
+                        break;
+                    }
                 }
         }
         mapmax = MAX(map, mapmax);

@@ -339,7 +339,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 void R_RenderSegLoop(void)
 {
     fixed_t     texturecolumn = 0;
-    dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]);
+    dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]
+                    && !(curline->linedef->flags & ML_NOBRIGHTMAP));
 
     for (; rw_x < rw_stopx; ++rw_x)
     {
