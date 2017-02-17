@@ -432,6 +432,7 @@
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\DRCOMPAT" />
+    <None Include="..\res\VANILLA" />
     <None Include="..\res\VERSION" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.osx" />

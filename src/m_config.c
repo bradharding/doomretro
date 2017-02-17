@@ -196,6 +196,7 @@ extern int              weaponbob;
 
 extern char             *packageconfig;
 extern dboolean         returntowidescreen;
+extern dboolean         vanilla;
 
 #define CONFIG_VARIABLE_INT(name, set) \
     { #name,          &name, DEFAULT_INT,           set          }
@@ -411,7 +412,7 @@ void M_SaveCVARs(void)
     int         numaliases = 0;
     FILE        *file;
 
-    if (!cvarsloaded)
+    if (!cvarsloaded || vanilla)
         return;
 
     if (!(file = fopen(packageconfig, "w")))

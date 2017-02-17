@@ -349,6 +349,8 @@ extern char     *s_STSTR_FON;
 extern char     *s_STSTR_FOFF;
 extern char     *s_STSTR_RHON;
 extern char     *s_STSTR_RHOFF;
+extern char     *s_STSTR_VMON;
+extern char     *s_STSTR_VMOFF;
 
 extern char     *s_E1TEXT;
 extern char     *s_E2TEXT;

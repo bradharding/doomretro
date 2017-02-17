@@ -61,6 +61,7 @@
 #include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
+#include "sc_man.h"
 #include "sounds.h"
 #include "st_stuff.h"
 #include "v_video.h"
@@ -95,6 +96,8 @@ alias_t                 aliases[MAXALIASES];
 int                     ammo;
 int                     armor;
 int                     health;
+
+dboolean                vanilla = false;
 
 char                    *version = version_default;
 
@@ -249,6 +252,7 @@ extern char             *wad;
 #endif
 extern dboolean         weaponbob;
 
+extern char             *packageconfig;
 extern int              st_palette;
 
 control_t controls[] =
@@ -397,6 +401,7 @@ static void spawn_cmd_func2(char *, char *);
 static void teleport_cmd_func2(char *, char *);
 static void thinglist_cmd_func2(char *, char *);
 static void unbind_cmd_func2(char *, char *);
+static void vanilla_cmd_func2(char *, char *);
 
 static dboolean bool_cvars_func1(char *, char *);
 static void bool_cvars_func2(char *, char *);
@@ -796,6 +801,8 @@ consolecmd_t consolecmds[] =
         "Unbinds the action from a <i>control</i>."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
         "The units used in the <b>mapstats</b> and <b>playerstats</b> CCMDs\n(<b>imperial</b> or <b>metric</b>)."),
+    CMD(vanilla, "", null_func1, vanilla_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
+        "Toggles vanilla mode."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
         "<i><b>"PACKAGE_NAME"'s</b></i> version."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
@@ -3722,6 +3729,46 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 
         C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, mobj->info->name1,
             mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+    }
+}
+
+//
+// vanilla CCMD
+//
+static void vanilla_cmd_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if (value == 0)
+            vanilla = false;
+        else if (value == 1)
+            vanilla = true;
+    }
+    else
+        vanilla = !vanilla;
+
+    if (vanilla)
+    {
+        SC_Open("VANILLA");
+        while (SC_GetString())
+        {
+            char *cvar = strdup(sc_String);
+
+            if (SC_GetString())
+                C_ValidateInput(M_StringJoin(cvar, " ", sc_String, NULL));
+        }
+
+        HU_PlayerMessage(s_STSTR_VMON, false, false);
+        C_HideConsole();
+    }
+    else
+    {
+        M_LoadCVARs(packageconfig);
+
+        HU_PlayerMessage(s_STSTR_VMOFF, false, false);
+        C_HideConsole();
     }
 }
 
