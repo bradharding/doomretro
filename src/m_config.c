@@ -1024,5 +1024,7 @@ void M_LoadCVARs(char *filename)
     fclose(file);
 
     C_Output("Loaded CVARs from <b>%s</b>.", filename);
-    M_CheckCVARs();
+
+    if (!unvanilla)
+        M_CheckCVARs();
 }
