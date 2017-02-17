@@ -21,7 +21,7 @@ facebackcolor 5
 messages on
 movebob 100%
 playername "you"
-r_blood none
+r_blood red
 r_bloodsplats_max 0
 r_brightmaps off
 r_corpses_color off
