@@ -400,8 +400,6 @@ static void R_AddLine(seg_t *line)
     int                 x2;
     angle_t             angle1;
     angle_t             angle2;
-    angle_t             span;
-    angle_t             tspan;
     static sector_t     tempsec;        // killough 3/8/98: ceiling/water hack
 
     curline = line;
@@ -409,39 +407,32 @@ static void R_AddLine(seg_t *line)
     angle1 = R_PointToAngleEx(line->v1->x, line->v1->y);
     angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
 
-    // Clip to view edges.
-    span = angle1 - angle2;
-
     // Back side? I.e. backface culling?
-    if (span >= ANG180)
+    if (angle1 - angle2 >= ANG180)
         return;
 
     // Global angle needed by segcalc.
     angle1 -= viewangle;
     angle2 -= viewangle;
 
-    tspan = angle1 + clipangle;
-    if (tspan > 2 * clipangle)
+    if ((signed int)angle1 < (signed int)angle2)
     {
-        tspan -= 2 * clipangle;
-
-        // Totally off the left edge?
-        if (tspan >= span)
-            return;
-
-        angle1 = clipangle;
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we
+        // change it to the correct sign
+        if (angle1 >= ANG180 && angle1 < ANG270)
+            angle1 = INT_MAX;           // which is ANG180 - 1
+        else
+            angle2 = INT_MIN;
     }
 
-    tspan = clipangle - angle2;
-    if (tspan > 2 * clipangle)
-    {
-        tspan -= 2 * clipangle;
-
-        // Totally off the left edge?
-        if (tspan >= span)
-            return;
-        angle2 = 0 - clipangle;
-    }
+    if ((signed int)angle2 >= (signed int)clipangle)
+        return;                         // Both off left edge
+    if ((signed int)angle1 <= -(signed int)clipangle)
+        return;                         // Both off right edge
+    if ((signed int)angle1 >= (signed int)clipangle)
+        angle1 = clipangle;             // Clip at left edge
+    if ((signed int)angle2 <= -(signed int)clipangle)
+        angle2 = 0 - clipangle;         // Clip at right edge
 
     // The seg is in the view range,
     // but not necessarily visible.
