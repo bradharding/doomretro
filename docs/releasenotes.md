@@ -5,6 +5,7 @@
 * Optimizations have been made to the size of savegames and therefore those created using previous versions of *DOOM Retro* are not compatible with this version.
 * Maps built using a new node/blockmap builder called [*ZokumBSP*](http://doom2.net/zokum/zokumbsp/) are now supported.
 * The filename of a WAD may now be entered manually in the WAD launcher without its “.WAD” extension.
+* A new “vanilla mode” may now be toggled on or off using the`vanilla` CCMD. Enabling this mode will disable several features to make *DOOM Retro* as close to *Vanilla DOOM* as possible. While this mode is enabled, any further changes to CVARs in the console won’t be saved. When this mode is disabled, all CVARs will be restored to their values prior to enabling this mode.
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained after changing a CVAR in the console that resets the graphics subsystem.
 * The radiation shielding suit power-up is now closer to the ground.
