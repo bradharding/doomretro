@@ -197,6 +197,7 @@ extern int              weaponbob;
 extern char             *packageconfig;
 extern dboolean         returntowidescreen;
 extern dboolean         vanilla;
+extern dboolean         unvanilla;
 
 #define CONFIG_VARIABLE_INT(name, set) \
     { #name,          &name, DEFAULT_INT,           set          }
@@ -955,6 +956,12 @@ void M_LoadCVARs(char *filename)
         // Strip off trailing non-printable characters (\r characters from DOS text files)
         while (strlen(strparm) > 0 && !isprint((unsigned char)strparm[strlen(strparm) - 1]))
             strparm[strlen(strparm) - 1] = '\0';
+
+        if (unvanilla)
+        {
+            C_ValidateInput(M_StringJoin(defname, " ", strparm, NULL));
+            continue;
+        }
 
         // Find the setting in the list
         for (i = 0; i < arrlen(cvars); ++i)

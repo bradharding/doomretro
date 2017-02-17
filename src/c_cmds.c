@@ -98,6 +98,7 @@ int                     armor;
 int                     health;
 
 dboolean                vanilla = false;
+dboolean                unvanilla = false;
 
 char                    *version = version_default;
 
@@ -3765,7 +3766,9 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     }
     else
     {
+        unvanilla = true;
         M_LoadCVARs(packageconfig);
+        unvanilla = false;
 
         HU_PlayerMessage(s_STSTR_VMOFF, false, false);
         C_HideConsole();
