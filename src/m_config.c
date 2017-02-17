@@ -824,6 +824,9 @@ static void M_CheckCVARs(void)
 
     r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
 
+    if (r_skycolor != r_skycolor_none && (r_skycolor < r_skycolor_min || r_skycolor > r_skycolor_max))
+        r_skycolor = r_skycolor_default;
+
     if (r_textures != false && r_textures != true)
         r_textures = r_textures_default;
 
