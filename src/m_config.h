@@ -298,6 +298,8 @@ typedef enum
 #define r_shake_damage_default                  50
 #define r_shake_damage_max                      100
 
+#define r_skycolor_none                         -1
+#define r_skycolor_min                          0
 #define r_skycolor_default                      r_skycolor_none
 #define r_skycolor_max                          255
 
