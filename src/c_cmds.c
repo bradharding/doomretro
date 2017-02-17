@@ -4302,6 +4302,23 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
             r_blood = value;
             P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
                 P_NullBloodSplatSpawner : P_SpawnBloodSplat);
+
+            if (r_blood == r_blood_none)
+            {
+                int i;
+                for (i = 0; i < numsectors; ++i)
+                {
+                    bloodsplat_t    *splat = sectors[i].splatlist;
+
+                    while (splat)
+                    {
+                        P_UnsetBloodSplatPosition(splat);
+                        splat = splat->snext;
+                    }
+                }
+                r_bloodsplats_total = 0;
+            }
+
             M_SaveCVARs();
         }
     }
@@ -4326,9 +4343,31 @@ static void r_bloodsplats_max_cvar_func2(char *cmd, char *parms)
     int r_bloodsplats_max_old = r_bloodsplats_max;
 
     int_cvars_func2(cmd, parms);
+
     if (r_bloodsplats_max != r_bloodsplats_max_old)
+    {
         P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
             P_NullBloodSplatSpawner : P_SpawnBloodSplat);
+
+        if (r_bloodsplats_max < r_bloodsplats_total)
+        {
+            int i = 0;
+
+            while (i < numsectors && r_bloodsplats_max < r_bloodsplats_total)
+            {
+                bloodsplat_t    *splat = sectors[i].splatlist;
+
+                while (splat && r_bloodsplats_max < r_bloodsplats_total)
+                {
+                    P_UnsetBloodSplatPosition(splat);
+                    splat = splat->snext;
+                    --r_bloodsplats_total;
+                }
+                ++i;
+            }
+
+        }
+    }
 }
 
 //
