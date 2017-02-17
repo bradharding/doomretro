@@ -76,6 +76,7 @@ texture_t       **textures;
 // needed for texture pegging
 fixed_t         *textureheight;
 byte            **texturefullbright;
+dboolean        *nobrightmap;
 
 // for global animation
 int             *flattranslation;
@@ -374,6 +375,7 @@ void R_InitTextures(void)
 
     // [BH] Initialize partially fullbright textures.
     texturefullbright = Z_Calloc(numtextures, sizeof(*texturefullbright), PU_STATIC, NULL);
+    nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
     i = 0;
     while (fullbright[i].colormask)

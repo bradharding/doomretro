@@ -339,8 +339,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 void R_RenderSegLoop(void)
 {
     fixed_t     texturecolumn = 0;
-    dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]
-                    && !(curline->linedef->flags & ML_NOBRIGHTMAP));
+    dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]);
 
     for (; rw_x < rw_stopx; ++rw_x)
     {
@@ -420,7 +419,8 @@ void R_RenderSegLoop(void)
                 dc_texheight = midtexheight;
 
                 // [BH] apply brightmap
-                dc_colormask = midtexfullbright;
+                if (!nobrightmap[midtexture])
+                    dc_colormask = midtexfullbright;
 
                 if (dc_colormask && usebrightmaps)
                     fbwallcolfunc();
@@ -458,7 +458,8 @@ void R_RenderSegLoop(void)
                         dc_texheight = toptexheight;
 
                         // [BH] apply brightmap
-                        dc_colormask = toptexfullbright;
+                        if (!nobrightmap[toptexture])
+                            dc_colormask = toptexfullbright;
 
                         if (dc_colormask && usebrightmaps)
                             fbwallcolfunc();
@@ -501,7 +502,8 @@ void R_RenderSegLoop(void)
                         dc_texheight = bottomtexheight;
 
                         // [BH] apply brightmap
-                        dc_colormask = bottomtexfullbright;
+                        if (!nobrightmap[bottomtexture])
+                            dc_colormask = bottomtexfullbright;
 
                         if (dc_colormask && usebrightmaps)
                             fbwallcolfunc();

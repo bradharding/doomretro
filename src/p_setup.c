@@ -2347,6 +2347,9 @@ static void InitMapInfo(void)
         info->noliquid[i] = -1;
     }
 
+    for (i = 0; i < numtextures; ++i)
+        nobrightmap[i] = false;
+
     SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
     while (SC_GetString())
     {
@@ -2518,9 +2521,7 @@ static void InitMapInfo(void)
 
                         SC_MustGetString();
                         if ((lump = W_CheckNumForName(sc_String)) >= 0)
-                            for (i = 0; i < numsegs; i++)
-                                if (segs[i].sidedef->midtexture == lump)
-                                    segs[i].linedef->flags |= ML_NOBRIGHTMAP;
+                            nobrightmap[lump] = true;
                         break;
                     }
                 }

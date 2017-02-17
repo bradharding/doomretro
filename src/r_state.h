@@ -51,6 +51,7 @@
 extern fixed_t          *textureheight;
 
 extern byte             **texturefullbright;
+extern dboolean         *nobrightmap;
 
 // needed for pre rendering (fracs)
 extern fixed_t          *spritewidth;
@@ -109,6 +110,8 @@ extern line_t           *lines;
 
 extern int              numsides;
 extern side_t           *sides;
+
+extern int              numtextures;
 
 extern int              numthings;
 

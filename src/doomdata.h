@@ -162,9 +162,6 @@ typedef struct
 // [BH] Line won't be shown as teleporter in automap.
 #define ML_TELEPORTTRIGGERED    4096
 
-// [BH] Line won't use brightmap for texture
-#define ML_NOBRIGHTMAP          8192
-
 // Sector definition, from editing.
 typedef struct
 {
