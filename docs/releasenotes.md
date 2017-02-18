@@ -5,7 +5,7 @@
 * Optimizations have been made to the size of savegames and therefore those created using previous versions of *DOOM Retro* are not compatible with this version.
 * Maps built using a new node/blockmap builder called [*ZokumBSP*](http://doom2.net/zokum/zokumbsp/) are now supported.
 * The filename of a WAD may now be entered manually in the WAD launcher without its “.WAD” extension.
-* A “vanilla mode” may now be toggled on or off using the new `vanilla` CCMD. Enabling this mode will disable several features to make *DOOM Retro* as close to *Vanilla DOOM* as possible. While this mode is enabled, any further changes to CVARs in the console won’t be saved. When this mode is then disabled, or the player quits *DOOM Retro*, all CVARs will be restored to their values prior to enabling this mode.
+* A “vanilla mode” may now be toggled on or off using the new `vanilla` CCMD. Enabling this mode will disable several features to make *DOOM Retro* look as close to *Vanilla DOOM* as possible. While this mode is enabled, any further changes to CVARs in the console won’t be saved. When this mode is then disabled, or the player quits *DOOM Retro*, all CVARs will be restored to their values prior to enabling this mode.
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
 * The screen effects from the berserk and radiation shielding suit power-ups are now retained after changing a CVAR in the console that resets the graphics subsystem.
 * The radiation shielding suit power-up is now closer to the ground.
@@ -33,8 +33,8 @@
   * If the map is “limit removing” is now indicated.
 * Objects no longer bob up and down when underwater.
 * If a PWAD contains a sound lump called `DSSECRET`, it will now be played along with a message being displayed when the player finds a secret area.
-* A `regenhealth` CCMD has been implemented that toggles the ability of the player’s health to regenerate up to 100% at a rate of 1% per second when it drops below 100%.
-* A bug has been fixed whereby projectiles fired to or from a monster or the player standing in liquid were still lowered when the `r_liquid_clipsprites` or `r_liquid_lowerview` CVARs were `off`.
+* A `regenhealth` CCMD has been implemented that toggles the ability of the player’s health to regenerate at a rate of 1% per second when it drops below 100%.
+* A bug has been fixed whereby projectiles fired to or from a monster or the player standing in liquid were still being lowered when the `r_liquid_clipsprites` or `r_liquid_lowerview` CVARs were `off`.
 * Grammatical errors have been fixed in the obituaries displayed in the console if the `playername` CVAR was changed from its default.
 * The `vid_capfps` CVAR will now be saved correctly in `doomretro.cfg`.
 * Entering cheats will no longer interfere with moving the player in [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).

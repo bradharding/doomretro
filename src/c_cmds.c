@@ -4366,7 +4366,6 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
                         splat = splat->snext;
                     }
                 }
-                r_bloodsplats_total = 0;
             }
 
             M_SaveCVARs();
