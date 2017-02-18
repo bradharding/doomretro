@@ -39,7 +39,9 @@
 #if !defined(__R_THINGS_H__)
 #define __R_THINGS_H__
 
-#define NUMVISSPRITES   0x20000
+#define BLOODSPLATSPRITENUM     762
+
+#define NUMVISSPRITES           0x20000
 
 // Constant arrays used for psprite clipping
 //  and initializing clipping.
