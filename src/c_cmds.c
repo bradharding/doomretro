@@ -4411,7 +4411,6 @@ static void r_bloodsplats_max_cvar_func2(char *cmd, char *parms)
                 {
                     P_UnsetBloodSplatPosition(splat);
                     splat = splat->snext;
-                    --r_bloodsplats_total;
                 }
                 ++i;
             }

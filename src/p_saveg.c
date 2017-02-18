@@ -1143,7 +1143,6 @@ void P_UnArchiveThinkers(void)
             splat = splat->snext;
         }
     }
-    r_bloodsplats_total = 0;
 
     // read in saved thinkers
     while (1)
