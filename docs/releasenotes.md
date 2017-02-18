@@ -47,6 +47,7 @@
 * There is no longer any delay with the player’s face in the status bar updating upon loading a savegame or progressing to the next map.
 * *Vanilla DOOM’s* [“status bar face hysterisis”](https://doomwiki.org/wiki/Status_bar_face_hysteresis) bug is now fixed.
 * Blood splats will now be immediately removed from the current map if either the `r_blood` CVAR is changed to `none`, or the `r_bloodsplats_max` CVAR is changed to value smaller than the `r_bloodsplats_total` CVAR.
+* An `r_bloodsplats_visible` CVAR has been implemented that displays the number of blood splats currently on the screen.
 
 ---
 
