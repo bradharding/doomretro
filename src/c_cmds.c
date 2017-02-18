@@ -4358,15 +4358,18 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
 
             if (r_blood == r_blood_none)
             {
-                int i;
+                int     i;
+
                 for (i = 0; i < numsectors; ++i)
                 {
                     bloodsplat_t    *splat = sectors[i].splatlist;
 
                     while (splat)
                     {
+                        bloodsplat_t    *next = splat->snext;
+
                         P_UnsetBloodSplatPosition(splat);
-                        splat = splat->snext;
+                        splat = next;
                     }
                 }
             }
@@ -4411,8 +4414,10 @@ static void r_bloodsplats_max_cvar_func2(char *cmd, char *parms)
 
                 while (splat && r_bloodsplats_max < r_bloodsplats_total)
                 {
+                    bloodsplat_t        *next = splat->snext;
+
                     P_UnsetBloodSplatPosition(splat);
-                    splat = splat->snext;
+                    splat = next;
                 }
                 ++i;
             }

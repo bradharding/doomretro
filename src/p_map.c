@@ -1978,10 +1978,15 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 
     if ((isliquidsector = sector->isliquid = isliquid[sector->floorpic]))
     {
-        bloodsplat_t    *splat;
+        bloodsplat_t    *splat = sector->splatlist;
 
-        for (splat = sector->splatlist; splat; splat = splat->snext)
+        while (splat)
+        {
+            bloodsplat_t        *next = splat->snext;
+
             P_UnsetBloodSplatPosition(splat);
+            splat = next;
+        }
     }
     else
     {

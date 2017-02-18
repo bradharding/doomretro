@@ -1139,8 +1139,10 @@ void P_UnArchiveThinkers(void)
 
         while (splat)
         {
+            bloodsplat_t    *next = splat->snext;
+
             P_UnsetBloodSplatPosition(splat);
-            splat = splat->snext;
+            splat = next;
         }
     }
 
