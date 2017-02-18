@@ -178,7 +178,7 @@ extern int      refreshrate;
 extern dboolean r_translucency;
 extern dboolean windowfocused;
 extern dboolean vanilla;
-extern dboolean unvanilla;
+extern dboolean togglingvanilla;
 
 void G_ToggleAlwaysRun(evtype_t type);
 
@@ -204,7 +204,7 @@ void C_Input(char *string, ...)
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH] = "";
 
-    if (vanilla || unvanilla)
+    if (togglingvanilla)
         return;
 
     va_start(argptr, string);

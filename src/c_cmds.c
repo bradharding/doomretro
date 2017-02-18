@@ -98,7 +98,7 @@ int                     armor;
 int                     health;
 
 dboolean                vanilla = false;
-dboolean                unvanilla = false;
+dboolean                togglingvanilla = false;
 
 char                    *version = version_default;
 
@@ -3750,6 +3750,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     else
         vanilla = !vanilla;
 
+    togglingvanilla = true;
     if (vanilla)
     {
         SC_Open("VANILLA");
@@ -3766,13 +3767,12 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        unvanilla = true;
         M_LoadCVARs(packageconfig);
-        unvanilla = false;
 
         HU_PlayerMessage(s_STSTR_VMOFF, false, false);
         C_HideConsole();
     }
+    togglingvanilla = false;
 }
 
 //
@@ -5117,7 +5117,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
             if (gamestate == GS_LEVEL)
             {
                 I_ToggleWidescreen(true);
-                if (vid_widescreen && !vanilla && !unvanilla)
+                if (vid_widescreen && !togglingvanilla)
                     S_StartSound(NULL, sfx_stnmov);
             }
             else
@@ -5130,7 +5130,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
         else
         {
             I_ToggleWidescreen(false);
-            if (!vid_widescreen && !vanilla && !unvanilla)
+            if (!vid_widescreen && !togglingvanilla)
                 S_StartSound(NULL, sfx_stnmov);
         }
     }
