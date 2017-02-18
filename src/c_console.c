@@ -864,7 +864,7 @@ void C_UpdateFPS(void)
 
         M_snprintf(buffer, 16, "%i FPS", fps);
 
-        if (fps < (refreshrate ? refreshrate : TICRATE))
+        if (fps < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE))
         {
             C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false) - CONSOLETEXTX + 1,
                 CONSOLETEXTY, buffer, consolelowfpscolor);
