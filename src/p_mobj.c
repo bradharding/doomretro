@@ -1247,7 +1247,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
     {
         bloodsplat_t    *splat = malloc(sizeof(*splat));
 
-        splat->frame = BLOODSPLATSPRITENUM + (rand() & 7);
+        splat->frame = sprites[SPR_BLD2].spriteframes[rand() & 7].lump[0];
         splat->flags = rand() & BSF_MIRRORED;
 
         if (blood == FUZZYBLOOD)
