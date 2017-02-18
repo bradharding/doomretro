@@ -303,6 +303,7 @@ static void R_InitSpriteDefs(void)
 static vissprite_t      *vissprites;
 static vissprite_t      **vissprite_ptrs;
 static unsigned int     num_vissprite;
+static unsigned int     num_bloodsplatvissprite;
 static unsigned int     num_vissprite_alloc;
 
 static vissprite_t      bloodsplatvissprites[NUMVISSPRITES];
@@ -342,6 +343,7 @@ void R_ClearSprites(void)
     }
 
     num_vissprite = 0;
+    num_bloodsplatvissprite = 0;
     r_bloodsplats_visible = 0;
 }
 
@@ -642,6 +644,8 @@ void R_DrawBloodSplatVisSprite(vissprite_t *vis)
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         R_BlastBloodSplatColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
+
+    ++r_bloodsplats_visible;
 }
 
 //
@@ -932,7 +936,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
         return;
 
     // store information in a vissprite
-    vis = &bloodsplatvissprites[r_bloodsplats_visible++];
+    vis = &bloodsplatvissprites[num_bloodsplatvissprite++];
 
     vis->scale = xscale;
     vis->gx = fx;
@@ -1389,7 +1393,7 @@ void R_DrawMasked(void)
     interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
 
     // draw all blood splats
-    i = r_bloodsplats_visible;
+    i = num_bloodsplatvissprite;
     while (i > 0)
         R_DrawBloodSplatSprite(&bloodsplatvissprites[--i]);
 
