@@ -147,22 +147,18 @@ int                     windowheight;
 int                     windowx = 0;
 int                     windowy = 0;
 
-int                     displaywidth;
-int                     displayheight;
-int                     displaycenterx;
-int                     displaycentery;
+static int              displaywidth;
+static int              displayheight;
+static int              displaycenterx;
+static int              displaycentery;
 
 dboolean                returntowidescreen = false;
 
 dboolean                windowfocused = true;
 
-#if !defined(_WIN32)
-char                    envstring[255];
-#endif
+static dboolean         keys[UCHAR_MAX];
 
-dboolean                keys[UCHAR_MAX];
-
-byte                    gammatable[GAMMALEVELS][256];
+static byte             gammatable[GAMMALEVELS][256];
 
 float                   gammalevels[GAMMALEVELS] =
 {
@@ -181,8 +177,8 @@ float                   gammalevels[GAMMALEVELS] =
 int                     gammaindex;
 float                   r_gamma = r_gamma_default;
 
-SDL_Rect                src_rect = { 0, 0, 0, 0 };
-SDL_Rect                map_rect = { 0, 0, 0, 0 };
+static SDL_Rect         src_rect = { 0, 0, 0, 0 };
+static SDL_Rect         map_rect = { 0, 0, 0, 0 };
 
 void                    (*blitfunc)(void);
 void                    (*mapblitfunc)(void);
@@ -194,7 +190,7 @@ int                     refreshrate;
 
 #if defined(_WIN32)
 static UINT             CapFPSTimer;
-HANDLE                  CapFPSEvent;
+static HANDLE           CapFPSEvent;
 #endif
 
 static dboolean         restartinggraphics = false;
@@ -1863,6 +1859,8 @@ void I_InitGraphics(void)
 #if !defined(_WIN32)
     if (*vid_driver)
     {
+        char    envstring[255];
+
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", vid_driver);
         putenv(envstring);
     }
