@@ -197,6 +197,8 @@ static UINT             CapFPSTimer;
 HANDLE                  CapFPSEvent;
 #endif
 
+static dboolean         restartinggraphics = false;
+
 // Mouse acceleration
 //
 // This emulates some of the behavior of DOS mouse drivers by increasing
@@ -611,7 +613,7 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_FOCUS_LOST:
                             windowfocused = false;
 
-                            if (gamestate == GS_LEVEL && !paused)
+                            if (gamestate == GS_LEVEL && !paused && !restartinggraphics)
                             {
                                 blurred = false;
                                 if (menuactive || consoleactive)
@@ -1711,6 +1713,8 @@ void I_InitWindows32(void);
 
 void I_RestartGraphics(void)
 {
+    restartinggraphics = true;
+
     FreeSurfaces();
     SetVideoMode(false);
 
@@ -1726,6 +1730,7 @@ void I_RestartGraphics(void)
     M_SetWindowCaption();
 
     forceconsoleblurredraw = true;
+    restartinggraphics = false;
 }
 
 void I_ToggleFullscreen(void)
