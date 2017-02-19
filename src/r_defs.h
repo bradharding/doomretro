@@ -858,7 +858,7 @@ typedef struct
 // A vissprite_t is a thing
 //  that will be drawn during a refresh.
 // I.e. a sprite object that is partly visible.
-typedef struct
+typedef struct vissprite_s
 {
     int                 x1;
     int                 x2;
@@ -899,6 +899,22 @@ typedef struct
     // killough 3/27/98: height sector for underwater/fake ceiling support
     int                 heightsec;
 } vissprite_t;
+
+typedef struct bloodsplatvissprite_s
+{
+    int                 x1;
+    int                 x2;
+    fixed_t             gx;
+    fixed_t             gy;
+    fixed_t             startfrac;
+    fixed_t             scale;
+    fixed_t             xiscale;
+    fixed_t             texturemid;
+    int                 patch;
+    lighttable_t        *colormap;
+    void                (*colfunc)(void);
+    fixed_t             blood;
+} bloodsplatvissprite_t;
 
 //
 // Sprites are patches with a special naming convention

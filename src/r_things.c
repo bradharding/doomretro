@@ -300,15 +300,15 @@ static void R_InitSpriteDefs(void)
 // GAME FUNCTIONS
 //
 
-static vissprite_t      *vissprites;
-static vissprite_t      **vissprite_ptrs;
-static unsigned int     num_vissprite;
-static unsigned int     num_bloodsplatvissprite;
-static unsigned int     num_vissprite_alloc;
+static vissprite_t              *vissprites;
+static vissprite_t              **vissprite_ptrs;
+static unsigned int             num_vissprite;
+static unsigned int             num_bloodsplatvissprite;
+static unsigned int             num_vissprite_alloc;
 
-static vissprite_t      bloodsplatvissprites[NUMVISSPRITES];
+static bloodsplatvissprite_t    bloodsplatvissprites[NUMVISSPRITES];
 
-int                     r_bloodsplats_visible;
+int                             r_bloodsplats_visible;
 
 //
 // R_InitSprites
@@ -625,7 +625,7 @@ void R_DrawPVisSprite(vissprite_t *vis)
         R_BlastSpriteColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
 }
 
-void R_DrawBloodSplatVisSprite(vissprite_t *vis)
+void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
 {
     fixed_t     frac = vis->startfrac;
     fixed_t     xiscale = vis->xiscale;
@@ -881,28 +881,28 @@ void R_ProjectSprite(mobj_t *thing)
 
 static void R_ProjectBloodSplat(bloodsplat_t *splat)
 {
-    fixed_t             tx;
+    fixed_t                     tx;
 
-    fixed_t             xscale;
+    fixed_t                     xscale;
 
-    int                 x1;
-    int                 x2;
+    int                         x1;
+    int                         x2;
 
-    int                 lump;
+    int                         lump;
 
-    vissprite_t         *vis;
+    bloodsplatvissprite_t       *vis;
 
-    int                 flags;
-    fixed_t             fx = splat->x;
-    fixed_t             fy = splat->y;
+    int                         flags;
+    fixed_t                     fx = splat->x;
+    fixed_t                     fy = splat->y;
 
-    fixed_t             width;
+    fixed_t                     width;
 
     // transform the origin point
-    fixed_t             tr_x = fx - viewx;
-    fixed_t             tr_y = fy - viewy;
+    fixed_t                     tr_x = fx - viewx;
+    fixed_t                     tr_y = fy - viewy;
 
-    fixed_t             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+    fixed_t                     tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // thing is behind view plane?
     if (tz < MINZ)
@@ -1213,7 +1213,7 @@ void R_DrawPlayerSprites(void)
 //
 // R_DrawBloodSplatSprite
 //
-static void R_DrawBloodSplatSprite(vissprite_t *spr)
+static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
 {
     drawseg_t   *ds;
     int         clipbot[SCREENWIDTH];
@@ -1243,7 +1243,7 @@ static void R_DrawBloodSplatSprite(vissprite_t *spr)
         int     silhouette = ds->silhouette;
 
         // determine if the drawseg obscures the sprite
-        if (ds->x1 > x2 || ds->x2 < x1 || !(silhouette & SIL_BOTH))
+        if (ds->x1 > x2 || ds->x2 < x1 || (!(silhouette & SIL_BOTH) && !ds->maskedtexturecol))
             continue;       // does not cover sprite
 
         if (MAX(ds->scale1, ds->scale2) < spr->scale
