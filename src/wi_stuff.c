@@ -538,7 +538,6 @@ static void WI_initAnimatedBack(void)
         else if (a->type == ANIM_LEVEL)
             a->nexttic = bcnt + 1;
     }
-
 }
 
 static void WI_updateAnimatedBack(void)

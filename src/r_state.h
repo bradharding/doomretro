@@ -119,9 +119,9 @@ extern int              numdecorations;
 
 typedef enum
 {
-    DOOMBSP = 0,
-    DEEPBSP = 1,
-    ZDBSPX  = 2
+    DOOMBSP,
+    DEEPBSP,
+    ZDBSPX
 } mapformat_t;
 
 extern mapformat_t      mapformat;
