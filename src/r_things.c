@@ -895,6 +895,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     int                         flags;
     fixed_t                     fx = splat->x;
     fixed_t                     fy = splat->y;
+    fixed_t                     fz;
 
     fixed_t                     width;
 
@@ -935,6 +936,11 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     if (x2 < 0)
         return;
 
+    fz = splat->sector->interpfloorheight;
+    if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
+        || fz < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
+        return;
+
     // store information in a vissprite
     vis = &bloodsplatvissprites[num_bloodsplatvissprite++];
 
@@ -945,7 +951,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     flags = splat->flags;
     vis->colfunc = ((flags & BSF_FUZZ) && pausesprites && r_textures ?
         R_DrawPausedFuzzColumn : splat->colfunc);
-    vis->texturemid = splat->sector->interpfloorheight - viewz;
+    vis->texturemid = fz - viewz;
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
 
