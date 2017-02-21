@@ -893,19 +893,28 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     bloodsplatvissprite_t       *vis;
 
     int                         flags;
-    fixed_t                     fx = splat->x;
-    fixed_t                     fy = splat->y;
-    fixed_t                     fz;
+    fixed_t                     fx;
+    fixed_t                     fy;
+    fixed_t                     fz = splat->sector->interpfloorheight;
 
     fixed_t                     width;
 
-    // transform the origin point
-    fixed_t                     tr_x = fx - viewx;
-    fixed_t                     tr_y = fy - viewy;
+    fixed_t                     tr_x;
+    fixed_t                     tr_y;
 
-    fixed_t                     tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+    fixed_t                     tz;
 
-    // thing is behind view plane?
+    // up too high?
+    if (fz > viewz)
+        return;
+
+    fx = splat->x;
+    fy = splat->y;
+    tr_x = fx - viewx;
+    tr_y = fy - viewy;
+    tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+
+    // behind view plane?
     if (tz < MINZ)
         return;
 
@@ -918,7 +927,6 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     if (ABS(tx) > (tz << 2))
         return;
 
-    // decide which patch to use for sprite relative to player
     lump = splat->frame;
     width = spritewidth[lump];
 
@@ -934,11 +942,6 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
 
     // off the left side
     if (x2 < 0)
-        return;
-
-    fz = splat->sector->interpfloorheight;
-    if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
-        || fz < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
         return;
 
     // store information in a vissprite
