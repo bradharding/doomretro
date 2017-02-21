@@ -1780,7 +1780,6 @@ static void D_DoomMainSetup(void)
                 "E3M1", "E3M3", "E3M3", "E3M4", "E3M5", "E3M6", "E3M7", "E3M8", "E3M9",
                 "DPHOOF", "BFGGA0", "HEADA1", "CYBRA1", "SPIDA1D1"
             };
-            int i;
 
             for (i = 0; i < 23; ++i)
                 if (W_CheckNumForName(name[i]) < 0)

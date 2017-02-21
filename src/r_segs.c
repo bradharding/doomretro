@@ -219,7 +219,7 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
         // calculate unclipped screen coordinates for post
         int64_t         topscreen = sprtopscreen + spryscale * topdelta;
 
-        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), ceilingclip);
+        dc_yl = MAX((int)(topscreen >> FRACBITS) + 1, ceilingclip);
         dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip);
 
         if (dc_yl <= dc_yh)
@@ -316,7 +316,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
                     || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
                     continue;                    // skip if the texture is out of screen's range
 
-                sprtopscreen = (int64_t)(t >> FRACBITS);
+                sprtopscreen = (int)(t >> FRACBITS);
             }
 
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;

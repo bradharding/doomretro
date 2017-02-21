@@ -441,8 +441,8 @@ int     *mfloorclip;
 int     *mceilingclip;
 
 fixed_t spryscale;
-int64_t sprtopscreen;
-int64_t shift;
+int     sprtopscreen;
+int     shift;
 
 static void R_BlastSpriteColumn(column_t *column)
 {
@@ -455,10 +455,10 @@ static void R_BlastSpriteColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int64_t topscreen = sprtopscreen + spryscale * topdelta;
+        int     topscreen = sprtopscreen + spryscale * topdelta;
 
-        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), ceilingclip);
-        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), floorclip);
+        dc_yl = MAX((topscreen >> FRACBITS) + 1, ceilingclip);
+        dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, floorclip);
 
         if (dc_baseclip != -1)
             dc_yh = MIN(dc_baseclip, dc_yh);
@@ -487,10 +487,10 @@ static void R_BlastBloodSplatColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int64_t topscreen = sprtopscreen + spryscale * topdelta;
+        int     topscreen = sprtopscreen + spryscale * topdelta;
 
-        dc_yl = MAX((int)(topscreen >> FRACBITS), ceilingclip);
-        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), floorclip);
+        dc_yl = MAX(topscreen >> FRACBITS, ceilingclip);
+        dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, floorclip);
 
         if (dc_yl <= dc_yh)
             colfunc();
@@ -510,10 +510,10 @@ static void R_BlastShadowColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int64_t topscreen = sprtopscreen + spryscale * topdelta;
+        int     topscreen = sprtopscreen + spryscale * topdelta;
 
-        dc_yl = MAX((int)((topscreen >> FRACBITS) / 10 + shift), ceilingclip);
-        dc_yh = MIN((int)(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift), floorclip);
+        dc_yl = MAX((topscreen >> FRACBITS) / 10 + shift, ceilingclip);
+        dc_yh = MIN(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift, floorclip);
 
         if (dc_yl <= dc_yh)
             colfunc();
@@ -585,7 +585,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     if (vis->footclip)
-        dc_baseclip = ((int)sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
+        dc_baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
             - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
     else
         dc_baseclip = -1;
@@ -1233,9 +1233,11 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
     //  is the clip seg.
     for (ds = ds_p; ds-- > drawsegs;)
     {
-        int     r1;
-        int     r2;
-        int     silhouette = ds->silhouette;
+        int             r1;
+        int             r2;
+        int             silhouette = ds->silhouette;
+        dboolean        bottom;
+        dboolean        top;
 
         // determine if the drawseg obscures the sprite
         if (ds->x1 > x2 || ds->x2 < x1 || (!(silhouette & SIL_BOTH) && !ds->maskedtexturecol))
@@ -1251,14 +1253,15 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
 
         // clip this piece of the sprite
         // killough 3/27/98: optimized and made much shorter
-        if (silhouette & SIL_BOTTOM)
-            for (i = r1; i <= r2; i++)
-                if (clipbot[i] > ds->sprbottomclip[i])
-                    clipbot[i] = ds->sprbottomclip[i];
-        if (silhouette & SIL_TOP)
-            for (i = r1; i <= r2; i++)
-                if (cliptop[i] < ds->sprtopclip[i])
-                    cliptop[i] = ds->sprtopclip[i];
+        bottom = (silhouette & SIL_BOTTOM);
+        top = (silhouette & SIL_TOP);
+        for (i = r1; i <= r2; i++)
+        {
+            if (bottom && clipbot[i] > ds->sprbottomclip[i])
+                clipbot[i] = ds->sprbottomclip[i];
+            if (top && cliptop[i] < ds->sprtopclip[i])
+                cliptop[i] = ds->sprtopclip[i];
+        }
     }
 
     // all clipping has been performed, so draw the sprite
@@ -1291,9 +1294,11 @@ static void R_DrawSprite(vissprite_t *spr)
     // The first drawseg that has a greater scale is the clip seg.
     for (ds = ds_p; ds-- > drawsegs;)
     {
-        int     r1;
-        int     r2;
-        int     silhouette = ds->silhouette;
+        int             r1;
+        int             r2;
+        int             silhouette = ds->silhouette;
+        dboolean        bottom;
+        dboolean        top;
 
         // determine if the drawseg obscures the sprite
         if (ds->x1 > x2 || ds->x2 < x1 || (!(silhouette & SIL_BOTH) && !ds->maskedtexturecol))
@@ -1316,14 +1321,15 @@ static void R_DrawSprite(vissprite_t *spr)
 
         // clip this piece of the sprite
         // killough 3/27/98: optimized and made much shorter
-        if (silhouette & SIL_BOTTOM)
-            for (i = r1; i <= r2; i++)
-                if (clipbot[i] > ds->sprbottomclip[i])
-                    clipbot[i] = ds->sprbottomclip[i];
-        if (silhouette & SIL_TOP)
-            for (i = r1; i <= r2; i++)
-                if (cliptop[i] < ds->sprtopclip[i])
-                    cliptop[i] = ds->sprtopclip[i];
+        bottom = (silhouette & SIL_BOTTOM);
+        top = (silhouette & SIL_TOP);
+        for (i = r1; i <= r2; i++)
+        {
+            if (bottom && clipbot[i] > ds->sprbottomclip[i])
+                clipbot[i] = ds->sprbottomclip[i];
+            if (top && cliptop[i] < ds->sprtopclip[i])
+                cliptop[i] = ds->sprtopclip[i];
+        }
     }
 
     // killough 3/27/98:
