@@ -234,10 +234,6 @@ typedef enum
 #define r_bloodsplats_total_default             0
 #define r_bloodsplats_total_max                 0
 
-#define r_bloodsplats_visible_min               0
-#define r_bloodsplats_visible_default           0
-#define r_bloodsplats_visible_max               0
-
 #define r_brightmaps_default                    true
 
 #define r_corpses_color_default                 true

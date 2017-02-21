@@ -308,8 +308,6 @@ static unsigned int             num_vissprite_alloc;
 
 static bloodsplatvissprite_t    bloodsplatvissprites[NUMVISSPRITES];
 
-int                             r_bloodsplats_visible;
-
 //
 // R_InitSprites
 // Called at program start.
@@ -344,7 +342,6 @@ void R_ClearSprites(void)
 
     num_vissprite = 0;
     num_bloodsplatvissprite = 0;
-    r_bloodsplats_visible = 0;
 }
 
 //
@@ -644,8 +641,6 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         R_BlastBloodSplatColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
-
-    ++r_bloodsplats_visible;
 }
 
 //

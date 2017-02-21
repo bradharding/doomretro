@@ -154,7 +154,6 @@ extern int              r_berserkintensity;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern int              r_bloodsplats_total;
-extern int              r_bloodsplats_visible;
 extern dboolean         r_brightmaps;
 extern dboolean         r_corpses_color;
 extern dboolean         r_corpses_mirrored;
@@ -697,8 +696,6 @@ consolecmd_t consolecmds[] =
         "The maximum number of blood splats allowed in a map (<b>0</b>\nto <b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,
         "The total number of blood splats in the current map."),
-    CVAR_INT(r_bloodsplats_visible, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,
-        "The number of blood splats currently on the screen."),
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles brightmaps on certain wall textures."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
