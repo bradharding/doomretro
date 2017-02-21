@@ -893,28 +893,18 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     bloodsplatvissprite_t       *vis;
 
     int                         flags;
-    fixed_t                     fx;
-    fixed_t                     fy;
-    fixed_t                     fz = splat->sector->interpfloorheight;
+    fixed_t                     fx = splat->x;
+    fixed_t                     fy = splat->y;
 
     fixed_t                     width;
 
-    fixed_t                     tr_x;
-    fixed_t                     tr_y;
+    // transform the origin point
+    fixed_t                     tr_x = fx - viewx;
+    fixed_t                     tr_y = fy - viewy;
 
-    fixed_t                     tz;
+    fixed_t                     tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
-    // up too high?
-    if (fz > viewz)
-        return;
-
-    fx = splat->x;
-    fy = splat->y;
-    tr_x = fx - viewx;
-    tr_y = fy - viewy;
-    tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-
-    // behind view plane?
+    // thing is behind view plane?
     if (tz < MINZ)
         return;
 
@@ -954,7 +944,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     flags = splat->flags;
     vis->colfunc = ((flags & BSF_FUZZ) && pausesprites && r_textures ?
         R_DrawPausedFuzzColumn : splat->colfunc);
-    vis->texturemid = fz - viewz;
+    vis->texturemid = splat->sector->interpfloorheight - viewz;
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
 
@@ -991,8 +981,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
         LIGHTLEVELS - 1)];
 
-    for (splat = sec->splatlist; splat; splat = splat->snext)
-        R_ProjectBloodSplat(splat);
+    if (sec->interpfloorheight <= viewz)
+        for (splat = sec->splatlist; splat; splat = splat->snext)
+            R_ProjectBloodSplat(splat);
 
     drawshadows = (r_shadows && !fixedcolormap && sec->floorpic != skyflatnum);
 
