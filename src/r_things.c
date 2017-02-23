@@ -1224,7 +1224,7 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
     // initialize the clipping arrays
     for (i = x1; i <= x2; i++)
     {
-        cliptop[i] = 0;
+        cliptop[i] = -1;
         clipbot[i] = viewheight;
     }
 
@@ -1286,7 +1286,7 @@ static void R_DrawSprite(vissprite_t *spr)
     // initialize the clipping arrays
     for (i = x1; i <= x2; i++)
     {
-        cliptop[i] = 0;
+        cliptop[i] = -1;
         clipbot[i] = viewheight;
     }
 
