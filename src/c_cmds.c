@@ -241,6 +241,7 @@ extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
 extern int              vid_motionblur;
+extern dboolean         vid_pillarboxes;
 extern char             *vid_scaleapi;
 extern char             *vid_scalefilter;
 extern char             *vid_screenresolution;
@@ -818,6 +819,8 @@ consolecmd_t consolecmds[] =
         "Toggles between fullscreen and a window."),
     CVAR_INT(vid_motionblur, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount of motion blur when the player turns quickly."),
+    CVAR_BOOL(vid_pillarboxes, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLVALUEALIAS,
+        "Toggles applying palette effects to the screen's pillarboxes."),
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b>\nor <b>\"software\"</b>)."),
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,

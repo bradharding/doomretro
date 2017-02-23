@@ -85,6 +85,7 @@ char                    *vid_driver = vid_driver_default;
 #endif
 dboolean                vid_fullscreen = vid_fullscreen_default;
 int                     vid_motionblur = vid_motionblur_default;
+dboolean                vid_pillarboxes = vid_pillarboxes_default;
 char                    *vid_scaleapi = vid_scaleapi_default;
 char                    *vid_scalefilter = vid_scalefilter_default;
 char                    *vid_screenresolution = vid_screenresolution_default;
@@ -971,6 +972,10 @@ void I_SetPalette(byte *playpal)
 
     if (SDL_SetPaletteColors(palette, colors, 0, 256) < 0)
         I_SDLError("SDL_SetPaletteColors");
+
+    if (vid_pillarboxes)
+        SDL_SetRenderDrawColor(renderer, palette[0].colors->r, palette[0].colors->g,
+            palette[0].colors->b, SDL_ALPHA_OPAQUE);
 }
 
 static void I_RestoreFocus(void)

@@ -363,6 +363,8 @@ typedef enum
 #define vid_motionblur_default                  0
 #define vid_motionblur_max                      100
 
+#define vid_pillarboxes_default                 false
+
 #define vid_scaleapi_direct3d                   "direct3d"
 #define vid_scaleapi_opengl                     "opengl"
 #if !defined(_WIN32)

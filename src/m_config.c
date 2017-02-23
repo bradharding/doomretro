@@ -182,6 +182,7 @@ extern char             *vid_driver;
 #endif
 extern dboolean         vid_fullscreen;
 extern int              vid_motionblur;
+extern dboolean         vid_pillarboxes;
 extern char             *vid_scaleapi;
 extern char             *vid_scalefilter;
 extern char             *vid_screenresolution;
@@ -318,6 +319,7 @@ static default_t cvars[] =
 #endif
     CONFIG_VARIABLE_INT          (vid_fullscreen,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (vid_motionblur,                                    NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_pillarboxes,                                   BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_scaleapi,                                      NOVALUEALIAS    ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,                                   NOVALUEALIAS    ),
     CONFIG_VARIABLE_OTHER        (vid_screenresolution,                              NOVALUEALIAS    ),
