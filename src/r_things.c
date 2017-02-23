@@ -455,9 +455,9 @@ static void R_BlastSpriteColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * topdelta;
+        int     topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((topscreen >> FRACBITS) + 1, ceilingclip);
+        dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, ceilingclip);
         dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, floorclip);
 
         if (dc_baseclip != -1)
@@ -487,7 +487,7 @@ static void R_BlastBloodSplatColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * topdelta;
+        int     topscreen = sprtopscreen + spryscale * topdelta + 1;
 
         dc_yl = MAX(topscreen >> FRACBITS, ceilingclip);
         dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, floorclip);
@@ -510,7 +510,7 @@ static void R_BlastShadowColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * topdelta;
+        int     topscreen = sprtopscreen + spryscale * topdelta + 1;
 
         dc_yl = MAX((topscreen >> FRACBITS) / 10 + shift, ceilingclip);
         dc_yh = MIN(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift, floorclip);
@@ -970,15 +970,18 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
 // killough 9/18/98: add lightlevel as parameter, fixing underwater lighting
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
-    bloodsplat_t        *splat;
-    mobj_t              *thing;
+    mobj_t      *thing;
 
     spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
         LIGHTLEVELS - 1)];
 
     if (sec->interpfloorheight <= viewz)
+    {
+        bloodsplat_t    *splat;
+
         for (splat = sec->splatlist; splat; splat = splat->snext)
             R_ProjectBloodSplat(splat);
+    }
 
     drawshadows = (r_shadows && !fixedcolormap && sec->floorpic != skyflatnum);
 
@@ -996,24 +999,17 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
 {
     fixed_t             tx;
     int                 x1, x2;
-    spritenum_t         spr;
-    spritedef_t         *sprdef;
-    long                frame;
-    spriteframe_t       *sprframe;
-    int                 lump;
     vissprite_t         *vis;
     vissprite_t         tempvis;
-    state_t             *state;
     dboolean            dehacked = weaponinfo[viewplayer->readyweapon].dehacked;
 
     // decide which patch to use
-    state = psp->state;
-    spr = state->sprite;
-    sprdef = &sprites[spr];
-    frame = state->frame;
-    sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
-
-    lump = sprframe->lump[0];
+    state_t             *state = psp->state;
+    spritenum_t         spr = state->sprite;
+    spritedef_t         *sprdef = &sprites[spr];
+    long                frame = state->frame;
+    spriteframe_t       *sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
+    int                 lump = sprframe->lump[0];
 
     // calculate edges of the shape
     tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (dehacked ? spriteoffset[lump] :
@@ -1067,7 +1063,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         else if (r_translucency && !notranslucency)
         {
             if (spr == SPR_SHT2)
-                vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) ?
+                vis->colfunc = ((frame & (FF_FRAMEMASK | FF_FULLBRIGHT)) ?
                     tlredwhitecolfunc1 : basecolfunc);
             else
             {
