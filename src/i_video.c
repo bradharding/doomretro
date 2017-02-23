@@ -970,8 +970,7 @@ void I_SetPalette(byte *playpal)
         colors[i].b = gammatable[gammaindex][*playpal++];
     }
 
-    if (SDL_SetPaletteColors(palette, colors, 0, 256) < 0)
-        I_SDLError("SDL_SetPaletteColors");
+    SDL_SetPaletteColors(palette, colors, 0, 256);
 
     if (vid_pillarboxes)
         SDL_SetRenderDrawColor(renderer, palette[0].colors->r, palette[0].colors->g,
@@ -1295,8 +1294,16 @@ static void PositionOnCurrentDisplay(void)
 
 void I_SetMotionBlur(int percent)
 {
-    SDL_SetSurfaceAlphaMod(surface, SDL_ALPHA_OPAQUE - 128 * percent / 100);
-    SDL_SetSurfaceBlendMode(surface, (percent ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE));
+    if (percent)
+    {
+        SDL_SetSurfaceAlphaMod(surface, SDL_ALPHA_OPAQUE - 128 * percent / 100);
+        SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
+    }
+    else
+    {
+        SDL_SetSurfaceAlphaMod(surface, SDL_ALPHA_OPAQUE);
+        SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_NONE);
+    }
 }
 
 static void SetVideoMode(dboolean output)
