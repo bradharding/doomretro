@@ -40,7 +40,6 @@ language: c
 
 compiler:
     - clang
-    - gcc
 
 sudo: required
 
