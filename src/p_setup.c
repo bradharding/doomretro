@@ -2543,7 +2543,7 @@ static int QualifyMap(int map)
 
 char *P_GetMapAuthor(int map)
 {
-    return (MAPINFO && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author
+    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author
         : (breach && map == 1 ? s_AUTHOR_BESTOR : ((E1M4B && map == 4) || (E1M8B && map == 8)
         ? s_AUTHOR_ROMERO : "")));
 }
@@ -2558,18 +2558,18 @@ void P_GetMapLiquids(int map)
 
 int P_GetMapMusic(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].music : 0);
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].music : 0);
 }
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].name : (E1M4B && map == 4 ? s_CAPTION_E1M4B
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].name : (E1M4B && map == 4 ? s_CAPTION_E1M4B
         : (E1M8B && map == 8 ? s_CAPTION_E1M8B : "")));
 }
 
 int P_GetMapNext(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].next : 0);
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].next : 0);
 }
 
 void P_GetMapNoLiquids(int map)
@@ -2582,32 +2582,32 @@ void P_GetMapNoLiquids(int map)
 
 int P_GetMapPar(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].par : 0);
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].par : 0);
 }
 
 dboolean P_GetMapPistolStart(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].pistolstart : false);
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].pistolstart : false);
 }
 
 int P_GetMapSecretNext(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].secretnext : 0);
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].secretnext : 0);
 }
 
 int P_GetMapSky1Texture(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].sky1texture : 0);
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].sky1texture : 0);
 }
 
 int P_GetMapSky1ScrollDelta(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].sky1scrolldelta : 0);
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].sky1scrolldelta : 0);
 }
 
 int P_GetMapTitlePatch(int map)
 {
-    return (MAPINFO ? mapinfo[QualifyMap(map)].titlepatch : 0);
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].titlepatch : 0);
 }
 
 //
