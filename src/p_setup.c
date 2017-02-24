@@ -2517,11 +2517,11 @@ static void InitMapInfo(void)
 
                     case MCMD_NOBRIGHTMAP:
                     {
-                        int     lump;
+                        int     texture;
 
                         SC_MustGetString();
-                        if ((lump = W_CheckNumForName(sc_String)) >= 0)
-                            nobrightmap[lump] = true;
+                        if ((texture = R_CheckTextureNumForName(sc_String)) >= 0)
+                            nobrightmap[texture] = true;
                         break;
                     }
                 }
