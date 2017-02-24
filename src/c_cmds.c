@@ -4498,28 +4498,20 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
 //
 static dboolean r_gamma_cvar_func1(char *cmd, char *parms)
 {
-    float       value = FLT_MIN;
-
-    if (!*parms || M_StringCompare(parms, "off"))
-        return true;
-
-    sscanf(parms, "%10f", &value);
-
-    return (value != FLT_MIN);
+    return (!*parms || C_LookupValueFromAlias(parms, GAMMAVALUEALIAS) != INT_MIN
+        || float_cvars_func1(cmd, parms));
 }
 
 static void r_gamma_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        float   value = FLT_MIN;
+        float   value = (float)C_LookupValueFromAlias(parms, GAMMAVALUEALIAS);
 
-        if (M_StringCompare(parms, "off") || M_StringCompare(parms, "false"))
-            value = 1.0f;
-        else
+        if (value == INT_MIN)
             sscanf(parms, "%10f", &value);
 
-        if (value != FLT_MIN && r_gamma != value)
+        if (value != INT_MIN && r_gamma != value)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
@@ -4641,11 +4633,16 @@ static dboolean r_skycolor_cvar_func1(char *cmd, char *parms)
 
 static void r_skycolor_cvar_func2(char *cmd, char *parms)
 {
-    if (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_none)
+    int value = C_LookupValueFromAlias(parms, SKYVALUEALIAS);
+
+    if (value != INT_MIN)
     {
-        r_skycolor = r_skycolor_none;
-        M_SaveCVARs();
-        R_InitColumnFunctions();
+        if (value != vid_capfps)
+        {
+            r_skycolor = r_skycolor_none;
+            M_SaveCVARs();
+            R_InitColumnFunctions();
+        }
     }
     else
     {
@@ -4922,33 +4919,30 @@ static void units_cvar_func2(char *cmd, char *parms)
 //
 static dboolean vid_capfps_cvar_func1(char *cmd, char *parms)
 {
-    int value = INT_MIN;
-
-    if (!*parms || M_StringCompare(parms, "on") || M_StringCompare(parms, "off"))
-        return true;
-
-    sscanf(parms, "%10i", &value);
-
-    return (value >= vid_capfps_min && value <= vid_capfps_max);
+    return (!*parms || C_LookupValueFromAlias(parms, CAPVALUEALIAS) != INT_MIN
+        || int_cvars_func1(cmd, parms));
 }
 
 static void vid_capfps_cvar_func2(char *cmd, char *parms)
 {
-    int vid_capfps_old = vid_capfps;
+    int value = C_LookupValueFromAlias(parms, CAPVALUEALIAS);
 
-    if (M_StringCompare(parms, "on") || M_StringCompare(parms, "true")
-        || M_StringCompare(parms, "1"))
-        vid_capfps = TICRATE;
-    else if (M_StringCompare(parms, "off") || M_StringCompare(parms, "false")
-        || M_StringCompare(parms, "0"))
-        vid_capfps = 0;
-    else
-        int_cvars_func2(cmd, parms);
-
-    if (vid_capfps != vid_capfps_old)
+    if (value != INT_MIN)
     {
-        M_SaveCVARs();
-        I_RestartGraphics();
+        if (value != vid_capfps)
+        {
+            vid_capfps = value;
+            M_SaveCVARs();
+            I_RestartGraphics();
+        }
+    }
+    else
+    {
+        int     vid_capfps_old = vid_capfps;
+
+        int_cvars_func2(cmd, parms);
+        if (vid_capfps != vid_capfps_old)
+            I_RestartGraphics();
     }
 }
 
