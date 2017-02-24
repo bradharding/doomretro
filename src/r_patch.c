@@ -163,9 +163,6 @@ static void createTextureCompositePatch(int id)
     composite_patch->width = texture->width;
     composite_patch->height = texture->height;
     composite_patch->widthmask = texture->widthmask;
-    composite_patch->leftoffset = 0;
-    composite_patch->topoffset = 0;
-    composite_patch->flags = 0;
 
     // work out how much memory we need to allocate for this patch's data
     pixelDataSize = (composite_patch->width * composite_patch->height + 4) & ~3;
@@ -179,7 +176,7 @@ static void createTextureCompositePatch(int id)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
-        oldPatch = (const patch_t *)W_CacheLumpNum(patchNum, PU_STATIC);
+        oldPatch = (const patch_t *)W_CacheLumpNum(patchNum, PU_CACHE);
 
         for (x = 0; x < SHORT(oldPatch->width); ++x)
         {
@@ -208,9 +205,8 @@ static void createTextureCompositePatch(int id)
 
     // allocate our data chunk
     dataSize = pixelDataSize + columnsDataSize + postsDataSize;
-    composite_patch->data = (unsigned char *)Z_Malloc(dataSize, PU_STATIC,
+    composite_patch->data = (unsigned char *)Z_Calloc(1, dataSize, PU_STATIC,
         (void **)&composite_patch->data);
-    memset(composite_patch->data, 0, dataSize);
 
     // set out pixel, column, and post pointers into our data array
     composite_patch->pixels = composite_patch->data;
@@ -242,7 +238,7 @@ static void createTextureCompositePatch(int id)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
-        oldPatch = (const patch_t *)W_CacheLumpNum(patchNum, PU_STATIC);
+        oldPatch = (const patch_t *)W_CacheLumpNum(patchNum, PU_CACHE);
 
         for (x = 0; x < SHORT(oldPatch->width); ++x)
         {

@@ -58,9 +58,6 @@ typedef struct
     int                 height;
     unsigned int        widthmask;
 
-    int                 leftoffset;
-    int                 topoffset;
-
     // this is the single malloc'ed/free'd array
     // for this patch
     unsigned char       *data;
@@ -71,7 +68,6 @@ typedef struct
     rpost_t             *posts;
 
     unsigned int        locks;
-    unsigned int        flags;  //e6y
 } rpatch_t;
 
 rpatch_t *R_CacheTextureCompositePatchNum(int id);
