@@ -5,9 +5,9 @@
 * Optimizations have been made to the size of savegames and therefore those created using previous versions of *DOOM Retro* are not compatible with this version.
 * Maps built using a new node/blockmap builder called [*ZokumBSP*](http://doom2.net/zokum/zokumbsp/) are now supported.
 * The filename of a WAD may now be entered manually in the WAD launcher without its “.WAD” extension.
-* A “vanilla mode” may now be toggled on or off using the new `vanilla` CCMD. Enabling this mode will disable several features to make *DOOM Retro* look as close to *Vanilla DOOM* as possible. While this mode is enabled, any further changes to CVARs in the console won’t be saved. When this mode is then disabled, or the player quits *DOOM Retro*, all CVARs will be restored to their values prior to enabling this mode.
+* A “vanilla mode” may now be toggled on or off using the new `vanilla` CCMD. Enabling this mode will disable several features to make *DOOM Retro* look as close to *Vanilla DOOM* as possible. Any further changes to CVARs in the console won’t be saved while this mode is enabled. When this mode is then disabled, or the player quits *DOOM Retro* altogether, all CVARs will be restored to their values prior to enabling this mode.
 * A bug has been fixed whereby sectors would be incorrectly identified as liquid when loading a savegame in some rare instances.
-* The screen effects from the berserk and radiation shielding suit power-ups are now retained after changing a CVAR in the console that resets the graphics subsystem.
+* The palette effects from the berserk and radiation shielding suit power-ups are now retained after changing a CVAR in the console starting with `vid_` that resets the video subsystem.
 * The radiation shielding suit power-up is now closer to the ground.
 * The “pile of skulls and candles” decoration now spawns with blood splats at its base when the `r_corpses_moreblood` CVAR is `on`.
 * Changing the `r_translucency` CVAR will now immediately affect blood splats.
@@ -18,7 +18,7 @@
 * A bug has been fixed whereby single quotes couldn’t be used in the *control* parameter when entering the `bind` CCMD in the console.
 * All textures can now be toggled off using the new `r_textures` CVAR.
 * The following improvements have been made to “freeze mode”, enabled using the `freeze` CCMD:
-  * All moving floors and ceilings, and scrolling textures, are now disabled.
+  * All moving floors and ceilings, as well as scrolling textures, are now disabled.
   * Doors and switches can no longer be used by the player.
   * “No clipping mode” is now enabled.
   * Liquid sectors that are off of the screen when this mode is enabled are now drawn correctly.
@@ -30,9 +30,9 @@
 * The following improvements have been made to the `mapstats` CCMD:
   * The format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`) is now displayed.
   * The dimensions of the current map are now displayed in feet/miles or meters/kilometers as specified by the `units` CVAR.
-  * If the map is “limit removing” is now indicated.
+  * Whether the map is “limit removing” is now indicated.
 * Objects no longer bob up and down when underwater.
-* If a PWAD contains a sound lump called `DSSECRET`, it will now be played along with a message being displayed when the player finds a secret area.
+* If a PWAD contains a sound lump called `DSSECRET`, it will now be played along with a message when the player finds a secret area.
 * A `regenhealth` CCMD has been implemented that toggles the ability of the player’s health to regenerate at a rate of 1% per second when it drops below 100%.
 * A bug has been fixed whereby projectiles fired to or from a monster or the player standing in liquid were still being lowered when the `r_liquid_clipsprites` or `r_liquid_lowerview` CVARs were `off`.
 * Grammatical errors have been fixed in the obituaries displayed in the console if the `playername` CVAR was changed from its default.
@@ -41,12 +41,12 @@
 * The bob of the player’s weapon will no longer become stuck when the `centerweapon` CVAR is `off` in some instances.
 * The bob of the chainsaw is now as smooth as the other weapons when the player moves.
 * `BIGDOOR7`, `FIRBLU1` and `SKY1` textures are now displayed correctly.
-* The `vid_motionblur` CVAR now accepts a value between `0%` and `100%`, rather than just `on` or `off`. Its default is `0%`.
-* An `r_skycolor` CVAR has been implemented that allows the player to override the current map’s sky texture and use a solid color for the sky instead. It accepts a value between `0` and `255`, or `none` (the default).
-* The `wad` CVAR is now reset whenever `reset iwadfolder` or `resetall` is used in the console.
+* The `vid_motionblur` CVAR now accepts a value between `0%` and `100%`, rather than just `on` or `off`. It is `0%` by default.
+* An `r_skycolor` CVAR has been implemented that allows the player to override the current map’s sky texture and use a solid color for the sky instead. It is `non` by default, and also accepts a value between `0` and `255`.
+* The `wad` CVAR is now reset whenever `reset iwadfolder` or `resetall` are used in the console.
 * There is no longer any delay with the player’s face in the status bar updating upon loading a savegame or progressing to the next map.
 * *Vanilla DOOM’s* [“status bar face hysterisis”](https://doomwiki.org/wiki/Status_bar_face_hysteresis) bug is now fixed.
-* Blood splats will now be immediately removed from the current map if either the `r_blood` CVAR is changed to `none`, or the `r_bloodsplats_max` CVAR is changed to value smaller than the `r_bloodsplats_total` CVAR.
+* Blood splats will now be immediately removed from the current map if either the `r_blood` CVAR is changed to `none`, or the `r_bloodsplats_max` CVAR is changed to a value smaller than the `r_bloodsplats_total` CVAR.
 * A `vid_pillarboxes` CVAR has been implemented that toggles using the pillarboxes on either side of the screen for palette effects. It is `off` by default.
 
 ---
