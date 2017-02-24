@@ -436,6 +436,7 @@ static void r_gamma_cvar_func2(char *, char *);
 static void r_hud_cvar_func2(char *, char *);
 static void r_lowpixelsize_cvar_func2(char *, char *);
 static void r_screensize_cvar_func2(char *, char *);
+static dboolean r_skycolor_cvar_func1(char *, char *);
 static void r_skycolor_cvar_func2(char *, char *);
 static void r_textures_cvar_func2(char *, char *);
 static void r_translucency_cvar_func2(char *, char *);
@@ -755,7 +756,7 @@ consolecmd_t consolecmds[] =
         "Toggles shaking the screen when the player is near an\nexploding barrel."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the screen shakes when the player is\nattacked."),
-    CVAR_INT(r_skycolor, r_skycolour, int_cvars_func1, r_skycolor_cvar_func2, CF_NONE, SKYVALUEALIAS,
+    CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYVALUEALIAS,
         "The color of the sky (<b>none</b>, or <b>0</b> to <b>255</b>)."),
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
         "Toggles displaying all textures."),
@@ -4632,11 +4633,17 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
 //
 // r_skycolor CVAR
 //
+static dboolean r_skycolor_cvar_func1(char *cmd, char *parms)
+{
+    return (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_none
+        || int_cvars_func1(cmd, parms));
+}
+
 static void r_skycolor_cvar_func2(char *cmd, char *parms)
 {
-    if (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_default)
+    if (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_none)
     {
-        r_skycolor = r_skycolor_default;
+        r_skycolor = r_skycolor_none;
         M_SaveCVARs();
         R_InitColumnFunctions();
     }
