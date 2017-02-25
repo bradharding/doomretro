@@ -96,6 +96,8 @@ linefix_t linefix[] =
 
     { doom,             2,   1,      11,    0, "STONE2",   "",            "STONE2",      DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                      DEFAULT },
 
+    { doom,             2,   2,     536,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DR_Door_Yellow_OpenWaitClose,                 DEFAULT },
+    { doom,             2,   2,     547,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DR_Door_Yellow_OpenWaitClose,                 DEFAULT },
     { doom,             2,   2,     947,    1, "BROWN1",   "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                      DEFAULT },
     { doom,             2,   2,    1494,    1, "ICKWALL2", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                      DEFAULT },
     { doom,             2,   2,    1596,    1, "WOOD1",    "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                      DEFAULT },
@@ -121,6 +123,7 @@ linefix_t linefix[] =
     { doom,             2,   5,     590,    1, "BROVINE",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                      DEFAULT },
     { doom,             2,   5,    1027,    1, "COMPSPAN", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                      DEFAULT },
 
+    { doom,             2,   6,     620,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DR_Door_Yellow_OpenWaitClose,                 DEFAULT },
     { doom,             2,   6,    1091,    1, "COMPSPAN", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                      DEFAULT },
 
     { doom,             2,   7,     193,    1, "BROWNHUG", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                      DEFAULT },
