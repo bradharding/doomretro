@@ -50,7 +50,7 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo);
 dboolean P_GiveFullAmmo(player_t *player);
 void P_AddBonus(player_t *player, int amount);
 void G_RemoveChoppers(void);
-void P_UpdateKillStat(mobjtype_t type, unsigned int value);
+void P_UpdateKillStat(mobjtype_t type, int value);
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source);
 
 extern dboolean oldweaponsowned[NUMWEAPONS];

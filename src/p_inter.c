@@ -1041,7 +1041,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
 //
 // P_UpdateKillStat
 //
-void P_UpdateKillStat(mobjtype_t type, unsigned int value)
+void P_UpdateKillStat(mobjtype_t type, int value)
 {
     switch (type)
     {

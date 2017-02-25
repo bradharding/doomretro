@@ -419,6 +419,7 @@
 * Taking screenshots can now be bound to a key other than <kbd>PRINTSCREEN</kbd> using the `bind` CCMD with the new `+screenshot` action.
 * Parameters can no longer be entered at the end of CCMDs that don’t use them.
 * The player’s view will no longer jump slightly when dropping down between two liquid sectors greater than 24 units apart.
+* A bug has been fixed whereby the individual monster stats in the `playerstats` CCMD would be recalculated incorrectly when an arch-vile resurrected another monster.
 
 ---
 
