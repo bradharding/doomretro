@@ -44,7 +44,6 @@
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
-
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -70,26 +69,26 @@ static int              finalecount;
 #define NEWTEXTSPEED    ((FRACUNIT + 50) / 100) // new value            // phares
 #define NEWTEXTWAIT     (1000 * FRACUNIT)       // new value            // phares
 
-static char     *finaletext;
-static char     *finaleflat;
+static char             *finaletext;
+static char             *finaleflat;
 
 static void F_StartCast(void);
 static void F_CastTicker(void);
 static dboolean F_CastResponder(event_t *ev);
 
-void WI_checkForAccelerate(void);    // killough 3/28/98: used to
+void WI_checkForAccelerate(void);               // killough 3/28/98: used to
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static int      midstage;            // whether we're in "mid-stage"
+static int              midstage;               // whether we're in "mid-stage"
 
-extern int      acceleratestage;     // accelerate intermission screens
+extern int              acceleratestage;        // accelerate intermission screens
 
-extern char     *episode;
-extern char     *expansion;
-extern dboolean r_shadows;
-extern dboolean r_translucency;
-extern char     *savegame;
-extern char     *skilllevel;
+extern char             *episode;
+extern char             *expansion;
+extern dboolean         r_shadows;
+extern dboolean         r_translucency;
+extern char             *savegame;
+extern char             *skilllevel;
 
 //
 // F_StartFinale
@@ -102,7 +101,8 @@ void F_StartFinale(void)
     automapactive = false;
 
     // killough 3/28/98: clear accelerative text flags
-    acceleratestage = midstage = 0;
+    acceleratestage = 0;
+    midstage = 0;
 
     // Okay - IWAD dependent stuff.
     // This has been changed severely, and
@@ -304,7 +304,7 @@ static void F_TextWrite(void)
     byte        *src;
     byte        *dest;
     int         x, y, w;
-    int         count = FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS;
+    int         count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS);
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
@@ -339,15 +339,13 @@ static void F_TextWrite(void)
             dest += 128;
         }
 
-    if (count < 0)
-        count = 0;
-
     for (; count; count--)
     {
         char    c = *ch++;
 
         if (!c)
             break;
+
         if (c == '\n')
         {
             cx = 12;
@@ -562,6 +560,7 @@ static void F_CastTicker(void)
     }
 
     if (castattacking)
+    {
         if (castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate])
         {
 stopattack:
@@ -569,6 +568,7 @@ stopattack:
             castframes = 0;
             caststate = &states[mobjinfo[castorder[castnum].type].seestate];
         }
+    }
 
     casttics = caststate->tics;
     if (casttics == -1)
@@ -725,7 +725,7 @@ static void F_CastDrawer(void)
     // erase the entire screen to a background
     V_DrawPatch(0, 0, 0, W_CacheLumpName(bgcastcall, PU_CACHE));
 
-    F_CastPrint(*(castorder[castnum].name));
+    F_CastPrint(*castorder[castnum].name);
 
     // draw the current frame in the middle of the screen
     sprdef = &sprites[caststate->sprite];
