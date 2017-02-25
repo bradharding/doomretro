@@ -88,5 +88,5 @@ fixed_t FixedDiv(fixed_t a, fixed_t b)
 
 unsigned int SafeAdd(unsigned int a, int b)
 {
-    return (b < 0 ? a + b : ((unsigned int)b > UINT_MAX - a ? UINT_MAX : a + b));
+    return ((unsigned int)b > UINT_MAX - a ? UINT_MAX : a + b);
 }
