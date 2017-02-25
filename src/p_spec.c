@@ -1822,11 +1822,6 @@ void P_PlayerInSpecialSector(player_t *player)
 {
     sector_t    *sector = player->mo->subsector->sector;
 
-    // Falling, not all the way down yet?
-    if (player->mo->z != sector->floorheight)
-        return;
-
-    // Has hit ground.
     //jff add if to handle old vs generalized types
     if (sector->special < 32) // regular sector specials
     {

@@ -43,6 +43,7 @@
 * `BIGDOOR7`, `FIRBLU1` and `SKY1` textures are now displayed correctly.
 * The `vid_motionblur` CVAR now accepts a value between `0%` and `100%`, rather than just `on` or `off`. It is `0%` by default.
 * An `r_skycolor` CVAR has been implemented that allows the player to override the current map’s sky texture and use a solid color for the sky instead. It is `non` by default, and also accepts a value between `0` and `255`.
+* A bug that is present in *Vanilla DOOM* has been fixed whereby if the player stood between two damaging sectors at different heights, they wouldn’t be damaged.
 * The `wad` CVAR is now reset whenever `reset iwadfolder` or `resetall` are used in the console.
 * There is no longer any delay with the player’s face in the status bar updating upon loading a savegame or progressing to the next map.
 * *Vanilla DOOM’s* [“status bar face hysterisis”](https://doomwiki.org/wiki/Status_bar_face_hysteresis) bug is now fixed.

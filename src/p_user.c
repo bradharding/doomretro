@@ -341,9 +341,10 @@ void P_ResurrectPlayer(player_t *player, int health)
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t    *cmd = &player->cmd;
-    mobj_t      *mo = player->mo;
-    static int  motionblur;
+    ticcmd_t                    *cmd = &player->cmd;
+    mobj_t                      *mo = player->mo;
+    const struct msecnode_s     *seclist;
+    static int                  motionblur;
 
     // [AM] Assume we can interpolate at the beginning
     //      of the tic.
@@ -395,9 +396,8 @@ void P_PlayerThink(player_t *player)
     }
 
     // [BH] regenerate health up to 100 every 1 second
-    if (regenhealth && player->mo->health < initial_health && !(leveltime % TICRATE)
-        && !player->damagecount)
-        player->mo->health = player->health = MIN(player->health + 1, initial_health);
+    if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !player->damagecount)
+        mo->health = player->health = MIN(player->health + 1, initial_health);
 
     // Move around.
     // Reaction time is used to prevent movement for a bit after a teleport.
@@ -408,8 +408,13 @@ void P_PlayerThink(player_t *player)
 
     P_CalcHeight(player);
 
-    if (mo->subsector->sector->special)
-        P_PlayerInSpecialSector(player);
+    // [BH] Check all sectors player is touching are special
+    for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+        if (seclist->m_sector->special && mo->z == seclist->m_sector->interpfloorheight)
+        {
+            P_PlayerInSpecialSector(player);
+            break;
+        }
 
     // Check for weapon change.
 
