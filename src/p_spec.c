@@ -313,8 +313,8 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
     // jff 1/26/98 check unneeded since line->backsector already
     // returns NULL if the line is not two sided, and does so from
     // the actual two-sidedness of the line, rather than its 2S flag
-    //if (!(line->flags & ML_TWOSIDED))
-    //    return NULL;
+    // if (!(line->flags & ML_TWOSIDED))
+    //     return NULL;
     return (line->frontsector == sec ? (line->backsector != sec ? line->backsector : NULL) :
         line->frontsector);
 }
@@ -1822,7 +1822,7 @@ void P_PlayerInSpecialSector(player_t *player)
 {
     sector_t    *sector = player->mo->subsector->sector;
 
-    //jff add if to handle old vs generalized types
+    // jff add if to handle old vs generalized types
     if (sector->special < 32) // regular sector specials
     {
         int     i;

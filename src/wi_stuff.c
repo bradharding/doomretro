@@ -67,7 +67,6 @@
 
 // GLOBAL LOCATIONS
 #define WI_TITLEY               2
-#define WI_SPACINGY             33
 
 // SINGLE-PLAYER STUFF
 #define SP_STATSX               50
@@ -196,7 +195,7 @@ static anim_t epsd0animinfo[] =
     ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 192,  40, 0),
     ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 136,  16, 0),
     ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  80,  16, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  64,  24, 0),
+    ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  64,  24, 0)
 };
 
 static anim_t epsd1animinfo[] =
@@ -209,7 +208,7 @@ static anim_t epsd1animinfo[] =
     ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 6),
     ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 7),
     ANIM(ANIM_LEVEL, TICRATE / 3, 3, 192, 144, 8),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 8),
+    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 8)
 };
 
 static anim_t epsd2animinfo[] =
@@ -219,14 +218,14 @@ static anim_t epsd2animinfo[] =
     ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 160,  96, 0),
     ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 104,  80, 0),
     ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 120,  32, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 4, 3,  40,   0, 0),
+    ANIM(ANIM_ALWAYS, TICRATE / 4, 3,  40,   0, 0)
 };
 
 static int NUMANIMS[NUMEPISODES] =
 {
     arrlen(epsd0animinfo),
     arrlen(epsd1animinfo),
-    arrlen(epsd2animinfo),
+    arrlen(epsd2animinfo)
 };
 
 static anim_t *anims[NUMEPISODES] =
@@ -244,15 +243,6 @@ static anim_t *anims[NUMEPISODES] =
 // Locally used stuff.
 //
 #define FB                      0
-
-// States for single-player
-#define SP_KILLS                0
-#define SP_ITEMS                2
-#define SP_SECRET               4
-#define SP_TIME                 8
-#define SP_PAR                  ST_TIME
-
-#define SP_PAUSE                1
 
 // in seconds
 #define SHOWNEXTLOCDELAY        4
@@ -276,9 +266,6 @@ static int              cnt;
 
 // used for timing of background animation
 static int              bcnt;
-
-// signals to refresh everything for one frame
-static int              firstrefresh;
 
 static int              cnt_kills;
 static int              cnt_items;
@@ -372,7 +359,7 @@ static const int chartoi[130] =
     25, -1, -1, -1, -1, -1, -1,  0,  1,  2, // 090 - 099
      3,  4,  5,  6,  7,  8,  9, 10, 11, 12, // 100 - 109
     13, 14, 15, 16, 17, 18, 19, 20, 21, 22, // 110 - 119
-    23, 24, 25, -1, -1, -1, -1, -1, -1, -1, // 120 - 129
+    23, 24, 25, -1, -1, -1, -1, -1, -1, -1  // 120 - 129
 };
 
 static void WI_drawWILV(int y, char *str)
@@ -409,9 +396,9 @@ static void WI_drawWILV(int y, char *str)
 // Draws "<Levelname> Finished!"
 static void WI_drawLF(void)
 {
-    int         x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
-    int         y = WI_TITLEY;
-    int         titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
+    int x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
+    int y = WI_TITLEY;
+    int titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
 
     // draw <LevelName>
     if (titlepatch)
@@ -452,9 +439,9 @@ static void WI_drawLF(void)
 // Draws "Entering <LevelName>"
 static void WI_drawEL(void)
 {
-    int         x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
-    int         y = WI_TITLEY;
-    int         titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
+    int x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
+    int y = WI_TITLEY;
+    int titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
 
     // draw "Entering"
     V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
@@ -820,8 +807,8 @@ static void WI_initStats(void)
 
 static void WI_updateStats(void)
 {
-    //e6y
-    static dboolean play_early_explosion = true;
+    // e6y
+    static dboolean     play_early_explosion = true;
 
     WI_updateAnimatedBack();
 
@@ -1152,7 +1139,6 @@ static void WI_loadCallback(char *name, patch_t **variable)
 static void WI_loadData(void)
 {
     char        bg_lumpname[9];
-    patch_t     *bg;
 
     if (gamemode == commercial)
     {
@@ -1176,8 +1162,7 @@ static void WI_loadData(void)
     }
     else
         M_snprintf(bg_lumpname, 9, "WIMAP%i", wbs->epsd);
-    bg = (patch_t *)W_CacheLumpName(bg_lumpname, PU_CACHE);
-    V_DrawPatch(0, 0, 1, bg);
+    V_DrawPatch(0, 0, 1, (patch_t *)W_CacheLumpName(bg_lumpname, PU_CACHE));
 }
 
 static void WI_unloadCallback(char *name, patch_t **variable)
@@ -1218,8 +1203,8 @@ static void WI_initVariables(wbstartstruct_t *wbstartstruct)
     wbs = wbstartstruct;
 
     acceleratestage = 0;
-    cnt = bcnt = 0;
-    firstrefresh = 1;
+    cnt = 0;
+    bcnt = 0;
     me = wbs->pnum;
     plrs = wbs->plyr;
 

@@ -205,7 +205,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     if (side)
         return false;
 
-    //jff 02/04/98 add check here for generalized floor/ceil mover
+    // jff 02/04/98 add check here for generalized floor/ceil mover
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is push or switch generalized linedef type
@@ -313,7 +313,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             case D1_Door_Red_OpenStay:
             case D1_Door_Yellow_OpenStay:
 
-            //jff 3/5/98 add ability to use teleporters for monsters
+            // jff 3/5/98 add ability to use teleporters for monsters
             case SR_Teleport_AlsoMonsters:
             case S1_Teleport_AlsoMonsters:
             case S1_Teleport_AlsoMonsters_Silent_SameAngle:

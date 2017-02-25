@@ -39,7 +39,7 @@
 #if !defined(__P_SPEC_H__)
 #define __P_SPEC_H__
 
-//jff 2/23/98 identify the special classes that can share sectors
+// jff 2/23/98 identify the special classes that can share sectors
 typedef enum
 {
     floor_special,
@@ -97,9 +97,9 @@ fixed_t P_FindShortestTextureAround(int secnum); // jff 2/04/98
 
 fixed_t P_FindShortestUpperAround(int secnum); // jff 2/04/98
 
-sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum); //jff 02/04/98
+sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum); // jff 02/04/98
 
-sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); //jff 02/04/98
+sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); // jff 02/04/98
 
 int P_FindSectorFromLineTag(const line_t *line, int start);
 int P_FindLineFromLineTag(const line_t *line, int start);
@@ -241,7 +241,7 @@ typedef enum
     in_stasis
 } plat_e;
 
-//jff 3/15/98 pure texture/type change for better generalized support
+// jff 3/15/98 pure texture/type change for better generalized support
 typedef enum
 {
     trigChangeOnly,
@@ -314,7 +314,7 @@ typedef enum
     doorBlazeOpen,
     doorBlazeClose,
 
-    //jff 02/05/98 add generalized door types
+    // jff 02/05/98 add generalized door types
     genRaise,
     genBlazeRaise,
     genOpen,
@@ -378,13 +378,13 @@ typedef enum
     fastCrushAndRaise,
     silentCrushAndRaise,
 
-    //jff 02/04/98 add types for generalized ceiling mover
+    // jff 02/04/98 add types for generalized ceiling mover
     genCeiling,
     genCeilingChg,
     genCeilingChg0,
     genCeilingChgT,
 
-    //jff 02/05/98 add types for generalized ceiling mover
+    // jff 02/05/98 add types for generalized ceiling mover
     genCrusher,
     genSilentCrusher
 } ceiling_e;
@@ -400,7 +400,7 @@ typedef struct
     fixed_t                     oldspeed;
     dboolean                    crush;
 
-    //jff 02/04/98 add these to support ceiling changers
+    // jff 02/04/98 add these to support ceiling changers
     int                         newspecial;
     short                       texture;
 
@@ -453,13 +453,13 @@ typedef enum
     // raise floor to next highest surrounding floor
     raiseFloorToNearest,
 
-    //jff 02/03/98 lower floor to next lowest neighbor
+    // jff 02/03/98 lower floor to next lowest neighbor
     lowerFloorToNearest,
 
-    //jff 02/03/98 lower floor 24 absolute
+    // jff 02/03/98 lower floor 24 absolute
     lowerFloor24,
 
-    //jff 02/03/98 lower floor 32 absolute
+    // jff 02/03/98 lower floor 32 absolute
     lowerFloor32Turbo,
 
     // raise floor to shortest height texture around it
@@ -471,7 +471,7 @@ typedef enum
 
     raiseFloor24,
 
-    //jff 02/03/98 raise floor 32 absolute
+    // jff 02/03/98 raise floor 32 absolute
     raiseFloor32Turbo,
 
     raiseFloor24AndChange,
@@ -482,7 +482,7 @@ typedef enum
     donutRaise,
     raiseFloor512,
 
-    //jff 02/04/98  add types for generalized floor mover
+    // jff 02/04/98  add types for generalized floor mover
     genFloor,
     genFloorChg,
     genFloorChg0,
@@ -603,7 +603,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing);
 dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
 dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse);
 
-//jff 3/14/98 add bits and shifts for generalized sector types
+// jff 3/14/98 add bits and shifts for generalized sector types
 
 #define DAMAGE_MASK     0x60
 #define DAMAGE_SHIFT    5

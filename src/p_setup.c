@@ -532,7 +532,7 @@ static void P_LoadSegs_V4(int lump)
         li->offset = SHORT(ml->offset) << FRACBITS;
         linedef = (unsigned short)SHORT(ml->linedef);
 
-        //e6y: check for wrong indexes
+        // e6y: check for wrong indexes
         if (linedef < 0 || linedef >= numlines)
             I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
 
@@ -1758,7 +1758,7 @@ static void P_LoadReject(int lumpnum, int totallines)
     rejectlump = lumpnum + ML_REJECT;
     rejectmatrix = W_CacheLumpNum(rejectlump, PU_STATIC);
 
-    //e6y: check for overflow
+    // e6y: check for overflow
     RejectOverrun(rejectlump, &rejectmatrix, totallines);
 }
 
@@ -1844,7 +1844,7 @@ static int P_GroupLines(void)
         fixed_t *bbox = (void *)sector->blockbox;       // cph - For convenience, so
         int     block;                                  // I can use the old code unchanged
 
-        //e6y: fix sound origin for large levels
+        // e6y: fix sound origin for large levels
         sector->soundorg.x = bbox[BOXRIGHT] / 2 + bbox[BOXLEFT] / 2;
         sector->soundorg.y = bbox[BOXTOP] / 2 + bbox[BOXBOTTOM] / 2;
 

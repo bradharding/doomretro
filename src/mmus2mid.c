@@ -545,7 +545,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, dboolean n
         {
             DeltaTime = ReadTime(&musptr);
             TotalTime += DeltaTime;
-            for (i = 0; i < MIDI_TRACKS; i++)   //jff 3/13/98 update all tracks
+            for (i = 0; i < MIDI_TRACKS; i++)   // jff 3/13/98 update all tracks
                 track[i].deltaT += DeltaTime;   //whether allocated yet or not
         }
     } while ((evt != SCORE_END) && (size_t)(musptr - mus) < muslen);
