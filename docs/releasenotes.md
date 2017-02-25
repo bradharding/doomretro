@@ -29,6 +29,7 @@
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
 * The following improvements have been made to the `mapstats` CCMD:
   * The format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`) is now displayed.
+  * The overall height of the map is now displayed in the map’s dimensions.
   * The dimensions of the current map are now displayed in feet/miles or meters/kilometers as specified by the `units` CVAR.
   * Whether the map is “limit removing” is now indicated.
 * Objects no longer bob up and down when underwater.

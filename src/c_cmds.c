@@ -90,6 +90,9 @@
 #define UNBINDCMDFORMAT         "<i>control</i>"
 
 #define UNITSPERFOOT            16
+#define FEETPERMETER            3.28084f
+#define METERSPERKILOMETER      1000
+#define FEETPERMILE             5280
 
 alias_t                 aliases[MAXALIASES];
 
@@ -2680,8 +2683,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         int     max_x = INT_MIN;
         int     min_y = INT_MAX;
         int     max_y = INT_MIN;
+        int     max_c = INT_MIN;
+        int     min_f = INT_MAX;
         int     width;
         int     height;
+        int     depth;
 
         for (i = 0; i < numvertexes; ++i)
         {
@@ -2701,28 +2707,43 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         width = ((max_x - min_x) >> FRACBITS) / UNITSPERFOOT;
         height = ((max_y - min_y) >> FRACBITS) / UNITSPERFOOT;
 
+        for (i = 0; i < numsectors; ++i)
+        {
+            if (max_c < sectors[i].ceilingheight)
+                max_c = sectors[i].ceilingheight;
+            if (min_f > sectors[i].floorheight)
+                min_f = sectors[i].floorheight;
+        }
+
+        depth = (ABS(max_c - min_f) >> FRACBITS) / UNITSPERFOOT;
+
         if (units == units_metric)
         {
-            float   metricwidth = width / 3.28084f;
-            float   metricheight = height / 3.28084f;
+            float   metricwidth = width / FEETPERMETER;
+            float   metricheight = height / FEETPERMETER;
+            float   metricdepth = depth / FEETPERMETER;
 
-            if (metricwidth < 1000.0f && metricheight < 1000.0f)
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s meters</b>",
-                    striptrailingzero(metricwidth, 1), striptrailingzero(metricheight, 1));
+            if (metricwidth < METERSPERKILOMETER && metricheight < METERSPERKILOMETER
+                && metricdepth < METERSPERKILOMETER)
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s meters</b>",
+                    striptrailingzero(metricwidth, 1), striptrailingzero(metricheight, 1),
+                    striptrailingzero(metricdepth, 1));
             else
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s kilometers</b>",
-                    striptrailingzero(metricwidth / 1000.0f, 1),
-                    striptrailingzero(metricheight / 1000.0f, 1));
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s kilometers</b>",
+                    striptrailingzero(metricwidth / METERSPERKILOMETER, 1),
+                    striptrailingzero(metricheight / METERSPERKILOMETER, 1),
+                    striptrailingzero(metricdepth / METERSPERKILOMETER, 1));
         }
         else
         {
-            if (width < 5280 && height < 5280)
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s feet</b>",
-                    commify(width), commify(height));
+            if (width < FEETPERMILE && height < FEETPERMILE)
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s feet</b>",
+                    commify(width), commify(height), commify(depth));
             else
-                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s miles</b>",
-                    striptrailingzero(width / 5280.0f, 2),
-                    striptrailingzero(height / 5280.0f, 2));
+                C_TabbedOutput(tabs, "Dimensions\t<b>%s\xD7%s\xD7%s miles</b>",
+                    striptrailingzero((float)width / FEETPERMILE, 2),
+                    striptrailingzero((float)height / FEETPERMILE, 2),
+                    striptrailingzero((float)depth / FEETPERMILE, 2));
         }
     }
 
@@ -2943,25 +2964,25 @@ static char *distance(fixed_t value, dboolean showunits)
 
     if (units == units_metric)
     {
-        float   meters = value / 3.28084f;
+        float   meters = value / FEETPERMETER;
 
         if (!meters)
             M_StringCopy(result, (showunits ? "0 meters" : "0"), 20);
-        else if (meters < 1000.0f)
+        else if (meters < METERSPERKILOMETER)
             M_snprintf(result, 20, "%s%s%s", striptrailingzero(meters, 1),
-            (showunits ? " meter" : ""), (meters == 1.0f || !showunits ? "" : "s"));
+                (showunits ? " meter" : ""), (meters == 1.0f || !showunits ? "" : "s"));
         else
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(meters / 1000.0f, 2),
-            (showunits ? " kilometer" : ""), (meters == 1000.0f || !showunits ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero(meters / METERSPERKILOMETER, 2),
+                (showunits ? " kilometer" : ""), (meters == METERSPERKILOMETER || !showunits ? "" : "s"));
     }
     else
     {
-        if (value < 5280)
+        if (value < FEETPERMILE)
             M_snprintf(result, 20, "%s%s", commify(value),
-            (showunits ? (value == 1 ? " foot" : " feet") : ""));
+                (showunits ? (value == 1 ? " foot" : " feet") : ""));
         else
-            M_snprintf(result, 20, "%s%s%s", striptrailingzero(value / 5280.0f, 2),
-            (showunits ? " mile" : ""), (value == 5280 || !showunits ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", striptrailingzero((float)value / FEETPERMILE, 2),
+                (showunits ? " mile" : ""), (value == FEETPERMILE || !showunits ? "" : "s"));
     }
 
     return result;
