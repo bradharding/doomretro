@@ -108,6 +108,8 @@ lighttable_t            **colormaps;
 // bumped light from gun blasts
 int                     extralight;
 
+dboolean                drawbloodsplats;
+
 dboolean                r_dither = r_dither_default;
 dboolean                r_homindicator = r_homindicator_default;
 dboolean                r_shake_barrels = r_shake_barrels_default;
@@ -118,6 +120,7 @@ extern dboolean         canmodify;
 extern int              explosiontics;
 extern int              skycolor;
 extern dboolean         transferredsky;
+extern dboolean         vanilla;
 extern int              viewheight2;
 extern dboolean         windowfocused;
 
@@ -732,6 +735,8 @@ void R_SetupFrame(player_t *player)
     zlight = c_zlight[cm];
     scalelight = c_scalelight[cm];
     psprscalelight = c_psprscalelight[cm];
+
+    drawbloodsplats = (r_blood != r_blood_none && r_bloodsplats_max && !vanilla);
 
     if (player->fixedcolormap)
     {

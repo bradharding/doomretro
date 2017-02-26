@@ -1932,7 +1932,7 @@ void PIT_ChangeSector(mobj_t *thing)
                 int     fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
                 int     fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
 
-                P_BloodSplatSpawner(fx, fy, blood, floorz, NULL);
+                P_SpawnBloodSplat(fx, fy, blood, floorz, NULL);
             }
         }
 

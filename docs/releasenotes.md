@@ -46,7 +46,7 @@
 * The `wad` CVAR is now reset whenever `reset iwadfolder` or `resetall` are used in the console.
 * There is no longer any delay with the player’s face updating in the status bar upon loading a savegame or progressing to the next map.
 * *Vanilla DOOM’s* [“status bar face hysterisis”](https://doomwiki.org/wiki/Status_bar_face_hysteresis) bug is now fixed.
-* Blood splats will now be immediately removed from the current map if either the `r_blood` CVAR is changed to `none`, or the `r_bloodsplats_max` CVAR is changed to a value smaller than the `r_bloodsplats_total` CVAR.
+* Blood splats will now be immediately removed from the current map if either the `r_blood` CVAR is changed to `none`, or the `r_bloodsplats_max` CVAR is changed to `0`.
 * A `vid_pillarboxes` CVAR has been implemented that toggles using the pillarboxes on either side of the screen for palette effects. It is `off` by default.
 * A bug has been fixed whereby the individual monster stats in the `playerstats` CCMD would be recalculated incorrectly when an arch-vile resurrected another monster.
 * Fixes have been applied to three locked doors in E2M2 and E2M6 of `doom.wad` so that monsters can’t open them from the other side.

@@ -430,7 +430,6 @@ static void player_cvars_func2(char *, char *);
 static void playername_cvar_func2(char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *);
 static void r_blood_cvar_func2(char *, char *);
-static void r_bloodsplats_max_cvar_func2(char *, char *);
 static dboolean r_detail_cvar_func1(char *, char *);
 static void r_detail_cvar_func2(char *, char *);
 static void r_dither_cvar_func2(char *, char *);
@@ -697,7 +696,7 @@ consolecmd_t consolecmds[] =
         "The intensity of the red palette effect when the player\nhas the berserk power-up and their fist selected (<b>0</b>\nto <b>8</b>)."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODVALUEALIAS,
         "The colors of the blood of the player and monsters (<b>all</b>,\n<b>none</b> or <b>red</b>)."),
-    CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, r_bloodsplats_max_cvar_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The maximum number of blood splats allowed in a map (<b>0</b>\nto <b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,
         "The total number of blood splats in the current map."),
@@ -4376,27 +4375,6 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
         if (value != INT_MIN && r_blood != value)
         {
             r_blood = value;
-            P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
-                P_NullBloodSplatSpawner : P_SpawnBloodSplat);
-
-            if (r_blood == r_blood_none)
-            {
-                int     i;
-
-                for (i = 0; i < numsectors; ++i)
-                {
-                    bloodsplat_t    *splat = sectors[i].splatlist;
-
-                    while (splat)
-                    {
-                        bloodsplat_t    *next = splat->snext;
-
-                        P_UnsetBloodSplatPosition(splat);
-                        splat = next;
-                    }
-                }
-            }
-
             M_SaveCVARs();
         }
     }
@@ -4410,42 +4388,6 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS),
                 C_LookupAliasFromValue(r_blood_default, BLOODVALUEALIAS));
-    }
-}
-
-//
-// r_bloodsplats_max CVAR
-//
-static void r_bloodsplats_max_cvar_func2(char *cmd, char *parms)
-{
-    int r_bloodsplats_max_old = r_bloodsplats_max;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_bloodsplats_max != r_bloodsplats_max_old)
-    {
-        P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
-            P_NullBloodSplatSpawner : P_SpawnBloodSplat);
-
-        if (r_bloodsplats_max < r_bloodsplats_total)
-        {
-            int i = 0;
-
-            while (i < numsectors && r_bloodsplats_max < r_bloodsplats_total)
-            {
-                bloodsplat_t    *splat = sectors[i].splatlist;
-
-                while (splat && r_bloodsplats_max < r_bloodsplats_total)
-                {
-                    bloodsplat_t        *next = splat->snext;
-
-                    P_UnsetBloodSplatPosition(splat);
-                    splat = next;
-                }
-                ++i;
-            }
-
-        }
     }
 }
 

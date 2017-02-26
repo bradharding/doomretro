@@ -87,6 +87,7 @@ dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
 dboolean                r_playersprites = r_playersprites_default;
 
 extern fixed_t          animatedliquiddiff;
+extern dboolean         drawbloodsplats;
 extern dboolean         inhelpscreens;
 extern dboolean         notranslucency;
 extern dboolean         r_liquid_bob;
@@ -975,7 +976,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
         LIGHTLEVELS - 1)];
 
-    if (sec->interpfloorheight <= viewz)
+    if (drawbloodsplats && sec->interpfloorheight <= viewz)
     {
         bloodsplat_t    *splat;
 

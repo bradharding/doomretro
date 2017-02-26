@@ -1492,8 +1492,6 @@ static int D_OpenWADLauncher(void)
 }
 #endif
 
-void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
-
 dboolean CheckPackageWADVersion(void);
 
 static void D_ProcessDehCommandLine(void)
@@ -1916,9 +1914,6 @@ static void D_DoomMainSetup(void)
         startloadgame = atoi(myargv[p + 1]);
     else
         startloadgame = -1;
-
-    P_BloodSplatSpawner = (r_blood == r_blood_none || !r_bloodsplats_max ?
-        P_NullBloodSplatSpawner : P_SpawnBloodSplat);
 
     M_Init();
 

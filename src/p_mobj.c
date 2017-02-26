@@ -318,7 +318,7 @@ void P_XYMovement(mobj_t *mo)
             fy = y + (M_RandomInt(-radius, radius) << FRACBITS);
 
             if (floorz == R_PointInSubsector(x, y)->sector->floorheight)
-                P_BloodSplatSpawner(fx, fy, blood, floorz, mo);
+                P_SpawnBloodSplat(fx, fy, blood, floorz, mo);
         }
     }
 
@@ -418,7 +418,7 @@ void P_ZMovement(mobj_t *mo)
         if (mo->flags2 & MF2_BLOOD)
         {
             if (r_bloodsplats_max)
-                P_BloodSplatSpawner(mo->x, mo->y, mo->blood, mo->floorz, NULL);
+                P_SpawnBloodSplat(mo->x, mo->y, mo->blood, mo->floorz, NULL);
             P_RemoveMobj(mo);
             return;
         }
@@ -984,7 +984,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
         fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
         fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
 
-        P_BloodSplatSpawner(fx, fy, blood, floorz, mobj);
+        P_SpawnBloodSplat(fx, fy, blood, floorz, mobj);
     }
 }
 
@@ -1241,38 +1241,40 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target)
 {
-    sector_t    *sec = R_PointInSubsector(x, y)->sector;
-
-    if (!sec->isliquid && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
+    if (r_bloodsplats_total == r_bloodsplats_max)
+        return;
+    else
     {
-        bloodsplat_t    *splat = malloc(sizeof(*splat));
+        sector_t    *sec = R_PointInSubsector(x, y)->sector;
 
-        splat->frame = sprites[SPR_BLD2].spriteframes[rand() & 7].lump[0];
-        splat->flags = rand() & BSF_MIRRORED;
-
-        if (blood == FUZZYBLOOD)
+        if (!sec->isliquid && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
         {
-            splat->flags |= BSF_FUZZ;
-            splat->colfunc = fuzzcolfunc;
+            bloodsplat_t    *splat = malloc(sizeof(*splat));
+
+            splat->frame = sprites[SPR_BLD2].spriteframes[rand() & 7].lump[0];
+            splat->flags = rand() & BSF_MIRRORED;
+
+            if (blood == FUZZYBLOOD)
+            {
+                splat->flags |= BSF_FUZZ;
+                splat->colfunc = fuzzcolfunc;
+            }
+            else
+                splat->colfunc = bloodsplatcolfunc;
+
+            splat->blood = blood;
+            splat->x = x;
+            splat->y = y;
+            splat->sector = sec;
+            P_SetBloodSplatPosition(splat);
+
+            r_bloodsplats_total++;
+
+            if (target && target->bloodsplats)
+                target->bloodsplats--;
         }
-        else
-            splat->colfunc = bloodsplatcolfunc;
-
-        splat->blood = blood;
-        splat->x = x;
-        splat->y = y;
-        splat->sector = sec;
-        P_SetBloodSplatPosition(splat);
-
-        if (++r_bloodsplats_total >= r_bloodsplats_max)
-            P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-
-        if (target && target->bloodsplats)
-            target->bloodsplats--;
     }
 }
-
-void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target) {}
 
 //
 // P_CheckMissileSpawn

@@ -115,8 +115,6 @@ void P_ResurrectPlayer(player_t *player, int health);
 #define CARDNOTFOUNDYET         -1
 #define CARDNOTINMAP            0
 
-void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
-
 extern int                      r_blood;
 extern int                      r_bloodsplats_total;
 extern int                      r_bloodsplats_max;
@@ -146,7 +144,6 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target);
-void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_InitExtraMobjs(void);
