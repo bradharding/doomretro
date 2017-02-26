@@ -20,16 +20,14 @@
 * The following improvements have been made to “freeze mode”, enabled using the `freeze` CCMD:
   * All moving floors and ceilings, as well as scrolling textures, are now disabled.
   * Doors and switches can no longer be used by the player.
-  * “No clipping mode” is now enabled.
+  * “No clipping mode” is also enabled.
   * Liquid sectors that are off of the screen when this mode is enabled are now drawn correctly.
-  * The player’s face in the status bar will no longer move.
-  * The player and their weapon no longer bob up and down.
 * The `r_dither` CVAR is now `off` by default.
 * The `vid_scalefilter` CVAR is now `"nearest"` by default.
 * A bug has been fixed whereby some MP3 music lumps would either play incorrectly or not at all.
 * The following improvements have been made to the `mapstats` CCMD:
   * The format of the currently playing music lump (`MIDI (converted from MUS)`, `MIDI`, `Ogg Vorbis`, `MP3`, `WAV`, `FLAC` or `MOD`) is now displayed.
-  * The overall height of the map is now displayed in the map’s dimensions.
+  * The overall height of the map is now also displayed in the map’s dimensions.
   * The dimensions of the current map are now displayed in feet/miles or meters/kilometers as specified by the `units` CVAR.
   * Whether the map is “limit removing” is now indicated.
 * Objects no longer bob up and down when underwater.
@@ -44,9 +42,9 @@
 * `BIGDOOR7`, `FIRBLU1` and `SKY1` textures are now displayed correctly.
 * The `vid_motionblur` CVAR now accepts a value between `0%` and `100%`, rather than just `on` or `off`. It is `0%` by default.
 * An `r_skycolor` CVAR has been implemented that allows the player to override the current map’s sky texture and use a solid color for the sky instead. It is `non` by default, and also accepts a value between `0` and `255`.
-* A bug that is present in *Vanilla DOOM* has been fixed whereby if the player stood between two damaging sectors at different heights, they wouldn’t be damaged.
+* A bug present in *Vanilla DOOM* has been fixed whereby if the player stood between two damaging sectors at different heights, they wouldn’t be damaged.
 * The `wad` CVAR is now reset whenever `reset iwadfolder` or `resetall` are used in the console.
-* There is no longer any delay with the player’s face in the status bar updating upon loading a savegame or progressing to the next map.
+* There is no longer any delay with the player’s face updating in the status bar upon loading a savegame or progressing to the next map.
 * *Vanilla DOOM’s* [“status bar face hysterisis”](https://doomwiki.org/wiki/Status_bar_face_hysteresis) bug is now fixed.
 * Blood splats will now be immediately removed from the current map if either the `r_blood` CVAR is changed to `none`, or the `r_bloodsplats_max` CVAR is changed to a value smaller than the `r_bloodsplats_total` CVAR.
 * A `vid_pillarboxes` CVAR has been implemented that toggles using the pillarboxes on either side of the screen for palette effects. It is `off` by default.

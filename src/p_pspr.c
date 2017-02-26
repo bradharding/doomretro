@@ -880,7 +880,7 @@ void P_MovePsprites(player_t *player)
         if (psp->state && psp->tics != -1 && !--psp->tics)
             P_SetPsprite(player, i, psp->state->nextstate);
 
-    if (weapon->state->action == A_WeaponReady && !freeze)
+    if (weapon->state->action == A_WeaponReady)
     {
         // bob the weapon based on movement speed
         fixed_t momx = player->momx;
