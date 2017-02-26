@@ -2640,8 +2640,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     }
 
     C_TabbedOutput(tabs, "Type\t<b>%s%s</b>", (boomlinespecials ? "<i>BOOM</i>-compatible" :
-        (numsegs < 32768 ? "Vanilla-compatible" : "limit removing")),
-        (numsegs < 32768 ? "" : " and limit removing"));
+        (numsegs < 32768 ? "Vanilla-compatible" : "Limit removing")),
+        (numsegs < 32768 || !boomlinespecials ? "" : " and limit removing"));
 
     C_TabbedOutput(tabs, "Things\t<b>%s</b>", commify(numthings));
 
