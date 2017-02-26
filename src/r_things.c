@@ -75,6 +75,8 @@ int                     screenheightarray[SCREENWIDTH];
 // variables used to look up and range check thing_t sprites patches
 spritedef_t             *sprites;
 
+short                   firstbloodsplatlump;
+
 static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
 
@@ -295,6 +297,8 @@ static void R_InitSpriteDefs(void)
         }
     }
     free(hash); // free hash table
+
+    firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
 }
 
 //
