@@ -3,6 +3,7 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly when rendering blood splats and shadows.
 * Improvements have been made to *DOOM Retro’s* renderer.
 * Optimizations have been made to the size of savegames and therefore those created using previous versions of *DOOM Retro* are not compatible with this version.
+* `doomretro.exe` is now compressed using [*UPX (Ultimate Packer for eXecutables) v3.93*](https://upx.github.io/).
 * Maps built using a new node/blockmap builder called [*ZokumBSP*](http://doom2.net/zokum/zokumbsp/) are now supported.
 * The filename of a WAD may now be entered manually in the WAD launcher without its “.WAD” extension.
 * A “vanilla mode” may now be toggled on or off using the new `vanilla` CCMD. Enabling this mode will disable several features to make *DOOM Retro* look as close to *Vanilla DOOM* as possible. Any further changes to CVARs in the console won’t be saved while this mode is enabled. When this mode is then disabled, or the player quits *DOOM Retro* altogether, all CVARs will be restored to their values prior to enabling this mode.
