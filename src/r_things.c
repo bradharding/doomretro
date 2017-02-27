@@ -341,8 +341,8 @@ void R_ClearSprites(void)
     if (num_vissprite >= num_vissprite_alloc)
     {
         num_vissprite_alloc += 256;
-        vissprites = Z_Realloc(vissprites, num_vissprite_alloc * sizeof(vissprite_t));
-        vissprite_ptrs = Z_Realloc(vissprite_ptrs, num_vissprite_alloc * sizeof(vissprite_t *));
+        vissprites = realloc(vissprites, num_vissprite_alloc * sizeof(vissprite_t));
+        vissprite_ptrs = realloc(vissprite_ptrs, num_vissprite_alloc * sizeof(vissprite_t *));
     }
 
     num_vissprite = 0;
