@@ -728,6 +728,10 @@ static void D_CheckSupportedPWAD(char *filename)
         chex = chex2 = true;
     else if (M_StringCompare(leaf, "btsx_e1.wad"))
         BTSX = BTSXE1 = true;
+    else if (M_StringCompare(leaf, "btsx_e1a.wad"))
+        BTSX = BTSXE1 = BTSXE1A = true;
+    else if (M_StringCompare(leaf, "btsx_e1b.wad"))
+        BTSX = BTSXE1 = BTSXE1B = true;
     else if (M_StringCompare(leaf, "btsx_e2a.wad"))
         BTSX = BTSXE2 = BTSXE2A = true;
     else if (M_StringCompare(leaf, "btsx_e2b.wad"))
@@ -948,7 +952,19 @@ dboolean D_CheckParms(void)
         {
             static char     fullpath[MAX_PATH];
 
-            if (BTSXE2A && !BTSXE2B)
+            if (BTSXE1A && !BTSXE1B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                    M_ExtractFolder(myargv[1]), "btsx_e1b.wad");
+                return W_MergeFile(fullpath, true);
+            }
+            else if (!BTSXE1A && BTSXE1B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                    M_ExtractFolder(myargv[1]), "btsx_e1a.wad");
+                return W_MergeFile(fullpath, true);
+            }
+            else if (BTSXE2A && !BTSXE2B)
             {
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                     M_ExtractFolder(myargv[1]), "btsx_e2b.wad");
@@ -1145,7 +1161,19 @@ static int D_OpenWADLauncher(void)
             {
                 static char     fullpath[MAX_PATH];
 
-                if (BTSXE2A && !BTSXE2B)
+                if (BTSXE1A && !BTSXE1B)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        M_ExtractFolder(file), "btsx_e1b.wad");
+                    return W_MergeFile(fullpath, true);
+                }
+                else if (!BTSXE1A && BTSXE1B)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        M_ExtractFolder(file), "btsx_e1a.wad");
+                    return W_MergeFile(fullpath, true);
+                }
+                else if (BTSXE2A && !BTSXE2B)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         M_ExtractFolder(file), "btsx_e2b.wad");

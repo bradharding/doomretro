@@ -106,6 +106,8 @@ extern dboolean         chexdeh;
 extern dboolean         hacx;
 extern dboolean         BTSX;
 extern dboolean         BTSXE1;
+extern dboolean         BTSXE1A;
+extern dboolean         BTSXE1B;
 extern dboolean         BTSXE2;
 extern dboolean         BTSXE2A;
 extern dboolean         BTSXE2B;
