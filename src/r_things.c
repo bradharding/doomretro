@@ -1020,17 +1020,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (dehacked ? spriteoffset[lump] :
         newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS;
-
-    // off the right side
-    if (x1 > viewwidth)
-        return;
-
     tx += spritewidth[lump];
     x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS) - 1;
-
-    // off the left side
-    if (x2 < 0)
-        return;
 
     // store information in a vissprite
     vis = &tempvis;
@@ -1038,21 +1029,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->scale = pspriteyscale;
-
-    if (!!(sprframe->flip & 1))
-    {
-        vis->xiscale = -pspriteiscale;
-        vis->startfrac = spritewidth[lump] - 1;
-    }
-    else
-    {
-        vis->xiscale = pspriteiscale;
-        vis->startfrac = 0;
-    }
-
-    if (vis->x1 > x1)
-        vis->startfrac += vis->xiscale * (vis->x1 - x1);
-
+    vis->xiscale = pspriteiscale;
+    vis->startfrac = 0;
     vis->patch = lump;
 
     if (invisibility)
