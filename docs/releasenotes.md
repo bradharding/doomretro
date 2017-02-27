@@ -1,3 +1,9 @@
+### DOOM Retro v2.4.1
+
+---
+
+###### Monday, February 27, 2017
+
 ### DOOM Retro v2.4
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*, particularly when rendering blood splats and shadows.
@@ -42,7 +48,7 @@
 * The bob of the chainsaw is now as smooth as the other weapons when the player moves.
 * `BIGDOOR7`, `FIRBLU1` and `SKY1` textures are now displayed correctly.
 * The `vid_motionblur` CVAR now accepts a value between `0%` and `100%`, rather than just `on` or `off`. It is `0%` by default.
-* An `r_skycolor` CVAR has been implemented that allows the player to override the current map’s sky texture and use a solid color for the sky instead. It is `non` by default, and also accepts a value between `0` and `255`.
+* An `r_skycolor` CVAR has been implemented that allows the player to override the current map’s sky texture and use a solid color for the sky instead. It is `none` by default, and also accepts a value between `0` and `255`.
 * A bug present in *Vanilla DOOM* has been fixed whereby if the player stood between two damaging sectors at different heights, they wouldn’t be damaged.
 * The `wad` CVAR is now reset whenever `reset iwadfolder` or `resetall` are used in the console.
 * There is no longer any delay with the player’s face updating in the status bar upon loading a savegame or progressing to the next map.
