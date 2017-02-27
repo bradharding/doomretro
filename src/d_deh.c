@@ -1909,7 +1909,7 @@ dboolean CheckPackageWADVersion(void)
     char        inbuffer[32];
     int         i;
 
-    for (i = 0; i < numlumps; ++i)
+    for (i = 0; i < numlumps; i++)
         if (!strncasecmp(lumpinfo[i]->name, "VERSION", 7))
         {
             infile.size = W_LumpLength(i);
@@ -2072,7 +2072,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         fclose(infile.f);                       // Close real file
 
     if (addtocount)
-        ++dehcount;
+        dehcount++;
 
     if (infile.lump)
         C_Output("Parsed the <b>DEHACKED</b> lump in %s <b>%s</b>.",
@@ -2141,7 +2141,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
                         deh_bexptrs[i].lookup, i, indexnum);
                 found = true;
             }
-            ++i;
+            i++;
         }
 
         if (!found)
@@ -2180,7 +2180,7 @@ void deh_procThing(DEHFILE *fpin, char *line)
 
     // Note that the mobjinfo[] array is base zero, but object numbers
     // in the dehacked file start with one. Grumble.
-    --indexnum;
+    indexnum--;
 
     // now process the stuff
     // Note that for Things we can look up the key and use its offset
@@ -2675,7 +2675,7 @@ char *strlwr(char *str)
     size_t      i;
     size_t      len = strlen(str);
 
-    for (i = 0; i < len; ++i)
+    for (i = 0; i < len; i++)
         str[i] = tolower((unsigned char)str[i]);
 
     return str;
@@ -2808,7 +2808,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_mus.sequence = strdup(p);
             cheat_mus_xy.sequence = strdup(p);
             success = true;
@@ -2819,7 +2819,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_choppers.sequence = strdup(p);
             success = true;
         }
@@ -2829,7 +2829,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_god.sequence = strdup(p);
             success = true;
         }
@@ -2839,7 +2839,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_ammo.sequence = strdup(p);
             success = true;
         }
@@ -2849,7 +2849,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_ammonokey.sequence = strdup(p);
             success = true;
         }
@@ -2859,7 +2859,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_noclip.sequence = strdup(p);
             success = true;
         }
@@ -2869,7 +2869,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_commercial_noclip.sequence = strdup(p);
             success = true;
         }
@@ -2879,7 +2879,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_powerup[0].sequence = strdup(p);
             success = true;
         }
@@ -2889,7 +2889,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_powerup[1].sequence = strdup(p);
             success = true;
         }
@@ -2899,7 +2899,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_powerup[2].sequence = strdup(p);
             success = true;
         }
@@ -2909,7 +2909,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_powerup[3].sequence = strdup(p);
             success = true;
         }
@@ -2919,7 +2919,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_powerup[4].sequence = strdup(p);
             success = true;
         }
@@ -2929,7 +2929,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_powerup[5].sequence = strdup(p);
             success = true;
         }
@@ -2939,7 +2939,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_powerup[6].sequence = strdup(p);
             success = true;
         }
@@ -2949,7 +2949,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_clev.sequence = strdup(p);
             cheat_clev_xy.sequence = strdup(p);
             success = true;
@@ -2960,7 +2960,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
                 strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
-                ++p;
+                p++;
             cheat_mypos.sequence = strdup(p);
             success = true;
         }
@@ -3112,7 +3112,7 @@ void deh_procText(DEHFILE *fpin, char *line)
                 found = true;
                 break;          // only one will match--quit early
             }
-            ++i;                // next array element
+            i++;                // next array element
         }
     }
     else if (fromlen < 7 && tolen < 7)   // lengths of music and sfx are 6 or shorter
@@ -3300,10 +3300,10 @@ dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
             {
                 char    *s;
 
-                for (s = *deh_strlookup[i].ppstr; *s; ++s, ++t)
+                for (s = *deh_strlookup[i].ppstr; *s; s++, t++)
                     if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))     // found one
                     {
-                        ++s;
+                        s++;
                         *t = '\n';      // skip one extra for second character
                     }
                     else
@@ -3373,7 +3373,13 @@ char *dehReformatStr(char *string)
     while (*s)
     {
         if (*s == '\n')
-            ++s, *t++ = '\\', *t++ = 'n', *t++ = '\\', *t++ = '\n';
+        {
+            s++;
+            *t++ = '\\';
+            *t++ = 'n';
+            *t++ = '\\';
+            *t++ = '\n';
+        }
         else
             *t++ = *s++;
     }
@@ -3455,7 +3461,7 @@ int deh_GetData(char *s, char *k, long *l, char **strval)
         buffer[i] = *t;                 // copy it
     }
     if (isspace(buffer[i - 1]))
-        --i;
+        i--;
     buffer[i] = '\0';                   // terminate the key before the '='
     if (!*t)                            // end of string with no equal sign
         okrc = false;

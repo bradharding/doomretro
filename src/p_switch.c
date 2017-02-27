@@ -84,7 +84,7 @@ void P_InitSwitchList(void)
     // jff 3/23/98 read the switch table from a predefined lump
     alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump, PU_STATIC);
 
-    for (i = 0;; ++i)
+    for (i = 0;; i++)
     {
         if (index + 1 >= max_numswitches)
             switchlist = Z_Realloc(switchlist, sizeof(*switchlist)

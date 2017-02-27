@@ -584,7 +584,7 @@ dboolean P_GiveAllCards(player_t *player)
     dboolean    skulliscard = true;
     dboolean    result = false;
 
-    for (i = 0; i < numlines; ++i)
+    for (i = 0; i < numlines; i++)
         if (lines[i].special >= GenLockedBase
             && !((lines[i].special & LockedNKeys) >> LockedNKeysShift))
         {
@@ -592,7 +592,7 @@ dboolean P_GiveAllCards(player_t *player)
             break;
         }
 
-    for (i = NUMCARDS - 1; i >= 0; --i)
+    for (i = NUMCARDS - 1; i >= 0; i--)
         if (player->cards[i] != CARDNOTINMAP && player->cards[i] == CARDNOTFOUNDYET)
         {
             if (skulliscard && ((i == it_blueskull && player->cards[it_bluecard] != CARDNOTINMAP)

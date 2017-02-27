@@ -334,7 +334,7 @@ static void AM_findMinMaxBoundaries(void)
     min_x = min_y = INT_MAX;
     max_x = max_y = INT_MIN;
 
-    for (i = 0; i < numvertexes; ++i)
+    for (i = 0; i < numvertexes; i++)
     {
         fixed_t x = vertexes[i].x;
         fixed_t y = vertexes[i].y;
@@ -405,13 +405,13 @@ void AM_setColors(void)
     backcolor = nearestcolors[am_backcolor];
     crosshaircolor = tinttab60 + (nearestcolors[am_crosshaircolor] << 8);
 
-    for (x = 0; x < 256; ++x)
+    for (x = 0; x < 256; x++)
         *(mask + x) = x;
 
     *(mask + nearestcolors[MASKCOLOR]) = backcolor;
 
-    for (x = 0; x < 256; ++x)
-        for (y = 0; y < 256; ++y)
+    for (x = 0; x < 256; x++)
+        for (y = 0; y < 256; y++)
             *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
 
     wallcolor = priorities + (nearestcolors[am_wallcolor] << 8);
@@ -637,7 +637,7 @@ static void AM_addMark(void)
     int         y = am_frame.centery;
     static char message[32];
 
-    for (i = 0; i < markpointnum; ++i)
+    for (i = 0; i < markpointnum; i++)
         if (markpoints[i].x == x && markpoints[i].y == y)
             return;
 
@@ -701,7 +701,7 @@ void AM_addToPath(void)
     pathpoints[pathpointnum].x = x;
     pathpoints[pathpointnum].y = y;
 
-    ++pathpointnum;
+    pathpointnum++;
 }
 
 static void AM_toggleRotateMode(void)
@@ -1684,7 +1684,7 @@ static void AM_drawWalls(void)
         while (dot < area)
         {
             *dot = *(*dot + mask);
-            ++dot;
+            dot++;
         }
     }
 }
@@ -1697,7 +1697,7 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
     if (am_rotatemode)
         angle -= plr->mo->angle - ANG90;
 
-    for (i = 0; i < lineguylines; ++i)
+    for (i = 0; i < lineguylines; i++)
     {
         int     x1, y1;
         int     x2, y2;
@@ -1733,7 +1733,7 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
     if (am_rotatemode)
         angle -= plr->mo->angle - ANG90;
 
-    for (i = 0; i < lineguylines; ++i)
+    for (i = 0; i < lineguylines; i++)
     {
         int     x1, y1;
         int     x2, y2;
@@ -1793,7 +1793,7 @@ static void AM_drawThings(void)
 {
     int i;
 
-    for (i = 0; i < numsectors; ++i)
+    for (i = 0; i < numsectors; i++)
     {
         // e6y
         // Two-pass method for better usability of automap:
@@ -1878,7 +1878,7 @@ static void AM_drawMarks(void)
 {
     int i;
 
-    for (i = 0; i < markpointnum; ++i)
+    for (i = 0; i < markpointnum; i++)
     {
         int             number = i + 1;
         int             temp = number;
@@ -1896,7 +1896,7 @@ static void AM_drawMarks(void)
         y = CYMTOF(point.y) - MARKHEIGHT / 2 - 1;
 
         while (temp /= 10)
-            ++digits;
+            digits++;
         x += (digits - 1) * MARKWIDTH / 2;
         x -= (number > 1 && number % 10 == 1);
         x -= (number / 10 == 1);
@@ -1907,7 +1907,7 @@ static void AM_drawMarks(void)
             int j;
 
             x += (i > 0 && digit == 1);
-            for (j = 0; j < MARKWIDTH * MARKHEIGHT; ++j)
+            for (j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
             {
                 int fx = x + j % MARKWIDTH;
 
@@ -1941,7 +1941,7 @@ void AM_drawPath(void)
         int i;
 
         if (am_rotatemode)
-            for (i = 1; i < pathpointnum; ++i)
+            for (i = 1; i < pathpointnum; i++)
             {
                 mpoint_t    start;
                 mpoint_t    end;
@@ -1960,7 +1960,7 @@ void AM_drawPath(void)
                 AM_drawMline2(start.x, start.y, end.x, end.y, pathcolor);
             }
         else
-            for (i = 1; i < pathpointnum; ++i)
+            for (i = 1; i < pathpointnum; i++)
                 if (ABS(pathpoints[i - 1].x - pathpoints[i].x) <= FRACUNIT * 4
                     && ABS(pathpoints[i - 1].y - pathpoints[i].y) <= FRACUNIT * 4)
                     AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x,
@@ -1973,11 +1973,11 @@ static __inline void AM_drawScaledPixel(int x, int y, byte *color)
     byte        *dest = mapscreen + (y * 2 - 1) * mapwidth + x * 2 - 1;
 
     *dest = *(*dest + color);
-    ++dest;
+    dest++;
     *dest = *(*dest + color);
     dest += mapwidth;
     *dest = *(*dest + color);
-    --dest;
+    dest--;
     *dest = *(*dest + color);
 }
 

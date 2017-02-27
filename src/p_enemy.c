@@ -157,7 +157,7 @@ void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
     if (players[0].cheats & CF_NOTARGET)
         return;
 
-    ++validcount;
+    validcount++;
     P_RecursiveSound(emmiter->subsector->sector, 0, target);
 }
 
@@ -689,9 +689,9 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
     dropoff_deltax = dropoff_deltay = 0;
 
     // check lines
-    ++validcount;
-    for (bx = xl; bx <= xh; ++bx)
-        for (by = yl; by <= yh; ++by)
+    validcount++;
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
             P_BlockLinesIterator(bx, by, PIT_AvoidDropoff);     // all contacted lines
 
     return (dropoff_deltax | dropoff_deltay);                   // Non-zero if movement prescribed
@@ -2024,7 +2024,7 @@ static mobj_t *A_NextBrainTarget(void)
         {
             if (count == braintargeted) // This one the one that we want?
             {
-                ++braintargeted;        // Yes.
+                braintargeted++;        // Yes.
                 return mo;
             }
             count++;
@@ -2240,7 +2240,7 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (type)
     {
-        --type;
+        type--;
 
         // If we're in massacre mode then don't spawn anything killable.
         if (!(actor->flags2 & MF2_MASSACRE) || !(mobjinfo[type].flags & MF_COUNTKILL))

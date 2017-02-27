@@ -320,7 +320,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // on the keyboard
     if (gamekeydown[keyboardright] || gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft)
         || (gamepadbuttons & gamepadright))
-        ++turnheld;
+        turnheld++;
     else
         turnheld = 0;
 
@@ -390,7 +390,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     {
         int     i;
 
-        for (i = 0; i < NUMWEAPONKEYS; ++i)
+        for (i = 0; i < NUMWEAPONKEYS; i++)
         {
             int key = *weapon_keys[i];
 
@@ -428,7 +428,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             dclickstate = mousebuttons[mouseforward];
             if (dclickstate)
-                ++dclicks;
+                dclicks++;
             if (dclicks == 2)
             {
                 cmd->buttons |= BT_USE;
@@ -449,7 +449,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             dclickstate2 = bstrafe;
             if (dclickstate2)
-                ++dclicks2;
+                dclicks2++;
             if (dclicks2 == 2)
             {
                 cmd->buttons |= BT_USE;
@@ -1662,7 +1662,7 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
     infight = false;
     sector_list = NULL;
 
-    for (i = 0; i < NUMPOWERS; ++i)
+    for (i = 0; i < NUMPOWERS; i++)
         if (player->powers[i] > 0)
             player->powers[i] = 0;
 }
@@ -1687,7 +1687,7 @@ void G_SetFastMonsters(dboolean toggle)
 
     if (toggle)
     {
-        for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
+        for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
             if (states[i].tics != 1)
                 states[i].tics >>= 1;
 
@@ -1697,7 +1697,7 @@ void G_SetFastMonsters(dboolean toggle)
     }
     else
     {
-        for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
+        for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
             states[i].tics <<= 1;
 
         mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;

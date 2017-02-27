@@ -705,14 +705,11 @@ void R_SetupFrame(player_t *player)
         viewangle = mo->angle;
     }
 
-    if (explosiontics)
+    if (explosiontics && !consoleactive && !menuactive && !paused)
     {
-        if (!consoleactive && !menuactive && !paused)
-        {
-            viewx += M_RandomInt(-2, 2) * FRACUNIT;
-            viewy += M_RandomInt(-2, 2) * FRACUNIT;
-            --explosiontics;
-        }
+        viewx += M_RandomInt(-2, 2) * FRACUNIT;
+        viewy += M_RandomInt(-2, 2) * FRACUNIT;
+        explosiontics--;
     }
 
     extralight = player->extralight << 1;
@@ -749,13 +746,13 @@ void R_SetupFrame(player_t *player)
 
         walllights = scalelightfixed;
 
-        for (i = 0; i < MAXLIGHTSCALE; ++i)
+        for (i = 0; i < MAXLIGHTSCALE; i++)
             scalelightfixed[i] = fixedcolormap;
     }
     else
         fixedcolormap = 0;
 
-    ++validcount;
+    validcount++;
 }
 
 //

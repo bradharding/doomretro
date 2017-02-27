@@ -299,7 +299,7 @@ void R_InitTextures(void)
     textures = Z_Malloc(numtextures * sizeof(*textures), PU_STATIC, NULL);
     textureheight = Z_Malloc(numtextures * sizeof(*textureheight), PU_STATIC, NULL);
 
-    for (i = 0; i < numtextures; ++i, ++directory)
+    for (i = 0; i < numtextures; i++, directory++)
     {
         const mappatch_t        *mpatch;
         texpatch_t              *patch;
@@ -327,13 +327,13 @@ void R_InitTextures(void)
         texture->height = SHORT(mtexture->height);
         texture->patchcount = SHORT(mtexture->patchcount);
 
-        for (j = 0; j < sizeof(texture->name); ++j)
+        for (j = 0; j < sizeof(texture->name); j++)
             texture->name[j] = mtexture->name[j];
 
         mpatch = mtexture->patches;
         patch = texture->patches;
 
-        for (j = 0; j < texture->patchcount; ++j, ++mpatch, ++patch)
+        for (j = 0; j < texture->patchcount; j++, mpatch++, patch++)
         {
             patch->originx = SHORT(mpatch->originx);
             patch->originy = SHORT(mpatch->originy);
@@ -350,7 +350,7 @@ void R_InitTextures(void)
 
     free(patchlookup);          // killough
 
-    for (i = 0; i < 2; ++i)     // cph - release the TEXTUREx lumps
+    for (i = 0; i < 2; i++)     // cph - release the TEXTUREx lumps
         if (maptex_lump[i] != -1)
             W_ReleaseLumpNum(maptex_lump[i]);
 
@@ -359,11 +359,11 @@ void R_InitTextures(void)
     // clean up malloc-ing to use sizeof
     texturetranslation = Z_Malloc((numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, NULL);
 
-    for (i = 0; i < numtextures; ++i)
+    for (i = 0; i < numtextures; i++)
         texturetranslation[i] = i;
 
     // killough 1/31/98: Initialize texture hash table
-    for (i = 0; i < numtextures; ++i)
+    for (i = 0; i < numtextures; i++)
         textures[i]->index = -1;
     while (--i >= 0)
     {

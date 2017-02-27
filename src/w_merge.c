@@ -88,7 +88,7 @@ static int FindInList(searchlist_t *list, char *name)
 {
     int i;
 
-    for (i = 0; i < list->numlumps; ++i)
+    for (i = 0; i < list->numlumps; i++)
         if (!strncasecmp(list->lumps[i]->name, name, 8))
             return i;
 
@@ -174,7 +174,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
     int                 i;
 
     // Search the list and try to find the frame
-    for (i = 0; i < num_sprite_frames; ++i)
+    for (i = 0; i < num_sprite_frames; i++)
     {
         sprite_frame_t  *cur = &sprite_frames[i];
 
@@ -201,10 +201,10 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
     strncpy(result->sprname, name, 4);
     result->frame = frame;
 
-    for (i = 0; i < 8; ++i)
+    for (i = 0; i < 8; i++)
         result->angle_lumps[i] = NULL;
 
-    ++num_sprite_frames;
+    num_sprite_frames++;
 
     return result;
 }
@@ -226,7 +226,7 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
     if (!angle_num)
     {
         // must check all frames
-        for (i = 0; i < 8; ++i)
+        for (i = 0; i < 8; i++)
             if (sprite->angle_lumps[i] == lump)
                 return true;
     }
@@ -249,7 +249,7 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
     if (!angle_num)
     {
         // must check all frames
-        for (i = 0; i < 8; ++i)
+        for (i = 0; i < 8; i++)
             if (sprite->angle_lumps[i] == lump)
                 return true;
     }
@@ -294,7 +294,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
     if (!angle_num)
     {
-        for (i = 0; i < 8; ++i)
+        for (i = 0; i < 8; i++)
             sprite->angle_lumps[i] = lump;
     }
     else
@@ -311,7 +311,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
     if (!angle_num)
     {
-        for (i = 0; i < 8; ++i)
+        for (i = 0; i < 8; i++)
             sprite->angle_lumps[i] = lump;
     }
     else
@@ -326,12 +326,12 @@ static void GenerateSpriteList(void)
     InitSpriteList();
 
     // Add all sprites from the IWAD
-    for (i = 0; i < iwad_sprites.numlumps; ++i)
+    for (i = 0; i < iwad_sprites.numlumps; i++)
         AddSpriteLump(iwad_sprites.lumps[i]);
 
     // Add all sprites from the PWAD
     // (replaces IWAD sprites)
-    for (i = 0; i < pwad_sprites.numlumps; ++i)
+    for (i = 0; i < pwad_sprites.numlumps; i++)
         AddSpriteLump(pwad_sprites.lumps[i]);
 }
 
@@ -368,7 +368,7 @@ static void DoMerge(void)
     // Add IWAD lumps
     current_section = SECTION_NORMAL;
 
-    for (i = 0; i < iwad.numlumps; ++i)
+    for (i = 0; i < iwad.numlumps; i++)
     {
         lumpinfo_t      *lump = iwad.lumps[i];
 
@@ -389,7 +389,7 @@ static void DoMerge(void)
                 {
                     // Add all new flats from the PWAD to the end
                     // of the section
-                    for (n = 0; n < pwad_flats.numlumps; ++n)
+                    for (n = 0; n < pwad_flats.numlumps; n++)
                         newlumps[num_newlumps++] = pwad_flats.lumps[n];
 
                     newlumps[num_newlumps++] = lump;
@@ -415,7 +415,7 @@ static void DoMerge(void)
                 if (!strncasecmp(lump->name, "S_END", 8))
                 {
                     // add all the PWAD sprites
-                    for (n = 0; n < pwad_sprites.numlumps; ++n)
+                    for (n = 0; n < pwad_sprites.numlumps; n++)
                     {
                         if (SpriteLumpNeeded(pwad_sprites.lumps[n]))
                             newlumps[num_newlumps++] = pwad_sprites.lumps[n];
@@ -441,7 +441,7 @@ static void DoMerge(void)
     // Add PWAD lumps
     current_section = SECTION_NORMAL;
 
-    for (i = 0; i < pwad.numlumps; ++i)
+    for (i = 0; i < pwad.numlumps; i++)
     {
         lumpinfo_t      *lump = pwad.lumps[i];
 

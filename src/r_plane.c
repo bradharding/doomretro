@@ -281,16 +281,16 @@ static void R_MakeSpans(visplane_t *pl)
 {
     int x;
 
-    for (x = pl->minx; x <= pl->maxx + 1; ++x)
+    for (x = pl->minx; x <= pl->maxx + 1; x++)
     {
         unsigned short  t1 = pl->top[x - 1];
         unsigned short  b1 = pl->bottom[x - 1];
         unsigned short  t2 = pl->top[x];
         unsigned short  b2 = pl->bottom[x];
 
-        for (; t1 < t2 && t1 <= b1; ++t1)
+        for (; t1 < t2 && t1 <= b1; t1++)
             R_MapPlane(t1, spanstart[t1], x - 1);
-        for (; b1 > b2 && b1 >= t1; --b1)
+        for (; b1 > b2 && b1 >= t1; b1--)
             R_MapPlane(b1, spanstart[b1], x - 1);
         while (t2 < t1 && t2 <= b2)
             spanstart[t2++] = x;
@@ -341,8 +341,8 @@ static byte *R_DistortedFlat(int flatnum)
         int     x, y;
 
         leveltic *= SPEED;
-        for (x = 0; x < 64; ++x)
-            for (y = 0; y < 64; ++y)
+        for (x = 0; x < 64; x++)
+            for (y = 0; y < 64; y++)
             {
                 int     x1, y1;
                 int     sinvalue, sinvalue2;
@@ -365,7 +365,7 @@ static byte *R_DistortedFlat(int flatnum)
 
     normalflat = W_CacheLumpNum(firstflat + flatnum, PU_LEVEL);
 
-    for (i = 0; i < 4096; ++i)
+    for (i = 0; i < 4096; i++)
         distortedflat[i] = normalflat[offset[i]];
 
     return distortedflat;

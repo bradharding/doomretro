@@ -304,7 +304,7 @@ dboolean muscheckformat(UBYTE *mus, int size)
 
     while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN
         && strncmp((const char *)hptr, "MUS\x1a", 4))
-        ++hptr;
+        hptr++;
 
     if (hptr < mus + size - sizeof(MUSheader) && !strncmp((const char *)hptr, "MUS\x1a", 4))
         return true;
@@ -345,7 +345,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata, UWORD division, dboolean n
     hptr = mus;
     while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN
         && strncmp((const char *)hptr, "MUS\x1a", 4))
-        ++hptr;
+        hptr++;
 
     // if we found a likely header start, reset the mus pointer to that location,
     // otherwise just leave it alone and pray.

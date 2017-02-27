@@ -114,22 +114,22 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
     dot = dest - 1 - SCREENWIDTH * 2;
     *dot = tinttab20[*dot + color];
     dot += SCREENWIDTH;
-    for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
+    for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
         *dot = tinttab40[*dot + color];
     *dot = tinttab20[*dot + color];
 
     dot = dest - 2 - SCREENWIDTH;
-    for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
+    for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
         *dot = tinttab20[*dot + color];
 
-    for (xx = 0; xx < width; ++xx)
+    for (xx = 0; xx < width; xx++)
     {
         dot = dest + xx - SCREENWIDTH * 2;
         *dot = tinttab20[*dot + color];
         dot += SCREENWIDTH;
         *dot = tinttab40[*dot + color];
         dot += SCREENWIDTH;
-        for (yy = 0; yy < height; ++yy, dot += SCREENWIDTH)
+        for (yy = 0; yy < height; yy++, dot += SCREENWIDTH)
             *dot = tinttab60[*dot + color];
         *dot = tinttab40[*dot + color];
         dot += SCREENWIDTH;
@@ -139,12 +139,12 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
     dot = dest + width - SCREENWIDTH * 2;
     *dot = tinttab20[*dot + color];
     dot += SCREENWIDTH;
-    for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
+    for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
         *dot = tinttab40[*dot + color];
     *dot = tinttab20[*dot + color];
 
     dot = dest + width + 1 - SCREENWIDTH;
-    for (yy = 0; yy < height + 2; ++yy, dot += SCREENWIDTH)
+    for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
         *dot = tinttab20[*dot + color];
 }
 
@@ -434,7 +434,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
                     else if (*dest != color)
                         *dest = backgroundcolor;
                 }
-                ++source;
+                source++;
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + length + 4);
@@ -467,7 +467,7 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch)
 
                 if (y + height > CONSOLETOP && *source)
                     *dest = tinttab50[(nearestcolors[*source] << 8) + *dest];
-                ++source;
+                source++;
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + length + 4);
@@ -770,7 +770,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
     int         w = SHORT(patch->width);
 
-    for (; col < w; ++col, ++desttop)
+    for (; col < w; col++, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -803,7 +803,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 
     to <<= 8;
 
-    for (; col < w; ++col, ++desttop)
+    for (; col < w; col++, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -1272,15 +1272,15 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
 
             if (r_translucency)
             {
-                for (yy = 0; yy < SCREENSCALE; ++yy)
-                    for (xx = 0; xx < SCREENSCALE; ++xx)
+                for (yy = 0; yy < SCREENSCALE; yy++)
+                    for (xx = 0; xx < SCREENSCALE; xx++)
                         *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH
                             + xx)];
             }
             else
             {
-                for (yy = 0; yy < SCREENSCALE; ++yy)
-                    for (xx = 0; xx < SCREENSCALE; ++xx)
+                for (yy = 0; yy < SCREENSCALE; yy++)
+                    for (xx = 0; xx < SCREENSCALE; xx++)
                         *(dest + yy * SCREENWIDTH + xx) = 0;
             }
         }
@@ -1289,8 +1289,8 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
     {
         int xx, yy;
 
-        for (yy = 0; yy < SCREENSCALE; ++yy)
-            for (xx = 0; xx < SCREENSCALE; ++xx)
+        for (yy = 0; yy < SCREENSCALE; yy++)
+            for (xx = 0; xx < SCREENSCALE; xx++)
                 *(dest + yy * SCREENWIDTH + xx) = color;
     }
 }
@@ -1338,7 +1338,7 @@ void V_LowGraphicDetail(void)
             int         xx, yy;
 
             for (yy = 0; yy < hh && y + yy < h; yy += SCREENWIDTH)
-                for (xx = 0; xx < pixelwidth && x + xx < w; ++xx)
+                for (xx = 0; xx < pixelwidth && x + xx < w; xx++)
                     *(dot + yy + xx) = *dot;
         }
 }
@@ -1472,7 +1472,7 @@ dboolean V_ScreenShot(void)
         else
             M_snprintf(lbmname1, sizeof(lbmname1), "%s (%i).png", makevalidfilename(mapname),
                 count);
-        ++count;
+        count++;
         M_MakeDirectory(screenshotfolder);
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s"DIR_SEPARATOR_S"%s", screenshotfolder,
             lbmname1);
@@ -1487,7 +1487,7 @@ dboolean V_ScreenShot(void)
         {
             M_snprintf(lbmname2, sizeof(lbmname2), "%s (%i).png", makevalidfilename(mapname),
                 count);
-            ++count;
+            count++;
             M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s", screenshotfolder,
                 lbmname2);
         } while (M_FileExists(lbmpath2));

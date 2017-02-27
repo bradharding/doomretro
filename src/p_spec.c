@@ -184,7 +184,7 @@ void P_SetLiquids(void)
     int         lump = W_GetNumForName2("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump, PU_STATIC);
 
-    for (i = 0; i < numflats; ++i)
+    for (i = 0; i < numflats; i++)
         isliquid[i] = false;
 
     // Init animation
@@ -236,7 +236,7 @@ void P_SetLiquids(void)
             I_Error("P_InitPicAnims: bad cycle from %s to %s",
                 animdefs[i].startname, animdefs[i].endname);
 
-        ++lastanim;
+        lastanim++;
     }
     W_ReleaseLumpNum(lump);
 
@@ -257,11 +257,11 @@ void P_SetLiquids(void)
     }
 
     numliquid = 0;
-    for (i = 0; i < numsectors; ++i)
+    for (i = 0; i < numsectors; i++)
         if (isliquid[sectors[i].floorpic])
         {
             sectors[i].isliquid = true;
-            ++numliquid;
+            numliquid++;
         }
 }
 
@@ -2094,7 +2094,7 @@ void P_SpawnSpecials(void)
             continue;
 
         if (sector->special & SECRET_MASK)
-            ++totalsecret;
+            totalsecret++;
 
         switch (sector->special & 31)
         {
@@ -2121,7 +2121,7 @@ void P_SpawnSpecials(void)
 
             case Secret:
                 if (sector->special < 32)
-                    ++totalsecret;
+                    totalsecret++;
                 break;
 
             case Door_CloseStay_After30sec:
@@ -2164,7 +2164,7 @@ void P_SpawnSpecials(void)
 
     P_SpawnPushers();                   // phares 3/20/98: New pusher model using linedefs
 
-    for (line = lines, i = 0; i < numlines; ++i, ++line)
+    for (line = lines, i = 0; i < numlines; i++, line++)
     {
         int sec;
         int s;

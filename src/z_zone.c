@@ -151,7 +151,7 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
     if (hightag > PU_CACHE)
         hightag = PU_CACHE;
 
-    for (; lowtag <= hightag; ++lowtag)
+    for (; lowtag <= hightag; lowtag++)
     {
         memblock_t      *block;
         memblock_t      *end_block;

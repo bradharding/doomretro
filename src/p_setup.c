@@ -1071,13 +1071,13 @@ static void P_LoadZNodes(int lump)
         no->dx = SHORT(mn->dx) << FRACBITS;
         no->dy = SHORT(mn->dy) << FRACBITS;
 
-        for (j = 0; j < 2; ++j)
+        for (j = 0; j < 2; j++)
         {
             int k;
 
             no->children[j] = (unsigned int)(mn->children[j]);
 
-            for (k = 0; k < 4; ++k)
+            for (k = 0; k < 4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
         }
     }
@@ -1517,7 +1517,7 @@ static void P_CreateBlockMap(void)
             miny = j;
         if (j > maxy)
             maxy = j;
-        ++vertex;
+        vertex++;
     } while (--i);
 
     // Save blockmap parameters
@@ -2339,13 +2339,13 @@ static void InitMapInfo(void)
     info->sky1scrolldelta = 0;
     info->titlepatch = 0;
 
-    for (i = 0; i < NUMLIQUIDS; ++i)
+    for (i = 0; i < NUMLIQUIDS; i++)
     {
         info->liquid[i] = -1;
         info->noliquid[i] = -1;
     }
 
-    for (i = 0; i < numtextures; ++i)
+    for (i = 0; i < numtextures; i++)
         nobrightmap[i] = false;
 
     SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
@@ -2550,7 +2550,7 @@ void P_GetMapLiquids(int map)
 {
     int i;
 
-    for (i = 0; i < liquidlumps; ++i)
+    for (i = 0; i < liquidlumps; i++)
         sectors[mapinfo[QualifyMap(map)].liquid[i]].isliquid = true;
 }
 
@@ -2574,7 +2574,7 @@ void P_GetMapNoLiquids(int map)
 {
     int i;
 
-    for (i = 0; i < noliquidlumps; ++i)
+    for (i = 0; i < noliquidlumps; i++)
         sectors[mapinfo[QualifyMap(map)].noliquid[i]].isliquid = false;
 }
 

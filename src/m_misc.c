@@ -402,7 +402,7 @@ char *M_StrCaseStr(char *haystack, char *needle)
 
     len = haystack_len - needle_len;
 
-    for (i = 0; i <= len; ++i)
+    for (i = 0; i <= len; i++)
         if (!strncasecmp(haystack + i, needle, needle_len))
             return haystack + i;
 
@@ -545,7 +545,7 @@ char *uppercase(const char *str)
 
     p = newstr = strdup(str);
     while ((*p = toupper(*p)))
-        ++p;
+        p++;
 
     return newstr;
 }
@@ -557,7 +557,7 @@ char *lowercase(const char *str)
 
     p = newstr = strdup(str);
     while ((*p = tolower(*p)))
-        ++p;
+        p++;
 
     return newstr;
 }
@@ -574,7 +574,7 @@ char *titlecase(const char *str)
         {
             size_t  i;
 
-            for (i = 1; i < len; ++i)
+            for (i = 1; i < len; i++)
                 if ((newstr[i - 1] != '\'' || newstr[i - 2] == ' ')
                     && !isalnum((unsigned char)newstr[i - 1]) && isalnum((unsigned char)newstr[i]))
                     newstr[i] = toupper(newstr[i]);
@@ -593,7 +593,7 @@ char *formatsize(const char *str)
     {
         size_t  i;
 
-        for (i = 1; i < len; ++i)
+        for (i = 1; i < len; i++)
             if (newstr[i] == 'x')
             {
                 newstr[i] = 215;
@@ -644,7 +644,7 @@ char *uncommify(const char *input)
             if (*input != ',' || *(input + 1) == '\0')
                 *p2++ = *input++;
             else
-                ++input;
+                input++;
         *p2 = '\0';
     }
 
@@ -694,7 +694,7 @@ char *removespaces(const char *input)
             if (!isspace((unsigned char)*input))
                 *p2++ = *input++;
             else
-                ++input;
+                input++;
         *p2 = '\0';
     }
 
@@ -730,7 +730,7 @@ char *removenewlines(const char *str)
     {
         if (*p == '\n')
             *p = ' ';
-        ++p;
+        p++;
     }
 
     return newstr;
@@ -742,7 +742,7 @@ char *makevalidfilename(const char *input)
     size_t      len = strlen(newstr);
     size_t      i;
 
-    for (i = 0; i < len; ++i)
+    for (i = 0; i < len; i++)
         if (strchr("\\/:?\"<>|", newstr[i]))
             newstr[i] = ' ';
 

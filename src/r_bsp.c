@@ -113,7 +113,7 @@ static void R_ClipSolidWallSegment(int first, int last)
     // Find the first range that touches the range
     //  (adjacent pixels are touching).
     while (start->last < first - 1)
-        ++start;
+        start++;
 
     if (first < start->first)
     {
@@ -145,7 +145,7 @@ static void R_ClipSolidWallSegment(int first, int last)
     {
         // There is a fragment between two posts.
         R_StoreWallRange(next->last + 1, (next + 1)->first - 1);
-        ++next;
+        next++;
 
         if (last <= next->last)
         {
@@ -189,7 +189,7 @@ static void R_ClipPassWallSegment(int first, int last)
     // Find the first range that touches the range
     //  (adjacent pixels are touching).
     while (start->last < first - 1)
-        ++start;
+        start++;
 
     if (first < start->first)
     {
@@ -212,7 +212,7 @@ static void R_ClipPassWallSegment(int first, int last)
     {
         // There is a fragment between two posts.
         R_StoreWallRange(start->last + 1, (start + 1)->first - 1);
-        ++start;
+        start++;
 
         if (last <= start->last)
             return;
@@ -597,7 +597,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 
     start = solidsegs;
     while (start->last < sx2)
-        ++start;
+        start++;
 
     if (sx1 >= start->first && sx2 <= start->last)
         return false;                   // The clippost contains the new span.

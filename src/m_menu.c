@@ -487,7 +487,7 @@ static void DoBlurScreen(byte *tempscreen, byte *blurscreen, int x1, int y1, int
     memcpy(tempscreen, blurscreen, SCREENWIDTH * SCREENHEIGHT);
 
     for (y = y1; y < y2; y += SCREENWIDTH)
-        for (x = y + x1; x < y + x2; ++x)
+        for (x = y + x1; x < y + x2; x++)
             blurscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
 }
 
@@ -495,7 +495,7 @@ static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
 {
     int i;
 
-    for (i = 0; i < height; ++i)
+    for (i = 0; i < height; i++)
         blurscreen[i] = grays[screen[i]];
 
     DoBlurScreen(tempscreen, blurscreen, 0, 0, SCREENWIDTH - 1, height, 1);
@@ -524,14 +524,14 @@ void M_DarkBackground(void)
     {
         BlurScreen(screens[0], tempscreen1, blurscreen1);
 
-        for (i = 0; i < height; ++i)
+        for (i = 0; i < height; i++)
             blurscreen1[i] = tinttab50[blurscreen1[i]];
 
         if (mapwindow)
         {
             BlurScreen(mapscreen, tempscreen2, blurscreen2);
 
-            for (i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; ++i)
+            for (i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
                 blurscreen2[i] = tinttab50[blurscreen2[i]];
         }
 
@@ -554,7 +554,7 @@ void M_DarkBackground(void)
             screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
         }
 
-        for (i = 1; i < SCREENWIDTH - 1; ++i)
+        for (i = 1; i < SCREENWIDTH - 1; i++)
         {
             screens[0][i] = tinttab50[screens[0][i]];
             screens[0][i + height - SCREENWIDTH] = tinttab50[screens[0][i + height - SCREENWIDTH]];
@@ -614,8 +614,8 @@ void M_DrawChar(int x, int y, int i, dboolean overlapping)
     int x1, y1;
     int w = strlen(redcharset[i]) / 18;
 
-    for (y1 = 0; y1 < 18; ++y1)
-        for (x1 = 0; x1 < w; ++x1)
+    for (y1 = 0; y1 < 18; y1++)
+        for (x1 = 0; x1 < w; x1++)
         {
             char        dot = redcharset[i][y1 * w + x1];
 
@@ -686,7 +686,7 @@ void M_DrawString(int x, int y, char *str)
     int         i;
     static char prev;
 
-    for (i = 0; (unsigned int)i < strlen(str); ++i)
+    for (i = 0; (unsigned int)i < strlen(str); i++)
     {
         int             j = -1;
         int             k = 0;
@@ -702,7 +702,7 @@ void M_DrawString(int x, int y, char *str)
                 x += kern[k].adjust;
                 break;
             }
-            ++k;
+            k++;
         }
 
         k = 0;
@@ -713,7 +713,7 @@ void M_DrawString(int x, int y, char *str)
                 overlapping = true;
                 break;
             }
-            ++k;
+            k++;
         }
 
         if (j == -1)
@@ -739,7 +739,7 @@ int M_BigStringWidth(char *str)
     static char prev;
     size_t      len = strlen(str);
 
-    for (i = 0; (unsigned int)i < len; ++i)
+    for (i = 0; (unsigned int)i < len; i++)
     {
         int     j = chartoi[(int)str[i]];
         int     k = 0;
@@ -775,7 +775,7 @@ void M_SplitString(char *string)
 {
     int i;
 
-    for (i = strlen(string) / 2 - 1; (unsigned int)i < strlen(string); ++i)
+    for (i = strlen(string) / 2 - 1; (unsigned int)i < strlen(string); i++)
         if (string[i] == ' ')
         {
             string[i] = '\n';
@@ -969,21 +969,21 @@ void M_DrawSaveLoadBorder(int x, int y)
     {
         int     xx, yy;
 
-        for (yy = 0; yy < 16; ++yy)
-            for (xx = 0; xx < 8; ++xx)
+        for (yy = 0; yy < 16; yy++)
+            for (xx = 0; xx < 8; xx++)
                 V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], true);
 
         x += 8;
-        for (i = 0; i < 24; ++i)
+        for (i = 0; i < 24; i++)
         {
-            for (yy = 0; yy < 16; ++yy)
-                for (xx = 0; xx < 8; ++xx)
+            for (yy = 0; yy < 16; yy++)
+                for (xx = 0; xx < 8; xx++)
                     V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], true);
             x += 8;
         }
 
-        for (yy = 0; yy < 16; ++yy)
-            for (xx = 0; xx < 9; ++xx)
+        for (yy = 0; yy < 16; yy++)
+            for (xx = 0; xx < 9; xx++)
                 V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], true);
     }
 }
@@ -1048,7 +1048,7 @@ void M_DrawSave(void)
         M_DrawCenteredString(23 + OFFSET, uppercase(s_M_SAVEGAME));
 
     // draw each save game slot
-    for (i = 0; i < load_end; ++i)
+    for (i = 0; i < load_end; i++)
     {
         int     y = LoadDef.y + i * LINEHEIGHT + OFFSET;
 
@@ -1059,13 +1059,13 @@ void M_DrawSave(void)
         if (saveStringEnter && i == saveSlot)
         {
             // draw text to left of text caret
-            for (j = 0; j < saveCharIndex; ++j)
+            for (j = 0; j < saveCharIndex; j++)
                 left[j] = savegamestrings[i][j];
             left[j] = 0;
             M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, left, false);
 
             // draw text to right of text caret
-            for (j = 0; (unsigned int)j < strlen(savegamestrings[i]) - saveCharIndex; ++j)
+            for (j = 0; (unsigned int)j < strlen(savegamestrings[i]) - saveCharIndex; j++)
                 right[j] = savegamestrings[i][j + saveCharIndex];
             right[j] = 0;
             M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + (STCFN121 ? SHORT(pipechar->width) :
@@ -1098,8 +1098,8 @@ void M_DrawSave(void)
                 {
                     int     xx, yy;
 
-                    for (yy = 0; yy < 9; ++yy)
-                        for (xx = 0; xx < 3; ++xx)
+                    for (yy = 0; yy < 9; yy++)
+                        for (xx = 0; xx < 3; xx++)
                             V_DrawPixel(x + xx, y + yy, (int)savecaret[yy * 3 + xx], false);
                 }
             }
@@ -1196,7 +1196,7 @@ void M_UpdateSaveGameName(int i)
             switch (gamemission)
             {
                 case doom:
-                    for (j = 0; j < 9 * 4; ++j)
+                    for (j = 0; j < 9 * 4; j++)
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[j])))
                         {
                             match = true;
@@ -1208,7 +1208,7 @@ void M_UpdateSaveGameName(int i)
                 case pack_nerve:
                     if (bfgedition)
                     {
-                        for (j = 0; j < 33; ++j)
+                        for (j = 0; j < 33; j++)
                             if (M_StringCompare(savegamestrings[i],
                                 RemoveMapNum(*mapnames2_bfg[j])))
                             {
@@ -1218,14 +1218,14 @@ void M_UpdateSaveGameName(int i)
                     }
                     else
                     {
-                        for (j = 0; j < 32; ++j)
+                        for (j = 0; j < 32; j++)
                             if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
                             {
                                 match = true;
                                 break;
                             }
                     }
-                    for (j = 0; j < 9; ++j)
+                    for (j = 0; j < 9; j++)
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
                         {
                             match = true;
@@ -1234,7 +1234,7 @@ void M_UpdateSaveGameName(int i)
                     break;
 
                 case pack_plut:
-                    for (j = 0; j < 32; ++j)
+                    for (j = 0; j < 32; j++)
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
                         {
                             match = true;
@@ -1243,7 +1243,7 @@ void M_UpdateSaveGameName(int i)
                     break;
 
                 case pack_tnt:
-                    for (j = 0; j < 32; ++j)
+                    for (j = 0; j < 32; j++)
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
                         {
                             match = true;
@@ -1268,7 +1268,7 @@ void M_UpdateSaveGameName(int i)
             savegamestrings[i][len] = '.';
             savegamestrings[i][len + 1] = '.';
             savegamestrings[i][len + 2] = '\0';
-            --len;
+            len--;
         }
     }
 }
@@ -1887,7 +1887,7 @@ void M_QuitResponse(int key)
             I_Sleep(100);
             if (!I_AnySoundStillPlaying())
                 break;
-            --i;
+            i--;
         }
     }
     I_Quit(true);
@@ -1926,7 +1926,7 @@ void M_ChangeSensitivity(int choice)
                 if (gp_sensitivity > gp_sensitivity_min)
                 {
                     if (gp_sensitivity & 1)
-                        ++gp_sensitivity;
+                        gp_sensitivity++;
                     gp_sensitivity -= 2;
                     I_SetGamepadSensitivity(gp_sensitivity);
                     C_IntCVAROutput(stringize(gp_sensitivity), gp_sensitivity);
@@ -1939,7 +1939,7 @@ void M_ChangeSensitivity(int choice)
                 if (gp_sensitivity < gp_sensitivity_max)
                 {
                     if (gp_sensitivity & 1)
-                        --gp_sensitivity;
+                        gp_sensitivity--;
                     gp_sensitivity += 2;
                     I_SetGamepadSensitivity(gp_sensitivity);
                     C_IntCVAROutput(stringize(gp_sensitivity), gp_sensitivity);
@@ -1957,7 +1957,7 @@ void M_ChangeSensitivity(int choice)
                 if (m_sensitivity > m_sensitivity_min)
                 {
                     if (m_sensitivity & 1)
-                        ++m_sensitivity;
+                        m_sensitivity++;
                     m_sensitivity -= 2;
                     C_IntCVAROutput(stringize(m_sensitivity), m_sensitivity);
                     M_SliderSound();
@@ -1969,7 +1969,7 @@ void M_ChangeSensitivity(int choice)
                 if (m_sensitivity < m_sensitivity_max)
                 {
                     if (m_sensitivity & 1)
-                        --m_sensitivity;
+                        m_sensitivity--;
                     m_sensitivity += 2;
                     C_IntCVAROutput("m_sensitivity", m_sensitivity);
                     M_SliderSound();
@@ -2100,19 +2100,19 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
 
     if (chex || hacx)
     {
-        --x;
+        x--;
         y -= 2;
     }
     xx = x;
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML", PU_CACHE));
     xx += 8;
-    for (i = 0; i < thermWidth; ++i)
+    for (i = 0; i < thermWidth; i++)
     {
         V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM", PU_CACHE));
         xx += 8;
     }
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR", PU_CACHE));
-    for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; ++i)
+    for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
         V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
     V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
 }
@@ -2149,7 +2149,7 @@ int M_StringWidth(char *string)
     size_t      i;
     int         w = 0;
 
-    for (i = 0; i < strlen(string); ++i)
+    for (i = 0; i < strlen(string); i++)
         w += M_CharacterWidth(string[i], (i > 0 ? string[i - 1] : 0));
     return w;
 }
@@ -2162,7 +2162,7 @@ int M_StringHeight(char *string)
     size_t      i;
     int         h = 8;
 
-    for (i = 0; i < strlen(string); ++i)
+    for (i = 0; i < strlen(string); i++)
         if (string[i] == '\n')
             h += (i > 0 && string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) : 8));
     return h;
@@ -2178,8 +2178,8 @@ void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
 
     w = strlen(smallcharset[i]) / 10;
 
-    for (y1 = 0; y1 < 10; ++y1)
-        for (x1 = 0; x1 < w; ++x1)
+    for (y1 = 0; y1 < 10; y1++)
+        for (x1 = 0; x1 < w; x1++)
             V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * w + x1], shadow);
 }
 
@@ -2486,7 +2486,7 @@ dboolean M_Responder(event_t *ev)
                 {
                     size_t      j;
 
-                    for (j = saveCharIndex - 1; j < strlen(savegamestrings[saveSlot]); ++j)
+                    for (j = saveCharIndex - 1; j < strlen(savegamestrings[saveSlot]); j++)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
                     saveCharIndex--;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -2501,7 +2501,7 @@ dboolean M_Responder(event_t *ev)
                 {
                     size_t      j;
 
-                    for (j = saveCharIndex; j < strlen(savegamestrings[saveSlot]); ++j)
+                    for (j = saveCharIndex; j < strlen(savegamestrings[saveSlot]); j++)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
@@ -2528,7 +2528,7 @@ dboolean M_Responder(event_t *ev)
                     dboolean    allspaces = true;
 
                     keydown = key;
-                    for (i = 0; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)
+                    for (i = 0; (unsigned int)i < strlen(savegamestrings[saveSlot]); i++)
                         if (savegamestrings[saveSlot][i] != ' ')
                             allspaces = false;
                     if (savegamestrings[saveSlot][0] && !allspaces)
@@ -2589,7 +2589,7 @@ dboolean M_Responder(event_t *ev)
                 {
                     keydown = key;
                     savegamestrings[saveSlot][strlen(savegamestrings[saveSlot]) + 1] = '\0';
-                    for (i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; --i)
+                    for (i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; i--)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
                     savegamestrings[saveSlot][saveCharIndex++] = ch;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -2878,7 +2878,7 @@ dboolean M_Responder(event_t *ev)
                     if (itemOn + 1 > currentMenu->numitems - 1)
                         itemOn = 0;
                     else
-                        ++itemOn;
+                        itemOn++;
                 } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
@@ -2892,14 +2892,14 @@ dboolean M_Responder(event_t *ev)
                     if (itemOn + 1 > currentMenu->numitems - 1)
                         itemOn = 0;
                     else
-                        ++itemOn;
+                        itemOn++;
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
-                        ++itemOn;
+                        itemOn++;
                     if (currentMenu == &MainDef && itemOn == 3
                         && (!usergame || gamestate != GS_LEVEL || !players[0].health))
-                        ++itemOn;
+                        itemOn++;
                     if (currentMenu == &OptionsDef && !itemOn && !usergame)
-                        ++itemOn;
+                        itemOn++;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
                 } while (currentMenu->menuitems[itemOn].status == -1);
@@ -2941,7 +2941,7 @@ dboolean M_Responder(event_t *ev)
                     if (!itemOn)
                         itemOn = currentMenu->numitems - 1;
                     else
-                        --itemOn;
+                        itemOn--;
                 } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
@@ -2955,12 +2955,12 @@ dboolean M_Responder(event_t *ev)
                     if (!itemOn)
                         itemOn = currentMenu->numitems - 1;
                     else
-                        --itemOn;
+                        itemOn--;
                     if (currentMenu == &MainDef && itemOn == 3
                         && (!usergame || gamestate != GS_LEVEL || !players[0].health))
-                        --itemOn;
+                        itemOn--;
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
-                        --itemOn;
+                        itemOn--;
                     if (currentMenu == &OptionsDef && !itemOn && !usergame)
                         itemOn = currentMenu->numitems - 1;
                     if (currentMenu->menuitems[itemOn].status != -1)
@@ -3098,7 +3098,7 @@ dboolean M_Responder(event_t *ev)
         // Keyboard shortcut?
         else if (ch != 0 && !(modstate & (KMOD_ALT | KMOD_CTRL)))
         {
-            for (i = itemOn + 1; i < currentMenu->numitems; ++i)
+            for (i = itemOn + 1; i < currentMenu->numitems; i++)
             {
                 if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && ch == i + '1')
                     || (currentMenu->menuitems[i].text
@@ -3148,7 +3148,7 @@ dboolean M_Responder(event_t *ev)
                 }
             }
 
-            for (i = 0; i <= itemOn; ++i)
+            for (i = 0; i <= itemOn; i++)
             {
                 if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && ch == i + '1')
                     || (currentMenu->menuitems[i].text
@@ -3240,8 +3240,8 @@ void M_DrawNightmare(void)
 {
     int x, y;
 
-    for (y = 0; y < 20; ++y)
-        for (x = 0; x < 124; ++x)
+    for (y = 0; y < 20; y++)
+        for (x = 0; x < 124; x++)
             V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y,
                 (int)nmare[y * 124 + x], true);
 }
@@ -3273,7 +3273,7 @@ void M_Drawer(void)
         {
             int foundnewline = 0;
 
-            for (i = 0; i < strlen(messageString + start); ++i)
+            for (i = 0; i < strlen(messageString + start); i++)
                 if (messageString[start + i] == '\n')
                 {
                     M_StringCopy(string, messageString + start, sizeof(string));
@@ -3314,7 +3314,7 @@ void M_Drawer(void)
     y = currentMenu->y;
     max = currentMenu->numitems;
 
-    for (i = 0; i < max; ++i)
+    for (i = 0; i < max; i++)
     {
         char    *name = currentMenu->menuitems[i].name;
 
@@ -3386,7 +3386,7 @@ void M_Drawer(void)
         }
 
         if (currentMenu == &OptionsDef && !itemOn && !usergame)
-            ++itemOn;
+            itemOn++;
 
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, y, patch);

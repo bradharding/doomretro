@@ -247,7 +247,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     tmfloorz = tmdropoffz = newsec->floorheight;
     tmceilingz = newsec->ceilingheight;
 
-    ++validcount;
+    validcount++;
     numspechit = 0;
 
     // stomp on any things contacted
@@ -256,8 +256,8 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     yl = (tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
     yh = (tmbbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
 
-    for (bx = xl; bx <= xh; ++bx)
-        for (by = yl; by <= yh; ++by)
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
             if (!P_BlockThingsIterator(bx, by, PIT_StompThing))
                 return false;
 
@@ -719,7 +719,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
     tmceilingz = newsubsec->sector->ceilingheight;
 
-    ++validcount;
+    validcount++;
     numspechit = 0;
 
     if ((tmthing->flags & MF_NOCLIP) || freeze)
@@ -735,8 +735,8 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     yl = (tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
     yh = (tmbbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
 
-    for (bx = xl; bx <= xh; ++bx)
-        for (by = yl; by <= yh; ++by)
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
             if (!P_BlockThingsIterator(bx, by, PIT_CheckThing))
                 return false;
 
@@ -754,8 +754,8 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
     yh = (tmbbox[BOXTOP] - bmaporgy) >> MAPBLOCKSHIFT;
 
-    for (bx = xl; bx <= xh; ++bx)
-        for (by = yl; by <= yh; ++by)
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
             if (!P_BlockLinesIterator(bx, by, PIT_CheckLine))
                 return false;
 
@@ -801,7 +801,7 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
     tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
     tmceilingz = newsubsec->sector->ceilingheight;
 
-    ++validcount;
+    validcount++;
     numspechit = 0;
 
     if ((tmthing->flags & MF_NOCLIP) || freeze)
@@ -816,8 +816,8 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
     yl = (tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
     yh = (tmbbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
 
-    for (bx = xl; bx <= xh; ++bx)
-        for (by = yl; by <= yh; ++by)
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
             if (!P_BlockThingsIterator(bx, by, PIT_CheckOnmobjZ))
             {
                 *tmthing = oldmo;
@@ -1053,7 +1053,7 @@ static dboolean PIT_ApplyTorque(line_t *ld)
 
             while (dist > FRACUNIT * 4 && mo->gear < MAXGEAR)
             {
-                ++mo->gear;
+                mo->gear++;
                 x >>= 1;
                 y >>= 1;
                 dist >>= 1;
@@ -1868,8 +1868,8 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
     bombsource = source;
     bombdamage = damage;
 
-    for (y = yl; y <= yh; ++y)
-        for (x = xl; x <= xh; ++x)
+    for (y = yl; y <= yh; y++)
+        for (x = xl; x <= xh; x++)
             P_BlockThingsIterator(x, y, PIT_RadiusAttack);
 }
 
@@ -2216,15 +2216,15 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     tmbbox[BOXRIGHT] = x + radius;
     tmbbox[BOXLEFT] = x - radius;
 
-    ++validcount;       // used to make sure we only process a line once
+    validcount++;       // used to make sure we only process a line once
 
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
     xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
     yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
     yh = (tmbbox[BOXTOP] - bmaporgy) >> MAPBLOCKSHIFT;
 
-    for (bx = xl; bx <= xh; ++bx)
-        for (by = yl; by <= yh; ++by)
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
             P_BlockLinesIterator(bx, by, PIT_GetSectors);
 
     // Add the sector of the (x,y) point to sector_list.

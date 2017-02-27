@@ -656,7 +656,7 @@ static void I_GetEvent(void)
                                 if ((vid_display = SDL_GetWindowDisplayIndex(window)) < 0)
                                     I_SDLError("SDL_GetWindowDisplayIndex");
 
-                                ++vid_display;
+                                vid_display++;
                                 M_SaveCVARs();
                             }
 
@@ -750,7 +750,7 @@ Uint32  currenttime;
 
 static void CalculateFPS(void)
 {
-    ++frames;
+    frames++;
 
     if (starttime < (currenttime = SDL_GetTicks()) - 1000)
     {
@@ -963,7 +963,7 @@ void I_SetPalette(byte *playpal)
 {
     int         i;
 
-    for (i = 0; i < 256; ++i)
+    for (i = 0; i < 256; i++)
     {
         colors[i].r = gammatable[gammaindex][*playpal++];
         colors[i].g = gammatable[gammaindex][*playpal++];
@@ -997,7 +997,7 @@ static void GetDisplays(void)
 
     numdisplays = MIN(SDL_GetNumVideoDisplays(), MAXDISPLAYS);
 
-    for (i = 0; i < numdisplays; ++i)
+    for (i = 0; i < numdisplays; i++)
         if (SDL_GetDisplayBounds(i, &displays[i]) < 0)
             I_SDLError("SDL_GetDisplayBounds");
 }
@@ -1253,7 +1253,7 @@ static char *getacronym(int width, int height)
         if (width == resolutions[i].width && height == resolutions[i].height)
             return resolutions[i].acronym;
 
-        ++i;
+        i++;
     }
     return "";
 }
@@ -1269,7 +1269,7 @@ static char *getaspectratio(int width, int height)
         if (width == resolutions[i].width && height == resolutions[i].height)
             return resolutions[i].aspectratio;
 
-        ++i;
+        i++;
     }
 
     hcf = gcd(width, height);
@@ -1777,11 +1777,11 @@ static void I_InitGammaTables(void)
 {
     int i;
 
-    for (i = 0; i < GAMMALEVELS; ++i)
+    for (i = 0; i < GAMMALEVELS; i++)
     {
         int     j;
 
-        for (j = 0; j < 256; ++j)
+        for (j = 0; j < 256; j++)
             gammatable[i][j] = (byte)(pow(j / 255.0, 1.0 / gammalevels[i]) * 255.0 + 0.5);
     }
 }
@@ -1794,13 +1794,13 @@ void I_SetGamma(float value)
         if (gammalevels[gammaindex] == value)
             break;
 
-        ++gammaindex;
+        gammaindex++;
     }
     if (gammaindex == GAMMALEVELS)
     {
         gammaindex = 0;
         while (gammalevels[gammaindex] != r_gamma_default)
-            ++gammaindex;
+            gammaindex++;
     }
 }
 

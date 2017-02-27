@@ -103,8 +103,8 @@ static void HU_drawChar(int x, int y, int ch)
             int                 j = (y + y1) * SCREENSCALE;
             int                 xx, yy;
 
-            for (yy = 0; yy < SCREENSCALE; ++yy)
-                for (xx = 0; xx < SCREENSCALE; ++xx)
+            for (yy = 0; yy < SCREENSCALE; yy++)
+                for (xx = 0; xx < SCREENSCALE; xx++)
                     HU_drawDot(i + xx, j + yy, src);
         }
 }

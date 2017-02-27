@@ -284,7 +284,7 @@ void HU_Start(void)
         s[len] = '.';
         s[len + 1] = '.';
         s[len + 2] = '\0';
-        --len;
+        len--;
     }
 
     while (*s)
@@ -797,7 +797,7 @@ static void HU_DrawAltHUD(void)
 
     while (i < NUMCARDS)
         if (plr->cards[i++] > 0)
-            ++keys;
+            keys++;
 
     if (keys || plr->neededcardflash)
     {
@@ -964,7 +964,7 @@ void HU_Ticker(void)
                 s[len] = '.';
                 s[len + 1] = '.';
                 s[len + 2] = '\0';
-                --len;
+                len--;
             }
 
             HUlib_addMessageToSText(&w_message, 0, s);

@@ -471,7 +471,7 @@ static int C_LookupValueFromAlias(const char *text, int valuealiastype)
     {
         if (valuealiastype == valuealiases[i].type && M_StringCompare(text, valuealiases[i].text))
             return valuealiases[i].value;
-        ++i;
+        i++;
     }
 
     return INT_MIN;
@@ -485,7 +485,7 @@ static char *C_LookupAliasFromValue(int value, valuealias_type_t valuealiastype)
     {
         if (valuealiastype == valuealiases[i].type && value == valuealiases[i].value)
             return valuealiases[i].text;
-        ++i;
+        i++;
     }
 
     return commify(value);
@@ -858,7 +858,7 @@ static int C_GetIndex(const char *cmd)
     {
         if (M_StringCompare(cmd, consolecmds[i].name))
             break;
-        ++i;
+        i++;
     }
 
     return i;
@@ -941,7 +941,7 @@ dboolean C_ExecuteAlias(char *alias)
 {
     int i;
 
-    for (i = 0; i < MAXALIASES; ++i)
+    for (i = 0; i < MAXALIASES; i++)
         if (M_StringCompare(alias, aliases[i].name))
         {
             char        *string = strdup(aliases[i].string);
@@ -977,7 +977,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     if (!*parm2)
     {
-        for (i = 0; i < MAXALIASES; ++i)
+        for (i = 0; i < MAXALIASES; i++)
             if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
             {
                 aliases[i].name[0] = '\0';
@@ -990,7 +990,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     C_StripQuotes(parm2);
 
-    for (i = 0; i < MAXALIASES; ++i)
+    for (i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
         {
             M_StringCopy(aliases[i].string, parm2, 128);
@@ -998,7 +998,7 @@ void alias_cmd_func2(char *cmd, char *parms)
             return;
         }
 
-    for (i = 0; i < MAXALIASES; ++i)
+    for (i = 0; i < MAXALIASES; i++)
         if (!*aliases[i].name)
         {
             M_StringCopy(aliases[i].name, parm1, 128);
@@ -1042,7 +1042,7 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
             }
         }
 
-        ++i;
+        i++;
     }
 
     M_SaveCVARs();
@@ -1068,7 +1068,7 @@ void bind_cmd_func2(char *cmd, char *parms)
     {
         if (M_StringCompare(parm1, controls[i].control))
             break;
-        ++i;
+        i++;
     }
 
     if (*controls[i].control)
@@ -1106,7 +1106,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         && controls[i].value == *(int *)actions[action].gamepad2)
                         C_Output(actions[action].action);
                 }
-                ++action;
+                action++;
             }
         }
         else if (M_StringCompare(parm2, "none"))
@@ -1163,7 +1163,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                     default:
                         break;
                 }
-                ++action;
+                action++;
             }
         }
         else
@@ -1174,7 +1174,7 @@ void bind_cmd_func2(char *cmd, char *parms)
             {
                 if (M_StringCompare(parm2, actions[action].action))
                     break;
-                ++action;
+                action++;
             }
 
             if (*actions[action].action)
@@ -1281,7 +1281,7 @@ static void C_DisplayBinds(char *action, int value, controltype_t type, int *cou
                 C_TabbedOutput(tabs, "%i.\t%s\t%s", (*count)++, control, action);
             break;
         }
-        ++i;
+        i++;
     }
 }
 
@@ -1307,7 +1307,7 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
             C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad1, gamepadcontrol, &count);
         if (actions[action].gamepad2)
             C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad2, gamepadcontrol, &count);
-        ++action;
+        action++;
     }
 }
 
@@ -1347,7 +1347,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
             if ((p = strchr(description1, '\n')))
             {
                 *p = '\0';
-                ++p;
+                p++;
                 M_StringCopy(description2, p, 255);
             }
 
@@ -1357,7 +1357,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
             if (*description2)
                 C_TabbedOutput(tabs, "\t\t%s", description2);
         }
-        ++i;
+        i++;
     }
 }
 
@@ -1393,7 +1393,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
         {
             int i;
 
-            for (i = 1; i < consolestrings - 1; ++i)
+            for (i = 1; i < consolestrings - 1; i++)
                 if (console[i].type == dividerstring)
                     fprintf(file, "%s\n", DIVIDERSTRING);
                 else
@@ -1411,7 +1411,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     strreplace(string, "</i>", "");
                     len = strlen(string);
 
-                    for (inpos = 0; inpos < len; ++inpos)
+                    for (inpos = 0; inpos < len; inpos++)
                     {
                         unsigned char   letter = string[inpos];
 
@@ -1423,15 +1423,15 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
                                 if (outpos < tabstop)
                                 {
-                                    for (spaces = 0; spaces < tabstop - outpos; ++spaces)
+                                    for (spaces = 0; spaces < tabstop - outpos; spaces++)
                                         fputc(' ', file);
                                     outpos = tabstop;
-                                    ++tabcount;
+                                    tabcount++;
                                 }
                                 else
                                 {
                                     fputc(' ', file);
-                                    ++outpos;
+                                    outpos++;
                                 }
                             }
                             else
@@ -1443,7 +1443,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                                     && letter != '~')
                                 {
                                     fputc(letter, file);
-                                    ++outpos;
+                                    outpos++;
                                 }
                             }
                         }
@@ -1451,7 +1451,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
                     if (con_timestamps && *console[i].timestamp)
                     {
-                        for (spaces = 0; spaces < 91 - outpos; ++spaces)
+                        for (spaces = 0; spaces < 91 - outpos; spaces++)
                             fputc(' ', file);
                         fputs(console[i].timestamp, file);
                     }
@@ -1491,14 +1491,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if ((p = strchr(description1, '\n')))
             {
                 *p = '\0';
-                ++p;
+                p++;
                 M_StringCopy(description2, p, 255);
             }
 
             if ((p = strchr(description2, '\n')))
             {
                 *p = '\0';
-                ++p;
+                p++;
                 M_StringCopy(description3, p, 255);
             }
 
@@ -1552,7 +1552,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if (*description3)
                 C_TabbedOutput(tabs, "\t\t\t%s", description3);
         }
-        ++i;
+        i++;
     }
 }
 
@@ -1968,7 +1968,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "monsters"))
         {
             massacre = true;
-            for (i = 0; i < numsectors; ++i)
+            for (i = 0; i < numsectors; i++)
             {
                 mobj_t  *thing = sectors[i].thinglist;
 
@@ -2027,7 +2027,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             mobjtype_t  type = P_FindDoomedNum(killcmdtype);
             int         dead = 0;
 
-            for (i = 0; i < numsectors; ++i)
+            for (i = 0; i < numsectors; i++)
             {
                 mobj_t  *thing = sectors[i].thinglist;
 
@@ -2407,7 +2407,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, MAPLISTTITLE);
 
     // search through lumps for maps
-    for (i = 0; i < numlumps; ++i)
+    for (i = 0; i < numlumps; i++)
     {
         int             ep = 0;
         int             map = 0;
@@ -2502,7 +2502,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             }
 
     // display the map list
-    for (i = 0; i < count; ++i)
+    for (i = 0; i < count; i++)
         C_TabbedOutput(tabs, "%i.\t%s", i + 1, maplist[i]);
 
     free(maplist);
@@ -2689,7 +2689,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         int     height;
         int     depth;
 
-        for (i = 0; i < numvertexes; ++i)
+        for (i = 0; i < numvertexes; i++)
         {
             fixed_t     x = vertexes[i].x;
             fixed_t     y = vertexes[i].y;
@@ -2707,7 +2707,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         width = ((max_x - min_x) >> FRACBITS) / UNITSPERFOOT;
         height = ((max_y - min_y) >> FRACBITS) / UNITSPERFOOT;
 
-        for (i = 0; i < numsectors; ++i)
+        for (i = 0; i < numsectors; i++)
         {
             if (max_c < sectors[i].ceilingheight)
                 max_c = sectors[i].ceilingheight;
@@ -2859,7 +2859,7 @@ static void notarget_cmd_func2(char *cmd, char *parms)
     {
         int     i;
 
-        for (i = 0; i < numsectors; ++i)
+        for (i = 0; i < numsectors; i++)
         {
             mobj_t   *mo = sectors[i].thinglist;
 
@@ -2921,7 +2921,7 @@ static dboolean play_cmd_func1(char *cmd, char *parms)
     if (!*parms)
         return true;
 
-    for (i = 1; i < NUMSFX; ++i)
+    for (i = 1; i < NUMSFX; i++)
     {
         M_snprintf(namebuf, sizeof(namebuf), "ds%s", S_sfx[i].name);
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) != -1)
@@ -2932,7 +2932,7 @@ static dboolean play_cmd_func1(char *cmd, char *parms)
         }
     }
 
-    for (i = 1; i < NUMMUSIC; ++i)
+    for (i = 1; i < NUMMUSIC; i++)
     {
         M_snprintf(namebuf, sizeof(namebuf), "d_%s", S_music[i].name);
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) != -1)
@@ -3369,7 +3369,7 @@ static void reset_cmd_func2(char *cmd, char *parms)
 #endif
             break;
         }
-        ++i;
+        i++;
     }
 }
 
@@ -3402,7 +3402,7 @@ void C_VerifyResetAll(int key)
                     consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
                         consolecmds[i].defaultstring : EMPTYVALUE));
             }
-            ++i;
+            i++;
         }
 
 #if defined(_WIN32)
@@ -3854,7 +3854,7 @@ static void bool_cvars_func2(char *cmd, char *parms)
             }
             break;
         }
-        ++i;
+        i++;
     }
 }
 
@@ -3889,7 +3889,7 @@ static dboolean float_cvars_func1(char *cmd, char *parms)
 
             return (value != FLT_MIN);
         }
-        ++i;
+        i++;
     }
     return false;
 }
@@ -3928,7 +3928,7 @@ static void float_cvars_func2(char *cmd, char *parms)
             }
             break;
         }
-        ++i;
+        i++;
     }
 }
 
@@ -3955,7 +3955,7 @@ static dboolean int_cvars_func1(char *cmd, char *parms)
 
             return (value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
         }
-        ++i;
+        i++;
     }
     return false;
 }
@@ -4019,7 +4019,7 @@ static void int_cvars_func2(char *cmd, char *parms)
             }
             break;
         }
-        ++i;
+        i++;
     }
 }
 
@@ -4068,7 +4068,7 @@ static void str_cvars_func2(char *cmd, char *parms)
             }
             break;
         }
-        ++i;
+        i++;
     }
 }
 
@@ -4091,7 +4091,7 @@ static void time_cvars_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%02i:%02i:%02i</b> and is read-only.",
                 tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
         }
-        ++i;
+        i++;
     }
 }
 
@@ -4546,7 +4546,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
             if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 if (value == r_screensize_max)
-                    --value;
+                    value--;
                 else if (value <= r_screensize_max - 1)
                 {
                     r_hud = true;
@@ -4635,7 +4635,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
             R_InitColumnFunctions();
 
-            for (i = 0; i < numsectors; ++i)
+            for (i = 0; i < numsectors; i++)
             {
                 mobj_t          *mo = sectors[i].thinglist;
                 bloodsplat_t    *splat = sectors[i].splatlist;
@@ -4690,7 +4690,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
             HU_SetTranslucency();
             R_InitColumnFunctions();
 
-            for (i = 0; i < numsectors; ++i)
+            for (i = 0; i < numsectors; i++)
             {
                 mobj_t          *mo = sectors[i].thinglist;
                 bloodsplat_t    *splat = sectors[i].splatlist;

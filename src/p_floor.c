@@ -689,7 +689,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
             int i;
 
             okay = false;
-            for (i = 0; i < sec->linecount; ++i)
+            for (i = 0; i < sec->linecount; i++)
             {
                 line_t          *line = sec->lines[i];
                 sector_t        *tsec;

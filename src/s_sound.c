@@ -239,7 +239,7 @@ static void S_StopChannel(int cnum)
             I_StopSound(c->handle);
 
         // check to see if other channels are playing the sound
-        for (i = 0; i < NUM_CHANNELS; ++i)
+        for (i = 0; i < NUM_CHANNELS; i++)
             if (cnum != i && c->sfxinfo == channels[i].sfxinfo)
                 break;
 
@@ -343,7 +343,7 @@ void S_UnlinkSound(mobj_t *origin)
     if (nosfx)
         return;
 
-    for (cnum = 0; cnum < NUM_CHANNELS; ++cnum)
+    for (cnum = 0; cnum < NUM_CHANNELS; cnum++)
         if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
         {
             sobj_t *const       sobj = &sobjs[cnum];
@@ -367,7 +367,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
     channel_t   *c;
 
     // Find an open channel
-    for (cnum = 0; cnum < NUM_CHANNELS && channels[cnum].sfxinfo; ++cnum)
+    for (cnum = 0; cnum < NUM_CHANNELS && channels[cnum].sfxinfo; cnum++)
         if (origin && channels[cnum].origin == origin
             && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
         {
@@ -379,7 +379,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
     if (cnum == NUM_CHANNELS)
     {
         // Look for lower priority
-        for (cnum = 0; cnum < NUM_CHANNELS; ++cnum)
+        for (cnum = 0; cnum < NUM_CHANNELS; cnum++)
             if (channels[cnum].sfxinfo->priority >= sfxinfo->priority)
                 break;
 
@@ -557,7 +557,7 @@ void S_UpdateSounds(mobj_t *listener)
 
     I_UpdateSound();
 
-    for (cnum = 0; cnum < NUM_CHANNELS; ++cnum)
+    for (cnum = 0; cnum < NUM_CHANNELS; cnum++)
     {
         channel_t       *c = &channels[cnum];
         sfxinfo_t       *sfx = c->sfxinfo;

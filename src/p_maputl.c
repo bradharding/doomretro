@@ -256,7 +256,7 @@ void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
     if ((*sprev = snext))
         snext->sprev = sprev;
 
-    --r_bloodsplats_total;
+    r_bloodsplats_total--;
 
     free(splat);
 }
@@ -370,9 +370,9 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
         const int       *list = blockmaplump + *(blockmap + y * bmapwidth + x);
 
         if (skipblstart)
-            ++list;
+            list++;
 
-        for (; *list != -1; ++list)
+        for (; *list != -1; list++)
         {
             line_t      *ld = &lines[*list];
 
@@ -472,7 +472,7 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
     intercept_p->frac = frac;
     intercept_p->isaline = true;
     intercept_p->d.line = ld;
-    ++intercept_p;
+    intercept_p++;
 
     return true;        // continue
 }
@@ -529,7 +529,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
     intercept_p->frac = frac;
     intercept_p->isaline = false;
     intercept_p->d.thing = thing;
-    ++intercept_p;
+    intercept_p++;
 
     return true;        // keep going
 }
@@ -549,7 +549,7 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
         fixed_t         dist = INT_MAX;
         intercept_t     *scan;
 
-        for (scan = intercepts; scan < intercept_p; ++scan)
+        for (scan = intercepts; scan < intercept_p; scan++)
             if (scan->frac < dist)
             {
                 dist = scan->frac;
@@ -588,7 +588,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     int         mapxstep, mapystep;
     int         count;
 
-    ++validcount;
+    validcount++;
     intercept_p = intercepts;
 
     if (!((x1 - bmaporgx) & (MAPBLOCKSIZE - 1)))
@@ -663,7 +663,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     mapx = xt1;
     mapy = yt1;
 
-    for (count = 0; count < 64; ++count)
+    for (count = 0; count < 64; count++)
     {
         if (flags & PT_ADDLINES)
             if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))

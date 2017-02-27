@@ -106,7 +106,7 @@ unsigned int W_LumpNameHash(const char *s)
     unsigned int        result = 5381;
     unsigned int        i;
 
-    for (i = 0; i < 8 && s[i] != '\0'; ++i)
+    for (i = 0; i < 8 && s[i] != '\0'; i++)
         result = ((result << 5) ^ result) ^ toupper(s[i]);
 
     return result;
@@ -212,7 +212,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
 
     filerover = fileinfo;
 
-    for (i = startlump; i < numlumps; ++i)
+    for (i = startlump; i < numlumps; i++)
     {
         lumpinfo_t      *lump_p = &filelumps[i - startlump];
 
@@ -223,7 +223,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
         strncpy(lump_p->name, filerover->name, 8);
         lumpinfo[i] = lump_p;
 
-        ++filerover;
+        filerover++;
     }
 
     Z_Free(fileinfo);
@@ -354,7 +354,7 @@ lumpindex_t W_CheckNumForName(char *name)
     {
         // We don't have a hash table generate yet. Linear search :-(
         // scan backwards so patch lump files take precedence
-        for (i = numlumps - 1; i >= 0; --i)
+        for (i = numlumps - 1; i >= 0; i--)
             if (!strncasecmp(lumpinfo[i]->name, name, 8))
                 return i;
     }
@@ -375,9 +375,9 @@ int W_CheckMultipleLumps(char *name)
     if (FREEDOOM || hacx)
         return 3;
 
-    for (i = numlumps - 1; i >= 0; --i)
+    for (i = numlumps - 1; i >= 0; i--)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
-            ++count;
+            count++;
 
     return count;
 }
@@ -569,10 +569,10 @@ void W_GenerateHashTable(void)
 
         lumphash = Z_Malloc(sizeof(lumpindex_t) * numlumps, PU_STATIC, NULL);
 
-        for (i = 0; i < numlumps; ++i)
+        for (i = 0; i < numlumps; i++)
             lumphash[i] = -1;
 
-        for (i = 0; i < numlumps; ++i)
+        for (i = 0; i < numlumps; i++)
         {
             unsigned int        hash;
 

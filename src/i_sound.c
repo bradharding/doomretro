@@ -192,7 +192,7 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, size_t len)
 static void LockAllocatedSound(allocated_sound_t *snd)
 {
     // Increase use count, to stop the sound being freed.
-    ++snd->use_count;
+    snd->use_count++;
 
     // When we use a sound, re-link it into the list at the head, so
     // that the oldest sounds fall to the end of the list for freeing.
@@ -206,7 +206,7 @@ static void UnlockAllocatedSound(allocated_sound_t *snd)
     if (snd->use_count <= 0)
         I_Error("Sound effect released more times than it was locked...");
 
-    --snd->use_count;
+    snd->use_count--;
 }
 
 static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo, int pitch)
@@ -238,7 +238,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
 
     // ensure that the new buffer is an even length
     if (!(dstlen % 2))
-        ++dstlen;
+        dstlen++;
 
     outsnd = AllocateSound(insnd->sfxinfo, dstlen);
     if (!outsnd)
@@ -248,7 +248,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     dstbuf = (Sint16 *)outsnd->chunk.abuf;
 
     // loop over output buffer. find corresponding input cell, copy over
-    for (outp = dstbuf; outp < dstbuf + dstlen / 2; ++outp)
+    for (outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
     {
         Sint16  *inp = srcbuf + (int)((float)(outp - dstbuf) / dstlen * srclen);
 
@@ -344,7 +344,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
         expanded_length = ((uint64_t)length * mixer_freq) / samplerate;
         expand_ratio = (length << 8) / expanded_length;
 
-        for (i = 0; i < expanded_length; ++i)
+        for (i = 0; i < expanded_length; i++)
         {
             int         src = (i * expand_ratio) >> 8;
             Sint16      sample = (data[src] | (data[src] << 8)) - 32768;
@@ -369,7 +369,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
             alpha = dt / (rc + dt);
 
             // Both channels are processed in parallel, hence [i - 2]:
-            for (i = 2; i < expanded_length * 2; ++i)
+            for (i = 2; i < expanded_length * 2; i++)
                 expanded[i] = (Sint16)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
         }
     }
@@ -554,7 +554,7 @@ void I_UpdateSound(void)
     int i;
 
     // Check all channels to see if a sound has finished
-    for (i = 0; i < NUM_CHANNELS; ++i)
+    for (i = 0; i < NUM_CHANNELS; i++)
         if (channels_playing[i] && !I_SoundIsPlaying(i))
             // Sound has finished playing on this channel,
             // but sound data has not been released to cache
@@ -591,7 +591,7 @@ static int GetSliceSize(void)
     int n;
 
     // Try all powers of two, not exceeding the limit.
-    for (n = 0; ; ++n)
+    for (n = 0; ; n++)
         // 2^n <= limit < 2^n+1 ?
         if ((1 << (n + 1)) > limit)
             return (1 << n);
@@ -606,7 +606,7 @@ dboolean I_InitSound(void)
     const SDL_version   *linked = Mix_Linked_Version();
 
     // No sounds yet
-    for (i = 0; i < NUM_CHANNELS; ++i)
+    for (i = 0; i < NUM_CHANNELS; i++)
         channels_playing[i] = NULL;
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)

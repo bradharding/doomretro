@@ -102,7 +102,7 @@ void I_InitGamepad(void)
         int     i;
         int     numgamepads = SDL_NumJoysticks();
 
-        for (i = 0; i < numgamepads; ++i)
+        for (i = 0; i < numgamepads; i++)
             if ((gamepad = SDL_JoystickOpen(i)))
                 break;
 
@@ -121,7 +121,7 @@ void I_InitGamepad(void)
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
                 XInputDLL = "XInput1_3.dll";
 
-            ++initcount;
+            initcount++;
 
             if (pXInputDLL)
             {

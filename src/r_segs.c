@@ -191,7 +191,7 @@ void R_FixWiggle(sector_t *sector)
 
             // calculate adjustment
             while ((height >>= 1))
-                ++scaleindex;
+                scaleindex++;
 
             sector->scaleindex = scaleindex;
         }
@@ -211,7 +211,7 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
     int ceilingclip = mceilingclip[dc_x] + 1;
     int floorclip = mfloorclip[dc_x] - 1;
 
-    for (i = 0; i < column->numPosts; ++i)
+    for (i = 0; i < column->numPosts; i++)
     {
         const rpost_t   *post = &column->posts[i];
         int             topdelta = post->topdelta;
@@ -290,7 +290,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     patch = R_CacheTextureCompositePatchNum(texnum);
 
     // draw the columns
-    for (dc_x = x1; dc_x <= x2; ++dc_x, spryscale += rw_scalestep)
+    for (dc_x = x1; dc_x <= x2; dc_x++, spryscale += rw_scalestep)
     {
         // calculate lighting
         if (maskedtexturecol[dc_x] != INT_MAX)
@@ -341,7 +341,7 @@ void R_RenderSegLoop(void)
     fixed_t     texturecolumn = 0;
     dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]);
 
-    for (; rw_x < rw_stopx; ++rw_x)
+    for (; rw_x < rw_stopx; rw_x++)
     {
         // mark floor / ceiling areas
         int     yl = (int)((topfrac + heightunit - 1) >> heightbits);
@@ -970,5 +970,5 @@ void R_StoreWallRange(int start, int stop)
         ds_p->silhouette |= SIL_TOP;
     if (maskedtexture && !(ds_p->silhouette & SIL_BOTTOM))
         ds_p->silhouette |= SIL_BOTTOM;
-    ++ds_p;
+    ds_p++;
 }

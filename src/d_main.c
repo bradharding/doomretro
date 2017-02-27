@@ -294,7 +294,7 @@ void D_Display(void)
                 if (borderdrawcount)
                 {
                     R_DrawViewBorder();     // erase old menu stuff
-                    --borderdrawcount;
+                    borderdrawcount--;
                 }
             }
             if (r_detail == r_detail_low)
@@ -426,7 +426,7 @@ void D_PageTicker(void)
     {
         if (pagewait < I_GetTime())
         {
-            --pagetic;
+            pagetic--;
             pagewait = I_GetTime();
         }
 
@@ -590,7 +590,7 @@ dboolean DehFileProcessed(char *path)
 {
     int i;
 
-    for (i = 0; i < dehfilecount; ++i)
+    for (i = 0; i < dehfilecount; i++)
         if (M_StringCompare(path, dehfiles[i]))
             return true;
     return false;
@@ -1517,7 +1517,7 @@ static void D_ProcessDehInWad(void)
     if (chexdeh || M_ParmExists("-nodeh"))
         return;
 
-    for (i = 0; i < numlumps; ++i)
+    for (i = 0; i < numlumps; i++)
         if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
             ProcessDehFile(NULL, i);
 }
@@ -1528,7 +1528,7 @@ static void D_ParseStartupString(const char *string)
     size_t      start;
     size_t      len = strlen(string);
 
-    for (i = 0, start = 0; i < len; ++i)
+    for (i = 0, start = 0; i < len; i++)
         if (string[i] == '\n' || i == len - 1)
         {
             C_Output(M_SubString(string, start, i - start));
@@ -1686,7 +1686,7 @@ static void D_DoomMainSetup(void)
 
     if (p > 0)
         do
-            for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
+            for (p = p + 1; p < myargc && myargv[p][0] != '-'; p++)
             {
                 char    *file = D_TryFindWADByName(myargv[p]);
 
@@ -1779,7 +1779,7 @@ static void D_DoomMainSetup(void)
                 "DPHOOF", "BFGGA0", "HEADA1", "CYBRA1", "SPIDA1D1"
             };
 
-            for (i = 0; i < 23; ++i)
+            for (i = 0; i < 23; i++)
                 if (W_CheckNumForName(name[i]) < 0)
                     I_Error("This is not the registered version.");
         }

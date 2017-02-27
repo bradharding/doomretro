@@ -219,7 +219,7 @@ static void P_MovePlayer(player_t *player)
 static void P_ReduceDamageCount(player_t *player)
 {
     if (player->damagecount)
-        --player->damagecount;
+        player->damagecount--;
 
     if (r_shake_damage && !software)
         I_UpdateBlitFunc(player->damagecount);

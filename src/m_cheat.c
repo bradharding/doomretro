@@ -84,7 +84,7 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
         // and verifying. reset back to the beginning
         // if a key is wrong
         if (toupper(key) == toupper(cht->sequence[cht->chars_read]))
-            ++cht->chars_read;
+            cht->chars_read++;
         else
             // [BH] recognize key as first in sequence if it matches, rather than resetting
             cht->chars_read = (toupper(key) == toupper(cht->sequence[0]));
@@ -107,7 +107,7 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
         {
             cht->parameter_buf[cht->param_chars_read] = key;
 
-            ++cht->param_chars_read;
+            cht->param_chars_read++;
         }
     }
 

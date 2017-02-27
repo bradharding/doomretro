@@ -203,7 +203,7 @@ static void R_InitSpriteDefs(void)
 
     // scan all the lump names for each of the names,
     //  noting the highest frame letter.
-    for (i = 0; i < NUMSPRITES; ++i)
+    for (i = 0; i < NUMSPRITES; i++)
     {
         const char      *spritename = sprnames[i];
         int             j = hash[R_SpriteNameHash(spritename) % numentries].index;
@@ -213,7 +213,7 @@ static void R_InitSpriteDefs(void)
             int k;
 
             memset(sprtemp, -1, sizeof(sprtemp));
-            for (k = 0; k < MAX_SPRITE_FRAMES; ++k)
+            for (k = 0; k < MAX_SPRITE_FRAMES; k++)
                 sprtemp[k].flip = 0;
 
             maxframe = -1;
@@ -240,7 +240,7 @@ static void R_InitSpriteDefs(void)
                 int     frame;
                 int     rot;
 
-                for (frame = 0; frame < maxframe; ++frame)
+                for (frame = 0; frame < maxframe; frame++)
                     switch (sprtemp[frame].rotate)
                     {
                         case -1:
@@ -249,7 +249,7 @@ static void R_InitSpriteDefs(void)
 
                         case 0:
                             // only the first rotation is needed
-                            for (rot = 1; rot < 16; ++rot)
+                            for (rot = 1; rot < 16; rot++)
                                 sprtemp[frame].lump[rot] = sprtemp[frame].lump[0];
 
                             // If the frame is flipped, they all should be
@@ -274,14 +274,14 @@ static void R_InitSpriteDefs(void)
                                         sprtemp[frame].flip |= 1 << rot;
                                 }
                             }
-                            for (rot = 0; rot < 16; ++rot)
+                            for (rot = 0; rot < 16; rot++)
                                 if (sprtemp[frame].lump[rot] == -1)
                                     I_Error("R_InitSprites: Frame %c of sprite %.8s frame %c is "
                                         "missing rotations", frame + 'A', sprnames[i]);
                             break;
                     }
 
-                for (frame = 0; frame < maxframe; ++frame)
+                for (frame = 0; frame < maxframe; frame++)
                     if (sprtemp[frame].rotate == -1)
                     {
                         memset(&sprtemp[frame].lump, 0, sizeof(sprtemp[0].lump));
@@ -556,7 +556,7 @@ void R_DrawVisSprite(vissprite_t *vis)
                 + mobj->info->shadowoffset - viewz, spryscale);
             shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
-            for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; ++dc_x, frac += xiscale)
+            for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
                 R_BlastShadowColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
         }
     }
@@ -597,7 +597,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     fuzzpos = 0;
 
-    for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; ++dc_x, frac += xiscale)
+    for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
         R_BlastSpriteColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
 }
 

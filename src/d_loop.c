@@ -87,9 +87,7 @@ static dboolean BuildNewTic(void)
 
     G_BuildTiccmd(&cmd);
 
-    netcmds[maketic % BACKUPTICS] = cmd;
-
-    ++maketic;
+    netcmds[maketic++ % BACKUPTICS] = cmd;
 
     return true;
 }

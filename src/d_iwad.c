@@ -61,10 +61,7 @@ static int      num_iwad_dirs;
 static void AddIWADDir(char *dir)
 {
     if (num_iwad_dirs < MAX_IWAD_DIRS)
-    {
-        iwad_dirs[num_iwad_dirs] = dir;
-        ++num_iwad_dirs;
-    }
+        iwad_dirs[num_iwad_dirs++] = dir;
 }
 
 #if defined(_WIN32)
@@ -225,7 +222,7 @@ static void CheckUninstallStrings(void)
 {
     unsigned int        i;
 
-    for (i = 0; i < arrlen(uninstall_values); ++i)
+    for (i = 0; i < arrlen(uninstall_values); i++)
     {
         char    *val = GetRegistryString(&uninstall_values[i]);
         char    *unstr;
@@ -251,7 +248,7 @@ static void CheckInstallRootPaths(void)
 {
     size_t      i;
 
-    for (i = 0; i < arrlen(root_path_keys); ++i)
+    for (i = 0; i < arrlen(root_path_keys); i++)
     {
         char    *install_path = GetRegistryString(&root_path_keys[i]);
         size_t  j;
@@ -259,7 +256,7 @@ static void CheckInstallRootPaths(void)
         if (!install_path)
             continue;
 
-        for (j = 0; j < arrlen(root_path_subdirs); ++j)
+        for (j = 0; j < arrlen(root_path_subdirs); j++)
             AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL));
 
         free(install_path);
@@ -275,7 +272,7 @@ static void CheckSteamEdition(void)
     if (!install_path)
         return;
 
-    for (i = 0; i < arrlen(steam_install_subdirs); ++i)
+    for (i = 0; i < arrlen(steam_install_subdirs); i++)
         AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[i], NULL));
 
     free(install_path);
@@ -326,7 +323,7 @@ void IdentifyIWADByName(char *name)
         name = p + 1;
     gamemission = none;
 
-    for (i = 0; i < arrlen(iwads); ++i)
+    for (i = 0; i < arrlen(iwads); i++)
     {
         char    *iwad = M_StringJoin(iwads[i].name, ".wad", NULL);
 
@@ -425,7 +422,7 @@ char *D_FindWADByName(char *name)
     BuildIWADDirList();
 
     // Search through all IWAD paths for a file with the given name.
-    for (i = 0; i < num_iwad_dirs; ++i)
+    for (i = 0; i < num_iwad_dirs; i++)
     {
         char        *path;
 
@@ -505,7 +502,7 @@ static char *SaveGameIWADName(void)
     // Note that we match on gamemission rather than on IWAD name.
     // This ensures that doom1.wad and doom.wad saves are stored
     // in the same place.
-    for (i = 0; i < arrlen(iwads); ++i)
+    for (i = 0; i < arrlen(iwads); i++)
         if (gamemission == iwads[i].mission)
             return iwads[i].name;
 
@@ -561,7 +558,7 @@ void D_IdentifyVersion(void)
     {
         int     i;
 
-        for (i = 0; i < numlumps; ++i)
+        for (i = 0; i < numlumps; i++)
         {
             if (!strncasecmp(lumpinfo[i]->name, "MAP01", 8))
             {

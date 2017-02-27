@@ -402,7 +402,7 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
                 fprintf(file, "bind %s %s\n", control, action);
             break;
         }
-        ++i;
+        i++;
     }
 }
 
@@ -566,10 +566,10 @@ void M_SaveCVARs(void)
             SaveBind(file, actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol);
         if (actions[i].gamepad1)
             SaveBind(file, actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol);
-        ++i;
+        i++;
     }
 
-    for (i = 0; i < MAXALIASES; ++i)
+    for (i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name)
             numaliases++;
 
@@ -577,7 +577,7 @@ void M_SaveCVARs(void)
     {
         fputs("\n; aliases\n", file);
 
-        for (i = 0; i < MAXALIASES; ++i)
+        for (i = 0; i < MAXALIASES; i++)
             if (*aliases[i].name)
                 fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
     }
@@ -598,7 +598,7 @@ static int ParseIntParameter(char *strparm, int valuealiastype)
     {
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
-        ++i;
+        i++;
     }
 
     sscanf(strparm, "%10i", &parm);
@@ -615,7 +615,7 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
     {
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return (float)valuealiases[i].value;
-        ++i;
+        i++;
     }
 
     return (float)atof(strparm);
@@ -966,7 +966,7 @@ void M_LoadCVARs(char *filename)
         }
 
         // Find the setting in the list
-        for (i = 0; i < arrlen(cvars); ++i)
+        for (i = 0; i < arrlen(cvars); i++)
         {
             char        *s;
 

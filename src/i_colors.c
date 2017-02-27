@@ -181,7 +181,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
     int         best_color = 0;
     int         i;
 
-    for (i = 0; i < PALETTESIZE; ++i)
+    for (i = 0; i < PALETTESIZE; i++)
     {
         int     r1 = red;
         int     g1 = green;
@@ -214,11 +214,11 @@ void FindNearestColors(byte *palette)
     int i;
 
     if (W_CheckMultipleLumps("PLAYPAL") > 1)
-        for (i = 0; i < PALETTESIZE; ++i)
+        for (i = 0; i < PALETTESIZE; i++)
             nearestcolors[i] = FindNearestColor(palette, originalcolors[i].red,
                 originalcolors[i].green, originalcolors[i].blue);
     else
-        for (i = 0; i < PALETTESIZE; ++i)
+        for (i = 0; i < PALETTESIZE; i++)
             nearestcolors[i] = i;
 }
 
@@ -227,11 +227,11 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESI
     byte        *result = Z_Malloc(PALETTESIZE * PALETTESIZE, PU_STATIC, NULL);
     int         foreground, background;
 
-    for (foreground = 0; foreground < PALETTESIZE; ++foreground)
+    for (foreground = 0; foreground < PALETTESIZE; foreground++)
     {
         if ((filter[foreground] & colors) || colors == ALL)
         {
-            for (background = 0; background < PALETTESIZE; ++background)
+            for (background = 0; background < PALETTESIZE; background++)
             {
                 byte    *color1 = palette + background * 3;
                 byte    *color2 = palette + foreground * 3;
@@ -262,7 +262,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESI
             }
         }
         else
-            for (background = 0; background < PALETTESIZE; ++background)
+            for (background = 0; background < PALETTESIZE; background++)
                 *(result + (background << 8) + foreground) = foreground;
     }
 
