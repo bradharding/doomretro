@@ -1046,7 +1046,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         else if (r_translucency && !notranslucency)
         {
             if (spr == SPR_SHT2)
-                vis->colfunc = ((frame & (FF_FRAMEMASK | FF_FULLBRIGHT)) ?
+                vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) ?
                     tlredwhitecolfunc1 : basecolfunc);
             else
             {
