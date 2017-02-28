@@ -1,3 +1,9 @@
+### DOOM Retro v2.4.2
+
+---
+
+###### Tuesday, February 28, 2017
+
 ### DOOM Retro v2.4.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -5,7 +11,7 @@
   * Teleports are no longer treated as liquid.
   * If only `btsx_e1a.wad` is opened using the WAD launcher, then `btsx_e1b.wad` is automatically opened as well, and vice-versa.
 * The header of WADs specified on the command-line using the `-file` parameter will no longer be checked.
-* A bug has been fixed whereby the super shotgun would appear entirely translucent when the player fired.
+* A bug has been fixed whereby the super shotgun would appear entirely translucent when the player fired it.
 
 ---
 
