@@ -1,5 +1,6 @@
 ### DOOM Retro v2.4.2
 
+* The Fortress of Mystery is now shown on the intermission screen for the remainder of the episode if the player has completed the secret map E2M9 in `doom.wad`.
 ---
 
 ###### Tuesday, February 28, 2017

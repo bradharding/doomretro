@@ -579,7 +579,8 @@ static void WI_updateAnimatedBack(void)
 
 static void WI_drawAnimatedBack(void)
 {
-    int i;
+    int         i;
+    anim_t      *a;
 
     if (gamemode == commercial)
         return;
@@ -589,10 +590,17 @@ static void WI_drawAnimatedBack(void)
 
     for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
-        anim_t  *a = &anims[wbs->epsd][i];
+        a = &anims[wbs->epsd][i];
 
         if (a->ctr >= 0)
             V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[a->ctr]);
+    }
+
+    // [crispy] show Fortress of Mystery if it has been completed
+    if (wbs->epsd == 1 && wbs->didsecret)
+    {
+        a = &anims[1][7];
+        V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[2]);
     }
 }
 
