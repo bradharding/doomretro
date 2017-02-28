@@ -103,15 +103,11 @@ static dboolean WriteWrapperTimidityConfig(char *write_path)
 
 void I_InitTimidityConfig(void)
 {
-    dboolean    success;
-
     temp_timidity_cfg = M_TempFile("timidity.cfg");
-
-    success = WriteWrapperTimidityConfig(temp_timidity_cfg);
 
     // Set the TIMIDITY_CFG environment variable to point to the temporary
     // config file.
-    if (success)
+    if (WriteWrapperTimidityConfig(temp_timidity_cfg))
         putenv(M_StringJoin("TIMIDITY_CFG=", temp_timidity_cfg, NULL));
     else
     {
@@ -165,7 +161,8 @@ void I_ShutdownMusic(void)
 
 static dboolean SDLIsInitialized(void)
 {
-    int         freq, channels;
+    int         freq;
+    int         channels;
     Uint16      format;
 
     return !!Mix_QuerySpec(&freq, &format, &channels);
