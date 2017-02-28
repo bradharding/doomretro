@@ -1724,8 +1724,7 @@ static void D_DoomMainSetup(void)
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
-                        if (IWADRequiredByPWAD(file) != indetermined)
-                            pwadfile = uppercase(removeext(leafname(file)));
+                        pwadfile = uppercase(removeext(leafname(file)));
                     }
                 }
             }
