@@ -371,7 +371,7 @@ void *I_RegisterSong(void *data, int len)
 
 #if defined(_WIN32)
         // Check for option to invoke RPC server if isMIDI
-        if (isMIDI && haveMidiServer)
+        if (isMIDI && haveMidiServer && haveMidiClient)
             if (I_MidiRPCRegisterSong(data, len))
             {
                 serverMidiPlaying = true;
