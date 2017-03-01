@@ -563,17 +563,14 @@ static void WI_updateAnimatedBack(void)
                     break;
 
                 case ANIM_LEVEL:
-                    // gawd-awful hack for level anims (Corrected by JAD so that E2M9 secret level appears)
-                    if (wbs->next == a->data1 || (i == 7 && state == StatCount && wbs->didsecret
-                        && wbs->next == 5))
+                    // gawd-awful hack for level anims
+                    if (!(state == StatCount && i == 7) && wbs->next == a->data1)
                     {
                         a->ctr++;
                         if (a->ctr == a->nanims)
                             a->ctr--;
                         a->nexttic = bcnt + a->period;
                     }
-                    else if (i == 7 && wbs->didsecret)
-                        a->ctr = a->nanims - 1;
                     break;
             }
         }
@@ -582,7 +579,8 @@ static void WI_updateAnimatedBack(void)
 
 static void WI_drawAnimatedBack(void)
 {
-    int i;
+    int     i;
+    anim_t  *a;
 
     if (gamemode == commercial)
         return;
@@ -592,10 +590,17 @@ static void WI_drawAnimatedBack(void)
 
     for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
-        anim_t  *a = &anims[wbs->epsd][i];
+        a = &anims[wbs->epsd][i];
 
         if (a->ctr >= 0)
             V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[a->ctr]);
+    }
+
+    // [crispy] show Fortress Of Mystery if it has been completed
+    if (wbs->epsd == 1 && wbs->didsecret)
+    {
+        a = &anims[1][7];
+        V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[2]);
     }
 }
 
