@@ -295,7 +295,7 @@ void I_StopSong(void)
 
 void I_UnRegisterSong(void *handle)
 {
-    if (!music_initialized || !handle)
+    if (!music_initialized)
         return;
 
 #if defined(_WIN32)
@@ -306,7 +306,8 @@ void I_UnRegisterSong(void *handle)
     }
 #endif
 
-    Mix_FreeMusic(handle);
+    if (handle)
+        Mix_FreeMusic(handle);
 }
 
 void *I_RegisterSong(void *data, int len)
