@@ -46,7 +46,6 @@
 dboolean I_MidiRPCInitServer();
 dboolean I_MidiRPCInitClient();
 void I_MidiRPCClientShutDown();
-dboolean I_MidiRPCReady();
 
 dboolean I_MidiRPCRegisterSong(void *data, int size);
 dboolean I_MidiRPCPlaySong(dboolean looping);
@@ -56,5 +55,3 @@ dboolean I_MidiRPCPauseSong();
 dboolean I_MidiRPCResumeSong();
 
 #endif
-
-// EOF

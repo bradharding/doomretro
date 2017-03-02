@@ -339,16 +339,4 @@ void I_MidiRPCClientShutDown()
     clientInit = false;
 }
 
-//
-// I_MidiRPCReady
-//
-// Returns true if both server and client initialized successfully.
-//
-dboolean I_MidiRPCReady()
-{
-    CHECK_RPC_STATUS();
-
-    return true;
-}
-
 #endif

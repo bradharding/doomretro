@@ -1,7 +1,7 @@
 ### DOOM Retro v2.4.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The *Fortress Of Mystery* is now shown on the intermission screen for the remainder of the episode if the player has completed the secret map E2M9 in `doom.wad`.
+* The *Fortress Of Mystery* is now shown on the intermission screen for the remainder of the episode when the player finds the secret exit to E2M9 in `doom.wad`.
 
 ---
 
