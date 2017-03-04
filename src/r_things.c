@@ -738,7 +738,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (sprframe->rotate)
     {
         // choose a different rotation based on player view
-        angle_t ang = R_PointToAngle(fx, fy);
+        angle_t ang = R_PointToAngle2(viewx, viewy, fx, fy);
 
         if (sprframe->lump[0] == sprframe->lump[1])
             rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9) >> 28;
@@ -754,8 +754,6 @@ void R_ProjectSprite(mobj_t *thing)
         flip = (!!(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
-    width = spritewidth[lump];
-
     if (thing->state->dehacked)
     {
         offset = spriteoffset[lump];
@@ -768,14 +766,15 @@ void R_ProjectSprite(mobj_t *thing)
     }
 
     // calculate edges of the shape
+    width = spritewidth[lump];
     tx -= (flip ? width - offset : offset);
-    x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
+    x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
     if (x1 > viewwidth)
         return;
 
-    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + width, xscale)) >> FRACBITS) - 1;
+    x2 = ((centerxfrac + FixedMul(tx + width, xscale) - FRACUNIT / 2) >> FRACBITS) - 1;
 
     // off the left side
     if (x2 < 0)

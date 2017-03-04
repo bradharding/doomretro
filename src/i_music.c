@@ -318,7 +318,7 @@ void I_UnRegisterSong(void *handle)
         Mix_FreeMusic(handle);
 }
 
-void *I_RegisterSong(void *data, int len)
+void *I_RegisterSong(void *data, int size)
 {
     if (!music_initialized)
         return NULL;
@@ -332,14 +332,14 @@ void *I_RegisterSong(void *data, int len)
         musictype = MUSTYPE_NONE;
 
         // Check for MIDI or MUS format first:
-        if (len >= 14)
+        if (size >= 14)
         {
             if (!memcmp(data, "MThd", 4))                       // Is it a MIDI?
             {
                 musictype = MUSTYPE_MIDI;
                 isMIDI = true;
             }
-            else if (mmuscheckformat((byte *)data, len))        // Is it a MUS?
+            else if (mmuscheckformat((byte *)data, size))       // Is it a MUS?
             {
                 musictype = MUSTYPE_MUS;
                 isMUS = true;
@@ -355,14 +355,14 @@ void *I_RegisterSong(void *data, int len)
 
             memset(&mididata, 0, sizeof(MIDI));
 
-            if (mmus2mid((byte *)data, (size_t)len, &mididata, 89, false))
+            if (mmus2mid((byte *)data, (size_t)size, &mididata, 89, false))
                 return NULL;
 
             // Hurrah! Let's make it a mid and give it to SDL_mixer
             MIDIToMidi(&mididata, &mid, &midlen);
 
             data = mid;
-            len = midlen;
+            size = midlen;
             isMIDI = true;              // now it's a MIDI
         }
 
@@ -375,7 +375,7 @@ void *I_RegisterSong(void *data, int len)
                     C_Warning("The RPC client couldn't be initialized.");
 
             if (haveMidiClient)
-                if (I_MidiRPCRegisterSong(data, len))
+                if (I_MidiRPCRegisterSong(data, size))
                 {
                     serverMidiPlaying = true;
                     UpdateMusicVolume();
@@ -384,7 +384,7 @@ void *I_RegisterSong(void *data, int len)
         }
 #endif
 
-        if ((rwops = SDL_RWFromMem(data, len)))
+        if ((rwops = SDL_RWFromMem(data, size)))
         {
             if ((music = Mix_LoadMUSType_RW(rwops, MUS_MID, SDL_FALSE)))
                 musictype = MUSTYPE_MIDI;
