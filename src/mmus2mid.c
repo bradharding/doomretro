@@ -293,12 +293,12 @@ static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE 
 #define MAX_HEADER_SCAN 32
 
 //
-// muscheckformat
+// mmuscheckformat
 //
 // haleyjd 11/23/12:
 // Returns true if the data is a MUS.
 //
-dboolean muscheckformat(UBYTE *mus, int size)
+dboolean mmuscheckformat(UBYTE *mus, int size)
 {
     UBYTE       *hptr = mus;
 
