@@ -3145,17 +3145,21 @@ static void C_PlayerStats_Game(void)
         commify(player->itemcount), commify(totalitems),
         (totalitems ? player->itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
 
-    C_TabbedOutput(tabs, "   Ammo\t<b>%s bullets</b>\t<b>%s bullets</b>",
-        commify(player->itemspickedup_ammo_bullets), commify(stat_itemspickedup_ammo_bullets));
+    C_TabbedOutput(tabs, "   Ammo\t<b>%s bullet%s</b>\t<b>%s bullet%s</b>",
+        commify(player->itemspickedup_ammo_bullets), (player->itemspickedup_ammo_bullets == 1 ? "" : "s"),
+        commify(stat_itemspickedup_ammo_bullets), (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
 
-    C_TabbedOutput(tabs, "\t<b>%s cells</b>\t<b>%s cells</b>",
-        commify(player->itemspickedup_ammo_cells), commify(stat_itemspickedup_ammo_cells));
+    C_TabbedOutput(tabs, "\t<b>%s cell%s</b>\t<b>%s cell%s</b>",
+        commify(player->itemspickedup_ammo_cells), (player->itemspickedup_ammo_cells == 1 ? "" : "s"),
+        commify(stat_itemspickedup_ammo_cells), (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
 
-    C_TabbedOutput(tabs, "\t<b>%s rockets</b>\t<b>%s rockets</b>",
-        commify(player->itemspickedup_ammo_rockets), commify(stat_itemspickedup_ammo_rockets));
+    C_TabbedOutput(tabs, "\t<b>%s rocket%s</b>\t<b>%s rocket%s</b>",
+        commify(player->itemspickedup_ammo_rockets), (player->itemspickedup_ammo_rockets == 1 ? "" : "s"),
+        commify(stat_itemspickedup_ammo_rockets), (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
 
-    C_TabbedOutput(tabs, "\t<b>%s shells</b>\t<b>%s shells</b>",
-        commify(player->itemspickedup_ammo_shells), commify(stat_itemspickedup_ammo_shells));
+    C_TabbedOutput(tabs, "\t<b>%s shell%s</b>\t<b>%s shell%s</b>",
+        commify(player->itemspickedup_ammo_shells), (player->itemspickedup_ammo_shells == 1 ? "" : "s"),
+        commify(stat_itemspickedup_ammo_shells), (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
 
     C_TabbedOutput(tabs, "   Armor\t<b>%s</b>\t<b>%s</b>",
         commify(player->itemspickedup_armor), commify(stat_itemspickedup_armor));
@@ -3274,14 +3278,17 @@ static void C_PlayerStats_NoGame(void)
 
     C_TabbedOutput(tabs, "Items picked up\t-\t<b>%s</b>", commify(stat_itemspickedup));
 
-    C_TabbedOutput(tabs, "   Ammo\t-\t<b>%s bullets</b>",
-        commify(stat_itemspickedup_ammo_bullets));
+    C_TabbedOutput(tabs, "   Ammo\t-\t<b>%s bullet%s</b>",
+        commify(stat_itemspickedup_ammo_bullets), (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
 
-    C_TabbedOutput(tabs, "\t-\t<b>%s cells</b>", commify(stat_itemspickedup_ammo_cells));
+    C_TabbedOutput(tabs, "\t-\t<b>%s cell%s</b>",
+        commify(stat_itemspickedup_ammo_cells), (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
 
-    C_TabbedOutput(tabs, "\t-\t<b>%s rockets</b>", commify(stat_itemspickedup_ammo_rockets));
+    C_TabbedOutput(tabs, "\t-\t<b>%s rocket%s</b>",
+        commify(stat_itemspickedup_ammo_rockets), (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
 
-    C_TabbedOutput(tabs, "\t-\t<b>%s shells</b>", commify(stat_itemspickedup_ammo_shells));
+    C_TabbedOutput(tabs, "\t-\t<b>%s shell%s</b>",
+        commify(stat_itemspickedup_ammo_shells), (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
 
     C_TabbedOutput(tabs, "   Armor\t-\t<b>%s</b>", commify(stat_itemspickedup_armor));
 
