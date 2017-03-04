@@ -692,7 +692,6 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             fx;
     fixed_t             fy;
     fixed_t             fz;
-    fixed_t             fangle;
 
     fixed_t             offset;
     fixed_t             topoffset;
@@ -706,14 +705,12 @@ void R_ProjectSprite(mobj_t *thing)
         fx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
         fy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
         fz = thing->oldz + FixedMul(thing->z - thing->oldz, fractionaltic);
-        fangle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
     }
     else
     {
         fx = thing->x;
         fy = thing->y;
         fz = thing->z;
-        fangle = thing->angle;
     }
 
     tr_x = fx - viewx;
@@ -744,9 +741,9 @@ void R_ProjectSprite(mobj_t *thing)
         angle_t ang = R_PointToAngle(fx, fy);
 
         if (sprframe->lump[0] == sprframe->lump[1])
-            rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9) >> 28;
+            rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9) >> 28;
         else
-            rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
+            rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
         flip = (!!(sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
     }
