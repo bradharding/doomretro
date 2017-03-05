@@ -934,7 +934,7 @@ void I_UpdateBlitFunc(dboolean shake)
             I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake : I_Blit_Shake));
     else
         blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
-        (nearestlinear ? I_Blit_NearestLinear : I_Blit));
+            (nearestlinear ? I_Blit_NearestLinear : I_Blit));
 }
 
 void I_Blit_Automap(void)
@@ -961,7 +961,7 @@ void I_ReadScreen(byte *screen)
 //
 void I_SetPalette(byte *playpal)
 {
-    int         i;
+    int i;
 
     for (i = 0; i < 256; i++)
     {
@@ -1460,7 +1460,8 @@ static void SetVideoMode(dboolean output)
     {
         if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
         {
-            int     major, minor;
+            int     major;
+            int     minor;
 
             SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
             SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
@@ -1494,14 +1495,12 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the "
-                    "<i><b>OpenGL ES</b></i> API.");
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES</b></i> API.");
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the "
-                    "<i><b>OpenGL ES 2</b></i> API.");
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES 2</b></i> API.");
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))

@@ -6,6 +6,7 @@
 * A PWAD incorrectly marked as an IWAD can now be opened using the WAD launcher provided a valid IWAD is selected with it.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby it was possible for some controls to be bound twice to the same action in `doomretro.cfg`.
+* The music volume is now set correctly at startup.
 
 ---
 
