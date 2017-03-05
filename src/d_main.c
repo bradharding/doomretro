@@ -1207,20 +1207,21 @@ static int D_OpenWADLauncher(void)
             dboolean    sharewareiwad = false;
 
 #if defined(_WIN32)
-            LPSTR       iwadpass = ofn.lpstrFile;
+            LPSTR       iwadpass1 = ofn.lpstrFile;
+            LPSTR       iwadpass2 = ofn.lpstrFile;
             LPSTR       pwadpass1 = ofn.lpstrFile;
             LPSTR       pwadpass2 = ofn.lpstrFile;
             LPSTR       cfgpass = ofn.lpstrFile;
             LPSTR       dehpass = ofn.lpstrFile;
 
-            iwadpass += lstrlen(iwadpass) + 1;
+            iwadpass1 += lstrlen(iwadpass1) + 1;
 
             // find and add IWAD first
-            while (*iwadpass)
+            while (*iwadpass1)
             {
                 static char     fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass);
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass1);
 
 #elif defined(__MACOSX__)
             char        *szFile;
@@ -1228,13 +1229,12 @@ static int D_OpenWADLauncher(void)
             for (NSURL* url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
-                char    *iwadpass = (char *)[[url lastPathComponent] UTF8String];
+                char    *iwadpass1 = (char *)[[url lastPathComponent] UTF8String];
 
                 szFile = (char *)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
 #endif
 
-                if (D_IsDOOMIWAD(fullpath) || (W_WadType(fullpath) == IWAD
-                    && !D_IsUnsupportedIWAD(fullpath)))
+                if (D_IsDOOMIWAD(fullpath))
                 {
                     if (!iwadfound)
                     {
@@ -1242,8 +1242,8 @@ static int D_OpenWADLauncher(void)
                         if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
-                            sharewareiwad = M_StringCompare(iwadpass, "DOOM1.WAD");
-                            isDOOM2 = M_StringCompare(iwadpass, "DOOM2.WAD");
+                            sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
+                            isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
                             wad = strdup(leafname(fullpath));
                             iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
@@ -1252,7 +1252,7 @@ static int D_OpenWADLauncher(void)
                 }
 
                 // if it's NERVE.WAD, try to open DOOM2.WAD with it
-                else if (M_StringCompare(iwadpass, "NERVE.WAD"))
+                else if (M_StringCompare(iwadpass1, "NERVE.WAD"))
                 {
                     static char     fullpath2[MAX_PATH];
 
@@ -1309,7 +1309,58 @@ static int D_OpenWADLauncher(void)
                     }
                 }
 #if defined(_WIN32)
-                iwadpass += lstrlen(iwadpass) + 1;
+                iwadpass1 += lstrlen(iwadpass1) + 1;
+#endif
+            }
+
+            iwadpass2 += lstrlen(iwadpass2) + 1;
+
+            // find and add IWAD first
+            while (*iwadpass2)
+            {
+                static char     fullpath[MAX_PATH];
+
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass2);
+
+#if defined(__MACOSX__)
+            char        *szFile;
+
+            for (NSURL* url in urls)
+            {
+                char    *fullpath = (char *)[url fileSystemRepresentation];
+                char    *iwadpass2 = (char *)[[url lastPathComponent] UTF8String];
+
+                szFile = (char *)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
+#endif
+
+                if (W_WadType(fullpath) == IWAD && !D_IsUnsupportedIWAD(fullpath))
+                {
+                    if (!iwadfound)
+                    {
+                        IdentifyIWADByName(fullpath);
+                        if (W_AddFile(fullpath, false))
+                        {
+                            iwadfound = 1;
+                            sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
+                            isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
+                            wad = strdup(leafname(fullpath));
+                            iwadfolder = strdup(M_ExtractFolder(fullpath));
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (W_MergeFile(fullpath, false))
+                        {
+                            modifiedgame = true;
+                            break;
+                        }
+                    }
+
+                }
+
+#if defined(_WIN32)
+                iwadpass2 += lstrlen(iwadpass2) + 1;
 #endif
             }
 
