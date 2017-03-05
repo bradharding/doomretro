@@ -56,8 +56,8 @@ static dboolean         music_initialized;
 // responsibility to shut it down
 static dboolean         sdl_was_initialized;
 
-static dboolean         musicpaused;
 static int              current_music_volume;
+static int              paused_midi_volume;
 
 musictype_t             musictype;
 
@@ -212,12 +212,12 @@ static void UpdateMusicVolume(void)
     // adjust server volume
     if (serverMidiPlaying)
     {
-        I_MidiRPCSetVolume(current_music_volume * !musicpaused);
+        I_MidiRPCSetVolume(current_music_volume);
         return;
     }
 #endif
 
-    Mix_VolumeMusic(current_music_volume * !musicpaused);
+    Mix_VolumeMusic(current_music_volume);
 }
 
 // Set music volume (0 - 127)
@@ -252,8 +252,6 @@ void I_PauseSong(void)
     if (!music_initialized)
         return;
 
-    musicpaused = true;
-
 #if defined(_WIN32)
     if (serverMidiPlaying)
     {
@@ -262,15 +260,19 @@ void I_PauseSong(void)
     }
 #endif
 
-    UpdateMusicVolume();
+    if (musictype != MUSTYPE_MIDI)
+        Mix_PauseMusic();
+    else
+    {
+        paused_midi_volume = Mix_VolumeMusic(-1);
+        Mix_VolumeMusic(0);
+    }
 }
 
 void I_ResumeSong(void)
 {
     if (!music_initialized)
         return;
-
-    musicpaused = false;
 
 #if defined(_WIN32)
     if (serverMidiPlaying)
@@ -280,7 +282,10 @@ void I_ResumeSong(void)
     }
 #endif
 
-    UpdateMusicVolume();
+    if (musictype != MUSTYPE_MIDI)
+        Mix_ResumeMusic();
+    else
+        Mix_VolumeMusic(paused_midi_volume);
 }
 
 void I_StopSong(void)
@@ -373,7 +378,7 @@ void *I_RegisterSong(void *data, int size)
             if (!haveMidiClient)
             {
                 if ((haveMidiClient = I_MidiRPCInitClient()))
-                    UpdateMusicVolume();
+                    I_MidiRPCSetVolume(current_music_volume);
                 else
                     C_Warning("The RPC client couldn't be initialized.");
             }
