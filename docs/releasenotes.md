@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The *Fortress Of Mystery* is now shown on the intermission screen for the remainder of the episode when the player finds the secret exit to E2M9 in `doom.wad`.
 * The music volume is now set correctly at startup.
+* Greater precision is now allowed when changing the SPX or music volume in the options menu.
 * A bug has been fixed whereby some player stats saved in `doomretro.cfg` could become corrupted in some instances.
 * A PWAD that is incorrectly marked as an IWAD can now be opened using the WAD launcher provided a valid IWAD is selected with it.
 * Minor changes have been made to text that is output to the console.

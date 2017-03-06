@@ -1164,9 +1164,9 @@ void M_UpdateSaveGameName(int i)
     else if (gamemission == doom
         && strlen(savegamestrings[i]) == 4
         && savegamestrings[i][0] == 'E'
-        && isdigit((unsigned char)savegamestrings[i][1])
+        && isdigit(savegamestrings[i][1])
         && savegamestrings[i][2] == 'M'
-        && isdigit((unsigned char)savegamestrings[i][3])
+        && isdigit(savegamestrings[i][3])
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
     else if (gamemission != doom
@@ -1174,8 +1174,8 @@ void M_UpdateSaveGameName(int i)
         && savegamestrings[i][0] == 'M'
         && savegamestrings[i][1] == 'A'
         && savegamestrings[i][2] == 'P'
-        && isdigit((unsigned char)savegamestrings[i][3])
-        && isdigit((unsigned char)savegamestrings[i][4])
+        && isdigit(savegamestrings[i][3])
+        && isdigit(savegamestrings[i][4])
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
 
@@ -1412,10 +1412,10 @@ void M_DrawSound(void)
         M_DrawCenteredString(38 + OFFSET, uppercase(s_M_SOUNDVOLUME));
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16,
-        (float)(sfxVolume * !nosfx), 8.0f);
+        (float)(sfxVolume * !nosfx), 4.0f);
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16,
-        (float)(musicVolume * !nomusic), 8.0f);
+        (float)(musicVolume * !nomusic), 4.0f);
 }
 
 void M_Sound(int choice)
@@ -1432,20 +1432,20 @@ void M_SfxVol(int choice)
             case 0:
                 if (sfxVolume > 0)
                 {
-                    S_SetSfxVolume(--sfxVolume * MAX_SFX_VOLUME / 15);
+                    S_SetSfxVolume(--sfxVolume * MAX_SFX_VOLUME / 31);
                     S_StartSound(NULL, sfx_stnmov);
-                    s_sfxvolume = sfxVolume * 100 / 15;
+                    s_sfxvolume = sfxVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
                 }
                 break;
 
             case 1:
-                if (sfxVolume < 15)
+                if (sfxVolume < 31)
                 {
-                    S_SetSfxVolume(++sfxVolume * MAX_SFX_VOLUME / 15);
+                    S_SetSfxVolume(++sfxVolume * MAX_SFX_VOLUME / 31);
                     S_StartSound(NULL, sfx_stnmov);
-                    s_sfxvolume = sfxVolume * 100 / 15;
+                    s_sfxvolume = sfxVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
                 }
@@ -1463,20 +1463,20 @@ void M_MusicVol(int choice)
             case 0:
                 if (musicVolume > 0)
                 {
-                    S_SetMusicVolume(--musicVolume * MAX_MUSIC_VOLUME / 15);
+                    S_SetMusicVolume(--musicVolume * MAX_MUSIC_VOLUME / 31);
                     S_StartSound(NULL, sfx_stnmov);
-                    s_musicvolume = musicVolume * 100 / 15;
+                    s_musicvolume = musicVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
 
             case 1:
-                if (musicVolume < 15)
+                if (musicVolume < 31)
                 {
-                    S_SetMusicVolume(++musicVolume * MAX_MUSIC_VOLUME / 15);
+                    S_SetMusicVolume(++musicVolume * MAX_MUSIC_VOLUME / 31);
                     S_StartSound(NULL, sfx_stnmov);
-                    s_musicvolume = musicVolume * 100 / 15;
+                    s_musicvolume = musicVolume * 100 / 31;
                     C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
                 }
@@ -2114,7 +2114,7 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR", PU_CACHE));
     for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
         V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
-    V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
+    V_DrawPatch(x + 7 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
 }
 
 void M_StartMessage(char *string, void *routine, dboolean input)
