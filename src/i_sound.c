@@ -454,15 +454,11 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
 
 void I_UpdateSoundParams(int handle, int vol, int sep)
 {
-    int left, right;
-
     if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
         return;
 
-    left = BETWEEN(0, (254 - sep) * vol / 127, 255);
-    right = BETWEEN(0, sep * vol / 127, 255);
-
-    Mix_SetPanning(handle, left, right);
+    Mix_SetPanning(handle, BETWEEN(0, (254 - sep) * vol / MAX_SFX_VOLUME, 255),
+        BETWEEN(0, sep * vol / MAX_SFX_VOLUME, 255));
 }
 
 //

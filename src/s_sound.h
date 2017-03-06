@@ -40,13 +40,14 @@
 #define __S_SOUND_H__
 
 #include "r_defs.h"
+#include "SDL_mixer.h"
 #include "sounds.h"
 
 // Sound sample rate to use for digital output (Hz)
 #define SAMPLERATE              44100
 #define NUM_CHANNELS            32
-#define MAX_MUSIC_VOLUME        127
-#define MAX_SFX_VOLUME          127
+#define MAX_MUSIC_VOLUME        MIX_MAX_VOLUME
+#define MAX_SFX_VOLUME          MIX_MAX_VOLUME
 
 extern dboolean s_randompitch;
 
