@@ -110,7 +110,7 @@ int                     sfxVolume;
 // Maximum volume of music.
 int                     musicVolume;
 
-// Internal volume level, ranging from 0-127
+// Internal volume level, ranging from 0-MAX_SFX_VOLUME
 static int              snd_SfxVolume;
 
 // Whether songs are mus_paused

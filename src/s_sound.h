@@ -43,8 +43,10 @@
 #include "sounds.h"
 
 // Sound sample rate to use for digital output (Hz)
-#define SAMPLERATE      44100
-#define NUM_CHANNELS    32
+#define SAMPLERATE              44100
+#define NUM_CHANNELS            32
+#define MAX_MUSIC_VOLUME        127
+#define MAX_SFX_VOLUME          127
 
 extern dboolean s_randompitch;
 
