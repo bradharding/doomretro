@@ -197,7 +197,7 @@ void M_DrawSave(void);
 
 void M_DrawSaveLoadBorder(int x, int y);
 void M_SetupNextMenu(menu_t *menudef);
-void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor);
+void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset);
 void M_WriteText(int x, int y, char *string, dboolean shadow);
 int M_StringWidth(char *string);
 int M_StringHeight(char *string);
@@ -1412,10 +1412,10 @@ void M_DrawSound(void)
         M_DrawCenteredString(38 + OFFSET, uppercase(s_M_SOUNDVOLUME));
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16,
-        (float)(sfxVolume * !nosfx), 4.0f);
+        (float)(sfxVolume * !nosfx), 4.0f, 6);
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16,
-        (float)(musicVolume * !nomusic), 4.0f);
+        (float)(musicVolume * !nomusic), 4.0f, 6);
 }
 
 void M_Sound(int choice)
@@ -1722,14 +1722,14 @@ void M_DrawOptions(void)
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
         (float)(r_screensize + (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
-            + !r_hud), 7.2f);
+            + !r_hud), 7.2f, 8);
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + 1, 9,
-            gp_sensitivity / (float)gp_sensitivity_max * 8.0f, 8.0f);
+            gp_sensitivity / (float)gp_sensitivity_max * 8.0f, 8.0f, 8);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f);
+            m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
 }
 
 void M_Options(int choice)
@@ -2093,7 +2093,7 @@ void M_SizeDisplay(int choice)
 //
 // Menu Functions
 //
-void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
+void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset)
 {
     int xx;
     int i;
@@ -2114,7 +2114,7 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR", PU_CACHE));
     for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
         V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
-    V_DrawPatch(x + 7 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
+    V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
 }
 
 void M_StartMessage(char *string, void *routine, dboolean input)
