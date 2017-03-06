@@ -3468,6 +3468,7 @@ void M_Init(void)
     ExpDef.lastOn = expansionselected;
     NewDef.lastOn = skilllevelselected;
     SaveDef.lastOn = LoadDef.lastOn = savegameselected;
+    OptionsDef.lastOn = msgs;
     M_ReadSaveStrings();
 
     if (chex)
