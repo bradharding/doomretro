@@ -154,9 +154,9 @@ extern dboolean         DSSECRET;
 //  (e.g. no sound volume adjustment with menu.
 
 // From m_menu.c:
-//  Sound FX volume has default, 0 - 15
-//  Music volume has default, 0 - 15
-// These are multiplied by 8.
+//  Sound FX volume has default, 0 - 31
+//  Music volume has default, 0 - 31
+// These are multiplied by 4.
 extern int              sfxVolume;
 extern int              musicVolume;
 

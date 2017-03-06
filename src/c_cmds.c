@@ -4771,16 +4771,16 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         if (M_StringCompare(cmd, stringize(s_musicvolume)) && s_musicvolume != value)
         {
             s_musicvolume = value;
-            musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 15 + 50) / 100;
-            S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 15);
+            musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 31 + 50) / 100;
+            S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
 
             M_SaveCVARs();
         }
         else if (s_sfxvolume != value)
         {
             s_sfxvolume = value;
-            sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 15 + 50) / 100;
-            S_SetSfxVolume(sfxVolume * MAX_SFX_VOLUME / 15);
+            sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 31 + 50) / 100;
+            S_SetSfxVolume(sfxVolume * MAX_SFX_VOLUME / 31);
 
             M_SaveCVARs();
         }

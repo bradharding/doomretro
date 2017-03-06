@@ -104,7 +104,7 @@ dboolean                s_randommusic = s_randommusic_default;
 dboolean                s_randompitch = s_randompitch_default;
 
 // Maximum volume of a sound effect.
-// Internal default is max out of 0-15.
+// Internal default is max out of 0-31.
 int                     sfxVolume;
 
 // Maximum volume of music.

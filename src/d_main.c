@@ -1999,7 +1999,7 @@ static void D_DoomMainSetup(void)
 
     P_Init();
 
-    S_Init(sfxVolume * MAX_SFX_VOLUME / 15, musicVolume * MAX_MUSIC_VOLUME / 15);
+    S_Init(sfxVolume * MAX_SFX_VOLUME / 31, musicVolume * MAX_MUSIC_VOLUME / 31);
 
     HU_Init();
 
