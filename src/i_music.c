@@ -239,6 +239,7 @@ void I_PlaySong(void *handle, dboolean looping)
     if (serverMidiPlaying)
     {
         I_MidiRPCPlaySong(looping);
+        I_MidiRPCSetVolume(current_music_volume);
         return;
     }
 #endif
@@ -376,12 +377,8 @@ void *I_RegisterSong(void *data, int size)
         if (isMIDI && haveMidiServer)
         {
             if (!haveMidiClient)
-            {
-                if ((haveMidiClient = I_MidiRPCInitClient()))
-                    I_MidiRPCSetVolume(current_music_volume);
-                else
+                if (!(haveMidiClient = I_MidiRPCInitClient()))
                     C_Warning("The RPC client couldn't be initialized.");
-            }
 
             if (haveMidiClient && I_MidiRPCRegisterSong(data, size))
             {
