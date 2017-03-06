@@ -1141,7 +1141,6 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
 //
 void R_DrawPlayerSprites(void)
 {
-    int         i;
     int         invisibility = viewplayer->powers[pw_invisibility];
     pspdef_t    *psp;
 
@@ -1154,9 +1153,11 @@ void R_DrawPlayerSprites(void)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251);
 
-        for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
-            if (psp->state)
-                R_DrawPSprite(psp, true);
+        psp = viewplayer->psprites;
+        if (psp->state)
+            R_DrawPSprite(psp, true);
+        if ((++psp)->state)
+            R_DrawPSprite(psp, true);
 
         if (pausesprites)
             R_DrawPausedFuzzColumns();
@@ -1166,17 +1167,17 @@ void R_DrawPlayerSprites(void)
     else
     {
         muzzleflash = false;
+        psp = viewplayer->psprites;
+        if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
+            muzzleflash = true;
+        else if ((++psp)->state && (psp->state->frame & FF_FULLBRIGHT))
+            muzzleflash = true;
 
-        for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
-            if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
-            {
-                muzzleflash = true;
-                break;
-            }
-
-        for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
-            if (psp->state)
-                R_DrawPSprite(psp, false);
+        psp = viewplayer->psprites;
+        if (psp->state)
+            R_DrawPSprite(psp, false);
+        if ((++psp)->state)
+            R_DrawPSprite(psp, false);
     }
 }
 
