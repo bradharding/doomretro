@@ -442,12 +442,14 @@ static vissprite_t *R_NewVisSprite(fixed_t scale)
 //
 // R_BlastSpriteColumn
 //
-int     *mfloorclip;
-int     *mceilingclip;
+int            *mfloorclip;
+int            *mceilingclip;
 
-fixed_t spryscale;
-int     sprtopscreen;
-int     shift;
+fixed_t        spryscale;
+int            sprtopscreen;
+int            fuzzpos;
+
+static int     shift;
 
 static void R_BlastSpriteColumn(column_t *column)
 {
@@ -526,8 +528,6 @@ static void R_BlastShadowColumn(column_t *column)
         column = (column_t *)((byte *)column + length + 4);
     }
 }
-
-int     fuzzpos;
 
 //
 // R_DrawVisSprite

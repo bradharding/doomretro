@@ -419,16 +419,15 @@ void R_RenderSegLoop(void)
                 dc_texheight = midtexheight;
 
                 // [BH] apply brightmap
-                if (!nobrightmap[midtexture])
-                    dc_colormask = midtexfullbright;
-
-                if (dc_colormask && usebrightmaps)
+                dc_colormask = midtexfullbright;
+                if (dc_colormask && usebrightmaps && !nobrightmap[midtexture])
                     fbwallcolfunc();
                 else
                     wallcolfunc();
 
                 R_UnlockTextureCompositePatchNum(midtexture);
             }
+
             ceilingclip[rw_x] = viewheight;
             floorclip[rw_x] = -1;
         }
@@ -458,16 +457,15 @@ void R_RenderSegLoop(void)
                         dc_texheight = toptexheight;
 
                         // [BH] apply brightmap
-                        if (!nobrightmap[toptexture])
-                            dc_colormask = toptexfullbright;
-
-                        if (dc_colormask && usebrightmaps)
+                        dc_colormask = toptexfullbright;
+                        if (dc_colormask && usebrightmaps && !nobrightmap[toptexture])
                             fbwallcolfunc();
                         else
                             wallcolfunc();
 
                         R_UnlockTextureCompositePatchNum(toptexture);
                     }
+
                     ceilingclip[rw_x] = mid;
                 }
                 else
@@ -502,16 +500,15 @@ void R_RenderSegLoop(void)
                         dc_texheight = bottomtexheight;
 
                         // [BH] apply brightmap
-                        if (!nobrightmap[bottomtexture])
-                            dc_colormask = bottomtexfullbright;
-
-                        if (dc_colormask && usebrightmaps)
+                        dc_colormask = bottomtexfullbright;
+                        if (dc_colormask && usebrightmaps && !nobrightmap[bottomtexture])
                             fbwallcolfunc();
                         else
                             wallcolfunc();
 
                         R_UnlockTextureCompositePatchNum(bottomtexture);
                     }
+
                     floorclip[rw_x] = mid;
                 }
                 else
@@ -710,7 +707,8 @@ void R_StoreWallRange(int start, int stop)
         int     liquidoffset = 0;
 
         // two sided line
-        ds_p->sprtopclip = ds_p->sprbottomclip = NULL;
+        ds_p->sprtopclip = NULL;
+        ds_p->sprbottomclip = NULL;
         ds_p->silhouette = SIL_NONE;
 
         if (frontsector->interpfloorheight > backsector->interpfloorheight

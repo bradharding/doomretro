@@ -200,7 +200,7 @@ void R_DrawColorColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    byte        color = dc_colormap[NOTEXTURECOLOR];
+    const byte  color = dc_colormap[NOTEXTURECOLOR];
 
     while (--count)
     {
@@ -215,8 +215,8 @@ void R_DrawShadowColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    byte        *body = tinttab40;
-    byte        *edge = tinttab25;
+    const byte  *body = tinttab40;
+    const byte  *edge = tinttab25;
 
     *dest = edge[*dest];
     dest += SCREENWIDTH;
@@ -234,7 +234,7 @@ void R_DrawFuzzyShadowColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    byte        *translucency = tinttab25;
+    const byte  *translucency = tinttab25;
 
     if (!(rand() % 4) && !consoleactive)
         *dest = translucency[*dest];
@@ -269,7 +269,7 @@ void R_DrawBloodSplatColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    byte        *blood = dc_blood;
+    const byte  *blood = dc_blood;
 
     while (--count)
     {
@@ -562,7 +562,7 @@ void R_DrawTranslucentSuperShotgunColumn(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabredwhite1;
+    const byte          *translucency = tinttabredwhite1;
 
     while (--count)
     {
@@ -739,7 +739,7 @@ void R_DrawTranslucentRedToBlue33Column(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttab33;
+    const byte          *translucency = tinttab33;
 
     while (--count)
     {
@@ -778,7 +778,7 @@ void R_DrawTranslucentRedToGreen33Column(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttab33;
+    const byte          *translucency = tinttab33;
 
     while (--count)
     {
@@ -798,7 +798,7 @@ void R_DrawTranslucentColumn(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttab;
+    const byte          *translucency = tinttab;
 
     while (--count)
     {
@@ -818,7 +818,7 @@ void R_DrawTranslucent50Column(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tranmap;
+    const byte          *translucency = tranmap;
 
     while (--count)
     {
@@ -838,7 +838,7 @@ void R_DrawDitheredColumn(void)
     const fixed_t       fracstep = dc_iscale << 1;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tranmap;
+    const byte          *translucency = tranmap;
 
     if (((viewwindowy + dc_yl) & 1) == ((viewwindowx + dc_x) & 1))
     {
@@ -865,7 +865,7 @@ void R_DrawTranslucent33Column(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttab33;
+    const byte          *translucency = tinttab33;
 
     while (--count)
     {
@@ -885,7 +885,7 @@ void R_DrawMegaSphereColumn(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttab33;
+    const byte          *translucency = tinttab33;
 
     while (--count)
     {
@@ -924,7 +924,7 @@ void R_DrawTranslucentRedColumn(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabred;
+    const byte          *translucency = tinttabred;
 
     while (--count)
     {
@@ -944,7 +944,7 @@ void R_DrawTranslucentRedWhiteColumn1(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabredwhite1;
+    const byte          *translucency = tinttabredwhite1;
 
     while (--count)
     {
@@ -964,7 +964,7 @@ void R_DrawTranslucentRedWhiteColumn2(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabredwhite2;
+    const byte          *translucency = tinttabredwhite2;
 
     while (--count)
     {
@@ -984,7 +984,7 @@ void R_DrawTranslucentRedWhite50Column(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabredwhite50;
+    const byte          *translucency = tinttabredwhite50;
 
     while (--count)
     {
@@ -1004,7 +1004,7 @@ void R_DrawTranslucentGreenColumn(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabgreen;
+    const byte          *translucency = tinttabgreen;
 
     while (--count)
     {
@@ -1024,7 +1024,7 @@ void R_DrawTranslucentBlueColumn(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabblue;
+    const byte          *translucency = tinttabblue;
 
     while (--count)
     {
@@ -1044,7 +1044,7 @@ void R_DrawTranslucentRed33Column(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabred33;
+    const byte          *translucency = tinttabred33;
 
     while (--count)
     {
@@ -1064,7 +1064,7 @@ void R_DrawTranslucentGreen33Column(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabgreen33;
+    const byte          *translucency = tinttabgreen33;
 
     while (--count)
     {
@@ -1084,7 +1084,7 @@ void R_DrawTranslucentBlue25Column(void)
     const fixed_t       fracstep = dc_iscale;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
-    byte                *translucency = tinttabblue25;
+    const byte          *translucency = tinttabblue25;
 
     while (--count)
     {
@@ -1414,7 +1414,7 @@ void R_DrawSpan(void)
         count -= 4;
     }
 
-    while (count-- > 0)
+    while (count--)
     {
         *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += xstep;
