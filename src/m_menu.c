@@ -139,6 +139,7 @@ byte            *blurscreen1;
 byte            *blurscreen2;
 
 dboolean        blurred = false;
+dboolean        blurred2 = false;
 dboolean        blurredmap = false;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
@@ -520,7 +521,7 @@ void M_DarkBackground(void)
 
     height = (SCREENHEIGHT - vid_widescreen * SBARHEIGHT) * SCREENWIDTH;
 
-    if (!blurred)
+    if (!blurred || !blurred2)
     {
         BlurScreen(screens[0], tempscreen1, blurscreen1);
 
@@ -534,6 +535,12 @@ void M_DarkBackground(void)
             for (i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
                 blurscreen2[i] = tinttab50[blurscreen2[i]];
         }
+
+        if (!blurred2)
+            blurred2 = true;
+
+        if (!blurred)
+            blurred2 = false;
 
         blurred = true;
     }
@@ -1744,6 +1751,7 @@ dboolean        message_dontpause = false;
 
 void M_ChangeMessages(int choice)
 {
+    blurred = false;
     messages = !messages;
     if (menuactive)
         message_dontpause = true;
@@ -2085,6 +2093,7 @@ void M_SizeDisplay(int choice)
             }
             break;
     }
+    blurred = false;
     skippsprinterp = true;
 }
 
