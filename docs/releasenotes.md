@@ -1,11 +1,12 @@
 ### DOOM Retro v2.4.2
 
+* *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2017*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The *Fortress Of Mystery* is now shown on the intermission screen for the remainder of the episode when the player finds the secret exit to E2M9 in `doom.wad`.
 * The music volume is now set correctly at startup.
-* Greater precision is now allowed when changing the SFX or music volume in the options menu.
+* Greater precision is now possible when changing the SFX or music volume through the options menu.
 * A bug has been fixed whereby some player stats saved in `doomretro.cfg` could become corrupted in some instances.
-* A PWAD that is incorrectly marked as an IWAD can now be opened using the WAD launcher provided a valid IWAD is selected with it.
+* A PWAD whose header is incorrectly marked as an IWAD can now be opened using the WAD launcher provided a valid IWAD is selected with it.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby it was possible for some controls to be bound twice to the same action in `doomretro.cfg`.
 
