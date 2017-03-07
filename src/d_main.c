@@ -281,6 +281,7 @@ void D_Display(void)
         {
             viewactivestate = false;    // view was not active
             R_FillBackScreen();         // draw the pattern into the back screen
+            blurred = false;
         }
 
         // see if the border needs to be updated to the screen

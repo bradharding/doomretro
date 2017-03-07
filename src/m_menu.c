@@ -2086,7 +2086,6 @@ void M_SizeDisplay(int choice)
             }
             break;
     }
-    blurred = false;
     skippsprinterp = true;
 }
 
