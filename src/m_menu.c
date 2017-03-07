@@ -536,8 +536,7 @@ void M_DarkBackground(void)
                 blurscreen2[i] = tinttab50[blurscreen2[i]];
         }
 
-        if (!blurred2)
-            blurred2 = true;
+        blurred2 = true;
 
         if (!blurred)
             blurred2 = false;

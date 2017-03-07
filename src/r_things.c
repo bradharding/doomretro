@@ -81,6 +81,7 @@ static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
 
 static dboolean         interpolatesprites;
+static dboolean         skippsprinterp2;
 static dboolean         pausesprites;
 static dboolean         drawshadows;
 
@@ -1118,7 +1119,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         psp_inter.x1_prev = vis->x1;
         psp_inter.texturemid_prev = vis->texturemid;
 
-        if (lump == psp_inter.lump && !skippsprinterp)
+        if (lump == psp_inter.lump && !skippsprinterp && !skippsprinterp2)
         {
             int deltax = vis->x2 - vis->x1;
 
@@ -1129,12 +1130,18 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         }
         else
         {
-            skippsprinterp = false;
             psp_inter.x1 = vis->x1;
             psp_inter.texturemid = vis->texturemid;
             psp_inter.lump = lump;
         }
     }
+
+    skippsprinterp2 = false;
+
+    if (skippsprinterp)
+        skippsprinterp2 = true;
+
+    skippsprinterp = false;
 
     R_DrawPVisSprite(vis);
 }
