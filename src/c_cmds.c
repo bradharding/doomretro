@@ -2961,7 +2961,7 @@ static void play_cmd_func2(char *cmd, char *parms)
 
 static char *distance(fixed_t value, dboolean showunits)
 {
-    char        *result = malloc(20 * sizeof(char));
+    char        *result = malloc(20);
 
     value /= UNITSPERFOOT;
 

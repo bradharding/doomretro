@@ -1744,7 +1744,6 @@ dboolean        message_dontpause = false;
 
 void M_ChangeMessages(int choice)
 {
-    blurred = false;
     messages = !messages;
     if (menuactive)
         message_dontpause = true;

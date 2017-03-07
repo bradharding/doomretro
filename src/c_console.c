@@ -878,9 +878,9 @@ void C_Drawer(void)
         int             x = CONSOLETEXTX;
         int             start;
         int             end;
-        char            *lefttext = malloc(512 * sizeof(char));
-        char            *middletext = malloc(512 * sizeof(char));
-        char            *righttext = malloc(512 * sizeof(char));
+        char            *lefttext = malloc(512);
+        char            *middletext = malloc(512);
+        char            *righttext = malloc(512);
         dboolean        prevconsoleactive = consoleactive;
         static int      consolewait;
 

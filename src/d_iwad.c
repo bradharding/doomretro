@@ -201,7 +201,7 @@ static char *GetRegistryString(registry_value_t *reg_val)
         && valtype == REG_SZ)
     {
         // Allocate a buffer for the value and read the value
-        result = (char *)malloc(len);
+        result = malloc(len);
 
         if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, (unsigned char *)result,
             &len) != ERROR_SUCCESS)
@@ -597,7 +597,7 @@ void D_IdentifyVersion(void)
 // Set the gamedescription string
 void D_SetGameDescription(void)
 {
-    gamedescription = (char *)malloc(64);
+    gamedescription = malloc(64);
     gamedescription = PACKAGE_NAME;
 
     if (chex1)

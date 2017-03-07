@@ -781,7 +781,7 @@ dboolean isvowel(const char ch)
 
 char *striptrailingzero(float value, int precision)
 {
-    char        *result = malloc(100 * sizeof(char));
+    char        *result = malloc(100);
 
     if (result)
     {

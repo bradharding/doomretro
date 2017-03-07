@@ -952,7 +952,7 @@ void HU_Ticker(void)
     {
         if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
         {
-            char    *s = Z_Malloc(133, PU_STATIC, NULL);
+            char    *s = malloc(133);
             int     len;
 
             strcpy(s, plr->message);
@@ -973,7 +973,7 @@ void HU_Ticker(void)
             message_nottobefuckedwith = message_dontfuckwithme;
             message_dontfuckwithme = false;
 
-            Z_Free(s);
+            free(s);
         }
         plr->message = NULL;
     }

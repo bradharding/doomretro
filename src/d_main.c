@@ -609,7 +609,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 #else
     // Used to safely call dirname and basename, which can modify their input.
     size_t              pathlen = strlen(path);
-    char                *pathcopy = (char *)malloc((pathlen + 1) * sizeof(char));
+    char                *pathcopy = malloc(pathlen + 1);
     char                *dehdir;
     char                *dehpattern;
     DIR                 *dirp;

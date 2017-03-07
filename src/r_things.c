@@ -442,27 +442,27 @@ static vissprite_t *R_NewVisSprite(fixed_t scale)
 //
 // R_BlastSpriteColumn
 //
-int            *mfloorclip;
-int            *mceilingclip;
+int             *mfloorclip;
+int             *mceilingclip;
 
-fixed_t        spryscale;
-int            sprtopscreen;
-int            fuzzpos;
+fixed_t         spryscale;
+int             sprtopscreen;
+int             fuzzpos;
 
-static int     shift;
+static int      shift;
 
 static void R_BlastSpriteColumn(column_t *column)
 {
     byte        topdelta;
-    int         ceilingclip = mceilingclip[dc_x] + 1;
-    int         floorclip = mfloorclip[dc_x] - 1;
+    const int   ceilingclip = mceilingclip[dc_x] + 1;
+    const int   floorclip = mfloorclip[dc_x] - 1;
 
     while ((topdelta = column->topdelta) != 0xFF)
     {
-        int     length = column->length;
+        const int       length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int       topscreen = sprtopscreen + spryscale * topdelta + 1;
 
         dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, ceilingclip);
         dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, floorclip);
@@ -486,15 +486,15 @@ static void R_BlastSpriteColumn(column_t *column)
 static void R_BlastBloodSplatColumn(column_t *column)
 {
     byte        topdelta;
-    int         ceilingclip = mceilingclip[dc_x] + 1;
-    int         floorclip = mfloorclip[dc_x] - 1;
+    const int   ceilingclip = mceilingclip[dc_x] + 1;
+    const int   floorclip = mfloorclip[dc_x] - 1;
 
     while ((topdelta = column->topdelta) != 0xFF)
     {
-        int     length = column->length;
+        const int       length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int       topscreen = sprtopscreen + spryscale * topdelta + 1;
 
         dc_yl = MAX(topscreen >> FRACBITS, ceilingclip);
         dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, floorclip);
@@ -509,15 +509,15 @@ static void R_BlastBloodSplatColumn(column_t *column)
 static void R_BlastShadowColumn(column_t *column)
 {
     byte        topdelta;
-    int         ceilingclip = mceilingclip[dc_x] + 1;
-    int         floorclip = mfloorclip[dc_x] - 1;
+    const int   ceilingclip = mceilingclip[dc_x] + 1;
+    const int   floorclip = mfloorclip[dc_x] - 1;
 
     while ((topdelta = column->topdelta) != 0xFF)
     {
-        int     length = column->length;
+        const int       length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int       topscreen = sprtopscreen + spryscale * topdelta + 1;
 
         dc_yl = MAX((topscreen >> FRACBITS) / 10 + shift, ceilingclip);
         dc_yh = MIN(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift, floorclip);
@@ -535,12 +535,13 @@ static void R_BlastShadowColumn(column_t *column)
 //
 void R_DrawVisSprite(vissprite_t *vis)
 {
-    fixed_t     frac;
-    fixed_t     startfrac = vis->startfrac;
-    fixed_t     xiscale = vis->xiscale;
-    fixed_t     x2 = vis->x2;
-    patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
-    mobj_t      *mobj = vis->mobj;
+    fixed_t             frac;
+    const fixed_t       startfrac = vis->startfrac;
+    const fixed_t       xiscale = vis->xiscale;
+    const fixed_t       x2 = vis->x2;
+    const byte          *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+    const int           *columnofs = ((patch_t *)patch)->columnofs;
+    const mobj_t        *mobj = vis->mobj;
 
     spryscale = vis->scale;
 
@@ -557,7 +558,7 @@ void R_DrawVisSprite(vissprite_t *vis)
             shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
             for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
-                R_BlastShadowColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
+                R_BlastShadowColumn((column_t *)(patch + LONG(columnofs[frac >> FRACBITS])));
         }
     }
 
@@ -590,7 +591,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     if (vis->footclip)
-        dc_baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
+        dc_baseclip = (sprtopscreen + FixedMul(SHORT(((patch_t *)patch)->height) << FRACBITS, spryscale)
             - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
     else
         dc_baseclip = -1;
@@ -598,7 +599,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
-        R_BlastSpriteColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
+        R_BlastSpriteColumn((column_t *)(patch + LONG(columnofs[frac >> FRACBITS])));
 }
 
 //
@@ -606,10 +607,11 @@ void R_DrawVisSprite(vissprite_t *vis)
 //
 void R_DrawPVisSprite(vissprite_t *vis)
 {
-    fixed_t     frac = vis->startfrac;
-    fixed_t     xiscale = vis->xiscale;
-    fixed_t     x2 = vis->x2;
-    patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+    fixed_t             frac = vis->startfrac;
+    const fixed_t       xiscale = vis->xiscale;
+    const fixed_t       x2 = vis->x2;
+    const byte          *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+    const int           *columnofs = ((patch_t *)patch)->columnofs;
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
@@ -624,15 +626,16 @@ void R_DrawPVisSprite(vissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_BlastSpriteColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
+        R_BlastSpriteColumn((column_t *)(patch + LONG(columnofs[frac >> FRACBITS])));
 }
 
 void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
 {
-    fixed_t     frac = vis->startfrac;
-    fixed_t     xiscale = vis->xiscale;
-    fixed_t     x2 = vis->x2;
-    patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+    fixed_t             frac = vis->startfrac;
+    const fixed_t       xiscale = vis->xiscale;
+    const fixed_t       x2 = vis->x2;
+    const byte          *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+    const int           *columnofs = ((patch_t *)patch)->columnofs;
 
     colfunc = vis->colfunc;
 
@@ -645,7 +648,7 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_BlastBloodSplatColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
+        R_BlastBloodSplatColumn((column_t *)(patch + LONG(columnofs[frac >> FRACBITS])));
 }
 
 //
