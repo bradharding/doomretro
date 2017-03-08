@@ -1133,15 +1133,15 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
             psp_inter.x1 = vis->x1;
             psp_inter.texturemid = vis->texturemid;
             psp_inter.lump = lump;
+
+            skippsprinterp2 = false;
+
+            if (skippsprinterp)
+                skippsprinterp2 = true;
+
+            skippsprinterp = false;
         }
     }
-
-    skippsprinterp2 = false;
-
-    if (skippsprinterp)
-        skippsprinterp2 = true;
-
-    skippsprinterp = false;
 
     R_DrawPVisSprite(vis);
 }
