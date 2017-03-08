@@ -2608,7 +2608,7 @@ dboolean M_Responder(event_t *ev)
     // Take care of any messages that need input
     if (messageToPrint && !keydown)
     {
-        ch = tolower(ch);
+        ch = (key == KEY_ENTER ? 'y' : tolower(ch));
         if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n'
             && !(modstate & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {

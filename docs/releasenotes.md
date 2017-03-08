@@ -1,5 +1,7 @@
 ### DOOM Retro v2.4.3
 
+* The <kbd>ENTER</kbd> key may now be used instead of the <kbd>Y</kbd> key when responding to messages requiring a yes/no answer.
+
 ---
 
 ###### Wednesday, March 8, 2017
