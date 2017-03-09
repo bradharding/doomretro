@@ -91,7 +91,7 @@ mobj_t          *onmobj;
 unsigned int    stat_distancetraveled;
 
 extern dboolean successfulshot;
-extern dboolean stat_shotshit;
+extern unsigned int     stat_shotshit;
 
 extern dboolean r_liquid_bob;
 extern dboolean r_corpses_nudge;

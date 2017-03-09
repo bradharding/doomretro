@@ -94,7 +94,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 extern dboolean con_obituaries;
 extern dboolean r_rockettrails;
 extern dboolean r_shake_barrels;
-extern int      stat_monsterskilled;
+extern unsigned int     stat_monsterskilled;
 
 //
 // ENEMY THINKING

@@ -91,7 +91,7 @@ typedef struct
 
 #define ANIMSPEED       8
 
-int             stat_secretsrevealed;
+unsigned int    stat_secretsrevealed;
 
 dboolean        r_liquid_bob = r_liquid_bob_default;
 
