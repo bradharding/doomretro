@@ -426,6 +426,7 @@ static void am_path_cvar_func2(char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *);
+static dboolean player_cvars_func1(char *, char *);
 static void player_cvars_func2(char *, char *);
 static void playername_cvar_func2(char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *);
@@ -564,9 +565,9 @@ consolecmd_t consolecmds[] =
         "The color of lines with no change in height in the\nautomap (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_wallcolor, am_wallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of solid walls in the automap (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(ammo, "", game_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(ammo, "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The amount of ammo for the player's currently selected\nweapon."),
-    CVAR_INT(armor, armour, game_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    CVAR_INT(armor, armour, player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's armor."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically loading the last savegame after\nthe player dies."),
@@ -622,7 +623,7 @@ consolecmd_t consolecmds[] =
         "The amount <i><b>XInput</b></i> gamepads vibrate when the player\nreceives damage (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(gp_vibrate_weapons, "", int_cvars_func1,int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount <i><b>XInput</b></i> gamepads vibrate when the player\nfires their weapon (<b>0%</b> to <b>200%</b>)."),
-    CVAR_INT(health, "", game_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health."),
 #if defined(_WIN32)
     CMD(help, "", null_func1, help_cmd_func2, 0, "",
@@ -4267,6 +4268,11 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parms)
 //
 dboolean P_CheckAmmo(player_t *player);
 
+static dboolean player_cvars_func1(char *cmd, char *parms)
+{
+    return (!*parms || (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL));
+}
+
 static void player_cvars_func2(char *cmd, char *parms)
 {
     player_t    *player = &players[0];
@@ -4280,8 +4286,8 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             sscanf(parms, "%10i", &value);
 
-            if (value != INT_MIN && value != player->ammo[ammotype]
-                && player->playerstate == PST_LIVE && ammotype != am_noammo)
+            if (value != player->ammo[ammotype] && player->playerstate == PST_LIVE
+                && ammotype != am_noammo)
             {
                 if (value > player->ammo[ammotype])
                     P_AddBonus(player, BONUSADD);

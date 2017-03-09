@@ -1,6 +1,7 @@
 ### DOOM Retro v2.4.3
 
 * The <kbd>ENTER</kbd> key may now be used instead of the <kbd>Y</kbd> key when responding to messages requiring a yes/no answer.
+* A bug has been fixed whereby the `ammo` and `armor` CVARs could be set to negative values.
 
 ---
 
