@@ -307,8 +307,8 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab,
     if (val < 0)
     {
         val = -val;
-        *x += 3;
-        hudnumfunc(*x - SHORT(minuspatch->width), y + 5, minuspatch, tinttab);
+        hudnumfunc(*x, y + 5, minuspatch, tinttab);
+        *x += SHORT(minuspatch->width);
     }
     if (val > 99)
     {
@@ -384,7 +384,7 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight > currenttime)
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, plr->health, tinttab,
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MIN(-200, plr->health), tinttab,
             V_DrawHighlightedHUDNumberPatch);
 
         if (!emptytallpercent)
@@ -393,7 +393,8 @@ static void HU_DrawHUD(void)
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, plr->health, tinttab, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MIN(-200, plr->health), tinttab,
+            hudnumfunc);
 
         if (!emptytallpercent)
             hudnumfunc(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
@@ -735,16 +736,15 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    int health = MAX(0, plr->health);
+    int health = MIN(-200, plr->health);
     int armor = plr->armorpoints;
     int color2 = (health <= 20 ? red : (health >= 100 ? green : white));
     int color1 = color2 + (color2 == green ? coloroffset : 0);
     int keys = 0;
     int i = 0;
 
-    DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(plr->health)), ALTHUD_Y + 12,
-        plr->health);
-    health = health * 200 / maxhealth;
+    DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health);
+    health = MAX(0, plr->health) * 200 / maxhealth;
     if (health > 100)
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, color1);
