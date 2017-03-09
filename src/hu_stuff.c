@@ -309,6 +309,8 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab,
         val = -val;
         hudnumfunc(*x, y + 5, minuspatch, tinttab);
         *x += SHORT(minuspatch->width);
+        if (val == 1 || (val >= 10 && val <= 19) || val >= 10)
+            (*x)--;
     }
     if (val > 99)
     {
@@ -669,7 +671,8 @@ static void DrawAltHUDNumber(int x, int y, int val)
     if (val < 0)
     {
         val = -val;
-        althudfunc(x - SHORT(altnegpatch->width) - 2, y, altnegpatch, WHITE, white);
+        althudfunc(x - SHORT(altnegpatch->width) - ((val == 1 || (val >= 10 && val <= 19)
+            || val >= 10) ? 1 : 2), y, altnegpatch, WHITE, white);
     }
     if (val > 99)
     {
