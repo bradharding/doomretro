@@ -115,6 +115,7 @@ extern dboolean         noinput;
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
+extern dboolean         vid_fullscreen;
 extern int              vid_motionblur;
 extern dboolean         vid_showfps;
 extern dboolean         wipe;
@@ -123,6 +124,8 @@ extern int              windowx;
 extern int              windowy;
 extern int              windowheight;
 extern int              windowwidth;
+
+extern dboolean         windowfocused;
 
 extern SDL_Window       *window;
 extern SDL_Renderer     *renderer;

@@ -176,7 +176,6 @@ static int      consolecolors[STRINGTYPES];
 extern int      fps;
 extern int      refreshrate;
 extern dboolean r_translucency;
-extern dboolean windowfocused;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 

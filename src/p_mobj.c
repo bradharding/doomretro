@@ -62,8 +62,8 @@ dboolean                r_corpses_nudge = r_corpses_nudge_default;
 dboolean                r_corpses_slide = r_corpses_slide_default;
 dboolean                r_corpses_smearblood = r_corpses_smearblood_default;
 dboolean                r_floatbob = r_floatbob_default;
-dboolean                r_shadows = r_shadows_default;
 dboolean                r_rockettrails = r_rockettrails_default;
+dboolean                r_shadows = r_shadows_default;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -261,7 +261,10 @@ void P_XYMovement(mobj_t *mo)
                     }
                 }
                 else
-                    mo->momx = mo->momy = 0;
+                {
+                    mo->momx = 0;
+                    mo->momy = 0;
+                }
             }
             else if (player)
                 // try to slide along it
@@ -285,7 +288,10 @@ void P_XYMovement(mobj_t *mo)
                 P_ExplodeMissile(mo);
             }
             else
-                mo->momx = mo->momy = 0;
+            {
+                mo->momx = 0;
+                mo->momy = 0;
+            }
         }
     } while (xmove || ymove);
 
@@ -337,11 +343,15 @@ void P_XYMovement(mobj_t *mo)
             && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4)
             P_SetMobjState(player->mo, S_PLAY);
 
-        mo->momx = mo->momy = 0;
+        mo->momx = 0;
+        mo->momy = 0;
 
         // killough 10/98: kill any bobbing momentum too (except in voodoo dolls)
         if (player && player->mo == mo)
-            player->momx = player->momy = 0;
+        {
+            player->momx = 0;
+            player->momy = 0;
+        }
     }
     else if ((flags2 & MF2_FEETARECLIPPED) && corpse && !player)
     {

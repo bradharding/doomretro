@@ -122,7 +122,6 @@ extern int              skycolor;
 extern dboolean         transferredsky;
 extern dboolean         vanilla;
 extern int              viewheight2;
-extern dboolean         windowfocused;
 
 extern int              r_skycolor;
 

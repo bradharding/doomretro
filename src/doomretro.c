@@ -78,9 +78,6 @@ void I_SetProcessDPIAware(void)
 
 HHOOK           g_hKeyboardHook;
 
-extern dboolean vid_fullscreen;
-extern dboolean windowfocused;
-
 void G_ScreenShot(void);
 
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)

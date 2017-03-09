@@ -156,8 +156,6 @@ extern dboolean splashscreen;
 extern dboolean skipaction;
 extern dboolean skippsprinterp;
 
-extern dboolean windowfocused;
-
 //
 // PROTOTYPES
 //
