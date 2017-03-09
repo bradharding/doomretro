@@ -4278,7 +4278,7 @@ static dboolean player_cvars_func1(char *cmd, char *parms)
 static void player_cvars_func2(char *cmd, char *parms)
 {
     player_t    *player = &players[0];
-    int         value = INT_MIN;
+    int         value;
 
     if (M_StringCompare(cmd, stringize(ammo)))
     {
@@ -4312,7 +4312,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             sscanf(parms, "%10i", &value);
 
-            if (value != INT_MIN && value != player->armorpoints)
+            if (value != player->armorpoints)
             {
                 if (value > player->armorpoints)
                     P_AddBonus(player, BONUSADD);
@@ -4332,8 +4332,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             sscanf(parms, "%10i", &value);
 
-            if (value != INT_MIN && !(player->cheats & CF_GODMODE)
-                && !player->powers[pw_invulnerability])
+            if (!(player->cheats & CF_GODMODE) && !player->powers[pw_invulnerability])
             {
                 if (!player->mo)
                     return;
