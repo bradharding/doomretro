@@ -100,8 +100,8 @@ int                     ammo;
 int                     armor;
 int                     health;
 
-dboolean                vanilla = false;
-dboolean                togglingvanilla = false;
+dboolean                vanilla;
+dboolean                togglingvanilla;
 
 char                    *version = version_default;
 
@@ -1869,7 +1869,7 @@ static void help_cmd_func2(char *cmd, char *parms)
 // kill CCMD
 //
 static int      killcmdtype = NUMMOBJTYPES;
-dboolean        massacre = false;
+dboolean        massacre;
 
 static dboolean kill_cmd_func1(char *cmd, char *parms)
 {

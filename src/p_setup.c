@@ -2308,8 +2308,8 @@ void P_SetupLevel(int ep, int map)
         S_ParseMusInfo(lumpname);
 }
 
-int     liquidlumps = 0;
-int     noliquidlumps = 0;
+int     liquidlumps;
+int     noliquidlumps;
 
 static void InitMapInfo(void)
 {

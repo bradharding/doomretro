@@ -170,7 +170,7 @@ void P_ExplodeMissile(mobj_t *mo)
 #define FRICTION        0xE800
 #define WATERFRICTION   0xFB00
 
-int     puffcount = 0;
+int     puffcount;
 
 void P_XYMovement(mobj_t *mo)
 {

@@ -68,7 +68,7 @@ int             firstspritelump;
 int             lastspritelump;
 int             numspritelumps;
 
-dboolean        notranslucency = false;
+dboolean        notranslucency;
 
 int             numtextures;
 texture_t       **textures;

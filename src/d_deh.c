@@ -61,8 +61,8 @@ typedef struct
 } DEHFILE;
 
 dboolean        addtocount;
-int             dehcount = 0;
-dboolean        dehacked = false;
+int             dehcount;
+dboolean        dehacked;
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -99,7 +99,7 @@ int dehfgetc(DEHFILE *fp)
 }
 
 // variables used in other routines
-dboolean        deh_pars = false;               // in wi_stuff to allow pars in modified games
+dboolean        deh_pars;                       // in wi_stuff to allow pars in modified games
 
 // #include "d_deh.h" -- we don't do that here but we declare the
 // variables. This externalizes everything that there is a string

@@ -205,7 +205,7 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-dboolean                automapactive = false;
+dboolean                automapactive;
 
 static unsigned int     mapwidth;
 static unsigned int     mapheight;
@@ -248,13 +248,13 @@ static fixed_t          scale_ftom;
 
 static player_t         *plr;                   // the player represented by an arrow
 
-mpoint_t                *markpoints = NULL;     // where the points are
-int                     markpointnum = 0;       // next point to be assigned
-int                     markpointnum_max = 0;
+mpoint_t                *markpoints;            // where the points are
+int                     markpointnum;           // next point to be assigned
+int                     markpointnum_max;
 
-mpoint_t                *pathpoints = NULL;
-int                     pathpointnum = 0;
-int                     pathpointnum_max = 0;
+mpoint_t                *pathpoints;
+int                     pathpointnum;
+int                     pathpointnum_max;
 
 dboolean                am_external = am_external_default;
 dboolean                am_followmode = am_followmode_default;
@@ -268,7 +268,7 @@ int                     gridheight;
 
 static dboolean         stopped = true;
 
-dboolean                bigstate = false;
+dboolean                bigstate;
 byte                    *area;
 static dboolean         movement;
 int                     keydown;

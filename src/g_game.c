@@ -119,8 +119,8 @@ dboolean        viewactive;
 
 player_t        players[MAXPLAYERS];
 
-int             gametic = 0;
-int             gametime = 0;
+int             gametic;
+int             gametime;
 int             levelstarttic;          // gametic at level start
 int             totalkills, totalitems, totalsecret;    // for intermission
 int             monstercount[NUMMOBJTYPES];
@@ -215,7 +215,7 @@ static char     savedescription[SAVESTRINGSIZE];
 
 gameaction_t    loadaction = ga_nothing;
 
-unsigned int    stat_mapscompleted = 0;
+unsigned int    stat_mapscompleted;
 
 extern dboolean alwaysrun;
 extern dboolean explosiontics;

@@ -53,8 +53,8 @@
 // Data
 //
 static unsigned char            *szStringBinding;       // RPC client binding string
-static dboolean                 serverInit = false;     // if true, server was started
-static dboolean                 clientInit = false;     // if true, client was bound
+static dboolean                 serverInit;             // if true, server was started
+static dboolean                 clientInit;             // if true, client was bound
 
 // server process information
 static STARTUPINFO              si;

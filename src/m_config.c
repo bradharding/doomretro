@@ -47,7 +47,7 @@
 #include "p_local.h"
 #include "version.h"
 
-static dboolean         cvarsloaded = false;
+static dboolean         cvarsloaded;
 
 extern dboolean         alwaysrun;
 extern int              am_allmapcdwallcolor;

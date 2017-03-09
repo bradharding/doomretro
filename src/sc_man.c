@@ -61,9 +61,9 @@ static char     *ScriptPtr;
 static char     *ScriptEndPtr;
 static char     StringBuffer[MAX_STRING_SIZE];
 static int      ScriptLumpNum;
-static dboolean ScriptOpen = false;
+static dboolean ScriptOpen;
 static int      ScriptSize;
-static dboolean AlreadyGot = false;
+static dboolean AlreadyGot;
 
 void SC_Open(char *name)
 {

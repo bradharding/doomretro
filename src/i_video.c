@@ -89,16 +89,16 @@ dboolean                vid_pillarboxes = vid_pillarboxes_default;
 char                    *vid_scaleapi = vid_scaleapi_default;
 char                    *vid_scalefilter = vid_scalefilter_default;
 char                    *vid_screenresolution = vid_screenresolution_default;
-dboolean                vid_showfps = false;
+dboolean                vid_showfps;
 dboolean                vid_vsync = vid_vsync_default;
 dboolean                vid_widescreen = vid_widescreen_default;
 char                    *vid_windowposition = vid_windowposition_default;
 char                    *vid_windowsize = vid_windowsize_default;
 
-dboolean                manuallypositioning = false;
+dboolean                manuallypositioning;
 
-SDL_Window              *window = NULL;
-int                     windowid = 0;
+SDL_Window              *window;
+int                     windowid;
 SDL_Renderer            *renderer;
 static SDL_Texture      *texture;
 static SDL_Texture      *texture_upscaled;
@@ -109,14 +109,14 @@ static SDL_Color        colors[256];
 static byte             *playpal;
 
 byte                    *mapscreen;
-SDL_Window              *mapwindow = NULL;
+SDL_Window              *mapwindow;
 static SDL_Renderer     *maprenderer;
 static SDL_Texture      *maptexture;
 static SDL_Surface      *mapsurface;
 static SDL_Surface      *mapbuffer;
 static SDL_Palette      *mappalette;
 
-dboolean                nearestlinear = false;
+dboolean                nearestlinear;
 int                     upscaledwidth;
 int                     upscaledheight;
 
@@ -145,15 +145,15 @@ int                     screenheight;
 int                     windowwidth;
 int                     windowheight;
 
-int                     windowx = 0;
-int                     windowy = 0;
+int                     windowx;
+int                     windowy;
 
 static int              displaywidth;
 static int              displayheight;
 static int              displaycenterx;
 static int              displaycentery;
 
-dboolean                returntowidescreen = false;
+dboolean                returntowidescreen;
 
 dboolean                windowfocused = true;
 
@@ -184,9 +184,9 @@ static SDL_Rect         map_rect = { 0, 0, 0, 0 };
 void                    (*blitfunc)(void);
 void                    (*mapblitfunc)(void);
 
-int                     fps = 0;
+int                     fps;
 int                     minfps = INT_MAX;
-int                     maxfps = 0;
+int                     maxfps;
 int                     refreshrate;
 
 #if defined(_WIN32)
@@ -205,7 +205,7 @@ static HANDLE           CapFPSEvent;
 float                   m_acceleration = m_acceleration_default;
 int                     m_threshold = m_threshold_default;
 
-static dboolean         capslock = false;
+static dboolean         capslock;
 dboolean                alwaysrun = alwaysrun_default;
 
 extern dboolean         am_external;
@@ -433,8 +433,8 @@ static void CenterMouse(void)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-dboolean        altdown = false;
-dboolean        waspaused = false;
+dboolean        altdown;
+dboolean        waspaused;
 dboolean        noinput = true;
 
 static void I_GetEvent(void)

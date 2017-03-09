@@ -84,12 +84,12 @@
 
 #define CARETBLINKTIME          350
 
-dboolean        consoleactive = false;
-int             consoleheight = 0;
+dboolean        consoleactive;
+int             consoleheight;
 int             consoledirection = -1;
-int             consoleanim = 0;
+int             consoleanim;
 
-dboolean        forceconsoleblurredraw = false;
+dboolean        forceconsoleblurredraw;
 
 static patch_t  *consolefont[CONSOLEFONTSIZE];
 static patch_t  *trademark;
@@ -110,27 +110,27 @@ static short    brandwidth;
 static short    brandheight;
 static short    spacewidth;
 
-static char     consoleinput[255] = "";
-int             consolestrings = 0;
+static char     consoleinput[255];
+int             consolestrings;
 int             numconsolecmds;
 
-static int      undolevels = 0;
+static int      undolevels;
 
 static patch_t  *caret;
-static int      caretpos = 0;
+static int      caretpos;
 static dboolean showcaret = true;
 static int      caretwait;
-static int      selectstart = 0;
-static int      selectend = 0;
+static int      selectstart;
+static int      selectend;
 
-char            consolecheat[255] = "";
-char            consolecheatparm[3] = "";
+char            consolecheat[255];
+char            consolecheatparm[3];
 
 static int      autocomplete = -1;
-static char     autocompletetext[255] = "";
+static char     autocompletetext[255];
 
 static int      inputhistory = -1;
-static char     currentinput[255] = "";
+static char     currentinput[255];
 
 static int      outputhistory = -1;
 

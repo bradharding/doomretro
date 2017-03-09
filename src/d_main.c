@@ -115,15 +115,15 @@ char                    *wad = wad_default;
 char                    *packageconfig;
 
 dboolean                devparm;                // started game with -devparm
-dboolean                freeze = false;
+dboolean                freeze;
 dboolean                nomonsters;             // checkparm of -nomonsters
-dboolean                regenhealth = false;
-dboolean                respawnitems = false;
+dboolean                regenhealth;
+dboolean                respawnitems;
 dboolean                respawnmonsters;        // checkparm of -respawn
 dboolean                pistolstart;            // [BH] checkparm of -pistolstart
 dboolean                fastparm;               // checkparm of -fast
 
-unsigned int            stat_runs = 0;
+unsigned int            stat_runs;
 
 skill_t                 startskill;
 int                     startepisode;
@@ -133,9 +133,9 @@ int                     startloadgame;
 
 dboolean                advancetitle;
 dboolean                wipe = true;
-dboolean                forcewipe = false;
+dboolean                forcewipe;
 
-dboolean                splashscreen = false;
+dboolean                splashscreen;
 
 int                     startuptimer;
 

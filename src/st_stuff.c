@@ -259,7 +259,7 @@ static int                      st_oldhealth = -1;
 dboolean                        oldweaponsowned[NUMWEAPONS];
 
 // count until face changes
-int                             st_facecount = 0;
+int                             st_facecount;
 
 // current face index, used by w_faces
 static int                      st_faceindex;
@@ -272,18 +272,18 @@ static int                      st_randomnumber;
 
 int                             oldhealth = 100;
 
-dboolean                        idclev = false;
+dboolean                        idclev;
 
-int                             idclevtics = 0;
+int                             idclevtics;
 
-dboolean                        idmus = false;
+dboolean                        idmus;
 
 dboolean                        samelevel;
 
 int                             facebackcolor = facebackcolor_default;
 int                             r_berserkintensity = r_berserkintensity_default;
 
-unsigned int                    stat_cheated = 0;
+unsigned int                    stat_cheated;
 
 cheatseq_t cheat_mus = CHEAT("idmus", 0);
 cheatseq_t cheat_mus_xy = CHEAT("idmus", 2);
@@ -1323,7 +1323,7 @@ void ST_Ticker(void)
         }
 }
 
-int     st_palette = 0;
+int     st_palette;
 
 static void ST_doPaletteStuff(void)
 {

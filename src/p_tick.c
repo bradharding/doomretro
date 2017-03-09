@@ -44,7 +44,7 @@
 #include "z_zone.h"
 
 int     leveltime;
-int     stat_time = 0;
+int     stat_time;
 
 //
 // THINKERS

@@ -78,7 +78,7 @@ static sprite_frame_t   *sprite_frames;
 static int              num_sprite_frames;
 static int              sprite_frames_alloced;
 
-dboolean                SHT2A0 = false;
+dboolean                SHT2A0;
 
 // Search in a list to find a lump with a particular name
 // Linear search (slow!)

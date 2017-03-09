@@ -82,13 +82,13 @@ int             numspechit;
 angle_t         shootangle;     // [BH] angle of blood and puffs for automap
 
 // Temporary holder for thing_sectorlist threads
-msecnode_t      *sector_list = NULL;    // phares 3/16/98
+msecnode_t      *sector_list;   // phares 3/16/98
 
 dboolean        infight;
 
 mobj_t          *onmobj;
 
-unsigned int    stat_distancetraveled = 0;
+unsigned int    stat_distancetraveled;
 
 extern dboolean successfulshot;
 extern dboolean stat_shotshit;
@@ -2019,7 +2019,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 // phares 3/21/98
 //
 // Maintain a freelist of msecnode_t's to reduce memory allocs and frees.
-msecnode_t      *headsecnode = NULL;
+msecnode_t      *headsecnode;
 
 void P_FreeSecNodeList(void)
 {

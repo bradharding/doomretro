@@ -120,10 +120,10 @@ static dboolean         mus_paused;
 static int              musicnum_current;
 
 // Music currently being played
-musicinfo_t             *mus_playing = NULL;
+musicinfo_t             *mus_playing;
 
-dboolean                nosfx = false;
-dboolean                nomusic = false;
+dboolean                nosfx;
+dboolean                nomusic;
 
 #if defined(_WIN32)
 extern dboolean         serverMidiPlaying;

@@ -63,7 +63,7 @@ ticcmd_t        netcmds[BACKUPTICS];
 int             maketic;
 
 // Used for original sync code.
-int             skiptics = 0;
+int             skiptics;
 
 //
 // NetUpdate

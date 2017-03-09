@@ -74,7 +74,7 @@ static dboolean         message_nottobefuckedwith;
 
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
-dboolean                idbehold = false;
+dboolean                idbehold;
 dboolean                s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
@@ -100,7 +100,7 @@ dboolean                r_diskicon = r_diskicon_default;
 dboolean                r_hud = r_hud_default;
 
 static patch_t          *stdisk;
-dboolean                drawdisk = false;
+dboolean                drawdisk;
 
 extern dboolean         messages;
 extern dboolean         vid_widescreen;
@@ -344,9 +344,9 @@ static int HUDNumberWidth(int val)
     return width;
 }
 
-int     healthhighlight = 0;
-int     ammohighlight = 0;
-int     armorhighlight = 0;
+int     healthhighlight;
+int     ammohighlight;
+int     armorhighlight;
 
 static void HU_DrawHUD(void)
 {

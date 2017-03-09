@@ -40,8 +40,8 @@
 #include "midiproc.h"
 
 // Currently playing music track
-static Mix_Music        *music = NULL;
-static SDL_RWops        *rw = NULL;
+static Mix_Music        *music;
+static SDL_RWops        *rw;
 
 static void UnregisterSong();
 

@@ -45,8 +45,8 @@
 #include "m_controls.h"
 #include "version.h"
 
-int     windowborderwidth = 0;
-int     windowborderheight = 0;
+int     windowborderwidth;
+int     windowborderheight;
 
 #if defined(_WIN32)
 

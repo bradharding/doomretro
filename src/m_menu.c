@@ -105,8 +105,8 @@ char            saveOldString[SAVESTRINGSIZE];
 
 dboolean        inhelpscreens;
 dboolean        menuactive;
-dboolean        savegames = false;
-dboolean        startingnewgame = false;
+dboolean        savegames;
+dboolean        startingnewgame;
 
 char            savegamestrings[10][SAVESTRINGSIZE];
 
@@ -138,9 +138,9 @@ byte            *tempscreen2;
 byte            *blurscreen1;
 byte            *blurscreen2;
 
-dboolean        blurred = false;
-dboolean        blurred2 = false;
-dboolean        blurredmap = false;
+dboolean        blurred;
+dboolean        blurred2;
+dboolean        blurredmap;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
@@ -1744,7 +1744,7 @@ void M_Options(int choice)
 //
 // Toggle messages on/off
 //
-dboolean        message_dontpause = false;
+dboolean        message_dontpause;
 
 void M_ChangeMessages(int choice)
 {
@@ -1761,7 +1761,7 @@ void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-dboolean        endinggame = false;
+dboolean        endinggame;
 
 void M_EndingGame(void)
 {
@@ -2328,9 +2328,9 @@ void M_ChangeGamma(dboolean shift)
 //
 // M_Responder
 //
-int             gamepadwait = 0;
-int             mousewait = 0;
-dboolean        gamepadpress = false;
+int             gamepadwait;
+int             mousewait;
+dboolean        gamepadpress;
 
 dboolean M_Responder(event_t *ev)
 {

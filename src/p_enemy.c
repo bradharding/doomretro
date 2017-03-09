@@ -87,7 +87,7 @@ dirtype_t diags[] =
 #define EXPLOSIONTICS   (2 * TICRATE)
 #define EXPLOSIONRANGE  (512 * FRACUNIT)
 
-int     explosiontics = 0;
+int     explosiontics;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
@@ -1798,7 +1798,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RadiusAttack(actor, actor->target, 128);
 }
 
-dboolean        flag667 = false;
+dboolean        flag667;
 
 //
 // A_BossDeath

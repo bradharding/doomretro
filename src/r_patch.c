@@ -81,8 +81,8 @@
 //
 
 // Re-engineered patch support
-static rpatch_t         *patches = 0;
-static rpatch_t         *texture_composites = 0;
+static rpatch_t         *patches;
+static rpatch_t         *texture_composites;
 
 static short            BIGDOOR7;
 static short            FIREBLU1;
