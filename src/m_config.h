@@ -186,9 +186,9 @@ typedef enum
 #define gp_vibrate_weapons_default              100
 #define gp_vibrate_weapons_max                  200
 
-#define health_min                              0
+#define health_min                              -200
 #define health_default                          100
-#define health_max                              999
+#define health_max                              200
 
 #define iwadfolder_default                      "C:\\"
 

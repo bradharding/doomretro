@@ -1882,7 +1882,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
 
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
             || (*playername && M_StringCompare(parm, playername)))
-            return !!players[0].mo->health;
+            return (players[0].health > 0);
 
         if (M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
             return true;
@@ -4333,18 +4333,34 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (value > player->health)
                     P_AddBonus(player, BONUSADD);
 
-                value = MIN(value, maxhealth);
+                value = BETWEEN(health_min, value, maxhealth);
 
-                if (player->health <= 0 && value)
-                    P_ResurrectPlayer(player, value);
-                else if (!(player->cheats & CF_BUDDHA) || value > 0)
+                if (player->health <= 0)
+                {
+                    if (value < 0)
+                    {
+                        player->health = value;
+                        player->mo->health = value;
+                    }
+                    else
+                    {
+                        P_ResurrectPlayer(player, value);
+                        C_HideConsole();
+                    }
+                }
+                else if (!(player->cheats & CF_BUDDHA))
                 {
                     if (value < player->health)
+                    {
                         P_DamageMobj(player->mo, NULL, NULL, player->health - value, false);
+                        C_HideConsole();
+                    }
                     else
-                        player->health = player->mo->health = value;
+                    {
+                        player->health = value;
+                        player->mo->health = value;
+                    }
 
-                    C_HideConsole();
                 }
             }
         }
