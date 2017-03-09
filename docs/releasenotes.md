@@ -1,6 +1,6 @@
 ### DOOM Retro v2.4.3
 
-* The <kbd>ENTER</kbd> key may now be used instead of the <kbd>Y</kbd> key when responding to messages requiring a yes/no answer.
+* The <kbd>ENTER</kbd> key may now be used as an alternative to the <kbd>Y</kbd> key when responding to messages requiring a yes/no answer.
 * When the player dies, the amount of health displayed in the HUD will no longer always be 0. It will instead be a value often less than 0 to better indicate how much damage was inflicted upon the player in order to kill them.
 * A bug has been fixed whereby the `ammo` and `armor` CVARs could be set to negative values.
 

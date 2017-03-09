@@ -43,58 +43,58 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-static mobj_t   *tmthing;
-static fixed_t  tmx;
-static fixed_t  tmy;
-static fixed_t  tmz;
-static int      pe_x;   // Pain Elemental position for Lost Soul checks // phares
-static int      pe_y;   // Pain Elemental position for Lost Soul checks // phares
-static int      ls_x;   // Lost Soul position for Lost Soul checks      // phares
-static int      ls_y;   // Lost Soul position for Lost Soul checks      // phares
+static mobj_t           *tmthing;
+static fixed_t          tmx;
+static fixed_t          tmy;
+static fixed_t          tmz;
+static int              pe_x;           // Pain Elemental position for Lost Soul checks // phares
+static int              pe_y;           // Pain Elemental position for Lost Soul checks // phares
+static int              ls_x;           // Lost Soul position for Lost Soul checks      // phares
+static int              ls_y;           // Lost Soul position for Lost Soul checks      // phares
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
-dboolean        floatok;
+dboolean                floatok;
 
 // killough 11/98: if "felldown" true, object was pushed down ledge
-dboolean        felldown;
+dboolean                felldown;
 
-fixed_t         tmbbox[4];
-fixed_t         tmfloorz;
-fixed_t         tmceilingz;
-fixed_t         tmdropoffz;
+fixed_t                 tmbbox[4];
+fixed_t                 tmfloorz;
+fixed_t                 tmceilingz;
+fixed_t                 tmdropoffz;
 
 // keep track of the line that lowers the ceiling,
 // so missiles don't explode against sky hack walls
-line_t          *ceilingline;
-line_t          *blockline;     // killough 8/11/98: blocking linedef
-line_t          *floorline;     // killough 8/1/98: Highest touched floor
-static int      tmunstuck;      // killough 8/1/98: whether to allow unsticking
+line_t                  *ceilingline;
+line_t                  *blockline;     // killough 8/11/98: blocking linedef
+line_t                  *floorline;     // killough 8/1/98: Highest touched floor
+static int              tmunstuck;      // killough 8/1/98: whether to allow unsticking
 
 // keep track of special lines as they are hit,
 // but don't process them until the move is proven valid
 
 // 1/11/98 killough: removed limit on special lines crossed
-line_t          **spechit;
-static int      spechit_max;
-int             numspechit;
+line_t                  **spechit;
+static int              spechit_max;
+int                     numspechit;
 
-angle_t         shootangle;     // [BH] angle of blood and puffs for automap
+angle_t                 shootangle;     // [BH] angle of blood and puffs for automap
 
 // Temporary holder for thing_sectorlist threads
-msecnode_t      *sector_list;   // phares 3/16/98
+msecnode_t              *sector_list;   // phares 3/16/98
 
-dboolean        infight;
+dboolean                infight;
 
-mobj_t          *onmobj;
+mobj_t                  *onmobj;
 
-unsigned int    stat_distancetraveled;
+unsigned int            stat_distancetraveled;
 
-extern dboolean successfulshot;
+extern dboolean         successfulshot;
 extern unsigned int     stat_shotshit;
 
-extern dboolean r_liquid_bob;
-extern dboolean r_corpses_nudge;
+extern dboolean         r_liquid_bob;
+extern dboolean         r_corpses_nudge;
 
 //
 // TELEPORT MOVE
@@ -103,7 +103,7 @@ extern dboolean r_corpses_nudge;
 //
 // PIT_StompThing
 //
-static dboolean telefrag;       // killough 8/9/98: whether to telefrag at exit
+static dboolean         telefrag;       // killough 8/9/98: whether to telefrag at exit
 
 dboolean PIT_StompThing(mobj_t *thing)
 {

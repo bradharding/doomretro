@@ -43,7 +43,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-int     leveltime;
+int             leveltime;
 unsigned int    stat_time;
 
 //
