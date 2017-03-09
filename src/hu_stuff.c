@@ -393,7 +393,7 @@ static void HU_DrawHUD(void)
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MIN(-200, plr->health), tinttab,
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MAX(health_min, plr->health), tinttab,
             hudnumfunc);
 
         if (!emptytallpercent)
