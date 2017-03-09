@@ -342,8 +342,8 @@ static void WI_drawWILVchar(int x, int y, int i)
             V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * w + x1], true);
 }
 
-char            *mapname = "";
-char            *nextmapname = "";
+char    *mapname;
+char    *nextmapname;
 
 static const int chartoi[130] =
 {

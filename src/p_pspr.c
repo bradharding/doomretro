@@ -295,7 +295,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // check for fire
-    //  the missile launcher and bfg do not auto fire
+    //  the missile launcher and BFG do not auto fire
     if (player->cmd.buttons & BT_ATTACK)
     {
         if (!player->attackdown || (readyweapon != wp_missile && readyweapon != wp_bfg))
@@ -320,7 +320,7 @@ void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // check for fire
-    //  (if a weaponchange is pending, let it go through instead)
+    //  (if a weapon change is pending, let it go through instead)
     if ((player->cmd.buttons & BT_ATTACK) && player->pendingweapon == wp_nochange
         && player->health > 0)
     {
@@ -458,7 +458,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     angle_t     angle = actor->angle + ((M_Random() - M_Random()) << 18);
     int         slope = P_AimLineAttack(actor, angle, MELEERANGE + 1);
 
-    // use meleerange + 1 so the puff doesn't skip the flash
+    // use MELEERANGE + 1 so the puff doesn't skip the flash
     P_LineAttack(actor, angle, MELEERANGE + 1, slope, damage);
 
     P_NoiseAlert(player->mo, player->mo);

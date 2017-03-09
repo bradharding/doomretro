@@ -68,7 +68,7 @@ int             pixelwidth;
 int             pixelheight;
 char            *r_lowpixelsize = r_lowpixelsize_default;
 
-char            screenshotfolder[MAX_PATH] = "";
+char            screenshotfolder[MAX_PATH];
 
 extern dboolean r_translucency;
 

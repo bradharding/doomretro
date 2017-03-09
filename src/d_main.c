@@ -102,8 +102,8 @@ void D_DoomLoop(void);
 char                    *savegamefolder;
 
 // location of IWAD and PWAD files
-char                    *iwadfile = "";
-char                    *pwadfile = "";
+char                    *iwadfile;
+char                    *pwadfile;
 
 char                    *iwadfolder = iwadfolder_default;
 int                     units = units_default;
