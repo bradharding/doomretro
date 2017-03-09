@@ -89,6 +89,7 @@ static dboolean         headsupactive;
 byte                    *tempscreen;
 int                     hudnumoffset;
 
+static patch_t          *minuspatch;
 static patch_t          *healthpatch;
 static patch_t          *berserkpatch;
 static patch_t          *greenarmorpatch;
@@ -208,6 +209,8 @@ void HU_Init(void)
         hu_font[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
 
+    minuspatch = W_CacheLumpName("STTMINUS", PU_CACHE);
+
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if ((lump = W_CheckNumForName("MEDIA0")) >= 0)
@@ -298,9 +301,15 @@ void HU_Start(void)
 static void DrawHUDNumber(int *x, int y, int val, byte *tinttab,
     void (*hudnumfunc)(int, int, patch_t *, byte *))
 {
-    int         oldval = val;
+    int         oldval = ABS(val);
     patch_t     *patch;
 
+    if (val < 0)
+    {
+        val = -val;
+        *x += 3;
+        hudnumfunc(*x - SHORT(minuspatch->width), y + 5, minuspatch, tinttab);
+    }
     if (val > 99)
     {
         patch = tallnum[val / 100];
@@ -375,7 +384,7 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight > currenttime)
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, health, tinttab,
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, plr->health, tinttab,
             V_DrawHighlightedHUDNumberPatch);
 
         if (!emptytallpercent)
@@ -384,7 +393,7 @@ static void HU_DrawHUD(void)
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, health, tinttab, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, plr->health, tinttab, hudnumfunc);
 
         if (!emptytallpercent)
             hudnumfunc(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
