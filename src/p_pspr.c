@@ -273,7 +273,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // check for change
     //  if player is dead, put the weapon away
-    if (pendingweapon != wp_nochange || !player->health)
+    if (pendingweapon != wp_nochange || player->health <= 0)
     {
         if (gp_vibrate_weapons && vibrate)
         {
@@ -365,7 +365,7 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // The old weapon has been lowered off the screen,
     // so change the weapon and start raising it
-    if (!player->health)
+    if (player->health <= 0)
     {
         // Player is dead, so keep the weapon off screen.
         P_SetPsprite(player, ps_weapon, S_NULL);

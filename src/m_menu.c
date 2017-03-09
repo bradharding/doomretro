@@ -2902,7 +2902,7 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         itemOn++;
                     if (currentMenu == &MainDef && itemOn == 3
-                        && (!usergame || gamestate != GS_LEVEL || !players[0].health))
+                        && (!usergame || gamestate != GS_LEVEL || players[0].health <= 0))
                         itemOn++;
                     if (currentMenu == &OptionsDef && !itemOn && !usergame)
                         itemOn++;
@@ -2963,7 +2963,7 @@ dboolean M_Responder(event_t *ev)
                     else
                         itemOn--;
                     if (currentMenu == &MainDef && itemOn == 3
-                        && (!usergame || gamestate != GS_LEVEL || !players[0].health))
+                        && (!usergame || gamestate != GS_LEVEL || players[0].health <= 0))
                         itemOn--;
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         itemOn--;
@@ -3111,8 +3111,7 @@ dboolean M_Responder(event_t *ev)
                         && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
                     if (currentMenu == &MainDef && i == 3
-                        && (!usergame || gamestate != GS_LEVEL
-                            || !players[0].health))
+                        && (!usergame || gamestate != GS_LEVEL || players[0].health <= 0))
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
@@ -3161,8 +3160,7 @@ dboolean M_Responder(event_t *ev)
                         && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
                     if (currentMenu == &MainDef && i == 3
-                        && (!usergame || gamestate != GS_LEVEL
-                            || !players[0].health))
+                        && (!usergame || gamestate != GS_LEVEL || players[0].health <= 0))
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;

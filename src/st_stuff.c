@@ -461,7 +461,7 @@ dboolean ST_Responder(event_t *ev)
             if (cht_CheckCheat(&cheat_god, ev->data2) && gameskill != sk_nightmare)
             {
                 // [BH] if player is dead, resurrect them first
-                if (!plyr->health)
+                if (plyr->health <= 0)
                     P_ResurrectPlayer(plyr, initial_health);
 
                 plyr->cheats ^= CF_GODMODE;
@@ -1121,7 +1121,7 @@ static void ST_updateFaceWidget(void)
     if (priority < 10)
     {
         // dead
-        if (!plyr->health)
+        if (plyr->health <= 0)
         {
             priority = 9;
             painoffset = 0;
@@ -1288,7 +1288,7 @@ static void ST_updateWidgets(void)
     int        i;
     ammotype_t ammo = weaponinfo[plyr->readyweapon].ammo;
 
-    w_ready.num = (ammo == am_noammo || !plyr->health ? &largeammo : &plyr->ammo[ammo]);
+    w_ready.num = (ammo == am_noammo || plyr->health <= 0 ? &largeammo : &plyr->ammo[ammo]);
     w_ready.data = plyr->readyweapon;
 
     // update keycard multiple widgets

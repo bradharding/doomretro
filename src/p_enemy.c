@@ -1872,7 +1872,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
         }
     }
 
-    if (!players[0].health)
+    if (players[0].health <= 0)
         return;         // no one left alive, so do not end game
 
     // scan the remaining thinkers to see

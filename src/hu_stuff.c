@@ -581,6 +581,7 @@ altkeypic_t altkeypics[NUMCARDS] =
 
 static patch_t  *altnum[10];
 static patch_t  *altnum2[10];
+static patch_t  *altnegpatch;
 static patch_t  *altweapon[NUMWEAPONS];
 static patch_t  *altendpatch;
 static patch_t  *altleftpatch;
@@ -611,6 +612,8 @@ void HU_AltInit(void)
         M_snprintf(buffer, 9, "DRHUD%i_2", i);
         altnum2[i] = W_CacheLumpName2(buffer, PU_STATIC);
     }
+
+    altnegpatch = W_CacheLumpName2("DRHUDNEG", PU_CACHE);
 
     for (i = 1; i < NUMWEAPONS; i++)
     {
@@ -650,9 +653,14 @@ void HU_AltInit(void)
 
 static void DrawAltHUDNumber(int x, int y, int val)
 {
-    int         oldval = val;
+    int         oldval = ABS(val);
     patch_t     *patch;
 
+    if (val < 0)
+    {
+        val = -val;
+        althudfunc(x - SHORT(altnegpatch->width) - 2, y, altnegpatch, WHITE, white);
+    }
     if (val > 99)
     {
         patch = altnum[val / 100];
@@ -725,7 +733,8 @@ static void HU_DrawAltHUD(void)
     int keys = 0;
     int i = 0;
 
-    DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(health), ALTHUD_Y + 12, health);
+    DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(plr->health)), ALTHUD_Y + 12,
+        plr->health);
     health = health * 200 / maxhealth;
     if (health > 100)
     {

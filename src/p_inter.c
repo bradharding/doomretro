@@ -1418,10 +1418,10 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             damage -= saved;
         }
 
-        tplayer->health = MAX(0, tplayer->health - damage);
-        target->health = MAX(0, target->health - damage);
+        tplayer->health -= damage;
+        target->health -= damage;
 
-        if (!tplayer->health && (tplayer->cheats & CF_BUDDHA))
+        if (tplayer->health <= 0 && (tplayer->cheats & CF_BUDDHA))
         {
             tplayer->health = 1;
             target->health = 1;
@@ -1449,7 +1449,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             damagevibrationtics += BETWEEN(12, damage, 100);
         }
 
-        if (!tplayer->health)
+        if (tplayer->health <= 0)
         {
             P_KillMobj(target, inflicter, source);
             return;
