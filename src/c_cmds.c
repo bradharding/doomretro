@@ -4197,8 +4197,10 @@ static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms)
 
     if (!*parms)
         return true;
+
     if (parms[strlen(parms) - 1] == '%')
         parms[strlen(parms) - 1] = 0;
+
     return sscanf(parms, "%10f", &value);
 }
 
@@ -4270,7 +4272,7 @@ dboolean P_CheckAmmo(player_t *player);
 
 static dboolean player_cvars_func1(char *cmd, char *parms)
 {
-    return (!*parms || (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL));
+    return (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL);
 }
 
 static void player_cvars_func2(char *cmd, char *parms)
@@ -4343,7 +4345,7 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                 if (player->health <= 0)
                 {
-                    if (value < 0)
+                    if (value <= 0)
                     {
                         player->health = value;
                         player->mo->health = value;
@@ -4494,7 +4496,7 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
 //
 static dboolean r_gamma_cvar_func1(char *cmd, char *parms)
 {
-    return (!*parms || C_LookupValueFromAlias(parms, GAMMAVALUEALIAS) != INT_MIN
+    return (C_LookupValueFromAlias(parms, GAMMAVALUEALIAS) != INT_MIN
         || float_cvars_func1(cmd, parms));
 }
 
@@ -4915,7 +4917,7 @@ static void units_cvar_func2(char *cmd, char *parms)
 //
 static dboolean vid_capfps_cvar_func1(char *cmd, char *parms)
 {
-    return (!*parms || C_LookupValueFromAlias(parms, CAPVALUEALIAS) != INT_MIN
+    return (C_LookupValueFromAlias(parms, CAPVALUEALIAS) != INT_MIN
         || int_cvars_func1(cmd, parms));
 }
 
