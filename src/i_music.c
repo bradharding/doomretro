@@ -192,7 +192,8 @@ dboolean I_InitMusic(void)
 
 #if defined(_WIN32)
     // Initialize RPC server
-    haveMidiServer = I_MidiRPCInitServer();
+    if (!temp_timidity_cfg)
+        haveMidiServer = I_MidiRPCInitServer();
 #endif
 
     // Once initialization is complete, the temporary TiMidity config
