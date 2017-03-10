@@ -2168,7 +2168,7 @@ int M_StringHeight(char *string)
 
     for (i = 0; i < strlen(string); i++)
         if (string[i] == '\n')
-            h += (i > 0 && string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) : 8));
+            h += (i > 0 && string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8));
     return h;
 }
 
