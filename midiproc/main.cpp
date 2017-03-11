@@ -263,7 +263,7 @@ void MidiRPC_AddChunk(unsigned int count, byte *pBuf)
 void MidiRPC_PlaySong(boolean looping)
 {
     RegisterSong(song->getBuffer(), song->getSize());
-    StartSong(!!looping);
+    StartSong(looping);
 }
 
 //

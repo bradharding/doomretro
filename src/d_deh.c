@@ -2024,7 +2024,7 @@ void ProcessDehFile(char *filename, int lumpnum)
 
             // check for no-text directive, used when including a DEH
             // file but using the BEX format to handle strings
-            if (!strncasecmp(nextfile = ptr_lstrip(inbuffer + 7), "NOTEXT", 6))
+            if (!strncasecmp((nextfile = ptr_lstrip(inbuffer + 7)), "NOTEXT", 6))
             {
                 includenotext = true;
                 nextfile = ptr_lstrip(nextfile + 6);
