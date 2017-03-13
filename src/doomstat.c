@@ -65,6 +65,7 @@ dboolean        BTSXE3A;
 dboolean        BTSXE3B;
 dboolean        E1M4B;
 dboolean        E1M8B;
+dboolean        sprfix18;
 
 // Set if homebrew PWAD stuff has been added.
 dboolean        modifiedgame;
