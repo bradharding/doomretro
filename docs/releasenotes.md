@@ -2,8 +2,9 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The <kbd>ENTER</kbd> key may now be used as an alternative to the <kbd>Y</kbd> key when responding to messages requiring a yes/no answer.
-* When the player dies, the amount of health displayed in the HUD will no longer always be 0. It will instead often be less than 0 to indicate how much damage was inflicted upon the player in order to kill them.
+* When the player dies, the amount of health displayed in the HUD will no longer always be zero. It will instead often be a negative number to indicate how much damage was inflicted upon the player in order to kill them.
 * A bug has been fixed whereby the `ammo` and `armor` CVARs could be set to negative values.
+* Animated decorations will no longer shift back and forth in the final release of [*Back To Saturn X E1: Get Out Of My Stations v1.0*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1).
 
 ---
 
