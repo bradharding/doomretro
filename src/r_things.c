@@ -312,7 +312,7 @@ static unsigned int             num_vissprite;
 static unsigned int             num_bloodsplatvissprite;
 static unsigned int             num_vissprite_alloc;
 
-static bloodsplatvissprite_t    bloodsplatvissprites[NUMVISSPRITES];
+static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
 
 //
 // R_InitSprites
