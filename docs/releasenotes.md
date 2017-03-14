@@ -5,6 +5,7 @@
 * When the player dies, the amount of health displayed in the HUD will no longer always be zero. It will instead often be a negative number to indicate how much damage was inflicted upon the player in order to kill them.
 * A bug has been fixed whereby the `ammo` and `armor` CVARs could be set to negative values.
 * Animated decorations will no longer shift back and forth in the final release of [*Back To Saturn X E1: Get Out Of My Stations v1.0*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or if the [*Minor Sprite Fixing Project v1.8*](https://www.doomworld.com/idgames/graphics/sprfix18) is loaded.
+* The message displayed when the player tries to open a locked door now distinguishes between keycards and skull keys, as originally intended.
 
 ---
 
