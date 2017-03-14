@@ -67,7 +67,7 @@ dboolean        dehacked;
 // killough 10/98: emulate IO whether input really comes from a file or not
 
 // haleyjd: got rid of macros for MSVC
-char *dehfgets(char *buf, size_t n, DEHFILE *fp)
+static char *dehfgets(char *buf, size_t n, DEHFILE *fp)
 {
     if (!fp->lump)                              // If this is a real file,
         return fgets(buf, n, fp->f);            // return regular fgets
@@ -88,12 +88,12 @@ char *dehfgets(char *buf, size_t n, DEHFILE *fp)
     return buf;                                 // Return buffer pointer
 }
 
-int dehfeof(DEHFILE *fp)
+static int dehfeof(DEHFILE *fp)
 {
     return (!fp->lump ? feof(fp->f) : !*fp->inp || fp->size <= 0);
 }
 
-int dehfgetc(DEHFILE *fp)
+static int dehfgetc(DEHFILE *fp)
 {
     return (!fp->lump ? fgetc(fp->f) : fp->size > 0 ? fp->size--, *fp->inp++ : EOF);
 }
@@ -1939,7 +1939,6 @@ dboolean CheckPackageWADVersion(void)
 // ProcessDehFile
 // Purpose: Read and process a DEH or BEX file
 // Args:    filename    -- name of the DEH/BEX file
-//          outfilename -- output file (DEHOUT.TXT), appended to here
 // Returns: void
 //
 // killough 10/98:

@@ -590,7 +590,7 @@ void R_InitColormaps(void)
 // killough 4/11/98: changed to return -1 for illegal names
 int R_ColormapNumForName(char *name)
 {
-    register int i = 0;
+    int i = 0;
 
     if (numcolormaps == 1)
         return -1;
