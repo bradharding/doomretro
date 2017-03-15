@@ -229,6 +229,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     {
         int     x1, y1;
         int     x2, y2;
+        int     scale = r_messagescale + 1;
 
         for (y1 = 0; y1 < 4; y1++)
             for (x1 = 0; x1 < ORIGINALWIDTH; x1++)
@@ -236,11 +237,10 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 unsigned char   src = (automapactive && !vid_widescreen ?
                     underscores2[y1 * ORIGINALWIDTH + x1] : underscores1[y1 * ORIGINALWIDTH + x1]);
 
-                for (y2 = 0; y2 < SCREENSCALE; y2++)
-                    for (x2 = 0; x2 < SCREENSCALE; x2++)
+                for (y2 = 0; y2 < scale; y2++)
+                    for (x2 = 0; x2 < scale; x2++)
                     {
-                        byte    *dest = &tempscreen[((8 + y1) * SCREENSCALE + y2) * SCREENWIDTH +
-                                                    x1 * SCREENSCALE + x2];
+                        byte    *dest = &tempscreen[((8 + y1) * scale + y2) * SCREENWIDTH + x1 * scale + x2];
 
                         if (src == 251)
                             *dest = 0;
