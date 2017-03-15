@@ -48,6 +48,12 @@ typedef enum
 
 typedef enum
 {
+    r_messagescale_small,
+    r_messagescale_big
+} r_messagescale_values_t;
+
+typedef enum
+{
     r_detail_low,
     r_detail_high
 } r_detail_values_t;
@@ -280,6 +286,8 @@ typedef enum
 
 #define r_lowpixelsize_default                  "2x2"
 
+#define r_messagescale_default                  r_messagescale_big
+
 #define r_mirroredweapons_default               false
 
 #define r_playersprites_default                 true
@@ -497,7 +505,8 @@ typedef enum
     BLOODVALUEALIAS,
     UNITSVALUEALIAS,
     CAPVALUEALIAS,
-    SKYVALUEALIAS
+    SKYVALUEALIAS,
+    SCALEVALUEALIAS
 } valuealias_type_t;
 
 typedef struct

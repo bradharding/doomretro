@@ -179,6 +179,7 @@ extern dboolean         r_liquid_current;
 extern dboolean         r_liquid_lowerview;
 extern dboolean         r_liquid_swirl;
 extern char             *r_lowpixelsize;
+extern int              r_messagescale;
 extern dboolean         r_mirroredweapons;
 extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
@@ -438,6 +439,8 @@ static dboolean r_gamma_cvar_func1(char *, char *);
 static void r_gamma_cvar_func2(char *, char *);
 static void r_hud_cvar_func2(char *, char *);
 static void r_lowpixelsize_cvar_func2(char *, char *);
+static dboolean r_messagescale_cvar_func1(char *, char *);
+static void r_messagescale_cvar_func2(char *, char *);
 static void r_screensize_cvar_func2(char *, char *);
 static dboolean r_skycolor_cvar_func1(char *, char *);
 static void r_skycolor_cvar_func2(char *, char *);
@@ -745,6 +748,8 @@ consolecmd_t consolecmds[] =
         "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
         "The size of the pixels when the graphic detail is low\n(<i>width</i><b>\xD7</b><i>height</i>)."),
+    CVAR_BOOL(r_messagescale, "", r_messagescale_cvar_func1, r_messagescale_cvar_func2, SCALEVALUEALIAS,
+        "The scale of messages (<b>big</b> or <b>small</b>)."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by\nmonsters."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -4438,7 +4443,7 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
     {
         int     value = C_LookupValueFromAlias(parms, DETAILVALUEALIAS);
 
-        if ((value == 0 || value == 1) && r_detail != value)
+        if ((value == r_detail_low || value == r_detail_high) && r_detail != value)
         {
             r_detail = !!value;
             M_SaveCVARs();
@@ -4561,6 +4566,39 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 formatsize(r_lowpixelsize), formatsize(r_lowpixelsize_default));
+    }
+}
+
+//
+// r_messagescale CVAR
+//
+static dboolean r_messagescale_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, SCALEVALUEALIAS) != INT_MIN);
+}
+
+static void r_messagescale_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, SCALEVALUEALIAS);
+
+        if ((value == r_messagescale_small || value == r_messagescale_big) && r_messagescale != value)
+        {
+            r_messagescale = !!value;
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_messagescale))].description));
+        if (r_messagescale == r_messagescale_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_messagescale, SCALEVALUEALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_messagescale, SCALEVALUEALIAS),
+                C_LookupAliasFromValue(r_messagescale_default, SCALEVALUEALIAS));
     }
 }
 

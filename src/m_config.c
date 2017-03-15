@@ -118,6 +118,7 @@ extern dboolean         r_liquid_current;
 extern dboolean         r_liquid_lowerview;
 extern dboolean         r_liquid_swirl;
 extern char             *r_lowpixelsize;
+extern int              r_messagescale;
 extern dboolean         r_mirroredweapons;
 extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
@@ -291,6 +292,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_liquid_lowerview,                                BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_swirl,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_OTHER        (r_lowpixelsize,                                    NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (r_messagescale,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_mirroredweapons,                                 BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_playersprites,                                   BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_rockettrails,                                    BOOLVALUEALIAS  ),
@@ -383,6 +385,7 @@ valuealias_t valuealiases[] =
     { "red",      1, BLOODVALUEALIAS  }, { "all",     2, BLOODVALUEALIAS  },
     { "imperial", 0, UNITSVALUEALIAS  }, { "metric",  1, UNITSVALUEALIAS  },
     { "off",      0, CAPVALUEALIAS    }, { "none",   -1, SKYVALUEALIAS    },
+    { "small",    0, SCALEVALUEALIAS  }, { "big",     1, SCALEVALUEALIAS  },
     { "",         0, NOVALUEALIAS     }
 };
 
@@ -808,6 +811,9 @@ static void M_CheckCVARs(void)
 
     if (r_liquid_swirl != false && r_liquid_swirl != true)
         r_liquid_swirl = r_liquid_swirl_default;
+
+    if (r_messagescale != r_messagescale_small && r_messagescale != r_messagescale_big)
+        r_messagescale = r_mirroredweapons_default;
 
     if (r_mirroredweapons != false && r_mirroredweapons != true)
         r_mirroredweapons = r_mirroredweapons_default;

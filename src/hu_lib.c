@@ -43,9 +43,12 @@
 #include "doomstat.h"
 #include "hu_lib.h"
 #include "i_swap.h"
+#include "m_config.h"
 #include "r_local.h"
 #include "v_data.h"
 #include "v_video.h"
+
+int             r_messagescale = r_messagescale_default;
 
 extern dboolean vid_widescreen;
 extern dboolean r_translucency;
@@ -95,18 +98,27 @@ static void HU_drawChar(int x, int y, int ch)
     int w = strlen(smallcharset[ch]) / 10;
     int x1, y1;
 
-    for (y1 = 0; y1 < 10; y1++)
-        for (x1 = 0; x1 < w; x1++)
-        {
-            unsigned char       src = smallcharset[ch][y1 * w + x1];
-            int                 i = (x + x1) * SCREENSCALE;
-            int                 j = (y + y1) * SCREENSCALE;
-            int                 xx, yy;
+    if (r_messagescale == r_messagescale_small)
+    {
+        for (y1 = 0; y1 < 10; y1++)
+            for (x1 = 0; x1 < w; x1++)
+                HU_drawDot(x + x1, y + y1, smallcharset[ch][y1 * w + x1]);
+    }
+    else
+    {
+        for (y1 = 0; y1 < 10; y1++)
+            for (x1 = 0; x1 < w; x1++)
+            {
+                unsigned char       src = smallcharset[ch][y1 * w + x1];
+                int                 i = (x + x1) * SCREENSCALE;
+                int                 j = (y + y1) * SCREENSCALE;
+                int                 xx, yy;
 
-            for (yy = 0; yy < SCREENSCALE; yy++)
-                for (xx = 0; xx < SCREENSCALE; xx++)
-                    HU_drawDot(i + xx, j + yy, src);
-        }
+                for (yy = 0; yy < SCREENSCALE; yy++)
+                    for (xx = 0; xx < SCREENSCALE; xx++)
+                        HU_drawDot(i + xx, j + yy, src);
+            }
+    }
 }
 
 static struct
@@ -197,7 +209,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
                 // [BH] draw individual character
                 w = strlen(smallcharset[j]) / 10 - 1;
-                HU_drawChar(x, y - 1, j);
+                HU_drawChar(x, y - 1, j, 1);
             }
             x += w;
             tw += w;
