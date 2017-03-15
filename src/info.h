@@ -1463,6 +1463,7 @@ typedef struct
     short       width;
     short       height;
     mobjtype_t  type;
+    dboolean    sprfix18;
 } offset_t;
 
 extern offset_t sproffsets[];
