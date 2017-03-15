@@ -209,7 +209,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
                 // [BH] draw individual character
                 w = strlen(smallcharset[j]) / 10 - 1;
-                HU_drawChar(x, y - 1, j, 1);
+                HU_drawChar(x, y - 1, j);
             }
             x += w;
             tw += w;
