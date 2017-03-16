@@ -575,6 +575,49 @@ void V_DrawBigPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
+void V_DrawAltHUDTextToTempScreen(int x, int y, patch_t *patch, int color)
+{
+    int         col = 0;
+    byte        *desttop;
+    int         w = SHORT(patch->width);
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+
+    desttop = tempscreen + y * SCREENWIDTH + x;
+
+    for (; col < w; col++, desttop++)
+    {
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        int             td;
+        int             topdelta = -1;
+        int             lastlength = 0;
+
+        // step through the posts in a column
+        while ((td = column->topdelta) != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            byte        *dest;
+            int         count;
+
+            topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
+            dest = desttop + topdelta * SCREENWIDTH;
+            count = lastlength = column->length;
+
+            while (count--)
+            {
+                if (*source++ == WHITE)
+                {
+                    *dest = color;
+                    *(dest + SCREENWIDTH + 1) = 0;
+                }
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 {
     int         col = 0;

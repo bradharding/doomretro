@@ -40,6 +40,7 @@
 #include <string.h>
 
 #include "am_map.h"
+#include "c_console.h"
 #include "doomstat.h"
 #include "hu_lib.h"
 #include "i_swap.h"
@@ -50,8 +51,12 @@
 
 int             r_messagescale = r_messagescale_default;
 
-extern dboolean vid_widescreen;
+extern patch_t  *consolefont[CONSOLEFONTSIZE];
+extern int      white;
+
+extern dboolean r_althud;
 extern dboolean r_translucency;
+extern dboolean vid_widescreen;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
 {
@@ -186,7 +191,14 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                     j = 66;
             }
 
-            if (STCFN034)
+            if (vid_widescreen && r_althud)
+            {
+                patch_t *patch = consolefont[l->l[i] - CONSOLEFONTSTART];
+
+                V_DrawAltHUDTextToTempScreen(x, y, patch, white);
+                w = SHORT(patch->width);
+            }
+            else if (STCFN034)
             {
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
@@ -270,7 +282,10 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
                 if (r_translucency && !hacx)
                 {
-                    color = tinttab25[(*dest2 << 8) + color];
+                    if (vid_widescreen && r_althud)
+                        color = tinttab60[(*dest2 << 8) + color];
+                    else
+                        color = tinttab25[(*dest2 << 8) + color];
                     if (color >= 168 && color <= 175)
                         color -= 144;
                 }

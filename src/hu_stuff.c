@@ -605,7 +605,7 @@ static patch_t  *altmark2patch;
 static patch_t  *altkeypatch;
 static patch_t  *altskullpatch;
 
-static int      white;
+int             white;
 static int      lightgray;
 static int      gray;
 static int      darkgray;

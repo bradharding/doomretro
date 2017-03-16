@@ -91,7 +91,8 @@ int             consoleanim;
 
 dboolean        forceconsoleblurredraw;
 
-static patch_t  *consolefont[CONSOLEFONTSIZE];
+patch_t  *consolefont[CONSOLEFONTSIZE];
+
 static patch_t  *trademark;
 static patch_t  *copyright;
 static patch_t  *regomark;
