@@ -52,6 +52,7 @@
 int             r_messagescale = r_messagescale_default;
 
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
+extern patch_t  *degree;
 extern int      white;
 
 extern dboolean r_althud;
@@ -201,7 +202,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
             if (vid_widescreen && r_althud)
             {
-                patch_t *patch = consolefont[l->l[i] - CONSOLEFONTSTART];
+                patch_t *patch = (c == 176 ? degree : consolefont[l->l[i] - CONSOLEFONTSTART]);
 
                 V_DrawAltHUDTextToTempScreen(x, y, patch, white);
                 w = SHORT(patch->width);

@@ -91,12 +91,12 @@ int             consoleanim;
 
 dboolean        forceconsoleblurredraw;
 
-patch_t  *consolefont[CONSOLEFONTSIZE];
+patch_t         *consolefont[CONSOLEFONTSIZE];
+patch_t         *degree;
 
 static patch_t  *trademark;
 static patch_t  *copyright;
 static patch_t  *regomark;
-static patch_t  *degree;
 static patch_t  *multiply;
 static patch_t  *warning;
 static patch_t  *brand;
