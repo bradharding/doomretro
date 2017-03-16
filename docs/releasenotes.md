@@ -8,6 +8,7 @@
 * The message displayed when the player tries to open a locked door when they don’t have the required key now distinguishes between keycards and skull keys, as originally intended.
 * An `r_messagescale` CVAR has been implemented to change the scale of messages between `big` and `small`. It is `big` by default.
 * The messages displayed in the alternate widescreen HUD now use the same font that is used in the console.
+* The player’s path in the automap is now disabled when vanilla mode is enabled.
 
 ---
 

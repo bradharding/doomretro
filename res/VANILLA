@@ -47,6 +47,7 @@ am_fdwallcolor 64
 am_gridcolor 5
 am_gridsize 128x128
 am_markcolor 95
+am_path off
 am_playercolor 4
 am_rotatemode off
 am_teleportercolor 184
