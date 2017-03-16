@@ -870,7 +870,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
                 return;
             if (message)
             {
-                if (ammo == clipammo[am_clip] || (deh_strlookup[p_GOTCLIP].assigned && dehacked))
+                if (ammo == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2)
                     HU_PlayerMessage(s_GOTCLIP, true, false);
                 else
                     HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2),

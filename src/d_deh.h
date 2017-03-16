@@ -57,7 +57,7 @@ typedef struct
 {
     char        **ppstr;        // doubly indirect pointer to string
     char        *lookup;        // pointer to lookup string name
-    dboolean    assigned;       // [BH] flag indicating string has been assigned
+    int         assigned;       // [BH] counter indicating string has been assigned
 } deh_strs;
 
 extern dboolean dehacked;
