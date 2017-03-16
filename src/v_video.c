@@ -71,6 +71,7 @@ char            *r_lowpixelsize = r_lowpixelsize_default;
 char            screenshotfolder[MAX_PATH];
 
 extern dboolean r_translucency;
+extern dboolean vanilla;
 
 //
 // V_CopyRect
@@ -526,7 +527,8 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
             {
                 *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
-                *(dest + SCREENWIDTH + 2) = 0;
+                if (!vanilla)
+                    *(dest + SCREENWIDTH + 2) = 0;
                 srccol += DYI;
             }
 
