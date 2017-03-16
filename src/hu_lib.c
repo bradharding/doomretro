@@ -162,8 +162,8 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     // draw the new stuff
     if (vid_widescreen && r_althud)
     {
-        x = l->x + 21;
-        y = l->y + 8;
+        x = 37;
+        y = 8;
     }
     else
     {
