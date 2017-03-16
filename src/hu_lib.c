@@ -159,8 +159,16 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     byte        *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
 
     // draw the new stuff
-    x = l->x;
-    y = l->y;
+    if (vid_widescreen && r_althud)
+    {
+        x = l->x + 21;
+        y = l->y + 8;
+    }
+    else
+    {
+        x = l->x;
+        y = l->y;
+    }
     memset(tempscreen, 251, SCREENWIDTH * SCREENHEIGHT);
     for (i = 0; i < l->len; i++)
     {
