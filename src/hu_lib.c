@@ -190,7 +190,10 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
             {
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
-                V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
+                if (r_messagescale == r_messagescale_big)
+                    V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
+                else
+                    V_DrawBigPatchToTempScreen(x, l->y, l->f[c - l->sc]);
             }
             else
             {
