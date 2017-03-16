@@ -144,13 +144,13 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 
 int SlopeDiv(unsigned int num, unsigned int den)
 {
-    uint64_t    ans;
+    unsigned int        ans;
 
     if (den < 512)
         return SLOPERANGE;
 
-    ans = ((uint64_t)num << 3) / (den >> 8);
-    return (ans <= SLOPERANGE ? (int)ans : SLOPERANGE);
+    ans = (num << 3) / (den >> 8);
+    return (ans <= SLOPERANGE ? ans : SLOPERANGE);
 }
 
 //
@@ -174,9 +174,6 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
 
     if (!x && !y)
         return 0;
-
-    if (x > INT_MAX / 4 || x < -INT_MAX / 4 || y > INT_MAX / 4 || y < -INT_MAX / 4)
-        return (int)(atan2(y, x) * ANG180 / M_PI);
 
     if (x >= 0)
     {

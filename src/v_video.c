@@ -57,6 +57,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#define BLACK   0
 #define WHITE   4
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
@@ -528,7 +529,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
                 *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
                 if (!vanilla)
-                    *(dest + SCREENWIDTH + 2) = 0;
+                    *(dest + SCREENWIDTH + 2) = BLACK;
                 srccol += DYI;
             }
 
@@ -570,7 +571,7 @@ void V_DrawBigPatchToTempScreen(int x, int y, patch_t *patch)
             {
                 *dest = *source++;
                 dest += SCREENWIDTH;
-                *(dest + 1) = 0;
+                *(dest + 1) = BLACK;
             }
             column = (column_t *)((byte *)column + column->length + 4);
         }
@@ -611,7 +612,7 @@ void V_DrawAltHUDTextToTempScreen(int x, int y, patch_t *patch, int color)
                 if (*source++ == WHITE)
                 {
                     *dest = color;
-                    *(dest + SCREENWIDTH + 1) = 0;
+                    *(dest + SCREENWIDTH + 1) = BLACK;
                 }
                 dest += SCREENWIDTH;
             }
@@ -1366,7 +1367,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
             {
                 for (yy = 0; yy < SCREENSCALE; yy++)
                     for (xx = 0; xx < SCREENSCALE; xx++)
-                        *(dest + yy * SCREENWIDTH + xx) = 0;
+                        *(dest + yy * SCREENWIDTH + xx) = BLACK;
             }
         }
     }

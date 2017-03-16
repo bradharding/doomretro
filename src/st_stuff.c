@@ -410,7 +410,7 @@ int mus[IDMUS_MAX][6] =
 //
 static int ST_calcPainOffset(void);
 
-extern int r_detail;
+extern int      r_detail;
 
 static void ST_refreshBackground(void)
 {
