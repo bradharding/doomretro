@@ -2017,9 +2017,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s monster%s killed", commify(kills),
+                M_snprintf(buffer, sizeof(buffer), "%s monster%s killed.", commify(kills),
                     (kills == 1 ? "" : "s"));
-                C_Output("%s.", buffer);
+                C_Output("%s", buffer);
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 C_HideConsole();
