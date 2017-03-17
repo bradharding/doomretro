@@ -184,9 +184,17 @@ void HUlib_drawAltHUDTextLine(hu_textline_t *l)
     for (i = 0; i < l->len; i++)
     {
         unsigned char   letter = l->l[i];
-        int             c = letter - CONSOLEFONTSTART;
-        patch_t         *patch = consolefont[c];
+        unsigned char   nextletter = l->l[i + 1];
+        patch_t         *patch;
         int             j = 0;
+
+        if (letter == 194 && nextletter == 176)
+        {
+            patch = degree;
+            i++;
+        }
+        else
+            patch = consolefont[letter - CONSOLEFONTSTART];
 
         // [BH] apply kerning to certain character pairs
         while (c_kern[j].char1)
