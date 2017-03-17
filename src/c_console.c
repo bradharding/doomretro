@@ -176,9 +176,11 @@ static int      consolecolors[STRINGTYPES];
 
 extern int      fps;
 extern int      refreshrate;
+extern dboolean r_althud;
 extern dboolean r_translucency;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
+extern dboolean message_dontfuckwithme;
 
 void G_ToggleAlwaysRun(evtype_t type);
 
@@ -334,6 +336,10 @@ void C_PlayerMessage(char *string, ...)
         strftime(console[consolestrings++].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
     outputhistory = -1;
+
+    if (viewplayer && !consoleactive && !message_dontfuckwithme)
+        viewplayer->message = (vid_widescreen && r_althud ? console[consolestrings - 1].string :
+            buffer);
 }
 
 static void C_AddToUndoHistory(void)

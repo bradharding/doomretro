@@ -1021,15 +1021,7 @@ void HU_PlayerMessage(char *message, dboolean ingame, dboolean external)
     buffer[0] = toupper(buffer[0]);
     lastchar = buffer[strlen(buffer) - 1];
 
-    if (plr && !consoleactive && !message_dontfuckwithme)
-        HU_SetPlayerMessage(buffer, external);
-
-    if (ingame)
-        C_PlayerMessage("%s%s", buffer,
-            (lastchar == '.' || lastchar == '!' || lastchar == '\"' ? "" : "."));
-    else
-        C_Output("%s%s", buffer,
-            (lastchar == '.' || lastchar == '!' || lastchar == '\"' ? "" : "."));
+    C_PlayerMessage(buffer);
 }
 
 void HU_ClearMessages(void)
