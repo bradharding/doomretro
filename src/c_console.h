@@ -111,6 +111,7 @@ void C_Output(char *string, ...);
 void C_TabbedOutput(int tabs[8], char *string, ...);
 void C_Warning(char *string, ...);
 void C_PlayerMessage(char *string, ...);
+void C_Obituary(char *string, ...);
 void C_AddConsoleDivider(void);
 void C_Init(void);
 void C_ShowConsole(void);

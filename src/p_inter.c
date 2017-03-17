@@ -1224,12 +1224,12 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (con_obituaries && source && source != target && !hacx)
     {
         if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
-            C_PlayerMessage("%s %s was %s by an exploding barrel.",
+            C_Obituary("%s %s was %s by an exploding barrel.",
                 (isvowel(info->name1[0]) ? "An" : "A"),
                 info->name1,
                 (gibbed ? "gibbed" : "killed"));
         else if (source->player)
-            C_PlayerMessage("%s %s %s%s with %s %s.",
+            C_Obituary("%s %s %s%s with %s %s.",
                 titlecase(playername),
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 (target->player ? "" : (isvowel(info->name1[0]) ? "an " : "a ")),
@@ -1238,7 +1238,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 (M_StringCompare(playername, playername_default) ? "your" : "their"),
                 weapondescription[source->player->readyweapon]);
         else
-            C_PlayerMessage("%s %s %s %s%s.",
+            C_Obituary("%s %s %s %s%s.",
                 (isvowel(source->info->name1[0]) ? "An" : "A"),
                 source->info->name1,
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),

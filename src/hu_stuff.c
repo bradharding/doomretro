@@ -1011,7 +1011,6 @@ void HU_SetPlayerMessage(char *message, dboolean external)
 void HU_PlayerMessage(char *message, dboolean ingame, dboolean external)
 {
     static char buffer[1024];
-    char        lastchar;
 
     if (message[0] == '%' && message[1] == 's')
         M_snprintf(buffer, sizeof(buffer), message, playername);
@@ -1019,7 +1018,6 @@ void HU_PlayerMessage(char *message, dboolean ingame, dboolean external)
         M_StringCopy(buffer, message, sizeof(buffer));
 
     buffer[0] = toupper(buffer[0]);
-    lastchar = buffer[strlen(buffer) - 1];
 
     C_PlayerMessage(buffer);
 }

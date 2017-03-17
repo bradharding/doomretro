@@ -342,6 +342,45 @@ void C_PlayerMessage(char *string, ...)
             buffer);
 }
 
+void C_Obituary(char *string, ...)
+{
+    va_list     argptr;
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
+    dboolean    prevplayermessage = (consolestrings
+        && console[consolestrings - 1].type == playermessagestring);
+    time_t      rawtime;
+
+    va_start(argptr, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
+    va_end(argptr);
+
+    time(&rawtime);
+
+    if (prevplayermessage && M_StringCompare(console[consolestrings - 1].string, buffer))
+    {
+        M_snprintf(console[consolestrings - 1].string, CONSOLETEXTMAXLENGTH, "%s (2)", buffer);
+        strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+    }
+    else if (prevplayermessage && M_StringStartsWith(console[consolestrings - 1].string, buffer))
+    {
+        char    *count = strrchr(console[consolestrings - 1].string, '(') + 1;
+
+        count[strlen(count) - 1] = '\0';
+        M_snprintf(console[consolestrings - 1].string, CONSOLETEXTMAXLENGTH, "%s (%i)", buffer,
+            atoi(count) + 1);
+        strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+    }
+    else
+    {
+        console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
+        M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
+        console[consolestrings].type = playermessagestring;
+        memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
+        strftime(console[consolestrings++].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+    }
+    outputhistory = -1;
+}
+
 static void C_AddToUndoHistory(void)
 {
     undohistory = Z_Realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));

@@ -1393,7 +1393,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     // [BH] display an obituary message in the console
                     if (con_obituaries)
-                        C_PlayerMessage("%s %s resurrected %s %s.",
+                        C_Obituary("%s %s resurrected %s %s.",
                             (isvowel(actor->info->name1[0]) ? "An" : "A"), actor->info->name1,
                             (isvowel(corpsehit->info->name1[0]) ? "an" : "a"),
                             corpsehit->info->name1);
