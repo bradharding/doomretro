@@ -175,6 +175,36 @@ static struct
     { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
 };
 
+void HUlib_drawAltHUDTextLine(hu_textline_t *l)
+{
+    int                 i;
+    unsigned char       prevletter = '\0';
+    int                 x = 37;
+
+    for (i = 0; i < l->len; i++)
+    {
+        unsigned char   letter = l->l[i];
+        int             c = letter - CONSOLEFONTSTART;
+        patch_t         *patch = consolefont[c];
+        int             j = 0;
+
+        // [BH] apply kerning to certain character pairs
+        while (c_kern[j].char1)
+        {
+            if (prevletter == c_kern[j].char1 && letter == c_kern[j].char2)
+            {
+                x += c_kern[j].adjust;
+                break;
+            }
+            j++;
+        }
+
+        V_DrawAltHUDText(x, 8, patch, white);
+        x += SHORT(patch->width);
+        prevletter = letter;
+    }
+}
+
 static struct
 {
     char        char1;
@@ -208,16 +238,8 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     byte        *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
 
     // draw the new stuff
-    if (vid_widescreen && r_althud)
-    {
-        x = 37;
-        y = 8;
-    }
-    else
-    {
-        x = l->x;
-        y = l->y;
-    }
+    x = l->x;
+    y = l->y;
     memset(tempscreen, 251, SCREENWIDTH * SCREENHEIGHT);
     for (i = 0; i < l->len; i++)
     {
@@ -248,28 +270,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                     j = 66;
             }
 
-            if (vid_widescreen && r_althud)
-            {
-                patch_t *patch = (c == 176 ? degree : consolefont[l->l[i] - CONSOLEFONTSTART]);
-                int     k = 0;
-
-                // [BH] apply kerning to certain character pairs
-                while (c_kern[k].char1)
-                {
-                    if (prev == c_kern[k].char1 && l->l[i] == c_kern[k].char2)
-                    {
-                        x += c_kern[k].adjust;
-                        break;
-                    }
-                    k++;
-                }
-
-                V_DrawAltHUDTextToTempScreen(x, y, patch, white);
-                w = SHORT(patch->width);
-
-                prev = l->l[i];
-            }
-            else if (STCFN034)
+            if (STCFN034)
             {
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
@@ -353,10 +354,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
                 if (r_translucency && !hacx)
                 {
-                    if (vid_widescreen && r_althud)
-                        color = tinttab60[(*dest2 << 8) + color];
-                    else
-                        color = tinttab25[(*dest2 << 8) + color];
+                    color = tinttab25[(*dest2 << 8) + color];
                     if (color >= 168 && color <= 175)
                         color -= 144;
                 }
@@ -449,7 +447,10 @@ void HUlib_drawSText(hu_stext_t *s, dboolean external)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        HUlib_drawTextLine(l, external); // no cursor, please
+        if (vid_widescreen && r_althud)
+            HUlib_drawAltHUDTextLine(l);
+        else
+            HUlib_drawTextLine(l, external);
     }
 }
 

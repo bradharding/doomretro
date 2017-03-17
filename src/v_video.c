@@ -578,10 +578,10 @@ void V_DrawBigPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawAltHUDTextToTempScreen(int x, int y, patch_t *patch, int color)
+void V_DrawAltHUDText(int x, int y, patch_t *patch, int color)
 {
     int         col = 0;
-    byte        *desttop = tempscreen + y * SCREENWIDTH + x;
+    byte        *desttop = screens[0] + y * SCREENWIDTH + x;
     int         w = SHORT(patch->width);
 
     for (; col < w; col++, desttop++)
@@ -599,7 +599,7 @@ void V_DrawAltHUDTextToTempScreen(int x, int y, patch_t *patch, int color)
             while (count--)
             {
                 if (*source++ == WHITE)
-                    *dest = color;
+                    *dest = tinttab60[(*dest << 8) + color];
                 dest += SCREENWIDTH;
             }
 
