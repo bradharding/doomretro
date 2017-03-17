@@ -4293,8 +4293,8 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             sscanf(parms, "%10i", &value);
 
-            if (value != player->ammo[ammotype] && player->playerstate == PST_LIVE
-                && ammotype != am_noammo)
+            if (ammotype != am_noammo && value != player->ammo[ammotype]
+                && player->playerstate == PST_LIVE)
             {
                 if (value > player->ammo[ammotype])
                     P_AddBonus(player, BONUSADD);

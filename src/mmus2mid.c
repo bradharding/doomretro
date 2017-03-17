@@ -326,11 +326,9 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 {
     UWORD               TrackCnt = 0;
     UBYTE               evt;
-    UBYTE               MUSchannel;
     UBYTE               MIDIchannel;
     UBYTE               MIDItrack = 0;
     int                 i;
-    int                 event;
     int                 data;
     UBYTE               *musptr;
     UBYTE               *hptr;
@@ -405,6 +403,9 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     // process the MUS events in the MUS buffer
     do
     {
+        UBYTE   MUSchannel;
+        int     event;
+
         // get a mus event, decode its type and channel fields
         event = *musptr++;
         if ((evt = event_type(event)) == SCORE_END)     // jff 1/23/98 use symbol
@@ -415,9 +416,9 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
         if (MUS2MIDchannel[MUSchannel] == -1)
         {
             // set MIDIchannel and MIDItrack
-
             MIDIchannel = MUS2MIDchannel[MUSchannel] =
                 (MUSchannel == 15 ? 9 : FirstChannelAvailable(MUS2MIDchannel));
+
             // proff: Added typecast to avoid warning
             MIDItrack = MIDIchan2track[MIDIchannel] = (unsigned char)(TrackCnt++);
 
