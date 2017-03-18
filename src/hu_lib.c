@@ -455,7 +455,7 @@ void HUlib_drawSText(hu_stext_t *s, dboolean external)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        if (vid_widescreen && r_althud)
+        if (vid_widescreen && r_althud && !automapactive)
             HUlib_drawAltHUDTextLine(l);
         else
             HUlib_drawTextLine(l, external);
