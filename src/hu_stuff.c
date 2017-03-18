@@ -1008,7 +1008,7 @@ void HU_SetPlayerMessage(char *message, dboolean external)
     message_external = (external && mapwindow);
 }
 
-void HU_PlayerMessage(char *message, dboolean ingame, dboolean external)
+void HU_PlayerMessage(char *message, dboolean external)
 {
     static char buffer[1024];
 
@@ -1019,7 +1019,7 @@ void HU_PlayerMessage(char *message, dboolean ingame, dboolean external)
 
     buffer[0] = toupper(buffer[0]);
 
-    C_PlayerMessage(buffer);
+    C_PlayerMessage(external, buffer);
 }
 
 void HU_ClearMessages(void)

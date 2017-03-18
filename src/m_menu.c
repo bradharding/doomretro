@@ -1753,7 +1753,7 @@ void M_ChangeMessages(int choice)
     if (menuactive)
         message_dontpause = true;
     C_StrCVAROutput(stringize(messages), (messages ? "on" : "off"));
-    HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false, false);
+    HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false);
     message_dontfuckwithme = true;
     M_SaveCVARs();
 }
@@ -1991,7 +1991,7 @@ void M_ChangeDetail(int choice)
     C_StrCVAROutput(stringize(r_detail), (r_detail == r_detail_low ? "low" : "high"));
     if (!menuactive)
     {
-        HU_PlayerMessage((r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI), false, false);
+        HU_PlayerMessage((r_detail == r_detail_low ? s_DETAILLO : s_DETAILHI), false);
         message_dontfuckwithme = true;
     }
     else
@@ -2303,7 +2303,7 @@ void M_ChangeGamma(dboolean shift)
     gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
     if (r_gamma == 1.0f)
-        HU_PlayerMessage(s_GAMMAOFF, false, false);
+        HU_PlayerMessage(s_GAMMAOFF, false);
     else
     {
         static char buf[128];
@@ -2311,7 +2311,7 @@ void M_ChangeGamma(dboolean shift)
         M_snprintf(buf, sizeof(buf), s_GAMMALVL, r_gamma);
         if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
             buf[strlen(buf) - 1] = '\0';
-        HU_PlayerMessage(buf, false, false);
+        HU_PlayerMessage(buf, false);
     }
 
     message_dontpause = true;

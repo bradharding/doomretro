@@ -264,7 +264,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
@@ -275,7 +275,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
@@ -297,7 +297,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
@@ -308,7 +308,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
@@ -330,7 +330,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
@@ -341,7 +341,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
@@ -467,7 +467,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
@@ -478,7 +478,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;
@@ -503,7 +503,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
@@ -514,7 +514,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;
@@ -539,7 +539,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
@@ -550,7 +550,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;

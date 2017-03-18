@@ -180,6 +180,7 @@ extern dboolean r_althud;
 extern dboolean r_translucency;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
+extern dboolean message_external;
 extern dboolean message_dontfuckwithme;
 
 void G_ToggleAlwaysRun(evtype_t type);
@@ -299,7 +300,7 @@ void C_Warning(char *string, ...)
     }
 }
 
-void C_PlayerMessage(char *string, ...)
+void C_PlayerMessage(dboolean external, char *string, ...)
 {
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH] = "";
@@ -338,8 +339,11 @@ void C_PlayerMessage(char *string, ...)
     outputhistory = -1;
 
     if (viewplayer && !consoleactive && !message_dontfuckwithme)
+    {
         viewplayer->message = (vid_widescreen && r_althud ? console[consolestrings - 1].string :
             buffer);
+        message_external = (external && mapwindow);
+    }
 }
 
 void C_Obituary(char *string, ...)

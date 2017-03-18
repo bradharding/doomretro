@@ -474,7 +474,7 @@ dboolean ST_Responder(event_t *ev)
 
                     C_Input(cheat_god.sequence);
 
-                    HU_PlayerMessage(s_STSTR_DQDON, false, false);
+                    HU_PlayerMessage(s_STSTR_DQDON, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -490,7 +490,7 @@ dboolean ST_Responder(event_t *ev)
                 {
                     C_Input(cheat_god.sequence);
 
-                    HU_PlayerMessage(s_STSTR_DQDOFF, false, false);
+                    HU_PlayerMessage(s_STSTR_DQDOFF, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -557,7 +557,7 @@ dboolean ST_Responder(event_t *ev)
 
                     C_Input(cheat_ammonokey.sequence);
 
-                    HU_PlayerMessage(s_STSTR_FAADDED, false, false);
+                    HU_PlayerMessage(s_STSTR_FAADDED, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -617,7 +617,7 @@ dboolean ST_Responder(event_t *ev)
 
                     C_Input(cheat_ammo.sequence);
 
-                    HU_PlayerMessage(s_STSTR_KFAADDED, false, false);
+                    HU_PlayerMessage(s_STSTR_KFAADDED, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -668,7 +668,7 @@ dboolean ST_Responder(event_t *ev)
 
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS,
                                 uppercase(S_music[musnum].name));
-                            HU_PlayerMessage(msg, false, false);
+                            HU_PlayerMessage(msg, false);
 
                             // [BH] always display message
                             if (!consoleactive)
@@ -699,7 +699,7 @@ dboolean ST_Responder(event_t *ev)
                 C_Input(cheat_noclip.sequence);
 
                 HU_PlayerMessage(((plyr->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF),
-                    false, false);
+                    false);
 
                 // [BH] always display message
                 if (!consoleactive)
@@ -726,7 +726,7 @@ dboolean ST_Responder(event_t *ev)
                 C_Input(cheat_commercial_noclip.sequence);
 
                 HU_PlayerMessage(((plyr->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF),
-                    false, false);
+                    false);
 
                 // [BH] always display message
                 if (!consoleactive)
@@ -787,7 +787,7 @@ dboolean ST_Responder(event_t *ev)
                         C_Input(cheat_powerup[i].sequence);
 
                         HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
-                            s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false, false);
+                            s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false);
 
                         stat_cheated = SafeAdd(stat_cheated, 1);
                         players[0].cheated++;
@@ -821,7 +821,7 @@ dboolean ST_Responder(event_t *ev)
                         C_Input(cheat_powerup[i].sequence);
 
                         HU_PlayerMessage((!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
-                            s_STSTR_BEHOLDX : s_STSTR_BEHOLDOFF), false, false);
+                            s_STSTR_BEHOLDX : s_STSTR_BEHOLDOFF), false);
                     }
 
                     // [BH] reset all cheat sequences
@@ -900,7 +900,7 @@ dboolean ST_Responder(event_t *ev)
 
                     C_Input(cheat_choppers.sequence);
 
-                    HU_PlayerMessage(s_STSTR_CHOPPERS, false, false);
+                    HU_PlayerMessage(s_STSTR_CHOPPERS, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -960,7 +960,7 @@ dboolean ST_Responder(event_t *ev)
 
                 if (plyr->cheats & CF_BUDDHA)
                 {
-                    HU_PlayerMessage(s_STSTR_BUDDHA, false, false);
+                    HU_PlayerMessage(s_STSTR_BUDDHA, false);
 
                     // [BH] always display message
                     if (!consoleactive)
@@ -1052,7 +1052,7 @@ dboolean ST_Responder(event_t *ev)
                         M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
                     else
                         M_snprintf(message, sizeof(message), s_STSTR_CLEV, lump);
-                    HU_PlayerMessage(message, false, false);
+                    HU_PlayerMessage(message, false);
 
                     // [BH] always display message
                     plyr->message = message;
