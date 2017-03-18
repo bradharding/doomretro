@@ -447,10 +447,10 @@ int             *mfloorclip;
 int             *mceilingclip;
 
 fixed_t         spryscale;
-int             sprtopscreen;
+int64_t         sprtopscreen;
 int             fuzzpos;
 
-static int      shift;
+static int64_t  shift;
 
 static void R_BlastSpriteColumn(column_t *column)
 {
@@ -463,10 +463,10 @@ static void R_BlastSpriteColumn(column_t *column)
         const int       length = column->length;
 
         // calculate unclipped screen coordinates for post
-        const int       topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, ceilingclip);
-        dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, floorclip);
+        dc_yl = MAX((int)(topscreen >> FRACBITS), ceilingclip);
+        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), floorclip);
 
         if (dc_baseclip != -1)
             dc_yh = MIN(dc_baseclip, dc_yh);
@@ -495,10 +495,10 @@ static void R_BlastBloodSplatColumn(column_t *column)
         const int       length = column->length;
 
         // calculate unclipped screen coordinates for post
-        const int       topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX(topscreen >> FRACBITS, ceilingclip);
-        dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, floorclip);
+        dc_yl = MAX((int)(topscreen >> FRACBITS), ceilingclip);
+        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), floorclip);
 
         if (dc_yl <= dc_yh)
             colfunc();
@@ -518,10 +518,10 @@ static void R_BlastShadowColumn(column_t *column)
         const int       length = column->length;
 
         // calculate unclipped screen coordinates for post
-        const int       topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((topscreen >> FRACBITS) / 10 + shift, ceilingclip);
-        dc_yh = MIN(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift, floorclip);
+        dc_yl = MAX((int)((topscreen >> FRACBITS) / 10 + shift), ceilingclip);
+        dc_yh = MIN((int)(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift), floorclip);
 
         if (dc_yl <= dc_yh)
             colfunc();
@@ -591,8 +591,8 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     if (vis->footclip)
-        dc_baseclip = (sprtopscreen + FixedMul(SHORT(((patch_t *)patch)->height) << FRACBITS, spryscale)
-            - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
+        dc_baseclip = ((int)sprtopscreen + FixedMul(SHORT(((patch_t *)patch)->height) << FRACBITS,
+            spryscale) - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
     else
         dc_baseclip = -1;
 

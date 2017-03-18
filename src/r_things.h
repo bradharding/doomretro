@@ -50,7 +50,7 @@ extern int      screenheightarray[SCREENWIDTH];
 extern int      *mfloorclip;
 extern int      *mceilingclip;
 extern fixed_t  spryscale;
-extern int      sprtopscreen;
+extern int64_t  sprtopscreen;
 
 extern fixed_t  pspritexscale;
 extern fixed_t  pspriteyscale;
