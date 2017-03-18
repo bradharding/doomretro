@@ -609,6 +609,7 @@ void C_Init(void)
     consolecolors[titlestring] = consoletitlecolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
+    consolecolors[obituarystring] = consoleplayermessagecolor;
 }
 
 void C_ShowConsole(void)
