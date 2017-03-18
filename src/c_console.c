@@ -350,8 +350,7 @@ void C_Obituary(char *string, ...)
 {
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH] = "";
-    dboolean    prevplayermessage = (consolestrings
-        && console[consolestrings - 1].type == playermessagestring);
+    dboolean    prevobituary = (consolestrings && console[consolestrings - 1].type == obituarystring);
     time_t      rawtime;
 
     va_start(argptr, string);
@@ -360,12 +359,12 @@ void C_Obituary(char *string, ...)
 
     time(&rawtime);
 
-    if (prevplayermessage && M_StringCompare(console[consolestrings - 1].string, buffer))
+    if (prevobituary && M_StringCompare(console[consolestrings - 1].string, buffer))
     {
         M_snprintf(console[consolestrings - 1].string, CONSOLETEXTMAXLENGTH, "%s (2)", buffer);
         strftime(console[consolestrings - 1].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
-    else if (prevplayermessage && M_StringStartsWith(console[consolestrings - 1].string, buffer))
+    else if (prevobituary && M_StringStartsWith(console[consolestrings - 1].string, buffer))
     {
         char    *count = strrchr(console[consolestrings - 1].string, '(') + 1;
 
@@ -378,7 +377,7 @@ void C_Obituary(char *string, ...)
     {
         console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
-        console[consolestrings].type = playermessagestring;
+        console[consolestrings].type = obituarystring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
         strftime(console[consolestrings++].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }

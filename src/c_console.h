@@ -69,6 +69,7 @@ typedef enum
     titlestring,
     warningstring,
     playermessagestring,
+    obituarystring,
     STRINGTYPES
 } stringtype_t;
 
