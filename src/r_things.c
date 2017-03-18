@@ -552,7 +552,6 @@ void R_DrawVisSprite(vissprite_t *vis)
 
         if (!sector->isliquid)
         {
-            dc_colormap = vis->shadowcolormap;
             colfunc = mobj->shadowcolfunc;
             sprtopscreen = centeryfrac - FixedMul(sector->interpfloorheight
                 + mobj->info->shadowoffset - viewz, spryscale);
@@ -870,13 +869,12 @@ void R_ProjectSprite(mobj_t *thing)
     vis->patch = lump;
 
     // get light level
-    vis->shadowcolormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
     else if ((frame & FF_FULLBRIGHT) && (rot <= 4 || rot >= 12 || thing->info->fullbright))
         vis->colormap = fullcolormap;           // full bright
     else                                        // diminished light
-        vis->colormap = vis->shadowcolormap;
+        vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
 static void R_ProjectBloodSplat(bloodsplat_t *splat)
