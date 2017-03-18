@@ -873,7 +873,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
                     HU_PlayerMessage(s_GOTCLIP, false);
                 else
                     HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2),
-                        true, false);
+                        false);
             }
             break;
 
@@ -900,7 +900,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message)
             if (!P_GiveAmmo(player, am_misl, 5))
                 return;
             if (message)
-                HU_PlayerMessage(s_GOTROCKBOX, true, false);
+                HU_PlayerMessage(s_GOTROCKBOX, false);
             break;
 
         case SPR_CELL:
