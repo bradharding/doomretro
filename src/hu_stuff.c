@@ -1019,7 +1019,14 @@ void HU_PlayerMessage(char *message, dboolean external)
 
     buffer[0] = toupper(buffer[0]);
 
-    C_PlayerMessage(external, buffer);
+    C_PlayerMessage(buffer);
+
+    if (plr && !consoleactive && !message_dontfuckwithme)
+    {
+        plr->message = buffer;
+        message_external = (external && mapwindow);
+    }
+
 }
 
 void HU_ClearMessages(void)

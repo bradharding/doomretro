@@ -300,7 +300,7 @@ void C_Warning(char *string, ...)
     }
 }
 
-void C_PlayerMessage(dboolean external, char *string, ...)
+void C_PlayerMessage(char *string, ...)
 {
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH] = "";
@@ -336,12 +336,6 @@ void C_PlayerMessage(dboolean external, char *string, ...)
         strftime(console[consolestrings++].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
     }
     outputhistory = -1;
-
-    if (viewplayer && !consoleactive && !message_dontfuckwithme)
-    {
-        viewplayer->message = buffer;
-        message_external = (external && mapwindow);
-    }
 }
 
 void C_Obituary(char *string, ...)
