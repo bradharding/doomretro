@@ -7,7 +7,7 @@
 * Animated decorations will no longer shift back and forth in the final release of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or if the [*Minor Sprite Fixing Project v1.8*](https://www.doomworld.com/idgames/graphics/sprfix18) is loaded.
 * The message displayed when the player tries to open a locked door when they don’t have the required key now always distinguishes between keycards and skull keys.
 * An `r_messagescale` CVAR has been implemented to allow the scale of messages to be changed between `big` and `small`. It is `big` by default.
-* The messages displayed in the alternate widescreen HUD now use the same font that is used in the console. Also, when a message is the same as the last one displayed then it will be followed by a number in parentheses.
+* The messages displayed in the alternate widescreen HUD now use the same font that is used in the console.
 * The player’s path in the automap is now disabled when vanilla mode is enabled.
 
 ---
