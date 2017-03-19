@@ -319,6 +319,8 @@ linefix_t linefix[] =
     { doom2,            1,  17,     726,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                    DEFAULT },
 
     { doom2,            1,  18,       5,    0, "",         "SUPPORT3",    "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom2,            1,  18,      17,    0, "",         "",            "NUKEDGE1",    DEFAULT,        64, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom2,            1,  18,      18,    0, "",         "",            "NUKEDGE1",    DEFAULT,        64, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,     451,    0, "",         "DOORSTOP",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,     459,    0, "",         "DOORSTOP",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,     574,    0, "GRAYVINE", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
