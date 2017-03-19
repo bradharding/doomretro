@@ -465,7 +465,7 @@ static void R_BlastSpriteColumn(column_t *column)
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((int)(topscreen >> FRACBITS), ceilingclip);
+        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), ceilingclip);
         dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), floorclip);
 
         if (dc_baseclip != -1)
@@ -497,7 +497,7 @@ static void R_BlastBloodSplatColumn(column_t *column)
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((int)(topscreen >> FRACBITS), ceilingclip);
+        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), ceilingclip);
         dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), floorclip);
 
         if (dc_yl <= dc_yh)
@@ -520,7 +520,7 @@ static void R_BlastShadowColumn(column_t *column)
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((int)((topscreen >> FRACBITS) / 10 + shift), ceilingclip);
+        dc_yl = MAX((int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift), ceilingclip);
         dc_yh = MIN((int)(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift), floorclip);
 
         if (dc_yl <= dc_yh)
