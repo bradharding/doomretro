@@ -765,11 +765,19 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     int                 tab = -1;
     size_t              len = strlen(text);
     unsigned char       prevletter = '\0';
+    int                 width = 0;
 
     y -= CONSOLEHEIGHT - consoleheight;
 
+    if (color1 == consolewarningcolor)
+    {
+        V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, tinttab);
+        width = SHORT(warning->width) + 2;
+        x += width;
+    }
+
     if (len > 80)
-        while (C_TextWidth(text, formatting) > CONSOLETEXTPIXELWIDTH)
+        while (C_TextWidth(text, formatting) + width > CONSOLETEXTPIXELWIDTH)
         {
             text[len - 1] = '.';
             text[len] = '.';
@@ -777,12 +785,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             text[len + 2] = '\0';
             len--;
         }
-
-    if (color1 == consolewarningcolor)
-    {
-        V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, tinttab);
-        x += SHORT(warning->width) + 2;
-    }
 
     for (i = 0; i < len; i++)
     {
