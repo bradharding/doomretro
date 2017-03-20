@@ -464,6 +464,9 @@ linefix_t linefix[] =
     { doom2,            1,  31,     569,    0, "ZDOORB1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  31,     594,    0, "ZDOORB1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
+    { doom2,            1,  32,     30,     0, "",         "",            "",            DEFAULT,         0, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom2,            1,  32,     31,     0, "",         "",            "",            DEFAULT,         0, DEFAULT,                   DEFAULT,                                    DEFAULT },
+
     { doom2,            1,  33,     400,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         41 },
     { doom2,            1,  33,     401,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         41 },
     { doom2,            1,  33,     559,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         41 },
