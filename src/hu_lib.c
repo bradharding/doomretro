@@ -179,7 +179,7 @@ void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 {
     int                 i;
     unsigned char       prevletter = '\0';
-    int                 x = 37;
+    int                 x = HU_ALTHUDMSGX;
 
     for (i = 0; i < l->len; i++)
     {
@@ -207,7 +207,7 @@ void HUlib_drawAltHUDTextLine(hu_textline_t *l)
             j++;
         }
 
-        V_DrawAltHUDText(x, 8, patch, white);
+        V_DrawAltHUDText(x, HU_ALTHUDMSGY, patch, white);
         x += SHORT(patch->width);
         prevletter = letter;
     }

@@ -46,6 +46,9 @@
 #define HU_MAXLINES             4
 #define HU_MAXLINELENGTH        512
 
+#define HU_ALTHUDMSGX           30
+#define HU_ALTHUDMSGY           12
+
 //
 // Typedefs of widgets
 //
