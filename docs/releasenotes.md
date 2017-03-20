@@ -9,6 +9,7 @@
 * An `r_messagescale` CVAR has been implemented to allow the scale of messages to be changed between `big` and `small`. It is `big` by default.
 * The messages displayed in the alternate widescreen HUD now use the same font that is used in the console.
 * The player’s path in the automap is now disabled when vanilla mode is enabled.
+* Fixes have been applied to the alignment of some textures in MAP18 and MAP32 of `doom2.wad`.
 
 ---
 
