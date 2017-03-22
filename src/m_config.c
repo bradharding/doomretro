@@ -952,12 +952,14 @@ void M_LoadCVARs(char *filename)
 
         if (M_StringCompare(defname, "bind"))
         {
-            bind_cmd_func2("", strparm);
+            if (!togglingvanilla)
+                bind_cmd_func2("", strparm);
             continue;
         }
         else if (M_StringCompare(defname, "alias"))
         {
-            alias_cmd_func2("", strparm);
+            if (!togglingvanilla)
+                alias_cmd_func2("", strparm);
             continue;
         }
 
