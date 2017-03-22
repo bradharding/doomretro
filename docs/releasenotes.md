@@ -10,6 +10,7 @@
 * The messages displayed in the alternate widescreen HUD now use the same font that is used in the console.
 * The player’s path in the automap is now disabled when vanilla mode is enabled.
 * An additional 124 map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in both `doom.wad` and `doom2.wad`.
+* Projectiles no longer explode when impacting with the sky in some instances.
 
 ---
 

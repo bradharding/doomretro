@@ -479,7 +479,12 @@ void P_ZMovement(mobj_t *mo)
         mo->z = mo->ceilingz - mo->height;
 
         if (!((mo->flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
-            P_ExplodeMissile(mo);
+        {
+            if (mo->subsector->sector->ceilingpic == skyflatnum)
+                P_RemoveMobj(mo);
+            else
+                P_ExplodeMissile(mo);
+        }
     }
 }
 
