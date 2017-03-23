@@ -298,7 +298,10 @@ typedef enum mobjflag2_e
     MF2_DECORATION                = 0x10000000,
 
     // Don't draw object
-    MF2_DONTDRAW                  = 0x20000000
+    MF2_DONTDRAW                  = 0x20000000,
+
+    // Object is a missile from a monster
+    MF2_MONSTERMISSILE            = 0x40000000
 } mobjflag2_t;
 
 typedef enum bloodsplatflag_e

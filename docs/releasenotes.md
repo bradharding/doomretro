@@ -9,11 +9,12 @@
 * An `r_messagescale` CVAR has been implemented to allow the scale of messages to be changed between `big` and `small`. It is `big` by default.
 * The messages displayed in the alternate widescreen HUD now use the same font that is used in the console.
 * The player’s path in the automap is now disabled when vanilla mode is enabled.
-* An additional 124 map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in both `doom.wad` and `doom2.wad`.
+* An additional 300 map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in both `doom.wad` and `doom2.wad`.
 * The following bugs from *Vanilla DOOM* have been fixed:
-  * Projectiles no longer explode when impacting with the sky in some instances.
+  * Missiles no longer explode when impacting with the sky in some instances.
   * Lost souls will no longer slowly drift backwards when attacked while charging.
   * Lost souls will no longer  forget their target immediately after attacking them.
+* When using the `kill` CCMD to kill all monsters, all missiles fired by those monsters will now explode at the same time. Also, `kill missiles` may now be used to explode just the missiles.
 
 ---
 

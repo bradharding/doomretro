@@ -78,7 +78,7 @@
 #define EXECCMDFORMAT           "<i>filename</i>"
 #define GIVECMDSHORTFORMAT      "<i>items</i>"
 #define GIVECMDLONGFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
-#define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>"
+#define KILLCMDFORMAT           "<b>player</b>|<b>all</b>|<i>monster</i>|<b>barrels</b>|<b>missiles</b>"
 #define LOADCMDFORMAT           "<i>filename</i><b>.save</b>"
 #define MAPCMDSHORTFORMAT       "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
 #define MAPCMDLONGFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
@@ -611,7 +611,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
-        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, <b>all</b> or certain\n<i>items</i> to the player."),
+        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, <b>all</b> or\ncertain <i>items</i> to the player."),
     CMD(god, "", god_cmd_func1, god_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
@@ -654,7 +654,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CMD(kill, "", kill_cmd_func1, kill_cmd_func2, 1, KILLCMDFORMAT,
-        "Kills the <b>player</b>, <b>all</b> monsters or a type of <i>monster</i>."),
+        "Kills the <b>player</b>, <b>all</b> monsters, a type of <i>monster</i>, all <b>barrels</b>\nor all <b>missiles</b>."),
     CMD(load, "", null_func1, load_cmd_func2, 1, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_FLOAT(m_acceleration, "", float_cvars_func1, float_cvars_func2, CF_NONE,
@@ -1338,7 +1338,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
     int i = 0;
     int count = 0;
-    int tabs[8] = { 40, 213, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 40, 275, 0, 0, 0, 0, 0, 0 };
 
     C_TabbedOutput(tabs, CMDLISTTITLE);
 
@@ -1893,6 +1893,9 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
         if (M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
             return true;
 
+        if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
+            return true;
+
         for (i = 0; i < NUMMOBJTYPES; i++)
         {
             int num = -1;
@@ -1983,7 +1986,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                 while (thing)
                 {
-                    if (thing->health > 0)
+                    if (thing->flags2 & MF2_MONSTERMISSILE)
+                        P_ExplodeMissile(thing);
+                    else if (thing->health > 0)
                     {
                         mobjtype_t      type = thing->type;
 
@@ -2030,6 +2035,39 @@ static void kill_cmd_func2(char *cmd, char *parms)
             }
             else
                 C_Warning("There are no monsters %s kill.", (!totalkills ? "to" : "left to"));
+        }
+        else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
+        {
+            for (i = 0; i < numsectors; i++)
+            {
+                mobj_t  *thing = sectors[i].thinglist;
+
+                while (thing)
+                {
+                    if (thing->flags2 & MF2_MONSTERMISSILE)
+                    {
+                        P_ExplodeMissile(thing);
+                        kills++;
+                    }
+                    thing = thing->snext;
+                }
+            }
+
+            if (kills)
+            {
+                M_snprintf(buffer, sizeof(buffer), "%s missile%s exploded.", commify(kills),
+                    (kills == 1 ? "" : "s"));
+                C_Output("%s", buffer);
+                HU_SetPlayerMessage(buffer, false);
+                message_dontfuckwithme = true;
+                C_HideConsole();
+
+                players[0].cheated++;
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                M_SaveCVARs();
+            }
+            else
+                C_Warning("There are no missiles to explode.");
         }
         else
         {

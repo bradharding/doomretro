@@ -1351,6 +1351,8 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     th->momz = (dest->z - source->z) / dist;
     P_CheckMissileSpawn(th);
 
+    th->flags2 |= MF2_MONSTERMISSILE;
+
     return th;
 }
 
