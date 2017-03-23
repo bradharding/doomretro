@@ -15,6 +15,7 @@
   * Lost souls will no longer slowly drift backwards when attacked while charging.
   * Lost souls will no longer  forget their target immediately after attacking them.
 * When using the `kill` CCMD to kill all monsters, all missiles fired by those monsters will now explode at the same time. Also, `kill missiles` may now be used to explode just the missiles.
+* `ccmdlist` can now be used as an alternative to the `cmdlist` CCMD, and `explode` as an alternative to the `kill` CCMD.
 
 ---
 
