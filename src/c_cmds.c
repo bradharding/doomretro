@@ -1966,7 +1966,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
         P_KillMobj(player->mo, NULL, player->mo);
         M_snprintf(buffer, sizeof(buffer), "%s killed %s.", playername,
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));
-        HU_PlayerMessage(buffer, false);
+        buffer[0] = toupper(buffer[0]);
+        C_Output(buffer);
+        HU_SetPlayerMessage(buffer, false);
         message_dontfuckwithme = true;
         C_HideConsole();
     }
@@ -2022,7 +2024,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
             {
                 M_snprintf(buffer, sizeof(buffer), "%s monster%s killed.", commify(kills),
                     (kills == 1 ? "" : "s"));
-                HU_PlayerMessage(buffer, false);
+                C_Output(buffer);
+                HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 C_HideConsole();
 
@@ -2054,7 +2057,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
             {
                 M_snprintf(buffer, sizeof(buffer), "%s missile%s exploded.", commify(kills),
                     (kills == 1 ? "" : "s"));
-                HU_PlayerMessage(buffer, false);
+                C_Output(buffer);
+                HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 C_HideConsole();
 
@@ -2116,7 +2120,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 M_snprintf(buffer, sizeof(buffer), "%s %s %s.", commify(kills),
                     (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                     (type == MT_BARREL ? "exploded" : "killed"));
-                HU_PlayerMessage(buffer, false);
+                C_Output(buffer);
+                HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 C_HideConsole();
 
@@ -2408,7 +2413,8 @@ static void map_cmd_func2(char *cmd, char *parms)
     gamemap = mapcmdmap;
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."),
         mapcmdlump);
-    HU_PlayerMessage(buffer, false);
+    C_Output(buffer);
+    HU_SetPlayerMessage(buffer, false);
     message_dontfuckwithme = true;
     if (gamestate == GS_LEVEL)
     {
