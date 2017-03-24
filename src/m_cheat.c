@@ -58,13 +58,13 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
 {
     if (consolecheat[0] && M_StringCompare(consolecheat, cht->sequence))
     {
-        consolecheat[0] = 0;
+        consolecheat[0] = '\0';
         if (consolecheatparm)
         {
             cht->parameter_buf[0] = consolecheatparm[0];
             cht->parameter_buf[1] = consolecheatparm[1];
             cht->param_chars_read = 2;
-            consolecheatparm[0] = 0;
+            consolecheatparm[0] = '\0';
         }
         return true;
     }

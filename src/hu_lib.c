@@ -62,7 +62,7 @@ extern dboolean vid_widescreen;
 static void HUlib_clearTextLine(hu_textline_t *t)
 {
     t->len = 0;
-    t->l[0] = 0;
+    t->l[0] = '\0';
     t->needsupdate = true;
 }
 
