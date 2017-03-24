@@ -100,6 +100,10 @@ int                     ammo;
 int                     armor;
 int                     health;
 
+static int              mapcmdepisode;
+static int              mapcmdmap;
+static char             mapcmdlump[7];
+
 dboolean                vanilla;
 dboolean                togglingvanilla;
 
@@ -872,7 +876,35 @@ static int C_GetIndex(const char *cmd)
 
 static dboolean cheat_func1(char *cmd, char *parms)
 {
-    if (gamestate != GS_LEVEL)
+    if (M_StringCompare(cmd, cheat_clev.sequence))
+    {
+        dboolean        result;
+
+        if (gamemode == commercial)
+        {
+            mapcmdepisode = 1;
+            mapcmdmap = (parms[0] - '0') * 10 + parms[1] - '0';
+            M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%c%c", parms[0], parms[1]);
+        }
+        else
+        {
+            mapcmdepisode = parms[0] - '0';
+            mapcmdmap = parms[1] - '0';
+            M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%cM%c", parms[0], parms[1]);
+        }
+
+        result = (W_CheckNumForName(mapcmdlump) >= 0 && (gamemission != pack_nerve || mapcmdmap <= 9)
+            && (!BTSX || W_CheckMultipleLumps(mapcmdlump) > 1));
+
+        if (gamestate == GS_LEVEL)
+            return result;
+        else if (result)
+        {
+            map_cmd_func2("map", mapcmdlump);
+            return true;
+        }
+    }
+    else if (gamestate != GS_LEVEL)
         return false;
     else if (M_StringCompare(cmd, cheat_god.sequence))
         return (gameskill != sk_nightmare);
@@ -906,25 +938,6 @@ static dboolean cheat_func1(char *cmd, char *parms)
         return (gameskill != sk_nightmare && players[0].health > 0);
     else if (M_StringCompare(cmd, cheat_mypos.sequence))
         return true;
-    else if (M_StringCompare(cmd, cheat_clev.sequence))
-    {
-        char   lump[6];
-        int    map;
-
-        if (gamemode == commercial)
-        {
-            map = (parms[0] - '0') * 10 + parms[1] - '0';
-            M_snprintf(lump, sizeof(lump), "MAP%c%c", parms[0], parms[1]);
-        }
-        else
-        {
-            map = parms[1] - '0';
-            M_snprintf(lump, sizeof(lump), "E%cM%c", parms[0], parms[1]);
-        }
-
-        return (W_CheckNumForName(lump) >= 0 && (gamemission != pack_nerve || map <= 9)
-            && (!BTSX || W_CheckMultipleLumps(lump) > 1));
-    }
     else if (M_StringCompare(cmd, cheat_amap.sequence))
         return (automapactive || mapwindow);
     return false;
@@ -2154,10 +2167,6 @@ static void load_cmd_func2(char *cmd, char *parms)
 //
 // map CCMD
 //
-static int      mapcmdepisode;
-static int      mapcmdmap;
-static char     mapcmdlump[7];
-
 extern dboolean samelevel;
 extern menu_t   EpiDef;
 extern int      idclevtics;
