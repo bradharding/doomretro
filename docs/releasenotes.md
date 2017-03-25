@@ -14,9 +14,10 @@
   * Missiles no longer explode when impacting with the sky in some instances.
   * Lost souls will no longer slowly drift backwards when attacked while charging.
   * Lost souls will no longer forget their target immediately after attacking them.
-* When using the `kill` CCMD to kill all monsters, all missiles fired by those monsters will now explode at the same time. Also, a `missiles` parameter may now be used to explode just the missiles.
+* When using the `kill` CCMD to kill all monsters, all missiles fired by those monsters will now explode at the same time. Also, a `missiles` parameter may now be used to only explode the missiles.
 * `ccmdlist` can now be used as an alternative to the `cmdlist` CCMD, and `explode` as an alternative to the `kill` CCMD.
-* The `idclev` cheat may now be used in the console while no map is being played.
+* The `idclev` cheat may now be used in the console while no map is loaded.
+* The maximum value the `r_screensize` CVAR can be set to is now `7` rather than `8`. Setting the CVAR to `8` previously had no effect.
 
 ---
 

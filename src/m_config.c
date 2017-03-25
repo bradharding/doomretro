@@ -894,7 +894,8 @@ static void M_CheckCVARs(void)
 
     if (vid_widescreen != false && vid_widescreen != true)
         vid_widescreen = vid_widescreen_default;
-    if (vid_widescreen || r_screensize == r_screensize_max)
+
+    if (vid_widescreen)
     {
         returntowidescreen = true;
         vid_widescreen = false;

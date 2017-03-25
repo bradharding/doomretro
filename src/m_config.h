@@ -296,7 +296,7 @@ typedef enum
 
 #define r_screensize_min                        0
 #define r_screensize_default                    7
-#define r_screensize_max                        8
+#define r_screensize_max                        7
 
 #define r_shadows_default                       true
 

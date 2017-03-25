@@ -761,7 +761,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the trails behind rockets fired by the player\nand cyberdemons."),
     CVAR_INT(r_screensize, "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The screen size (<b>0</b> to <b>8</b>)."),
+        "The screen size (<b>0</b> to <b>7</b>)."),
     CVAR_BOOL(r_shadows, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles sprites casting shadows."),
     CVAR_BOOL(r_shake_barrels, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -4586,7 +4586,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
 //
 static void r_hud_cvar_func2(char *cmd, char *parms)
 {
-    if (vid_widescreen || r_screensize == r_screensize_max || !*parms)
+    if (vid_widescreen || !*parms)
         bool_cvars_func2(cmd, parms);
 }
 
@@ -4663,31 +4663,13 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
         {
             if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
-                if (value == r_screensize_max)
-                    value--;
-                else if (value <= r_screensize_max - 1)
+                if (value < r_screensize_max)
                 {
                     r_hud = true;
                     I_ToggleWidescreen(false);
                 }
             }
-            else
-            {
-                if (value >= r_screensize_max - 1)
-                {
-                    if (gamestate != GS_LEVEL)
-                    {
-                        returntowidescreen = true;
-                        r_hud = true;
-                    }
-                    else
-                    {
-                        I_ToggleWidescreen(true);
-                        if (vid_widescreen)
-                            value = r_screensize_max - 1;
-                    }
-                }
-            }
+
             r_screensize = value;
             M_SaveCVARs();
             R_SetViewSize(r_screensize);

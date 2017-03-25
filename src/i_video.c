@@ -1683,12 +1683,6 @@ void I_ToggleWidescreen(dboolean toggle)
     {
         vid_widescreen = true;
 
-        if (returntowidescreen && r_screensize == r_screensize_max)
-        {
-            r_screensize = r_screensize_max - 1;
-            R_SetViewSize(r_screensize);
-        }
-
         if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT) < 0)
             I_SDLError("SDL_RenderSetLogicalSize");
 

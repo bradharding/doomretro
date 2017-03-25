@@ -2004,22 +2004,7 @@ void M_SizeDisplay(int choice)
     switch (choice)
     {
         case 0:
-            if (r_screensize == r_screensize_max)
-            {
-                if (!r_hud)
-                {
-                    r_hud = true;
-                    C_StrCVAROutput(stringize(r_hud), "on");
-                }
-                else
-                {
-                    R_SetViewSize(--r_screensize);
-                    C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                }
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
-            }
-            else if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 if (!r_hud)
                 {
@@ -2046,8 +2031,7 @@ void M_SizeDisplay(int choice)
             break;
 
         case 1:
-            if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL)
-                || r_screensize == r_screensize_max)
+            if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 if (r_hud)
                 {
@@ -2057,7 +2041,7 @@ void M_SizeDisplay(int choice)
                     M_SaveCVARs();
                 }
             }
-            else if (r_screensize == r_screensize_max - 1)
+            else if (r_screensize == r_screensize_max)
             {
                 if (!vid_widescreen)
                 {
@@ -2081,7 +2065,7 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
-            else if (r_screensize < r_screensize_max)
+            else
             {
                 R_SetViewSize(++r_screensize);
                 C_IntCVAROutput(stringize(r_screensize), r_screensize);
