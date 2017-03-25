@@ -299,8 +299,7 @@ dboolean P_GiveFullAmmo(player_t *player)
 //
 void P_AddBonus(player_t *player, int amount)
 {
-    if (!consoleactive)
-        player->bonuscount = MIN(player->bonuscount + amount, 3 * TICRATE);
+    player->bonuscount = MIN(player->bonuscount + amount, 3 * TICRATE);
 }
 
 //

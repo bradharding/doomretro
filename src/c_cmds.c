@@ -4389,9 +4389,6 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (!player->mo)
                     return;
 
-                if (value > player->health)
-                    P_AddBonus(player, BONUSADD);
-
                 value = BETWEEN(health_min, value, maxhealth);
 
                 if (player->health <= 0)
@@ -4402,24 +4399,20 @@ static void player_cvars_func2(char *cmd, char *parms)
                         player->mo->health = value;
                     }
                     else
-                    {
                         P_ResurrectPlayer(player, value);
-                        C_HideConsole();
-                    }
                 }
                 else if (!(player->cheats & CF_BUDDHA))
                 {
                     if (value < player->health)
-                    {
                         P_DamageMobj(player->mo, NULL, NULL, player->health - value, false);
-                        C_HideConsole();
-                    }
                     else
                     {
                         player->health = value;
                         player->mo->health = value;
+                        P_AddBonus(player, BONUSADD);
+                        S_StartSound(NULL, sfx_getpow);
                     }
-
+                    C_HideConsole();
                 }
             }
         }
