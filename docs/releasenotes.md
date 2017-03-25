@@ -18,6 +18,7 @@
 * `ccmdlist` can now be used as an alternative to the `cmdlist` CCMD, and `explode` as an alternative to the `kill` CCMD.
 * The `idclev` cheat may now be used in the console while no map is loaded.
 * The maximum value the `r_screensize` CVAR can be set to is now `7` rather than `8`. Setting the CVAR to `8` previously had no effect.
+* The player can no longer trigger secrets when in freeze mode.
 
 ---
 

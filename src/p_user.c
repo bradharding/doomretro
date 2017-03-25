@@ -406,12 +406,13 @@ void P_PlayerThink(player_t *player)
     P_CalcHeight(player);
 
     // [BH] Check all sectors player is touching are special
-    for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        if (seclist->m_sector->special && mo->z == seclist->m_sector->interpfloorheight)
-        {
-            P_PlayerInSpecialSector(player);
-            break;
-        }
+    if (!freeze)
+        for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+            if (seclist->m_sector->special && mo->z == seclist->m_sector->interpfloorheight)
+            {
+                P_PlayerInSpecialSector(player);
+                break;
+            }
 
     // Check for weapon change.
 
