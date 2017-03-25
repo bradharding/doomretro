@@ -545,6 +545,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     const mobj_t        *mobj = vis->mobj;
 
     spryscale = vis->scale;
+    dc_colormap = vis->colormap;
 
     if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
     {
@@ -563,7 +564,6 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     colfunc = vis->colfunc;
-    dc_colormap = vis->colormap;
 
     dc_iscale = ABS(xiscale);
     dc_texturemid = vis->texturemid;
