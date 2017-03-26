@@ -292,7 +292,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_liquid_lowerview,                                BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_swirl,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_OTHER        (r_lowpixelsize,                                    NOVALUEALIAS    ),
-    CONFIG_VARIABLE_INT          (r_messagescale,                                    BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (r_messagescale,                                    SCALEVALUEALIAS ),
     CONFIG_VARIABLE_INT          (r_mirroredweapons,                                 BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_playersprites,                                   BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_rockettrails,                                    BOOLVALUEALIAS  ),
