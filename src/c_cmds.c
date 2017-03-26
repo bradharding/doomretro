@@ -4601,8 +4601,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
     {
         C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_lowpixelsize))].description));
         if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
-            C_Output("It is currently set to its default of <b>%s</b>.",
-                formatsize(r_lowpixelsize));
+            C_Output("It is currently set to its default of <b>%s</b>.", formatsize(r_lowpixelsize));
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 formatsize(r_lowpixelsize), formatsize(r_lowpixelsize_default));
@@ -4932,8 +4931,8 @@ static void turbo_cvar_func2(char *cmd, char *parms)
         if (turbo == turbo_default)
             C_Output("It is currently set to its default of <b>%i%%</b>.", turbo);
         else
-            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
-                turbo, turbo_default);
+            C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.", turbo,
+                turbo_default);
         free(description);
     }
 }

@@ -1,5 +1,6 @@
 ### DOOM Retro v2.4.4
 
+* The value of the `r_messagescale` CVAR is now displayed correctly in `doomretro.cfg`.
 ---
 
 ###### Wednesday, March 26, 2017
