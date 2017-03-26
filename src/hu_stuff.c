@@ -59,8 +59,8 @@
 //
 // Locally used constants, shortcuts.
 //
-#define HU_TITLEX       3
-#define HU_TITLEY       (ORIGINALHEIGHT - 32 * (r_screensize < r_screensize_max) - hu_font[0]->height - 2)
+#define HU_TITLEX       2
+#define HU_TITLEY       (ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2)
 
 static player_t         *plr;
 patch_t                 *hu_font[HU_FONTSIZE];
