@@ -61,9 +61,6 @@ typedef struct
     // max # of digits in number
     int         width;
 
-    // last number value
-    int         oldnum;
-
     // pointer to current value
     int         *num;
 

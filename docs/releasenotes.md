@@ -1,5 +1,6 @@
 ### DOOM Retro v2.4.4
 
+* A bug has been fixed whereby a crash would often occur when the player died and the `vid_widescreen` CVAR was `off`.
 * The value of the `r_messagescale` CVAR is now displayed correctly in `doomretro.cfg`.
 * Over 200 additional map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in `doom.wad`.
 

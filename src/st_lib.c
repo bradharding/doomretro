@@ -48,7 +48,6 @@ void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolea
 {
     n->x = x;
     n->y = y;
-    n->oldnum = 0;
     n->width = width;
     n->num = num;
     n->on = on;
@@ -152,14 +151,12 @@ static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
 static void STlib_drawNum(st_number_t *n)
 {
     int         numdigits = n->width;
-    int         num = *n->num;
+    int         num = MAX(0, *n->num);
 
     patch_t     *patch = n->p[0];
     int         w = SHORT(patch->width);
     dboolean    smallnum = (SHORT(patch->height) == 6 && !STYSNUM0 && STBAR == 2);
     int         x = n->x;
-
-    n->oldnum = *n->num;
 
     // if non-number, do not draw it
     if (num == 1994)
