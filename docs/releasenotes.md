@@ -1,3 +1,9 @@
+### DOOM Retro v2.4.5
+
+---
+
+###### Monday, March 27, 2017
+
 ### DOOM Retro v2.4.4
 
 * A bug has been fixed whereby a crash would often occur when the player died and the `vid_widescreen` CVAR was `off`.
@@ -6,7 +12,7 @@
 
 ---
 
-###### Wednesday, March 26, 2017
+###### Sunday, March 26, 2017
 
 ### DOOM Retro v2.4.3
 
