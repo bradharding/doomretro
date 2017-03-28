@@ -241,6 +241,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     int         tw = 0;
     int         x, y;
     int         xx, yy;
+    int         maxx, maxy;
     static char prev;
     byte        *fb1 = (external ? mapscreen : screens[0]);
     byte        *fb2 = (external ? mapscreen : screens[r_screensize < 7 && !automapactive]);
@@ -346,8 +347,15 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     }
 
     // [BH] draw entire message from buffer onto screen with translucency
-    for (yy = l->y - 1; yy < (y + 10) * SCREENSCALE; yy++)
-        for (xx = l->x; xx < (l->x + tw + 1) * SCREENSCALE; xx++)
+    maxy = y + 10;
+    maxx = (l->x + tw + 1);
+    if (r_messagescale == r_messagescale_big)
+    {
+        maxy *= SCREENSCALE;
+        maxx *= SCREENSCALE;
+    }
+    for (yy = l->y - 1; yy < maxy; yy++)
+        for (xx = l->x; xx < maxx; xx++)
         {
             int         dot = yy * SCREENWIDTH + xx;
             byte        *source = &tempscreen[dot];

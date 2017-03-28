@@ -103,8 +103,10 @@ static patch_t          *stdisk;
 dboolean                drawdisk;
 
 extern dboolean         messages;
-extern dboolean         vid_widescreen;
+extern dboolean         r_messagescale;
 extern dboolean         r_translucency;
+extern dboolean         vid_widescreen;
+
 extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
@@ -879,9 +881,30 @@ void HU_DrawDisk(void)
 
 void HU_Drawer(void)
 {
+    w_message.l->x = HU_MSGX;
+    w_message.l->y = HU_MSGY;
+
+    if (r_messagescale == r_messagescale_small)
+    {
+        w_message.l->x = HU_MSGX * SCREENSCALE;
+        w_message.l->y = HU_MSGY * SCREENSCALE;
+    }
+
     HUlib_drawSText(&w_message, message_external);
+
     if (automapactive)
+    {
+        w_title.x = HU_TITLEX;
+        w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+
+        if (r_messagescale == r_messagescale_small)
+        {
+            w_title.x = HU_TITLEX * SCREENSCALE;
+            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2;
+        }
+
         HUlib_drawTextLine(&w_title, false);
+    }
     else
     {
         if (vid_widescreen && r_hud)
@@ -893,7 +916,18 @@ void HU_Drawer(void)
         }
 
         if (mapwindow)
+        {
+            w_title.x = HU_TITLEX;
+            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+
+            if (r_messagescale == r_messagescale_small)
+            {
+                w_title.x = HU_TITLEX * SCREENSCALE;
+                w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2;
+            }
+
             HUlib_drawTextLine(&w_title, true);
+        }
     }
 }
 
