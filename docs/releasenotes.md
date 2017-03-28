@@ -1,5 +1,8 @@
 ### DOOM Retro v2.4.5
 
+* The map title in the automap is now positioned correctly when the `r_messagescale` CVAR is `small`.
+* Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
+
 ---
 
 ###### Monday, March 27, 2017
