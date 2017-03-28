@@ -290,8 +290,8 @@ dboolean P_GiveFullAmmo(player_t *player)
 
         return true;
     }
-    else
-        return false;
+
+    return false;
 }
 
 //
@@ -330,8 +330,8 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 
         return true;
     }
-    else
-        return (gaveweapon || gaveammo);
+
+    return (gaveweapon || gaveammo);
 }
 
 //

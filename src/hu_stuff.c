@@ -900,7 +900,7 @@ void HU_Drawer(void)
         if (r_messagescale == r_messagescale_small)
         {
             w_title.x = HU_TITLEX * SCREENSCALE;
-            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2;
+            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2 * SCREENSCALE;
         }
 
         HUlib_drawTextLine(&w_title, false);
@@ -923,7 +923,7 @@ void HU_Drawer(void)
             if (r_messagescale == r_messagescale_small)
             {
                 w_title.x = HU_TITLEX * SCREENSCALE;
-                w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2;
+                w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2 * SCREENSCALE;
             }
 
             HUlib_drawTextLine(&w_title, true);
