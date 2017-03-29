@@ -875,6 +875,8 @@ void P_WriteSaveGameHeader(char *description)
     saveg_write8((leveltime >> 16) & 0xFF);
     saveg_write8((leveltime >> 8) & 0xFF);
     saveg_write8(leveltime & 0xFF);
+
+    saveg_write8(gametic);
 }
 
 //
@@ -914,6 +916,8 @@ dboolean P_ReadSaveGameHeader(char *description)
     b = saveg_read8();
     c = saveg_read8();
     leveltime = (a << 16) + (b << 8) + c;
+
+    gametic = saveg_read8();
 
     return true;
 }

@@ -3,6 +3,7 @@
 * The map title in the automap is now positioned correctly when the `r_messagescale` CVAR is `small`.
 * Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
 * Entering the `idmypos` cheat will no longer cause a crash.
+* Homing rockets fired by revenants will no longer randomly become regular rockets, and vice-versa, if a game is saved while they are in mid-air. In order for this bug to be fixed, the format of savegames has changed. Savegames created using previous versions of *DOOM Retro* are not compatible with this version.
 
 ---
 
