@@ -43,6 +43,7 @@ PRESSYN = (Press 'Y' or 'N' to continue.)
 PRESSA = (Press button 'A' to continue.)
 QUITMSG = Are you sure you want to\nquit this great game?
 QLPROMPT = Do you want to quickload the savegame "%s"?
+DELPROMPT = Do you want to delete the savegame "%s"?
 NIGHTMARE = Are you sure? This skill level\nisn't even remotely fair!
 SWSTRING = This is the shareware version of DOOM.\nYou need to purchase the full version.
 MSGOFF = Messages OFF

@@ -835,6 +835,7 @@ void M_ReadSaveStrings(void)
     int         i;
     char        name[256];
 
+    savegames = false;
     for (i = 0; i < load_end; i++)
     {
         FILE    *handle;
@@ -1357,6 +1358,28 @@ void M_QuickLoad(void)
         M_snprintf(tempstring, 160, "%s\n\n%s", tempstring, (usinggamepad ? s_PRESSA : s_PRESSYN));
         M_StartMessage(tempstring, M_QuickLoadResponse, true);
     }
+}
+
+static void M_DeleteSavegameResponse(int key)
+{
+    if (key == 'y')
+    {
+        char    name[256];
+
+        M_StringCopy(name, P_SaveGameFile(itemOn), sizeof(name));
+        remove(name);
+
+        M_ReadSaveStrings();
+    }
+}
+
+void M_DeleteSavegame(void)
+{
+    S_StartSound(NULL, sfx_swtchn);
+    M_snprintf(tempstring, 160, s_DELPROMPT, savegamestrings[saveSlot]);
+    M_SplitString(tempstring);
+    M_snprintf(tempstring, 160, "%s\n\n%s", tempstring, (usinggamepad ? s_PRESSA : s_PRESSYN));
+    M_StartMessage(tempstring, M_DeleteSavegameResponse, true);
 }
 
 //
@@ -2852,6 +2875,7 @@ dboolean M_Responder(event_t *ev)
         }
         return false;
     }
+
     if (!paused)
     {
         if (key == KEY_DOWNARROW && keywait < I_GetTime() && !inhelpscreens)
@@ -3081,6 +3105,19 @@ dboolean M_Responder(event_t *ev)
             }
             M_SetWindowCaption();
             return true;
+        }
+
+        else if (key == KEY_DELETE && !keydown && currentMenu == &SaveDef)
+        {
+            // Delete a savegame
+            if (LoadGameMenu[itemOn].status)
+            {
+                M_DeleteSavegame();
+                return true;
+            }
+            else
+                S_StartSound(NULL, sfx_oof);
+            return false;
         }
 
         // Keyboard shortcut?

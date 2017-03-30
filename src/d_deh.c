@@ -124,6 +124,7 @@ char    *s_QSAVESPOT = QSAVESPOT;
 char    *s_SAVEDEAD = SAVEDEAD;
 char    *s_QSPROMPT = QSPROMPT;
 char    *s_QLPROMPT = QLPROMPT;
+char    *s_DELPROMPT = "";
 char    *s_NEWGAME = NEWGAME;
 char    *s_NIGHTMARE = NIGHTMARE;
 char    *s_SWSTRING = SWSTRING;
@@ -658,6 +659,7 @@ deh_strs deh_strlookup[] =
     { &s_SAVEDEAD,             "SAVEDEAD"             },
     { &s_QSPROMPT,             "QSPROMPT"             },
     { &s_QLPROMPT,             "QLPROMPT"             },
+    { &s_DELPROMPT,            "DELPROMPT"            },
     { &s_NEWGAME,              "NEWGAME"              },
     { &s_NIGHTMARE,            "NIGHTMARE"            },
     { &s_SWSTRING,             "SWSTRING"             },
