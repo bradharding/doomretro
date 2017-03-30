@@ -1371,10 +1371,18 @@ static void M_DeleteSavegameResponse(int key)
 
         M_ReadSaveStrings();
 
-        if (!savegames && currentMenu == &LoadDef)
+        if (currentMenu == &LoadDef)
         {
-            M_SetupNextMenu(&MainDef);
-            MainDef.lastOn = itemOn = save_game;
+            if (savegames)
+            {
+                while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING))
+                    itemOn = (!itemOn ? currentMenu->numitems - 1 : itemOn - 1);
+            }
+            else
+            {
+                M_SetupNextMenu(&MainDef);
+                MainDef.lastOn = itemOn = save_game;
+            }
         }
     }
 }
