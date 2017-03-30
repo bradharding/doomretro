@@ -113,7 +113,6 @@ char **skilllevels[] =
 dboolean        paused;
 dboolean        sendpause;              // send a pause event next tic
 dboolean        sendsave;               // send a save event next tic
-dboolean        usergame;               // ok to save / end game
 
 dboolean        viewactive;
 
@@ -975,8 +974,7 @@ void G_Ticker(void)
                 break;
 
             case ga_screenshot:
-                if ((usergame || gamestate == GS_LEVEL) && !idbehold
-                    && !(player->cheats & CF_MYPOS))
+                if (gamestate == GS_LEVEL && !idbehold && !(player->cheats & CF_MYPOS))
                 {
                     HU_ClearMessages();
                     D_Display();
@@ -1765,7 +1763,6 @@ void G_InitNew(skill_t skill, int ep, int map)
     // force player to be initialized upon first level load
     players[0].playerstate = PST_REBORN;
 
-    usergame = true;            // will be set false if on title screen
     paused = false;
     automapactive = false;
     viewactive = true;

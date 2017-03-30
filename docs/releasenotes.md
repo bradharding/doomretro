@@ -3,8 +3,8 @@
 * The map title in the automap is now positioned correctly when the `r_messagescale` CVAR is `small`.
 * Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
 * Entering the `idmypos` cheat will no longer cause a crash.
-* Pressing the <kbd>DEL</kbd> key when in the savegame menu will now delete the currently selected savegame.
-* The inverted gray color palette is now applied to the sky when the player has the invulnerability power-up.
+* Pressing the <kbd>DEL</kbd> key when in the save and load game menus will now delete the currently selected savegame.
+* The inverted gray color palette is now applied to the sky when the player has the invulnerability power-up, as originally intended.
 
 ---
 

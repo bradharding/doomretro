@@ -186,8 +186,6 @@ extern int              barrelcount;
 extern int              levelstarttic;  // gametic at level start
 extern int              leveltime;      // tics in game play for par
 
-extern dboolean         usergame;
-
 //?
 extern gamestate_t      gamestate;
 

@@ -470,7 +470,6 @@ void D_DoAdvanceTitle(void)
 
     players[0].playerstate = PST_LIVE;  // not reborn
     advancetitle = false;
-    usergame = false;                   // no save / end game here
     paused = false;
     gameaction = ga_nothing;
     gamestate = GS_TITLESCREEN;
