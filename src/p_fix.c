@@ -649,6 +649,8 @@ linefix_t linefix[] =
     { doom,             4,   7,     475,    0, "",         "",            "",            DEFAULT,       142, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   7,     477,    0, "",         "",            "",            DEFAULT,         8, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   7,     478,    0, "",         "",            "",            DEFAULT,         8, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             4,   7,     989,    0, "",         "",            "",            DEFAULT,        94, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             4,   7,     991,    0, "",         "",            "",            DEFAULT,        94, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
     { doom,             4,   8,      69,    0, "",         "",            "",                 24,       -64, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   8,      94,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -1071,10 +1073,13 @@ linefix_t linefix[] =
 
    // mission,    episode, map, linedef, side, toptexture, middletexture, bottomtexture,  offset, rowoffset, flags,                     special,                                        tag
 
+    { pack_plut,        1,   1,    1110,    0, "",         "",            "",                  0,         0, DEFAULT,                   DEFAULT,                                    DEFAULT },
+   
     { pack_plut,        1,   4,     303,    1, "",         "MIDBRONZ",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,   4,     308,    1, "",         "MIDBRONZ",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,   4,     762,    1, "",         "MIDBARS3",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,   4,     763,    1, "",         "MIDBARS3",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,   4,     975,    0, "",         "",            "",                 87,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
     { pack_plut,        1,   6,    1337,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,   6,    1343,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
