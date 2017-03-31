@@ -1985,6 +1985,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
             bloodsplat_t        *next = splat->snext;
 
             P_UnsetBloodSplatPosition(splat);
+            r_bloodsplats_total--;
             splat = next;
         }
     }
