@@ -2279,8 +2279,6 @@ void P_SetupLevel(int ep, int map)
 
     P_CalcSegsLength();
 
-    r_bloodsplats_total = 0;
-
     pathpointnum = 0;
     pathpointnum_max = 0;
 

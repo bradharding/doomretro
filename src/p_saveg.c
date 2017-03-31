@@ -1132,7 +1132,7 @@ void P_UnArchiveThinkers(void)
 
     P_InitThinkers();
 
-    // remove the remaining bloodsplats
+    // remove all bloodsplats
     for (i = 0; i < numsectors; i++)
     {
         bloodsplat_t    *splat = sectors[i].splatlist;
@@ -1181,7 +1181,7 @@ void P_UnArchiveThinkers(void)
 
             case tc_bloodsplat:
             {
-                bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
+                bloodsplat_t    *splat = malloc(sizeof(*splat));
 
                 saveg_read_pad();
                 saveg_read_bloodsplat_t(splat);
