@@ -156,6 +156,7 @@ extern char     *s_SECRET;
 extern char     *s_GGSAVED;
 extern char     *s_GGLOADED;
 extern char     *s_GGAUTOLOADED;
+extern char     *s_GGDELETED;
 extern char     *s_GSCREENSHOT;
 
 extern char     *s_ALWAYSRUNOFF;

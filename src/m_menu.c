@@ -1359,10 +1359,14 @@ static void M_DeleteSavegameResponse(int key)
 {
     if (key == 'y')
     {
-        char    name[256];
+        static char     buffer[1024];
 
-        M_StringCopy(name, P_SaveGameFile(itemOn), sizeof(name));
-        remove(name);
+        M_StringCopy(buffer, P_SaveGameFile(itemOn), sizeof(buffer));
+        remove(buffer);
+
+        M_snprintf(buffer, sizeof(buffer), s_GGDELETED, titlecase(savegamestrings[saveSlot]));
+        HU_PlayerMessage(buffer, false);
+        message_dontfuckwithme = true;
 
         M_ReadSaveStrings();
 

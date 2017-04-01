@@ -217,6 +217,7 @@ char    *s_SECRET = "";
 char    *s_GGSAVED = GGSAVED;
 char    *s_GGLOADED = "";
 char    *s_GGAUTOLOADED = "";
+char    *s_GGDELETED = "";
 char    *s_GSCREENSHOT = GSCREENSHOT;
 
 char    *s_ALWAYSRUNOFF = "";
@@ -752,6 +753,7 @@ deh_strs deh_strlookup[] =
     { &s_GGSAVED,              "GGSAVED"              },
     { &s_GGLOADED,             "GGLOADED"             },
     { &s_GGAUTOLOADED,         "GGAUTOLOADED"         },
+    { &s_GGDELETED,            "GGDELETED"            },
     { &s_GSCREENSHOT,          "GSCREENSHOT"          },
 
     { &s_ALWAYSRUNOFF,         "ALWAYSRUNOFF"         },

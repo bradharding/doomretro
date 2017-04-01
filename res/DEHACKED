@@ -120,6 +120,7 @@ SECRET = %s found a secret area!
 GGSAVED = "%s" saved.
 GGLOADED = "%s" loaded.
 GGAUTOLOADED = "%s" autoloaded.
+GGDELETED = "%s" deleted.
 GSCREENSHOT = %s saved.
 ALWAYSRUNOFF = Always run OFF.
 ALWAYSRUNON = Always run ON.
