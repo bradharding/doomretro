@@ -36,7 +36,9 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "i_colors.h"
+#include "i_swap.h"
 #include "m_fixed.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -220,6 +222,44 @@ void FindNearestColors(byte *palette)
     else
         for (i = 0; i < PALETTESIZE; i++)
             nearestcolors[i] = i;
+}
+
+byte    colorcount[PALETTESIZE];
+
+int FindDominantColor(patch_t *patch)
+{
+    int col = 0;
+    int w = SHORT(patch->width);
+    int i = 0;
+    int dominantcolor = -1;
+    int dominantcolorcount = 0;
+
+    for (; col < w; col++)
+    {
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            int         count = column->length;
+
+            while (count--)
+                colorcount[*source++]++;
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+
+    for (i = 0; i < PALETTESIZE; i++)
+        if (colorcount[i] > dominantcolorcount && (originalcolors[i].red >= 128
+            || originalcolors[i].green >= 128 || originalcolors[i].blue >= 128))
+        {
+            dominantcolor = i;
+            dominantcolorcount = colorcount[i];
+        }
+
+    return dominantcolor;
 }
 
 static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESIZE], int colors)

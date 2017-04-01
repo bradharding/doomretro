@@ -111,6 +111,7 @@ extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
 extern dboolean         emptytallpercent;
+extern int              caretcolor;
 
 void (*hudfunc)(int, int, patch_t *, byte *);
 void (*hudnumfunc)(int, int, patch_t *, byte *);
@@ -209,6 +210,7 @@ void HU_Init(void)
     {
         M_snprintf(buffer, 9, "STCFN%.3d", j++);
         hu_font[i] = W_CacheLumpName(buffer, PU_STATIC);
+        caretcolor = FindDominantColor(hu_font[i]);
     }
 
     if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)

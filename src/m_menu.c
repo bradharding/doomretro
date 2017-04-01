@@ -110,8 +110,6 @@ dboolean        startingnewgame;
 
 char            savegamestrings[10][SAVESTRINGSIZE];
 
-patch_t         *pipechar;
-
 char            endstring[160];
 
 short           itemOn;                 // menu item skull is on
@@ -1032,6 +1030,7 @@ void M_LoadGame(int choice)
 
 static dboolean showcaret;
 static int      caretwait;
+int             caretcolor;
 
 //
 //  M_SaveGame & Cie.
@@ -1073,8 +1072,7 @@ void M_DrawSave(void)
             for (j = 0; (unsigned int)j < strlen(savegamestrings[i]) - saveCharIndex; j++)
                 right[j] = savegamestrings[i][j + saveCharIndex];
             right[j] = 0;
-            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + (STCFN121 ? SHORT(pipechar->width) :
-                3), y - !M_LSCNTR, right, false);
+            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + 2, y - !M_LSCNTR, right, false);
         }
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
@@ -1092,20 +1090,17 @@ void M_DrawSave(void)
                 showcaret = !showcaret;
                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
             }
+
             if (showcaret)
             {
                 int x = LoadDef.x - 2 + M_StringWidth(left);
-                int y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
+                int y = LoadDef.y + saveSlot * LINEHEIGHT + OFFSET;
+                int h = y + SHORT(hu_font['A' - HU_FONTSTART]->height);
 
-                if (STCFN121)
-                    V_DrawPatch(x, y, 0, pipechar);
-                else
+                while (y < h)
                 {
-                    int     xx, yy;
-
-                    for (yy = 0; yy < 9; yy++)
-                        for (xx = 0; xx < 3; xx++)
-                            V_DrawPixel(x + xx, y + yy, (int)savecaret[yy * 3 + xx], false);
+                    V_DrawPixel(x, y, caretcolor, false);
+                    V_DrawPixel(x + 1, y++, caretcolor, false);
                 }
             }
         }
@@ -3489,9 +3484,6 @@ void M_Init(void)
     tempscreen2 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     blurscreen1 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     blurscreen2 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-
-    pipechar = W_CacheLumpName((W_CheckNumForName("STCFN121") >= 0 ? "STCFN121" : "STCFN124"),
-        PU_CACHE);
 
     if (autostart)
     {

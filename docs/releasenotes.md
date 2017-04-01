@@ -7,6 +7,7 @@
 * The inverted gray color palette is now applied to the sky when the player has the invulnerability power-up, as originally intended.
 * A bug has been fixed whereby the `r_bloodsplats_total` CVAR would be set incorrectly, and blood splats would no longer be spawned, after loading a savegame in some instances.
 * Four additional map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in the `doom.wad` and `plutonia.wad` IWADs.
+* The text caret shown when entering a savegame description in the save game menu is now always a vertical line using the dominant color of the character set. (Previously, the `STCFN121` lump was used that in some PWADs was used a “Y” character rather than a vertical pipe.)
 
 ---
 

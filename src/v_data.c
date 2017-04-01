@@ -1476,9 +1476,6 @@ int lsrght[] =
     251, 251, 251, 251, 251, 251, 251, 251, 251
 };
 
-char *savecaret = "\x2F\x2F\x2F\x2F\xB3\x2F\x2F\xB3\x2F\x2F\xB3\x2F\x2F\xB3\x2F\x2F\xB3\x2F\x2F"
-    "\xB3\x2F\x2F\xB3\x2F\x2F\x2F\x2F";
-
 char *smallcharset[] =
 {
     // 0 = '!'

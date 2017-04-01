@@ -40,6 +40,7 @@
 #define __I_COLORS_H__
 
 #include "doomtype.h"
+#include "r_defs.h"
 
 #define PALETTESIZE     256
 
@@ -47,5 +48,7 @@ extern byte     nearestcolors[PALETTESIZE];
 
 void I_InitTintTables(byte *palette);
 void FindNearestColors(byte *palette);
+
+int FindDominantColor(patch_t *patch);
 
 #endif
