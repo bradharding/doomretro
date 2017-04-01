@@ -1362,7 +1362,12 @@ static void M_DeleteSavegameResponse(int key)
         static char     buffer[1024];
 
         M_StringCopy(buffer, P_SaveGameFile(itemOn), sizeof(buffer));
-        remove(buffer);
+
+        if (remove(buffer) == -1)
+        {
+            S_StartSound(NULL, sfx_oof);
+            return;
+        }
 
         M_snprintf(buffer, sizeof(buffer), s_GGDELETED, titlecase(savegamestrings[saveSlot]));
         HU_PlayerMessage(buffer, false);
