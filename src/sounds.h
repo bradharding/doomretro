@@ -54,7 +54,8 @@ enum
     sg_wpnup,
     sg_oof,
     sg_getpow,
-    sg_stnmov
+    sg_stnmov,
+    sg_saw
 };
 
 struct sfxinfo_struct
