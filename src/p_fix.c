@@ -1127,6 +1127,8 @@ linefix_t linefix[] =
     { pack_plut,        1,  20,     333,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  20,     511,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  20,     517,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  20,     876,    0, "",         "",            "",            DEFAULT,        72, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  20,     882,    0, "",         "",            "",            DEFAULT,        72, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  20,     904,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  20,    1110,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  20,    1115,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -1202,6 +1204,7 @@ linefix_t linefix[] =
     { pack_plut,        1,  30,     730,    0, "ROCKRED1", "",            "ROCKRED1",    DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
     { pack_plut,        1,  31,     682,    1, "",         "MIDBARS1",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  31,     929,    0, "",         "",            "",            DEFAULT,        54, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
     { pack_plut,        1,  32,     569,    0, "A-MOSROK", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  32,     570,    0, "A-MOSROK", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -1446,6 +1449,9 @@ sectorfix_t sectorfix[] =
     { pack_plut,        1,   4,    103, "RROCK03", "",             DEFAULT,       DEFAULT, DEFAULT, DEFAULT },
 
     { pack_plut,        1,   8,    130, "",        "",             DEFAULT,             0, DEFAULT, DEFAULT },
+
+    { pack_plut,        1,  16,     97, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT, DEFAULT },
+    { pack_plut,        1,  16,    104, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT, DEFAULT },
 
     { pack_plut,        1,  26,    156, "",        "",             DEFAULT,       DEFAULT,       0, DEFAULT },
 
