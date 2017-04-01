@@ -1094,8 +1094,8 @@ void M_DrawSave(void)
             if (showcaret)
             {
                 int x = LoadDef.x - 2 + M_StringWidth(left);
-                int y = LoadDef.y + saveSlot * LINEHEIGHT + OFFSET;
-                int h = y + SHORT(hu_font['A' - HU_FONTSTART]->height);
+                int y = LoadDef.y + saveSlot * LINEHEIGHT + OFFSET - 1;
+                int h = y + SHORT(hu_font['A' - HU_FONTSTART]->height) + 2;
 
                 while (y < h)
                     V_DrawPixel(x, y++, caretcolor, false);
