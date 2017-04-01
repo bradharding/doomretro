@@ -1613,6 +1613,7 @@ void G_DoSaveGame(void)
 
             M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
             HU_PlayerMessage(buffer, false);
+            blurred = false;
             message_dontfuckwithme = true;
             S_StartSound(NULL, sfx_swtchx);
         }

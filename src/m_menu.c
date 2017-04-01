@@ -1366,8 +1366,9 @@ static void M_DeleteSavegameResponse(int key)
             return;
         }
 
-        M_snprintf(buffer, sizeof(buffer), s_GGDELETED, titlecase(savegamestrings[saveSlot]));
+        M_snprintf(buffer, sizeof(buffer), s_GGDELETED, titlecase(savegamestrings[itemOn]));
         HU_PlayerMessage(buffer, false);
+        blurred = false;
         message_dontfuckwithme = true;
 
         M_ReadSaveStrings();
