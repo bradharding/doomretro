@@ -828,7 +828,9 @@ linefix_t linefix[] =
     { doom2,            1,  18,       5,    0, "",         "SUPPORT3",    "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,      17,    0, "",         "",            "",            DEFAULT,        64, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,      18,    0, "",         "",            "",            DEFAULT,        64, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom2,            1,  18,      91,    0, "",         "",            "",                -32,       -80, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,     385,    0, "",         "",            "",            DEFAULT,       -16, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom2,            1,  18,     386,    0, "",         "",            "",            DEFAULT,       -80, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,     451,    0, "",         "DOORSTOP",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,     459,    0, "",         "DOORSTOP",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,  18,     483,    0, "",         "",            "",                  8,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -1137,6 +1139,8 @@ linefix_t linefix[] =
     { pack_plut,        1,  22,      61,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  22,     375,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  22,     393,    1, "",         "MIDBARS3",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  22,    1026,    0, "",         "",            "",                 45,       -88, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  22,    1028,    0, "",         "",            "",                 64,       -88, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  22,    1033,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  22,    1034,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  22,    1035,    1, "",         "A-RAIL1",     "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -1192,6 +1196,10 @@ linefix_t linefix[] =
     { pack_plut,        1,  28,     676,    0, "",         "",            "BRICK10",     DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  28,     834,    0, "",         "",            "WOOD8",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  28,     835,    0, "",         "",            "WOOD8",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  28,    1232,    0, "",         "",            "",            DEFAULT,        -1, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  28,    1233,    0, "",         "",            "",            DEFAULT,        -1, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  28,    1234,    0, "",         "",            "",            DEFAULT,        -1, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  28,    1235,    0, "",         "",            "",            DEFAULT,        -1, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  28,    2073,    0, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  28,    2352,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  28,    2360,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -1199,7 +1207,12 @@ linefix_t linefix[] =
     { pack_plut,        1,  28,    2496,    0, "BRICK10",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  28,    2496,    1, "",         "",            "METAL2",      DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
+    { pack_plut,        1,  29,    1144,    0, "",         "",            "",                -37,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  29,    1147,    0, "",         "",            "",                 19,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  29,    1150,    0, "",         "",            "",                 10,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  29,    2842,    0, "PANCASE2", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  29,    2936,    0, "",         "",            "",                 22,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  29,    2938,    0, "",         "",            "",                 26,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
     { pack_plut,        1,  30,     730,    0, "ROCKRED1", "",            "ROCKRED1",    DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
@@ -1454,6 +1467,9 @@ sectorfix_t sectorfix[] =
     { pack_plut,        1,  16,     96, "",        "",             DEFAULT,       DEFAULT, DamageNegative10Or20PercentHealth, DEFAULT },
     { pack_plut,        1,  16,     97, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
     { pack_plut,        1,  16,    104, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+
+    { pack_plut,        1,  29,    178, "",        "",                 201,       DEFAULT, DEFAULT,                           DEFAULT },
+    { pack_plut,        1,  29,    224, "",        "",                 156,       DEFAULT, DEFAULT,                           DEFAULT },
 
     { pack_plut,        1,  26,    156, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
 
