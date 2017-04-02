@@ -576,7 +576,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-    if (fixedcolormap && r_translucency)
+    if (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency)
     {
         if (colfunc == tlcolfunc)
             colfunc = tl50colfunc;
@@ -1068,8 +1068,8 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                     /* SPR_BFGF */ tlcolfunc,          tl50colfunc
                 };
 
-                vis->colfunc = (muzzleflash && spr <= SPR_BFGF && (!dehacked
-                    || state->translucent) ? colfuncs[spr * 2 + !!fixedcolormap] : basecolfunc);
+                vis->colfunc = (muzzleflash && spr <= SPR_BFGF && (!dehacked || state->translucent) ?
+                    colfuncs[spr * 2 + (viewplayer->fixedcolormap == INVERSECOLORMAP)] : basecolfunc);
             }
         }
         else

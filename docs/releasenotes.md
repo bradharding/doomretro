@@ -9,6 +9,7 @@
 * Another 29 map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in the `doom.wad`, `doom2.wad` and `plutonia.wad` IWADs.
 * The text caret shown when entering a savegame description in the save game menu is now always a vertical line using the dominant color of the character set. (Previously, the `STCFN121` lump was used and in some PWADs that was a “Y” character rather than a vertical pipe.)
 * The sound of the chainsaw will no longer cut off sounds made by the player.
+* A bug has been fixed whereby translucent sprites would become less bright when the player had the light amplification visor power-up.
 
 ---
 
