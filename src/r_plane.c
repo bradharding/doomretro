@@ -326,7 +326,7 @@ static byte *R_DistortedFlat(int flatnum)
     static int  swirltic = -1;
     static int  offset[4096];
     int         i;
-    int         leveltic = gametic;
+    int         leveltic = activetic;
 
     // Already swirled this one?
     if (leveltic == swirltic && lastflat == flatnum)

@@ -119,6 +119,7 @@ dboolean        viewactive;
 player_t        players[MAXPLAYERS];
 
 int             gametic;
+int             activetic;
 int             gametime;
 int             levelstarttic;          // gametic at level start
 int             totalkills, totalitems, totalsecret;    // for intermission

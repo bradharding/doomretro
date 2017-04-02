@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -177,6 +178,8 @@ void TryRunTics(void)
 
         G_Ticker();
         gametic++;
+        if (!menuactive && !consoleactive && !paused)
+            activetic++;
         gametime++;
 
         if (netcmds[0].buttons & BT_SPECIAL)
