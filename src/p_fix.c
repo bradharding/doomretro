@@ -1093,7 +1093,7 @@ linefix_t linefix[] =
     { pack_plut,        1,  10,     548,    0, "",         "",            "METAL",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  10,    1010,    0, "GSTONE1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
-    { pack_plut,        1,  12,     230,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { pack_plut,        1,  12,     230,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, ML_BLOCKING,               DEFAULT,                                    DEFAULT },
 
     { pack_plut,        1,  13,     107,    1, "A-BROWN1", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,  13,     119,    1, "A-BROWN1", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -1544,6 +1544,9 @@ thingfix_t thingfix[] =
     { pack_nerve,       1,   9,   595, DeadPlayer,               -1280,    3904,   -1280,    3880, DEFAULT, DEFAULT                            },
 
     { pack_plut,        1,   9,   304, ShortGreenFirestick,      -5216,   -1568,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
+
+    { pack_plut,        1,  12,   225, Nothing,                   1600,   -3104,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
+    { pack_plut,        1,  12,   226, Nothing,                    992,   -3360,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
 
     { pack_plut,        1,  30,   206, MegaSphere,                -480,    1920,    -480,    1920, DEFAULT, MTF_NETGAME                        },
     { pack_plut,        1,  30,   251, Berserk,                  -2272,    2368,   -2272,    2368, DEFAULT, MTF_NETGAME                        },

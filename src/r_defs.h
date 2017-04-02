@@ -574,6 +574,7 @@ typedef enum
 
 typedef enum
 {
+    Nothing                                            =     0,
     Player1Start                                       =     1,
     Player2Start                                       =     2,
     Player3Start                                       =     3,

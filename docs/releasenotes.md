@@ -6,7 +6,7 @@
 * Pressing the <kbd>DEL</kbd> key when in the save and load game menus will now delete the currently selected savegame.
 * The inverted gray color palette is now applied to the sky when the player has the invulnerability power-up, as originally intended.
 * A bug has been fixed whereby the `r_bloodsplats_total` CVAR would be set incorrectly, and blood splats would no longer be spawned, after loading a savegame in some instances.
-* Another 11 map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in the `doom.wad` and `plutonia.wad` IWADs.
+* Another 14 map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in the `doom.wad` and `plutonia.wad` IWADs.
 * The text caret shown when entering a savegame description in the save game menu is now always a vertical line using the dominant color of the character set. (Previously, the `STCFN121` lump was used and in some PWADs that was a “Y” character rather than a vertical pipe.)
 * The sound of the chainsaw will no longer cut off sounds made by the player.
 
