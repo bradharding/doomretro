@@ -1,5 +1,6 @@
 ### DOOM Retro v2.4.5
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The map title in the automap is now positioned correctly when the `r_messagescale` CVAR is `small`.
 * Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
 * Entering the `idmypos` cheat will no longer cause a crash.
@@ -7,7 +8,7 @@
 * The inverted gray color palette is now applied to the sky when the player has the invulnerability power-up, as originally intended.
 * A bug has been fixed whereby the `r_bloodsplats_total` CVAR would be set incorrectly, and blood splats would no longer be spawned, after loading a savegame in some instances.
 * Another 29 map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in the `doom.wad`, `doom2.wad` and `plutonia.wad` IWADs.
-* The text caret shown when entering a savegame description in the save game menu is now always a vertical line using the dominant color of the character set. (Previously, the `STCFN121` lump was used and in some PWADs that was a “Y” character rather than a vertical pipe.)
+* The text caret shown when entering a savegame description in the save game menu is now always a vertical line using the dominant color of the character set. (Previously, the `STCFN121` lump was used. In the *DOOM* and *DOOM II* IWADs this lump is a vertical pipe character, but in some PWADs it is replaced with a “Y” character.)
 * The sound of the chainsaw will no longer cut off sounds made by the player.
 * A bug has been fixed whereby translucent sprites would become less bright when the player had the light amplification visor power-up.
 
