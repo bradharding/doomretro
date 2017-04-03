@@ -495,10 +495,10 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
         const int       topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + pspriteyscale * topdelta + 1;
 
         dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS));
-        dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), viewheight);
+        dc_yh = MIN((int)((topscreen + pspriteyscale * post->length) >> FRACBITS), viewheight - 1);
 
         if (dc_yl <= dc_yh)
         {
@@ -632,24 +632,19 @@ void R_DrawVisSprite(vissprite_t *vis)
 //
 void R_DrawPlayerVisSprite(vissprite_t *vis)
 {
-    fixed_t             frac = vis->startfrac;
-    const fixed_t       xiscale = vis->xiscale;
+    fixed_t             frac = 0;
     const fixed_t       x2 = vis->x2;
     const int           id = vis->patch + firstspritelump;
     const rpatch_t      *patch = R_CachePatchNum(id);
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
-
-    dc_iscale = ABS(xiscale);
+    dc_iscale = pspriteiscale;
     dc_texturemid = vis->texturemid;
-
-    spryscale = vis->scale;
-    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
-
+    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, pspriteyscale);
     fuzzpos = 0;
 
-    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
         R_BlastPlayerSpriteColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
 
     R_UnlockPatchNum(id);
@@ -1054,9 +1049,6 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
-    vis->scale = pspriteyscale;
-    vis->xiscale = pspriteiscale;
-    vis->startfrac = 0;
     vis->patch = lump;
 
     if (invisibility)
