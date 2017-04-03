@@ -702,6 +702,7 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
     door->type = doorNormal;
     door->speed = VDOORSPEED;
     door->topcountdown = 30 * TICRATE;
+    door->topheight = sec->ceilingheight;
     door->line = NULL;  // jff 1/31/98 remember line that triggered us
     door->lighttag = 0; // killough 10/98: no lighting changes
 }
