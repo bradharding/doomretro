@@ -106,14 +106,17 @@ void R_InitPatches(void)
 
 static int getPatchIsNotTileable(const patch_t *patch)
 {
-    int                 x = 0, numPosts, lastColumnDelta = 0;
+    int                 x = 0;
+    int                 numPosts;
+    int                 lastColumnDelta = 0;
     const column_t      *column;
     int                 cornerCount = 0;
     int                 hasAHole = 0;
 
-    for (x = 0; x < SHORT(patch->width); ++x)
+    for (x = 0; x < SHORT(patch->width); x++)
     {
         column = (const column_t *)((const byte *)patch + LONG(patch->columnofs[x]));
+
         if (!x)
             lastColumnDelta = column->topdelta;
         else if (lastColumnDelta != column->topdelta)
@@ -135,12 +138,14 @@ static int getPatchIsNotTileable(const patch_t *patch)
 
             if (numPosts++)
                 hasAHole = 1;
+
             column = (const column_t *)((const byte *)column + column->length + 4);
         }
     }
 
     if (cornerCount == 4)
         return 0;
+
     return hasAHole;
 }
 
@@ -155,8 +160,10 @@ static int getIsSolidAtSpot(const column_t *column, int spot)
             return 0;
         if (spot >= column->topdelta && spot <= column->topdelta + column->length)
             return 1;
+
         column = (const column_t*)((const byte*)column + 3 + column->length + 1);
     }
+
     return 0;
 }
 
@@ -223,12 +230,10 @@ static void createPatch(int id)
     int                 numPostsUsedSoFar;
 
     if (!CheckIfPatch(patchNum))
-    {
         I_Error("createPatch: Unknown patch format %s.",
             (patchNum < numlumps ? lumpinfo[patchNum]->name : NULL));
-    }
 
-    oldPatch = (const patch_t*)W_CacheLumpNum(patchNum, PU_STATIC);
+    oldPatch = (const patch_t *)W_CacheLumpNum(patchNum, PU_STATIC);
 
     patch = &patches[id];
     patch->width = SHORT(oldPatch->width);
@@ -380,8 +385,11 @@ static void createPatch(int id)
             // copy from above or to the left
             for (y = 1; y < patch->height; ++y)
             {
-                //if (getIsSolidAtSpot(oldColumn, y)) continue;
-                if (column->pixels[y] != 0xFF) continue;
+                if (getIsSolidAtSpot(oldColumn, y))
+                    continue;
+
+                if (column->pixels[y] != 0xFF)
+                    continue;
 
                 // this pixel is a hole
 
@@ -692,57 +700,40 @@ static void createTextureCompositePatch(int id)
 
 rpatch_t *R_CachePatchNum(int id)
 {
-    const int locks = 1;
-
-    if (!patches)
-        I_Error("R_CachePatchNum: Patches not initialized");
-
     if (!patches[id].data)
         createPatch(id);
 
-    if (!patches[id].locks && locks)
-        Z_ChangeTag(patches[id].data,PU_STATIC);
+    if (!patches[id].locks)
+        Z_ChangeTag(patches[id].data, PU_STATIC);
 
-    patches[id].locks += locks;
+    patches[id].locks++;
 
     return &patches[id];
 }
 
 void R_UnlockPatchNum(int id)
 {
-    const int unlocks = 1;
-
-    patches[id].locks -= unlocks;
-
-    if (unlocks && !patches[id].locks)
+    if (!--patches[id].locks)
         Z_ChangeTag(patches[id].data, PU_CACHE);
 }
 
 rpatch_t *R_CacheTextureCompositePatchNum(int id)
 {
-    const int   locks = 1;
-
-    if (!texture_composites)
-        I_Error("R_CacheTextureCompositePatchNum: Composite patches not initialized");
-
     if (!texture_composites[id].data)
         createTextureCompositePatch(id);
 
     // cph - if wasn't locked but now is, tell z_zone to hold it
-    if (!texture_composites[id].locks && locks)
+    if (!texture_composites[id].locks)
         Z_ChangeTag(texture_composites[id].data, PU_STATIC);
-    texture_composites[id].locks += locks;
+
+    texture_composites[id].locks++;
 
     return &texture_composites[id];
 }
 
 void R_UnlockTextureCompositePatchNum(int id)
 {
-    const int   unlocks = 1;
-
-    texture_composites[id].locks -= unlocks;
-
-    if (unlocks && !texture_composites[id].locks)
+    if (!--texture_composites[id].locks)
         Z_ChangeTag(texture_composites[id].data, PU_CACHE);
 }
 
