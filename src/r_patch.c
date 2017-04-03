@@ -171,7 +171,8 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 static dboolean CheckIfPatch(int lump)
 {
     int                 size = W_LumpLength(lump);
-    int                 width, height;
+    int                 width;
+    int                 height;
     const patch_t       *patch;
     dboolean            result;
 

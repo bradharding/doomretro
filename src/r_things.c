@@ -454,14 +454,15 @@ static int64_t  shift;
 static void R_BlastSpriteColumn(const rcolumn_t *column)
 {
     int                 i;
+    const int           numposts = column->numPosts;
     const int           ceilingclip = mceilingclip[dc_x] + 1;
     const int           floorclip = mfloorclip[dc_x] - 1;
     unsigned char       *pixels = column->pixels;
 
-    for (i = 0; i < column->numPosts; i++)
+    for (i = 0; i < numposts; i++)
     {
         const rpost_t   *post = &column->posts[i];
-        int             topdelta = post->topdelta;
+        const int       topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
@@ -486,10 +487,11 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
 static void R_BlastBloodSplatColumn(const rcolumn_t *column)
 {
     int         i;
+    const int   numposts = column->numPosts;
     const int   ceilingclip = mceilingclip[dc_x] + 1;
     const int   floorclip = mfloorclip[dc_x] - 1;
 
-    for (i = 0; i < column->numPosts; i++)
+    for (i = 0; i < numposts; i++)
     {
         const rpost_t   *post = &column->posts[i];
 
@@ -507,10 +509,11 @@ static void R_BlastBloodSplatColumn(const rcolumn_t *column)
 static void R_BlastShadowColumn(const rcolumn_t *column)
 {
     int         i;
+    const int   numposts = column->numPosts;
     const int   ceilingclip = mceilingclip[dc_x] + 1;
     const int   floorclip = mfloorclip[dc_x] - 1;
 
-    for (i = 0; i < column->numPosts; i++)
+    for (i = 0; i < numposts; i++)
     {
         const rpost_t   *post = &column->posts[i];
 
@@ -535,7 +538,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     const fixed_t       startfrac = vis->startfrac;
     const fixed_t       xiscale = vis->xiscale;
     const fixed_t       x2 = vis->x2;
-    int                 id = vis->patch + firstspritelump;
+    const int           id = vis->patch + firstspritelump;
     const rpatch_t      *patch = R_CachePatchNum(id);
     const mobj_t        *mobj = vis->mobj;
 
@@ -607,7 +610,7 @@ void R_DrawPVisSprite(vissprite_t *vis)
     fixed_t             frac = vis->startfrac;
     const fixed_t       xiscale = vis->xiscale;
     const fixed_t       x2 = vis->x2;
-    int                 id = vis->patch + firstspritelump;
+    const int           id = vis->patch + firstspritelump;
     const rpatch_t      *patch = R_CachePatchNum(id);
 
     dc_colormap = vis->colormap;
@@ -633,7 +636,7 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
     fixed_t             frac = vis->startfrac;
     const fixed_t       xiscale = vis->xiscale;
     const fixed_t       x2 = vis->x2;
-    int                 id = vis->patch + firstspritelump;
+    const int           id = vis->patch + firstspritelump;
     const rpatch_t      *patch = R_CachePatchNum(id);
 
     colfunc = vis->colfunc;
