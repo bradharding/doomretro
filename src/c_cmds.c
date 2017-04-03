@@ -3813,13 +3813,15 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 {
     thinker_t   *th;
     int         count = 0;
-    int         tabs[8] = { 45, 250, 0, 0, 0, 0, 0, 0 };
+    int         tabs[8] = { 40, 268, 0, 0, 0, 0, 0, 0 };
+
+    C_TabbedOutput(tabs, THINGLISTTITLE);
 
     for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         mobj_t  *mobj = (mobj_t *)th;
 
-        C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, mobj->info->name1,
+        C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, titlecase(mobj->info->name1),
             mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
     }
 }

@@ -48,6 +48,7 @@
 #define CVARLISTTITLE           "CVAR\tDEFAULT\tDESCRIPTION"
 #define MAPLISTTITLE            "MAP\tNAME\tWAD"
 #define PLAYERSTATSTITLE        "STAT\tCURRENT MAP\tTOTAL"
+#define THINGLISTTITLE          "THING\tPOSITION"
 
 typedef enum
 {
