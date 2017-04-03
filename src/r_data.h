@@ -123,7 +123,7 @@ typedef struct
 } texture_t;
 
 // Retrieve column data for span blitting.
-byte *R_GetTextureColumn(rpatch_t *texpatch, int col);
+byte *R_GetTextureColumn(const rpatch_t *texpatch, int col);
 
 // I/O, setting up the stuff.
 void R_InitData(void);

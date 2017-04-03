@@ -104,14 +104,14 @@ void R_InitPatches(void)
     SKY1 = R_CheckTextureNumForName("SKY1");
 }
 
-static int getPatchIsNotTileable(const patch_t *patch)
+static dboolean getPatchIsNotTileable(const patch_t *patch)
 {
     int                 x = 0;
     int                 numPosts;
     int                 lastColumnDelta = 0;
     const column_t      *column;
     int                 cornerCount = 0;
-    int                 hasAHole = 0;
+    dboolean            hasAHole = false;
 
     for (x = 0; x < SHORT(patch->width); x++)
     {
@@ -120,7 +120,7 @@ static int getPatchIsNotTileable(const patch_t *patch)
         if (!x)
             lastColumnDelta = column->topdelta;
         else if (lastColumnDelta != column->topdelta)
-            hasAHole = 1;
+            hasAHole = true;
 
         numPosts = 0;
         while (column->topdelta != 0xFF)
@@ -137,45 +137,43 @@ static int getPatchIsNotTileable(const patch_t *patch)
                 cornerCount++;
 
             if (numPosts++)
-                hasAHole = 1;
+                hasAHole = true;
 
             column = (const column_t *)((const byte *)column + column->length + 4);
         }
     }
 
     if (cornerCount == 4)
-        return 0;
+        return false;
 
     return hasAHole;
 }
 
-static int getIsSolidAtSpot(const column_t *column, int spot)
+static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 {
     if (!column)
-        return 0;
+        return false;
 
     while (column->topdelta != 0xFF)
     {
         if (spot < column->topdelta)
-            return 0;
+            return false;
         if (spot >= column->topdelta && spot <= column->topdelta + column->length)
-            return 1;
+            return true;
 
         column = (const column_t*)((const byte*)column + 3 + column->length + 1);
     }
 
-    return 0;
+    return false;
 }
 
 // Checks if the lump can be a Doom patch
 static dboolean CheckIfPatch(int lump)
 {
-    int                 size;
+    int                 size = W_LumpLength(lump);
     int                 width, height;
     const patch_t       *patch;
     dboolean            result;
-
-    size = W_LumpLength(lump);
 
     // minimum length of a valid Doom patch
     if (size < 13)
@@ -356,9 +354,9 @@ static void createPatch(int id)
         }
     }
 
-    if (1 || (patch->flags & PATCH_ISNOTTILEABLE))
     {
-        const rcolumn_t *column, *prevColumn;
+        const rcolumn_t *column;
+        const rcolumn_t *prevColumn;
 
         // copy the patch image down and to the right where there are
         // holes to eliminate the black halo from bilinear filtering
@@ -698,7 +696,7 @@ static void createTextureCompositePatch(int id)
     free(countsInColumn);
 }
 
-rpatch_t *R_CachePatchNum(int id)
+const rpatch_t *R_CachePatchNum(int id)
 {
     if (!patches[id].data)
         createPatch(id);
@@ -717,7 +715,7 @@ void R_UnlockPatchNum(int id)
         Z_ChangeTag(patches[id].data, PU_CACHE);
 }
 
-rpatch_t *R_CacheTextureCompositePatchNum(int id)
+const rpatch_t *R_CacheTextureCompositePatchNum(int id)
 {
     if (!texture_composites[id].data)
         createTextureCompositePatch(id);
@@ -737,23 +735,15 @@ void R_UnlockTextureCompositePatchNum(int id)
         Z_ChangeTag(texture_composites[id].data, PU_CACHE);
 }
 
-rcolumn_t *R_GetPatchColumnWrapped(rpatch_t *patch, int columnIndex)
+const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnIndex)
 {
     while (columnIndex < 0)
         columnIndex += patch->width;
-    columnIndex %= patch->width;
-    return &patch->columns[columnIndex];
+
+    return &patch->columns[columnIndex % patch->width];
 }
 
-rcolumn_t *R_GetPatchColumnClamped(rpatch_t *patch, int columnIndex)
+const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnIndex)
 {
     return &patch->columns[BETWEEN(0, columnIndex, patch->width - 1)];
-}
-
-rcolumn_t *R_GetPatchColumn(rpatch_t *patch, int columnIndex)
-{
-    if (patch->flags & PATCH_ISNOTTILEABLE)
-        return R_GetPatchColumnClamped(patch, columnIndex);
-    else
-        return R_GetPatchColumnWrapped(patch, columnIndex);
 }

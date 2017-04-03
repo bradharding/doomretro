@@ -86,7 +86,6 @@ static dboolean         pausesprites;
 static dboolean         drawshadows;
 
 dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
-
 dboolean                r_playersprites = r_playersprites_default;
 
 extern fixed_t          animatedliquiddiff;
@@ -452,11 +451,12 @@ int             fuzzpos;
 
 static int64_t  shift;
 
-static void R_BlastSpriteColumn(rcolumn_t *column)
+static void R_BlastSpriteColumn(const rcolumn_t *column)
 {
-    int         i;
-    const int   ceilingclip = mceilingclip[dc_x] + 1;
-    const int   floorclip = mfloorclip[dc_x] - 1;
+    int                 i;
+    const int           ceilingclip = mceilingclip[dc_x] + 1;
+    const int           floorclip = mfloorclip[dc_x] - 1;
+    unsigned char       *pixels = column->pixels;
 
     for (i = 0; i < column->numPosts; i++)
     {
@@ -477,13 +477,13 @@ static void R_BlastSpriteColumn(rcolumn_t *column)
             dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
                 + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
 
-            dc_source = column->pixels + topdelta;
+            dc_source = pixels + topdelta;
             colfunc();
         }
     }
 }
 
-static void R_BlastBloodSplatColumn(rcolumn_t *column)
+static void R_BlastBloodSplatColumn(const rcolumn_t *column)
 {
     int         i;
     const int   ceilingclip = mceilingclip[dc_x] + 1;
@@ -492,10 +492,9 @@ static void R_BlastBloodSplatColumn(rcolumn_t *column)
     for (i = 0; i < column->numPosts; i++)
     {
         const rpost_t   *post = &column->posts[i];
-        int             topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
         dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), ceilingclip);
         dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip);
@@ -505,7 +504,7 @@ static void R_BlastBloodSplatColumn(rcolumn_t *column)
     }
 }
 
-static void R_BlastShadowColumn(rcolumn_t *column)
+static void R_BlastShadowColumn(const rcolumn_t *column)
 {
     int         i;
     const int   ceilingclip = mceilingclip[dc_x] + 1;
@@ -514,10 +513,9 @@ static void R_BlastShadowColumn(rcolumn_t *column)
     for (i = 0; i < column->numPosts; i++)
     {
         const rpost_t   *post = &column->posts[i];
-        int             topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
+        const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
         dc_yl = MAX((int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift), ceilingclip);
         dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shift), floorclip);
@@ -537,7 +535,8 @@ void R_DrawVisSprite(vissprite_t *vis)
     const fixed_t       startfrac = vis->startfrac;
     const fixed_t       xiscale = vis->xiscale;
     const fixed_t       x2 = vis->x2;
-    const rpatch_t      *patch = R_CachePatchNum(vis->patch + firstspritelump);
+    int                 id = vis->patch + firstspritelump;
+    const rpatch_t      *patch = R_CachePatchNum(id);
     const mobj_t        *mobj = vis->mobj;
 
     spryscale = vis->scale;
@@ -597,7 +596,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
         R_BlastSpriteColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
 
-    R_UnlockPatchNum(vis->patch + firstspritelump);
+    R_UnlockPatchNum(id);
 }
 
 //
@@ -608,7 +607,8 @@ void R_DrawPVisSprite(vissprite_t *vis)
     fixed_t             frac = vis->startfrac;
     const fixed_t       xiscale = vis->xiscale;
     const fixed_t       x2 = vis->x2;
-    const rpatch_t      *patch = R_CachePatchNum(vis->patch + firstspritelump);
+    int                 id = vis->patch + firstspritelump;
+    const rpatch_t      *patch = R_CachePatchNum(id);
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
@@ -625,7 +625,7 @@ void R_DrawPVisSprite(vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         R_BlastSpriteColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
 
-    R_UnlockPatchNum(vis->patch + firstspritelump);
+    R_UnlockPatchNum(id);
 }
 
 void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
@@ -633,7 +633,8 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
     fixed_t             frac = vis->startfrac;
     const fixed_t       xiscale = vis->xiscale;
     const fixed_t       x2 = vis->x2;
-    const rpatch_t      *patch = R_CachePatchNum(vis->patch + firstspritelump);
+    int                 id = vis->patch + firstspritelump;
+    const rpatch_t      *patch = R_CachePatchNum(id);
 
     colfunc = vis->colfunc;
 
@@ -648,7 +649,7 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         R_BlastBloodSplatColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
 
-    R_UnlockPatchNum(vis->patch + firstspritelump);
+    R_UnlockPatchNum(id);
 }
 
 //

@@ -391,11 +391,11 @@ void R_DrawPlanes(void)
                 // sky flat
                 if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 {
-                    int         x;
-                    int         texture;
-                    int         offset;
-                    angle_t     flip;
-                    rpatch_t    *tex_patch;
+                    int                 x;
+                    int                 texture;
+                    int                 offset;
+                    angle_t             flip;
+                    const rpatch_t      *tex_patch;
 
                     // killough 10/98: allow skies to come from sidedefs.
                     // Allows scrolling and/or animated skies, as well as

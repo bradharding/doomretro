@@ -81,16 +81,14 @@ typedef struct
     unsigned int        flags;
 } rpatch_t;
 
-rpatch_t *R_CachePatchNum(int id);
+const rpatch_t *R_CachePatchNum(int id);
 void R_UnlockPatchNum(int id);
 
-rpatch_t *R_CacheTextureCompositePatchNum(int id);
+const rpatch_t *R_CacheTextureCompositePatchNum(int id);
 void R_UnlockTextureCompositePatchNum(int id);
 
-rcolumn_t *R_GetPatchColumnWrapped(rpatch_t *patch, int columnIndex);
-rcolumn_t *R_GetPatchColumnClamped(rpatch_t *patch, int columnIndex);
-
-rcolumn_t *R_GetPatchColumn(rpatch_t *patch, int columnIndex);
+const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnIndex);
+const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnIndex);
 
 void R_InitPatches(void);
 

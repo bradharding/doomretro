@@ -238,11 +238,11 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
 //
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 {
-    int         lightnum;
-    int         texnum;
-    fixed_t     texheight;
-    rpatch_t    *patch;
-    sector_t    tempsec;        // killough 4/13/98
+    int                 lightnum;
+    int                 texnum;
+    fixed_t             texheight;
+    const rpatch_t      *patch;
+    sector_t            tempsec;        // killough 4/13/98
 
     // Calculate light table.
     // Use different light tables for horizontal / vertical.

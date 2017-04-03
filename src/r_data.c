@@ -224,13 +224,12 @@ extern char     *pwadfile;
 //
 // R_GetTextureColumn
 //
-byte *R_GetTextureColumn(rpatch_t *texpatch, int col)
+byte *R_GetTextureColumn(const rpatch_t *texpatch, int col)
 {
     while (col < 0)
         col += texpatch->width;
-    col &= texpatch->widthmask;
 
-    return texpatch->columns[col].pixels;
+    return texpatch->columns[col & texpatch->widthmask].pixels;
 }
 
 //
