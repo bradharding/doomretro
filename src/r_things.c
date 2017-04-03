@@ -290,8 +290,7 @@ static void R_InitSpriteDefs(void)
                     }
 
                 // allocate space for the frames present and copy sprtemp to it
-                sprites[i].spriteframes = Z_Malloc(maxframe * sizeof(spriteframe_t), PU_STATIC,
-                    NULL);
+                sprites[i].spriteframes = Z_Malloc(maxframe * sizeof(spriteframe_t), PU_STATIC, NULL);
                 memcpy(sprites[i].spriteframes, sprtemp, maxframe * sizeof(spriteframe_t));
             }
         }
@@ -467,7 +466,7 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), ceilingclip);
+        dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS));
         dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip);
 
         if (dc_baseclip != -1)
@@ -478,6 +477,33 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
             dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
                 + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
 
+            dc_source = pixels + topdelta;
+            colfunc();
+        }
+    }
+}
+
+static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
+{
+    int                 i;
+    const int           numposts = column->numPosts;
+    unsigned char       *pixels = column->pixels;
+
+    for (i = 0; i < numposts; i++)
+    {
+        const rpost_t   *post = &column->posts[i];
+        const int       topdelta = post->topdelta;
+
+        // calculate unclipped screen coordinates for post
+        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
+
+        dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS));
+        dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), viewheight);
+
+        if (dc_yl <= dc_yh)
+        {
+            dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+                + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
             dc_source = pixels + topdelta;
             colfunc();
         }
@@ -498,7 +524,7 @@ static void R_BlastBloodSplatColumn(const rcolumn_t *column)
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
-        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), ceilingclip);
+        dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS));
         dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip);
 
         if (dc_yl <= dc_yh)
@@ -520,7 +546,7 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
-        dc_yl = MAX((int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift), ceilingclip);
+        dc_yl = MAX(ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift));
         dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shift), floorclip);
 
         if (dc_yl <= dc_yh)
@@ -530,7 +556,6 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
 
 //
 // R_DrawVisSprite
-//  mfloorclip and mceilingclip should also be set.
 //
 void R_DrawVisSprite(vissprite_t *vis)
 {
@@ -603,9 +628,9 @@ void R_DrawVisSprite(vissprite_t *vis)
 }
 
 //
-// R_DrawPVisSprite
+// R_DrawPlayerVisSprite
 //
-void R_DrawPVisSprite(vissprite_t *vis)
+void R_DrawPlayerVisSprite(vissprite_t *vis)
 {
     fixed_t             frac = vis->startfrac;
     const fixed_t       xiscale = vis->xiscale;
@@ -622,11 +647,10 @@ void R_DrawPVisSprite(vissprite_t *vis)
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-    dc_baseclip = -1;
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_BlastSpriteColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
+        R_BlastPlayerSpriteColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
 
     R_UnlockPatchNum(id);
 }
@@ -998,11 +1022,11 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 }
 
 //
-// R_DrawPSprite
+// R_DrawPlayerSprite
 //
 static dboolean muzzleflash;
 
-static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
+static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
 {
     fixed_t             tx;
     int                 x1, x2;
@@ -1145,7 +1169,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
         }
     }
 
-    R_DrawPVisSprite(vis);
+    R_DrawPlayerVisSprite(vis);
 }
 
 //
@@ -1156,10 +1180,6 @@ void R_DrawPlayerSprites(void)
     int         invisibility = viewplayer->powers[pw_invisibility];
     pspdef_t    *psp;
 
-    // clip to screen bounds
-    mfloorclip = screenheightarray;
-    mceilingclip = negonearray;
-
     // add all active psprites
     if ((invisibility > 128 || (invisibility & 8)) && r_textures)
     {
@@ -1167,9 +1187,9 @@ void R_DrawPlayerSprites(void)
 
         psp = viewplayer->psprites;
         if (psp->state)
-            R_DrawPSprite(psp, true);
+            R_DrawPlayerSprite(psp, true);
         if ((++psp)->state)
-            R_DrawPSprite(psp, true);
+            R_DrawPlayerSprite(psp, true);
 
         if (pausesprites)
             R_DrawPausedFuzzColumns();
@@ -1187,9 +1207,9 @@ void R_DrawPlayerSprites(void)
 
         psp = viewplayer->psprites;
         if (psp->state)
-            R_DrawPSprite(psp, false);
+            R_DrawPlayerSprite(psp, false);
         if ((++psp)->state)
-            R_DrawPSprite(psp, false);
+            R_DrawPlayerSprite(psp, false);
     }
 }
 
