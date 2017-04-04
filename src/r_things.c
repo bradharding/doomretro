@@ -455,7 +455,7 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
     int                 i;
     const int           numposts = column->numPosts;
     const int           ceilingclip = mceilingclip[dc_x] + 1;
-    const int           floorclip = mfloorclip[dc_x] - 1;
+    const int           floorclip = MIN(dc_baseclip, mfloorclip[dc_x] - 1);
     unsigned char       *pixels = column->pixels;
 
     for (i = 0; i < numposts; i++)
@@ -469,14 +469,10 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
         dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS));
         dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip);
 
-        if (dc_baseclip != -1)
-            dc_yh = MIN(dc_baseclip, dc_yh);
-
         if (dc_yl <= dc_yh)
         {
             dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
                 + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-
             dc_source = pixels + topdelta;
             colfunc();
         }
@@ -617,7 +613,7 @@ void R_DrawVisSprite(vissprite_t *vis)
         dc_baseclip = ((int)sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale)
             - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
     else
-        dc_baseclip = -1;
+        dc_baseclip = viewheight;
 
     fuzzpos = 0;
 

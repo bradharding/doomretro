@@ -104,51 +104,6 @@ void R_InitPatches(void)
     SKY1 = R_CheckTextureNumForName("SKY1");
 }
 
-static dboolean getPatchIsNotTileable(const patch_t *patch)
-{
-    int                 x = 0;
-    int                 numPosts;
-    int                 lastColumnDelta = 0;
-    const column_t      *column;
-    int                 cornerCount = 0;
-    dboolean            hasAHole = false;
-
-    for (x = 0; x < SHORT(patch->width); x++)
-    {
-        column = (const column_t *)((const byte *)patch + LONG(patch->columnofs[x]));
-
-        if (!x)
-            lastColumnDelta = column->topdelta;
-        else if (lastColumnDelta != column->topdelta)
-            hasAHole = true;
-
-        numPosts = 0;
-        while (column->topdelta != 0xFF)
-        {
-            // check to see if a corner pixel filled
-            if (!x && !column->topdelta)
-                cornerCount++;
-            else if (!x && column->topdelta + column->length >= SHORT(patch->height))
-                cornerCount++;
-            else if (x == SHORT(patch->width) - 1 && !column->topdelta)
-                cornerCount++;
-            else if (x == SHORT(patch->width) - 1
-                && column->topdelta + column->length >= SHORT(patch->height))
-                cornerCount++;
-
-            if (numPosts++)
-                hasAHole = true;
-
-            column = (const column_t *)((const byte *)column + column->length + 4);
-        }
-    }
-
-    if (cornerCount == 4)
-        return false;
-
-    return hasAHole;
-}
-
 static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 {
     if (!column)
@@ -167,7 +122,7 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
     return false;
 }
 
-// Checks if the lump can be a Doom patch
+// Checks if the lump can be a DOOM patch
 static dboolean CheckIfPatch(int lump)
 {
     int                 size = W_LumpLength(lump);
@@ -176,7 +131,7 @@ static dboolean CheckIfPatch(int lump)
     const patch_t       *patch;
     dboolean            result;
 
-    // minimum length of a valid Doom patch
+    // minimum length of a valid DOOM patch
     if (size < 13)
         return false;
 
@@ -217,7 +172,7 @@ static void createPatch(int id)
     rpatch_t            *patch;
     const int           patchNum = id;
     const patch_t       *oldPatch;
-    const column_t      *oldColumn, *oldPrevColumn, *oldNextColumn;
+    const column_t      *oldColumn;
     int                 x, y;
     int                 pixelDataSize;
     int                 columnsDataSize;
@@ -240,9 +195,6 @@ static void createPatch(int id)
     patch->height = SHORT(oldPatch->height);
     patch->leftoffset = SHORT(oldPatch->leftoffset);
     patch->topoffset = SHORT(oldPatch->topoffset);
-    patch->flags = 0;
-    if (getPatchIsNotTileable(oldPatch))
-        patch->flags |= PATCH_ISNOTTILEABLE;
 
     // work out how much memory we need to allocate for this patch's data
     pixelDataSize = (patch->width * patch->height + 4) & ~3;
@@ -289,36 +241,6 @@ static void createPatch(int id)
         int     top = -1;
 
         oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
-
-        if (patch->flags & PATCH_ISNOTTILEABLE)
-        {
-            // non-tiling
-            if (!x)
-                oldPrevColumn = 0;
-            else
-                oldPrevColumn = (const column_t *)((const byte *)oldPatch
-                    + LONG(oldPatch->columnofs[x - 1]));
-            if (x == patch->width - 1)
-                oldNextColumn = 0;
-            else
-                oldNextColumn = (const column_t *)((const byte *)oldPatch
-                    + LONG(oldPatch->columnofs[x + 1]));
-        }
-        else
-        {
-            // tiling
-            int prevColumnIndex = x - 1;
-            int nextColumnIndex = x + 1;
-
-            while (prevColumnIndex < 0)
-                prevColumnIndex += patch->width;
-            while (nextColumnIndex >= patch->width)
-                nextColumnIndex -= patch->width;
-            oldPrevColumn = (const column_t *)((const byte *)oldPatch
-                + LONG(oldPatch->columnofs[prevColumnIndex]));
-            oldNextColumn = (const column_t *)((const byte *)oldPatch
-                + LONG(oldPatch->columnofs[nextColumnIndex]));
-        }
 
         // setup the column's data
         patch->columns[x].pixels = patch->pixels + x * patch->height;
@@ -368,9 +290,6 @@ static void createPatch(int id)
 
             if (column->pixels[0] == 0xFF)
             {
-                // e6y: marking of all patches with holes
-                patch->flags |= PATCH_HASHOLES;
-
                 // force the first pixel (which is a hole), to use
                 // the color from the next solid spot in the column
                 for (y = 0; y < patch->height; y++)
@@ -391,10 +310,6 @@ static void createPatch(int id)
                     continue;
 
                 // this pixel is a hole
-
-                // e6y: marking of all patches with holes
-                patch->flags |= PATCH_HASHOLES;
-
                 if (x && prevColumn->pixels[y - 1] != 0xFF)
                     column->pixels[y] = prevColumn->pixels[y];  // copy the color from the left
                 else
@@ -471,7 +386,6 @@ static void createTextureCompositePatch(int id)
     composite_patch->widthmask = texture->widthmask;
     composite_patch->leftoffset = 0;
     composite_patch->topoffset = 0;
-    composite_patch->flags = 0;
 
     // work out how much memory we need to allocate for this patch's data
     pixelDataSize = (composite_patch->width * composite_patch->height + 4) & ~3;
