@@ -628,7 +628,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 //
 void R_DrawPlayerVisSprite(vissprite_t *vis)
 {
-    fixed_t             frac = 0;
+    fixed_t             frac = vis->startfrac;
     const fixed_t       x2 = vis->x2;
     const int           id = vis->patch + firstspritelump;
     const rpatch_t      *patch = R_CachePatchNum(id);
@@ -1042,6 +1042,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
+    vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
+
     vis->patch = lump;
 
     if (invisibility)
