@@ -834,8 +834,13 @@ consolecmd_t consolecmds[] =
         "The amount of motion blur when the player turns quickly."),
     CVAR_BOOL(vid_pillarboxes, "", bool_cvars_func1, vid_fullscreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles using the pillarboxes either side of the screen\nfor palette effects."),
+#if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b>\nor <b>\"software\"</b>)."),
+#else
+    CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
+        "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b>,\n<b>\"opengles\"</b>, <b>\"opengles2\"</b> or <b>\"software\"</b>)."),
+#endif
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale the display (<b>\"nearest\"</b>, <b>\"linear\"</b>\nor <b>\"nearest_linear\"</b>)."),
     CVAR_SIZE(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
