@@ -1175,7 +1175,6 @@ void P_UnArchiveThinkers(void)
                         R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
                 else
                     mobj->shadowcolfunc = R_DrawColorColumn;
-                mobj->projectfunc = R_ProjectSprite;
 
                 P_AddThinker(&mobj->thinker);
                 break;

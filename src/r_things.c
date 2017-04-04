@@ -583,9 +583,9 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     colfunc = vis->colfunc;
-
     dc_iscale = ABS(xiscale);
     dc_texturemid = vis->texturemid;
+
     if (mobj->flags & MF_TRANSLATION)
     {
         colfunc = transcolfunc;
@@ -655,13 +655,10 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
     const rpatch_t      *patch = R_CachePatchNum(id);
 
     colfunc = vis->colfunc;
-
     dc_colormap = vis->colormap;
     dc_blood = tinttab75 + (dc_colormap[vis->blood] << 8);
-
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
-
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
@@ -1009,7 +1006,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
     // Handle all things in sector.
     for (thing = sec->thinglist; thing; thing = thing->snext)
-        thing->projectfunc(thing);
+        R_ProjectSprite(thing);
 }
 
 //

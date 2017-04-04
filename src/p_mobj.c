@@ -743,7 +743,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
             R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
     else
         mobj->shadowcolfunc = R_DrawColorColumn;
-    mobj->projectfunc = R_ProjectSprite;
     mobj->blood = info->blood;
 
     // [BH] set random pitch for monster sounds when spawned
@@ -1224,7 +1223,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->frame = st->frame;
 
         th->colfunc = info->colfunc;
-        th->projectfunc = R_ProjectSprite;
         th->blood = info->blood;
 
         P_SetThingPosition(th);
