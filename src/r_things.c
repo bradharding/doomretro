@@ -882,6 +882,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     if (vis->x1 > x1)
         vis->startfrac += vis->xiscale * (vis->x1 - x1);
+
     vis->patch = lump;
 
     // get light level
@@ -890,7 +891,7 @@ void R_ProjectSprite(mobj_t *thing)
     else if ((frame & FF_FULLBRIGHT) && (rot <= 4 || rot >= 12 || thing->info->fullbright))
         vis->colormap = fullcolormap;           // full bright
     else                                        // diminished light
-        vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
 static void R_ProjectBloodSplat(bloodsplat_t *splat)
@@ -979,7 +980,7 @@ static void R_ProjectBloodSplat(bloodsplat_t *splat)
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
     else                                        // diminished light
-        vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
 //
@@ -991,8 +992,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t      *thing;
 
-    spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
-        LIGHTLEVELS - 1)];
+    spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
 
     if (drawbloodsplats && sec->interpfloorheight <= viewz)
     {
@@ -1043,7 +1043,6 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
-
     vis->patch = lump;
 
     if (invisibility)
@@ -1053,8 +1052,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
     }
     else
     {
-        if (spr == SPR_SHT2 && (!frame || (frame & FF_FULLBRIGHT)) && !SHT2A0
-            && nearestcolors[71] == 71)
+        if (spr == SPR_SHT2 && (!frame || (frame & FF_FULLBRIGHT)) && !SHT2A0 && nearestcolors[71] == 71)
             vis->colfunc = supershotguncolfunc;
         else if (r_translucency && !notranslucency)
         {
@@ -1103,8 +1101,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
                              sectors[sec->floorlightsec].lightlevel);
                 int      lightnum = (lightlevel >> OLDLIGHTSEGSHIFT) + extralight * OLDLIGHTBRIGHT;
 
-                vis->colormap = psprscalelight[BETWEEN(0, lightnum, OLDLIGHTLEVELS - 1)]
-                    [BETWEEN(0, lightnum + 16, OLDMAXLIGHTSCALE - 1)];
+                vis->colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)]
+                    [MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];
             }
         }
     }

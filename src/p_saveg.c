@@ -1113,7 +1113,7 @@ void P_UnArchiveThinkers(void)
 {
     thinker_t   *currentthinker = thinkercap.next;
     thinker_t   *next;
-    int i;
+    int         i;
 
     // remove all the current thinkers
     while (currentthinker != &thinkercap)
