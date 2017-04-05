@@ -260,6 +260,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->oldy = saveg_read32();
     str->oldz = saveg_read32();
     str->oldangle = saveg_read32();
+    str->nudge = 0;
     str->pitch = saveg_read32();
     str->id = saveg_read32();
 }
