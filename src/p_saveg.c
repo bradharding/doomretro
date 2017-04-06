@@ -1161,7 +1161,7 @@ void P_UnArchiveThinkers(void)
 
             case tc_mobj:
             {
-                mobj_t  *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+                mobj_t  *mobj = Z_Calloc(1, sizeof(*mobj), PU_LEVEL, NULL);
 
                 saveg_read_pad();
                 saveg_read_mobj_t(mobj);
@@ -1183,7 +1183,7 @@ void P_UnArchiveThinkers(void)
 
             case tc_bloodsplat:
             {
-                bloodsplat_t    *splat = malloc(sizeof(*splat));
+                bloodsplat_t    *splat = calloc(1, sizeof(*splat));
 
                 saveg_read_pad();
                 saveg_read_bloodsplat_t(splat);
