@@ -65,15 +65,15 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
         for (thinker = thinkerclasscap[th_mobj].cnext; thinker != &thinkerclasscap[th_mobj];
             thinker = thinker->cnext)
         {
-            mobj_t  *m;
+            mobj_t      *m;
 
             if ((m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
                 && m->subsector->sector - sectors == i)
             {
-                fixed_t     oldx = thing->x;
-                fixed_t     oldy = thing->y;
-                fixed_t     oldz = thing->z;
-                player_t    *player = thing->player;
+                fixed_t         oldx = thing->x;
+                fixed_t         oldy = thing->y;
+                fixed_t         oldz = thing->z;
+                player_t        *player = thing->player;
 
                 // killough 5/12/98: exclude voodoo dolls:
                 if (player && player->mo != thing)
@@ -81,9 +81,9 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                 if (P_TeleportMove(thing, m->x, m->y, m->z, false))     // killough 8/9/98
                 {
-                    mobj_t  *fog;
-                    fixed_t newx = m->x;
-                    fixed_t newy = m->y;
+                    mobj_t      *fog;
+                    fixed_t     newx = m->x;
+                    fixed_t     newy = m->y;
 
                     // spawn teleport fog at source
                     fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
@@ -121,12 +121,15 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                         player->psprites[ps_weapon].sx = 0;
                         player->psprites[ps_weapon].sy = WEAPONTOP;
 
-                        player->momx = player->momy = 0;
+                        player->momx = 0;
+                        player->momy = 0;
                     }
 
                     thing->angle = m->angle;
 
-                    thing->momx = thing->momy = thing->momz = 0;
+                    thing->momx = 0;
+                    thing->momy = 0;
+                    thing->momz = 0;
 
                     return true;
                 }

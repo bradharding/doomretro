@@ -5,15 +5,15 @@
 * The map title in the automap is now positioned correctly when the `r_messagescale` CVAR is `small`.
 * Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
 * Entering the `idmypos` cheat will no longer cause a crash.
-* Pressing the <kbd>DEL</kbd> key when in the save and load game menus will now delete the currently selected savegame.
+* Pressing the <kbd>DEL</kbd> key when in the save or load game menus will now delete the currently selected savegame.
 * Minor changes have been made to text that is output to the console.
 * The inverted gray color palette is now applied to the sky when the player has the invulnerability power-up, as originally intended.
-* A bug has been fixed whereby blood splats would no longer be spawned after loading a savegame in some instances. In order to fix this bug, savegames created with previous versions of *DOOM Retro* are not compatible with this version.
+* A bug has been fixed whereby blood splats would no longer be spawned after loading a savegame in some instances. Please note that because of this, savegames created with previous versions of *DOOM Retro* are not compatible with this version.
 * Another 29 map-specific fixes, enabled using the `r_fixmaperrors` CVAR, have been applied to maps in the `doom.wad`, `doom2.wad` and `plutonia.wad` IWADs.
 * The text caret shown when entering a savegame description in the save game menu is now always a vertical line using the dominant color of the character set. (Previously, the `STCFN121` lump was used. In the *DOOM* and *DOOM II* IWADs this lump is a vertical pipe character, but in some PWADs it is replaced with a “Y” character.)
 * The sound of the chainsaw will no longer cut off sounds made by the player.
 * A bug has been fixed whereby translucent sprites would become less bright when the player had the light amplification visor power-up.
-* A bug present in *Vanilla DOOM* has been fixed whereby homing rockets fired by revenants would become non-homing, and vice versa, when loading a savegame or even when momentarily pausing a game.
+* A bug present in *Vanilla DOOM* has been fixed whereby homing rockets fired by revenants would randomly become non-homing, and vice versa, when loading a savegame or even when pausing and then unpausing a game.
 
 
 ---

@@ -610,8 +610,8 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     if (vis->footclip)
-        dc_baseclip = ((int)sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale)
-            - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
+        dc_baseclip = (int)((sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale)
+            - FixedMul(vis->footclip, spryscale)) >> FRACBITS);
     else
         dc_baseclip = viewheight;
 
@@ -1059,7 +1059,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
             if (spr == SPR_SHT2)
                 vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) ?
                     tlredwhitecolfunc1 : basecolfunc);
-            else
+            else if (muzzleflash && spr <= SPR_BFGF && (!dehacked || state->translucent))
             {
                 void (*colfuncs[])(void) =
                 {
@@ -1081,9 +1081,10 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
                     /* SPR_BFGF */ tlcolfunc,          tl50colfunc
                 };
 
-                vis->colfunc = (muzzleflash && spr <= SPR_BFGF && (!dehacked || state->translucent) ?
-                    colfuncs[spr * 2 + (viewplayer->fixedcolormap == INVERSECOLORMAP)] : basecolfunc);
+                vis->colfunc = colfuncs[spr * 2 + (viewplayer->fixedcolormap == INVERSECOLORMAP)];
             }
+            else
+                vis->colfunc = basecolfunc;
         }
         else
             vis->colfunc = basecolfunc;
