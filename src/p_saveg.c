@@ -873,7 +873,6 @@ void P_WriteSaveGameHeader(char *description)
     saveg_write8(gameskill);
     saveg_write8(gameepisode);
     saveg_write8(gamemap);
-    saveg_write8(gamemission);
     saveg_write8((leveltime >> 16) & 0xFF);
     saveg_write8((leveltime >> 8) & 0xFF);
     saveg_write8(leveltime & 0xFF);
@@ -909,7 +908,6 @@ dboolean P_ReadSaveGameHeader(char *description)
     gameskill = (skill_t)saveg_read8();
     gameepisode = saveg_read8();
     gamemap = saveg_read8();
-    saveg_read8();
 
     // get the times
     a = saveg_read8();
