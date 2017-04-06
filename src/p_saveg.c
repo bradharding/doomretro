@@ -260,7 +260,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->oldy = saveg_read32();
     str->oldz = saveg_read32();
     str->oldangle = saveg_read32();
-    str->nudge = 0;
+    str->nudge = saveg_read32();
     str->pitch = saveg_read32();
     str->id = saveg_read32();
 }
@@ -312,6 +312,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->oldy);
     saveg_write32(str->oldz);
     saveg_write32(str->oldangle);
+    saveg_write32(str->nudge);
     saveg_write32(str->pitch);
     saveg_write32(str->id);
 }
