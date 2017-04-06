@@ -14,6 +14,7 @@
 * The sound of the chainsaw will no longer cut off sounds made by the player.
 * A bug has been fixed whereby translucent sprites would become less bright when the player had the light amplification visor power-up.
 * A bug present in *Vanilla DOOM* has been fixed whereby homing rockets fired by revenants would randomly become non-homing, and vice versa, when loading a savegame or even when pausing and then unpausing a game.
+* The amount of shots hit, and therefore also the weapon accuracy, in the `playerstats` CCMD is now calculated correctly.
 
 
 ---

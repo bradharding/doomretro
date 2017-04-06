@@ -773,7 +773,7 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_GunShot(actor, !player->refire);
 
-    if (successfulshot && psp->state == &states[S_CHAIN1])
+    if (successfulshot)
     {
         successfulshot = false;
         player->shotshit++;
