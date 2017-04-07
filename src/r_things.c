@@ -309,6 +309,7 @@ static vissprite_t              **vissprite_ptrs;
 static unsigned int             num_vissprite;
 static unsigned int             num_bloodsplatvissprite;
 static unsigned int             num_vissprite_alloc;
+static unsigned int             num_vissprite_ptrs;
 
 static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
 
@@ -324,11 +325,6 @@ void R_InitSprites(void)
         negonearray[i] = -1;
 
     R_InitSpriteDefs();
-
-    num_vissprite = 0;
-    num_vissprite_alloc = 256;
-    vissprites = malloc(num_vissprite_alloc * sizeof(vissprite_t));
-    vissprite_ptrs = malloc(num_vissprite_alloc * sizeof(vissprite_t *));
 }
 
 //
@@ -337,13 +333,6 @@ void R_InitSprites(void)
 //
 void R_ClearSprites(void)
 {
-    if (num_vissprite >= num_vissprite_alloc)
-    {
-        num_vissprite_alloc += 256;
-        vissprites = Z_Realloc(vissprites, num_vissprite_alloc * sizeof(vissprite_t));
-        vissprite_ptrs = Z_Realloc(vissprite_ptrs, num_vissprite_alloc * sizeof(vissprite_t *));
-    }
-
     num_vissprite = 0;
     num_bloodsplatvissprite = 0;
 }
@@ -351,91 +340,17 @@ void R_ClearSprites(void)
 //
 // R_NewVisSprite
 //
-static vissprite_t *R_NewVisSprite(fixed_t scale)
+static vissprite_t *R_NewVisSprite(void)
 {
-    unsigned int        pos;
-    unsigned int        pos2;
-    unsigned int        step;
-    unsigned int        count;
-    vissprite_t         *rc;
-    vissprite_t         *vis;
-
-    switch (num_vissprite)
-    {
-        case 0:
-            rc = &vissprites[0];
-            vissprite_ptrs[0] = rc;
-            num_vissprite = 1;
-            return rc;
-
-        case 1:
-            vis = &vissprites[0];
-            rc = &vissprites[1];
-            if (scale > vis->scale)
-            {
-                vissprite_ptrs[0] = rc;
-                vissprite_ptrs[1] = vis;
-            }
-            else
-                vissprite_ptrs[1] = rc;
-            num_vissprite = 2;
-            return rc;
-    }
-
-    pos = (num_vissprite + 1) >> 1;
-    step = (pos + 1) >> 1;
-    count = (pos << 1);
-    do
-    {
-        fixed_t d1;
-        fixed_t d2;
-
-        vis = vissprite_ptrs[pos];
-        d1 = INT_MAX;
-        d2 = vis->scale;
-
-        if (scale >= d2)
-        {
-            if (!pos)
-                break;
-
-            vis = vissprite_ptrs[pos - 1];
-            d1 = vis->scale;
-
-            if (scale <= d1)
-                break;
-        }
-
-        pos = (scale > d1 ? MAX(0, pos - step) : MIN(pos + step, num_vissprite - 1));
-        step = (step + 1) >> 1;
-        count >>= 1;
-
-        if (!count)
-        {
-            pos = num_vissprite;
-            break;
-        }
-    } while (1);
-
     if (num_vissprite >= num_vissprite_alloc)
     {
-        if (pos >= num_vissprite)
-            return NULL;
+        size_t  num_vissprite_alloc_prev = num_vissprite_alloc;
 
-        rc = vissprite_ptrs[num_vissprite - 1];
+        num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : 128);
+        vissprites = Z_Realloc(vissprites,num_vissprite_alloc * sizeof(*vissprites));
     }
-    else
-        rc = &vissprites[num_vissprite++];
 
-    pos2 = num_vissprite - 1;
-    do
-    {
-        vissprite_ptrs[pos2] = vissprite_ptrs[pos2 - 1];
-    } while (--pos2 > pos);
-
-    vissprite_ptrs[pos] = rc;
-
-    return rc;
+    return (vissprites + num_vissprite++);
 }
 
 //
@@ -793,7 +708,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (x1 > viewwidth)
         return;
 
-    x2 = ((centerxfrac + FixedMul(tx + width, xscale) - FRACUNIT / 2) >> FRACBITS) - 1;
+    x2 = ((centerxfrac + FixedMul(tx + width, xscale) - FRACUNIT / 2) >> FRACBITS);
 
     // off the left side
     if (x2 < 0)
@@ -827,8 +742,7 @@ void R_ProjectSprite(mobj_t *thing)
     }
 
     // store information in a vissprite
-    if (!(vis = R_NewVisSprite(xscale)))
-        return;
+    vis = R_NewVisSprite();
 
     // killough 3/27/98: save sector for special clipping later
     vis->heightsec = heightsec;
@@ -1264,6 +1178,67 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
     R_DrawBloodSplatVisSprite(spr);
 }
 
+static void msort(vissprite_t **s, vissprite_t **t, int n)
+{
+    if (n >= 16)
+    {
+        int             n1 = n / 2;
+        int             n2 = n - n1;
+        vissprite_t     **s1 = s;
+        vissprite_t     **s2 = s + n1;
+        vissprite_t     **d = t;
+
+        msort(s1, t, n1);
+        msort(s2, t, n2);
+
+        while ((*s1)->scale > (*s2)->scale ? (*d++ = *s1++, --n1) : (*d++ = *s2++, --n2));
+
+        if (n2)
+            memcpy(d, s2, n2 * sizeof(void *));
+        else
+            memcpy(d, s1, n1 * sizeof(void *));
+
+        memcpy(s, t, n * sizeof(void *));
+    }
+    else
+    {
+        int     i;
+
+        for (i = 1; i < n; i++)
+        {
+            vissprite_t *temp = s[i];
+
+            if (s[i - 1]->scale < temp->scale)
+            {
+                int     j = i;
+
+                while ((s[j] = s[j - 1])->scale < temp->scale && --j);
+                s[j] = temp;
+            }
+        }
+    }
+}
+
+void R_SortVisSprites (void)
+{
+    if (num_vissprite)
+    {
+        int     i = num_vissprite;
+
+        if (num_vissprite_ptrs < num_vissprite * 2)
+        {
+            free(vissprite_ptrs);
+            num_vissprite_ptrs = num_vissprite_alloc * 2;
+            vissprite_ptrs = malloc(num_vissprite_ptrs * sizeof(*vissprite_ptrs));
+        }
+
+        while (--i >= 0)
+            vissprite_ptrs[i] = vissprites + i;
+
+        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
+    }
+}
+
 static void R_DrawSprite(vissprite_t *spr)
 {
     drawseg_t   *ds;
@@ -1391,6 +1366,8 @@ void R_DrawMasked(void)
     i = num_bloodsplatvissprite;
     while (i > 0)
         R_DrawBloodSplatSprite(&bloodsplatvissprites[--i]);
+
+    R_SortVisSprites();
 
     // draw all other vissprites back to front
     i = num_vissprite;
