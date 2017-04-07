@@ -77,8 +77,7 @@ extern dboolean vanilla;
 //
 // V_CopyRect
 //
-void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty,
-    int destscrn)
+void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty, int destscrn)
 {
     byte        *src = screens[srcscrn] + srcy * SCREENWIDTH + srcx;
     byte        *dest = screens[destscrn] + desty * SCREENWIDTH + destx;
@@ -110,44 +109,45 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
     byte        *dest = screens[scrn] + y * SCREENWIDTH + x;
     byte        *dot;
     int         xx, yy;
-
-    color <<= 8;
+    const byte  *tint20 = tinttab20 + (color <<= 8);
+    const byte  *tint40 = tinttab40 + color;
+    const byte  *tint60 = tinttab60 + color;
 
     dot = dest - 1 - SCREENWIDTH * 2;
-    *dot = tinttab20[*dot + color];
+    *dot = *(tint20 + *dot);
     dot += SCREENWIDTH;
     for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-        *dot = tinttab40[*dot + color];
-    *dot = tinttab20[*dot + color];
+        *dot = *(tint40 + *dot);
+    *dot = *(tint20 + *dot);
 
     dot = dest - 2 - SCREENWIDTH;
     for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-        *dot = tinttab20[*dot + color];
+        *dot = *(tint20 + *dot);
 
     for (xx = 0; xx < width; xx++)
     {
         dot = dest + xx - SCREENWIDTH * 2;
-        *dot = tinttab20[*dot + color];
+        *dot = *(tint20 + *dot);
         dot += SCREENWIDTH;
-        *dot = tinttab40[*dot + color];
+        *dot = *(tint40 + *dot);
         dot += SCREENWIDTH;
         for (yy = 0; yy < height; yy++, dot += SCREENWIDTH)
-            *dot = tinttab60[*dot + color];
-        *dot = tinttab40[*dot + color];
+            *dot = *(tint60 + *dot);
+        *dot = *(tint40 + *dot);
         dot += SCREENWIDTH;
-        *dot = tinttab20[*dot + color];
+        *dot = *(tint20 + *dot);
     }
 
     dot = dest + width - SCREENWIDTH * 2;
-    *dot = tinttab20[*dot + color];
+    *dot = *(tint20 + *dot);
     dot += SCREENWIDTH;
     for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-        *dot = tinttab40[*dot + color];
-    *dot = tinttab20[*dot + color];
+        *dot = *(tint40 + *dot);
+    *dot = *(tint20 + *dot);
 
     dot = dest + width + 1 - SCREENWIDTH;
     for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-        *dot = tinttab20[*dot + color];
+        *dot = *(tint20 + *dot);
 }
 
 //
