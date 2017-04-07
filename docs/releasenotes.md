@@ -1,5 +1,7 @@
 ### DOOM Retro v2.5
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The gray elements in the alternate widescreen HUD now appear correctly in PWADs with custom `PLAYPAL` lumps.
 ---
 
 ###### Friday, April 7, 2017
