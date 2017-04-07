@@ -1,3 +1,9 @@
+### DOOM Retro v2.5
+
+---
+
+###### Friday, April 7, 2017
+
 ### DOOM Retro v2.4.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -15,7 +21,6 @@
 * A bug has been fixed whereby translucent sprites would become less bright when the player had the light amplification visor power-up.
 * A bug present in *Vanilla DOOM* has been fixed whereby homing rockets fired by revenants would randomly become non-homing, and vice versa, when loading a savegame or when pausing then unpausing a game.
 * The “shots hit” and “weapon accuracy” stats displayed by the `playerstats` CCMD are now calculated correctly.
-
 
 ---
 
