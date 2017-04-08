@@ -3,7 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The gray elements in the alternate widescreen HUD now appear correctly in PWADs with custom `PLAYPAL` lumps.
 * The “shots fired”, “shots hit” and “weapon accuracy” stats displayed by the `playerstats` CCMD are now calculated correctly.
-
+* A bug has been fixed whereby some teleports wouldn’t animate correctly in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
 ---
 
 ###### Friday, April 7, 2017
