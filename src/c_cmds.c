@@ -1757,17 +1757,17 @@ static void give_cmd_func2(char *cmd, char *parms)
 
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
-            P_GiveBackpack(player, false);
-            P_GiveMegaHealth(player);
+            P_GiveBackpack(player, false, false);
+            P_GiveMegaHealth(player, false);
             P_GiveAllWeapons(player);
-            P_GiveFullAmmo(player);
-            P_GiveArmor(player, blue_armor_class);
+            P_GiveFullAmmo(player, false);
+            P_GiveArmor(player, blue_armor_class, false);
             P_GiveAllCards(player);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "health"))
         {
-            P_GiveMegaHealth(player);
+            P_GiveMegaHealth(player, false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "weapons"))
@@ -1777,12 +1777,12 @@ static void give_cmd_func2(char *cmd, char *parms)
         }
         else if (M_StringCompare(parm, "ammo"))
         {
-            P_GiveFullAmmo(player);
+            P_GiveFullAmmo(player, false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
         {
-            P_GiveArmor(player, blue_armor_class);
+            P_GiveArmor(player, blue_armor_class, false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "keys"))
@@ -1830,7 +1830,7 @@ static void give_cmd_func2(char *cmd, char *parms)
 
                     thing = P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i);
 
-                    P_TouchSpecialThing(thing, player->mo, false);
+                    P_TouchSpecialThing(thing, player->mo, false, false);
                     C_HideConsole();
                     break;
                 }

@@ -470,7 +470,7 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] remember player's current health,
                     //  and only set to 100% if less than 100%
                     oldhealth = plyr->health;
-                    P_GiveBody(plyr, 100);
+                    P_GiveBody(plyr, 100, false);
 
                     C_Input(cheat_god.sequence);
 
@@ -536,9 +536,9 @@ dboolean ST_Responder(event_t *ev)
                 weaponsgiven = P_GiveAllWeapons(plyr);
 
                 // [BH] give player a backpack if they don't have one
-                P_GiveBackpack(plyr, false);
+                P_GiveBackpack(plyr, false, false);
 
-                ammogiven = P_GiveFullAmmo(plyr);
+                ammogiven = P_GiveFullAmmo(plyr, false);
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven
@@ -593,9 +593,9 @@ dboolean ST_Responder(event_t *ev)
                 weaponsgiven = P_GiveAllWeapons(plyr);
 
                 // [BH] give player a backpack if they don't have one
-                P_GiveBackpack(plyr, false);
+                P_GiveBackpack(plyr, false, false);
 
-                ammogiven = P_GiveFullAmmo(plyr);
+                ammogiven = P_GiveFullAmmo(plyr, false);
 
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given

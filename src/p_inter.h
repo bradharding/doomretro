@@ -39,15 +39,15 @@
 #if !defined(__P_INTER_H__)
 #define __P_INTER_H__
 
-dboolean P_GiveBody(player_t *player, int num);
-void P_GiveMegaHealth(player_t *player);
-dboolean P_GiveArmor(player_t *player, armortype_t armortype);
+dboolean P_GiveBody(player_t *player, int num, dboolean stat);
+void P_GiveMegaHealth(player_t *player, dboolean stat);
+dboolean P_GiveArmor(player_t *player, armortype_t armortype, dboolean stat);
 void P_GiveCard(player_t *player, card_t card);
 dboolean P_GiveAllCards(player_t *player);
 dboolean P_GivePower(player_t *player, int power);
 dboolean P_GiveAllWeapons(player_t *player);
-dboolean P_GiveBackpack(player_t *player, dboolean giveammo);
-dboolean P_GiveFullAmmo(player_t *player);
+dboolean P_GiveBackpack(player_t *player, dboolean giveammo, dboolean stat);
+dboolean P_GiveFullAmmo(player_t *player, dboolean stat);
 void P_AddBonus(player_t *player, int amount);
 void G_RemoveChoppers(void);
 void P_UpdateKillStat(mobjtype_t type, int value);

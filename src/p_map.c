@@ -546,7 +546,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
     if (flags & MF_SPECIAL)
     {
         if (tmflags & MF_PICKUP)
-            P_TouchSpecialThing(thing, tmthing, true);          // can remove thing
+            P_TouchSpecialThing(thing, tmthing, true, true);    // can remove thing
         return !(flags & MF_SOLID);
     }
 
