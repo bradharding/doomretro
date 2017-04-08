@@ -2,6 +2,8 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The gray elements in the alternate widescreen HUD now appear correctly in PWADs with custom `PLAYPAL` lumps.
+* The “shots fired”, “shots hit” and “weapon accuracy” stats displayed by the `playerstats` CCMD are now calculated correctly.
+
 ---
 
 ###### Friday, April 7, 2017
@@ -22,7 +24,6 @@
 * The sound of the chainsaw will no longer cut off sounds made by the player.
 * A bug has been fixed whereby translucent sprites would become less bright when the player had the light amplification visor power-up.
 * A bug present in *Vanilla DOOM* has been fixed whereby homing rockets fired by revenants would randomly become non-homing, and vice versa, when loading a savegame or when pausing then unpausing a game.
-* The “shots hit” and “weapon accuracy” stats displayed by the `playerstats` CCMD are now calculated correctly.
 
 ---
 

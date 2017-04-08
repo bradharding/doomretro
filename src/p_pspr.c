@@ -208,12 +208,6 @@ void P_FireWeapon(player_t *player)
     P_SetMobjState(player->mo, S_PLAY_ATK1);
     P_SetPsprite(player, ps_weapon, weaponinfo[readyweapon].atkstate);
 
-    if (weaponinfo[readyweapon].ammo != am_noammo)
-    {
-        player->shotsfired++;
-        stat_shotsfired = SafeAdd(stat_shotsfired, 1);
-    }
-
     if (gp_vibrate_weapons && vibrate)
     {
         int     motorspeed = weaponinfo[readyweapon].motorspeed * gp_vibrate_weapons / 100;
@@ -497,6 +491,9 @@ void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_SubtractAmmo(player, 1);
     P_SpawnPlayerMissile(player->mo, MT_ROCKET);
+
+    player->shotsfired++;
+    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 }
 
 //
@@ -576,6 +573,9 @@ void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate + (M_Random() & 1));
 
     P_SpawnPlayerMissile(player->mo, MT_PLASMA);
+
+    player->shotsfired++;
+    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 }
 
 //
@@ -642,6 +642,9 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_GunShot(actor, !player->refire);
 
+    player->shotsfired++;
+    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+
     if (successfulshot)
     {
         successfulshot = false;
@@ -675,6 +678,9 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     for (i = 0; i < 7; i++)
         P_GunShot(actor, false);
+
+    player->shotsfired++;
+    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 
     if (successfulshot)
     {
@@ -717,6 +723,9 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_LineAttack(actor, angle, MISSILERANGE, bulletslope + ((M_Random() - M_Random()) << 5),
             damage);
     }
+
+    player->shotsfired++;
+    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 
     if (successfulshot)
     {
@@ -772,6 +781,9 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     successfulshot = false;
 
     P_GunShot(actor, !player->refire);
+
+    player->shotsfired++;
+    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 
     if (successfulshot)
     {
@@ -832,6 +844,9 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         P_DamageMobj(linetarget, mo, mo, damage, true);
     }
+
+    player->shotsfired++;
+    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 
     if (successfulshot)
     {
