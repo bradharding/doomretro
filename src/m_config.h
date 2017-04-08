@@ -240,6 +240,8 @@ typedef enum
 #define r_bloodsplats_total_default             0
 #define r_bloodsplats_total_max                 0
 
+#define r_bloodsplats_translucency_default      true
+
 #define r_brightmaps_default                    true
 
 #define r_corpses_color_default                 true
@@ -274,6 +276,8 @@ typedef enum
 
 #define r_hud_default                           true
 
+#define r_hud_translucency_default              true
+
 #define r_liquid_bob_default                    true
 
 #define r_liquid_clipsprites_default            true
@@ -299,6 +303,8 @@ typedef enum
 #define r_screensize_max                        7
 
 #define r_shadows_default                       true
+
+#define r_shadows_translucency_default          true
 
 #define r_shake_barrels_default                 true
 

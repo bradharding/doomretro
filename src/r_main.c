@@ -110,8 +110,10 @@ int                     extralight;
 
 dboolean                drawbloodsplats;
 
+dboolean                r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 dboolean                r_dither = r_dither_default;
 dboolean                r_homindicator = r_homindicator_default;
+dboolean                r_shadows_translucency = r_shadows_translucency_default;
 dboolean                r_shake_barrels = r_shake_barrels_default;
 dboolean                r_textures = r_textures_default;
 dboolean                r_translucency = r_translucency_default;
@@ -523,7 +525,6 @@ void R_InitColumnFunctions(void)
             tlblue25colfunc = R_DrawTranslucentBlue25Column;
             tlredtoblue33colfunc = R_DrawTranslucentRedToBlue33Column;
             tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
-            bloodsplatcolfunc = R_DrawBloodSplatColumn;
             megaspherecolfunc = R_DrawMegaSphereColumn;
             supershotguncolfunc = R_DrawTranslucentSuperShotgunColumn;
         }
@@ -543,10 +544,12 @@ void R_InitColumnFunctions(void)
             tlblue25colfunc = R_DrawColumn;
             tlredtoblue33colfunc = R_DrawRedToBlueColumn;
             tlredtogreen33colfunc = R_DrawRedToGreenColumn;
-            bloodsplatcolfunc = R_DrawSolidBloodSplatColumn;
             megaspherecolfunc = R_DrawSolidMegaSphereColumn;
             supershotguncolfunc = R_DrawSuperShotgunColumn;
         }
+
+        bloodsplatcolfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn :
+            R_DrawSolidBloodSplatColumn);
 
         redtobluecolfunc = R_DrawRedToBlueColumn;
         redtogreencolfunc = R_DrawRedToGreenColumn;

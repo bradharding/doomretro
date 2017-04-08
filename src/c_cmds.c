@@ -161,6 +161,7 @@ extern int              r_berserkintensity;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
 extern int              r_bloodsplats_total;
+extern dboolean         r_bloodsplats_translucency;
 extern dboolean         r_brightmaps;
 extern dboolean         r_corpses_color;
 extern dboolean         r_corpses_mirrored;
@@ -177,6 +178,7 @@ extern dboolean         r_floatbob;
 extern float            r_gamma;
 extern dboolean         r_homindicator;
 extern dboolean         r_hud;
+extern dboolean         r_hud_translucency;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_liquid_clipsprites;
 extern dboolean         r_liquid_current;
@@ -189,6 +191,7 @@ extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern int              r_screensize;
 extern dboolean         r_shadows;
+extern dboolean         r_shadows_translucency;
 extern dboolean         r_shake_barrels;
 extern int              r_shake_damage;
 extern int              r_skycolor;
@@ -436,16 +439,19 @@ static void player_cvars_func2(char *, char *);
 static void playername_cvar_func2(char *, char *);
 static dboolean r_blood_cvar_func1(char *, char *);
 static void r_blood_cvar_func2(char *, char *);
+static void r_bloodsplats_translucency_cvar_func2(char *, char *);
 static dboolean r_detail_cvar_func1(char *, char *);
 static void r_detail_cvar_func2(char *, char *);
 static void r_dither_cvar_func2(char *, char *);
 static dboolean r_gamma_cvar_func1(char *, char *);
 static void r_gamma_cvar_func2(char *, char *);
 static void r_hud_cvar_func2(char *, char *);
+static void r_hud_translucency_cvar_func2(char *, char *);
 static void r_lowpixelsize_cvar_func2(char *, char *);
 static dboolean r_messagescale_cvar_func1(char *, char *);
 static void r_messagescale_cvar_func2(char *, char *);
 static void r_screensize_cvar_func2(char *, char *);
+static void r_shadows_translucency_cvar_func2(char *, char *);
 static dboolean r_skycolor_cvar_func1(char *, char *);
 static void r_skycolor_cvar_func2(char *, char *);
 static void r_textures_cvar_func2(char *, char *);
@@ -708,6 +714,8 @@ consolecmd_t consolecmds[] =
         "The maximum number of blood splats allowed in a map (<b>0</b>\nto <b>1,048,576</b>)."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,
         "The total number of blood splats in the current map."),
+    CVAR_BOOL(r_bloodsplats_translucency, "", bool_cvars_func1, r_bloodsplats_translucency_cvar_func2, BOOLVALUEALIAS,
+        "Toggles the translucency of blood splats."),
     CVAR_BOOL(r_brightmaps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles brightmaps on certain wall textures."),
     CVAR_BOOL(r_corpses_color, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -740,6 +748,8 @@ consolecmd_t consolecmds[] =
         "Toggles the flashing \"Hall Of Mirrors\" indicator."),
     CVAR_BOOL(r_hud, "", bool_cvars_func1, r_hud_cvar_func2, BOOLVALUEALIAS,
         "Toggles the heads-up display when in widescreen mode."),
+    CVAR_BOOL(r_hud_translucency, "", bool_cvars_func1, r_hud_translucency_cvar_func2, BOOLVALUEALIAS,
+        "Toggles the translucency of the heads-up display when in widescreen mode."),
     CVAR_BOOL(r_liquid_bob, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the bobbing effect of liquid sectors."),
     CVAR_BOOL(r_liquid_clipsprites, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -764,6 +774,8 @@ consolecmd_t consolecmds[] =
         "The screen size (<b>0</b> to <b>7</b>)."),
     CVAR_BOOL(r_shadows, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles sprites casting shadows."),
+    CVAR_BOOL(r_shadows_translucency, "", bool_cvars_func1, r_shadows_translucency_cvar_func2, BOOLVALUEALIAS,
+        "Toggles the translucency of shadows."),
     CVAR_BOOL(r_shake_barrels, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles shaking the screen when the player is near an\nexploding barrel."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -4480,6 +4492,48 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
 }
 
 //
+// r_bloodsplats_translucency CVAR
+//
+static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_bloodsplats_translucency)
+        {
+            int i;
+
+            r_bloodsplats_translucency = !!value;
+            M_SaveCVARs();
+            R_InitColumnFunctions();
+
+            for (i = 0; i < numsectors; i++)
+            {
+                bloodsplat_t    *splat = sectors[i].splatlist;
+
+                while (splat)
+                {
+                    splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
+                    splat = splat->snext;
+                }
+            }
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_bloodsplats_translucency))].description));
+        if (r_bloodsplats_translucency == r_bloodsplats_translucency_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS),
+                C_LookupAliasFromValue(r_bloodsplats_translucency_default, BOOLVALUEALIAS));
+    }
+}
+
+//
 // r_detail CVAR
 //
 static dboolean r_detail_cvar_func1(char *cmd, char *parms)
@@ -4594,6 +4648,35 @@ static void r_hud_cvar_func2(char *cmd, char *parms)
 }
 
 //
+// r_hud_translucency CVAR
+//
+static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_hud_translucency)
+        {
+            r_hud_translucency = !!value;
+            M_SaveCVARs();
+            HU_SetTranslucency();
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_hud_translucency))].description));
+        if (r_hud_translucency == r_hud_translucency_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS),
+                C_LookupAliasFromValue(r_hud_translucency_default, BOOLVALUEALIAS));
+    }
+}
+
+//
 // r_lowpixelsize CVAR
 //
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
@@ -4685,6 +4768,51 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
         else
             C_Output("It is currently set to <b>%i</b> and its default is <b>%i</b>.",
                 r_screensize, r_screensize_default);
+    }
+}
+
+//
+// r_shadows_translucency CVAR
+//
+static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int     value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_shadows_translucency)
+        {
+            int i;
+
+            r_shadows_translucency = !!value;
+            M_SaveCVARs();
+
+            for (i = 0; i < numsectors; i++)
+            {
+                mobj_t  *mo = sectors[i].thinglist;
+
+                while (mo)
+                {
+                    if (r_textures)
+                        mo->shadowcolfunc = (r_shadows_translucency ? ((mo->flags & MF_FUZZ) ?
+                            R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
+                    else
+                        mo->shadowcolfunc = R_DrawColorColumn;
+                    mo = mo->snext;
+                }
+            }
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_shadows_translucency))].description));
+        if (r_shadows_translucency == r_shadows_translucency_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_shadows_translucency, BOOLVALUEALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_shadows_translucency, BOOLVALUEALIAS),
+                C_LookupAliasFromValue(r_shadows_translucency_default, BOOLVALUEALIAS));
     }
 }
 
@@ -4789,29 +4917,16 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
 
             r_translucency = !!value;
             M_SaveCVARs();
-            HU_SetTranslucency();
             R_InitColumnFunctions();
 
             for (i = 0; i < numsectors; i++)
             {
-                mobj_t          *mo = sectors[i].thinglist;
-                bloodsplat_t    *splat = sectors[i].splatlist;
+                mobj_t  *mo = sectors[i].thinglist;
 
                 while (mo)
                 {
                     mo->colfunc = mo->info->colfunc;
-                    if (r_textures)
-                        mo->shadowcolfunc = (r_translucency ? ((mo->flags & MF_FUZZ) ?
-                            R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
-                    else
-                        mo->shadowcolfunc = R_DrawColorColumn;
                     mo = mo->snext;
-                }
-
-                while (splat)
-                {
-                    splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-                    splat = splat->snext;
                 }
             }
         }

@@ -96,6 +96,7 @@ extern dboolean         r_althud;
 extern int              r_berserkintensity;
 extern int              r_blood;
 extern int              r_bloodsplats_max;
+extern dboolean         r_bloodsplats_translucency;
 extern dboolean         r_brightmaps;
 extern dboolean         r_corpses_color;
 extern dboolean         r_corpses_mirrored;
@@ -112,6 +113,7 @@ extern dboolean         r_floatbob;
 extern float            r_gamma;
 extern dboolean         r_homindicator;
 extern dboolean         r_hud;
+extern dboolean         r_hud_translucency;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_liquid_clipsprites;
 extern dboolean         r_liquid_current;
@@ -123,6 +125,7 @@ extern dboolean         r_mirroredweapons;
 extern dboolean         r_playersprites;
 extern dboolean         r_rockettrails;
 extern dboolean         r_shadows;
+extern dboolean         r_shadows_translucency;
 extern dboolean         r_shake_barrels;
 extern int              r_shake_damage;
 extern int              r_skycolor;
@@ -270,6 +273,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_berserkintensity,                                NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_blood,                                           BLOODVALUEALIAS ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                                 NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (r_bloodsplats_translucency,                        BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_brightmaps,                                      BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_color,                                   BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,                                BOOLVALUEALIAS  ),
@@ -286,6 +290,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_FLOAT        (r_gamma,                                           GAMMAVALUEALIAS ),
     CONFIG_VARIABLE_INT          (r_homindicator,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_hud,                                             BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (r_hud_translucency,                                BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_bob,                                      BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,                              BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_current,                                  BOOLVALUEALIAS  ),
@@ -298,6 +303,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_rockettrails,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_screensize,                                      NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_shadows,                                         BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (r_shadows_translucency,                            BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_shake_barrels,                                   BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                                    NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_skycolor,                                        SKYVALUEALIAS   ),
@@ -749,6 +755,9 @@ static void M_CheckCVARs(void)
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
 
+    if (r_bloodsplats_translucency != false && r_bloodsplats_translucency != true)
+        r_bloodsplats_translucency = r_bloodsplats_translucency_default;
+
     if (r_brightmaps != false && r_brightmaps != true)
         r_brightmaps = r_brightmaps_default;
 
@@ -797,6 +806,9 @@ static void M_CheckCVARs(void)
     if (r_hud != false && r_hud != true)
         r_hud = r_hud_default;
 
+    if (r_hud_translucency != false && r_hud_translucency != true)
+        r_hud_translucency = r_hud_translucency_default;
+
     if (r_liquid_bob != false && r_liquid_bob != true)
         r_liquid_bob = r_liquid_bob_default;
 
@@ -828,6 +840,9 @@ static void M_CheckCVARs(void)
 
     if (r_shadows != false && r_shadows != true)
         r_shadows = r_shadows_default;
+
+    if (r_shadows_translucency != false && r_shadows_translucency != true)
+        r_shadows_translucency = r_shadows_translucency_default;
 
     if (r_shake_barrels != false && r_shake_barrels != true)
         r_shake_barrels = r_shake_barrels_default;

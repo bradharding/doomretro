@@ -80,7 +80,6 @@ dboolean                s_STSTR_BEHOLD2;
 static hu_stext_t       w_message;
 int                     message_counter;
 
-char                    *playername = playername_default;
 
 int M_StringWidth(char *string);
 
@@ -95,9 +94,11 @@ static patch_t          *berserkpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
+char                    *playername = playername_default;
 dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
 dboolean                r_hud = r_hud_default;
+dboolean                r_hud_translucency = r_hud_translucency_default;
 
 static patch_t          *stdisk;
 dboolean                drawdisk;
@@ -177,7 +178,7 @@ patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 
 void HU_SetTranslucency(void)
 {
-    if (r_translucency)
+    if (r_hud_translucency)
     {
         hudfunc = V_DrawTranslucentHUDPatch;
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
