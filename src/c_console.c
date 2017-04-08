@@ -179,7 +179,6 @@ static int      consolecolors[STRINGTYPES];
 extern int      fps;
 extern int      refreshrate;
 extern dboolean r_althud;
-extern dboolean r_translucency;
 extern dboolean vanilla;
 extern dboolean togglingvanilla;
 extern dboolean message_external;
@@ -669,49 +668,38 @@ static void C_DrawBackground(int height)
 
     height = (height + 5) * CONSOLEWIDTH;
 
-    if (r_translucency)
+    if (!blurred)
     {
-        if (!blurred)
-        {
-            for (i = 0; i < height; i++)
-                c_blurscreen[i] = screens[0][i];
-
-            DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height, 1);
-            DoBlurScreen(1, 0, CONSOLEWIDTH, height, -1);
-            DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height - CONSOLEWIDTH, CONSOLEWIDTH + 1);
-            DoBlurScreen(1, CONSOLEWIDTH, CONSOLEWIDTH, height, -(CONSOLEWIDTH + 1));
-            DoBlurScreen(0, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH);
-            DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH, height, -CONSOLEWIDTH);
-            DoBlurScreen(1, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH - 1);
-            DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH - 1, height, -(CONSOLEWIDTH - 1));
-        }
-
-        blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
-
-        if (forceconsoleblurredraw)
-        {
-            forceconsoleblurredraw = false;
-            blurred = false;
-        }
-
         for (i = 0; i < height; i++)
-            screens[0][i] = tinttab50[(consoletintcolor << 8) + c_blurscreen[i]];
+            c_blurscreen[i] = screens[0][i];
 
-        for (i = height - 2; i > 1; i -= 3)
-        {
-            screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
-
-            if (((i - 1) % CONSOLEWIDTH) < CONSOLEWIDTH - 2)
-                screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
-        }
+        DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height, 1);
+        DoBlurScreen(1, 0, CONSOLEWIDTH, height, -1);
+        DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height - CONSOLEWIDTH, CONSOLEWIDTH + 1);
+        DoBlurScreen(1, CONSOLEWIDTH, CONSOLEWIDTH, height, -(CONSOLEWIDTH + 1));
+        DoBlurScreen(0, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH);
+        DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH, height, -CONSOLEWIDTH);
+        DoBlurScreen(1, 0, CONSOLEWIDTH, height - CONSOLEWIDTH, CONSOLEWIDTH - 1);
+        DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH - 1, height, -(CONSOLEWIDTH - 1));
     }
-    else
-    {
-        for (i = 0; i < height; i++)
-            screens[0][i] = consoletintcolor;
 
-        for (i = height - 2; i > 1; i -= 3)
-            screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
+    blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
+
+    if (forceconsoleblurredraw)
+    {
+        forceconsoleblurredraw = false;
+        blurred = false;
+    }
+
+    for (i = 0; i < height; i++)
+        screens[0][i] = tinttab50[(consoletintcolor << 8) + c_blurscreen[i]];
+
+    for (i = height - 2; i > 1; i -= 3)
+    {
+        screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
+
+        if (((i - 1) % CONSOLEWIDTH) < CONSOLEWIDTH - 2)
+            screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
     }
 
     // draw branding
@@ -722,32 +710,23 @@ static void C_DrawBackground(int height)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
     // soften edges
-    if (r_translucency)
+    for (i = 0; i < height; i += CONSOLEWIDTH)
     {
-        for (i = 0; i < height; i += CONSOLEWIDTH)
-        {
-            screens[0][i] = tinttab50[screens[0][i]];
-            screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
-        }
-
-        for (i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
-            screens[0][i] = tinttab25[screens[0][i]];
+        screens[0][i] = tinttab50[screens[0][i]];
+        screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
     }
+
+    for (i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
+        screens[0][i] = tinttab25[screens[0][i]];
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)
     {
-        if (r_translucency)
-        {
-            int j;
+        int j;
 
-            for (j = CONSOLEWIDTH; j <= 4 * CONSOLEWIDTH; j += CONSOLEWIDTH)
-                for (i = height; i < height + j; i++)
-                    screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
-        }
-        else
-            for (i = height; i < height + CONSOLEWIDTH; i++)
-                screens[0][i] = 0;
+        for (j = CONSOLEWIDTH; j <= 4 * CONSOLEWIDTH; j += CONSOLEWIDTH)
+            for (i = height; i < height + j; i++)
+                screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
     }
 }
 
@@ -877,8 +856,7 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false,
-                (r_translucency ? tinttab75 : NULL));
+            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, tinttab75);
             x += SHORT(patch->width);
         }
     }
@@ -897,7 +875,7 @@ static void C_DrawTimeStamp(int x, int y, char *text)
         int     width = SHORT(patch->width);
 
         V_DrawConsoleTextPatch(x + (text[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch,
-            consoletimestampcolor, NOBACKGROUNDCOLOR, false, (r_translucency ? tinttab25 : NULL));
+            consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
         x += (isdigit(text[i]) ? zerowidth : width);
     }
 }
