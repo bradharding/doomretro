@@ -183,6 +183,7 @@ extern dboolean vanilla;
 extern dboolean togglingvanilla;
 extern dboolean message_external;
 extern dboolean message_dontfuckwithme;
+extern dboolean r_hud_translucency;
 
 void G_ToggleAlwaysRun(evtype_t type);
 
@@ -856,7 +857,8 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, tinttab75);
+            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false,
+                (r_hud_translucency ? tinttab75 : NULL));
             x += SHORT(patch->width);
         }
     }
