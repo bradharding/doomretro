@@ -567,7 +567,7 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
     const fixed_t       xiscale = vis->xiscale;
     const fixed_t       x2 = vis->x2;
     const int           id = vis->patch + firstspritelump;
-    const rpatch_t      *patch = R_CachePatchNum(id);
+    const rcolumn_t     *columns = R_CachePatchNum(id)->columns;
 
     colfunc = vis->colfunc;
     dc_colormap = vis->colormap;
@@ -577,7 +577,7 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_BlastBloodSplatColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
+        R_BlastBloodSplatColumn(&columns[frac >> FRACBITS]);
 
     R_UnlockPatchNum(id);
 }
