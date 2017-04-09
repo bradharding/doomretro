@@ -86,6 +86,7 @@ extern int              acceleratestage;        // accelerate intermission scree
 extern char             *episode;
 extern char             *expansion;
 extern dboolean         r_shadows;
+extern dboolean         r_shadows_translucency;
 extern dboolean         r_translucency;
 extern char             *savegame;
 extern char             *skilllevel;
@@ -750,7 +751,7 @@ static void F_CastDrawer(void)
 
         if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
         {
-            if (r_translucency)
+            if (r_shadows_translucency)
             {
                 if (type == MT_SHADOWS)
                     V_DrawFlippedSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
@@ -774,7 +775,7 @@ static void F_CastDrawer(void)
 
         if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
         {
-            if (r_translucency)
+            if (r_shadows_translucency)
             {
                 if (type == MT_SHADOWS)
                     V_DrawSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
