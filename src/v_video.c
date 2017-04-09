@@ -71,6 +71,7 @@ char            *r_lowpixelsize = r_lowpixelsize_default;
 
 char            screenshotfolder[MAX_PATH];
 
+extern dboolean r_hud_translucency;
 extern dboolean r_translucency;
 extern dboolean vanilla;
 
@@ -599,7 +600,7 @@ void V_DrawAltHUDText(int x, int y, patch_t *patch, int color)
             while (count--)
             {
                 if (*source++ == WHITE)
-                    *dest = tinttab60[(*dest << 8) + color];
+                    *dest = (r_hud_translucency ? tinttab60[(*dest << 8) + color] : color);
                 dest += SCREENWIDTH;
             }
 
@@ -643,7 +644,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
                     byte        *shadow = dest + SCREENWIDTH + 2;
 
                     if (!flag || (*shadow != 47 && *shadow != 191))
-                        *shadow = (r_translucency ? tinttab50[*shadow] : 0);
+                        *shadow = tinttab50[*shadow];
                 }
                 srccol += DYI;
             }
@@ -1305,7 +1306,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
                 byte src = source[srccol >> FRACBITS];
 
                 if (nogreen[src])
-                    *dest = (r_translucency ? tinttab33[(*dest << 8) + src] : src);
+                    *dest = tinttab33[(*dest << 8) + src];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
@@ -1343,19 +1344,10 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
         {
             int xx, yy;
 
-            if (r_translucency)
-            {
-                for (yy = 0; yy < SCREENSCALE; yy++)
-                    for (xx = 0; xx < SCREENSCALE; xx++)
-                        *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH
-                            + xx)];
-            }
-            else
-            {
-                for (yy = 0; yy < SCREENSCALE; yy++)
-                    for (xx = 0; xx < SCREENSCALE; xx++)
-                        *(dest + yy * SCREENWIDTH + xx) = BLACK;
-            }
+            for (yy = 0; yy < SCREENSCALE; yy++)
+                for (xx = 0; xx < SCREENSCALE; xx++)
+                    *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH
+                        + xx)];
         }
     }
     else if (color && color != 32)

@@ -56,7 +56,7 @@ extern patch_t  *degree;
 extern int      white;
 
 extern dboolean r_althud;
-extern dboolean r_translucency;
+extern dboolean r_hud_translucency;
 extern dboolean vid_widescreen;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
@@ -363,12 +363,12 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
             byte        *dest2 = &fb2[dot];
 
             if (!*source)
-                *dest1 = (r_translucency ? tinttab50[*dest2] : 0);
+                *dest1 = tinttab50[*dest2];
             else if (*source != 251)
             {
                 byte color = *source;
 
-                if (r_translucency && !hacx)
+                if (vid_widescreen && r_hud_translucency && !hacx)
                 {
                     color = tinttab25[(*dest2 << 8) + color];
                     if (color >= 168 && color <= 175)
