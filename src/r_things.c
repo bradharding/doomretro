@@ -945,11 +945,9 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
     int                 lump = sprframe->lump[0];
 
     // calculate edges of the shape
-    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (dehacked ? spriteoffset[lump] :
-        newspriteoffset[lump]);
+    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (dehacked ? spriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS;
-    tx += spritewidth[lump];
-    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS) - 1;
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritexscale)) >> FRACBITS) - 1;
 
     // store information in a vissprite
     vis = &tempvis;

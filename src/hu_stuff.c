@@ -105,7 +105,6 @@ dboolean                drawdisk;
 
 extern dboolean         messages;
 extern dboolean         r_messagescale;
-extern dboolean         r_translucency;
 extern dboolean         vid_widescreen;
 
 extern int              cardsfound;

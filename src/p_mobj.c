@@ -83,7 +83,7 @@ extern dboolean         r_liquid_clipsprites;
 extern dboolean         r_liquid_lowerview;
 extern dboolean         r_mirroredweapons;
 extern dboolean         r_textures;
-extern dboolean         r_translucency;
+extern dboolean         r_shadows_translucency;
 extern msecnode_t       *sector_list;   // phares 3/16/98
 
 dboolean P_IsVoodooDoll(mobj_t *mobj)
@@ -739,7 +739,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->frame = st->frame;
     mobj->colfunc = info->colfunc;
     if (r_textures)
-        mobj->shadowcolfunc = (r_translucency ? ((mobj->flags & MF_FUZZ) ?
+        mobj->shadowcolfunc = (r_shadows_translucency ? ((mobj->flags & MF_FUZZ) ?
             R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
     else
         mobj->shadowcolfunc = R_DrawColorColumn;

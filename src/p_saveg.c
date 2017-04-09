@@ -52,8 +52,8 @@
 FILE    *save_stream;
 int     savegamelength;
 
+extern dboolean r_shadows_translucency;
 extern dboolean r_textures;
-extern dboolean r_translucency;
 
 // Get the filename of a temporary file to write the savegame to. After
 // the file has been successfully saved, it will be renamed to the
@@ -1173,7 +1173,7 @@ void P_UnArchiveThinkers(void)
                 mobj->thinker.function = P_MobjThinker;
                 mobj->colfunc = mobj->info->colfunc;
                 if (r_textures)
-                    mobj->shadowcolfunc = (r_translucency ? ((mobj->flags & MF_FUZZ) ?
+                    mobj->shadowcolfunc = (r_shadows_translucency ? ((mobj->flags & MF_FUZZ) ?
                         R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
                 else
                     mobj->shadowcolfunc = R_DrawColorColumn;
