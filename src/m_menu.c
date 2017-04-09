@@ -147,7 +147,6 @@ extern int      st_palette;
 
 extern dboolean wipe;
 extern dboolean r_hud;
-extern dboolean r_translucency;
 
 extern dboolean splashscreen;
 
@@ -548,19 +547,16 @@ void M_DarkBackground(void)
     if (r_detail == r_detail_low && viewactive)
         V_LowGraphicDetail();
 
-    if (r_translucency)
+    for (i = 0; i < height; i += SCREENWIDTH)
     {
-        for (i = 0; i < height; i += SCREENWIDTH)
-        {
-            screens[0][i] = tinttab50[screens[0][i]];
-            screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
-        }
+        screens[0][i] = tinttab50[screens[0][i]];
+        screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
+    }
 
-        for (i = 1; i < SCREENWIDTH - 1; i++)
-        {
-            screens[0][i] = tinttab50[screens[0][i]];
-            screens[0][i + height - SCREENWIDTH] = tinttab50[screens[0][i + height - SCREENWIDTH]];
-        }
+    for (i = 1; i < SCREENWIDTH - 1; i++)
+    {
+        screens[0][i] = tinttab50[screens[0][i]];
+        screens[0][i + height - SCREENWIDTH] = tinttab50[screens[0][i + height - SCREENWIDTH]];
     }
 }
 
