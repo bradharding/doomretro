@@ -310,6 +310,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_skycolor,                                        SKYVALUEALIAS   ),
     CONFIG_VARIABLE_INT          (r_textures,                                        BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (r_translucency,                                    BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (s_channels,                                        NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,                                     NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (s_randommusic,                                     BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (s_randompitch,                                     BOOLVALUEALIAS  ),
