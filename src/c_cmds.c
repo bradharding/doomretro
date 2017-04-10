@@ -197,6 +197,7 @@ extern int              r_shake_damage;
 extern int              r_skycolor;
 extern dboolean         r_textures;
 extern dboolean         r_translucency;
+extern int              s_channels;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
@@ -798,6 +799,8 @@ consolecmd_t consolecmds[] =
         "Toggles respawning monsters."),
     CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, 0, "",
         "Resurrects the player."),
+    CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The number of sounds that can be played\nsimultaneously."),
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The music volume."),
     CVAR_BOOL(s_randommusic, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,

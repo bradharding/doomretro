@@ -131,6 +131,7 @@ extern int              r_shake_damage;
 extern int              r_skycolor;
 extern dboolean         r_textures;
 extern dboolean         r_translucency;
+extern int              s_channels;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
@@ -857,6 +858,8 @@ static void M_CheckCVARs(void)
 
     if (r_translucency != false && r_translucency != true)
         r_translucency = r_translucency_default;
+
+    s_channels = BETWEEN(s_channels_min, s_channels, s_channels_max);
 
     s_musicvolume = BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max);
     musicVolume = (s_musicvolume * 31 + 50) / 100;

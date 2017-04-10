@@ -98,6 +98,7 @@ typedef struct
 static channel_t        *channels;
 static sobj_t           *sobjs;
 
+int                     s_channels = s_channels_default;
 int                     s_musicvolume = s_musicvolume_default;
 int                     s_sfxvolume = s_sfxvolume_default;
 dboolean                s_randommusic = s_randommusic_default;
@@ -136,7 +137,7 @@ static void InitSfxModule(void)
     if (I_InitSound())
     {
         C_Output("Sound effects will play at a sample rate of %.1fkHz on %i channels.",
-            SAMPLERATE / 1000.0f, NUM_CHANNELS);
+            SAMPLERATE / 1000.0f, s_channels);
         return;
     }
 
@@ -202,8 +203,8 @@ void S_Init(int sfxvol, int musicvol)
         // Allocating the internal channels for mixing
         // (the maximum number of sounds rendered
         // simultaneously) within zone memory.
-        channels = (channel_t *)Z_Calloc(NUM_CHANNELS, sizeof(channel_t), PU_STATIC, NULL);
-        sobjs = Z_Malloc(NUM_CHANNELS * sizeof(sobj_t), PU_STATIC, NULL);
+        channels = (channel_t *)Z_Calloc(s_channels, sizeof(channel_t), PU_STATIC, NULL);
+        sobjs = Z_Malloc(s_channels * sizeof(sobj_t), PU_STATIC, NULL);
 
         // Note that sounds have not been cached (yet).
         for (i = 1; i < NUMSFX; i++)
@@ -239,7 +240,7 @@ static void S_StopChannel(int cnum)
             I_StopSound(c->handle);
 
         // check to see if other channels are playing the sound
-        for (i = 0; i < NUM_CHANNELS; i++)
+        for (i = 0; i < s_channels; i++)
             if (cnum != i && c->sfxinfo == channels[i].sfxinfo)
                 break;
 
@@ -255,7 +256,7 @@ void S_StopSounds(void)
     if (nosfx)
         return;
 
-    for (cnum = 0; cnum < NUM_CHANNELS; cnum++)
+    for (cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo)
             S_StopChannel(cnum);
 }
@@ -343,7 +344,7 @@ void S_UnlinkSound(mobj_t *origin)
     if (nosfx)
         return;
 
-    for (cnum = 0; cnum < NUM_CHANNELS; cnum++)
+    for (cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
         {
             sobj_t *const       sobj = &sobjs[cnum];
@@ -367,7 +368,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
     channel_t   *c;
 
     // Find an open channel
-    for (cnum = 0; cnum < NUM_CHANNELS && channels[cnum].sfxinfo; cnum++)
+    for (cnum = 0; cnum < s_channels && channels[cnum].sfxinfo; cnum++)
         if (origin && channels[cnum].origin == origin
             && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
         {
@@ -376,14 +377,14 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
         }
 
     // None available
-    if (cnum == NUM_CHANNELS)
+    if (cnum == s_channels)
     {
         // Look for lower priority
-        for (cnum = 0; cnum < NUM_CHANNELS; cnum++)
+        for (cnum = 0; cnum < s_channels; cnum++)
             if (channels[cnum].sfxinfo->priority >= sfxinfo->priority)
                 break;
 
-        if (cnum == NUM_CHANNELS)
+        if (cnum == s_channels)
             return -1;                  // FUCK! No lower priority. Sorry, Charlie.
         else
             S_StopChannel(cnum);        // Otherwise, kick out lower priority.
@@ -484,7 +485,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volu
         sep = NORM_SEP;
 
     // kill old sound
-    for (cnum = 0; cnum < NUM_CHANNELS; cnum++)
+    for (cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo
             && channels[cnum].sfxinfo->singularity == sfx->singularity
             && channels[cnum].origin == origin)
@@ -557,7 +558,7 @@ void S_UpdateSounds(mobj_t *listener)
 
     I_UpdateSound();
 
-    for (cnum = 0; cnum < NUM_CHANNELS; cnum++)
+    for (cnum = 0; cnum < s_channels; cnum++)
     {
         channel_t       *c = &channels[cnum];
         sfxinfo_t       *sfx = c->sfxinfo;
