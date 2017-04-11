@@ -282,9 +282,9 @@ void R_DrawBloodSplatColumn(void)
 
 void R_DrawSolidBloodSplatColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const fixed_t       blood = *dc_blood;
+    int         count = dc_yh - dc_yl + 1;
+    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    const byte  blood = *dc_blood;
 
     while (--count)
     {

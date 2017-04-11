@@ -354,6 +354,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
         maxy *= SCREENSCALE;
         maxx *= SCREENSCALE;
     }
+
     for (yy = l->y - 1; yy < maxy; yy++)
         for (xx = l->x; xx < maxx; xx++)
         {

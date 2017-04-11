@@ -805,7 +805,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The number of sounds that can be played\nsimultaneously (<b>8</b> to <b>256</b>)."),
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The music volume."),
+        "The volume of music."),
     CVAR_BOOL(s_randommusic, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomizing the music at the start of each\nmap."),
     CVAR_BOOL(s_randompitch, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
