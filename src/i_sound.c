@@ -584,7 +584,7 @@ void I_ShutdownSound(void)
 // The result must be a power of two.
 static int GetSliceSize(void)
 {
-    int limit = SAMPLERATE * MAX_SOUND_SLICE_TIME / 1000;
+    int limit = s_samplerate * MAX_SOUND_SLICE_TIME / 1000;
     int n;
 
     // Try all powers of two, not exceeding the limit.

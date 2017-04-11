@@ -100,6 +100,7 @@ static sobj_t           *sobjs;
 
 int                     s_channels = s_channels_default;
 int                     s_musicvolume = s_musicvolume_default;
+int                     s_samplerate = s_samplerate_default;
 int                     s_sfxvolume = s_sfxvolume_default;
 dboolean                s_randommusic = s_randommusic_default;
 dboolean                s_randompitch = s_randompitch_default;
@@ -137,7 +138,7 @@ static void InitSfxModule(void)
     if (I_InitSound())
     {
         C_Output("Sound effects will play at a sample rate of %.1fkHz on %i channels.",
-            SAMPLERATE / 1000.0f, s_channels);
+            s_samplerate / 1000.0f, s_channels);
         return;
     }
 

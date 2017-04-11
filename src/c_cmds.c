@@ -201,6 +201,7 @@ extern int              s_channels;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
+extern int              s_samplerate;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern char             *savegame;
@@ -457,6 +458,8 @@ static dboolean r_skycolor_cvar_func1(char *, char *);
 static void r_skycolor_cvar_func2(char *, char *);
 static void r_textures_cvar_func2(char *, char *);
 static void r_translucency_cvar_func2(char *, char *);
+static dboolean s_samplerate_cvar_func1(char *, char *);
+static void s_samplerate_cvar_func2(char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *);
 static void s_volume_cvars_func2(char *, char *);
 static dboolean turbo_cvar_func1(char *, char *);
@@ -807,8 +810,10 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the music at the start of each\nmap."),
     CVAR_BOOL(s_randompitch, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomizing the pitch of monster sound\neffects."),
+    CVAR_INT(s_samplerate, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The sample rate of music and sound effects (<b>11,025</b>,\n<b>22,050</b>, <b>44,100</b> or <b>48,000</b> Hz)."),
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The sound effects volume."),
+        "The volume of sound effects."),
     CVAR_STR(s_timiditycfgpath, "", null_func1, str_cvars_func2, CF_NONE,
         "The path of <i><b>TiMidity's</b></i> configuration file."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,

@@ -177,8 +177,8 @@ dboolean I_InitMusic(void)
     {
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             return false;
-        else if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS,
-            SAMPLECOUNT * SAMPLERATE / 11025) < 0)
+        else if (Mix_OpenAudio(s_samplerate, MIX_DEFAULT_FORMAT, CHANNELS,
+            SAMPLECOUNT * s_samplerate / 11025) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             return false;
