@@ -45,7 +45,6 @@
 
 // Sound sample rate to use for digital output (Hz)
 #define SAMPLERATE              44100
-#define NUM_CHANNELS            32
 #define MAX_MUSIC_VOLUME        MIX_MAX_VOLUME
 #define MAX_SFX_VOLUME          MIX_MAX_VOLUME
 

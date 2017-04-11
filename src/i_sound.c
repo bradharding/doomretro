@@ -38,6 +38,7 @@
 
 #include "c_console.h"
 #include "i_system.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "s_sound.h"
 #include "SDL_mixer.h"
@@ -62,7 +63,7 @@ struct allocated_sound_s
 
 static dboolean                 sound_initialized;
 
-static allocated_sound_t        *channels_playing[NUM_CHANNELS];
+static allocated_sound_t        *channels_playing[s_channels_max];
 
 static int                      mixer_freq;
 static Uint16                   mixer_format;
@@ -454,7 +455,7 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
 
 void I_UpdateSoundParams(int handle, int vol, int sep)
 {
-    if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
+    if (!sound_initialized || handle < 0 || handle >= s_channels_max)
         return;
 
     Mix_SetPanning(handle, BETWEEN(0, (254 - sep) * vol / MAX_SFX_VOLUME, 255),
@@ -477,7 +478,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 {
     allocated_sound_t   *snd;
 
-    if (!sound_initialized || channel < 0 || channel >= NUM_CHANNELS)
+    if (!sound_initialized || channel < 0 || channel >= s_channels_max)
         return -1;
 
     // Release a sound effect if there is already one playing
@@ -526,7 +527,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 
 void I_StopSound(int handle)
 {
-    if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
+    if (!sound_initialized || handle < 0 || handle >= s_channels_max)
         return;
 
     // Sound data is no longer needed; release the
@@ -536,7 +537,7 @@ void I_StopSound(int handle)
 
 dboolean I_SoundIsPlaying(int handle)
 {
-    if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
+    if (!sound_initialized || handle < 0 || handle >= s_channels_max)
         return false;
 
     return Mix_Playing(handle);
@@ -550,7 +551,7 @@ void I_UpdateSound(void)
     int i;
 
     // Check all channels to see if a sound has finished
-    for (i = 0; i < NUM_CHANNELS; i++)
+    for (i = 0; i < s_channels_max; i++)
         if (channels_playing[i] && !I_SoundIsPlaying(i))
             // Sound has finished playing on this channel,
             // but sound data has not been released to cache
@@ -562,7 +563,7 @@ dboolean I_AnySoundStillPlaying(void)
     dboolean    result = false;
     int         i;
 
-    for (i = 0; i < NUM_CHANNELS; i++)
+    for (i = 0; i < s_channels_max; i++)
         result |= Mix_Playing(i);
 
     return result;
@@ -602,7 +603,7 @@ dboolean I_InitSound(void)
     const SDL_version   *linked = Mix_Linked_Version();
 
     // No sounds yet
-    for (i = 0; i < NUM_CHANNELS; i++)
+    for (i = 0; i < s_channels_max; i++)
         channels_playing[i] = NULL;
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
@@ -618,13 +619,13 @@ dboolean I_InitSound(void)
             "v%i.%i.%i, not v%i.%i.%i.", linked->major, linked->minor, linked->patch,
             SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
-    if (Mix_OpenAudio(SAMPLERATE, AUDIO_S16SYS, 2, GetSliceSize()) < 0)
+    if (Mix_OpenAudio(s_samplerate, MIX_DEFAULT_FORMAT, 2, GetSliceSize()) < 0)
         return false;
 
     if (!Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels))
         return false;
 
-    Mix_AllocateChannels(NUM_CHANNELS);
+    Mix_AllocateChannels(s_channels_max);
 
     SDL_PauseAudio(0);
 
