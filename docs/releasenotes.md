@@ -6,7 +6,9 @@
 * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.
 * A bug has been fixed whereby some teleports wouldn’t animate correctly in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
 * Three new CVARs have been implemented to toggle the translucency of individual elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default.
-* The console is now always translucent.
+* The console’s background is now always translucent.
+* The number of sound effects that can play simultaneously is now specified using the new `s_channels` CVAR. It is `32` by default.
+* The sample rate of music and sound effects is now specified using the new `s_samplerate` CVAR. It is `44,100` Hz by default.
 
 
 ---
