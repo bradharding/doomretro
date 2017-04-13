@@ -122,6 +122,7 @@ unsigned int    stat_monsterskilled_spectres;
 unsigned int    stat_monsterskilled_spidermasterminds;
 unsigned int    stat_monsterskilled_zombiemen;
 
+extern int      idclevtics;
 extern char     *playername;
 extern dboolean r_althud;
 extern dboolean r_hud;
@@ -1405,7 +1406,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         // Below certain threshold,
         // ignore damage in GOD mode, or with INVUL power.
-        if ((tplayer->cheats & CF_GODMODE) || freeze
+        if ((tplayer->cheats & CF_GODMODE) || freeze || idclevtics
             || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
