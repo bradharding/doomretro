@@ -845,7 +845,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_DamageMobj(linetarget, mo, mo, damage, true);
     }
 
-    player->shotsfired++;
+    mo->player->shotsfired++;
     stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 
     if (successfulshot)
