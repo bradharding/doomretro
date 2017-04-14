@@ -1118,6 +1118,8 @@ static void ST_updateFaceWidget(void)
     int         painoffset = ST_calcPainOffset();
     static int  faceindex;
 
+    dboolean    invulnerable = ((plyr->cheats & CF_GODMODE) || plyr->powers[pw_invulnerability]);
+
     if (priority < 10)
     {
         // dead
@@ -1139,15 +1141,14 @@ static void ST_updateFaceWidget(void)
 
             for (i = 0; i < NUMWEAPONS; i++)
             {
-                if (oldweaponsowned[i] != plyr->weaponowned[i]
-                    // [BH] no evil grin when invulnerable
-                    && !(plyr->cheats & CF_GODMODE)
-                    && !plyr->powers[pw_invulnerability])
+                // [BH] no evil grin when invulnerable
+                if (oldweaponsowned[i] != plyr->weaponowned[i] && !invulnerable)
                 {
                     doevilgrin = true;
                     oldweaponsowned[i] = plyr->weaponowned[i];
                 }
             }
+
             if (doevilgrin)
             {
                 // evil grin if just picked up weapon
@@ -1238,9 +1239,8 @@ static void ST_updateFaceWidget(void)
     {
         static int  lastattackdown = -1;
 
-        if (plyr->attackdown
-            // [BH] no rampage face when invulnerable
-            && !(plyr->cheats & CF_GODMODE) && !plyr->powers[pw_invulnerability])
+        // [BH] no rampage face when invulnerable
+        if (plyr->attackdown && !invulnerable)
         {
             if (lastattackdown == -1)
                 lastattackdown = ST_RAMPAGEDELAY;
@@ -1259,7 +1259,7 @@ static void ST_updateFaceWidget(void)
     if (priority < 5)
     {
         // invulnerability
-        if ((plyr->cheats & CF_GODMODE) || plyr->powers[pw_invulnerability])
+        if (invulnerable)
         {
             priority = 4;
             painoffset = 0;

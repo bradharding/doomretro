@@ -90,7 +90,7 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 // This number * 10 is the amount of time you can try to wait for.
 #define MIDIRPC_MAXTRIES        50
 
-static dboolean I_MidiRPCWaitForServer()
+static dboolean I_MidiRPCWaitForServer(void)
 {
     int tries = 0;
 
@@ -155,7 +155,7 @@ dboolean I_MidiRPCPlaySong(dboolean looping)
 //
 // Tell the RPC server to stop any currently playing song.
 //
-dboolean I_MidiRPCStopSong()
+dboolean I_MidiRPCStopSong(void)
 {
     CHECK_RPC_STATUS();
 
@@ -200,7 +200,7 @@ dboolean I_MidiRPCSetVolume(int volume)
 // Pause the music being played by the server. In actuality, due to SDL_mixer
 // limitations, this just temporarily sets the volume to zero.
 //
-dboolean I_MidiRPCPauseSong()
+dboolean I_MidiRPCPauseSong(void)
 {
     CHECK_RPC_STATUS();
 
@@ -222,7 +222,7 @@ dboolean I_MidiRPCPauseSong()
 //
 // Resume a song after having paused it.
 //
-dboolean I_MidiRPCResumeSong()
+dboolean I_MidiRPCResumeSong(void)
 {
     CHECK_RPC_STATUS();
 
@@ -248,7 +248,7 @@ dboolean I_MidiRPCResumeSong()
 //
 // Start up the RPC MIDI server.
 //
-dboolean I_MidiRPCInitServer()
+dboolean I_MidiRPCInitServer(void)
 {
     char        module[MAX_PATH + 1];
     dboolean    result;
@@ -282,7 +282,7 @@ dboolean I_MidiRPCInitServer()
 //
 // Initialize client RPC bindings and bind to the server.
 //
-dboolean I_MidiRPCInitClient()
+dboolean I_MidiRPCInitClient(void)
 {
     // If server didn't start, client cannot be bound.
     if (!serverInit)
@@ -307,7 +307,7 @@ dboolean I_MidiRPCInitClient()
 //
 // Shutdown the RPC Client
 //
-void I_MidiRPCClientShutDown()
+void I_MidiRPCClientShutDown(void)
 {
     // stop the server
     if (serverInit)
