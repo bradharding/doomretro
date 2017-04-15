@@ -9,7 +9,7 @@
 * The console’s background is now always translucent.
 * The number of sound effects that can play at the same time is now specified using the new `s_channels` CVAR. It can be between `8` and `256`, and is `32` by default.
 * The sample rate of sound effects is now specified using the new `s_samplerate` CVAR. It can be `11,025`, `22,050`, `44,100` or `48,000` Hz, and is `44,100` Hz by default.
-
+* The skull in the menu is no longer positioned incorrectly when certain PWADs with custom menu lumps are loaded.
 
 ---
 
