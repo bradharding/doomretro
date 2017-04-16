@@ -1533,7 +1533,7 @@ void M_DrawMainMenu(void)
 
     M_DarkBackground();
 
-    if (M_DOOM && SHORT(patch->height) > 125)
+    if (M_DOOM)
     {
         M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
         MainDef.x = 97;
@@ -3288,7 +3288,6 @@ void M_Drawer(void)
     static short        x, y;
     unsigned int        i;
     unsigned int        max;
-    dboolean            uselump = false;
 
     // Horiz. & Vertically center string and print it.
     if (messageToPrint)
@@ -3364,10 +3363,7 @@ void M_Drawer(void)
                 M_DrawString(x, y + OFFSET,
                     (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
             else if (W_CheckMultipleLumps(name) > 1)
-            {
                 M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name, PU_CACHE));
-                uselump = true;
-            }
             else
                 M_DrawString(x, y + OFFSET, *currentMenu->menuitems[i].text);
         }
@@ -3401,29 +3397,7 @@ void M_Drawer(void)
     else if (currentMenu != &ReadDef)
     {
         patch_t         *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
-        int             y = currentMenu->y + itemOn * 16 - 5;
-
-        if (uselump && !vid_widescreen)
-            y += 16;
-
-        if (M_NGAME)
-        {
-            if (!M_SKULL1)
-                y += 2;
-            else
-            {
-                patch_t     *newgame = W_CacheLumpName("M_NGAME", PU_CACHE);
-
-                if (SHORT(newgame->width) != 1 || SHORT(newgame->height) != 1)
-                    y += OFFSET + chex;
-            }
-        }
-        else
-        {
-            y += OFFSET + chex;
-            if (!M_SKULL1)
-                y += 2;
-        }
+        int             y = currentMenu->y + itemOn * 16 - 5 + OFFSET + chex;
 
         if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
             itemOn++;
@@ -3431,7 +3405,7 @@ void M_Drawer(void)
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, y, patch);
         else
-            M_DrawPatchWithShadow(x - 26, y, patch);
+            M_DrawPatchWithShadow(x - 26, y + 2, patch);
     }
 }
 
