@@ -1747,12 +1747,12 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         {
             case GunOnce:
                 if (linefunc(line))
-                    P_ChangeSwitchTexture(line, 0);
+                    P_ChangeSwitchTexture(line, false);
                 return;
 
             case GunMany:
                 if (linefunc(line))
-                    P_ChangeSwitchTexture(line, 1);
+                    P_ChangeSwitchTexture(line, true);
                 return;
 
             default:                // if not a gun type, do nothing here
@@ -1770,28 +1770,28 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     {
         case G1_Floor_RaiseToLowestCeiling:
             if (EV_DoFloor(line, raiseFloor))
-                P_ChangeSwitchTexture(line, 0);
+                P_ChangeSwitchTexture(line, false);
             break;
 
         case GR_Door_OpenStay:
             EV_DoDoor(line, doorOpen);
-            P_ChangeSwitchTexture(line, 1);
+            P_ChangeSwitchTexture(line, true);
             if (canmodify && gamemission == doom2 && gamemap == 18)
                 line->special = -GR_Door_OpenStay;
             break;
 
         case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
             if (EV_DoPlat(line, raiseToNearestAndChange, 0))
-                P_ChangeSwitchTexture(line, 0);
+                P_ChangeSwitchTexture(line, false);
             break;
 
         case G1_ExitLevel:
-            P_ChangeSwitchTexture(line, 0);
+            P_ChangeSwitchTexture(line, false);
             G_ExitLevel();
             break;
 
         case G1_ExitLevel_GoesToSecretLevel:
-            P_ChangeSwitchTexture(line, 0);
+            P_ChangeSwitchTexture(line, false);
             G_SecretExitLevel();
             break;
     }
