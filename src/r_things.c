@@ -117,7 +117,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
 
     if (!rotation)
     {
-        int r;
+        int     r;
 
         // the lump should be used for all rotations
         for (r = 14; r >= 0; r -= 2)
@@ -130,6 +130,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
                 sprtemp[frame].rotate = 0;      // jff 4/24/98 if any subbed, rotless
             }
         }
+
         return;
     }
 
@@ -295,6 +296,7 @@ static void R_InitSpriteDefs(void)
             }
         }
     }
+
     free(hash); // free hash table
 
     firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
@@ -466,7 +468,7 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
 //
 // R_DrawVisSprite
 //
-void R_DrawVisSprite(vissprite_t *vis)
+static void R_DrawVisSprite(const vissprite_t *vis)
 {
     fixed_t             frac;
     const fixed_t       startfrac = vis->startfrac;
@@ -539,7 +541,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 //
 // R_DrawPlayerVisSprite
 //
-void R_DrawPlayerVisSprite(vissprite_t *vis)
+static void R_DrawPlayerVisSprite(const vissprite_t *vis)
 {
     fixed_t             frac = vis->startfrac;
     const fixed_t       x2 = vis->x2;
@@ -559,7 +561,7 @@ void R_DrawPlayerVisSprite(vissprite_t *vis)
     R_UnlockPatchNum(id);
 }
 
-void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
+static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
 {
     fixed_t             frac = vis->startfrac;
     const fixed_t       xiscale = vis->xiscale;
@@ -585,7 +587,7 @@ void R_DrawBloodSplatVisSprite(bloodsplatvissprite_t *vis)
 // Generates a vissprite for a thing
 //  if it might be visible.
 //
-void R_ProjectSprite(mobj_t *thing)
+static void R_ProjectSprite(mobj_t *thing)
 {
     fixed_t             tx;
 
@@ -806,7 +808,7 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
-static void R_ProjectBloodSplat(bloodsplat_t *splat)
+static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 {
     fixed_t                     tx;
 

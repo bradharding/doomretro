@@ -64,6 +64,4 @@ void R_ClearSprites(void);
 void R_DrawPlayerSprites(void);
 void R_DrawMasked(void);
 
-void R_ProjectSprite(mobj_t *thing);
-
 #endif
