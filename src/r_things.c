@@ -928,13 +928,12 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 static dboolean muzzleflash;
 
-static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
+static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean dehacked)
 {
     fixed_t             tx;
     int                 x1, x2;
     vissprite_t         *vis;
     vissprite_t         tempvis;
-    dboolean            dehacked = weaponinfo[viewplayer->readyweapon].dehacked;
 
     // decide which patch to use
     state_t             *state = psp->state;
@@ -1076,18 +1075,19 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility)
 void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
-    pspdef_t    *psp;
+    dboolean    dehacked = weaponinfo[viewplayer->readyweapon].dehacked;
+    pspdef_t    *weapon = viewplayer->psprites;
+    pspdef_t    *flash = weapon + 1;
 
     // add all active psprites
     if ((invisibility > 128 || (invisibility & 8)) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251);
 
-        psp = viewplayer->psprites;
-        if (psp->state)
-            R_DrawPlayerSprite(psp, true);
-        if ((++psp)->state)
-            R_DrawPlayerSprite(psp, true);
+        if (weapon->state)
+            R_DrawPlayerSprite(weapon, true, dehacked);
+        if (flash->state)
+            R_DrawPlayerSprite(flash, true, dehacked);
 
         if (pausesprites)
             R_DrawPausedFuzzColumns();
@@ -1097,17 +1097,15 @@ void R_DrawPlayerSprites(void)
     else
     {
         muzzleflash = false;
-        psp = viewplayer->psprites;
-        if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
+        if (weapon->state && (weapon->state->frame & FF_FULLBRIGHT))
             muzzleflash = true;
-        else if ((++psp)->state && (psp->state->frame & FF_FULLBRIGHT))
+        else if (flash->state && (flash->state->frame & FF_FULLBRIGHT))
             muzzleflash = true;
 
-        psp = viewplayer->psprites;
-        if (psp->state)
-            R_DrawPlayerSprite(psp, false);
-        if ((++psp)->state)
-            R_DrawPlayerSprite(psp, false);
+        if (weapon->state)
+            R_DrawPlayerSprite(weapon, false, dehacked);
+        if (flash->state)
+            R_DrawPlayerSprite(flash, false, dehacked);
     }
 }
 
