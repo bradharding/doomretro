@@ -4430,7 +4430,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     else
                         P_ResurrectPlayer(player, value);
                 }
-                else if (!(player->cheats & CF_BUDDHA))
+                else
                 {
                     if (value < player->health)
                         P_DamageMobj(player->mo, NULL, NULL, player->health - value, false);
