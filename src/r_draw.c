@@ -300,7 +300,7 @@ void R_DrawWallColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       iscale = dc_iscale;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale + SPARKLEFIX;
     const fixed_t       fracstep = iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
@@ -400,7 +400,7 @@ void R_DrawFullbrightWallColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       iscale = dc_iscale;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale + SPARKLEFIX;
     const fixed_t       fracstep = iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const byte          *colormask = dc_colormask;

@@ -1,6 +1,7 @@
 ### DOOM Retro v2.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Improvements have been made to *DOOM Retro’s* renderer.
 * The gray elements in the alternate widescreen HUD now appear correctly in PWADs with custom `PLAYPAL` lumps.
 * Minor changes have been made to elements in the status bar and alternate widescreen HUD.
 * The `Shots Fired`, `Shots Hit` and `Weapon Accuracy` stats displayed by the `playerstats` CCMD are now calculated correctly.
