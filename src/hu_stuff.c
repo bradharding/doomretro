@@ -750,6 +750,7 @@ static void HU_DrawAltHUD(void)
     int color1 = color2 + (color2 == green ? coloroffset : 0);
     int keys = 0;
     int i = 0;
+    int power;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
         health);
@@ -872,6 +873,13 @@ static void HU_DrawAltHUD(void)
             }
         }
     }
+
+    power = MAX(plr->powers[pw_invulnerability], MAX(plr->powers[pw_invisibility],
+        MAX(plr->powers[pw_infrared], plr->powers[pw_ironfeet]))) / TICRATE;
+
+    if (power)
+        DrawAltHUDNumber2(ALTHUD_RIGHT_X - 23 - AltHUDNumber2Width(power), ALTHUD_Y + 13, power, color2);
+
 }
 
 void HU_DrawDisk(void)
