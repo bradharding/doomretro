@@ -3,7 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to *DOOM Retro’s* renderer.
 * The gray elements in the alternate widescreen HUD now appear correctly in PWADs with custom `PLAYPAL` lumps.
-* Minor changes have been made to elements in the status bar and alternate widescreen HUD.
+* Minor changes have been made to some elements in the status bar and alternate widescreen HUD.
 * A countdown timer is now displayed in the alternate widescreen HUD when the player has a power-up.
 * The `Shots Fired`, `Shots Hit` and `Weapon Accuracy` stats displayed by the `playerstats` CCMD are now calculated correctly.
 * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.

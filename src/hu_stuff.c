@@ -875,10 +875,13 @@ static void HU_DrawAltHUD(void)
     }
 
     power = MAX(plr->powers[pw_invulnerability], MAX(plr->powers[pw_invisibility],
-        MAX(plr->powers[pw_infrared], plr->powers[pw_ironfeet]))) / TICRATE;
+        MAX(plr->powers[pw_infrared], plr->powers[pw_ironfeet])));
 
-    if (power)
+    if (power > 4 * 32 || (power & 8))
+    {
+        power /= TICRATE;
         DrawAltHUDNumber2(ALTHUD_RIGHT_X - 23 - AltHUDNumber2Width(power), ALTHUD_Y + 13, power, color2);
+    }
 
 }
 
