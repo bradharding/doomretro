@@ -1080,7 +1080,7 @@ void R_DrawPlayerSprites(void)
     pspdef_t    *flash = weapon + 1;
 
     // add all active psprites
-    if ((invisibility > 128 || (invisibility & 8)) && r_textures)
+    if ((invisibility > STARTFLASHING || (invisibility & 8)) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251);
 

@@ -512,10 +512,9 @@ void P_PlayerThink(player_t *player)
         player->bonuscount--;
 
     // Handling colormaps.
-    if (player->powers[pw_invulnerability] > 4 * 32
-        || (player->powers[pw_invulnerability] & 8))
+    if (player->powers[pw_invulnerability] > STARTFLASHING || (player->powers[pw_invulnerability] & 8))
         player->fixedcolormap = INVERSECOLORMAP;
     else
-        player->fixedcolormap = (player->powers[pw_infrared] > 4 * 32
+        player->fixedcolormap = (player->powers[pw_infrared] > STARTFLASHING
             || (player->powers[pw_infrared] & 8));
 }

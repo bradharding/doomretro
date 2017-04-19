@@ -381,7 +381,7 @@ static void HU_DrawHUD(void)
 
     if (patch)
     {
-        if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
+        if ((plr->cheats & CF_GODMODE) || invulnerability > STARTFLASHING || (invulnerability & 8))
             godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
         else
             hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
@@ -877,7 +877,7 @@ static void HU_DrawAltHUD(void)
     power = MAX(plr->powers[pw_invulnerability], MAX(plr->powers[pw_invisibility],
         MAX(plr->powers[pw_infrared], plr->powers[pw_ironfeet])));
 
-    if (power > 4 * 32 || (power & 8))
+    if (power > STARTFLASHING || (power & 8))
     {
         power /= TICRATE;
         DrawAltHUDNumber2(ALTHUD_RIGHT_X - 23 - AltHUDNumber2Width(power), ALTHUD_Y + 13, power, gray);

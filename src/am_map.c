@@ -1774,14 +1774,14 @@ static void AM_drawPlayer(void)
 
     if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
-        if (invisibility > 128 || (invisibility & 8))
+        if (invisibility > STARTFLASHING || (invisibility & 8))
             AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle,
                 NULL, point.x, point.y);
         else
             AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle,
                 playercolor, point.x, point.y);
     }
-    else if (invisibility > 128 || (invisibility & 8))
+    else if (invisibility > STARTFLASHING || (invisibility & 8))
         AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, NULL,
             point.x, point.y);
     else
