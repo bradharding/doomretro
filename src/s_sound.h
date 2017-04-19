@@ -73,7 +73,7 @@ void I_StopSong(void);
 // Sets channels, SFX and music volume,
 //  allocates channel buffer, sets S_sfx lookup.
 //
-void S_Init(int sfxvol, int musicvol);
+void S_Init(void);
 
 // Shut down sound
 void S_Shutdown(void);

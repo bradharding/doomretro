@@ -164,7 +164,7 @@ static void InitMusicModule(void)
 // Sets channels, SFX and music volume,
 //  allocates channel buffer, sets S_sfx lookup.
 //
-void S_Init(int sfxvol, int musicvol)
+void S_Init(void)
 {
     if (M_CheckParm("-nosound"))
     {
@@ -199,12 +199,12 @@ void S_Init(int sfxvol, int musicvol)
         int i;
 
         InitSfxModule();
-        S_SetSfxVolume(sfxvol);
+        S_SetSfxVolume(sfxVolume * MAX_SFX_VOLUME / 31);
 
         // Allocating the internal channels for mixing
         // (the maximum number of sounds rendered
         // simultaneously) within zone memory.
-        channels = (channel_t *)Z_Calloc(s_channels, sizeof(channel_t), PU_STATIC, NULL);
+        channels = Z_Calloc(s_channels, sizeof(channel_t), PU_STATIC, NULL);
         sobjs = Z_Malloc(s_channels * sizeof(sobj_t), PU_STATIC, NULL);
 
         // Note that sounds have not been cached (yet).
@@ -215,7 +215,7 @@ void S_Init(int sfxvol, int musicvol)
     if (!nomusic)
     {
         InitMusicModule();
-        S_SetMusicVolume(musicvol);
+        S_SetMusicVolume(musicVolume * MAX_MUSIC_VOLUME / 31);
 
         // no sounds are playing, and they are not mus_paused
         mus_paused = false;
