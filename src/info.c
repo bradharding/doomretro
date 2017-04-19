@@ -3978,7 +3978,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "partial invisibility",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "invisibility",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4019,9 +4019,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "radiation shielding suit",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "radiation suit",
         /* plural2              */ "",
-        /* name3                */ "",
+        /* name3                */ "rad suit",
         /* plural3              */ ""
     },
 
