@@ -880,7 +880,7 @@ static void HU_DrawAltHUD(void)
     if (power > 4 * 32 || (power & 8))
     {
         power /= TICRATE;
-        DrawAltHUDNumber2(ALTHUD_RIGHT_X - 23 - AltHUDNumber2Width(power), ALTHUD_Y + 13, power, color2);
+        DrawAltHUDNumber2(ALTHUD_RIGHT_X - 23 - AltHUDNumber2Width(power), ALTHUD_Y + 13, power, white);
     }
 
 }
