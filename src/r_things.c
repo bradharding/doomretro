@@ -370,7 +370,7 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
     int                 i;
     const int           numposts = column->numPosts;
     const int           ceilingclip = mceilingclip[dc_x] + 1;
-    const int           floorclip = MIN(dc_baseclip, mfloorclip[dc_x] - 1);
+    const int           floorclip = MIN(dc_baseclip, mfloorclip[dc_x]) - 1;
     unsigned char       *pixels = column->pixels;
 
     for (i = 0; i < numposts; i++)
