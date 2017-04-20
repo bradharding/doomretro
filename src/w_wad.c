@@ -80,24 +80,6 @@ int                     numlumps;
 // Hash table for fast lookups
 static lumpindex_t      *lumphash;
 
-static void ExtractFileBase(char *path, char *dest)
-{
-    char        *src = path + strlen(path) - 1;
-    char        *filename;
-    int         length = 0;
-
-    // back up until a \ or the start
-    while (src != path && *(src - 1) != '\\' && *(src - 1) != '/')
-        src--;
-
-    // copy up to eight characters
-    filename = src;
-    memset(dest, 0, 8);
-
-    while (*src != '\0' && *src != '.')
-        dest[length++] = (char)toupper((int)*src++);
-}
-
 // Hash function used for lump names.
 unsigned int W_LumpNameHash(const char *s)
 {
