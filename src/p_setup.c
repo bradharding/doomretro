@@ -2013,7 +2013,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
+                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]),
@@ -2030,7 +2030,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
+                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(bfgedition && !modifiedgame ?
@@ -2055,7 +2055,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
+                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesp[map - 1]), sizeof(maptitle));
@@ -2071,7 +2071,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
+                    leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
@@ -2374,10 +2374,9 @@ static void InitMapInfo(void)
         }
         if (map < 1 || map > 99)
         {
-            if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wad_file->path), "NERVE.WAD"))
+            if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wadfile->path), "NERVE.WAD"))
             {
-                C_Warning("The map markers in PWAD %s are invalid.",
-                    lumpinfo[MAPINFO]->wad_file->path);
+                C_Warning("The map markers in PWAD %s are invalid.", lumpinfo[MAPINFO]->wadfile->path);
                 nerve = false;
                 NewDef.prevMenu = &MainDef;
                 MAPINFO = -1;
@@ -2530,8 +2529,7 @@ static void InitMapInfo(void)
     mapcount = mapmax;
 
     C_Output("Parsed the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", (RMAPINFO >= 0 ? "R" : ""),
-        (lumpinfo[MAPINFO]->wad_file->type == IWAD ? "IWAD" : "PWAD"),
-        lumpinfo[MAPINFO]->wad_file->path);
+        (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 }
 
 static int QualifyMap(int map)

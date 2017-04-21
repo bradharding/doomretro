@@ -1313,7 +1313,7 @@ static void SetVideoMode(dboolean output)
     Uint32              rmask, gmask, bmask, amask;
     int                 bpp;
     SDL_RendererInfo    rendererinfo;
-    wad_file_t          *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
+    wadfile_t           *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
     dboolean            iwad = (playpalwad->type == IWAD);
 
     displayindex = vid_display - 1;

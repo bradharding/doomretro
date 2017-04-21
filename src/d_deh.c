@@ -1970,7 +1970,7 @@ void ProcessDehFile(char *filename, int lumpnum)
             return;
         }
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
-        filename = lumpinfo[lumpnum]->wad_file->path;
+        filename = lumpinfo[lumpnum]->wadfile->path;
     }
 
     {

@@ -60,22 +60,26 @@ typedef int lumpindex_t;
 struct lumpinfo_s
 {
     char        name[8];
-    wad_file_t  *wad_file;
-    int         position;
     int         size;
-    void        *cache;
+    void        *data;
 
-    // Used for hash table lookups
+    // killough 1/31/98: hash table fields, used for ultra-fast hash table lookup
+    int         index;
     lumpindex_t next;
+
+    int         position;
+
+    wadfile_t   *wadfile;
 };
 
 extern lumpinfo_t       **lumpinfo;
 extern int              numlumps;
 
-wad_file_t *W_AddFile(char *filename, dboolean automatic);
+wadfile_t *W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);
 
 lumpindex_t W_CheckNumForName(char *name);
+
 lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, char *name);
 lumpindex_t W_GetNumForName(char *name);
 lumpindex_t W_GetNumForName2(char *name);
@@ -83,19 +87,21 @@ lumpindex_t W_GetNumForNameX(char *name, unsigned int count);
 
 int W_CheckMultipleLumps(char *name);
 
-int W_LumpLength(lumpindex_t lump);
-void W_ReadLump(lumpindex_t lump, void *dest);
+int W_LumpLength(lumpindex_t lumpnum);
+void W_ReadLump(lumpindex_t lumpnum, void *dest);
 
-void *W_CacheLumpNum(lumpindex_t lump, int tag);
-void *W_CacheLumpName(char *name, int tag);
-void *W_CacheLumpName2(char *name, int tag);
+void *W_CacheLumpNum(lumpindex_t lumpnum, int tag);
 
-void W_GenerateHashTable(void);
+#define W_CacheLumpName(name, tag)      W_CacheLumpNum(W_GetNumForName(name), (tag))
+#define W_CacheLumpName2(name, tag)     W_CacheLumpNum(W_GetNumForName2(name), (tag))
+
+void W_InitHashTable(void);
 
 unsigned int W_LumpNameHash(const char *s);
 
 void W_ReleaseLumpNum(lumpindex_t lump);
-void W_ReleaseLumpName(char *name);
+
+#define W_ReleaseLumpName(name)         W_ReleaseLumpNum(W_GetNumForName(name))
 
 int IWADRequiredByPWAD(const char *pwadname);
 dboolean HasDehackedLump(const char *pwadname);

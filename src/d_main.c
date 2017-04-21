@@ -1781,20 +1781,24 @@ static void D_DoomMainSetup(void)
                     }
                 }
             }
+
     while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\nspecifying one with the "
             "-IWAD command-line parameter.");
 
-    FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
-    FREEDM = (W_CheckNumForName("FREEDM") >= 0);
-
     if (!W_MergeFile(packagewad, true))
         I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
 
+    // Generate the WAD hash table. Speed things up a bit.
+    W_InitHashTable();
+
     if (!CheckPackageWADVersion())
         I_Error("%s is the wrong version.\nPlease reinstall "PACKAGE_NAME".", packagewad);
+
+    FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
+    FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
     DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
@@ -1825,9 +1829,6 @@ static void D_DoomMainSetup(void)
     DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
-
-    // Generate the WAD hash table. Speed things up a bit.
-    W_GenerateHashTable();
 
     I_InitGamepad();
 

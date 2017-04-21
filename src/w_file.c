@@ -42,23 +42,23 @@
 #include "w_file.h"
 #include "z_zone.h"
 
-wad_file_t *W_OpenFile(char *path)
+wadfile_t *W_OpenFile(char *path)
 {
-    wad_file_t  *result;
+    wadfile_t   *result;
     FILE        *fstream = fopen(path, "rb");
 
     if (!fstream)
         return NULL;
 
     // Create a new wad_file_t to hold the file handle.
-    result = Z_Malloc(sizeof(wad_file_t), PU_STATIC, NULL);
+    result = Z_Malloc(sizeof(wadfile_t), PU_STATIC, NULL);
     result->length = M_FileLength(fstream);
     result->fstream = fstream;
 
     return result;
 }
 
-void W_CloseFile(wad_file_t *wad)
+void W_CloseFile(wadfile_t *wad)
 {
     fclose(wad->fstream);
     Z_Free(wad);
@@ -66,7 +66,7 @@ void W_CloseFile(wad_file_t *wad)
 
 // Read data from the specified position in the file into the
 // provided buffer. Returns the number of bytes read.
-size_t W_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len)
+size_t W_Read(wadfile_t *wad, unsigned int offset, void *buffer, size_t buffer_len)
 {
     // Jump to the specified position in the file.
     fseek(wad->fstream, offset, SEEK_SET);

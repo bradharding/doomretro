@@ -250,7 +250,7 @@ void P_SetLiquids(void)
             SC_MustGetString();
             lump = R_CheckFlatNumForName(sc_String);
             SC_MustGetString();
-            if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wad_file->path), sc_String))
+            if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wadfile->path), sc_String))
                 isliquid[lump] = false;
         }
     }

@@ -274,7 +274,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     if (!ValidSpriteLumpName(lump->name))
         return;
 
-    if (lump->wad_file->type == PWAD)
+    if (lump->wadfile->type == PWAD)
     {
         MISFA0 += M_StringCompare(lump->name, "MISFA0");
         MISFB0 += M_StringCompare(lump->name, "MISFB0");
@@ -283,7 +283,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
             SHT2A0 = true;
     }
 
-    if (M_StringCompare(leafname(lump->wad_file->path), PACKAGE_WAD)
+    if (M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD)
         && (M_StringCompare(lump->name, "MISFA0") || M_StringCompare(lump->name, "MISFB0"))
         && ((MISFA0 > 2 || MISFB0 > 2) || hacx || FREEDOOM))
         return;
@@ -448,11 +448,9 @@ static void DoMerge(void)
         switch (current_section)
         {
             case SECTION_NORMAL:
-                if (!strncasecmp(lump->name, "F_START", 8)
-                    || !strncasecmp(lump->name, "FF_START", 8))
+                if (!strncasecmp(lump->name, "F_START", 8) || !strncasecmp(lump->name, "FF_START", 8))
                     current_section = SECTION_FLATS;
-                else if (!strncasecmp(lump->name, "S_START", 8)
-                    || !strncasecmp(lump->name, "SS_START", 8))
+                else if (!strncasecmp(lump->name, "S_START", 8) || !strncasecmp(lump->name, "SS_START", 8))
                     current_section = SECTION_SPRITES;
                 else
                 {
@@ -463,8 +461,7 @@ static void DoMerge(void)
 
             case SECTION_FLATS:
                 // PWAD flats are ignored (already merged)
-                if (!strncasecmp(lump->name, "FF_END", 8)
-                    || !strncasecmp(lump->name, "F_END", 8))
+                if (!strncasecmp(lump->name, "FF_END", 8) || !strncasecmp(lump->name, "F_END", 8))
                 {
                     // end of section
                     current_section = SECTION_NORMAL;
@@ -473,8 +470,7 @@ static void DoMerge(void)
 
             case SECTION_SPRITES:
                 // PWAD sprites are ignored (already merged)
-                if (!strncasecmp(lump->name, "SS_END", 8)
-                    || !strncasecmp(lump->name, "S_END", 8))
+                if (!strncasecmp(lump->name, "SS_END", 8) || !strncasecmp(lump->name, "S_END", 8))
                 {
                     // end of section
                     current_section = SECTION_NORMAL;

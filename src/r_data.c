@@ -532,7 +532,7 @@ void R_InitColormaps(void)
     dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     int         i;
     byte        *palsrc, *palette;
-    wad_file_t  *colormapwad;
+    wadfile_t   *colormapwad;
 
     if (W_CheckNumForName("C_START") >= 0 && W_CheckNumForName("C_END") >= 0)
     {
@@ -552,7 +552,7 @@ void R_InitColormaps(void)
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, NULL);
         colormaps[0] = W_CacheLumpName("COLORMAP", PU_STATIC);
     }
-    colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wad_file;
+    colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
     C_Output("Using %s colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
         (numcolormaps == 1 ? "the" : commify(numcolormaps)), (numcolormaps == 1 ? "" : "s"),
         (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
@@ -660,6 +660,7 @@ int R_CheckTextureNumForName(char *name)
     if (*name != '-')
     {
         i = textures[W_LumpNameHash(name) % (unsigned int)numtextures]->index;
+
         while (i >= 0 && strncasecmp(textures[i]->name, name, 8))
             i = textures[i]->next;
     }

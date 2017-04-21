@@ -43,9 +43,9 @@
 #include <stdio.h>
 #endif
 
-typedef struct _wad_file_s wad_file_t;
+typedef struct wadfile_s wadfile_t;
 
-struct _wad_file_s
+struct wadfile_s
 {
     FILE                *fstream;
 
@@ -59,16 +59,16 @@ struct _wad_file_s
     int                 type;
 };
 
-// Open the specified file. Returns a pointer to a new wad_file_t
+// Open the specified file. Returns a pointer to a new wadfile_t
 // handle for the WAD file, or NULL if it could not be opened.
-wad_file_t *W_OpenFile(char *path);
+wadfile_t *W_OpenFile(char *path);
 
 // Close the specified WAD file.
-void W_CloseFile(wad_file_t *wad);
+void W_CloseFile(wadfile_t *wad);
 
 // Read data from the specified file into the provided buffer. The
 // data is read from the specified offset from the start of the file.
 // Returns the number of bytes read.
-size_t W_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len);
+size_t W_Read(wadfile_t *wad, unsigned int offset, void *buffer, size_t buffer_len);
 
 #endif

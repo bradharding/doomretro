@@ -113,6 +113,7 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
     {
         if (spot < column->topdelta)
             return false;
+
         if (spot >= column->topdelta && spot <= column->topdelta + column->length)
             return true;
 
@@ -135,7 +136,7 @@ static dboolean CheckIfPatch(int lump)
     if (size < 13)
         return false;
 
-    patch = (const patch_t *)W_CacheLumpNum(lump, PU_STATIC);
+    patch = W_CacheLumpNum(lump, PU_STATIC);
 
     width = SHORT(patch->width);
     height = SHORT(patch->height);
@@ -432,10 +433,8 @@ static void createTextureCompositePatch(int id)
 
     // set out pixel, column, and post pointers into our data array
     composite_patch->pixels = composite_patch->data;
-    composite_patch->columns = (rcolumn_t *)((unsigned char *)composite_patch->pixels
-        + pixelDataSize);
-    composite_patch->posts = (rpost_t *)((unsigned char *)composite_patch->columns
-        + columnsDataSize);
+    composite_patch->columns = (rcolumn_t *)((unsigned char *)composite_patch->pixels + pixelDataSize);
+    composite_patch->posts = (rpost_t *)((unsigned char *)composite_patch->columns + columnsDataSize);
 
     // sanity check that we've got all the memory allocated we need
     assert((((byte *)composite_patch->posts + numPostsTotal * sizeof(rpost_t))
@@ -448,8 +447,7 @@ static void createTextureCompositePatch(int id)
     for (x = 0; x < texture->width; x++)
     {
         // setup the column's data
-        composite_patch->columns[x].pixels = composite_patch->pixels
-            + (x * composite_patch->height);
+        composite_patch->columns[x].pixels = composite_patch->pixels + x * composite_patch->height;
         composite_patch->columns[x].numPosts = countsInColumn[x].posts;
         composite_patch->columns[x].posts = composite_patch->posts + numPostsUsedSoFar;
         numPostsUsedSoFar += countsInColumn[x].posts;
@@ -495,7 +493,7 @@ static void createTextureCompositePatch(int id)
                 // set up the post's data
                 post->topdelta = top + oy;
                 post->length = count;
-                if ((post->topdelta + post->length) > composite_patch->height)
+                if (post->topdelta + post->length > composite_patch->height)
                 {
                     if (post->topdelta > composite_patch->height)
                         post->length = 0;
@@ -504,7 +502,7 @@ static void createTextureCompositePatch(int id)
                 }
                 if (post->topdelta < 0)
                 {
-                    if ((post->topdelta + post->length) <= 0)
+                    if (post->topdelta + post->length <= 0)
                         post->length = 0;
                     else
                         post->length -= post->topdelta;
@@ -520,8 +518,7 @@ static void createTextureCompositePatch(int id)
                         continue;
                     if (ty >= composite_patch->height)
                         break;
-                    composite_patch->pixels[tx * composite_patch->height + ty]
-                        = oldColumnPixelData[y];
+                    composite_patch->pixels[tx * composite_patch->height + ty] = oldColumnPixelData[y];
                 }
 
                 oldColumn = (const column_t *)((const byte *)oldColumn + oldColumn->length + 4);
@@ -554,8 +551,8 @@ static void createTextureCompositePatch(int id)
 
             if (post1->topdelta + post1->length >= post2->topdelta)
             {
-                int     length = (post1->length + post2->length) - ((post1->topdelta
-                    + post1->length) - post2->topdelta);
+                int     length = post1->length + post2->length - (post1->topdelta
+                    + post1->length - post2->topdelta);
 
                 if (post1->length < length)
                     post1->length = length;

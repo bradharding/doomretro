@@ -2515,9 +2515,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         if (!ep-- || !map--)
             continue;
 
-        M_StringCopy(wad, uppercase(leafname(lumpinfo[i]->wad_file->path)), MAX_PATH);
+        M_StringCopy(wad, uppercase(leafname(lumpinfo[i]->wadfile->path)), MAX_PATH);
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
-        pwad = (lumpinfo[i]->wad_file->type == PWAD);
+        pwad = (lumpinfo[i]->wadfile->type == PWAD);
         M_StringCopy(mapinfoname, P_GetMapName(ep * 10 + map + 1), 128);
 
         switch (gamemission)
@@ -2718,8 +2718,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
         i = (nerve && gamemission == doom2 ? W_GetNumForName2(lumpname) :
             W_CheckNumForName(lumpname));
-        C_TabbedOutput(tabs, "%s\t<b>%s</b>", (lumpinfo[i]->wad_file->type == IWAD ? "IWAD" :
-            "PWAD"), uppercase(leafname(lumpinfo[i]->wad_file->path)));
+        C_TabbedOutput(tabs, "%s\t<b>%s</b>", (lumpinfo[i]->wadfile->type == IWAD ? "IWAD" :
+            "PWAD"), uppercase(leafname(lumpinfo[i]->wadfile->path)));
     }
 
     C_TabbedOutput(tabs, "Type\t<b>%s%s</b>", (boomlinespecials ? "<i>BOOM</i>-compatible" :

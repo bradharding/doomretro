@@ -619,10 +619,10 @@ void D_SetGameDescription(void)
             gamedescription = s_CAPTION_FREEDOOM1;
         else if (W_CheckMultipleLumps("TITLEPIC") > 1)
             gamedescription = uppercase(leafname(
-                lumpinfo[W_GetNumForName("TITLEPIC")]->wad_file->path));
+                lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->path));
         else if (W_CheckMultipleLumps("M_DOOM") > 1)
             gamedescription = uppercase(leafname(
-                lumpinfo[W_GetNumForName("M_DOOM")]->wad_file->path));
+                lumpinfo[W_GetNumForName("M_DOOM")]->wadfile->path));
         else if (gamemode == retail)
             gamedescription = s_CAPTION_ULTIMATE;
         else if (gamemode == registered)
@@ -644,10 +644,10 @@ void D_SetGameDescription(void)
             gamedescription = s_CAPTION_DOOM2;
         else if (W_CheckMultipleLumps("TITLEPIC") > 1)
             gamedescription = uppercase(leafname(
-                lumpinfo[W_GetNumForName("TITLEPIC")]->wad_file->path));
+                lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->path));
         else if (W_CheckMultipleLumps("M_DOOM") > 1)
             gamedescription = uppercase(leafname(
-                lumpinfo[W_GetNumForName("M_DOOM")]->wad_file->path));
+                lumpinfo[W_GetNumForName("M_DOOM")]->wadfile->path));
         else if (gamemission == doom2)
             gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH, NULL);
         else if (gamemission == pack_plut)
