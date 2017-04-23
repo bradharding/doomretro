@@ -59,7 +59,6 @@
 #include "z_zone.h"
 
 #define RMAPINFO_SCRIPT_NAME    "RMAPINFO"
-#define UMAPINFO_SCRIPT_NAME    "UMAPINFO"
 #define MAPINFO_SCRIPT_NAME     "MAPINFO"
 
 #define NUMLIQUIDS              256
@@ -202,7 +201,6 @@ static int mapcmdids[] =
 dboolean        canmodify;
 dboolean        transferredsky;
 lumpindex_t     RMAPINFO;
-lumpindex_t     UMAPINFO;
 lumpindex_t     MAPINFO;
 
 dboolean        r_fixmaperrors = r_fixmaperrors_default;
@@ -2326,9 +2324,8 @@ static void InitMapInfo(void)
         return;
 
     if ((RMAPINFO = MAPINFO = W_CheckNumForName(RMAPINFO_SCRIPT_NAME)) < 0)
-        if ((UMAPINFO = MAPINFO = W_CheckNumForName(UMAPINFO_SCRIPT_NAME)) < 0)
-            if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
-                return;
+        if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
+            return;
 
     info = mapinfo;
 
@@ -2351,8 +2348,7 @@ static void InitMapInfo(void)
     for (i = 0; i < numtextures; i++)
         nobrightmap[i] = false;
 
-    SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : (UMAPINFO >= 0 ? UMAPINFO_SCRIPT_NAME :
-        MAPINFO_SCRIPT_NAME));
+    SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
     while (SC_GetString())
     {
         if (!SC_Compare("MAP"))
@@ -2532,9 +2528,8 @@ static void InitMapInfo(void)
     SC_Close();
     mapcount = mapmax;
 
-    C_Output("Parsed the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", (RMAPINFO >= 0 ? "R" :
-        (UMAPINFO >= 0 ? "U" : "")), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
-        lumpinfo[MAPINFO]->wadfile->path);
+    C_Output("Parsed the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", (RMAPINFO >= 0 ? "R" : ""),
+        (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 }
 
 static int QualifyMap(int map)
