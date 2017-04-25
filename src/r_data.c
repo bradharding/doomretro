@@ -664,6 +664,7 @@ int R_CheckTextureNumForName(char *name)
         while (i >= 0 && strncasecmp(textures[i]->name, name, 8))
             i = textures[i]->next;
     }
+
     return i;
 }
 
@@ -681,6 +682,7 @@ int R_TextureNumForName(char *name)
         C_Warning("The %.8s texture can't be found.", uppercase(name));
         return 0;
     }
+
     return i;
 }
 

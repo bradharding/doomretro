@@ -59,7 +59,7 @@ typedef int lumpindex_t;
 
 struct lumpinfo_s
 {
-    char        name[8];
+    char        name[9];
     int         size;
     void        *data;
 

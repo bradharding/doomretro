@@ -132,7 +132,6 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     filelump_t  *fileinfo;
     filelump_t  *filerover;
     lumpinfo_t  *filelumps;
-    int         numfilelumps;
 
     // open the file and add to directory
     wadfile_t  *wadfile = W_OpenFile(filename);
@@ -162,10 +161,9 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     fileinfo = malloc(length);
 
     W_Read(wadfile, header.infotableofs, fileinfo, length);
-    numfilelumps = header.numlumps;
 
-    // Increase size of numlumps array to accomodate the new file.
-    filelumps = calloc(numfilelumps, sizeof(lumpinfo_t));
+    // Increase size of numlumps array to accommodate the new file.
+    filelumps = calloc(header.numlumps, sizeof(lumpinfo_t));
 
     startlump = numlumps;
     numlumps += header.numlumps;
