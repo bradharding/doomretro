@@ -110,45 +110,55 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
     byte        *dest = screens[scrn] + y * SCREENWIDTH + x;
     byte        *dot;
     int         xx, yy;
-    const byte  *tint20 = tinttab20 + (color <<= 8);
-    const byte  *tint40 = tinttab40 + color;
-    const byte  *tint60 = tinttab60 + color;
-
-    dot = dest - 1 - SCREENWIDTH * 2;
-    *dot = *(tint20 + *dot);
-    dot += SCREENWIDTH;
-    for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-        *dot = *(tint40 + *dot);
-    *dot = *(tint20 + *dot);
-
-    dot = dest - 2 - SCREENWIDTH;
-    for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-        *dot = *(tint20 + *dot);
+    const byte  *tint60 = tinttab60 + (color <<= 8);
 
     for (xx = 0; xx < width; xx++)
     {
-        dot = dest + xx - SCREENWIDTH * 2;
-        *dot = *(tint20 + *dot);
-        dot += SCREENWIDTH;
-        *dot = *(tint40 + *dot);
-        dot += SCREENWIDTH;
+        dot = dest + xx;
         for (yy = 0; yy < height; yy++, dot += SCREENWIDTH)
             *dot = *(tint60 + *dot);
-        *dot = *(tint40 + *dot);
-        dot += SCREENWIDTH;
-        *dot = *(tint20 + *dot);
     }
 
-    dot = dest + width - SCREENWIDTH * 2;
-    *dot = *(tint20 + *dot);
-    dot += SCREENWIDTH;
-    for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-        *dot = *(tint40 + *dot);
-    *dot = *(tint20 + *dot);
+    if (height > 2)
+    {
+        const byte  *tint20 = tinttab20 + color;
+        const byte  *tint40 = tinttab40 + color;
 
-    dot = dest + width + 1 - SCREENWIDTH;
-    for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+        dot = dest - 1 - SCREENWIDTH * 2;
         *dot = *(tint20 + *dot);
+        dot += SCREENWIDTH;
+        for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+            *dot = *(tint40 + *dot);
+        *dot = *(tint20 + *dot);
+
+        dot = dest - 2 - SCREENWIDTH;
+        for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+            *dot = *(tint20 + *dot);
+
+        for (xx = 0; xx < width; xx++)
+        {
+            dot = dest + xx - SCREENWIDTH * 2;
+            *dot = *(tint20 + *dot);
+            dot += SCREENWIDTH;
+            *dot = *(tint40 + *dot);
+            dot += SCREENWIDTH;
+            for (yy = 0; yy < height; yy++, dot += SCREENWIDTH);
+            *dot = *(tint40 + *dot);
+            dot += SCREENWIDTH;
+            *dot = *(tint20 + *dot);
+        }
+
+        dot = dest + width - SCREENWIDTH * 2;
+        *dot = *(tint20 + *dot);
+        dot += SCREENWIDTH;
+        for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+            *dot = *(tint40 + *dot);
+        *dot = *(tint20 + *dot);
+
+        dot = dest + width + 1 - SCREENWIDTH;
+        for (yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+            *dot = *(tint20 + *dot);
+    }
 }
 
 //

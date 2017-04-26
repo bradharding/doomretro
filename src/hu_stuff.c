@@ -879,8 +879,13 @@ static void HU_DrawAltHUD(void)
 
     if (power > STARTFLASHING || (power & 8))
     {
-        power /= TICRATE;
-        DrawAltHUDNumber2(ALTHUD_RIGHT_X - 23 - AltHUDNumber2Width(power), ALTHUD_Y + 13, power, gray);
+        int     max = (power == plr->powers[pw_invulnerability] ? INVULNTICS :
+                      (power == plr->powers[pw_invisibility] ? INVISTICS :
+                      (power == plr->powers[pw_infrared] ? INFRATICS : IRONTICS)));
+        int     width = power * 101 / max;
+
+        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, darkgray);
+        fillrectfunc(0, ALTHUD_RIGHT_X + 101 - width, ALTHUD_Y + 26, width, 2, gray);
     }
 
 }
