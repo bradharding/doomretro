@@ -46,6 +46,7 @@ extern fixed_t  animatedliquiddiff;
 extern dboolean skipaction;
 extern dboolean software;
 
+extern dboolean m_look;
 extern dboolean r_liquid_bob;
 
 void G_RemoveChoppers(void);
@@ -213,9 +214,11 @@ static void P_MovePlayer(player_t *player)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
-    if (!menuactive)
-        player->lookdir = BETWEEN(-LOOKDIRMIN * MLOOKUNIT, LOOKDIRMAX * MLOOKUNIT,
-            player->lookdir + cmd->lookdir);
+    if (m_look)
+        player->lookdir = BETWEEN(-LOOKDIRMIN * MLOOKUNIT, player->lookdir + cmd->lookdir,
+            LOOKDIRMAX * MLOOKUNIT);
+    else
+        player->lookdir = 0;
 }
 
 // P_ReduceDamageCount
