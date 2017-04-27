@@ -98,6 +98,7 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum);
 //
 // 16 pixels of bob
 #define MAXBOB                  0x100000
+#define MLOOKUNIT               8
 
 void P_PlayerThink(player_t *player);
 void P_ResurrectPlayer(player_t *player, int health);

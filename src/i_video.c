@@ -77,7 +77,6 @@
 #endif
 
 // CVARs
-dboolean                m_novertical = m_novertical_default;
 int                     vid_capfps = vid_capfps_default;
 int                     vid_display = vid_display_default;
 #if !defined(_WIN32)
@@ -686,7 +685,7 @@ static void I_ReadMouse(void)
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
         ev.data2 = AccelerateMouse(x);
-        ev.data3 = (m_novertical ? 0 : -AccelerateMouse(y));
+        ev.data3 = -AccelerateMouse(y);
 
         D_PostEvent(&ev);
     }

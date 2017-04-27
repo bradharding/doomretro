@@ -202,6 +202,7 @@ int             mousex;
 int             mousey;
 
 dboolean        m_doubleclick_use = m_doubleclick_use_default;
+dboolean        m_novertical = m_novertical_default;
 
 static int      dclicktime;
 static dboolean dclickstate;
@@ -465,7 +466,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    forward += mousey;
+    //if (m_look)
+        cmd->lookdir = mousey;
+    //else if (!m_novertical)
+    //    forward += mousey;
 
     if (strafe)
         side += mousex * 2;

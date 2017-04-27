@@ -408,8 +408,9 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
-    int i;
-    int j;
+    int         i;
+    int         j;
+    fixed_t     dy;
 
     setsizeneeded = false;
 
@@ -450,7 +451,16 @@ void R_ExecuteSetViewSize(void)
 
     // planes
     for (i = 0; i < viewheight; i++)
-        yslope[i] = FixedDiv(projectiony, ABS(((i - viewheight / 2) << FRACBITS) + FRACUNIT / 2));
+    {
+        fixed_t num = viewwidth / 2 * FRACUNIT;
+
+        for (j = 0; j < LOOKDIRS; j++)
+        {
+            dy = ABS(((i - (viewheight / 2 + ((j - LOOKDIRMIN) << 1) * r_screensize / 10)) << FRACBITS) + FRACUNIT / 2);
+            yslopes[j][i] = FixedDiv(num, dy);
+        }
+    }
+    yslope = yslopes[LOOKDIRMIN];
 
     for (i = 0; i < viewwidth; i++)
         distscale[i] = FixedDiv(FRACUNIT, ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]));
@@ -670,6 +680,8 @@ void R_SetupFrame(player_t *player)
 {
     int         cm = 0;
     mobj_t      *mo = player->mo;
+    int         tempCentery;
+    int         pitch;
 
     viewplayer = player;
     viewplayer->mo->flags2 |= MF2_DONTDRAW;
@@ -695,6 +707,7 @@ void R_SetupFrame(player_t *player)
         viewy = mo->oldy + FixedMul(mo->y - mo->oldy, fractionaltic);
         viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
+        pitch = (player->oldlookdir + (player->lookdir - player->oldlookdir) * FIXED2DOUBLE(fractionaltic)) / MLOOKUNIT;
     }
     else
     {
@@ -702,6 +715,7 @@ void R_SetupFrame(player_t *player)
         viewy = mo->y;
         viewz = player->viewz;
         viewangle = mo->angle;
+        pitch = player->lookdir / MLOOKUNIT;
     }
 
     if (explosiontics && !consoleactive && !menuactive && !paused)
@@ -712,6 +726,16 @@ void R_SetupFrame(player_t *player)
     }
 
     extralight = player->extralight << 1;
+
+    pitch = BETWEEN(-LOOKDIRMAX, pitch, LOOKDIRMAX);
+
+    tempCentery = viewheight / 2 + (pitch << 1) * r_screensize / 10;
+    if (centery != tempCentery)
+    {
+        centery = tempCentery;
+        centeryfrac = centery << FRACBITS;
+        yslope = yslopes[LOOKDIRMIN + pitch];
+    }
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];

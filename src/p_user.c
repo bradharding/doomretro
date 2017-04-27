@@ -212,6 +212,10 @@ static void P_MovePlayer(player_t *player)
         if (mo->state == states + S_PLAY)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
+
+    if (!menuactive)
+        player->lookdir = BETWEEN(-LOOKDIRMIN * MLOOKUNIT, LOOKDIRMAX * MLOOKUNIT,
+            player->lookdir + cmd->lookdir);
 }
 
 // P_ReduceDamageCount
@@ -353,6 +357,7 @@ void P_PlayerThink(player_t *player)
     mo->oldz = mo->z;
     mo->oldangle = mo->angle;
     player->oldviewz = player->viewz;
+    player->oldlookdir = player->lookdir;
 
     if (player->cheats & CF_NOCLIP)
         mo->flags |= MF_NOCLIP;
