@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include "doomdef.h"
-#include "doomtype.h"
 #include "r_sky.h"
 
 //
@@ -48,13 +46,3 @@ int     skytexture;
 int     skytexturemid;
 int     skycolumnoffset;
 int     skyscrolldelta;
-
-extern dboolean m_look;
-//
-// R_InitSkyMap
-// Called whenever the view size changes.
-//
-void R_InitSkyMap(void)
-{
-    skytexturemid = (m_look ? -28*FRACUNIT * 128 / 228 : ORIGINALHEIGHT / 2 * FRACUNIT);
-}

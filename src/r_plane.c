@@ -426,8 +426,10 @@ void R_DrawPlanes(void)
                         // Vertical offset allows careful sky positioning.
                         dc_texturemid = s->rowoffset - 28 * FRACUNIT;
 
+                        dc_texheight = textureheight[texture] >> FRACBITS;
+
                         if (m_look)
-                            dc_texturemid = dc_texturemid * (textureheight[texture] >> FRACBITS) / 228;
+                            dc_texturemid = dc_texturemid * dc_texheight / 228;
 
                         // We sometimes flip the picture horizontally.
                         //
@@ -438,14 +440,14 @@ void R_DrawPlanes(void)
                     }
                     else        // Normal DOOM sky, only one allowed per level
                     {
-                        dc_texturemid = skytexturemid;  // Default y-offset
-                        texture = skytexture;           // Default texture
-                        flip = 0;                       // DOOM flips it
+                        texture = skytexture;                   // Default texture
+                        dc_texheight = textureheight[texture] >> FRACBITS;
+                        dc_texturemid = (m_look ? -28 * FRACUNIT * 128 / 228 : ORIGINALHEIGHT / 2 * FRACUNIT);
+                        flip = 0;                               // DOOM flips it
                     }
 
                     dc_colormap = (fixedcolormap ? fixedcolormap : fullcolormap);
 
-                    dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_iscale = pspriteiscale;
 
                     if (m_look)
