@@ -257,7 +257,7 @@ void R_InitTextures(void)
 
     // Load the patch names from pnames.lmp.
     name[8] = '\0';
-    names = W_CacheLumpNum(names_lump = W_GetNumForName("PNAMES"), PU_STATIC);
+    names = W_CacheLumpNum((names_lump = W_GetNumForName("PNAMES")), PU_STATIC);
     nummappatches = LONG(*((const int *)names));
     name_p = names + 4;
     patchlookup = malloc(nummappatches * sizeof(*patchlookup));   // killough

@@ -1414,10 +1414,8 @@ void R_DrawColorSpan(void)
     byte                *dest = topleft0 + ds_y * SCREENWIDTH + ds_x1;
     byte                color = ds_colormap[NOTEXTURECOLOR];
 
-    while (--count)
+    while (count--)
         *dest++ = color;
-
-    *dest = color;
 }
 
 //
