@@ -57,6 +57,7 @@ am_wallcolor 176
 autoload off
 centerweapon off
 facebackcolor 5
+m_look off
 messages on
 movebob 100%
 playername "you"
