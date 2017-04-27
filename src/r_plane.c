@@ -91,6 +91,8 @@ int                     skycolor;
 dboolean                r_liquid_swirl = r_liquid_swirl_default;
 int                     r_skycolor = r_skycolor_default;
 
+extern dboolean         m_look;
+
 //
 // R_MapPlane
 //
@@ -424,13 +426,15 @@ void R_DrawPlanes(void)
                         // Vertical offset allows careful sky positioning.
                         dc_texturemid = s->rowoffset - 28 * FRACUNIT;
 
+                        if (m_look)
+                            dc_texturemid = dc_texturemid * (textureheight[texture] >> FRACBITS) / 228;
+
                         // We sometimes flip the picture horizontally.
                         //
                         // DOOM always flipped the picture, so we make it optional,
                         // to make it easier to use the new feature, while to still
                         // allow old sky textures to be used.
-                        flip = (l->special == TransferSkyTextureToTaggedSectors_Flipped ?
-                            0u : ~0u);
+                        flip = (l->special == TransferSkyTextureToTaggedSectors_Flipped ? 0u : ~0u);
                     }
                     else        // Normal DOOM sky, only one allowed per level
                     {
@@ -443,6 +447,9 @@ void R_DrawPlanes(void)
 
                     dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_iscale = pspriteiscale;
+
+                    if (m_look)
+                        dc_iscale = dc_iscale * 128 / 228;
 
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
 
