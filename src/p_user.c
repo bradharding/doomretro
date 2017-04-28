@@ -259,6 +259,17 @@ static void P_DeathThink(player_t *player)
 
         if (player->viewheight < 6 * FRACUNIT)
             player->viewheight = 6 * FRACUNIT;
+
+        if (m_look)
+        {
+            if (player->lookdir > 0)
+                player->lookdir -= 6;
+            else if (player->lookdir < 0)
+                player->lookdir += 6;
+
+            if (ABS(player->lookdir) < 6)
+                player->lookdir = 0;
+        }
     }
     player->deltaviewheight = 0;
     P_CalcHeight(player);
