@@ -707,7 +707,8 @@ void R_SetupFrame(player_t *player)
         viewy = mo->oldy + FixedMul(mo->y - mo->oldy, fractionaltic);
         viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
-        pitch = (player->oldlookdir + (player->lookdir - player->oldlookdir) * FIXED2DOUBLE(fractionaltic)) / MLOOKUNIT;
+        pitch = (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
+            * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
     }
     else
     {
