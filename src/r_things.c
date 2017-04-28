@@ -91,6 +91,7 @@ dboolean                r_playersprites = r_playersprites_default;
 extern fixed_t          animatedliquiddiff;
 extern dboolean         drawbloodsplats;
 extern dboolean         inhelpscreens;
+extern dboolean         m_look;
 extern dboolean         notranslucency;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_shadows;
@@ -951,10 +952,61 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
     // store information in a vissprite
     vis = &tempvis;
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
+        
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
     vis->patch = lump;
+
+    // interpolation for weapon bobbing
+    if (interpolatesprites)
+    {
+        typedef struct
+        {
+            int x1;
+            int x1_prev;
+            int texturemid;
+            int texturemid_prev;
+            int lump;
+        } psp_interpolate_t;
+
+        static psp_interpolate_t        psp_inter;
+
+        if (realframe)
+        {
+            psp_inter.x1 = psp_inter.x1_prev;
+            psp_inter.texturemid = psp_inter.texturemid_prev;
+        }
+
+        psp_inter.x1_prev = vis->x1;
+        psp_inter.texturemid_prev = vis->texturemid;
+
+        if (lump == psp_inter.lump && !skippsprinterp && !skippsprinterp2)
+        {
+            int deltax = vis->x2 - vis->x1;
+
+            vis->x1 = psp_inter.x1 + FixedMul(fractionaltic, vis->x1 - psp_inter.x1);
+            vis->x2 = vis->x1 + deltax;
+            vis->texturemid = psp_inter.texturemid
+                + FixedMul(fractionaltic, vis->texturemid - psp_inter.texturemid);
+        }
+        else
+        {
+            psp_inter.x1 = vis->x1;
+            psp_inter.texturemid = vis->texturemid;
+            psp_inter.lump = lump;
+
+            skippsprinterp2 = false;
+
+            if (skippsprinterp)
+                skippsprinterp2 = true;
+
+            skippsprinterp = false;
+        }
+    }
+
+    if (m_look)
+        vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
 
     if (invisibility)
     {
@@ -1010,59 +1062,12 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
             {
                 sector_t *sec = viewplayer->mo->subsector->sector;
                 short    lightlevel = (sec->floorlightsec == -1 ? sec->lightlevel :
-                             sectors[sec->floorlightsec].lightlevel);
+                    sectors[sec->floorlightsec].lightlevel);
                 int      lightnum = (lightlevel >> OLDLIGHTSEGSHIFT) + extralight * OLDLIGHTBRIGHT;
 
                 vis->colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)]
                     [MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];
             }
-        }
-    }
-
-    // e6y: interpolation for weapon bobbing
-    if (interpolatesprites)
-    {
-        typedef struct
-        {
-            int x1;
-            int x1_prev;
-            int texturemid;
-            int texturemid_prev;
-            int lump;
-        } psp_interpolate_t;
-
-        static psp_interpolate_t        psp_inter;
-
-        if (realframe)
-        {
-            psp_inter.x1 = psp_inter.x1_prev;
-            psp_inter.texturemid = psp_inter.texturemid_prev;
-        }
-
-        psp_inter.x1_prev = vis->x1;
-        psp_inter.texturemid_prev = vis->texturemid;
-
-        if (lump == psp_inter.lump && !skippsprinterp && !skippsprinterp2)
-        {
-            int deltax = vis->x2 - vis->x1;
-
-            vis->x1 = psp_inter.x1 + FixedMul(fractionaltic, vis->x1 - psp_inter.x1);
-            vis->x2 = vis->x1 + deltax;
-            vis->texturemid = psp_inter.texturemid
-                + FixedMul(fractionaltic, vis->texturemid - psp_inter.texturemid);
-        }
-        else
-        {
-            psp_inter.x1 = vis->x1;
-            psp_inter.texturemid = vis->texturemid;
-            psp_inter.lump = lump;
-
-            skippsprinterp2 = false;
-
-            if (skippsprinterp)
-                skippsprinterp2 = true;
-
-            skippsprinterp = false;
         }
     }
 
