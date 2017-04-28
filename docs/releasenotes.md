@@ -5,6 +5,7 @@
 * The gray elements in the alternate widescreen HUD now appear correctly in PWADs with custom `PLAYPAL` lumps.
 * Minor changes have been made to some elements in the status bar and alternate widescreen HUD.
 * A countdown bar is now displayed in the alternate widescreen HUD underneath the ammo bar when the player has a power-up.
+* Mouselook can now be enabled using the new `m_look` CVAR. It is `off` by default.
 * The `Shots Fired`, `Shots Hit` and `Weapon Accuracy` stats displayed by the `playerstats` CCMD are now calculated correctly.
 * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.
 * A bug has been fixed whereby some teleports wouldn’t animate correctly in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
