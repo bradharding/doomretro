@@ -43,6 +43,7 @@
 #include "dstrings.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_swap.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -195,6 +196,7 @@ patch_t                         *tallnum[10];
 
 // tall % sign
 patch_t                         *tallpercent;
+short                           tallpercentwidth;
 dboolean                        emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
@@ -1455,6 +1457,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
     // Load percent key.
     callback("STTPRCNT", &tallpercent);
+    tallpercentwidth = SHORT(tallpercent->width);
     emptytallpercent = V_EmptyPatch(tallpercent);
 
     // key cards

@@ -101,6 +101,7 @@ dboolean                r_hud = r_hud_default;
 dboolean                r_hud_translucency = r_hud_translucency_default;
 
 static patch_t          *stdisk;
+static short            stdiskwidth;
 dboolean                drawdisk;
 
 extern dboolean         messages;
@@ -110,6 +111,7 @@ extern dboolean         vid_widescreen;
 extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
+extern short            tallpercentwidth;
 extern dboolean         emptytallpercent;
 extern int              caretcolor;
 
@@ -245,9 +247,11 @@ void HU_Init(void)
         keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
     }
 
-    lump = W_CheckNumForName(M_CheckParm("-cdrom") ? "STCDROM" : "STDISK");
-    if (lump >= 0)
+    if ((lump = W_CheckNumForName(M_CheckParm("-cdrom") ? "STCDROM" : "STDISK")) >= 0)
+    {
         stdisk = W_CacheLumpNum(lump, PU_CACHE);
+        stdiskwidth = SHORT(stdisk->width);
+    }
 
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
@@ -488,7 +492,7 @@ static void HU_DrawHUD(void)
         else
         {
             if (emptytallpercent)
-                keypic_x += SHORT(tallpercent->width);
+                keypic_x += tallpercentwidth;
 
             if (armor < 10)
                 keypic_x += 26;
@@ -544,7 +548,7 @@ static void HU_DrawHUD(void)
             }
             else
             {
-                armor_x -= SHORT(tallpercent->width);
+                armor_x -= tallpercentwidth;
                 V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y + hudnumoffset, tallpercent,
                     tinttab66);
                 armor_x -= HUDNumberWidth(armor);
@@ -559,7 +563,7 @@ static void HU_DrawHUD(void)
         }
         else
         {
-            armor_x -= SHORT(tallpercent->width);
+            armor_x -= tallpercentwidth;
             hudnumfunc(armor_x, HUD_ARMOR_Y + hudnumoffset, tallpercent, tinttab66);
             armor_x -= HUDNumberWidth(armor);
             DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66, hudnumfunc);
@@ -599,6 +603,7 @@ altkeypic_t altkeypics[NUMCARDS] =
 static patch_t  *altnum[10];
 static patch_t  *altnum2[10];
 static patch_t  *altnegpatch;
+static short    altnegpatchwidth;
 static patch_t  *altweapon[NUMWEAPONS];
 static patch_t  *altendpatch;
 static patch_t  *altleftpatch;
@@ -631,6 +636,7 @@ void HU_AltInit(void)
     }
 
     altnegpatch = W_CacheLumpName2("DRHUDNEG", PU_CACHE);
+    altnegpatchwidth = SHORT(altnegpatch->width);
 
     for (i = 1; i < NUMWEAPONS; i++)
     {
@@ -676,8 +682,8 @@ static void DrawAltHUDNumber(int x, int y, int val)
     if (val < 0)
     {
         val = -val;
-        althudfunc(x - SHORT(altnegpatch->width) - ((val == 1 || val == 7 || (val >= 10 && val <= 19)
-            || (val >= 70 && val <= 79) || (val >= 100 && val <= 199)) ? 1 : 2), y, altnegpatch, WHITE, white);
+        althudfunc(x - altnegpatchwidth - ((val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70
+            && val <= 79) || (val >= 100 && val <= 199)) ? 1 : 2), y, altnegpatch, WHITE, white);
     }
     if (val > 99)
     {
@@ -891,8 +897,7 @@ static void HU_DrawAltHUD(void)
 void HU_DrawDisk(void)
 {
     if (r_diskicon && stdisk)
-        V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
-            HU_MSGY * SCREENSCALE, 0, stdisk);
+        V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE, 0, stdisk);
 }
 
 void HU_Drawer(void)
