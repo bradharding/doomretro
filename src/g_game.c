@@ -658,8 +658,8 @@ void G_DoLoadLevel(void)
             skycolor = r_skycolor;
         }
         else
-            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) ?
-                R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
+                && !m_look ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
     }
     else
     {
