@@ -952,6 +952,7 @@ void P_SpawnPlayer(const mapthing_t *mthing)
     p->mo->momy = 0;
     p->momx = 0;
     p->momy = 0;
+    p->lookdir = 0;
 
     // setup gun psprite
     P_SetupPsprites(p);
