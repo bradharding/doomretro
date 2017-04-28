@@ -1354,7 +1354,7 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
 
             putdot(x0, y0, color);
             while (x0 != x1)
-                putdot(x0 += sx, y0, color);
+                putdot((x0 += sx), y0, color);
         }
     }
     else if (!dx)
@@ -1367,7 +1367,7 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
 
         putdot(x0, y0, color);
         while (y0 != y1)
-            putdot(x0, y0 += sy, color);
+            putdot(x0, (y0 += sy), color);
     }
     else
     {
@@ -1382,7 +1382,7 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         {
             // diagonal line
             while (x0 != x1)
-                putdot(x0 += sx, y0 += sy, color);
+                putdot((x0 += sx), (y0 += sy), color);
         }
         else
         {
@@ -1396,7 +1396,7 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
                 {
                     int mask = ~(error >> 31);
 
-                    putdot(x0 += sx, y0 += (sy & mask), color);
+                    putdot((x0 += sx), (y0 += (sy & mask)), color);
                     error += dy - (dx & mask);
                 }
             }
@@ -1411,7 +1411,7 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
                 {
                     int mask = ~(error >> 31);
 
-                    putdot(x0 += (sx & mask), y0 += sy, color);
+                    putdot((x0 += (sx & mask)), (y0 += sy), color);
                     error += dx - (dy & mask);
                 }
             }
@@ -1521,7 +1521,7 @@ static void AM_drawMline2(int x0, int y0, int x1, int y1, byte color)
 static void AM_drawBigMline(int x0, int y0, int x1, int y1, byte *color)
 {
     if (AM_clipMline(&x0, &y0, &x1, &y1))
-        AM_drawFline(x0, y0, x1, y1, color, PUTBIGDOT);
+        AM_drawFline(x0, y0, x1, y1, color, (scale_mtof >= FRACUNIT * 1.5 ? PUTBIGDOT : PUTDOT));
 }
 
 static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)

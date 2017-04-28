@@ -17,6 +17,7 @@
 * Linedefs with specials 166 (“S1 Ceiling Raise To Highest Ceiling”) and 186 (“SR Ceiling Raise To Highest Ceiling”) in *BOOM*-compatible maps now behave as intended.
 * The bottom of spectres are now clipped correctly when partially obscured by a higher sector.
 * The gold palette effect will no longer stay on the screen if the player picks up an item and dies at the same time.
+* Red walls in the automap are now drawn thinner when zoomed out far enough.
 
 ---
 
