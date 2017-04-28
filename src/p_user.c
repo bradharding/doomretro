@@ -288,6 +288,9 @@ static void P_DeathThink(player_t *player)
     else
         P_ReduceDamageCount(player);
 
+    if (player->bonuscount)
+        player->bonuscount--;
+
     if (consoleheight)
         return;
 
