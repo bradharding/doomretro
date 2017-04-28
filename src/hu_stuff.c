@@ -824,8 +824,6 @@ static void HU_DrawAltHUD(void)
         if (weapon)
             althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, white);
     }
-    else
-        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
 
     while (i < NUMCARDS)
         if (plr->cards[i++] > 0)
