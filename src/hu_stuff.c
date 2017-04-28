@@ -676,8 +676,8 @@ static void DrawAltHUDNumber(int x, int y, int val)
     if (val < 0)
     {
         val = -val;
-        althudfunc(x - SHORT(altnegpatch->width) - ((val == 1 || (val >= 10 && val <= 19)
-            || (val >= 100 && val <= 199)) ? 1 : 2), y, altnegpatch, WHITE, white);
+        althudfunc(x - SHORT(altnegpatch->width) - ((val == 1 || val == 7 || (val >= 10 && val <= 19)
+            || (val >= 70 && val <= 79) || (val >= 100 && val <= 199)) ? 1 : 2), y, altnegpatch, WHITE, white);
     }
     if (val > 99)
     {
