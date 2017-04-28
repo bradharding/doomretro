@@ -437,6 +437,7 @@ static void am_path_cvar_func2(char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *);
+static void m_look_cvar_func2(char *, char *);
 static dboolean player_cvars_func1(char *, char *);
 static void player_cvars_func2(char *, char *);
 static void playername_cvar_func2(char *, char *);
@@ -675,7 +676,7 @@ consolecmd_t consolecmds[] =
         "The amount the mouse accelerates."),
     CVAR_BOOL(m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles double-clicking a mouse button for the <b>+use</b>\naction."),
-    CVAR_BOOL(m_look, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(m_look, "", bool_cvars_func1, m_look_cvar_func2, BOOLVALUEALIAS,
         "Toggles mouselook."),
     CVAR_BOOL(m_novertical, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles no vertical movement of the mouse."),
@@ -4350,6 +4351,21 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parms)
 }
 
 //
+// m_look CVAR
+//
+static void m_look_cvar_func2(char *cmd, char *parms)
+{
+    dboolean m_look_old = m_look;
+
+    bool_cvars_func2(cmd, parms);
+    if (!m_look && m_look_old && gamestate == GS_LEVEL)
+    {
+        viewplayer->lookdir = 0;
+        viewplayer->oldlookdir = 0;
+    }
+}
+
+//
 // ammo, armor and health CVARs
 //
 dboolean P_CheckAmmo(player_t *player);
@@ -4459,7 +4475,6 @@ static void player_cvars_func2(char *cmd, char *parms)
 //
 // playername CVAR
 //
-
 static void playername_cvar_func2(char *cmd, char *parms)
 {
     if (M_StringCompare(parms, EMPTYVALUE))
