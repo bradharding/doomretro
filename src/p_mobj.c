@@ -78,6 +78,7 @@ static fixed_t floatbobdiffs[64] =
 };
 
 extern fixed_t          animatedliquiddiffs[64];
+extern dboolean         m_look;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_liquid_clipsprites;
 extern dboolean         r_liquid_lowerview;
@@ -1382,7 +1383,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
         if (!linetarget)
         {
             an = source->angle;
-            slope = 0;
+            slope = (m_look ? ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
         }
     }
 

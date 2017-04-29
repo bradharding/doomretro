@@ -61,6 +61,7 @@ dboolean        successfulshot;
 dboolean        skippsprinterp;
 
 extern dboolean hitwall;
+extern dboolean m_look;
 extern int      stillbob;
 
 void P_CheckMissileSpawn(mobj_t *th);
@@ -596,10 +597,14 @@ static void P_BulletSlope(mobj_t *mo)
     {
         an += 1 << 26;
         bulletslope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
+
         if (!linetarget)
         {
             an -= 2 << 26;
             bulletslope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
+
+            if (!linetarget && m_look)
+                bulletslope = ((mo->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;
         }
     }
 }
