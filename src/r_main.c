@@ -379,8 +379,7 @@ void R_InitLightTables(void)
         {
             int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT);
             int t;
-            int level = BETWEEN(0, startmap - (scale >>= LIGHTSCALESHIFT) / DISTMAP,
-                NUMCOLORMAPS - 1) * 256;
+            int level = BETWEEN(0, startmap - (scale >>= LIGHTSCALESHIFT) / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: Initialize multiple colormaps
             for (t = 0; t < numcolormaps; t++)
@@ -434,8 +433,7 @@ void R_ExecuteSetViewSize(void)
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
     centeryfrac = centery << FRACBITS;
-    projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH
-        * FRACUNIT;
+    projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH * FRACUNIT;
 
     R_InitBuffer(scaledviewwidth, viewheight);
 
@@ -457,7 +455,8 @@ void R_ExecuteSetViewSize(void)
 
         for (j = 0; j < LOOKDIRS; j++)
         {
-            dy = ABS(((i - (viewheight / 2 + ((j - LOOKDIRMIN) << 1) * r_screensize / 10)) << FRACBITS) + FRACUNIT / 2);
+            dy = ABS(((i - (viewheight / 2 + ((j - LOOKDIRMIN) << 1) * (r_screensize + 3) / 10)) << FRACBITS)
+                + FRACUNIT / 2);
             yslopes[j][i] = FixedDiv(num, dy);
         }
     }
@@ -730,7 +729,7 @@ void R_SetupFrame(player_t *player)
 
     pitch = BETWEEN(-LOOKDIRMAX, pitch, LOOKDIRMAX);
 
-    tempCentery = viewheight / 2 + (pitch << 1) * r_screensize / 10;
+    tempCentery = viewheight / 2 + (pitch << 1) * (r_screensize + 3) / 10;
     if (centery != tempCentery)
     {
         centery = tempCentery;
