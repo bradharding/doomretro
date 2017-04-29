@@ -65,7 +65,6 @@ int                     gamepadbuttons;
 short                   gamepadthumbLX;
 short                   gamepadthumbLY;
 short                   gamepadthumbRX;
-short                   gamepadthumbRY;
 float                   gamepadsensitivity;
 short                   gamepadleftdeadzone;
 short                   gamepadrightdeadzone;
@@ -198,7 +197,6 @@ void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY
     gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
     gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, LY), gamepadleftdeadzone);
     gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, RX), gamepadrightdeadzone);
-    gamepadthumbRY = clamp(SDL_JoystickGetAxis(gamepad, RY), gamepadrightdeadzone);
 }
 
 void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
@@ -206,7 +204,6 @@ void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
     gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, RX), gamepadrightdeadzone);
     gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, RY), gamepadrightdeadzone);
     gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
-    gamepadthumbRY = clamp(SDL_JoystickGetAxis(gamepad, LY), gamepadleftdeadzone);
 }
 
 void I_PollDirectInputGamepad(void)
@@ -261,7 +258,6 @@ void I_PollDirectInputGamepad(void)
             gamepadthumbLX = 0;
             gamepadthumbLY = 0;
             gamepadthumbRX = 0;
-            gamepadthumbRY = 0;
         }
     }
 }
@@ -287,7 +283,6 @@ void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY)
     gamepadthumbLX = clamp(LX, gamepadleftdeadzone);
     gamepadthumbLY = -clamp(LY, gamepadleftdeadzone);
     gamepadthumbRX = clamp(RX, gamepadrightdeadzone);
-    gamepadthumbRY = -clamp(RY, gamepadrightdeadzone);
 }
 
 void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
@@ -295,7 +290,6 @@ void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
     gamepadthumbLX = clamp(RX, gamepadrightdeadzone);
     gamepadthumbLY = -clamp(RY, gamepadrightdeadzone);
     gamepadthumbRX = clamp(LX, gamepadleftdeadzone);
-    gamepadthumbRY = -clamp(LY, gamepadleftdeadzone);
 }
 
 void I_PollXInputGamepad(void)
@@ -351,7 +345,6 @@ void I_PollXInputGamepad(void)
             gamepadthumbLX = 0;
             gamepadthumbLY = 0;
             gamepadthumbRX = 0;
-            gamepadthumbRY = 0;
         }
     }
 #endif

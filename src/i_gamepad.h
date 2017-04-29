@@ -78,8 +78,6 @@
                                         ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
 #define gamepadthumbRXright             pow((gamepadthumbRX - gamepadrightdeadzone) /\
                                         ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
-#define gamepadthumbRYupdown            (float)(gamepadthumbRY - gamepadrightdeadzone) /\
-                                        ((float)SHRT_MAX - gamepadrightdeadzone)
 
 #define GP_SENSITIVITY_OFFSET           0.2f
 #define GP_SENSITIVITY_FACTOR           4.0f
@@ -91,7 +89,6 @@ extern int      gamepadbuttons;
 extern short    gamepadthumbLX;
 extern short    gamepadthumbLY;
 extern short    gamepadthumbRX;
-extern short    gamepadthumbRY;
 extern dboolean vibrate;
 extern int      currentmotorspeed;
 extern int      idlemotorspeed;
