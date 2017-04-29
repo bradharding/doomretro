@@ -700,7 +700,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 if (player->health > maxhealth)
                     player->health = maxhealth;
                 else
+                {
+                    P_AddHealth(player, 1);
                     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                }
                 player->mo->health = player->health;
             }
             if (message)
