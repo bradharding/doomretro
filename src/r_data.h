@@ -44,7 +44,7 @@
 #include "r_state.h"
 
 #define LOOKDIRMIN      110
-#define LOOKDIRMAX      90
+#define LOOKDIRMAX      89
 #define LOOKDIRS        (LOOKDIRMIN + 1 + LOOKDIRMAX)
 
 #if defined(_MSC_VER) || defined(__GNUC__)
