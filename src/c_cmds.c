@@ -60,6 +60,7 @@
 #include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"
+#include "r_sky.h"
 #include "s_sound.h"
 #include "sc_man.h"
 #include "sounds.h"
@@ -4355,13 +4356,17 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parms)
 //
 static void m_look_cvar_func2(char *cmd, char *parms)
 {
-    dboolean m_look_old = m_look;
+    dboolean    m_look_old = m_look;
 
     bool_cvars_func2(cmd, parms);
-    if (!m_look && m_look_old && gamestate == GS_LEVEL)
+    if (m_look != m_look_old && gamestate == GS_LEVEL)
     {
-        viewplayer->lookdir = 0;
-        viewplayer->oldlookdir = 0;
+        R_InitSkyMap();
+        if (!m_look)
+        {
+            viewplayer->lookdir = 0;
+            viewplayer->oldlookdir = 0;
+        }
     }
 }
 

@@ -442,7 +442,8 @@ void R_DrawPlanes(void)
                     {
                         texture = skytexture;                   // Default texture
                         dc_texheight = textureheight[texture] >> FRACBITS;
-                        dc_texturemid = (m_look ? -28 * FRACUNIT * 128 / 228 : ORIGINALHEIGHT / 2 * FRACUNIT);
+                        dc_texturemid = (m_look ? -28 * FRACUNIT * dc_texheight / 228 :
+                            ORIGINALHEIGHT / 2 * FRACUNIT);
                         flip = 0;                               // DOOM flips it
                     }
 

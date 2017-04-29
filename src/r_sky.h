@@ -50,4 +50,6 @@ extern int      skytexturemid;
 extern int      skycolumnoffset;
 extern int      skyscrolldelta;
 
+void R_InitSkyMap(void);
+
 #endif

@@ -36,7 +36,11 @@
 ========================================================================
 */
 
+#include "doomstat.h"
+#include "p_setup.h"
+#include "r_data.h"
 #include "r_sky.h"
+#include "r_state.h"
 
 //
 // sky mapping
@@ -46,3 +50,50 @@ int     skytexture;
 int     skytexturemid;
 int     skycolumnoffset;
 int     skyscrolldelta;
+
+extern dboolean m_look;
+
+void R_InitSkyMap(void)
+{
+    int map = (gameepisode - 1) * 10 + gamemap;
+
+    skyflatnum = R_FlatNumForName(SKYFLATNAME);
+
+    skytexture = P_GetMapSky1Texture(map);
+    if (!skytexture || ((textureheight[skytexture] >> FRACBITS) > 128 && !m_look))
+    {
+        if (gamemode == commercial)
+        {
+            if (gamemap < 12)
+                skytexture = R_TextureNumForName("SKY1");
+            else if (gamemap < 21)
+                skytexture = R_TextureNumForName("SKY2");
+            else
+                skytexture = R_TextureNumForName("SKY3");
+        }
+        else
+        {
+            switch (gameepisode)
+            {
+                default:
+                case 1:
+                    skytexture = R_TextureNumForName("SKY1");
+                    break;
+
+                case 2:
+                    skytexture = R_TextureNumForName("SKY2");
+                    break;
+
+                case 3:
+                    skytexture = R_TextureNumForName("SKY3");
+                    break;
+
+                case 4:                         // Special Edition sky
+                    skytexture = R_TextureNumForName("SKY4");
+                    break;
+            }
+        }
+    }
+
+    skyscrolldelta = P_GetMapSky1ScrollDelta(map);
+}

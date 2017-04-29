@@ -552,50 +552,7 @@ void G_DoLoadLevel(void)
 
     HU_DrawDisk();
 
-    // Set the sky map.
-    // First thing, we have a dummy sky texture name,
-    //  a flat. The data is in the WAD only because
-    //  we look for an actual index, instead of simply
-    //  setting one.
-    skyflatnum = R_FlatNumForName(SKYFLATNAME);
-
-    skytexture = P_GetMapSky1Texture(map);
-    if (!skytexture || textureheight[skytexture] >> FRACBITS != 128)
-    {
-        if (gamemode == commercial)
-        {
-            if (gamemap < 12)
-                skytexture = R_TextureNumForName("SKY1");
-            else if (gamemap < 21)
-                skytexture = R_TextureNumForName("SKY2");
-            else
-                skytexture = R_TextureNumForName("SKY3");
-        }
-        else
-        {
-            switch (gameepisode)
-            {
-                default:
-                case 1:
-                    skytexture = R_TextureNumForName("SKY1");
-                    break;
-
-                case 2:
-                    skytexture = R_TextureNumForName("SKY2");
-                    break;
-
-                case 3:
-                    skytexture = R_TextureNumForName("SKY3");
-                    break;
-
-                case 4:                         // Special Edition sky
-                    skytexture = R_TextureNumForName("SKY4");
-                    break;
-            }
-        }
-    }
-
-    skyscrolldelta = P_GetMapSky1ScrollDelta(map);
+    R_InitSkyMap();
 
     levelstarttic = gametic;                    // for time calculation
 
