@@ -372,6 +372,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     else if (gamepadthumbLX < 0)
         side -= (int)(sidemove[run] * gamepadthumbLXleft);
 
+    if (gamepadthumbRY && m_look)
+        cmd->lookdir = (int)(LOOKDIRMAX * gamepadthumbRYupdown);
+
     // buttons
     if (skipaction)
         skipaction = false;
@@ -468,7 +471,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 
     if (m_look)
-        cmd->lookdir = mousey;
+    {
+        if (mousey)
+            cmd->lookdir = mousey;
+    }
     else if (!m_novertical)
         forward += mousey;
 
