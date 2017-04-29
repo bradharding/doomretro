@@ -429,7 +429,7 @@ void R_DrawPlanes(void)
                         dc_texheight = textureheight[texture] >> FRACBITS;
 
                         if (m_look)
-                            dc_texturemid = dc_texturemid * dc_texheight / 228;
+                            dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
 
                         // We sometimes flip the picture horizontally.
                         //
@@ -442,17 +442,13 @@ void R_DrawPlanes(void)
                     {
                         texture = skytexture;                   // Default texture
                         dc_texheight = textureheight[texture] >> FRACBITS;
-                        dc_texturemid = (m_look ? -28 * FRACUNIT * dc_texheight / 228 :
-                            ORIGINALHEIGHT / 2 * FRACUNIT);
+                        dc_texturemid = skytexturemid;
                         flip = 0;                               // DOOM flips it
                     }
 
                     dc_colormap = (fixedcolormap ? fixedcolormap : fullcolormap);
 
-                    dc_iscale = pspriteiscale;
-
-                    if (m_look)
-                        dc_iscale = dc_iscale * 128 / 228;
+                    dc_iscale = skyiscale;
 
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
 
