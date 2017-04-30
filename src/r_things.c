@@ -1007,7 +1007,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
 
     if (m_look)
         vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale)
-            - (viewplayer->lookdir << 10);
+            - viewplayer->lookdir * 0x5C0;
 
     if (invisibility)
     {
