@@ -92,6 +92,7 @@ r_shake_damage 0%
 r_skycolor none
 r_textures on
 r_translucency off
+s_channels 8
 s_randommusic off
 s_randompitch off
 stillbob 0%
