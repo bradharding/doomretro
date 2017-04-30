@@ -43,6 +43,7 @@ am_allmapwallcolor 108
 am_backcolor 0
 am_cdwallcolor 160
 am_crosshaircolor 4
+am_external off
 am_fdwallcolor 64
 am_gridcolor 5
 am_gridsize 128x128
@@ -58,6 +59,7 @@ autoload off
 centerweapon off
 facebackcolor 5
 m_look off
+m_novertical off
 messages on
 movebob 100%
 playername "you"
@@ -75,6 +77,7 @@ r_fixmaperrors off
 r_fixspriteoffsets off
 r_floatbob off
 r_gamma off
+r_homindicator off
 r_liquid_bob off
 r_liquid_clipsprites off
 r_liquid_current off
@@ -85,7 +88,7 @@ r_messagescale big
 r_mirroredweapons off
 r_playersprites on
 r_rockettrails off
-r_screensize 7
+r_screensize 6
 r_shadows off
 r_shake_barrels off
 r_shake_damage 0%
@@ -100,5 +103,4 @@ turbo 100%
 vid_capfps 35
 vid_motionblur 0%
 vid_pillarboxes off
-vid_widescreen off
 weaponbob 100%
