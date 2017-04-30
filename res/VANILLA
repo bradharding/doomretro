@@ -60,6 +60,7 @@ centerweapon off
 facebackcolor 5
 m_look off
 m_novertical off
+m_sensitivity 8
 messages on
 movebob 100%
 playername "you"
