@@ -37,7 +37,7 @@
 #
 
 [STRINGS]
-D_DEVSTR = Development mode ON
+D_DEVSTR = Development mode ON.
 PRESSKEY = (Press any key to continue.)
 PRESSYN = (Press 'Y' or 'N' to continue.)
 PRESSA = (Press button 'A' to continue.)
@@ -46,17 +46,17 @@ QLPROMPT = Do you want to quickload the savegame "%s"?
 DELPROMPT = Do you want to delete the savegame "%s"?
 NIGHTMARE = Are you sure? This skill level\nisn't even remotely fair!
 SWSTRING = This is the shareware version of DOOM.\nYou need to purchase the full version.
-MSGOFF = Messages OFF
-MSGON = Messages ON
+MSGOFF = Messages OFF.
+MSGON = Messages ON.
 ENDGAME = Are you sure you want\nto end this game?
 DOSY = (Press 'Y' to quit to Windows.)
 DOSA = (Press button 'A' to quit to Windows.)
 OTHERY = (Press 'Y' to quit.)
 OTHERA = (Press button 'A' to quit.)
-DETAILHI = High graphic detail
-DETAILLO = Low graphic detail
-GAMMALVL = Gamma correction level %.2f
-GAMMAOFF = Gamma correction off
+DETAILHI = High graphic detail.
+DETAILLO = Low graphic detail.
+GAMMALVL = Gamma correction level %.2f.
+GAMMAOFF = Gamma correction off.
 EMPTYSTRING = -
 GOTARMOR = %s picked up some armor.
 GOTMEGA = %s picked up some MegaArmor!
