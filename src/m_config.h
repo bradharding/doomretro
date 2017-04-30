@@ -335,14 +335,6 @@ typedef enum
 
 #define s_randompitch_default                   false
 
-#define s_samplerate_11025                      11025
-#define s_samplerate_22050                      22050
-#define s_samplerate_44100                      44100
-#define s_samplerate_48000                      48000
-#define s_samplerate_min                        s_samplerate_11025
-#define s_samplerate_default                    s_samplerate_44100
-#define s_samplerate_max                        s_samplerate_48000
-
 #define s_sfxvolume_min                         0
 #define s_sfxvolume_default                     100
 #define s_sfxvolume_max                         100

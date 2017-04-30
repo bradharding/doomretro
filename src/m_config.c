@@ -136,7 +136,6 @@ extern int              s_channels;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
-extern int              s_samplerate;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern int              savegameselected;
@@ -317,7 +316,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,                                     NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (s_randommusic,                                     BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (s_randompitch,                                     BOOLVALUEALIAS  ),
-    CONFIG_VARIABLE_INT          (s_samplerate,                                      NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,                                       NOVALUEALIAS    ),
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,                                 NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (savegameselected,                                  NOVALUEALIAS    ),
@@ -877,10 +875,6 @@ static void M_CheckCVARs(void)
 
     if (s_randompitch != false && s_randompitch != true)
         s_randompitch = s_randompitch_default;
-
-    if (s_samplerate != s_samplerate_11025 && s_samplerate != s_samplerate_22050
-        && s_samplerate != s_samplerate_44100 && s_samplerate != s_samplerate_48000)
-        s_samplerate = s_samplerate_default;
 
     s_sfxvolume = BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max);
     sfxVolume = (s_sfxvolume * 31 + 50) / 100;

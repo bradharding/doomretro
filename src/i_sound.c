@@ -584,7 +584,7 @@ void I_ShutdownSound(void)
 // The result must be a power of two.
 static int GetSliceSize(void)
 {
-    int limit = s_samplerate * MAX_SOUND_SLICE_TIME / 1000;
+    int limit = SAMPLERATE * MAX_SOUND_SLICE_TIME / 1000;
     int n;
 
     // Try all powers of two, not exceeding the limit.
@@ -619,7 +619,7 @@ dboolean I_InitSound(void)
             "v%i.%i.%i, not v%i.%i.%i.", linked->major, linked->minor, linked->patch,
             SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
-    if (Mix_OpenAudio(s_samplerate, MIX_DEFAULT_FORMAT, 2, GetSliceSize()) < 0)
+    if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, 2, GetSliceSize()) < 0)
         return false;
 
     if (!Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels))

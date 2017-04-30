@@ -203,7 +203,6 @@ extern int              s_channels;
 extern int              s_musicvolume;
 extern dboolean         s_randommusic;
 extern dboolean         s_randompitch;
-extern int              s_samplerate;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern char             *savegame;
@@ -461,7 +460,6 @@ static dboolean r_skycolor_cvar_func1(char *, char *);
 static void r_skycolor_cvar_func2(char *, char *);
 static void r_textures_cvar_func2(char *, char *);
 static void r_translucency_cvar_func2(char *, char *);
-static dboolean s_samplerate_cvar_func1(char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *);
 static void s_volume_cvars_func2(char *, char *);
 static dboolean turbo_cvar_func1(char *, char *);
@@ -814,8 +812,6 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the music at the start of each\nmap."),
     CVAR_BOOL(s_randompitch, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomizing the pitch of monster sound\neffects."),
-    CVAR_INT(s_samplerate, "", s_samplerate_cvar_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The sample rate of sound effects (<b>11,025</b>, <b>22,050</b>,\n<b>44,100</b> or <b>48,000</b> Hz)."),
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume of sound effects."),
     CVAR_STR(s_timiditycfgpath, "", null_func1, str_cvars_func2, CF_NONE,
@@ -5040,22 +5036,6 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
                 s_sfxvolume, s_sfxvolume_default);
     }
-}
-
-//
-// s_samplerate CVAR
-//
-static dboolean s_samplerate_cvar_func1(char *cmd, char *parms)
-{
-    int value = INT_MIN;
-
-    if (!*parms)
-        return true;
-
-    sscanf(parms, "%10i", &value);
-
-    return (value == s_samplerate_11025 || value == s_samplerate_22050
-        || value == s_samplerate_44100 || value == s_samplerate_48000);
 }
 
 //
