@@ -541,7 +541,7 @@ consolecmd_t consolecmds[] =
     CMD(alias, "", null_func1, alias_cmd_func2, 2, ALIASCMDFORMAT,
         "Creates an <i>alias</i> that executes a string of <i>commands</i>."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
-        "Toggles the player always running when moving."),
+        "Toggles the player always running when they move."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines with a change in ceiling height in\nthe automap when the player has the computer area\nmap power-up (<b>0</b> to <b>255</b>)."),
     CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
