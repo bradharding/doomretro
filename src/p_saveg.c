@@ -52,6 +52,7 @@
 FILE    *save_stream;
 int     savegamelength;
 
+extern dboolean m_look;
 extern dboolean r_shadows_translucency;
 extern dboolean r_textures;
 
