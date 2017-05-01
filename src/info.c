@@ -7925,9 +7925,9 @@ offset_t sproffsets[] =
     { "CBRAA0",     14,   58,  29,  61, MT_MISC50,      true  }, //   15,   57
     { "CELLA0",      8,   10,  17,  12, MT_MISC20,      true  }, //    8,   12
     { "CELPA0",     16,   19,  32,  21, MT_MISC21,      true  }, //   15,   20
-    { "CEYEA0",     22,   59,  48,  60, MT_MISC38,      true  }, //   21,   56
-    { "CEYEB0",     22,   58,  47,  59, MT_MISC38,      true  }, //   21,   55
-    { "CEYEC0",     22,   59,  46,  60, MT_MISC38,      true  }, //   21,   56
+    { "CEYEA0",     22,   59,  48,  60, MT_MISC38,      false }, //   21,   56
+    { "CEYEB0",     22,   58,  47,  59, MT_MISC38,      false }, //   21,   55
+    { "CEYEC0",     22,   59,  46,  60, MT_MISC38,      false }, //   21,   56
     { "CHGFA0",   -116,  -98,  86,  46, NOTYPE,         true  }, // -118,  -98
     { "CHGFB0",   -118,  -97,  85,  47, NOTYPE,         true  }, // -120,  -97
     { "CHGGA0",   -102, -117, 114,  83, NOTYPE,         true  }, // -104, -117
