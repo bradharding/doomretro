@@ -202,6 +202,7 @@ int             mousex;
 int             mousey;
 
 dboolean        m_doubleclick_use = m_doubleclick_use_default;
+dboolean        m_invert = m_invert_default;
 dboolean        m_look = m_look_default;
 dboolean        m_novertical = m_novertical_default;
 
@@ -468,7 +469,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 
     if (m_look)
-        cmd->lookdir = mousey;
+        cmd->lookdir = (m_invert ? -mousey : mousey);
     else if (!m_novertical)
         forward += mousey;
 

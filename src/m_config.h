@@ -206,6 +206,8 @@ typedef enum
 
 #define m_doubleclick_use_default               false
 
+#define m_invert_default                        false
+
 #define m_look_default                          false
 
 #define m_novertical_default                    true

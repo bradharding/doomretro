@@ -87,6 +87,7 @@ extern char             *iwadfolder;
 extern dboolean         messages;
 extern float            m_acceleration;
 extern dboolean         m_doubleclick_use;
+extern dboolean         m_invert;
 extern dboolean         m_look;
 extern dboolean         m_novertical;
 extern int              m_sensitivity;
@@ -265,6 +266,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (iwadfolder,                                        NOVALUEALIAS    ),
     CONFIG_VARIABLE_FLOAT        (m_acceleration,                                    NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,                                 BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (m_invert,                                          BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (m_look,                                            BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (m_novertical,                                      BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (m_sensitivity,                                     NOVALUEALIAS    ),
@@ -735,6 +737,9 @@ static void M_CheckCVARs(void)
 
     if (m_doubleclick_use != false && m_doubleclick_use != true)
         m_doubleclick_use = m_doubleclick_use_default;
+
+    if (m_invert != false && m_invert != true)
+        m_invert = m_invert_default;
 
     if (m_look != false && m_look != true)
         m_look = m_look_default;
