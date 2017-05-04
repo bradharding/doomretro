@@ -794,7 +794,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
         "Toggles displaying all textures."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
-        "Toggles the translucency of sprites and textures."),
+        "Toggles the translucency of sprites and <i><b>BOOM</b></i>-\ncompatible wall textures."),
     CMD(regenhealth, "", null_func1, regenhealth_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles regenerating health."),
     CMD(reset, "", null_func1, reset_cmd_func2, 1, RESETCMDFORMAT,
