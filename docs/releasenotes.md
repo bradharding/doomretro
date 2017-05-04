@@ -21,6 +21,7 @@
 * The gold palette effect will no longer stay on the screen if the player picks up an item and dies at the same time.
 * Red walls in the automap are now drawn thinner when zoomed out far enough.
 * The [wallrunning](https://doomwiki.org/wiki/Wallrunning) bug present in *Vanilla DOOM* is now fixed.
+* If the `r_skycolor` CVAR is set to a color rather than `none`, that color will now be used to render the sky when the `r_textures` CVAR is `off`.
 
 ---
 

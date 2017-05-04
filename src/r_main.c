@@ -120,7 +120,6 @@ dboolean                r_translucency = r_translucency_default;
 
 extern dboolean         canmodify;
 extern int              explosiontics;
-extern int              skycolor;
 extern dboolean         transferredsky;
 extern dboolean         vanilla;
 extern int              viewheight2;
@@ -509,14 +508,13 @@ void R_InitColumnFunctions(void)
         transcolfunc = R_DrawTranslatedColumn;
         wallcolfunc = R_DrawWallColumn;
         fbwallcolfunc = R_DrawFullbrightWallColumn;
+
         if (r_skycolor != r_skycolor_default)
-        {
             skycolfunc = R_DrawSkyColorColumn;
-            skycolor = r_skycolor;
-        }
         else
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
                 && !m_look ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+
         spanfunc = R_DrawSpan;
 
         if (r_translucency)
@@ -572,7 +570,7 @@ void R_InitColumnFunctions(void)
         transcolfunc = R_DrawColorColumn;
         wallcolfunc = R_DrawColorColumn;
         fbwallcolfunc = R_DrawColorColumn;
-        skycolfunc = R_DrawColorColumn;
+        skycolfunc = (r_skycolor == r_skycolor_default ? R_DrawColorColumn : R_DrawSkyColorColumn);
         spanfunc = R_DrawColorSpan;
         tlcolfunc = R_DrawColorColumn;
         tl50colfunc = R_DrawColorColumn;

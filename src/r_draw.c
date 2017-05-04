@@ -167,7 +167,7 @@ int             dc_baseclip;
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
 
-extern int      skycolor;
+extern int      r_skycolor;
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -703,7 +703,7 @@ void R_DrawSkyColorColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    byte        color = skycolor;
+    byte        color = r_skycolor;
 
     while (--count)
     {

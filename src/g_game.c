@@ -229,8 +229,6 @@ extern dboolean transferredsky;
 extern int      timer;
 extern int      countdown;
 
-extern int      skycolor;
-
 extern int      r_skycolor;
 extern dboolean r_textures;
 
@@ -611,19 +609,13 @@ void G_DoLoadLevel(void)
     if (r_textures)
     {
         if (r_skycolor != r_skycolor_default)
-        {
             skycolfunc = R_DrawSkyColorColumn;
-            skycolor = r_skycolor;
-        }
         else
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
                 && !m_look ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
     }
     else
-    {
         skycolfunc = R_DrawSkyColorColumn;
-        skycolor = NOTEXTURECOLOR;
-    }
 
     st_facecount = 0;
 
