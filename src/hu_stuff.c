@@ -160,7 +160,7 @@ patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 
     if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
         && (lump = W_CheckNumForName(ammopic[ammopicnum].patchname)) >= 0)
-        return W_CacheLumpNum(lump, PU_CACHE);
+        return W_CacheLumpNum(lump);
     else
         return NULL;
 }
@@ -170,9 +170,9 @@ patch_t *HU_LoadHUDKeyPatch(int keypicnum)
     int lump;
 
     if (dehacked && (lump = W_CheckNumForName(keypic[keypicnum].patchnamea)) >= 0)
-        return W_CacheLumpNum(lump, PU_CACHE);
+        return W_CacheLumpNum(lump);
     else if ((lump = W_CheckNumForName(keypic[keypicnum].patchnameb)) >= 0)
-        return W_CacheLumpNum(lump, PU_CACHE);
+        return W_CacheLumpNum(lump);
     else
         return NULL;
 }
@@ -211,25 +211,25 @@ void HU_Init(void)
     for (i = 0; i < HU_FONTSIZE; i++)
     {
         M_snprintf(buffer, 9, "STCFN%.3d", j++);
-        hu_font[i] = W_CacheLumpName(buffer, PU_STATIC);
+        hu_font[i] = W_CacheLumpName(buffer);
         caretcolor = FindDominantColor(hu_font[i]);
     }
 
     if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
-        minuspatch = W_CacheLumpName("STTMINUS", PU_CACHE);
+        minuspatch = W_CacheLumpName("STTMINUS");
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if ((lump = W_CheckNumForName("MEDIA0")) >= 0)
-        healthpatch = W_CacheLumpNum(lump, PU_CACHE);
+        healthpatch = W_CacheLumpNum(lump);
     if ((lump = W_CheckNumForName("PSTRA0")) >= 0)
-        berserkpatch = W_CacheLumpNum(lump, PU_CACHE);
+        berserkpatch = W_CacheLumpNum(lump);
     else
         berserkpatch = healthpatch;
     if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
-        greenarmorpatch = W_CacheLumpNum(lump, PU_CACHE);
+        greenarmorpatch = W_CacheLumpNum(lump);
     if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
-        bluearmorpatch = W_CacheLumpNum(lump, PU_CACHE);
+        bluearmorpatch = W_CacheLumpNum(lump);
 
     ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
     ammopic[am_shell].patch = HU_LoadHUDAmmoPatch(am_shell);
@@ -249,7 +249,7 @@ void HU_Init(void)
 
     if ((lump = W_CheckNumForName(M_CheckParm("-cdrom") ? "STCDROM" : "STDISK")) >= 0)
     {
-        stdisk = W_CacheLumpNum(lump, PU_CACHE);
+        stdisk = W_CacheLumpNum(lump);
         stdiskwidth = SHORT(stdisk->width);
     }
 
@@ -627,30 +627,30 @@ void HU_AltInit(void)
     for (i = 0; i < 10; i++)
     {
         M_snprintf(buffer, 7, "DRHUD%i", i);
-        altnum[i] = W_CacheLumpName2(buffer, PU_STATIC);
+        altnum[i] = W_CacheLumpName2(buffer);
         M_snprintf(buffer, 9, "DRHUD%i_2", i);
-        altnum2[i] = W_CacheLumpName2(buffer, PU_STATIC);
+        altnum2[i] = W_CacheLumpName2(buffer);
     }
 
-    altnegpatch = W_CacheLumpName2("DRHUDNEG", PU_CACHE);
+    altnegpatch = W_CacheLumpName2("DRHUDNEG");
     altnegpatchwidth = SHORT(altnegpatch->width);
 
     for (i = 1; i < NUMWEAPONS; i++)
     {
         M_snprintf(buffer, 9, "DRHUDWP%i", i);
-        altweapon[i] = W_CacheLumpName2(buffer, PU_STATIC);
+        altweapon[i] = W_CacheLumpName2(buffer);
     }
 
-    altleftpatch = W_CacheLumpName2("DRHUDL", PU_CACHE);
-    altarmpatch = W_CacheLumpName2("DRHUDARM", PU_CACHE);
-    altrightpatch = W_CacheLumpName2("DRHUDR", PU_CACHE);
+    altleftpatch = W_CacheLumpName2("DRHUDL");
+    altarmpatch = W_CacheLumpName2("DRHUDARM");
+    altrightpatch = W_CacheLumpName2("DRHUDR");
 
-    altendpatch = W_CacheLumpName2("DRHUDE", PU_CACHE);
-    altmarkpatch = W_CacheLumpName2("DRHUDI", PU_CACHE);
-    altmark2patch = W_CacheLumpName2("DRHUDI_2", PU_CACHE);
+    altendpatch = W_CacheLumpName2("DRHUDE");
+    altmarkpatch = W_CacheLumpName2("DRHUDI");
+    altmark2patch = W_CacheLumpName2("DRHUDI_2");
 
-    altkeypatch = W_CacheLumpName2("DRHUDKEY", PU_CACHE);
-    altskullpatch = W_CacheLumpName2("DRHUDSKU", PU_CACHE);
+    altkeypatch = W_CacheLumpName2("DRHUDKEY");
+    altskullpatch = W_CacheLumpName2("DRHUDSKU");
 
     for (i = 0; i < NUMCARDS; i++)
         altkeypics[i].color = nearestcolors[altkeypics[i].color];

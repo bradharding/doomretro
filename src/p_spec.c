@@ -182,7 +182,7 @@ void P_SetLiquids(void)
 {
     int         i;
     int         lump = W_GetNumForName2("ANIMATED");
-    animdef_t   *animdefs = W_CacheLumpNum(lump, PU_STATIC);
+    animdef_t   *animdefs = W_CacheLumpNum(lump);
 
     for (i = 0; i < numflats; i++)
         isliquid[i] = false;
@@ -237,7 +237,7 @@ void P_SetLiquids(void)
         lastanim->speed = LONG(animdefs[i].speed);
         lastanim++;
     }
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 
     // [BH] parse DRCOMPAT lump to find animated textures that are not liquid in current wad
     SC_Open("DRCOMPAT");

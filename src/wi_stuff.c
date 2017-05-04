@@ -402,7 +402,7 @@ static void WI_drawLF(void)
     // draw <LevelName>
     if (titlepatch)
     {
-        patch_t *patch = W_CacheLumpNum(titlepatch, PU_STATIC);
+        patch_t *patch = W_CacheLumpNum(titlepatch);
 
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
         y += SHORT(patch->height) + 2;
@@ -449,7 +449,7 @@ static void WI_drawEL(void)
     y += SHORT(entering->height) + 2;
     if (titlepatch)
     {
-        patch_t *patch = W_CacheLumpNum(titlepatch, PU_STATIC);
+        patch_t *patch = W_CacheLumpNum(titlepatch);
 
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
     }
@@ -1138,7 +1138,7 @@ static void WI_loadUnloadData(load_callback_t callback)
 
 static void WI_loadCallback(char *name, patch_t **variable)
 {
-    *variable = (patch_t *)W_CacheLumpName(name, PU_STATIC);
+    *variable = (patch_t *)W_CacheLumpName(name);
 }
 
 static void WI_loadData(void)
@@ -1167,12 +1167,12 @@ static void WI_loadData(void)
     }
     else
         M_snprintf(bg_lumpname, 9, "WIMAP%i", wbs->epsd);
-    V_DrawPatch(0, 0, 1, (patch_t *)W_CacheLumpName(bg_lumpname, PU_CACHE));
+    V_DrawPatch(0, 0, 1, W_CacheLumpName(bg_lumpname));
 }
 
 static void WI_unloadCallback(char *name, patch_t **variable)
 {
-    W_ReleaseLumpName(name);
+    W_UnlockLumpName(name);
     *variable = NULL;
 }
 

@@ -53,30 +53,30 @@
 typedef struct
 {
     // Should be "IWAD" or "PWAD".
-    char        identification[4];
-    int         numlumps;
-    int         infotableofs;
+    char                identification[4];
+    int                 numlumps;
+    int                 infotableofs;
 } PACKEDATTR wadinfo_t;
 
 typedef struct
 {
-    int         filepos;
-    int         size;
-    char        name[8];
+    int                 filepos;
+    int                 size;
+    char                name[8];
 } PACKEDATTR filelump_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
 #endif
 
-//
-// GLOBALS
-//
+static struct {
+    void                *cache;
+    unsigned int        locks;
+} *cachelump;
 
 // Location of each lump on disk.
 lumpinfo_t              **lumpinfo;
 int                     numlumps;
-void                    **lumpcache;    // killough
 
 static dboolean IsFreedoom(const char *iwadname)
 {
@@ -366,10 +366,7 @@ lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, char *name)
     return -1;
 }
 
-//
-// killough 1/31/98: Initialize lump hash table
-//
-void W_InitHashTable(void)
+void W_Init(void)
 {
     int i;
 
@@ -389,7 +386,10 @@ void W_InitHashTable(void)
     }
 
     // set up caching
-    lumpcache = calloc(sizeof(*lumpcache), numlumps);   // killough
+    cachelump = calloc(sizeof(*cachelump), numlumps);
+
+    if (!cachelump)
+        I_Error ("W_Init: Couldn't allocate lumpcache");
 }
 
 //
@@ -468,35 +468,33 @@ void W_ReadLump(lumpindex_t lump, void *dest)
         I_Error("W_ReadLump: only read %i of %i on lump %i", c, l->size, lump);
 }
 
-//
-// W_CacheLumpNum
-//
-// Load a lump into memory and return a pointer to a buffer containing
-// the lump data.
-//
-// 'tag' is the type of zone memory buffer to allocate for the lump
-// (usually PU_STATIC or PU_CACHE). If the lump is loaded as
-// PU_STATIC, it should be released back using W_ReleaseLumpNum
-// when no longer needed (do not use Z_ChangeTag).
-//
-void *W_CacheLumpNum(lumpindex_t lump, int tag)
+void *W_CacheLumpNum(lumpindex_t lump)
 {
-    if (!lumpcache[lump])      // read the lump in
-        W_ReadLump(lump, Z_Malloc(W_LumpLength(lump), tag, &lumpcache[lump]));
-    else
-        Z_ChangeTag(lumpcache[lump], tag);
+    const int locks = 1;
 
-    return lumpcache[lump];
+    if (!cachelump[lump].cache)         // read the lump in
+        W_ReadLump(lump, Z_Malloc(W_LumpLength(lump), PU_CACHE, &cachelump[lump].cache));
+
+    // cph - if wasn't locked but now is, tell z_zone to hold it
+    if (!cachelump[lump].locks && locks)
+        Z_ChangeTag(cachelump[lump].cache,PU_STATIC);
+
+    cachelump[lump].locks += locks;
+
+    return cachelump[lump].cache;
 }
 
-//
-// Release a lump back to the cache, so that it can be reused later
-// without having to read from disk again, or alternatively, discarded
-// if we run out of memory.
-//
-void W_ReleaseLumpNum(lumpindex_t lumpnum)
+void *W_LockLumpNum(lumpindex_t lump)
 {
-    lumpinfo_t  *lump = lumpinfo[lumpnum];
+    return W_CacheLumpNum(lump);
+}
 
-    Z_ChangeTag(lump->data, PU_CACHE);
+void W_UnlockLumpNum(lumpindex_t lump)
+{
+    const int unlocks = 1;
+
+    cachelump[lump].locks -= unlocks;
+
+    if (unlocks && !cachelump[lump].locks)
+        Z_ChangeTag(cachelump[lump].cache, PU_CACHE);
 }

@@ -4611,8 +4611,8 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
             r_dither = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
-            tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ?
-                W_CacheLumpNum(lump, PU_STATIC) : (r_dither ? tinttab25 : tinttab50));
+            tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ? W_CacheLumpNum(lump)
+                : (r_dither ? tinttab25 : tinttab50));
         }
     }
     else
@@ -4650,7 +4650,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
-            I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+            I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
             M_SaveCVARs();
         }
     }

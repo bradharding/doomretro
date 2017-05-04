@@ -1919,7 +1919,7 @@ dboolean CheckPackageWADVersion(void)
         if (!strncasecmp(lumpinfo[i]->name, "VERSION", 7))
         {
             infile.size = W_LumpLength(i);
-            infile.inp = infile.lump = W_CacheLumpNum(i, PU_STATIC);
+            infile.inp = infile.lump = W_CacheLumpNum(i);
 
             while (dehfgets(inbuffer, sizeof(inbuffer), filein))
             {
@@ -1969,7 +1969,7 @@ void ProcessDehFile(char *filename, int lumpnum)
             fclose(infile.f);
             return;
         }
-        infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
+        infile.inp = infile.lump = W_CacheLumpNum(lumpnum);
         filename = lumpinfo[lumpnum]->wadfile->path;
     }
 

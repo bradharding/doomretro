@@ -989,7 +989,7 @@ void G_Ticker(void)
                     }
 
                     player->fixedcolormap = 0;
-                    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+                    I_SetPalette(W_CacheLumpName("PLAYPAL"));
                     I_UpdateBlitFunc(false);
                 }
                 else
@@ -1003,7 +1003,7 @@ void G_Ticker(void)
                         XInputVibration(idlemotorspeed);
                     }
 
-                    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+                    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
                 }
                 break;
 
@@ -1437,7 +1437,7 @@ void G_DoLoadGame(void)
 {
     int savedleveltime;
 
-    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+    I_SetPalette(W_CacheLumpName("PLAYPAL"));
 
     loadaction = gameaction;
     gameaction = ga_nothing;
@@ -1624,7 +1624,7 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 
 void G_DoNewGame(void)
 {
-    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+    I_SetPalette(W_CacheLumpName("PLAYPAL"));
 
     if (vid_widescreen)
         I_ToggleWidescreen(true);

@@ -90,18 +90,20 @@ int W_CheckMultipleLumps(char *name);
 int W_LumpLength(lumpindex_t lumpnum);
 void W_ReadLump(lumpindex_t lumpnum, void *dest);
 
-void *W_CacheLumpNum(lumpindex_t lumpnum, int tag);
+void *W_CacheLumpNum(lumpindex_t lumpnum);
 
-#define W_CacheLumpName(name, tag)      W_CacheLumpNum(W_GetNumForName(name), (tag))
-#define W_CacheLumpName2(name, tag)     W_CacheLumpNum(W_GetNumForName2(name), (tag))
+#define W_CacheLumpName(name)           W_CacheLumpNum(W_GetNumForName(name))
+#define W_CacheLumpName2(name)          W_CacheLumpNum(W_GetNumForName2(name))
 
-void W_InitHashTable(void);
+void W_Init(void);
 
 unsigned int W_LumpNameHash(const char *s);
 
-void W_ReleaseLumpNum(lumpindex_t lump);
+void W_UnlockLumpNum(lumpindex_t lump);
 
-#define W_ReleaseLumpName(name)         W_ReleaseLumpNum(W_GetNumForName(name))
+void *W_LockLumpNum(lumpindex_t lump);
+
+#define W_UnlockLumpName(name)          W_UnlockLumpNum(W_GetNumForName(name))
 
 int IWADRequiredByPWAD(const char *pwadname);
 dboolean HasDehackedLump(const char *pwadname);

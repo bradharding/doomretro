@@ -136,7 +136,7 @@ static dboolean CheckIfPatch(int lump)
     if (size < 13)
         return false;
 
-    patch = W_CacheLumpNum(lump, PU_STATIC);
+    patch = W_CacheLumpNum(lump);
 
     width = SHORT(patch->width);
     height = SHORT(patch->height);
@@ -164,7 +164,7 @@ static dboolean CheckIfPatch(int lump)
         }
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
     return result;
 }
 
@@ -188,7 +188,7 @@ static void createPatch(int id)
         I_Error("createPatch: Unknown patch format %s.",
             (patchNum < numlumps ? lumpinfo[patchNum]->name : NULL));
 
-    oldPatch = (const patch_t *)W_CacheLumpNum(patchNum, PU_STATIC);
+    oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
     patch = &patches[id];
     patch->width = SHORT(oldPatch->width);
@@ -322,7 +322,7 @@ static void createPatch(int id)
         // this determines tiling later on
     }
 
-    W_ReleaseLumpNum(patchNum);
+    W_UnlockLumpNum(patchNum);
     free(numPostsInColumn);
 }
 
@@ -400,7 +400,7 @@ static void createTextureCompositePatch(int id)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
-        oldPatch = (const patch_t *)W_CacheLumpNum(patchNum, PU_CACHE);
+        oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
         for (x = 0; x < SHORT(oldPatch->width); x++)
         {
@@ -422,7 +422,7 @@ static void createTextureCompositePatch(int id)
             }
         }
 
-        W_ReleaseLumpNum(patchNum);
+        W_UnlockLumpNum(patchNum);
     }
 
     postsDataSize = numPostsTotal * sizeof(rpost_t);
@@ -458,7 +458,7 @@ static void createTextureCompositePatch(int id)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
-        oldPatch = (const patch_t *)W_CacheLumpNum(patchNum, PU_CACHE);
+        oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
         for (x = 0; x < SHORT(oldPatch->width); x++)
         {
@@ -527,7 +527,7 @@ static void createTextureCompositePatch(int id)
             }
         }
 
-        W_ReleaseLumpNum(patchNum);
+        W_UnlockLumpNum(patchNum);
     }
 
     for (x = 0; x < texture->width; x++)

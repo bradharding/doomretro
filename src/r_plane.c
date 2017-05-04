@@ -366,7 +366,7 @@ static byte *R_DistortedFlat(int flatnum)
         swirltic = gametic;
     }
 
-    normalflat = W_CacheLumpNum(firstflat + flatnum, PU_LEVEL);
+    normalflat = W_CacheLumpNum(firstflat + flatnum);
 
     for (i = 0; i < 4096; i++)
         distortedflat[i] = normalflat[offset[i]];
@@ -476,8 +476,7 @@ void R_DrawPlanes(void)
                     dboolean        swirling = (isliquid[picnum] && r_liquid_swirl && !freeze);
                     int             lumpnum = firstflat + flattranslation[picnum];
 
-                    ds_source = (swirling ? R_DistortedFlat(picnum) :
-                        W_CacheLumpNum(lumpnum, PU_STATIC));
+                    ds_source = (swirling ? R_DistortedFlat(picnum) : W_CacheLumpNum(lumpnum));
 
                     xoffs = pl->xoffs;  // killough 2/28/98: Add offsets
                     yoffs = pl->yoffs;
@@ -491,7 +490,7 @@ void R_DrawPlanes(void)
                     R_MakeSpans(pl);
 
                     if (!swirling)
-                        W_ReleaseLumpNum(lumpnum);
+                        W_UnlockLumpNum(lumpnum);
                 }
             }
     }

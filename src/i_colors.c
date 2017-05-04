@@ -327,7 +327,7 @@ void I_InitTintTables(byte *palette)
     tinttab75 = GenerateTintTable(palette, 75, general, ALL);
     tinttab80 = GenerateTintTable(palette, 80, general, ALL);
 
-    tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ? W_CacheLumpNum(lump, PU_STATIC) :
+    tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ? W_CacheLumpNum(lump) :
         (r_dither ? tinttab25 : tinttab50));
 
     tinttabred = GenerateTintTable(palette, ADDITIVE, general, REDS);

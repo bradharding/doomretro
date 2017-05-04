@@ -1358,7 +1358,7 @@ static void ST_doPaletteStuff(void)
     if (palette != st_palette)
     {
         st_palette = palette;
-        I_SetPalette((byte *)W_CacheLumpNum(lu_palette, PU_CACHE) + palette * 768);
+        I_SetPalette((byte *)W_CacheLumpNum(lu_palette) + palette * 768);
     }
 }
 
@@ -1555,12 +1555,12 @@ static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
     if (M_StringCompare(lumpname, "STARMS"))
         *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", (STARMS <= 2 ? STARMS :
-            (STARMS == 3 ? (FREEDOOM || hacx ? 1 : 2) : 3))), PU_STATIC);
+            (STARMS == 3 ? (FREEDOOM || hacx ? 1 : 2) : 3))));
     else if (M_StringCompare(lumpname, "STBAR"))
         *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", (STBAR <= 2 ? STBAR :
-            (STBAR == 3 ? (FREEDOOM || hacx ? 1 : 2) : 3))), PU_STATIC);
+            (STBAR == 3 ? (FREEDOOM || hacx ? 1 : 2) : 3))));
     else
-        *variable = W_CacheLumpName(lumpname, PU_STATIC);
+        *variable = W_CacheLumpName(lumpname);
 }
 
 static void ST_loadGraphics(void)
@@ -1576,7 +1576,7 @@ static void ST_loadData(void)
 
 static void ST_unloadCallback(char *lumpname, patch_t **variable)
 {
-    W_ReleaseLumpName(lumpname);
+    W_UnlockLumpName(lumpname);
     *variable = NULL;
 }
 
@@ -1677,7 +1677,7 @@ void ST_Stop(void)
     if (st_stopped)
         return;
 
-    I_SetPalette((byte *)W_CacheLumpNum(lu_palette, PU_CACHE));
+    I_SetPalette(W_CacheLumpNum(lu_palette));
 
     st_stopped = true;
 }

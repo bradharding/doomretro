@@ -69,7 +69,7 @@ void SC_Open(char *name)
 {
     SC_Close();
     ScriptLumpNum = W_GetNumForName(name);
-    ScriptBuffer = W_CacheLumpNum(ScriptLumpNum, PU_STATIC);
+    ScriptBuffer = W_CacheLumpNum(ScriptLumpNum);
     ScriptSize = W_LumpLength(ScriptLumpNum);
     M_StringCopy(ScriptName, name, sizeof(ScriptName));
     ScriptPtr = ScriptBuffer;
@@ -86,7 +86,7 @@ void SC_Close(void)
     if (ScriptOpen)
     {
         if (ScriptLumpNum >= 0)
-            W_ReleaseLumpNum(ScriptLumpNum);
+            W_UnlockLumpNum(ScriptLumpNum);
         else
             Z_Free(ScriptBuffer);
         ScriptOpen = false;

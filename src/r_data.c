@@ -257,7 +257,7 @@ void R_InitTextures(void)
 
     // Load the patch names from pnames.lmp.
     name[8] = '\0';
-    names = W_CacheLumpNum((names_lump = W_GetNumForName("PNAMES")), PU_STATIC);
+    names = W_CacheLumpNum((names_lump = W_GetNumForName("PNAMES")));
     nummappatches = LONG(*((const int *)names));
     name_p = names + 4;
     patchlookup = malloc(nummappatches * sizeof(*patchlookup));   // killough
@@ -267,13 +267,13 @@ void R_InitTextures(void)
         strncpy(name, name_p + i * 8, 8);
         patchlookup[i] = W_CheckNumForName(name);
     }
-    W_ReleaseLumpNum(names_lump);       // cph - release the lump
+    W_UnlockLumpNum(names_lump);       // cph - release the lump
 
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
     //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
     maptex_lump[0] = W_GetNumForName("TEXTURE1");
-    maptex1 = W_CacheLumpNum(maptex_lump[0], PU_STATIC);
+    maptex1 = W_CacheLumpNum(maptex_lump[0]);
     numtextures1 = LONG(*maptex1);
     maxoff = W_LumpLength(maptex_lump[0]);
     directory = maptex1 + 1;
@@ -281,7 +281,7 @@ void R_InitTextures(void)
     if (W_CheckNumForName("TEXTURE2") != -1)
     {
         maptex_lump[1] = W_GetNumForName("TEXTURE2");
-        maptex2 = W_CacheLumpNum(maptex_lump[1], PU_STATIC);
+        maptex2 = W_CacheLumpNum(maptex_lump[1]);
         numtextures2 = LONG(*maptex2);
         maxoff2 = W_LumpLength(maptex_lump[1]);
     }
@@ -351,7 +351,7 @@ void R_InitTextures(void)
 
     for (i = 0; i < 2; i++)     // cph - release the TEXTUREx lumps
         if (maptex_lump[i] != -1)
-            W_ReleaseLumpNum(maptex_lump[i]);
+            W_UnlockLumpNum(maptex_lump[i]);
 
     // Create translation table for global animation.
     // killough 4/9/98: make column offsets 32-bit;
@@ -437,7 +437,7 @@ void R_InitSpriteLumps(void)
 
     for (i = 0; i < numspritelumps; i++)
     {
-        patch_t *patch = W_CacheLumpNum(firstspritelump + i, PU_CACHE);
+        patch_t *patch = W_CacheLumpNum(firstspritelump + i);
 
         if (patch)
         {
@@ -542,15 +542,15 @@ void R_InitColormaps(void)
 
         colormaps = Z_Malloc(sizeof(*colormaps) * numcolormaps, PU_STATIC, NULL);
 
-        colormaps[0] = W_CacheLumpName("COLORMAP", PU_STATIC);
+        colormaps[0] = W_CacheLumpName("COLORMAP");
 
         for (i = 1; i < numcolormaps; i++)
-            colormaps[i] = W_CacheLumpNum(i + firstcolormaplump, PU_STATIC);
+            colormaps[i] = W_CacheLumpNum(i + firstcolormaplump);
     }
     else
     {
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, NULL);
-        colormaps[0] = W_CacheLumpName("COLORMAP", PU_STATIC);
+        colormaps[0] = W_CacheLumpName("COLORMAP");
     }
     colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
     C_Output("Using %s colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
@@ -566,7 +566,7 @@ void R_InitColormaps(void)
     // offending code from dcolor.c, corrected it, put it here, and now colormap
     // 32 is manually calculated rather than grabbing it from the colormap lump.
     // The resulting differences are minor.
-    palsrc = palette = W_CacheLumpName("PLAYPAL", PU_CACHE);
+    palsrc = palette = W_CacheLumpName("PLAYPAL");
 
     for (i = 0; i < 255; i++)
     {
@@ -690,6 +690,16 @@ int R_TextureNumForName(char *name)
 // R_PrecacheLevel
 // Preloads all relevant graphics for the level.
 //
+// Totally rewritten by Lee Killough to use less memory,
+// to avoid using alloca(), and to improve performance.
+// cph - new wad lump handling, calls cache functions but acquires no locks
+
+static inline void precache_lump(int l)
+{
+    W_CacheLumpNum(l);
+    W_UnlockLumpNum(l);
+}
+
 void R_PrecacheLevel(void)
 {
     byte        *hitlist = malloc(MAX(numtextures, MAX(numflats, NUMSPRITES)));
@@ -697,6 +707,8 @@ void R_PrecacheLevel(void)
     int         i;
     int         j;
     int         k;
+
+    return;
 
     // Precache flats.
     memset(hitlist, 0, numflats);
@@ -709,7 +721,7 @@ void R_PrecacheLevel(void)
 
     for (i = 0; i < numflats; i++)
         if (hitlist[i])
-            W_CacheLumpNum(firstflat + i, PU_CACHE);
+            precache_lump(firstflat + i);
 
     // Precache textures.
     memset(hitlist, 0, numtextures);
@@ -735,7 +747,7 @@ void R_PrecacheLevel(void)
             texture_t       *texture = textures[i];
 
             for (j = 0; j < texture->patchcount; j++)
-                W_CacheLumpNum(texture->patches[j].patch, PU_CACHE);
+                precache_lump(texture->patches[j].patch);
         }
 
     // Precache sprites.
@@ -751,7 +763,7 @@ void R_PrecacheLevel(void)
                 short   *lump = sprites[i].spriteframes[j].lump;
 
                 for (k = 0; k < 8; k++)
-                    W_CacheLumpNum(firstspritelump + lump[k], PU_CACHE);
+                    precache_lump(firstspritelump + lump[k]);
             }
 
     free(hitlist);

@@ -387,7 +387,7 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 
     // need to load the sound
     int                 lumpnum = sfxinfo->lumpnum;
-    byte                *data = W_CacheLumpNum(lumpnum, PU_STATIC);
+    byte                *data = W_CacheLumpNum(lumpnum);
     unsigned int        lumplen = W_LumpLength(lumpnum);
 
     // Check the header, and ensure this is a valid sound
@@ -419,7 +419,7 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
         return false;
 
     // don't need the original lump any more
-    W_ReleaseLumpNum(lumpnum);
+    W_UnlockLumpNum(lumpnum);
 
     return true;
 }

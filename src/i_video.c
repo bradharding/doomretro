@@ -972,8 +972,8 @@ void I_SetPalette(byte *playpal)
     SDL_SetPaletteColors(palette, colors, 0, 256);
 
     if (vid_pillarboxes)
-        SDL_SetRenderDrawColor(renderer, palette[0].colors->r, palette[0].colors->g,
-            palette[0].colors->b, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(renderer, palette[0].colors->r, palette[0].colors->g, palette[0].colors->b,
+            SDL_ALPHA_OPAQUE);
 }
 
 static void I_RestoreFocus(void)
@@ -1038,9 +1038,11 @@ void I_CreateExternalAutomap(dboolean output)
     if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
-    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask))
+    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask,
+        &amask))
     {
-        if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask)))
+        if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask,
+            amask)))
             I_SDLError("SDL_CreateRGBSurface");
     }
     else if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
@@ -1075,8 +1077,8 @@ void I_CreateExternalAutomap(dboolean output)
         const char      *displayname = SDL_GetDisplayName(am_displayindex);
 
         if (*displayname)
-            C_Output("Created an external automap on display %i called \"%s\".",
-                am_displayindex + 1, displayname);
+            C_Output("Created an external automap on display %i called \"%s\".", am_displayindex + 1,
+                displayname);
         else
             C_Output("Created an external automap on display %i.", am_displayindex + 1);
     }
@@ -1393,8 +1395,7 @@ static void SetVideoMode(dboolean output)
             acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
-            if(!(window = SDL_CreateWindow(PACKAGE_NAME,
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if(!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE))))
                 I_SDLError("SDL_CreateWindow");
@@ -1419,8 +1420,7 @@ static void SetVideoMode(dboolean output)
 
         if (!windowx && !windowy)
         {
-            if (!(window = SDL_CreateWindow(PACKAGE_NAME,
-                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
                 I_SDLError("SDL_CreateWindow");
@@ -1480,8 +1480,8 @@ static void SetVideoMode(dboolean output)
             else
             {
                 if (output)
-                    C_Output("The screen is rendered using hardware acceleration with the "
-                        "<i><b>OpenGL %i.%i</b></i> API.", major, minor);
+                    C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL "
+                        "%i.%i</b></i> API.", major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1494,19 +1494,21 @@ static void SetVideoMode(dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES</b></i> API.");
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL "
+                    "ES</b></i> API.");
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES 2</b></i> API.");
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>OpenGL ES "
+                    "2</b></i> API.");
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("The screen is rendered using hardware acceleration with the <i><b>Direct3D %s</b></i> API.",
-                    (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
+                C_Output("The screen is rendered using hardware acceleration with the <i><b>Direct3D "
+                    "%s</b></i> API.", (SDL_VIDEO_RENDER_D3D11 ? "11.0" : "9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
@@ -1518,7 +1520,8 @@ static void SetVideoMode(dboolean output)
         {
             software = true;
             nearestlinear = false;
-            SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
+            SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
+                SDL_HINT_OVERRIDE);
 
             if (output)
                 C_Output("The screen is rendered in software.");
@@ -1538,8 +1541,8 @@ static void SetVideoMode(dboolean output)
         {
             if (nearestlinear)
             {
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
-                    SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
+                    "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
                     commify(upscaledheight * SCREENHEIGHT));
                 C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
                     commify(height * 4 / 3), commify(height));
@@ -1548,8 +1551,8 @@ static void SetVideoMode(dboolean output)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
                     SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
             else
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
-                    SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
+                    "interpolation.",  SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
         }
 
         I_CapFPS(0);
@@ -1573,7 +1576,8 @@ static void SetVideoMode(dboolean output)
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {
                     if (output)
-                        C_Output("The framerate is synced to the display's refresh rate of %iHz.", refreshrate);
+                        C_Output("The framerate is synced to the display's refresh rate of %iHz.",
+                            refreshrate);
                 }
                 else
                 {
@@ -1830,14 +1834,13 @@ void I_InitGraphics(void)
     SDL_VERSION(&compiled);
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error("The wrong version of sdl2.dll was found. "PACKAGE_NAME" requires v%i.%i.%i, not "
-            "v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch, linked.major,
-            linked.minor, linked.patch);
+        I_Error("The wrong version of sdl2.dll was found. "PACKAGE_NAME" requires v%i.%i.%i, not v%i.%i.%i.",
+            compiled.major, compiled.minor, compiled.patch, linked.major, linked.minor, linked.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning("The wrong version of sdl2.dll was found. <i>"PACKAGE_NAME"</i> requires "
-            "v%i.%i.%i, not v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch,
-            linked.major, linked.minor, linked.patch);
+        C_Warning("The wrong version of sdl2.dll was found. <i>"PACKAGE_NAME"</i> requires v%i.%i.%i, not "
+            "v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch, linked.major, linked.minor,
+            linked.patch);
 
     SDL_DisableScreenSaver();
 
@@ -1850,7 +1853,7 @@ void I_InitGraphics(void)
     keys['a'] = keys['A'] = false;
     keys['l'] = keys['L'] = false;
 
-    playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
+    playpal = W_CacheLumpName("PLAYPAL");
     I_InitTintTables(playpal);
     FindNearestColors(playpal);
 

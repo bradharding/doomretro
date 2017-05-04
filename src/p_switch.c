@@ -82,7 +82,7 @@ void P_InitSwitchList(void)
     int                 lump = W_GetNumForName2("SWITCHES");    // cph - new wad lump handling
 
     // jff 3/23/98 read the switch table from a predefined lump
-    alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump, PU_STATIC);
+    alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump);
 
     for (i = 0;; i++)
     {
@@ -117,7 +117,7 @@ void P_InitSwitchList(void)
 
     numswitches = index / 2;
     switchlist[index] = -1;
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 //
 // Start a button counting down till it turns off.

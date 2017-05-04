@@ -241,7 +241,7 @@ void D_Display(void)
     if (gamestate != GS_LEVEL)
     {
         if (gamestate != oldgamestate && !splashscreen)
-            I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+            I_SetPalette(W_CacheLumpName("PLAYPAL"));
 
         switch (gamestate)
         {
@@ -315,7 +315,7 @@ void D_Display(void)
         M_DarkBackground();
         if (M_PAUSE)
         {
-            patch_t     *patch = W_CacheLumpName("M_PAUSE", PU_CACHE);
+            patch_t     *patch = W_CacheLumpName("M_PAUSE");
 
             if (vid_widescreen)
                 V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
@@ -1791,8 +1791,7 @@ static void D_DoomMainSetup(void)
     if (!W_MergeFile(packagewad, true))
         I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
 
-    // Generate the WAD hash table. Speed things up a bit.
-    W_InitHashTable();
+    W_Init();
 
     if (!CheckPackageWADVersion())
         I_Error("%s is the wrong version.\nPlease reinstall "PACKAGE_NAME".", packagewad);
@@ -2021,12 +2020,11 @@ static void D_DoomMainSetup(void)
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
-    splashlump = W_CacheLumpName("SPLASH", PU_CACHE);
-    splashpal = W_CacheLumpName("SPLSHPAL", PU_CACHE);
-    titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")),
-        PU_CACHE);
-    creditlump = W_CacheLumpName("CREDIT", PU_CACHE);
-    playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
+    splashlump = W_CacheLumpName("SPLASH");
+    splashpal = W_CacheLumpName("SPLSHPAL");
+    titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")));
+    creditlump = W_CacheLumpName("CREDIT");
+    playpal = W_CacheLumpName("PLAYPAL");
 
     if (gameaction != ga_loadgame)
     {

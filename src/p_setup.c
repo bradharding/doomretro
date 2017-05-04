@@ -271,7 +271,7 @@ void P_LoadVertexes(int lump)
     vertexes = calloc_IfSameLevel(vertexes, numvertexes, sizeof(vertex_t));
 
     // Load data into cache.
-    data = (const mapvertex_t *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapvertex_t *)W_CacheLumpNum(lump);
 
     if (!data || !numvertexes)
         I_Error("There are no vertices in this map.");
@@ -310,7 +310,7 @@ void P_LoadVertexes(int lump)
     }
 
     // Free buffer memory.
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 //
@@ -323,7 +323,7 @@ void P_LoadSegs(int lump)
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
-    data = (const mapseg_t *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapseg_t *)W_CacheLumpNum(lump);
 
     if (!data || !numsegs)
         I_Error("There are no segs in this map.");
@@ -500,7 +500,7 @@ void P_LoadSegs(int lump)
         }
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 static void P_LoadSegs_V4(int lump)
@@ -510,7 +510,7 @@ static void P_LoadSegs_V4(int lump)
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_v4_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
-    data = (const mapseg_v4_t *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapseg_v4_t *)W_CacheLumpNum(lump);
 
     if (!data || !numsegs)
         I_Error("This map has no segs.");
@@ -611,7 +611,7 @@ static void P_LoadSegs_V4(int lump)
             boomlinespecials = true;
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 //
@@ -624,7 +624,7 @@ void P_LoadSubsectors(int lump)
 
     numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
-    data = (const mapsubsector_t *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapsubsector_t *)W_CacheLumpNum(lump);
 
     if (!data || !numsubsectors)
         I_Error("This map has no subsectors.");
@@ -635,7 +635,7 @@ void P_LoadSubsectors(int lump)
         subsectors[i].firstline = (unsigned short)SHORT(data[i].firstseg);
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 static void P_LoadSubsectors_V4(int lump)
@@ -645,7 +645,7 @@ static void P_LoadSubsectors_V4(int lump)
 
     numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_v4_t);
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
-    data = (const mapsubsector_v4_t *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapsubsector_v4_t *)W_CacheLumpNum(lump);
 
     if (!data || !numsubsectors)
         I_Error("This map has no subsectors.");
@@ -656,7 +656,7 @@ static void P_LoadSubsectors_V4(int lump)
         subsectors[i].firstline = (int)data[i].firstseg;
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 //
@@ -669,7 +669,7 @@ void P_LoadSectors(int lump)
 
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
     sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
-    data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (byte *)W_CacheLumpNum(lump);
 
     numdamaging = 0;
 
@@ -776,7 +776,7 @@ void P_LoadSectors(int lump)
         }
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 //
@@ -789,7 +789,7 @@ void P_LoadNodes(int lump)
 
     numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
-    data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (byte *)W_CacheLumpNum(lump);
 
     if (!data || !numnodes)
     {
@@ -839,7 +839,7 @@ void P_LoadNodes(int lump)
         }
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 static void P_LoadNodes_V4(int lump)
@@ -849,7 +849,7 @@ static void P_LoadNodes_V4(int lump)
 
     numnodes = (W_LumpLength(lump) - 8) / sizeof(mapnode_v4_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
-    data = W_CacheLumpNum(lump, PU_STATIC);
+    data = W_CacheLumpNum(lump);
 
     // skip header
     data = data + 8;
@@ -883,7 +883,7 @@ static void P_LoadNodes_V4(int lump)
         }
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 static void P_LoadZSegs(const byte *data)
@@ -961,7 +961,7 @@ static void P_LoadZSegs(const byte *data)
 
 static void P_LoadZNodes(int lump)
 {
-    byte                *data = W_CacheLumpNum(lump, PU_STATIC);
+    byte                *data = W_CacheLumpNum(lump);
     unsigned int        i;
     unsigned int        orgVerts, newVerts;
     unsigned int        numSubs, currSeg;
@@ -1082,7 +1082,7 @@ static void P_LoadZNodes(int lump)
         }
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 //
@@ -1090,7 +1090,7 @@ static void P_LoadZNodes(int lump)
 //
 void P_LoadThings(int lump)
 {
-    const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump, PU_STATIC);
+    const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump);
     int                 i;
 
     numthings = W_LumpLength(lump) / sizeof(mapthing_t);
@@ -1188,7 +1188,7 @@ void P_LoadThings(int lump)
 
     M_ClearRandom();
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 //
@@ -1198,7 +1198,7 @@ void P_LoadThings(int lump)
 //
 static void P_LoadLineDefs(int lump)
 {
-    const byte  *data = W_CacheLumpNum(lump, PU_STATIC);
+    const byte  *data = W_CacheLumpNum(lump);
     int         i;
 
     numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
@@ -1260,7 +1260,7 @@ static void P_LoadLineDefs(int lump)
             sides[*ld->sidenum].special = ld->special;
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 // killough 4/4/98: delay using sidedefs until they are loaded
@@ -1343,7 +1343,7 @@ static void P_LoadSideDefs(int lump)
 // killough 4/4/98: delay using texture names until after linedefs are loaded, to allow overloading
 static void P_LoadSideDefs2(int lump)
 {
-    const byte  *data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+    const byte  *data = (byte *)W_CacheLumpNum(lump);
     int         i;
 
     for (i = 0; i < numsides; i++)
@@ -1401,7 +1401,7 @@ static void P_LoadSideDefs2(int lump)
         }
     }
 
-    W_ReleaseLumpNum(lump);
+    W_UnlockLumpNum(lump);
 }
 
 //
@@ -1682,7 +1682,7 @@ void P_LoadBlockMap(int lump)
         P_CreateBlockMap();
     else
     {
-        short   *wadblockmaplump = W_CacheLumpNum(lump, PU_LEVEL);
+        short   *wadblockmaplump = W_CacheLumpNum(lump);
         int      i;
 
         blockmaplump = malloc_IfSameLevel(blockmaplump, sizeof(*blockmaplump) * count);
@@ -1744,7 +1744,7 @@ void RejectOverrun(int rejectlump, const byte **rejectmatrix, int totallines)
         memset(newreject + length, 0, required - length);
 
         // unlock the original lump, it is no longer needed
-        W_ReleaseLumpNum(rejectlump);
+        W_UnlockLumpNum(rejectlump);
     }
 }
 //
@@ -1754,9 +1754,9 @@ static void P_LoadReject(int lumpnum, int totallines)
 {
     // dump any old cached reject lump, then cache the new one
     if (rejectlump != -1)
-        W_ReleaseLumpNum(rejectlump);
+        W_UnlockLumpNum(rejectlump);
     rejectlump = lumpnum + ML_REJECT;
-    rejectmatrix = W_CacheLumpNum(rejectlump, PU_STATIC);
+    rejectmatrix = W_CacheLumpNum(rejectlump);
 
     // e6y: check for overflow
     RejectOverrun(rejectlump, &rejectmatrix, totallines);
@@ -2135,8 +2135,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     byte        *nodes = NULL;
     int         b;
 
-    if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b, PU_CACHE))
-        && W_LumpLength(b))
+    if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b)) && W_LumpLength(b))
     {
         if (!memcmp(nodes, "xNd4\0\0\0\0", 8))
             format = DEEPBSP;
@@ -2148,7 +2147,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     }
 
     if (nodes)
-        W_ReleaseLumpNum(b);
+        W_UnlockLumpNum(b);
 
     return format;
 }
@@ -2189,7 +2188,7 @@ void P_SetupLevel(int ep, int map)
     if (rejectlump != -1)
     {
         // cph - unlock the reject table
-        W_ReleaseLumpNum(rejectlump);
+        W_UnlockLumpNum(rejectlump);
         rejectlump = -1;
     }
 

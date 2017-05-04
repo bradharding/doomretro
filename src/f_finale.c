@@ -314,7 +314,7 @@ static void F_TextWrite(void)
     char        prev = ' ';
 
     // erase the entire screen to a tiled background
-    src = (byte *)W_CacheLumpName((char *)finaleflat, PU_CACHE);
+    src = (byte *)W_CacheLumpName((char *)finaleflat);
     dest = screens[0];
 
     for (y = 0; y < SCREENHEIGHT; y += 2)
@@ -724,7 +724,7 @@ static void F_CastDrawer(void)
     mobjtype_t          type = castorder[castnum].type;
 
     // erase the entire screen to a background
-    V_DrawPatch(0, 0, 0, W_CacheLumpName(bgcastcall, PU_CACHE));
+    V_DrawPatch(0, 0, 0, W_CacheLumpName(bgcastcall));
 
     F_CastPrint(*castorder[castnum].name);
 
@@ -736,7 +736,7 @@ static void F_CastDrawer(void)
     lump = sprframe->lump[rot];
     flip = !!(sprframe->flip & (1 << rot));
 
-    patch = W_CacheLumpNum(lump + firstspritelump, PU_CACHE);
+    patch = W_CacheLumpNum(lump + firstspritelump);
 
     patch->topoffset = spritetopoffset[lump] >> FRACBITS;
 
@@ -837,8 +837,8 @@ static void F_BunnyScroll(void)
     const fixed_t       xscale = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
     fixed_t             frac = 0;
 
-    p1 = W_CacheLumpName("PFUB2", PU_LEVEL);
-    p2 = W_CacheLumpName("PFUB1", PU_LEVEL);
+    p1 = W_CacheLumpName("PFUB2");
+    p2 = W_CacheLumpName("PFUB1");
 
     scrolled = BETWEEN(0, ORIGINALWIDTH - ((signed int)finalecount - 230) / 2, ORIGINALWIDTH);
 
@@ -860,7 +860,7 @@ static void F_BunnyScroll(void)
     if (finalecount < 1180)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
-            W_CacheLumpName("END0", PU_CACHE), false);
+            W_CacheLumpName("END0"), false);
         laststage = 0;
         return;
     }
@@ -876,7 +876,7 @@ static void F_BunnyScroll(void)
 
     M_snprintf(name, 10, "END%i", stage);
     V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
-        W_CacheLumpName(name, PU_CACHE), false);
+        W_CacheLumpName(name), false);
 }
 
 static void F_ArtScreenDrawer(void)
@@ -905,7 +905,7 @@ static void F_ArtScreenDrawer(void)
                 return;
         }
 
-        V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname, PU_CACHE));
+        V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));
     }
 }
 

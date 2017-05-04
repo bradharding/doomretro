@@ -549,26 +549,26 @@ void C_Init(void)
     for (i = 0; i < CONSOLEFONTSIZE; i++)
     {
         M_snprintf(buffer, 9, "DRFON%03d", j++);
-        consolefont[i] = W_CacheLumpName(buffer, PU_STATIC);
+        consolefont[i] = W_CacheLumpName(buffer);
     }
 
-    trademark = W_CacheLumpName("DRFON153", PU_STATIC);
-    copyright = W_CacheLumpName("DRFON169", PU_STATIC);
-    regomark = W_CacheLumpName("DRFON174", PU_STATIC);
-    degree = W_CacheLumpName("DRFON176", PU_STATIC);
-    multiply = W_CacheLumpName("DRFON215", PU_STATIC);
+    trademark = W_CacheLumpName("DRFON153");
+    copyright = W_CacheLumpName("DRFON169");
+    regomark = W_CacheLumpName("DRFON174");
+    degree = W_CacheLumpName("DRFON176");
+    multiply = W_CacheLumpName("DRFON215");
 
-    brand = W_CacheLumpName("DRBRAND", PU_STATIC);
-    caret = W_CacheLumpName("DRCARET", PU_STATIC);
-    divider = W_CacheLumpName("DRDIVIDE", PU_STATIC);
-    warning = W_CacheLumpName("DRFONWRN", PU_STATIC);
+    brand = W_CacheLumpName("DRBRAND");
+    caret = W_CacheLumpName("DRCARET");
+    divider = W_CacheLumpName("DRDIVIDE");
+    warning = W_CacheLumpName("DRFONWRN");
 
-    bindlist = W_CacheLumpName("DRBNDLST", PU_STATIC);
-    cmdlist = W_CacheLumpName("DRCMDLST", PU_STATIC);
-    cvarlist = W_CacheLumpName("DRCVRLST", PU_STATIC);
-    maplist = W_CacheLumpName("DRMAPLST", PU_STATIC);
-    playerstats = W_CacheLumpName("DRPLYRST", PU_STATIC);
-    thinglist = W_CacheLumpName("DRTHNLST", PU_STATIC);
+    bindlist = W_CacheLumpName("DRBNDLST");
+    cmdlist = W_CacheLumpName("DRCMDLST");
+    cvarlist = W_CacheLumpName("DRCVRLST");
+    maplist = W_CacheLumpName("DRMAPLST");
+    playerstats = W_CacheLumpName("DRPLYRST");
+    thinglist = W_CacheLumpName("DRTHNLST");
 
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);

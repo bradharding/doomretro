@@ -645,7 +645,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     if (music->lumpnum != -1)
     {
         // Load & register it
-        music->data = W_CacheLumpNum(music->lumpnum, PU_STATIC);
+        music->data = W_CacheLumpNum(music->lumpnum);
         handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
     }
 
@@ -675,7 +675,7 @@ void S_StopMusic(void)
 
         I_StopSong();
         I_UnRegisterSong(mus_playing->handle);
-        W_ReleaseLumpNum(mus_playing->lumpnum);
+        W_UnlockLumpNum(mus_playing->lumpnum);
         mus_playing->data = NULL;
         mus_playing = NULL;
     }
@@ -703,7 +703,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     music->lumpnum = lumpnum;
 
     // load & register it
-    music->data = W_CacheLumpNum(music->lumpnum, PU_CACHE);
+    music->data = W_CacheLumpNum(music->lumpnum);
     music->handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
 
     // play it
