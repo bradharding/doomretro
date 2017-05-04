@@ -308,7 +308,6 @@ static patch_t          *sp_secret;
 
 // "Kills", "Scrt", "Items"
 static patch_t          *kills;
-static patch_t          *secret;
 static patch_t          *items;
 
 // Time sucks.
@@ -786,10 +785,11 @@ void WI_drawShowNextLoc(void)
             WI_drawOnLnode(wbs->next, yah);
     }
 
+    if (gamemission == pack_nerve && wbs->last == 7)
+        return;
+
     // draws which level you are entering..
-    if (gamemode != commercial
-        || (gamemission != pack_nerve && wbs->next != 30)
-        || (gamemission == pack_nerve && wbs->next != 8))
+    if (gamemode != commercial || wbs->next != 30)
         WI_drawEL();
 }
 
@@ -972,9 +972,9 @@ static void WI_drawStats(void)
 
     if (wbs->partime)
     {
-        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 - FREEDOOM * 17 + 3, SP_TIMEY + 1,
-            par, false);
-        WI_drawTime(ORIGINALWIDTH - SP_TIMEX - 2 - FREEDOOM * 17, SP_TIMEY, cnt_par);
+        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - FREEDOOM * 17 + 3),
+            SP_TIMEY + 1, par, false);
+        WI_drawTime(ORIGINALWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par);
     }
 }
 
@@ -1116,9 +1116,6 @@ static void WI_loadUnloadData(load_callback_t callback)
 
     // "kills"
     callback("WIOSTK", &kills);
-
-    // "scrt"
-    callback("WIOSTS", &secret);
 
     // "secret"
     callback("WISCRT2", &sp_secret);
