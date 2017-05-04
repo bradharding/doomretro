@@ -2502,7 +2502,7 @@ static void InitMapInfo(void)
 
                     case MCMD_SKY1:
                         SC_MustGetString();
-                        info->sky1texture = R_CheckTextureNumForName(sc_String);
+                        info->sky1texture = R_TextureNumForName(sc_String);
                         SC_MustGetNumber();
                         info->sky1scrolldelta = sc_Number << 8;
                         break;
@@ -2517,7 +2517,7 @@ static void InitMapInfo(void)
                         int     texture;
 
                         SC_MustGetString();
-                        if ((texture = R_CheckTextureNumForName(sc_String)) >= 0)
+                        if ((texture = R_TextureNumForName(sc_String)) >= 0)
                             nobrightmap[texture] = true;
                         break;
                     }
