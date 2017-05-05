@@ -12,17 +12,18 @@
   * The `Ammo`, `Armor` and `Health` no longer increase when using the `give` CCMD or certain cheats.
   * The `Health` stat now increases when the player picks up a health bonus.
 * Several compatibility fixes have been made for [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
-* Three new CVARs have been implemented to toggle the translucency of individual elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR still remains and can be used to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
+* Three new CVARs have been implemented to toggle the translucency of individual elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR still remains to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
 * The console’s background is now always translucent.
 * The number of sound effects that can be played at the same time is now specified using the new `s_channels` CVAR. It can be between `8` and `256`, and is `32` by default.
 * The skull in the menu is no longer positioned incorrectly when certain PWADs with custom menu lumps are loaded.
 * Linedefs with specials 166 (“S1 Ceiling Raise To Highest Ceiling”) and 186 (“SR Ceiling Raise To Highest Ceiling”) in *BOOM*-compatible maps now behave as intended.
 * The bottom of spectres are now clipped correctly when partially obscured by a higher sector.
 * The gold palette effect will no longer stay on the screen if the player picks up an item and dies at the same time.
-* Red walls in the automap are now drawn thinner when zoomed out far enough.
+* Red walls in the automap are now drawn thinner when the player zooms out far enough.
 * The [wallrunning](https://doomwiki.org/wiki/Wallrunning) bug present in *Vanilla DOOM* is now fixed.
 * If the `r_skycolor` CVAR is set to a color rather than `none`, that color will now be used to render the sky when the `r_textures` CVAR is `off`.
 * When exiting a map that has no monsters to kill and/or no items to pick up, the intermission screen will now show `100%` kills and/or items instead of `0%`.
+* The map name will now be displayed on the intermission screen before starting MAP31 in *DOOM II* and MAP09 in *DOOM II: No Rest For The Living*.
 
 ---
 

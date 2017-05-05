@@ -785,12 +785,8 @@ void WI_drawShowNextLoc(void)
             WI_drawOnLnode(wbs->next, yah);
     }
 
-    if (gamemission == pack_nerve && wbs->last == 7)
-        return;
-
     // draws which level you are entering..
-    if (gamemode != commercial || wbs->next != 30)
-        WI_drawEL();
+    WI_drawEL();
 }
 
 static void WI_drawNoState(void)
