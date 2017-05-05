@@ -1359,8 +1359,8 @@ void G_DoCompleted(void)
 
     wminfo.pnum = 0;
 
-    wminfo.plyr[0].skills = player->killcount;
-    wminfo.plyr[0].sitems = player->itemcount;
+    wminfo.plyr[0].skills = (totalkills ? player->killcount : 1);
+    wminfo.plyr[0].sitems = (totalitems ? player->itemcount : 1);
     wminfo.plyr[0].ssecret = player->secretcount;
     wminfo.plyr[0].stime = leveltime;
 
