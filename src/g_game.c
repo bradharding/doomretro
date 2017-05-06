@@ -776,15 +776,13 @@ dboolean G_Responder(event_t *ev)
             return false;           // always let key up events filter down
 
         case ev_mouse:
+        {
+            int i;
+            int j;
+
             mousebutton = ev->data1;
-            mousebuttons[0] = mousebutton & MOUSE_LEFTBUTTON;
-            mousebuttons[1] = mousebutton & MOUSE_RIGHTBUTTON;
-            mousebuttons[2] = mousebutton & MOUSE_MIDDLEBUTTON;
-            mousebuttons[3] = mousebutton & 8;
-            mousebuttons[4] = mousebutton & 16;
-            mousebuttons[5] = mousebutton & 32;
-            mousebuttons[6] = mousebutton & 64;
-            mousebuttons[7] = mousebutton & 128;
+            for (i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
+                mousebuttons[i] = mousebutton & j;
             if (vibrate && mousebutton)
             {
                 vibrate = false;
@@ -804,6 +802,7 @@ dboolean G_Responder(event_t *ev)
                 mousey = ev->data3 * m_sensitivity / 10;
             }
             return true;            // eat events
+        }
 
         case ev_mousewheel:
             if (vibrate)
