@@ -1297,17 +1297,21 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                 if (*cmd)
                     M_SaveCVARs();
-            }
 
-            if (!bound)
-            {
-                if (strlen(controls[i].control) == 1)
-                    C_Warning("The %s action can't be bound to '%s'.", parm2, controls[i].control);
-                else
-                    C_Warning("The %s action can't be bound to %s.", parm2, controls[i].control);
+                if (!bound)
+                {
+                    if (strlen(controls[i].control) == 1)
+                        C_Warning("The %s action can't be bound to '%s'.", parm2, controls[i].control);
+                    else
+                        C_Warning("The %s action can't be bound to %s.", parm2, controls[i].control);
+                }
             }
+            else
+                C_Warning("%s is not a valid action.", parm2);
         }
     }
+    else
+        C_Warning("%s is not a valid control.", parm1);
 }
 
 //

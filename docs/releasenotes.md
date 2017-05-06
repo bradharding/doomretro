@@ -16,6 +16,7 @@
 * The console’s background is now always translucent.
 * The number of sound effects that can be played at the same time is now specified using the new `s_channels` CVAR. It can be between `8` and `256`, and is `32` by default.
 * The skull in the menu is no longer positioned incorrectly when certain PWADs with custom menu lumps are loaded.
+* Minor changes have been made to text that is output to the console.
 * Linedefs with specials 166 (“S1 Ceiling Raise To Highest Ceiling”) and 186 (“SR Ceiling Raise To Highest Ceiling”) in *BOOM*-compatible maps now behave as intended.
 * The bottom of spectres are now clipped correctly when partially obscured by a higher sector.
 * The gold palette effect will no longer stay on the screen if the player picks up an item and dies at the same time.
