@@ -136,7 +136,7 @@ void P_InitPicAnims(void)
 {
     int size = (numflats + 1) * sizeof(dboolean);
 
-    isliquid = Z_Malloc(size, PU_STATIC, NULL);
+    isliquid = Z_Calloc(1, size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
 
     // [BH] indicate obvious teleport textures for automap
@@ -184,9 +184,6 @@ void P_SetLiquids(void)
     int         lump = W_GetNumForName2("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
 
-    for (i = 0; i < numflats; i++)
-        isliquid[i] = false;
-
     // Init animation
     lastanim = anims;
     for (i = 0; animdefs[i].istexture != -1; i++)
@@ -215,9 +212,10 @@ void P_SetLiquids(void)
         }
         else
         {
-            int j;
+            int         j;
+            char        *name = animdefs[i].startname;
 
-            if (W_CheckNumForName(animdefs[i].startname) == -1)
+            if (W_CheckNumForName(name) == -1)
                 continue;
 
             lastanim->picnum = R_FlatNumForName(animdefs[i].endname);
@@ -227,12 +225,15 @@ void P_SetLiquids(void)
             lastanim->istexture = false;
 
             for (j = 0; j < lastanim->numpics; j++)
-                isliquid[lastanim->basepic + j] = true;
+                if (M_StringStartsWith(name, "NUKAGE") || M_StringStartsWith(name, "FWATER")
+                    || M_StringStartsWith(name, "SWATER") || M_StringStartsWith(name, "LAVA")
+                    || M_StringStartsWith(name, "BLOOD") || (M_StringStartsWith(name, "SLIME0")
+                    && name[6] >= '1' && name[7] <= '8'))
+                    isliquid[lastanim->basepic + j] = true;
         }
 
         if (lastanim->numpics < 2)
-            I_Error("P_InitPicAnims: bad cycle from %s to %s",
-                animdefs[i].startname, animdefs[i].endname);
+            I_Error("P_InitPicAnims: bad cycle from %s to %s", animdefs[i].startname, animdefs[i].endname);
 
         lastanim->speed = LONG(animdefs[i].speed);
         lastanim++;
@@ -252,6 +253,16 @@ void P_SetLiquids(void)
             SC_MustGetString();
             if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wadfile->path), sc_String))
                 isliquid[lump] = false;
+        }
+        else if (M_StringCompare(sc_String, "LIQUID"))
+        {
+            int lump;
+
+            SC_MustGetString();
+            lump = R_CheckFlatNumForName(sc_String);
+            SC_MustGetString();
+            if (lump >= 0 && M_StringCompare(leafname(lumpinfo[firstflat + lump]->wadfile->path), sc_String))
+                isliquid[lump] = true;
         }
     }
 
