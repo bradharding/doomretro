@@ -1382,8 +1382,8 @@ static void SetVideoMode(dboolean output)
 
             if (output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
-                    (acronym[0] ? ")" : ""), ratio);
+                    commify(width), commify(height), (acronym ? " (" : " "), acronym, (acronym ? ")" : ""),
+                    ratio);
         }
         else
         {
@@ -1402,8 +1402,8 @@ static void SetVideoMode(dboolean output)
 
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (acronym[0] ? " (" : " "), acronym,
-                    (acronym[0] ? ")" : ""), ratio);
+                    commify(width), commify(height), (acronym ? " (" : " "), acronym, (acronym ? ")" : ""),
+                    ratio);
         }
     }
     else
@@ -1652,11 +1652,10 @@ static void SetVideoMode(dboolean output)
         I_SDLError("SDL_FillRect");
 
     if (nearestlinear)
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest,
-            SDL_HINT_OVERRIDE);
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
-    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
+        SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
 
     if (nearestlinear)

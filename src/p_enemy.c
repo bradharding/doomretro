@@ -2084,8 +2084,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         // Will the next move put the cube closer to
         // the target point than it is now?
-        dist = P_ApproxDistance(targ->x - (actor->x + actor->momx),
-            targ->y - (actor->y + actor->momy));
+        dist = P_ApproxDistance(targ->x - (actor->x + actor->momx), targ->y - (actor->y + actor->momy));
         if ((unsigned int)dist < (unsigned int)actor->reactiontime)
         {
             actor->reactiontime = dist; // Yes. Still flying

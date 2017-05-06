@@ -531,14 +531,12 @@ void D_SetSaveGameFolder(void)
     {
         M_MakeDirectory(appdatafolder);
 
-        savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames",
-            DIR_SEPARATOR_S, NULL);
+        savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
     }
 
     M_MakeDirectory(savegamefolder);
 
-    savegamefolder = M_StringJoin(savegamefolder, (pwadfile[0] ? pwadfile : iwad_name),
-        DIR_SEPARATOR_S, NULL);
+    savegamefolder = M_StringJoin(savegamefolder, (pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
     C_Output("Savegames will be saved and loaded in <b>%s</b>.", savegamefolder);

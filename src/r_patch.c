@@ -564,43 +564,38 @@ static void createTextureCompositePatch(int id)
         }
     }
 
+    // copy the patch image down and to the right where there are
+    // holes to eliminate the black halo from bilinear filtering
+    for (x = 0; x < composite_patch->width; x++)
     {
-        const rcolumn_t *column;
-        const rcolumn_t *prevColumn;
+        const rcolumn_t *column = R_GetPatchColumnClamped(composite_patch, x);
+        const rcolumn_t *prevColumn = R_GetPatchColumnClamped(composite_patch, x - 1);
 
-        // copy the patch image down and to the right where there are
-        // holes to eliminate the black halo from bilinear filtering
-        for (x = 0; x < composite_patch->width; x++)
+        if (column->pixels[0] == 0xFF)
         {
-            column = R_GetPatchColumnClamped(composite_patch, x);
-            prevColumn = R_GetPatchColumnClamped(composite_patch, x - 1);
-
-            if (column->pixels[0] == 0xFF)
-            {
-                // force the first pixel (which is a hole), to use
-                // the color from the next solid spot in the column
-                for (y = 0; y < composite_patch->height; y++)
-                {
-                    if (column->pixels[y] != 0xFF)
-                    {
-                        column->pixels[0] = column->pixels[y];
-                        break;
-                    }
-                }
-            }
-
-            // copy from above or to the left
-            for (y = 1; y < composite_patch->height; y++)
+            // force the first pixel (which is a hole), to use
+            // the color from the next solid spot in the column
+            for (y = 0; y < composite_patch->height; y++)
             {
                 if (column->pixels[y] != 0xFF)
-                    continue;
-
-                // this pixel is a hole
-                if (x && prevColumn->pixels[y - 1] != 0xFF)
-                    column->pixels[y] = prevColumn->pixels[y];  // copy the color from the left
-                else
-                    column->pixels[y] = column->pixels[y - 1];  // copy the color from above
+                {
+                    column->pixels[0] = column->pixels[y];
+                    break;
+                }
             }
+        }
+
+        // copy from above or to the left
+        for (y = 1; y < composite_patch->height; y++)
+        {
+            if (column->pixels[y] != 0xFF)
+                continue;
+
+            // this pixel is a hole
+            if (x && prevColumn->pixels[y - 1] != 0xFF)
+                column->pixels[y] = prevColumn->pixels[y];      // copy the color from the left
+            else
+                column->pixels[y] = column->pixels[y - 1];      // copy the color from above
         }
     }
 
