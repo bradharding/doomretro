@@ -223,13 +223,6 @@ void P_SetLiquids(void)
 
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
             lastanim->istexture = false;
-
-            for (j = 0; j < lastanim->numpics; j++)
-                if (M_StringStartsWith(name, "NUKAGE") || M_StringStartsWith(name, "FWATER")
-                    || M_StringStartsWith(name, "SWATER") || M_StringStartsWith(name, "LAVA")
-                    || M_StringStartsWith(name, "BLOOD") || (M_StringStartsWith(name, "SLIME0")
-                    && name[6] >= '1' && name[7] <= '8'))
-                    isliquid[lastanim->basepic + j] = true;
         }
 
         if (lastanim->numpics < 2)
@@ -240,7 +233,18 @@ void P_SetLiquids(void)
     }
     W_UnlockLumpNum(lump);
 
-    // [BH] parse DRCOMPAT lump to find animated textures that are not liquid in current wad
+    for (i = 0; i < numflats; i++)
+    {
+        char    *name = lumpinfo[firstflat + i]->name;
+
+        if (M_StringStartsWith(name, "BLOOD") || M_StringStartsWith(name, "COOLNT")
+            || M_StringStartsWith(name, "FWATER") || M_StringStartsWith(name, "NUKAGE")
+            || M_StringStartsWith(name, "NUKE") || M_StringStartsWith(name, "LAVA")
+            || (M_StringStartsWith(name, "SLIME0") && name[6] >= '1' && name[7] <= '8')
+            || M_StringStartsWith(name, "SLUDG") || M_StringStartsWith(name, "SWATER"))
+            isliquid[i] = true;
+    }
+
     SC_Open("DRCOMPAT");
     while (SC_GetString())
     {
