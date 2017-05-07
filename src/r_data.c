@@ -708,8 +708,6 @@ void R_PrecacheLevel(void)
     int         j;
     int         k;
 
-    return;
-
     // Precache flats.
     memset(hitlist, 0, numflats);
 
