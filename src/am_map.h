@@ -51,7 +51,7 @@
 
 typedef struct
 {
-    fixed_t     x, y;
+    fixed_t x, y;
 } mpoint_t;
 
 // Called by main loop.
@@ -76,31 +76,31 @@ void AM_setColors(void);
 void AM_getGridSize(void);
 void AM_addToPath(void);
 
-extern dboolean         message_dontfuckwithme;
-extern dboolean         message_external;
+extern dboolean message_dontfuckwithme;
+extern dboolean message_external;
 
-extern int              gamepadwait;
+extern int      gamepadwait;
 
-extern int              viewheight2;
+extern int      viewheight2;
 
-extern mpoint_t         *markpoints;
-extern int              markpointnum;
-extern int              markpointnum_max;
+extern mpoint_t *markpoints;
+extern int      markpointnum;
+extern int      markpointnum_max;
 
-extern dboolean         am_path;
-extern mpoint_t         *pathpoints;
-extern int              pathpointnum;
-extern int              pathpointnum_max;
+extern dboolean am_path;
+extern mpoint_t *pathpoints;
+extern int      pathpointnum;
+extern int      pathpointnum_max;
 
 dboolean keystate(int key);
 
 typedef struct
 {
-    fixed_t             centerx;
-    fixed_t             centery;
-    fixed_t             sin;
-    fixed_t             cos;
-    fixed_t             bbox[4];
+    fixed_t     centerx;
+    fixed_t     centery;
+    fixed_t     sin;
+    fixed_t     cos;
+    fixed_t     bbox[4];
 } am_frame_t;
 
 #endif

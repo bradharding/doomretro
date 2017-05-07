@@ -1252,7 +1252,7 @@
 * The `saturation` setting in `doomretro.cfg` has been deprecated.
 * A bug has been fixed whereby the shadows of dropped items weren’t also being mirrored when the `mirrorweapons` setting was `true` in `doomretro.cfg`.
 * Weapons spawned at the start of a map are now also mirrored when the `mirrorweapons` setting was `true` in `doomretro.cfg`.
-* Thanks to some [*excellent coding*](https://www.doomworld.com/vb/post/1340126) from Linguica, entryway and kb1, *Vanilla DOOM’s* [“long wall error”](http://doomwiki.org/wiki/Long_wall_error) has been fixed.
+* *Vanilla DOOM’s* [“long wall error”](http://doomwiki.org/wiki/Long_wall_error) has been fixed.
 * Further optimizations have been made to improve the overall performance and stability of *DOOM Retro*.
 * Teleporters in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) are now drawn correctly in the automap before they have been triggered.
 * Whether the automap is active or not, and any automap marks, are now saved in savegames. (Note that this change breaks savegame compatibility with previous versions of *DOOM Retro*.)
@@ -1288,7 +1288,7 @@
 * A bug has been fixed whereby secret sectors that lower and change their texture may not be displayed in the automap correctly.
 * Decorative corpses spawned at the start of a map are now randomly mirrored as intended.
 * A bug has been fixed whereby the player sometimes wouldn’t trigger a teleport when running over it in some instances.
-* Changes have been made to how lighting is calculated. See Linguica’s findings on the [*Doomworld* forums](https://www.doomworld.com/vb/post/1336337) for more information.
+* Changes have been made to how lighting is calculated.
 * Liquid sectors, and the partially submerged objects that are on them, now animate up and down. This feature may be disabled by changing the `animatedliquid` setting in `doomretro.cfg` to `false`.
 * A bug has been fixed whereby objects on a sector that lowers and becomes liquid wouldn’t update immediately (that is, the bottom of their sprites wouldn’t be clipped, their shadow wouldn’t be removed, and blood splats wouldn’t be removed either).
 * Blood splats that are spawned around decorative corpses at the start of a map are now spawned in a more natural-looking circular pattern, and may also be offset slightly from the corpse to give the impression that the corpse may have slid.

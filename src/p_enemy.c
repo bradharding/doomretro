@@ -2194,7 +2194,6 @@ void A_Detonate(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 //
 // killough 9/98: a mushroom explosion effect, sorta :)
-// Original idea: Linguica
 //
 void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
 {

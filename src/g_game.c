@@ -237,20 +237,22 @@ void G_RemoveChoppers(void)
     player_t    *player = &players[0];
 
     player->cheats &= ~CF_CHOPPERS;
+
     if (player->invulnbeforechoppers)
         player->powers[pw_invulnerability] = player->invulnbeforechoppers;
     else
         player->powers[pw_invulnerability] = STARTFLASHING;
+
     player->weaponowned[wp_chainsaw] = player->chainsawbeforechoppers;
     oldweaponsowned[wp_chainsaw] = player->chainsawbeforechoppers;
 }
 
 static void G_NextWeapon(void)
 {
-    player_t            *player = &players[0];
-    weapontype_t        pendingweapon = player->pendingweapon;
-    weapontype_t        readyweapon = player->readyweapon;
-    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+    player_t        *player = &players[0];
+    weapontype_t    pendingweapon = player->pendingweapon;
+    weapontype_t    readyweapon = player->readyweapon;
+    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
@@ -272,14 +274,15 @@ static void G_NextWeapon(void)
 
 static void G_PrevWeapon(void)
 {
-    player_t            *player = &players[0];
-    weapontype_t        pendingweapon = player->pendingweapon;
-    weapontype_t        readyweapon = player->readyweapon;
-    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+    player_t        *player = &players[0];
+    weapontype_t    pendingweapon = player->pendingweapon;
+    weapontype_t    readyweapon = player->readyweapon;
+    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
         i = weapons[i].prev;
+
         if (i == wp_fist && player->weaponowned[wp_chainsaw] && !player->powers[pw_strength])
             i = wp_bfg;
     }
@@ -389,7 +392,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (!idclev && !idmus)
     {
-        int     i;
+        int i;
 
         for (i = 0; i < NUMWEAPONKEYS; i++)
         {
@@ -404,7 +407,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             }
             else if (gamepadbuttons & *gamepadweapons[i])
             {
-                player_t        *player = &players[0];
+                player_t    *player = &players[0];
 
                 if (player->readyweapon != i || (i == wp_fist && player->weaponowned[wp_chainsaw])
                     || (i == wp_shotgun && player->weaponowned[wp_supershotgun]))
@@ -422,14 +425,16 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (m_doubleclick_use)
     {
-        dboolean        bstrafe;
+        dboolean    bstrafe;
 
         // forward double click
         if (mousebuttons[mouseforward] != dclickstate && dclicktime > 1)
         {
             dclickstate = mousebuttons[mouseforward];
+
             if (dclickstate)
                 dclicks++;
+
             if (dclicks == 2)
             {
                 cmd->buttons |= BT_USE;
@@ -446,11 +451,14 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
         // strafe double click
         bstrafe = mousebuttons[mousestrafe];
+
         if (bstrafe != dclickstate2 && dclicktime2 > 1)
         {
             dclickstate2 = bstrafe;
+
             if (dclickstate2)
                 dclicks2++;
+
             if (dclicks2 == 2)
             {
                 cmd->buttons |= BT_USE;
@@ -504,6 +512,7 @@ static void G_SetInitialWeapon(player_t *player)
     player->weaponowned[wp_pistol] = true;
 
     player->ammo[am_clip] = initial_bullets;
+
     if (!initial_bullets && weaponinfo[wp_pistol].ammo != am_noammo)
     {
         player->readyweapon = wp_fist;
@@ -653,12 +662,15 @@ void G_ToggleAlwaysRun(evtype_t type)
         HU_SetPlayerMessage((alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF), false);
         message_dontfuckwithme = true;
     }
+
     C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
+
     if (menuactive)
     {
         message_dontpause = true;
         blurred = false;
     }
+
     M_SaveCVARs();
 }
 
@@ -671,7 +683,6 @@ extern dboolean splashscreen;
 dboolean G_Responder(event_t *ev)
 {
     int key;
-    int mousebutton;
 
     // any other key pops up menu if on title screen
     if (gameaction == ga_nothing && gamestate == GS_TITLESCREEN)
@@ -686,9 +697,7 @@ dboolean G_Responder(event_t *ev)
                  && ev->data1 != KEY_NUMLOCK
                  && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12)
                  && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
-                 || (ev->type == ev_mouse
-                     && mousewait < I_GetTime()
-                     && ev->data1)
+                 || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
                  || (ev->type == ev_gamepad
                      && gamepadwait < I_GetTime()
                      && gamepadbuttons
@@ -700,6 +709,7 @@ dboolean G_Responder(event_t *ev)
             gamepadbuttons = 0;
             gamepadwait = I_GetTime() + 8;
             mousewait = I_GetTime() + 5;
+
             if (splashscreen)
             {
                 if (pagetic < 95)
@@ -710,6 +720,7 @@ dboolean G_Responder(event_t *ev)
                 M_StartControlPanel();
                 S_StartSound(NULL, sfx_swtchn);
             }
+
             return true;
         }
         else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && ev->data1 == keyboardalwaysrun
@@ -726,6 +737,7 @@ dboolean G_Responder(event_t *ev)
     {
         if (ST_Responder(ev))
             return true;        // status window ate it
+
         if (AM_Responder(ev))
             return true;        // Automap ate it
     }
@@ -740,6 +752,7 @@ dboolean G_Responder(event_t *ev)
     {
         case ev_keydown:
             key = ev->data1;
+
             if (key == keyboardprevweapon && !menuactive && !paused)
                 G_PrevWeapon();
             else if (key == keyboardnextweapon && !menuactive && !paused)
@@ -749,6 +762,7 @@ dboolean G_Responder(event_t *ev)
                 keydown = KEY_PAUSE;
                 sendpause = true;
                 blurred = false;
+
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
             }
@@ -760,6 +774,7 @@ dboolean G_Responder(event_t *ev)
             else if (key < NUMKEYS)
             {
                 gamekeydown[key] = true;
+
                 if (vibrate)
                 {
                     vibrate = false;
@@ -771,24 +786,28 @@ dboolean G_Responder(event_t *ev)
 
         case ev_keyup:
             keydown = 0;
+
             if (ev->data1 < NUMKEYS)
                 gamekeydown[ev->data1] = false;
+
             return false;           // always let key up events filter down
 
         case ev_mouse:
         {
             int i;
             int j;
+            int mousebutton = ev->data1;
 
-            mousebutton = ev->data1;
             for (i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
                 mousebuttons[i] = mousebutton & j;
+
             if (vibrate && mousebutton)
             {
                 vibrate = false;
                 idlemotorspeed = 0;
                 XInputVibration(idlemotorspeed);
             }
+
             if (!automapactive && !menuactive && !paused)
             {
                 if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
@@ -796,11 +815,13 @@ dboolean G_Responder(event_t *ev)
                 else if (mouseprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mouseprevweapon])
                     G_PrevWeapon();
             }
+
             if (!automapactive || am_followmode)
             {
                 mousex = ev->data2 * m_sensitivity / 10;
                 mousey = ev->data3 * m_sensitivity / 10;
             }
+
             return true;            // eat events
         }
 
@@ -811,6 +832,7 @@ dboolean G_Responder(event_t *ev)
                 idlemotorspeed = 0;
                 XInputVibration(idlemotorspeed);
             }
+
             if (!automapactive && !menuactive && !paused)
             {
                 if (ev->data1 < 0)
@@ -838,6 +860,7 @@ dboolean G_Responder(event_t *ev)
                 if ((gamepadbuttons & gamepadnextweapon) && wait < I_GetTime())
                 {
                     wait = I_GetTime() + 7;
+
                     if (!gamepadpress || gamepadwait < I_GetTime())
                     {
                         G_NextWeapon();
@@ -847,6 +870,7 @@ dboolean G_Responder(event_t *ev)
                 else if ((gamepadbuttons & gamepadprevweapon) && wait < I_GetTime())
                 {
                     wait = I_GetTime() + 7;
+
                     if (!gamepadpress || gamepadwait < I_GetTime())
                     {
                         G_PrevWeapon();
@@ -856,6 +880,7 @@ dboolean G_Responder(event_t *ev)
                 else if ((gamepadbuttons & gamepadalwaysrun) && wait < I_GetTime())
                 {
                     wait = I_GetTime() + 7;
+
                     if (!gamepadpress || gamepadwait < I_GetTime())
                     {
                         G_ToggleAlwaysRun(ev_gamepad);
@@ -873,7 +898,7 @@ dboolean G_Responder(event_t *ev)
 
 void D_Display(void);
 
-static char     savename[256];
+static char savename[256];
 
 //
 // G_Ticker
@@ -944,6 +969,7 @@ void G_Ticker(void)
                     M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
                     HU_SetPlayerMessage(buffer, false);
                     message_dontfuckwithme = true;
+
                     if (menuactive)
                     {
                         message_dontpause = true;
@@ -951,11 +977,13 @@ void G_Ticker(void)
                     }
 
                     C_Output("<b>%s</b> saved.", lbmpath1);
+
                     if (*lbmpath2)
                         C_Output("<b>%s</b> saved.", lbmpath2);
                 }
                 else
                     C_Warning("A screenshot couldn't be taken.");
+
                 gameaction = ga_nothing;
                 break;
 
@@ -976,6 +1004,7 @@ void G_Ticker(void)
         {
             case BTS_PAUSE:
                 paused ^= 1;
+
                 if (paused)
                 {
                     S_PauseSound();
@@ -1070,6 +1099,7 @@ void G_PlayerFinishLevel(void)
     // [BH] switch to chainsaw if player has it and ends map with fists selected
     if (player->readyweapon == wp_fist && player->weaponowned[wp_chainsaw])
         player->readyweapon = wp_chainsaw;
+
     player->fistorchainsaw = (player->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
 }
 
@@ -1148,7 +1178,7 @@ int npars[9] =
 //
 // G_DoCompleted
 //
-dboolean        secretexit;
+dboolean    secretexit;
 
 void G_ExitLevel(void)
 {
@@ -1210,14 +1240,14 @@ void G_DoCompleted(void)
             return;
         }
     }
+
     if (gamemode != commercial)
     {
         switch (gamemap)
         {
             case 8:
                 // [BH] this episode is complete, so select the next episode in the menu
-                if ((gamemode == registered && gameepisode < 3)
-                    || (gamemode == retail && gameepisode < 4))
+                if ((gamemode == registered && gameepisode < 3) || (gamemode == retail && gameepisode < 4))
                 {
                     episodeselected = gameepisode;
                     EpiDef.lastOn = episodeselected;
@@ -1339,6 +1369,7 @@ void G_DoCompleted(void)
             M_snprintf(lump, sizeof(lump), "MAP%02i", gamemap);
         else
             M_snprintf(lump, sizeof(lump), "E%iM%i", gameepisode, gamemap);
+
         if (BTSX || (W_CheckMultipleLumps(lump) > 1 && (!nerve || gamemap > 9) && !FREEDOOM))
             wminfo.partime = 0;
         else if (gamemode == commercial)
@@ -1498,10 +1529,10 @@ void G_LoadedGameMessage(void)
 {
     if (*savedescription)
     {
-        static char     buffer[1024];
+        static char buffer[1024];
 
-        M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED :
-            s_GGLOADED), titlecase(savedescription));
+        M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED : s_GGLOADED),
+            titlecase(savedescription));
         HU_PlayerMessage(buffer, false);
         message_dontfuckwithme = true;
     }
@@ -1525,8 +1556,8 @@ void G_SaveGame(int slot, char *description, char *name)
 
 void G_DoSaveGame(void)
 {
-    char        *temp_savegame_file = P_TempSaveGameFile();
-    char        *savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
+    char    *temp_savegame_file = P_TempSaveGameFile();
+    char    *savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
 
     // Open the savegame file for writing. We write to a temporary file
     // and then rename it at the end if it was successfully written.
@@ -1601,7 +1632,7 @@ void G_DeferredInitNew(skill_t skill, int ep, int map)
 // G_DeferredLoadLevel
 // [BH] Called when the IDCLEV cheat is used.
 //
-extern msecnode_t       *sector_list;
+extern msecnode_t   *sector_list;
 
 void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 {
@@ -1637,7 +1668,7 @@ void G_DoNewGame(void)
 
 void G_SetFastMonsters(dboolean toggle)
 {
-    int     i;
+    int i;
 
     if (toggle)
     {
@@ -1682,7 +1713,7 @@ void G_SetMovementSpeed(int scale)
 //
 void G_InitNew(skill_t skill, int ep, int map)
 {
-    char        *string = titlecase(*skilllevels[skill]);
+    char    *string = titlecase(*skilllevels[skill]);
 
     if (paused)
     {

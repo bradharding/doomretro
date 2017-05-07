@@ -582,7 +582,6 @@ void R_StoreWallRange(int start, int stop)
     // calculate rw_distance for scale calculation
     rw_normalangle = curline->angle + ANG90;
 
-    // [Linguica] Fix long wall error
     // shift right to avoid possibility of int64 overflow in rw_distance calculation
     dx = ((int64_t)curline->v2->x - curline->v1->x) >> 1;
     dy = ((int64_t)curline->v2->y - curline->v1->y) >> 1;
