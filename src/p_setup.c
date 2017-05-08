@@ -2175,7 +2175,7 @@ void P_SetupLevel(int ep, int map)
     // will be set by player think.
     player->viewz = 1;
 
-    if (!samelevel)
+    if (!(samelevel = (map == current_map && ep == current_episode)))
     {
         player->cheats &= ~CF_ALLMAP;
         player->cheats &= ~CF_ALLMAP_THINGS;
@@ -2221,10 +2221,6 @@ void P_SetupLevel(int ep, int map)
     }
     animatedliquidxoffs = 0;
     animatedliquidyoffs = 0;
-
-    // e6y: speedup of level reloading
-    // Most of level's structures now are allocated with PU_STATIC instead of PU_LEVEL
-    samelevel = (map == current_map && ep == current_episode);
 
     current_episode = ep;
     current_map = map;
