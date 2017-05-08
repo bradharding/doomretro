@@ -945,11 +945,7 @@ void bind_cmd_func2(char *cmd, char *parms);
 //
 void M_LoadCVARs(char *filename)
 {
-    int         i;
-    char        control[128] = "";
-    char        action[128] = "";
-    char        alias[128] = "";
-    char        string[128] = "";
+    int     i;
 
     // read the file in, overriding any set defaults
     FILE        *file = fopen(filename, "r");
