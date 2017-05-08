@@ -950,8 +950,6 @@ void M_LoadCVARs(char *filename)
     char        action[128] = "";
     char        alias[128] = "";
     char        string[128] = "";
-    char        defname[64] = "";
-    char        strparm[256] = "";
 
     // read the file in, overriding any set defaults
     FILE        *file = fopen(filename, "r");
@@ -973,8 +971,10 @@ void M_LoadCVARs(char *filename)
 
     while (!feof(file))
     {
+        char    defname[64] = "";
+        char    strparm[256] = "";
+
         if (fscanf(file, "%63s %255[^\n]\n", defname, strparm) != 2)
-            // This line doesn't match
             continue;
 
         if (defname[0] == ';')
@@ -983,13 +983,15 @@ void M_LoadCVARs(char *filename)
         if (M_StringCompare(defname, "bind"))
         {
             if (!togglingvanilla)
-                bind_cmd_func2("", strparm);
+                bind_cmd_func2("bind", strparm);
+
             continue;
         }
         else if (M_StringCompare(defname, "alias"))
         {
             if (!togglingvanilla)
-                alias_cmd_func2("", strparm);
+                alias_cmd_func2("alias", strparm);
+
             continue;
         }
 
