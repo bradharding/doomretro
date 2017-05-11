@@ -366,9 +366,6 @@ void R_RenderSegLoop(void)
                 ceilingplane->top[rw_x] = top;
                 ceilingplane->bottom[rw_x] = bottom;
             }
-
-            // SoM: this should be set here to prevent overdraw
-            ceilingclip[rw_x] = bottom;
         }
 
         bottom = floorclip[rw_x] - 1;
@@ -385,9 +382,6 @@ void R_RenderSegLoop(void)
                 floorplane->top[rw_x] = top;
                 floorplane->bottom[rw_x] = bottom;
             }
-
-            // SoM: This should be set here to prevent overdraw
-            floorclip[rw_x] = top;
         }
 
         // texturecolumn and lighting are independent of wall tiers
