@@ -1859,10 +1859,12 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             break;
 
         case GR_Door_OpenStay:
-            EV_DoDoor(line, doorOpen);
-            P_ChangeSwitchTexture(line, true);
-            if (canmodify && gamemission == doom2 && gamemap == 18)
-                line->special = -GR_Door_OpenStay;
+            if (EV_DoDoor(line, doorOpen))
+            {
+                P_ChangeSwitchTexture(line, true);
+                if (canmodify && gamemission == doom2 && gamemap == 18)
+                    line->special = 0;
+            }
             break;
 
         case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
@@ -2063,8 +2065,8 @@ void P_UpdateSpecials(void)
                             buttonlist[i].btexture;
                         break;
                 }
-                if (buttonlist[i].line->special != -GR_Door_OpenStay)
-                    S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
+
+                S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
                 memset(&buttonlist[i], 0, sizeof(button_t));
             }
 }
