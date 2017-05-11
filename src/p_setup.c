@@ -782,14 +782,14 @@ void P_LoadSectors(int lump)
 //
 // P_LoadNodes
 //
-void P_LoadNodes(int lump)
+static void P_LoadNodes(int lump)
 {
     const byte  *data;
     int         i;
 
     numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
-    data = (byte *)W_CacheLumpNum(lump);
+    data = W_CacheLumpNum(lump);
 
     if (!data || !numnodes)
     {
@@ -1023,6 +1023,7 @@ static void P_LoadZNodes(int lump)
     data += sizeof(numSubs);
 
     numsubsectors = numSubs;
+
     if (numsubsectors <= 0)
         I_Error("This map has no subsectors.");
 
@@ -1030,7 +1031,7 @@ static void P_LoadZNodes(int lump)
 
     for (i = currSeg = 0; i < numSubs; i++)
     {
-        const mapsubsector_znod_t       *mseg = (const mapsubsector_znod_t *)data + i;
+        const mapsubsector_znod_t   *mseg = (const mapsubsector_znod_t *)data + i;
 
         subsectors[i].firstline = currSeg;
         subsectors[i].numlines = mseg->numsegs;

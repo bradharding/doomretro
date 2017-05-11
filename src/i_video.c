@@ -63,73 +63,72 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAXDISPLAYS             8
+#define MAXDISPLAYS         8
 
-#define MAXUPSCALEWIDTH         (1600 / ORIGINALWIDTH)
-#define MAXUPSCALEHEIGHT        (1200 / ORIGINALHEIGHT)
+#define MAXUPSCALEWIDTH     (1600 / ORIGINALWIDTH)
+#define MAXUPSCALEHEIGHT    (1200 / ORIGINALHEIGHT)
 
-#define I_SDLError(func)        I_Error("The call to "func"() failed in %s on line %i of %s " \
-                                    "with the error:\n\"%s\".", __FUNCTION__, (__LINE__ - 1), \
-                                    leafname(__FILE__), SDL_GetError())
+#define I_SDLError(func)    I_Error("The call to "func"() failed in %s on line %i of %s with the error:\n" \
+                            "\"%s\".", __FUNCTION__, (__LINE__ - 1), leafname(__FILE__), SDL_GetError())
 
 #if !defined(SDL_VIDEO_RENDER_D3D11)
 #define SDL_VIDEO_RENDER_D3D11  0
 #endif
 
 // CVARs
-int                     vid_capfps = vid_capfps_default;
-int                     vid_display = vid_display_default;
+int                 vid_capfps = vid_capfps_default;
+int                 vid_display = vid_display_default;
 #if !defined(_WIN32)
-char                    *vid_driver = vid_driver_default;
+char                *vid_driver = vid_driver_default;
 #endif
-dboolean                vid_fullscreen = vid_fullscreen_default;
-int                     vid_motionblur = vid_motionblur_default;
-dboolean                vid_pillarboxes = vid_pillarboxes_default;
-char                    *vid_scaleapi = vid_scaleapi_default;
-char                    *vid_scalefilter = vid_scalefilter_default;
-char                    *vid_screenresolution = vid_screenresolution_default;
-dboolean                vid_showfps;
-dboolean                vid_vsync = vid_vsync_default;
-dboolean                vid_widescreen = vid_widescreen_default;
-char                    *vid_windowposition = vid_windowposition_default;
-char                    *vid_windowsize = vid_windowsize_default;
+dboolean            vid_fullscreen = vid_fullscreen_default;
+int                 vid_motionblur = vid_motionblur_default;
+dboolean            vid_pillarboxes = vid_pillarboxes_default;
+char                *vid_scaleapi = vid_scaleapi_default;
+char                *vid_scalefilter = vid_scalefilter_default;
+char                *vid_screenresolution = vid_screenresolution_default;
+dboolean            vid_showfps;
+dboolean            vid_vsync = vid_vsync_default;
+dboolean            vid_widescreen = vid_widescreen_default;
+char                *vid_windowposition = vid_windowposition_default;
+char                *vid_windowsize = vid_windowsize_default;
 
-dboolean                manuallypositioning;
+dboolean            manuallypositioning;
 
-SDL_Window              *window;
-int                     windowid;
-SDL_Renderer            *renderer;
-static SDL_Texture      *texture;
-static SDL_Texture      *texture_upscaled;
-static SDL_Surface      *surface;
-static SDL_Surface      *buffer;
-static SDL_Palette      *palette;
-static SDL_Color        colors[256];
-static byte             *playpal;
+SDL_Window          *window;
+int                 windowid;
+SDL_Renderer        *renderer;
+static SDL_Texture  *texture;
+static SDL_Texture  *texture_upscaled;
+static SDL_Surface  *surface;
+static SDL_Surface  *buffer;
+static SDL_Palette  *palette;
+static SDL_Color    colors[256];
+static byte         *playpal;
 
-byte                    *mapscreen;
-SDL_Window              *mapwindow;
-static SDL_Renderer     *maprenderer;
-static SDL_Texture      *maptexture;
-static SDL_Surface      *mapsurface;
-static SDL_Surface      *mapbuffer;
-static SDL_Palette      *mappalette;
+byte                *mapscreen;
+SDL_Window          *mapwindow;
+static SDL_Renderer *maprenderer;
+static SDL_Texture  *maptexture;
+static SDL_Surface  *mapsurface;
+static SDL_Surface  *mapbuffer;
+static SDL_Palette  *mappalette;
 
-dboolean                nearestlinear;
-int                     upscaledwidth;
-int                     upscaledheight;
+dboolean            nearestlinear;
+int                 upscaledwidth;
+int                 upscaledheight;
 
-dboolean                software;
+dboolean            software;
 
-static int              displayindex;
-static int              am_displayindex;
-static int              numdisplays;
-static SDL_Rect         *displays;
+static int          displayindex;
+static int          am_displayindex;
+static int          numdisplays;
+static SDL_Rect     *displays;
 
 // Bit mask of mouse button state
-static unsigned int     mousebuttonstate;
+static unsigned int mousebuttonstate;
 
-static int              buttons[MAX_MOUSE_BUTTONS + 1] =
+static int buttons[MAX_MOUSE_BUTTONS + 1] =
 {
     0x0000,
     0x0001, 0x0004, 0x0002, 0x0008, 0x0010, 0x0020, 0x0040, 0x0080,
@@ -137,30 +136,30 @@ static int              buttons[MAX_MOUSE_BUTTONS + 1] =
 };
 
 // Fullscreen width and height
-int                     screenwidth;
-int                     screenheight;
+int                 screenwidth;
+int                 screenheight;
 
 // Window width and height
-int                     windowwidth;
-int                     windowheight;
+int                 windowwidth;
+int                 windowheight;
 
-int                     windowx;
-int                     windowy;
+int                 windowx;
+int                 windowy;
 
-static int              displaywidth;
-static int              displayheight;
-static int              displaycenterx;
-static int              displaycentery;
+static int          displaywidth;
+static int          displayheight;
+static int          displaycenterx;
+static int          displaycentery;
 
-dboolean                returntowidescreen;
+dboolean            returntowidescreen;
 
-dboolean                windowfocused = true;
+dboolean            windowfocused = true;
 
-static dboolean         keys[UCHAR_MAX];
+static dboolean     keys[UCHAR_MAX];
 
-static byte             gammatable[GAMMALEVELS][256];
+static byte         gammatable[GAMMALEVELS][256];
 
-float                   gammalevels[GAMMALEVELS] =
+float               gammalevels[GAMMALEVELS] =
 {
     // Darker
     0.50f, 0.55f, 0.60f, 0.65f, 0.70f, 0.75f, 0.80f, 0.85f, 0.90f, 0.95f,
@@ -174,23 +173,23 @@ float                   gammalevels[GAMMALEVELS] =
 };
 
 // Gamma correction level to use
-int                     gammaindex;
-float                   r_gamma = r_gamma_default;
+int                 gammaindex;
+float               r_gamma = r_gamma_default;
 
-static SDL_Rect         src_rect = { 0, 0, 0, 0 };
-static SDL_Rect         map_rect = { 0, 0, 0, 0 };
+static SDL_Rect     src_rect = { 0, 0, 0, 0 };
+static SDL_Rect     map_rect = { 0, 0, 0, 0 };
 
-void                    (*blitfunc)(void);
-void                    (*mapblitfunc)(void);
+void                (*blitfunc)(void);
+void                (*mapblitfunc)(void);
 
-int                     fps;
-int                     minfps = INT_MAX;
-int                     maxfps;
-int                     refreshrate;
+int                 fps;
+int                 minfps = INT_MAX;
+int                 maxfps;
+int                 refreshrate;
 
 #if defined(_WIN32)
-static UINT             CapFPSTimer;
-static HANDLE           CapFPSEvent;
+static UINT         CapFPSTimer;
+static HANDLE       CapFPSEvent;
 #endif
 
 // Mouse acceleration
@@ -201,19 +200,19 @@ static HANDLE           CapFPSEvent;
 // The mouse input values are input directly to the game, but when
 // the values exceed the value of m_threshold, they are multiplied
 // by m_acceleration to increase the speed.
-float                   m_acceleration = m_acceleration_default;
-int                     m_threshold = m_threshold_default;
+float               m_acceleration = m_acceleration_default;
+int                 m_threshold = m_threshold_default;
 
-static dboolean         capslock;
-dboolean                alwaysrun = alwaysrun_default;
+static dboolean     capslock;
+dboolean            alwaysrun = alwaysrun_default;
 
-extern dboolean         am_external;
-extern int              r_shake_damage;
+extern dboolean     am_external;
+extern int          r_shake_damage;
 
-extern int              st_palette;
-extern dboolean         togglingvanilla;
-extern int              windowborderwidth;
-extern int              windowborderheight;
+extern int          st_palette;
+extern dboolean     togglingvanilla;
+extern int          windowborderwidth;
+extern int          windowborderheight;
 
 void ST_doRefresh(void);
 
@@ -246,28 +245,26 @@ static void SetShowCursor(dboolean show)
 
 static int translatekey[] =
 {
-    0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '0', KEY_ENTER, KEY_ESCAPE, KEY_BACKSPACE, KEY_TAB, ' ', KEY_MINUS, KEY_EQUALS, '[', ']', '\\',
-    0, ';', '\'', '`', ',', '.', '/', KEY_CAPSLOCK, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6,
-    KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, KEY_PRINTSCREEN, KEY_SCROLLLOCK, KEY_PAUSE,
-    KEY_INSERT, KEY_HOME, KEY_PAGEUP, KEY_DELETE, KEY_END, KEY_PAGEDOWN, KEY_RIGHTARROW,
-    KEY_LEFTARROW, KEY_DOWNARROW, KEY_UPARROW, KEY_NUMLOCK, KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS,
-    KEYP_PLUS, KEYP_ENTER, KEYP_1, KEYP_2, KEYP_3, KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9,
-    KEYP_0, KEYP_PERIOD, 0, 0, 0, KEYP_EQUALS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER,
+    KEY_ESCAPE, KEY_BACKSPACE, KEY_TAB, ' ', KEY_MINUS, KEY_EQUALS, '[', ']', '\\', 0, ';', '\'', '`', ',',
+    '.', '/', KEY_CAPSLOCK, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10,
+    KEY_F11, KEY_F12, KEY_PRINTSCREEN, KEY_SCROLLLOCK, KEY_PAUSE, KEY_INSERT, KEY_HOME, KEY_PAGEUP,
+    KEY_DELETE, KEY_END, KEY_PAGEDOWN, KEY_RIGHTARROW, KEY_LEFTARROW, KEY_DOWNARROW, KEY_UPARROW,
+    KEY_NUMLOCK, KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS, KEYP_PLUS, KEYP_ENTER, KEYP_1, KEYP_2, KEYP_3,
+    KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9, KEYP_0, KEYP_PERIOD, 0, 0, 0, KEYP_EQUALS, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 static int TranslateKey2(int key)
@@ -388,7 +385,7 @@ void I_ShutdownGraphics(void)
 #if defined(X11)
 static void I_SetXKBCapslockState(dboolean enabled)
 {
-    Display     *dpy = XOpenDisplay(0);
+    Display *dpy = XOpenDisplay(0);
 
     XkbLockModifiers(dpy, XkbUseCoreKbd, 2, enabled * 2);
     XFlush(dpy);
@@ -432,18 +429,18 @@ static void CenterMouse(void)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-dboolean        altdown;
-dboolean        waspaused;
-dboolean        noinput = true;
+dboolean    altdown;
+dboolean    waspaused;
+dboolean    noinput = true;
 
 static void I_GetEvent(void)
 {
-    event_t             event;
-    SDL_Event           SDLEvent;
-    SDL_Event           *Event = &SDLEvent;
+    event_t     event;
+    SDL_Event   SDLEvent;
+    SDL_Event   *Event = &SDLEvent;
 
 #if !defined(_WIN32)
-    static dboolean     enterdown;
+    static dboolean enterdown;
 #endif
 
     while (SDL_PollEvent(Event))
@@ -709,8 +706,8 @@ void I_StartTic(void)
 
 static void UpdateGrab(void)
 {
-    dboolean            grab = MouseShouldBeGrabbed();
-    static dboolean     currently_grabbed;
+    dboolean        grab = MouseShouldBeGrabbed();
+    static dboolean currently_grabbed;
 
     if (grab && !currently_grabbed)
     {
@@ -721,8 +718,7 @@ static void UpdateGrab(void)
     {
         SetShowCursor(true);
 
-        SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH,
-            windowheight - 16);
+        SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH, windowheight - 16);
         SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
     }
@@ -1003,8 +999,8 @@ static void GetDisplays(void)
 
 void I_CreateExternalAutomap(dboolean output)
 {
-    Uint32      rmask, gmask, bmask, amask;
-    int         bpp;
+    Uint32  rmask, gmask, bmask, amask;
+    int     bpp;
 
     mapscreen = *screens;
     mapblitfunc = nullfunc;
@@ -1018,6 +1014,7 @@ void I_CreateExternalAutomap(dboolean output)
     {
         if (output)
             C_Warning("Only one display was found. An external automap couldn't be created.");
+
         return;
     }
 
@@ -1074,7 +1071,7 @@ void I_CreateExternalAutomap(dboolean output)
 
     if (output)
     {
-        const char      *displayname = SDL_GetDisplayName(am_displayindex);
+        const char  *displayname = SDL_GetDisplayName(am_displayindex);
 
         if (*displayname)
             C_Output("Created an external automap on display %i called \"%s\".", am_displayindex + 1,
@@ -1138,8 +1135,7 @@ void GetWindowSize(void)
     sscanf(left, "%10i", &width);
     sscanf(right, "%10i", &height);
 
-    if (width < ORIGINALWIDTH + windowborderwidth
-        || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
+    if (width < ORIGINALWIDTH + windowborderwidth || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
     {
         char    size[16];
 
@@ -1159,10 +1155,10 @@ void GetWindowSize(void)
 
 static dboolean ValidScreenMode(int width, int height)
 {
-    const int   modecount = SDL_GetNumDisplayModes(displayindex);
+    const int   modes = SDL_GetNumDisplayModes(displayindex);
     int         i;
 
-    for (i = 0; i < modecount; i++)
+    for (i = 0; i < modes; i++)
     {
         SDL_DisplayMode mode;
 
@@ -1256,6 +1252,7 @@ static char *getacronym(int width, int height)
 
         i++;
     }
+
     return "";
 }
 
@@ -1328,7 +1325,7 @@ static void SetVideoMode(dboolean output)
 
     if (output)
     {
-        const char      *displayname = SDL_GetDisplayName(displayindex);
+        const char  *displayname = SDL_GetDisplayName(displayindex);
 
         if (*displayname)
             C_Output("Using display %i of %i called \"%s\".", displayindex + 1, numdisplays, displayname);
@@ -1459,8 +1456,8 @@ static void SetVideoMode(dboolean output)
     {
         if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
         {
-            int     major;
-            int     minor;
+            int major;
+            int minor;
 
             SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major);
             SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor);
@@ -1561,7 +1558,7 @@ static void SetVideoMode(dboolean output)
 
         if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
         {
-            SDL_DisplayMode     displaymode;
+            SDL_DisplayMode displaymode;
 
             if (!SDL_GetWindowDisplayMode(window, &displaymode))
             {
@@ -1774,7 +1771,7 @@ static void I_InitGammaTables(void)
 
     for (i = 0; i < GAMMALEVELS; i++)
     {
-        int     j;
+        int j;
 
         for (j = 0; j < 256; j++)
             gammatable[i][j] = (byte)(pow(j / 255.0, 1.0 / gammalevels[i]) * 255.0 + 0.5);
@@ -1784,6 +1781,7 @@ static void I_InitGammaTables(void)
 void I_SetGamma(float value)
 {
     gammaindex = 0;
+
     while (gammaindex < GAMMALEVELS)
     {
         if (gammalevels[gammaindex] == value)
@@ -1791,9 +1789,11 @@ void I_SetGamma(float value)
 
         gammaindex++;
     }
+
     if (gammaindex == GAMMALEVELS)
     {
         gammaindex = 0;
+
         while (gammalevels[gammaindex] != r_gamma_default)
             gammaindex++;
     }
@@ -1845,6 +1845,7 @@ void I_InitGraphics(void)
 
     while (i < UCHAR_MAX)
         keys[i++] = true;
+
     keys['v'] = keys['V'] = false;
     keys['s'] = keys['S'] = false;
     keys['i'] = keys['I'] = false;

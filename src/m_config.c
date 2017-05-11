@@ -47,184 +47,175 @@
 #include "p_local.h"
 #include "version.h"
 
-static dboolean         cvarsloaded;
+static dboolean     cvarsloaded;
 
-extern dboolean         alwaysrun;
-extern int              am_allmapcdwallcolor;
-extern int              am_allmapfdwallcolor;
-extern int              am_allmapwallcolor;
-extern int              am_backcolor;
-extern int              am_cdwallcolor;
-extern int              am_crosshaircolor;
-extern dboolean         am_external;
-extern int              am_fdwallcolor;
-extern dboolean         am_grid;
-extern int              am_gridcolor;
-extern char             *am_gridsize;
-extern int              am_markcolor;
-extern dboolean         am_path;
-extern int              am_pathcolor;
-extern int              am_playercolor;
-extern dboolean         am_rotatemode;
-extern int              am_teleportercolor;
-extern int              am_thingcolor;
-extern int              am_tswallcolor;
-extern int              am_wallcolor;
-extern dboolean         autoload;
-extern dboolean         centerweapon;
-extern dboolean         con_obituaries;
-extern dboolean         con_timestamps;
-extern int              episodeselected;
-extern int              expansionselected;
-extern int              facebackcolor;
-extern float            gp_deadzone_left;
-extern float            gp_deadzone_right;
-extern int              gp_sensitivity;
-extern dboolean         gp_swapthumbsticks;
-extern int              gp_vibrate_damage;
-extern int              gp_vibrate_weapons;
-extern char             *iwadfolder;
-extern dboolean         messages;
-extern float            m_acceleration;
-extern dboolean         m_doubleclick_use;
-extern dboolean         m_invert;
-extern dboolean         m_look;
-extern dboolean         m_novertical;
-extern int              m_sensitivity;
-extern int              m_threshold;
-extern int              movebob;
-extern char             *playername;
-extern dboolean         r_althud;
-extern int              r_berserkintensity;
-extern int              r_blood;
-extern int              r_bloodsplats_max;
-extern dboolean         r_bloodsplats_translucency;
-extern dboolean         r_brightmaps;
-extern dboolean         r_corpses_color;
-extern dboolean         r_corpses_mirrored;
-extern dboolean         r_corpses_moreblood;
-extern dboolean         r_corpses_nudge;
-extern dboolean         r_corpses_slide;
-extern dboolean         r_corpses_smearblood;
-extern int              r_detail;
-extern dboolean         r_diskicon;
-extern dboolean         r_dither;
-extern dboolean         r_fixmaperrors;
-extern dboolean         r_fixspriteoffsets;
-extern dboolean         r_floatbob;
-extern float            r_gamma;
-extern dboolean         r_homindicator;
-extern dboolean         r_hud;
-extern dboolean         r_hud_translucency;
-extern dboolean         r_liquid_bob;
-extern dboolean         r_liquid_clipsprites;
-extern dboolean         r_liquid_current;
-extern dboolean         r_liquid_lowerview;
-extern dboolean         r_liquid_swirl;
-extern char             *r_lowpixelsize;
-extern int              r_messagescale;
-extern dboolean         r_mirroredweapons;
-extern dboolean         r_playersprites;
-extern dboolean         r_rockettrails;
-extern dboolean         r_shadows;
-extern dboolean         r_shadows_translucency;
-extern dboolean         r_shake_barrels;
-extern int              r_shake_damage;
-extern int              r_skycolor;
-extern dboolean         r_textures;
-extern dboolean         r_translucency;
-extern int              s_channels;
-extern int              s_musicvolume;
-extern dboolean         s_randommusic;
-extern dboolean         s_randompitch;
-extern int              s_sfxvolume;
-extern char             *s_timiditycfgpath;
-extern int              savegameselected;
-extern int              skilllevelselected;
-extern int              stillbob;
-extern unsigned int     stat_barrelsexploded;
-extern unsigned int     stat_cheated;
-extern unsigned int     stat_damageinflicted;
-extern unsigned int     stat_damagereceived;
-extern unsigned int     stat_deaths;
-extern unsigned int     stat_distancetraveled;
-extern unsigned int     stat_itemspickedup;
-extern unsigned int     stat_itemspickedup_ammo_bullets;
-extern unsigned int     stat_itemspickedup_ammo_cells;
-extern unsigned int     stat_itemspickedup_ammo_rockets;
-extern unsigned int     stat_itemspickedup_ammo_shells;
-extern unsigned int     stat_itemspickedup_armor;
-extern unsigned int     stat_itemspickedup_health;
-extern unsigned int     stat_mapscompleted;
-extern unsigned int     stat_monsterskilled;
-extern unsigned int     stat_monsterskilled_arachnotrons;
-extern unsigned int     stat_monsterskilled_archviles;
-extern unsigned int     stat_monsterskilled_baronsofhell;
-extern unsigned int     stat_monsterskilled_cacodemons;
-extern unsigned int     stat_monsterskilled_cyberdemons;
-extern unsigned int     stat_monsterskilled_demons;
-extern unsigned int     stat_monsterskilled_heavyweapondudes;
-extern unsigned int     stat_monsterskilled_hellknights;
-extern unsigned int     stat_monsterskilled_imps;
-extern unsigned int     stat_monsterskilled_lostsouls;
-extern unsigned int     stat_monsterskilled_mancubi;
-extern unsigned int     stat_monsterskilled_painelementals;
-extern unsigned int     stat_monsterskilled_revenants;
-extern unsigned int     stat_monsterskilled_shotgunguys;
-extern unsigned int     stat_monsterskilled_spectres;
-extern unsigned int     stat_monsterskilled_spidermasterminds;
-extern unsigned int     stat_monsterskilled_zombiemen;
-extern unsigned int     stat_runs;
-extern unsigned int     stat_secretsrevealed;
-extern unsigned int     stat_shotsfired;
-extern unsigned int     stat_shotshit;
-extern unsigned int     stat_time;
-extern int              units;
-extern int              turbo;
-extern char             *version;
-extern int              vid_capfps;
-extern int              vid_display;
+extern dboolean     alwaysrun;
+extern int          am_allmapcdwallcolor;
+extern int          am_allmapfdwallcolor;
+extern int          am_allmapwallcolor;
+extern int          am_backcolor;
+extern int          am_cdwallcolor;
+extern int          am_crosshaircolor;
+extern dboolean     am_external;
+extern int          am_fdwallcolor;
+extern dboolean     am_grid;
+extern int          am_gridcolor;
+extern char         *am_gridsize;
+extern int          am_markcolor;
+extern dboolean     am_path;
+extern int          am_pathcolor;
+extern int          am_playercolor;
+extern dboolean     am_rotatemode;
+extern int          am_teleportercolor;
+extern int          am_thingcolor;
+extern int          am_tswallcolor;
+extern int          am_wallcolor;
+extern dboolean     autoload;
+extern dboolean     centerweapon;
+extern dboolean     con_obituaries;
+extern dboolean     con_timestamps;
+extern int          episodeselected;
+extern int          expansionselected;
+extern int          facebackcolor;
+extern float        gp_deadzone_left;
+extern float        gp_deadzone_right;
+extern int          gp_sensitivity;
+extern dboolean     gp_swapthumbsticks;
+extern int          gp_vibrate_damage;
+extern int          gp_vibrate_weapons;
+extern char         *iwadfolder;
+extern dboolean     messages;
+extern float        m_acceleration;
+extern dboolean     m_doubleclick_use;
+extern dboolean     m_invert;
+extern dboolean     m_look;
+extern dboolean     m_novertical;
+extern int          m_sensitivity;
+extern int          m_threshold;
+extern int          movebob;
+extern char         *playername;
+extern dboolean     r_althud;
+extern int          r_berserkintensity;
+extern int          r_blood;
+extern int          r_bloodsplats_max;
+extern dboolean     r_bloodsplats_translucency;
+extern dboolean     r_brightmaps;
+extern dboolean     r_corpses_color;
+extern dboolean     r_corpses_mirrored;
+extern dboolean     r_corpses_moreblood;
+extern dboolean     r_corpses_nudge;
+extern dboolean     r_corpses_slide;
+extern dboolean     r_corpses_smearblood;
+extern int          r_detail;
+extern dboolean     r_diskicon;
+extern dboolean     r_dither;
+extern dboolean     r_fixmaperrors;
+extern dboolean     r_fixspriteoffsets;
+extern dboolean     r_floatbob;
+extern float        r_gamma;
+extern dboolean     r_homindicator;
+extern dboolean     r_hud;
+extern dboolean     r_hud_translucency;
+extern dboolean     r_liquid_bob;
+extern dboolean     r_liquid_clipsprites;
+extern dboolean     r_liquid_current;
+extern dboolean     r_liquid_lowerview;
+extern dboolean     r_liquid_swirl;
+extern char         *r_lowpixelsize;
+extern int          r_messagescale;
+extern dboolean     r_mirroredweapons;
+extern dboolean     r_playersprites;
+extern dboolean     r_rockettrails;
+extern dboolean     r_shadows;
+extern dboolean     r_shadows_translucency;
+extern dboolean     r_shake_barrels;
+extern int          r_shake_damage;
+extern int          r_skycolor;
+extern dboolean     r_textures;
+extern dboolean     r_translucency;
+extern int          s_channels;
+extern int          s_musicvolume;
+extern dboolean     s_randommusic;
+extern dboolean     s_randompitch;
+extern int          s_sfxvolume;
+extern char         *s_timiditycfgpath;
+extern int          savegameselected;
+extern int          skilllevelselected;
+extern int          stillbob;
+extern unsigned int stat_barrelsexploded;
+extern unsigned int stat_cheated;
+extern unsigned int stat_damageinflicted;
+extern unsigned int stat_damagereceived;
+extern unsigned int stat_deaths;
+extern unsigned int stat_distancetraveled;
+extern unsigned int stat_itemspickedup;
+extern unsigned int stat_itemspickedup_ammo_bullets;
+extern unsigned int stat_itemspickedup_ammo_cells;
+extern unsigned int stat_itemspickedup_ammo_rockets;
+extern unsigned int stat_itemspickedup_ammo_shells;
+extern unsigned int stat_itemspickedup_armor;
+extern unsigned int stat_itemspickedup_health;
+extern unsigned int stat_mapscompleted;
+extern unsigned int stat_monsterskilled;
+extern unsigned int stat_monsterskilled_arachnotrons;
+extern unsigned int stat_monsterskilled_archviles;
+extern unsigned int stat_monsterskilled_baronsofhell;
+extern unsigned int stat_monsterskilled_cacodemons;
+extern unsigned int stat_monsterskilled_cyberdemons;
+extern unsigned int stat_monsterskilled_demons;
+extern unsigned int stat_monsterskilled_heavyweapondudes;
+extern unsigned int stat_monsterskilled_hellknights;
+extern unsigned int stat_monsterskilled_imps;
+extern unsigned int stat_monsterskilled_lostsouls;
+extern unsigned int stat_monsterskilled_mancubi;
+extern unsigned int stat_monsterskilled_painelementals;
+extern unsigned int stat_monsterskilled_revenants;
+extern unsigned int stat_monsterskilled_shotgunguys;
+extern unsigned int stat_monsterskilled_spectres;
+extern unsigned int stat_monsterskilled_spidermasterminds;
+extern unsigned int stat_monsterskilled_zombiemen;
+extern unsigned int stat_runs;
+extern unsigned int stat_secretsrevealed;
+extern unsigned int stat_shotsfired;
+extern unsigned int stat_shotshit;
+extern unsigned int stat_time;
+extern int          units;
+extern int          turbo;
+extern char         *version;
+extern int          vid_capfps;
+extern int          vid_display;
 #if !defined(_WIN32)
-extern char             *vid_driver;
+extern char         *vid_driver;
 #endif
-extern dboolean         vid_fullscreen;
-extern int              vid_motionblur;
-extern dboolean         vid_pillarboxes;
-extern char             *vid_scaleapi;
-extern char             *vid_scalefilter;
-extern char             *vid_screenresolution;
-extern dboolean         vid_vsync;
-extern dboolean         vid_widescreen;
-extern char             *vid_windowposition;
-extern char             *vid_windowsize;
+extern dboolean     vid_fullscreen;
+extern int          vid_motionblur;
+extern dboolean     vid_pillarboxes;
+extern char         *vid_scaleapi;
+extern char         *vid_scalefilter;
+extern char         *vid_screenresolution;
+extern dboolean     vid_vsync;
+extern dboolean     vid_widescreen;
+extern char         *vid_windowposition;
+extern char         *vid_windowsize;
 #if defined(_WIN32)
-extern char             *wad;
+extern char         *wad;
 #endif
-extern int              weaponbob;
+extern int          weaponbob;
 
-extern char             *packageconfig;
-extern dboolean         returntowidescreen;
-extern dboolean         vanilla;
-extern dboolean         togglingvanilla;
+extern char         *packageconfig;
+extern dboolean     returntowidescreen;
+extern dboolean     vanilla;
+extern dboolean     togglingvanilla;
 
-#define CONFIG_VARIABLE_INT(name, set) \
-    { #name,          &name, DEFAULT_INT,           set          }
-#define CONFIG_VARIABLE_INT_UNSIGNED(name, set) \
-    { #name,          &name, DEFAULT_INT_UNSIGNED,  set          }
-#define CONFIG_VARIABLE_INT_PERCENT(name, set) \
-    { #name,          &name, DEFAULT_INT_PERCENT,   set          }
-#define CONFIG_VARIABLE_FLOAT(name, set) \
-    { #name,          &name, DEFAULT_FLOAT,         set          }
-#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) \
-    { #name,          &name, DEFAULT_FLOAT_PERCENT, set          }
-#define CONFIG_VARIABLE_STRING(name, set) \
-    { #name,          &name, DEFAULT_STRING,        set          }
-#define CONFIG_VARIABLE_OTHER(name, set) \
-    { #name,          &name, DEFAULT_OTHER,         set          }
-#define BLANKLINE \
-    { "",             "",    DEFAULT_OTHER,         NOVALUEALIAS }
-#define COMMENT(text) \
-    { text,           "",    DEFAULT_OTHER,         NOVALUEALIAS }
+#define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
+#define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
+#define CONFIG_VARIABLE_INT_PERCENT(name, set)      { #name, &name, DEFAULT_INT_PERCENT,   set          }
+#define CONFIG_VARIABLE_FLOAT(name, set)            { #name, &name, DEFAULT_FLOAT,         set          }
+#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set)    { #name, &name, DEFAULT_FLOAT_PERCENT, set          }
+#define CONFIG_VARIABLE_STRING(name, set)           { #name, &name, DEFAULT_STRING,        set          }
+#define CONFIG_VARIABLE_OTHER(name, set)            { #name, &name, DEFAULT_OTHER,         set          }
+#define BLANKLINE                                   { "",    "",    DEFAULT_OTHER,         NOVALUEALIAS }
+#define COMMENT(text)                               { text,  "",    DEFAULT_OTHER,         NOVALUEALIAS }
 
 static default_t cvars[] =
 {
@@ -415,8 +406,10 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
                 fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);
             else
                 fprintf(file, "bind %s %s\n", control, action);
+
             break;
         }
+
         i++;
     }
 }
@@ -426,9 +419,9 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 //
 void M_SaveCVARs(void)
 {
-    int         i;
-    int         numaliases = 0;
-    FILE        *file;
+    int     i;
+    int     numaliases = 0;
+    FILE    *file;
 
     if (!cvarsloaded || vanilla)
         return;
@@ -461,9 +454,9 @@ void M_SaveCVARs(void)
         {
             case DEFAULT_INT:
             {
-                int             j = 0;
-                dboolean        flag = false;
-                int             v = *(int *)cvars[i].location;
+                int         j = 0;
+                dboolean    flag = false;
+                int         v = *(int *)cvars[i].location;
 
                 while (*valuealiases[j].text)
                 {
@@ -473,10 +466,12 @@ void M_SaveCVARs(void)
                         flag = true;
                         break;
                     }
+
                     j++;
                 }
                 if (!flag)
                     fputs(commify(*(int *)cvars[i].location), file);
+
                 break;
             }
 
@@ -486,9 +481,9 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT_PERCENT:
             {
-                int             j = 0;
-                dboolean        flag = false;
-                int             v = *(int *)cvars[i].location;
+                int         j = 0;
+                dboolean    flag = false;
+                int         v = *(int *)cvars[i].location;
 
                 while (*valuealiases[j].text)
                 {
@@ -498,10 +493,12 @@ void M_SaveCVARs(void)
                         flag = true;
                         break;
                     }
+
                     j++;
                 }
                 if (!flag)
                     fprintf(file, "%s%%", commify(*(int *)cvars[i].location));
+
                 break;
             }
 
@@ -519,10 +516,12 @@ void M_SaveCVARs(void)
                         flag = true;
                         break;
                     }
+
                     j++;
                 }
                 if (!flag)
                     fputs(striptrailingzero(*(float *)cvars[i].location, 2), file);
+
                 break;
             }
 
@@ -540,10 +539,12 @@ void M_SaveCVARs(void)
                         flag = true;
                         break;
                     }
+
                     j++;
                 }
                 if (!flag)
                     fprintf(file, "%s%%", striptrailingzero(*(float *)cvars[i].location, 1));
+
                 break;
             }
 
@@ -552,6 +553,7 @@ void M_SaveCVARs(void)
                     fputs(*(char **)cvars[i].location, file);
                 else
                     fprintf(file, "\"%s\"", *(char **)cvars[i].location);
+
                 break;
 
             case DEFAULT_OTHER:
@@ -567,20 +569,27 @@ void M_SaveCVARs(void)
     fputs("; bound controls\n", file);
 
     i = 0;
+
     while (*actions[i].action)
     {
         if (actions[i].keyboard2)
             SaveBind(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
+
         if (actions[i].keyboard1)
             SaveBind(file, actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol);
+
         if (actions[i].mouse2)
             SaveBind(file, actions[i].action, *(int *)actions[i].mouse2, mousecontrol);
+
         if (actions[i].mouse1)
             SaveBind(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
+
         if (actions[i].gamepad2)
             SaveBind(file, actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol);
+
         if (actions[i].gamepad1)
             SaveBind(file, actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol);
+
         i++;
     }
 
@@ -613,6 +622,7 @@ static int ParseIntParameter(char *strparm, int valuealiastype)
     {
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
+
         i++;
     }
 
@@ -630,6 +640,7 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
     {
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return (float)valuealiases[i].value;
+
         i++;
     }
 
@@ -712,7 +723,8 @@ static void M_CheckCVARs(void)
     if (con_timestamps != false && con_timestamps != true)
         con_timestamps = con_timestamps_default;
 
-    episodeselected = BETWEEN(episodeselected_min, episodeselected, episodeselected_max - (gamemode == registered));
+    episodeselected = BETWEEN(episodeselected_min, episodeselected,
+        episodeselected_max - (gamemode == registered));
 
     expansionselected = BETWEEN(expansionselected_min, expansionselected, expansionselected_max);
 
@@ -948,7 +960,7 @@ void M_LoadCVARs(char *filename)
     int     i;
 
     // read the file in, overriding any set defaults
-    FILE        *file = fopen(filename, "r");
+    FILE    *file = fopen(filename, "r");
 
     cvarsloaded = true;
 
@@ -1004,7 +1016,7 @@ void M_LoadCVARs(char *filename)
         // Find the setting in the list
         for (i = 0; i < arrlen(cvars); i++)
         {
-            char        *s;
+            char    *s;
 
             if (!M_StringCompare(defname, cvars[i].name))
                 continue;       // not this one

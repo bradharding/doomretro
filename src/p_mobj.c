@@ -51,19 +51,18 @@
 void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 
-int                     r_blood = r_blood_default;
-int                     r_bloodsplats_max = r_bloodsplats_max_default;
-int                     r_bloodsplats_total;
-
-dboolean                r_corpses_color = r_corpses_color_default;
-dboolean                r_corpses_mirrored = r_corpses_mirrored_default;
-dboolean                r_corpses_moreblood = r_corpses_moreblood_default;
-dboolean                r_corpses_nudge = r_corpses_nudge_default;
-dboolean                r_corpses_slide = r_corpses_slide_default;
-dboolean                r_corpses_smearblood = r_corpses_smearblood_default;
-dboolean                r_floatbob = r_floatbob_default;
-dboolean                r_rockettrails = r_rockettrails_default;
-dboolean                r_shadows = r_shadows_default;
+int         r_blood = r_blood_default;
+int         r_bloodsplats_max = r_bloodsplats_max_default;
+int         r_bloodsplats_total;
+dboolean    r_corpses_color = r_corpses_color_default;
+dboolean    r_corpses_mirrored = r_corpses_mirrored_default;
+dboolean    r_corpses_moreblood = r_corpses_moreblood_default;
+dboolean    r_corpses_nudge = r_corpses_nudge_default;
+dboolean    r_corpses_slide = r_corpses_slide_default;
+dboolean    r_corpses_smearblood = r_corpses_smearblood_default;
+dboolean    r_floatbob = r_floatbob_default;
+dboolean    r_rockettrails = r_rockettrails_default;
+dboolean    r_shadows = r_shadows_default;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -77,15 +76,15 @@ static fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-extern fixed_t          animatedliquiddiffs[64];
-extern dboolean         m_look;
-extern dboolean         r_liquid_bob;
-extern dboolean         r_liquid_clipsprites;
-extern dboolean         r_liquid_lowerview;
-extern dboolean         r_mirroredweapons;
-extern dboolean         r_textures;
-extern dboolean         r_shadows_translucency;
-extern msecnode_t       *sector_list;   // phares 3/16/98
+extern fixed_t      animatedliquiddiffs[64];
+extern dboolean     m_look;
+extern dboolean     r_liquid_bob;
+extern dboolean     r_liquid_clipsprites;
+extern dboolean     r_liquid_lowerview;
+extern dboolean     r_mirroredweapons;
+extern dboolean     r_textures;
+extern dboolean     r_shadows_translucency;
+extern msecnode_t   *sector_list;   // phares 3/16/98
 
 dboolean P_IsVoodooDoll(mobj_t *mobj)
 {
@@ -101,12 +100,12 @@ dboolean P_IsVoodooDoll(mobj_t *mobj)
 // of times the loop in P_SetMobjState() executes and exit with an error once
 // an arbitrary very large limit is reached.
 
-#define MOBJ_CYCLE_LIMIT        1000000
+#define MOBJ_CYCLE_LIMIT    1000000
 
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
-    state_t     *st;
-    int         cycle_counter = 0;
+    state_t *st;
+    int     cycle_counter = 0;
 
     do
     {
@@ -215,8 +214,7 @@ void P_XYMovement(mobj_t *mo)
         // Large negative displacements were never considered.
         // This explains the tendency for Mancubus fireballs
         // to pass through walls.
-        if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2
-            || xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
+        if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2 || xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
         {
             ptryx = mo->x + xmove / 2;
             ptryy = mo->y + ymove / 2;
@@ -242,12 +240,12 @@ void P_XYMovement(mobj_t *mo)
             {
                 if (blockline)
                 {
-                    fixed_t     r = ((blockline->dx >> FRACBITS) * mo->momx
-                                    + (blockline->dy >> FRACBITS) * mo->momy)
-                                    / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
-                                    + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
-                    fixed_t     x = FixedMul(r, blockline->dx);
-                    fixed_t     y = FixedMul(r, blockline->dy);
+                    fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx
+                                + (blockline->dy >> FRACBITS) * mo->momy)
+                                / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
+                                + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
+                    fixed_t x = FixedMul(r, blockline->dx);
+                    fixed_t y = FixedMul(r, blockline->dy);
 
                     // reflect momentum away from wall
                     mo->momx = x * 2 - mo->momx;
@@ -280,9 +278,11 @@ void P_XYMovement(mobj_t *mo)
                     // Hack to prevent missiles exploding
                     // against the sky.
                     // Does not handle sky floors.
+
+                    // [BH] still play sound when firing BFG into sky
                     if (type == MT_BFG)
-                        // [BH] still play sound when firing BFG into sky
                         S_StartSound(mo, mo->info->deathsound);
+
                     P_RemoveMobj(mo);
                     return;
                 }
@@ -306,13 +306,13 @@ void P_XYMovement(mobj_t *mo)
     if (corpse && !(flags & MF_NOBLOOD) && mo->blood && r_corpses_slide && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
-        int     radius = spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS >> 1;
-        int     i;
-        int     max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
-        int     x = mo->x;
-        int     y = mo->y;
-        int     blood = mobjinfo[mo->blood].blood;
-        int     floorz = mo->floorz;
+        int radius = spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS >> 1;
+        int i;
+        int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
+        int x = mo->x;
+        int y = mo->y;
+        int blood = mobjinfo[mo->blood].blood;
+        int floorz = mo->floorz;
 
         for (i = 0; i < max; i++)
         {
@@ -335,13 +335,11 @@ void P_XYMovement(mobj_t *mo)
         && mo->floorz != mo->subsector->sector->floorheight)
         return;         // do not stop sliding if halfway off a step with some momentum
 
-    if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED
-        && mo->momy > -STOPSPEED && mo->momy < STOPSPEED
+    if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED && mo->momy > -STOPSPEED && mo->momy < STOPSPEED
         && (!player || (!player->cmd.forwardmove && !player->cmd.sidemove) || P_IsVoodooDoll(mo)))
     {
         // if in a walking frame, stop moving
-        if (player && !P_IsVoodooDoll(mo)
-            && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4)
+        if (player && !P_IsVoodooDoll(mo) && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4)
             P_SetMobjState(player->mo, S_PLAY);
 
         mo->momx = 0;
@@ -415,7 +413,7 @@ void P_ZMovement(mobj_t *mo)
     if (!((mo->flags ^ MF_FLOAT) & (MF_FLOAT | MF_SKULLFLY | MF_INFLOAT))
         && mo->target)  // killough 11/98: simplify
     {
-        fixed_t     delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
+        fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
         if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
             mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
@@ -430,6 +428,7 @@ void P_ZMovement(mobj_t *mo)
         {
             if (r_bloodsplats_max)
                 P_SpawnBloodSplat(mo->x, mo->y, mo->blood, mo->floorz, NULL);
+
             P_RemoveMobj(mo);
             return;
         }
@@ -465,6 +464,7 @@ void P_ZMovement(mobj_t *mo)
     {
         if (!mo->momz)
             mo->momz = -GRAVITY;
+
         mo->momz -= GRAVITY;
     }
 
