@@ -1332,6 +1332,7 @@ static int D_OpenWADLauncher(void)
 #endif
             }
 
+#if defined(_WIN32)
             iwadpass2 += lstrlen(iwadpass2) + 1;
 
             // find and add IWAD first
@@ -1341,7 +1342,7 @@ static int D_OpenWADLauncher(void)
 
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass2);
 
-#if defined(__MACOSX__)
+#elif defined(__MACOSX__)
             char    *szFile;
 
             for (NSURL* url in urls)
@@ -1361,8 +1362,8 @@ static int D_OpenWADLauncher(void)
                         if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
-                            sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
-                            isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
+                            sharewareiwad = M_StringCompare(iwadpass2, "DOOM1.WAD");
+                            isDOOM2 = M_StringCompare(iwadpass2, "DOOM2.WAD");
                             wad = strdup(leafname(fullpath));
                             iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
