@@ -412,7 +412,7 @@ void R_InitLightTables(void)
 
             // killough 3/20/98: Initialize multiple colormaps
             for (t = 0; t < numcolormaps; t++)
-                c_zlight[t][i][j] = colormaps[t] + level;
+                c_zlight[t][i][j] = &colormaps[t][level];
         }
     }
 }
@@ -507,7 +507,7 @@ void R_ExecuteSetViewSize(void)
 
             // killough 3/20/98: initialize multiple colormaps
             for (t = 0; t < numcolormaps; t++)     // killough 4/4/98
-                c_scalelight[t][i][j] = colormaps[t] + level;
+                c_scalelight[t][i][j] = &colormaps[t][level];
         }
     }
 
@@ -522,7 +522,7 @@ void R_ExecuteSetViewSize(void)
             int t, level = BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             for (t = 0; t < numcolormaps; t++)
-                c_psprscalelight[t][i][j] = colormaps[t] + level;
+                c_psprscalelight[t][i][j] = &colormaps[t][level];
         }
     }
 }
