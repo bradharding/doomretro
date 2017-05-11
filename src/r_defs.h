@@ -237,7 +237,7 @@ typedef struct line_s
     // Animation related.
     unsigned short      flags;
 
-    short               special;
+    unsigned short      special;
     short               tag;
 
     // Visual appearance: SideDefs.

@@ -1468,10 +1468,10 @@ sectorfix_t sectorfix[] =
     { pack_plut,        1,  16,     97, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
     { pack_plut,        1,  16,    104, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
 
+    { pack_plut,        1,  26,    156, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
+
     { pack_plut,        1,  29,    178, "",        "",                 201,       DEFAULT, DEFAULT,                           DEFAULT },
     { pack_plut,        1,  29,    224, "",        "",                 156,       DEFAULT, DEFAULT,                           DEFAULT },
-
-    { pack_plut,        1,  26,    156, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
 
     { pack_tnt,         1,   3,    260, "",        "CEIL3_3",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
     { pack_tnt,         1,   3,    329, "",        "CEIL3_3",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },

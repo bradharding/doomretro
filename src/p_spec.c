@@ -1840,7 +1840,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
                     P_ChangeSwitchTexture(line, true);
                 return;
 
-            default:                // if not a gun type, do nothing here
+            default:            // if not a gun type, do nothing here
                 return;
         }
 
@@ -1891,7 +1891,7 @@ static void P_SecretFound(player_t *player)
 
     if (DSSECRET)
     {
-        static char     buffer[1024];
+        static char buffer[1024];
 
         S_StartSound(NULL, sfx_secret);
         M_snprintf(buffer, sizeof(buffer), s_SECRET, playername);
@@ -2051,18 +2051,15 @@ void P_UpdateSpecials(void)
                 switch (buttonlist[i].where)
                 {
                     case top:
-                        sides[buttonlist[i].line->sidenum[0]].toptexture =
-                            buttonlist[i].btexture;
+                        sides[buttonlist[i].line->sidenum[0]].toptexture = buttonlist[i].btexture;
                         break;
 
                     case middle:
-                        sides[buttonlist[i].line->sidenum[0]].midtexture =
-                            buttonlist[i].btexture;
+                        sides[buttonlist[i].line->sidenum[0]].midtexture = buttonlist[i].btexture;
                         break;
 
                     case bottom:
-                        sides[buttonlist[i].line->sidenum[0]].bottomtexture =
-                            buttonlist[i].btexture;
+                        sides[buttonlist[i].line->sidenum[0]].bottomtexture = buttonlist[i].btexture;
                         break;
                 }
 
