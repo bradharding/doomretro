@@ -1917,12 +1917,6 @@ void PIT_ChangeSector(mobj_t *thing)
 
         if (!(flags & MF_FUZZ))
         {
-            P_SetMobjState(thing, S_GIBS);
-
-            thing->flags &= ~MF_SOLID;
-            thing->height = 0;
-            thing->radius = 0;
-
             if (!(flags & MF_NOBLOOD) && thing->blood)
             {
                 int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1)
@@ -1942,7 +1936,15 @@ void PIT_ChangeSector(mobj_t *thing)
 
                     P_SpawnBloodSplat(fx, fy, blood, floorz, NULL);
                 }
+
+                P_SetMobjState(thing, S_GIBS);
+
+                thing->flags &= ~MF_SOLID;
+                thing->height = 0;
+                thing->radius = 0;
             }
+            else
+                P_RemoveMobj(thing);
 
             S_StartSound(thing, sfx_slop);
         }
