@@ -1898,7 +1898,7 @@ void PIT_ChangeSector(mobj_t *thing)
     int flags = thing->flags;
     int flags2 = thing->flags2;
 
-    if (isliquidsector && !(flags2 & MF2_NOFOOTCLIP) && !(thing->info->flags & MF_SPAWNCEILING))
+    if (isliquidsector && !(flags2 & MF2_NOFOOTCLIP) && !(flags & MF_SPAWNCEILING))
         thing->flags2 |= MF2_FEETARECLIPPED;
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
@@ -1915,30 +1915,37 @@ void PIT_ChangeSector(mobj_t *thing)
             return;
         }
 
-        if (!(flags & MF_FUZZ) && !(flags & MF_NOBLOOD) && thing->blood)
+        if (!(flags & MF_FUZZ))
         {
-            int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]]
-                         >> FRACBITS) >> 1) + 12;
-            int i;
-            int max = M_RandomInt(50, 100) + radius;
-            int x = thing->x;
-            int y = thing->y;
-            int blood = mobjinfo[thing->blood].blood;
-            int floorz = thing->floorz;
+            P_SetMobjState(thing, S_GIBS);
 
-            for (i = 0; i < max; i++)
+            thing->flags &= ~MF_SOLID;
+            thing->height = 0;
+            thing->radius = 0;
+
+            if (!(flags & MF_NOBLOOD) && thing->blood)
             {
-                int     angle = M_RandomInt(0, FINEANGLES - 1);
-                int     fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
-                int     fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+                int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1)
+                        + 12;
+                int i;
+                int max = M_RandomInt(50, 100) + radius;
+                int x = thing->x;
+                int y = thing->y;
+                int blood = mobjinfo[thing->blood].blood;
+                int floorz = thing->floorz;
 
-                P_SpawnBloodSplat(fx, fy, blood, floorz, NULL);
+                for (i = 0; i < max; i++)
+                {
+                    int angle = M_RandomInt(0, FINEANGLES - 1);
+                    int fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
+                    int fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+
+                    P_SpawnBloodSplat(fx, fy, blood, floorz, NULL);
+                }
             }
+
+            S_StartSound(thing, sfx_slop);
         }
-
-        S_StartSound(thing, sfx_slop);
-
-        P_RemoveMobj(thing);
 
         // keep checking
         return;
