@@ -529,7 +529,7 @@ void P_NightmareRespawn(mobj_t *mobj)
     S_StartSound(mo, sfx_telept);
 
     // spawn the new monster
-    z = ((mobj->info->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+    z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
     // inherit attributes from deceased one
     mo = P_SpawnMobj(x, y, z, mobj->type);
