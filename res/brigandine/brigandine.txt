@@ -1,0 +1,149 @@
+===========================================================================
+Advanced engine needed  : Strong limit-removing (>32k seg limit)
+Primary purpose         : Single player
+===========================================================================
+Title                   : Brigandine
+Filename                : brigandine.wad
+Release date            : 2017-05—13 (RC2)
+Author                  : Viggles
+Email Address           : alun.bestor@gmail.com
+Other Files By Author   : Breach (2015 Cacoward winner):
+                          https://www.doomworld.com/vb/post/1336635
+
+Misc. Author Info       : Itinerant iOS developer and full-time shitbird.
+
+Description             : A running battle through a twisty terraced
+                          city of brick, iron and skin. A well-meaning
+                          attempt to make a singleplayer map that would
+                          flow like a deathmatch one. Secretly just a love
+                          letter to BRWINDOW.
+
+                          Inspired by Crucified Dreams, BTSX Episode 2,
+                          Gravity Rush, Doom 2016 and Kowloon Walled City.
+
+Additional Credits      : Music by Conelrad: http://conelrad.co.uk
+
+                          Special thanks to my wife for putting up with
+                          my shit and to Onionbob for falling in love with
+                          Doom again.
+
+===========================================================================
+* What is included *
+
+New levels              : 1
+Sounds                  : No
+Music                   : Yes (OGG format)
+Graphics                : Sorta (vanilla textures with a few patch tweaks)
+Dehacked/BEX Patch      : No
+Demos                   : No
+Other                   : No
+Other files required    : None
+
+
+* Play Information *
+
+Game                    : DOOM2
+Map #                   : MAP01
+Single Player           : Designed for
+Cooperative 2-4 Player  : Player starts only
+Deathmatch 2-4 Player   : No
+Other game styles       : No
+Difficulty Settings     : Yes
+
+Play Notes              : Plays best in a port with mouselook
+                          and finite-height monsters.
+                          Jump and crouch permitted, but not required.
+                          PrBoom+ users: -complevel 2 for demo recording.
+
+
+* Construction *
+
+Base                    : New from scratch
+Build Time              : 2 years off-and-on
+Editor(s) used          : GZDoomBuilder 2.3, Slade 3
+Known Bugs              : No music in Crispy Doom (lacks OGG support)
+                          Glitchy railing visuals in Crispy Doom
+May Not Run With        : Vanilla/Chocolate Doom
+Tested With             : ZDoom 2.8.1
+                          GZDoom 2.3.2
+                          Doom Retro 2.4
+                          Crispy Doom 3.4
+                          PrBoom+ 2.5.1.5 (-complevel 2 and default)
+                          Eternity 3.40.46
+Build Playlist          : Die Antwoord - Raging Zef Boner
+                          Grimes - Kill v Maim
+                          Saint Saviour - Jennifer
+                          Yamantaka // Sonic Titan - Whalesong
+                          Trentemøller - The Mash and the Fury
+                          Leftfield - Bad Radio
+                          Orbital - The Box (Part Two)
+                          Scratch Massive - Paris
+                          Bohannon - Summertime Groove
+                          Betty Davis - Nasty Gal
+                          Florence + The Machine - Spectrum
+                          Stan Rogers - Fisherman's Wharf
+                          Chelsea Wolfe - Lone
+
+
+
+
+* Copyright / Permissions *
+
+Authors MAY use the contents of this file as a base for
+modification or reuse.  Permissions have been obtained from original 
+authors for any of their resources modified or included in this file.
+
+You MAY distribute this file, provided you include this text file, with
+no modifications.  You may distribute this file in any electronic
+format (BBS, Diskette, CD, etc) as long as you include this file 
+intact.  I have received permission from the original authors of any
+modified or included content in this file to allow further distribution.
+
+
+* Where to get the file that this text file describes *
+
+Web sites:
+http://doom.washboardabs.net/brigandine/brigandine-latest.zip
+
+
+===========================================================================
+* Version History *
+
+RC2 (2017-05-13)
+----------------
+http://doom.washboardabs.net/brigandine/brigandine-rc2.zip
+
+- Redesigned final encounter on HMP and UV
+- Greatly reduced cell ammo on UV
+- Marked early rocket launcher as a secret
+- Tweaked a couple of secrets to make them easier to find
+- Tweaked another secret to make it harder to find
+- Prevented player from slipping through red bars
+- Fixed some unreliable encounter scripting
+- Minor texture tweaks and cosmetic fixes
+
+
+beta2 (2017-02-14)
+------------------
+http://doom.washboardabs.net/brigandine/brigandine-beta2.zip
+
+- Fixed broken encounters in PrBoom+ complevel 2
+- Made the BFG no longer a free lunch
+- Reworked final encounter into something more challenging and entertaining
+- Tweaked rocket launcher, red key and bloodpipe encounters to discourage
+  running off and sniping
+- Replaced plasma gun with another rocket launcher for players who miss
+  the first one
+- Added a 5th secret
+- Better signposting of existing switches and secrets
+- Prevented player slipping out of blue key cage
+- Minor cosmetic fixes
+- Added titlepic
+- The dopefish lives
+
+
+beta1 (2017-02-04)
+------------------
+http://doom.washboardabs.net/brigandine/brigandine-beta1.zip
+
+- Firsties
