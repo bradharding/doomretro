@@ -48,10 +48,10 @@ vertexfix_t vertexfix[] =
     { doom,          2,   2,   1344,  1312,  3992,  1312,  4000 },
 
     { doom,          2,   6,    646,    64,  2008,    66,  2006 },
-    { doom,          2,   6,    647,   112,  1960,   111,  1961 },    
+    { doom,          2,   6,    647,   112,  1960,   111,  1961 },
     { doom,          2,   6,    648,  -368,  1960,  -367,  1961 },
     { doom,          2,   6,    649,  -320,  2008,  -322,  2006 },
-    
+
     { doom,          2,   7,    255,  2880,   624,  2880,   629 },
     { doom,          2,   7,    378,  3824,   640,  3828,   640 },
     { doom,          2,   7,    379,  3840,   624,  3840,   629 },
@@ -431,7 +431,7 @@ linefix_t linefix[] =
     { doom,             4,   1,      95,    0, "",         "",            "",                -58,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   1,      96,    0, "",         "",            "",                 32,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   1,     124,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
-    { doom,             4,   1,     126,    0, "",         "",            "",            DEFAULT,        -1, DEFAULT,                   DEFAULT,                                    DEFAULT },    
+    { doom,             4,   1,     126,    0, "",         "",            "",            DEFAULT,        -1, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   1,     156,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   1,     165,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   1,     192,    0, "",         "",            "",                 23,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -462,7 +462,7 @@ linefix_t linefix[] =
     { doom,             4,   1,     456,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   1,     458,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   1,     466,    0, "",         "",            "",                 -4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
-    { doom,             4,   1,     468,    0, "",         "",            "",                 -8,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },    
+    { doom,             4,   1,     468,    0, "",         "",            "",                 -8,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   1,     470,    0, "GSTONE1",  "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
     { doom,             4,   2,     165,    1, "WOOD5",    "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -525,11 +525,11 @@ linefix_t linefix[] =
     { doom,             4,   4,     448,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   4,     449,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   4,     450,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
-    { doom,             4,   4,     451,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },    
+    { doom,             4,   4,     451,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   4,     452,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   4,     453,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   4,     454,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
-    { doom,             4,   4,     455,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },    
+    { doom,             4,   4,     455,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   4,     456,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   4,     457,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   4,     458,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -690,7 +690,7 @@ linefix_t linefix[] =
     { doom,             4,   8,    1235,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   8,    1238,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   8,    1240,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
-    
+
     { doom,             4,   9,    1583,    0, "",         "",            "",            DEFAULT,      -120, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   9,    1584,    0, "",         "",            "",                 64,      -120, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             4,   9,    1585,    0, "",         "",            "",            DEFAULT,      -120, DEFAULT,                   DEFAULT,                                    DEFAULT },
@@ -1076,7 +1076,7 @@ linefix_t linefix[] =
    // mission,    episode, map, linedef, side, toptexture, middletexture, bottomtexture,  offset, rowoffset, flags,                     special,                                        tag
 
     { pack_plut,        1,   1,    1110,    0, "",         "",            "",                  0,         0, DEFAULT,                   DEFAULT,                                    DEFAULT },
-   
+
     { pack_plut,        1,   4,     303,    1, "",         "MIDBRONZ",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,   4,     308,    1, "",         "MIDBRONZ",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { pack_plut,        1,   4,     762,    1, "",         "MIDBARS3",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },

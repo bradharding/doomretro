@@ -766,13 +766,11 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!player || !psp)
         return;
 
-    if (player->ammo[weaponinfo[player->readyweapon].ammo])
-    {
-        P_NoiseAlert(player->mo, player->mo);
-        S_StartSound(actor, sfx_pistol);
-    }
-    else
+    if (!player->ammo[weaponinfo[player->readyweapon].ammo])
         return;
+
+    P_NoiseAlert(player->mo, player->mo);
+    S_StartSound(actor, sfx_pistol);
 
     P_SetMobjState(actor, S_PLAY_ATK2);
 

@@ -146,7 +146,7 @@ static dboolean CheckIfPatch(int lump)
     if (result)
     {
         // The dimensions seem like they might be valid for a patch, so
-        // check the column directory for extra security. All columns 
+        // check the column directory for extra security. All columns
         // must begin after the column directory, and none of them must
         // point past the end of the patch.
         int     x;

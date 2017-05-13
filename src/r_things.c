@@ -936,7 +936,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
     // store information in a vissprite
     vis = &tempvis;
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
-        
+
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
