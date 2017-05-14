@@ -924,7 +924,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 
 void I_UpdateBlitFunc(dboolean shake)
 {
-    if (shake)
+    if (shake && !software)
         blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake :
             I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake : I_Blit_Shake));
     else

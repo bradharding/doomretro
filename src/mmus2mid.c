@@ -136,8 +136,7 @@ static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte);
 static int TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value);
 static ULONG ReadTime(UBYTE **musptrp);
 static char FirstChannelAvailable(signed char MUS2MIDchannel[]);
-static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel,
-    UBYTE MIDItrack);
+static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE MIDItrack);
 
 //
 // TWriteByte()
@@ -155,14 +154,13 @@ static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel,
 //
 static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 {
-    size_t      pos = mididata->track[MIDItrack].len;
+    size_t  pos = mididata->track[MIDItrack].len;
 
     // proff: Added typecast to avoid warning
     if (pos >= (size_t)track[MIDItrack].alloced)
     {
-        track[MIDItrack].alloced =              // double allocation
-            (track[MIDItrack].alloced ?         // or set initial TRACKBUFFERSIZE
-            2 * track[MIDItrack].alloced :
+        // double allocation or set initial TRACKBUFFERSIZE
+        track[MIDItrack].alloced = (track[MIDItrack].alloced ? 2 * track[MIDItrack].alloced :
             TRACKBUFFERSIZE);
 
         // attempt to reallocate
@@ -190,7 +188,7 @@ static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 //
 static int TWriteVarLen(MIDI *mididata, int tracknum, ULONG value)
 {
-    ULONG       buffer = value & 0x7F;
+    ULONG   buffer = value & 0x7F;
 
     while ((value >>= 7))               // terminates because value unsigned
     {
@@ -210,6 +208,7 @@ static int TWriteVarLen(MIDI *mididata, int tracknum, ULONG value)
         else                            // terminate on the byte with bit 8 clear
             break;
     }
+
     return 0;
 }
 
@@ -226,8 +225,8 @@ static int TWriteVarLen(MIDI *mididata, int tracknum, ULONG value)
 //
 static ULONG ReadTime(UBYTE **musptrp)
 {
-    ULONG       timeval = 0;
-    int         byte;
+    ULONG   timeval = 0;
+    int     byte;
 
     do  // shift each byte read up in the result until a byte with bit 8 clear
     {
@@ -250,10 +249,10 @@ static ULONG ReadTime(UBYTE **musptrp)
 // Returns the maximum channel number unassigned unless that is 9 in which
 // case 10 is returned.
 //
-static char FirstChannelAvailable(signed char MUS2MIDchannel[])
+static char FirstChannelAvailable(char MUS2MIDchannel[])
 {
-    int         i;
-    signed char max = -1;
+    int     i;
+    char    max = -1;
 
     // find the largest MIDI channel assigned so far
     for (i = 0; i < 15; i++)
@@ -278,14 +277,16 @@ static char FirstChannelAvailable(signed char MUS2MIDchannel[])
 //
 static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE MIDItrack)
 {
-    UBYTE       newevent = (midicode | MIDIchannel);
+    UBYTE   newevent = (midicode | MIDIchannel);
 
     if (newevent != track[MIDItrack].lastEvt)
     {
         if (TWriteByte(mididata, MIDItrack, newevent))
             return 0;                                    // indicates MEMALLOC error
+
         track[MIDItrack].lastEvt = newevent;
     }
+
     return newevent;
 }
 
@@ -299,7 +300,7 @@ static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE 
 //
 dboolean mmuscheckformat(UBYTE *mus, int size)
 {
-    UBYTE       *hptr = mus;
+    UBYTE   *hptr = mus;
 
     while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN
         && strncmp((const char *)hptr, "MUS\x1a", 4))
@@ -347,6 +348,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     // capable of doing this, and would skip over any intervening data. That,
     // or DMX doesn't use the MUS header at all somehow.
     hptr = mus;
+
     while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN
         && strncmp((const char *)hptr, "MUS\x1a", 4))
         hptr++;
@@ -408,8 +410,10 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
         // get a mus event, decode its type and channel fields
         event = *musptr++;
+
         if ((evt = event_type(event)) == SCORE_END)     // jff 1/23/98 use symbol
             break;                                      // if end of score event, leave
+
         MUSchannel = channel(event);
 
         // if this channel not initialized, do so
@@ -424,10 +428,13 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
             if (TWriteByte(mididata, MIDItrack, 0x00))  // haleyjd 12/30/13: send all notes off
                 return MEMALLOC;
+
             if (TWriteByte(mididata, MIDItrack, (0xB0 | MIDIchannel)))
                 return MEMALLOC;
+
             if (TWriteByte(mididata, MIDItrack, 0x7B))
                 return MEMALLOC;
+
             if (TWriteByte(mididata, MIDItrack, 0x00))
                 return MEMALLOC;
         }
@@ -439,6 +446,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
         if (TWriteVarLen(mididata, MIDItrack, track[MIDItrack].deltaT))
             return MEMALLOC;
+
         track[MIDItrack].deltaT = 0;
 
         switch (evt)
@@ -452,8 +460,10 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                 // proff: Added typecast to avoid warning
                 if (TWriteByte(mididata, MIDItrack, (unsigned char)(data & 0x7F)))
                     return MEMALLOC;
+
                 if (TWriteByte(mididata, MIDItrack, 0))
                     return MEMALLOC;
+
                 break;
 
             case PLAY_NOTE:
@@ -465,10 +475,13 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                 // proff: Added typecast to avoid warning
                 if (TWriteByte(mididata, MIDItrack, (unsigned char)(data & 0x7F)))
                     return MEMALLOC;
+
                 if (data & 0x80)
-                    track[MIDItrack].velocity = (*musptr++) & 0x7f;
+                    track[MIDItrack].velocity = (*musptr++) & 0x7F;
+
                 if (TWriteByte(mididata, MIDItrack, track[MIDItrack].velocity))
                     return MEMALLOC;
+
                 break;
 
             case BEND_NOTE:
@@ -484,6 +497,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                 // proff: Added typecast to avoid warning
                 if (TWriteByte(mididata, MIDItrack, (unsigned char)(data >> 1)))
                     return MEMALLOC;
+
                 break;
 
             case SYS_EVENT:
@@ -491,11 +505,13 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                     return MEMALLOC;
 
                 data = *musptr++;
+
                 if (data < 10 || data > 14)
                     return BADSYSEVT;
 
                 if (TWriteByte(mididata, MIDItrack, MUS2MIDcontrol[data]))
                     return MEMALLOC;
+
                 if (data == 12)
                 {
                     // proff: Added typecast to avoid warning
@@ -504,10 +520,12 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                 }
                 else if (TWriteByte(mididata, MIDItrack, 0))
                     return MEMALLOC;
+
                 break;
 
             case CNTL_CHANGE:
                 data = *musptr++;
+
                 if (data > 9)
                     return BADCTLCHG;
 
@@ -519,11 +537,9 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                     if (TWriteByte(mididata, MIDItrack, MUS2MIDcontrol[data]))
                         return MEMALLOC;
                 }
-                else
-                {
-                    if (!MidiEvent(mididata, 0xC0, MIDIchannel, MIDItrack))
-                        return MEMALLOC;
-                }
+                else if (!MidiEvent(mididata, 0xC0, MIDIchannel, MIDItrack))
+                    return MEMALLOC;
+
                 data = *musptr++;
 
                 // Gez: Fix TNT.WAD's D_STALKS, based on Ben Ryves's fix in MUS2MID
@@ -533,6 +549,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                 // proff: Added typecast to avoid warning
                 if (TWriteByte(mididata, MIDItrack, (unsigned char)data))
                     return MEMALLOC;
+
                 break;
 
             case UNKNOWN_EVENT1:   // mus events 5 and 7
@@ -550,8 +567,9 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
         {
             DeltaTime = ReadTime(&musptr);
             TotalTime += DeltaTime;
+
             for (i = 0; i < MIDI_TRACKS; i++)   // jff 3/13/98 update all tracks
-                track[i].deltaT += DeltaTime;   //whether allocated yet or not
+                track[i].deltaT += DeltaTime;   // whether allocated yet or not
         }
     } while (evt != SCORE_END && (size_t)(musptr - mus) < muslen);
 
@@ -565,17 +583,20 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
         {
             if (TWriteByte(mididata, i, 0x00))  // midi end of track code
                 return MEMALLOC;
+
             if (TWriteByte(mididata, i, 0xFF))
                 return MEMALLOC;
+
             if (TWriteByte(mididata, i, 0x2F))
                 return MEMALLOC;
+
             if (TWriteByte(mididata, i, 0x00))
                 return MEMALLOC;
 
             // jff 1/23/98 fix failure to set data NULL, len 0 for unused tracks
             // shorten allocation to proper length (important for Allegro)
-            if (!(mididata->track[i].data =
-                Z_Realloc(mididata->track[i].data, sizeof(unsigned char *) * mididata->track[i].len)))
+            if (!(mididata->track[i].data = Z_Realloc(mididata->track[i].data,
+                sizeof(unsigned char *) * mididata->track[i].len)))
                 return MEMALLOC;
         }
         else
@@ -619,21 +640,21 @@ static void TWriteLength(UBYTE **midiptr, size_t length)
 //
 int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen)
 {
-    size_t      total;
-    int         i;
-    int         ntrks;
-    UBYTE       *midiptr;
+    size_t  total;
+    int     i;
+    int     ntrks;
+    UBYTE   *midiptr;
 
     // calculate how long the mid buffer must be, and allocate
     total = sizeof(midihdr);
+
     for (i = 0, ntrks = 0; i < MIDI_TRACKS; i++)
-    {
         if (mididata->track[i].len)
         {
             total += 8 + mididata->track[i].len;        // Track hdr + track length
             ntrks++;
         }
-    }
+
     if ((*mid = (UBYTE *)malloc(total)) == NULL)
         return MEMALLOC;
 
@@ -650,7 +671,6 @@ int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen)
 
     // write the tracks
     for (i = 0; i < MIDI_TRACKS; i++)
-    {
         if (mididata->track[i].len)
         {
             memcpy(midiptr, trackhdr, sizeof(trackhdr));                        // header
@@ -659,7 +679,6 @@ int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen)
             memcpy(midiptr, mididata->track[i].data, mididata->track[i].len);   // data
             midiptr += mididata->track[i].len;
         }
-    }
 
     // return length information
     *midlen = (int)(midiptr - *mid);
