@@ -443,8 +443,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />
-    <Text Include="..\res\breach\breach.txt" />
-    <Text Include="..\res\brigandine\brigandine.txt" />
+    <Text Include="..\res\wads\breach.txt" />
+    <Text Include="..\res\wads\brigandine.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
