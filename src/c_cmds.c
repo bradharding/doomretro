@@ -4583,7 +4583,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 else
                 {
                     if (value < player->health)
-                        P_DamageMobj(player->mo, NULL, NULL, player->health - value, false);
+                        P_DamageMobj(player->mo, player->mo, NULL, player->health - value, false);
                     else
                     {
                         player->health = value;
