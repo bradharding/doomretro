@@ -42,6 +42,9 @@
 #include "p_local.h"
 #include "s_sound.h"
 
+#define DEADLOOKDIR     128
+#define DEADLOOKDIRINC  24
+
 extern fixed_t  animatedliquiddiff;
 extern dboolean skipaction;
 extern dboolean software;
@@ -260,13 +263,13 @@ static void P_DeathThink(player_t *player)
 
         if (m_look)
         {
-            if (player->lookdir > 24)
-                player->lookdir -= 24;
-            else if (player->lookdir < 24)
-                player->lookdir += 24;
+            if (player->lookdir > DEADLOOKDIR)
+                player->lookdir -= DEADLOOKDIRINC;
+            else if (player->lookdir < DEADLOOKDIR)
+                player->lookdir += DEADLOOKDIRINC;
 
-            if (ABS(player->lookdir) < 24)
-                player->lookdir = 24;
+            if (ABS(player->lookdir - DEADLOOKDIR) < DEADLOOKDIRINC)
+                player->lookdir = DEADLOOKDIR;
         }
     }
 
