@@ -43,7 +43,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-platlist_t      *activeplats;   // killough 2/14/98: made global again
+platlist_t  *activeplats;   // killough 2/14/98: made global again
 
 //
 // Move a plat up and down
@@ -61,10 +61,8 @@ void T_PlatRaise(plat_t *plat)
             res = T_MovePlane(plat->sector, plat->speed, plat->high, plat->crush, 0, 1);
 
             if (plat->type == raiseAndChange || plat->type == raiseToNearestAndChange)
-            {
                 if (!(leveltime & 7) && plat->sector->floorheight != plat->high)
                     S_StartSectorSound(&plat->sector->soundorg, sfx_stnmov);
-            }
 
             if (res == crushed && !plat->crush)
             {
@@ -144,6 +142,7 @@ void T_PlatRaise(plat_t *plat)
                 plat->status = (plat->sector->floorheight == plat->low ? up : down);
                 S_StartSectorSound(&plat->sector->soundorg, sfx_pstart);
             }
+
             break;
 
         case in_stasis:
@@ -284,7 +283,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 
     if (sec)
     {
-        int     i;
+        int i;
 
         for (i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
@@ -320,6 +319,7 @@ void P_ActivateInStasis(int tag)
                 plat->status = (plat->oldstatus == up ? down : up);
             else
                 plat->status = plat->oldstatus;
+
             plat->thinker.function = T_PlatRaise;
         }
     }
@@ -357,8 +357,10 @@ void P_AddActivePlat(plat_t *plat)
 
     list->plat = plat;
     plat->list = list;
+
     if ((list->next = activeplats))
         list->next->prev = &list->next;
+
     list->prev = &activeplats;
     activeplats = list;
 }
@@ -373,8 +375,10 @@ void P_RemoveActivePlat(plat_t *plat)
 
     plat->sector->floordata = NULL;
     P_RemoveThinker(&plat->thinker);
+
     if ((*list->prev = list->next))
         list->next->prev = list->prev;
+
     free(list);
 }
 
@@ -386,7 +390,7 @@ void P_RemoveAllActivePlats(void)
 {
     while (activeplats)
     {
-        platlist_t      *next = activeplats->next;
+        platlist_t  *next = activeplats->next;
 
         free(activeplats);
         activeplats = next;

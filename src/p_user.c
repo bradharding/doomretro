@@ -46,10 +46,9 @@
 #define DEADLOOKDIRINC  24
 
 extern fixed_t  animatedliquiddiff;
-extern dboolean skipaction;
-
 extern dboolean m_look;
 extern dboolean r_liquid_bob;
+extern dboolean skipaction;
 
 void G_RemoveChoppers(void);
 
@@ -96,7 +95,7 @@ static void P_Bob(player_t *player, angle_t angle, fixed_t move)
 //
 void P_CalcHeight(player_t *player)
 {
-    mobj_t      *mo = player->mo;
+    mobj_t  *mo = player->mo;
 
     if (player->playerstate == PST_LIVE)
     {
@@ -105,8 +104,8 @@ void P_CalcHeight(player_t *player)
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        fixed_t     momx = player->momx;
-        fixed_t     momy = player->momy;
+        fixed_t momx = player->momx;
+        fixed_t momy = player->momy;
 
         bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
         player->bob = (bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) :
@@ -133,6 +132,7 @@ void P_CalcHeight(player_t *player)
         if (player->deltaviewheight)
         {
             player->deltaviewheight += FRACUNIT / 4;
+
             if (!player->deltaviewheight)
                 player->deltaviewheight = 1;
         }
@@ -143,8 +143,8 @@ void P_CalcHeight(player_t *player)
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
     {
-        dboolean                    liquid = true;
-        const struct msecnode_s     *seclist;
+        dboolean                liquid = true;
+        const struct msecnode_s *seclist;
 
         for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
             if (!seclist->m_sector->isliquid || seclist->m_sector->heightsec != -1)
@@ -239,11 +239,11 @@ static void P_ReduceDamageCount(player_t *player)
 //
 static void P_DeathThink(player_t *player)
 {
-    static int          count;
-    static dboolean     facingkiller;
-    mobj_t              *mo = player->mo;
-    mobj_t              *attacker = player->attacker;
-    const Uint8         *keystate = SDL_GetKeyboardState(NULL);
+    static int      count;
+    static dboolean facingkiller;
+    mobj_t          *mo = player->mo;
+    mobj_t          *attacker = player->attacker;
+    const Uint8     *keystate = SDL_GetKeyboardState(NULL);
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
@@ -301,8 +301,9 @@ static void P_DeathThink(player_t *player)
     if (consoleheight)
         return;
 
-    if (((player->cmd.buttons & BT_USE) || ((player->cmd.buttons & BT_ATTACK)
-        && !player->damagecount && count > TICRATE * 2) || keystate[SDL_SCANCODE_RETURN]
+    if (((player->cmd.buttons & BT_USE)
+        || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
+        || keystate[SDL_SCANCODE_RETURN]
         || keystate[SDL_SCANCODE_KP_ENTER]))
     {
         count = 0;
@@ -320,9 +321,9 @@ static void P_DeathThink(player_t *player)
 //
 void P_ResurrectPlayer(player_t *player, int health)
 {
-    fixed_t     x, y;
-    int         angle;
-    mobj_t      *thing;
+    fixed_t x, y;
+    int     angle;
+    mobj_t  *thing;
 
     // remove player's corpse
     P_RemoveMobj(player->mo);
@@ -360,10 +361,10 @@ void P_ResurrectPlayer(player_t *player, int health)
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t                    *cmd = &player->cmd;
-    mobj_t                      *mo = player->mo;
-    const struct msecnode_s     *seclist;
-    static int                  motionblur;
+    ticcmd_t                *cmd = &player->cmd;
+    mobj_t                  *mo = player->mo;
+    const struct msecnode_s *seclist;
+    static int              motionblur;
 
     // [AM] Assume we can interpolate at the beginning
     //      of the tic.
@@ -394,6 +395,7 @@ void P_PlayerThink(player_t *player)
     if (vid_motionblur)
     {
         motionblur = 0;
+
         if (!automapactive)
         {
             if (player->damagecount)
@@ -401,6 +403,7 @@ void P_PlayerThink(player_t *player)
             else if (cmd->angleturn)
                 motionblur = MIN(ABS(cmd->angleturn) * 100 / 960, 150);
         }
+
         I_SetMotionBlur(motionblur * vid_motionblur / 100);
     }
     else if (motionblur)
@@ -469,11 +472,10 @@ void P_PlayerThink(player_t *player)
 
         // Don't switch to a weapon without any or enough ammo.
         else if (((newweapon == wp_pistol || newweapon == wp_chaingun) && !player->ammo[am_clip])
-                 || (newweapon == wp_shotgun && !player->ammo[am_shell])
-                 || (newweapon == wp_missile && !player->ammo[am_misl])
-                 || (newweapon == wp_plasma && !player->ammo[am_cell])
-                 || (newweapon == wp_bfg && player->ammo[am_cell] < bfgcells
-                     && bfgcells == BFGCELLS))
+            || (newweapon == wp_shotgun && !player->ammo[am_shell])
+            || (newweapon == wp_missile && !player->ammo[am_misl])
+            || (newweapon == wp_plasma && !player->ammo[am_cell])
+            || (newweapon == wp_bfg && player->ammo[am_cell] < bfgcells && bfgcells == BFGCELLS))
             newweapon = wp_nochange;
 
         // Select the preferred shotgun.
@@ -485,13 +487,14 @@ void P_PlayerThink(player_t *player)
             else if (player->readyweapon == wp_supershotgun
                 || (player->preferredshotgun == wp_supershotgun && player->ammo[am_shell] == 1))
                 player->preferredshotgun = wp_shotgun;
+
             newweapon = player->preferredshotgun;
         }
 
-        if (newweapon != wp_nochange && newweapon != player->readyweapon
-            && player->weaponowned[newweapon])
+        if (newweapon != wp_nochange && newweapon != player->readyweapon && player->weaponowned[newweapon])
         {
             player->pendingweapon = newweapon;
+
             if (newweapon == wp_fist && player->powers[pw_strength])
                 S_StartSound(NULL, sfx_getpow);
 

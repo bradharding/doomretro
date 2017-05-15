@@ -400,7 +400,7 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
     {
         if (controls[i].type == type && controls[i].value == value)
         {
-            char        *control = controls[i].control;
+            char    *control = controls[i].control;
 
             if (strlen(control) == 1)
                 fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);
@@ -469,6 +469,7 @@ void M_SaveCVARs(void)
 
                     j++;
                 }
+
                 if (!flag)
                     fputs(commify(*(int *)cvars[i].location), file);
 
@@ -496,6 +497,7 @@ void M_SaveCVARs(void)
 
                     j++;
                 }
+
                 if (!flag)
                     fprintf(file, "%s%%", commify(*(int *)cvars[i].location));
 
@@ -519,6 +521,7 @@ void M_SaveCVARs(void)
 
                     j++;
                 }
+
                 if (!flag)
                     fputs(striptrailingzero(*(float *)cvars[i].location, 2), file);
 
@@ -542,6 +545,7 @@ void M_SaveCVARs(void)
 
                     j++;
                 }
+
                 if (!flag)
                     fprintf(file, "%s%%", striptrailingzero(*(float *)cvars[i].location, 1));
 
@@ -1043,8 +1047,10 @@ void M_LoadCVARs(char *filename)
                 case DEFAULT_INT_PERCENT:
                     M_StringCopy(strparm, uncommify(strparm), 256);
                     s = strdup(strparm);
+
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
+
                     *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].valuealiastype);
                     break;
 
@@ -1056,8 +1062,10 @@ void M_LoadCVARs(char *filename)
                 case DEFAULT_FLOAT_PERCENT:
                     M_StringCopy(strparm, uncommify(strparm), 256);
                     s = strdup(strparm);
+
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
+
                     *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].valuealiastype);
                     break;
 

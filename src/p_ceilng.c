@@ -119,8 +119,8 @@ void T_MoveCeiling(ceiling_t *ceiling)
 
         case -1:
             // DOWN
-            res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->bottomheight,
-                ceiling->crush, 1, ceiling->direction);
+            res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->bottomheight, ceiling->crush, 1,
+                ceiling->direction);
 
             if (!(leveltime & 7)
                 // [BH] don't make sound once ceiling is at its destination height
@@ -145,6 +145,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     case genCrusher:
                         if (ceiling->oldspeed < CEILSPEED * 3)
                             ceiling->speed = ceiling->oldspeed;
+
                         ceiling->direction = 1; // jff 2/22/98 make it go back up!
                         break;
 
@@ -202,6 +203,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
                 }
             }
+
             break;
     }
 }
@@ -233,6 +235,7 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         sec = &sectors[secnum];
+
         if (P_SectorActive(ceiling_special, sec))
             continue;
 
@@ -263,8 +266,10 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
             case lowerAndCrush:
             case lowerToFloor:
                 ceiling->bottomheight = sec->floorheight;
+
                 if (type != lowerToFloor && !(gamemission == doom2 && gamemap == 4 && canmodify))
                     ceiling->bottomheight += 8 * FRACUNIT;
+
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED;
                 break;
@@ -299,6 +304,7 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
         for (i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
     }
+
     return rtn;
 }
 
@@ -308,12 +314,14 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
 //
 void P_AddActiveCeiling(ceiling_t *ceiling)
 {
-    ceilinglist_t       *list = malloc(sizeof(*list));
+    ceilinglist_t   *list = malloc(sizeof(*list));
 
     list->ceiling = ceiling;
     ceiling->list = list;
+
     if ((list->next = activeceilings))
         list->next->prev = &list->next;
+
     list->prev = &activeceilings;
     activeceilings = list;
 }
@@ -324,12 +332,14 @@ void P_AddActiveCeiling(ceiling_t *ceiling)
 //
 void P_RemoveActiveCeiling(ceiling_t *ceiling)
 {
-    ceilinglist_t       *list = ceiling->list;
+    ceilinglist_t   *list = ceiling->list;
 
     ceiling->sector->ceilingdata = NULL;
     P_RemoveThinker(&ceiling->thinker);
+
     if ((*list->prev = list->next))
         list->next->prev = list->prev;
+
     free(list);
 }
 
@@ -354,12 +364,12 @@ void P_RemoveAllActiveCeilings(void)
 //
 dboolean P_ActivateInStasisCeiling(line_t *line)
 {
-    dboolean            result = false;
-    ceilinglist_t       *list;
+    dboolean        result = false;
+    ceilinglist_t   *list;
 
     for (list = activeceilings; list; list = list->next)
     {
-        ceiling_t       *ceiling = list->ceiling;
+        ceiling_t   *ceiling = list->ceiling;
 
         if (ceiling->tag == line->tag && !ceiling->direction)
         {
@@ -368,6 +378,7 @@ dboolean P_ActivateInStasisCeiling(line_t *line)
             result = true;
         }
     }
+
     return result;
 }
 
@@ -377,12 +388,12 @@ dboolean P_ActivateInStasisCeiling(line_t *line)
 //
 dboolean EV_CeilingCrushStop(line_t *line)
 {
-    dboolean            result = false;
-    ceilinglist_t       *list;
+    dboolean        result = false;
+    ceilinglist_t   *list;
 
     for (list = activeceilings; list; list = list->next)
     {
-        ceiling_t       *ceiling = list->ceiling;
+        ceiling_t   *ceiling = list->ceiling;
 
         if (ceiling->direction && ceiling->tag == line->tag)
         {
@@ -392,5 +403,6 @@ dboolean EV_CeilingCrushStop(line_t *line)
             result = true;
         }
     }
+
     return result;
 }

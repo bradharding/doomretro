@@ -41,7 +41,7 @@
 #include "p_setup.h"
 #include "z_zone.h"
 
-extern msecnode_t       *sector_list;   // phares 3/16/98
+extern msecnode_t   *sector_list;   // phares 3/16/98
 
 void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
 
@@ -78,7 +78,7 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 {
     switch (ld->slopetype)
     {
-        int     p;
+        int p;
 
         default:
         case ST_HORIZONTAL:
@@ -131,11 +131,13 @@ void P_MakeDivline(line_t *li, divline_t *dl)
 //
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
-    int64_t     den = (int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy;
+    int64_t den = (int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy;
 
     den >>= FRACBITS;
+
     if (!den)
         return 0;
+
     return (fixed_t)(((int64_t)(v1->x - v2->x) * v1->dy - (int64_t)(v1->y - v2->y) * v1->dx) / den);
 }
 
@@ -250,8 +252,8 @@ void P_UnsetThingPosition(mobj_t *thing)
 //
 void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
 {
-    bloodsplat_t        **sprev = splat->sprev;
-    bloodsplat_t        *snext = splat->snext;
+    bloodsplat_t    **sprev = splat->sprev;
+    bloodsplat_t    *snext = splat->snext;
 
     if ((*sprev = snext))
         snext->sprev = sprev;
@@ -281,6 +283,7 @@ void P_SetThingPosition(mobj_t *thing)
 
         if ((thing->snext = snext))
             snext->sprev = &thing->snext;
+
         thing->sprev = link;
         *link = thing;
 
@@ -305,18 +308,19 @@ void P_SetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOBLOCKMAP))
     {
         // inert things don't need to be in blockmap
-        int     blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
-        int     blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
+        int blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
+        int blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
 
         if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
         {
             // killough 8/11/98: simpler scheme using pointer-to-pointer prev
             // pointers, allows head nodes to be treated like everything else
-            mobj_t      **link = &blocklinks[blocky * bmapwidth + blockx];
-            mobj_t      *bnext = *link;
+            mobj_t  **link = &blocklinks[blocky * bmapwidth + blockx];
+            mobj_t  *bnext = *link;
 
             if ((thing->bnext = bnext))
                 bnext->bprev = &thing->bnext;
+
             thing->bprev = link;
             *link = thing;
         }
@@ -334,11 +338,12 @@ void P_SetThingPosition(mobj_t *thing)
 //
 void P_SetBloodSplatPosition(bloodsplat_t *splat)
 {
-    bloodsplat_t        **link = &splat->sector->splatlist;
-    bloodsplat_t        *snext = *link;
+    bloodsplat_t    **link = &splat->sector->splatlist;
+    bloodsplat_t    *snext = *link;
 
     if ((splat->snext = snext))
         snext->sprev = &splat->snext;
+
     splat->sprev = link;
     *link = splat;
 }
@@ -365,14 +370,14 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
         return true;
     else
     {
-        const int       *list = blockmaplump + *(blockmap + y * bmapwidth + x);
+        const int   *list = blockmaplump + *(blockmap + y * bmapwidth + x);
 
         if (skipblstart)
             list++;
 
         for (; *list != -1; list++)
         {
-            line_t      *ld = &lines[*list];
+            line_t  *ld = &lines[*list];
 
             if (ld->validcount == validcount)
                 continue;       // line has already been checked
@@ -407,14 +412,14 @@ dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
 //
 
 // 1/11/98 killough: Intercept limit removed
-static intercept_t      *intercepts;
-static intercept_t      *intercept_p;
+static intercept_t  *intercepts;
+static intercept_t  *intercept_p;
 
 // Check for limit and double size if necessary -- killough
 static void check_intercept(void)
 {
-    static size_t       num_intercepts;
-    size_t              offset = intercept_p - intercepts;
+    static size_t   num_intercepts;
+    size_t          offset = intercept_p - intercepts;
 
     if (offset >= num_intercepts)
     {
@@ -424,7 +429,7 @@ static void check_intercept(void)
     }
 }
 
-divline_t       dlTrace;
+divline_t   dlTrace;
 
 //
 // PIT_AddLineIntercepts.
@@ -544,8 +549,8 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 
     while (count--)
     {
-        fixed_t         dist = INT_MAX;
-        intercept_t     *scan;
+        fixed_t     dist = INT_MAX;
+        intercept_t *scan;
 
         for (scan = intercepts; scan < intercept_p; scan++)
             if (scan->frac < dist)
@@ -576,15 +581,15 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
     dboolean (*trav)(intercept_t *))
 {
-    fixed_t     xt1, yt1;
-    fixed_t     xt2, yt2;
-    fixed_t     xstep, ystep;
-    fixed_t     partial;
-    fixed_t     xintercept, yintercept;
-    int         mapx, mapy;
-    int         mapx1, mapy1;
-    int         mapxstep, mapystep;
-    int         count;
+    fixed_t xt1, yt1;
+    fixed_t xt2, yt2;
+    fixed_t xstep, ystep;
+    fixed_t partial;
+    fixed_t xintercept, yintercept;
+    int     mapx, mapy;
+    int     mapx1, mapy1;
+    int     mapxstep, mapystep;
+    int     count;
 
     validcount++;
     intercept_p = intercepts;
