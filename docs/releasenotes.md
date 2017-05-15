@@ -6,7 +6,7 @@
 * The gray elements in the alternate widescreen HUD now appear correctly in PWADs with custom `PLAYPAL` lumps.
 * Minor changes have been made to some elements in both the status bar and alternate widescreen HUD.
 * A countdown bar is now displayed in the alternate widescreen HUD underneath the ammo bar when the player has a power-up.
-* Mouselook can now be enabled using the new `m_look` CVAR. It is `off` by default.
+* Mouselook can now be enabled using the new `m_look` CVAR. It is `off` by default. (Please note that due to the addition of this feature, savegames created with previous versions of *DOOM Retro* are not compatible with this version.)
 * An `m_invert` CVAR has also been implemented that toggles inverting the mouse when using mouselook.
 * The following changes have been made to stats displayed by the `playerstats` CCMD:
   * The `Shots Fired`, `Shots Hit` and `Weapon Accuracy` stats are now calculated correctly.
@@ -28,6 +28,7 @@
 * The map name will now be displayed on the intermission screen before starting MAP31 in *DOOM II* and MAP09 in *DOOM II: No Rest For The Living*.
 * Monsters are now gibbed rather than just becoming a pool of blood splats when crushed by a lowering platform or door.
 * The `health` CVAR can now be reduced when freeze mode is on.
+* A bug has been fixed whereby blood splats could be black in some rare instances.
 
 ---
 
