@@ -306,26 +306,30 @@ void P_XYMovement(mobj_t *mo)
     if (corpse && !(flags & MF_NOBLOOD) && mo->blood && r_corpses_slide && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
-        int radius = spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS >> 1;
-        int i;
-        int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
-        int x = mo->x;
-        int y = mo->y;
         int blood = mobjinfo[mo->blood].blood;
-        int floorz = mo->floorz;
 
-        for (i = 0; i < max; i++)
+        if (blood)
         {
-            int fx, fy;
+            int radius = spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS >> 1;
+            int i;
+            int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
+            int x = mo->x;
+            int y = mo->y;
+            int floorz = mo->floorz;
 
-            if (!mo->bloodsplats)
-                break;
+            for (i = 0; i < max; i++)
+            {
+                int fx, fy;
 
-            fx = x + (M_RandomInt(-radius, radius) << FRACBITS);
-            fy = y + (M_RandomInt(-radius, radius) << FRACBITS);
+                if (!mo->bloodsplats)
+                    break;
 
-            if (floorz == R_PointInSubsector(x, y)->sector->floorheight)
-                P_SpawnBloodSplat(fx, fy, blood, floorz, mo);
+                fx = x + (M_RandomInt(-radius, radius) << FRACBITS);
+                fy = y + (M_RandomInt(-radius, radius) << FRACBITS);
+
+                if (floorz == R_PointInSubsector(x, y)->sector->floorheight)
+                    P_SpawnBloodSplat(fx, fy, blood, floorz, mo);
+            }
         }
     }
 
@@ -424,7 +428,7 @@ void P_ZMovement(mobj_t *mo)
     {
         // [BH] remove blood the moment it hits the ground
         //  and spawn a blood splat in its place
-        if (mo->flags2 & MF2_BLOOD)
+        if ((mo->flags2 & MF2_BLOOD) && mo->blood)
         {
             if (r_bloodsplats_max)
                 P_SpawnBloodSplat(mo->x, mo->y, mo->blood, mo->floorz, NULL);
@@ -971,34 +975,37 @@ void P_SpawnPlayer(const mapthing_t *mthing)
 //
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1)
-            + 12;
-    int i;
-    int max = M_RandomInt(50, 100) + radius;
-    int x = mobj->x;
-    int y = mobj->y;
     int blood = mobjinfo[mobj->blood].blood;
-    int floorz = mobj->floorz;
 
-    if (!(mobj->flags & MF_SPAWNCEILING))
+    if (blood)
     {
-        x += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-        y += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-    }
+        int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+        int i;
+        int max = M_RandomInt(50, 100) + radius;
+        int x = mobj->x;
+        int y = mobj->y;
+        int floorz = mobj->floorz;
 
-    for (i = 0; i < max; i++)
-    {
-        int     angle;
-        int     fx, fy;
+        if (!(mobj->flags & MF_SPAWNCEILING))
+        {
+            x += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+            y += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+        }
 
-        if (!mobj->bloodsplats)
-            break;
+        for (i = 0; i < max; i++)
+        {
+            int angle;
+            int fx, fy;
 
-        angle = M_RandomInt(0, FINEANGLES - 1);
-        fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
-        fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+            if (!mobj->bloodsplats)
+                break;
 
-        P_SpawnBloodSplat(fx, fy, blood, floorz, mobj);
+            angle = M_RandomInt(0, FINEANGLES - 1);
+            fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
+            fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+
+            P_SpawnBloodSplat(fx, fy, blood, floorz, mobj);
+        }
     }
 }
 
