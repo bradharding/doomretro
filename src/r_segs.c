@@ -260,7 +260,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
     // killough 4/13/98: get correct lightlevel for 2s normal textures
     lightnum = (R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel >> LIGHTSEGSHIFT)
-        + extralight * LIGHTBRIGHT;
+        + extralight;
 
     if (curline->v1->y == curline->v2->y)
         lightnum -= LIGHTBRIGHT;
@@ -365,6 +365,7 @@ void R_RenderSegLoop(void)
         }
 
         bottom = floorclip[rw_x] - 1;
+
         if (yh > bottom)
             yh = bottom;
 
@@ -409,6 +410,7 @@ void R_RenderSegLoop(void)
 
                 // [BH] apply brightmap
                 dc_colormask = midtexfullbright;
+
                 if (dc_colormask && usebrightmaps && !nobrightmap[midtexture])
                     fbwallcolfunc();
                 else
@@ -426,7 +428,7 @@ void R_RenderSegLoop(void)
             if (toptexture)
             {
                 // top wall
-                int     mid = (int)(pixhigh >> heightbits);
+                int mid = (int)(pixhigh >> heightbits);
 
                 pixhigh += pixhighstep;
 
@@ -447,6 +449,7 @@ void R_RenderSegLoop(void)
 
                         // [BH] apply brightmap
                         dc_colormask = toptexfullbright;
+
                         if (dc_colormask && usebrightmaps && !nobrightmap[toptexture])
                             fbwallcolfunc();
                         else
@@ -490,6 +493,7 @@ void R_RenderSegLoop(void)
 
                         // [BH] apply brightmap
                         dc_colormask = bottomtexfullbright;
+
                         if (dc_colormask && usebrightmaps && !nobrightmap[bottomtexture])
                             fbwallcolfunc();
                         else
@@ -712,22 +716,16 @@ void R_StoreWallRange(int start, int stop)
         // sprites will be displayed behind closed doors. That
         // fix prevents lines behind closed doors with dropoffs
         // from being displayed on the automap.
-        //
-        // killough 4/7/98: make doorclosed external variable
+        if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
         {
-            extern dboolean doorclosed;
+            ds_p->sprbottomclip = negonearray;
+            ds_p->silhouette |= SIL_BOTTOM;
+        }
 
-            if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
-            {
-                ds_p->sprbottomclip = negonearray;
-                ds_p->silhouette |= SIL_BOTTOM;
-            }
-
-            if (doorclosed || backsector->interpfloorheight >= frontsector->interpceilingheight)
-            {
-                ds_p->sprtopclip = screenheightarray;
-                ds_p->silhouette |= SIL_TOP;
-            }
+        if (doorclosed || backsector->interpfloorheight >= frontsector->interpceilingheight)
+        {
+            ds_p->sprtopclip = screenheightarray;
+            ds_p->silhouette |= SIL_TOP;
         }
 
         worldhigh = backsector->interpceilingheight - viewz;
@@ -857,7 +855,7 @@ void R_StoreWallRange(int start, int stop)
         //  for horizontal / vertical / diagonal
         if (!fixedcolormap)
         {
-            int lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
+            int lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight;
 
             if (frontsector->ceilingpic != skyflatnum)
             {

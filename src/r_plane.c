@@ -105,8 +105,8 @@ extern dboolean         m_look;
 //
 static void R_MapPlane(int y, int x1, int x2)
 {
-    fixed_t     distance;
-    int         dx, dy;
+    fixed_t distance;
+    int     dx, dy;
 
     if (!(dy = ABS(centery - y)))
         return;
@@ -173,6 +173,7 @@ static visplane_t *new_visplane(unsigned hash)
         check = calloc(1, sizeof(*check));
     else if (!(freetail = freetail->next))
         freehead = &freetail;
+
     check->next = visplanes[hash];
     visplanes[hash] = check;
     return check;
@@ -183,8 +184,8 @@ static visplane_t *new_visplane(unsigned hash)
 //
 visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoffs, fixed_t yoffs)
 {
-    visplane_t          *check;
-    unsigned int        hash;                                   // killough
+    visplane_t      *check;
+    unsigned int    hash;                                       // killough
 
     if (picnum == skyflatnum || (picnum & PL_SKYFLAT))          // killough 10/98
     {
@@ -293,10 +294,13 @@ static void R_MakeSpans(visplane_t *pl)
 
         for (; t1 < t2 && t1 <= b1; t1++)
             R_MapPlane(t1, spanstart[t1], x - 1);
+
         for (; b1 > b2 && b1 >= t1; b1--)
             R_MapPlane(b1, spanstart[b1], x - 1);
+
         while (t2 < t1 && t2 <= b2)
             spanstart[t2++] = x;
+
         while (b2 > b1 && b2 >= t2)
             spanstart[b2--] = x;
     }
@@ -314,8 +318,8 @@ static void R_MakeSpans(visplane_t *pl)
 // 1 cycle per 32 units (2 in 64)
 #define SWIRLFACTOR2    (8192 / 32)
 
-static byte     *normalflat;
-static byte     distortedflat[4096];
+static byte *normalflat;
+static byte distortedflat[4096];
 
 //
 // R_DistortedFlat
@@ -338,17 +342,17 @@ static byte *R_DistortedFlat(int flatnum)
     lastflat = flatnum;
 
     // built this tic?
-    if (leveltic != swirltic && !freeze && (!consoleactive || swirltic == -1) && !menuactive
-        && !paused)
+    if (leveltic != swirltic && !freeze && (!consoleactive || swirltic == -1) && !menuactive && !paused)
     {
-        int     x, y;
+        int x, y;
 
         leveltic *= SPEED;
+
         for (x = 0; x < 64; x++)
             for (y = 0; y < 64; y++)
             {
-                int     x1, y1;
-                int     sinvalue, sinvalue2;
+                int x1, y1;
+                int sinvalue, sinvalue2;
 
                 sinvalue = (y * SWIRLFACTOR + leveltic * 5 + 900) & 8191;
                 sinvalue2 = (x * SWIRLFACTOR2 + leveltic * 4 + 300) & 8191;
@@ -384,27 +388,27 @@ void R_DrawPlanes(void)
 
     for (i = 0; i < MAXVISPLANES; i++)
     {
-        visplane_t      *pl;
+        visplane_t  *pl;
 
         for (pl = visplanes[i]; pl; pl = pl->next)
             if (pl->minx <= pl->maxx)
             {
-                int     picnum = pl->picnum;
+                int picnum = pl->picnum;
 
                 // sky flat
                 if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 {
-                    int                 x;
-                    int                 texture;
-                    int                 offset;
-                    angle_t             flip;
-                    const rpatch_t      *tex_patch;
+                    int             x;
+                    int             texture;
+                    int             offset;
+                    angle_t         flip;
+                    const rpatch_t  *tex_patch;
 
                     // killough 10/98: allow skies to come from sidedefs.
                     // Allows scrolling and/or animated skies, as well as
                     // arbitrary multiple skies per level without having
                     // to use info lumps.
-                    angle_t     an = viewangle;
+                    angle_t         an = viewangle;
 
                     if (picnum & PL_SKYFLAT)
                     {
@@ -473,8 +477,8 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    dboolean        swirling = (isliquid[picnum] && r_liquid_swirl && !freeze);
-                    int             lumpnum = firstflat + flattranslation[picnum];
+                    dboolean    swirling = (isliquid[picnum] && r_liquid_swirl && !freeze);
+                    int         lumpnum = firstflat + flattranslation[picnum];
 
                     ds_source = (swirling ? R_DistortedFlat(picnum) : W_CacheLumpNum(lumpnum));
 
@@ -482,8 +486,8 @@ void R_DrawPlanes(void)
                     yoffs = pl->yoffs;
                     planeheight = ABS(pl->height - viewz);
 
-                    planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT)
-                        + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
+                    planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight,
+                        LIGHTLEVELS - 1)];
 
                     pl->top[pl->minx - 1] = pl->top[pl->maxx + 1] = USHRT_MAX;
 

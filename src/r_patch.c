@@ -81,15 +81,15 @@
 //
 
 // Re-engineered patch support
-static rpatch_t         *patches;
-static rpatch_t         *texture_composites;
+static rpatch_t     *patches;
+static rpatch_t     *texture_composites;
 
-static short            BIGDOOR7;
-static short            FIREBLU1;
-static short            SKY1;
+static short        BIGDOOR7;
+static short        FIREBLU1;
+static short        SKY1;
 
-extern int              numtextures;
-extern texture_t        **textures;
+extern int          numtextures;
+extern texture_t    **textures;
 
 void R_InitPatches(void)
 {
@@ -126,11 +126,11 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 // Checks if the lump can be a DOOM patch
 static dboolean CheckIfPatch(int lump)
 {
-    int                 size = W_LumpLength(lump);
-    int                 width;
-    int                 height;
-    const patch_t       *patch;
-    dboolean            result;
+    int             size = W_LumpLength(lump);
+    int             width;
+    int             height;
+    const patch_t   *patch;
+    dboolean        result;
 
     // minimum length of a valid DOOM patch
     if (size < 13)
@@ -149,11 +149,11 @@ static dboolean CheckIfPatch(int lump)
         // check the column directory for extra security. All columns
         // must begin after the column directory, and none of them must
         // point past the end of the patch.
-        int     x;
+        int x;
 
         for (x = 0; x < width; ++x)
         {
-            unsigned int        ofs = LONG(patch->columnofs[x]);
+            unsigned int    ofs = LONG(patch->columnofs[x]);
 
             // Need one byte for an empty column (but there's patches that don't know that!)
             if (ofs < (unsigned int)width * 4 + 8 || ofs >= (unsigned int)size)
@@ -209,6 +209,7 @@ static void createPatch(int id)
     {
         oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
         numPostsInColumn[x] = 0;
+
         while (oldColumn->topdelta != 0xFF)
         {
             numPostsInColumn[x]++;
@@ -230,16 +231,16 @@ static void createPatch(int id)
     patch->posts = (rpost_t *)((unsigned char *)patch->columns + columnsDataSize);
 
     // sanity check that we've got all the memory allocated we need
-    assert((((byte*)patch->posts + numPostsTotal * sizeof(rpost_t))
-        - (byte *)patch->data) == dataSize);
+    assert((((byte *)patch->posts + numPostsTotal * sizeof(rpost_t)) - (byte *)patch->data) == dataSize);
 
-    memset(patch->pixels, 0xFF, (patch->width*patch->height));
+    memset(patch->pixels, 0xFF, patch->width * patch->height);
 
     // fill in the pixels, posts, and columns
     numPostsUsedSoFar = 0;
+
     for (x = 0; x < patch->width; ++x)
     {
-        int     top = -1;
+        int top = -1;
 
         oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
 
@@ -270,9 +271,11 @@ static void createPatch(int id)
 
                 // fill in the post's pixels
                 oldColumnPixelData = (const byte *)oldColumn + 3;
+
                 for (y = 0; y < len; y++)
                     patch->pixels[x * patch->height + top + y] = oldColumnPixelData[y];
             }
+
             oldColumn = (const column_t *)((const byte *)oldColumn + oldColumn->length + 4);
             numPostsUsedSoFar++;
         }
@@ -328,14 +331,14 @@ static void createPatch(int id)
 
 typedef struct
 {
-    unsigned short      patches;
-    unsigned short      posts;
-    unsigned short      posts_used;
+    unsigned short  patches;
+    unsigned short  posts;
+    unsigned short  posts_used;
 } count_t;
 
 static void switchPosts(rpost_t *post1, rpost_t *post2)
 {
-    rpost_t     dummy;
+    rpost_t dummy;
 
     dummy.topdelta = post1->topdelta;
     dummy.length = post1->length;
@@ -349,12 +352,12 @@ static void removePostFromColumn(rcolumn_t *column, int post)
 {
     if (post < column->numPosts)
     {
-        int     i;
+        int i;
 
         for (i = post; i < column->numPosts - 1; i++)
         {
-            rpost_t     *post1 = &column->posts[i];
-            rpost_t     *post2 = &column->posts[i + 1];
+            rpost_t *post1 = &column->posts[i];
+            rpost_t *post2 = &column->posts[i + 1];
 
             post1->topdelta = post2->topdelta;
             post1->length = post2->length;
@@ -408,12 +411,14 @@ static void createTextureCompositePatch(int id)
 
             if (tx < 0)
                 continue;
+
             if (tx >= composite_patch->width)
                 break;
 
             countsInColumn[tx].patches++;
 
             oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+
             while (oldColumn->topdelta != 0xFF)
             {
                 countsInColumn[tx].posts++;
@@ -440,7 +445,7 @@ static void createTextureCompositePatch(int id)
     assert((((byte *)composite_patch->posts + numPostsTotal * sizeof(rpost_t))
         - (byte *)composite_patch->data) == dataSize);
 
-    memset(composite_patch->pixels, 0xFF, (composite_patch->width * composite_patch->height));
+    memset(composite_patch->pixels, 0xFF, composite_patch->width * composite_patch->height);
 
     numPostsUsedSoFar = 0;
 
@@ -467,6 +472,7 @@ static void createTextureCompositePatch(int id)
 
             if (tx < 0)
                 continue;
+
             if (tx >= composite_patch->width)
                 break;
 
@@ -493,6 +499,7 @@ static void createTextureCompositePatch(int id)
                 // set up the post's data
                 post->topdelta = top + oy;
                 post->length = count;
+
                 if (post->topdelta + post->length > composite_patch->height)
                 {
                     if (post->topdelta > composite_patch->height)
@@ -500,12 +507,14 @@ static void createTextureCompositePatch(int id)
                     else
                         post->length = composite_patch->height - post->topdelta;
                 }
+
                 if (post->topdelta < 0)
                 {
                     if (post->topdelta + post->length <= 0)
                         post->length = 0;
                     else
                         post->length -= post->topdelta;
+
                     post->topdelta = 0;
                 }
 
@@ -516,8 +525,10 @@ static void createTextureCompositePatch(int id)
 
                     if (ty < 0)
                         continue;
+
                     if (ty >= composite_patch->height)
                         break;
+
                     composite_patch->pixels[tx * composite_patch->height + ty] = oldColumnPixelData[y];
                 }
 
@@ -532,7 +543,7 @@ static void createTextureCompositePatch(int id)
 
     for (x = 0; x < texture->width; x++)
     {
-        rcolumn_t       *column;
+        rcolumn_t   *column;
 
         if (countsInColumn[x].patches <= 1)
             continue;
@@ -541,25 +552,28 @@ static void createTextureCompositePatch(int id)
         column = &composite_patch->columns[x];
 
         i = 0;
+
         while (i < column->numPosts - 1)
         {
-            rpost_t     *post1 = &column->posts[i];
-            rpost_t     *post2 = &column->posts[i + 1];
+            rpost_t *post1 = &column->posts[i];
+            rpost_t *post2 = &column->posts[i + 1];
 
             if (post2->topdelta - post1->topdelta < 0)
                 switchPosts(post1, post2);
 
             if (post1->topdelta + post1->length >= post2->topdelta)
             {
-                int     length = post1->length + post2->length - (post1->topdelta
-                    + post1->length - post2->topdelta);
+                int length = post1->length + post2->length - (post1->topdelta + post1->length
+                        - post2->topdelta);
 
                 if (post1->length < length)
                     post1->length = length;
+
                 removePostFromColumn(column, i + 1);
                 i = 0;
                 continue;
             }
+
             i++;
         }
     }
@@ -576,13 +590,11 @@ static void createTextureCompositePatch(int id)
             // force the first pixel (which is a hole), to use
             // the color from the next solid spot in the column
             for (y = 0; y < composite_patch->height; y++)
-            {
                 if (column->pixels[y] != 0xFF)
                 {
                     column->pixels[0] = column->pixels[y];
                     break;
                 }
-            }
         }
 
         // copy from above or to the left

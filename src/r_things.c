@@ -889,24 +889,29 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 // killough 9/18/98: add lightlevel as parameter, fixing underwater lighting
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
-    mobj_t  *thing;
+    mobj_t  *thing = sec->thinglist;
 
-    spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
-        LIGHTLEVELS - 1)];
+    spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
     if (drawbloodsplats && sec->interpfloorheight <= viewz)
     {
-        bloodsplat_t    *splat;
+        bloodsplat_t    *splat = sec->splatlist;
 
-        for (splat = sec->splatlist; splat; splat = splat->snext)
+        while (splat)
+        {
             R_ProjectBloodSplat(splat);
+            splat = splat->snext;
+        }
     }
 
     drawshadows = (r_shadows && !fixedcolormap && sec->floorpic != skyflatnum);
 
     // Handle all things in sector.
-    for (thing = sec->thinglist; thing; thing = thing->snext)
+    while (thing)
+    {
         R_ProjectSprite(thing);
+        thing = thing->snext;
+    }
 }
 
 //
@@ -1047,7 +1052,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
                 sector_t *sec = viewplayer->mo->subsector->sector;
                 short    lightlevel = (sec->floorlightsec == -1 ? sec->lightlevel :
                              sectors[sec->floorlightsec].lightlevel);
-                int      lightnum = (lightlevel >> OLDLIGHTSEGSHIFT) + extralight * OLDLIGHTBRIGHT;
+                int      lightnum = (lightlevel >> OLDLIGHTSEGSHIFT) + extralight;
 
                 vis->colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)]
                     [MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];

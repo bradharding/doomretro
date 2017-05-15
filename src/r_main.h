@@ -76,7 +76,6 @@ extern int              validcount;
 
 #define OLDLIGHTLEVELS          32
 #define OLDLIGHTSEGSHIFT        3
-#define OLDLIGHTBRIGHT          2
 #define OLDMAXLIGHTSCALE        48
 #define OLDLIGHTSCALESHIFT      13
 #define OLDMAXLIGHTZ            2048

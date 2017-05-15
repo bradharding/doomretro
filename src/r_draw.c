@@ -1101,23 +1101,24 @@ void R_DrawTranslucentBlue25Column(void)
 //
 // Spectre/Invisibility.
 //
-extern int      fuzzpos;
+#define FUZZ(a, b)  fuzzrange[rand() % (b - a + 1) + a]
+#define NOFUZZ      251
 
-int             fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
+int         fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
-#define FUZZ(a, b)      fuzzrange[rand() % (b - a + 1) + a]
-#define NOFUZZ          251
+extern int  fuzzpos;
 
 void R_DrawFuzzColumn(void)
 {
-    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    int         count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    int     count = dc_yh - dc_yl + 1;
 
     // top
     if (!dc_yl)
         *dest = fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(1, 2))]];
     else if (!(rand() % 4))
         *dest = fullcolormap[12 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 2))]];
+
     dest += SCREENWIDTH;
 
     while (--count)
@@ -1136,13 +1137,14 @@ void R_DrawFuzzColumn(void)
 
 void R_DrawPausedFuzzColumn(void)
 {
-    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    int         count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    int     count = dc_yh - dc_yl + 1;
 
     // top
     if (!dc_yl)
     {
         *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+
         if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
             fuzzpos = 0;
     }
@@ -1152,8 +1154,10 @@ void R_DrawPausedFuzzColumn(void)
     {
         // middle
         *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+
         if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
             fuzzpos = 0;
+
         dest += SCREENWIDTH;
     }
 
@@ -1164,15 +1168,15 @@ void R_DrawPausedFuzzColumn(void)
 
 void R_DrawFuzzColumns(void)
 {
-    int         x, y;
-    int         w = viewwindowx + viewwidth;
-    int         h = (viewwindowy + viewheight) * SCREENWIDTH;
+    int x, y;
+    int w = viewwindowx + viewwidth;
+    int h = (viewwindowy + viewheight) * SCREENWIDTH;
 
     for (x = viewwindowx; x < w; x++)
         for (y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
         {
-            int         i = x + y;
-            byte        *src = screens[1] + i;
+            int     i = x + y;
+            byte    *src = screens[1] + i;
 
             if (*src != NOFUZZ)
             {
@@ -1212,15 +1216,15 @@ void R_DrawFuzzColumns(void)
 
 void R_DrawPausedFuzzColumns(void)
 {
-    int         x, y;
-    int         w = viewwindowx + viewwidth;
-    int         h = (viewwindowy + viewheight) * SCREENWIDTH;
+    int x, y;
+    int w = viewwindowx + viewwidth;
+    int h = (viewwindowy + viewheight) * SCREENWIDTH;
 
     for (x = viewwindowx; x < w; x++)
         for (y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
         {
-            int         i = x + y;
-            byte        *src = screens[1] + i;
+            int     i = x + y;
+            byte    *src = screens[1] + i;
 
             if (*src != NOFUZZ)
             {
@@ -1410,9 +1414,9 @@ void R_DrawSpan(void)
 
 void R_DrawColorSpan(void)
 {
-    unsigned int        count = ds_x2 - ds_x1 + 1;
-    byte                *dest = topleft0 + ds_y * SCREENWIDTH + ds_x1;
-    byte                color = ds_colormap[NOTEXTURECOLOR];
+    unsigned int    count = ds_x2 - ds_x1 + 1;
+    byte            *dest = topleft0 + ds_y * SCREENWIDTH + ds_x1;
+    byte            color = ds_colormap[NOTEXTURECOLOR];
 
     while (count--)
         *dest++ = color;
@@ -1441,15 +1445,12 @@ void R_InitBuffer(int width, int height)
 //
 void R_FillBackScreen(void)
 {
-    byte        *src;
-    byte        *dest;
-    int         x;
-    int         y;
-    int         i;
-    int         width;
-    int         height;
-    int         windowx;
-    int         windowy;
+    byte    *src;
+    byte    *dest;
+    int     x, y;
+    int     i;
+    int     width, height;
+    int     windowx, windowy;
 
     if (scaledviewwidth == SCREENWIDTH)
         return;
@@ -1467,10 +1468,13 @@ void R_FillBackScreen(void)
 
                 if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
                     *(dest + j) = dot;
+
                 j++;
+
                 if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
                     *(dest + j) = dot;
             }
+
             dest += 128;
         }
 
@@ -1488,10 +1492,12 @@ void R_FillBackScreen(void)
 
     for (y = 0; y < height - 8; y += 8)
         V_DrawPatch(windowx - 8, windowy + y, 1, brdr_l);
+
     V_DrawPatch(windowx - 8, windowy + y - 2 * (r_screensize >= 2), 1, brdr_l);
 
     for (y = 0; y < height - 8; y += 8)
         V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
+
     V_DrawPatch(windowx + width, windowy + y - 2 * (r_screensize >= 2), 1, brdr_r);
 
     // Draw beveled edge.

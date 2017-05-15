@@ -89,6 +89,7 @@ void SC_Close(void)
             W_UnlockLumpNum(ScriptLumpNum);
         else
             Z_Free(ScriptBuffer);
+
         ScriptOpen = false;
     }
 }
@@ -99,18 +100,22 @@ dboolean SC_GetString(void)
     dboolean    foundToken;
 
     CheckOpen();
+
     if (AlreadyGot)
     {
         AlreadyGot = false;
         return true;
     }
+
     foundToken = false;
     sc_Crossed = false;
+
     if (ScriptPtr >= ScriptEndPtr)
     {
         sc_End = true;
         return false;
     }
+
     while (!foundToken)
     {
         while (*ScriptPtr <= 32)
@@ -120,17 +125,20 @@ dboolean SC_GetString(void)
                 sc_End = true;
                 return false;
             }
+
             if (*ScriptPtr++ == '\n')
             {
                 sc_Line++;
                 sc_Crossed = true;
             }
         }
+
         if (ScriptPtr >= ScriptEndPtr)
         {
             sc_End = true;
             return false;
         }
+
         if (*ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2
             && *(ScriptPtr + 1) != ASCII_COMMENT2)
             foundToken = true;
@@ -142,20 +150,26 @@ dboolean SC_GetString(void)
                     sc_End = true;
                     return false;
                 }
+
             sc_Line++;
             sc_Crossed = true;
         }
     }
+
     text = sc_String;
+
     if (*ScriptPtr == ASCII_QUOTE)
     {
         ScriptPtr++;
+
         while (*ScriptPtr != ASCII_QUOTE)
         {
             *text++ = *ScriptPtr++;
+
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
         }
+
         ScriptPtr++;
     }
     else
@@ -166,6 +180,7 @@ dboolean SC_GetString(void)
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
         }
+
     *text = 0;
     return true;
 }
@@ -174,6 +189,7 @@ void SC_MustGetString(void)
 {
     if (!SC_GetString())
         SC_ScriptError("Missing string.");
+
     if (SC_Compare("="))
         SC_GetString();
 }
@@ -181,6 +197,7 @@ void SC_MustGetString(void)
 dboolean SC_GetNumber(void)
 {
     CheckOpen();
+
     if (SC_GetString())
     {
         sc_Number = strtol(sc_String, NULL, 0);
@@ -208,6 +225,7 @@ int SC_MatchString(char **strings)
     for (i = 0; *strings; i++)
         if (SC_Compare(*strings++))
             return i;
+
     return -1;
 }
 
@@ -217,6 +235,7 @@ int SC_MustMatchString(char **strings)
 
     if (i == -1)
         SC_ScriptError(NULL);
+
     return i;
 }
 
@@ -229,6 +248,7 @@ void SC_ScriptError(char *message)
 {
     if (!message)
         message = "Bad syntax.";
+
     I_Error("Script error, \"%s\" line %i: %s", ScriptName, sc_Line, message);
 }
 

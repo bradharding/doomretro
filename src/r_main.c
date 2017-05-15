@@ -499,7 +499,8 @@ void R_ExecuteSetViewSize(void)
         for (j = 0; j < MAXLIGHTSCALE; j++)
         {
             int t;
-            int level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
+            int level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1)
+                    * 256;
 
             // killough 3/20/98: initialize multiple colormaps
             for (t = 0; t < numcolormaps; t++)     // killough 4/4/98
@@ -511,7 +512,7 @@ void R_ExecuteSetViewSize(void)
     //  player's weapon, so it stays consistent regardless of view size
     for (i = 0; i < OLDLIGHTLEVELS; i++)
     {
-        int startmap = ((OLDLIGHTLEVELS - OLDLIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
+        int startmap = ((OLDLIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
 
         for (j = 0; j < OLDMAXLIGHTSCALE; j++)
         {
@@ -750,7 +751,7 @@ void R_SetupFrame(player_t *player)
         explosiontics--;
     }
 
-    extralight = player->extralight << 1;
+    extralight = player->extralight << 2;
 
     pitch = BETWEEN(-LOOKDIRMAX, pitch, LOOKDIRMAX);
 

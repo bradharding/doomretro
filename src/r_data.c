@@ -57,41 +57,41 @@
 //
 
 // killough 4/17/98: make firstcolormaplump, lastcolormaplump external
-int             firstcolormaplump;
-int             lastcolormaplump;
+int         firstcolormaplump;
+int         lastcolormaplump;
 
-int             firstflat;
-int             lastflat;
-int             numflats;
+int         firstflat;
+int         lastflat;
+int         numflats;
 
-int             firstspritelump;
-int             lastspritelump;
-int             numspritelumps;
+int         firstspritelump;
+int         lastspritelump;
+int         numspritelumps;
 
-dboolean        notranslucency;
+dboolean    notranslucency;
 
-int             numtextures;
-texture_t       **textures;
+int         numtextures;
+texture_t   **textures;
 
 // needed for texture pegging
-fixed_t         *textureheight;
-byte            **texturefullbright;
-dboolean        *nobrightmap;
+fixed_t     *textureheight;
+byte        **texturefullbright;
+dboolean    *nobrightmap;
 
 // for global animation
-int             *flattranslation;
-int             *texturetranslation;
+int         *flattranslation;
+int         *texturetranslation;
 
 // needed for prerendering
-fixed_t         *spritewidth;
-fixed_t         *spriteheight;
-fixed_t         *spriteoffset;
-fixed_t         *spritetopoffset;
+fixed_t     *spritewidth;
+fixed_t     *spriteheight;
+fixed_t     *spriteoffset;
+fixed_t     *spritetopoffset;
 
-fixed_t         *newspriteoffset;
-fixed_t         *newspritetopoffset;
+fixed_t     *newspriteoffset;
+fixed_t     *newspritetopoffset;
 
-dboolean        r_fixspriteoffsets = r_fixspriteoffsets_default;
+dboolean    r_fixspriteoffsets = r_fixspriteoffsets_default;
 
 static byte notgray[256] =
 {
@@ -177,15 +177,15 @@ static byte whiteonly[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-#define DOOM1AND2       0
-#define DOOM1ONLY       1
-#define DOOM2ONLY       2
+#define DOOM1AND2   0
+#define DOOM1ONLY   1
+#define DOOM2ONLY   2
 
 static struct
 {
-    char        texture[9];
-    int         game;
-    byte        *colormask;
+    char    texture[9];
+    int     game;
+    byte    *colormask;
 } fullbright[] = {
     { "COMP2",    DOOM1AND2, notgrayorbrown }, { "COMPSTA1", DOOM1AND2, notgray        },
     { "COMPSTA2", DOOM1AND2, notgray        }, { "COMPUTE1", DOOM1AND2, notgrayorbrown },
@@ -219,7 +219,7 @@ static struct
     { "",         0,         0              }
 };
 
-extern char     *pwadfile;
+extern char *pwadfile;
 
 //
 // R_GetTextureColumn
@@ -267,6 +267,7 @@ void R_InitTextures(void)
         strncpy(name, name_p + i * 8, 8);
         patchlookup[i] = W_CheckNumForName(name);
     }
+
     W_UnlockLumpNum(names_lump);       // cph - release the lump
 
     // Load the map texture definitions from textures.lmp.
@@ -291,6 +292,7 @@ void R_InitTextures(void)
         numtextures2 = 0;
         maxoff2 = 0;
     }
+
     numtextures = numtextures1 + numtextures2;
 
     // killough 4/9/98: make column offsets 32-bit;
@@ -300,9 +302,9 @@ void R_InitTextures(void)
 
     for (i = 0; i < numtextures; i++, directory++)
     {
-        const mappatch_t        *mpatch;
-        texpatch_t              *patch;
-        int                     offset;
+        const mappatch_t    *mpatch;
+        texpatch_t          *patch;
+        int                 offset;
 
         if (i == numtextures1)
         {
@@ -337,12 +339,13 @@ void R_InitTextures(void)
             patch->originx = SHORT(mpatch->originx);
             patch->originy = SHORT(mpatch->originy);
             patch->patch = patchlookup[SHORT(mpatch->patch)];
+
             if (patch->patch == -1)
-                C_Warning("Patch %i is missing in the %.8s texture.", SHORT(mpatch->patch),
-                    texture->name);     // killough 4/17/98
+                C_Warning("Patch %i is missing in the %.8s texture.", SHORT(mpatch->patch), texture->name);
         }
 
         for (j = 1; j * 2 <= texture->width; j <<= 1);
+
         texture->widthmask = j - 1;
         textureheight[i] = texture->height << FRACBITS;
     }
@@ -364,6 +367,7 @@ void R_InitTextures(void)
     // killough 1/31/98: Initialize texture hash table
     for (i = 0; i < numtextures; i++)
         textures[i]->index = -1;
+
     while (--i >= 0)
     {
         j = W_LumpNameHash(textures[i]->name) % (unsigned int)numtextures;
@@ -377,15 +381,15 @@ void R_InitTextures(void)
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
     i = 0;
+
     while (fullbright[i].colormask)
     {
         int game = fullbright[i].game;
 
-        if (fullbright[i].texture && (game == DOOM1AND2
-            || (gamemission == doom && game == DOOM1ONLY)
+        if (fullbright[i].texture && (game == DOOM1AND2 || (gamemission == doom && game == DOOM1ONLY)
             || (gamemission != doom && game == DOOM2ONLY)))
         {
-            int     num = R_CheckTextureNumForName(fullbright[i].texture);
+            int num = R_CheckTextureNumForName(fullbright[i].texture);
 
             if (num != -1)
                 texturefullbright[num] = fullbright[i].colormask;
@@ -449,7 +453,7 @@ void R_InitSpriteLumps(void)
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
             if (r_fixspriteoffsets && !FREEDOOM && !hacx)
             {
-                int     j = 0;
+                int j = 0;
 
                 while (*sproffsets[j].name)
                 {
@@ -504,11 +508,13 @@ void R_InitSpriteLumps(void)
     }
 
     SC_Open("DRCOMPAT");
+
     while (SC_GetString())
     {
         if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
         {
             SC_MustGetString();
+
             if (M_StringCompare(pwadfile, removeext(sc_String)))
                 notranslucency = true;
         }
@@ -552,6 +558,7 @@ void R_InitColormaps(void)
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, NULL);
         colormaps[0] = W_CacheLumpName("COLORMAP");
     }
+
     colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
     C_Output("Using %s colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
         (numcolormaps == 1 ? "the" : commify(numcolormaps)), (numcolormaps == 1 ? "" : "s"),
@@ -570,13 +577,13 @@ void R_InitColormaps(void)
 
     for (i = 0; i < 255; i++)
     {
-        float       red = *palsrc++ / 256.0f;
-        float       green = *palsrc++ / 256.0f;
-        float       blue = *palsrc++ / 256.0f;
-        float       gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
+        float   red = *palsrc++ / 256.0f;
+        float   green = *palsrc++ / 256.0f;
+        float   blue = *palsrc++ / 256.0f;
+        float   gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
 
-        grays[i] = FindNearestColor(palette, (int)(gray * 255.0f),
-            (int)(gray * 255.0f), (int)(gray * 255.0f));
+        grays[i] = FindNearestColor(palette, (int)(gray * 255.0f), (int)(gray * 255.0f),
+            (int)(gray * 255.0f));
 
         if (!COLORMAP)
         {
@@ -621,15 +628,14 @@ void R_InitData(void)
 //
 int R_FlatNumForName(char *name)
 {
-    int  i;
-
-    i = W_RangeCheckNumForName(firstflat, lastflat, name);
+    int i = W_RangeCheckNumForName(firstflat, lastflat, name);
 
     if (i == -1)
     {
         C_Warning("The %.8s flat can't be found.", uppercase(name));
         return skyflatnum;
     }
+
     return (i - firstflat);
 }
 
@@ -742,7 +748,7 @@ void R_PrecacheLevel(void)
     for (i = 0; i < numtextures; i++)
         if (hitlist[i])
         {
-            texture_t       *texture = textures[i];
+            texture_t   *texture = textures[i];
 
             for (j = 0; j < texture->patchcount; j++)
                 precache_lump(texture->patches[j].patch);
