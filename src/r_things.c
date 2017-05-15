@@ -749,7 +749,6 @@ static void R_ProjectSprite(mobj_t *thing)
     floorheight = sector->interpfloorheight;
     vis->gz = floorheight;
     vis->gzt = gzt;
-    vis->blood = thing->blood;
 
     if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
