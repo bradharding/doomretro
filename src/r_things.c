@@ -491,15 +491,15 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     spryscale = vis->scale;
     dc_colormap = vis->colormap;
 
-    if ((mobj->flags2 & MF2_CASTSHADOW) && drawshadows)
+    if ((mobj->flags2 & MF2_CASTSHADOW) && spryscale >= FRACUNIT / 4 && drawshadows)
     {
         sector_t    *sector = mobj->subsector->sector;
+        fixed_t     height = sector->interpfloorheight + mobj->info->shadowoffset - viewz;
 
-        if (!sector->isliquid)
+        if (!sector->isliquid && height)
         {
             colfunc = mobj->shadowcolfunc;
-            sprtopscreen = centeryfrac - FixedMul(sector->interpfloorheight + mobj->info->shadowoffset
-                - viewz, spryscale);
+            sprtopscreen = centeryfrac - FixedMul(height, spryscale);
             shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
             for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
