@@ -496,7 +496,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         sector_t    *sector = mobj->subsector->sector;
         fixed_t     height = sector->interpfloorheight + mobj->info->shadowoffset - viewz;
 
-        if (!sector->isliquid && height)
+        if (!sector->isliquid && height <= 0)
         {
             colfunc = mobj->shadowcolfunc;
             sprtopscreen = centeryfrac - FixedMul(height, spryscale);
