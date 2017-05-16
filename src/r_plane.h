@@ -50,7 +50,6 @@ extern int      ceilingclip[];
 
 extern fixed_t  *yslope;
 extern fixed_t  yslopes[LOOKDIRS][SCREENHEIGHT];
-extern fixed_t  distscale[];
 
 extern dboolean markceiling;
 

@@ -79,7 +79,6 @@ static fixed_t          xoffs, yoffs;                   // killough 2/28/98: fla
 
 fixed_t                 *yslope;
 fixed_t                 yslopes[LOOKDIRS][SCREENHEIGHT];
-fixed_t                 distscale[SCREENWIDTH];
 
 fixed_t                 cachedheight[SCREENHEIGHT];
 fixed_t                 cacheddistance[SCREENHEIGHT];
