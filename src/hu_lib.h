@@ -83,20 +83,6 @@ typedef struct
     dboolean            laston;                         // last value of *->on.
 } hu_stext_t;
 
-// Input Text Line widget
-//  (child of Text Line widget)
-typedef struct
-{
-    hu_textline_t       l;                              // text line to input on
-
-    // left margin past which I am not to delete characters
-    int                 lm;
-
-    // pointer to dboolean stating whether to update window
-    dboolean            *on;
-    dboolean            laston;                         // last value of *->on;
-} hu_itext_t;
-
 //
 // Widget creation, access, and update routines
 //
