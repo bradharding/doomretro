@@ -22,7 +22,6 @@
 * The bottom of spectres are now clipped correctly when partially obscured by a higher sector.
 * The gold palette effect will no longer stay on the screen if the player picks up an item and dies at the same time.
 * Red walls in the automap are now drawn thinner when the player zooms out far enough.
-* The [wallrunning](https://doomwiki.org/wiki/Wallrunning) bug present in *Vanilla DOOM* is now fixed.
 * If the `r_skycolor` CVAR is set to a color rather than `none`, that color will now be used to render the sky when the `r_textures` CVAR is `off`.
 * When exiting a map that has no monsters to kill and/or no items to pick up, the intermission screen will now show `100%` kills and/or items instead of `0%`.
 * The map name will now be displayed on the intermission screen before starting MAP31 in *DOOM II* and MAP09 in *DOOM II: No Rest For The Living*.

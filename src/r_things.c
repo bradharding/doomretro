@@ -127,7 +127,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
                 sprtemp[frame].lump[r] = lumpnum - firstspritelump;
 
                 if (flipped)
-                    sprtemp[frame].flip |= (1 << r);
+                    sprtemp[frame].flip |= 1 << r;
 
                 sprtemp[frame].rotate = 0;      // jff 4/24/98 if any subbed, rotless
             }
@@ -144,7 +144,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
         sprtemp[frame].lump[rotation] = lumpnum - firstspritelump;
 
         if (flipped)
-            sprtemp[frame].flip |= (1 << rotation);
+            sprtemp[frame].flip |= 1 << rotation;
 
         sprtemp[frame].rotate = 1;              // jff 4/24/98 only change if rot used
     }
@@ -277,6 +277,7 @@ static void R_InitSpriteDefs(void)
                                     if (sprtemp[frame].flip & (1 << rot))
                                         sprtemp[frame].flip |= 1 << (rot + 1);
                                 }
+
                                 if (sprtemp[frame].lump[rot] == -1)
                                 {
                                     sprtemp[frame].lump[rot] = sprtemp[frame].lump[rot + 1];
@@ -285,6 +286,7 @@ static void R_InitSpriteDefs(void)
                                         sprtemp[frame].flip |= 1 << rot;
                                 }
                             }
+
                             for (rot = 0; rot < 16; rot++)
                                 if (sprtemp[frame].lump[rot] == -1)
                                     I_Error("R_InitSprites: Frame %c of sprite %.8s is missing rotations",
@@ -514,8 +516,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     if (mobj->flags & MF_TRANSLATION)
     {
         colfunc = transcolfunc;
-        dc_translation = translationtables - 256
-            + ((mobj->flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
+        dc_translation = translationtables - 256 + ((mobj->flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
 
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);

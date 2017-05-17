@@ -103,8 +103,7 @@ void R_InitSkyMap(void)
     if (!m_look)
     {
         skytexturemid = 100 * FRACUNIT;
-        if (viewwidth)
-            skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT));
+        skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT));
     }
     else
     {
@@ -124,13 +123,13 @@ void R_InitSkyMap(void)
         //        h >  200: Unstretched, but the baseline is shifted down so that the top
         //                  of the texture is at the top of the screen when looking fully up.
         skytexturemid = 0;
+
         if (skyheight >= 128 && skyheight < 200)
             skytexturemid = -28 * FRACUNIT;
         else if (skyheight > 200)
             skytexturemid = (200 - skyheight) << FRACBITS;
 
-        if (viewwidth && viewheight)
-            skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT));
+        skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT));
 
         skyiscale = skyiscale * skyheight / SKYSTRETCH_HEIGHT;
         skytexturemid = skytexturemid * skyheight / SKYSTRETCH_HEIGHT;
