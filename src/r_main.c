@@ -468,6 +468,8 @@ void R_ExecuteSetViewSize(void)
     pspriteyscale = (((SCREENHEIGHT * viewwidth) / SCREENWIDTH) << FRACBITS) / ORIGINALHEIGHT;
     pspriteiscale = FixedDiv(FRACUNIT, pspritexscale);
 
+    R_InitSkyMap();
+
     // thing clipping
     for (i = 0; i < viewwidth; i++)
         screenheightarray[i] = viewheight;
