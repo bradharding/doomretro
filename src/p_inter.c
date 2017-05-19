@@ -54,29 +54,29 @@
 // Maximums and such were hardcoded values. Need to externalize those for
 // dehacked support (and future flexibility). Most var names came from the key
 // strings used in dehacked.
-int             initial_health = 100;
-int             initial_bullets = 50;
-int             maxhealth = MAXHEALTH * 2;
-int             max_armor = 200;
-int             green_armor_class = 1;
-int             blue_armor_class = 2;
-int             max_soul = 200;
-int             soul_health = 100;
-int             mega_health = 200;
-int             god_health = 100;
-int             idfa_armor = 200;
-int             idfa_armor_class = 2;
-int             idkfa_armor = 200;
-int             idkfa_armor_class = 2;
-int             bfgcells = BFGCELLS;
-int             species_infighting;
+int initial_health = 100;
+int initial_bullets = 50;
+int maxhealth = MAXHEALTH * 2;
+int max_armor = 200;
+int green_armor_class = 1;
+int blue_armor_class = 2;
+int max_soul = 200;
+int soul_health = 100;
+int mega_health = 200;
+int god_health = 100;
+int idfa_armor = 200;
+int idfa_armor_class = 2;
+int idkfa_armor = 200;
+int idkfa_armor_class = 2;
+int bfgcells = BFGCELLS;
+int species_infighting;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int             maxammo[NUMAMMO] = { 200, 50, 300, 50 };
-int             clipammo[NUMAMMO] = { 10, 4, 20, 1 };
+int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
+int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
-char            *weapondescription[] =
+char *weapondescription[] =
 {
     "fist",
     "pistol",
@@ -209,26 +209,26 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num, dboolean stat)
                 else
                     player->pendingweapon = wp_pistol;
             }
+
             break;
 
         case am_shell:
             if (player->readyweapon == wp_fist || player->readyweapon == wp_pistol)
             {
-                if (player->weaponowned[wp_supershotgun]
-                    && player->preferredshotgun == wp_supershotgun
+                if (player->weaponowned[wp_supershotgun] && player->preferredshotgun == wp_supershotgun
                     && player->ammo[am_shell] >= 2)
                     player->pendingweapon = wp_supershotgun;
                 else if (player->weaponowned[wp_shotgun])
                     player->pendingweapon = wp_shotgun;
             }
+
             break;
 
         case am_cell:
             if (player->readyweapon == wp_fist || player->readyweapon == wp_pistol)
-            {
                 if (player->weaponowned[wp_plasma])
                     player->pendingweapon = wp_plasma;
-            }
+
             break;
 
         default:
@@ -250,6 +250,7 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo, dboolean stat)
     {
         for (i = 0; i < NUMAMMO; i++)
             player->maxammo[i] *= 2;
+
         player->backpack = true;
     }
 
@@ -258,6 +259,7 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo, dboolean stat)
         if (player->ammo[i] < player->maxammo[i])
         {
             result = true;
+
             if (r_hud && !r_althud && (ammotype_t)i == weaponinfo[player->readyweapon].ammo)
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
@@ -282,6 +284,7 @@ dboolean P_GiveFullAmmo(player_t *player, dboolean stat)
         {
             if (stat)
                 P_AddAmmo(player, i, player->maxammo[i] - player->ammo[i]);
+
             player->ammo[i] = player->maxammo[i];
             result = true;
         }
@@ -486,7 +489,7 @@ dboolean P_GiveArmor(player_t *player, armortype_t armortype, dboolean stat)
     return true;
 }
 
-int     cardsfound;
+int cardsfound;
 
 //
 // P_InitCards
@@ -535,6 +538,7 @@ void P_InitCards(player_t *player)
                 default:
                     break;
             }
+
             thing = thing->snext;
         }
     }
@@ -551,6 +555,7 @@ void P_InitCards(player_t *player)
             case S1_Door_Blue_OpenStay_Fast:
                 if (player->cards[it_blueskull] == CARDNOTINMAP)
                     player->cards[it_bluecard] = CARDNOTFOUNDYET;
+
                 break;
 
             case DR_Door_Red_OpenWaitClose:
@@ -559,6 +564,7 @@ void P_InitCards(player_t *player)
             case S1_Door_Red_OpenStay_Fast:
                 if (player->cards[it_redskull] == CARDNOTINMAP)
                     player->cards[it_redcard] = CARDNOTFOUNDYET;
+
                 break;
 
             case DR_Door_Yellow_OpenWaitClose:
@@ -567,6 +573,7 @@ void P_InitCards(player_t *player)
             case S1_Door_Yellow_OpenStay_Fast:
                 if (player->cards[it_yellowskull] == CARDNOTINMAP)
                     player->cards[it_yellowcard] = CARDNOTFOUNDYET;
+
                 break;
         }
     }
@@ -578,6 +585,7 @@ void P_InitCards(player_t *player)
 void P_GiveCard(player_t *player, card_t card)
 {
     player->cards[card] = ++cardsfound;
+
     if (card == player->neededcard)
         player->neededcard = player->neededcardflash = 0;
 }
@@ -592,8 +600,7 @@ dboolean P_GiveAllCards(player_t *player)
     dboolean    result = false;
 
     for (i = 0; i < numlines; i++)
-        if (lines[i].special >= GenLockedBase
-            && !((lines[i].special & LockedNKeys) >> LockedNKeysShift))
+        if (lines[i].special >= GenLockedBase && !((lines[i].special & LockedNKeys) >> LockedNKeysShift))
         {
             skulliscard = false;
             break;
@@ -681,15 +688,19 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         case SPR_ARM1:
             if (!P_GiveArmor(player, green_armor_class, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTARMOR, false);
+
             break;
 
         case SPR_ARM2:
             if (!P_GiveArmor(player, blue_armor_class, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTMEGA, false);
+
             break;
 
         // bonus items
@@ -697,17 +708,22 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (!(player->cheats & CF_GODMODE))
             {
                 player->health++;       // can go over 100%
+
                 if (player->health > maxhealth)
                     player->health = maxhealth;
+
                 else
                 {
                     P_AddHealth(player, 1);
                     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 }
+
                 player->mo->health = player->health;
             }
+
             if (message)
                 HU_PlayerMessage(s_GOTHTHBONUS, false);
+
             break;
 
         case SPR_BON2:
@@ -717,10 +733,13 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 P_AddArmor(player, 1);
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             }
+
             if (!player->armortype)
                 player->armortype = GREENARMOR;
+
             if (message)
                 HU_PlayerMessage(s_GOTARMBONUS, false);
+
             break;
 
         case SPR_SOUL:
@@ -728,21 +747,27 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             {
                 P_AddHealth(player, soul_health - player->health);
                 player->health += soul_health;
+
                 if (player->health > max_soul)
                     player->health = max_soul;
+
                 player->mo->health = player->health;
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
+
             if (message)
                 HU_PlayerMessage(s_GOTSUPER, false);
+
             sound = sfx_getpow;
             break;
 
         case SPR_MEGA:
             P_GiveMegaHealth(player, stat);
             P_GiveArmor(player, blue_armor_class, stat);
+
             if (message)
                 HU_PlayerMessage(s_GOTMSPHERE, false);
+
             sound = sfx_getpow;
             break;
 
@@ -751,93 +776,120 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (player->cards[it_bluecard] <= 0)
             {
                 P_GiveCard(player, it_bluecard);
+
                 if (message)
                     HU_PlayerMessage(s_GOTBLUECARD, false);
+
                 break;
             }
+
             return;
 
         case SPR_YKEY:
             if (player->cards[it_yellowcard] <= 0)
             {
                 P_GiveCard(player, it_yellowcard);
+
                 if (message)
                     HU_PlayerMessage(s_GOTYELWCARD, false);
+
                 break;
             }
+
             return;
 
         case SPR_RKEY:
             if (player->cards[it_redcard] <= 0)
             {
                 P_GiveCard(player, it_redcard);
+
                 if (message)
                     HU_PlayerMessage(s_GOTREDCARD, false);
+
                 break;
             }
+
             return;
 
         case SPR_BSKU:
             if (player->cards[it_blueskull] <= 0)
             {
                 P_GiveCard(player, it_blueskull);
+
                 if (message)
                     HU_PlayerMessage(s_GOTBLUESKUL, false);
+
                 break;
             }
+
             return;
 
         case SPR_YSKU:
             if (player->cards[it_yellowskull] <= 0)
             {
                 P_GiveCard(player, it_yellowskull);
+
                 if (message)
                     HU_PlayerMessage(s_GOTYELWSKUL, false);
+
                 break;
             }
+
             return;
 
         case SPR_RSKU:
             if (player->cards[it_redskull] <= 0)
             {
                 P_GiveCard(player, it_redskull);
+
                 if (message)
                     HU_PlayerMessage(s_GOTREDSKULL, false);
+
                 break;
             }
+
             return;
 
         // medikits, heals
         case SPR_STIM:
             if (!P_GiveBody(player, 10, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTSTIM, false);
+
             break;
 
         case SPR_MEDI:
             if (!P_GiveBody(player, 25, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage((player->health < 50 ? s_GOTMEDINEED : s_GOTMEDIKIT), false);
+
             break;
 
         // power ups
         case SPR_PINV:
             if (!P_GivePower(player, pw_invulnerability))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTINVUL, false);
+
             sound = sfx_getpow;
             break;
 
         case SPR_PSTR:
             if (!P_GivePower(player, pw_strength))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTBERSERK, false);
+
             if (player->readyweapon != wp_fist)
                 player->pendingweapon = wp_fist;
+
             player->fistorchainsaw = wp_fist;
             sound = sfx_getpow;
             break;
@@ -845,31 +897,39 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         case SPR_PINS:
             if (!P_GivePower(player, pw_invisibility))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTINVIS, false);
+
             sound = sfx_getpow;
             break;
 
         case SPR_SUIT:
             if (!P_GivePower(player, pw_ironfeet))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTSUIT, false);
+
             sound = sfx_getpow;
             break;
 
         case SPR_PMAP:
             P_GivePower(player, pw_allmap);
+
             if (message)
                 HU_PlayerMessage(s_GOTMAP, false);
+
             sound = sfx_getpow;
             break;
 
         case SPR_PVIS:
             if (!P_GivePower(player, pw_infrared))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTVISOR, false);
+
             sound = sfx_getpow;
             break;
 
@@ -877,26 +937,30 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         case SPR_CLIP:
             if (!(ammo = P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED), stat)))
                 return;
+
             if (message)
             {
                 if (ammo == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2)
                     HU_PlayerMessage(s_GOTCLIP, false);
                 else
-                    HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2),
-                        false);
+                    HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2), false);
             }
+
             break;
 
         case SPR_AMMO:
             if (!P_GiveAmmo(player, am_clip, 5, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTCLIPBOX, false);
+
             break;
 
         case SPR_ROCK:
             if (!(ammo = P_GiveAmmo(player, am_misl, 1, stat)))
                 return;
+
             if (message)
             {
                 if (ammo == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2)
@@ -904,18 +968,22 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 else
                     HU_PlayerMessage(s_GOTROCKETX2, false);
             }
+
             break;
 
         case SPR_BROK:
             if (!P_GiveAmmo(player, am_misl, 5, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTROCKBOX, false);
+
             break;
 
         case SPR_CELL:
             if (!(ammo = P_GiveAmmo(player, am_cell, 1, stat)))
                 return;
+
             if (message)
             {
                 if (ammo == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2)
@@ -923,18 +991,22 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 else
                     HU_PlayerMessage(s_GOTCELLX2, false);
             }
+
             break;
 
         case SPR_CELP:
             if (!P_GiveAmmo(player, am_cell, 5, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTCELLBOX, false);
+
             break;
 
         case SPR_SHEL:
             if (!(ammo = P_GiveAmmo(player, am_shell, 1, stat)))
                 return;
+
             if (message)
             {
                 if (ammo == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2)
@@ -942,61 +1014,77 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 else
                     HU_PlayerMessage(s_GOTSHELLSX2, false);
             }
+
             break;
 
         case SPR_SBOX:
             if (!P_GiveAmmo(player, am_shell, 5, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTSHELLBOX, false);
+
             break;
 
         case SPR_BPAK:
             if (!P_GiveBackpack(player, true, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTBACKPACK, false);
+
             break;
 
         // weapons
         case SPR_BFUG:
             if (!P_GiveWeapon(player, wp_bfg, false, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTBFG9000, false);
+
             sound = sfx_wpnup;
             break;
 
         case SPR_MGUN:
             if (!P_GiveWeapon(player, wp_chaingun, (special->flags & MF_DROPPED), stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTCHAINGUN, false);
+
             sound = sfx_wpnup;
             break;
 
         case SPR_CSAW:
             if (!P_GiveWeapon(player, wp_chainsaw, false, stat))
                 return;
+
             player->fistorchainsaw = wp_chainsaw;
+
             if (message)
                 HU_PlayerMessage(s_GOTCHAINSAW, false);
+
             sound = sfx_wpnup;
             break;
 
         case SPR_LAUN:
             if (!P_GiveWeapon(player, wp_missile, false, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTLAUNCHER, false);
+
             sound = sfx_wpnup;
             break;
 
         case SPR_PLAS:
             if (!P_GiveWeapon(player, wp_plasma, false, stat))
                 return;
+
             if (message)
                 HU_PlayerMessage(s_GOTPLASMA, false);
+
             sound = sfx_wpnup;
             break;
 
@@ -1004,25 +1092,32 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             weaponowned = player->weaponowned[wp_shotgun];
             if (!P_GiveWeapon(player, wp_shotgun, (special->flags & MF_DROPPED), stat))
                 return;
+
             if (!weaponowned)
                 player->preferredshotgun = wp_shotgun;
-            player->shotguns = (player->weaponowned[wp_shotgun]
-                                || player->weaponowned[wp_supershotgun]);
+
+            player->shotguns = (player->weaponowned[wp_shotgun] || player->weaponowned[wp_supershotgun]);
+
             if (message)
                 HU_PlayerMessage(s_GOTSHOTGUN, false);
+
             sound = sfx_wpnup;
             break;
 
         case SPR_SGN2:
             weaponowned = player->weaponowned[wp_supershotgun];
+
             if (!P_GiveWeapon(player, wp_supershotgun, (special->flags & MF_DROPPED), stat))
                 return;
+
             if (!weaponowned)
                 player->preferredshotgun = wp_supershotgun;
-            player->shotguns = (player->weaponowned[wp_shotgun]
-                                || player->weaponowned[wp_supershotgun]);
+
+            player->shotguns = (player->weaponowned[wp_shotgun] || player->weaponowned[wp_supershotgun]);
+
             if (message)
                 HU_PlayerMessage(s_GOTSHOTGUN2, false);
+
             sound = sfx_wpnup;
             break;
 
@@ -1041,6 +1136,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
     if (sound == prevsound && gametic == prevtic)
         return;
+
     prevsound = sound;
     prevtic = gametic;
 
@@ -1217,6 +1313,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         target->flags2 &= ~MF2_NOLIQUIDBOB;
 
     gibhealth = info->gibhealth;
+
     if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate)))
         P_SetMobjState(target, info->xdeathstate);
     else
@@ -1233,26 +1330,18 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (con_obituaries && source && source != target && !hacx)
     {
         if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
-            C_Obituary("%s %s was %s by an exploding barrel.",
-                (isvowel(info->name1[0]) ? "An" : "A"),
-                info->name1,
-                (gibbed ? "gibbed" : "killed"));
+            C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(info->name1[0]) ? "An" : "A"),
+                info->name1, (gibbed ? "gibbed" : "killed"));
         else if (source->player)
-            C_Obituary("%s %s %s%s with %s %s.",
-                titlecase(playername),
-                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                (target->player ? "" : (isvowel(info->name1[0]) ? "an " : "a ")),
-                (target->player ? (M_StringCompare(playername, playername_default) ?
-                    "yourself" : "themselves") : info->name1),
-                (M_StringCompare(playername, playername_default) ? "your" : "their"),
-                weapondescription[source->player->readyweapon]);
+            C_Obituary("%s %s %s%s with %s %s.", titlecase(playername), (type == MT_BARREL ? "exploded" :
+                (gibbed ? "gibbed" : "killed")), (target->player ? "" : (isvowel(info->name1[0]) ? "an " :
+                "a ")), (target->player ? (M_StringCompare(playername, playername_default) ? "yourself" :
+                "themselves") : info->name1), (M_StringCompare(playername, playername_default) ? "your" :
+                "their"), weapondescription[source->player->readyweapon]);
         else
-            C_Obituary("%s %s %s %s%s.",
-                (isvowel(source->info->name1[0]) ? "An" : "A"),
-                source->info->name1,
-                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                (target->player ? "" : (source->type == target->type ? "another " :
-                    (isvowel(info->name1[0]) ? "an " : "a "))),
+            C_Obituary("%s %s %s %s%s.", (isvowel(source->info->name1[0]) ? "An" : "A"), source->info->name1,
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),  (target->player ? "" :
+                (source->type == target->type ? "another " : (isvowel(info->name1[0]) ? "an " : "a "))),
                 (target->player ? (M_StringCompare(playername, playername_default) ? playername :
                     titlecase(playername)) : info->name1));
     }
@@ -1284,6 +1373,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     mo->momz = FRACUNIT * 5 + (M_Random() << 10);
     mo->angle = target->angle + ((M_Random() - M_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
+
     if (r_mirroredweapons && (rand() & 1))
         mo->flags2 |= MF2_MIRRORED;
 }
@@ -1374,6 +1464,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 viewy = source->y;
                 z = source->z;
             }
+
             dist = R_PointToDist(target->x, target->y);
 
             if (target->flags2 & MF2_FEETARECLIPPED)
@@ -1426,6 +1517,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 saved = tplayer->armorpoints;
                 tplayer->armortype = NOARMOR;
             }
+
             tplayer->armorpoints -= saved;
             damage -= saved;
         }
@@ -1450,6 +1542,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (damage > 0 && damagecount < 8)
              damagecount = 8;
+
         damagecount = MIN(damagecount, 100);
 
         tplayer->damagecount = damagecount;
@@ -1471,6 +1564,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     {
         // do the damage
         target->health -= damage;
+
         if (target->health <= 0)
         {
             int gibhealth = info->gibhealth;
@@ -1502,8 +1596,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     target->reactiontime = 0;                                   // we're awake now...
 
-    if ((!target->threshold || type == MT_VILE)
-        && source && source != target && source->type != MT_VILE)
+    if ((!target->threshold || type == MT_VILE) && source && source != target && source->type != MT_VILE)
     {
         // if not intent on another player,
         // chase after this one
@@ -1512,6 +1605,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         P_SetTarget(&target->target, source);                   // killough 11/98
         target->threshold = BASETHRESHOLD;
+
         if (target->state == &states[info->spawnstate] && info->seestate != S_NULL)
             P_SetMobjState(target, info->seestate);
     }

@@ -45,52 +45,51 @@
 
 #define MAXVISPLANES    128                             // must be a power of 2
 
-static visplane_t       *visplanes[MAXVISPLANES];       // killough
-static visplane_t       *freetail;                      // killough
-static visplane_t       **freehead = &freetail;         // killough
-visplane_t              *floorplane;
-visplane_t              *ceilingplane;
+static visplane_t   *visplanes[MAXVISPLANES];       // killough
+static visplane_t   *freetail;                      // killough
+static visplane_t   **freehead = &freetail;         // killough
+visplane_t          *floorplane;
+visplane_t          *ceilingplane;
 
 // killough -- hash function for visplanes
 // Empirically verified to be fairly uniform:
-#define visplane_hash(picnum, lightlevel, height) \
-    (((unsigned int)(picnum) * 3 + (unsigned int)(lightlevel) + \
-    (unsigned int)(height) * 7) & (MAXVISPLANES - 1))
+#define visplane_hash(picnum, lightlevel, height) (((unsigned int)(picnum) * 3 + (unsigned int)(lightlevel) \
+            + (unsigned int)(height) * 7) & (MAXVISPLANES - 1))
 
-size_t                 maxopenings;
-int                    *openings;                       // dropoff overflow
-int                    *lastopening;                    // dropoff overflow
+size_t             maxopenings;
+int                *openings;                       // dropoff overflow
+int                *lastopening;                    // dropoff overflow
 
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
-int                     floorclip[SCREENWIDTH];         // dropoff overflow
-int                     ceilingclip[SCREENWIDTH];       // dropoff overflow
+int                 floorclip[SCREENWIDTH];         // dropoff overflow
+int                 ceilingclip[SCREENWIDTH];       // dropoff overflow
 
 // spanstart holds the start of a plane span
 // initialized to 0 at start
-static int              spanstart[SCREENHEIGHT];
+static int          spanstart[SCREENHEIGHT];
 
 // texture mapping
-static lighttable_t     **planezlight;
-static fixed_t          planeheight;
+static lighttable_t **planezlight;
+static fixed_t      planeheight;
 
-static fixed_t          xoffs, yoffs;                   // killough 2/28/98: flat offsets
+static fixed_t      xoffs, yoffs;                   // killough 2/28/98: flat offsets
 
-fixed_t                 *yslope;
-fixed_t                 yslopes[LOOKDIRS][SCREENHEIGHT];
+fixed_t             *yslope;
+fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
 
-fixed_t                 cachedheight[SCREENHEIGHT];
-fixed_t                 cacheddistance[SCREENHEIGHT];
-fixed_t                 cachedxstep[SCREENHEIGHT];
-fixed_t                 cachedystep[SCREENHEIGHT];
+fixed_t             cachedheight[SCREENHEIGHT];
+fixed_t             cacheddistance[SCREENHEIGHT];
+fixed_t             cachedxstep[SCREENHEIGHT];
+fixed_t             cachedystep[SCREENHEIGHT];
 
-int                     skycolor;
+int                 skycolor;
 
-dboolean                r_liquid_swirl = r_liquid_swirl_default;
-int                     r_skycolor = r_skycolor_default;
+dboolean            r_liquid_swirl = r_liquid_swirl_default;
+int                 r_skycolor = r_skycolor_default;
 
-extern dboolean         m_look;
+extern dboolean     m_look;
 
 //
 // R_MapPlane

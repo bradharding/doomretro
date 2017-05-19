@@ -125,6 +125,7 @@ void P_CalcHeight(player_t *player)
         if (player->viewheight < VIEWHEIGHT / 2)
         {
             player->viewheight = VIEWHEIGHT / 2;
+
             if (player->deltaviewheight <= 0)
                 player->deltaviewheight = 1;
         }

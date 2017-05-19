@@ -302,7 +302,8 @@ void R_InitTextures(void)
 
     for (i = 0; i < numtextures; i++, directory++)
     {
-        const mappatch_t    *mpatch;
+        const mappatch_t    
+*mpatch;
         texpatch_t          *patch;
         int                 offset;
 

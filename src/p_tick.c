@@ -84,7 +84,7 @@ void P_UpdateThinker(thinker_t *thinker)
 
     // find the class the thinker belongs to
     int class = (thinker->function == P_RemoveThinkerDelayed ? th_delete :
-        (thinker->function == P_MobjThinker ? th_mobj : th_misc));
+            (thinker->function == P_MobjThinker ? th_mobj : th_misc));
 
     // Remove from current thread, if in one
     if ((th = thinker->cnext))
@@ -122,7 +122,7 @@ void P_AddThinker(thinker_t *thinker)
 // Make currentthinker external, so that P_RemoveThinkerDelayed
 // can adjust currentthinker when thinkers self-remove.
 
-static thinker_t        *currentthinker;
+static thinker_t    *currentthinker;
 
 //
 // P_RemoveThinkerDelayed()
@@ -188,6 +188,7 @@ void P_SetTarget(mobj_t **mop, mobj_t *targ)
 {
     if (*mop)           // If there was a target already, decrease its refcount
         (*mop)->thinker.references--;
+
     if ((*mop = targ))  // Set new target and if non-NULL, increase its counter
         targ->thinker.references++;
 }
@@ -222,6 +223,7 @@ static void P_RunThinkers(void)
     {
         if (currentthinker->function)
             currentthinker->function(currentthinker);
+
         currentthinker = currentthinker->next;
     }
 

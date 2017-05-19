@@ -52,11 +52,11 @@ extern dboolean canmodify;
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush,
-    int floorOrCeiling, int direction)
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floorOrCeiling,
+    int direction)
 {
-    fixed_t     lastpos;
-    fixed_t     destheight;
+    fixed_t lastpos;
+    fixed_t destheight;
 
     sector->oldgametic = gametic;
 
@@ -65,6 +65,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
         case 0:
             // FLOOR
             sector->oldfloorheight = sector->floorheight;
+
             switch (direction)
             {
                 case -1:
@@ -73,11 +74,13 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     {
                         lastpos = sector->floorheight;
                         sector->floorheight = dest;
+
                         if (P_ChangeSector(sector, crush))
                         {
                             sector->floorheight = lastpos;
                             P_ChangeSector(sector, crush);
                         }
+
                         return pastdest;
                     }
                     else
@@ -86,6 +89,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                         sector->floorheight -= speed;
                         P_ChangeSector(sector, crush);
                     }
+
                     break;
 
                 case 1:
@@ -95,11 +99,13 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     {
                         lastpos = sector->floorheight;
                         sector->floorheight = dest;
+
                         if (P_ChangeSector(sector, crush))
                         {
                             sector->floorheight = lastpos;
                             P_ChangeSector(sector, crush);
                         }
+
                         return pastdest;
                     }
                     else
@@ -107,6 +113,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                         // COULD GET CRUSHED
                         lastpos = sector->floorheight;
                         sector->floorheight += speed;
+
                         if (P_ChangeSector(sector, crush))
                         {
                             sector->floorheight = lastpos;
@@ -114,6 +121,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                             return crushed;
                         }
                     }
+
                     break;
             }
             break;
@@ -121,20 +129,24 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
         case 1:
             // CEILING
             sector->oldceilingheight = sector->ceilingheight;
+
             switch (direction)
             {
                 case -1:
                     // DOWN
                     destheight = MAX(dest, sector->floorheight);
+
                     if (sector->ceilingheight - speed < destheight)
                     {
                         lastpos = sector->ceilingheight;
                         sector->ceilingheight = dest;
+
                         if (P_ChangeSector(sector, crush))
                         {
                             sector->ceilingheight = lastpos;
                             P_ChangeSector(sector, crush);
                         }
+
                         return pastdest;
                     }
                     else
@@ -142,15 +154,18 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                         // COULD GET CRUSHED
                         lastpos = sector->ceilingheight;
                         sector->ceilingheight -= speed;
+
                         if (P_ChangeSector(sector, crush))
                         {
                             if (crush)
                                 return crushed;
+
                             sector->ceilingheight = lastpos;
                             P_ChangeSector(sector, crush);
                             return crushed;
                         }
                     }
+
                     break;
 
                 case 1:
@@ -159,11 +174,13 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     {
                         lastpos = sector->ceilingheight;
                         sector->ceilingheight = dest;
+
                         if (P_ChangeSector(sector, crush))
                         {
                             sector->ceilingheight = lastpos;
                             P_ChangeSector(sector, crush);
                         }
+
                         return pastdest;
                     }
                     else
@@ -171,6 +188,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                         sector->ceilingheight += speed;
                         P_ChangeSector(sector, crush);
                     }
+
                     break;
             }
             break;
@@ -258,11 +276,14 @@ void T_MoveFloor(floormove_t *floor)
 
             while (sec->prevsec != -1 && sectors[sec->prevsec].stairlock != -2)
                 sec = &sectors[sec->prevsec];   // search for a non-done thinker
+
             if (sec->prevsec == -1)             // if all thinkers previous are done
             {
                 sec = floor->sector;            // search forward
+
                 while (sec->nextsec != -1 && sectors[sec->nextsec].stairlock != -2)
                     sec = &sectors[sec->nextsec];
+
                 if (sec->nextsec == -1)         // if all thinkers ahead are done too
                 {
                     while (sec->prevsec != -1)  // clear all locks
@@ -270,6 +291,7 @@ void T_MoveFloor(floormove_t *floor)
                         sec->stairlock = 0;
                         sec = &sectors[sec->prevsec];
                     }
+
                     sec->stairlock = 0;
                 }
             }
@@ -350,7 +372,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t        *sec = &sectors[secnum];
+        sector_t    *sec = &sectors[secnum];
 
         // ALREADY MOVING? IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, sec))
@@ -407,8 +429,10 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
                 floor->floordestheight = P_FindHighestFloorSurrounding(sec);
+
                 if (floor->floordestheight != sec->floorheight)
                     floor->floordestheight += 8 * FRACUNIT;
+
                 break;
 
             case raiseFloorCrush:
@@ -417,8 +441,8 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
-                floor->floordestheight = MIN(P_FindLowestCeilingSurrounding(sec),
-                    sec->ceilingheight) - 8 * FRACUNIT * (floortype == raiseFloorCrush);
+                floor->floordestheight = MIN(P_FindLowestCeilingSurrounding(sec), sec->ceilingheight)
+                    - 8 * FRACUNIT * (floortype == raiseFloorCrush);
                 break;
 
             case raiseFloorTurbo:
@@ -474,11 +498,12 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 
             case raiseToTexture:
             {
-                int     minsize = 32000 << FRACBITS;
+                int minsize = 32000 << FRACBITS;
 
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
+
                 for (i = 0; i < sec->linecount; i++)
                 {
                     if (twoSided(secnum, i))
@@ -488,14 +513,17 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                         if (side->bottomtexture > 0
                             && textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
+
                         side = getSide(secnum, i, 1);
+
                         if (side->bottomtexture > 0
                             && textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
                     }
                 }
-                floor->floordestheight = MIN((sec->floorheight >> FRACBITS)
-                    + (minsize >> FRACBITS), 32000) << FRACBITS;
+
+                floor->floordestheight = MIN((sec->floorheight >> FRACBITS) + (minsize >> FRACBITS),
+                    32000) << FRACBITS;
             }
             break;
 
@@ -569,7 +597,7 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
     // change all sectors with the same tag as the linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t        *sec = &sectors[secnum];
+        sector_t    *sec = &sectors[secnum];
 
         rtn = true;
 
@@ -584,18 +612,21 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
 
             case numChangeOnly:
                 secm = P_FindModelFloorSector(sec->floorheight, secnum);
+
                 if (secm)       // if no model, no change
                 {
                     sec->floorpic = secm->floorpic;
                     P_ChangeSector(sec, false);
                     sec->special = secm->special;
                 }
+
                 break;
 
             default:
                 break;
         }
     }
+
     return rtn;
 }
 
@@ -635,15 +666,15 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
 
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
-        int             secnum = ssec;
-        sector_t        *sec = &sectors[secnum];
-        floormove_t     *floor;
-        fixed_t         stairsize = 0;
-        fixed_t         speed = 0;
-        dboolean        crushing = false;
-        dboolean        okay;
-        int             height;
-        int             texture;
+        int         secnum = ssec;
+        sector_t    *sec = &sectors[secnum];
+        floormove_t *floor;
+        fixed_t     stairsize = 0;
+        fixed_t     speed = 0;
+        dboolean    crushing = false;
+        dboolean    okay;
+        int         height;
+        int         texture;
 
         // ALREADY MOVING?  IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, sec))
@@ -657,6 +688,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         floor->thinker.function = T_MoveFloor;
         floor->direction = 1;
         floor->sector = sec;
+
         switch (type)
         {
             case build8:
@@ -671,6 +703,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                 crushing = true;
                 break;
         }
+
         floor->speed = speed;
         height = sec->floorheight + stairsize;
         floor->floordestheight = height;
@@ -690,11 +723,12 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
             int i;
 
             okay = false;
+
             for (i = 0; i < sec->linecount; i++)
             {
-                line_t          *line = sec->lines[i];
-                sector_t        *tsec;
-                int             newsecnum;
+                line_t      *line = sec->lines[i];
+                sector_t    *tsec;
+                int         newsecnum;
 
                 if (!(line->flags & ML_TWOSIDED))
                     continue;
@@ -706,8 +740,10 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                     continue;
 
                 tsec = line->backsector;
+
                 if (!tsec)
                     continue;
+
                 newsecnum = tsec - sectors;
 
                 if (tsec->floorpic != texture)

@@ -55,27 +55,28 @@
 //
 dboolean EV_DoGenFloor(line_t *line)
 {
-    int                 secnum = -1;
-    dboolean            rtn = false;
-    dboolean            manual = false;
-    sector_t            *sec;
-    floormove_t         *floor;
-    unsigned int        value = (unsigned int)line->special - GenFloorBase;
+    int             secnum = -1;
+    dboolean        rtn = false;
+    dboolean        manual = false;
+    sector_t        *sec;
+    floormove_t     *floor;
+    unsigned int    value = line->special - GenFloorBase;
 
     // parse the bit fields in the line's special type
-    int                 Crsh = (value & FloorCrush) >> FloorCrushShift;
-    int                 ChgT = (value & FloorChange) >> FloorChangeShift;
-    int                 Targ = (value & FloorTarget) >> FloorTargetShift;
-    int                 Dirn = (value & FloorDirection) >> FloorDirectionShift;
-    int                 ChgM = (value & FloorModel) >> FloorModelShift;
-    int                 Sped = (value & FloorSpeed) >> FloorSpeedShift;
-    int                 Trig = (value & TriggerType) >> TriggerTypeShift;
+    int             Crsh = (value & FloorCrush) >> FloorCrushShift;
+    int             ChgT = (value & FloorChange) >> FloorChangeShift;
+    int             Targ = (value & FloorTarget) >> FloorTargetShift;
+    int             Dirn = (value & FloorDirection) >> FloorDirectionShift;
+    int             ChgM = (value & FloorModel) >> FloorModelShift;
+    int             Sped = (value & FloorSpeed) >> FloorSpeedShift;
+    int             Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
     {
         if (!(sec = line->backsector))
             return rtn;
+
         secnum = sec - sectors;
         manual = true;
         goto manual_floor;
@@ -159,10 +160,12 @@ manual_floor:
             case FbyST:
                 floor->floordestheight = (floor->sector->floorheight >> FRACBITS)
                     + floor->direction * (P_FindShortestTextureAround(secnum) >> FRACBITS);
+
                 if (floor->floordestheight > 32000)     // jff 3/13/98 prevent overflow
                     floor->floordestheight = 32000;     // wraparound in floor height
                 else if (floor->floordestheight < -32000)
                     floor->floordestheight = -32000;
+
                 floor->floordestheight <<= FRACBITS;
                 break;
 
@@ -185,16 +188,18 @@ manual_floor:
         {
             if (ChgM)   // if a numeric model change
             {
-                sector_t        *sec;
+                sector_t    *sec;
 
                 // jff 5/23/98 find model with ceiling at target height if target
                 // is a ceiling type
                 sec = (Targ == FtoLnC || Targ == FtoC ?
                     P_FindModelCeilingSector(floor->floordestheight, secnum) :
                     P_FindModelFloorSector(floor->floordestheight, secnum));
+
                 if (sec)
                 {
                     floor->texture = sec->floorpic;
+
                     switch (ChgT)
                     {
                         case FChgZero:  // zero type
@@ -219,6 +224,7 @@ manual_floor:
             else        // else if a trigger model change
             {
                 floor->texture = line->frontsector->floorpic;
+
                 switch (ChgT)
                 {
                     case FChgZero:      // zero type
@@ -240,9 +246,11 @@ manual_floor:
                 }
             }
         }
+
         if (manual)
             return rtn;
     }
+
     return rtn;
 }
 
@@ -259,28 +267,29 @@ manual_floor:
 //
 dboolean EV_DoGenCeiling(line_t *line)
 {
-    int                 secnum = -1;
-    dboolean            rtn = false;
-    dboolean            manual = false;
-    fixed_t             targheight;
-    sector_t            *sec;
-    ceiling_t           *ceiling;
-    unsigned int        value = (unsigned int)line->special - GenCeilingBase;
+    int             secnum = -1;
+    dboolean        rtn = false;
+    dboolean        manual = false;
+    fixed_t         targheight;
+    sector_t        *sec;
+    ceiling_t       *ceiling;
+    unsigned int    value = line->special - GenCeilingBase;
 
     // parse the bit fields in the line's special type
-    int                 Crsh = (value & CeilingCrush) >> CeilingCrushShift;
-    int                 ChgT = (value & CeilingChange) >> CeilingChangeShift;
-    int                 Targ = (value & CeilingTarget) >> CeilingTargetShift;
-    int                 Dirn = (value & CeilingDirection) >> CeilingDirectionShift;
-    int                 ChgM = (value & CeilingModel) >> CeilingModelShift;
-    int                 Sped = (value & CeilingSpeed) >> CeilingSpeedShift;
-    int                 Trig = (value & TriggerType) >> TriggerTypeShift;
+    int             Crsh = (value & CeilingCrush) >> CeilingCrushShift;
+    int             ChgT = (value & CeilingChange) >> CeilingChangeShift;
+    int             Targ = (value & CeilingTarget) >> CeilingTargetShift;
+    int             Dirn = (value & CeilingDirection) >> CeilingDirectionShift;
+    int             ChgM = (value & CeilingModel) >> CeilingModelShift;
+    int             Sped = (value & CeilingSpeed) >> CeilingSpeedShift;
+    int             Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
     {
         if (!(sec = line->backsector))
             return rtn;
+
         secnum = sec - sectors;
         manual = true;
         goto manual_ceiling;
@@ -297,6 +306,7 @@ manual_ceiling:
         {
             if (manual)
                 return rtn;
+
             continue;
         }
 
@@ -339,6 +349,7 @@ manual_ceiling:
 
         // set destination target height
         targheight = sec->ceilingheight;
+
         switch (Targ)
         {
             case CtoHnC:
@@ -365,10 +376,12 @@ manual_ceiling:
             case CbyST:
                 targheight = (ceiling->sector->ceilingheight >> FRACBITS)
                     + ceiling->direction * (P_FindShortestUpperAround(secnum) >> FRACBITS);
+
                 if (targheight > 32000) // jff 3/13/98 prevent overflow
                     targheight = 32000; // wraparound in ceiling height
                 else if (targheight < -32000)
                     targheight = -32000;
+
                 targheight <<= FRACBITS;
                 break;
 
@@ -394,15 +407,16 @@ manual_ceiling:
         {
             if (ChgM)   // if a numeric model change
             {
-                sector_t        *sec;
+                sector_t    *sec;
 
                 // jff 5/23/98 find model with floor at target height if target is a floor type
-                sec = (Targ == CtoHnF || Targ == CtoF ?
-                    P_FindModelFloorSector(targheight, secnum) :
+                sec = (Targ == CtoHnF || Targ == CtoF ? P_FindModelFloorSector(targheight, secnum) :
                     P_FindModelCeilingSector(targheight, secnum));
+
                 if (sec)
                 {
                     ceiling->texture = sec->ceilingpic;
+
                     switch (ChgT)
                     {
                         case CChgZero:  // type is zeroed
@@ -427,6 +441,7 @@ manual_ceiling:
             else        // else if a trigger model change
             {
                 ceiling->texture = line->frontsector->ceilingpic;
+
                 switch (ChgT)
                 {
                     case CChgZero:      // type is zeroed
@@ -448,10 +463,13 @@ manual_ceiling:
                 }
             }
         }
+
         P_AddActiveCeiling(ceiling);    // add this ceiling to the active list
+
         if (manual)
             return rtn;
     }
+
     return rtn;
 }
 
@@ -465,18 +483,18 @@ manual_ceiling:
 //
 dboolean EV_DoGenLift(line_t *line)
 {
-    plat_t              *plat;
-    int                 secnum = -1;
-    dboolean            rtn = false;
-    dboolean            manual = false;
-    sector_t            *sec;
-    unsigned int        value = (unsigned int)line->special - GenLiftBase;
+    plat_t          *plat;
+    int             secnum = -1;
+    dboolean        rtn = false;
+    dboolean        manual = false;
+    sector_t        *sec;
+    unsigned int    value = line->special - GenLiftBase;
 
     // parse the bit fields in the line's special type
-    int                 Targ = (value & LiftTarget) >> LiftTargetShift;
-    int                 Dely = (value & LiftDelay) >> LiftDelayShift;
-    int                 Sped = (value & LiftSpeed) >> LiftSpeedShift;
-    int                 Trig = (value & TriggerType) >> TriggerTypeShift;
+    int             Targ = (value & LiftTarget) >> LiftTargetShift;
+    int             Dely = (value & LiftDelay) >> LiftDelayShift;
+    int             Sped = (value & LiftSpeed) >> LiftSpeedShift;
+    int             Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // Activate all <type> plats that are in_stasis
     if (Targ == LnF2HnF)
@@ -487,6 +505,7 @@ dboolean EV_DoGenLift(line_t *line)
     {
         if (!(sec = line->backsector))
             return rtn;
+
         secnum = sec - sectors;
         manual = true;
         goto manual_lift;
@@ -525,6 +544,7 @@ manual_lift:
         {
             case F2LnF:
                 plat->low = P_FindLowestFloorSurrounding(sec);
+
                 if (plat->low > sec->floorheight)
                     plat->low = sec->floorheight;
                 break;
@@ -535,6 +555,7 @@ manual_lift:
 
             case F2LnC:
                 plat->low = P_FindLowestCeilingSurrounding(sec);
+
                 if (plat->low > sec->floorheight)
                     plat->low = sec->floorheight;
                 break;
@@ -542,11 +563,15 @@ manual_lift:
             case LnF2HnF:
                 plat->type = genPerpetual;
                 plat->low = P_FindLowestFloorSurrounding(sec);
+
                 if (plat->low > sec->floorheight)
                     plat->low = sec->floorheight;
+
                 plat->high = P_FindHighestFloorSurrounding(sec);
+
                 if (plat->high < sec->floorheight)
                     plat->high = sec->floorheight;
+
                 plat->status = M_Random() & 1;
                 break;
 
@@ -616,38 +641,35 @@ manual_lift:
 //
 dboolean EV_DoGenStairs(line_t *line)
 {
-    int                 secnum = -1;
-    int                 osecnum;        // jff 3/4/98 preserve loop index
-    int                 height;
-    int                 i;
-    int                 newsecnum;
-    int                 texture;
-    dboolean            okay;
-    dboolean            rtn = false;
-    dboolean            manual = false;
-
-    sector_t            *sec;
-    sector_t            *tsec;
-
-    floormove_t         *floor;
-
-    fixed_t             stairsize;
-    fixed_t             speed;
-
-    unsigned int        value = (unsigned int)line->special - GenStairsBase;
+    int             secnum = -1;
+    int             osecnum;        // jff 3/4/98 preserve loop index
+    int             height;
+    int             i;
+    int             newsecnum;
+    int             texture;
+    dboolean        okay;
+    dboolean        rtn = false;
+    dboolean        manual = false;
+    sector_t        *sec;
+    sector_t        *tsec;
+    floormove_t     *floor;
+    fixed_t         stairsize;
+    fixed_t         speed;
+    unsigned int    value = line->special - GenStairsBase;
 
     // parse the bit fields in the line's special type
-    int                 Igno = (value & StairIgnore) >> StairIgnoreShift;
-    int                 Dirn = (value & StairDirection) >> StairDirectionShift;
-    int                 Step = (value & StairStep) >> StairStepShift;
-    int                 Sped = (value & StairSpeed) >> StairSpeedShift;
-    int                 Trig = (value & TriggerType) >> TriggerTypeShift;
+    int             Igno = (value & StairIgnore) >> StairIgnoreShift;
+    int             Dirn = (value & StairDirection) >> StairDirectionShift;
+    int             Step = (value & StairStep) >> StairStepShift;
+    int             Sped = (value & StairSpeed) >> StairSpeedShift;
+    int             Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
     {
         if (!(sec = line->backsector))
             return rtn;
+
         secnum = sec - sectors;
         manual = true;
         goto manual_stair;
@@ -733,9 +755,11 @@ manual_stair:
         sec->prevsec = -1;
 
         osecnum = secnum;               // jff 3/4/98 preserve loop index
+
         // Find next sector to raise
         // 1. Find 2-sided line with same sector side[0]
         // 2. Other side is the next sector to raise
+
         do
         {
             okay = false;
@@ -799,9 +823,11 @@ manual_stair:
 
         secnum = osecnum;                       // jff 3/4/98 restore old loop index
     }
+
     // retriggerable generalized stairs build up or down alternately
     if (rtn)
         line->special ^= StairDirection;        // alternate dir on succ activations
+
     return rtn;
 }
 
@@ -815,17 +841,17 @@ manual_stair:
 //
 dboolean EV_DoGenCrusher(line_t *line)
 {
-    int                 secnum = -1;
-    dboolean            rtn;
-    dboolean            manual = false;
-    sector_t            *sec;
-    ceiling_t           *ceiling;
-    unsigned int        value = (unsigned int)line->special - GenCrusherBase;
+    int             secnum = -1;
+    dboolean        rtn;
+    dboolean        manual = false;
+    sector_t        *sec;
+    ceiling_t       *ceiling;
+    unsigned int    value = line->special - GenCrusherBase;
 
     // parse the bit fields in the line's special type
-    int                 Slnt = (value & CrusherSilent) >> CrusherSilentShift;
-    int                 Sped = (value & CrusherSpeed) >> CrusherSpeedShift;
-    int                 Trig = (value & TriggerType) >> TriggerTypeShift;
+    int             Slnt = (value & CrusherSilent) >> CrusherSilentShift;
+    int             Sped = (value & CrusherSpeed) >> CrusherSpeedShift;
+    int             Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // jff 2/22/98  Reactivate in-stasis ceilings...for certain types.
     // jff 4/5/98 return if activated
@@ -836,6 +862,7 @@ dboolean EV_DoGenCrusher(line_t *line)
     {
         if (!(sec = line->backsector))
             return rtn;
+
         secnum = sec - sectors;
         manual = true;
         goto manual_crusher;
@@ -894,9 +921,11 @@ manual_crusher:
             default:
                 break;
         }
+
         ceiling->oldspeed = ceiling->speed;
 
         P_AddActiveCeiling(ceiling);    // add to list of active ceilings
+
         if (manual)
             return rtn;
     }
@@ -913,23 +942,24 @@ manual_crusher:
 //
 dboolean EV_DoGenLockedDoor(line_t *line)
 {
-    int                 secnum = -1;
-    dboolean            rtn = false;
-    sector_t            *sec;
-    vldoor_t            *door;
-    dboolean            manual = false;
-    unsigned int        value = (unsigned int)line->special - GenLockedBase;
+    int             secnum = -1;
+    dboolean        rtn = false;
+    sector_t        *sec;
+    vldoor_t        *door;
+    dboolean        manual = false;
+    unsigned int    value = line->special - GenLockedBase;
 
     // parse the bit fields in the line's special type
-    int                 Kind = (value & LockedKind) >> LockedKindShift;
-    int                 Sped = (value & LockedSpeed) >> LockedSpeedShift;
-    int                 Trig = (value & TriggerType) >> TriggerTypeShift;
+    int             Kind = (value & LockedKind) >> LockedKindShift;
+    int             Sped = (value & LockedSpeed) >> LockedSpeedShift;
+    int             Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
     {
         if (!(sec = line->backsector))
             return rtn;
+
         secnum = sec - sectors;
         manual = true;
         goto manual_locked;
@@ -965,8 +995,7 @@ manual_locked:
         door->direction = 1;
 
         // killough 10/98: implement gradual lighting
-        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ?
-            line->tag : 0);
+        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ?  line->tag : 0);
 
         // setup speed of door motion
         switch (Sped)
@@ -995,8 +1024,8 @@ manual_locked:
 
         // killough 4/15/98: fix generalized door opening sounds
         // (previously they always had the blazing door close sound)
-        S_StartSectorSound(&door->sector->soundorg,
-            (door->speed >= VDOORSPEED * 4 ? sfx_bdopn : sfx_doropn));
+        S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdopn :
+            sfx_doropn));
 
         if (manual)
             return rtn;
@@ -1014,24 +1043,25 @@ manual_locked:
 //
 dboolean EV_DoGenDoor(line_t *line)
 {
-    int                 secnum = -1;
-    dboolean            rtn = false;
-    sector_t            *sec;
-    dboolean            manual = false;
-    vldoor_t            *door;
-    unsigned int        value = (unsigned int)line->special - GenDoorBase;
+    int             secnum = -1;
+    dboolean        rtn = false;
+    sector_t        *sec;
+    dboolean        manual = false;
+    vldoor_t        *door;
+    unsigned int    value = line->special - GenDoorBase;
 
     // parse the bit fields in the line's special type
-    int                 Dely = (value & DoorDelay) >> DoorDelayShift;
-    int                 Kind = (value & DoorKind) >> DoorKindShift;
-    int                 Sped = (value & DoorSpeed) >> DoorSpeedShift;
-    int                 Trig = (value & TriggerType) >> TriggerTypeShift;
+    int             Dely = (value & DoorDelay) >> DoorDelayShift;
+    int             Kind = (value & DoorKind) >> DoorKindShift;
+    int             Sped = (value & DoorSpeed) >> DoorSpeedShift;
+    int             Trig = (value & TriggerType) >> TriggerTypeShift;
 
     // check if a manual trigger, if so do just the sector on the backside
     if (Trig == PushOnce || Trig == PushMany || !line->tag)
     {
         if (!(sec = line->backsector))
             return rtn;
+
         secnum = sec - sectors;
         manual = true;
         goto manual_door;
@@ -1065,7 +1095,6 @@ manual_door:
         switch (Dely)
         {
             default:
-
             case 0:
                 door->topwait = 35;
                 break;
@@ -1103,11 +1132,11 @@ manual_door:
                 door->speed = VDOORSPEED * 8;
                 break;
         }
+
         door->line = line;      // jff 1/31/98 remember line that triggered us
 
         // killough 10/98: implement gradual lighting
-        door->lighttag = ((line->special & 6) == 6 &&
-            line->special > GenLockedBase ? line->tag : 0);
+        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ? line->tag : 0);
 
         // set kind of door, whether it opens then close, opens, closes etc.
         // assign target heights accordingly
@@ -1117,8 +1146,10 @@ manual_door:
                 door->direction = 1;
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
+
                 if (door->topheight != sec->ceilingheight)
                     S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
+
                 door->type = (Sped >= SpeedFast ? genBlazeRaise : genRaise);
                 break;
 
@@ -1126,8 +1157,10 @@ manual_door:
                 door->direction = 1;
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
+
                 if (door->topheight != sec->ceilingheight)
                     S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
+
                 door->type = (Sped >= SpeedFast ? genBlazeOpen : genOpen);
                 break;
 
@@ -1149,8 +1182,10 @@ manual_door:
             default:
                 break;
         }
+
         if (manual)
             return rtn;
     }
+
     return rtn;
 }

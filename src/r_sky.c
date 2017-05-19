@@ -63,6 +63,7 @@ void R_InitSkyMap(void)
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
 
     skytexture = P_GetMapSky1Texture(map);
+
     if (!skytexture || ((textureheight[skytexture] >> FRACBITS) > 128 && !m_look))
     {
         if (gamemode == commercial)

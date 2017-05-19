@@ -253,8 +253,8 @@ void R_DrawFuzzyShadowColumn(void)
 
 void R_DrawSolidShadowColumn(void)
 {
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
 
     while (--count)
     {
@@ -515,11 +515,11 @@ void R_DrawFullbrightWallColumn(void)
 
 void R_DrawPlayerSpriteColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = topleft1 + dc_yl * SCREENWIDTH + dc_x;
-    fixed_t             frac = dc_texturefrac;
-    const fixed_t       fracstep = dc_iscale;
-    const byte          *source = dc_source;
+    int             count = dc_yh - dc_yl + 1;
+    byte            *dest = topleft1 + dc_yl * SCREENWIDTH + dc_x;
+    fixed_t         frac = dc_texturefrac;
+    const fixed_t   fracstep = dc_iscale;
+    const byte      *source = dc_source;
 
     while (--count)
     {
@@ -542,7 +542,7 @@ void R_DrawSuperShotgunColumn(void)
 
     while (--count)
     {
-        byte            dot = source[frac >> FRACBITS];
+        byte    dot = source[frac >> FRACBITS];
 
         if (dot != 71)
             *dest = colormap[dot];
@@ -566,7 +566,7 @@ void R_DrawTranslucentSuperShotgunColumn(void)
 
     while (--count)
     {
-        byte            dot = source[frac >> FRACBITS];
+        byte    dot = source[frac >> FRACBITS];
 
         if (dot != 71)
             *dest = colormap[translucency[(*dest << 8) + dot]];
@@ -701,9 +701,9 @@ void R_DrawFlippedSkyColumn(void)
 
 void R_DrawSkyColorColumn(void)
 {
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    byte        color = r_skycolor;
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    byte    color = r_skycolor;
 
     while (--count)
     {

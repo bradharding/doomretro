@@ -189,6 +189,7 @@ void P_SetLiquids(void)
 
     // Init animation
     lastanim = anims;
+
     for (i = 0; animdefs[i].istexture != -1; i++)
     {
         // 1/11/98 killough -- removed limit by array-doubling
@@ -2797,7 +2798,11 @@ void T_Pusher(pusher_t *p)
     {
         // Seek out all pushable things within the force radius of this
         // point pusher. Crosses sectors, so use blockmap.
-        int     xl, xh, yl, yh, bx, by;
+        int     xl;
+        int     xh;
+        int     yl;
+        int     yh;
+        int     bx, by;
         int     radius;
 
         tmpusher = p;                                   // MT_PUSH/MT_PULL point source

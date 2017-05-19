@@ -123,7 +123,7 @@ void T_VerticalDoor(vldoor_t *door)
             if (door->topheight - door->sector->floorheight)
             {
                 fixed_t level = FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
-                    door->topheight - door->sector->floorheight);
+                            door->topheight - door->sector->floorheight);
 
                 if (door->lighttag)
                     EV_LightTurnOnPartway(door->line, level);
@@ -196,7 +196,7 @@ void T_VerticalDoor(vldoor_t *door)
             if (door->topheight - door->sector->floorheight)
             {
                 fixed_t level = FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
-                    door->topheight - door->sector->floorheight);
+                            door->topheight - door->sector->floorheight);
 
                 if (door->lighttag)
                     EV_LightTurnOnPartway(door->line, level);
@@ -262,6 +262,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_bluecard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
@@ -273,10 +274,12 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_blueskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
+
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
             }
@@ -295,6 +298,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_redcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
@@ -306,10 +310,12 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_redskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
+
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
             }
@@ -328,6 +334,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_yellowcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
@@ -339,10 +346,12 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_yellowskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
+
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
             }
@@ -363,6 +372,7 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         sec = &sectors[secnum];
+
         if (P_SectorActive(ceiling_special, sec))
             continue;
 
@@ -390,23 +400,29 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
                 door->topheight -= 4 * FRACUNIT;
                 door->direction = -1;
                 door->speed = VDOORSPEED * 4;
+
                 if (sec->ceilingheight != sec->floorheight)
                     S_StartSectorSound(&door->sector->soundorg, sfx_bdcls);
+
                 break;
 
             case doorClose:
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 door->direction = -1;
+
                 if (sec->ceilingheight != sec->floorheight)
                     S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
+
                 break;
 
             case doorClose30ThenOpen:
                 door->topheight = sec->ceilingheight;
                 door->direction = -1;
+
                 if (sec->ceilingheight != sec->floorheight)
                     S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
+
                 break;
 
             case doorBlazeRaise:
@@ -415,8 +431,10 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 door->speed = VDOORSPEED * 4;
+
                 if (door->topheight != sec->ceilingheight)
                     S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
+
                 break;
 
             case doorNormal:
@@ -424,14 +442,17 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
                 door->direction = 1;
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
+
                 if (door->topheight != sec->ceilingheight)
                     S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
+
                 break;
 
             default:
                 break;
         }
     }
+
     return rtn;
 }
 
@@ -465,6 +486,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_bluecard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
@@ -476,10 +498,12 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_blueskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
+
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;
             }
@@ -501,6 +525,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_yellowcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
@@ -512,10 +537,12 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_yellowskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
+
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;
             }
@@ -537,6 +564,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_redcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
@@ -548,10 +576,12 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_redskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
+
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;
             }
@@ -611,6 +641,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     else
                         door->direction = -1;
                 }
+
                 return;
         }
     }

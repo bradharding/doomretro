@@ -152,7 +152,6 @@ static void STlib_drawNum(st_number_t *n)
 {
     int         numdigits = n->width;
     int         num = MAX(0, *n->num);
-
     patch_t     *patch = n->p[0];
     int         w = SHORT(patch->width);
     dboolean    smallnum = (SHORT(patch->height) == 6 && !STYSNUM0 && STBAR == 2);
@@ -181,6 +180,7 @@ static void STlib_drawNum(st_number_t *n)
         while (num && numdigits--)
         {
             x -= w;
+
             if (smallnum)
             {
                 if (r_detail == r_detail_low)
@@ -190,6 +190,7 @@ static void STlib_drawNum(st_number_t *n)
             }
             else
                V_DrawPatch(x, n->y, FG, n->p[num % 10]);
+
             num /= 10;
         }
 }
@@ -200,8 +201,7 @@ void STlib_updateNum(st_number_t *n)
         STlib_drawNum(n);
 }
 
-void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, dboolean *on,
-    patch_t *percent)
+void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, dboolean *on, patch_t *percent)
 {
     STlib_initNum(&p->n, x, y, pl, num, on, 3);
     p->p = percent;
@@ -247,6 +247,7 @@ void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
             else
                 STlib_drawHighNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
         }
+
         mi->oldinum = *mi->inum;
     }
 }

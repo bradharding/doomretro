@@ -67,7 +67,7 @@ void T_FireFlicker(fireflicker_t *flick)
 //
 void P_SpawnFireFlicker(sector_t *sector)
 {
-    fireflicker_t       *flick = Z_Calloc(1, sizeof(*flick), PU_LEVSPEC, NULL);
+    fireflicker_t   *flick = Z_Calloc(1, sizeof(*flick), PU_LEVSPEC, NULL);
 
     P_AddThinker(&flick->thinker);
 
@@ -113,7 +113,7 @@ void T_LightFlash(lightflash_t *flash)
 //
 void P_SpawnLightFlash(sector_t *sector)
 {
-    lightflash_t        *flash = Z_Calloc(1, sizeof(*flash), PU_LEVSPEC, NULL);
+    lightflash_t    *flash = Z_Calloc(1, sizeof(*flash), PU_LEVSPEC, NULL);
 
     P_AddThinker(&flash->thinker);
 
@@ -187,7 +187,7 @@ dboolean EV_StartLightStrobing(line_t *line)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t        *sec = &sectors[secnum];
+        sector_t    *sec = &sectors[secnum];
 
         if (P_SectorActive(lighting_special, sec))
             continue;
@@ -210,15 +210,16 @@ dboolean EV_TurnTagLightsOff(line_t *line)
     // killough 10/98: replaced inefficient search with fast search
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        sector_t        *temp;
-        sector_t        *sector = sectors + i;
-        int             j;
-        int             min = sector->lightlevel;
+        sector_t    *temp;
+        sector_t    *sector = sectors + i;
+        int         j;
+        int         min = sector->lightlevel;
 
         // find min neighbor light level
         for (j = 0; j < sector->linecount; j++)
             if ((temp = getNextSector(sector->lines[j], sector)) && temp->lightlevel < min)
                 min = temp->lightlevel;
+
         sector->lightlevel = min;
     }
 
@@ -237,9 +238,9 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
     // killough 10/98: replace inefficient search with fast search
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        sector_t        *temp;
-        sector_t        *sector = sectors + i;
-        int             tbright = bright;       // jff 5/17/98 search for maximum PER sector
+        sector_t    *temp;
+        sector_t    *sector = sectors + i;
+        int         tbright = bright;       // jff 5/17/98 search for maximum PER sector
 
         // bright = 0 means to search for highest light level surrounding sector
         if (!bright)
@@ -250,6 +251,7 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
                 if ((temp = getNextSector(sector->lines[j], sector)) && temp->lightlevel > tbright)
                     tbright = temp->lightlevel;
         }
+
         sector->lightlevel = tbright;
     }
 
@@ -269,28 +271,32 @@ void T_Glow(glow_t *g)
         case -1:
             // DOWN
             g->sector->lightlevel -= GLOWSPEED;
+
             if (g->sector->lightlevel <= g->minlight)
             {
                 g->sector->lightlevel += GLOWSPEED;
                 g->direction = 1;
             }
+
             break;
 
         case 1:
             // UP
             g->sector->lightlevel += GLOWSPEED;
+
             if (g->sector->lightlevel >= g->maxlight)
             {
                 g->sector->lightlevel -= GLOWSPEED;
                 g->direction = -1;
             }
+
             break;
     }
 }
 
 void P_SpawnGlowingLight(sector_t *sector)
 {
-    glow_t      *glow = Z_Calloc(1, sizeof(*glow), PU_LEVSPEC, NULL);
+    glow_t  *glow = Z_Calloc(1, sizeof(*glow), PU_LEVSPEC, NULL);
 
     P_AddThinker(&glow->thinker);
 
@@ -320,17 +326,18 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
     // search all sectors for ones with same tag as activating line
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        sector_t        *temp;
-        sector_t        *sector = sectors + i;
-        int             j;
-        int             bright = 0;
-        int             min = sector->lightlevel;
+        sector_t    *temp;
+        sector_t    *sector = sectors + i;
+        int         j;
+        int         bright = 0;
+        int         min = sector->lightlevel;
 
         for (j = 0; j < sector->linecount; j++)
             if ((temp = getNextSector(sector->lines[j], sector)))
             {
                 if (temp->lightlevel > bright)
                     bright = temp->lightlevel;
+
                 if (temp->lightlevel < min)
                     min = temp->lightlevel;
             }
@@ -359,6 +366,7 @@ void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
         {
             if (temp->lightlevel > bright)
                 bright = temp->lightlevel;
+
             if (temp->lightlevel < min)
                 min = temp->lightlevel;
         }

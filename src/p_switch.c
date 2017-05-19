@@ -78,7 +78,7 @@ void P_InitSwitchList(void)
     int             index = 0;
     int             episode = (gamemode == registered || gamemode == retail ? 2 :
                         (gamemode == commercial ? 3 : 1));
-    switchlist_t    *alphSwitchList;                // jff 3/23/98 pointer to switch table
+    switchlist_t    *alphSwitchList;                        // jff 3/23/98 pointer to switch table
     int             lump = W_GetNumForName2("SWITCHES");    // cph - new wad lump handling
 
     // jff 3/23/98 read the switch table from a predefined lump
@@ -87,8 +87,8 @@ void P_InitSwitchList(void)
     for (i = 0;; i++)
     {
         if (index + 1 >= max_numswitches)
-            switchlist = Z_Realloc(switchlist, sizeof(*switchlist)
-                * (max_numswitches = max_numswitches ? max_numswitches * 2 : 8));
+            switchlist = Z_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = max_numswitches ?
+                max_numswitches * 2 : 8));
 
         if (SHORT(alphSwitchList[i].episode) <= episode)        // jff 5/11/98 endianess
         {

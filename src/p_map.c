@@ -102,7 +102,7 @@ extern unsigned int stat_shotshit;
 //
 // PIT_StompThing
 //
-static dboolean     telefrag;       // killough 8/9/98: whether to telefrag at exit
+static dboolean telefrag;       // killough 8/9/98: whether to telefrag at exit
 
 dboolean PIT_StompThing(mobj_t *thing)
 {
@@ -217,8 +217,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     int         xh;
     int         yl;
     int         yh;
-    int         bx;
-    int         by;
+    int         bx, by;
     sector_t    *newsec;
     fixed_t     radius = thing->radius;
 
@@ -592,12 +591,11 @@ dboolean PIT_CheckThing(mobj_t *thing)
 // false.
 dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
 {
-    int bx;
-    int by;
     int xl;
     int xh;
     int yl;
     int yh;
+    int bx, by;
 
     pe_x = actor->x;
     pe_y = actor->y;
@@ -775,8 +773,7 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
     int         xh;
     int         yl;
     int         yh;
-    int         bx;
-    int         by;
+    int         bx, by;
     subsector_t *newsubsec;
     fixed_t     x = thing->x;
     fixed_t     y = thing->y;
@@ -933,8 +930,8 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         }
 
         // killough 11/98: prevent falling objects from going up too many steps
-        if ((thing->flags2 & MF2_FALLING) && tmfloorz - thing->z
-             > FixedMul(thing->momx, thing->momx) + FixedMul(thing->momy, thing->momy))
+        if ((thing->flags2 & MF2_FALLING) && tmfloorz - thing->z > FixedMul(thing->momx, thing->momx)
+            + FixedMul(thing->momy, thing->momy))
             return false;
     }
 
@@ -976,8 +973,8 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         while (numspechit--)
         {
             // see if the line was crossed
-            line_t      *ld = spechit[numspechit];
-            int         oldside = P_PointOnLineSide(oldx, oldy, ld);
+            line_t  *ld = spechit[numspechit];
+            int     oldside = P_PointOnLineSide(oldx, oldy, ld);
 
             if (oldside != P_PointOnLineSide(thing->x, thing->y, ld) && ld->special)
                 P_CrossSpecialLine(ld, oldside, thing);
@@ -1001,10 +998,8 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
 static dboolean PIT_ApplyTorque(line_t *ld)
 {
     if (ld->backsector          // If thing touches two-sided pivot linedef
-        && tmbbox[BOXRIGHT] > ld->bbox[BOXLEFT]
-        && tmbbox[BOXLEFT] < ld->bbox[BOXRIGHT]
-        && tmbbox[BOXTOP] > ld->bbox[BOXBOTTOM]
-        && tmbbox[BOXBOTTOM] < ld->bbox[BOXTOP]
+        && tmbbox[BOXRIGHT] > ld->bbox[BOXLEFT] && tmbbox[BOXLEFT] < ld->bbox[BOXRIGHT]
+        && tmbbox[BOXTOP] > ld->bbox[BOXBOTTOM] && tmbbox[BOXBOTTOM] < ld->bbox[BOXTOP]
         && P_BoxOnLineSide(tmbbox, ld) == -1)
     {
         mobj_t  *mo = tmthing;
@@ -1041,7 +1036,7 @@ static dboolean PIT_ApplyTorque(line_t *ld)
             // the same amount of pseudotorque, so that oscillations
             // are prevented, yet it has a chance to reach equilibrium.
             dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE ? y << -(mo->gear - OVERDRIVE) :
-                y >> +(mo->gear - OVERDRIVE))), x);
+                y >> (mo->gear - OVERDRIVE))), x);
 
             // Apply momentum away from the pivot linedef.
             x = FixedMul(ld->dy, dist);
@@ -1062,6 +1057,7 @@ static dboolean PIT_ApplyTorque(line_t *ld)
             mo->momy += y;
         }
     }
+
     return true;
 }
 
@@ -1331,6 +1327,7 @@ void P_SlideMove(mobj_t *mo)
             leadx = x - radius;
             trailx = x + radius;
         }
+
         if (mo->momy > 0)
         {
             leady = y + radius;
@@ -1344,12 +1341,9 @@ void P_SlideMove(mobj_t *mo)
 
         bestslidefrac = FRACUNIT + 1;
 
-        P_PathTraverse(leadx, leady, leadx + mo->momx, leady + mo->momy,
-            PT_ADDLINES, PTR_SlideTraverse);
-        P_PathTraverse(trailx, leady, trailx + mo->momx, leady + mo->momy,
-            PT_ADDLINES, PTR_SlideTraverse);
-        P_PathTraverse(leadx, traily, leadx + mo->momx, traily + mo->momy,
-            PT_ADDLINES, PTR_SlideTraverse);
+        P_PathTraverse(leadx, leady, leadx + mo->momx, leady + mo->momy, PT_ADDLINES, PTR_SlideTraverse);
+        P_PathTraverse(trailx, leady, trailx + mo->momx, leady + mo->momy, PT_ADDLINES, PTR_SlideTraverse);
+        P_PathTraverse(leadx, traily, leadx + mo->momx, traily + mo->momy, PT_ADDLINES, PTR_SlideTraverse);
 
         // move up to the wall
         if (bestslidefrac == FRACUNIT + 1)
@@ -1510,7 +1504,7 @@ dboolean PTR_AimTraverse(intercept_t *in)
     return false;                       // don't go any farther
 }
 
-dboolean        hitwall;
+dboolean    hitwall;
 
 //
 // PTR_ShootTraverse
@@ -1813,6 +1807,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
     // Boss spider and cyborg
     // take no damage from concussion.
     type = thing->type;
+
     if (type == MT_CYBORG || type == MT_SPIDER)
         return true;
 
@@ -1954,8 +1949,8 @@ void PIT_ChangeSector(mobj_t *thing)
 
             thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored)
-                thing->flags2 |= (rand() & 1) * MF2_MIRRORED;
+            if (r_corpses_mirrored && (rand() & 1))
+                thing->flags2 |= MF2_MIRRORED;
 
             thing->height = 0;
             thing->radius = 0;
@@ -2030,8 +2025,10 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
                 mobj_t  *mobj;
 
                 n->visited = true;                                  // mark thing as processed
+
                 if ((mobj = n->m_thing) && !(mobj->flags & MF_NOBLOCKMAP))
                     PIT_ChangeSector(mobj);                         // process it
+
                 break;                                              // exit and start over
             }
     }
@@ -2173,10 +2170,8 @@ void P_DelSeclist(msecnode_t *node)
 // blocking lines.
 static dboolean PIT_GetSectors(line_t *ld)
 {
-    if (tmbbox[BOXRIGHT] <= ld->bbox[BOXLEFT]
-        || tmbbox[BOXLEFT] >= ld->bbox[BOXRIGHT]
-        || tmbbox[BOXTOP] <= ld->bbox[BOXBOTTOM]
-        || tmbbox[BOXBOTTOM] >= ld->bbox[BOXTOP])
+    if (tmbbox[BOXRIGHT] <= ld->bbox[BOXLEFT] || tmbbox[BOXLEFT] >= ld->bbox[BOXRIGHT]
+        || tmbbox[BOXTOP] <= ld->bbox[BOXBOTTOM] || tmbbox[BOXBOTTOM] >= ld->bbox[BOXTOP])
         return true;
 
     if (P_BoxOnLineSide(tmbbox, ld) != -1)
@@ -2215,8 +2210,7 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     int         xh;
     int         yl;
     int         yh;
-    int         bx;
-    int         by;
+    int         bx, by;
     msecnode_t  *node = sector_list;
     mobj_t      *saved_tmthing = tmthing;
     fixed_t     saved_tmx = tmx;

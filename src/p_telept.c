@@ -65,15 +65,14 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
         for (thinker = thinkerclasscap[th_mobj].cnext; thinker != &thinkerclasscap[th_mobj];
             thinker = thinker->cnext)
         {
-            mobj_t      *m;
+            mobj_t  *m;
 
-            if ((m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
-                && m->subsector->sector - sectors == i)
+            if ((m = (mobj_t *)thinker)->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
             {
-                fixed_t         oldx = thing->x;
-                fixed_t         oldy = thing->y;
-                fixed_t         oldz = thing->z;
-                player_t        *player = thing->player;
+                fixed_t     oldx = thing->x;
+                fixed_t     oldy = thing->y;
+                fixed_t     oldz = thing->z;
+                player_t    *player = thing->player;
 
                 // killough 5/12/98: exclude voodoo dolls:
                 if (player && player->mo != thing)
@@ -81,9 +80,9 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                 if (P_TeleportMove(thing, m->x, m->y, m->z, false))     // killough 8/9/98
                 {
-                    mobj_t      *fog;
-                    fixed_t     newx = m->x;
-                    fixed_t     newy = m->y;
+                    mobj_t  *fog;
+                    fixed_t newx = m->x;
+                    fixed_t newy = m->y;
 
                     // spawn teleport fog at source
                     fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
@@ -92,6 +91,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     // spawn teleport fog at destination
                     thing->z = thing->floorz;
+
                     if (player)
                     {
                         unsigned int    an = m->angle >> ANGLETOFINESHIFT;
@@ -100,6 +100,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                         newy += 20 * finesine[an];
                         player->viewz = thing->z + player->viewheight;
                     }
+
                     fog = P_SpawnMobj(newx, newy, thing->z, MT_TFOG);
                     fog->angle = m->angle;
                     S_StartSound(fog, sfx_telept);
@@ -159,28 +160,27 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
         for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
-            if ((m = (mobj_t *)th)->type == MT_TELEPORTMAN
-                && m->subsector->sector - sectors == i)
+            if ((m = (mobj_t *)th)->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
             {
                 // Height of thing above ground, in case of mid-air teleports:
-                fixed_t         z = thing->z - thing->floorz;
+                fixed_t     z = thing->z - thing->floorz;
 
                 // Get the angle between the exit thing and source linedef.
                 // Rotate 90 degrees, so that walking perpendicularly across
                 // teleporter linedef causes thing to exit in the direction
                 // indicated by the exit thing.
-                angle_t         angle = R_PointToAngle2(0, 0, line->dx, line->dy) - m->angle + ANG90;
+                angle_t     angle = R_PointToAngle2(0, 0, line->dx, line->dy) - m->angle + ANG90;
 
                 // Sine, cosine of angle adjustment
-                fixed_t         s = finesine[angle >> ANGLETOFINESHIFT];
-                fixed_t         c = finecosine[angle >> ANGLETOFINESHIFT];
+                fixed_t     s = finesine[angle >> ANGLETOFINESHIFT];
+                fixed_t     c = finecosine[angle >> ANGLETOFINESHIFT];
 
                 // Momentum of thing crossing teleporter linedef
-                fixed_t         momx = thing->momx;
-                fixed_t         momy = thing->momy;
+                fixed_t     momx = thing->momx;
+                fixed_t     momy = thing->momy;
 
                 // Whether this is a player, and if so, a pointer to its player_t
-                player_t        *player = thing->player;
+                player_t    *player = thing->player;
 
                 // Attempt to teleport, aborting if blocked
                 if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 8/9/98
@@ -201,7 +201,7 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
                 if (player && player->mo == thing)
                 {
                     // Save the current deltaviewheight, used in stepping
-                    fixed_t     deltaviewheight = player->deltaviewheight;
+                    fixed_t deltaviewheight = player->deltaviewheight;
 
                     // Clear deltaviewheight, since we don't want any changes
                     player->deltaviewheight = 0;
@@ -212,8 +212,10 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
                     // Reset the delta to have the same dynamics as before
                     player->deltaviewheight = deltaviewheight;
                 }
+
                 return true;
             }
+
     return false;
 }
 
@@ -229,8 +231,8 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 
 dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse)
 {
-    int         i;
-    line_t      *l;
+    int     i;
+    line_t  *l;
 
     if (side || (thing->flags & MF_MISSILE))
         return false;
@@ -239,15 +241,14 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
         if ((l = lines + i) != line && l->backsector)
         {
             // Get the thing's position along the source linedef
-            fixed_t     pos = ABS(line->dx) > ABS(line->dy) ?
-                FixedDiv(thing->x - line->v1->x, line->dx) :
-                FixedDiv(thing->y - line->v1->y, line->dy);
+            fixed_t     pos = ABS(line->dx) > ABS(line->dy) ? FixedDiv(thing->x - line->v1->x, line->dx) :
+                            FixedDiv(thing->y - line->v1->y, line->dy);
 
             // Get the angle between the two linedefs, for rotating
             // orientation and momentum. Rotate 180 degrees, and flip
             // the position across the exit linedef, if reversed.
-            angle_t     angle = (reverse ? (pos = FRACUNIT - pos), 0 : ANG180)
-                + R_PointToAngle2(0, 0, l->dx, l->dy) - R_PointToAngle2(0, 0, line->dx, line->dy);
+            angle_t     angle = (reverse ? (pos = FRACUNIT - pos), 0 : ANG180) + R_PointToAngle2(0, 0, l->dx,
+                            l->dy) - R_PointToAngle2(0, 0, line->dx, line->dy);
 
             // Interpolate position across the exit linedef
             fixed_t     x = l->v2->x - FixedMul(pos, l->dx);
@@ -269,7 +270,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
             dboolean    stepdown = (l->frontsector->floorheight < l->backsector->floorheight);
 
             // Height of thing above ground
-            fixed_t z = thing->z - thing->floorz;
+            fixed_t     z = thing->z - thing->floorz;
 
             // Side to exit the linedef on positionally.
             //
@@ -292,7 +293,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
             //
             // Exiting on side 1 slightly improves player viewing
             // when going down a step on a non-reversed teleporter.
-            int side = (reverse || (player && stepdown));
+            int         side = (reverse || (player && stepdown));
 
             // Make sure we are on correct side of exit linedef.
             while (P_PointOnLineSide(x, y, l) != side && --fudge >= 0)
@@ -339,5 +340,6 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
             return true;
         }
+
     return false;
 }

@@ -72,9 +72,9 @@ char *P_TempSaveGameFile(void)
 // Get the filename of the save game file to use for the specified slot.
 char *P_SaveGameFile(int slot)
 {
-    static char         *filename;
-    static size_t       filename_size;
-    char                basename[32];
+    static char     *filename;
+    static size_t   filename_size;
+    char            basename[32];
 
     if (!filename)
     {
@@ -91,7 +91,7 @@ char *P_SaveGameFile(int slot)
 // Endian-safe integer read/write functions
 static byte saveg_read8(void)
 {
-    byte        result = -1;
+    byte    result = -1;
 
     fread(&result, 1, 1, save_stream);
 
@@ -142,9 +142,9 @@ static void saveg_write32(int value)
 // Pad to 4-byte boundaries
 static void saveg_read_pad(void)
 {
-    unsigned long       pos = ftell(save_stream);
-    int                 padding = (4 - (pos & 3)) & 3;
-    int                 i;
+    unsigned long   pos = ftell(save_stream);
+    int             padding = (4 - (pos & 3)) & 3;
+    int             i;
 
     for (i = 0; i < padding; i++)
         saveg_read8();
@@ -152,9 +152,9 @@ static void saveg_read_pad(void)
 
 static void saveg_write_pad(void)
 {
-    unsigned long       pos = ftell(save_stream);
-    int                 padding = (4 - (pos & 3)) & 3;
-    int                 i;
+    unsigned long   pos = ftell(save_stream);
+    int             padding = (4 - (pos & 3)) & 3;
+    int             i;
 
     for (i = 0; i < padding; i++)
         saveg_write8(0);
@@ -172,8 +172,8 @@ static void saveg_writep(void *p)
 }
 
 // Enum values are 32-bit integers.
-#define saveg_read_enum         saveg_read32
-#define saveg_write_enum        saveg_write32
+#define saveg_read_enum     saveg_read32
+#define saveg_write_enum    saveg_write32
 
 //
 // Structure read/write functions
@@ -868,8 +868,8 @@ static void saveg_write_button_t(button_t *str)
 //
 void P_WriteSaveGameHeader(char *description)
 {
-    char        name[VERSIONSIZE];
-    int         i;
+    char    name[VERSIONSIZE];
+    int     i;
 
     for (i = 0; description[i] != '\0'; i++)
         saveg_write8(description[i]);
@@ -897,10 +897,10 @@ void P_WriteSaveGameHeader(char *description)
 //
 dboolean P_ReadSaveGameHeader(char *description)
 {
-    int         i;
-    byte        a, b, c;
-    char        vcheck[VERSIONSIZE];
-    char        read_vcheck[VERSIONSIZE];
+    int     i;
+    byte    a, b, c;
+    char    vcheck[VERSIONSIZE];
+    char    read_vcheck[VERSIONSIZE];
 
     for (i = 0; i < SAVESTRINGSIZE; i++)
         description[i] = saveg_read8();
@@ -1004,6 +1004,7 @@ void P_ArchiveWorld(void)
         saveg_write16(li->flags);
         saveg_write16(li->special);
         saveg_write16(li->tag);
+
         for (j = 0; j < 2; j++)
         {
             if (li->sidenum[j] == NO_INDEX)
@@ -1054,6 +1055,7 @@ void P_UnArchiveWorld(void)
         li->flags = saveg_read16();
         li->special = saveg_read16();
         li->tag = saveg_read16();
+
         for (j = 0; j < 2; j++)
         {
             if (li->sidenum[j] == NO_INDEX)
@@ -1185,6 +1187,7 @@ void P_UnArchiveThinkers(void)
 
                 mobj->thinker.function = P_MobjThinker;
                 mobj->colfunc = mobj->info->colfunc;
+
                 if (r_textures)
                     mobj->shadowcolfunc = (r_shadows_translucency ? ((mobj->flags & MF_FUZZ) ?
                         R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
@@ -1209,6 +1212,7 @@ void P_UnArchiveThinkers(void)
                     splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
                     r_bloodsplats_total++;
                 }
+
                 break;
             }
 
@@ -1230,6 +1234,7 @@ uint32_t P_ThinkerToIndex(thinker_t *thinker)
     for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         i++;
+
         if (th == thinker)
             return i;
     }
@@ -1258,7 +1263,7 @@ void P_RestoreTargets(void)
 
     for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
-        mobj_t      *mo = (mobj_t *)th;
+        mobj_t  *mo = (mobj_t *)th;
 
         P_SetNewTarget(&mo->target, (mobj_t *)P_IndexToThinker((uintptr_t)mo->target));
         P_SetNewTarget(&mo->tracer, (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer));
@@ -1280,10 +1285,10 @@ void P_ArchiveSpecials(void)
     {
         if (!th->function)
         {
-            dboolean            done_one = false;
+            dboolean        done_one = false;
 
-            ceilinglist_t       *ceilinglist;
-            platlist_t          *platlist;
+            ceilinglist_t   *ceilinglist;
+            platlist_t      *platlist;
 
             for (ceilinglist = activeceilings; ceilinglist; ceilinglist = ceilinglist->next)
                 if (ceilinglist->ceiling == (ceiling_t *)th)
@@ -1426,23 +1431,10 @@ void P_StartButton(line_t *line, bwhere_e w, int texture, int time);
 //
 void P_UnArchiveSpecials(void)
 {
-    ceiling_t           *ceiling;
-    vldoor_t            *door;
-    floormove_t         *floor;
-    plat_t              *plat;
-    lightflash_t        *flash;
-    strobe_t            *strobe;
-    glow_t              *glow;
-    fireflicker_t       *fireflicker;
-    elevator_t          *elevator;
-    scroll_t            *scroll;
-    pusher_t            *pusher;
-    button_t            *button;
-
     // read in saved thinkers
     while (1)
     {
-        byte            tclass = saveg_read8();
+        byte    tclass = saveg_read8();
 
         switch (tclass)
         {
@@ -1450,106 +1442,154 @@ void P_UnArchiveSpecials(void)
                 return;          // end of list
 
             case tc_ceiling:
+            {
+                ceiling_t   *ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVEL, NULL);
                 saveg_read_ceiling_t(ceiling);
                 ceiling->sector->ceilingdata = ceiling;
                 ceiling->thinker.function = T_MoveCeiling;
                 P_AddThinker(&ceiling->thinker);
                 P_AddActiveCeiling(ceiling);
+                Z_Free(ceiling);
                 break;
+            }
 
             case tc_door:
+            {
+                vldoor_t    *door = Z_Malloc(sizeof(*door), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                door = Z_Malloc(sizeof(*door), PU_LEVEL, NULL);
                 saveg_read_vldoor_t(door);
                 door->sector->ceilingdata = door;
                 door->thinker.function = T_VerticalDoor;
                 P_AddThinker(&door->thinker);
+                Z_Free(door);
                 break;
+            }
 
             case tc_floor:
+            {
+                floormove_t *floor = Z_Malloc(sizeof(*floor), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                floor = Z_Malloc(sizeof(*floor), PU_LEVEL, NULL);
                 saveg_read_floormove_t(floor);
                 floor->sector->floordata = floor;
                 floor->thinker.function = T_MoveFloor;
                 P_AddThinker(&floor->thinker);
+                Z_Free(floor);
                 break;
+            }
 
             case tc_plat:
+            {
+                plat_t  *plat = Z_Malloc(sizeof(*plat), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                plat = Z_Malloc(sizeof(*plat), PU_LEVEL, NULL);
                 saveg_read_plat_t(plat);
                 plat->sector->floordata = plat;
                 P_AddThinker(&plat->thinker);
                 P_AddActivePlat(plat);
+                Z_Free(plat);
                 break;
+            }
 
             case tc_flash:
+            {
+                lightflash_t    *flash = Z_Malloc(sizeof(*flash), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                flash = Z_Malloc(sizeof(*flash), PU_LEVEL, NULL);
                 saveg_read_lightflash_t(flash);
                 flash->thinker.function = T_LightFlash;
                 P_AddThinker(&flash->thinker);
+                Z_Free(flash);
                 break;
+            }
 
             case tc_strobe:
+            {
+                strobe_t    *strobe = Z_Malloc(sizeof(*strobe), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                strobe = Z_Malloc(sizeof(*strobe), PU_LEVEL, NULL);
                 saveg_read_strobe_t(strobe);
                 strobe->thinker.function = T_StrobeFlash;
                 P_AddThinker(&strobe->thinker);
+                Z_Free(strobe);
                 break;
+            }
 
             case tc_glow:
+            {
+                glow_t  *glow = Z_Malloc(sizeof(*glow), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                glow = Z_Malloc(sizeof(*glow), PU_LEVEL, NULL);
                 saveg_read_glow_t(glow);
                 glow->thinker.function = T_Glow;
                 P_AddThinker(&glow->thinker);
+                Z_Free(glow);
                 break;
+            }
 
             case tc_fireflicker:
+            {
+                fireflicker_t   *fireflicker = Z_Malloc(sizeof(*fireflicker), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                fireflicker = Z_Malloc(sizeof(*fireflicker), PU_LEVEL, NULL);
                 saveg_read_fireflicker_t(fireflicker);
                 fireflicker->thinker.function = T_FireFlicker;
                 P_AddThinker(&fireflicker->thinker);
+                Z_Free(fireflicker);
                 break;
+            }
 
             case tc_elevator:
+            {
+                elevator_t  *elevator = Z_Malloc(sizeof(*elevator), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                elevator = Z_Malloc(sizeof(*elevator), PU_LEVEL, NULL);
                 saveg_read_elevator_t(elevator);
                 elevator->sector->ceilingdata = elevator;
                 elevator->thinker.function = T_MoveElevator;
                 P_AddThinker(&elevator->thinker);
+                Z_Free(elevator);
                 break;
+            }
 
             case tc_scroll:
+            {
+                scroll_t    *scroll = Z_Malloc(sizeof(*scroll), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                scroll = Z_Malloc(sizeof(*scroll), PU_LEVEL, NULL);
                 saveg_read_scroll_t(scroll);
                 scroll->thinker.function = T_Scroll;
                 P_AddThinker(&scroll->thinker);
+                Z_Free(scroll);
                 break;
+            }
 
             case tc_pusher:
+            {
+                pusher_t    *pusher = Z_Malloc(sizeof(*pusher), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                pusher = Z_Malloc(sizeof(*pusher), PU_LEVEL, NULL);
                 saveg_read_pusher_t(pusher);
                 pusher->thinker.function = T_Pusher;
                 pusher->source = P_GetPushThing(pusher->affectee);
                 P_AddThinker(&pusher->thinker);
+                Z_Free(pusher);
                 break;
+            }
 
             case tc_button:
+            {
+                button_t    *button = Z_Malloc(sizeof(*button), PU_LEVEL, NULL);
+
                 saveg_read_pad();
-                button = Z_Malloc(sizeof(*button), PU_LEVEL, NULL);
                 saveg_read_button_t(button);
                 P_StartButton(button->line, button->where, button->btexture, button->btimer);
+                Z_Free(button);
                 break;
+            }
 
             default:
                 I_Error("P_UnarchiveSpecials: unknown tclass %i in savegame", tclass);
@@ -1562,31 +1602,25 @@ void P_UnArchiveSpecials(void)
 //
 void P_ArchiveMap(void)
 {
+    int i;
+
     saveg_write32(automapactive);
     saveg_write32(markpointnum);
     saveg_write32(pathpointnum);
 
     if (markpointnum)
-    {
-        int     i;
-
         for (i = 0; i < markpointnum; i++)
         {
             saveg_write32(markpoints[i].x);
             saveg_write32(markpoints[i].y);
         }
-    }
 
     if (pathpointnum)
-    {
-        int     i;
-
         for (i = 0; i < pathpointnum; i++)
         {
             saveg_write32(pathpoints[i].x);
             saveg_write32(pathpoints[i].y);
         }
-    }
 }
 
 //
@@ -1594,6 +1628,8 @@ void P_ArchiveMap(void)
 //
 void P_UnArchiveMap(void)
 {
+    int i;
+
     automapactive = saveg_read32();
     markpointnum = saveg_read32();
     pathpointnum = saveg_read32();
@@ -1603,8 +1639,6 @@ void P_UnArchiveMap(void)
 
     if (markpointnum)
     {
-        int     i;
-
         while (markpointnum >= markpointnum_max)
         {
             markpointnum_max = (markpointnum_max ? markpointnum_max << 1 : 16);
@@ -1620,8 +1654,6 @@ void P_UnArchiveMap(void)
 
     if (pathpointnum)
     {
-        int     i;
-
         while (pathpointnum >= pathpointnum_max)
         {
             pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);

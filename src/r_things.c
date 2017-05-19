@@ -46,9 +46,9 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAX_SPRITE_FRAMES       29
-#define MINZ                    (FRACUNIT * 4)
-#define BASEYCENTER             (ORIGINALHEIGHT / 2)
+#define MAX_SPRITE_FRAMES   29
+#define MINZ                (FRACUNIT * 4)
+#define BASEYCENTER         (ORIGINALHEIGHT / 2)
 
 //
 // Sprite rotation 0 is facing the viewer,
