@@ -350,6 +350,8 @@ void P_ResurrectPlayer(player_t *player, int health)
     player->playerstate = PST_LIVE;
     player->viewheight = VIEWHEIGHT;
     player->health = health;
+    player->lookdir = 0;
+    player->oldlookdir = 0;
     infight = false;
     P_SetupPsprites(player);
     P_MapEnd();
