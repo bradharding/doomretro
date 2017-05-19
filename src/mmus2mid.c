@@ -135,7 +135,7 @@ static UBYTE trackhdr[] = { 'M', 'T', 'r', 'k' };                               
 static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte);
 static int TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value);
 static ULONG ReadTime(UBYTE **musptrp);
-static char FirstChannelAvailable(char MUS2MIDchannel[]);
+static char FirstChannelAvailable(signed char MUS2MIDchannel[]);
 static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE MIDItrack);
 
 //
@@ -249,7 +249,7 @@ static ULONG ReadTime(UBYTE **musptrp)
 // Returns the maximum channel number unassigned unless that is 9 in which
 // case 10 is returned.
 //
-static char FirstChannelAvailable(char MUS2MIDchannel[])
+static char FirstChannelAvailable(signed char MUS2MIDchannel[])
 {
     int     i;
     char    max = -1;
