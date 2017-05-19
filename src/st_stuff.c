@@ -1337,7 +1337,7 @@ static void ST_doPaletteStuff(void)
         && plyr->health > 0 && r_berserkintensity)
     {
         if (plyr->bonuscount)
-            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
+            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS);
         else
             palette = MIN((count >> 3) + r_berserkintensity, NUMREDPALS);
     }
@@ -1346,7 +1346,7 @@ static void ST_doPaletteStuff(void)
     else if (plyr->health > 0)
     {
         if (plyr->bonuscount)
-            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
+            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS);
         else if (plyr->powers[pw_ironfeet] > STARTFLASHING || (plyr->powers[pw_ironfeet] & 8))
             palette = RADIATIONPAL;
     }
