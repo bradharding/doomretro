@@ -536,7 +536,7 @@ void D_SetSaveGameFolder(void)
 
     M_MakeDirectory(savegamefolder);
 
-    savegamefolder = M_StringJoin(savegamefolder, (pwadfile ? pwadfile : iwad_name), NULL);
+    savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
     C_Output("Savegames will be saved and loaded in <b>%s</b>.", savegamefolder);
