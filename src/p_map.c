@@ -1953,6 +1953,10 @@ void PIT_ChangeSector(mobj_t *thing)
             P_SetMobjState(thing, S_GIBS);
 
             thing->flags &= ~MF_SOLID;
+
+            if (r_corpses_mirrored)
+                thing->flags2 |= (rand() & 1) * MF2_MIRRORED;
+
             thing->height = 0;
             thing->radius = 0;
 
