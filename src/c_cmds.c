@@ -4487,6 +4487,7 @@ static void m_look_cvar_func2(char *cmd, char *parms)
     if (m_look != m_look_old && gamestate == GS_LEVEL)
     {
         R_InitSkyMap();
+        R_InitColumnFunctions();
 
         if (!m_look)
         {
