@@ -1777,7 +1777,8 @@ static void D_DoomMainSetup(void)
                 else if (!choseniwad)
                     PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
-            } while (!choseniwad);
+            }
+            while (!choseniwad);
 #endif
 
             stat_runs = SafeAdd(stat_runs, 1);

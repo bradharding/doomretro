@@ -1557,7 +1557,8 @@ static void P_CreateBlockMap(void)
             maxy = j;
 
         vertex++;
-    } while (--i);
+    }
+    while (--i);
 
     // Save blockmap parameters
     bmaporgx = minx << FRACBITS;

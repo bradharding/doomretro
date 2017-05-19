@@ -132,7 +132,8 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 
         if (cycle_counter++ > MOBJ_CYCLE_LIMIT)
             I_Error("P_SetMobjState: Infinite state cycle detected!");
-    } while (!mobj->tics);
+    }
+    while (!mobj->tics);
 
     return true;
 }
@@ -295,7 +296,8 @@ void P_XYMovement(mobj_t *mo)
                 mo->momy = 0;
             }
         }
-    } while (xmove || ymove);
+    }
+    while (xmove || ymove);
 
     if (flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever

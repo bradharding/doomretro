@@ -240,7 +240,8 @@ static void R_InitSpriteDefs(void)
                         R_InstallSpriteLump(lump, j + firstspritelump, lump->name[6] - 'A', lump->name[7],
                             true);
                 }
-            } while ((j = hash[j].next) >= 0);
+            }
+            while ((j = hash[j].next) >= 0);
 
             // check the frames that were found for completeness
             if ((sprites[i].numframes = ++maxframe))  // killough 1/31/98

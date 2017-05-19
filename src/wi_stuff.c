@@ -62,18 +62,18 @@
 // This is supposedly ignored for commercial
 //  release (aka DOOM II), which had 34 maps
 //  in one episode. So there.
-#define NUMEPISODES             4
-#define NUMMAPS                 9
+#define NUMEPISODES 4
+#define NUMMAPS     9
 
 // GLOBAL LOCATIONS
-#define WI_TITLEY               2
+#define WI_TITLEY   2
 
 // SINGLE-PLAYER STUFF
-#define SP_STATSX               50
-#define SP_STATSY               50
+#define SP_STATSX   50
+#define SP_STATSY   50
 
-#define SP_TIMEX                16
-#define SP_TIMEY                (ORIGINALHEIGHT - 32)
+#define SP_TIMEX    16
+#define SP_TIMEY    (ORIGINALHEIGHT - 32)
 
 typedef enum
 {
@@ -84,8 +84,8 @@ typedef enum
 
 typedef struct
 {
-    int                 x;
-    int                 y;
+    int x;
+    int y;
 } point_t;
 
 //
@@ -94,43 +94,43 @@ typedef struct
 //
 typedef struct
 {
-    animenum_t          type;
+    animenum_t  type;
 
     // period in tics between animations
-    int                 period;
+    int         period;
 
     // number of animation frames
-    int                 nanims;
+    int         nanims;
 
     // location of animation
-    point_t             loc;
+    point_t     loc;
 
     // ALWAYS: n/a,
     // RANDOM: period deviation (<256),
     // LEVEL: level
-    int                 data1;
+    int         data1;
 
     // ALWAYS: n/a,
     // RANDOM: random base period,
     // LEVEL: n/a
-    int                 data2;
+    int         data2;
 
     // actual graphics for frames of animations
-    patch_t             *p[3];
+    patch_t     *p[3];
 
     // following must be initialized to zero before use!
 
     // next value of bcnt (used in conjunction with period)
-    int                 nexttic;
+    int         nexttic;
 
     // last drawn animation frame
-    int                 lastdrawn;
+    int         lastdrawn;
 
     // next frame number to animate
-    int                 ctr;
+    int         ctr;
 
     // used by RANDOM and LEVEL when animating
-    int                 state;
+    int         state;
 } anim_t;
 
 static point_t lnodes[NUMEPISODES][NUMMAPS] =
@@ -180,9 +180,8 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
 // Using patches saves a lot of space,
 //  as they replace 320x200 full screen frames.
 //
-#define ANIM(type, period, nanims, x, y, nexttic)                  \
-            { (type), (period), (nanims), { (x), (y) }, (nexttic), \
-              0, { NULL, NULL, NULL }, 0, 0, 0, 0 }
+#define ANIM(type, period, nanims, x, y, nexttic) \
+            { (type), (period), (nanims), { (x), (y) }, (nexttic), 0, { NULL, NULL, NULL }, 0, 0, 0, 0 }
 
 static anim_t epsd0animinfo[] =
 {
@@ -242,10 +241,10 @@ static anim_t *anims[NUMEPISODES] =
 //
 // Locally used stuff.
 //
-#define FB                      0
+#define FB                  0
 
 // in seconds
-#define SHOWNEXTLOCDELAY        4
+#define SHOWNEXTLOCDELAY    4
 
 // used to accelerate or skip a stage
 int                     acceleratestage;
@@ -369,15 +368,16 @@ static void WI_drawWILV(int y, char *str)
 
     for (i = 0; (unsigned int)i < strlen(str); i++)
     {
-        int     j = chartoi[(int)str[i]];
+        int j = chartoi[(int)str[i]];
 
         w += (j == -1 ? 6 : (strlen(wilv[j]) / 13 - 2));
     }
+
     x = (ORIGINALWIDTH - w - 1) / 2;
 
     for (i = 0; (unsigned int)i < strlen(str); i++)
     {
-        int     j = chartoi[(int)str[i]];
+        int j = chartoi[(int)str[i]];
 
         if (str[i] == '\'' && (!i || (i > 0 && str[i - 1] == ' ')))
             j = 41;
@@ -415,6 +415,7 @@ static void WI_drawLF(void)
             M_snprintf(name, 9, "CWILV%2.2d", wbs->last);
         else
             M_snprintf(name, 9, "WILV%i%i", wbs->epsd, wbs->last);
+
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
         {
             V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
@@ -447,6 +448,7 @@ static void WI_drawEL(void)
 
     // draw level
     y += SHORT(entering->height) + 2;
+
     if (titlepatch)
     {
         patch_t *patch = W_CacheLumpNum(titlepatch);
@@ -461,6 +463,7 @@ static void WI_drawEL(void)
             M_snprintf(name, 9, "CWILV%2.2d", wbs->next);
         else
             M_snprintf(name, 9, "WILV%i%i", wbs->epsd, wbs->next);
+
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
             V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
                 lnames[wbs->next], false);
@@ -476,24 +479,24 @@ static void WI_drawOnLnode(int n, patch_t *c[])
 
     do
     {
-        int     left = lnodes[wbs->epsd][n].x - SHORT(c[i]->leftoffset);
-        int     top = lnodes[wbs->epsd][n].y - SHORT(c[i]->topoffset);
-        int     right = left + SHORT(c[i]->width);
-        int     bottom = top + SHORT(c[i]->height);
+        int left = lnodes[wbs->epsd][n].x - SHORT(c[i]->leftoffset);
+        int top = lnodes[wbs->epsd][n].y - SHORT(c[i]->topoffset);
+        int right = left + SHORT(c[i]->width);
+        int bottom = top + SHORT(c[i]->height);
 
         if (left >= 0 && right < ORIGINALWIDTH && top >= 0 && bottom < ORIGINALHEIGHT)
             fits = true;
         else
             i++;
-    } while (!fits && i != 2 && c[i]);
+    }
+    while (!fits && i != 2 && c[i]);
 
     if (fits && i < 2)
     {
         if (c[i] == *splat)
             V_DrawTranslucentNoGreenPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, c[i]);
         else if (c[i] == *yah)
-            V_DrawNoGreenPatchWithShadow(lnodes[wbs->epsd][n].x + 1,
-                lnodes[wbs->epsd][n].y + 1, c[i]);
+            V_DrawNoGreenPatchWithShadow(lnodes[wbs->epsd][n].x + 1, lnodes[wbs->epsd][n].y + 1, c[i]);
         else
             V_DrawPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, FB, c[i]);
     }
@@ -547,11 +550,13 @@ static void WI_updateAnimatedBack(void)
                 case ANIM_ALWAYS:
                     if (++a->ctr >= a->nanims)
                         a->ctr = 0;
+
                     a->nexttic = bcnt + a->period;
                     break;
 
                 case ANIM_RANDOM:
                     a->ctr++;
+
                     if (a->ctr == a->nanims)
                     {
                         a->ctr = -1;
@@ -559,6 +564,7 @@ static void WI_updateAnimatedBack(void)
                     }
                     else
                         a->nexttic = bcnt + a->period;
+
                     break;
 
                 case ANIM_LEVEL:
@@ -566,8 +572,10 @@ static void WI_updateAnimatedBack(void)
                     if (!(state == StatCount && i == 7) && wbs->next == a->data1)
                     {
                         a->ctr++;
+
                         if (a->ctr == a->nanims)
                             a->ctr--;
+
                         a->nexttic = bcnt + a->period;
                     }
                     break;
@@ -636,6 +644,7 @@ static int WI_drawNum(int x, int y, int n, int digits)
     }
 
     neg = (n < 0);
+
     if (neg)
         n = -n;
 
@@ -682,7 +691,7 @@ static void WI_drawTime(int x, int y, int t)
 
     if (t <= 61 * 59)
     {
-        int     div = 1;
+        int div = 1;
 
         do
         {
@@ -695,6 +704,7 @@ static void WI_drawTime(int x, int y, int t)
 
         }
         while (t / div);
+
         if (t < 60)
             WI_drawNum(x, y, 0, 2);
     }
@@ -761,8 +771,8 @@ void WI_drawShowNextLoc(void)
 
     if (gamemode != commercial)
     {
-        int     i;
-        int     last;
+        int i;
+        int last;
 
         if (wbs->epsd > 2)
         {
@@ -795,7 +805,7 @@ static void WI_drawNoState(void)
     WI_drawShowNextLoc();
 }
 
-static int      sp_state;
+static int  sp_state;
 
 static void WI_initStats(void)
 {
@@ -812,7 +822,7 @@ static void WI_initStats(void)
 static void WI_updateStats(void)
 {
     // e6y
-    static dboolean     play_early_explosion = true;
+    static dboolean play_early_explosion = true;
 
     WI_updateAnimatedBack();
 
@@ -978,22 +988,25 @@ void WI_checkForAccelerate(void)
 {
     if (!menuactive && !paused && !consoleactive)
     {
-        player_t        *player = &players[0];
-        const Uint8     *keystate = SDL_GetKeyboardState(NULL);
+        player_t    *player = &players[0];
+        const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
         if ((player->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN]
             || keystate[SDL_SCANCODE_KP_ENTER])
         {
             if (!player->attackdown)
                 acceleratestage = 1;
+
             player->attackdown = true;
         }
         else
             player->attackdown = false;
+
         if (player->cmd.buttons & BT_USE)
         {
             if (!player->usedown)
                 acceleratestage = 1;
+
             player->usedown = true;
         }
         else
@@ -1038,9 +1051,9 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 // lumps to be loaded/unloaded into memory.
 static void WI_loadUnloadData(load_callback_t callback)
 {
-    int         i;
-    char        name[9];
-    anim_t      *a;
+    int     i;
+    char    name[9];
+    anim_t  *a;
 
     if (gamemode == commercial)
     {
@@ -1074,6 +1087,7 @@ static void WI_loadUnloadData(load_callback_t callback)
             for (j = 0; j < NUMANIMS[wbs->epsd]; j++)
             {
                 a = &anims[wbs->epsd][j];
+
                 for (i = 0; i < a->nanims; i++)
                 {
                     // MONDO HACK!
@@ -1139,7 +1153,7 @@ static void WI_loadCallback(char *name, patch_t **variable)
 
 static void WI_loadData(void)
 {
-    char        bg_lumpname[9];
+    char    bg_lumpname[9];
 
     if (gamemode == commercial)
     {
@@ -1157,12 +1171,13 @@ static void WI_loadData(void)
     // Background image
     if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))
     {
-        M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ?
-            "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
+        M_StringCopy(bg_lumpname, (DMENUPIC && W_CheckMultipleLumps("INTERPIC") == 1 ? "DMENUPIC" :
+            "INTERPIC"), sizeof(bg_lumpname));
         bg_lumpname[8] = '\0';
     }
     else
         M_snprintf(bg_lumpname, 9, "WIMAP%i", wbs->epsd);
+
     V_DrawPatch(0, 0, 1, W_CacheLumpName(bg_lumpname));
 }
 
@@ -1197,7 +1212,7 @@ void WI_Drawer(void)
 
 void P_MapName(int ep, int map);
 
-extern char     maptitle[128];
+extern char maptitle[128];
 
 static void WI_initVariables(wbstartstruct_t *wbstartstruct)
 {

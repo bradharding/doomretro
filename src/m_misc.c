@@ -77,7 +77,7 @@
 #endif
 
 #if !defined(MAX_PATH)
-#define MAX_PATH        260
+#define MAX_PATH    260
 #endif
 
 //
@@ -95,7 +95,7 @@ void M_MakeDirectory(const char *path)
 // Check if a file exists
 dboolean M_FileExists(const char *filename)
 {
-    FILE        *fstream = fopen(filename, "r");
+    FILE    *fstream = fopen(filename, "r");
 
     if (fstream)
     {
@@ -113,10 +113,10 @@ dboolean M_FileExists(const char *filename)
 //
 long M_FileLength(FILE *handle)
 {
-    long        length;
+    long    length;
 
     // save the current position in the file
-    long        savedpos = ftell(handle);
+    long    savedpos = ftell(handle);
 
     // jump to the end and find the length
     fseek(handle, 0, SEEK_END);
@@ -144,8 +144,8 @@ dboolean M_StringCopy(char *dest, char *src, size_t dest_size)
 
 char *M_ExtractFolder(char *path)
 {
-    char        *pos;
-    char        *folder;
+    char    *pos;
+    char    *folder;
 
     if (!*path)
         return "";
@@ -163,7 +163,7 @@ char *M_ExtractFolder(char *path)
 
 char *M_GetAppDataFolder(void)
 {
-    char        *executableFolder = M_GetExecutableFolder();
+    char    *executableFolder = M_GetExecutableFolder();
 
 #if defined(_WIN32)
 
@@ -195,8 +195,7 @@ char *M_GetAppDataFolder(void)
         NSFileManager   *manager = [NSFileManager defaultManager];
         NSURL           *baseAppSupportURL = [manager URLsForDirectory: NSApplicationSupportDirectory
                             inDomains: NSUserDomainMask].firstObject;
-        NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent:
-                            @PACKAGE_NAME];
+        NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent: @PACKAGE_NAME];
 
         return appSupportURL.fileSystemRepresentation;
 #else
@@ -216,14 +215,14 @@ char *M_GetAppDataFolder(void)
 
 char *M_GetResourceFolder(void)
 {
-    char        *executableFolder = M_GetExecutableFolder();
+    char    *executableFolder = M_GetExecutableFolder();
 
 #if !defined(_WIN32)
     // On Linux and OS X, first assume that the executable is in .../bin and
     // try to load resources from .../share/doomretro.
-    char        *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
-                    DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
-    DIR         *resourceDir = opendir(resourceFolder);
+    char    *resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
+                DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
+    DIR     *resourceDir = opendir(resourceFolder);
 
     if (resourceDir)
     {
@@ -234,7 +233,7 @@ char *M_GetResourceFolder(void)
 #if defined(__MACOSX__)
     // On OSX, load resources from the Contents/Resources folder within the application bundle
     // if ../share/doomretro is not available.
-    NSURL       *resourceURL = [NSBundle mainBundle].resourceURL;
+    NSURL   *resourceURL = [NSBundle mainBundle].resourceURL;
 
     return resourceURL.fileSystemRepresentation;
 #else
@@ -251,9 +250,9 @@ char *M_GetResourceFolder(void)
 char *M_GetExecutableFolder(void)
 {
 #if defined(_WIN32)
-    char        *pos;
-    char        *folder = malloc(MAX_PATH);
-    TCHAR       buffer[MAX_PATH];
+    char    *pos;
+    char    *folder = malloc(MAX_PATH);
+    TCHAR   buffer[MAX_PATH];
 
     if (!folder)
         return NULL;
@@ -262,13 +261,14 @@ char *M_GetExecutableFolder(void)
     M_StringCopy(folder, buffer, MAX_PATH);
 
     pos = strrchr(folder, '\\');
+
     if (pos)
         *pos = '\0';
 
     return folder;
 #elif defined(__linux__)
-    char        *exe = malloc(MAX_PATH);
-    ssize_t     len = readlink("/proc/self/exe", exe, MAX_PATH - 1);
+    char    *exe = malloc(MAX_PATH);
+    ssize_t len = readlink("/proc/self/exe", exe, MAX_PATH - 1);
 
     if (len == -1)
     {
@@ -281,8 +281,8 @@ char *M_GetExecutableFolder(void)
         return dirname(exe);
     }
 #elif defined(__MACOSX__)
-    char        *exe = malloc(MAX_PATH);
-    ssize_t     len = MAX_PATH;
+    char    *exe = malloc(MAX_PATH);
+    ssize_t len = MAX_PATH;
 
     if (!_NSGetExecutablePath(exe, &len))
         return dirname(exe);
@@ -298,8 +298,8 @@ char *M_GetExecutableFolder(void)
 //
 dboolean M_WriteFile(char *name, void *source, int length)
 {
-    FILE        *handle = fopen(name, "wb");
-    int         count;
+    FILE    *handle = fopen(name, "wb");
+    int     count;
 
     if (!handle)
         return false;
@@ -317,15 +317,16 @@ dboolean M_WriteFile(char *name, void *source, int length)
 // concatenated together.
 char *M_StringJoin(char *s, ...)
 {
-    char        *result;
-    char        *v;
-    va_list     args;
-    size_t      result_len = strlen(s) + 1;
+    char    *result;
+    char    *v;
+    va_list args;
+    size_t  result_len = strlen(s) + 1;
 
     va_start(args, s);
     for (;;)
     {
         v = va_arg(args, char *);
+
         if (!v)
             break;
 
@@ -392,10 +393,10 @@ dboolean M_StrToInt(const char *str, unsigned int *result)
 //
 char *M_StrCaseStr(char *haystack, char *needle)
 {
-    unsigned int        haystack_len = strlen(haystack);
-    unsigned int        needle_len = strlen(needle);
-    unsigned int        len;
-    unsigned int        i;
+    unsigned int    haystack_len = strlen(haystack);
+    unsigned int    needle_len = strlen(needle);
+    unsigned int    len;
+    unsigned int    i;
 
     if (haystack_len < needle_len)
         return NULL;
@@ -411,9 +412,9 @@ char *M_StrCaseStr(char *haystack, char *needle)
 
 char *stristr(char *ch1, char *ch2)
 {
-    char        *chN1 = strdup(ch1);
-    char        *chN2 = strdup(ch2);
-    char        *chRet = NULL;
+    char    *chN1 = strdup(ch1);
+    char    *chN2 = strdup(ch2);
+    char    *chRet = NULL;
 
     if (chN1 && chN2)
     {
@@ -424,13 +425,17 @@ char *stristr(char *ch1, char *ch2)
             *chNdx = (char)tolower(*chNdx);
             chNdx++;
         }
+
         chNdx = chN2;
+
         while (*chNdx)
         {
             *chNdx = (char)tolower(*chNdx);
             chNdx++;
         }
+
         chNdx = strstr(chN1, chN2);
+
         if (chNdx)
             chRet = ch1 + (chNdx - chN1);
     }
@@ -476,8 +481,7 @@ dboolean M_StringStartsWith(char *s, char *prefix)
 // Returns true if 's' ends with the specified suffix.
 dboolean M_StringEndsWith(char *s, char *suffix)
 {
-    return (strlen(s) >= strlen(suffix) && M_StringCompare(s + strlen(s) - strlen(suffix),
-        suffix));
+    return (strlen(s) >= strlen(suffix) && M_StringCompare(s + strlen(s) - strlen(suffix), suffix));
 }
 
 // Safe, portable vsnprintf().
@@ -507,8 +511,8 @@ int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
 // Safe, portable snprintf().
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...)
 {
-    va_list     args;
-    int         result;
+    va_list args;
+    int     result;
 
     va_start(args, s);
     result = M_vsnprintf(buf, buf_len, s, args);
@@ -519,8 +523,8 @@ int M_snprintf(char *buf, size_t buf_len, const char *s, ...)
 #if !defined(strndup)
 char *strndup(const char *s, size_t n)
 {
-    size_t      len = strnlen(s, n);
-    char        *new = malloc(len + 1);
+    size_t  len = strnlen(s, n);
+    char    *new = malloc(len + 1);
 
     if (!new)
         return NULL;
@@ -540,10 +544,11 @@ char *M_SubString(const char *str, size_t begin, size_t len)
 
 char *uppercase(const char *str)
 {
-    char        *newstr;
-    char        *p;
+    char    *newstr;
+    char    *p;
 
     p = newstr = strdup(str);
+
     while ((*p = toupper(*p)))
         p++;
 
@@ -552,10 +557,11 @@ char *uppercase(const char *str)
 
 char *lowercase(const char *str)
 {
-    char        *newstr;
-    char        *p;
+    char    *newstr;
+    char    *p;
 
     p = newstr = strdup(str);
+
     while ((*p = tolower(*p)))
         p++;
 
@@ -564,19 +570,20 @@ char *lowercase(const char *str)
 
 char *titlecase(const char *str)
 {
-    char        *newstr = strdup(str);
-    size_t      len = strlen(newstr);
+    char    *newstr = strdup(str);
+    size_t  len = strlen(newstr);
 
     if (len > 0)
     {
         newstr[0] = toupper(newstr[0]);
+
         if (len > 1)
         {
             size_t  i;
 
             for (i = 1; i < len; i++)
-                if ((newstr[i - 1] != '\'' || newstr[i - 2] == ' ')
-                    && !isalnum((unsigned char)newstr[i - 1]) && isalnum((unsigned char)newstr[i]))
+                if ((newstr[i - 1] != '\'' || newstr[i - 2] == ' ') && !isalnum((unsigned char)newstr[i - 1])
+                    && isalnum((unsigned char)newstr[i]))
                     newstr[i] = toupper(newstr[i]);
         }
     }
@@ -586,8 +593,8 @@ char *titlecase(const char *str)
 
 char *formatsize(const char *str)
 {
-    char        *newstr = strdup(str);
-    size_t      len = strlen(newstr);
+    char    *newstr = strdup(str);
+    size_t  len = strlen(newstr);
 
     if (len > 1)
     {
@@ -606,19 +613,23 @@ char *formatsize(const char *str)
 
 char *commify(int64_t value)
 {
-    char        result[64];
+    char    result[64];
 
     M_snprintf(result, sizeof(result), "%lli", value);
+
     if (value <= -1000 || value >= 1000)
     {
-        char        *pt;
-        int         n;
+        char    *pt;
+        int     n;
 
         for (pt = result; *pt && *pt != '.'; pt++);
+
         n = result + sizeof(result) - pt;
+
         do
         {
             pt -= 3;
+
             if (pt > result)
             {
                 memmove(pt + 1, pt, n);
@@ -627,14 +638,16 @@ char *commify(int64_t value)
             }
             else
                 break;
-        } while (1);
+        }
+        while (1);
     }
+
     return strdup(result);
 }
 
 char *uncommify(const char *input)
 {
-    char        *p = malloc(strlen(input) + 1);
+    char    *p = malloc(strlen(input) + 1);
 
     if (p)
     {
@@ -645,6 +658,7 @@ char *uncommify(const char *input)
                 *p2++ = *input++;
             else
                 input++;
+
         *p2 = '\0';
     }
 
@@ -669,6 +683,7 @@ dboolean wildcard(char *input, char *pattern)
             for (z = i; input[z] != '\0'; z++)
                 if (wildcard(input + z, pattern + i + 1))
                     return true;
+
             return false;
         }
         else if (pattern[i] != input[i])
@@ -684,7 +699,7 @@ int gcd(int a, int b)
 
 char *removespaces(const char *input)
 {
-    char        *p = malloc(strlen(input) + 1);
+    char    *p = malloc(strlen(input) + 1);
 
     if (p)
     {
@@ -695,6 +710,7 @@ char *removespaces(const char *input)
                 *p2++ = *input++;
             else
                 input++;
+
         *p2 = '\0';
     }
 
@@ -712,6 +728,7 @@ char *trimwhitespace(char *input)
         return input;
 
     end = input + strlen(input) - 1;
+
     while (end > input && isspace((unsigned char)*end))
         end--;
 
@@ -722,10 +739,11 @@ char *trimwhitespace(char *input)
 
 char *removenewlines(const char *str)
 {
-    char        *newstr;
-    char        *p;
+    char    *newstr;
+    char    *p;
 
     p = newstr = strdup(str);
+
     while (*p != '\0')
     {
         if (*p == '\n')
@@ -738,9 +756,9 @@ char *removenewlines(const char *str)
 
 char *makevalidfilename(const char *input)
 {
-    char        *newstr = strdup(input);
-    size_t      len = strlen(newstr);
-    size_t      i;
+    char    *newstr = strdup(input);
+    size_t  len = strlen(newstr);
+    size_t  i;
 
     for (i = 0; i < len; i++)
         if (strchr("\\/:?\"<>|", newstr[i]))
@@ -757,17 +775,19 @@ const char *leafname(const char *path)
     do
     {
         cc = *ptr++;
+
         if (cc == '\\' || cc == '/')
             path = ptr;
-    } while (cc);
+    }
+    while (cc);
 
     return path;
 }
 
 char *removeext(const char *file)
 {
-    char        *newstr = strdup(file);
-    char        *lastdot = strrchr(newstr, '.');
+    char    *newstr = strdup(file);
+    char    *lastdot = strrchr(newstr, '.');
 
     *lastdot = '\0';
 
@@ -781,7 +801,7 @@ dboolean isvowel(const char ch)
 
 char *striptrailingzero(float value, int precision)
 {
-    char        *result = malloc(100);
+    char    *result = malloc(100);
 
     if (result)
     {
@@ -789,6 +809,7 @@ char *striptrailingzero(float value, int precision)
 
         M_snprintf(result, 100, "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
         len = strlen(result);
+
         if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
             result[len - 1] = '\0';
     }
@@ -806,7 +827,7 @@ void strreplace(char *target, const char *needle, const char *replacement)
 
     while (1)
     {
-        const char      *p = strstr(tmp, needle);
+        const char  *p = strstr(tmp, needle);
 
         if (!p)
         {

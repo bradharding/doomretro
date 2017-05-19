@@ -1401,6 +1401,7 @@ void P_ArchiveSpecials(void)
 
     button_ptr = buttonlist;
     i = MAXBUTTONS;
+
     do
     {
         if (button_ptr->btimer != 0)
@@ -1409,8 +1410,10 @@ void P_ArchiveSpecials(void)
             saveg_write_pad();
             saveg_write_button_t(button_ptr);
         }
+
         button_ptr++;
-    } while (--i);
+    }
+    while (--i);
 
     // add a terminating marker
     saveg_write8(tc_endspecials);

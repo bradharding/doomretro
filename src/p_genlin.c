@@ -791,9 +791,12 @@ manual_stair:
                 okay = true;
                 break;
             }
-        } while (okay);
+        }
+        while (okay);
+
         if (manual)
             return rtn;
+
         secnum = osecnum;                       // jff 3/4/98 restore old loop index
     }
     // retriggerable generalized stairs build up or down alternately

@@ -169,7 +169,8 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, size_t len)
         if (!snd && !FindAndFreeSound())
             return NULL;
 
-    } while (!snd);
+    }
+    while (!snd);
 
     // Skip past the chunk structure for the audio buffer
     snd->chunk.abuf = (byte *)(snd + 1);

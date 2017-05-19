@@ -74,12 +74,12 @@ typedef enum
 
 struct tagMUSheader
 {
-    char        ID[4];          // identifier "MUS"0x1A
-    UWORD       ScoreLength;    // length of music portion
-    UWORD       ScoreStart;     // offset of music portion
-    UWORD       channels;       // count of primary channels
-    UWORD       SecChannels;    // count of secondary channels
-    UWORD       InstrCnt;       // number of instruments
+    char    ID[4];          // identifier "MUS"0x1A
+    UWORD   ScoreLength;    // length of music portion
+    UWORD   ScoreStart;     // offset of music portion
+    UWORD   channels;       // count of primary channels
+    UWORD   SecChannels;    // count of secondary channels
+    UWORD   InstrCnt;       // number of instruments
 };
 
 typedef struct tagMUSheader MUSheader;
@@ -91,10 +91,10 @@ typedef struct tagMUSheader MUSheader;
 // to keep track of information in a MIDI track
 typedef struct Track
 {
-    char        velocity;
-    int         deltaT;
-    UBYTE       lastEvt;
-    int         alloced;
+    char    velocity;
+    int     deltaT;
+    UBYTE   lastEvt;
+    int     alloced;
 } TrackInfo;
 
 // array of info about tracks
@@ -106,21 +106,21 @@ static ULONG TRACKBUFFERSIZE = 1024L;
 // lookup table MUS -> MID controls
 static UBYTE MUS2MIDcontrol[15] =
 {
-    0,          // Program change - not a MIDI control change
-    0x00,       // Bank select
-    0x01,       // Modulation pot
-    0x07,       // Volume
-    0x0A,       // Pan pot
-    0x0B,       // Expression pot
-    0x5B,       // Reverb depth
-    0x5D,       // Chorus depth
-    0x40,       // Sustain pedal
-    0x43,       // Soft pedal
-    0x78,       // All sounds off
-    0x7B,       // All notes off
-    0x7E,       // Mono
-    0x7F,       // Poly
-    0x79        // Reset all controllers
+    0,      // Program change - not a MIDI control change
+    0x00,   // Bank select
+    0x01,   // Modulation pot
+    0x07,   // Volume
+    0x0A,   // Pan pot
+    0x0B,   // Expression pot
+    0x5B,   // Reverb depth
+    0x5D,   // Chorus depth
+    0x40,   // Sustain pedal
+    0x43,   // Soft pedal
+    0x78,   // All sounds off
+    0x7B,   // All notes off
+    0x7E,   // Mono
+    0x7F,   // Poly
+    0x79    // Reset all controllers
 };
 
 // some strings of bytes used in the midi format
@@ -232,7 +232,8 @@ static ULONG ReadTime(UBYTE **musptrp)
     {
         byte = *(*musptrp)++;
         timeval = (timeval << 7) + (byte & 0x7F);
-    } while (byte & 0x80);
+    }
+    while (byte & 0x80);
 
     return timeval;
 }
@@ -571,7 +572,8 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
             for (i = 0; i < MIDI_TRACKS; i++)   // jff 3/13/98 update all tracks
                 track[i].deltaT += DeltaTime;   // whether allocated yet or not
         }
-    } while (evt != SCORE_END && (size_t)(musptr - mus) < muslen);
+    }
+    while (evt != SCORE_END && (size_t)(musptr - mus) < muslen);
 
     if (evt != SCORE_END)
         return MUSDATACOR;

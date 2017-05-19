@@ -856,7 +856,8 @@ void R_DrawDitheredColumn(void)
         *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
         dest += SCREENWIDTH << 1;
         frac += fracstep;
-    } while ((count -= 2) > 0);
+    }
+    while ((count -= 2) > 0);
 }
 
 void R_DrawTranslucent33Column(void)

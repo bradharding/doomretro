@@ -618,12 +618,13 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
 //
 static int P_FindSectorFromLineTagWithLowerBound(line_t *l, int start, int min)
 {
-  do
-  {
-      start = P_FindSectorFromLineTag(l, start);
-  } while (start >= 0 && start <= min);
+    do
+    {
+        start = P_FindSectorFromLineTag(l, start);
+    }
+    while (start >= 0 && start <= min);
 
-  return start;
+    return start;
 }
 
 dboolean EV_BuildStairs(line_t *line, stair_e type)
@@ -734,8 +735,10 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                 okay = true;
                 break;
             }
-        } while (okay);
+        }
+        while (okay);
     }
+
     return rtn;
 }
 
