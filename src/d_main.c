@@ -961,7 +961,7 @@ dboolean D_CheckParms(void)
 
             if (BTSXE1A && !BTSXE1B)
             {
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",  M_ExtractFolder(myargv[1]),
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]),
                     "btsx_e1b.wad");
                 return W_MergeFile(fullpath, true);
             }

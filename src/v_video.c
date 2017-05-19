@@ -419,7 +419,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 int italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor,  dboolean italics,
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics,
     byte *tinttab)
 {
     int     col = 0;

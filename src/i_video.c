@@ -1361,11 +1361,11 @@ static void SetVideoMode(dboolean output)
 
     if (vid_fullscreen)
     {
+        char    *acronym;
+        char    *ratio;
+
         if (!screenwidth && !screenheight)
         {
-            char    *acronym;
-            char    *ratio;
-
             width = displays[displayindex].w;
             height = displays[displayindex].h;
             acronym = getacronym(width, height);
@@ -1379,14 +1379,11 @@ static void SetVideoMode(dboolean output)
 
             if (output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (acronym ? " (" : " "), acronym, (acronym ? ")" : ""),
+                    commify(width), commify(height), (*acronym ? " (" : " "), acronym, (acronym ? ")" : ""),
                     ratio);
         }
         else
         {
-            char    *acronym;
-            char    *ratio;
-
             width = screenwidth;
             height = screenheight;
             acronym = getacronym(width, height);
@@ -1399,7 +1396,7 @@ static void SetVideoMode(dboolean output)
 
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (acronym ? " (" : " "), acronym, (acronym ? ")" : ""),
+                    commify(width), commify(height), (*acronym ? " (" : " "), acronym, (acronym ? ")" : ""),
                     ratio);
         }
     }
