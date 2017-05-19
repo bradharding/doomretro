@@ -2316,10 +2316,12 @@ void M_WriteText(int x, int y, char *string, dboolean shadow)
         else
         {
             if (prev == ' ')
+            {
                 if (letter == '\"')
                     c = 64;
                 else if (letter == '\'')
                     c = 65;
+            }
 
             w = strlen(smallcharset[c]) / 10 - 1;
 
