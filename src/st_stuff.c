@@ -1338,7 +1338,7 @@ static void ST_doPaletteStuff(void)
         && plyr->pendingweapon == wp_nochange)) && plyr->health > 0 && r_berserkintensity)
     {
         if (plyr->bonuscount)
-            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS);
+            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
         else
             palette = MIN((count >> 3) + r_berserkintensity, NUMREDPALS);
     }
@@ -1347,7 +1347,7 @@ static void ST_doPaletteStuff(void)
     else if (plyr->health > 0)
     {
         if (plyr->bonuscount)
-            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS);
+            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
         else if (plyr->powers[pw_ironfeet] > STARTFLASHING || (plyr->powers[pw_ironfeet] & 8))
             palette = RADIATIONPAL;
     }
