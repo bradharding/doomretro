@@ -113,10 +113,14 @@ static void R_MapPlane(int y, int x1, int x2)
     {
         int dy = ABS(centery - y);
 
+        distance = FixedMul(planeheight, yslope[y]);
+        ds_xstep = FixedMul(viewsin, planeheight) / dy;
+        ds_ystep = FixedMul(viewcos, planeheight) / dy;
+
         cachedheight[y] = planeheight;
-        distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
-        ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
-        ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
+        cacheddistance[y] = distance;
+        cachedxstep[y] = ds_xstep;
+        cachedystep[y] = ds_ystep;
     }
     else
     {

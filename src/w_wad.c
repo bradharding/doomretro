@@ -53,16 +53,16 @@
 typedef struct
 {
     // Should be "IWAD" or "PWAD".
-    char                identification[4];
-    int                 numlumps;
-    int                 infotableofs;
+    char            identification[4];
+    int             numlumps;
+    int             infotableofs;
 } PACKEDATTR wadinfo_t;
 
 typedef struct
 {
-    int                 filepos;
-    int                 size;
-    char                name[8];
+    int             filepos;
+    int             size;
+    char            name[8];
 } PACKEDATTR filelump_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -70,13 +70,13 @@ typedef struct
 #endif
 
 static struct {
-    void                *cache;
-    unsigned int        locks;
+    void            *cache;
+    unsigned int    locks;
 } *cachelump;
 
 // Location of each lump on disk.
-lumpinfo_t              **lumpinfo;
-int                     numlumps;
+lumpinfo_t          **lumpinfo;
+int                 numlumps;
 
 static dboolean IsFreedoom(const char *iwadname)
 {
@@ -96,8 +96,8 @@ static dboolean IsFreedoom(const char *iwadname)
 
         // Determine game mode from levels present
         // Must be a full set for whichever mode is present
-        for (header.numlumps = LONG(header.numlumps);
-            header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp);
+            header.numlumps--)
         {
             if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' &&
                 n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
@@ -147,8 +147,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     W_Read(wadfile, 0, &header, sizeof(header));
 
     // Homebrew levels?
-    if (strncmp(header.identification, "IWAD", 4)
-        && strncmp(header.identification, "PWAD", 4))
+    if (strncmp(header.identification, "IWAD", 4) && strncmp(header.identification, "PWAD", 4))
         I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
 
     wadfile->type = (!strncmp(header.identification, "IWAD", 4)
@@ -187,8 +186,8 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 
     free(fileinfo);
 
-    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" :
-        "Added"), commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
+    C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"),
+        commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
         (wadfile->type == IWAD ? "IWAD" : "PWAD"), filename);
 
     return wadfile;
@@ -232,8 +231,8 @@ dboolean HasDehackedLump(const char *pwadname)
 
         // Determine game mode from levels present
         // Must be a full set for whichever mode is present
-        for (header.numlumps = LONG(header.numlumps);
-            header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp);
+            header.numlumps--)
         {
             if (*n == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' &&
                 n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
@@ -267,12 +266,14 @@ int IWADRequiredByPWAD(const char *pwadname)
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-    for (header.numlumps = LONG(header.numlumps);
-        header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+    for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp);
+        header.numlumps--)
+    {
         if (*n == 'E' && n[2] == 'M' && !n[4])
             result = doom;
         else if (*n == 'M' && n[1] == 'A' && n[2] == 'P' && !n[5])
             result = doom2;
+    }
 
     fclose(fp);
 
@@ -379,7 +380,7 @@ void W_Init(void)
     for (i = 0; i < numlumps; i++)
     {
         // hash function:
-        int     j = W_LumpNameHash(lumpinfo[i]->name) % (unsigned int)numlumps;
+        int j = W_LumpNameHash(lumpinfo[i]->name) % (unsigned int)numlumps;
 
         lumpinfo[i]->next = lumpinfo[j]->index;       // Prepend to list
         lumpinfo[j]->index = i;
@@ -423,8 +424,8 @@ lumpindex_t W_GetNumForName2(char *name)
 
 lumpindex_t W_GetNumForNameX(char *name, unsigned int count)
 {
-    lumpindex_t         i;
-    unsigned int        j = 0;
+    lumpindex_t     i;
+    unsigned int    j = 0;
 
     for (i = 0; i < numlumps; i++)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))

@@ -40,23 +40,23 @@
 #include "z_zone.h"
 
 // Minimum chunk size at which blocks are allocated
-#define CHUNK_SIZE      32
+#define CHUNK_SIZE  32
 
 typedef struct memblock
 {
-    struct memblock     *next;
-    struct memblock     *prev;
-    size_t              size;
-    void                **user;
-    unsigned char       tag;
+    struct memblock *next;
+    struct memblock *prev;
+    size_t          size;
+    void            **user;
+    unsigned char   tag;
 } memblock_t;
 
 // size of block header
 // cph - base on sizeof(memblock_t), which can be larger than CHUNK_SIZE on
 // 64bit architectures
-static const size_t     HEADER_SIZE = (sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
+static const size_t HEADER_SIZE = (sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
 
-static memblock_t       *blockbytag[PU_MAX];
+static memblock_t   *blockbytag[PU_MAX];
 
 //
 // Z_Malloc
@@ -83,6 +83,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
     {
         if (!blockbytag[PU_CACHE])
             I_Error("Z_Malloc: Failure trying to allocate %lu bytes", (unsigned long)size);
+
         Z_FreeTags(PU_CACHE, PU_CACHE);
     }
 
@@ -104,6 +105,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
     block->tag = tag;                                   // tag
     block->user = user;                                 // user
     block = (memblock_t *)((char *)block + HEADER_SIZE);
+
     if (user)                                           // if there is a user
         *user = block;                                  // set user to point to new block
 
@@ -117,7 +119,7 @@ void *Z_Calloc(size_t n1, size_t n2, int32_t tag, void **user)
 
 void *Z_Realloc(void *ptr, size_t size)
 {
-    void        *newp = realloc(ptr, size);
+    void    *newp = realloc(ptr, size);
 
     if (!newp && size)
         I_Error("Z_Realloc: Failure trying to reallocate %lu bytes", (unsigned long)size);
@@ -138,6 +140,7 @@ void Z_Free(void *ptr)
         blockbytag[block->tag] = NULL;
     else if (blockbytag[block->tag] == block)
         blockbytag[block->tag] = block->next;
+
     block->prev->next = block->next;
     block->next->prev = block->prev;
 
@@ -148,25 +151,29 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
 {
     if (lowtag <= PU_FREE)
         lowtag = PU_FREE + 1;
+
     if (hightag > PU_CACHE)
         hightag = PU_CACHE;
 
     for (; lowtag <= hightag; lowtag++)
     {
-        memblock_t      *block;
-        memblock_t      *end_block;
+        memblock_t  *block = blockbytag[lowtag];
+        memblock_t  *end_block;
 
-        block = blockbytag[lowtag];
         if (!block)
             continue;
+
         end_block = block->prev;
+
         while (1)
         {
             memblock_t  *next = block->next;
 
             Z_Free((char *)block + HEADER_SIZE);
+
             if (block == end_block)
                 break;
+
             block = next;                               // Advance to next block
         }
     }
@@ -189,6 +196,7 @@ void Z_ChangeTag(void *ptr, int32_t tag)
         blockbytag[block->tag] = NULL;
     else if (blockbytag[block->tag] == block)
         blockbytag[block->tag] = block->next;
+
     block->prev->next = block->next;
     block->next->prev = block->prev;
 

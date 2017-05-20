@@ -975,7 +975,7 @@ void I_SetPalette(byte *playpal)
 static void I_RestoreFocus(void)
 {
 #if defined(_WIN32)
-    SDL_SysWMinfo       info;
+    SDL_SysWMinfo   info;
 
     SDL_VERSION(&info.version);
 
@@ -1371,8 +1371,7 @@ static void SetVideoMode(dboolean output)
             acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
-            if (!(window = SDL_CreateWindow(PACKAGE_NAME,
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE))))
                 I_SDLError("SDL_CreateWindow");

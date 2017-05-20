@@ -656,12 +656,10 @@ static void M_CheckCVARs(void)
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = alwaysrun_default;
 
-    if (am_allmapcdwallcolor < am_allmapcdwallcolor_min
-        || am_allmapcdwallcolor > am_allmapcdwallcolor_max)
+    if (am_allmapcdwallcolor < am_allmapcdwallcolor_min || am_allmapcdwallcolor > am_allmapcdwallcolor_max)
         am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 
-    if (am_allmapfdwallcolor < am_allmapfdwallcolor_min
-        || am_allmapfdwallcolor > am_allmapfdwallcolor_max)
+    if (am_allmapfdwallcolor < am_allmapfdwallcolor_min || am_allmapfdwallcolor > am_allmapfdwallcolor_max)
         am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 
     if (am_allmapwallcolor < am_allmapwallcolor_min || am_allmapwallcolor > am_allmapwallcolor_max)

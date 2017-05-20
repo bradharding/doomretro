@@ -108,7 +108,7 @@ static dboolean SetupList(searchlist_t *list, searchlist_t *src_list, char *star
 
     if (startlump >= 0)
     {
-        int     endlump = FindInList(src_list, endname);
+        int endlump = FindInList(src_list, endname);
 
         if (endname2 && endlump < 0)
             endlump = FindInList(src_list, endname2);
@@ -170,8 +170,8 @@ static dboolean ValidSpriteLumpName(char *name)
 // Find a sprite frame
 static sprite_frame_t *FindSpriteFrame(char *name, char frame)
 {
-    sprite_frame_t      *result;
-    int                 i;
+    sprite_frame_t  *result;
+    int             i;
 
     // Search the list and try to find the frame
     for (i = 0; i < num_sprite_frames; i++)
@@ -212,9 +212,9 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
 // Check if sprite lump is needed in the new wad
 static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
 {
-    sprite_frame_t      *sprite;
-    int                 angle_num;
-    int                 i;
+    sprite_frame_t  *sprite;
+    int             angle_num;
+    int             i;
 
     if (!ValidSpriteLumpName(lump->name))
         return true;
@@ -265,11 +265,11 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
 
 static void AddSpriteLump(lumpinfo_t *lump)
 {
-    sprite_frame_t      *sprite;
-    int                 angle_num;
-    int                 i;
-    static int          MISFA0;
-    static int          MISFB0;
+    sprite_frame_t  *sprite;
+    int             angle_num;
+    int             i;
+    static int      MISFA0;
+    static int      MISFB0;
 
     if (!ValidSpriteLumpName(lump->name))
         return;
@@ -370,7 +370,7 @@ static void DoMerge(void)
 
     for (i = 0; i < iwad.numlumps; i++)
     {
-        lumpinfo_t      *lump = iwad.lumps[i];
+        lumpinfo_t  *lump = iwad.lumps[i];
 
         switch (current_section)
         {
@@ -408,6 +408,7 @@ static void DoMerge(void)
                     if (lumpindex < 0)
                         newlumps[num_newlumps++] = lump;
                 }
+
                 break;
 
             case SECTION_SPRITES:
@@ -416,10 +417,8 @@ static void DoMerge(void)
                 {
                     // add all the PWAD sprites
                     for (n = 0; n < pwad_sprites.numlumps; n++)
-                    {
                         if (SpriteLumpNeeded(pwad_sprites.lumps[n]))
                             newlumps[num_newlumps++] = pwad_sprites.lumps[n];
-                    }
 
                     // copy the ending
                     newlumps[num_newlumps++] = lump;
@@ -434,6 +433,7 @@ static void DoMerge(void)
                     if (SpriteLumpNeeded(lump))
                         newlumps[num_newlumps++] = lump;
                 }
+
                 break;
         }
     }
@@ -443,7 +443,7 @@ static void DoMerge(void)
 
     for (i = 0; i < pwad.numlumps; i++)
     {
-        lumpinfo_t      *lump = pwad.lumps[i];
+        lumpinfo_t  *lump = pwad.lumps[i];
 
         switch (current_section)
         {
@@ -453,28 +453,25 @@ static void DoMerge(void)
                 else if (!strncasecmp(lump->name, "S_START", 8) || !strncasecmp(lump->name, "SS_START", 8))
                     current_section = SECTION_SPRITES;
                 else
-                {
                     // Don't include the headers of sections
                     newlumps[num_newlumps++] = lump;
-                }
+
                 break;
 
             case SECTION_FLATS:
                 // PWAD flats are ignored (already merged)
                 if (!strncasecmp(lump->name, "FF_END", 8) || !strncasecmp(lump->name, "F_END", 8))
-                {
                     // end of section
                     current_section = SECTION_NORMAL;
-                }
+
                 break;
 
             case SECTION_SPRITES:
                 // PWAD sprites are ignored (already merged)
                 if (!strncasecmp(lump->name, "SS_END", 8) || !strncasecmp(lump->name, "S_END", 8))
-                {
                     // end of section
                     current_section = SECTION_NORMAL;
-                }
+
                 break;
         }
     }

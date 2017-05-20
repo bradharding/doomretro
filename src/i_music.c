@@ -50,26 +50,26 @@
 #define CHANNELS    2
 #define SAMPLECOUNT 512
 
-static dboolean     music_initialized;
+static dboolean music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
-static dboolean     sdl_was_initialized;
+static dboolean sdl_was_initialized;
 
-static int          current_music_volume;
-static int          paused_midi_volume;
+static int      current_music_volume;
+static int      paused_midi_volume;
 
-musictype_t         musictype;
+musictype_t     musictype;
 
 #if defined(_WIN32)
-static dboolean     haveMidiServer;
-static dboolean     haveMidiClient;
-dboolean            serverMidiPlaying;
+static dboolean haveMidiServer;
+static dboolean haveMidiClient;
+dboolean        serverMidiPlaying;
 #endif
 
-char                *s_timiditycfgpath = s_timiditycfgpath_default;
+char            *s_timiditycfgpath = s_timiditycfgpath_default;
 
-static char         *temp_timidity_cfg;
+static char     *temp_timidity_cfg;
 
 // If the temp_timidity_cfg config variable is set, generate a "wrapper"
 // config file for TiMidity to point to the actual config file. This
@@ -121,8 +121,7 @@ void CheckTimidityConfig(void)
     if (*s_timiditycfgpath)
     {
         if (M_FileExists(s_timiditycfgpath))
-            C_Output("Using <i><b>TiMidity</b></i> configuration file <b>%s</b>.",
-                s_timiditycfgpath);
+            C_Output("Using <i><b>TiMidity</b></i> configuration file <b>%s</b>.", s_timiditycfgpath);
         else
             C_Warning("Can't find <i>TiMidity</i> configuration file %s.", s_timiditycfgpath);
     }
