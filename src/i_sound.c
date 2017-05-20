@@ -53,28 +53,28 @@ typedef struct allocated_sound_s allocated_sound_t;
 
 struct allocated_sound_s
 {
-    sfxinfo_t                   *sfxinfo;
-    Mix_Chunk                   chunk;
-    int                         use_count;
-    int                         pitch;
-    allocated_sound_t           *prev;
-    allocated_sound_t           *next;
+    sfxinfo_t               *sfxinfo;
+    Mix_Chunk               chunk;
+    int                     use_count;
+    int                     pitch;
+    allocated_sound_t       *prev;
+    allocated_sound_t       *next;
 };
 
-static dboolean                 sound_initialized;
+static dboolean             sound_initialized;
 
-static allocated_sound_t        *channels_playing[s_channels_max];
+static allocated_sound_t    *channels_playing[s_channels_max];
 
-static int                      mixer_freq;
-static Uint16                   mixer_format;
-static int                      mixer_channels;
+static int                  mixer_freq;
+static Uint16               mixer_format;
+static int                  mixer_channels;
 
 // Doubly-linked list of allocated sounds.
 // When a sound is played, it is moved to the head, so that the oldest
 // sounds not used recently are at the tail.
-static allocated_sound_t        *allocated_sounds_head;
-static allocated_sound_t        *allocated_sounds_tail;
-static int                      allocated_sounds_size;
+static allocated_sound_t    *allocated_sounds_head;
+static allocated_sound_t    *allocated_sounds_tail;
+static int                  allocated_sounds_size;
 
 // Hook a sound into the linked list at the head.
 static void AllocatedSoundLink(allocated_sound_t *snd)
@@ -219,8 +219,10 @@ static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo,
     {
         if (p->sfxinfo == sfxinfo && p->pitch == pitch)
             return p;
+
         p = p->next;
     }
+
     return NULL;
 }
 
@@ -243,8 +245,10 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
         dstlen++;
 
     outsnd = AllocateSound(insnd->sfxinfo, dstlen);
+
     if (!outsnd)
         return NULL;
+
     outsnd->pitch = pitch;
 
     dstbuf = (Sint16 *)outsnd->chunk.abuf;
@@ -321,8 +325,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 
     // If we can, use the standard / optimized SDL conversion routines.
     if (samplerate <= mixer_freq && ConvertibleRatio(samplerate, mixer_freq)
-        && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, mixer_format, mixer_channels,
-        mixer_freq))
+        && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, mixer_format, mixer_channels, mixer_freq))
     {
         convertor.buf = chunk->abuf;
         convertor.len = length;
@@ -356,7 +359,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
         }
 
         {
-            float       rc, dt, alpha;
+            float   rc, dt, alpha;
 
             // Low-pass filter for cutoff frequency f:
             //
@@ -383,13 +386,13 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 // Returns true if successful
 static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 {
-    int                 samplerate;
-    unsigned int        length;
+    int             samplerate;
+    unsigned int    length;
 
     // need to load the sound
-    int                 lumpnum = sfxinfo->lumpnum;
-    byte                *data = W_CacheLumpNum(lumpnum);
-    unsigned int        lumplen = W_LumpLength(lumpnum);
+    int             lumpnum = sfxinfo->lumpnum;
+    byte            *data = W_CacheLumpNum(lumpnum);
+    unsigned int    lumplen = W_LumpLength(lumpnum);
 
     // Check the header, and ensure this is a valid sound
     if (lumplen < 8 || data[0] != 0x03 || data[1] != 0x00)
@@ -444,7 +447,7 @@ static dboolean LockSound(sfxinfo_t *sfxinfo)
 //
 int I_GetSfxLumpNum(sfxinfo_t *sfx)
 {
-    char        namebuf[9];
+    char    namebuf[9];
 
     if (sfx->link)
         sfx = sfx->link;
@@ -494,23 +497,19 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 
     if (!snd)
     {
-        allocated_sound_t       *newsnd;
+        allocated_sound_t   *newsnd;
 
         // fetch the base sound effect, un-pitch-shifted
-        snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH);
-        if (!snd)
+        if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH)))
             return -1;
 
         if (s_randompitch && pitch != NORM_PITCH)
-        {
-            newsnd = PitchShift(snd, pitch);
-            if (newsnd)
+            if ((newsnd = PitchShift(snd, pitch)))
             {
                 LockAllocatedSound(newsnd);
                 UnlockAllocatedSound(snd);
                 snd = newsnd;
             }
-        }
     }
     else
         LockAllocatedSound(snd);
@@ -611,14 +610,14 @@ dboolean I_InitSound(void)
         return false;
 
     if (linked->major != SDL_MIXER_MAJOR_VERSION || linked->minor != SDL_MIXER_MINOR_VERSION)
-        I_Error("The wrong version of sdl2_mixer.dll was found. "PACKAGE_NAME" requires "
-            "v%i.%i.%i, not v%i.%i.%i.", linked->major, linked->minor, linked->patch,
-            SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
+        I_Error("The wrong version of sdl2_mixer.dll was found. "PACKAGE_NAME" requires v%i.%i.%i, not "
+            "v%i.%i.%i.", linked->major, linked->minor, linked->patch, SDL_MIXER_MAJOR_VERSION,
+            SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (linked->patch != SDL_MIXER_PATCHLEVEL)
-        C_Warning("The wrong version of sdl2_mixer.dll was found. <i>"PACKAGE_NAME"</i> requires "
-            "v%i.%i.%i, not v%i.%i.%i.", linked->major, linked->minor, linked->patch,
-            SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
+        C_Warning("The wrong version of sdl2_mixer.dll was found. <i>"PACKAGE_NAME"</i> requires v%i.%i.%i, "
+            "not v%i.%i.%i.", linked->major, linked->minor, linked->patch, SDL_MIXER_MAJOR_VERSION,
+            SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, 2, GetSliceSize()) < 0)
         return false;

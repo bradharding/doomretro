@@ -47,29 +47,29 @@
 #include "version.h"
 #include "z_zone.h"
 
-#define CHANNELS        2
-#define SAMPLECOUNT     512
+#define CHANNELS    2
+#define SAMPLECOUNT 512
 
-static dboolean         music_initialized;
+static dboolean     music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
-static dboolean         sdl_was_initialized;
+static dboolean     sdl_was_initialized;
 
-static int              current_music_volume;
-static int              paused_midi_volume;
+static int          current_music_volume;
+static int          paused_midi_volume;
 
-musictype_t             musictype;
+musictype_t         musictype;
 
 #if defined(_WIN32)
-static dboolean         haveMidiServer;
-static dboolean         haveMidiClient;
-dboolean                serverMidiPlaying;
+static dboolean     haveMidiServer;
+static dboolean     haveMidiClient;
+dboolean            serverMidiPlaying;
 #endif
 
-char                    *s_timiditycfgpath = s_timiditycfgpath_default;
+char                *s_timiditycfgpath = s_timiditycfgpath_default;
 
-static char             *temp_timidity_cfg;
+static char         *temp_timidity_cfg;
 
 // If the temp_timidity_cfg config variable is set, generate a "wrapper"
 // config file for TiMidity to point to the actual config file. This
@@ -77,8 +77,8 @@ static char             *temp_timidity_cfg;
 // relative to the actual config file.
 static dboolean WriteWrapperTimidityConfig(char *write_path)
 {
-    char        *p;
-    FILE        *fstream;
+    char    *p;
+    FILE    *fstream;
 
     if (!*s_timiditycfgpath)
         return false;
@@ -161,9 +161,9 @@ void I_ShutdownMusic(void)
 
 static dboolean SDLIsInitialized(void)
 {
-    int         freq;
-    int         channels;
-    Uint16      format;
+    int     freq;
+    int     channels;
+    Uint16  format;
 
     return !!Mix_QuerySpec(&freq, &format, &channels);
 }
@@ -331,10 +331,10 @@ void *I_RegisterSong(void *data, int size)
         return NULL;
     else
     {
-        dboolean        isMIDI = false;
-        dboolean        isMUS = false;
-        Mix_Music       *music = NULL;
-        SDL_RWops       *rwops;
+        dboolean    isMIDI = false;
+        dboolean    isMUS = false;
+        Mix_Music   *music = NULL;
+        SDL_RWops   *rwops;
 
         musictype = MUSTYPE_NONE;
 
@@ -356,9 +356,9 @@ void *I_RegisterSong(void *data, int size)
         // If it's a MUS, convert it to MIDI now
         if (isMUS)
         {
-            MIDI        mididata;
-            UBYTE       *mid;
-            int         midlen;
+            MIDI    mididata;
+            UBYTE   *mid;
+            int     midlen;
 
             memset(&mididata, 0, sizeof(MIDI));
 

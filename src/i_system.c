@@ -76,12 +76,12 @@ void I_PrintWindowsVersion(void)
 
     if (pRtlGetVersion && pGetProductInfo)
     {
-        char            bits[10] = "";
-        char            *typename = "";
+        char    bits[10] = "";
+        char    *typename = "";
 
         if (pIsWow64Process)
         {
-            BOOL        Wow64Process = FALSE;
+            BOOL    Wow64Process = FALSE;
 
             pIsWow64Process(GetCurrentProcess(), &Wow64Process);
             strcpy(bits, (Wow64Process ? " (64-bit)" : " (32-bit)"));
@@ -93,6 +93,7 @@ void I_PrintWindowsVersion(void)
         pRtlGetVersion((PRTL_OSVERSIONINFOEXW)&info);
 
         pGetProductInfo(info.dwMajorVersion, info.dwMinorVersion, 0, 0, &type);
+
         switch (type)
         {
             case PRODUCT_ULTIMATE:
@@ -161,7 +162,7 @@ void I_PrintWindowsVersion(void)
 
         if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
-            char        *infoname = "NT";
+            char    *infoname = "NT";
 
             if (info.dwMajorVersion == 5)
             {
@@ -186,11 +187,10 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10)
                 infoname = "10";
 
-            C_Output("Running on <i><b>Microsoft Windows %s%s%s%s%ws%s%s</b></i>.",
-                infoname, (*typename ? " " : ""), (*typename ? typename : ""),
-                (wcslen(info.szCSDVersion) ? " (" : ""),
-                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""),
-                (wcslen(info.szCSDVersion) ? ")" : ""), bits);
+            C_Output("Running on <i><b>Microsoft Windows %s%s%s%s%ws%s%s</b></i>.", infoname, (*typename ?
+                " " : ""), (*typename ? typename : ""), (wcslen(info.szCSDVersion) ? " (" : ""),
+                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" :
+                ""), bits);
         }
     }
 }
@@ -200,8 +200,8 @@ void I_PrintSystemInfo(void)
 {
     int cores = SDL_GetCPUCount();
 
-    C_Output("There %s %i logical core%s and %sMB of system RAM.", (cores > 1 ? "are" : "is"),
-        cores, (cores > 1 ? "s" : ""), commify(SDL_GetSystemRAM()));
+    C_Output("There %s %i logical core%s and %sMB of system RAM.", (cores > 1 ? "are" : "is"), cores,
+        (cores > 1 ? "s" : ""), commify(SDL_GetSystemRAM()));
 }
 
 //
@@ -246,8 +246,8 @@ static dboolean already_quitting;
 
 void I_Error(char *error, ...)
 {
-    va_list     argptr;
-    char        msgbuf[512];
+    va_list argptr;
+    char    msgbuf[512];
 
     if (already_quitting)
         exit(-1);

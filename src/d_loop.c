@@ -59,19 +59,19 @@
 // a gametic cannot be run until nettics > gametic for all players
 //
 
-ticcmd_t        netcmds[BACKUPTICS];
+ticcmd_t    netcmds[BACKUPTICS];
 
-int             maketic;
+int         maketic;
 
 // Used for original sync code.
-int             skiptics;
+int         skiptics;
 
 //
 // NetUpdate
 // Builds ticcmds for console player,
 // sends out a packet
 //
-int             lasttime;
+int         lasttime;
 
 static dboolean BuildNewTic(void)
 {
@@ -178,8 +178,10 @@ void TryRunTics(void)
 
         G_Ticker();
         gametic++;
+
         if (!menuactive && !consoleactive && !paused)
             activetic++;
+
         gametime++;
 
         if (netcmds[0].buttons & BT_SPECIAL)

@@ -71,12 +71,12 @@ static void AddIWADDir(char *dir)
 // of DOOM. From these keys we can deduce where to find an IWAD.
 typedef struct
 {
-    HKEY        root;
-    char        *path;
-    char        *value;
+    HKEY    root;
+    char    *path;
+    char    *value;
 } registry_value_t;
 
-#define UNINSTALLER_STRING      "\\uninstl.exe /S "
+#define UNINSTALLER_STRING  "\\uninstl.exe /S "
 
 // Keys installed by the various CD editions. These are actually the
 // commands to invoke the uninstaller and look like this:
@@ -88,9 +88,9 @@ typedef struct
 // [AlexMax] From the perspective of a 64-bit executable, 32-bit registry
 // keys are located in a different spot.
 #if _WIN64
-#define SOFTWARE_KEY            "Software\\Wow6432Node"
+#define SOFTWARE_KEY        "Software\\Wow6432Node"
 #else
-#define SOFTWARE_KEY            "Software"
+#define SOFTWARE_KEY        "Software"
 #endif
 
 static registry_value_t uninstall_values[] =
@@ -187,10 +187,10 @@ static char *steam_install_subdirs[] =
 
 static char *GetRegistryString(registry_value_t *reg_val)
 {
-    HKEY        key;
-    DWORD       len;
-    DWORD       valtype;
-    char        *result = NULL;
+    HKEY    key;
+    DWORD   len;
+    DWORD   valtype;
+    char    *result = NULL;
 
     // Open the key (directory where the value is stored)
     if (RegOpenKeyEx(reg_val->root, reg_val->path, 0, KEY_READ, &key) != ERROR_SUCCESS)
@@ -220,7 +220,7 @@ static char *GetRegistryString(registry_value_t *reg_val)
 // Check for the uninstall strings from the CD versions
 static void CheckUninstallStrings(void)
 {
-    unsigned int        i;
+    unsigned int    i;
 
     for (i = 0; i < arrlen(uninstall_values); i++)
     {
@@ -236,7 +236,7 @@ static void CheckUninstallStrings(void)
             free(val);
         else
         {
-            char        *path = unstr + strlen(UNINSTALLER_STRING);
+            char    *path = unstr + strlen(UNINSTALLER_STRING);
 
             AddIWADDir(path);
         }
@@ -246,7 +246,7 @@ static void CheckUninstallStrings(void)
 // Check for GOG.com and DOOM: Collector's Edition
 static void CheckInstallRootPaths(void)
 {
-    size_t      i;
+    size_t  i;
 
     for (i = 0; i < arrlen(root_path_keys); i++)
     {
@@ -266,8 +266,8 @@ static void CheckInstallRootPaths(void)
 // Check for DOOM downloaded via Steam
 static void CheckSteamEdition(void)
 {
-    char        *install_path = GetRegistryString(&steam_install_location);
-    size_t      i;
+    char    *install_path = GetRegistryString(&steam_install_location);
+    size_t  i;
 
     if (!install_path)
         return;
@@ -296,8 +296,8 @@ static void CheckDOSDefaults(void)
 
 static struct
 {
-    char                *name;
-    GameMission_t       mission;
+    char            *name;
+    GameMission_t   mission;
 } iwads[] = {
     { "doom2",    doom2      },
     { "doom2",    pack_nerve },
@@ -312,15 +312,18 @@ static struct
 // attempt to identify it by its name.
 void IdentifyIWADByName(char *name)
 {
-    size_t      i;
-    char        *p;
+    size_t  i;
+    char    *p;
 
     // Trim down the name to just the filename, ignoring the path.
     p = strrchr(name, '\\');
+
     if (!p)
         p = strrchr(name, '/');
+
     if (p)
         name = p + 1;
+
     gamemission = none;
 
     for (i = 0; i < arrlen(iwads); i++)
@@ -344,8 +347,8 @@ void IdentifyIWADByName(char *name)
 //
 static void AddDoomWadPath(void)
 {
-    char        *doomwadpath = getenv("DOOMWADPATH");
-    char        *p;
+    char    *doomwadpath = getenv("DOOMWADPATH");
+    char    *p;
 
     if (!doomwadpath)
         return;
@@ -379,7 +382,7 @@ static void AddDoomWadPath(void)
 //
 static void BuildIWADDirList(void)
 {
-    char        *doomwaddir;
+    char    *doomwaddir;
 
     if (iwad_dirs_built)
         return;
@@ -424,7 +427,7 @@ char *D_FindWADByName(char *name)
     // Search through all IWAD paths for a file with the given name.
     for (i = 0; i < num_iwad_dirs; i++)
     {
-        char        *path;
+        char    *path;
 
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
         // the "directory" may actually refer directly to an IWAD
@@ -453,7 +456,7 @@ char *D_FindWADByName(char *name)
 //
 char *D_TryFindWADByName(char *filename)
 {
-    char        *result = D_FindWADByName(filename);
+    char    *result = D_FindWADByName(filename);
 
     return (result ? result : filename);
 }
@@ -466,12 +469,12 @@ char *D_TryFindWADByName(char *filename)
 //
 char *D_FindIWAD(void)
 {
-    char        *result = NULL;
-    int         iwadparm = M_CheckParmWithArgs("-iwad", 1, 1);
+    char    *result = NULL;
+    int     iwadparm = M_CheckParmWithArgs("-iwad", 1, 1);
 
     if (iwadparm)
     {
-        char        *iwadfile;
+        char    *iwadfile;
 
         // Search through IWAD dirs for an IWAD with the given name.
         iwadfile = myargv[iwadparm + 1];
@@ -492,7 +495,7 @@ char *D_FindIWAD(void)
 //
 static char *SaveGameIWADName(void)
 {
-    size_t      i;
+    size_t  i;
 
     // Find what subdirectory to use for savegames
     //
@@ -518,9 +521,9 @@ extern char     *pwadfile;
 //
 void D_SetSaveGameFolder(void)
 {
-    char        *iwad_name = SaveGameIWADName();
-    char        *appdatafolder = M_GetAppDataFolder();
-    int         p = M_CheckParmWithArgs("-savedir", 1, 1);
+    char    *iwad_name = SaveGameIWADName();
+    char    *appdatafolder = M_GetAppDataFolder();
+    int     p = M_CheckParmWithArgs("-savedir", 1, 1);
 
     if (!iwad_name)
         iwad_name = "unknown";
@@ -554,7 +557,7 @@ void D_IdentifyVersion(void)
     // identify by its contents.
     if (gamemission == none)
     {
-        int     i;
+        int i;
 
         for (i = 0; i < numlumps; i++)
         {
@@ -616,11 +619,9 @@ void D_SetGameDescription(void)
         if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
         else if (W_CheckMultipleLumps("TITLEPIC") > 1)
-            gamedescription = uppercase(leafname(
-                lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->path));
+            gamedescription = uppercase(leafname(lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->path));
         else if (W_CheckMultipleLumps("M_DOOM") > 1)
-            gamedescription = uppercase(leafname(
-                lumpinfo[W_GetNumForName("M_DOOM")]->wadfile->path));
+            gamedescription = uppercase(leafname(lumpinfo[W_GetNumForName("M_DOOM")]->wadfile->path));
         else if (gamemode == retail)
             gamedescription = s_CAPTION_ULTIMATE;
         else if (gamemode == registered)
@@ -641,11 +642,9 @@ void D_SetGameDescription(void)
         else if (nerve)
             gamedescription = s_CAPTION_DOOM2;
         else if (W_CheckMultipleLumps("TITLEPIC") > 1)
-            gamedescription = uppercase(leafname(
-                lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->path));
+            gamedescription = uppercase(leafname(lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->path));
         else if (W_CheckMultipleLumps("M_DOOM") > 1)
-            gamedescription = uppercase(leafname(
-                lumpinfo[W_GetNumForName("M_DOOM")]->wadfile->path));
+            gamedescription = uppercase(leafname(lumpinfo[W_GetNumForName("M_DOOM")]->wadfile->path));
         else if (gamemission == doom2)
             gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH, NULL);
         else if (gamemission == pack_plut)
@@ -657,12 +656,11 @@ void D_SetGameDescription(void)
     if (nerve)
     {
         if (bfgedition)
-            C_Output("Playing \"%s: %s (%s)\" and \"%s: %s (%s)\".",
-                s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_BFGEDITION,
-                s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
+            C_Output("Playing \"%s: %s (%s)\" and \"%s: %s (%s)\".", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
+                s_CAPTION_BFGEDITION, s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing \"%s: %s\" and \"%s: %s\".",
-                s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
+            C_Output("Playing \"%s: %s\" and \"%s: %s\".", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
+                s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
     else
     {

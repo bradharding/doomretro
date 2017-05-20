@@ -172,10 +172,10 @@ static int *gamepadweapons[] =
 
 struct
 {
-    weapontype_t        prev;
-    weapontype_t        next;
-    ammotype_t          ammotype;
-    int                 minammo;
+    weapontype_t    prev;
+    weapontype_t    next;
+    ammotype_t      ammotype;
+    int             minammo;
 } weapons[] = {
     { wp_bfg,          /* wp_fist         */ wp_chainsaw,     am_noammo,  0 },
     { wp_chainsaw,     /* wp_pistol       */ wp_shotgun,      am_clip,    1 },
@@ -257,6 +257,7 @@ static void G_NextWeapon(void)
     do
     {
         i = weapons[i].next;
+
         if (i == wp_fist && player->weaponowned[wp_chainsaw] && !player->powers[pw_strength])
             i = wp_chainsaw;
     }
@@ -314,8 +315,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (automapactive && !am_followmode && players[0].health > 0)
         return;
 
-    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe]
-        || (gamepadbuttons & gamepadstrafe));
+    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamepadbuttons & gamepadstrafe));
 
     run = (gamekeydown[keyboardrun] + !!mousebuttons[mouserun] + !!(gamepadbuttons & gamepadrun)
         + alwaysrun == 1);
@@ -342,14 +342,12 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (gamekeydown[keyboardright] || (gamepadbuttons & gamepadright))
             cmd->angleturn -= angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX > 0)
-            cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbRXright
-                * gamepadsensitivity);
+            cmd->angleturn -= (int)(gamepadangleturn[run] * gamepadthumbRXright * gamepadsensitivity);
 
         if (gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft))
             cmd->angleturn += angleturn[turnheld < SLOWTURNTICS ? 2 : run];
         else if (gamepadthumbRX < 0)
-            cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft
-                * gamepadsensitivity);
+            cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft * gamepadsensitivity);
     }
 
     if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
@@ -730,6 +728,7 @@ dboolean G_Responder(event_t *ev)
             G_ToggleAlwaysRun(ev_keydown);
             return true;
         }
+
         return false;
     }
 
@@ -743,10 +742,8 @@ dboolean G_Responder(event_t *ev)
     }
 
     if (gamestate == GS_FINALE)
-    {
         if (F_Responder(ev))
             return true;        // finale ate the event
-    }
 
     switch (ev->type)
     {
@@ -782,6 +779,7 @@ dboolean G_Responder(event_t *ev)
                     XInputVibration(idlemotorspeed);
                 }
             }
+
             return true;            // eat key down events
 
         case ev_keyup:
@@ -850,6 +848,7 @@ dboolean G_Responder(event_t *ev)
                         G_PrevWeapon();
                 }
             }
+
             return true;
 
         case ev_gamepad:
@@ -888,6 +887,7 @@ dboolean G_Responder(event_t *ev)
                     }
                 }
             }
+
             return true;            // eat events
 
         default:
@@ -962,7 +962,7 @@ void G_Ticker(void)
 
                 if (V_ScreenShot())
                 {
-                    static char     buffer[512];
+                    static char buffer[512];
 
                     S_StartSound(NULL, sfx_swtchx);
 
@@ -1233,13 +1233,11 @@ void G_DoCompleted(void)
         AM_clearFB();
 
     if (chex)
-    {
         if (gamemap == 5)
         {
             gameaction = ga_victory;
             return;
         }
-    }
 
     if (gamemode != commercial)
     {
@@ -1252,6 +1250,7 @@ void G_DoCompleted(void)
                     episodeselected = gameepisode;
                     EpiDef.lastOn = episodeselected;
                 }
+
                 break;
 
             case 9:
@@ -1279,12 +1278,14 @@ void G_DoCompleted(void)
                     // [BH] exit to secret level on MAP02 of BFG Edition
                     if (bfgedition)
                         wminfo.next = 32;
+
                     break;
 
                 case 4:
                     // [BH] exit to secret level in No Rest For The Living
                     if (gamemission == pack_nerve)
                         wminfo.next = 8;
+
                     break;
 
                 case 15:
@@ -1595,7 +1596,7 @@ void G_DoSaveGame(void)
             C_Output("<b>%s</b> saved.", savename);
         else
         {
-            static char     buffer[1024];
+            static char buffer[1024];
 
             M_snprintf(buffer, sizeof(buffer), s_GGSAVED, titlecase(savedescription));
             HU_PlayerMessage(buffer, false);

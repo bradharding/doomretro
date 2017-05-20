@@ -45,14 +45,14 @@
 // SCREEN WIPE PACKAGE
 //
 
-static byte     *wipe_scr_start;
-static byte     *wipe_scr_end;
-static byte     *wipe_scr;
+static byte *wipe_scr_start;
+static byte *wipe_scr_end;
+static byte *wipe_scr;
 
 void wipe_shittyColMajorXform(short *array)
 {
-    int         x, y;
-    short       *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    int     x, y;
+    short   *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     for (y = 0; y < SCREENHEIGHT; y++)
         for (x = 0; x < SCREENWIDTH / 2; x++)
@@ -63,8 +63,8 @@ void wipe_shittyColMajorXform(short *array)
     Z_Free(dest);
 }
 
-static int      *y;
-static int      speed;
+static int  *y;
+static int  speed;
 
 dboolean wipe_initMelt(void)
 {
@@ -84,6 +84,7 @@ dboolean wipe_initMelt(void)
     // (y < 0 => not ready to scroll yet)
     y = Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, NULL);
     y[0] = y[1] = -(rand() % 16);
+
     for (i = 2; i < SCREENWIDTH - 1; i += 2)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + (rand() % 3) - 1, 0);
 
@@ -96,7 +97,7 @@ dboolean wipe_doMelt(int tics)
 
     while (tics--)
     {
-        int     i;
+        int i;
 
         for (i = 0; i < SCREENWIDTH / 2; i++)
         {
@@ -106,6 +107,7 @@ dboolean wipe_doMelt(int tics)
                 done = false;
                 continue;
             }
+
             if (y[i] < SCREENHEIGHT)
             {
                 int     j;
@@ -116,20 +118,24 @@ dboolean wipe_doMelt(int tics)
 
                 if (y[i] + dy >= SCREENHEIGHT)
                     dy = SCREENHEIGHT - y[i];
+
                 for (j = dy; j; j--)
                 {
                     d[idx] = *s++;
                     idx += SCREENWIDTH / 2;
                 }
+
                 y[i] += dy;
                 s = &((short *)wipe_scr_start)[i * SCREENHEIGHT];
                 d = &((short *)wipe_scr)[y[i] * SCREENWIDTH / 2 + i];
                 idx = 0;
+
                 for (j = SCREENHEIGHT - y[i]; j; j--)
                 {
                     d[idx] = *s++;
                     idx += SCREENWIDTH / 2;
                 }
+
                 done = false;
             }
         }
@@ -164,7 +170,7 @@ dboolean wipe_EndScreen(void)
 dboolean wipe_ScreenWipe(int tics)
 {
     // when zero, stop the wipe
-    static dboolean     go;
+    static dboolean go;
 
     // initial stuff
     if (!go)

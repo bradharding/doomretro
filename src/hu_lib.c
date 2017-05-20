@@ -90,7 +90,7 @@ dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
 
 static void HU_drawDot(int x, int y, unsigned char src)
 {
-    byte        *dest = &tempscreen[y * SCREENWIDTH + x];
+    byte    *dest = &tempscreen[y * SCREENWIDTH + x];
 
     if (src == 251)
         *dest = 0;
@@ -115,10 +115,10 @@ static void HU_drawChar(int x, int y, int ch)
         for (y1 = 0; y1 < 10; y1++)
             for (x1 = 0; x1 < w; x1++)
             {
-                unsigned char       src = smallcharset[ch][y1 * w + x1];
-                int                 i = (x + x1) * SCREENSCALE;
-                int                 j = (y + y1) * SCREENSCALE;
-                int                 xx, yy;
+                unsigned char   src = smallcharset[ch][y1 * w + x1];
+                int             i = (x + x1) * SCREENSCALE;
+                int             j = (y + y1) * SCREENSCALE;
+                int             xx, yy;
 
                 for (yy = 0; yy < SCREENSCALE; yy++)
                     for (xx = 0; xx < SCREENSCALE; xx++)
@@ -129,9 +129,9 @@ static void HU_drawChar(int x, int y, int ch)
 
 static struct
 {
-    char        char1;
-    char        char2;
-    int         adjust;
+    char    char1;
+    char    char2;
+    int     adjust;
 } c_kern[] = {
     { ' ',  '(',  -1 }, { ' ',  'T',  -1 }, { '\"', '+',  -1 }, { '\"', '.',  -1 },
     { '\"', 'a',  -1 }, { '\"', 'c',  -1 }, { '\"', 'd',  -1 }, { '\"', 'e',  -1 },
@@ -177,9 +177,9 @@ static struct
 
 void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 {
-    int                 i;
-    unsigned char       prevletter = '\0';
-    int                 x = HU_ALTHUDMSGX;
+    int             i;
+    unsigned char   prevletter = '\0';
+    int             x = HU_ALTHUDMSGX;
 
     for (i = 0; i < l->len; i++)
     {
@@ -204,6 +204,7 @@ void HUlib_drawAltHUDTextLine(hu_textline_t *l)
                 x += c_kern[j].adjust;
                 break;
             }
+
             j++;
         }
 
@@ -215,9 +216,9 @@ void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 
 static struct
 {
-    char        char1;
-    char        char2;
-    int         adjust;
+    char    char1;
+    char    char2;
+    int     adjust;
 } hu_kern[] = {
     { '.', '1',  -1 },
     { '.', '7',  -1 },
@@ -250,6 +251,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     x = l->x;
     y = l->y;
     memset(tempscreen, 251, SCREENWIDTH * SCREENHEIGHT);
+
     for (i = 0; i < l->len; i++)
     {
         unsigned char   c = toupper(l->l[i]);
@@ -283,6 +285,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
             {
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
+
                 if (r_messagescale == r_messagescale_big)
                     V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
                 else
@@ -290,7 +293,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
             }
             else
             {
-                int     k = 0;
+                int k = 0;
 
                 // [BH] apply kerning to certain character pairs
                 while (hu_kern[k].char1)
@@ -300,6 +303,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                         x += hu_kern[k].adjust;
                         break;
                     }
+
                     k++;
                 }
 
@@ -309,6 +313,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 
                 prev = c;
             }
+
             x += w;
             tw += w;
         }
@@ -323,15 +328,16 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     // [BH] draw underscores for IDBEHOLD cheat message
     if (idbehold && !STCFN034 && s_STSTR_BEHOLD2)
     {
-        int     x1, y1;
-        int     x2, y2;
-        int     scale = r_messagescale + 1;
+        int x1, y1;
+        int x2, y2;
+        int scale = r_messagescale + 1;
 
         for (y1 = 0; y1 < 4; y1++)
             for (x1 = 0; x1 < ORIGINALWIDTH; x1++)
             {
                 unsigned char   src = (automapactive && !vid_widescreen ?
-                    underscores2[y1 * ORIGINALWIDTH + x1] : underscores1[y1 * ORIGINALWIDTH + x1]);
+                                    underscores2[y1 * ORIGINALWIDTH + x1] :
+                                    underscores1[y1 * ORIGINALWIDTH + x1]);
 
                 for (y2 = 0; y2 < scale; y2++)
                     for (x2 = 0; x2 < scale; x2++)
@@ -349,6 +355,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     // [BH] draw entire message from buffer onto screen with translucency
     maxy = y + 10;
     maxx = (l->x + tw + 1);
+
     if (r_messagescale == r_messagescale_big)
     {
         maxy *= SCREENSCALE;
@@ -358,10 +365,10 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     for (yy = l->y - 1; yy < maxy; yy++)
         for (xx = l->x; xx < maxx; xx++)
         {
-            int         dot = yy * SCREENWIDTH + xx;
-            byte        *source = &tempscreen[dot];
-            byte        *dest1 = &fb1[dot];
-            byte        *dest2 = &fb2[dot];
+            int     dot = yy * SCREENWIDTH + xx;
+            byte    *source = &tempscreen[dot];
+            byte    *dest1 = &fb1[dot];
+            byte    *dest2 = &fb2[dot];
 
             if (!*source)
                 *dest1 = tinttab50[*dest2];
@@ -372,9 +379,11 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 if (vid_widescreen && r_hud_translucency && !hacx)
                 {
                     color = tinttab25[(*dest2 << 8) + color];
+
                     if (color >= 168 && color <= 175)
                         color -= 144;
                 }
+
                 *dest1 = color;
             }
         }
@@ -388,12 +397,11 @@ void HUlib_eraseTextLine(hu_textline_t *l)
     // (because of a recent change back from the automap)
     if (!automapactive && viewwindowx && l->needsupdate)
     {
-        int     y;
-        int     yoffset;
-        int     lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
+        int y;
+        int yoffset;
+        int lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
 
         for (y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh; y++, yoffset += SCREENWIDTH)
-        {
             if (y < viewwindowy || y >= viewwindowy + viewheight)
                 R_VideoErase(yoffset, SCREENWIDTH);                             // erase entire line
             else
@@ -401,7 +409,6 @@ void HUlib_eraseTextLine(hu_textline_t *l)
                 R_VideoErase(yoffset, viewwindowx);                             // erase left border
                 R_VideoErase(yoffset + viewwindowx + viewwidth, viewwindowx);   // erase right border
             }
-        }
     }
 
     if (l->needsupdate)
@@ -416,6 +423,7 @@ void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int sta
     s->on = on;
     s->laston = true;
     s->cl = 0;
+
     for (i = 0; i < h; i++)
         HUlib_initTextLine(&s->l[i], x, y - i * (SHORT(font[0]->height) + 1), font, startchar);
 }
@@ -427,6 +435,7 @@ static void HUlib_addLineToSText(hu_stext_t *s)
     // add a clear line
     if (++s->cl == s->h)
         s->cl = 0;
+
     HUlib_clearTextLine(&s->l[s->cl]);
 
     // everything needs updating
@@ -437,6 +446,7 @@ static void HUlib_addLineToSText(hu_stext_t *s)
 void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg)
 {
     HUlib_addLineToSText(s);
+
     if (prefix)
         while (*prefix)
             HUlib_addCharToTextLine(&s->l[s->cl], *(prefix++));
@@ -481,5 +491,6 @@ void HUlib_eraseSText(hu_stext_t *s)
             s->l[i].needsupdate = 4;
         HUlib_eraseTextLine(&s->l[i]);
     }
+
     s->laston = *s->on;
 }

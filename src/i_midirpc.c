@@ -83,9 +83,7 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 // If either server or client initialization failed, we don't try to make any
 // RPC calls.
 //
-#define CHECK_RPC_STATUS()          \
-    if (!serverInit || !clientInit) \
-        return false
+#define CHECK_RPC_STATUS()  if (!serverInit || !clientInit) return false
 
 // This number * 10 is the amount of time you can try to wait for.
 #define MIDIRPC_MAXTRIES        50
@@ -97,6 +95,7 @@ static dboolean I_MidiRPCWaitForServer(void)
     while (RpcMgmtIsServerListening(hMidiRPCBinding) != RPC_S_OK)
     {
         I_Sleep(10);
+
         if (++tries >= MIDIRPC_MAXTRIES)
             return false;
     }

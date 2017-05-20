@@ -59,6 +59,7 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
     if (consolecheat[0] && M_StringCompare(consolecheat, cht->sequence))
     {
         consolecheat[0] = '\0';
+
         if (consolecheatparm)
         {
             cht->parameter_buf[0] = consolecheatparm[0];
@@ -66,6 +67,7 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
             cht->param_chars_read = 2;
             consolecheatparm[0] = '\0';
         }
+
         return true;
     }
 
@@ -75,6 +77,7 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
         if (cht->timeout)
             if (leveltime - cht->timeout > TIMELIMIT)
                 cht->chars_read = cht->param_chars_read = 0;
+
         cht->timeout = leveltime;
     }
 
@@ -106,13 +109,11 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
         else
         {
             cht->parameter_buf[cht->param_chars_read] = key;
-
             cht->param_chars_read++;
         }
     }
 
-    if (cht->chars_read >= strlen(cht->sequence)
-        && cht->param_chars_read >= cht->parameter_chars)
+    if (cht->chars_read >= strlen(cht->sequence) && cht->param_chars_read >= cht->parameter_chars)
     {
         cht->chars_read = cht->param_chars_read = cht->timeout = 0;
         return true;

@@ -45,8 +45,8 @@
 #include "m_controls.h"
 #include "version.h"
 
-int     windowborderwidth;
-int     windowborderheight;
+int windowborderwidth;
+int windowborderheight;
 
 #if defined(_WIN32)
 
@@ -55,19 +55,19 @@ int     windowborderheight;
 #include <Windows.h>
 
 #if !defined(SM_CXPADDEDBORDER)
-#define SM_CXPADDEDBORDER       92
+#define SM_CXPADDEDBORDER   92
 #endif
 
 void I_SetProcessDPIAware(void)
 {
-    HMODULE     hLibrary = LoadLibrary("user32.dll");
+    HMODULE hLibrary = LoadLibrary("user32.dll");
 
     if (hLibrary)
     {
         typedef dboolean (*SETPROCESSDPIAWARE)();
 
-        SETPROCESSDPIAWARE pSetProcessDPIAware =
-            (SETPROCESSDPIAWARE)GetProcAddress(hLibrary, "SetProcessDPIAware");
+        SETPROCESSDPIAWARE  pSetProcessDPIAware = (SETPROCESSDPIAWARE)GetProcAddress(hLibrary,
+                                "SetProcessDPIAware");
 
         if (pSetProcessDPIAware)
             pSetProcessDPIAware();
@@ -76,7 +76,7 @@ void I_SetProcessDPIAware(void)
     }
 }
 
-HHOOK           g_hKeyboardHook;
+HHOOK   g_hKeyboardHook;
 
 void G_ScreenShot(void);
 
@@ -93,18 +93,19 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
             case WM_SYSKEYUP:
                 if (windowfocused)
                 {
-                    DWORD       vkCode = ((KBDLLHOOKSTRUCT *)lParam)->vkCode;
+                    DWORD   vkCode = ((KBDLLHOOKSTRUCT *)lParam)->vkCode;
 
                     if (vkCode == VK_LWIN || vkCode == VK_RWIN)
-                        bEatKeystroke = ((!menuactive && !paused && !consoleactive)
-                            || vid_fullscreen);
+                        bEatKeystroke = ((!menuactive && !paused && !consoleactive) || vid_fullscreen);
                     else if (keyboardscreenshot == KEY_PRINTSCREEN && vkCode == VK_SNAPSHOT)
                     {
                         if (wParam == WM_KEYDOWN)
                             G_ScreenShot();
+
                         bEatKeystroke = true;
                     }
                 }
+
                 break;
         }
 
@@ -158,11 +159,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return CallWindowProc(oldProc, hwnd, msg, wParam, lParam);
 }
 
-HANDLE          hInstanceMutex;
+HANDLE      hInstanceMutex;
 
-STICKYKEYS      g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
-TOGGLEKEYS      g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
-FILTERKEYS      g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
+STICKYKEYS  g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
+TOGGLEKEYS  g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
+FILTERKEYS  g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
 
 void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
 {
@@ -176,9 +177,9 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
     else
     {
         // Disable StickyKeys/etc shortcuts
-        STICKYKEYS      skOff = g_StartupStickyKeys;
-        TOGGLEKEYS      tkOff = g_StartupToggleKeys;
-        FILTERKEYS      fkOff = g_StartupFilterKeys;
+        STICKYKEYS  skOff = g_StartupStickyKeys;
+        TOGGLEKEYS  tkOff = g_StartupToggleKeys;
+        FILTERKEYS  fkOff = g_StartupFilterKeys;
 
         if (!(skOff.dwFlags & SKF_STICKYKEYSON))
         {
@@ -218,9 +219,9 @@ LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 
 void I_InitWindows32(void)
 {
-    HINSTANCE           handle = GetModuleHandle(NULL);
-    SDL_SysWMinfo       info;
-    HWND                hwnd;
+    HINSTANCE       handle = GetModuleHandle(NULL);
+    SDL_SysWMinfo   info;
+    HWND            hwnd;
 
     SDL_VERSION(&info.version);
 
@@ -260,12 +261,12 @@ int main(int argc, char **argv)
     {
         if (hInstanceMutex)
             CloseHandle(hInstanceMutex);
+
         SetForegroundWindow(FindWindow(PACKAGE_MUTEX, NULL));
         return 1;
     }
 
-    g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc,
-        GetModuleHandle(NULL), 0);
+    g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
 
     // Save the current sticky/toggle/filter key settings so they can be restored them later
     SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
