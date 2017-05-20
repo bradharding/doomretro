@@ -104,13 +104,15 @@ extern dboolean     m_look;
 static void R_MapPlane(int y, int x1, int x2)
 {
     fixed_t distance;
-    int     dx, dy;
+    int     dx;
 
-    if (!(dy = ABS(centery - y)))
+    if (centery == y)
         return;
 
     if (planeheight != cachedheight[y])
     {
+        int dy = ABS(centery - y);
+
         cachedheight[y] = planeheight;
         distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
         ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
