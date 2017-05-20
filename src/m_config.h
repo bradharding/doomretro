@@ -237,7 +237,7 @@ typedef enum
 #define r_blood_max                             r_blood_all
 
 #define r_bloodsplats_max_min                   0
-#define r_bloodsplats_max_default               32768
+#define r_bloodsplats_max_default               65536
 #define r_bloodsplats_max_max                   1048576
 
 #define r_bloodsplats_total_min                 0
