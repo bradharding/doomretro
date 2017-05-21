@@ -43,7 +43,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAXVISPLANES    128                             // must be a power of 2
+#define MAXVISPLANES    128                         // must be a power of 2
 
 static visplane_t   *visplanes[MAXVISPLANES];       // killough
 static visplane_t   *freetail;                      // killough
@@ -256,7 +256,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 
     // [crispy] fix HOM if ceilingplane and floorplane are the same
     // visplane (e.g. both skies)
-    if (!(pl == floorplane && markceiling && floorplane == ceilingplane) && x > intrh)
+    if (pl != floorplane && !markceiling && floorplane != ceilingplane && x > intrh)
     {
         pl->minx = unionl;
         pl->maxx = unionh;

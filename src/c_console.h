@@ -42,24 +42,24 @@
 #include "doomtype.h"
 #include "d_event.h"
 
-#define CONSOLEFONTSTART        ' '
-#define CONSOLEFONTEND          '~'
-#define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
+#define CONSOLEFONTSTART    ' '
+#define CONSOLEFONTEND      '~'
+#define CONSOLEFONTSIZE     (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
-#define NOBOLDCOLOR             -1
-#define NOBACKGROUNDCOLOR       -1
+#define NOBOLDCOLOR         -1
+#define NOBACKGROUNDCOLOR   -1
 
-#define CONSOLEWIDTH            SCREENWIDTH
-#define CONSOLEHEIGHT           (gamestate != GS_TITLESCREEN ? (SCREENHEIGHT - SBARHEIGHT) / 2 : SCREENHEIGHT - 5)
+#define CONSOLEWIDTH        SCREENWIDTH
+#define CONSOLEHEIGHT       (gamestate != GS_TITLESCREEN ? (SCREENHEIGHT - SBARHEIGHT) / 2 : SCREENHEIGHT - 5)
 
-#define CONSOLETOP              0
+#define CONSOLETOP          0
 
-#define DIVIDERSTRING           "==================================================" \
-                                "================================================="
+#define DIVIDERSTRING       "==================================================" \
+                            "================================================="
 
-#define EMPTYVALUE              "\"\""
+#define EMPTYVALUE          "\"\""
 
-#define stringize(x)            #x
+#define stringize(x)        #x
 
 typedef enum
 {
@@ -75,33 +75,33 @@ typedef enum
 
 typedef struct
 {
-    char                string[1024];
-    stringtype_t        type;
-    int                 tabs[8];
-    char                timestamp[9];
+    char            string[1024];
+    stringtype_t    type;
+    int             tabs[8];
+    char            timestamp[9];
 } console_t;
 
-console_t               *console;
+console_t           *console;
 
-extern dboolean         consoleactive;
-extern int              consoleheight;
-extern int              consoledirection;
+extern dboolean     consoleactive;
+extern int          consoleheight;
+extern int          consoledirection;
 
-extern char             consolecheat[255];
-extern char             consolecheatparm[3];
-extern char             consolecmdparm[255];
+extern char         consolecheat[255];
+extern char         consolecheatparm[3];
+extern char         consolecmdparm[255];
 
-extern dboolean         forceconsoleblurredraw;
+extern dboolean     forceconsoleblurredraw;
 
 typedef struct
 {
-    char                *input;
-    int                 caretpos;
-    int                 selectstart;
-    int                 selectend;
+    char            *input;
+    int             caretpos;
+    int             selectstart;
+    int             selectend;
 } undohistory_t;
 
-undohistory_t           *undohistory;
+undohistory_t       *undohistory;
 
 void C_Print(stringtype_t type, char *string, ...);
 void C_Input(char *string, ...);

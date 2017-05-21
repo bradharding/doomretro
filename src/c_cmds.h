@@ -41,14 +41,14 @@
 
 #include "doomtype.h"
 
-#define MAXALIASES              256
+#define MAXALIASES          256
 
-#define BINDLISTTITLE           "CONTROL\t+ACTION"
-#define CMDLISTTITLE            "CCMD\tDESCRIPTION"
-#define CVARLISTTITLE           "CVAR\tDEFAULT\tDESCRIPTION"
-#define MAPLISTTITLE            "MAP\tNAME\tWAD"
-#define PLAYERSTATSTITLE        "STAT\tCURRENT MAP\tTOTAL"
-#define THINGLISTTITLE          "THING\tPOSITION"
+#define BINDLISTTITLE       "CONTROL\t+ACTION"
+#define CMDLISTTITLE        "CCMD\tDESCRIPTION"
+#define CVARLISTTITLE       "CVAR\tDEFAULT\tDESCRIPTION"
+#define MAPLISTTITLE        "MAP\tNAME\tWAD"
+#define PLAYERSTATSTITLE    "STAT\tCURRENT MAP\tTOTAL"
+#define THINGLISTTITLE      "THING\tPOSITION"
 
 typedef enum
 {
@@ -60,20 +60,20 @@ typedef enum
 
 typedef struct
 {
-    char                *control;
-    controltype_t       type;
-    int                 value;
+    char            *control;
+    controltype_t   type;
+    int             value;
 } control_t;
 
 typedef struct
 {
-    char                *action;
-    void                *keyboard1;
-    void                *keyboard2;
-    void                *mouse1;
-    void                *mouse2;
-    void                *gamepad1;
-    void                *gamepad2;
+    char    *action;
+    void    *keyboard1;
+    void    *keyboard2;
+    void    *mouse1;
+    void    *mouse2;
+    void    *gamepad1;
+    void    *gamepad2;
 } action_t;
 
 typedef enum
@@ -85,47 +85,47 @@ typedef enum
 
 enum
 {
-    CF_NONE            =   0,
-    CF_BOOLEAN         =   1,
-    CF_FLOAT           =   2,
-    CF_INTEGER         =   4,
-    CF_PERCENT         =   8,
-    CF_POSITION        =  16,
-    CF_READONLY        =  32,
-    CF_SIZE            =  64,
-    CF_STRING          = 128,
-    CF_TIME            = 256
+    CF_NONE     =   0,
+    CF_BOOLEAN  =   1,
+    CF_FLOAT    =   2,
+    CF_INTEGER  =   4,
+    CF_PERCENT  =   8,
+    CF_POSITION =  16,
+    CF_READONLY =  32,
+    CF_SIZE     =  64,
+    CF_STRING   = 128,
+    CF_TIME     = 256
 };
 
 typedef struct
 {
-    char                *name;
-    char                *alternate;
-    dboolean            (*func1)(char *cmd, char *parms);
-    void                (*func2)(char *cmd, char *parms);
-    int                 parameters;
-    cmdtype_t           type;
-    int                 flags;
-    void                *variable;
-    int                 aliases;
-    int                 minimumvalue;
-    int                 maximumvalue;
-    char                *format;
-    char                *description;
-    float               defaultnumber;
-    char                *defaultstring;
+    char        *name;
+    char        *alternate;
+    dboolean    (*func1)(char *cmd, char *parms);
+    void        (*func2)(char *cmd, char *parms);
+    int         parameters;
+    cmdtype_t   type;
+    int         flags;
+    void        *variable;
+    int         aliases;
+    int         minimumvalue;
+    int         maximumvalue;
+    char        *format;
+    char        *description;
+    float       defaultnumber;
+    char        *defaultstring;
 } consolecmd_t;
 
 typedef struct
 {
-    char                name[128];
-    char                string[128];
+    char    name[128];
+    char    string[128];
 } alias_t;
 
-extern action_t         actions[];
-extern control_t        controls[];
-extern consolecmd_t     consolecmds[];
-extern alias_t          aliases[];
+extern action_t     actions[];
+extern control_t    controls[];
+extern consolecmd_t consolecmds[];
+extern alias_t      aliases[];
 
 dboolean C_ExecuteAlias(char *alias);
 

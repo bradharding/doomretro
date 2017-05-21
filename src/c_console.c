@@ -1679,7 +1679,7 @@ void C_PrintCompileDate(void)
 
     static const char *months[] =
     {
-        "January", "February", "March", "April", "May", "June",
+        "", "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     };
 
@@ -1687,12 +1687,12 @@ void C_PrintCompileDate(void)
 
     sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year);
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
-    month = (strstr(mths, mth) - mths) / 3;
+    month = (strstr(mths, mth) - mths) / 3 + 1;
 
-    C_Output("This %i-bit <i><b>%s</b></i> binary of <i><b>"PACKAGE_NAMEANDVERSIONSTRING"</b></i> was "
-        "built at %i:%02i%s on %s, %s %i, %i.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
-        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"),
-        days[dayofweek(day, month + 1, year)], months[month], day, year);
+    C_Output("This %i-bit <i><b>%s</b></i> binary of <i><b>"PACKAGE_NAMEANDVERSIONSTRING"</b></i> was built "
+        "at %i:%02i%s on %s, %s %i, %i.", (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(),
+        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"), days[dayofweek(day, month, year)],
+        months[month], day, year);
 
 #if defined(_MSC_FULL_VER)
     if (_MSC_BUILD)

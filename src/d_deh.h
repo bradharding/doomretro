@@ -43,21 +43,20 @@
 
 enum
 {
-    p_GOTARMOR = 33, p_GOTMEGA, p_GOTHTHBONUS, p_GOTARMBONUS, p_GOTSTIM, p_GOTMEDINEED,
-    p_GOTMEDINEED2, p_GOTMEDIKIT, p_GOTSUPER, p_GOTBLUECARD, p_GOTYELWCARD, p_GOTREDCARD,
-    p_GOTBLUESKUL, p_GOTYELWSKUL, p_GOTREDSKUL, p_GOTREDSKULL, p_GOTINVUL, p_GOTBERSERK,
-    p_GOTINVIS, p_GOTSUIT, p_GOTMAP, p_GOTVISOR, p_GOTCLIP, p_GOTCLIPX2, p_GOTHALFCLIP,
-    p_GOTCLIPBOX, p_GOTROCKET, p_GOTROCKETX2, p_GOTROCKBOX, p_GOTCELL, p_GOTCELLX2, p_GOTCELLBOX,
-    p_GOTSHELLS, p_GOTSHELLSX2, p_GOTSHELLBOX, p_GOTBACKPACK, p_GOTBFG9000, p_GOTCHAINGUN,
-    p_GOTCHAINSAW, p_GOTLAUNCHER, p_GOTMSPHERE, p_GOTPLASMA, p_GOTSHOTGUN, p_GOTSHOTGUN2,
-    p_PD_BLUEO, p_PD_REDO, p_PD_YELLOWO, p_PD_BLUEK, p_PD_REDK, p_PD_YELLOWK
+    p_GOTARMOR = 33, p_GOTMEGA, p_GOTHTHBONUS, p_GOTARMBONUS, p_GOTSTIM, p_GOTMEDINEED, p_GOTMEDINEED2,
+    p_GOTMEDIKIT, p_GOTSUPER, p_GOTBLUECARD, p_GOTYELWCARD, p_GOTREDCARD, p_GOTBLUESKUL, p_GOTYELWSKUL,
+    p_GOTREDSKUL, p_GOTREDSKULL, p_GOTINVUL, p_GOTBERSERK, p_GOTINVIS, p_GOTSUIT, p_GOTMAP, p_GOTVISOR,
+    p_GOTCLIP, p_GOTCLIPX2, p_GOTHALFCLIP, p_GOTCLIPBOX, p_GOTROCKET, p_GOTROCKETX2, p_GOTROCKBOX,
+    p_GOTCELL, p_GOTCELLX2, p_GOTCELLBOX, p_GOTSHELLS, p_GOTSHELLSX2, p_GOTSHELLBOX, p_GOTBACKPACK,
+    p_GOTBFG9000, p_GOTCHAINGUN, p_GOTCHAINSAW, p_GOTLAUNCHER, p_GOTMSPHERE, p_GOTPLASMA, p_GOTSHOTGUN,
+    p_GOTSHOTGUN2, p_PD_BLUEO, p_PD_REDO, p_PD_YELLOWO, p_PD_BLUEK, p_PD_REDK, p_PD_YELLOWK
 };
 
 typedef struct
 {
-    char        **ppstr;        // doubly indirect pointer to string
-    char        *lookup;        // pointer to lookup string name
-    int         assigned;       // [BH] counter indicating string has been assigned
+    char    **ppstr;        // doubly indirect pointer to string
+    char    *lookup;        // pointer to lookup string name
+    int     assigned;       // [BH] counter indicating string has been assigned
 } deh_strs;
 
 extern dboolean dehacked;

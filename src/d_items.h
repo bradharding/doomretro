@@ -57,6 +57,6 @@ typedef struct
     dboolean    dehacked;
 } weaponinfo_t;
 
-extern weaponinfo_t     weaponinfo[NUMWEAPONS];
+extern weaponinfo_t weaponinfo[NUMWEAPONS];
 
 #endif
