@@ -289,6 +289,14 @@ static void R_MakeSpans(visplane_t *pl)
 {
     int x;
 
+    xoffs = pl->xoffs;
+    yoffs = pl->yoffs;
+    planeheight = ABS(pl->height - viewz);
+
+    planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+
+    pl->top[pl->minx - 1] = pl->top[pl->maxx + 1] = USHRT_MAX;
+
     for (x = pl->minx; x <= pl->maxx + 1; x++)
     {
         unsigned short  t1 = pl->top[x - 1];
@@ -346,7 +354,7 @@ static byte *R_DistortedFlat(int flatnum)
     lastflat = flatnum;
 
     // built this tic?
-    if (leveltic != swirltic && !freeze && (!consoleactive || swirltic == -1) && !menuactive && !paused)
+    if (leveltic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused)
     {
         int x, y;
 
@@ -358,15 +366,13 @@ static byte *R_DistortedFlat(int flatnum)
                 int x1, y1;
                 int sinvalue, sinvalue2;
 
-                sinvalue = (y * SWIRLFACTOR + leveltic * 5 + 900) & 8191;
-                sinvalue2 = (x * SWIRLFACTOR2 + leveltic * 4 + 300) & 8191;
-                x1 = x + 128 + ((finesine[sinvalue] * AMP) >> FRACBITS)
-                    + ((finesine[sinvalue2] * AMP2) >> FRACBITS);
+                sinvalue = finesine[(y * SWIRLFACTOR + leveltic * 5 + 900) & 8191];
+                sinvalue2 = finesine[(x * SWIRLFACTOR2 + leveltic * 4 + 300) & 8191];
+                x1 = x + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
 
-                sinvalue = (x * SWIRLFACTOR + leveltic * 3 + 700) & 8191;
-                sinvalue2 = (y * SWIRLFACTOR2 + leveltic * 4 + 1200) & 8191;
-                y1 = y + 128 + ((finesine[sinvalue] * AMP) >> FRACBITS)
-                    + ((finesine[sinvalue2] * AMP2) >> FRACBITS);
+                sinvalue = finesine[(x * SWIRLFACTOR + leveltic * 3 + 700) & 8191];
+                sinvalue2 = finesine[(y * SWIRLFACTOR2 + leveltic * 4 + 1200) & 8191];
+                y1 = y + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
 
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
             }
@@ -481,24 +487,19 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    dboolean    swirling = (isliquid[picnum] && r_liquid_swirl && !freeze);
-                    int         lumpnum = firstflat + flattranslation[picnum];
+                    if (isliquid[picnum] && r_liquid_swirl && !freeze)
+                    {
+                        ds_source = R_DistortedFlat(picnum);
+                        R_MakeSpans(pl);
+                    }
+                    else
+                    {
+                        lumpindex_t lumpnum = firstflat + flattranslation[picnum];
 
-                    ds_source = (swirling ? R_DistortedFlat(picnum) : W_CacheLumpNum(lumpnum));
-
-                    xoffs = pl->xoffs;  // killough 2/28/98: Add offsets
-                    yoffs = pl->yoffs;
-                    planeheight = ABS(pl->height - viewz);
-
-                    planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight,
-                        LIGHTLEVELS - 1)];
-
-                    pl->top[pl->minx - 1] = pl->top[pl->maxx + 1] = USHRT_MAX;
-
-                    R_MakeSpans(pl);
-
-                    if (!swirling)
+                        ds_source = W_CacheLumpNum(lumpnum);
+                        R_MakeSpans(pl);
                         W_UnlockLumpNum(lumpnum);
+                    }
                 }
             }
     }
