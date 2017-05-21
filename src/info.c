@@ -4262,7 +4262,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* fullbright           */ false,
         /* blood                */ 0,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 1 * FRACUNIT,
         /* name1                */ "rocket ammo",
         /* plural1              */ "rocket ammo",
         /* name2                */ "MISC18",
