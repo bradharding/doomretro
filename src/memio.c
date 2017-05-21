@@ -157,15 +157,15 @@ int mem_fseek(MEMFILE *stream, signed long position, mem_rel_t whence)
     switch (whence)
     {
         case MEM_SEEK_SET:
-            newpos = (int) position;
+            newpos = (int)position;
             break;
 
         case MEM_SEEK_CUR:
-            newpos = (int) (stream->position + position);
+            newpos = (int)(stream->position + position);
             break;
 
         case MEM_SEEK_END:
-            newpos = (int) (stream->buflen + position);
+            newpos = (int)(stream->buflen + position);
             break;
 
         default:

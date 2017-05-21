@@ -1117,8 +1117,8 @@ void C_Drawer(void)
             righttext[i - selectend] = '\0';
 
             if (*righttext)
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, righttext, consoleinputcolor,
-                    NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false);
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, righttext, consoleinputcolor, NOBACKGROUNDCOLOR,
+                    NOBOLDCOLOR, NULL, notabs, false);
         }
 
         free(lefttext);
@@ -1429,6 +1429,7 @@ dboolean C_Responder(event_t *ev)
                             return true;
                         }
                     }
+
                     autocomplete = start;
                 }
                 break;
@@ -1673,6 +1674,7 @@ void C_PrintCompileDate(void)
     {
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     };
+
     static const char mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 
     static const char *months[] =

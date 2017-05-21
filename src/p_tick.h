@@ -52,7 +52,7 @@ void P_RemoveThinkerDelayed(thinker_t *thinker);        // killough 4/25/98
 
 void P_UpdateThinker(thinker_t *thinker);               // killough 8/29/98
 
-void P_SetTarget(mobj_t **mo, mobj_t *target);          // killough 11/98
+void P_SetTarget(mobj_t **mop, mobj_t *targ);           // killough 11/98
 
 // killough 8/29/98: threads of thinkers, for more efficient searches
 // cph 2002/01/13: for consistency with the main thinker list, keep objects

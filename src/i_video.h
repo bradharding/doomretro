@@ -70,7 +70,7 @@ void GetScreenResolution(void);
 void I_ShutdownKeyboard(void);
 
 // Takes full 8 bit values.
-void I_SetPalette(byte *palette);
+void I_SetPalette(byte *playpal);
 
 void I_UpdateBlitFunc(dboolean shake);
 void I_Blit_Automap(void);

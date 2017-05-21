@@ -56,6 +56,6 @@ MEMFILE *mem_fopen_write(void);
 size_t mem_fwrite(const void *ptr, size_t size, size_t nmemb, MEMFILE *stream);
 void mem_get_buf(MEMFILE *stream, void **buf, size_t *buflen);
 void mem_fclose(MEMFILE *stream);
-int mem_fseek(MEMFILE *stream, signed long offset, mem_rel_t whence);
+int mem_fseek(MEMFILE *stream, signed long position, mem_rel_t whence);
 
 #endif

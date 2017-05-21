@@ -186,7 +186,7 @@ static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 //
 // Returns 0 if successful, MEMALLOC if a memory allocation error occurs
 //
-static int TWriteVarLen(MIDI *mididata, int tracknum, ULONG value)
+static int TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value)
 {
     ULONG   buffer = value & 0x7F;
 
@@ -200,7 +200,7 @@ static int TWriteVarLen(MIDI *mididata, int tracknum, ULONG value)
     while (1)                           // write bytes out in opposite order
     {
         // proff: Added typecast to avoid warning
-        if (TWriteByte(mididata, tracknum, (char)(buffer & 0xFF))) // insure buffer masked
+        if (TWriteByte(mididata, MIDItrack, (char)(buffer & 0xFF))) // insure buffer masked
             return MEMALLOC;
 
         if (buffer & 0x80)

@@ -72,8 +72,8 @@ struct lumpinfo_s
     wadfile_t   *wadfile;
 };
 
-extern lumpinfo_t       **lumpinfo;
-extern int              numlumps;
+extern lumpinfo_t   **lumpinfo;
+extern int          numlumps;
 
 wadfile_t *W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);
@@ -87,13 +87,13 @@ lumpindex_t W_GetNumForNameX(char *name, unsigned int count);
 
 int W_CheckMultipleLumps(char *name);
 
-int W_LumpLength(lumpindex_t lumpnum);
-void W_ReadLump(lumpindex_t lumpnum, void *dest);
+int W_LumpLength(lumpindex_t lump);
+void W_ReadLump(lumpindex_t lump, void *dest);
 
-void *W_CacheLumpNum(lumpindex_t lumpnum);
+void *W_CacheLumpNum(lumpindex_t lump);
 
-#define W_CacheLumpName(name)           W_CacheLumpNum(W_GetNumForName(name))
-#define W_CacheLumpName2(name)          W_CacheLumpNum(W_GetNumForName2(name))
+#define W_CacheLumpName(name)   W_CacheLumpNum(W_GetNumForName(name))
+#define W_CacheLumpName2(name)  W_CacheLumpNum(W_GetNumForName2(name))
 
 void W_Init(void);
 
@@ -103,7 +103,7 @@ void W_UnlockLumpNum(lumpindex_t lump);
 
 void *W_LockLumpNum(lumpindex_t lump);
 
-#define W_UnlockLumpName(name)          W_UnlockLumpNum(W_GetNumForName(name))
+#define W_UnlockLumpName(name)  W_UnlockLumpNum(W_GetNumForName(name))
 
 int IWADRequiredByPWAD(const char *pwadname);
 dboolean HasDehackedLump(const char *pwadname);

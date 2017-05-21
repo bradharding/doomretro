@@ -614,16 +614,13 @@ static void R_ProjectSprite(mobj_t *thing)
     int             heightsec;
     int             flags2 = thing->flags2;
     int             frame;
-    fixed_t         tr_x;
-    fixed_t         tr_y;
+    fixed_t         tr_x, tr_y;
     fixed_t         gzt;
     fixed_t         tz;
     angle_t         rot = 0;
     sector_t        *sector;
     fixed_t         floorheight;
-    fixed_t         fx;
-    fixed_t         fy;
-    fixed_t         fz;
+    fixed_t         fx, fy, fz;
     fixed_t         offset;
     fixed_t         topoffset;
 

@@ -215,14 +215,14 @@ void STlib_updatePercent(st_percent_t *per, int refresh)
     STlib_updateNum(&per->n);
 }
 
-void STlib_initMultIcon(st_multicon_t *i, int x, int y, patch_t **il, int *inum, dboolean *on)
+void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum, dboolean *on)
 {
-    i->x = x;
-    i->y = y;
-    i->oldinum = -1;
-    i->inum = inum;
-    i->on = on;
-    i->p = il;
+    mi->x = x;
+    mi->y = y;
+    mi->oldinum = -1;
+    mi->inum = inum;
+    mi->on = on;
+    mi->p = il;
 }
 
 void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh)

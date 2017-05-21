@@ -136,7 +136,7 @@ void P_InitCards(player_t *player);
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
 mobjtype_t P_FindDoomedNum(unsigned int type);
 
-void P_RemoveMobj(mobj_t *th);
+void P_RemoveMobj(mobj_t *mobj);
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
 
@@ -243,9 +243,9 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
 
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage);
 
-int P_GetMoveFactor(const mobj_t *mo, int *friction);   // killough 8/28/98
-int P_GetFriction(const mobj_t *mo, int *factor);       // killough 8/28/98
-void P_ApplyTorque(mobj_t *mo);                         // killough 9/12/98
+int P_GetMoveFactor(const mobj_t *mo, int *frictionp);      // killough 8/28/98
+int P_GetFriction(const mobj_t *mo, int *frictionfactor);   // killough 8/28/98
+void P_ApplyTorque(mobj_t *mo);                             // killough 9/12/98
 
 void P_MapEnd(void);
 
@@ -269,7 +269,7 @@ extern mobj_t           **blocklinks;   // for thing chains
 
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat);
 
-void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage, dboolean usearmor);
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean usearmor);
 
 extern int god_health;
 extern int idfa_armor;
