@@ -42,9 +42,9 @@
 
 // killough 1/6/98: replaced globals with statics where appropriate
 
-static dboolean segtextured;            // True if any of the segs textures might be visible.
+static dboolean segtextured;        // True if any of the segs textures might be visible.
 
-static dboolean markfloor;              // False if the back side is the same plane.
+static dboolean markfloor;          // False if the back side is the same plane.
 dboolean        markceiling;
 
 static dboolean maskedtexture;
@@ -94,7 +94,7 @@ static fixed_t  bottomstep;
 
 lighttable_t    **walllights;
 
-static int      *maskedtexturecol;      // dropoff overflow
+static int      *maskedtexturecol;  // dropoff overflow
 
 dboolean        r_brightmaps = r_brightmaps_default;
 dboolean        r_liquid_current = r_liquid_current_default;
@@ -108,6 +108,7 @@ extern dboolean r_dither;
 extern dboolean r_liquid_bob;
 extern dboolean r_textures;
 extern dboolean r_translucency;
+extern dboolean usebrightmaps;
 
 //
 // R_FixWiggle()
@@ -334,8 +335,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 //
 void R_RenderSegLoop(void)
 {
-    fixed_t     texturecolumn = 0;
-    dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0] && !BTSX);
+    fixed_t texturecolumn = 0;
 
     for (; rw_x < rw_stopx; rw_x++)
     {
@@ -409,10 +409,11 @@ void R_RenderSegLoop(void)
                 dc_texheight = midtexheight;
 
                 // [BH] apply brightmap
-                dc_colormask = midtexfullbright;
-
-                if (dc_colormask && usebrightmaps && !nobrightmap[midtexture])
+                if (midtexfullbright)
+                {
+                    dc_colormask = midtexfullbright;
                     fbwallcolfunc();
+                }
                 else
                     wallcolfunc();
 
@@ -448,10 +449,11 @@ void R_RenderSegLoop(void)
                         dc_texheight = toptexheight;
 
                         // [BH] apply brightmap
-                        dc_colormask = toptexfullbright;
-
-                        if (dc_colormask && usebrightmaps && !nobrightmap[toptexture])
+                        if (toptexfullbright)
+                        {
+                            dc_colormask = toptexfullbright;
                             fbwallcolfunc();
+                        }
                         else
                             wallcolfunc();
 
@@ -492,10 +494,11 @@ void R_RenderSegLoop(void)
                         dc_texheight = bottomtexheight;
 
                         // [BH] apply brightmap
-                        dc_colormask = bottomtexfullbright;
-
-                        if (dc_colormask && usebrightmaps && !nobrightmap[bottomtexture])
+                        if (bottomtexfullbright)
+                        {
+                            dc_colormask = bottomtexfullbright;
                             fbwallcolfunc();
+                        }
                         else
                             wallcolfunc();
 
@@ -546,9 +549,9 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_StoreWallRange(int start, int stop)
 {
-    int64_t dx, dy;
-    int64_t dx1, dy1;
-    int64_t len;
+    int64_t     dx, dy;
+    int64_t     dx1, dy1;
+    int64_t     len;
 
     linedef = curline->linedef;
 
@@ -668,7 +671,8 @@ void R_StoreWallRange(int start, int stop)
         // single sided line
         midtexture = texturetranslation[sidedef->midtexture];
         midtexheight = textureheight[midtexture] >> FRACBITS;
-        midtexfullbright = texturefullbright[midtexture];
+        midtexfullbright = (usebrightmaps && !nobrightmap[midtexture] ? texturefullbright[midtexture] :
+            NULL);
 
         // a single sided line is terminal, so it must mark ends
         markfloor = true;
@@ -788,6 +792,8 @@ void R_StoreWallRange(int start, int stop)
             toptexture = texturetranslation[sidedef->toptexture];
             toptexheight = textureheight[toptexture] >> FRACBITS;
             toptexfullbright = texturefullbright[toptexture];
+            toptexfullbright = (usebrightmaps && !nobrightmap[toptexture] ? texturefullbright[toptexture] :
+                NULL);
 
             if (linedef->flags & ML_DONTPEGTOP)
                 // top of texture at top
@@ -813,6 +819,8 @@ void R_StoreWallRange(int start, int stop)
             bottomtexture = texturetranslation[sidedef->bottomtexture];
             bottomtexheight = textureheight[bottomtexture] >> FRACBITS;
             bottomtexfullbright = texturefullbright[bottomtexture];
+            bottomtexfullbright = (usebrightmaps && !nobrightmap[bottomtexture] ?
+                texturefullbright[bottomtexture] : NULL);
 
             if (linedef->flags & ML_DONTPEGBOTTOM)
                 // bottom of texture at bottom, top of texture at top

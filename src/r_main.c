@@ -54,7 +54,8 @@
 int                 validcount = 1;
 
 lighttable_t        *fixedcolormap;
-extern lighttable_t **walllights;
+
+dboolean            usebrightmaps;
 
 int                 centerx;
 int                 centery;
@@ -128,6 +129,7 @@ extern dboolean     m_look;
 extern dboolean     transferredsky;
 extern dboolean     vanilla;
 extern int          viewheight2;
+extern lighttable_t **walllights;
 
 //
 // R_PointOnSide
@@ -799,13 +801,18 @@ void R_SetupFrame(player_t *player)
         // killough 3/20/98: use fullcolormap
         fixedcolormap = fullcolormap + player->fixedcolormap * 256 * sizeof(lighttable_t);
 
+        usebrightmaps = false;
+
         walllights = scalelightfixed;
 
         for (i = 0; i < MAXLIGHTSCALE; i++)
             scalelightfixed[i] = fixedcolormap;
     }
     else
+    {
         fixedcolormap = 0;
+        usebrightmaps = (r_brightmaps && !cm && !BTSX);
+    }
 
     validcount++;
 }
