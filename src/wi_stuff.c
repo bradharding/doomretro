@@ -241,7 +241,6 @@ static anim_t *anims[NUMEPISODES] =
 //
 // Locally used stuff.
 //
-#define FB                  0
 
 // in seconds
 #define SHOWNEXTLOCDELAY    4
@@ -498,7 +497,7 @@ static void WI_drawOnLnode(int n, patch_t *c[])
         else if (c[i] == *yah)
             V_DrawNoGreenPatchWithShadow(lnodes[wbs->epsd][n].x + 1, lnodes[wbs->epsd][n].y + 1, c[i]);
         else
-            V_DrawPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, FB, c[i]);
+            V_DrawPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, 0, c[i]);
     }
 }
 
@@ -600,14 +599,14 @@ static void WI_drawAnimatedBack(void)
         a = &anims[wbs->epsd][i];
 
         if (a->ctr >= 0)
-            V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[a->ctr]);
+            V_DrawPatch(a->loc.x, a->loc.y, 0, a->p[a->ctr]);
     }
 
     // [crispy] show Fortress Of Mystery if it has been completed
     if (wbs->epsd == 1 && wbs->didsecret)
     {
         a = &anims[1][7];
-        V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[2]);
+        V_DrawPatch(a->loc.x, a->loc.y, 0, a->p[2]);
     }
 }
 
@@ -664,7 +663,7 @@ static int WI_drawNum(int x, int y, int n, int digits)
 
     // draw a minus sign if necessary
     if (neg)
-        V_DrawPatch(x -= 8, y, FB, wiminus);
+        V_DrawPatch(x -= 8, y, 0, wiminus);
 
     return x;
 }

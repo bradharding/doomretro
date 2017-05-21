@@ -44,6 +44,9 @@
 #include "r_sky.h"
 #include "v_video.h"
 
+#define BLACK       0
+#define RED         176
+
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW 2048
 
@@ -115,13 +118,13 @@ dboolean            r_dither = r_dither_default;
 dboolean            r_homindicator = r_homindicator_default;
 dboolean            r_shadows_translucency = r_shadows_translucency_default;
 dboolean            r_shake_barrels = r_shake_barrels_default;
+int                 r_skycolor = r_skycolor_default;
 dboolean            r_textures = r_textures_default;
 dboolean            r_translucency = r_translucency_default;
 
 extern dboolean     canmodify;
 extern int          explosiontics;
 extern dboolean     m_look;
-extern int          r_skycolor;
 extern dboolean     transferredsky;
 extern dboolean     vanilla;
 extern int          viewheight2;
@@ -219,6 +222,7 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
     else
     {
         x = -x;
+
         if (y >= 0)
             return (x > y ? ANG180 - 1 - tantoangle[SlopeDiv(y, x)] : ANG90 + tantoangle[SlopeDiv(x, y)]);
         else
@@ -267,9 +271,10 @@ fixed_t R_PointToDist(fixed_t x, fixed_t y)
 
     if (!dy)
         return dx;
-
-    return (dx ? FixedDiv(dx, finesine[(tantoangle[FixedDiv(dy, dx) >> DBITS]
-        + ANG90) >> ANGLETOFINESHIFT]) : 0);
+    else if (dx)
+        return FixedDiv(dx, finesine[(tantoangle[FixedDiv(dy, dx) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
+    else
+        return 0;
 }
 
 // [AM] Interpolate between two angles.
@@ -832,10 +837,10 @@ void R_RenderPlayerView(player_t *player)
     else
     {
         if ((player->cheats & CF_NOCLIP) || freeze)
-            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, 0);
+            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, BLACK);
         else if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? 176 : 0));
+                ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? RED : BLACK));
 
         // Make displayed player invisible locally
         R_RenderBSPNode(numnodes - 1);  // head node is the last node output

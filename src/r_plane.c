@@ -87,7 +87,6 @@ fixed_t             cachedystep[SCREENHEIGHT];
 int                 skycolor;
 
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
-int                 r_skycolor = r_skycolor_default;
 
 extern dboolean     m_look;
 
@@ -295,7 +294,8 @@ static void R_MakeSpans(visplane_t *pl)
 
     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
-    pl->top[pl->minx - 1] = pl->top[pl->maxx + 1] = USHRT_MAX;
+    pl->top[pl->minx - 1] = USHRT_MAX;
+    pl->top[pl->maxx + 1] = USHRT_MAX;
 
     for (x = pl->minx; x <= pl->maxx + 1; x++)
     {
@@ -461,11 +461,8 @@ void R_DrawPlanes(void)
                     }
 
                     dc_colormap = (fixedcolormap ? fixedcolormap : fullcolormap);
-
                     dc_iscale = skyiscale;
-
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
-
                     offset = skycolumnoffset >> FRACBITS;
 
                     for (x = pl->minx; x <= pl->maxx; x++)

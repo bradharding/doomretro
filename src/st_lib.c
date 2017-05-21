@@ -172,7 +172,7 @@ static void STlib_drawNum(st_number_t *n)
                 STlib_drawHighNum(0, 160, 47, x - w, n->y);
         }
         else
-            V_DrawPatch(x - w, n->y, FG, patch);
+            V_DrawPatch(x - w, n->y, 0, patch);
     }
     else
 
@@ -189,7 +189,7 @@ static void STlib_drawNum(st_number_t *n)
                     STlib_drawHighNum(num % 10, 160, 47, x, n->y);
             }
             else
-               V_DrawPatch(x, n->y, FG, n->p[num % 10]);
+               V_DrawPatch(x, n->y, 0, n->p[num % 10]);
 
             num /= 10;
         }
@@ -210,7 +210,7 @@ void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, db
 void STlib_updatePercent(st_percent_t *per, int refresh)
 {
     if (refresh && *per->n.on)
-        V_DrawPatch(per->n.x, per->n.y, FG, per->p);
+        V_DrawPatch(per->n.x, per->n.y, 0, per->p);
 
     STlib_updateNum(&per->n);
 }
@@ -229,7 +229,7 @@ void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh)
 {
     if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        V_DrawPatch(mi->x, mi->y, FG, mi->p[*mi->inum]);
+        V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
         mi->oldinum = *mi->inum;
     }
 }
@@ -239,7 +239,7 @@ void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
     if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
         if (STYSNUM0 || STBAR > 2)
-            V_DrawPatch(mi->x, mi->y, FG, mi->p[*mi->inum]);
+            V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
         else
         {
             if (r_detail == r_detail_low)
@@ -267,7 +267,7 @@ void STlib_updateBinIcon(st_binicon_t *bi, dboolean refresh)
     if (*bi->on && (bi->oldval != *bi->val || refresh))
     {
         if (*bi->val)
-            V_DrawPatch(bi->x, bi->y, FG, bi->p);
+            V_DrawPatch(bi->x, bi->y, 0, bi->p);
 
         bi->oldval = *bi->val;
     }
@@ -278,7 +278,7 @@ void STlib_updateBigBinIcon(st_binicon_t *bi, dboolean refresh)
     if (*bi->on && (bi->oldval != *bi->val || refresh))
     {
         if (*bi->val)
-            V_DrawBigPatch(bi->x, bi->y, FG, bi->p);
+            V_DrawBigPatch(bi->x, bi->y, 0, bi->p);
 
         bi->oldval = *bi->val;
     }

@@ -414,11 +414,11 @@ static void ST_refreshBackground(void)
     if (st_statusbaron)
     {
         if (STBAR >= 3 || r_detail == r_detail_low)
-            V_DrawPatch(ST_X, 0, BG, sbar);
+            V_DrawPatch(ST_X, 0, 4, sbar);
         else
-            V_DrawBigPatch(ST_X, 0, BG, sbar2);
+            V_DrawBigPatch(ST_X, 0, 4, sbar2);
 
-        V_CopyRect(ST_X, 0, BG, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, FG);
+        V_CopyRect(ST_X, 0, 4, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, 0);
     }
 }
 
