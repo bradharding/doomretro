@@ -947,8 +947,6 @@ static void M_CheckCVARs(void)
         r_hud = true;
 
     weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
-
-    M_SaveCVARs();
 }
 
 void alias_cmd_func2(char *cmd, char *parms);
@@ -964,12 +962,12 @@ void M_LoadCVARs(char *filename)
     // read the file in, overriding any set defaults
     FILE    *file = fopen(filename, "r");
 
-    cvarsloaded = true;
-
     if (!file)
     {
-        C_Output("Created <b>%s</b>.", filename);
         M_CheckCVARs();
+        M_SaveCVARs();
+        C_Output("Created <b>%s</b>.", filename);
+        cvarsloaded = true;
         return;
     }
 
@@ -1083,5 +1081,6 @@ void M_LoadCVARs(char *filename)
     {
         C_Output("Loaded CVARs from <b>%s</b>.", filename);
         M_CheckCVARs();
+        cvarsloaded = true;
     }
 }
