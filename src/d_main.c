@@ -176,9 +176,6 @@ void D_ProcessEvents(void)
     {
         event_t *ev = events + eventtail;
 
-        if (wipe && ev->type == ev_mouse)
-            continue;
-
         if (C_Responder(ev))
             continue;           // console ate the event
 
