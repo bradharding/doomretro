@@ -1451,7 +1451,6 @@ void P_UnArchiveSpecials(void)
                 ceiling->thinker.function = T_MoveCeiling;
                 P_AddThinker(&ceiling->thinker);
                 P_AddActiveCeiling(ceiling);
-                Z_Free(ceiling);
                 break;
             }
 
@@ -1464,7 +1463,6 @@ void P_UnArchiveSpecials(void)
                 door->sector->ceilingdata = door;
                 door->thinker.function = T_VerticalDoor;
                 P_AddThinker(&door->thinker);
-                Z_Free(door);
                 break;
             }
 
@@ -1477,7 +1475,6 @@ void P_UnArchiveSpecials(void)
                 floor->sector->floordata = floor;
                 floor->thinker.function = T_MoveFloor;
                 P_AddThinker(&floor->thinker);
-                Z_Free(floor);
                 break;
             }
 
@@ -1490,7 +1487,6 @@ void P_UnArchiveSpecials(void)
                 plat->sector->floordata = plat;
                 P_AddThinker(&plat->thinker);
                 P_AddActivePlat(plat);
-                Z_Free(plat);
                 break;
             }
 
@@ -1502,7 +1498,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_lightflash_t(flash);
                 flash->thinker.function = T_LightFlash;
                 P_AddThinker(&flash->thinker);
-                Z_Free(flash);
                 break;
             }
 
@@ -1514,7 +1509,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_strobe_t(strobe);
                 strobe->thinker.function = T_StrobeFlash;
                 P_AddThinker(&strobe->thinker);
-                Z_Free(strobe);
                 break;
             }
 
@@ -1526,7 +1520,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_glow_t(glow);
                 glow->thinker.function = T_Glow;
                 P_AddThinker(&glow->thinker);
-                Z_Free(glow);
                 break;
             }
 
@@ -1538,7 +1531,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_fireflicker_t(fireflicker);
                 fireflicker->thinker.function = T_FireFlicker;
                 P_AddThinker(&fireflicker->thinker);
-                Z_Free(fireflicker);
                 break;
             }
 
@@ -1551,7 +1543,6 @@ void P_UnArchiveSpecials(void)
                 elevator->sector->ceilingdata = elevator;
                 elevator->thinker.function = T_MoveElevator;
                 P_AddThinker(&elevator->thinker);
-                Z_Free(elevator);
                 break;
             }
 
@@ -1563,7 +1554,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_scroll_t(scroll);
                 scroll->thinker.function = T_Scroll;
                 P_AddThinker(&scroll->thinker);
-                Z_Free(scroll);
                 break;
             }
 
@@ -1576,7 +1566,6 @@ void P_UnArchiveSpecials(void)
                 pusher->thinker.function = T_Pusher;
                 pusher->source = P_GetPushThing(pusher->affectee);
                 P_AddThinker(&pusher->thinker);
-                Z_Free(pusher);
                 break;
             }
 
@@ -1587,7 +1576,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_pad();
                 saveg_read_button_t(button);
                 P_StartButton(button->line, button->where, button->btexture, button->btimer);
-                Z_Free(button);
                 break;
             }
 
