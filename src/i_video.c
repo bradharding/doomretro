@@ -531,12 +531,7 @@ static void I_GetEvent(void)
                         idbehold = false;
                     }
 
-                    event.type = ev_mouse;
                     mousebuttonstate |= buttons[Event->button.button];
-                    event.data1 = mousebuttonstate;
-                    event.data2 = 0;
-                    event.data3 = 0;
-                    D_PostEvent(&event);
                 }
 
                 break;
@@ -545,12 +540,7 @@ static void I_GetEvent(void)
                 if (m_sensitivity || menuactive)
                 {
                     keydown = 0;
-                    event.type = ev_mouse;
                     mousebuttonstate &= ~buttons[Event->button.button];
-                    event.data1 = mousebuttonstate;
-                    event.data2 = 0;
-                    event.data3 = 0;
-                    D_PostEvent(&event);
                 }
 
                 break;
@@ -678,7 +668,7 @@ static void I_ReadMouse(void)
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if (x || y)
+    if (x || y || mousebuttonstate)
     {
         event_t ev;
 
@@ -700,10 +690,7 @@ static void I_ReadMouse(void)
 void I_StartTic(void)
 {
     I_GetEvent();
-
-    if (m_sensitivity)
-        I_ReadMouse();
-
+    I_ReadMouse();
     gamepadfunc();
 }
 
