@@ -3897,6 +3897,8 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 mo->momx = 0;
                 mo->momy = 0;
                 mo->momz = 0;
+                player->lookdir = 0;
+                player->oldlookdir = 0;
 
                 player->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
