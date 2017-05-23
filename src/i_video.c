@@ -429,9 +429,10 @@ static void CenterMouse(void)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-dboolean    altdown;
-dboolean    waspaused;
-dboolean    noinput = true;
+dboolean        altdown;
+dboolean        noinput = true;
+dboolean        waspaused;
+static dboolean button;
 
 static void I_GetEvent(void)
 {
@@ -530,11 +531,13 @@ static void I_GetEvent(void)
                 }
 
                 mousebuttonstate |= buttons[Event->button.button];
+                button = true;
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 keydown = 0;
                 mousebuttonstate &= ~buttons[Event->button.button];
+                button = true;
                 break;
 
             case SDL_MOUSEWHEEL:
@@ -656,7 +659,7 @@ static void I_ReadMouse(void)
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if (x || y || mousebuttonstate)
+    if (x || y || button)
     {
         event_t ev;
 
@@ -664,8 +667,8 @@ static void I_ReadMouse(void)
         ev.data1 = mousebuttonstate;
         ev.data2 = AccelerateMouse(x);
         ev.data3 = -AccelerateMouse(y);
-
         D_PostEvent(&ev);
+        button = false;
     }
 
     if (MouseShouldBeGrabbed())
