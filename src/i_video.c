@@ -673,6 +673,9 @@ static void I_ReadMouse(void)
 {
     int x, y;
 
+    if (startingnewgame)
+        SDL_GetRelativeMouseState(NULL, NULL);
+
     SDL_GetRelativeMouseState(&x, &y);
 
     if (x || y)
