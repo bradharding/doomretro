@@ -3892,7 +3892,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 mo->reactiontime = 18;
                 player->psprites[ps_weapon].sx = 0;
                 player->psprites[ps_weapon].sy = WEAPONTOP;
-                player->momx - 0;
+                player->momx = 0;
                 player->momy = 0;
                 mo->momx = 0;
                 mo->momy = 0;
