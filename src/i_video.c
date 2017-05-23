@@ -519,43 +519,31 @@ static void I_GetEvent(void)
                 if (noinput)
                     return;
 
-                if (m_sensitivity || menuactive)
+                idclev = false;
+                idmus = false;
+
+                if (idbehold)
                 {
-                    idclev = false;
-                    idmus = false;
-
-                    if (idbehold)
-                    {
-                        message_clearable = true;
-                        HU_ClearMessages();
-                        idbehold = false;
-                    }
-
-                    mousebuttonstate |= buttons[Event->button.button];
+                    message_clearable = true;
+                    HU_ClearMessages();
+                    idbehold = false;
                 }
 
+                mousebuttonstate |= buttons[Event->button.button];
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                if (m_sensitivity || menuactive)
-                {
-                    keydown = 0;
-                    mousebuttonstate &= ~buttons[Event->button.button];
-                }
-
+                keydown = 0;
+                mousebuttonstate &= ~buttons[Event->button.button];
                 break;
 
             case SDL_MOUSEWHEEL:
-                if (m_sensitivity || menuactive || consoleactive)
-                {
-                    keydown = 0;
-                    event.type = ev_mousewheel;
-                    event.data1 = Event->wheel.y;
-                    event.data2 = 0;
-                    event.data3 = 0;
-                    D_PostEvent(&event);
-                }
-
+                keydown = 0;
+                event.type = ev_mousewheel;
+                event.data1 = Event->wheel.y;
+                event.data2 = 0;
+                event.data3 = 0;
+                D_PostEvent(&event);
                 break;
 
             case SDL_JOYBUTTONUP:
