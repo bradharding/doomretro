@@ -488,13 +488,13 @@ void R_ExecuteSetViewSize(void)
 
         for (j = 0; j < LOOKDIRS; j++)
         {
-            dy = ABS(((i - (viewheight / 2 + (j - LOOKDIRMIN) * 2 * (r_screensize + 3) / 10)) << FRACBITS)
+            dy = ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2 * (r_screensize + 3) / 10)) << FRACBITS)
                 + FRACUNIT / 2);
             yslopes[j][i] = FixedDiv(num, dy);
         }
     }
 
-    yslope = yslopes[LOOKDIRMIN];
+    yslope = yslopes[LOOKDIRMAX];
 
     // Calculate the light levels to use
     //  for each level / scale combination.
@@ -767,7 +767,7 @@ void R_SetupFrame(player_t *player)
     {
         centery = tempCentery;
         centeryfrac = centery << FRACBITS;
-        yslope = yslopes[LOOKDIRMIN + pitch];
+        yslope = yslopes[LOOKDIRMAX + pitch];
     }
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];

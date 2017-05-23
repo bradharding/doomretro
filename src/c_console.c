@@ -1249,6 +1249,7 @@ dboolean C_Responder(event_t *ev)
                     autocomplete = -1;
                     inputhistory = -1;
                 }
+
                 break;
 
             case KEY_DELETE:
@@ -1280,6 +1281,7 @@ dboolean C_Responder(event_t *ev)
                     autocomplete = -1;
                     inputhistory = -1;
                 }
+
                 break;
 
             // confirm input
@@ -1302,6 +1304,7 @@ dboolean C_Responder(event_t *ev)
 
                     return !consolecheat[0];
                 }
+
                 break;
 
             // move caret left

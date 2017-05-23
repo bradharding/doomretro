@@ -1192,6 +1192,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                             *(int *)actions[action].keyboard2 = 0;
                             M_SaveCVARs();
                         }
+
                         break;
 
                     case mousecontrol:
@@ -1208,6 +1209,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                             *(int *)actions[action].mouse2 = -1;
                             M_SaveCVARs();
                         }
+
                         break;
 
                     case gamepadcontrol:
@@ -1224,6 +1226,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                             *(int *)actions[action].gamepad2 = 0;
                             M_SaveCVARs();
                         }
+
                         break;
 
                     default:
@@ -1269,6 +1272,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                             bound = true;
                             C_UnbindDuplicates(action, keyboardcontrol, controls[i].value);
                         }
+
                         break;
 
                     case mousecontrol:
@@ -1291,6 +1295,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                             bound = true;
                             C_UnbindDuplicates(action, mousecontrol, controls[i].value);
                         }
+
                         break;
 
                     case gamepadcontrol:
@@ -1313,6 +1318,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                             bound = true;
                             C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
                         }
+
                         break;
 
                     default:

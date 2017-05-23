@@ -690,8 +690,7 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     int         xh;
     int         yl;
     int         yh;
-    int         bx;
-    int         by;
+    int         bx, by;
     subsector_t *newsubsec;
     fixed_t     radius = thing->radius;
 

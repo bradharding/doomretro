@@ -43,9 +43,8 @@
 #include "r_patch.h"
 #include "r_state.h"
 
-#define LOOKDIRMIN      110
 #define LOOKDIRMAX      89
-#define LOOKDIRS        (LOOKDIRMIN + 1 + LOOKDIRMAX)
+#define LOOKDIRS        (LOOKDIRMAX * 2 + 1)
 
 #if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(push, 1)

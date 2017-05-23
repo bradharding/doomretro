@@ -751,7 +751,6 @@ static void F_CastPrint(char *text)
     const char  *ch = text;
     int         c;
     int         cx;
-    int         w;
     int         width = 0;
 
     while (ch)
@@ -769,8 +768,7 @@ static void F_CastPrint(char *text)
             continue;
         }
 
-        w = SHORT(hu_font[c]->width);
-        width += w;
+        width += SHORT(hu_font[c]->width);
     }
 
     // draw it
@@ -792,9 +790,8 @@ static void F_CastPrint(char *text)
             continue;
         }
 
-        w = SHORT(hu_font[c]->width);
         V_DrawPatchWithShadow(cx + 1, 181, hu_font[c], false);
-        cx += w;
+        cx += SHORT(hu_font[c]->width);
     }
 }
 
