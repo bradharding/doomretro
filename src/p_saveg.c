@@ -1409,7 +1409,7 @@ void P_ArchiveSpecials(void)
 
     do
     {
-        if (button_ptr->btimer != 0)
+        if (button_ptr->btimer)
         {
             saveg_write8(tc_button);
             saveg_write_pad();
@@ -1439,7 +1439,8 @@ void P_UnArchiveSpecials(void)
         switch (tclass)
         {
             case tc_endspecials:
-                return;          // end of list
+                // end of list
+                return;
 
             case tc_ceiling:
             {
@@ -1629,7 +1630,7 @@ void P_UnArchiveMap(void)
     {
         while (markpointnum >= markpointnum_max)
         {
-            markpointnum_max = (markpointnum_max ? markpointnum_max << 1 : 16);
+            markpointnum_max = (markpointnum_max ? (markpointnum_max << 1) : 16);
             markpoints = Z_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
         }
 
@@ -1644,7 +1645,7 @@ void P_UnArchiveMap(void)
     {
         while (pathpointnum >= pathpointnum_max)
         {
-            pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
+            pathpointnum_max = (pathpointnum_max ? (pathpointnum_max << 1) : 16);
             pathpoints = Z_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
         }
 

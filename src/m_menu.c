@@ -3270,7 +3270,7 @@ dboolean M_Responder(event_t *ev)
         }
 
         // Keyboard shortcut?
-        else if (ch != 0 && !(modstate & (KMOD_ALT | KMOD_CTRL)))
+        else if (ch && !(modstate & (KMOD_ALT | KMOD_CTRL)))
         {
             for (i = itemOn + 1; i < currentMenu->numitems; i++)
             {

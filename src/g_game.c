@@ -1121,7 +1121,10 @@ void G_PlayerReborn(void)
     player->itemcount = itemcount;
     player->secretcount = secretcount;
 
-    player->usedown = player->attackdown = true;        // don't do anything immediately
+    // don't do anything immediately
+    player->usedown = true;
+    player->attackdown = true;
+
     player->playerstate = PST_LIVE;
     player->health = initial_health;
     player->preferredshotgun = wp_shotgun;
