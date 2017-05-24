@@ -440,7 +440,11 @@ static void I_GetEvent(void)
 
     while (SDL_PollEvent(Event))
     {
-        event_t event;
+        event_t         event;
+
+#if !defined(_WIN32)
+        static dboolean enterdown;
+#endif
 
         switch (Event->type)
         {
@@ -459,10 +463,6 @@ static void I_GetEvent(void)
 
                 if (event.data1)
                 {
-#if !defined(_WIN32)
-                    static dboolean enterdown;
-#endif
-
                     if (altdown && event.data1 == KEY_TAB)
                     {
                         event.data1 = 0;
