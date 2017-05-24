@@ -74,7 +74,7 @@
 #define MAX_PATH            260
 #endif
 
-#define ALIASCMDFORMAT      "<i>alias</i> [<b>\"</b><i>commands</i><b>\"</b>]"
+#define ALIASCMDFORMAT      "<i>alias</i> [<b>\"</b><i>command</i> [<b>;</b> <i>command</i> ...]<b>\"</b>]"
 #define BINDCMDFORMAT       "<i>control</i> [<b>+</b><i>action</i>]"
 #define EXECCMDFORMAT       "<i>filename</i>"
 #define GIVECMDSHORTFORMAT  "<i>items</i>"
@@ -628,7 +628,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
-        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, <b>all</b> or\ncertain <i>items</i> to the player."),
+        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\nor certain <i>items</i> to the player."),
     CMD(god, "", god_cmd_func1, god_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,

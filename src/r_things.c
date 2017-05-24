@@ -1212,7 +1212,7 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
     }
 }
 
-void R_SortVisSprites (void)
+void R_SortVisSprites(void)
 {
     if (num_vissprite)
     {

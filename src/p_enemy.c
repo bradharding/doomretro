@@ -2054,13 +2054,11 @@ static mobj_t *A_NextBrainTarget(void)
 
         if (mo->type == MT_BOSSTARGET)
         {
-            if (count == braintargeted) // This one the one that we want?
+            if (count++ == braintargeted) // This one the one that we want?
             {
                 braintargeted++;        // Yes.
                 return mo;
             }
-
-            count++;
 
             if (!found)                 // Remember first one in case we wrap.
                 found = mo;
@@ -2349,17 +2347,14 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    static line_t   junk;
-    player_t        newplayer;
-    player_t        *oldplayer;
+    line_t      junk = *lines;
+    player_t    newplayer;
+    player_t    *oldplayer = actor->player;
 
-    junk = *lines;
-    oldplayer = actor->player;
     actor->player = &newplayer;
     newplayer.health = 100;
-    junk.special = (short)actor->state->misc1;
 
-    if (!junk.special)
+    if (!(junk.special = (short)actor->state->misc1))
         return;
 
     junk.tag = (short)actor->state->misc2;
