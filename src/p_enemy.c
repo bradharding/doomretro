@@ -2304,9 +2304,18 @@ void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     state_t *state = actor->state;
 
-    (actor->target && (A_FaceTarget(actor, NULL, NULL), P_CheckMeleeRange(actor)) ? (state->misc2 ?
-        S_StartSound(actor, state->misc2) : (void)0, P_DamageMobj(actor->target, actor, actor, state->misc1,
-        true)) : (void)0);
+    if (!actor->target)
+        return;
+
+    A_FaceTarget(actor, NULL, NULL);
+
+    if (P_CheckMeleeRange(actor))
+    {
+        if (state->misc2)
+            S_StartSound(actor, state->misc2);
+
+        P_DamageMobj(actor->target, actor, actor, state->misc1, true);
+    }
 }
 
 void A_PlaySound(mobj_t *actor, player_t *player, pspdef_t *psp)
