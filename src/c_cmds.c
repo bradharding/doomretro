@@ -331,39 +331,39 @@ control_t controls[] =
 
 action_t actions[] =
 {
-    { "+alwaysrun",    &keyboardalwaysrun,         NULL,                  NULL,             NULL, &gamepadalwaysrun,         NULL         },
-    { "+automap",      &keyboardautomap,           NULL,                  NULL,             NULL, &gamepadautomap,           NULL         },
-    { "+back",         &keyboardback,              &keyboardback2,        NULL,             NULL, &gamepadback,              NULL         },
-    { "+clearmark",    &keyboardautomapclearmark,  NULL,                  NULL,             NULL, &gamepadautomapclearmark,  NULL         },
-    { "+console",      &keyboardconsole,           NULL,                  NULL,             NULL, NULL,                      NULL         },
-    { "+fire",         &keyboardfire,              NULL,                  &mousefire,       NULL, &gamepadfire,              NULL         },
-    { "+followmode",   &keyboardautomapfollowmode, NULL,                  NULL,             NULL, &gamepadautomapfollowmode, NULL         },
-    { "+forward",      &keyboardforward,           &keyboardforward2,     &mouseforward,    NULL, &gamepadforward,           NULL         },
-    { "+grid",         &keyboardautomapgrid,       NULL,                  NULL,             NULL, &gamepadautomapgrid,       NULL         },
-    { "+left",         &keyboardleft,              NULL,                  NULL,             NULL, &gamepadleft,              NULL         },
-    { "+mark",         &keyboardautomapmark,       NULL,                  NULL,             NULL, &gamepadautomapmark,       NULL         },
-    { "+maxzoom",      &keyboardautomapmaxzoom,    NULL,                  NULL,             NULL, &gamepadautomapmaxzoom,    NULL         },
-    { "+menu",         &keyboardmenu,              NULL,                  NULL,             NULL, &gamepadmenu,              NULL         },
-    { "+nextweapon",   &keyboardnextweapon,        NULL,                  &mousenextweapon, NULL, &gamepadnextweapon,        NULL         },
-    { "+prevweapon",   &keyboardprevweapon,        NULL,                  &mouseprevweapon, NULL, &gamepadprevweapon,        NULL         },
-    { "+right",        &keyboardright,             NULL,                  NULL,             NULL, &gamepadright,             NULL         },
-    { "+rotatemode",   &keyboardautomaprotatemode, NULL,                  NULL,             NULL, &gamepadautomaprotatemode, NULL         },
-    { "+run",          &keyboardrun,               NULL,                  &mouserun,        NULL, &gamepadrun,               NULL         },
-    { "+screenshot",   &keyboardscreenshot,        NULL,                  NULL,             NULL, NULL,                      NULL         },
-    { "+strafe",       &keyboardstrafe,            NULL,                  &mousestrafe,     NULL, &gamepadstrafe,            NULL         },
-    { "+strafeleft",   &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,             NULL, &gamepadstrafeleft,        NULL         },
-    { "+straferight",  &keyboardstraferight,       &keyboardstraferight2, NULL,             NULL, &gamepadstraferight,       NULL         },
-    { "+use",          &keyboarduse,               &keyboarduse2,         &mouseuse,        NULL, &gamepaduse,               &gamepaduse2 },
-    { "+weapon1",      &keyboardweapon1,           NULL,                  NULL,             NULL, &gamepadweapon1,           NULL         },
-    { "+weapon2",      &keyboardweapon2,           NULL,                  NULL,             NULL, &gamepadweapon2,           NULL         },
-    { "+weapon3",      &keyboardweapon3,           NULL,                  NULL,             NULL, &gamepadweapon3,           NULL         },
-    { "+weapon4",      &keyboardweapon4,           NULL,                  NULL,             NULL, &gamepadweapon4,           NULL         },
-    { "+weapon5",      &keyboardweapon5,           NULL,                  NULL,             NULL, &gamepadweapon5,           NULL         },
-    { "+weapon6",      &keyboardweapon6,           NULL,                  NULL,             NULL, &gamepadweapon6,           NULL         },
-    { "+weapon7",      &keyboardweapon7,           NULL,                  NULL,             NULL, &gamepadweapon7,           NULL         },
-    { "+zoomin",       &keyboardautomapzoomin,     NULL,                  NULL,             NULL, &gamepadautomapzoomin,     NULL         },
-    { "+zoomout",      &keyboardautomapzoomout,    NULL,                  NULL,             NULL, &gamepadautomapzoomout,    NULL         },
-    { "",              NULL,                       NULL,                  NULL,             NULL, NULL,                      NULL         }
+    { "+alwaysrun",    &keyboardalwaysrun,         NULL,                  NULL,             &gamepadalwaysrun,         NULL         },
+    { "+automap",      &keyboardautomap,           NULL,                  NULL,             &gamepadautomap,           NULL         },
+    { "+back",         &keyboardback,              &keyboardback2,        NULL,             &gamepadback,              NULL         },
+    { "+clearmark",    &keyboardautomapclearmark,  NULL,                  NULL,             &gamepadautomapclearmark,  NULL         },
+    { "+console",      &keyboardconsole,           NULL,                  NULL,             NULL,                      NULL         },
+    { "+fire",         &keyboardfire,              NULL,                  &mousefire,       &gamepadfire,              NULL         },
+    { "+followmode",   &keyboardautomapfollowmode, NULL,                  NULL,             &gamepadautomapfollowmode, NULL         },
+    { "+forward",      &keyboardforward,           &keyboardforward2,     &mouseforward,    &gamepadforward,           NULL         },
+    { "+grid",         &keyboardautomapgrid,       NULL,                  NULL,             &gamepadautomapgrid,       NULL         },
+    { "+left",         &keyboardleft,              NULL,                  NULL,             &gamepadleft,              NULL         },
+    { "+mark",         &keyboardautomapmark,       NULL,                  NULL,             &gamepadautomapmark,       NULL         },
+    { "+maxzoom",      &keyboardautomapmaxzoom,    NULL,                  NULL,             &gamepadautomapmaxzoom,    NULL         },
+    { "+menu",         &keyboardmenu,              NULL,                  NULL,             &gamepadmenu,              NULL         },
+    { "+nextweapon",   &keyboardnextweapon,        NULL,                  &mousenextweapon, &gamepadnextweapon,        NULL         },
+    { "+prevweapon",   &keyboardprevweapon,        NULL,                  &mouseprevweapon, &gamepadprevweapon,        NULL         },
+    { "+right",        &keyboardright,             NULL,                  NULL,             &gamepadright,             NULL         },
+    { "+rotatemode",   &keyboardautomaprotatemode, NULL,                  NULL,             &gamepadautomaprotatemode, NULL         },
+    { "+run",          &keyboardrun,               NULL,                  &mouserun,        &gamepadrun,               NULL         },
+    { "+screenshot",   &keyboardscreenshot,        NULL,                  NULL,             NULL,                      NULL         },
+    { "+strafe",       &keyboardstrafe,            NULL,                  &mousestrafe,     &gamepadstrafe,            NULL         },
+    { "+strafeleft",   &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,             &gamepadstrafeleft,        NULL         },
+    { "+straferight",  &keyboardstraferight,       &keyboardstraferight2, NULL,             &gamepadstraferight,       NULL         },
+    { "+use",          &keyboarduse,               &keyboarduse2,         &mouseuse,        &gamepaduse,               &gamepaduse2 },
+    { "+weapon1",      &keyboardweapon1,           NULL,                  NULL,             &gamepadweapon1,           NULL         },
+    { "+weapon2",      &keyboardweapon2,           NULL,                  NULL,             &gamepadweapon2,           NULL         },
+    { "+weapon3",      &keyboardweapon3,           NULL,                  NULL,             &gamepadweapon3,           NULL         },
+    { "+weapon4",      &keyboardweapon4,           NULL,                  NULL,             &gamepadweapon4,           NULL         },
+    { "+weapon5",      &keyboardweapon5,           NULL,                  NULL,             &gamepadweapon5,           NULL         },
+    { "+weapon6",      &keyboardweapon6,           NULL,                  NULL,             &gamepadweapon6,           NULL         },
+    { "+weapon7",      &keyboardweapon7,           NULL,                  NULL,             &gamepadweapon7,           NULL         },
+    { "+zoomin",       &keyboardautomapzoomin,     NULL,                  NULL,             &gamepadautomapzoomin,     NULL         },
+    { "+zoomout",      &keyboardautomapzoomout,    NULL,                  NULL,             &gamepadautomapzoomout,    NULL         },
+    { "",              NULL,                       NULL,                  NULL,             NULL,                      NULL         }
 };
 
 static dboolean cheat_func1(char *, char *);
@@ -1089,9 +1089,6 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
             {
                 if (actions[i].mouse1 && value == *(int *)actions[i].mouse1)
                     *(int *)actions[i].mouse1 = -1;
-
-                if (actions[i].mouse2 && value == *(int *)actions[i].mouse2)
-                    *(int *)actions[i].mouse2 = -1;
             }
             else if (type == gamepadcontrol)
             {
@@ -1155,9 +1152,6 @@ void bind_cmd_func2(char *cmd, char *parms)
                     if (actions[action].mouse1
                         && controls[i].value == *(int *)actions[action].mouse1)
                         C_Output(actions[action].action);
-                    else if (actions[action].mouse2
-                        && controls[i].value == *(int *)actions[action].mouse2)
-                        C_Output(actions[action].action);
                 }
                 else if (controls[i].type == gamepadcontrol)
                 {
@@ -1200,13 +1194,6 @@ void bind_cmd_func2(char *cmd, char *parms)
                             && controls[i].value == *(int *)actions[action].mouse1)
                         {
                             *(int *)actions[action].mouse1 = -1;
-                            M_SaveCVARs();
-                        }
-
-                        if (actions[action].mouse2
-                            && controls[i].value == *(int *)actions[action].mouse2)
-                        {
-                            *(int *)actions[action].mouse2 = -1;
                             M_SaveCVARs();
                         }
 
@@ -1278,20 +1265,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case mousecontrol:
                         if (actions[action].mouse1)
                         {
-                            if (actions[action].mouse2
-                                && *(int *)actions[action].mouse1 != controls[i].value)
-                            {
-                                if (*(int *)actions[action].mouse2 != -1)
-                                {
-                                    *(int *)actions[action].mouse2 = *(int *)actions[action].mouse1;
-                                    *(int *)actions[action].mouse1 = controls[i].value;
-                                }
-                                else
-                                    *(int *)actions[action].mouse2 = controls[i].value;
-                            }
-                            else
-                                *(int *)actions[action].mouse1 = controls[i].value;
-
+                            *(int *)actions[action].mouse1 = controls[i].value;
                             bound = true;
                             C_UnbindDuplicates(action, mousecontrol, controls[i].value);
                         }
@@ -1391,9 +1365,6 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
 
         if (actions[action].mouse1)
             C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse1, mousecontrol, &count);
-
-        if (actions[action].mouse2)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse2, mousecontrol, &count);
 
         if (actions[action].gamepad1)
             C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad1, gamepadcontrol, &count);

@@ -87,7 +87,7 @@ dboolean            vid_pillarboxes = vid_pillarboxes_default;
 char                *vid_scaleapi = vid_scaleapi_default;
 char                *vid_scalefilter = vid_scalefilter_default;
 char                *vid_screenresolution = vid_screenresolution_default;
-dboolean            vid_showfps;
+dboolean            vid_showfps = vid_showfps_default;
 dboolean            vid_vsync = vid_vsync_default;
 dboolean            vid_widescreen = vid_widescreen_default;
 char                *vid_windowposition = vid_windowposition_default;
@@ -222,8 +222,7 @@ dboolean MouseShouldBeGrabbed(void)
     if (!windowfocused)
         return false;
 
-    // always grab the mouse when full screen (don't want to
-    // see the mouse pointer)
+    // always grab the mouse when full screen (don't want to see the mouse pointer)
     if (vid_fullscreen)
         return true;
 
@@ -271,47 +270,47 @@ static int TranslateKey2(int key)
 {
     switch (key)
     {
-        case KEY_LEFTARROW:    return SDL_SCANCODE_LEFT;
-        case KEY_RIGHTARROW:   return SDL_SCANCODE_RIGHT;
-        case KEY_DOWNARROW:    return SDL_SCANCODE_DOWN;
-        case KEY_UPARROW:      return SDL_SCANCODE_UP;
-        case KEY_ESCAPE:       return SDL_SCANCODE_ESCAPE;
-        case KEY_ENTER:        return SDL_SCANCODE_RETURN;
-        case KEY_TAB:          return SDL_SCANCODE_TAB;
-        case KEY_F1:           return SDL_SCANCODE_F1;
-        case KEY_F2:           return SDL_SCANCODE_F2;
-        case KEY_F3:           return SDL_SCANCODE_F3;
-        case KEY_F4:           return SDL_SCANCODE_F4;
-        case KEY_F5:           return SDL_SCANCODE_F5;
-        case KEY_F6:           return SDL_SCANCODE_F6;
-        case KEY_F7:           return SDL_SCANCODE_F7;
-        case KEY_F8:           return SDL_SCANCODE_F8;
-        case KEY_F9:           return SDL_SCANCODE_F9;
-        case KEY_F10:          return SDL_SCANCODE_F10;
-        case KEY_F11:          return SDL_SCANCODE_F11;
-        case KEY_F12:          return SDL_SCANCODE_F12;
-        case KEY_BACKSPACE:    return SDL_SCANCODE_BACKSPACE;
-        case KEY_DELETE:       return SDL_SCANCODE_DELETE;
-        case KEY_PAUSE:        return SDL_SCANCODE_PAUSE;
-        case KEY_EQUALS:       return SDL_SCANCODE_EQUALS;
-        case KEY_MINUS:        return SDL_SCANCODE_MINUS;
-        case KEY_SHIFT:        return SDL_SCANCODE_RSHIFT;
-        case KEY_CTRL:         return SDL_SCANCODE_RCTRL;
-        case KEY_ALT:          return SDL_SCANCODE_RALT;
-        case KEY_CAPSLOCK:     return SDL_SCANCODE_CAPSLOCK;
-        case KEY_SCROLLLOCK:   return SDL_SCANCODE_SCROLLLOCK;
-        case KEYP_0:           return SDL_SCANCODE_KP_0;
-        case KEYP_1:           return SDL_SCANCODE_KP_1;
-        case KEYP_3:           return SDL_SCANCODE_KP_3;
-        case KEYP_5:           return SDL_SCANCODE_KP_5;
-        case KEYP_7:           return SDL_SCANCODE_KP_7;
-        case KEYP_9:           return SDL_SCANCODE_KP_9;
-        case KEYP_PERIOD:      return SDL_SCANCODE_KP_PERIOD;
-        case KEYP_MULTIPLY:    return SDL_SCANCODE_KP_MULTIPLY;
-        case KEYP_DIVIDE:      return SDL_SCANCODE_KP_DIVIDE;
-        case KEY_INSERT:       return SDL_SCANCODE_INSERT;
-        case KEY_NUMLOCK:      return SDL_SCANCODE_NUMLOCKCLEAR;
-        default:               return key;
+        case KEY_LEFTARROW:     return SDL_SCANCODE_LEFT;
+        case KEY_RIGHTARROW:    return SDL_SCANCODE_RIGHT;
+        case KEY_DOWNARROW:     return SDL_SCANCODE_DOWN;
+        case KEY_UPARROW:       return SDL_SCANCODE_UP;
+        case KEY_ESCAPE:        return SDL_SCANCODE_ESCAPE;
+        case KEY_ENTER:         return SDL_SCANCODE_RETURN;
+        case KEY_TAB:           return SDL_SCANCODE_TAB;
+        case KEY_F1:            return SDL_SCANCODE_F1;
+        case KEY_F2:            return SDL_SCANCODE_F2;
+        case KEY_F3:            return SDL_SCANCODE_F3;
+        case KEY_F4:            return SDL_SCANCODE_F4;
+        case KEY_F5:            return SDL_SCANCODE_F5;
+        case KEY_F6:            return SDL_SCANCODE_F6;
+        case KEY_F7:            return SDL_SCANCODE_F7;
+        case KEY_F8:            return SDL_SCANCODE_F8;
+        case KEY_F9:            return SDL_SCANCODE_F9;
+        case KEY_F10:           return SDL_SCANCODE_F10;
+        case KEY_F11:           return SDL_SCANCODE_F11;
+        case KEY_F12:           return SDL_SCANCODE_F12;
+        case KEY_BACKSPACE:     return SDL_SCANCODE_BACKSPACE;
+        case KEY_DELETE:        return SDL_SCANCODE_DELETE;
+        case KEY_PAUSE:         return SDL_SCANCODE_PAUSE;
+        case KEY_EQUALS:        return SDL_SCANCODE_EQUALS;
+        case KEY_MINUS:         return SDL_SCANCODE_MINUS;
+        case KEY_SHIFT:         return SDL_SCANCODE_RSHIFT;
+        case KEY_CTRL:          return SDL_SCANCODE_RCTRL;
+        case KEY_ALT:           return SDL_SCANCODE_RALT;
+        case KEY_CAPSLOCK:      return SDL_SCANCODE_CAPSLOCK;
+        case KEY_SCROLLLOCK:    return SDL_SCANCODE_SCROLLLOCK;
+        case KEYP_0:            return SDL_SCANCODE_KP_0;
+        case KEYP_1:            return SDL_SCANCODE_KP_1;
+        case KEYP_3:            return SDL_SCANCODE_KP_3;
+        case KEYP_5:            return SDL_SCANCODE_KP_5;
+        case KEYP_7:            return SDL_SCANCODE_KP_7;
+        case KEYP_9:            return SDL_SCANCODE_KP_9;
+        case KEYP_PERIOD:       return SDL_SCANCODE_KP_PERIOD;
+        case KEYP_MULTIPLY:     return SDL_SCANCODE_KP_MULTIPLY;
+        case KEYP_DIVIDE:       return SDL_SCANCODE_KP_DIVIDE;
+        case KEY_INSERT:        return SDL_SCANCODE_INSERT;
+        case KEY_NUMLOCK:       return SDL_SCANCODE_NUMLOCKCLEAR;
+        default:                return key;
     }
 }
 
@@ -436,16 +435,13 @@ static dboolean button;
 
 static void I_GetEvent(void)
 {
-    event_t     event;
     SDL_Event   SDLEvent;
     SDL_Event   *Event = &SDLEvent;
 
-#if !defined(_WIN32)
-    static dboolean enterdown;
-#endif
-
     while (SDL_PollEvent(Event))
     {
+        event_t event;
+
         switch (Event->type)
         {
             case SDL_KEYDOWN:
@@ -453,7 +449,6 @@ static void I_GetEvent(void)
                     return;
 
                 event.type = ev_keydown;
-
                 event.data1 = translatekey[Event->key.keysym.scancode];
                 event.data2 = Event->key.keysym.sym;
 
@@ -464,6 +459,10 @@ static void I_GetEvent(void)
 
                 if (event.data1)
                 {
+#if !defined(_WIN32)
+                    static dboolean enterdown;
+#endif
+
                     if (altdown && event.data1 == KEY_TAB)
                     {
                         event.data1 = 0;
@@ -499,9 +498,7 @@ static void I_GetEvent(void)
 
             case SDL_KEYUP:
                 event.type = ev_keyup;
-
                 event.data1 = translatekey[Event->key.keysym.scancode];
-
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
 
@@ -589,6 +586,7 @@ static void I_GetEvent(void)
                             if (gamestate == GS_LEVEL && !paused && !togglingvanilla)
                             {
                                 blurred = false;
+
                                 if (menuactive || consoleactive)
                                     S_PauseSound();
                                 else
@@ -630,10 +628,9 @@ static void I_GetEvent(void)
                                 M_snprintf(pos, sizeof(pos), "(%i,%i)", windowx, windowy);
                                 vid_windowposition = strdup(pos);
 
-                                if ((vid_display = SDL_GetWindowDisplayIndex(window)) < 0)
+                                if ((vid_display = SDL_GetWindowDisplayIndex(window) + 1) < 1)
                                     I_SDLError("SDL_GetWindowDisplayIndex");
 
-                                vid_display++;
                                 M_SaveCVARs();
                             }
 
@@ -698,7 +695,6 @@ static void UpdateGrab(void)
     else if (!grab && currently_grabbed)
     {
         SetShowCursor(true);
-
         SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH, windowheight - 16);
         SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
@@ -783,7 +779,6 @@ static void I_Blit_NearestLinear(void)
 static void I_Blit_ShowFPS(void)
 {
     UpdateGrab();
-
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -802,7 +797,6 @@ static void I_Blit_ShowFPS(void)
 static void I_Blit_NearestLinear_ShowFPS(void)
 {
     UpdateGrab();
-
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -863,7 +857,6 @@ static void I_Blit_NearestLinear_Shake(void)
 static void I_Blit_ShowFPS_Shake(void)
 {
     UpdateGrab();
-
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -883,7 +876,6 @@ static void I_Blit_ShowFPS_Shake(void)
 static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
     UpdateGrab();
-
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -1026,8 +1018,7 @@ void I_CreateExternalAutomap(dboolean output)
     else if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
-    if (SDL_FillRect(mapbuffer, NULL, 0) < 0)
-        I_SDLError("SDL_FillRect");
+    SDL_FillRect(mapbuffer, NULL, 0);
 
     if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
@@ -1044,7 +1035,6 @@ void I_CreateExternalAutomap(dboolean output)
 
     mapscreen = mapsurface->pixels;
     mapblitfunc = I_Blit_Automap;
-
     map_rect.w = SCREENWIDTH;
     map_rect.h = SCREENHEIGHT - SBARHEIGHT;
 
@@ -1091,7 +1081,6 @@ void GetWindowPosition(void)
         windowx = 0;
         windowy = 0;
         vid_windowposition = vid_windowposition_centered;
-
         M_SaveCVARs();
     }
     else
@@ -1124,7 +1113,6 @@ void GetWindowSize(void)
         windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight;
         M_snprintf(size, sizeof(size), "%ix%i", windowwidth, windowheight);
         vid_windowsize = strdup(size);
-
         M_SaveCVARs();
     }
     else
@@ -1182,7 +1170,6 @@ void GetScreenResolution(void)
             screenwidth = 0;
             screenheight = 0;
             vid_screenresolution = vid_screenresolution_desktop;
-
             M_SaveCVARs();
         }
     }
@@ -1190,35 +1177,25 @@ void GetScreenResolution(void)
 
 static resolution_t resolutions[] =
 {
-    {  960,  640, "DVGA",   "3:2"   }, {  960,  720, "",       "4:3"   },
-    { 1024,  640, "",       "16:10" }, { 1024,  768, "XGA",    "4:3"   },
-    { 1136,  640, "",       "16:9"  }, { 1152,  720, "",       "3:2"   },
-    { 1152,  768, "WXGA",   "3:2"   }, { 1152,  864, "XGA+",   "4:3"   },
-    { 1280, 1024, "SXGA",   "5:4"   }, { 1280,  720, "WXGA",   "16:9"  },
-    { 1280,  768, "WXGA",   "5:3"   }, { 1280,  800, "WXGA",   "16:10" },
-    { 1280,  864, "",       "3:2"   }, { 1280,  960, "SXGA-",  "4:3"   },
-    { 1280, 1024, "SXGA",   "5:4"   }, { 1360,  768, "FWXGA",  "16:9"  },
-    { 1366,  768, "FWXGA",  "16:9"  }, { 1400, 1050, "SXGA+",  "4:3"   },
-    { 1440,  900, "WXGA+",  "16:10" }, { 1440,  960, "FWXGA+", "3:2"   },
-    { 1600, 1024, "WSXGA",  "3:2"   }, { 1600,  900, "HD+",    "16:9"  },
-    { 1600, 1200, "UXGA",   "4:3"   }, { 1680, 1050, "WSXGA+", "16:10" },
-    { 1792, 1344, "",       "4:3"   }, { 1856, 1392, "",       "4:3"   },
-    { 1920, 1080, "FHD",    "16:9"  }, { 1920, 1200, "WUXGA",  "16:10" },
-    { 1920, 1280, "",       "3:2"   }, { 1920, 1440, "",       "4:3"   },
-    { 2048, 1152, "QWXGA",  "16:9"  }, { 2048, 1536, "QXGA",   "4:3"   },
-    { 2160, 1440, "",       "3:2"   }, { 2560, 1080, "",       "21:9"  },
-    { 2560, 1440, "QHD",    "16:9", }, { 2560, 1600, "WQXGA",  "16:10" },
-    { 2560, 1920, "",       "4:3"   }, { 2560, 2048, "QSXGA",  "5:4"   },
-    { 2880, 1620, "",       "16:9"  }, { 2880, 1800, "",       "16:10" },
-    { 3200, 1800, "WQXGA+", "16:9"  }, { 3200, 2048, "WQSXGA", "25:16" },
-    { 3200, 2400, "QUXGA",  "4:3"   }, { 3440, 1440, "",       "21:9"  },
-    { 3840, 2160, "UHD",    "16:9"  }, { 3840, 2400, "WQUXGA", "16:10" },
-    { 4096, 2160, "DCI",    "19:10" }, { 4096, 2560, "4K",     "16:10" },
-    { 4096, 3072, "HXGA",   "4:3"   }, { 5120, 2160, "4K",     "21:9"  },
-    { 5120, 2880, "UHD+",   "16:9"  }, { 5120, 3200, "WHXGA",  "16:10" },
-    { 5120, 4096, "HSXGA",  "5:4"   }, { 5760, 3240, "",       "16:9"  },
-    { 6400, 4096, "WHSXGA", "25:16" }, { 6400, 4800, "",       "4:3"   },
-    { 7680, 4320, "FUHD",   "16:9"  }, { 7680, 4800, "WHUXGA", "16:10" },
+    {  960,  640, "DVGA",   "3:2"   }, {  960,  720, "",       "4:3"   }, { 1024,  640, "",       "16:10" },
+    { 1024,  768, "XGA",    "4:3"   }, { 1136,  640, "",       "16:9"  }, { 1152,  720, "",       "3:2"   },
+    { 1152,  768, "WXGA",   "3:2"   }, { 1152,  864, "XGA+",   "4:3"   }, { 1280,  720, "WXGA",   "16:9"  },
+    { 1280,  768, "WXGA",   "5:3"   }, { 1280,  800, "WXGA",   "16:10" }, { 1280,  864, "",       "3:2"   },
+    { 1280,  960, "SXGA-",  "4:3"   }, { 1280, 1024, "SXGA",   "5:4"   }, { 1360,  768, "FWXGA",  "16:9"  },
+    { 1366,  768, "FWXGA",  "16:9"  }, { 1400, 1050, "SXGA+",  "4:3"   }, { 1440,  900, "WXGA+",  "16:10" },
+    { 1440,  960, "FWXGA+", "3:2"   }, { 1600,  900, "HD+",    "16:9"  }, { 1600, 1024, "WSXGA",  "3:2"   },
+    { 1600, 1200, "UXGA",   "4:3"   }, { 1680, 1050, "WSXGA+", "16:10" }, { 1792, 1344, "",       "4:3"   },
+    { 1856, 1392, "",       "4:3"   }, { 1920, 1080, "FHD",    "16:9"  }, { 1920, 1200, "WUXGA",  "16:10" },
+    { 1920, 1280, "",       "3:2"   }, { 1920, 1440, "",       "4:3"   }, { 2048, 1152, "QWXGA",  "16:9"  },
+    { 2048, 1536, "QXGA",   "4:3"   }, { 2160, 1440, "",       "3:2"   }, { 2560, 1080, "",       "21:9"  },
+    { 2560, 1440, "QHD",    "16:9", }, { 2560, 1600, "WQXGA",  "16:10" }, { 2560, 1920, "",       "4:3"   },
+    { 2560, 2048, "QSXGA",  "5:4"   }, { 2880, 1620, "",       "16:9"  }, { 2880, 1800, "",       "16:10" },
+    { 3200, 1800, "WQXGA+", "16:9"  }, { 3200, 2048, "WQSXGA", "25:16" }, { 3200, 2400, "QUXGA",  "4:3"   },
+    { 3440, 1440, "",       "21:9"  }, { 3840, 2160, "UHD",    "16:9"  }, { 3840, 2400, "WQUXGA", "16:10" },
+    { 4096, 2160, "DCI",    "19:10" }, { 4096, 2560, "4K",     "16:10" }, { 4096, 3072, "HXGA",   "4:3"   },
+    { 5120, 2160, "4K",     "21:9"  }, { 5120, 2880, "UHD+",   "16:9"  }, { 5120, 3200, "WHXGA",  "16:10" },
+    { 5120, 4096, "HSXGA",  "5:4"   }, { 5760, 3240, "",       "16:9"  }, { 6400, 4096, "WHSXGA", "25:16" },
+    { 6400, 4800, "",       "4:3"   }, { 7680, 4320, "FUHD",   "16:9"  }, { 7680, 4800, "WHUXGA", "16:10" },
     { 8192, 5120, "FUHD",   "16:10" }, {    0,    0, "",       ""      }
 };
 
@@ -1292,10 +1269,9 @@ static void SetVideoMode(dboolean output)
     Uint32              rmask, gmask, bmask, amask;
     int                 bpp;
     SDL_RendererInfo    rendererinfo;
-    wadfile_t           *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
-    dboolean            iwad = (playpalwad->type == IWAD);
 
     displayindex = vid_display - 1;
+
     if (displayindex < 0 || displayindex >= numdisplays)
     {
         if (output)
@@ -1539,13 +1515,11 @@ static void SetVideoMode(dboolean output)
 
             if (!SDL_GetWindowDisplayMode(window, &displaymode))
             {
-                refreshrate = displaymode.refresh_rate;
-
                 if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengl))
-                {
                     if (SDL_GL_SetSwapInterval(-1) < 0)
                         SDL_GL_SetSwapInterval(1);
-                }
+
+                refreshrate = displaymode.refresh_rate;
 
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {
@@ -1588,6 +1562,9 @@ static void SetVideoMode(dboolean output)
 
     if (output)
     {
+        wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
+        dboolean    iwad = (playpalwad->type == IWAD);
+
         C_Output("Using %s 256-color palette from the <b>PLAYPAL</b> lump in %s <b>%s</b>.",
             (iwad ? "the" : "a custom"), (iwad ? "IWAD" : "PWAD"), playpalwad->path);
 
@@ -1622,8 +1599,7 @@ static void SetVideoMode(dboolean output)
     else if (!(buffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
-    if (SDL_FillRect(buffer, NULL, 0) < 0)
-        I_SDLError("SDL_FillRect");
+    SDL_FillRect(buffer, NULL, 0);
 
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
@@ -1760,12 +1736,8 @@ void I_SetGamma(float value)
     gammaindex = 0;
 
     while (gammaindex < GAMMALEVELS)
-    {
-        if (gammalevels[gammaindex] == value)
+        if (gammalevels[gammaindex++] == value)
             break;
-
-        gammaindex++;
-    }
 
     if (gammaindex == GAMMALEVELS)
     {

@@ -71,7 +71,6 @@ typedef struct
     void    *keyboard1;
     void    *keyboard2;
     void    *mouse1;
-    void    *mouse2;
     void    *gamepad1;
     void    *gamepad2;
 } action_t;

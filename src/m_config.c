@@ -582,9 +582,6 @@ void M_SaveCVARs(void)
         if (actions[i].keyboard1)
             SaveBind(file, actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol);
 
-        if (actions[i].mouse2)
-            SaveBind(file, actions[i].action, *(int *)actions[i].mouse2, mousecontrol);
-
         if (actions[i].mouse1)
             SaveBind(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
 
