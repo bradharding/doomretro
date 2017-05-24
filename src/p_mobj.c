@@ -1217,8 +1217,10 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     int         i;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    int         color = (r_blood == r_blood_all ? target->blood : MT_BLOOD);
-    mobjinfo_t  *info = &mobjinfo[color];
+    dboolean    fuzz = (target->flags & MF_FUZZ);
+    int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : target->blood) : MT_BLOOD);
+    mobjinfo_t  *info = &mobjinfo[type];
+    int         blood = (fuzz ? FUZZYBLOOD : info->blood);
 
     angle += ANG180;
 
@@ -1227,12 +1229,12 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         mobj_t  *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
         state_t *st = &states[info->spawnstate];
 
-        th->type = color;
+        th->type = type;
         th->info = info;
         th->x = x;
         th->y = y;
         th->flags = info->flags;
-        th->flags2 = info->flags2 | ((rand() & 1) * MF2_MIRRORED);
+        th->flags2 = (info->flags2 | ((rand() & 1) * MF2_MIRRORED));
 
         th->state = st;
         th->tics = MAX(1, st->tics - (M_Random() & 3));
@@ -1240,7 +1242,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->frame = st->frame;
 
         th->colfunc = info->colfunc;
-        th->blood = info->blood;
+        th->blood = blood;
 
         P_SetThingPosition(th);
 

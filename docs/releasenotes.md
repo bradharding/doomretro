@@ -19,6 +19,7 @@
 * Minor changes have been made to text that is output to the console.
 * Linedefs with specials 166 (“S1 Ceiling Raise To Highest Ceiling”) and 186 (“SR Ceiling Raise To Highest Ceiling”) in *BOOM*-compatible maps now behave as intended.
 * The bottom of spectres are now clipped correctly when partially obscured by a higher sector.
+* The player will now bleed fuzzy rather than red blood if injured while they have a partial invisibility power-up.
 * The gold palette effect will no longer stay on the screen if the player picks up an item and dies at the same time.
 * Red walls in the automap are now drawn thinner when the player zooms out far enough.
 * If the `r_skycolor` CVAR is set to a color rather than `none`, that color will now be used to render the sky when the `r_textures` CVAR is `off`.
