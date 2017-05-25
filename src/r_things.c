@@ -857,7 +857,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     flags = splat->flags;
     vis->colfunc = ((flags & BSF_FUZZ) && pausesprites && r_textures ? R_DrawPausedFuzzColumn :
         splat->colfunc);
-    vis->texturemid = splat->sector->interpfloorheight - viewz;
+    vis->texturemid = splat->sector->interpfloorheight + FRACUNIT - viewz;
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
 
@@ -892,7 +892,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
     spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
-    if (drawbloodsplats && sec->interpfloorheight <= viewz)
+    if (drawbloodsplats && sec->interpfloorheight - FRACUNIT <= viewz)
     {
         bloodsplat_t    *splat = sec->splatlist;
 
