@@ -791,7 +791,6 @@ void R_StoreWallRange(int start, int stop)
             // top texture
             toptexture = texturetranslation[sidedef->toptexture];
             toptexheight = textureheight[toptexture] >> FRACBITS;
-            toptexfullbright = texturefullbright[toptexture];
             toptexfullbright = (usebrightmaps && !nobrightmap[toptexture] ? texturefullbright[toptexture] :
                 NULL);
 
@@ -818,7 +817,6 @@ void R_StoreWallRange(int start, int stop)
             // bottom texture
             bottomtexture = texturetranslation[sidedef->bottomtexture];
             bottomtexheight = textureheight[bottomtexture] >> FRACBITS;
-            bottomtexfullbright = texturefullbright[bottomtexture];
             bottomtexfullbright = (usebrightmaps && !nobrightmap[bottomtexture] ?
                 texturefullbright[bottomtexture] : NULL);
 
