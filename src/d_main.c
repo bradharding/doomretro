@@ -87,6 +87,11 @@
 #endif
 #endif
 
+#if defined(_WIN32)
+#define FILTER1 "IWAD and PWAD(s) (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0"
+#define FILTER2 "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0"
+#endif
+
 //
 // D_DoomLoop()
 // Not a globally visible function,
@@ -1021,7 +1026,7 @@ static int D_OpenWADLauncher(void)
     M_StringCopy(szFile, wad, 4096);
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWADs and PWADs (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
+    ofn.lpstrFilter = (M_StringCompare(iwadfolder, iwadfolder_default) ? FILTER1 : FILTER2);
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
