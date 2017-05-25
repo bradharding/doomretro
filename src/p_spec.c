@@ -2290,7 +2290,7 @@ void P_SpawnSpecials(void)
             case TransferSkyTextureToTaggedSectors:
             case TransferSkyTextureToTaggedSectors_Flipped:
                 for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
-                    sectors[s].sky = i | PL_SKYFLAT;
+                    sectors[s].sky = (i | PL_SKYFLAT);
                 break;
         }
     }

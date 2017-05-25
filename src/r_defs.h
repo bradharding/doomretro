@@ -546,6 +546,8 @@ typedef enum
     WR_TeleportToLineWithSameTag_MonstersOnly_Silent               = 267,
     W1_Teleport_MonstersOnly_Silent                                = 268,
     WR_Teleport_MonstersOnly_Silent                                = 269,
+
+    // Extended line specials from MBF
     TransferSkyTextureToTaggedSectors                              = 271,
     TransferSkyTextureToTaggedSectors_Flipped                      = 272
 } linespecial_e;

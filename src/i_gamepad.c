@@ -56,33 +56,36 @@ static XINPUTSETSTATE pXInputSetState;
 #include "m_fixed.h"
 #include "m_misc.h"
 
-float               gp_deadzone_left = gp_deadzone_left_default;
-float               gp_deadzone_right = gp_deadzone_right_default;
+float           gp_deadzone_left = gp_deadzone_left_default;
+float           gp_deadzone_right = gp_deadzone_right_default;
+dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
+int             gp_vibrate_damage = gp_vibrate_damage_default;
+int             gp_vibrate_weapons = gp_vibrate_weapons_default;
 
 static SDL_Joystick *gamepad;
 
-int                 gamepadbuttons;
-short               gamepadthumbLX;
-short               gamepadthumbLY;
-short               gamepadthumbRX;
-short               gamepadthumbRY;
-float               gamepadsensitivity;
-short               gamepadleftdeadzone;
-short               gamepadrightdeadzone;
+int             gamepadbuttons;
+short           gamepadthumbLX;
+short           gamepadthumbLY;
+short           gamepadthumbRX;
+short           gamepadthumbRY;
+float           gamepadsensitivity;
+short           gamepadleftdeadzone;
+short           gamepadrightdeadzone;
 
-dboolean            vibrate;
-int                 damagevibrationtics;
-int                 weaponvibrationtics;
-int                 currentmotorspeed;
-int                 idlemotorspeed;
-int                 restoremotorspeed;
+dboolean        vibrate;
+int             damagevibrationtics;
+int             weaponvibrationtics;
+int             currentmotorspeed;
+int             idlemotorspeed;
+int             restoremotorspeed;
 
-extern dboolean     idclev;
-extern dboolean     idmus;
-extern dboolean     idbehold;
-extern dboolean     m_look;
-extern dboolean     menuactive;
-extern dboolean     message_clearable;
+extern dboolean idclev;
+extern dboolean idmus;
+extern dboolean idbehold;
+extern dboolean m_look;
+extern dboolean menuactive;
+extern dboolean message_clearable;
 
 #if defined(_WIN32)
 HMODULE             pXInputDLL;
@@ -216,7 +219,7 @@ void I_PollDirectInputGamepad(void)
     {
         int hat = SDL_JoystickGetHat(gamepad, 0);
 
-        gamepadbuttons = (SDL_JoystickGetButton(gamepad, 0) << 14)
+        gamepadbuttons = ((SDL_JoystickGetButton(gamepad, 0) << 14)
             | (SDL_JoystickGetButton(gamepad, 1) << 12)
             | (SDL_JoystickGetButton(gamepad, 2) << 13)
             | (SDL_JoystickGetButton(gamepad, 3) << 15)
@@ -227,13 +230,13 @@ void I_PollDirectInputGamepad(void)
             | (SDL_JoystickGetButton(gamepad, 8) << 5)
             | (SDL_JoystickGetButton(gamepad, 9) << 4)
             | (SDL_JoystickGetButton(gamepad, 10) << 6)
-            | (SDL_JoystickGetButton(gamepad, 11) << 7);
+            | (SDL_JoystickGetButton(gamepad, 11) << 7));
 
         if (hat)
-            gamepadbuttons |= !!(hat & SDL_HAT_UP)
+            gamepadbuttons |= (!!(hat & SDL_HAT_UP)
                 | (!!(hat & SDL_HAT_RIGHT) << 3)
                 | (!!(hat & SDL_HAT_DOWN) << 1)
-                | (!!(hat & SDL_HAT_LEFT) << 2);
+                | (!!(hat & SDL_HAT_LEFT) << 2));
 
         if (gamepadbuttons)
         {
@@ -313,9 +316,9 @@ void I_PollXInputGamepad(void)
         pXInputGetState(0, &state);
         Gamepad = state.Gamepad;
 
-        gamepadbuttons = Gamepad.wButtons
+        gamepadbuttons = (Gamepad.wButtons
             | ((Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
-            | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11);
+            | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11));
 
         if (damagevibrationtics)
             if (!--damagevibrationtics && !weaponvibrationtics)
@@ -346,8 +349,7 @@ void I_PollXInputGamepad(void)
             ev.type = ev_gamepad;
             D_PostEvent(&ev);
 
-            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX,
-                Gamepad.sThumbRY);
+            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
         }
         else
         {
