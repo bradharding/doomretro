@@ -32,6 +32,7 @@
 * A bug has been fixed whereby blood splats could be black in some rare instances.
 * The default value of the `r_bloodsplats_max` CVAR has been doubled to `65,536`.
 * All blood splats are now restored when turning off vanilla mode.
+* Barrels are no longer fullbright for the first two frames of their explosion animation.
 
 ---
 

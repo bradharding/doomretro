@@ -1096,8 +1096,8 @@ state_t states[NUMSTATES] =
     // Barrel (MT_BARREL)
     { SPR_BAR1,  0,                                6,               NULL,              S_BAR3          }, // S_BAR2
     { SPR_BAR1,  1,                                6,               NULL,              S_BAR1          }, // S_BAR3
-    { SPR_BEXP,  0 | FF_FULLBRIGHT,                5,               NULL,              S_BEXP2         }, // S_BEXP
-    { SPR_BEXP,  1 | FF_FULLBRIGHT,                5,               A_Scream,          S_BEXP3         }, // S_BEXP2
+    { SPR_BEXP,  0,                                5,               NULL,              S_BEXP2         }, // S_BEXP
+    { SPR_BEXP,  1,                                5,               A_Scream,          S_BEXP3         }, // S_BEXP2
     { SPR_BEXP,  2 | FF_FULLBRIGHT,                5,               NULL,              S_BEXP4         }, // S_BEXP3
     { SPR_BEXP,  3 | FF_FULLBRIGHT,               10,               A_Explode,         S_BEXP5         }, // S_BEXP4
     { SPR_BEXP,  4 | FF_FULLBRIGHT,               10,               NULL,              S_NULL          }, // S_BEXP5
