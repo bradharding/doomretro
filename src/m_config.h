@@ -178,6 +178,8 @@ typedef enum
 #define gp_deadzone_right_default               26.5f
 #define gp_deadzone_right_max                   100.0f
 
+#define gp_inverty_default                      false
+
 #define gp_look_default                         false
 
 #define gp_sensitivity_min                      0

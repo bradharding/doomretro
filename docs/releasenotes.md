@@ -7,7 +7,7 @@
 * A countdown bar is now displayed in the alternate widescreen HUD underneath the ammo bar when the player has a power-up that runs out.
 * Mouselook can now be enabled using the new `m_look` CVAR. It is `off` by default. (Please note that due to the addition of this feature, savegames created with previous versions of *DOOM Retro* are not compatible with this version.)
 * An `m_inverty` CVAR has also been implemented that toggles inverting the mouse when using mouselook. It is `off` by default.
-* A `gp_look` CVAR has been implemented that toggles ooking up and down using the gamepad's right thumbstick. It is `off` by default.
+* Similarly, looking up and down using the gamepad’s right thumbstick has been implemented. Use the `gp_look` CVAR to enable this and the `gp_inverty` CVAR to invert. Both of these new CVARs are `off` by default.
 * The following changes have been made to stats displayed by the `playerstats` CCMD:
   * The `Shots Fired`, `Shots Hit` and `Weapon Accuracy` stats are now calculated correctly.
   * The `Ammo`, `Armor` and `Health` no longer increase when using the `give` CCMD or certain cheats.
