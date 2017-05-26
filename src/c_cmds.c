@@ -153,7 +153,7 @@ extern char         *language;
 extern dboolean     messages;
 extern float        m_acceleration;
 extern dboolean     m_doubleclick_use;
-extern dboolean     m_invert;
+extern dboolean     m_inverty;
 extern dboolean     m_look;
 extern dboolean     m_novertical;
 extern int          m_sensitivity;
@@ -681,7 +681,7 @@ consolecmd_t consolecmds[] =
         "The amount the mouse accelerates."),
     CVAR_BOOL(m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles double-clicking a mouse button for the <b>+use</b>\naction."),
-    CVAR_BOOL(m_invert, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(m_inverty, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles inverting the mouse when using mouselook."),
     CVAR_BOOL(m_look, "", bool_cvars_func1, m_look_cvar_func2, BOOLVALUEALIAS,
         "Toggles mouselook."),
