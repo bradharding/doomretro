@@ -347,10 +347,13 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft * gamepadsensitivity);
     }
 
-    if (gamepadthumbRY > 0)
-        cmd->lookdir = (int)(64 * gamepadthumbRYup * gamepadsensitivity);
-    else if (gamepadthumbRY < 0)
-        cmd->lookdir = (int)(64 * gamepadthumbRYdown * gamepadsensitivity);
+    if (gp_look)
+    {
+        if (gamepadthumbRY < 0)
+            cmd->lookdir = (int)(64 * gamepadthumbRYup * gamepadsensitivity);
+        else if (gamepadthumbRY > 0)
+            cmd->lookdir = (int)(64 * gamepadthumbRYdown * gamepadsensitivity);
+    }
 
     if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
         forward += forwardmove[run];
@@ -474,21 +477,25 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
+    if (mousex)
+    {
+        if (strafe)
+            side += mousex * 2;
+        else
+            cmd->angleturn -= mousex * 0x8;
+
+        mousex = 0;
+    }
+
     if (mousey)
     {
         if (m_look)
             cmd->lookdir = (m_invert ? -mousey : mousey);
         else if (!m_novertical)
             forward += mousey;
+
+        mousey = 0;
     }
-
-    if (strafe)
-        side += mousex * 2;
-    else
-        cmd->angleturn -= mousex * 0x8;
-
-    mousex = 0;
-    mousey = 0;
 
     cmd->forwardmove += BETWEEN(-MAXPLMOVE, forward, MAXPLMOVE);
     cmd->sidemove += BETWEEN(-MAXPLMOVE, side, MAXPLMOVE);

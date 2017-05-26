@@ -143,6 +143,7 @@ extern int          facebackcolor;
 extern int          gametime;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
+extern dboolean     gp_look;
 extern int          gp_sensitivity;
 extern dboolean     gp_swapthumbsticks;
 extern int          gp_vibrate_damage;
@@ -635,6 +636,8 @@ consolecmd_t consolecmds[] =
         "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
         "The dead zone of the gamepad's right thumbstick."),
+    CVAR_BOOL(gp_look, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles looking up and down using the gamepad's\nright thumbstick."),
     CVAR_INT(gp_sensitivity, "", int_cvars_func1, gp_sensitivity_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The gamepad's sensitivity (<b>0</b> to <b>128</b>)."),
     CVAR_BOOL(gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,

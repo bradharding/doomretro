@@ -102,6 +102,7 @@ extern float    gamepadsensitivity;
 extern short    gamepadleftdeadzone;
 extern short    gamepadrightdeadzone;
 
+extern dboolean gp_look;
 extern int      gp_sensitivity;
 extern dboolean gp_swapthumbsticks;
 extern int      gp_vibrate_damage;
