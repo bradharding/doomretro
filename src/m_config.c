@@ -79,6 +79,7 @@ extern int          expansionselected;
 extern int          facebackcolor;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
+extern dboolean     gp_inverty;
 extern dboolean     gp_look;
 extern int          gp_sensitivity;
 extern dboolean     gp_swapthumbsticks;
@@ -251,6 +252,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (facebackcolor,                                     NOVALUEALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                                  NOVALUEALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (gp_inverty,                                        BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (gp_look,                                           BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (gp_sensitivity,                                    NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,                                BOOLVALUEALIAS  ),
@@ -737,6 +739,9 @@ static void M_CheckCVARs(void)
 
     gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
     I_SetGamepadRightDeadZone(gp_deadzone_right);
+
+    if (gp_inverty != false && gp_inverty != true)
+        gp_inverty = gp_inverty_default;
 
     if (gp_look != false && gp_look != true)
         gp_look = gp_look_default;
