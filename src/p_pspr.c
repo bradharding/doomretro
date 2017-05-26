@@ -699,7 +699,8 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
         stat_shotshit = SafeAdd(stat_shotshit, 1);
     }
 
-    player->preferredshotgun = wp_shotgun;
+    if (player->ammo[am_shell])
+        player->preferredshotgun = wp_shotgun;
 }
 
 //
