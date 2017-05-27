@@ -89,7 +89,7 @@ extern dboolean menuactive;
 extern dboolean message_clearable;
 
 #if defined(_WIN32)
-HMODULE             pXInputDLL;
+HMODULE         pXInputDLL;
 #endif
 
 void (*gamepadfunc)(void);
@@ -258,7 +258,6 @@ void I_PollDirectInputGamepad(void)
 
             ev.type = ev_gamepad;
             D_PostEvent(&ev);
-
             gamepadthumbsfunc(0, 1, 2, 3);
         }
         else
@@ -316,7 +315,6 @@ void I_PollXInputGamepad(void)
         ZeroMemory(&state, sizeof(XINPUT_STATE));
         pXInputGetState(0, &state);
         Gamepad = state.Gamepad;
-
         gamepadbuttons = (Gamepad.wButtons
             | ((Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
             | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11));
@@ -349,7 +347,6 @@ void I_PollXInputGamepad(void)
 
             ev.type = ev_gamepad;
             D_PostEvent(&ev);
-
             gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
         }
         else

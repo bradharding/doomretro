@@ -96,8 +96,7 @@ dboolean keystate(int key);
 
 typedef struct
 {
-    fixed_t     centerx;
-    fixed_t     centery;
+    mpoint_t    center;
     fixed_t     sin;
     fixed_t     cos;
     fixed_t     bbox[4];

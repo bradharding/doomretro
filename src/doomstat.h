@@ -167,7 +167,7 @@ extern int              musicVolume;
 
 extern dboolean         automapactive;  // In automap mode?
 extern dboolean         am_followmode;  // Following player in automap mode?
-extern dboolean         menuactive;     // Menu overlayed?
+extern dboolean         menuactive;     // Menu overlaid?
 extern dboolean         paused;         // Game Pause?
 
 extern dboolean         viewactive;

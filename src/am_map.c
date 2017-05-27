@@ -51,7 +51,7 @@
 #include "v_video.h"
 #include "z_zone.h"
 
-#define MASKCOLOR               251
+#define MASKCOLOR   251
 
 // Automap colors
 int     am_allmapcdwallcolor = am_allmapcdwallcolor_default;
@@ -103,48 +103,48 @@ byte    *tswallcolor;
 byte    *gridcolor;
 byte    *crosshaircolor;
 
-#define AM_PANDOWNKEY           keyboardback
-#define AM_PANDOWNKEY2          keyboardback2
-#define AM_PANUPKEY             keyboardforward
-#define AM_PANUPKEY2            keyboardforward2
-#define AM_PANRIGHTKEY          keyboardright
-#define AM_PANRIGHTKEY2         keyboardstraferight
-#define AM_PANRIGHTKEY3         keyboardstraferight2
-#define AM_PANLEFTKEY           keyboardleft
-#define AM_PANLEFTKEY2          keyboardstrafeleft
-#define AM_PANLEFTKEY3          keyboardstrafeleft2
-#define AM_ZOOMINKEY            keyboardautomapzoomin
-#define AM_ZOOMOUTKEY           keyboardautomapzoomout
-#define AM_STARTKEY             keyboardautomap
-#define AM_ENDKEY               keyboardautomap
-#define AM_GOBIGKEY             keyboardautomapmaxzoom
-#define AM_FOLLOWKEY            keyboardautomapfollowmode
-#define AM_GRIDKEY              keyboardautomapgrid
-#define AM_MARKKEY              keyboardautomapmark
-#define AM_CLEARMARKKEY         keyboardautomapclearmark
-#define AM_ROTATEKEY            keyboardautomaprotatemode
+#define AM_PANDOWNKEY   keyboardback
+#define AM_PANDOWNKEY2  keyboardback2
+#define AM_PANUPKEY     keyboardforward
+#define AM_PANUPKEY2    keyboardforward2
+#define AM_PANRIGHTKEY  keyboardright
+#define AM_PANRIGHTKEY2 keyboardstraferight
+#define AM_PANRIGHTKEY3 keyboardstraferight2
+#define AM_PANLEFTKEY   keyboardleft
+#define AM_PANLEFTKEY2  keyboardstrafeleft
+#define AM_PANLEFTKEY3  keyboardstrafeleft2
+#define AM_ZOOMINKEY    keyboardautomapzoomin
+#define AM_ZOOMOUTKEY   keyboardautomapzoomout
+#define AM_STARTKEY     keyboardautomap
+#define AM_ENDKEY       keyboardautomap
+#define AM_GOBIGKEY     keyboardautomapmaxzoom
+#define AM_FOLLOWKEY    keyboardautomapfollowmode
+#define AM_GRIDKEY      keyboardautomapgrid
+#define AM_MARKKEY      keyboardautomapmark
+#define AM_CLEARMARKKEY keyboardautomapclearmark
+#define AM_ROTATEKEY    keyboardautomaprotatemode
 
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
-#define INITSCALEMTOF           125114
+#define INITSCALEMTOF   125114
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
-#define F_PANINC                (8 << speedtoggle)
+#define F_PANINC        (8 << speedtoggle)
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN                ((int)((float)FRACUNIT * (1.00f + F_PANINC / 200.0f)))
+#define M_ZOOMIN        ((int)((float)FRACUNIT * (1.00f + F_PANINC / 200.0f)))
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT               ((int)((float)FRACUNIT / (1.00f + F_PANINC / 200.0f)))
+#define M_ZOOMOUT       ((int)((float)FRACUNIT / (1.00f + F_PANINC / 200.0f)))
 
-#define PLAYERRADIUS            (16 * (1 << MAPBITS))
+#define PLAYERRADIUS    (16 * (1 << MAPBITS))
 
 // translates between frame-buffer and map distances
-#define FTOM(x)                 (fixed_t)(((uint64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
-#define MTOF(x)                 (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
+#define FTOM(x)         (fixed_t)(((uint64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
+#define MTOF(x)         (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 // translates between frame-buffer and map coordinates
-#define CXMTOF(x)               MTOF(x - m_x)
-#define CYMTOF(y)               (mapheight - MTOF(y - m_y))
+#define CXMTOF(x)       MTOF(x - m_x)
+#define CYMTOF(y)       (mapheight - MTOF(y - m_y))
 
 typedef struct
 {
@@ -205,76 +205,76 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-dboolean                automapactive;
+dboolean            automapactive;
 
-static unsigned int     mapwidth;
-static unsigned int     mapheight;
-static unsigned int     maparea;
-static unsigned int     mapbottom;
+static unsigned int mapwidth;
+static unsigned int mapheight;
+static unsigned int maparea;
+static unsigned int mapbottom;
 
-static mpoint_t         m_paninc;       // how far the window pans each tic (map coords)
-static fixed_t          mtof_zoommul;   // how far the window zooms in each tic (map coords)
-static fixed_t          ftom_zoommul;   // how far the window zooms in each tic (fb coords)
+static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
+static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
+static fixed_t      ftom_zoommul;   // how far the window zooms in each tic (fb coords)
 
 // LL x,y where the window is on the map (map coords)
-fixed_t                 m_x = INT_MAX, m_y = INT_MAX;
+fixed_t             m_x = INT_MAX, m_y = INT_MAX;
 
 // UR x,y where the window is on the map (map coords)
-static fixed_t          m_x2, m_y2;
+static fixed_t      m_x2, m_y2;
 
 //
 // width/height of window on map (map coords)
 //
-fixed_t                 m_w;
-fixed_t                 m_h;
+fixed_t             m_w;
+fixed_t             m_h;
 
 // based on level size
-static fixed_t          min_x;
-static fixed_t          min_y;
-static fixed_t          max_x;
-static fixed_t          max_y;
+static fixed_t      min_x;
+static fixed_t      min_y;
+static fixed_t      max_x;
+static fixed_t      max_y;
 
-static fixed_t          min_scale_mtof;         // used to tell when to stop zooming out
-static fixed_t          max_scale_mtof;         // used to tell when to stop zooming in
+static fixed_t      min_scale_mtof;         // used to tell when to stop zooming out
+static fixed_t      max_scale_mtof;         // used to tell when to stop zooming in
 
 // old stuff for recovery later
-static fixed_t          old_m_w, old_m_h;
-static fixed_t          old_m_x, old_m_y;
+static fixed_t      old_m_w, old_m_h;
+static fixed_t      old_m_x, old_m_y;
 
 // used by MTOF to scale from map-to-frame-buffer coords
-static fixed_t          scale_mtof;
+static fixed_t      scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
-static fixed_t          scale_ftom;
+static fixed_t      scale_ftom;
 
-static player_t         *plr;                   // the player represented by an arrow
+static player_t     *plr;                   // the player represented by an arrow
 
-mpoint_t                *markpoints;            // where the points are
-int                     markpointnum;           // next point to be assigned
-int                     markpointnum_max;
+mpoint_t            *markpoints;            // where the points are
+int                 markpointnum;           // next point to be assigned
+int                 markpointnum_max;
 
-mpoint_t                *pathpoints;
-int                     pathpointnum;
-int                     pathpointnum_max;
+mpoint_t            *pathpoints;
+int                 pathpointnum;
+int                 pathpointnum_max;
 
-dboolean                am_external = am_external_default;
-dboolean                am_followmode = am_followmode_default;
-dboolean                am_grid = am_grid_default;
-char                    *am_gridsize = am_gridsize_default;
-dboolean                am_path = am_path_default;
-dboolean                am_rotatemode = am_rotatemode_default;
+dboolean            am_external = am_external_default;
+dboolean            am_followmode = am_followmode_default;
+dboolean            am_grid = am_grid_default;
+char                *am_gridsize = am_gridsize_default;
+dboolean            am_path = am_path_default;
+dboolean            am_rotatemode = am_rotatemode_default;
 
-int                     gridwidth;
-int                     gridheight;
+int                 gridwidth;
+int                 gridheight;
 
-static dboolean         stopped = true;
+static dboolean     stopped = true;
 
-dboolean                bigstate;
-byte                    *area;
-static dboolean         movement;
-int                     keydown;
-int                     direction;
+dboolean            bigstate;
+byte                *area;
+static dboolean     movement;
+int                 keydown;
+int                 direction;
 
-static am_frame_t       am_frame;
+static am_frame_t   am_frame;
 
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
@@ -641,8 +641,8 @@ static void AM_toggleGrid(void)
 static void AM_addMark(void)
 {
     int         i;
-    int         x = am_frame.centerx;
-    int         y = am_frame.centery;
+    int         x = am_frame.center.x;
+    int         y = am_frame.center.y;
     static char message[32];
 
     for (i = 0; i < markpointnum; i++)
@@ -1164,12 +1164,14 @@ static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
 static void AM_rotatePoint(mpoint_t *point)
 {
     fixed_t temp;
+    fixed_t x = am_frame.center.x;
+    fixed_t y = am_frame.center.y;
 
-    point->x -= am_frame.centerx;
-    point->y -= am_frame.centery;
+    point->x -= x;
+    point->y -= y;
 
-    temp = FixedMul(point->x, am_frame.cos) - FixedMul(point->y, am_frame.sin) + am_frame.centerx;
-    point->y = FixedMul(point->x, am_frame.sin) + FixedMul(point->y, am_frame.cos) + am_frame.centery;
+    temp = FixedMul(point->x, am_frame.cos) - FixedMul(point->y, am_frame.sin) + x;
+    point->y = FixedMul(point->x, am_frame.sin) + FixedMul(point->y, am_frame.cos) + y;
     point->x = temp;
 }
 
@@ -2049,8 +2051,8 @@ static void AM_setFrameVariables(void)
     fixed_t x = m_x + m_w / 2;
     fixed_t y = m_y + m_h / 2;
 
-    am_frame.centerx = x;
-    am_frame.centery = y;
+    am_frame.center.x = x;
+    am_frame.center.y = y;
 
     if (am_rotatemode)
     {

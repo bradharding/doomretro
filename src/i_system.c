@@ -65,19 +65,18 @@ typedef BOOL(WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
 void I_PrintWindowsVersion(void)
 {
-    PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(
-                            GetModuleHandle("ntdll.dll"), "RtlGetVersion");
-    PGETPRODUCTINFO     pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(
-                            GetModuleHandle("kernel32.dll"), "GetProductInfo");
-    PISWOW64PROCESS     pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(
-                            GetModuleHandle("kernel32.dll"), "IsWow64Process");
-    OSVERSIONINFOEXW    info;
-    DWORD               type;
-
+    PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"),
+                            "RtlGetVersion");
+    PGETPRODUCTINFO     pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"),
+                            "GetProductInfo");
+    PISWOW64PROCESS     pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(GetModuleHandle("kernel32.dll"),
+                            "IsWow64Process");
     if (pRtlGetVersion && pGetProductInfo)
     {
-        char    bits[10] = "";
-        char    *typename = "";
+        char                bits[10] = "";
+        char                *typename = "";
+        OSVERSIONINFOEXW    info;
+        DWORD               type;
 
         if (pIsWow64Process)
         {
@@ -187,8 +186,8 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10)
                 infoname = "10";
 
-            C_Output("Running on <i><b>Microsoft Windows %s%s%s%s%ws%s%s</b></i>.", infoname, (*typename ?
-                " " : ""), (*typename ? typename : ""), (wcslen(info.szCSDVersion) ? " (" : ""),
+            C_Output("Running on <i><b>Microsoft Windows %s%s%s%s%ws%s%s</b></i>.", infoname,
+                (*typename ? " " : ""), (*typename ? typename : ""), (wcslen(info.szCSDVersion) ? " (" : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" :
                 ""), bits);
         }
