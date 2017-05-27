@@ -773,9 +773,6 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->texturemid = gzt - viewz;
     }
 
-    vis->x1 = MAX(0, x1);
-    vis->x2 = MIN(x2, viewwidth - 1);
-
     if (flip)
     {
         vis->startfrac = width - 1;
@@ -787,8 +784,15 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->xiscale = FixedDiv(FRACUNIT, xscale);
     }
 
-    if (vis->x1 > x1)
-        vis->startfrac += vis->xiscale * (vis->x1 - x1);
+    if (x1 < 0)
+    {
+        vis->x1 = 0;
+        vis->startfrac -= vis->xiscale * x1;
+    }
+    else
+        vis->x1 = x1;
+
+    vis->x2 = MIN(x2, viewwidth - 1);
 
     vis->patch = lump;
 
@@ -858,8 +862,6 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->colfunc = ((flags & BSF_FUZZ) && pausesprites && r_textures ? R_DrawPausedFuzzColumn :
         splat->colfunc);
     vis->texturemid = splat->sector->interpfloorheight + FRACUNIT - viewz;
-    vis->x1 = MAX(0, x1);
-    vis->x2 = MIN(x2, viewwidth - 1);
 
     if (flags & BSF_MIRRORED)
     {
@@ -872,8 +874,15 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         vis->xiscale = FixedDiv(FRACUNIT, xscale);
     }
 
-    if (vis->x1 > x1)
-        vis->startfrac += vis->xiscale * (vis->x1 - x1);
+    if (x1 < 0)
+    {
+        vis->x1 = 0;
+        vis->startfrac -= vis->xiscale * x1;
+    }
+    else
+        vis->x1 = x1;
+
+    vis->x2 = MIN(x2, viewwidth - 1);
 
     vis->patch = lump;
 

@@ -62,13 +62,19 @@ static los_t    los; // cph - made static
 //
 static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 {
-    fixed_t left, right;
+    fixed_t left;
+    fixed_t right;
 
-    return (!node->dx ? x == node->x ? 2 : x <= node->x ? node->dy > 0 : node->dy < 0 :
-            !node->dy ? y == node->y ? 2 : y <= node->y ? node->dx < 0 : node->dx > 0 :
-            (right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS)) <
-            (left = ((x - node->x) >> FRACBITS) * (node->dy >> FRACBITS)) ? 0 :
-            right == left ? 2 : 1);
+    if (!node->dx)
+        return (x == node->x ? 2 : (x <= node->x ? node->dy > 0 : node->dy < 0));
+
+    if (!node->dy)
+        return (y == node->y ? 2 : (y <= node->y ? node->dx < 0 : node->dx > 0));
+
+    left = (node->dy >> FRACBITS) * ((x - node->x) >> FRACBITS);
+    right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS);
+
+    return (right < left ? 0 : (left == right ? 2 : 1));
 }
 
 //
@@ -79,11 +85,12 @@ static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 //
 static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 {
-    fixed_t den;
+    fixed_t den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy);
 
-    return ((den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy)) ?
-            FixedDiv(FixedMul((v1->x - v2->x) >> 8, v1->dy) + FixedMul((v2->y - v1->y) >> 8, v1->dx), den) :
-            0);
+    if (!den)
+        return 0;
+
+    return FixedDiv(FixedMul((v1->x - v2->x) >> 8, v1->dy) + FixedMul((v2->y - v1->y) >> 8, v1->dx), den);
 }
 
 //
@@ -154,30 +161,28 @@ static dboolean P_CrossSubsector(int num)
         front = seg->frontsector;
         back = seg->backsector;
 
-        // cph - do what we can before forced to check intersection
-        if (line->flags & ML_TWOSIDED)
-        {
-            // no wall to block sight with?
-            if (front->floorheight == back->floorheight && front->ceilingheight == back->ceilingheight)
-                continue;
+        // stop because it is not two sided anyway
+        if (!(line->flags & ML_TWOSIDED))
+            return false;
 
-            // possible occluder
-            // because of ceiling height differences
-            opentop = MIN(front->ceilingheight, back->ceilingheight);
+        // no wall to block sight with?
+        if (front->floorheight == back->floorheight && front->ceilingheight == back->ceilingheight)
+            continue;
 
-            // because of floor height differences
-            openbottom = MAX(front->floorheight, back->floorheight);
+        // possible occluder
+        // because of ceiling height differences
+        opentop = MIN(front->ceilingheight, back->ceilingheight);
 
-            // cph - reject if does not intrude in the z-space of the possible LOS
-            if (opentop >= los.maxz && openbottom <= los.minz)
-                continue;
+        // because of floor height differences
+        openbottom = MAX(front->floorheight, back->floorheight);
 
-            // cph - if bottom >= top or top < minz or bottom > maxz then it must be
-            // solid wrt this LOS
-            if (openbottom >= opentop || opentop < los.minz || openbottom > los.maxz)
-                return false;
-        }
-        else
+        // cph - reject if does not intrude in the z-space of the possible LOS
+        if (opentop >= los.maxz && openbottom <= los.minz)
+            continue;
+
+        // cph - if bottom >= top or top < minz or bottom > maxz then it must be
+        // solid wrt this LOS
+        if (openbottom >= opentop || opentop < los.minz || openbottom > los.maxz)
             return false;
 
         // crosses a two sided line
@@ -240,12 +245,14 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
         return false;
 
     // killough 4/19/98: make fake floors and ceilings block monster view
-    if ((s1->heightsec != -1 && ((t1->z + t1->height <= sectors[s1->heightsec].floorheight &&
-        t2->z >= sectors[s1->heightsec].floorheight) || (t1->z >= sectors[s1->heightsec].ceilingheight &&
-        t2->z + t1->height <= sectors[s1->heightsec].ceilingheight))) || (s2->heightsec != -1 &&
-        ((t2->z + t2->height <= sectors[s2->heightsec].floorheight &&
-        t1->z >= sectors[s2->heightsec].floorheight) || (t2->z >= sectors[s2->heightsec].ceilingheight &&
-        t1->z + t2->height <= sectors[s2->heightsec].ceilingheight))))
+    if ((s1->heightsec != -1 && ((t1->z + t1->height <= sectors[s1->heightsec].interpfloorheight &&
+        t2->z >= sectors[s1->heightsec].interpfloorheight)
+        || (t1->z >= sectors[s1->heightsec].interpceilingheight &&
+        t2->z + t1->height <= sectors[s1->heightsec].interpceilingheight))) || (s2->heightsec != -1 &&
+        ((t2->z + t2->height <= sectors[s2->heightsec].interpfloorheight &&
+        t1->z >= sectors[s2->heightsec].interpfloorheight)
+        || (t2->z >= sectors[s2->heightsec].interpceilingheight &&
+        t1->z + t2->height <= sectors[s2->heightsec].interpceilingheight))))
         return false;
 
     // killough 11/98: shortcut for melee situations
