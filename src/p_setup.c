@@ -2227,6 +2227,7 @@ void P_SetupLevel(int ep, int map)
 
     totalkills = totalitems = totalsecret = 0;
     memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
+    barrelcount = 0;
     wminfo.partime = 0;
     player->killcount = 0;
     player->secretcount = 0;
