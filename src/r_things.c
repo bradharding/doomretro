@@ -872,6 +872,9 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         vis->xiscale = FixedDiv(FRACUNIT, xscale);
     }
 
+    if (vis->x1 > x1)
+        vis->startfrac += vis->xiscale * (vis->x1 - x1);
+
     vis->patch = lump;
 
     // get light level
