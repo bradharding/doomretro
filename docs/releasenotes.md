@@ -28,9 +28,10 @@
 * When exiting a map that has no monsters to kill and/or no items to pick up, the intermission screen will now show `100%` kills and/or items instead of `0%`.
 * The map name will now be displayed on the intermission screen before starting MAP31 in *DOOM II* and MAP09 in *DOOM II: No Rest For The Living*.
 * Monster corpses are now gibbed rather than just becoming a pool of blood splats when crushed by a lowering platform or door.
-* Monster corpses spawned at the start of a map can now be crushed by a lowering platform or door.
+* Monster corpses spawned at the start of a map as decorations can now be crushed by a lowering platform or door.
 * The `health` CVAR can now be reduced when freeze mode is on.
 * A bug has been fixed whereby blood splats could be black in some rare instances.
+* Blood splats now render correctly when against the left edge of the screen.
 * The default value of the `r_bloodsplats_max` CVAR has been doubled to `65,536`.
 * All blood splats are now restored when turning off vanilla mode.
 * Barrels are no longer fullbright for the first two frames of their explosion animation.

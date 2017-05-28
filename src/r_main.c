@@ -139,20 +139,25 @@ extern lighttable_t **walllights;
 //
 int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 {
-    if (!node->dx)
-        return (x <= node->x ? node->dy > 0 : node->dy < 0);
+    fixed_t nx = node->x;
+    fixed_t ny = node->y;
+    fixed_t ndx = node->dx;
+    fixed_t ndy = node->dy;
 
-    if (!node->dy)
-        return (y <= node->y ? node->dx < 0 : node->dx > 0);
+    if (!ndx)
+        return (x <= nx ? ndy > 0 : ndy < 0);
 
-    x -= node->x;
-    y -= node->y;
+    if (!ndy)
+        return (y <= ny ? ndx < 0 : ndx > 0);
+
+    x -= nx;
+    y -= ny;
 
     // Try to quickly decide by looking at sign bits.
-    if ((node->dy ^ node->dx ^ x ^ y) < 0)
-        return ((node->dy ^ x) < 0);  // (left is negative)
+    if ((ndy ^ ndx ^ x ^ y) < 0)
+        return ((ndy ^ x) < 0);     // (left is negative)
 
-    return (FixedMul(y, node->dx >> FRACBITS) >= FixedMul(node->dy >> FRACBITS, x));
+    return (FixedMul(y, ndx >> FRACBITS) >= FixedMul(ndy >> FRACBITS, x));
 }
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
@@ -173,7 +178,7 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 
     // Try to quickly decide by looking at sign bits.
     if ((ldy ^ ldx ^ x ^ y) < 0)
-        return ((ldy ^ x) < 0);       // (left is negative)
+        return ((ldy ^ x) < 0);     // (left is negative)
 
     return (FixedMul(y, ldx >> FRACBITS) >= FixedMul(ldy >> FRACBITS, x));
 }
