@@ -10,9 +10,9 @@
 * Similarly, looking up and down using the gamepad’s right thumbstick has been implemented. Use the `gp_look` CVAR to enable this and the `gp_inverty` CVAR to invert. Both of these new CVARs are `off` by default.
 * The following changes have been made to stats displayed by the `playerstats` CCMD:
   * The `Shots Fired`, `Shots Hit` and `Weapon Accuracy` stats are now calculated correctly.
-  * The `Ammo`, `Armor` and `Health` no longer increase when using the `give` CCMD or certain cheats.
+  * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.
   * The `Health` stat now increases when the player picks up a health bonus.
-  * The number of barrels in the current map in the `Barrels exploded` stat is now calculated correctly.
+  * The number of barrels in the current map as part of the `Barrels exploded` stat is now calculated correctly.
 * Several compatibility fixes have been made for [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens), [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
 * Three new CVARs have been implemented to toggle the translucency of individual elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR remains to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
 * The console’s background is now always translucent.
@@ -35,6 +35,7 @@
 * The default value of the `r_bloodsplats_max` CVAR has been doubled to `65,536`.
 * All blood splats are now restored when turning off vanilla mode.
 * Barrels are no longer fullbright for the first two frames of their explosion animation.
+* A gradual lighting effect is now applied to the sectors under crushing ceilings.
 
 ---
 

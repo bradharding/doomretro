@@ -47,6 +47,14 @@ ceilinglist_t   *activeceilings;
 
 extern dboolean canmodify;
 
+static void T_GradualLightingToCeiling(ceiling_t *ceiling)
+{
+    if (ceiling->topheight - ceiling->sector->floorheight)
+        if (!P_SectorHasLightSpecial(ceiling->sector))
+            EV_LightByAdjacentSectors(ceiling->sector, FixedDiv(ceiling->sector->ceilingheight
+                - ceiling->sector->floorheight, ceiling->topheight - ceiling->sector->floorheight));
+}
+
 //
 // T_MoveCeiling
 //
@@ -81,6 +89,8 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         S_StartSectorSound(&ceiling->sector->soundorg, sfx_stnmov);
                         break;
                 }
+
+            T_GradualLightingToCeiling(ceiling);
 
             if (res == pastdest)
             {
@@ -134,6 +144,8 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     default:
                         S_StartSectorSound(&ceiling->sector->soundorg, sfx_stnmov);
                 }
+
+            T_GradualLightingToCeiling(ceiling);
 
             if (res == pastdest)
             {
