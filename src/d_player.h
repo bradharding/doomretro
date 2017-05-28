@@ -229,7 +229,6 @@ typedef struct
     int                 sitems;
     int                 ssecret;
     int                 stime;
-    int                 score;          // current score on entry, modified on return
 } wbplayerstruct_t;
 
 typedef struct
