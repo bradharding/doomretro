@@ -1808,7 +1808,7 @@ static void D_DoomMainSetup(void)
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
-                        pwadfile = uppercase(removeext(leafname(file)));
+                        pwadfile = lowercase(removeext(leafname(file)));
                     }
                 }
             }
