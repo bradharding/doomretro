@@ -469,7 +469,7 @@ char *D_TryFindWADByName(char *filename)
 //
 char *D_FindIWAD(void)
 {
-    char    *result = "";
+    char    *result = NULL;
     int     iwadparm = M_CheckParmWithArgs("-iwad", 1, 1);
 
     if (iwadparm)
@@ -477,9 +477,7 @@ char *D_FindIWAD(void)
         // Search through IWAD dirs for an IWAD with the given name.
         char    *iwadfile = myargv[iwadparm + 1];
 
-        result = D_FindWADByName(iwadfile);
-
-        if (!*result)
+        if (!(result = D_FindWADByName(iwadfile)))
             I_Error("The IWAD file \"%s\" wasn't found!", iwadfile);
 
         IdentifyIWADByName(result);
