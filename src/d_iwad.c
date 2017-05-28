@@ -469,19 +469,17 @@ char *D_TryFindWADByName(char *filename)
 //
 char *D_FindIWAD(void)
 {
-    char    *result = NULL;
+    char    *result = "";
     int     iwadparm = M_CheckParmWithArgs("-iwad", 1, 1);
 
     if (iwadparm)
     {
-        char    *iwadfile;
-
         // Search through IWAD dirs for an IWAD with the given name.
-        iwadfile = myargv[iwadparm + 1];
+        char    *iwadfile = myargv[iwadparm + 1];
 
         result = D_FindWADByName(iwadfile);
 
-        if (!result)
+        if (!*result)
             I_Error("The IWAD file \"%s\" wasn't found!", iwadfile);
 
         IdentifyIWADByName(result);
@@ -512,7 +510,7 @@ static char *SaveGameIWADName(void)
     return NULL;
 }
 
-extern char     *pwadfile;
+extern char *pwadfile;
 
 //
 // SetSaveGameFolder

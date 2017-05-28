@@ -1066,6 +1066,7 @@ static int D_OpenWADLauncher(void)
 
         onlyoneselected = [urls count] == 1;
 #endif
+
         if (onlyoneselected)
         {
 #if defined(_WIN32)
@@ -1336,6 +1337,7 @@ static int D_OpenWADLauncher(void)
                         }
                     }
                 }
+
 #if defined(_WIN32)
                 iwadpass1 += lstrlen(iwadpass1) + 1;
 #endif
@@ -1456,6 +1458,7 @@ static int D_OpenWADLauncher(void)
                             }
                         }
                     }
+
 #if defined(_WIN32)
                     pwadpass1 += lstrlen(pwadpass1) + 1;
 #endif
@@ -1496,6 +1499,7 @@ static int D_OpenWADLauncher(void)
                 if (iwadfound)
                 {
                     dboolean    mapspresent = false;
+
 #if defined(_WIN32)
                     pwadpass2 += lstrlen(pwadpass2) + 1;
 
@@ -1528,6 +1532,7 @@ static int D_OpenWADLauncher(void)
                                 }
                             }
                         }
+
 #if defined(_WIN32)
                         pwadpass2 += lstrlen(pwadpass2) + 1;
 #endif
@@ -1593,6 +1598,7 @@ static int D_OpenWADLauncher(void)
 
                     if (D_IsDehFile(fullpath))
                         LoadDehFile(fullpath);
+
 #if defined(_WIN32)
                     dehpass += lstrlen(dehpass) + 1;
 #endif
@@ -1793,6 +1799,7 @@ static void D_DoomMainSetup(void)
             stat_runs = SafeAdd(stat_runs, 1);
         }
     }
+
     M_SaveCVARs();
 
     if (p > 0)
@@ -1956,8 +1963,8 @@ static void D_DoomMainSetup(void)
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion "
-                "is now \"%s\".", *expansions[expansionselected]);
+            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now "
+                "\"%s\".", *expansions[expansionselected]);
         }
     }
 

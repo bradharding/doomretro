@@ -48,6 +48,17 @@
 extern dboolean r_hud;
 extern char     *playername;
 
+static void T_GradualLightingToDoor(vldoor_t *door)
+{
+    if (door->topheight - door->sector->floorheight)
+        if (door->lighttag)
+            EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight
+                - door->sector->floorheight, door->topheight - door->sector->floorheight));
+        else if (!P_SectorHasLightSpecial(door->sector))
+            EV_LightByAdjacentSectors(door->sector, FixedDiv(door->sector->ceilingheight
+                - door->sector->floorheight, door->topheight - door->sector->floorheight));
+}
+
 //
 // VERTICAL DOORS
 //
@@ -120,16 +131,7 @@ void T_VerticalDoor(vldoor_t *door)
 
             // killough 10/98: implement gradual lighting effects
             // [BH] enhanced to apply effects to all doors
-            if (door->topheight - door->sector->floorheight)
-            {
-                fixed_t level = FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
-                            door->topheight - door->sector->floorheight);
-
-                if (door->lighttag)
-                    EV_LightTurnOnPartway(door->line, level);
-                else if (!P_SectorHasLightSpecial(door->sector))
-                    EV_LightByAdjacentSectors(door->sector, level);
-            }
+            T_GradualLightingToDoor(door);
 
             if (res == pastdest)
                 switch (door->type)
@@ -193,16 +195,7 @@ void T_VerticalDoor(vldoor_t *door)
 
             // killough 10/98: implement gradual lighting effects
             // [BH] enhanced to apply effects to all doors
-            if (door->topheight - door->sector->floorheight)
-            {
-                fixed_t level = FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
-                            door->topheight - door->sector->floorheight);
-
-                if (door->lighttag)
-                    EV_LightTurnOnPartway(door->line, level);
-                else if (!P_SectorHasLightSpecial(door->sector))
-                    EV_LightByAdjacentSectors(door->sector, level);
-            }
+            T_GradualLightingToDoor(door);
 
             if (res == pastdest)
             {
