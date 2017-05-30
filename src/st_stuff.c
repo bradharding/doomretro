@@ -146,7 +146,6 @@
 
 // Ammunition counter.
 #define ST_AMMO0WIDTH       3
-#define ST_AMMO0HEIGHT      6
 #define ST_AMMO0X           288
 #define ST_AMMO0Y           173
 #define ST_AMMO1WIDTH       ST_AMMO0WIDTH
@@ -162,7 +161,6 @@
 // Indicate maximum ammunition.
 // Only needed because backpack exists.
 #define ST_MAXAMMO0WIDTH    3
-#define ST_MAXAMMO0HEIGHT   5
 #define ST_MAXAMMO0X        314
 #define ST_MAXAMMO0Y        173
 #define ST_MAXAMMO1WIDTH    ST_MAXAMMO0WIDTH
@@ -315,9 +313,10 @@ cheatseq_t cheat_buddha = CHEAT("mumu", 0);
 
 static dboolean movekey(char key)
 {
-    return (key == keyboardright || key == keyboardleft || key == keyboardforward || key == keyboardforward2
-        || key == keyboardback || key == keyboardback2 || key == keyboardstrafeleft
-        || key == keyboardstraferight);
+    return (key == keyboardright || key == keyboardleft
+        || key == keyboardforward || key == keyboardforward2
+        || key == keyboardback || key == keyboardback2
+        || key == keyboardstrafeleft || key == keyboardstraferight);
 }
 
 static void ST_InitCheats(void)
@@ -495,7 +494,8 @@ dboolean ST_Responder(event_t *ev)
                         message_dontfuckwithme = true;
 
                     // [BH] restore player's health
-                    plyr->health = plyr->mo->health = oldhealth;
+                    plyr->health = oldhealth;
+                    plyr->mo->health = oldhealth;
 
                     if (!oldhealth)
                     {
@@ -1327,7 +1327,7 @@ void ST_Ticker(void)
         }
 }
 
-int     st_palette;
+int st_palette;
 
 static void ST_doPaletteStuff(void)
 {

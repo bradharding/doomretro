@@ -42,7 +42,7 @@
 #include "st_lib.h"
 #include "v_video.h"
 
-extern int      r_detail;
+extern int  r_detail;
 
 void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolean *on, int width)
 {

@@ -51,12 +51,14 @@ extern char     *playername;
 static void T_GradualLightingToDoor(vldoor_t *door)
 {
     if (door->topheight - door->sector->floorheight)
+    {
         if (door->lighttag)
             EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight
                 - door->sector->floorheight, door->topheight - door->sector->floorheight));
         else if (!P_SectorHasLightSpecial(door->sector))
             EV_LightByAdjacentSectors(door->sector, FixedDiv(door->sector->ceilingheight
                 - door->sector->floorheight, door->topheight - door->sector->floorheight));
+    }
 }
 
 //
