@@ -1166,14 +1166,37 @@ extern fixed_t  attackrange;
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
-    mobj_t  *th = P_SpawnMobj(x, y, z + ((M_Random() - M_Random()) << 10), MT_PUFF);
+    mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
+    mobjinfo_t  *info = &mobjinfo[MT_PUFF];
+    state_t     *st = &states[info->spawnstate];
+    sector_t    *sector;
 
+    th->type = MT_PUFF;
+    th->info = info;
+    th->x = x;
+    th->y = y;
     th->momz = FRACUNIT;
-    th->tics = MAX(1, th->tics - (M_Random() & 3));
-
     th->angle = angle;
+    th->flags = info->flags;
+    th->flags2 = (info->flags2 | ((rand() & 1) * MF2_MIRRORED));
 
-    th->flags2 |= (rand() & 1) * MF2_MIRRORED;
+    th->state = st;
+    th->tics = MAX(1, st->tics - (M_Random() & 3));
+    th->sprite = st->sprite;
+    th->frame = st->frame;
+
+    th->colfunc = info->colfunc;
+
+    P_SetThingPosition(th);
+
+    sector = th->subsector->sector;
+    th->floorz = sector->interpfloorheight;
+    th->ceilingz = sector->interpceilingheight;
+
+    th->z = BETWEEN(th->floorz, z + ((M_Random() - M_Random()) << 10), th->ceilingz - th->height);
+
+    th->thinker.function = P_MobjThinker;
+    P_AddThinker(&th->thinker);
 
     // don't make punches spark on the wall
     if (attackrange == MELEERANGE)
@@ -1222,6 +1245,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : target->blood) : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[type];
     int         blood = (fuzz ? FUZZYBLOOD : info->blood);
+    sector_t    *sector;
 
     angle += ANG180;
 
@@ -1247,8 +1271,9 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         P_SetThingPosition(th);
 
-        th->dropoffz = th->floorz = th->subsector->sector->interpfloorheight;
-        th->ceilingz = th->subsector->sector->interpceilingheight;
+        sector = th->subsector->sector;
+        th->floorz = sector->interpfloorheight;
+        th->ceilingz = sector->interpceilingheight;
 
         th->z = BETWEEN(minz, z + ((M_Random() - M_Random()) << 10), maxz);
 
