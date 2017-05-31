@@ -775,7 +775,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // [BH] initialize bobbing things
     mobj->floatbob = prevbob = (x == prevx && y == prevy && z == prevz ? prevbob : M_Random());
 
-    mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
+    mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - mobj->height :
+        BETWEEN(mobj->floorz, z, mobj->ceilingz - mobj->height)));
 
     // [AM] Just in case interpolation is attempted...
     mobj->oldx = mobj->x;
