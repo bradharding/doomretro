@@ -1510,62 +1510,64 @@ dboolean    hitwall;
 //
 dboolean PTR_ShootTraverse(intercept_t *in)
 {
-    fixed_t x;
-    fixed_t y;
-    fixed_t z;
-    fixed_t frac;
-    mobj_t  *th;
-    fixed_t slope;
-    fixed_t dist;
-    fixed_t thingtopslope;
-    fixed_t thingbottomslope;
+    fixed_t     x, y, z;
+    fixed_t     frac;
+    mobj_t      *th;
+    fixed_t     dist = FixedMul(attackrange, in->frac);
 
     if (in->isaline)
     {
         line_t  *li = in->d.line;
+        int     side;
+        fixed_t distz;
 
         if (li->special)
             P_ShootSpecialLine(shootthing, li);
 
-        if (!(li->flags & ML_TWOSIDED))
-            goto hitline;
-
-        // crosses a two sided line
-        P_LineOpening(li);
-
-        dist = FixedMul(attackrange, in->frac);
-
-        if (li->frontsector->floorheight != li->backsector->floorheight)
+        if (li->flags & ML_TWOSIDED)
         {
-            slope = FixedDiv(openbottom - shootz, dist);
+            // crosses a two sided line
+            P_LineOpening(li);
 
-            if (slope > aimslope)
-                goto hitline;
+            if (!li->backsector)
+            {
+                if (FixedDiv(openbottom - shootz, dist) <= aimslope
+                    && FixedDiv(opentop - shootz, dist) >= aimslope)
+                    return true;      // shot continues
+            }
+            else
+                if ((li->frontsector->floorheight == li->backsector->floorheight
+                        || FixedDiv(openbottom - shootz, dist) <= aimslope)
+                    && (li->frontsector->ceilingheight == li->backsector->ceilingheight
+                        || FixedDiv(opentop - shootz, dist) >= aimslope))
+                    return true;      // shot continues
         }
 
-        if (li->frontsector->ceilingheight != li->backsector->ceilingheight)
-        {
-            slope = FixedDiv(opentop - shootz, dist);
-
-            if (slope < aimslope)
-                goto hitline;
-        }
-
-        // shot continues
-        return true;
-
-        // hit line
-hitline:
         // position a bit closer
         frac = in->frac - FixedDiv(4 * FRACUNIT, attackrange);
+        distz = FixedMul(aimslope, dist);
+        z = shootz + distz;
+
+        // clip shots on floor and ceiling
+        if ((side = li->sidenum[P_PointOnLineSide(shootthing->x, shootthing->y, li)]) != NO_INDEX)
+        {
+            sector_t    *sector = sides[side].sector;
+            fixed_t     floorz = sector->interpfloorheight;
+            fixed_t     ceilingz = sector->interpceilingheight;
+
+            if (z > ceilingz && distz)
+                frac = FixedDiv(FixedMul(frac, ceilingz - shootz), distz);
+            else if (z < floorz && distz)
+                frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);
+        }
+
         x = dlTrace.x + FixedMul(dlTrace.dx, frac);
         y = dlTrace.y + FixedMul(dlTrace.dy, frac);
-        z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
 
         if (li->frontsector->ceilingpic == skyflatnum)
         {
             // don't shoot the sky!
-            if (z > li->frontsector->ceilingheight)
+            if (z > li->frontsector->interpceilingheight)
                 return false;
 
             // it's a sky hack wall
@@ -1593,15 +1595,10 @@ hitline:
         return true;                    // corpse or something
 
     // check angles to see if the thing can be aimed at
-    dist = FixedMul(attackrange, in->frac);
-    thingtopslope = FixedDiv(th->z + th->height - shootz, dist);
-
-    if (thingtopslope < aimslope)
+    if (FixedDiv(th->z + th->height - shootz, dist) < aimslope)
         return true;                    // shot over the thing
 
-    thingbottomslope = FixedDiv(th->z - shootz, dist);
-
-    if (thingbottomslope > aimslope)
+    if (FixedDiv(th->z - shootz, dist) > aimslope)
         return true;                    // shot under the thing
 
     // hit thing
