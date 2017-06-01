@@ -1193,7 +1193,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->floorz = sector->interpfloorheight;
     th->ceilingz = sector->interpceilingheight;
 
-    th->z = BETWEEN(th->floorz, z + ((M_Random() - M_Random()) << 10), th->ceilingz - th->height);
+    th->z = z + ((M_Random() - M_Random()) << 10);
 
     th->thinker.function = P_MobjThinker;
     P_AddThinker(&th->thinker);

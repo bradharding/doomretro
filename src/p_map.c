@@ -1556,15 +1556,15 @@ dboolean PTR_ShootTraverse(intercept_t *in)
         if ((side = li->sidenum[P_PointOnLineSide(shootthing->x, shootthing->y, li)]) != NO_INDEX)
         {
             sector_t    *sector = sides[side].sector;
-            fixed_t     floorz = sector->interpfloorheight;
-            fixed_t     ceilingz = sector->interpceilingheight;
+            fixed_t     ceilingz;
+            fixed_t     floorz;
 
-            if (z > ceilingz && distz)
+            if (z > (ceilingz = sector->interpceilingheight) && distz)
             {
                 frac = FixedDiv(FixedMul(frac, ceilingz - shootz), distz);
                 z = ceilingz;
             }
-            else if (z < floorz && distz)
+            else if (z < (floorz = sector->interpfloorheight) && distz)
             {
                 if (sector->isliquid)
                     return false;

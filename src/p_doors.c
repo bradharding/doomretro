@@ -192,8 +192,7 @@ void T_VerticalDoor(vldoor_t *door)
 
         case 1:
             // UP
-            res = T_MovePlane(door->sector, door->speed, door->topheight, false, 1,
-                door->direction);
+            res = T_MovePlane(door->sector, door->speed, door->topheight, false, 1, door->direction);
 
             // killough 10/98: implement gradual lighting effects
             // [BH] enhanced to apply effects to all doors
@@ -595,6 +594,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     if (sec->ceilingdata)
     {
         door = sec->ceilingdata;
+
         switch (line->special)
         {
             case DR_Door_OpenWaitClose_AlsoMonsters:
@@ -667,7 +667,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
     // killough 10/98: use gradual lighting changes if nonzero tag given
     // [BH] check if tag is valid
-    door->lighttag = (P_FindLineFromLineTag(line, 0) ? line->tag : 0);  // killough 10/98
+    if (P_FindLineFromLineTag(line, 0))
+        door->lighttag = line->tag;
 
     switch (line->special)
     {
@@ -724,13 +725,10 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
 
     door->thinker.function = T_VerticalDoor;
     door->sector = sec;
-    door->direction = 0;
     door->type = doorNormal;
     door->speed = VDOORSPEED;
     door->topcountdown = 30 * TICRATE;
     door->topheight = sec->ceilingheight;
-    door->line = NULL;  // jff 1/31/98 remember line that triggered us
-    door->lighttag = 0; // killough 10/98: no lighting changes
 }
 
 //
@@ -754,6 +752,4 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
     door->topheight -= 4 * FRACUNIT;
     door->topwait = VDOORWAIT;
     door->topcountdown = 5 * 60 * TICRATE;
-    door->line = NULL;  // jff 1/31/98 remember line that triggered us
-    door->lighttag = 0; // killough 10/98: no lighting changes
 }
