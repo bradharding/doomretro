@@ -203,6 +203,7 @@ extern char         *vid_windowsize;
 extern char         *wad;
 #endif
 extern int          weaponbob;
+extern dboolean     weaponrecoil;
 
 extern char         *packageconfig;
 extern dboolean     returntowidescreen;
@@ -340,6 +341,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (wad,                                               NOVALUEALIAS    ),
 #endif
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (weaponrecoil,                                      BOOLVALUEALIAS  ),
     BLANKLINE,
     COMMENT("; player stats\n"),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_barrelsexploded,                              NOVALUEALIAS    ),

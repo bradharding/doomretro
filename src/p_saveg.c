@@ -454,14 +454,17 @@ static void saveg_read_player_t(player_t *str)
     str->chainsawbeforechoppers = saveg_read32();
     str->weaponbeforechoppers = (weapontype_t)saveg_read_enum();
     str->oldviewz = saveg_read32();
-
     str->lookdir = saveg_read32();
     str->oldlookdir = saveg_read32();
+    str->recoil = saveg_read32();
+    str->oldrecoil = saveg_read32();
 
     if (!m_look)
     {
         str->lookdir = 0;
         str->oldlookdir = 0;
+        str->recoil = 0;
+        str->oldrecoil = 0;
     }
 
     str->damageinflicted = saveg_read32();
@@ -549,6 +552,8 @@ static void saveg_write_player_t(player_t *str)
     saveg_write32(str->oldviewz);
     saveg_write32(str->lookdir);
     saveg_write32(str->oldlookdir);
+    saveg_write32(str->recoil);
+    saveg_write32(str->oldrecoil);
     saveg_write32(str->damageinflicted);
     saveg_write32(str->damagereceived);
     saveg_write32(str->cheated);

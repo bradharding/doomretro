@@ -48,9 +48,6 @@
 #include "st_stuff.h"
 #include "z_zone.h"
 
-void G_PlayerReborn(void);
-void P_DelSeclist(msecnode_t *node);
-
 int         r_blood = r_blood_default;
 int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
@@ -85,6 +82,10 @@ extern dboolean     r_mirroredweapons;
 extern dboolean     r_textures;
 extern dboolean     r_shadows_translucency;
 extern msecnode_t   *sector_list;   // phares 3/16/98
+
+void A_Recoil(player_t *player, weapontype_t weapon);
+void G_PlayerReborn(void);
+void P_DelSeclist(msecnode_t *node);
 
 dboolean P_IsVoodooDoll(mobj_t *mobj)
 {
@@ -1462,6 +1463,8 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     }
 
     P_CheckMissileSpawn(th);
+
+    A_Recoil(source->player, source->player->readyweapon);
 }
 
 void P_InitExtraMobjs(void)

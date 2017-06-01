@@ -52,6 +52,7 @@
 #define MAXMOTORSPEED           65535
 
 dboolean        centerweapon = centerweapon_default;
+dboolean        weaponrecoil = weaponrecoil_default;
 int             weaponbob = weaponbob_default;
 
 unsigned int    stat_shotsfired;
@@ -60,11 +61,29 @@ unsigned int    stat_shotshit;
 dboolean        successfulshot;
 dboolean        skippsprinterp;
 
+static const int recoilvalues[] = {
+     0, // wp_fist
+     4, // wp_pistol
+     8, // wp_shotgun
+     4, // wp_chaingun
+    16, // wp_missile
+     4, // wp_plasma
+    20, // wp_bfg
+    -2, // wp_chainsaw
+    16  // wp_supershotgun
+};
+
 extern dboolean hitwall;
 extern dboolean m_look;
 extern int      stillbob;
 
 void P_CheckMissileSpawn(mobj_t *th);
+
+void A_Recoil(player_t *player, weapontype_t weapon)
+{
+    if (weaponrecoil && m_look)
+        player->recoil = recoilvalues[weapon];
+}
 
 //
 // P_SetPsprite
@@ -456,6 +475,8 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     // use MELEERANGE + 1 so the puff doesn't skip the flash
     P_LineAttack(actor, angle, MELEERANGE + 1, slope, damage);
 
+    A_Recoil(player, wp_chainsaw);
+
     P_NoiseAlert(player->mo, player->mo);
 
     if (!linetarget)
@@ -564,6 +585,8 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_CheckMissileSpawn(th);
     }
     while (type != MT_PLASMA2 && (type = MT_PLASMA2)); // killough: obfuscated!
+
+    A_Recoil(player, wp_plasma);
 }
 
 //
@@ -652,6 +675,8 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_GunShot(actor, !player->refire);
 
+    A_Recoil(player, wp_pistol);
+
     player->shotsfired++;
     stat_shotsfired = SafeAdd(stat_shotsfired, 1);
 
@@ -688,6 +713,8 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     for (i = 0; i < 7; i++)
         P_GunShot(actor, false);
+
+    A_Recoil(player, wp_shotgun);
 
     player->shotsfired++;
     stat_shotsfired = SafeAdd(stat_shotsfired, 1);
@@ -733,6 +760,8 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         P_LineAttack(actor, angle, MISSILERANGE, bulletslope + ((M_Random() - M_Random()) << 5), damage);
     }
+
+    A_Recoil(player, wp_supershotgun);
 
     player->shotsfired++;
     stat_shotsfired = SafeAdd(stat_shotsfired, 1);
@@ -789,6 +818,8 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     successfulshot = false;
 
     P_GunShot(actor, !player->refire);
+
+    A_Recoil(player, wp_chaingun);
 
     player->shotsfired++;
     stat_shotsfired = SafeAdd(stat_shotsfired, 1);

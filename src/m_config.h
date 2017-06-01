@@ -428,6 +428,8 @@ typedef enum
 #define weaponbob_default                       75
 #define weaponbob_max                           100
 
+#define weaponrecoil_default                    false
+
 #define GAMEPADALWAYSRUN_DEFAULT                0
 #define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
 #define GAMEPADAUTOMAPCLEARMARK_DEFAULT         0

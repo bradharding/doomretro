@@ -67,7 +67,7 @@ static dboolean onground;
 // P_Thrust
 // Moves the given origin along a given angle.
 //
-static void P_Thrust(player_t *player, angle_t angle, fixed_t move)
+void P_Thrust(player_t *player, angle_t angle, fixed_t move)
 {
     player->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
     player->mo->momy += FixedMul(move, finesine[angle]);
@@ -380,6 +380,7 @@ void P_PlayerThink(player_t *player)
     mo->oldangle = mo->angle;
     player->oldviewz = player->viewz;
     player->oldlookdir = player->lookdir;
+    player->oldrecoil = player->recoil;
 
     if (player->cheats & CF_NOCLIP)
         mo->flags |= MF_NOCLIP;
@@ -414,6 +415,9 @@ void P_PlayerThink(player_t *player)
         motionblur = 0;
         I_SetMotionBlur(0);
     }
+
+    if (player->recoil)
+        player->recoil += (player->recoil > 0 ? -1 : 1);
 
     if (player->playerstate == PST_DEAD)
     {

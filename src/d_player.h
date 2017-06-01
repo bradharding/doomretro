@@ -201,6 +201,9 @@ typedef struct player_s
     int                 lookdir;
     int                 oldlookdir;
 
+    fixed_t             recoil;
+    fixed_t             oldrecoil;
+
     // For playerstats cmd
     int                 damageinflicted;
     int                 damagereceived;

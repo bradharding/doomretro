@@ -270,6 +270,7 @@ extern char         *vid_windowsize;
 extern char         *wad;
 #endif
 extern int          weaponbob;
+extern dboolean     weaponrecoil;
 
 extern char         *packageconfig;
 extern int          st_palette;
@@ -892,6 +893,8 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs up and down\nwhen they move."),
+    CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles the player's weapons recoiling when firing and using mouselook."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };

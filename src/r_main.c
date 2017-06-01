@@ -744,7 +744,8 @@ void R_SetupFrame(player_t *player)
         viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
         pitch = (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
-            * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
+            * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT + (player->oldrecoil + FixedMul(player->recoil
+            - player->oldrecoil, fractionaltic));
     }
     else
     {
@@ -752,7 +753,7 @@ void R_SetupFrame(player_t *player)
         viewy = mo->y;
         viewz = player->viewz;
         viewangle = mo->angle;
-        pitch = player->lookdir / MLOOKUNIT;
+        pitch = player->lookdir / MLOOKUNIT + player->recoil;
     }
 
     if (explosiontics && !consoleactive && !menuactive && !paused)
