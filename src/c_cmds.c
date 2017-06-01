@@ -269,7 +269,7 @@ extern char         *vid_windowsize;
 #if defined(_WIN32)
 extern char         *wad;
 #endif
-extern dboolean     weaponbob;
+extern int          weaponbob;
 
 extern char         *packageconfig;
 extern int          st_palette;
