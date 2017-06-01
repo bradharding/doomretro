@@ -1566,6 +1566,9 @@ dboolean PTR_ShootTraverse(intercept_t *in)
             }
             else if (z < floorz && distz)
             {
+                if (sector->isliquid)
+                    return false;
+
                 frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);
                 z = floorz;
             }
