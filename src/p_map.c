@@ -1513,7 +1513,7 @@ dboolean PTR_ShootTraverse(intercept_t *in)
     fixed_t     x, y, z;
     fixed_t     frac;
     mobj_t      *th;
-    fixed_t     dist = FixedMul(attackrange, in->frac);
+    fixed_t     dist;
 
     if (in->isaline)
     {
@@ -1529,6 +1529,8 @@ dboolean PTR_ShootTraverse(intercept_t *in)
             // crosses a two sided line
             P_LineOpening(li);
 
+            dist = FixedMul(attackrange, in->frac);
+
             if (!li->backsector)
             {
                 if (FixedDiv(openbottom - shootz, dist) <= aimslope
@@ -1536,16 +1538,18 @@ dboolean PTR_ShootTraverse(intercept_t *in)
                     return true;      // shot continues
             }
             else
-                if ((li->frontsector->floorheight == li->backsector->floorheight
+            {
+                if ((li->frontsector->interpfloorheight == li->backsector->interpfloorheight
                         || FixedDiv(openbottom - shootz, dist) <= aimslope)
-                    && (li->frontsector->ceilingheight == li->backsector->ceilingheight
+                    && (li->frontsector->interpceilingheight == li->backsector->interpceilingheight
                         || FixedDiv(opentop - shootz, dist) >= aimslope))
                     return true;      // shot continues
+            }
         }
 
         // position a bit closer
         frac = in->frac - FixedDiv(4 * FRACUNIT, attackrange);
-        distz = FixedMul(aimslope, dist);
+        distz = FixedMul(aimslope, FixedMul(attackrange, frac));
         z = shootz + distz;
 
         // clip shots on floor and ceiling
@@ -1556,9 +1560,15 @@ dboolean PTR_ShootTraverse(intercept_t *in)
             fixed_t     ceilingz = sector->interpceilingheight;
 
             if (z > ceilingz && distz)
+            {
                 frac = FixedDiv(FixedMul(frac, ceilingz - shootz), distz);
+                z = ceilingz;
+            }
             else if (z < floorz && distz)
+            {
                 frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);
+                z = floorz;
+            }
         }
 
         x = dlTrace.x + FixedMul(dlTrace.dx, frac);
@@ -1572,7 +1582,7 @@ dboolean PTR_ShootTraverse(intercept_t *in)
 
             // it's a sky hack wall
             if (li->backsector && li->backsector->ceilingpic == skyflatnum
-                && li->backsector->ceilingheight < z)
+                && li->backsector->interpceilingheight < z)
                 return false;
         }
 
@@ -1593,6 +1603,8 @@ dboolean PTR_ShootTraverse(intercept_t *in)
 
     if (!(th->flags & MF_SHOOTABLE))
         return true;                    // corpse or something
+
+    dist = FixedMul(attackrange, in->frac);
 
     // check angles to see if the thing can be aimed at
     if (FixedDiv(th->z + th->height - shootz, dist) < aimslope)
