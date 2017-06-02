@@ -894,7 +894,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs up and down\nwhen they move."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the player's weapons recoiling when firing and using mouselook."),
+        "Toggles the player's weapon recoiling when fired\nwhile using mouselook."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
