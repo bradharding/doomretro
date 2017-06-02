@@ -74,14 +74,14 @@ static const int recoilvalues[] = {
 };
 
 extern dboolean hitwall;
-extern dboolean m_look;
+extern dboolean mouselook;
 extern int      stillbob;
 
 void P_CheckMissileSpawn(mobj_t *th);
 
 void A_Recoil(player_t *player, weapontype_t weapon)
 {
-    if (weaponrecoil && m_look)
+    if (weaponrecoil && mouselook)
         player->recoil = recoilvalues[weapon];
 }
 
@@ -631,7 +631,7 @@ static void P_BulletSlope(mobj_t *mo)
             an -= 2 << 26;
             bulletslope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
 
-            if (!linetarget && m_look)
+            if (!linetarget && mouselook)
                 bulletslope = ((mo->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;
         }
     }

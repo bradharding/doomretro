@@ -199,9 +199,9 @@ int             mousex;
 int             mousey;
 
 dboolean        m_doubleclick_use = m_doubleclick_use_default;
-dboolean        m_inverty = m_inverty_default;
-dboolean        m_look = m_look_default;
+dboolean        m_invertyaxis = m_invertyaxis_default;
 dboolean        m_novertical = m_novertical_default;
+dboolean        mouselook = mouselook_default;
 
 static int      dclicktime;
 static dboolean dclickstate;
@@ -347,7 +347,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft * gamepadsensitivity);
     }
 
-    if (gp_look)
+    if (mouselook)
     {
         if (gamepadthumbRY < 0)
             cmd->lookdir = (int)(64 * gamepadthumbRYup * gamepadsensitivity);
@@ -489,8 +489,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (mousey)
     {
-        if (m_look)
-            cmd->lookdir = (m_inverty ? -mousey : mousey);
+        if (mouselook)
+            cmd->lookdir = (m_invertyaxis ? -mousey : mousey);
         else if (!m_novertical)
             forward += mousey;
 
@@ -631,7 +631,7 @@ void G_DoLoadLevel(void)
             skycolfunc = R_DrawSkyColorColumn;
         else
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
-                && !m_look ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+                && !mouselook ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
     }
     else
         skycolfunc = R_DrawSkyColorColumn;

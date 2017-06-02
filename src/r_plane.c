@@ -88,7 +88,7 @@ int                 skycolor;
 
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
 
-extern dboolean     m_look;
+extern dboolean     mouselook;
 
 //
 // R_MapPlane
@@ -442,7 +442,7 @@ void R_DrawPlanes(void)
 
                         dc_texheight = textureheight[texture] >> FRACBITS;
 
-                        if (m_look)
+                        if (mouselook)
                             dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
 
                         // We sometimes flip the picture horizontally.

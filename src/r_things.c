@@ -91,7 +91,7 @@ dboolean                r_playersprites = r_playersprites_default;
 extern fixed_t          animatedliquiddiff;
 extern dboolean         drawbloodsplats;
 extern dboolean         inhelpscreens;
-extern dboolean         m_look;
+extern dboolean         mouselook;
 extern dboolean         notranslucency;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_shadows;
@@ -1016,7 +1016,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
         }
     }
 
-    if (m_look)
+    if (mouselook)
         vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale)
             - viewplayer->lookdir * 0x5C0;
 

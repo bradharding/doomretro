@@ -79,8 +79,7 @@ extern int          expansionselected;
 extern int          facebackcolor;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
-extern dboolean     gp_inverty;
-extern dboolean     gp_look;
+extern dboolean     gp_invertyaxis;
 extern int          gp_sensitivity;
 extern dboolean     gp_swapthumbsticks;
 extern int          gp_vibrate_damage;
@@ -89,11 +88,11 @@ extern char         *iwadfolder;
 extern dboolean     messages;
 extern float        m_acceleration;
 extern dboolean     m_doubleclick_use;
-extern dboolean     m_inverty;
-extern dboolean     m_look;
+extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
 extern int          m_sensitivity;
 extern int          m_threshold;
+extern dboolean     mouselook;
 extern int          movebob;
 extern char         *playername;
 extern dboolean     r_althud;
@@ -253,8 +252,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (facebackcolor,                                     NOVALUEALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                                  NOVALUEALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOVALUEALIAS    ),
-    CONFIG_VARIABLE_INT          (gp_inverty,                                        BOOLVALUEALIAS  ),
-    CONFIG_VARIABLE_INT          (gp_look,                                           BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (gp_invertyaxis,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (gp_sensitivity,                                    NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,                                BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_damage,                                 NOVALUEALIAS    ),
@@ -262,12 +260,12 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (iwadfolder,                                        NOVALUEALIAS    ),
     CONFIG_VARIABLE_FLOAT        (m_acceleration,                                    NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,                                 BOOLVALUEALIAS  ),
-    CONFIG_VARIABLE_INT          (m_inverty,                                         BOOLVALUEALIAS  ),
-    CONFIG_VARIABLE_INT          (m_look,                                            BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (m_invertyaxis,                                     BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (m_novertical,                                      BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (m_sensitivity,                                     NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (m_threshold,                                       NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (messages,                                          BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (mouselook,                                         BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (movebob,                                           NOVALUEALIAS    ),
     CONFIG_VARIABLE_STRING       (playername,                                        NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_althud,                                          BOOLVALUEALIAS  ),
@@ -742,11 +740,8 @@ static void M_CheckCVARs(void)
     gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
     I_SetGamepadRightDeadZone(gp_deadzone_right);
 
-    if (gp_inverty != false && gp_inverty != true)
-        gp_inverty = gp_inverty_default;
-
-    if (gp_look != false && gp_look != true)
-        gp_look = gp_look_default;
+    if (gp_invertyaxis != false && gp_invertyaxis != true)
+        gp_invertyaxis = gp_invertyaxis_default;
 
     gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
     I_SetGamepadSensitivity(gp_sensitivity);
@@ -761,11 +756,8 @@ static void M_CheckCVARs(void)
     if (m_doubleclick_use != false && m_doubleclick_use != true)
         m_doubleclick_use = m_doubleclick_use_default;
 
-    if (m_inverty != false && m_inverty != true)
-        m_inverty = m_inverty_default;
-
-    if (m_look != false && m_look != true)
-        m_look = m_look_default;
+    if (m_invertyaxis != false && m_invertyaxis != true)
+        m_invertyaxis = m_invertyaxis_default;
 
     if (m_novertical != false && m_novertical != true)
         m_novertical = m_novertical_default;
@@ -774,6 +766,9 @@ static void M_CheckCVARs(void)
 
     if (messages != false && messages != true)
         messages = messages_default;
+
+    if (mouselook != false && mouselook != true)
+        mouselook = mouselook_default;
 
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
 

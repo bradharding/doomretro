@@ -178,9 +178,7 @@ typedef enum
 #define gp_deadzone_right_default               26.5f
 #define gp_deadzone_right_max                   100.0f
 
-#define gp_inverty_default                      false
-
-#define gp_look_default                         false
+#define gp_invertyaxis_default                  false
 
 #define gp_sensitivity_min                      0
 #define gp_sensitivity_default                  64
@@ -210,9 +208,7 @@ typedef enum
 
 #define m_doubleclick_use_default               false
 
-#define m_inverty_default                       false
-
-#define m_look_default                          false
+#define m_invertyaxis_default                   false
 
 #define m_novertical_default                    true
 
@@ -223,6 +219,8 @@ typedef enum
 #define m_threshold_min                         0
 #define m_threshold_default                     10
 #define m_threshold_max                         INT_MAX
+
+#define mouselook_default                       false
 
 #define movebob_min                             0
 #define movebob_default                         75

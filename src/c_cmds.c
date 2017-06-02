@@ -143,8 +143,7 @@ extern int          facebackcolor;
 extern int          gametime;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
-extern dboolean     gp_inverty;
-extern dboolean     gp_look;
+extern dboolean     gp_invertyaxis;
 extern int          gp_sensitivity;
 extern dboolean     gp_swapthumbsticks;
 extern int          gp_vibrate_damage;
@@ -154,11 +153,11 @@ extern char         *language;
 extern dboolean     messages;
 extern float        m_acceleration;
 extern dboolean     m_doubleclick_use;
-extern dboolean     m_inverty;
-extern dboolean     m_look;
+extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
 extern int          m_sensitivity;
 extern int          m_threshold;
+extern dboolean     mouselook;
 extern int          movebob;
 extern char         *playername;
 extern dboolean     r_althud;
@@ -441,7 +440,7 @@ static void am_path_cvar_func2(char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *);
-static void m_look_cvar_func2(char *, char *);
+static void mouselook_cvar_func2(char *, char *);
 static dboolean player_cvars_func1(char *, char *);
 static void player_cvars_func2(char *, char *);
 static void playername_cvar_func2(char *, char *);
@@ -638,10 +637,8 @@ consolecmd_t consolecmds[] =
         "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
         "The dead zone of the gamepad's right thumbstick."),
-    CVAR_BOOL(gp_inverty, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles inverting the gamepad's right thumbstick\nwhen looking up and down."),
-    CVAR_BOOL(gp_look, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles looking up and down using the gamepad's\nright thumbstick."),
+    CVAR_BOOL(gp_invertyaxis, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles inverting the vertical axis of the gamepad's\nright thumbstick when looking up and down."),
     CVAR_INT(gp_sensitivity, "", int_cvars_func1, gp_sensitivity_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The gamepad's sensitivity (<b>0</b> to <b>128</b>)."),
     CVAR_BOOL(gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -685,10 +682,8 @@ consolecmd_t consolecmds[] =
         "The amount the mouse accelerates."),
     CVAR_BOOL(m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles double-clicking a mouse button for the <b>+use</b>\naction."),
-    CVAR_BOOL(m_inverty, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles inverting the mouse when using mouselook."),
-    CVAR_BOOL(m_look, "", bool_cvars_func1, m_look_cvar_func2, BOOLVALUEALIAS,
-        "Toggles mouselook."),
+    CVAR_BOOL(m_invertyaxis, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles inverting the mouse's vertical axis whenn\using mouselook."),
     CVAR_BOOL(m_novertical, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles no vertical movement of the mouse."),
     CVAR_INT(m_sensitivity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -703,6 +698,8 @@ consolecmd_t consolecmds[] =
         "Shows statistics about the current map."),
     CVAR_BOOL(messages, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles player messages."),
+    CVAR_BOOL(mouselook, "", bool_cvars_func1, mouselook_cvar_func2, BOOLVALUEALIAS,
+        "Toggles mouselook."),
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view bobs up and down when\nthey move."),
     CMD_CHEAT(mumu, 0),
@@ -4425,20 +4422,20 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parms)
 }
 
 //
-// m_look CVAR
+// mouselook CVAR
 //
-static void m_look_cvar_func2(char *cmd, char *parms)
+static void mouselook_cvar_func2(char *cmd, char *parms)
 {
-    dboolean    m_look_old = m_look;
+    dboolean    mouselook_old = mouselook;
 
     bool_cvars_func2(cmd, parms);
 
-    if (m_look != m_look_old && gamestate == GS_LEVEL)
+    if (mouselook != mouselook_old && gamestate == GS_LEVEL)
     {
         R_InitSkyMap();
         R_InitColumnFunctions();
 
-        if (!m_look)
+        if (!mouselook)
         {
             viewplayer->lookdir = 0;
             viewplayer->oldlookdir = 0;

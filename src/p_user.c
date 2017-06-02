@@ -46,7 +46,7 @@
 #define DEADLOOKDIRINC  24
 
 extern fixed_t  animatedliquiddiff;
-extern dboolean m_look;
+extern dboolean mouselook;
 extern dboolean r_liquid_bob;
 extern dboolean skipaction;
 
@@ -217,7 +217,7 @@ static void P_MovePlayer(player_t *player)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
-    if (m_look)
+    if (mouselook)
         player->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, player->lookdir + cmd->lookdir,
             LOOKDIRMAX * MLOOKUNIT);
 }
@@ -261,7 +261,7 @@ static void P_DeathThink(player_t *player)
         if (player->viewheight < 6 * FRACUNIT)
             player->viewheight = 6 * FRACUNIT;
 
-        if (m_look)
+        if (mouselook)
         {
             if (player->lookdir > DEADLOOKDIR)
                 player->lookdir -= DEADLOOKDIRINC;

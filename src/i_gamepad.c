@@ -58,8 +58,7 @@ static XINPUTSETSTATE pXInputSetState;
 
 float           gp_deadzone_left = gp_deadzone_left_default;
 float           gp_deadzone_right = gp_deadzone_right_default;
-dboolean        gp_inverty = gp_inverty_default;
-dboolean        gp_look = gp_look_default;
+dboolean        gp_invertyaxis = gp_invertyaxis_default;
 dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
 int             gp_vibrate_damage = gp_vibrate_damage_default;
 int             gp_vibrate_weapons = gp_vibrate_weapons_default;
@@ -293,7 +292,7 @@ void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY)
     gamepadthumbLX = clamp(LX, gamepadleftdeadzone);
     gamepadthumbLY = -clamp(LY, gamepadleftdeadzone);
     gamepadthumbRX = clamp(RX, gamepadrightdeadzone);
-    gamepadthumbRY = (gp_inverty ? -1 : 1) * clamp(RY, gamepadrightdeadzone);
+    gamepadthumbRY = (gp_invertyaxis ? -1 : 1) * clamp(RY, gamepadrightdeadzone);
 }
 
 void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
@@ -301,7 +300,7 @@ void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
     gamepadthumbLX = clamp(RX, gamepadrightdeadzone);
     gamepadthumbLY = -clamp(RY, gamepadrightdeadzone);
     gamepadthumbRX = clamp(LX, gamepadleftdeadzone);
-    gamepadthumbRY = (gp_inverty ? -1 : 1) * clamp(LY, gamepadleftdeadzone);
+    gamepadthumbRY = (gp_invertyaxis ? -1 : 1) * clamp(LY, gamepadleftdeadzone);
 }
 
 void I_PollXInputGamepad(void)

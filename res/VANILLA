@@ -58,10 +58,10 @@ am_wallcolor 176
 autoload off
 centerweapon off
 facebackcolor 5
-m_look off
 m_novertical off
 m_sensitivity 8
 messages on
+mouselook off
 movebob 100%
 playername "you"
 r_blood red

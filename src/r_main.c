@@ -125,7 +125,7 @@ dboolean            r_translucency = r_translucency_default;
 
 extern dboolean     canmodify;
 extern int          explosiontics;
-extern dboolean     m_look;
+extern dboolean     mouselook;
 extern dboolean     transferredsky;
 extern dboolean     vanilla;
 extern int          viewheight2;
@@ -552,7 +552,7 @@ void R_InitColumnFunctions(void)
             skycolfunc = R_DrawSkyColorColumn;
         else
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
-                && !m_look ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+                && !mouselook ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
 
         spanfunc = R_DrawSpan;
 

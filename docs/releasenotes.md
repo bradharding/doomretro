@@ -5,10 +5,10 @@
 * The gray elements in the alternate widescreen HUD now appear correctly in PWADs with custom `PLAYPAL` lumps.
 * Minor changes have been made to some elements in both the status bar and alternate widescreen HUD.
 * A countdown bar is now displayed in the alternate widescreen HUD underneath the ammo bar when the player has a power-up that runs out.
-* Mouselook can now be enabled using the new `m_look` CVAR. It is `off` by default. (Please note that due to the addition of this feature, savegames created with previous versions of *DOOM Retro* are not compatible with this version.)
-* An `m_inverty` CVAR has also been implemented that toggles inverting the mouse when using mouselook. It is `off` by default.
-* Similarly, looking up and down using the gamepad’s right thumbstick has been implemented. Use the `gp_look` CVAR to enable this and the `gp_inverty` CVAR to invert. Both of these new CVARs are `off` by default.
-* The following changes have been made to stats displayed by the `playerstats` CCMD:
+* Mouselook can now be enabled using the new `mouselook` CVAR. It is `off` by default. (Please note that due to the addition of this feature, savegames created with previous versions of *DOOM Retro* are not compatible with this version.)
+* An `m_invertyaxis` CVAR has also been implemented that toggles inverts the mouse’s vertical axis when using mouselook. It is `off` by default.
+* Looking up and down using the gamepad’s right thumbstick has also been implemented, and is enabled when the new `mouselook` CVAR is `on` as well. The new `gp_invertyaxis` CVAR can be used to invert the gamepad’s vertical axis. It is `off` by default.
+* The following changes have been made to some of the stats displayed by the `playerstats` CCMD:
   * The `Shots Fired`, `Shots Hit` and `Weapon Accuracy` stats are now calculated correctly.
   * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.
   * The `Health` stat now increases when the player picks up a health bonus.
@@ -16,7 +16,7 @@
 * Several compatibility fixes have been made for [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens), [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
 * Three new CVARs have been implemented to toggle the translucency of individual elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR remains to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
 * The console’s background is now always translucent.
-* The ability to have the player’s weapon recoil when fired can now be enabled using the new `weaponrecoil` CVAR. (Mouselook also needs to be enabled using the `m_look` or `gp_look` CVARs.)
+* The ability to have the player’s weapon recoil when fired can now be enabled using the new `weaponrecoil` CVAR. (Mouselook also needs to be enabled using the `mouselook` CVAR.)
 * The number of sound effects that can be played at the same time is now specified using the new `s_channels` CVAR. It can be between `8` and `256`, and is `32` by default.
 * The skull in the menu is no longer positioned incorrectly when certain PWADs with custom menu lumps are loaded.
 * Minor changes have been made to text that is output to the console.
