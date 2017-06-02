@@ -1566,7 +1566,7 @@ dboolean PTR_ShootTraverse(intercept_t *in)
             }
             else if (z < (floorz = sector->interpfloorheight) && distz)
             {
-                if (sector->isliquid)
+                if (sector->isliquid || sector->floorpic == skyflatnum)
                     return false;
 
                 frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);
