@@ -683,7 +683,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(m_doubleclick_use, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles double-clicking a mouse button for the <b>+use</b>\naction."),
     CVAR_BOOL(m_invertyaxis, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles inverting the mouse's vertical axis whenn\using mouselook."),
+        "Toggles inverting the mouse's vertical axis when\nusing mouselook."),
     CVAR_BOOL(m_novertical, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles no vertical movement of the mouse."),
     CVAR_INT(m_sensitivity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
