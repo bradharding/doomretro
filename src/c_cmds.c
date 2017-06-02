@@ -4439,6 +4439,8 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
         {
             viewplayer->lookdir = 0;
             viewplayer->oldlookdir = 0;
+            viewplayer->recoil = 0;
+            viewplayer->oldrecoil = 0;
         }
     }
 }
