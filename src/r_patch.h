@@ -48,36 +48,37 @@ typedef enum
 
 typedef struct
 {
-    int                 topdelta;
-    int                 length;
+    int             topdelta;
+    int             length;
 } rpost_t;
 
 typedef struct
 {
-    int                 numPosts;
-    rpost_t             *posts;
-    unsigned char       *pixels;
+    int             numPosts;
+    rpost_t         *posts;
+    unsigned char   *pixels;
 } rcolumn_t;
 
 typedef struct
 {
-    int                 width;
-    int                 height;
-    unsigned int        widthmask;
+    int             width;
+    int             height;
+    unsigned int    widthmask;
 
-    int                 leftoffset;
-    int                 topoffset;
+    int             leftoffset;
+    int             topoffset;
 
     // this is the single malloc'ed/free'd array
     // for this patch
-    unsigned char       *data;
+    unsigned char   *data;
 
     // these are pointers into the data array
-    unsigned char       *pixels;
-    rcolumn_t           *columns;
-    rpost_t             *posts;
+    unsigned char   *pixels;
+    rcolumn_t       *columns;
+    rpost_t         *posts;
 
-    unsigned int        locks;
+    unsigned int    locks;
+    unsigned int    flags;
 } rpatch_t;
 
 const rpatch_t *R_CachePatchNum(int id);

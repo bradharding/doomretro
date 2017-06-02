@@ -61,7 +61,6 @@ void R_InitSkyMap(void)
     int map = (gameepisode - 1) * 10 + gamemap;
 
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
-
     skytexture = P_GetMapSky1Texture(map);
 
     if (!skytexture || ((textureheight[skytexture] >> FRACBITS) > 128 && !mouselook))
@@ -126,7 +125,6 @@ void R_InitSkyMap(void)
             skytexturemid = (200 - skyheight) << FRACBITS;
 
         skyiscale = (fixed_t)(((uint64_t)FRACUNIT * SCREENWIDTH * 200) / (viewwidth * SCREENHEIGHT));
-
         skyiscale = skyiscale * skyheight / SKYSTRETCH_HEIGHT;
         skytexturemid = skytexturemid * skyheight / SKYSTRETCH_HEIGHT;
     }

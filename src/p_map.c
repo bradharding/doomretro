@@ -1556,26 +1556,27 @@ dboolean PTR_ShootTraverse(intercept_t *in)
         if ((side = li->sidenum[P_PointOnLineSide(shootthing->x, shootthing->y, li)]) != NO_INDEX)
         {
             sector_t    *sector = sides[side].sector;
-            fixed_t     ceilingz;
-            fixed_t     floorz;
+            fixed_t     ceilingz = sector->interpceilingheight;
 
-            if (z > (ceilingz = sector->interpceilingheight) && distz)
+            if (z > ceilingz && distz)
             {
                 frac = FixedDiv(FixedMul(frac, ceilingz - shootz), distz);
                 z = ceilingz;
             }
-            else if (z < (floorz = sector->interpfloorheight) && distz)
+            else
             {
-                if (sector->isliquid || sector->floorpic == skyflatnum)
-                    return false;
+                fixed_t floorz = sector->interpfloorheight;
 
-                frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);
-                z = floorz;
+                if (z < floorz && distz)
+                {
+                    if (sector->isliquid || sector->floorpic == skyflatnum)
+                        return false;
+
+                    frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);
+                    z = floorz;
+                }
             }
         }
-
-        x = dlTrace.x + FixedMul(dlTrace.dx, frac);
-        y = dlTrace.y + FixedMul(dlTrace.dy, frac);
 
         if (li->frontsector->ceilingpic == skyflatnum)
         {
@@ -1590,7 +1591,8 @@ dboolean PTR_ShootTraverse(intercept_t *in)
         }
 
         // Spawn bullet puffs.
-        P_SpawnPuff(x, y, z, shootangle);
+        P_SpawnPuff(dlTrace.x + FixedMul(dlTrace.dx, frac), dlTrace.y + FixedMul(dlTrace.dy, frac), z,
+            shootangle);
 
         hitwall = true;
 

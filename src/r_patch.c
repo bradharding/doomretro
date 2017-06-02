@@ -149,7 +149,7 @@ static dboolean CheckIfPatch(int lump)
         // point past the end of the patch.
         int x;
 
-        for (x = 0; x < width; ++x)
+        for (x = 0; x < width; x++)
         {
             unsigned int    ofs = LONG(patch->columnofs[x]);
 
@@ -203,7 +203,7 @@ static void createPatch(int id)
     numPostsInColumn = malloc(sizeof(int) * patch->width);
     numPostsTotal = 0;
 
-    for (x = 0; x < patch->width; ++x)
+    for (x = 0; x < patch->width; x++)
     {
         oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
         numPostsInColumn[x] = 0;
@@ -236,7 +236,7 @@ static void createPatch(int id)
     // fill in the pixels, posts, and columns
     numPostsUsedSoFar = 0;
 
-    for (x = 0; x < patch->width; ++x)
+    for (x = 0; x < patch->width; x++)
     {
         int top = -1;
 
@@ -285,7 +285,7 @@ static void createPatch(int id)
 
         // copy the patch image down and to the right where there are
         // holes to eliminate the black halo from bilinear filtering
-        for (x = 0; x < patch->width; ++x)
+        for (x = 0; x < patch->width; x++)
         {
             column = R_GetPatchColumnClamped(patch, x);
             prevColumn = R_GetPatchColumnClamped(patch, x - 1);
@@ -303,7 +303,7 @@ static void createPatch(int id)
             }
 
             // copy from above or to the left
-            for (y = 1; y < patch->height; ++y)
+            for (y = 1; y < patch->height; y++)
             {
                 if (getIsSolidAtSpot(oldColumn, y))
                     continue;
@@ -361,6 +361,7 @@ static void removePostFromColumn(rcolumn_t *column, int post)
             post1->length = post2->length;
         }
     }
+
     column->numPosts--;
 }
 
@@ -372,8 +373,10 @@ static void createTextureCompositePatch(int id)
     int                 patchNum;
     const patch_t       *oldPatch;
     const column_t      *oldColumn;
-    int                 i, x, y;
-    int                 oy, count;
+    int                 i;
+    int                 x, y;
+    int                 oy;
+    int                 count;
     int                 pixelDataSize;
     int                 columnsDataSize;
     int                 postsDataSize;
