@@ -1391,6 +1391,7 @@ char **mapnamesn[] =    // Nerve WAD map names.
 void lfstrip(char *);           // strip the \r and/or \n off of a line
 void rstrip(char *);            // strip trailing whitespace
 char *ptr_lstrip(char *);       // point past leading whitespace
+char *lwrcase(char *);
 int deh_GetData(char *, char *, long *, char **);
 dboolean deh_procStringSub(char *, char *, char *);
 char *dehReformatStr(char *);
@@ -2790,7 +2791,7 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
         if (*inbuffer == '#')
             continue;                           // skip comment lines
 
-        lfstrip(lowercase(inbuffer));           // lowercase it
+        lfstrip(lwrcase(inbuffer));             // lowercase it
 
         if (!*inbuffer)
             break;                              // killough 11/98
@@ -3583,6 +3584,16 @@ char *ptr_lstrip(char *p)       // point past leading whitespace
     while (isspace(*p))
         p++;
     return p;
+}
+
+char *lwrcase(char *str)
+{
+    char    *p;
+
+    for (p = str; *p; p++)
+        *p = tolower(*p);
+
+    return str;
 }
 
 // ====================================================================
