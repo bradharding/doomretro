@@ -257,7 +257,7 @@ dboolean I_MidiRPCInitServer(void)
     // Look for executable file
     if (!M_FileExists(module))
     {
-        C_Warning("The RPC server %s couldn't be found.", module);
+        C_Warning("%s couldn't be found.", module);
         return false;
     }
 
@@ -267,11 +267,11 @@ dboolean I_MidiRPCInitServer(void)
 
     if (result)
     {
-        C_Output("Using the RPC server <b>%s</b> to play MUS and MIDI music lumps.", module);
+        C_Output("Using <b>%s</b> to play MUS and MIDI music lumps.", module);
         serverInit = true;
     }
     else
-        C_Warning("The RPC server %s couldn't be initialized.", module);
+        C_Warning("%s couldn't be initialized.", module);
 
     return result;
 }
