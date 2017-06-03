@@ -894,13 +894,14 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    power = MAX(plr->powers[pw_invulnerability], MAX(plr->powers[pw_invisibility],
-        MAX(plr->powers[pw_infrared], plr->powers[pw_ironfeet])));
+    power = MIN(plr->powers[pw_invulnerability], MIN(plr->powers[pw_invisibility],
+        MIN(plr->powers[pw_ironfeet], plr->powers[pw_infrared])));
 
     if (power > STARTFLASHING || (power & 8))
     {
         int max = (power == plr->powers[pw_invulnerability] ? INVULNTICS :
-                (power == plr->powers[pw_infrared] ? INFRATICS : IRONTICS));
+                  (power == plr->powers[pw_invisibility] ? INVISTICS :
+                  (power == plr->powers[pw_ironfeet] ? IRONTICS : INFRATICS)));
 
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, darkgray);
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, power * 101 / max, 2, gray);
