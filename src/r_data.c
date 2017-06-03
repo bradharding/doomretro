@@ -520,12 +520,12 @@ void R_InitSpriteLumps(void)
             if (M_StringCompare(pwadfile, removeext(sc_String)))
                 notranslucency = true;
         }
-        else if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
+        else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
         {
             SC_MustGetString();
 
             if (M_StringCompare(pwadfile, removeext(sc_String)))
-                notranslucency = true;
+                telefragonmap30 = true;
         }
     }
 }

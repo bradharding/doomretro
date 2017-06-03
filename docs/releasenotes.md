@@ -13,7 +13,11 @@
   * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.
   * The `Health` stat now increases when the player picks up a health bonus.
   * The number of barrels in the current map as part of the `Barrels exploded` stat is now calculated correctly.
-* Several compatibility fixes have been made for [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens), [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529), [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960) and [*TNT: Revilution*](https://www.doomworld.com/files/file/18810-tnt-revilution/).
+* Several compatibility fixes have been implemented for:
+  * [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens),
+  * [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529),
+  * [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960),
+  * [*TNT: Revilution*](https://www.doomworld.com/files/file/18810-tnt-revilution/).
 * Three new CVARs have been implemented to individually toggle the translucency of certain elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR remains to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
 * The console’s background is now always translucent.
 * Further improvements have been made to the support of `DEHACKED` lumps.
