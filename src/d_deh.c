@@ -55,7 +55,8 @@
 
 typedef struct
 {
-    byte    *inp, *lump;    // Pointer to string or FILE
+    byte    *inp;
+    byte    *lump;
     long    size;
     FILE    *f;
 } DEHFILE;
@@ -101,9 +102,6 @@ static int dehfgetc(DEHFILE *fp)
 {
     return (!fp->lump ? fgetc(fp->f) : fp->size > 0 ? fp->size--, *fp->inp++ : EOF);
 }
-
-// variables used in other routines
-dboolean    deh_pars;                           // in wi_stuff to allow pars in modified games
 
 // #include "d_deh.h" -- we don't do that here but we declare the
 // variables. This externalizes everything that there is a string
@@ -1418,7 +1416,7 @@ void deh_procBexCodePointers(DEHFILE *, char *);
 typedef struct
 {
     char    *key;                                       // a mnemonic block code name
-    void (*const fptr)(DEHFILE *, char *);              // handler
+    void    (*const fptr)(DEHFILE *, char *);           // handler
 } deh_block;
 
 #define DEH_BUFFERMAX   1024    // input buffer area size, hardcoded for now
@@ -1629,18 +1627,6 @@ static char *deh_sfxinfo[] =
     "Neg. One 1",       // .usefulness
     "Neg. One 2"        // .lumpnum
 };
-
-// MUSICINFO is not supported in Dehacked. Ignored here.
-// * music entries are base zero but have a dummy #0
-
-// SPRITE - Dehacked block name = "Sprite"
-// Usage = Sprite nn
-// Sprite redirection by offset into the text area - unsupported by BOOM
-// * sprites are base zero and dehacked uses it that way.
-//static char *deh_sprite[] =
-//{
-//    "Offset"            // supposed to be the offset into the text section
-//};
 
 // AMMO - Dehacked block name = "Ammo"
 // usage = Ammo n (name)
@@ -1904,8 +1890,8 @@ static const deh_bexptr deh_bexptrs[] =
     { A_LineEffect,      "A_LineEffect"      },   // killough 11/98
 
     { A_FireOldBFG,      "A_FireOldBFG"      },   // killough 7/19/98: classic BFG firing function
-    { A_BetaSkullAttack, "A_BetaSkullAttack" },   // killough 10/98: beta lost souls attacked
-    { A_Stop,            "A_Stop"            },   //                 different
+    { A_BetaSkullAttack, "A_BetaSkullAttack" },   // killough 10/98: beta lost souls attacked different
+    { A_Stop,            "A_Stop"            },
 
     // This NULL entry must be the last in the list
     { NULL,              "A_NULL"            }    // Ty 05/16/98
@@ -2173,6 +2159,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
 
                 found = true;
             }
+
             i++;
         }
 
@@ -2287,7 +2274,6 @@ void deh_procThing(DEHFILE *fpin, char *line)
 
                             // [BH] no blood splats if thing is dehacked...
                             mobjinfo[indexnum].blood = 0;
-
                             break;
                         }
 
@@ -2761,10 +2747,13 @@ extern int cpars[33];
 //
 void deh_procPars(DEHFILE *fpin, char *line) // extension
 {
-    char        key[DEH_MAXKEYLEN];
-    char        inbuffer[DEH_BUFFERMAX];
-    int         indexnum;
-    int         episode, level, partime, oldpar;
+    char    key[DEH_MAXKEYLEN];
+    char    inbuffer[DEH_BUFFERMAX];
+    int     indexnum;
+    int     episode;
+    int     level;
+    int     partime;
+    int     oldpar;
 
     // new item, par times
     // usage: After [PARS] Par 0 section identifier, use one or more of these
@@ -2780,6 +2769,7 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
 
     // killough 8/98: allow hex numbers in input:
     sscanf(inbuffer, "%31s %10i", key, &indexnum);
+
     if (devparm)
         C_Output("Processing Par value at index %i: %s", indexnum, key);
 
@@ -2814,7 +2804,6 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
                             partime);
 
                     cpars[level - 1] = partime;
-                    deh_pars = true;
                 }
             }
         }
@@ -2835,8 +2824,6 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
                 if (devparm)
                     C_Output("Changed par time for E%iM%i from %i to %i seconds", episode, level, oldpar,
                         partime);
-
-                deh_pars = true;
             }
         }
     }
@@ -3583,6 +3570,7 @@ char *ptr_lstrip(char *p)       // point past leading whitespace
 {
     while (isspace(*p))
         p++;
+
     return p;
 }
 

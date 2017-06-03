@@ -6,15 +6,15 @@
 * Minor changes have been made to some elements in both the status bar and alternate widescreen HUD.
 * A countdown bar is now displayed in the alternate widescreen HUD underneath the ammo bar when the player has a power-up that runs out.
 * Mouselook can now be enabled using the new `mouselook` CVAR. It is `off` by default. (Please note that due to the addition of this feature, savegames created with previous versions of *DOOM Retro* are not compatible with this version.)
-* An `m_invertyaxis` CVAR has also been implemented that toggles inverts the mouse’s vertical axis when using mouselook. It is `off` by default.
-* Looking up and down using the gamepad’s right thumbstick has also been implemented, and is enabled when the new `mouselook` CVAR is `on` as well. The new `gp_invertyaxis` CVAR can be used to invert the gamepad’s vertical axis. It is `off` by default.
+* An `m_invertyaxis` CVAR has also been implemented that toggles inverting the mouse’s vertical axis when using mouselook. It is `off` by default.
+* Looking up and down using the gamepad’s right thumbstick has also been implemented, and is enabled when the new `mouselook` CVAR is `on` as well. A new `gp_invertyaxis` CVAR can be used to invert the vertical axis of the gamepad’s right thumbstick. It is `off` by default.
 * The following changes have been made to some of the stats displayed by the `playerstats` CCMD:
   * The `Shots Fired`, `Shots Hit` and `Weapon Accuracy` stats are now calculated correctly.
   * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.
   * The `Health` stat now increases when the player picks up a health bonus.
   * The number of barrels in the current map as part of the `Barrels exploded` stat is now calculated correctly.
 * Several compatibility fixes have been made for [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens), [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529) and [*Back To Saturn X E2: Tower in the Fountain of Sparks*](https://www.doomworld.com/vb/thread/69960).
-* Three new CVARs have been implemented to toggle the translucency of individual elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR remains to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
+* Three new CVARs have been implemented to individually toggle the translucency of certain elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR remains to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
 * The console’s background is now always translucent.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 * The ability to have the player’s weapon recoil when fired can now be enabled using the new `weaponrecoil` CVAR. (Mouselook also needs to be enabled using the `mouselook` CVAR.)
@@ -34,10 +34,10 @@
 * The `health` CVAR can now be reduced when freeze mode is on.
 * A bug has been fixed whereby blood splats could be black in some rare instances.
 * Blood splats now render correctly when against the left edge of the screen.
-* The default value of the `r_bloodsplats_max` CVAR has been doubled to `65,536`.
+* The default value of the `r_bloodsplats_max` CVAR has been increased to `65,536`.
 * All blood splats are now restored when turning off vanilla mode.
-* Barrels are no longer fullbright for the first two frames of their explosion animation.
-* A gradual lighting effect is now applied to the sectors under crushing ceilings.
+* Barrels are no longer fullbright for the first two frames of the animation when exploding.
+* A gradual lighting effect has been applied to sectors under crushing ceilings.
 
 ---
 
