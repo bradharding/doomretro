@@ -93,6 +93,7 @@ unsigned int        stat_distancetraveled;
 extern dboolean     r_liquid_bob;
 extern dboolean     r_corpses_nudge;
 extern dboolean     successfulshot;
+extern dboolean     telefragonmap30;
 extern unsigned int stat_shotshit;
 
 //
@@ -221,8 +222,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     sector_t    *newsec;
     fixed_t     radius = thing->radius;
 
-    // killough 8/9/98: make telefragging more consistent
-    telefrag = (thing->player || boss);
+    telefrag = (thing->player || boss || (gamemap == 30 && telefragonmap30));
 
     // kill anything occupying the position
     tmthing = thing;

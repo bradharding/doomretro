@@ -69,6 +69,7 @@ int         lastspritelump;
 int         numspritelumps;
 
 dboolean    notranslucency;
+dboolean    telefragonmap30;
 
 int         numtextures;
 texture_t   **textures;
@@ -513,6 +514,13 @@ void R_InitSpriteLumps(void)
     while (SC_GetString())
     {
         if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
+        {
+            SC_MustGetString();
+
+            if (M_StringCompare(pwadfile, removeext(sc_String)))
+                notranslucency = true;
+        }
+        else if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
         {
             SC_MustGetString();
 
