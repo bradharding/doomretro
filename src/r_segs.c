@@ -99,6 +99,9 @@ static int      *maskedtexturecol;  // dropoff overflow
 dboolean        r_brightmaps = r_brightmaps_default;
 dboolean        r_liquid_current = r_liquid_current_default;
 
+extern int      *openings;          // dropoff overflow
+extern size_t   maxopenings;
+
 extern fixed_t  animatedliquiddiff;
 extern fixed_t  animatedliquidxoffs;
 extern fixed_t  animatedliquidyoffs;
@@ -186,14 +189,14 @@ void R_FixWiggle(sector_t *sector)
         {
             int scaleindex = 0;
 
-            frontsector->cachedheight = height;
+            sector->cachedheight = height;
             height >>= 7;
 
             // calculate adjustment
             while ((height >>= 1))
                 scaleindex++;
 
-            frontsector->scaleindex = scaleindex;
+            sector->scaleindex = scaleindex;
         }
 
         // fine-tune renderer for this wall
@@ -354,18 +357,11 @@ void R_RenderSegLoop(void)
             yl = top;
 
         if (markceiling)
-        {
-            bottom = yl - 1;
-
-            if (bottom >= floorclip[rw_x])
-                bottom = floorclip[rw_x] - 1;
-
-            if (top <= bottom)
+            if (top <= (bottom = MIN(yl, floorclip[rw_x]) - 1))
             {
                 ceilingplane->top[rw_x] = top;
                 ceilingplane->bottom[rw_x] = bottom;
             }
-        }
 
         bottom = floorclip[rw_x] - 1;
 
@@ -373,16 +369,11 @@ void R_RenderSegLoop(void)
             yh = bottom;
 
         if (markfloor)
-        {
-
-            top = MAX(ceilingclip[rw_x], yh) + 1;
-
-            if (top <= bottom && floorplane)
+            if ((top = MAX(ceilingclip[rw_x], yh) + 1) <= bottom && floorplane)
             {
                 floorplane->top[rw_x] = top;
                 floorplane->bottom[rw_x] = bottom;
             }
-        }
 
         // texturecolumn and lighting are independent of wall tiers
         if (segtextured)
@@ -544,9 +535,9 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_StoreWallRange(int start, int stop)
 {
-    int64_t     dx, dy;
-    int64_t     dx1, dy1;
-    int64_t     len;
+    int64_t  dx, dy;
+    int64_t  dx1, dy1;
+    int64_t  len;
 
     linedef = curline->linedef;
 
@@ -588,10 +579,8 @@ void R_StoreWallRange(int start, int stop)
 
     // killough 1/6/98, 2/1/98: remove limit on openings
     {
-        extern int      *openings;              // dropoff overflow
-        extern size_t   maxopenings;
-        size_t          pos = lastopening - openings;
-        size_t          need = (rw_stopx - start) * sizeof(*lastopening) + pos;
+        size_t  pos = lastopening - openings;
+        size_t  need = (rw_stopx - start) * sizeof(*lastopening) + pos;
 
         if (need > maxopenings)
         {
@@ -791,12 +780,11 @@ void R_StoreWallRange(int start, int stop)
 
             if (linedef->flags & ML_DONTPEGTOP)
                 // top of texture at top
-                rw_toptexturemid = worldtop;
+                rw_toptexturemid = worldtop + sidedef->rowoffset;
             else
                 // bottom of texture
-                rw_toptexturemid = backsector->interpceilingheight + toptexheight - viewz;
-
-            rw_toptexturemid += sidedef->rowoffset;
+                rw_toptexturemid = backsector->interpceilingheight + toptexheight - viewz
+                    + sidedef->rowoffset;
 
             // killough 3/27/98: reduce offset
             {
@@ -817,11 +805,9 @@ void R_StoreWallRange(int start, int stop)
 
             if (linedef->flags & ML_DONTPEGBOTTOM)
                 // bottom of texture at bottom, top of texture at top
-                rw_bottomtexturemid = worldtop;
+                rw_bottomtexturemid = worldtop + sidedef->rowoffset;
             else        // top of texture at top
-                rw_bottomtexturemid = worldlow - liquidoffset;
-
-            rw_bottomtexturemid += sidedef->rowoffset;
+                rw_bottomtexturemid = worldlow + sidedef->rowoffset - liquidoffset;
 
             // killough 3/27/98: reduce offset
             {

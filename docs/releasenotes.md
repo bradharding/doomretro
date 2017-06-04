@@ -38,7 +38,7 @@
 * The `health` CVAR can now be reduced when freeze mode is on.
 * A bug has been fixed whereby blood splats could be black in some rare instances.
 * Blood splats now render correctly when against the left edge of the screen.
-* The default value of the `r_bloodsplats_max` CVAR has been increased to `65,536`.
+* The default of the `r_bloodsplats_max` CVAR has been increased to `65,536`.
 * All blood splats are now restored when turning off vanilla mode.
 * Barrels are no longer fullbright for the first two frames of the animation when exploding.
 * A gradual lighting effect has been applied to sectors under crushing ceilings.
