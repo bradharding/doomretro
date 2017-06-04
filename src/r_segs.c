@@ -186,14 +186,14 @@ void R_FixWiggle(sector_t *sector)
         {
             int scaleindex = 0;
 
-            sector->cachedheight = height;
+            frontsector->cachedheight = height;
             height >>= 7;
 
             // calculate adjustment
             while ((height >>= 1))
                 scaleindex++;
 
-            sector->scaleindex = scaleindex;
+            frontsector->scaleindex = scaleindex;
         }
 
         // fine-tune renderer for this wall
@@ -233,12 +233,23 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
     }
 }
 
+lighttable_t **GetLightTable(int lightlevel)
+{
+    int lightnum = (lightlevel >> LIGHTSEGSHIFT) + extralight;
+
+    if (curline->v1->y == curline->v2->y)
+        lightnum -= LIGHTBRIGHT;
+    else if (curline->v1->x == curline->v2->x)
+        lightnum += LIGHTBRIGHT;
+
+    return scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
+}
+
 //
 // R_RenderMaskedSegRange
 //
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 {
-    int             lightnum;
     int             texnum;
     fixed_t         texheight;
     const rpatch_t  *patch;
@@ -260,15 +271,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     texheight = textureheight[texnum];
 
     // killough 4/13/98: get correct lightlevel for 2s normal textures
-    lightnum = (R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel >> LIGHTSEGSHIFT)
-        + extralight;
-
-    if (curline->v1->y == curline->v2->y)
-        lightnum -= LIGHTBRIGHT;
-    else if (curline->v1->x == curline->v2->x)
-        lightnum += LIGHTBRIGHT;
-
-    walllights = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
+    walllights = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel);
 
     maskedtexturecol = ds->maskedtexturecol;
 
@@ -357,7 +360,7 @@ void R_RenderSegLoop(void)
             if (bottom >= floorclip[rw_x])
                 bottom = floorclip[rw_x] - 1;
 
-            if (top <= bottom && ceilingplane)
+            if (top <= bottom)
             {
                 ceilingplane->top[rw_x] = top;
                 ceilingplane->bottom[rw_x] = bottom;
@@ -372,7 +375,7 @@ void R_RenderSegLoop(void)
         if (markfloor)
         {
 
-            top = (yh < ceilingclip[rw_x] ? ceilingclip[rw_x] : yh) + 1;
+            top = MAX(ceilingclip[rw_x], yh) + 1;
 
             if (top <= bottom && floorplane)
             {
@@ -390,36 +393,36 @@ void R_RenderSegLoop(void)
 
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
-            dc_colormap = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+            if (fixedcolormap)
+                dc_colormap = fixedcolormap;
+            else
+                dc_colormap = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+
             dc_x = rw_x;
             dc_iscale = 0xFFFFFFFFu / (unsigned int)rw_scale;
         }
 
         // draw the wall tiers
-        if (midtexture)
+        if (midtexture && yh > yl)
         {
-            if (yl < viewheight && yh >= 0 && yh >= yl)
+            // single sided line
+            dc_yl = yl;
+            dc_yh = yh;
+
+            dc_texturemid = rw_midtexturemid;
+            dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
+            dc_texheight = midtexheight;
+
+            // [BH] apply brightmap
+            if (midtexfullbright)
             {
-                // single sided line
-                dc_yl = yl;
-                dc_yh = yh;
-
-                dc_texturemid = rw_midtexturemid;
-                dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
-                dc_texheight = midtexheight;
-
-                // [BH] apply brightmap
-                if (midtexfullbright)
-                {
-                    dc_colormask = midtexfullbright;
-                    fbwallcolfunc();
-                }
-                else
-                    wallcolfunc();
-
-                R_UnlockTextureCompositePatchNum(midtexture);
+                dc_colormask = midtexfullbright;
+                fbwallcolfunc();
             }
+            else
+                wallcolfunc();
 
+            R_UnlockTextureCompositePatchNum(midtexture);
             ceilingclip[rw_x] = viewheight;
             floorclip[rw_x] = -1;
         }
@@ -438,28 +441,24 @@ void R_RenderSegLoop(void)
 
                 if (mid >= yl)
                 {
-                    if (yl < viewheight && mid >= 0)
+                    dc_yl = yl;
+                    dc_yh = mid;
+
+                    dc_texturemid = rw_toptexturemid;
+                    dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture),
+                        texturecolumn);
+                    dc_texheight = toptexheight;
+
+                    // [BH] apply brightmap
+                    if (toptexfullbright)
                     {
-                        dc_yl = yl;
-                        dc_yh = mid;
-
-                        dc_texturemid = rw_toptexturemid;
-                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture),
-                            texturecolumn);
-                        dc_texheight = toptexheight;
-
-                        // [BH] apply brightmap
-                        if (toptexfullbright)
-                        {
-                            dc_colormask = toptexfullbright;
-                            fbwallcolfunc();
-                        }
-                        else
-                            wallcolfunc();
-
-                        R_UnlockTextureCompositePatchNum(toptexture);
+                        dc_colormask = toptexfullbright;
+                        fbwallcolfunc();
                     }
+                    else
+                        wallcolfunc();
 
+                    R_UnlockTextureCompositePatchNum(toptexture);
                     ceilingclip[rw_x] = mid;
                 }
                 else
@@ -483,28 +482,24 @@ void R_RenderSegLoop(void)
 
                 if (mid <= yh)
                 {
-                    if (mid < viewheight && yh >= 0)
+                    dc_yl = mid;
+                    dc_yh = yh;
+
+                    dc_texturemid = rw_bottomtexturemid;
+                    dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture),
+                        texturecolumn);
+                    dc_texheight = bottomtexheight;
+
+                    // [BH] apply brightmap
+                    if (bottomtexfullbright)
                     {
-                        dc_yl = mid;
-                        dc_yh = yh;
-
-                        dc_texturemid = rw_bottomtexturemid;
-                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture),
-                            texturecolumn);
-                        dc_texheight = bottomtexheight;
-
-                        // [BH] apply brightmap
-                        if (bottomtexfullbright)
-                        {
-                            dc_colormask = bottomtexfullbright;
-                            fbwallcolfunc();
-                        }
-                        else
-                            wallcolfunc();
-
-                        R_UnlockTextureCompositePatchNum(bottomtexture);
+                        dc_colormask = bottomtexfullbright;
+                        fbwallcolfunc();
                     }
+                    else
+                        wallcolfunc();
 
+                    R_UnlockTextureCompositePatchNum(bottomtexture);
                     floorclip[rw_x] = mid;
                 }
                 else
@@ -860,19 +855,7 @@ void R_StoreWallRange(int start, int stop)
         //  use different light tables
         //  for horizontal / vertical / diagonal
         if (!fixedcolormap)
-        {
-            int lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight;
-
-            if (frontsector->ceilingpic != skyflatnum)
-            {
-                if (curline->v1->y == curline->v2->y)
-                    lightnum -= LIGHTBRIGHT;
-                else if (curline->v1->x == curline->v2->x)
-                    lightnum += LIGHTBRIGHT;
-            }
-
-            walllights = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
-        }
+            walllights = GetLightTable(frontsector->lightlevel);
     }
 
     // if a floor / ceiling plane is on the wrong side
