@@ -128,9 +128,6 @@ manual_floor:
             case SpeedTurbo:
                 floor->speed = FLOORSPEED * 8;
                 break;
-
-            default:
-                break;
         }
 
         // set the destination height
@@ -178,9 +175,6 @@ manual_floor:
                 floor->floordestheight = floor->sector->floorheight
                     + floor->direction * 32 * FRACUNIT;
                 break;
-
-            default:
-                break;
         }
 
         // set texture/type change properties
@@ -215,9 +209,6 @@ manual_floor:
                         case FChgTxt:   // leave type be
                             floor->type = genFloorChg;
                             break;
-
-                        default:
-                            break;
                     }
                 }
             }
@@ -239,9 +230,6 @@ manual_floor:
 
                     case FChgTxt:       // leave type be
                         floor->type = genFloorChg;
-                        break;
-
-                    default:
                         break;
                 }
             }
@@ -342,9 +330,6 @@ manual_ceiling:
             case SpeedTurbo:
                 ceiling->speed = CEILSPEED * 8;
                 break;
-
-            default:
-                break;
         }
 
         // set destination target height
@@ -392,9 +377,6 @@ manual_ceiling:
             case Cby32:
                 targheight = ceiling->sector->ceilingheight + ceiling->direction * 32 * FRACUNIT;
                 break;
-
-            default:
-                break;
         }
 
         if (Dirn)
@@ -432,9 +414,6 @@ manual_ceiling:
                         case CChgTxt:   // type is left alone
                             ceiling->type = genCeilingChg;
                             break;
-
-                        default:
-                            break;
                     }
                 }
             }
@@ -456,9 +435,6 @@ manual_ceiling:
 
                     case CChgTxt:       // type is left alone
                         ceiling->type = genCeilingChg;
-                        break;
-
-                    default:
                         break;
                 }
             }
@@ -574,9 +550,6 @@ manual_lift:
 
                 plat->status = M_Random() & 1;
                 break;
-
-            default:
-                break;
         }
 
         // setup the speed of motion
@@ -596,9 +569,6 @@ manual_lift:
 
             case SpeedTurbo:
                 plat->speed = PLATSPEED * 16;
-                break;
-
-            default:
                 break;
         }
 
@@ -917,9 +887,6 @@ manual_crusher:
             case SpeedTurbo:
                 ceiling->speed = CEILSPEED * 8;
                 break;
-
-            default:
-                break;
         }
 
         ceiling->oldspeed = ceiling->speed;
@@ -1177,9 +1144,6 @@ manual_door:
                 door->direction = -1;
                 S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                 door->type = (Sped >= SpeedFast ? genBlazeClose : genClose);
-                break;
-
-            default:
                 break;
         }
 

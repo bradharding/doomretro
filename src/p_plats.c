@@ -96,9 +96,6 @@ void T_PlatRaise(plat_t *plat)
                         case genLift:
                             P_RemoveActivePlat(plat);
                             break;
-
-                        default:
-                            break;
                     }
                 }
             }
@@ -129,9 +126,6 @@ void T_PlatRaise(plat_t *plat)
                     case raiseAndChange:
                     case raiseToNearestAndChange:
                         P_RemoveActivePlat(plat);
-
-                    default:
-                        break;
                 }
             }
             break;
@@ -171,9 +165,6 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
         case toggleUpDn:
             P_ActivateInStasis(line->tag);
             rtn = true;
-            break;
-
-        default:
             break;
     }
 
@@ -274,10 +265,8 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->high = sec->floorheight;
                 plat->status = down;
                 break;
-
-            default:
-                break;
         }
+
         P_AddActivePlat(plat);
     }
 

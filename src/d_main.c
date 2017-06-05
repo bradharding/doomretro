@@ -261,9 +261,6 @@ void D_Display(void)
             case GS_TITLESCREEN:
                 D_PageDrawer();
                 break;
-
-            default:
-                break;
         }
     }
     else
@@ -353,7 +350,6 @@ void D_Display(void)
 
         // normal update
         blitfunc();             // blit buffer
-
         mapblitfunc();
 
         return;
@@ -379,10 +375,8 @@ void D_Display(void)
         blurred = false;
 
         C_Drawer();
-
         M_Drawer();             // menu is drawn even on top of wipes
         blitfunc();             // page flip or blit buffer
-
         mapblitfunc();
     }
     while (!done);
@@ -397,7 +391,6 @@ void D_Display(void)
 void D_DoomLoop(void)
 {
     R_ExecuteSetViewSize();
-
     D_StartGameLoop();
 
     while (1)
@@ -452,7 +445,6 @@ void D_PageDrawer(void)
     if (splashscreen)
     {
         I_SetPalette(splashpal + (pagetic <= 9 ? 9 - pagetic : (pagetic >= 95 ? pagetic - 95 : 0)) * 768);
-
         V_DrawBigPatch(0, 0, 0, splashlump);
     }
     else if (pagelump)
@@ -947,6 +939,7 @@ dboolean D_CheckParms(void)
                             (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
 #endif
                     IdentifyIWADByName(fullpath);
+
                     if (W_AddFile(fullpath, true))
                     {
                         result = true;

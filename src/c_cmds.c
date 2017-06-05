@@ -1218,9 +1218,6 @@ void bind_cmd_func2(char *cmd, char *parms)
                         }
 
                         break;
-
-                    default:
-                        break;
                 }
 
                 action++;
@@ -1296,9 +1293,6 @@ void bind_cmd_func2(char *cmd, char *parms)
                             C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
                         }
 
-                        break;
-
-                    default:
                         break;
                 }
 
@@ -1985,9 +1979,6 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                         case Revenant:
                         case WolfensteinSS:
                             kill = false;
-
-                        default:
-                            break;
                     }
                 }
                 else if (killcmdtype == WolfensteinSS && bfgedition && !states[S_SSWV_STND].dehacked)
@@ -2598,9 +2589,6 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                         && !*mapinfoname ? "-" : titlecase(*mapinfoname ? mapinfoname : *mapnamest[map])),
                         wad);
 
-                break;
-
-            default:
                 break;
         }
     }
@@ -3769,9 +3757,6 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     buffer[0] = toupper(buffer[0]);
                     C_Warning("%s can't be spawned in <b><i>DOOM</i></b>.", buffer);
                     spawn = false;
-
-                default:
-                    break;
             }
 
             if (gamemode == shareware && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind))

@@ -153,7 +153,6 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     wadfile->type = (!strncmp(header.identification, "IWAD", 4)
         || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
 
-
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
     length = header.numlumps * sizeof(filelump_t);

@@ -120,9 +120,6 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     case crushAndRaise:
                         ceiling->direction = -1;
                         break;
-
-                    default:
-                        break;
                 }
             }
             break;
@@ -189,9 +186,6 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     case genCeiling:
                         P_RemoveActiveCeiling(ceiling);
                         break;
-
-                    default:
-                        break;
                 }
             }
             else if (res == crushed)
@@ -209,9 +203,6 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     case crushAndRaise:
                     case lowerAndCrush:
                         ceiling->speed = CEILSPEED / 8;
-                        break;
-
-                    default:
                         break;
                 }
             }
@@ -239,9 +230,6 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
         case silentCrushAndRaise:
         case crushAndRaise:
             rtn = P_ActivateInStasisCeiling(line);
-
-        default:
-            break;
     }
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
@@ -302,9 +290,6 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
                 ceiling->bottomheight = P_FindHighestFloorSurrounding(sec);
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED;
-                break;
-
-            default:
                 break;
         }
 

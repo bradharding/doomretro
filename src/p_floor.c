@@ -237,9 +237,6 @@ void T_MoveFloor(floormove_t *floor)
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
                     break;
-
-                default:
-                    break;
             }
         }
         else if (floor->direction == -1)
@@ -260,11 +257,9 @@ void T_MoveFloor(floormove_t *floor)
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
                     break;
-
-                default:
-                    break;
             }
         }
+
         floor->sector->floordata = NULL;
         P_RemoveThinker(&floor->thinker);
 
@@ -563,9 +558,6 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                         }
                     }
                 }
-
-            default:
-                break;
         }
 
         floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
@@ -620,9 +612,6 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
                     sec->special = secm->special;
                 }
 
-                break;
-
-            default:
                 break;
         }
     }
@@ -843,9 +832,6 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight
                     - sec->floorheight;
                 elevator->direction = (elevator->floordestheight > sec->floorheight ? 1 : -1);
-                break;
-
-            default:
                 break;
         }
     }

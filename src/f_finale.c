@@ -138,9 +138,6 @@ void F_StartFinale(void)
                     finaleflat = bgflatE4;
                     finaletext = s_E4TEXT;
                     break;
-
-                default:
-                    break;
             }
             break;
         }
@@ -196,10 +193,6 @@ void F_StartFinale(void)
                     finaleflat = bgflat31;
                     finaletext = (gamemission == pack_tnt ? s_T6TEXT : (gamemission == pack_plut ? s_P6TEXT :
                         s_C6TEXT));
-                    break;
-
-                default:
-                    // Ouch.
                     break;
             }
             break;
@@ -989,9 +982,6 @@ static void F_ArtScreenDrawer(void)
             case 4:
                 lumpname = "ENDPIC";
                 break;
-
-            default:
-                return;
         }
 
         V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));

@@ -640,9 +640,6 @@ static void I_GetEvent(void)
                 }
 
                 break;
-
-            default:
-                break;
         }
     }
 }

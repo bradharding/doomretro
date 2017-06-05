@@ -975,9 +975,6 @@ dboolean P_CheckTag(line_t *line)
         case S1_Teleport_AlsoMonsters_Silent_SameAngle:
         case SR_Teleport_AlsoMonsters_Silent_SameAngle:
             return true;        // zero tag allowed
-
-        default:
-            break;
     }
 
     return false;               // zero tag not allowed
@@ -1013,9 +1010,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case MT_SPAWNSHOT:
             case MT_ARACHPLAZ:
                 return;
-                break;
-
-            default:
                 break;
         }
     }
@@ -1109,9 +1103,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
                 case WalkMany:
                     linefunc(line);
-                    return;
-
-                default:                        // if not a walk type, do nothing here
                     return;
             }
     }
@@ -1875,9 +1866,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
                     P_ChangeSwitchTexture(line, true);
 
                 return;
-
-            default:            // if not a gun type, do nothing here
-                return;
         }
 
     // Impacts that other things can activate.
@@ -1997,9 +1985,6 @@ void P_PlayerInSpecialSector(player_t *player)
                 if (player->health <= 10)
                     G_ExitLevel();
 
-                break;
-
-            default:
                 break;
         }
     }
@@ -2987,9 +2972,6 @@ mobj_t *P_GetPushThing(int s)
             case MT_PUSH:
             case MT_PULL:
                 return thing;
-
-            default:
-                break;
         }
 
         thing = thing->snext;
