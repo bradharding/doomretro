@@ -139,7 +139,6 @@ extern int          s_musicvolume;
 extern dboolean     s_randommusic;
 extern dboolean     s_randompitch;
 extern int          s_sfxvolume;
-extern char         *s_timiditycfgpath;
 extern int          savegameselected;
 extern int          skilllevelselected;
 extern int          stillbob;
@@ -313,7 +312,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (s_randommusic,                                     BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (s_randompitch,                                     BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,                                       NOVALUEALIAS    ),
-    CONFIG_VARIABLE_STRING       (s_timiditycfgpath,                                 NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (savegameselected,                                  NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (skilllevelselected,                                NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                                          NOVALUEALIAS    ),

@@ -149,10 +149,7 @@ static void InitSfxModule(void)
 static void InitMusicModule(void)
 {
     if (I_InitMusic())
-    {
-        CheckTimidityConfig();
         return;
-    }
 
     C_Warning("Music couldn't be initialized.");
     nomusic = true;
@@ -185,12 +182,6 @@ void S_Init(void)
             "disabled.");
         nosfx = true;
     }
-
-    // This is kind of a hack. If native MIDI is enabled, set up
-    // the TIMIDITY_CFG environment variable here before SDL_mixer
-    // is opened.
-    if (!nomusic)
-        I_InitTimidityConfig();
 
     if (!nosfx)
     {

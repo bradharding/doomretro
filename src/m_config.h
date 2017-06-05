@@ -343,8 +343,6 @@ typedef enum
 #define s_sfxvolume_default                     100
 #define s_sfxvolume_max                         100
 
-#define s_timiditycfgpath_default               ""
-
 #define savegame_default                        ""
 
 #define savegameselected_min                    0

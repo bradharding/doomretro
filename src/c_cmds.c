@@ -206,7 +206,6 @@ extern int          s_musicvolume;
 extern dboolean     s_randommusic;
 extern dboolean     s_randompitch;
 extern int          s_sfxvolume;
-extern char         *s_timiditycfgpath;
 extern char         *savegame;
 extern int          savegameselected;
 extern char         *skilllevel;
@@ -823,8 +822,6 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the pitch of monster sound\neffects."),
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume of sound effects."),
-    CVAR_STR(s_timiditycfgpath, "", null_func1, str_cvars_func2, CF_NONE,
-        "The path of <i><b>TiMidity's</b></i> configuration file."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,
         "Saves the game to a file."),
     CVAR_STR(savegame, "", null_func1, str_cvars_func2, CF_READONLY,
