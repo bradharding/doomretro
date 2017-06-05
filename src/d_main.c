@@ -1139,7 +1139,7 @@ static int D_OpenWADLauncher(void)
                 }
                 else
                 {
-                    // otherwise try the iwadfolder setting in doomretro.cfg
+                    // otherwise try the iwadfolder CVAR
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
@@ -1299,7 +1299,7 @@ static int D_OpenWADLauncher(void)
                     }
                     else
                     {
-                        // otherwise try the iwadfolder setting in doomretro.cfg
+                        // otherwise try the iwadfolder CVAR
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
                         IdentifyIWADByName(fullpath2);
 
@@ -1437,7 +1437,7 @@ static int D_OpenWADLauncher(void)
                             }
                             else
                             {
-                                // otherwise try the iwadfolder setting in doomretro.cfg
+                                // otherwise try the iwadfolder CVAR
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                     iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                 IdentifyIWADByName(fullpath2);
@@ -1474,9 +1474,9 @@ static int D_OpenWADLauncher(void)
                         iwadfound = 1;
                     else
                     {
-                        static char     fullpath2[MAX_PATH];
+                        static char fullpath2[MAX_PATH];
 
-                        // otherwise try the iwadfolder setting in doomretro.cfg
+                        // otherwise try the iwadfolder CVAR
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
                         IdentifyIWADByName(fullpath2);
 
@@ -1671,7 +1671,7 @@ static void D_DoomMainSetup(void)
 
     M_MakeDirectory(appdatafolder);
 
-    packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
+    packageconfig = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, M_GetConfigFile(), NULL);
 
     C_Output("");
     C_PrintCompileDate();

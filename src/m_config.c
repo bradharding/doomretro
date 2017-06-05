@@ -451,7 +451,7 @@ void M_SaveCVARs(void)
         }
 
         // Print the name
-        fprintf(file, "%s ", cvars[i].name);
+        fprintf(file, "%s=", cvars[i].name);
 
         // Print the value
         switch (cvars[i].type)
@@ -983,37 +983,35 @@ void M_LoadCVARs(char *filename)
 
     while (!feof(file))
     {
-        char    defname[64] = "";
-        char    strparm[256] = "";
+        char    line[321] = "";
+        char    cvar[64] = "";
+        char    value[256] = "";
 
-        if (fscanf(file, "%63s %255[^\n]\n", defname, strparm) != 2)
+        fgets(line, 320, file);
+
+        if (line[0] == ';')
             continue;
 
-        if (defname[0] == ';')
-            continue;
-
-        if (M_StringCompare(defname, "bind"))
+        if (sscanf(line, "%63[^=]=%255s", cvar, value) != 2)
         {
-            if (!togglingvanilla)
-                bind_cmd_func2("bind", strparm);
-
-            continue;
-        }
-        else if (M_StringCompare(defname, "alias"))
-        {
-            if (!togglingvanilla)
-                alias_cmd_func2("alias", strparm);
-
-            continue;
+            if (sscanf(line, "%63s %255[^\n]", cvar, value) == 2 && !togglingvanilla)
+            {
+                if (M_StringCompare(cvar, "bind"))
+                    bind_cmd_func2("bind", value);
+                else if (M_StringCompare(cvar, "alias"))
+                    alias_cmd_func2("alias", value);
+            }
+            else
+                continue;
         }
 
         // Strip off trailing non-printable characters (\r characters from DOS text files)
-        while (strlen(strparm) > 0 && !isprint((unsigned char)strparm[strlen(strparm) - 1]))
-            strparm[strlen(strparm) - 1] = '\0';
+        while (strlen(value) > 0 && !isprint((unsigned char)value[strlen(value) - 1]))
+            value[strlen(value) - 1] = '\0';
 
         if (togglingvanilla)
         {
-            C_ValidateInput(M_StringJoin(defname, " ", strparm, NULL));
+            C_ValidateInput(M_StringJoin(cvar, " ", value, NULL));
             continue;
         }
 
@@ -1022,31 +1020,31 @@ void M_LoadCVARs(char *filename)
         {
             char    *s;
 
-            if (!M_StringCompare(defname, cvars[i].name))
+            if (!M_StringCompare(cvar, cvars[i].name))
                 continue;       // not this one
 
             // parameter found
             switch (cvars[i].type)
             {
                 case DEFAULT_STRING:
-                    s = strdup(strparm + 1);
+                    s = strdup(value + 1);
                     s[strlen(s) - 1] = '\0';
                     *(char **)cvars[i].location = s;
                     break;
 
                 case DEFAULT_INT:
-                    M_StringCopy(strparm, uncommify(strparm), 256);
-                    *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].valuealiastype);
+                    M_StringCopy(value, uncommify(value), 256);
+                    *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
                     break;
 
                 case DEFAULT_INT_UNSIGNED:
-                    M_StringCopy(strparm, uncommify(strparm), 256);
-                    sscanf(strparm, "%10u", (unsigned int *)cvars[i].location);
+                    M_StringCopy(value, uncommify(value), 256);
+                    sscanf(value, "%10u", (unsigned int *)cvars[i].location);
                     break;
 
                 case DEFAULT_INT_PERCENT:
-                    M_StringCopy(strparm, uncommify(strparm), 256);
-                    s = strdup(strparm);
+                    M_StringCopy(value, uncommify(value), 256);
+                    s = strdup(value);
 
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
@@ -1055,13 +1053,13 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_FLOAT:
-                    M_StringCopy(strparm, uncommify(strparm), 256);
-                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].valuealiastype);
+                    M_StringCopy(value, uncommify(value), 256);
+                    *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
-                    M_StringCopy(strparm, uncommify(strparm), 256);
-                    s = strdup(strparm);
+                    M_StringCopy(value, uncommify(value), 256);
+                    s = strdup(value);
 
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
@@ -1070,7 +1068,7 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_OTHER:
-                    *(char **)cvars[i].location = strdup(strparm);
+                    *(char **)cvars[i].location = strdup(value);
                     break;
             }
 
