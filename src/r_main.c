@@ -747,8 +747,8 @@ void R_SetupFrame(player_t *player)
         if (mouselook)
         {
             pitch = BETWEEN(-LOOKDIRMAX, (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
-                * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT + (player->oldrecoil + FixedMul(player->recoil
-                - player->oldrecoil, fractionaltic)), LOOKDIRMAX);
+                * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT, LOOKDIRMAX) + player->oldrecoil
+                + FixedMul(player->recoil - player->oldrecoil, fractionaltic);
             tempCentery += (pitch << 1) * (r_screensize + 3) / 10;
         }
     }
@@ -761,7 +761,7 @@ void R_SetupFrame(player_t *player)
 
         if (mouselook)
         {
-            pitch = BETWEEN(-LOOKDIRMAX, player->lookdir / MLOOKUNIT + player->recoil, LOOKDIRMAX);
+            pitch = BETWEEN(-LOOKDIRMAX, player->lookdir / MLOOKUNIT, LOOKDIRMAX) + player->recoil;
             tempCentery += (pitch << 1) * (r_screensize + 3) / 10;
         }
     }
