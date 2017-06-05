@@ -962,6 +962,7 @@ void bind_cmd_func2(char *cmd, char *parms);
 void M_LoadCVARs(char *filename)
 {
     int     i;
+    int     count = 0;
 
     // read the file in, overriding any set defaults
     FILE    *file = fopen(filename, "r");
@@ -1023,6 +1024,8 @@ void M_LoadCVARs(char *filename)
             if (!M_StringCompare(cvar, cvars[i].name))
                 continue;       // not this one
 
+            count++;
+
             // parameter found
             switch (cvars[i].type)
             {
@@ -1081,7 +1084,7 @@ void M_LoadCVARs(char *filename)
 
     if (!togglingvanilla)
     {
-        C_Output("Loaded CVARs from <b>%s</b>.", filename);
+        C_Output("Loaded %i CVARs from <b>%s</b>.", count, filename);
         M_CheckCVARs();
         cvarsloaded = true;
     }
