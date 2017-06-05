@@ -130,6 +130,7 @@ extern dboolean     transferredsky;
 extern dboolean     vanilla;
 extern int          viewheight2;
 extern lighttable_t **walllights;
+extern dboolean     weaponrecoil;
 
 //
 // R_PointOnSide
@@ -746,9 +747,13 @@ void R_SetupFrame(player_t *player)
 
         if (mouselook)
         {
-            pitch = BETWEEN(-LOOKDIRMAX, (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
-                * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT, LOOKDIRMAX) + player->oldrecoil
-                + FixedMul(player->recoil - player->oldrecoil, fractionaltic);
+            pitch = (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
+                * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
+            
+            if (weaponrecoil)
+                pitch = BETWEEN(-LOOKDIRMAX, pitch + player->oldrecoil + FixedMul(player->recoil
+                    - player->oldrecoil, fractionaltic), LOOKDIRMAX);
+
             tempCentery += (pitch << 1) * (r_screensize + 3) / 10;
         }
     }
@@ -761,7 +766,11 @@ void R_SetupFrame(player_t *player)
 
         if (mouselook)
         {
-            pitch = BETWEEN(-LOOKDIRMAX, player->lookdir / MLOOKUNIT, LOOKDIRMAX) + player->recoil;
+            pitch = player->lookdir / MLOOKUNIT;
+
+            if (weaponrecoil)
+                pitch = BETWEEN(-LOOKDIRMAX, pitch + player->recoil, LOOKDIRMAX);
+
             tempCentery += (pitch << 1) * (r_screensize + 3) / 10;
         }
     }
