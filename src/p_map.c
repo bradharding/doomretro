@@ -1560,6 +1560,9 @@ dboolean PTR_ShootTraverse(intercept_t *in)
 
             if (z > ceilingz && distz)
             {
+                if (sector->ceilingpic == skyflatnum)
+                    return false;
+
                 frac = FixedDiv(FixedMul(frac, ceilingz - shootz), distz);
                 z = ceilingz;
             }
