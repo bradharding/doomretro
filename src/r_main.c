@@ -716,8 +716,8 @@ void R_SetupFrame(player_t *player)
 {
     int     cm = 0;
     mobj_t  *mo = player->mo;
-    int     tempCentery;
-    int     pitch;
+    int     tempCentery = viewheight / 2;
+    int     pitch = 0;
 
     viewplayer = player;
     viewplayer->mo->flags2 |= MF2_DONTDRAW;
@@ -743,9 +743,14 @@ void R_SetupFrame(player_t *player)
         viewy = mo->oldy + FixedMul(mo->y - mo->oldy, fractionaltic);
         viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
-        pitch = (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
-            * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT + (player->oldrecoil + FixedMul(player->recoil
-            - player->oldrecoil, fractionaltic));
+
+        if (mouselook)
+        {
+            pitch = BETWEEN(-LOOKDIRMAX, (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
+                * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT + (player->oldrecoil + FixedMul(player->recoil
+                - player->oldrecoil, fractionaltic)), LOOKDIRMAX);
+            tempCentery += (pitch << 1) * (r_screensize + 3) / 10;
+        }
     }
     else
     {
@@ -753,7 +758,12 @@ void R_SetupFrame(player_t *player)
         viewy = mo->y;
         viewz = player->viewz;
         viewangle = mo->angle;
-        pitch = player->lookdir / MLOOKUNIT + player->recoil;
+
+        if (mouselook)
+        {
+            pitch = BETWEEN(-LOOKDIRMAX, player->lookdir / MLOOKUNIT + player->recoil, LOOKDIRMAX);
+            tempCentery += (pitch << 1) * (r_screensize + 3) / 10;
+        }
     }
 
     if (explosiontics && !consoleactive && !menuactive && !paused)
@@ -764,10 +774,6 @@ void R_SetupFrame(player_t *player)
     }
 
     extralight = player->extralight << 2;
-
-    pitch = BETWEEN(-LOOKDIRMAX, pitch, LOOKDIRMAX);
-
-    tempCentery = viewheight / 2 + (pitch << 1) * (r_screensize + 3) / 10;
 
     if (centery != tempCentery)
     {
