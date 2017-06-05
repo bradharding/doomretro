@@ -13,6 +13,7 @@
   * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.
   * The `Health` stat now increases when the player picks up a health bonus.
   * The number of barrels in the current map as part of the `Barrels exploded` stat is now calculated correctly.
+* The `Damaging Sectors` value displayed by the `mapstats` CCMD now takes *BOOM*-compatible damaging sectors into account.
 * Several compatibility fixes have been implemented for:
   * [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens),
   * [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529),

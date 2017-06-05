@@ -799,6 +799,8 @@ void P_LoadSectors(int lump)
                 numdamaging++;
 
             default:
+                if ((ss->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
+                    numdamaging++;
                 break;
         }
     }
