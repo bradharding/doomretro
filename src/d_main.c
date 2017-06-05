@@ -1380,7 +1380,7 @@ static int D_OpenWADLauncher(void)
                             break;
                         }
                     }
-                    else
+                    else if (!D_IsDOOMIWAD(fullpath))
                     {
                         if (W_MergeFile(fullpath, false))
                         {
