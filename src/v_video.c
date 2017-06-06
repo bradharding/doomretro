@@ -1564,8 +1564,8 @@ dboolean V_ScreenShot(void)
             break;
 
         case GS_TITLESCREEN:
-            M_StringCopy(mapname, (splashscreen ? "Splash" :
-                (titlesequence == 1 ? "Credits" : "Title")), sizeof(mapname));
+            M_StringCopy(mapname, (splashscreen ? "Splash" : (titlesequence == 1 ? "Credits" : "Title")),
+                sizeof(mapname));
             break;
 
         default:

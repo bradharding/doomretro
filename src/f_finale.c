@@ -982,6 +982,9 @@ static void F_ArtScreenDrawer(void)
             case 4:
                 lumpname = "ENDPIC";
                 break;
+
+            default:
+                return;
         }
 
         V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));

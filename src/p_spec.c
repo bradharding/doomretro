@@ -1104,6 +1104,9 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 case WalkMany:
                     linefunc(line);
                     return;
+
+                default:                        // if not a walk type, do nothing here
+                    return;
             }
     }
 
@@ -1865,6 +1868,9 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
                 if (linefunc(line))
                     P_ChangeSwitchTexture(line, true);
 
+                return;
+
+            default:            // if not a gun type, do nothing here
                 return;
         }
 

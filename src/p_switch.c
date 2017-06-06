@@ -318,6 +318,10 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                         P_ChangeSwitchTexture(line, true);
 
                     return true;
+
+                default:
+                    // if not a switch/push type, do nothing here
+                    return false;
             }
     }
 

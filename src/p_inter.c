@@ -1111,6 +1111,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             sound = sfx_wpnup;
             break;
+
+        default:
+            return;
     }
 
     if ((special->flags & MF_COUNTITEM) && stat)
@@ -1347,6 +1350,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         case MT_CHAINGUY:
             item = MT_CHAINGUN;
             break;
+
+        default:
+            return;
     }
 
     mo = P_SpawnMobj(target->x, target->y, target->floorz + FRACUNIT * target->height / 2, item);

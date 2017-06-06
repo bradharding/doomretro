@@ -78,7 +78,6 @@ typedef struct
     rpost_t         *posts;
 
     unsigned int    locks;
-    unsigned int    flags;
 } rpatch_t;
 
 const rpatch_t *R_CachePatchNum(int id);

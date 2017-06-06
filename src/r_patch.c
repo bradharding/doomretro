@@ -92,11 +92,9 @@ extern texture_t    **textures;
 
 void R_InitPatches(void)
 {
-    if (!patches)
-        patches = calloc(numlumps, sizeof(rpatch_t));
+    patches = calloc(numlumps, sizeof(rpatch_t));
 
-    if (!texture_composites)
-        texture_composites = calloc(numtextures, sizeof(rpatch_t));
+    texture_composites = calloc(numtextures, sizeof(rpatch_t));
 
     BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
@@ -220,8 +218,7 @@ static void createPatch(int id)
 
     // allocate our data chunk
     dataSize = pixelDataSize + columnsDataSize + postsDataSize;
-    patch->data = Z_Malloc(dataSize, PU_CACHE, (void **)&patch->data);
-    memset(patch->data, 0, dataSize);
+    patch->data = Z_Calloc(1, dataSize, PU_CACHE, (void **)&patch->data);
 
     // set out pixel, column, and post pointers into our data array
     patch->pixels = patch->data;
