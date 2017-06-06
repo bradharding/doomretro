@@ -1819,9 +1819,6 @@ static void D_DoomMainSetup(void)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\nspecifying one with the -IWAD "
             "command-line parameter.");
 
-    if (!W_MergeFile(packagewad, true))
-        I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
-
     W_Init();
 
     if (!CheckPackageWADVersion())

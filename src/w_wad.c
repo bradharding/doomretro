@@ -43,6 +43,8 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_misc.h"
+#include "version.h"
+#include "w_merge.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -77,6 +79,8 @@ static struct {
 // Location of each lump on disk.
 lumpinfo_t          **lumpinfo;
 int                 numlumps;
+
+extern char *packagewad;
 
 static dboolean IsFreedoom(const char *iwadname)
 {
@@ -125,6 +129,8 @@ static dboolean IsFreedoom(const char *iwadname)
 //  with multiple lumps.
 wadfile_t *W_AddFile(char *filename, dboolean automatic)
 {
+    static dboolean packagewadadded;
+
     wadinfo_t   header;
     lumpindex_t i;
     int         length;
@@ -188,6 +194,14 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"),
         commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
         (wadfile->type == IWAD ? "IWAD" : "PWAD"), filename);
+
+    if (!packagewadadded)
+    {
+        packagewadadded = true;
+
+        if (!W_MergeFile(packagewad, true))
+            I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
+    }
 
     return wadfile;
 }
