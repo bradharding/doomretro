@@ -1254,6 +1254,9 @@ void M_UpdateSaveGameName(int i)
                         }
 
                     break;
+
+                default:
+                    break;
             }
         }
     }
@@ -1426,6 +1429,9 @@ void M_DrawReadThis(void)
 
         case exe_final:
             lumpname = "HELP";
+            break;
+
+        default:
             break;
     }
 

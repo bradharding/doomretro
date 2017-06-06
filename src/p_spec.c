@@ -1011,6 +1011,9 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case MT_ARACHPLAZ:
                 return;
                 break;
+
+            default:
+                break;
         }
     }
 
@@ -2978,6 +2981,9 @@ mobj_t *P_GetPushThing(int s)
             case MT_PUSH:
             case MT_PULL:
                 return thing;
+
+            default:
+                break;
         }
 
         thing = thing->snext;

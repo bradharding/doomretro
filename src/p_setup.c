@@ -2137,6 +2137,9 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
 
             break;
+
+        default:
+            break;
     }
 
     if (strlen(maptitle) >= 4)

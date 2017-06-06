@@ -237,6 +237,9 @@ void T_MoveFloor(floormove_t *floor)
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
                     break;
+
+                default:
+                    break;
             }
         }
         else if (floor->direction == -1)
@@ -256,6 +259,9 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChg:
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
+                    break;
+
+                default:
                     break;
             }
         }
@@ -558,6 +564,9 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                         }
                     }
                 }
+
+            default:
+                break;
         }
 
         floor->stopsound = (floor->sector->floorheight != floor->floordestheight);

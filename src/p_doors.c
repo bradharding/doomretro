@@ -104,6 +104,9 @@ void T_VerticalDoor(vldoor_t *door)
                         door->direction = 1;    // time to go back up
                         S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
                         break;
+
+                    default:
+                        break;
                 }
             break;
 
@@ -116,6 +119,9 @@ void T_VerticalDoor(vldoor_t *door)
                         door->direction = 1;
                         door->type = doorNormal;
                         S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
+                        break;
+
+                    default:
                         break;
                 }
             break;
@@ -157,6 +163,9 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeCdO:
                         door->direction = 0;
                         door->topcountdown = door->topwait;     // jff 5/8/98 insert delay
+                        break;
+
+                    default:
                         break;
                 }
             else if (res == crushed)
@@ -210,6 +219,9 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeCdO:
                         door->sector->ceilingdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
+                        break;
+
+                    default:
                         break;
                 }
             }
@@ -428,6 +440,9 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
                 if (door->topheight != sec->ceilingheight)
                     S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
 
+                break;
+
+            default:
                 break;
         }
     }

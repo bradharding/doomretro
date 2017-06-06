@@ -150,6 +150,9 @@ static void P_AddAmmo(player_t *player, ammotype_t ammo, int num)
             player->itemspickedup_ammo_rockets += num;
             stat_itemspickedup_ammo_rockets = SafeAdd(stat_itemspickedup_ammo_rockets, num);
             break;
+
+        default:
+            break;
     }
 }
 //
@@ -226,6 +229,9 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num, dboolean stat)
                 if (player->weaponowned[wp_plasma])
                     player->pendingweapon = wp_plasma;
 
+            break;
+
+        default:
             break;
     }
 
@@ -527,6 +533,9 @@ void P_InitCards(player_t *player)
 
                 case SPR_YSKU:
                     player->cards[it_yellowskull] = CARDNOTFOUNDYET;
+                    break;
+
+                default:
                     break;
             }
 
@@ -1210,6 +1219,9 @@ void P_UpdateKillStat(mobjtype_t type, int value)
 
         case MT_POSSESSED:
             stat_monsterskilled_zombiemen = SafeAdd(stat_monsterskilled_zombiemen, value);
+            break;
+
+        default:
             break;
     }
 }

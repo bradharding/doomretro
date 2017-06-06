@@ -262,6 +262,9 @@ void D_Display(void)
             case GS_TITLESCREEN:
                 D_PageDrawer();
                 break;
+
+            default:
+                break;
         }
     }
     else

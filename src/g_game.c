@@ -995,6 +995,9 @@ void G_Ticker(void)
 
                 gameaction = ga_nothing;
                 break;
+
+            default:
+                break;
         }
     }
 
@@ -1074,6 +1077,9 @@ void G_Ticker(void)
 
         case GS_TITLESCREEN:
             D_PageTicker();
+            break;
+
+        default:
             break;
     }
 }

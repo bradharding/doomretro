@@ -1218,6 +1218,9 @@ void bind_cmd_func2(char *cmd, char *parms)
                         }
 
                         break;
+
+                    default:
+                        break;
                 }
 
                 action++;
@@ -1293,6 +1296,9 @@ void bind_cmd_func2(char *cmd, char *parms)
                             C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
                         }
 
+                        break;
+
+                    default:
                         break;
                 }
 
@@ -2589,6 +2595,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                         && !*mapinfoname ? "-" : titlecase(*mapinfoname ? mapinfoname : *mapnamest[map])),
                         wad);
 
+                break;
+
+            default:
                 break;
         }
     }

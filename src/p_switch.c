@@ -90,7 +90,7 @@ void P_InitSwitchList(void)
             switchlist = Z_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = max_numswitches ?
                 max_numswitches * 2 : 8));
 
-        if (SHORT(alphSwitchList[i].episode) <= episode)        // jff 5/11/98 endianness
+        if (SHORT(alphSwitchList[i].episode) <= episode)    // jff 5/11/98 endianness
         {
             int texture1;
             int texture2;
