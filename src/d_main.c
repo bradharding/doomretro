@@ -118,6 +118,7 @@ char                *wad = wad_default;
 #endif
 
 char                *packageconfig;
+char                *packagewad;
 
 dboolean            devparm;                // started game with -devparm
 dboolean            freeze;
@@ -1660,7 +1661,8 @@ static void D_DoomMainSetup(void)
     int         choseniwad = 0;
     static char lumpname[6];
     char        *appdatafolder = M_GetAppDataFolder();
-    char        *packagewad = M_StringJoin(M_GetResourceFolder(), DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+
+    packagewad = M_StringJoin(M_GetResourceFolder(), DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
 
     M_MakeDirectory(appdatafolder);
 
