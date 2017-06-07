@@ -982,16 +982,13 @@ void M_LoadCVARs(char *filename)
 
     while (!feof(file))
     {
-        char    line[321] = "";
         char    cvar[64] = "";
         char    value[256] = "";
 
-        fgets(line, 320, file);
-
-        if (line[0] == ';')
+        if (fscanf(file, "%63s %255[^\n]\n", cvar, value) != 2)
             continue;
 
-        if (sscanf(line, "%63 %255s", cvar, value) != 2)
+        if (cvar[0] == ';')
             continue;
 
         if (M_StringCompare(cvar, "bind"))
