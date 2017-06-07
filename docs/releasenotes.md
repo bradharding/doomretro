@@ -43,6 +43,7 @@
 * All blood splats are now restored when turning off vanilla mode.
 * Barrels are no longer fullbright for the first two frames of the animation when exploding.
 * A gradual lighting effect has been applied to sectors under crushing ceilings.
+* The length of each frame in milliseconds is now displayed along with the number of frames per second when the `vid_showfps` CVAR is `on`.
 
 ---
 
