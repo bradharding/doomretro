@@ -449,7 +449,7 @@ void M_SaveCVARs(void)
         }
 
         // Print the name
-        fprintf(file, "%s=", cvars[i].name);
+        fprintf(file, "%s ", cvars[i].name);
 
         // Print the value
         switch (cvars[i].type)
@@ -991,17 +991,22 @@ void M_LoadCVARs(char *filename)
         if (line[0] == ';')
             continue;
 
-        if (sscanf(line, "%63[^=]=%255s", cvar, value) != 2)
+        if (sscanf(line, "%63 %255s", cvar, value) != 2)
+            continue;
+
+        if (M_StringCompare(cvar, "bind"))
         {
-            if (sscanf(line, "%63s %255[^\n]", cvar, value) == 2 && !togglingvanilla)
-            {
-                if (M_StringCompare(cvar, "bind"))
-                    bind_cmd_func2("bind", value);
-                else if (M_StringCompare(cvar, "alias"))
-                    alias_cmd_func2("alias", value);
-            }
-            else
-                continue;
+            if (!togglingvanilla)
+                bind_cmd_func2("bind", value);
+
+            continue;
+        }
+        else if (M_StringCompare(cvar, "alias"))
+        {
+            if (!togglingvanilla)
+                alias_cmd_func2("alias", value);
+
+            continue;
         }
 
         // Strip off trailing non-printable characters (\r characters from DOS text files)
