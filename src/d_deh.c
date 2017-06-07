@@ -1996,8 +1996,8 @@ void ProcessDehFile(char *filename, int lumpnum)
     {
         dboolean            match;
         unsigned int        i;
-        static unsigned int last_i = DEH_BLOCKMAX - 1;
-        static long         filepos;
+        unsigned int        last_i = DEH_BLOCKMAX - 1;
+        long                filepos;
 
         lfstrip(inbuffer);
 
