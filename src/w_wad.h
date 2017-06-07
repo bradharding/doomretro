@@ -93,7 +93,6 @@ void W_ReadLump(lumpindex_t lump, void *dest);
 void *W_CacheLumpNum(lumpindex_t lump);
 
 #define W_CacheLumpName(name)   W_CacheLumpNum(W_GetNumForName(name))
-#define W_CacheLumpName2(name)  W_CacheLumpNum(W_GetNumForName2(name))
 
 void W_Init(void);
 

@@ -181,7 +181,7 @@ void P_InitPicAnims(void)
 void P_SetLiquids(void)
 {
     int         i;
-    int         lump = W_GetNumForName2("ANIMATED");
+    int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
 
     for (i = 0; i < numflats; i++)

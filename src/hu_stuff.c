@@ -636,30 +636,30 @@ void HU_AltInit(void)
     for (i = 0; i < 10; i++)
     {
         M_snprintf(buffer, 7, "DRHUD%i", i);
-        altnum[i] = W_CacheLumpName2(buffer);
+        altnum[i] = W_CacheLumpName(buffer);
         M_snprintf(buffer, 9, "DRHUD%i_2", i);
-        altnum2[i] = W_CacheLumpName2(buffer);
+        altnum2[i] = W_CacheLumpName(buffer);
     }
 
-    altnegpatch = W_CacheLumpName2("DRHUDNEG");
+    altnegpatch = W_CacheLumpName("DRHUDNEG");
     altnegpatchwidth = SHORT(altnegpatch->width);
 
     for (i = 1; i < NUMWEAPONS; i++)
     {
         M_snprintf(buffer, 9, "DRHUDWP%i", i);
-        altweapon[i] = W_CacheLumpName2(buffer);
+        altweapon[i] = W_CacheLumpName(buffer);
     }
 
-    altleftpatch = W_CacheLumpName2("DRHUDL");
-    altarmpatch = W_CacheLumpName2("DRHUDARM");
-    altrightpatch = W_CacheLumpName2("DRHUDR");
+    altleftpatch = W_CacheLumpName("DRHUDL");
+    altarmpatch = W_CacheLumpName("DRHUDARM");
+    altrightpatch = W_CacheLumpName("DRHUDR");
 
-    altendpatch = W_CacheLumpName2("DRHUDE");
-    altmarkpatch = W_CacheLumpName2("DRHUDI");
-    altmark2patch = W_CacheLumpName2("DRHUDI_2");
+    altendpatch = W_CacheLumpName("DRHUDE");
+    altmarkpatch = W_CacheLumpName("DRHUDI");
+    altmark2patch = W_CacheLumpName("DRHUDI_2");
 
-    altkeypatch = W_CacheLumpName2("DRHUDKEY");
-    altskullpatch = W_CacheLumpName2("DRHUDSKU");
+    altkeypatch = W_CacheLumpName("DRHUDKEY");
+    altskullpatch = W_CacheLumpName("DRHUDSKU");
 
     for (i = 0; i < NUMCARDS; i++)
         altkeypics[i].color = nearestcolors[altkeypics[i].color];

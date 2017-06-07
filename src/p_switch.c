@@ -79,7 +79,7 @@ void P_InitSwitchList(void)
     int             episode = (gamemode == registered || gamemode == retail ? 2 :
                         (gamemode == commercial ? 3 : 1));
     switchlist_t    *alphSwitchList;                        // jff 3/23/98 pointer to switch table
-    int             lump = W_GetNumForName2("SWITCHES");    // cph - new wad lump handling
+    int             lump = W_GetNumForName("SWITCHES");     // cph - new wad lump handling
 
     // jff 3/23/98 read the switch table from a predefined lump
     alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump);
