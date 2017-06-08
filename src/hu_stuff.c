@@ -775,7 +775,8 @@ static void HU_DrawAltHUD(void)
     int color1 = color2 + (color2 == green ? coloroffset : 0);
     int keys = 0;
     int i = 0;
-    int power;
+    int power = 0;
+    int max;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health);
     health = MAX(0, plr->health) * 200 / maxhealth;
@@ -893,15 +894,32 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    power = MIN(plr->powers[pw_invulnerability], MIN(plr->powers[pw_invisibility],
-        MIN(plr->powers[pw_ironfeet], plr->powers[pw_infrared])));
+    if (plr->powers[pw_invulnerability] > 0)
+    {
+        power = plr->powers[pw_invulnerability];
+        max = INVULNTICS;
+    }
+
+    if (plr->powers[pw_invisibility] > 0 && (!power || plr->powers[pw_invisibility] < power))
+    {
+        power = plr->powers[pw_invisibility];
+        max = INVISTICS;
+    }
+
+    if (plr->powers[pw_ironfeet] > 0 && (!power || plr->powers[pw_ironfeet] < power))
+    {
+        power = plr->powers[pw_ironfeet];
+        max = IRONTICS;
+    }
+
+    if (plr->powers[pw_infrared] > 0 && (!power || plr->powers[pw_infrared] < power))
+    {
+        power = plr->powers[pw_infrared];
+        max = INFRATICS;
+    }
 
     if (power > STARTFLASHING || (power & 8))
     {
-        int max = (power == plr->powers[pw_invulnerability] ? INVULNTICS :
-                  (power == plr->powers[pw_invisibility] ? INVISTICS :
-                  (power == plr->powers[pw_ironfeet] ? IRONTICS : INFRATICS)));
-
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, darkgray);
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, power * 101 / max, 2, gray);
     }
