@@ -689,6 +689,7 @@ dboolean wildcard(char *input, char *pattern)
         else if (pattern[i] != input[i])
             return false;
     }
+
     return true;
 }
 
@@ -748,6 +749,7 @@ char *removenewlines(const char *str)
     {
         if (*p == '\n')
             *p = ' ';
+
         p++;
     }
 
@@ -817,17 +819,17 @@ char *striptrailingzero(float value, int precision)
     return result;
 }
 
-void strreplace(char *target, const char *needle, const char *replacement)
+void strreplace(char *target, char *needle, const char *replacement)
 {
-    char        buffer[1024] = "";
-    char        *insert_point = &buffer[0];
-    const char  *tmp = target;
-    size_t      needle_len = strlen(needle);
-    size_t      repl_len = strlen(replacement);
+    char    buffer[1024] = "";
+    char    *insert_point = &buffer[0];
+    char    *tmp = target;
+    size_t  needle_len = strlen(needle);
+    size_t  repl_len = strlen(replacement);
 
     while (1)
     {
-        const char  *p = strstr(tmp, needle);
+        char    *p = stristr(tmp, needle);
 
         if (!p)
         {

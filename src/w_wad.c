@@ -36,6 +36,10 @@
 ========================================================================
 */
 
+#if defined(_WIN32)
+#include <Windows.h>
+#endif
+
 #include <ctype.h>
 
 #include "c_console.h"
@@ -117,6 +121,24 @@ static dboolean IsFreedoom(const char *iwadname)
     return result;
 }
 
+char *GetCorrectCase(char *path)
+{
+#if defined(_WIN32)
+    WIN32_FIND_DATA     FindFileData;
+    HANDLE              hFile = FindFirstFile(path, &FindFileData);
+
+    if (hFile == INVALID_HANDLE_VALUE)
+        return path;
+    else
+    {
+        FindClose(hFile);
+        strreplace(path, FindFileData.cFileName, FindFileData.cFileName);
+    }
+#endif
+
+    return path;
+}
+
 //
 // LUMP BASED ROUTINES.
 //
@@ -140,12 +162,12 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
     lumpinfo_t  *filelumps;
 
     // open the file and add to directory
-    wadfile_t  *wadfile = W_OpenFile(filename);
+    wadfile_t   *wadfile = W_OpenFile(filename);
 
     if (!wadfile)
         return NULL;
 
-    M_StringCopy(wadfile->path, filename, sizeof(wadfile->path));
+    M_StringCopy(wadfile->path, GetCorrectCase(filename), sizeof(wadfile->path));
 
     wadfile->freedoom = IsFreedoom(filename);
 
@@ -193,7 +215,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 
     C_Output("%s %s lump%s from %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"),
         commify(numlumps - startlump), (numlumps - startlump == 1 ? "" : "s"),
-        (wadfile->type == IWAD ? "IWAD" : "PWAD"), filename);
+        (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
 
     if (!packagewadadded)
     {

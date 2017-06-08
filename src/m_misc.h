@@ -94,6 +94,6 @@ const char *leafname(const char *path);
 char *removeext(const char *file);
 dboolean isvowel(const char ch);
 char *striptrailingzero(float value, int precision);
-void strreplace(char *target, const char *needle, const char *replacement);
+void strreplace(char *target, char *needle, const char *replacement);
 
 #endif
