@@ -1554,14 +1554,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
-    if (M_StringCompare(lumpname, "STARMS"))
-        *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", (STARMS <= 2 ? STARMS : (STARMS == 3 ?
-            (FREEDOOM || hacx ? 1 : 2) : 3))));
-    else if (M_StringCompare(lumpname, "STBAR"))
-        *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", (STBAR <= 2 ? STBAR : (STBAR == 3 ?
-            (FREEDOOM || hacx ? 1 : 2) : 3))));
-    else
-        *variable = W_CacheLumpName(lumpname);
+    *variable = W_CacheLumpName(lumpname);
 }
 
 static void ST_loadGraphics(void)
