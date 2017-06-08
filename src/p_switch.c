@@ -47,11 +47,11 @@
 #include "z_zone.h"
 
 // killough 2/8/98: Remove switch limit
-static int *switchlist;         // killough
-static int max_numswitches;     // killough
-static int numswitches;         // killough
+static int  *switchlist;        // killough
+static int  max_numswitches;    // killough
+static int  numswitches;        // killough
 
-button_t  buttonlist[MAXBUTTONS];
+button_t    buttonlist[MAXBUTTONS];
 
 //
 // P_InitSwitchList()
@@ -156,56 +156,51 @@ void P_StartButton(line_t *line, bwhere_e w, int texture, int time)
 //
 void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
 {
-    int     i = 0;
-    int     swtex;
-    side_t  *side = &sides[line->sidenum[0]];
-    short   texTop = side->toptexture;
-    short   texMid = side->midtexture;
-    short   texBot = side->bottomtexture;
+    int         i;
+    short       *texture;
+    short       *ttop = &sides[line->sidenum[0]].toptexture;
+    short       *tmid = &sides[line->sidenum[0]].midtexture;
+    short       *tbot = &sides[line->sidenum[0]].bottomtexture;
+    bwhere_e    position;
 
-    // don't zero line->special until after exit switch test
+
     if (!useAgain)
         line->special = 0;
 
-    // search for a texture to change
-    do
+    texture = NULL;
+    position = 0;
+
+    for (i = 0; i < numswitches * 2; i++)
     {
-        swtex = switchlist[i];
-
-        if (swtex == texTop)
+        if (switchlist[i] == *ttop)
         {
-            S_StartSectorSound(&line->soundorg, sfx_swtchn);
-
-            if (useAgain)
-                P_StartButton(line, top, swtex, BUTTONTIME);
-
-            side->toptexture = switchlist[i ^ 1];
+            texture = ttop;
+            position = top;
             break;
         }
-        else if (swtex == texMid)
+        else if (switchlist[i] == *tmid)
         {
-            S_StartSectorSound(&line->soundorg, sfx_swtchn);
-
-            if (useAgain)
-                P_StartButton(line, middle, swtex, BUTTONTIME);
-
-            side->midtexture = switchlist[i ^ 1];
+            texture = tmid;
+            position = middle;
             break;
         }
-        else if (swtex == texBot)
+        else if (switchlist[i] == *tbot)
         {
-            S_StartSectorSound(&line->soundorg, sfx_swtchn);
-
-            if (useAgain)
-                P_StartButton(line, bottom, swtex, BUTTONTIME);
-
-            side->bottomtexture = switchlist[i ^ 1];
+            texture = tbot;
+            position = bottom;
             break;
         }
-
-        i++;
     }
-    while (swtex != -1);
+
+    if (texture == NULL)
+        return;
+
+    *texture = switchlist[i ^ 1];
+
+    S_StartSectorSound(&line->soundorg, sfx_swtchn);
+
+    if (useAgain)
+        P_StartButton(line, position, switchlist[i], BUTTONTIME);
 }
 
 //
