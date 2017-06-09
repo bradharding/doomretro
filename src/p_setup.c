@@ -2455,9 +2455,6 @@ static void InitMapInfo(void)
 
         info = &mapinfo[map];
 
-        // Copy defaults to current map definition
-        memcpy(info, &mapinfo[0], sizeof(*info));
-
         // Map name must follow the number
         SC_MustGetString();
 
