@@ -928,6 +928,18 @@ dboolean M_CheckSaveGame(int choice)
     return true;
 }
 
+int M_CountSaveGames(void)
+{
+    int i;
+    int count = 0;
+
+    for (i = 0; i < load_end; i++)
+        if (M_FileExists(P_SaveGameFile(i)))
+            count++;
+
+    return count;
+}
+
 //
 // M_LoadGame
 //

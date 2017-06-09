@@ -45,6 +45,7 @@
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_argv.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "version.h"
 #include "w_wad.h"
@@ -520,6 +521,7 @@ void D_SetSaveGameFolder(void)
     char    *iwad_name = SaveGameIWADName();
     char    *appdatafolder = M_GetAppDataFolder();
     int     p = M_CheckParmWithArgs("-savedir", 1, 1);
+    int     numsavegames;
 
     if (!iwad_name)
         iwad_name = "unknown";
@@ -538,7 +540,12 @@ void D_SetSaveGameFolder(void)
     savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
-    C_Output("Savegames will be saved and loaded in <b>%s</b>.", savegamefolder);
+    if (!(numsavegames = M_CountSaveGames()))
+        C_Output("No savegames were found in <b>%s</b>.", savegamefolder);
+    else if (numsavegames == 1)
+        C_Output("1 savegame was found in <b>%s</b>.", savegamefolder);
+    else
+        C_Output("%i savegames were found in <b>%s</b>.", numsavegames, savegamefolder);
 }
 
 //
