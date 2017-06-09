@@ -90,7 +90,7 @@ char *removespaces(const char *input);
 char *trimwhitespace(char *input);
 char *removenewlines(const char *str);
 char *makevalidfilename(const char *input);
-const char *leafname(const char *path);
+char *leafname(char *path);
 char *removeext(const char *file);
 dboolean isvowel(const char ch);
 char *striptrailingzero(float value, int precision);

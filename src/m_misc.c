@@ -769,10 +769,10 @@ char *makevalidfilename(const char *input)
     return newstr;
 }
 
-const char *leafname(const char *path)
+char *leafname(char *path)
 {
-    char        cc;
-    const char  *ptr = path;
+    char    cc;
+    char    *ptr = path;
 
     do
     {
