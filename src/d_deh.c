@@ -3431,6 +3431,9 @@ dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
         {
             char    *t;
 
+            if (deh_strlookup[i].assigned)
+                break;
+
             *deh_strlookup[i].ppstr = t = strdup(newstring);    // orphan originalstring
             found = true;
 

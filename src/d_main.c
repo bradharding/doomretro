@@ -1633,7 +1633,7 @@ static void D_ProcessDehInWad(void)
     if (chexdeh || M_ParmExists("-nodeh"))
         return;
 
-    for (i = 0; i < numlumps; i++)
+    for (i = numlumps - 1; i >= 0; i--)
         if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
             ProcessDehFile(NULL, i);
 }
