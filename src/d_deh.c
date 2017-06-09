@@ -1994,10 +1994,10 @@ void ProcessDehFile(char *filename, int lumpnum)
     // loop until end of file
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
-        dboolean            match;
-        unsigned int        i;
-        unsigned int        last_i = DEH_BLOCKMAX - 1;
-        long                filepos;
+        dboolean        match;
+        unsigned int    i;
+        unsigned int    last_i = DEH_BLOCKMAX - 1;
+        long            filepos = 0;
 
         lfstrip(inbuffer);
 
@@ -2049,11 +2049,11 @@ void ProcessDehFile(char *filename, int lumpnum)
             continue;
         }
 
-        for (match = 0, i = 0; i < DEH_BLOCKMAX; i++)
+        for (match = false, i = 0; i < DEH_BLOCKMAX; i++)
             if (!strncasecmp(inbuffer, deh_blocks[i].key, strlen(deh_blocks[i].key)))
             {
                 if (i < DEH_BLOCKMAX - 1)
-                    match = 1;
+                    match = true;
 
                 break;          // we got one, that's enough for this block
             }

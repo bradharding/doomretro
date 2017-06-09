@@ -882,7 +882,6 @@ dboolean M_CheckSaveGame(int choice)
     ep = saveg_read8(handle);
     saveg_read8(handle);
     mission = saveg_read8(handle);
-
     fclose(handle);
 
     // switch expansions if necessary
@@ -965,7 +964,6 @@ void M_DrawSaveLoadBorder(int x, int y)
     {
         x += 3;
         M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSLEFT"));
-
         x += 8;
 
         for (i = 0; i < 24; i++)
@@ -1011,7 +1009,6 @@ void M_LoadSelect(int choice)
         char    name[SAVESTRINGSIZE];
 
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
-
         S_StartSound(NULL, sfx_pistol);
         I_WaitVBL(2 * TICRATE);
         functionkey = 0;
@@ -1131,11 +1128,9 @@ void M_DoSave(int slot)
 {
     M_ClearMenus();
     G_SaveGame(slot, savegamestrings[slot], "");
-
     savegames = true;
     functionkey = 0;
     quickSaveSlot = slot;
-
     savegame = savegamestrings[slot];
 }
 
@@ -1143,7 +1138,6 @@ void M_DoSave(int slot)
 // User wants to save. Start string input for M_Responder
 //
 extern char maptitle[128];
-
 extern char **mapnames[];
 extern char **mapnames2[];
 extern char **mapnames2_bfg[];
@@ -1209,8 +1203,7 @@ void M_UpdateSaveGameName(int i)
                     if (bfgedition)
                     {
                         for (j = 0; j < 33; j++)
-                            if (M_StringCompare(savegamestrings[i],
-                                RemoveMapNum(*mapnames2_bfg[j])))
+                            if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
                             {
                                 match = true;
                                 break;
@@ -1282,7 +1275,6 @@ void M_SaveSelect(int choice)
 {
     // we are going to be intercepting all chars
     saveStringEnter = 1;
-
     saveSlot = choice;
     M_StringCopy(saveOldString, savegamestrings[saveSlot], SAVESTRINGSIZE);
     M_UpdateSaveGameName(saveSlot);
@@ -1382,7 +1374,6 @@ static void M_DeleteSavegameResponse(int key)
         HU_PlayerMessage(buffer, false);
         blurred = false;
         message_dontfuckwithme = true;
-
         M_ReadSaveStrings();
 
         if (currentMenu == &LoadDef)
@@ -1651,7 +1642,7 @@ void M_SetWindowCaption(void)
     {
         if (nerve && (currentMenu == &ExpDef || currentMenu == &NewDef))
             M_snprintf(caption, sizeof(caption), "%s: %s", gamedescription,
-            (expansionselected == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
+                (expansionselected == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
         else
             M_StringCopy(caption, gamedescription, sizeof(caption));
 
@@ -1693,8 +1684,7 @@ void M_ChooseSkill(int choice)
             M_StartMessage(s_NIGHTMARE, M_VerifyNightmare, true);
         else
         {
-            M_snprintf(tempstring, 160, "%s\n\n%s", s_NIGHTMARE,
-                (usinggamepad ? s_PRESSA : s_PRESSYN));
+            M_snprintf(tempstring, 160, "%s\n\n%s", s_NIGHTMARE, (usinggamepad ? s_PRESSA : s_PRESSYN));
             M_StartMessage(tempstring, M_VerifyNightmare, true);
         }
 
@@ -1717,8 +1707,7 @@ void M_Episode(int choice)
             M_StartMessage(s_SWSTRING, NULL, false);
         else
         {
-            M_snprintf(tempstring, 160, "%s\n\n%s", s_SWSTRING,
-                (usinggamepad ? s_PRESSA : s_PRESSYN));
+            M_snprintf(tempstring, 160, "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSYN));
             M_StartMessage(tempstring, NULL, false);
         }
 
@@ -1825,7 +1814,7 @@ void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-dboolean        endinggame;
+dboolean    endinggame;
 
 void M_EndingGame(void)
 {
@@ -1852,6 +1841,7 @@ void M_EndingGame(void)
 void M_EndGameResponse(int key)
 {
     messageToPrint = false;
+
     if (key != 'y')
     {
         if (functionkey == KEY_F7)
@@ -1964,6 +1954,7 @@ void M_QuitResponse(int key)
 
             if (!I_AnySoundStillPlaying())
                 break;
+
             i--;
         }
     }
@@ -2413,7 +2404,6 @@ void M_ChangeGamma(dboolean shift)
 
     message_dontpause = true;
     message_dontfuckwithme = true;
-
     I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
     M_SaveCVARs();
 }
@@ -2974,6 +2964,7 @@ dboolean M_Responder(event_t *ev)
         if (key != KEY_PRINTSCREEN)
 #endif
             G_ScreenShot();
+
         return false;
     }
 
@@ -3068,6 +3059,7 @@ dboolean M_Responder(event_t *ev)
                 LoadDef.lastOn = savegameselected = itemOn;
                 M_SaveCVARs();
             }
+
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
             return false;
@@ -3520,8 +3512,7 @@ void M_Drawer(void)
                     M_DrawNightmare();
             }
             else if (!strcmp(name, "M_MSENS") && !M_MSENS)
-                M_DrawString(x, y + OFFSET,
-                    (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
+                M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
             else if (W_CheckMultipleLumps(name) > 1)
                 M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
             else
