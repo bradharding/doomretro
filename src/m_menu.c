@@ -1973,7 +1973,10 @@ void M_QuitResponse(int key)
 
 static char *M_SelectEndMessage(void)
 {
-    return *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES];
+    if (deh_strlookup[p_QUITMSG].assigned == 2)
+        return s_QUITMSG;
+    else
+        return *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES];
 }
 
 void M_QuitDOOM(int choice)
