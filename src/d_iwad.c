@@ -541,11 +541,11 @@ void D_SetSaveGameFolder(void)
     M_MakeDirectory(savegamefolder);
 
     if (!(numsavegames = M_CountSaveGames()))
-        C_Output("No savegames were found in <b>%s</b>.", savegamefolder);
+        C_Output("Found no savegames in <b>%s</b>.", savegamefolder);
     else if (numsavegames == 1)
-        C_Output("1 savegame was found in <b>%s</b>.", savegamefolder);
+        C_Output("Found 1 savegame in <b>%s</b>.", savegamefolder);
     else
-        C_Output("%i savegames were found in <b>%s</b>.", numsavegames, savegamefolder);
+        C_Output("Found %i savegames in <b>%s</b>.", numsavegames, savegamefolder);
 }
 
 //
