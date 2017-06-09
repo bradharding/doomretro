@@ -2387,25 +2387,13 @@ static void InitMapInfo(void)
             return;
 
     info = mapinfo;
-
-    info->author[0] = '\0';
-    info->music = 0;
-    info->name[0] = '\0';
-    info->next = 0;
-    info->par = 0;
-    info->secretnext = 0;
-    info->sky1texture = 0;
-    info->sky1scrolldelta = 0;
-    info->titlepatch = 0;
+    memset(info, 0, sizeof(mapinfo_t));
 
     for (i = 0; i < NUMLIQUIDS; i++)
     {
         info->liquid[i] = -1;
         info->noliquid[i] = -1;
     }
-
-    for (i = 0; i < numtextures; i++)
-        nobrightmap[i] = false;
 
     SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME);
 
@@ -2435,6 +2423,7 @@ static void InitMapInfo(void)
                 map += (episode - 1) * 10;
             }
         }
+
         if (map < 1 || map > 99)
         {
             if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wadfile->path), "NERVE.WAD"))
@@ -2450,7 +2439,6 @@ static void InitMapInfo(void)
                 C_Warning("The MAPINFO lump contains an invalid map marker.");
                 continue;
             }
-
         }
 
         info = &mapinfo[map];
@@ -2480,11 +2468,13 @@ static void InitMapInfo(void)
 
                     case MCMD_LIQUID:
                     {
-                        int     lump;
+                        int lump;
 
                         SC_MustGetString();
+
                         if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
                             info->liquid[liquidlumps++] = lump;
+
                         break;
                     }
 
@@ -2503,12 +2493,13 @@ static void InitMapInfo(void)
 
                         if (nextmap < 1 || nextmap > 99)
                         {
-                            char        *mapnum = uppercase(sc_String);
+                            char    *mapnum = uppercase(sc_String);
 
                             if (gamemode == commercial)
                             {
                                 nextepisode = 1;
                                 sscanf(mapnum, "MAP0%1i", &nextmap);
+
                                 if (!nextmap)
                                     sscanf(mapnum, "MAP%2i", &nextmap);
                             }
@@ -2551,7 +2542,7 @@ static void InitMapInfo(void)
 
                         if (nextmap < 1 || nextmap > 99)
                         {
-                            char        *mapnum = uppercase(sc_String);
+                            char    *mapnum = uppercase(sc_String);
 
                             if (gamemode == commercial)
                             {

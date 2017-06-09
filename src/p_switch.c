@@ -87,8 +87,8 @@ void P_InitSwitchList(void)
     for (i = 0;; i++)
     {
         if (index + 1 >= max_numswitches)
-            switchlist = Z_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = max_numswitches ?
-                max_numswitches * 2 : 8));
+            switchlist = Z_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = (max_numswitches ?
+                max_numswitches * 2 : 8)));
 
         if (SHORT(alphSwitchList[i].episode) <= episode)    // jff 5/11/98 endianness
         {
@@ -100,15 +100,11 @@ void P_InitSwitchList(void)
 
             // Ignore switches referencing unknown texture names, instead of exiting.
             // Warn if either one is missing, but only add if both are valid.
-            texture1 = R_CheckTextureNumForName(alphSwitchList[i].name1);
-
-            if (texture1 == -1)
+            if ((texture1 = R_CheckTextureNumForName(alphSwitchList[i].name1)) == -1)
                 C_Warning("Switch %i in SWITCHES lump has an unknown texture of %s.", i,
                     alphSwitchList[i].name1);
 
-            texture2 = R_CheckTextureNumForName(alphSwitchList[i].name2);
-
-            if (texture2 == -1)
+            if ((texture2 = R_CheckTextureNumForName(alphSwitchList[i].name2)) == -1)
                 C_Warning("Switch %i in SWITCHES lump has an unknown texture of %s.", i,
                     alphSwitchList[i].name2);
 
@@ -157,18 +153,14 @@ void P_StartButton(line_t *line, bwhere_e w, int texture, int time)
 void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
 {
     int         i;
-    short       *texture;
+    short       *texture = NULL;
     short       *ttop = &sides[line->sidenum[0]].toptexture;
     short       *tmid = &sides[line->sidenum[0]].midtexture;
     short       *tbot = &sides[line->sidenum[0]].bottomtexture;
-    bwhere_e    position;
-
+    bwhere_e    position = 0;
 
     if (!useAgain)
         line->special = 0;
-
-    texture = NULL;
-    position = 0;
 
     for (i = 0; i < numswitches * 2; i++)
     {
@@ -192,11 +184,10 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
         }
     }
 
-    if (texture == NULL)
+    if (!texture)
         return;
 
     *texture = switchlist[i ^ 1];
-
     S_StartSectorSound(&line->soundorg, sfx_swtchn);
 
     if (useAgain)
