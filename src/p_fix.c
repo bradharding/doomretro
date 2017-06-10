@@ -1443,6 +1443,7 @@ sectorfix_t sectorfix[] =
     { doom2,            1,   4,     76, "",        "",                  32,       DEFAULT, DEFAULT,                           DEFAULT },
 
     { doom2,            1,   5,      4, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
+    { doom2,            1,   5,    153, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
 
     { doom2,            1,  12,    134, "",        "FLOOR4_6",     DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
 
