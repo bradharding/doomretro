@@ -1067,8 +1067,9 @@ dboolean ST_Responder(event_t *ev)
 
                     if (gamemission == doom && epsd <= 4)
                     {
-                        episode = gameepisode - 1;
-                        EpiDef.lastOn = episode;
+                        episode = gameepisode;
+                        EpiDef.lastOn = episode - 1;
+                        M_SaveCVARs();
                     }
 
                     gamemap = map;

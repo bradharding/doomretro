@@ -65,7 +65,7 @@ button_t    buttonlist[MAXBUTTONS];
 // allow wad designers to insert or modify switches.
 //
 // Lump format is an array of byte packed switchlist_t structures, terminated
-// by a structure with episode == -0. The lump can be generated from a
+// by a structure with episode == -1. The lump can be generated from a
 // text source file using SWANTBLS.EXE, distributed with the BOOM utils.
 // The standard list of switches and animations is contained in the example
 // source text file DEFSWANI.DAT also in the BOOM util distribution.

@@ -893,7 +893,7 @@ dboolean M_CheckSaveGame(int choice)
         if (gamemission == pack_nerve)
         {
             ExpDef.lastOn = ex1;
-            expansion = ex1;
+            expansion = 1;
             gamemission = doom2;
             return true;
         }
@@ -908,7 +908,7 @@ dboolean M_CheckSaveGame(int choice)
         if (gamemission == doom2 && nerve)
         {
             ExpDef.lastOn = ex2;
-            expansion = ex2;
+            expansion = 2;
             gamemission = pack_nerve;
             return true;
         }
@@ -1653,7 +1653,7 @@ void M_SetWindowCaption(void)
     {
         if (nerve && (currentMenu == &ExpDef || currentMenu == &NewDef))
             M_snprintf(caption, sizeof(caption), "%s: %s", gamedescription,
-                (expansion == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
+                (expansion == 1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
         else
             M_StringCopy(caption, gamedescription, sizeof(caption));
 
@@ -3048,12 +3048,12 @@ dboolean M_Responder(event_t *ev)
 
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
-                episode = itemOn;
+                episode = itemOn + 1;
                 M_SaveCVARs();
             }
             else if (currentMenu == &ExpDef)
             {
-                expansion = itemOn;
+                expansion = itemOn + 1;
                 M_SaveCVARs();
             }
             else if (currentMenu == &NewDef)
@@ -3120,12 +3120,12 @@ dboolean M_Responder(event_t *ev)
 
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
-                episode = itemOn;
+                episode = itemOn + 1;
                 M_SaveCVARs();
             }
             else if (currentMenu == &ExpDef)
             {
-                expansion = itemOn;
+                expansion = itemOn + 1;
                 M_SaveCVARs();
             }
             else if (currentMenu == &NewDef)
@@ -3301,12 +3301,12 @@ dboolean M_Responder(event_t *ev)
 
                     if (currentMenu == &EpiDef && gamemode != shareware)
                     {
-                        episode = itemOn;
+                        episode = itemOn + 1;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &ExpDef)
                     {
-                        expansion = itemOn;
+                        expansion = itemOn + 1;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &NewDef)
@@ -3356,12 +3356,12 @@ dboolean M_Responder(event_t *ev)
 
                     if (currentMenu == &EpiDef && gamemode != shareware)
                     {
-                        episode = itemOn;
+                        episode = itemOn + 1;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &ExpDef)
                     {
-                        expansion = itemOn;
+                        expansion = itemOn + 1;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &NewDef)
@@ -3628,14 +3628,14 @@ void M_Init(void)
 
     if (autostart)
     {
-        episode = startepisode - 1;
+        episode = startepisode;
         skilllevel = startskill;
     }
 
     if (gamemode != shareware)
-        EpiDef.lastOn = episode;
+        EpiDef.lastOn = episode - 1;
 
-    ExpDef.lastOn = expansion;
+    ExpDef.lastOn = expansion - 1;
     NewDef.lastOn = skilllevel;
     SaveDef.lastOn = LoadDef.lastOn = savegame;
     OptionsDef.lastOn = msgs;

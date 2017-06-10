@@ -154,13 +154,13 @@ typedef enum
 
 #define con_timestamps_default                  true
 
-#define episode_min                             0
-#define episode_default                         0
-#define episode_max                             3
+#define episode_min                             1
+#define episode_default                         1
+#define episode_max                             4
 
-#define expansion_min                           0
-#define expansion_default                       0
-#define expansion_max                           1
+#define expansion_min                           1
+#define expansion_default                       1
+#define expansion_max                           2
 
 #define facebackcolor_min                       0
 #define facebackcolor_default                   5

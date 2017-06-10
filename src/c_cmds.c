@@ -609,13 +609,13 @@ consolecmd_t consolecmds[] =
     CMD(endgame, "", game_func1, endgame_cmd_func2, 0, "",
         "Ends a game."),
     CVAR_INT(episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The currently selected <i><b>DOOM</b></i> episode in the menu\n(<b>0</b> to <b>3</b>)."),
+        "The currently selected <i><b>DOOM</b></i> episode in the menu\n(<b>1</b> to <b>4</b>)."),
     CMD(exec, "", null_func1, exec_cmd_func2, 1, EXECCMDFORMAT,
         "Executes a series of commands stored in a file."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, 0, "",
         "Exits the current map."),
     CVAR_INT(expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The currently selected <i><b>DOOM II</b></i> expansion in the\nmenu (<b>0</b> or <b>1</b>)."),
+        "The currently selected <i><b>DOOM II</b></i> expansion in the\nmenu (<b>1</b> or <b>2</b>)."),
     CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color behind the player's face in the status bar\n(<b>0</b> to <b>255</b>)."),
     CMD(fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -2405,7 +2405,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
                         {
                             gamemission = doom2;
-                            expansion = 0;
+                            expansion = 1;
                         }
 
                         result = (W_CheckNumForName(map) >= 0);
@@ -2462,8 +2462,8 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     if (gamemission == doom && gameepisode <= 4)
     {
-        episode = gameepisode - 1;
-        EpiDef.lastOn = episode;
+        episode = gameepisode;
+        EpiDef.lastOn = episode - 1;
     }
 
     gamemap = mapcmdmap;
