@@ -1449,9 +1449,9 @@ void M_DrawReadThis(void)
         }
 
         if (hacx)
-            V_DrawPatch(0, 0, 0, W_CacheLumpNum(W_GetNumForNameX("HELP", 1)));
+            V_DrawPatch(0, 0, 0, W_CacheLumpName("HELP"));
         else if (W_CheckMultipleLumps(lumpname) > 2)
-            V_DrawPatch(0, 0, 0, W_CacheLumpNum(W_GetNumForNameX(lumpname, 2)));
+            V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname));
         else
             M_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname));
     }
