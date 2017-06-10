@@ -325,7 +325,7 @@ linefix_t linefix[] =
 
     { doom,             2,   9,     110,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   9,     115,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
-    { doom,             2,   9,     121,    1, "GSTONE1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
+    { doom,             2,   9,     121,    1, "SW1LION",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   9,     123,    1, "GSTONE1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom,             2,   9,     140,    1, "GSTONE1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
