@@ -90,6 +90,8 @@
 #define TELEPORTCMDFORMAT   "<i>x</i> <i>y</i>"
 #define UNBINDCMDFORMAT     "<i>control</i>"
 
+#define PENDINGCHANGE       "Changes won't be effective until the next map."
+
 #define UNITSPERFOOT        16
 #define FEETPERMETER        3.28084f
 #define METERSPERKILOMETER  1000
@@ -460,6 +462,7 @@ static void r_textures_cvar_func2(char *, char *);
 static void r_translucency_cvar_func2(char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *);
 static void s_volume_cvars_func2(char *, char *);
+static void skilllevel_cvar_func2(char *, char *);
 static dboolean turbo_cvar_func1(char *, char *);
 static void turbo_cvar_func2(char *, char *);
 static dboolean units_cvar_func1(char *, char *);
@@ -822,7 +825,7 @@ consolecmd_t consolecmds[] =
         "Saves the game to a file."),
     CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected savegame in the menu (<b>1</b> to <b>6</b>)."),
-    CVAR_INT(skilllevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu (<b>1</b> to <b>5</b>)."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
         "Spawns a <i>monster</i> or <i>item</i>."),
@@ -2480,7 +2483,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        G_DeferredInitNew((gamestate == GS_LEVEL ? gameskill : skilllevel), gameepisode, gamemap);
+        G_DeferredInitNew((gamestate == GS_LEVEL ? gameskill : skilllevel - 1), gameepisode, gamemap);
         C_HideConsoleFast();
     }
 
@@ -5114,6 +5117,24 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         else
             C_Output("It is currently set to <b>%i%%</b> and its default is <b>%i%%</b>.",
                 s_sfxvolume, s_sfxvolume_default);
+    }
+}
+
+//
+// skilllevel CVAR
+//
+static void skilllevel_cvar_func2(char *cmd, char *parms)
+{
+    int skilllevel_old = skilllevel;
+
+    int_cvars_func2(cmd, parms);
+
+    if (skilllevel != skilllevel_old)
+    {
+        gameskill = skilllevel - 1;
+
+        if (gamestate == GS_LEVEL)
+            C_Warning(PENDINGCHANGE);
     }
 }
 
