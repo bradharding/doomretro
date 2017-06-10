@@ -339,13 +339,13 @@ typedef enum
 #define s_sfxvolume_default                     100
 #define s_sfxvolume_max                         100
 
-#define savegame_min                            0
-#define savegame_default                        0
-#define savegame_max                            5
+#define savegame_min                            1
+#define savegame_default                        1
+#define savegame_max                            6
 
-#define skilllevel_min                          sk_baby
-#define skilllevel_default                      sk_medium
-#define skilllevel_max                          sk_nightmare
+#define skilllevel_min                          1
+#define skilllevel_default                      3
+#define skilllevel_max                          5
 
 #define stillbob_min                            0
 #define stillbob_default                        0

@@ -1914,7 +1914,7 @@ static void D_DoomMainSetup(void)
             char    *string = titlecase(*skilllevels[temp]);
 
             startskill = (skill_t)temp;
-            skilllevel = startskill;
+            skilllevel = startskill + 1;
             M_SaveCVARs();
 
             strreplace(string, ".", "");

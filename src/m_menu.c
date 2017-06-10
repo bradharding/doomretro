@@ -3018,7 +3018,8 @@ dboolean M_Responder(event_t *ev)
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
 
-                SaveDef.lastOn = savegame = itemOn;
+                SaveDef.lastOn = itemOn;
+                savegame = itemOn + 1;
                 M_SaveCVARs();
             }
             else
@@ -3058,12 +3059,13 @@ dboolean M_Responder(event_t *ev)
             }
             else if (currentMenu == &NewDef)
             {
-                skilllevel = itemOn;
+                skilllevel = itemOn + 1;
                 M_SaveCVARs();
             }
             else if (currentMenu == &SaveDef)
             {
-                LoadDef.lastOn = savegame = itemOn;
+                LoadDef.lastOn = itemOn;
+                savegame = itemOn + 1;
                 M_SaveCVARs();
             }
 
@@ -3090,7 +3092,8 @@ dboolean M_Responder(event_t *ev)
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
 
-                SaveDef.lastOn = savegame = itemOn;
+                SaveDef.lastOn = itemOn;
+                savegame = itemOn + 1;
                 M_SaveCVARs();
             }
             else
@@ -3130,12 +3133,13 @@ dboolean M_Responder(event_t *ev)
             }
             else if (currentMenu == &NewDef)
             {
-                skilllevel = itemOn;
+                skilllevel = itemOn + 1;
                 M_SaveCVARs();
             }
             else if (currentMenu == &SaveDef)
             {
-                LoadDef.lastOn = savegame = itemOn;
+                LoadDef.lastOn = itemOn;
+                savegame = itemOn + 1;
                 M_SaveCVARs();
             }
 
@@ -3311,17 +3315,19 @@ dboolean M_Responder(event_t *ev)
                     }
                     else if (currentMenu == &NewDef)
                     {
-                        skilllevel = itemOn;
+                        skilllevel = itemOn + 1;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &SaveDef)
                     {
-                        LoadDef.lastOn = savegame = itemOn;
+                        LoadDef.lastOn = itemOn;
+                        savegame = itemOn + 1;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &LoadDef)
                     {
-                        SaveDef.lastOn = savegame = itemOn;
+                        SaveDef.lastOn = itemOn;
+                        savegame = itemOn + 1;
                         M_SaveCVARs();
                     }
 
@@ -3366,17 +3372,19 @@ dboolean M_Responder(event_t *ev)
                     }
                     else if (currentMenu == &NewDef)
                     {
-                        skilllevel = itemOn;
+                        skilllevel = itemOn + 1;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &SaveDef)
                     {
-                        LoadDef.lastOn = savegame = itemOn;
+                        LoadDef.lastOn = itemOn;
+                        savegame = itemOn + 1;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &LoadDef)
                     {
-                        SaveDef.lastOn = savegame = itemOn;
+                        SaveDef.lastOn = itemOn;
+                        savegame = itemOn + 1;
                         M_SaveCVARs();
                     }
 
@@ -3543,7 +3551,8 @@ void M_Drawer(void)
 
             if (itemOn != old)
             {
-                SaveDef.lastOn = savegame = itemOn;
+                SaveDef.lastOn = itemOn;
+                savegame = itemOn + 1;
                 M_SaveCVARs();
             }
         }
@@ -3629,15 +3638,15 @@ void M_Init(void)
     if (autostart)
     {
         episode = startepisode;
-        skilllevel = startskill;
+        skilllevel = startskill + 1;
     }
 
     if (gamemode != shareware)
         EpiDef.lastOn = episode - 1;
 
     ExpDef.lastOn = expansion - 1;
-    NewDef.lastOn = skilllevel;
-    SaveDef.lastOn = LoadDef.lastOn = savegame;
+    NewDef.lastOn = skilllevel - 1;
+    SaveDef.lastOn = LoadDef.lastOn = savegame - 1;
     OptionsDef.lastOn = msgs;
     M_ReadSaveStrings();
 
