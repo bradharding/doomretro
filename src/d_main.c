@@ -1911,7 +1911,7 @@ static void D_DoomMainSetup(void)
 
         if (temp >= sk_baby && temp <= sk_nightmare)
         {
-            char    *string = titlecase(*skilllevels[startskill]);
+            char    *string = titlecase(*skilllevels[temp]);
 
             skilllevel = startskill = (skill_t)temp;
             M_SaveCVARs();
