@@ -154,17 +154,13 @@ typedef enum
 
 #define con_timestamps_default                  true
 
-#define episode_default                         ""
+#define episode_min                             0
+#define episode_default                         0
+#define episode_max                             3
 
-#define episodeselected_min                     0
-#define episodeselected_default                 0
-#define episodeselected_max                     3
-
-#define expansion_default                       ""
-
-#define expansionselected_min                   0
-#define expansionselected_default               0
-#define expansionselected_max                   1
+#define expansion_min                           0
+#define expansion_default                       0
+#define expansion_max                           1
 
 #define facebackcolor_min                       0
 #define facebackcolor_default                   5
@@ -200,8 +196,6 @@ typedef enum
 
 #define iwadfolder_default                      "C:\\"
 
-#define messages_default                        false
-
 #define m_acceleration_min                      0
 #define m_acceleration_default                  2.0
 #define m_acceleration_max                      INT_MAX
@@ -219,6 +213,8 @@ typedef enum
 #define m_threshold_min                         0
 #define m_threshold_default                     10
 #define m_threshold_max                         INT_MAX
+
+#define messages_default                        false
 
 #define mouselook_default                       false
 
@@ -343,17 +339,13 @@ typedef enum
 #define s_sfxvolume_default                     100
 #define s_sfxvolume_max                         100
 
-#define savegame_default                        ""
+#define savegame_min                            0
+#define savegame_default                        0
+#define savegame_max                            5
 
-#define savegameselected_min                    0
-#define savegameselected_default                0
-#define savegameselected_max                    5
-
-#define skilllevel_default                      ""
-
-#define skilllevelselected_min                  sk_baby
-#define skilllevelselected_default              sk_medium
-#define skilllevelselected_max                  sk_nightmare
+#define skilllevel_min                          sk_baby
+#define skilllevel_default                      sk_medium
+#define skilllevel_max                          sk_nightmare
 
 #define stillbob_min                            0
 #define stillbob_default                        0

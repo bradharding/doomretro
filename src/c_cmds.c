@@ -135,10 +135,8 @@ extern dboolean     autoload;
 extern dboolean     centerweapon;
 extern dboolean     con_obituaries;
 extern dboolean     con_timestamps;
-extern char         *episode;
-extern int          episodeselected;
-extern char         *expansion;
-extern int          expansionselected;
+extern int          episode;
+extern int          expansion;
 extern int          facebackcolor;
 extern int          gametime;
 extern float        gp_deadzone_left;
@@ -150,13 +148,13 @@ extern int          gp_vibrate_damage;
 extern int          gp_vibrate_weapons;
 extern char         *iwadfolder;
 extern char         *language;
-extern dboolean     messages;
 extern float        m_acceleration;
 extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
 extern int          m_sensitivity;
 extern int          m_threshold;
+extern dboolean     messages;
 extern dboolean     mouselook;
 extern int          movebob;
 extern char         *playername;
@@ -206,10 +204,8 @@ extern int          s_musicvolume;
 extern dboolean     s_randommusic;
 extern dboolean     s_randompitch;
 extern int          s_sfxvolume;
-extern char         *savegame;
-extern int          savegameselected;
-extern char         *skilllevel;
-extern int          skilllevelselected;
+extern int          savegame;
+extern int          skilllevel;
 extern unsigned int stat_barrelsexploded;
 extern unsigned int stat_cheated;
 extern unsigned int stat_damageinflicted;
@@ -612,14 +608,14 @@ consolecmd_t consolecmds[] =
         "Shows a list of console variables."),
     CMD(endgame, "", game_func1, endgame_cmd_func2, 0, "",
         "Ends a game."),
-    CVAR_STR(episode, "", null_func1, str_cvars_func2, CF_READONLY,
-        "The current <i><b>DOOM</b></i> episode."),
+    CVAR_INT(episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The currently selected <i><b>DOOM</b></i> episode in the menu\n(<b>0</b> to <b>3</b>)."),
     CMD(exec, "", null_func1, exec_cmd_func2, 1, EXECCMDFORMAT,
         "Executes a series of commands stored in a file."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, 0, "",
         "Exits the current map."),
-    CVAR_STR(expansion, "", null_func1, str_cvars_func2, CF_READONLY,
-        "The current <i><b>DOOM II</b></i> expansion."),
+    CVAR_INT(expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The currently selected <i><b>DOOM II</b></i> expansion in the\nmenu (<b>0</b> or <b>1</b>)."),
     CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color behind the player's face in the status bar\n(<b>0</b> to <b>255</b>)."),
     CMD(fastmonsters, "", game_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -824,10 +820,10 @@ consolecmd_t consolecmds[] =
         "The volume of sound effects."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,
         "Saves the game to a file."),
-    CVAR_STR(savegame, "", null_func1, str_cvars_func2, CF_READONLY,
-        "The name of the current savegame."),
-    CVAR_STR(skilllevel, "", null_func1, str_cvars_func2, CF_READONLY,
-        "The current skill level."),
+    CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The currently selected savegame in the menu\n(<b>0</b> to <b>5</b>)."),
+    CVAR_INT(skilllevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The currently selected skill level in the menu\n(<b>0</b> to <b>4</b>)."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
         "Spawns a <i>monster</i> or <i>item</i>."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -2466,9 +2462,8 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     if (gamemission == doom && gameepisode <= 4)
     {
-        episodeselected = gameepisode - 1;
-        episode = *episodes[episodeselected];
-        EpiDef.lastOn = episodeselected;
+        episode = gameepisode - 1;
+        EpiDef.lastOn = episode;
     }
 
     gamemap = mapcmdmap;
@@ -2485,7 +2480,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        G_DeferredInitNew((gamestate == GS_LEVEL ? gameskill : skilllevelselected), gameepisode, gamemap);
+        G_DeferredInitNew((gamestate == GS_LEVEL ? gameskill : skilllevel), gameepisode, gamemap);
         C_HideConsoleFast();
     }
 

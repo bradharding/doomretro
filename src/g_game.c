@@ -82,11 +82,6 @@ skill_t         gameskill;
 int             gameepisode;
 int             gamemap;
 
-char            *episode = episode_default;
-char            *expansion = expansion_default;
-char            *savegame = savegame_default;
-char            *skilllevel = skilllevel_default;
-
 char **episodes[] =
 {
     &s_M_EPISODE1,
@@ -1206,7 +1201,7 @@ void G_SecretExitLevel(void)
     gameaction = ga_completed;
 }
 
-extern int      episodeselected;
+extern int      episode;
 extern menu_t   EpiDef;
 
 void ST_doRefresh(void);
@@ -1259,8 +1254,9 @@ void G_DoCompleted(void)
                 // [BH] this episode is complete, so select the next episode in the menu
                 if ((gamemode == registered && gameepisode < 3) || (gamemode == retail && gameepisode < 4))
                 {
-                    episodeselected = gameepisode;
-                    EpiDef.lastOn = episodeselected;
+                    episode = gameepisode;
+                    EpiDef.lastOn = episode;
+                    M_SaveCVARs();
                 }
 
                 break;
@@ -1726,8 +1722,6 @@ void G_SetMovementSpeed(int scale)
 //
 void G_InitNew(skill_t skill, int ep, int map)
 {
-    char    *string = titlecase(*skilllevels[skill]);
-
     if (paused)
     {
         paused = false;
@@ -1769,16 +1763,6 @@ void G_InitNew(skill_t skill, int ep, int map)
     gameepisode = ep;
     gamemap = map;
     gameskill = skill;
-
-    if (gamemode == commercial)
-        expansion = *(gamemission == pack_nerve ? &s_M_EXPANSION2 : &s_M_EXPANSION1);
-    else
-        episode = *episodes[gameepisode - 1];
-
-    strreplace(string, ".", "");
-    strreplace(string, "!", "");
-
-    skilllevel = string;
 
     G_DoLoadLevel();
 }

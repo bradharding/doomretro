@@ -729,7 +729,7 @@ static void D_CheckSupportedPWAD(char *filename)
     if (M_StringCompare(leaf, "NERVE.WAD"))
     {
         nerve = true;
-        expansionselected = 1;
+        expansion = 1;
     }
     else if (M_StringCompare(leaf, "breach.wad"))
         breach = true;
@@ -1290,7 +1290,7 @@ static int D_OpenWADLauncher(void)
                         {
                             modifiedgame = true;
                             nerve = true;
-                            expansionselected = 1;
+                            expansion = 1;
                         }
                         break;
                     }
@@ -1308,7 +1308,7 @@ static int D_OpenWADLauncher(void)
                             {
                                 modifiedgame = true;
                                 nerve = true;
-                                expansionselected = 1;
+                                expansion = 1;
                             }
                             break;
                         }
@@ -1327,7 +1327,7 @@ static int D_OpenWADLauncher(void)
                                 {
                                     modifiedgame = true;
                                     nerve = true;
-                                    expansionselected = 1;
+                                    expansion = 1;
                                 }
                                 break;
                             }
@@ -1913,7 +1913,7 @@ static void D_DoomMainSetup(void)
         {
             char    *string = titlecase(*skilllevels[startskill]);
 
-            skilllevelselected = startskill = (skill_t)temp;
+            skilllevel = startskill = (skill_t)temp;
             M_SaveCVARs();
 
             strreplace(string, ".", "");
@@ -1932,7 +1932,7 @@ static void D_DoomMainSetup(void)
             || (gamemode == retail && temp <= 4))))
         {
             startepisode = temp;
-            episodeselected = temp - 1;
+            episode = temp - 1;
             M_SaveCVARs();
             startmap = 1;
 
@@ -1943,7 +1943,7 @@ static void D_DoomMainSetup(void)
 
             autostart = true;
             C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is now "
-                "\"%s\".", *episodes[episodeselected]);
+                "\"%s\".", *episodes[episode]);
         }
     }
 
@@ -1954,14 +1954,14 @@ static void D_DoomMainSetup(void)
         if (gamemode == commercial && temp <= (nerve ? 2 : 1))
         {
             gamemission = (temp == 1 ? doom2 : pack_nerve);
-            expansionselected = temp - 1;
+            expansion = temp - 1;
             M_SaveCVARs();
             startepisode = 1;
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
             C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now "
-                "\"%s\".", *expansions[expansionselected]);
+                "\"%s\".", *expansions[expansion]);
         }
     }
 

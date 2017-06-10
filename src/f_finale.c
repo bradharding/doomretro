@@ -83,13 +83,9 @@ static int              midstage;               // whether we're in "mid-stage"
 
 extern int              acceleratestage;        // accelerate intermission screens
 
-extern char             *episode;
-extern char             *expansion;
 extern dboolean         r_shadows;
 extern dboolean         r_shadows_translucency;
 extern dboolean         r_translucency;
-extern char             *savegame;
-extern char             *skilllevel;
 
 //
 // F_StartFinale
@@ -249,9 +245,6 @@ void F_Ticker(void)
             {
                 finalecount = 0;
                 finalestage = F_STAGE_ARTSCREEN;
-                episode = "";
-                savegame = "";
-                skilllevel = "";
                 wipegamestate = GS_NONE;        // force a wipe
 
                 if (gameepisode == 3)
@@ -474,9 +467,6 @@ static void F_StartCast(void)
     if (!M_StringCompare(playername, playername_default))
         s_CC_HERO = playername;
 
-    expansion = "";
-    savegame = "";
-    skilllevel = "";
     S_ChangeMusic(mus_evil, true, false, false);
 }
 

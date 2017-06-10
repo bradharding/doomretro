@@ -74,8 +74,8 @@ extern dboolean     autoload;
 extern dboolean     centerweapon;
 extern dboolean     con_obituaries;
 extern dboolean     con_timestamps;
-extern int          episodeselected;
-extern int          expansionselected;
+extern int          episode;
+extern int          expansion;
 extern int          facebackcolor;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
@@ -85,13 +85,13 @@ extern dboolean     gp_swapthumbsticks;
 extern int          gp_vibrate_damage;
 extern int          gp_vibrate_weapons;
 extern char         *iwadfolder;
-extern dboolean     messages;
 extern float        m_acceleration;
 extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
 extern int          m_sensitivity;
 extern int          m_threshold;
+extern dboolean     messages;
 extern dboolean     mouselook;
 extern int          movebob;
 extern char         *playername;
@@ -139,8 +139,8 @@ extern int          s_musicvolume;
 extern dboolean     s_randommusic;
 extern dboolean     s_randompitch;
 extern int          s_sfxvolume;
-extern int          savegameselected;
-extern int          skilllevelselected;
+extern int          savegame;
+extern int          skilllevel;
 extern int          stillbob;
 extern unsigned int stat_barrelsexploded;
 extern unsigned int stat_cheated;
@@ -246,8 +246,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (centerweapon,                                      BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (con_obituaries,                                    BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (con_timestamps,                                    BOOLVALUEALIAS  ),
-    CONFIG_VARIABLE_INT          (episodeselected,                                   NOVALUEALIAS    ),
-    CONFIG_VARIABLE_INT          (expansionselected,                                 NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (episode,                                           NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (expansion,                                         NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (facebackcolor,                                     NOVALUEALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                                  NOVALUEALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOVALUEALIAS    ),
@@ -312,8 +312,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (s_randommusic,                                     BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT          (s_randompitch,                                     BOOLVALUEALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,                                       NOVALUEALIAS    ),
-    CONFIG_VARIABLE_INT          (savegameselected,                                  NOVALUEALIAS    ),
-    CONFIG_VARIABLE_INT          (skilllevelselected,                                NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (savegame,                                          NOVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (skilllevel,                                        NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                                          NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                                             NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (units,                                             UNITSVALUEALIAS ),
@@ -724,10 +724,9 @@ static void M_CheckCVARs(void)
     if (con_timestamps != false && con_timestamps != true)
         con_timestamps = con_timestamps_default;
 
-    episodeselected = BETWEEN(episodeselected_min, episodeselected,
-        episodeselected_max - (gamemode == registered));
+    episode = BETWEEN(episode_min, episode, episode_max - (gamemode == registered));
 
-    expansionselected = BETWEEN(expansionselected_min, expansionselected, expansionselected_max);
+    expansion = BETWEEN(expansion_min, expansion, expansion_max);
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;
@@ -900,9 +899,9 @@ static void M_CheckCVARs(void)
     s_sfxvolume = BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max);
     sfxVolume = (s_sfxvolume * 31 + 50) / 100;
 
-    savegameselected = BETWEEN(savegameselected_min, savegameselected, savegameselected_max);
+    savegame = BETWEEN(savegame_min, savegame, savegame_max);
 
-    skilllevelselected = BETWEEN(skilllevelselected_min, skilllevelselected, skilllevelselected_max);
+    skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
 
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
 
