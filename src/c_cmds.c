@@ -90,7 +90,7 @@
 #define TELEPORTCMDFORMAT   "<i>x</i> <i>y</i>"
 #define UNBINDCMDFORMAT     "<i>control</i>"
 
-#define PENDINGCHANGE       "Changes won't be effective until the next map."
+#define PENDINGSKILLLEVEL   "New skill level won't be effective until next map."
 
 #define UNITSPERFOOT        16
 #define FEETPERMETER        3.28084f
@@ -270,6 +270,11 @@ extern dboolean     weaponrecoil;
 
 extern char         *packageconfig;
 extern int          st_palette;
+extern menu_t       EpiDef;
+extern menu_t       ExpDef;
+extern menu_t       LoadDef;
+extern menu_t       NewDef;
+extern menu_t       SaveDef;
 
 control_t controls[] =
 {
@@ -434,6 +439,8 @@ static void am_external_cvar_func2(char *, char *);
 static dboolean am_followmode_cvar_func1(char *, char *);
 static void am_gridsize_cvar_func2(char *cmd, char *parms);
 static void am_path_cvar_func2(char *, char *);
+static void episode_cvar_func2(char *, char *);
+static void expansion_cvar_func2(char *, char *);
 static dboolean gp_deadzone_cvars_func1(char *, char *);
 static void gp_deadzone_cvars_func2(char *, char *);
 static void gp_sensitivity_cvar_func2(char *, char *);
@@ -462,6 +469,7 @@ static void r_textures_cvar_func2(char *, char *);
 static void r_translucency_cvar_func2(char *, char *);
 static dboolean s_volume_cvars_func1(char *, char *);
 static void s_volume_cvars_func2(char *, char *);
+static void savegame_cvar_func2(char *, char *);
 static void skilllevel_cvar_func2(char *, char *);
 static dboolean turbo_cvar_func1(char *, char *);
 static void turbo_cvar_func2(char *, char *);
@@ -611,13 +619,13 @@ consolecmd_t consolecmds[] =
         "Shows a list of console variables."),
     CMD(endgame, "", game_func1, endgame_cmd_func2, 0, "",
         "Ends a game."),
-    CVAR_INT(episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i><b>DOOM</b></i> episode in the menu\n(<b>1</b> to <b>4</b>)."),
     CMD(exec, "", null_func1, exec_cmd_func2, 1, EXECCMDFORMAT,
         "Executes a series of commands stored in a file."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, 0, "",
         "Exits the current map."),
-    CVAR_INT(expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(expansion, "", int_cvars_func1, expansion_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i><b>DOOM II</b></i> expansion in the menu\n(<b>1</b> or <b>2</b>)."),
     CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color behind the player's face in the status bar\n(<b>0</b> to <b>255</b>)."),
@@ -823,7 +831,7 @@ consolecmd_t consolecmds[] =
         "The volume of sound effects."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,
         "Saves the game to a file."),
-    CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(savegame, "", int_cvars_func1, savegame_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected savegame in the menu (<b>1</b> to <b>6</b>)."),
     CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu (<b>1</b> to <b>5</b>)."),
@@ -2214,7 +2222,6 @@ static void load_cmd_func2(char *cmd, char *parms)
 // map CCMD
 //
 extern dboolean samelevel;
-extern menu_t   EpiDef;
 extern int      idclevtics;
 
 static dboolean map_cmd_func1(char *cmd, char *parms)
@@ -4334,6 +4341,32 @@ static void am_path_cvar_func2(char *cmd, char *parms)
 }
 
 //
+// episode CVAR
+//
+static void episode_cvar_func2(char *cmd, char *parms)
+{
+    int episode_old = episode;
+
+    int_cvars_func2(cmd, parms);
+
+    if (episode != episode_old)
+        EpiDef.lastOn = episode - 1;
+}
+
+//
+// expansion CVAR
+//
+static void expansion_cvar_func2(char *cmd, char *parms)
+{
+    int expansion_old = expansion;
+
+    int_cvars_func2(cmd, parms);
+
+    if (expansion != expansion_old)
+        ExpDef.lastOn = expansion - 1;
+}
+
+//
 // gp_deadzone_left and gp_deadzone_right CVARs
 //
 static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms)
@@ -5121,6 +5154,22 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
 }
 
 //
+// savegame CVAR
+//
+static void savegame_cvar_func2(char *cmd, char *parms)
+{
+    int savegame_old = savegame;
+
+    int_cvars_func2(cmd, parms);
+
+    if (savegame != savegame_old)
+    {
+        SaveDef.lastOn = savegame - 1;
+        LoadDef.lastOn = savegame - 1;
+    }
+}
+
+//
 // skilllevel CVAR
 //
 static void skilllevel_cvar_func2(char *cmd, char *parms)
@@ -5132,9 +5181,10 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
     if (skilllevel != skilllevel_old)
     {
         gameskill = skilllevel - 1;
+        NewDef.lastOn = skilllevel - 1;
 
         if (gamestate == GS_LEVEL)
-            C_Warning(PENDINGCHANGE);
+            C_Warning(PENDINGSKILLLEVEL);
     }
 }
 
