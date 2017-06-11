@@ -105,7 +105,7 @@ void R_InitSkyMap(void)
         int skyheight = textureheight[skytexture] >> FRACBITS;
 
         if (skyheight >= 128 && skyheight < 200)
-            skytexturemid = -28 * FRACUNIT * 2 * skyheight / SKYSTRETCH_HEIGHT;
+            skytexturemid = -54 * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
         else if (skyheight > 200)
             skytexturemid = ((200 - skyheight) << FRACBITS) * skyheight / SKYSTRETCH_HEIGHT;
         else
