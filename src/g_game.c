@@ -607,7 +607,7 @@ void G_DoLoadLevel(void)
         gameskill = pendinggameskill - 1;
 
         if (gameskill == sk_nightmare)
-            player->cheats = 0;
+            player->cheats &= ~(CF_NOCLIP | CF_GODMODE | CF_CHOPPERS | CF_BUDDHA);
 
         pendinggameskill = 0;
     }
