@@ -2227,7 +2227,10 @@ void P_SetupLevel(int ep, int map)
     int         lumpnum;
     player_t    *player = &players[0];
 
-    totalkills = totalitems = totalsecret = 0;
+    totalkills = 0;
+    totalitems = 0;
+    totalsecret = 0;
+    totalpickups = 0;
     memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
     barrelcount = 0;
     wminfo.partime = 0;

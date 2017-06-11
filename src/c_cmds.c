@@ -2769,7 +2769,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_TabbedOutput(tabs, "   Monsters\t<b>%s</b>", commify(totalkills));
 
-    C_TabbedOutput(tabs, "   Pickups\t<b>%s</b>", commify(totalitems));
+    C_TabbedOutput(tabs, "   Pickups\t<b>%s</b>", commify(totalpickups));
 
     C_TabbedOutput(tabs, "   Decorations\t<b>%s</b>", commify(numdecorations));
 

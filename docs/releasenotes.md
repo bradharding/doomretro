@@ -13,7 +13,9 @@
   * The `Ammo`, `Armor` and `Health` stats no longer increase when using the `give` CCMD or certain cheats.
   * The `Health` stat now increases when the player picks up a health bonus.
   * The number of barrels in the current map as part of the `Barrels exploded` stat is now calculated correctly.
-* The `Damaging Sectors` value displayed by the `mapstats` CCMD now takes *BOOM*-compatible damaging sectors into account.
+* The following changes have been made to some of the stats displayed by the `mapstats` CCMD:
+  * The `Damaging Sectors` stat now takes *BOOM*-compatible damaging sectors into account.
+  * The `Pickups` stat is now calculated correctly.
 * Several compatibility fixes have been implemented for:
   * [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens),
   * [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/vb/thread/62529),
@@ -47,6 +49,7 @@
 * If the `skilllevel` CVAR is changed in the console, the skill level will be changed for the next map.
 * A warning is now displayed when changing the `nomonsters` or `pistolstart` CCMDS, or the `skilllevel` CVAR, that indicates the change won’t be effective until the next map.
 * Enabling the `respawnitems` CVAR will now be effective immediately, respawning all items picked up so far in the current map.
+* The `s_timiditycfgpath` CVAR has been removed.
 
 ---
 

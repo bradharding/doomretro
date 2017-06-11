@@ -118,7 +118,10 @@ int             gametic;
 int             activetic;
 int             gametime;
 int             levelstarttic;          // gametic at level start
-int             totalkills, totalitems, totalsecret;    // for intermission
+int             totalkills;             // for intermission
+int             totalitems;
+int             totalsecret;
+int             totalpickups;
 int             monstercount[NUMMOBJTYPES];
 int             barrelcount;
 

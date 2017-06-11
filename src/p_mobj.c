@@ -1116,6 +1116,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index)
     if (flags & MF_COUNTITEM)
         totalitems++;
 
+    if (flags & MF_SPECIAL)
+        totalpickups++;
+
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
     // [BH] randomly mirror corpses
