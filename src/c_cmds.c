@@ -619,13 +619,13 @@ consolecmd_t consolecmds[] =
         "Shows a list of console variables."),
     CMD(endgame, "", game_func1, endgame_cmd_func2, 0, "",
         "Ends a game."),
-    CVAR_INT(episode, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i><b>DOOM</b></i> episode in the menu\n(<b>1</b> to <b>4</b>)."),
     CMD(exec, "", null_func1, exec_cmd_func2, 1, EXECCMDFORMAT,
         "Executes a series of commands stored in a file."),
     CMD(exitmap, "", game_func1, exitmap_cmd_func2, 0, "",
         "Exits the current map."),
-    CVAR_INT(expansion, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(expansion, "", int_cvars_func1, expansion_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i><b>DOOM II</b></i> expansion in the\nmenu (<b>1</b> or <b>2</b>)."),
     CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color behind the player's face in the status bar\n(<b>0</b> to <b>255</b>)."),
@@ -831,9 +831,9 @@ consolecmd_t consolecmds[] =
         "The volume of sound effects."),
     CMD(save, "", save_cmd_func1, save_cmd_func2, 1, SAVECMDFORMAT,
         "Saves the game to a file."),
-    CVAR_INT(savegame, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(savegame, "", int_cvars_func1, savegame_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected savegame in the menu\n(<b>1</b> to <b>6</b>)."),
-    CVAR_INT(skilllevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu\n(<b>1</b> to <b>5</b>)."),
     CMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, 1, SPAWNCMDFORMAT,
         "Spawns a <i>monster</i> or <i>item</i>."),
@@ -5186,7 +5186,7 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
 
     if (skilllevel != skilllevel_old)
     {
-        gameskill = skilllevel - 1;
+        pendinggameskill = skilllevel;
         NewDef.lastOn = skilllevel - 1;
 
         if (gamestate == GS_LEVEL)

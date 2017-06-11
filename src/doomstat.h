@@ -86,6 +86,7 @@ extern dboolean         autostart;
 
 // Selected by user.
 extern skill_t          gameskill;
+extern skill_t          pendinggameskill;
 extern int              gameepisode;
 extern int              gamemap;
 

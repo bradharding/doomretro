@@ -41,24 +41,24 @@
 
 typedef struct
 {
-    short               status;
-    char                name[10];
-    void                (*routine)(int choice);
-    char                **text;
+    short           status;
+    char            name[10];
+    void            (*routine)(int choice);
+    char            **text;
 } menuitem_t;
 
 typedef struct menu_s
 {
-    short               numitems;
-    struct menu_s       *prevMenu;
-    menuitem_t          *menuitems;
-    void                (*routine)(void);
-    short               x;
-    short               y;
-    int                 lastOn;
+    short           numitems;
+    struct menu_s   *prevMenu;
+    menuitem_t      *menuitems;
+    void            (*routine)(void);
+    short           x;
+    short           y;
+    int             lastOn;
 } menu_t;
 
-dboolean        startingnewgame;
+dboolean    startingnewgame;
 
 //
 // MENUS

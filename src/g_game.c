@@ -79,6 +79,7 @@ gamestate_t     oldgamestate;
 gameaction_t    gameaction;
 gamestate_t     gamestate = GS_TITLESCREEN;
 skill_t         gameskill;
+skill_t         pendinggameskill;
 int             gameepisode;
 int             gamemap;
 
@@ -600,6 +601,16 @@ void G_DoLoadLevel(void)
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if (pistolstart || P_GetMapPistolStart(map))
         G_ResetPlayer(player);
+
+    if (pendinggameskill)
+    {
+        gameskill = pendinggameskill - 1;
+
+        if (gameskill == sk_nightmare)
+            player->cheats = 0;
+
+        pendinggameskill = 0;
+    }
 
     M_ClearRandom();
 
