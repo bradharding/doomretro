@@ -90,7 +90,7 @@
 #define TELEPORTCMDFORMAT   "<i>x</i> <i>y</i>"
 #define UNBINDCMDFORMAT     "<i>control</i>"
 
-#define PENDINGSKILLLEVEL   "New skill level won't be effective until next map."
+#define PENDINGCHANGE       "This change won't be effective until the next map."
 
 #define UNITSPERFOOT        16
 #define FEETPERMETER        3.28084f
@@ -2956,6 +2956,9 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
     }
     else
         HU_PlayerMessage(s_STSTR_NMOFF, false);
+
+    if (gamestate == GS_LEVEL)
+        C_Warning(PENDINGCHANGE);
 }
 
 //
@@ -3029,6 +3032,9 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
         pistolstart = !pistolstart;
 
     HU_PlayerMessage((pistolstart ? s_STSTR_PSON : s_STSTR_PSOFF), false);
+
+    if (gamestate == GS_LEVEL)
+        C_Warning(PENDINGCHANGE);
 }
 
 //
@@ -5184,7 +5190,7 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
         NewDef.lastOn = skilllevel - 1;
 
         if (gamestate == GS_LEVEL)
-            C_Warning(PENDINGSKILLLEVEL);
+            C_Warning(PENDINGCHANGE);
     }
 }
 

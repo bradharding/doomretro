@@ -45,6 +45,7 @@
 * The length of each frame in milliseconds is now displayed along with the number of frames per second when the `vid_showfps` CVAR is `on`.
 * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now integers rather than strings, and are no longer read-only.
 * If the `skilllevel` CVAR is changed in the console, the skill level will be changed for the next map.
+* A warning is now displayed when changing the `nomonsters` or `pistolstart` CCMDS, or the `skilllevel` CVAR, that indicates the change won’t be effective until the next map.
 * Enabling the `respawnitems` CVAR will now be effective immediately, respawning all items picked up so far in the current map.
 
 ---
