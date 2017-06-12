@@ -129,7 +129,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
                 if (flipped)
                     sprtemp[frame].flip |= 1 << r;
 
-                sprtemp[frame].rotate = 0;      // jff 4/24/98 if any subbed, rotless
+                sprtemp[frame].rotate = false;  // jff 4/24/98 if any subbed, rotless
             }
         }
 
@@ -146,7 +146,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
         if (flipped)
             sprtemp[frame].flip |= 1 << rotation;
 
-        sprtemp[frame].rotate = 1;              // jff 4/24/98 only change if rot used
+        sprtemp[frame].rotate = true;           // jff 4/24/98 only change if rot used
     }
 }
 
@@ -250,57 +250,42 @@ static void R_InitSpriteDefs(void)
                 int rot;
 
                 for (frame = 0; frame < maxframe; frame++)
-                    switch (sprtemp[frame].rotate)
+                    if (sprtemp[frame].rotate)
                     {
-                        case -1:
-                            // no rotations were found for that frame at all
-                            break;
-
-                        case 0:
-                            // only the first rotation is needed
-                            for (rot = 1; rot < 16; rot++)
-                                sprtemp[frame].lump[rot] = sprtemp[frame].lump[0];
-
-                            // If the frame is flipped, they all should be
-                            if (sprtemp[frame].flip & 1)
-                                sprtemp[frame].flip = 0xFFFF;
-
-                            break;
-
-                        case 1:
-                            // must have all 8 frames
-                            for (rot = 0; rot < 16; rot += 2)
+                        // must have all 8 frames
+                        for (rot = 0; rot < 16; rot += 2)
+                        {
+                            if (sprtemp[frame].lump[rot + 1] == -1)
                             {
-                                if (sprtemp[frame].lump[rot + 1] == -1)
-                                {
-                                    sprtemp[frame].lump[rot + 1] = sprtemp[frame].lump[rot];
+                                sprtemp[frame].lump[rot + 1] = sprtemp[frame].lump[rot];
 
-                                    if (sprtemp[frame].flip & (1 << rot))
-                                        sprtemp[frame].flip |= 1 << (rot + 1);
-                                }
-
-                                if (sprtemp[frame].lump[rot] == -1)
-                                {
-                                    sprtemp[frame].lump[rot] = sprtemp[frame].lump[rot + 1];
-
-                                    if (sprtemp[frame].flip & (1 << (rot + 1)))
-                                        sprtemp[frame].flip |= 1 << rot;
-                                }
+                                if (sprtemp[frame].flip & (1 << rot))
+                                    sprtemp[frame].flip |= 1 << (rot + 1);
                             }
 
-                            for (rot = 0; rot < 16; rot++)
-                                if (sprtemp[frame].lump[rot] == -1)
-                                    I_Error("R_InitSprites: Frame %c of sprite %.8s is missing rotations",
-                                        frame + 'A', sprnames[i]);
-                            break;
-                    }
+                            if (sprtemp[frame].lump[rot] == -1)
+                            {
+                                sprtemp[frame].lump[rot] = sprtemp[frame].lump[rot + 1];
 
-                for (frame = 0; frame < maxframe; frame++)
-                    if (sprtemp[frame].rotate == -1)
+                                if (sprtemp[frame].flip & (1 << (rot + 1)))
+                                    sprtemp[frame].flip |= 1 << rot;
+                            }
+                        }
+
+                        for (rot = 0; rot < 16; rot++)
+                            if (sprtemp[frame].lump[rot] == -1)
+                                I_Error("R_InitSprites: Frame %c of sprite %.8s is missing rotations",
+                                    frame + 'A', sprnames[i]);
+                    }
+                    else
                     {
-                        memset(&sprtemp[frame].lump, 0, sizeof(sprtemp[0].lump));
-                        sprtemp[frame].flip = 0;
-                        sprtemp[frame].rotate = 0;
+                        // only the first rotation is needed
+                        for (rot = 1; rot < 16; rot++)
+                            sprtemp[frame].lump[rot] = sprtemp[frame].lump[0];
+
+                        // If the frame is flipped, they all should be
+                        if (sprtemp[frame].flip & 1)
+                            sprtemp[frame].flip = 0xFFFF;
                     }
 
                 // allocate space for the frames present and copy sprtemp to it
