@@ -511,7 +511,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         sector_t    *sector = mobj->subsector->sector;
         fixed_t     height = sector->interpfloorheight + mobj->info->shadowoffset - viewz;
 
-        if (!sector->isliquid && height <= 0)
+        if (height <= 0 && !sector->isliquid && sector->floorpic != skyflatnum)
         {
             colfunc = mobj->shadowcolfunc;
             sprtopscreen = centeryfrac - FixedMul(height, spryscale);
@@ -927,7 +927,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         }
     }
 
-    drawshadows = (r_shadows && !fixedcolormap && sec->floorpic != skyflatnum);
+    drawshadows = (r_shadows && !fixedcolormap);
 
     // Handle all things in sector.
     while (thing)

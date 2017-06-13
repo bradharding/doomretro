@@ -232,7 +232,7 @@ void P_SetLiquids(void)
         }
 
         if (lastanim->numpics < 2)
-            I_Error("P_InitPicAnims: bad cycle from %s to %s",  animdefs[i].startname, animdefs[i].endname);
+            I_Error("P_InitPicAnims: bad cycle from %s to %s", animdefs[i].startname, animdefs[i].endname);
 
         lastanim->speed = LONG(animdefs[i].speed);
         lastanim++;
