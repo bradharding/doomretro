@@ -1614,6 +1614,8 @@ void G_DoSaveGame(void)
         remove(savegame_file);
         rename(temp_savegame_file, savegame_file);
 
+        C_Input("save %s", savegame_file);
+
         if (consoleactive)
             C_Output("<b>%s</b> saved.", savename);
         else

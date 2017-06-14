@@ -3681,8 +3681,8 @@ static void save_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    G_SaveGame(-1, "", M_StringJoin(savegamefolder, parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"),
-        NULL));
+    G_SaveGame(-1, "", M_StringJoin((M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms,
+        (M_StringEndsWith(parms, ".save") ? "" : ".save"), NULL));
 }
 
 //
