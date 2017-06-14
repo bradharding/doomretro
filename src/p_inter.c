@@ -1276,21 +1276,22 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         }
     }
 
-    if (!chex && !hacx)
+    if (target->flags & MF_COUNTKILL)
     {
-        if (target->flags & MF_COUNTKILL)
+        // count all monster deaths, even those caused by other monsters
+        player->killcount++;
+        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+
+        if (!chex && !hacx)
         {
-            // count all monster deaths, even those caused by other monsters
-            player->killcount++;
             player->mobjcount[type]++;
-            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
             P_UpdateKillStat(type, 1);
         }
-        else if (type == MT_BARREL)
-        {
-            player->mobjcount[type]++;
-            stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
-        }
+    }
+    else if (type == MT_BARREL && !chex && !hacx)
+    {
+        player->mobjcount[type]++;
+        stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
     }
 
     if (type == MT_BARREL && source)
