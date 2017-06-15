@@ -1633,9 +1633,18 @@ static void D_ProcessDehInWad(void)
     if (chexdeh || M_ParmExists("-nodeh"))
         return;
 
-    for (i = numlumps - 1; i >= 0; i--)
-        if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
-            ProcessDehFile(NULL, i);
+    if (hacx)
+    {
+        for (i = 0; i < numlumps; i++)
+            if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
+                ProcessDehFile(NULL, i);
+    }
+    else
+    {
+        for (i = numlumps - 1; i >= 0; i--)
+            if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
+                ProcessDehFile(NULL, i);
+    }
 }
 
 static void D_ParseStartupString(const char *string)
