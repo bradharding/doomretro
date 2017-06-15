@@ -1541,6 +1541,8 @@ void G_DoLoadGame(void)
 
     st_facecount = 0;
 
+    C_Input("load %s", savename);
+
     if (consoleactive)
     {
         C_Output("<b>%s</b> loaded.", savename);

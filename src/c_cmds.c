@@ -2218,7 +2218,8 @@ static void load_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    G_LoadGame(M_StringJoin(savegamefolder, parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"), NULL));
+    G_LoadGame(M_StringJoin((M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms,
+        (M_StringEndsWith(parms, ".save") ? "" : ".save"), NULL));
 }
 
 //
