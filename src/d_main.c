@@ -2096,8 +2096,6 @@ static void D_DoomMainSetup(void)
         if (*startup5)
             D_ParseStartupString(startup5);
     }
-
-    C_AddConsoleDivider();
 }
 
 //
