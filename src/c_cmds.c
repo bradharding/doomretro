@@ -399,6 +399,7 @@ static dboolean map_cmd_func1(char *, char *);
 static void map_cmd_func2(char *, char *);
 static void maplist_cmd_func2(char *, char *);
 static void mapstats_cmd_func2(char *, char *);
+static void newgame_cmd_func2(char *, char *);
 static void noclip_cmd_func2(char *, char *);
 static void nomonsters_cmd_func2(char *, char *);
 static void notarget_cmd_func2(char *, char *);
@@ -709,6 +710,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view bobs up and down when\nthey move."),
     CMD_CHEAT(mumu, 0),
+    CMD(newgame, "", null_func1, newgame_cmd_func2, 1, "",
+        "Starts a new game."),
     CMD(noclip, "", game_func1, noclip_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles no clipping mode."),
     CMD(nomonsters, "", null_func1, nomonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -2899,6 +2902,14 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         else if (musictype == MUSTYPE_MOD)
             C_TabbedOutput(tabs, "Music format\t<b>MOD</b>");
     }
+}
+
+//
+// newgame CCMD
+//
+static void newgame_cmd_func2(char *cmd, char *parms)
+{
+    G_DeferredInitNew((skill_t)(skilllevel - 1), (gamemission == commercial ? expansion : episode), 1);
 }
 
 //

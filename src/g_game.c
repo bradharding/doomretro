@@ -1780,5 +1780,7 @@ void G_InitNew(skill_t skill, int ep, int map)
     gamemap = map;
     gameskill = skill;
 
+    C_Input("newgame");
+
     G_DoLoadLevel();
 }
