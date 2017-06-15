@@ -1392,8 +1392,6 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
 //
 // clear CCMD
 //
-extern int  consolestrings;
-
 static void clear_cmd_func2(char *cmd, char *parms)
 {
     consolestrings = 0;
@@ -2910,6 +2908,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 //
 static void newgame_cmd_func2(char *cmd, char *parms)
 {
+    C_HideConsoleFast();
     G_DeferredInitNew((skill_t)(skilllevel - 1), (gamemission == commercial ? expansion : episode), 1);
 }
 

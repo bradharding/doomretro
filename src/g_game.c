@@ -1782,7 +1782,8 @@ void G_InitNew(skill_t skill, int ep, int map)
     gamemap = map;
     gameskill = skill;
 
-    C_Input("newgame");
+    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, "newgame"))
+        C_Input("newgame");
 
     G_DoLoadLevel();
 }

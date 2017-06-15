@@ -87,6 +87,8 @@ extern dboolean     consoleactive;
 extern int          consoleheight;
 extern int          consoledirection;
 
+extern int          consolestrings;
+
 extern char         consolecheat[255];
 extern char         consolecheatparm[3];
 extern char         consolecmdparm[255];
