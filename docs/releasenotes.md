@@ -35,6 +35,7 @@
 * If the `r_skycolor` CVAR is set to a color rather than `none`, that color will now be used to render the sky when the `r_textures` CVAR is `off`.
 * When exiting a map that has no monsters to kill and/or no items to pick up, the intermission screen will now show `100%` kills and/or items instead of `0%`.
 * Kills will now be shown correctly on the intermission screen when playing either [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) or [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
+* The `maplist` CCMD will now work correctly when playing [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The name of the map will now be displayed on the intermission screen before starting MAP31 in *DOOM II* and MAP09 in *DOOM II: No Rest For The Living*.
 * Monster corpses are now gibbed rather than just becoming a pool of blood splats when crushed by a lowering platform or door.
 * Monster corpses spawned at the start of a map as decorations can now be crushed by a lowering platform or door.
