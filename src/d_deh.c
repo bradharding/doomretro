@@ -1960,10 +1960,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     else                        // DEH file comes from lump indicated by second argument
     {
         if (!(infile.size = W_LumpLength(lumpnum)))
-        {
-            fclose(infile.f);
             return;
-        }
 
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum);
         filename = lumpinfo[lumpnum]->wadfile->path;
