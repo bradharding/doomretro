@@ -940,7 +940,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             if (message)
             {
-                if (ammo == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2)
+                if (ammo == clipammo[am_clip] || deh_strlookup[p_GOTCLIP].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTCLIP, false);
                 else
                     HU_PlayerMessage((ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2), false);
@@ -963,7 +963,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             if (message)
             {
-                if (ammo == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2)
+                if (ammo == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTROCKET, false);
                 else
                     HU_PlayerMessage(s_GOTROCKETX2, false);
@@ -986,7 +986,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             if (message)
             {
-                if (ammo == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2)
+                if (ammo == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTCELL, false);
                 else
                     HU_PlayerMessage(s_GOTCELLX2, false);
@@ -1009,7 +1009,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
             if (message)
             {
-                if (ammo == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2)
+                if (ammo == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTSHELLS, false);
                 else
                     HU_PlayerMessage(s_GOTSHELLSX2, false);
