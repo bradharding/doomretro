@@ -263,6 +263,15 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
     return false;
 }
 
+struct
+{
+    char    *spr1;
+    char    *spr2;
+} weaponsprites[] = {
+    { "PUNG", ""     }, { "PISG", "PISF" }, { "SHTG", "SHTF" }, { "CHGG", "CHGF" }, { "MISG", "MISF" },
+    { "PLSG", "PLSF" }, { "BFGG", "BFGF" }, { "SAWG", ""     }, { "SHT2", "SHT2" }, { "",     ""     }
+};
+
 static void AddSpriteLump(lumpinfo_t *lump)
 {
     sprite_frame_t  *sprite;
@@ -281,6 +290,16 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
         if (M_StringCompare(lump->name, "SHT2A0") && !BTSX)
             SHT2A0 = true;
+
+        i = 0;
+        
+        while (*weaponsprites[i].spr1)
+        {
+            if (M_StringStartsWith(lump->name, weaponsprites[i].spr1)
+                || (*weaponsprites[i].spr2 && M_StringStartsWith(lump->name, weaponsprites[i].spr2)))
+                weaponinfo[i].altered = true;
+            i++;
+        }
     }
 
     if (M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD)

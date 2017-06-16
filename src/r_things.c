@@ -942,7 +942,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 static dboolean muzzleflash;
 
-static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean dehacked)
+static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean altered)
 {
     fixed_t         tx;
     int             x1, x2;
@@ -956,7 +956,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
     int             lump = sprframe->lump[0];
 
     // calculate edges of the shape
-    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (dehacked ? spriteoffset[lump] : newspriteoffset[lump]);
+    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (altered ? spriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS;
     x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritexscale)) >> FRACBITS) - 1;
 
@@ -1033,7 +1033,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
         {
             if (spr == SPR_SHT2)
                 vis->colfunc = ((frame & FF_FRAMEMASK & FF_FULLBRIGHT) ? tlredwhitecolfunc1 : basecolfunc);
-            else if (muzzleflash && spr <= SPR_BFGF && (!dehacked || state->translucent))
+            else if (muzzleflash && spr <= SPR_BFGF && (!altered || state->translucent))
             {
                 void (*colfuncs[])(void) =
                 {
@@ -1091,7 +1091,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean de
 void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
-    dboolean    dehacked = weaponinfo[viewplayer->readyweapon].dehacked;
+    dboolean    altered = weaponinfo[viewplayer->readyweapon].altered;
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
 
@@ -1101,10 +1101,10 @@ void R_DrawPlayerSprites(void)
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251);
 
         if (weapon->state)
-            R_DrawPlayerSprite(weapon, true, dehacked);
+            R_DrawPlayerSprite(weapon, true, altered);
 
         if (flash->state)
-            R_DrawPlayerSprite(flash, true, dehacked);
+            R_DrawPlayerSprite(flash, true, altered);
 
         if (pausesprites)
             R_DrawPausedFuzzColumns();
@@ -1120,10 +1120,10 @@ void R_DrawPlayerSprites(void)
             muzzleflash = true;
 
         if (weapon->state)
-            R_DrawPlayerSprite(weapon, false, dehacked);
+            R_DrawPlayerSprite(weapon, false, altered);
 
         if (flash->state)
-            R_DrawPlayerSprite(flash, false, dehacked);
+            R_DrawPlayerSprite(flash, false, altered);
     }
 }
 

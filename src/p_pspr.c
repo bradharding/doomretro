@@ -116,7 +116,7 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
         }
 
         if (state->dehacked)
-            weaponinfo[player->readyweapon].dehacked = true;
+            weaponinfo[player->readyweapon].altered = true;
 
         // Call action routine.
         // Modified handling.
