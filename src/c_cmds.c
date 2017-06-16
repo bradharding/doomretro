@@ -2565,7 +2565,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 break;
 
             case doom2:
-                if (!M_StringCompare(wad, "nerve.wad") && ((!replaced || pwad || nerve) && (pwad || !BTSX))
+                if ((!M_StringCompare(wad, "nerve.wad") && ((!replaced || pwad || nerve) && (pwad || !BTSX)))
                     || hacx)
                 {
                     if (BTSX)
