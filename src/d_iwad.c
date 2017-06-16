@@ -502,6 +502,9 @@ static char *SaveGameIWADName(void)
     // Note that we match on gamemission rather than on IWAD name.
     // This ensures that doom1.wad and doom.wad saves are stored
     // in the same place.
+    if (hacx)
+        return "HACX";
+
     for (i = 0; i < arrlen(iwads); i++)
         if (gamemission == iwads[i].mission)
             return iwads[i].name;
@@ -531,7 +534,6 @@ void D_SetSaveGameFolder(void)
     else
     {
         M_MakeDirectory(appdatafolder);
-
         savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
     }
 
