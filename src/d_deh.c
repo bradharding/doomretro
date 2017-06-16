@@ -3245,7 +3245,7 @@ void deh_procText(DEHFILE *fpin, char *line)
     {
         usedlen = (fromlen < tolen ? fromlen : tolen);
 
-        if (fromlen != tolen)
+        if (fromlen != tolen && !hacx)
             C_Warning("Mismatched lengths from %i to %i. Using %i.", fromlen, tolen, usedlen);
 
         // Try sound effects entries - see sounds.c
@@ -3483,7 +3483,7 @@ dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
         }
     }
 
-    if (!found)
+    if (!found && !hacx)
         C_Warning("Couldn't find \"%s\".", (key ? key : lookfor));
 
     return found;
