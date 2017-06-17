@@ -1477,6 +1477,8 @@ sectorfix_t sectorfix[] =
     { pack_tnt,         1,   3,    260, "",        "CEIL3_3",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
     { pack_tnt,         1,   3,    329, "",        "CEIL3_3",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
 
+    { pack_tnt,         1,  15,    330, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                11 },
+
     { -1,               0,   0,      0, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
 };
 
