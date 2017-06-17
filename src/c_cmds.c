@@ -2261,7 +2261,8 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
         }
-        else if ((M_StringCompare(map, "PREVIOUS") || M_StringCompare(map, "PREV")) && gamestate == GS_LEVEL)
+        else if ((M_StringCompare(map, "PREVIOUS") || M_StringCompare(map, "PREV"))
+            && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
             {
@@ -2294,7 +2295,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
-        else if (M_StringCompare(map, "NEXT") && gamestate == GS_LEVEL)
+        else if (M_StringCompare(map, "NEXT") && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
             {
