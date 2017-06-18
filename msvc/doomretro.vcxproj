@@ -133,6 +133,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <BrowseInformation>true</BrowseInformation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
