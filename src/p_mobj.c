@@ -190,7 +190,7 @@ void P_XYMovement(mobj_t *mo)
             // the skull slammed into something
             mo->flags &= ~MF_SKULLFLY;
             mo->momz = 0;
-            P_SetMobjState(mo, mo->info->seestate);
+            P_SetMobjState(mo, mo->info->spawnstate);
         }
 
         return;
