@@ -456,7 +456,6 @@ static int C_TextWidth(char *text, dboolean formatting, dboolean kerning)
         unsigned char   letter = text[i];
         int             c = letter - CONSOLEFONTSTART;
         unsigned char   nextletter = text[i + 1];
-        int             j = 0;
 
         if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i')
             && text[i + 2] == '>' && formatting)
@@ -493,6 +492,9 @@ static int C_TextWidth(char *text, dboolean formatting, dboolean kerning)
             w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? 0 : consolefont[c]->width);
 
         if (kerning)
+        {
+            int j = 0;
+
             while (kern[j].char1)
             {
                 if (prevletter == kern[j].char1 && letter == kern[j].char2)
@@ -503,6 +505,7 @@ static int C_TextWidth(char *text, dboolean formatting, dboolean kerning)
 
                 j++;
             }
+        }
 
         prevletter = letter;
     }

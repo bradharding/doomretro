@@ -3576,7 +3576,7 @@ void M_Drawer(void)
             patch_t *patch = W_CacheLumpName("M_DOOM");
 
             if (SHORT(patch->height) >= ORIGINALHEIGHT)
-                y -= 17;
+                y -= OFFSET;
         }
 
         if (M_SKULL1)
