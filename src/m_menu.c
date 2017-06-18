@@ -3571,6 +3571,14 @@ void M_Drawer(void)
         if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
             itemOn++;
 
+        if (currentMenu == &MainDef)
+        {
+            patch_t *patch = W_CacheLumpName("M_DOOM");
+
+            if (SHORT(patch->height) >= ORIGINALHEIGHT)
+                y -= 17;
+        }
+
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, y, patch);
         else
