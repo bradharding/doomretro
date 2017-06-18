@@ -25,6 +25,7 @@
 * The console’s background is now always translucent.
 * Further improvements have been made to the support of `DEHACKED` lumps.
 * The ability to have the player’s weapon recoil when fired can now be enabled using the new `weaponrecoil` CVAR. (Mouselook also needs to be enabled using the `mouselook` CVAR.)
+* The [wallrunning](https://doomwiki.org/wiki/Wallrunning) exploit present in *Vanilla DOOM* is now fixed.
 * The number of sound effects that can be played at the same time is now specified using the new `s_channels` CVAR. It can be between `8` and `256`, and is `32` by default.
 * The skull in the menu is no longer positioned incorrectly when certain PWADs with custom menu lumps are loaded.
 * Minor changes have been made to text that is output to the console.
