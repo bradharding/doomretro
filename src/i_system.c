@@ -217,6 +217,8 @@ void I_Quit(dboolean shutdown)
 
         M_SaveCVARs();
 
+        M_Shutdown();
+
         I_ShutdownGraphics();
 
         I_ShutdownKeyboard();

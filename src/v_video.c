@@ -1413,7 +1413,8 @@ void GetPixelSize(dboolean reset)
 {
     int     width = -1;
     int     height = -1;
-    char    *left = strtok(strdup(r_lowpixelsize), "x");
+    char    *p_lowpixelsize = strdup(r_lowpixelsize);
+    char    *left = strtok(p_lowpixelsize, "x");
     char    *right = strtok(NULL, "x");
 
     if (!right)
@@ -1436,6 +1437,8 @@ void GetPixelSize(dboolean reset)
 
         M_SaveCVARs();
     }
+
+    free(p_lowpixelsize);
 }
 
 void V_LowGraphicDetail(void)

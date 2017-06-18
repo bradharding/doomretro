@@ -1351,8 +1351,6 @@ static int D_OpenWADLauncher(void)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, iwadpass2);
 
 #elif defined(__MACOSX__)
-            char    *szFile;
-
             for (NSURL* url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
