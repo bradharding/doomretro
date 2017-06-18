@@ -60,7 +60,7 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
     {
         consolecheat[0] = '\0';
 
-        if (consolecheatparm[0] != '\0')
+        if (*consolecheatparm)
         {
             cht->parameter_buf[0] = consolecheatparm[0];
             cht->parameter_buf[1] = consolecheatparm[1];

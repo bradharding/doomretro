@@ -155,6 +155,7 @@ char *M_ExtractFolder(char *path)
     M_StringCopy(folder, path, MAX_PATH);
 
     pos = strrchr(folder, DIR_SEPARATOR);
+
     if (pos)
         *pos = '\0';
 
@@ -164,16 +165,19 @@ char *M_ExtractFolder(char *path)
 static char *M_StaticAppData(void)
 {
     static char *appdata = NULL;
+
     return appdata;
 }
 
 static char *M_StaticResourceFolder(void)
 {
     static char *resourceFolder = NULL;
-    char *executableFolder = M_GetExecutableFolder();
-    if (resourceFolder == NULL)
-        resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."
-			DIR_SEPARATOR_S"share"DIR_SEPARATOR_S"doomretro", NULL);
+    char        *executableFolder = M_GetExecutableFolder();
+
+    if (!resourceFolder)
+        resourceFolder = M_StringJoin(executableFolder, DIR_SEPARATOR_S".."DIR_SEPARATOR_S"share"
+            DIR_SEPARATOR_S"doomretro", NULL);
+
     return resourceFolder;
 }
 
@@ -190,7 +194,7 @@ void M_FreeResourceFolder(void)
 char *M_GetAppDataFolder(void)
 {
     char    *executableFolder = M_GetExecutableFolder();
-    char *appdata = M_StaticAppData();
+    char    *appdata = M_StaticAppData();
 
 #if defined(_WIN32)
 
@@ -198,13 +202,13 @@ char *M_GetAppDataFolder(void)
     // On Windows, store generated application files in <username>\DOOM Retro.
     TCHAR   buffer[MAX_PATH];
 
-    if (path = NULL && SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
+    if (!appdata && SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
     {
-        path = M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
-        return path;
-    } else {
-        return executableFolder;
+        appdata = M_StringJoin(buffer, DIR_SEPARATOR_S, PACKAGE_NAME, NULL);
+        return appdata;
     }
+    else
+        return executableFolder;
 #else
     return executableFolder;
 #endif
@@ -212,8 +216,8 @@ char *M_GetAppDataFolder(void)
 #else
     // On Linux and OS X, if ../share/doomretro doesn't exist then we're dealing with
     // a portable installation, and we write doomretro.cfg to the executable directory.
-    char        *resourceFolder = M_StaticResourceFolder();
-    DIR         *resourceDir = opendir(resourceFolder);
+    char    *resourceFolder = M_StaticResourceFolder();
+    DIR     *resourceDir = opendir(resourceFolder);
 
     if (resourceDir)
     {
@@ -226,7 +230,7 @@ char *M_GetAppDataFolder(void)
                             inDomains: NSUserDomainMask].firstObject;
         NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent: @PACKAGE_NAME];
 
-        if (appdata == NULL)
+        if (!appdata)
             appdata = strdup(appSupportURL.fileSystemRepresentation);
         return appdata;
 #else
@@ -248,9 +252,11 @@ char *M_GetAppDataFolder(void)
 #if defined(__MACOSX__)
 static char *M_StaticResourceUrl(void)
 {
-    char *resourceURL = NULL;
-    if (resourceURL == NULL)
+    static char *resourceURL = NULL;
+
+    if (!resourceURL)
        resourceURL = strdup([NSBundle mainBundle].resourceURL.fileSystemRepresentation);
+
     return resourceURL;
 }
 #endif
@@ -296,8 +302,10 @@ char *M_GetResourceFolder(void)
 static char *M_StaticPath(void)
 {
     static char *path = NULL;
-    if (path == NULL)
+
+    if (!path)
         path = malloc(MAX_PATH);
+
     return path;
 }
 
@@ -316,12 +324,11 @@ void M_Shutdown(void)
 
 char *M_GetExecutableFolder(void)
 {
-    static int pathset = 0;
+    static dboolean pathset = false;
 #if defined(_WIN32)
-    char    *pos;
-    char    *folder = M_StaticPath();
-    
-    TCHAR   buffer[MAX_PATH];
+    char            *pos;
+    char            *folder = M_StaticPath();
+    TCHAR           buffer[MAX_PATH];
 
     if (!folder)
         return NULL;
@@ -335,42 +342,43 @@ char *M_GetExecutableFolder(void)
 
         if (pos)
             *pos = '\0';
-	pathset = 1;
+
+        pathset = true;
     }
 
     return folder;
 #elif defined(__linux__)
-    char    *exe = M_StaticPath();
-    static ssize_t len = -1;
+    char            *exe = M_StaticPath();
+    static ssize_t  len = -1;
 
     if (!pathset)
     {
         len = readlink("/proc/self/exe", exe, MAX_PATH - 1);
-	pathset = 1;
-	if (len != -1)
-	{
-           exe[len] = '\0';
-	   exe = dirname(exe);
-	}
-	else
-	{
-           exe = ".";
-	}
+        pathset = true;
+
+        if (len != -1)
+        {
+            exe[len] = '\0';
+            exe = dirname(exe);
+        }
+        else
+            exe = ".";
     }
 
     return exe;
 #elif defined(__MACOSX__)
-    char    *exe = M_StaticPath();
-    static int getpath = -1;
-    uint32_t len = MAX_PATH;
+    char        *exe = M_StaticPath();
+    static int  getpath = -1;
+    uint32_t    len = MAX_PATH;
 
     if (!pathset)
     {
-        getpath = _NSGetExecutablePath(exe, &len) == 0;
-        pathset = 1;
-	if (getpath)
+        getpath = (_NSGetExecutablePath(exe, &len) == 0);
+        pathset = true;
+
+        if (getpath)
             exe = dirname(exe);
-	else
+        else
             exe = ".";
     }
 

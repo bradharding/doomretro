@@ -388,8 +388,8 @@ void R_InitTextures(void)
     {
         int game = fullbright[i].game;
 
-        if (fullbright[i].texture[0] != '\0' && (game == DOOM1AND2 || (gamemission == doom && game == DOOM1ONLY)
-            || (gamemission != doom && game == DOOM2ONLY)))
+        if (fullbright[i].texture[0] != '\0' && (game == DOOM1AND2
+            || (gamemission == doom && game == DOOM1ONLY) || (gamemission != doom && game == DOOM2ONLY)))
         {
             int num = R_CheckTextureNumForName(fullbright[i].texture);
 
