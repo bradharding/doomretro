@@ -123,7 +123,7 @@ dboolean            software;
 static int          displayindex;
 static int          am_displayindex;
 static int          numdisplays;
-static SDL_Rect     *displays;
+static SDL_Rect     *displays = NULL;
 
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
@@ -371,6 +371,9 @@ static void FreeSurfaces(void)
 
     if (mapwindow)
         I_DestroyExternalAutomap();
+
+    if (displays != NULL)
+        Z_Free(displays);
 }
 
 void I_ShutdownGraphics(void)
@@ -1093,7 +1096,8 @@ void GetWindowSize(void)
 {
     int     width = -1;
     int     height = -1;
-    char    *left = strtok(strdup(vid_windowsize), "x");
+    char    *pvid_windowsize = strdup(vid_windowsize);
+    char    *left = strtok(pvid_windowsize, "x");
     char    *right = strtok(NULL, "x");
 
     if (!right)
@@ -1101,6 +1105,7 @@ void GetWindowSize(void)
 
     sscanf(left, "%10i", &width);
     sscanf(right, "%10i", &height);
+    free(pvid_windowsize);
 
     if (width < ORIGINALWIDTH + windowborderwidth || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
     {
@@ -1148,7 +1153,8 @@ void GetScreenResolution(void)
     {
         int     width = -1;
         int     height = -1;
-        char    *left = strtok(strdup(vid_screenresolution), "x");
+        char    *pvid_screenresolution = strdup(vid_screenresolution);
+        char    *left = strtok(pvid_screenresolution, "x");
         char    *right = strtok(NULL, "x");
 
         if (!right)
@@ -1156,6 +1162,7 @@ void GetScreenResolution(void)
 
         sscanf(left, "%10i", &width);
         sscanf(right, "%10i", &height);
+        free(pvid_screenresolution);
 
         if (width >= 0 && height >= 0 && ValidScreenMode(width, height))
         {
