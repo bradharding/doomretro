@@ -2029,8 +2029,7 @@ static void P_CalcSegsLength(void)
         // [crispy] re-calculate angle used for rendering
         li->angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
 
-        li->fakecontrast = (curline->v1->y == curline->v2->y ? -LIGHTBRIGHT :
-            (curline->v1->x == curline->v2->x ? LIGHTBRIGHT : 0));
+        li->fakecontrast = (!dy ? -LIGHTBRIGHT : (!dx ? LIGHTBRIGHT : 0));
     }
 }
 
