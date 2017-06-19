@@ -766,6 +766,8 @@ typedef struct
     // backsector is NULL for one sided lines
     sector_t            *frontsector;
     sector_t            *backsector;
+
+    int                 fakecontrast;
 } seg_t;
 
 //

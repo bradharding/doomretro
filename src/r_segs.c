@@ -236,16 +236,10 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
     }
 }
 
-lighttable_t **GetLightTable(int lightlevel)
+static lighttable_t **GetLightTable(int lightlevel)
 {
-    int lightnum = (lightlevel >> LIGHTSEGSHIFT) + extralight;
-
-    if (curline->v1->y == curline->v2->y)
-        lightnum -= LIGHTBRIGHT;
-    else if (curline->v1->x == curline->v2->x)
-        lightnum += LIGHTBRIGHT;
-
-    return scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
+    return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast,
+        LIGHTLEVELS - 1)];
 }
 
 //
