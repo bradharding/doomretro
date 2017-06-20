@@ -1143,7 +1143,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index)
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] Spawn blood splats around corpses
-    if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL)) && mobj->blood && !chex && r_bloodsplats_max)
+    if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL)) && mobj->blood && !chex
+        && (!hacx || !(mobj->flags2 & MF2_DECORATION)) && r_bloodsplats_max)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
