@@ -71,7 +71,7 @@ void R_ClearDrawSegs(void)
 // Clips the given range of columns
 // and includes it in the new clip list.
 //
-typedef struct
+typedef struct cliprange_s
 {
     int first;
     int last;
@@ -164,7 +164,6 @@ static void R_ClipSolidWallSegment(int first, int last)
 
     // Remove start + 1 to next from the clip list,
     // because start now covers their area.
-
 crunch:
     if (next == start)
         return;                 // Post just extended past the bottom of one post.
@@ -239,7 +238,7 @@ void R_ClearClipSegs(void)
 //
 // It assumes that DOOM has already ruled out a door being closed because
 // of front-back closure (e.g. front floor is taller than back ceiling).
-dboolean R_DoorClosed(void)
+static dboolean R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
@@ -256,7 +255,7 @@ dboolean R_DoorClosed(void)
 }
 
 // [AM] Interpolate the passed sector, if prudent.
-void R_MaybeInterpolateSector(sector_t *sector)
+static void R_MaybeInterpolateSector(sector_t *sector)
 {
     if (vid_capfps != TICRATE
         // Only if we moved the sector last tic.
@@ -399,14 +398,11 @@ static void R_AddLine(seg_t *line)
 {
     int             x1;
     int             x2;
-    angle_t         angle1;
-    angle_t         angle2;
+    angle_t         angle1 = R_PointToAngleEx(line->v1->x, line->v1->y);
+    angle_t         angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
     static sector_t tempsec;        // killough 3/8/98: ceiling/water hack
 
     curline = line;
-
-    angle1 = R_PointToAngleEx(line->v1->x, line->v1->y);
-    angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
 
     // Back side? I.e. backface culling?
     if (angle1 - angle2 >= ANG180)
@@ -600,8 +596,6 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 
     if (sx2 < viewwidth - 1)
         sx2++;
-
-    // SoM: Removed the "does not cross a pixel" test
 
     start = solidsegs;
 

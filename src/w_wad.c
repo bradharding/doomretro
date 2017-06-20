@@ -152,14 +152,13 @@ char *GetCorrectCase(char *path)
 wadfile_t *W_AddFile(char *filename, dboolean automatic)
 {
     static dboolean packagewadadded;
-
-    wadinfo_t   header;
-    lumpindex_t i;
-    int         length;
-    int         startlump;
-    filelump_t  *fileinfo;
-    filelump_t  *filerover;
-    lumpinfo_t  *filelumps;
+    wadinfo_t       header;
+    lumpindex_t     i;
+    int             length;
+    int             startlump;
+    filelump_t      *fileinfo;
+    filelump_t      *filerover;
+    lumpinfo_t      *filelumps;
 
     // open the file and add to directory
     wadfile_t   *wadfile = W_OpenFile(filename);

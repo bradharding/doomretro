@@ -328,13 +328,7 @@ static void R_InitPointToAngle(void)
 
     // slope (tangent) to angle lookup
     for (i = 0; i <= SLOPERANGE; i++)
-    {
-        double  f = atan((double)i / SLOPERANGE) / (M_PI * 2);
-        long    t = (long)(0xFFFFFFFF * f);
-
-        // this used to have PI (as defined above) written out longhand
-        tantoangle[i] = t;
-    }
+        tantoangle[i] = (long)(0xFFFFFFFF * atan((double)i / SLOPERANGE) / (M_PI * 2));
 }
 
 //

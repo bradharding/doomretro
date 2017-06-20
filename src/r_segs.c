@@ -157,20 +157,20 @@ static int  heightbits = 12;
 static int  heightunit = (1 << 12);
 static int  invhgtbits = 4;
 
-typedef struct
+typedef struct scalevalues_s
 {
     int clamp;
     int heightbits;
-} scale_values_t;
+} scalevalues_t;
 
-static const scale_values_t scale_values[9] =
+static const scalevalues_t scale_values[9] =
 {
     { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
     {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
     {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
 };
 
-void R_FixWiggle(sector_t *sector)
+static void R_FixWiggle(sector_t *sector)
 {
     static int  lastheight;
 
@@ -180,7 +180,7 @@ void R_FixWiggle(sector_t *sector)
     // early out?
     if (height != lastheight)
     {
-        const scale_values_t    *svp;
+        const scalevalues_t *svp;
 
         lastheight = height;
 
@@ -333,7 +333,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 // Can draw or mark the starting pixel of floor and ceiling textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
-void R_RenderSegLoop(void)
+static void R_RenderSegLoop(void)
 {
     fixed_t texturecolumn = 0;
 
