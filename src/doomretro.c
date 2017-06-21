@@ -41,6 +41,7 @@
 #include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_midirpc.h"
+#include "i_system.h"
 #include "m_argv.h"
 #include "m_controls.h"
 #include "version.h"
@@ -53,6 +54,7 @@ int windowborderheight;
 #include "SDL_syswm.h"
 
 #include <Windows.h>
+#include <ShellAPI.h>
 
 #if !defined(SM_CXPADDEDBORDER)
 #define SM_CXPADDEDBORDER   92
@@ -212,9 +214,34 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
 
 LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 {
+    char *msg = PACKAGE_NAME" has crashed.";
+
+    const SDL_MessageBoxButtonData buttons[] =
+    {
+        { 0, 0, "&Report" },
+        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "&OK" }
+    };
+
+    const SDL_MessageBoxData messageboxdata =
+    {
+        SDL_MESSAGEBOX_INFORMATION,
+        NULL,
+        PACKAGE_NAME,
+        msg,
+        SDL_arraysize(buttons),
+        buttons,
+        NULL
+    };
+
+    int buttonid;
+
     I_MidiRPCClientShutDown();
 
-    return EXCEPTION_CONTINUE_SEARCH;
+    if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
+        if (buttons[buttonid].buttonid == 0)
+            ShellExecute(GetActiveWindow(), "open", PACKAGE_REPORT_URL, NULL, NULL, SW_SHOWNORMAL);
+
+    I_Quit(false);
 }
 
 void I_InitWindows32(void)
