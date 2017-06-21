@@ -86,14 +86,6 @@ typedef struct
 //
 // With some munging we can find where DOOM was installed.
 
-// [AlexMax] From the perspective of a 64-bit executable, 32-bit registry
-// keys are located in a different spot.
-#if _WIN64
-#define SOFTWARE_KEY        "Software\\Wow6432Node"
-#else
-#define SOFTWARE_KEY        "Software"
-#endif
-
 static registry_value_t uninstall_values[] =
 {
     // Ultimate DOOM, CD version (Depths of DOOM trilogy)
@@ -132,28 +124,28 @@ static registry_value_t root_path_keys[] =
     // DOOM Collector's Edition
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\Activision\\DOOM Collector's Edition\\v1.0",
+        "Software\\Activision\\DOOM Collector's Edition\\v1.0",
         "INSTALLPATH",
     },
 
     // Ultimate DOOM
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\GOG.com\\Games\\1435827232",
+        "Software\\GOG.com\\Games\\1435827232",
         "PATH",
     },
 
     // DOOM II
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\GOG.com\\Games\\1435848814",
+        "Software\\GOG.com\\Games\\1435848814",
         "PATH",
     },
 
     // Final DOOM
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\GOG.com\\Games\\1435848742",
+        "Software\\GOG.com\\Games\\1435848742",
         "PATH",
     },
 };

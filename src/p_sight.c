@@ -217,12 +217,12 @@ static dboolean P_CrossBSPNode(int bspnum)
 
         if (side1 == side2)
             bspnum = bsp->children[side1];              // doesn't touch the other side
-        else                                            // the partition plane is crossed here
-            if (!P_CrossBSPNode(bsp->children[side1]))
-                return false;                           // cross the starting side
-            else
-                bspnum = bsp->children[side1 ^ 1];      // cross the ending side
+        else if (!P_CrossBSPNode(bsp->children[side1])) // the partition plane is crossed here
+            return false;                               // cross the starting side
+        else
+            bspnum = bsp->children[side1 ^ 1];          // cross the ending side
     }
+
     return P_CrossSubsector(bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR));
 }
 

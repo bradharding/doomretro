@@ -123,7 +123,7 @@ dboolean            software;
 static int          displayindex;
 static int          am_displayindex;
 static int          numdisplays;
-static SDL_Rect     *displays = NULL;
+static SDL_Rect     displays[MAXDISPLAYS];
 
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
@@ -371,9 +371,6 @@ static void FreeSurfaces(void)
 
     if (mapwindow)
         I_DestroyExternalAutomap();
-
-    if (displays)
-        Z_Free(displays);
 }
 
 void I_ShutdownGraphics(void)
@@ -1825,7 +1822,6 @@ void I_InitGraphics(void)
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
         I_SDLError("SDL_InitSubSystem");
 
-    displays = Z_Malloc(MAXDISPLAYS, PU_STATIC, NULL);
     GetDisplays();
 
 #if defined(_DEBUG)
