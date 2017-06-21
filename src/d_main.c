@@ -702,13 +702,35 @@ static dboolean D_IsDOOMIWAD(char *filename)
     return result;
 }
 
+static struct
+{
+    char    *iwad;
+    char    *title;
+} unsupported[] = {
+    { "HERETIC1.WAD", "Heretic" },
+    { "HERETIC.WAD",  "Heretic" },
+    { "HEXEN.WAD",    "Hexen"   },
+    { "HEXDD.WAD",    "Hexen"   },
+    { "STRIFE0.WAD",  "Strife"  },
+    { "STRIFE1.WAD",  "Strife"  }
+};
+
 static dboolean D_IsUnsupportedIWAD(char *filename)
 {
+    int         i;
     const char  *leaf = leafname(filename);
 
-    return (M_StringCompare(leaf, "HERETIC1.WAD") || M_StringCompare(leaf, "HERETIC.WAD")
-        || M_StringCompare(leaf, "HEXEN.WAD") || M_StringCompare(leaf, "HEXDD.WAD")
-        || M_StringCompare(leaf, "STRIFE0.WAD") || M_StringCompare(leaf, "STRIFE1.WAD"));
+    for (i = 0; i < arrlen(unsupported); i++)
+        if (M_StringCompare(leaf, unsupported[i].iwad))
+        {
+            static char buffer[1024];
+
+            M_snprintf(buffer, 1024, PACKAGE_NAME" does not support %s.", unsupported[i].title);
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
+            return true;
+        }
+
+    return false;
 }
 
 static dboolean D_IsCfgFile(char *filename)
