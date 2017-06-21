@@ -1794,7 +1794,7 @@ static void D_DoomMainSetup(void)
         C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run %s times.", commify(SafeAdd(stat_runs, 1)));
 
     if (!M_FileExists(packagewad))
-        I_Error("%s can't be found.\nPlease reinstall "PACKAGE_NAME".", packagewad);
+        I_Error("%s can't be found.", packagewad);
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
 
@@ -1817,10 +1817,14 @@ static void D_DoomMainSetup(void)
             {
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
-#if defined(_WIN32)
                 else if (!choseniwad)
+                {
+#if defined(_WIN32)
                     PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME,
+                        PACKAGE_NAME" couldn't find any IWADs.", NULL);
+                }
             }
             while (!choseniwad);
 #endif
@@ -1852,13 +1856,12 @@ static void D_DoomMainSetup(void)
     while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
-        I_Error("Game mode indeterminate. No IWAD file was found. Try\nspecifying one with the -IWAD "
-            "command-line parameter.");
+        I_Error(PACKAGE_NAME" couldn't find any IWADs.");
 
     W_Init();
 
     if (!CheckPackageWADVersion())
-        I_Error("%s is the wrong version.\nPlease reinstall "PACKAGE_NAME".", packagewad);
+        I_Error("%s is the wrong version.", packagewad);
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
@@ -1907,7 +1910,7 @@ static void D_DoomMainSetup(void)
     if (modifiedgame)
     {
         if (gamemode == shareware)
-            I_Error("You cannot use -FILE with the shareware version.\nPlease purchase the full version.");
+            I_Error("You cannot load PWADs with DOOM1.WAD.");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
