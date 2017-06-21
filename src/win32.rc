@@ -62,7 +62,7 @@ BEGIN
             VALUE "FileVersion",     PACKAGE_VERSIONSTRING
             VALUE "FileDescription", PACKAGE_NAME
             VALUE "InternalName",    PACKAGE
-            VALUE "CompanyName",     PACKAGE_EMAIL
+            VALUE "CompanyName",     PACKAGE_AUTHOR
             VALUE "LegalCopyright",  PACKAGE_COPYRIGHT
             VALUE "ProductName",     PACKAGE_NAME
             VALUE "ProductVersion",  PACKAGE_VERSIONSTRING
