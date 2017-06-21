@@ -373,7 +373,7 @@ static void FreeSurfaces(void)
         I_DestroyExternalAutomap();
 
     if (displays)
-        free(displays);
+        Z_Free(displays);
 }
 
 void I_ShutdownGraphics(void)
