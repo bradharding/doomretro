@@ -2010,6 +2010,7 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
             while (v != segs[i].v2 && (v = segs[i].v2));
         }
     }
+
     free(hit);
 }
 

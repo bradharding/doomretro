@@ -326,7 +326,6 @@ char *M_GetExecutableFolder(void)
 {
     static dboolean pathset = false;
 #if defined(_WIN32)
-    char            *pos;
     char            *folder = M_StaticPath();
     TCHAR           buffer[MAX_PATH];
 
@@ -335,6 +334,8 @@ char *M_GetExecutableFolder(void)
 
     if (!pathset)
     {
+        char    *pos;
+
         GetModuleFileName(NULL, buffer, MAX_PATH);
         M_StringCopy(folder, buffer, MAX_PATH);
 

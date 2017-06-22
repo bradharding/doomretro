@@ -75,7 +75,7 @@ int SIGN(int a)
 
 fixed_t FixedMul(fixed_t a, fixed_t b)
 {
-    return (((int64_t)a * (int64_t)b) >> FRACBITS);
+    return (((int64_t)a * b) >> FRACBITS);
 }
 
 fixed_t FixedDiv(fixed_t a, fixed_t b)

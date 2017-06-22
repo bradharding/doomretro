@@ -191,8 +191,8 @@ int SlopeDiv(unsigned int num, unsigned int den)
     if (den < 512)
         return SLOPERANGE;
 
-    ans = (int)((uint64_t)num << 3) / (den >> 8);
-    return (ans <= SLOPERANGE ? ans : SLOPERANGE);
+    ans = ((uint64_t)num << 3) / (den >> 8);
+    return (int)(ans <= SLOPERANGE ? ans : SLOPERANGE);
 }
 
 //
