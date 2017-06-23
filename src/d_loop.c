@@ -44,12 +44,6 @@
 #include "i_system.h"
 #include "i_timer.h"
 
-// Maximum time that we wait in TryRunTics() for netgame data to be
-// received before we bail out and render a frame anyway.
-// Vanilla DOOM used 20 for this value, but we use a smaller value
-// instead for better responsiveness of the menu when we're stuck.
-#define MAX_NETGAME_STALL_TICS  5
-
 //
 // NETWORKING
 //
@@ -136,18 +130,13 @@ extern dboolean advancetitle;
 void TryRunTics(void)
 {
     // get real tics
-    int entertic;
     int counts;
 
     // get available tics
     NetUpdate();
 
-    counts = maketic - gametic;
-
-    if (!counts && vid_capfps != TICRATE)
+    if (!(counts = maketic - gametic) && vid_capfps != TICRATE)
         return;
-
-    entertic = I_GetTime();
 
     if (counts < 1)
         counts = 1;
@@ -159,15 +148,7 @@ void TryRunTics(void)
 
         // Still no tics to run? Sleep until some are available.
         if (maketic < gametic + counts)
-        {
-            // If we're in a netgame, we might spin forever waiting for
-            // new network data to be received. So don't stay in here
-            // forever - give the menu a chance to work.
-            if (I_GetTime() - entertic >= MAX_NETGAME_STALL_TICS)
-                return;
-
             I_Sleep(1);
-        }
     }
 
     // run the count tics
