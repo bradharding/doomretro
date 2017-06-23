@@ -45,7 +45,7 @@ am_cdwallcolor 160
 am_crosshaircolor 4
 am_external off
 am_fdwallcolor 64
-am_gridcolor 5
+am_gridcolor 7
 am_gridsize 128x128
 am_markcolor 95
 am_path off
