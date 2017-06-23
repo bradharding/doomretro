@@ -178,12 +178,9 @@ static int      consolecolors[STRINGTYPES];
 
 extern int      fps;
 extern int      refreshrate;
-extern dboolean r_althud;
-extern dboolean vanilla;
-extern dboolean togglingvanilla;
-extern dboolean message_external;
-extern dboolean message_dontfuckwithme;
 extern dboolean r_hud_translucency;
+extern dboolean togglingvanilla;
+extern dboolean wipe;
 
 void G_ToggleAlwaysRun(evtype_t type);
 

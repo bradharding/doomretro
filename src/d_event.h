@@ -46,7 +46,7 @@
 //
 
 // Input event types.
-typedef enum
+typedef enum evtype_e
 {
     ev_keydown,
     ev_keyup,
@@ -56,7 +56,7 @@ typedef enum
 } evtype_t;
 
 // Event structure.
-typedef struct
+typedef struct event_e
 {
     evtype_t    type;
     int         data1;          // keys / mouse buttons
@@ -64,7 +64,7 @@ typedef struct
     int         data3;          // mouse y move
 } event_t;
 
-typedef enum
+typedef enum gameaction_e
 {
     ga_nothing,
     ga_loadlevel,

@@ -69,9 +69,9 @@
 #if defined(__GNUC__)
 
 #if defined(__clang__)
-#define PACKEDATTR      __attribute__((packed))
+#define PACKEDATTR  __attribute__((packed))
 #else
-#define PACKEDATTR      __attribute__((packed,gcc_struct))
+#define PACKEDATTR  __attribute__((packed,gcc_struct))
 #endif
 
 #else
@@ -84,7 +84,7 @@
 
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependent animations etc.
-typedef enum
+typedef enum GameMode_e
 {
     shareware,          // DOOM 1 shareware, E1, M9
     registered,         // DOOM 1 registered, E3, M27
@@ -94,7 +94,7 @@ typedef enum
 } GameMode_t;
 
 // Mission packs - might be useful for TC stuff?
-typedef enum
+typedef enum GameMission_e
 {
     doom,               // DOOM 1
     doom2,              // DOOM 2
@@ -105,7 +105,7 @@ typedef enum
 } GameMission_t;
 
 // What version are we emulating?
-typedef enum
+typedef enum GameVersion_e
 {
     exe_doom_1_9,       // DOOM 1.9: used for shareware, registered and commercial
     exe_ultimate,       // Ultimate DOOM (retail)
@@ -113,27 +113,27 @@ typedef enum
 } GameVersion_t;
 
 // Screen width and height.
-#define ORIGINALWIDTH           320
-#define ORIGINALHEIGHT          200
+#define ORIGINALWIDTH       320
+#define ORIGINALHEIGHT      200
 
-#define ORIGINALSBARHEIGHT      32
+#define ORIGINALSBARHEIGHT  32
 
-#define SCREENSCALE             2
+#define SCREENSCALE         2
 
-#define SCREENWIDTH             (ORIGINALWIDTH * SCREENSCALE)
-#define SCREENHEIGHT            (ORIGINALHEIGHT * SCREENSCALE)
+#define SCREENWIDTH         (ORIGINALWIDTH * SCREENSCALE)
+#define SCREENHEIGHT        (ORIGINALHEIGHT * SCREENSCALE)
 
-#define SBARHEIGHT              (ORIGINALSBARHEIGHT * SCREENSCALE)
+#define SBARHEIGHT          (ORIGINALSBARHEIGHT * SCREENSCALE)
 
-#define MAXPLAYERS              1
+#define MAXPLAYERS          1
 
 // State updates, number of tics / second.
-#define TICRATE                 35
+#define TICRATE             35
 
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
 // the game final animation, or title screen.
-typedef enum
+typedef enum gamestate_e
 {
     GS_NONE = -1,
     GS_LEVEL,
@@ -147,16 +147,16 @@ typedef enum
 //
 
 // Skill flags.
-#define MTF_EASY                1
-#define MTF_NORMAL              2
-#define MTF_HARD                4
+#define MTF_EASY    1
+#define MTF_NORMAL  2
+#define MTF_HARD    4
 
 // Deaf monsters/do not react to sound.
-#define MTF_AMBUSH              8
+#define MTF_AMBUSH  8
 
-#define MTF_NETGAME             16
+#define MTF_NETGAME 16
 
-typedef enum
+typedef enum skill_e
 {
     sk_baby,
     sk_easy,
@@ -168,7 +168,7 @@ typedef enum
 //
 // Key cards.
 //
-typedef enum
+typedef enum card_e
 {
     it_bluecard,
     it_yellowcard,
@@ -182,7 +182,7 @@ typedef enum
 // The defined weapons,
 //  including a marker indicating
 //  user has not changed weapon.
-typedef enum
+typedef enum weapontype_e
 {
     wp_fist,
     wp_pistol,
@@ -200,7 +200,7 @@ typedef enum
 } weapontype_t;
 
 // Ammunition types defined.
-typedef enum
+typedef enum ammotype_e
 {
     am_clip,    // Pistol / chaingun ammo.
     am_shell,   // Shotgun / double barreled shotgun.
@@ -211,7 +211,7 @@ typedef enum
 } ammotype_t;
 
 // Power up artifacts.
-typedef enum
+typedef enum powertype_e
 {
     pw_invulnerability,
     pw_strength,
@@ -227,7 +227,7 @@ typedef enum
 //  how many seconds till expiration,
 //  assuming TICRATE is 35 ticks/second.
 //
-typedef enum
+typedef enum powerduration_e
 {
     INVULNTICS =  30 * TICRATE,
     INVISTICS  =  60 * TICRATE,

@@ -261,7 +261,7 @@ void F_Ticker(void)
     }
 }
 
-static struct
+static struct kern_s
 {
     char    char1;
     char    char2;
@@ -404,7 +404,7 @@ static void F_TextWrite(void)
 // Casting by id Software.
 //   in order of appearance
 //
-typedef struct
+typedef struct castinfo_s
 {
     char        **name;
     mobjtype_t  type;

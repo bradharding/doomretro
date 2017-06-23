@@ -127,12 +127,15 @@ byte    *crosshaircolor;
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
 #define INITSCALEMTOF   125114
+
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
 #define F_PANINC        (8 << speedtoggle)
+
 // how much zoom-in per tic
 // goes to 2x in 1 second
 #define M_ZOOMIN        ((int)((float)FRACUNIT * (1.00f + F_PANINC / 200.0f)))
+
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
 #define M_ZOOMOUT       ((int)((float)FRACUNIT / (1.00f + F_PANINC / 200.0f)))
@@ -142,11 +145,12 @@ byte    *crosshaircolor;
 // translates between frame-buffer and map distances
 #define FTOM(x)         (fixed_t)(((uint64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
 #define MTOF(x)         (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
+
 // translates between frame-buffer and map coordinates
 #define CXMTOF(x)       MTOF(x - m_x)
 #define CYMTOF(y)       (mapheight - MTOF(y - m_y))
 
-typedef struct
+typedef struct mline_s
 {
     mpoint_t    a;
     mpoint_t    b;
@@ -243,6 +247,7 @@ static fixed_t      old_m_x, old_m_y;
 
 // used by MTOF to scale from map-to-frame-buffer coords
 static fixed_t      scale_mtof;
+
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
 static fixed_t      scale_ftom;
 
@@ -328,9 +333,9 @@ static void AM_restoreScaleAndLoc(void)
 //
 static void AM_findMinMaxBoundaries(void)
 {
-    int         i;
-    fixed_t     a;
-    fixed_t     b;
+    int     i;
+    fixed_t a;
+    fixed_t b;
 
     min_x = min_y = INT_MAX;
     max_x = max_y = INT_MIN;
@@ -473,7 +478,8 @@ static void AM_initVariables(dboolean mainwindow)
 
     area = mapscreen + maparea;
 
-    m_paninc.x = m_paninc.y = 0;
+    m_paninc.x = 0;
+    m_paninc.y = 0;
     ftom_zoommul = FRACUNIT;
     mtof_zoommul = FRACUNIT;
 
@@ -526,8 +532,8 @@ void AM_Stop(void)
     stopped = true;
 }
 
-int     lastlevel = -1;
-int     lastepisode = -1;
+int lastlevel = -1;
+int lastepisode = -1;
 
 void AM_Start(dboolean mainwindow)
 {
@@ -537,7 +543,7 @@ void AM_Start(dboolean mainwindow)
     stopped = false;
 
     mapwidth = SCREENWIDTH;
-    mapheight = (unsigned int)viewheight2;
+    mapheight = SCREENHEIGHT - SBARHEIGHT;
     maparea = mapwidth * mapheight;
     mapbottom = maparea - mapwidth;
 
@@ -663,7 +669,7 @@ static void AM_addMark(void)
     message_clearable = true;
 }
 
-static int      markpress;
+static int  markpress;
 
 static void AM_clearMarks(void)
 {
@@ -741,13 +747,9 @@ dboolean AM_Responder(event_t *ev)
 
         if (!automapactive && !mapwindow)
         {
-            if ((ev->type == ev_keydown
-                 && ev->data1 == AM_STARTKEY
-                 && keydown != AM_STARTKEY
-                 && !(modstate & KMOD_ALT))
-                 || (ev->type == ev_gamepad
-                     && (gamepadbuttons & gamepadautomap)
-                     && !backbuttondown))
+            if ((ev->type == ev_keydown && ev->data1 == AM_STARTKEY && keydown != AM_STARTKEY
+                 && !(modstate & KMOD_ALT)) || (ev->type == ev_gamepad && (gamepadbuttons & gamepadautomap)
+                 && !backbuttondown))
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
@@ -1139,6 +1141,7 @@ dboolean AM_Responder(event_t *ev)
                     y = 0;
 
                 direction = (int)(atan2(y, x) * 180.0 / M_PI);
+
                 if (direction < 0)
                     direction += 360;
             }
@@ -1263,27 +1266,36 @@ static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
     unsigned int    outcode2 = 0;
 
     *x0 = CXMTOF(*x0);
+
     if (*x0 < -1)
         outcode1 = LEFT;
     else if (*x0 >= (int)mapwidth)
         outcode1 = RIGHT;
+
     *x1 = CXMTOF(*x1);
+
     if (*x1 < -1)
         outcode2 = LEFT;
     else if (*x1 >= (int)mapwidth)
         outcode2 = RIGHT;
+
     if (outcode1 & outcode2)
         return false;
+
     *y0 = CYMTOF(*y0);
+
     if (*y0 < -1)
         outcode1 |= TOP;
     else if (*y0 >= (int)mapheight)
         outcode1 |= BOTTOM;
+
     *y1 = CYMTOF(*y1);
+
     if (*y1 < -1)
         outcode2 |= TOP;
     else if (*y1 >= (int)mapheight)
         outcode2 |= BOTTOM;
+
     return !(outcode1 & outcode2);
 }
 
@@ -1567,7 +1579,6 @@ static void AM_drawGrid(void)
     fixed_t x, y;
     fixed_t start, end;
     mline_t ml;
-
     fixed_t minlen = (fixed_t)(sqrt((double)m_w * (double)m_w + (double)m_h * (double)m_h));
     fixed_t extx = (minlen - m_w) / 2;
     fixed_t exty = (minlen - m_h) / 2;
@@ -1691,6 +1702,7 @@ static void AM_drawWalls(void)
                         continue;
                     }
                 }
+
                 if (!backsector || (secret && !cheating))
                     AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor :
                         (allmap ? allmapwallcolor : maskcolor)));
@@ -1979,7 +1991,7 @@ static void AM_drawMarks(void)
     }
 }
 
-void AM_drawPath(void)
+static void AM_drawPath(void)
 {
     if (pathpointnum >= 1)
     {

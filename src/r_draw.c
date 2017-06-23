@@ -51,24 +51,17 @@
 //  and the total size == width*height*depth/8.,
 //
 
-int     viewwidth;
-int     scaledviewwidth;
-int     viewheight;
-int     viewheight2;
-int     viewwindowx;
-int     viewwindowy;
-int     fuzztable[SCREENWIDTH * SCREENHEIGHT];
+int         viewwidth;
+int         scaledviewwidth;
+int         viewheight;
+int         viewwindowx;
+int         viewwindowy;
+int         fuzztable[SCREENWIDTH * SCREENHEIGHT];
 
-byte    *topleft0;
-byte    *topleft1;
+static byte *topleft0;
+static byte *topleft1;
 
-// Color tables for different players,
-//  translate a limited part to another
-//  (color ramps used for  suit colors).
-//
-byte    translations[3][256];
-
-byte redtoblue[] =
+static byte redtoblue[] =
 {
       0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,
      16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,
@@ -88,7 +81,7 @@ byte redtoblue[] =
     240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 };
 
-byte redtogreen[] =
+static byte redtogreen[] =
 {
       0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,
      16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,
@@ -128,7 +121,7 @@ byte redtoyellow[] =
     240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 };
 
-byte megasphere[] =
+static byte megasphere[] =
 {
       0,   1,   2,   3,   4,   5,   6,   7,   8, 142,  10,  11,  12,  13,  14,  15,
      16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,

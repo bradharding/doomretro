@@ -43,7 +43,7 @@
 #include "doomtype.h"
 
 // Weapon info: sprite frames, ammunition use.
-typedef struct
+typedef struct weaponinfo_s
 {
     ammotype_t  ammo;
     int         upstate;

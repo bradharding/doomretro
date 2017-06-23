@@ -49,7 +49,7 @@
 #define AM_MSGENTERED   1
 #define AM_MSGEXITED    0
 
-typedef struct
+typedef struct mpoint_s
 {
     fixed_t x, y;
 } mpoint_t;
@@ -81,8 +81,6 @@ extern dboolean message_external;
 
 extern int      gamepadwait;
 
-extern int      viewheight2;
-
 extern mpoint_t *markpoints;
 extern int      markpointnum;
 extern int      markpointnum_max;
@@ -94,7 +92,7 @@ extern int      pathpointnum_max;
 
 dboolean keystate(int key);
 
-typedef struct
+typedef struct am_frame_s
 {
     mpoint_t    center;
     fixed_t     sin;

@@ -61,7 +61,7 @@
 
 #define stringize(x)        #x
 
-typedef enum
+typedef enum stringtype_e
 {
     inputstring,
     outputstring,
@@ -73,7 +73,7 @@ typedef enum
     STRINGTYPES
 } stringtype_t;
 
-typedef struct
+typedef struct console_s
 {
     char            string[1024];
     stringtype_t    type;
@@ -95,7 +95,7 @@ extern char         consolecmdparm[255];
 
 extern dboolean     forceconsoleblurredraw;
 
-typedef struct
+typedef struct undohistory_s
 {
     char            *input;
     int             caretpos;

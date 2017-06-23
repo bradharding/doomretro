@@ -128,7 +128,6 @@ extern int          explosiontics;
 extern dboolean     mouselook;
 extern dboolean     transferredsky;
 extern dboolean     vanilla;
-extern int          viewheight2;
 extern lighttable_t **walllights;
 extern dboolean     weaponrecoil;
 
@@ -439,9 +438,8 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
-    int     i;
-    int     j;
-    fixed_t dy;
+    int i;
+    int j;
 
     setsizeneeded = false;
 
@@ -449,13 +447,11 @@ void R_ExecuteSetViewSize(void)
     {
         scaledviewwidth = SCREENWIDTH;
         viewheight = SCREENHEIGHT;
-        viewheight2 = SCREENHEIGHT;
     }
     else
     {
         scaledviewwidth = setblocks * SCREENWIDTH / 10;
         viewheight = (setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7;
-        viewheight2 = SCREENHEIGHT - SBARHEIGHT;
     }
 
     viewwidth = scaledviewwidth;
@@ -487,11 +483,8 @@ void R_ExecuteSetViewSize(void)
         fixed_t num = viewwidth / 2 * FRACUNIT;
 
         for (j = 0; j < LOOKDIRS; j++)
-        {
-            dy = ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2 * (r_screensize + 3) / 10)) << FRACBITS)
-                + FRACUNIT / 2);
-            yslopes[j][i] = FixedDiv(num, dy);
-        }
+            yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2
+                * (r_screensize + 3) / 10)) << FRACBITS) + FRACUNIT / 2));
     }
 
     yslope = yslopes[LOOKDIRMAX];

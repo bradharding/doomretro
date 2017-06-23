@@ -138,7 +138,6 @@ extern fixed_t          viewz;
 extern angle_t          viewangle;
 extern player_t         *viewplayer;
 
-// ?
 extern angle_t          clipangle;
 
 extern int              viewangletox[FINEANGLES / 2];

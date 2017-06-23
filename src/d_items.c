@@ -53,7 +53,7 @@
 //  motorspeed
 //  tics
 //
-weaponinfo_t    weaponinfo[NUMWEAPONS] =
+weaponinfo_t weaponinfo[NUMWEAPONS] =
 {
     {
         // fist

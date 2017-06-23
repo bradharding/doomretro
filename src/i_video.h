@@ -42,11 +42,11 @@
 #include "doomtype.h"
 #include "SDL.h"
 
-#define MAX_MOUSE_BUTTONS       16
+#define MAX_MOUSE_BUTTONS       8
 
 #define GAMMALEVELS             31
 
-typedef struct
+typedef struct resolution_s
 {
     int         width;
     int         height;
@@ -90,47 +90,46 @@ void R_SetViewSize(int blocks);
 
 void I_SetGamma(float value);
 
-extern float            m_acceleration;
-extern int              m_threshold;
+extern float        m_acceleration;
+extern int          m_threshold;
 
-extern dboolean         sendpause;
-extern dboolean         quitting;
-extern int              r_screensize;
+extern dboolean     sendpause;
+extern dboolean     quitting;
+extern int          r_screensize;
 
-extern int              keydown;
+extern int          keydown;
 
-extern dboolean         idclev;
-extern dboolean         idmus;
-extern dboolean         idbehold;
-extern dboolean         message_clearable;
+extern dboolean     idclev;
+extern dboolean     idmus;
+extern dboolean     idbehold;
+extern dboolean     message_clearable;
 
-extern int              gammaindex;
-extern float            r_gamma;
-extern float            gammalevels[GAMMALEVELS];
+extern int          gammaindex;
+extern float        r_gamma;
+extern float        gammalevels[GAMMALEVELS];
 
-extern dboolean         blurred;
-extern dboolean         splashscreen;
-extern dboolean         noinput;
+extern dboolean     blurred;
+extern dboolean     splashscreen;
+extern dboolean     noinput;
 
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
-extern dboolean         vid_fullscreen;
-extern int              vid_motionblur;
-extern dboolean         vid_showfps;
-extern dboolean         wipe;
+extern dboolean     vid_fullscreen;
+extern int          vid_motionblur;
+extern dboolean     vid_showfps;
 
-extern int              windowx;
-extern int              windowy;
-extern int              windowheight;
-extern int              windowwidth;
+extern int          windowx;
+extern int          windowy;
+extern int          windowheight;
+extern int          windowwidth;
 
-extern dboolean         windowfocused;
+extern dboolean     windowfocused;
 
-extern SDL_Window       *window;
-extern SDL_Renderer     *renderer;
+extern SDL_Window   *window;
+extern SDL_Renderer *renderer;
 
-extern SDL_Window       *mapwindow;
-extern byte             *mapscreen;
+extern SDL_Window   *mapwindow;
+extern byte         *mapscreen;
 
 #endif

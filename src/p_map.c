@@ -2000,11 +2000,9 @@ void PIT_ChangeSector(mobj_t *thing)
             if (!(flags & MF_NOBLOOD) && thing->blood)
             {
                 // spray blood in a random direction
-                dboolean    fuzz = (thing->flags & MF_FUZZ);
-                int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : thing->blood) :
-                                MT_BLOOD);
-                int         blood = (fuzz ? FUZZYBLOOD : mobjinfo[type].blood);
-                mobj_t      *mo = P_SpawnMobj(thing->x, thing->y, thing->z + thing->height / 2, type);
+                int     type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD :
+                                thing->blood) : MT_BLOOD);
+                mobj_t  *mo = P_SpawnMobj(thing->x, thing->y, thing->z + thing->height / 2, type);
 
                 mo->momx = (M_Random() - M_Random()) << 12;
                 mo->momy = (M_Random() - M_Random()) << 12;

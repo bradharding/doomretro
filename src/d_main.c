@@ -380,7 +380,7 @@ void D_Display(void)
 
         C_Drawer();
         M_Drawer();             // menu is drawn even on top of wipes
-        blitfunc();             // page flip or blit buffer
+        blitfunc();             // blit buffer
         mapblitfunc();
     }
     while (!done);
@@ -414,6 +414,7 @@ void D_DoomLoop(void)
 //
 int             titlesequence;
 int             pagetic;
+
 static int      pagewait;
 static patch_t  *pagelump;
 static patch_t  *splashlump;
@@ -668,15 +669,12 @@ static void LoadDehFile(char *path)
         {
             char    *dehpath = FindDehPath(path, ".deh", ".[Dd][Ee][Hh]");
 
-            if (dehpath)
+            if (dehpath && !DehFileProcessed(dehpath))
             {
-                if (!DehFileProcessed(dehpath))
-                {
-                    ProcessDehFile(dehpath, 0);
+                ProcessDehFile(dehpath, 0);
 
-                    if (dehfilecount < MAXDEHFILES)
-                        M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
-                }
+                if (dehfilecount < MAXDEHFILES)
+                    M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
             }
         }
     }
@@ -695,9 +693,9 @@ static dboolean D_IsDOOMIWAD(char *filename)
     dboolean    result;
     const char  *leaf = leafname(filename);
 
-    result = (M_StringCompare(leaf, "DOOM.WAD") || M_StringCompare(leaf, "DOOM1.WAD")
-        || M_StringCompare(leaf, "DOOM2.WAD") || M_StringCompare(leaf, "PLUTONIA.WAD")
-        || M_StringCompare(leaf, "TNT.WAD") || (hacx = M_StringCompare(leaf, "HACX.WAD")));
+    result = (M_StringCompare(leaf, "doom.wad") || M_StringCompare(leaf, "doom1.wad")
+        || M_StringCompare(leaf, "doom2.wad") || M_StringCompare(leaf, "plutonia.wad")
+        || M_StringCompare(leaf, "tnt.wad") || (hacx = M_StringCompare(leaf, "hacx.wad")));
 
     return result;
 }
@@ -707,12 +705,12 @@ static struct
     char    *iwad;
     char    *title;
 } unsupported[] = {
-    { "HERETIC1.WAD", "Heretic" },
-    { "HERETIC.WAD",  "Heretic" },
-    { "HEXEN.WAD",    "Hexen"   },
-    { "HEXDD.WAD",    "Hexen"   },
-    { "STRIFE0.WAD",  "Strife"  },
-    { "STRIFE1.WAD",  "Strife"  }
+    { "heretic1.wad", "Heretic" },
+    { "heretic.wad",  "Heretic" },
+    { "hexen.wad",    "Hexen"   },
+    { "hexdd.wad",    "Hexen"   },
+    { "strife0.wad",  "Strife"  },
+    { "strife1.wad",  "Strife"  }
 };
 
 static dboolean D_IsUnsupportedIWAD(char *filename)
@@ -748,7 +746,7 @@ static void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
-    if (M_StringCompare(leaf, "NERVE.WAD"))
+    if (M_StringCompare(leaf, "nerve.wad"))
     {
         nerve = true;
         expansion = 2;
@@ -871,12 +869,12 @@ dboolean D_CheckParms(void)
                 iwadfolder = strdup(M_ExtractFolder(myargv[1]));
 
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
+                if (M_StringCompare(leafname(myargv[1]), "doom2.wad"))
                 {
                     static char fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        M_ExtractFolder(myargv[1]), "NERVE.WAD");
+                        M_ExtractFolder(myargv[1]), "nerve.wad");
 
                     if (W_MergeFile(fullpath, true))
                     {
@@ -898,7 +896,7 @@ dboolean D_CheckParms(void)
 
             // try the current folder first
             M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]),
-                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
             IdentifyIWADByName(fullpath);
 
             if (W_AddFile(fullpath, true))
@@ -920,17 +918,17 @@ dboolean D_CheckParms(void)
                 // otherwise try the iwadfolder CVAR
 #if defined(_WIN32) || defined(__OpenBSD__)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
 #else
                 if (!wordexp(iwadfolder, &p, 0) && p.we_wordc > 0)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", p.we_wordv[0],
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                     wordfree(&p);
                 }
                 else
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
 #endif
                 IdentifyIWADByName(fullpath);
 
@@ -952,17 +950,17 @@ dboolean D_CheckParms(void)
                     // still nothing? try the DOOMWADDIR environment variable
 #if defined(_WIN32) || defined(__OpenBSD__)
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", getenv("DOOMWADDIR"),
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
 #else
                     if (getenv("DOOMWADDIR") && !wordexp(getenv("DOOMWADDIR"), &p, 0) && p.we_wordc > 0)
                     {
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", p.we_wordv[0],
-                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                            (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                         wordfree(&p);
                     }
                     else
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", getenv("DOOMWADDIR"),
-                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                            (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
 #endif
                     IdentifyIWADByName(fullpath);
 
@@ -1110,12 +1108,12 @@ static int D_OpenWADLauncher(void)
                     iwadfolder = strdup(M_ExtractFolder(file));
 
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    if (M_StringCompare(leafname(file), "DOOM2.WAD"))
+                    if (M_StringCompare(leafname(file), "doom2.wad"))
                     {
                         static char fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            M_ExtractFolder(file), "NERVE.WAD");
+                            M_ExtractFolder(file), "nerve.wad");
 
                         if (W_MergeFile(fullpath, true))
                         {
@@ -1139,7 +1137,7 @@ static int D_OpenWADLauncher(void)
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file),
-                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                 IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
@@ -1160,7 +1158,7 @@ static int D_OpenWADLauncher(void)
                 {
                     // otherwise try the iwadfolder CVAR
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                     IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
@@ -1180,7 +1178,7 @@ static int D_OpenWADLauncher(void)
                     {
                         // still nothing? try the DOOMWADDIR environment variable
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", getenv("DOOMWADDIR"),
-                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                            (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                         IdentifyIWADByName(fullpath);
 
                         if (W_AddFile(fullpath, true))
@@ -1286,8 +1284,8 @@ static int D_OpenWADLauncher(void)
                         if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
-                            sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
-                            isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
+                            sharewareiwad = M_StringCompare(iwadpass1, "doom1.wad");
+                            isDOOM2 = M_StringCompare(iwadpass1, "doom2.wad");
                             wad = strdup(leafname(fullpath));
                             iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
@@ -1296,12 +1294,12 @@ static int D_OpenWADLauncher(void)
                 }
 
                 // if it's NERVE.WAD, try to open DOOM2.WAD with it
-                else if (M_StringCompare(iwadpass1, "NERVE.WAD"))
+                else if (M_StringCompare(iwadpass1, "nerve.wad"))
                 {
                     static char fullpath2[MAX_PATH];
 
                     // try the current folder first
-                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", szFile);
+                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad", szFile);
                     IdentifyIWADByName(fullpath2);
 
                     if (W_AddFile(fullpath2, true))
@@ -1319,7 +1317,7 @@ static int D_OpenWADLauncher(void)
                     else
                     {
                         // otherwise try the iwadfolder CVAR
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad", iwadfolder);
                         IdentifyIWADByName(fullpath2);
 
                         if (W_AddFile(fullpath2, true))
@@ -1337,7 +1335,7 @@ static int D_OpenWADLauncher(void)
                         else
                         {
                             // still nothing? try the DOOMWADDIR environment variable
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad",
                                 getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
 
@@ -1390,8 +1388,8 @@ static int D_OpenWADLauncher(void)
                         if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
-                            sharewareiwad = M_StringCompare(iwadpass2, "DOOM1.WAD");
-                            isDOOM2 = M_StringCompare(iwadpass2, "DOOM2.WAD");
+                            sharewareiwad = M_StringCompare(iwadpass2, "doom1.wad");
+                            isDOOM2 = M_StringCompare(iwadpass2, "doom2.wad");
                             wad = strdup(leafname(fullpath));
                             iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
@@ -1444,7 +1442,7 @@ static int D_OpenWADLauncher(void)
 
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", szFile,
-                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                             IdentifyIWADByName(fullpath2);
 
                             if (W_AddFile(fullpath2, true))
@@ -1456,7 +1454,7 @@ static int D_OpenWADLauncher(void)
                             {
                                 // otherwise try the iwadfolder CVAR
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                    iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                    iwadfolder, (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
                                 IdentifyIWADByName(fullpath2);
 
                                 if (W_AddFile(fullpath2, true))
@@ -1465,8 +1463,8 @@ static int D_OpenWADLauncher(void)
                                 {
                                     // still nothing? try the DOOMWADDIR environment variable
                                     M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                        getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
-                                        "DOOM2.WAD"));
+                                        getenv("DOOMWADDIR"), (iwadrequired == doom ? "doom.wad" :
+                                        "doom2.wad"));
                                     IdentifyIWADByName(fullpath2);
 
                                     if (W_AddFile(fullpath2, true))
@@ -1485,16 +1483,16 @@ static int D_OpenWADLauncher(void)
                 if (!iwadfound)
                 {
                     // try the current folder first
-                    IdentifyIWADByName("DOOM2.WAD");
+                    IdentifyIWADByName("doom2.wad");
 
-                    if (W_AddFile("DOOM2.WAD", true))
+                    if (W_AddFile("doom2.wad", true))
                         iwadfound = 1;
                     else
                     {
                         static char fullpath2[MAX_PATH];
 
                         // otherwise try the iwadfolder CVAR
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad", iwadfolder);
                         IdentifyIWADByName(fullpath2);
 
                         if (W_AddFile(fullpath2, true))
@@ -1502,7 +1500,7 @@ static int D_OpenWADLauncher(void)
                         else
                         {
                             // still nothing? try the DOOMWADDIR environment variable
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad",
                                 getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
 
@@ -1852,8 +1850,7 @@ static void D_DoomMainSetup(void)
                     }
                 }
             }
-
-    while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
+        while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(PACKAGE_NAME" couldn't find any IWADs.");
@@ -2036,23 +2033,12 @@ static void D_DoomMainSetup(void)
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
         }
 
-        if (BTSX)
-        {
-            if (W_CheckMultipleLumps(lumpname) > 1)
-                autostart = true;
-        }
-        else if (W_CheckNumForName(lumpname) >= 0)
+        if ((BTSX && W_CheckMultipleLumps(lumpname) > 1) || W_CheckNumForName(lumpname) >= 0)
             autostart = true;
 
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
-
-    ;
-    if ((p = M_CheckParmWithArgs("-loadgame", 1, 1)))
-        startloadgame = atoi(myargv[p + 1]);
-    else
-        startloadgame = -1;
 
     M_Init();
 
@@ -2070,7 +2056,7 @@ static void D_DoomMainSetup(void)
 
     C_Init();
 
-    if (startloadgame >= 0)
+    if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? atoi(myargv[p + 1]) : -1)) >= 0)
     {
         I_InitKeyboard();
 

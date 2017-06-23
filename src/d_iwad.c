@@ -70,12 +70,12 @@ static void AddIWADDir(char *dir)
 // of installed IWAD files. The registry is inspected to find special
 // keys installed by the Windows installers for various CD versions
 // of DOOM. From these keys we can deduce where to find an IWAD.
-typedef struct
+typedef struct registryvalue_s
 {
     HKEY    root;
     char    *path;
     char    *value;
-} registry_value_t;
+} registryvalue_t;
 
 #define UNINSTALLER_STRING  "\\uninstl.exe /S "
 
@@ -86,7 +86,7 @@ typedef struct
 //
 // With some munging we can find where DOOM was installed.
 
-static registry_value_t uninstall_values[] =
+static registryvalue_t uninstall_values[] =
 {
     // Ultimate DOOM, CD version (Depths of DOOM trilogy)
     {
@@ -119,7 +119,7 @@ static registry_value_t uninstall_values[] =
 
 // Values installed by the GOG.com and Collector's Edition versions
 
-static registry_value_t root_path_keys[] =
+static registryvalue_t root_path_keys[] =
 {
     // DOOM Collector's Edition
     {
@@ -162,7 +162,7 @@ static char *root_path_subdirs[] =
 };
 
 // Location where Steam is installed
-static registry_value_t steam_install_location =
+static registryvalue_t steam_install_location =
 {
     HKEY_LOCAL_MACHINE,
     "Software\\Valve\\Steam",
@@ -178,7 +178,7 @@ static char *steam_install_subdirs[] =
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads"
 };
 
-static char *GetRegistryString(registry_value_t *reg_val)
+static char *GetRegistryString(registryvalue_t *reg_val)
 {
     HKEY    key;
     DWORD   len;
@@ -287,7 +287,7 @@ static void CheckDOSDefaults(void)
 
 #endif
 
-static struct
+static struct iwads_s
 {
     char            *name;
     GameMission_t   mission;

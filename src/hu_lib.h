@@ -43,11 +43,11 @@
 #include "r_defs.h"
 
 // font stuff
-#define HU_MAXLINES             4
-#define HU_MAXLINELENGTH        512
+#define HU_MAXLINES         4
+#define HU_MAXLINELENGTH    512
 
-#define HU_ALTHUDMSGX           30
-#define HU_ALTHUDMSGY           12
+#define HU_ALTHUDMSGX       30
+#define HU_ALTHUDMSGY       12
 
 //
 // Typedefs of widgets
@@ -58,29 +58,29 @@
 typedef struct
 {
     // left-justified position of scrolling text window
-    int                 x;
-    int                 y;
+    int             x;
+    int             y;
 
-    patch_t             **f;                            // font
-    int                 sc;                             // start character
-    char                l[HU_MAXLINELENGTH + 1];        // line of text
-    int                 len;                            // current line length
+    patch_t         **f;                            // font
+    int             sc;                             // start character
+    char            l[HU_MAXLINELENGTH + 1];        // line of text
+    int             len;                            // current line length
 
     // whether this line needs to be updated
-    int                 needsupdate;
+    int             needsupdate;
 } hu_textline_t;
 
 // Scrolling Text window widget
 //  (child of Text Line widget)
 typedef struct
 {
-    hu_textline_t       l[HU_MAXLINES];                 // text lines to draw
-    int                 h;                              // height in lines
-    int                 cl;                             // current line number
+    hu_textline_t   l[HU_MAXLINES];                 // text lines to draw
+    int             h;                              // height in lines
+    int             cl;                             // current line number
 
     // pointer to dboolean stating whether to update window
-    dboolean            *on;
-    dboolean            laston;                         // last value of *->on.
+    dboolean        *on;
+    dboolean        laston;                         // last value of *->on.
 } hu_stext_t;
 
 //
@@ -106,11 +106,8 @@ void HUlib_eraseTextLine(hu_textline_t *l);
 // Scrolling Text window widget routines
 //
 
-// ?
-void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar,
-    dboolean *on);
+void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on);
 
-// ?
 void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg);
 
 // draws stext

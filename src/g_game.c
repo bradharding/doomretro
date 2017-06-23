@@ -166,7 +166,7 @@ static int *gamepadweapons[] =
     &gamepadweapon7
 };
 
-struct
+struct weapons_s
 {
     weapontype_t    prev;
     weapontype_t    next;
