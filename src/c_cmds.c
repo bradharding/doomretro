@@ -607,7 +607,7 @@ consolecmd_t consolecmds[] =
     CMD(cmdlist, ccmdlist, null_func1, cmdlist_cmd_func2, 1, "[<i>searchstring</i>]",
         "Shows a list of console commands."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles obituaries in the console when monsters\nare killed."),
+        "Toggles obituaries in the console when monsters\nare killed or resurrected."),
     CVAR_BOOL(con_timestamps, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles timestamps next to player messages and\nobituaries in the console."),
     CMD(condump, "", null_func1, condump_cmd_func2, 1, "[<i>filename</i><b>.txt</b>]",
