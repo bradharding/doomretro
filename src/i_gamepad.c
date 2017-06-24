@@ -116,15 +116,15 @@ void I_InitGamepad(void)
         else
         {
 #if defined(_WIN32)
-            char        *XInputDLL;
+            char        *XInputVersion;
             static int  initcount;
 
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                XInputDLL = "XInput1_4.dll";
+                XInputVersion = "XInput 1.4";
             else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                XInputDLL = "XInput9_1_0.dll";
+                XInputVersion = "XInput 9.1.0";
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
-                XInputDLL = "XInput1_3.dll";
+                XInputVersion = "XInput 1.3";
 
             initcount++;
 
@@ -146,8 +146,7 @@ void I_InitGamepad(void)
                             I_PollThumbs_XInput_RightHanded);
 
                         if (initcount++ == 1)
-                            C_Output("An <i><b>XInput</b></i> gamepad is connected. Using <b>%s</b>.",
-                                XInputDLL);
+                            C_Output("A gamepad is connected. Using <i><b>%s</b></i>.", XInputVersion);
                     }
                 }
                 else
@@ -159,17 +158,17 @@ void I_InitGamepad(void)
                 const char  *name = SDL_JoystickName(gamepad);
 
                 if (*name)
-                    C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.", name);
+                    C_Output("A gamepad called \"%s\" is connected. Using <i><b>DirectInput</b></i>.", name);
                 else
-                    C_Output("A <i><b>DirectInput</b></i> gamepad is connected.");
+                    C_Output("A gamepad is connected. Using <i><b>DirectInput</b></i>.");
             }
 #else
             const char  *name = SDL_JoystickName(gamepad);
 
             if (*name)
-                C_Output("A <i><b>DirectInput</b></i> gamepad called \"%s\" is connected.", name);
+                C_Output("A gamepad called \"%s\" is connected. Using <i><b>DirectInput</b></i>.", name);
             else
-                C_Output("A <i><b>DirectInput</b></i> gamepad is connected.");
+                C_Output("A gamepad is connected. Using <i><b>DirectInput</b></i>.");
 #endif
 
             SDL_JoystickEventState(SDL_ENABLE);
