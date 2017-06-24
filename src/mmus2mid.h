@@ -42,7 +42,7 @@
 #include "doomtype.h"
 
 // error codes
-typedef enum
+enum error_e
 {
     MUSDATACOR,         // MUS data corrupt
     TOOMCHAN,           // Too many channels
@@ -53,7 +53,7 @@ typedef enum
     BADCTLCHG,          // MUS control change larger than 9
     TRACKOVF,           // MIDI track exceeds allocation
     BADMIDHDR           // bad midi header detected
-} error_code_t;
+};
 
 // some names for integers of various sizes, all unsigned
 typedef uint8_t  UBYTE; // a one-byte int

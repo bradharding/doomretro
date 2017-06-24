@@ -50,7 +50,7 @@
 
 // Lump order in a map WAD: each map needs a couple of lumps
 // to provide a complete scene geometry description.
-enum
+enum maplump_e
 {
     ML_LABEL,           // A separator, name, ExMx or MAPxx
     ML_THINGS,          // Monsters, items..

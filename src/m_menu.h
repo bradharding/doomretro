@@ -39,7 +39,7 @@
 #if !defined(__M_MENU_H__)
 #define __M_MENU_H__
 
-typedef struct
+typedef struct menuitem_s
 {
     short           status;
     char            name[10];

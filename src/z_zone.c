@@ -42,19 +42,19 @@
 // Minimum chunk size at which blocks are allocated
 #define CHUNK_SIZE  32
 
-typedef struct memblock
+typedef struct memblock_s
 {
-    struct memblock *next;
-    struct memblock *prev;
-    size_t          size;
-    void            **user;
-    unsigned char   tag;
+    struct memblock_s   *next;
+    struct memblock_s   *prev;
+    size_t              size;
+    void                **user;
+    unsigned char       tag;
 } memblock_t;
 
 // size of block header
 // cph - base on sizeof(memblock_t), which can be larger than CHUNK_SIZE on
 // 64bit architectures
-static const size_t HEADER_SIZE = (sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
+static const size_t headersize = (sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
 
 static memblock_t   *blockbytag[PU_MAX];
 
@@ -79,7 +79,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
 
     size = (size + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1); // round to chunk size
 
-    while (!(block = malloc(size + HEADER_SIZE)))
+    while (!(block = malloc(size + headersize)))
     {
         if (!blockbytag[PU_CACHE])
             I_Error("Z_Malloc: Failure trying to allocate %lu bytes", (unsigned long)size);
@@ -104,7 +104,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
 
     block->tag = tag;                                   // tag
     block->user = user;                                 // user
-    block = (memblock_t *)((char *)block + HEADER_SIZE);
+    block = (memblock_t *)((char *)block + headersize);
 
     if (user)                                           // if there is a user
         *user = block;                                  // set user to point to new block
@@ -131,7 +131,7 @@ void *Z_Realloc(void *ptr, size_t size)
 
 void Z_Free(void *ptr)
 {
-    memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
+    memblock_t  *block = (memblock_t *)((char *)ptr - headersize);
 
     if (block->user)                                    // Nullify user if one exists
         *block->user = NULL;
@@ -169,7 +169,7 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
         {
             memblock_t  *next = block->next;
 
-            Z_Free((char *)block + HEADER_SIZE);
+            Z_Free((char *)block + headersize);
 
             if (block == end_block)
                 break;
@@ -186,7 +186,7 @@ void Z_ChangeTag(void *ptr, int32_t tag)
     if (!ptr)
         return;
 
-    block = (memblock_t *)((char *)ptr - HEADER_SIZE);
+    block = (memblock_t *)((char *)ptr - headersize);
 
     // proff - do nothing if tag doesn't differ
     if (tag == block->tag)

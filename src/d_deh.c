@@ -53,7 +53,7 @@
 // killough 10/98: new functions, to allow processing DEH files in-memory
 // (e.g. from wads)
 
-typedef struct
+typedef struct DEHFILE_s
 {
     byte    *inp;
     byte    *lump;
@@ -1413,7 +1413,7 @@ void deh_procBexCodePointers(DEHFILE *, char *);
 
 // Structure deh_block is used to hold the block names that can
 // be encountered, and the routines to use to decipher them
-typedef struct
+typedef struct deh_block_s
 {
     char    *key;                                       // a mnemonic block code name
     void    (*const fptr)(DEHFILE *, char *);           // handler
@@ -1795,7 +1795,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Stop(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-typedef struct
+typedef struct deh_bexptr_s
 {
     actionf_t   cptr;           // actual pointer to the subroutine
     const char  *lookup;        // mnemonic lookup string to be specified in BEX

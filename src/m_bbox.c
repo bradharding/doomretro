@@ -40,8 +40,10 @@
 
 void M_ClearBox(fixed_t *box)
 {
-    box[BOXTOP] = box[BOXRIGHT] = INT_MIN;
-    box[BOXBOTTOM] = box[BOXLEFT] = INT_MAX;
+    box[BOXTOP] = INT_MIN;
+    box[BOXRIGHT] = INT_MIN;
+    box[BOXBOTTOM] = INT_MAX;
+    box[BOXLEFT] = INT_MAX;
 }
 
 void M_AddToBox(fixed_t *box, fixed_t x, fixed_t y)

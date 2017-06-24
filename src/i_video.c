@@ -157,7 +157,7 @@ static dboolean     keys[UCHAR_MAX];
 
 static byte         gammatable[GAMMALEVELS][256];
 
-float               gammalevels[GAMMALEVELS] =
+float gammalevels[GAMMALEVELS] =
 {
     // Darker
     0.50f, 0.55f, 0.60f, 0.65f, 0.70f, 0.75f, 0.80f, 0.85f, 0.90f, 0.95f,

@@ -54,7 +54,7 @@ int MAX(int a, int b)
 
 int MIN(int a, int b)
 {
-    a = a - b;
+    a -= b;
     return (b + (a & (a >> 31)));
 }
 

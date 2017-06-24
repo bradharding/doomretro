@@ -44,12 +44,11 @@
 //
 
 // declaring a cheat
-#define CHEAT(value, parameters) \
-    { value, sizeof(value) - 1, parameters, 0, 0, "", 0 }
+#define CHEAT(value, parameters)    { value, sizeof(value) - 1, parameters, 0, 0, "", 0 }
 
-#define TIMELIMIT               (TICRATE * 2)
+#define TIMELIMIT                   (TICRATE * 2)
 
-typedef struct
+typedef struct cheatseq_s
 {
     // settings for this cheat
     char        *sequence;
@@ -70,22 +69,22 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key);
 
 void cht_GetParam(cheatseq_t *cht, char *buffer);
 
-extern dboolean         idbehold;
-extern int              leveltime;
+extern dboolean     idbehold;
+extern int          leveltime;
 
-extern cheatseq_t       cheat_mus;
-extern cheatseq_t       cheat_mus_xy;
-extern cheatseq_t       cheat_god;
-extern cheatseq_t       cheat_ammo;
-extern cheatseq_t       cheat_ammonokey;
-extern cheatseq_t       cheat_noclip;
-extern cheatseq_t       cheat_commercial_noclip;
-extern cheatseq_t       cheat_powerup[7];
-extern cheatseq_t       cheat_choppers;
-extern cheatseq_t       cheat_buddha;
-extern cheatseq_t       cheat_clev;
-extern cheatseq_t       cheat_clev_xy;
-extern cheatseq_t       cheat_mypos;
-extern cheatseq_t       cheat_amap;
+extern cheatseq_t   cheat_mus;
+extern cheatseq_t   cheat_mus_xy;
+extern cheatseq_t   cheat_god;
+extern cheatseq_t   cheat_ammo;
+extern cheatseq_t   cheat_ammonokey;
+extern cheatseq_t   cheat_noclip;
+extern cheatseq_t   cheat_commercial_noclip;
+extern cheatseq_t   cheat_powerup[7];
+extern cheatseq_t   cheat_choppers;
+extern cheatseq_t   cheat_buddha;
+extern cheatseq_t   cheat_clev;
+extern cheatseq_t   cheat_clev_xy;
+extern cheatseq_t   cheat_mypos;
+extern cheatseq_t   cheat_amap;
 
 #endif

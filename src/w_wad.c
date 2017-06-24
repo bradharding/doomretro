@@ -56,7 +56,7 @@
 #pragma pack(push, 1)
 #endif
 
-typedef struct
+typedef struct wadinfo_s
 {
     // Should be "IWAD" or "PWAD".
     char            identification[4];
@@ -64,7 +64,7 @@ typedef struct
     int             infotableofs;
 } PACKEDATTR wadinfo_t;
 
-typedef struct
+typedef struct filelump_s
 {
     int             filepos;
     int             size;
@@ -75,7 +75,8 @@ typedef struct
 #pragma pack(pop)
 #endif
 
-static struct {
+static struct cachelump_s
+{
     void            *cache;
     unsigned int    locks;
 } *cachelump;
@@ -124,8 +125,8 @@ static dboolean IsFreedoom(const char *iwadname)
 char *GetCorrectCase(char *path)
 {
 #if defined(_WIN32)
-    WIN32_FIND_DATA     FindFileData;
-    HANDLE              hFile = FindFirstFile(path, &FindFileData);
+    WIN32_FIND_DATA FindFileData;
+    HANDLE          hFile = FindFirstFile(path, &FindFileData);
 
     if (hFile == INVALID_HANDLE_VALUE)
         return path;
@@ -178,7 +179,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
         I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
 
     wadfile->type = (!strncmp(header.identification, "IWAD", 4)
-        || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
+        || M_StringCompare(leafname(filename), "doom2.wad") ? IWAD : PWAD);
 
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
@@ -221,7 +222,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
         packagewadadded = true;
 
         if (!W_MergeFile(packagewad, true))
-            I_Error("%s is invalid.\nPlease reinstall "PACKAGE_NAME".", packagewad);
+            I_Error("%s is invalid.", packagewad);
     }
 
     return wadfile;
@@ -512,7 +513,7 @@ void *W_CacheLumpNum(lumpindex_t lump)
 
     // cph - if wasn't locked but now is, tell z_zone to hold it
     if (!cachelump[lump].locks && locks)
-        Z_ChangeTag(cachelump[lump].cache,PU_STATIC);
+        Z_ChangeTag(cachelump[lump].cache, PU_STATIC);
 
     cachelump[lump].locks += locks;
 

@@ -45,20 +45,20 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-typedef enum
+typedef enum section_e
 {
     SECTION_NORMAL,
     SECTION_FLATS,
     SECTION_SPRITES
 } section_t;
 
-typedef struct
+typedef struct searchlist_s
 {
     lumpinfo_t          **lumps;
     int                 numlumps;
 } searchlist_t;
 
-typedef struct
+typedef struct sprite_frame_s
 {
     char                sprname[4];
     char                frame;
@@ -263,7 +263,7 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
     return false;
 }
 
-struct
+struct weaponsprites_s
 {
     char    *spr1;
     char    *spr2;

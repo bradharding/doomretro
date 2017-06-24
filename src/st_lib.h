@@ -46,7 +46,7 @@
 //
 
 // Number widget
-typedef struct
+typedef struct st_number_s
 {
     // upper right-hand corner
     //  of the number (right-justified)
@@ -71,7 +71,7 @@ typedef struct
 
 // Percent widget ("child" of number widget,
 //  or, more precisely, contains a number widget.)
-typedef struct
+typedef struct st_percent_s
 {
     // number information
     st_number_t n;
@@ -81,7 +81,7 @@ typedef struct
 } st_percent_t;
 
 // Multiple Icon widget
-typedef struct
+typedef struct st_multicon_s
 {
     // center-justified location of icons
     int         x, y;
@@ -104,7 +104,7 @@ typedef struct
 } st_multicon_t;
 
 // Binary Icon widget
-typedef struct
+typedef struct st_binicon_s
 {
     // center-justified location of icon
     int         x, y;

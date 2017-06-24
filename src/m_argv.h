@@ -42,8 +42,8 @@
 //
 // MISC
 //
-extern int      myargc;
-extern char     **myargv;
+extern int  myargc;
+extern char **myargv;
 
 // Returns the position of the given parameter
 // in the arg list (0 if not found).

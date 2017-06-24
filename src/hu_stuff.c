@@ -122,7 +122,7 @@ static int              coloroffset;
 void (*althudfunc)(int, int, patch_t *, int, int);
 void (*fillrectfunc)(int, int, int, int, int, int);
 
-static struct
+static struct ammopic_s
 {
     char    *patchname;
     int     mobjnum;
@@ -136,7 +136,7 @@ static struct
     { "ROCKA0", MT_MISC18, 8, -6, NULL }
 };
 
-static struct
+static struct keypic_s
 {
     char    *patchnamea;
     char    *patchnameb;
@@ -590,7 +590,7 @@ static void HU_DrawHUD(void)
 #define BLUE            200
 #define YELLOW          231
 
-typedef struct
+typedef struct altkeypic_s
 {
     int     color;
     patch_t *patch;

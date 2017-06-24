@@ -250,7 +250,7 @@ char *M_GetAppDataFolder(void)
 }
 
 #if defined(__MACOSX__)
-static char *M_StaticResourceUrl(void)
+static char *M_StaticResourceURL(void)
 {
     static char *resourceURL = NULL;
 
@@ -261,10 +261,10 @@ static char *M_StaticResourceUrl(void)
 }
 #endif
 
-void M_FreeResourceUrl(void)
+void M_FreeResourceURL(void)
 {
 #if defined(__MACOSX__)
-    free(M_StaticResourceUrl());
+    free(M_StaticResourceURL());
 #endif
 }
 
@@ -287,7 +287,7 @@ char *M_GetResourceFolder(void)
 #if defined(__MACOSX__)
     // On OSX, load resources from the Contents/Resources folder within the application bundle
     // if ../share/doomretro is not available.
-    return M_StaticResourceUrl();
+    return M_StaticResourceURL();
 #else
     // And on Linux, fall back to the same folder as the executable.
     return executableFolder;
@@ -319,7 +319,7 @@ void M_Shutdown(void)
     M_FreeExecutableFolder();
     M_FreeAppData();
     M_FreeResourceFolder();
-    M_FreeResourceUrl();
+    M_FreeResourceURL();
 }
 
 char *M_GetExecutableFolder(void)

@@ -393,7 +393,7 @@ void C_AddConsoleDivider(void)
         C_Print(dividerstring, DIVIDER);
 }
 
-static struct
+static struct kern_s
 {
     char    char1;
     char    char2;

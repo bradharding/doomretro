@@ -65,12 +65,13 @@ typedef BOOL(WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
 void I_PrintWindowsVersion(void)
 {
-    PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"),
-                            "RtlGetVersion");
-    PGETPRODUCTINFO     pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"),
-                            "GetProductInfo");
-    PISWOW64PROCESS     pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(GetModuleHandle("kernel32.dll"),
-                            "IsWow64Process");
+    PRTLGETVERSION  pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"),
+                        "RtlGetVersion");
+    PGETPRODUCTINFO pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"),
+                        "GetProductInfo");
+    PISWOW64PROCESS pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(GetModuleHandle("kernel32.dll"),
+                        "IsWow64Process");
+
     if (pRtlGetVersion && pGetProductInfo)
     {
         char                bits[10] = "";
@@ -220,9 +221,7 @@ void I_Quit(dboolean shutdown)
         M_Shutdown();
 
         I_ShutdownGraphics();
-
         I_ShutdownKeyboard();
-
         I_ShutdownGamepad();
     }
 
@@ -264,9 +263,7 @@ void I_Error(char *error, ...)
     M_SaveCVARs();
 
     I_ShutdownGraphics();
-
     I_ShutdownKeyboard();
-
     I_ShutdownGamepad();
 
 #if defined(_WIN32)

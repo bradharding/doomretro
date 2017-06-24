@@ -346,7 +346,7 @@ manual_ceiling:
                 break;
 
             case CtoNnC:
-                targheight = (Dirn ? P_FindNextHighestCeiling(sec,sec->ceilingheight) :
+                targheight = (Dirn ? P_FindNextHighestCeiling(sec, sec->ceilingheight) :
                     P_FindNextLowestCeiling(sec, sec->ceilingheight));
                 break;
 

@@ -43,7 +43,7 @@
 
 typedef struct _MEMFILE MEMFILE;
 
-typedef enum
+typedef enum mem_rel_s
 {
     MEM_SEEK_SET,
     MEM_SEEK_CUR,

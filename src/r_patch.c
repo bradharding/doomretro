@@ -324,7 +324,7 @@ static void createPatch(int id)
     free(numPostsInColumn);
 }
 
-typedef struct
+typedef struct count_s
 {
     unsigned short  patches;
     unsigned short  posts;

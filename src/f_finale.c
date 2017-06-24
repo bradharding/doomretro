@@ -53,7 +53,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-typedef enum
+typedef enum finalestage_e
 {
     F_STAGE_TEXT,
     F_STAGE_ARTSCREEN,

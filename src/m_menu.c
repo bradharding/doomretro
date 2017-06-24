@@ -204,7 +204,7 @@ void M_ClearMenus(void);
 // DOOM MENU
 //
 
-typedef enum
+typedef enum main_e
 {
     new_game,
     options,
@@ -237,7 +237,7 @@ menu_t MainDef =
 // EPISODE SELECT
 //
 
-typedef enum
+typedef enum episodes_e
 {
     ep1,
     ep2,
@@ -268,7 +268,7 @@ menu_t EpiDef =
 // EXPANSION SELECT
 //
 
-typedef enum
+typedef enum expansions_e
 {
     ex1,
     ex2,
@@ -295,7 +295,7 @@ menu_t ExpDef =
 // NEW GAME
 //
 
-typedef enum
+typedef enum newgame_e
 {
     killthings,
     toorough,
@@ -328,7 +328,7 @@ menu_t NewDef =
 // OPTIONS MENU
 //
 
-typedef enum
+typedef enum options_e
 {
     endgame,
     msgs,
@@ -363,7 +363,7 @@ menu_t OptionsDef =
     endgame
 };
 
-typedef enum
+typedef enum read_e
 {
     rdthsempty,
     read_end
@@ -388,7 +388,7 @@ menu_t ReadDef =
 // SOUND VOLUME MENU
 //
 
-typedef enum
+typedef enum sound_e
 {
     sfx_vol,
     sfx_empty1,
@@ -419,7 +419,7 @@ menu_t SoundDef =
 // LOAD GAME MENU
 //
 
-typedef enum
+typedef enum load_e
 {
     load1,
     load2,
@@ -642,7 +642,7 @@ static const int chartoi[123] =
     56, 57, 58
 };
 
-static struct
+static struct kern_s
 {
     char    char1;
     char    char2;
@@ -657,7 +657,7 @@ static struct
     { 'L', 'S', -1 }, { 't', ' ', -1 }, {  0,   0,   0 }
 };
 
-static struct
+static struct overlap_s
 {
     char    char1;
     char    char2;
@@ -2851,7 +2851,7 @@ dboolean M_Responder(event_t *ev)
                 functionkey = KEY_F3;
                 M_StartControlPanel();
                 itemOn = currentMenu->lastOn;
-                S_StartSound(NULL,sfx_swtchn);
+                S_StartSound(NULL, sfx_swtchn);
                 M_LoadGame(0);
             }
 

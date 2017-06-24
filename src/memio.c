@@ -39,7 +39,7 @@
 #include "memio.h"
 #include "z_zone.h"
 
-typedef enum
+typedef enum memfile_mode_s
 {
     MODE_READ,
     MODE_WRITE

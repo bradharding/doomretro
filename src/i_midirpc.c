@@ -52,13 +52,9 @@
 //
 // Data
 //
-static unsigned char            *szStringBinding;       // RPC client binding string
-static dboolean                 serverInit;             // if true, server was started
-static dboolean                 clientInit;             // if true, client was bound
-
-// server process information
-static STARTUPINFO              si;
-static PROCESS_INFORMATION      pi;
+static unsigned char        *szStringBinding;       // RPC client binding string
+static dboolean             serverInit;             // if true, server was started
+static dboolean             clientInit;             // if true, client was bound
 
 //
 // RPC Memory Management
@@ -249,8 +245,10 @@ dboolean I_MidiRPCResumeSong(void)
 //
 dboolean I_MidiRPCInitServer(void)
 {
-    char        module[MAX_PATH + 1];
-    dboolean    result;
+    char                module[MAX_PATH + 1];
+    dboolean            result;
+    STARTUPINFO         si;
+    PROCESS_INFORMATION pi;
 
     M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe", M_GetExecutableFolder());
 
@@ -262,7 +260,6 @@ dboolean I_MidiRPCInitServer(void)
     }
 
     si.cb = sizeof(si);
-
     result = CreateProcess(module, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 
     if (result)

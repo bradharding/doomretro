@@ -700,7 +700,7 @@ static dboolean D_IsDOOMIWAD(char *filename)
     return result;
 }
 
-static struct
+static struct unsupported_s
 {
     char    *iwad;
     char    *title;

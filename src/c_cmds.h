@@ -82,7 +82,7 @@ typedef enum cmdtype_e
     CT_CHEAT = 3
 } cmdtype_t;
 
-enum
+enum cmdflag_e
 {
     CF_NONE     =   0,
     CF_BOOLEAN  =   1,

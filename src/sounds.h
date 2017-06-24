@@ -47,7 +47,7 @@
 //
 typedef struct sfxinfo_struct sfxinfo_t;
 
-enum
+enum singularity_e
 {
     sg_none,
     sg_itemup,
@@ -82,7 +82,7 @@ struct sfxinfo_struct
 //
 // MusicInfo struct.
 //
-typedef struct
+typedef struct musicinfo_s
 {
     // up to 6-character name
     char        *name;
@@ -100,14 +100,14 @@ typedef struct
 } musicinfo_t;
 
 // the complete set of sound effects
-extern sfxinfo_t        S_sfx[];
+extern sfxinfo_t    S_sfx[];
 
 // the complete set of music
-extern musicinfo_t      S_music[];
+extern musicinfo_t  S_music[];
 
-extern musicinfo_t      *mus_playing;
+extern musicinfo_t  *mus_playing;
 
-typedef enum
+typedef enum musictype_e
 {
     MUSTYPE_NONE,
     MUSTYPE_MUS,
@@ -119,12 +119,12 @@ typedef enum
     MUSTYPE_MOD
 } musictype_t;
 
-extern musictype_t      musictype;
+extern musictype_t  musictype;
 
 //
 // Identifiers for all music in game.
 //
-typedef enum
+typedef enum musicenum_e
 {
     mus_None,
     mus_e1m1,
@@ -200,7 +200,7 @@ typedef enum
 //
 // Identifiers for all sfx in game.
 //
-typedef enum
+typedef enum sfxenum_e
 {
     sfx_None,
     sfx_pistol,

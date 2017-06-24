@@ -81,7 +81,7 @@ typedef enum gameaction_e
 //
 // Button/action code definitions.
 //
-enum
+enum buttonaction_e
 {
     // Press "Fire".
     BT_ATTACK       = 1,

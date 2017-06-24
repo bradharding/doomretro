@@ -49,7 +49,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-typedef enum
+typedef enum dirtype_e
 {
     DI_EAST,
     DI_NORTHEAST,
@@ -87,7 +87,7 @@ dirtype_t diags[] =
 #define EXPLOSIONTICS   (2 * TICRATE)
 #define EXPLOSIONRANGE  (512 * FRACUNIT)
 
-int     explosiontics;
+int explosiontics;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 

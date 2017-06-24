@@ -40,7 +40,7 @@
 #define __WI_STUFF_H__
 
 // States for the intermission
-typedef enum
+typedef enum stateenum_e
 {
     NoState = -1,
     StatCount,

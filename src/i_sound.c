@@ -206,7 +206,7 @@ static void LockAllocatedSound(allocated_sound_t *snd)
 static void UnlockAllocatedSound(allocated_sound_t *snd)
 {
     if (snd->use_count <= 0)
-        I_Error("Sound effect released more times than it was locked...");
+        I_Error("Sound effect released more times than it was locked.");
 
     snd->use_count--;
 }

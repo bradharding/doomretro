@@ -117,7 +117,7 @@ extern int              numthings;
 
 extern int              numdecorations;
 
-typedef enum
+typedef enum mapformat_e
 {
     DOOMBSP,
     DEEPBSP,

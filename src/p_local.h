@@ -157,7 +157,7 @@ void P_NoiseAlert(mobj_t *target, mobj_t *emmiter);
 //
 // P_MAPUTL
 //
-typedef struct
+typedef struct divline_s
 {
     fixed_t     x;
     fixed_t     y;
@@ -165,10 +165,11 @@ typedef struct
     fixed_t     dy;
 } divline_t;
 
-typedef struct
+typedef struct intercept_s
 {
     fixed_t     frac;           // along trace line
     dboolean    isaline;
+
     union
     {
         mobj_t  *thing;
@@ -252,20 +253,20 @@ void P_MapEnd(void);
 //
 // P_SETUP
 //
-extern const byte       *rejectmatrix;  // for fast sight rejection
-extern int              *blockmaplump;
-extern int              *blockmap;
-extern int              bmapwidth;
-extern int              bmapheight;     // in mapblocks
-extern fixed_t          bmaporgx;
-extern fixed_t          bmaporgy;       // origin of block map
-extern mobj_t           **blocklinks;   // for thing chains
+extern const byte   *rejectmatrix;  // for fast sight rejection
+extern int          *blockmaplump;
+extern int          *blockmap;
+extern int          bmapwidth;
+extern int          bmapheight;     // in mapblocks
+extern fixed_t      bmaporgx;
+extern fixed_t      bmaporgy;       // origin of block map
+extern mobj_t       **blocklinks;   // for thing chains
 
 //
 // P_INTER
 //
-#define BFGCELLS        40
-#define MAXHEALTH       100
+#define BFGCELLS    40
+#define MAXHEALTH   100
 
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat);
 

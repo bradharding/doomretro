@@ -103,7 +103,7 @@ byte    *tinttabredwhite50;
 byte    *tinttabgreen33;
 byte    *tinttabblue25;
 
-static struct
+static struct originalcolors_s
 {
     byte    red;
     byte    green;

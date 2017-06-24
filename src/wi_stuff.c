@@ -75,14 +75,14 @@
 #define SP_TIMEX    16
 #define SP_TIMEY    (ORIGINALHEIGHT - 32)
 
-typedef enum
+typedef enum animenum_e
 {
     ANIM_ALWAYS,
     ANIM_RANDOM,
     ANIM_LEVEL
 } animenum_t;
 
-typedef struct
+typedef struct point_s
 {
     int x;
     int y;
@@ -92,7 +92,7 @@ typedef struct
 // Animation.
 // There is another anim_t used in p_spec.
 //
-typedef struct
+typedef struct anim_s
 {
     animenum_t  type;
 
@@ -554,9 +554,7 @@ static void WI_updateAnimatedBack(void)
                     break;
 
                 case ANIM_RANDOM:
-                    a->ctr++;
-
-                    if (a->ctr == a->nanims)
+                    if (++a->ctr == a->nanims)
                     {
                         a->ctr = -1;
                         a->nexttic = bcnt + a->data2 + (M_Random() % a->data1);
@@ -570,9 +568,7 @@ static void WI_updateAnimatedBack(void)
                     // gawd-awful hack for level anims
                     if (!(state == StatCount && i == 7) && wbs->next == a->data1)
                     {
-                        a->ctr++;
-
-                        if (a->ctr == a->nanims)
+                        if (++a->ctr == a->nanims)
                             a->ctr--;
 
                         a->nexttic = bcnt + a->period;
@@ -901,7 +897,7 @@ static void WI_updateStats(void)
         {
             if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
             {
-                S_StartSound(0, sfx_barexp);
+                S_StartSound(NULL, sfx_barexp);
                 play_early_explosion = false;   // do not play it twice or more
             }
         }
@@ -915,6 +911,7 @@ static void WI_updateStats(void)
                 // e6y: do not play explosion sound if it was already played
                 if (!modifiedgame)
                     S_StartSound(NULL, sfx_barexp);
+
                 sp_state++;
             }
         }
@@ -934,6 +931,7 @@ static void WI_updateStats(void)
     else if (sp_state & 1)
     {
         play_early_explosion = true;    // e6y
+
         if (!--cnt_pause)
         {
             sp_state++;

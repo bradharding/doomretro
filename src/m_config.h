@@ -39,26 +39,26 @@
 #if !defined(__M_CONFIG_H__)
 #define __M_CONFIG_H__
 
-typedef enum
+typedef enum r_blood_values_e
 {
     r_blood_none,
     r_blood_red,
     r_blood_all
 } r_blood_values_t;
 
-typedef enum
+typedef enum r_messagescale_values_e
 {
     r_messagescale_small,
     r_messagescale_big
 } r_messagescale_values_t;
 
-typedef enum
+typedef enum r_detail_values_e
 {
     r_detail_low,
     r_detail_high
 } r_detail_values_t;
 
-typedef enum
+typedef enum units_values_e
 {
     units_imperial,
     units_metric
@@ -493,7 +493,7 @@ typedef enum
 #define MOUSERUN_DEFAULT                        -1
 #define MOUSEUSE_DEFAULT                        -1
 
-typedef enum
+typedef enum default_type_e
 {
     DEFAULT_INT,
     DEFAULT_INT_UNSIGNED,
@@ -504,7 +504,7 @@ typedef enum
     DEFAULT_OTHER
 } default_type_t;
 
-typedef enum
+typedef enum valuealias_type_e
 {
     NOVALUEALIAS,
     BOOLVALUEALIAS,
@@ -517,7 +517,7 @@ typedef enum
     SCALEVALUEALIAS
 } valuealias_type_t;
 
-typedef struct
+typedef struct default_s
 {
     // Name of the variable
     char                *name;
@@ -531,7 +531,7 @@ typedef struct
     valuealias_type_t   valuealiastype;
 } default_t;
 
-typedef struct
+typedef struct valuealias_s
 {
     char                *text;
     int                 value;

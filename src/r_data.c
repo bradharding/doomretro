@@ -182,7 +182,7 @@ static byte whiteonly[256] =
 #define DOOM1ONLY   1
 #define DOOM2ONLY   2
 
-static struct
+static struct fullbright_s
 {
     char    texture[9];
     int     game;
