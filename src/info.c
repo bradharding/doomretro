@@ -1546,16 +1546,6 @@ state_t states[NUMSTATES] =
     // Barrel (MT_BARREL)
     { SPR_BEXP,  0,                                6,               NULL,              S_BAR2          }, // S_BAR1
 
-    // Blood Splat (MT_BLOODSPLAT)
-    { SPR_BLD2,  0,                               -1,               NULL,              S_NULL          }, // S_BLOODSPLAT
-    { SPR_BLD2,  1,                               -1,               NULL,              S_NULL          }, // S_BLOODSPLAT2
-    { SPR_BLD2,  2,                               -1,               NULL,              S_NULL          }, // S_BLOODSPLAT3
-    { SPR_BLD2,  3,                               -1,               NULL,              S_NULL          }, // S_BLOODSPLAT4
-    { SPR_BLD2,  4,                               -1,               NULL,              S_NULL          }, // S_BLOODSPLAT5
-    { SPR_BLD2,  5,                               -1,               NULL,              S_NULL          }, // S_BLOODSPLAT6
-    { SPR_BLD2,  6,                               -1,               NULL,              S_NULL          }, // S_BLOODSPLAT7
-    { SPR_BLD2,  7,                               -1,               NULL,              S_NULL          }, // S_BLOODSPLAT8
-
     // Smoke Trail (MT_TRAIL)
     { SPR_PUFF,  0 | FF_FULLBRIGHT,                4,               NULL,              S_TRAIL2        }, // S_TRAIL
     { SPR_PUFF,  1,                                4,               NULL,              S_TRAIL3        }, // S_TRAIL2
@@ -7668,47 +7658,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* shadowoffset         */ 0,
         /* name1                */ "fuzzy blood",
         /* plural1              */ "fuzzy blood",
-        /* name2                */ "",
-        /* plural2              */ "",
-        /* name3                */ "",
-        /* plural3              */ ""
-    },
-
-    // Blood Splat (MT_BLOODSPLAT)
-    {
-        /* doomednum            */ -1,
-        /* spawnstate           */ S_BLOODSPLAT,
-        /* spawnhealth          */ 1000,
-        /* gibhealth            */ 0,
-        /* seestate             */ S_NULL,
-        /* seesound             */ sfx_None,
-        /* reactiontime         */ 8,
-        /* attacksound          */ sfx_None,
-        /* painstate            */ S_NULL,
-        /* painchance           */ 0,
-        /* painsound            */ sfx_None,
-        /* meleestate           */ S_NULL,
-        /* missilestate         */ S_NULL,
-        /* deathstate           */ S_NULL,
-        /* xdeathstate          */ S_NULL,
-        /* deathsound           */ sfx_None,
-        /* speed                */ 0,
-        /* radius               */ 0,
-        /* pickupradius         */ 0,
-        /* height               */ 0,
-        /* projectilepassheight */ 0,
-        /* mass                 */ 100,
-        /* damage               */ 0,
-        /* activesound          */ sfx_None,
-        /* flags                */ 0,
-        /* flags2               */ 0,
-        /* raisestate           */ S_NULL,
-        /* frames               */ 0,
-        /* fullbright           */ false,
-        /* blood                */ 0,
-        /* shadowoffset         */ 0,
-        /* name1                */ "blood splat",
-        /* plural1              */ "blood splats",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",

@@ -1189,21 +1189,13 @@ typedef enum statenum_e
 
     // [BH] DOOM Retro states
     S_BAR1,
-    S_BLOODSPLAT,
-    S_BLOODSPLAT2,
-    S_BLOODSPLAT3,
-    S_BLOODSPLAT4,
-    S_BLOODSPLAT5,
-    S_BLOODSPLAT6,
-    S_BLOODSPLAT7,
-    S_BLOODSPLAT8,
     S_TRAIL,
     S_TRAIL2,
     S_TRAIL3,
     S_TRAIL4,
 
     // [BH] extra DeHacked states 1089 to 3999
-    EXTRASTATES,
+    EXTRASTATES = 1089,
 
     NUMSTATES = 4000
 } statenum_t;
