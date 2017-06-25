@@ -1382,11 +1382,9 @@ typedef enum mobjtype_e
     MT_BLUEBLOOD,
     MT_GREENBLOOD,
     MT_FUZZYBLOOD,
-    MT_BLOODSPLAT,      // [BH] Now unused
     MT_TRAIL,
-    MT_SHADOW,          // [BH] Now unused
 
-    // [BH] Mobjs 152 to 251 (100 extra mobjs to use in DeHackEd patches)
+    // [BH] Mobjs 150 to 249 (100 extra mobjs to use in DeHackEd patches)
     MT_EXTRA00, MT_EXTRA01, MT_EXTRA02, MT_EXTRA03, MT_EXTRA04,
     MT_EXTRA05, MT_EXTRA06, MT_EXTRA07, MT_EXTRA08, MT_EXTRA09,
     MT_EXTRA10, MT_EXTRA11, MT_EXTRA12, MT_EXTRA13, MT_EXTRA14,
