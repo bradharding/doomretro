@@ -63,7 +63,8 @@
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
-fixed_t         DX, DY, DXI, DYI;
+fixed_t         DX, DY;
+fixed_t         DXI, DYI;
 
 int             pixelwidth;
 int             pixelheight;
@@ -680,6 +681,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
                     if (!flag || (*shadow != 47 && *shadow != 191))
                         *shadow = tinttab50[*shadow];
                 }
+
                 srccol += DYI;
             }
 
@@ -905,6 +907,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 
                 dest += SCREENWIDTH;
             }
+
             column = (column_t *)((byte *)column + length + 4);
         }
     }
@@ -939,6 +942,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 
                 dest += SCREENWIDTH;
             }
+
             column = (column_t *)((byte *)column + length + 4);
         }
     }
@@ -1138,8 +1142,8 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 
                 dest += SCREENWIDTH;
             }
-            while 
-                (--count > 0)
+
+            while (--count > 0)
             {
                 *dest = tinttab25[*dest];
                 dest += SCREENWIDTH;
@@ -1220,6 +1224,7 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
             {
                 if (!menuactive && !paused && !consoleactive)
                     fuzztable[_fuzzpos] = _FUZZ(-1, 1);
+
                 *dest = fullcolormap[6 * 256 + dest[fuzztable[_fuzzpos++]]];
                 dest += SCREENWIDTH;
             }
@@ -1315,6 +1320,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     if (*shadow != 47 && *shadow != 191)
                         *shadow = tinttab50[*shadow];
                 }
+
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }

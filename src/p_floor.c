@@ -95,6 +95,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                 case 1:
                     // UP
                     destheight = MIN(dest, sector->ceilingheight);
+
                     if (sector->floorheight + speed > destheight)
                     {
                         lastpos = sector->floorheight;
@@ -326,23 +327,23 @@ void T_MoveElevator(elevator_t *elevator)
     if (elevator->direction < 0)                // moving down
     {
         // jff 4/7/98 reverse order of ceiling/floor
-        res = T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, 0, 1,
+        res = T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, false, 1,
             elevator->direction);
 
         // jff 4/7/98 don't move ceil if blocked
         if (res == ok || res == pastdest)
-            T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, 0, 0,
+            T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, false, 0,
                 elevator->direction);
     }
     else                                        // up
     {
         // jff 4/7/98 reverse order of ceiling/floor
-        res = T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, 0, 0,
+        res = T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, false, 0,
             elevator->direction);
 
         // jff 4/7/98 don't move floor if blocked
         if (res == ok || res == pastdest)
-            T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, 0, 1,
+            T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, false, 1,
                 elevator->direction);
     }
 
@@ -511,14 +512,12 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                     {
                         side_t  *side = getSide(secnum, i, 0);
 
-                        if (side->bottomtexture > 0
-                            && textureheight[side->bottomtexture] < minsize)
+                        if (side->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
 
                         side = getSide(secnum, i, 1);
 
-                        if (side->bottomtexture > 0
-                            && textureheight[side->bottomtexture] < minsize)
+                        if (side->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
                     }
                 }
@@ -526,6 +525,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->floordestheight = MIN((sec->floorheight >> FRACBITS) + (minsize >> FRACBITS),
                     32000) << FRACBITS;
             }
+
             break;
 
             case lowerAndChange:
@@ -575,6 +575,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
         for (i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
     }
+
     return rtn;
 }
 
@@ -844,5 +845,6 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 break;
         }
     }
+
     return rtn;
 }

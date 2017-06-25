@@ -474,9 +474,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
     // check for skulls slamming into things
     if ((tmflags & MF_SKULLFLY) && (flags & MF_SOLID))
     {
-        damage = ((M_Random() % 8) + 1) * tmthing->info->damage;
-
-        P_DamageMobj(thing, tmthing, tmthing, damage, true);
+        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() % 8) + 1) * tmthing->info->damage, true);
 
         tmthing->flags &= ~MF_SKULLFLY;
         tmthing->momx = tmthing->momy = tmthing->momz = 0;
@@ -615,6 +613,7 @@ dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
     yh = (tmbbox[BOXTOP] - bmaporgy) >> MAPBLOCKSHIFT;
 
     validcount++;               // prevents checking same line twice
+
     for (bx = xl; bx <= xh; bx++)
         for (by = yl; by <= yh; by++)
             if (!P_BlockLinesIterator(bx, by, PIT_CrossLine))
@@ -824,7 +823,6 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
             }
 
     *tmthing = oldmo;
-
     return NULL;
 }
 
@@ -837,7 +835,6 @@ void P_FakeZMovement(mobj_t *mo)
     mo->z += mo->momz;
 
     if ((mo->flags & MF_FLOAT) && mo->target)
-    {
         // float down towards target if too close
         if (!(mo->flags & MF_SKULLFLY) && !(mo->flags & MF_INFLOAT))
         {
@@ -846,7 +843,6 @@ void P_FakeZMovement(mobj_t *mo)
             if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
                 mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
         }
-    }
 
     // clip movement
     if (mo->z <= mo->floorz)
@@ -888,8 +884,7 @@ void P_FakeZMovement(mobj_t *mo)
 //
 dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
 {
-    fixed_t     oldx;
-    fixed_t     oldy;
+    fixed_t     oldx, oldy;
     sector_t    *newsec;
     int         flags = thing->flags;
 
@@ -1249,7 +1244,7 @@ void P_HitSlideLine(line_t *ld)
 //
 dboolean PTR_SlideTraverse(intercept_t *in)
 {
-    line_t      *li = in->d.line;
+    line_t  *li = in->d.line;
 
     if (!(li->flags & ML_TWOSIDED))
     {
@@ -1510,10 +1505,10 @@ dboolean    hitwall;
 //
 dboolean PTR_ShootTraverse(intercept_t *in)
 {
-    fixed_t     x, y, z;
-    fixed_t     frac;
-    mobj_t      *th;
-    fixed_t     dist;
+    fixed_t x, y, z;
+    fixed_t frac;
+    mobj_t  *th;
+    fixed_t dist;
 
     if (in->isaline)
     {

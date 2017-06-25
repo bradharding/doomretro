@@ -523,6 +523,7 @@ manual_lift:
 
                 if (plat->low > sec->floorheight)
                     plat->low = sec->floorheight;
+
                 break;
 
             case F2NnF:
@@ -534,6 +535,7 @@ manual_lift:
 
                 if (plat->low > sec->floorheight)
                     plat->low = sec->floorheight;
+
                 break;
 
             case LnF2HnF:
@@ -729,10 +731,10 @@ manual_stair:
         // Find next sector to raise
         // 1. Find 2-sided line with same sector side[0]
         // 2. Other side is the next sector to raise
-
         do
         {
             okay = false;
+
             for (i = 0; i < sec->linecount; i++)
             {
                 if (!((sec->lines[i])->backsector))

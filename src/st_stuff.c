@@ -794,7 +794,10 @@ dboolean ST_Responder(event_t *ev)
                             plyr->powers[i] = 0;
 
                             if (plyr->readyweapon == wp_fist && plyr->weaponowned[wp_chainsaw])
-                                plyr->pendingweapon = plyr->fistorchainsaw = wp_chainsaw;
+                            {
+                                plyr->pendingweapon = wp_chainsaw;
+                                plyr->fistorchainsaw = wp_chainsaw;
+                            }
                         }
                         else
                         {
@@ -1053,6 +1056,7 @@ dboolean ST_Responder(event_t *ev)
                         M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
                     else
                         M_snprintf(message, sizeof(message), s_STSTR_CLEV, lump);
+
                     HU_PlayerMessage(message, false);
 
                     // [BH] always display message
@@ -1501,6 +1505,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
     // face states
     facenum = 0;
+
     for (i = 0; i < ST_NUMPAINFACES; i++)
     {
         for (j = 0; j < ST_NUMSTRAIGHTFACES; j++)
@@ -1520,6 +1525,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         M_snprintf(namebuf, 9, "STFKILL%i", i);         // pissed off
         callback(namebuf, &faces[facenum++]);
     }
+
     callback("STFGOD0", &faces[facenum++]);
     callback("STFDEAD0", &faces[facenum++]);
 

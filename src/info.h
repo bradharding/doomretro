@@ -1371,7 +1371,7 @@ typedef enum mobjtype_e
 
     MT_DOGS,    // killough 7/19/98: Marine's best friend
 
-    MT_PLASMA1, // killough 7/11/98: first  of alternating beta plasma fireballs
+    MT_PLASMA1, // killough 7/11/98: first of alternating beta plasma fireballs
     MT_PLASMA2, // killough 7/11/98: second of alternating beta plasma fireballs
     MT_SCEPTRE, // killough 7/11/98: evil sceptre in beta version
     MT_BIBLE,   // killough 7/11/98: unholy bible in beta version

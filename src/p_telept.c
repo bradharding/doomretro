@@ -47,8 +47,7 @@ void P_CalcHeight(player_t *player);
 //
 dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
-    thinker_t   *thinker;
-    int         i;
+    int i;
 
     // Don't teleport missiles.
     // Don't teleport if hit back of line, so you can get out of teleporter.
@@ -62,12 +61,14 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
     // killough 1/31/98: improve performance by using
     // P_FindSectorFromLineTag instead of simple linear search.
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
-        for (thinker = thinkerclasscap[th_mobj].cnext; thinker != &thinkerclasscap[th_mobj];
-            thinker = thinker->cnext)
-        {
-            mobj_t  *m;
+    {
+        thinker_t   *th;
 
-            if ((m = (mobj_t *)thinker)->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
+        for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+        {
+            mobj_t  *m = (mobj_t *)th;
+
+            if (m->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
             {
                 fixed_t     oldx = thing->x;
                 fixed_t     oldy = thing->y;
@@ -138,6 +139,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                 }
             }
         }
+    }
 
     return false;
 }
@@ -149,8 +151,6 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 {
     int         i;
-    mobj_t      *m;
-    thinker_t   *th;
 
     // don't teleport missiles
     // Don't teleport if hit back of line,
@@ -159,8 +159,14 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
         return false;
 
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    {
+        thinker_t   *th;
+
         for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
-            if ((m = (mobj_t *)th)->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
+        {
+            mobj_t  *m = (mobj_t *)th;
+
+            if (m->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
             {
                 // Height of thing above ground, in case of mid-air teleports:
                 fixed_t     z = thing->z - thing->floorz;
@@ -215,6 +221,8 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 
                 return true;
             }
+        }
+    }
 
     return false;
 }
@@ -232,13 +240,15 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse)
 {
     int     i;
-    line_t  *l;
 
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
     for (i = -1; (i = P_FindLineFromLineTag(line, i)) >= 0;)
-        if ((l = lines + i) != line && l->backsector)
+    {
+        line_t  *l = lines + i;
+
+        if (l != line && l->backsector)
         {
             // Get the thing's position along the source linedef
             fixed_t     pos = ABS(line->dx) > ABS(line->dy) ? FixedDiv(thing->x - line->v1->x, line->dx) :
@@ -340,6 +350,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 
             return true;
         }
+    }
 
     return false;
 }

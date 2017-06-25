@@ -43,21 +43,21 @@
 #include "info.h"
 #include "tables.h"
 
-#define REDBLOOD                184
-#define GREENBLOOD              123
-#define BLUEBLOOD               204
-#define FUZZYBLOOD              -1
+#define REDBLOOD            184
+#define GREENBLOOD          123
+#define BLUEBLOOD           204
+#define FUZZYBLOOD          -1
 
 // killough 11/98:
 // For torque simulation:
-#define OVERDRIVE               6
-#define MAXGEAR                 (OVERDRIVE + 16)
+#define OVERDRIVE           6
+#define MAXGEAR             (OVERDRIVE + 16)
 
 // killough 11/98:
 // Whether an object is "sentient" or not. Used for environmental influences.
-#define sentient(mobj)          ((mobj)->health > 0 && (mobj)->info->seestate)
+#define sentient(mobj)      ((mobj)->health > 0 && (mobj)->info->seestate)
 
-#define CORPSEBLOODSPLATS       256
+#define CORPSEBLOODSPLATS   256
 
 //
 // NOTES: mobj_t

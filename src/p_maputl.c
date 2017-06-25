@@ -385,6 +385,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
             if (!func(ld))
                 return false;
         }
+
         return true;            // everything was checked
     }
 }
@@ -402,6 +403,7 @@ dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
             if (!func(mobj))
                 return false;
     }
+
     return true;
 }
 

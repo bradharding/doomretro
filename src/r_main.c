@@ -341,7 +341,6 @@ void R_InitTextureMapping(void)
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x
     //  after the view angle.
-
     const fixed_t   hitan = finetangent[FINEANGLES / 4 + FIELDOFVIEW / 2];
     const fixed_t   lotan = finetangent[FINEANGLES / 4 - FIELDOFVIEW / 2];
     const int       highend = viewwidth + 1;
@@ -369,6 +368,7 @@ void R_InitTextureMapping(void)
     for (x = 0; x <= viewwidth; x++)
     {
         for (i = 0; viewangletox[i] > x; i++);
+
         xtoviewangle[x] = (i << ANGLETOFINESHIFT) - ANG90;
     }
 

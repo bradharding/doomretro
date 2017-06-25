@@ -552,6 +552,7 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
         if (actor->movedir != turnaround)
         {
             attempts[actor->movedir] = true;
+
             if (P_TryWalk(actor))
                 return;
         }
@@ -851,7 +852,7 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
     // scan the remaining thinkers to see if all Keens are dead
     for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
-        mobj_t      *mo = (mobj_t *)th;
+        mobj_t  *mo = (mobj_t *)th;
 
         if (mo != actor && mo->type == actor->type && mo->health > 0)
             return;         // other Keen not dead
@@ -1159,7 +1160,7 @@ void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // [BH] make cacodemon fullbright when launching missile here instead of in its
-    // S_HEAD_ATK3 state so its not fullbright when during its melee attack above.
+    // S_HEAD_ATK3 state so its not fullbright during its melee attack above.
     actor->frame |= FF_FULLBRIGHT;
 
     // launch a missile

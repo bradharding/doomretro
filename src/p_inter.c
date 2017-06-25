@@ -155,6 +155,7 @@ static void P_AddAmmo(player_t *player, ammotype_t ammo, int num)
             break;
     }
 }
+
 //
 // GET STUFF
 //
@@ -629,11 +630,11 @@ dboolean P_GivePower(player_t *player, int power)
     static const int tics[NUMPOWERS] =
     {
         /* pw_invulnerability */ INVULNTICS,
-        /* pw_strength */        1,
-        /* pw_invisibility */    INVISTICS,
-        /* pw_ironfeet */        IRONTICS,
-        /* pw_allmap */          STARTFLASHING + 1,
-        /* pw_infrared */        INFRATICS
+        /* pw_strength        */ 1,
+        /* pw_invisibility    */ INVISTICS,
+        /* pw_ironfeet        */ IRONTICS,
+        /* pw_allmap          */ STARTFLASHING + 1,
+        /* pw_infrared        */ INFRATICS
    };
 
     if (player->powers[power] < 0)
@@ -711,7 +712,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
                 if (player->health > maxhealth)
                     player->health = maxhealth;
-
                 else
                 {
                     P_AddHealth(player, 1);
@@ -1090,6 +1090,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
         case SPR_SHOT:
             weaponowned = player->weaponowned[wp_shotgun];
+
             if (!P_GiveWeapon(player, wp_shotgun, (special->flags & MF_DROPPED), stat))
                 return;
 
@@ -1175,8 +1176,7 @@ void P_UpdateKillStat(mobjtype_t type, int value)
             break;
 
         case MT_CHAINGUY:
-            stat_monsterskilled_heavyweapondudes = SafeAdd(stat_monsterskilled_heavyweapondudes,
-                value);
+            stat_monsterskilled_heavyweapondudes = SafeAdd(stat_monsterskilled_heavyweapondudes, value);
             break;
 
         case MT_KNIGHT:
@@ -1196,8 +1196,7 @@ void P_UpdateKillStat(mobjtype_t type, int value)
             break;
 
         case MT_PAIN:
-            stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals,
-                value);
+            stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, value);
             break;
 
         case MT_UNDEAD:
@@ -1213,8 +1212,7 @@ void P_UpdateKillStat(mobjtype_t type, int value)
             break;
 
         case MT_SPIDER:
-            stat_monsterskilled_spidermasterminds = SafeAdd(stat_monsterskilled_spidermasterminds,
-                value);
+            stat_monsterskilled_spidermasterminds = SafeAdd(stat_monsterskilled_spidermasterminds, value);
             break;
 
         case MT_POSSESSED:
@@ -1344,7 +1342,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),  (target->player ? "" :
                 (source->type == target->type ? "another " : (isvowel(info->name1[0]) ? "an " : "a "))),
                 (target->player ? (M_StringCompare(playername, playername_default) ? playername :
-                    titlecase(playername)) : info->name1));
+                titlecase(playername)) : info->name1));
     }
 
     // Drop stuff.
@@ -1433,8 +1431,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / mass;
 
         // make fall forwards sometimes
-        if (damage < 40 && damage > target->health
-            && target->z - inflicter->z > 64 * FRACUNIT && (M_Random() & 1))
+        if (damage < 40 && damage > target->health  && target->z - inflicter->z > 64 * FRACUNIT
+            && (M_Random() & 1))
         {
             ang += ANG180;
             thrust *= 4;

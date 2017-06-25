@@ -253,7 +253,8 @@ void R_InitTextures(void)
     int                 *patchlookup;
     int                 nummappatches;
     int                 maxoff, maxoff2;
-    int                 numtextures1, numtextures2;
+    int                 numtextures1;
+    int                 numtextures2;
     const int           *directory;
 
     // Load the patch names from pnames.lmp.
@@ -545,7 +546,8 @@ void R_InitColormaps(void)
 {
     dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     int         i;
-    byte        *palsrc, *palette;
+    byte        *palsrc;
+    byte        *palette;
     wadfile_t   *colormapwad;
 
     if (W_CheckNumForName("C_START") >= 0 && W_CheckNumForName("C_END") >= 0)
@@ -613,6 +615,7 @@ int R_ColormapNumForName(char *name)
     if (strncasecmp(name, "COLORMAP", 8))     // COLORMAP predefined to return 0
         if ((i = W_CheckNumForName(name)) != -1)
             i -= firstcolormaplump;
+
     return i;
 }
 

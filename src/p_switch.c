@@ -163,7 +163,6 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
         line->special = 0;
 
     for (i = 0; i < numswitches * 2; i++)
-    {
         if (switchlist[i] == *ttop)
         {
             texture = ttop;
@@ -182,7 +181,6 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useAgain)
             position = bottom;
             break;
         }
-    }
 
     if (!texture)
         return;
@@ -240,6 +238,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 if (line->flags & ML_SECRET)            // they can't open secret doors either
                     return false;
             }
+
             linefunc = EV_DoGenDoor;
         }
         else if ((unsigned int)line->special >= GenLockedBase)
@@ -281,9 +280,8 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             switch ((line->special & TriggerType) >> TriggerTypeShift)
             {
                 case PushOnce:
-                    if (!side)
-                        if (linefunc(line))
-                            line->special = 0;
+                    if (!side && linefunc(line))
+                        line->special = 0;
 
                     return true;
 

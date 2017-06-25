@@ -177,6 +177,7 @@ dboolean SC_GetString(void)
             && *(ScriptPtr + 1) != ASCII_COMMENT2)
         {
             *text++ = *ScriptPtr++;
+
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
         }

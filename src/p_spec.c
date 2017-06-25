@@ -87,9 +87,9 @@ typedef struct animdef_s
 #pragma pack(pop)
 #endif
 
-#define MAXANIMS        32
+#define MAXANIMS    32
 
-#define ANIMSPEED       8
+#define ANIMSPEED   8
 
 unsigned int    stat_secretsrevealed;
 
@@ -2668,7 +2668,8 @@ static void P_SpawnFriction(void)
         {
             int length = P_ApproxDistance(l->dx, l->dy) >> FRACBITS;
             int friction = BETWEEN(0, (0x1EB8 * length) / 0x80 + 0xD000, FRACUNIT);
-            int movefactor, s;
+            int movefactor;
+            int s;
 
             // The following check might seem odd. At the time of movement,
             // the move distance is multiplied by 'friction/0x10000', so a
@@ -2758,7 +2759,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
     if (source)                                         // point source exist?
     {
-        p->radius = (p->magnitude) << (FRACBITS + 1);   // where force goes to zero
+        p->radius = p->magnitude << (FRACBITS + 1);   // where force goes to zero
         p->x = p->source->x;
         p->y = p->source->y;
     }

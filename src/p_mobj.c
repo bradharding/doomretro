@@ -151,7 +151,6 @@ void P_ExplodeMissile(mobj_t *mo)
     P_SetMobjState(mo, mo->info->deathstate);
 
     mo->tics = MAX(1, mo->tics - (M_Random() & 3));
-
     mo->flags &= ~MF_MISSILE;
 
     // [BH] make explosion translucent
@@ -172,7 +171,7 @@ void P_ExplodeMissile(mobj_t *mo)
 #define FRICTION        0xE800
 #define WATERFRICTION   0xFB00
 
-int     puffcount;
+int puffcount;
 
 void P_XYMovement(mobj_t *mo)
 {
@@ -289,6 +288,7 @@ void P_XYMovement(mobj_t *mo)
                     P_RemoveMobj(mo);
                     return;
                 }
+
                 P_ExplodeMissile(mo);
             }
             else
@@ -634,23 +634,20 @@ void P_MobjThinker(mobj_t *mobj)
                 P_ZMovement(mobj);
                 mobj->flags2 &= ~MF2_ONMOBJ;
             }
-            else
+            else if (player)
             {
-                if (player)
+                if (mobj->momz < -GRAVITY * 8)
+                    PlayerLandedOnThing(mobj);
+
+                if (onmo->z + onmo->height - mobj->z <= 24 * FRACUNIT)
                 {
-                    if (mobj->momz < -GRAVITY * 8)
-                        PlayerLandedOnThing(mobj);
-
-                    if (onmo->z + onmo->height - mobj->z <= 24 * FRACUNIT)
-                    {
-                        player->viewheight -= onmo->z + onmo->height - mobj->z;
-                        player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
-                        mobj->z = onmo->z + onmo->height;
-                        mobj->flags2 |= MF2_ONMOBJ;
-                    }
-
-                    mobj->momz = 0;
+                    player->viewheight -= onmo->z + onmo->height - mobj->z;
+                    player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
+                    mobj->z = onmo->z + onmo->height;
+                    mobj->flags2 |= MF2_ONMOBJ;
                 }
+
+                mobj->momz = 0;
             }
         }
         else
@@ -715,7 +712,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     static int  prevx, prevy, prevz;
     static int  prevbob;
     int         height = (z == ONCEILINGZ && type != MT_KEEN && info->projectilepassheight ?
-        info->projectilepassheight : info->height);
+                    info->projectilepassheight : info->height);
 
     mobj->type = type;
     mobj->info = info;
@@ -740,8 +737,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // so groups of same mobjs are deliberately out of sync
     if (info->frames > 1)
     {
-        int     frames = M_RandomInt(0, info->frames);
-        int     i = 0;
+        int frames = M_RandomInt(0, info->frames);
+        int i = 0;
 
         while (i++ < frames && st->nextstate != S_NULL)
             st = &states[st->nextstate];
@@ -1375,6 +1372,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     int     speed;
 
     z = source->z + 4 * 8 * FRACUNIT;
+
     if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1
         && r_liquid_clipsprites)
         z -= FOOTCLIPSIZE;
@@ -1414,13 +1412,11 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 {
     mobj_t  *th;
-    angle_t an;
     fixed_t x, y, z;
-    fixed_t slope;
 
     // see which target is to be aimed at
-    an = source->angle;
-    slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
+    angle_t an = source->angle;
+    fixed_t slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
 
     if (!linetarget)
     {
@@ -1477,7 +1473,7 @@ void P_InitExtraMobjs(void)
 {
     int i;
 
-    for (i = MT_SHADOW; i <= MT_EXTRA99; i++)
+    for (i = MT_EXTRA00; i <= MT_EXTRA99; i++)
     {
         mobjinfo[i].doomednum = -1;
         mobjinfo[i].spawnstate = S_NULL;

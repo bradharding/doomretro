@@ -58,7 +58,6 @@ void T_FireFlicker(fireflicker_t *flick)
         return;
 
     flick->sector->lightlevel = MAX(flick->minlight, flick->maxlight - (M_Random() & 3) * 16);
-
     flick->count = 4;
 }
 
@@ -120,7 +119,6 @@ void P_SpawnLightFlash(sector_t *sector)
     flash->thinker.function = T_LightFlash;
     flash->sector = sector;
     flash->maxlight = sector->lightlevel;
-
     flash->minlight = P_FindMinSurroundingLight(sector, sector->lightlevel);
     flash->maxtime = 63;
     flash->mintime = 7;
@@ -206,7 +204,6 @@ dboolean EV_TurnTagLightsOff(line_t *line)
     int i;
 
     // search sectors for those with same tag as activating line
-
     // killough 10/98: replaced inefficient search with fast search
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
@@ -234,7 +231,6 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
     int i;
 
     // search all sectors for ones with same tag as activating line
-
     // killough 10/98: replace inefficient search with fast search
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
