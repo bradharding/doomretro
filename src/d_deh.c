@@ -2127,8 +2127,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         if ((sscanf(inbuffer, "%31s %10i = %31s", key, &indexnum, mnemonic) != 3)
             || !M_StringCompare(key, "FRAME"))        // NOTE: different format from normal
         {
-            C_Warning("Invalid BEX codepointer line - must start with \"FRAME\": \"%s\".",
-                inbuffer);
+            C_Warning("Invalid BEX codepointer line - must start with \"FRAME\": \"%s\".", inbuffer);
             return;     // early return
         }
 

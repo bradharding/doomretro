@@ -364,7 +364,7 @@ static vissprite_t *R_NewVisSprite(void)
         vissprites = Z_Realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
     }
 
-    return (vissprites + num_vissprite++);
+    return vissprites + num_vissprite++;
 }
 
 //

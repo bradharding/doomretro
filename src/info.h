@@ -1371,6 +1371,7 @@ typedef enum mobjtype_e
     MT_MUSICSOURCE,
     MT_GIBDTH,
 
+    // [BH] DOOM Retro mobjs
     MT_BLUEBLOOD,
     MT_GREENBLOOD,
     MT_FUZZYBLOOD,

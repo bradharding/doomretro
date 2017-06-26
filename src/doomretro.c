@@ -218,8 +218,8 @@ LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 
     const SDL_MessageBoxButtonData buttons[] =
     {
-        { 0, 0, "&Report" },
-        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "&OK" }
+        {                                       0, 0, "&Report" },
+        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "&OK"     }
     };
 
     const SDL_MessageBoxData messageboxdata =

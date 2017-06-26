@@ -781,7 +781,7 @@ static void D_CheckSupportedPWAD(char *filename)
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (M_StringCompare(leafname(filename), "voices.wad"));
+    return M_StringCompare(leafname(filename), "voices.wad");
 }
 
 #if defined(__MACOSX__)

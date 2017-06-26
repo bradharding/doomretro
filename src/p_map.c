@@ -418,7 +418,6 @@ static dboolean PIT_CheckLine(line_t *ld)
 dboolean PIT_CheckThing(mobj_t *thing)
 {
     fixed_t     blockdist;
-    int         damage;
     dboolean    unblocking = false;
     int         flags = thing->flags;
     int         tmflags = tmthing->flags;
@@ -513,8 +512,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
             return !(flags & MF_SOLID);                         // didn't do any damage
 
         // damage / explode
-        damage = ((M_Random() % 8) + 1) * tmthing->info->damage;
-        P_DamageMobj(thing, tmthing, tmthing->target, damage, true);
+        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() % 8) + 1) * tmthing->info->damage, true);
 
         if (thing->type != MT_BARREL)
         {
