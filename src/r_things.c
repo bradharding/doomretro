@@ -93,6 +93,7 @@ extern dboolean         drawbloodsplats;
 extern dboolean         inhelpscreens;
 extern dboolean         mouselook;
 extern dboolean         notranslucency;
+extern dboolean         r_fixspriteoffsets;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_shadows;
 extern dboolean         r_textures;
@@ -695,7 +696,7 @@ static void R_ProjectSprite(mobj_t *thing)
         flip = (!!(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
-    if (thing->state->dehacked)
+    if (thing->state->dehacked || !r_fixspriteoffsets)
     {
         offset = spriteoffset[lump];
         topoffset = spritetopoffset[lump];
@@ -1091,7 +1092,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
 void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
-    dboolean    altered = weaponinfo[viewplayer->readyweapon].altered;
+    dboolean    altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
 
