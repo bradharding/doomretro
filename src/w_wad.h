@@ -75,6 +75,7 @@ struct lumpinfo_s
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
 
+char *GetCorrectCase(char *path);
 wadfile_t *W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);
 

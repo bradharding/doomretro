@@ -2089,7 +2089,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     else
         C_Output("Parsed the <i><b>DeHackEd</b></i>%s file <b>%s</b>.",
             (M_StringEndsWith(uppercase(filename), "BEX") ? " with <i><b>BOOM</b></i> extensions" : ""),
-            filename);
+            GetCorrectCase(filename));
 }
 
 // ====================================================================
