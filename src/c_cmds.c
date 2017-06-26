@@ -451,6 +451,7 @@ static void r_bloodsplats_translucency_cvar_func2(char *, char *);
 static dboolean r_detail_cvar_func1(char *, char *);
 static void r_detail_cvar_func2(char *, char *);
 static void r_dither_cvar_func2(char *, char *);
+static void r_fixmaperrors_cvar_func2(char *, char *);
 static dboolean r_gamma_cvar_func1(char *, char *);
 static void r_gamma_cvar_func2(char *, char *);
 static void r_hud_cvar_func2(char *, char *);
@@ -756,7 +757,7 @@ consolecmd_t consolecmds[] =
         "Toggles showing a disk icon when loading and saving."),
     CVAR_BOOL(r_dither, "", bool_cvars_func1, r_dither_cvar_func2, BOOLVALUEALIAS,
         "Toggles dithering of <i><b>BOOM</b></i>-compatible translucent\nwall textures."),
-    CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, r_fixmaperrors_cvar_func2, BOOLVALUEALIAS,
         "Toggles the fixing of mapping errors in the <i><b>DOOM</b></i>\nand <i><b>DOOM II</b></i> IWADs."),
     CVAR_BOOL(r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the fixing of sprite offsets."),
@@ -4743,6 +4744,38 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 C_LookupAliasFromValue(r_dither, BOOLVALUEALIAS),
                 C_LookupAliasFromValue(r_dither_default, BOOLVALUEALIAS));
+    }
+}
+
+//
+// r_fixmaperrors CVAR
+//
+static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        int value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if (value == 0 || value == 1)
+        {
+            r_fixmaperrors = !!value;
+            M_SaveCVARs();
+
+            if (r_fixmaperrors && gamestate == GS_LEVEL)
+                C_Warning(PENDINGCHANGE);
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_fixmaperrors))].description));
+
+        if (r_fixmaperrors == r_fixmaperrors_default)
+            C_Output("It is currently set to its default of <b>%s</b>.",
+                C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS));
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS),
+                C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS));
     }
 }
 
