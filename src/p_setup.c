@@ -2379,8 +2379,6 @@ int noliquidlumps;
 static void InitMapInfo(void)
 {
     int         i;
-    int         episode;
-    int         map;
     int         mapmax = 1;
     int         mcmdvalue;
     mapinfo_t   *info;
@@ -2405,13 +2403,16 @@ static void InitMapInfo(void)
 
     while (SC_GetString())
     {
+        int episode = -1;
+        int map = -1;
+
         if (!SC_Compare("MAP"))
             continue;
 
         SC_MustGetString();
-        map = strtol(sc_String, NULL, 0);
+        sscanf(sc_String, "%i", &map);
 
-        if (map < 1 || map > 99)
+        if (map < 0 || map > 99)
         {
             char    *mapnum = uppercase(sc_String);
 
@@ -2430,7 +2431,7 @@ static void InitMapInfo(void)
             }
         }
 
-        if (map < 1 || map > 99)
+        if (map < 0 || map > 99)
         {
             if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wadfile->path), "NERVE.WAD"))
             {
