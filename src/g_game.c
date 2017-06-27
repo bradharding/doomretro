@@ -1765,9 +1765,6 @@ void G_InitNew(skill_t skill, int ep, int map)
             ep = 1;     // only start episode 1 on shareware
     }
 
-    if (map < 1)
-        map = 1;
-
     if (map > 9 && gamemode != commercial)
         map = 9;
 
