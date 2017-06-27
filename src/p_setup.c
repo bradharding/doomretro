@@ -2605,7 +2605,7 @@ static void InitMapInfo(void)
 
 static int QualifyMap(int map)
 {
-    return (map < 1 || map > mapcount ? 100 : map);
+    return (map < 0 || map > mapcount ? 100 : map);
 }
 
 char *P_GetMapAuthor(int map)
