@@ -2496,9 +2496,9 @@ static void InitMapInfo(void)
                         int nextmap = 0;
 
                         SC_MustGetString();
-                        nextmap = strtol(sc_String, (char **)NULL, 10);
+                        sscanf(sc_String, "%i", &nextmap);
 
-                        if (nextmap < 1 || nextmap > 99)
+                        if (nextmap < 0 || nextmap > 99)
                         {
                             char    *mapnum = uppercase(sc_String);
 
@@ -2545,9 +2545,9 @@ static void InitMapInfo(void)
                         int nextmap = 0;
 
                         SC_MustGetString();
-                        nextmap = strtol(sc_String, (char **)NULL, 10);
+                        sscanf(sc_String, "%i", &nextmap);
 
-                        if (nextmap < 1 || nextmap > 99)
+                        if (nextmap < 0 || nextmap > 99)
                         {
                             char    *mapnum = uppercase(sc_String);
 
