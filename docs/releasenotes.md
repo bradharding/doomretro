@@ -23,7 +23,7 @@
   * [*TNT: Revilution*](https://www.doomworld.com/files/file/18810-tnt-revilution/).
 * Three new CVARs have been implemented to individually toggle the translucency of certain elements: `r_bloodsplats_translucency`, `r_hud_translucency` and `r_shadows_translucency`. They are all `on` by default. (The `r_translucency` CVAR remains to toggle the translucency of sprites and *BOOM*-compatible wall textures.)
 * The console’s background is now always translucent.
-* Further improvements have been made to the support of `DEHACKED` lumps.
+* Further improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The ability to have the player’s weapon recoil when fired can now be enabled using the new `weaponrecoil` CVAR. (Mouselook also needs to be enabled using the `mouselook` CVAR.)
 * The [wallrunning](https://doomwiki.org/wiki/Wallrunning) exploit present in *Vanilla DOOM* is now fixed.
 * The number of sound effects that can be played at the same time is now specified using the new `s_channels` CVAR. It can be between `8` and `256`, and is `32` by default.
@@ -45,7 +45,7 @@
 * Blood splats now render correctly when against the left edge of the screen.
 * The default of the `r_bloodsplats_max` CVAR has been increased to `65,536`.
 * All blood splats are now restored when turning off vanilla mode.
-* Barrels are no longer fullbright for the first two frames of the animation when exploding.
+* Barrels are no longer fullbright for the first two frames of their animation when exploding.
 * A gradual lighting effect has been applied to sectors under crushing ceilings.
 * The length of each frame in milliseconds is now displayed along with the number of frames per second when the `vid_showfps` CVAR is `on`.
 * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now integers rather than strings, and are no longer read-only.
@@ -54,6 +54,7 @@
 * Enabling the `respawnitems` CCMD will now be effective immediately, respawning all items picked up so far in the current map.
 * The `s_timiditycfgpath` CVAR has been removed.
 * The effects of changing the `r_fixspriteoffsets` CVAR are now immediate.
+* The grid in the automap is now slightly darker.
 
 ---
 

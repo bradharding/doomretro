@@ -890,7 +890,7 @@ consolecmd_t consolecmds[] =
         "The size of the window on the desktop\n(<i>width</i><b>\xD7</b><i>height</i>)."),
 #if defined(_WIN32)
     CVAR_STR(wad, "", null_func1, str_cvars_func2, CF_READONLY,
-        "The last WAD to be opened using the WAD launcher."),
+        "The last WAD to be opened by the WAD launcher."),
 #endif
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs up and down\nwhen they move."),
