@@ -2523,8 +2523,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     // search through lumps for maps
     for (i = 0; i < numlumps; i++)
     {
-        int         ep = 0;
-        int         map = 0;
+        int         ep = -1;
+        int         map = -1;
         char        lump[8];
         char        wad[MAX_PATH];
         dboolean    replaced;
@@ -2538,13 +2538,13 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             ep = 1;
             sscanf(lump, "MAP0%1i", &map);
 
-            if (!map)
+            if (map == -1)
                 sscanf(lump, "MAP%2i", &map);
         }
         else
             sscanf(lump, "E%1iM%1i", &ep, &map);
 
-        if (!ep-- || !map--)
+        if (ep-- == -1 || map-- == -1)
             continue;
 
         M_StringCopy(wad, leafname(lumpinfo[i]->wadfile->path), MAX_PATH);
