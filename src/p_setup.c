@@ -165,7 +165,7 @@ dboolean        skipblstart;            // MaxW: Skip initial blocklist short
 static int      rejectlump = -1;        // cph - store reject lump num if cached
 const byte      *rejectmatrix;          // cph - const*
 
-static mapinfo_t mapinfo[99];
+static mapinfo_t mapinfo[101];
 
 static char *mapcmdnames[] =
 {
@@ -2605,7 +2605,7 @@ static void InitMapInfo(void)
 
 static int QualifyMap(int map)
 {
-    return (map < 1 || map > mapcount ? 0 : map);
+    return (map < 1 || map > mapcount ? 100 : map);
 }
 
 char *P_GetMapAuthor(int map)
