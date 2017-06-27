@@ -630,7 +630,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
         char    namebuf[9];
 
         M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
-        music->lumpnum = W_GetNumForName(namebuf);
+        music->lumpnum = W_CheckNumForName(namebuf);
     }
 
     if (music->lumpnum != -1)
@@ -645,7 +645,8 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
         if (!serverMidiPlaying)
 #endif
         {
-            C_Warning("The D_%s music lump can't be played.", uppercase(music->name));
+            if (*music->name)
+                C_Warning("The D_%s music lump can't be played.", uppercase(music->name));
             return;
         }
 
