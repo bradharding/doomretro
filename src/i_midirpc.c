@@ -247,8 +247,8 @@ dboolean I_MidiRPCResumeSong(void)
 //
 dboolean I_MidiRPCInitServer(void)
 {
-    char                module[MAX_PATH + 1];
-    dboolean            result;
+    char        module[MAX_PATH + 1];
+    dboolean    result;
 
     M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe", M_GetExecutableFolder());
 
