@@ -2558,7 +2558,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced && dehcount == 1
                         && !*mapinfoname ? "-" : titlecase(*mapinfoname ? mapinfoname :
-                            *mapnames[ep * 9 + map])), wad);
+                        *mapnames[ep * 9 + map])), wad);
 
                 break;
 

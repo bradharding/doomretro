@@ -336,8 +336,10 @@ void P_LoadSegs(int lump)
     {
         seg_t           *li = segs + i;
         const mapseg_t  *ml = data + i;
-        unsigned short  v1, v2;
-        int             side, linedef;
+        unsigned short  v1;
+        unsigned short  v2;
+        int             side;
+        int             linedef;
         line_t          *ldef;
 
         v1 = (unsigned short)SHORT(ml->v1);
@@ -393,13 +395,11 @@ void P_LoadSegs(int lump)
         // http://www.doomworld.com/idgames/index.php?id=12647
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
-            char    *buffer = "Seg %s references an invalid vertex of %s.";
-
             if (v1 >= numvertexes)
-                C_Warning(buffer, commify(i), commify(v1));
+                C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
 
             if (v2 >= numvertexes)
-                C_Warning(buffer, commify(i), commify(v2));
+                C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
 
             if (li->sidedef == &sides[li->linedef->sidenum[0]])
             {
@@ -538,8 +538,10 @@ static void P_LoadSegs_V4(int lump)
     {
         seg_t               *li = segs + i;
         const mapseg_v4_t   *ml = data + i;
-        int                 v1, v2;
-        int                 side, linedef;
+        int                 v1;
+        int                 v2;
+        int                 side;
+        int                 linedef;
         line_t              *ldef;
 
         v1 = ml->v1;
@@ -598,13 +600,11 @@ static void P_LoadSegs_V4(int lump)
         // http://www.doomworld.com/idgames/index.php?id=12647
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
-            char    *buffer = "Seg %s references an invalid vertex of %s.";
-
             if (v1 >= numvertexes)
-                C_Warning(buffer, commify(i), commify(v1));
+                C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v1));
 
             if (v2 >= numvertexes)
-                C_Warning(buffer, commify(i), commify(v2));
+                C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
 
             if (li->sidedef == &sides[li->linedef->sidenum[0]])
             {
@@ -1245,7 +1245,8 @@ static void P_LoadLineDefs(int lump)
     {
         const maplinedef_t  *mld = (const maplinedef_t *)data + i;
         line_t              *ld = lines + i;
-        vertex_t            *v1, *v2;
+        vertex_t            *v1;
+        vertex_t            *v2;
 
         ld->flags = (unsigned short)SHORT(mld->flags);
 
@@ -1357,6 +1358,7 @@ static void P_LoadLineDefs2(int lump)
                         if (lines[j].tag == ld->tag)   // affect all matching linedefs
                             lines[j].tranlump = lump;
                 }
+
                 break;
 
             case TransferSkyTextureToTaggedSectors:
@@ -1396,8 +1398,7 @@ static void P_LoadSideDefs2(int lump)
         // cph 2006/09/30 - catch out-of-range sector numbers; use sector 0 instead
         if (sector_num >= numsectors)
         {
-            C_Warning("Sidedef %s references an invalid sector of %s.",
-                commify(i), commify(sector_num));
+            C_Warning("Sidedef %s references an invalid sector of %s.", commify(i), commify(sector_num));
             sector_num = 0;
         }
 
@@ -1492,13 +1493,11 @@ static dboolean P_VerifyBlockMap(int count)
 
             // scan the list for out-of-range linedef indicies in list
             for (tmplist = list; *tmplist != -1; tmplist++)
-            {
                 if (*tmplist < 0 || *tmplist >= numlines)
                 {
                     isvalid = false;
                     break;
                 }
-            }
 
             if (!isvalid) // if a list has a bad linedef index, break now
                 break;
@@ -1832,7 +1831,9 @@ static int P_GroupLines(void)
 {
     line_t      *li;
     sector_t    *sector;
-    int         i, j, total = numlines;
+    int         i;
+    int         j;
+    int         total = numlines;
 
     // figgi
     for (i = 0; i < numsubsectors; i++)
@@ -1992,7 +1993,8 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
                         int64_t dy2 = (l->dy >> FRACBITS) * (l->dy >> FRACBITS);
                         int64_t dxy = (l->dx >> FRACBITS) * (l->dy >> FRACBITS);
                         int64_t s = dx2 + dy2;
-                        int     x0 = v->x, y0 = v->y, x1 = l->v1->x, y1 = l->v1->y;
+                        int     x0 = v->x, y0 = v->y;
+                        int     x1 = l->v1->x, y1 = l->v1->y;
 
                         v->x = (fixed_t)((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) / s);
                         v->y = (fixed_t)((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) / s);
@@ -2270,10 +2272,7 @@ void P_SetupLevel(int ep, int map)
     else
         M_snprintf(lumpname, 5, "E%iM%i", ep, map);
 
-    if (nerve && gamemission == doom2)
-        lumpnum = W_GetNumForName2(lumpname);
-    else
-        lumpnum = W_GetNumForName(lumpname);
+    lumpnum = (nerve && gamemission == doom2 ? W_GetNumForName2(lumpname) : W_GetNumForName(lumpname));
 
     mapformat = P_CheckMapFormat(lumpnum);
 
@@ -2284,11 +2283,13 @@ void P_SetupLevel(int ep, int map)
     animatedliquiddiff = FRACUNIT;
     animatedliquidxdir = M_RandomInt(-1, 1) * FRACUNIT / 12;
     animatedliquidydir = M_RandomInt(-1, 1) * FRACUNIT / 12;
+
     if (!animatedliquidxdir && !animatedliquidydir)
     {
         animatedliquidxdir = FRACUNIT / 12;
         animatedliquidydir = FRACUNIT / 12;
     }
+
     animatedliquidxoffs = 0;
     animatedliquidyoffs = 0;
 
@@ -2427,7 +2428,9 @@ static void InitMapInfo(void)
             else
             {
                 sscanf(mapnum, "E%1iM%1i", &episode, &map);
-                map += (episode - 1) * 10;
+
+                if (episode != -1 && map != -1)
+                    map += (episode - 1) * 10;
             }
         }
 
@@ -2507,7 +2510,7 @@ static void InitMapInfo(void)
                                 nextepisode = 1;
                                 sscanf(mapnum, "MAP0%1i", &nextmap);
 
-                                if (!nextmap)
+                                if (nextmap == -1)
                                     sscanf(mapnum, "MAP%2i", &nextmap);
                             }
                             else
@@ -2556,7 +2559,7 @@ static void InitMapInfo(void)
                                 nextepisode = 1;
                                 sscanf(mapnum, "MAP0%1i", &nextmap);
 
-                                if (!nextmap)
+                                if (nextmap == -1)
                                     sscanf(mapnum, "MAP%2i", &nextmap);
                             }
                             else
