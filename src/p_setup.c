@@ -64,22 +64,24 @@
 #define NUMLIQUIDS              256
 
 #define MCMD_AUTHOR             1
-#define MCMD_LIQUID             2
-#define MCMD_MUSIC              3
-#define MCMD_NEXT               4
-#define MCMD_NOLIQUID           5
-#define MCMD_PAR                6
-#define MCMD_PISTOLSTART        7
-#define MCMD_SECRETNEXT         8
-#define MCMD_SKY1               9
-#define MCMD_TITLEPATCH         10
-#define MCMD_NOBRIGHTMAP        11
+#define MCMD_CLUSTER            2
+#define MCMD_LIQUID             3
+#define MCMD_MUSIC              4
+#define MCMD_NEXT               5
+#define MCMD_NOBRIGHTMAP        6
+#define MCMD_NOLIQUID           7
+#define MCMD_PAR                8
+#define MCMD_PISTOLSTART        9
+#define MCMD_SECRETNEXT         10
+#define MCMD_SKY1               11
+#define MCMD_TITLEPATCH         12
 
 typedef struct mapinfo_s mapinfo_t;
 
 struct mapinfo_s
 {
     char        author[128];
+    int         cluster;
     int         liquid[NUMLIQUIDS];
     int         music;
     char        name[128];
@@ -2407,196 +2409,201 @@ static void InitMapInfo(void)
         int episode = -1;
         int map = -1;
 
-        if (!SC_Compare("MAP"))
-            continue;
-
-        SC_MustGetString();
-        sscanf(sc_String, "%i", &map);
-
-        if (map < 0 || map > 99)
+        if (SC_Compare("MAP"))
         {
-            char    *mapnum = uppercase(sc_String);
+            SC_MustGetString();
+            sscanf(sc_String, "%i", &map);
 
-            if (gamemode == commercial)
+            if (map < 0 || map > 99)
             {
-                episode = 1;
-                sscanf(mapnum, "MAP0%1i", &map);
+                char    *mapnum = uppercase(sc_String);
 
-                if (map == -1)
-                    sscanf(mapnum, "MAP%2i", &map);
-            }
-            else
-            {
-                sscanf(mapnum, "E%1iM%1i", &episode, &map);
-
-                if (episode != -1 && map != -1)
-                    map += (episode - 1) * 10;
-            }
-        }
-
-        if (map < 0 || map > 99)
-        {
-            if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wadfile->path), "NERVE.WAD"))
-            {
-                C_Warning("The map markers in PWAD %s are invalid.", lumpinfo[MAPINFO]->wadfile->path);
-                nerve = false;
-                NewDef.prevMenu = &MainDef;
-                MAPINFO = -1;
-                return;
-            }
-            else
-            {
-                C_Warning("The MAPINFO lump contains an invalid map marker.");
-                continue;
-            }
-        }
-
-        info = &mapinfo[map];
-
-        // Map name must follow the number
-        SC_MustGetString();
-
-        if (!SC_Compare("LOOKUP"))
-            M_StringCopy(info->name, sc_String, sizeof(info->name));
-
-        // Process optional tokens
-        while (SC_GetString())
-        {
-            if (SC_Compare("MAP"))
-            {
-                SC_UnGet();
-                break;
-            }
-
-            if ((mcmdvalue = SC_MatchString(mapcmdnames)) >= 0)
-                switch (mapcmdids[mcmdvalue])
+                if (gamemode == commercial)
                 {
-                    case MCMD_AUTHOR:
-                        SC_MustGetString();
-                        M_StringCopy(info->author, sc_String, sizeof(info->author));
-                        break;
+                    episode = 1;
+                    sscanf(mapnum, "MAP0%1i", &map);
 
-                    case MCMD_LIQUID:
-                    {
-                        int lump;
-
-                        SC_MustGetString();
-
-                        if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
-                            info->liquid[liquidlumps++] = lump;
-
-                        break;
-                    }
-
-                    case MCMD_MUSIC:
-                        SC_MustGetString();
-                        info->music = W_CheckNumForName(sc_String);
-                        break;
-
-                    case MCMD_NEXT:
-                    {
-                        int nextepisode = 0;
-                        int nextmap = 0;
-
-                        SC_MustGetString();
-                        sscanf(sc_String, "%i", &nextmap);
-
-                        if (nextmap < 0 || nextmap > 99)
-                        {
-                            char    *mapnum = uppercase(sc_String);
-
-                            if (gamemode == commercial)
-                            {
-                                nextepisode = 1;
-                                sscanf(mapnum, "MAP0%1i", &nextmap);
-
-                                if (nextmap == -1)
-                                    sscanf(mapnum, "MAP%2i", &nextmap);
-                            }
-                            else
-                                sscanf(mapnum, "E%1iM%1i", &nextepisode, &nextmap);
-                        }
-
-                        info->next = (nextepisode - 1) * 10 + nextmap;
-                        break;
-                    }
-
-                    case MCMD_NOLIQUID:
-                    {
-                        int lump;
-
-                        SC_MustGetString();
-
-                        if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
-                            info->noliquid[noliquidlumps++] = lump;
-
-                        break;
-                    }
-
-                    case MCMD_PAR:
-                        SC_MustGetNumber();
-                        info->par = sc_Number;
-                        break;
-
-                    case MCMD_PISTOLSTART:
-                        info->pistolstart = true;
-                        break;
-
-                    case MCMD_SECRETNEXT:
-                    {
-                        int nextepisode = 0;
-                        int nextmap = 0;
-
-                        SC_MustGetString();
-                        sscanf(sc_String, "%i", &nextmap);
-
-                        if (nextmap < 0 || nextmap > 99)
-                        {
-                            char    *mapnum = uppercase(sc_String);
-
-                            if (gamemode == commercial)
-                            {
-                                nextepisode = 1;
-                                sscanf(mapnum, "MAP0%1i", &nextmap);
-
-                                if (nextmap == -1)
-                                    sscanf(mapnum, "MAP%2i", &nextmap);
-                            }
-                            else
-                                sscanf(mapnum, "E%1iM%1i", &nextepisode, &nextmap);
-                        }
-
-                        info->secretnext = (nextepisode - 1) * 10 + nextmap;
-                        break;
-                    }
-
-                    case MCMD_SKY1:
-                        SC_MustGetString();
-                        info->sky1texture = R_TextureNumForName(sc_String);
-                        SC_MustGetNumber();
-                        info->sky1scrolldelta = sc_Number << 8;
-                        break;
-
-                    case MCMD_TITLEPATCH:
-                        SC_MustGetString();
-                        info->titlepatch = W_CheckNumForName(sc_String);
-                        break;
-
-                    case MCMD_NOBRIGHTMAP:
-                    {
-                        int texture;
-
-                        SC_MustGetString();
-
-                        if ((texture = R_TextureNumForName(sc_String)) >= 0)
-                            nobrightmap[texture] = true;
-
-                        break;
-                    }
+                    if (map == -1)
+                        sscanf(mapnum, "MAP%2i", &map);
                 }
-        }
+                else
+                {
+                    sscanf(mapnum, "E%1iM%1i", &episode, &map);
 
-        mapmax = MAX(map, mapmax);
+                    if (episode != -1 && map != -1)
+                        map += (episode - 1) * 10;
+                }
+            }
+
+            if (map < 0 || map > 99)
+            {
+                if (M_StringCompare(leafname(lumpinfo[MAPINFO]->wadfile->path), "NERVE.WAD"))
+                {
+                    C_Warning("The map markers in PWAD %s are invalid.", lumpinfo[MAPINFO]->wadfile->path);
+                    nerve = false;
+                    NewDef.prevMenu = &MainDef;
+                    MAPINFO = -1;
+                    return;
+                }
+                else
+                {
+                    C_Warning("The MAPINFO lump contains an invalid map marker.");
+                    continue;
+                }
+            }
+
+            info = &mapinfo[map];
+
+            // Map name must follow the number
+            SC_MustGetString();
+
+            if (!SC_Compare("LOOKUP"))
+                M_StringCopy(info->name, sc_String, sizeof(info->name));
+
+            // Process optional tokens
+            while (SC_GetString())
+            {
+                if (SC_Compare("MAP"))
+                {
+                    SC_UnGet();
+                    break;
+                }
+
+                if ((mcmdvalue = SC_MatchString(mapcmdnames)) >= 0)
+                    switch (mapcmdids[mcmdvalue])
+                    {
+                        case MCMD_AUTHOR:
+                            SC_MustGetString();
+                            M_StringCopy(info->author, sc_String, sizeof(info->author));
+                            break;
+
+                        case MCMD_CLUSTER:
+                            SC_MustGetNumber();
+                            info->cluster = sc_Number;
+                            break;
+
+                        case MCMD_LIQUID:
+                        {
+                            int lump;
+
+                            SC_MustGetString();
+
+                            if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
+                                info->liquid[liquidlumps++] = lump;
+
+                            break;
+                        }
+
+                        case MCMD_MUSIC:
+                            SC_MustGetString();
+                            info->music = W_CheckNumForName(sc_String);
+                            break;
+
+                        case MCMD_NEXT:
+                        {
+                            int nextepisode = -1;
+                            int nextmap = -1;
+
+                            SC_MustGetString();
+                            sscanf(sc_String, "%i", &nextmap);
+
+                            if (nextmap < 0 || nextmap > 99)
+                            {
+                                char    *mapnum = uppercase(sc_String);
+
+                                if (gamemode == commercial)
+                                {
+                                    nextepisode = 1;
+                                    sscanf(mapnum, "MAP0%1i", &nextmap);
+
+                                    if (nextmap == -1)
+                                        sscanf(mapnum, "MAP%2i", &nextmap);
+                                }
+                                else
+                                    sscanf(mapnum, "E%1iM%1i", &nextepisode, &nextmap);
+                            }
+
+                            info->next = (nextepisode - 1) * 10 + nextmap;
+                            break;
+                        }
+
+                        case MCMD_NOBRIGHTMAP:
+                        {
+                            int texture;
+
+                            SC_MustGetString();
+
+                            if ((texture = R_TextureNumForName(sc_String)) >= 0)
+                                nobrightmap[texture] = true;
+
+                            break;
+                        }
+
+                        case MCMD_NOLIQUID:
+                        {
+                            int lump;
+
+                            SC_MustGetString();
+
+                            if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
+                                info->noliquid[noliquidlumps++] = lump;
+
+                            break;
+                        }
+
+                        case MCMD_PAR:
+                            SC_MustGetNumber();
+                            info->par = sc_Number;
+                            break;
+
+                        case MCMD_PISTOLSTART:
+                            info->pistolstart = true;
+                            break;
+
+                        case MCMD_SECRETNEXT:
+                        {
+                            int nextepisode = -1;
+                            int nextmap = -1;
+
+                            SC_MustGetString();
+                            sscanf(sc_String, "%i", &nextmap);
+
+                            if (nextmap < 0 || nextmap > 99)
+                            {
+                                char    *mapnum = uppercase(sc_String);
+
+                                if (gamemode == commercial)
+                                {
+                                    nextepisode = 1;
+                                    sscanf(mapnum, "MAP0%1i", &nextmap);
+
+                                    if (nextmap == -1)
+                                        sscanf(mapnum, "MAP%2i", &nextmap);
+                                }
+                                else
+                                    sscanf(mapnum, "E%1iM%1i", &nextepisode, &nextmap);
+                            }
+
+                            info->secretnext = (nextepisode - 1) * 10 + nextmap;
+                            break;
+                        }
+
+                        case MCMD_SKY1:
+                            SC_MustGetString();
+                            info->sky1texture = R_TextureNumForName(sc_String);
+                            SC_MustGetNumber();
+                            info->sky1scrolldelta = sc_Number << 8;
+                            break;
+
+                        case MCMD_TITLEPATCH:
+                            SC_MustGetString();
+                            info->titlepatch = W_CheckNumForName(sc_String);
+                            break;
+                    }
+            }
+
+            mapmax = MAX(map, mapmax);
+        }
     }
 
     SC_Close();
