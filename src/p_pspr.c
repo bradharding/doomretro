@@ -913,10 +913,18 @@ void P_MovePsprites(player_t *player)
     }
 
     // [BH] shake the BFG before firing when weapon recoil enabled
-    if (weapon->state == &states[S_BFG1] && weaponrecoil && mouselook)
+    if (player->readyweapon == wp_bfg && weaponrecoil && mouselook)
     {
-        weapon->sx = M_RandomInt(-2, 2) * FRACUNIT;
-        weapon->sy = WEAPONTOP + M_RandomInt(-1, 1) * FRACUNIT;
+        if (weapon->state == &states[S_BFG1])
+        {
+            weapon->sx = M_RandomInt(-2, 2) * FRACUNIT;
+            weapon->sy = WEAPONTOP + M_RandomInt(-1, 1) * FRACUNIT;
+        }
+        else if (weapon->state == &states[S_BFG2])
+        {
+            weapon->sx = 0;
+            weapon->sy = WEAPONTOP;
+        }
     }
 
     flash->sx = weapon->sx;
