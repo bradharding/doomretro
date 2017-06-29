@@ -146,6 +146,7 @@ dboolean            splashscreen;
 int                 startuptimer;
 
 dboolean            realframe;
+static dboolean     error;
 
 extern dboolean     alwaysrun;
 extern unsigned int stat_cheated;
@@ -723,8 +724,12 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
         {
             static char buffer[1024];
 
+#if defined(_WIN32)
+            PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
+#endif
             M_snprintf(buffer, 1024, PACKAGE_NAME" does not support %s.", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
+            error = true;
             return true;
         }
 
@@ -1053,6 +1058,8 @@ static int D_OpenWADLauncher(void)
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     fileopenedok = GetOpenFileName(&ofn);
+
+    error = false;
 
 #elif defined(__MACOSX__)
     NSOpenPanel *panel = [NSOpenPanel openPanel];
@@ -1815,7 +1822,7 @@ static void D_DoomMainSetup(void)
             {
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
-                else if (!choseniwad)
+                else if (!choseniwad && !error)
                 {
 #if defined(_WIN32)
                     PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
