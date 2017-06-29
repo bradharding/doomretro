@@ -2421,7 +2421,7 @@ static void InitMapInfo(void)
                 episode = 1;
                 sscanf(mapnum, "MAP0%1i", &map);
 
-                if (!map)
+                if (map == -1)
                     sscanf(mapnum, "MAP%2i", &map);
             }
             else
