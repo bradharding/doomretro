@@ -1718,7 +1718,7 @@ void M_Episode(int choice)
             M_StartMessage(s_SWSTRING, NULL, false);
         else
         {
-            M_snprintf(tempstring, 160, "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSYN));
+            M_snprintf(tempstring, 160, "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSKEY));
             M_StartMessage(tempstring, NULL, false);
         }
 

@@ -1501,7 +1501,7 @@ static void SetVideoMode(dboolean output)
                     SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
             else
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
-                    "interpolation.",  SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
+                    "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
         }
 
         I_CapFPS(0);
@@ -1528,8 +1528,7 @@ static void SetVideoMode(dboolean output)
                 }
                 else
                 {
-                    if (vid_capfps)
-                        I_CapFPS(vid_capfps);
+                    I_CapFPS(vid_capfps);
 
                     if (output)
                         C_Output("The framerate is capped at %s FPS.", commify(vid_capfps));

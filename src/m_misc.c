@@ -232,6 +232,7 @@ char *M_GetAppDataFolder(void)
 
         if (!appdata)
             appdata = strdup(appSupportURL.fileSystemRepresentation);
+
         return appdata;
 #else
         // On Linux, store generated application files in /home/<username>/.config/doomretro
