@@ -4761,7 +4761,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
             r_fixmaperrors = !!value;
             M_SaveCVARs();
 
-            if (r_fixmaperrors && gamestate == GS_LEVEL)
+            if (r_fixmaperrors && gamestate == GS_LEVEL && !togglingvanilla)
                 C_Warning(PENDINGCHANGE);
         }
     }
