@@ -3022,6 +3022,7 @@ dboolean M_Responder(event_t *ev)
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
             else
             {
@@ -3052,22 +3053,26 @@ dboolean M_Responder(event_t *ev)
             {
                 episode = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(episode), episode);
             }
             else if (currentMenu == &ExpDef)
             {
                 expansion = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(expansion), expansion);
             }
             else if (currentMenu == &NewDef)
             {
                 skilllevel = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(skilllevel), skilllevel);
             }
             else if (currentMenu == &SaveDef)
             {
                 LoadDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
 
             keywait = I_GetTime() + 2;
@@ -3096,6 +3101,7 @@ dboolean M_Responder(event_t *ev)
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
             else
             {
@@ -3126,22 +3132,26 @@ dboolean M_Responder(event_t *ev)
             {
                 episode = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(episode), episode);
             }
             else if (currentMenu == &ExpDef)
             {
                 expansion = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(expansion), expansion);
             }
             else if (currentMenu == &NewDef)
             {
                 skilllevel = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(skilllevel), skilllevel);
             }
             else if (currentMenu == &SaveDef)
             {
                 LoadDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
 
             keywait = I_GetTime() + 2;
@@ -3219,6 +3229,13 @@ dboolean M_Responder(event_t *ev)
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
             }
+
+            if (currentMenu == &EpiDef)
+                C_IntCVAROutput(stringize(episode), episode);
+            else if (currentMenu == &ExpDef)
+                C_IntCVAROutput(stringize(expansion), expansion);
+            else if (currentMenu == &NewDef)
+                C_IntCVAROutput(stringize(skilllevel), skilllevel);
 
             M_SetWindowCaption();
             skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef);
@@ -3308,28 +3325,33 @@ dboolean M_Responder(event_t *ev)
                     {
                         episode = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(episode), episode);
                     }
                     else if (currentMenu == &ExpDef)
                     {
                         expansion = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(expansion), expansion);
                     }
                     else if (currentMenu == &NewDef)
                     {
                         skilllevel = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(skilllevel), skilllevel);
                     }
                     else if (currentMenu == &SaveDef)
                     {
                         LoadDef.lastOn = itemOn;
                         savegame = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(savegame), savegame);
                     }
                     else if (currentMenu == &LoadDef)
                     {
                         SaveDef.lastOn = itemOn;
                         savegame = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(savegame), savegame);
                     }
 
                     M_SetWindowCaption();
@@ -3365,28 +3387,33 @@ dboolean M_Responder(event_t *ev)
                     {
                         episode = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(episode), episode);
                     }
                     else if (currentMenu == &ExpDef)
                     {
                         expansion = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(expansion), expansion);
                     }
                     else if (currentMenu == &NewDef)
                     {
                         skilllevel = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(skilllevel), skilllevel);
                     }
                     else if (currentMenu == &SaveDef)
                     {
                         LoadDef.lastOn = itemOn;
                         savegame = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(savegame), savegame);
                     }
                     else if (currentMenu == &LoadDef)
                     {
                         SaveDef.lastOn = itemOn;
                         savegame = itemOn + 1;
                         M_SaveCVARs();
+                        C_IntCVAROutput(stringize(savegame), savegame);
                     }
 
                     M_SetWindowCaption();
@@ -3555,6 +3582,7 @@ void M_Drawer(void)
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
         }
 
