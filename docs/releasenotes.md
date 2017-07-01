@@ -1,5 +1,7 @@
 ### DOOM Retro v2.5.1
 
+* If no IWAD is found when loading a PWAD using the WAD launcher (either in the same folder as the PWAD or the folder specified by the `iwadfolder` CVAR), several common installation folders will now be checked.
+
 ---
 
 ###### Friday, June 30, 2017

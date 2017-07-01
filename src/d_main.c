@@ -952,22 +952,9 @@ dboolean D_CheckParms(void)
                 }
                 else
                 {
-                    // still nothing? try the DOOMWADDIR environment variable
-#if defined(_WIN32) || defined(__OpenBSD__)
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", getenv("DOOMWADDIR"),
-                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
-#else
-                    if (getenv("DOOMWADDIR") && !wordexp(getenv("DOOMWADDIR"), &p, 0) && p.we_wordc > 0)
-                    {
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", p.we_wordv[0],
-                            (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
-                        wordfree(&p);
-                    }
-                    else
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", getenv("DOOMWADDIR"),
-                            (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
-#endif
-                    IdentifyIWADByName(fullpath);
+                    // still nothing? try some common installation folders
+                    M_snprintf(fullpath, sizeof(fullpath),
+                        D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"));
 
                     if (W_AddFile(fullpath, true))
                     {
@@ -1183,10 +1170,9 @@ static int D_OpenWADLauncher(void)
                     }
                     else
                     {
-                        // still nothing? try the DOOMWADDIR environment variable
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", getenv("DOOMWADDIR"),
-                            (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
-                        IdentifyIWADByName(fullpath);
+                        // still nothing? try some common installation folders
+                        M_snprintf(fullpath, sizeof(fullpath),
+                            D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"));
 
                         if (W_AddFile(fullpath, true))
                         {
@@ -1319,6 +1305,7 @@ static int D_OpenWADLauncher(void)
                             nerve = true;
                             expansion = 2;
                         }
+
                         break;
                     }
                     else
@@ -1337,14 +1324,13 @@ static int D_OpenWADLauncher(void)
                                 nerve = true;
                                 expansion = 2;
                             }
+
                             break;
                         }
                         else
                         {
-                            // still nothing? try the DOOMWADDIR environment variable
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad",
-                                getenv("DOOMWADDIR"));
-                            IdentifyIWADByName(fullpath2);
+                            // still nothing? try some common installation folders
+                            M_snprintf(fullpath2, sizeof(fullpath2), D_FindWADByName("doom2.wad"));
 
                             if (W_AddFile(fullpath2, true))
                             {
@@ -1356,6 +1342,7 @@ static int D_OpenWADLauncher(void)
                                     nerve = true;
                                     expansion = 2;
                                 }
+
                                 break;
                             }
                         }
@@ -1468,11 +1455,9 @@ static int D_OpenWADLauncher(void)
                                     iwadfound = 1;
                                 else
                                 {
-                                    // still nothing? try the DOOMWADDIR environment variable
-                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                        getenv("DOOMWADDIR"), (iwadrequired == doom ? "doom.wad" :
-                                        "doom2.wad"));
-                                    IdentifyIWADByName(fullpath2);
+                                    // still nothing? try some common installation folders
+                                    M_snprintf(fullpath2, sizeof(fullpath2),
+                                        D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"));
 
                                     if (W_AddFile(fullpath2, true))
                                         iwadfound = 1;
@@ -1506,10 +1491,8 @@ static int D_OpenWADLauncher(void)
                             iwadfound = 1;
                         else
                         {
-                            // still nothing? try the DOOMWADDIR environment variable
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad",
-                                getenv("DOOMWADDIR"));
-                            IdentifyIWADByName(fullpath2);
+                            // still nothing? try some common installation folders
+                            M_snprintf(fullpath2, sizeof(fullpath2), "doom2.wad");
 
                             if (W_AddFile(fullpath2, true))
                                 iwadfound = 1;

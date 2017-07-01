@@ -338,7 +338,7 @@ void IdentifyIWADByName(char *name)
 //
 // Add directories from the list in the DOOMWADPATH environment variable.
 //
-static void AddDoomWadPath(void)
+static void AddDoomWADPath(void)
 {
     char    *doomwadpath = getenv("DOOMWADPATH");
     char    *p;
@@ -380,17 +380,12 @@ static void BuildIWADDirList(void)
     if (iwad_dirs_built)
         return;
 
-    // Look in the current directory. DOOM always does this.
-    AddIWADDir(".");
-
     // Add DOOMWADDIR if it is in the environment
-    doomwaddir = getenv("DOOMWADDIR");
-
-    if (doomwaddir)
+    if ((doomwaddir = getenv("DOOMWADDIR")))
         AddIWADDir(doomwaddir);
 
     // Add dirs from DOOMWADPATH
-    AddDoomWadPath();
+    AddDoomWADPath();
 
 #if defined(_WIN32)
     // Search the registry and find where IWADs have been installed.
