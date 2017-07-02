@@ -1861,7 +1861,7 @@ static void D_DoomMainSetup(void)
     startmap = 1;
     autostart = false;
 
-    if ((p = M_CheckParmWithArgs("-skill", 1, 1)))
+    if ((p = M_CheckParmsWithArgs("-skill", "-skilllevel", 1, 1)))
     {
         int temp = myargv[p + 1][0] - '1';
 
