@@ -791,67 +791,7 @@ static dboolean D_IsUnsupportedPWAD(char *filename)
 
 #if defined(__MACOSX__)
 #import <Cocoa/Cocoa.h>
-
-#define CTRL    "CMD"
-#else
-#define CTRL    "CTRL"
 #endif
-
-static void D_FirstUse(void)
-{
-    char *msg =
-        "Thank you for downloading "PACKAGE_NAME"!\n"
-        "\n"
-        "Please note that, as with all DOOM source ports, the actual content required to play\n"
-        "DOOM isn\xe2\x80\x99t included with "PACKAGE_NAME".\n"
-        "\n"
-        "In the WAD launcher that follows, please navigate to where one of the official \xe2\x80\x9cIWADs\xe2\x80\x9d\n"
-        "(such as DOOM.WAD or DOOM2.WAD) has previously been installed.\n"
-        "\n"
-        "Once "PACKAGE_NAME" knows where these IWADs are, additional \xe2\x80\x9cPWADs\xe2\x80\x9d may then be\n"
-        "selected by clicking or "CTRL"-clicking on them.\n"
-        "\n"
-        "Visit the "PACKAGE_NAME" Wiki for more information.";
-
-    const SDL_MessageBoxButtonData buttons[] =
-    {
-#if defined(_WIN32)
-        {                                       0, 0, "&Wiki"   },
-        { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "&Cancel" },
-        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "&Next >" }
-#else
-        { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "Cancel"  },
-        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Next >"  }
-#endif
-    };
-
-    const SDL_MessageBoxData messageboxdata =
-    {
-        SDL_MESSAGEBOX_INFORMATION,
-        NULL,
-        PACKAGE_NAME,
-        msg,
-        SDL_arraysize(buttons),
-        buttons,
-        NULL
-    };
-
-    int buttonid;
-
-    if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
-    {
-#if defined(_WIN32)
-        if (buttons[buttonid].buttonid == 0)
-        {
-            ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_START_URL, NULL, NULL, SW_SHOWNORMAL);
-            I_Quit(false);
-        }
-        else
-#endif
-        if (buttons[buttonid].buttonid == 1)
-            I_Quit(false);
-    }
-}
 
 dboolean D_CheckParms(void)
 {
@@ -1797,9 +1737,6 @@ static void D_DoomMainSetup(void)
         }
         else if (!p)
         {
-            if (!stat_runs)
-                D_FirstUse();
-
 #if defined(_WIN32) || defined(__MACOSX__)
             do
             {
