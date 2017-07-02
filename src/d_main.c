@@ -893,10 +893,7 @@ dboolean D_CheckParms(void)
                 else
                 {
                     // still nothing? try some common installation folders
-                    M_snprintf(fullpath, sizeof(fullpath),
-                        D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"));
-
-                    if (W_AddFile(fullpath, true))
+                    if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"), true))
                     {
                         result = true;
                         D_CheckSupportedPWAD(myargv[1]);
@@ -1111,10 +1108,9 @@ static int D_OpenWADLauncher(void)
                     else
                     {
                         // still nothing? try some common installation folders
-                        M_snprintf(fullpath, sizeof(fullpath),
-                            D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"));
 
-                        if (W_AddFile(fullpath, true))
+                        if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"),
+                            true))
                         {
                             iwadfound = 1;
                             D_CheckSupportedPWAD(file);
@@ -1270,9 +1266,7 @@ static int D_OpenWADLauncher(void)
                         else
                         {
                             // still nothing? try some common installation folders
-                            M_snprintf(fullpath2, sizeof(fullpath2), D_FindWADByName("doom2.wad"));
-
-                            if (W_AddFile(fullpath2, true))
+                            if (W_AddFile(D_FindWADByName("doom2.wad"), true))
                             {
                                 iwadfound = 1;
 
@@ -1396,10 +1390,8 @@ static int D_OpenWADLauncher(void)
                                 else
                                 {
                                     // still nothing? try some common installation folders
-                                    M_snprintf(fullpath2, sizeof(fullpath2),
-                                        D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"));
-
-                                    if (W_AddFile(fullpath2, true))
+                                    if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "doom.wad" :
+                                        "doom2.wad"), true))
                                         iwadfound = 1;
                                 }
                             }
@@ -1432,9 +1424,7 @@ static int D_OpenWADLauncher(void)
                         else
                         {
                             // still nothing? try some common installation folders
-                            M_snprintf(fullpath2, sizeof(fullpath2), "doom2.wad");
-
-                            if (W_AddFile(fullpath2, true))
+                            if (W_AddFile(D_FindWADByName("doom2.wad"), true))
                                 iwadfound = 1;
                         }
                     }
@@ -1658,22 +1648,22 @@ static void D_DoomMainSetup(void)
     M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
 
     if ((respawnmonsters = M_CheckParm("-respawn")))
-        C_Output("A <b>-respawn</b> parameter was found on the command-line. Monsters will be respawned.");
+        C_Output("A <b>-respawn</b> parameter was found on the command-line. Monsters will respawn.");
     else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
-        C_Output("A <b>-respawnmonsters</b> parameter was found on the command-line. Monsters will be "
-            "respawned.");
+        C_Output("A <b>-respawnmonsters</b> parameter was found on the command-line. "
+            "Monsters will respawn.");
 
     if ((nomonsters = M_CheckParm("-nomonsters")))
     {
-        C_Output("A <b>-nomonsters</b> parameter was found on the command-line. No monsters will be "
-            "spawned.");
+        C_Output("A <b>-nomonsters</b> parameter was found on the command-line. "
+            "No monsters will be spawned.");
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
 
     if ((pistolstart = M_CheckParm("-pistolstart")))
-        C_Output("A <b>-pistolstart</b> parameter was found on the command-line. The player will start each "
-            "map with only a pistol.");
+        C_Output("A <b>-pistolstart</b> parameter was found on the command-line. "
+            "The player will start each map with only a pistol.");
 
     if ((fastparm = M_CheckParm("-fast")))
         C_Output("A <b>-fast</b> parameter was found on the command-line. Monsters will be faster.");
@@ -1692,12 +1682,12 @@ static void D_DoomMainSetup(void)
         if (p < myargc - 1)
         {
             scale = BETWEEN(10, atoi(myargv[p + 1]), 400);
-            C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be %i%% "
-                "their normal speed.", scale);
+            C_Output("A <b>-turbo</b> parameter was found on the command-line. "
+                "The player will be %i%% their normal speed.", scale);
         }
         else
-            C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be twice as "
-                "fast.");
+            C_Output("A <b>-turbo</b> parameter was found on the command-line. "
+                "The player will be twice as fast.");
 
         G_SetMovementSpeed(scale);
 
@@ -1899,8 +1889,8 @@ static void D_DoomMainSetup(void)
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
 
             autostart = true;
-            C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is now "
-                "\"%s\".", *episodes[episode - 1]);
+            C_Output("An <b>-episode</b> parameter was found on the command-line. "
+                "The episode is now \"%s\".", *episodes[episode - 1]);
         }
     }
 
@@ -1917,8 +1907,8 @@ static void D_DoomMainSetup(void)
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now "
-                "\"%s\".", *expansions[expansion - 1]);
+            C_Output("An <b>-expansion</b> parameter was found on the command-line. "
+                "The expansion is now \"%s\".", *expansions[expansion - 1]);
         }
     }
 
