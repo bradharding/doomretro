@@ -2205,7 +2205,9 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     byte        *nodes = NULL;
     int         b;
 
-    if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b)) && W_LumpLength(b))
+    if ((b = lumpnum + ML_BLOCKMAP + 1) < numlumps && !strncasecmp(lumpinfo[b]->name, "BEHAVIOR", 8))
+        I_Error("Hexen format maps are not supported.");
+    else if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b)) && W_LumpLength(b))
     {
         if (!memcmp(nodes, "xNd4\0\0\0\0", 8))
             format = DEEPBSP;
@@ -2213,7 +2215,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
             && W_LumpLength(lumpnum + ML_NODES) >= 12)
             format = ZDBSPX;
         else if (!memcmp(nodes, "ZNOD", 4))
-            I_Error("Compressed ZDoom nodes are not supported.");
+            I_Error("Compressed ZDBSP nodes are not supported.");
     }
 
     if (nodes)
