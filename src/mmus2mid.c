@@ -425,7 +425,7 @@ int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
                 (MUSchannel == 15 ? 9 : FirstChannelAvailable(MUS2MIDchannel));
 
             // proff: Added typecast to avoid warning
-            MIDItrack = MIDIchan2track[MIDIchannel] = (unsigned char)(TrackCnt++);
+            MIDItrack = MIDIchan2track[MIDIchannel] = (unsigned char)TrackCnt++;
 
             if (TWriteByte(mididata, MIDItrack, 0x00))  // haleyjd 12/30/13: send all notes off
                 return MEMALLOC;
@@ -642,13 +642,12 @@ static void TWriteLength(UBYTE **midiptr, size_t length)
 //
 int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen)
 {
-    size_t  total;
     int     i;
     int     ntrks;
     UBYTE   *midiptr;
 
     // calculate how long the mid buffer must be, and allocate
-    total = sizeof(midihdr);
+    size_t  total = sizeof(midihdr);
 
     for (i = 0, ntrks = 0; i < MIDI_TRACKS; i++)
         if (mididata->track[i].len)

@@ -85,7 +85,6 @@ typedef struct registryvalue_s
 // C:\Program Files\Path\uninstl.exe /S C:\Program Files\Path
 //
 // With some munging we can find where DOOM was installed.
-
 static registryvalue_t uninstall_values[] =
 {
     // Ultimate DOOM, CD version (Depths of DOOM trilogy)
@@ -118,7 +117,6 @@ static registryvalue_t uninstall_values[] =
 };
 
 // Values installed by the GOG.com and Collector's Edition versions
-
 static registryvalue_t root_path_keys[] =
 {
     // DOOM Collector's Edition
@@ -202,6 +200,9 @@ static char *GetRegistryString(registryvalue_t *reg_val)
             free(result);
             result = NULL;
         }
+        else
+            // Ensure the value is null-terminated
+            result[len] = '\0';
     }
 
     // Close the key
