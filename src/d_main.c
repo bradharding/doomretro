@@ -1513,7 +1513,7 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
                     cfgpass += lstrlen(cfgpass) + 1;
 #endif
-            }
+                }
 
 #if defined(_WIN32)
                 // process any DeHackEd files last of all
@@ -1752,6 +1752,7 @@ static void D_DoomMainSetup(void)
 
     if (p > 0)
         do
+        {
             for (p = p + 1; p < myargc && myargv[p][0] != '-'; p++)
             {
                 char    *file = D_TryFindWADByName(myargv[p]);
@@ -1767,6 +1768,7 @@ static void D_DoomMainSetup(void)
                     }
                 }
             }
+        }
         while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)

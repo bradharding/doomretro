@@ -131,10 +131,10 @@ char            *skullName[2] = { "M_SKULL1", "M_SKULL2" };
 // current menudef
 menu_t          *currentMenu;
 
-byte            *tempscreen1;
-byte            *tempscreen2;
-byte            *blurscreen1;
-byte            *blurscreen2;
+byte            tempscreen1[SCREENWIDTH * SCREENHEIGHT];
+byte            tempscreen2[SCREENWIDTH * SCREENHEIGHT];
+byte            blurscreen1[SCREENWIDTH * SCREENHEIGHT];
+byte            blurscreen2[SCREENWIDTH * SCREENHEIGHT];
 
 dboolean        blurred;
 dboolean        blurred2;
@@ -679,10 +679,10 @@ static struct overlap_s
 //
 void M_DrawString(int x, int y, char *str)
 {
-    int         i;
+    size_t      i;
     static char prev;
 
-    for (i = 0; (unsigned int)i < strlen(str); i++)
+    for (i = 0; i < strlen(str); i++)
     {
         int         j = -1;
         int         k = 0;
@@ -733,12 +733,12 @@ void M_DrawString(int x, int y, char *str)
 //
 int M_BigStringWidth(char *str)
 {
-    int         i;
+    size_t      i;
     int         w = 0;
     static char prev;
     size_t      len = strlen(str);
 
-    for (i = 0; (unsigned int)i < len; i++)
+    for (i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
         int k = 0;
@@ -774,9 +774,9 @@ void M_DrawCenteredString(int y, char *str)
 //
 void M_SplitString(char *string)
 {
-    int i;
+    size_t  i;
 
-    for (i = strlen(string) / 2 - 1; (unsigned int)i < strlen(string); i++)
+    for (i = strlen(string) / 2 - 1; i < strlen(string); i++)
         if (string[i] == ' ')
         {
             string[i] = '\n';
@@ -1056,8 +1056,8 @@ int             caretcolor;
 //
 void M_DrawSave(void)
 {
-    char    *left = Z_Malloc(256, PU_STATIC, NULL);
-    char    *right = Z_Malloc(256, PU_STATIC, NULL);
+    char    left[256];
+    char    right[256];
     int     i;
     int     j;
 
@@ -1085,14 +1085,14 @@ void M_DrawSave(void)
             for (j = 0; j < saveCharIndex; j++)
                 left[j] = savegamestrings[i][j];
 
-            left[j] = 0;
+            left[j] = '\0';
             M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, left, false);
 
             // draw text to right of text caret
             for (j = 0; (unsigned int)j < strlen(savegamestrings[i]) - saveCharIndex; j++)
                 right[j] = savegamestrings[i][j + saveCharIndex];
 
-            right[j] = 0;
+            right[j] = '\0';
             M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + 1, y - !M_LSCNTR, right, false);
         }
         else
@@ -1128,9 +1128,6 @@ void M_DrawSave(void)
             caretwait = 0;
         }
     }
-
-    Z_Free(left);
-    Z_Free(right);
 }
 
 //
@@ -1158,9 +1155,9 @@ extern char **mapnamesn[];
 
 const char *RemoveMapNum(const char *str)
 {
-    char    *pos;
+    char    *pos = strchr(str, ':');
 
-    if ((pos = strchr(str, ':')))
+    if (pos)
     {
         str = pos + 1;
 
@@ -2710,6 +2707,7 @@ dboolean M_Responder(event_t *ev)
                     showcaret = true;
                 }
         }
+
         return true;
     }
 
@@ -2995,6 +2993,7 @@ dboolean M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchn);
             }
         }
+
         return false;
     }
 
@@ -3195,6 +3194,7 @@ dboolean M_Responder(event_t *ev)
         {
             // Activate menu item
             keydown = key;
+
             if (inhelpscreens)
             {
                 functionkey = 0;
@@ -3422,6 +3422,7 @@ dboolean M_Responder(event_t *ev)
             }
         }
     }
+
     return false;
 }
 
@@ -3547,14 +3548,14 @@ void M_Drawer(void)
 
         if (*name)
         {
-            if (!strcmp(name, "M_NMARE"))
+            if (M_StringCompare(name, "M_NMARE"))
             {
                 if (M_NMARE)
                     M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
                 else
                     M_DrawNightmare();
             }
-            else if (!strcmp(name, "M_MSENS") && !M_MSENS)
+            else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
                 M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
             else if (W_CheckMultipleLumps(name) > 1)
                 M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
@@ -3667,10 +3668,6 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = menuactive;
     quickSaveSlot = -1;
-    tempscreen1 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    tempscreen2 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    blurscreen1 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    blurscreen2 = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if (autostart)
     {
