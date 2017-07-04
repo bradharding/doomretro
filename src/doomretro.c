@@ -212,6 +212,7 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
     }
 }
 
+#if !defined(_DEBUG)
 LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 {
     char *msg = PACKAGE_NAME" has crashed.";
@@ -243,6 +244,7 @@ LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 
     I_Quit(false);
 }
+#endif
 
 void I_InitWindows32(void)
 {
