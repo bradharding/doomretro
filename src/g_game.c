@@ -1285,9 +1285,9 @@ void G_DoCompleted(void)
     wminfo.epsd = gameepisode - 1;
     wminfo.last = gamemap - 1;
 
-    if (secretexit && secretnextmap)
+    if (secretexit && secretnextmap > 0)
         wminfo.next = secretnextmap - 1;
-    else if (nextmap)
+    else if (nextmap > 0)
         wminfo.next = nextmap - 1;
     else if (gamemode == commercial)
     {
