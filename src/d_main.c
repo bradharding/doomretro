@@ -694,9 +694,9 @@ static dboolean D_IsDOOMIWAD(char *filename)
     dboolean    result;
     const char  *leaf = leafname(filename);
 
-    result = (M_StringCompare(leaf, "doom.wad") || M_StringCompare(leaf, "doom1.wad")
-        || M_StringCompare(leaf, "doom2.wad") || M_StringCompare(leaf, "plutonia.wad")
-        || M_StringCompare(leaf, "tnt.wad") || (hacx = M_StringCompare(leaf, "hacx.wad")));
+    result = (M_StringCompare(leaf, "DOOM.WAD") || M_StringCompare(leaf, "DOOM1.WAD")
+        || M_StringCompare(leaf, "DOOM2.WAD") || M_StringCompare(leaf, "PLUTONIA.WAD")
+        || M_StringCompare(leaf, "TNT.WAD") || (hacx = M_StringCompare(leaf, "HACX.WAD")));
 
     return result;
 }
@@ -751,7 +751,7 @@ static void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
-    if (M_StringCompare(leaf, "nerve.wad"))
+    if (M_StringCompare(leaf, "NERVE.WAD"))
     {
         nerve = true;
         expansion = 2;
@@ -814,12 +814,12 @@ dboolean D_CheckParms(void)
                 iwadfolder = strdup(M_ExtractFolder(myargv[1]));
 
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                if (M_StringCompare(leafname(myargv[1]), "doom2.wad"))
+                if (M_StringCompare(leafname(myargv[1]), "DOOM2.WAD"))
                 {
                     static char fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        M_ExtractFolder(myargv[1]), "nerve.wad");
+                        M_ExtractFolder(myargv[1]), "NERVE.WAD");
 
                     if (W_MergeFile(fullpath, true))
                     {
@@ -841,7 +841,7 @@ dboolean D_CheckParms(void)
 
             // try the current folder first
             M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]),
-                (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
+                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
             IdentifyIWADByName(fullpath);
 
             if (W_AddFile(fullpath, true))
@@ -863,17 +863,17 @@ dboolean D_CheckParms(void)
                 // otherwise try the iwadfolder CVAR
 #if defined(_WIN32) || defined(__OpenBSD__)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                    (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
+                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
 #else
                 if (!wordexp(iwadfolder, &p, 0) && p.we_wordc > 0)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", p.we_wordv[0],
-                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
+                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     wordfree(&p);
                 }
                 else
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
+                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
 #endif
                 IdentifyIWADByName(fullpath);
 
@@ -893,7 +893,7 @@ dboolean D_CheckParms(void)
                 else
                 {
                     // still nothing? try some common installation folders
-                    if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"), true))
+                    if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"), true))
                     {
                         result = true;
                         D_CheckSupportedPWAD(myargv[1]);
@@ -1039,12 +1039,12 @@ static int D_OpenWADLauncher(void)
                     iwadfolder = strdup(M_ExtractFolder(file));
 
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                    if (M_StringCompare(leafname(file), "doom2.wad"))
+                    if (M_StringCompare(leafname(file), "DOOM2.WAD"))
                     {
                         static char fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            M_ExtractFolder(file), "nerve.wad");
+                            M_ExtractFolder(file), "NERVE.WAD");
 
                         if (W_MergeFile(fullpath, true))
                         {
@@ -1068,7 +1068,7 @@ static int D_OpenWADLauncher(void)
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file),
-                    (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
+                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                 IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
@@ -1089,7 +1089,7 @@ static int D_OpenWADLauncher(void)
                 {
                     // otherwise try the iwadfolder CVAR
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                        (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
+                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
@@ -1109,7 +1109,7 @@ static int D_OpenWADLauncher(void)
                     {
                         // still nothing? try some common installation folders
 
-                        if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "doom.wad" : "doom2.wad"),
+                        if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"),
                             true))
                         {
                             iwadfound = 1;
@@ -1213,8 +1213,8 @@ static int D_OpenWADLauncher(void)
                         if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
-                            sharewareiwad = M_StringCompare(iwadpass1, "doom1.wad");
-                            isDOOM2 = M_StringCompare(iwadpass1, "doom2.wad");
+                            sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
+                            isDOOM2 = M_StringCompare(iwadpass1, "DOOM2.WAD");
                             wad = strdup(leafname(fullpath));
                             iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
@@ -1223,12 +1223,12 @@ static int D_OpenWADLauncher(void)
                 }
 
                 // if it's NERVE.WAD, try to open DOOM2.WAD with it
-                else if (M_StringCompare(iwadpass1, "nerve.wad"))
+                else if (M_StringCompare(iwadpass1, "NERVE.WAD"))
                 {
                     static char fullpath2[MAX_PATH];
 
                     // try the current folder first
-                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad", szFile);
+                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", szFile);
                     IdentifyIWADByName(fullpath2);
 
                     if (W_AddFile(fullpath2, true))
@@ -1247,7 +1247,7 @@ static int D_OpenWADLauncher(void)
                     else
                     {
                         // otherwise try the iwadfolder CVAR
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad", iwadfolder);
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
                         IdentifyIWADByName(fullpath2);
 
                         if (W_AddFile(fullpath2, true))
@@ -1266,7 +1266,7 @@ static int D_OpenWADLauncher(void)
                         else
                         {
                             // still nothing? try some common installation folders
-                            if (W_AddFile(D_FindWADByName("doom2.wad"), true))
+                            if (W_AddFile(D_FindWADByName("DOOM2.WAD"), true))
                             {
                                 iwadfound = 1;
 
@@ -1316,8 +1316,8 @@ static int D_OpenWADLauncher(void)
                         if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
-                            sharewareiwad = M_StringCompare(iwadpass2, "doom1.wad");
-                            isDOOM2 = M_StringCompare(iwadpass2, "doom2.wad");
+                            sharewareiwad = M_StringCompare(iwadpass2, "DOOM1.WAD");
+                            isDOOM2 = M_StringCompare(iwadpass2, "DOOM2.WAD");
                             wad = strdup(leafname(fullpath));
                             iwadfolder = strdup(M_ExtractFolder(fullpath));
                             break;
@@ -1370,7 +1370,7 @@ static int D_OpenWADLauncher(void)
 
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", szFile,
-                                (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
+                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                             IdentifyIWADByName(fullpath2);
 
                             if (W_AddFile(fullpath2, true))
@@ -1382,7 +1382,7 @@ static int D_OpenWADLauncher(void)
                             {
                                 // otherwise try the iwadfolder CVAR
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                    iwadfolder, (iwadrequired == doom ? "doom.wad" : "doom2.wad"));
+                                    iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                 IdentifyIWADByName(fullpath2);
 
                                 if (W_AddFile(fullpath2, true))
@@ -1390,8 +1390,8 @@ static int D_OpenWADLauncher(void)
                                 else
                                 {
                                     // still nothing? try some common installation folders
-                                    if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "doom.wad" :
-                                        "doom2.wad"), true))
+                                    if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "DOOM.WAD" :
+                                        "DOOM2.WAD"), true))
                                         iwadfound = 1;
                                 }
                             }
@@ -1407,16 +1407,16 @@ static int D_OpenWADLauncher(void)
                 if (!iwadfound)
                 {
                     // try the current folder first
-                    IdentifyIWADByName("doom2.wad");
+                    IdentifyIWADByName("DOOM2.WAD");
 
-                    if (W_AddFile("doom2.wad", true))
+                    if (W_AddFile("DOOM2.WAD", true))
                         iwadfound = 1;
                     else
                     {
                         static char fullpath2[MAX_PATH];
 
                         // otherwise try the iwadfolder CVAR
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"doom2.wad", iwadfolder);
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
                         IdentifyIWADByName(fullpath2);
 
                         if (W_AddFile(fullpath2, true))
@@ -1424,7 +1424,7 @@ static int D_OpenWADLauncher(void)
                         else
                         {
                             // still nothing? try some common installation folders
-                            if (W_AddFile(D_FindWADByName("doom2.wad"), true))
+                            if (W_AddFile(D_FindWADByName("DOOM2.WAD"), true))
                                 iwadfound = 1;
                         }
                     }

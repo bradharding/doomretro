@@ -179,7 +179,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
         I_Error("Wad file %s doesn't have an IWAD or PWAD id.", filename);
 
     wadfile->type = (!strncmp(header.identification, "IWAD", 4)
-        || M_StringCompare(leafname(filename), "doom2.wad") ? IWAD : PWAD);
+        || M_StringCompare(leafname(filename), "DOOM2.WAD") ? IWAD : PWAD);
 
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
