@@ -2563,12 +2563,12 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 break;
 
             case doom2:
-                if ((!M_StringCompare(wad, "nerve.wad") && ((!replaced || pwad || nerve) && (pwad || !BTSX)))
+                if ((!M_StringCompare(wad, "NERVE.WAD") && ((!replaced || pwad || nerve) && (pwad || !BTSX)))
                     || hacx)
                 {
                     if (BTSX)
                     {
-                        if (!M_StringCompare(wad, "doom2.wad"))
+                        if (!M_StringCompare(wad, "DOOM2.WAD"))
                             M_snprintf(maplist[count++], 256, "%s\t%s",
                                 titlecase(M_StringReplace(*mapnames2[map], ": ", "\t")), wad);
                     }
@@ -2581,7 +2581,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 break;
 
             case pack_nerve:
-                if (M_StringCompare(wad, "nerve.wad"))
+                if (M_StringCompare(wad, "NERVE.WAD"))
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
                         titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]), wad);
 
