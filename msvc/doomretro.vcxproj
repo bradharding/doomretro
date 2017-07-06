@@ -428,6 +428,7 @@
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
     <None Include="..\.travis.yml" />
+    <None Include="..\CODEOWNERS" />
     <None Include="..\CODE_OF_CONDUCT.md" />
     <None Include="..\docs\releasenotes.md" />
     <None Include="..\LICENSE" />
