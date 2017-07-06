@@ -507,20 +507,18 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->speed = FLOORSPEED;
 
                 for (i = 0; i < sec->linecount; i++)
-                {
                     if (twoSided(secnum, i))
                     {
                         side_t  *side = getSide(secnum, i, 0);
 
-                        if (side->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
+                        if (textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
 
                         side = getSide(secnum, i, 1);
 
-                        if (side->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
+                        if (textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
                     }
-                }
 
                 floor->floordestheight = MIN((sec->floorheight >> FRACBITS) + (minsize >> FRACBITS),
                     32000) << FRACBITS;
