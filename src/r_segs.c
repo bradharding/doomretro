@@ -208,34 +208,6 @@ static void R_FixWiggle(sector_t *sector)
     }
 }
 
-static void R_BlastMaskedSegColumn(const rcolumn_t *column)
-{
-    int i;
-    int ceilingclip = mceilingclip[dc_x] + 1;
-    int floorclip = mfloorclip[dc_x] - 1;
-
-    for (i = 0; i < column->numPosts; i++)
-    {
-        const rpost_t   *post = &column->posts[i];
-        int             topdelta = post->topdelta;
-
-        // calculate unclipped screen coordinates for post
-        int64_t         topscreen = sprtopscreen + spryscale * topdelta;
-
-        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), ceilingclip);
-        dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip);
-
-        if (dc_yl <= dc_yh)
-        {
-            dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
-                + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-
-            dc_source = column->pixels + topdelta;
-            colfunc();
-        }
-    }
-}
-
 static lighttable_t **GetLightTable(int lightlevel)
 {
     return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast,
@@ -319,7 +291,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
             // draw the texture
-            R_BlastMaskedSegColumn(R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
+            R_BlastMaskedColumn(R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
     }

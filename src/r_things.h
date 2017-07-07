@@ -63,5 +63,6 @@ void R_InitSprites(void);
 void R_ClearSprites(void);
 void R_DrawPlayerSprites(void);
 void R_DrawMasked(void);
+void R_BlastMaskedColumn(const rcolumn_t *column);
 
 #endif

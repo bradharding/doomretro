@@ -54,7 +54,7 @@ typedef struct rpost_s
 
 typedef struct rcolumn_s
 {
-    int             numPosts;
+    int             numposts;
     rpost_t         *posts;
     unsigned char   *pixels;
 } rcolumn_t;

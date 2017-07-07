@@ -241,7 +241,7 @@ static void createPatch(int id)
 
         // setup the column's data
         patch->columns[x].pixels = patch->pixels + x * patch->height;
-        patch->columns[x].numPosts = numPostsInColumn[x];
+        patch->columns[x].numposts = numPostsInColumn[x];
         patch->columns[x].posts = patch->posts + numPostsUsedSoFar;
 
         while (oldColumn->topdelta != 0xFF)
@@ -345,11 +345,11 @@ static void switchPosts(rpost_t *post1, rpost_t *post2)
 
 static void removePostFromColumn(rcolumn_t *column, int post)
 {
-    if (post < column->numPosts)
+    if (post < column->numposts)
     {
         int i;
 
-        for (i = post; i < column->numPosts - 1; i++)
+        for (i = post; i < column->numposts - 1; i++)
         {
             rpost_t *post1 = &column->posts[i];
             rpost_t *post2 = &column->posts[i + 1];
@@ -359,7 +359,7 @@ static void removePostFromColumn(rcolumn_t *column, int post)
         }
     }
 
-    column->numPosts--;
+    column->numposts--;
 }
 
 static void createTextureCompositePatch(int id)
@@ -451,7 +451,7 @@ static void createTextureCompositePatch(int id)
     {
         // setup the column's data
         composite_patch->columns[x].pixels = composite_patch->pixels + x * composite_patch->height;
-        composite_patch->columns[x].numPosts = countsInColumn[x].posts;
+        composite_patch->columns[x].numposts = countsInColumn[x].posts;
         composite_patch->columns[x].posts = composite_patch->posts + numPostsUsedSoFar;
         numPostsUsedSoFar += countsInColumn[x].posts;
     }
@@ -551,7 +551,7 @@ static void createTextureCompositePatch(int id)
 
         i = 0;
 
-        while (i < column->numPosts - 1)
+        while (i < column->numposts - 1)
         {
             rpost_t *post1 = &column->posts[i];
             rpost_t *post2 = &column->posts[i + 1];
