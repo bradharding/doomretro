@@ -206,7 +206,6 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->wait = 0;
                 plat->status = up;
                 sec->special = 0;
-
                 S_StartSectorSound(&sec->soundorg, sfx_stnmov);
                 break;
 
@@ -216,7 +215,6 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->high = sec->floorheight + amount * FRACUNIT;
                 plat->wait = 0;
                 plat->status = up;
-
                 S_StartSectorSound(&sec->soundorg, sfx_stnmov);
                 break;
 
@@ -260,14 +258,13 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = (plat_e)(M_Random() & 1);
-
                 S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;
 
-            case toggleUpDn:            // jff 3/14/98 add new type to support instant toggle
-                plat->speed = PLATSPEED;                // not used
-                plat->wait = TICRATE * PLATWAIT;        // not used
-                plat->crush = true;                     // jff 3/14/98 crush anything in the way
+            case toggleUpDn:                        // jff 3/14/98 add new type to support instant toggle
+                plat->speed = PLATSPEED;            // not used
+                plat->wait = TICRATE * PLATWAIT;    // not used
+                plat->crush = true;                 // jff 3/14/98 crush anything in the way
 
                 // set up toggling between ceiling, floor inclusive
                 plat->low = sec->ceilingheight;

@@ -587,18 +587,18 @@ void R_InitColormaps(void)
 
     for (i = 0; i < 255; i++)
     {
-        float   red = *palsrc++ / 256.0f;
-        float   green = *palsrc++ / 256.0f;
-        float   blue = *palsrc++ / 256.0f;
-        float   gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
+        double  red = *palsrc++ / 256.0;
+        double  green = *palsrc++ / 256.0;
+        double  blue = *palsrc++ / 256.0;
+        double  gray = red * 0.299 + green * 0.587 + blue * 0.114/*0.144*/;
+        int     color = (int)(gray * 255.0);
 
-        grays[i] = FindNearestColor(palette, (int)(gray * 255.0f), (int)(gray * 255.0f),
-            (int)(gray * 255.0f));
+        grays[i] = FindNearestColor(palette, color, color, color);
 
         if (!COLORMAP)
         {
-            gray = (1.0f - gray) * 255.0f;
-            colormaps[0][32 * 256 + i] = FindNearestColor(palette, (int)gray, (int)gray, (int)gray);
+            color = (int)((1.0 - gray) * 255.0);
+            colormaps[0][32 * 256 + i] = FindNearestColor(palette, color, color, color);
         }
     }
 }

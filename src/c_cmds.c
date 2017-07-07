@@ -4393,7 +4393,7 @@ static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms)
         return true;
 
     if (parms[strlen(parms) - 1] == '%')
-        parms[strlen(parms) - 1] = 0;
+        parms[strlen(parms) - 1] = '\0';
 
     return sscanf(parms, "%10f", &value);
 }
@@ -4405,7 +4405,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
         float   value = 0;
 
         if (parms[strlen(parms) - 1] == '%')
-            parms[strlen(parms) - 1] = 0;
+            parms[strlen(parms) - 1] = '\0';
 
         sscanf(parms, "%10f", &value);
 
