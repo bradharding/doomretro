@@ -904,9 +904,9 @@ void C_UpdateFPS(void)
 {
     if (fps && !wipe && !paused && !menuactive)
     {
-        static char     buffer[16];
+        static char     buffer[32];
 
-        M_snprintf(buffer, 16, "%i FPS (%.1fms)", fps, 1000.0 / fps);
+        M_snprintf(buffer, 32, "%i FPS (%.1fms)", fps, 1000.0 / fps);
 
         C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY,
             buffer, (fps < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ?
