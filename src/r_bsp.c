@@ -314,68 +314,6 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 }
 
 //
-// e6y: Check whether the player can look beyond this line
-//
-static dboolean CheckClip(seg_t * seg, sector_t * frontsector, sector_t * backsector)
-{
-    static sector_t tempsec_back;
-    static sector_t tempsec_front;
-
-    backsector = R_FakeFlat(backsector, &tempsec_back, NULL, NULL, true);
-    frontsector = R_FakeFlat(frontsector, &tempsec_front, NULL, NULL, false);
-
-    // check for closed sectors
-    if (backsector->ceilingheight <= frontsector->floorheight)
-    {
-        if (!seg->sidedef->toptexture)
-            return false;
-
-        if (backsector->ceilingpic == skyflatnum && frontsector->ceilingpic == skyflatnum)
-            return false;
-
-        return true;
-    }
-
-    if (frontsector->ceilingheight <= backsector->floorheight)
-    {
-        if (!seg->sidedef->bottomtexture)
-            return false;
-
-        // properly render skies (consider door "open" if both floors are sky):
-        if (backsector->ceilingpic == skyflatnum && frontsector->ceilingpic == skyflatnum)
-            return false;
-
-        return true;
-    }
-
-    if (backsector->ceilingheight <= backsector->floorheight)
-    {
-        // preserve a kind of transparent door/lift special effect:
-        if (backsector->ceilingheight < frontsector->ceilingheight)
-        {
-            if (!seg->sidedef->toptexture)
-                return false;
-        }
-
-        if (backsector->floorheight > frontsector->floorheight)
-        {
-            if (!seg->sidedef->bottomtexture)
-                return false;
-        }
-
-        if (backsector->ceilingpic == skyflatnum && frontsector->ceilingpic == skyflatnum)
-            return false;
-
-        if (backsector->floorpic == skyflatnum && frontsector->floorpic == skyflatnum)
-            return false;
-
-        return true;
-    }
-
-    return false;
-}
-
-//
 // R_AddLine
 // Clips the given segment
 // and adds any visible pieces to the line list.

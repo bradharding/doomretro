@@ -366,7 +366,6 @@ static void R_RenderSegLoop(void)
             // single sided line
             dc_yl = yl;
             dc_yh = yh;
-
             dc_texturemid = rw_midtexturemid;
             dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
             dc_texheight = midtexheight;
@@ -401,7 +400,6 @@ static void R_RenderSegLoop(void)
                 {
                     dc_yl = yl;
                     dc_yh = mid;
-
                     dc_texturemid = rw_toptexturemid;
                     dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture),
                         texturecolumn);
@@ -442,7 +440,6 @@ static void R_RenderSegLoop(void)
                 {
                     dc_yl = mid;
                     dc_yh = yh;
-
                     dc_texturemid = rw_bottomtexturemid;
                     dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture),
                         texturecolumn);
@@ -547,7 +544,8 @@ void R_StoreWallRange(int start, int stop)
     len = curline->length >> 1;
     rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len) << 1;
 
-    ds_p->x1 = rw_x = start;
+    ds_p->x1 = start;
+    rw_x = start;
     ds_p->x2 = stop;
     ds_p->curline = curline;
     rw_stopx = stop + 1;
@@ -639,19 +637,12 @@ void R_StoreWallRange(int start, int stop)
 
         if (linedef->flags & ML_DONTPEGBOTTOM)
             // bottom of texture at bottom
-            rw_midtexturemid = frontsector->interpfloorheight + textureheight[midtexture] - viewz
-                + sidedef->rowoffset;
+            rw_midtexturemid = frontsector->interpfloorheight + textureheight[sidedef->midtexture] - viewz;
         else
             // top of texture at top
-            rw_midtexturemid = worldtop + sidedef->rowoffset;
+            rw_midtexturemid = worldtop;
 
-        {
-            // killough 3/27/98: reduce offset
-            fixed_t h = textureheight[midtexture];
-
-            if (h & (h - FRACUNIT))
-                rw_midtexturemid %= h;
-        }
+        rw_midtexturemid += FixedMod(sidedef->rowoffset, textureheight[midtexture]);
 
         ds_p->silhouette = SIL_BOTH;
         ds_p->sprtopclip = screenheightarray;
@@ -746,19 +737,13 @@ void R_StoreWallRange(int start, int stop)
 
             if (linedef->flags & ML_DONTPEGTOP)
                 // top of texture at top
-                rw_toptexturemid = worldtop + sidedef->rowoffset;
+                rw_toptexturemid = worldtop;
             else
                 // bottom of texture
-                rw_toptexturemid = backsector->interpceilingheight + toptexheight - viewz
-                    + sidedef->rowoffset;
+                rw_toptexturemid = backsector->interpceilingheight + textureheight[sidedef->toptexture]
+                    - viewz;
 
-            // killough 3/27/98: reduce offset
-            {
-                fixed_t h = textureheight[toptexture];
-
-                if (h & (h - FRACUNIT))
-                    rw_toptexturemid %= h;
-            }
+            rw_toptexturemid += FixedMod(sidedef->rowoffset, textureheight[toptexture]);
         }
 
         if (worldlow > worldbottom)
@@ -772,17 +757,11 @@ void R_StoreWallRange(int start, int stop)
 
             if (linedef->flags & ML_DONTPEGBOTTOM)
                 // bottom of texture at bottom, top of texture at top
-                rw_bottomtexturemid = worldtop + sidedef->rowoffset;
+                rw_bottomtexturemid = worldtop;
             else        // top of texture at top
-                rw_bottomtexturemid = worldlow + sidedef->rowoffset - liquidoffset;
+                rw_bottomtexturemid = worldlow - liquidoffset;
 
-            // killough 3/27/98: reduce offset
-            {
-                fixed_t h = textureheight[bottomtexture];
-
-                if (h & (h - FRACUNIT))
-                    rw_bottomtexturemid %= h;
-            }
+            rw_bottomtexturemid += FixedMod(sidedef->rowoffset, textureheight[bottomtexture]);
         }
 
         // allocate space for masked texture tables
@@ -801,7 +780,6 @@ void R_StoreWallRange(int start, int stop)
     if (segtextured)
     {
         rw_offset = (fixed_t)(((dx * dx1 + dy * dy1) / len) << 1) + sidedef->textureoffset + curline->offset;
-
         rw_centerangle = ANG90 + viewangle - rw_normalangle;
 
         // calculate light table
@@ -870,7 +848,7 @@ void R_StoreWallRange(int start, int stop)
             markfloor = false;
     }
 
-    didsolidcol = 0;
+    didsolidcol = false;
     R_RenderSegLoop();
 
     if (backsector && didsolidcol)
@@ -894,11 +872,11 @@ void R_StoreWallRange(int start, int stop)
         lastopening += rw_stopx - start;
     }
 
-    if (maskedtexture && !(ds_p->silhouette & SIL_TOP))
+    if (maskedtexture)
+    {
         ds_p->silhouette |= SIL_TOP;
-
-    if (maskedtexture && !(ds_p->silhouette & SIL_BOTTOM))
         ds_p->silhouette |= SIL_BOTTOM;
+    }
 
     ds_p++;
 }
