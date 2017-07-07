@@ -397,16 +397,14 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
             // calculate unclipped screen coordinates for post
             const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-            dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS));
-            dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip);
-
-            if (dc_yl <= dc_yh)
-            {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
-                    + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-                dc_source = pixels + topdelta;
-                colfunc();
-            }
+            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip)) > 0)
+                if ((dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                {
+                    dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+                        + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                    dc_source = pixels + topdelta;
+                    colfunc();
+                }
         }
     }
 }
@@ -427,16 +425,14 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
             // calculate unclipped screen coordinates for post
             const int64_t   topscreen = sprtopscreen + pspriteyscale * topdelta + 1;
 
-            dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS));
-            dc_yh = MIN((int)((topscreen + pspriteyscale * post->length) >> FRACBITS), viewheight - 1);
-
-            if (dc_yl <= dc_yh)
-            {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
-                    + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-                dc_source = pixels + topdelta;
-                colfunc();
-            }
+            if ((dc_yh = MIN((int)((topscreen + pspriteyscale * post->length) >> FRACBITS), viewheight - 1)) > 0)
+                if ((dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                {
+                    dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+                        + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                    dc_source = pixels + topdelta;
+                    colfunc();
+                }
         }
     }
 }
@@ -457,11 +453,9 @@ static void R_BlastBloodSplatColumn(const rcolumn_t *column)
             // calculate unclipped screen coordinates for post
             const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
-            dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS));
-            dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip);
-
-            if (dc_yl <= dc_yh)
-                colfunc();
+            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip)) > 0)
+                if ((dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                    colfunc();
         }
     }
 }
@@ -482,11 +476,9 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
             // calculate unclipped screen coordinates for post
             const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
-            dc_yl = MAX(ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift));
-            dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shift), floorclip);
-
-            if (dc_yl <= dc_yh)
-                colfunc();
+            if ((dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shift), floorclip)) > 0)
+                if ((dc_yl = MAX(ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift))) <= dc_yh)
+                    colfunc();
         }
     }
 }
