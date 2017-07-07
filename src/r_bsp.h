@@ -48,6 +48,8 @@ extern sector_t         *backsector;
 extern drawseg_t        *drawsegs;
 extern unsigned int     maxdrawsegs;
 
+extern byte             *solidcol;
+
 extern drawseg_t        *ds_p;
 
 // BSP?

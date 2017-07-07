@@ -92,9 +92,6 @@ typedef struct sector_s
     fixed_t             ceilingheight;
     int                 nexttag;
     int                 firsttag;
-    short               floorpic;
-    short               ceilingpic;
-    short               lightlevel;
     short               special;
     short               tag;
 
@@ -160,12 +157,16 @@ typedef struct sector_s
     fixed_t             floor_xoffs, floor_yoffs;
     fixed_t             ceiling_xoffs, ceiling_yoffs;
 
-    // killough 3/7/98: support flat heights drawn at another sector's heights
-    int                 heightsec;      // other sector, or -1 if no other sector
-
     // killough 4/11/98: support for lightlevels coming from another sector
     int                 floorlightsec;
     int                 ceilinglightsec;
+
+    short               floorpic;
+    short               ceilingpic;
+    short               lightlevel;
+
+    // killough 3/7/98: support flat heights drawn at another sector's heights
+    int                 heightsec;      // other sector, or -1 if no other sector
 
     // killough 4/4/98: dynamic colormaps
     int                 bottommap;
@@ -267,6 +268,17 @@ typedef struct line_s
 
     int                 nexttag;
     int                 firsttag;
+
+    int r_validcount;      // cph: if == gametic, r_flags already done
+
+    enum {                 // cph:
+        RF_TOP_TILE = 1,     // Upper texture needs tiling
+        RF_MID_TILE = 2,     // Mid texture needs tiling
+        RF_BOT_TILE = 4,     // Lower texture needs tiling
+        RF_IGNORE = 8,     // Renderer can skip this line
+        RF_CLOSED = 16,     // Line blocks view
+        RF_ISOLATED = 32,     // Isolated line
+    } r_flags;
 
     // sound origin for switches/buttons
     degenmobj_t         soundorg;
