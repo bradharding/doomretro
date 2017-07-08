@@ -488,7 +488,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (mousey)
     {
-        if (mouselook)
+        if (mouselook && !automapactive)
             cmd->lookdir = (m_invertyaxis ? -mousey : mousey);
         else if (!m_novertical)
             forward += mousey;
