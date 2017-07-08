@@ -278,6 +278,7 @@ extern int idkfa_armor;
 extern int idkfa_armor_class;
 extern int initial_health;
 extern int initial_bullets;
+extern int initial_shells;
 extern int maxhealth;
 extern int max_armor;
 extern int green_armor_class;

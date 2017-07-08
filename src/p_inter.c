@@ -56,6 +56,7 @@
 // strings used in dehacked.
 int             initial_health = 100;
 int             initial_bullets = 50;
+int				initial_shells = 25;
 int             maxhealth = MAXHEALTH * 2;
 int             max_armor = 200;
 int             green_armor_class = 1;
