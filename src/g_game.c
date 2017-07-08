@@ -496,14 +496,18 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 }
 
+//Edited the player's starting weapon to be the shotgun as opposed to pistol.
+//Also set starting shells to 50.
 static void G_SetInitialWeapon(player_t *player)
 {
     int i;
 
     player->weaponowned[wp_fist] = true;
     player->weaponowned[wp_pistol] = true;
+	player->weaponowned[wp_shotgun] = true;
 
     player->ammo[am_clip] = initial_bullets;
+	player->ammo[am_shell] = initial_bullets;
     if (!initial_bullets && weaponinfo[wp_pistol].ammo != am_noammo)
     {
         player->readyweapon = wp_fist;
@@ -511,8 +515,8 @@ static void G_SetInitialWeapon(player_t *player)
     }
     else
     {
-        player->readyweapon = wp_pistol;
-        player->pendingweapon = wp_pistol;
+        player->readyweapon = wp_shotgun;
+        player->pendingweapon = wp_shotgun;
     }
 
     for (i = 0; i < NUMAMMO; i++)
