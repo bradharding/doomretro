@@ -68,7 +68,8 @@ void R_ClearDrawSegs(void)
 // CPhipps -
 // Instead of clipsegs, let's try using an array with one entry for each column,
 // indicating whether it's blocked by a solid wall yet or not.
-byte    *solidcol;
+byte            *solidcol;
+static int      memcmpsize;
 
 // CPhipps -
 // R_ClipWallSegment
@@ -113,6 +114,7 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
 void R_InitClipSegs(void)
 {
     solidcol = calloc(1, SCREENWIDTH * sizeof(*solidcol));
+    memcmpsize = sizeof(fixed_t) * 4 + sizeof(short) * 3 + sizeof(int) * 2;
 }
 
 //
@@ -130,6 +132,8 @@ void R_ClearClipSegs(void)
 // a line, including closure and texture tiling.
 static void R_RecalcLineFlags(line_t *linedef)
 {
+    int c;
+
     linedef->r_validcount = gametic;
 
     if (!(linedef->flags & ML_TWOSIDED)
@@ -145,12 +149,7 @@ static void R_RecalcLineFlags(line_t *linedef)
         if (backsector->ceilingheight != frontsector->ceilingheight
             || backsector->floorheight != frontsector->floorheight
             || curline->sidedef->midtexture
-            || memcmp(&backsector->floor_xoffs, &frontsector->floor_xoffs,
-                   sizeof(frontsector->floor_xoffs) + sizeof(frontsector->floor_yoffs)
-                   + sizeof(frontsector->ceiling_xoffs) + sizeof(frontsector->ceiling_yoffs)
-                   + sizeof(frontsector->ceilingpic) + sizeof(frontsector->floorpic)
-                   + sizeof(frontsector->lightlevel) + sizeof(frontsector->floorlightsec)
-                   + sizeof(frontsector->ceilinglightsec)))
+            || memcmp(&backsector->floor_xoffs, &frontsector->floor_xoffs, memcmpsize))
         {
             linedef->r_flags = 0;
             return;
@@ -164,8 +163,6 @@ static void R_RecalcLineFlags(line_t *linedef)
 
     if (linedef->flags & ML_TWOSIDED)
     {
-        int c;
-
         // Does top texture need tiling
         if ((c = frontsector->ceilingheight - backsector->ceilingheight) > 0
             && (textureheight[texturetranslation[curline->sidedef->toptexture]] > c))
@@ -178,8 +175,6 @@ static void R_RecalcLineFlags(line_t *linedef)
     }
     else
     {
-        int c;
-
         // Does middle texture need tiling
         if ((c = frontsector->ceilingheight - frontsector->floorheight) > 0
             && (textureheight[texturetranslation[curline->sidedef->midtexture]] > c))
@@ -476,10 +471,8 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     // Find the first clippost
     //  that touches the source post
     //  (adjacent pixels are touching).
-    angle1 = (angle1 + ANG90) >> ANGLETOFINESHIFT;
-    angle2 = (angle2 + ANG90) >> ANGLETOFINESHIFT;
-    sx1 = viewangletox[angle1];
-    sx2 = viewangletox[angle2];
+    sx1 = viewangletox[(angle1 + ANG90) >> ANGLETOFINESHIFT];
+    sx2 = viewangletox[(angle2 + ANG90) >> ANGLETOFINESHIFT];
 
     // Does not cross a pixel.
     if (sx1 == sx2)

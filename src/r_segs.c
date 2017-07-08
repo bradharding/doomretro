@@ -262,13 +262,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
     // draw the columns
     for (dc_x = x1; dc_x <= x2; dc_x++, spryscale += rw_scalestep)
-    {
-        // calculate lighting
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
-            if (!fixedcolormap)
-                dc_colormap = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
-
             // killough 3/2/98:
             //
             // This calculation used to overflow and cause crashes in DOOM:
@@ -278,14 +273,16 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             // This code fixes it, by using double-precision intermediate
             // arithmetic and by skipping the drawing of 2s normals whose
             // mapping to screen coordinates is totally out of range:
-            {
-                int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
+            int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
-                if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
-                    continue;                    // skip if the texture is out of screen's range
+            if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
+                continue;                       // skip if the texture is out of screen's range
 
-                sprtopscreen = (int64_t)(t >> FRACBITS);
-            }
+            sprtopscreen = (int64_t)(t >> FRACBITS);
+
+            // calculate lighting
+            if (!fixedcolormap)
+                dc_colormap = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
@@ -293,7 +290,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             R_BlastMaskedColumn(R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
-    }
 
     R_UnlockTextureCompositePatchNum(texnum);
 }
