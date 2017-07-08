@@ -44,6 +44,7 @@
 
 #include "c_console.h"
 #include "d_deh.h"
+#include "d_iwad.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "g_game.h"
@@ -1730,6 +1731,7 @@ void M_Episode(int choice)
 void M_Expansion(int choice)
 {
     gamemission = (choice == ex1 ? doom2 : pack_nerve);
+    D_SetSaveGameFolder(false);
     M_SetupNextMenu(&NewDef);
 }
 

@@ -294,7 +294,7 @@ static struct iwads_s
     GameMission_t   mission;
 } iwads[] = {
     { "doom2",    doom2      },
-    { "doom2",    pack_nerve },
+    { "nerve",    pack_nerve },
     { "plutonia", pack_plut  },
     { "tnt",      pack_tnt   },
     { "doom",     doom       },
@@ -507,7 +507,7 @@ extern char *pwadfile;
 //
 // Chooses the directory used to store saved games.
 //
-void D_SetSaveGameFolder(void)
+void D_SetSaveGameFolder(dboolean output)
 {
     char    *iwad_name = SaveGameIWADName();
     char    *appdatafolder = M_GetAppDataFolder();
@@ -530,12 +530,15 @@ void D_SetSaveGameFolder(void)
     savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
-    if (!(numsavegames = M_CountSaveGames()))
-        C_Output("Found no savegames in <b>%s</b>.", savegamefolder);
-    else if (numsavegames == 1)
-        C_Output("Found 1 savegame in <b>%s</b>.", savegamefolder);
-    else
-        C_Output("Found %i savegames in <b>%s</b>.", numsavegames, savegamefolder);
+    if (output)
+    {
+        if (!(numsavegames = M_CountSaveGames()))
+            C_Output("Found no savegames in <b>%s</b>.", savegamefolder);
+        else if (numsavegames == 1)
+            C_Output("Found 1 savegame in <b>%s</b>.", savegamefolder);
+        else
+            C_Output("Found %i savegames in <b>%s</b>.", numsavegames, savegamefolder);
+    }
 }
 
 //
