@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "doomstat.h"
@@ -104,6 +105,14 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
             first = to;
         }
     }
+}
+
+//
+// R_InitClipSegs
+//
+void R_InitClipSegs(void)
+{
+    solidcol = calloc(1, SCREENWIDTH * sizeof(*solidcol));
 }
 
 //

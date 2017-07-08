@@ -1,6 +1,6 @@
 ### DOOM Retro v2.5.2
 
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Savegames for *DOOM II: No Rest For The Living* are now saved in the correct folder, rather than the same folder as *DOOM II: Hell On Earth*.
 
 ---

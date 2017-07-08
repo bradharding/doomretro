@@ -631,8 +631,7 @@ void R_InitData(void)
     R_InitFlats();
     R_InitSpriteLumps();
     R_InitColormaps();
-
-    solidcol = calloc(1, SCREENWIDTH * sizeof(*solidcol));
+    R_InitClipSegs();
 }
 
 //

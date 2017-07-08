@@ -53,6 +53,7 @@ extern byte             *solidcol;
 extern drawseg_t        *ds_p;
 
 // BSP?
+void R_InitClipSegs(void);
 void R_ClearClipSegs(void);
 void R_ClearDrawSegs(void);
 
