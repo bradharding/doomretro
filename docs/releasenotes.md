@@ -2,6 +2,7 @@
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Savegames for *DOOM II: No Rest For The Living* are now saved in the correct folder, rather than the same folder as *DOOM II: Hell On Earth*.
+* The fuzz effect of spectres no longer bleeds into the top of the status bar, or into a higher sector when partially obscured by it.
 
 ---
 

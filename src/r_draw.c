@@ -156,6 +156,8 @@ fixed_t         dc_texturefrac;
 byte            *dc_blood;
 byte            *dc_colormask;
 int             dc_baseclip;
+int             dc_floorclip;
+int             dc_ceilingclip;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
@@ -1105,7 +1107,10 @@ extern int  fuzzpos;
 void R_DrawFuzzColumn(void)
 {
     byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    int     count = dc_yh - dc_yl + 1;
+    int     count = dc_yh - dc_yl;
+
+    if (!count)
+        return;
 
     // top
     if (!dc_yl)
@@ -1123,10 +1128,13 @@ void R_DrawFuzzColumn(void)
     }
 
     // bottom
-    if (dc_yh == viewheight - 1)
-        *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(0, 1))]];
-    else if (dc_baseclip == viewheight && !(rand() % 4))
+    *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(0, 1))]];
+
+    if (dc_floorclip == viewheight - 1 && dc_yh < dc_floorclip && dc_baseclip == viewheight && !(rand() % 4))
+    {
+        dest += SCREENWIDTH;
         *dest = fullcolormap[14 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(0, 1))]];
+    }
 }
 
 void R_DrawPausedFuzzColumn(void)

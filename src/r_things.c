@@ -383,9 +383,10 @@ void R_BlastMaskedColumn(const rcolumn_t *column)
 
     if (count)
     {
-        const int       ceilingclip = mceilingclip[dc_x] + 1;
-        const int       floorclip = MIN(dc_baseclip, mfloorclip[dc_x]) - 1;
         unsigned char   *pixels = column->pixels;
+
+        dc_ceilingclip = mceilingclip[dc_x] + 1;
+        dc_floorclip = MIN(dc_baseclip, mfloorclip[dc_x]) - 1;
 
         while (count--)
         {
@@ -395,8 +396,8 @@ void R_BlastMaskedColumn(const rcolumn_t *column)
             // calculate unclipped screen coordinates for post
             const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip)) >= 0)
-                if ((dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+                if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
                 {
                     dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
                         + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);

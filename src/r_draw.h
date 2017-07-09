@@ -57,6 +57,8 @@ extern fixed_t          dc_texturefrac;
 extern byte             *dc_blood;
 extern byte             *dc_colormask;
 extern int              dc_baseclip;
+extern int              dc_floorclip;
+extern int              dc_ceilingclip;
 
 // first pixel in a column
 extern byte             *dc_source;
