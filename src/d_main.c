@@ -1818,6 +1818,10 @@ static void D_DoomMainSetup(void)
     InitGameVersion();
     D_ProcessDehInWad();
     D_SetGameDescription();
+
+    if (nerve && expansion == 2)
+        gamemission = pack_nerve;
+
     D_SetSaveGameFolder(true);
 
     // Check for -file in shareware
