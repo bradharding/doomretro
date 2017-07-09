@@ -1128,7 +1128,7 @@ void R_DrawFuzzColumn(void)
     }
 
     // bottom
-    *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(0, 1))]];
+    *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
 
     if (dc_floorclip == viewheight - 1 && dc_yh < dc_floorclip && dc_baseclip == viewheight && !(rand() % 4))
     {
@@ -1140,7 +1140,10 @@ void R_DrawFuzzColumn(void)
 void R_DrawPausedFuzzColumn(void)
 {
     byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    int     count = dc_yh - dc_yl + 1;
+    int     count = dc_yh - dc_yl;
+
+    if (!count)
+        return;
 
     // top
     if (!dc_yl)
@@ -1157,16 +1160,14 @@ void R_DrawPausedFuzzColumn(void)
     {
         // middle
         *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+        dest += SCREENWIDTH;
 
         if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
             fuzzpos = 0;
-
-        dest += SCREENWIDTH;
     }
 
     // bottom
-    if (dc_yh == viewheight - 1)
-        *dest = fullcolormap[5 * 256 + dest[fuzztable[fuzzpos]]];
+    *dest = fullcolormap[5 * 256 + dest[MIN(fuzztable[fuzzpos], 0)]];
 }
 
 void R_DrawFuzzColumns(void)
