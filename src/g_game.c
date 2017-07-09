@@ -488,10 +488,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         mousex = 0;
     }
 
+    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]);
+
     if (mousey)
     {
-        usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]);
-
         if (usemouselook && !automapactive)
             cmd->lookdir = (m_invertyaxis ? -mousey : mousey);
         else if (!m_novertical)
