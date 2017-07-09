@@ -242,7 +242,7 @@ void R_DrawFuzzyShadowColumn(void)
         dest += SCREENWIDTH;
     }
 
-    if (!(rand() % 4) && !consoleactive)
+    if (dc_floorclip == viewheight - 1 && dc_yh < dc_floorclip && !consoleactive && !(rand() % 4))
         *dest = translucency[*dest];
 }
 
@@ -1100,7 +1100,7 @@ void R_DrawTranslucentBlue25Column(void)
 #define FUZZ(a, b)  fuzzrange[rand() % (b - a + 1) + a]
 #define NOFUZZ      251
 
-int         fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
+const int   fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 extern int  fuzzpos;
 
