@@ -1108,7 +1108,6 @@ static int D_OpenWADLauncher(void)
                     else
                     {
                         // still nothing? try some common installation folders
-
                         if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"),
                             true))
                         {
@@ -1169,10 +1168,9 @@ static int D_OpenWADLauncher(void)
                 }
             }
         }
-
-        // more than one file was selected
         else
         {
+            // more than one file was selected
             dboolean    isDOOM2 = false;
             dboolean    sharewareiwad = false;
 

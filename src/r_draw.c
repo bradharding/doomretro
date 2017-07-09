@@ -1150,6 +1150,7 @@ void R_DrawPausedFuzzColumn(void)
         if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
             fuzzpos = 0;
     }
+
     dest += SCREENWIDTH;
 
     while (--count)

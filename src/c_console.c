@@ -529,24 +529,16 @@ static void C_DrawScrollbar(void)
 
         // Draw scrollbar track
         for (y = trackstart; y < trackend; y += CONSOLEWIDTH)
-        {
             if (y - offset >= 0)
-            {
                 for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x]
                         + consolescrollbartrackcolor];
-            }
-        }
 
         // Draw scrollbar face
         for (y = facestart; y < faceend; y += CONSOLEWIDTH)
-        {
             if (y - offset >= 0)
-            {
                 for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
-            }
-        }
     }
 }
 
@@ -767,7 +759,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     }
 
     if (len > 80)
-    {
         while (C_TextWidth(text, formatting, kerning) + width > CONSOLETEXTPIXELWIDTH)
         {
             text[len - 1] = '.';
@@ -776,7 +767,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             text[len + 2] = '\0';
             len--;
         }
-    }
 
     for (i = 0; i < len; i++)
     {
@@ -922,9 +912,9 @@ void C_Drawer(void)
         int         x = CONSOLETEXTX;
         int         start;
         int         end;
-        char        *lefttext = malloc(512);
-        char        *middletext = malloc(512);
-        char        *righttext = malloc(512);
+        char        lefttext[512];
+        char        middletext[512];
+        char        righttext[512];
         dboolean    prevconsoleactive = consoleactive;
         static int  consolewait;
 
@@ -1016,8 +1006,8 @@ void C_Drawer(void)
             stringtype_t    type = console[i].type;
 
             if (type == dividerstring)
-                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight),
-                    divider, consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
+                    consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
             else if (M_StringCompare(console[i].string, BINDLISTTITLE))
                 V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
             else if (M_StringCompare(console[i].string, CMDLISTTITLE))
@@ -1121,10 +1111,6 @@ void C_Drawer(void)
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, righttext, consoleinputcolor, NOBACKGROUNDCOLOR,
                     NOBOLDCOLOR, NULL, notabs, false, true);
         }
-
-        free(lefttext);
-        free(middletext);
-        free(righttext);
 
         // draw the scrollbar
         C_DrawScrollbar();
@@ -1444,7 +1430,6 @@ dboolean C_Responder(event_t *ev)
                     M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
 
                 for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; i--)
-                {
                     if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string))
                     {
                         inputhistory = i;
@@ -1454,7 +1439,6 @@ dboolean C_Responder(event_t *ev)
                         showcaret = true;
                         break;
                     }
-                }
 
                 break;
 
@@ -1463,7 +1447,6 @@ dboolean C_Responder(event_t *ev)
                 if (inputhistory != -1)
                 {
                     for (i = inputhistory + 1; i < consolestrings; i++)
-                    {
                         if (console[i].type == inputstring && !M_StringCompare(consoleinput,
                             console[i].string))
                         {
@@ -1471,7 +1454,6 @@ dboolean C_Responder(event_t *ev)
                             M_StringCopy(consoleinput, console[i].string, 255);
                             break;
                         }
-                    }
 
                     if (i == consolestrings)
                     {
@@ -1714,11 +1696,11 @@ void C_PrintSDLVersions(void)
     int revision = SDL_GetRevisionNumber();
 
     if (revision)
-        C_Output("Using version %i.%i.%i (revision %s) of <b>sdl2.dll</b>.",
-            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, commify(revision));
+        C_Output("Using version %i.%i.%i (revision %s) of <b>sdl2.dll</b>.", SDL_MAJOR_VERSION,
+            SDL_MINOR_VERSION, SDL_PATCHLEVEL, commify(revision));
     else
-        C_Output("Using version %i.%i.%i of <b>sdl2.dll</b>.",
-            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
+        C_Output("Using version %i.%i.%i of <b>sdl2.dll</b>.", SDL_MAJOR_VERSION, SDL_MINOR_VERSION,
+            SDL_PATCHLEVEL);
 
     C_Output("Using version %i.%i.%i of <b>sdl2_mixer.dll</b> and version %i.%i.%i of "
         "<b>sdl2_image.dll</b>.", SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,

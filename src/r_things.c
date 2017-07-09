@@ -448,8 +448,8 @@ static void R_BlastBloodSplatColumn(const rcolumn_t *column)
 
     if (count)
     {
-        const int   ceilingclip = mceilingclip[dc_x] + 1;
-        const int   floorclip = mfloorclip[dc_x] - 1;
+        dc_ceilingclip = mceilingclip[dc_x] + 1;
+        dc_floorclip = mfloorclip[dc_x] - 1;
 
         while (count--)
         {
@@ -458,8 +458,8 @@ static void R_BlastBloodSplatColumn(const rcolumn_t *column)
             // calculate unclipped screen coordinates for post
             const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
-            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), floorclip)) >= 0)
-                if ((dc_yl = MAX(ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+                if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
                     colfunc();
         }
     }
@@ -476,8 +476,8 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
 
     if (count)
     {
-        const int   ceilingclip = mceilingclip[dc_x] + 1;
-        const int   floorclip = mfloorclip[dc_x] - 1;
+        dc_ceilingclip = mceilingclip[dc_x] + 1;
+        dc_floorclip = mfloorclip[dc_x] - 1;
 
         while (count--)
         {
@@ -486,8 +486,8 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
             // calculate unclipped screen coordinates for post
             const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
-            if ((dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shift), floorclip)) >= 0)
-                if ((dc_yl = MAX(ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift))) <= dc_yh)
+            if ((dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shift), dc_floorclip)) >= 0)
+                if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift))) <= dc_yh)
                     colfunc();
         }
     }
