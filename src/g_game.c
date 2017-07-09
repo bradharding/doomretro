@@ -574,6 +574,7 @@ void G_DoLoadLevel(void)
     HU_DrawDisk();
 
     R_InitSkyMap();
+    R_InitColumnFunctions();
 
     levelstarttic = gametic;                    // for time calculation
 
@@ -637,17 +638,6 @@ void G_DoLoadLevel(void)
         C_Print(titlestring, mapnumandtitle);
 
     P_SetupLevel(ep, gamemap);
-
-    if (r_textures)
-    {
-        if (r_skycolor != r_skycolor_default)
-            skycolfunc = R_DrawSkyColorColumn;
-        else
-            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
-                && !mouselook ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
-    }
-    else
-        skycolfunc = R_DrawSkyColorColumn;
 
     st_facecount = 0;
 
