@@ -124,9 +124,10 @@ dboolean            r_textures = r_textures_default;
 dboolean            r_translucency = r_translucency_default;
 
 extern dboolean     canmodify;
+extern dboolean     canmouselook;
 extern int          explosiontics;
-extern dboolean     mouselook;
 extern dboolean     transferredsky;
+extern dboolean     usemouselook;
 extern dboolean     vanilla;
 extern lighttable_t **walllights;
 extern dboolean     weaponrecoil;
@@ -540,7 +541,7 @@ void R_InitColumnFunctions(void)
             skycolfunc = R_DrawSkyColorColumn;
         else
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
-                && !mouselook ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+                && !canmouselook ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
 
         spanfunc = R_DrawSpan;
 
@@ -732,7 +733,7 @@ void R_SetupFrame(player_t *player)
         viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
 
-        if (mouselook)
+        if (usemouselook)
         {
             pitch = (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
@@ -751,7 +752,7 @@ void R_SetupFrame(player_t *player)
         viewz = player->viewz;
         viewangle = mo->angle;
 
-        if (mouselook)
+        if (usemouselook)
         {
             pitch = player->lookdir / MLOOKUNIT;
 

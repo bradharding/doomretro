@@ -54,6 +54,7 @@ int             skyscrolldelta;
 
 fixed_t         skyiscale;
 
+extern dboolean canmouselook;
 extern dboolean mouselook;
 
 void R_InitSkyMap(void)
@@ -63,7 +64,9 @@ void R_InitSkyMap(void)
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     skytexture = P_GetMapSky1Texture(map);
 
-    if (!skytexture || ((textureheight[skytexture] >> FRACBITS) > 128 && !mouselook))
+    canmouselook = (mouselook || keyboardmouselook || mousemouselook != -1);
+
+    if (!skytexture || ((textureheight[skytexture] >> FRACBITS) > 128 && !canmouselook))
     {
         if (gamemode == commercial)
         {
@@ -100,7 +103,7 @@ void R_InitSkyMap(void)
 
     skyscrolldelta = P_GetMapSky1ScrollDelta(map);
 
-    if (mouselook)
+    if (canmouselook)
     {
         int skyheight = textureheight[skytexture] >> FRACBITS;
 

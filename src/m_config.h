@@ -459,6 +459,7 @@ typedef enum units_values_e
 #define KEYDOWN2_DEFAULT                        's'
 #define KEYFIRE_DEFAULT                         KEY_CTRL
 #define KEYLEFT_DEFAULT                         KEY_LEFTARROW
+#define KEYMOUSELOOK_DEFAULT                    0
 #define KEYNEXTWEAPON_DEFAULT                   0
 #define KEYPREVWEAPON_DEFAULT                   0
 #define KEYRIGHT_DEFAULT                        KEY_RIGHTARROW
@@ -487,8 +488,9 @@ typedef enum units_values_e
 
 #define MOUSEFIRE_DEFAULT                       0
 #define MOUSEFORWARD_DEFAULT                    -1
-#define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
+#define MOUSEMOUSELOOK_DEFAULT                  -1
 #define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
+#define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
 #define MOUSESTRAFE_DEFAULT                     -1
 #define MOUSERUN_DEFAULT                        -1
 #define MOUSEUSE_DEFAULT                        -1

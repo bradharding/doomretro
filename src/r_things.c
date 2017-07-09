@@ -91,7 +91,6 @@ dboolean                r_playersprites = r_playersprites_default;
 extern fixed_t          animatedliquiddiff;
 extern dboolean         drawbloodsplats;
 extern dboolean         inhelpscreens;
-extern dboolean         mouselook;
 extern dboolean         notranslucency;
 extern dboolean         r_fixspriteoffsets;
 extern dboolean         r_liquid_bob;
@@ -100,6 +99,7 @@ extern dboolean         r_textures;
 extern dboolean         r_translucency;
 extern dboolean         skippsprinterp;
 extern dboolean         SHT2A0;
+extern dboolean         usemouselook;
 
 //
 // R_InstallSpriteLump
@@ -1019,7 +1019,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         }
     }
 
-    if (mouselook)
+    if (usemouselook)
         vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale)
             - viewplayer->lookdir * 0x5C0;
 

@@ -57,6 +57,7 @@ extern int  keyboardback;
 extern int  keyboardfire;
 extern int  keyboardleft;
 extern int  keyboardmenu;
+extern int  keyboardmouselook;
 extern int  keyboardnextweapon;
 extern int  keyboardprevweapon;
 extern int  keyboardright;
@@ -81,6 +82,7 @@ extern int  keyboardweapon7;
 
 extern int  mousefire;
 extern int  mouseforward;
+extern int  mousemouselook;
 extern int  mousenextweapon;
 extern int  mouseprevweapon;
 extern int  mouserun;

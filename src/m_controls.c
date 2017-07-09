@@ -56,6 +56,7 @@ int keyboardback2 = KEYDOWN2_DEFAULT;
 int keyboardfire = KEYFIRE_DEFAULT;
 int keyboardleft = KEYLEFT_DEFAULT;
 int keyboardmenu = KEY_ESCAPE;
+int keyboardmouselook = KEYMOUSELOOK_DEFAULT;
 int keyboardnextweapon = KEYNEXTWEAPON_DEFAULT;
 int keyboardprevweapon = KEYPREVWEAPON_DEFAULT;
 int keyboardright = KEYRIGHT_DEFAULT;
@@ -80,6 +81,7 @@ int keyboardweapon7 = KEYWEAPON7_DEFAULT;
 
 int mousefire = MOUSEFIRE_DEFAULT;
 int mouseforward = MOUSEFORWARD_DEFAULT;
+int mousemouselook = MOUSEMOUSELOOK_DEFAULT;
 int mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
 int mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
 int mouserun = MOUSERUN_DEFAULT;

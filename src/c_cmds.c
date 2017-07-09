@@ -268,6 +268,7 @@ extern char         *wad;
 extern int          weaponbob;
 extern dboolean     weaponrecoil;
 
+extern dboolean     canmouselook;
 extern char         *packageconfig;
 extern int          st_palette;
 extern menu_t       EpiDef;
@@ -344,6 +345,7 @@ action_t actions[] =
     { "+mark",         &keyboardautomapmark,       NULL,                  NULL,             &gamepadautomapmark,       NULL         },
     { "+maxzoom",      &keyboardautomapmaxzoom,    NULL,                  NULL,             &gamepadautomapmaxzoom,    NULL         },
     { "+menu",         &keyboardmenu,              NULL,                  NULL,             &gamepadmenu,              NULL         },
+    { "+mouselook",    &keyboardmouselook,         NULL,                  &mousemouselook,  NULL,                      NULL         },
     { "+nextweapon",   &keyboardnextweapon,        NULL,                  &mousenextweapon, &gamepadnextweapon,        NULL         },
     { "+prevweapon",   &keyboardprevweapon,        NULL,                  &mouseprevweapon, &gamepadprevweapon,        NULL         },
     { "+right",        &keyboardright,             NULL,                  NULL,             &gamepadright,             NULL         },
@@ -1326,6 +1328,8 @@ void bind_cmd_func2(char *cmd, char *parms)
     }
     else
         C_Warning("%s is not a valid control.", parm1);
+
+    canmouselook = (mouselook || keyboardmouselook || mousemouselook != -1);
 }
 
 //
@@ -4468,12 +4472,12 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
 
-    if (mouselook != mouselook_old && gamestate == GS_LEVEL)
+    if (mouselook != mouselook_old)
     {
         R_InitSkyMap();
         R_InitColumnFunctions();
 
-        if (!mouselook)
+        if (!mouselook && gamestate == GS_LEVEL)
         {
             viewplayer->lookdir = 0;
             viewplayer->oldlookdir = 0;

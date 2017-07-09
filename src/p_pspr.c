@@ -73,15 +73,16 @@ static const int recoilvalues[] = {
     16  // wp_supershotgun
 };
 
+extern dboolean canmouselook;
 extern dboolean hitwall;
-extern dboolean mouselook;
 extern int      stillbob;
+extern dboolean usemouselook;
 
 void P_CheckMissileSpawn(mobj_t *th);
 
 void A_Recoil(player_t *player, weapontype_t weapon)
 {
-    if (weaponrecoil && mouselook)
+    if (weaponrecoil && canmouselook)
         player->recoil = recoilvalues[weapon];
 }
 
@@ -600,7 +601,7 @@ static void P_BulletSlope(mobj_t *mo)
             an -= 2 << 26;
             bulletslope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
 
-            if (!linetarget && mouselook)
+            if (!linetarget && usemouselook)
                 bulletslope = ((mo->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;
         }
     }
@@ -913,7 +914,7 @@ void P_MovePsprites(player_t *player)
     }
 
     // [BH] shake the BFG before firing when weapon recoil enabled
-    if (player->readyweapon == wp_bfg && weaponrecoil && mouselook)
+    if (player->readyweapon == wp_bfg && weaponrecoil && canmouselook)
     {
         if (weapon->state == &states[S_BFG1])
         {

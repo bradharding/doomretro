@@ -201,6 +201,8 @@ dboolean        m_doubleclick_use = m_doubleclick_use_default;
 dboolean        m_invertyaxis = m_invertyaxis_default;
 dboolean        m_novertical = m_novertical_default;
 dboolean        mouselook = mouselook_default;
+dboolean        canmouselook = false;
+dboolean        usemouselook = false;
 
 static int      dclicktime;
 static dboolean dclickstate;
@@ -488,7 +490,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (mousey)
     {
-        if (mouselook && !automapactive)
+        usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]);
+
+        if (usemouselook && !automapactive)
             cmd->lookdir = (m_invertyaxis ? -mousey : mousey);
         else if (!m_novertical)
             forward += mousey;

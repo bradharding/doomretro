@@ -74,7 +74,6 @@ static fixed_t floatbobdiffs[64] =
 };
 
 extern fixed_t      animatedliquiddiffs[64];
-extern dboolean     mouselook;
 extern dboolean     r_liquid_bob;
 extern dboolean     r_liquid_clipsprites;
 extern dboolean     r_liquid_lowerview;
@@ -82,6 +81,7 @@ extern dboolean     r_mirroredweapons;
 extern dboolean     r_textures;
 extern dboolean     r_shadows_translucency;
 extern msecnode_t   *sector_list;   // phares 3/16/98
+extern dboolean     usemouselook;
 
 void A_Recoil(player_t *player, weapontype_t weapon);
 void G_PlayerReborn(void);
@@ -1432,7 +1432,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
         if (!linetarget)
         {
             an = source->angle;
-            slope = (mouselook ? ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
+            slope = (usemouselook ? ((source->player->lookdir / MLOOKUNIT) << FRACBITS) / 173 : 0);
         }
     }
 
