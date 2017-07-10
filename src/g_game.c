@@ -318,6 +318,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     run = (gamekeydown[keyboardrun] + !!mousebuttons[mouserun] + !!(gamepadbuttons & gamepadrun)
         + alwaysrun == 1);
 
+    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]
+        || (gamepadbuttons & gamepadmouselook));
+
     // use two stage accelerative turning
     // on the keyboard
     if (gamekeydown[keyboardright] || gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft)
@@ -348,7 +351,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->angleturn += (int)(gamepadangleturn[run] * gamepadthumbRXleft * gamepadsensitivity);
     }
 
-    if (mouselook)
+    if (usemouselook)
     {
         if (gamepadthumbRY < 0)
             cmd->lookdir = (int)(64 * gamepadthumbRYup * gamepadsensitivity);
@@ -487,8 +490,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
         mousex = 0;
     }
-
-    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]);
 
     if (mousey)
     {

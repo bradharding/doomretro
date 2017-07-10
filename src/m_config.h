@@ -433,6 +433,7 @@ typedef enum units_values_e
 #define GAMEPADFORWARD_DEFAULT                  0
 #define GAMEPADLEFT_DEFAULT                     0
 #define GAMEPADMENU_DEFAULT                     GAMEPAD_START
+#define GAMEPADMOUSELOOK_DEFAULT                0
 #define GAMEPADNEXTWEAPON_DEFAULT               GAMEPAD_B
 #define GAMEPADPREVWEAPON_DEFAULT               GAMEPAD_Y
 #define GAMEPADRIGHT_DEFAULT                    0

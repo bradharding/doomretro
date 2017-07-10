@@ -103,6 +103,7 @@ int gamepadfire = GAMEPADFIRE_DEFAULT;
 int gamepadforward = GAMEPADFORWARD_DEFAULT;
 int gamepadleft = GAMEPADLEFT_DEFAULT;
 int gamepadmenu = GAMEPADMENU_DEFAULT;
+int gamepadmouselook = GAMEPADMOUSELOOK_DEFAULT;
 int gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 int gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 int gamepadright = GAMEPADRIGHT_DEFAULT;

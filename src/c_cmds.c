@@ -345,7 +345,7 @@ action_t actions[] =
     { "+mark",         &keyboardautomapmark,       NULL,                  NULL,             &gamepadautomapmark,       NULL         },
     { "+maxzoom",      &keyboardautomapmaxzoom,    NULL,                  NULL,             &gamepadautomapmaxzoom,    NULL         },
     { "+menu",         &keyboardmenu,              NULL,                  NULL,             &gamepadmenu,              NULL         },
-    { "+mouselook",    &keyboardmouselook,         NULL,                  &mousemouselook,  NULL,                      NULL         },
+    { "+mouselook",    &keyboardmouselook,         NULL,                  &mousemouselook,  &gamepadmouselook,         NULL         },
     { "+nextweapon",   &keyboardnextweapon,        NULL,                  &mousenextweapon, &gamepadnextweapon,        NULL         },
     { "+prevweapon",   &keyboardprevweapon,        NULL,                  &mouseprevweapon, &gamepadprevweapon,        NULL         },
     { "+right",        &keyboardright,             NULL,                  NULL,             &gamepadright,             NULL         },

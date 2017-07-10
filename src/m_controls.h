@@ -104,6 +104,7 @@ extern int  gamepadfire;
 extern int  gamepadforward;
 extern int  gamepadleft;
 extern int  gamepadmenu;
+extern int  gamepadmouselook;
 extern int  gamepadnextweapon;
 extern int  gamepadprevweapon;
 extern int  gamepadright;
