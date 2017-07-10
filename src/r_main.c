@@ -733,7 +733,7 @@ void R_SetupFrame(player_t *player)
         viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
 
-        if (usemouselook)
+        if (canmouselook)
         {
             pitch = (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
@@ -752,7 +752,7 @@ void R_SetupFrame(player_t *player)
         viewz = player->viewz;
         viewangle = mo->angle;
 
-        if (usemouselook)
+        if (canmouselook)
         {
             pitch = player->lookdir / MLOOKUNIT;
 

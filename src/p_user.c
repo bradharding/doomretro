@@ -218,8 +218,18 @@ static void P_MovePlayer(player_t *player)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
-    player->lookdir = (usemouselook ? BETWEEN(-LOOKDIRMAX * MLOOKUNIT, player->lookdir + cmd->lookdir,
-        LOOKDIRMAX * MLOOKUNIT) : 0);
+    player->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, player->lookdir + cmd->lookdir,
+        LOOKDIRMAX * MLOOKUNIT);
+
+    if (player->lookdir && !usemouselook)
+    {
+        if (player->lookdir > 0)
+            player->lookdir -= 16 * MLOOKUNIT;
+        else if (player->lookdir < 0)
+            player->lookdir += 16 * MLOOKUNIT;
+        if (ABS(player->lookdir) < 16 * MLOOKUNIT)
+            player->lookdir = 0;
+    }
 }
 
 // P_ReduceDamageCount
