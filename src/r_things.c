@@ -99,7 +99,6 @@ extern dboolean         r_textures;
 extern dboolean         r_translucency;
 extern dboolean         skippsprinterp;
 extern dboolean         SHT2A0;
-extern dboolean         usemouselook;
 
 //
 // R_InstallSpriteLump

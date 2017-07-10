@@ -127,7 +127,6 @@ extern dboolean     canmodify;
 extern dboolean     canmouselook;
 extern int          explosiontics;
 extern dboolean     transferredsky;
-extern dboolean     usemouselook;
 extern dboolean     vanilla;
 extern lighttable_t **walllights;
 extern dboolean     weaponrecoil;

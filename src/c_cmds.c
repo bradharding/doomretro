@@ -3928,6 +3928,20 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 }
 
 //
+// unbind CCMD
+//
+static void unbind_cmd_func2(char *cmd, char *parms)
+{
+    if (!*parms)
+    {
+        C_Output("<b>%s</b> %s", cmd, UNBINDCMDFORMAT);
+        return;
+    }
+
+    bind_cmd_func2(cmd, M_StringJoin(parms, " none", NULL));
+}
+
+//
 // vanilla CCMD
 //
 static void vanilla_cmd_func2(char *cmd, char *parms)
@@ -3969,20 +3983,6 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     }
 
     togglingvanilla = false;
-}
-
-//
-// unbind CCMD
-//
-static void unbind_cmd_func2(char *cmd, char *parms)
-{
-    if (!*parms)
-    {
-        C_Output("<b>%s</b> %s", cmd, UNBINDCMDFORMAT);
-        return;
-    }
-
-    bind_cmd_func2(cmd, M_StringJoin(parms, " none", NULL));
 }
 
 //
