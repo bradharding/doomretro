@@ -257,6 +257,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             + curline->sidedef->rowoffset;
 
     dc_colormap = fixedcolormap;
+    dc_baseclip = viewheight;
 
     patch = R_CacheTextureCompositePatchNum(texnum);
 
