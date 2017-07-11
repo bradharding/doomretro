@@ -333,7 +333,7 @@ static void R_RenderSegLoop(void)
             yh = bottom;
 
         if (markfloor)
-            if ((top = MAX(ceilingclip[rw_x], yh) + 1) <= bottom && floorplane)
+            if ((top = MAX(ceilingclip[rw_x], yh) + 1) <= bottom)
             {
                 floorplane->top[rw_x] = top;
                 floorplane->bottom[rw_x] = bottom;
@@ -522,12 +522,12 @@ void R_StoreWallRange(int start, int stop)
     // killough 1/98 -- fix 2s line HOM
     if (ds_p == drawsegs + maxdrawsegs)
     {
-        int maxdrawsegs_old = maxdrawsegs;
+        unsigned int    pos = ds_p - drawsegs;
+        unsigned int    newmax = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
 
-        maxdrawsegs = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
-        drawsegs = Z_Realloc(drawsegs, maxdrawsegs * sizeof(*drawsegs));
-        ds_p = drawsegs + maxdrawsegs_old;
-        memset(ds_p, 0, (maxdrawsegs - maxdrawsegs_old) * sizeof(*drawsegs));
+        drawsegs = Z_Realloc(drawsegs, newmax * sizeof(*drawsegs));
+        ds_p = drawsegs + pos;
+        maxdrawsegs = newmax;
     }
 
     // calculate rw_distance for scale calculation
@@ -641,6 +641,7 @@ void R_StoreWallRange(int start, int stop)
     }
     else
     {
+        // two sided line
         int liquidoffset = 0;
 
         if (linedef->r_flags & RF_CLOSED)
