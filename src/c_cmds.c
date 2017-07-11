@@ -1120,9 +1120,10 @@ static void C_UnbindDuplicates(int keep, controltype_t type, int value)
 
 void bind_cmd_func2(char *cmd, char *parms)
 {
-    int     i = 0;
-    char    parm1[128] = "";
-    char    parm2[128] = "";
+    int         i = 0;
+    char        parm1[128] = "";
+    char        parm2[128] = "";
+    dboolean    mouselookcontrols = (keyboardmouselook || mousemouselook != -1);
 
     sscanf(parms, "%127s %127[^\n]", parm1, parm2);
 
@@ -1329,8 +1330,13 @@ void bind_cmd_func2(char *cmd, char *parms)
     else
         C_Warning("%s is not a valid control.", parm1);
 
-    canmouselook = (mouselook || keyboardmouselook || mousemouselook != -1);
-    R_InitColumnFunctions();
+    if (mouselookcontrols != (keyboardmouselook || mousemouselook != -1))
+    {
+        if (gamestate == GS_LEVEL)
+            R_InitSkyMap();
+
+        R_InitColumnFunctions();
+    }
 }
 
 //
