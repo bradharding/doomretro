@@ -1330,6 +1330,7 @@ void bind_cmd_func2(char *cmd, char *parms)
         C_Warning("%s is not a valid control.", parm1);
 
     canmouselook = (mouselook || keyboardmouselook || mousemouselook != -1);
+    R_InitColumnFunctions();
 }
 
 //
