@@ -631,7 +631,6 @@ void R_InitData(void)
     R_InitFlats();
     R_InitSpriteLumps();
     R_InitColormaps();
-    R_InitClipSegs();
 }
 
 //

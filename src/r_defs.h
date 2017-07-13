@@ -269,17 +269,6 @@ typedef struct line_s
     int                 nexttag;
     int                 firsttag;
 
-    int                 r_validcount;   // cph: if == gametic, r_flags already done
-
-    enum r_flags_e
-    {                                   // cph:
-        RF_TOP_TILE = 1,                // Upper texture needs tiling
-        RF_MID_TILE = 2,                // Mid texture needs tiling
-        RF_BOT_TILE = 4,                // Lower texture needs tiling
-        RF_IGNORE   = 8,                // Renderer can skip this line
-        RF_CLOSED   = 16                // Line blocks view
-    } r_flags;
-
     // sound origin for switches/buttons
     degenmobj_t         soundorg;
 } line_t;

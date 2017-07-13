@@ -51,6 +51,8 @@ line_t          *linedef;
 sector_t        *frontsector;
 sector_t        *backsector;
 
+dboolean        doorclosed;
+
 drawseg_t       *drawsegs;
 unsigned int    maxdrawsegs;
 drawseg_t       *ds_p;
@@ -65,56 +67,159 @@ void R_ClearDrawSegs(void)
     ds_p = drawsegs;
 }
 
-// CPhipps -
-// Instead of clipsegs, let's try using an array with one entry for each column,
-// indicating whether it's blocked by a solid wall yet or not.
-byte            *solidcol;
-static int      memcmpsize;
-
-// CPhipps -
-// R_ClipWallSegment
 //
-// Replaces the old R_Clip*WallSegment functions. It draws bits of walls in those
-// columns which aren't solid, and updates the solidcol[] array appropriately
-static void R_ClipWallSegment(int first, int last, dboolean solid)
+// ClipWallSegment
+// Clips the given range of columns
+// and includes it in the new clip list.
+//
+typedef struct cliprange_s
 {
-    byte    *p;
+    int first;
+    int last;
+} cliprange_t;
 
-    while (first < last)
+// 1/11/98: Lee Killough
+//
+// This fixes many strange venetian blinds crashes, which occurred when a scan
+// line had too many "posts" of alternating non-transparent and transparent
+// regions. Using a doubly-linked list to represent the posts is one way to
+// do it, but it has increased overhead and poor spatial locality, which hurts
+// cache performance on modern machines. Since the maximum number of posts
+// theoretically possible is a function of screen width, a static limit is
+// okay in this case. It used to be 32, which was way too small.
+//
+// This limit was frequently mistaken for the visplane limit in some DOOM
+// editing FAQs, where visplanes were said to "double" if a pillar or other
+// object split the view's space into two pieces horizontally. That did not
+// have anything to do with visplanes, but it had everything to do with these
+// clip posts.
+
+#define MAXSEGS (SCREENWIDTH / 2 + 1)
+
+// newend is one past the last valid seg
+static cliprange_t  *newend;
+static cliprange_t  solidsegs[MAXSEGS];
+
+//
+// R_ClipSolidWallSegment
+// Does handle solid walls,
+//  e.g. single sided LineDefs (middle texture)
+//  that entirely block the view.
+//
+static void R_ClipSolidWallSegment(int first, int last)
+{
+    cliprange_t *next;
+    cliprange_t *start = solidsegs;
+
+    // Find the first range that touches the range
+    //  (adjacent pixels are touching).
+    while (start->last < first - 1)
+        start++;
+
+    if (first < start->first)
     {
-        if (solidcol[first])
+        if (last < start->first - 1)
         {
-            if (!(p = memchr(solidcol + first, 0, last - first)))
-                return; // All solid
+            // Post is entirely visible (above start), so insert a new clippost.
+            R_StoreWallRange(first, last);
 
-            first = p - solidcol;
+            // 1/11/98 killough: performance tuning using fast memmove
+            memmove(start + 1, start, (++newend - start) * sizeof(*start));
+            start->first = first;
+            start->last = last;
+            return;
         }
-        else
+
+        // There is a fragment above *start.
+        R_StoreWallRange(first, start->first - 1);
+
+        // Now adjust the clip size.
+        start->first = first;
+    }
+
+    // Bottom contained in start?
+    if (last <= start->last)
+        return;
+
+    next = start;
+
+    while (last >= (next + 1)->first - 1)
+    {
+        // There is a fragment between two posts.
+        R_StoreWallRange(next->last + 1, (next + 1)->first - 1);
+        next++;
+
+        if (last <= next->last)
         {
-            int to;
-
-            if (!(p = memchr(solidcol + first, 1, last - first)))
-                to = last;
-            else
-                to = p - solidcol;
-
-            R_StoreWallRange(first, to - 1);
-
-            if (solid)
-                memset(solidcol + first, 1, to - first);
-
-            first = to;
+            // Bottom is contained in next. Adjust the clip size.
+            start->last = next->last;
+            goto crunch;
         }
     }
+
+    // There is a fragment after *next.
+    R_StoreWallRange(next->last + 1, last);
+
+    // Adjust the clip size.
+    start->last = last;
+
+    // Remove start + 1 to next from the clip list,
+    // because start now covers their area.
+crunch:
+    if (next == start)
+        return;                 // Post just extended past the bottom of one post.
+
+    while (next++ != newend)
+        *++start = *next;       // Remove a post.
+
+    newend = start + 1;
 }
 
 //
-// R_InitClipSegs
+// R_ClipPassWallSegment
+// Clips the given range of columns,
+//  but does not includes it in the clip list.
+// Does handle windows,
+//  e.g. LineDefs with upper and lower texture.
 //
-void R_InitClipSegs(void)
+static void R_ClipPassWallSegment(int first, int last)
 {
-    solidcol = calloc(1, SCREENWIDTH * sizeof(*solidcol));
-    memcmpsize = sizeof(fixed_t) * 4 + sizeof(short) * 3 + sizeof(int) * 2;
+    cliprange_t *start = solidsegs;
+
+    // Find the first range that touches the range
+    //  (adjacent pixels are touching).
+    while (start->last < first - 1)
+        start++;
+
+    if (first < start->first)
+    {
+        if (last < start->first - 1)
+        {
+            // Post is entirely visible (above start).
+            R_StoreWallRange(first, last);
+            return;
+        }
+
+        // There is a fragment above *start.
+        R_StoreWallRange(first, start->first - 1);
+    }
+
+    // Bottom contained in start?
+    if (last <= start->last)
+        return;
+
+    while (last >= (start + 1)->first - 1)
+    {
+        // There is a fragment between two posts.
+        R_StoreWallRange(start->last + 1, (start + 1)->first - 1);
+        start++;
+
+        if (last <= start->last)
+            return;
+    }
+
+    // There is a fragment after *next.
+    R_StoreWallRange(start->last + 1, last);
 }
 
 //
@@ -122,64 +227,32 @@ void R_InitClipSegs(void)
 //
 void R_ClearClipSegs(void)
 {
-    memset(solidcol, 0, SCREENWIDTH);
+    solidsegs[0].first = INT_MIN + 1;
+    solidsegs[0].last = -1;
+    solidsegs[1].first = viewwidth;
+    solidsegs[1].last = INT_MAX - 1;
+    newend = solidsegs + 2;
 }
 
 // killough 1/18/98 -- This function is used to fix the automap bug which
 // showed lines behind closed doors simply because the door had a dropoff.
 //
-// cph - converted to R_RecalcLineFlags. This recalculates all the flags for
-// a line, including closure and texture tiling.
-static void R_RecalcLineFlags(line_t *linedef)
+// It assumes that DOOM has already ruled out a door being closed because
+// of front-back closure (e.g. front floor is taller than back ceiling).
+static dboolean R_DoorClosed(void)
 {
-    int c;
+    return
+        // if door is closed because back is shut:
+        (backsector->interpceilingheight <= backsector->interpfloorheight
 
-    linedef->r_validcount = gametic;
+            // preserve a kind of transparent door/lift special effect:
+            && (backsector->interpceilingheight >= frontsector->interpceilingheight
+                || curline->sidedef->toptexture)
+            && (backsector->interpfloorheight <= frontsector->interpfloorheight
+                || curline->sidedef->bottomtexture)
 
-    if (!(linedef->flags & ML_TWOSIDED)
-        || backsector->ceilingheight <= frontsector->floorheight
-        || backsector->floorheight >= frontsector->ceilingheight
-        || (backsector->ceilingheight <= backsector->floorheight
-            && (backsector->ceilingheight >= frontsector->ceilingheight || curline->sidedef->toptexture)
-            && (backsector->floorheight <= frontsector->floorheight || curline->sidedef->bottomtexture)
-            && (backsector->ceilingpic != skyflatnum || frontsector->ceilingpic != skyflatnum)))
-        linedef->r_flags = RF_CLOSED;
-    else
-    {
-        if (backsector->ceilingheight != frontsector->ceilingheight
-            || backsector->floorheight != frontsector->floorheight
-            || curline->sidedef->midtexture
-            || memcmp(&backsector->floor_xoffs, &frontsector->floor_xoffs, memcmpsize))
-        {
-            linedef->r_flags = 0;
-            return;
-        }
-        else
-            linedef->r_flags = RF_IGNORE;
-    }
-
-    if (curline->sidedef->rowoffset)
-        return;
-
-    if (linedef->flags & ML_TWOSIDED)
-    {
-        // Does top texture need tiling
-        if ((c = frontsector->ceilingheight - backsector->ceilingheight) > 0
-            && (textureheight[texturetranslation[curline->sidedef->toptexture]] > c))
-            linedef->r_flags |= RF_TOP_TILE;
-
-        // Does bottom texture need tiling
-        if ((c = frontsector->floorheight - backsector->floorheight) > 0
-            && (textureheight[texturetranslation[curline->sidedef->bottomtexture]] > c))
-            linedef->r_flags |= RF_BOT_TILE;
-    }
-    else
-    {
-        // Does middle texture need tiling
-        if ((c = frontsector->ceilingheight - frontsector->floorheight) > 0
-            && (textureheight[texturetranslation[curline->sidedef->midtexture]] > c))
-            linedef->r_flags |= RF_MID_TILE;
-    }
+            // properly render skies (consider door "open" if both ceilings are sky):
+            && (backsector->ceilingpic != skyflatnum || frontsector->ceilingpic != skyflatnum));
 }
 
 // [AM] Interpolate the passed sector, if prudent.
@@ -378,24 +451,61 @@ static void R_AddLine(seg_t *line)
     backsector = line->backsector;
 
     // Single sided line?
-    if (backsector)
-    {
-        // [AM] Interpolate sector movement before
-        //      running clipping tests. Frontsector
-        //      should already be interpolated.
-        R_MaybeInterpolateSector(backsector);
+    if (!backsector)
+        goto clipsolid;
 
-        // killough 3/8/98, 4/4/98: hack for invisible ceilings / deep water
-        backsector = R_FakeFlat(backsector, &tempsec, NULL, NULL, true);
-    }
+    // [AM] Interpolate sector movement before
+    //      running clipping tests. Frontsector
+    //      should already be interpolated.
+    R_MaybeInterpolateSector(backsector);
 
-    if ((linedef = curline->linedef)->r_validcount != gametic)
-        R_RecalcLineFlags(linedef);
+    // killough 3/8/98, 4/4/98: hack for invisible ceilings / deep water
+    backsector = R_FakeFlat(backsector, &tempsec, NULL, NULL, true);
 
-    if (linedef->r_flags & RF_IGNORE)
+    doorclosed = false; // killough 4/16/98
+
+    // Closed door.
+    if (backsector->interpceilingheight <= frontsector->interpfloorheight
+        || backsector->interpfloorheight >= frontsector->interpceilingheight)
+        goto clipsolid;
+
+    // This fixes the automap floor height bug -- killough 1/18/98:
+    // killough 4/7/98: optimize: save result in doorclosed for use in r_segs.c
+    if ((doorclosed = R_DoorClosed()))
+        goto clipsolid;
+
+    // Window.
+    if (backsector->interpceilingheight != frontsector->interpceilingheight
+        || backsector->interpfloorheight != frontsector->interpfloorheight)
+        goto clippass;
+
+    // Reject empty lines used for triggers
+    //  and special events.
+    // Identical floor and ceiling on both sides,
+    // identical light levels on both sides,
+    // and no middle texture.
+    if (backsector->ceilingpic == frontsector->ceilingpic
+        && backsector->floorpic == frontsector->floorpic
+        && backsector->lightlevel == frontsector->lightlevel
+        && !curline->sidedef->midtexture
+
+        // killough 3/7/98: Take flats offsets into account:
+        && backsector->floor_xoffs == frontsector->floor_xoffs
+        && backsector->floor_yoffs == frontsector->floor_yoffs
+        && backsector->ceiling_xoffs == frontsector->ceiling_xoffs
+        && backsector->ceiling_yoffs == frontsector->ceiling_yoffs
+
+        // killough 4/16/98: consider altered lighting
+        && backsector->floorlightsec == frontsector->floorlightsec
+        && backsector->ceilinglightsec == frontsector->ceilinglightsec)
         return;
-    else
-        R_ClipWallSegment(x1, x2, (linedef->r_flags & RF_CLOSED));
+
+clippass:
+    R_ClipPassWallSegment(x1, x2 - 1);
+    return;
+
+clipsolid:
+    R_ClipSolidWallSegment(x1, x2 - 1);
 }
 
 //
@@ -404,28 +514,30 @@ static void R_AddLine(seg_t *line)
 // Returns true
 //  if some part of the bbox might be visible.
 //
-static const int checkcoord[12][4] =
-{
-    { 3, 0, 2, 1 },
-    { 3, 0, 2, 0 },
-    { 3, 1, 2, 0 },
-    { 0 },
-    { 2, 0, 2, 1 },
-    { 0, 0, 0, 0 },
-    { 3, 1, 3, 0 },
-    { 0 },
-    { 2, 0, 3, 1 },
-    { 2, 1, 3, 1 },
-    { 2, 1, 3, 0 }
-};
-
 static dboolean R_CheckBBox(const fixed_t *bspcoord)
 {
+    const int checkcoord[12][4] =
+    {
+        { 3, 0, 2, 1 },
+        { 3, 0, 2, 0 },
+        { 3, 1, 2, 0 },
+        { 0 },
+        { 2, 0, 2, 1 },
+        { 0, 0, 0, 0 },
+        { 3, 1, 3, 0 },
+        { 0 },
+        { 2, 0, 3, 1 },
+        { 2, 1, 3, 1 },
+        { 2, 1, 3, 0 }
+    };
+
     int         boxpos;
     const int   *check;
 
     angle_t     angle1;
     angle_t     angle2;
+
+    cliprange_t *start;
 
     int         sx1;
     int         sx2;
@@ -474,12 +586,19 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     sx1 = viewangletox[(angle1 + ANG90) >> ANGLETOFINESHIFT];
     sx2 = viewangletox[(angle2 + ANG90) >> ANGLETOFINESHIFT];
 
-    // Does not cross a pixel.
-    if (sx1 == sx2)
-        return false;
+    if (sx1 > 0)
+        sx1--;
 
-    if (!memchr(solidcol + sx1, 0, sx2 - sx1))
-        return false;
+    if (sx2 < viewwidth - 1)
+        sx2++;
+
+    start = solidsegs;
+
+    while (start->last < sx2)
+        start++;
+
+    if (sx1 >= start->first && sx2 <= start->last)
+        return false;                   // The clippost contains the new span.
 
     return true;
 }

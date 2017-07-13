@@ -897,7 +897,6 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         vis->x1 = x1;
 
     vis->x2 = MIN(x2, viewwidth - 1);
-
     vis->patch = lump;
 
     // get light level
