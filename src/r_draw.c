@@ -1148,7 +1148,7 @@ void R_DrawPausedFuzzColumn(void)
     // top
     if (!dc_yl)
     {
-        *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+        *dest = fullcolormap[6 * 256 + dest[MAX(0, fuzztable[fuzzpos++])]];
 
         if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
             fuzzpos = 0;
