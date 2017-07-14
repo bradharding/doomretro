@@ -1990,7 +1990,8 @@ void PIT_ChangeSector(mobj_t *thing)
         int i;
 
         for (i = 0; i < 4; i++)
-            if (!(flags & MF_NOBLOOD) && thing->blood)
+            if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != MT_PLAYER
+                || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
             {
                 // spray blood in a random direction
                 int     type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD :
