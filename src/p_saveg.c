@@ -52,7 +52,7 @@
 FILE    *save_stream;
 int     savegamelength;
 
-extern dboolean canmouselook;
+extern dboolean mouselook;
 extern dboolean r_shadows_translucency;
 extern dboolean r_textures;
 
@@ -459,7 +459,7 @@ static void saveg_read_player_t(player_t *str)
     str->recoil = saveg_read32();
     str->oldrecoil = saveg_read32();
 
-    if (!canmouselook)
+    if (!mouselook)
     {
         str->lookdir = 0;
         str->oldlookdir = 0;
