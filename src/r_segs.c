@@ -637,6 +637,14 @@ void R_StoreWallRange(int start, int stop)
         ds_p->sprbottomclip = NULL;
         ds_p->silhouette = SIL_NONE;
 
+        if (frontsector->interpfloorheight > backsector->interpfloorheight
+            || backsector->interpfloorheight > viewz)
+            ds_p->silhouette = SIL_BOTTOM;
+
+        if (frontsector->interpceilingheight < backsector->interpceilingheight
+            || backsector->interpceilingheight < viewz)
+            ds_p->silhouette |= SIL_TOP;
+
         // killough 1/17/98: this test is required if the fix
         // for the automap bug (r_bsp.c) is used, or else some
         // sprites will be displayed behind closed doors. That
