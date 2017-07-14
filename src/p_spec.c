@@ -218,7 +218,7 @@ void P_SetLiquids(void)
         {
             int j;
 
-            if (W_CheckNumForName(animdefs[i].startname) == -1)
+            if (R_CheckFlatNumForName(animdefs[i].startname) == -1)
                 continue;
 
             lastanim->picnum = R_FlatNumForName(animdefs[i].endname);
