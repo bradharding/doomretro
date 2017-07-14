@@ -617,7 +617,7 @@ void R_StoreWallRange(int start, int stop)
         midtexfullbright = (usebrightmaps && !nobrightmap[midtexture] ? texturefullbright[midtexture] :
             NULL);
         rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight
-            + textureheight[sidedef->midtexture] - viewz : worldtop);
+            + textureheight[midtexture] - viewz : worldtop);
         rw_midtexturemid += FixedMod(sidedef->rowoffset, textureheight[midtexture]);
 
         // a single sided line is terminal, so it must mark ends
@@ -724,7 +724,7 @@ void R_StoreWallRange(int start, int stop)
             toptexfullbright = (usebrightmaps && !nobrightmap[toptexture] ? texturefullbright[toptexture] :
                 NULL);
             rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop :
-                backsector->interpceilingheight + textureheight[sidedef->toptexture] - viewz);
+                backsector->interpceilingheight + textureheight[toptexture] - viewz);
             rw_toptexturemid += FixedMod(sidedef->rowoffset, textureheight[toptexture]);
         }
 

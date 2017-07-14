@@ -448,10 +448,8 @@ static void R_AddLine(seg_t *line)
     if (x1 >= x2)
         return;
 
-    backsector = line->backsector;
-
     // Single sided line?
-    if (!backsector)
+    if (!(backsector = line->backsector))
         goto clipsolid;
 
     // [AM] Interpolate sector movement before
