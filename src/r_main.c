@@ -838,13 +838,9 @@ void R_RenderPlayerView(player_t *player)
     R_ClearPlanes();
     R_ClearSprites();
 
-    NetUpdate();
-
     if (automapactive)
     {
         R_RenderBSPNode(numnodes - 1);
-
-        NetUpdate();
 
         if (r_playersprites)
             R_DrawPlayerSprites();
@@ -857,17 +853,8 @@ void R_RenderPlayerView(player_t *player)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
                 ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? RED : BLACK));
 
-        // Make displayed player invisible locally
         R_RenderBSPNode(numnodes - 1);  // head node is the last node output
-
-        NetUpdate();
-
         R_DrawPlanes();
-
-        NetUpdate();
-
         R_DrawMasked();
-
-        NetUpdate();
     }
 }

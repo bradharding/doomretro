@@ -75,7 +75,8 @@ static dboolean BuildNewTic(void)
     D_ProcessEvents();
 
     // Always run the menu
-    M_Ticker();
+    if (menuactive)
+        M_Ticker();
 
     if (maketic - gametic > 2)
         return false;
@@ -91,7 +92,6 @@ void NetUpdate(void)
 {
     int nowtime = I_GetTime();
     int newtics = nowtime - lasttime;
-    int i;
 
     lasttime = nowtime;
 
@@ -99,17 +99,14 @@ void NetUpdate(void)
     {
         newtics -= skiptics;
         skiptics = 0;
+
+        // build new ticcmds for console player
+        while (newtics--)
+            if (!BuildNewTic())
+                break;
     }
     else
-    {
         skiptics -= newtics;
-        newtics = 0;
-    }
-
-    // build new ticcmds for console player
-    for (i = 0; i < newtics; i++)
-        if (!BuildNewTic())
-            break;
 }
 
 //
