@@ -3743,6 +3743,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
                 return true;
         }
     }
+
     return false;
 }
 
@@ -3817,32 +3818,37 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            mobj_t      *player = players[0].mo;
-            fixed_t     x = player->x;
-            fixed_t     y = player->y;
-            angle_t     angle = player->angle >> ANGLETOFINESHIFT;
-            mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
-            int         flags = mobjinfo[type].flags;
-            mapthing_t  mthing;
-            mobj_t      *thing;
-
-            mthing.x = (x + 100 * finecosine[angle]) >> FRACBITS;
-            mthing.y = (y + 100 * finesine[angle]) >> FRACBITS;
-            mthing.angle = 0;
-            mthing.type = spawncmdtype;
-            mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
-
-            if ((thing = P_SpawnMapThing(&mthing, 0)))
+            if (nomonsters)
+                C_Warning("%s can't be spawned when nomonsters is enabled.");
+            else
             {
-                thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+                mobj_t      *player = players[0].mo;
+                fixed_t     x = player->x;
+                fixed_t     y = player->y;
+                angle_t     angle = player->angle >> ANGLETOFINESHIFT;
+                mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
+                int         flags = mobjinfo[type].flags;
+                mapthing_t  mthing;
+                mobj_t      *thing;
 
-                if (flags & MF_COUNTITEM)
+                mthing.x = (x + 100 * finecosine[angle]) >> FRACBITS;
+                mthing.y = (y + 100 * finesine[angle]) >> FRACBITS;
+                mthing.angle = 0;
+                mthing.type = spawncmdtype;
+                mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
+
+                if ((thing = P_SpawnMapThing(&mthing, 0)))
                 {
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    M_SaveCVARs();
-                }
+                    thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 
-                C_HideConsole();
+                    if (flags & MF_COUNTITEM)
+                    {
+                        stat_cheated = SafeAdd(stat_cheated, 1);
+                        M_SaveCVARs();
+                    }
+
+                    C_HideConsole();
+                }
             }
         }
     }
