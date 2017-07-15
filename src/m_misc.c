@@ -804,7 +804,7 @@ char *removespaces(const char *input)
         char    *p2 = p;
 
         while (*input != '\0')
-            if (!isspace((unsigned char)*input))
+            if (!isspace((unsigned char)*input) && *input != '-')
                 *p2++ = *input++;
             else
                 input++;
