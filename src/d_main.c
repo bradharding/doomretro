@@ -1777,7 +1777,6 @@ static void D_DoomMainSetup(void)
     if (!CheckPackageWADVersion())
         I_Error("%s is the wrong version.", packagewad);
 
-    FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
     DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);

@@ -169,7 +169,8 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 
     M_StringCopy(wadfile->path, GetCorrectCase(filename), sizeof(wadfile->path));
 
-    wadfile->freedoom = IsFreedoom(filename);
+    if ((wadfile->freedoom = IsFreedoom(filename)))
+        FREEDOOM = true;
 
     // WAD file
     W_Read(wadfile, 0, &header, sizeof(header));

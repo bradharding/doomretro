@@ -7,6 +7,8 @@
 * The `spawn` CCMD can now be used to spawn monsters in a map when the `nomonsters` CCMD or `-nomonsters` command-line parameter have been used.
 * The `+mouselook` action may now be bound to a control. Mouselook will then only work while that control is held down. Releasing that control will then cause the player’s view to spring back.
 * Blood will no longer be spawned when crushing the player while they are invulnerable.
+* A bug has been fixed whereby the player’s rocket launcher will no longer shift to the left when fired.
+* Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
 
 ---
 

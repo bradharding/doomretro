@@ -297,13 +297,13 @@ static void AddSpriteLump(lumpinfo_t *lump)
         {
             if (M_StringStartsWith(lump->name, weaponsprites[i].spr1)
                 || (*weaponsprites[i].spr2 && M_StringStartsWith(lump->name, weaponsprites[i].spr2)))
-                weaponinfo[i].altered = true;
+                weaponinfo[i].altered = !M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD);
+
             i++;
         }
     }
 
-    if (M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD)
-        && (M_StringCompare(lump->name, "MISFA0") || M_StringCompare(lump->name, "MISFB0"))
+    if (M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD) && M_StringStartsWith(lump->name, "MISF")
         && ((MISFA0 > 2 || MISFB0 > 2) || hacx || FREEDOOM))
         return;
 
