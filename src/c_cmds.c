@@ -3711,7 +3711,7 @@ static void save_cmd_func2(char *cmd, char *parms)
 //
 static int  spawncmdtype = NUMMOBJTYPES;
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters);
 
 static dboolean spawn_cmd_func1(char *cmd, char *parms)
 {
@@ -3818,37 +3818,32 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            if (nomonsters)
-                C_Warning("%s can't be spawned when nomonsters is enabled.");
-            else
+            mobj_t      *player = players[0].mo;
+            fixed_t     x = player->x;
+            fixed_t     y = player->y;
+            angle_t     angle = player->angle >> ANGLETOFINESHIFT;
+            mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
+            int         flags = mobjinfo[type].flags;
+            mapthing_t  mthing;
+            mobj_t      *thing;
+
+            mthing.x = (x + 100 * finecosine[angle]) >> FRACBITS;
+            mthing.y = (y + 100 * finesine[angle]) >> FRACBITS;
+            mthing.angle = 0;
+            mthing.type = spawncmdtype;
+            mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
+
+            if ((thing = P_SpawnMapThing(&mthing, 0, false)))
             {
-                mobj_t      *player = players[0].mo;
-                fixed_t     x = player->x;
-                fixed_t     y = player->y;
-                angle_t     angle = player->angle >> ANGLETOFINESHIFT;
-                mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
-                int         flags = mobjinfo[type].flags;
-                mapthing_t  mthing;
-                mobj_t      *thing;
+                thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 
-                mthing.x = (x + 100 * finecosine[angle]) >> FRACBITS;
-                mthing.y = (y + 100 * finesine[angle]) >> FRACBITS;
-                mthing.angle = 0;
-                mthing.type = spawncmdtype;
-                mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
-
-                if ((thing = P_SpawnMapThing(&mthing, 0)))
+                if (flags & MF_COUNTITEM)
                 {
-                    thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
-
-                    if (flags & MF_COUNTITEM)
-                    {
-                        stat_cheated = SafeAdd(stat_cheated, 1);
-                        M_SaveCVARs();
-                    }
-
-                    C_HideConsole();
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    M_SaveCVARs();
                 }
+
+                C_HideConsole();
             }
         }
     }

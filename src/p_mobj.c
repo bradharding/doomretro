@@ -1027,7 +1027,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 // The fields of the mapthing should
 //  already be in host byte order.
 //
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
 {
     int     i;
     int     bit;

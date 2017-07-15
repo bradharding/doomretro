@@ -95,7 +95,7 @@ struct mapinfo_s
     int         titlepatch;
 };
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters);
 
 //
 // MAP related Lookup tables.
@@ -1222,7 +1222,7 @@ void P_LoadThings(int lump)
             mt.type = Zombieman;
 
         if (spawn)
-            P_SpawnMapThing(&mt, i);
+            P_SpawnMapThing(&mt, i, nomonsters);
     }
 
     M_ClearRandom();

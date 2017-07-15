@@ -4,7 +4,7 @@
 * Savegames for *DOOM II: No Rest For The Living* are now saved in the correct folder, rather than in the same folder as *DOOM II: Hell On Earth* savegames.
 * A bug has been fixed whereby the frames per second displayed by enabling the `vid_showfps` CVAR wouldn’t display correctly in some instances.
 * The fuzz effect of spectres no longer bleeds past the bottom of the player’s view, or into a higher sector when partially obscured by it.
-* Minor changes have been made to text that is output to the console.
+* The `spawn` CCMD can now be used to spawn monsters in a map when the `nomonsters` CCMD or `-nomonsters` command-line parameter have been used.
 * The `+mouselook` action may now be bound to a control. Mouselook will then only work while that control is held down. Releasing that control will then cause the player’s view to spring back.
 * Blood will no longer be spawned when crushing the player while they are invulnerable.
 
