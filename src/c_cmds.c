@@ -3723,18 +3723,12 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
     if (gamestate == GS_LEVEL)
     {
         int i;
+        int num = -1;
+
+        sscanf(parm, "%10i", &num);
 
         for (i = 0; i < NUMMOBJTYPES; i++)
         {
-            int num = -1;
-
-            sscanf(parm, "%10i", &num);
-
-            if (num != -1 && ((num >= 90 && num <= 2000) || num == 2009 || num == 2016 || num == 2017
-                || num == 2020 || num == 2021 || num == 2027 || (num >= 2029 && num <= 2034)
-                || (num >= 2036 && num <= 2044) || (num >= 2050 && num <= 3000) || num >= 3007))
-                return false;
-
             spawncmdtype = mobjinfo[i].doomednum;
 
             if (spawncmdtype >= 0 && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
