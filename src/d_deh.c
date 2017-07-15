@@ -2208,7 +2208,8 @@ void deh_procThing(DEHFILE *fpin, char *line)
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
-        int bGetData;
+        int         bGetData;
+        dboolean    gibhealth = false;
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2334,11 +2335,16 @@ void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].projectilepassheight = 0;
                 else if (M_StringCompare(key, "Width"))
                     mobjinfo[indexnum].pickupradius = (int)value;
+                else if (M_StringCompare(key, "Gib health"))
+                    gibhealth = true;
             }
 
             if (devparm)
                 C_Output("Assigned %i to %s (%i) at index %i.", (int)value, key, indexnum, ix);
         }
+
+        if (!gibhealth && mobjinfo[indexnum].spawnhealth && !mobjinfo[indexnum].gibhealth)
+            mobjinfo[indexnum].gibhealth = -mobjinfo[indexnum].spawnhealth;
     }
 }
 
