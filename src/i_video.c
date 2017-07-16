@@ -1071,7 +1071,7 @@ void GetWindowPosition(void)
         windowx = 0;
         windowy = 0;
     }
-    else if (!sscanf(vid_windowposition, "(%10i,%10i)", &x, &y))
+    else if (sscanf(vid_windowposition, "(%10i,%10i)", &x, &y) != 2)
     {
         windowx = 0;
         windowy = 0;
