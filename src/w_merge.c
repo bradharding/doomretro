@@ -279,14 +279,18 @@ static void AddSpriteLump(lumpinfo_t *lump)
     int             i;
     static int      MISFA0;
     static int      MISFB0;
+    dboolean        ispackagewad = M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD);
 
     if (!ValidSpriteLumpName(lump->name))
         return;
 
     if (lump->wadfile->type == PWAD)
     {
-        MISFA0 += M_StringCompare(lump->name, "MISFA0");
-        MISFB0 += M_StringCompare(lump->name, "MISFB0");
+        if (!ispackagewad)
+        {
+            MISFA0 += M_StringCompare(lump->name, "MISFA0");
+            MISFB0 += M_StringCompare(lump->name, "MISFB0");
+        }
 
         if (M_StringCompare(lump->name, "SHT2A0") && !BTSX)
             SHT2A0 = true;
@@ -297,14 +301,17 @@ static void AddSpriteLump(lumpinfo_t *lump)
         {
             if (M_StringStartsWith(lump->name, weaponsprites[i].spr1)
                 || (*weaponsprites[i].spr2 && M_StringStartsWith(lump->name, weaponsprites[i].spr2)))
-                weaponinfo[i].altered = !M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD);
+            {
+                if (!ispackagewad)
+                    weaponinfo[i].altered = true;
+            }
 
             i++;
         }
     }
 
-    if (M_StringCompare(leafname(lump->wadfile->path), PACKAGE_WAD) && M_StringStartsWith(lump->name, "MISF")
-        && ((MISFA0 > 2 || MISFB0 > 2) || hacx || FREEDOOM))
+    if (ispackagewad && M_StringStartsWith(lump->name, "MISF")
+        && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
         return;
 
     // first angle
