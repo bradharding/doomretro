@@ -512,7 +512,6 @@ void D_SetSaveGameFolder(dboolean output)
     char    *iwad_name = SaveGameIWADName();
     char    *appdatafolder = M_GetAppDataFolder();
     int     p = M_CheckParmWithArgs("-savedir", 1, 1);
-    int     numsavegames;
 
     if (!iwad_name)
         iwad_name = "unknown";
@@ -532,12 +531,14 @@ void D_SetSaveGameFolder(dboolean output)
 
     if (output)
     {
-        if (!(numsavegames = M_CountSaveGames()))
-            C_Output("Found no savegames in <b>%s</b>.", savegamefolder);
+        int numsavegames = M_CountSaveGames();
+
+        if (!numsavegames)
+            C_Output("Savegames will be saved in <b>%s</b>.", savegamefolder);
         else if (numsavegames == 1)
-            C_Output("Found 1 savegame in <b>%s</b>.", savegamefolder);
+            C_Output("There is 1 savegame in <b>%s</b>.", savegamefolder);
         else
-            C_Output("Found %i savegames in <b>%s</b>.", numsavegames, savegamefolder);
+            C_Output("There are %i savegames in <b>%s</b>.", numsavegames, savegamefolder);
     }
 }
 
