@@ -509,7 +509,7 @@ void D_DoAdvanceTitle(void)
                 I_SetPalette(playpal);
                 splashscreen = false;
 
-                if (!TITLEPIC)
+                if (!TITLEPIC && !devparm)
                     M_StartControlPanel();
             }
 
