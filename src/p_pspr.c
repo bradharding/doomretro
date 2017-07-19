@@ -814,7 +814,8 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
     int     i;
     mobj_t  *mo = actor->target;
 
-    P_NoiseAlert(mo->player->mo, mo->player->mo);
+    if (mo->player)
+        P_NoiseAlert(mo->player->mo, mo->player->mo);
 
     // offset angles from its attack angle
     for (i = 0; i < 40; i++)
@@ -838,15 +839,19 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_DamageMobj(linetarget, mo, mo, damage, true);
     }
 
-    mo->player->shotsfired++;
-    stat_shotsfired = SafeAdd(stat_shotsfired, 1);
-
-    if (successfulshot)
+    if (mo->player)
     {
-        successfulshot = false;
-        mo->player->shotshit++;
-        stat_shotshit = SafeAdd(stat_shotshit, 1);
+        mo->player->shotsfired++;
+        stat_shotsfired = SafeAdd(stat_shotsfired, 1);
+
+        if (successfulshot)
+        {
+            mo->player->shotshit++;
+            stat_shotshit = SafeAdd(stat_shotshit, 1);
+        }
     }
+
+    successfulshot = false;
 }
 
 //
