@@ -1246,7 +1246,8 @@ void R_DrawPausedFuzzColumns(void)
                 if (!y || *(src - SCREENWIDTH) == NOFUZZ)
                 {
                     // top
-                    // do nothing
+                    if (!fuzztable[i])
+                        *dest = fullcolormap[12 * 256 + dest[fuzztable[i]]];
                 }
                 else if (y == h - SCREENWIDTH)
                 {
@@ -1256,14 +1257,16 @@ void R_DrawPausedFuzzColumns(void)
                 else if (*(src + SCREENWIDTH) == NOFUZZ)
                 {
                     // bottom of post
-                    // do nothing
+                    if (!fuzztable[i])
+                        *dest = fullcolormap[12 * 256 + dest[fuzztable[i]]];
                 }
                 else
                 {
                     // middle
                     if (*(src - 1) == NOFUZZ || *(src + 1) == NOFUZZ)
                     {
-                        // do nothing
+                        if (!fuzztable[i])
+                            *dest = fullcolormap[12 * 256 + dest[fuzztable[i]]];
                     }
                     else
                         *dest = fullcolormap[6 * 256 + dest[fuzztable[i]]];
