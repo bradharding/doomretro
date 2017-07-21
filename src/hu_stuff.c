@@ -919,12 +919,17 @@ static void HU_DrawAltHUD(void)
         powerupbar = (powerup == -1 ? max : powerup);
     }
 
+    if ((powerup = plr->powers[pw_strength]) && plr->readyweapon == wp_fist && !powerupbar)
+    {
+        max = STARTFLASHING + 1;
+        powerupbar = STARTFLASHING + 1;
+    }
+
     if (powerupbar > STARTFLASHING || (powerupbar & 8))
     {
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, darkgray);
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, powerupbar * 101 / max, 2, gray);
     }
-
 }
 
 void HU_DrawDisk(void)
