@@ -1,5 +1,7 @@
 ### DOOM Retro v2.6
 
+* The power-up bar is now displayed in the alternate widescreen HUD when the `IDBEHOLDx` cheat is used.
+
 ---
 
 ###### Sunday, July 16, 2017

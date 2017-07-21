@@ -775,7 +775,8 @@ static void HU_DrawAltHUD(void)
     int color1 = color2 + (color2 == green ? coloroffset : 0);
     int keys = 0;
     int i = 0;
-    int power = 0;
+    int powerup = 0;
+    int powerupbar = 0;
     int max;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health);
@@ -894,34 +895,34 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    if (plr->powers[pw_invulnerability] > 0)
+    if ((powerup = plr->powers[pw_invulnerability]))
     {
-        power = plr->powers[pw_invulnerability];
         max = INVULNTICS;
+        powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if (plr->powers[pw_invisibility] > 0 && (!power || plr->powers[pw_invisibility] < power))
+    if ((powerup = plr->powers[pw_invisibility]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
-        power = plr->powers[pw_invisibility];
         max = INVISTICS;
+        powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if (plr->powers[pw_ironfeet] > 0 && (!power || plr->powers[pw_ironfeet] < power))
+    if ((powerup = plr->powers[pw_ironfeet]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
-        power = plr->powers[pw_ironfeet];
         max = IRONTICS;
+        powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if (plr->powers[pw_infrared] > 0 && (!power || plr->powers[pw_infrared] < power))
+    if ((powerup = plr->powers[pw_infrared]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
-        power = plr->powers[pw_infrared];
         max = INFRATICS;
+        powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if (power > STARTFLASHING || (power & 8))
+    if (powerupbar > STARTFLASHING || (powerupbar & 8))
     {
         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, darkgray);
-        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, power * 101 / max, 2, gray);
+        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, powerupbar * 101 / max, 2, gray);
     }
 
 }
