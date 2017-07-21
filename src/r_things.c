@@ -369,12 +369,12 @@ static vissprite_t *R_NewVisSprite(void)
 //
 // R_BlastMaskedColumn
 //
-int             *mfloorclip;
-int             *mceilingclip;
+int     *mfloorclip;
+int     *mceilingclip;
 
-fixed_t         spryscale;
-int64_t         sprtopscreen;
-int             fuzzpos;
+fixed_t spryscale;
+int64_t sprtopscreen;
+int     fuzzpos;
 
 void R_BlastMaskedColumn(const rcolumn_t *column)
 {

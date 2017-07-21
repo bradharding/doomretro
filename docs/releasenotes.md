@@ -1,5 +1,6 @@
 ### DOOM Retro v2.6
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The power-up bar is now displayed in the alternate widescreen HUD when the `IDBEHOLDx` cheat is used.
 
 ---
@@ -15,7 +16,7 @@
 * The `spawn` CCMD can now be used to spawn monsters in a map when the `nomonsters` CCMD or `-nomonsters` command-line parameter have been used.
 * The `+mouselook` action may now be bound to a control. Mouselook will then only work while that control is held down. Releasing that control will then cause the player’s view to spring back.
 * Blood will no longer be spawned when crushing the player while they are invulnerable.
-* A bug has been fixed whereby the player’s rocket launcher will no longer shift to the left when fired.
+* A bug has been fixed whereby the player’s rocket launcher would shift to the left when fired.
 * Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
 
 ---
@@ -102,7 +103,7 @@
 * Sprites taller than 255 pixels are now supported.
 * The map title in the automap is now positioned correctly when the `r_messagescale` CVAR is `small`.
 * Frames from *DOOM’s* rocket launcher are no longer shown when firing the missile launcher in [*Freedoom*](http://freedoom.github.io/).
-* Entering the `idmypos` cheat will no longer cause a crash.
+* Entering the `IDMYPOS` cheat will no longer cause a crash.
 * Pressing the <kbd>DEL</kbd> key when in the save or load game menus will now delete the currently selected savegame.
 * Minor changes have been made to text that is output to the console.
 * The inverted gray color palette is now applied to the sky when the player has the invulnerability power-up, as originally intended.
@@ -145,7 +146,7 @@
   * Lost souls will no longer forget their target immediately after attacking them.
 * When using the `kill` CCMD to kill all monsters, all missiles fired by those monsters will now explode at the same time. Also, a `missiles` parameter may now be used to only explode the missiles.
 * `ccmdlist` can now be used as an alternative to the `cmdlist` CCMD, and `explode` as an alternative to the `kill` CCMD.
-* The `idclev` cheat may now be used in the console while no map is loaded.
+* The `IDCLEV` cheat may now be used in the console while no map is loaded.
 * The maximum value the `r_screensize` CVAR can be set to is now `7` rather than `8`. Setting the CVAR to `8` previously had no effect.
 * The player can no longer trigger secrets when in freeze mode.
 

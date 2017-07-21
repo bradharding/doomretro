@@ -1330,8 +1330,12 @@ void R_InitTranslationTables(void)
             translationtables[i + 512] = 0x20 + (i & 0xF);
         }
         else
+        {
             // Keep all other colors as is.
-            translationtables[i] = translationtables[i + 256] = translationtables[i + 512] = i;
+            translationtables[i] = i;
+            translationtables[i + 256] = i;
+            translationtables[i + 512] = i;
+        }
 }
 
 //

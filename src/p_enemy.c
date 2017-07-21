@@ -696,7 +696,8 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
 
     floorz = actor->z;                                          // remember floor height
 
-    dropoff_deltax = dropoff_deltay = 0;
+    dropoff_deltax = 0;
+    dropoff_deltay = 0;
 
     // check lines
     validcount++;
@@ -1336,7 +1337,8 @@ dboolean PIT_VileCheck(mobj_t *thing)
         return true;    // not actually touching
 
     corpsehit = thing;
-    corpsehit->momx = corpsehit->momy = 0;
+    corpsehit->momx = 0;
+    corpsehit->momy = 0;
 
     // [BH] fix potential of corpse being resurrected as a "ghost"
     height = corpsehit->height;
