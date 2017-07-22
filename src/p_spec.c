@@ -322,6 +322,21 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
         line->frontsector);
 }
 
+dboolean P_IsSelfReferencingSector(sector_t *sec)
+{
+    int i;
+
+    for (i = 0; i < sec->linecount; i++)
+    {
+        line_t  *line = sec->lines[i];
+
+        if (line->backsector && line->frontsector == line->backsector)
+            return true;
+    }
+
+    return false;
+}
+
 //
 // P_FindLowestFloorSurrounding()
 // FIND LOWEST FLOOR HEIGHT IN SURROUNDING SECTORS

@@ -162,7 +162,7 @@ void P_CalcHeight(player_t *player)
                 player->viewz += animatedliquiddiff;
                 return;
             }
-            else if (r_liquid_lowerview)
+            else if (r_liquid_lowerview && !P_IsSelfReferencingSector(player->mo->subsector->sector))
                 player->viewz -= FOOTCLIPSIZE;
         }
     }
