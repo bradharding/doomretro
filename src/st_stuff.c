@@ -1317,9 +1317,12 @@ static void ST_updateWidgets(void)
 
 void ST_Ticker(void)
 {
-    st_randomnumber = M_Random();
-    ST_updateWidgets();
-    st_oldhealth = plyr->health;
+    if (!vid_widescreen)
+    {
+        st_randomnumber = M_Random();
+        ST_updateWidgets();
+        st_oldhealth = plyr->health;
+    }
 
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
     if (idclevtics)
