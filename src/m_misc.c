@@ -48,13 +48,6 @@
 #include <pwd.h>
 #endif
 
-#include "doomdef.h"
-#include "i_system.h"
-#include "m_fixed.h"
-#include "m_misc.h"
-#include "version.h"
-#include "z_zone.h"
-
 #if defined(__MACOSX__)
 #import <Cocoa/Cocoa.h>
 #include <dirent.h>
@@ -68,14 +61,19 @@
 #include <errno.h>
 #include <libgen.h>
 #include <unistd.h>
-#endif
-
-#if defined(__linux__)
+#elif defined(__linux__)
 #include <dirent.h>
 #include <errno.h>
 #include <libgen.h>
 #include <unistd.h>
 #endif
+
+#include "doomdef.h"
+#include "i_system.h"
+#include "m_fixed.h"
+#include "m_misc.h"
+#include "version.h"
+#include "z_zone.h"
 
 #if !defined(MAX_PATH)
 #define MAX_PATH    260

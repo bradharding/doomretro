@@ -49,6 +49,7 @@
 #define SIL_BOTH        3
 
 #define MAXDRAWSEGS     256
+#define MAXOPENINGS     16384
 
 //
 // INTERNAL MAP TYPES

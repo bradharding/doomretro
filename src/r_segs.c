@@ -101,7 +101,6 @@ dboolean        r_liquid_current = r_liquid_current_default;
 
 extern int      *openings;          // dropoff overflow
 extern size_t   maxopenings;
-
 extern fixed_t  animatedliquiddiff;
 extern fixed_t  animatedliquidxoffs;
 extern fixed_t  animatedliquidyoffs;
@@ -556,7 +555,7 @@ void R_StoreWallRange(int start, int stop)
             int         *oldlast = lastopening;
 
             do
-                maxopenings = (maxopenings ? maxopenings * 2 : 16384);
+                maxopenings = (maxopenings ? maxopenings * 2 : MAXOPENINGS);
             while (need > maxopenings);
 
             openings = Z_Realloc(openings, maxopenings * sizeof(*openings));
