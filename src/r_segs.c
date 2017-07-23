@@ -38,7 +38,6 @@
 
 #include "doomstat.h"
 #include "p_local.h"
-#include "w_wad.h"
 #include "z_zone.h"
 
 // killough 1/6/98: replaced globals with statics where appropriate
@@ -106,7 +105,6 @@ extern size_t   maxopenings;
 extern fixed_t  animatedliquiddiff;
 extern fixed_t  animatedliquidxoffs;
 extern fixed_t  animatedliquidyoffs;
-extern dboolean doorclosed;
 extern dboolean r_dither;
 extern dboolean r_liquid_bob;
 extern dboolean r_textures;
@@ -302,6 +300,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 // Can draw or mark the starting pixel of floor and ceiling textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
+static dboolean didsolidcol;
+
 static void R_RenderSegLoop(void)
 {
     for (; rw_x < rw_stopx; rw_x++)
@@ -459,6 +459,14 @@ static void R_RenderSegLoop(void)
                 if (markfloor)
                     floorclip[rw_x] = yh + 1;
 
+            // cph - if we completely blocked further sight through this column,
+            // add this info to the solid columns array for r_bsp.c
+            if ((markceiling || markfloor) && floorclip[rw_x] <= ceilingclip[rw_x] + 1)
+            {
+                solidcol[rw_x] = 1;
+                didsolidcol = true;
+            }
+
             // save texturecol for backdrawing of masked mid texture
             if (maskedtexture)
                 maskedtexturecol[rw_x] = texturecolumn;
@@ -613,7 +621,7 @@ void R_StoreWallRange(int start, int stop)
     {
         // single sided line
         midtexture = texturetranslation[sidedef->midtexture];
-        midtexheight = textureheight[midtexture] >> FRACBITS;
+        midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : textureheight[midtexture] >> FRACBITS);
         midtexfullbright = (usebrightmaps && !nobrightmap[midtexture] ? texturefullbright[midtexture] :
             NULL);
         rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight
@@ -632,34 +640,26 @@ void R_StoreWallRange(int start, int stop)
     {
         int liquidoffset = 0;
 
-        // two sided line
-        ds_p->sprtopclip = NULL;
-        ds_p->sprbottomclip = NULL;
-        ds_p->silhouette = SIL_NONE;
-
-        if (frontsector->interpfloorheight > backsector->interpfloorheight
-            || backsector->interpfloorheight > viewz)
-            ds_p->silhouette = SIL_BOTTOM;
-
-        if (frontsector->interpceilingheight < backsector->interpceilingheight
-            || backsector->interpceilingheight < viewz)
-            ds_p->silhouette |= SIL_TOP;
-
-        // killough 1/17/98: this test is required if the fix
-        // for the automap bug (r_bsp.c) is used, or else some
-        // sprites will be displayed behind closed doors. That
-        // fix prevents lines behind closed doors with dropoffs
-        // from being displayed on the automap.
-        if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
+        if (linedef->r_flags & RF_CLOSED)
         {
             ds_p->sprbottomclip = negonearray;
-            ds_p->silhouette |= SIL_BOTTOM;
-        }
-
-        if (doorclosed || backsector->interpfloorheight >= frontsector->interpceilingheight)
-        {
             ds_p->sprtopclip = screenheightarray;
-            ds_p->silhouette |= SIL_TOP;
+            ds_p->silhouette = SIL_BOTH;
+        }
+        else
+        {
+            // two sided line
+            ds_p->sprtopclip = NULL;
+            ds_p->sprbottomclip = NULL;
+            ds_p->silhouette = SIL_NONE;
+
+            if (frontsector->interpfloorheight > backsector->interpfloorheight
+                || backsector->interpfloorheight > viewz)
+                ds_p->silhouette = SIL_BOTTOM;
+
+            if (frontsector->interpceilingheight < backsector->interpceilingheight
+                || backsector->interpceilingheight < viewz)
+                ds_p->silhouette |= SIL_TOP;
         }
 
         worldhigh = backsector->interpceilingheight - viewz;
@@ -750,9 +750,7 @@ void R_StoreWallRange(int start, int stop)
     }
 
     // calculate rw_offset (only needed for textured lines)
-    segtextured = (midtexture | toptexture | bottomtexture | maskedtexture);
-
-    if (segtextured)
+    if ((segtextured = (midtexture | toptexture | bottomtexture | maskedtexture)))
     {
         rw_offset = (fixed_t)(((dx * dx1 + dy * dy1) / len) << 1) + sidedef->textureoffset + curline->offset;
         rw_centerangle = ANG90 + viewangle - rw_normalangle;
@@ -823,7 +821,14 @@ void R_StoreWallRange(int start, int stop)
             markfloor = false;
     }
 
+    didsolidcol = false;
     R_RenderSegLoop();
+
+    if (backsector && didsolidcol)
+    {
+        ds_p->silhouette |= SIL_BOTTOM;
+        ds_p->silhouette |= SIL_TOP;
+    }
 
     // save sprite clipping info
     if (((ds_p->silhouette & SIL_TOP) || maskedtexture) && !ds_p->sprtopclip)

@@ -667,6 +667,7 @@ void R_InitColumnFunctions(void)
 //
 void R_Init(void)
 {
+    R_InitClipSegs();
     R_InitData();
     R_InitPointToAngle();
     R_InitTables();
