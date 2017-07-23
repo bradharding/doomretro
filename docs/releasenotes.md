@@ -1,8 +1,8 @@
 ### DOOM Retro v2.6
 
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The power-up bar is now displayed in the alternate widescreen HUD when the player has the berserk power-up and their fist selected, or when the `IDBEHOLDx` cheat is used.
-* The player’s view is no longer lowered when they are in liquid, self-referencing sectors.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The power-up bar is now displayed in the alternate widescreen HUD when the player has the berserk power-up and their fist selected, and when the `IDBEHOLDx` cheat is used.
+* The player’s view is no longer lowered when they are in liquid, self-referencing sectors and the `r_liquid_lowerview` CVAR is `on`.
 
 ---
 
