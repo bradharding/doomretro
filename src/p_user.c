@@ -162,7 +162,7 @@ void P_CalcHeight(player_t *player)
                 player->viewz += animatedliquiddiff;
                 return;
             }
-            else if (r_liquid_lowerview && !P_IsSelfReferencingSector(player->mo->subsector->sector))
+            else if (r_liquid_lowerview && !P_IsSelfReferencingSector(mo->subsector->sector))
                 player->viewz -= FOOTCLIPSIZE;
         }
     }
@@ -181,7 +181,6 @@ static void P_MovePlayer(player_t *player)
     char        sidemove = cmd->sidemove;
 
     mo->angle += cmd->angleturn << FRACBITS;
-    onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 
     // killough 10/98:
     //
@@ -189,12 +188,13 @@ static void P_MovePlayer(player_t *player)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if (forwardmove | sidemove)                 // killough 10/98
+    if (forwardmove | sidemove)                                                 // killough 10/98
     {
-        if (onground)                           // killough 8/9/98
+        if ((onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))))    // killough 8/9/98
         {
-            int friction;
-            int movefactor = P_GetMoveFactor(mo, &friction);
+            int     friction;
+            int     movefactor = P_GetMoveFactor(mo, &friction);
+            angle_t angle = mo->angle;
 
             // killough 11/98:
             // On sludge, make bobbing depend on efficiency.
@@ -203,14 +203,14 @@ static void P_MovePlayer(player_t *player)
 
             if (forwardmove)
             {
-                P_Bob(player, mo->angle, forwardmove * bobfactor);
-                P_Thrust(player, mo->angle, forwardmove * movefactor);
+                P_Bob(player, angle, forwardmove * bobfactor);
+                P_Thrust(player, angle, forwardmove * movefactor);
             }
 
             if (sidemove)
             {
-                P_Bob(player, mo->angle - ANG90, sidemove * bobfactor);
-                P_Thrust(player, mo->angle - ANG90, sidemove * movefactor);
+                P_Bob(player, (angle -= ANG90), sidemove * bobfactor);
+                P_Thrust(player, angle, sidemove * movefactor);
             }
         }
 
@@ -232,6 +232,7 @@ static void P_MovePlayer(player_t *player)
     }
 }
 
+//
 // P_ReduceDamageCount
 //
 static void P_ReduceDamageCount(player_t *player)

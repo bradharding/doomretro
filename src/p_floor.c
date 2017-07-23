@@ -725,23 +725,15 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
             {
                 line_t      *line = sec->lines[i];
                 sector_t    *tsec;
-                int         newsecnum;
 
                 if (!(line->flags & ML_TWOSIDED))
                     continue;
 
-                tsec = line->frontsector;
-                newsecnum = tsec - sectors;
-
-                if (secnum != newsecnum)
+                if (secnum != line->frontsector - sectors)
                     continue;
 
-                tsec = line->backsector;
-
-                if (!tsec)
+                if (!(tsec = line->backsector))
                     continue;
-
-                newsecnum = tsec - sectors;
 
                 if (tsec->floorpic != texture)
                     continue;
@@ -752,7 +744,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                     continue;
 
                 sec = tsec;
-                secnum = newsecnum;
+                secnum = tsec - sectors;
                 floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
                 P_AddThinker(&floor->thinker);
 
