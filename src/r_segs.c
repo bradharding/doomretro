@@ -720,7 +720,7 @@ void R_StoreWallRange(int start, int stop)
         {
             // top texture
             toptexture = texturetranslation[sidedef->toptexture];
-            toptexheight = textureheight[toptexture] >> FRACBITS;
+            toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : textureheight[toptexture] >> FRACBITS);
             toptexfullbright = (usebrightmaps && !nobrightmap[toptexture] ? texturefullbright[toptexture] :
                 NULL);
             rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop :
@@ -732,7 +732,7 @@ void R_StoreWallRange(int start, int stop)
         {
             // bottom texture
             bottomtexture = texturetranslation[sidedef->bottomtexture];
-            bottomtexheight = textureheight[bottomtexture] >> FRACBITS;
+            bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : textureheight[bottomtexture] >> FRACBITS);
             bottomtexfullbright = (usebrightmaps && !nobrightmap[bottomtexture] ?
                 texturefullbright[bottomtexture] : NULL);
             rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset);
