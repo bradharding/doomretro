@@ -62,7 +62,8 @@
 #include <mach-o/dyld.h>
 #endif
 
-#if defined(__OpenBSD__)
+#if defined(__OpenBSD__) || defined(__FreeBSD__)
+#include <sys/sysctl.h>
 #include <dirent.h>
 #include <errno.h>
 #include <libgen.h>
@@ -380,6 +381,24 @@ char *M_GetExecutableFolder(void)
 
         if (getpath)
             exe = dirname(exe);
+        else
+            exe = ".";
+    }
+
+    return exe;
+#elif defined(__FreeBSD__)
+    char        *exe = M_StaticPath();
+    static int  getpath = -1;
+    size_t      len = MAX_PATH;
+    int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1};
+
+    if (!pathset)
+    {
+        getpath = sysctl(mib, 4, exe, &len, NULL, 0);
+        pathset = true;
+
+        if (getpath == 0)
+            M_StringCopy(exe, dirname(exe), len);
         else
             exe = ".";
     }
