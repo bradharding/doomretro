@@ -2885,8 +2885,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     if (mus_playing && !nomusic)
     {
-        static char lumpname[9];
-        int         lumps;
+        static char     lumpname[9];
+        int             lumps;
+        Mix_MusicType   musictype = Mix_GetMusicType(NULL);
 
         M_snprintf(lumpname, sizeof(lumpname), "d_%s", mus_playing->name);
         lumps = W_CheckMultipleLumps(lumpname);
@@ -2895,19 +2896,19 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
             C_TabbedOutput(tabs, "Music title\t<b>%s</b>", mus_playing->title);
 
-        if (musictype == MUSTYPE_MUS)
+        if (musmusictype)
             C_TabbedOutput(tabs, "Music format\t<b>MIDI (converted from MUS)</b>");
-        else if (musictype == MUSTYPE_MIDI)
+        else if (midimusictype || musictype == MUS_MID)
             C_TabbedOutput(tabs, "Music format\t<b>MIDI</b>");
-        else if (musictype == MUSTYPE_OGG)
+        else if (musictype == MUS_OGG)
             C_TabbedOutput(tabs, "Music format\t<b>Ogg Vorbis</b>");
-        else if (musictype == MUSTYPE_MP3)
+        else if (musictype == MUS_MP3 || musictype == MUS_MP3_MAD)
             C_TabbedOutput(tabs, "Music format\t<b>MP3</b>");
-        else if (musictype == MUSTYPE_WAV)
+        else if (musictype == MUS_WAV)
             C_TabbedOutput(tabs, "Music format\t<b>WAV</b>");
-        else if (musictype == MUSTYPE_FLAC)
+        else if (musictype == MUS_FLAC)
             C_TabbedOutput(tabs, "Music format\t<b>FLAC</b>");
-        else if (musictype == MUSTYPE_MOD)
+        else if (musictype == MUS_MOD || musictype == MUS_MODPLUG)
             C_TabbedOutput(tabs, "Music format\t<b>MOD</b>");
     }
 }
