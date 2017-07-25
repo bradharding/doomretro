@@ -377,7 +377,7 @@ static byte *R_DistortedFlat(int flatnum)
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
             }
 
-        swirltic = gametic;
+        swirltic = activetic;
     }
 
     normalflat = W_CacheLumpNum(firstflat + flatnum);
