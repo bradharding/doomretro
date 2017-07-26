@@ -411,7 +411,7 @@ void R_DrawPlanes(void)
                     int             x;
                     int             texture;
                     int             offset;
-                    angle_t         flip;
+                    angle_t         flip = 0;
                     const rpatch_t  *tex_patch;
 
                     // killough 10/98: allow skies to come from sidedefs.
@@ -457,7 +457,6 @@ void R_DrawPlanes(void)
                         texture = skytexture;                   // Default texture
                         dc_texheight = textureheight[texture] >> FRACBITS;
                         dc_texturemid = skytexturemid;
-                        flip = 0;                               // DOOM flips it
                     }
 
                     dc_colormap = (fixedcolormap ? fixedcolormap : fullcolormap);

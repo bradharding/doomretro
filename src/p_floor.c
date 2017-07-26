@@ -190,8 +190,10 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                     break;
             }
+
             break;
     }
+
     return ok;
 }
 
@@ -702,8 +704,6 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         floor->speed = speed;
         height = sec->floorheight + stairsize;
         floor->floordestheight = height;
-        floor->newspecial = 0;
-        floor->texture = 0;
         floor->crush = crushing;
         floor->type = buildStair;
         floor->stopsound = (sec->floorheight != floor->floordestheight);
