@@ -5510,7 +5510,8 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
             starttime = SDL_GetTicks();
         else
         {
-            C_Output("The minimum was %s FPS and the maximum was %s FPS.", commify(minfps), commify(maxfps));
+            C_Output("The minimum was %s FPS (%.1fms) and the maximum was %s FPS (%.1fms).",
+                commify(minfps), 1000.0 / minfps, commify(maxfps), 1000.0 / maxfps);
             minfps = INT_MAX;
             maxfps = 0;
             starttime = SDL_GetTicks();
