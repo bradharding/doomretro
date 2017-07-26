@@ -58,14 +58,14 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
     fixed_t lastpos;
     fixed_t destheight;
 
+    sector->oldfloorheight = sector->floorheight;
+    sector->oldceilingheight = sector->ceilingheight;
     sector->oldgametic = gametic;
 
     switch (floorOrCeiling)
     {
         case 0:
             // FLOOR
-            sector->oldfloorheight = sector->floorheight;
-
             switch (direction)
             {
                 case -1:
@@ -129,8 +129,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
         case 1:
             // CEILING
-            sector->oldceilingheight = sector->ceilingheight;
-
             switch (direction)
             {
                 case -1:
