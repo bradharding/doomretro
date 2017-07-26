@@ -1,4 +1,4 @@
-### DOOM Retro v2.6
+### DOOM Retro v2.5.3
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The power-up bar is now displayed in the alternate widescreen HUD when the player has the berserk power-up and their fist selected, and when the `IDBEHOLDx` cheat is used.
