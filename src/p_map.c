@@ -1204,7 +1204,7 @@ void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmxmove) > ABS(tmymove))
         {
             S_StartSound(slidemo, sfx_oof);     // oooff!
-            tmxmove = -tmxmove / 2;             // absorb half the momentum
+            tmxmove /= -2;                      // absorb half the momentum
             tmymove /= 2;
         }
         else

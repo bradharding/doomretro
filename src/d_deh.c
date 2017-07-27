@@ -1973,7 +1973,7 @@ void ProcessDehFile(char *filename, int lumpnum)
         for (; i < EXTRASTATES; i++)
             deh_codeptr[i] = states[i].action;
 
-        // [BH] Initialize extra DeHacked states 1089 to 3999
+        // [BH] Initialize extra DeHackEd states 1089 to 3999
         for (; i < NUMSTATES; i++)
         {
             states[i].sprite = SPR_TNT1;

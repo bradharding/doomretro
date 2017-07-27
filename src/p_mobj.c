@@ -237,7 +237,7 @@ void P_XYMovement(mobj_t *mo)
             // killough 8/11/98: bouncing off walls
             // killough 10/98:
             // Add ability for objects other than players to bounce on ice
-            if (!(mo->flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz
+            if (!(flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz
                 && P_GetFriction(mo, NULL) > ORIG_FRICTION)
             {
                 if (blockline)
@@ -255,7 +255,7 @@ void P_XYMovement(mobj_t *mo)
 
                     // if under gravity, slow down in
                     // direction perpendicular to wall.
-                    if (!(mo->flags & MF_NOGRAVITY))
+                    if (!(flags & MF_NOGRAVITY))
                     {
                         mo->momx = (mo->momx + x) / 2;
                         mo->momy = (mo->momy + y) / 2;

@@ -322,6 +322,9 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
         line->frontsector);
 }
 
+//
+// P_IsSelfReferencingSector()
+//
 dboolean P_IsSelfReferencingSector(sector_t *sec)
 {
     int i;

@@ -619,7 +619,6 @@ static void R_ProjectSprite(mobj_t *thing)
     fixed_t         xscale;
     int             x1;
     int             x2;
-    spritedef_t     *sprdef;
     spriteframe_t   *sprframe;
     int             lump;
     fixed_t         width;
@@ -673,9 +672,8 @@ static void R_ProjectSprite(mobj_t *thing)
         return;
 
     // decide which patch to use for sprite relative to player
-    sprdef = &sprites[thing->sprite];
     frame = thing->frame;
-    sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
+    sprframe = &sprites[thing->sprite].spriteframes[frame & FF_FRAMEMASK];
 
     if (sprframe->rotate)
     {
@@ -951,9 +949,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     vissprite_t     tempvis;
     state_t         *state = psp->state;
     spritenum_t     spr = state->sprite;
-    spritedef_t     *sprdef = &sprites[spr];
     long            frame = state->frame;
-    spriteframe_t   *sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
+    spriteframe_t   *sprframe = &sprites[spr].spriteframes[frame & FF_FRAMEMASK];
     int             lump = sprframe->lump[0];
 
     // calculate edges of the shape
