@@ -5506,17 +5506,16 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
     {
         I_UpdateBlitFunc(!!players[0].damagecount);
 
-        if (vid_showfps)
-            starttime = SDL_GetTicks();
-        else
+        if (!vid_showfps)
         {
             C_Output("The minimum was %s FPS (%.1fms) and the maximum was %s FPS (%.1fms).",
                 commify(minfps), 1000.0 / minfps, commify(maxfps), 1000.0 / maxfps);
             minfps = INT_MAX;
             maxfps = 0;
-            starttime = SDL_GetTicks();
             frames = -1;
         }
+
+        starttime = SDL_GetTicks();
     }
 }
 

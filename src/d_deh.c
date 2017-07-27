@@ -1216,7 +1216,7 @@ char **mapnames[] =     // DOOM shareware/registered/retail (Ultimate) names.
     &s_HUSTR_E4M7,
     &s_HUSTR_E4M8,
     &s_HUSTR_E4M9,
-    &deh_newlevel,      // spares?  Unused.
+    &deh_newlevel,      // spares? Unused.
     &deh_newlevel,
     &deh_newlevel,
     &deh_newlevel,
@@ -1612,7 +1612,7 @@ static char *deh_state[] =
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
 // Sound effects, typically not changed (redirected, and new sfx put
 // into the pwad, but not changed here. Can you tell that Greg didn't
-// know what they were for, mostly?  Can you tell that I don't either?
+// know what they were for, mostly? Can you tell that I don't either?
 // Mostly I just put these into the same slots as they are in the struct.
 // This may not be supported in our -deh option if it doesn't make sense by then.
 

@@ -2142,7 +2142,7 @@ dboolean EV_DoDonut(line_t *line)
     {
         s1 = &sectors[secnum];
 
-        // ALREADY MOVING?  IF SO, KEEP GOING...
+        // ALREADY MOVING? IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, s1))
             continue;
 

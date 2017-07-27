@@ -673,7 +673,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         int         height;
         int         texture;
 
-        // ALREADY MOVING?  IF SO, KEEP GOING...
+        // ALREADY MOVING? IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, sec))
             continue;
 
