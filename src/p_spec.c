@@ -330,7 +330,8 @@ dboolean P_IsSelfReferencingSector(sector_t *sec)
     {
         line_t  *line = sec->lines[i];
 
-        if ((line->flags & ML_TWOSIDED) && line->backsector && line->frontsector == line->backsector)
+        if (line->backsector && line->frontsector == line->backsector && (line->flags & ML_TWOSIDED)
+            && (line->flags & ML_DONTDRAW))
             return true;
     }
 
