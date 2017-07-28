@@ -1328,21 +1328,27 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     if (con_obituaries && source && source != target && !hacx)
     {
+        char *name = (*info->name1 ? info->name1 : "monster");
+
         if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
-            C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(info->name1[0]) ? "An" : "A"),
-                info->name1, (gibbed ? "gibbed" : "killed"));
+            C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
+                (gibbed ? "gibbed" : "killed"));
         else if (source->player)
             C_Obituary("%s %s %s%s with %s %s.", titlecase(playername), (type == MT_BARREL ? "exploded" :
-                (gibbed ? "gibbed" : "killed")), (target->player ? "" : (isvowel(info->name1[0]) ? "an " :
-                "a ")), (target->player ? (M_StringCompare(playername, playername_default) ? "yourself" :
-                "themselves") : info->name1), (M_StringCompare(playername, playername_default) ? "your" :
-                "their"), weapondescription[source->player->readyweapon]);
+                (gibbed ? "gibbed" : "killed")), (target->player ? "" : (isvowel(name[0]) ? "an " : "a ")),
+                (target->player ? (M_StringCompare(playername, playername_default) ? "yourself" :
+                "themselves") : name), (M_StringCompare(playername, playername_default) ? "your" : "their"),
+                weapondescription[source->player->readyweapon]);
         else
-            C_Obituary("%s %s %s %s%s.", (isvowel(source->info->name1[0]) ? "An" : "A"), source->info->name1,
-                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),  (target->player ? "" :
-                (source->type == target->type ? "another " : (isvowel(info->name1[0]) ? "an " : "a "))),
+        {
+            char *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
+
+            C_Obituary("%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
+                (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a "))),
                 (target->player ? (M_StringCompare(playername, playername_default) ? playername :
-                titlecase(playername)) : info->name1));
+                titlecase(playername)) : name));
+        }
     }
 
     // Drop stuff.
