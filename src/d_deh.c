@@ -64,6 +64,7 @@ typedef struct DEHFILE_s
 dboolean    addtocount;
 int         dehcount;
 dboolean    dehacked;
+int         linecount;
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -89,6 +90,8 @@ static char *dehfgets(char *buf, size_t n, DEHFILE *fp)
 
         *p = 0;
     }
+
+    linecount++;
 
     return buf;                                 // Return buffer pointer
 }
@@ -1947,6 +1950,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     DEHFILE *filein = &infile;              // killough 10/98
     char    inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
 
+    linecount = 0;
     addtocount = false;
 
     // killough 10/98: allow DEH files to come from wad lumps
@@ -2084,10 +2088,10 @@ void ProcessDehFile(char *filename, int lumpnum)
         dehcount++;
 
     if (infile.lump)
-        C_Output("Parsed the <b>DEHACKED</b> lump in %s <b>%s</b>.",
+        C_Output("Parsed %s lines in the <b>DEHACKED</b> lump in %s <b>%s</b>.", commify(linecount),
             (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
     else
-        C_Output("Parsed the <i><b>DeHackEd</b></i>%s file <b>%s</b>.",
+        C_Output("Parsed %s lines in the <i><b>DeHackEd</b></i>%s file <b>%s</b>.", commify(linecount),
             (M_StringEndsWith(uppercase(filename), "BEX") ? " with <i><b>BOOM</b></i> extensions" : ""),
             GetCorrectCase(filename));
 }
