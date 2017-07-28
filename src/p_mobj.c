@@ -314,7 +314,8 @@ void P_XYMovement(mobj_t *mo)
 
         if (blood)
         {
-            int radius = spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS >> 1;
+            int frame = mo->frame & FF_FRAMEMASK;
+            int radius = (spritewidth[sprites[mo->sprite].spriteframes[frame].lump[0]] >> FRACBITS) >> 1;
             int i;
             int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
             int x = mo->x;
