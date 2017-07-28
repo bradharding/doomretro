@@ -6,6 +6,7 @@
 * Improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby moving sectors could shudder when the `vid_capfps` CVAR was set to value other than `35` in some rare instances.
+* The bottom of masked midtextures submerged in liquid will now render correctly when the `r_liquid_bob` CVAR is `on` and the `vid_capfps` CVAR is set to value other than `35`.
 
 ---
 
@@ -624,7 +625,7 @@
 * Messages are now paused while the console is open.
 * A bug has been fixed whereby IWADs weren’t being identified correctly.
 * The player’s view is now only lowered if they are actually touching a liquid sector.
-* Bobbing liquid sectors will now animate correctly if adjacent to a masked texture.
+* Bobbing liquid sectors will now animate correctly if adjacent to a masked midtexture.
 * The `centerweapon` CVAR can now also be entered as `centreweapon`.
 * The `centered` value for the `vid_windowposition` CVAR can now also be entered as `centred`.
 
@@ -668,7 +669,7 @@
 * Color CVARs are now set to their defaults, rather than the closest valid value, if invalid at startup.
 * C++ style comments are now allowed in `MAPINFO` lumps.
 * The correct colors are now preserved in the automap, the console and the alternate HUD if a PWAD contains a custom `PLAYPAL` lump. (An example of such a PWAD is skillsaw’s recently released MegaWAD, [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).)
-* A bug has been fixed whereby parts of the super shotgun would be transparent in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
+* A bug has been fixed whereby parts of the super shotgun would be translucent in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * The `r_corpses_color` CVAR is now validated at startup.
 * If `am_external` is on but there’s only one display found, there will no longer be a crash if the graphics system is restarted.
 * The number of logical cores and amount of system RAM is now displayed in the console at startup.
@@ -1180,7 +1181,7 @@
 * The position of the window is now restored correctly at startup, and when switching from fullscreen mode, if using multiple displays.
 * The minimum size that the window can be resized to is now 320×240.
 * The console is now closed when pressing the close button in the window’s title bar.
-* If a masked texture is used on a one-sided line, the transparent parts will now be displayed as black rather than randomly-colored pixels. Code by Fabian Greffrath.
+* If a masked midtexture is used on a one-sided line, the transparent parts will now be displayed as black rather than randomly-colored pixels. Code by Fabian Greffrath.
 * Autocomplete and input history are now reset if a character is deleted in the console.
 * The output in the console is now correct when the music and SFX volumes are changed in the menu.
 * The graphics subsystem will now be reset when the `vid_display` CVAR is changed in the console, so displays can now be switched during a game.

@@ -664,15 +664,6 @@ void R_StoreWallRange(int start, int stop)
         worldhigh = backsector->interpceilingheight - viewz;
         worldlow = backsector->interpfloorheight - viewz;
 
-        // [BH] animate liquid sectors
-        if (r_liquid_bob && backsector->isliquid && !freeze
-            && backsector->interpfloorheight >= frontsector->interpfloorheight
-            && (backsector->heightsec == -1 || viewz > sectors[backsector->heightsec].interpfloorheight))
-        {
-            liquidoffset = animatedliquiddiff;
-            worldlow += liquidoffset;
-        }
-
         // hack to allow height changes in outdoor areas
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
@@ -713,6 +704,15 @@ void R_StoreWallRange(int start, int stop)
             // closed door
             markceiling = true;
             markfloor = true;
+        }
+
+        // [BH] animate liquid sectors
+        if (r_liquid_bob && backsector->isliquid && !freeze
+            && backsector->interpfloorheight >= frontsector->interpfloorheight
+            && (backsector->heightsec == -1 || viewz > sectors[backsector->heightsec].interpfloorheight))
+        {
+            liquidoffset = animatedliquiddiff;
+            worldlow += liquidoffset;
         }
 
         if (worldhigh < worldtop)
