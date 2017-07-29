@@ -8143,8 +8143,8 @@ offset_t sproffsets[] =
     { "PMAPB0",     14,   25,  28,  27, MT_MISC15,       true  }, //   13,   23
     { "PMAPC0",     14,   25,  28,  27, MT_MISC15,       true  }, //   13,   23
     { "PMAPD0",     14,   25,  28,  27, MT_MISC15,       true  }, //   13,   23
-    { "POB1A0",     20,    5,  41,  7 , MT_MISC84,       true  }, //   16,    2
-    { "POB2A0",     16,    1,  32,  3 , MT_MISC85,       true  }, //   14,   -2
+    { "POB1A0",     20,    5,  41,   7, MT_MISC84,       true  }, //   16,    2
+    { "POB2A0",     16,    1,  32,   3, MT_MISC85,       true  }, //   14,   -2
     { "POL1A0",     23,   64,  40,  66, MT_MISC74,       true  }, //   22,   62
     { "POL2A0",     19,   62,  41,  67, MT_MISC70,       true  }, //   19,   62
     { "POL3A0",     19,   41,  41,  43, MT_MISC73,       true  }, //   19,   38
