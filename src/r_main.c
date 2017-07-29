@@ -848,11 +848,11 @@ void R_RenderPlayerView(player_t *player)
     }
     else
     {
-        if ((player->cheats & CF_NOCLIP) || freeze)
-            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, BLACK);
-        else if (r_homindicator)
+        if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? RED : BLACK));
+                ((activetic % 20) < 9 ? RED : BLACK));
+        else if ((player->cheats & CF_NOCLIP) || freeze)
+            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, BLACK);
 
         R_RenderBSPNode(numnodes - 1);  // head node is the last node output
         R_DrawPlanes();

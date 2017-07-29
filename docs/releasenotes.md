@@ -8,6 +8,7 @@
 * A bug has been fixed whereby moving sectors could shudder when the `vid_capfps` CVAR was set to value other than `35` in some rare instances.
 * The bottom of masked midtextures submerged in liquid will now render correctly when the `r_liquid_bob` CVAR is `on` and the `vid_capfps` CVAR is set to value other than `35`.
 * Pain elementals can no longer spawn lost souls behind their target when directly in front of them.
+* The Hall of Mirrors indicator enabled using the `r_homindicator` CVAR will now work when in both no clipping mode and freeze mode.
 
 ---
 
