@@ -456,10 +456,13 @@ dboolean PIT_CheckThing(mobj_t *thing)
         return true;
 
     // [BH] check if things are stuck and allow move if it makes them further apart
-    if (tmx == tmthing->x && tmy == tmthing->y)
-        unblocking = true;
-    else if (P_ApproxDistance(thing->x - tmx, thing->y - tmy) > dist)
-        unblocking = (tmthing->z < thing->z + thing->height && tmthing->z + tmthing->height > thing->z);
+    if (!thing->player)
+    {
+        if (tmx == tmthing->x && tmy == tmthing->y)
+            unblocking = true;
+        else if (P_ApproxDistance(thing->x - tmx, thing->y - tmy) > dist)
+            unblocking = (tmthing->z < thing->z + thing->height && tmthing->z + tmthing->height > thing->z);
+    }
 
     // check if a mobj passed over/under another object
     if (tmthing->flags2 & MF2_PASSMOBJ)
@@ -704,7 +707,9 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     tmbbox[BOXLEFT] = x - radius;
 
     newsubsec = R_PointInSubsector(x, y);
-    floorline = blockline = ceilingline = NULL; // killough 8/1/98
+    floorline = NULL;                           // killough 8/1/98
+    blockline = NULL;
+    ceilingline = NULL;
 
     // Whether object can get out of a sticky situation:
     tmunstuck = (thing->player &&               // only players
@@ -716,7 +721,6 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     // will adjust them.
     tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
     tmceilingz = newsubsec->sector->ceilingheight;
-
     validcount++;
     numspechit = 0;
 
