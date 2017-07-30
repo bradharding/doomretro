@@ -361,7 +361,7 @@ static void R_RenderSegLoop(void)
         }
 
         // draw the wall tiers
-        if (midtexture)
+        if (midtexture && yh >= yl)
         {
             // single sided line
             dc_yl = yl;
