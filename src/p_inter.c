@@ -1297,7 +1297,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     if (target->player)
     {
-        // count environment kills against you
         target->flags &= ~MF_SOLID;
         target->player->playerstate = PST_DEAD;
         P_DropWeapon(target->player);

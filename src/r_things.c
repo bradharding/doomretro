@@ -656,7 +656,6 @@ static void R_ProjectSprite(mobj_t *thing)
 
     tr_x = fx - viewx;
     tr_y = fy - viewy;
-
     tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // thing is behind view plane?
@@ -664,7 +663,6 @@ static void R_ProjectSprite(mobj_t *thing)
         return;
 
     xscale = FixedDiv(centerxfrac, tz);
-
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
     // too far off the side?
@@ -1029,7 +1027,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         else if (r_translucency && !notranslucency)
         {
             if (spr == SPR_SHT2)
-                vis->colfunc = ((frame & FF_FRAMEMASK & FF_FULLBRIGHT) ? tlredwhitecolfunc1 : basecolfunc);
+                vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) ? tlredwhitecolfunc1 :
+                    basecolfunc);
             else if (muzzleflash && spr <= SPR_BFGF && (!altered || state->translucent))
             {
                 void (*colfuncs[])(void) =

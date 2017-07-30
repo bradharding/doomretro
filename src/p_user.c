@@ -138,6 +138,7 @@ void P_CalcHeight(player_t *player)
             if (!player->deltaviewheight)
                 player->deltaviewheight = 1;
         }
+
         player->viewz = mo->z + player->viewheight + bob;
     }
     else

@@ -361,7 +361,7 @@ static void R_RenderSegLoop(void)
         }
 
         // draw the wall tiers
-        if (midtexture && yh >= yl)
+        if (midtexture)
         {
             // single sided line
             dc_yl = yl;
@@ -731,7 +731,8 @@ void R_StoreWallRange(int start, int stop)
         {
             // bottom texture
             bottomtexture = texturetranslation[sidedef->bottomtexture];
-            bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : textureheight[bottomtexture] >> FRACBITS);
+            bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 :
+                textureheight[bottomtexture] >> FRACBITS);
             bottomtexfullbright = (usebrightmaps && !nobrightmap[bottomtexture] ?
                 texturefullbright[bottomtexture] : NULL);
             rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset);
@@ -825,8 +826,8 @@ void R_StoreWallRange(int start, int stop)
 
     if (backsector && didsolidcol)
     {
-        ds_p->silhouette |= SIL_BOTTOM;
         ds_p->silhouette |= SIL_TOP;
+        ds_p->silhouette |= SIL_BOTTOM;
     }
 
     // save sprite clipping info
