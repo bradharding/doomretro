@@ -237,12 +237,13 @@ LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
     int buttonid;
 
     I_MidiRPCClientShutDown();
+    I_ShutdownGraphics();
 
     if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
         if (buttons[buttonid].buttonid == 0)
             ShellExecute(GetActiveWindow(), "open", PACKAGE_REPORT_URL, NULL, NULL, SW_SHOWNORMAL);
 
-    I_Quit(false);
+    return EXCEPTION_EXECUTE_HANDLER;
 }
 #endif
 
