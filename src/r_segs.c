@@ -326,9 +326,7 @@ static void R_RenderSegLoop(void)
             ceilingclip[rw_x] = bottom;
         }
 
-        bottom = floorclip[rw_x] - 1;
-
-        if (yh > bottom)
+        if (yh > (bottom = floorclip[rw_x] - 1))
             yh = bottom;
 
         if (markfloor)

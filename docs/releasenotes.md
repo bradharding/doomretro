@@ -1,8 +1,14 @@
+### DOOM Retro v2.6
+
+---
+
+###### Monday, July 31, 2017
+
 ### DOOM Retro v2.5.3
 
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The power-up bar is now displayed in the alternate widescreen HUD when the player has the berserk power-up and their fist selected, and when the `IDBEHOLDx` cheat is used.
-* A bug has been fixed whereby MOD and XM music lumps would play incorrectly or not at all.
+* MOD and XM music lumps will now play correctly.
 * Improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby moving sectors could shudder when the `vid_capfps` CVAR was set to value other than `35` in some rare instances.

@@ -73,7 +73,6 @@ char            *r_lowpixelsize = r_lowpixelsize_default;
 char            screenshotfolder[MAX_PATH];
 
 extern dboolean r_hud_translucency;
-extern dboolean r_translucency;
 extern dboolean vanilla;
 
 //
