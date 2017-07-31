@@ -158,6 +158,7 @@ byte            *dc_colormask;
 int             dc_baseclip;
 int             dc_floorclip;
 int             dc_ceilingclip;
+int             dc_sparklefix;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
@@ -297,8 +298,8 @@ void R_DrawWallColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       iscale = dc_iscale;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale + SPARKLEFIX;
-    const fixed_t       fracstep = iscale - SPARKLEFIX;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale + dc_sparklefix;
+    const fixed_t       fracstep = iscale - dc_sparklefix;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
     const fixed_t       texheight = dc_texheight;
@@ -397,8 +398,8 @@ void R_DrawFullbrightWallColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     const fixed_t       iscale = dc_iscale;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale + SPARKLEFIX;
-    const fixed_t       fracstep = iscale - SPARKLEFIX;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * iscale + dc_sparklefix;
+    const fixed_t       fracstep = iscale - dc_sparklefix;
     const byte          *source = dc_source;
     const byte          *colormask = dc_colormask;
     const lighttable_t  *colormap = dc_colormap;
