@@ -1,5 +1,7 @@
 ### DOOM Retro v2.6
 
+* Minor improvements have been made to *DOOM Retro’s* renderer.
+
 ---
 
 ###### Monday, July 31, 2017
