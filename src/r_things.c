@@ -508,12 +508,11 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     spryscale = vis->scale;
     dc_colormap = vis->colormap;
 
-    if ((mobj->flags2 & MF2_CASTSHADOW) && spryscale >= FRACUNIT / 4 && drawshadows)
+    if (vis->drawshadow)
     {
-        sector_t    *sector = mobj->subsector->sector;
-        fixed_t     height = sector->interpfloorheight + mobj->info->shadowoffset - viewz;
+        fixed_t height = mobj->subsector->sector->interpfloorheight + mobj->info->shadowoffset - viewz;
 
-        if (height <= 0 && !sector->isliquid && sector->floorpic != skyflatnum)
+        if (height <= 0)
         {
             colfunc = mobj->shadowcolfunc;
             sprtopscreen = centeryfrac - FixedMul(height, spryscale);
@@ -759,6 +758,8 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->gz = floorheight;
     vis->gzt = gzt;
 
+    vis->drawshadow = (drawshadows && (flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4);
+
     if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
@@ -924,7 +925,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         }
     }
 
-    drawshadows = (r_shadows && !fixedcolormap);
+    drawshadows = (r_shadows && !fixedcolormap && !sec->isliquid && sec->floorpic != skyflatnum);
 
     // Handle all things in sector.
     while (thing)
