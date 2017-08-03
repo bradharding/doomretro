@@ -508,19 +508,14 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     spryscale = vis->scale;
     dc_colormap = vis->colormap;
 
-    if (vis->drawshadow)
+    if (vis->shadowheight <= 0)
     {
-        fixed_t height = mobj->subsector->sector->interpfloorheight + mobj->info->shadowoffset - viewz;
+        colfunc = mobj->shadowcolfunc;
+        sprtopscreen = centeryfrac - FixedMul(vis->shadowheight, spryscale);
+        shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
-        if (height <= 0)
-        {
-            colfunc = mobj->shadowcolfunc;
-            sprtopscreen = centeryfrac - FixedMul(height, spryscale);
-            shift = (sprtopscreen * 9 / 10) >> FRACBITS;
-
-            for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
-                R_BlastShadowColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
-        }
+        for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
+            R_BlastShadowColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
     }
 
     colfunc = vis->colfunc;
@@ -758,7 +753,10 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->gz = floorheight;
     vis->gzt = gzt;
 
-    vis->drawshadow = (drawshadows && (flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4);
+    if (drawshadows && (flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4)
+        vis->shadowheight = floorheight + thing->info->shadowoffset - viewz;
+    else
+        vis->shadowheight = 1;
 
     if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;

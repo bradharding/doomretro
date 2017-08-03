@@ -1,5 +1,6 @@
 ### DOOM Retro v2.6
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor improvements have been made to *DOOM Retro’s* renderer.
 
 ---
