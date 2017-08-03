@@ -84,6 +84,7 @@ static dboolean         interpolatesprites;
 static dboolean         skippsprinterp2;
 static dboolean         pausesprites;
 static dboolean         drawshadows;
+static fixed_t          floorheight;
 
 dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
 dboolean                r_playersprites = r_playersprites_default;
@@ -626,7 +627,6 @@ static void R_ProjectSprite(mobj_t *thing)
     fixed_t         tz;
     angle_t         rot = 0;
     sector_t        *sector;
-    fixed_t         floorheight;
     fixed_t         fx, fy, fz;
     fixed_t         offset;
     fixed_t         topoffset;
@@ -749,7 +749,6 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    floorheight = sector->interpfloorheight;
     vis->gz = floorheight;
     vis->gzt = gzt;
 
@@ -870,7 +869,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     flags = splat->flags;
     vis->colfunc = ((flags & BSF_FUZZ) && pausesprites && r_textures ? R_DrawPausedFuzzColumn :
         splat->colfunc);
-    vis->texturemid = splat->sector->interpfloorheight + FRACUNIT - viewz;
+    vis->texturemid = floorheight + FRACUNIT - viewz;
 
     if (flags & BSF_MIRRORED)
     {
@@ -911,8 +910,10 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     mobj_t  *thing = sec->thinglist;
 
     spritelights = scalelight[MIN((lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+    floorheight = sec->interpfloorheight;
+    drawshadows = (r_shadows && !fixedcolormap && !sec->isliquid && sec->floorpic != skyflatnum);
 
-    if (drawbloodsplats && sec->interpfloorheight - FRACUNIT <= viewz)
+    if (drawbloodsplats && floorheight - FRACUNIT <= viewz)
     {
         bloodsplat_t    *splat = sec->splatlist;
 
@@ -922,8 +923,6 @@ void R_AddSprites(sector_t *sec, int lightlevel)
             splat = splat->snext;
         }
     }
-
-    drawshadows = (r_shadows && !fixedcolormap && !sec->isliquid && sec->floorpic != skyflatnum);
 
     // Handle all things in sector.
     while (thing)
