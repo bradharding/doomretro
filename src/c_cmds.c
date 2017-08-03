@@ -268,7 +268,7 @@ extern char         *wad;
 extern int          weaponbob;
 extern dboolean     weaponrecoil;
 
-extern dboolean     canmouselook;
+extern dboolean     usemouselook;
 extern char         *packageconfig;
 extern int          st_palette;
 extern menu_t       EpiDef;
@@ -4480,7 +4480,7 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
         R_InitSkyMap();
         R_InitColumnFunctions();
 
-        if (!canmouselook && gamestate == GS_LEVEL)
+        if (!usemouselook && gamestate == GS_LEVEL)
         {
             viewplayer->lookdir = 0;
             viewplayer->oldlookdir = 0;
