@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor improvements have been made to *DOOM Retro’s* renderer.
+* The behavior of lost souls has been restored to better resemble *Vanilla DOOM*.
 
 ---
 

@@ -1589,11 +1589,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
     }
 
-    if (M_Random() < info->painchance)
+    if (M_Random() < info->painchance && !(target->flags & MF_SKULLFLY))
     {
         target->flags |= MF_JUSTHIT;                            // fight back!
-
-        target->flags &= ~MF_SKULLFLY;
 
         P_SetMobjState(target, info->painstate);
     }
