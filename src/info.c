@@ -656,7 +656,7 @@ state_t states[NUMSTATES] =
     { SPR_CPOS,  3,                                3,               A_Chase,           S_CPOS_RUN1     }, // S_CPOS_RUN8
     { SPR_CPOS,  4,                               10,               A_FaceTarget,      S_CPOS_ATK2     }, // S_CPOS_ATK1
     { SPR_CPOS,  5 | FF_FULLBRIGHT,                4,               A_CPosAttack,      S_CPOS_ATK3     }, // S_CPOS_ATK2
-    { SPR_CPOS,  4 | FF_FULLBRIGHT,                4,               A_CPosAttack,      S_CPOS_ATK4     }, // S_CPOS_ATK3
+    { SPR_CPOS,  4,                                4,               A_CPosAttack,      S_CPOS_ATK4     }, // S_CPOS_ATK3
     { SPR_CPOS,  5 | FF_FULLBRIGHT,                1,               A_CPosRefire,      S_CPOS_ATK2     }, // S_CPOS_ATK4
     { SPR_CPOS,  6,                                3,               NULL,              S_CPOS_PAIN2    }, // S_CPOS_PAIN
     { SPR_CPOS,  6,                                3,               A_Pain,            S_CPOS_RUN1     }, // S_CPOS_PAIN2
