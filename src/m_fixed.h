@@ -46,6 +46,12 @@
 #define FRACUNIT        (1 << FRACBITS)
 #define FIXED2DOUBLE(x) (x / (double)FRACUNIT)
 
+#ifdef ABS
+#undef ABS
+#undef MAX
+#undef MIN
+#endif
+
 typedef int fixed_t;
 
 int ABS(int a);

@@ -53,6 +53,7 @@
 #include <dirent.h>
 #include <libgen.h>
 #include <mach-o/dyld.h>
+#include <errno.h>
 #endif
 
 #if defined(__OpenBSD__) || defined(__FreeBSD__)
