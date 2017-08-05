@@ -306,7 +306,7 @@ dboolean P_GiveFullAmmo(player_t *player, dboolean stat)
 //
 void P_AddBonus(player_t *player, int amount)
 {
-    player->bonuscount = MIN(player->bonuscount + amount, 3 * TICRATE);
+    player->bonuscount = MIN(player->bonuscount + amount, TICRATE);
 }
 
 //
