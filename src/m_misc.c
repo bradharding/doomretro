@@ -79,50 +79,49 @@
 #define MAX_PATH    260
 #endif
 
-struct s_commify {
-	char *p[128];
-	size_t pidx;
+struct s_commify
+{
+    char    *p[128];
+    size_t  pidx;
 };
 
 static struct s_commify *M_GetCommify(void)
 {
-	static struct s_commify *sc= NULL;
-	if (sc == NULL)
-	{
-		sc = calloc(1, sizeof(struct s_commify));
-	}
+    static struct s_commify *sc = NULL;
 
-	return sc;
+    if (!sc)
+        sc = calloc(1, sizeof(struct s_commify));
+
+    return sc;
 }
 
 static void M_FreeCommifies(int shutdown)
 {
-	struct s_commify *sc = M_GetCommify();
-	if (sc->pidx > 0)
-	{
-		int i;
-		for (i = 0; i < sc->pidx; i ++)
-		{
-			free(sc->p[i]);
-		}
-	}
+    struct s_commify    *sc = M_GetCommify();
 
-	if (shutdown)
-	{
-		free(sc);
-	}
+    if (sc->pidx > 0)
+    {
+        size_t  i;
+
+        for (i = 0; i < sc->pidx; i++)
+            free(sc->p[i]);
+    }
+
+    if (shutdown)
+        free(sc);
 }
 
 static void M_AddToCommifies(char *p)
 {
-	struct s_commify *sc = M_GetCommify();
-	if (sc->pidx == 128)
-	{
-		M_FreeCommifies(0);
-		sc->pidx = 0;
-	}
+    struct s_commify    *sc = M_GetCommify();
 
-	sc->p[sc->pidx++] = p;
+    if (sc->pidx == 128)
+    {
+        M_FreeCommifies(0);
+        sc->pidx = 0;
+    }
+
+    sc->p[sc->pidx++] = p;
 }
 
 //
