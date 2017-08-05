@@ -79,6 +79,52 @@
 #define MAX_PATH    260
 #endif
 
+struct s_commify {
+	char *p[128];
+	size_t pidx;
+};
+
+static struct s_commify *M_GetCommify(void)
+{
+	static struct s_commify *sc= NULL;
+	if (sc == NULL)
+	{
+		sc = calloc(1, sizeof(struct s_commify));
+	}
+
+	return sc;
+}
+
+static void M_FreeCommifies(int shutdown)
+{
+	struct s_commify *sc = M_GetCommify();
+	if (sc->pidx > 0)
+	{
+		int i;
+		for (i = 0; i < sc->pidx; i ++)
+		{
+			free(sc->p[i]);
+		}
+	}
+
+	if (shutdown)
+	{
+		free(sc);
+	}
+}
+
+static void M_AddToCommifies(char *p)
+{
+	struct s_commify *sc = M_GetCommify();
+	if (sc->pidx == 128)
+	{
+		M_FreeCommifies(0);
+		sc->pidx = 0;
+	}
+
+	sc->p[sc->pidx++] = p;
+}
+
 //
 // Create a directory
 //
@@ -320,6 +366,7 @@ void M_Shutdown(void)
     M_FreeAppData();
     M_FreeResourceFolder();
     M_FreeResourceURL();
+    M_FreeCommifies(1);
 }
 
 char *M_GetExecutableFolder(void)
@@ -728,6 +775,7 @@ char *formatsize(const char *str)
 char *commify(int64_t value)
 {
     char    result[64];
+    char    *p;
 
     M_snprintf(result, sizeof(result), "%lli", value);
 
@@ -756,7 +804,9 @@ char *commify(int64_t value)
         while (1);
     }
 
-    return strdup(result);
+    p = strdup(result);
+    M_AddToCommifies(p);
+    return p;
 }
 
 char *uncommify(const char *input)
@@ -776,6 +826,7 @@ char *uncommify(const char *input)
         *p2 = '\0';
     }
 
+    M_AddToCommifies(p);
     return p;
 }
 
