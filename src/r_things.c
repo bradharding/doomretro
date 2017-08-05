@@ -509,10 +509,10 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     spryscale = vis->scale;
     dc_colormap = vis->colormap;
 
-    if (vis->shadowheight <= 0)
+    if (vis->shadowpos <= 0)
     {
         colfunc = mobj->shadowcolfunc;
-        sprtopscreen = centeryfrac - FixedMul(vis->shadowheight, spryscale);
+        sprtopscreen = centeryfrac - FixedMul(vis->shadowpos, spryscale);
         shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
         for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
@@ -582,6 +582,9 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     R_UnlockPatchNum(id);
 }
 
+//
+// R_DrawBloodSplatVisSprite
+//
 static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
 {
     fixed_t         frac = vis->startfrac;
@@ -753,9 +756,9 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->gzt = gzt;
 
     if (drawshadows && (flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4)
-        vis->shadowheight = floorheight + thing->info->shadowoffset - viewz;
+        vis->shadowpos = floorheight + thing->info->shadowoffset - viewz;
     else
-        vis->shadowheight = 1;
+        vis->shadowpos = 1;
 
     if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
@@ -801,7 +804,6 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->x1 = x1;
 
     vis->x2 = MIN(x2, viewwidth - 1);
-
     vis->patch = lump;
 
     // get light level
@@ -1108,6 +1110,7 @@ void R_DrawPlayerSprites(void)
     else
     {
         muzzleflash = false;
+
         if (weapon->state && (weapon->state->frame & FF_FULLBRIGHT))
             muzzleflash = true;
         else if (flash->state && (flash->state->frame & FF_FULLBRIGHT))
