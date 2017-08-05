@@ -879,7 +879,7 @@ state_t states[NUMSTATES] =
     { SPR_SPID,  5,                                3,               A_Chase,           S_SPID_RUN1     }, // S_SPID_RUN12
     { SPR_SPID,  0,                               20,               A_FaceTarget,      S_SPID_ATK2     }, // S_SPID_ATK1
     { SPR_SPID,  6 | FF_FULLBRIGHT,                4,               A_SPosAttack,      S_SPID_ATK3     }, // S_SPID_ATK2
-    { SPR_SPID,  7 | FF_FULLBRIGHT,                4,               A_SPosAttack,      S_SPID_ATK4     }, // S_SPID_ATK3
+    { SPR_SPID,  7,                                4,               A_SPosAttack,      S_SPID_ATK4     }, // S_SPID_ATK3
     { SPR_SPID,  7 | FF_FULLBRIGHT,                1,               A_SpidRefire,      S_SPID_ATK2     }, // S_SPID_ATK4
     { SPR_SPID,  8,                                3,               NULL,              S_SPID_PAIN2    }, // S_SPID_PAIN
     { SPR_SPID,  8,                                3,               A_Pain,            S_SPID_RUN1     }, // S_SPID_PAIN2
@@ -913,7 +913,7 @@ state_t states[NUMSTATES] =
     { SPR_BSPI,  5,                                3,               A_Chase,           S_BSPI_RUN1     }, // S_BSPI_RUN12
     { SPR_BSPI,  0,                               20,               A_FaceTarget,      S_BSPI_ATK2     }, // S_BSPI_ATK1
     { SPR_BSPI,  6 | FF_FULLBRIGHT,                4,               A_BspiAttack,      S_BSPI_ATK3     }, // S_BSPI_ATK2
-    { SPR_BSPI,  7 | FF_FULLBRIGHT,                4,               NULL,              S_BSPI_ATK4     }, // S_BSPI_ATK3
+    { SPR_BSPI,  7,                                4,               NULL,              S_BSPI_ATK4     }, // S_BSPI_ATK3
     { SPR_BSPI,  7 | FF_FULLBRIGHT,                1,               A_SpidRefire,      S_BSPI_ATK2     }, // S_BSPI_ATK4
     { SPR_BSPI,  8,                                3,               NULL,              S_BSPI_PAIN2    }, // S_BSPI_PAIN
     { SPR_BSPI,  8,                                3,               A_Pain,            S_BSPI_RUN1     }, // S_BSPI_PAIN2
