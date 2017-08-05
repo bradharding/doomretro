@@ -42,6 +42,11 @@
 #include <inttypes.h>
 #include <limits.h>
 
+#ifdef true
+#undef true
+#undef false
+#endif
+
 typedef enum dboolean_e
 {
     false,
