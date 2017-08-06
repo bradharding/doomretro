@@ -202,6 +202,7 @@ extern char         *wad;
 #endif
 extern int          weaponbob;
 extern dboolean     weaponrecoil;
+extern dboolean     wipe;
 
 extern char         *packageconfig;
 extern dboolean     returntowidescreen;
@@ -338,6 +339,7 @@ static default_t cvars[] =
 #endif
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                                         NOVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (weaponrecoil,                                      BOOLVALUEALIAS  ),
+    CONFIG_VARIABLE_INT          (wipe,                                              BOOLVALUEALIAS  ),
     BLANKLINE,
     COMMENT("; player stats\n"),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_barrelsexploded,                              NOVALUEALIAS    ),
@@ -951,6 +953,9 @@ static void M_CheckCVARs(void)
 
     if (weaponrecoil != false && weaponrecoil != true)
         weaponrecoil = weaponrecoil_default;
+
+    if (wipe != false && wipe != true)
+        wipe = wipe_default;
 }
 
 void alias_cmd_func2(char *cmd, char *parms);

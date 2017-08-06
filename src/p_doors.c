@@ -262,7 +262,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     else
                         M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
                             (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-          
+
                     HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)

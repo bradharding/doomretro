@@ -267,6 +267,7 @@ extern char         *wad;
 #endif
 extern int          weaponbob;
 extern dboolean     weaponrecoil;
+extern dboolean     wipe;
 
 extern dboolean     usemouselook;
 extern char         *packageconfig;
@@ -898,6 +899,8 @@ consolecmd_t consolecmds[] =
         "The amount the player's weapon bobs up and down\nwhen they move."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the player's weapon recoiling when fired\nwhile using mouselook."),
+    CVAR_BOOL(wipe, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles wiping when transitioning between screens."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };

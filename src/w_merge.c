@@ -296,7 +296,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
             SHT2A0 = true;
 
         i = 0;
-        
+
         while (*weaponsprites[i].spr1)
         {
             if (M_StringStartsWith(lump->name, weaponsprites[i].spr1)

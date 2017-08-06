@@ -146,7 +146,7 @@ extern dboolean message_dontfuckwithme;
 
 extern int      st_palette;
 
-extern dboolean wipe;
+extern dboolean dowipe;
 extern dboolean r_hud;
 
 extern dboolean splashscreen;
@@ -2435,7 +2435,7 @@ dboolean M_Responder(event_t *ev)
     static int  keywait;
     SDL_Keymod  modstate = SDL_GetModState();
 
-    if (startingnewgame || wipe)
+    if (startingnewgame || dowipe)
         return false;
 
     if (ev->type == ev_gamepad && gamepadwait < I_GetTime())
@@ -2775,7 +2775,7 @@ dboolean M_Responder(event_t *ev)
         {
             keydown = key;
 
-            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !wipe)
+            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !dowipe)
             {
                 C_ShowConsole();
                 return true;

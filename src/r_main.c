@@ -737,7 +737,7 @@ void R_SetupFrame(player_t *player)
         {
             pitch = (player->oldlookdir + (int)((player->lookdir - player->oldlookdir)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
-            
+
             if (weaponrecoil)
                 pitch = BETWEEN(-LOOKDIRMAX, pitch + player->oldrecoil + FixedMul(player->recoil
                     - player->oldrecoil, fractionaltic), LOOKDIRMAX);

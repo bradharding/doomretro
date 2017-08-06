@@ -178,9 +178,9 @@ static int      consolecolors[STRINGTYPES];
 
 extern int      fps;
 extern int      refreshrate;
+extern dboolean dowipe;
 extern dboolean r_hud_translucency;
 extern dboolean togglingvanilla;
-extern dboolean wipe;
 
 void G_ToggleAlwaysRun(evtype_t type);
 
@@ -691,7 +691,7 @@ static void C_DrawBackground(int height)
         DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH - 1, height, -(CONSOLEWIDTH - 1));
     }
 
-    blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
+    blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
     if (forceconsoleblurredraw)
     {
@@ -892,7 +892,7 @@ static void C_DrawTimeStamp(int x, int y, char *text)
 
 void C_UpdateFPS(void)
 {
-    if (fps && !wipe && !paused && !menuactive)
+    if (fps && !dowipe && !paused && !menuactive)
     {
         static char     buffer[32];
 

@@ -116,6 +116,7 @@ int                 turbo = turbo_default;
 #if defined(_WIN32) || defined(__MACOSX__)
 char                *wad = wad_default;
 #endif
+dboolean            wipe = wipe_default;
 
 char                *packageconfig;
 char                *packagewad;
@@ -138,7 +139,7 @@ dboolean            autostart;
 int                 startloadgame;
 
 dboolean            advancetitle;
-dboolean            wipe = true;
+dboolean            dowipe = true;
 dboolean            forcewipe;
 
 dboolean            splashscreen;
@@ -234,10 +235,12 @@ void D_Display(void)
     }
 
     // save the current screen if about to wipe
-    if ((wipe = (gamestate != wipegamestate || forcewipe)))
+    if ((dowipe = (gamestate != wipegamestate || forcewipe)))
     {
         drawdisk = false;
-        wipe_StartScreen();
+
+        if (wipe)
+            wipe_StartScreen();
 
         if (forcewipe)
             forcewipe = false;
@@ -343,7 +346,7 @@ void D_Display(void)
         }
     }
 
-    if (!wipe)
+    if (!dowipe)
     {
         C_Drawer();
 
@@ -360,31 +363,34 @@ void D_Display(void)
         return;
     }
 
-    // wipe update
-    wipe_EndScreen();
-
-    wipestart = I_GetTime() - 1;
-
-    do
+    if (wipe)
     {
+        // wipe update
+        wipe_EndScreen();
+
+        wipestart = I_GetTime() - 1;
+
         do
         {
-            nowtime = I_GetTime();
-            tics = nowtime - wipestart;
-            I_Sleep(1);
+            do
+            {
+                nowtime = I_GetTime();
+                tics = nowtime - wipestart;
+                I_Sleep(1);
+            }
+            while (tics <= 0);
+
+            wipestart = nowtime;
+            done = wipe_ScreenWipe(tics);
+            blurred = false;
+
+            C_Drawer();
+            M_Drawer();             // menu is drawn even on top of wipes
+            blitfunc();             // blit buffer
+            mapblitfunc();
         }
-        while (tics <= 0);
-
-        wipestart = nowtime;
-        done = wipe_ScreenWipe(tics);
-        blurred = false;
-
-        C_Drawer();
-        M_Drawer();             // menu is drawn even on top of wipes
-        blitfunc();             // blit buffer
-        mapblitfunc();
+        while (!done);
     }
-    while (!done);
 
     if (loadaction != ga_nothing)
         G_LoadedGameMessage();

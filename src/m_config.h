@@ -418,6 +418,8 @@ typedef enum units_values_e
 
 #define weaponrecoil_default                    false
 
+#define wipe_default                            true
+
 #define GAMEPADALWAYSRUN_DEFAULT                0
 #define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
 #define GAMEPADAUTOMAPCLEARMARK_DEFAULT         0
