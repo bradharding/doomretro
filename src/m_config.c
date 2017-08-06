@@ -948,6 +948,9 @@ static void M_CheckCVARs(void)
         r_hud = true;
 
     weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
+
+    if (weaponrecoil != false && weaponrecoil != true)
+        weaponrecoil = weaponrecoil_default;
 }
 
 void alias_cmd_func2(char *cmd, char *parms);
