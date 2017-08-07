@@ -139,59 +139,24 @@ extern dboolean     weaponrecoil;
 //
 int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 {
-    fixed_t nx = node->x;
-    fixed_t ny = node->y;
-    fixed_t ndx = node->dx;
-    fixed_t ndy = node->dy;
-
-    if (!ndx)
-        return (x <= nx ? ndy > 0 : ndy < 0);
-
-    if (!ndy)
-        return (y <= ny ? ndx < 0 : ndx > 0);
-
-    x -= nx;
-    y -= ny;
-
-    // Try to quickly decide by looking at sign bits.
-    if ((ndy ^ ndx ^ x ^ y) < 0)
-        return ((ndy ^ x) < 0);     // (left is negative)
-
-    return (FixedMul(y, ndx >> FRACBITS) >= FixedMul(ndy >> FRACBITS, x));
+    return ((int32_t)(((int64_t)(y - node->y) * node->dx + (int64_t)(node->x - x) * node->dy) >> 32) > 0);
 }
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    fixed_t lx = line->v1->x;
-    fixed_t ly = line->v1->y;
-    fixed_t ldx = line->v2->x - lx;
-    fixed_t ldy = line->v2->y - ly;
-
-    if (!ldx)
-        return (x <= lx ? ldy > 0 : ldy < 0);
-
-    if (!ldy)
-        return (y <= ly ? ldx < 0 : ldx > 0);
-
-    x -= lx;
-    y -= ly;
-
-    // Try to quickly decide by looking at sign bits.
-    if ((ldy ^ ldx ^ x ^ y) < 0)
-        return ((ldy ^ x) < 0);     // (left is negative)
-
-    return (FixedMul(y, ldx >> FRACBITS) >= FixedMul(ldy >> FRACBITS, x));
+    return ((int32_t)(((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
+        - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x)) >> 32) > 0);
 }
 
 int SlopeDiv(unsigned int num, unsigned int den)
 {
-    uint64_t    ans;
+    unsigned int ans;
 
     if (den < 512)
-        return SLOPERANGE;
+        return (ANG45 - 1);
 
-    ans = ((uint64_t)num << 3) / (den >> 8);
-    return (int)(ans <= SLOPERANGE ? ans : SLOPERANGE);
+    ans = (num << 3) / (den >> 8);
+    return (ans <= SLOPERANGE ? tantoangle[ans] : (ANG45 - 1));
 }
 
 //
@@ -219,11 +184,11 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
     if (x >= 0)
     {
         if (y >= 0)
-            return (x > y ? tantoangle[SlopeDiv(y, x)] : ANG90 - 1 - tantoangle[SlopeDiv(x, y)]);
+            return (x > y ? SlopeDiv(y, x) : ANG90 - 1 - SlopeDiv(x, y));
         else
         {
             y = -y;
-            return (x > y ? -(int)tantoangle[SlopeDiv(y, x)] : ANG270 + tantoangle[SlopeDiv(x, y)]);
+            return (x > y ? -SlopeDiv(y, x) : ANG270 + SlopeDiv(x, y));
         }
     }
     else
@@ -231,11 +196,11 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
         x = -x;
 
         if (y >= 0)
-            return (x > y ? ANG180 - 1 - tantoangle[SlopeDiv(y, x)] : ANG90 + tantoangle[SlopeDiv(x, y)]);
+            return (x > y ? ANG180 - 1 - SlopeDiv(y, x) : ANG90 + SlopeDiv(x, y));
         else
         {
             y = -y;
-            return (x > y ? ANG180 + tantoangle[SlopeDiv(y, x)] : ANG270 - 1 - tantoangle[SlopeDiv(x, y)]);
+            return (x > y ? ANG180 + SlopeDiv(y, x) : ANG270 - 1 - SlopeDiv(x, y));
         }
     }
 }
@@ -327,7 +292,7 @@ static void R_InitPointToAngle(void)
 
     // slope (tangent) to angle lookup
     for (i = 0; i <= SLOPERANGE; i++)
-        tantoangle[i] = (long)(0xFFFFFFFF * atan((double)i / SLOPERANGE) / (M_PI * 2));
+        tantoangle[i] = (angle_t)(0xFFFFFFFF * atan2((double)i, (double)SLOPERANGE) / (M_PI * 2));
 }
 
 //

@@ -659,7 +659,6 @@ static void R_ProjectSprite(mobj_t *thing)
     if (tz < MINZ)
         return;
 
-    xscale = FixedDiv(centerxfrac, tz);
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
     // too far off the side?
@@ -681,13 +680,13 @@ static void R_ProjectSprite(mobj_t *thing)
             rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
 
         lump = sprframe->lump[rot];
-        flip = (!!(sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
+        flip = (sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED);
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = (!!(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
+        flip = (sprframe->flip & 1) || (flags2 & MF2_MIRRORED);
     }
 
     if (thing->state->dehacked || !r_fixspriteoffsets)
@@ -704,6 +703,7 @@ static void R_ProjectSprite(mobj_t *thing)
     // calculate edges of the shape
     width = spritewidth[lump];
     tx -= (flip ? width - offset : offset);
+    xscale = FixedDiv(centerxfrac, tz);
     x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
