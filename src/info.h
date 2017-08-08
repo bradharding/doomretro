@@ -1211,7 +1211,6 @@ typedef struct state_s
     long        misc2;
     dboolean    translucent;
     dboolean    dehacked;
-    statenum_t  num;
 } state_t;
 
 extern state_t  states[NUMSTATES];

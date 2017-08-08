@@ -106,7 +106,6 @@ dboolean P_IsVoodooDoll(mobj_t *mobj)
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     state_t *st;
-    int     cycle_counter = 0;
 
     do
     {
@@ -122,7 +121,6 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         mobj->tics = st->tics;
         mobj->sprite = st->sprite;
         mobj->frame = st->frame;
-        mobj->state->num = state;
 
         // Modified handling.
         // Call action functions when the state is set
@@ -130,9 +128,6 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
             st->action(mobj, NULL, NULL);
 
         state = st->nextstate;
-
-        if (cycle_counter++ > MOBJ_CYCLE_LIMIT)
-            I_Error("P_SetMobjState: Infinite state cycle detected!");
     }
     while (!mobj->tics);
 
