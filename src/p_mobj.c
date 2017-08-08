@@ -1015,9 +1015,9 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
 {
     int     i;
+    int     bit;
     mobj_t  *mobj;
     fixed_t x, y, z;
-    int     options = mthing->options;
     short   type = mthing->type;
     int     flags;
     int     id = 0;
@@ -1032,9 +1032,17 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         return NULL;
 
     // check for appropriate skill level
-    if (gameskill == sk_baby || gameskill == sk_easy ? !(options & MTF_EASY) :
-        (gameskill == sk_hard || gameskill == sk_nightmare ? !(options & MTF_HARD) :
-        !(options & MTF_NORMAL)))
+    if (mthing->options & 16)
+        return NULL;
+
+    if (gameskill == sk_baby)
+        bit = 1;
+    else if (gameskill == sk_nightmare)
+        bit = 4;
+    else
+        bit = 1 << (gameskill - 1);
+
+    if (!(mthing->options & bit))
         return NULL;
 
     if (type >= 14101 && type <= 14164)
