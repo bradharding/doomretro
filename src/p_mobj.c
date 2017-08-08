@@ -87,11 +87,6 @@ void A_Recoil(player_t *player, weapontype_t weapon);
 void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 
-dboolean P_IsVoodooDoll(mobj_t *mobj)
-{
-    return (mobj->player && mobj->player->mo != mobj);
-}
-
 //
 //
 // P_SetMobjState
@@ -222,7 +217,8 @@ void P_XYMovement(mobj_t *mo)
         {
             ptryx = mo->x + xmove;
             ptryy = mo->y + ymove;
-            xmove = ymove = 0;
+            xmove = 0;
+            ymove = 0;
         }
 
         // killough 3/15/98: Allow objects to drop off
@@ -340,10 +336,10 @@ void P_XYMovement(mobj_t *mo)
         return;         // do not stop sliding if halfway off a step with some momentum
 
     if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED && mo->momy > -STOPSPEED && mo->momy < STOPSPEED
-        && (!player || (!player->cmd.forwardmove && !player->cmd.sidemove) || P_IsVoodooDoll(mo)))
+        && (!player || (!player->cmd.forwardmove && !player->cmd.sidemove) || player->mo != mo))
     {
         // if in a walking frame, stop moving
-        if (player && !P_IsVoodooDoll(mo) && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4)
+        if (player && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4 && player->mo == mo)
             P_SetMobjState(player->mo, S_PLAY);
 
         mo->momx = 0;
@@ -402,7 +398,7 @@ void P_ZMovement(mobj_t *mo)
     int         flags = mo->flags;
 
     // check for smooth step up
-    if (player && mo->player->mo == mo && mo->z < mo->floorz)
+    if (player && player->mo == mo && mo->z < mo->floorz)
     {
         player->viewheight -= mo->floorz - mo->z;
         player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
@@ -412,7 +408,7 @@ void P_ZMovement(mobj_t *mo)
     mo->z += mo->momz;
 
     // float down towards target if too close
-    if (!((mo->flags ^ MF_FLOAT) & (MF_FLOAT | MF_SKULLFLY | MF_INFLOAT)) && mo->target)
+    if (!((flags ^ MF_FLOAT) & (MF_FLOAT | MF_SKULLFLY | MF_INFLOAT)) && mo->target)
     {
         fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
@@ -440,7 +436,7 @@ void P_ZMovement(mobj_t *mo)
 
         if (mo->momz < 0)
         {
-            if (player && mo->momz < -GRAVITY * 8)
+            if (player && player->mo == mo && mo->momz < -GRAVITY * 8)
             {
                 // Squat down.
                 // Decrease viewheight for a moment
@@ -457,7 +453,7 @@ void P_ZMovement(mobj_t *mo)
 
         mo->z = mo->floorz;
 
-        if (!((mo->flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
+        if (!((flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
         {
             P_ExplodeMissile(mo);
             return;
@@ -482,7 +478,7 @@ void P_ZMovement(mobj_t *mo)
 
         mo->z = mo->ceilingz - mo->height;
 
-        if (!((mo->flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
+        if (!((flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
         {
             if (mo->subsector->sector->ceilingpic == skyflatnum)
                 P_RemoveMobj(mo);
@@ -567,12 +563,6 @@ void P_MobjThinker(mobj_t *mobj)
     int         flags2;
     player_t    *player = mobj->player;
     sector_t    *sector = mobj->subsector->sector;
-
-    if (mobj->type == MT_MUSICSOURCE)
-    {
-        MusInfoThinker(mobj);
-        return;
-    }
 
     // [AM] Handle interpolation unless we're an active player.
     if (!(player && mobj == player->mo))
@@ -719,7 +709,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->projectilepassheight = info->projectilepassheight;
     mobj->flags = info->flags;
     mobj->flags2 = info->flags2;
-
     mobj->health = info->spawnhealth;
 
     if (gameskill != sk_nightmare)
@@ -780,7 +769,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->oldz = mobj->z;
     mobj->oldangle = mobj->angle;
 
-    mobj->thinker.function = P_MobjThinker;
+    mobj->thinker.function = (mobj->type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
     P_AddThinker(&mobj->thinker);
 
     if (!(mobj->flags2 & MF2_NOFOOTCLIP) && sector->isliquid && sector->heightsec == -1)
@@ -1026,9 +1015,9 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
 {
     int     i;
-    int     bit;
     mobj_t  *mobj;
     fixed_t x, y, z;
+    int     options = mthing->options;
     short   type = mthing->type;
     int     flags;
     int     id = 0;
@@ -1043,17 +1032,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
         return NULL;
 
     // check for appropriate skill level
-    if (mthing->options & 16)
-        return NULL;
-
-    if (gameskill == sk_baby)
-        bit = 1;
-    else if (gameskill == sk_nightmare)
-        bit = 4;
-    else
-        bit = 1 << (gameskill - 1);
-
-    if (!(mthing->options & bit))
+    if (gameskill == sk_baby || gameskill == sk_easy ? !(options & MTF_EASY) :
+        (gameskill == sk_hard || gameskill == sk_nightmare ? !(options & MTF_HARD) :
+        !(options & MTF_NORMAL)))
         return NULL;
 
     if (type >= 14101 && type <= 14164)
@@ -1135,7 +1116,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     if (r_mirroredweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (rand() & 1))
         mobj->flags2 |= MF2_MIRRORED;
 
-    // [BH] Spawn blood splats around corpses
+    // [BH] spawn blood splats around corpses
     if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL)) && mobj->blood && !chex
         && (!hacx || !(mobj->flags2 & MF2_DECORATION)) && r_bloodsplats_max)
     {
@@ -1361,13 +1342,11 @@ void P_CheckMissileSpawn(mobj_t *th)
 //
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 {
-    fixed_t z;
+    fixed_t z = source->z + 4 * 8 * FRACUNIT;
     mobj_t  *th;
     angle_t an;
     int     dist;
     int     speed;
-
-    z = source->z + 4 * 8 * FRACUNIT;
 
     if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1
         && r_liquid_clipsprites)
@@ -1449,8 +1428,9 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     P_SetTarget(&th->target, source);
     th->angle = an;
-    th->momx = FixedMul(th->info->speed, finecosine[an >> ANGLETOFINESHIFT]);
-    th->momy = FixedMul(th->info->speed, finesine[an >> ANGLETOFINESHIFT]);
+    an >>= ANGLETOFINESHIFT;
+    th->momx = FixedMul(th->info->speed, finecosine[an]);
+    th->momy = FixedMul(th->info->speed, finesine[an]);
     th->momz = FixedMul(th->info->speed, slope);
 
     if (type == MT_ROCKET && r_rockettrails && !hacx)
