@@ -4,6 +4,7 @@
 * Minor improvements have been made to *DOOM Retro’s* renderer.
 * The behavior of lost souls has been restored to better resemble *Vanilla DOOM*.
 * Wiping when transitioning between screens can now be toggled on or off using the new `wipe` CVAR.
+* Weapon recoil is now disabled when vanilla mode is enabled.
 
 ---
 
