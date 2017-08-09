@@ -910,16 +910,11 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
             return (tmunstuck && !(ceilingline && untouched(ceilingline))
                     && !(floorline && untouched(floorline)));
 
-        // killough 3/15/98: Allow certain objects to drop off
-        // killough 7/24/98, 8/1/98:
-        // Prevent monsters from getting stuck hanging off ledges
-        // killough 10/98: Allow dropoffs in controlled circumstances
-        // killough 11/98: Improve symmetry of clipping on stairs
         if (!(flags & (MF_DROPOFF | MF_FLOAT)))
         {
             if (!dropoff)
             {
-                if (thing->floorz - tmfloorz > 24 * FRACUNIT || thing->dropoffz - tmdropoffz > 24 * FRACUNIT)
+                if (tmfloorz - tmdropoffz > 24 * FRACUNIT)
                     return false;
             }
             else

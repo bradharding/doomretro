@@ -5,6 +5,7 @@
 * The behavior of lost souls has been restored to better resemble *Vanilla DOOM*.
 * Wiping when transitioning between screens can now be toggled on or off using the new `wipe` CVAR.
 * Weapon recoil is now disabled when vanilla mode is enabled.
+* A bug has been fixed whereby monsters could use stairs in some instances when they shouldn’t have been able to.
 
 ---
 
