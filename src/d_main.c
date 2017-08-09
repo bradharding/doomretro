@@ -346,7 +346,7 @@ void D_Display(void)
         }
     }
 
-    if (!dowipe)
+    if (!dowipe || !wipe)
     {
         C_Drawer();
 
@@ -363,34 +363,31 @@ void D_Display(void)
         return;
     }
 
-    if (wipe)
+    // wipe update
+    wipe_EndScreen();
+
+    wipestart = I_GetTime() - 1;
+
+    do
     {
-        // wipe update
-        wipe_EndScreen();
-
-        wipestart = I_GetTime() - 1;
-
         do
         {
-            do
-            {
-                nowtime = I_GetTime();
-                tics = nowtime - wipestart;
-                I_Sleep(1);
-            }
-            while (tics <= 0);
-
-            wipestart = nowtime;
-            done = wipe_ScreenWipe(tics);
-            blurred = false;
-
-            C_Drawer();
-            M_Drawer();             // menu is drawn even on top of wipes
-            blitfunc();             // blit buffer
-            mapblitfunc();
+            nowtime = I_GetTime();
+            tics = nowtime - wipestart;
+            I_Sleep(1);
         }
-        while (!done);
+        while (tics <= 0);
+
+        wipestart = nowtime;
+        done = wipe_ScreenWipe(tics);
+        blurred = false;
+
+        C_Drawer();
+        M_Drawer();             // menu is drawn even on top of wipes
+        blitfunc();             // blit buffer
+        mapblitfunc();
     }
+    while (!done);
 
     if (loadaction != ga_nothing)
         G_LoadedGameMessage();
