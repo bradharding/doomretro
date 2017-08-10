@@ -154,7 +154,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
 {
     // [BH] don't alert if notarget is enabled
-    if (players[0].cheats & CF_NOTARGET)
+    if (target && target->player && (players[0].cheats & CF_NOTARGET))
         return;
 
     validcount++;
