@@ -519,7 +519,8 @@ typedef enum valuealias_type_e
     UNITSVALUEALIAS,
     CAPVALUEALIAS,
     SKYVALUEALIAS,
-    SCALEVALUEALIAS
+    SCALEVALUEALIAS,
+    FACEBACKVALUEALIAS
 } valuealias_type_t;
 
 typedef struct default_s
