@@ -1,11 +1,12 @@
 ### DOOM Retro v2.5.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor improvements have been made to *DOOM Retro’s* renderer.
 * The behavior of lost souls has been restored to better resemble *Vanilla DOOM*.
 * Wiping when transitioning between screens can now be toggled on or off using the new `wipe` CVAR.
 * Weapon recoil is now disabled when vanilla mode is enabled.
 * A bug has been fixed whereby monsters could use stairs in some instances when they shouldn’t have been able to.
+* Chaingunners, arachnotrons and spider masterminds now go fullbright more in time with their firing animations.
+* A value of `off` can now be used for the `facebackcolor` CVAR and is the equivalent of using the default value of `5`.
 
 ---
 
