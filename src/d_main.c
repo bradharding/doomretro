@@ -346,6 +346,9 @@ void D_Display(void)
         }
     }
 
+    if (loadaction != ga_nothing)
+        G_LoadedGameMessage();
+
     if (!dowipe || !wipe)
     {
         C_Drawer();
@@ -388,9 +391,6 @@ void D_Display(void)
         mapblitfunc();
     }
     while (!done);
-
-    if (loadaction != ga_nothing)
-        G_LoadedGameMessage();
 }
 
 //

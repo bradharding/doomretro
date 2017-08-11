@@ -860,7 +860,7 @@ typedef struct drawseg_s
 // Patches are used for sprites and all masked pictures,
 // and we compose textures from the TEXTURE1/2 lists
 // of patches.
-typedef struct patch_ts
+typedef struct patch_s
 {
     short               width;          // bounding box size
     short               height;

@@ -211,7 +211,7 @@ typedef enum ammotype_e
 } ammotype_t;
 
 // Power up artifacts.
-typedef enum powertype_e
+enum powertype_e
 {
     pw_invulnerability,
     pw_strength,
@@ -220,20 +220,20 @@ typedef enum powertype_e
     pw_allmap,
     pw_infrared,
     NUMPOWERS
-} powertype_t;
+};
 
 //
 // Power up durations,
 //  how many seconds till expiration,
 //  assuming TICRATE is 35 ticks/second.
 //
-typedef enum powerduration_e
+enum powerduration_e
 {
     INVULNTICS =  30 * TICRATE,
     INVISTICS  =  60 * TICRATE,
     INFRATICS  = 120 * TICRATE,
     IRONTICS   =  60 * TICRATE
-} powerduration_t;
+};
 
 #define STARTFLASHING           127
 
