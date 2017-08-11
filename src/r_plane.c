@@ -269,7 +269,6 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         new_pl->height = pl->height;
         new_pl->picnum = pl->picnum;
         new_pl->lightlevel = pl->lightlevel;
-        new_pl->sector = pl->sector;
         new_pl->xoffs = pl->xoffs;      // killough 2/28/98
         new_pl->yoffs = pl->yoffs;
         pl = new_pl;

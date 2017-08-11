@@ -999,8 +999,6 @@ typedef struct visplane_s
     unsigned short      bottom[SCREENWIDTH];
 
     unsigned short      pad4;
-
-    sector_t            *sector;        // [BH] Support animated liquid sectors
 } visplane_t;
 
 #endif
