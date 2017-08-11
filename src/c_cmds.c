@@ -961,9 +961,9 @@ static dboolean cheat_func1(char *cmd, char *parms)
     else if (M_StringCompare(cmd, cheat_mus.sequence))
         return (!nomusic && musicVolume);
     else if (M_StringCompare(cmd, cheat_noclip.sequence))
-        return (gamemode != commercial && gameskill != sk_nightmare);
+        return (gamemode != commercial && gameskill != sk_nightmare && players[0].health > 0);
     else if (M_StringCompare(cmd, cheat_commercial_noclip.sequence))
-        return (gamemode == commercial && gameskill != sk_nightmare);
+        return (gamemode == commercial && gameskill != sk_nightmare && players[0].health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[0].sequence))
         return (gameskill != sk_nightmare && players[0].health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[1].sequence))
