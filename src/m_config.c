@@ -383,17 +383,18 @@ static default_t cvars[] =
 
 valuealias_t valuealiases[] =
 {
-    { "off",      0, BOOLVALUEALIAS     }, { "on",      1, BOOLVALUEALIAS   },
-    { "0",        0, BOOLVALUEALIAS     }, { "1",       1, BOOLVALUEALIAS   },
-    { "no",       0, BOOLVALUEALIAS     }, { "yes",     1, BOOLVALUEALIAS   },
-    { "false",    0, BOOLVALUEALIAS     }, { "true",    1, BOOLVALUEALIAS   },
-    { "low",      0, DETAILVALUEALIAS   }, { "high",    1, DETAILVALUEALIAS },
-    { "off",      1, GAMMAVALUEALIAS    }, { "none",    0, BLOODVALUEALIAS  },
-    { "red",      1, BLOODVALUEALIAS    }, { "all",     2, BLOODVALUEALIAS  },
-    { "imperial", 0, UNITSVALUEALIAS    }, { "metric",  1, UNITSVALUEALIAS  },
-    { "off",      0, CAPVALUEALIAS      }, { "none",   -1, SKYVALUEALIAS    },
-    { "small",    0, SCALEVALUEALIAS    }, { "big",     1, SCALEVALUEALIAS  },
-    { "off",      5, FACEBACKVALUEALIAS }, { "",        0, NOVALUEALIAS     }
+    { "off",      0, BOOLVALUEALIAS   }, { "on",      1, BOOLVALUEALIAS     },
+    { "0",        0, BOOLVALUEALIAS   }, { "1",       1, BOOLVALUEALIAS     },
+    { "no",       0, BOOLVALUEALIAS   }, { "yes",     1, BOOLVALUEALIAS     },
+    { "false",    0, BOOLVALUEALIAS   }, { "true",    1, BOOLVALUEALIAS     },
+    { "low",      0, DETAILVALUEALIAS }, { "high",    1, DETAILVALUEALIAS   },
+    { "off",      1, GAMMAVALUEALIAS  }, { "none",    0, BLOODVALUEALIAS    },
+    { "red",      1, BLOODVALUEALIAS  }, { "all",     2, BLOODVALUEALIAS    },
+    { "imperial", 0, UNITSVALUEALIAS  }, { "metric",  1, UNITSVALUEALIAS    },
+    { "off",      0, CAPVALUEALIAS    }, { "none",   -1, SKYVALUEALIAS      },
+    { "off",     -1, SKYVALUEALIAS    }, { "small",   0, SCALEVALUEALIAS    },
+    { "big",      1, SCALEVALUEALIAS  }, { "off",     5, FACEBACKVALUEALIAS },
+    { "",         0, NOVALUEALIAS     }
 };
 
 static void SaveBind(FILE *file, char *action, int value, controltype_t type)
