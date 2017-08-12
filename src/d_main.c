@@ -139,7 +139,7 @@ dboolean            autostart;
 int                 startloadgame;
 
 dboolean            advancetitle;
-dboolean            dowipe = true;
+dboolean            dowipe;
 dboolean            forcewipe;
 
 dboolean            splashscreen;

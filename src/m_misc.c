@@ -175,7 +175,7 @@ long M_FileLength(FILE *handle)
 
 // Safe string copy function that works like OpenBSD's strlcpy().
 // Returns true if the string was not truncated.
-dboolean M_StringCopy(char *dest, char *src, size_t dest_size)
+dboolean M_StringCopy(char *dest, const char *src, const size_t dest_size)
 {
     if (dest_size >= 1)
     {
@@ -454,26 +454,6 @@ char *M_GetExecutableFolder(void)
 #endif
 }
 
-//
-// M_WriteFile
-//
-dboolean M_WriteFile(char *name, void *source, int length)
-{
-    FILE    *handle = fopen(name, "wb");
-    int     count;
-
-    if (!handle)
-        return false;
-
-    count = fwrite(source, 1, length, handle);
-    fclose(handle);
-
-    if (count < length)
-        return false;
-
-    return true;
-}
-
 // Return a newly-malloced string with all the strings given as arguments
 // concatenated together.
 char *M_StringJoin(char *s, ...)
@@ -517,28 +497,6 @@ char *M_StringJoin(char *s, ...)
     va_end(args);
 
     return result;
-}
-
-// Returns the path to a temporary file of the given name, stored
-// inside the system temporary directory.
-//
-// The returned value must be freed with Z_Free after use.
-char *M_TempFile(char *s)
-{
-    char *tempdir;
-
-#if defined(_WIN32)
-    // Check the TEMP environment variable to find the location.
-    tempdir = getenv("TEMP");
-
-    if (!tempdir)
-        tempdir = ".";
-#else
-    // In Unix, just use /tmp.
-    tempdir = "/tmp";
-#endif
-
-    return M_StringJoin(tempdir, DIR_SEPARATOR_S, s, NULL);
 }
 
 dboolean M_StrToInt(const char *str, unsigned int *result)
@@ -634,13 +592,13 @@ dboolean M_StringCompare(const char *str1, const char *str2)
 }
 
 // Returns true if 's' begins with the specified prefix.
-dboolean M_StringStartsWith(char *s, char *prefix)
+dboolean M_StringStartsWith(const char *s, const char *prefix)
 {
     return (strlen(s) > strlen(prefix) && !strncasecmp(s, prefix, strlen(prefix)));
 }
 
 // Returns true if 's' ends with the specified suffix.
-dboolean M_StringEndsWith(char *s, char *suffix)
+dboolean M_StringEndsWith(const char *s, const char *suffix)
 {
     return (strlen(s) >= strlen(suffix) && M_StringCompare(s + strlen(s) - strlen(suffix), suffix));
 }
@@ -716,17 +674,14 @@ char *uppercase(const char *str)
     return newstr;
 }
 
-char *lowercase(const char *str)
+char *lowercase(char *str)
 {
-    char    *newstr;
     char    *p;
 
-    p = newstr = strdup(str);
+    for (p = str; *p; p++)
+        *p = tolower(*p);
 
-    while ((*p = tolower(*p)))
-        p++;
-
-    return newstr;
+    return str;
 }
 
 char *titlecase(const char *str)

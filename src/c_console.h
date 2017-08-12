@@ -73,7 +73,7 @@ typedef enum stringtype_e
     STRINGTYPES
 } stringtype_t;
 
-typedef struct console_s
+typedef struct
 {
     char            string[1024];
     stringtype_t    type;
@@ -81,7 +81,7 @@ typedef struct console_s
     char            timestamp[9];
 } console_t;
 
-console_t           *console;
+extern console_t    *console;
 
 extern dboolean     consoleactive;
 extern int          consoleheight;
@@ -95,7 +95,7 @@ extern char         consolecmdparm[255];
 
 extern dboolean     forceconsoleblurredraw;
 
-typedef struct undohistory_s
+typedef struct
 {
     char            *input;
     int             caretpos;
@@ -103,25 +103,23 @@ typedef struct undohistory_s
     int             selectend;
 } undohistory_t;
 
-undohistory_t       *undohistory;
-
-void C_Print(stringtype_t type, char *string, ...);
-void C_Input(char *string, ...);
-void C_IntCVAROutput(char *cvar, int value);
-void C_PctCVAROutput(char *cvar, int value);
-void C_StrCVAROutput(char *cvar, char *string);
-void C_Output(char *string, ...);
-void C_TabbedOutput(int tabs[8], char *string, ...);
-void C_Warning(char *string, ...);
-void C_PlayerMessage(char *string, ...);
-void C_Obituary(char *string, ...);
+void C_Print(const stringtype_t type, const char *string, ...);
+void C_Input(const char *string, ...);
+void C_IntCVAROutput(const char *cvar, const int value);
+void C_PctCVAROutput(const char *cvar, const int value);
+void C_StrCVAROutput(const char *cvar, const char *string);
+void C_Output(const char *string, ...);
+void C_TabbedOutput(const int tabs[8], const char *string, ...);
+void C_Warning(const char *string, ...);
+void C_PlayerMessage(const char *string, ...);
+void C_Obituary(const char *string, ...);
 void C_AddConsoleDivider(void);
 void C_Init(void);
 void C_ShowConsole(void);
 void C_HideConsole(void);
 void C_HideConsoleFast(void);
 void C_Drawer(void);
-dboolean C_ValidateInput(char *input);
+dboolean C_ValidateInput(const char *input);
 dboolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);

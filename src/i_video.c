@@ -177,9 +177,6 @@ float               r_gamma = r_gamma_default;
 static SDL_Rect     src_rect = { 0, 0, 0, 0 };
 static SDL_Rect     map_rect = { 0, 0, 0, 0 };
 
-void                (*blitfunc)(void);
-void                (*mapblitfunc)(void);
-
 int                 fps;
 int                 minfps = INT_MAX;
 int                 maxfps;

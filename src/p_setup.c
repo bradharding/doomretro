@@ -1304,7 +1304,7 @@ static void P_LoadLineDefs(int lump)
 }
 
 // killough 4/4/98: delay using sidedefs until they are loaded
-static void P_LoadLineDefs2(int lump)
+static void P_LoadLineDefs2(void)
 {
     int     i = numlines;
     line_t  *ld = lines;
@@ -1774,7 +1774,7 @@ void P_LoadBlockMap(int lump)
 //
 // reject overrun emulation
 //
-void RejectOverrun(int rejectlump, const byte **rejectmatrix, int totallines)
+void RejectOverrun(int rejectlump, const byte **rejectmatrix)
 {
     unsigned int    required = (numsectors * numsectors + 7) / 8;
     unsigned int    length = W_LumpLength(rejectlump);
@@ -1806,7 +1806,7 @@ static void P_LoadReject(int lumpnum, int totallines)
     rejectmatrix = W_CacheLumpNum(rejectlump);
 
     // e6y: check for overflow
-    RejectOverrun(rejectlump, &rejectmatrix, totallines);
+    RejectOverrun(rejectlump, &rejectmatrix);
 }
 
 //
@@ -2043,12 +2043,12 @@ char        maptitle[256];
 char        mapnumandtitle[512];
 char        automaptitle[512];
 
-extern char **mapnames[];
-extern char **mapnames2[];
-extern char **mapnames2_bfg[];
-extern char **mapnamesp[];
-extern char **mapnamest[];
-extern char **mapnamesn[];
+extern char **mapnames[45];
+extern char **mapnames2[32];
+extern char **mapnames2_bfg[33];
+extern char **mapnamesp[32];
+extern char **mapnamest[32];
+extern char **mapnamesn[9];
 
 extern int  dehcount;
 
@@ -2319,7 +2319,7 @@ void P_SetupLevel(int ep, int map)
     P_LoadSideDefs(lumpnum + ML_SIDEDEFS);
     P_LoadLineDefs(lumpnum + ML_LINEDEFS);
     P_LoadSideDefs2(lumpnum + ML_SIDEDEFS);
-    P_LoadLineDefs2(lumpnum + ML_LINEDEFS);
+    P_LoadLineDefs2();
 
     if (!samelevel)
         P_LoadBlockMap(lumpnum + ML_BLOCKMAP);

@@ -58,14 +58,14 @@ typedef enum controltype_e
     invalidcontrol  = 4
 } controltype_t;
 
-typedef struct control_s
+typedef struct
 {
     char            *control;
     controltype_t   type;
     int             value;
 } control_t;
 
-typedef struct action_s
+typedef struct
 {
     char    *action;
     void    *keyboard1;
@@ -96,7 +96,7 @@ enum cmdflag_e
     CF_TIME     = 256
 };
 
-typedef struct consolecmd_s
+typedef struct
 {
     char        *name;
     char        *alternate;
@@ -115,7 +115,7 @@ typedef struct consolecmd_s
     char        *defaultstring;
 } consolecmd_t;
 
-typedef struct alias_s
+typedef struct
 {
     char    name[128];
     char    string[128];
@@ -124,8 +124,8 @@ typedef struct alias_s
 extern action_t     actions[];
 extern control_t    controls[];
 extern consolecmd_t consolecmds[];
-extern alias_t      aliases[];
+extern alias_t      aliases[MAXALIASES];
 
-dboolean C_ExecuteAlias(char *alias);
+dboolean C_ExecuteAlias(const char *alias);
 
 #endif

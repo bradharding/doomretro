@@ -244,41 +244,6 @@ void V_DrawPagePatch(patch_t *patch)
     DYI = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
 }
 
-void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch)
-{
-    int     col = 0;
-    byte    *desttop;
-    int     w = SHORT(patch->width) << FRACBITS;
-
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-
-    desttop = screens[scrn] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
-
-    for (; col < w; col += DXI, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = desttop + ((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH;
-            int     count = (column->length * DY) >> FRACBITS;
-            int     srccol = 0;
-
-            while (count--)
-            {
-                *dest = tinttab25[(*dest << 8) + source[srccol >> FRACBITS]];
-                dest += SCREENWIDTH;
-                srccol += DYI;
-            }
-
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
-}
-
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
 {
     int     col = 0;
@@ -1347,11 +1312,6 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
             column = (column_t *)((byte *)column + column->length + 4);
         }
     }
-}
-
-void V_DrawCenteredPatch(int y, patch_t *patch)
-{
-    V_DrawPatch((ORIGINALWIDTH - SHORT(patch->width)) / 2, y, 0, patch);
 }
 
 void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)

@@ -1146,7 +1146,7 @@ void M_DoSave(int slot)
 //
 // User wants to save. Start string input for M_Responder
 //
-extern char maptitle[128];
+extern char maptitle[];
 extern char **mapnames[];
 extern char **mapnames2[];
 extern char **mapnames2_bfg[];

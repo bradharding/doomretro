@@ -55,7 +55,7 @@ typedef struct mpoint_s
 } mpoint_t;
 
 // Called by main loop.
-dboolean AM_Responder(event_t *ev);
+dboolean AM_Responder(const event_t *ev);
 
 // Called by main loop.
 void AM_Ticker(void);
@@ -65,7 +65,7 @@ void AM_Ticker(void);
 void AM_Drawer(void);
 void AM_clearFB(void);
 
-void AM_Start(dboolean mainwindow);
+void AM_Start(const dboolean mainwindow);
 
 // Called to force the automap to quit
 // if the level is completed while it is up.
@@ -77,7 +77,6 @@ void AM_getGridSize(void);
 void AM_addToPath(void);
 
 extern dboolean message_dontfuckwithme;
-extern dboolean message_external;
 
 extern int      gamepadwait;
 

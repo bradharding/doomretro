@@ -515,7 +515,7 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 // This code may not be used in other mods without appropriate credit given.
 // Code leeches will be telefragged.
-
+//
 void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobjtype_t  type = MT_PLASMA1;

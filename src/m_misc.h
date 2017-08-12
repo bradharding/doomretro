@@ -48,9 +48,7 @@
 
 #include "doomtype.h"
 
-dboolean M_WriteFile(char *name, void *source, int length);
 void M_MakeDirectory(const char *path);
-char *M_TempFile(char *s);
 dboolean M_FileExists(const char *filename);
 long M_FileLength(FILE *handle);
 char *M_ExtractFolder(char *path);
@@ -70,17 +68,17 @@ char *M_GetExecutableFolder(void);
 void M_Shutdown(void);
 dboolean M_StrToInt(const char *str, unsigned int *result);
 char *M_StrCaseStr(char *haystack, char *needle);
-dboolean M_StringCopy(char *dest, char *src, size_t dest_size);
+dboolean M_StringCopy(char *dest, const char *src, const size_t dest_size);
 char *M_StringReplace(char *haystack, char *needle, char *replacement);
 char *M_StringJoin(char *s, ...);
-dboolean M_StringStartsWith(char *s, char *prefix);
-dboolean M_StringEndsWith(char *s, char *suffix);
+dboolean M_StringStartsWith(const char *s, const char *prefix);
+dboolean M_StringEndsWith(const char *s, const char *suffix);
 int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 char *M_SubString(const char *str, size_t begin, size_t len);
 dboolean M_StringCompare(const char *str1, const char *str2);
 char *uppercase(const char *str);
-char *lowercase(const char *str);
+char *lowercase(char *str);
 char *titlecase(const char *str);
 char *formatsize(const char *str);
 char *commify(int64_t value);

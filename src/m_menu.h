@@ -58,8 +58,6 @@ typedef struct menu_s
     int             lastOn;
 } menu_t;
 
-dboolean    startingnewgame;
-
 //
 // MENUS
 //
@@ -117,5 +115,6 @@ extern int      episode;
 extern int      expansion;
 extern int      savegame;
 extern int      skilllevel;
+extern dboolean startingnewgame;
 
 #endif

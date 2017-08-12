@@ -91,8 +91,7 @@ extern dboolean message_clearable;
 HMODULE         pXInputDLL;
 #endif
 
-void (*gamepadfunc)(void);
-void (*gamepadthumbsfunc)(short, short, short, short);
+static void (*gamepadthumbsfunc)(short, short, short, short);
 
 void I_InitGamepad(void)
 {

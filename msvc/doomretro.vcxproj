@@ -208,7 +208,6 @@
     <ClInclude Include="..\src\i_system.h" />
     <ClInclude Include="..\src\i_timer.h" />
     <ClInclude Include="..\src\i_video.h" />
-    <ClInclude Include="..\src\memio.h" />
     <ClInclude Include="..\src\mmus2mid.h" />
     <ClInclude Include="..\src\m_argv.h" />
     <ClInclude Include="..\src\m_bbox.h" />
@@ -262,7 +261,6 @@
     <ClCompile Include="..\src\i_midirpc.c" />
     <ClCompile Include="..\src\i_music.c" />
     <ClCompile Include="..\src\i_sound.c" />
-    <ClCompile Include="..\src\memio.c" />
     <ClCompile Include="..\src\mmus2mid.c" />
     <ClCompile Include="..\src\m_controls.c" />
     <ClCompile Include="..\src\p_fix.c" />

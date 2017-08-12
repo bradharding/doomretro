@@ -458,22 +458,6 @@ lumpindex_t W_GetNumForName2(char *name)
     return i;
 }
 
-lumpindex_t W_GetNumForNameX(char *name, unsigned int count)
-{
-    lumpindex_t     i;
-    unsigned int    j = 0;
-
-    for (i = 0; i < numlumps; i++)
-        if (!strncasecmp(lumpinfo[i]->name, name, 8))
-            if (++j == count)
-                break;
-
-    if (i == numlumps && j != count)
-        I_Error("W_GetNumForNameX: %s not found!", name);
-
-    return i;
-}
-
 //
 // W_LumpLength
 // Returns the buffer size needed to load the given lump.
@@ -519,11 +503,6 @@ void *W_CacheLumpNum(lumpindex_t lump)
     cachelump[lump].locks += locks;
 
     return cachelump[lump].cache;
-}
-
-void *W_LockLumpNum(lumpindex_t lump)
-{
-    return W_CacheLumpNum(lump);
 }
 
 void W_UnlockLumpNum(lumpindex_t lump)

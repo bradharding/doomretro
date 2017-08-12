@@ -1230,7 +1230,7 @@ char **mapnames[] =     // DOOM shareware/registered/retail (Ultimate) names.
     &deh_newlevel
 };
 
-char **mapnames2[] =     // DOOM 2 map names.
+char **mapnames2[] =    // DOOM 2 map names.
 {
     &s_HUSTR_1,
     &s_HUSTR_2,
@@ -1266,7 +1266,7 @@ char **mapnames2[] =     // DOOM 2 map names.
     &s_HUSTR_32
 };
 
-char **mapnames2_bfg[] =     // DOOM 2 map names.
+char **mapnames2_bfg[] =    // DOOM 2 map names.
 {
     &s_HUSTR_1,
     &s_HUSTR_2,
@@ -1392,7 +1392,6 @@ char **mapnamesn[] =    // Nerve WAD map names.
 void lfstrip(char *);           // strip the \r and/or \n off of a line
 void rstrip(char *);            // strip trailing whitespace
 char *ptr_lstrip(char *);       // point past leading whitespace
-char *lwrcase(char *);
 int deh_GetData(char *, char *, long *, char **);
 dboolean deh_procStringSub(char *, char *, char *);
 char *dehReformatStr(char *);
@@ -2787,7 +2786,7 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
         if (*inbuffer == '#')
             continue;                           // skip comment lines
 
-        lfstrip(lwrcase(inbuffer));             // lowercase it
+        lfstrip(lowercase(inbuffer));           // lowercase it
 
         if (!*inbuffer)
             break;                              // killough 11/98
@@ -3578,16 +3577,6 @@ char *ptr_lstrip(char *p)       // point past leading whitespace
         p++;
 
     return p;
-}
-
-char *lwrcase(char *str)
-{
-    char    *p;
-
-    for (p = str; *p; p++)
-        *p = tolower(*p);
-
-    return str;
 }
 
 // ====================================================================

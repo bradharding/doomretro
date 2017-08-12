@@ -84,7 +84,6 @@ lumpindex_t W_CheckNumForName(char *name);
 lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, char *name);
 lumpindex_t W_GetNumForName(char *name);
 lumpindex_t W_GetNumForName2(char *name);
-lumpindex_t W_GetNumForNameX(char *name, unsigned int count);
 
 int W_CheckMultipleLumps(char *name);
 
@@ -101,8 +100,6 @@ void W_Init(void);
 unsigned int W_LumpNameHash(const char *s);
 
 void W_UnlockLumpNum(lumpindex_t lump);
-
-void *W_LockLumpNum(lumpindex_t lump);
 
 #define W_UnlockLumpName(name)  W_UnlockLumpNum(W_GetNumForName(name))
 

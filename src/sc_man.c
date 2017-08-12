@@ -230,16 +230,6 @@ int SC_MatchString(char **strings)
     return -1;
 }
 
-int SC_MustMatchString(char **strings)
-{
-    int i = SC_MatchString(strings);
-
-    if (i == -1)
-        SC_ScriptError(NULL);
-
-    return i;
-}
-
 dboolean SC_Compare(char *text)
 {
     return M_StringCompare(text, sc_String);

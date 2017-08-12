@@ -62,8 +62,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define CONSOLESPEED            (CONSOLEHEIGHT / 12)
-
 #define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 11 : 27)
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
@@ -79,112 +77,99 @@
 
 #define CONSOLEINPUTPIXELWIDTH  (CONSOLEWIDTH - CONSOLETEXTX - brandwidth - 2)
 
-#define CONSOLEDIVIDERWIDTH     (CONSOLETEXTPIXELWIDTH - CONSOLETEXTX + 1)
-
 #define DIVIDER                 "~~~"
 
 #define CARETBLINKTIME          350
 
-dboolean        consoleactive;
-int             consoleheight;
-int             consoledirection = -1;
-int             consoleanim;
+console_t               *console;
 
-dboolean        forceconsoleblurredraw;
+dboolean                consoleactive;
+int                     consoleheight;
+int                     consoledirection = -1;
+static int              consoleanim;
 
-patch_t         *consolefont[CONSOLEFONTSIZE];
-patch_t         *degree;
+dboolean                forceconsoleblurredraw;
 
-static patch_t  *trademark;
-static patch_t  *copyright;
-static patch_t  *regomark;
-static patch_t  *multiply;
-static patch_t  *warning;
-static patch_t  *brand;
-static patch_t  *divider;
-static patch_t  *bindlist;
-static patch_t  *cmdlist;
-static patch_t  *cvarlist;
-static patch_t  *maplist;
-static patch_t  *playerstats;
-static patch_t  *thinglist;
+patch_t                 *consolefont[CONSOLEFONTSIZE];
+patch_t                 *degree;
 
-static short    brandwidth;
-static short    brandheight;
-static short    spacewidth;
+static patch_t          *trademark;
+static patch_t          *copyright;
+static patch_t          *regomark;
+static patch_t          *multiply;
+static patch_t          *warning;
+static patch_t          *brand;
+static patch_t          *divider;
+static patch_t          *bindlist;
+static patch_t          *cmdlist;
+static patch_t          *cvarlist;
+static patch_t          *maplist;
+static patch_t          *playerstats;
+static patch_t          *thinglist;
 
-static char     consoleinput[255];
-int             consolestrings;
-int             numconsolecmds;
+static short            brandwidth;
+static short            brandheight;
+static short            spacewidth;
 
-static int      undolevels;
+static char             consoleinput[255];
+int                     consolestrings;
+static int              numconsolecmds;
 
-static patch_t  *caret;
-static int      caretpos;
-static dboolean showcaret = true;
-static int      caretwait;
-static int      selectstart;
-static int      selectend;
+static int              undolevels;
+static undohistory_t    *undohistory;
 
-char            consolecheat[255];
-char            consolecheatparm[3];
 
-static int      autocomplete = -1;
-static char     autocompletetext[255];
+static patch_t          *caret;
+static int              caretpos;
+static dboolean         showcaret = true;
+static int              caretwait;
+static int              selectstart;
+static int              selectend;
 
-static int      inputhistory = -1;
-static char     currentinput[255];
+char                    consolecheat[255];
+char                    consolecheatparm[3];
 
-static int      outputhistory = -1;
+static int              outputhistory = -1;
 
-static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+dboolean                con_timestamps = con_timestamps_default;
+static int              timestampx;
+static int              zerowidth;
 
-dboolean        con_timestamps = con_timestamps_default;
-static int      timestampx;
-static int      zerowidth;
+static byte             c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
 
-static const char *shiftxform =
-{
-    "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+<_>?"
-    ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
-};
+static int              consolecaretcolor = 4;
+static int              consolelowfpscolor = 180;
+static int              consolehighfpscolor = 116;
+static int              consoleinputcolor = 4;
+static int              consoleselectedinputcolor = 4;
+static int              consoleselectedinputbackgroundcolor = 100;
+static int              consoleinputtooutputcolor = 4;
+static int              consoletitlecolor = 88;
+static int              consolememorycolor = 88;
+static int              consoleplayermessagecolor = 161;
+static int              consoletimestampcolor = 100;
+static int              consoleoutputcolor = 88;
+static int              consoleboldcolor = 4;
+static int              consoleitalicscolor = 98;
+static int              consoleheadercolor = 180;
+static int              consolewarningcolor = 180;
+static int              consoledividercolor = 100;
+static int              consoletintcolor = 5;
+static int              consoleedgecolor = 180;
+static int              consolescrollbartrackcolor = 100;
+static int              consolescrollbarfacecolor = 94;
 
-static byte     c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
-static byte     c_blurscreen[SCREENWIDTH * SCREENHEIGHT];
+static int              consolecolors[STRINGTYPES];
 
-static int      consolecaretcolor = 4;
-static int      consolelowfpscolor = 180;
-static int      consolehighfpscolor = 116;
-static int      consoleinputcolor = 4;
-static int      consoleselectedinputcolor = 4;
-static int      consoleselectedinputbackgroundcolor = 100;
-static int      consoleinputtooutputcolor = 4;
-static int      consoletitlecolor = 88;
-static int      consolememorycolor = 88;
-static int      consoleplayermessagecolor = 161;
-static int      consoletimestampcolor = 100;
-static int      consoleoutputcolor = 88;
-static int      consoleboldcolor = 4;
-static int      consoleitalicscolor = 98;
-static int      consoleheadercolor = 180;
-static int      consolewarningcolor = 180;
-static int      consoledividercolor = 100;
-static int      consoletintcolor = 5;
-static int      consoleedgecolor = 180;
-static int      consolescrollbartrackcolor = 100;
-static int      consolescrollbarfacecolor = 94;
-
-static int      consolecolors[STRINGTYPES];
-
-extern int      fps;
-extern int      refreshrate;
-extern dboolean dowipe;
-extern dboolean r_hud_translucency;
-extern dboolean togglingvanilla;
+extern int              fps;
+extern int              refreshrate;
+extern dboolean         dowipe;
+extern dboolean         r_hud_translucency;
+extern dboolean         togglingvanilla;
 
 void G_ToggleAlwaysRun(evtype_t type);
 
-void C_Print(stringtype_t type, char *string, ...)
+void C_Print(const stringtype_t type, const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
@@ -201,7 +186,7 @@ void C_Print(stringtype_t type, char *string, ...)
     outputhistory = -1;
 }
 
-void C_Input(char *string, ...)
+void C_Input(const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
@@ -221,7 +206,7 @@ void C_Input(char *string, ...)
     outputhistory = -1;
 }
 
-void C_IntCVAROutput(char *cvar, int value)
+void C_IntCVAROutput(const char *cvar, const int value)
 {
     if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
         consolestrings--;
@@ -229,7 +214,7 @@ void C_IntCVAROutput(char *cvar, int value)
     C_Input("%s %i", cvar, value);
 }
 
-void C_PctCVAROutput(char *cvar, int value)
+void C_PctCVAROutput(const char *cvar, const int value)
 {
     if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
         consolestrings--;
@@ -237,7 +222,7 @@ void C_PctCVAROutput(char *cvar, int value)
     C_Input("%s %i%%", cvar, value);
 }
 
-void C_StrCVAROutput(char *cvar, char *string)
+void C_StrCVAROutput(const char *cvar, const char *string)
 {
     if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
         consolestrings--;
@@ -245,7 +230,7 @@ void C_StrCVAROutput(char *cvar, char *string)
     C_Input("%s %s", cvar, string);
 }
 
-void C_Output(char *string, ...)
+void C_Output(const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
@@ -262,7 +247,7 @@ void C_Output(char *string, ...)
     outputhistory = -1;
 }
 
-void C_TabbedOutput(int tabs[8], char *string, ...)
+void C_TabbedOutput(const int tabs[8], const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
@@ -279,7 +264,7 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
     outputhistory = -1;
 }
 
-void C_Warning(char *string, ...)
+void C_Warning(const char *string, ...)
 {
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
@@ -299,13 +284,13 @@ void C_Warning(char *string, ...)
     }
 }
 
-void C_PlayerMessage(char *string, ...)
+void C_PlayerMessage(const char *string, ...)
 {
-    va_list     argptr;
-    char        buffer[CONSOLETEXTMAXLENGTH] = "";
-    int         i = consolestrings - 1;
-    dboolean    prevplayermessage = (i >= 0 && console[i].type == playermessagestring);
-    time_t      rawtime;
+    va_list         argptr;
+    char            buffer[CONSOLETEXTMAXLENGTH] = "";
+    const int       i = consolestrings - 1;
+    const dboolean  prevplayermessage = (i >= 0 && console[i].type == playermessagestring);
+    time_t          rawtime;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
@@ -338,13 +323,13 @@ void C_PlayerMessage(char *string, ...)
     outputhistory = -1;
 }
 
-void C_Obituary(char *string, ...)
+void C_Obituary(const char *string, ...)
 {
-    va_list     argptr;
-    char        buffer[CONSOLETEXTMAXLENGTH] = "";
-    int         i = consolestrings - 1;
-    dboolean    prevobituary = (i >= 0 && console[i].type == obituarystring);
-    time_t      rawtime;
+    va_list         argptr;
+    char            buffer[CONSOLETEXTMAXLENGTH] = "";
+    const int       i = consolestrings - 1;
+    const dboolean  prevobituary = (i >= 0 && console[i].type == obituarystring);
+    time_t          rawtime;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
@@ -393,7 +378,7 @@ void C_AddConsoleDivider(void)
         C_Print(dividerstring, DIVIDER);
 }
 
-static struct kern_s
+static struct
 {
     char    char1;
     char    char2;
@@ -438,21 +423,21 @@ static struct kern_s
     { 'r',  'j',  -2 }, { 's',  '\\', -1 }, { 's',  ',',  -1 }, { 's',  ';',  -1 },
     { 's',  'j',  -2 }, { 't',  'j',  -2 }, { 'u',  'j',  -2 }, { 'v',  ',',  -1 },
     { 'v',  ';',  -1 }, { 'v',  'j',  -2 }, { 'w',  'j',  -2 }, { 'x',  'j',  -2 },
-    { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
+    { 'z',  'j',  -2 }, { '\0', '\0',  0 }
 };
 
-static int C_TextWidth(char *text, dboolean formatting, dboolean kerning)
+static int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
 {
     size_t          i;
-    size_t          len = strlen(text);
+    const size_t    len = strlen(text);
     unsigned char   prevletter = '\0';
     int             w = 0;
 
     for (i = 0; i < len; i++)
     {
-        unsigned char   letter = text[i];
-        int             c = letter - CONSOLEFONTSTART;
-        unsigned char   nextletter = text[i + 1];
+        const unsigned char letter = text[i];
+        const int           c = letter - CONSOLEFONTSTART;
+        const unsigned char nextletter = text[i + 1];
 
         if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i')
             && text[i + 2] == '>' && formatting)
@@ -513,19 +498,19 @@ static int C_TextWidth(char *text, dboolean formatting, dboolean kerning)
 static void C_DrawScrollbar(void)
 {
 
-    int trackstart = CONSOLESCROLLBARY * CONSOLEWIDTH;
-    int trackend = trackstart + CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
-    int facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-            MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * CONSOLEWIDTH;
-    int faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-            * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * CONSOLEWIDTH;
+    const int   trackstart = CONSOLESCROLLBARY * CONSOLEWIDTH;
+    const int   trackend = trackstart + CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
+    const int   facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * CONSOLEWIDTH;
+    const int   faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
+                    * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * CONSOLEWIDTH;
 
     if (trackstart == facestart && trackend == faceend)
         return;
     else
     {
-        int x, y;
-        int offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
+        int         x, y;
+        const int   offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
 
         // Draw scrollbar track
         for (y = trackstart; y < trackend; y += CONSOLEWIDTH)
@@ -658,9 +643,10 @@ void C_StripQuotes(char *string)
     }
 }
 
-static void DoBlurScreen(int x1, int y1, int x2, int y2, int i)
+static void DoBlurScreen(const int x1, const int y1, const int x2, const int y2, const int i)
 {
-    int x, y;
+    static byte c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
+    int         x, y;
 
     memcpy(c_tempscreen, c_blurscreen, CONSOLEWIDTH * (CONSOLEHEIGHT + 5));
 
@@ -738,8 +724,8 @@ static void C_DrawBackground(int height)
     }
 }
 
-static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int boldcolor, byte *tinttab,
-    int tabs[8], dboolean formatting, dboolean kerning)
+static void C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
+    const int boldcolor, byte *tinttab, const int tabs[8], const dboolean formatting, const dboolean kerning)
 {
     int             bold = 0;
     dboolean        italics = false;
@@ -770,7 +756,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
     for (i = 0; i < len; i++)
     {
-        unsigned char   letter = text[i];
+        const unsigned char letter = text[i];
 
         if (letter == '<' && text[i + 1] == 'b' && text[i + 2] == '>' && formatting)
         {
@@ -797,9 +783,9 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
         }
         else
         {
-            patch_t         *patch = NULL;
-            unsigned char   nextletter = text[i + 1];
-            int             c = letter - CONSOLEFONTSTART;
+            patch_t             *patch = NULL;
+            const unsigned char nextletter = text[i + 1];
+            const int           c = letter - CONSOLEFONTSTART;
 
             if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
@@ -850,10 +836,10 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     }
 }
 
-static void C_DrawOverlayText(int x, int y, char *text, int color)
+static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 {
-    size_t  i;
-    size_t  len = strlen(text);
+    size_t          i;
+    const size_t    len = strlen(text);
 
     for (i = 0; i < len; i++)
     {
@@ -865,24 +851,24 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false,
-                (r_hud_translucency ? tinttab75 : NULL));
+            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency
+                ? tinttab75 : NULL));
             x += SHORT(patch->width);
         }
     }
 }
 
-static void C_DrawTimeStamp(int x, int y, char *text)
+static void C_DrawTimeStamp(int x, int y, const char *text)
 {
-    size_t  i;
-    size_t  len = strlen(text);
+    size_t          i;
+    const size_t    len = strlen(text);
 
     y -= (CONSOLEHEIGHT - consoleheight);
 
     for (i = 0; i < len; i++)
     {
-        patch_t *patch = consolefont[text[i] - CONSOLEFONTSTART];
-        int     width = SHORT(patch->width);
+        patch_t     *patch = consolefont[text[i] - CONSOLEFONTSTART];
+        const int   width = SHORT(patch->width);
 
         V_DrawConsoleTextPatch(x + (text[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch,
             consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
@@ -918,16 +904,15 @@ void C_Drawer(void)
         dboolean    prevconsoleactive = consoleactive;
         static int  consolewait;
 
-        int consoledown[] =
+        const int consoledown[] =
         {
              14,  28,  42,  56,  70,  84,  98, 112, 126, 140, 150, 152,
             154, 156, 158, 160, 161, 162, 163, 164, 165, 166, 167, 168
         };
 
-        int consoleup[] =
-        {
-            154, 140, 126, 112,  98,  84,  70,  56,  42,  28,  14,   0
-        };
+        const int consoleup[] = { 154, 140, 126, 112, 98, 84, 70, 56, 42, 28, 14, 0 };
+
+        const int notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
         // adjust console height
         if (gamestate == GS_TITLESCREEN)
@@ -1001,9 +986,9 @@ void C_Drawer(void)
 
         for (i = start; i < end; i++)
         {
-            int             y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
-                                - CONSOLELINEHEIGHT / 2 + 1;
-            stringtype_t    type = console[i].type;
+            const int           y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
+                                    - CONSOLELINEHEIGHT / 2 + 1;
+            const stringtype_t  type = console[i].type;
 
             if (type == dividerstring)
                 V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
@@ -1119,7 +1104,7 @@ void C_Drawer(void)
         consoleactive = false;
 }
 
-dboolean C_ValidateInput(char *input)
+dboolean C_ValidateInput(const char *input)
 {
     int i = 0;
 
@@ -1131,7 +1116,7 @@ dboolean C_ValidateInput(char *input)
         {
             if (consolecmds[i].parameters)
             {
-                size_t  length = strlen(input);
+                const size_t    length = strlen(input);
 
                 if (isdigit(input[length - 2]) && isdigit(input[length - 1]))
                 {
@@ -1188,12 +1173,23 @@ dboolean C_ValidateInput(char *input)
 
 dboolean C_Responder(event_t *ev)
 {
+    static char autocompletetext[255];
+    static int  autocomplete = -1;
+    static int  inputhistory = -1;
+    static char currentinput[255];
+
+    static const char *shiftxform =
+    {
+        "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+<_>?"
+        ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
+    };
+
     if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messageToPrint)
         return false;
 
     if (ev->type == ev_keydown)
     {
-        int         key = ev->data1;
+        const int   key = ev->data1;
         char        ch = (char)ev->data2;
         int         i;
         SDL_Keymod  modstate = SDL_GetModState();
@@ -1388,8 +1384,8 @@ dboolean C_Responder(event_t *ev)
             case KEY_TAB:
                 if (*consoleinput)
                 {
-                    int direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
-                    int start = autocomplete;
+                    const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
+                    const int   start = autocomplete;
 
                     if (autocomplete == -1)
                         M_StringCopy(autocompletetext, consoleinput, sizeof(autocompletetext));
@@ -1407,7 +1403,7 @@ dboolean C_Responder(event_t *ev)
 
                             if (consolecmds[autocomplete].parameters)
                             {
-                                int length = strlen(consoleinput);
+                                const int   length = strlen(consoleinput);
 
                                 consoleinput[length] = ' ';
                                 consoleinput[length + 1] = '\0';
@@ -1693,7 +1689,7 @@ void C_PrintCompileDate(void)
 
 void C_PrintSDLVersions(void)
 {
-    int revision = SDL_GetRevisionNumber();
+    const int   revision = SDL_GetRevisionNumber();
 
     if (revision)
         C_Output("Using version %i.%i.%i (revision %s) of <b>sdl2.dll</b>.", SDL_MAJOR_VERSION,

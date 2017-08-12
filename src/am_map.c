@@ -82,26 +82,26 @@ int     am_wallcolor = am_wallcolor_default;
 #define TSWALLPRIORITY          2
 #define GRIDPRIORITY            1
 
-byte    *priorities;
-byte    *mask;
+static byte *priorities;
+static byte *mask;
 
-byte    playercolor;
-byte    thingcolor;
-byte    pathcolor;
-byte    markcolor;
-byte    backcolor;
+static byte playercolor;
+static byte thingcolor;
+static byte pathcolor;
+static byte markcolor;
+static byte backcolor;
 
-byte    *wallcolor;
-byte    *allmapwallcolor;
-byte    *maskcolor;
-byte    *teleportercolor;
-byte    *fdwallcolor;
-byte    *allmapfdwallcolor;
-byte    *cdwallcolor;
-byte    *allmapcdwallcolor;
-byte    *tswallcolor;
-byte    *gridcolor;
-byte    *crosshaircolor;
+static byte *wallcolor;
+static byte *allmapwallcolor;
+static byte *maskcolor;
+static byte *teleportercolor;
+static byte *fdwallcolor;
+static byte *allmapfdwallcolor;
+static byte *cdwallcolor;
+static byte *allmapcdwallcolor;
+static byte *tswallcolor;
+static byte *gridcolor;
+static byte *crosshaircolor;
 
 #define AM_PANDOWNKEY   keyboardback
 #define AM_PANDOWNKEY2  keyboardback2
@@ -147,10 +147,10 @@ byte    *crosshaircolor;
 #define MTOF(x)         (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 
 // translates between frame-buffer and map coordinates
-#define CXMTOF(x)       MTOF(x - m_x)
-#define CYMTOF(y)       (mapheight - MTOF(y - m_y))
+#define CXMTOF(x)       MTOF((x) - m_x)
+#define CYMTOF(y)       (mapheight - MTOF((y) - m_y))
 
-typedef struct mline_s
+typedef struct
 {
     mpoint_t    a;
     mpoint_t    b;
@@ -161,7 +161,9 @@ typedef struct mline_s
 //  A line drawing of the player pointing right,
 //   starting from the middle.
 //
-mline_t playerarrow[] =
+#define PLAYERARROWLINES        8
+
+static mline_t playerarrow[PLAYERARROWLINES] =
 {
     { { -57275,      0 }, { -39652,      0 } }, //  -
     { { -39652,      0 }, {  74898,      0 } }, //  -------
@@ -173,9 +175,9 @@ mline_t playerarrow[] =
     { { -39652,      0 }, { -57275, -17623 } }
 };
 
-#define PLAYERARROWLINES        8
+#define CHEATPLAYERARROWLINES   19
 
-mline_t cheatplayerarrow[] =
+static mline_t cheatplayerarrow[CHEATPLAYERARROWLINES] =
 {
     { { -57275,      0 }, { -39652,      0 } }, //  -
     { { -39652,      0 }, { -30840,      0 } }, //  --
@@ -198,23 +200,21 @@ mline_t cheatplayerarrow[] =
     { {  18357, -12273 }, {  23203, -10070 } }
 };
 
-#define CHEATPLAYERARROWLINES   19
+#define THINGTRIANGLELINES      3
 
-mline_t thingtriangle[] =
+static mline_t thingtriangle[THINGTRIANGLELINES] =
 {
     { { -32768, -45875 }, {  65536,      0 } },
     { {  65536,      0 }, { -32768,  45875 } },
     { { -32768,  45875 }, { -32768, -45875 } }
 };
 
-#define THINGTRIANGLELINES      3
-
 dboolean            automapactive;
 
-static unsigned int mapwidth;
-static unsigned int mapheight;
-static unsigned int maparea;
-static unsigned int mapbottom;
+static const unsigned int   mapwidth = SCREENWIDTH;
+static const unsigned int   mapheight = SCREENHEIGHT - SBARHEIGHT;
+static const unsigned int   maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
+static const unsigned int   mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT) - SCREENWIDTH;
 
 static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
 static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
@@ -268,13 +268,13 @@ char                *am_gridsize = am_gridsize_default;
 dboolean            am_path = am_path_default;
 dboolean            am_rotatemode = am_rotatemode_default;
 
-int                 gridwidth;
-int                 gridheight;
+static int          gridwidth;
+static int          gridheight;
 
 static dboolean     stopped = true;
 
-dboolean            bigstate;
-byte                *area;
+static dboolean     bigstate;
+static byte         *area;
 static dboolean     movement;
 int                 keydown;
 int                 direction;
@@ -342,8 +342,8 @@ static void AM_findMinMaxBoundaries(void)
 
     for (i = 0; i < numvertexes; i++)
     {
-        fixed_t x = vertexes[i].x;
-        fixed_t y = vertexes[i].y;
+        const fixed_t   x = vertexes[i].x;
+        const fixed_t   y = vertexes[i].y;
 
         if (x < min_x)
             min_x = x;
@@ -377,8 +377,8 @@ static void AM_changeWindowLoc(void)
     }
     else
     {
-        fixed_t w = m_w / 2;
-        fixed_t h = m_h / 2;
+        const fixed_t   w = m_w / 2;
+        const fixed_t   h = m_h / 2;
 
         m_x = BETWEEN(min_x, m_x + w + incx, max_x) - w;
         m_y = BETWEEN(min_y, m_y + h + incy, max_y) - h;
@@ -436,10 +436,10 @@ void AM_setColors(void)
 
 void AM_getGridSize(void)
 {
-    int     width = -1;
-    int     height = -1;
-    char    *left = strtok(strdup(am_gridsize), "x");
-    char    *right = strtok(NULL, "x");
+    int         width = -1;
+    int         height = -1;
+    const char  *left = strtok(strdup(am_gridsize), "x");
+    const char  *right = strtok(NULL, "x");
 
     if (!right)
         right = "";
@@ -472,7 +472,7 @@ void AM_Init(void)
     AM_getGridSize();
 }
 
-static void AM_initVariables(dboolean mainwindow)
+static void AM_initVariables(const dboolean mainwindow)
 {
     automapactive = mainwindow;
 
@@ -535,17 +535,12 @@ void AM_Stop(void)
 int lastlevel = -1;
 int lastepisode = -1;
 
-void AM_Start(dboolean mainwindow)
+void AM_Start(const dboolean mainwindow)
 {
     if (!stopped)
         AM_Stop();
 
     stopped = false;
-
-    mapwidth = SCREENWIDTH;
-    mapheight = SCREENHEIGHT - SBARHEIGHT;
-    maparea = mapwidth * mapheight;
-    mapbottom = maparea - mapwidth;
 
     if (lastlevel != gamemap || lastepisode != gameepisode)
     {
@@ -647,8 +642,8 @@ static void AM_toggleGrid(void)
 static void AM_addMark(void)
 {
     int         i;
-    int         x = am_frame.center.x;
-    int         y = am_frame.center.y;
+    const int   x = am_frame.center.x;
+    const int   y = am_frame.center.y;
     static char message[32];
 
     for (i = 0; i < markpointnum; i++)
@@ -698,8 +693,8 @@ static void AM_clearMarks(void)
 
 void AM_addToPath(void)
 {
-    int x = players[0].mo->x >> FRACTOMAPBITS;
-    int y = players[0].mo->y >> FRACTOMAPBITS;
+    const int   x = players[0].mo->x >> FRACTOMAPBITS;
+    const int   y = players[0].mo->y >> FRACTOMAPBITS;
 
     if (pathpointnum)
         if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT
@@ -731,7 +726,7 @@ static void AM_toggleRotateMode(void)
 //
 // Handle events (user inputs) in automap mode
 //
-dboolean AM_Responder(event_t *ev)
+dboolean AM_Responder(const event_t *ev)
 {
     int rc = false;
 
@@ -1156,9 +1151,9 @@ dboolean AM_Responder(event_t *ev)
 //
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
 {
-    fixed_t cosine = finecosine[angle >>= ANGLETOFINESHIFT];
-    fixed_t sine = finesine[angle];
-    fixed_t temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
+    const fixed_t   cosine = finecosine[angle >>= ANGLETOFINESHIFT];
+    const fixed_t   sine = finesine[angle];
+    const fixed_t   temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
 
     *y = FixedMul(*x, sine) + FixedMul(*y, cosine);
     *x = temp;
@@ -1166,9 +1161,9 @@ static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
 
 static void AM_rotatePoint(mpoint_t *point)
 {
-    fixed_t temp;
-    fixed_t x = am_frame.center.x;
-    fixed_t y = am_frame.center.y;
+    fixed_t         temp;
+    const fixed_t   x = am_frame.center.x;
+    const fixed_t   y = am_frame.center.y;
 
     point->x -= x;
     point->y -= y;
@@ -1320,9 +1315,9 @@ static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth)
     {
-        byte        *dot = mapscreen + y + x;
-        dboolean    attop = (y < maparea);
-        dboolean    atbottom = (y < mapbottom);
+        byte            *dot = mapscreen + y + x;
+        const dboolean  attop = (y < maparea);
+        const dboolean  atbottom = (y < mapbottom);
 
         if (attop)
             _PUTDOT(dot, color);
@@ -1376,7 +1371,7 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         if (dx)
         {
             // horizontal line
-            int sx = SIGN(dx);
+            const int   sx = SIGN(dx);
 
             x0 = BETWEEN(-1, x0, mapwidth - 1);
             x1 = BETWEEN(-1, x1, mapwidth - 1);
@@ -1392,7 +1387,7 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
     else if (!dx)
     {
         // vertical line
-        int sy = SIGN(dy) * mapwidth;
+        const int   sy = SIGN(dy) * mapwidth;
 
         y0 = BETWEEN(-(signed int)mapwidth, y0 * mapwidth, mapbottom);
         y1 = BETWEEN(-(signed int)mapwidth, y1 * mapwidth, mapbottom);
@@ -1404,8 +1399,8 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
     }
     else
     {
-        int sx = SIGN(dx);
-        int sy = SIGN(dy) * mapwidth;
+        const int   sx = SIGN(dx);
+        const int   sy = SIGN(dy) * mapwidth;
 
         dx = ABS(dx);
         dy = ABS(dy);
@@ -1465,7 +1460,7 @@ static void AM_drawFline2(int x0, int y0, int x1, int y1, byte color)
         if (dx)
         {
             // horizontal line
-            int sx = SIGN(dx);
+            const int   sx = SIGN(dx);
 
             x0 = BETWEEN(-1, x0, mapwidth - 1);
             x1 = BETWEEN(-1, x1, mapwidth - 1);
@@ -1481,7 +1476,7 @@ static void AM_drawFline2(int x0, int y0, int x1, int y1, byte color)
     else if (!dx)
     {
         // vertical line
-        int sy = SIGN(dy) * mapwidth;
+        const int   sy = SIGN(dy) * mapwidth;
 
         y0 = BETWEEN(-(signed int)mapwidth, y0 * mapwidth, mapbottom);
         y1 = BETWEEN(-(signed int)mapwidth, y1 * mapwidth, mapbottom);
@@ -1493,8 +1488,8 @@ static void AM_drawFline2(int x0, int y0, int x1, int y1, byte color)
     }
     else
     {
-        int sx = SIGN(dx);
-        int sy = SIGN(dy) * mapwidth;
+        const int   sx = SIGN(dx);
+        const int   sy = SIGN(dy) * mapwidth;
 
         dx = ABS(dx);
         dy = ABS(dy);
@@ -1576,12 +1571,12 @@ static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
 //
 static void AM_drawGrid(void)
 {
-    fixed_t x, y;
-    fixed_t start, end;
-    mline_t ml;
-    fixed_t minlen = (fixed_t)(sqrt((double)m_w * (double)m_w + (double)m_h * (double)m_h));
-    fixed_t extx = (minlen - m_w) / 2;
-    fixed_t exty = (minlen - m_h) / 2;
+    fixed_t         x, y;
+    fixed_t         start, end;
+    mline_t         ml;
+    const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * (double)m_w + (double)m_h * (double)m_h));
+    const fixed_t   extx = (minlen - m_w) / 2;
+    const fixed_t   exty = (minlen - m_h) / 2;
 
     // Figure out start of vertical gridlines
     start = m_x - extx;
@@ -1640,13 +1635,13 @@ static void AM_drawGrid(void)
 //
 static void AM_drawWalls(void)
 {
-    dboolean    allmap = plr->powers[pw_allmap];
-    dboolean    cheating = plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
-    int         i = 0;
+    const dboolean  allmap = plr->powers[pw_allmap];
+    const dboolean  cheating = plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
+    int             i = 0;
 
     while (i < numlines)
     {
-        line_t  line = lines[i++];
+        const line_t    line = lines[i++];
 
         if ((line.bbox[BOXLEFT] >> FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
             || (line.bbox[BOXRIGHT] >> FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
@@ -1655,17 +1650,17 @@ static void AM_drawWalls(void)
             continue;
         else
         {
-            short   flags = line.flags;
+            const short flags = line.flags;
 
             if ((flags & ML_DONTDRAW) && !cheating)
                 continue;
             else
             {
-                sector_t        *backsector = line.backsector;
-                sector_t        *frontsector = line.frontsector;
-                short           mapped = (flags & ML_MAPPED);
-                short           secret = (flags & ML_SECRET);
-                short           special = line.special;
+                const sector_t  *backsector = line.backsector;
+                const sector_t  *frontsector = line.frontsector;
+                const short     mapped = (flags & ML_MAPPED);
+                const short     secret = (flags & ML_SECRET);
+                const short     special = line.special;
                 static mline_t  l;
 
                 l.a.x = line.v1->x >> FRACTOMAPBITS;
@@ -1738,8 +1733,8 @@ static void AM_drawWalls(void)
     }
 }
 
-static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale, angle_t angle,
-    byte color, fixed_t x, fixed_t y)
+static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
+    angle_t angle, byte color, fixed_t x, fixed_t y)
 {
     int i;
 
@@ -1776,8 +1771,8 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
     }
 }
 
-static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale, angle_t angle,
-    byte *color, fixed_t x, fixed_t y)
+static void AM_drawTransLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
+    angle_t angle, byte *color, const fixed_t x, const fixed_t y)
 {
     int i;
 
@@ -1816,7 +1811,7 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
 
 static void AM_drawPlayer(void)
 {
-    int         invisibility = plr->powers[pw_invisibility];
+    const int   invisibility = plr->powers[pw_invisibility];
     mpoint_t    point;
 
     point.x = plr->mo->x >> FRACTOMAPBITS;
@@ -1877,8 +1872,8 @@ static void AM_drawThings(void)
                     mpoint_t    point;
                     int         fx;
                     int         fy;
-                    int         lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                    int         w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
+                    const int   lump = sprites[thing->sprite].spriteframes[0].lump[0];
+                    const int   w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
                     point.x = thing->x >> FRACTOMAPBITS;
@@ -1901,7 +1896,7 @@ static void AM_drawThings(void)
     }
 }
 
-static const char *marknums[10] =
+static const char *marknums[] =
 {
     "011111101122221112222221122112211221122112211221"
     "122112211221122112211221122222211122221101111110",
@@ -1958,23 +1953,23 @@ static void AM_drawMarks(void)
 
         do
         {
-            int digit = number % 10;
-            int j;
+            const int   digit = number % 10;
+            int         j;
 
             x += (i > 0 && digit == 1);
 
             for (j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
             {
-                int fx = x + j % MARKWIDTH;
+                const int   fx = x + j % MARKWIDTH;
 
                 if ((unsigned int)fx < mapwidth)
                 {
-                    int fy = y + j / MARKWIDTH;
+                    const int   fy = y + j / MARKWIDTH;
 
                     if ((unsigned int)fy < mapheight)
                     {
-                        char    src = marknums[digit][j];
-                        byte    *dest = mapscreen + fy * mapwidth + fx;
+                        const char  src = marknums[digit][j];
+                        byte        *dest = mapscreen + fy * mapwidth + fx;
 
                         if (src == '2')
                             *dest = markcolor;
@@ -2029,7 +2024,7 @@ static void AM_drawPath(void)
     }
 }
 
-static __inline void AM_drawScaledPixel(int x, int y, byte *color)
+static __inline void AM_drawScaledPixel(const int x, const int y, byte *color)
 {
     byte    *dest = mapscreen + (y * 2 - 1) * mapwidth + x * 2 - 1;
 
@@ -2060,18 +2055,18 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
-    fixed_t x = m_x + m_w / 2;
-    fixed_t y = m_y + m_h / 2;
+    const fixed_t   x = m_x + m_w / 2;
+    const fixed_t   y = m_y + m_h / 2;
 
     am_frame.center.x = x;
     am_frame.center.y = y;
 
     if (am_rotatemode)
     {
-        int     angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
-        float   dx = (float)(m_x2 - x);
-        float   dy = (float)(m_y2 - y);
-        fixed_t r = (fixed_t)sqrt(dx * dx + dy * dy);
+        const int       angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
+        const float     dx = (float)(m_x2 - x);
+        const float     dy = (float)(m_y2 - y);
+        const fixed_t   r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.sin = finesine[angle];
         am_frame.cos = finecosine[angle];
