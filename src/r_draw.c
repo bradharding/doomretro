@@ -1081,7 +1081,7 @@ void R_DrawTranslucentBlue25Column(void)
 #define FUZZ(a, b)  fuzzrange[rand() % (b - a + 1) + a]
 #define NOFUZZ      251
 
-const int   fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
+static const int    fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 void R_DrawFuzzColumn(void)
 {

@@ -226,12 +226,12 @@ static char *M_StaticResourceFolder(void)
     return resourceFolder;
 }
 
-void M_FreeAppData(void)
+static void M_FreeAppData(void)
 {
     free(M_StaticAppData());
 }
 
-void M_FreeResourceFolder(void)
+static void M_FreeResourceFolder(void)
 {
     free(M_StaticResourceFolder());
 }
@@ -307,7 +307,7 @@ static char *M_StaticResourceURL(void)
 }
 #endif
 
-void M_FreeResourceURL(void)
+static void M_FreeResourceURL(void)
 {
 #if defined(__MACOSX__)
     free(M_StaticResourceURL());
@@ -355,7 +355,7 @@ static char *M_StaticPath(void)
     return path;
 }
 
-void M_FreeExecutableFolder(void)
+static void M_FreeExecutableFolder(void)
 {
     free(M_StaticPath());
 }
@@ -529,7 +529,7 @@ char *M_StrCaseStr(char *haystack, char *needle)
     return NULL;
 }
 
-char *stristr(char *ch1, char *ch2)
+static char *stristr(char *ch1, char *ch2)
 {
     char    *chN1 = strdup(ch1);
     char    *chN2 = strdup(ch2);
@@ -640,7 +640,7 @@ int M_snprintf(char *buf, size_t buf_len, const char *s, ...)
 }
 
 #if !defined(strndup)
-char *strndup(const char *s, size_t n)
+static char *strndup(const char *s, size_t n)
 {
     size_t  len = strnlen(s, n);
     char    *new = malloc(len + 1);

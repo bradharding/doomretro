@@ -72,7 +72,6 @@
 
 // Location of status bar
 #define ST_X                    0
-#define ST_X2                   104
 
 // Number of status faces.
 #define ST_NUMPAINFACES         5
@@ -346,7 +345,7 @@ static void ST_InitCheats(void)
 #define NONE        -1
 #define IDMUS_MAX   50
 
-int mus[IDMUS_MAX][6] =
+static const int mus[IDMUS_MAX][6] =
 {
     /* xy      shareware    registered   commercial   retail      bfgedition   nerve      */
     /* 00 */ { NONE,        NONE,        NONE,        NONE,       NONE,        NONE       },
@@ -1394,7 +1393,7 @@ void ST_doRefresh(void)
     ST_drawWidgets(true);
 }
 
-void ST_diffDraw(void)
+static void ST_diffDraw(void)
 {
     // update all widgets
     ST_drawWidgets(false);
@@ -1660,7 +1659,7 @@ static void ST_createWidgets(void)
 
 static dboolean st_stopped = true;
 
-void ST_Stop(void)
+static void ST_Stop(void)
 {
     if (st_stopped)
         return;

@@ -79,10 +79,10 @@ static fixed_t      xoffs, yoffs;                   // killough 2/28/98: flat of
 fixed_t             *yslope;
 fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
 
-fixed_t             cachedheight[SCREENHEIGHT];
-fixed_t             cacheddistance[SCREENHEIGHT];
-fixed_t             cachedxstep[SCREENHEIGHT];
-fixed_t             cachedystep[SCREENHEIGHT];
+static fixed_t      cachedheight[SCREENHEIGHT];
+static fixed_t      cacheddistance[SCREENHEIGHT];
+static fixed_t      cachedxstep[SCREENHEIGHT];
+static fixed_t      cachedystep[SCREENHEIGHT];
 
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
 
@@ -166,7 +166,7 @@ void R_ClearPlanes(void)
 }
 
 // New function, by Lee Killough
-static visplane_t *new_visplane(unsigned hash)
+static visplane_t *new_visplane(unsigned int hash)
 {
     visplane_t  *check = freetail;
 

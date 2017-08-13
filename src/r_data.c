@@ -57,11 +57,11 @@
 //
 
 // killough 4/17/98: make firstcolormaplump, lastcolormaplump external
-int         firstcolormaplump;
-int         lastcolormaplump;
+static int  firstcolormaplump;
+static int  lastcolormaplump;
 
 int         firstflat;
-int         lastflat;
+static int  lastflat;
 int         numflats;
 
 int         firstspritelump;
@@ -226,7 +226,7 @@ byte *R_GetTextureColumn(const rpatch_t *texpatch, int col)
 // Initializes the texture list
 //  with the textures from the world map.
 //
-void R_InitTextures(void)
+static void R_InitTextures(void)
 {
     const maptexture_t  *mtexture;
     texture_t           *texture;
@@ -392,7 +392,7 @@ void R_InitTextures(void)
 //
 // R_InitFlats
 //
-void R_InitFlats(void)
+static void R_InitFlats(void)
 {
     int i;
 
@@ -413,7 +413,7 @@ void R_InitFlats(void)
 //  so the sprite does not need to be cached completely
 //  just for having the header info ready during rendering.
 //
-void R_InitSpriteLumps(void)
+static void R_InitSpriteLumps(void)
 {
     int i;
 
@@ -530,7 +530,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue);
 
 byte grays[256];
 
-void R_InitColormaps(void)
+static void R_InitColormaps(void)
 {
     dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     int         i;

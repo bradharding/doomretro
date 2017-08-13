@@ -62,13 +62,13 @@ dboolean            felldown;
 fixed_t             tmbbox[4];
 fixed_t             tmfloorz;
 fixed_t             tmceilingz;
-fixed_t             tmdropoffz;
+static fixed_t      tmdropoffz;
 
 // keep track of the line that lowers the ceiling,
 // so missiles don't explode against sky hack walls
 line_t              *ceilingline;
 line_t              *blockline;     // killough 8/11/98: blocking linedef
-line_t              *floorline;     // killough 8/1/98: Highest touched floor
+static line_t       *floorline;     // killough 8/1/98: Highest touched floor
 static int          tmunstuck;      // killough 8/1/98: whether to allow unsticking
 
 // keep track of special lines as they are hit,
@@ -79,14 +79,14 @@ line_t              **spechit;
 static int          spechit_max;
 int                 numspechit;
 
-angle_t             shootangle;     // [BH] angle of blood and puffs for automap
+static angle_t      shootangle;     // [BH] angle of blood and puffs for automap
 
 // Temporary holder for thing_sectorlist threads
 msecnode_t          *sector_list;   // phares 3/16/98
 
 dboolean            infight;
 
-mobj_t              *onmobj;
+static mobj_t       *onmobj;
 
 unsigned int        stat_distancetraveled;
 
@@ -105,7 +105,7 @@ extern unsigned int stat_shotshit;
 //
 static dboolean telefrag;       // killough 8/9/98: whether to telefrag at exit
 
-dboolean PIT_StompThing(mobj_t *thing)
+static dboolean PIT_StompThing(mobj_t *thing)
 {
     fixed_t blockdist;
 
@@ -415,7 +415,7 @@ static dboolean PIT_CheckLine(line_t *ld)
 //
 // PIT_CheckThing
 //
-dboolean PIT_CheckThing(mobj_t *thing)
+static dboolean PIT_CheckThing(mobj_t *thing)
 {
     fixed_t     blockdist;
     dboolean    unblocking = false;
@@ -628,7 +628,7 @@ dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
 //
 // PIT_CheckOnmobjZ
 //
-dboolean PIT_CheckOnmobjZ(mobj_t * thing)
+static dboolean PIT_CheckOnmobjZ(mobj_t * thing)
 {
     fixed_t blockdist;
 
@@ -1107,7 +1107,7 @@ void P_ApplyTorque(mobj_t *mo)
 // the z will be set to the lowest value
 // and false will be returned.
 //
-dboolean P_ThingHeightClip(mobj_t *thing)
+static dboolean P_ThingHeightClip(mobj_t *thing)
 {
     dboolean    onfloor = (thing->z == thing->floorz);
     fixed_t     oldfloorz = thing->floorz; // haleyjd
@@ -1164,7 +1164,7 @@ static fixed_t  tmymove;
 // Adjusts the xmove / ymove
 // so that the next move will slide along the wall.
 //
-void P_HitSlideLine(line_t *ld)
+static void P_HitSlideLine(line_t *ld)
 {
     int         side;
     angle_t     lineangle;
@@ -1241,7 +1241,7 @@ void P_HitSlideLine(line_t *ld)
 //
 // PTR_SlideTraverse
 //
-dboolean PTR_SlideTraverse(intercept_t *in)
+static dboolean PTR_SlideTraverse(intercept_t *in)
 {
     line_t  *li = in->d.line;
 
@@ -1398,15 +1398,15 @@ void P_SlideMove(mobj_t *mo)
 // P_LineAttack
 //
 mobj_t          *linetarget;    // who got hit (or NULL)
-mobj_t          *shootthing;
+static mobj_t   *shootthing;
 
 // height if not aiming up or down
-fixed_t         shootz;
+static fixed_t  shootz;
 
-int             la_damage;
+static int      la_damage;
 fixed_t         attackrange;
 
-fixed_t         aimslope;
+static fixed_t  aimslope;
 
 // slopes to top and bottom of target
 static fixed_t  topslope;
@@ -1416,7 +1416,7 @@ static fixed_t  bottomslope;
 // PTR_AimTraverse
 // Sets linetaget and aimslope when a target is aimed at.
 //
-dboolean PTR_AimTraverse(intercept_t *in)
+static dboolean PTR_AimTraverse(intercept_t *in)
 {
     mobj_t  *th;
     fixed_t thingtopslope;
@@ -1502,7 +1502,7 @@ dboolean    hitwall;
 //
 // PTR_ShootTraverse
 //
-dboolean PTR_ShootTraverse(intercept_t *in)
+static dboolean PTR_ShootTraverse(intercept_t *in)
 {
     fixed_t x, y, z;
     fixed_t frac;
@@ -1756,7 +1756,7 @@ static dboolean PTR_UseTraverse(intercept_t *in)
 //
 // by Lee Killough
 //
-dboolean PTR_NoWayTraverse(intercept_t *in)
+static dboolean PTR_NoWayTraverse(intercept_t *in)
 {
     line_t  *ld = in->d.line;
 
@@ -1795,16 +1795,16 @@ void P_UseLines(player_t *player)
 //
 // RADIUS ATTACK
 //
-mobj_t  *bombsource;
-mobj_t  *bombspot;
-int     bombdamage;
+static mobj_t   *bombsource;
+static mobj_t   *bombspot;
+static int      bombdamage;
 
 //
 // PIT_RadiusAttack
 // "bombsource" is the creature
 // that caused the explosion at "bombspot".
 //
-dboolean PIT_RadiusAttack(mobj_t *thing)
+static dboolean PIT_RadiusAttack(mobj_t *thing)
 {
     fixed_t     dist;
     mobjtype_t  type;
@@ -1910,7 +1910,7 @@ static dboolean isliquidsector;
 //
 // PIT_ChangeSector
 //
-void PIT_ChangeSector(mobj_t *thing)
+static void PIT_ChangeSector(mobj_t *thing)
 {
     int flags = thing->flags;
     int flags2 = thing->flags2;
@@ -2067,7 +2067,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 // phares 3/21/98
 //
 // Maintain a freelist of msecnode_t's to reduce memory allocs and frees.
-msecnode_t  *headsecnode;
+static msecnode_t   *headsecnode;
 
 void P_FreeSecNodeList(void)
 {

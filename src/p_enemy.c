@@ -63,7 +63,7 @@ typedef enum dirtype_e
     NUMDIRS
 } dirtype_t;
 
-dirtype_t opposite[] =
+static dirtype_t opposite[] =
 {
     DI_WEST,
     DI_SOUTHWEST,
@@ -76,7 +76,7 @@ dirtype_t opposite[] =
     DI_NODIR
 };
 
-dirtype_t diags[] =
+static dirtype_t diags[] =
 {
     DI_NORTHWEST,
     DI_NORTHEAST,
@@ -347,8 +347,8 @@ static int P_IsUnderDamage(mobj_t *actor)
 // Move in the current direction,
 // returns false if the move is blocked.
 //
-fixed_t xspeed[8] = { FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000 };
-fixed_t yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000 };
+static const fixed_t    xspeed[8] = { FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000 };
+static const fixed_t    yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000 };
 
 // 1/11/98 killough: Limit removed on special lines crossed
 extern line_t   **spechit;
@@ -1311,11 +1311,11 @@ void A_SkelFist(mobj_t *actor, player_t *player, pspdef_t *psp)
 // PIT_VileCheck
 // Detect a corpse that could be raised.
 //
-mobj_t  *corpsehit;
-fixed_t viletryx;
-fixed_t viletryy;
+static mobj_t   *corpsehit;
+static fixed_t  viletryx;
+static fixed_t  viletryy;
 
-dboolean PIT_VileCheck(mobj_t *thing)
+static dboolean PIT_VileCheck(mobj_t *thing)
 {
     int         maxdist;
     dboolean    check;
@@ -1674,7 +1674,7 @@ void A_Stop(mobj_t *actor, player_t *player, pspdef_t *psp)
 // A_PainShootSkull
 // Spawn a lost soul and launch it at the target
 //
-void A_PainShootSkull(mobj_t *actor, angle_t angle)
+static void A_PainShootSkull(mobj_t *actor, angle_t angle)
 {
     mobj_t  *newmobj;
     angle_t an = angle >> ANGLETOFINESHIFT;
@@ -1998,7 +1998,7 @@ void A_BabyMetal(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 // [jeff] remove limit on braintargets
 //  and fix http://doomwiki.org/wiki/Spawn_cubes_miss_east_and_west_targets
-unsigned int    braintargeted;
+static unsigned int braintargeted;
 
 void A_BrainAwake(mobj_t *actor, player_t *player, pspdef_t *psp)
 {

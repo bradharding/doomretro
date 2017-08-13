@@ -139,7 +139,7 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
 // from the bottom of the screen.
 // Uses player
 //
-void P_BringUpWeapon(player_t *player)
+static void P_BringUpWeapon(player_t *player)
 {
     if (player->pendingweapon == wp_nochange)
         player->pendingweapon = player->readyweapon;
@@ -218,7 +218,7 @@ static void P_SubtractAmmo(player_t *player, int amount)
 //
 // P_FireWeapon
 //
-void P_FireWeapon(player_t *player)
+static void P_FireWeapon(player_t *player)
 {
     weapontype_t    readyweapon;
 
@@ -609,7 +609,7 @@ static void P_BulletSlope(mobj_t *mo)
 //
 // P_GunShot
 //
-void P_GunShot(mobj_t *actor, dboolean accurate)
+static void P_GunShot(mobj_t *actor, dboolean accurate)
 {
     int     damage = 5 * (M_Random() % 3 + 1);
     angle_t angle = actor->angle;

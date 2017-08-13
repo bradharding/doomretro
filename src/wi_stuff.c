@@ -336,8 +336,8 @@ static void WI_drawWILVchar(int x, int y, int i)
             V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * w + x1], true);
 }
 
-char    *mapname;
-char    *nextmapname;
+static char *mapname;
+static char *nextmapname;
 
 static const int chartoi[130] =
 {
@@ -754,7 +754,7 @@ static void WI_updateShowNextLoc(void)
         snl_pointeron = ((cnt & 31) < 20);
 }
 
-void WI_drawShowNextLoc(void)
+static void WI_drawShowNextLoc(void)
 {
     WI_slamBackground();
 

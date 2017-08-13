@@ -102,9 +102,9 @@ angle_t             tantoangle[SLOPERANGE + 1];
 // killough 3/20/98: Support dynamic colormaps, e.g. deep water
 // killough 4/4/98: support dynamic number of them as well
 int                 numcolormaps = 1;
-lighttable_t        *(*c_scalelight)[LIGHTLEVELS][MAXLIGHTSCALE];
-lighttable_t        *(*c_zlight)[LIGHTLEVELS][MAXLIGHTZ];
-lighttable_t        *(*c_psprscalelight)[OLDLIGHTLEVELS][OLDMAXLIGHTSCALE];
+static lighttable_t *(*c_scalelight)[LIGHTLEVELS][MAXLIGHTSCALE];
+static lighttable_t *(*c_zlight)[LIGHTLEVELS][MAXLIGHTZ];
+static lighttable_t *(*c_psprscalelight)[OLDLIGHTLEVELS][OLDMAXLIGHTSCALE];
 lighttable_t        *(*scalelight)[MAXLIGHTSCALE];
 lighttable_t        *(*psprscalelight)[OLDMAXLIGHTSCALE];
 lighttable_t        *(*zlight)[MAXLIGHTZ];
@@ -150,7 +150,7 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
         - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x)) >> 32) > 0);
 }
 
-int SlopeDiv(unsigned int num, unsigned int den)
+static int SlopeDiv(unsigned int num, unsigned int den)
 {
     unsigned int ans;
 
@@ -300,7 +300,7 @@ static void R_InitPointToAngle(void)
 //
 // R_InitTextureMapping
 //
-void R_InitTextureMapping(void)
+static void R_InitTextureMapping(void)
 {
     int i;
     int x;
@@ -356,7 +356,7 @@ void R_InitTextureMapping(void)
 //
 #define DISTMAP 2
 
-void R_InitLightTables(void)
+static void R_InitLightTables(void)
 {
     int i;
 
@@ -392,7 +392,7 @@ void R_InitLightTables(void)
 // The change will take effect next refresh.
 //
 dboolean    setsizeneeded;
-int         setblocks;
+static int  setblocks;
 
 void R_SetViewSize(int blocks)
 {
@@ -668,7 +668,7 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 //
 // R_SetupFrame
 //
-void R_SetupFrame(player_t *player)
+static void R_SetupFrame(player_t *player)
 {
     int     cm = 0;
     mobj_t  *mo = player->mo;

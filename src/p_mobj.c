@@ -92,12 +92,6 @@ void P_DelSeclist(msecnode_t *node);
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-// [crispy] Use a heuristic approach to detect infinite state cycles: Count the number
-// of times the loop in P_SetMobjState() executes and exit with an error once
-// an arbitrary very large limit is reached.
-
-#define MOBJ_CYCLE_LIMIT    1000000
-
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     state_t *st;
@@ -158,12 +152,11 @@ void P_ExplodeMissile(mobj_t *mo)
 // P_XYMovement
 //
 #define STOPSPEED       0x1000
-#define FRICTION        0xE800
 #define WATERFRICTION   0xFB00
 
-int puffcount;
+static int  puffcount;
 
-void P_XYMovement(mobj_t *mo)
+static void P_XYMovement(mobj_t *mo)
 {
     player_t    *player;
     fixed_t     xmove, ymove;
@@ -392,7 +385,7 @@ void P_XYMovement(mobj_t *mo)
 //
 // P_ZMovement
 //
-void P_ZMovement(mobj_t *mo)
+static void P_ZMovement(mobj_t *mo)
 {
     player_t    *player = mo->player;
     int         flags = mo->flags;
@@ -491,7 +484,7 @@ void P_ZMovement(mobj_t *mo)
 //
 // P_NightmareRespawn
 //
-void P_NightmareRespawn(mobj_t *mobj)
+static void P_NightmareRespawn(mobj_t *mobj)
 {
     fixed_t     x = mobj->spawnpoint.x << FRACBITS;
     fixed_t     y = mobj->spawnpoint.y << FRACBITS;
@@ -925,7 +918,7 @@ void P_RespawnSpecials(void)
 extern int lastlevel;
 extern int lastepisode;
 
-void P_SpawnPlayer(const mapthing_t *mthing)
+static void P_SpawnPlayer(const mapthing_t *mthing)
 {
     player_t    *p = &players[0];
     mobj_t      *mobj;
@@ -971,7 +964,7 @@ void P_SpawnPlayer(const mapthing_t *mthing)
 // P_SpawnMoreBlood
 // [BH] Spawn blood splats around corpses
 //
-void P_SpawnMoreBlood(mobj_t *mobj)
+static void P_SpawnMoreBlood(mobj_t *mobj)
 {
     int blood = mobjinfo[mobj->blood].blood;
 

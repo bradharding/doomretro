@@ -77,9 +77,6 @@ extern int              validcount;
 #define OLDLIGHTLEVELS          32
 #define OLDLIGHTSEGSHIFT        3
 #define OLDMAXLIGHTSCALE        48
-#define OLDLIGHTSCALESHIFT      13
-#define OLDMAXLIGHTZ            2048
-#define OLDLIGHTZSHIFT          16
 
 // killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
 extern lighttable_t     *(*scalelight)[MAXLIGHTSCALE];

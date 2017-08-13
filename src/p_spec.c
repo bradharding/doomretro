@@ -89,8 +89,6 @@ typedef struct animdef_s
 
 #define MAXANIMS    32
 
-#define ANIMSPEED   8
-
 unsigned int    stat_secretsrevealed;
 
 dboolean        r_liquid_bob = r_liquid_bob_default;
@@ -2791,9 +2789,9 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 //
 // killough 10/98: allow to affect things besides players
 
-pusher_t    *tmpusher;      // pusher structure for blockmap searches
+static pusher_t *tmpusher;      // pusher structure for blockmap searches
 
-dboolean PIT_PushThing(mobj_t *thing)
+static dboolean PIT_PushThing(mobj_t *thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {

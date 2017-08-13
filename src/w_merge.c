@@ -263,7 +263,7 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
     return false;
 }
 
-struct weaponsprites_s
+static struct weaponsprites_s
 {
     char    *spr1;
     char    *spr2;

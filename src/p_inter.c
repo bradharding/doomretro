@@ -76,7 +76,7 @@ int species_infighting;
 int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
 int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
-char *weapondescription[] =
+static const char *weapondescription[] =
 {
     "fist",
     "pistol",
@@ -166,7 +166,7 @@ static void P_AddAmmo(player_t *player, ammotype_t ammo, int num)
 // not the individual count (0= 1/2 clip).
 // Returns the amount of ammo given to the player
 //
-int P_GiveAmmo(player_t *player, ammotype_t ammo, int num, dboolean stat)
+static int P_GiveAmmo(player_t *player, ammotype_t ammo, int num, dboolean stat)
 {
     int oldammo;
 
@@ -313,7 +313,7 @@ void P_AddBonus(player_t *player, int amount)
 // P_GiveWeapon
 // The weapon name may have a MF_DROPPED flag ORed in.
 //
-dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped, dboolean stat)
+static dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped, dboolean stat)
 {
     dboolean    gaveammo = false;
     dboolean    gaveweapon = false;

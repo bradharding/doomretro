@@ -114,7 +114,7 @@ static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 //
 // P_MakeDivline
 //
-void P_MakeDivline(line_t *li, divline_t *dl)
+static void P_MakeDivline(line_t *li, divline_t *dl)
 {
     dl->x = li->v1->x;
     dl->y = li->v1->y;
@@ -129,7 +129,7 @@ void P_MakeDivline(line_t *li, divline_t *dl)
 // This is only called by the addthings
 // and addlines traversers.
 //
-fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
+static fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
     int64_t den = ((int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy) >> FRACBITS;
 

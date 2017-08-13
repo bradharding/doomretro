@@ -68,7 +68,7 @@ static dboolean onground;
 // P_Thrust
 // Moves the given origin along a given angle.
 //
-void P_Thrust(player_t *player, angle_t angle, fixed_t move)
+static void P_Thrust(player_t *player, angle_t angle, fixed_t move)
 {
     player->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
     player->mo->momy += FixedMul(move, finesine[angle]);

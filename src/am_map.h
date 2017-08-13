@@ -49,7 +49,7 @@
 #define AM_MSGENTERED   1
 #define AM_MSGEXITED    0
 
-typedef struct mpoint_s
+typedef struct
 {
     fixed_t x, y;
 } mpoint_t;
@@ -91,7 +91,7 @@ extern int      pathpointnum_max;
 
 dboolean keystate(int key);
 
-typedef struct am_frame_s
+typedef struct
 {
     mpoint_t    center;
     fixed_t     sin;

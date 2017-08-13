@@ -584,7 +584,7 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
-void ProcessDehFile(char *filename, int lump);
+void ProcessDehFile(char *filename, int lumpnum);
 
 #define MAXDEHFILES 16
 
