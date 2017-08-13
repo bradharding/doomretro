@@ -87,35 +87,35 @@ int             quickSaveSlot;
 // true = message to be printed
 dboolean        messageToPrint;
 // ...and here is the message string!
-char            *messageString;
+static char     *messageString;
 
-int             messageLastMenuActive;
+static int      messageLastMenuActive;
 
 // timed message = no input from user
-dboolean        messageNeedsInput;
+static dboolean messageNeedsInput;
 
-void (*messageRoutine)(int response);
+static void (*messageRoutine)(int response);
 
 // we are going to be entering a savegame string
-int             saveStringEnter;
-int             saveSlot;               // which slot to save in
-int             saveCharIndex;          // which char we're editing
+static int      saveStringEnter;
+static int      saveSlot;               // which slot to save in
+static int      saveCharIndex;          // which char we're editing
 
 // old save description before edit
-char            saveOldString[SAVESTRINGSIZE];
+static char     saveOldString[SAVESTRINGSIZE];
 
 dboolean        inhelpscreens;
 dboolean        menuactive;
-dboolean        savegames;
+static dboolean savegames;
 dboolean        startingnewgame;
 
-char            savegamestrings[10][SAVESTRINGSIZE];
+static char     savegamestrings[10][SAVESTRINGSIZE];
 
-char            endstring[160];
+static char     endstring[160];
 
-short           itemOn;                 // menu item skull is on
-short           skullAnimCounter;       // skull animation counter
-short           whichSkull;             // which skull to draw
+static short    itemOn;                 // menu item skull is on
+static short    skullAnimCounter;       // skull animation counter
+static short    whichSkull;             // which skull to draw
 
 int             episode = episode_default;
 int             expansion = expansion_default;
@@ -127,19 +127,18 @@ static int      functionkey;
 static dboolean usinggamepad;
 
 // graphic name of skulls
-char            *skullName[2] = { "M_SKULL1", "M_SKULL2" };
+static char     *skullName[2] = { "M_SKULL1", "M_SKULL2" };
 
 // current menudef
-menu_t          *currentMenu;
+static menu_t   *currentMenu;
 
-byte            tempscreen1[SCREENWIDTH * SCREENHEIGHT];
-byte            tempscreen2[SCREENWIDTH * SCREENHEIGHT];
-byte            blurscreen1[SCREENWIDTH * SCREENHEIGHT];
-byte            blurscreen2[SCREENWIDTH * SCREENHEIGHT];
+static byte     tempscreen1[SCREENWIDTH * SCREENHEIGHT];
+static byte     tempscreen2[SCREENWIDTH * SCREENHEIGHT];
+static byte     blurscreen1[SCREENWIDTH * SCREENHEIGHT];
+static byte     blurscreen2[SCREENWIDTH * SCREENHEIGHT];
 
 dboolean        blurred;
-dboolean        blurred2;
-dboolean        blurredmap;
+static dboolean blurred2;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
@@ -205,7 +204,7 @@ void M_ClearMenus(void);
 // DOOM MENU
 //
 
-typedef enum main_e
+enum
 {
     new_game,
     options,
@@ -213,9 +212,9 @@ typedef enum main_e
     save_game,
     quit_doom,
     main_end
-} main_t;
+};
 
-menuitem_t MainMenu[] =
+static menuitem_t MainMenu[] =
 {
     { 1, "M_NGAME",  M_NewGame,  &s_M_NEWGAME  },
     { 1, "M_OPTION", M_Options,  &s_M_OPTIONS  },
@@ -238,16 +237,16 @@ menu_t MainDef =
 // EPISODE SELECT
 //
 
-typedef enum episodes_e
+enum
 {
     ep1,
     ep2,
     ep3,
     ep4,
     ep_end
-} episodes_t;
+};
 
-menuitem_t EpisodeMenu[] =
+static menuitem_t EpisodeMenu[] =
 {
     { 1, "M_EPI1", M_Episode, &s_M_EPISODE1 },
     { 1, "M_EPI2", M_Episode, &s_M_EPISODE2 },
@@ -269,14 +268,14 @@ menu_t EpiDef =
 // EXPANSION SELECT
 //
 
-typedef enum expansions_e
+enum
 {
     ex1,
     ex2,
     ex_end
-} expansions_t;
+};
 
-menuitem_t ExpansionMenu[] =
+static menuitem_t ExpansionMenu[] =
 {
     { 1, "M_EPI1", M_Expansion, &s_M_EXPANSION1 },
     { 1, "M_EPI2", M_Expansion, &s_M_EXPANSION2 }
@@ -296,7 +295,7 @@ menu_t ExpDef =
 // NEW GAME
 //
 
-typedef enum newgame_e
+enum
 {
     killthings,
     toorough,
@@ -304,9 +303,9 @@ typedef enum newgame_e
     violence,
     nightmare,
     newg_end
-} newgame_t;
+};
 
-menuitem_t NewGameMenu[] =
+static menuitem_t NewGameMenu[] =
 {
     { 1, "M_JKILL", M_ChooseSkill, &s_M_SKILLLEVEL1 },
     { 1, "M_ROUGH", M_ChooseSkill, &s_M_SKILLLEVEL2 },
@@ -329,7 +328,7 @@ menu_t NewDef =
 // OPTIONS MENU
 //
 
-typedef enum options_e
+enum
 {
     endgame,
     msgs,
@@ -340,9 +339,9 @@ typedef enum options_e
     option_empty2,
     soundvol,
     opt_end
-} options_t;
+};
 
-menuitem_t OptionsMenu[]=
+static menuitem_t OptionsMenu[]=
 {
     {  1, "M_ENDGAM", M_EndGame,           &s_M_ENDGAME          },
     {  1, "M_MESSG",  M_ChangeMessages,    &s_M_MESSAGES         },
@@ -354,7 +353,7 @@ menuitem_t OptionsMenu[]=
     {  1, "M_SVOL",   M_Sound,             &s_M_SOUNDVOLUME      }
 };
 
-menu_t OptionsDef =
+static menu_t OptionsDef =
 {
     opt_end,
     &MainDef,
@@ -364,18 +363,18 @@ menu_t OptionsDef =
     endgame
 };
 
-typedef enum read_e
+enum
 {
     rdthsempty,
     read_end
-} read_t;
+};
 
-menuitem_t ReadMenu[] =
+static menuitem_t ReadMenu[] =
 {
     { 1, "", M_FinishReadThis, NULL }
 };
 
-menu_t ReadDef =
+static menu_t ReadDef =
 {
     read_end,
     &ReadDef,
@@ -389,16 +388,16 @@ menu_t ReadDef =
 // SOUND VOLUME MENU
 //
 
-typedef enum sound_e
+enum
 {
     sfx_vol,
     sfx_empty1,
     music_vol,
     sfx_empty2,
     sound_end
-} sound_t;
+};
 
-menuitem_t SoundMenu[] =
+static menuitem_t SoundMenu[] =
 {
     {  2, "M_SFXVOL", M_SfxVol,   &s_M_SFXVOLUME   },
     { -1, "",         0,          NULL             },
@@ -406,7 +405,7 @@ menuitem_t SoundMenu[] =
     { -1, "",         0,          NULL             }
 };
 
-menu_t SoundDef =
+static menu_t SoundDef =
 {
     sound_end,
     &OptionsDef,
@@ -420,7 +419,7 @@ menu_t SoundDef =
 // LOAD GAME MENU
 //
 
-typedef enum load_e
+enum
 {
     load1,
     load2,
@@ -429,9 +428,9 @@ typedef enum load_e
     load5,
     load6,
     load_end
-} load_t;
+};
 
-menuitem_t LoadGameMenu[] =
+static menuitem_t LoadGameMenu[] =
 {
     { 1, "", M_LoadSelect, NULL },
     { 1, "", M_LoadSelect, NULL },
@@ -455,7 +454,7 @@ menu_t LoadDef =
 // SAVE GAME MENU
 //
 
-menuitem_t SaveGameMenu[] =
+static menuitem_t SaveGameMenu[] =
 {
     { 1, "", M_SaveSelect, NULL },
     { 1, "", M_SaveSelect, NULL },
@@ -583,7 +582,7 @@ static byte blues[] =
 // M_DarkBlueBackground
 //  darken background, make it blue and pixelate while help screen is displayed
 //
-void M_DarkBlueBackground(void)
+static void M_DarkBlueBackground(void)
 {
     int x, y;
 
@@ -606,7 +605,7 @@ void M_DarkBlueBackground(void)
 // M_DrawChar
 //  draw a character on screen
 //
-void M_DrawChar(int x, int y, int i, dboolean overlapping)
+static void M_DrawChar(int x, int y, int i, dboolean overlapping)
 {
     int x1, y1;
     int w = strlen(redcharset[i]) / 18;
@@ -643,7 +642,7 @@ static const int chartoi[123] =
     56, 57, 58
 };
 
-static struct kern_s
+static struct
 {
     char    char1;
     char    char2;
@@ -658,7 +657,7 @@ static struct kern_s
     { 'L', 'S', -1 }, { 't', ' ', -1 }, {  0,   0,   0 }
 };
 
-static struct overlap_s
+static struct
 {
     char    char1;
     char    char2;
@@ -732,7 +731,7 @@ void M_DrawString(int x, int y, char *str)
 // M_BigStringWidth
 //  return width of string in pixels
 //
-int M_BigStringWidth(char *str)
+static int M_BigStringWidth(char *str)
 {
     size_t      i;
     int         w = 0;
@@ -773,7 +772,7 @@ void M_DrawCenteredString(int y, char *str)
 // M_SplitString
 //  split string of words into two lines
 //
-void M_SplitString(char *string)
+static void M_SplitString(char *string)
 {
     size_t  i;
 
@@ -789,7 +788,7 @@ void M_SplitString(char *string)
 // M_DrawPatchWithShadow
 //  draw patch with shadow on screen
 //
-void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
+static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 {
     short   width = SHORT(patch->width);
     short   height = SHORT(patch->height);
@@ -808,7 +807,7 @@ void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 // M_DrawCenteredPatchWithShadow
 //  draw patch with shadow horizontally centered on screen
 //
-void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
+static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 {
     short   width = SHORT(patch->width);
     short   height = SHORT(patch->height);
@@ -827,7 +826,7 @@ void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 // M_ReadSaveStrings
 //  read the strings from the savegame files
 //
-void M_ReadSaveStrings(void)
+static void M_ReadSaveStrings(void)
 {
     int     i;
     char    name[256];
@@ -867,7 +866,7 @@ static byte saveg_read8(FILE *file)
 //
 // M_CheckSaveGame
 //
-dboolean M_CheckSaveGame(int choice)
+static dboolean M_CheckSaveGame(int choice)
 {
     FILE    *handle = fopen(P_SaveGameFile(itemOn), "rb");
     int     ep;
@@ -944,7 +943,7 @@ int M_CountSaveGames(void)
 //
 // M_LoadGame
 //
-void M_DrawLoad(void)
+static void M_DrawLoad(void)
 {
     int i;
 
@@ -969,7 +968,7 @@ void M_DrawLoad(void)
 //
 // Draw border for the savegame description
 //
-void M_DrawSaveLoadBorder(int x, int y)
+static void M_DrawSaveLoadBorder(int x, int y)
 {
     int i;
 
@@ -1015,7 +1014,7 @@ void M_DrawSaveLoadBorder(int x, int y)
 //
 // User wants to load this game
 //
-void M_LoadSelect(int choice)
+static void M_LoadSelect(int choice)
 {
     if (M_CheckSaveGame(choice))
     {
@@ -1040,7 +1039,7 @@ void M_LoadSelect(int choice)
 //
 // Selected from DOOM menu
 //
-void M_LoadGame(int choice)
+static void M_LoadGame(int choice)
 {
     M_SetupNextMenu(&LoadDef);
     M_ReadSaveStrings();
@@ -1055,7 +1054,7 @@ int             caretcolor;
 //
 //  M_SaveGame & Cie.
 //
-void M_DrawSave(void)
+static void M_DrawSave(void)
 {
     char    left[256];
     char    right[256];
@@ -1134,7 +1133,7 @@ void M_DrawSave(void)
 //
 // M_Responder calls this when user is finished
 //
-void M_DoSave(int slot)
+static void M_DoSave(int slot)
 {
     M_ClearMenus();
     G_SaveGame(slot, savegamestrings[slot], "");
@@ -1154,7 +1153,7 @@ extern char **mapnamesp[];
 extern char **mapnamest[];
 extern char **mapnamesn[];
 
-const char *RemoveMapNum(const char *str)
+static const char *RemoveMapNum(const char *str)
 {
     char    *pos = strchr(str, ':');
 
@@ -1280,7 +1279,7 @@ void M_UpdateSaveGameName(int i)
     }
 }
 
-void M_SaveSelect(int choice)
+static void M_SaveSelect(int choice)
 {
     // we are going to be intercepting all chars
     saveStringEnter = 1;
@@ -1293,7 +1292,7 @@ void M_SaveSelect(int choice)
 //
 // Selected from DOOM menu
 //
-void M_SaveGame(int choice)
+static void M_SaveGame(int choice)
 {
     M_SetupNextMenu(&SaveDef);
     M_ReadSaveStrings();
@@ -1302,7 +1301,7 @@ void M_SaveGame(int choice)
 //
 // M_QuickSave
 //
-void M_QuickSave(void)
+static void M_QuickSave(void)
 {
     if (quickSaveSlot < 0)
     {
@@ -1331,7 +1330,7 @@ void M_QuickSave(void)
 //
 // M_QuickLoad
 //
-void M_QuickLoadResponse(int key)
+static void M_QuickLoadResponse(int key)
 {
     messageToPrint = false;
 
@@ -1342,9 +1341,9 @@ void M_QuickLoadResponse(int key)
     }
 }
 
-char    tempstring[160];
+static char tempstring[160];
 
-void M_QuickLoad(void)
+static void M_QuickLoad(void)
 {
     if (quickSaveSlot < 0)
     {
@@ -1401,7 +1400,7 @@ static void M_DeleteSavegameResponse(int key)
     }
 }
 
-void M_DeleteSavegame(void)
+static void M_DeleteSavegame(void)
 {
     S_StartSound(NULL, sfx_swtchn);
     M_snprintf(tempstring, 160, s_DELPROMPT, savegamestrings[saveSlot]);
@@ -1413,7 +1412,7 @@ void M_DeleteSavegame(void)
 //
 // M_DrawReadThis
 //
-void M_DrawReadThis(void)
+static void M_DrawReadThis(void)
 {
     char    *lumpname = "HELP1";
 
@@ -1457,7 +1456,7 @@ void M_DrawReadThis(void)
 //
 // Change SFX & Music volumes
 //
-void M_DrawSound(void)
+static void M_DrawSound(void)
 {
     M_DarkBackground();
 
@@ -1477,12 +1476,12 @@ void M_DrawSound(void)
         (float)(musicVolume * !nomusic), 4.0f, 6);
 }
 
-void M_Sound(int choice)
+static void M_Sound(int choice)
 {
     M_SetupNextMenu(&SoundDef);
 }
 
-void M_SfxVol(int choice)
+static void M_SfxVol(int choice)
 {
     if (!nosfx)
     {
@@ -1515,7 +1514,7 @@ void M_SfxVol(int choice)
     }
 }
 
-void M_MusicVol(int choice)
+static void M_MusicVol(int choice)
 {
     if (!nomusic)
     {
@@ -1551,7 +1550,7 @@ void M_MusicVol(int choice)
 //
 // M_DrawMainMenu
 //
-void M_DrawMainMenu(void)
+static void M_DrawMainMenu(void)
 {
     patch_t *patch = W_CacheLumpName("M_DOOM");
 
@@ -1582,7 +1581,7 @@ void M_DrawMainMenu(void)
 //
 // M_NewGame
 //
-void M_DrawNewGame(void)
+static void M_DrawNewGame(void)
 {
     M_DarkBackground();
 
@@ -1605,7 +1604,7 @@ void M_DrawNewGame(void)
         M_DrawCenteredString(44 + OFFSET, s_M_CHOOSESKILLLEVEL);
 }
 
-void M_NewGame(int choice)
+static void M_NewGame(int choice)
 {
     if (chex)
         M_SetupNextMenu(&NewDef);
@@ -1616,9 +1615,9 @@ void M_NewGame(int choice)
 //
 // M_Episode
 //
-int epi;
+static int  epi;
 
-void M_DrawEpisode(void)
+static void M_DrawEpisode(void)
 {
     M_DarkBackground();
 
@@ -1662,14 +1661,14 @@ void M_SetWindowCaption(void)
     SDL_SetWindowTitle(window, caption);
 }
 
-void M_DrawExpansion(void)
+static void M_DrawExpansion(void)
 {
     M_DarkBackground();
     M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
     M_DrawCenteredString(44 + OFFSET, s_M_WHICHEXPANSION);
 }
 
-void M_VerifyNightmare(int key)
+static void M_VerifyNightmare(int key)
 {
     messageToPrint = false;
 
@@ -1685,7 +1684,7 @@ void M_VerifyNightmare(int key)
     }
 }
 
-void M_ChooseSkill(int choice)
+static void M_ChooseSkill(int choice)
 {
     if (choice == nightmare && gameskill != sk_nightmare && !nomonsters)
     {
@@ -1708,7 +1707,7 @@ void M_ChooseSkill(int choice)
     G_DeferredInitNew((skill_t)choice, epi + 1, 1);
 }
 
-void M_Episode(int choice)
+static void M_Episode(int choice)
 {
     if (gamemode == shareware && choice)
     {
@@ -1728,7 +1727,7 @@ void M_Episode(int choice)
     M_SetupNextMenu(&NewDef);
 }
 
-void M_Expansion(int choice)
+static void M_Expansion(int choice)
 {
     gamemission = (choice == ex1 ? doom2 : pack_nerve);
     D_SetSaveGameFolder(false);
@@ -1738,7 +1737,7 @@ void M_Expansion(int choice)
 //
 // M_Options
 //
-void M_DrawOptions(void)
+static void M_DrawOptions(void)
 {
     M_DarkBackground();
 
@@ -1797,7 +1796,7 @@ void M_DrawOptions(void)
             m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
 }
 
-void M_Options(int choice)
+static void M_Options(int choice)
 {
     M_SetupNextMenu(&OptionsDef);
 }
@@ -1807,7 +1806,7 @@ void M_Options(int choice)
 //
 dboolean    message_dontpause;
 
-void M_ChangeMessages(int choice)
+static void M_ChangeMessages(int choice)
 {
     blurred = false;
     messages = !messages;
@@ -1824,7 +1823,7 @@ void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-dboolean    endinggame;
+static dboolean endinggame;
 
 void M_EndingGame(void)
 {
@@ -1845,7 +1844,7 @@ void M_EndingGame(void)
     D_StartTitle(1);
 }
 
-void M_EndGameResponse(int key)
+static void M_EndGameResponse(int key)
 {
     messageToPrint = false;
 
@@ -1870,7 +1869,7 @@ void M_EndGameResponse(int key)
     M_EndingGame();
 }
 
-void M_EndGame(int choice)
+static void M_EndGame(int choice)
 {
     if (gamestate != GS_LEVEL)
         return;
@@ -1887,7 +1886,7 @@ void M_EndGame(int choice)
 //
 // M_ReadThis
 //
-void M_FinishReadThis(int choice)
+static void M_FinishReadThis(int choice)
 {
     M_SetupNextMenu(&MainDef);
 }
@@ -1895,7 +1894,7 @@ void M_FinishReadThis(int choice)
 //
 // M_QuitDOOM
 //
-int quitsounds[8] =
+static const int quitsounds[8] =
 {
     sfx_pldeth,
     sfx_dmpain,
@@ -1907,7 +1906,7 @@ int quitsounds[8] =
     sfx_sgtatk
 };
 
-int quitsounds2[8] =
+static const int quitsounds2[8] =
 {
     sfx_vilact,
     sfx_getpow,
@@ -1923,7 +1922,7 @@ dboolean        quitting;
 
 extern dboolean waspaused;
 
-void M_QuitResponse(int key)
+static void M_QuitResponse(int key)
 {
     messageToPrint = false;
 
@@ -1984,7 +1983,7 @@ void M_QuitDOOM(int choice)
     M_StartMessage(endstring, M_QuitResponse, true);
 }
 
-void M_SliderSound(void)
+static void M_SliderSound(void)
 {
     static int  wait;
 
@@ -1995,7 +1994,7 @@ void M_SliderSound(void)
     }
 }
 
-void M_ChangeSensitivity(int choice)
+static void M_ChangeSensitivity(int choice)
 {
     if (usinggamepad && !M_MSENS)
     {
@@ -2067,7 +2066,7 @@ void M_ChangeSensitivity(int choice)
     }
 }
 
-void M_ChangeDetail(int choice)
+static void M_ChangeDetail(int choice)
 {
     blurred = false;
     r_detail = !r_detail;
@@ -2084,7 +2083,7 @@ void M_ChangeDetail(int choice)
     M_SaveCVARs();
 }
 
-void M_SizeDisplay(int choice)
+static void M_SizeDisplay(int choice)
 {
     switch (choice)
     {
@@ -2172,7 +2171,7 @@ void M_SizeDisplay(int choice)
 //
 // Menu Functions
 //
-void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset)
+static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset)
 {
     int xx;
     int i;
@@ -2215,7 +2214,7 @@ void M_StartMessage(char *string, void *routine, dboolean input)
 //
 // Find character width
 //
-int M_CharacterWidth(char ch, char prev)
+static int M_CharacterWidth(char ch, char prev)
 {
     int c = toupper(ch) - HU_FONTSTART;
 
@@ -2242,7 +2241,7 @@ int M_StringWidth(char *string)
 //
 // Find string height
 //
-int M_StringHeight(char *string)
+static int M_StringHeight(char *string)
 {
     size_t  i;
     int     h = 8;
@@ -2270,7 +2269,7 @@ void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
 //
 // Write a string
 //
-void M_WriteText(int x, int y, char *string, dboolean shadow)
+static void M_WriteText(int x, int y, char *string, dboolean shadow)
 {
     int     w;
     char    *ch = string;
@@ -3462,7 +3461,7 @@ void M_StartControlPanel(void)
 //
 // M_DrawNightmare
 //
-void M_DrawNightmare(void)
+static void M_DrawNightmare(void)
 {
     int x, y;
 
@@ -3620,7 +3619,7 @@ void M_Drawer(void)
 //
 // M_ClearMenus
 //
-void M_ClearMenus(void)
+static void M_ClearMenus(void)
 {
     menuactive = false;
 
@@ -3637,7 +3636,7 @@ void M_ClearMenus(void)
 //
 // M_SetupNextMenu
 //
-void M_SetupNextMenu(menu_t *menudef)
+static void M_SetupNextMenu(menu_t *menudef)
 {
     currentMenu = menudef;
     itemOn = currentMenu->lastOn;

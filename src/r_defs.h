@@ -64,8 +64,6 @@
 typedef struct vertex_s
 {
     fixed_t             x, y;
-    angle_t             viewangle;      // e6y: precalculated angle for clipping
-    int                 angletime;      // e6y: recalculation time for view angle
 } vertex_t;
 
 // Forward of LineDefs, for Sectors.
@@ -262,9 +260,6 @@ typedef struct line_s
     // if == validcount, already checked
     int                 validcount;
 
-    // thinker_t for reversible actions
-    void                *specialdata;
-
     int                 tranlump;       // killough 4/11/98: translucency filter, -1 == none
 
     int                 nexttag;
@@ -288,7 +283,7 @@ typedef struct line_s
 
 #define BOOMLINESPECIALS    142
 
-typedef enum linespecial_e
+enum
 {
     NoSpecial                                                      =   0,
     DR_Door_OpenWaitClose_AlsoMonsters                             =   1,
@@ -566,9 +561,9 @@ typedef enum linespecial_e
     // Extended line specials from MBF
     TransferSkyTextureToTaggedSectors                              = 271,
     TransferSkyTextureToTaggedSectors_Flipped                      = 272
-} linespecial_e;
+};
 
-typedef enum sectorspecial_e
+enum
 {
     Normal                                              =  0,
     LightBlinks_Randomly                                =  1,
@@ -588,9 +583,9 @@ typedef enum sectorspecial_e
     LightFlickers_Randomly                              = 17,
 
     UNKNOWNSECTORSPECIAL
-} sectorspecial_e;
+};
 
-typedef enum thingtype_e
+enum
 {
     Nothing                                            =     0,
     Player1Start                                       =     1,
@@ -717,7 +712,7 @@ typedef enum thingtype_e
     Cacodemon                                          =  3005,
     LostSoul                                           =  3006,
     MusicSource                                        = 14164
-} thingtype_t;
+};
 
 //
 // A SubSector.
@@ -910,8 +905,6 @@ typedef struct vissprite_s
 
     // foot clipping
     fixed_t             footclip;
-
-    fixed_t             blood;
 
     // killough 3/27/98: height sector for underwater/fake ceiling support
     int                 heightsec;

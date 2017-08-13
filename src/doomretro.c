@@ -60,7 +60,7 @@ int windowborderheight;
 #define SM_CXPADDEDBORDER   92
 #endif
 
-void I_SetProcessDPIAware(void)
+static void I_SetProcessDPIAware(void)
 {
     HMODULE hLibrary = LoadLibrary("user32.dll");
 
@@ -78,7 +78,7 @@ void I_SetProcessDPIAware(void)
     }
 }
 
-HHOOK   g_hKeyboardHook;
+static HHOOK    g_hKeyboardHook;
 
 void G_ScreenShot(void);
 
@@ -114,8 +114,8 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
     return (bEatKeystroke ? 1 : CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam));
 }
 
-WNDPROC oldProc;
-HICON   icon;
+static WNDPROC  oldProc;
+static HICON    icon;
 
 dboolean MouseShouldBeGrabbed(void);
 
@@ -161,13 +161,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return CallWindowProc(oldProc, hwnd, msg, wParam, lParam);
 }
 
-HANDLE      hInstanceMutex;
+static HANDLE       hInstanceMutex;
 
-STICKYKEYS  g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
-TOGGLEKEYS  g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
-FILTERKEYS  g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
+static STICKYKEYS   g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
+static TOGGLEKEYS   g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
+static FILTERKEYS   g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
 
-void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
+static void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
 {
     if (bAllowKeys)
     {

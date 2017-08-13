@@ -88,7 +88,7 @@ extern dboolean menuactive;
 extern dboolean message_clearable;
 
 #if defined(_WIN32)
-HMODULE         pXInputDLL;
+static HMODULE  pXInputDLL;
 #endif
 
 static void (*gamepadthumbsfunc)(short, short, short, short);

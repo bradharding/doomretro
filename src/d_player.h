@@ -78,7 +78,7 @@ typedef enum playerstate_e
 //
 // Player internal flags, for cheats and debug.
 //
-typedef enum cheat_e
+enum
 {
     // No clipping, walk through barriers.
     CF_NOCLIP        = 1,
@@ -96,7 +96,7 @@ typedef enum cheat_e
     CF_CHOPPERS      = 64,
 
     CF_BUDDHA        = 128
-} cheat_t;
+};
 
 //
 // Extended player object info: player_t
@@ -165,7 +165,6 @@ typedef struct player_s
 
     // Hint messages.
     char                *message;
-    char                *altmsg;
 
     // For screen flashing (red or bright).
     int                 damagecount;

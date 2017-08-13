@@ -44,7 +44,7 @@
 //
 
 // declaring a cheat
-#define CHEAT(value, parameters)    { value, sizeof(value) - 1, parameters, 0, 0, "", 0 }
+#define CHEAT(value, parameters)    { value, parameters, 0, 0, "", 0 }
 
 #define TIMELIMIT                   (TICRATE * 2)
 
@@ -52,7 +52,6 @@ typedef struct cheatseq_s
 {
     // settings for this cheat
     char        *sequence;
-    size_t      sequence_len;
     int         parameter_chars;
 
     // state used during the game

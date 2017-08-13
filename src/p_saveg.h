@@ -44,14 +44,14 @@
 #define SAVESTRINGPIXELWIDTH    186
 #define VERSIONSIZE             24
 
-typedef enum thinkerclass_e
+enum
 {
     tc_end,
     tc_mobj,
     tc_bloodsplat
-} thinkerclass_t;
+};
 
-typedef enum specials_e
+enum
 {
     tc_ceiling,
     tc_door,
@@ -66,7 +66,7 @@ typedef enum specials_e
     tc_fireflicker,     // killough 10/4/98
     tc_button,
     tc_endspecials
-} specials_t;
+};
 
 // temporary filename to use while saving.
 char *P_TempSaveGameFile(void);

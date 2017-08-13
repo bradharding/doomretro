@@ -2058,12 +2058,8 @@ void P_PlayerInSpecialSector(player_t *player)
 // P_UpdateSpecials
 // Animate planes, scroll walls, etc.
 //
-#define MAXLINEANIMS    16384
-
-line_t  *linespeciallist[MAXLINEANIMS];
-
-int     timer;
-int     countdown;
+int timer;
+int countdown;
 
 void P_UpdateSpecials(void)
 {

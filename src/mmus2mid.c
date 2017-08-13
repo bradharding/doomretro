@@ -129,15 +129,6 @@ static UBYTE miditempo[] = { 0x00, 0xFF, 0x51, 0x03, 0x09, 0xA3, 0x1A };        
 static UBYTE midihdr[] = { 'M', 'T', 'h', 'd', 0, 0, 0, 6, 0, 1, 0, 0, 0, 0 };  // header (length 6, format 1)
 static UBYTE trackhdr[] = { 'M', 'T', 'r', 'k' };                               // track header
 
-// static routine prototypes
-
-// proff: changed type for byte from char to unsigned char to avoid warning
-static int TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte);
-static int TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value);
-static ULONG ReadTime(UBYTE **musptrp);
-static char FirstChannelAvailable(signed char MUS2MIDchannel[]);
-static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE MIDItrack);
-
 //
 // TWriteByte()
 //

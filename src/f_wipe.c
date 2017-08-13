@@ -49,7 +49,7 @@ static byte *wipe_scr_start;
 static byte *wipe_scr_end;
 static byte *wipe_scr;
 
-void wipe_shittyColMajorXform(short *array)
+static void wipe_shittyColMajorXform(short *array)
 {
     int     x, y;
     short   *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
@@ -66,7 +66,7 @@ void wipe_shittyColMajorXform(short *array)
 static int  *y;
 static int  speed;
 
-dboolean wipe_initMelt(void)
+static dboolean wipe_initMelt(void)
 {
     int i;
 
@@ -91,7 +91,7 @@ dboolean wipe_initMelt(void)
     return false;
 }
 
-dboolean wipe_doMelt(int tics)
+static dboolean wipe_doMelt(int tics)
 {
     dboolean    done = true;
 
@@ -144,7 +144,7 @@ dboolean wipe_doMelt(int tics)
     return done;
 }
 
-dboolean wipe_exitMelt(void)
+static dboolean wipe_exitMelt(void)
 {
     Z_Free(y);
     Z_Free(wipe_scr_start);

@@ -175,7 +175,7 @@ static struct c_kern_s
     { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
 };
 
-void HUlib_drawAltHUDTextLine(hu_textline_t *l)
+static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 {
     int             i;
     unsigned char   prevletter = '\0';

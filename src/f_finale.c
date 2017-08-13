@@ -433,16 +433,17 @@ static castinfo_t castorder[] =
     { NULL,          0            }
 };
 
-int         castnum;
-int         casttics;
-state_t     *caststate;
-int         castrot;
-dboolean    castdeath;
-dboolean    castdeathflip;
-int         castframes;
-int         castonmelee;
-dboolean    castattacking;
-dboolean    firstevent;
+static int      castnum;
+static int      casttics;
+static state_t  *caststate;
+static int      castrot;
+static dboolean castdeath;
+static dboolean castdeathflip;
+static int      castframes;
+static int      castonmelee;
+static dboolean castattacking;
+
+dboolean        firstevent;
 
 extern char *playername;
 

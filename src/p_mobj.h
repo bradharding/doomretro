@@ -126,7 +126,7 @@
 //
 // Misc. mobj flags
 //
-typedef enum mobjflag_e
+enum
 {
     // Call P_SpecialThing when touched.
     MF_SPECIAL          = 0x00000001,
@@ -218,9 +218,9 @@ typedef enum mobjflag_e
 
     // Translucent sprite?              // phares
     MF_TRANSLUCENT      = 0x80000000    // phares
-} mobjflag_t;
+};
 
-typedef enum mobjflag2_e
+enum
 {
     // Apply additive translucency
     MF2_TRANSLUCENT               = 0x00000001,
@@ -302,13 +302,13 @@ typedef enum mobjflag2_e
 
     // Object is a missile from a monster
     MF2_MONSTERMISSILE            = 0x40000000
-} mobjflag2_t;
+};
 
-typedef enum bloodsplatflag_e
+enum
 {
     BSF_MIRRORED                  = 0x00000001,
     BSF_FUZZ                      = 0x00000002
-} bloodsplatflag_t;
+};
 
 // Map Object definition.
 typedef struct mobj_s

@@ -1452,7 +1452,6 @@ typedef struct offset_s
     short       y;
     short       width;
     short       height;
-    mobjtype_t  type;
     dboolean    sprfix18;
 } offset_t;
 

@@ -61,7 +61,7 @@ static byte     *midtexfullbright;
 static byte     *bottomtexfullbright;
 
 angle_t         rw_normalangle;
-fixed_t         rw_distance;
+static fixed_t  rw_distance;
 
 //
 // regular wall
@@ -75,11 +75,6 @@ static fixed_t  rw_scalestep;
 static fixed_t  rw_midtexturemid;
 static fixed_t  rw_toptexturemid;
 static fixed_t  rw_bottomtexturemid;
-
-static int      worldtop;
-static int      worldbottom;
-static int      worldhigh;
-static int      worldlow;
 
 static int64_t  pixhigh;
 static int64_t  pixlow;
@@ -154,7 +149,7 @@ static int  heightbits = 12;
 static int  heightunit = (1 << 12);
 static int  invhgtbits = 4;
 
-typedef struct scalevalues_s
+typedef struct
 {
     int clamp;
     int heightbits;
@@ -205,7 +200,7 @@ static void R_FixWiggle(sector_t *sector)
     }
 }
 
-static lighttable_t **GetLightTable(int lightlevel)
+static lighttable_t **GetLightTable(const int lightlevel)
 {
     return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast,
         LIGHTLEVELS - 1)];
@@ -214,7 +209,7 @@ static lighttable_t **GetLightTable(int lightlevel)
 //
 // R_RenderMaskedSegRange
 //
-void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
+void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 {
     int             texnum;
     fixed_t         texheight;
@@ -487,9 +482,9 @@ static void R_RenderSegLoop(void)
 //
 static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 {
-    int     angle = ANG90 + visangle;
-    int     den = FixedMul(rw_distance, finesine[(angle - viewangle) >> ANGLETOFINESHIFT]);
-    fixed_t num = FixedMul(projectiony, finesine[(angle - rw_normalangle) >> ANGLETOFINESHIFT]);
+    const int       angle = ANG90 + visangle;
+    const int       den = FixedMul(rw_distance, finesine[(angle - viewangle) >> ANGLETOFINESHIFT]);
+    const fixed_t   num = FixedMul(projectiony, finesine[(angle - rw_normalangle) >> ANGLETOFINESHIFT]);
 
     return (den > (num >> FRACBITS) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
 }
@@ -499,12 +494,16 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 // A wall segment will be drawn
 //  between start and stop pixels (inclusive).
 //
-void R_StoreWallRange(int start, int stop)
+void R_StoreWallRange(const int start, const int stop)
 {
     int64_t  dx, dy;
     int64_t  dx1, dy1;
     int64_t  len;
-
+    int      worldtop;
+    int      worldbottom;
+    int      worldhigh;
+    int      worldlow;
+    
     linedef = curline->linedef;
 
     // mark the segment as visible for automap
@@ -519,8 +518,8 @@ void R_StoreWallRange(int start, int stop)
     // killough 1/98 -- fix 2s line HOM
     if (ds_p == drawsegs + maxdrawsegs)
     {
-        unsigned int    pos = ds_p - drawsegs;
-        unsigned int    newmax = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
+        const unsigned int  pos = ds_p - drawsegs;
+        const unsigned int  newmax = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
 
         drawsegs = Z_Realloc(drawsegs, newmax * sizeof(*drawsegs));
         ds_p = drawsegs + pos;
@@ -552,8 +551,8 @@ void R_StoreWallRange(int start, int stop)
         if (need > maxopenings)
         {
             drawseg_t   *ds;                    // jff 8/9/98 needed for fix from ZDoom
-            int         *oldopenings = openings;
-            int         *oldlast = lastopening;
+            const int   *oldopenings = openings;
+            const int   *oldlast = lastopening;
 
             do
                 maxopenings = (maxopenings ? maxopenings * 2 : MAXOPENINGS);

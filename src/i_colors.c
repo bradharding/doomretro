@@ -88,7 +88,6 @@ byte    *tinttab50;
 byte    *tinttab60;
 byte    *tinttab66;
 byte    *tinttab75;
-byte    *tinttab80;
 
 byte    *tranmap;
 
@@ -227,7 +226,7 @@ void FindNearestColors(byte *palette)
             nearestcolors[i] = i;
 }
 
-byte    colorcount[PALETTESIZE];
+static byte colorcount[PALETTESIZE];
 
 int FindDominantColor(patch_t *patch)
 {
@@ -332,7 +331,6 @@ void I_InitTintTables(byte *palette)
     tinttab60 = GenerateTintTable(palette, 60, general, ALL);
     tinttab66 = GenerateTintTable(palette, 66, general, ALL);
     tinttab75 = GenerateTintTable(palette, 75, general, ALL);
-    tinttab80 = GenerateTintTable(palette, 80, general, ALL);
 
     tranmap = (lump != -1 ? W_CacheLumpNum(lump) : (r_dither ? tinttab25 : tinttab50));
 

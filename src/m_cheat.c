@@ -75,7 +75,10 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
     if (!idbehold)
     {
         if (cht->timeout && leveltime - cht->timeout > TIMELIMIT)
-            cht->chars_read = cht->param_chars_read = 0;
+        {
+            cht->chars_read = 0;
+            cht->param_chars_read = 0;
+        }
 
         cht->timeout = leveltime;
     }
@@ -102,7 +105,9 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
         // entering parameters now
         if (!isdigit(key))
         {
-            cht->chars_read = cht->param_chars_read = cht->timeout = 0;
+            cht->chars_read = 0;
+            cht->param_chars_read = 0;
+            cht->timeout = 0;
             return false;
         }
         else
@@ -114,7 +119,9 @@ int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
 
     if (cht->chars_read >= strlen(cht->sequence) && cht->param_chars_read >= cht->parameter_chars)
     {
-        cht->chars_read = cht->param_chars_read = cht->timeout = 0;
+        cht->chars_read = 0;
+        cht->param_chars_read = 0;
+        cht->timeout = 0;
         return true;
     }
 

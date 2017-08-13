@@ -717,7 +717,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 #define LockedSpeedShift           3
 
 // define names for the TriggerType field of the general linedefs
-typedef enum triggertype_e
+enum
 {
     WalkOnce,
     WalkMany,
@@ -727,19 +727,19 @@ typedef enum triggertype_e
     GunMany,
     PushOnce,
     PushMany
-} triggertype_e;
+};
 
 // define names for the Speed field of the general linedefs
-typedef enum motionspeed_e
+enum
 {
     SpeedSlow,
     SpeedNormal,
     SpeedFast,
     SpeedTurbo
-} motionspeed_e;
+};
 
 // define names for the Target field of the general floor
-typedef enum floortarget_e
+enum
 {
     FtoHnF,
     FtoLnF,
@@ -749,26 +749,26 @@ typedef enum floortarget_e
     FbyST,
     Fby24,
     Fby32
-} floortarget_e;
+};
 
 // define names for the Changer Type field of the general floor
-typedef enum floorchange_e
+enum
 {
     FNoChg,
     FChgZero,
     FChgTxt,
     FChgTyp
-} floorchange_e;
+};
 
 // define names for the Change Model field of the general floor
-typedef enum floormodel_e
+enum
 {
     FTriggerModel,
     FNumericModel
-} floormodel_t;
+};
 
 // define names for the Target field of the general ceiling
-typedef enum ceilingtarget_e
+enum
 {
     CtoHnC,
     CtoLnC,
@@ -778,44 +778,44 @@ typedef enum ceilingtarget_e
     CbyST,
     Cby24,
     Cby32
-} ceilingtarget_e;
+};
 
 // define names for the Changer Type field of the general ceiling
-typedef enum ceilingchange_e
+enum
 {
     CNoChg,
     CChgZero,
     CChgTxt,
     CChgTyp
-} ceilingchange_e;
+};
 
 // define names for the Change Model field of the general ceiling
-typedef enum ceilingmodel_e
+enum
 {
     CTriggerModel,
     CNumericModel
-} ceilingmodel_t;
+};
 
 // define names for the Target field of the general lift
-typedef enum lifttarget_e
+enum
 {
     F2LnF,
     F2NnF,
     F2LnC,
     LnF2HnF
-} lifttarget_e;
+};
 
 // define names for the door Kind field of the general ceiling
-typedef enum doorkind_e
+enum
 {
     OdCDoor,
     ODoor,
     CdODoor,
     CDoor
-} doorkind_e;
+};
 
 // define names for the locked door Kind field of the general ceiling
-typedef enum keykind_e
+enum
 {
     AnyKey,
     RCard,
@@ -825,7 +825,7 @@ typedef enum keykind_e
     BSkull,
     YSkull,
     AllKeys
-} keykind_e;
+};
 
 dboolean EV_DoGenFloor(line_t *line);
 

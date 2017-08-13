@@ -41,7 +41,7 @@
 
 #include "doomtype.h"
 
-enum message_e
+enum
 {
     p_QUITMSG = 5, p_GOTARMOR = 33, p_GOTMEGA, p_GOTHTHBONUS, p_GOTARMBONUS, p_GOTSTIM, p_GOTMEDINEED,
     p_GOTMEDINEED2, p_GOTMEDIKIT, p_GOTSUPER, p_GOTBLUECARD, p_GOTYELWCARD, p_GOTREDCARD, p_GOTBLUESKUL,
@@ -52,7 +52,7 @@ enum message_e
     p_GOTSHOTGUN, p_GOTSHOTGUN2, p_PD_BLUEO, p_PD_REDO, p_PD_YELLOWO, p_PD_BLUEK, p_PD_REDK, p_PD_YELLOWK
 };
 
-typedef struct deh_strs_s
+typedef struct
 {
     char    **ppstr;        // doubly indirect pointer to string
     char    *lookup;        // pointer to lookup string name

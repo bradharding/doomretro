@@ -98,9 +98,6 @@ typedef struct st_multicon_s
 
     // list of icons
     patch_t     **p;
-
-    // user data
-    int         data;
 } st_multicon_t;
 
 // Binary Icon widget

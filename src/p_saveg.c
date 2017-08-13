@@ -51,7 +51,6 @@
 #define SAVEGAME_EOF    0x1D
 
 FILE    *save_stream;
-int     savegamelength;
 
 extern dboolean mouselook;
 extern dboolean r_shadows_translucency;

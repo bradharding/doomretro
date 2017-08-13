@@ -101,13 +101,12 @@
 //  calls all ?_Responder, ?_Ticker, and ?_Drawer,
 //  calls I_GetTime, I_StartFrame, and I_StartTic
 //
-void D_DoomLoop(void);
+static void D_DoomLoop(void);
 
 // Location where savegames are stored
 char                *savegamefolder;
 
 // location of IWAD and PWAD files
-char                *iwadfile = "";
 char                *pwadfile = "";
 
 char                *iwadfolder = iwadfolder_default;
@@ -136,15 +135,14 @@ skill_t             startskill;
 int                 startepisode;
 int                 startmap;
 dboolean            autostart;
-int                 startloadgame;
 
 dboolean            advancetitle;
 dboolean            dowipe;
-dboolean            forcewipe;
+static dboolean     forcewipe;
 
 dboolean            splashscreen;
 
-int                 startuptimer;
+static int          startuptimer;
 
 dboolean            realframe;
 static dboolean     error;
@@ -394,9 +392,9 @@ void D_Display(void)
 }
 
 //
-//  D_DoomLoop
+// D_DoomLoop
 //
-void D_DoomLoop(void)
+static void D_DoomLoop(void)
 {
     R_ExecuteSetViewSize();
     D_StartGameLoop();
@@ -484,51 +482,48 @@ void D_DoAdvanceTitle(void)
     blurred = false;
     noinput = false;
 
-    switch (titlesequence)
+    if (!titlesequence)
     {
-        case 0:
-            pagetic = 3 * TICRATE;
-            splashscreen = true;
-            break;
+        pagetic = 3 * TICRATE;
+        splashscreen = true;
+    }
+    else if (titlesequence == 1)
+    {
+        if (flag)
+        {
+            flag = false;
+            I_InitKeyboard();
 
-        case 1:
-            if (flag)
-            {
-                flag = false;
-                I_InitKeyboard();
+            if (alwaysrun)
+                C_StrCVAROutput(stringize(alwaysrun), "on");
+        }
 
-                if (alwaysrun)
-                    C_StrCVAROutput(stringize(alwaysrun), "on");
-            }
-
-            if (pagelump == creditlump)
-                forcewipe = true;
-
-            pagelump = titlelump;
-            pagetic = 20 * TICRATE;
-
-            if (splashscreen)
-            {
-                I_SetPalette(playpal);
-                splashscreen = false;
-
-                if (!TITLEPIC && !devparm)
-                    M_StartControlPanel();
-            }
-
-            M_SetWindowCaption();
-            S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
-
-            if (devparm)
-                C_ShowConsole();
-
-            break;
-
-        case 2:
+        if (pagelump == creditlump)
             forcewipe = true;
-            pagelump = creditlump;
-            pagetic = 10 * TICRATE;
-            break;
+
+        pagelump = titlelump;
+        pagetic = 20 * TICRATE;
+
+        if (splashscreen)
+        {
+            I_SetPalette(playpal);
+            splashscreen = false;
+
+            if (!TITLEPIC && !devparm)
+                M_StartControlPanel();
+        }
+
+        M_SetWindowCaption();
+        S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
+
+        if (devparm)
+            C_ShowConsole();
+    }
+    else if (titlesequence == 2)
+    {
+        forcewipe = true;
+        pagelump = creditlump;
+        pagetic = 10 * TICRATE;
     }
 
     if (W_CheckMultipleLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
@@ -596,7 +591,7 @@ void ProcessDehFile(char *filename, int lump);
 static char dehfiles[MAXDEHFILES][MAX_PATH];
 static int  dehfilecount;
 
-dboolean DehFileProcessed(char *path)
+static dboolean DehFileProcessed(char *path)
 {
     int i;
 
@@ -704,7 +699,7 @@ static dboolean D_IsDOOMIWAD(char *filename)
     return result;
 }
 
-static struct unsupported_s
+static const struct
 {
     char    *iwad;
     char    *title;
@@ -796,7 +791,7 @@ static dboolean D_IsUnsupportedPWAD(char *filename)
 #import <Cocoa/Cocoa.h>
 #endif
 
-dboolean D_CheckParms(void)
+static dboolean D_CheckParms(void)
 {
     dboolean    result = false;
 
@@ -809,7 +804,7 @@ dboolean D_CheckParms(void)
         // check if it's a valid and supported IWAD
         if (D_IsDOOMIWAD(myargv[1]) || (W_WadType(myargv[1]) == IWAD && !D_IsUnsupportedIWAD(myargv[1])))
         {
-            IdentifyIWADByName(myargv[1]);
+            D_IdentifyIWADByName(myargv[1]);
 
             if (W_AddFile(myargv[1], false))
             {
@@ -845,7 +840,7 @@ dboolean D_CheckParms(void)
             // try the current folder first
             M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]),
                 (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-            IdentifyIWADByName(fullpath);
+            D_IdentifyIWADByName(fullpath);
 
             if (W_AddFile(fullpath, true))
             {
@@ -878,7 +873,7 @@ dboolean D_CheckParms(void)
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
 #endif
-                IdentifyIWADByName(fullpath);
+                D_IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
                 {
@@ -1033,7 +1028,7 @@ static int D_OpenWADLauncher(void)
             // check if it's a valid and supported IWAD
             if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
             {
-                IdentifyIWADByName(file);
+                D_IdentifyIWADByName(file);
 
                 if (W_AddFile(file, false))
                 {
@@ -1072,7 +1067,7 @@ static int D_OpenWADLauncher(void)
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file),
                     (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                IdentifyIWADByName(fullpath);
+                D_IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
                 {
@@ -1093,7 +1088,7 @@ static int D_OpenWADLauncher(void)
                     // otherwise try the iwadfolder CVAR
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                    IdentifyIWADByName(fullpath);
+                    D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
                     {
@@ -1209,7 +1204,7 @@ static int D_OpenWADLauncher(void)
                 {
                     if (!iwadfound)
                     {
-                        IdentifyIWADByName(fullpath);
+                        D_IdentifyIWADByName(fullpath);
 
                         if (W_AddFile(fullpath, false))
                         {
@@ -1230,7 +1225,7 @@ static int D_OpenWADLauncher(void)
 
                     // try the current folder first
                     M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", szFile);
-                    IdentifyIWADByName(fullpath2);
+                    D_IdentifyIWADByName(fullpath2);
 
                     if (W_AddFile(fullpath2, true))
                     {
@@ -1249,7 +1244,7 @@ static int D_OpenWADLauncher(void)
                     {
                         // otherwise try the iwadfolder CVAR
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
-                        IdentifyIWADByName(fullpath2);
+                        D_IdentifyIWADByName(fullpath2);
 
                         if (W_AddFile(fullpath2, true))
                         {
@@ -1312,7 +1307,7 @@ static int D_OpenWADLauncher(void)
                 {
                     if (!iwadfound)
                     {
-                        IdentifyIWADByName(fullpath);
+                        D_IdentifyIWADByName(fullpath);
 
                         if (W_AddFile(fullpath, false))
                         {
@@ -1372,7 +1367,7 @@ static int D_OpenWADLauncher(void)
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", szFile,
                                 (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                            IdentifyIWADByName(fullpath2);
+                            D_IdentifyIWADByName(fullpath2);
 
                             if (W_AddFile(fullpath2, true))
                             {
@@ -1384,7 +1379,7 @@ static int D_OpenWADLauncher(void)
                                 // otherwise try the iwadfolder CVAR
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                     iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                                IdentifyIWADByName(fullpath2);
+                                D_IdentifyIWADByName(fullpath2);
 
                                 if (W_AddFile(fullpath2, true))
                                     iwadfound = 1;
@@ -1408,7 +1403,7 @@ static int D_OpenWADLauncher(void)
                 if (!iwadfound)
                 {
                     // try the current folder first
-                    IdentifyIWADByName("DOOM2.WAD");
+                    D_IdentifyIWADByName("DOOM2.WAD");
 
                     if (W_AddFile("DOOM2.WAD", true))
                         iwadfound = 1;
@@ -1418,7 +1413,7 @@ static int D_OpenWADLauncher(void)
 
                         // otherwise try the iwadfolder CVAR
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD", iwadfolder);
-                        IdentifyIWADByName(fullpath2);
+                        D_IdentifyIWADByName(fullpath2);
 
                         if (W_AddFile(fullpath2, true))
                             iwadfound = 1;
@@ -1612,6 +1607,8 @@ static void D_DoomMainSetup(void)
     int         choseniwad = 0;
     static char lumpname[6];
     char        *appdatafolder = M_GetAppDataFolder();
+    char        *iwadfile = malloc(MAX_PATH);
+    int         startloadgame;
 
     packagewad = M_StringJoin(M_GetResourceFolder(), DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
 

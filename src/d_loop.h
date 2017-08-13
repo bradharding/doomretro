@@ -42,9 +42,6 @@
 // Networking and tic handling related.
 #define BACKUPTICS  128
 
-// Create any new ticcmds and broadcast to other players.
-void NetUpdate(void);
-
 // how many ticks to run?
 void TryRunTics(void);
 

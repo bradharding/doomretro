@@ -70,7 +70,7 @@ static void AddIWADDir(char *dir)
 // of installed IWAD files. The registry is inspected to find special
 // keys installed by the Windows installers for various CD versions
 // of DOOM. From these keys we can deduce where to find an IWAD.
-typedef struct registryvalue_s
+typedef struct
 {
     HKEY    root;
     char    *path;
@@ -149,7 +149,7 @@ static registryvalue_t root_path_keys[] =
 };
 
 // Subdirectories of the above install path, where IWADs are installed.
-static char *root_path_subdirs[] =
+static const char *root_path_subdirs[] =
 {
     ".",
     "Doom2",
@@ -168,7 +168,7 @@ static registryvalue_t steam_install_location =
 };
 
 // Subdirs of the steam install directory where IWADs are found
-static char *steam_install_subdirs[] =
+static const char *steam_install_subdirs[] =
 {
     "steamapps\\common\\doom 2\\base",
     "steamapps\\common\\final doom\\base",
@@ -288,7 +288,7 @@ static void CheckDOSDefaults(void)
 
 #endif
 
-static struct iwads_s
+static struct
 {
     char            *name;
     GameMission_t   mission;
@@ -304,7 +304,7 @@ static struct iwads_s
 
 // When given an IWAD with the '-iwad' parameter,
 // attempt to identify it by its name.
-void IdentifyIWADByName(char *name)
+void D_IdentifyIWADByName(char *name)
 {
     size_t  i;
     char    *p;
@@ -403,13 +403,13 @@ static void BuildIWADDirList(void)
 //
 // Searches WAD search paths for an WAD with a specific filename.
 //
-char *D_FindWADByName(char *name)
+char *D_FindWADByName(char *filename)
 {
     int i;
 
     // Absolute path?
-    if (M_FileExists(name))
-        return name;
+    if (M_FileExists(filename))
+        return filename;
 
     BuildIWADDirList();
 
@@ -421,11 +421,11 @@ char *D_FindWADByName(char *name)
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
         // the "directory" may actually refer directly to an IWAD
         // file.
-        if (M_StringCompare(leafname(iwad_dirs[i]), name) && M_FileExists(iwad_dirs[i]))
+        if (M_StringCompare(leafname(iwad_dirs[i]), filename) && M_FileExists(iwad_dirs[i]))
             return strdup(iwad_dirs[i]);
 
         // Construct a string for the full path
-        path = M_StringJoin(iwad_dirs[i], DIR_SEPARATOR_S, name, NULL);
+        path = M_StringJoin(iwad_dirs[i], DIR_SEPARATOR_S, filename, NULL);
 
         if (M_FileExists(path))
             return path;
@@ -469,7 +469,7 @@ char *D_FindIWAD(void)
         if (!(result = D_FindWADByName(iwadfile)))
             I_Error("The IWAD file \"%s\" wasn't found!", iwadfile);
 
-        IdentifyIWADByName(result);
+        D_IdentifyIWADByName(result);
     }
 
     return result;
@@ -549,7 +549,7 @@ void D_IdentifyVersion(void)
 {
     // gamemission is set up by the D_FindIWAD function. But if
     // we specify '-iwad', we have to identify using
-    // IdentifyIWADByName. However, if the iwad does not match
+    // D_IdentifyIWADByName. However, if the iwad does not match
     // any known IWAD name, we may have a dilemma. Try to
     // identify by its contents.
     if (gamemission == none)

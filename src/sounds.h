@@ -115,7 +115,7 @@ extern dboolean     musmusictype;
 //
 // Identifiers for all music in game.
 //
-typedef enum musicenum_e
+enum
 {
     mus_None,
     mus_e1m1,
@@ -186,12 +186,12 @@ typedef enum musicenum_e
     mus_dm2ttl,
     mus_dm2int,
     NUMMUSIC
-} musicenum_t;
+};
 
 //
 // Identifiers for all sfx in game.
 //
-typedef enum sfxenum_e
+enum
 {
     sfx_None,
     sfx_pistol,
@@ -313,6 +313,6 @@ typedef enum sfxenum_e
     sfx_secret,
 
     NUMSFX
-} sfxenum_t;
+};
 
 #endif

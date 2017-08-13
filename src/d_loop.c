@@ -55,17 +55,14 @@
 
 ticcmd_t    netcmds[BACKUPTICS];
 
-int         maketic;
-
-// Used for original sync code.
-int         skiptics;
+static int  maketic;
 
 //
 // NetUpdate
 // Builds ticcmds for console player,
 // sends out a packet
 //
-int         lasttime;
+static int  lasttime;
 
 static dboolean BuildNewTic(void)
 {
@@ -88,10 +85,11 @@ static dboolean BuildNewTic(void)
     return true;
 }
 
-void NetUpdate(void)
+static void NetUpdate(void)
 {
-    int nowtime = I_GetTime();
-    int newtics = nowtime - lasttime;
+    int         nowtime = I_GetTime();
+    int         newtics = nowtime - lasttime;
+    static int  skiptics;
 
     lasttime = nowtime;
 
