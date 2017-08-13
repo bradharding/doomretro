@@ -77,7 +77,6 @@ short           gamepadrightdeadzone;
 dboolean        vibrate;
 int             damagevibrationtics;
 int             weaponvibrationtics;
-int             currentmotorspeed;
 int             idlemotorspeed;
 int             restoremotorspeed;
 
@@ -271,6 +270,8 @@ void I_PollDirectInputGamepad(void)
 void XInputVibration(int motorspeed)
 {
 #if defined(_WIN32)
+    static int  currentmotorspeed;
+
     motorspeed = MIN(motorspeed, 65535);
 
     if (motorspeed > currentmotorspeed || motorspeed == idlemotorspeed)

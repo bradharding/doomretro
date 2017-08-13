@@ -86,10 +86,6 @@ extern skill_t          pendinggameskill;
 extern int              gameepisode;
 extern int              gamemap;
 
-extern char             **episodes[];
-extern char             **expansions[];
-extern char             **skilllevels[];
-
 extern dboolean         freeze;
 
 extern dboolean         nerve;
@@ -181,7 +177,6 @@ extern int              monstercount[NUMMOBJTYPES];
 extern int              barrelcount;
 
 // Timer, for scores.
-extern int              levelstarttic;  // gametic at level start
 extern int              leveltime;      // tics in game play for par
 
 //?

@@ -40,13 +40,11 @@
 #define __R_BSP_H__
 
 extern seg_t            *curline;
-extern side_t           *sidedef;
 extern line_t           *linedef;
 extern sector_t         *frontsector;
 extern sector_t         *backsector;
 
 extern drawseg_t        *drawsegs;
-extern unsigned int     maxdrawsegs;
 
 extern byte             *solidcol;
 

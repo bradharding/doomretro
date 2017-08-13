@@ -73,38 +73,12 @@ static void G_DoCompleted(void);
 static void G_DoWorldDone(void);
 static void G_DoSaveGame(void);
 
-// Game state the last time G_Ticker was called.
-static gamestate_t  oldgamestate;
-
-gameaction_t        gameaction;
-gamestate_t         gamestate = GS_TITLESCREEN;
-skill_t             gameskill;
-skill_t             pendinggameskill;
-int                 gameepisode;
-int                 gamemap;
-
-char **episodes[] =
-{
-    &s_M_EPISODE1,
-    &s_M_EPISODE2,
-    &s_M_EPISODE3,
-    &s_M_EPISODE4
-};
-
-char **expansions[] =
-{
-    &s_M_EXPANSION1,
-    &s_M_EXPANSION2
-};
-
-char **skilllevels[] =
-{
-    &s_M_SKILLLEVEL1,
-    &s_M_SKILLLEVEL2,
-    &s_M_SKILLLEVEL3,
-    &s_M_SKILLLEVEL4,
-    &s_M_SKILLLEVEL5
-};
+gameaction_t    gameaction;
+gamestate_t     gamestate = GS_TITLESCREEN;
+skill_t         gameskill;
+skill_t         pendinggameskill;
+int             gameepisode;
+int             gamemap;
 
 dboolean        paused;
 dboolean        sendpause;              // send a pause event next tic
@@ -117,7 +91,6 @@ player_t        players[MAXPLAYERS];
 int             gametic;
 int             activetic;
 int             gametime;
-int             levelstarttic;          // gametic at level start
 int             totalkills;             // for intermission
 int             totalitems;
 int             totalsecret;
@@ -577,8 +550,6 @@ static void G_DoLoadLevel(void)
     R_InitSkyMap();
     R_InitColumnFunctions();
 
-    levelstarttic = gametic;                    // for time calculation
-
     if (timer)
         countdown = timer * 60 * TICRATE;
 
@@ -919,8 +890,11 @@ static char savename[256];
 //
 void G_Ticker(void)
 {
-    ticcmd_t    *cmd;
-    player_t    *player = &players[0];
+    ticcmd_t            *cmd;
+    player_t            *player = &players[0];
+
+    // Game state the last time G_Ticker was called.
+    static gamestate_t  oldgamestate;
 
     // do player reborn if needed
     if (player->playerstate == PST_REBORN)

@@ -56,7 +56,6 @@ visplane_t          *ceilingplane;
 #define visplane_hash(picnum, lightlevel, height) (((unsigned int)(picnum) * 3 + (unsigned int)(lightlevel) \
             + (unsigned int)(height) * 7) & (MAXVISPLANES - 1))
 
-size_t             maxopenings;
 int                *openings;                       // dropoff overflow
 int                *lastopening;                    // dropoff overflow
 
@@ -80,9 +79,6 @@ fixed_t             *yslope;
 fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
 
 static fixed_t      cachedheight[SCREENHEIGHT];
-static fixed_t      cacheddistance[SCREENHEIGHT];
-static fixed_t      cachedxstep[SCREENHEIGHT];
-static fixed_t      cachedystep[SCREENHEIGHT];
 
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
 
@@ -100,8 +96,11 @@ extern dboolean     canmouselook;
 //
 static void R_MapPlane(int y, int x1, int x2)
 {
-    fixed_t distance;
-    int     dx;
+    static fixed_t  cacheddistance[SCREENHEIGHT];
+    static fixed_t  cachedxstep[SCREENHEIGHT];
+    static fixed_t  cachedystep[SCREENHEIGHT];
+    fixed_t         distance;
+    int             dx;
 
     if (centery == y)
         return;
@@ -327,9 +326,6 @@ static void R_MakeSpans(visplane_t *pl)
 // 1 cycle per 32 units (2 in 64)
 #define SWIRLFACTOR2    (8192 / 32)
 
-static byte *normalflat;
-static byte distortedflat[4096];
-
 //
 // R_DistortedFlat
 //
@@ -341,6 +337,8 @@ static byte *R_DistortedFlat(int flatnum)
     static int  lastflat = -1;
     static int  swirltic = -1;
     static int  offset[4096];
+    static byte *normalflat;
+    static byte distortedflat[4096];
     int         i;
     int         leveltic = activetic;
 

@@ -40,70 +40,71 @@
 #include "p_local.h"
 #include "z_zone.h"
 
-// killough 1/6/98: replaced globals with statics where appropriate
+static unsigned int maxdrawsegs;
 
-static dboolean segtextured;        // True if any of the segs textures might be visible.
+static dboolean     segtextured;        // True if any of the segs textures might be visible.
 
-static dboolean markfloor;          // False if the back side is the same plane.
-dboolean        markceiling;
+static side_t       *sidedef;
 
-static dboolean maskedtexture;
-static int      toptexture;
-static int      midtexture;
-static int      bottomtexture;
+static dboolean     markfloor;          // False if the back side is the same plane.
+dboolean            markceiling;
 
-static fixed_t  toptexheight;
-static fixed_t  midtexheight;
-static fixed_t  bottomtexheight;
+static dboolean     maskedtexture;
+static int          toptexture;
+static int          midtexture;
+static int          bottomtexture;
 
-static byte     *toptexfullbright;
-static byte     *midtexfullbright;
-static byte     *bottomtexfullbright;
+static fixed_t      toptexheight;
+static fixed_t      midtexheight;
+static fixed_t      bottomtexheight;
 
-angle_t         rw_normalangle;
-static fixed_t  rw_distance;
+static byte         *toptexfullbright;
+static byte         *midtexfullbright;
+static byte         *bottomtexfullbright;
+
+angle_t             rw_normalangle;
+static fixed_t      rw_distance;
 
 //
 // regular wall
 //
-static int      rw_x;
-static int      rw_stopx;
-static angle_t  rw_centerangle;
-static fixed_t  rw_offset;
-static fixed_t  rw_scale;
-static fixed_t  rw_scalestep;
-static fixed_t  rw_midtexturemid;
-static fixed_t  rw_toptexturemid;
-static fixed_t  rw_bottomtexturemid;
+static int          rw_x;
+static int          rw_stopx;
+static angle_t      rw_centerangle;
+static fixed_t      rw_offset;
+static fixed_t      rw_scale;
+static fixed_t      rw_scalestep;
+static fixed_t      rw_midtexturemid;
+static fixed_t      rw_toptexturemid;
+static fixed_t      rw_bottomtexturemid;
 
-static int64_t  pixhigh;
-static int64_t  pixlow;
-static fixed_t  pixhighstep;
-static fixed_t  pixlowstep;
+static int64_t      pixhigh;
+static int64_t      pixlow;
+static fixed_t      pixhighstep;
+static fixed_t      pixlowstep;
 
-static int64_t  topfrac;
-static fixed_t  topstep;
+static int64_t      topfrac;
+static fixed_t      topstep;
 
-static int64_t  bottomfrac;
-static fixed_t  bottomstep;
+static int64_t      bottomfrac;
+static fixed_t      bottomstep;
 
-lighttable_t    **walllights;
+lighttable_t        **walllights;
 
-static int      *maskedtexturecol;  // dropoff overflow
+static int          *maskedtexturecol;  // dropoff overflow
 
-dboolean        r_brightmaps = r_brightmaps_default;
-dboolean        r_liquid_current = r_liquid_current_default;
+dboolean            r_brightmaps = r_brightmaps_default;
+dboolean            r_liquid_current = r_liquid_current_default;
 
-extern int      *openings;          // dropoff overflow
-extern size_t   maxopenings;
-extern fixed_t  animatedliquiddiff;
-extern fixed_t  animatedliquidxoffs;
-extern fixed_t  animatedliquidyoffs;
-extern dboolean r_dither;
-extern dboolean r_liquid_bob;
-extern dboolean r_textures;
-extern dboolean r_translucency;
-extern dboolean usebrightmaps;
+extern int          *openings;          // dropoff overflow
+extern fixed_t      animatedliquiddiff;
+extern fixed_t      animatedliquidxoffs;
+extern fixed_t      animatedliquidyoffs;
+extern dboolean     r_dither;
+extern dboolean     r_liquid_bob;
+extern dboolean     r_textures;
+extern dboolean     r_translucency;
+extern dboolean     usebrightmaps;
 
 //
 // R_FixWiggle()
@@ -149,21 +150,21 @@ static int  heightbits = 12;
 static int  heightunit = (1 << 12);
 static int  invhgtbits = 4;
 
-typedef struct
-{
-    int clamp;
-    int heightbits;
-} scalevalues_t;
-
-static const scalevalues_t scale_values[9] =
-{
-    { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
-    {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
-    {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
-};
-
 static void R_FixWiggle(sector_t *sector)
 {
+    typedef struct
+    {
+        int clamp;
+        int heightbits;
+    } scalevalues_t;
+
+    static const scalevalues_t scale_values[] =
+    {
+        { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
+        {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
+        {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
+    };
+
     static int  lastheight;
 
     // disallow negative heights, force cache initialization
@@ -545,8 +546,9 @@ void R_StoreWallRange(const int start, const int stop)
 
     // killough 1/6/98, 2/1/98: remove limit on openings
     {
-        size_t  pos = lastopening - openings;
-        size_t  need = (rw_stopx - start) * sizeof(*lastopening) + pos;
+        size_t          pos = lastopening - openings;
+        size_t          need = (rw_stopx - start) * sizeof(*lastopening) + pos;
+        static size_t   maxopenings;
 
         if (need > maxopenings)
         {

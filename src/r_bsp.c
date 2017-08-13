@@ -46,13 +46,11 @@
 #include "r_things.h"
 
 seg_t           *curline;
-side_t          *sidedef;
 line_t          *linedef;
 sector_t        *frontsector;
 sector_t        *backsector;
 
 drawseg_t       *drawsegs;
-unsigned int    maxdrawsegs;
 drawseg_t       *ds_p;
 
 void R_StoreWallRange(int start, int stop);

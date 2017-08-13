@@ -90,9 +90,6 @@ void R_SetViewSize(int blocks);
 
 void I_SetGamma(float value);
 
-extern float        m_acceleration;
-extern int          m_threshold;
-
 extern dboolean     sendpause;
 extern dboolean     quitting;
 extern int          r_screensize;

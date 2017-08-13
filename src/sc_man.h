@@ -43,7 +43,6 @@ extern char     *sc_String;
 extern int      sc_Number;
 extern int      sc_Line;
 extern dboolean sc_End;
-extern dboolean sc_Crossed;
 extern dboolean sc_FileScripts;
 extern char     *sc_ScriptsDir;
 

@@ -261,26 +261,6 @@ void F_Ticker(void)
     }
 }
 
-static struct kern_s
-{
-    char    char1;
-    char    char2;
-    int     adjust;
-} kern[] = {
-    { '.', '1',  -1 },
-    { '.', '7',  -1 },
-    { '.', '\"', -1 },
-    { ',', '1',  -1 },
-    { ',', '7',  -1 },
-    { ',', 'Y',  -1 },
-    { 'T', '.',  -1 },
-    { 'T', ',',  -1 },
-    { 'Y', '.',  -1 },
-    { 'Y', ',',  -1 },
-    { 'D', '\'', -1 },
-    { 0,   0,     0 }
-};
-
 //
 //
 // F_TextWrite
@@ -291,6 +271,26 @@ void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
 
 static void F_TextWrite(void)
 {
+    static struct
+    {
+        char    char1;
+        char    char2;
+        int     adjust;
+    } kern[] = {
+        { '.', '1',  -1 },
+        { '.', '7',  -1 },
+        { '.', '\"', -1 },
+        { ',', '1',  -1 },
+        { ',', '7',  -1 },
+        { ',', 'Y',  -1 },
+        { 'T', '.',  -1 },
+        { 'T', ',',  -1 },
+        { 'Y', '.',  -1 },
+        { 'Y', ',',  -1 },
+        { 'D', '\'', -1 },
+        { 0,   0,     0 }
+    };
+
     // draw some of the text onto the screen
     byte        *src;
     byte        *dest;

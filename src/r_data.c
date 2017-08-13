@@ -58,7 +58,6 @@
 
 // killough 4/17/98: make firstcolormaplump, lastcolormaplump external
 static int  firstcolormaplump;
-static int  lastcolormaplump;
 
 int         firstflat;
 static int  lastflat;
@@ -66,7 +65,6 @@ int         numflats;
 
 int         firstspritelump;
 int         lastspritelump;
-int         numspritelumps;
 
 dboolean    notranslucency;
 dboolean    telefragonmap30;
@@ -170,7 +168,7 @@ static byte greenonly3[256] =
 #define DOOM1ONLY   1
 #define DOOM2ONLY   2
 
-static struct fullbright_s
+static struct
 {
     char    texture[9];
     int     game;
@@ -416,6 +414,7 @@ static void R_InitFlats(void)
 static void R_InitSpriteLumps(void)
 {
     int i;
+    int numspritelumps;
 
     firstspritelump = W_GetNumForName("S_START") + 1;
     lastspritelump = W_GetNumForName("S_END") - 1;
@@ -541,8 +540,7 @@ static void R_InitColormaps(void)
     if (W_CheckNumForName("C_START") >= 0 && W_CheckNumForName("C_END") >= 0)
     {
         firstcolormaplump = W_GetNumForName("C_START");
-        lastcolormaplump = W_GetNumForName("C_END");
-        numcolormaps = lastcolormaplump - firstcolormaplump;
+        numcolormaps = W_GetNumForName("C_END") - firstcolormaplump;
 
         colormaps = Z_Malloc(sizeof(*colormaps) * numcolormaps, PU_STATIC, NULL);
 

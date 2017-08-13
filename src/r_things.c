@@ -81,7 +81,6 @@ static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
 
 static dboolean         interpolatesprites;
-static dboolean         skippsprinterp2;
 static dboolean         pausesprites;
 static dboolean         drawshadows;
 static fixed_t          floorheight;
@@ -325,7 +324,6 @@ static vissprite_t              **vissprite_ptrs;
 static unsigned int             num_vissprite;
 static unsigned int             num_bloodsplatvissprite;
 static unsigned int             num_vissprite_alloc;
-static unsigned int             num_vissprite_ptrs;
 
 static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
 
@@ -978,6 +976,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         } psp_interpolate_t;
 
         static psp_interpolate_t    psp_inter;
+        static dboolean             skippsprinterp2;
 
         if (realframe)
         {
@@ -1236,7 +1235,8 @@ static void R_SortVisSprites(void)
 {
     if (num_vissprite)
     {
-        int i = num_vissprite;
+        int                 i = num_vissprite;
+        static unsigned int num_vissprite_ptrs;
 
         if (num_vissprite_ptrs < num_vissprite * 2)
         {

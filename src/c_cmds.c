@@ -2680,61 +2680,6 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 #define RPJM2   RP" and "JM2
 #define SPTH    SP" and "TH
 
-static const char *authors[][6] =
-{
-    /* xy      doom   doom2  tnt    plut   nerve */
-    /* 00 */ { "",    "",    "",    DCMC,  "" },
-    /* 01 */ { "",    SP,    TM,    DCMC,  RM },
-    /* 02 */ { "",    AM,    JW,    DCMC,  RH },
-    /* 03 */ { "",    AM,    RPJM2, DCMC,  RM },
-    /* 04 */ { "",    AM,    TH2,   DCMC,  RM },
-    /* 05 */ { "",    AM,    JD,    DCMC,  RH },
-    /* 06 */ { "",    AM,    JSTH2, DCMC,  RH },
-    /* 07 */ { "",    AMSP,  AD,    DCMC,  RH },
-    /* 08 */ { "",    SP,    JM2,   DCMC,  RH },
-    /* 09 */ { "",    SP,    JSTH2, DCMC,  RM },
-    /* 10 */ { "",    SPTH,  TM,    DCMC,  "" },
-    /* 11 */ { JR,    JR,    DJ,    DCMC,  "" },
-    /* 12 */ { JR,    SP,    JL,    DCMC,  "" },
-    /* 13 */ { JR,    SP,    BKTH2, DCMC,  "" },
-    /* 14 */ { JRTH,  AM,    RP,    DCMC,  "" },
-    /* 15 */ { JR,    JR,    WW,    DCMC,  "" },
-    /* 16 */ { JR,    SP,    AA,    DCMC,  "" },
-    /* 17 */ { JR,    JR,    TM,    DCMC,  "" },
-    /* 18 */ { SPTH,  SP,    DCTH2, DCMC,  "" },
-    /* 19 */ { JR,    SP,    TH2,   DCMC,  "" },
-    /* 20 */ { DC2DB, JR,    DO,    DCMC,  "" },
-    /* 21 */ { SPTH,  SP,    DO,    DCMC,  "" },
-    /* 22 */ { SPTH,  AM,    CB,    DCMC,  "" },
-    /* 23 */ { SPTH,  SP,    PT,    DCMC,  "" },
-    /* 24 */ { SPTH,  SP,    DJ,    DCMC,  "" },
-    /* 25 */ { SP,    SG,    JM,    DCMC,  "" },
-    /* 26 */ { SP,    JR,    MSJL,  DCMC,  "" },
-    /* 27 */ { SPTH,  SP,    DO,    DCMC,  "" },
-    /* 28 */ { SP,    SP,    MC,    DCMC,  "" },
-    /* 29 */ { SP,    JR,    JS,    DCMC,  "" },
-    /* 30 */ { "",    SP,    JS,    DCMC,  "" },
-    /* 31 */ { SP,    SP,    DC,    DCMC,  "" },
-    /* 32 */ { SP,    SP,    DC,    DCMC,  "" },
-    /* 33 */ { SPTH,  MB,    "",    "",    "" },
-    /* 34 */ { SP,    "",    "",    "",    "" },
-    /* 35 */ { SP,    "",    "",    "",    "" },
-    /* 36 */ { SP,    "",    "",    "",    "" },
-    /* 37 */ { SPTH,  "",    "",    "",    "" },
-    /* 38 */ { SP,    "",    "",    "",    "" },
-    /* 39 */ { SP,    "",    "",    "",    "" },
-    /* 40 */ { "",    "",    "",    "",    "" },
-    /* 41 */ { AM,    "",    "",    "",    "" },
-    /* 42 */ { JR,    "",    "",    "",    "" },
-    /* 43 */ { SG,    "",    "",    "",    "" },
-    /* 44 */ { AM,    "",    "",    "",    "" },
-    /* 45 */ { TW,    "",    "",    "",    "" },
-    /* 46 */ { JR,    "",    "",    "",    "" },
-    /* 47 */ { JA,    "",    "",    "",    "" },
-    /* 48 */ { SG,    "",    "",    "",    "" },
-    /* 49 */ { TW,    "",    "",    "",    "" }
-};
-
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
@@ -2742,6 +2687,61 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, "Title\t<b>%s</b>", mapnumandtitle);
 
     {
+        const char *authors[][6] =
+        {
+            /* xy      doom   doom2  tnt    plut   nerve */
+            /* 00 */ { "",    "",    "",    DCMC,  "" },
+            /* 01 */ { "",    SP,    TM,    DCMC,  RM },
+            /* 02 */ { "",    AM,    JW,    DCMC,  RH },
+            /* 03 */ { "",    AM,    RPJM2, DCMC,  RM },
+            /* 04 */ { "",    AM,    TH2,   DCMC,  RM },
+            /* 05 */ { "",    AM,    JD,    DCMC,  RH },
+            /* 06 */ { "",    AM,    JSTH2, DCMC,  RH },
+            /* 07 */ { "",    AMSP,  AD,    DCMC,  RH },
+            /* 08 */ { "",    SP,    JM2,   DCMC,  RH },
+            /* 09 */ { "",    SP,    JSTH2, DCMC,  RM },
+            /* 10 */ { "",    SPTH,  TM,    DCMC,  "" },
+            /* 11 */ { JR,    JR,    DJ,    DCMC,  "" },
+            /* 12 */ { JR,    SP,    JL,    DCMC,  "" },
+            /* 13 */ { JR,    SP,    BKTH2, DCMC,  "" },
+            /* 14 */ { JRTH,  AM,    RP,    DCMC,  "" },
+            /* 15 */ { JR,    JR,    WW,    DCMC,  "" },
+            /* 16 */ { JR,    SP,    AA,    DCMC,  "" },
+            /* 17 */ { JR,    JR,    TM,    DCMC,  "" },
+            /* 18 */ { SPTH,  SP,    DCTH2, DCMC,  "" },
+            /* 19 */ { JR,    SP,    TH2,   DCMC,  "" },
+            /* 20 */ { DC2DB, JR,    DO,    DCMC,  "" },
+            /* 21 */ { SPTH,  SP,    DO,    DCMC,  "" },
+            /* 22 */ { SPTH,  AM,    CB,    DCMC,  "" },
+            /* 23 */ { SPTH,  SP,    PT,    DCMC,  "" },
+            /* 24 */ { SPTH,  SP,    DJ,    DCMC,  "" },
+            /* 25 */ { SP,    SG,    JM,    DCMC,  "" },
+            /* 26 */ { SP,    JR,    MSJL,  DCMC,  "" },
+            /* 27 */ { SPTH,  SP,    DO,    DCMC,  "" },
+            /* 28 */ { SP,    SP,    MC,    DCMC,  "" },
+            /* 29 */ { SP,    JR,    JS,    DCMC,  "" },
+            /* 30 */ { "",    SP,    JS,    DCMC,  "" },
+            /* 31 */ { SP,    SP,    DC,    DCMC,  "" },
+            /* 32 */ { SP,    SP,    DC,    DCMC,  "" },
+            /* 33 */ { SPTH,  MB,    "",    "",    "" },
+            /* 34 */ { SP,    "",    "",    "",    "" },
+            /* 35 */ { SP,    "",    "",    "",    "" },
+            /* 36 */ { SP,    "",    "",    "",    "" },
+            /* 37 */ { SPTH,  "",    "",    "",    "" },
+            /* 38 */ { SP,    "",    "",    "",    "" },
+            /* 39 */ { SP,    "",    "",    "",    "" },
+            /* 40 */ { "",    "",    "",    "",    "" },
+            /* 41 */ { AM,    "",    "",    "",    "" },
+            /* 42 */ { JR,    "",    "",    "",    "" },
+            /* 43 */ { SG,    "",    "",    "",    "" },
+            /* 44 */ { AM,    "",    "",    "",    "" },
+            /* 45 */ { TW,    "",    "",    "",    "" },
+            /* 46 */ { JR,    "",    "",    "",    "" },
+            /* 47 */ { JA,    "",    "",    "",    "" },
+            /* 48 */ { SG,    "",    "",    "",    "" },
+            /* 49 */ { TW,    "",    "",    "",    "" }
+        };
+
         int         i = (gamemission == doom ? gameepisode * 10 : 0) + gamemap;
         const char  *author = P_GetMapAuthor(i);
 

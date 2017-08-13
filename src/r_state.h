@@ -80,7 +80,6 @@ extern byte             **flatfullbright;
 // Sprite....
 extern int              firstspritelump;
 extern int              lastspritelump;
-extern int              numspritelumps;
 
 //
 // Lookup tables for map data.

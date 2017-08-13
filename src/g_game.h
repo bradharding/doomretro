@@ -86,7 +86,6 @@ extern dboolean message_dontpause;
 extern dboolean vibrate;
 extern dboolean gamepadpress;
 extern char     lbmname1[MAX_PATH];
-extern char     lbmname2[MAX_PATH];
 extern char     lbmpath1[MAX_PATH];
 extern char     lbmpath2[MAX_PATH];
 extern char     mapnumandtitle[512];

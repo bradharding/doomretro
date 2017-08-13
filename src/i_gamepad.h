@@ -87,7 +87,6 @@ extern short    gamepadthumbLY;
 extern short    gamepadthumbRX;
 extern short    gamepadthumbRY;
 extern dboolean vibrate;
-extern int      currentmotorspeed;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;
 extern float    gamepadsensitivity;

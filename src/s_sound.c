@@ -117,9 +117,6 @@ static int          snd_SfxVolume;
 // Whether songs are mus_paused
 static dboolean     mus_paused;
 
-// music currently should play
-static int          musicnum_current;
-
 // Music currently being played
 musicinfo_t         *mus_playing;
 
@@ -613,7 +610,6 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     int         mapinfomusic;
 
     // current music which should play
-    musicnum_current = music_id;
     musinfo.current_item = -1;
 
     if (nomusic || (mus_playing == music && !cheating))

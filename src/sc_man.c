@@ -53,27 +53,25 @@ char            *sc_String;
 int             sc_Number;
 int             sc_Line;
 dboolean        sc_End;
-dboolean        sc_Crossed;
 
 static char     ScriptName[16];
 static char     *ScriptBuffer;
 static char     *ScriptPtr;
 static char     *ScriptEndPtr;
-static char     StringBuffer[MAX_STRING_SIZE];
 static int      ScriptLumpNum;
 static dboolean ScriptOpen;
-static int      ScriptSize;
 static dboolean AlreadyGot;
 
 void SC_Open(char *name)
 {
+    static char StringBuffer[MAX_STRING_SIZE];
+
     SC_Close();
     ScriptLumpNum = W_GetNumForName(name);
     ScriptBuffer = W_CacheLumpNum(ScriptLumpNum);
-    ScriptSize = W_LumpLength(ScriptLumpNum);
     M_StringCopy(ScriptName, name, sizeof(ScriptName));
     ScriptPtr = ScriptBuffer;
-    ScriptEndPtr = ScriptPtr + ScriptSize;
+    ScriptEndPtr = ScriptPtr + W_LumpLength(ScriptLumpNum);
     sc_Line = 1;
     sc_End = false;
     ScriptOpen = true;
@@ -108,7 +106,6 @@ dboolean SC_GetString(void)
     }
 
     foundToken = false;
-    sc_Crossed = false;
 
     if (ScriptPtr >= ScriptEndPtr)
     {
@@ -127,10 +124,7 @@ dboolean SC_GetString(void)
             }
 
             if (*ScriptPtr++ == '\n')
-            {
                 sc_Line++;
-                sc_Crossed = true;
-            }
         }
 
         if (ScriptPtr >= ScriptEndPtr)
@@ -152,7 +146,6 @@ dboolean SC_GetString(void)
                 }
 
             sc_Line++;
-            sc_Crossed = true;
         }
     }
 
