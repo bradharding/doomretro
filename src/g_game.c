@@ -65,13 +65,13 @@
 #include "wi_stuff.h"
 #include "z_zone.h"
 
-void G_DoReborn(void);
+static void G_DoReborn(void);
 
-void G_DoLoadLevel(void);
-void G_DoNewGame(void);
-void G_DoCompleted(void);
-void G_DoWorldDone(void);
-void G_DoSaveGame(void);
+static void G_DoLoadLevel(void);
+static void G_DoNewGame(void);
+static void G_DoCompleted(void);
+static void G_DoWorldDone(void);
+static void G_DoSaveGame(void);
 
 // Game state the last time G_Ticker was called.
 static gamestate_t  oldgamestate;
