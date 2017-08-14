@@ -108,7 +108,7 @@ static byte         *playpal;
 
 byte                *mapscreen;
 SDL_Window          *mapwindow;
-static SDL_Renderer *maprenderer;
+SDL_Renderer        *maprenderer;
 static SDL_Texture  *maptexture;
 static SDL_Surface  *mapsurface;
 static SDL_Surface  *mapbuffer;

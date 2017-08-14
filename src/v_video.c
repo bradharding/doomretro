@@ -1500,7 +1500,7 @@ extern char     maptitle[128];
 extern dboolean splashscreen;
 extern int      titlesequence;
 
-static dboolean V_SavePNG(SDL_Window *window, char *path)
+static dboolean V_SavePNG(SDL_Renderer *renderer, char *path)
 {
     dboolean    result = false;
 
@@ -1579,7 +1579,7 @@ dboolean V_ScreenShot(void)
     }
     while (M_FileExists(lbmpath1));
 
-    result = V_SavePNG(window, lbmpath1);
+    result = V_SavePNG(renderer, lbmpath1);
 
     lbmpath2[0] = '\0';
 
@@ -1592,7 +1592,7 @@ dboolean V_ScreenShot(void)
         }
         while (M_FileExists(lbmpath2));
 
-        V_SavePNG(mapwindow, lbmpath2);
+        V_SavePNG(maprenderer, lbmpath2);
     }
 
     return result;
