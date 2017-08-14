@@ -349,7 +349,7 @@ static byte *R_DistortedFlat(int flatnum)
     lastflat = flatnum;
 
     // built this tic?
-    if (leveltic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused)
+    if (leveltic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused && !freeze)
     {
         int x, y;
 
@@ -478,7 +478,7 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    if (isliquid[picnum] && r_liquid_swirl && !freeze)
+                    if (isliquid[picnum] && r_liquid_swirl)
                     {
                         ds_source = R_DistortedFlat(picnum);
                         R_MakeSpans(pl);
