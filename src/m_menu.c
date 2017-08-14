@@ -2980,7 +2980,7 @@ dboolean M_Responder(event_t *ev)
     // Pop-up menu?
     if (!menuactive)
     {
-        if (key == keyboardmenu && !keydown && !splashscreen && !consoleheight)
+        if (key == keyboardmenu && !keydown && !splashscreen && !consoleactive)
         {
             keydown = key;
 

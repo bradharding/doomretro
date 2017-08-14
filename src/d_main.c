@@ -431,7 +431,7 @@ static byte     *playpal;
 //
 void D_PageTicker(void)
 {
-    if (!menuactive && !startingnewgame && !consoleheight)
+    if (!menuactive && !startingnewgame && !consoleactive)
     {
         if (pagewait < I_GetTime())
         {

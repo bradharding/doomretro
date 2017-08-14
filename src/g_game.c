@@ -672,7 +672,7 @@ dboolean G_Responder(event_t *ev)
     // any other key pops up menu if on title screen
     if (gameaction == ga_nothing && gamestate == GS_TITLESCREEN)
     {
-        if (!menuactive && !consoleheight
+        if (!menuactive && !consoleactive
             && ((ev->type == ev_keydown
                  && ev->data1 != KEY_PAUSE
                  && ev->data1 != KEY_SHIFT
