@@ -379,6 +379,12 @@ void P_PlayerThink(player_t *player)
     const struct msecnode_s *seclist;
     static int              motionblur;
 
+    if (player->bonuscount)
+        player->bonuscount--;
+
+    if (consoleactive)
+        return;
+
     // [AM] Assume we can interpolate at the beginning of the tic.
     mo->interp = true;
 
@@ -555,9 +561,6 @@ void P_PlayerThink(player_t *player)
         player->powers[pw_ironfeet]--;
 
     P_ReduceDamageCount(player);
-
-    if (player->bonuscount)
-        player->bonuscount--;
 
     // Handling colormaps.
     if (player->powers[pw_invulnerability] > STARTFLASHING || (player->powers[pw_invulnerability] & 8))
