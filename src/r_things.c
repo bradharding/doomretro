@@ -375,7 +375,7 @@ fixed_t spryscale;
 int64_t sprtopscreen;
 int     fuzzpos;
 
-void R_BlastMaskedColumn(const rcolumn_t *column)
+static void R_BlastMaskedColumn(const rcolumn_t *column)
 {
     int count = column->numposts;
 
@@ -1327,7 +1327,7 @@ static void R_DrawSprite(vissprite_t *spr)
         int     phs = viewplayer->mo->subsector->sector->heightsec;
 
         if ((mh = sectors[spr->heightsec].interpfloorheight) > spr->gz
-            && (h = centeryfrac - FixedMul(mh -= viewz, spr->scale)) >= 0 && (h >>= FRACBITS) < viewheight)
+            && (h = centeryfrac - FixedMul((mh -= viewz), spr->scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
             if (mh <= 0 || (phs != -1 && viewz > sectors[phs].interpfloorheight))
             {                          // clip bottom

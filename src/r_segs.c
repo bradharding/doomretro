@@ -207,6 +207,33 @@ static lighttable_t **GetLightTable(const int lightlevel)
         LIGHTLEVELS - 1)];
 }
 
+static void R_BlastMaskedSegColumn(const rcolumn_t *column)
+{
+    int             count = column->numposts;
+    unsigned char   *pixels = column->pixels;
+
+    dc_ceilingclip = mceilingclip[dc_x] + 1;
+    dc_floorclip = mfloorclip[dc_x] - 1;
+
+    while (count--)
+    {
+        const rpost_t   *post = &column->posts[count];
+        const int       topdelta = post->topdelta;
+
+        // calculate unclipped screen coordinates for post
+        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
+
+        if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+            {
+                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+                    + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                dc_source = pixels + topdelta;
+                colfunc();
+            }
+    }
+}
+
 //
 // R_RenderMaskedSegRange
 //
@@ -251,7 +278,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             + curline->sidedef->rowoffset;
 
     dc_colormap = fixedcolormap;
-    dc_baseclip = viewheight;
 
     patch = R_CacheTextureCompositePatchNum(texnum);
 
@@ -282,7 +308,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
             // draw the texture
-            R_BlastMaskedColumn(R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
+            R_BlastMaskedSegColumn(R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
 
