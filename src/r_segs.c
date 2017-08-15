@@ -277,7 +277,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
         dc_texturemid = MIN(frontsector->interpceilingheight, backsector->interpceilingheight) - viewz
             + curline->sidedef->rowoffset;
 
-    dc_colormap = fixedcolormap;
+    if (fixedcolormap)
+        dc_colormap = fixedcolormap;
 
     patch = R_CacheTextureCompositePatchNum(texnum);
 
@@ -325,6 +326,9 @@ static dboolean didsolidcol;
 
 static void R_RenderSegLoop(void)
 {
+    if (fixedcolormap)
+        dc_colormap = fixedcolormap;
+
     for (; rw_x < rw_stopx; rw_x++)
     {
         fixed_t texturecolumn = 0;
@@ -371,9 +375,7 @@ static void R_RenderSegLoop(void)
 
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
-            if (fixedcolormap)
-                dc_colormap = fixedcolormap;
-            else
+            if (!fixedcolormap)
                 dc_colormap = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
             dc_x = rw_x;
