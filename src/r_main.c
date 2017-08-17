@@ -169,7 +169,7 @@ static int SlopeDiv(unsigned int num, unsigned int den)
 // to get a tangent (slope) value which is looked up in the
 // tantoangle[] table.
 
-// Point of view (viewx, viewy) to point (x1, y1) angle.
+// Point of view (viewx, viewy) to point (x, y) angle.
 angle_t R_PointToAngle(fixed_t x, fixed_t y)
 {
     return R_PointToAngle2(viewx, viewy, x, y);
@@ -374,9 +374,9 @@ static void R_InitLightTables(void)
 
         for (j = 0; j < MAXLIGHTZ; j++)
         {
-            int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT);
+            int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
             int t;
-            int level = BETWEEN(0, startmap - (scale >>= LIGHTSCALESHIFT) / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            int level = BETWEEN(0, startmap - scale  / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: Initialize multiple colormaps
             for (t = 0; t < numcolormaps; t++)

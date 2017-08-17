@@ -2789,7 +2789,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_TabbedOutput(tabs, "Nodes\t<b>%s</b>", commify(numnodes));
 
-    C_TabbedOutput(tabs, "Node format\t<b>%s</b>", (mapformat == DOOMBSP ? "Regular" :
+    C_TabbedOutput(tabs, "Node format\t<b>%s nodes</b>", (mapformat == DOOMBSP ? "Regular" :
         (mapformat == DEEPBSP ? "<i>DeePBSP v4</i> extended" : "<i>ZDoom</i> uncompressed extended")));
 
     C_TabbedOutput(tabs, "Sectors\t<b>%s</b>", commify(numsectors));
