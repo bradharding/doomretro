@@ -39,26 +39,26 @@
 #include "doomtype.h"
 #include "m_fixed.h"
 
-int ABS(int a)
+int32_t ABS(int32_t a)
 {
-    int b = a >> 31;
+    int32_t b = a >> 31;
 
     return ((a ^ b) - b);
 }
 
-int MAX(int a, int b)
+int32_t MAX(int32_t a, int32_t b)
 {
     b = a - b;
     return (a - (b & (b >> 31)));
 }
 
-int MIN(int a, int b)
+int32_t MIN(int32_t a, int32_t b)
 {
     a -= b;
     return (b + (a & (a >> 31)));
 }
 
-int BETWEEN(int a, int b, int c)
+int32_t BETWEEN(int32_t a, int32_t b, int32_t c)
 {
     return MAX(a, MIN(b, c));
 }
@@ -68,7 +68,7 @@ float BETWEENF(float a, float b, float c)
     return ((b = (b < a ? a : b)) > c ? c : b);
 }
 
-int SIGN(int a)
+int32_t SIGN(int32_t a)
 {
     return (1 | (a >> 31));
 }
@@ -81,7 +81,7 @@ fixed_t FixedMul(fixed_t a, fixed_t b)
 fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
     if ((ABS(a) >> 14) >= ABS(b))
-        return ((a ^ b) >> 31) ^ INT_MAX;
+        return ((a ^ b) >> 31) ^ INT32_MAX;
     else
         return (fixed_t)(((int64_t)a << FRACBITS) / b);
 }
@@ -98,7 +98,7 @@ fixed_t FixedMod(fixed_t a, fixed_t b)
         return (a & (b - 1));
 }
 
-unsigned int SafeAdd(unsigned int a, int b)
+uint32_t SafeAdd(uint32_t a, int32_t b)
 {
-    return (b > 0 && (unsigned int)b > UINT_MAX - a ? a : a + b);
+    return (b > 0 && (uint32_t)b > UINT32_MAX - a ? a : a + b);
 }

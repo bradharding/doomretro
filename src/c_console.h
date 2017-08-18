@@ -98,18 +98,18 @@ extern dboolean     forceconsoleblurredraw;
 typedef struct
 {
     char            *input;
-    int             caretpos;
-    int             selectstart;
-    int             selectend;
+    uint32_t        caretpos;
+    uint32_t        selectstart;
+    uint32_t        selectend;
 } undohistory_t;
 
 void C_Print(const stringtype_t type, const char *string, ...);
 void C_Input(const char *string, ...);
-void C_IntCVAROutput(const char *cvar, const int value);
-void C_PctCVAROutput(const char *cvar, const int value);
+void C_IntCVAROutput(const char *cvar, const int32_t value);
+void C_PctCVAROutput(const char *cvar, const int32_t value);
 void C_StrCVAROutput(const char *cvar, const char *string);
 void C_Output(const char *string, ...);
-void C_TabbedOutput(const int tabs[8], const char *string, ...);
+void C_TabbedOutput(const int32_t tabs[8], const char *string, ...);
 void C_Warning(const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_Obituary(const char *string, ...);

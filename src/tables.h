@@ -67,7 +67,7 @@ fixed_t         finetangent[FINEANGLES / 2];
 #define SLOPEBITS               11
 #define DBITS                   (FRACBITS - SLOPEBITS)
 
-typedef unsigned angle_t;
+typedef uint32_t angle_t;
 
 // Effective size is 2049;
 // The +1 size is to handle the case when x==y
