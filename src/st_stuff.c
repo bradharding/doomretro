@@ -1567,12 +1567,6 @@ static void ST_loadData(void)
     ST_loadGraphics();
 }
 
-static void ST_unloadCallback(char *lumpname, patch_t **variable)
-{
-    W_UnlockLumpName(lumpname);
-    *variable = NULL;
-}
-
 static void ST_initData(void)
 {
     int i;

@@ -97,6 +97,7 @@ angle_t             xtoviewangle[SCREENWIDTH + 1];
 
 fixed_t             finesine[5 * FINEANGLES / 4];
 fixed_t             *finecosine = &finesine[FINEANGLES / 4];
+fixed_t             finetangent[FINEANGLES / 2];
 angle_t             tantoangle[SLOPERANGE + 1];
 
 // killough 3/20/98: Support dynamic colormaps, e.g. deep water
