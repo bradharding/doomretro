@@ -1340,13 +1340,20 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 weapondescription[source->player->readyweapon]);
         else
         {
-            char *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
+            if (source->type == MT_TFOG)
+                C_Obituary("%s%s was telefragged.", (target->player ? "" : (isvowel(name[0]) ? "An " :
+                    "A ")), (target->player ? (M_StringCompare(playername, playername_default) ? playername :
+                     titlecase(playername)) : name));
+            else
+            {
+                char *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
 
-            C_Obituary("%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
-                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
-                (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a "))),
-                (target->player ? (M_StringCompare(playername, playername_default) ? playername :
-                titlecase(playername)) : name));
+                C_Obituary("%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
+                    (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
+                    (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a "))),
+                    (target->player ? (M_StringCompare(playername, playername_default) ? playername :
+                    titlecase(playername)) : name));
+            }
         }
     }
 

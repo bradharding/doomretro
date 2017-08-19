@@ -9,6 +9,7 @@
 * A value of `off` can now be used for the `facebackcolor` CVAR and is the same as using the default value of `5`.
 * A bug has been fixed whereby the sky would be slightly darker than normal when the player has the light amplification visor power-up.
 * When pressing the <kbd>PRINTSCREEN</kbd> key while the `am_external` CVAR is `on`, a screenshot of each screen will now be taken rather than two screenshots of the same screen.
+* The obituary in the console now correctly reflects when the player or a monster is telefragged.
 
 ---
 
