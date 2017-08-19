@@ -311,6 +311,9 @@ static void P_DeathThink(player_t *player)
     if (player->bonuscount)
         player->bonuscount--;
 
+    if (consoleactive)
+        return;
+
     if (((player->cmd.buttons & BT_USE) || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount
         && count > TICRATE * 2) || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER]))
     {
