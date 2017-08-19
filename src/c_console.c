@@ -1202,415 +1202,435 @@ dboolean C_Responder(event_t *ev)
 
         switch (key)
         {
-        case KEY_BACKSPACE:
-            if (selectstart < selectend)
-            {
-                // delete selected text
-                C_AddToUndoHistory();
-
-                for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
-                    consoleinput[selectstart + i - selectend] = consoleinput[i];
-
-                consoleinput[selectstart + i - selectend] = '\0';
-                caretpos = selectend = selectstart;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
-                autocomplete = -1;
-                inputhistory = -1;
-            }
-            else if (caretpos > 0)
-            {
-                // delete character left of caret
-                C_AddToUndoHistory();
-
-                for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); i++)
-                    consoleinput[i] = consoleinput[i + 1];
-
-                selectend = selectstart = --caretpos;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
-                autocomplete = -1;
-                inputhistory = -1;
-            }
-
-            break;
-
-        case KEY_DELETE:
-            if (selectstart < selectend)
-            {
-                // delete selected text
-                C_AddToUndoHistory();
-
-                for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
-                    consoleinput[selectstart + i - selectend] = consoleinput[i];
-
-                consoleinput[selectstart + i - selectend] = '\0';
-                caretpos = selectend = selectstart;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
-                autocomplete = -1;
-                inputhistory = -1;
-            }
-            else if ((unsigned int)caretpos < strlen(consoleinput))
-            {
-                // delete character right of caret
-                C_AddToUndoHistory();
-
-                for (i = caretpos; (unsigned int)i < strlen(consoleinput); i++)
-                    consoleinput[i] = consoleinput[i + 1];
-
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
-                autocomplete = -1;
-                inputhistory = -1;
-            }
-
-            break;
-
-            // confirm input
-        case KEY_ENTER:
-            if (*consoleinput)
-            {
-                if (C_ValidateInput(consoleinput))
+            case KEY_BACKSPACE:
+                if (selectstart < selectend)
                 {
-                    // clear input
-                    consoleinput[0] = '\0';
-                    caretpos = selectstart = selectend = 0;
+                    // delete selected text
+                    C_AddToUndoHistory();
+
+                    for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+                        consoleinput[selectstart + i - selectend] = consoleinput[i];
+
+                    consoleinput[selectstart + i - selectend] = '\0';
+                    caretpos = selectend = selectstart;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
-                    undolevels = 0;
                     autocomplete = -1;
                     inputhistory = -1;
-                    outputhistory = -1;
-                    forceconsoleblurredraw = true;
                 }
-
-                return !consolecheat[0];
-            }
-
-            break;
-
-            // move caret left
-        case KEY_LEFTARROW:
-            if (caretpos > 0)
-            {
-                if (modstate & KMOD_SHIFT)
+                else if (caretpos > 0)
                 {
-                    caretpos--;
+                    // delete character left of caret
+                    C_AddToUndoHistory();
+
+                    for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); i++)
+                        consoleinput[i] = consoleinput[i + 1];
+
+                    selectend = selectstart = --caretpos;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
-
-                    if (selectstart <= caretpos)
-                        selectend = caretpos;
-                    else
-                        selectstart = caretpos;
+                    autocomplete = -1;
+                    inputhistory = -1;
                 }
-                else
-                {
-                    if (selectstart < selectend)
-                        caretpos = selectend = selectstart;
-                    else
-                        selectstart = selectend = --caretpos;
 
+                break;
+
+            case KEY_DELETE:
+                if (selectstart < selectend)
+                {
+                    // delete selected text
+                    C_AddToUndoHistory();
+
+                    for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+                        consoleinput[selectstart + i - selectend] = consoleinput[i];
+
+                    consoleinput[selectstart + i - selectend] = '\0';
+                    caretpos = selectend = selectstart;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
+                    autocomplete = -1;
+                    inputhistory = -1;
                 }
-            }
-            else if (!(modstate & KMOD_SHIFT))
-                caretpos = selectend = selectstart = 0;
-
-            break;
-
-            // move caret right
-        case KEY_RIGHTARROW:
-            if ((unsigned int)caretpos < strlen(consoleinput))
-            {
-                if (modstate & KMOD_SHIFT)
+                else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
-                    caretpos++;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                    showcaret = true;
+                    // delete character right of caret
+                    C_AddToUndoHistory();
 
-                    if (selectend >= caretpos)
-                        selectstart = caretpos;
-                    else
-                        selectend = caretpos;
-                }
-                else
-                {
-                    if (selectstart < selectend)
-                        caretpos = selectstart = selectend;
-                    else
-                        selectstart = selectend = ++caretpos;
+                    for (i = caretpos; (unsigned int)i < strlen(consoleinput); i++)
+                        consoleinput[i] = consoleinput[i + 1];
 
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
+                    autocomplete = -1;
+                    inputhistory = -1;
                 }
-            }
-            else if (!(modstate & KMOD_SHIFT))
-                caretpos = selectend = selectstart = strlen(consoleinput);
 
-            break;
+                break;
 
-            // move caret to start
-        case KEY_HOME:
-            if ((outputhistory != -1 || !caretpos) && outputhistory && consolestrings > CONSOLELINES)
-                outputhistory = 0;
-            else if (caretpos > 0)
-            {
-                selectend = ((modstate & KMOD_SHIFT) ? caretpos : 0);
-                caretpos = selectstart = 0;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
-            }
-
-            break;
-
-            // move caret to end
-        case KEY_END:
-            if (outputhistory != -1 && consolestrings > CONSOLELINES)
-                outputhistory = -1;
-            else if ((unsigned int)caretpos < strlen(consoleinput))
-            {
-                selectstart = ((modstate & KMOD_SHIFT) ? caretpos : strlen(consoleinput));
-                caretpos = selectend = strlen(consoleinput);
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
-            }
-
-            break;
-
-            // autocomplete
-        case KEY_TAB:
-            if (*consoleinput)
-            {
-                const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
-                const int   start = autocomplete;
-
-                if (autocomplete == -1)
-                    M_StringCopy(autocompletetext, consoleinput, sizeof(autocompletetext));
-
-                while ((direction == -1 && autocomplete > 0)
-                    || (direction == 1 && autocomplete < numconsolecmds - 1))
+            case KEY_ENTER:
+                // confirm input
+                if (*consoleinput)
                 {
-                    autocomplete += direction;
-
-                    if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
-                        && consolecmds[autocomplete].type != CT_CHEAT
-                        && *consolecmds[autocomplete].description)
+                    if (C_ValidateInput(consoleinput))
                     {
-                        M_StringCopy(consoleinput, consolecmds[autocomplete].name, sizeof(consoleinput));
+                        // clear input
+                        consoleinput[0] = '\0';
+                        caretpos = selectstart = selectend = 0;
+                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                        showcaret = true;
+                        undolevels = 0;
+                        autocomplete = -1;
+                        inputhistory = -1;
+                        outputhistory = -1;
+                        forceconsoleblurredraw = true;
+                    }
 
-                        if (consolecmds[autocomplete].parameters)
+                    return !consolecheat[0];
+                }
+
+                break;
+
+            case KEY_LEFTARROW:
+                // move caret left
+                if (caretpos > 0)
+                {
+                    if (modstate & KMOD_SHIFT)
+                    {
+                        caretpos--;
+                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                        showcaret = true;
+
+                        if (selectstart <= caretpos)
+                            selectend = caretpos;
+                        else
+                            selectstart = caretpos;
+                    }
+                    else
+                    {
+                        if (selectstart < selectend)
+                            caretpos = selectend = selectstart;
+                        else
+                            selectstart = selectend = --caretpos;
+
+                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                        showcaret = true;
+                    }
+                }
+                else if (!(modstate & KMOD_SHIFT))
+                    caretpos = selectend = selectstart = 0;
+
+                break;
+
+            case KEY_RIGHTARROW:
+                // move caret right
+                if ((unsigned int)caretpos < strlen(consoleinput))
+                {
+                    if (modstate & KMOD_SHIFT)
+                    {
+                        caretpos++;
+                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                        showcaret = true;
+
+                        if (selectend >= caretpos)
+                            selectstart = caretpos;
+                        else
+                            selectend = caretpos;
+                    }
+                    else
+                    {
+                        if (selectstart < selectend)
+                            caretpos = selectstart = selectend;
+                        else
+                            selectstart = selectend = ++caretpos;
+
+                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                        showcaret = true;
+                    }
+                }
+                else if (!(modstate & KMOD_SHIFT))
+                    caretpos = selectend = selectstart = strlen(consoleinput);
+
+                break;
+
+            case KEY_HOME:
+                // move caret to start
+                if ((outputhistory != -1 || !caretpos) && outputhistory && consolestrings > CONSOLELINES)
+                    outputhistory = 0;
+                else if (caretpos > 0)
+                {
+                    selectend = ((modstate & KMOD_SHIFT) ? caretpos : 0);
+                    caretpos = selectstart = 0;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    showcaret = true;
+                }
+
+                break;
+
+            case KEY_END:
+                // move caret to end
+                if (outputhistory != -1 && consolestrings > CONSOLELINES)
+                    outputhistory = -1;
+                else if ((unsigned int)caretpos < strlen(consoleinput))
+                {
+                    selectstart = ((modstate & KMOD_SHIFT) ? caretpos : strlen(consoleinput));
+                    caretpos = selectend = strlen(consoleinput);
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    showcaret = true;
+                }
+
+                break;
+
+            case KEY_TAB:
+                // autocomplete
+                if (*consoleinput)
+                {
+                    const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
+                    const int   start = autocomplete;
+
+                    if (autocomplete == -1)
+                        M_StringCopy(autocompletetext, consoleinput, sizeof(autocompletetext));
+
+                    while ((direction == -1 && autocomplete > 0)
+                        || (direction == 1 && autocomplete < numconsolecmds - 1))
+                    {
+                        autocomplete += direction;
+
+                        if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
+                            && consolecmds[autocomplete].type != CT_CHEAT
+                            && *consolecmds[autocomplete].description)
                         {
-                            const int   length = strlen(consoleinput);
+                            M_StringCopy(consoleinput, consolecmds[autocomplete].name, sizeof(consoleinput));
 
-                            consoleinput[length] = ' ';
-                            consoleinput[length + 1] = '\0';
+                            if (consolecmds[autocomplete].parameters)
+                            {
+                                const int   length = strlen(consoleinput);
+
+                                consoleinput[length] = ' ';
+                                consoleinput[length + 1] = '\0';
+                            }
+
+                            caretpos = selectstart = selectend = strlen(consoleinput);
+                            caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                            showcaret = true;
+                            return true;
+                        }
+                    }
+
+                    autocomplete = start;
+                }
+
+                break;
+
+            case KEY_UPARROW:
+                // scroll output up
+                if (modstate & KMOD_CTRL)
+                {
+                    if (consolestrings > CONSOLELINES)
+                        outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
+                            MAX(0, outputhistory - 1));
+                }
+                // previous input
+                else
+                {
+                    if (inputhistory == -1)
+                        M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
+
+                    for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; i--)
+                        if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string))
+                        {
+                            inputhistory = i;
+                            M_StringCopy(consoleinput, console[i].string, 255);
+                            caretpos = selectstart = selectend = strlen(consoleinput);
+                            caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                            showcaret = true;
+                            break;
+                        }
+                }
+
+                break;
+
+            case KEY_DOWNARROW:
+                // scroll output down
+                if (modstate & KMOD_CTRL)
+                {
+                    if (outputhistory != -1)
+                        if (++outputhistory + CONSOLELINES == consolestrings)
+                            outputhistory = -1;
+                }
+                // next input
+                else
+                {
+                    if (inputhistory != -1)
+                    {
+                        for (i = inputhistory + 1; i < consolestrings; i++)
+                            if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string))
+                            {
+                                inputhistory = i;
+                                M_StringCopy(consoleinput, console[i].string, 255);
+                                break;
+                            }
+
+                        if (i == consolestrings)
+                        {
+                            inputhistory = -1;
+                            M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                         }
 
                         caretpos = selectstart = selectend = strlen(consoleinput);
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
-                        return true;
                     }
                 }
 
-                autocomplete = start;
-            }
-            break;
+                break;
 
-            // previous input
-        case KEY_UPARROW:
-            if (inputhistory == -1)
-                M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
+            case KEY_PAGEUP:
+                // scroll output up
+                if (consolestrings > CONSOLELINES)
+                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
+                        MAX(0, outputhistory - 1));
 
-            for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; i--)
-                if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string))
+                break;
+
+            case KEY_PAGEDOWN:
+                // scroll output down
+                if (outputhistory != -1)
+                    if (++outputhistory + CONSOLELINES == consolestrings)
+                        outputhistory = -1;
+
+                break;
+
+            case KEY_ESCAPE:
+                // close console
+                C_HideConsole();
+                break;
+
+            case KEY_F11:
+                // change gamma correction level
+                M_ChangeGamma(modstate & KMOD_SHIFT);
+                break;
+
+            case KEY_CAPSLOCK:
+                // toggle "always run"
+                if (keyboardalwaysrun == KEY_CAPSLOCK)
+                    G_ToggleAlwaysRun(ev_keydown);
+
+                break;
+
+            default:
+                if (modstate & KMOD_CTRL)
                 {
-                    inputhistory = i;
-                    M_StringCopy(consoleinput, console[i].string, 255);
-                    caretpos = selectstart = selectend = strlen(consoleinput);
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                    showcaret = true;
-                    break;
-                }
-
-            break;
-
-            // next input
-        case KEY_DOWNARROW:
-            if (inputhistory != -1)
-            {
-                for (i = inputhistory + 1; i < consolestrings; i++)
-                    if (console[i].type == inputstring && !M_StringCompare(consoleinput,
-                        console[i].string))
+                    // select all text
+                    if (ch == 'a')
                     {
-                        inputhistory = i;
-                        M_StringCopy(consoleinput, console[i].string, 255);
-                        break;
+                        selectstart = 0;
+                        selectend = caretpos = strlen(consoleinput);
                     }
 
-                if (i == consolestrings)
-                {
-                    inputhistory = -1;
-                    M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
-                }
-
-                caretpos = selectstart = selectend = strlen(consoleinput);
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
-            }
-
-            break;
-
-            // scroll output up
-        case KEY_PAGEUP:
-            if (consolestrings > CONSOLELINES)
-                outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
-                    MAX(0, outputhistory - 1));
-
-            break;
-
-            // scroll output down
-        case KEY_PAGEDOWN:
-            if (outputhistory != -1)
-                if (++outputhistory + CONSOLELINES == consolestrings)
-                    outputhistory = -1;
-
-            break;
-
-            // close console
-        case KEY_ESCAPE:
-            C_HideConsole();
-            break;
-
-            // change gamma correction level
-        case KEY_F11:
-            M_ChangeGamma(modstate & KMOD_SHIFT);
-            break;
-
-            // toggle "always run"
-        case KEY_CAPSLOCK:
-            if (keyboardalwaysrun == KEY_CAPSLOCK)
-                G_ToggleAlwaysRun(ev_keydown);
-
-            break;
-
-        default:
-            if (modstate & KMOD_CTRL)
-            {
-                // select all text
-                if (ch == 'a')
-                {
-                    selectstart = 0;
-                    selectend = caretpos = strlen(consoleinput);
-                }
-
-                // copy selected text to clipboard
-                else if (ch == 'c')
-                {
-                    if (selectstart < selectend)
-                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
-                            selectend - selectstart));
-                }
-
-                // paste text from clipboard
-                else if (ch == 'v')
-                {
-                    char    buffer[255];
-
-                    M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0,
-                        selectstart), SDL_GetClipboardText(), M_SubString(consoleinput, selectend,
-                            strlen(consoleinput) - selectend));
-
-                    if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
+                    // copy selected text to clipboard
+                    else if (ch == 'c')
                     {
-                        C_AddToUndoHistory();
-                        M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
-                        selectstart += strlen(SDL_GetClipboardText());
-                        selectend = caretpos = selectstart;
+                        if (selectstart < selectend)
+                            SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
+                                selectend - selectstart));
+                    }
+
+                    // paste text from clipboard
+                    else if (ch == 'v')
+                    {
+                        char    buffer[255];
+
+                        M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0,
+                            selectstart), SDL_GetClipboardText(), M_SubString(consoleinput, selectend,
+                                strlen(consoleinput) - selectend));
+
+                        if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
+                        {
+                            C_AddToUndoHistory();
+                            M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
+                            selectstart += strlen(SDL_GetClipboardText());
+                            selectend = caretpos = selectstart;
+                        }
+                    }
+
+                    // cut selected text to clipboard
+                    else if (ch == 'x')
+                    {
+                        if (selectstart < selectend)
+                        {
+                            C_AddToUndoHistory();
+                            SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
+                                selectend - selectstart));
+
+                            for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+                                consoleinput[selectstart + i - selectend] = consoleinput[i];
+
+                            consoleinput[selectstart + i - selectend] = '\0';
+                            caretpos = selectend = selectstart;
+                            caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                            showcaret = true;
+                        }
+                    }
+
+                    // undo
+                    else if (ch == 'z')
+                    {
+                        if (undolevels)
+                        {
+                            undolevels--;
+                            M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
+                            caretpos = undohistory[undolevels].caretpos;
+                            selectstart = undohistory[undolevels].selectstart;
+                            selectend = undohistory[undolevels].selectend;
+                        }
                     }
                 }
-
-                // cut selected text to clipboard
-                else if (ch == 'x')
+                else
                 {
-                    if (selectstart < selectend)
+                    if ((modstate & KMOD_SHIFT) || (keyboardalwaysrun != KEY_CAPSLOCK
+                        && (modstate & KMOD_CAPS)))
+                        ch = shiftxform[ch];
+
+                    if (ch >= ' ' && ch < '~' && ch != '`' && C_TextWidth(consoleinput, false, true)
+                        + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
+                        - (selectstart < selectend ? C_TextWidth(M_SubString(consoleinput, selectstart,
+                            selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH
+                        && !(modstate & KMOD_ALT))
                     {
                         C_AddToUndoHistory();
-                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
-                            selectend - selectstart));
 
-                        for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
-                            consoleinput[selectstart + i - selectend] = consoleinput[i];
+                        if (selectstart < selectend)
+                        {
+                            // replace selected text with a character
+                            consoleinput[selectstart] = ch;
 
-                        consoleinput[selectstart + i - selectend] = '\0';
-                        caretpos = selectend = selectstart;
+                            for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+                                consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
+
+                            consoleinput[selectstart + i - selectend + 1] = '\0';
+                            caretpos = selectend = selectstart + 1;
+                            caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                            showcaret = true;
+                        }
+                        else
+                        {
+                            // insert a character
+                            if (strlen(consoleinput) < 255)
+                                consoleinput[strlen(consoleinput) + 1] = '\0';
+
+                            for (i = strlen(consoleinput); i > caretpos; i--)
+                                consoleinput[i] = consoleinput[i - 1];
+
+                            consoleinput[caretpos++] = ch;
+                        }
+
+                        selectstart = selectend = caretpos;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
+                        autocomplete = -1;
+                        inputhistory = -1;
                     }
                 }
-
-                // undo
-                else if (ch == 'z')
-                {
-                    if (undolevels)
-                    {
-                        undolevels--;
-                        M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
-                        caretpos = undohistory[undolevels].caretpos;
-                        selectstart = undohistory[undolevels].selectstart;
-                        selectend = undohistory[undolevels].selectend;
-                    }
-                }
-            }
-            else
-            {
-                if ((modstate & KMOD_SHIFT) || (keyboardalwaysrun != KEY_CAPSLOCK
-                    && (modstate & KMOD_CAPS)))
-                    ch = shiftxform[ch];
-
-                if (ch >= ' ' && ch < '~' && ch != '`' && C_TextWidth(consoleinput, false, true)
-                    + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
-                    - (selectstart < selectend ? C_TextWidth(M_SubString(consoleinput, selectstart,
-                        selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH
-                    && !(modstate & KMOD_ALT))
-                {
-                    C_AddToUndoHistory();
-
-                    if (selectstart < selectend)
-                    {
-                        // replace selected text with a character
-                        consoleinput[selectstart] = ch;
-
-                        for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
-                            consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
-
-                        consoleinput[selectstart + i - selectend + 1] = '\0';
-                        caretpos = selectend = selectstart + 1;
-                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                        showcaret = true;
-                    }
-                    else
-                    {
-                        // insert a character
-                        if (strlen(consoleinput) < 255)
-                            consoleinput[strlen(consoleinput) + 1] = '\0';
-
-                        for (i = strlen(consoleinput); i > caretpos; i--)
-                            consoleinput[i] = consoleinput[i - 1];
-
-                        consoleinput[caretpos++] = ch;
-                    }
-
-                    selectstart = selectend = caretpos;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                    showcaret = true;
-                    autocomplete = -1;
-                    inputhistory = -1;
-                }
-            }
         }
     }
     else if (ev->type == ev_keyup)
