@@ -39,8 +39,6 @@
 #if !defined(__M_FIXED_H__)
 #define __M_FIXED_H__
 
-#include <inttypes.h>
-
 //
 // Fixed point, 32bit as 16.16.
 //
@@ -54,17 +52,17 @@
 #undef MIN
 #endif
 
-typedef int32_t fixed_t;
+typedef int fixed_t;
 
-int32_t ABS(int32_t a);
-int32_t MAX(int32_t a, int32_t b);
-int32_t MIN(int32_t a, int32_t b);
-int32_t BETWEEN(int32_t a, int32_t b, int32_t c);
+int ABS(int a);
+int MAX(int a, int b);
+int MIN(int a, int b);
+int BETWEEN(int a, int b, int c);
 float BETWEENF(float a, float b, float c);
-int32_t SIGN(int32_t a);
+int SIGN(int a);
 fixed_t FixedMul(fixed_t a, fixed_t b);
 fixed_t FixedDiv(fixed_t a, fixed_t b);
 fixed_t FixedMod(fixed_t a, fixed_t b);
-uint32_t SafeAdd(uint32_t a, int32_t b);
+unsigned int SafeAdd(unsigned int a, int b);
 
 #endif

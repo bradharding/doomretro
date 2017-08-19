@@ -78,18 +78,18 @@ void AM_addToPath(void);
 
 extern dboolean message_dontfuckwithme;
 
-extern int32_t  gamepadwait;
+extern int      gamepadwait;
 
 extern mpoint_t *markpoints;
-extern int32_t  markpointnum;
-extern int32_t  markpointnum_max;
+extern int      markpointnum;
+extern int      markpointnum_max;
 
 extern dboolean am_path;
 extern mpoint_t *pathpoints;
-extern int32_t  pathpointnum;
-extern int32_t  pathpointnum_max;
+extern int      pathpointnum;
+extern int      pathpointnum_max;
 
-dboolean keystate(int32_t key);
+dboolean keystate(int key);
 
 typedef struct
 {

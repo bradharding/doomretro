@@ -41,11 +41,11 @@
 
 #include "m_fixed.h"
 
-#define FINEANGLES              8192
-#define FINEMASK                (FINEANGLES - 1)
+#define FINEANGLES          8192
+#define FINEMASK            (FINEANGLES - 1)
 
 // 0x100000000 to 0x2000
-#define ANGLETOFINESHIFT        19
+#define ANGLETOFINESHIFT    19
 
 // Effective size is 10240.
 extern fixed_t  finesine[5 * FINEANGLES / 4];
@@ -57,17 +57,17 @@ extern fixed_t  *finecosine;
 fixed_t         finetangent[FINEANGLES / 2];
 
 // Binary Angle Measurement, BAM.
-#define ANG5                    (ANG90 / 18)
-#define ANG45                   0x20000000
-#define ANG90                   0x40000000
-#define ANG180                  0x80000000
-#define ANG270                  0xC0000000
+#define ANG5                (ANG90 / 18)
+#define ANG45               0x20000000
+#define ANG90               0x40000000
+#define ANG180              0x80000000
+#define ANG270              0xC0000000
 
-#define SLOPERANGE              2048
-#define SLOPEBITS               11
-#define DBITS                   (FRACBITS - SLOPEBITS)
+#define SLOPERANGE          2048
+#define SLOPEBITS           11
+#define DBITS               (FRACBITS - SLOPEBITS)
 
-typedef uint32_t angle_t;
+typedef unsigned int angle_t;
 
 // Effective size is 2049;
 // The +1 size is to handle the case when x==y

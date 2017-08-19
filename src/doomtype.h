@@ -47,7 +47,7 @@
 #undef false
 #endif
 
-typedef enum
+typedef enum dboolean_e
 {
     false,
     true
