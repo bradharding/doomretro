@@ -1720,8 +1720,12 @@ void I_SetGamma(float value)
     gammaindex = 0;
 
     while (gammaindex < GAMMALEVELS)
-        if (gammalevels[gammaindex++] == value)
+    {
+        if (gammalevels[gammaindex] == value)
             break;
+
+        gammaindex++;
+    }
 
     if (gammaindex == GAMMALEVELS)
     {
