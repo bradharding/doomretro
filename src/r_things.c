@@ -1151,7 +1151,7 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
         dboolean    top;
 
         // determine if the drawseg obscures the sprite
-        if (ds->x1 > x2 || ds->x2 < x1 || (!(silhouette & SIL_BOTH) && !ds->maskedtexturecol))
+        if (ds->x1 > x2 || ds->x2 < x1 || !(silhouette & SIL_BOTH))
             continue;       // does not cover sprite
 
         if (ds->maxscale < spr->scale || (ds->minscale < spr->scale
@@ -1266,7 +1266,7 @@ static void R_DrawSprite(vissprite_t *spr)
         dboolean    top;
 
         // determine if the drawseg obscures the sprite
-        if (ds->x1 > x2 || ds->x2 < x1 || (!(silhouette & SIL_BOTH) && !ds->maskedtexturecol))
+        if (ds->x1 > x2 || ds->x2 < x1 || !(silhouette & SIL_BOTH))
             continue;       // does not cover sprite
 
         if (ds->maxscale < spr->scale || (ds->minscale < spr->scale
