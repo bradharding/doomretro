@@ -633,9 +633,24 @@ void R_StoreWallRange(const int start, const int stop)
     {
         ds_p->scale2 = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[stop]);
         ds_p->scalestep = rw_scalestep = (ds_p->scale2 - rw_scale) / (stop - start);
+
+        if (ds_p->scale1 < ds_p->scale2)
+        {
+            ds_p->minscale = ds_p->scale1;
+            ds_p->maxscale = ds_p->scale2;
+        }
+        else
+        {
+            ds_p->minscale = ds_p->scale2;
+            ds_p->maxscale = ds_p->scale1;
+        }
     }
     else
+    {
         ds_p->scale2 = ds_p->scale1;
+        ds_p->minscale = ds_p->scale1;
+        ds_p->maxscale = ds_p->scale1;
+    }
 
     // calculate texture boundaries
     //  and decide if floor / ceiling marks are needed

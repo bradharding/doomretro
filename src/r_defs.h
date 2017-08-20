@@ -836,6 +836,9 @@ typedef struct
     fixed_t             scale2;
     fixed_t             scalestep;
 
+    fixed_t             minscale;
+    fixed_t             maxscale;
+
     // 0=none, 1=bottom, 2=top, 3=both
     int                 silhouette;
 
