@@ -5,13 +5,13 @@
 * Wiping when transitioning between screens can now be toggled on or off using the new `wipe` CVAR.
 * Weapon recoil is now disabled when vanilla mode is enabled.
 * A bug has been fixed whereby monsters could use stairs in some instances when they shouldn’t have been able to.
-* Chaingunners, arachnotrons and spider masterminds now go fullbright more in time with their firing animations.
+* Chaingunners, arachnotrons and spider masterminds now light up more in time with their firing animations.
 * A value of `off` can now be used for the `facebackcolor` CVAR and is the same as using the default value of `5`.
 * A bug has been fixed whereby the sky would be slightly darker than normal when the player has the light amplification visor power-up.
 * When pressing the <kbd>PRINTSCREEN</kbd> key while the `am_external` CVAR is `on`, a screenshot of each screen will now be taken rather than two screenshots of the same screen.
 * The obituary in the console now correctly reflects when the player or a monster is telefragged.
-* Pressing <kbd>CTRL</kbd> + <kbd>&uarr;</kbd>/<kbd>&darr;</kbd> will now scroll the output in the console up and down.
-* The `r_gamma` CVAR can now correctly be set to `2.0` in the console.
+* Pressing <kbd>CTRL</kbd> + <kbd>&uarr;</kbd>/<kbd>&darr;</kbd> can now be used as well as <kbd>PGUP</kbd>/<kbd>PGDN</kbd> to scroll the output in the console up and down.
+* The `r_gamma` CVAR can now correctly be set to `2.0` in the console and at startup.
 
 ---
 

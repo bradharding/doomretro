@@ -65,7 +65,7 @@ int BETWEEN(int a, int b, int c)
 
 float BETWEENF(float a, float b, float c)
 {
-    return ((b = (b < a ? a : b)) > c ? c : b);
+    return (b < a ? a : (b > c ? c : b));
 }
 
 int SIGN(int a)
