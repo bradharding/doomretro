@@ -182,8 +182,6 @@ void S_Init(void)
 
     if (!nosfx)
     {
-        int i;
-
         InitSfxModule();
         S_SetSfxVolume(sfxVolume * MAX_SFX_VOLUME / 31);
 
@@ -194,7 +192,7 @@ void S_Init(void)
         sobjs = Z_Malloc(s_channels * sizeof(sobj_t), PU_STATIC, NULL);
 
         // Note that sounds have not been cached (yet).
-        for (i = 1; i < NUMSFX; i++)
+        for (int i = 1; i < NUMSFX; i++)
             S_sfx[i].lumpnum = -1;
     }
 
@@ -220,14 +218,12 @@ static void S_StopChannel(int cnum)
 
     if (c->sfxinfo)
     {
-        int i;
-
         // stop the sound playing
         if (I_SoundIsPlaying(c->handle))
             I_StopSound(c->handle);
 
         // check to see if other channels are playing the sound
-        for (i = 0; i < s_channels; i++)
+        for (int i = 0; i < s_channels; i++)
             if (cnum != i && c->sfxinfo == channels[i].sfxinfo)
                 break;
 
@@ -238,12 +234,10 @@ static void S_StopChannel(int cnum)
 
 void S_StopSounds(void)
 {
-    int cnum;
-
     if (nosfx)
         return;
 
-    for (cnum = 0; cnum < s_channels; cnum++)
+    for (int cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo)
             S_StopChannel(cnum);
 }
@@ -326,12 +320,10 @@ void S_Start(void)
 // original implementation idea: https://www.doomworld.com/vb/post/1585325
 void S_UnlinkSound(mobj_t *origin)
 {
-    int cnum;
-
     if (nosfx)
         return;
 
-    for (cnum = 0; cnum < s_channels; cnum++)
+    for (int cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
         {
             sobj_t *const   sobj = &sobjs[cnum];
@@ -538,14 +530,12 @@ void S_ResumeSound(void)
 //
 void S_UpdateSounds(mobj_t *listener)
 {
-    int cnum;
-
     if (nosfx)
         return;
 
     I_UpdateSound();
 
-    for (cnum = 0; cnum < s_channels; cnum++)
+    for (int cnum = 0; cnum < s_channels; cnum++)
     {
         channel_t   *c = &channels[cnum];
         sfxinfo_t   *sfx = c->sfxinfo;

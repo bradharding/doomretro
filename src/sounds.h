@@ -49,7 +49,7 @@
 //
 typedef struct sfxinfo_struct sfxinfo_t;
 
-enum singularity_e
+enum
 {
     sg_none,
     sg_itemup,

@@ -74,7 +74,6 @@ button_t    buttonlist[MAXBUTTONS];
 //
 void P_InitSwitchList(void)
 {
-    int             i;
     int             index = 0;
     int             episode = (gamemode == registered || gamemode == retail ? 2 :
                         (gamemode == commercial ? 3 : 1));
@@ -84,7 +83,7 @@ void P_InitSwitchList(void)
     // jff 3/23/98 read the switch table from a predefined lump
     alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump);
 
-    for (i = 0;; i++)
+    for (int i = 0; ; i++)
     {
         if (index + 1 >= max_numswitches)
             switchlist = Z_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = (max_numswitches ?
@@ -125,14 +124,12 @@ void P_InitSwitchList(void)
 //
 void P_StartButton(line_t *line, bwhere_e w, int texture, int time)
 {
-    int i;
-
     // See if button is already pressed
-    for (i = 0; i < MAXBUTTONS; i++)
+    for (int i = 0; i < MAXBUTTONS; i++)
         if (buttonlist[i].btimer && buttonlist[i].line == line)
             return;
 
-    for (i = 0; i < MAXBUTTONS; i++)
+    for (int i = 0; i < MAXBUTTONS; i++)
         if (!buttonlist[i].btimer)
         {
             buttonlist[i].line = line;

@@ -45,7 +45,7 @@
 #define E2M2    (gamemission == doom && gameepisode == 2 && gamemap == 2 && canmodify)
 #define MAP12   (gamemission == doom2 && gamemap == 12 && canmodify)
 
-typedef struct vertexfix_s
+typedef struct
 {
     int     mission;
     int     epsiode;
@@ -59,7 +59,7 @@ typedef struct vertexfix_s
 
 extern vertexfix_t vertexfix[];
 
-typedef struct linefix_s
+typedef struct
 {
     int     mission;
     int     epsiode;
@@ -78,7 +78,7 @@ typedef struct linefix_s
 
 extern linefix_t linefix[];
 
-typedef struct sectorfix_s
+typedef struct
 {
     int     mission;
     int     epsiode;
@@ -94,7 +94,7 @@ typedef struct sectorfix_s
 
 extern sectorfix_t sectorfix[];
 
-typedef struct thingfix_s
+typedef struct
 {
     int     mission;
     int     epsiode;

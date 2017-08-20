@@ -56,7 +56,7 @@
 #pragma pack(push, 1)
 #endif
 
-typedef struct wadinfo_s
+typedef struct
 {
     // Should be "IWAD" or "PWAD".
     char            identification[4];
@@ -64,7 +64,7 @@ typedef struct wadinfo_s
     int             infotableofs;
 } PACKEDATTR wadinfo_t;
 
-typedef struct filelump_s
+typedef struct
 {
     int             filepos;
     int             size;
@@ -75,7 +75,7 @@ typedef struct filelump_s
 #pragma pack(pop)
 #endif
 
-static struct cachelump_s
+static struct
 {
     void            *cache;
     unsigned int    locks;
@@ -154,7 +154,6 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 {
     static dboolean packagewadadded;
     wadinfo_t       header;
-    lumpindex_t     i;
     int             length;
     int             startlump;
     filelump_t      *fileinfo;
@@ -198,7 +197,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 
     filerover = fileinfo;
 
-    for (i = startlump; i < numlumps; i++)
+    for (lumpindex_t i = startlump; i < numlumps; i++)
     {
         lumpinfo_t *lump_p = &filelumps[i - startlump];
 
@@ -374,13 +373,12 @@ lumpindex_t W_CheckNumForName(char *name)
 //
 int W_CheckMultipleLumps(char *name)
 {
-    int i;
     int count = 0;
 
     if (FREEDOOM || hacx)
         return 3;
 
-    for (i = numlumps - 1; i >= 0; i--)
+    for (lumpindex_t i = numlumps - 1; i >= 0; i--)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
             count++;
 
@@ -394,9 +392,7 @@ int W_CheckMultipleLumps(char *name)
 //
 lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, char *name)
 {
-    lumpindex_t i;
-
-    for (i = min; i <= max; i++)
+    for (lumpindex_t i = min; i <= max; i++)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
             return i;
 
@@ -405,15 +401,13 @@ lumpindex_t W_RangeCheckNumForName(lumpindex_t min, lumpindex_t max, char *name)
 
 void W_Init(void)
 {
-    int i;
-
-    for (i = 0; i < numlumps; i++)
+    for (lumpindex_t i = 0; i < numlumps; i++)
         lumpinfo[i]->index = -1;                       // mark slots empty
 
     // Insert nodes to the beginning of each chain, in first-to-last
     // lump order, so that the last lump of a given name appears first
     // in any chain, observing pwad ordering rules. killough
-    for (i = 0; i < numlumps; i++)
+    for (lumpindex_t i = 0; i < numlumps; i++)
     {
         // hash function:
         int j = W_LumpNameHash(lumpinfo[i]->name) % (unsigned int)numlumps;

@@ -51,7 +51,7 @@
 // ZONE MEMORY
 // PU - purge tags.
 //
-enum purgetag_e
+enum
 {
     PU_FREE,       // a free block
     PU_STATIC,     // static entire execution time

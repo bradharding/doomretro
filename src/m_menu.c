@@ -480,20 +480,16 @@ static int height;
 
 static void DoBlurScreen(byte *tempscreen, byte *blurscreen, int x1, int y1, int x2, int y2, int i)
 {
-    int x, y;
-
     memcpy(tempscreen, blurscreen, SCREENWIDTH * SCREENHEIGHT);
 
-    for (y = y1; y < y2; y += SCREENWIDTH)
-        for (x = y + x1; x < y + x2; x++)
+    for (int y = y1; y < y2; y += SCREENWIDTH)
+        for (int x = y + x1; x < y + x2; x++)
             blurscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
 }
 
 static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
 {
-    int i;
-
-    for (i = 0; i < height; i++)
+    for (int i = 0; i < height; i++)
         blurscreen[i] = grays[screen[i]];
 
     DoBlurScreen(tempscreen, blurscreen, 0, 0, SCREENWIDTH - 1, height, 1);
@@ -512,22 +508,20 @@ static void BlurScreen(byte *screen, byte *tempscreen, byte *blurscreen)
 //
 void M_DarkBackground(void)
 {
-    int i;
-
     height = (SCREENHEIGHT - vid_widescreen * SBARHEIGHT) * SCREENWIDTH;
 
     if (!blurred || !blurred2)
     {
         BlurScreen(screens[0], tempscreen1, blurscreen1);
 
-        for (i = 0; i < height; i++)
+        for (int i = 0; i < height; i++)
             blurscreen1[i] = tinttab50[blurscreen1[i]];
 
         if (mapwindow)
         {
             BlurScreen(mapscreen, tempscreen2, blurscreen2);
 
-            for (i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
+            for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
                 blurscreen2[i] = tinttab50[blurscreen2[i]];
         }
 
@@ -547,13 +541,13 @@ void M_DarkBackground(void)
     if (r_detail == r_detail_low && viewactive)
         V_LowGraphicDetail();
 
-    for (i = 0; i < height; i += SCREENWIDTH)
+    for (int i = 0; i < height; i += SCREENWIDTH)
     {
         screens[0][i] = tinttab50[screens[0][i]];
         screens[0][i + SCREENWIDTH - 1] = tinttab50[screens[0][i + SCREENWIDTH - 1]];
     }
 
-    for (i = 1; i < SCREENWIDTH - 1; i++)
+    for (int i = 1; i < SCREENWIDTH - 1; i++)
     {
         screens[0][i] = tinttab50[screens[0][i]];
         screens[0][i + height - SCREENWIDTH] = tinttab50[screens[0][i + height - SCREENWIDTH]];
@@ -586,10 +580,8 @@ static byte blues[] =
 //
 static void M_DarkBlueBackground(void)
 {
-    int x, y;
-
-    for (y = 0; y < SCREENWIDTH * SCREENHEIGHT; y += SCREENWIDTH * 2)
-        for (x = y; x < y + SCREENWIDTH; x += 2)
+    for (int y = 0; y < SCREENWIDTH * SCREENHEIGHT; y += SCREENWIDTH * 2)
+        for (int x = y; x < y + SCREENWIDTH; x += 2)
         {
             byte    *dot = *screens + x;
             byte    *copy;
@@ -609,11 +601,10 @@ static void M_DarkBlueBackground(void)
 //
 static void M_DrawChar(int x, int y, int i, dboolean overlapping)
 {
-    int x1, y1;
     int w = strlen(redcharset[i]) / 18;
 
-    for (y1 = 0; y1 < 18; y1++)
-        for (x1 = 0; x1 < w; x1++)
+    for (int y1 = 0; y1 < 18; y1++)
+        for (int x1 = 0; x1 < w; x1++)
         {
             char    dot = redcharset[i][y1 * w + x1];
 
@@ -681,10 +672,9 @@ static struct
 //
 void M_DrawString(int x, int y, char *str)
 {
-    size_t      i;
     static char prev;
 
-    for (i = 0; i < strlen(str); i++)
+    for (size_t i = 0; i < strlen(str); i++)
     {
         int         j = -1;
         int         k = 0;
@@ -735,12 +725,11 @@ void M_DrawString(int x, int y, char *str)
 //
 static int M_BigStringWidth(char *str)
 {
-    size_t      i;
     int         w = 0;
     static char prev;
     size_t      len = strlen(str);
 
-    for (i = 0; i < len; i++)
+    for (size_t i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
         int k = 0;
@@ -776,9 +765,7 @@ void M_DrawCenteredString(int y, char *str)
 //
 static void M_SplitString(char *string)
 {
-    size_t  i;
-
-    for (i = strlen(string) / 2 - 1; i < strlen(string); i++)
+    for (size_t i = strlen(string) / 2 - 1; i < strlen(string); i++)
         if (string[i] == ' ')
         {
             string[i] = '\n';
@@ -830,12 +817,11 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 //
 static void M_ReadSaveStrings(void)
 {
-    int     i;
     char    name[256];
 
     savegames = false;
 
-    for (i = 0; i < load_end; i++)
+    for (int i = 0; i < load_end; i++)
     {
         FILE    *handle;
 
@@ -873,12 +859,11 @@ static dboolean M_CheckSaveGame(int choice)
     FILE    *handle = fopen(P_SaveGameFile(itemOn), "rb");
     int     ep;
     int     mission;
-    int     i;
 
     if (!handle)
         return true;
 
-    for (i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
+    for (int i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
         saveg_read8(handle);
 
     ep = saveg_read8(handle);
@@ -932,10 +917,9 @@ static dboolean M_CheckSaveGame(int choice)
 
 int M_CountSaveGames(void)
 {
-    int i;
     int count = 0;
 
-    for (i = 0; i < load_end; i++)
+    for (int i = 0; i < load_end; i++)
         if (M_FileExists(P_SaveGameFile(i)))
             count++;
 
@@ -947,8 +931,6 @@ int M_CountSaveGames(void)
 //
 static void M_DrawLoad(void)
 {
-    int i;
-
     M_DarkBackground();
 
     if (M_LOADG)
@@ -956,7 +938,7 @@ static void M_DrawLoad(void)
     else
         M_DrawCenteredString(23 + OFFSET, uppercase(s_M_LOADGAME));
 
-    for (i = 0; i < load_end; i++)
+    for (int i = 0; i < load_end; i++)
     {
         int y = LoadDef.y + LINEHEIGHT * i + OFFSET;
 
@@ -972,15 +954,13 @@ static void M_DrawLoad(void)
 //
 static void M_DrawSaveLoadBorder(int x, int y)
 {
-    int i;
-
     if (M_LSCNTR)
     {
         x += 3;
         M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSLEFT"));
         x += 8;
 
-        for (i = 0; i < 24; i++)
+        for (int i = 0; i < 24; i++)
         {
             M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSCNTR"));
             x += 8;
@@ -990,25 +970,23 @@ static void M_DrawSaveLoadBorder(int x, int y)
     }
     else
     {
-        int xx, yy;
-
-        for (yy = 0; yy < 16; yy++)
-            for (xx = 0; xx < 8; xx++)
+        for (int yy = 0; yy < 16; yy++)
+            for (int xx = 0; xx < 8; xx++)
                 V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], true);
 
         x += 8;
 
-        for (i = 0; i < 24; i++)
+        for (int i = 0; i < 24; i++)
         {
-            for (yy = 0; yy < 16; yy++)
-                for (xx = 0; xx < 8; xx++)
+            for (int yy = 0; yy < 16; yy++)
+                for (int xx = 0; xx < 8; xx++)
                     V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], true);
 
             x += 8;
         }
 
-        for (yy = 0; yy < 16; yy++)
-            for (xx = 0; xx < 9; xx++)
+        for (int yy = 0; yy < 16; yy++)
+            for (int xx = 0; xx < 9; xx++)
                 V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], true);
     }
 }
@@ -1060,8 +1038,6 @@ static void M_DrawSave(void)
 {
     char    left[256];
     char    right[256];
-    int     i;
-    int     j;
 
     // darken background
     M_DarkBackground();
@@ -1073,7 +1049,7 @@ static void M_DrawSave(void)
         M_DrawCenteredString(23 + OFFSET, uppercase(s_M_SAVEGAME));
 
     // draw each save game slot
-    for (i = 0; i < load_end; i++)
+    for (int i = 0; i < load_end; i++)
     {
         int y = LoadDef.y + i * LINEHEIGHT + OFFSET;
 
@@ -1083,6 +1059,8 @@ static void M_DrawSave(void)
         // draw save game description
         if (saveStringEnter && i == saveSlot)
         {
+            int j;
+
             // draw text to left of text caret
             for (j = 0; j < saveCharIndex; j++)
                 left[j] = savegamestrings[i][j];
@@ -1194,12 +1172,10 @@ void M_UpdateSaveGameName(int i)
             match = true;
         else
         {
-            int j = 0;
-
             switch (gamemission)
             {
                 case doom:
-                    for (j = 0; j < 9 * 4; j++)
+                    for (int j = 0; j < 9 * 4; j++)
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[j])))
                         {
                             match = true;
@@ -1212,7 +1188,7 @@ void M_UpdateSaveGameName(int i)
                 case pack_nerve:
                     if (bfgedition)
                     {
-                        for (j = 0; j < 33; j++)
+                        for (int j = 0; j < 33; j++)
                             if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
                             {
                                 match = true;
@@ -1221,7 +1197,7 @@ void M_UpdateSaveGameName(int i)
                     }
                     else
                     {
-                        for (j = 0; j < 32; j++)
+                        for (int j = 0; j < 32; j++)
                             if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
                             {
                                 match = true;
@@ -1229,7 +1205,7 @@ void M_UpdateSaveGameName(int i)
                             }
                     }
 
-                    for (j = 0; j < 9; j++)
+                    for (int j = 0; j < 9; j++)
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
                         {
                             match = true;
@@ -1239,7 +1215,7 @@ void M_UpdateSaveGameName(int i)
                     break;
 
                 case pack_plut:
-                    for (j = 0; j < 32; j++)
+                    for (int j = 0; j < 32; j++)
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
                         {
                             match = true;
@@ -1249,7 +1225,7 @@ void M_UpdateSaveGameName(int i)
                     break;
 
                 case pack_tnt:
-                    for (j = 0; j < 32; j++)
+                    for (int j = 0; j < 32; j++)
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
                         {
                             match = true;
@@ -2176,7 +2152,6 @@ static void M_SizeDisplay(int choice)
 static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset)
 {
     int xx;
-    int i;
 
     if (chex || hacx)
     {
@@ -2188,7 +2163,7 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"));
     xx += 8;
 
-    for (i = 0; i < thermWidth; i++)
+    for (int i = 0; i < thermWidth; i++)
     {
         V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM"));
         xx += 8;
@@ -2196,7 +2171,7 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
 
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
 
-    for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
+    for (int i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
         V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
 
     V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
@@ -2231,10 +2206,9 @@ static int M_CharacterWidth(char ch, char prev)
 //
 int M_StringWidth(char *string)
 {
-    size_t  i;
-    int     w = 0;
+    int w = 0;
 
-    for (i = 0; i < strlen(string); i++)
+    for (size_t i = 0; i < strlen(string); i++)
         w += M_CharacterWidth(string[i], (i > 0 ? string[i - 1] : 0));
 
     return w;
@@ -2245,10 +2219,9 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    size_t  i;
-    int     h = 8;
+    int h = 8;
 
-    for (i = 0; i < strlen(string); i++)
+    for (size_t i = 0; i < strlen(string); i++)
         if (string[i] == '\n')
             h += (i > 0 && string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8));
 
@@ -2261,10 +2234,9 @@ static int M_StringHeight(char *string)
 void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
 {
     int w = strlen(smallcharset[i]) / 10;
-    int x1, y1;
 
-    for (y1 = 0; y1 < 10; y1++)
-        for (x1 = 0; x1 < w; x1++)
+    for (int y1 = 0; y1 < 10; y1++)
+        for (int x1 = 0; x1 < w; x1++)
             V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * w + x1], shadow);
 }
 
@@ -2432,7 +2404,6 @@ dboolean M_Responder(event_t *ev)
     // key is the key pressed, ch is the actual character typed
     int         ch = 0;
     int         key = -1;
-    int         i;
     static int  keywait;
     SDL_Keymod  modstate = SDL_GetModState();
 
@@ -2582,9 +2553,7 @@ dboolean M_Responder(event_t *ev)
 
                 if (saveCharIndex > 0)
                 {
-                    size_t  j;
-
-                    for (j = saveCharIndex - 1; j < strlen(savegamestrings[saveSlot]); j++)
+                    for (size_t j = saveCharIndex - 1; j < strlen(savegamestrings[saveSlot]); j++)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
 
                     saveCharIndex--;
@@ -2600,9 +2569,8 @@ dboolean M_Responder(event_t *ev)
 
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
-                    size_t  j;
 
-                    for (j = saveCharIndex; j < strlen(savegamestrings[saveSlot]); j++)
+                    for (size_t j = saveCharIndex; j < strlen(savegamestrings[saveSlot]); j++)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
 
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -2633,7 +2601,7 @@ dboolean M_Responder(event_t *ev)
 
                     keydown = key;
 
-                    for (i = 0; (unsigned int)i < strlen(savegamestrings[saveSlot]); i++)
+                    for (int i = 0; (unsigned int)i < strlen(savegamestrings[saveSlot]); i++)
                         if (savegamestrings[saveSlot][i] != ' ')
                             allspaces = false;
 
@@ -2702,7 +2670,7 @@ dboolean M_Responder(event_t *ev)
                     keydown = key;
                     savegamestrings[saveSlot][strlen(savegamestrings[saveSlot]) + 1] = '\0';
 
-                    for (i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; i--)
+                    for (int i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; i--)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
 
                     savegamestrings[saveSlot][saveCharIndex++] = ch;
@@ -3300,7 +3268,7 @@ dboolean M_Responder(event_t *ev)
         // Keyboard shortcut?
         else if (ch && !(modstate & (KMOD_ALT | KMOD_CTRL)))
         {
-            for (i = itemOn + 1; i < currentMenu->numitems; i++)
+            for (int i = itemOn + 1; i < currentMenu->numitems; i++)
             {
                 if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && ch == i + '1')
                     || (currentMenu->menuitems[i].text
@@ -3362,7 +3330,7 @@ dboolean M_Responder(event_t *ev)
                 }
             }
 
-            for (i = 0; i <= itemOn; i++)
+            for (int i = 0; i <= itemOn; i++)
             {
                 if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && ch == i + '1')
                     || (currentMenu->menuitems[i].text
@@ -3465,10 +3433,8 @@ void M_StartControlPanel(void)
 //
 static void M_DrawNightmare(void)
 {
-    int x, y;
-
-    for (y = 0; y < 20; y++)
-        for (x = 0; x < 124; x++)
+    for (int y = 0; y < 20; y++)
+        for (int x = 0; x < 124; x++)
             V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, (int)nmare[y * 124 + x], true);
 }
 
@@ -3480,7 +3446,6 @@ static void M_DrawNightmare(void)
 void M_Drawer(void)
 {
     static short    x, y;
-    unsigned int    i;
     unsigned int    max;
 
     // Horiz. & Vertically center string and print it.
@@ -3500,7 +3465,7 @@ void M_Drawer(void)
         {
             int foundnewline = 0;
 
-            for (i = 0; i < strlen(messageString + start); i++)
+            for (unsigned int i = 0; i < strlen(messageString + start); i++)
                 if (messageString[start + i] == '\n')
                 {
                     M_StringCopy(string, messageString + start, sizeof(string));
@@ -3545,7 +3510,7 @@ void M_Drawer(void)
     y = currentMenu->y;
     max = currentMenu->numitems;
 
-    for (i = 0; i < max; i++)
+    for (unsigned int i = 0; i < max; i++)
     {
         char    *name = currentMenu->menuitems[i].name;
 

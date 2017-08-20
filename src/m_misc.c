@@ -101,12 +101,8 @@ static void M_FreeCommifies(int shutdown)
     struct s_commify    *sc = M_GetCommify();
 
     if (sc->pidx > 0)
-    {
-        size_t  i;
-
-        for (i = 0; i < sc->pidx; i++)
+        for (size_t i = 0; i < sc->pidx; i++)
             free(sc->p[i]);
-    }
 
     if (shutdown)
         free(sc);
@@ -515,14 +511,13 @@ char *M_StrCaseStr(char *haystack, char *needle)
     unsigned int    haystack_len = strlen(haystack);
     unsigned int    needle_len = strlen(needle);
     unsigned int    len;
-    unsigned int    i;
 
     if (haystack_len < needle_len)
         return NULL;
 
     len = haystack_len - needle_len;
 
-    for (i = 0; i <= len; i++)
+    for (unsigned int i = 0; i <= len; i++)
         if (!strncasecmp(haystack + i, needle, needle_len))
             return haystack + i;
 
@@ -676,9 +671,7 @@ char *uppercase(const char *str)
 
 char *lowercase(char *str)
 {
-    char    *p;
-
-    for (p = str; *p; p++)
+    for (char *p = str; *p; p++)
         *p = tolower(*p);
 
     return str;
@@ -694,14 +687,10 @@ char *titlecase(const char *str)
         newstr[0] = toupper(newstr[0]);
 
         if (len > 1)
-        {
-            size_t  i;
-
-            for (i = 1; i < len; i++)
+            for (size_t i = 1; i < len; i++)
                 if ((newstr[i - 1] != '\'' || newstr[i - 2] == ' ') && !isalnum((unsigned char)newstr[i - 1])
                     && isalnum((unsigned char)newstr[i]))
                     newstr[i] = toupper(newstr[i]);
-        }
     }
 
     return newstr;
@@ -713,16 +702,12 @@ char *formatsize(const char *str)
     size_t  len = strlen(newstr);
 
     if (len > 1)
-    {
-        size_t  i;
-
-        for (i = 1; i < len; i++)
+        for (size_t i = 1; i < len; i++)
             if (newstr[i] == 'x')
             {
                 newstr[i] = 215;
                 break;
             }
-    }
 
     return newstr;
 }
@@ -787,12 +772,10 @@ char *uncommify(const char *input)
 
 dboolean wildcard(char *input, char *pattern)
 {
-    int i, z;
-
     if (pattern[0] == '\0')
         return true;
 
-    for (i = 0; pattern[i] != '\0'; i++)
+    for (int i = 0; pattern[i] != '\0'; i++)
     {
         if (pattern[i] == '\0')
             return false;
@@ -800,7 +783,7 @@ dboolean wildcard(char *input, char *pattern)
             continue;
         else if (pattern[i] == '*')
         {
-            for (z = i; input[z] != '\0'; z++)
+            for (int z = i; input[z] != '\0'; z++)
                 if (wildcard(input + z, pattern + i + 1))
                     return true;
 
@@ -861,9 +844,7 @@ char *trimwhitespace(char *input)
 char *removenewlines(const char *str)
 {
     char    *newstr;
-    char    *p;
-
-    p = newstr = strdup(str);
+    char    *p = newstr = strdup(str);
 
     while (*p != '\0')
     {
@@ -880,9 +861,8 @@ char *makevalidfilename(const char *input)
 {
     char    *newstr = strdup(input);
     size_t  len = strlen(newstr);
-    size_t  i;
 
-    for (i = 0; i < len; i++)
+    for (size_t i = 0; i < len; i++)
         if (strchr("\\/:?\"<>|", newstr[i]))
             newstr[i] = ' ';
 

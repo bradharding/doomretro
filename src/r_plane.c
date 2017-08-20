@@ -145,10 +145,8 @@ static void R_MapPlane(int y, int x1, int x2)
 //
 void R_ClearPlanes(void)
 {
-    int i;
-
     // opening/clipping determination
-    for (i = 0; i < viewwidth; i++)
+    for (int i = 0; i < viewwidth; i++)
     {
         floorclip[i] = viewheight;
         ceilingclip[i] = -1;
@@ -157,7 +155,7 @@ void R_ClearPlanes(void)
     // texture calculation
     memset(cachedheight, 0, sizeof(cachedheight));
 
-    for (i = 0; i < MAXVISPLANES; i++)  // new code -- killough
+    for (int i = 0; i < MAXVISPLANES; i++)  // new code -- killough
         for (*freehead = visplanes[i], visplanes[i] = NULL; *freehead;)
             freehead = &(*freehead)->next;
 
@@ -282,8 +280,6 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 //
 static void R_MakeSpans(visplane_t *pl)
 {
-    int x;
-
     xoffs = pl->xoffs;
     yoffs = pl->yoffs;
     planeheight = ABS(pl->height - viewz);
@@ -293,7 +289,7 @@ static void R_MakeSpans(visplane_t *pl)
     pl->top[pl->minx - 1] = USHRT_MAX;
     pl->top[pl->maxx + 1] = USHRT_MAX;
 
-    for (x = pl->minx; x <= pl->maxx + 1; x++)
+    for (int x = pl->minx; x <= pl->maxx + 1; x++)
     {
         unsigned short  t1 = pl->top[x - 1];
         unsigned short  b1 = pl->bottom[x - 1];
@@ -339,7 +335,6 @@ static byte *R_DistortedFlat(int flatnum)
     static int  offset[4096];
     static byte *normalflat;
     static byte distortedflat[4096];
-    int         i;
     int         leveltic = activetic;
 
     // Already swirled this one?
@@ -351,12 +346,10 @@ static byte *R_DistortedFlat(int flatnum)
     // built this tic?
     if (leveltic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused && !freeze)
     {
-        int x, y;
-
         leveltic *= SPEED;
 
-        for (x = 0; x < 64; x++)
-            for (y = 0; y < 64; y++)
+        for (int x = 0; x < 64; x++)
+            for (int y = 0; y < 64; y++)
             {
                 int x1, y1;
                 int sinvalue, sinvalue2;
@@ -377,7 +370,7 @@ static byte *R_DistortedFlat(int flatnum)
 
     normalflat = W_CacheLumpNum(firstflat + flatnum);
 
-    for (i = 0; i < 4096; i++)
+    for (int i = 0; i < 4096; i++)
         distortedflat[i] = normalflat[offset[i]];
 
     return distortedflat;
@@ -389,13 +382,8 @@ static byte *R_DistortedFlat(int flatnum)
 //
 void R_DrawPlanes(void)
 {
-    int i;
-
-    for (i = 0; i < MAXVISPLANES; i++)
-    {
-        visplane_t  *pl;
-
-        for (pl = visplanes[i]; pl; pl = pl->next)
+    for (int i = 0; i < MAXVISPLANES; i++)
+        for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
             if (pl->minx <= pl->maxx)
             {
                 int picnum = pl->picnum;
@@ -403,7 +391,6 @@ void R_DrawPlanes(void)
                 // sky flat
                 if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 {
-                    int             x;
                     int             texture;
                     int             offset;
                     angle_t         flip = 0;
@@ -459,7 +446,7 @@ void R_DrawPlanes(void)
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
                     offset = skycolumnoffset >> FRACBITS;
 
-                    for (x = pl->minx; x <= pl->maxx; x++)
+                    for (int x = pl->minx; x <= pl->maxx; x++)
                     {
                         dc_yl = pl->top[x];
                         dc_yh = pl->bottom[x];
@@ -493,5 +480,4 @@ void R_DrawPlanes(void)
                     }
                 }
             }
-    }
 }

@@ -280,14 +280,13 @@ static void AM_restoreScaleAndLoc(void)
 //
 static void AM_findMinMaxBoundaries(void)
 {
-    int     i;
     fixed_t a;
     fixed_t b;
 
     min_x = min_y = INT_MAX;
     max_x = max_y = INT_MIN;
 
-    for (i = 0; i < numvertexes; i++)
+    for (int i = 0; i < numvertexes; i++)
     {
         const fixed_t   x = vertexes[i].x;
         const fixed_t   y = vertexes[i].y;
@@ -338,7 +337,6 @@ static void AM_changeWindowLoc(void)
 void AM_setColors(void)
 {
     byte    *priority = Z_Calloc(1, 256, PU_STATIC, NULL);
-    int     x, y;
 
     *(priority + nearestcolors[am_wallcolor]) = WALLPRIORITY;
     *(priority + nearestcolors[am_allmapwallcolor]) = ALLMAPWALLPRIORITY;
@@ -359,13 +357,13 @@ void AM_setColors(void)
     backcolor = nearestcolors[am_backcolor];
     crosshaircolor = tinttab60 + (nearestcolors[am_crosshaircolor] << 8);
 
-    for (x = 0; x < 256; x++)
+    for (int x = 0; x < 256; x++)
         *(mask + x) = x;
 
     *(mask + nearestcolors[MASKCOLOR]) = backcolor;
 
-    for (x = 0; x < 256; x++)
-        for (y = 0; y < 256; y++)
+    for (int x = 0; x < 256; x++)
+        for (int y = 0; y < 256; y++)
             *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
 
     wallcolor = priorities + (nearestcolors[am_wallcolor] << 8);
@@ -588,12 +586,11 @@ static void AM_toggleGrid(void)
 //
 static void AM_addMark(void)
 {
-    int         i;
     const int   x = am_frame.center.x;
     const int   y = am_frame.center.y;
     static char message[32];
 
-    for (i = 0; i < markpointnum; i++)
+    for (int i = 0; i < markpointnum; i++)
         if (markpoints[i].x == x && markpoints[i].y == y)
             return;
 
@@ -1518,8 +1515,8 @@ static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
 //
 static void AM_drawGrid(void)
 {
-    fixed_t         x, y;
-    fixed_t         start, end;
+    fixed_t         start;
+    fixed_t         end;
     mline_t         ml;
     const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * (double)m_w + (double)m_h * (double)m_h));
     const fixed_t   extx = (minlen - m_w) / 2;
@@ -1534,7 +1531,7 @@ static void AM_drawGrid(void)
     end = m_x + minlen - extx;
 
     // draw vertical gridlines
-    for (x = start; x < end; x += gridwidth)
+    for (fixed_t x = start; x < end; x += gridwidth)
     {
         ml.a.x = x;
         ml.b.x = x;
@@ -1559,7 +1556,7 @@ static void AM_drawGrid(void)
     end = m_y + minlen - exty;
 
     // draw horizontal gridlines
-    for (y = start; y < end; y += gridheight)
+    for (fixed_t y = start; y < end; y += gridheight)
     {
         ml.a.x = m_x - extx;
         ml.b.x = ml.a.x + minlen;
@@ -1683,12 +1680,10 @@ static void AM_drawWalls(void)
 static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
     angle_t angle, byte color, fixed_t x, fixed_t y)
 {
-    int i;
-
     if (am_rotatemode)
         angle -= plr->mo->angle - ANG90;
 
-    for (i = 0; i < lineguylines; i++)
+    for (int i = 0; i < lineguylines; i++)
     {
         int x1, y1;
         int x2, y2;
@@ -1721,12 +1716,10 @@ static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines,
 static void AM_drawTransLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
     angle_t angle, byte *color, const fixed_t x, const fixed_t y)
 {
-    int i;
-
     if (am_rotatemode)
         angle -= plr->mo->angle - ANG90;
 
-    for (i = 0; i < lineguylines; i++)
+    for (int i = 0; i < lineguylines; i++)
     {
         int x1, y1;
         int x2, y2;
@@ -1832,19 +1825,14 @@ static void AM_drawThings(void)
         { { -32768,  45875 },{ -32768, -45875 } }
     };
 
-    int i;
-
-    for (i = 0; i < numsectors; i++)
+    for (int i = 0; i < numsectors; i++)
     {
         // e6y
         // Two-pass method for better usability of automap:
         // The first one will draw all things except enemies
         // The second one is for enemies only
         // Stop after first pass if the current sector has no enemies
-        int pass;
-        int enemies = 0;
-
-        for (pass = 0; pass < 2; pass += (enemies ? 1 : 2))
+        for (int pass = 0, enemies = 0; pass < 2; pass += (enemies ? 1 : 2))
         {
             mobj_t  *thing = sectors[i].thinglist;
 
@@ -1919,9 +1907,7 @@ static void AM_drawMarks(void)
         "112222211111122112211221122222211122221101111110"
     };
 
-    int i;
-
-    for (i = 0; i < markpointnum; i++)
+    for (int i = 0; i < markpointnum; i++)
     {
         int         number = i + 1;
         int         temp = number;
@@ -1948,11 +1934,10 @@ static void AM_drawMarks(void)
         do
         {
             const int   digit = number % 10;
-            int         j;
 
             x += (i > 0 && digit == 1);
 
-            for (j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
+            for (int j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
             {
                 const int   fx = x + j % MARKWIDTH;
 
@@ -1975,7 +1960,8 @@ static void AM_drawMarks(void)
 
             x -= MARKWIDTH - 1;
             number /= 10;
-        } while (number > 0);
+        }
+        while (number > 0);
     }
 }
 
@@ -1983,11 +1969,9 @@ static void AM_drawPath(void)
 {
     if (pathpointnum >= 1)
     {
-        int i;
-
         if (am_rotatemode)
         {
-            for (i = 1; i < pathpointnum; i++)
+            for (int i = 1; i < pathpointnum; i++)
             {
                 mpoint_t    start;
                 mpoint_t    end;
@@ -2008,7 +1992,7 @@ static void AM_drawPath(void)
         }
         else
         {
-            for (i = 1; i < pathpointnum; i++)
+            for (int i = 1; i < pathpointnum; i++)
                 if (ABS(pathpoints[i - 1].x - pathpoints[i].x) <= FRACUNIT * 4
                     && ABS(pathpoints[i - 1].y - pathpoints[i].y) <= FRACUNIT * 4)
                     AM_drawMline2(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y,

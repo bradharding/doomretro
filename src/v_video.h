@@ -47,17 +47,17 @@
 
 // Screen 0 is the screen updated by I_Update screen.
 // Screen 1 is an extra buffer.
-extern byte     *screens[5];
+extern byte *screens[5];
 
-extern byte     *tinttab20;
-extern byte     *tinttab25;
-extern byte     *tinttab33;
-extern byte     *tinttab40;
-extern byte     *tinttab50;
-extern byte     *tinttab60;
-extern byte     *tinttab66;
-extern byte     *tinttab75;
-extern byte     *tinttabred;
+extern byte *tinttab20;
+extern byte *tinttab25;
+extern byte *tinttab33;
+extern byte *tinttab40;
+extern byte *tinttab50;
+extern byte *tinttab60;
+extern byte *tinttab66;
+extern byte *tinttab75;
+extern byte *tinttabred;
 
 // Allocates buffer screens, call before R_Init.
 void V_Init(void);

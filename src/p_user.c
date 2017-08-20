@@ -146,10 +146,9 @@ void P_CalcHeight(player_t *player)
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
     {
-        dboolean                liquid = true;
-        const struct msecnode_s *seclist;
+        dboolean    liquid = true;
 
-        for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+        for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
             if (!seclist->m_sector->isliquid)
             {
                 liquid = false;
@@ -374,10 +373,9 @@ void P_ResurrectPlayer(player_t *player, int health)
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t                *cmd = &player->cmd;
-    mobj_t                  *mo = player->mo;
-    const struct msecnode_s *seclist;
-    static int              motionblur;
+    ticcmd_t    *cmd = &player->cmd;
+    mobj_t      *mo = player->mo;
+    static int  motionblur;
 
     if (player->bonuscount)
         player->bonuscount--;
@@ -461,7 +459,7 @@ void P_PlayerThink(player_t *player)
 
     // [BH] Check all sectors player is touching are special
     if (!freeze)
-        for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+        for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
             if (seclist->m_sector->special && mo->z == seclist->m_sector->interpfloorheight)
             {
                 P_PlayerInSpecialSector(player);

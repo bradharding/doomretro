@@ -40,7 +40,7 @@
 #define __P_SPEC_H__
 
 // jff 2/23/98 identify the special classes that can share sectors
-typedef enum special_e
+typedef enum
 {
     floor_special,
     ceiling_special,
@@ -235,7 +235,7 @@ void P_InitSwitchList(void);
 //
 // P_PLATS
 //
-typedef enum plat_e
+typedef enum
 {
     up,
     down,
@@ -305,7 +305,7 @@ void P_ActivateInStasis(int tag);
 //
 // P_DOORS
 //
-typedef enum vldoor_e
+typedef enum
 {
     doorNormal,
     doorClose30ThenOpen,
@@ -369,7 +369,7 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec);
 //
 // P_CEILING
 //
-typedef enum ceiling_e
+typedef enum
 {
     lowerToFloor,
     raiseToHighest,
@@ -437,7 +437,7 @@ dboolean P_ActivateInStasisCeiling(line_t *line);
 //
 // P_FLOOR
 //
-typedef enum floor_e
+typedef enum
 {
     // lower floor to highest surrounding floor
     lowerFloor,
@@ -493,14 +493,14 @@ typedef enum floor_e
     genBuildStair
 } floor_e;
 
-typedef enum elevator_e
+typedef enum
 {
     elevateUp,
     elevateDown,
     elevateCurrent
 } elevator_e;
 
-typedef enum stair_e
+typedef enum
 {
     build8,     // slowly build by 8
     turbo16     // quickly build by 16
@@ -534,7 +534,7 @@ typedef struct
 #define ELEVATORSPEED           (FRACUNIT * 4)
 #define FLOORSPEED              FRACUNIT
 
-typedef enum result_e
+typedef enum
 {
     ok,
     crushed,
@@ -560,6 +560,7 @@ typedef struct
     fixed_t     last_height;    // Last known height of control sector
     fixed_t     vdx, vdy;       // Accumulated velocity if accelerative
     int         accel;          // Whether it's accelerative
+
     enum
     {
         sc_side,
@@ -823,17 +824,11 @@ enum
 };
 
 dboolean EV_DoGenFloor(line_t *line);
-
 dboolean EV_DoGenCeiling(line_t *line);
-
 dboolean EV_DoGenLift(line_t *line);
-
 dboolean EV_DoGenStairs(line_t *line);
-
 dboolean EV_DoGenCrusher(line_t *line);
-
 dboolean EV_DoGenDoor(line_t *line);
-
 dboolean EV_DoGenLockedDoor(line_t *line);
 
 #endif

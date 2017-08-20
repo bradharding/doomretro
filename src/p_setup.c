@@ -264,7 +264,6 @@ static void *calloc_IfSameLevel(void *p, size_t n1, size_t n2)
 static void P_LoadVertexes(int lump)
 {
     const mapvertex_t   *data;
-    int                 i;
 
     // Determine number of lumps:
     //  total lump length / vertex record length.
@@ -281,7 +280,7 @@ static void P_LoadVertexes(int lump)
 
     // Copy and convert vertex coordinates,
     // internal representation as fixed.
-    for (i = 0; i < numvertexes; i++)
+    for (int i = 0; i < numvertexes; i++)
     {
         vertexes[i].x = SHORT(data[i].x) << FRACBITS;
         vertexes[i].y = SHORT(data[i].y) << FRACBITS;
@@ -323,7 +322,6 @@ static void P_LoadVertexes(int lump)
 static void P_LoadSegs(int lump)
 {
     const mapseg_t  *data;
-    int             i;
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
@@ -334,7 +332,7 @@ static void P_LoadSegs(int lump)
 
     boomlinespecials = false;
 
-    for (i = 0; i < numsegs; i++)
+    for (int i = 0; i < numsegs; i++)
     {
         seg_t           *li = segs + i;
         const mapseg_t  *ml = data + i;
@@ -525,7 +523,6 @@ static void P_LoadSegs(int lump)
 static void P_LoadSegs_V4(int lump)
 {
     const mapseg_v4_t   *data;
-    int                 i;
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_v4_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
@@ -536,7 +533,7 @@ static void P_LoadSegs_V4(int lump)
 
     boomlinespecials = false;
 
-    for (i = 0; i < numsegs; i++)
+    for (int i = 0; i < numsegs; i++)
     {
         seg_t               *li = segs + i;
         const mapseg_v4_t   *ml = data + i;
@@ -640,7 +637,6 @@ static void P_LoadSegs_V4(int lump)
 static void P_LoadSubsectors(int lump)
 {
     const mapsubsector_t    *data;
-    int                     i;
 
     numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
@@ -649,7 +645,7 @@ static void P_LoadSubsectors(int lump)
     if (!data || !numsubsectors)
         I_Error("This map has no subsectors.");
 
-    for (i = 0; i < numsubsectors; i++)
+    for (int i = 0; i < numsubsectors; i++)
     {
         subsectors[i].numlines = (unsigned short)SHORT(data[i].numsegs);
         subsectors[i].firstline = (unsigned short)SHORT(data[i].firstseg);
@@ -661,7 +657,6 @@ static void P_LoadSubsectors(int lump)
 static void P_LoadSubsectors_V4(int lump)
 {
     const mapsubsector_v4_t *data;
-    int                     i;
 
     numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_v4_t);
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
@@ -670,7 +665,7 @@ static void P_LoadSubsectors_V4(int lump)
     if (!data || !numsubsectors)
         I_Error("This map has no subsectors.");
 
-    for (i = 0; i < numsubsectors; i++)
+    for (int i = 0; i < numsubsectors; i++)
     {
         subsectors[i].numlines = (int)data[i].numsegs;
         subsectors[i].firstline = (int)data[i].firstseg;
@@ -685,7 +680,6 @@ static void P_LoadSubsectors_V4(int lump)
 static void P_LoadSectors(int lump)
 {
     const byte  *data;
-    int         i;
 
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
     sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
@@ -693,7 +687,7 @@ static void P_LoadSectors(int lump)
 
     numdamaging = 0;
 
-    for (i = 0; i < numsectors; i++)
+    for (int i = 0; i < numsectors; i++)
     {
         sector_t    *ss = sectors + i;
         mapsector_t *ms = (mapsector_t *)data + i;
@@ -816,7 +810,6 @@ static void P_LoadSectors(int lump)
 static void P_LoadNodes(int lump)
 {
     const byte  *data;
-    int         i;
 
     numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
@@ -830,21 +823,18 @@ static void P_LoadNodes(int lump)
             I_Error("This map has no nodes.");
     }
 
-    for (i = 0; i < numnodes; i++)
+    for (int i = 0; i < numnodes; i++)
     {
         node_t          *no = nodes + i;
         const mapnode_t *mn = (const mapnode_t *)data + i;
-        int             j;
 
         no->x = SHORT(mn->x) << FRACBITS;
         no->y = SHORT(mn->y) << FRACBITS;
         no->dx = SHORT(mn->dx) << FRACBITS;
         no->dy = SHORT(mn->dy) << FRACBITS;
 
-        for (j = 0; j < 2; j++)
+        for (int j = 0; j < 2; j++)
         {
-            int k;
-
             no->children[j] = (unsigned short)SHORT(mn->children[j]);
 
             if (no->children[j] == 0xFFFF)
@@ -865,7 +855,7 @@ static void P_LoadNodes(int lump)
                 no->children[j] |= NF_SUBSECTOR;
             }
 
-            for (k = 0; k < 4; k++)
+            for (int k = 0; k < 4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
         }
     }
@@ -876,7 +866,6 @@ static void P_LoadNodes(int lump)
 static void P_LoadNodes_V4(int lump)
 {
     const byte  *data;
-    int         i;
 
     numnodes = (W_LumpLength(lump) - 8) / sizeof(mapnode_v4_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
@@ -893,24 +882,21 @@ static void P_LoadNodes_V4(int lump)
             I_Error("This map has no nodes.");
     }
 
-    for (i = 0; i < numnodes; i++)
+    for (int i = 0; i < numnodes; i++)
     {
         node_t              *no = nodes + i;
         const mapnode_v4_t  *mn = (const mapnode_v4_t *)data + i;
-        int                 j;
 
         no->x = SHORT(mn->x) << FRACBITS;
         no->y = SHORT(mn->y) << FRACBITS;
         no->dx = SHORT(mn->dx) << FRACBITS;
         no->dy = SHORT(mn->dy) << FRACBITS;
 
-        for (j = 0; j < 2; j++)
+        for (int j = 0; j < 2; j++)
         {
-            int k;
-
             no->children[j] = (unsigned int)(mn->children[j]);
 
-            for (k = 0; k<4; k++)
+            for (int k = 0; k < 4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
         }
     }
@@ -920,11 +906,9 @@ static void P_LoadNodes_V4(int lump)
 
 static void P_LoadZSegs(const byte *data)
 {
-    int i;
-
     boomlinespecials = false;
 
-    for (i = 0; i < numsegs; i++)
+    for (int i = 0; i < numsegs; i++)
     {
         line_t              *ldef;
         unsigned int        v1, v2;
@@ -994,9 +978,10 @@ static void P_LoadZSegs(const byte *data)
 static void P_LoadZNodes(int lump)
 {
     byte            *data = W_CacheLumpNum(lump);
-    unsigned int    i;
-    unsigned int    orgVerts, newVerts;
-    unsigned int    numSubs, currSeg;
+    unsigned int    orgVerts;
+    unsigned int    newVerts;
+    unsigned int    numSubs;
+    unsigned int    currSeg = 0;
     unsigned int    numSegs;
     unsigned int    numNodes;
     vertex_t        *newvertarray = NULL;
@@ -1021,7 +1006,7 @@ static void P_LoadZNodes(int lump)
             memcpy(newvertarray, vertexes, orgVerts * sizeof(vertex_t));
         }
 
-        for (i = 0; i < newVerts; i++)
+        for (unsigned int i = 0; i < newVerts; i++)
         {
             newvertarray[i + orgVerts].x = *((const unsigned int *)data);
             data += sizeof(newvertarray[0].x);
@@ -1032,7 +1017,7 @@ static void P_LoadZNodes(int lump)
 
         if (vertexes != newvertarray)
         {
-            for (i = 0; i < (unsigned int)numlines; i++)
+            for (int i = 0; i < numlines; i++)
             {
                 lines[i].v1 = lines[i].v1 - vertexes + newvertarray;
                 lines[i].v2 = lines[i].v2 - vertexes + newvertarray;
@@ -1062,7 +1047,7 @@ static void P_LoadZNodes(int lump)
 
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
 
-    for (i = currSeg = 0; i < numSubs; i++)
+    for (unsigned int i = 0; i < numSubs; i++)
     {
         const mapsubsector_znod_t   *mseg = (const mapsubsector_znod_t *)data + i;
 
@@ -1095,9 +1080,8 @@ static void P_LoadZNodes(int lump)
     numnodes = numNodes;
     nodes = calloc_IfSameLevel(nodes, numNodes, sizeof(node_t));
 
-    for (i = 0; i < numNodes; i++)
+    for (unsigned int i = 0; i < numNodes; i++)
     {
-        int                     j;
         node_t                  *no = nodes + i;
         const mapnode_znod_t    *mn = (const mapnode_znod_t *)data + i;
 
@@ -1106,13 +1090,11 @@ static void P_LoadZNodes(int lump)
         no->dx = SHORT(mn->dx) << FRACBITS;
         no->dy = SHORT(mn->dy) << FRACBITS;
 
-        for (j = 0; j < 2; j++)
+        for (int j = 0; j < 2; j++)
         {
-            int k;
-
             no->children[j] = (unsigned int)(mn->children[j]);
 
-            for (k = 0; k < 4; k++)
+            for (int k = 0; k < 4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
         }
     }
@@ -1126,7 +1108,6 @@ static void P_LoadZNodes(int lump)
 static void P_LoadThings(int lump)
 {
     const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump);
-    int                 i;
 
     numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
@@ -1134,7 +1115,7 @@ static void P_LoadThings(int lump)
 
     numdecorations = 0;
 
-    for (i = 0; i < numthings; i++)
+    for (int i = 0; i < numthings; i++)
     {
         mapthing_t  mt = data[i];
         dboolean    spawn = true;
@@ -1238,12 +1219,11 @@ static void P_LoadThings(int lump)
 static void P_LoadLineDefs(int lump)
 {
     const byte  *data = W_CacheLumpNum(lump);
-    int         i;
 
     numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
     lines = calloc_IfSameLevel(lines, numlines, sizeof(line_t));
 
-    for (i = 0; i < numlines; i++)
+    for (int i = 0; i < numlines; i++)
     {
         const maplinedef_t  *mld = (const maplinedef_t *)data + i;
         line_t              *ld = lines + i;
@@ -1315,9 +1295,7 @@ static void P_LoadLineDefs2(void)
     {
         {
             // cph 2006/09/30 - fix sidedef errors right away
-            int j;
-
-            for (j = 0; j < 2; j++)
+            for (int j = 0; j < 2; j++)
                 if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
                 {
                     C_Warning("Linedef %s references an invalid sidedef of %s.",
@@ -1353,13 +1331,9 @@ static void P_LoadLineDefs2(void)
                 if (!ld->tag)                          // if tag==0,
                     ld->tranlump = lump;               // affect this linedef only
                 else
-                {
-                    int j;
-
-                    for (j = 0; j < numlines; j++)     // if tag!=0,
+                    for (int j = 0; j < numlines; j++) // if tag!=0,
                         if (lines[j].tag == ld->tag)   // affect all matching linedefs
                             lines[j].tranlump = lump;
-                }
 
                 break;
 
@@ -1385,9 +1359,8 @@ static void P_LoadSideDefs(int lump)
 static void P_LoadSideDefs2(int lump)
 {
     const byte  *data = (byte *)W_CacheLumpNum(lump);
-    int         i;
 
-    for (i = 0; i < numsides; i++)
+    for (int i = 0; i < numsides; i++)
     {
         mapsidedef_t    *msd = (mapsidedef_t *)data + i;
         side_t          *sd = sides + i;
@@ -1449,18 +1422,16 @@ static void P_LoadSideDefs2(int lump)
 static dboolean P_VerifyBlockMap(int count)
 {
     dboolean    isvalid = true;
-    int         x, y;
     int         *maxoffs = blockmaplump + count;
 
     skipblstart = true;
 
-    for (y = 0; y < bmapheight; y++)
+    for (int y = 0; y < bmapheight; y++)
     {
-        for (x = 0; x < bmapwidth; x++)
+        for (int x = 0; x < bmapwidth; x++)
         {
             int offset = y * bmapwidth + x;
             int *list;
-            int *tmplist;
             int *blockoffset = blockmaplump + offset + 4;
 
             // check that block offset is in bounds
@@ -1477,7 +1448,7 @@ static dboolean P_VerifyBlockMap(int count)
                 skipblstart = false;
 
             // scan forward for a -1 terminator before maxoffs
-            for (tmplist = list; ; tmplist++)
+            for (int *tmplist = list; ; tmplist++)
             {
                 // we have overflowed the lump?
                 if (tmplist >= maxoffs)
@@ -1494,7 +1465,7 @@ static dboolean P_VerifyBlockMap(int count)
                 break;
 
             // scan the list for out-of-range linedef indicies in list
-            for (tmplist = list; *tmplist != -1; tmplist++)
+            for (int *tmplist = list; *tmplist != -1; tmplist++)
                 if (*tmplist < 0 || *tmplist >= numlines)
                 {
                     isvalid = false;
@@ -1729,7 +1700,6 @@ static void P_LoadBlockMap(int lump)
     else
     {
         short   *wadblockmaplump = W_CacheLumpNum(lump);
-        int      i;
 
         blockmaplump = malloc_IfSameLevel(blockmaplump, sizeof(*blockmaplump) * count);
 
@@ -1743,7 +1713,7 @@ static void P_LoadBlockMap(int lump)
         blockmaplump[3] = (uint32_t)(SHORT(wadblockmaplump[3])) & 0xFFFF;
 
         // Swap all short integers to native byte ordering.
-        for (i = 4; i < count; i++)
+        for (int i = 4; i < count; i++)
         {
             short   t = SHORT(wadblockmaplump[i]);
 
@@ -1833,7 +1803,6 @@ static void P_GroupLines(void)
     line_t      *li;
     sector_t    *sector;
     int         i;
-    int         j;
     int         total = numlines;
 
     // figgi
@@ -1843,7 +1812,7 @@ static void P_GroupLines(void)
 
         subsectors[i].sector = NULL;
 
-        for (j = 0; j < subsectors[i].numlines; j++)
+        for (int j = 0; j < subsectors[i].numlines; j++)
         {
             if (seg->sidedef)
             {
@@ -1969,11 +1938,10 @@ static void P_GroupLines(void)
 static void P_RemoveSlimeTrails(void)                   // killough 10/98
 {
     byte    *hit = calloc(1, numvertexes);              // Hitlist for vertices
-    int     i;
 
-    for (i = 0; i < numsegs; i++)                       // Go through each seg
+    for (int i = 0; i < numsegs; i++)                   // Go through each seg
     {
-        const line_t    *l = segs[i].linedef;              // The parent linedef
+        const line_t    *l = segs[i].linedef;           // The parent linedef
 
         if (l->dx && l->dy)                             // We can ignore orthogonal lines
         {
@@ -2018,9 +1986,7 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
 // Precalc values for use later in long wall error fix in R_StoreWallRange()
 static void P_CalcSegsLength(void)
 {
-    int i;
-
-    for (i = 0; i < numsegs; i++)
+    for (int i = 0; i < numsegs; i++)
     {
         seg_t   *li = segs + i;
         int64_t dx = (int64_t)li->v2->x - li->v1->x;
@@ -2379,7 +2345,6 @@ static int  noliquidlumps;
 
 static void InitMapInfo(void)
 {
-    int         i;
     int         mapmax = 1;
     int         mcmdvalue;
     mapinfo_t   *info;
@@ -2394,7 +2359,7 @@ static void InitMapInfo(void)
     info = mapinfo;
     memset(info, 0, sizeof(mapinfo_t));
 
-    for (i = 0; i < NUMLIQUIDS; i++)
+    for (int i = 0; i < NUMLIQUIDS; i++)
     {
         info->liquid[i] = -1;
         info->noliquid[i] = -1;
@@ -2626,9 +2591,7 @@ char *P_GetMapAuthor(int map)
 
 void P_GetMapLiquids(int map)
 {
-    int i;
-
-    for (i = 0; i < liquidlumps; i++)
+    for (int i = 0; i < liquidlumps; i++)
         sectors[mapinfo[QualifyMap(map)].liquid[i]].isliquid = true;
 }
 
@@ -2650,9 +2613,7 @@ int P_GetMapNext(int map)
 
 void P_GetMapNoLiquids(int map)
 {
-    int i;
-
-    for (i = 0; i < noliquidlumps; i++)
+    for (int i = 0; i < noliquidlumps; i++)
         sectors[mapinfo[QualifyMap(map)].noliquid[i]].isliquid = false;
 }
 

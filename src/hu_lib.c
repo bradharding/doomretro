@@ -102,32 +102,30 @@ static void HU_drawDot(int x, int y, unsigned char src)
 static void HU_drawChar(int x, int y, int ch)
 {
     int w = strlen(smallcharset[ch]) / 10;
-    int x1, y1;
 
     if (r_messagescale == r_messagescale_small)
     {
-        for (y1 = 0; y1 < 10; y1++)
-            for (x1 = 0; x1 < w; x1++)
+        for (int y1 = 0; y1 < 10; y1++)
+            for (int x1 = 0; x1 < w; x1++)
                 HU_drawDot(x + x1, y + y1, smallcharset[ch][y1 * w + x1]);
     }
     else
     {
-        for (y1 = 0; y1 < 10; y1++)
-            for (x1 = 0; x1 < w; x1++)
+        for (int y1 = 0; y1 < 10; y1++)
+            for (int x1 = 0; x1 < w; x1++)
             {
                 unsigned char   src = smallcharset[ch][y1 * w + x1];
                 int             i = (x + x1) * SCREENSCALE;
                 int             j = (y + y1) * SCREENSCALE;
-                int             xx, yy;
 
-                for (yy = 0; yy < SCREENSCALE; yy++)
-                    for (xx = 0; xx < SCREENSCALE; xx++)
+                for (int yy = 0; yy < SCREENSCALE; yy++)
+                    for (int xx = 0; xx < SCREENSCALE; xx++)
                         HU_drawDot(i + xx, j + yy, src);
             }
     }
 }
 
-static struct c_kern_s
+static struct
 {
     char    char1;
     char    char2;
@@ -177,11 +175,10 @@ static struct c_kern_s
 
 static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
 {
-    int             i;
     unsigned char   prevletter = '\0';
     int             x = HU_ALTHUDMSGX;
 
-    for (i = 0; i < l->len; i++)
+    for (int i = 0; i < l->len; i++)
     {
         unsigned char   letter = l->l[i];
         unsigned char   nextletter = l->l[i + 1];
@@ -214,7 +211,7 @@ static void HUlib_drawAltHUDTextLine(hu_textline_t *l)
     }
 }
 
-static struct hu_kern_s
+static struct
 {
     char    char1;
     char    char2;
@@ -237,11 +234,9 @@ static struct hu_kern_s
 
 void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 {
-    int         i;
     int         w = 0;
     int         tw = 0;
     int         x, y;
-    int         xx, yy;
     int         maxx, maxy;
     static char prev;
     byte        *fb1 = (external ? mapscreen : screens[0]);
@@ -252,7 +247,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     y = l->y;
     memset(tempscreen, 251, SCREENWIDTH * SCREENHEIGHT);
 
-    for (i = 0; i < l->len; i++)
+    for (int i = 0; i < l->len; i++)
     {
         unsigned char   c = toupper(l->l[i]);
 
@@ -328,19 +323,16 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
     // [BH] draw underscores for IDBEHOLD cheat message
     if (idbehold && !STCFN034 && s_STSTR_BEHOLD2)
     {
-        int x1, y1;
-        int x2, y2;
         int scale = r_messagescale + 1;
 
-        for (y1 = 0; y1 < 4; y1++)
-            for (x1 = 0; x1 < ORIGINALWIDTH; x1++)
+        for (int y1 = 0; y1 < 4; y1++)
+            for (int x1 = 0; x1 < ORIGINALWIDTH; x1++)
             {
-                unsigned char   src = (automapactive && !vid_widescreen ?
-                                    underscores2[y1 * ORIGINALWIDTH + x1] :
+                unsigned char   src = (automapactive && !vid_widescreen ? underscores2[y1 * ORIGINALWIDTH + x1] :
                                     underscores1[y1 * ORIGINALWIDTH + x1]);
 
-                for (y2 = 0; y2 < scale; y2++)
-                    for (x2 = 0; x2 < scale; x2++)
+                for (int y2 = 0; y2 < scale; y2++)
+                    for (int x2 = 0; x2 < scale; x2++)
                     {
                         byte    *dest = &tempscreen[((8 + y1) * scale + y2) * SCREENWIDTH + x1 * scale + x2];
 
@@ -362,8 +354,8 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
         maxx *= SCREENSCALE;
     }
 
-    for (yy = l->y - 1; yy < maxy; yy++)
-        for (xx = l->x; xx < maxx; xx++)
+    for (int yy = l->y - 1; yy < maxy; yy++)
+        for (int xx = l->x; xx < maxx; xx++)
         {
             int     dot = yy * SCREENWIDTH + xx;
             byte    *source = &tempscreen[dot];
@@ -397,11 +389,9 @@ void HUlib_eraseTextLine(hu_textline_t *l)
     // (because of a recent change back from the automap)
     if (!automapactive && viewwindowx && l->needsupdate)
     {
-        int y;
-        int yoffset;
         int lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
 
-        for (y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh; y++, yoffset += SCREENWIDTH)
+        for (int y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh; y++, yoffset += SCREENWIDTH)
             if (y < viewwindowy || y >= viewwindowy + viewheight)
                 R_VideoErase(yoffset, SCREENWIDTH);                             // erase entire line
             else
@@ -417,21 +407,17 @@ void HUlib_eraseTextLine(hu_textline_t *l)
 
 void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on)
 {
-    int i;
-
     s->h = h;
     s->on = on;
     s->laston = true;
     s->cl = 0;
 
-    for (i = 0; i < h; i++)
+    for (int i = 0; i < h; i++)
         HUlib_initTextLine(&s->l[i], x, y - i * (SHORT(font[0]->height) + 1), font, startchar);
 }
 
 static void HUlib_addLineToSText(hu_stext_t *s)
 {
-    int i;
-
     // add a clear line
     if (++s->cl == s->h)
         s->cl = 0;
@@ -439,7 +425,7 @@ static void HUlib_addLineToSText(hu_stext_t *s)
     HUlib_clearTextLine(&s->l[s->cl]);
 
     // everything needs updating
-    for (i = 0; i < s->h; i++)
+    for (int i = 0; i < s->h; i++)
         s->l[i].needsupdate = 4;
 }
 
@@ -457,13 +443,11 @@ void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg)
 
 void HUlib_drawSText(hu_stext_t *s, dboolean external)
 {
-    int i;
-
     if (!*s->on)
         return; // if not on, don't draw
 
     // draw everything
-    for (i = 0; i < s->h; i++)
+    for (int i = 0; i < s->h; i++)
     {
         int             idx = s->cl - i;
         hu_textline_t   *l;
@@ -483,9 +467,7 @@ void HUlib_drawSText(hu_stext_t *s, dboolean external)
 
 void HUlib_eraseSText(hu_stext_t *s)
 {
-    int i;
-
-    for (i = 0; i < s->h; i++)
+    for (int i = 0; i < s->h; i++)
     {
         if (s->laston && !*s->on)
             s->l[i].needsupdate = 4;

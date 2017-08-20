@@ -51,11 +51,10 @@ static byte *wipe_scr;
 
 static void wipe_shittyColMajorXform(short *array)
 {
-    int     x, y;
     short   *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
-    for (y = 0; y < SCREENHEIGHT; y++)
-        for (x = 0; x < SCREENWIDTH / 2; x++)
+    for (int y = 0; y < SCREENHEIGHT; y++)
+        for (int x = 0; x < SCREENWIDTH / 2; x++)
             dest[x * SCREENHEIGHT + y] = array[y * SCREENWIDTH / 2 + x];
 
     memcpy(array, dest, SCREENWIDTH * SCREENHEIGHT);
@@ -68,8 +67,6 @@ static int  speed;
 
 static dboolean wipe_initMelt(void)
 {
-    int i;
-
     speed = (SCREENHEIGHT - (SBARHEIGHT * vid_widescreen)) / 16;
 
     // copy start screen to main screen
@@ -85,7 +82,7 @@ static dboolean wipe_initMelt(void)
     y = Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, NULL);
     y[0] = y[1] = -(rand() % 16);
 
-    for (i = 2; i < SCREENWIDTH - 1; i += 2)
+    for (int i = 2; i < SCREENWIDTH - 1; i += 2)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + (rand() % 3) - 1, 0);
 
     return false;
@@ -97,9 +94,7 @@ static dboolean wipe_doMelt(int tics)
 
     while (tics--)
     {
-        int i;
-
-        for (i = 0; i < SCREENWIDTH / 2; i++)
+        for (int i = 0; i < SCREENWIDTH / 2; i++)
         {
             if (y[i] < 0)
             {
@@ -110,7 +105,6 @@ static dboolean wipe_doMelt(int tics)
 
             if (y[i] < SCREENHEIGHT)
             {
-                int     j;
                 int     dy = (y[i] < 16 ? y[i] + 1 : speed);
                 int     idx = 0;
                 short   *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + y[i]];
@@ -119,7 +113,7 @@ static dboolean wipe_doMelt(int tics)
                 if (y[i] + dy >= SCREENHEIGHT)
                     dy = SCREENHEIGHT - y[i];
 
-                for (j = dy; j; j--)
+                for (int j = dy; j; j--)
                 {
                     d[idx] = *s++;
                     idx += SCREENWIDTH / 2;
@@ -130,7 +124,7 @@ static dboolean wipe_doMelt(int tics)
                 d = &((short *)wipe_scr)[y[i] * SCREENWIDTH / 2 + i];
                 idx = 0;
 
-                for (j = SCREENHEIGHT - y[i]; j; j--)
+                for (int j = SCREENHEIGHT - y[i]; j; j--)
                 {
                     d[idx] = *s++;
                     idx += SCREENWIDTH / 2;

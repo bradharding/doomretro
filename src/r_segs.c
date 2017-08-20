@@ -580,7 +580,6 @@ void R_StoreWallRange(const int start, const int stop)
 
         if (need > maxopenings)
         {
-            drawseg_t   *ds;                    // jff 8/9/98 needed for fix from ZDoom
             const int   *oldopenings = openings;
             const int   *oldlast = lastopening;
 
@@ -594,7 +593,7 @@ void R_StoreWallRange(const int start, const int stop)
             // jff 8/9/98 borrowed fix for openings from ZDOOM1.14
             // [RH] We also need to adjust the openings pointers that
             //    were already stored in drawsegs.
-            for (ds = drawsegs; ds < ds_p; ds++)
+            for (drawseg_t *ds = drawsegs; ds < ds_p; ds++)
             {
                 if (ds->maskedtexturecol + ds->x1 >= oldopenings && ds->maskedtexturecol + ds->x1 <= oldlast)
                     ds->maskedtexturecol = ds->maskedtexturecol - oldopenings + openings;

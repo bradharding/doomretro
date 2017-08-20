@@ -55,11 +55,10 @@
 
 // Text Line widget
 //  (parent of Scrolling Text and Input Text widgets)
-typedef struct hu_textline_s
+typedef struct
 {
     // left-justified position of scrolling text window
-    int             x;
-    int             y;
+    int             x, y;
 
     patch_t         **f;                            // font
     int             sc;                             // start character
@@ -72,7 +71,7 @@ typedef struct hu_textline_s
 
 // Scrolling Text window widget
 //  (child of Text Line widget)
-typedef struct hu_stext_s
+typedef struct
 {
     hu_textline_t   l[HU_MAXLINES];                 // text lines to draw
     int             h;                              // height in lines

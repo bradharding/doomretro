@@ -41,20 +41,6 @@
 
 #include "doomtype.h"
 
-// error codes
-enum error_e
-{
-    MUSDATACOR,         // MUS data corrupt
-    TOOMCHAN,           // Too many channels
-    MEMALLOC,           // Memory allocation error
-    MUSDATAMT,          // MUS file empty
-    BADMUSCTL,          // MUS event 5 or 7 found
-    BADSYSEVT,          // MUS system event not in 10-14 range
-    BADCTLCHG,          // MUS control change larger than 9
-    TRACKOVF,           // MIDI track exceeds allocation
-    BADMIDHDR           // bad midi header detected
-};
-
 // some names for integers of various sizes, all unsigned
 typedef uint8_t  UBYTE; // a one-byte int
 typedef uint16_t UWORD; // a two-byte int
@@ -75,7 +61,7 @@ typedef struct MIDI                     // a midi file
 } MIDI;
 
 dboolean mmuscheckformat(UBYTE *mus, int size);
-int mmus2mid(UBYTE *mus, size_t size, MIDI *mididata);
-int MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen);
+dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata);
+void MIDIToMidi(MIDI *mididata, UBYTE **mid, int *midlen);
 
 #endif

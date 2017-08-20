@@ -180,9 +180,8 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 {
     double  best_difference = INT_MAX;
     int     best_color = 0;
-    int     i;
 
-    for (i = 0; i < PALETTESIZE; i++)
+    for (int i = 0; i < PALETTESIZE; i++)
     {
         int r1 = red;
         int g1 = green;
@@ -213,16 +212,14 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 
 void FindNearestColors(byte *palette)
 {
-    int i;
-
     if (W_CheckMultipleLumps("PLAYPAL") > 1)
     {
-        for (i = 0; i < PALETTESIZE; i++)
+        for (int i = 0; i < PALETTESIZE; i++)
             nearestcolors[i] = FindNearestColor(palette, originalcolors[i].red, originalcolors[i].green,
                 originalcolors[i].blue);
     }
     else
-        for (i = 0; i < PALETTESIZE; i++)
+        for (int i = 0; i < PALETTESIZE; i++)
             nearestcolors[i] = i;
 }
 
@@ -230,13 +227,11 @@ static byte colorcount[PALETTESIZE];
 
 int FindDominantColor(patch_t *patch)
 {
-    int col = 0;
     int w = SHORT(patch->width);
-    int i = 0;
     int dominantcolor = -1;
     int dominantcolorcount = 0;
 
-    for (; col < w; col++)
+    for (int col = 0; col < w; col++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -253,7 +248,7 @@ int FindDominantColor(patch_t *patch)
         }
     }
 
-    for (i = 0; i < PALETTESIZE; i++)
+    for (int i = 0; i < PALETTESIZE; i++)
         if (colorcount[i] > dominantcolorcount && (originalcolors[i].red >= 128
             || originalcolors[i].green >= 128 || originalcolors[i].blue >= 128))
         {
@@ -267,14 +262,12 @@ int FindDominantColor(patch_t *patch)
 static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESIZE], int colors)
 {
     byte    *result = Z_Malloc(PALETTESIZE * PALETTESIZE, PU_STATIC, NULL);
-    int     foreground;
-    int     background;
 
-    for (foreground = 0; foreground < PALETTESIZE; foreground++)
+    for (int foreground = 0; foreground < PALETTESIZE; foreground++)
     {
         if ((filter[foreground] & colors) || colors == ALL)
         {
-            for (background = 0; background < PALETTESIZE; background++)
+            for (int background = 0; background < PALETTESIZE; background++)
             {
                 byte    *color1 = palette + background * 3;
                 byte    *color2 = palette + foreground * 3;
@@ -308,7 +301,7 @@ static byte *GenerateTintTable(byte *palette, int percent, byte filter[PALETTESI
             }
         }
         else
-            for (background = 0; background < PALETTESIZE; background++)
+            for (int background = 0; background < PALETTESIZE; background++)
                 *(result + (background << 8) + foreground) = foreground;
     }
 

@@ -145,9 +145,7 @@ static dboolean CheckIfPatch(int lump)
         // check the column directory for extra security. All columns
         // must begin after the column directory, and none of them must
         // point past the end of the patch.
-        int x;
-
-        for (x = 0; x < width; x++)
+        for (int x = 0; x < width; x++)
         {
             unsigned int    ofs = LONG(patch->columnofs[x]);
 
@@ -170,7 +168,6 @@ static void createPatch(int id)
     const int           patchNum = id;
     const patch_t       *oldPatch;
     const column_t      *oldColumn;
-    int                 x, y;
     int                 pixelDataSize;
     int                 columnsDataSize;
     int                 postsDataSize;
@@ -201,7 +198,7 @@ static void createPatch(int id)
     numPostsInColumn = malloc(sizeof(int) * patch->width);
     numPostsTotal = 0;
 
-    for (x = 0; x < patch->width; x++)
+    for (int x = 0; x < patch->width; x++)
     {
         oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
         numPostsInColumn[x] = 0;
@@ -233,7 +230,7 @@ static void createPatch(int id)
     // fill in the pixels, posts, and columns
     numPostsUsedSoFar = 0;
 
-    for (x = 0; x < patch->width; x++)
+    for (int x = 0; x < patch->width; x++)
     {
         int top = -1;
 
@@ -267,7 +264,7 @@ static void createPatch(int id)
                 // fill in the post's pixels
                 oldColumnPixelData = (const byte *)oldColumn + 3;
 
-                for (y = 0; y < len; y++)
+                for (int y = 0; y < len; y++)
                     patch->pixels[x * patch->height + top + y] = oldColumnPixelData[y];
             }
 
@@ -282,7 +279,7 @@ static void createPatch(int id)
 
         // copy the patch image down and to the right where there are
         // holes to eliminate the black halo from bilinear filtering
-        for (x = 0; x < patch->width; x++)
+        for (int x = 0; x < patch->width; x++)
         {
             column = R_GetPatchColumnClamped(patch, x);
             prevColumn = R_GetPatchColumnClamped(patch, x - 1);
@@ -291,7 +288,7 @@ static void createPatch(int id)
             {
                 // force the first pixel (which is a hole), to use
                 // the color from the next solid spot in the column
-                for (y = 0; y < patch->height; y++)
+                for (int y = 0; y < patch->height; y++)
                     if (column->pixels[y] != 0xFF)
                     {
                         column->pixels[0] = column->pixels[y];
@@ -300,7 +297,7 @@ static void createPatch(int id)
             }
 
             // copy from above or to the left
-            for (y = 1; y < patch->height; y++)
+            for (int y = 1; y < patch->height; y++)
             {
                 if (getIsSolidAtSpot(oldColumn, y))
                     continue;
@@ -346,10 +343,7 @@ static void switchPosts(rpost_t *post1, rpost_t *post2)
 static void removePostFromColumn(rcolumn_t *column, int post)
 {
     if (post < column->numposts)
-    {
-        int i;
-
-        for (i = post; i < column->numposts - 1; i++)
+        for (int i = post; i < column->numposts - 1; i++)
         {
             rpost_t *post1 = &column->posts[i];
             rpost_t *post2 = &column->posts[i + 1];
@@ -357,7 +351,6 @@ static void removePostFromColumn(rcolumn_t *column, int post)
             post1->topdelta = post2->topdelta;
             post1->length = post2->length;
         }
-    }
 
     column->numposts--;
 }
@@ -370,8 +363,6 @@ static void createTextureCompositePatch(int id)
     int                 patchNum;
     const patch_t       *oldPatch;
     const column_t      *oldColumn;
-    int                 i;
-    int                 x, y;
     int                 oy;
     int                 count;
     int                 pixelDataSize;
@@ -397,13 +388,13 @@ static void createTextureCompositePatch(int id)
     countsInColumn = (count_t *)calloc(sizeof(count_t), composite_patch->width);
     numPostsTotal = 0;
 
-    for (i = 0; i < texture->patchcount; i++)
+    for (int i = 0; i < texture->patchcount; i++)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
-        for (x = 0; x < SHORT(oldPatch->width); x++)
+        for (int x = 0; x < SHORT(oldPatch->width); x++)
         {
             int tx = texpatch->originx + x;
 
@@ -447,7 +438,7 @@ static void createTextureCompositePatch(int id)
 
     numPostsUsedSoFar = 0;
 
-    for (x = 0; x < texture->width; x++)
+    for (int x = 0; x < texture->width; x++)
     {
         // setup the column's data
         composite_patch->columns[x].pixels = composite_patch->pixels + x * composite_patch->height;
@@ -457,13 +448,13 @@ static void createTextureCompositePatch(int id)
     }
 
     // fill in the pixels, posts, and columns
-    for (i = 0; i < texture->patchcount; i++)
+    for (int i = 0; i < texture->patchcount; i++)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
-        for (x = 0; x < SHORT(oldPatch->width); x++)
+        for (int x = 0; x < SHORT(oldPatch->width); x++)
         {
             int top = -1;
             int tx = texpatch->originx + x;
@@ -517,7 +508,7 @@ static void createTextureCompositePatch(int id)
                 }
 
                 // fill in the post's pixels
-                for (y = 0; y < count; y++)
+                for (int y = 0; y < count; y++)
                 {
                     int ty = oy + top + y;
 
@@ -539,17 +530,16 @@ static void createTextureCompositePatch(int id)
         W_UnlockLumpNum(patchNum);
     }
 
-    for (x = 0; x < texture->width; x++)
+    for (int x = 0; x < texture->width; x++)
     {
         rcolumn_t   *column;
+        int         i = 0;
 
         if (countsInColumn[x].patches <= 1)
             continue;
 
         // cleanup posts on multipatch columns
         column = &composite_patch->columns[x];
-
-        i = 0;
 
         while (i < column->numposts - 1)
         {
@@ -578,7 +568,7 @@ static void createTextureCompositePatch(int id)
 
     // copy the patch image down and to the right where there are
     // holes to eliminate the black halo from bilinear filtering
-    for (x = 0; x < composite_patch->width; x++)
+    for (int x = 0; x < composite_patch->width; x++)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(composite_patch, x);
         const rcolumn_t *prevColumn = R_GetPatchColumnClamped(composite_patch, x - 1);
@@ -587,7 +577,7 @@ static void createTextureCompositePatch(int id)
         {
             // force the first pixel (which is a hole), to use
             // the color from the next solid spot in the column
-            for (y = 0; y < composite_patch->height; y++)
+            for (int y = 0; y < composite_patch->height; y++)
                 if (column->pixels[y] != 0xFF)
                 {
                     column->pixels[0] = column->pixels[y];
@@ -596,7 +586,7 @@ static void createTextureCompositePatch(int id)
         }
 
         // copy from above or to the left
-        for (y = 1; y < composite_patch->height; y++)
+        for (int y = 1; y < composite_patch->height; y++)
         {
             if (column->pixels[y] != 0xFF)
                 continue;

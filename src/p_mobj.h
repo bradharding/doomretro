@@ -435,8 +435,7 @@ typedef struct bloodsplat_s
     struct sector_s     *sector;
     int                 flags;
     int                 blood;
-
-    void (*colfunc)(void);
+    void                (*colfunc)(void);
 } bloodsplat_t;
 
 #endif

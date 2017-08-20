@@ -70,10 +70,9 @@ static void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
         "111111001111110011221122112211221111112211111122002211220022112211111122111111220022222200222222"
     };
 
-    int i;
     int j = (y * SCREENWIDTH + x) * SCREENSCALE;
 
-    for (i = 0; i < 96; i++)
+    for (int i = 0; i < 96; i++)
     {
         char    dot = lownums[number][i];
 
@@ -100,24 +99,22 @@ static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
         "011110001111110011021120112211221111112201111122002211220002112201111122011110220002222200022220"
     };
 
-    int i;
     int j = (y * SCREENWIDTH + x) * SCREENSCALE;
 
-    for (i = 0; i < 96; i++)
+    for (int i = 0; i < 96; i++)
     {
         char    dot = highnums[number][i];
-        int     xx, yy;
 
         if (dot == '1')
         {
-            for (yy = 0; yy < SCREENSCALE; yy++)
-                for (xx = 0; xx < SCREENSCALE; xx++)
+            for (int yy = 0; yy < SCREENSCALE; yy++)
+                for (int xx = 0; xx < SCREENSCALE; xx++)
                     screens[0][j + i / 8 * SCREENWIDTH + i % 8] = color;
         }
         else if (dot == '2')
         {
-            for (yy = 0; yy < SCREENSCALE; yy++)
-                for (xx = 0; xx < SCREENSCALE; xx++)
+            for (int yy = 0; yy < SCREENSCALE; yy++)
+                for (int xx = 0; xx < SCREENSCALE; xx++)
                     screens[0][j + i / 8 * SCREENWIDTH + i % 8] = shadow;
         }
     }

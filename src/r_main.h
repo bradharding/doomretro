@@ -44,20 +44,20 @@
 //
 // POV related.
 //
-extern fixed_t          viewcos;
-extern fixed_t          viewsin;
+extern fixed_t  viewcos;
+extern fixed_t  viewsin;
 
-extern int              viewwindowx;
-extern int              viewwindowy;
+extern int      viewwindowx;
+extern int      viewwindowy;
 
-extern int              centerx;
-extern int              centery;
+extern int      centerx;
+extern int      centery;
 
-extern fixed_t          centerxfrac;
-extern fixed_t          centeryfrac;
-extern fixed_t          projectiony;
+extern fixed_t  centerxfrac;
+extern fixed_t  centeryfrac;
+extern fixed_t  projectiony;
 
-extern int              validcount;
+extern int      validcount;
 
 //
 // Lighting LUT.
@@ -66,17 +66,17 @@ extern int              validcount;
 //
 
 // Lighting constants.
-#define LIGHTLEVELS             128
-#define LIGHTSEGSHIFT           1
-#define LIGHTBRIGHT             2
-#define MAXLIGHTSCALE           384
-#define LIGHTSCALESHIFT         12
-#define MAXLIGHTZ               1024
-#define LIGHTZSHIFT             17
+#define LIGHTLEVELS         128
+#define LIGHTSEGSHIFT       1
+#define LIGHTBRIGHT         2
+#define MAXLIGHTSCALE       384
+#define LIGHTSCALESHIFT     12
+#define MAXLIGHTZ           1024
+#define LIGHTZSHIFT         17
 
-#define OLDLIGHTLEVELS          32
-#define OLDLIGHTSEGSHIFT        3
-#define OLDMAXLIGHTSCALE        48
+#define OLDLIGHTLEVELS      32
+#define OLDLIGHTSEGSHIFT    3
+#define OLDMAXLIGHTSCALE    48
 
 // killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
 extern lighttable_t     *(*scalelight)[MAXLIGHTSCALE];

@@ -214,9 +214,7 @@ static char *GetRegistryString(registryvalue_t *reg_val)
 // Check for the uninstall strings from the CD versions
 static void CheckUninstallStrings(void)
 {
-    unsigned int    i;
-
-    for (i = 0; i < arrlen(uninstall_values); i++)
+    for (size_t i = 0; i < arrlen(uninstall_values); i++)
     {
         char    *val = GetRegistryString(&uninstall_values[i]);
         char    *unstr;
@@ -240,17 +238,14 @@ static void CheckUninstallStrings(void)
 // Check for GOG.com and DOOM: Collector's Edition
 static void CheckInstallRootPaths(void)
 {
-    size_t  i;
-
-    for (i = 0; i < arrlen(root_path_keys); i++)
+    for (size_t i = 0; i < arrlen(root_path_keys); i++)
     {
         char    *install_path = GetRegistryString(&root_path_keys[i]);
-        size_t  j;
 
         if (!install_path)
             continue;
 
-        for (j = 0; j < arrlen(root_path_subdirs); j++)
+        for (size_t j = 0; j < arrlen(root_path_subdirs); j++)
             AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL));
 
         free(install_path);
@@ -261,12 +256,11 @@ static void CheckInstallRootPaths(void)
 static void CheckSteamEdition(void)
 {
     char    *install_path = GetRegistryString(&steam_install_location);
-    size_t  i;
 
     if (!install_path)
         return;
 
-    for (i = 0; i < arrlen(steam_install_subdirs); i++)
+    for (size_t i = 0; i < arrlen(steam_install_subdirs); i++)
         AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[i], NULL));
 
     free(install_path);
@@ -306,11 +300,8 @@ static struct
 // attempt to identify it by its name.
 void D_IdentifyIWADByName(char *name)
 {
-    size_t  i;
-    char    *p;
-
     // Trim down the name to just the filename, ignoring the path.
-    p = strrchr(name, '\\');
+    char    *p = strrchr(name, '\\');
 
     if (!p)
         p = strrchr(name, '/');
@@ -320,7 +311,7 @@ void D_IdentifyIWADByName(char *name)
 
     gamemission = none;
 
-    for (i = 0; i < arrlen(iwads); i++)
+    for (size_t i = 0; i < arrlen(iwads); i++)
     {
         char    *iwad = M_StringJoin(iwads[i].name, ".WAD", NULL);
 
@@ -405,8 +396,6 @@ static void BuildIWADDirList(void)
 //
 char *D_FindWADByName(char *filename)
 {
-    int i;
-
     // Absolute path?
     if (M_FileExists(filename))
         return filename;
@@ -414,7 +403,7 @@ char *D_FindWADByName(char *filename)
     BuildIWADDirList();
 
     // Search through all IWAD paths for a file with the given name.
-    for (i = 0; i < num_iwad_dirs; i++)
+    for (int i = 0; i < num_iwad_dirs; i++)
     {
         char    *path;
 
@@ -480,8 +469,6 @@ char *D_FindIWAD(void)
 //
 static char *SaveGameIWADName(void)
 {
-    size_t  i;
-
     // Find what subdirectory to use for savegames
     //
     // The directory depends on the IWAD, so that savegames for
@@ -493,7 +480,7 @@ static char *SaveGameIWADName(void)
     if (hacx)
         return "HACX";
 
-    for (i = 0; i < arrlen(iwads); i++)
+    for (size_t i = 0; i < arrlen(iwads); i++)
         if (gamemission == iwads[i].mission)
             return iwads[i].name;
 
@@ -554,9 +541,7 @@ void D_IdentifyVersion(void)
     // identify by its contents.
     if (gamemission == none)
     {
-        int i;
-
-        for (i = 0; i < numlumps; i++)
+        for (int i = 0; i < numlumps; i++)
         {
             if (!strncasecmp(lumpinfo[i]->name, "MAP01", 8))
             {

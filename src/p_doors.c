@@ -383,7 +383,6 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
 {
     int         secnum = -1;
     dboolean    rtn = false;
-    int         i;
     sector_t    *sec;
     vldoor_t    *door;
 
@@ -408,7 +407,7 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
         door->line = line;      // jff 1/31/98 remember line that triggered us
         door->lighttag = 0;
 
-        for (i = 0; i < door->sector->linecount; i++)
+        for (int i = 0; i < door->sector->linecount; i++)
             door->sector->lines[i]->flags &= ~ML_SECRET;
 
         switch (type)
@@ -484,7 +483,6 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     static char buffer[1024];
     sector_t    *sec;
     vldoor_t    *door;
-    int         i;
 
     switch (line->special)
     {
@@ -755,7 +753,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     door->topheight = P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
 
     // [BH] door is no longer secret
-    for (i = 0; i < sec->linecount; i++)
+    for (int i = 0; i < sec->linecount; i++)
         sec->lines[i]->flags &= ~ML_SECRET;
 }
 

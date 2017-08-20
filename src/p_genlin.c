@@ -616,7 +616,6 @@ dboolean EV_DoGenStairs(line_t *line)
     int             secnum = -1;
     int             osecnum;        // jff 3/4/98 preserve loop index
     int             height;
-    int             i;
     int             newsecnum;
     int             texture;
     dboolean        okay;
@@ -735,7 +734,7 @@ manual_stair:
         {
             okay = false;
 
-            for (i = 0; i < sec->linecount; i++)
+            for (int i = 0; i < sec->linecount; i++)
             {
                 if (!((sec->lines[i])->backsector))
                     continue;

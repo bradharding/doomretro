@@ -967,8 +967,7 @@ void bind_cmd_func2(char *cmd, char *parms);
 //
 void M_LoadCVARs(char *filename)
 {
-    int     i;
-    int     count = 0;
+    int count = 0;
 
     // read the file in, overriding any set defaults
     FILE    *file = fopen(filename, "r");
@@ -982,7 +981,7 @@ void M_LoadCVARs(char *filename)
         return;
     }
 
-    for (i = 0; i < MAXALIASES; i++)
+    for (int i = 0; i < MAXALIASES; i++)
     {
         aliases[i].name[0] = '\0';
         aliases[i].string[0] = '\0';
@@ -1025,7 +1024,7 @@ void M_LoadCVARs(char *filename)
         }
 
         // Find the setting in the list
-        for (i = 0; i < arrlen(cvars); i++)
+        for (int i = 0; i < arrlen(cvars); i++)
         {
             char    *s;
 

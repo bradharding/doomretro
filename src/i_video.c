@@ -921,9 +921,7 @@ void I_ReadScreen(byte *screen)
 //
 void I_SetPalette(byte *playpal)
 {
-    int i;
-
-    for (i = 0; i < 256; i++)
+    for (int i = 0; i < 256; i++)
     {
         colors[i].r = gammatable[gammaindex][*playpal++];
         colors[i].g = gammatable[gammaindex][*playpal++];
@@ -953,11 +951,9 @@ static void I_RestoreFocus(void)
 
 static void GetDisplays(void)
 {
-    int i;
-
     numdisplays = MIN(SDL_GetNumVideoDisplays(), MAXDISPLAYS);
 
-    for (i = 0; i < numdisplays; i++)
+    for (int i = 0; i < numdisplays; i++)
         if (SDL_GetDisplayBounds(i, &displays[i]) < 0)
             I_SDLError("SDL_GetDisplayBounds");
 }
@@ -1119,9 +1115,8 @@ void GetWindowSize(void)
 static dboolean ValidScreenMode(int width, int height)
 {
     const int   modes = SDL_GetNumDisplayModes(displayindex);
-    int         i;
 
-    for (i = 0; i < modes; i++)
+    for (int i = 0; i < modes; i++)
     {
         SDL_DisplayMode mode;
 
@@ -1715,15 +1710,9 @@ void I_ToggleFullscreen(void)
 
 static void I_InitGammaTables(void)
 {
-    int i;
-
-    for (i = 0; i < GAMMALEVELS; i++)
-    {
-        int j;
-
-        for (j = 0; j < 256; j++)
+    for (int i = 0; i < GAMMALEVELS; i++)
+        for (int j = 0; j < 256; j++)
             gammatable[i][j] = (byte)(pow(j / 255.0, 1.0 / gammalevels[i]) * 255.0 + 0.5);
-    }
 }
 
 void I_SetGamma(float value)

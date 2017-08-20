@@ -231,7 +231,6 @@ static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo,
 static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
 {
     allocated_sound_t   *outsnd;
-    Sint16              *outp;
     Sint16              *srcbuf = (Sint16 *)insnd->chunk.abuf;
     Uint32              srclen = insnd->chunk.alen;
     Sint16              *dstbuf;
@@ -254,7 +253,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     dstbuf = (Sint16 *)outsnd->chunk.abuf;
 
     // loop over output buffer. find corresponding input cell, copy over
-    for (outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
+    for (Sint16 *outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
     {
         Sint16  *inp = srcbuf + (int)((float)(outp - dstbuf) / dstlen * srclen);
 
@@ -337,7 +336,6 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     {
         Sint16          *expanded = (Sint16 *)chunk->abuf;
         int             expand_ratio;
-        unsigned int    i;
 
         // Generic expansion if conversion does not work:
         //
@@ -349,7 +347,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
         expanded_length = ((uint64_t)length * mixer_freq) / samplerate;
         expand_ratio = (length << 8) / expanded_length;
 
-        for (i = 0; i < expanded_length; i++)
+        for (unsigned int i = 0; i < expanded_length; i++)
         {
             int         src = (i * expand_ratio) >> 8;
             Sint16      sample = (data[src] | (data[src] << 8)) - 32768;
@@ -359,8 +357,6 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
         }
 
         {
-            float   rc, dt, alpha;
-
             // Low-pass filter for cutoff frequency f:
             //
             // For sampling rate r, dt = 1 / r
@@ -369,12 +365,12 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 
             // Filter to the half sample rate of the original sound effect
             // (maximum frequency, by nyquist)
-            dt = 1.0f / mixer_freq;
-            rc = 1.0f / (float)(2 * M_PI * samplerate);
-            alpha = dt / (rc + dt);
+            float   dt = 1.0f / mixer_freq;
+            float   rc = 1.0f / (float)(2 * M_PI * samplerate);
+            float   alpha = dt / (rc + dt);
 
             // Both channels are processed in parallel, hence [i - 2]:
-            for (i = 2; i < expanded_length * 2; i++)
+            for (unsigned int i = 2; i < expanded_length * 2; i++)
                 expanded[i] = (Sint16)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
         }
     }
@@ -548,10 +544,8 @@ dboolean I_SoundIsPlaying(int handle)
 //
 void I_UpdateSound(void)
 {
-    int i;
-
     // Check all channels to see if a sound has finished
-    for (i = 0; i < s_channels_max; i++)
+    for (int i = 0; i < s_channels_max; i++)
         if (channels_playing[i] && !I_SoundIsPlaying(i))
             // Sound has finished playing on this channel,
             // but sound data has not been released to cache
@@ -561,9 +555,8 @@ void I_UpdateSound(void)
 dboolean I_AnySoundStillPlaying(void)
 {
     dboolean    result = false;
-    int         i;
 
-    for (i = 0; i < s_channels_max; i++)
+    for (int i = 0; i < s_channels_max; i++)
         result |= Mix_Playing(i);
 
     return result;
@@ -585,10 +578,9 @@ void I_ShutdownSound(void)
 static int GetSliceSize(void)
 {
     int limit = SAMPLERATE * MAX_SOUND_SLICE_TIME / 1000;
-    int n;
 
     // Try all powers of two, not exceeding the limit.
-    for (n = 0; ; n++)
+    for (int n = 0; ; n++)
         // 2^n <= limit < 2^n+1 ?
         if ((1 << (n + 1)) > limit)
             return (1 << n);
@@ -599,11 +591,10 @@ static int GetSliceSize(void)
 
 dboolean I_InitSound(void)
 {
-    int                 i;
     const SDL_version   *linked = Mix_Linked_Version();
 
     // No sounds yet
-    for (i = 0; i < s_channels_max; i++)
+    for (int i = 0; i < s_channels_max; i++)
         channels_playing[i] = NULL;
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)

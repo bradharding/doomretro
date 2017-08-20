@@ -39,14 +39,14 @@
 #if !defined(__V_DATA_H__)
 #define __V_DATA_H__
 
-extern char     *wilv[];
-extern char     *redcharset[];
-extern char     *smallcharset[];
-extern int      lsleft[];
-extern int      lscntr[];
-extern int      lsrght[];
-extern char     *nmare;
-extern char     *underscores1;
-extern char     *underscores2;
+extern char *wilv[];
+extern char *redcharset[];
+extern char *smallcharset[];
+extern int  lsleft[];
+extern int  lscntr[];
+extern int  lsrght[];
+extern char *nmare;
+extern char *underscores1;
+extern char *underscores2;
 
 #endif

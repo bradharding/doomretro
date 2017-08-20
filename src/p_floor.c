@@ -368,7 +368,6 @@ void T_MoveElevator(elevator_t *elevator)
 dboolean EV_DoFloor(line_t *line, floor_e floortype)
 {
     int         secnum = -1;
-    int         i;
     dboolean    rtn = false;
     floormove_t *floor;
 
@@ -506,7 +505,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
 
-                for (i = 0; i < sec->linecount; i++)
+                for (int i = 0; i < sec->linecount; i++)
                     if (twoSided(secnum, i))
                     {
                         side_t  *side = getSide(secnum, i, 0);
@@ -534,7 +533,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->texture = sec->floorpic;
                 floor->newspecial = sec->special;
 
-                for (i = 0; i < sec->linecount; i++)
+                for (int i = 0; i < sec->linecount; i++)
                 {
                     if (twoSided(secnum, i))
                     {
@@ -570,7 +569,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
         floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
 
         // [BH] floor is no longer secret
-        for (i = 0; i < sec->linecount; i++)
+        for (int i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
     }
 
@@ -715,11 +714,9 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         // 2. Other side is the next sector to raise
         do
         {
-            int i;
-
             okay = false;
 
-            for (i = 0; i < sec->linecount; i++)
+            for (int i = 0; i < sec->linecount; i++)
             {
                 line_t      *line = sec->lines[i];
                 sector_t    *tsec;

@@ -39,20 +39,20 @@
 #if !defined(__R_PATCH_H__)
 #define __R_PATCH_H__
 
-typedef struct rpost_s
+typedef struct
 {
     int             topdelta;
     int             length;
 } rpost_t;
 
-typedef struct rcolumn_s
+typedef struct
 {
     int             numposts;
     rpost_t         *posts;
     unsigned char   *pixels;
 } rcolumn_t;
 
-typedef struct rpatch_s
+typedef struct
 {
     int             width;
     int             height;

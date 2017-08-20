@@ -228,7 +228,8 @@ static void R_InitTextures(void)
 {
     const maptexture_t  *mtexture;
     texture_t           *texture;
-    int                 i, j;
+    int                 i;
+    int                 j;
     int                 maptex_lump[2] = { -1, -1 };
     const int           *maptex1;
     const int           *maptex2;
@@ -392,8 +393,6 @@ static void R_InitTextures(void)
 //
 static void R_InitFlats(void)
 {
-    int i;
-
     firstflat = W_GetNumForName("F_START") + 1;
     lastflat = W_GetNumForName("F_END") - 1;
     numflats = lastflat - firstflat + 1;
@@ -401,7 +400,7 @@ static void R_InitFlats(void)
     // Create translation table for global animation.
     flattranslation = Z_Malloc((numflats + 1) * sizeof(*flattranslation), PU_STATIC, NULL);
 
-    for (i = 0; i < numflats; i++)
+    for (int i = 0; i < numflats; i++)
         flattranslation[i] = i;
 }
 
@@ -413,7 +412,6 @@ static void R_InitFlats(void)
 //
 static void R_InitSpriteLumps(void)
 {
-    int i;
     int numspritelumps;
 
     firstspritelump = W_GetNumForName("S_START") + 1;
@@ -428,7 +426,7 @@ static void R_InitSpriteLumps(void)
     newspriteoffset = Z_Malloc(numspritelumps * sizeof(*newspriteoffset), PU_STATIC, NULL);
     newspritetopoffset = Z_Malloc(numspritelumps * sizeof(*newspritetopoffset), PU_STATIC, NULL);
 
-    for (i = 0; i < numspritelumps; i++)
+    for (int i = 0; i < numspritelumps; i++)
     {
         patch_t *patch = W_CacheLumpNum(firstspritelump + i);
 
@@ -532,7 +530,6 @@ byte grays[256];
 static void R_InitColormaps(void)
 {
     dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
-    int         i;
     byte        *palsrc;
     byte        *palette;
     wadfile_t   *colormapwad;
@@ -546,7 +543,7 @@ static void R_InitColormaps(void)
 
         colormaps[0] = W_CacheLumpName("COLORMAP");
 
-        for (i = 1; i < numcolormaps; i++)
+        for (int i = 1; i < numcolormaps; i++)
             colormaps[i] = W_CacheLumpNum(i + firstcolormaplump);
     }
     else
@@ -571,7 +568,7 @@ static void R_InitColormaps(void)
     // The resulting differences are minor.
     palsrc = palette = W_CacheLumpName("PLAYPAL");
 
-    for (i = 0; i < 255; i++)
+    for (int i = 0; i < 255; i++)
     {
         double  red = *palsrc++ / 256.0;
         double  green = *palsrc++ / 256.0;
@@ -642,9 +639,7 @@ int R_FlatNumForName(char *name)
 //
 int R_CheckFlatNumForName(char *name)
 {
-    int i;
-
-    for (i = firstflat; i <= lastflat; i++)
+    for (int i = firstflat; i <= lastflat; i++)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
             return (i - firstflat);
 
@@ -705,29 +700,25 @@ static inline void precache_lump(int l)
 
 void R_PrecacheLevel(void)
 {
-    byte        *hitlist = malloc(MAX(numtextures, MAX(numflats, NUMSPRITES)));
-    thinker_t   *th;
-    int         i;
-    int         j;
-    int         k;
+    byte    *hitlist = malloc(MAX(numtextures, MAX(numflats, NUMSPRITES)));
 
     // Precache flats.
     memset(hitlist, 0, numflats);
 
-    for (i = 0; i < numsectors; i++)
+    for (int i = 0; i < numsectors; i++)
     {
         hitlist[sectors[i].floorpic] = 1;
         hitlist[sectors[i].ceilingpic] = 1;
     }
 
-    for (i = 0; i < numflats; i++)
+    for (int i = 0; i < numflats; i++)
         if (hitlist[i])
             precache_lump(firstflat + i);
 
     // Precache textures.
     memset(hitlist, 0, numtextures);
 
-    for (i = 0; i < numsides; i++)
+    for (int i = 0; i < numsides; i++)
     {
         hitlist[sides[i].toptexture] = 1;
         hitlist[sides[i].midtexture] = 1;
@@ -742,28 +733,28 @@ void R_PrecacheLevel(void)
     //  name.
     hitlist[skytexture] = 1;
 
-    for (i = 0; i < numtextures; i++)
+    for (int i = 0; i < numtextures; i++)
         if (hitlist[i])
         {
             texture_t   *texture = textures[i];
 
-            for (j = 0; j < texture->patchcount; j++)
+            for (int j = 0; j < texture->patchcount; j++)
                 precache_lump(texture->patches[j].patch);
         }
 
     // Precache sprites.
     memset(hitlist, 0, NUMSPRITES);
 
-    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
         hitlist[((mobj_t *)th)->sprite] = 1;
 
-    for (i = 0; i < NUMSPRITES; i++)
+    for (int i = 0; i < NUMSPRITES; i++)
         if (hitlist[i])
-            for (j = 0; j < sprites[i].numframes; j++)
+            for (int j = 0; j < sprites[i].numframes; j++)
             {
                 short   *lump = sprites[i].spriteframes[j].lump;
 
-                for (k = 0; k < 8; k++)
+                for (int k = 0; k < 8; k++)
                     precache_lump(firstspritelump + lump[k]);
             }
 

@@ -102,10 +102,9 @@ void I_InitGamepad(void)
         C_Warning("Gamepad support couldn't be initialized.");
     else
     {
-        int i;
         int numgamepads = SDL_NumJoysticks();
 
-        for (i = 0; i < numgamepads; i++)
+        for (int i = 0; i < numgamepads; i++)
             if ((gamepad = SDL_JoystickOpen(i)))
                 break;
 

@@ -280,12 +280,8 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
     }
 
     if (sec)
-    {
-        int i;
-
-        for (i = 0; i < sec->linecount; i++)
+        for (int i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
-    }
 
     return rtn;
 }
@@ -305,9 +301,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 //
 void P_ActivateInStasis(int tag)
 {
-    platlist_t  *platlist;
-
-    for (platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
+    for (platlist_t *platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
     {
         plat_t  *plat = platlist->plat;                 // for one in stasis with right tag
 
@@ -329,9 +323,7 @@ void P_ActivateInStasis(int tag)
 //
 dboolean EV_StopPlat(line_t *line)
 {
-    platlist_t  *platlist;
-
-    for (platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
+    for (platlist_t *platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
     {
         plat_t  *plat = platlist->plat;                 // for one with the tag not in stasis
 

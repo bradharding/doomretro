@@ -214,9 +214,7 @@ void SC_UnGet(void)
 
 int SC_MatchString(char **strings)
 {
-    int i;
-
-    for (i = 0; *strings; i++)
+    for (int i = 0; *strings; i++)
         if (SC_Compare(*strings++))
             return i;
 

@@ -428,12 +428,11 @@ static struct
 
 static int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
 {
-    size_t          i;
     const size_t    len = strlen(text);
     unsigned char   prevletter = '\0';
     int             w = 0;
 
-    for (i = 0; i < len; i++)
+    for (size_t i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
         const int           c = letter - CONSOLEFONTSTART;
@@ -501,41 +500,39 @@ static void C_DrawScrollbar(void)
     const int   trackstart = CONSOLESCROLLBARY * CONSOLEWIDTH;
     const int   trackend = trackstart + CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
     const int   facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-        MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * CONSOLEWIDTH;
+                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * CONSOLEWIDTH;
     const int   faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-        * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * CONSOLEWIDTH;
+                    * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * CONSOLEWIDTH;
 
     if (trackstart == facestart && trackend == faceend)
         return;
     else
     {
-        int         x, y;
         const int   offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
 
         // Draw scrollbar track
-        for (y = trackstart; y < trackend; y += CONSOLEWIDTH)
+        for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
             if (y - offset >= 0)
-                for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+                for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x]
-                    + consolescrollbartrackcolor];
+                        + consolescrollbartrackcolor];
 
         // Draw scrollbar face
-        for (y = facestart; y < faceend; y += CONSOLEWIDTH)
+        for (int y = facestart; y < faceend; y += CONSOLEWIDTH)
             if (y - offset >= 0)
-                for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+                for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
     }
 }
 
 void C_Init(void)
 {
-    int     i;
     int     j = CONSOLEFONTSTART;
     char    buffer[9];
 
     while (*consolecmds[numconsolecmds++].name);
 
-    for (i = 0; i < CONSOLEFONTSIZE; i++)
+    for (int i = 0; i < CONSOLEFONTSIZE; i++)
     {
         M_snprintf(buffer, 9, "DRFON%03d", j++);
         consolefont[i] = W_CacheLumpName(buffer);
@@ -562,8 +559,7 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timestampx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX * 2
-        - CONSOLESCROLLBARWIDTH + 1;
+    timestampx = CONSOLEWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
     consolecaretcolor = nearestcolors[consolecaretcolor];
@@ -646,25 +642,23 @@ void C_StripQuotes(char *string)
 static void DoBlurScreen(const int x1, const int y1, const int x2, const int y2, const int i)
 {
     static byte c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
-    int         x, y;
 
     memcpy(c_tempscreen, c_blurscreen, CONSOLEWIDTH * (CONSOLEHEIGHT + 5));
 
-    for (y = y1; y < y2; y += CONSOLEWIDTH)
-        for (x = y + x1; x < y + x2; x++)
+    for (int y = y1; y < y2; y += CONSOLEWIDTH)
+        for (int x = y + x1; x < y + x2; x++)
             c_blurscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
 }
 
 static void C_DrawBackground(int height)
 {
     static dboolean blurred;
-    int             i;
 
     height = (height + 5) * CONSOLEWIDTH;
 
     if (!blurred)
     {
-        for (i = 0; i < height; i++)
+        for (int i = 0; i < height; i++)
             c_blurscreen[i] = screens[0][i];
 
         DoBlurScreen(0, 0, CONSOLEWIDTH - 1, height, 1);
@@ -685,10 +679,10 @@ static void C_DrawBackground(int height)
         blurred = false;
     }
 
-    for (i = 0; i < height; i++)
+    for (int i = 0; i < height; i++)
         screens[0][i] = tinttab50[(consoletintcolor << 8) + c_blurscreen[i]];
 
-    for (i = height - 2; i > 1; i -= 3)
+    for (int i = height - 2; i > 1; i -= 3)
     {
         screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
 
@@ -700,28 +694,24 @@ static void C_DrawBackground(int height)
     V_DrawConsolePatch(CONSOLEWIDTH - brandwidth, consoleheight - brandheight + 2, brand);
 
     // draw bottom edge
-    for (i = height - CONSOLEWIDTH * 3; i < height; i++)
+    for (int i = height - CONSOLEWIDTH * 3; i < height; i++)
         screens[0][i] = tinttab50[consoleedgecolor + screens[0][i]];
 
     // soften edges
-    for (i = 0; i < height; i += CONSOLEWIDTH)
+    for (int i = 0; i < height; i += CONSOLEWIDTH)
     {
         screens[0][i] = tinttab50[screens[0][i]];
         screens[0][i + CONSOLEWIDTH - 1] = tinttab50[screens[0][i + CONSOLEWIDTH - 1]];
     }
 
-    for (i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
+    for (int i = height - CONSOLEWIDTH + 1; i < height - 1; i++)
         screens[0][i] = tinttab25[screens[0][i]];
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)
-    {
-        int j;
-
-        for (j = CONSOLEWIDTH; j <= 4 * CONSOLEWIDTH; j += CONSOLEWIDTH)
-            for (i = height; i < height + j; i++)
-                screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
-    }
+        for (int i = CONSOLEWIDTH; i <= 4 * CONSOLEWIDTH; i += CONSOLEWIDTH)
+            for (int j = height; j < height + i; j++)
+                screens[0][j] = colormaps[0][256 * 4 + screens[0][j]];
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
@@ -729,7 +719,6 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
 {
     int             bold = 0;
     dboolean        italics = false;
-    size_t          i;
     int             tab = -1;
     size_t          len = strlen(text);
     unsigned char   prevletter = '\0';
@@ -754,7 +743,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             len--;
         }
 
-    for (i = 0; i < len; i++)
+    for (size_t i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
 
@@ -838,10 +827,9 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
 
 static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 {
-    size_t          i;
     const size_t    len = strlen(text);
 
-    for (i = 0; i < len; i++)
+    for (size_t i = 0; i < len; i++)
     {
         char    letter = text[i];
 
@@ -849,7 +837,7 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
             x += spacewidth;
         else
         {
-            patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
+            patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
 
             V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency
                 ? tinttab75 : NULL));
@@ -860,12 +848,11 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 
 static void C_DrawTimeStamp(int x, int y, const char *text)
 {
-    size_t          i;
     const size_t    len = strlen(text);
 
     y -= (CONSOLEHEIGHT - consoleheight);
 
-    for (i = 0; i < len; i++)
+    for (size_t i = 0; i < len; i++)
     {
         patch_t     *patch = consolefont[text[i] - CONSOLEFONTSTART];
         const int   width = SHORT(patch->width);
@@ -880,7 +867,7 @@ void C_UpdateFPS(void)
 {
     if (fps && !dowipe && !paused && !menuactive)
     {
-        static char     buffer[32];
+        static char buffer[32];
 
         M_snprintf(buffer, 32, "%i FPS (%.1fms)", fps, 1000.0 / fps);
 
@@ -987,7 +974,7 @@ void C_Drawer(void)
         for (i = start; i < end; i++)
         {
             const int           y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
-                - CONSOLELINEHEIGHT / 2 + 1;
+                                    - CONSOLELINEHEIGHT / 2 + 1;
             const stringtype_t  type = console[i].type;
 
             if (type == dividerstring)

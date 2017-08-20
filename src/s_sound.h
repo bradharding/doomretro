@@ -43,10 +43,10 @@
 #include "SDL_mixer.h"
 #include "sounds.h"
 
-#define SAMPLERATE              44100
+#define SAMPLERATE          44100
 
-#define MAX_MUSIC_VOLUME        MIX_MAX_VOLUME
-#define MAX_SFX_VOLUME          MIX_MAX_VOLUME
+#define MAX_MUSIC_VOLUME    MIX_MAX_VOLUME
+#define MAX_SFX_VOLUME      MIX_MAX_VOLUME
 
 extern dboolean s_randompitch;
 
@@ -119,20 +119,17 @@ void S_UpdateSounds(mobj_t *listener);
 void S_SetMusicVolume(int volume);
 void S_SetSfxVolume(int volume);
 
-void I_InitTimidityConfig(void);
-void CheckTimidityConfig(void);
-
 dboolean I_AnySoundStillPlaying(void);
 
 #define MAX_MUS_ENTRIES 64
 
-typedef struct musinfo_s
+typedef struct
 {
-    mobj_t      *mapthing;
-    mobj_t      *lastmapthing;
-    int         tics;
-    int         current_item;
-    int         items[MAX_MUS_ENTRIES];
+    mobj_t  *mapthing;
+    mobj_t  *lastmapthing;
+    int     tics;
+    int     current_item;
+    int     items[MAX_MUS_ENTRIES];
 } musinfo_t;
 
 extern musinfo_t musinfo;

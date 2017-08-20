@@ -117,10 +117,8 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
 
     if (!rotation)
     {
-        int r;
-
         // the lump should be used for all rotations
-        for (r = 14; r >= 0; r -= 2)
+        for (int r = 14; r >= 0; r -= 2)
         {
             if (sprtemp[frame].lump[r] == -1)
             {
@@ -177,8 +175,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
 
 static void R_InitSpriteDefs(void)
 {
-    size_t          numentries = lastspritelump - firstspritelump + 1;
-    unsigned int    i;
+    size_t  numentries = lastspritelump - firstspritelump + 1;
 
     struct
     {
@@ -193,13 +190,13 @@ static void R_InitSpriteDefs(void)
 
     // Create hash table based on just the first four letters of each sprite
     // killough 1/31/98
-    hash = malloc(sizeof(*hash) * numentries);  // allocate hash table
+    hash = malloc(sizeof(*hash) * numentries);      // allocate hash table
 
-    for (i = 0; i < numentries; i++)            // initialize hash table as empty
+    for (unsigned int i = 0; i < numentries; i++)   // initialize hash table as empty
         hash[i].index = -1;
 
-    for (i = 0; i < numentries; i++)            // Prepend each sprite to hash chain
-    {                                           // prepend so that later ones win
+    for (unsigned int i = 0; i < numentries; i++)   // Prepend each sprite to hash chain
+    {                                               // prepend so that later ones win
         int j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numentries;
 
         hash[i].next = hash[j].index;
@@ -208,18 +205,16 @@ static void R_InitSpriteDefs(void)
 
     // scan all the lump names for each of the names,
     //  noting the highest frame letter.
-    for (i = 0; i < NUMSPRITES; i++)
+    for (unsigned int i = 0; i < NUMSPRITES; i++)
     {
         const char  *spritename = sprnames[i];
         int         j = hash[R_SpriteNameHash(spritename) % numentries].index;
 
         if (j >= 0)
         {
-            int k;
-
             memset(sprtemp, -1, sizeof(sprtemp));
 
-            for (k = 0; k < MAX_SPRITE_FRAMES; k++)
+            for (int k = 0; k < MAX_SPRITE_FRAMES; k++)
                 sprtemp[k].flip = 0;
 
             maxframe = -1;
@@ -246,10 +241,7 @@ static void R_InitSpriteDefs(void)
             // check the frames that were found for completeness
             if ((sprites[i].numframes = ++maxframe))  // killough 1/31/98
             {
-                int frame;
-                int rot;
-
-                for (frame = 0; frame < maxframe; frame++)
+                for (int frame = 0; frame < maxframe; frame++)
                     switch (sprtemp[frame].rotate)
                     {
                         case -1:
@@ -258,7 +250,7 @@ static void R_InitSpriteDefs(void)
 
                         case 0:
                             // only the first rotation is needed
-                            for (rot = 1; rot < 16; rot++)
+                            for (int rot = 1; rot < 16; rot++)
                                 sprtemp[frame].lump[rot] = sprtemp[frame].lump[0];
 
                             // If the frame is flipped, they all should be
@@ -269,7 +261,7 @@ static void R_InitSpriteDefs(void)
 
                         case 1:
                             // must have all 8 frames
-                            for (rot = 0; rot < 16; rot += 2)
+                            for (int rot = 0; rot < 16; rot += 2)
                             {
                                 if (sprtemp[frame].lump[rot + 1] == -1)
                                 {
@@ -288,14 +280,15 @@ static void R_InitSpriteDefs(void)
                                 }
                             }
 
-                            for (rot = 0; rot < 16; rot++)
+                            for (int rot = 0; rot < 16; rot++)
                                 if (sprtemp[frame].lump[rot] == -1)
                                     I_Error("R_InitSprites: Frame %c of sprite %.8s is missing rotations",
                                         frame + 'A', sprnames[i]);
+
                             break;
                     }
 
-                for (frame = 0; frame < maxframe; frame++)
+                for (int frame = 0; frame < maxframe; frame++)
                     if (sprtemp[frame].rotate == -1)
                     {
                         memset(&sprtemp[frame].lump, 0, sizeof(sprtemp[0].lump));
@@ -333,9 +326,7 @@ static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
 //
 void R_InitSprites(void)
 {
-    int i;
-
-    for (i = 0; i < SCREENWIDTH; i++)
+    for (int i = 0; i < SCREENWIDTH; i++)
         negonearray[i] = -1;
 
     R_InitSpriteDefs();
@@ -1128,19 +1119,17 @@ void R_DrawPlayerSprites(void)
 //
 static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
 {
-    drawseg_t   *ds;
-    int         clipbot[SCREENWIDTH];
-    int         cliptop[SCREENWIDTH];
-    int         x1 = spr->x1;
-    int         x2 = spr->x2;
-    int         i;
+    int clipbot[SCREENWIDTH];
+    int cliptop[SCREENWIDTH];
+    int x1 = spr->x1;
+    int x2 = spr->x2;
 
     // [RH] Quickly reject sprites with bad x ranges.
     if (x1 >= x2)
         return;
 
     // initialize the clipping arrays
-    for (i = x1; i <= x2; i++)
+    for (int i = x1; i <= x2; i++)
     {
         cliptop[i] = -1;
         clipbot[i] = viewheight;
@@ -1149,7 +1138,7 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale
     //  is the clip seg.
-    for (ds = ds_p; ds-- > drawsegs;)
+    for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
     {
         int         r1;
         int         r2;
@@ -1173,7 +1162,7 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
         bottom = (silhouette & SIL_BOTTOM);
         top = (silhouette & SIL_TOP);
 
-        for (i = r1; i <= r2; i++)
+        for (int i = r1; i <= r2; i++)
         {
             if (bottom && clipbot[i] > ds->sprbottomclip[i])
                 clipbot[i] = ds->sprbottomclip[i];
@@ -1212,10 +1201,7 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
         memcpy(s, t, n * sizeof(void *));
     }
     else
-    {
-        int i;
-
-        for (i = 1; i < n; i++)
+        for (int i = 1; i < n; i++)
         {
             vissprite_t *temp = s[i];
 
@@ -1228,7 +1214,6 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
                 s[j] = temp;
             }
         }
-    }
 }
 
 static void R_SortVisSprites(void)
@@ -1254,19 +1239,17 @@ static void R_SortVisSprites(void)
 
 static void R_DrawSprite(vissprite_t *spr)
 {
-    drawseg_t   *ds;
-    int         clipbot[SCREENWIDTH];
-    int         cliptop[SCREENWIDTH];
-    int         x1 = spr->x1;
-    int         x2 = spr->x2;
-    int         i;
+    int clipbot[SCREENWIDTH];
+    int cliptop[SCREENWIDTH];
+    int x1 = spr->x1;
+    int x2 = spr->x2;
 
     // [RH] Quickly reject sprites with bad x ranges.
     if (x1 >= x2)
         return;
 
     // initialize the clipping arrays
-    for (i = x1; i <= x2; i++)
+    for (int i = x1; i <= x2; i++)
     {
         cliptop[i] = -1;
         clipbot[i] = viewheight;
@@ -1274,7 +1257,7 @@ static void R_DrawSprite(vissprite_t *spr)
 
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
-    for (ds = ds_p; ds-- > drawsegs;)
+    for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
     {
         int         r1;
         int         r2;
@@ -1305,7 +1288,7 @@ static void R_DrawSprite(vissprite_t *spr)
         bottom = (silhouette & SIL_BOTTOM);
         top = (silhouette & SIL_TOP);
 
-        for (i = r1; i <= r2; i++)
+        for (int i = r1; i <= r2; i++)
         {
             if (bottom && clipbot[i] > ds->sprbottomclip[i])
                 clipbot[i] = ds->sprbottomclip[i];
@@ -1331,13 +1314,13 @@ static void R_DrawSprite(vissprite_t *spr)
         {
             if (mh <= 0 || (phs != -1 && viewz > sectors[phs].interpfloorheight))
             {                          // clip bottom
-                for (i = x1; i <= x2; i++)
+                for (int i = x1; i <= x2; i++)
                     if (h < clipbot[i])
                         clipbot[i] = h;
             }
             else                        // clip top
                 if (phs != -1 && viewz <= sectors[phs].interpfloorheight)       // killough 11/98
-                    for (i = x1; i <= x2; i++)
+                    for (int i = x1; i <= x2; i++)
                         if (h > cliptop[i])
                             cliptop[i] = h;
         }
@@ -1347,12 +1330,12 @@ static void R_DrawSprite(vissprite_t *spr)
         {
             if (phs != -1 && viewz >= sectors[phs].interpceilingheight)
             {                         // clip bottom
-                for (i = x1; i <= x2; i++)
+                for (int i = x1; i <= x2; i++)
                     if (h < clipbot[i])
                         clipbot[i] = h;
             }
             else                       // clip top
-                for (i = x1; i <= x2; i++)
+                for (int i = x1; i <= x2; i++)
                     if (h > cliptop[i])
                         cliptop[i] = h;
         }
@@ -1369,8 +1352,7 @@ static void R_DrawSprite(vissprite_t *spr)
 //
 void R_DrawMasked(void)
 {
-    drawseg_t   *ds;
-    int         i;
+    int i;
 
     pausesprites = (menuactive || paused || consoleactive);
     interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
@@ -1390,7 +1372,7 @@ void R_DrawMasked(void)
         R_DrawSprite(vissprite_ptrs[--i]);
 
     // render any remaining masked mid textures
-    for (ds = ds_p; ds-- > drawsegs;)
+    for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
         if (ds->maskedtexturecol)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 

@@ -45,7 +45,7 @@
 
 // killough 4/19/98:
 // Convert LOS info to struct for reentrancy and efficiency of data locality
-typedef struct los_s
+typedef struct
 {
     fixed_t     sightzstart, t2x, t2y;  // eye z of looker
     divline_t   strace;                 // from t1 to t2
@@ -101,8 +101,6 @@ static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 static dboolean P_CrossSubsector(int num)
 {
     seg_t       *seg;
-    int         count;
-    subsector_t *sub;
     sector_t    *front;
     sector_t    *back;
     fixed_t     opentop;
@@ -110,14 +108,12 @@ static dboolean P_CrossSubsector(int num)
     divline_t   divl;
     vertex_t    *v1;
     vertex_t    *v2;
-
-    sub = &subsectors[num];
+    subsector_t *sub = &subsectors[num];
 
     // check lines
-    count = sub->numlines;
     seg = &segs[sub->firstline];
 
-    for (; count; seg++, count--)
+    for (int count = sub->numlines; count; seg++, count--)
     {
         line_t  *line = seg->linedef;
         fixed_t frac;

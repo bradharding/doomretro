@@ -233,6 +233,10 @@ void P_SetLiquids(void)
             I_Error("P_InitPicAnims: bad cycle from %s to %s", animdefs[i].startname, animdefs[i].endname);
 
         lastanim->speed = LONG(animdefs[i].speed);
+
+        if (!lastanim->speed)
+            lastanim->speed = 1;
+
         lastanim++;
     }
 

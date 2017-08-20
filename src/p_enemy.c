@@ -114,8 +114,6 @@ extern unsigned int stat_monsterskilled;
 //
 static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
 {
-    int i;
-
     // wake up all monsters in this sector
     if (sec->validcount == validcount && sec->soundtraversed <= soundblocks + 1)
         return;         // already flooded
@@ -124,7 +122,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
     sec->soundtraversed = soundblocks + 1;
     P_SetTarget(&sec->soundtarget, soundtarget);
 
-    for (i = 0; i < sec->linecount; i++)
+    for (int i = 0; i < sec->linecount; i++)
     {
         sector_t    *other;
         line_t      *check = sec->lines[i];

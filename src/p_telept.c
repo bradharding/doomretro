@@ -47,8 +47,6 @@ void P_CalcHeight(player_t *player);
 //
 dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
-    int i;
-
     // Don't teleport missiles.
     // Don't teleport if hit back of line, so you can get out of teleporter.
     if (side || (thing->flags & MF_MISSILE))
@@ -60,11 +58,8 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
     // killough 1/31/98: improve performance by using
     // P_FindSectorFromLineTag instead of simple linear search.
-    for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
-    {
-        thinker_t   *th;
-
-        for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+        for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
         {
             mobj_t  *m = (mobj_t *)th;
 
@@ -108,14 +103,10 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     if (player)
                     {
-                        // [BH] teleport can be drawn on automap
+                        // [BH] teleport can now be drawn on automap
                         if (line->backsector)
-                        {
-                            int j;
-
-                            for (j = 0; j < line->backsector->linecount; j++)
+                            for (int j = 0; j < line->backsector->linecount; j++)
                                 line->backsector->lines[j]->flags |= ML_TELEPORTTRIGGERED;
-                        }
 
                         // don't move for a bit
                         thing->reactiontime = 18;
@@ -139,7 +130,6 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                 }
             }
         }
-    }
 
     return false;
 }
@@ -150,19 +140,14 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 //
 dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 {
-    int         i;
-
     // don't teleport missiles
     // Don't teleport if hit back of line,
     // so you can get out of teleporter.
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
-    for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
-    {
-        thinker_t   *th;
-
-        for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+        for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
         {
             mobj_t  *m = (mobj_t *)th;
 
@@ -222,7 +207,6 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
                 return true;
             }
         }
-    }
 
     return false;
 }
@@ -239,12 +223,10 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 
 dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse)
 {
-    int     i;
-
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
-    for (i = -1; (i = P_FindLineFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindLineFromLineTag(line, i)) >= 0;)
     {
         line_t  *l = lines + i;
 

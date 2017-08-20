@@ -53,7 +53,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-typedef enum finalestage_e
+typedef enum
 {
     F_STAGE_TEXT,
     F_STAGE_ARTSCREEN,
@@ -135,6 +135,7 @@ void F_StartFinale(void)
                     finaletext = s_E4TEXT;
                     break;
             }
+
             break;
         }
 
@@ -191,6 +192,7 @@ void F_StartFinale(void)
                         s_C6TEXT));
                     break;
             }
+
             break;
         }
 
@@ -294,12 +296,11 @@ static void F_TextWrite(void)
     // draw some of the text onto the screen
     byte        *src;
     byte        *dest;
-    int         x, y, w;
+    int         w;
     int         count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS);
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
-    int         i;
     char        letter;
     char        prev = ' ';
 
@@ -307,10 +308,10 @@ static void F_TextWrite(void)
     src = (byte *)W_CacheLumpName((char *)finaleflat);
     dest = screens[0];
 
-    for (y = 0; y < SCREENHEIGHT; y += 2)
-        for (x = 0; x < SCREENWIDTH / 32; x += 2)
+    for (int y = 0; y < SCREENHEIGHT; y += 2)
+        for (int x = 0; x < SCREENWIDTH / 32; x += 2)
         {
-            for (i = 0; i < 64; i++)
+            for (int i = 0; i < 64; i++)
             {
                 int     j = i * 2;
                 byte    dot = *(src + (((y / 2) & 63) << 6) + i);
@@ -404,7 +405,7 @@ static void F_TextWrite(void)
 // Casting by id Software.
 //   in order of appearance
 //
-typedef struct castinfo_s
+typedef struct
 {
     char        **name;
     mobjtype_t  type;
@@ -899,9 +900,7 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
 //
 static void F_BunnyScroll(void)
 {
-    int             scrolled = BETWEEN(0, ORIGINALWIDTH - ((signed int)finalecount - 230) / 2,
-                        ORIGINALWIDTH);
-    int             x;
+    int             scrolled = BETWEEN(0, ORIGINALWIDTH - ((signed int)finalecount - 230) / 2, ORIGINALWIDTH);
     patch_t         *p1 = W_CacheLumpName("PFUB2");
     patch_t         *p2 = W_CacheLumpName("PFUB1");
     char            name[10];
@@ -911,7 +910,7 @@ static void F_BunnyScroll(void)
     const fixed_t   xscale = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
     fixed_t         frac = 0;
 
-    for (x = 0; x < ORIGINALWIDTH; x++)
+    for (int x = 0; x < ORIGINALWIDTH; x++)
     {
         do
         {

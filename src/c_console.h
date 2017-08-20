@@ -61,7 +61,7 @@
 
 #define stringize(x)        #x
 
-typedef enum stringtype_e
+typedef enum
 {
     inputstring,
     outputstring,

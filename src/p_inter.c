@@ -244,18 +244,17 @@ static int P_GiveAmmo(player_t *player, ammotype_t ammo, int num, dboolean stat)
 //
 dboolean P_GiveBackpack(player_t *player, dboolean giveammo, dboolean stat)
 {
-    int         i;
     dboolean    result = false;
 
     if (!player->backpack)
     {
-        for (i = 0; i < NUMAMMO; i++)
+        for (int i = 0; i < NUMAMMO; i++)
             player->maxammo[i] *= 2;
 
         player->backpack = true;
     }
 
-    for (i = 0; i < NUMAMMO; i++)
+    for (int i = 0; i < NUMAMMO; i++)
     {
         if (player->ammo[i] < player->maxammo[i])
         {
@@ -277,10 +276,9 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo, dboolean stat)
 //
 dboolean P_GiveFullAmmo(player_t *player, dboolean stat)
 {
-    int         i;
     dboolean    result = false;
 
-    for (i = 0; i < NUMAMMO; i++)
+    for (int i = 0; i < NUMAMMO; i++)
         if (player->ammo[i] < player->maxammo[i])
         {
             if (stat)
@@ -497,14 +495,12 @@ int cardsfound;
 //
 void P_InitCards(player_t *player)
 {
-    int i;
-
-    for (i = 0; i < NUMCARDS; i++)
+    for (int i = 0; i < NUMCARDS; i++)
         player->cards[i] = CARDNOTINMAP;
 
     cardsfound = 0;
 
-    for (i = 0; i < numsectors; i++)
+    for (int i = 0; i < numsectors; i++)
     {
         mobj_t  *thing = sectors[i].thinglist;
 
@@ -544,7 +540,7 @@ void P_InitCards(player_t *player)
         }
     }
 
-    for (i = 0; i < numlines; i++)
+    for (int i = 0; i < numlines; i++)
     {
         line_t  *line = &lines[i];
 
@@ -596,18 +592,17 @@ void P_GiveCard(player_t *player, card_t card)
 //
 dboolean P_GiveAllCards(player_t *player)
 {
-    int         i;
     dboolean    skulliscard = true;
     dboolean    result = false;
 
-    for (i = 0; i < numlines; i++)
+    for (int i = 0; i < numlines; i++)
         if (lines[i].special >= GenLockedBase && !((lines[i].special & LockedNKeys) >> LockedNKeysShift))
         {
             skulliscard = false;
             break;
         }
 
-    for (i = NUMCARDS - 1; i >= 0; i--)
+    for (int i = NUMCARDS - 1; i >= 0; i--)
         if (player->cards[i] != CARDNOTINMAP && player->cards[i] == CARDNOTFOUNDYET)
         {
             if (skulliscard && ((i == it_blueskull && player->cards[it_bluecard] != CARDNOTINMAP)

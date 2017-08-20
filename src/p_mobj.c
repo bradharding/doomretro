@@ -300,24 +300,19 @@ static void P_XYMovement(mobj_t *mo)
         {
             int frame = mo->frame & FF_FRAMEMASK;
             int radius = (spritewidth[sprites[mo->sprite].spriteframes[frame].lump[0]] >> FRACBITS) >> 1;
-            int i;
             int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
             int x = mo->x;
             int y = mo->y;
             int floorz = mo->floorz;
 
-            for (i = 0; i < max; i++)
+            for (int i = 0; i < max; i++)
             {
-                int fx, fy;
-
                 if (!mo->bloodsplats)
                     break;
 
-                fx = x + (M_RandomInt(-radius, radius) << FRACBITS);
-                fy = y + (M_RandomInt(-radius, radius) << FRACBITS);
-
                 if (floorz == R_PointInSubsector(x, y)->sector->floorheight)
-                    P_SpawnBloodSplat(fx, fy, blood, floorz, mo);
+                    P_SpawnBloodSplat(x + (M_RandomInt(-radius, radius) << FRACBITS),
+                        y + (M_RandomInt(-radius, radius) << FRACBITS), blood, floorz, mo);
             }
         }
     }
@@ -971,7 +966,6 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
     if (blood)
     {
         int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-        int i;
         int max = M_RandomInt(50, 100) + radius;
         int x = mobj->x;
         int y = mobj->y;
@@ -983,7 +977,7 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
             y += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
         }
 
-        for (i = 0; i < max; i++)
+        for (int i = 0; i < max; i++)
         {
             int angle;
             int fx, fy;
@@ -1220,7 +1214,6 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
-    int         i;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     dboolean    fuzz = (target->flags & MF_FUZZ);
@@ -1231,7 +1224,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     angle += ANG180;
 
-    for (i = (damage >> 2) + 1; i; i--)
+    for (int i = (damage >> 2) + 1; i; i--)
     {
         mobj_t  *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
         state_t *st = &states[info->spawnstate];
@@ -1448,9 +1441,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
 void P_InitExtraMobjs(void)
 {
-    int i;
-
-    for (i = MT_EXTRA00; i <= MT_EXTRA99; i++)
+    for (int i = MT_EXTRA00; i <= MT_EXTRA99; i++)
     {
         mobjinfo[i].doomednum = -1;
         mobjinfo[i].spawnstate = S_NULL;

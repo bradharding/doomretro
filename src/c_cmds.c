@@ -1005,9 +1005,7 @@ static dboolean null_func1(char *cmd, char *parms)
 //
 dboolean C_ExecuteAlias(const char *alias)
 {
-    int i;
-
-    for (i = 0; i < MAXALIASES; i++)
+    for (int i = 0; i < MAXALIASES; i++)
     {
         if (M_StringCompare(alias, aliases[i].name))
         {
@@ -1035,7 +1033,6 @@ dboolean C_ExecuteAlias(const char *alias)
 
 void alias_cmd_func2(char *cmd, char *parms)
 {
-    int     i;
     char    parm1[128] = "";
     char    parm2[128] = "";
 
@@ -1049,7 +1046,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     if (!*parm2)
     {
-        for (i = 0; i < MAXALIASES; i++)
+        for (int i = 0; i < MAXALIASES; i++)
             if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
             {
                 aliases[i].name[0] = '\0';
@@ -1063,7 +1060,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     C_StripQuotes(parm2);
 
-    for (i = 0; i < MAXALIASES; i++)
+    for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
         {
             M_StringCopy(aliases[i].string, parm2, 128);
@@ -1071,7 +1068,7 @@ void alias_cmd_func2(char *cmd, char *parms)
             return;
         }
 
-    for (i = 0; i < MAXALIASES; i++)
+    for (int i = 0; i < MAXALIASES; i++)
         if (!*aliases[i].name)
         {
             M_StringCopy(aliases[i].name, parm1, 128);
@@ -1477,16 +1474,12 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
         if ((file = fopen(filename, "wt")))
         {
-            int i;
-
-            for (i = 1; i < consolestrings - 1; i++)
+            for (int i = 1; i < consolestrings - 1; i++)
             {
                 if (console[i].type == dividerstring)
                     fprintf(file, "%s\n", DIVIDERSTRING);
                 else
                 {
-                    unsigned int    inpos;
-                    unsigned int    spaces;
                     char            *string = strdup(console[i].string);
                     unsigned int    len;
                     unsigned int    outpos = 0;
@@ -1498,7 +1491,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     strreplace(string, "</i>", "");
                     len = strlen(string);
 
-                    for (inpos = 0; inpos < len; inpos++)
+                    for (unsigned int inpos = 0; inpos < len; inpos++)
                     {
                         const unsigned char letter = string[inpos];
 
@@ -1510,7 +1503,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
                                 if (outpos < tabstop)
                                 {
-                                    for (spaces = 0; spaces < tabstop - outpos; spaces++)
+                                    for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
                                         fputc(' ', file);
 
                                     outpos = tabstop;
@@ -1538,7 +1531,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
                     if (con_timestamps && *console[i].timestamp)
                     {
-                        for (spaces = 0; spaces < 91 - outpos; spaces++)
+                        for (unsigned int spaces = 0; spaces < 91 - outpos; spaces++)
                             fputc(' ', file);
 
                         fputs(console[i].timestamp, file);
@@ -1768,7 +1761,6 @@ static void freeze_cmd_func2(char *cmd, char *parms)
 static dboolean give_cmd_func1(char *cmd, char *parms)
 {
     char    *parm = removespaces(parms);
-    int     i;
     int     num = -1;
 
     if (gamestate != GS_LEVEL)
@@ -1785,7 +1777,7 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
 
     sscanf(parm, "%10i", &num);
 
-    for (i = 0; i < NUMMOBJTYPES; i++)
+    for (int i = 0; i < NUMMOBJTYPES; i++)
     {
         if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
             || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
@@ -1844,12 +1836,11 @@ static void give_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            int i;
             int num = -1;
 
             sscanf(parm, "%10i", &num);
 
-            for (i = 0; i < NUMMOBJTYPES; i++)
+            for (int i = 0; i < NUMMOBJTYPES; i++)
             {
                 if ((mobjinfo[i].flags & MF_SPECIAL)
                     && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
@@ -1958,7 +1949,6 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
     if (gamestate == GS_LEVEL)
     {
         char    *parm = removespaces(parms);
-        int     i;
 
         if (!*parm)
             return true;
@@ -1973,7 +1963,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
         if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
             return true;
 
-        for (i = 0; i < NUMMOBJTYPES; i++)
+        for (int i = 0; i < NUMMOBJTYPES; i++)
         {
             int num = -1;
 
@@ -2039,14 +2029,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        int i;
         int kills = 0;
 
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "monsters"))
         {
             massacre = true;
 
-            for (i = 0; i < numsectors; i++)
+            for (int i = 0; i < numsectors; i++)
             {
                 mobj_t  *thing = sectors[i].thinglist;
 
@@ -2105,7 +2094,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
         }
         else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
         {
-            for (i = 0; i < numsectors; i++)
+            for (int i = 0; i < numsectors; i++)
             {
                 mobj_t  *thing = sectors[i].thinglist;
 
@@ -2141,7 +2130,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             mobjtype_t  type = P_FindDoomedNum(killcmdtype);
             int         dead = 0;
 
-            for (i = 0; i < numsectors; i++)
+            for (int i = 0; i < numsectors; i++)
             {
                 mobj_t  *thing = sectors[i].thinglist;
 
@@ -2516,15 +2505,13 @@ extern char **mapnamesn[];
 static void maplist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 40, 93, 370, 0, 0, 0, 0, 0 };
-    int         i;
-    int         j;
     int         count = 0;
     char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
 
     C_TabbedOutput(tabs, MAPLISTTITLE);
 
     // search through lumps for maps
-    for (i = 0; i < numlumps; i++)
+    for (int i = 0; i < numlumps; i++)
     {
         int         ep = -1;
         int         map = -1;
@@ -2612,10 +2599,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     }
 
     // sort the map list
-    for (i = 0; i < count; i++)
-    {
-        for (j = i + 1; j < count; j++)
-        {
+    for (int i = 0; i < count; i++)
+        for (int j = i + 1; j < count; j++)
             if (strcmp(maplist[i], maplist[j]) > 0)
             {
                 char    temp[256];
@@ -2624,11 +2609,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 strcpy(maplist[i], maplist[j]);
                 strcpy(maplist[j], temp);
             }
-        }
-    }
 
     // display the map list
-    for (i = 0; i < count; i++)
+    for (int i = 0; i < count; i++)
         C_TabbedOutput(tabs, "%i.\t%s", i + 1, maplist[i]);
 
     free(maplist);
@@ -2804,7 +2787,6 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         C_TabbedOutput(tabs, "Blockmap\t<b>Recreated</b>");
 
     {
-        int i;
         int min_x = INT_MAX;
         int max_x = INT_MIN;
         int min_y = INT_MAX;
@@ -2815,7 +2797,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         int height;
         int depth;
 
-        for (i = 0; i < numvertexes; i++)
+        for (int i = 0; i < numvertexes; i++)
         {
             fixed_t x = vertexes[i].x;
             fixed_t y = vertexes[i].y;
@@ -2834,7 +2816,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         width = ((max_x - min_x) >> FRACBITS) / UNITSPERFOOT;
         height = ((max_y - min_y) >> FRACBITS) / UNITSPERFOOT;
 
-        for (i = 0; i < numsectors; i++)
+        for (int i = 0; i < numsectors; i++)
         {
             if (max_c < sectors[i].ceilingheight)
                 max_c = sectors[i].ceilingheight;
@@ -2996,9 +2978,7 @@ static void notarget_cmd_func2(char *cmd, char *parms)
 
     if (player->cheats & CF_NOTARGET)
     {
-        int i;
-
-        for (i = 0; i < numsectors; i++)
+        for (int i = 0; i < numsectors; i++)
         {
             mobj_t   *mo = sectors[i].thinglist;
 
@@ -3059,13 +3039,12 @@ static int  playcmdtype;
 
 static dboolean play_cmd_func1(char *cmd, char *parms)
 {
-    int     i;
     char    namebuf[9];
 
     if (!*parms)
         return true;
 
-    for (i = 1; i < NUMSFX; i++)
+    for (int i = 1; i < NUMSFX; i++)
     {
         M_snprintf(namebuf, sizeof(namebuf), "ds%s", S_sfx[i].name);
 
@@ -3077,7 +3056,7 @@ static dboolean play_cmd_func1(char *cmd, char *parms)
         }
     }
 
-    for (i = 1; i < NUMMUSIC; i++)
+    for (int i = 1; i < NUMMUSIC; i++)
     {
         M_snprintf(namebuf, sizeof(namebuf), "d_%s", S_music[i].name);
 
@@ -3715,12 +3694,11 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
 
     if (gamestate == GS_LEVEL)
     {
-        int i;
         int num = -1;
 
         sscanf(parm, "%10i", &num);
 
-        for (i = 0; i < NUMMOBJTYPES; i++)
+        for (int i = 0; i < NUMMOBJTYPES; i++)
         {
             spawncmdtype = mobjinfo[i].doomednum;
 
@@ -3882,12 +3860,11 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 static void thinglist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 40, 268, 0, 0, 0, 0, 0, 0 };
-    thinker_t   *th;
     int         count = 0;
 
     C_TabbedOutput(tabs, THINGLISTTITLE);
 
-    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         mobj_t  *mobj = (mobj_t *)th;
 
@@ -4620,13 +4597,11 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_bloodsplats_translucency)
         {
-            int i;
-
             r_bloodsplats_translucency = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
 
-            for (i = 0; i < numsectors; i++)
+            for (int i = 0; i < numsectors; i++)
             {
                 bloodsplat_t    *splat = sectors[i].splatlist;
 
@@ -4938,12 +4913,10 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_shadows_translucency)
         {
-            int i;
-
             r_shadows_translucency = !!value;
             M_SaveCVARs();
 
-            for (i = 0; i < numsectors; i++)
+            for (int i = 0; i < numsectors; i++)
             {
                 mobj_t  *mo = sectors[i].thinglist;
 
@@ -5017,13 +4990,11 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_textures)
         {
-            int i;
-
             r_textures = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
 
-            for (i = 0; i < numsectors; i++)
+            for (int i = 0; i < numsectors; i++)
             {
                 mobj_t          *mo = sectors[i].thinglist;
                 bloodsplat_t    *splat = sectors[i].splatlist;
@@ -5074,13 +5045,11 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_translucency)
         {
-            int i;
-
             r_translucency = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
 
-            for (i = 0; i < numsectors; i++)
+            for (int i = 0; i < numsectors; i++)
             {
                 mobj_t  *mo = sectors[i].thinglist;
 

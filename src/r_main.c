@@ -278,23 +278,19 @@ static angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
 //
 static void R_InitTables(void)
 {
-    int i;
-
     // viewangle tangent table
-    for (i = 0; i < FINEANGLES / 2; i++)
+    for (int i = 0; i < FINEANGLES / 2; i++)
         finetangent[i] = (int)(FRACUNIT * tan((i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES));
 
     // finesine table
-    for (i = 0; i < 5 * FINEANGLES / 4; i++)
+    for (int i = 0; i < 5 * FINEANGLES / 4; i++)
         finesine[i] = (int)(FRACUNIT * sin((i + 0.5) * M_PI * 2 / FINEANGLES));
 }
 
 static void R_InitPointToAngle(void)
 {
-    int i;
-
     // slope (tangent) to angle lookup
-    for (i = 0; i <= SLOPERANGE; i++)
+    for (int i = 0; i <= SLOPERANGE; i++)
         tantoangle[i] = (angle_t)(0xFFFFFFFF * atan2((double)i, (double)SLOPERANGE) / (M_PI * 2));
 }
 
@@ -303,9 +299,6 @@ static void R_InitPointToAngle(void)
 //
 static void R_InitTextureMapping(void)
 {
-    int i;
-    int x;
-
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x
     //  after the view angle.
@@ -315,9 +308,9 @@ static void R_InitTextureMapping(void)
 
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
-    fixed_t focallength = FixedDiv(centerxfrac, hitan);
+    fixed_t         focallength = FixedDiv(centerxfrac, hitan);
 
-    for (i = 0; i < FINEANGLES / 2; i++)
+    for (int i = 0; i < FINEANGLES / 2; i++)
     {
         fixed_t tangent = finetangent[i];
 
@@ -333,15 +326,17 @@ static void R_InitTextureMapping(void)
     // Scan viewangletox[] to generate xtoviewangle[]:
     //  xtoviewangle will give the smallest view angle
     //  that maps to x.
-    for (x = 0; x <= viewwidth; x++)
+    for (int x = 0; x <= viewwidth; x++)
     {
+        int i;
+
         for (i = 0; viewangletox[i] > x; i++);
 
         xtoviewangle[x] = (i << ANGLETOFINESHIFT) - ANG90;
     }
 
     // Take out the fencepost cases from viewangletox.
-    for (i = 0; i < FINEANGLES / 2; i++)
+    for (int i = 0; i < FINEANGLES / 2; i++)
         if (viewangletox[i] == -1)
             viewangletox[i] = 0;
         else if (viewangletox[i] == highend)
@@ -359,8 +354,6 @@ static void R_InitTextureMapping(void)
 
 static void R_InitLightTables(void)
 {
-    int i;
-
     // killough 4/4/98: dynamic colormaps
     c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
     c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
@@ -368,19 +361,17 @@ static void R_InitLightTables(void)
 
     // Calculate the light levels to use
     //  for each level / distance combination.
-    for (i = 0; i < LIGHTLEVELS; i++)
+    for (int i = 0; i < LIGHTLEVELS; i++)
     {
-        int j;
         int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
-        for (j = 0; j < MAXLIGHTZ; j++)
+        for (int j = 0; j < MAXLIGHTZ; j++)
         {
             int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
-            int t;
             int level = BETWEEN(0, startmap - scale  / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: Initialize multiple colormaps
-            for (t = 0; t < numcolormaps; t++)
+            for (int t = 0; t < numcolormaps; t++)
                 c_zlight[t][i][j] = &colormaps[t][level];
         }
     }
@@ -406,9 +397,6 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
-    int i;
-    int j;
-
     setsizeneeded = false;
 
     if (setblocks == 11)
@@ -442,15 +430,15 @@ void R_ExecuteSetViewSize(void)
     R_InitSkyMap();
 
     // thing clipping
-    for (i = 0; i < viewwidth; i++)
+    for (int i = 0; i < viewwidth; i++)
         screenheightarray[i] = viewheight;
 
     // planes
-    for (i = 0; i < viewheight; i++)
+    for (int i = 0; i < viewheight; i++)
     {
         fixed_t num = viewwidth / 2 * FRACUNIT;
 
-        for (j = 0; j < LOOKDIRS; j++)
+        for (int j = 0; j < LOOKDIRS; j++)
             yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2
                 * (r_screensize + 3) / 10)) << FRACBITS) + FRACUNIT / 2));
     }
@@ -459,34 +447,31 @@ void R_ExecuteSetViewSize(void)
 
     // Calculate the light levels to use
     //  for each level / scale combination.
-    for (i = 0; i < LIGHTLEVELS; i++)
+    for (int i = 0; i < LIGHTLEVELS; i++)
     {
         int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
-        for (j = 0; j < MAXLIGHTSCALE; j++)
+        for (int j = 0; j < MAXLIGHTSCALE; j++)
         {
-            int t;
-            int level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1)
-                    * 256;
+            int level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: initialize multiple colormaps
-            for (t = 0; t < numcolormaps; t++)     // killough 4/4/98
+            for (int t = 0; t < numcolormaps; t++)     // killough 4/4/98
                 c_scalelight[t][i][j] = &colormaps[t][level];
         }
     }
 
     // [BH] calculate separate light levels to use when drawing
     //  player's weapon, so it stays consistent regardless of view size
-    for (i = 0; i < OLDLIGHTLEVELS; i++)
+    for (int i = 0; i < OLDLIGHTLEVELS; i++)
     {
         int startmap = ((OLDLIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
 
-        for (j = 0; j < OLDMAXLIGHTSCALE; j++)
+        for (int j = 0; j < OLDMAXLIGHTSCALE; j++)
         {
-            int t;
             int level = BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
-            for (t = 0; t < numcolormaps; t++)
+            for (int t = 0; t < numcolormaps; t++)
                 c_psprscalelight[t][i][j] = &colormaps[t][level];
         }
     }
@@ -494,8 +479,6 @@ void R_ExecuteSetViewSize(void)
 
 void R_InitColumnFunctions(void)
 {
-    int i;
-
     if (r_textures)
     {
         basecolfunc = R_DrawColumn;
@@ -589,7 +572,7 @@ void R_InitColumnFunctions(void)
         psprcolfunc = R_DrawColorColumn;
     }
 
-    for (i = 0; i < NUMMOBJTYPES; i++)
+    for (int i = 0; i < NUMMOBJTYPES; i++)
     {
         mobjinfo_t  *info = &mobjinfo[i];
         int         flags2 = info->flags2;

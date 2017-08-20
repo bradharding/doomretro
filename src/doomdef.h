@@ -84,7 +84,7 @@
 
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependent animations etc.
-typedef enum GameMode_e
+typedef enum
 {
     shareware,          // DOOM 1 shareware, E1, M9
     registered,         // DOOM 1 registered, E3, M27
@@ -94,7 +94,7 @@ typedef enum GameMode_e
 } GameMode_t;
 
 // Mission packs - might be useful for TC stuff?
-typedef enum GameMission_e
+typedef enum
 {
     doom,               // DOOM 1
     doom2,              // DOOM 2
@@ -105,7 +105,7 @@ typedef enum GameMission_e
 } GameMission_t;
 
 // What version are we emulating?
-typedef enum GameVersion_e
+typedef enum
 {
     exe_doom_1_9,       // DOOM 1.9: used for shareware, registered and commercial
     exe_ultimate,       // Ultimate DOOM (retail)
@@ -133,7 +133,7 @@ typedef enum GameVersion_e
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
 // the game final animation, or title screen.
-typedef enum gamestate_e
+typedef enum
 {
     GS_NONE = -1,
     GS_LEVEL,
@@ -156,7 +156,7 @@ typedef enum gamestate_e
 
 #define MTF_NETGAME 16
 
-typedef enum skill_e
+typedef enum
 {
     sk_baby,
     sk_easy,
@@ -168,7 +168,7 @@ typedef enum skill_e
 //
 // Key cards.
 //
-typedef enum card_e
+typedef enum
 {
     it_bluecard,
     it_yellowcard,
@@ -182,7 +182,7 @@ typedef enum card_e
 // The defined weapons,
 //  including a marker indicating
 //  user has not changed weapon.
-typedef enum weapontype_e
+typedef enum
 {
     wp_fist,
     wp_pistol,
@@ -200,7 +200,7 @@ typedef enum weapontype_e
 } weapontype_t;
 
 // Ammunition types defined.
-typedef enum ammotype_e
+typedef enum
 {
     am_clip,    // Pistol / chaingun ammo.
     am_shell,   // Shotgun / double barreled shotgun.
@@ -211,7 +211,7 @@ typedef enum ammotype_e
 } ammotype_t;
 
 // Power up artifacts.
-enum powertype_e
+enum
 {
     pw_invulnerability,
     pw_strength,
@@ -227,7 +227,7 @@ enum powertype_e
 //  how many seconds till expiration,
 //  assuming TICRATE is 35 ticks/second.
 //
-enum powerduration_e
+enum
 {
     INVULNTICS =  30 * TICRATE,
     INVISTICS  =  60 * TICRATE,

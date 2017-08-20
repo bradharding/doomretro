@@ -326,13 +326,10 @@ static void WI_slamBackground(void)
 // [BH] Draws character of "<Levelname>"
 static void WI_drawWILVchar(int x, int y, int i)
 {
-    int w;
-    int x1, y1;
+    int w = strlen(wilv[i]) / 13;
 
-    w = strlen(wilv[i]) / 13;
-
-    for (y1 = 0; y1 < 13; y1++)
-        for (x1 = 0; x1 < w; x1++)
+    for (int y1 = 0; y1 < 13; y1++)
+        for (int x1 = 0; x1 < w; x1++)
             V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * w + x1], true);
 }
 
@@ -358,11 +355,11 @@ static const int chartoi[130] =
 
 static void WI_drawWILV(int y, char *str)
 {
-    int i;
-    int w = 0;
-    int x;
+    size_t  len = strlen(str);
+    int     w = 0;
+    int     x;
 
-    for (i = 0; (unsigned int)i < strlen(str); i++)
+    for (size_t i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
 
@@ -371,7 +368,7 @@ static void WI_drawWILV(int y, char *str)
 
     x = (ORIGINALWIDTH - w - 1) / 2;
 
-    for (i = 0; (unsigned int)i < strlen(str); i++)
+    for (size_t i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
 
@@ -500,15 +497,13 @@ static void WI_drawOnLnode(int n, patch_t *c[])
 
 static void WI_initAnimatedBack(void)
 {
-    int i;
-
     if (gamemode == commercial)
         return;
 
     if (wbs->epsd > 2)
         return;
 
-    for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
+    for (int i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
         anim_t  *a = &anims[wbs->epsd][i];
 
@@ -527,15 +522,13 @@ static void WI_initAnimatedBack(void)
 
 static void WI_updateAnimatedBack(void)
 {
-    int i;
-
     if (gamemode == commercial)
         return;
 
     if (wbs->epsd > 2)
         return;
 
-    for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
+    for (int i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
         anim_t  *a = &anims[wbs->epsd][i];
 
@@ -578,7 +571,6 @@ static void WI_updateAnimatedBack(void)
 
 static void WI_drawAnimatedBack(void)
 {
-    int     i;
     anim_t  *a;
 
     if (gamemode == commercial)
@@ -587,7 +579,7 @@ static void WI_drawAnimatedBack(void)
     if (wbs->epsd > 2)
         return;
 
-    for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
+    for (int i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
         a = &anims[wbs->epsd][i];
 
@@ -611,7 +603,6 @@ static void WI_drawAnimatedBack(void)
 //
 static int WI_drawNum(int x, int y, int n, int digits)
 {
-
     int fontwidth = SHORT(num[0]->width);
     int neg;
 
@@ -763,7 +754,6 @@ static void WI_drawShowNextLoc(void)
 
     if (gamemode != commercial)
     {
-        int i;
         int last;
 
         if (wbs->epsd > 2)
@@ -775,7 +765,7 @@ static void WI_drawShowNextLoc(void)
         last = (wbs->last == 8 ? wbs->next - 1 : wbs->last);
 
         // draw a splat on taken cities.
-        for (i = 0; i <= last; i++)
+        for (int i = 0; i <= last; i++)
             WI_drawOnLnode(i, splat);
 
         // splat the secret level?
@@ -1045,13 +1035,12 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 // lumps to be loaded/unloaded into memory.
 static void WI_loadUnloadData(load_callback_t callback)
 {
-    int     i;
     char    name[9];
     anim_t  *a;
 
     if (gamemode == commercial)
     {
-        for (i = 0; i < NUMCMAPS; i++)
+        for (int i = 0; i < NUMCMAPS; i++)
         {
             M_snprintf(name, 9, "CWILV%2.2d", i);
             callback(name, &lnames[i]);
@@ -1059,7 +1048,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     }
     else
     {
-        for (i = 0; i < NUMMAPS; i++)
+        for (int i = 0; i < NUMMAPS; i++)
         {
             M_snprintf(name, 9, "WILV%i%i", wbs->epsd, i);
             callback(name, &lnames[i]);
@@ -1076,13 +1065,11 @@ static void WI_loadUnloadData(load_callback_t callback)
 
         if (wbs->epsd < 3)
         {
-            int j;
-
-            for (j = 0; j < NUMANIMS[wbs->epsd]; j++)
+            for (int j = 0; j < NUMANIMS[wbs->epsd]; j++)
             {
                 a = &anims[wbs->epsd][j];
 
-                for (i = 0; i < a->nanims; i++)
+                for (int i = 0; i < a->nanims; i++)
                 {
                     // MONDO HACK!
                     if (wbs->epsd != 1 || j != 8)
@@ -1102,7 +1089,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     // More hacks on minus sign.
     callback("WIMINUS", &wiminus);
 
-    for (i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
     {
         // numbers 0-9
         M_snprintf(name, 9, "WINUM%i", i);

@@ -372,9 +372,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (!idclev && !idmus)
     {
-        int i;
-
-        for (i = 0; i < NUMWEAPONKEYS; i++)
+        for (int i = 0; i < NUMWEAPONKEYS; i++)
         {
             int key = *weapon_keys[i];
 
@@ -493,8 +491,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
 static void G_SetInitialWeapon(player_t *player)
 {
-    int i;
-
     player->weaponowned[wp_fist] = true;
     player->weaponowned[wp_pistol] = true;
 
@@ -511,7 +507,7 @@ static void G_SetInitialWeapon(player_t *player)
         player->pendingweapon = wp_pistol;
     }
 
-    for (i = 0; i < NUMAMMO; i++)
+    for (int i = 0; i < NUMAMMO; i++)
         player->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
 }
 
@@ -779,11 +775,9 @@ dboolean G_Responder(event_t *ev)
 
         case ev_mouse:
         {
-            int i;
-            int j;
             int mousebutton = ev->data1;
 
-            for (i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
+            for (int i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
                 mousebuttons[i] = mousebutton & j;
 
             if (vibrate && mousebutton)
@@ -1634,7 +1628,6 @@ extern msecnode_t   *sector_list;
 
 void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 {
-    int         i;
     player_t    *player = &players[0];
 
     d_skill = skill;
@@ -1645,7 +1638,7 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
     infight = false;
     sector_list = NULL;
 
-    for (i = 0; i < NUMPOWERS; i++)
+    for (int i = 0; i < NUMPOWERS; i++)
         if (player->powers[i] > 0)
             player->powers[i] = 0;
 }
@@ -1666,11 +1659,9 @@ static void G_DoNewGame(void)
 
 void G_SetFastMonsters(dboolean toggle)
 {
-    int i;
-
     if (toggle)
     {
-        for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+        for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
             if (states[i].tics != 1)
                 states[i].tics >>= 1;
 
@@ -1680,7 +1671,7 @@ void G_SetFastMonsters(dboolean toggle)
     }
     else
     {
-        for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+        for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
             states[i].tics <<= 1;
 
         mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;

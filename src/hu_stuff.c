@@ -199,13 +199,12 @@ void HU_SetTranslucency(void)
 
 void HU_Init(void)
 {
-    int     i;
     int     j = HU_FONTSTART;
     int     lump;
     char    buffer[9];
 
     // load the heads-up font
-    for (i = 0; i < HU_FONTSIZE; i++)
+    for (int i = 0; i < HU_FONTSIZE; i++)
     {
         M_snprintf(buffer, 9, "STCFN%.3d", j++);
         hu_font[i] = W_CacheLumpName(buffer);
@@ -630,10 +629,9 @@ static int      yellow;
 
 static void HU_AltInit(void)
 {
-    int     i;
     char    buffer[9];
 
-    for (i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
     {
         M_snprintf(buffer, 7, "DRHUD%i", i);
         altnum[i] = W_CacheLumpName(buffer);
@@ -644,7 +642,7 @@ static void HU_AltInit(void)
     altnegpatch = W_CacheLumpName("DRHUDNEG");
     altnegpatchwidth = SHORT(altnegpatch->width);
 
-    for (i = 1; i < NUMWEAPONS; i++)
+    for (int i = 1; i < NUMWEAPONS; i++)
     {
         M_snprintf(buffer, 9, "DRHUDWP%i", i);
         altweapon[i] = W_CacheLumpName(buffer);
@@ -661,7 +659,7 @@ static void HU_AltInit(void)
     altkeypatch = W_CacheLumpName("DRHUDKEY");
     altskullpatch = W_CacheLumpName("DRHUDSKU");
 
-    for (i = 0; i < NUMCARDS; i++)
+    for (int i = 0; i < NUMCARDS; i++)
         altkeypics[i].color = nearestcolors[altkeypics[i].color];
 
     altkeypics[0].patch = altkeypatch;

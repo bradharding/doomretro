@@ -1160,12 +1160,11 @@ void R_DrawPausedFuzzColumn(void)
 
 void R_DrawFuzzColumns(void)
 {
-    int x, y;
     int w = viewwindowx + viewwidth;
     int h = (viewwindowy + viewheight) * SCREENWIDTH;
 
-    for (x = viewwindowx; x < w; x++)
-        for (y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
+    for (int x = viewwindowx; x < w; x++)
+        for (int y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
         {
             int     i = x + y;
             byte    *src = screens[1] + i;
@@ -1208,12 +1207,11 @@ void R_DrawFuzzColumns(void)
 
 void R_DrawPausedFuzzColumns(void)
 {
-    int x, y;
     int w = viewwindowx + viewwidth;
     int h = (viewwindowy + viewheight) * SCREENWIDTH;
 
-    for (x = viewwindowx; x < w; x++)
-        for (y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
+    for (int x = viewwindowx; x < w; x++)
+        for (int y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
         {
             int     i = x + y;
             byte    *src = screens[1] + i;
@@ -1295,12 +1293,10 @@ void R_DrawTranslatedColumn(void)
 //
 void R_InitTranslationTables(void)
 {
-    int i;
-
     translationtables = Z_Malloc(256 * 3, PU_STATIC, NULL);
 
     // translate just the 16 green colors
-    for (i = 0; i < 256; i++)
+    for (int i = 0; i < 256; i++)
         if (i >= 0x70 && i <= 0x7F)
         {
             // map green ramp to gray, brown, red
@@ -1447,7 +1443,6 @@ void R_FillBackScreen(void)
     byte    *src;
     byte    *dest;
     int     x, y;
-    int     i;
     int     width, height;
     int     windowx, windowy;
 
@@ -1460,7 +1455,7 @@ void R_FillBackScreen(void)
     for (y = 0; y < SCREENHEIGHT; y += 2)
         for (x = 0; x < SCREENWIDTH / 32; x += 2)
         {
-            for (i = 0; i < 64; i++)
+            for (int i = 0; i < 64; i++)
             {
                 int     j = i * 2;
                 byte    dot = *(src + (((y / 2) & 63) << 6) + i);
@@ -1529,7 +1524,6 @@ void R_DrawViewBorder(void)
     int top;
     int side;
     int ofs;
-    int i;
 
     if (scaledviewwidth == SCREENWIDTH)
         return;
@@ -1548,7 +1542,7 @@ void R_DrawViewBorder(void)
     ofs = top * SCREENWIDTH + SCREENWIDTH - side;
     side <<= 1;
 
-    for (i = 1; i < viewheight; i++)
+    for (int i = 1; i < viewheight; i++)
     {
         R_VideoErase(ofs, side);
         ofs += SCREENWIDTH;

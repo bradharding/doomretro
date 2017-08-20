@@ -447,8 +447,6 @@ dboolean ST_Responder(event_t *ev)
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
-            int i;
-
             if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
 
@@ -709,7 +707,7 @@ dboolean ST_Responder(event_t *ev)
             }
 
             // 'behold?' power-up cheats
-            for (i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++)
             {
                 if (cht_CheckCheat(&cheat_powerup[i], ev->data2) && gameskill != sk_nightmare
                     // [BH] can only enter cheat while player is alive
@@ -808,7 +806,7 @@ dboolean ST_Responder(event_t *ev)
                     cheat_noclip.chars_read = 0;
                     cheat_commercial_noclip.chars_read = 0;
 
-                    for (i = 0; i < 7; i++)
+                    for (int i = 0; i < 7; i++)
                         cheat_powerup[i].chars_read = 0;
 
                     cheat_choppers.chars_read = 0;
@@ -1268,14 +1266,13 @@ static void ST_updateFaceWidget(void)
 static void ST_updateWidgets(void)
 {
     static int largeammo = 1994; // means "n/a"
-    int        i;
     ammotype_t ammo = weaponinfo[plyr->readyweapon].ammo;
 
     w_ready.num = (ammo == am_noammo || plyr->health <= 0 ? &largeammo : &plyr->ammo[ammo]);
     w_ready.data = plyr->readyweapon;
 
     // update keycard multiple widgets
-    for (i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
     {
         keyboxes[i] = (plyr->cards[i] > 0 ? i : -1);
 
@@ -1347,11 +1344,9 @@ static void ST_doPaletteStuff(void)
 
 static void ST_drawWidgets(dboolean refresh)
 {
-    int i;
-
     STlib_updateNum(&w_ready);
 
-    for (i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
         STlib_updateNum(&w_ammo[i]);
         STlib_updateNum(&w_maxammo[i]);
@@ -1370,7 +1365,7 @@ static void ST_drawWidgets(dboolean refresh)
     //  changes:
     //    arms 3 highlighted when player has super shotgun but no shotgun
     //    arms 6 and 7 not visible in shareware
-    for (i = 0; i < armsnum; i++)
+    for (int i = 0; i < armsnum; i++)
         STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
     if (facebackcolor != facebackcolor_default)
@@ -1378,7 +1373,7 @@ static void ST_drawWidgets(dboolean refresh)
 
     STlib_updateMultIcon(&w_faces, refresh);
 
-    for (i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
         STlib_updateMultIcon(&w_keyboxes[i], refresh);
 }
 
@@ -1422,14 +1417,11 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 
 static void ST_loadUnloadGraphics(load_callback_t callback)
 {
-    int     i;
-    int     j;
     int     facenum;
-
     char    namebuf[9];
 
     // Load the numbers, tall and short
-    for (i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
     {
         M_snprintf(namebuf, 9, "STTNUM%i", i);
         callback(namebuf, &tallnum[i]);
@@ -1443,7 +1435,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     emptytallpercent = V_EmptyPatch(tallpercent);
 
     // key cards
-    for (i = 0; i < NUMCARDS; i++)
+    for (int i = 0; i < NUMCARDS; i++)
     {
         M_snprintf(namebuf, 9, "STKEYS%i", i);
         callback(namebuf, &keys[i]);
@@ -1460,7 +1452,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
     // arms ownership widgets
     // [BH] now manually drawn
-    for (i = 0; i < 6; i++)
+    for (int i = 0; i < 6; i++)
     {
         M_snprintf(namebuf, 9, "STGNUM%i", i + 2);
 
@@ -1483,9 +1475,9 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // face states
     facenum = 0;
 
-    for (i = 0; i < ST_NUMPAINFACES; i++)
+    for (int i = 0; i < ST_NUMPAINFACES; i++)
     {
-        for (j = 0; j < ST_NUMSTRAIGHTFACES; j++)
+        for (int j = 0; j < ST_NUMSTRAIGHTFACES; j++)
         {
             M_snprintf(namebuf, 9, "STFST%i%i", i, j);
             callback(namebuf, &faces[facenum++]);
@@ -1569,8 +1561,6 @@ static void ST_loadData(void)
 
 static void ST_initData(void)
 {
-    int i;
-
     st_firsttime = true;
     plyr = &players[0];
 
@@ -1581,17 +1571,15 @@ static void ST_initData(void)
 
     st_oldhealth = -1;
 
-    for (i = 0; i < NUMWEAPONS; i++)
+    for (int i = 0; i < NUMWEAPONS; i++)
         oldweaponsowned[i] = plyr->weaponowned[i];
 
-    for (i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
         keyboxes[i] = -1;
 }
 
 static void ST_createWidgets(void)
 {
-    int i;
-
     // ready weapon ammo
     STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2 && !BTSX), tallnum,
         &plyr->ammo[weaponinfo[plyr->readyweapon].ammo], &st_statusbaron, ST_AMMOWIDTH);
@@ -1611,7 +1599,7 @@ static void ST_createWidgets(void)
     // weapons owned
     armsnum = (gamemode == shareware ? 4 : 6);
 
-    for (i = 0; i < armsnum; i++)
+    for (int i = 0; i < armsnum; i++)
         STlib_initMultIcon(&w_arms[i], ST_ARMSX + (i % 3) * ST_ARMSXSPACE, ST_ARMSY + i / 3 * ST_ARMSYSPACE,
             arms[i], (i == 1 ? &plyr->shotguns : &plyr->weaponowned[i + 1]), &st_statusbaron);
 
@@ -1675,14 +1663,12 @@ void ST_Start(void)
 
 void ST_Init(void)
 {
-    int i;
-
     ST_loadData();
     screens[4] = Z_Malloc(ST_WIDTH * SBARHEIGHT, PU_STATIC, NULL);
 
     // [BH] fix evil grin being displayed when picking up first item after
     // loading save game or entering IDFA/IDKFA cheat
-    for (i = 0; i < NUMWEAPONS; i++)
+    for (int i = 0; i < NUMWEAPONS; i++)
         oldweaponsowned[i] = false;
 
     ST_InitCheats();

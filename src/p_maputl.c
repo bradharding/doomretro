@@ -396,13 +396,9 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
 dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
 {
     if (!(x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight))
-    {
-        mobj_t  *mobj;
-
-        for (mobj = blocklinks[y * bmapwidth + x]; mobj; mobj = mobj->bnext)
+        for (mobj_t *mobj = blocklinks[y * bmapwidth + x]; mobj; mobj = mobj->bnext)
             if (!func(mobj))
                 return false;
-    }
 
     return true;
 }
@@ -549,10 +545,9 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 
     while (count--)
     {
-        fixed_t     dist = INT_MAX;
-        intercept_t *scan;
+        fixed_t dist = INT_MAX;
 
-        for (scan = intercepts; scan < intercept_p; scan++)
+        for (intercept_t *scan = intercepts; scan < intercept_p; scan++)
             if (scan->frac < dist)
             {
                 dist = scan->frac;
@@ -589,7 +584,6 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     int     mapx, mapy;
     int     mapx1, mapy1;
     int     mapxstep, mapystep;
-    int     count;
 
     validcount++;
     intercept_p = intercepts;
@@ -666,7 +660,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     mapx = xt1;
     mapy = yt1;
 
-    for (count = 0; count < 64; count++)
+    for (int count = 0; count < 64; count++)
     {
         if (flags & PT_ADDLINES)
             if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))

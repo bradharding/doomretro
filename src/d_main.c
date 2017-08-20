@@ -593,9 +593,7 @@ static int  dehfilecount;
 
 static dboolean DehFileProcessed(char *path)
 {
-    int i;
-
-    for (i = 0; i < dehfilecount; i++)
+    for (int i = 0; i < dehfilecount; i++)
         if (M_StringCompare(path, dehfiles[i]))
             return true;
 
@@ -714,10 +712,9 @@ static const struct
 
 static dboolean D_IsUnsupportedIWAD(char *filename)
 {
-    int         i;
     const char  *leaf = leafname(filename);
 
-    for (i = 0; i < arrlen(unsupported); i++)
+    for (int i = 0; i < arrlen(unsupported); i++)
         if (M_StringCompare(leaf, unsupported[i].iwad))
         {
             static char buffer[1024];
@@ -1562,20 +1559,18 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    int i;
-
     if (chexdeh || M_ParmExists("-nodeh"))
         return;
 
     if (hacx)
     {
-        for (i = 0; i < numlumps; i++)
+        for (int i = 0; i < numlumps; i++)
             if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
                 ProcessDehFile(NULL, i);
     }
     else
     {
-        for (i = numlumps - 1; i >= 0; i--)
+        for (int i = numlumps - 1; i >= 0; i--)
             if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
                 ProcessDehFile(NULL, i);
     }
@@ -1583,11 +1578,9 @@ static void D_ProcessDehInWad(void)
 
 static void D_ParseStartupString(const char *string)
 {
-    size_t  i;
-    size_t  start;
     size_t  len = strlen(string);
 
-    for (i = 0, start = 0; i < len; i++)
+    for (size_t i = 0, start = 0; i < len; i++)
         if (string[i] == '\n' || i == len - 1)
         {
             C_Output(M_SubString(string, start, i - start));
@@ -1602,7 +1595,6 @@ static void D_ParseStartupString(const char *string)
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
-    int         i;
     int         p;
     int         choseniwad = 0;
     static char lumpname[6];
@@ -1633,7 +1625,7 @@ static void D_DoomMainSetup(void)
 
     P_InitExtraMobjs();
 
-    for (i = 0; i < MAXALIASES; i++)
+    for (int i = 0; i < MAXALIASES; i++)
     {
         aliases[i].name[0] = '\0';
         aliases[i].string[0] = '\0';
@@ -1842,7 +1834,7 @@ static void D_DoomMainSetup(void)
                 "DPHOOF", "BFGGA0", "HEADA1", "CYBRA1", "SPIDA1D1"
             };
 
-            for (i = 0; i < 23; i++)
+            for (int i = 0; i < 23; i++)
                 if (W_CheckNumForName(name[i]) < 0)
                     I_Error("This is not the registered version.");
         }

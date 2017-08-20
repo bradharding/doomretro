@@ -280,7 +280,7 @@ void *I_RegisterSong(void *data, int size)
 
             memset(&mididata, 0, sizeof(MIDI));
 
-            if (mmus2mid((byte *)data, (size_t)size, &mididata))
+            if (!mmus2mid((byte *)data, (size_t)size, &mididata))
                 return NULL;
 
             // Hurrah! Let's make it a mid and give it to SDL_mixer

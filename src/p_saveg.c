@@ -144,9 +144,8 @@ static void saveg_read_pad(void)
 {
     unsigned long   pos = ftell(save_stream);
     int             padding = (4 - (pos & 3)) & 3;
-    int             i;
 
-    for (i = 0; i < padding; i++)
+    for (int i = 0; i < padding; i++)
         saveg_read8();
 }
 
@@ -154,9 +153,8 @@ static void saveg_write_pad(void)
 {
     unsigned long   pos = ftell(save_stream);
     int             padding = (4 - (pos & 3)) & 3;
-    int             i;
 
-    for (i = 0; i < padding; i++)
+    for (int i = 0; i < padding; i++)
         saveg_write8(0);
 }
 
@@ -387,8 +385,6 @@ extern int cardsfound;
 //
 static void saveg_read_player_t(player_t *str)
 {
-    int i;
-
     str->mo = (mobj_t *)saveg_readp();
     str->playerstate = (playerstate_t)saveg_read_enum();
     saveg_read_ticcmd_t(&str->cmd);
@@ -403,10 +399,10 @@ static void saveg_read_player_t(player_t *str)
     str->armorpoints = saveg_read32();
     str->armortype = (armortype_t)saveg_read_enum();
 
-    for (i = 0; i < NUMPOWERS; i++)
+    for (int i = 0; i < NUMPOWERS; i++)
         str->powers[i] = saveg_read32();
 
-    for (i = 0; i < NUMCARDS; i++)
+    for (int i = 0; i < NUMCARDS; i++)
     {
         str->cards[i] = saveg_read32();
         cardsfound = MAX(cardsfound, str->cards[i]);
@@ -418,15 +414,15 @@ static void saveg_read_player_t(player_t *str)
     str->readyweapon = (weapontype_t)saveg_read_enum();
     str->pendingweapon = (weapontype_t)saveg_read_enum();
 
-    for (i = 0; i < NUMWEAPONS; i++)
+    for (int i = 0; i < NUMWEAPONS; i++)
         str->weaponowned[i] = saveg_read32();
 
     str->shotguns = (str->weaponowned[wp_shotgun] || str->weaponowned[wp_supershotgun]);
 
-    for (i = 0; i < NUMAMMO; i++)
+    for (int i = 0; i < NUMAMMO; i++)
         str->ammo[i] = saveg_read32();
 
-    for (i = 0; i < NUMAMMO; i++)
+    for (int i = 0; i < NUMAMMO; i++)
         str->maxammo[i] = saveg_read32();
 
     str->attackdown = saveg_read32();
@@ -443,7 +439,7 @@ static void saveg_read_player_t(player_t *str)
     str->extralight = saveg_read32();
     str->fixedcolormap = saveg_read32();
 
-    for (i = 0; i < NUMPSPRITES; i++)
+    for (int i = 0; i < NUMPSPRITES; i++)
         saveg_read_pspdef_t(&str->psprites[i]);
 
     str->didsecret = saveg_read32();
@@ -474,7 +470,7 @@ static void saveg_read_player_t(player_t *str)
     str->shotsfired = saveg_read32();
     str->deaths = saveg_read32();
 
-    for (i = 0; i < NUMMOBJTYPES; i++)
+    for (int i = 0; i < NUMMOBJTYPES; i++)
         str->mobjcount[i] = saveg_read32();
 
     str->distancetraveled = saveg_read32();
@@ -488,8 +484,6 @@ static void saveg_read_player_t(player_t *str)
 
 static void saveg_write_player_t(player_t *str)
 {
-    int i;
-
     saveg_writep(str->mo);
     saveg_write_enum(str->playerstate);
     saveg_write_ticcmd_t(&str->cmd);
@@ -504,10 +498,10 @@ static void saveg_write_player_t(player_t *str)
     saveg_write32(str->armorpoints);
     saveg_write_enum(str->armortype);
 
-    for (i = 0; i < NUMPOWERS; i++)
+    for (int i = 0; i < NUMPOWERS; i++)
         saveg_write32(str->powers[i]);
 
-    for (i = 0; i < NUMCARDS; i++)
+    for (int i = 0; i < NUMCARDS; i++)
         saveg_write32(str->cards[i]);
 
     saveg_write32(str->neededcard);
@@ -516,13 +510,13 @@ static void saveg_write_player_t(player_t *str)
     saveg_write_enum(str->readyweapon);
     saveg_write_enum(str->pendingweapon);
 
-    for (i = 0; i < NUMWEAPONS; i++)
+    for (int i = 0; i < NUMWEAPONS; i++)
         saveg_write32(str->weaponowned[i]);
 
-    for (i = 0; i < NUMAMMO; i++)
+    for (int i = 0; i < NUMAMMO; i++)
         saveg_write32(str->ammo[i]);
 
-    for (i = 0; i < NUMAMMO; i++)
+    for (int i = 0; i < NUMAMMO; i++)
         saveg_write32(str->maxammo[i]);
 
     saveg_write32(str->attackdown);
@@ -539,7 +533,7 @@ static void saveg_write_player_t(player_t *str)
     saveg_write32(str->extralight);
     saveg_write32(str->fixedcolormap);
 
-    for (i = 0; i < NUMPSPRITES; i++)
+    for (int i = 0; i < NUMPSPRITES; i++)
         saveg_write_pspdef_t(&str->psprites[i]);
 
     saveg_write32(str->didsecret);
@@ -561,7 +555,7 @@ static void saveg_write_player_t(player_t *str)
     saveg_write32(str->shotsfired);
     saveg_write32(str->deaths);
 
-    for (i = 0; i < NUMMOBJTYPES; i++)
+    for (int i = 0; i < NUMMOBJTYPES; i++)
         saveg_write32(str->mobjcount[i]);
 
     saveg_write32(str->distancetraveled);
@@ -902,15 +896,14 @@ void P_WriteSaveGameHeader(char *description)
 //
 dboolean P_ReadSaveGameHeader(char *description)
 {
-    int     i;
     byte    a, b, c;
     char    vcheck[VERSIONSIZE];
     char    read_vcheck[VERSIONSIZE];
 
-    for (i = 0; i < SAVESTRINGSIZE; i++)
+    for (int i = 0; i < SAVESTRINGSIZE; i++)
         description[i] = saveg_read8();
 
-    for (i = 0; i < VERSIONSIZE; i++)
+    for (int i = 0; i < VERSIONSIZE; i++)
         read_vcheck[i] = saveg_read8();
 
     memset(vcheck, 0, sizeof(vcheck));
@@ -986,7 +979,6 @@ void P_UnArchivePlayers(void)
 void P_ArchiveWorld(void)
 {
     int         i;
-    int         j;
     sector_t    *sec;
     line_t      *li;
     side_t      *si;
@@ -1010,7 +1002,7 @@ void P_ArchiveWorld(void)
         saveg_write16(li->special);
         saveg_write16(li->tag);
 
-        for (j = 0; j < 2; j++)
+        for (int j = 0; j < 2; j++)
         {
             if (li->sidenum[j] == NO_INDEX)
                 continue;
@@ -1032,7 +1024,6 @@ void P_ArchiveWorld(void)
 void P_UnArchiveWorld(void)
 {
     int         i;
-    int         j;
     sector_t    *sec;
     line_t      *li;
     side_t      *si;
@@ -1061,7 +1052,7 @@ void P_UnArchiveWorld(void)
         li->special = saveg_read16();
         li->tag = saveg_read16();
 
-        for (j = 0; j < 2; j++)
+        for (int j = 0; j < 2; j++)
         {
             if (li->sidenum[j] == NO_INDEX)
                 continue;
@@ -1086,11 +1077,8 @@ void P_UnArchiveWorld(void)
 //
 void P_ArchiveThinkers(void)
 {
-    thinker_t   *th;
-    int         i;
-
     // save off the current thinkers
-    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         saveg_write8(tc_mobj);
         saveg_write_pad();
@@ -1098,17 +1086,13 @@ void P_ArchiveThinkers(void)
     }
 
     // save off the bloodsplats
-    for (i = 0; i < numsectors; i++)
-    {
-        bloodsplat_t    *splat;
-
-        for (splat = sectors[i].splatlist; splat; splat = splat->snext)
+    for (int i = 0; i < numsectors; i++)
+        for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->snext)
         {
             saveg_write8(tc_bloodsplat);
             saveg_write_pad();
             saveg_write_bloodsplat_t(splat);
         }
-    }
 
     // add a terminating marker
     saveg_write8(tc_end);
@@ -1134,7 +1118,6 @@ void P_UnArchiveThinkers(void)
 {
     thinker_t   *currentthinker = thinkercap.next;
     thinker_t   *next;
-    int         i;
 
     // remove all the current thinkers
     while (currentthinker != &thinkercap)
@@ -1155,7 +1138,7 @@ void P_UnArchiveThinkers(void)
     P_InitThinkers();
 
     // remove all bloodsplats
-    for (i = 0; i < numsectors; i++)
+    for (int i = 0; i < numsectors; i++)
     {
         bloodsplat_t    *splat = sectors[i].splatlist;
 
@@ -1230,13 +1213,12 @@ void P_UnArchiveThinkers(void)
 // By Fabian Greffrath. See http://www.doomworld.com/vb/post/1294860.
 uint32_t P_ThinkerToIndex(thinker_t *thinker)
 {
-    thinker_t   *th;
     uint32_t    i = 0;
 
     if (!thinker)
         return 0;
 
-    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         i++;
 
@@ -1249,13 +1231,12 @@ uint32_t P_ThinkerToIndex(thinker_t *thinker)
 
 thinker_t *P_IndexToThinker(uint32_t index)
 {
-    thinker_t   *th;
     uint32_t    i = 0;
 
     if (!index)
         return NULL;
 
-    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
         if (++i == index)
             return th;
 
@@ -1264,9 +1245,7 @@ thinker_t *P_IndexToThinker(uint32_t index)
 
 void P_RestoreTargets(void)
 {
-    thinker_t   *th;
-
-    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 
@@ -1281,21 +1260,17 @@ void P_RestoreTargets(void)
 //
 void P_ArchiveSpecials(void)
 {
-    thinker_t   *th;
     int         i;
     button_t    *button_ptr;
 
     // save off the current thinkers
-    for (th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
+    for (thinker_t *th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
     {
         if (!th->function)
         {
-            dboolean        done_one = false;
+            dboolean    done_one = false;
 
-            ceilinglist_t   *ceilinglist;
-            platlist_t      *platlist;
-
-            for (ceilinglist = activeceilings; ceilinglist; ceilinglist = ceilinglist->next)
+            for (ceilinglist_t  *ceilinglist = activeceilings; ceilinglist; ceilinglist = ceilinglist->next)
                 if (ceilinglist->ceiling == (ceiling_t *)th)
                 {
                     saveg_write8(tc_ceiling);
@@ -1306,7 +1281,7 @@ void P_ArchiveSpecials(void)
                 }
 
             // [jeff-d] save height of moving platforms
-            for (platlist = activeplats; platlist; platlist = platlist->next)
+            for (platlist_t *platlist = activeplats; platlist; platlist = platlist->next)
                 if (platlist->plat == (plat_t *)th)
                 {
                     saveg_write8(tc_plat);
@@ -1596,21 +1571,19 @@ void P_UnArchiveSpecials(void)
 //
 void P_ArchiveMap(void)
 {
-    int i;
-
     saveg_write32(automapactive);
     saveg_write32(markpointnum);
     saveg_write32(pathpointnum);
 
     if (markpointnum)
-        for (i = 0; i < markpointnum; i++)
+        for (int i = 0; i < markpointnum; i++)
         {
             saveg_write32(markpoints[i].x);
             saveg_write32(markpoints[i].y);
         }
 
     if (pathpointnum)
-        for (i = 0; i < pathpointnum; i++)
+        for (int i = 0; i < pathpointnum; i++)
         {
             saveg_write32(pathpoints[i].x);
             saveg_write32(pathpoints[i].y);
@@ -1622,8 +1595,6 @@ void P_ArchiveMap(void)
 //
 void P_UnArchiveMap(void)
 {
-    int i;
-
     automapactive = saveg_read32();
     markpointnum = saveg_read32();
     pathpointnum = saveg_read32();
@@ -1639,7 +1610,7 @@ void P_UnArchiveMap(void)
             markpoints = Z_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
         }
 
-        for (i = 0; i < markpointnum; i++)
+        for (int i = 0; i < markpointnum; i++)
         {
             markpoints[i].x = saveg_read32();
             markpoints[i].y = saveg_read32();
@@ -1654,7 +1625,7 @@ void P_UnArchiveMap(void)
             pathpoints = Z_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
         }
 
-        for (i = 0; i < pathpointnum; i++)
+        for (int i = 0; i < pathpointnum; i++)
         {
             pathpoints[i].x = saveg_read32();
             pathpoints[i].y = saveg_read32();
