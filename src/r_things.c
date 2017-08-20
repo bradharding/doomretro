@@ -705,6 +705,10 @@ static void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
+    // quickly reject sprites with bad x ranges
+    if (x1 >= x2)
+        return;
+
     gzt = fz + topoffset;
 
     if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
@@ -848,6 +852,10 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 
     // off the left side
     if (x2 < 0)
+        return;
+
+    // quickly reject sprites with bad x ranges
+    if (x1 >= x2)
         return;
 
     // store information in a vissprite
@@ -1124,10 +1132,6 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
     int x1 = spr->x1;
     int x2 = spr->x2;
 
-    // [RH] Quickly reject sprites with bad x ranges.
-    if (x1 >= x2)
-        return;
-
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
     {
@@ -1243,10 +1247,6 @@ static void R_DrawSprite(vissprite_t *spr)
     int cliptop[SCREENWIDTH];
     int x1 = spr->x1;
     int x2 = spr->x2;
-
-    // [RH] Quickly reject sprites with bad x ranges.
-    if (x1 >= x2)
-        return;
 
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
