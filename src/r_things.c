@@ -1305,7 +1305,7 @@ static void R_DrawSprite(const vissprite_t *spr)
         int     phs = viewplayer->mo->subsector->sector->heightsec;
 
         if ((mh = sectors[spr->heightsec].interpfloorheight) > spr->gz
-            && (h = centeryfrac - FixedMul((mh -= viewz), scale)) >= 0 && (h >>= FRACBITS) < viewheight)
+            && (h = centeryfrac - FixedMul((mh -= viewz), spr->scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
             if (mh <= 0 || (phs != -1 && viewz > sectors[phs].interpfloorheight))
             {                          // clip bottom
@@ -1321,7 +1321,7 @@ static void R_DrawSprite(const vissprite_t *spr)
         }
 
         if ((mh = sectors[spr->heightsec].interpceilingheight) < spr->gzt
-            && (h = centeryfrac - FixedMul(mh - viewz, scale)) >= 0 && (h >>= FRACBITS) < viewheight)
+            && (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
             if (phs != -1 && viewz >= sectors[phs].interpceilingheight)
             {                         // clip bottom
