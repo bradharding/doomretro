@@ -254,7 +254,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->gear = saveg_read16();
     str->bloodsplats = saveg_read32();
     str->blood = saveg_read32();
-    str->interp = saveg_read32();
+    str->interpolate = saveg_read32();
     str->oldx = saveg_read32();
     str->oldy = saveg_read32();
     str->oldz = saveg_read32();
@@ -306,7 +306,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write16(str->gear);
     saveg_write32(str->bloodsplats);
     saveg_write32(str->blood);
-    saveg_write32(str->interp);
+    saveg_write32(str->interpolate);
     saveg_write32(str->oldx);
     saveg_write32(str->oldy);
     saveg_write32(str->oldz);

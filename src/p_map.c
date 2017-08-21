@@ -270,7 +270,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     thing->y = y;
 
     // [AM] Don't interpolate mobjs that pass through teleporters
-    thing->interp = false;
+    thing->interpolate = false;
 
     P_SetThingPosition(thing);
 

@@ -627,7 +627,7 @@ static void R_ProjectSprite(mobj_t *thing)
         return;
 
     // [AM] Interpolate between current and last position, if prudent.
-    if (thing->interp && interpolatesprites)
+    if (thing->interpolate && interpolatesprites)
     {
         fx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
         fy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
@@ -635,6 +635,7 @@ static void R_ProjectSprite(mobj_t *thing)
     }
     else
     {
+        thing->interpolate = true;
         fx = thing->x;
         fy = thing->y;
         fz = thing->z;
@@ -1165,17 +1166,17 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
 
         for (int i = r1; i <= r2; i++)
         {
-            if (bottom && clipbot[i] > ds->sprbottomclip[i])
-                clipbot[i] = ds->sprbottomclip[i];
-
             if (top && cliptop[i] < ds->sprtopclip[i])
                 cliptop[i] = ds->sprtopclip[i];
+
+            if (bottom && clipbot[i] > ds->sprbottomclip[i])
+                clipbot[i] = ds->sprbottomclip[i];
         }
     }
 
     // all clipping has been performed, so draw the bloodsplat
-    mfloorclip = clipbot;
     mceilingclip = cliptop;
+    mfloorclip = clipbot;
     R_DrawBloodSplatVisSprite(splat);
 }
 
@@ -1285,11 +1286,11 @@ static void R_DrawSprite(const vissprite_t *spr)
 
         for (int i = r1; i <= r2; i++)
         {
-            if (bottom && clipbot[i] > ds->sprbottomclip[i])
-                clipbot[i] = ds->sprbottomclip[i];
-
             if (top && cliptop[i] < ds->sprtopclip[i])
                 cliptop[i] = ds->sprtopclip[i];
+
+            if (bottom && clipbot[i] > ds->sprbottomclip[i])
+                clipbot[i] = ds->sprbottomclip[i];
         }
     }
 
@@ -1337,8 +1338,8 @@ static void R_DrawSprite(const vissprite_t *spr)
     }
 
     // all clipping has been performed, so draw the sprite
-    mfloorclip = clipbot;
     mceilingclip = cliptop;
+    mfloorclip = clipbot;
     R_DrawVisSprite(spr);
 }
 

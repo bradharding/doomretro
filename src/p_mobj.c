@@ -553,12 +553,8 @@ void P_MobjThinker(mobj_t *mobj)
     sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
-    if (!(player && mobj == player->mo))
+    if (!(player && mobj == player->mo) && mobj->interpolate)
     {
-        // Assume we can interpolate at the beginning
-        // of the tic.
-        mobj->interp = true;
-
         // Store starting position for mobj interpolation.
         mobj->oldx = mobj->x;
         mobj->oldy = mobj->y;
@@ -751,7 +747,9 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - height :
         BETWEEN(mobj->floorz, z, mobj->ceilingz - height)));
 
-    // [AM] Just in case interpolation is attempted...
+    if (!(mobj->flags & MF_MISSILE))
+        mobj->interpolate = true;
+
     mobj->oldx = mobj->x;
     mobj->oldy = mobj->y;
     mobj->oldz = mobj->z;

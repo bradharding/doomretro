@@ -384,7 +384,7 @@ void P_PlayerThink(player_t *player)
         return;
 
     // [AM] Assume we can interpolate at the beginning of the tic.
-    mo->interp = true;
+    mo->interpolate = true;
 
     // [AM] Store starting position for player interpolation.
     mo->oldx = mo->x;

@@ -12,6 +12,7 @@
 * The obituary in the console now correctly reflects when the player or a monster is telefragged.
 * Pressing <kbd>CTRL</kbd> + <kbd>&uarr;</kbd>/<kbd>&darr;</kbd> can now be used as well as <kbd>PGUP</kbd>/<kbd>PGDN</kbd> to scroll the output in the console up and down.
 * The `r_gamma` CVAR can now correctly be set to `2.0` in the console and at startup.
+* When the `vid_capfps` CVAR is a value other than `35`, rockets and plasma rifle and BFG-9000 projectiles are now slightly further away from the player when fired.
 
 ---
 

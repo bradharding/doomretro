@@ -323,17 +323,17 @@ typedef struct mobj_s
 
     // More list: links in sector (if needed)
     struct mobj_s       *snext;
-    struct mobj_s       **sprev;        // killough 8/10/98: change to ptr-to-ptr
+    struct mobj_s       **sprev;                // killough 8/10/98: change to ptr-to-ptr
 
     // More drawing info: to determine current sprite.
-    angle_t             angle;          // orientation
-    spritenum_t         sprite;         // used to find patch_t and flip value
-    int                 frame;          // might be ORed with FF_FULLBRIGHT
+    angle_t             angle;                  // orientation
+    spritenum_t         sprite;                 // used to find patch_t and flip value
+    int                 frame;                  // might be ORed with FF_FULLBRIGHT
 
     // Interaction info, by BLOCKMAP.
     // Links in blocks (if needed).
     struct mobj_s       *bnext;
-    struct mobj_s       **bprev;        // killough 8/11/98: change to ptr-to-ptr
+    struct mobj_s       **bprev;                // killough 8/11/98: change to ptr-to-ptr
 
     struct subsector_s  *subsector;
 
@@ -356,17 +356,17 @@ typedef struct mobj_s
     fixed_t             momz;
 
     mobjtype_t          type;
-    mobjinfo_t          *info;          // &mobjinfo[mobj->type]
+    mobjinfo_t          *info;                  // &mobjinfo[mobj->type]
 
-    int                 tics;           // state tic counter
+    int                 tics;                   // state tic counter
     state_t             *state;
     int                 flags;
     int                 flags2;
     int                 health;
 
     // Movement direction, movement generation (zig-zagging).
-    int                 movedir;        // 0-7
-    int                 movecount;      // when 0, select a new dir
+    int                 movedir;                // 0-7
+    int                 movecount;              // when 0, select a new dir
 
     // Thing being chased/attacked (or NULL),
     // also the originator for missiles.
@@ -402,14 +402,14 @@ typedef struct mobj_s
     // a linked list of sectors where this object appears
     struct msecnode_s   *touching_sectorlist;   // phares 3/14/98
 
-    short               gear;           // killough 11/98: used in torque simulation
+    short               gear;                   // killough 11/98: used in torque simulation
 
     int                 bloodsplats;
 
     int                 blood;
 
     // [AM] If true, ok to interpolate this tic.
-    dboolean            interp;
+    dboolean            interpolate;
 
     // [AM] Previous position of mobj before think.
     //      Used to interpolate between positions.

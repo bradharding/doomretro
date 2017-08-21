@@ -617,7 +617,7 @@ void R_StoreWallRange(const int start, const int stop)
             || viewz > sectors[frontsector->heightsec].interpfloorheight))
             worldbottom += animatedliquiddiff;
 
-        if (r_liquid_current && frontsector->heightsec == -1)
+        if (r_liquid_current)
         {
             frontsector->floor_xoffs = animatedliquidxoffs;
             frontsector->floor_yoffs = animatedliquidyoffs;
@@ -652,12 +652,11 @@ void R_StoreWallRange(const int start, const int stop)
         ds_p->maxscale = ds_p->scale1;
     }
 
-    // calculate texture boundaries
-    //  and decide if floor / ceiling marks are needed
+    // calculate texture boundaries and decide if floor/ceiling marks are needed
     midtexture = 0;
     toptexture = 0;
     bottomtexture = 0;
-    maskedtexture = 0;
+    maskedtexture = false;
     ds_p->maskedtexturecol = NULL;
 
     if (!backsector)
