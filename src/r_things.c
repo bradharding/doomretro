@@ -1125,12 +1125,12 @@ void R_DrawPlayerSprites(void)
 //
 // R_DrawBloodSplatSprite
 //
-static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
+static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
 {
-    int clipbot[SCREENWIDTH];
-    int cliptop[SCREENWIDTH];
-    int x1 = spr->x1;
-    int x2 = spr->x2;
+    int     cliptop[SCREENWIDTH];
+    int     clipbot[SCREENWIDTH];
+    const int       x1 = splat->x1;
+    const int       x2 = splat->x2;
 
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
@@ -1140,29 +1140,26 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
     }
 
     // Scan drawsegs from end to start for obscuring segs.
-    // The first drawseg that has a greater scale
-    //  is the clip seg.
+    // The first drawseg that has a greater scale is the clip seg.
     for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
     {
         int         r1;
         int         r2;
-        int         silhouette = ds->silhouette;
+        const int   silhouette = ds->silhouette;
         dboolean    bottom;
         dboolean    top;
 
-        // determine if the drawseg obscures the sprite
+        // determine if the drawseg obscures the bloodsplat
         if (ds->x1 > x2 || ds->x2 < x1 || !(silhouette & SIL_BOTH))
-            continue;       // does not cover sprite
+            continue;       // does not cover bloodsplat
 
-        if (ds->maxscale < spr->scale || (ds->minscale < spr->scale
-            && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
-            continue;       // seg is behind sprite
+        if (ds->maxscale < splat->scale || (ds->minscale < splat->scale
+            && !R_PointOnSegSide(splat->gx, splat->gy, ds->curline)))
+            continue;       // seg is behind bloodsplat
 
+        // clip this piece of the bloodsplat
         r1 = MAX(ds->x1, x1);
         r2 = MIN(ds->x2, x2);
-
-        // clip this piece of the sprite
-        // killough 3/27/98: optimized and made much shorter
         bottom = (silhouette & SIL_BOTTOM);
         top = (silhouette & SIL_TOP);
 
@@ -1176,10 +1173,10 @@ static void R_DrawBloodSplatSprite(bloodsplatvissprite_t *spr)
         }
     }
 
-    // all clipping has been performed, so draw the sprite
+    // all clipping has been performed, so draw the bloodsplat
     mfloorclip = clipbot;
     mceilingclip = cliptop;
-    R_DrawBloodSplatVisSprite(spr);
+    R_DrawBloodSplatVisSprite(splat);
 }
 
 static void msort(vissprite_t **s, vissprite_t **t, int n)
@@ -1241,12 +1238,12 @@ static void R_SortVisSprites(void)
     }
 }
 
-static void R_DrawSprite(vissprite_t *spr)
+static void R_DrawSprite(const vissprite_t *spr)
 {
-    int clipbot[SCREENWIDTH];
-    int cliptop[SCREENWIDTH];
-    int x1 = spr->x1;
-    int x2 = spr->x2;
+    int           cliptop[SCREENWIDTH];
+    int           clipbot[SCREENWIDTH];
+    const int     x1 = spr->x1;
+    const int     x2 = spr->x2;
 
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
@@ -1261,7 +1258,7 @@ static void R_DrawSprite(vissprite_t *spr)
     {
         int         r1;
         int         r2;
-        int         silhouette = ds->silhouette;
+        const int   silhouette = ds->silhouette;
         dboolean    bottom;
         dboolean    top;
 
@@ -1280,11 +1277,9 @@ static void R_DrawSprite(vissprite_t *spr)
             continue;
         }
 
+        // clip this piece of the sprite
         r1 = MAX(ds->x1, x1);
         r2 = MIN(ds->x2, x2);
-
-        // clip this piece of the sprite
-        // killough 3/27/98: optimized and made much shorter
         bottom = (silhouette & SIL_BOTTOM);
         top = (silhouette & SIL_TOP);
 
@@ -1310,7 +1305,7 @@ static void R_DrawSprite(vissprite_t *spr)
         int     phs = viewplayer->mo->subsector->sector->heightsec;
 
         if ((mh = sectors[spr->heightsec].interpfloorheight) > spr->gz
-            && (h = centeryfrac - FixedMul((mh -= viewz), spr->scale)) >= 0 && (h >>= FRACBITS) < viewheight)
+            && (h = centeryfrac - FixedMul((mh -= viewz), scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
             if (mh <= 0 || (phs != -1 && viewz > sectors[phs].interpfloorheight))
             {                          // clip bottom
@@ -1326,7 +1321,7 @@ static void R_DrawSprite(vissprite_t *spr)
         }
 
         if ((mh = sectors[spr->heightsec].interpceilingheight) < spr->gzt
-            && (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0 && (h >>= FRACBITS) < viewheight)
+            && (h = centeryfrac - FixedMul(mh - viewz, scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
             if (phs != -1 && viewz >= sectors[phs].interpceilingheight)
             {                         // clip bottom
