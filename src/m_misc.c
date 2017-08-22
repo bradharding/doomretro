@@ -256,6 +256,7 @@ char *M_GetAppDataFolder(void)
 #else
     // On Linux and OS X, if ../share/doomretro doesn't exist then we're dealing with
     // a portable installation, and we write doomretro.cfg to the executable directory.
+    char    *appdata = M_StaticAppData();
     char    *resourceFolder = M_StaticResourceFolder();
     DIR     *resourceDir = opendir(resourceFolder);
 
