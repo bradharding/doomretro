@@ -690,30 +690,27 @@ static void R_ProjectSprite(mobj_t *thing)
         topoffset = newspritetopoffset[lump];
     }
 
-    // calculate edges of the shape
-    width = spritewidth[lump];
-    tx -= (flip ? width - offset : offset);
     xscale = FixedDiv(centerxfrac, tz);
-    x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS;
-
-    // off the right side?
-    if (x1 > viewwidth)
-        return;
-
-    x2 = ((centerxfrac + FixedMul(tx + width, xscale) - FRACUNIT / 2) >> FRACBITS);
-
-    // off the left side
-    if (x2 < 0)
-        return;
-
-    // quickly reject sprites with bad x ranges
-    if (x1 >= x2)
-        return;
-
     gzt = fz + topoffset;
 
     if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
         || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
+        return;
+
+    // calculate edges of the shape
+    width = spritewidth[lump];
+    tx -= (flip ? width - offset : offset);
+
+    // off the right side?
+    if ((x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS) > viewwidth)
+        return;
+
+    // off the left side
+    if ((x2 = ((centerxfrac + FixedMul(tx + width, xscale) - FRACUNIT / 2) >> FRACBITS)) < 0)
+        return;
+
+    // quickly reject sprites with bad x ranges
+    if (x1 >= x2)
         return;
 
     // killough 3/27/98: exclude things totally separated
