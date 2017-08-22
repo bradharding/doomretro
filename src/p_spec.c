@@ -329,18 +329,18 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
 //
 dboolean P_IsSelfReferencingSector(sector_t *sec)
 {
-    int i;
+    const int   linecount = sec->linecount;
+    int         count = 0;
 
-    for (i = 0; i < sec->linecount; i++)
+    for (int i = 0; i < linecount; i++)
     {
         line_t  *line = sec->lines[i];
 
-        if (line->backsector && line->frontsector == line->backsector && (line->flags & ML_TWOSIDED)
-            && (line->flags & ML_DONTDRAW))
-            return true;
+        if (line->backsector && line->frontsector == line->backsector)
+            count++;
     }
 
-    return false;
+    return (count >= 2);
 }
 
 //
