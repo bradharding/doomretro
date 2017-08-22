@@ -104,8 +104,8 @@ extern dboolean         SHT2A0;
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int frame, char rot,
-    dboolean flipped)
+static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const unsigned int frame,
+    const char rot, const dboolean flipped)
 {
     unsigned int    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
 
@@ -175,7 +175,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
 
 static void R_InitSpriteDefs(void)
 {
-    size_t  numentries = lastspritelump - firstspritelump + 1;
+    const size_t    numentries = lastspritelump - firstspritelump + 1;
 
     struct
     {
@@ -221,7 +221,7 @@ static void R_InitSpriteDefs(void)
 
             do
             {
-                lumpinfo_t  *lump = lumpinfo[j + firstspritelump];
+                const lumpinfo_t    *lump = lumpinfo[j + firstspritelump];
 
                 // Fast portable comparison -- killough
                 // (using int pointer cast is nonportable):

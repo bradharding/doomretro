@@ -1719,7 +1719,7 @@ void I_SetGamma(float value)
 {
     gammaindex = 0;
 
-    while (gammalevels[gammaindex] != value && gammaindex < GAMMALEVELS)
+    while (gammaindex < GAMMALEVELS && gammalevels[gammaindex] != value)
         gammaindex++;
 
     if (gammaindex == GAMMALEVELS)

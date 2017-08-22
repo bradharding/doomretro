@@ -1160,11 +1160,6 @@ dboolean C_ValidateInput(const char *input)
 
 dboolean C_Responder(event_t *ev)
 {
-    static char autocompletetext[255];
-    static int  autocomplete = -1;
-    static int  inputhistory = -1;
-    static char currentinput[255];
-
     static const char *shiftxform =
     {
         "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+<_>?"
@@ -1176,6 +1171,10 @@ dboolean C_Responder(event_t *ev)
 
     if (ev->type == ev_keydown)
     {
+        static char autocompletetext[255];
+        static int  autocomplete = -1;
+        static int  inputhistory = -1;
+        static char currentinput[255];
         const int   key = ev->data1;
         char        ch = (char)ev->data2;
         int         i;

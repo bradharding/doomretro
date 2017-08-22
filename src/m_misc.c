@@ -235,12 +235,11 @@ static void M_FreeResourceFolder(void)
 char *M_GetAppDataFolder(void)
 {
     char    *executableFolder = M_GetExecutableFolder();
-    char    *appdata = M_StaticAppData();
 
 #if defined(_WIN32)
-
 #if !defined(PORTABILITY)
     // On Windows, store generated application files in <username>\DOOM Retro.
+    char    *appdata = M_StaticAppData();
     TCHAR   buffer[MAX_PATH];
 
     if (!appdata && SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buffer)))
@@ -367,7 +366,7 @@ void M_Shutdown(void)
 
 char *M_GetExecutableFolder(void)
 {
-    static dboolean pathset = false;
+    static dboolean pathset;
 #if defined(_WIN32)
     char            *folder = M_StaticPath();
     TCHAR           buffer[MAX_PATH];
@@ -393,10 +392,11 @@ char *M_GetExecutableFolder(void)
     return folder;
 #elif defined(__linux__)
     char            *exe = M_StaticPath();
-    static ssize_t  len = -1;
 
     if (!pathset)
     {
+        static ssize_t  len = -1;
+
         len = readlink("/proc/self/exe", exe, MAX_PATH - 1);
         pathset = true;
 
@@ -429,16 +429,17 @@ char *M_GetExecutableFolder(void)
     return exe;
 #elif defined(__FreeBSD__)
     char        *exe = M_StaticPath();
-    static int  getpath = -1;
     size_t      len = MAX_PATH;
-    int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1};
 
     if (!pathset)
     {
+        static int  getpath = -1;
+        int         mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1};
+
         getpath = sysctl(mib, 4, exe, &len, NULL, 0);
         pathset = true;
 
-        if (getpath == 0)
+        if (!getpath)
             M_StringCopy(exe, dirname(exe), len);
         else
             exe = ".";
