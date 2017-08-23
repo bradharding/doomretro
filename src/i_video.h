@@ -103,7 +103,7 @@ extern dboolean     message_clearable;
 
 extern int          gammaindex;
 extern float        r_gamma;
-extern float        gammalevels[GAMMALEVELS];
+extern const float  gammalevels[GAMMALEVELS];
 
 extern dboolean     blurred;
 extern dboolean     splashscreen;

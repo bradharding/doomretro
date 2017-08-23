@@ -129,7 +129,7 @@ static SDL_Rect     displays[MAXDISPLAYS];
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
 
-static int buttons[MAX_MOUSE_BUTTONS + 1] =
+static const int buttons[MAX_MOUSE_BUTTONS + 1] =
 {
     0x0000, 0x0001, 0x0004, 0x0002, 0x0008, 0x0010, 0x0020, 0x0040, 0x0080
 };
@@ -158,7 +158,7 @@ static dboolean     keys[UCHAR_MAX];
 
 static byte         gammatable[GAMMALEVELS][256];
 
-float gammalevels[GAMMALEVELS] =
+const float gammalevels[GAMMALEVELS] =
 {
     // Darker
     0.50f, 0.55f, 0.60f, 0.65f, 0.70f, 0.75f, 0.80f, 0.85f, 0.90f, 0.95f,
@@ -238,7 +238,7 @@ static void SetShowCursor(dboolean show)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-static int translatekey[] =
+static const int translatekey[] =
 {
     0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
     's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER,

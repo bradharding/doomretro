@@ -709,26 +709,26 @@ int P_FindLineFromLineTag(const line_t *line, int start)
 // Hash the sector tags across the sectors and linedefs.
 static void P_InitTagLists(void)
 {
-    for (int i = numsectors; --i >= 0;)     // Initially make all slots empty.
+    for (int i = numsectors; --i >= 0;)           // Initially make all slots empty.
         sectors[i].firsttag = -1;
 
-    for (int i = numsectors; --i >= 0;)     // Proceed from last to first sector
-    {                                   // so that lower sectors appear first
+    for (int i = numsectors; --i >= 0;)           // Proceed from last to first sector
+    {                                             // so that lower sectors appear first
         int j = (unsigned int)sectors[i].tag % (unsigned int)numsectors;    // Hash func
 
-        sectors[i].nexttag = sectors[j].firsttag;     // Prepend sector to chain
+        sectors[i].nexttag = sectors[j].firsttag; // Prepend sector to chain
         sectors[j].firsttag = i;
     }
 
     // killough 4/17/98: same thing, only for linedefs
-    for (int i = numlines; --i >= 0;)       // Initially make all slots empty.
+    for (int i = numlines; --i >= 0;)             // Initially make all slots empty.
         lines[i].firsttag = -1;
 
-    for (int i = numlines; --i >= 0;)       // Proceed from last to first linedef
-    {                                   // so that lower linedefs appear first
+    for (int i = numlines; --i >= 0;)             // Proceed from last to first linedef
+    {                                             // so that lower linedefs appear first
         int j = (unsigned int)lines[i].tag % (unsigned int)numlines;        // Hash func
 
-        lines[i].nexttag = lines[j].firsttag;   // Prepend linedef to chain
+        lines[i].nexttag = lines[j].firsttag;     // Prepend linedef to chain
         lines[j].firsttag = i;
     }
 }
@@ -739,11 +739,14 @@ static void P_InitTagLists(void)
 int P_FindMinSurroundingLight(sector_t *sec, int min)
 {
     const int   linecount = sec->linecount;
-    sector_t    *check;
 
     for (int i = 0; i < linecount; i++)
-        if ((check = getNextSector(sec->lines[i], sec)) && check->lightlevel < min)
+    {
+        sector_t    *check = getNextSector(sec->lines[i], sec);
+
+        if (check && check->lightlevel < min)
             min = check->lightlevel;
+    }
 
     return min;
 }

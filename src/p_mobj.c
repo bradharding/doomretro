@@ -747,9 +747,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->z = (z == ONFLOORZ ? mobj->floorz : (z == ONCEILINGZ ? mobj->ceilingz - height :
         BETWEEN(mobj->floorz, z, mobj->ceilingz - height)));
 
-    if (!(mobj->flags & MF_MISSILE))
-        mobj->interpolate = true;
-
     mobj->oldx = mobj->x;
     mobj->oldy = mobj->y;
     mobj->oldz = mobj->z;
@@ -1433,6 +1430,8 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
         puffcount = 0;
         th->nudge = 1;
     }
+
+    th->interpolate = false;
 
     P_CheckMissileSpawn(th);
 
