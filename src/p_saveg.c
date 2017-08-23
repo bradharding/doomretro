@@ -1607,7 +1607,7 @@ void P_UnArchiveMap(void)
         while (markpointnum >= markpointnum_max)
         {
             markpointnum_max = (markpointnum_max ? (markpointnum_max << 1) : 16);
-            markpoints = Z_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
+            markpoints = I_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
         }
 
         for (int i = 0; i < markpointnum; i++)
@@ -1622,7 +1622,7 @@ void P_UnArchiveMap(void)
         while (pathpointnum >= pathpointnum_max)
         {
             pathpointnum_max = (pathpointnum_max ? (pathpointnum_max << 1) : 16);
-            pathpoints = Z_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
+            pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
         }
 
         for (int i = 0; i < pathpointnum; i++)

@@ -36,10 +36,10 @@
 ========================================================================
 */
 
+#include "i_system.h"
 #include "m_bbox.h"
 #include "p_local.h"
 #include "p_setup.h"
-#include "z_zone.h"
 
 extern msecnode_t   *sector_list;   // phares 3/16/98
 
@@ -420,7 +420,7 @@ static void check_intercept(void)
     if (offset >= num_intercepts)
     {
         num_intercepts = (num_intercepts ? num_intercepts * 2 : 128);
-        intercepts = Z_Realloc(intercepts, sizeof(*intercepts) * num_intercepts);
+        intercepts = I_Realloc(intercepts, sizeof(*intercepts) * num_intercepts);
         intercept_p = intercepts + offset;
     }
 }

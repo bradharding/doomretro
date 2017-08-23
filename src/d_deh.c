@@ -42,6 +42,7 @@
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
+#include "i_system.h"
 #include "m_cheat.h"
 #include "m_misc.h"
 #include "p_local.h"
@@ -3384,7 +3385,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
                 C_Output("* increased buffer from to %i for buffer size %i", maxstrlen,
                 (int)strlen(inbuffer));
 
-            holdstring = Z_Realloc(holdstring, maxstrlen * sizeof(*holdstring));
+            holdstring = I_Realloc(holdstring, maxstrlen * sizeof(*holdstring));
         }
 
         // concatenate the whole buffer if continuation or the value if first

@@ -193,7 +193,7 @@ wadfile_t *W_AddFile(char *filename, dboolean automatic)
 
     startlump = numlumps;
     numlumps += header.numlumps;
-    lumpinfo = Z_Realloc(lumpinfo, numlumps * sizeof(lumpinfo_t *));
+    lumpinfo = I_Realloc(lumpinfo, numlumps * sizeof(lumpinfo_t *));
 
     filerover = fileinfo;
 

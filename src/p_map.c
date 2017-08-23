@@ -37,6 +37,7 @@
 */
 
 #include "doomstat.h"
+#include "i_system.h"
 #include "m_bbox.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -401,7 +402,7 @@ static dboolean PIT_CheckLine(line_t *ld)
         if (numspechit >= spechit_max)
         {
             spechit_max = (spechit_max ? spechit_max * 2 : 8);
-            spechit = Z_Realloc(spechit, sizeof(*spechit) * spechit_max);
+            spechit = I_Realloc(spechit, sizeof(*spechit) * spechit_max);
         }
 
         spechit[numspechit++] = ld;

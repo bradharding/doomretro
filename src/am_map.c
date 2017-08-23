@@ -43,6 +43,7 @@
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_gamepad.h"
+#include "i_system.h"
 #include "i_timer.h"
 #include "m_bbox.h"
 #include "m_misc.h"
@@ -597,7 +598,7 @@ static void AM_addMark(void)
     if (markpointnum >= markpointnum_max)
     {
         markpointnum_max = (markpointnum_max ? (markpointnum_max << 1) : 16);
-        markpoints = Z_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
+        markpoints = I_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
     }
 
     markpoints[markpointnum].x = x;
@@ -648,7 +649,7 @@ void AM_addToPath(void)
     if (pathpointnum >= pathpointnum_max)
     {
         pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
-        pathpoints = Z_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
+        pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
     }
 
     pathpoints[pathpointnum].x = x;

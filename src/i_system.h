@@ -57,4 +57,6 @@ void I_Error(char *error, ...);
 void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);
 
+void *I_Realloc(void *ptr, size_t size);
+
 #endif

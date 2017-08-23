@@ -86,7 +86,7 @@ void P_InitSwitchList(void)
     for (int i = 0; ; i++)
     {
         if (index + 1 >= max_numswitches)
-            switchlist = Z_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = (max_numswitches ?
+            switchlist = I_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = (max_numswitches ?
                 max_numswitches * 2 : 8)));
 
         if (SHORT(alphSwitchList[i].episode) <= episode)    // jff 5/11/98 endianness

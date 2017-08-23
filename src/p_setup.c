@@ -1609,9 +1609,9 @@ static void P_CreateBlockMap(void)
                 bmap_t  *bp = &bmap[b];
 
                 // Increase size of allocated list if necessary
-                if (bp->n >= bp->nalloc && !(bp->list = Z_Realloc(bp->list,
-                    (bp->nalloc = bp->nalloc ? bp->nalloc * 2 : 8) * sizeof(*bp->list))))
-                    I_Error("Unable to create blockmap.");
+                if (bp->n >= bp->nalloc)
+                    bp->list = I_Realloc(bp->list, (bp->nalloc = bp->nalloc ? bp->nalloc * 2 : 8)
+                        * sizeof(*bp->list));
 
                 // Add linedef to end of list
                 bp->list[bp->n++] = i;

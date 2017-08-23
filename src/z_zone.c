@@ -117,18 +117,6 @@ void *Z_Calloc(size_t n1, size_t n2, int32_t tag, void **user)
     return ((n1 *= n2) ? memset(Z_Malloc(n1, tag, user), 0, n1) : NULL);
 }
 
-void *Z_Realloc(void *ptr, size_t size)
-{
-    void    *newp = realloc(ptr, size);
-
-    if (!newp && size)
-        I_Error("Z_Realloc: Failure trying to reallocate %lu bytes", (unsigned long)size);
-    else
-        ptr = newp;
-
-    return ptr;
-}
-
 void Z_Free(void *ptr)
 {
     memblock_t  *block = (memblock_t *)((char *)ptr - headersize);

@@ -36,9 +36,9 @@
 ========================================================================
 */
 
+#include "i_system.h"
 #include "doomstat.h"
 #include "p_local.h"
-#include "z_zone.h"
 
 static unsigned int maxdrawsegs;
 
@@ -550,7 +550,7 @@ void R_StoreWallRange(const int start, const int stop)
         const unsigned int  pos = ds_p - drawsegs;
         const unsigned int  newmax = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
 
-        drawsegs = Z_Realloc(drawsegs, newmax * sizeof(*drawsegs));
+        drawsegs = I_Realloc(drawsegs, newmax * sizeof(*drawsegs));
         ds_p = drawsegs + pos;
         maxdrawsegs = newmax;
     }
@@ -587,7 +587,7 @@ void R_StoreWallRange(const int start, const int stop)
                 maxopenings = (maxopenings ? maxopenings * 2 : MAXOPENINGS);
             while (need > maxopenings);
 
-            openings = Z_Realloc(openings, maxopenings * sizeof(*openings));
+            openings = I_Realloc(openings, maxopenings * sizeof(*openings));
             lastopening = openings + pos;
 
             // jff 8/9/98 borrowed fix for openings from ZDOOM1.14

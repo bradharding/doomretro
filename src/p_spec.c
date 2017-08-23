@@ -194,7 +194,7 @@ void P_SetLiquids(void)
         {
             size_t  newmax = (maxanims ? maxanims * 2 : MAXANIMS);
 
-            anims = Z_Realloc(anims, newmax * sizeof(*anims));
+            anims = I_Realloc(anims, newmax * sizeof(*anims));
             lastanim = anims + maxanims;
             maxanims = newmax;
         }

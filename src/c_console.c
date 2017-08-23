@@ -49,6 +49,7 @@
 #include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
+#include "i_system.h"
 #include "i_timer.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -60,7 +61,6 @@
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 #define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 11 : 27)
 #define CONSOLETEXTX            10
@@ -178,7 +178,7 @@ void C_Print(const stringtype_t type, const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
+    console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = type;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -198,7 +198,7 @@ void C_Input(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
+    console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = inputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -239,7 +239,7 @@ void C_Output(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
+    console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -256,7 +256,7 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
+    console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
@@ -275,7 +275,7 @@ void C_Warning(const char *string, ...)
 
     if (consolestrings && !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
-        console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
+        console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = warningstring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -313,7 +313,7 @@ void C_PlayerMessage(const char *string, ...)
     }
     else
     {
-        console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
+        console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = playermessagestring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -352,7 +352,7 @@ void C_Obituary(const char *string, ...)
     }
     else
     {
-        console = Z_Realloc(console, (consolestrings + 1) * sizeof(*console));
+        console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = obituarystring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
@@ -364,7 +364,7 @@ void C_Obituary(const char *string, ...)
 
 static void C_AddToUndoHistory(void)
 {
-    undohistory = Z_Realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));
+    undohistory = I_Realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));
     undohistory[undolevels].input = strdup(consoleinput);
     undohistory[undolevels].caretpos = caretpos;
     undohistory[undolevels].selectstart = selectstart;

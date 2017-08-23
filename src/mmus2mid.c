@@ -43,8 +43,8 @@
 #include <sys/stat.h>
 #include <inttypes.h>   // haleyjd
 
+#include "i_system.h"
 #include "mmus2mid.h"
-#include "z_zone.h"
 
 // some macros to decode mus event bit fields
 #define last(e)         ((UBYTE)((e) & 0x80))
@@ -155,9 +155,8 @@ static dboolean TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
             TRACKBUFFERSIZE);
 
         // attempt to reallocate
-        if (!(mididata->track[MIDItrack].data = Z_Realloc(mididata->track[MIDItrack].data,
-            sizeof(unsigned char *) * track[MIDItrack].alloced)))
-            return false;
+        mididata->track[MIDItrack].data = I_Realloc(mididata->track[MIDItrack].data,
+            sizeof(unsigned char *) * track[MIDItrack].alloced);
     }
 
     mididata->track[MIDItrack].data[pos] = byte;
@@ -379,9 +378,8 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
     mididata->divisions = 89;
 
     // allocate for midi tempo/key track, allow for end of track
-    if (!(mididata->track[0].data = Z_Realloc(mididata->track[0].data,
-        sizeof(unsigned char *) * (sizeof(midikey) + sizeof(miditempo) + 4))))
-        return false;
+    mididata->track[0].data = I_Realloc(mididata->track[0].data,
+        sizeof(unsigned char *) * (sizeof(midikey) + sizeof(miditempo) + 4));
 
     // key C major
     memcpy(mididata->track[0].data, midikey, sizeof(midikey));
@@ -586,9 +584,8 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 
             // jff 1/23/98 fix failure to set data NULL, len 0 for unused tracks
             // shorten allocation to proper length (important for Allegro)
-            if (!(mididata->track[i].data = Z_Realloc(mididata->track[i].data,
-                sizeof(unsigned char *) * mididata->track[i].len)))
-                return false;
+            mididata->track[i].data = I_Realloc(mididata->track[i].data,
+                sizeof(unsigned char *) * mididata->track[i].len);
         }
         else
         {

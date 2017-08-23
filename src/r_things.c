@@ -350,7 +350,7 @@ static vissprite_t *R_NewVisSprite(void)
     if (num_vissprite >= num_vissprite_alloc)
     {
         num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : 128);
-        vissprites = Z_Realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
+        vissprites = I_Realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
     }
 
     return vissprites + num_vissprite++;
