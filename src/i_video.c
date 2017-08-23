@@ -934,7 +934,7 @@ void I_UpdateBlitFunc(dboolean shake)
         blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
             (nearestlinear ? I_Blit_NearestLinear : I_Blit));
 
-    mapblitfunc = (am_external ? (nearestlinear ? I_Blit_Automap : I_Blit_Automap_NearestLinear) : nullfunc);
+    mapblitfunc = (mapwindow ? (nearestlinear ? I_Blit_Automap : I_Blit_Automap_NearestLinear) : nullfunc);
 }
 
 //
