@@ -110,6 +110,7 @@ byte                *mapscreen;
 SDL_Window          *mapwindow;
 SDL_Renderer        *maprenderer;
 static SDL_Texture  *maptexture;
+static SDL_Texture  *maptexture_upscaled;
 static SDL_Surface  *mapsurface;
 static SDL_Surface  *mapbuffer;
 static SDL_Palette  *mappalette;
@@ -887,6 +888,43 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_RenderPresent(renderer);
 }
 
+void I_Blit_Automap(void)
+{
+    SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
+    SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
+    SDL_RenderClear(maprenderer);
+    SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
+
+#if defined(_WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
+    SDL_RenderPresent(maprenderer);
+}
+
+void I_Blit_Automap_NearestLinear(void)
+{
+    UpdateGrab();
+
+    SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
+    SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
+    SDL_RenderClear(maprenderer);
+    SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
+    SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
+    SDL_SetRenderTarget(maprenderer, NULL);
+    SDL_RenderCopy(maprenderer, maptexture_upscaled, NULL, NULL);
+
+#if defined(_WIN32)
+    if (CapFPSEvent)
+        WaitForSingleObject(CapFPSEvent, 1000);
+#endif
+
+    SDL_RenderPresent(maprenderer);
+}
+
+static void nullfunc(void) {}
+
 void I_UpdateBlitFunc(dboolean shake)
 {
     if (shake && !software)
@@ -895,18 +933,9 @@ void I_UpdateBlitFunc(dboolean shake)
     else
         blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
             (nearestlinear ? I_Blit_NearestLinear : I_Blit));
-}
 
-void I_Blit_Automap(void)
-{
-    SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
-    SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
-    SDL_RenderClear(maprenderer);
-    SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
-    SDL_RenderPresent(maprenderer);
+    mapblitfunc = (am_external ? (nearestlinear ? I_Blit_Automap : I_Blit_Automap_NearestLinear) : nullfunc);
 }
-
-static void nullfunc(void) {}
 
 //
 // I_ReadScreen
@@ -962,6 +991,7 @@ void I_CreateExternalAutomap(dboolean output)
 {
     Uint32  rmask, gmask, bmask, amask;
     int     bpp;
+    int     flags = SDL_RENDERER_TARGETTEXTURE;
 
     mapscreen = *screens;
     mapblitfunc = nullfunc;
@@ -987,7 +1017,10 @@ void I_CreateExternalAutomap(dboolean output)
         SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP)))
         I_SDLError("SDL_CreateWindow");
 
-    if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
+    if (vid_vsync)
+        flags |= SDL_RENDERER_PRESENTVSYNC;
+
+    if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, flags)))
         I_SDLError("SDL_CreateRenderer");
 
     if (SDL_RenderSetLogicalSize(maprenderer, SCREENWIDTH, SCREENHEIGHT) < 0)
@@ -996,11 +1029,9 @@ void I_CreateExternalAutomap(dboolean output)
     if (!(mapsurface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface");
 
-    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask,
-        &amask))
+    if (SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(mapwindow), &bpp, &rmask, &gmask, &bmask, &amask))
     {
-        if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask,
-            amask)))
+        if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, rmask, gmask, bmask, amask)))
             I_SDLError("SDL_CreateRGBSurface");
     }
     else if (!(mapbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0)))
@@ -1008,9 +1039,22 @@ void I_CreateExternalAutomap(dboolean output)
 
     SDL_FillRect(mapbuffer, NULL, 0);
 
-    if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
-        SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+    if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
+        SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture");
+
+    if (nearestlinear)
+    {
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
+
+        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
+            SDL_TEXTUREACCESS_TARGET, upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
+            I_SDLError("SDL_CreateTexture");
+
+        mapblitfunc = I_Blit_Automap_NearestLinear;
+    }
+    else
+        mapblitfunc = I_Blit_Automap;
 
     if (!(mappalette = SDL_AllocPalette(256)))
         I_SDLError("SDL_AllocPalette");
@@ -1022,7 +1066,6 @@ void I_CreateExternalAutomap(dboolean output)
         I_SDLError("SDL_SetPaletteColors");
 
     mapscreen = mapsurface->pixels;
-    mapblitfunc = I_Blit_Automap;
     map_rect.w = SCREENWIDTH;
     map_rect.h = SCREENHEIGHT - SBARHEIGHT;
 
@@ -1046,6 +1089,7 @@ void I_DestroyExternalAutomap(void)
     SDL_FreeSurface(mapsurface);
     SDL_FreeSurface(mapbuffer);
     SDL_DestroyTexture(maptexture);
+    SDL_DestroyTexture(maptexture_upscaled);
     SDL_DestroyRenderer(maprenderer);
     SDL_DestroyWindow(mapwindow);
     mapwindow = NULL;
