@@ -1158,6 +1158,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->tics = MAX(1, st->tics - (M_Random() & 3));
     th->sprite = st->sprite;
     th->frame = st->frame;
+    th->interpolate = true;
 
     th->colfunc = info->colfunc;
 
@@ -1238,6 +1239,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->tics = MAX(1, st->tics - (M_Random() & 3));
         th->sprite = st->sprite;
         th->frame = st->frame;
+        th->interpolate = true;
 
         th->colfunc = info->colfunc;
         th->blood = blood;
