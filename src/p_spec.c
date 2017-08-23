@@ -178,17 +178,16 @@ void P_InitPicAnims(void)
 //
 void P_SetLiquids(void)
 {
-    int         i;
     int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
 
-    for (i = 0; i < numflats; i++)
+    for (int i = 0; i < numflats; i++)
         isliquid[i] = false;
 
     // Init animation
     lastanim = anims;
 
-    for (i = 0; animdefs[i].istexture != -1; i++)
+    for (int i = 0; animdefs[i].istexture != -1; i++)
     {
         // 1/11/98 killough -- removed limit by array-doubling
         if (lastanim >= anims + maxanims)
@@ -214,8 +213,6 @@ void P_SetLiquids(void)
         }
         else
         {
-            int j;
-
             if (R_CheckFlatNumForName(animdefs[i].startname) == -1)
                 continue;
 
@@ -225,7 +222,7 @@ void P_SetLiquids(void)
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
             lastanim->istexture = false;
 
-            for (j = 0; j < lastanim->numpics; j++)
+            for (int j = 0; j < lastanim->numpics; j++)
                 isliquid[lastanim->basepic + j] = true;
         }
 
@@ -262,7 +259,7 @@ void P_SetLiquids(void)
 
     numliquid = 0;
 
-    for (i = 0; i < numsectors; i++)
+    for (int i = 0; i < numsectors; i++)
         if (isliquid[sectors[i].floorpic])
         {
             sectors[i].isliquid = true;
@@ -349,13 +346,16 @@ dboolean P_IsSelfReferencingSector(sector_t *sec)
 //
 fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 {
-    int         i;
-    sector_t    *other;
+    const int   linecount = sec->linecount;
     fixed_t     floor = sec->floorheight;
 
-    for (i = 0; i < sec->linecount; i++)
-        if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight < floor)
+    for (int i = 0; i < linecount; i++)
+    {
+        sector_t    *other = getNextSector(sec->lines[i], sec);
+
+        if (other && other->floorheight < floor)
             floor = other->floorheight;
+    }
 
     return floor;
 }
@@ -366,13 +366,16 @@ fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 //
 fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 {
-    int         i;
-    sector_t    *other;
+    const int   linecount = sec->linecount;
     fixed_t     floor = -32000 * FRACUNIT;
 
-    for (i = 0; i < sec->linecount; i++)
-        if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight > floor)
+    for (int i = 0; i < linecount; i++)
+    {
+        sector_t    *other = getNextSector(sec->lines[i], sec);
+
+        if (other && other->floorheight > floor)
             floor = other->floorheight;
+    }
 
     return floor;
 }
@@ -383,21 +386,27 @@ fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 //
 fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
 {
-    int         i;
-    sector_t    *other;
+    const int   linecount = sec->linecount;
 
-    for (i = 0; i < sec->linecount; i++)
-        if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight > currentheight)
+    for (int i = 0; i < linecount; i++)
+    {
+        sector_t    *other = getNextSector(sec->lines[i], sec);
+
+        if (other && other->floorheight > currentheight)
         {
             int height = other->floorheight;
 
-            while (++i < sec->linecount)
-                if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight < height
-                    && other->floorheight > currentheight)
+            while (++i < linecount)
+            {
+                other = getNextSector(sec->lines[i], sec);
+
+                if (other && other->floorheight < height && other->floorheight > currentheight)
                     height = other->floorheight;
+            }
 
             return height;
         }
+    }
 
     return currentheight;
 }
@@ -408,21 +417,27 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
 //
 fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 {
-    int         i;
-    sector_t    *other;
+    const int   linecount = sec->linecount;
 
-    for (i = 0; i < sec->linecount; i++)
-        if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight < currentheight)
+    for (int i = 0; i < linecount; i++)
+    {
+        sector_t    *other = getNextSector(sec->lines[i], sec);
+
+        if (other && other->floorheight < currentheight)
         {
             int height = other->floorheight;
 
-            while (++i < sec->linecount)
-                if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight > height
-                    && other->floorheight < currentheight)
+            while (++i < linecount)
+            {
+                other = getNextSector(sec->lines[i], sec);
+
+                if (other && other->floorheight > height && other->floorheight < currentheight)
                     height = other->floorheight;
+            }
 
             return height;
         }
+    }
 
     return currentheight;
 }
@@ -439,21 +454,27 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 
 fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 {
-    int         i;
-    sector_t    *other;
+    const int   linecount = sec->linecount;
 
-    for (i = 0; i < sec->linecount; i++)
-        if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight < currentheight)
+    for (int i = 0; i < linecount; i++)
+    {
+        sector_t    *other = getNextSector(sec->lines[i], sec);
+
+        if (other && other->ceilingheight < currentheight)
         {
             int height = other->ceilingheight;
 
-            while (++i < sec->linecount)
-                if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight > height
-                    && other->ceilingheight < currentheight)
+            while (++i < linecount)
+            {
+                other = getNextSector(sec->lines[i], sec);
+
+                if (other && other->ceilingheight > height && other->ceilingheight < currentheight)
                     height = other->ceilingheight;
+            }
 
             return height;
         }
+    }
 
     return currentheight;
 }
@@ -470,21 +491,27 @@ fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 
 fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight)
 {
-    int         i;
-    sector_t    *other;
+    const int   linecount = sec->linecount;
 
-    for (i = 0; i < sec->linecount; i++)
-        if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight > currentheight)
+    for (int i = 0; i < linecount; i++)
+    {
+        sector_t    *other = getNextSector(sec->lines[i], sec);
+
+        if (other && other->ceilingheight > currentheight)
         {
             int height = other->ceilingheight;
 
-            while (++i < sec->linecount)
-                if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight < height
-                    && other->ceilingheight > currentheight)
+            while (++i < linecount)
+            {
+                other = getNextSector(sec->lines[i], sec);
+
+                if (other && other->ceilingheight < height && other->ceilingheight > currentheight)
                     height = other->ceilingheight;
+            }
 
             return height;
         }
+    }
 
     return currentheight;
 }
@@ -494,13 +521,16 @@ fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight)
 //
 fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 {
-    int         i;
-    sector_t    *other;
+    const int   linecount = sec->linecount;
     fixed_t     height = 32000 * FRACUNIT;
 
-    for (i = 0; i < sec->linecount; i++)
-        if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight < height)
+    for (int i = 0; i < linecount; i++)
+    {
+        sector_t    *other = getNextSector(sec->lines[i], sec);
+
+        if (other && other->ceilingheight < height)
             height = other->ceilingheight;
+    }
 
     return height;
 }
@@ -510,13 +540,16 @@ fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 //
 fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 {
-    int         i;
-    sector_t    *other;
+    const int   linecount = sec->linecount;
     fixed_t     height = -32000 * FRACUNIT;
 
-    for (i = 0; i < sec->linecount; i++)
-        if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight > height)
+    for (int i = 0; i < linecount; i++)
+    {
+        sector_t    *other = getNextSector(sec->lines[i], sec);
+
+        if (other && other->ceilingheight > height)
             height = other->ceilingheight;
+    }
 
     return height;
 }
@@ -536,20 +569,18 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 fixed_t P_FindShortestTextureAround(int secnum)
 {
     const sector_t  *sec = &sectors[secnum];
-    int             i;
+    const int       linecount = sec->linecount;
     int             minsize = 32000 * FRACUNIT;
 
-    for (i = 0; i < sec->linecount; i++)
+    for (int i = 0; i <linecount; i++)
         if (twoSided(secnum, i))
         {
             const side_t    *side;
 
-            if ((side = getSide(secnum, i, 0))->bottomtexture > 0
-                && textureheight[side->bottomtexture] < minsize)
+            if ((side = getSide(secnum, i, 0))->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
                 minsize = textureheight[side->bottomtexture];
 
-            if ((side = getSide(secnum, i, 1))->bottomtexture > 0
-                && textureheight[side->bottomtexture] < minsize)
+            if ((side = getSide(secnum, i, 1))->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
                 minsize = textureheight[side->bottomtexture];
         }
 
@@ -571,10 +602,10 @@ fixed_t P_FindShortestTextureAround(int secnum)
 fixed_t P_FindShortestUpperAround(int secnum)
 {
     const sector_t  *sec = &sectors[secnum];
-    int             i;
+    const int       linecount = sec->linecount;
     int             minsize = 32000 * FRACUNIT;
 
-    for (i = 0; i < sec->linecount; i++)
+    for (int i = 0; i < linecount; i++)
         if (twoSided(secnum, i))
         {
             const side_t    *side;
@@ -607,10 +638,9 @@ fixed_t P_FindShortestUpperAround(int secnum)
 sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
 {
     sector_t    *sec = &sectors[secnum];
-    int         i;
-    int         linecount = sec->linecount;
+    const int   linecount = sec->linecount;
 
-    for (i = 0; i < linecount; i++)
+    for (int i = 0; i < linecount; i++)
         if (twoSided(secnum, i) && (sec = getSector(secnum, i, getSide(secnum, i, 0)->sector
             - sectors == secnum))->floorheight == floordestheight)
             return sec;
@@ -637,10 +667,9 @@ sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
 sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
 {
     sector_t    *sec = &sectors[secnum];
-    int         i;
-    int         linecount = sec->linecount;
+    const int   linecount = sec->linecount;
 
-    for (i = 0; i < linecount; i++)
+    for (int i = 0; i < linecount; i++)
         if (twoSided(secnum, i) && (sec = getSector(secnum, i, getSide(secnum, i, 0)->sector
             - sectors == secnum))->ceilingheight == ceildestheight)
             return sec;
@@ -680,12 +709,10 @@ int P_FindLineFromLineTag(const line_t *line, int start)
 // Hash the sector tags across the sectors and linedefs.
 static void P_InitTagLists(void)
 {
-    int i;
-
-    for (i = numsectors; --i >= 0;)     // Initially make all slots empty.
+    for (int i = numsectors; --i >= 0;)     // Initially make all slots empty.
         sectors[i].firsttag = -1;
 
-    for (i = numsectors; --i >= 0;)     // Proceed from last to first sector
+    for (int i = numsectors; --i >= 0;)     // Proceed from last to first sector
     {                                   // so that lower sectors appear first
         int j = (unsigned int)sectors[i].tag % (unsigned int)numsectors;    // Hash func
 
@@ -694,10 +721,10 @@ static void P_InitTagLists(void)
     }
 
     // killough 4/17/98: same thing, only for linedefs
-    for (i = numlines; --i >= 0;)       // Initially make all slots empty.
+    for (int i = numlines; --i >= 0;)       // Initially make all slots empty.
         lines[i].firsttag = -1;
 
-    for (i = numlines; --i >= 0;)       // Proceed from last to first linedef
+    for (int i = numlines; --i >= 0;)       // Proceed from last to first linedef
     {                                   // so that lower linedefs appear first
         int j = (unsigned int)lines[i].tag % (unsigned int)numlines;        // Hash func
 
@@ -709,13 +736,13 @@ static void P_InitTagLists(void)
 //
 // Find minimum light from an adjacent sector
 //
-int P_FindMinSurroundingLight(sector_t *sector, int min)
+int P_FindMinSurroundingLight(sector_t *sec, int min)
 {
-    int         i;
+    const int   linecount = sec->linecount;
     sector_t    *check;
 
-    for (i = 0; i < sector->linecount; i++)
-        if ((check = getNextSector(sector->lines[i], sector)) && check->lightlevel < min)
+    for (int i = 0; i < linecount; i++)
+        if ((check = getNextSector(sec->lines[i], sec)) && check->lightlevel < min)
             min = check->lightlevel;
 
     return min;
@@ -1966,8 +1993,6 @@ void P_PlayerInSpecialSector(player_t *player)
     // jff add if to handle old vs generalized types
     if (sector->special < 32) // regular sector specials
     {
-        int i;
-
         switch (sector->special)
         {
             case DamageNegative5Or10PercentHealth:
@@ -1996,7 +2021,7 @@ void P_PlayerInSpecialSector(player_t *player)
                 P_SecretFound(player);
                 sector->special = 0;
 
-                for (i = 0; i < sector->linecount; i++)
+                for (int i = 0; i < sector->linecount; i++)
                     sector->lines[i]->flags &= ~ML_SECRET;
 
                 break;
@@ -2065,9 +2090,7 @@ int countdown;
 
 void P_UpdateSpecials(void)
 {
-    anim_t  *anim;
-    int     pic;
-    int     i;
+    int pic;
 
     if (freeze)
         return;
@@ -2077,8 +2100,8 @@ void P_UpdateSpecials(void)
             G_ExitLevel();
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
-    for (anim = anims; anim < lastanim; anim++)
-        for (i = anim->basepic; i < anim->basepic + anim->numpics; i++)
+    for (anim_t *anim = anims; anim < lastanim; anim++)
+        for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
         {
             pic = anim->basepic + ((leveltime / anim->speed + i) % anim->numpics);
 
@@ -2102,7 +2125,7 @@ void P_UpdateSpecials(void)
     skycolumnoffset += skyscrolldelta;
 
     // DO BUTTONS
-    for (i = 0; i < MAXBUTTONS; i++)
+    for (int i = 0; i < MAXBUTTONS; i++)
         if (buttonlist[i].btimer)
             if (!--buttonlist[i].btimer)
             {
@@ -2136,7 +2159,6 @@ dboolean EV_DoDonut(line_t *line)
     sector_t    *s3;
     int         secnum = -1;
     dboolean    rtn = false;
-    int         i;
     floormove_t *floor;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
@@ -2155,7 +2177,7 @@ dboolean EV_DoDonut(line_t *line)
         if (P_SectorActive(floor_special, s2))
             continue;
 
-        for (i = 0; i < s2->linecount; i++)
+        for (int i = 0; i < s2->linecount; i++)
         {
             s3 = s2->lines[i]->backsector;
 
@@ -2413,7 +2435,6 @@ void T_Scroll(scroll_t *s)
         sector_t    *sec;
         fixed_t     height;
         fixed_t     waterheight;                // killough 4/4/98: add waterheight
-        msecnode_t  *node;
 
         case sc_side:                           // killough 3/7/98: Scroll wall texture
             side = sides + s->affectee;
@@ -2445,7 +2466,7 @@ void T_Scroll(scroll_t *s)
 
             // Move objects only if on floor or underwater,
             // non-floating, and clipped.
-            for (node = sec->touching_thinglist; node; node = node->m_snext)
+            for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
             {
                 mobj_t  *thing = node->m_thing;
 
@@ -2536,10 +2557,9 @@ static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int contro
 // Initialize the scrollers
 static void P_SpawnScrollers(void)
 {
-    int     i;
     line_t  *l = lines;
 
-    for (i = 0; i < numlines; i++, l++)
+    for (int i = 0; i < numlines; i++, l++)
     {
         fixed_t dx = l->dx >> SCROLL_SHIFT;             // direction and speed of scrolling
         fixed_t dy = l->dy >> SCROLL_SHIFT;
@@ -2670,36 +2690,31 @@ static void P_SpawnScrollers(void)
 // Initialize the sectors where friction is increased or decreased
 static void P_SpawnFriction(void)
 {
-    int     i;
     line_t  *l = lines;
 
     // killough 8/28/98: initialize all sectors to normal friction first
-    for (i = 0; i < numsectors; i++)
+    for (int i = 0; i < numsectors; i++)
     {
         sectors[i].friction = ORIG_FRICTION;
         sectors[i].movefactor = ORIG_FRICTION_FACTOR;
     }
 
-    for (i = 0; i < numlines; i++, l++)
+    for (int i = 0; i < numlines; i++, l++)
         if (l->special == FrictionTaggedSector)
         {
             int length = P_ApproxDistance(l->dx, l->dy) >> FRACBITS;
             int friction = BETWEEN(0, (0x1EB8 * length) / 0x80 + 0xD000, FRACUNIT);
             int movefactor;
-            int s;
 
             // The following check might seem odd. At the time of movement,
             // the move distance is multiplied by 'friction/0x10000', so a
             // higher friction value actually means 'less friction'.
             if (friction > ORIG_FRICTION)       // ice
-                movefactor = ((0x10092 - friction) * 0x70) / 0x158;
+                movefactor = MAX(32, ((0x10092 - friction) * 0x70) / 0x158);
             else
-                movefactor = ((friction - 0xDB34) *0xA) / 0x80;
+                movefactor = MAX(32, ((friction - 0xDB34) *0xA) / 0x80);
 
-            if (movefactor < 32)
-                movefactor = 32;
-
-            for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+            for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
             {
                 // killough 8/28/98:
                 //
@@ -2845,7 +2860,6 @@ static dboolean PIT_PushThing(mobj_t *thing)
 void T_Pusher(pusher_t *p)
 {
     sector_t    *sec;
-    msecnode_t  *node;
     int         xspeed, yspeed;
     int         ht = 0;
 
@@ -2880,7 +2894,6 @@ void T_Pusher(pusher_t *p)
         int xh;
         int yl;
         int yh;
-        int bx, by;
         int radius;
 
         tmpusher = p;                                   // MT_PUSH/MT_PULL point source
@@ -2895,8 +2908,8 @@ void T_Pusher(pusher_t *p)
         yl = (tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
         yh = (tmbbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
 
-        for (bx = xl; bx <= xh; bx++)
-            for (by = yl; by <= yh; by++)
+        for (int bx = xl; bx <= xh; bx++)
+            for (int by = yl; by <= yh; by++)
                 P_BlockThingsIterator(bx, by, PIT_PushThing);
 
         return;
@@ -2906,9 +2919,9 @@ void T_Pusher(pusher_t *p)
     if (sec->heightsec != -1)                           // special water sector?
         ht = sectors[sec->heightsec].floorheight;
 
-    node = sec->touching_thinglist;                     // things touching this sector
+                         // things touching this sector
 
-    for (; node; node = node->m_snext)
+    for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
     {
         mobj_t  *thing = node->m_thing;
 
@@ -3013,28 +3026,26 @@ mobj_t *P_GetPushThing(int s)
 //
 static void P_SpawnPushers(void)
 {
-    int     i;
     line_t  *l = lines;
-    int     s;
     mobj_t  *thing;
 
-    for (i = 0; i < numlines; i++, l++)
+    for (int i = 0; i < numlines; i++, l++)
         switch (l->special)
         {
             case WindAccordingToLineVector:
-                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
                     Add_Pusher(p_wind, l->dx, l->dy, NULL, s);
 
                 break;
 
             case CurrentAccordingToLineVector:
-                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
                     Add_Pusher(p_current, l->dx, l->dy, NULL, s);
 
                 break;
 
             case WindCurrentByPushPullThingInSector:
-                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
                 {
                     thing = P_GetPushThing(s);
 

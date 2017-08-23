@@ -106,7 +106,7 @@ sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); // jff 0
 int P_FindSectorFromLineTag(const line_t *line, int start);
 int P_FindLineFromLineTag(const line_t *line, int start);
 
-int P_FindMinSurroundingLight(sector_t *sector, int min);
+int P_FindMinSurroundingLight(sector_t *sec, int min);
 
 dboolean P_CanUnlockGenDoor(line_t *line, player_t *player);
 
