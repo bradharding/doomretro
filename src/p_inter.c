@@ -1397,7 +1397,7 @@ dboolean P_CheckMeleeRange(mobj_t *actor);
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean usearmor)
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust)
 {
     player_t    *splayer = NULL;
     player_t    *tplayer;
@@ -1424,7 +1424,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     tplayer = target->player;
 
-    if (tplayer && gameskill == sk_baby)
+    if (tplayer && gameskill == sk_baby && adjust)
         damage >>= (damage > 1);
 
     // Some close combat weapons should not
@@ -1513,7 +1513,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
-        if (usearmor && tplayer->armortype)
+        if (adjust && tplayer->armortype)
         {
             int saved = damage / (tplayer->armortype == GREENARMOR ? 3 : 2);
 

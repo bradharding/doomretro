@@ -2059,7 +2059,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             && type != MT_BOSSBRAIN && (type != MT_HEAD || !hacx))
                         {
                             thing->flags2 |= MF2_MASSACRE;
-                            P_DamageMobj(thing, NULL, NULL, thing->health, true);
+                            P_DamageMobj(thing, NULL, NULL, thing->health, false);
 
                             if (!(thing->flags & MF_NOBLOOD))
                             {
@@ -2154,7 +2154,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
                         {
                             thing->flags2 |= MF2_MASSACRE;
-                            P_DamageMobj(thing, NULL, NULL, thing->health, true);
+                            P_DamageMobj(thing, NULL, NULL, thing->health, false);
 
                             if (!(thing->flags & MF_NOBLOOD))
                             {
