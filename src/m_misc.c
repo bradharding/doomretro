@@ -591,7 +591,7 @@ dboolean M_StringCompare(const char *str1, const char *str2)
 // Returns true if 's' begins with the specified prefix.
 dboolean M_StringStartsWith(const char *s, const char *prefix)
 {
-    return (strlen(s) > strlen(prefix) && !strncasecmp(s, prefix, strlen(prefix)));
+    return (strlen(s) >= strlen(prefix) && !strncasecmp(s, prefix, strlen(prefix)));
 }
 
 // Returns true if 's' ends with the specified suffix.
