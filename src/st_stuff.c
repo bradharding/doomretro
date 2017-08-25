@@ -62,49 +62,49 @@
 
 // Palette indices.
 // For damage/bonus red-/gold-shifts
-#define STARTREDPALS            1
-#define STARTBONUSPALS          9
-#define NUMREDPALS              8
-#define NUMBONUSPALS            4
+#define STARTREDPALS        1
+#define STARTBONUSPALS      9
+#define NUMREDPALS          8
+#define NUMBONUSPALS        4
 
 // Radiation suit, green shift.
-#define RADIATIONPAL            13
+#define RADIATIONPAL        13
 
 // Location of status bar
-#define ST_X                    0
+#define ST_X                0
 
 // Number of status faces.
-#define ST_NUMPAINFACES         5
-#define ST_NUMSTRAIGHTFACES     3
-#define ST_NUMTURNFACES         2
-#define ST_NUMSPECIALFACES      3
+#define ST_NUMPAINFACES     5
+#define ST_NUMSTRAIGHTFACES 3
+#define ST_NUMTURNFACES     2
+#define ST_NUMSPECIALFACES  3
 
-#define ST_FACESTRIDE           (ST_NUMSTRAIGHTFACES + ST_NUMTURNFACES + ST_NUMSPECIALFACES)
+#define ST_FACESTRIDE       (ST_NUMSTRAIGHTFACES + ST_NUMTURNFACES + ST_NUMSPECIALFACES)
 
-#define ST_NUMEXTRAFACES        2
+#define ST_NUMEXTRAFACES    2
 
-#define ST_NUMFACES             (ST_FACESTRIDE * ST_NUMPAINFACES + ST_NUMEXTRAFACES)
+#define ST_NUMFACES         (ST_FACESTRIDE * ST_NUMPAINFACES + ST_NUMEXTRAFACES)
 
-#define ST_TURNOFFSET           (ST_NUMSTRAIGHTFACES)
-#define ST_OUCHOFFSET           (ST_TURNOFFSET + ST_NUMTURNFACES)
-#define ST_EVILGRINOFFSET       (ST_OUCHOFFSET + 1)
-#define ST_RAMPAGEOFFSET        (ST_EVILGRINOFFSET + 1)
-#define ST_GODFACE              (ST_NUMPAINFACES * ST_FACESTRIDE)
-#define ST_DEADFACE             (ST_GODFACE + 1)
+#define ST_TURNOFFSET       ST_NUMSTRAIGHTFACES
+#define ST_OUCHOFFSET       (ST_TURNOFFSET + ST_NUMTURNFACES)
+#define ST_EVILGRINOFFSET   (ST_OUCHOFFSET + 1)
+#define ST_RAMPAGEOFFSET    (ST_EVILGRINOFFSET + 1)
+#define ST_GODFACE          (ST_NUMPAINFACES * ST_FACESTRIDE)
+#define ST_DEADFACE         (ST_GODFACE + 1)
 
-#define ST_FACESX               (chex ? 144 : 143)
-#define ST_FACESY               168
+#define ST_FACESX           (chex ? 144 : 143)
+#define ST_FACESY           168
 
-#define ST_FACEBACKX            (143 * SCREENSCALE)
-#define ST_FACEBACKY            (168 * SCREENSCALE)
-#define ST_FACEBACKWIDTH        (34 * SCREENSCALE)
-#define ST_FACEBACKHEIGHT       (32 * SCREENSCALE)
+#define ST_FACEBACKX        (143 * SCREENSCALE)
+#define ST_FACEBACKY        (168 * SCREENSCALE)
+#define ST_FACEBACKWIDTH    (34 * SCREENSCALE)
+#define ST_FACEBACKHEIGHT   (32 * SCREENSCALE)
 
-#define ST_EVILGRINCOUNT        (2 * TICRATE)
-#define ST_TURNCOUNT            (1 * TICRATE)
-#define ST_RAMPAGEDELAY         (2 * TICRATE)
+#define ST_EVILGRINCOUNT    (2 * TICRATE)
+#define ST_TURNCOUNT        (1 * TICRATE)
+#define ST_RAMPAGEDELAY     (2 * TICRATE)
 
-#define ST_MUCHPAIN             20
+#define ST_MUCHPAIN         20
 
 // Location and size of statistics,
 //  justified according to widget type.

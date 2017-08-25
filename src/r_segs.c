@@ -391,7 +391,6 @@ static void R_RenderSegLoop(void)
             dc_texturemid = rw_midtexturemid;
             dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
             dc_texheight = midtexheight;
-            dc_sparklefix = SPARKLEFIX;
 
             // [BH] apply brightmap
             if (midtexfullbright)
@@ -424,7 +423,6 @@ static void R_RenderSegLoop(void)
                     dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture),
                         texturecolumn);
                     dc_texheight = toptexheight;
-                    dc_sparklefix = SPARKLEFIX;
 
                     // [BH] apply brightmap
                     if (toptexfullbright)
@@ -461,7 +459,6 @@ static void R_RenderSegLoop(void)
                     dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture),
                         texturecolumn);
                     dc_texheight = bottomtexheight;
-                    dc_sparklefix = SPARKLEFIX;
 
                     // [BH] apply brightmap
                     if (bottomtexfullbright)

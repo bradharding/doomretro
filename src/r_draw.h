@@ -59,7 +59,6 @@ extern byte             *dc_colormask;
 extern int              dc_baseclip;
 extern int              dc_floorclip;
 extern int              dc_ceilingclip;
-extern int              dc_sparklefix;
 
 // first pixel in a column
 extern byte             *dc_source;

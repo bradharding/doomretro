@@ -44,7 +44,7 @@
 //
 #define FRACBITS        16
 #define FRACUNIT        (1 << FRACBITS)
-#define FIXED2DOUBLE(x) (x / (double)FRACUNIT)
+#define FIXED2DOUBLE(x) ((x) / (double)FRACUNIT)
 
 #ifdef ABS
 #undef ABS

@@ -1148,7 +1148,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
     }
 }
 
-#define _FUZZ(a, b) _fuzzrange[rand() % (b - a + 1) + a]
+#define _FUZZ(a, b) _fuzzrange[rand() % (b - (a) + 1) + a]
 
 static const int    _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
