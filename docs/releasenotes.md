@@ -1,3 +1,9 @@
+### DOOM Retro v2.6
+
+---
+
+###### Saturday, August 26, 2017
+
 ### DOOM Retro v2.5.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -10,7 +16,7 @@
 * A bug has been fixed whereby the sky would be slightly darker than normal when the player has the light amplification visor power-up.
 * When pressing the <kbd>PRINTSCREEN</kbd> key while the `am_external` CVAR is `on`, a screenshot of both screens will now be taken rather than two screenshots of the same screen.
 * The `vid_capfps`, `vid_scalefilter` and `vid_vsync` CVARs will now affect the external automap when the `am_external` CVAR is `on`.
-* The obituary in the console now correctly reflects when the player or a monster is telefragged.
+* Obituaries in the console now correctly reflect when the player or a monster is telefragged.
 * Pressing <kbd>CTRL</kbd> + <kbd>&uarr;</kbd>/<kbd>&darr;</kbd> can now be used as well as <kbd>PGUP</kbd>/<kbd>PGDN</kbd> to scroll the output in the console up and down.
 * The `r_gamma` CVAR can now correctly be set to `2.0` in the console and at startup.
 * When the `vid_capfps` CVAR is a value other than `35`, rockets and plasma rifle and BFG-9000 projectiles are now slightly further away from the player when fired.
