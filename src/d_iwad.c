@@ -91,28 +91,28 @@ static registryvalue_t uninstall_values[] =
     {
         HKEY_LOCAL_MACHINE,
         "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ultimate Doom for Windows 95",
-        "UninstallString",
+        "UninstallString"
     },
 
     // DOOM II, CD version (Depths of DOOM trilogy)
     {
         HKEY_LOCAL_MACHINE,
         "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom II for Windows 95",
-        "UninstallString",
+        "UninstallString"
     },
 
     // Final DOOM
     {
         HKEY_LOCAL_MACHINE,
         "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Final Doom for Windows 95",
-        "UninstallString",
+        "UninstallString"
     },
 
     // Shareware version
     {
         HKEY_LOCAL_MACHINE,
         "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom Shareware for Windows 95",
-        "UninstallString",
+        "UninstallString"
     },
 };
 
@@ -123,29 +123,36 @@ static registryvalue_t root_path_keys[] =
     {
         HKEY_LOCAL_MACHINE,
         "Software\\Activision\\DOOM Collector's Edition\\v1.0",
-        "INSTALLPATH",
-    },
-
-    // Ultimate DOOM
-    {
-        HKEY_LOCAL_MACHINE,
-        "Software\\GOG.com\\Games\\1435827232",
-        "PATH",
+        "INSTALLPATH"
     },
 
     // DOOM II
     {
         HKEY_LOCAL_MACHINE,
         "Software\\GOG.com\\Games\\1435848814",
-        "PATH",
+        "PATH"
+    },
+
+    // Doom 3: BFG Edition
+    {
+        HKEY_LOCAL_MACHINE,
+        "Software\\GOG.com\\Games\\1135892318",
+        "PATH"
     },
 
     // Final DOOM
     {
         HKEY_LOCAL_MACHINE,
         "Software\\GOG.com\\Games\\1435848742",
-        "PATH",
+        "PATH"
     },
+
+    // Ultimate DOOM
+    {
+        HKEY_LOCAL_MACHINE,
+        "Software\\GOG.com\\Games\\1435827232",
+        "PATH"
+    }
 };
 
 // Subdirectories of the above install path, where IWADs are installed.
@@ -156,7 +163,8 @@ static const char *root_path_subdirs[] =
     "Final Doom",
     "Ultimate Doom",
     "TNT",
-    "Plutonia"
+    "Plutonia",
+    "base\\wads"
 };
 
 // Location where Steam is installed
@@ -164,16 +172,16 @@ static registryvalue_t steam_install_location =
 {
     HKEY_LOCAL_MACHINE,
     "Software\\Valve\\Steam",
-    "InstallPath",
+    "InstallPath"
 };
 
 // Subdirs of the steam install directory where IWADs are found
 static const char *steam_install_subdirs[] =
 {
     "steamapps\\common\\doom 2\\base",
+    "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
     "steamapps\\common\\final doom\\base",
-    "steamapps\\common\\ultimate doom\\base",
-    "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads"
+    "steamapps\\common\\ultimate doom\\base"
 };
 
 static char *GetRegistryString(registryvalue_t *reg_val)

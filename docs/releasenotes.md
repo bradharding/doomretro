@@ -16,6 +16,7 @@
 * When the `vid_capfps` CVAR is a value other than `35`, rockets and plasma rifle and BFG-9000 projectiles are now slightly further away from the player when fired.
 * Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
 * Reducing the `health` CVAR will now work correctly when playing the *I’m too young to die* skill level.
+* If no IWAD is specified, *DOOM Retro* will now also check for an installation of *DOOM 3: BFG Edition* purchased through [*GOG.com*](https://www.gog.com/game/doom_3_bfg_edition).
 
 ---
 
