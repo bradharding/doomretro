@@ -152,7 +152,6 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
             *dot = *(tint40 + *dot);
 
         *dot = *(tint20 + *dot);
-
         dot = dest - 2 - SCREENWIDTH;
 
         for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
@@ -178,7 +177,6 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
             *dot = *(tint40 + *dot);
 
         *dot = *(tint20 + *dot);
-
         dot = dest + width + 1 - SCREENWIDTH;
 
         for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)

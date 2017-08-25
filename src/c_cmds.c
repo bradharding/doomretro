@@ -1013,7 +1013,7 @@ dboolean C_ExecuteAlias(const char *alias)
             char    *strings[255];
             int     j = 0;
 
-            strings[j] = strtok(string, ";");
+            strings[0] = strtok(string, ";");
 
             while (strings[j])
             {

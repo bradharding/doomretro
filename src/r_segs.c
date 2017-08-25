@@ -244,8 +244,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     const rpatch_t  *patch;
     sector_t        tempsec;        // killough 4/13/98
 
-    // Calculate light table.
-    // Use different light tables for horizontal / vertical.
     curline = ds->curline;
 
     if (r_textures)
@@ -259,6 +257,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     texnum = texturetranslation[curline->sidedef->midtexture];
     texheight = textureheight[texnum];
 
+    // Calculate light table.
+    // Use different light tables for horizontal / vertical.
     // killough 4/13/98: get correct lightlevel for 2s normal textures
     walllights = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel);
 
@@ -563,7 +563,7 @@ void R_StoreWallRange(const int start, const int stop)
     dy = ((int64_t)curline->v2->y - curline->v1->y) >> 1;
     dx1 = ((int64_t)viewx - curline->v1->x) >> 1;
     dy1 = ((int64_t)viewy - curline->v1->y) >> 1;
-    len = curline->length >> 1;
+    len = curline->length;
     rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len) << 1;
 
     ds_p->x1 = start;

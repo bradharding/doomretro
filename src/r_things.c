@@ -840,20 +840,17 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         return;
 
     lump = splat->frame;
-    width = spritewidth[lump];
 
     // calculate edges of the shape
+    width = spritewidth[lump];
     tx -= (width >> 1);
-    x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
-    if (x1 > viewwidth)
+    if ((x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS) > viewwidth)
         return;
 
-    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + width, xscale)) >> FRACBITS) - 1;
-
     // off the left side
-    if (x2 < 0)
+    if ((x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + width, xscale)) >> FRACBITS) - 1) < 0)
         return;
 
     // quickly reject sprites with bad x ranges
