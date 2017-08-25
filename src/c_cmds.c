@@ -107,6 +107,8 @@ static int          mapcmdepisode;
 static int          mapcmdmap;
 static char         mapcmdlump[7];
 
+static dboolean     resettingall;
+
 dboolean            vanilla;
 dboolean            togglingvanilla;
 
@@ -3531,6 +3533,7 @@ static void C_VerifyResetAll(const int key)
         int i = 0;
 
         S_StartSound(NULL, sfx_swtchx);
+        resettingall = true;
 
         while (*consolecmds[i].name)
         {
@@ -3552,6 +3555,8 @@ static void C_VerifyResetAll(const int key)
 
             i++;
         }
+
+        resettingall = false;
 
 #if defined(_WIN32)
         wad = "";
@@ -4720,7 +4725,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
             r_fixmaperrors = !!value;
             M_SaveCVARs();
 
-            if (r_fixmaperrors && gamestate == GS_LEVEL && !togglingvanilla)
+            if (r_fixmaperrors && gamestate == GS_LEVEL && !togglingvanilla && !resettingall)
                 C_Warning(PENDINGCHANGE);
         }
     }
@@ -5184,7 +5189,7 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
         pendinggameskill = skilllevel;
         NewDef.lastOn = skilllevel - 1;
 
-        if (gamestate == GS_LEVEL)
+        if (gamestate == GS_LEVEL && !resettingall)
             C_Warning(PENDINGCHANGE);
     }
 }
