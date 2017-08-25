@@ -1017,7 +1017,7 @@ dboolean C_ExecuteAlias(const char *alias)
 
             while (strings[j])
             {
-                if (!C_ValidateInput(strings[j]))
+                if (!C_ValidateInput(trimwhitespace(strings[j])))
                     break;
 
                 strings[++j] = strtok(NULL, ";");
