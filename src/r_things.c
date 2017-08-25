@@ -829,10 +829,6 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if ((xscale = FixedDiv(centerxfrac, tz)) < FRACUNIT / 4)
         return;
 
-    if (floorheight > viewz + FixedDiv(viewheight << FRACBITS, xscale)
-        || floorheight < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
-        return;
-
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
     // too far off the side?
