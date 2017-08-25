@@ -1035,6 +1035,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 {
     char    parm1[128] = "";
     char    parm2[128] = "";
+    int     i = 0;
 
     sscanf(parms, "%127s %127[^\n]", parm1, parm2);
 
@@ -1042,6 +1043,16 @@ void alias_cmd_func2(char *cmd, char *parms)
     {
         C_Output("<b>%s</b> %s", cmd, ALIASCMDFORMAT);
         return;
+    }
+
+    C_StripQuotes(parm1);
+
+    while (*consolecmds[i].name)
+    {
+        if (M_StringCompare(parm1, consolecmds[i].name))
+            return;
+
+        i++;
     }
 
     if (!*parm2)
