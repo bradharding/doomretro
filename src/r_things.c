@@ -1015,7 +1015,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     }
     else
     {
-        if (spr == SPR_SHT2 && (!frame || (frame & FF_FULLBRIGHT)) && !SHT2A0 && nearestcolors[71] == 71)
+        if (spr == SPR_SHT2 && (!frame || !(frame & FF_FULLBRIGHT)) && !SHT2A0 && nearestcolors[71] == 71)
             vis->colfunc = supershotguncolfunc;
         else if (r_translucency && !notranslucency)
         {

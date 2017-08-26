@@ -1,5 +1,7 @@
 ### DOOM Retro v2.6
 
+* Some stray black pixels have been removed from the top of the super shotgun’s muzzle when firing.
+
 ---
 
 ###### Saturday, August 26, 2017
