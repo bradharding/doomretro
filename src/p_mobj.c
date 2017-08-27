@@ -1213,7 +1213,8 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     dboolean    fuzz = (target->flags & MF_FUZZ);
-    int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : target->blood) : MT_BLOOD);
+    int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : (target->blood ? target->blood :
+                    MT_BLOOD)) : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[type];
     int         blood = (fuzz ? FUZZYBLOOD : info->blood);
     sector_t    *sector;
