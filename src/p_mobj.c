@@ -725,6 +725,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     else
         mobj->shadowcolfunc = R_DrawColorColumn;
 
+    mobj->shadowoffset = info->shadowoffset;
+
     mobj->blood = info->blood;
 
     // [BH] set random pitch for monster sounds when spawned

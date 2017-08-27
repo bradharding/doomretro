@@ -747,7 +747,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->gzt = gzt;
 
     if (drawshadows && (flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4)
-        vis->shadowpos = floorheight + thing->info->shadowoffset - viewz;
+        vis->shadowpos = floorheight + thing->shadowoffset - viewz;
     else
         vis->shadowpos = 1;
 

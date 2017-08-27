@@ -1951,6 +1951,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             thing->height = 0;
             thing->radius = 0;
+            thing->shadowoffset = 0;
 
             S_StartSound(thing, sfx_slop);
         }
@@ -1978,13 +1979,14 @@ static void PIT_ChangeSector(mobj_t *thing)
         if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != MT_PLAYER
             || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : (thing->blood ?
-                       thing->blood : MT_BLOOD)) : MT_BLOOD);
+            int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood) :
+                           MT_BLOOD);
+            int z = thing->z + thing->height * 2 / 3;
 
             for (int i = 0; i < 4; i++)
             {
                 // spray blood in a random direction
-                mobj_t  *mo = P_SpawnMobj(thing->x, thing->y, thing->z + thing->height * 2 / 3, type);
+                mobj_t  *mo = P_SpawnMobj(thing->x, thing->y, z, type);
 
                 mo->momx = (M_Random() - M_Random()) << 11;
                 mo->momy = (M_Random() - M_Random()) << 11;

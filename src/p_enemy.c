@@ -1408,6 +1408,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     corpsehit->flags = info->flags;
                     corpsehit->flags2 = info->flags2;
                     corpsehit->health = info->spawnhealth;
+                    corpsehit->shadowoffset = info->shadowoffset;
                     P_SetTarget(&corpsehit->target, NULL);
                     P_SetTarget(&corpsehit->lastenemy, NULL);
 
@@ -1418,8 +1419,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     // [BH] display an obituary message in the console
                     if (con_obituaries)
                         C_Obituary("%s %s resurrected %s %s.", (isvowel(actor->info->name1[0]) ? "An" : "A"),
-                            actor->info->name1, (isvowel(corpsehit->info->name1[0]) ? "an" : "a"),
-                            corpsehit->info->name1);
+                            actor->info->name1, (isvowel(info->name1[0]) ? "an" : "a"), info->name1);
 
                     // killough 8/29/98: add to appropriate thread
                     P_UpdateThinker(&corpsehit->thinker);

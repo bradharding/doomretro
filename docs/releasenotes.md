@@ -1,6 +1,8 @@
 ### DOOM Retro v2.5.5
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Some stray dark pixels have been removed from the top of the super shotgun’s muzzle when firing.
+* The shadows of crushed monsters are now positioned correctly.
 
 ---
 
