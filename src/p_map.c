@@ -45,13 +45,9 @@
 #include "z_zone.h"
 
 static mobj_t       *tmthing;
-static fixed_t      tmx;
-static fixed_t      tmy;
-static fixed_t      tmz;
-static int          pe_x;           // Pain Elemental position for Lost Soul checks // phares
-static int          pe_y;           // Pain Elemental position for Lost Soul checks // phares
-static int          ls_x;           // Lost Soul position for Lost Soul checks      // phares
-static int          ls_y;           // Lost Soul position for Lost Soul checks      // phares
+static fixed_t      tmx, tmy, tmz;
+static int          pe_x, pe_y;     // Pain Elemental position for Lost Soul checks // phares
+static int          ls_x, ls_y;     // Lost Soul position for Lost Soul checks      // phares
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
@@ -1929,8 +1925,7 @@ static void PIT_ChangeSector(mobj_t *thing)
         {
             if (!(flags & MF_FUZZ))
             {
-                int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1)
-                    + 12;
+                int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
                 int max = M_RandomInt(50, 100) + radius;
                 int x = thing->x;
                 int y = thing->y;
@@ -1983,8 +1978,8 @@ static void PIT_ChangeSector(mobj_t *thing)
         if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != MT_PLAYER
             || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood) :
-                       MT_BLOOD);
+            int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : (thing->blood ?
+                       thing->blood : MT_BLOOD)) : MT_BLOOD);
 
             for (int i = 0; i < 4; i++)
             {

@@ -1,7 +1,6 @@
-### DOOM Retro v2.6
+### DOOM Retro v2.5.5
 
 * Some stray dark pixels have been removed from the top of the super shotgun’s muzzle when firing.
-* A bug has been fixed whereby blood sprites may not become blood splats when they hit the floor in some rare instances.
 
 ---
 
