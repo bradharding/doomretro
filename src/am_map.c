@@ -1297,8 +1297,8 @@ static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
     {
         byte    *dot = mapscreen + y + x;
 
-        if (*dot != *(tinttab60 + playercolor))
-            *dot = *(tinttab60 + (*dot << 8) + playercolor);
+        if (*dot != *(tinttab60 + *color))
+            *dot = *(tinttab60 + (*dot << 8) + *color);
     }
 }
 
@@ -1519,7 +1519,7 @@ static void AM_drawGrid(void)
     fixed_t         start;
     fixed_t         end;
     mline_t         ml;
-    const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * (double)m_w + (double)m_h * (double)m_h));
+    const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + (double)m_h * m_h));
     const fixed_t   extx = (minlen - m_w) / 2;
     const fixed_t   exty = (minlen - m_h) / 2;
 
@@ -1802,14 +1802,15 @@ static void AM_drawPlayer(void)
     if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > STARTFLASHING || (invisibility & 8))
-            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle, NULL,
-                point.x, point.y);
+            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle,
+                &playercolor, point.x, point.y);
         else
             AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle, playercolor,
                 point.x, point.y);
     }
     else if (invisibility > STARTFLASHING || (invisibility & 8))
-        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, NULL, point.x, point.y);
+        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, &playercolor, point.x,
+            point.y);
     else
         AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, playercolor, point.x,
             point.y);
