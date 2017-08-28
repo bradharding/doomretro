@@ -2057,7 +2057,7 @@ void P_MapName(int ep, int map)
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, trimwhitespace(bfgedition && !modifiedgame ?
+                M_StringCopy(maptitle, trimwhitespace(bfgedition && (!modifiedgame || nerve) ?
                     *mapnames2_bfg[map - 1] : *mapnames2[map - 1]), sizeof(maptitle));
 
             break;
