@@ -386,6 +386,7 @@ enum
 #define vid_scaleapi_opengles2                  "opengles2"
 #endif
 #define vid_scaleapi_software                   "software"
+#define vid_scaleapi_vulkan                     "vulkan"
 #define vid_scaleapi_default                    vid_scaleapi_opengl
 
 #define vid_scalefilter_linear                  "linear"

@@ -874,10 +874,10 @@ consolecmd_t consolecmds[] =
         "Toggles using the pillarboxes either side of the\nscreen for palette effects."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale the display (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b>, <b>\"vulkan\"</b> or <b>\"software\"</b>)."),
 #else
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b>,\n<b>\"opengles\"</b>, <b>\"opengles2\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b>,\n<b>\"opengles\"</b>, <b>\"opengles2\"</b>, <b>\"vulkan\"</b> or <b>\"software\"</b>)."),
 #endif
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale the display (<b>\"nearest\"</b>,\n<b>\"linear\"</b> or <b>\"nearest_linear\"</b>)."),
@@ -5351,7 +5351,8 @@ static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
         || M_StringCompare(parms, vid_scaleapi_opengles)
         || M_StringCompare(parms, vid_scaleapi_opengles2)
 #endif
-        || M_StringCompare(parms, vid_scaleapi_software));
+        || M_StringCompare(parms, vid_scaleapi_software)
+        || M_StringCompare(parms, vid_scaleapi_vulkan));
 }
 
 static void vid_scaleapi_cvar_func2(char *cmd, char *parms)
