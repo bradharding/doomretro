@@ -250,6 +250,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->tracer = (mobj_t *)saveg_readp();
     str->lastenemy = (mobj_t *)saveg_readp();
     str->floatbob = saveg_read32();
+    str->shadowoffset = saveg_read32();
     str->touching_sectorlist = NULL;
     str->gear = saveg_read16();
     str->bloodsplats = saveg_read32();
@@ -303,6 +304,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->tracer));
     saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->lastenemy));
     saveg_write32(str->floatbob);
+    saveg_write32(str->shadowoffset);
     saveg_write16(str->gear);
     saveg_write32(str->bloodsplats);
     saveg_write32(str->blood);
