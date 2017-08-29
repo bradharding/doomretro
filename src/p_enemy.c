@@ -49,7 +49,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-typedef enum dirtype_e
+typedef enum
 {
     DI_EAST,
     DI_NORTHEAST,

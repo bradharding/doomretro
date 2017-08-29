@@ -59,7 +59,7 @@
 // Animating textures and planes
 // There is another anim_t used in wi_stuff, unrelated.
 //
-typedef struct anim_s
+typedef struct
 {
     dboolean    istexture;
     int         picnum;
@@ -75,9 +75,9 @@ typedef struct anim_s
 //
 // source animation definition
 //
-typedef struct animdef_s
+typedef struct
 {
-    signed char istexture;              // if false, it is a flat
+    char        istexture;      // if false, it is a flat
     char        endname[9];
     char        startname[9];
     int         speed;

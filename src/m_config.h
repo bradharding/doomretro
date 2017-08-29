@@ -499,7 +499,7 @@ enum
 #define MOUSERUN_DEFAULT                        -1
 #define MOUSEUSE_DEFAULT                        -1
 
-typedef enum default_type_e
+typedef enum
 {
     DEFAULT_INT,
     DEFAULT_INT_UNSIGNED,
@@ -510,7 +510,7 @@ typedef enum default_type_e
     DEFAULT_OTHER
 } default_type_t;
 
-typedef enum valuealias_type_e
+typedef enum
 {
     NOVALUEALIAS,
     BOOLVALUEALIAS,
@@ -524,7 +524,7 @@ typedef enum valuealias_type_e
     FACEBACKVALUEALIAS
 } valuealias_type_t;
 
-typedef struct default_s
+typedef struct
 {
     // Name of the variable
     char                *name;
@@ -538,7 +538,7 @@ typedef struct default_s
     valuealias_type_t   valuealiastype;
 } default_t;
 
-typedef struct valuealias_s
+typedef struct
 {
     char                *text;
     int                 value;

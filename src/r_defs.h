@@ -268,7 +268,7 @@ typedef struct line_s
 
     int                 r_validcount;   // cph: if == gametic, r_flags already done
 
-    enum r_flags_e
+    enum
     {                                   // cph:
         RF_TOP_TILE = 1,                // Upper texture needs tiling
         RF_MID_TILE = 2,                // Mid texture needs tiling

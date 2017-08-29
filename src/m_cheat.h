@@ -48,7 +48,7 @@
 
 #define TIMELIMIT                   (TICRATE * 2)
 
-typedef struct cheatseq_s
+typedef struct
 {
     // settings for this cheat
     char        *sequence;

@@ -900,7 +900,7 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
 //
 static void F_BunnyScroll(void)
 {
-    int             scrolled = BETWEEN(0, ORIGINALWIDTH - ((signed int)finalecount - 230) / 2, ORIGINALWIDTH);
+    int             scrolled = BETWEEN(0, ORIGINALWIDTH - (finalecount - 230) / 2, ORIGINALWIDTH);
     patch_t         *p1 = W_CacheLumpName("PFUB2");
     patch_t         *p2 = W_CacheLumpName("PFUB1");
     char            name[10];

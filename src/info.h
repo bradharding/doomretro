@@ -42,7 +42,7 @@
 #include "doomtype.h"
 #include "d_think.h"
 
-typedef enum spritenum_e
+typedef enum
 {
     // Sprites 0 to 137
     SPR_TROO, SPR_SHTG, SPR_PUNG, SPR_PISG, SPR_PISF, SPR_SHTF, SPR_SHT2, SPR_CHGG, SPR_CHGF, SPR_MISG,
@@ -86,7 +86,7 @@ typedef enum spritenum_e
     NUMSPRITES
 } spritenum_t;
 
-typedef enum statenum_e
+typedef enum
 {
     S_NULL,
     S_LIGHTDONE,
@@ -1200,7 +1200,7 @@ typedef enum statenum_e
     NUMSTATES = 4000
 } statenum_t;
 
-typedef struct state_s
+typedef struct
 {
     spritenum_t sprite;
     long        frame;
@@ -1216,7 +1216,7 @@ typedef struct state_s
 extern state_t  states[NUMSTATES];
 extern char     *sprnames[];
 
-typedef enum mobjtype_e
+typedef enum
 {
     NOTYPE = -1,
     MT_PLAYER,
@@ -1401,7 +1401,7 @@ typedef enum mobjtype_e
     NUMMOBJTYPES
 } mobjtype_t;
 
-typedef struct mobjinfo_s
+typedef struct
 {
     int         doomednum;
     int         spawnstate;
@@ -1445,7 +1445,7 @@ typedef struct mobjinfo_s
 
 extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];
 
-typedef struct offset_s
+typedef struct
 {
     char        name[9];
     short       x;

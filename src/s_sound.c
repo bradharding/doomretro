@@ -71,7 +71,7 @@
 
 #define TIDNUM(x)       ((int)(x->id & 0xFFFF)) // thing identifier
 
-typedef struct channel_s
+typedef struct
 {
     // sound information (if null, channel avail.)
     sfxinfo_t       *sfxinfo;
@@ -86,7 +86,7 @@ typedef struct channel_s
 } channel_t;
 
 // [crispy] "sound objects" hold the coordinates of removed map objects
-typedef struct sobj_s
+typedef struct
 {
     thinker_t       dummy;
     fixed_t         x;

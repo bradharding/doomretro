@@ -46,12 +46,12 @@
 
 #define GAMMALEVELS             31
 
-typedef struct resolution_s
+typedef struct
 {
-    int         width;
-    int         height;
-    char        *acronym;
-    char        *aspectratio;
+    int     width;
+    int     height;
+    char    *acronym;
+    char    *aspectratio;
 } resolution_t;
 
 void I_InitKeyboard(void);

@@ -45,20 +45,20 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-typedef enum section_e
+typedef enum
 {
     SECTION_NORMAL,
     SECTION_FLATS,
     SECTION_SPRITES
 } section_t;
 
-typedef struct searchlist_s
+typedef struct
 {
     lumpinfo_t          **lumps;
     int                 numlumps;
 } searchlist_t;
 
-typedef struct sprite_frame_s
+typedef struct
 {
     char                sprname[4];
     char                frame;

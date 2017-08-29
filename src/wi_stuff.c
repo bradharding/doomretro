@@ -75,14 +75,14 @@
 #define SP_TIMEX    16
 #define SP_TIMEY    (ORIGINALHEIGHT - 32)
 
-typedef enum animenum_e
+typedef enum
 {
     ANIM_ALWAYS,
     ANIM_RANDOM,
     ANIM_LEVEL
 } animenum_t;
 
-typedef struct point_s
+typedef struct
 {
     int x;
     int y;
@@ -92,7 +92,7 @@ typedef struct point_s
 // Animation.
 // There is another anim_t used in p_spec.
 //
-typedef struct anim_s
+typedef struct
 {
     animenum_t  type;
 

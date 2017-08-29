@@ -102,7 +102,7 @@ byte    *tinttabredwhite50;
 byte    *tinttabgreen33;
 byte    *tinttabblue25;
 
-static struct originalcolors_s
+static struct
 {
     byte    red;
     byte    green;
@@ -183,12 +183,12 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 
     for (int i = 0; i < PALETTESIZE; i++)
     {
-        int r1 = red;
-        int g1 = green;
-        int b1 = blue;
-        int r2 = *palette++;
-        int g2 = *palette++;
-        int b2 = *palette++;
+        int     r1 = red;
+        int     g1 = green;
+        int     b1 = blue;
+        int     r2 = *palette++;
+        int     g2 = *palette++;
+        int     b2 = *palette++;
 
         // From http://www.compuphase.com/cmetric.htm
         int     rmean = (r1 + r2) / 2;

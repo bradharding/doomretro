@@ -1334,8 +1334,8 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         // vertical line
         const int   sy = SIGN(dy) * mapwidth;
 
-        y0 = BETWEEN(-(signed int)mapwidth, y0 * mapwidth, mapbottom);
-        y1 = BETWEEN(-(signed int)mapwidth, y1 * mapwidth, mapbottom);
+        y0 = BETWEEN(-(int)mapwidth, y0 * mapwidth, mapbottom);
+        y1 = BETWEEN(-(int)mapwidth, y1 * mapwidth, mapbottom);
 
         putdot(x0, y0, color);
 

@@ -71,7 +71,7 @@ enum
     NUMPSPRITES
 };
 
-typedef struct pspdef_s
+typedef struct
 {
     state_t *state; // a NULL state means not active
     int     tics;

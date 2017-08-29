@@ -122,7 +122,7 @@ static int              coloroffset;
 void (*althudfunc)(int, int, patch_t *, int, int);
 void (*fillrectfunc)(int, int, int, int, int, int);
 
-static struct ammopic_s
+static struct
 {
     char    *patchname;
     int     mobjnum;
@@ -136,7 +136,7 @@ static struct ammopic_s
     { "ROCKA0", MT_MISC18, 8, -6, NULL }
 };
 
-static struct keypic_s
+static struct
 {
     char    *patchnamea;
     char    *patchnameb;

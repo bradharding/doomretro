@@ -44,7 +44,7 @@
 #include "m_fixed.h"
 
 // Bounding box coordinate storage.
-enum box_e
+enum
 {
     BOXTOP,
     BOXBOTTOM,
