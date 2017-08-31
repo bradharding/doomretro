@@ -4,7 +4,8 @@
 * Some stray dark pixels have been removed from the top of the super shotgun’s muzzle when firing.
 * The shadows of crushed monsters are now positioned correctly.
 * The correct names are now shown for MAP31, MAP32 and MAP33 of *DOOM II: Hell On Earth (BFG Edition)*.
-* A bug has been fixed whereby a lowering ceiling could move through the floor, and vice versa, in some rare instances.
+* A bug has been fixed whereby a ceiling could move through a floor, and vice versa, in some rare instances.
+* The intermission screen will no longer wrongly indicate that the player is about to enter the next map when having exited the last map.
 
 ---
 

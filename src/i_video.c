@@ -438,7 +438,7 @@ static void I_GetEvent(void)
 
     while (SDL_PollEvent(Event))
     {
-        event_t         event;
+        event_t event;
 
 #if !defined(_WIN32)
         static dboolean enterdown;

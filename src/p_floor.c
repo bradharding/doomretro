@@ -66,13 +66,14 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
     {
         case 0:
             // FLOOR
+            lastpos = sector->floorheight;
+
             switch (direction)
             {
                 case -1:
                     // DOWN
                     if (sector->floorheight - speed < dest)
                     {
-                        lastpos = sector->floorheight;
                         sector->floorheight = dest;
 
                         if (P_ChangeSector(sector, crush))
@@ -85,7 +86,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     }
                     else
                     {
-                        lastpos = sector->floorheight;
                         sector->floorheight -= speed;
                         P_ChangeSector(sector, crush);
                     }
@@ -98,7 +98,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                     if (sector->floorheight + speed > destheight)
                     {
-                        lastpos = sector->floorheight;
                         sector->floorheight = destheight;
 
                         if (P_ChangeSector(sector, crush))
@@ -112,7 +111,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     else
                     {
                         // COULD GET CRUSHED
-                        lastpos = sector->floorheight;
                         sector->floorheight += speed;
 
                         if (P_ChangeSector(sector, crush))
@@ -129,6 +127,8 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
         case 1:
             // CEILING
+            lastpos = sector->ceilingheight;
+
             switch (direction)
             {
                 case -1:
@@ -137,7 +137,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                     if (sector->ceilingheight - speed < destheight)
                     {
-                        lastpos = sector->ceilingheight;
                         sector->ceilingheight = destheight;
 
                         if (P_ChangeSector(sector, crush))
@@ -151,7 +150,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     else
                     {
                         // COULD GET CRUSHED
-                        lastpos = sector->ceilingheight;
                         sector->ceilingheight -= speed;
 
                         if (P_ChangeSector(sector, crush))
@@ -171,7 +169,6 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
                     // UP
                     if (sector->ceilingheight + speed > dest)
                     {
-                        lastpos = sector->ceilingheight;
                         sector->ceilingheight = dest;
 
                         if (P_ChangeSector(sector, crush))
@@ -521,9 +518,8 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 
                 floor->floordestheight = MIN((sec->floorheight >> FRACBITS) + (minsize >> FRACBITS),
                     32000) << FRACBITS;
+                break;
             }
-
-            break;
 
             case lowerAndChange:
                 floor->direction = -1;
