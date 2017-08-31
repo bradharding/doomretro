@@ -360,7 +360,6 @@ static void FreeSurfaces(void)
 {
     SDL_FreePalette(palette);
     SDL_FreeSurface(surface);
-    SDL_FreeSurface(pixels);
     SDL_FreeSurface(buffer);
     SDL_DestroyTexture(texture);
     SDL_DestroyTexture(texture_upscaled);
@@ -1091,7 +1090,6 @@ void I_DestroyExternalAutomap(void)
 {
     SDL_FreePalette(mappalette);
     SDL_FreeSurface(mapsurface);
-    SDL_FreeSurface(mappixels);
     SDL_FreeSurface(mapbuffer);
     SDL_DestroyTexture(maptexture);
     SDL_DestroyTexture(maptexture_upscaled);
