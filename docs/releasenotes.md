@@ -2,11 +2,11 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Some stray dark pixels have been removed from the top of the super shotgun’s muzzle when firing.
-* The shadows of crushed monsters are now positioned correctly.
+* The shadows of crushed monsters are now positioned correctly. This changes the format of savegames, breaking compatibility with previous versions of *DOOM Retro*.
 * The correct names are now shown for MAP31, MAP32 and MAP33 of *DOOM II: Hell On Earth (BFG Edition)*.
 * A bug has been fixed whereby a ceiling could move through a floor, and vice versa, in some rare instances.
-* The intermission screen will no longer wrongly indicate that the player is about to enter the next map when having exited the last map.
-* Cacodemons will no longer drift upwards after being shot at.
+* The intermission screen will no longer wrongly indicate that the player is about to enter the next map when having exited the final map.
+* Cacodemons and lost souls will no longer drift upwards after being shot at.
 * Monsters will no longer be pushed under the floor if shot at while being crushed by a lowering ceiling.
 
 ---

@@ -52,7 +52,6 @@ wadfile_t *W_OpenFile(char *path)
 
     // Create a new wad_file_t to hold the file handle.
     result = Z_Malloc(sizeof(wadfile_t), PU_STATIC, NULL);
-    result->length = M_FileLength(fstream);
     result->fstream = fstream;
 
     return result;

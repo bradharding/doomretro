@@ -50,7 +50,6 @@
 
 void M_MakeDirectory(const char *path);
 dboolean M_FileExists(const char *filename);
-long M_FileLength(FILE *handle);
 char *M_ExtractFolder(char *path);
 
 // Returns the file system location where application resource files are located.

@@ -49,9 +49,6 @@ struct wadfile_s
 {
     FILE                *fstream;
 
-    // Length of the file, in bytes.
-    unsigned int        length;
-
     dboolean            freedoom;
 
     char                path[260];

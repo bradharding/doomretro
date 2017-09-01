@@ -149,26 +149,6 @@ dboolean M_FileExists(const char *filename)
         return (errno == EISDIR);
 }
 
-//
-// Determine the length of an open file.
-//
-long M_FileLength(FILE *handle)
-{
-    long    length;
-
-    // save the current position in the file
-    long    savedpos = ftell(handle);
-
-    // jump to the end and find the length
-    fseek(handle, 0, SEEK_END);
-    length = ftell(handle);
-
-    // go back to the old location
-    fseek(handle, savedpos, SEEK_SET);
-
-    return length;
-}
-
 // Safe string copy function that works like OpenBSD's strlcpy().
 // Returns true if the string was not truncated.
 dboolean M_StringCopy(char *dest, const char *src, const size_t dest_size)

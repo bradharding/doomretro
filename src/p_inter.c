@@ -1513,7 +1513,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
 
         tplayer->attacker = source;
-        damagecount = tplayer->damagecount + damage;    // add damage after armor / invuln
+        damagecount = tplayer->damagecount + damage;    // add damage after armor/invuln
 
         if (damage > 0 && damagecount < 8)
              damagecount = 8;

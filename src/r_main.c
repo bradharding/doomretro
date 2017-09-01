@@ -231,26 +231,6 @@ angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
     return R_PointToAngle2(x1, y1, x, y);
 }
 
-fixed_t R_PointToDist(fixed_t x, fixed_t y)
-{
-    fixed_t dx = ABS(x - viewx);
-    fixed_t dy = ABS(y - viewy);
-
-    if (dy > dx)
-    {
-        fixed_t t = dx;
-
-        dx = dy;
-        dy = t;
-    }
-
-    if (!dy)
-        return dx;
-    else if (dx)
-        return FixedDiv(dx, finesine[(tantoangle[FixedDiv(dy, dx) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
-    else
-        return 0;
-}
 
 // [AM] Interpolate between two angles.
 static angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
