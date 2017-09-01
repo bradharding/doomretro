@@ -1452,37 +1452,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         // killough 11/98: thrust objects hanging off ledges
         if ((target->flags2 & MF2_FALLING) && target->gear >= MAXGEAR)
             target->gear = 0;
-
-        if (source)
-        {
-            int dist;
-            int z;
-
-            if (source == target)
-            {
-                viewx = inflicter->x;
-                viewy = inflicter->y;
-                z = inflicter->z;
-            }
-            else
-            {
-                viewx = source->x;
-                viewy = source->y;
-                z = source->z;
-            }
-
-            dist = R_PointToDist(target->x, target->y);
-
-            if (target->flags2 & MF2_FEETARECLIPPED)
-                z += FOOTCLIPSIZE;
-
-            viewx = 0;
-            viewy = z;
-            ang = R_PointToAngle(dist, target->z);
-
-            ang >>= ANGLETOFINESHIFT;
-            target->momz += FixedMul(thrust, finesine[ang]);
-        }
     }
 
     if (corpse)

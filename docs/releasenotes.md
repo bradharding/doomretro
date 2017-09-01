@@ -6,6 +6,8 @@
 * The correct names are now shown for MAP31, MAP32 and MAP33 of *DOOM II: Hell On Earth (BFG Edition)*.
 * A bug has been fixed whereby a ceiling could move through a floor, and vice versa, in some rare instances.
 * The intermission screen will no longer wrongly indicate that the player is about to enter the next map when having exited the last map.
+* Cacodemons will no longer drift upwards after being shot at.
+* Monsters will no longer be pushed under the floor if shot at while being crushed by a lowering ceiling.
 
 ---
 
