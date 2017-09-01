@@ -577,8 +577,8 @@ static void HU_DrawHUD(void)
 }
 
 #define ALTHUD_LEFT_X   21
-#define ALTHUD_RIGHT_X  459
-#define ALTHUD_Y        299
+#define ALTHUD_RIGHT_X  (SCREENWIDTH - 181)
+#define ALTHUD_Y        (SCREENHEIGHT - SBARHEIGHT - 37)
 
 #define WHITE           4
 #define LIGHTGRAY       86
