@@ -115,8 +115,6 @@ typedef struct player_s
     fixed_t             viewheight;
     // Bob/squat speed.
     fixed_t             deltaviewheight;
-    // bounded/scaled total momentum.
-    fixed_t             bob;
 
     // killough 10/98: used for realistic bobbing (i.e. not simply overall speed)
     // mo->momx and mo->momy represent true momenta experienced by player.

@@ -393,7 +393,6 @@ static void saveg_read_player_t(player_t *str)
     str->viewz = saveg_read32();
     str->viewheight = saveg_read32();
     str->deltaviewheight = saveg_read32();
-    str->bob = saveg_read32();
     str->momx = saveg_read32();
     str->momy = saveg_read32();
     str->health = saveg_read32();
@@ -492,7 +491,6 @@ static void saveg_write_player_t(player_t *str)
     saveg_write32(str->viewz);
     saveg_write32(str->viewheight);
     saveg_write32(str->deltaviewheight);
-    saveg_write32(str->bob);
     saveg_write32(str->momx);
     saveg_write32(str->momy);
     saveg_write32(str->health);
