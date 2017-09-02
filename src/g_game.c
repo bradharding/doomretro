@@ -1386,8 +1386,7 @@ static void G_DoCompleted(void)
 
     stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
 
-    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, "exitmap"))
-        C_Input("exitmap");
+    C_CCMDOutput("exitmap");
 
     C_AddConsoleDivider();
 
@@ -1742,8 +1741,7 @@ void G_InitNew(skill_t skill, int ep, int map)
     gamemap = map;
     gameskill = skill;
 
-    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, "newgame"))
-        C_Input("newgame");
+    C_CCMDOutput("newgame");
 
     G_DoLoadLevel();
 }

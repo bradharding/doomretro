@@ -230,6 +230,12 @@ void C_StrCVAROutput(const char *cvar, const char *string)
     C_Input("%s %s", cvar, string);
 }
 
+void C_CCMDOutput(const char *ccmd)
+{
+    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, ccmd))
+        C_Input(ccmd);
+}
+
 void C_Output(const char *string, ...)
 {
     va_list argptr;
