@@ -221,10 +221,10 @@ typedef struct
 } button_t;
 
 // 4 players, 4 buttons each at once, max.
-#define MAXBUTTONS              32
+#define MAXBUTTONS  32
 
 // 1 second, in ticks.
-#define BUTTONTIME              35
+#define BUTTONTIME  35
 
 extern button_t buttonlist[MAXBUTTONS];
 
@@ -287,8 +287,8 @@ typedef struct platlist_s
     struct platlist_s  *next, **prev;
 } platlist_t;
 
-#define PLATWAIT       3
-#define PLATSPEED      FRACUNIT
+#define PLATWAIT    3
+#define PLATSPEED   FRACUNIT
 
 extern platlist_t      *activeplats;
 
@@ -352,8 +352,8 @@ typedef struct
     int         lighttag;
 } vldoor_t;
 
-#define VDOORSPEED              FRACUNIT * 2
-#define VDOORWAIT               150
+#define VDOORSPEED  FRACUNIT * 2
+#define VDOORWAIT   150
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);
 
@@ -418,7 +418,8 @@ typedef struct
 typedef struct ceilinglist_s
 {
     ceiling_t                   *ceiling;
-    struct ceilinglist_s        *next, **prev;
+    struct ceilinglist_s        *next;
+    struct ceilinglist_s        **prev;
 } ceilinglist_t;
 
 #define CEILSPEED               FRACUNIT
@@ -531,8 +532,8 @@ typedef struct
     fixed_t     speed;
 } elevator_t;
 
-#define ELEVATORSPEED           (FRACUNIT * 4)
-#define FLOORSPEED              FRACUNIT
+#define ELEVATORSPEED   (FRACUNIT * 4)
+#define FLOORSPEED      FRACUNIT
 
 typedef enum
 {
@@ -612,11 +613,8 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 #define DAMAGE_MASK             0x60
 #define DAMAGE_SHIFT               5
 #define SECRET_MASK             0x80
-#define SECRET_SHIFT               7
 #define FRICTION_MASK          0x100
-#define FRICTION_SHIFT             8
 #define PUSH_MASK              0x200
-#define PUSH_SHIFT                 9
 
 // jff 02/04/98 Define masks, shifts, for fields in
 // generalized linedef types

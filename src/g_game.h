@@ -40,6 +40,7 @@
 #define __G_GAME_H__
 
 #include "i_video.h"
+#include "w_file.h"
 
 #define NUMKEYS 256
 

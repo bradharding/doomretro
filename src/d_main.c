@@ -45,10 +45,6 @@
 #include <ShellAPI.h>
 #endif
 
-#if !defined(MAX_PATH)
-#define MAX_PATH        260
-#endif
-
 #include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"

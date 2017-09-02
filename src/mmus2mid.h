@@ -48,11 +48,12 @@ typedef uint16_t UWORD; // a two-byte int
 // proff: changed from unsigned int to unsigned long to avoid warning
 typedef uint32_t ULONG; // a four-byte int (assumes int 4 bytes)
 
-#define MIDI_TRACKS     32
+#define MIDI_TRACKS 32
 
-typedef struct MIDI                     // a midi file
+typedef struct                          // a midi file
 {
     int                 divisions;      // number of ticks per quarter note
+
     struct
     {
         unsigned char   *data;          // MIDI message stream

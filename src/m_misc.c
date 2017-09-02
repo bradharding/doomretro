@@ -76,10 +76,6 @@
 #include "version.h"
 #include "z_zone.h"
 
-#if !defined(MAX_PATH)
-#define MAX_PATH    260
-#endif
-
 struct s_commify
 {
     char    *p[128];

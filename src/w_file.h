@@ -43,6 +43,10 @@
 #include <stdio.h>
 #endif
 
+#if !defined(MAX_PATH)
+#define MAX_PATH            260
+#endif
+
 typedef struct wadfile_s wadfile_t;
 
 struct wadfile_s
@@ -51,7 +55,7 @@ struct wadfile_s
 
     dboolean            freedoom;
 
-    char                path[260];
+    char                path[MAX_PATH];
 
     int                 type;
 };

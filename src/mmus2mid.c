@@ -89,7 +89,7 @@ typedef struct tagMUSheader MUSheader;
 #endif
 
 // to keep track of information in a MIDI track
-typedef struct Track
+typedef struct
 {
     char    velocity;
     int     deltaT;

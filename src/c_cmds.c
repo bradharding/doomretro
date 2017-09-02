@@ -70,10 +70,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#if !defined(MAX_PATH)
-#define MAX_PATH            260
-#endif
-
 #define ALIASCMDFORMAT      "<i>alias</i> [<b>\"</b><i>command</i> [<b>;</b> <i>command</i> ...]<b>\"</b>]"
 #define BINDCMDFORMAT       "<i>control</i> [<b>+</b><i>action</i>]"
 #define EXECCMDFORMAT       "<i>filename</i>"
