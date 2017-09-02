@@ -627,7 +627,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(expansion, "", int_cvars_func1, expansion_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i><b>DOOM II</b></i> expansion in the\nmenu (<b>1</b> or <b>2</b>)."),
     CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, FACEBACKVALUEALIAS,
-        "The color behind the player's face in the status bar\n(<b>off</b>, or <b>0</b> to <b>255</b>)."),
+        "The color behind the player's face in the status bar\n(<b>none</b>, or <b>0</b> to <b>255</b>)."),
     CMD(fastmonsters, "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
     CMD(freeze, "", null_func1, freeze_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
