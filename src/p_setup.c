@@ -692,6 +692,7 @@ static void P_LoadSectors(int lump)
         sector_t    *ss = sectors + i;
         mapsector_t *ms = (mapsector_t *)data + i;
 
+        ss->id = i;
         ss->floorheight = SHORT(ms->floorheight) << FRACBITS;
         ss->ceilingheight = SHORT(ms->ceilingheight) << FRACBITS;
         ss->floorpic = R_FlatNumForName(ms->floorpic);

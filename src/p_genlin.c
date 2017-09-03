@@ -77,7 +77,7 @@ dboolean EV_DoGenFloor(line_t *line)
         if (!(sec = line->backsector))
             return rtn;
 
-        secnum = sec - sectors;
+        secnum = sec->id;
         manual = true;
         goto manual_floor;
     }
@@ -278,7 +278,7 @@ dboolean EV_DoGenCeiling(line_t *line)
         if (!(sec = line->backsector))
             return rtn;
 
-        secnum = sec - sectors;
+        secnum = sec->id;
         manual = true;
         goto manual_ceiling;
     }
@@ -482,7 +482,7 @@ dboolean EV_DoGenLift(line_t *line)
         if (!(sec = line->backsector))
             return rtn;
 
-        secnum = sec - sectors;
+        secnum = sec->id;
         manual = true;
         goto manual_lift;
     }
@@ -641,7 +641,7 @@ dboolean EV_DoGenStairs(line_t *line)
         if (!(sec = line->backsector))
             return rtn;
 
-        secnum = sec - sectors;
+        secnum = sec->id;
         manual = true;
         goto manual_stair;
     }
@@ -740,13 +740,13 @@ manual_stair:
                     continue;
 
                 tsec = (sec->lines[i])->frontsector;
-                newsecnum = tsec - sectors;
+                newsecnum = tsec->id;
 
                 if (secnum != newsecnum)
                     continue;
 
                 tsec = (sec->lines[i])->backsector;
-                newsecnum = tsec - sectors;
+                newsecnum = tsec->id;
 
                 if (!Igno && tsec->floorpic != texture)
                     continue;
@@ -834,7 +834,7 @@ dboolean EV_DoGenCrusher(line_t *line)
         if (!(sec = line->backsector))
             return rtn;
 
-        secnum = sec - sectors;
+        secnum = sec->id;
         manual = true;
         goto manual_crusher;
     }
@@ -928,7 +928,7 @@ dboolean EV_DoGenLockedDoor(line_t *line)
         if (!(sec = line->backsector))
             return rtn;
 
-        secnum = sec - sectors;
+        secnum = sec->id;
         manual = true;
         goto manual_locked;
     }
@@ -1030,7 +1030,7 @@ dboolean EV_DoGenDoor(line_t *line)
         if (!(sec = line->backsector))
             return rtn;
 
-        secnum = sec - sectors;
+        secnum = sec->id;
         manual = true;
         goto manual_door;
     }

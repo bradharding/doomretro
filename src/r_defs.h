@@ -87,6 +87,8 @@ typedef struct
 //
 typedef struct sector_s
 {
+    int                 id;
+
     fixed_t             floorheight;
     fixed_t             ceilingheight;
     int                 nexttag;

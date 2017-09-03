@@ -641,8 +641,8 @@ sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
     const int   linecount = sec->linecount;
 
     for (int i = 0; i < linecount; i++)
-        if (twoSided(secnum, i) && (sec = getSector(secnum, i, getSide(secnum, i, 0)->sector
-            - sectors == secnum))->floorheight == floordestheight)
+        if (twoSided(secnum, i) && (sec = getSector(secnum, i, (getSide(secnum, i, 0)->sector->id
+            == secnum)))->floorheight == floordestheight)
             return sec;
 
     return NULL;
@@ -670,8 +670,8 @@ sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
     const int   linecount = sec->linecount;
 
     for (int i = 0; i < linecount; i++)
-        if (twoSided(secnum, i) && (sec = getSector(secnum, i, getSide(secnum, i, 0)->sector
-            - sectors == secnum))->ceilingheight == ceildestheight)
+        if (twoSided(secnum, i) && (sec = getSector(secnum, i, (getSide(secnum, i, 0)->sector->id
+            == secnum)))->ceilingheight == ceildestheight)
             return sec;
 
     return NULL;
@@ -2340,7 +2340,7 @@ void P_SpawnSpecials(void)
             // killough 3/7/98:
             // support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
-                sec = sides[*line->sidenum].sector - sectors;
+                sec = sides[*line->sidenum].sector->id;
 
                 for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].heightsec = sec;
@@ -2350,7 +2350,7 @@ void P_SpawnSpecials(void)
             // killough 3/16/98: Add support for setting
             // floor lighting independently (e.g. lava)
             case Floor_ChangeBrightnessToThisBrightness:
-                sec = sides[*line->sidenum].sector - sectors;
+                sec = sides[*line->sidenum].sector->id;
 
                 for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].floorlightsec = sec;
@@ -2360,7 +2360,7 @@ void P_SpawnSpecials(void)
             // killough 4/11/98: Add support for setting
             // ceiling lighting independently
             case Ceiling_ChangeBrightnessToThisBrightness:
-                sec = sides[*line->sidenum].sector - sectors;
+                sec = sides[*line->sidenum].sector->id;
 
                 for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].ceilinglightsec = sec;
@@ -2581,7 +2581,7 @@ static void P_SpawnScrollers(void)
         {
             special += Scroll_ScrollCeilingAccordingToLineVector
                 - Scroll_ScrollCeilingWhenSectorChangesHeight;
-            control = sides[*l->sidenum].sector - sectors;
+            control = sides[*l->sidenum].sector->id;
         }
         else if (special >= Scroll_CeilingAcceleratesWhenSectorHeightChanges
             && special <= Scroll_WallAcceleratesWhenSectorHeightChanges) // accelerative scrollers
@@ -2589,7 +2589,7 @@ static void P_SpawnScrollers(void)
             accel = 1;
             special += Scroll_ScrollCeilingAccordingToLineVector
                 - Scroll_CeilingAcceleratesWhenSectorHeightChanges;
-            control = sides[*l->sidenum].sector - sectors;
+            control = sides[*l->sidenum].sector->id;
         }
 
         switch (special)

@@ -63,7 +63,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
         {
             mobj_t  *m = (mobj_t *)th;
 
-            if (m->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
+            if (m->type == MT_TELEPORTMAN && m->subsector->sector->id == i)
             {
                 fixed_t     oldx = thing->x;
                 fixed_t     oldy = thing->y;
@@ -151,7 +151,7 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
         {
             mobj_t  *m = (mobj_t *)th;
 
-            if (m->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
+            if (m->type == MT_TELEPORTMAN && m->subsector->sector->id == i)
             {
                 // Height of thing above ground, in case of mid-air teleports:
                 fixed_t     z = thing->z - thing->floorz;

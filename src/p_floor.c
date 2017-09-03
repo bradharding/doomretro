@@ -533,7 +533,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 {
                     if (twoSided(secnum, i))
                     {
-                        if (getSide(secnum, i, 0)->sector - sectors == secnum)
+                        if (getSide(secnum, i, 0)->sector->id == secnum)
                         {
                             sec = getSector(secnum, i, 1);
 
@@ -720,7 +720,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                 if (!(line->flags & ML_TWOSIDED))
                     continue;
 
-                if (secnum != line->frontsector - sectors)
+                if (secnum != line->frontsector->id)
                     continue;
 
                 if (!(tsec = line->backsector))
@@ -735,7 +735,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                     continue;
 
                 sec = tsec;
-                secnum = tsec - sectors;
+                secnum = tsec->id;
                 floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
                 P_AddThinker(&floor->thinker);
 

@@ -589,7 +589,7 @@ static void saveg_read_ceiling_t(ceiling_t *str)
 static void saveg_write_ceiling_t(ceiling_t *str)
 {
     saveg_write_enum(str->type);
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->bottomheight);
     saveg_write32(str->topheight);
     saveg_write32(str->speed);
@@ -621,7 +621,7 @@ static void saveg_read_vldoor_t(vldoor_t *str)
 static void saveg_write_vldoor_t(vldoor_t *str)
 {
     saveg_write_enum(str->type);
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->topheight);
     saveg_write32(str->speed);
     saveg_write32(str->direction);
@@ -651,7 +651,7 @@ static void saveg_write_floormove_t(floormove_t *str)
 {
     saveg_write_enum(str->type);
     saveg_write32(str->crush);
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->direction);
     saveg_write32(str->newspecial);
     saveg_write16(str->texture);
@@ -682,7 +682,7 @@ static void saveg_read_plat_t(plat_t *str)
 static void saveg_write_plat_t(plat_t *str)
 {
     saveg_write32(!!str->thinker.function);
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->speed);
     saveg_write32(str->low);
     saveg_write32(str->high);
@@ -710,7 +710,7 @@ static void saveg_read_lightflash_t(lightflash_t *str)
 
 static void saveg_write_lightflash_t(lightflash_t *str)
 {
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->count);
     saveg_write32(str->maxlight);
     saveg_write32(str->minlight);
@@ -733,7 +733,7 @@ static void saveg_read_strobe_t(strobe_t *str)
 
 static void saveg_write_strobe_t(strobe_t *str)
 {
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->count);
     saveg_write32(str->minlight);
     saveg_write32(str->maxlight);
@@ -754,7 +754,7 @@ static void saveg_read_glow_t(glow_t *str)
 
 static void saveg_write_glow_t(glow_t *str)
 {
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->minlight);
     saveg_write32(str->maxlight);
     saveg_write32(str->direction);
@@ -770,7 +770,7 @@ static void saveg_read_fireflicker_t(fireflicker_t *str)
 
 static void saveg_write_fireflicker_t(fireflicker_t *str)
 {
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->count);
     saveg_write32(str->minlight);
     saveg_write32(str->maxlight);
@@ -789,7 +789,7 @@ static void saveg_read_elevator_t(elevator_t *str)
 static void saveg_write_elevator_t(elevator_t *str)
 {
     saveg_write_enum(str->type);
-    saveg_write32(str->sector - sectors);
+    saveg_write32(str->sector->id);
     saveg_write32(str->direction);
     saveg_write32(str->floordestheight);
     saveg_write32(str->ceilingdestheight);
