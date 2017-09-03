@@ -2231,7 +2231,7 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     mobj_t      *saved_tmthing = tmthing;
     fixed_t     saved_tmx = tmx;
     fixed_t     saved_tmy = tmy;
-    fixed_t     radius = thing->radius;
+    fixed_t     radius = thing->info->pickupradius;
 
     // First, clear out the existing m_thing fields. As each node is
     // added or verified as needed, m_thing will be set properly. When
