@@ -142,12 +142,12 @@ extern dboolean     weaponrecoil;
 //
 int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 {
-    return ((int32_t)(((int64_t)(y - node->y) * node->dx + (int64_t)(node->x - x) * node->dy) >> 32) > 0);
+    return ((int)(((int64_t)(y - node->y) * node->dx + (int64_t)(node->x - x) * node->dy) >> 32) > 0);
 }
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    return ((int32_t)(((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
+    return ((int)(((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
         - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x)) >> 32) > 0);
 }
 
@@ -217,8 +217,8 @@ angle_t R_PointToAngleEx(fixed_t x, fixed_t y)
 angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
 {
     // [crispy] fix overflows for very long distances
-    int64_t y_viewy = (int64_t)y - y1;
-    int64_t x_viewx = (int64_t)x - x1;
+    const int64_t   y_viewy = (int64_t)y - y1;
+    const int64_t   x_viewx = (int64_t)x - x1;
 
     // [crispy] the worst that could happen is e.g. INT_MIN-INT_MAX = 2*INT_MIN
     if (x_viewx < INT_MIN || x_viewx > INT_MAX || y_viewy < INT_MIN || y_viewy > INT_MAX)
@@ -230,7 +230,6 @@ angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
 
     return R_PointToAngle2(x1, y1, x, y);
 }
-
 
 // [AM] Interpolate between two angles.
 static angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
@@ -288,11 +287,11 @@ static void R_InitTextureMapping(void)
 
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
-    fixed_t         focallength = FixedDiv(centerxfrac, hitan);
+    const fixed_t   focallength = FixedDiv(centerxfrac, hitan);
 
     for (int i = 0; i < FINEANGLES / 2; i++)
     {
-        fixed_t tangent = finetangent[i];
+        const fixed_t   tangent = finetangent[i];
 
         if (tangent > hitan)
             viewangletox[i] = -1;
@@ -343,12 +342,12 @@ static void R_InitLightTables(void)
     //  for each level / distance combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
-        int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        const int   startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (int j = 0; j < MAXLIGHTZ; j++)
         {
-            int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
-            int level = BETWEEN(0, startmap - scale  / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            const int   scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
+            const int   level = BETWEEN(0, startmap - scale  / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: Initialize multiple colormaps
             for (int t = 0; t < numcolormaps; t++)
@@ -416,7 +415,7 @@ void R_ExecuteSetViewSize(void)
     // planes
     for (int i = 0; i < viewheight; i++)
     {
-        fixed_t num = viewwidth / 2 * FRACUNIT;
+        const fixed_t   num = viewwidth / 2 * FRACUNIT;
 
         for (int j = 0; j < LOOKDIRS; j++)
             yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2
@@ -429,11 +428,11 @@ void R_ExecuteSetViewSize(void)
     //  for each level / scale combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
-        int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        const int   startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (int j = 0; j < MAXLIGHTSCALE; j++)
         {
-            int level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: initialize multiple colormaps
             for (int t = 0; t < numcolormaps; t++)     // killough 4/4/98
@@ -445,11 +444,11 @@ void R_ExecuteSetViewSize(void)
     //  player's weapon, so it stays consistent regardless of view size
     for (int i = 0; i < OLDLIGHTLEVELS; i++)
     {
-        int startmap = ((OLDLIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
+        const int   startmap = ((OLDLIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
 
         for (int j = 0; j < OLDMAXLIGHTSCALE; j++)
         {
-            int level = BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             for (int t = 0; t < numcolormaps; t++)
                 c_psprscalelight[t][i][j] = &colormaps[t][level];
@@ -555,7 +554,7 @@ void R_InitColumnFunctions(void)
     for (int i = 0; i < NUMMOBJTYPES; i++)
     {
         mobjinfo_t  *info = &mobjinfo[i];
-        int         flags2 = info->flags2;
+        const int   flags2 = info->flags2;
 
         if (flags2 & MF2_TRANSLUCENT)
             info->colfunc = tlcolfunc;
@@ -640,7 +639,7 @@ static void R_SetupFrame(player_t *player)
     int     pitch = 0;
 
     viewplayer = player;
-    viewplayer->mo->flags2 |= MF2_DONTDRAW;
+    mo->flags2 |= MF2_DONTDRAW;
 
     // [AM] Interpolate the player camera if the feature is enabled.
 

@@ -1129,18 +1129,15 @@ void GetWindowPosition(void)
 
 void GetWindowSize(void)
 {
-    int     width = -1;
-    int     height = -1;
-    char    *pvid_windowsize = strdup(vid_windowsize);
-    char    *left = strtok(pvid_windowsize, "x");
-    char    *right = strtok(NULL, "x");
-
-    if (!right)
-        right = "";
+    int         width = -1;
+    int         height = -1;
+    char        *p = strdup(vid_windowsize);
+    const char  *left = strtok(p, "x");
+    const char  *right = strtok(NULL, "x");
 
     sscanf(left, "%10i", &width);
     sscanf(right, "%10i", &height);
-    free(pvid_windowsize);
+    free(p);
 
     if (width < ORIGINALWIDTH + windowborderwidth || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
     {

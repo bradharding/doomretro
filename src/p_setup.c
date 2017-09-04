@@ -1710,15 +1710,15 @@ static void P_LoadBlockMap(int lump)
         // because DOOM originally considered the offsets as always signed.
         blockmaplump[0] = SHORT(wadblockmaplump[0]);
         blockmaplump[1] = SHORT(wadblockmaplump[1]);
-        blockmaplump[2] = (uint32_t)(SHORT(wadblockmaplump[2])) & 0xFFFF;
-        blockmaplump[3] = (uint32_t)(SHORT(wadblockmaplump[3])) & 0xFFFF;
+        blockmaplump[2] = (unsigned int)(SHORT(wadblockmaplump[2])) & 0xFFFF;
+        blockmaplump[3] = (unsigned int)(SHORT(wadblockmaplump[3])) & 0xFFFF;
 
         // Swap all short integers to native byte ordering.
         for (int i = 4; i < count; i++)
         {
             short   t = SHORT(wadblockmaplump[i]);
 
-            blockmaplump[i] = (t == -1 ? -1l : ((uint32_t)t & 0xFFFF));
+            blockmaplump[i] = (t == -1 ? -1l : ((unsigned int)t & 0xFFFF));
         }
 
         Z_Free(wadblockmaplump);

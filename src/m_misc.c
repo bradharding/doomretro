@@ -389,9 +389,9 @@ char *M_GetExecutableFolder(void)
 
     return exe;
 #elif defined(__MACOSX__)
-    char        *exe = M_StaticPath();
-    static int  getpath = -1;
-    uint32_t    len = MAX_PATH;
+    char            *exe = M_StaticPath();
+    static int      getpath = -1;
+    unsigned int    len = MAX_PATH;
 
     if (!pathset)
     {

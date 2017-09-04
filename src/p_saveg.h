@@ -95,8 +95,8 @@ void P_UnArchiveSpecials(void);
 void P_ArchiveMap(void);
 void P_UnArchiveMap(void);
 
-uint32_t P_ThinkerToIndex(thinker_t *thinker);
-thinker_t *P_IndexToThinker(uint32_t index);
+unsigned int P_ThinkerToIndex(thinker_t *thinker);
+thinker_t *P_IndexToThinker(unsigned int index);
 void P_RestoreTargets(void);
 
 extern FILE *save_stream;

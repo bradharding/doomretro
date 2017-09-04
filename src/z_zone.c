@@ -70,7 +70,7 @@ static memblock_t   *blockbytag[PU_MAX];
 // but we only free the blocks we actually end up using; we don't
 // free all the stuff we just pass on the way.
 //
-void *Z_Malloc(size_t size, int32_t tag, void **user)
+void *Z_Malloc(size_t size, int tag, void **user)
 {
     memblock_t  *block = NULL;
 
@@ -112,7 +112,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
     return block;
 }
 
-void *Z_Calloc(size_t n1, size_t n2, int32_t tag, void **user)
+void *Z_Calloc(size_t n1, size_t n2, int tag, void **user)
 {
     return ((n1 *= n2) ? memset(Z_Malloc(n1, tag, user), 0, n1) : NULL);
 }
@@ -135,7 +135,7 @@ void Z_Free(void *ptr)
     free(block);
 }
 
-void Z_FreeTags(int32_t lowtag, int32_t hightag)
+void Z_FreeTags(int lowtag, int hightag)
 {
     if (lowtag <= PU_FREE)
         lowtag = PU_FREE + 1;
@@ -167,7 +167,7 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
     }
 }
 
-void Z_ChangeTag(void *ptr, int32_t tag)
+void Z_ChangeTag(void *ptr, int tag)
 {
     memblock_t  *block;
 

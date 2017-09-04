@@ -1211,9 +1211,9 @@ void P_UnArchiveThinkers(void)
 }
 
 // By Fabian Greffrath. See http://www.doomworld.com/vb/post/1294860.
-uint32_t P_ThinkerToIndex(thinker_t *thinker)
+unsigned int P_ThinkerToIndex(thinker_t *thinker)
 {
-    uint32_t    i = 0;
+    unsigned int    i = 0;
 
     if (!thinker)
         return 0;
@@ -1229,9 +1229,9 @@ uint32_t P_ThinkerToIndex(thinker_t *thinker)
     return 0;
 }
 
-thinker_t *P_IndexToThinker(uint32_t index)
+thinker_t *P_IndexToThinker(unsigned int index)
 {
-    uint32_t    i = 0;
+    unsigned int    i = 0;
 
     if (!index)
         return NULL;

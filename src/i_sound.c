@@ -311,8 +311,7 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 
     // Calculate the length of the expanded version of the sample.
     // Double up twice: 8 -> 16 bit and mono -> stereo
-    uint32_t            expanded_length = (uint32_t)(((uint64_t)length * mixer_freq) / samplerate)
-                           * 4;
+    unsigned int        expanded_length = (unsigned int)(((uint64_t)length * mixer_freq) / samplerate) * 4;
 
     // Allocate a chunk in which to expand the sound
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length);

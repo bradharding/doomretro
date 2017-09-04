@@ -939,8 +939,8 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 dboolean P_SectorActive(special_e t, sector_t *sec)
 {
     return (t == floor_special ? !!sec->floordata :     // return whether
-        (t == ceiling_special ? !!sec->ceilingdata :     // thinker of same
-        (t == lighting_special ? !!sec->lightingdata :   // type is active
+        (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
+        (t == lighting_special ? !!sec->lightingdata :  // type is active
         true)));        // don't know which special, must be active, shouldn't be here
 }
 
@@ -1070,7 +1070,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is walkover generalized linedef type
-        dboolean (*linefunc)(line_t *) = NULL;
+        dboolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
         if ((unsigned int)line->special >= GenFloorBase)

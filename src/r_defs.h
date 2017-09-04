@@ -267,7 +267,6 @@ typedef struct line_s
     int                 nexttag;
     int                 firsttag;
 
-
     int                 r_validcount;   // cph: if == gametic, r_flags already done
 
     enum

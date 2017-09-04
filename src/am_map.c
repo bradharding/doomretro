@@ -168,15 +168,13 @@ static mpoint_t     m_paninc;       // how far the window pans each tic (map coo
 static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
 static fixed_t      ftom_zoommul;   // how far the window zooms in each tic (fb coords)
 
-                                    // LL x,y where the window is on the map (map coords)
+// LL x,y where the window is on the map (map coords)
 fixed_t             m_x = INT_MAX, m_y = INT_MAX;
 
 // UR x,y where the window is on the map (map coords)
 static fixed_t      m_x2, m_y2;
 
-//
 // width/height of window on map (map coords)
-//
 fixed_t             m_w;
 fixed_t             m_h;
 
@@ -384,14 +382,13 @@ void AM_getGridSize(void)
 {
     int         width = -1;
     int         height = -1;
-    const char  *left = strtok(strdup(am_gridsize), "x");
+    char        *p = strdup(am_gridsize);
+    const char  *left = strtok(p, "x");
     const char  *right = strtok(NULL, "x");
-
-    if (!right)
-        right = "";
 
     sscanf(left, "%10i", &width);
     sscanf(right, "%10i", &height);
+    free(p);
 
     if (width >= 4 && width <= 4096 && height >= 4 && height <= 4096)
     {
@@ -558,25 +555,36 @@ static void AM_toggleMaxZoom(void)
 
 static void AM_toggleFollowMode(void)
 {
-    am_followmode = !am_followmode;
-
-    if (am_followmode)
+    if ((am_followmode = !am_followmode))
     {
         m_paninc.x = 0;
         m_paninc.y = 0;
+        C_StrCVAROutput(stringize(am_followmode), "on");
+        HU_PlayerMessage(s_AMSTR_FOLLOWON, true);
+    }
+    else
+    {
+        C_StrCVAROutput(stringize(am_followmode), "off");
+        HU_PlayerMessage(s_AMSTR_FOLLOWOFF, true);
     }
 
-    C_StrCVAROutput(stringize(am_followmode), (am_followmode ? "on" : "off"));
-    HU_PlayerMessage((am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF), true);
     message_dontfuckwithme = true;
     message_clearable = true;
 }
 
 static void AM_toggleGrid(void)
 {
-    am_grid = !am_grid;
-    C_StrCVAROutput(stringize(am_grid), (am_grid ? "on" : "off"));
-    HU_PlayerMessage((am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF), true);
+    if ((am_grid = !am_grid))
+    {
+        C_StrCVAROutput(stringize(am_grid), "on");
+        HU_PlayerMessage(s_AMSTR_GRIDON, true);
+    }
+    else
+    {
+        C_StrCVAROutput(stringize(am_grid), "off");
+        HU_PlayerMessage(s_AMSTR_GRIDOFF, true);
+    }
+
     message_dontfuckwithme = true;
     message_clearable = true;
     M_SaveCVARs();
@@ -660,9 +668,17 @@ void AM_addToPath(void)
 
 static void AM_toggleRotateMode(void)
 {
-    am_rotatemode = !am_rotatemode;
-    C_StrCVAROutput(stringize(am_rotatemode), (am_rotatemode ? "on" : "off"));
-    HU_PlayerMessage((am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF), true);
+    if ((am_rotatemode = !am_rotatemode))
+    {
+        C_StrCVAROutput(stringize(am_rotatemode), "on");
+        HU_PlayerMessage(s_AMSTR_ROTATEON, true);
+    }
+    else
+    {
+        C_StrCVAROutput(stringize(am_rotatemode), "off");
+        HU_PlayerMessage(s_AMSTR_ROTATEOFF, true);
+    }
+
     message_dontfuckwithme = true;
     message_clearable = true;
     M_SaveCVARs();
