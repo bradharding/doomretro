@@ -845,8 +845,8 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
         {
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency
-                ? tinttab75 : NULL));
+            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ?
+                tinttab75 : NULL));
             x += SHORT(patch->width);
         }
     }

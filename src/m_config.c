@@ -928,8 +928,7 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2)
 #endif
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_software)
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_vulkan))
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_software))
         vid_scaleapi = vid_scaleapi_default;
 
     if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)

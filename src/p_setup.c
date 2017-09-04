@@ -2585,9 +2585,9 @@ static int QualifyMap(int map)
 
 char *P_GetMapAuthor(int map)
 {
-    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author
-        : (breach && map == 1 ? s_AUTHOR_BESTOR : ((E1M4B && map == 4) || (E1M8B && map == 8)
-        ? s_AUTHOR_ROMERO : "")));
+    return (MAPINFO >= 0 && mapinfo[QualifyMap(map)].author[0] ? mapinfo[QualifyMap(map)].author :
+        (breach && map == 1 ? s_AUTHOR_BESTOR : ((E1M4B && map == 4) || (E1M8B && map == 8) ?
+        s_AUTHOR_ROMERO : "")));
 }
 
 void P_GetMapLiquids(int map)
@@ -2603,8 +2603,8 @@ int P_GetMapMusic(int map)
 
 char *P_GetMapName(int map)
 {
-    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].name : (E1M4B && map == 4 ? s_CAPTION_E1M4B
-        : (E1M8B && map == 8 ? s_CAPTION_E1M8B : "")));
+    return (MAPINFO >= 0 ? mapinfo[QualifyMap(map)].name : (E1M4B && map == 4 ? s_CAPTION_E1M4B :
+        (E1M8B && map == 8 ? s_CAPTION_E1M8B : "")));
 }
 
 int P_GetMapNext(int map)

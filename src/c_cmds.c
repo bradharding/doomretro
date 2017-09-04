@@ -870,10 +870,10 @@ consolecmd_t consolecmds[] =
         "Toggles using the pillarboxes either side of the\nscreen for palette effects."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b>, <b>\"vulkan\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale the display (<b>\"direct3d\"</b>,\n<b>\"opengl\"</b> or <b>\"software\"</b>)."),
 #else
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b>,\n<b>\"opengles\"</b>, <b>\"opengles2\"</b>, <b>\"vulkan\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale the display (<b>\"direct3d\"</b>, <b>\"opengl\"</b>,\n<b>\"opengles\"</b>, <b>\"opengles2\"</b> or <b>\"software\"</b>)."),
 #endif
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale the display (<b>\"nearest\"</b>,\n<b>\"linear\"</b> or <b>\"nearest_linear\"</b>)."),
@@ -2404,6 +2404,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         else
         {
             M_StringCopy(mapcmdlump, map, 7);
+
             if (gamemode == commercial)
             {
                 mapcmdepisode = 1;
@@ -2834,7 +2835,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 min_f = sectors[i].floorheight;
         }
 
-        depth = (ABS(max_c - min_f) >> FRACBITS) / UNITSPERFOOT;
+        depth = ((max_c - min_f) >> FRACBITS) / UNITSPERFOOT;
 
         if (units == units_metric)
         {
@@ -3112,8 +3113,7 @@ static char *distance(fixed_t value, dboolean showunits)
     else
     {
         if (value < FEETPERMILE)
-            M_snprintf(result, 20, "%s%s", commify(value), (showunits ? (value == 1 ? " foot" : " feet")
-                : ""));
+            M_snprintf(result, 20, "%s%s", commify(value), (showunits ? (value == 1 ? " foot" : " feet") : ""));
         else
             M_snprintf(result, 20, "%s%s%s", striptrailingzero((float)value / FEETPERMILE, 2),
                 (showunits ? " mile" : ""), (value == FEETPERMILE || !showunits ? "" : "s"));
@@ -3127,7 +3127,7 @@ static char *distance(fixed_t value, dboolean showunits)
 //
 static void C_PlayerStats_Game(void)
 {
-    const int   tabs[8] = { 160, 280, 0, 0, 0, 0, 0, 0 };
+    const int   tabs[8] = { 160, 281, 0, 0, 0, 0, 0, 0 };
     const int   time1 = leveltime / TICRATE;
     const int   time2 = stat_time / TICRATE;
     player_t    *player = &players[0];
@@ -5349,8 +5349,7 @@ static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
         || M_StringCompare(parms, vid_scaleapi_opengles)
         || M_StringCompare(parms, vid_scaleapi_opengles2)
 #endif
-        || M_StringCompare(parms, vid_scaleapi_software)
-        || M_StringCompare(parms, vid_scaleapi_vulkan));
+        || M_StringCompare(parms, vid_scaleapi_software));
 }
 
 static void vid_scaleapi_cvar_func2(char *cmd, char *parms)

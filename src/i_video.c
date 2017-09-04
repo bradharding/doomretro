@@ -1182,18 +1182,15 @@ void GetScreenResolution(void)
     }
     else
     {
-        int     width = -1;
-        int     height = -1;
-        char    *pvid_screenresolution = strdup(vid_screenresolution);
-        char    *left = strtok(pvid_screenresolution, "x");
-        char    *right = strtok(NULL, "x");
-
-        if (!right)
-            right = "";
+        int         width = -1;
+        int         height = -1;
+        char        *p = strdup(vid_screenresolution);
+        const char  *left = strtok(p, "x");
+        const char  *right = strtok(NULL, "x");
 
         sscanf(left, "%10i", &width);
         sscanf(right, "%10i", &height);
-        free(pvid_screenresolution);
+        free(p);
 
         if (width >= 0 && height >= 0 && ValidScreenMode(width, height))
         {
@@ -1210,7 +1207,7 @@ void GetScreenResolution(void)
     }
 }
 
-static resolution_t resolutions[] =
+static const resolution_t resolutions[] =
 {
     {  960,  640, "DVGA",   "3:2"   }, {  960,  720, "",       "4:3"   }, { 1024,  640, "",       "16:10" },
     { 1024,  768, "XGA",    "4:3"   }, { 1136,  640, "",       "16:9"  }, { 1152,  720, "",       "3:2"   },
