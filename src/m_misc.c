@@ -730,9 +730,12 @@ char *commify(int64_t value)
 
 char *uncommify(const char *input)
 {
-    char    *p = malloc(strlen(input) + 1);
+    char    *p;
 
-    if (p)
+    if (!*input)
+        return "";
+    
+    if ((p = malloc(strlen(input) + 1)))
     {
         char    *p2 = p;
 
@@ -782,9 +785,12 @@ int gcd(int a, int b)
 
 char *removespaces(const char *input)
 {
-    char    *p = malloc(strlen(input) + 1);
+    char    *p;
 
-    if (p)
+    if (!*input)
+        return "";
+
+    if ((p = malloc(strlen(input) + 1)))
     {
         char    *p2 = p;
 

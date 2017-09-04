@@ -1153,7 +1153,7 @@ dboolean C_ValidateInput(const char *input)
                 && (consolecmds[i].parameters || !*parms))
             {
                 C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
-                consolecmds[i].func2(consolecmds[i].name, (*parms ? uncommify(parms) : ""));
+                consolecmds[i].func2(consolecmds[i].name, uncommify(parms));
                 return true;
             }
         }
