@@ -1595,7 +1595,7 @@ static void D_DoomMainSetup(void)
     int         choseniwad = 0;
     static char lumpname[6];
     char        *appdatafolder = M_GetAppDataFolder();
-    char        *iwadfile = malloc(MAX_PATH);
+    char        *iwadfile = NULL;
     int         startloadgame;
 
     packagewad = M_StringJoin(M_GetResourceFolder(), DIR_SEPARATOR_S, PACKAGE_WAD, NULL);

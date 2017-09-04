@@ -3928,6 +3928,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
             if (SC_GetString())
                 C_ValidateInput(M_StringJoin(cvar, " ", sc_String, NULL));
+
+            free(cvar);
         }
 
         HU_PlayerMessage(s_STSTR_VMON, false);
