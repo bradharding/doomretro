@@ -8,6 +8,7 @@
 * The intermission screen will no longer wrongly indicate that the player is about to enter the next map when having exited the final map.
 * Cacodemons and lost souls will no longer drift upwards after being shot at.
 * Monsters will no longer be pushed under the floor if shot at while being crushed by a lowering ceiling.
+* Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
 
 ---
 

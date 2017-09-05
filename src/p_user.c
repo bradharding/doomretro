@@ -158,8 +158,14 @@ void P_CalcHeight(player_t *player)
                 player->viewz += animatedliquiddiff;
                 return;
             }
-            else if (r_liquid_lowerview && !P_IsSelfReferencingSector(mo->subsector->sector))
-                player->viewz -= FOOTCLIPSIZE;
+            else if (r_liquid_lowerview)
+            {
+                sector_t    *sector = mo->subsector->sector;
+
+                if (!P_IsSelfReferencingSector(sector) && (sector->heightsec == -1 ||
+                    ABS(sector->floorheight - sectors[sector->heightsec].floorheight) <= 24 * FRACUNIT))
+                    player->viewz -= FOOTCLIPSIZE;
+            }
         }
     }
 
