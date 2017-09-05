@@ -41,6 +41,7 @@
 
 #include "doomstat.h"
 #include "m_bbox.h"
+#include "m_config.h"
 #include "r_main.h"
 #include "r_plane.h"
 #include "r_things.h"
@@ -52,6 +53,11 @@ sector_t        *backsector;
 
 drawseg_t       *drawsegs;
 drawseg_t       *ds_p;
+
+dboolean        r_liquid_current = r_liquid_current_default;
+
+extern fixed_t  animatedliquidxoffs;
+extern fixed_t  animatedliquidyoffs;
 
 void R_StoreWallRange(int start, int stop);
 
@@ -505,6 +511,13 @@ static void R_Subsector(int num)
 
     // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
     frontsector = R_FakeFlat(frontsector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+
+    // [BH] apply slight current to liquid sectors
+    if (frontsector->isliquid && r_liquid_current && !freeze)
+    {
+        frontsector->floor_xoffs = animatedliquidxoffs;
+        frontsector->floor_yoffs = animatedliquidyoffs;
+    }
 
     floorplane = (frontsector->interpfloorheight < viewz        // killough 3/7/98
         || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].ceilingpic == skyflatnum) ?

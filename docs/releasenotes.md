@@ -9,6 +9,7 @@
 * Cacodemons and lost souls will no longer drift upwards after being shot at.
 * Monsters will no longer be pushed under the floor if shot at while being crushed by a lowering ceiling.
 * Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
+* A bug has been fixed whereby the slight current enabled using the `r_liquid_current` CVAR wouldn’t be applied to some liquid sectors.
 
 ---
 
