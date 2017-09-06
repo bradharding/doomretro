@@ -80,8 +80,11 @@ fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
 
 static fixed_t      cachedheight[SCREENHEIGHT];
 
+dboolean            r_liquid_current = r_liquid_current_default;
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
 
+extern fixed_t      animatedliquidxoffs;
+extern fixed_t      animatedliquidyoffs;
 extern dboolean     canmouselook;
 
 //
@@ -206,8 +209,17 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     check->lightlevel = lightlevel;
     check->minx = viewwidth;
     check->maxx = -1;
-    check->xoffs = xoffs;                                      // killough 2/28/98: Save offsets
-    check->yoffs = yoffs;
+
+    if (isliquid[picnum] && r_liquid_current && !freeze)
+    {
+        check->xoffs = animatedliquidxoffs;
+        check->yoffs = animatedliquidxoffs;
+    }
+    else
+    {
+        check->xoffs = xoffs;
+        check->yoffs = yoffs;
+    }
 
     memset(check->top, USHRT_MAX, sizeof(check->top));
 

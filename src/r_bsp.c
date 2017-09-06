@@ -46,18 +46,13 @@
 #include "r_plane.h"
 #include "r_things.h"
 
-seg_t           *curline;
-line_t          *linedef;
-sector_t        *frontsector;
-sector_t        *backsector;
+seg_t       *curline;
+line_t      *linedef;
+sector_t    *frontsector;
+sector_t    *backsector;
 
-drawseg_t       *drawsegs;
-drawseg_t       *ds_p;
-
-dboolean        r_liquid_current = r_liquid_current_default;
-
-extern fixed_t  animatedliquidxoffs;
-extern fixed_t  animatedliquidyoffs;
+drawseg_t   *drawsegs;
+drawseg_t   *ds_p;
 
 void R_StoreWallRange(int start, int stop);
 
@@ -72,8 +67,8 @@ void R_ClearDrawSegs(void)
 // CPhipps -
 // Instead of clipsegs, let's try using an array with one entry for each column,
 // indicating whether it's blocked by a solid wall yet or not.
-byte            *solidcol;
-static int      memcmpsize;
+byte        *solidcol;
+static int  memcmpsize;
 
 // CPhipps -
 // R_ClipWallSegment
@@ -242,7 +237,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
     {
         const sector_t  *s = &sectors[sec->heightsec];
         int             heightsec = viewplayer->mo->subsector->sector->heightsec;
-        int             underwater = (heightsec != -1 && viewz <= sectors[heightsec].interpfloorheight);
+        dboolean        underwater = (heightsec != -1 && viewz <= sectors[heightsec].interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;
@@ -252,8 +247,8 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
         tempsec->interpceilingheight = s->interpceilingheight;
 
         // killough 11/98: prevent sudden light changes from non-water sectors:
-        if (underwater && (tempsec->interpfloorheight = sec->interpfloorheight,
-            tempsec->interpceilingheight = s->interpfloorheight - 1, !back))
+        if (underwater && ((tempsec->interpfloorheight = sec->interpfloorheight),
+            (tempsec->interpceilingheight = s->interpfloorheight - 1), !back))
         {
             // head-below-floor hack
             tempsec->floorpic = s->floorpic;
@@ -511,13 +506,6 @@ static void R_Subsector(int num)
 
     // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
     frontsector = R_FakeFlat(frontsector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
-
-    // [BH] apply slight current to liquid sectors
-    if (frontsector->isliquid && r_liquid_current && !freeze)
-    {
-        frontsector->floor_xoffs = animatedliquidxoffs;
-        frontsector->floor_yoffs = animatedliquidyoffs;
-    }
 
     floorplane = (frontsector->interpfloorheight < viewz        // killough 3/7/98
         || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].ceilingpic == skyflatnum) ?

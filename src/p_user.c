@@ -163,7 +163,7 @@ void P_CalcHeight(player_t *player)
                 sector_t    *sector = mo->subsector->sector;
 
                 if (!P_IsSelfReferencingSector(sector) && (sector->heightsec == -1 ||
-                    ABS(sector->floorheight - sectors[sector->heightsec].floorheight) <= 24 * FRACUNIT))
+                    player->viewz - FOOTCLIPSIZE > sectors[sector->heightsec].floorheight))
                     player->viewz -= FOOTCLIPSIZE;
             }
         }
