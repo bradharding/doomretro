@@ -1,5 +1,6 @@
 ### DOOM Retro v2.5.5
 
+* *DOOM Retro* now uses version 2.0.6 of the [*SDL (Simple DirectMedia Layer)*](http://www.libsdl.org/) library.
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Some stray dark pixels have been removed from the top of the super shotgun’s muzzle when firing.
 * The shadows of crushed monsters are now positioned correctly. This changes the format of savegames, breaking compatibility with previous versions of *DOOM Retro*.
