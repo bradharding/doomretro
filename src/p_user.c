@@ -98,6 +98,35 @@ void P_CalcHeight(player_t *player)
 {
     mobj_t  *mo = player->mo;
 
+    if (mo->flags2 & MF2_FEETARECLIPPED)
+    {
+        dboolean    liquid = true;
+
+        for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+            if (!seclist->m_sector->isliquid)
+            {
+                liquid = false;
+                break;
+            }
+
+        if (liquid)
+        {
+            if (player->playerstate == PST_DEAD && r_liquid_bob)
+            {
+                player->viewz += animatedliquiddiff;
+                return;
+            }
+            else if (r_liquid_lowerview)
+            {
+                sector_t    *sector = mo->subsector->sector;
+
+                if (!P_IsSelfReferencingSector(sector) && (sector->heightsec == -1 ||
+                    mo->z + player->viewheight - FOOTCLIPSIZE >= sectors[sector->heightsec].floorheight))
+                    player->viewz -= FOOTCLIPSIZE;
+            }
+        }
+    }
+
     if (player->playerstate == PST_LIVE)
     {
         // Regular movement bobbing
@@ -139,35 +168,6 @@ void P_CalcHeight(player_t *player)
     }
     else
         player->viewz = mo->z + player->viewheight;
-
-    if (mo->flags2 & MF2_FEETARECLIPPED)
-    {
-        dboolean    liquid = true;
-
-        for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-            if (!seclist->m_sector->isliquid)
-            {
-                liquid = false;
-                break;
-            }
-
-        if (liquid)
-        {
-            if (player->playerstate == PST_DEAD && r_liquid_bob)
-            {
-                player->viewz += animatedliquiddiff;
-                return;
-            }
-            else if (r_liquid_lowerview)
-            {
-                sector_t    *sector = mo->subsector->sector;
-
-                if (!P_IsSelfReferencingSector(sector) && (sector->heightsec == -1 ||
-                    player->viewz - FOOTCLIPSIZE > sectors[sector->heightsec].floorheight))
-                    player->viewz -= FOOTCLIPSIZE;
-            }
-        }
-    }
 
     player->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, player->viewz, mo->ceilingz - 4 * FRACUNIT);
 }
