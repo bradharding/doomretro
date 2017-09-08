@@ -1500,7 +1500,7 @@ static dboolean P_VerifyBlockMap(int count)
 //
 static void P_CreateBlockMap(void)
 {
-    int         i;
+    int         i = numvertexes;
     fixed_t     minx = INT_MAX;
     fixed_t     miny = INT_MAX;
     fixed_t     maxx = INT_MIN;
@@ -1511,7 +1511,6 @@ static void P_CreateBlockMap(void)
 
     // First find limits of map
     vertex = vertexes;
-    i = numvertexes;
 
     do
     {

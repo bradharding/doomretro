@@ -2333,7 +2333,6 @@ void P_SpawnSpecials(void)
     for (line = lines, i = 0; i < numlines; i++, line++)
     {
         int sec;
-        int s;
 
         switch (line->special)
         {
@@ -2342,7 +2341,7 @@ void P_SpawnSpecials(void)
             case CreateFakeCeilingAndFloor:
                 sec = sides[*line->sidenum].sector->id;
 
-                for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].heightsec = sec;
 
                 break;
@@ -2352,7 +2351,7 @@ void P_SpawnSpecials(void)
             case Floor_ChangeBrightnessToThisBrightness:
                 sec = sides[*line->sidenum].sector->id;
 
-                for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].floorlightsec = sec;
 
                 break;
@@ -2362,7 +2361,7 @@ void P_SpawnSpecials(void)
             case Ceiling_ChangeBrightnessToThisBrightness:
                 sec = sides[*line->sidenum].sector->id;
 
-                for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].ceilinglightsec = sec;
 
                 break;
@@ -2377,7 +2376,7 @@ void P_SpawnSpecials(void)
             // or ceiling texture, to distinguish floor and ceiling sky.
             case TransferSkyTextureToTaggedSectors:
             case TransferSkyTextureToTaggedSectors_Flipped:
-                for (s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].sky = (i | PL_SKYFLAT);
 
                 break;
@@ -2594,17 +2593,15 @@ static void P_SpawnScrollers(void)
 
         switch (special)
         {
-            int s;
-
             case Scroll_ScrollCeilingAccordingToLineVector:
-                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
                     Add_Scroller(sc_ceiling, -dx, dy, control, s, accel);
 
                 break;
 
             case Scroll_ScrollFloorAccordingToLineVector:
             case Scroll_ScrollFloorAndMoveThings:
-                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
                     Add_Scroller(sc_floor, -dx, dy, control, s, accel);
 
                 if (special != Scroll_ScrollFloorAndMoveThings)
@@ -2614,7 +2611,7 @@ static void P_SpawnScrollers(void)
                 dx = FixedMul(dx, CARRYFACTOR);
                 dy = FixedMul(dy, CARRYFACTOR);
 
-                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
                     Add_Scroller(sc_carry, dx, dy, control, s, accel);
 
                 break;
@@ -2622,16 +2619,19 @@ static void P_SpawnScrollers(void)
             // killough 3/1/98: scroll wall according to linedef
             // (same direction and speed as scrolling floors)
             case Scroll_ScrollWallAccordingToLineVector:
-                for (s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
                     if (s != i)
                         Add_WallScroller(dx, dy, lines + s, control, accel);
 
                 break;
 
             case Scroll_ScrollWallUsingSidedefOffsets:
-                s = lines[i].sidenum[0];
+            {
+                int s = lines[i].sidenum[0];
+
                 Add_Scroller(sc_side, -sides[s].textureoffset, sides[s].rowoffset, -1, s, accel);
                 break;
+            }
 
             case Scroll_ScrollTextureLeft:
                 Add_Scroller(sc_side, FRACUNIT, 0, -1, lines[i].sidenum[0], accel);

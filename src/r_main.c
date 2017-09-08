@@ -735,7 +735,6 @@ static void R_SetupFrame(player_t *player)
     {
         // killough 3/20/98: localize scalelightfixed (readability/optimization)
         static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
-        int                 i;
 
         // killough 3/20/98: use fullcolormap
         fixedcolormap = fullcolormap + player->fixedcolormap * 256 * sizeof(lighttable_t);
@@ -744,7 +743,7 @@ static void R_SetupFrame(player_t *player)
 
         walllights = scalelightfixed;
 
-        for (i = 0; i < MAXLIGHTSCALE; i++)
+        for (int i = 0; i < MAXLIGHTSCALE; i++)
             scalelightfixed[i] = fixedcolormap;
     }
     else

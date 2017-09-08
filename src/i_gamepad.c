@@ -56,38 +56,38 @@ static XINPUTSETSTATE pXInputSetState;
 #include "m_fixed.h"
 #include "m_misc.h"
 
-float           gp_deadzone_left = gp_deadzone_left_default;
-float           gp_deadzone_right = gp_deadzone_right_default;
-dboolean        gp_invertyaxis = gp_invertyaxis_default;
-dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
-int             gp_vibrate_damage = gp_vibrate_damage_default;
-int             gp_vibrate_weapons = gp_vibrate_weapons_default;
+float               gp_deadzone_left = gp_deadzone_left_default;
+float               gp_deadzone_right = gp_deadzone_right_default;
+dboolean            gp_invertyaxis = gp_invertyaxis_default;
+dboolean            gp_swapthumbsticks = gp_swapthumbsticks_default;
+int                 gp_vibrate_damage = gp_vibrate_damage_default;
+int                 gp_vibrate_weapons = gp_vibrate_weapons_default;
 
 static SDL_Joystick *gamepad;
 
-int             gamepadbuttons;
-short           gamepadthumbLX;
-short           gamepadthumbLY;
-short           gamepadthumbRX;
-short           gamepadthumbRY;
-float           gamepadsensitivity;
-short           gamepadleftdeadzone;
-short           gamepadrightdeadzone;
+int                 gamepadbuttons;
+short               gamepadthumbLX;
+short               gamepadthumbLY;
+short               gamepadthumbRX;
+short               gamepadthumbRY;
+float               gamepadsensitivity;
+short               gamepadleftdeadzone;
+short               gamepadrightdeadzone;
 
-dboolean        vibrate;
-int             damagevibrationtics;
-int             weaponvibrationtics;
-int             idlemotorspeed;
-int             restoremotorspeed;
+dboolean            vibrate;
+int                 damagevibrationtics;
+int                 weaponvibrationtics;
+int                 idlemotorspeed;
+int                 restoremotorspeed;
 
-extern dboolean idclev;
-extern dboolean idmus;
-extern dboolean idbehold;
-extern dboolean menuactive;
-extern dboolean message_clearable;
+extern dboolean     idclev;
+extern dboolean     idmus;
+extern dboolean     idbehold;
+extern dboolean     menuactive;
+extern dboolean     message_clearable;
 
 #if defined(_WIN32)
-static HMODULE  pXInputDLL;
+static HMODULE      pXInputDLL;
 #endif
 
 static void (*gamepadthumbsfunc)(short, short, short, short);

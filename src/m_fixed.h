@@ -42,15 +42,27 @@
 //
 // Fixed point, 32bit as 16.16.
 //
-#define FRACBITS        16
-#define FRACUNIT        (1 << FRACBITS)
-#define FIXED2DOUBLE(x) ((x) / (double)FRACUNIT)
 
 #ifdef ABS
 #undef ABS
+#endif
+
+#ifdef MAX
 #undef MAX
+#endif
+
+#ifdef MIN
 #undef MIN
 #endif
+
+#ifdef SWAP
+#undef SWAP
+#endif
+
+#define FRACBITS        16
+#define FRACUNIT        (1 << FRACBITS)
+#define FIXED2DOUBLE(x) ((x) / (double)FRACUNIT)
+#define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
 typedef int fixed_t;
 

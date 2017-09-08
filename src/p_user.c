@@ -201,7 +201,7 @@ static void P_MovePlayer(player_t *player)
             // killough 11/98:
             // On sludge, make bobbing depend on efficiency.
             // On ice, make it depend on effort.
-            int bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
+            int     bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
 
             if (forwardmove)
             {
@@ -229,6 +229,7 @@ static void P_MovePlayer(player_t *player)
             player->lookdir -= 16 * MLOOKUNIT;
         else if (player->lookdir < 0)
             player->lookdir += 16 * MLOOKUNIT;
+
         if (ABS(player->lookdir) < 16 * MLOOKUNIT)
             player->lookdir = 0;
     }
@@ -485,7 +486,10 @@ void P_PlayerThink(player_t *player)
             if (player->readyweapon == wp_fist)
             {
                 if (player->weaponowned[wp_chainsaw])
-                    newweapon = player->fistorchainsaw = wp_chainsaw;
+                {
+                    newweapon = wp_chainsaw;
+                    player->fistorchainsaw = wp_chainsaw;
+                }
             }
             else if (player->readyweapon == wp_chainsaw)
             {

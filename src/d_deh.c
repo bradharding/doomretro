@@ -1909,9 +1909,8 @@ dboolean CheckPackageWADVersion(void)
     DEHFILE infile;
     DEHFILE *filein = &infile;
     char    inbuffer[32];
-    int     i;
 
-    for (i = 0; i < numlumps; i++)
+    for (int i = 0; i < numlumps; i++)
         if (!strncasecmp(lumpinfo[i]->name, "VERSION", 7))
         {
             infile.size = W_LumpLength(i);

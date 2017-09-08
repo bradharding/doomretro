@@ -1441,7 +1441,7 @@ void R_FillBackScreen(void)
 {
     byte    *src;
     byte    *dest;
-    int     x, y;
+    int     y;
     int     width, height;
     int     windowx, windowy;
 
@@ -1451,8 +1451,8 @@ void R_FillBackScreen(void)
     src = (byte *)grnrock;
     dest = screens[1];
 
-    for (y = 0; y < SCREENHEIGHT; y += 2)
-        for (x = 0; x < SCREENWIDTH / 32; x += 2)
+    for (int y = 0; y < SCREENHEIGHT; y += 2)
+        for (int x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             for (int i = 0; i < 64; i++)
             {
@@ -1477,10 +1477,10 @@ void R_FillBackScreen(void)
     windowx = viewwindowx / 2;
     windowy = viewwindowy / 2;
 
-    for (x = 0; x < width; x += 8)
+    for (int x = 0; x < width; x += 8)
         V_DrawPatch(windowx + x, windowy - 8, 1, brdr_t);
 
-    for (x = 0; x < width; x += 8)
+    for (int x = 0; x < width; x += 8)
         V_DrawPatch(windowx + x, windowy + height, 1, brdr_b);
 
     for (y = 0; y < height - 8; y += 8)

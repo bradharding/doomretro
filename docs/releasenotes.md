@@ -4,12 +4,12 @@
 * Some stray dark pixels have been removed from the top of the super shotgun’s muzzle when firing.
 * The shadows of crushed monsters are now positioned correctly. This changes the format of savegames, breaking compatibility with previous versions of *DOOM Retro*.
 * The correct names are now shown for MAP31, MAP32 and MAP33 of *DOOM II: Hell On Earth (BFG Edition)*.
-* A bug has been fixed whereby a ceiling could move through a floor, and vice versa, in some rare instances.
+* A bug has been fixed whereby a ceiling could move through a floor, or vice versa, in some rare instances.
 * The intermission screen will no longer wrongly indicate that the player is about to enter the next map when having exited the final map.
 * Cacodemons and lost souls will no longer drift upwards after being shot at.
 * Monsters will no longer be pushed under the floor if shot at while being crushed by a lowering ceiling.
 * Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
-* A bug has been fixed whereby the slight current enabled using the `r_liquid_current` CVAR wouldn’t be applied to some liquid sectors.
+* A bug has been fixed whereby the slight current enabled using the `r_liquid_current` CVAR wasn’t being applied to some liquid sectors.
 
 ---
 

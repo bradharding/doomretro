@@ -329,7 +329,7 @@ static void R_AddLine(seg_t *line)
     int             x2;
     angle_t         angle1 = R_PointToAngleEx(line->v1->x, line->v1->y);
     angle_t         angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
-    static sector_t tempsec;        // killough 3/8/98: ceiling/water hack
+    static sector_t tempsec;            // killough 3/8/98: ceiling/water hack
 
     curline = line;
 

@@ -1270,7 +1270,7 @@ void P_ArchiveSpecials(void)
         {
             dboolean    done_one = false;
 
-            for (ceilinglist_t  *ceilinglist = activeceilings; ceilinglist; ceilinglist = ceilinglist->next)
+            for (ceilinglist_t *ceilinglist = activeceilings; ceilinglist; ceilinglist = ceilinglist->next)
                 if (ceilinglist->ceiling == (ceiling_t *)th)
                 {
                     saveg_write8(tc_ceiling);
