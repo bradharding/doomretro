@@ -684,7 +684,7 @@ char *formatsize(const char *str)
         for (size_t i = 1; i < len; i++)
             if (newstr[i] == 'x')
             {
-                newstr[i] = 215;
+                newstr[i] = '\xD7';
                 break;
             }
 
