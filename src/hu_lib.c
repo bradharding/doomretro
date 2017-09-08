@@ -114,9 +114,9 @@ static void HU_drawChar(int x, int y, int ch)
         for (int y1 = 0; y1 < 10; y1++)
             for (int x1 = 0; x1 < w; x1++)
             {
-                unsigned char   src = smallcharset[ch][y1 * w + x1];
-                int             i = (x + x1) * SCREENSCALE;
-                int             j = (y + y1) * SCREENSCALE;
+                const unsigned char src = smallcharset[ch][y1 * w + x1];
+                const int           i = (x + x1) * SCREENSCALE;
+                const int           j = (y + y1) * SCREENSCALE;
 
                 for (int yy = 0; yy < SCREENSCALE; yy++)
                     for (int xx = 0; xx < SCREENSCALE; xx++)
@@ -390,7 +390,7 @@ void HUlib_eraseTextLine(hu_textline_t *l)
     // (because of a recent change back from the automap)
     if (!automapactive && viewwindowx && l->needsupdate)
     {
-        int lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
+        const int   lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
 
         for (int y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh; y++, yoffset += SCREENWIDTH)
             if (y < viewwindowy || y >= viewwindowy + viewheight)
@@ -472,6 +472,7 @@ void HUlib_eraseSText(hu_stext_t *s)
     {
         if (s->laston && !*s->on)
             s->l[i].needsupdate = 4;
+
         HUlib_eraseTextLine(&s->l[i]);
     }
 

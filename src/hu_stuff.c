@@ -261,7 +261,6 @@ void HU_Init(void)
         s_GOTMEDINEED = s_GOTMEDINEED2;
 
     HU_AltInit();
-
     HU_SetTranslucency();
 }
 
@@ -304,7 +303,6 @@ void HU_Start(void)
         HUlib_addCharToTextLine(&w_title, *(s++));
 
     headsupactive = true;
-
     hudnumoffset = (16 - SHORT(tallnum[0]->height)) / 2;
 }
 
@@ -370,21 +368,21 @@ int armorhighlight;
 
 static void HU_DrawHUD(void)
 {
-    int             health = MAX(0, plr->health);
-    weapontype_t    pendingweapon = plr->pendingweapon;
-    weapontype_t    readyweapon = plr->readyweapon;
-    int             ammotype = weaponinfo[readyweapon].ammo;
-    int             ammo = plr->ammo[ammotype];
-    int             armor = plr->armorpoints;
-    int             health_x = HUD_HEALTH_X;
-    int             keys = 0;
-    int             i = 0;
-    byte            *tinttab;
-    int             invulnerability = plr->powers[pw_invulnerability];
-    static dboolean healthanim;
-    patch_t         *patch;
-    dboolean        gamepaused = (menuactive || paused || consoleactive);
-    int             currenttime = I_GetTimeMS();
+    const int           health = MAX(0, plr->health);
+    const weapontype_t  pendingweapon = plr->pendingweapon;
+    const weapontype_t  readyweapon = plr->readyweapon;
+    int                 ammotype = weaponinfo[readyweapon].ammo;
+    int                 ammo = plr->ammo[ammotype];
+    const int           armor = plr->armorpoints;
+    int                 health_x = HUD_HEALTH_X;
+    int                 keys = 0;
+    int                 i = 0;
+    byte                *tinttab;
+    const int           invulnerability = plr->powers[pw_invulnerability];
+    static dboolean     healthanim;
+    patch_t             *patch;
+    const dboolean      gamepaused = (menuactive || paused || consoleactive);
+    const int           currenttime = I_GetTimeMS();
 
     tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 :
         tinttab25);
@@ -412,8 +410,8 @@ static void HU_DrawHUD(void)
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MAX((minuspatch ? health_min : 0),
-            plr->health), tinttab, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MAX((minuspatch ? health_min : 0), plr->health),
+            tinttab, hudnumfunc);
 
         if (!emptytallpercent)
             hudnumfunc(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
@@ -680,8 +678,8 @@ static void HU_AltInit(void)
 
 static void DrawAltHUDNumber(int x, int y, int val)
 {
-    int     oldval = ABS(val);
-    patch_t *patch;
+    const int   oldval = ABS(val);
+    patch_t     *patch;
 
     if (val < 0)
     {
@@ -711,8 +709,8 @@ static void DrawAltHUDNumber(int x, int y, int val)
 
 static int AltHUDNumberWidth(int val)
 {
-    int oldval = val;
-    int width = 0;
+    const int   oldval = val;
+    int         width = 0;
 
     if (val > 99)
         width += SHORT(altnum[val / 100]->width) + 2;
@@ -727,8 +725,8 @@ static int AltHUDNumberWidth(int val)
 
 static void DrawAltHUDNumber2(int x, int y, int val, int color)
 {
-    int     oldval = val;
-    patch_t *patch;
+    const int   oldval = val;
+    patch_t     *patch;
 
     if (val > 99)
     {
@@ -751,8 +749,8 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color)
 
 static int AltHUDNumber2Width(int val)
 {
-    int oldval = val;
-    int width = 0;
+    const int   oldval = val;
+    int         width = 0;
 
     if (val > 99)
         width += SHORT(altnum2[val / 100]->width) + 1;
@@ -783,8 +781,7 @@ static void HU_DrawAltHUD(void)
     if (health > 100)
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, color1);
-        fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200), 8,
-            color2);
+        fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200), 8, color2);
         althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
         althudfunc(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color2);
         althudfunc(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE, color1);
@@ -821,9 +818,9 @@ static void HU_DrawAltHUD(void)
 
     if (health)
     {
-        weapontype_t    pendingweapon = plr->pendingweapon;
-        weapontype_t    weapon = (pendingweapon != wp_nochange ? pendingweapon : plr->readyweapon);
-        ammotype_t      ammotype = weaponinfo[weapon].ammo;
+        const weapontype_t  pendingweapon = plr->pendingweapon;
+        const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : plr->readyweapon);
+        const ammotype_t      ammotype = weaponinfo[weapon].ammo;
 
         if (ammotype != am_noammo)
         {
@@ -997,14 +994,15 @@ void HU_Erase(void)
         HUlib_eraseTextLine(&w_title);
 }
 
-extern fixed_t  m_x, m_y, m_h, m_w;
+extern fixed_t  m_x, m_y;
+extern fixed_t  m_h, m_w;
 extern dboolean message_dontpause;
 extern dboolean inhelpscreens;
 extern int      direction;
 
 void HU_Ticker(void)
 {
-    dboolean    idmypos = plr->cheats & CF_MYPOS;
+    const dboolean  idmypos = plr->cheats & CF_MYPOS;
 
     // tick down message counter if message is up
     if (((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause) && !idbehold

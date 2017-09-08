@@ -526,7 +526,7 @@ void R_StoreWallRange(const int start, const int stop)
     int      worldbottom;
     int      worldhigh;
     int      worldlow;
-    
+
     linedef = curline->linedef;
 
     // mark the segment as visible for automap
@@ -649,8 +649,7 @@ void R_StoreWallRange(const int start, const int stop)
         // single sided line
         midtexture = texturetranslation[sidedef->midtexture];
         midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : textureheight[midtexture] >> FRACBITS);
-        midtexfullbright = (usebrightmaps && !nobrightmap[midtexture] ? texturefullbright[midtexture] :
-            NULL);
+        midtexfullbright = (usebrightmaps && !nobrightmap[midtexture] ? texturefullbright[midtexture] : NULL);
         rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight
             + textureheight[midtexture] - viewz : worldtop);
         rw_midtexturemid += FixedMod(sidedef->rowoffset, textureheight[midtexture]);
@@ -748,8 +747,7 @@ void R_StoreWallRange(const int start, const int stop)
             // top texture
             toptexture = texturetranslation[sidedef->toptexture];
             toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : textureheight[toptexture] >> FRACBITS);
-            toptexfullbright = (usebrightmaps && !nobrightmap[toptexture] ? texturefullbright[toptexture] :
-                NULL);
+            toptexfullbright = (usebrightmaps && !nobrightmap[toptexture] ? texturefullbright[toptexture] : NULL);
             rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop :
                 backsector->interpceilingheight + textureheight[toptexture] - viewz);
             rw_toptexturemid += FixedMod(sidedef->rowoffset, textureheight[toptexture]);

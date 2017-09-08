@@ -451,7 +451,6 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 // passed is returned.
 //
 // jff 02/03/98 Twiddled Lee's P_FindNextHighestFloor to make this
-
 fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 {
     const int   linecount = sec->linecount;
@@ -488,7 +487,6 @@ fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 // passed is returned.
 //
 // jff 02/03/98 Twiddled Lee's P_FindNextHighestFloor to make this
-
 fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight)
 {
     const int   linecount = sec->linecount;
@@ -769,7 +767,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
     static char buffer[1024];
 
     // does this line special distinguish between skulls and keys?
-    int         skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
+    const int   skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
 
     // determine for each case of lock type if player's keys are adequate
     switch ((line->special & LockedKey) >> LockedKeyShift)
@@ -840,6 +838,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 
                 return false;
             }
+
             break;
 
         case RSkull:
@@ -857,6 +856,7 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 S_StartSound(player->mo, sfx_noway);
                 return false;
             }
+
             break;
 
         case BSkull:
@@ -1044,7 +1044,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 {
     // Triggers that other things can activate
     if (!thing->player)
-    {
         // Things that should NOT trigger specials...
         switch (thing->type)
         {
@@ -1060,11 +1059,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case MT_ARACHPLAZ:
                 return;
                 break;
-
-            default:
-                break;
         }
-    }
 
     // jff 02/04/98 add check here for generalized linedef types
     {
@@ -2093,8 +2088,6 @@ int countdown;
 
 void P_UpdateSpecials(void)
 {
-    int pic;
-
     if (freeze)
         return;
 
@@ -2106,7 +2099,7 @@ void P_UpdateSpecials(void)
     for (anim_t *anim = anims; anim < lastanim; anim++)
         for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
         {
-            pic = anim->basepic + ((leveltime / anim->speed + i) % anim->numpics);
+            int pic = anim->basepic + ((leveltime / anim->speed + i) % anim->numpics);
 
             if (anim->istexture)
                 texturetranslation[i] = pic;
@@ -2424,8 +2417,8 @@ void T_Scroll(scroll_t *s)
     // killough 3/14/98: Add acceleration
     if (s->accel)
     {
-        s->vdx = dx += s->vdx;
-        s->vdy = dy += s->vdy;
+        s->vdx = (dx += s->vdx);
+        s->vdy = (dy += s->vdy);
     }
 
     if (!(dx | dy))                             // no-op if both (x,y) offsets 0
@@ -2533,14 +2526,12 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 // fix scrolling aliasing problems, caused by long linedefs causing overflowing
 static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, int accel)
 {
-    fixed_t     x = ABS(l->dx), y = ABS(l->dy), d;
+    fixed_t     x = ABS(l->dx);
+    fixed_t     y = ABS(l->dy);
+    fixed_t     d;
 
     if (y > x)
-    {
-        d = x;
-        x = y;
-        y = d;
-    }
+        SWAP(x, y);
 
     d = FixedDiv(x, finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
@@ -2565,7 +2556,8 @@ static void P_SpawnScrollers(void)
     {
         fixed_t dx = l->dx >> SCROLL_SHIFT;             // direction and speed of scrolling
         fixed_t dy = l->dy >> SCROLL_SHIFT;
-        int     control = -1, accel = 0;                // no control sector or acceleration
+        int     control = -1;                           // no control sector or acceleration
+        int     accel = 0;
         int     special = l->special;
 
         // killough 3/7/98: Types 245-249 are same as 250-254 except that the
@@ -2922,8 +2914,7 @@ void T_Pusher(pusher_t *p)
     if (sec->heightsec != -1)                           // special water sector?
         ht = sectors[sec->heightsec].floorheight;
 
-                         // things touching this sector
-
+    // things touching this sector
     for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
     {
         mobj_t  *thing = node->m_thing;
@@ -3008,15 +2999,8 @@ mobj_t *P_GetPushThing(int s)
 
     while (thing)
     {
-        switch (thing->type)
-        {
-            case MT_PUSH:
-            case MT_PULL:
-                return thing;
-
-            default:
-                break;
-        }
+        if (thing->type == MT_PUSH || thing->type == MT_PULL)
+            return thing;
 
         thing = thing->snext;
     }

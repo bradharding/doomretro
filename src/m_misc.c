@@ -734,7 +734,7 @@ char *uncommify(const char *input)
 
     if (!*input)
         return "";
-    
+
     if ((p = malloc(strlen(input) + 1)))
     {
         char    *p2 = p;

@@ -112,14 +112,10 @@ dboolean I_MidiRPCRegisterSong(void *data, int size)
     CHECK_RPC_STATUS();
 
     RpcTryExcept
-    {
         MidiRPC_PrepareNewSong();
         MidiRPC_AddChunk((unsigned int)size, (byte *)data);
-    }
     RpcExcept(1)
-    {
         return false;
-    }
     RpcEndExcept
 
     return true;
@@ -135,13 +131,9 @@ dboolean I_MidiRPCPlaySong(dboolean looping)
     CHECK_RPC_STATUS();
 
     RpcTryExcept
-    {
         MidiRPC_PlaySong(looping);
-    }
     RpcExcept(1)
-    {
         return false;
-    }
     RpcEndExcept
 
     return true;
@@ -157,13 +149,9 @@ dboolean I_MidiRPCStopSong(void)
     CHECK_RPC_STATUS();
 
     RpcTryExcept
-    {
         MidiRPC_StopSong();
-    }
     RpcExcept(1)
-    {
         return false;
-    }
     RpcEndExcept
 
     return true;
@@ -179,13 +167,9 @@ dboolean I_MidiRPCSetVolume(int volume)
     CHECK_RPC_STATUS();
 
     RpcTryExcept
-    {
         MidiRPC_ChangeVolume(volume);
-    }
     RpcExcept(1)
-    {
         return false;
-    }
     RpcEndExcept
 
     return true;
@@ -202,13 +186,9 @@ dboolean I_MidiRPCPauseSong(void)
     CHECK_RPC_STATUS();
 
     RpcTryExcept
-    {
         MidiRPC_PauseSong();
-    }
     RpcExcept(1)
-    {
         return false;
-    }
     RpcEndExcept
 
     return true;
@@ -224,13 +204,9 @@ dboolean I_MidiRPCResumeSong(void)
     CHECK_RPC_STATUS();
 
     RpcTryExcept
-    {
         MidiRPC_ResumeSong();
-    }
     RpcExcept(1)
-    {
         return false;
-    }
     RpcEndExcept
 
     return true;
@@ -309,12 +285,8 @@ void I_MidiRPCClientShutDown(void)
     if (serverInit)
     {
         RpcTryExcept
-        {
             MidiRPC_StopServer();
-        }
         RpcExcept(1)
-        {
-        }
         RpcEndExcept
 
         serverInit = false;
