@@ -820,7 +820,7 @@ static void HU_DrawAltHUD(void)
     {
         const weapontype_t  pendingweapon = plr->pendingweapon;
         const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : plr->readyweapon);
-        const ammotype_t      ammotype = weaponinfo[weapon].ammo;
+        const ammotype_t    ammotype = weaponinfo[weapon].ammo;
 
         if (ammotype != am_noammo)
         {

@@ -169,9 +169,7 @@ char *M_ExtractFolder(char *path)
         return "";
 
     folder = malloc(MAX_PATH);
-
     M_StringCopy(folder, path, MAX_PATH);
-
     pos = strrchr(folder, DIR_SEPARATOR);
 
     if (pos)
@@ -358,7 +356,6 @@ char *M_GetExecutableFolder(void)
 
         GetModuleFileName(NULL, buffer, MAX_PATH);
         M_StringCopy(folder, buffer, MAX_PATH);
-
         pos = strrchr(folder, '\\');
 
         if (pos)
@@ -439,6 +436,7 @@ char *M_StringJoin(char *s, ...)
     size_t  result_len = strlen(s) + 1;
 
     va_start(args, s);
+
     for (;;)
     {
         v = va_arg(args, char *);
@@ -448,6 +446,7 @@ char *M_StringJoin(char *s, ...)
 
         result_len += strlen(v);
     }
+
     va_end(args);
 
     result = malloc(result_len);
@@ -461,14 +460,17 @@ char *M_StringJoin(char *s, ...)
     M_StringCopy(result, s, result_len);
 
     va_start(args, s);
+
     for (;;)
     {
         v = va_arg(args, char *);
+
         if (!v)
             break;
 
         strncat(result, v, result_len);
     }
+
     va_end(args);
 
     return result;
@@ -638,9 +640,7 @@ char *M_SubString(const char *str, size_t begin, size_t len)
 char *uppercase(const char *str)
 {
     char    *newstr;
-    char    *p;
-
-    p = newstr = strdup(str);
+    char    *p = newstr = strdup(str);
 
     while ((*p = toupper(*p)))
         p++;

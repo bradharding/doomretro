@@ -1,10 +1,10 @@
 ### DOOM Retro v2.5.6
 
+* Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
+
 ---
 
 ###### Friday, September 8, 2017
-
-* Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
 
 ### DOOM Retro v2.5.5
 

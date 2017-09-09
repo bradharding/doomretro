@@ -36,12 +36,7 @@
 ========================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <inttypes.h>   // haleyjd
 
 #include "i_system.h"
 #include "mmus2mid.h"
