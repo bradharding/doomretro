@@ -2477,9 +2477,6 @@ void T_Scroll(scroll_t *s)
             }
 
             break;
-
-        case sc_carry_ceiling:       // to be added later
-            break;
     }
 }
 
@@ -2498,9 +2495,9 @@ void T_Scroll(scroll_t *s)
 //
 // affectee: the index of the affected object (sector or sidedef)
 //
-// accel: non-zero if this is an accelerative effect
+// accel: true if this is an accelerative effect
 //
-static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affectee, int accel)
+static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affectee, dboolean accel)
 {
     scroll_t    *s = Z_Calloc(1, sizeof(*s), PU_LEVSPEC, NULL);
 
@@ -2509,7 +2506,6 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
     s->dx = dx;
     s->dy = dy;
     s->accel = accel;
-    s->vdx = s->vdy = 0;
 
     if ((s->control = control) != -1)
         s->last_height = sectors[control].floorheight + sectors[control].ceilingheight;
@@ -2527,11 +2523,11 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 //
 // killough 10/98:
 // fix scrolling aliasing problems, caused by long linedefs causing overflowing
-static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, int accel)
+static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, dboolean accel)
 {
-    fixed_t     x = ABS(l->dx);
-    fixed_t     y = ABS(l->dy);
-    fixed_t     d;
+    fixed_t x = ABS(l->dx);
+    fixed_t y = ABS(l->dy);
+    fixed_t d;
 
     if (y > x)
         SWAP(x, y);
@@ -2557,11 +2553,11 @@ static void P_SpawnScrollers(void)
 
     for (int i = 0; i < numlines; i++, l++)
     {
-        fixed_t dx = l->dx >> SCROLL_SHIFT;             // direction and speed of scrolling
-        fixed_t dy = l->dy >> SCROLL_SHIFT;
-        int     control = -1;                           // no control sector or acceleration
-        int     accel = 0;
-        int     special = l->special;
+        fixed_t     dx = l->dx >> SCROLL_SHIFT;         // direction and speed of scrolling
+        fixed_t     dy = l->dy >> SCROLL_SHIFT;
+        int         control = -1;                       // no control sector or acceleration
+        dboolean    accel = false;
+        int         special = l->special;
 
         // killough 3/7/98: Types 245-249 are same as 250-254 except that the
         // first side's sector's heights cause scrolling when they change, and
@@ -2580,7 +2576,7 @@ static void P_SpawnScrollers(void)
         else if (special >= Scroll_CeilingAcceleratesWhenSectorHeightChanges
             && special <= Scroll_WallAcceleratesWhenSectorHeightChanges) // accelerative scrollers
         {
-            accel = 1;
+            accel = true;
             special += Scroll_ScrollCeilingAccordingToLineVector
                 - Scroll_CeilingAcceleratesWhenSectorHeightChanges;
             control = sides[*l->sidenum].sector->id;
