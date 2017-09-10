@@ -762,13 +762,14 @@ static void P_LoadSectors(int lump)
                                 commify(sectorfix[j].sector), commify(sectorfix[j].special));
                     }
 
-                    if (sectorfix[j].tag != DEFAULT)
+                    if (sectorfix[j].newtag != DEFAULT && (sectorfix[j].oldtag == DEFAULT
+                        || sectorfix[j].oldtag == ss->tag))
                     {
-                        ss->tag = SHORT(sectorfix[j].tag) << FRACBITS;
+                        ss->tag = SHORT(sectorfix[j].newtag) << FRACBITS;
 
                         if (devparm)
                             C_Warning("The tag of sector %s has been changed to %s.",
-                                commify(sectorfix[j].sector), commify(sectorfix[j].tag));
+                                commify(sectorfix[j].sector), commify(sectorfix[j].newtag));
                     }
 
                     break;

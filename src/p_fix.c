@@ -727,8 +727,6 @@ linefix_t linefix[] =
     { doom2,            1,   4,     200,    1, "",         "",            "STUCCO",      DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,   4,     201,    1, "",         "",            "STUCCO",      DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
-    { doom2,            1,   5,     478,    0, "",         "",            "",            DEFAULT,         8, DEFAULT,                   DEFAULT,                                    DEFAULT },
-    { doom2,            1,   5,     480,    0, "",         "",            "",            DEFAULT,         8, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,   5,     489,    1, "SUPPORT3", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
     { doom2,            1,   5,     560,    1, "SUPPORT3", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                    DEFAULT },
 
@@ -1383,103 +1381,103 @@ linefix_t linefix[] =
 
 sectorfix_t sectorfix[] =
 {
-   // mission,    episode, map, sector, floorpic,  ceilingpic, floorheight, ceilingheight, special,                               tag
+   // mission,    episode, map, sector, floorpic,  ceilingpic, floorheight, ceilingheight, special,                            oldtag,  newtag
 
-    { doom,             1,   1,     14, "FLAT18",  "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom,             1,   1,     14, "FLAT18",  "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom,             1,   4,     41, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
+    { doom,             1,   4,     41, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
 
-    { doom,             1,   9,     46, "",        "",             DEFAULT,           160, DEFAULT,                           DEFAULT },
+    { doom,             1,   9,     46, "",        "",             DEFAULT,           160, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom,             2,   4,    173, "BLOOD3",  "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { doom,             2,   4,    177, "BLOOD3",  "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom,             2,   4,    173, "BLOOD3",  "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { doom,             2,   4,    177, "BLOOD3",  "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom,             3,   5,    161, "",        "",                   0,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom,             3,   5,    161, "",        "",                   0,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom,             3,   7,     20, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom,             3,   7,     23, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
+    { doom,             3,   7,     20, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom,             3,   7,     23, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
 
-    { doom,             4,   3,    124, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    125, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    127, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    128, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    129, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    130, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    131, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    132, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    133, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    134, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    136, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    137, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    138, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    147, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    148, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    149, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    150, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    151, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    152, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   3,    155, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
+    { doom,             4,   3,    124, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    125, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    127, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    128, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    129, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    130, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    131, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    132, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    133, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    134, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    136, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    137, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    138, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    147, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    148, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    149, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    150, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    151, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    152, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   3,    155, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
 
-    { doom,             4,   7,    263, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
-    { doom,             4,   7,    264, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
+    { doom,             4,   7,    263, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
+    { doom,             4,   7,    264, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
 
-    { doom2,            1,   1,     29, "RROCK09", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom2,            1,   1,     29, "RROCK09", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom2,            1,   3,    107, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
+    { doom2,            1,   3,    107, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
 
-    { doom2,            1,   4,     10, "SLIME15", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { doom2,            1,   4,     19, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   4,     20, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   4,     23, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   4,     28, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   4,     33, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   4,     34, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   4,     39, "CRATOP1", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { doom2,            1,   4,     40, "CRATOP1", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { doom2,            1,   4,     46, "CRATOP1", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { doom2,            1,   4,     83, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   4,     85, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   4,     72, "",        "",                  32,       DEFAULT, DEFAULT,                           DEFAULT },
-    { doom2,            1,   4,     76, "",        "",                  32,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom2,            1,   4,     10, "SLIME15", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { doom2,            1,   4,     19, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom2,            1,   4,     20, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom2,            1,   4,     23, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom2,            1,   4,     28, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom2,            1,   4,     33, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom2,            1,   4,     34, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom2,            1,   4,     39, "CRATOP1", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { doom2,            1,   4,     40, "CRATOP1", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { doom2,            1,   4,     46, "CRATOP1", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { doom2,            1,   4,     83, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom2,            1,   4,     85, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,       0 },
+    { doom2,            1,   4,     72, "",        "",                  32,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { doom2,            1,   4,     76, "",        "",                  32,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom2,            1,   5,      4, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
-    { doom2,            1,   5,    153, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 0 },
+    { doom2,            1,   5,      4, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 9,       0 },
+    { doom2,            1,   5,    153, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                 9,       0 },
 
-    { doom2,            1,  12,    134, "",        "FLOOR4_6",     DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom2,            1,  12,    134, "",        "FLOOR4_6",     DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom2,            1,  13,    151, "",        "CEIL5_1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom2,            1,  13,    151, "",        "CEIL5_1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom2,            1,  14,    106, "",        "",                 176,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom2,            1,  14,    106, "",        "",                 176,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom2,            1,  15,    147, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
+    { doom2,            1,  15,    147, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
 
-    { doom2,            1,  19,     63, "",        "",                 176,       DEFAULT, DEFAULT,                           DEFAULT },
+    { doom2,            1,  19,     63, "",        "",                 176,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { doom2,            1,  27,     80, "",        "FLAT5_2",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { doom2,            1,  27,     93, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
+    { doom2,            1,  27,     80, "",        "FLAT5_2",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { doom2,            1,  27,     93, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
 
-    { pack_nerve,       1,   4,    868, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
+    { pack_nerve,       1,   4,    868, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
 
-    { pack_plut,        1,   4,    103, "RROCK03", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { pack_plut,        1,   4,    103, "RROCK03", "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { pack_plut,        1,   8,    130, "",        "",             DEFAULT,             0, DEFAULT,                           DEFAULT },
+    { pack_plut,        1,   8,    130, "",        "",             DEFAULT,             0, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { pack_plut,        1,  16,     95, "",        "",             DEFAULT,       DEFAULT, DamageNegative10Or20PercentHealth, DEFAULT },
-    { pack_plut,        1,  16,     96, "",        "",             DEFAULT,       DEFAULT, DamageNegative10Or20PercentHealth, DEFAULT },
-    { pack_plut,        1,  16,     97, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { pack_plut,        1,  16,    104, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { pack_plut,        1,  16,     95, "",        "",             DEFAULT,       DEFAULT, DamageNegative10Or20PercentHealth, DEFAULT, DEFAULT },
+    { pack_plut,        1,  16,     96, "",        "",             DEFAULT,       DEFAULT, DamageNegative10Or20PercentHealth, DEFAULT, DEFAULT },
+    { pack_plut,        1,  16,     97, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { pack_plut,        1,  16,    104, "",        "NUKAGE1",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { pack_plut,        1,  26,    156, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT },
+    { pack_plut,        1,  26,    156, "",        "",             DEFAULT,       DEFAULT, Normal,                            DEFAULT, DEFAULT },
 
-    { pack_plut,        1,  29,    178, "",        "",                 201,       DEFAULT, DEFAULT,                           DEFAULT },
-    { pack_plut,        1,  29,    224, "",        "",                 156,       DEFAULT, DEFAULT,                           DEFAULT },
+    { pack_plut,        1,  29,    178, "",        "",                 201,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { pack_plut,        1,  29,    224, "",        "",                 156,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { pack_tnt,         1,   3,    260, "",        "CEIL3_3",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
-    { pack_tnt,         1,   3,    329, "",        "CEIL3_3",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { pack_tnt,         1,   3,    260, "",        "CEIL3_3",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
+    { pack_tnt,         1,   3,    329, "",        "CEIL3_3",      DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 
-    { pack_tnt,         1,  15,    330, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                                11 },
+    { pack_tnt,         1,  15,    330, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT,      11 },
 
-    { -1,               0,   0,      0, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT },
+    { -1,               0,   0,      0, "",        "",             DEFAULT,       DEFAULT, DEFAULT,                           DEFAULT, DEFAULT },
 };
 
 thingfix_t thingfix[] =
