@@ -46,8 +46,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define CACHESIZE               64 * 1024 * 1024
-#define MAX_SOUND_SLICE_TIME    28
+#define CACHESIZE   64 * 1024 * 1024
 
 typedef struct allocated_sound_s allocated_sound_t;
 
@@ -572,22 +571,6 @@ void I_ShutdownSound(void)
     sound_initialized = false;
 }
 
-// Calculate slice size, based on MAX_SOUND_SLICE_TIME.
-// The result must be a power of two.
-static int GetSliceSize(void)
-{
-    int limit = SAMPLERATE * MAX_SOUND_SLICE_TIME / 1000;
-
-    // Try all powers of two, not exceeding the limit.
-    for (int n = 0; ; n++)
-        // 2^n <= limit < 2^n+1 ?
-        if ((1 << (n + 1)) > limit)
-            return (1 << n);
-
-    // Should never happen?
-    return 1024;
-}
-
 dboolean I_InitSound(void)
 {
     const SDL_version   *linked = Mix_Linked_Version();
@@ -609,7 +592,7 @@ dboolean I_InitSound(void)
             "not v%i.%i.%i.", linked->major, linked->minor, linked->patch, SDL_MIXER_MAJOR_VERSION,
             SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
-    if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, 2, GetSliceSize()) < 0)
+    if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
         return false;
 
     if (!Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels))
