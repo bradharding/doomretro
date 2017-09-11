@@ -592,7 +592,7 @@ dboolean I_InitSound(void)
             "not v%i.%i.%i.", linked->major, linked->minor, linked->patch, SDL_MIXER_MAJOR_VERSION,
             SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
-    if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
+    if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS, SAMPLECOUNT * SAMPLERATE / 11025) < 0)
         return false;
 
     if (!Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels))

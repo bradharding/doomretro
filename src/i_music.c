@@ -47,9 +47,6 @@
 #include "version.h"
 #include "z_zone.h"
 
-#define CHANNELS    2
-#define SAMPLECOUNT 512
-
 dboolean        midimusictype;
 dboolean        musmusictype;
 
@@ -107,7 +104,8 @@ dboolean I_InitMusic(void)
     {
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             return false;
-        else if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS, SAMPLECOUNT * SAMPLERATE / 11025) < 0)
+
+        if (Mix_OpenAudio(SAMPLERATE, MIX_DEFAULT_FORMAT, CHANNELS, SAMPLECOUNT * SAMPLERATE / 11025) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             return false;

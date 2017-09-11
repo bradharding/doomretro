@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <stdio.h>
+
 #include "i_system.h"
 #include "doomstat.h"
 #include "p_local.h"
