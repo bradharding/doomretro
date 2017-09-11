@@ -837,13 +837,12 @@ static void M_ReadSaveStrings(void)
         savegames = true;
         fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle);
 
-        if (*savegamestrings[i])
+        if (savegamestrings[i][0])
             LoadGameMenu[i].status = 1;
         else
         {
             M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, SAVESTRINGSIZE);
             LoadGameMenu[i].status = 0;
-            continue;
         }
 
         fclose(handle);
