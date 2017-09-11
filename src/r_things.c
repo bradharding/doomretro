@@ -92,6 +92,7 @@ extern fixed_t          animatedliquiddiff;
 extern dboolean         drawbloodsplats;
 extern dboolean         inhelpscreens;
 extern dboolean         notranslucency;
+extern dboolean         r_corpses_color;
 extern dboolean         r_fixspriteoffsets;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_shadows;
@@ -494,6 +495,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const int       id = vis->patch + firstspritelump;
     const rpatch_t  *patch = R_CachePatchNum(id);
     const mobj_t    *mobj = vis->mobj;
+    const int       flags = mobj->flags;
 
     spryscale = vis->scale;
     dc_colormap = vis->colormap;
@@ -512,10 +514,10 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     dc_iscale = ABS(xiscale);
     dc_texturemid = vis->texturemid;
 
-    if (mobj->flags & MF_TRANSLATION)
+    if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = transcolfunc;
-        dc_translation = translationtables - 256 + ((mobj->flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
+        dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
 
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
