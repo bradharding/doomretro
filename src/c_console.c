@@ -1177,7 +1177,6 @@ dboolean C_Responder(event_t *ev)
 
     if (ev->type == ev_keydown)
     {
-        static char autocompletetext[255];
         static int  autocomplete = -1;
         static int  inputhistory = -1;
         static char currentinput[255];
@@ -1378,6 +1377,7 @@ dboolean C_Responder(event_t *ev)
                 {
                     const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     const int   start = autocomplete;
+                    static char autocompletetext[255];
 
                     if (autocomplete == -1)
                         M_StringCopy(autocompletetext, consoleinput, sizeof(autocompletetext));

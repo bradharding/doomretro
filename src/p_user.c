@@ -134,7 +134,7 @@ void P_CalcHeight(player_t *player)
         // even if not on ground)
         fixed_t momx = player->momx;
         fixed_t momy = player->momy;
-        fixed_t bob = (momx | momy ? (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2 : 0);
+        fixed_t bob = ((momx | momy) ? (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2 : 0);
 
         bob = FixedMul((bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) :
             MAXBOB * stillbob / 400) / 2, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);

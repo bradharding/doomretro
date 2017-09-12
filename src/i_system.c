@@ -300,5 +300,5 @@ void *I_Realloc(void *ptr, size_t size)
     else
         ptr = newp;
 
-    return newp;
+    return ptr;
 }
