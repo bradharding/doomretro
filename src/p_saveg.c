@@ -1170,8 +1170,8 @@ void P_UnArchiveThinkers(void)
                 saveg_read_pad();
                 saveg_read_mobj_t(mobj);
 
-                P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
+                P_SetThingPosition(mobj);
 
                 mobj->thinker.function = (mobj->type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
                 mobj->colfunc = mobj->info->colfunc;
