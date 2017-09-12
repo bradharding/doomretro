@@ -257,12 +257,14 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     texheight = textureheight[texnum];
 
     // Calculate light table.
-    // Use different light tables for horizontal / vertical.
+    // Use different light tables for horizontal/vertical.
     // killough 4/13/98: get correct lightlevel for 2s normal textures
-    walllights = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel);
+    if (fixedcolormap)
+        dc_colormap = fixedcolormap;
+    else
+        walllights = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel);
 
     maskedtexturecol = ds->maskedtexturecol;
-
     rw_scalestep = ds->scalestep;
     spryscale = ds->scale1 + (x1 - ds->x1) * rw_scalestep;
     mfloorclip = ds->sprbottomclip;
@@ -275,9 +277,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     else
         dc_texturemid = MIN(frontsector->interpceilingheight, backsector->interpceilingheight) - viewz
             + curline->sidedef->rowoffset;
-
-    if (fixedcolormap)
-        dc_colormap = fixedcolormap;
 
     patch = R_CacheTextureCompositePatchNum(texnum);
 

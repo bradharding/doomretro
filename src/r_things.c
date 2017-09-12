@@ -510,7 +510,6 @@ static void R_DrawVisSprite(const vissprite_t *vis)
             R_BlastShadowColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
     }
 
-    colfunc = vis->colfunc;
     dc_iscale = ABS(xiscale);
     dc_texturemid = vis->texturemid;
 
@@ -519,6 +518,8 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         colfunc = transcolfunc;
         dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
+    else
+        colfunc = vis->colfunc;
 
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
