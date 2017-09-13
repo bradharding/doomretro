@@ -1018,6 +1018,8 @@ static int D_OpenWADLauncher(void)
             if (!M_StringEndsWith(file, ".wad"))
                 file = M_StringJoin(file, ".wad", NULL);
 
+            wad = strdup(file);
+
             // check if it's a valid and supported IWAD
             if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
             {
@@ -1720,11 +1722,14 @@ static void D_DoomMainSetup(void)
                     I_Quit(false);
                 else if (!choseniwad && !error)
                 {
+                    static char buffer[256];
 #if defined(_WIN32)
                     PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME,
-                        PACKAGE_NAME" couldn't find any IWADs.", NULL);
+                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find %s.",
+                        (*wad ? wad : "any IWADs"));
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
+                    wad = "";
                 }
             }
             while (!choseniwad);
