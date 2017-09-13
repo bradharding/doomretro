@@ -72,6 +72,12 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.5\lib\x86;$(ProjectDir)..\SDL2_mixer-2.0.1\lib\x86</AdditionalLibraryDirectories>
     </Link>
+    <Midl>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
+      <StructMemberAlignment>8</StructMemberAlignment>
+    </Midl>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -95,6 +101,12 @@
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.5\lib\x86;$(ProjectDir)..\SDL2_mixer-2.0.1\lib\x86</AdditionalLibraryDirectories>
     </Link>
+    <Midl>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
+      <StructMemberAlignment>8</StructMemberAlignment>
+    </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -102,6 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="midiproc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="midiproc.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
