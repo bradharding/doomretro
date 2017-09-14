@@ -63,7 +63,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
-      <TypeLibraryName>.\Release\doomretro.tlb</TypeLibraryName>
       <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
       <OutputDirectory>..\</OutputDirectory>
       <GenerateStublessProxies>true</GenerateStublessProxies>
@@ -112,7 +111,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
-      <TypeLibraryName>.\Release\doomretro.tlb</TypeLibraryName>
       <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
       <OutputDirectory>..\</OutputDirectory>
       <GenerateStublessProxies>true</GenerateStublessProxies>

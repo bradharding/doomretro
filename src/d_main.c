@@ -968,8 +968,7 @@ static int D_OpenWADLauncher(void)
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = iwadfolder;
-    ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST
-        | OFN_EXPLORER);
+    ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     fileopenedok = GetOpenFileName(&ofn);
@@ -986,7 +985,7 @@ static int D_OpenWADLauncher(void)
 
     NSInteger   clicked = [panel runModal];
 
-    fileopenedok = clicked == NSFileHandlingPanelOKButton;
+    fileopenedok = (clicked == NSFileHandlingPanelOKButton);
 #endif
 
     if (fileopenedok)
@@ -1003,7 +1002,7 @@ static int D_OpenWADLauncher(void)
 #elif defined __MACOSX__
         NSArray *urls = [panel URLs];
 
-        onlyoneselected = [urls count] == 1;
+        onlyoneselected = ([urls count] == 1);
 #endif
 
         if (onlyoneselected)
@@ -1343,6 +1342,7 @@ static int D_OpenWADLauncher(void)
                     static char fullpath[MAX_PATH];
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass1);
+
 #elif defined(__MACOSX__)
                 for (NSURL* url in urls)
                 {
@@ -1434,6 +1434,7 @@ static int D_OpenWADLauncher(void)
                         static char fullpath[MAX_PATH];
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", szFile, pwadpass2);
+
 #elif defined(__MACOSX__)
                     for (NSURL *url in urls)
                     {
@@ -1723,6 +1724,7 @@ static void D_DoomMainSetup(void)
                 else if (!choseniwad && !error)
                 {
                     static char buffer[256];
+
 #if defined(_WIN32)
                     PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif

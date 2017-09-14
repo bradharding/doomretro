@@ -635,7 +635,7 @@ void C_Init(void)
     // sort the autocomplete list
     for (int i = 0; i < numautocomplete; i++)
         for (int j = i + 1; j < numautocomplete; j++)
-            if (stricmp(autocompletelist[i], autocompletelist[j]) > 0)
+            if (strcasecmp(autocompletelist[i], autocompletelist[j]) > 0)
             {
                 char    temp[256];
 
