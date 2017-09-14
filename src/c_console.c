@@ -600,6 +600,7 @@ void C_Init(void)
     consolecolors[playermessagestring] = consoleplayermessagecolor;
     consolecolors[obituarystring] = consoleplayermessagecolor;
 
+    // construct the autocomplete list
     for (int i = 0; i < numconsolecmds; i++)
         if (consolecmds[i].type != CT_CHEAT && *consolecmds[i].description)
         {
@@ -611,10 +612,37 @@ void C_Init(void)
 
                 autocompletelist[numautocomplete][length] = ' ';
                 autocompletelist[numautocomplete][length + 1] = '\0';
+
+                if (M_StringCompare(consolecmds[i].name, "spawn"))
+                {
+                    numautocomplete++;
+
+                    for (int j = 0; j < NUMMOBJTYPES; j++)
+                        if (mobjinfo[j].doomednum >= 0)
+                        {
+                            M_snprintf(autocompletelist[numautocomplete], 255, "%s %s", consolecmds[i].name,
+                                removespaces(mobjinfo[j].name1));
+                            numautocomplete++;
+                        }
+
+                    continue;
+                }
             }
 
             numautocomplete++;
         }
+
+    // sort the autocomplete list
+    for (int i = 0; i < numautocomplete; i++)
+        for (int j = i + 1; j < numautocomplete; j++)
+            if (stricmp(autocompletelist[i], autocompletelist[j]) > 0)
+            {
+                char    temp[256];
+
+                strcpy(temp, autocompletelist[i]);
+                strcpy(autocompletelist[i], autocompletelist[j]);
+                strcpy(autocompletelist[j], temp);
+            }
 }
 
 void C_ShowConsole(void)
