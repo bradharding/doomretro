@@ -112,6 +112,8 @@ static short            brandheight;
 static short            spacewidth;
 
 static char             consoleinput[255];
+static char             autocompletelist[1024][255];
+static int              numautocomplete;
 int                     consolestrings;
 static int              numconsolecmds;
 
@@ -597,6 +599,22 @@ void C_Init(void)
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
     consolecolors[obituarystring] = consoleplayermessagecolor;
+
+    for (int i = 0; i < numconsolecmds; i++)
+        if (consolecmds[i].type != CT_CHEAT && *consolecmds[i].description)
+        {
+            M_StringCopy(autocompletelist[numautocomplete], consolecmds[i].name, 255);
+
+            if (consolecmds[i].parameters)
+            {
+                const int   length = strlen(autocompletelist[numautocomplete]);
+
+                autocompletelist[numautocomplete][length] = ' ';
+                autocompletelist[numautocomplete][length + 1] = '\0';
+            }
+
+            numautocomplete++;
+        }
 }
 
 void C_ShowConsole(void)
@@ -1266,7 +1284,9 @@ dboolean C_Responder(event_t *ev)
                     {
                         // clear input
                         consoleinput[0] = '\0';
-                        caretpos = selectstart = selectend = 0;
+                        caretpos = 0;
+                        selectstart = 0;
+                        selectend = 0;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                         undolevels = 0;
@@ -1383,24 +1403,13 @@ dboolean C_Responder(event_t *ev)
                         M_StringCopy(autocompletetext, consoleinput, sizeof(autocompletetext));
 
                     while ((direction == -1 && autocomplete > 0)
-                        || (direction == 1 && autocomplete < numconsolecmds - 1))
+                        || (direction == 1 && autocomplete < numautocomplete - 1))
                     {
                         autocomplete += direction;
 
-                        if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
-                            && consolecmds[autocomplete].type != CT_CHEAT
-                            && *consolecmds[autocomplete].description)
+                        if (M_StringStartsWith(autocompletelist[autocomplete], autocompletetext))
                         {
-                            M_StringCopy(consoleinput, consolecmds[autocomplete].name, sizeof(consoleinput));
-
-                            if (consolecmds[autocomplete].parameters)
-                            {
-                                const int   length = strlen(consoleinput);
-
-                                consoleinput[length] = ' ';
-                                consoleinput[length + 1] = '\0';
-                            }
-
+                            M_StringCopy(consoleinput, autocompletelist[autocomplete], sizeof(consoleinput));
                             caretpos = selectstart = selectend = strlen(consoleinput);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
@@ -1421,6 +1430,7 @@ dboolean C_Responder(event_t *ev)
                         outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
                             MAX(0, outputhistory - 1));
                 }
+
                 // previous input
                 else
                 {
@@ -1449,6 +1459,7 @@ dboolean C_Responder(event_t *ev)
                         if (++outputhistory + CONSOLELINES == consolestrings)
                             outputhistory = -1;
                 }
+
                 // next input
                 else
                 {
