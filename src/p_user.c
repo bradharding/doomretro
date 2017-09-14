@@ -38,6 +38,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "i_gamepad.h"
 #include "p_local.h"
 #include "s_sound.h"
@@ -47,6 +48,7 @@
 
 extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
+extern dboolean gamekeydown[NUMKEYS];
 extern dboolean r_liquid_bob;
 extern dboolean skipaction;
 extern dboolean usemouselook;
@@ -259,7 +261,6 @@ static void P_DeathThink(player_t *player)
     static dboolean facingkiller;
     mobj_t          *mo = player->mo;
     mobj_t          *attacker = player->attacker;
-    const Uint8     *keystate = SDL_GetKeyboardState(NULL);
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
@@ -318,7 +319,7 @@ static void P_DeathThink(player_t *player)
         return;
 
     if (((player->cmd.buttons & BT_USE) || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount
-        && count > TICRATE * 2) || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER]))
+        && count > TICRATE * 2) || gamekeydown[KEY_ENTER]))
     {
         count = 0;
         damagevibrationtics = 1;

@@ -159,7 +159,7 @@ static struct
 
 #define SLOWTURNTICS    6
 
-static dboolean gamekeydown[NUMKEYS];
+dboolean        gamekeydown[NUMKEYS];
 static int      turnheld;                       // for accelerative turning
 
 static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
