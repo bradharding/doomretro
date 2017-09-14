@@ -112,10 +112,15 @@ static short            brandheight;
 static short            spacewidth;
 
 static char             consoleinput[255];
-static char             autocompletelist[1024][255];
 static int              numautocomplete;
 int                     consolestrings;
 static int              numconsolecmds;
+
+static struct
+{
+    char        text[255];
+    dboolean    parameter;
+} autocompletelist[1024];
 
 static int              undolevels;
 static undohistory_t    *undohistory;
@@ -604,14 +609,15 @@ void C_Init(void)
     for (int i = 0; i < numconsolecmds; i++)
         if (consolecmds[i].type != CT_CHEAT && *consolecmds[i].description)
         {
-            M_StringCopy(autocompletelist[numautocomplete], consolecmds[i].name, 255);
+            M_StringCopy(autocompletelist[numautocomplete].text, consolecmds[i].name, 255);
+            autocompletelist[numautocomplete].parameter = false;
 
             if (consolecmds[i].parameters)
             {
-                const int   length = strlen(autocompletelist[numautocomplete]);
+                const int   length = strlen(autocompletelist[numautocomplete].text);
 
-                autocompletelist[numautocomplete][length] = ' ';
-                autocompletelist[numautocomplete][length + 1] = '\0';
+                autocompletelist[numautocomplete].text[length] = ' ';
+                autocompletelist[numautocomplete].text[length + 1] = '\0';
 
                 if (M_StringCompare(consolecmds[i].name, "spawn"))
                 {
@@ -620,8 +626,9 @@ void C_Init(void)
                     for (int j = 0; j < NUMMOBJTYPES; j++)
                         if (mobjinfo[j].doomednum >= 0)
                         {
-                            M_snprintf(autocompletelist[numautocomplete], 255, "%s %s", consolecmds[i].name,
-                                removespaces(mobjinfo[j].name1));
+                            M_snprintf(autocompletelist[numautocomplete].text, 255, "%s %s",
+                                consolecmds[i].name, removespaces(mobjinfo[j].name1));
+                            autocompletelist[numautocomplete].parameter = true;
                             numautocomplete++;
                         }
 
@@ -635,13 +642,13 @@ void C_Init(void)
     // sort the autocomplete list
     for (int i = 0; i < numautocomplete; i++)
         for (int j = i + 1; j < numautocomplete; j++)
-            if (strcasecmp(autocompletelist[i], autocompletelist[j]) > 0)
+            if (strcasecmp(autocompletelist[i].text, autocompletelist[j].text) > 0)
             {
                 char    temp[256];
 
-                strcpy(temp, autocompletelist[i]);
-                strcpy(autocompletelist[i], autocompletelist[j]);
-                strcpy(autocompletelist[j], temp);
+                strcpy(temp, autocompletelist[i].text);
+                strcpy(autocompletelist[i].text, autocompletelist[j].text);
+                strcpy(autocompletelist[j].text, temp);
             }
 }
 
@@ -1426,18 +1433,25 @@ dboolean C_Responder(event_t *ev)
                     const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     const int   start = autocomplete;
                     static char autocompletetext[255];
+                    char        *p;
+                    size_t      len;
 
                     if (autocomplete == -1)
                         M_StringCopy(autocompletetext, consoleinput, sizeof(autocompletetext));
+
+                    p = strchr(autocompletetext, ' ');
+                    len = strlen(autocompletetext);
 
                     while ((direction == -1 && autocomplete > 0)
                         || (direction == 1 && autocomplete < numautocomplete - 1))
                     {
                         autocomplete += direction;
 
-                        if (M_StringStartsWith(autocompletelist[autocomplete], autocompletetext))
+                        if (M_StringStartsWith(autocompletelist[autocomplete].text, autocompletetext)
+                            && (!autocompletelist[autocomplete].parameter
+                                || (autocompletelist[autocomplete].parameter && p && autocompletetext[len - 1] != ' ')))
                         {
-                            M_StringCopy(consoleinput, autocompletelist[autocomplete], sizeof(consoleinput));
+                            M_StringCopy(consoleinput, autocompletelist[autocomplete].text, sizeof(consoleinput));
                             caretpos = selectstart = selectend = strlen(consoleinput);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
