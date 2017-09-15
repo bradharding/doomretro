@@ -2472,10 +2472,16 @@ vid_scaleapi
 vid_scaleapi "direct3d"
 vid_scaleapi "software"
 vid_scaleapi "opengl"
+vid_scaleapi direct3d
+vid_scaleapi software
+vid_scaleapi opengl
 vid_scalefilter 
 vid_scalefilter "linear"
 vid_scalefilter "nearest"
 vid_scalefilter "nearest_linear"
+vid_scalefilter linear
+vid_scalefilter nearest
+vid_scalefilter nearest_linear
 vid_screenresolution 
 vid_screenresolution desktop
 vid_showfps 
