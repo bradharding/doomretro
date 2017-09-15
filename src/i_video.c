@@ -1870,5 +1870,9 @@ void I_InitGraphics(void)
 
     while (SDL_PollEvent(&dummy));
 
-    UpdateGrab();
+    if (vid_fullscreen)
+    {
+        SetShowCursor(false);
+        CenterMouse();
+    }
 }
