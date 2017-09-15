@@ -90,7 +90,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <BrowseInformation>true</BrowseInformation>
+      <BrowseInformation>false</BrowseInformation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>sdl2.lib;sdl2_mixer.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
