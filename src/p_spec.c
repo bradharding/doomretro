@@ -257,6 +257,7 @@ void P_SetLiquids(void)
         }
     }
 
+    SC_Close();
     numliquid = 0;
 
     for (int i = 0; i < numsectors; i++)

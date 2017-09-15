@@ -3932,6 +3932,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
             free(cvar);
         }
 
+        SC_Close();
         HU_PlayerMessage(s_STSTR_VMON, false);
         C_HideConsole();
     }

@@ -606,6 +606,8 @@ void C_Init(void)
 
     while (SC_GetLine())
         M_StringCopy(autocompletelist[numautocomplete++], sc_String, 255);
+
+    SC_Close();
 }
 
 void C_ShowConsole(void)

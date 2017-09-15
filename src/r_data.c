@@ -513,6 +513,8 @@ static void R_InitSpriteLumps(void)
                 telefragonmap30 = true;
         }
     }
+
+    SC_Close();
 }
 
 //
