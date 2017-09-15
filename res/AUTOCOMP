@@ -2470,8 +2470,8 @@ vid_pillarboxes off
 vid_pillarboxes on
 vid_scaleapi 
 vid_scaleapi "direct3d"
-vid_scaleapi "opengl"
 vid_scaleapi "software"
+vid_scaleapi "opengl"
 vid_scalefilter 
 vid_scalefilter "linear"
 vid_scalefilter "nearest"
