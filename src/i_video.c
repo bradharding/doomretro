@@ -1865,7 +1865,7 @@ void I_InitGraphics(void)
 
     SDL_SetWindowTitle(window, PACKAGE_NAME);
 
-    blitfunc = (nearestlinear ? I_Blit_NearestLinear : I_Blit);
+    I_UpdateBlitFunc(false);
     blitfunc();
 
     while (SDL_PollEvent(&dummy));
