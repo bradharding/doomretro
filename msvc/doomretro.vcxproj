@@ -356,6 +356,7 @@
     <None Include="..\docs\releasenotes.md" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
+    <None Include="..\res\AUTOCOMP" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\doomretro.wad" />

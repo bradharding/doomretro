@@ -84,6 +84,7 @@ char *commify(int64_t value);
 char *uncommify(const char *input);
 dboolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
+int numspaces(char *str);
 char *removespaces(const char *input);
 char *trimwhitespace(char *input);
 char *removenewlines(const char *str);

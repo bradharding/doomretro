@@ -783,6 +783,17 @@ int gcd(int a, int b)
     return (!b ? a : gcd(b, a % b));
 }
 
+int numspaces(char *str)
+{
+    int     result = 0;
+    size_t  len = strlen(str);
+
+    for (size_t i = 0; i < len; i++)
+        result += (str[i] == ' ');
+
+    return result;
+}
+
 char *removespaces(const char *input)
 {
     char    *p;

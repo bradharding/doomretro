@@ -1,0 +1,2393 @@
+alias 
+alwaysrun 
+alwaysrun off
+alwaysrun on
+am_allmapcdwallcolor 
+am_allmapfdwallcolor 
+am_allmapwallcolor 
+am_backcolor 
+am_cdwallcolor 
+am_crosshaircolor 
+am_external 
+am_external off
+am_external on
+am_fdwallcolor 
+am_followmode 
+am_grid 
+am_grid off
+am_grid on
+am_gridcolor 
+am_gridsize 
+am_markcolor 
+am_path 
+am_path off
+am_path on
+am_pathcolor 
+am_playercolor 
+am_rotatemode 
+am_rotatemode off
+am_rotatemode on
+am_teleportercolor 
+am_thingcolor 
+am_tswallcolor 
+am_wallcolor 
+ammo 
+armor 
+autoload 
+autoload off
+autoload on
+bind 
+bind alt 
+bind alt +alwaysrun
+bind alt +automap
+bind alt +back
+bind alt +clearmark
+bind alt +console
+bind alt +fire
+bind alt +followmode
+bind alt +forward
+bind alt +grid
+bind alt +left
+bind alt +mark
+bind alt +maxzoom
+bind alt +menu
+bind alt +mouselook
+bind alt +nextweapon
+bind alt +prevweapon
+bind alt +right
+bind alt +rotatemode
+bind alt +run
+bind alt +screenshot
+bind alt +strafe
+bind alt +strafeleft
+bind alt +straferight
+bind alt +use
+bind alt +weapon1
+bind alt +weapon2
+bind alt +weapon3
+bind alt +weapon4
+bind alt +weapon5
+bind alt +weapon6
+bind alt +weapon7
+bind alt +zoomin
+bind alt +zoomout
+bind back 
+bind back +alwaysrun
+bind back +automap
+bind back +back
+bind back +clearmark
+bind back +console
+bind back +fire
+bind back +followmode
+bind back +forward
+bind back +grid
+bind back +left
+bind back +mark
+bind back +maxzoom
+bind back +menu
+bind back +mouselook
+bind back +nextweapon
+bind back +prevweapon
+bind back +right
+bind back +rotatemode
+bind back +run
+bind back +screenshot
+bind back +strafe
+bind back +strafeleft
+bind back +straferight
+bind back +use
+bind back +weapon1
+bind back +weapon2
+bind back +weapon3
+bind back +weapon4
+bind back +weapon5
+bind back +weapon6
+bind back +weapon7
+bind back +zoomin
+bind back +zoomout
+bind backspace 
+bind backspace +alwaysrun
+bind backspace +automap
+bind backspace +back
+bind backspace +clearmark
+bind backspace +console
+bind backspace +fire
+bind backspace +followmode
+bind backspace +forward
+bind backspace +grid
+bind backspace +left
+bind backspace +mark
+bind backspace +maxzoom
+bind backspace +menu
+bind backspace +mouselook
+bind backspace +nextweapon
+bind backspace +prevweapon
+bind backspace +right
+bind backspace +rotatemode
+bind backspace +run
+bind backspace +screenshot
+bind backspace +strafe
+bind backspace +strafeleft
+bind backspace +straferight
+bind backspace +use
+bind backspace +weapon1
+bind backspace +weapon2
+bind backspace +weapon3
+bind backspace +weapon4
+bind backspace +weapon5
+bind backspace +weapon6
+bind backspace +weapon7
+bind backspace +zoomin
+bind backspace +zoomout
+bind capslock 
+bind capslock +alwaysrun
+bind capslock +automap
+bind capslock +back
+bind capslock +clearmark
+bind capslock +console
+bind capslock +fire
+bind capslock +followmode
+bind capslock +forward
+bind capslock +grid
+bind capslock +left
+bind capslock +mark
+bind capslock +maxzoom
+bind capslock +menu
+bind capslock +mouselook
+bind capslock +nextweapon
+bind capslock +prevweapon
+bind capslock +right
+bind capslock +rotatemode
+bind capslock +run
+bind capslock +screenshot
+bind capslock +strafe
+bind capslock +strafeleft
+bind capslock +straferight
+bind capslock +use
+bind capslock +weapon1
+bind capslock +weapon2
+bind capslock +weapon3
+bind capslock +weapon4
+bind capslock +weapon5
+bind capslock +weapon6
+bind capslock +weapon7
+bind capslock +zoomin
+bind capslock +zoomout
+bind ctrl 
+bind ctrl +alwaysrun
+bind ctrl +automap
+bind ctrl +back
+bind ctrl +clearmark
+bind ctrl +console
+bind ctrl +fire
+bind ctrl +followmode
+bind ctrl +forward
+bind ctrl +grid
+bind ctrl +left
+bind ctrl +mark
+bind ctrl +maxzoom
+bind ctrl +menu
+bind ctrl +mouselook
+bind ctrl +nextweapon
+bind ctrl +prevweapon
+bind ctrl +right
+bind ctrl +rotatemode
+bind ctrl +run
+bind ctrl +screenshot
+bind ctrl +strafe
+bind ctrl +strafeleft
+bind ctrl +straferight
+bind ctrl +use
+bind ctrl +weapon1
+bind ctrl +weapon2
+bind ctrl +weapon3
+bind ctrl +weapon4
+bind ctrl +weapon5
+bind ctrl +weapon6
+bind ctrl +weapon7
+bind ctrl +zoomin
+bind ctrl +zoomout
+bind delete 
+bind delete +alwaysrun
+bind delete +automap
+bind delete +back
+bind delete +clearmark
+bind delete +console
+bind delete +fire
+bind delete +followmode
+bind delete +forward
+bind delete +grid
+bind delete +left
+bind delete +mark
+bind delete +maxzoom
+bind delete +menu
+bind delete +mouselook
+bind delete +nextweapon
+bind delete +prevweapon
+bind delete +right
+bind delete +rotatemode
+bind delete +run
+bind delete +screenshot
+bind delete +strafe
+bind delete +strafeleft
+bind delete +straferight
+bind delete +use
+bind delete +weapon1
+bind delete +weapon2
+bind delete +weapon3
+bind delete +weapon4
+bind delete +weapon5
+bind delete +weapon6
+bind delete +weapon7
+bind delete +zoomin
+bind delete +zoomout
+bind down 
+bind down +alwaysrun
+bind down +automap
+bind down +back
+bind down +clearmark
+bind down +console
+bind down +fire
+bind down +followmode
+bind down +forward
+bind down +grid
+bind down +left
+bind down +mark
+bind down +maxzoom
+bind down +menu
+bind down +mouselook
+bind down +nextweapon
+bind down +prevweapon
+bind down +right
+bind down +rotatemode
+bind down +run
+bind down +screenshot
+bind down +strafe
+bind down +strafeleft
+bind down +straferight
+bind down +use
+bind down +weapon1
+bind down +weapon2
+bind down +weapon3
+bind down +weapon4
+bind down +weapon5
+bind down +weapon6
+bind down +weapon7
+bind down +zoomin
+bind down +zoomout
+bind dpaddown 
+bind dpaddown +alwaysrun
+bind dpaddown +automap
+bind dpaddown +back
+bind dpaddown +clearmark
+bind dpaddown +console
+bind dpaddown +fire
+bind dpaddown +followmode
+bind dpaddown +forward
+bind dpaddown +grid
+bind dpaddown +left
+bind dpaddown +mark
+bind dpaddown +maxzoom
+bind dpaddown +menu
+bind dpaddown +mouselook
+bind dpaddown +nextweapon
+bind dpaddown +prevweapon
+bind dpaddown +right
+bind dpaddown +rotatemode
+bind dpaddown +run
+bind dpaddown +screenshot
+bind dpaddown +strafe
+bind dpaddown +strafeleft
+bind dpaddown +straferight
+bind dpaddown +use
+bind dpaddown +weapon1
+bind dpaddown +weapon2
+bind dpaddown +weapon3
+bind dpaddown +weapon4
+bind dpaddown +weapon5
+bind dpaddown +weapon6
+bind dpaddown +weapon7
+bind dpaddown +zoomin
+bind dpaddown +zoomout
+bind dpadleft 
+bind dpadleft +alwaysrun
+bind dpadleft +automap
+bind dpadleft +back
+bind dpadleft +clearmark
+bind dpadleft +console
+bind dpadleft +fire
+bind dpadleft +followmode
+bind dpadleft +forward
+bind dpadleft +grid
+bind dpadleft +left
+bind dpadleft +mark
+bind dpadleft +maxzoom
+bind dpadleft +menu
+bind dpadleft +mouselook
+bind dpadleft +nextweapon
+bind dpadleft +prevweapon
+bind dpadleft +right
+bind dpadleft +rotatemode
+bind dpadleft +run
+bind dpadleft +screenshot
+bind dpadleft +strafe
+bind dpadleft +strafeleft
+bind dpadleft +straferight
+bind dpadleft +use
+bind dpadleft +weapon1
+bind dpadleft +weapon2
+bind dpadleft +weapon3
+bind dpadleft +weapon4
+bind dpadleft +weapon5
+bind dpadleft +weapon6
+bind dpadleft +weapon7
+bind dpadleft +zoomin
+bind dpadleft +zoomout
+bind dpadright 
+bind dpadright +alwaysrun
+bind dpadright +automap
+bind dpadright +back
+bind dpadright +clearmark
+bind dpadright +console
+bind dpadright +fire
+bind dpadright +followmode
+bind dpadright +forward
+bind dpadright +grid
+bind dpadright +left
+bind dpadright +mark
+bind dpadright +maxzoom
+bind dpadright +menu
+bind dpadright +mouselook
+bind dpadright +nextweapon
+bind dpadright +prevweapon
+bind dpadright +right
+bind dpadright +rotatemode
+bind dpadright +run
+bind dpadright +screenshot
+bind dpadright +strafe
+bind dpadright +strafeleft
+bind dpadright +straferight
+bind dpadright +use
+bind dpadright +weapon1
+bind dpadright +weapon2
+bind dpadright +weapon3
+bind dpadright +weapon4
+bind dpadright +weapon5
+bind dpadright +weapon6
+bind dpadright +weapon7
+bind dpadright +zoomin
+bind dpadright +zoomout
+bind dpadup 
+bind dpadup +alwaysrun
+bind dpadup +automap
+bind dpadup +back
+bind dpadup +clearmark
+bind dpadup +console
+bind dpadup +fire
+bind dpadup +followmode
+bind dpadup +forward
+bind dpadup +grid
+bind dpadup +left
+bind dpadup +mark
+bind dpadup +maxzoom
+bind dpadup +menu
+bind dpadup +mouselook
+bind dpadup +nextweapon
+bind dpadup +prevweapon
+bind dpadup +right
+bind dpadup +rotatemode
+bind dpadup +run
+bind dpadup +screenshot
+bind dpadup +strafe
+bind dpadup +strafeleft
+bind dpadup +straferight
+bind dpadup +use
+bind dpadup +weapon1
+bind dpadup +weapon2
+bind dpadup +weapon3
+bind dpadup +weapon4
+bind dpadup +weapon5
+bind dpadup +weapon6
+bind dpadup +weapon7
+bind dpadup +zoomin
+bind dpadup +zoomout
+bind end 
+bind end +alwaysrun
+bind end +automap
+bind end +back
+bind end +clearmark
+bind end +console
+bind end +fire
+bind end +followmode
+bind end +forward
+bind end +grid
+bind end +left
+bind end +mark
+bind end +maxzoom
+bind end +menu
+bind end +mouselook
+bind end +nextweapon
+bind end +prevweapon
+bind end +right
+bind end +rotatemode
+bind end +run
+bind end +screenshot
+bind end +strafe
+bind end +strafeleft
+bind end +straferight
+bind end +use
+bind end +weapon1
+bind end +weapon2
+bind end +weapon3
+bind end +weapon4
+bind end +weapon5
+bind end +weapon6
+bind end +weapon7
+bind end +zoomin
+bind end +zoomout
+bind enter 
+bind enter +alwaysrun
+bind enter +automap
+bind enter +back
+bind enter +clearmark
+bind enter +console
+bind enter +fire
+bind enter +followmode
+bind enter +forward
+bind enter +grid
+bind enter +left
+bind enter +mark
+bind enter +maxzoom
+bind enter +menu
+bind enter +mouselook
+bind enter +nextweapon
+bind enter +prevweapon
+bind enter +right
+bind enter +rotatemode
+bind enter +run
+bind enter +screenshot
+bind enter +strafe
+bind enter +strafeleft
+bind enter +straferight
+bind enter +use
+bind enter +weapon1
+bind enter +weapon2
+bind enter +weapon3
+bind enter +weapon4
+bind enter +weapon5
+bind enter +weapon6
+bind enter +weapon7
+bind enter +zoomin
+bind enter +zoomout
+bind escape 
+bind escape +alwaysrun
+bind escape +automap
+bind escape +back
+bind escape +clearmark
+bind escape +console
+bind escape +fire
+bind escape +followmode
+bind escape +forward
+bind escape +grid
+bind escape +left
+bind escape +mark
+bind escape +maxzoom
+bind escape +menu
+bind escape +mouselook
+bind escape +nextweapon
+bind escape +prevweapon
+bind escape +right
+bind escape +rotatemode
+bind escape +run
+bind escape +screenshot
+bind escape +strafe
+bind escape +strafeleft
+bind escape +straferight
+bind escape +use
+bind escape +weapon1
+bind escape +weapon2
+bind escape +weapon3
+bind escape +weapon4
+bind escape +weapon5
+bind escape +weapon6
+bind escape +weapon7
+bind escape +zoomin
+bind escape +zoomout
+bind gamepad1 
+bind gamepad1 +alwaysrun
+bind gamepad1 +automap
+bind gamepad1 +back
+bind gamepad1 +clearmark
+bind gamepad1 +console
+bind gamepad1 +fire
+bind gamepad1 +followmode
+bind gamepad1 +forward
+bind gamepad1 +grid
+bind gamepad1 +left
+bind gamepad1 +mark
+bind gamepad1 +maxzoom
+bind gamepad1 +menu
+bind gamepad1 +mouselook
+bind gamepad1 +nextweapon
+bind gamepad1 +prevweapon
+bind gamepad1 +right
+bind gamepad1 +rotatemode
+bind gamepad1 +run
+bind gamepad1 +screenshot
+bind gamepad1 +strafe
+bind gamepad1 +strafeleft
+bind gamepad1 +straferight
+bind gamepad1 +use
+bind gamepad1 +weapon1
+bind gamepad1 +weapon2
+bind gamepad1 +weapon3
+bind gamepad1 +weapon4
+bind gamepad1 +weapon5
+bind gamepad1 +weapon6
+bind gamepad1 +weapon7
+bind gamepad1 +zoomin
+bind gamepad1 +zoomout
+bind gamepad2 
+bind gamepad2 +alwaysrun
+bind gamepad2 +automap
+bind gamepad2 +back
+bind gamepad2 +clearmark
+bind gamepad2 +console
+bind gamepad2 +fire
+bind gamepad2 +followmode
+bind gamepad2 +forward
+bind gamepad2 +grid
+bind gamepad2 +left
+bind gamepad2 +mark
+bind gamepad2 +maxzoom
+bind gamepad2 +menu
+bind gamepad2 +mouselook
+bind gamepad2 +nextweapon
+bind gamepad2 +prevweapon
+bind gamepad2 +right
+bind gamepad2 +rotatemode
+bind gamepad2 +run
+bind gamepad2 +screenshot
+bind gamepad2 +strafe
+bind gamepad2 +strafeleft
+bind gamepad2 +straferight
+bind gamepad2 +use
+bind gamepad2 +weapon1
+bind gamepad2 +weapon2
+bind gamepad2 +weapon3
+bind gamepad2 +weapon4
+bind gamepad2 +weapon5
+bind gamepad2 +weapon6
+bind gamepad2 +weapon7
+bind gamepad2 +zoomin
+bind gamepad2 +zoomout
+bind gamepad3 
+bind gamepad3 +alwaysrun
+bind gamepad3 +automap
+bind gamepad3 +back
+bind gamepad3 +clearmark
+bind gamepad3 +console
+bind gamepad3 +fire
+bind gamepad3 +followmode
+bind gamepad3 +forward
+bind gamepad3 +grid
+bind gamepad3 +left
+bind gamepad3 +mark
+bind gamepad3 +maxzoom
+bind gamepad3 +menu
+bind gamepad3 +mouselook
+bind gamepad3 +nextweapon
+bind gamepad3 +prevweapon
+bind gamepad3 +right
+bind gamepad3 +rotatemode
+bind gamepad3 +run
+bind gamepad3 +screenshot
+bind gamepad3 +strafe
+bind gamepad3 +strafeleft
+bind gamepad3 +straferight
+bind gamepad3 +use
+bind gamepad3 +weapon1
+bind gamepad3 +weapon2
+bind gamepad3 +weapon3
+bind gamepad3 +weapon4
+bind gamepad3 +weapon5
+bind gamepad3 +weapon6
+bind gamepad3 +weapon7
+bind gamepad3 +zoomin
+bind gamepad3 +zoomout
+bind gamepad4 
+bind gamepad4 +alwaysrun
+bind gamepad4 +automap
+bind gamepad4 +back
+bind gamepad4 +clearmark
+bind gamepad4 +console
+bind gamepad4 +fire
+bind gamepad4 +followmode
+bind gamepad4 +forward
+bind gamepad4 +grid
+bind gamepad4 +left
+bind gamepad4 +mark
+bind gamepad4 +maxzoom
+bind gamepad4 +menu
+bind gamepad4 +mouselook
+bind gamepad4 +nextweapon
+bind gamepad4 +prevweapon
+bind gamepad4 +right
+bind gamepad4 +rotatemode
+bind gamepad4 +run
+bind gamepad4 +screenshot
+bind gamepad4 +strafe
+bind gamepad4 +strafeleft
+bind gamepad4 +straferight
+bind gamepad4 +use
+bind gamepad4 +weapon1
+bind gamepad4 +weapon2
+bind gamepad4 +weapon3
+bind gamepad4 +weapon4
+bind gamepad4 +weapon5
+bind gamepad4 +weapon6
+bind gamepad4 +weapon7
+bind gamepad4 +zoomin
+bind gamepad4 +zoomout
+bind home 
+bind home +alwaysrun
+bind home +automap
+bind home +back
+bind home +clearmark
+bind home +console
+bind home +fire
+bind home +followmode
+bind home +forward
+bind home +grid
+bind home +left
+bind home +mark
+bind home +maxzoom
+bind home +menu
+bind home +mouselook
+bind home +nextweapon
+bind home +prevweapon
+bind home +right
+bind home +rotatemode
+bind home +run
+bind home +screenshot
+bind home +strafe
+bind home +strafeleft
+bind home +straferight
+bind home +use
+bind home +weapon1
+bind home +weapon2
+bind home +weapon3
+bind home +weapon4
+bind home +weapon5
+bind home +weapon6
+bind home +weapon7
+bind home +zoomin
+bind home +zoomout
+bind insert 
+bind insert +alwaysrun
+bind insert +automap
+bind insert +back
+bind insert +clearmark
+bind insert +console
+bind insert +fire
+bind insert +followmode
+bind insert +forward
+bind insert +grid
+bind insert +left
+bind insert +mark
+bind insert +maxzoom
+bind insert +menu
+bind insert +mouselook
+bind insert +nextweapon
+bind insert +prevweapon
+bind insert +right
+bind insert +rotatemode
+bind insert +run
+bind insert +screenshot
+bind insert +strafe
+bind insert +strafeleft
+bind insert +straferight
+bind insert +use
+bind insert +weapon1
+bind insert +weapon2
+bind insert +weapon3
+bind insert +weapon4
+bind insert +weapon5
+bind insert +weapon6
+bind insert +weapon7
+bind insert +zoomin
+bind insert +zoomout
+bind left 
+bind left +alwaysrun
+bind left +automap
+bind left +back
+bind left +clearmark
+bind left +console
+bind left +fire
+bind left +followmode
+bind left +forward
+bind left +grid
+bind left +left
+bind left +mark
+bind left +maxzoom
+bind left +menu
+bind left +mouselook
+bind left +nextweapon
+bind left +prevweapon
+bind left +right
+bind left +rotatemode
+bind left +run
+bind left +screenshot
+bind left +strafe
+bind left +strafeleft
+bind left +straferight
+bind left +use
+bind left +weapon1
+bind left +weapon2
+bind left +weapon3
+bind left +weapon4
+bind left +weapon5
+bind left +weapon6
+bind left +weapon7
+bind left +zoomin
+bind left +zoomout
+bind leftshoulder 
+bind leftshoulder +alwaysrun
+bind leftshoulder +automap
+bind leftshoulder +back
+bind leftshoulder +clearmark
+bind leftshoulder +console
+bind leftshoulder +fire
+bind leftshoulder +followmode
+bind leftshoulder +forward
+bind leftshoulder +grid
+bind leftshoulder +left
+bind leftshoulder +mark
+bind leftshoulder +maxzoom
+bind leftshoulder +menu
+bind leftshoulder +mouselook
+bind leftshoulder +nextweapon
+bind leftshoulder +prevweapon
+bind leftshoulder +right
+bind leftshoulder +rotatemode
+bind leftshoulder +run
+bind leftshoulder +screenshot
+bind leftshoulder +strafe
+bind leftshoulder +strafeleft
+bind leftshoulder +straferight
+bind leftshoulder +use
+bind leftshoulder +weapon1
+bind leftshoulder +weapon2
+bind leftshoulder +weapon3
+bind leftshoulder +weapon4
+bind leftshoulder +weapon5
+bind leftshoulder +weapon6
+bind leftshoulder +weapon7
+bind leftshoulder +zoomin
+bind leftshoulder +zoomout
+bind leftthumb 
+bind leftthumb +alwaysrun
+bind leftthumb +automap
+bind leftthumb +back
+bind leftthumb +clearmark
+bind leftthumb +console
+bind leftthumb +fire
+bind leftthumb +followmode
+bind leftthumb +forward
+bind leftthumb +grid
+bind leftthumb +left
+bind leftthumb +mark
+bind leftthumb +maxzoom
+bind leftthumb +menu
+bind leftthumb +mouselook
+bind leftthumb +nextweapon
+bind leftthumb +prevweapon
+bind leftthumb +right
+bind leftthumb +rotatemode
+bind leftthumb +run
+bind leftthumb +screenshot
+bind leftthumb +strafe
+bind leftthumb +strafeleft
+bind leftthumb +straferight
+bind leftthumb +use
+bind leftthumb +weapon1
+bind leftthumb +weapon2
+bind leftthumb +weapon3
+bind leftthumb +weapon4
+bind leftthumb +weapon5
+bind leftthumb +weapon6
+bind leftthumb +weapon7
+bind leftthumb +zoomin
+bind leftthumb +zoomout
+bind lefttrigger 
+bind lefttrigger +alwaysrun
+bind lefttrigger +automap
+bind lefttrigger +back
+bind lefttrigger +clearmark
+bind lefttrigger +console
+bind lefttrigger +fire
+bind lefttrigger +followmode
+bind lefttrigger +forward
+bind lefttrigger +grid
+bind lefttrigger +left
+bind lefttrigger +mark
+bind lefttrigger +maxzoom
+bind lefttrigger +menu
+bind lefttrigger +mouselook
+bind lefttrigger +nextweapon
+bind lefttrigger +prevweapon
+bind lefttrigger +right
+bind lefttrigger +rotatemode
+bind lefttrigger +run
+bind lefttrigger +screenshot
+bind lefttrigger +strafe
+bind lefttrigger +strafeleft
+bind lefttrigger +straferight
+bind lefttrigger +use
+bind lefttrigger +weapon1
+bind lefttrigger +weapon2
+bind lefttrigger +weapon3
+bind lefttrigger +weapon4
+bind lefttrigger +weapon5
+bind lefttrigger +weapon6
+bind lefttrigger +weapon7
+bind lefttrigger +zoomin
+bind lefttrigger +zoomout
+bind mouse1 
+bind mouse1 +alwaysrun
+bind mouse1 +automap
+bind mouse1 +back
+bind mouse1 +clearmark
+bind mouse1 +console
+bind mouse1 +fire
+bind mouse1 +followmode
+bind mouse1 +forward
+bind mouse1 +grid
+bind mouse1 +left
+bind mouse1 +mark
+bind mouse1 +maxzoom
+bind mouse1 +menu
+bind mouse1 +mouselook
+bind mouse1 +nextweapon
+bind mouse1 +prevweapon
+bind mouse1 +right
+bind mouse1 +rotatemode
+bind mouse1 +run
+bind mouse1 +screenshot
+bind mouse1 +strafe
+bind mouse1 +strafeleft
+bind mouse1 +straferight
+bind mouse1 +use
+bind mouse1 +weapon1
+bind mouse1 +weapon2
+bind mouse1 +weapon3
+bind mouse1 +weapon4
+bind mouse1 +weapon5
+bind mouse1 +weapon6
+bind mouse1 +weapon7
+bind mouse1 +zoomin
+bind mouse1 +zoomout
+bind mouse2 
+bind mouse2 +alwaysrun
+bind mouse2 +automap
+bind mouse2 +back
+bind mouse2 +clearmark
+bind mouse2 +console
+bind mouse2 +fire
+bind mouse2 +followmode
+bind mouse2 +forward
+bind mouse2 +grid
+bind mouse2 +left
+bind mouse2 +mark
+bind mouse2 +maxzoom
+bind mouse2 +menu
+bind mouse2 +mouselook
+bind mouse2 +nextweapon
+bind mouse2 +prevweapon
+bind mouse2 +right
+bind mouse2 +rotatemode
+bind mouse2 +run
+bind mouse2 +screenshot
+bind mouse2 +strafe
+bind mouse2 +strafeleft
+bind mouse2 +straferight
+bind mouse2 +use
+bind mouse2 +weapon1
+bind mouse2 +weapon2
+bind mouse2 +weapon3
+bind mouse2 +weapon4
+bind mouse2 +weapon5
+bind mouse2 +weapon6
+bind mouse2 +weapon7
+bind mouse2 +zoomin
+bind mouse2 +zoomout
+bind mouse3 
+bind mouse3 +alwaysrun
+bind mouse3 +automap
+bind mouse3 +back
+bind mouse3 +clearmark
+bind mouse3 +console
+bind mouse3 +fire
+bind mouse3 +followmode
+bind mouse3 +forward
+bind mouse3 +grid
+bind mouse3 +left
+bind mouse3 +mark
+bind mouse3 +maxzoom
+bind mouse3 +menu
+bind mouse3 +mouselook
+bind mouse3 +nextweapon
+bind mouse3 +prevweapon
+bind mouse3 +right
+bind mouse3 +rotatemode
+bind mouse3 +run
+bind mouse3 +screenshot
+bind mouse3 +strafe
+bind mouse3 +strafeleft
+bind mouse3 +straferight
+bind mouse3 +use
+bind mouse3 +weapon1
+bind mouse3 +weapon2
+bind mouse3 +weapon3
+bind mouse3 +weapon4
+bind mouse3 +weapon5
+bind mouse3 +weapon6
+bind mouse3 +weapon7
+bind mouse3 +zoomin
+bind mouse3 +zoomout
+bind mouse4 
+bind mouse4 +alwaysrun
+bind mouse4 +automap
+bind mouse4 +back
+bind mouse4 +clearmark
+bind mouse4 +console
+bind mouse4 +fire
+bind mouse4 +followmode
+bind mouse4 +forward
+bind mouse4 +grid
+bind mouse4 +left
+bind mouse4 +mark
+bind mouse4 +maxzoom
+bind mouse4 +menu
+bind mouse4 +mouselook
+bind mouse4 +nextweapon
+bind mouse4 +prevweapon
+bind mouse4 +right
+bind mouse4 +rotatemode
+bind mouse4 +run
+bind mouse4 +screenshot
+bind mouse4 +strafe
+bind mouse4 +strafeleft
+bind mouse4 +straferight
+bind mouse4 +use
+bind mouse4 +weapon1
+bind mouse4 +weapon2
+bind mouse4 +weapon3
+bind mouse4 +weapon4
+bind mouse4 +weapon5
+bind mouse4 +weapon6
+bind mouse4 +weapon7
+bind mouse4 +zoomin
+bind mouse4 +zoomout
+bind mouse5 
+bind mouse5 +alwaysrun
+bind mouse5 +automap
+bind mouse5 +back
+bind mouse5 +clearmark
+bind mouse5 +console
+bind mouse5 +fire
+bind mouse5 +followmode
+bind mouse5 +forward
+bind mouse5 +grid
+bind mouse5 +left
+bind mouse5 +mark
+bind mouse5 +maxzoom
+bind mouse5 +menu
+bind mouse5 +mouselook
+bind mouse5 +nextweapon
+bind mouse5 +prevweapon
+bind mouse5 +right
+bind mouse5 +rotatemode
+bind mouse5 +run
+bind mouse5 +screenshot
+bind mouse5 +strafe
+bind mouse5 +strafeleft
+bind mouse5 +straferight
+bind mouse5 +use
+bind mouse5 +weapon1
+bind mouse5 +weapon2
+bind mouse5 +weapon3
+bind mouse5 +weapon4
+bind mouse5 +weapon5
+bind mouse5 +weapon6
+bind mouse5 +weapon7
+bind mouse5 +zoomin
+bind mouse5 +zoomout
+bind mouse6 
+bind mouse6 +alwaysrun
+bind mouse6 +automap
+bind mouse6 +back
+bind mouse6 +clearmark
+bind mouse6 +console
+bind mouse6 +fire
+bind mouse6 +followmode
+bind mouse6 +forward
+bind mouse6 +grid
+bind mouse6 +left
+bind mouse6 +mark
+bind mouse6 +maxzoom
+bind mouse6 +menu
+bind mouse6 +mouselook
+bind mouse6 +nextweapon
+bind mouse6 +prevweapon
+bind mouse6 +right
+bind mouse6 +rotatemode
+bind mouse6 +run
+bind mouse6 +screenshot
+bind mouse6 +strafe
+bind mouse6 +strafeleft
+bind mouse6 +straferight
+bind mouse6 +use
+bind mouse6 +weapon1
+bind mouse6 +weapon2
+bind mouse6 +weapon3
+bind mouse6 +weapon4
+bind mouse6 +weapon5
+bind mouse6 +weapon6
+bind mouse6 +weapon7
+bind mouse6 +zoomin
+bind mouse6 +zoomout
+bind mouse7 
+bind mouse7 +alwaysrun
+bind mouse7 +automap
+bind mouse7 +back
+bind mouse7 +clearmark
+bind mouse7 +console
+bind mouse7 +fire
+bind mouse7 +followmode
+bind mouse7 +forward
+bind mouse7 +grid
+bind mouse7 +left
+bind mouse7 +mark
+bind mouse7 +maxzoom
+bind mouse7 +menu
+bind mouse7 +mouselook
+bind mouse7 +nextweapon
+bind mouse7 +prevweapon
+bind mouse7 +right
+bind mouse7 +rotatemode
+bind mouse7 +run
+bind mouse7 +screenshot
+bind mouse7 +strafe
+bind mouse7 +strafeleft
+bind mouse7 +straferight
+bind mouse7 +use
+bind mouse7 +weapon1
+bind mouse7 +weapon2
+bind mouse7 +weapon3
+bind mouse7 +weapon4
+bind mouse7 +weapon5
+bind mouse7 +weapon6
+bind mouse7 +weapon7
+bind mouse7 +zoomin
+bind mouse7 +zoomout
+bind mouse8 
+bind mouse8 +alwaysrun
+bind mouse8 +automap
+bind mouse8 +back
+bind mouse8 +clearmark
+bind mouse8 +console
+bind mouse8 +fire
+bind mouse8 +followmode
+bind mouse8 +forward
+bind mouse8 +grid
+bind mouse8 +left
+bind mouse8 +mark
+bind mouse8 +maxzoom
+bind mouse8 +menu
+bind mouse8 +mouselook
+bind mouse8 +nextweapon
+bind mouse8 +prevweapon
+bind mouse8 +right
+bind mouse8 +rotatemode
+bind mouse8 +run
+bind mouse8 +screenshot
+bind mouse8 +strafe
+bind mouse8 +strafeleft
+bind mouse8 +straferight
+bind mouse8 +use
+bind mouse8 +weapon1
+bind mouse8 +weapon2
+bind mouse8 +weapon3
+bind mouse8 +weapon4
+bind mouse8 +weapon5
+bind mouse8 +weapon6
+bind mouse8 +weapon7
+bind mouse8 +zoomin
+bind mouse8 +zoomout
+bind numlock 
+bind numlock +alwaysrun
+bind numlock +automap
+bind numlock +back
+bind numlock +clearmark
+bind numlock +console
+bind numlock +fire
+bind numlock +followmode
+bind numlock +forward
+bind numlock +grid
+bind numlock +left
+bind numlock +mark
+bind numlock +maxzoom
+bind numlock +menu
+bind numlock +mouselook
+bind numlock +nextweapon
+bind numlock +prevweapon
+bind numlock +right
+bind numlock +rotatemode
+bind numlock +run
+bind numlock +screenshot
+bind numlock +strafe
+bind numlock +strafeleft
+bind numlock +straferight
+bind numlock +use
+bind numlock +weapon1
+bind numlock +weapon2
+bind numlock +weapon3
+bind numlock +weapon4
+bind numlock +weapon5
+bind numlock +weapon6
+bind numlock +weapon7
+bind numlock +zoomin
+bind numlock +zoomout
+bind pagedown 
+bind pagedown +alwaysrun
+bind pagedown +automap
+bind pagedown +back
+bind pagedown +clearmark
+bind pagedown +console
+bind pagedown +fire
+bind pagedown +followmode
+bind pagedown +forward
+bind pagedown +grid
+bind pagedown +left
+bind pagedown +mark
+bind pagedown +maxzoom
+bind pagedown +menu
+bind pagedown +mouselook
+bind pagedown +nextweapon
+bind pagedown +prevweapon
+bind pagedown +right
+bind pagedown +rotatemode
+bind pagedown +run
+bind pagedown +screenshot
+bind pagedown +strafe
+bind pagedown +strafeleft
+bind pagedown +straferight
+bind pagedown +use
+bind pagedown +weapon1
+bind pagedown +weapon2
+bind pagedown +weapon3
+bind pagedown +weapon4
+bind pagedown +weapon5
+bind pagedown +weapon6
+bind pagedown +weapon7
+bind pagedown +zoomin
+bind pagedown +zoomout
+bind pageup 
+bind pageup +alwaysrun
+bind pageup +automap
+bind pageup +back
+bind pageup +clearmark
+bind pageup +console
+bind pageup +fire
+bind pageup +followmode
+bind pageup +forward
+bind pageup +grid
+bind pageup +left
+bind pageup +mark
+bind pageup +maxzoom
+bind pageup +menu
+bind pageup +mouselook
+bind pageup +nextweapon
+bind pageup +prevweapon
+bind pageup +right
+bind pageup +rotatemode
+bind pageup +run
+bind pageup +screenshot
+bind pageup +strafe
+bind pageup +strafeleft
+bind pageup +straferight
+bind pageup +use
+bind pageup +weapon1
+bind pageup +weapon2
+bind pageup +weapon3
+bind pageup +weapon4
+bind pageup +weapon5
+bind pageup +weapon6
+bind pageup +weapon7
+bind pageup +zoomin
+bind pageup +zoomout
+bind printscreen 
+bind printscreen +alwaysrun
+bind printscreen +automap
+bind printscreen +back
+bind printscreen +clearmark
+bind printscreen +console
+bind printscreen +fire
+bind printscreen +followmode
+bind printscreen +forward
+bind printscreen +grid
+bind printscreen +left
+bind printscreen +mark
+bind printscreen +maxzoom
+bind printscreen +menu
+bind printscreen +mouselook
+bind printscreen +nextweapon
+bind printscreen +prevweapon
+bind printscreen +right
+bind printscreen +rotatemode
+bind printscreen +run
+bind printscreen +screenshot
+bind printscreen +strafe
+bind printscreen +strafeleft
+bind printscreen +straferight
+bind printscreen +use
+bind printscreen +weapon1
+bind printscreen +weapon2
+bind printscreen +weapon3
+bind printscreen +weapon4
+bind printscreen +weapon5
+bind printscreen +weapon6
+bind printscreen +weapon7
+bind printscreen +zoomin
+bind printscreen +zoomout
+bind right 
+bind right +alwaysrun
+bind right +automap
+bind right +back
+bind right +clearmark
+bind right +console
+bind right +fire
+bind right +followmode
+bind right +forward
+bind right +grid
+bind right +left
+bind right +mark
+bind right +maxzoom
+bind right +menu
+bind right +mouselook
+bind right +nextweapon
+bind right +prevweapon
+bind right +right
+bind right +rotatemode
+bind right +run
+bind right +screenshot
+bind right +strafe
+bind right +strafeleft
+bind right +straferight
+bind right +use
+bind right +weapon1
+bind right +weapon2
+bind right +weapon3
+bind right +weapon4
+bind right +weapon5
+bind right +weapon6
+bind right +weapon7
+bind right +zoomin
+bind right +zoomout
+bind rightshoulder 
+bind rightshoulder +alwaysrun
+bind rightshoulder +automap
+bind rightshoulder +back
+bind rightshoulder +clearmark
+bind rightshoulder +console
+bind rightshoulder +fire
+bind rightshoulder +followmode
+bind rightshoulder +forward
+bind rightshoulder +grid
+bind rightshoulder +left
+bind rightshoulder +mark
+bind rightshoulder +maxzoom
+bind rightshoulder +menu
+bind rightshoulder +mouselook
+bind rightshoulder +nextweapon
+bind rightshoulder +prevweapon
+bind rightshoulder +right
+bind rightshoulder +rotatemode
+bind rightshoulder +run
+bind rightshoulder +screenshot
+bind rightshoulder +strafe
+bind rightshoulder +strafeleft
+bind rightshoulder +straferight
+bind rightshoulder +use
+bind rightshoulder +weapon1
+bind rightshoulder +weapon2
+bind rightshoulder +weapon3
+bind rightshoulder +weapon4
+bind rightshoulder +weapon5
+bind rightshoulder +weapon6
+bind rightshoulder +weapon7
+bind rightshoulder +zoomin
+bind rightshoulder +zoomout
+bind rightthumb 
+bind rightthumb +alwaysrun
+bind rightthumb +automap
+bind rightthumb +back
+bind rightthumb +clearmark
+bind rightthumb +console
+bind rightthumb +fire
+bind rightthumb +followmode
+bind rightthumb +forward
+bind rightthumb +grid
+bind rightthumb +left
+bind rightthumb +mark
+bind rightthumb +maxzoom
+bind rightthumb +menu
+bind rightthumb +mouselook
+bind rightthumb +nextweapon
+bind rightthumb +prevweapon
+bind rightthumb +right
+bind rightthumb +rotatemode
+bind rightthumb +run
+bind rightthumb +screenshot
+bind rightthumb +strafe
+bind rightthumb +strafeleft
+bind rightthumb +straferight
+bind rightthumb +use
+bind rightthumb +weapon1
+bind rightthumb +weapon2
+bind rightthumb +weapon3
+bind rightthumb +weapon4
+bind rightthumb +weapon5
+bind rightthumb +weapon6
+bind rightthumb +weapon7
+bind rightthumb +zoomin
+bind rightthumb +zoomout
+bind righttrigger 
+bind righttrigger +alwaysrun
+bind righttrigger +automap
+bind righttrigger +back
+bind righttrigger +clearmark
+bind righttrigger +console
+bind righttrigger +fire
+bind righttrigger +followmode
+bind righttrigger +forward
+bind righttrigger +grid
+bind righttrigger +left
+bind righttrigger +mark
+bind righttrigger +maxzoom
+bind righttrigger +menu
+bind righttrigger +mouselook
+bind righttrigger +nextweapon
+bind righttrigger +prevweapon
+bind righttrigger +right
+bind righttrigger +rotatemode
+bind righttrigger +run
+bind righttrigger +screenshot
+bind righttrigger +strafe
+bind righttrigger +strafeleft
+bind righttrigger +straferight
+bind righttrigger +use
+bind righttrigger +weapon1
+bind righttrigger +weapon2
+bind righttrigger +weapon3
+bind righttrigger +weapon4
+bind righttrigger +weapon5
+bind righttrigger +weapon6
+bind righttrigger +weapon7
+bind righttrigger +zoomin
+bind righttrigger +zoomout
+bind scrolllock 
+bind scrolllock +alwaysrun
+bind scrolllock +automap
+bind scrolllock +back
+bind scrolllock +clearmark
+bind scrolllock +console
+bind scrolllock +fire
+bind scrolllock +followmode
+bind scrolllock +forward
+bind scrolllock +grid
+bind scrolllock +left
+bind scrolllock +mark
+bind scrolllock +maxzoom
+bind scrolllock +menu
+bind scrolllock +mouselook
+bind scrolllock +nextweapon
+bind scrolllock +prevweapon
+bind scrolllock +right
+bind scrolllock +rotatemode
+bind scrolllock +run
+bind scrolllock +screenshot
+bind scrolllock +strafe
+bind scrolllock +strafeleft
+bind scrolllock +straferight
+bind scrolllock +use
+bind scrolllock +weapon1
+bind scrolllock +weapon2
+bind scrolllock +weapon3
+bind scrolllock +weapon4
+bind scrolllock +weapon5
+bind scrolllock +weapon6
+bind scrolllock +weapon7
+bind scrolllock +zoomin
+bind scrolllock +zoomout
+bind shift 
+bind shift +alwaysrun
+bind shift +automap
+bind shift +back
+bind shift +clearmark
+bind shift +console
+bind shift +fire
+bind shift +followmode
+bind shift +forward
+bind shift +grid
+bind shift +left
+bind shift +mark
+bind shift +maxzoom
+bind shift +menu
+bind shift +mouselook
+bind shift +nextweapon
+bind shift +prevweapon
+bind shift +right
+bind shift +rotatemode
+bind shift +run
+bind shift +screenshot
+bind shift +strafe
+bind shift +strafeleft
+bind shift +straferight
+bind shift +use
+bind shift +weapon1
+bind shift +weapon2
+bind shift +weapon3
+bind shift +weapon4
+bind shift +weapon5
+bind shift +weapon6
+bind shift +weapon7
+bind shift +zoomin
+bind shift +zoomout
+bind space 
+bind space +alwaysrun
+bind space +automap
+bind space +back
+bind space +clearmark
+bind space +console
+bind space +fire
+bind space +followmode
+bind space +forward
+bind space +grid
+bind space +left
+bind space +mark
+bind space +maxzoom
+bind space +menu
+bind space +mouselook
+bind space +nextweapon
+bind space +prevweapon
+bind space +right
+bind space +rotatemode
+bind space +run
+bind space +screenshot
+bind space +strafe
+bind space +strafeleft
+bind space +straferight
+bind space +use
+bind space +weapon1
+bind space +weapon2
+bind space +weapon3
+bind space +weapon4
+bind space +weapon5
+bind space +weapon6
+bind space +weapon7
+bind space +zoomin
+bind space +zoomout
+bind start 
+bind start +alwaysrun
+bind start +automap
+bind start +back
+bind start +clearmark
+bind start +console
+bind start +fire
+bind start +followmode
+bind start +forward
+bind start +grid
+bind start +left
+bind start +mark
+bind start +maxzoom
+bind start +menu
+bind start +mouselook
+bind start +nextweapon
+bind start +prevweapon
+bind start +right
+bind start +rotatemode
+bind start +run
+bind start +screenshot
+bind start +strafe
+bind start +strafeleft
+bind start +straferight
+bind start +use
+bind start +weapon1
+bind start +weapon2
+bind start +weapon3
+bind start +weapon4
+bind start +weapon5
+bind start +weapon6
+bind start +weapon7
+bind start +zoomin
+bind start +zoomout
+bind tab 
+bind tab +alwaysrun
+bind tab +automap
+bind tab +back
+bind tab +clearmark
+bind tab +console
+bind tab +fire
+bind tab +followmode
+bind tab +forward
+bind tab +grid
+bind tab +left
+bind tab +mark
+bind tab +maxzoom
+bind tab +menu
+bind tab +mouselook
+bind tab +nextweapon
+bind tab +prevweapon
+bind tab +right
+bind tab +rotatemode
+bind tab +run
+bind tab +screenshot
+bind tab +strafe
+bind tab +strafeleft
+bind tab +straferight
+bind tab +use
+bind tab +weapon1
+bind tab +weapon2
+bind tab +weapon3
+bind tab +weapon4
+bind tab +weapon5
+bind tab +weapon6
+bind tab +weapon7
+bind tab +zoomin
+bind tab +zoomout
+bind tilde 
+bind tilde +alwaysrun
+bind tilde +automap
+bind tilde +back
+bind tilde +clearmark
+bind tilde +console
+bind tilde +fire
+bind tilde +followmode
+bind tilde +forward
+bind tilde +grid
+bind tilde +left
+bind tilde +mark
+bind tilde +maxzoom
+bind tilde +menu
+bind tilde +mouselook
+bind tilde +nextweapon
+bind tilde +prevweapon
+bind tilde +right
+bind tilde +rotatemode
+bind tilde +run
+bind tilde +screenshot
+bind tilde +strafe
+bind tilde +strafeleft
+bind tilde +straferight
+bind tilde +use
+bind tilde +weapon1
+bind tilde +weapon2
+bind tilde +weapon3
+bind tilde +weapon4
+bind tilde +weapon5
+bind tilde +weapon6
+bind tilde +weapon7
+bind tilde +zoomin
+bind tilde +zoomout
+bind up 
+bind up +alwaysrun
+bind up +automap
+bind up +back
+bind up +clearmark
+bind up +console
+bind up +fire
+bind up +followmode
+bind up +forward
+bind up +grid
+bind up +left
+bind up +mark
+bind up +maxzoom
+bind up +menu
+bind up +mouselook
+bind up +nextweapon
+bind up +prevweapon
+bind up +right
+bind up +rotatemode
+bind up +run
+bind up +screenshot
+bind up +strafe
+bind up +strafeleft
+bind up +straferight
+bind up +use
+bind up +weapon1
+bind up +weapon2
+bind up +weapon3
+bind up +weapon4
+bind up +weapon5
+bind up +weapon6
+bind up +weapon7
+bind up +zoomin
+bind up +zoomout
+bind wheeldown 
+bind wheeldown +alwaysrun
+bind wheeldown +automap
+bind wheeldown +back
+bind wheeldown +clearmark
+bind wheeldown +console
+bind wheeldown +fire
+bind wheeldown +followmode
+bind wheeldown +forward
+bind wheeldown +grid
+bind wheeldown +left
+bind wheeldown +mark
+bind wheeldown +maxzoom
+bind wheeldown +menu
+bind wheeldown +mouselook
+bind wheeldown +nextweapon
+bind wheeldown +prevweapon
+bind wheeldown +right
+bind wheeldown +rotatemode
+bind wheeldown +run
+bind wheeldown +screenshot
+bind wheeldown +strafe
+bind wheeldown +strafeleft
+bind wheeldown +straferight
+bind wheeldown +use
+bind wheeldown +weapon1
+bind wheeldown +weapon2
+bind wheeldown +weapon3
+bind wheeldown +weapon4
+bind wheeldown +weapon5
+bind wheeldown +weapon6
+bind wheeldown +weapon7
+bind wheeldown +zoomin
+bind wheeldown +zoomout
+bind wheelup 
+bind wheelup +alwaysrun
+bind wheelup +automap
+bind wheelup +back
+bind wheelup +clearmark
+bind wheelup +console
+bind wheelup +fire
+bind wheelup +followmode
+bind wheelup +forward
+bind wheelup +grid
+bind wheelup +left
+bind wheelup +mark
+bind wheelup +maxzoom
+bind wheelup +menu
+bind wheelup +mouselook
+bind wheelup +nextweapon
+bind wheelup +prevweapon
+bind wheelup +right
+bind wheelup +rotatemode
+bind wheelup +run
+bind wheelup +screenshot
+bind wheelup +strafe
+bind wheelup +strafeleft
+bind wheelup +straferight
+bind wheelup +use
+bind wheelup +weapon1
+bind wheelup +weapon2
+bind wheelup +weapon3
+bind wheelup +weapon4
+bind wheelup +weapon5
+bind wheelup +weapon6
+bind wheelup +weapon7
+bind wheelup +zoomin
+bind wheelup +zoomout
+bindlist
+centerweapon 
+centerweapon off
+centerweapon on
+clear
+cmdlist 
+con_obituaries 
+con_obituaries off
+con_obituaries on
+con_timestamps 
+con_timestamps off
+con_timestamps on
+condump 
+cvarlist 
+endgame
+episode 
+exec 
+exitmap
+expansion 
+facebackcolor 
+facebackcolor none
+fastmonsters 
+fastmonsters off
+fastmonsters on
+freeze 
+freeze off
+freeze on
+gametime 
+give 
+give all
+give ammo
+give armor
+give armorbonus
+give backpack
+give berserk
+give BFG9000
+give bluearmor
+give bluekeycard
+give blueskullkey
+give boxofbullets
+give boxofrockets
+give boxofshells
+give cell
+give cellpack
+give chaingun
+give chainsaw
+give clip
+give computerareamap
+give greenarmor
+give health
+give healthbonus
+give invulnerability
+give keys
+give lightamplificationvisor
+give medikit
+give megasphere
+give partialinvisibility
+give plasmarifle
+give radiationshieldingsuit
+give redkeycard
+give redskullkey
+give rocket
+give rocketlauncher
+give shotgun
+give shotgunshells
+give soulsphere
+give stimpack
+give supershotgun
+give weapons
+give yellowkeycard
+give yellowskullkey
+god 
+god off
+god on
+gp_deadzone_left 
+gp_deadzone_right 
+gp_invertyaxis 
+gp_invertyaxis off
+gp_invertyaxis on
+gp_sensitivity 
+gp_swapthumbsticks 
+gp_swapthumbsticks off
+gp_swapthumbsticks on
+gp_vibrate_damage 
+gp_vibrate_weapons 
+health 
+help
+iwadfolder 
+kill 
+kill all
+kill arachnotrons
+kill archviles
+kill baronsofhell
+kill barrels
+kill cacodemons
+kill cyberdemons
+kill demons
+kill heavyweapondudes
+kill hellknights
+kill imps
+kill lostsouls
+kill mancubi
+kill missiles
+kill painelementals
+kill player
+kill revenants
+kill shotgunguys
+kill spectres
+kill spidermasterminds
+kill wolfensteinss
+kill zombiemen
+load 
+m_acceleration 
+m_doubleclick_use 
+m_doubleclick_use off
+m_doubleclick_use on
+m_invertyaxis 
+m_invertyaxis off
+m_invertyaxis on
+m_novertical 
+m_novertical off
+m_novertical on
+m_sensitivity 
+m_threshold 
+map 
+map first
+map last
+map next
+map previous
+map random
+maplist
+mapstats
+messages 
+messages off
+messages on
+mouselook 
+mouselook off
+mouselook on
+movebob 
+newgame 
+noclip 
+noclip off
+noclip on
+nomonsters 
+nomonsters off
+nomonsters on
+notarget 
+notarget off
+notarget on
+pistolstart 
+pistolstart off
+pistolstart on
+play 
+play d_adrian
+play d_ampie
+play d_betwee
+play d_bunny
+play d_count2
+play d_countd
+play d_ddtbl2
+play d_ddtbl3
+play d_ddtblu
+play d_dead
+play d_dead2
+play d_dm2int
+play d_dm2ttl
+play d_doom
+play d_doom2
+play d_e1m1
+play d_e1m2
+play d_e1m3
+play d_e1m4
+play d_e1m5
+play d_e1m6
+play d_e1m7
+play d_e1m8
+play d_e1m9
+play d_e2m1
+play d_e2m2
+play d_e2m3
+play d_e2m4
+play d_e2m5
+play d_e2m6
+play d_e2m7
+play d_e2m8
+play d_e2m9
+play d_e3m1
+play d_e3m2
+play d_e3m3
+play d_e3m4
+play d_e3m5
+play d_e3m6
+play d_e3m7
+play d_e3m8
+play d_e3m9
+play d_evil
+play d_in_cit
+play d_inter
+play d_intro
+play d_introa
+play d_messag
+play d_messg2
+play d_openin
+play d_read_m
+play d_romer2
+play d_romero
+play d_runni2
+play d_runnin
+play d_shawn
+play d_shawn2
+play d_shawn3
+play d_stalks
+play d_stlks2
+play d_stlks3
+play d_tense
+play d_the_da
+play d_theda2
+play d_theda3
+play d_ultima
+play d_victor
+play dsbarexp
+play dsbdcls
+play dsbdopn
+play dsbfg
+play dsbgact
+play dsbgdth1
+play dsbgdth2
+play dsbgsit1
+play dsbgsit2
+play dsboscub
+play dsbosdth
+play dsbospit
+play dsbospn
+play dsbossit
+play dsbrsdth
+play dsbrssit
+play dsbspact
+play dsbspdth
+play dsbspsit
+play dsbspwlk
+play dscacdth
+play dscacsit
+play dschgun
+play dsclaw
+play dscybdth
+play dscybsit
+play dsdbcls
+play dsdbload
+play dsdbopn
+play dsdgact
+play dsdgatk
+play dsdgdth
+play dsdgpain
+play dsdgsit
+play dsdmact
+play dsdmpain
+play dsdorcls
+play dsdoropn
+play dsdshtgn
+play dsfirsht
+play dsfirxpl
+play dsflame
+play dsflamst
+play dsgetpow
+play dshoof
+play dsitemup
+play dsitmbk
+play dskeendt
+play dskeenpn
+play dskntdth
+play dskntsit
+play dsmanatk
+play dsmandth
+play dsmansit
+play dsmetal
+play dsmnpain
+play dsnoway
+play dsoof
+play dspdiehi
+play dspedth
+play dspepain
+play dspesit
+play dspistol
+play dsplasma
+play dspldeth
+play dsplpain
+play dspodth1
+play dspodth2
+play dspodth3
+play dspopain
+play dsposact
+play dsposit1
+play dsposit2
+play dsposit3
+play dspstart
+play dspstop
+play dspunch
+play dsradio
+play dsrlaunc
+play dsrxplod
+play dssawful
+play dssawhit
+play dssawidl
+play dssawup
+play dssecret
+play dssgcock
+play dssgtatk
+play dssgtdth
+play dssgtsit
+play dsshotgn
+play dsskeact
+play dsskeatk
+play dsskedth
+play dsskepch
+play dsskesit
+play dsskeswg
+play dssklatk
+play dsskldth
+play dsslop
+play dsspidth
+play dsspisit
+play dsssdth
+play dssssit
+play dsstnmov
+play dsswtchn
+play dsswtchx
+play dstelept
+play dstink
+play dsvilact
+play dsvilatk
+play dsvildth
+play dsvilsit
+play dsvipain
+play dswpnup
+playername 
+playerstats
+quit
+r_althud 
+r_althud off
+r_althud on
+r_berserkintensity 
+r_blood 
+r_blood all
+r_blood none
+r_blood red
+r_bloodsplats_max 
+r_bloodsplats_total 
+r_bloodsplats_translucency 
+r_bloodsplats_translucency off
+r_bloodsplats_translucency on
+r_brightmaps 
+r_brightmaps off
+r_brightmaps on
+r_corpses_color 
+r_corpses_color off
+r_corpses_color on
+r_corpses_mirrored 
+r_corpses_mirrored off
+r_corpses_mirrored on
+r_corpses_moreblood 
+r_corpses_moreblood off
+r_corpses_moreblood on
+r_corpses_nudge 
+r_corpses_nudge off
+r_corpses_nudge on
+r_corpses_slide 
+r_corpses_slide off
+r_corpses_slide on
+r_corpses_smearblood 
+r_corpses_smearblood off
+r_corpses_smearblood on
+r_detail 
+r_detail high
+r_detail low
+r_diskicon 
+r_diskicon off
+r_diskicon on
+r_dither 
+r_dither off
+r_dither on
+r_fixmaperrors 
+r_fixmaperrors off
+r_fixmaperrors on
+r_fixspriteoffsets 
+r_fixspriteoffsets off
+r_fixspriteoffsets on
+r_floatbob 
+r_floatbob off
+r_floatbob on
+r_gamma 
+r_gamma off
+r_homindicator 
+r_homindicator off
+r_homindicator on
+r_hud 
+r_hud off
+r_hud on
+r_hud_translucency 
+r_hud_translucency off
+r_hud_translucency on
+r_liquid_bob 
+r_liquid_bob off
+r_liquid_bob on
+r_liquid_clipsprites 
+r_liquid_clipsprites off
+r_liquid_clipsprites on
+r_liquid_current 
+r_liquid_current off
+r_liquid_current on
+r_liquid_lowerview 
+r_liquid_lowerview off
+r_liquid_lowerview on
+r_liquid_swirl 
+r_liquid_swirl off
+r_liquid_swirl on
+r_lowpixelsize 
+r_messagescale 
+r_messagescale big
+r_messagescale small
+r_mirroredweapons 
+r_mirroredweapons off
+r_mirroredweapons on
+r_playersprites 
+r_playersprites off
+r_playersprites on
+r_rockettrails 
+r_rockettrails off
+r_rockettrails on
+r_screensize 
+r_shadows 
+r_shadows off
+r_shadows on
+r_shadows_translucency 
+r_shadows_translucency off
+r_shadows_translucency on
+r_shake_barrels 
+r_shake_barrels off
+r_shake_barrels on
+r_shake_damage 
+r_skycolor 
+r_skycolor none
+r_textures 
+r_textures off
+r_textures on
+r_translucency 
+r_translucency off
+r_translucency on
+regenhealth 
+regenhealth off
+regenhealth on
+reset 
+resetall
+respawnitems 
+respawnitems off
+respawnitems on
+respawnmonsters 
+respawnmonsters off
+respawnmonsters on
+resurrect
+s_channels 
+s_musicvolume 
+s_randommusic 
+s_randommusic off
+s_randommusic on
+s_randompitch 
+s_randompitch off
+s_randompitch on
+s_sfxvolume 
+save 
+savegame 
+skilllevel 
+spawn 
+spawn arachnotron
+spawn archvile
+spawn armorbonus
+spawn backpack
+spawn baronofhell
+spawn barrel
+spawn berserk
+spawn BFG9000
+spawn bloodymess1
+spawn bloodymess2
+spawn bluearmor
+spawn bluekeycard
+spawn blueskullkey
+spawn boxofbullets
+spawn boxofrockets
+spawn boxofshells
+spawn burningbarrel
+spawn cacodemon
+spawn candelabra
+spawn candlestick
+spawn cell
+spawn cellpack
+spawn chaingun
+spawn chainsaw
+spawn clip
+spawn commanderkeen
+spawn computerareamap
+spawn cyberdemon
+spawn deadcacodemon
+spawn deaddemon
+spawn deadimp
+spawn deadlostsoul
+spawn deadplayer
+spawn deadshotgunguy
+spawn deadzombieman
+spawn demon
+spawn evileye
+spawn evilsceptre
+spawn fiveskullsshishkebab
+spawn floatingskull
+spawn floorlamp
+spawn greenarmor
+spawn hangingleg
+spawn hanginglegblocking
+spawn hangingpairoflegs
+spawn hangingpairoflegsblocking
+spawn hangingtorsobrainremoved
+spawn hangingtorsolookingdown
+spawn hangingtorsolookingup
+spawn hangingtorsoopenskull
+spawn hangingvictimarmsout
+spawn hangingvictimarmsoutblocking
+spawn hangingvictimgutsandbrainremoved
+spawn hangingvictimgutsremoved
+spawn hangingvictimonelegged
+spawn hangingvictimoneleggedblocking
+spawn hangingvictimtwitching
+spawn hangingvictimtwitchingblocking
+spawn healthbonus
+spawn heavyweapondude
+spawn hellknight
+spawn iconofsin
+spawn imp
+spawn impaledhuman
+spawn invulnerability
+spawn largebrowntree
+spawn lightamplificationvisor
+spawn lostsoul
+spawn mancubus
+spawn medikit
+spawn megasphere
+spawn painelemental
+spawn partialinvisibility
+spawn pileofskullsandcandles
+spawn plasmarifle
+spawn poolofblood
+spawn poolofbloodandbones
+spawn poolofbloodandguts
+spawn poolofbrains
+spawn radiationshieldingsuit
+spawn redkeycard
+spawn redskullkey
+spawn revenant
+spawn rocketammo
+spawn rocketlauncher
+spawn shortbluefirestick
+spawn shortgreencolumn
+spawn shortgreencolumnwithbeatingheart
+spawn shortgreenfirestick
+spawn shortredcolumn
+spawn shortredcolumnwithskull
+spawn shortredfirestick
+spawn shorttechnofloorlamp
+spawn shotgun
+spawn shotgunguy
+spawn shotgunshell
+spawn skullonapole
+spawn soulsphere
+spawn spectre
+spawn spidermastermind
+spawn stalagmite
+spawn stimpack
+spawn supershotgun
+spawn tallbluefirestick
+spawn tallgreencolumn
+spawn tallgreenfirestick
+spawn tallredcolumn
+spawn tallredfirestick
+spawn talltechnofloorlamp
+spawn talltechnopillar
+spawn teleportdestination
+spawn torchedtree
+spawn twitchingimpaledhuman
+spawn wolfensteinss
+spawn yellowkeycard
+spawn yellowskullkey
+spawn zombieman
+stillbob 
+teleport 
+thinglist
+turbo 
+unbind 
+unbind alt
+unbind back
+unbind backspace
+unbind capslock
+unbind ctrl
+unbind delete
+unbind down
+unbind dpaddown
+unbind dpadleft
+unbind dpadright
+unbind dpadup
+unbind end
+unbind enter
+unbind escape
+unbind gamepad1
+unbind gamepad2
+unbind gamepad3
+unbind gamepad4
+unbind home
+unbind insert
+unbind left
+unbind leftshoulder
+unbind leftthumb
+unbind lefttrigger
+unbind mouse1
+unbind mouse2
+unbind mouse3
+unbind mouse4
+unbind mouse5
+unbind mouse6
+unbind mouse7
+unbind mouse8
+unbind pagedown
+unbind pageup
+unbind printscreen
+unbind right
+unbind rightshoulder
+unbind rightthumb
+unbind righttrigger
+unbind scrolllock
+unbind shift
+unbind space
+unbind start
+unbind tab
+unbind up
+unbind wheeldown
+unbind wheelup
+units 
+units imperial
+units metric
+vanilla 
+vanilla off
+vanilla on
+version 
+vid_capfps 
+vid_capfps off
+vid_display 
+vid_fullscreen 
+vid_fullscreen off
+vid_fullscreen on
+vid_motionblur 
+vid_pillarboxes 
+vid_pillarboxes off
+vid_pillarboxes on
+vid_scaleapi 
+vid_scaleapi "direct3d"
+vid_scaleapi "opengl"
+vid_scaleapi "software"
+vid_scalefilter 
+vid_scalefilter "linear"
+vid_scalefilter "nearest"
+vid_scalefilter "nearest_linear"
+vid_screenresolution 
+vid_screenresolution desktop
+vid_showfps 
+vid_showfps off
+vid_showfps on
+vid_vsync 
+vid_vsync off
+vid_vsync on
+vid_widescreen 
+vid_widescreen off
+vid_widescreen on
+vid_windowposition 
+vid_windowposition centered
+vid_windowsize 
+wad 
+weaponbob 
+weaponrecoil 
+weaponrecoil off
+weaponrecoil on
+wipe 
+wipe off
+wipe on

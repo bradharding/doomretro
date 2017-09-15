@@ -179,6 +179,93 @@ dboolean SC_GetString(void)
     return true;
 }
 
+dboolean SC_GetLine(void)
+{
+    char        *text;
+    dboolean    foundToken;
+
+    CheckOpen();
+
+    if (AlreadyGot)
+    {
+        AlreadyGot = false;
+        return true;
+    }
+
+    foundToken = false;
+
+    if (ScriptPtr >= ScriptEndPtr)
+    {
+        sc_End = true;
+        return false;
+    }
+
+    while (!foundToken)
+    {
+        while (*ScriptPtr < 32)
+        {
+            if (ScriptPtr >= ScriptEndPtr)
+            {
+                sc_End = true;
+                return false;
+            }
+
+            if (*ScriptPtr++ == '\n')
+                sc_Line++;
+        }
+
+        if (ScriptPtr >= ScriptEndPtr)
+        {
+            sc_End = true;
+            return false;
+        }
+
+        if (*ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2
+            && *(ScriptPtr + 1) != ASCII_COMMENT2)
+            foundToken = true;
+        else
+        {
+            while (*ScriptPtr++ != '\n')
+                if (ScriptPtr >= ScriptEndPtr)
+                {
+                    sc_End = true;
+                    return false;
+                }
+
+            sc_Line++;
+        }
+    }
+
+    text = sc_String;
+
+    if (*ScriptPtr == ASCII_QUOTE)
+    {
+        ScriptPtr++;
+
+        while (*ScriptPtr != ASCII_QUOTE)
+        {
+            *text++ = *ScriptPtr++;
+
+            if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
+                break;
+        }
+
+        ScriptPtr++;
+    }
+    else
+        while (*ScriptPtr >= 32 && *ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2
+            && *(ScriptPtr + 1) != ASCII_COMMENT2)
+        {
+            *text++ = *ScriptPtr++;
+
+            if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
+                break;
+        }
+
+    *text = 0;
+    return true;
+}
+
 void SC_MustGetString(void)
 {
     if (!SC_GetString())

@@ -4,7 +4,7 @@
 * Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
 * The effects of changing the `r_corpses_color` CVAR are now immediate.
 * A bug has been fixed whereby the player would restart the current map immediately upon death in some rare instances.
-* <kbd>TAB</kbd> and <kbd>SHIFT</kbd> + <kbd>TAB</kbd> may now be used in the console to autocomplete the parameter of the `spawn` CCMD.
+* <kbd>TAB</kbd> and <kbd>SHIFT</kbd> + <kbd>TAB</kbd> may now also be used in the console to autocomplete the parameters of most CCMDs and CVARs.
 
 ---
 
