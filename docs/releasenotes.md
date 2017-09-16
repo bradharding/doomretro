@@ -5,6 +5,7 @@
 * The effects of changing the `r_corpses_color` CVAR are now immediate.
 * A bug has been fixed whereby the player would restart the current map immediately upon death in some rare instances.
 * <kbd>TAB</kbd> and <kbd>SHIFT</kbd> + <kbd>TAB</kbd> may now also be used in the console to autocomplete the parameters of most CCMDs and CVARs.
+* The console’s background will now be updated if opened on the credits screen.
 
 ---
 

@@ -461,6 +461,7 @@ void D_PageDrawer(void)
 void D_AdvanceTitle(void)
 {
     advancetitle = true;
+    forceconsoleblurredraw = true;
 }
 
 //
