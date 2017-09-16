@@ -44,6 +44,7 @@
 #include "i_system.h"
 #include "m_argv.h"
 #include "m_controls.h"
+#include "m_misc.h"
 #include "version.h"
 
 int windowborderwidth;
@@ -215,7 +216,7 @@ static void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
 #if !defined(_DEBUG)
 LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 {
-    char *msg = PACKAGE_NAME" has crashed.";
+    char msg[256];
 
     const SDL_MessageBoxButtonData buttons[] =
     {
@@ -236,11 +237,14 @@ LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 
     int buttonid;
 
+    M_snprintf(msg, 256, PACKAGE_NAME" has crashed with unhandled exception 0x%08X at 0x%08X.",
+        info->ExceptionRecord->ExceptionCode, info->ExceptionRecord->ExceptionAddress);
+
     I_MidiRPCClientShutDown();
     I_ShutdownGraphics();
 
     if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
-        if (buttons[buttonid].buttonid == 0)
+        if (!buttons[buttonid].buttonid)
             ShellExecute(GetActiveWindow(), "open", PACKAGE_REPORT_URL, NULL, NULL, SW_SHOWNORMAL);
 
     return EXCEPTION_EXECUTE_HANDLER;
