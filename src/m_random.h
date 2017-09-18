@@ -39,12 +39,9 @@
 #if !defined(__M_RANDOM_H__)
 #define __M_RANDOM_H__
 
-// Returns a number from 0 to 255.
 int M_Random(void);
-
-void M_ClearRandom(void);
-int M_RandomIntNoRepeat(int lower, int upper, int previous);
-
 int M_RandomInt(int lower, int upper);
+int M_RandomIntNoRepeat(int lower, int upper, int previous);
+void M_Seed(unsigned int value);
 
 #endif

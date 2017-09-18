@@ -1105,7 +1105,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
     }
 
     // [BH] randomly mirror weapons
-    if (r_mirroredweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (rand() & 1))
+    if (r_mirroredweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_Random() & 1))
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] spawn blood splats around corpses
@@ -1151,7 +1151,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->momz = FRACUNIT;
     th->angle = angle;
     th->flags = info->flags;
-    th->flags2 = (info->flags2 | ((rand() & 1) * MF2_MIRRORED));
+    th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
 
     th->state = st;
     th->tics = MAX(1, st->tics - (M_Random() & 3));
@@ -1203,7 +1203,7 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
     th->angle = angle;
 
-    th->flags2 |= (rand() & 1) * MF2_MIRRORED;
+    th->flags2 |= (M_Random() & 1) * MF2_MIRRORED;
 }
 
 //
@@ -1233,7 +1233,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->x = x;
         th->y = y;
         th->flags = info->flags;
-        th->flags2 = (info->flags2 | ((rand() & 1) * MF2_MIRRORED));
+        th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
 
         th->state = st;
         th->tics = MAX(1, st->tics - (M_Random() & 3));
@@ -1287,8 +1287,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
 
-            splat->frame = firstbloodsplatlump + (rand() & 7);
-            splat->flags = rand() & BSF_MIRRORED;
+            splat->frame = firstbloodsplatlump + (M_Random() & 7);
+            splat->flags = M_Random() & BSF_MIRRORED;
 
             if (blood == FUZZYBLOOD)
             {

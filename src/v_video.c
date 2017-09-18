@@ -340,7 +340,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                if (!(rand() % 4))
+                if (!(M_Random() % 4))
                     *dest = tinttab25[*dest];
 
                 dest += SCREENWIDTH;
@@ -352,7 +352,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            if (!(rand() % 4))
+            if (!(M_Random() % 4))
                 *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -1093,7 +1093,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                if (!(rand() % 4))
+                if (!(M_Random() % 4))
                     *dest = tinttab25[*dest];
 
                 dest += SCREENWIDTH;
@@ -1105,7 +1105,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            if (!(rand() % 4))
+            if (!(M_Random() % 4))
                 *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -1148,7 +1148,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
     }
 }
 
-#define _FUZZ(a, b) _fuzzrange[rand() % (b - (a) + 1) + a]
+#define _FUZZ(a, b) _fuzzrange[M_Random() % (b - (a) + 1) + a]
 
 static const int    _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 

@@ -1380,7 +1380,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     mo->angle = target->angle + ((M_Random() - M_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
 
-    if (r_mirroredweapons && (rand() & 1))
+    if (r_mirroredweapons && (M_Random() & 1))
         mo->flags2 |= MF2_MIRRORED;
 }
 

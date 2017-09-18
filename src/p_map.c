@@ -1946,7 +1946,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored && (rand() & 1))
+            if (r_corpses_mirrored && (M_Random() & 1))
                 thing->flags2 |= MF2_MIRRORED;
 
             thing->height = 0;

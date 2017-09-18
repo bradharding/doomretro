@@ -37,6 +37,7 @@
 */
 
 #include <ctype.h>
+#include <time.h>
 
 #include "am_map.h"
 #include "c_console.h"
@@ -1113,7 +1114,7 @@ static void P_LoadThings(int lump)
 
     numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
-    srand(numthings);
+    M_Seed(numthings);
 
     numdecorations = 0;
 
@@ -1208,7 +1209,7 @@ static void P_LoadThings(int lump)
             P_SpawnMapThing(&mt, i, nomonsters);
     }
 
-    M_ClearRandom();
+    M_Seed((unsigned int)time(NULL));
 
     W_UnlockLumpNum(lump);
 }

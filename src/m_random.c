@@ -36,17 +36,22 @@
 ========================================================================
 */
 
-#include <stdlib.h>
-#include <time.h>
+static unsigned int seed;
+
+int fastrand(void)
+{
+    seed = (214013 * seed + 2531011);
+    return (seed >> 16) & 0x7FFF;
+}
 
 int M_Random(void)
 {
-    return (rand() & 255);
+    return (fastrand() & 255);
 }
 
 int M_RandomInt(int lower, int upper)
 {
-    return (rand() % (upper - lower + 1) + lower);
+    return (fastrand() % (upper - lower + 1) + lower);
 }
 
 int M_RandomIntNoRepeat(int lower, int upper, int previous)
@@ -59,7 +64,7 @@ int M_RandomIntNoRepeat(int lower, int upper, int previous)
     return randomint;
 }
 
-void M_ClearRandom(void)
+void M_Seed(unsigned int value)
 {
-    srand((unsigned int)time(NULL));
+    seed = value;
 }
