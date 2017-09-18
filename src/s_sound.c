@@ -326,7 +326,7 @@ void S_UnlinkSound(mobj_t *origin)
     for (int cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
         {
-            sobj_t *const   sobj = &sobjs[cnum];
+            sobj_t  *sobj = &sobjs[cnum];
 
             sobj->x = origin->x;
             sobj->y = origin->y;
@@ -383,7 +383,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // modifies parameters and returns 1.
 static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *sep)
 {
-    fixed_t dist;
+    fixed_t dist = 0;
     fixed_t adx;
     fixed_t ady;
     angle_t angle;
@@ -399,14 +399,10 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     ady = ABS((listener->y >> FRACBITS) - (source->y >> FRACBITS));
 
     if (ady > adx)
-    {
-        dist = adx;
-        adx = ady;
-        ady = dist;
-    }
+        SWAP(adx, ady);
 
-    dist = (adx ? FixedDiv(adx, finesine[(tantoangle[FixedDiv(ady, adx) >> DBITS]
-        + ANG90) >> ANGLETOFINESHIFT]) : 0);
+    if (adx)
+        dist = FixedDiv(adx, finesine[(tantoangle[FixedDiv(ady, adx) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
     if (dist > (S_CLIPPING_DIST >> FRACBITS))
         return 0;
@@ -714,7 +710,6 @@ void S_ParseMusInfo(char *mapid)
         SC_Open("MUSINFO");
 
         while (SC_GetString())
-        {
             if (inMap || SC_Compare(mapid))
             {
                 if (!inMap)
@@ -736,7 +731,6 @@ void S_ParseMusInfo(char *mapid)
                             musinfo.items[num] = lumpnum;
                     }
             }
-        }
 
         SC_Close();
     }

@@ -2264,7 +2264,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                                 continue;
 
                             if (devparm)
-                                C_Output("ORed value 0x%08lx %s.", deh_mobjflags[iy].value, strval);
+                                C_Output("ORed value 0x%08lX %s.", deh_mobjflags[iy].value, strval);
 
                             value |= deh_mobjflags[iy].value;
 
@@ -2313,7 +2313,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                                 continue;
 
                             if (devparm)
-                                C_Output("ORed value 0x%08lx %s.", deh_mobjflags2[iy].value, strval);
+                                C_Output("ORed value 0x%08lX %s.", deh_mobjflags2[iy].value, strval);
 
                             value |= deh_mobjflags[iy].value;
                             break;

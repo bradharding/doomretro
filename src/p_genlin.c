@@ -963,7 +963,8 @@ manual_locked:
         door->direction = 1;
 
         // killough 10/98: implement gradual lighting
-        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ? line->tag : 0);
+        if ((line->special & 6) == 6 && line->special > GenLockedBase)
+            door->lighttag = line->tag;
 
         // setup speed of door motion
         switch (Sped)
@@ -1104,7 +1105,8 @@ manual_door:
         door->line = line;      // jff 1/31/98 remember line that triggered us
 
         // killough 10/98: implement gradual lighting
-        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ? line->tag : 0);
+        if ((line->special & 6) == 6 && line->special > GenLockedBase)
+            door->lighttag = line->tag;
 
         // set kind of door, whether it opens then close, opens, closes etc.
         // assign target heights accordingly
