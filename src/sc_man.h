@@ -49,7 +49,6 @@ extern char     *sc_ScriptsDir;
 void SC_Open(char *name);
 void SC_Close(void);
 dboolean SC_GetString(void);
-dboolean SC_GetLine(void);
 void SC_MustGetString(void);
 dboolean SC_GetNumber(void);
 void SC_MustGetNumber(void);

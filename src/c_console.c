@@ -113,15 +113,12 @@ static short            brandheight;
 static short            spacewidth;
 
 static char             consoleinput[255];
-static char             autocompletelist[3192][255];
 static int              numautocomplete;
 int                     consolestrings;
 static int              numconsolecmds;
 
-
 static int              undolevels;
 static undohistory_t    *undohistory;
-
 
 static patch_t          *caret;
 static int              caretpos;
@@ -165,6 +162,7 @@ static int              consolescrollbarfacecolor = 94;
 
 static int              consolecolors[STRINGTYPES];
 
+extern char             autocompletelist[][255];
 extern int              fps;
 extern int              refreshrate;
 extern dboolean         dowipe;
@@ -602,12 +600,7 @@ void C_Init(void)
     consolecolors[playermessagestring] = consoleplayermessagecolor;
     consolecolors[obituarystring] = consoleplayermessagecolor;
 
-    SC_Open("AUTOCOMP");
-
-    while (SC_GetLine())
-        M_StringCopy(autocompletelist[numautocomplete++], sc_String, 255);
-
-    SC_Close();
+    while (*autocompletelist[++numautocomplete]);
 }
 
 void C_ShowConsole(void)
@@ -1390,33 +1383,37 @@ dboolean C_Responder(event_t *ev)
                 {
                     const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     const int   start = autocomplete;
-                    static char autocompletetext[255];
+                    static char input[255];
                     int         spaces1;
                     dboolean    endspace1;
 
                     if (autocomplete == -1)
-                        M_StringCopy(autocompletetext, consoleinput, sizeof(autocompletetext));
+                        M_StringCopy(input, consoleinput, sizeof(input));
 
-                    spaces1 = numspaces(autocompletetext);
-                    endspace1 = (autocompletetext[strlen(autocompletetext) - 1] == ' ');
+                    spaces1 = numspaces(input);
+                    endspace1 = (input[strlen(input) - 1] == ' ');
 
                     while ((direction == -1 && autocomplete > 0)
                         || (direction == 1 && autocomplete < numautocomplete - 1))
                     {
+                        static char output[255];
                         int         spaces2;
                         dboolean    endspace2;
+                        size_t      len2;
 
+                        M_StringCopy(output, autocompletelist[autocomplete], sizeof(output));
+                        len2 = strlen(output);
                         autocomplete += direction;
-                        spaces2 = numspaces(autocompletelist[autocomplete]);
-                        endspace2 = (autocompletelist[autocomplete][strlen(autocompletelist[autocomplete]) - 1] == ' ');
+                        spaces2 = numspaces(output);
+                        endspace2 = (output[len2 - 1] == ' ');
 
-                        if (M_StringStartsWith(autocompletelist[autocomplete], autocompletetext)
+                        if (M_StringStartsWith(output, input)
                             && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
                                 || (spaces1 == 1 && !endspace1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
                                 || (spaces1 == 2 && !endspace1 && spaces2 == 2)))
                         {
-                            M_StringCopy(consoleinput, autocompletelist[autocomplete], sizeof(consoleinput));
-                            caretpos = selectstart = selectend = strlen(consoleinput);
+                            M_StringCopy(consoleinput, output, sizeof(consoleinput));
+                            caretpos = selectstart = selectend = len2;
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
                             return true;

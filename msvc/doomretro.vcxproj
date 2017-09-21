@@ -266,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\midiproc\midiproc_c.c" />
+    <ClCompile Include="..\src\c_autocomplete.c" />
     <ClCompile Include="..\src\c_cmds.c" />
     <ClCompile Include="..\src\c_console.c" />
     <ClCompile Include="..\src\doomstat.c" />
@@ -356,7 +357,6 @@
     <None Include="..\docs\releasenotes.md" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
-    <None Include="..\res\AUTOCOMP" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\doomretro.wad" />
