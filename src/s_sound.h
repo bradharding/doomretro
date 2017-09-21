@@ -44,7 +44,7 @@
 #include "sounds.h"
 
 #define CHANNELS            2
-#define SAMPLECOUNT         512
+#define CHUNKSIZE           1024
 #define SAMPLERATE          44100
 
 #define MAX_MUSIC_VOLUME    MIX_MAX_VOLUME
@@ -134,7 +134,7 @@ typedef struct
     int     items[MAX_MUS_ENTRIES];
 } musinfo_t;
 
-extern musinfo_t musinfo;
+extern musinfo_t    musinfo;
 
 void S_ChangeMusInfoMusic(int lumpnum, int looping);
 void S_ParseMusInfo(char *mapid);

@@ -85,7 +85,7 @@
 console_t               *console;
 
 dboolean                consoleactive;
-int                     consoleheight;
+int                     consoleheight = 0;
 int                     consoledirection = -1;
 static int              consoleanim;
 
@@ -939,7 +939,7 @@ void C_Drawer(void)
             }
             else
             {
-                if (consoleheight > -4)
+                if (consoleheight)
                 {
                     if (consoleheight < consoleup[consoleanim])
                         consolewait = 0;

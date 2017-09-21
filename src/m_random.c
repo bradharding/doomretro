@@ -38,9 +38,9 @@
 
 static unsigned int seed;
 
-int fastrand(void)
+static int fastrand(void)
 {
-    seed = (214013 * seed + 2531011);
+    seed = 214013 * seed + 2531011;
     return (seed >> 16) & 0x7FFF;
 }
 

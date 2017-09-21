@@ -217,7 +217,6 @@ void I_Quit(dboolean shutdown)
             vid_widescreen = true;
 
         M_SaveCVARs();
-
         M_Shutdown();
 
         I_ShutdownGraphics();
@@ -236,7 +235,7 @@ void I_Quit(dboolean shutdown)
 
 void I_WaitVBL(int count)
 {
-    I_Sleep((count * 1000) / 70);
+    I_Sleep(count * 1000 / 70);
 }
 
 //

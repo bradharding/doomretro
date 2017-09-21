@@ -133,21 +133,8 @@ void TryRunTics(void)
     if (!(counts = maketic - gametic) && vid_capfps != TICRATE)
         return;
 
-    if (counts < 1)
-        counts = 1;
-
-    // wait for new tics if needed
-    while (maketic < gametic + counts)
-    {
-        NetUpdate();
-
-        // Still no tics to run? Sleep until some are available.
-        if (maketic < gametic + counts)
-            I_Sleep(1);
-    }
-
     // run the count tics
-    while (counts--)
+    while (counts-- > 0)
     {
         if (advancetitle)
             D_DoAdvanceTitle();
@@ -162,7 +149,5 @@ void TryRunTics(void)
 
         if (netcmds[0].buttons & BT_SPECIAL)
             netcmds[0].buttons = 0;
-
-        NetUpdate();
     }
 }
