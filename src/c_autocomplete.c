@@ -4916,7 +4916,7 @@ char autocompletelist[][255] =
     "episode ",
     "exec ",
     "exitmap",
-    "expansion", 
+    "expansion ",
     "facebackcolor ",
     "facebackcolor none",
     "fastmonsters ",
