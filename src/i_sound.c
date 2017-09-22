@@ -177,7 +177,6 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, size_t len)
     snd->chunk.allocated = 1;
     snd->chunk.volume = MIX_MAX_VOLUME;
     snd->pitch = NORM_PITCH;
-
     snd->sfxinfo = sfxinfo;
     snd->use_count = 0;
 
@@ -248,14 +247,12 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
         return NULL;
 
     outsnd->pitch = pitch;
-
     dstbuf = (Sint16 *)outsnd->chunk.abuf;
 
     // loop over output buffer. find corresponding input cell, copy over
-    for (Sint16 *outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
+    for (Sint16 *inp, *outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
     {
-        Sint16  *inp = srcbuf + (int)((float)(outp - dstbuf) / dstlen * srclen);
-
+        *inp = srcbuf + (int)((float)(outp - dstbuf) / dstlen * srclen);
         *outp = *inp;
     }
 
@@ -310,10 +307,10 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
 
     // Calculate the length of the expanded version of the sample.
     // Double up twice: 8 -> 16 bit and mono -> stereo
-    unsigned int        expanded_length = (unsigned int)(((uint64_t)length * mixer_freq) / samplerate) * 4;
+    unsigned int        expanded_length = (unsigned int)(((uint64_t)length * mixer_freq) / samplerate);
 
     // Allocate a chunk in which to expand the sound
-    allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length);
+    allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
 
     if (!snd)
         return false;
@@ -333,7 +330,6 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     else
     {
         Sint16  *expanded = (Sint16 *)chunk->abuf;
-        int     expand_ratio;
 
         // Generic expansion if conversion does not work:
         //
@@ -342,34 +338,15 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
         // ratio, do this naive conversion instead.
 
         // number of samples in the converted sound
-        expanded_length = ((uint64_t)length * mixer_freq) / samplerate;
-        expand_ratio = (length << 8) / expanded_length;
+        int     expand_ratio = (length << 8) / expanded_length;
 
         for (unsigned int i = 0; i < expanded_length; i++)
         {
-            int         src = (i * expand_ratio) >> 8;
-            Sint16      sample = (data[src] | (data[src] << 8)) - 32768;
+            int     src = (i * expand_ratio) >> 8;
+            Sint16  sample = (data[src] | (data[src] << 8)) - 32768;
 
             // expand 8->16 bits, mono->stereo
             expanded[i * 2] = expanded[i * 2 + 1] = sample;
-        }
-
-        {
-            // Low-pass filter for cutoff frequency f:
-            //
-            // For sampling rate r, dt = 1 / r
-            // rc = 1 / 2*pi*f
-            // alpha = dt / (rc + dt)
-
-            // Filter to the half sample rate of the original sound effect
-            // (maximum frequency, by nyquist)
-            float   dt = 1.0f / mixer_freq;
-            float   rc = 1.0f / (float)(2 * M_PI * samplerate);
-            float   alpha = dt / (rc + dt);
-
-            // Both channels are processed in parallel, hence [i - 2]:
-            for (unsigned int i = 2; i < expanded_length * 2; i++)
-                expanded[i] = (Sint16)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
         }
     }
 
@@ -426,9 +403,8 @@ static dboolean CacheSFX(sfxinfo_t *sfxinfo)
 static dboolean LockSound(sfxinfo_t *sfxinfo)
 {
     // If the sound isn't loaded, load it now
-    if (!GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH))
-        if (!CacheSFX(sfxinfo))
-            return false;
+    if (!GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH) && !CacheSFX(sfxinfo))
+        return false;
 
     LockAllocatedSound(GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH));
 
@@ -487,9 +463,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
     if (!LockSound(sfxinfo))
         return -1;
 
-    snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, pitch);
-
-    if (!snd)
+    if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, pitch)))
     {
         allocated_sound_t   *newsnd;
 
