@@ -105,6 +105,7 @@ static char         mapcmdlump[7];
 
 static dboolean     resettingall;
 
+dboolean            executingalias;
 dboolean            vanilla;
 dboolean            togglingvanilla;
 
@@ -1004,7 +1005,6 @@ static dboolean null_func1(char *cmd, char *parms)
 dboolean C_ExecuteAlias(const char *alias)
 {
     for (int i = 0; i < MAXALIASES; i++)
-    {
         if (M_StringCompare(alias, aliases[i].name))
         {
             char    *string = strdup(aliases[i].string);
@@ -1012,6 +1012,7 @@ dboolean C_ExecuteAlias(const char *alias)
             int     j = 0;
 
             strings[0] = strtok(string, ";");
+            executingalias = true;
 
             while (strings[j])
             {
@@ -1021,10 +1022,11 @@ dboolean C_ExecuteAlias(const char *alias)
                 strings[++j] = strtok(NULL, ";");
             }
 
+            executingalias = false;
+            C_Input(alias);
             free(string);
             return true;
         }
-    }
 
     return false;
 }
