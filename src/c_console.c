@@ -1403,9 +1403,9 @@ dboolean C_Responder(event_t *ev)
                         dboolean    endspace2;
                         size_t      len2;
 
+                        autocomplete += direction;
                         M_StringCopy(output, autocompletelist[autocomplete], sizeof(output));
                         len2 = strlen(output);
-                        autocomplete += direction;
                         spaces2 = numspaces(output);
                         endspace2 = (output[len2 - 1] == ' ');
 
