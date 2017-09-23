@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <SDL2PATH>$(ProjectDir)..\SDL2-2.0.5\</SDL2PATH>
+    <SDL2MIXERPATH>$(ProjectDir)..\SDL2_mixer-2.0.1\</SDL2MIXERPATH>
+    <SDL2IMAGEPATH>$(ProjectDir)..\SDL2_image-2.0.1\</SDL2IMAGEPATH>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="SDL2PATH">
+      <Value>$(SDL2PATH)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="SDL2MIXERPATH">
+      <Value>$(SDL2MIXERPATH)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="SDL2IMAGEPATH">
+      <Value>$(SDL2IMAGEPATH)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
