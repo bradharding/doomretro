@@ -8,6 +8,7 @@
 * When entering an alias previously created using the `alias` CCMD, the alias itself will now be added to the console’s input history rather than the contents of the alias.
 * The console’s background will now be updated if opened on the credits screen.
 * Changes have been made to the status bar’s background when the `r_detail` CVAR is `high`.
+* The maximum value that the `s_channels` CVAR can be set to is now `64`.
 
 ---
 
