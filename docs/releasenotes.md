@@ -10,6 +10,7 @@
 * The console’s background will now be updated if opened on the credits screen.
 * Changes have been made to the status bar’s background when the `r_detail` CVAR is `high`.
 * The maximum value that the `s_channels` CVAR can be set to is now `64`.
+* IWADs and PWADs can now be specified on the command-line without a `.wad` extension.
 
 ---
 

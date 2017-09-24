@@ -404,17 +404,22 @@ static void BuildIWADDirList(void)
 //
 char *D_FindWADByName(char *filename)
 {
+    char    *path;
+
     // Absolute path?
     if (M_FileExists(filename))
         return filename;
+
+    path = M_StringJoin(filename, ".WAD", NULL);
+
+    if (M_FileExists(path))
+        return path;
 
     BuildIWADDirList();
 
     // Search through all IWAD paths for a file with the given name.
     for (int i = 0; i < num_iwad_dirs; i++)
     {
-        char    *path;
-
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
         // the "directory" may actually refer directly to an IWAD
         // file.
@@ -426,9 +431,9 @@ char *D_FindWADByName(char *filename)
 
         if (M_FileExists(path))
             return path;
-
-        free(path);
     }
+
+    free(path);
 
     // File not found
     return NULL;
