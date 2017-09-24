@@ -1561,7 +1561,7 @@ static void G_DoSaveGame(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning("%s couldn't be saved.", savename);
+        C_Warning("<b>%s</b> couldn't be saved.", savename);
     }
     else
     {

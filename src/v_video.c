@@ -1414,14 +1414,12 @@ void V_Init(void)
 #endif
 
     if (linked->major != SDL_IMAGE_MAJOR_VERSION || linked->minor != SDL_IMAGE_MINOR_VERSION)
-        I_Error("The wrong version of sdl2_image.dll was found. "PACKAGE_NAME" requires v%i.%i.%i, "
-            "not v%i.%i.%i.", linked->major, linked->minor, linked->patch, SDL_IMAGE_MAJOR_VERSION,
-            SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+        I_Error("The wrong version of sdl2_image.dll was found. "PACKAGE_NAME" requires v%i.%i.%i.",
+            linked->major, linked->minor, linked->patch);
 
     if (linked->patch != SDL_IMAGE_PATCHLEVEL)
-        C_Warning("The wrong version of sdl2_image.dll was found. <i>"PACKAGE_NAME"</i> requires v%i.%i.%i, "
-            "not v%i.%i.%i.", linked->major, linked->minor, linked->patch, SDL_IMAGE_MAJOR_VERSION,
-            SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+        C_Warning("The wrong version of <b>sdl2_image.dll</b> was found. <i>"PACKAGE_NAME"</i> requires v%i.%i.%i.",
+            linked->major, linked->minor, linked->patch);
 
     for (int i = 0; i < 4; i++)
         screens[i] = base + i * SCREENWIDTH * SCREENHEIGHT;

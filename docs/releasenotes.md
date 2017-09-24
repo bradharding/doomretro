@@ -6,6 +6,7 @@
 * A bug has been fixed whereby the player would restart the current map immediately upon death in some rare instances.
 * <kbd>TAB</kbd> and <kbd>SHIFT</kbd> + <kbd>TAB</kbd> may now also be used in the console to autocomplete the parameters of most CCMDs and CVARs.
 * When entering an alias previously created using the `alias` CCMD, the alias itself will now be added to the console’s input history rather than the contents of the alias.
+* Minor changes have been made to some of the text in the console.
 * The console’s background will now be updated if opened on the credits screen.
 * Changes have been made to the status bar’s background when the `r_detail` CVAR is `high`.
 * The maximum value that the `s_channels` CVAR can be set to is now `64`.

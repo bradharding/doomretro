@@ -154,6 +154,7 @@ static int              consoleboldcolor = 4;
 static int              consoleitalicscolor = 98;
 static int              consoleheadercolor = 180;
 static int              consolewarningcolor = 180;
+static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
 static int              consoletintcolor = 5;
 static int              consoleedgecolor = 180;
@@ -586,6 +587,7 @@ void C_Init(void)
     consoleitalicscolor = nearestcolors[consoleitalicscolor];
     consoleheadercolor = nearestcolors[consoleheadercolor];
     consolewarningcolor = nearestcolors[consolewarningcolor];
+    consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
     consoledividercolor = nearestcolors[consoledividercolor];
     consoletintcolor = nearestcolors[consoletintcolor];
     consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
@@ -1005,7 +1007,7 @@ void C_Drawer(void)
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
-                    NOBACKGROUNDCOLOR, (type == warningstring ? consolewarningcolor : consoleboldcolor),
+                    NOBACKGROUNDCOLOR, (type == warningstring ? consolewarningboldcolor : consoleboldcolor),
                     tinttab66, console[i].tabs, true, true);
 
                 if (con_timestamps && *console[i].timestamp)

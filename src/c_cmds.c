@@ -1329,17 +1329,17 @@ void bind_cmd_func2(char *cmd, char *parms)
                 if (!bound)
                 {
                     if (strlen(controls[i].control) == 1)
-                        C_Warning("The %s action can't be bound to '%s'.", parm2, controls[i].control);
+                        C_Warning("The <b>%s</b> action can't be bound to '<b>%s</b>'.", parm2, controls[i].control);
                     else
-                        C_Warning("The %s action can't be bound to %s.", parm2, controls[i].control);
+                        C_Warning("The <b>%s</b> action can't be bound to <b>%s</b>.", parm2, controls[i].control);
                 }
             }
             else
-                C_Warning("%s is not a valid action.", parm2);
+                C_Warning("<b>%s</b> is not a valid action.", parm2);
         }
     }
     else
-        C_Warning("%s is not a valid control.", parm1);
+        C_Warning("<b>%s</b> is not a valid control.", parm1);
 
     if (mouselookcontrols != (keyboardmouselook || mousemouselook != -1))
     {
@@ -1882,8 +1882,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                             M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[i].name1);
 
                         buffer[0] = toupper(buffer[0]);
-                        C_Warning("%s can't be given to the player in <b><i>DOOM Shareware</i></b>.",
-                            buffer);
+                        C_Warning("%s can't be given to the player in <b><i>DOOM Shareware</i></b>.", buffer);
                         return;
                     }
 

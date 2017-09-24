@@ -440,7 +440,7 @@ static void P_LoadSegs(int lump)
                         li->sidedef->toptexture = R_TextureNumForName(linefix[j].toptexture);
 
                         if (devparm)
-                            C_Warning("The top texture of linedef %s has been changed to %s.",
+                            C_Warning("The top texture of linedef %s has been changed to <b>%s</b>.",
                                 commify(linefix[j].linedef), linefix[j].toptexture);
                     }
 
@@ -449,7 +449,7 @@ static void P_LoadSegs(int lump)
                         li->sidedef->midtexture = R_TextureNumForName(linefix[j].middletexture);
 
                         if (devparm)
-                            C_Warning("The middle texture of linedef %s has been changed to %s.",
+                            C_Warning("The middle texture of linedef %s has been changed to <b>%s</b>.",
                                 commify(linefix[j].linedef), linefix[j].middletexture);
                     }
 
@@ -458,7 +458,7 @@ static void P_LoadSegs(int lump)
                         li->sidedef->bottomtexture = R_TextureNumForName(linefix[j].bottomtexture);
 
                         if (devparm)
-                            C_Warning("The bottom texture of linedef %s has been changed to %s.",
+                            C_Warning("The bottom texture of linedef %s has been changed to <b>%s</b>.",
                                 commify(linefix[j].linedef), linefix[j].bottomtexture);
                     }
 
@@ -723,7 +723,7 @@ static void P_LoadSectors(int lump)
                         ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
 
                         if (devparm)
-                            C_Warning("The floor texture of sector %s has been changed to %s.",
+                            C_Warning("The floor texture of sector %s has been changed to <b>%s</b>.",
                                 commify(sectorfix[j].sector), sectorfix[j].floorpic);
                     }
 
@@ -732,7 +732,7 @@ static void P_LoadSectors(int lump)
                         ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
 
                         if (devparm)
-                            C_Warning("The ceiling texture of sector %s has been changed to %s.",
+                            C_Warning("The ceiling texture of sector %s has been changed to <b>%s</b>.",
                                 commify(sectorfix[j].sector), sectorfix[j].ceilingpic);
                     }
 
@@ -2412,7 +2412,7 @@ static void InitMapInfo(void)
                 }
                 else
                 {
-                    C_Warning("The MAPINFO lump contains an invalid map marker.");
+                    C_Warning("The <b>MAPINFO</b> lump contains an invalid map marker.");
                     continue;
                 }
             }

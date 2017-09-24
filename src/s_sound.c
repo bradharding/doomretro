@@ -628,7 +628,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
 #endif
         {
             if (*music->name)
-                C_Warning("The D_%s music lump can't be played.", uppercase(music->name));
+                C_Warning("The <b>D_%s</b> music lump can't be played.", uppercase(music->name));
 
             return;
         }
