@@ -298,7 +298,7 @@ control_t controls[] =
     { "f",             keyboardcontrol, 'f'                   }, { "g",             keyboardcontrol, 'g'                    },
     { "h",             keyboardcontrol, 'h'                   }, { "j",             keyboardcontrol, 'j'                    },
     { "k",             keyboardcontrol, 'k'                   }, { "l",             keyboardcontrol, 'l'                    },
-    { ";",             keyboardcontrol, ';'                   }, { "\'",            keyboardcontrol, '\''                   },
+    { ";",             keyboardcontrol, ';'                   }, { "'",             keyboardcontrol, '\''                   },
     { "shift",         keyboardcontrol, KEY_SHIFT             }, { "\\",            keyboardcontrol, '\\'                   },
     { "z",             keyboardcontrol, 'z'                   }, { "x",             keyboardcontrol, 'x'                    },
     { "c",             keyboardcontrol, 'c'                   }, { "v",             keyboardcontrol, 'v'                    },
@@ -1365,7 +1365,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
             const char  *control = controls[i].control;
 
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "%i.\t\'%s\'\t%s", (*count)++, (control[0] == '=' ? "+" : control),
+                C_TabbedOutput(tabs, "%i.\t'%s'\t%s", (*count)++, (control[0] == '=' ? "+" : control),
                     action);
             else
                 C_TabbedOutput(tabs, "%i.\t%s\t%s", (*count)++, control, action);
