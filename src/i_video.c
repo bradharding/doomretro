@@ -1854,10 +1854,7 @@ void I_InitGraphics(void)
     SetVideoMode(true);
 
     if (vid_fullscreen)
-    {
         SetShowCursor(false);
-        CenterMouse();
-    }
 
     mapscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     I_CreateExternalAutomap(true);
