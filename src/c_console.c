@@ -115,7 +115,6 @@ static short            spacewidth;
 static char             consoleinput[255];
 static int              numautocomplete;
 int                     consolestrings;
-static int              numconsolecmds;
 
 static int              undolevels;
 static undohistory_t    *undohistory;
@@ -539,11 +538,9 @@ void C_Init(void)
     int     j = CONSOLEFONTSTART;
     char    buffer[9];
 
-    while (*consolecmds[numconsolecmds++].name);
-
     for (int i = 0; i < CONSOLEFONTSIZE; i++)
     {
-        M_snprintf(buffer, 9, "DRFON%03d", j++);
+        M_snprintf(buffer, sizeof(buffer), "DRFON%03d", j++);
         consolefont[i] = W_CacheLumpName(buffer);
     }
 
@@ -881,7 +878,7 @@ void C_UpdateFPS(void)
     {
         static char buffer[32];
 
-        M_snprintf(buffer, 32, "%i FPS (%.1fms)", fps, 1000.0 / fps);
+        M_snprintf(buffer, sizeof(buffer), "%i FPS (%.1fms)", fps, 1000.0 / fps);
 
         C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY,
             buffer, (fps < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ?
@@ -1123,7 +1120,7 @@ dboolean C_ValidateInput(const char *input)
                     consolecheatparm[1] = input[length - 1];
                     consolecheatparm[2] = '\0';
 
-                    M_StringCopy(cmd, input, 127);
+                    M_StringCopy(cmd, input, sizeof(cmd));
                     cmd[length - 2] = '\0';
 
                     if ((M_StringCompare(cmd, consolecmds[i].name)
@@ -1132,7 +1129,7 @@ dboolean C_ValidateInput(const char *input)
                         && consolecmds[i].func1(consolecmds[i].name, consolecheatparm))
                     {
                         if (gamestate == GS_LEVEL)
-                            M_StringCopy(consolecheat, cmd, 127);
+                            M_StringCopy(consolecheat, cmd, sizeof(consolecheat));
 
                         return true;
                     }
@@ -1142,7 +1139,7 @@ dboolean C_ValidateInput(const char *input)
                 || M_StringCompare(input, consolecmds[i].alternate))
                 && consolecmds[i].func1(consolecmds[i].name, ""))
             {
-                M_StringCopy(consolecheat, input, 127);
+                M_StringCopy(consolecheat, input, sizeof(consolecheat));
                 return true;
             }
         }
@@ -1448,7 +1445,7 @@ dboolean C_Responder(event_t *ev)
                         if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string))
                         {
                             inputhistory = i;
-                            M_StringCopy(consoleinput, console[i].string, 255);
+                            M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
                             caretpos = selectstart = selectend = strlen(consoleinput);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
@@ -1476,7 +1473,7 @@ dboolean C_Responder(event_t *ev)
                             if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string))
                             {
                                 inputhistory = i;
-                                M_StringCopy(consoleinput, console[i].string, 255);
+                                M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
                                 break;
                             }
 
@@ -1550,9 +1547,9 @@ dboolean C_Responder(event_t *ev)
                     {
                         char    buffer[255];
 
-                        M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0,
-                            selectstart), SDL_GetClipboardText(), M_SubString(consoleinput, selectend,
-                                strlen(consoleinput) - selectend));
+                        M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0, selectstart),
+                            SDL_GetClipboardText(), M_SubString(consoleinput, selectend,
+                            strlen(consoleinput) - selectend));
 
                         if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
                         {

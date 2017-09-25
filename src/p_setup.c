@@ -2237,9 +2237,9 @@ void P_SetupLevel(int ep, int map)
 
     // find map name
     if (gamemode == commercial)
-        M_snprintf(lumpname, 6, "MAP%02i", map);
+        M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
     else
-        M_snprintf(lumpname, 5, "E%iM%i", ep, map);
+        M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", ep, map);
 
     lumpnum = (nerve && gamemission == doom2 ? W_GetNumForName2(lumpname) : W_GetNumForName(lumpname));
 

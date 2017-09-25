@@ -66,9 +66,6 @@ typedef struct
     fixed_t             x, y;
 } vertex_t;
 
-// Forward of LineDefs, for Sectors.
-struct line_s;
-
 // Each sector has a degenmobj_t in its center
 //  for sound origin purposes.
 // I suppose this does not handle sound from

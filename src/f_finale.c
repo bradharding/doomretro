@@ -946,7 +946,7 @@ static void F_BunnyScroll(void)
         laststage = stage;
     }
 
-    M_snprintf(name, 10, "END%i", stage);
+    M_snprintf(name, sizeof(name), "END%i", stage);
     V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
         W_CacheLumpName(name), false);
 }

@@ -413,7 +413,6 @@ static void D_DoomLoop(void)
 int             titlesequence;
 int             pagetic;
 
-static int      pagewait;
 static patch_t  *pagelump;
 static patch_t  *splashlump;
 static patch_t  *titlelump;
@@ -427,6 +426,8 @@ static byte     *playpal;
 //
 void D_PageTicker(void)
 {
+    static int  pagewait;
+
     if (!menuactive && !startingnewgame && !consoleactive)
     {
         if (pagewait < I_GetTime())
@@ -694,22 +695,22 @@ static dboolean D_IsDOOMIWAD(char *filename)
     return result;
 }
 
-static const struct
-{
-    char    *iwad;
-    char    *title;
-} unsupported[] = {
-    { "heretic1.wad", "Heretic" },
-    { "heretic.wad",  "Heretic" },
-    { "hexen.wad",    "Hexen"   },
-    { "hexdd.wad",    "Hexen"   },
-    { "strife0.wad",  "Strife"  },
-    { "strife1.wad",  "Strife"  }
-};
-
 static dboolean D_IsUnsupportedIWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
+
+    static const struct
+    {
+        char    *iwad;
+        char    *title;
+    } unsupported[] = {
+        { "heretic1.wad", "Heretic" },
+        { "heretic.wad",  "Heretic" },
+        { "hexen.wad",    "Hexen"   },
+        { "hexdd.wad",    "Hexen"   },
+        { "strife0.wad",  "Strife"  },
+        { "strife1.wad",  "Strife"  }
+    };
 
     for (int i = 0; i < arrlen(unsupported); i++)
         if (M_StringCompare(leaf, unsupported[i].iwad))
@@ -719,7 +720,7 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
 #if defined(_WIN32)
             PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
-            M_snprintf(buffer, 1024, PACKAGE_NAME" does not support %s.", unsupported[i].title);
+            M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" does not support %s.", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
             error = true;
             return true;
@@ -961,7 +962,7 @@ static int D_OpenWADLauncher(void)
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = NULL;
-    M_StringCopy(szFile, wad, 4096);
+    M_StringCopy(szFile, wad, sizeof(szFile));
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
     ofn.lpstrFilter = (M_StringCompare(iwadfolder, iwadfolder_default) ? FILTER1 : FILTER2);

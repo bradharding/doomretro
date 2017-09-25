@@ -1043,17 +1043,17 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_INT:
-                    M_StringCopy(value, uncommify(value), 256);
+                    M_StringCopy(value, uncommify(value), sizeof(value));
                     *(int *)cvars[i].location = ParseIntParameter(value, cvars[i].valuealiastype);
                     break;
 
                 case DEFAULT_INT_UNSIGNED:
-                    M_StringCopy(value, uncommify(value), 256);
+                    M_StringCopy(value, uncommify(value), sizeof(value));
                     sscanf(value, "%10u", (unsigned int *)cvars[i].location);
                     break;
 
                 case DEFAULT_INT_PERCENT:
-                    M_StringCopy(value, uncommify(value), 256);
+                    M_StringCopy(value, uncommify(value), sizeof(value));
                     s = strdup(value);
 
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
@@ -1063,12 +1063,12 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_FLOAT:
-                    M_StringCopy(value, uncommify(value), 256);
+                    M_StringCopy(value, uncommify(value), sizeof(value));
                     *(float *)cvars[i].location = ParseFloatParameter(value, cvars[i].valuealiastype);
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
-                    M_StringCopy(value, uncommify(value), 256);
+                    M_StringCopy(value, uncommify(value), sizeof(value));
                     s = strdup(value);
 
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')

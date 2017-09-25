@@ -121,7 +121,7 @@ static dboolean     nearestlinear;
 static int          upscaledwidth;
 static int          upscaledheight;
 
-dboolean            software;
+static dboolean     software;
 
 static int          displayindex;
 static int          am_displayindex;

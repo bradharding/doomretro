@@ -421,7 +421,7 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
     if (sfx->link)
         sfx = sfx->link;
 
-    M_snprintf(namebuf, 9, "ds%s", sfx->name);
+    M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
 
     return W_GetNumForName(namebuf);
 }

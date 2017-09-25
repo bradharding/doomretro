@@ -405,9 +405,9 @@ static void WI_drawLF(void)
         char    name[9];
 
         if (gamemode == commercial)
-            M_snprintf(name, 9, "CWILV%2.2d", wbs->last);
+            M_snprintf(name, sizeof(name), "CWILV%2.2d", wbs->last);
         else
-            M_snprintf(name, 9, "WILV%i%i", wbs->epsd, wbs->last);
+            M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->last);
 
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
         {
@@ -453,9 +453,9 @@ static void WI_drawEL(void)
         char    name[9];
 
         if (gamemode == commercial)
-            M_snprintf(name, 9, "CWILV%2.2d", wbs->next);
+            M_snprintf(name, sizeof(name), "CWILV%2.2d", wbs->next);
         else
-            M_snprintf(name, 9, "WILV%i%i", wbs->epsd, wbs->next);
+            M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->next);
 
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
             V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
@@ -1046,7 +1046,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     {
         for (int i = 0; i < NUMCMAPS; i++)
         {
-            M_snprintf(name, 9, "CWILV%2.2d", i);
+            M_snprintf(name, sizeof(name), "CWILV%2.2d", i);
             callback(name, &lnames[i]);
         }
     }
@@ -1054,7 +1054,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     {
         for (int i = 0; i < NUMMAPS; i++)
         {
-            M_snprintf(name, 9, "WILV%i%i", wbs->epsd, i);
+            M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, i);
             callback(name, &lnames[i]);
         }
 
@@ -1079,7 +1079,7 @@ static void WI_loadUnloadData(load_callback_t callback)
                     if (wbs->epsd != 1 || j != 8)
                     {
                         // animations
-                        M_snprintf(name, 9, "WIA%i%.2d%.2d", wbs->epsd, j, i);
+                        M_snprintf(name, sizeof(name), "WIA%i%.2d%.2d", wbs->epsd, j, i);
                         callback(name, &a->p[i]);
                     }
                     else
@@ -1096,7 +1096,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     for (int i = 0; i < 10; i++)
     {
         // numbers 0-9
-        M_snprintf(name, 9, "WINUM%i", i);
+        M_snprintf(name, sizeof(name), "WINUM%i", i);
         callback(name, &num[i]);
     }
 
@@ -1161,7 +1161,7 @@ static void WI_loadData(void)
         bg_lumpname[8] = '\0';
     }
     else
-        M_snprintf(bg_lumpname, 9, "WIMAP%i", wbs->epsd);
+        M_snprintf(bg_lumpname, sizeof(bg_lumpname), "WIMAP%i", wbs->epsd);
 
     V_DrawPatch(0, 0, 1, W_CacheLumpName(bg_lumpname));
 }

@@ -54,7 +54,7 @@ sector_t    *backsector;
 drawseg_t   *drawsegs;
 drawseg_t   *ds_p;
 
-void R_StoreWallRange(int start, int stop);
+void R_StoreWallRange(const int start, const int stop);
 
 //
 // R_ClearDrawSegs

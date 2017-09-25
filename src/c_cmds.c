@@ -1074,7 +1074,7 @@ void alias_cmd_func2(char *cmd, char *parms)
     for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
         {
-            M_StringCopy(aliases[i].string, parm2, 128);
+            M_StringCopy(aliases[i].string, parm2, sizeof(aliases[i].string));
             M_SaveCVARs();
             return;
         }
@@ -1082,8 +1082,8 @@ void alias_cmd_func2(char *cmd, char *parms)
     for (int i = 0; i < MAXALIASES; i++)
         if (!*aliases[i].name)
         {
-            M_StringCopy(aliases[i].name, parm1, 128);
-            M_StringCopy(aliases[i].string, parm2, 128);
+            M_StringCopy(aliases[i].name, parm1, sizeof(aliases[i].name));
+            M_StringCopy(aliases[i].string, parm2, sizeof(aliases[i].string));
             M_SaveCVARs();
             return;
         }
@@ -1437,13 +1437,13 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
             char    description2[255] = "";
             char    *p;
 
-            M_StringCopy(description1, consolecmds[i].description, 255);
+            M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
             if ((p = strchr(description1, '\n')))
             {
                 *p = '\0';
                 p++;
-                M_StringCopy(description2, p, 255);
+                M_StringCopy(description2, p, sizeof(description2));
             }
 
             C_TabbedOutput(tabs, "%i.\t<b>%s</b> %s\t%s", ++count, consolecmds[i].name,
@@ -1578,20 +1578,20 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             char    description3[255] = "";
             char    *p;
 
-            M_StringCopy(description1, consolecmds[i].description, 255);
+            M_StringCopy(description1, consolecmds[i].description, sizeof(description1));
 
             if ((p = strchr(description1, '\n')))
             {
                 *p = '\0';
                 p++;
-                M_StringCopy(description2, p, 255);
+                M_StringCopy(description2, p, sizeof(description2));
             }
 
             if ((p = strchr(description2, '\n')))
             {
                 *p = '\0';
                 p++;
-                M_StringCopy(description3, p, 255);
+                M_StringCopy(description3, p, sizeof(description3));
             }
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
@@ -2245,7 +2245,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = gameepisode;
                     mapcmdmap = 1;
-                    M_StringCopy(mapcmdlump, "MAP01", 6);
+                    M_StringCopy(mapcmdlump, "MAP01", sizeof(mapcmdlump));
                     result = true;
                 }
             }
@@ -2255,7 +2255,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = 1;
                     mapcmdmap = 1;
-                    M_StringCopy(mapcmdlump, "E1M1", 5);
+                    M_StringCopy(mapcmdlump, "E1M1", sizeof(mapcmdlump));
                     result = true;
                 }
             }
@@ -2269,7 +2269,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = gameepisode;
                     mapcmdmap = gamemap - 1;
-                    M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+                    M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", mapcmdmap);
                     result = true;
                 }
             }
@@ -2291,7 +2291,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     result = true;
                 }
 
-                M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+                M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
         else if (M_StringCompare(map, "NEXT") && gamestate != GS_TITLESCREEN)
@@ -2302,7 +2302,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = gameepisode;
                     mapcmdmap = gamemap + 1;
-                    M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+                    M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", mapcmdmap);
                     result = true;
                 }
             }
@@ -2324,7 +2324,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     result = true;
                 }
 
-                M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+                M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
         else if (M_StringCompare(map, "LAST"))
@@ -2337,7 +2337,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     {
                         mapcmdepisode = gameepisode;
                         mapcmdmap = 9;
-                        M_StringCopy(mapcmdlump, "MAP09", 6);
+                        M_StringCopy(mapcmdlump, "MAP09", sizeof(mapcmdlump));
                         result = true;
                     }
                 }
@@ -2347,7 +2347,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     {
                         mapcmdepisode = gameepisode;
                         mapcmdmap = (bfgedition ? 33 : 32);
-                        M_snprintf(mapcmdlump, 6, "MAP%02i", (bfgedition ? 33 : 32));
+                        M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", (bfgedition ? 33 : 32));
                         result = true;
                     }
                 }
@@ -2358,7 +2358,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = 4;
                     mapcmdmap = 9;
-                    M_StringCopy(mapcmdlump, "E4M9", 5);
+                    M_StringCopy(mapcmdlump, "E4M9", sizeof(mapcmdlump));
                     result = true;
                 }
             }
@@ -2368,7 +2368,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = 1;
                     mapcmdmap = 9;
-                    M_StringCopy(mapcmdlump, "E1M9", 5);
+                    M_StringCopy(mapcmdlump, "E1M9", sizeof(mapcmdlump));
                     result = true;
                 }
             }
@@ -2378,7 +2378,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = 3;
                     mapcmdmap = 9;
-                    M_StringCopy(mapcmdlump, "E3M9", 5);
+                    M_StringCopy(mapcmdlump, "E3M9", sizeof(mapcmdlump));
                     result = true;
                 }
             }
@@ -2390,7 +2390,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 mapcmdepisode = gameepisode;
                 mapcmdmap = M_RandomIntNoRepeat(1,
                     (gamemission == pack_nerve ? 9 : (bfgedition ? 33 : 32)), gamemap);
-                M_snprintf(mapcmdlump, 6, "MAP%02i", mapcmdmap);
+                M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", mapcmdmap);
                 result = true;
             }
             else
@@ -2398,13 +2398,13 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 mapcmdepisode = M_RandomIntNoRepeat(1,
                     (gamemode == retail ? 4 : (gamemode == shareware ? 1 : 3)), gameepisode);
                 mapcmdmap = M_RandomIntNoRepeat(1, 9, gamemap);
-                M_snprintf(mapcmdlump, 5, "E%iM%i", mapcmdepisode, mapcmdmap);
+                M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
                 result = true;
             }
         }
         else
         {
-            M_StringCopy(mapcmdlump, map, 7);
+            M_StringCopy(mapcmdlump, map, sizeof(mapcmdlump));
 
             if (gamemode == commercial)
             {
@@ -2532,7 +2532,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         dboolean    pwad;
         char        mapinfoname[128];
 
-        M_StringCopy(lump, uppercase(lumpinfo[i]->name), 8);
+        M_StringCopy(lump, uppercase(lumpinfo[i]->name), sizeof(lump));
 
         if (gamemode == commercial)
         {
@@ -2548,10 +2548,10 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         if (ep-- == -1 || map-- == -1)
             continue;
 
-        M_StringCopy(wad, leafname(lumpinfo[i]->wadfile->path), MAX_PATH);
+        M_StringCopy(wad, leafname(lumpinfo[i]->wadfile->path), sizeof(wad));
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
-        M_StringCopy(mapinfoname, P_GetMapName(ep * 10 + map + 1), 128);
+        M_StringCopy(mapinfoname, P_GetMapName(ep * 10 + map + 1), sizeof(mapinfoname));
 
         switch (gamemission)
         {

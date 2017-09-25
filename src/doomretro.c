@@ -237,7 +237,7 @@ LONG WINAPI ExceptionHandler(LPEXCEPTION_POINTERS info)
 
     int buttonid;
 
-    M_snprintf(msg, 256, PACKAGE_NAME" has crashed with unhandled exception 0x%08X at 0x%08X.",
+    M_snprintf(msg, sizeof(msg), PACKAGE_NAME" has crashed with unhandled exception 0x%08X at 0x%08X.",
         info->ExceptionRecord->ExceptionCode, info->ExceptionRecord->ExceptionAddress);
 
     I_MidiRPCClientShutDown();
