@@ -153,6 +153,9 @@ void R_RenderPlayerView(player_t *player);
 // Called by startup code.
 void R_Init(void);
 
+// Called by shutdown code.
+void R_Shutdown(void);
+
 // Called by M_Responder.
 void R_SetViewSize(int blocks);
 void R_InitColumnFunctions(void);

@@ -356,6 +356,13 @@ static void R_InitLightTables(void)
     }
 }
 
+static void R_ShutdownLightTables(void)
+{
+    free(c_psprscalelight);
+    free(c_scalelight);
+    free(c_zlight);
+}
+
 //
 // R_SetViewSize
 // Do not really change anything here,
@@ -607,6 +614,14 @@ void R_Init(void)
     R_InitTranslationTables();
     R_InitPatches();
     R_InitColumnFunctions();
+}
+
+//
+// R_Init
+//
+void R_Shutdown(void)
+{
+    R_ShutdownLightTables();
 }
 
 //

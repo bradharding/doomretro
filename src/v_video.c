@@ -63,6 +63,8 @@
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
+byte *base;
+
 static fixed_t  DX, DY;
 static fixed_t  DXI, DYI;
 
@@ -1407,7 +1409,7 @@ void V_LowGraphicDetail(void)
 //
 void V_Init(void)
 {
-    byte                *base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
+    base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
     const SDL_version   *linked = IMG_Linked_Version();
 #if defined(_WIN32) && !defined(PORTABILITY)
     char                buffer[MAX_PATH];
@@ -1441,6 +1443,14 @@ void V_Init(void)
         M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots",
             M_GetAppDataFolder());
 #endif
+}
+
+//
+// V_Shutdown
+//
+void V_Shutdown(void)
+{
+    Z_Free(base);
 }
 
 char            lbmname1[MAX_PATH];

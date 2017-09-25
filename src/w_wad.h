@@ -97,6 +97,8 @@ void *W_CacheLumpNum(lumpindex_t lump);
 
 void W_Init(void);
 
+void W_Shutdown(void);
+
 unsigned int W_LumpNameHash(const char *s);
 
 void W_UnlockLumpNum(lumpindex_t lump);
