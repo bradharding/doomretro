@@ -51,6 +51,9 @@ void I_ShutdownWindows32(void);
 #include "m_config.h"
 #include "m_misc.h"
 #include "s_sound.h"
+#include "r_main.h"
+#include "w_wad.h"
+#include "v_video.h"
 #include "version.h"
 
 extern dboolean vid_widescreen;
@@ -213,11 +216,17 @@ void I_Quit(dboolean shutdown)
     {
         S_Shutdown();
 
+	R_Shutdown();
+
         if (returntowidescreen)
             vid_widescreen = true;
 
+	V_Shutdown();
+
         M_SaveCVARs();
         M_Shutdown();
+
+	W_Shutdown();
 
         I_ShutdownGraphics();
         I_ShutdownKeyboard();
@@ -256,10 +265,16 @@ void I_Error(char *error, ...)
     // Shutdown. Here might be other errors.
     S_Shutdown();
 
+    R_Shutdown();
+
     if (returntowidescreen)
         vid_widescreen = true;
 
+    V_Shutdown();
+
     M_SaveCVARs();
+
+    W_Shutdown();
 
     I_ShutdownGraphics();
     I_ShutdownKeyboard();

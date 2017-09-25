@@ -423,6 +423,15 @@ void W_Init(void)
         I_Error ("W_Init: Couldn't allocate lumpcache");
 }
 
+void W_Shutdown(void)
+{
+    for (lumpindex_t i = 0; i < numlumps; i ++) {
+	if (cachelump[i].cache)
+	    Z_Free(cachelump[i].cache);
+    }
+    free(cachelump);
+}
+
 //
 // W_GetNumForName
 // Calls W_CheckNumForName, but bombs out if not found.

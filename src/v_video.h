@@ -62,6 +62,9 @@ extern byte *tinttabred;
 // Allocates buffer screens, call before R_Init.
 void V_Init(void);
 
+// Free buffer screens allocations.
+void V_Shutdown(void);
+
 void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty,
     int destscrn);
 
