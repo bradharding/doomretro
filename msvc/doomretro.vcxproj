@@ -356,9 +356,9 @@
     <None Include="..\.travis.yml" />
     <None Include="..\CODEOWNERS" />
     <None Include="..\CODE_OF_CONDUCT.md" />
-    <None Include="..\docs\releasenotes.md" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
+    <None Include="..\releasenotes.md" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\doomretro.wad" />
