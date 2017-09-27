@@ -11,6 +11,7 @@
 * Changes have been made to the status bar’s background when the `r_detail` CVAR is `high`.
 * The maximum value that the `s_channels` CVAR can be set to is now `64`.
 * IWADs and PWADs can now be specified on the command-line without a `.wad` extension.
+* The slight current enabled using the `r_liquid_current` CVAR will no longer be applied to liquid sectors that also have a *BOOM*-compatible scrolling effect.
 
 ---
 

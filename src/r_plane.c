@@ -210,7 +210,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     check->minx = viewwidth;
     check->maxx = -1;
 
-    if (isliquid[picnum] && r_liquid_current && !freeze)
+    if (isliquid[picnum] && r_liquid_current && !xoffs && !yoffs && !freeze)
     {
         check->xoffs = animatedliquidxoffs;
         check->yoffs = animatedliquidxoffs;
