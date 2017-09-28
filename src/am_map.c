@@ -1958,8 +1958,8 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
-    const fixed_t   x = m_x2 / 2;
-    const fixed_t   y = m_y2 / 2;
+    const fixed_t   x = m_x + m_w / 2;
+    const fixed_t   y = m_y + m_h / 2;
 
     am_frame.center.x = x;
     am_frame.center.y = y;
