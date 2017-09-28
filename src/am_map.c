@@ -274,8 +274,7 @@ static void AM_restoreScaleAndLoc(void)
 }
 
 //
-// Determines bounding box of all vertices,
-// sets global variables controlling zoom range.
+// Determines bounding box of all vertices, sets global variables controlling zoom range.
 //
 static void AM_findMinMaxBoundaries(void)
 {
@@ -444,8 +443,7 @@ static void AM_initVariables(const dboolean mainwindow)
 }
 
 //
-// should be called at the start of every level
-// right now, i figure it out myself
+// should be called at the start of every level right now, i figure it out myself
 //
 static void AM_LevelInit(void)
 {
@@ -1205,9 +1203,8 @@ void AM_clearFB(void)
 //
 // Automap clipping of lines.
 //
-// Based on Cohen-Sutherland clipping algorithm but with a slightly
-// faster reject and precalculated slopes. If the speed is needed,
-// use a hash algorithm to handle the common cases.
+// Based on Cohen-Sutherland clipping algorithm but with a slightly faster reject and precalculated
+// slopes. If the speed is needed, use a hash algorithm to handle the common cases.
 static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
 {
     enum
@@ -1961,8 +1958,8 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
-    const fixed_t   x = m_x + m_w / 2;
-    const fixed_t   y = m_y + m_h / 2;
+    const fixed_t   x = m_x2 / 2;
+    const fixed_t   y = m_y2 / 2;
 
     am_frame.center.x = x;
     am_frame.center.y = y;

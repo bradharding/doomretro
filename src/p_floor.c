@@ -383,7 +383,6 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
         sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
         floor->type = floortype;
-        floor->crush = false;
 
         switch (floortype)
         {

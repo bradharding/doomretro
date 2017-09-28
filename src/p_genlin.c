@@ -509,7 +509,6 @@ manual_lift:
         plat->sector = sec;
         plat->sector->floordata = plat;
         plat->thinker.function = T_PlatRaise;
-        plat->crush = false;
         plat->tag = line->tag;
         plat->type = genLift;
         plat->high = sec->floorheight;
@@ -780,7 +779,6 @@ manual_stair:
                 floor->sector = sec;
                 floor->speed = speed;
                 floor->floordestheight = height;
-                floor->crush = false;
                 floor->type = genBuildStair;    // jff 3/31/98 do not leave uninited
 
                 okay = true;

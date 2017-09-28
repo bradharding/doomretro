@@ -257,7 +257,6 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
         sec->ceilingdata = ceiling;
         ceiling->thinker.function = T_MoveCeiling;
         ceiling->sector = sec;
-        ceiling->crush = false;
 
         switch (type)
         {

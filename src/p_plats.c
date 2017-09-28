@@ -193,7 +193,6 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
         plat->sector = sec;
         plat->sector->floordata = plat;
         plat->thinker.function = T_PlatRaise;
-        plat->crush = false;
         plat->tag = line->tag;
         plat->low = sec->floorheight;
 
@@ -203,7 +202,6 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->speed = PLATSPEED / 2;
                 sec->floorpic = sides[line->sidenum[0]].sector->floorpic;
                 plat->high = P_FindNextHighestFloor(sec, sec->floorheight);
-                plat->wait = 0;
                 plat->status = up;
                 sec->special = 0;
                 S_StartSectorSound(&sec->soundorg, sfx_stnmov);
@@ -213,7 +211,6 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->speed = PLATSPEED / 2;
                 sec->floorpic = sides[line->sidenum[0]].sector->floorpic;
                 plat->high = sec->floorheight + amount * FRACUNIT;
-                plat->wait = 0;
                 plat->status = up;
                 S_StartSectorSound(&sec->soundorg, sfx_stnmov);
                 break;

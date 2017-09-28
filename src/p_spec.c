@@ -2192,7 +2192,6 @@ dboolean EV_DoDonut(line_t *line)
             s2->floordata = floor;
             floor->thinker.function = T_MoveFloor;
             floor->type = donutRaise;
-            floor->crush = false;
             floor->direction = 1;
             floor->sector = s2;
             floor->speed = FLOORSPEED / 2;
@@ -2207,7 +2206,6 @@ dboolean EV_DoDonut(line_t *line)
             s1->floordata = floor;
             floor->thinker.function = T_MoveFloor;
             floor->type = lowerFloor;
-            floor->crush = false;
             floor->direction = -1;
             floor->sector = s1;
             floor->speed = FLOORSPEED / 2;

@@ -405,7 +405,6 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
         door->topwait = VDOORWAIT;
         door->speed = VDOORSPEED;
         door->line = line;      // jff 1/31/98 remember line that triggered us
-        door->lighttag = 0;
 
         for (int i = 0; i < door->sector->linecount; i++)
             door->sector->lines[i]->flags &= ~ML_SECRET;

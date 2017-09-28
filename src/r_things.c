@@ -984,7 +984,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         psp_inter.x1_prev = vis->x1;
         psp_inter.texturemid_prev = vis->texturemid;
 
-        if (lump == psp_inter.lump && !skippsprinterp && !skippsprinterp2)
+        if (lump == psp_inter.lump && !(skippsprinterp || skippsprinterp2))
         {
             int deltax = vis->x2 - vis->x1;
 
