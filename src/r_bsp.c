@@ -186,6 +186,8 @@ static void R_RecalcLineFlags(line_t *linedef)
 // [AM] Interpolate the passed sector, if prudent.
 static void R_MaybeInterpolateSector(sector_t *sector)
 {
+    sector_t    *heightsec = (sector->heightsec == -1 ? NULL : &sectors[sector->heightsec]);
+
     if (vid_capfps != TICRATE
         // Only if we moved the sector last tic.
         && sector->oldgametic == gametic - 1)
@@ -202,11 +204,32 @@ static void R_MaybeInterpolateSector(sector_t *sector)
                 + FixedMul(sector->ceilingheight - sector->oldceilingheight, fractionaltic);
         else
             sector->interpceilingheight = sector->ceilingheight;
+
+        if (heightsec)
+        {
+            if (heightsec->floorheight != heightsec->oldfloorheight)
+                heightsec->interpfloorheight = heightsec->oldfloorheight
+                    + FixedMul(heightsec->floorheight - heightsec->oldfloorheight, fractionaltic);
+            else
+                heightsec->interpfloorheight = heightsec->floorheight;
+
+            if (heightsec->ceilingheight != heightsec->oldceilingheight)
+                heightsec->interpceilingheight = heightsec->oldceilingheight
+                    + FixedMul(heightsec->ceilingheight - heightsec->oldceilingheight, fractionaltic);
+            else
+                heightsec->interpceilingheight = heightsec->ceilingheight;
+        }
     }
     else
     {
         sector->interpfloorheight = sector->floorheight;
         sector->interpceilingheight = sector->ceilingheight;
+
+        if (heightsec)
+        {
+            heightsec->interpfloorheight = heightsec->floorheight;
+            heightsec->interpceilingheight = heightsec->ceilingheight;
+        }
     }
 }
 
