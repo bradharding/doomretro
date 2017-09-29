@@ -426,10 +426,10 @@ static byte     *playpal;
 //
 void D_PageTicker(void)
 {
-    static int  pagewait;
-
     if (!menuactive && !startingnewgame && !consoleactive)
     {
+        static int  pagewait;
+
         if (pagewait < I_GetTime())
         {
             pagetic--;
@@ -1944,8 +1944,8 @@ static void D_DoomMainSetup(void)
     {
         if (gamemode == commercial)
         {
-            if (strlen(myargv[p + 1]) == 5 && toupper(myargv[p + 1][0]) == 'M' &&
-                toupper(myargv[p + 1][1]) == 'A' && toupper(myargv[p + 1][2]) == 'P')
+            if (strlen(myargv[p + 1]) == 5 && toupper(myargv[p + 1][0]) == 'M'
+                && toupper(myargv[p + 1][1]) == 'A' && toupper(myargv[p + 1][2]) == 'P')
                 startmap = (myargv[p + 1][3] - '0') * 10 + myargv[p + 1][4] - '0';
             else
                 startmap = atoi(myargv[p + 1]);

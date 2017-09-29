@@ -1523,8 +1523,8 @@ static void SetVideoMode(dboolean output)
         {
             if (nearestlinear)
             {
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
-                    "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
+                    SCREENWIDTH, SCREENHEIGHT, commify(upscaledwidth * SCREENWIDTH),
                     commify(upscaledheight * SCREENHEIGHT));
                 C_Output("It is then scaled down to %s\xD7%s using linear filtering.",
                     commify(height * 4 / 3), commify(height));
@@ -1533,8 +1533,8 @@ static void SetVideoMode(dboolean output)
                 C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using linear filtering.",
                     SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
             else
-                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor "
-                    "interpolation.", SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
+                C_Output("The %i\xD7%i screen is scaled up to %s\xD7%s using nearest-neighbor interpolation.",
+                    SCREENWIDTH, SCREENHEIGHT, commify(height * 4 / 3), commify(height));
         }
 
         I_CapFPS(0);
@@ -1723,7 +1723,7 @@ void I_ToggleFullscreen(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning("Unable to switch to %s mode.", (fullscreen ? "fullscreen" : "windowed"));
+        C_Warning("Unable to switch to %s.", (fullscreen ? "fullscreen" : "a window"));
         return;
     }
 

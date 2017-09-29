@@ -108,8 +108,8 @@ static dboolean IsFreedoom(const char *iwadname)
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp);
             header.numlumps--)
         {
-            if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' &&
-                n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
+            if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E'
+                && n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
             {
                 result = true;
                 break;
@@ -269,8 +269,8 @@ dboolean HasDehackedLump(const char *pwadname)
         for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp);
             header.numlumps--)
         {
-            if (*n == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' &&
-                n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
+            if (*n == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A'
+                && n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
             {
                 result = true;
                 break;
@@ -294,9 +294,8 @@ int IWADRequiredByPWAD(const char *pwadname)
     if (!fp)
         I_Error("Can't open PWAD: %s\n", pwadname);
 
-    if (fread(&header, 1, sizeof(header), fp) != sizeof(header) ||
-        header.identification[0] != 'P' || header.identification[1] != 'W' ||
-        header.identification[2] != 'A' || header.identification[3] != 'D')
+    if (fread(&header, 1, sizeof(header), fp) != sizeof(header) || header.identification[0] != 'P'
+        || header.identification[1] != 'W' || header.identification[2] != 'A' || header.identification[3] != 'D')
         I_Error("PWAD tag not present: %s\n", pwadname);
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);

@@ -2923,6 +2923,7 @@ void T_Pusher(pusher_t *p)
         if (p->type == p_wind)
         {
             if (sec->heightsec == -1)                   // NOT special water sector
+            {
                 if (thing->z > thing->floorz)           // above ground
                 {
                     xspeed = p->x_mag;                  // full force
@@ -2933,6 +2934,7 @@ void T_Pusher(pusher_t *p)
                     xspeed = p->x_mag >> 1;             // half force
                     yspeed = p->y_mag >> 1;
                 }
+            }
             else                                        // special water sector
             {
                 if (thing->z > ht)                      // above ground
@@ -2987,9 +2989,7 @@ void T_Pusher(pusher_t *p)
     }
 }
 
-//
-// P_GetPushThing() returns a pointer to an MT_PUSH or MT_PULL thing,
-// NULL otherwise.
+// P_GetPushThing() returns a pointer to an MT_PUSH or MT_PULL thing, NULL otherwise.
 mobj_t *P_GetPushThing(int s)
 {
     sector_t    *sec = sectors + s;
@@ -3031,12 +3031,8 @@ static void P_SpawnPushers(void)
 
             case WindCurrentByPushPullThingInSector:
                 for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
-                {
-                    thing = P_GetPushThing(s);
-
-                    if (thing)  // No MT_P* means no effect
+                    if ((thing = P_GetPushThing(s)))    // No MT_P* means no effect
                         Add_Pusher(p_push, l->dx, l->dy, thing, s);
-                }
 
                 break;
         }

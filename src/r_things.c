@@ -1023,8 +1023,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         else if (r_translucency && !notranslucency)
         {
             if (spr == SPR_SHT2)
-                vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) && (!altered ||
-                    state->translucent || BTSX) ? tlredwhitecolfunc1 : basecolfunc);
+                vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) && (!altered
+                    || state->translucent || BTSX) ? tlredwhitecolfunc1 : basecolfunc);
             else if (muzzleflash && spr <= SPR_BFGF && (!altered || state->translucent || BTSX))
             {
                 void (*colfuncs[])(void) =
