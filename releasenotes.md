@@ -1,5 +1,7 @@
 ### DOOM Retro v2.5.7
 
+* Elevators now move smoothly when the `vid_capfps` CVAR is a value other than `35`.
+
 ---
 
 ###### Saturday, September 30, 2017

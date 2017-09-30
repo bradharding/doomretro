@@ -58,7 +58,7 @@ void T_PlatRaise(plat_t *plat)
     switch (plat->status)
     {
         case up:
-            res = T_MovePlane(plat->sector, plat->speed, plat->high, plat->crush, 0, 1);
+            res = T_MovePlane(plat->sector, plat->speed, plat->high, plat->crush, 0, 1, false);
 
             if (plat->type == raiseAndChange || plat->type == raiseToNearestAndChange)
                 if (!(leveltime & 7) && plat->sector->floorheight != plat->high)
@@ -105,7 +105,7 @@ void T_PlatRaise(plat_t *plat)
             break;
 
         case down:
-            res = T_MovePlane(plat->sector, plat->speed, plat->low, false, 0, -1);
+            res = T_MovePlane(plat->sector, plat->speed, plat->low, false, 0, -1, false);
 
             if (res == pastdest)
             {

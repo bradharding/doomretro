@@ -543,7 +543,7 @@ typedef enum
 } result_e;
 
 result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floorOrCeiling,
-    int direction);
+    int direction, dboolean elevator);
 dboolean EV_BuildStairs(line_t *line, stair_e type);
 dboolean EV_DoFloor(line_t *line, floor_e floortype);
 dboolean EV_DoChange(line_t *line, change_e changetype);
