@@ -40,23 +40,19 @@ language: c
 
 compiler:
     - clang
+    - gcc
 
 sudo: required
 
 dist: trusty
 
-before_install:
-    - wget --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz
-    - tar xf cmake-3.4.3-Linux-x86_64.tar.gz
-    - export PATH=$PWD/cmake-3.4.3-Linux-x86_64/bin:$PATH
-
 addons:
     apt:
         packages:
+            - cmake3
             - libsdl2-dev
             - libsdl2-mixer-dev
             - libsdl2-image-dev
 
 script:
     - mkdir build && cd build && cmake .. && make
-    - cd ../src && make
