@@ -49,10 +49,11 @@ extern dboolean canmodify;
 
 static void T_GradualLightingToCeiling(ceiling_t *ceiling)
 {
-    if (ceiling->topheight - ceiling->sector->floorheight)
-        if (!P_SectorHasLightSpecial(ceiling->sector))
-            EV_LightByAdjacentSectors(ceiling->sector, FixedDiv(ceiling->sector->ceilingheight
-                - ceiling->sector->floorheight, ceiling->topheight - ceiling->sector->floorheight));
+    sector_t    *sector = ceiling->sector;
+    fixed_t     level = ceiling->topheight - sector->floorheight;
+
+    if (level && !P_SectorHasLightSpecial(sector))
+        EV_LightByAdjacentSectors(sector, FixedDiv(sector->ceilingheight - sector->floorheight, level));
 }
 
 //

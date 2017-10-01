@@ -127,6 +127,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean cru
 
                     break;
             }
+
             break;
 
         case 1:
@@ -370,11 +371,11 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 {
     int         secnum = -1;
     dboolean    rtn = false;
-    floormove_t *floor;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         sector_t    *sec = &sectors[secnum];
+        floormove_t *floor;
 
         // ALREADY MOVING? IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, sec))
@@ -422,7 +423,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
-                floor->floordestheight = P_FindNextLowestFloor(sec, floor->sector->floorheight);
+                floor->floordestheight = P_FindNextLowestFloor(sec, sec->floorheight);
                 break;
 
             case turboLower:
@@ -471,7 +472,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
-                floor->floordestheight = floor->sector->floorheight + 32 * FRACUNIT;
+                floor->floordestheight = sec->floorheight + 32 * FRACUNIT;
                 break;
 
             case raiseFloor512:
@@ -533,14 +534,11 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->newspecial = sec->special;
 
                 for (int i = 0; i < sec->linecount; i++)
-                {
                     if (twoSided(secnum, i))
                     {
                         if (getSide(secnum, i, 0)->sector->id == secnum)
                         {
-                            sec = getSector(secnum, i, 1);
-
-                            if (sec->floorheight == floor->floordestheight)
+                            if ((sec = getSector(secnum, i, 1))->floorheight == floor->floordestheight)
                             {
                                 floor->texture = sec->floorpic;
                                 floor->newspecial = sec->special;
@@ -549,9 +547,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                         }
                         else
                         {
-                            sec = getSector(secnum, i, 0);
-
-                            if (sec->floorheight == floor->floordestheight)
+                            if ((sec = getSector(secnum, i, 0))->floorheight == floor->floordestheight)
                             {
                                 floor->texture = sec->floorpic;
                                 floor->newspecial = sec->special;
@@ -559,13 +555,12 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
                             }
                         }
                     }
-                }
 
             default:
                 break;
         }
 
-        floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
+        floor->stopsound = (sec->floorheight != floor->floordestheight);
 
         // [BH] floor is no longer secret
         for (int i = 0; i < sec->linecount; i++)
@@ -590,12 +585,12 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
 {
     int         secnum = -1;
     dboolean    rtn = false;
-    sector_t    *secm;
 
     // change all sectors with the same tag as the linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         sector_t    *sec = &sectors[secnum];
+        sector_t    *secm;
 
         rtn = true;
 
@@ -609,9 +604,7 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
                 break;
 
             case numChangeOnly:
-                secm = P_FindModelFloorSector(sec->floorheight, secnum);
-
-                if (secm)       // if no model, no change
+                if ((secm = P_FindModelFloorSector(sec->floorheight, secnum)))  // if no model, no change
                 {
                     sec->floorpic = secm->floorpic;
                     P_ChangeSector(sec, false);
@@ -774,13 +767,12 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
 {
     int         secnum = -1;
     dboolean    rtn = false;
-    sector_t    *sec;
-    elevator_t  *elevator;
 
     // act on all sectors with the same tag as the triggering linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sector_t    *sec = &sectors[secnum];
+        elevator_t  *elevator;
 
         // If either floor or ceiling is already activated, skip it
         if (sec->floordata || sec->ceilingdata)

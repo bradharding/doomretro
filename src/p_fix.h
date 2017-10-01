@@ -51,13 +51,11 @@ typedef struct
     int     epsiode;
     int     map;
     int     vertex;
-    int     oldx;
-    int     oldy;
-    int     newx;
-    int     newy;
+    int     oldx, oldy;
+    int     newx, newy;
 } vertexfix_t;
 
-extern vertexfix_t vertexfix[];
+extern vertexfix_t  vertexfix[];
 
 typedef struct
 {
@@ -76,7 +74,7 @@ typedef struct
     int     tag;
 } linefix_t;
 
-extern linefix_t linefix[];
+extern linefix_t    linefix[];
 
 typedef struct
 {
@@ -93,7 +91,7 @@ typedef struct
     int     newtag;
 } sectorfix_t;
 
-extern sectorfix_t sectorfix[];
+extern sectorfix_t  sectorfix[];
 
 typedef struct
 {
@@ -102,14 +100,12 @@ typedef struct
     int     map;
     int     thing;
     int     type;
-    int     oldx;
-    int     oldy;
-    int     newx;
-    int     newy;
+    int     oldx, oldy;
+    int     newx, newy;
     int     angle;
     int     options;
 } thingfix_t;
 
-extern thingfix_t thingfix[];
+extern thingfix_t   thingfix[];
 
 #endif

@@ -20,7 +20,7 @@
 * IWADs and PWADs can now be specified on the command-line without a `.wad` extension.
 * The slight current enabled using the `r_liquid_current` CVAR will no longer be applied to liquid sectors that also have a *BOOM*-compatible scrolling effect.
 * When using the `idclip` cheat, `idclip` will now be displayed in the console rather than `idspispopd`.
-* A bug has been fixed whereby a crash would occur when trying to display the spectre in *DOOM II’s* cast sequence.
+* A crash will no longer occur when trying to display the spectre in *DOOM II’s* cast sequence.
 
 ---
 
