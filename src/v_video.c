@@ -92,6 +92,11 @@ static const byte redtoyellow[] =
     240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 };
 
+#define _FUZZ(a, b) _fuzzrange[M_Random() % (b - (a) + 1) + a]
+
+static const int    _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
+
+extern int      fuzztable[SCREENWIDTH * SCREENHEIGHT];
 extern dboolean r_hud_translucency;
 extern dboolean vanilla;
 
@@ -322,6 +327,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte    *desttop;
     int     w = SHORT(patch->width) << FRACBITS;
+    int     _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -340,7 +346,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                if (!(M_Random() % 4))
+                if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() % 4)))
                     *dest = tinttab25[*dest];
 
                 dest += SCREENWIDTH;
@@ -352,7 +358,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            if (!(M_Random() % 4))
+            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() % 4)))
                 *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -1074,6 +1080,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte    *desttop;
     int     w = SHORT(patch->width) << FRACBITS;
+    int     _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -1093,7 +1100,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                if (!(M_Random() % 4))
+                if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() % 4)))
                     *dest = tinttab25[*dest];
 
                 dest += SCREENWIDTH;
@@ -1105,7 +1112,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            if (!(M_Random() % 4))
+            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() % 4)))
                 *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -1147,12 +1154,6 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
         }
     }
 }
-
-#define _FUZZ(a, b) _fuzzrange[M_Random() % (b - (a) + 1) + a]
-
-static const int    _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
-
-extern int  fuzztable[SCREENWIDTH * SCREENHEIGHT];
 
 void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {
