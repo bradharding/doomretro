@@ -65,18 +65,18 @@ int                 gp_vibrate_weapons = gp_vibrate_weapons_default;
 
 static SDL_Joystick *gamepad;
 
-int                 gamepadbuttons;
-short               gamepadthumbLX;
-short               gamepadthumbLY;
-short               gamepadthumbRX;
-short               gamepadthumbRY;
+int                 gamepadbuttons = 0;
+short               gamepadthumbLX = 0;
+short               gamepadthumbLY = 0;
+short               gamepadthumbRX = 0;
+short               gamepadthumbRY = 0;
 float               gamepadsensitivity;
 short               gamepadleftdeadzone;
 short               gamepadrightdeadzone;
 
-dboolean            vibrate;
-int                 damagevibrationtics;
-int                 weaponvibrationtics;
+dboolean            vibrate = false;
+int                 damagevibrationtics = 0;
+int                 weaponvibrationtics = 0;
 int                 idlemotorspeed;
 int                 restoremotorspeed;
 

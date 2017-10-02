@@ -1,5 +1,6 @@
 ### DOOM Retro v2.5.7
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Elevators now move smoothly when the `vid_capfps` CVAR is a value other than `35`.
 
 ---
