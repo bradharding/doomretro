@@ -54,6 +54,6 @@
 #define PACKAGE_REPORT_URL              "https://github.com/bradharding/doomretro/issues/new"
 #define PACKAGE_SAVE                    "doomretro%i.save"
 #define PACKAGE_WAD                     "doomretro.wad"
-#define PACKAGE_WIKI_HELP_URL           "https://github.com/bradharding/doomretro/wiki/THE-CONSOLE"
+#define PACKAGE_WIKI_HELP_URL           "http://wiki.doomretro.com/THE-CONSOLE"
 
 #endif
