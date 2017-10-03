@@ -329,9 +329,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (usemouselook)
     {
         if (gamepadthumbRY < 0)
-            cmd->lookdir = (int)(64 * gamepadthumbRYup * gamepadsensitivity);
+            cmd->lookdir = (int)(48 * gamepadthumbRYup * gamepadsensitivity);
         else if (gamepadthumbRY > 0)
-            cmd->lookdir = (int)(64 * gamepadthumbRYdown * gamepadsensitivity);
+            cmd->lookdir = (int)(48 * gamepadthumbRYdown * gamepadsensitivity);
     }
 
     if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
