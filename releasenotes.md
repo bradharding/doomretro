@@ -4,6 +4,8 @@
 * Elevators now move smoothly when the `vid_capfps` CVAR is a value other than `35`.
 * The dimensions displayed by the `mapstats` CCMD are now correct for extremely large maps.
 * The vertical sensitivity of the gamepad’s right thumbstick has been reduced slightly when the `mouselook` CVAR is `on`.
+* The spectre’s shadow will now pause if the console is opened during *DOOM II’s* cast sequence.
+* Improvements have been made to the console’s autocomplete feature.
 
 ---
 
