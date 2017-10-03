@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Elevators now move smoothly when the `vid_capfps` CVAR is a value other than `35`.
+* The dimensions displayed by the `mapstats` CCMD are now correct for extremely large maps.
 
 ---
 

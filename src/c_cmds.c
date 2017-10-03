@@ -2824,8 +2824,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 max_y = y;
         }
 
-        width = ((max_x - min_x) >> FRACBITS) / UNITSPERFOOT;
-        height = ((max_y - min_y) >> FRACBITS) / UNITSPERFOOT;
+        width = ((max_x >> FRACBITS) - (min_x >> FRACBITS)) / UNITSPERFOOT;
+        height = ((max_y >> FRACBITS) - (min_y >> FRACBITS)) / UNITSPERFOOT;
 
         for (int i = 0; i < numsectors; i++)
         {
@@ -2836,7 +2836,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 min_f = sectors[i].floorheight;
         }
 
-        depth = ((max_c - min_f) >> FRACBITS) / UNITSPERFOOT;
+        depth = ((max_c >> FRACBITS) - (min_f >> FRACBITS)) / UNITSPERFOOT;
 
         if (units == units_metric)
         {
