@@ -1015,6 +1015,7 @@ static void M_LoadSelect(int choice)
         I_WaitVBL(2 * TICRATE);
         functionkey = 0;
         quickSaveSlot = choice;
+        vibrate = false;
         M_ClearMenus();
         G_LoadGame(name);
     }
@@ -1667,6 +1668,7 @@ static void M_VerifyNightmare(int key)
         S_StartSound(NULL, sfx_swtchx);
         I_WaitVBL(2 * TICRATE);
         quickSaveSlot = -1;
+        vibrate = false;
         M_ClearMenus();
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
     }
@@ -1692,6 +1694,7 @@ static void M_ChooseSkill(int choice)
     S_StartSound(NULL, sfx_pistol);
     I_WaitVBL(2 * TICRATE);
     quickSaveSlot = -1;
+    vibrate = false;
     M_ClearMenus();
     G_DeferredInitNew((skill_t)choice, epi + 1, 1);
 }
