@@ -194,7 +194,7 @@ gameaction_t    loadaction = ga_nothing;
 unsigned int    stat_mapscompleted;
 
 extern dboolean alwaysrun;
-extern dboolean explosiontics;
+extern dboolean barreltics;
 extern int      st_palette;
 extern int      pagetic;
 extern dboolean transferredsky;
@@ -992,7 +992,7 @@ void G_Ticker(void)
                 {
                     S_PauseSound();
 
-                    if ((gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
+                    if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
                     {
                         restoremotorspeed = idlemotorspeed;
                         idlemotorspeed = 0;
@@ -1008,7 +1008,7 @@ void G_Ticker(void)
                     S_ResumeSound();
                     S_StartSound(NULL, sfx_swtchx);
 
-                    if ((gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
+                    if ((gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons) && vibrate)
                     {
                         idlemotorspeed = restoremotorspeed;
                         XInputVibration(idlemotorspeed);
@@ -1118,7 +1118,7 @@ void G_PlayerReborn(void)
 
     markpointnum = 0;
     infight = false;
-    explosiontics = 0;
+    barreltics = 0;
 }
 
 //

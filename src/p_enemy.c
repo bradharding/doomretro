@@ -41,6 +41,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "i_gamepad.h"
 #include "m_bbox.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -84,10 +85,10 @@ static dirtype_t diags[] =
     DI_SOUTHEAST
 };
 
-#define EXPLOSIONTICS   (2 * TICRATE)
-#define EXPLOSIONRANGE  (512 * FRACUNIT)
+#define BARRELTICS  (2 * TICRATE)
+#define BARRELRANGE (512 * FRACUNIT)
 
-int explosiontics;
+int barreltics;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
@@ -1777,8 +1778,16 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (r_shake_barrels && actor->type == MT_BARREL)
     {
         if (viewplayer->mo->z <= viewplayer->mo->floorz
-            && P_ApproxDistance(actor->x - viewplayer->mo->x, actor->y - viewplayer->mo->y) < EXPLOSIONRANGE)
-            explosiontics = EXPLOSIONTICS;
+            && P_ApproxDistance(actor->x - viewplayer->mo->x, actor->y - viewplayer->mo->y) < BARRELRANGE)
+        {
+            barreltics = BARRELTICS;
+
+            if (gp_vibrate_barrels)
+            {
+                XInputVibration(20000 * gp_vibrate_barrels / 100);
+                barrelvibrationtics = TICRATE;
+            }
+        }
     }
 
     P_RadiusAttack(actor, actor->target, 128);

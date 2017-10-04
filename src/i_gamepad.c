@@ -60,6 +60,7 @@ float               gp_deadzone_left = gp_deadzone_left_default;
 float               gp_deadzone_right = gp_deadzone_right_default;
 dboolean            gp_invertyaxis = gp_invertyaxis_default;
 dboolean            gp_swapthumbsticks = gp_swapthumbsticks_default;
+int                 gp_vibrate_barrels = gp_vibrate_barrels_default;
 int                 gp_vibrate_damage = gp_vibrate_damage_default;
 int                 gp_vibrate_weapons = gp_vibrate_weapons_default;
 
@@ -75,6 +76,7 @@ short               gamepadleftdeadzone;
 short               gamepadrightdeadzone;
 
 dboolean            vibrate = false;
+int                 barrelvibrationtics = 0;
 int                 damagevibrationtics = 0;
 int                 weaponvibrationtics = 0;
 int                 idlemotorspeed;
@@ -316,12 +318,16 @@ void I_PollXInputGamepad(void)
             | ((Gamepad.bLeftTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 10)
             | ((Gamepad.bRightTrigger >= XINPUT_GAMEPAD_TRIGGER_THRESHOLD) << 11));
 
-        if (damagevibrationtics)
-            if (!--damagevibrationtics && !weaponvibrationtics)
+        if (weaponvibrationtics)
+            if (!--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
                 XInputVibration(idlemotorspeed);
 
-        if (weaponvibrationtics)
-            if (!--weaponvibrationtics && !damagevibrationtics)
+        if (damagevibrationtics)
+            if (!--damagevibrationtics && !weaponvibrationtics && !barrelvibrationtics)
+                XInputVibration(idlemotorspeed);
+
+        if (barrelvibrationtics)
+            if (!--barrelvibrationtics && !weaponvibrationtics && !damagevibrationtics)
                 XInputVibration(idlemotorspeed);
 
         if (gamepadbuttons)

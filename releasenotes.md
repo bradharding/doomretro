@@ -6,6 +6,7 @@
 * The vertical sensitivity of the gamepad’s right thumbstick has been reduced slightly when the `mouselook` CVAR is `on`.
 * The spectre’s shadow will now pause if the console is opened during *DOOM II’s* cast sequence.
 * Improvements have been made to the console’s autocomplete feature.
+* *XInput*-compatible gamepads will now vibrate when the player is close to an exploding barrel. The amount of vibration can be controlled with the new `gp_vibrate_barrels` CVAR, which can be a value between `0%` and `200%`, and is `100%` by default.
 
 ---
 

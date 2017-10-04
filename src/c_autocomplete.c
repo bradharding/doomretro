@@ -5025,6 +5025,7 @@ char autocompletelist[][255] =
     "gp_swapthumbsticks on",
     "gp_swapthumbsticks true",
     "gp_swapthumbsticks yes",
+    "gp_vibrate_barrels ",
     "gp_vibrate_damage ",
     "gp_vibrate_weapons ",
     "health ",

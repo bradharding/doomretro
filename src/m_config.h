@@ -182,6 +182,10 @@ enum
 
 #define gp_swapthumbsticks_default              false
 
+#define gp_vibrate_barrels_min                  0
+#define gp_vibrate_barrels_default              100
+#define gp_vibrate_barrels_max                  200
+
 #define gp_vibrate_damage_min                   0
 #define gp_vibrate_damage_default               100
 #define gp_vibrate_damage_max                   200
