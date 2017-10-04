@@ -1782,7 +1782,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             barreltics = BARRELTICS;
 
-            if (gp_vibrate_barrels)
+            if (gp_vibrate_barrels && vibrate)
             {
                 XInputVibration(20000 * gp_vibrate_barrels / 100);
                 barrelvibrationtics = TICRATE;
