@@ -70,7 +70,7 @@
 #define MAXUPSCALEHEIGHT    (1200 / ORIGINALHEIGHT)
 
 #define I_SDLError(func)    I_Error("The call to "func"() failed in %s on line %i of %s with the error:\n" \
-                            "\"%s\".", __FUNCTION__, (__LINE__ - 1), leafname(__FILE__), SDL_GetError())
+                            "\"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
 #if !defined(SDL_VIDEO_RENDER_D3D11)
 #define SDL_VIDEO_RENDER_D3D11  0
@@ -925,14 +925,17 @@ static void nullfunc(void) {}
 
 void I_UpdateBlitFunc(dboolean shake)
 {
-    if (shake && !software)
-        blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS_Shake :
-            I_Blit_ShowFPS_Shake) : (nearestlinear ? I_Blit_NearestLinear_Shake : I_Blit_Shake));
-    else
-        blitfunc = (vid_showfps ? (nearestlinear ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
-            (nearestlinear ? I_Blit_NearestLinear : I_Blit));
+    dboolean    override = (vid_fullscreen && !(displayheight % ORIGINALHEIGHT));
 
-    mapblitfunc = (mapwindow ? (nearestlinear ? I_Blit_Automap_NearestLinear : I_Blit_Automap) : nullfunc);
+    if (shake && !software)
+        blitfunc = (vid_showfps ? (nearestlinear && !override ? I_Blit_NearestLinear_ShowFPS_Shake :
+            I_Blit_ShowFPS_Shake) : (nearestlinear && !override ? I_Blit_NearestLinear_Shake : I_Blit_Shake));
+    else
+        blitfunc = (vid_showfps ? (nearestlinear && !override ? I_Blit_NearestLinear_ShowFPS : I_Blit_ShowFPS) :
+            (nearestlinear && !override ? I_Blit_NearestLinear : I_Blit));
+
+    mapblitfunc = (mapwindow ? (nearestlinear && !override ? I_Blit_Automap_NearestLinear : I_Blit_Automap) :
+        nullfunc);
 }
 
 //
@@ -1723,6 +1726,9 @@ void I_ToggleFullscreen(void)
 
     vid_fullscreen = fullscreen;
     M_SaveCVARs();
+
+    if (nearestlinear)
+        I_UpdateBlitFunc(!!viewplayer->damagecount);
 
     if (vid_fullscreen)
         C_StrCVAROutput(stringize(vid_fullscreen), "on");
