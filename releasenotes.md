@@ -8,6 +8,7 @@
 * Improvements have been made to the console’s autocomplete feature.
 * *XInput*-compatible gamepads will now vibrate when the player is near an exploding barrel. The amount of vibration can be specified using the new `gp_vibrate_barrels` CVAR, which can be a value between `0%` and `200%` and is `100%` by default.
 * A bug has been fixed whereby a gamepad could continue to vibrate if the player had the chainsaw selected and then used the gamepad to start a new game or load an existing one from the menu.
+* The `vid_scalefilter` CVAR will now affect the external automap correctly when the `am_external` CVAR is `on`.
 
 ---
 
