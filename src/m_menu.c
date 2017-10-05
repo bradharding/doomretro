@@ -53,6 +53,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -146,7 +147,6 @@ extern dboolean message_dontfuckwithme;
 extern int      st_palette;
 
 extern dboolean dowipe;
-extern dboolean r_hud;
 
 extern dboolean splashscreen;
 

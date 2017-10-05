@@ -38,8 +38,10 @@
 
 #include <string.h>
 
-#include "i_system.h"
+#include "c_cmds.h"
 #include "doomstat.h"
+#include "i_system.h"
+#include "m_config.h"
 #include "p_local.h"
 
 static unsigned int maxdrawsegs;
@@ -99,10 +101,6 @@ dboolean            r_brightmaps = r_brightmaps_default;
 
 extern int          *openings;          // dropoff overflow
 extern fixed_t      animatedliquiddiff;
-extern dboolean     r_dither;
-extern dboolean     r_liquid_bob;
-extern dboolean     r_textures;
-extern dboolean     r_translucency;
 extern dboolean     usebrightmaps;
 
 //

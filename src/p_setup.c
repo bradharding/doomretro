@@ -47,6 +47,7 @@
 #include "i_system.h"
 #include "m_argv.h"
 #include "m_bbox.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"

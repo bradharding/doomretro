@@ -46,6 +46,7 @@
 #include <X11/XKBlib.h>
 #endif
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -201,9 +202,6 @@ int                 m_threshold = m_threshold_default;
 
 static dboolean     capslock;
 dboolean            alwaysrun = alwaysrun_default;
-
-extern dboolean     am_external;
-extern int          r_shake_damage;
 
 extern int          st_palette;
 extern dboolean     togglingvanilla;

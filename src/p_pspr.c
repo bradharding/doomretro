@@ -39,6 +39,7 @@
 #include "d_event.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -75,7 +76,6 @@ static const int recoilvalues[] = {
 
 extern dboolean canmouselook;
 extern dboolean hitwall;
-extern int      stillbob;
 extern dboolean usemouselook;
 
 void P_CheckMissileSpawn(mobj_t *th);

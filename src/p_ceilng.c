@@ -204,6 +204,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     case genSilentCrusher:
                         if (ceiling->oldspeed < CEILSPEED * 3)
                             ceiling->speed = CEILSPEED / 8;
+
                         break;
 
                     case silentCrushAndRaise:

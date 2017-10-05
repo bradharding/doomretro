@@ -92,7 +92,6 @@ void I_SetGamma(float value);
 
 extern dboolean     sendpause;
 extern dboolean     quitting;
-extern int          r_screensize;
 
 extern int          keydown;
 
@@ -102,7 +101,6 @@ extern dboolean     idbehold;
 extern dboolean     message_clearable;
 
 extern int          gammaindex;
-extern float        r_gamma;
 extern const float  gammalevels[GAMMALEVELS];
 
 extern dboolean     blurred;
@@ -111,10 +109,6 @@ extern dboolean     noinput;
 
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
-
-extern dboolean     vid_fullscreen;
-extern int          vid_motionblur;
-extern dboolean     vid_showfps;
 
 extern int          windowx;
 extern int          windowy;

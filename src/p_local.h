@@ -40,7 +40,6 @@
 #define __P_LOCAL_H__
 
 #include "d_main.h"
-#include "m_config.h"
 #include "r_local.h"
 
 #define FOOTCLIPSIZE        (10 * FRACUNIT)
@@ -113,15 +112,6 @@ void P_ResurrectPlayer(player_t *player, int health);
 
 #define CARDNOTFOUNDYET     -1
 #define CARDNOTINMAP        0
-
-extern int          r_blood;
-extern int          r_bloodsplats_total;
-extern int          r_bloodsplats_max;
-
-extern dboolean     r_corpses_mirrored;
-extern dboolean     r_corpses_moreblood;
-extern dboolean     r_corpses_slide;
-extern dboolean     r_corpses_smearblood;
 
 extern mapthing_t   itemrespawnque[ITEMQUEUESIZE];
 extern int          itemrespawntime[ITEMQUEUESIZE];

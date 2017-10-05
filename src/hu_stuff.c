@@ -39,6 +39,7 @@
 #include <ctype.h>
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -101,10 +102,6 @@ dboolean                r_hud_translucency = r_hud_translucency_default;
 static patch_t          *stdisk;
 static short            stdiskwidth;
 dboolean                drawdisk;
-
-extern dboolean         messages;
-extern dboolean         r_messagescale;
-extern dboolean         vid_widescreen;
 
 extern int              cardsfound;
 extern patch_t          *tallnum[10];

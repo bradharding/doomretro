@@ -51,10 +51,10 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
-#include "p_local.h"
 #include "s_sound.h"
 #include "sc_man.h"
 #include "SDL_image.h"
@@ -166,7 +166,6 @@ extern char             autocompletelist[][255];
 extern int              fps;
 extern int              refreshrate;
 extern dboolean         dowipe;
-extern dboolean         r_hud_translucency;
 extern dboolean         togglingvanilla;
 
 void G_ToggleAlwaysRun(evtype_t type);

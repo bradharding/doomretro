@@ -50,8 +50,6 @@
 #define MAX_MUSIC_VOLUME    MIX_MAX_VOLUME
 #define MAX_SFX_VOLUME      MIX_MAX_VOLUME
 
-extern dboolean s_randompitch;
-
 dboolean I_InitSound(void);
 void I_ShutdownSound(void);
 int I_GetSfxLumpNum(sfxinfo_t *sfx);

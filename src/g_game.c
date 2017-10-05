@@ -43,6 +43,7 @@
 #endif
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -52,6 +53,7 @@
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -193,7 +195,6 @@ gameaction_t    loadaction = ga_nothing;
 
 unsigned int    stat_mapscompleted;
 
-extern dboolean alwaysrun;
 extern dboolean barreltics;
 extern int      st_palette;
 extern int      pagetic;
@@ -201,9 +202,6 @@ extern dboolean transferredsky;
 
 extern int      timer;
 extern int      countdown;
-
-extern int      r_skycolor;
-extern dboolean r_textures;
 
 void G_RemoveChoppers(void)
 {

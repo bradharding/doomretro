@@ -99,22 +99,13 @@ void M_StartMessage(char *string, void *routine, dboolean input);
 
 extern dboolean messageToPrint;
 
-extern int      r_screensize;
 extern int      gamepadmenu;
 extern dboolean nomusic;
 extern dboolean nosound;
 extern dboolean nosfx;
 extern dboolean firstevent;
 extern byte     grays[256];
-extern int      s_musicvolume;
-extern int      s_sfxvolume;
-extern dboolean vid_widescreen;
-extern dboolean r_hud;
 extern dboolean returntowidescreen;
-extern int      episode;
-extern int      expansion;
-extern int      savegame;
-extern int      skilllevel;
 extern dboolean startingnewgame;
 
 #endif

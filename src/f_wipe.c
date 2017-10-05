@@ -39,6 +39,7 @@
 #include "doomtype.h"
 #include "f_wipe.h"
 #include "i_video.h"
+#include "m_config.h"
 #include "m_random.h"
 #include "v_video.h"
 #include "z_zone.h"

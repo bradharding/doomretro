@@ -43,6 +43,7 @@
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_timer.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -123,9 +124,6 @@ unsigned int    stat_monsterskilled_spidermasterminds;
 unsigned int    stat_monsterskilled_zombiemen;
 
 extern int      idclevtics;
-extern char     *playername;
-extern dboolean r_althud;
-extern dboolean r_hud;
 
 static void P_AddAmmo(player_t *player, ammotype_t ammo, int num)
 {

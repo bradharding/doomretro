@@ -40,6 +40,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_system.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_saveg.h"
@@ -51,10 +52,6 @@
 #define SAVEGAME_EOF    0x1D
 
 FILE    *save_stream;
-
-extern dboolean mouselook;
-extern dboolean r_shadows_translucency;
-extern dboolean r_textures;
 
 // Get the filename of a temporary file to write the savegame to. After
 // the file has been successfully saved, it will be renamed to the

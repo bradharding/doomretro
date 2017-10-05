@@ -43,6 +43,7 @@
 #include "g_game.h"
 #include "i_gamepad.h"
 #include "m_bbox.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_inter.h"
@@ -91,11 +92,6 @@ static dirtype_t diags[] =
 int barreltics;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
-
-extern dboolean     con_obituaries;
-extern dboolean     r_rockettrails;
-extern dboolean     r_shake_barrels;
-extern unsigned int stat_monsterskilled;
 
 //
 // ENEMY THINKING

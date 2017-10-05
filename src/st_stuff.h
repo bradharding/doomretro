@@ -70,7 +70,6 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
-extern dboolean vid_widescreen;
 extern dboolean returntowidescreen;
 
 extern patch_t  *grnrock;

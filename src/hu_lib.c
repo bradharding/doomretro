@@ -40,6 +40,7 @@
 #include <string.h>
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "hu_lib.h"
@@ -54,10 +55,6 @@ int             r_messagescale = r_messagescale_default;
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
 extern int      white;
-
-extern dboolean r_althud;
-extern dboolean r_hud_translucency;
-extern dboolean vid_widescreen;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
 {

@@ -82,7 +82,6 @@ extern mpoint_t *markpoints;
 extern int      markpointnum;
 extern int      markpointnum_max;
 
-extern dboolean am_path;
 extern mpoint_t *pathpoints;
 extern int      pathpointnum;
 extern int      pathpointnum_max;

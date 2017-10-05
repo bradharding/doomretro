@@ -96,9 +96,8 @@ static const byte redtoyellow[] =
 
 static const int    _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
-extern int      fuzztable[SCREENWIDTH * SCREENHEIGHT];
-extern dboolean r_hud_translucency;
-extern dboolean vanilla;
+extern int          fuzztable[SCREENWIDTH * SCREENHEIGHT];
+extern dboolean     vanilla;
 
 //
 // V_CopyRect
@@ -1449,7 +1448,6 @@ char            lbmname2[MAX_PATH];
 char            lbmpath1[MAX_PATH];
 char            lbmpath2[MAX_PATH];
 
-extern dboolean vid_widescreen;
 extern dboolean inhelpscreens;
 extern char     maptitle[128];
 extern dboolean splashscreen;

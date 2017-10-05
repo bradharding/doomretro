@@ -44,6 +44,7 @@ void I_ShutdownWindows32(void);
 #include <unistd.h>
 #endif
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
@@ -53,7 +54,6 @@ void I_ShutdownWindows32(void);
 #include "s_sound.h"
 #include "version.h"
 
-extern dboolean vid_widescreen;
 extern dboolean returntowidescreen;
 
 #if defined(_WIN32)

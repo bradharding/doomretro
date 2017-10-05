@@ -39,6 +39,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_timer.h"
+#include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "r_sky.h"
@@ -132,7 +133,6 @@ extern int          barreltics;
 extern dboolean     transferredsky;
 extern dboolean     vanilla;
 extern lighttable_t **walllights;
-extern dboolean     weaponrecoil;
 
 //
 // R_PointOnSide

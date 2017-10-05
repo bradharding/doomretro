@@ -44,6 +44,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_swap.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -404,8 +405,6 @@ static const int mus[IDMUS_MAX][6] =
 // STATUS BAR CODE
 //
 static int ST_calcPainOffset(void);
-
-extern int  r_detail;
 
 static void ST_refreshBackground(void)
 {

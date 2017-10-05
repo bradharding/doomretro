@@ -41,6 +41,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "m_argv.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"

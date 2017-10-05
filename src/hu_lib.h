@@ -120,6 +120,5 @@ extern dboolean idbehold;
 extern dboolean s_STSTR_BEHOLD2;
 extern byte     *tempscreen;
 extern byte     *tinttab50;
-extern int      r_screensize;
 
 #endif

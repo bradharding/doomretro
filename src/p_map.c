@@ -39,6 +39,7 @@
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_bbox.h"
+#include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "s_sound.h"
@@ -87,11 +88,8 @@ static mobj_t       *onmobj;
 
 unsigned int        stat_distancetraveled;
 
-extern dboolean     r_liquid_bob;
-extern dboolean     r_corpses_nudge;
 extern dboolean     successfulshot;
 extern dboolean     telefragonmap30;
-extern unsigned int stat_shotshit;
 
 //
 // TELEPORT MOVE

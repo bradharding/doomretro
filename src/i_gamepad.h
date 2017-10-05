@@ -94,13 +94,6 @@ extern float    gamepadsensitivity;
 extern short    gamepadleftdeadzone;
 extern short    gamepadrightdeadzone;
 
-extern dboolean gp_invertyaxis;
-extern int      gp_sensitivity;
-extern dboolean gp_swapthumbsticks;
-extern int      gp_vibrate_barrels;
-extern int      gp_vibrate_damage;
-extern int      gp_vibrate_weapons;
-
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
 void I_PollDirectInputGamepad(void);

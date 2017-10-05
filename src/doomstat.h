@@ -159,7 +159,6 @@ extern int              musicVolume;
 //
 
 extern dboolean         automapactive;  // In automap mode?
-extern dboolean         am_followmode;  // Following player in automap mode?
 extern dboolean         menuactive;     // Menu overlaid?
 extern dboolean         paused;         // Game Pause?
 
@@ -212,9 +211,6 @@ extern char             *savegamefolder;
 // wipegamestate can be set to -1
 //  to force a wipe on the next draw
 extern gamestate_t      wipegamestate;
-
-extern int              m_sensitivity;
-extern int              gp_sensitivity;
 
 // Needed to store the number of the dummy sky flat.
 // Used for rendering,

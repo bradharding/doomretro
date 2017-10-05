@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_tick.h"

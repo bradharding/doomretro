@@ -60,6 +60,7 @@
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_argv.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
@@ -143,9 +144,6 @@ static int          startuptimer;
 dboolean            realframe;
 static dboolean     error;
 
-extern dboolean     alwaysrun;
-extern unsigned int stat_cheated;
-
 //
 // EVENT HANDLING
 //
@@ -198,7 +196,6 @@ gamestate_t         wipegamestate = GS_TITLESCREEN;
 
 extern dboolean     setsizeneeded;
 extern dboolean     message_on;
-extern int          r_detail;
 extern gameaction_t loadaction;
 
 void R_ExecuteSetViewSize(void);

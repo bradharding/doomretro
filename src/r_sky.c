@@ -37,6 +37,7 @@
 */
 
 #include "doomstat.h"
+#include "m_config.h"
 #include "p_setup.h"
 #include "r_data.h"
 #include "r_main.h"
@@ -55,7 +56,6 @@ int             skyscrolldelta;
 fixed_t         skyiscale;
 
 extern dboolean canmouselook;
-extern dboolean mouselook;
 
 void R_InitSkyMap(void)
 {

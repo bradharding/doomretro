@@ -45,6 +45,7 @@
 #include "i_system.h"
 #include "m_argv.h"
 #include "m_bbox.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -120,7 +121,6 @@ static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
 static void P_SpawnPushers(void);       // phares 3/20/98
 
-extern char     *playername;
 extern int      numflats;
 extern dboolean canmodify;
 

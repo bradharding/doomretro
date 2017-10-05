@@ -37,6 +37,7 @@
 */
 
 #include "c_console.h"
+#include "m_config.h"
 #include "m_random.h"
 #include "r_local.h"
 #include "st_stuff.h"
@@ -144,7 +145,6 @@ int             dc_ceilingclip;
 byte            *dc_source;
 
 extern int      fuzzpos;
-extern int      r_skycolor;
 
 //
 // A column is a vertical slice/span from a wall texture that,

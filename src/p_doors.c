@@ -39,14 +39,12 @@
 #include "d_deh.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
 #include "z_zone.h"
-
-extern dboolean r_hud;
-extern char     *playername;
 
 static void T_GradualLightingToDoor(vldoor_t *door)
 {

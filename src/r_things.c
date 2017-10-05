@@ -41,6 +41,7 @@
 #include "i_colors.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_config.h"
 #include "p_local.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -92,12 +93,6 @@ extern fixed_t          animatedliquiddiff;
 extern dboolean         drawbloodsplats;
 extern dboolean         inhelpscreens;
 extern dboolean         notranslucency;
-extern dboolean         r_corpses_color;
-extern dboolean         r_fixspriteoffsets;
-extern dboolean         r_liquid_bob;
-extern dboolean         r_shadows;
-extern dboolean         r_textures;
-extern dboolean         r_translucency;
 extern dboolean         skippsprinterp;
 extern dboolean         SHT2A0;
 

@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
+#include "m_config.h"
 #include "p_local.h"
 #include "s_sound.h"
 
@@ -49,7 +50,6 @@
 extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
 extern dboolean gamekeydown[NUMKEYS];
-extern dboolean r_liquid_bob;
 extern dboolean skipaction;
 extern dboolean usemouselook;
 

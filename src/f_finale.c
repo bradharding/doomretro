@@ -44,6 +44,7 @@
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -76,16 +77,12 @@ static void F_StartCast(void);
 static void F_CastTicker(void);
 static dboolean F_CastResponder(event_t *ev);
 
-void WI_checkForAccelerate(void);               // killough 3/28/98: used to
+void WI_checkForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 static int              midstage;               // whether we're in "mid-stage"
 
 extern int              acceleratestage;        // accelerate intermission screens
-
-extern dboolean         r_shadows;
-extern dboolean         r_shadows_translucency;
-extern dboolean         r_translucency;
 
 //
 // F_StartFinale
@@ -445,8 +442,6 @@ static int      castonmelee;
 static dboolean castattacking;
 
 dboolean        firstevent;
-
-extern char *playername;
 
 //
 // F_StartCast

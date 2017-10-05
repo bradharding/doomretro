@@ -41,6 +41,7 @@
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_system.h"
+#include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
@@ -74,12 +75,6 @@ static fixed_t floatbobdiffs[64] =
 };
 
 extern fixed_t      animatedliquiddiffs[64];
-extern dboolean     r_liquid_bob;
-extern dboolean     r_liquid_clipsprites;
-extern dboolean     r_liquid_lowerview;
-extern dboolean     r_mirroredweapons;
-extern dboolean     r_textures;
-extern dboolean     r_shadows_translucency;
 extern msecnode_t   *sector_list;   // phares 3/16/98
 extern dboolean     usemouselook;
 

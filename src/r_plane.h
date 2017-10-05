@@ -49,7 +49,6 @@ extern int      ceilingclip[];
 extern fixed_t  *yslope;
 extern fixed_t  yslopes[LOOKDIRS][SCREENHEIGHT];
 extern dboolean markceiling;
-extern dboolean r_brightmaps;
 
 void R_ClearPlanes(void);
 void R_DrawPlanes(void);
