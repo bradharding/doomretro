@@ -44,20 +44,17 @@
 #endif
 
 #if !defined(MAX_PATH)
-#define MAX_PATH            260
+#define MAX_PATH    260
 #endif
 
 typedef struct wadfile_s wadfile_t;
 
 struct wadfile_s
 {
-    FILE                *fstream;
-
-    dboolean            freedoom;
-
-    char                path[MAX_PATH];
-
-    int                 type;
+    FILE        *fstream;
+    dboolean    freedoom;
+    char        path[MAX_PATH];
+    int         type;
 };
 
 // Open the specified file. Returns a pointer to a new wadfile_t
