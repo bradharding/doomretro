@@ -344,61 +344,54 @@ dboolean P_GiveAllWeapons(player_t *player)
 {
     dboolean    result = false;
 
-    if (!oldweaponsowned[wp_shotgun])
+    if (!player->weaponowned[wp_shotgun])
     {
         result = true;
         player->weaponowned[wp_shotgun] = true;
-        oldweaponsowned[wp_shotgun] = true;
     }
 
-    if (!oldweaponsowned[wp_chaingun])
+    if (!player->weaponowned[wp_chaingun])
     {
         result = true;
         player->weaponowned[wp_chaingun] = true;
-        oldweaponsowned[wp_chaingun] = true;
     }
 
-    if (!oldweaponsowned[wp_missile])
+    if (!player->weaponowned[wp_missile])
     {
         result = true;
         player->weaponowned[wp_missile] = true;
-        oldweaponsowned[wp_missile] = true;
     }
 
     if (gamemode != shareware)
     {
-        if (!oldweaponsowned[wp_plasma])
+        if (!player->weaponowned[wp_plasma])
         {
             result = true;
             player->weaponowned[wp_plasma] = true;
-            oldweaponsowned[wp_plasma] = true;
         }
 
-        if (!oldweaponsowned[wp_bfg])
+        if (!player->weaponowned[wp_bfg])
         {
             result = true;
             player->weaponowned[wp_bfg] = true;
-            oldweaponsowned[wp_bfg] = true;
         }
     }
 
-    if (!oldweaponsowned[wp_chainsaw])
+    if (!player->weaponowned[wp_chainsaw])
     {
         result = true;
         player->weaponowned[wp_chainsaw] = true;
-        oldweaponsowned[wp_chainsaw] = true;
         player->fistorchainsaw = wp_chainsaw;
 
         if (player->readyweapon == wp_fist)
             player->pendingweapon = wp_chainsaw;
     }
 
-    if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
+    if (gamemode == commercial && !player->weaponowned[wp_supershotgun])
     {
         player->preferredshotgun = wp_supershotgun;
         result = true;
         player->weaponowned[wp_supershotgun] = true;
-        oldweaponsowned[wp_supershotgun] = true;
 
         if (player->readyweapon == wp_shotgun)
             player->pendingweapon = wp_supershotgun;
