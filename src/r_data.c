@@ -38,6 +38,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "i_colors.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_config.h"
@@ -526,8 +527,6 @@ static void R_InitSpriteLumps(void)
 //
 // killough 4/4/98: Add support for C_START/C_END markers
 //
-int FindNearestColor(byte *palette, int red, int green, int blue);
-
 byte grays[256];
 
 static void R_InitColormaps(void)

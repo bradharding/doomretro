@@ -51,6 +51,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_system.h"
 #include "m_cheat.h"
@@ -270,6 +271,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms);
 
 static dboolean bool_cvars_func1(char *cmd, char *parms);
 static void bool_cvars_func2(char *cmd, char *parms);
+static dboolean color_cvars_func1(char *cmd, char *parms);
 static void color_cvars_func2(char *cmd, char *parms);
 static dboolean float_cvars_func1(char *cmd, char *parms);
 static void float_cvars_func2(char *cmd, char *parms);
@@ -396,48 +398,48 @@ consolecmd_t consolecmds[] =
         "Creates an <i>alias</i> that executes a string of <i>commands</i>."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player always running when they move."),
-    CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with a change in ceiling height in\nthe automap when the player has the computer area\nmap power-up (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with a change in floor height in the\nautomap when the player has the computer area map\npower-up (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of solid walls in the automap when the\nplayer has the computer area map power-up (<b>0</b> to\n<b>255</b>)."),
-    CVAR_INT(am_backcolor, am_backcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of the automap's background (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(am_cdwallcolor, am_cdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with a change in ceiling height in\nthe automap (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(am_crosshaircolor, am_crosshaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of the crosshair in the automap (<b>0</b> to <b>255</b>)."),
+    CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of lines with a change in ceiling height in\nthe automap when the player has the computer area\nmap power-up (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of lines with a change in floor height in the\nautomap when the player has the computer area map\npower-up (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of solid walls in the automap when the\nplayer has the computer area map power-up (<b>0</b> to\n<b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_backcolor, am_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of the automap's background (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_cdwallcolor, am_cdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of lines with a change in ceiling height in\nthe automap (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_crosshaircolor, am_crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of the crosshair in the automap (<b>0</b> to <b>255</b>,\nor <b>#</b><i>rrggbb</i>)."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the automap on an external display."),
-    CVAR_INT(am_fdwallcolor, am_fdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with a change in floor height in the\nautomap (<b>0</b> to <b>255</b>)."),
+    CVAR_INT(am_fdwallcolor, am_fdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of lines with a change in floor height in the\nautomap (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CVAR_BOOL(am_followmode, "", am_followmode_cvar_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the grid in the automap."),
-    CVAR_INT(am_gridcolor, am_gridcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of the grid in the automap (<b>0</b> to <b>255</b>)."),
+    CVAR_INT(am_gridcolor, am_gridcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of the grid in the automap (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
     CVAR_SIZE(am_gridsize, "", null_func1, am_gridsize_cvar_func2,
         "The size of the grid in the automap (<i>width</i><b>\xD7</b><i>height</i>)."),
-    CVAR_INT(am_markcolor, am_markcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of marks in the automap (<b>0</b> to <b>255</b>)."),
+    CVAR_INT(am_markcolor, am_markcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of marks in the automap (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
     CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player's path in the automap."),
-    CVAR_INT(am_pathcolor, am_pathcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of the player's path in the automap (<b>0</b> to\n<b>255</b>)."),
-    CVAR_INT(am_playercolor, am_playercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of the player in the automap (<b>0</b> to <b>255</b>)."),
+    CVAR_INT(am_pathcolor, am_pathcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of the player's path in the automap (<b>0</b> to\n<b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_playercolor, am_playercolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of the player in the automap (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
     CVAR_BOOL(am_rotatemode, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles rotate mode in the automap."),
-    CVAR_INT(am_teleportercolor, am_teleportercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of teleporters in the automap (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(am_thingcolor, am_thingcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of things in the automap (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(am_tswallcolor, am_tswallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines with no change in height in the\nautomap (<b>0</b> to <b>255</b>)."),
-    CVAR_INT(am_wallcolor, am_wallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of solid walls in the automap (<b>0</b> to <b>255</b>)."),
+    CVAR_INT(am_teleportercolor, am_teleportercolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of teleporters in the automap (<b>0</b> to <b>255</b>,\nor <b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_thingcolor, am_thingcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of things in the automap (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_tswallcolor, am_tswallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of lines with no change in height in the\nautomap (<b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
+    CVAR_INT(am_wallcolor, am_wallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of solid walls in the automap (<b>0</b> to <b>255</b>, or\n<b>#</b><i>rrggbb</i>)."),
     CVAR_INT(ammo, "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The amount of ammo for the player's currently\nselected weapon."),
     CVAR_INT(armor, armour, player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -472,8 +474,8 @@ consolecmd_t consolecmds[] =
         "Exits the current map."),
     CVAR_INT(expansion, "", int_cvars_func1, expansion_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected <i><b>DOOM II</b></i> expansion in the\nmenu (<b>1</b> or <b>2</b>)."),
-    CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, int_cvars_func2, CF_NONE, FACEBACKVALUEALIAS,
-        "The color behind the player's face in the status bar\n(<b>none</b>, or <b>0</b> to <b>255</b>)."),
+    CVAR_INT(facebackcolor, facebackcolour, color_cvars_func1, color_cvars_func2, CF_NONE, FACEBACKVALUEALIAS,
+        "The color behind the player's face in the status bar\n(<b>none</b>, <b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CMD(fastmonsters, "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
     CMD(freeze, "", null_func1, freeze_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
@@ -651,7 +653,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the screen shakes when the player is\nattacked."),
     CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYVALUEALIAS,
-        "The color of the sky (<b>none</b>, or <b>0</b> to <b>255</b>)."),
+        "The color of the sky (<b>none</b>, <b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, BOOLVALUEALIAS,
         "Toggles displaying all textures."),
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
@@ -3842,9 +3844,26 @@ static void bool_cvars_func2(char *cmd, char *parms)
 //
 // color CVARs
 //
+
+static dboolean color_cvars_func1(char *cmd, char *parms)
+{
+    return ((strlen(parms) == 7 && parms[0] == '#' && hextodec(M_SubString(parms, 1, 6)) >= 0)
+        || int_cvars_func1(cmd, parms));
+}
+
 static void color_cvars_func2(char *cmd, char *parms)
 {
-    int_cvars_func2(cmd, parms);
+    if (strlen(parms) == 7 && parms[0] == '#')
+    {
+        static char buffer[8];
+
+        M_snprintf(buffer, sizeof(buffer), "%i", FindNearestColor(W_CacheLumpName("PLAYPAL"),
+            hextodec(M_SubString(parms, 1, 2)), hextodec(M_SubString(parms, 3, 2)),
+            hextodec(M_SubString(parms, 5, 2))));
+        int_cvars_func2(cmd, buffer);
+    }
+    else
+        int_cvars_func2(cmd, parms);
 
     if (*parms)
         AM_setColors();
@@ -4815,7 +4834,7 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
 //
 static dboolean r_skycolor_cvar_func1(char *cmd, char *parms)
 {
-    return (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_none || int_cvars_func1(cmd, parms));
+    return (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_none || color_cvars_func1(cmd, parms));
 }
 
 static void r_skycolor_cvar_func2(char *cmd, char *parms)
@@ -4835,7 +4854,7 @@ static void r_skycolor_cvar_func2(char *cmd, char *parms)
     {
         const int   r_skycolor_old = r_skycolor;
 
-        int_cvars_func2(cmd, parms);
+        color_cvars_func2(cmd, parms);
 
         if (r_skycolor != r_skycolor_old)
             R_InitColumnFunctions();
