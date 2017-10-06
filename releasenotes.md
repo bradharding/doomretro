@@ -1,6 +1,7 @@
 ### DOOM Retro v2.5.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The icon of `doomretro.exe` has been redesigned.
 * Elevators now move smoothly when the `vid_capfps` CVAR is a value other than `35`.
 * The dimensions displayed by the `mapstats` CCMD are now correct for extremely large maps.
 * The vertical sensitivity of the gamepad’s right thumbstick has been reduced slightly when the `mouselook` CVAR is `on`.
