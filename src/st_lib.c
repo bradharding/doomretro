@@ -36,7 +36,6 @@
 ========================================================================
 */
 
-#include "c_cmds.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "m_config.h"

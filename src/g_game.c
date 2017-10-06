@@ -43,7 +43,6 @@
 #endif
 
 #include "am_map.h"
-#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"

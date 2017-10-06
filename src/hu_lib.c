@@ -40,7 +40,6 @@
 #include <string.h>
 
 #include "am_map.h"
-#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "hu_lib.h"

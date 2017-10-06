@@ -53,6 +53,7 @@
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_system.h"
+#include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"

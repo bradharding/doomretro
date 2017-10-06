@@ -46,7 +46,6 @@
 #include <X11/XKBlib.h>
 #endif
 
-#include "c_cmds.h"
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"

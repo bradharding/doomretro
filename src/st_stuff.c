@@ -44,6 +44,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_swap.h"
+#include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -93,7 +94,7 @@
 #define ST_GODFACE          (ST_NUMPAINFACES * ST_FACESTRIDE)
 #define ST_DEADFACE         (ST_GODFACE + 1)
 
-#define ST_FACESX           (chex ? 144 : 143)
+#define ST_FACESX           (143 + chex)
 #define ST_FACESY           168
 
 #define ST_FACEBACKX        (143 * SCREENSCALE)

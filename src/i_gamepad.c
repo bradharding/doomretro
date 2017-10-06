@@ -47,7 +47,6 @@ static XINPUTGETSTATE pXInputGetState;
 static XINPUTSETSTATE pXInputSetState;
 #endif
 
-#include "c_cmds.h"
 #include "c_console.h"
 #include "d_main.h"
 #include "hu_stuff.h"

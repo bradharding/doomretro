@@ -119,8 +119,7 @@ typedef struct
 
     unsigned int    widthmask;
 
-    // All the patches[patchcount]
-    //  are drawn back to front into the cached texture.
+    // All the patches[patchcount] are drawn back to front into the cached texture.
     short           patchcount;
     texpatch_t      patches[1];
 } texture_t;
@@ -133,8 +132,7 @@ void R_InitData(void);
 void R_PrecacheLevel(void);
 
 // Retrieval.
-// Floor/ceiling opaque texture tiles,
-// lookup by name. For animation?
+// Floor/ceiling opaque texture tiles, lookup by name. For animation?
 int R_FlatNumForName(char *name);
 int R_CheckFlatNumForName(char *name);
 

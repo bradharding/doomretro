@@ -39,8 +39,6 @@
 #if !defined(__ST_STUFF_H__)
 #define __ST_STUFF_H__
 
-#include "m_cheat.h"
-
 // Size of status bar.
 // Now sensitive for scaling.
 #define ST_WIDTH                SCREENWIDTH

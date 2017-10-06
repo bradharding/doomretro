@@ -78,20 +78,19 @@ extern int      validcount;
 #define OLDLIGHTSEGSHIFT    3
 #define OLDMAXLIGHTSCALE    48
 
-// killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
-extern lighttable_t     *(*scalelight)[MAXLIGHTSCALE];
-extern lighttable_t     *(*zlight)[MAXLIGHTZ];
-extern lighttable_t     *(*psprscalelight)[OLDMAXLIGHTSCALE];
-extern lighttable_t     *fullcolormap;
-extern int              numcolormaps;   // killough 4/4/98: dynamic number of maps
-extern lighttable_t     **colormaps;
-
-extern int              extralight;
-extern lighttable_t     *fixedcolormap;
-
 // Number of diminishing brightness levels.
 // There a 0-31, i.e. 32 LUT in the COLORMAP lump.
-#define NUMCOLORMAPS    32
+#define NUMCOLORMAPS        32
+
+// killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
+extern lighttable_t *(*scalelight)[MAXLIGHTSCALE];
+extern lighttable_t *(*zlight)[MAXLIGHTZ];
+extern lighttable_t *(*psprscalelight)[OLDMAXLIGHTSCALE];
+extern lighttable_t *fullcolormap;
+extern int          numcolormaps;   // killough 4/4/98: dynamic number of maps
+extern lighttable_t **colormaps;
+extern int          extralight;
+extern lighttable_t *fixedcolormap;
 
 // [AM] Fractional part of the current tic, in the half-open
 //      range of [0.0, 1.0). Used for interpolation.
@@ -133,14 +132,11 @@ void (*supershotguncolfunc)(void);
 //
 // Utility functions.
 int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node);
-
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line);
-
 angle_t R_PointToAngle(fixed_t x, fixed_t y);
 angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y);
 angle_t R_PointToAngleEx(fixed_t x, fixed_t y);
 angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y);
-
 subsector_t *R_PointInSubsector(fixed_t x, fixed_t y);
 
 //
