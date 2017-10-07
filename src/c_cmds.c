@@ -3845,17 +3845,51 @@ static void bool_cvars_func2(char *cmd, char *parms)
 // color CVARs
 //
 
+static struct
+{
+    char    *name;
+    int     value;
+} color[] = {
+    { "black",       0 }, { "blue",      207 }, { "brick",      32 }, { "brown",      64 },
+    { "cream",      48 }, { "darkbrown",  79 }, { "darkgray",  111 }, { "darkgrey",  111 },
+    { "darkgreen", 127 }, { "darkred",   191 }, { "gold",      163 }, { "gray",       95 },
+    { "grey",       95 }, { "green",     112 }, { "lightblue", 193 }, { "olive",     152 },
+    { "orange",    216 }, { "purple",    254 }, { "red",       176 }, { "tan",       144 },
+    { "white",       4 }, { "yellow",    231 }, { "",            0 }
+};
+
 static dboolean color_cvars_func1(char *cmd, char *parms)
 {
+    int i = 0;
+
+    while (*color[i].name)
+        if (M_StringCompare(parms, color[i++].name))
+            return true;
+
     return ((strlen(parms) == 7 && parms[0] == '#' && hextodec(M_SubString(parms, 1, 6)) >= 0)
         || int_cvars_func1(cmd, parms));
 }
 
 static void color_cvars_func2(char *cmd, char *parms)
 {
+    int         i = 0;
+    static char buffer[8];
+
+    while (*color[i].name)
+    {
+        if (M_StringCompare(parms, color[i].name))
+        {
+            M_snprintf(buffer, sizeof(buffer), "%i", nearestcolors[color[i].value]);
+            int_cvars_func2(cmd, buffer);
+            AM_setColors();
+            return;
+        }
+
+        i++;
+    }
+
     if (strlen(parms) == 7 && parms[0] == '#')
     {
-        static char buffer[8];
 
         M_snprintf(buffer, sizeof(buffer), "%i", FindNearestColor(W_CacheLumpName("PLAYPAL"),
             hextodec(M_SubString(parms, 1, 2)), hextodec(M_SubString(parms, 3, 2)),

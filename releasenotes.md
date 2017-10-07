@@ -11,7 +11,9 @@
 * A bug has been fixed whereby a gamepad could continue to vibrate if the player had the chainsaw selected and then used the gamepad to start a new game or load an existing one from the menu.
 * The `vid_scalefilter` CVAR will now affect the external automap correctly when the `am_external` CVAR is `on`.
 * An evil grin will now be displayed in the status bar when the player uses the `IDFA` or `IDKFA` cheats.
-* CVARs that specify a color can now be set in the console using a hexadecimal string of the format `#rrggbb`. The CVAR will then be set to the index of the nearest color in *DOOM’s* 256-color palette.
+* The following changes have been made to all CVARs that specify a color:
+  * They can now be set in the console using a hexadecimal string of the format `#rrggbb`. The CVAR will then be set to the index of the closest color in *DOOM’s* 256-color palette.
+  * The following color names may now also be used: `black`, `blue`, `brick`, `brown`, `cream`, `darkbrown`, `darkgray`, `darkgreen`, `darkred`, `gold`, `gray`, `green`, `lightblue`, `olive`, `orange`, `purple`, `red`, `tan`, `white` and `yellow`.
 
 ---
 
