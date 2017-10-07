@@ -806,7 +806,7 @@ void bind_cmd_func2(char *cmd, char *parms);
 //
 void M_LoadCVARs(char *filename)
 {
-    int count = 0;
+    int     count = 0;
 
     // read the file in, overriding any set defaults
     FILE    *file = fopen(filename, "r");
@@ -824,6 +824,25 @@ void M_LoadCVARs(char *filename)
     {
         aliases[i].name[0] = '\0';
         aliases[i].string[0] = '\0';
+    }
+
+    // Clear all default controls before reading them from config file
+    for (int i = 0; *actions[i].action; i++)
+    {
+        if (actions[i].keyboard1)
+            *(int *)actions[i].keyboard1 = 0;
+
+        if (actions[i].keyboard2)
+            *(int *)actions[i].keyboard2 = 0;
+
+        if (actions[i].mouse1)
+            *(int *)actions[i].mouse1 = -1;
+
+        if (actions[i].gamepad1)
+            *(int *)actions[i].gamepad1 = 0;
+
+        if (actions[i].gamepad2)
+            *(int *)actions[i].gamepad2 = 0;
     }
 
     while (!feof(file))

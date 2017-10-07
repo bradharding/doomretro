@@ -3837,6 +3837,7 @@ static void bool_cvars_func2(char *cmd, char *parms)
             }
             break;
         }
+
         i++;
     }
 }
