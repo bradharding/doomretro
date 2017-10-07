@@ -49,7 +49,8 @@ typedef enum
 {
     SECTION_NORMAL,
     SECTION_FLATS,
-    SECTION_SPRITES
+    SECTION_SPRITES,
+    SECTION_HIDEF
 } section_t;
 
 typedef struct
@@ -471,6 +472,8 @@ static void DoMerge(void)
                     current_section = SECTION_FLATS;
                 else if (!strncasecmp(lump->name, "S_START", 8) || !strncasecmp(lump->name, "SS_START", 8))
                     current_section = SECTION_SPRITES;
+                else if (!strncasecmp(lump->name, "HI_START", 8))
+                    current_section = SECTION_HIDEF;
                 else
                     // Don't include the headers of sections
                     newlumps[num_newlumps++] = lump;
@@ -489,6 +492,12 @@ static void DoMerge(void)
                 // PWAD sprites are ignored (already merged)
                 if (!strncasecmp(lump->name, "SS_END", 8) || !strncasecmp(lump->name, "S_END", 8))
                     // end of section
+                    current_section = SECTION_NORMAL;
+
+                break;
+
+            case SECTION_HIDEF:
+                if (!strncasecmp(lump->name, "HI_END", 8))
                     current_section = SECTION_NORMAL;
 
                 break;

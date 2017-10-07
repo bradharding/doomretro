@@ -12,8 +12,9 @@
 * The `vid_scalefilter` CVAR will now affect the external automap correctly when the `am_external` CVAR is `on`.
 * An evil grin will now be displayed in the status bar when the player uses the `IDFA` or `IDKFA` cheats.
 * The following changes have been made to all CVARs that specify a color:
-  * They can now be set in the console using a hexadecimal string of the format `#rrggbb`. The CVAR will then be set to the index of the closest color in *DOOM’s* 256-color palette.
-  * The following color names may now also be used: `black`, `blue`, `brick`, `brown`, `cream`, `darkbrown`, `darkgray`, `darkgreen`, `darkred`, `gold`, `gray`, `green`, `lightblue`, `olive`, `orange`, `purple`, `red`, `tan`, `white` and `yellow`.
+  * They can now be set in the console to a hexadecimal string of the format `#rrggbb`. The CVAR will then be set to the index of the closest color in *DOOM’s* 256-color palette.
+  * They may also be set to one of the following color names: `black`, `blue`, `brick`, `brown`, `cream`, `darkbrown`, `darkgray`, `darkgreen`, `darkred`, `gold`, `gray`, `green`, `lightblue`, `olive`, `orange`, `purple`, `red`, `tan`, `white` and `yellow`.
+* Any lumps in a PWAD between `HI_START` and `HI_END` markers will now be ignored.
 
 ---
 
