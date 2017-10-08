@@ -4878,7 +4878,7 @@ static void r_skycolor_cvar_func2(char *cmd, char *parms)
 
     if (value != INT_MIN)
     {
-        if (value != vid_capfps)
+        if (value != r_skycolor)
         {
             r_skycolor = r_skycolor_none;
             M_SaveCVARs();
