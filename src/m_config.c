@@ -827,23 +827,24 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    for (int i = 0; *actions[i].action; i++)
-    {
-        if (actions[i].keyboard1)
-            *(int *)actions[i].keyboard1 = 0;
+    if (!togglingvanilla)
+        for (int i = 0; *actions[i].action; i++)
+        {
+            if (actions[i].keyboard1)
+                *(int *)actions[i].keyboard1 = 0;
 
-        if (actions[i].keyboard2)
-            *(int *)actions[i].keyboard2 = 0;
+            if (actions[i].keyboard2)
+                *(int *)actions[i].keyboard2 = 0;
 
-        if (actions[i].mouse1)
-            *(int *)actions[i].mouse1 = -1;
+            if (actions[i].mouse1)
+                *(int *)actions[i].mouse1 = -1;
 
-        if (actions[i].gamepad1)
-            *(int *)actions[i].gamepad1 = 0;
+            if (actions[i].gamepad1)
+                *(int *)actions[i].gamepad1 = 0;
 
-        if (actions[i].gamepad2)
-            *(int *)actions[i].gamepad2 = 0;
-    }
+            if (actions[i].gamepad2)
+                *(int *)actions[i].gamepad2 = 0;
+        }
 
     while (!feof(file))
     {
