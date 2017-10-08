@@ -5201,7 +5201,7 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
         {
             vid_capfps = value;
             M_SaveCVARs();
-            I_RestartGraphics();
+            I_CapFPS(vid_capfps);
         }
     }
     else
@@ -5211,7 +5211,7 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
         int_cvars_func2(cmd, parms);
 
         if (vid_capfps != vid_capfps_old)
-            I_RestartGraphics();
+            I_CapFPS(vid_capfps);
     }
 }
 

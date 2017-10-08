@@ -203,7 +203,6 @@ static dboolean     capslock;
 dboolean            alwaysrun = alwaysrun_default;
 
 extern int          st_palette;
-extern dboolean     togglingvanilla;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
@@ -314,7 +313,7 @@ dboolean keystate(int key)
     return keystate[TranslateKey2(key)];
 }
 
-static void I_CapFPS(int fps)
+void I_CapFPS(int fps)
 {
 #if defined(_WIN32)
     if (CapFPSTimer)
@@ -576,7 +575,7 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_FOCUS_LOST:
                             windowfocused = false;
 
-                            if (gamestate == GS_LEVEL && !paused && !togglingvanilla)
+                            if (gamestate == GS_LEVEL && !paused)
                             {
                                 blurred = false;
 
