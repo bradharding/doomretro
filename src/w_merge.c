@@ -455,6 +455,9 @@ static void DoMerge(void)
                 }
 
                 break;
+
+            case SECTION_HIDEF:
+                break;
         }
     }
 

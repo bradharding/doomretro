@@ -962,7 +962,7 @@ static const long hextable[] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
 
-int hextodec(unsigned const char *hex)
+int hextodec(char *hex)
 {
     int ret = 0;
 
