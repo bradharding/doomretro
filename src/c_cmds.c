@@ -108,9 +108,9 @@ static char         mapcmdlump[7];
 
 static dboolean     resettingall;
 
-dboolean            executingalias;
-dboolean            vanilla;
-dboolean            togglingvanilla;
+dboolean            executingalias = false;
+dboolean            vanilla = false;
+dboolean            togglingvanilla = false;
 
 char                *version = version_default;
 
