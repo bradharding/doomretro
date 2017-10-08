@@ -827,7 +827,7 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (!togglingvanilla)
+    if (!togglingvanilla && M_StringCompare(filename, packageconfig))
         for (int i = 0; *actions[i].action; i++)
         {
             if (actions[i].keyboard1)

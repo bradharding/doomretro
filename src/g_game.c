@@ -192,7 +192,7 @@ static char     savedescription[SAVESTRINGSIZE];
 
 gameaction_t    loadaction = ga_nothing;
 
-unsigned int    stat_mapscompleted;
+unsigned int    stat_mapscompleted = 0;
 
 extern dboolean barreltics;
 extern int      st_palette;

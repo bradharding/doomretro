@@ -56,8 +56,8 @@ dboolean        centerweapon = centerweapon_default;
 dboolean        weaponrecoil = weaponrecoil_default;
 int             weaponbob = weaponbob_default;
 
-unsigned int    stat_shotsfired;
-unsigned int    stat_shotshit;
+unsigned int    stat_shotsfired = 0;
+unsigned int    stat_shotshit = 0;
 
 dboolean        successfulshot;
 dboolean        skippsprinterp;

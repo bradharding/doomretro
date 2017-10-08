@@ -759,9 +759,7 @@ dboolean wildcard(char *input, char *pattern)
 
     for (int i = 0; pattern[i] != '\0'; i++)
     {
-        if (pattern[i] == '\0')
-            return false;
-        else if (pattern[i] == '?')
+        if (pattern[i] == '?')
             continue;
         else if (pattern[i] == '*')
         {
