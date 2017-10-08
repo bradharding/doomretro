@@ -1115,7 +1115,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case keyboardcontrol:
                         if (actions[action].keyboard1)
                         {
-                            if (actions[action].keyboard2
+                            if (actions[action].keyboard2 && *(int *)actions[action].keyboard1
                                 && *(int *)actions[action].keyboard1 != controls[i].value)
                             {
                                 if (*(int *)actions[action].keyboard2)
@@ -1148,7 +1148,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case gamepadcontrol:
                         if (actions[action].gamepad1)
                         {
-                            if (actions[action].gamepad2
+                            if (actions[action].gamepad2 && *(int *)actions[action].gamepad1
                                 && *(int *)actions[action].gamepad1 != controls[i].value)
                             {
                                 if (*(int *)actions[action].gamepad2)
