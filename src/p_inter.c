@@ -1319,10 +1319,11 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
                 (gibbed ? "gibbed" : "killed"));
         else if (source->player)
-            C_Obituary("%s %s %s%s with %s %s.", titlecase(playername), (type == MT_BARREL ? "exploded" :
+            C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername), (type == MT_BARREL ? "exploded" :
                 (gibbed ? "gibbed" : "killed")), (target->player ? "" : (isvowel(name[0]) ? "an " : "a ")),
                 (target->player ? (M_StringCompare(playername, playername_default) ? "yourself" :
                 "themselves") : name), (M_StringCompare(playername, playername_default) ? "your" : "their"),
+                (source->player->readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
                 weapondescription[source->player->readyweapon]);
         else
         {
