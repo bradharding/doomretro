@@ -177,7 +177,6 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, size_t len)
     allocated_sounds_size += len;
 
     AllocatedSoundLink(snd);
-
     return snd;
 }
 
@@ -258,7 +257,6 @@ static void ReleaseSoundOnChannel(int channel)
         return;
 
     channels_playing[channel] = NULL;
-
     UnlockAllocatedSound(snd);
 
     // if the sound is a pitch-shift and it's not in use, immediately free it
@@ -309,7 +307,6 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
         convertor.buf = chunk->abuf;
         convertor.len = length;
         memcpy(convertor.buf, data, length);
-
         SDL_ConvertAudio(&convertor);
     }
     else
@@ -386,7 +383,6 @@ static dboolean LockSound(sfxinfo_t *sfxinfo)
         return false;
 
     LockAllocatedSound(GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH));
-
     return true;
 }
 
@@ -399,7 +395,6 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
         sfx = sfx->link;
 
     M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
-
     return W_GetNumForName(namebuf);
 }
 
@@ -506,7 +501,6 @@ void I_ShutdownSound(void)
 
     Mix_CloseAudio();
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
-
     sound_initialized = false;
 }
 
@@ -536,10 +530,7 @@ dboolean I_InitSound(void)
         return false;
 
     Mix_AllocateChannels(s_channels_max);
-
     SDL_PauseAudio(0);
-
     sound_initialized = true;
-
     return true;
 }

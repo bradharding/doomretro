@@ -359,7 +359,6 @@ void D_Display(void)
 
     // wipe update
     wipe_EndScreen();
-
     wipestart = I_GetTime() - 1;
 
     do

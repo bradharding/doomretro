@@ -579,7 +579,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in\nwidescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The intensity of the red palette effect when the\nplayer has the berserk power-up and their fist\nselected (<b>0</b> to <b>8</b>)."),
+        "The intensity of the red palette effect when the\nplayer has the berserk power-up and their fists\nselected (<b>0</b> to <b>8</b>)."),
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODVALUEALIAS,
         "The colors of the blood of the player and monsters\n(<b>all</b>, <b>none</b> or <b>red</b>)."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -1237,12 +1237,10 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
     while (*actions[action].action)
     {
         if (actions[action].keyboard1)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1, keyboardcontrol,
-                &count);
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1, keyboardcontrol, &count);
 
         if (actions[action].keyboard2)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2, keyboardcontrol,
-                &count);
+            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2, keyboardcontrol, &count);
 
         if (actions[action].mouse1)
             C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse1, mousecontrol, &count);
@@ -1922,9 +1920,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                             if (!(thing->flags & MF_NOBLOOD))
                             {
-                                int r;
+                                int r = M_RandomInt(-1, 1);
 
-                                thing->momx += FRACUNIT * (r = M_RandomInt(-1, 1));
+                                thing->momx += FRACUNIT * r;
                                 thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
                             }
 
@@ -2017,9 +2015,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                             if (!(thing->flags & MF_NOBLOOD))
                             {
-                                int r;
+                                int r = M_RandomInt(-1, 1);
 
-                                thing->momx += FRACUNIT * (r = M_RandomInt(-1, 1));
+                                thing->momx += FRACUNIT * r;
                                 thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
                             }
 
@@ -3390,7 +3388,7 @@ static void C_VerifyResetAll(const int key)
                 if (flags & (CF_BOOLEAN | CF_INTEGER))
                     consolecmds[i].func2(consolecmds[i].name,
                         uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
-                            consolecmds[i].aliases)));
+                        consolecmds[i].aliases)));
                 else if (flags & CF_FLOAT)
                     consolecmds[i].func2(consolecmds[i].name,
                         striptrailingzero(consolecmds[i].defaultnumber, 2));
@@ -3417,8 +3415,8 @@ static void resetall_cmd_func2(char *cmd, char *parms)
 {
     static char buffer[128];
 
-    M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all\nCVARs to their default "
-        "values?\n\n%s", s_PRESSYN);
+    M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all\nCVARs to their default values?\n\n%s",
+        s_PRESSYN);
     M_StartMessage(buffer, C_VerifyResetAll, true);
 }
 
@@ -3442,7 +3440,6 @@ static void regenhealth_cmd_func2(char *cmd, char *parms)
     if (regenhealth)
     {
         HU_PlayerMessage(s_STSTR_RHON, false);
-
         players[0].cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
@@ -3683,11 +3680,10 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 const unsigned int  an = mo->angle >> ANGLETOFINESHIFT;
 
                 // spawn teleport fog at source
-                mobj_t          *fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
+                mobj_t              *fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
 
                 fog->angle = mo->angle;
                 S_StartSound(fog, sfx_telept);
-
                 C_HideConsole();
 
                 // spawn teleport fog at destination
@@ -3922,7 +3918,6 @@ static dboolean float_cvars_func1(char *cmd, char *parms)
             float   value = FLT_MIN;
 
             sscanf(parms, "%10f", &value);
-
             return (value != FLT_MIN);
         }
 
@@ -4129,7 +4124,6 @@ static void time_cvars_func2(char *cmd, char *parms)
             C_Output(removenewlines(consolecmds[i].description));
             C_Output("It is currently set to <b>%02i:%02i:%02i</b> and is read-only.",
                 tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
-
             break;
         }
 
@@ -4192,7 +4186,6 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
     if (*parms)
     {
         am_gridsize = strdup(parms);
-
         AM_getGridSize();
 
         if (!M_StringCompare(am_gridsize, parms))
@@ -4463,10 +4456,7 @@ static void player_cvars_func2(char *cmd, char *parms)
 //
 static void playername_cvar_func2(char *cmd, char *parms)
 {
-    if (M_StringCompare(parms, EMPTYVALUE))
-        str_cvars_func2(cmd, playername_default);
-    else
-        str_cvars_func2(cmd, parms);
+    str_cvars_func2(cmd, (M_StringCompare(parms, EMPTYVALUE) ? playername_default : parms));
 }
 
 //
@@ -4594,8 +4584,8 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
             r_dither = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
-            tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ?
-                W_CacheLumpNum(lump) : (r_dither ? tinttab25 : tinttab50));
+            tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ? W_CacheLumpNum(lump) :
+                (r_dither ? tinttab25 : tinttab50));
         }
     }
     else
@@ -5106,7 +5096,6 @@ static dboolean turbo_cvar_func1(char *cmd, char *parms)
         return true;
 
     sscanf(parms, "%10i", &value);
-
     return (value >= turbo_min && value <= turbo_max);
 }
 
