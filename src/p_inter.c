@@ -79,7 +79,7 @@ int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
 static const char *weapondescription[] =
 {
-    "fist",
+    "fists",
     "pistol",
     "shotgun",
     "chaingun",
