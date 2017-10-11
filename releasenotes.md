@@ -1,5 +1,8 @@
 ### DOOM Retro v2.6
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* A bug has been fixed whereby the help screen accessed using the <kbd>F1</kbd> key had a solid blue background.
+
 ---
 
 ###### Wednesday, October 11, 2017
