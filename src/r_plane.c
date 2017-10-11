@@ -211,7 +211,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     check->minx = viewwidth;
     check->maxx = -1;
 
-    if (isliquid[picnum] && r_liquid_current && !xoffs && !yoffs && !freeze)
+    if (isliquid[picnum] && r_liquid_current && !xoffs && !yoffs)
     {
         check->xoffs = animatedliquidxoffs;
         check->yoffs = animatedliquidyoffs;
@@ -357,7 +357,7 @@ static byte *R_DistortedFlat(int flatnum)
     lastflat = flatnum;
 
     // built this tic?
-    if (leveltic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused && !freeze)
+    if (leveltic != swirltic && (!consoleactive || swirltic == -1) && !menuactive && !paused)
     {
         leveltic *= SPEED;
 

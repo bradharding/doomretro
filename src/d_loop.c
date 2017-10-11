@@ -142,7 +142,7 @@ void TryRunTics(void)
         G_Ticker();
         gametic++;
 
-        if (!menuactive && !consoleactive && !paused)
+        if (!menuactive && !consoleactive && !paused && !freeze)
             activetic++;
 
         gametime++;
