@@ -464,7 +464,7 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] remember player's current health,
                     //  and only set to 100% if less than 100%
                     oldhealth = plyr->health;
-                    P_GiveBody(plyr, 100, false);
+                    P_GiveBody(plyr, god_health, false);
 
                     C_Input(cheat_god.sequence);
 
