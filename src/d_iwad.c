@@ -196,14 +196,12 @@ static char *GetRegistryString(registryvalue_t *reg_val)
         return NULL;
 
     // Find the type and length of the string, and only accept strings.
-    if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, NULL, &len) == ERROR_SUCCESS
-        && valtype == REG_SZ)
+    if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, NULL, &len) == ERROR_SUCCESS && valtype == REG_SZ)
     {
         // Allocate a buffer for the value and read the value
         result = malloc(len);
 
-        if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, (unsigned char *)result,
-            &len) != ERROR_SUCCESS)
+        if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, (unsigned char *)result, &len) != ERROR_SUCCESS)
         {
             free(result);
             result = NULL;
@@ -279,12 +277,12 @@ static void CheckDOSDefaults(void)
 {
     // These are the default install directories used by the deice
     // installer program:
-    AddIWADDir("\\doom2");              // DOOM II
-    AddIWADDir("\\plutonia");           // Final DOOM
+    AddIWADDir("\\doom2");      // DOOM II
+    AddIWADDir("\\plutonia");   // Final DOOM
     AddIWADDir("\\tnt");
-    AddIWADDir("\\doom_se");            // Ultimate DOOM
-    AddIWADDir("\\doom");               // Shareware / Registered DOOM
-    AddIWADDir("\\dooms");              // Shareware versions
+    AddIWADDir("\\doom_se");    // Ultimate DOOM
+    AddIWADDir("\\doom");       // Shareware/Registered DOOM
+    AddIWADDir("\\dooms");      // Shareware versions
     AddIWADDir("\\doomsw");
 }
 
@@ -354,9 +352,7 @@ static void AddDoomWADPath(void)
 
     for (;;)
     {
-        p = strchr(p, PATH_SEPARATOR);
-
-        if (p)
+        if ((p = strchr(p, PATH_SEPARATOR)))
         {
             // Break at the separator and store the right hand side
             // as another iwad dir
@@ -491,7 +487,7 @@ static char *SaveGameIWADName(void)
     // This ensures that doom1.wad and doom.wad saves are stored
     // in the same place.
     if (hacx)
-        return "HACX";
+        return "hacx";
 
     for (size_t i = 0; i < arrlen(iwads); i++)
         if (gamemission == iwads[i].mission)
@@ -525,7 +521,6 @@ void D_SetSaveGameFolder(dboolean output)
     }
 
     M_MakeDirectory(savegamefolder);
-
     savegamefolder = M_StringJoin(savegamefolder, (*pwadfile ? pwadfile : iwad_name), DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 
@@ -593,7 +588,6 @@ void D_IdentifyVersion(void)
 // Set the gamedescription string
 void D_SetGameDescription(void)
 {
-    gamedescription = malloc(64);
     gamedescription = PACKAGE_NAME;
 
     if (chex1)
@@ -628,12 +622,7 @@ void D_SetGameDescription(void)
     {
         // DOOM 2 of some kind. But which mission?
         if (FREEDOOM)
-        {
-            if (FREEDM)
-                gamedescription = s_CAPTION_FREEDM;
-            else
-                gamedescription = s_CAPTION_FREEDOOM2;
-        }
+            gamedescription = (FREEDM ? s_CAPTION_FREEDM : s_CAPTION_FREEDOOM2);
         else if (nerve)
             gamedescription = s_CAPTION_DOOM2;
         else if (W_CheckMultipleLumps("TITLEPIC") > 1)

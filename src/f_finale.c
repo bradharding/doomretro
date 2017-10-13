@@ -65,10 +65,10 @@ typedef enum
 static finalestage_t    finalestage;
 static int              finalecount;
 
-#define TEXTSPEED       (3 * FRACUNIT)          // original value       // phares
-#define TEXTWAIT        (250 * FRACUNIT)        // original value       // phares
-#define NEWTEXTSPEED    ((FRACUNIT + 50) / 100) // new value            // phares
-#define NEWTEXTWAIT     (1000 * FRACUNIT)       // new value            // phares
+#define TEXTSPEED       (3 * FRACUNIT)          // original value
+#define TEXTWAIT        (250 * FRACUNIT)        // original value
+#define NEWTEXTSPEED    ((FRACUNIT + 50) / 100) // new value
+#define NEWTEXTWAIT     (1000 * FRACUNIT)       // new value
 
 static char             *finaletext;
 static char             *finaleflat;
@@ -473,7 +473,7 @@ static void F_StartCast(void)
 static void F_CastTicker(void)
 {
     if (--casttics > 0)
-        return;                         // not time to change state yet
+        return;                 // not time to change state yet
 
     if (caststate->tics == -1 || caststate->nextstate == S_NULL)
     {
@@ -498,7 +498,7 @@ static void F_CastTicker(void)
 
         // just advance to next state in animation
         if (!castdeath && caststate == &states[S_PLAY_ATK1])
-            goto stopattack;            // Oh, gross hack!
+            goto stopattack;    // Oh, gross hack!
 
         if (caststate->action == A_RandomJump && M_Random() < caststate->misc2)
             st = caststate->misc1;
@@ -632,11 +632,7 @@ stopattack:
     {
         if (caststate->action == A_RandomJump)
         {
-            if (M_Random() < caststate->misc2)
-                caststate = &states[caststate->misc1];
-            else
-                caststate = &states[caststate->nextstate];
-
+            caststate = &states[(M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
             casttics = caststate->tics;
         }
 
@@ -735,9 +731,7 @@ static void F_CastPrint(char *text)
 
     while (ch)
     {
-        c = *ch++;
-
-        if (!c)
+        if (!(c = *ch++))
             break;
 
         c = toupper(c) - HU_FONTSTART;
@@ -757,9 +751,7 @@ static void F_CastPrint(char *text)
 
     while (ch)
     {
-        c = *ch++;
-
-        if (!c)
+        if (!(c = *ch++))
             break;
 
         c = toupper(c) - HU_FONTSTART;
@@ -803,9 +795,7 @@ static void F_CastDrawer(void)
 
     lump = sprframe->lump[rot];
     flip = !!(sprframe->flip & (1 << rot));
-
     patch = W_CacheLumpNum(lump + firstspritelump);
-
     patch->topoffset = spritetopoffset[lump] >> FRACBITS;
 
     if (type == MT_SKULL)
@@ -921,8 +911,7 @@ static void F_BunnyScroll(void)
 
     if (finalecount < 1130)
         return;
-
-    if (finalecount < 1180)
+    else if (finalecount < 1180)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
             W_CacheLumpName("END0"), false);
@@ -930,12 +919,7 @@ static void F_BunnyScroll(void)
         return;
     }
 
-    stage = (finalecount - 1180) / 5;
-
-    if (stage > 6)
-        stage = 6;
-
-    if (stage > laststage)
+    if ((stage = MIN((finalecount - 1180) / 5, 6)) > laststage)
     {
         S_StartSound(NULL, sfx_pistol);
         laststage = stage;

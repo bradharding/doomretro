@@ -317,7 +317,7 @@ static dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dro
 
     if (ammotype != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
-        gaveammo = P_GiveAmmo(player, ammotype, (dropped ? 1 : 2), stat);
+        gaveammo = !!P_GiveAmmo(player, ammotype, (dropped ? 1 : 2), stat);
 
     if (!player->weaponowned[weapon])
     {
@@ -398,7 +398,6 @@ dboolean P_GiveAllWeapons(player_t *player)
     }
 
     player->shotguns = (player->weaponowned[wp_shotgun] || player->weaponowned[wp_supershotgun]);
-
     return result;
 }
 
@@ -422,7 +421,6 @@ dboolean P_GiveBody(player_t *player, int num, dboolean stat)
     oldhealth = player->health;
     player->health = MIN(oldhealth + num, MAXHEALTH);
     player->mo->health = player->health;
-
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
     if (stat)
@@ -475,7 +473,6 @@ dboolean P_GiveArmor(player_t *player, armortype_t armortype, dboolean stat)
 
     player->armorpoints = hits;
     armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
-
     return true;
 }
 
@@ -1126,7 +1123,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
     prevsound = sound;
     prevtic = gametic;
-
     S_StartSound(player->mo, sound);
 }
 
@@ -1510,9 +1506,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (damage > 0 && damagecount < 8)
              damagecount = 8;
 
-        damagecount = MIN(damagecount, 100);
-
-        tplayer->damagecount = damagecount;
+        tplayer->damagecount = MIN(damagecount, 100);
 
         if (gp_vibrate_damage && vibrate)
         {
@@ -1555,7 +1549,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (M_Random() < info->painchance && !(target->flags & MF_SKULLFLY))
     {
         target->flags |= MF_JUSTHIT;                            // fight back!
-
         P_SetMobjState(target, info->painstate);
     }
 

@@ -61,7 +61,6 @@ static void wipe_shittyColMajorXform(short *array)
             dest[x * SCREENHEIGHT + y] = array[y * SCREENWIDTH / 2 + x];
 
     memcpy(array, dest, SCREENWIDTH * SCREENHEIGHT);
-
     Z_Free(dest);
 }
 

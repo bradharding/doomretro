@@ -518,11 +518,7 @@ manual_lift:
         switch (Targ)
         {
             case F2LnF:
-                plat->low = P_FindLowestFloorSurrounding(sec);
-
-                if (plat->low > sec->floorheight)
-                    plat->low = sec->floorheight;
-
+                plat->low = MAX(P_FindLowestFloorSurrounding(sec), sec->floorheight);
                 break;
 
             case F2NnF:
@@ -530,25 +526,13 @@ manual_lift:
                 break;
 
             case F2LnC:
-                plat->low = P_FindLowestCeilingSurrounding(sec);
-
-                if (plat->low > sec->floorheight)
-                    plat->low = sec->floorheight;
-
+                plat->low = MAX(P_FindLowestCeilingSurrounding(sec), sec->floorheight);
                 break;
 
             case LnF2HnF:
                 plat->type = genPerpetual;
-                plat->low = P_FindLowestFloorSurrounding(sec);
-
-                if (plat->low > sec->floorheight)
-                    plat->low = sec->floorheight;
-
-                plat->high = P_FindHighestFloorSurrounding(sec);
-
-                if (plat->high < sec->floorheight)
-                    plat->high = sec->floorheight;
-
+                plat->low = MAX(P_FindLowestFloorSurrounding(sec), sec->floorheight);
+                plat->high = MIN(P_FindHighestFloorSurrounding(sec), sec->floorheight);
                 plat->status = M_Random() & 1;
                 break;
         }
