@@ -951,8 +951,6 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
                     *(int *)actions[i].gamepad2 = 0;
             }
         }
-
-    M_SaveCVARs();
 }
 
 void bind_cmd_func2(char *cmd, char *parms)
@@ -1149,8 +1147,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         break;
                 }
 
-                if (*cmd)
-                    M_SaveCVARs();
+                M_SaveCVARs();
 
                 if (!bound)
                 {
