@@ -1185,8 +1185,10 @@ void bind_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                if (controls[i].type == keyboardcontrol && controls[i].value < NUMKEYS)
+                if (controls[i].type == keyboardcontrol)
                     M_StringCopy(keyactionlist[controls[i].value], parm2, sizeof(keyactionlist[0]));
+                else if (controls[i].type == mousecontrol)
+                    M_StringCopy(mouseactionlist[controls[i].value], parm2, sizeof(mouseactionlist[0]));
             }
         }
     }

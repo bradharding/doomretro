@@ -168,6 +168,7 @@ static int      turnheld;                       // for accelerative turning
 
 static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
 static dboolean *mousebuttons = &mousearray[1]; // allow [-1]
+char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
 
 dboolean        skipaction;
 
@@ -783,6 +784,9 @@ dboolean G_Responder(event_t *ev)
             for (int i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
                 mousebuttons[i] = mousebutton & j;
 
+            if (mouseactionlist[mousebutton][0])
+                C_ExecuteInputString(mouseactionlist[mousebutton]);
+
             if (vibrate && mousebutton)
             {
                 vibrate = false;
@@ -823,6 +827,9 @@ dboolean G_Responder(event_t *ev)
                         G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELDOWN)
                         G_PrevWeapon();
+
+                    if (mouseactionlist[MOUSE_WHEELDOWN][0])
+                        C_ExecuteInputString(mouseactionlist[MOUSE_WHEELDOWN]);
                 }
                 else if (ev->data1 > 0)
                 {
@@ -830,6 +837,9 @@ dboolean G_Responder(event_t *ev)
                         G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELUP)
                         G_PrevWeapon();
+
+                    if (mouseactionlist[MOUSE_WHEELUP][0])
+                        C_ExecuteInputString(mouseactionlist[MOUSE_WHEELUP]);
                 }
             }
 
