@@ -163,6 +163,7 @@ static struct
 #define SLOWTURNTICS    6
 
 dboolean        gamekeydown[NUMKEYS];
+char            keyactionlist[NUMKEYS][255];
 static int      turnheld;                       // for accelerative turning
 
 static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
@@ -753,6 +754,9 @@ dboolean G_Responder(event_t *ev)
             else if (key < NUMKEYS)
             {
                 gamekeydown[key] = true;
+
+                if (keyactionlist[key][0])
+                    C_ExecuteInputString(keyactionlist[key]);
 
                 if (vibrate)
                 {

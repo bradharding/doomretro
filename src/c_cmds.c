@@ -73,8 +73,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define ALIASCMDFORMAT      "<i>alias</i> [<b>\"</b><i>command</i> [<b>;</b> <i>command</i> ...]<b>\"</b>]"
-#define BINDCMDFORMAT       "<i>control</i> [<b>+</b><i>action</i>]"
+#define ALIASCMDFORMAT      "<i>alias</i> [[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
+#define BINDCMDFORMAT       "<i>control</i> [<b>+</b><i>action</i>|[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
 #define EXECCMDFORMAT       "<i>filename</i>"
 #define GIVECMDSHORTFORMAT  "<i>items</i>"
 #define GIVECMDLONGFORMAT   "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
@@ -447,7 +447,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically loading the last savegame\nafter the player dies."),
     CMD(bind, "", null_func1, bind_cmd_func2, 2, BINDCMDFORMAT,
-        "Binds an <i>action</i> to a <i>control</i>."),
+        "Binds an <i>action</i> or string of <i>commands</i> to a <i>control</i>."),
     CMD(bindlist, "", null_func1, bindlist_cmd_func2, 0, "",
         "Shows a list of all bound controls."),
     CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -1184,7 +1184,10 @@ void bind_cmd_func2(char *cmd, char *parms)
                 }
             }
             else
-                C_Warning("<b>%s</b> is not a valid action.", parm2);
+            {
+                if (controls[i].type == keyboardcontrol && controls[i].value < NUMKEYS)
+                    M_StringCopy(keyactionlist[controls[i].value], parm2, sizeof(keyactionlist[0]));
+            }
         }
     }
     else

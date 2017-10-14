@@ -1099,6 +1099,26 @@ void C_Drawer(void)
         consoleactive = false;
 }
 
+dboolean C_ExecuteInputString(const char *input)
+{
+    char    *string = strdup(input);
+    char    *strings[255];
+    int     j = 0;
+
+    C_StripQuotes(string);
+    strings[0] = strtok(string, ";");
+
+    while (strings[j])
+    {
+        if (!C_ValidateInput(trimwhitespace(strings[j])))
+            break;
+
+        strings[++j] = strtok(NULL, ";");
+    }
+
+    return true;
+}
+
 dboolean C_ValidateInput(const char *input)
 {
     int i = 0;
@@ -1157,7 +1177,7 @@ dboolean C_ValidateInput(const char *input)
                 if (!executingalias)
                     C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
 
-                consolecmds[i].func2(consolecmds[i].name, uncommify(parms));
+                consolecmds[i].func2(consolecmds[i].name, parms);
                 return true;
             }
         }

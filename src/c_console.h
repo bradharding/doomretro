@@ -120,6 +120,7 @@ void C_ShowConsole(void);
 void C_HideConsole(void);
 void C_HideConsoleFast(void);
 void C_Drawer(void);
+dboolean C_ExecuteInputString(const char *input);
 dboolean C_ValidateInput(const char *input);
 dboolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);

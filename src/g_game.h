@@ -90,6 +90,7 @@ extern char     lbmname1[MAX_PATH];
 extern char     lbmpath1[MAX_PATH];
 extern char     lbmpath2[MAX_PATH];
 extern char     mapnumandtitle[512];
+extern char     keyactionlist[NUMKEYS][255];
 extern int      mousewait;
 extern int      gamepadwait;
 extern int      keydown;

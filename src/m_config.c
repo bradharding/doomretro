@@ -42,6 +42,7 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "i_gamepad.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -828,6 +829,7 @@ void M_LoadCVARs(char *filename)
 
     // Clear all default controls before reading them from config file
     if (!togglingvanilla && M_StringCompare(filename, packageconfig))
+    {
         for (int i = 0; *actions[i].action; i++)
         {
             if (actions[i].keyboard1)
@@ -845,6 +847,10 @@ void M_LoadCVARs(char *filename)
             if (actions[i].gamepad2)
                 *(int *)actions[i].gamepad2 = 0;
         }
+
+        for (int i = 0; i < NUMKEYS; i++)
+            keyactionlist[i][0] = '\0';
+    }
 
     while (!feof(file))
     {
