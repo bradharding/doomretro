@@ -245,18 +245,20 @@ valuealias_t valuealiases[] =
     { "off",      5, FACEBACKVALUEALIAS }, { "",        0, NOVALUEALIAS       }
 };
 
-static void SaveBind(FILE *file, char *action, int value, controltype_t type)
+static void SaveBind(FILE *file, char *control, char *string)
+{
+    if (strlen(control) == 1)
+        fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), string);
+    else
+        fprintf(file, "bind %s %s\n", control, string);
+}
+
+static void SaveBindByValue(FILE *file, char *action, int value, controltype_t type)
 {
     for (int i = 0; controls[i].type; i++)
         if (controls[i].type == type && controls[i].value == value)
         {
-            char    *control = controls[i].control;
-
-            if (strlen(control) == 1)
-                fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);
-            else
-                fprintf(file, "bind %s %s\n", control, action);
-
+            SaveBind(file, controls[i].control, action);
             break;
         }
 }
@@ -399,20 +401,26 @@ void M_SaveCVARs(void)
     for (int i = 0; *actions[i].action; i++)
     {
         if (actions[i].keyboard2)
-            SaveBind(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
 
         if (actions[i].keyboard1)
-            SaveBind(file, actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol);
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol);
 
         if (actions[i].mouse1)
-            SaveBind(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
 
         if (actions[i].gamepad2)
-            SaveBind(file, actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol);
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol);
 
         if (actions[i].gamepad1)
-            SaveBind(file, actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol);
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol);
     }
+
+    for (int i = 0; controls[i].type; i++)
+        if (controls[i].type == keyboardcontrol && keyactionlist[controls[i].value][0])
+            SaveBind(file, controls[i].control, keyactionlist[controls[i].value]);
+        else if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value][0])
+            SaveBind(file, controls[i].control, mouseactionlist[controls[i].value]);
 
     for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name)
