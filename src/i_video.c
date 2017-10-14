@@ -1125,15 +1125,10 @@ void GetWindowPosition(void)
 
 void GetWindowSize(void)
 {
-    int         width = -1;
-    int         height = -1;
-    char        *p = strdup(vid_windowsize);
-    const char  *left = strtok(p, "x");
-    const char  *right = strtok(NULL, "x");
+    int width = -1;
+    int height = -1;
 
-    sscanf(left, "%10i", &width);
-    sscanf(right, "%10i", &height);
-    free(p);
+    sscanf(vid_windowsize, "%10ix%10i", &width, &height);
 
     if (width < ORIGINALWIDTH + windowborderwidth || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
     {
@@ -1178,15 +1173,10 @@ void GetScreenResolution(void)
     }
     else
     {
-        int         width = -1;
-        int         height = -1;
-        char        *p = strdup(vid_screenresolution);
-        const char  *left = strtok(p, "x");
-        const char  *right = strtok(NULL, "x");
+        int width = -1;
+        int height = -1;
 
-        sscanf(left, "%10i", &width);
-        sscanf(right, "%10i", &height);
-        free(p);
+        sscanf(vid_screenresolution, "%10ix%10i", &width, &height);
 
         if (width >= 0 && height >= 0 && ValidScreenMode(width, height))
         {

@@ -380,15 +380,10 @@ void AM_setColors(void)
 
 void AM_getGridSize(void)
 {
-    int         width = -1;
-    int         height = -1;
-    char        *p = strdup(am_gridsize);
-    const char  *left = strtok(p, "x");
-    const char  *right = strtok(NULL, "x");
+    int width = -1;
+    int height = -1;
 
-    sscanf(left, "%10i", &width);
-    sscanf(right, "%10i", &height);
-    free(p);
+    sscanf(am_gridsize, "%10ix%10i", &width, &height);
 
     if (width >= 4 && width <= 4096 && height >= 4 && height <= 4096)
     {

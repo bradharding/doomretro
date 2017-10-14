@@ -1355,20 +1355,12 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
 
 void GetPixelSize(dboolean reset)
 {
-    int     width = -1;
-    int     height = -1;
-    char    *p_lowpixelsize = strdup(r_lowpixelsize);
-    char    *left = strtok(p_lowpixelsize, "x");
-    char    *right = strtok(NULL, "x");
+    int width = -1;
+    int height = -1;
 
-    if (!right)
-        right = "";
+    sscanf(r_lowpixelsize, "%10ix%10i", &width, &height);
 
-    sscanf(left, "%10i", &width);
-    sscanf(right, "%10i", &height);
-
-    if (width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT
-        && (width >= 2 || height >= 2))
+    if (width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT && (width >= 2 || height >= 2))
     {
         pixelwidth = width;
         pixelheight = height;
@@ -1381,8 +1373,6 @@ void GetPixelSize(dboolean reset)
 
         M_SaveCVARs();
     }
-
-    free(p_lowpixelsize);
 }
 
 void V_LowGraphicDetail(void)
