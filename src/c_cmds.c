@@ -339,30 +339,18 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms);
 
 static int C_LookupValueFromAlias(const char *text, const valuealias_type_t valuealiastype)
 {
-    int i = 0;
-
-    while (*valuealiases[i].text)
-    {
+    for (int i = 0; *valuealiases[i].text; i++)
         if (valuealiastype == valuealiases[i].type && M_StringCompare(text, valuealiases[i].text))
             return valuealiases[i].value;
-
-        i++;
-    }
 
     return INT_MIN;
 }
 
 static char *C_LookupAliasFromValue(const int value, const valuealias_type_t valuealiastype)
 {
-    int i = 0;
-
-    while (*valuealiases[i].text)
-    {
+    for (int i = 0; *valuealiases[i].text; i++)
         if (valuealiastype == valuealiases[i].type && value == valuealiases[i].value)
             return valuealiases[i].text;
-
-        i++;
-    }
 
     return commify(value);
 }
@@ -884,7 +872,6 @@ void alias_cmd_func2(char *cmd, char *parms)
 {
     char    parm1[128] = "";
     char    parm2[128] = "";
-    int     i = 0;
 
     sscanf(parms, "%127s %127[^\n]", parm1, parm2);
 
@@ -896,13 +883,9 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     C_StripQuotes(parm1);
 
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(parm1, consolecmds[i].name))
             return;
-
-        i++;
-    }
 
     if (!*parm2)
     {
@@ -943,10 +926,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 //
 static void C_UnbindDuplicates(const int keep, const controltype_t type, const int value)
 {
-    int i = 0;
-
-    while (*actions[i].action)
-    {
+    for (int i = 0; *actions[i].action; i++)
         if (i != keep)
         {
             if (type == keyboardcontrol)
@@ -971,9 +951,6 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
                     *(int *)actions[i].gamepad2 = 0;
             }
         }
-
-        i++;
-    }
 
     M_SaveCVARs();
 }
@@ -1234,29 +1211,26 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 static void bindlist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
-    int         action = 0;
     int         count = 1;
 
     C_TabbedOutput(tabs, BINDLISTTITLE);
 
-    while (*actions[action].action)
+    for (int i = 0; *actions[i].action; i++)
     {
-        if (actions[action].keyboard1)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1, keyboardcontrol, &count);
+        if (actions[i].keyboard1)
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol, &count);
 
-        if (actions[action].keyboard2)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2, keyboardcontrol, &count);
+        if (actions[i].keyboard2)
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol, &count);
 
-        if (actions[action].mouse1)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse1, mousecontrol, &count);
+        if (actions[i].mouse1)
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].mouse1, mousecontrol, &count);
 
-        if (actions[action].gamepad1)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad1, gamepadcontrol, &count);
+        if (actions[i].gamepad1)
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol, &count);
 
-        if (actions[action].gamepad2)
-            C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad2, gamepadcontrol, &count);
-
-        action++;
+        if (actions[i].gamepad2)
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol, &count);
     }
 }
 
@@ -1275,13 +1249,11 @@ static void clear_cmd_func2(char *cmd, char *parms)
 static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
     const int tabs[8] = { 40, 275, 0, 0, 0, 0, 0, 0 };
-    int       i = 0;
     int       count = 0;
 
     C_TabbedOutput(tabs, CMDLISTTITLE);
 
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CMD && *consolecmds[i].description
             && (!*parms || wildcard(consolecmds[i].name, parms)))
         {
@@ -1304,9 +1276,6 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
             if (*description2)
                 C_TabbedOutput(tabs, "\t\t%s", description2);
         }
-
-        i++;
-    }
 }
 
 //
@@ -1416,13 +1385,11 @@ static void condump_cmd_func2(char *cmd, char *parms)
 static void cvarlist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 40, 210, 318, 0, 0, 0, 0, 0 };
-    int         i = 0;
     int         count = 0;
 
     C_TabbedOutput(tabs, CVARLISTTITLE);
 
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR && (!*parms || wildcard(consolecmds[i].name, parms)))
         {
             char    description1[255];
@@ -1496,9 +1463,6 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if (*description3)
                 C_TabbedOutput(tabs, "\t\t\t%s", description3);
         }
-
-        i++;
-    }
 }
 
 //
@@ -2991,16 +2955,13 @@ static void C_PlayerStats_Game(void)
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
     else
     {
-        int i = 0;
         int totallines = numlines;
         int totallinesmapped = 0;
 
-        while (i < numlines)
+        for (int i = 0; i < numlines; i++)
             totallines -= !!(lines[i++].flags & ML_DONTDRAW);
 
-        i = 0;
-
-        while (i < totallines)
+        for (int i = 0; i < totallines; i++)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
 
         C_TabbedOutput(tabs, "Map explored\t<b>%s%%</b>\t-",
@@ -3323,8 +3284,6 @@ static void quit_cmd_func2(char *cmd, char *parms)
 //
 static void reset_cmd_func2(char *cmd, char *parms)
 {
-    int i = 0;
-
     if (!*parms)
     {
         C_Output("<b>%s</b> %s", cmd, RESETCMDFORMAT);
@@ -3337,9 +3296,9 @@ static void reset_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    while (*consolecmds[i].name)
+    for (int i = 0; *consolecmds[i].name; i++)
     {
-        int flags = consolecmds[i].flags;
+        const int   flags = consolecmds[i].flags;
 
         if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
             && !(flags & CF_READONLY))
@@ -3365,8 +3324,6 @@ static void reset_cmd_func2(char *cmd, char *parms)
 
             break;
         }
-
-        i++;
     }
 }
 
@@ -3379,12 +3336,10 @@ static void C_VerifyResetAll(const int key)
 
     if (key == 'y')
     {
-        int i = 0;
-
         S_StartSound(NULL, sfx_swtchx);
         resettingall = true;
 
-        while (*consolecmds[i].name)
+        for (int i = 0; *consolecmds[i].name; i++)
         {
             const int   flags = consolecmds[i].flags;
 
@@ -3401,8 +3356,6 @@ static void C_VerifyResetAll(const int key)
                     consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
                         consolecmds[i].defaultstring : EMPTYVALUE));
             }
-
-            i++;
         }
 
         resettingall = false;
@@ -3807,10 +3760,7 @@ static dboolean bool_cvars_func1(char *cmd, char *parms)
 
 static void bool_cvars_func2(char *cmd, char *parms)
 {
-    int i = 0;
-
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_BOOLEAN) && !(consolecmds[i].flags & CF_READONLY))
         {
@@ -3838,9 +3788,6 @@ static void bool_cvars_func2(char *cmd, char *parms)
             }
             break;
         }
-
-        i++;
-    }
 }
 
 //
@@ -3862,10 +3809,8 @@ static struct
 
 static dboolean color_cvars_func1(char *cmd, char *parms)
 {
-    int i = 0;
-
-    while (*color[i].name)
-        if (M_StringCompare(parms, color[i++].name))
+    for (int i = 0; *color[i].name; i++)
+        if (M_StringCompare(parms, color[i].name))
             return true;
 
     return ((strlen(parms) == 7 && parms[0] == '#' && hextodec(M_SubString(parms, 1, 6)) >= 0)
@@ -3874,11 +3819,9 @@ static dboolean color_cvars_func1(char *cmd, char *parms)
 
 static void color_cvars_func2(char *cmd, char *parms)
 {
-    int         i = 0;
     static char buffer[8];
 
-    while (*color[i].name)
-    {
+    for (int i = 0; *color[i].name; i++)
         if (M_StringCompare(parms, color[i].name))
         {
             M_snprintf(buffer, sizeof(buffer), "%i", nearestcolors[color[i].value]);
@@ -3886,9 +3829,6 @@ static void color_cvars_func2(char *cmd, char *parms)
             AM_setColors();
             return;
         }
-
-        i++;
-    }
 
     if (strlen(parms) == 7 && parms[0] == '#')
     {
@@ -3910,13 +3850,10 @@ static void color_cvars_func2(char *cmd, char *parms)
 //
 static dboolean float_cvars_func1(char *cmd, char *parms)
 {
-    int i = 0;
-
     if (!*parms)
         return true;
 
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_FLOAT))
         {
@@ -3926,18 +3863,12 @@ static dboolean float_cvars_func1(char *cmd, char *parms)
             return (value != FLT_MIN);
         }
 
-        i++;
-    }
-
     return false;
 }
 
 static void float_cvars_func2(char *cmd, char *parms)
 {
-    int i = 0;
-
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_FLOAT) && !(consolecmds[i].flags & CF_READONLY))
         {
@@ -3968,9 +3899,6 @@ static void float_cvars_func2(char *cmd, char *parms)
 
             break;
         }
-
-        i++;
-    }
 }
 
 //
@@ -3978,13 +3906,10 @@ static void float_cvars_func2(char *cmd, char *parms)
 //
 static dboolean int_cvars_func1(char *cmd, char *parms)
 {
-    int i = 0;
-
     if (!*parms)
         return true;
 
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_INTEGER))
         {
@@ -3996,18 +3921,12 @@ static dboolean int_cvars_func1(char *cmd, char *parms)
             return (value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
         }
 
-        i++;
-    }
-
     return false;
 }
 
 static void int_cvars_func2(char *cmd, char *parms)
 {
-    int i = 0;
-
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_INTEGER))
         {
@@ -4057,9 +3976,6 @@ static void int_cvars_func2(char *cmd, char *parms)
 
             break;
         }
-
-        i++;
-    }
 }
 
 //
@@ -4067,10 +3983,7 @@ static void int_cvars_func2(char *cmd, char *parms)
 //
 static void str_cvars_func2(char *cmd, char *parms)
 {
-    int i = 0;
-
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_STRING))
         {
@@ -4107,9 +4020,6 @@ static void str_cvars_func2(char *cmd, char *parms)
 
             break;
         }
-
-        i++;
-    }
 }
 
 //
@@ -4117,10 +4027,7 @@ static void str_cvars_func2(char *cmd, char *parms)
 //
 static void time_cvars_func2(char *cmd, char *parms)
 {
-    int i = 0;
-
-    while (*consolecmds[i].name)
-    {
+    for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_TIME))
         {
@@ -4131,9 +4038,6 @@ static void time_cvars_func2(char *cmd, char *parms)
                 tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
             break;
         }
-
-        i++;
-    }
 }
 
 //

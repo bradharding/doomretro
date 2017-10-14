@@ -480,20 +480,12 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? 0 : consolefont[c]->width);
 
         if (kerning)
-        {
-            int j = 0;
-
-            while (kern[j].char1)
-            {
+            for (int j = 0; kern[j].char1; j++)
                 if (prevletter == kern[j].char1 && letter == kern[j].char2)
                 {
                     w += kern[j].adjust;
                     break;
                 }
-
-                j++;
-            }
-        }
 
         prevletter = letter;
     }
@@ -805,20 +797,12 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 continue;
 
             if (!italics)
-            {
-                int j = 0;
-
-                while (kern[j].char1)
-                {
+                for (int j = 0; kern[j].char1; j++)
                     if (prevletter == kern[j].char1 && letter == kern[j].char2)
                     {
                         x += kern[j].adjust;
                         break;
                     }
-
-                    j++;
-                }
-            }
 
             if (patch)
             {
@@ -1121,9 +1105,7 @@ dboolean C_ExecuteInputString(const char *input)
 
 dboolean C_ValidateInput(const char *input)
 {
-    int i = 0;
-
-    while (*consolecmds[i].name)
+    for (int i = 0; *consolecmds[i].name; i++)
     {
         char    cmd[128] = "";
 
@@ -1181,8 +1163,6 @@ dboolean C_ValidateInput(const char *input)
                 return true;
             }
         }
-
-        i++;
     }
 
     return C_ExecuteAlias(input);

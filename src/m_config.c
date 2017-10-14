@@ -247,10 +247,7 @@ valuealias_t valuealiases[] =
 
 static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 {
-    int i = 0;
-
-    while (controls[i].type)
-    {
+    for (int i = 0; controls[i].type; i++)
         if (controls[i].type == type && controls[i].value == value)
         {
             char    *control = controls[i].control;
@@ -262,9 +259,6 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 
             break;
         }
-
-        i++;
-    }
 }
 
 //
@@ -272,7 +266,6 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 //
 void M_SaveCVARs(void)
 {
-    int     i;
     int     numaliases = 0;
     FILE    *file;
 
@@ -285,7 +278,7 @@ void M_SaveCVARs(void)
     if (returntowidescreen)
         vid_widescreen = true;
 
-    for (i = 0; i < arrlen(cvars); i++)
+    for (int i = 0; i < arrlen(cvars); i++)
     {
         if (!*cvars[i].name)
         {
@@ -307,21 +300,16 @@ void M_SaveCVARs(void)
         {
             case DEFAULT_INT:
             {
-                int         j = 0;
                 dboolean    flag = false;
                 int         v = *(int *)cvars[i].location;
 
-                while (*valuealiases[j].text)
-                {
+                for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
                         flag = true;
                         break;
                     }
-
-                    j++;
-                }
 
                 if (!flag)
                     fputs(commify(*(int *)cvars[i].location), file);
@@ -335,21 +323,16 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT_PERCENT:
             {
-                int         j = 0;
                 dboolean    flag = false;
                 int         v = *(int *)cvars[i].location;
 
-                while (*valuealiases[j].text)
-                {
+                for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
                         flag = true;
                         break;
                     }
-
-                    j++;
-                }
 
                 if (!flag)
                     fprintf(file, "%s%%", commify(*(int *)cvars[i].location));
@@ -359,21 +342,16 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT:
             {
-                int         j = 0;
                 dboolean    flag = false;
                 float       v = *(float *)cvars[i].location;
 
-                while (*valuealiases[j].text)
-                {
+                for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
                         flag = true;
                         break;
                     }
-
-                    j++;
-                }
 
                 if (!flag)
                     fputs(striptrailingzero(*(float *)cvars[i].location, 2), file);
@@ -383,21 +361,16 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT_PERCENT:
             {
-                int         j = 0;
                 dboolean    flag = false;
                 float       v = *(float *)cvars[i].location;
 
-                while (*valuealiases[j].text)
-                {
+                for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
                         flag = true;
                         break;
                     }
-
-                    j++;
-                }
 
                 if (!flag)
                     fprintf(file, "%s%%", striptrailingzero(*(float *)cvars[i].location, 1));
@@ -421,13 +394,9 @@ void M_SaveCVARs(void)
         fputs("\n", file);
     }
 
-    fputs("\n", file);
+    fputs("\n; bound controls\n", file);
 
-    fputs("; bound controls\n", file);
-
-    i = 0;
-
-    while (*actions[i].action)
+    for (int i = 0; *actions[i].action; i++)
     {
         if (actions[i].keyboard2)
             SaveBind(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
@@ -443,11 +412,9 @@ void M_SaveCVARs(void)
 
         if (actions[i].gamepad1)
             SaveBind(file, actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol);
-
-        i++;
     }
 
-    for (i = 0; i < MAXALIASES; i++)
+    for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name)
             numaliases++;
 
@@ -455,7 +422,7 @@ void M_SaveCVARs(void)
     {
         fputs("\n; aliases\n", file);
 
-        for (i = 0; i < MAXALIASES; i++)
+        for (int i = 0; i < MAXALIASES; i++)
             if (*aliases[i].name)
                 fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
     }
@@ -470,15 +437,10 @@ void M_SaveCVARs(void)
 static int ParseIntParameter(char *strparm, int valuealiastype)
 {
     int parm = 0;
-    int i = 0;
 
-    while (*valuealiases[i].text)
-    {
+    for (int i = 0; *valuealiases[i].text; i++)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
-
-        i++;
-    }
 
     sscanf(strparm, "%10i", &parm);
 
@@ -488,15 +450,9 @@ static int ParseIntParameter(char *strparm, int valuealiastype)
 // Parses float values in the configuration file
 static float ParseFloatParameter(char *strparm, int valuealiastype)
 {
-    int i = 0;
-
-    while (*valuealiases[i].text)
-    {
+    for (int i = 0; *valuealiases[i].text; i++)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return (float)valuealiases[i].value;
-
-        i++;
-    }
 
     return (float)atof(strparm);
 }
