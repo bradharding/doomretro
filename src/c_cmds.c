@@ -383,7 +383,7 @@ static char *C_LookupAliasFromValue(const int value, const valuealias_type_t val
 consolecmd_t consolecmds[] =
 {
     CMD(alias, "", null_func1, alias_cmd_func2, 2, ALIASCMDFORMAT,
-        "Creates an <i>alias</i> that executes a string of <i>commands</i>."),
+        "Creates an <i>alias</i> that executes a string of\n<i>commands</i>."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player always running when they move."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -435,7 +435,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically loading the last savegame\nafter the player dies."),
     CMD(bind, "", null_func1, bind_cmd_func2, 2, BINDCMDFORMAT,
-        "Binds an <i>action</i> or string of <i>commands</i> to a <i>control</i>."),
+        "Binds an <i>action</i> or string of <i>commands</i> to a\n<i>control</i>."),
     CMD(bindlist, "", null_func1, bindlist_cmd_func2, 0, "",
         "Shows a list of all bound controls."),
     CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -471,7 +471,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
-        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>, <b>weapons</b>, or <b>all</b>\nor certain <i>items</i> to the player."),
+        "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>,\n<b>weapons</b>, or <b>all</b> or certain <i>items</i> to the player."),
     CMD(god, "", god_cmd_func1, god_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
@@ -518,7 +518,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CMD(kill, explode, kill_cmd_func1, kill_cmd_func2, 1, KILLCMDFORMAT,
-        "Kills the <b>player</b>, <b>all</b> monsters, a type of <i>monster</i>, all <b>barrels</b>\nor all <b>missiles</b>."),
+        "Kills the <b>player</b>, <b>all</b> monsters, a type of <i>monster</i>,\nall <b>barrels</b> or all <b>missiles</b>."),
     CMD(load, "", null_func1, load_cmd_func2, 1, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_FLOAT(m_acceleration, "", float_cvars_func1, float_cvars_func2, CF_NONE,
@@ -553,9 +553,9 @@ consolecmd_t consolecmds[] =
     CMD(nomonsters, "", null_func1, nomonsters_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles the presence of monsters in maps."),
     CMD(notarget, "", game_func1, notarget_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
-        "Toggles monsters not seeing the player as a target."),
+        "Toggles monsters not seeing the player as a\ntarget."),
     CMD(pistolstart, "", null_func1, pistolstart_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
-        "Toggles the player starting each map with only a pistol."),
+        "Toggles the player starting each map with only a\npistol."),
     CMD(play, "", play_cmd_func1, play_cmd_func2, 1, PLAYCMDFORMAT,
         "Plays a <i>sound</i> or <i>music</i> lump."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
@@ -1248,7 +1248,7 @@ static void clear_cmd_func2(char *cmd, char *parms)
 //
 static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
-    const int tabs[8] = { 40, 275, 0, 0, 0, 0, 0, 0 };
+    const int tabs[8] = { 40, 336, 0, 0, 0, 0, 0, 0 };
     int       count = 0;
 
     C_TabbedOutput(tabs, CMDLISTTITLE);
