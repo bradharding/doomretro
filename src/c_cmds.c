@@ -76,12 +76,10 @@
 #define ALIASCMDFORMAT      "<i>alias</i> [[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
 #define BINDCMDFORMAT       "<i>control</i> [<b>+</b><i>action</i>|[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
 #define EXECCMDFORMAT       "<i>filename</i>"
-#define GIVECMDSHORTFORMAT  "<i>items</i>"
-#define GIVECMDLONGFORMAT   "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
+#define GIVECMDFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
 #define KILLCMDFORMAT       "<b>player</b>|<b>all</b>|<i>monster</i>|<b>barrels</b>|<b>missiles</b>"
 #define LOADCMDFORMAT       "<i>filename</i><b>.save</b>"
-#define MAPCMDSHORTFORMAT   "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>"
-#define MAPCMDLONGFORMAT    "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
+#define MAPCMDFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT       "<i>sound</i>|<i>music</i>"
 #define RESETCMDFORMAT      "<i>CVAR</i>"
 #define SAVECMDFORMAT       "<i>filename</i><b>.save</b>"
@@ -470,7 +468,7 @@ consolecmd_t consolecmds[] =
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
-    CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDSHORTFORMAT,
+    CMD(give, "", give_cmd_func1, give_cmd_func2, 1, GIVECMDFORMAT,
         "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>,\n<b>weapons</b>, or <b>all</b> or certain <i>items</i> to the player."),
     CMD(god, "", god_cmd_func1, god_cmd_func2, 1, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
@@ -533,7 +531,7 @@ consolecmd_t consolecmds[] =
         "The mouse's sensitivity (<b>0</b> to <b>128</b>)."),
     CVAR_INT(m_threshold, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The mouse's acceleration threshold."),
-    CMD(map, warp, map_cmd_func1, map_cmd_func2, 1, MAPCMDSHORTFORMAT,
+    CMD(map, warp, map_cmd_func1, map_cmd_func2, 1, MAPCMDFORMAT,
         "Warps to a map."),
     CMD(maplist, "", null_func1, maplist_cmd_func2, 0, "",
         "Shows a list of the available maps."),
@@ -1608,13 +1606,11 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
     sscanf(parm, "%10i", &num);
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
-    {
         if ((mobjinfo[i].flags & MF_SPECIAL) && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
             || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
             || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
             || (num == mobjinfo[i].doomednum && num != -1)))
             return true;
-    }
 
     return false;
 }
@@ -1624,7 +1620,7 @@ static void give_cmd_func2(char *cmd, char *parms)
     char    *parm = removespaces(parms);
 
     if (!*parm)
-        C_Output("<b>%s</b> %s", cmd, GIVECMDLONGFORMAT);
+        C_Output("<b>%s</b> %s", cmd, GIVECMDFORMAT);
     else
     {
         player_t    *player = &players[0];
@@ -2285,7 +2281,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     if (!*parms)
     {
-        C_Output("<b>%s</b> %s", cmd, MAPCMDLONGFORMAT);
+        C_Output("<b>%s</b> %s", cmd, MAPCMDFORMAT);
         return;
     }
 
