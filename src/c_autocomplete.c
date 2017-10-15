@@ -5667,6 +5667,7 @@ char autocompletelist[][255] =
     "play dswpnup",
     "playername ",
     "playerstats",
+    "print ",
     "quit",
     "r_althud ",
     "r_althud false",

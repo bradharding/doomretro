@@ -81,6 +81,7 @@
 #define LOADCMDFORMAT       "<i>filename</i><b>.save</b>"
 #define MAPCMDFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT       "<i>sound</i>|<i>music</i>"
+#define PRINTCMDFORMAT      "[<b>\"</b>]message[<b>\"</b>]"
 #define RESETCMDFORMAT      "<i>CVAR</i>"
 #define SAVECMDFORMAT       "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT      "<i>monster</i>|<i>item</i>"
@@ -249,6 +250,7 @@ static void pistolstart_cmd_func2(char *cmd, char *parms);
 static dboolean play_cmd_func1(char *cmd, char *parms);
 static void play_cmd_func2(char *cmd, char *parms);
 static void playerstats_cmd_func2(char *cmd, char *parms);
+static void print_cmd_func2(char *cmd, char *parms);
 static void quit_cmd_func2(char *cmd, char *parms);
 static void regenhealth_cmd_func2(char *cmd, char *parms);
 static void reset_cmd_func2(char *cmd, char *parms);
@@ -560,6 +562,8 @@ consolecmd_t consolecmds[] =
         "The name of the player used in player messages."),
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, 0, "",
         "Shows statistics about the player."),
+    CMD(print, "", null_func1, print_cmd_func2, 1, PRINTCMDFORMAT,
+        "Prints a message."),
     CMD(quit, exit, null_func1, quit_cmd_func2, 0, "",
         "Quits <i><b>"PACKAGE_NAME"</b></i>."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -3286,6 +3290,17 @@ static void playerstats_cmd_func2(char *cmd, char *parms)
         C_PlayerStats_Game();
     else
         C_PlayerStats_NoGame();
+}
+
+//
+// print CCMD
+//
+static void print_cmd_func2(char *cmd, char *parms)
+{
+    C_PlayerMessage(parms);
+
+    if (gamestate == GS_LEVEL && !message_dontfuckwithme)
+        HU_SetPlayerMessage(parms, false);
 }
 
 //
