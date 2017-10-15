@@ -5771,6 +5771,7 @@ char autocompletelist[][255] =
     "reset gp_invertyaxis",
     "reset gp_sensitivity",
     "reset gp_swapthumbsticks",
+    "reset gp_vibrate_barrels",
     "reset gp_vibrate_damage",
     "reset gp_vibrate_weapons",
     "reset health",

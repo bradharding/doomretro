@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby the help screen accessed using the <kbd>F1</kbd> key had a solid blue background.
 * Minor changes have been made to text that is output to the console.
+* Further improvements have been made to the console’s autocomplete feature.
 * Using the `vanilla` CCMD in an alias will now work correctly.
 * The `bind` CCMD can now be used to bind a string of commands to a control. For example, to enable vanilla mode without lowering the graphic detail by pressing the <kbd>V</kbd> key, enter `bind 'v' "vanilla; r_detail high"` in the console.
 * A custom message can now be displayed both at the top of the screen and in the console using the new `print` CCMD.
