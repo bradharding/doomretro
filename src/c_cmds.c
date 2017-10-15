@@ -1188,24 +1188,20 @@ void bind_cmd_func2(char *cmd, char *parms)
 static void C_DisplayBinds(const char *action, const int value, const controltype_t type, int *count)
 {
     const int   tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
-    int         i = 0;
 
-    while (controls[i].type)
+    for (int i = 0; controls[i].type; i++)
     {
+        const char  *control = controls[i].control;
+
         if (controls[i].type == type && controls[i].value == value)
         {
-            const char  *control = controls[i].control;
-
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "%i.\t'%s'\t%s", (*count)++, (control[0] == '=' ? "+" : control),
-                    action);
+                C_TabbedOutput(tabs, "%i.\t'%s'\t%s", (*count)++, (control[0] == '=' ? "+" : control), action);
             else
                 C_TabbedOutput(tabs, "%i.\t%s\t%s", (*count)++, control, action);
 
             break;
         }
-
-        i++;
     }
 }
 
@@ -1232,6 +1228,23 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
 
         if (actions[i].gamepad2)
             C_DisplayBinds(actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol, &count);
+    }
+
+    for (int i = 0; controls[i].type; i++)
+    {
+        const char  *control = controls[i].control;
+        const int   value = controls[i].value;
+
+        if (controls[i].type == keyboardcontrol && keyactionlist[value][0])
+        {
+            if (strlen(control) == 1)
+                C_TabbedOutput(tabs, "%i.\t'%s'\t%s", count++, (control[0] == '=' ? "+" : control),
+                    keyactionlist[value]);
+            else
+                C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, keyactionlist[value]);
+        }
+        else if (controls[i].type == mousecontrol && mouseactionlist[value][0])
+            C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, mouseactionlist[value]);
     }
 }
 
