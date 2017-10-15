@@ -35,6 +35,7 @@
 
 ========================================================================
 */
+#include "i_system.h"
 
 #if defined(_WIN32)
 #pragma warning( disable : 4091 )
@@ -70,7 +71,6 @@
 #endif
 
 #include "doomdef.h"
-#include "i_system.h"
 #include "m_fixed.h"
 #include "m_misc.h"
 #include "version.h"
