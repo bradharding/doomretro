@@ -1068,6 +1068,11 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                 action++;
             }
+
+            if (controls[i].type == keyboardcontrol)
+                keyactionlist[controls[i].value][0] = '\0';
+            else if (controls[i].type == mousecontrol)
+                mouseactionlist[controls[i].value][0] = '\0';
         }
         else
         {
