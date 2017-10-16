@@ -637,10 +637,10 @@ enum
 #define KEYSCREENSHOT_DEFAULT                   0
 #endif
 #define KEYSTRAFE_DEFAULT                       KEY_ALT
-#define KEYSTRAFELEFT_DEFAULT                   'a'
-#define KEYSTRAFELEFT2_DEFAULT                  ','
-#define KEYSTRAFERIGHT_DEFAULT                  'd'
-#define KEYSTRAFERIGHT2_DEFAULT                  '.'
+#define KEYSTRAFELEFT_DEFAULT                   ','
+#define KEYSTRAFELEFT2_DEFAULT                  'a'
+#define KEYSTRAFERIGHT_DEFAULT                  '.'
+#define KEYSTRAFERIGHT2_DEFAULT                 'd'
 #define KEYUP_DEFAULT                           KEY_UPARROW
 #define KEYUP2_DEFAULT                          'w'
 #define KEYUSE_DEFAULT                          ' '
