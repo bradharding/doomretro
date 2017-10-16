@@ -46,7 +46,6 @@
 		AB5A82961A8DB9EB00AF539F /* m_menu.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A821C1A8DB9EB00AF539F /* m_menu.c */; };
 		AB5A82971A8DB9EB00AF539F /* m_misc.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A821E1A8DB9EB00AF539F /* m_misc.c */; };
 		AB5A82981A8DB9EB00AF539F /* m_random.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82201A8DB9EB00AF539F /* m_random.c */; };
-		AB5A829D1A8DB9EB00AF539F /* memio.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82261A8DB9EB00AF539F /* memio.c */; };
 		AB5A829F1A8DB9EB00AF539F /* mmus2mid.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822A1A8DB9EB00AF539F /* mmus2mid.c */; };
 		AB5A82A01A8DB9EB00AF539F /* p_ceilng.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822C1A8DB9EB00AF539F /* p_ceilng.c */; };
 		AB5A82A11A8DB9EB00AF539F /* p_doors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A822D1A8DB9EB00AF539F /* p_doors.c */; };
@@ -93,6 +92,7 @@
 		F3C1ED6A1CF508B500C3E94F /* m_config.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED661CF508B500C3E94F /* m_config.c */; };
 		F3C1ED6B1CF508B500C3E94F /* r_patch.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED681CF508B500C3E94F /* r_patch.c */; };
 		F3C1ED6C1CF508FC00C3E94F /* m_controls.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82181A8DB9EB00AF539F /* m_controls.c */; };
+		F3CA36071F93C075009DD997 /* c_autocomplete.c in Sources */ = {isa = PBXBuildFile; fileRef = F3CA36061F93C074009DD997 /* c_autocomplete.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -192,8 +192,6 @@
 		AB5A821F1A8DB9EB00AF539F /* m_misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_misc.h; path = ../src/m_misc.h; sourceTree = SOURCE_ROOT; };
 		AB5A82201A8DB9EB00AF539F /* m_random.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_random.c; path = ../src/m_random.c; sourceTree = SOURCE_ROOT; };
 		AB5A82211A8DB9EB00AF539F /* m_random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_random.h; path = ../src/m_random.h; sourceTree = SOURCE_ROOT; };
-		AB5A82261A8DB9EB00AF539F /* memio.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = memio.c; path = ../src/memio.c; sourceTree = SOURCE_ROOT; };
-		AB5A82271A8DB9EB00AF539F /* memio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = memio.h; path = ../src/memio.h; sourceTree = SOURCE_ROOT; };
 		AB5A822A1A8DB9EB00AF539F /* mmus2mid.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = mmus2mid.c; path = ../src/mmus2mid.c; sourceTree = SOURCE_ROOT; };
 		AB5A822B1A8DB9EB00AF539F /* mmus2mid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mmus2mid.h; path = ../src/mmus2mid.h; sourceTree = SOURCE_ROOT; };
 		AB5A822C1A8DB9EB00AF539F /* p_ceilng.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = p_ceilng.c; path = ../src/p_ceilng.c; sourceTree = SOURCE_ROOT; };
@@ -275,6 +273,7 @@
 		F3C1ED671CF508B500C3E94F /* m_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_config.h; path = ../../src/m_config.h; sourceTree = "<group>"; };
 		F3C1ED681CF508B500C3E94F /* r_patch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = r_patch.c; path = ../../src/r_patch.c; sourceTree = "<group>"; };
 		F3C1ED691CF508B500C3E94F /* r_patch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = r_patch.h; path = ../../src/r_patch.h; sourceTree = "<group>"; };
+		F3CA36061F93C074009DD997 /* c_autocomplete.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = c_autocomplete.c; path = ../../src/c_autocomplete.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -343,6 +342,7 @@
 		AB5A80E81A8DAD0100AF539F /* doomretro */ = {
 			isa = PBXGroup;
 			children = (
+				F3CA36061F93C074009DD997 /* c_autocomplete.c */,
 				F3C1ED661CF508B500C3E94F /* m_config.c */,
 				F3C1ED671CF508B500C3E94F /* m_config.h */,
 				F3C1ED681CF508B500C3E94F /* r_patch.c */,
@@ -421,8 +421,6 @@
 				AB5A821F1A8DB9EB00AF539F /* m_misc.h */,
 				AB5A82201A8DB9EB00AF539F /* m_random.c */,
 				AB5A82211A8DB9EB00AF539F /* m_random.h */,
-				AB5A82261A8DB9EB00AF539F /* memio.c */,
-				AB5A82271A8DB9EB00AF539F /* memio.h */,
 				AB5A822A1A8DB9EB00AF539F /* mmus2mid.c */,
 				AB5A822B1A8DB9EB00AF539F /* mmus2mid.h */,
 				AB5A822C1A8DB9EB00AF539F /* p_ceilng.c */,
@@ -625,10 +623,10 @@
 				AB5A82B51A8DB9EB00AF539F /* r_data.c in Sources */,
 				AB5A82891A8DB9EB00AF539F /* doomretro.c in Sources */,
 				AB5A82C81A8DB9EB00AF539F /* wi_stuff.c in Sources */,
+				F3CA36071F93C075009DD997 /* c_autocomplete.c in Sources */,
 				AB5A82BC1A8DB9EB00AF539F /* s_sound.c in Sources */,
 				AB5A828F1A8DB9EB00AF539F /* i_video.c in Sources */,
 				AB5A82841A8DB9EB00AF539F /* f_wipe.c in Sources */,
-				AB5A829D1A8DB9EB00AF539F /* memio.c in Sources */,
 				AB5A827B1A8DB9EB00AF539F /* c_console.c in Sources */,
 				AB5A828D1A8DB9EB00AF539F /* i_timer.c in Sources */,
 				AB5A82B91A8DB9EB00AF539F /* r_segs.c in Sources */,
