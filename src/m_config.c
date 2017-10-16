@@ -400,20 +400,20 @@ void M_SaveCVARs(void)
 
     for (int i = 0; *actions[i].action; i++)
     {
-        if (actions[i].keyboard2)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
-
         if (actions[i].keyboard1)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol);
+
+        if (actions[i].keyboard2)
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
 
         if (actions[i].mouse1)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
 
-        if (actions[i].gamepad2)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol);
-
         if (actions[i].gamepad1)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol);
+
+        if (actions[i].gamepad2)
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol);
     }
 
     for (int i = 0; controls[i].type; i++)
