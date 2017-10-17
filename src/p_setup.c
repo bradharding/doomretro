@@ -2041,8 +2041,7 @@ void P_MapName(int ep, int map)
                     leafname(lumpinfo[W_GetNumForName(mapnum)]->wadfile->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]),
-                    sizeof(maptitle));
+                M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]), sizeof(maptitle));
 
             break;
 
@@ -2138,9 +2137,11 @@ void P_MapName(int ep, int map)
 
         if (pos)
         {
+            int index = (int)(pos - maptitle) + 1;
+
             if (M_StringStartsWith(uppercase(maptitle), "LEVEL"))
             {
-                strcpy(maptitle, pos + 1);
+                memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
                     strcpy(maptitle, &maptitle[1]);
@@ -2150,7 +2151,7 @@ void P_MapName(int ep, int map)
             else
             {
                 M_StringCopy(mapnumandtitle, titlecase(maptitle), sizeof(mapnumandtitle));
-                strcpy(maptitle, pos + 1);
+                memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
                     strcpy(maptitle, &maptitle[1]);
