@@ -703,11 +703,21 @@ static void P_LoadSectors(int lump)
         ss->special = SHORT(ms->special);
         ss->tag = SHORT(ms->tag);
 
-        ss->nextsec = -1;       // jff 2/26/98 add fields to support locking out
-        ss->prevsec = -1;       // stair retriggering until build completes
-        ss->heightsec = -1;     // sector used to get floor and ceiling height
-        ss->floorlightsec = -1; // sector used to get floor lighting
-        ss->ceilinglightsec = -1;
+        ss->nextsec = -1;           // jff 2/26/98 add fields to support locking out
+        ss->prevsec = -1;           // stair retriggering until build completes
+        ss->floor_xoffs = 0;
+        ss->floor_yoffs = 0;        // floor and ceiling flats offsets
+        ss->ceiling_xoffs = 0;
+        ss->ceiling_yoffs = 0;
+        ss->heightsec = -1;         // sector used to get floor and ceiling height
+        ss->floorlightsec = -1;     // sector used to get floor lighting
+        ss->ceilinglightsec = -1;   // sector used to get ceiling lighting
+        ss->bottommap = 0;
+        ss->midmap = 0;
+        ss->topmap = 0;
+        ss->sky = 0;
+        ss->cachedheight = 0;
+        ss->scaleindex = 0;
 
         // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors)
