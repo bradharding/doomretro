@@ -2144,7 +2144,7 @@ void P_MapName(int ep, int map)
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
-                    strcpy(maptitle, &maptitle[1]);
+                    memmove(maptitle, maptitle + 1, strlen(maptitle));
 
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, titlecase(maptitle));
             }
@@ -2154,7 +2154,7 @@ void P_MapName(int ep, int map)
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
-                    strcpy(maptitle, &maptitle[1]);
+                    memmove(maptitle, maptitle + 1, strlen(maptitle));
             }
         }
         else if (!M_StringCompare(mapnum, maptitle))
