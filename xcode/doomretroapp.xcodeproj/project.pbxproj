@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8A6AB8171B49BE8100E0666A /* doomretro.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8A6AB8161B49BE8100E0666A /* doomretro.icns */; };
 		8A97F56C1B5BD909009FA1D9 /* d_loop.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A97F56A1B5BD909009FA1D9 /* d_loop.c */; };
 		8AD637331B33390400605ECA /* p_genlin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AD637321B3338E400605ECA /* p_genlin.c */; };
 		9F385F291C28ADAF00BD4F2B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F385F281C28ADAF00BD4F2B /* SDL2.framework */; };
@@ -86,6 +85,7 @@
 		AB5A82C71A8DB9EB00AF539F /* w_wad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82721A8DB9EB00AF539F /* w_wad.c */; };
 		AB5A82C81A8DB9EB00AF539F /* wi_stuff.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82741A8DB9EB00AF539F /* wi_stuff.c */; };
 		AB5A82CA1A8DB9EB00AF539F /* z_zone.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82771A8DB9EB00AF539F /* z_zone.c */; };
+		F3142B161F97B1A200CCB7FD /* doomretro.iconset in Resources */ = {isa = PBXBuildFile; fileRef = F3142B151F97B1A100CCB7FD /* doomretro.iconset */; };
 		F31526711D16F69100824B66 /* doomretro.wad in Resources */ = {isa = PBXBuildFile; fileRef = F31526701D16F69100824B66 /* doomretro.wad */; };
 		F3C1ED641CF5028600C3E94F /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; };
 		F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -267,6 +267,7 @@
 		AB5A82751A8DB9EB00AF539F /* wi_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wi_stuff.h; path = ../src/wi_stuff.h; sourceTree = SOURCE_ROOT; };
 		AB5A82771A8DB9EB00AF539F /* z_zone.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = z_zone.c; path = ../src/z_zone.c; sourceTree = SOURCE_ROOT; };
 		AB5A82781A8DB9EB00AF539F /* z_zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = z_zone.h; path = ../src/z_zone.h; sourceTree = SOURCE_ROOT; };
+		F3142B151F97B1A100CCB7FD /* doomretro.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = doomretro.iconset; path = ../res/doomretro.iconset; sourceTree = "<group>"; };
 		F31526701D16F69100824B66 /* doomretro.wad */ = {isa = PBXFileReference; lastKnownFileType = file; name = doomretro.wad; path = ../res/doomretro.wad; sourceTree = "<group>"; };
 		F3C1ED631CF5028600C3E94F /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = "<group>"; };
 		F3C1ED661CF508B500C3E94F /* m_config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = m_config.c; path = ../../src/m_config.c; sourceTree = "<group>"; };
@@ -315,6 +316,7 @@
 		AB5A80B91A8DABE100AF539F = {
 			isa = PBXGroup;
 			children = (
+				F3142B151F97B1A100CCB7FD /* doomretro.iconset */,
 				9F385F2F1C29BFA400BD4F2B /* Frameworks */,
 				9F385F301C29BFAF00BD4F2B /* Resources */,
 				AB5A80C41A8DABE100AF539F /* doomretroapp */,
@@ -561,7 +563,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F31526711D16F69100824B66 /* doomretro.wad in Resources */,
-				8A6AB8171B49BE8100E0666A /* doomretro.icns in Resources */,
+				F3142B161F97B1A200CCB7FD /* doomretro.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,6 +661,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -683,14 +686,14 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -701,6 +704,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -720,14 +724,14 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
@@ -737,6 +741,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -759,6 +764,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
