@@ -297,7 +297,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AssemblerOutput>All</AssemblerOutput>
       <EnablePREfast>false</EnablePREfast>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <OmitFramePointers>true</OmitFramePointers>
       <CallingConvention>Cdecl</CallingConvention>
