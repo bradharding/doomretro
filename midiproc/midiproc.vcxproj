@@ -52,19 +52,15 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\msvc\doomretro.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\msvc\doomretro.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\msvc\doomretro.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\msvc\doomretro.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -89,7 +85,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SDL2PATH)include;$(SDL2MIXERPATH)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\SDL2-2.0.5\include;$(ProjectDir)..\SDL2_mixer-2.0.1\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -105,7 +101,7 @@
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>$(SDL2PATH)lib\x86;$(SDL2MIXERPATH)lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.5\lib\x86;$(ProjectDir)..\SDL2_mixer-2.0.1\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <HeaderFileName>%(Filename).h</HeaderFileName>
@@ -117,7 +113,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SDL2PATH)include;$(SDL2MIXERPATH)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\SDL2-2.0.5\include;$(ProjectDir)..\SDL2_mixer-2.0.1\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -132,7 +128,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>$(SDL2PATH)lib\x64;$(SDL2MIXERPATH)lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.5\lib\x64;$(ProjectDir)..\SDL2_mixer-2.0.1\lib\x64</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <HeaderFileName>%(Filename).h</HeaderFileName>
@@ -145,7 +141,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SDL2PATH)include;$(SDL2MIXERPATH)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\SDL2-2.0.5\include;$(ProjectDir)..\SDL2_mixer-2.0.1\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -161,7 +157,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(SDL2PATH)lib\x86;$(SDL2MIXERPATH)lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.5\lib\x86;$(ProjectDir)..\SDL2_mixer-2.0.1\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <HeaderFileName>%(Filename).h</HeaderFileName>
@@ -174,7 +170,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SDL2PATH)include;$(SDL2MIXERPATH)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\SDL2-2.0.5\include;$(ProjectDir)..\SDL2_mixer-2.0.1\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -190,7 +186,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>$(SDL2PATH)lib\x64;$(SDL2MIXERPATH)lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.5\lib\x64;$(ProjectDir)..\SDL2_mixer-2.0.1\lib\x64</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <HeaderFileName>%(Filename).h</HeaderFileName>

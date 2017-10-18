@@ -264,9 +264,9 @@ void I_InitWindows32(void)
     hwnd = info.info.win.window;
 
     icon = LoadIcon(handle, "IDI_ICON1");
-    SetClassLongPtr(hwnd, GCLP_HICON, (LONG)icon);
+    SetClassLongPtr(hwnd, GCLP_HICON, (LONG_PTR)icon);
 
-    oldProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG)WndProc);
+    oldProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 
     windowborderwidth = (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
     windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
