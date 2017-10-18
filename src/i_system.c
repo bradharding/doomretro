@@ -83,7 +83,7 @@ void I_PrintWindowsVersion(void)
             BOOL    Wow64Process = FALSE;
 
             pIsWow64Process(GetCurrentProcess(), &Wow64Process);
-            strcpy(bits, (Wow64Process ? " (64-bit)" : " (32-bit)"));
+            strcpy(bits, (Wow64Process || sizeof(intptr_t) == 8 ? " (64-bit)" : " (32-bit)"));
         }
 
         ZeroMemory(&info, sizeof(OSVERSIONINFOEXW));
