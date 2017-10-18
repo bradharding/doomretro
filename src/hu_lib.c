@@ -97,7 +97,7 @@ static void HU_drawDot(int x, int y, unsigned char src)
 // [BH] draw an individual character to temporary buffer
 static void HU_drawChar(int x, int y, int ch)
 {
-    int w = strlen(smallcharset[ch]) / 10;
+    int w = (int)strlen(smallcharset[ch]) / 10;
 
     if (r_messagescale == r_messagescale_small)
     {
@@ -300,7 +300,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
                 }
 
                 // [BH] draw individual character
-                w = strlen(smallcharset[j]) / 10 - 1;
+                w = (int)strlen(smallcharset[j]) / 10 - 1;
                 HU_drawChar(x, y - 1, j);
 
                 prev = c;

@@ -268,7 +268,7 @@ static void HU_Stop(void)
 void HU_Start(void)
 {
     char    *s = strdup(automaptitle);
-    int     len = strlen(s);
+    int     len = (int)strlen(s);
 
     if (headsupactive)
         HU_Stop();
@@ -1062,12 +1062,10 @@ void HU_Ticker(void)
     {
         if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
         {
+            int     len = (int)strlen(plr->message);
             char    *s = malloc(133);
-            int     len;
 
             strcpy(s, plr->message);
-
-            len = strlen(s);
 
             while (M_StringWidth(s) > ORIGINALWIDTH - 6)
             {

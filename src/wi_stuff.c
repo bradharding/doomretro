@@ -326,7 +326,7 @@ static void WI_slamBackground(void)
 // [BH] Draws character of "<Levelname>"
 static void WI_drawWILVchar(int x, int y, int i)
 {
-    int w = strlen(wilv[i]) / 13;
+    int w = (int)strlen(wilv[i]) / 13;
 
     for (int y1 = 0; y1 < 13; y1++)
         for (int x1 = 0; x1 < w; x1++)
@@ -355,15 +355,15 @@ static const int chartoi[130] =
 
 static void WI_drawWILV(int y, char *str)
 {
-    size_t  len = strlen(str);
-    int     w = 0;
-    int     x;
+    int len = (int)strlen(str);
+    int w = 0;
+    int x;
 
     for (size_t i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
 
-        w += (j == -1 ? 6 : (strlen(wilv[j]) / 13 - 2));
+        w += (j == -1 ? 6 : ((int)strlen(wilv[j]) / 13 - 2));
     }
 
     x = (ORIGINALWIDTH - w - 1) / 2;
@@ -380,7 +380,7 @@ static void WI_drawWILV(int y, char *str)
         else
         {
             WI_drawWILVchar(x, y, j);
-            x += strlen(wilv[j]) / 13 - 2;
+            x += (int)strlen(wilv[j]) / 13 - 2;
         }
     }
 }

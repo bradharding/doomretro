@@ -1336,7 +1336,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 else
                 {
                     char            *string = strdup(console[i].string);
-                    unsigned int    len;
+                    int             len;
                     unsigned int    outpos = 0;
                     int             tabcount = 0;
 
@@ -1344,9 +1344,9 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     strreplace(string, "</b>", "");
                     strreplace(string, "<i>", "");
                     strreplace(string, "</i>", "");
-                    len = strlen(string);
+                    len = (int)strlen(string);
 
-                    for (unsigned int inpos = 0; inpos < len; inpos++)
+                    for (int inpos = 0; inpos < len; inpos++)
                     {
                         const unsigned char letter = string[inpos];
 

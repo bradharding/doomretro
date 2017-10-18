@@ -237,8 +237,8 @@ void F_Ticker(void)
 
     if (finalestage == F_STAGE_TEXT)
     {
-        if (finalecount > FixedMul(strlen(finaletext) * FRACUNIT, TextSpeed()) + (midstage ? NEWTEXTWAIT :
-            TEXTWAIT) || (midstage && acceleratestage))
+        if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed())
+            + (midstage ? NEWTEXTWAIT : TEXTWAIT) || (midstage && acceleratestage))
         {
             if (gamemode != commercial)
             {
@@ -388,7 +388,7 @@ static void F_TextWrite(void)
                 k++;
             }
 
-            w = strlen(smallcharset[c]) / 10 - 1;
+            w = (int)strlen(smallcharset[c]) / 10 - 1;
             M_DrawSmallChar(cx + 1, cy + 1, c, true);
         }
 

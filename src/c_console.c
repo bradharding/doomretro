@@ -435,11 +435,11 @@ static struct
 
 static int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
 {
-    const size_t    len = strlen(text);
+    const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
     int             w = 0;
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
         const int           c = letter - CONSOLEFONTSTART;
@@ -628,7 +628,7 @@ void C_HideConsoleFast(void)
 
 void C_StripQuotes(char *string)
 {
-    size_t  len = strlen(string);
+    int len = (int)strlen(string);
 
     if (len > 2 && ((string[0] == '\"' && string[len - 1] == '\"') || (string[0] == '\''
         && string[len - 1] == '\'')))
@@ -720,7 +720,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     int             bold = 0;
     dboolean        italics = false;
     int             tab = -1;
-    size_t          len = strlen(text);
+    int             len = (int)strlen(text);
     unsigned char   prevletter = '\0';
     int             width = 0;
 
@@ -743,7 +743,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             len--;
         }
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
 
@@ -752,8 +752,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
             bold = (italics ? 2 : 1);
             i += 2;
         }
-        else if (letter == '<' && text[i + 1] == '/' && text[i + 2] == 'b' && text[i + 3] == '>'
-            && formatting)
+        else if (letter == '<' && text[i + 1] == '/' && text[i + 2] == 'b' && text[i + 3] == '>' && formatting)
         {
             bold = 0;
             i += 3;
@@ -819,9 +818,9 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
 
 static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 {
-    const size_t    len = strlen(text);
+    const int   len = (int)strlen(text);
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         char    letter = text[i];
 
@@ -840,11 +839,11 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 
 static void C_DrawTimeStamp(int x, int y, const char *text)
 {
-    const size_t    len = strlen(text);
+    const int   len = (int)strlen(text);
 
     y -= (CONSOLEHEIGHT - consoleheight);
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         patch_t     *patch = consolefont[text[i] - CONSOLEFONTSTART];
         const int   width = SHORT(patch->width);
@@ -1113,7 +1112,7 @@ dboolean C_ValidateInput(const char *input)
         {
             if (consolecmds[i].parameters)
             {
-                const size_t    length = strlen(input);
+                const int   length = (int)strlen(input);
 
                 if (isdigit(input[length - 2]) && isdigit(input[length - 1]))
                 {
@@ -1345,7 +1344,7 @@ dboolean C_Responder(event_t *ev)
                     }
                 }
                 else if (!(modstate & KMOD_SHIFT))
-                    caretpos = selectend = selectstart = strlen(consoleinput);
+                    caretpos = selectend = selectstart = (int)strlen(consoleinput);
 
                 break;
 
@@ -1369,8 +1368,8 @@ dboolean C_Responder(event_t *ev)
                     outputhistory = -1;
                 else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
-                    selectstart = ((modstate & KMOD_SHIFT) ? caretpos : strlen(consoleinput));
-                    caretpos = selectend = strlen(consoleinput);
+                    selectstart = ((modstate & KMOD_SHIFT) ? caretpos : (int)strlen(consoleinput));
+                    caretpos = selectend = (int)strlen(consoleinput);
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
@@ -1399,11 +1398,11 @@ dboolean C_Responder(event_t *ev)
                         static char output[255];
                         int         spaces2;
                         dboolean    endspace2;
-                        size_t      len2;
+                        int         len2;
 
                         autocomplete += direction;
                         M_StringCopy(output, autocompletelist[autocomplete], sizeof(output));
-                        len2 = strlen(output);
+                        len2 = (int)strlen(output);
                         spaces2 = numspaces(output);
                         endspace2 = (output[len2 - 1] == ' ');
 
@@ -1445,7 +1444,7 @@ dboolean C_Responder(event_t *ev)
                         {
                             inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
-                            caretpos = selectstart = selectend = strlen(consoleinput);
+                            caretpos = selectstart = selectend = (int)strlen(consoleinput);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
                             break;
@@ -1482,7 +1481,7 @@ dboolean C_Responder(event_t *ev)
                             M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                         }
 
-                        caretpos = selectstart = selectend = strlen(consoleinput);
+                        caretpos = selectstart = selectend = (int)strlen(consoleinput);
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                     }
@@ -1530,7 +1529,7 @@ dboolean C_Responder(event_t *ev)
                     if (ch == 'a')
                     {
                         selectstart = 0;
-                        selectend = caretpos = strlen(consoleinput);
+                        selectend = caretpos = (int)strlen(consoleinput);
                     }
 
                     // copy selected text to clipboard
@@ -1554,7 +1553,7 @@ dboolean C_Responder(event_t *ev)
                         {
                             C_AddToUndoHistory();
                             M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
-                            selectstart += strlen(SDL_GetClipboardText());
+                            selectstart += (int)strlen(SDL_GetClipboardText());
                             selectend = caretpos = selectstart;
                         }
                     }
@@ -1568,7 +1567,7 @@ dboolean C_Responder(event_t *ev)
                             SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
                                 selectend - selectstart));
 
-                            for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+                            for (i = selectend; i < (int)strlen(consoleinput); i++)
                                 consoleinput[selectstart + i - selectend] = consoleinput[i];
 
                             consoleinput[selectstart + i - selectend] = '\0';
@@ -1610,7 +1609,7 @@ dboolean C_Responder(event_t *ev)
                             // replace selected text with a character
                             consoleinput[selectstart] = ch;
 
-                            for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+                            for (i = selectend; i < (int)strlen(consoleinput); i++)
                                 consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
 
                             consoleinput[selectstart + i - selectend + 1] = '\0';
@@ -1624,7 +1623,7 @@ dboolean C_Responder(event_t *ev)
                             if (strlen(consoleinput) < 255)
                                 consoleinput[strlen(consoleinput) + 1] = '\0';
 
-                            for (i = strlen(consoleinput); i > caretpos; i--)
+                            for (i = (int)strlen(consoleinput); i > caretpos; i--)
                                 consoleinput[i] = consoleinput[i - 1];
 
                             consoleinput[caretpos++] = ch;

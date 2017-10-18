@@ -71,7 +71,7 @@ dboolean         dehacked;
 // killough 10/98: emulate IO whether input really comes from a file or not
 
 // haleyjd: got rid of macros for MSVC
-static char *dehfgets(char *buf, size_t n, DEHFILE *fp)
+static char *dehfgets(char *buf, int n, DEHFILE *fp)
 {
     if (!fp->lump)                              // If this is a real file,
         return fgets(buf, n, fp->f);            // return regular fgets
@@ -2256,7 +2256,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     // Use OR logic instead of addition, to allow repetition
                     for (; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                     {
-                        size_t  iy;
+                        int iy;
 
                         for (iy = 0; iy < DEH_MOBJFLAGMAX; iy++)
                         {
@@ -2305,7 +2305,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
                     for (; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                     {
-                        size_t  iy;
+                        int iy;
 
                         for (iy = 0; iy < DEH_MOBJFLAG2MAX; iy++)
                         {
@@ -3304,7 +3304,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
             C_Output("Checking text area through strings for \"%.12s%s\" from = %i to = %i", inbuffer,
             (strlen(inbuffer) > 12 ? "..." : ""), fromlen, tolen);
 
-        if ((size_t)fromlen <= strlen(inbuffer))
+        if (fromlen <= (int)strlen(inbuffer))
         {
             line2 = strdup(&inbuffer[fromlen]);
             inbuffer[fromlen] = '\0';
@@ -3378,11 +3378,10 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
         while (strlen(holdstring) + strlen(inbuffer) > (unsigned int)maxstrlen)
         {
             // killough 11/98: allocate enough the first time
-            maxstrlen += strlen(holdstring) + strlen(inbuffer) - maxstrlen;
+            maxstrlen += (int)strlen(holdstring) + (int)strlen(inbuffer) - maxstrlen;
 
             if (devparm)
-                C_Output("* increased buffer from to %i for buffer size %i", maxstrlen,
-                (int)strlen(inbuffer));
+                C_Output("* increased buffer from to %i for buffer size %i", maxstrlen, (int)strlen(inbuffer));
 
             holdstring = I_Realloc(holdstring, maxstrlen * sizeof(*holdstring));
         }

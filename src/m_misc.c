@@ -489,16 +489,16 @@ dboolean M_StrToInt(const char *str, unsigned int *result)
 //
 char *M_StrCaseStr(char *haystack, char *needle)
 {
-    unsigned int    haystack_len = strlen(haystack);
-    unsigned int    needle_len = strlen(needle);
-    unsigned int    len;
+    int haystack_len = (int)strlen(haystack);
+    int needle_len = (int)strlen(needle);
+    int len;
 
     if (haystack_len < needle_len)
         return NULL;
 
     len = haystack_len - needle_len;
 
-    for (unsigned int i = 0; i <= len; i++)
+    for (int i = 0; i <= len; i++)
         if (!strncasecmp(haystack + i, needle, needle_len))
             return haystack + i;
 
@@ -659,14 +659,14 @@ char *lowercase(char *str)
 char *titlecase(const char *str)
 {
     char    *newstr = strdup(str);
-    size_t  len = strlen(newstr);
+    int     len = (int)strlen(newstr);
 
     if (len > 0)
     {
         newstr[0] = toupper(newstr[0]);
 
         if (len > 1)
-            for (size_t i = 1; i < len; i++)
+            for (int i = 1; i < len; i++)
                 if ((newstr[i - 1] != '\'' || newstr[i - 2] == ' ') && !isalnum((unsigned char)newstr[i - 1])
                     && isalnum((unsigned char)newstr[i]))
                     newstr[i] = toupper(newstr[i]);
@@ -678,10 +678,10 @@ char *titlecase(const char *str)
 char *formatsize(const char *str)
 {
     char    *newstr = strdup(str);
-    size_t  len = strlen(newstr);
+    int     len = (int)strlen(newstr);
 
     if (len > 1)
-        for (size_t i = 1; i < len; i++)
+        for (int i = 1; i < len; i++)
             if (newstr[i] == 'x')
             {
                 newstr[i] = '\xD7';
@@ -783,10 +783,10 @@ int gcd(int a, int b)
 
 int numspaces(char *str)
 {
-    int     result = 0;
-    size_t  len = strlen(str);
+    int result = 0;
+    int len = (int)strlen(str);
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
         result += (str[i] == ' ');
 
     return result;
@@ -854,9 +854,9 @@ char *removenewlines(const char *str)
 char *makevalidfilename(const char *input)
 {
     char    *newstr = strdup(input);
-    size_t  len = strlen(newstr);
+    int     len = (int)strlen(newstr);
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
         if (strchr("\\/:?\"<>|", newstr[i]))
             newstr[i] = ' ';
 
@@ -901,10 +901,10 @@ char *striptrailingzero(float value, int precision)
 
     if (result)
     {
-        size_t  len;
+        int len;
 
         M_snprintf(result, 100, "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
-        len = strlen(result);
+        len = (int)strlen(result);
 
         if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
             result[len - 1] = '\0';
@@ -918,8 +918,8 @@ void strreplace(char *target, char *needle, const char *replacement)
     char    buffer[1024] = "";
     char    *insert_point = &buffer[0];
     char    *tmp = target;
-    size_t  needle_len = strlen(needle);
-    size_t  repl_len = strlen(replacement);
+    int     needle_len = (int)strlen(needle);
+    int     repl_len = (int)strlen(replacement);
 
     while (1)
     {

@@ -136,7 +136,7 @@ static dboolean FindAndFreeSound(void)
 
 // Enforce SFX cache size limit. We are just about to allocate "len" bytes on the heap for a new
 // sound effect, so free up some space so that we keep allocated_sounds_size < snd_cachesize
-static void ReserveCacheSpace(size_t len)
+static void ReserveCacheSpace(int len)
 {
     // Keep freeing sound effects that aren't currently being played, until there is enough space
     // for the new sound.
@@ -147,7 +147,7 @@ static void ReserveCacheSpace(size_t len)
 }
 
 // Allocate a block for a new sound effect.
-static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, size_t len)
+static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
 {
     allocated_sound_t   *snd;
 

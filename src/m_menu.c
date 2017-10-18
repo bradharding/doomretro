@@ -601,7 +601,7 @@ static void M_DarkBlueBackground(void)
 //
 static void M_DrawChar(int x, int y, int i, dboolean overlapping)
 {
-    int w = strlen(redcharset[i]) / 18;
+    int w = (int)strlen(redcharset[i]) / 18;
 
     for (int y1 = 0; y1 < 18; y1++)
         for (int x1 = 0; x1 < w; x1++)
@@ -673,8 +673,9 @@ static struct
 void M_DrawString(int x, int y, char *str)
 {
     static char prev;
+    int         len = (int)strlen(str);
 
-    for (size_t i = 0; i < strlen(str); i++)
+    for (int i = 0; i < len; i++)
     {
         int         j = -1;
         int         k = 0;
@@ -712,7 +713,7 @@ void M_DrawString(int x, int y, char *str)
         else
         {
             M_DrawChar(x, y, j, overlapping);
-            x += strlen(redcharset[j]) / 18 - 2;
+            x += (int)strlen(redcharset[j]) / 18 - 2;
         }
 
         prev = str[i];
@@ -727,9 +728,9 @@ static int M_BigStringWidth(char *str)
 {
     int         w = 0;
     static char prev;
-    size_t      len = strlen(str);
+    int         len = (int)strlen(str);
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
         int k = 0;
@@ -742,8 +743,7 @@ static int M_BigStringWidth(char *str)
             k++;
         }
 
-        w += (j == -1 ? 9 : strlen(redcharset[j]) / 18 - 2);
-
+        w += (j == -1 ? 9 : (int)strlen(redcharset[j]) / 18 - 2);
         prev = str[i];
     }
 
@@ -765,7 +765,9 @@ void M_DrawCenteredString(int y, char *str)
 //
 static void M_SplitString(char *string)
 {
-    for (size_t i = strlen(string) / 2 - 1; i < strlen(string); i++)
+    int len = (int)strlen(string);
+
+    for (int i = len / 2 - 1; i < len; i++)
         if (string[i] == ' ')
         {
             string[i] = '\n';
@@ -1071,6 +1073,7 @@ static void M_DrawSave(void)
         if (saveStringEnter && i == saveSlot)
         {
             int j;
+            int len = (int)strlen(savegamestrings[i]);
 
             // draw text to left of text caret
             for (j = 0; j < saveCharIndex; j++)
@@ -1080,7 +1083,7 @@ static void M_DrawSave(void)
             M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, left, false);
 
             // draw text to right of text caret
-            for (j = 0; (unsigned int)j < strlen(savegamestrings[i]) - saveCharIndex; j++)
+            for (j = 0; j < len - saveCharIndex; j++)
                 right[j] = savegamestrings[i][j + saveCharIndex];
 
             right[j] = '\0';
@@ -1162,22 +1165,21 @@ static const char *RemoveMapNum(const char *str)
 void M_UpdateSaveGameName(int i)
 {
     dboolean    match = false;
+    int         len = (int)strlen(savegamestrings[i]);
 
     if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
         match = true;
-    else if (gamemission == doom && strlen(savegamestrings[i]) == 4 && savegamestrings[i][0] == 'E'
-        && isdigit(savegamestrings[i][1]) && savegamestrings[i][2] == 'M' && isdigit(savegamestrings[i][3])
+    else if (gamemission == doom && len == 4 && savegamestrings[i][0] == 'E' && isdigit(savegamestrings[i][1])
+        && savegamestrings[i][2] == 'M' && isdigit(savegamestrings[i][3])
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
-    else if (gamemission != doom && strlen(savegamestrings[i]) == 5 && savegamestrings[i][0] == 'M'
-        && savegamestrings[i][1] == 'A' && savegamestrings[i][2] == 'P' && isdigit(savegamestrings[i][3])
-        && isdigit(savegamestrings[i][4]) && W_CheckNumForName(savegamestrings[i]) >= 0)
+    else if (gamemission != doom && len == 5 && savegamestrings[i][0] == 'M' && savegamestrings[i][1] == 'A'
+        && savegamestrings[i][2] == 'P' && isdigit(savegamestrings[i][3]) && isdigit(savegamestrings[i][4])
+        && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
 
     if (!match && !M_StringCompare(maptitle, mapnumandtitle))
     {
-        int len = strlen(savegamestrings[i]);
-
         if (len >= 4 && savegamestrings[i][len - 1] == '.' && savegamestrings[i][len - 2] == '.'
             && savegamestrings[i][len - 3] == '.' && savegamestrings[i][len - 4] != '.')
             match = true;
@@ -1253,7 +1255,7 @@ void M_UpdateSaveGameName(int i)
 
     if (match)
     {
-        int len = strlen(maptitle);
+        int len = (int)strlen(maptitle);
 
         M_StringCopy(savegamestrings[i], maptitle, SAVESTRINGSIZE);
 
@@ -1275,7 +1277,7 @@ static void M_SaveSelect(int choice)
     saveSlot = choice;
     M_StringCopy(saveOldString, savegamestrings[saveSlot], SAVESTRINGSIZE);
     M_UpdateSaveGameName(saveSlot);
-    saveCharIndex = strlen(savegamestrings[saveSlot]);
+    saveCharIndex = (int)strlen(savegamestrings[saveSlot]);
 }
 
 //
@@ -2214,7 +2216,7 @@ static int M_CharacterWidth(char ch, char prev)
     if (c < 0 || c >= HU_FONTSIZE)
         return (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
     else
-        return (STCFN034 ? SHORT(hu_font[c]->width) : strlen(smallcharset[c]) / 10 - 1);
+        return (STCFN034 ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
 }
 
 //
@@ -2223,8 +2225,9 @@ static int M_CharacterWidth(char ch, char prev)
 int M_StringWidth(char *string)
 {
     int w = 0;
+    int len = (int)strlen(string);
 
-    for (size_t i = 0; i < strlen(string); i++)
+    for (int i = 0; i < len; i++)
         w += M_CharacterWidth(string[i], (i > 0 ? string[i - 1] : 0));
 
     return w;
@@ -2236,8 +2239,9 @@ int M_StringWidth(char *string)
 static int M_StringHeight(char *string)
 {
     int h = 8;
+    int len = (int)strlen(string);
 
-    for (size_t i = 0; i < strlen(string); i++)
+    for (int i = 0; i < len; i++)
         if (string[i] == '\n')
             h += (i > 0 && string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8));
 
@@ -2249,7 +2253,7 @@ static int M_StringHeight(char *string)
 //
 void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
 {
-    int w = strlen(smallcharset[i]) / 10;
+    int w = (int)strlen(smallcharset[i]) / 10;
 
     for (int y1 = 0; y1 < 10; y1++)
         for (int x1 = 0; x1 < w; x1++)
@@ -2314,7 +2318,7 @@ static void M_WriteText(int x, int y, char *string, dboolean shadow)
                     c = 65;
             }
 
-            w = strlen(smallcharset[c]) / 10 - 1;
+            w = (int)strlen(smallcharset[c]) / 10 - 1;
 
             if (cx + w > ORIGINALWIDTH)
                 break;
@@ -2372,11 +2376,13 @@ void M_ChangeGamma(dboolean shift)
         else
         {
             static char buf[128];
+            int         len;
 
             M_snprintf(buf, sizeof(buf), "%.2f", r_gamma);
+            len = (int)strlen(buf);
 
-            if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
-                buf[strlen(buf) - 1] = '\0';
+            if (buf[len - 1] == '0' && buf[len - 2] == '0')
+                buf[len - 1] = '\0';
 
             C_StrCVAROutput(stringize(r_gamma), buf);
         }
@@ -2389,11 +2395,13 @@ void M_ChangeGamma(dboolean shift)
     else
     {
         static char buf[128];
+        int         len;
 
         M_snprintf(buf, sizeof(buf), s_GAMMALVL, r_gamma);
+        len = (int)strlen(buf);
 
-        if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
-            buf[strlen(buf) - 1] = '\0';
+        if (buf[len - 1] == '0' && buf[len - 2] == '0')
+            buf[len - 1] = '\0';
 
         HU_PlayerMessage(buf, false);
     }
@@ -2569,7 +2577,9 @@ dboolean M_Responder(event_t *ev)
 
                 if (saveCharIndex > 0)
                 {
-                    for (size_t j = saveCharIndex - 1; j < strlen(savegamestrings[saveSlot]); j++)
+                    int len = (int)strlen(savegamestrings[saveSlot]);
+
+                    for (int j = saveCharIndex - 1; j < len; j++)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
 
                     saveCharIndex--;
@@ -2581,12 +2591,14 @@ dboolean M_Responder(event_t *ev)
 
             // delete character right of caret
             case KEY_DELETE:
+            {
+                int len = (int)strlen(savegamestrings[saveSlot]);
+
                 keydown = key;
 
-                if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
+                if (saveCharIndex < len)
                 {
-
-                    for (size_t j = saveCharIndex; j < strlen(savegamestrings[saveSlot]); j++)
+                    for (int j = saveCharIndex; j < len; j++)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
 
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -2594,6 +2606,7 @@ dboolean M_Responder(event_t *ev)
                 }
 
                 break;
+            }
 
             // cancel
             case KEY_ESCAPE:
@@ -2613,11 +2626,12 @@ dboolean M_Responder(event_t *ev)
             case KEY_ENTER:
                 if (!keydown)
                 {
+                    int         len = (int)strlen(savegamestrings[saveSlot]);
                     dboolean    allspaces = true;
 
                     keydown = key;
 
-                    for (int i = 0; (unsigned int)i < strlen(savegamestrings[saveSlot]); i++)
+                    for (int i = 0; i < len; i++)
                         if (savegamestrings[saveSlot][i] != ' ')
                             allspaces = false;
 
@@ -2645,7 +2659,7 @@ dboolean M_Responder(event_t *ev)
 
             // move caret right
             case KEY_RIGHTARROW:
-                if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
+                if (saveCharIndex < (int)strlen(savegamestrings[saveSlot]))
                 {
                     saveCharIndex++;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -2667,32 +2681,39 @@ dboolean M_Responder(event_t *ev)
 
             // move caret to end
             case KEY_END:
-                if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
+            {
+                int len = (int)strlen(savegamestrings[saveSlot]);
+
+                if (saveCharIndex < len)
                 {
-                    saveCharIndex = strlen(savegamestrings[saveSlot]);
+                    saveCharIndex = len;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
 
                 break;
+            }
 
             default:
+            {
+                int len = (int)strlen(savegamestrings[saveSlot]);
+
                 ch = toupper(ch);
 
-                if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveSlot])
-                    + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH
-                    && !(modstate & (KMOD_ALT | KMOD_CTRL)))
+                if (ch >= ' ' && ch <= '_' && !(modstate & (KMOD_ALT | KMOD_CTRL))
+                    && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
                 {
                     keydown = key;
-                    savegamestrings[saveSlot][strlen(savegamestrings[saveSlot]) + 1] = '\0';
+                    savegamestrings[saveSlot][len + 1] = '\0';
 
-                    for (int i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; i--)
+                    for (int i = len; i > saveCharIndex; i--)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
 
                     savegamestrings[saveSlot][saveCharIndex++] = ch;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
+            }
         }
 
         return true;
@@ -3479,9 +3500,10 @@ void M_Drawer(void)
 
         while (messageString[start] != '\0')
         {
+            int len = (int)strlen(messageString + start);
             int foundnewline = 0;
 
-            for (unsigned int i = 0; i < strlen(messageString + start); i++)
+            for (int i = 0; i < len; i++)
                 if (messageString[start + i] == '\n')
                 {
                     M_StringCopy(string, messageString + start, sizeof(string));
@@ -3497,7 +3519,7 @@ void M_Drawer(void)
             if (!foundnewline)
             {
                 M_StringCopy(string, messageString + start, sizeof(string));
-                start += strlen(string);
+                start += (int)strlen(string);
             }
 
             x = (ORIGINALWIDTH - M_StringWidth(string)) / 2;
