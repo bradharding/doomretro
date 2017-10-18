@@ -244,6 +244,12 @@ msvc/Release/doomretro.wad
 msvc/Debug/condump*.txt
 msvc/Debug/doomretro.cfg
 msvc/Debug/doomretro.wad
+msvc/x64/Release/condump*.txt
+msvc/x64/Release/doomretro.cfg
+msvc/x64/Release/doomretro.wad
+msvc/x64/Debug/condump*.txt
+msvc/x64/Debug/doomretro.cfg
+msvc/x64/Debug/doomretro.wad
 
 # =========================
 # OSX detritus
