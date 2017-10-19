@@ -1,6 +1,6 @@
 /*
   SDL_mixer:  An audio mixer library based on the SDL library
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2016 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -40,7 +40,7 @@ extern "C" {
 */
 #define SDL_MIXER_MAJOR_VERSION 2
 #define SDL_MIXER_MINOR_VERSION 0
-#define SDL_MIXER_PATCHLEVEL    0
+#define SDL_MIXER_PATCHLEVEL    1
 
 /* This macro can be used to fill a version structure with the compile-time
  * version of the SDL_mixer library.
@@ -207,8 +207,8 @@ extern DECLSPEC void SDLCALL Mix_SetPostMix(void (*mix_func)(void *udata, Uint8 
  */
 extern DECLSPEC void SDLCALL Mix_HookMusic(void (*mix_func)(void *udata, Uint8 *stream, int len), void *arg);
 
-/* Add your own callback when the music has finished playing.
-   This callback is only called if the music finishes naturally.
+/* Add your own callback for when the music has finished playing or when it is
+ * stopped from a call to Mix_HaltMusic.
  */
 extern DECLSPEC void SDLCALL Mix_HookMusicFinished(void (*music_finished)(void));
 

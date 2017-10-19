@@ -17,6 +17,66 @@
 		<data>
 		U0NugdhGt5l2wJIS2IOd6ifvq8Y=
 		</data>
+		<key>Resources/LICENSE.FLAC.txt</key>
+		<data>
+		wHI95PjmWSID4ytbk1p0RB+l6+U=
+		</data>
+	</dict>
+	<key>files2</key>
+	<dict>
+		<key>Headers/FLAC/all.h</key>
+		<data>
+		XFvlpMifgr5PSPdHB7gGvbynBEQ=
+		</data>
+		<key>Headers/FLAC/assert.h</key>
+		<data>
+		/nMi1uK0Mu7FtUAlUwfwDq3L7pU=
+		</data>
+		<key>Headers/FLAC/callback.h</key>
+		<data>
+		+N9LGnbdu3PB90NmQK7hBaSw+iM=
+		</data>
+		<key>Headers/FLAC/export.h</key>
+		<data>
+		DLgjdkicvC5zRKbg+hFXpvbdSqw=
+		</data>
+		<key>Headers/FLAC/format.h</key>
+		<data>
+		Hi7qklnVXL5lOFoWZVO3UM43isQ=
+		</data>
+		<key>Headers/FLAC/metadata.h</key>
+		<data>
+		ugtAtPdf9DM6s8jatsyA3cV17HU=
+		</data>
+		<key>Headers/FLAC/ordinals.h</key>
+		<data>
+		UtvDkO7sesRu9CGDliQskOiV+KI=
+		</data>
+		<key>Headers/FLAC/stream_decoder.h</key>
+		<data>
+		TTSozz879C1LIEp4PRwKxgGg+ok=
+		</data>
+		<key>Headers/FLAC/stream_encoder.h</key>
+		<data>
+		4Ven29rCSIZxUXhNVpWPlk49L44=
+		</data>
+		<key>Resources/English.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			j2eWOF8MeujNuGiOuUJX/p9icME=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/Info.plist</key>
+		<data>
+		U0NugdhGt5l2wJIS2IOd6ifvq8Y=
+		</data>
+		<key>Resources/LICENSE.FLAC.txt</key>
+		<data>
+		wHI95PjmWSID4ytbk1p0RB+l6+U=
+		</data>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -38,6 +98,80 @@
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
+	</dict>
+	<key>rules2</key>
+	<dict>
+		<key>.*\.dSYM($|/)</key>
+		<dict>
+			<key>weight</key>
+			<real>11</real>
+		</dict>
+		<key>^(.*/)?\.DS_Store$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>2000</real>
+		</dict>
+		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
+		<dict>
+			<key>nested</key>
+			<true/>
+			<key>weight</key>
+			<real>10</real>
+		</dict>
+		<key>^.*</key>
+		<true/>
+		<key>^Info\.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^PkgInfo$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^Resources/</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^Resources/.*\.lproj/</key>
+		<dict>
+			<key>optional</key>
+			<true/>
+			<key>weight</key>
+			<real>1000</real>
+		</dict>
+		<key>^Resources/.*\.lproj/locversion.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>1100</real>
+		</dict>
+		<key>^[^/]+$</key>
+		<dict>
+			<key>nested</key>
+			<true/>
+			<key>weight</key>
+			<real>10</real>
+		</dict>
+		<key>^embedded\.provisionprofile$</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^version\.plist$</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
 	</dict>
 </dict>
 </plist>
