@@ -1348,7 +1348,7 @@ static int D_OpenWADLauncher(void)
                     char    *pwadpass1 = (char *)[[url lastPathComponent] UTF8String];
 #endif
 
-                    if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
+                    if (!iwadfound && W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
                         && !D_IsDehFile(fullpath))
                     {
                         int iwadrequired = IWADRequiredByPWAD(fullpath);
