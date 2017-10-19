@@ -45,6 +45,7 @@
 #include "g_game.h"
 #include "i_gamepad.h"
 #include "m_config.h"
+#include "m_fixed.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "version.h"

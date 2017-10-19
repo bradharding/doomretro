@@ -36,45 +36,69 @@
 ========================================================================
 */
 
-#if !defined(__M_FIXED_H__)
-#define __M_FIXED_H__
+#include "doomtype.h"
+#include "m_fixed.h"
 
-//
-// Fixed point, 32bit as 16.16.
-//
+int ABS(int a)
+{
+    int b = a >> 31;
 
-#ifdef ABS
-#undef ABS
-#endif
+    return ((a ^ b) - b);
+}
 
-#ifdef MAX
-#undef MAX
-#endif
+int MAX(int a, int b)
+{
+    b = a - b;
+    return (a - (b & (b >> 31)));
+}
 
-#ifdef MIN
-#undef MIN
-#endif
+int MIN(int a, int b)
+{
+    a -= b;
+    return (b + (a & (a >> 31)));
+}
 
-#ifdef SWAP
-#undef SWAP
-#endif
+int BETWEEN(int a, int b, int c)
+{
+    return MAX(a, MIN(b, c));
+}
 
-#define FRACBITS        16
-#define FRACUNIT        (1 << FRACBITS)
-#define FIXED2DOUBLE(x) ((x) / (double)FRACUNIT)
-#define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
+float BETWEENF(float a, float b, float c)
+{
+    return (b < a ? a : (b > c ? c : b));
+}
 
-typedef int fixed_t;
+int SIGN(int a)
+{
+    return (1 | (a >> 31));
+}
 
-int ABS(int a);
-int MAX(int a, int b);
-int MIN(int a, int b);
-int BETWEEN(int a, int b, int c);
-float BETWEENF(float a, float b, float c);
-int SIGN(int a);
-fixed_t FixedMul(fixed_t a, fixed_t b);
-fixed_t FixedDiv(fixed_t a, fixed_t b);
-fixed_t FixedMod(fixed_t a, fixed_t b);
-unsigned int SafeAdd(unsigned int a, int b);
+fixed_t FixedMul(fixed_t a, fixed_t b)
+{
+    return (((int64_t)a * b) >> FRACBITS);
+}
 
-#endif
+fixed_t FixedDiv(fixed_t a, fixed_t b)
+{
+    if ((ABS(a) >> 14) >= ABS(b))
+        return ((a ^ b) >> 31) ^ INT_MAX;
+    else
+        return (fixed_t)(((int64_t)a << FRACBITS) / b);
+}
+
+fixed_t FixedMod(fixed_t a, fixed_t b)
+{
+    if (b & (b - 1))
+    {
+        fixed_t r = a % b;
+
+        return (r < 0 ? r + b : r);
+    }
+    else
+        return (a & (b - 1));
+}
+
+unsigned int SafeAdd(unsigned int a, int b)
+{
+    return (b > 0 && (unsigned int)b > UINT_MAX - a ? a : a + b);
+}

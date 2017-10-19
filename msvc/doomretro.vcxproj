@@ -437,6 +437,7 @@
     <ClCompile Include="..\src\i_sound.c" />
     <ClCompile Include="..\src\mmus2mid.c" />
     <ClCompile Include="..\src\m_controls.c" />
+    <ClCompile Include="..\src\m_fixed.c" />
     <ClCompile Include="..\src\p_fix.c" />
     <ClCompile Include="..\src\p_genlin.c" />
     <ClCompile Include="..\src\r_patch.c" />
