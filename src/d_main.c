@@ -983,7 +983,7 @@ static int D_OpenWADLauncher(void)
 
     NSInteger   clicked = [panel runModal];
 
-    fileopenedok = (clicked == NSFileHandlingPanelOKButton);
+    fileopenedok = (clicked == NSModalResponseOK);
 #endif
 
     if (fileopenedok)
