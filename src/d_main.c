@@ -1575,9 +1575,9 @@ static void D_ProcessDehInWad(void)
 
 static void D_ParseStartupString(const char *string)
 {
-    size_t  len = strlen(string);
+    int len = (int)strlen(string);
 
-    for (size_t i = 0, start = 0; i < len; i++)
+    for (int i = 0, start = 0; i < len; i++)
         if (string[i] == '\n' || i == len - 1)
         {
             C_Output(M_SubString(string, start, i - start));

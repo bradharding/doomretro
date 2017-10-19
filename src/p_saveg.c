@@ -624,7 +624,7 @@ static void saveg_write_vldoor_t(vldoor_t *str)
     saveg_write32(str->direction);
     saveg_write32(str->topwait);
     saveg_write32(str->topcountdown);
-    saveg_write32(str->line - lines);
+    saveg_write32(str->line->id);
     saveg_write32(str->lighttag);
 }
 
@@ -853,7 +853,7 @@ static void saveg_read_button_t(button_t *str)
 
 static void saveg_write_button_t(button_t *str)
 {
-    saveg_write32(str->line - lines);
+    saveg_write32(str->line->id);
     saveg_write32((int)str->where);
     saveg_write32(str->btexture);
     saveg_write32(str->btimer);

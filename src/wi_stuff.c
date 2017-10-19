@@ -359,7 +359,7 @@ static void WI_drawWILV(int y, char *str)
     int w = 0;
     int x;
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
 
@@ -368,7 +368,7 @@ static void WI_drawWILV(int y, char *str)
 
     x = (ORIGINALWIDTH - w - 1) / 2;
 
-    for (size_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
 

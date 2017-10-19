@@ -876,6 +876,7 @@ void C_Drawer(void)
         int         x = CONSOLETEXTX;
         int         start;
         int         end;
+        int         len;
         char        lefttext[512];
         char        middletext[512];
         char        righttext[512];
@@ -1063,9 +1064,10 @@ void C_Drawer(void)
         }
 
         // draw input text to right of caret
-        if ((unsigned int)caretpos < strlen(consoleinput))
+        len = (int)strlen(consoleinput);
+        if (caretpos < len)
         {
-            for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+            for (i = selectend; i < len; i++)
                 righttext[i - selectend] = consoleinput[i];
 
             righttext[i - selectend] = '\0';
@@ -1186,6 +1188,7 @@ dboolean C_Responder(event_t *ev)
         const int   key = ev->data1;
         char        ch = (char)ev->data2;
         int         i;
+        int         len = (int)strlen(consoleinput);
         SDL_Keymod  modstate = SDL_GetModState();
 
         if (key == keyboardconsole)
@@ -1202,7 +1205,7 @@ dboolean C_Responder(event_t *ev)
                     // delete selected text
                     C_AddToUndoHistory();
 
-                    for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+                    for (i = selectend; i < len; i++)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
 
                     consoleinput[selectstart + i - selectend] = '\0';
@@ -1217,7 +1220,7 @@ dboolean C_Responder(event_t *ev)
                     // delete character left of caret
                     C_AddToUndoHistory();
 
-                    for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); i++)
+                    for (i = caretpos - 1; i < len; i++)
                         consoleinput[i] = consoleinput[i + 1];
 
                     selectend = selectstart = --caretpos;
@@ -1235,7 +1238,7 @@ dboolean C_Responder(event_t *ev)
                     // delete selected text
                     C_AddToUndoHistory();
 
-                    for (i = selectend; (unsigned int)i < strlen(consoleinput); i++)
+                    for (i = selectend; i < len; i++)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
 
                     consoleinput[selectstart + i - selectend] = '\0';
@@ -1245,12 +1248,12 @@ dboolean C_Responder(event_t *ev)
                     autocomplete = -1;
                     inputhistory = -1;
                 }
-                else if ((unsigned int)caretpos < strlen(consoleinput))
+                else if (caretpos < len)
                 {
                     // delete character right of caret
                     C_AddToUndoHistory();
 
-                    for (i = caretpos; (unsigned int)i < strlen(consoleinput); i++)
+                    for (i = caretpos; i < len; i++)
                         consoleinput[i] = consoleinput[i + 1];
 
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -1319,7 +1322,7 @@ dboolean C_Responder(event_t *ev)
 
             case KEY_RIGHTARROW:
                 // move caret right
-                if ((unsigned int)caretpos < strlen(consoleinput))
+                if (caretpos < len)
                 {
                     if (modstate & KMOD_SHIFT)
                     {
@@ -1344,7 +1347,7 @@ dboolean C_Responder(event_t *ev)
                     }
                 }
                 else if (!(modstate & KMOD_SHIFT))
-                    caretpos = selectend = selectstart = (int)strlen(consoleinput);
+                    caretpos = selectend = selectstart = len;
 
                 break;
 
@@ -1366,10 +1369,10 @@ dboolean C_Responder(event_t *ev)
                 // move caret to end
                 if (outputhistory != -1 && consolestrings > CONSOLELINES)
                     outputhistory = -1;
-                else if ((unsigned int)caretpos < strlen(consoleinput))
+                else if (caretpos < len)
                 {
-                    selectstart = ((modstate & KMOD_SHIFT) ? caretpos : (int)strlen(consoleinput));
-                    caretpos = selectend = (int)strlen(consoleinput);
+                    selectstart = ((modstate & KMOD_SHIFT) ? caretpos : len);
+                    caretpos = selectend = len;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
@@ -1481,7 +1484,7 @@ dboolean C_Responder(event_t *ev)
                             M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                         }
 
-                        caretpos = selectstart = selectend = (int)strlen(consoleinput);
+                        caretpos = selectstart = selectend = len;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                     }
@@ -1529,7 +1532,7 @@ dboolean C_Responder(event_t *ev)
                     if (ch == 'a')
                     {
                         selectstart = 0;
-                        selectend = caretpos = (int)strlen(consoleinput);
+                        selectend = caretpos = len;
                     }
 
                     // copy selected text to clipboard
@@ -1546,8 +1549,7 @@ dboolean C_Responder(event_t *ev)
                         char    buffer[255];
 
                         M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0, selectstart),
-                            SDL_GetClipboardText(), M_SubString(consoleinput, selectend,
-                            strlen(consoleinput) - selectend));
+                            SDL_GetClipboardText(), M_SubString(consoleinput, selectend, len - selectend));
 
                         if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
                         {
@@ -1567,7 +1569,7 @@ dboolean C_Responder(event_t *ev)
                             SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
                                 selectend - selectstart));
 
-                            for (i = selectend; i < (int)strlen(consoleinput); i++)
+                            for (i = selectend; i < len; i++)
                                 consoleinput[selectstart + i - selectend] = consoleinput[i];
 
                             consoleinput[selectstart + i - selectend] = '\0';
@@ -1609,7 +1611,7 @@ dboolean C_Responder(event_t *ev)
                             // replace selected text with a character
                             consoleinput[selectstart] = ch;
 
-                            for (i = selectend; i < (int)strlen(consoleinput); i++)
+                            for (i = selectend; i < len; i++)
                                 consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
 
                             consoleinput[selectstart + i - selectend + 1] = '\0';
@@ -1620,10 +1622,10 @@ dboolean C_Responder(event_t *ev)
                         else
                         {
                             // insert a character
-                            if (strlen(consoleinput) < 255)
-                                consoleinput[strlen(consoleinput) + 1] = '\0';
+                            if (len < 255)
+                                consoleinput[len + 1] = '\0';
 
-                            for (i = (int)strlen(consoleinput); i > caretpos; i--)
+                            for (i = len; i > caretpos; i--)
                                 consoleinput[i] = consoleinput[i - 1];
 
                             consoleinput[caretpos++] = ch;
