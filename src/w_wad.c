@@ -282,13 +282,23 @@ dboolean HasDehackedLump(const char *pwadname)
     return result;
 }
 
-int IWADRequiredByPWAD(const char *pwadname)
+char *iwadsrequired[] = {
+    "doom.wad",
+    "doom2.wad",
+    "tnt.wad",
+    "plutonia.wad",
+    "nerve.wad",
+    "doom2.wad"
+};
+
+GameMission_t IWADRequiredByPWAD(char *pwadname)
 {
-    FILE        *fp = fopen(pwadname, "rb");
-    filelump_t  lump;
-    wadinfo_t   header;
-    const char  *n = lump.name;
-    int         result = indetermined;
+    char            *leaf = leafname(pwadname);
+    FILE            *fp = fopen(pwadname, "rb");
+    filelump_t      lump;
+    wadinfo_t       header;
+    const char      *n = lump.name;
+    GameMission_t   result = none;
 
     if (!fp)
         I_Error("Can't open PWAD: %s\n", pwadname);
@@ -309,6 +319,12 @@ int IWADRequiredByPWAD(const char *pwadname)
     }
 
     fclose(fp);
+
+    if (result == doom2)
+        if (M_StringCompare(leaf, "pl2.wad") || M_StringCompare(leaf, "plut3.wad"))
+            result = pack_plut;
+        else if (M_StringCompare(leaf, "tntr.wad") || M_StringCompare(leaf, "tnt-ren.wad"))
+            result = pack_tnt;
 
     return result;
 }

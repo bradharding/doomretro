@@ -825,12 +825,12 @@ static dboolean D_CheckParms(void)
             int         iwadrequired = IWADRequiredByPWAD(myargv[1]);
             static char fullpath[MAX_PATH];
 
-            if (iwadrequired == indetermined)
+            if (iwadrequired == none)
                 iwadrequired = doom2;
 
             // try the current folder first
             M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(myargv[1]),
-                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                iwadsrequired[iwadrequired]);
             D_IdentifyIWADByName(fullpath);
 
             if (W_AddFile(fullpath, true))
@@ -852,17 +852,17 @@ static dboolean D_CheckParms(void)
                 // otherwise try the iwadfolder CVAR
 #if defined(_WIN32) || defined(__OpenBSD__)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    iwadsrequired[iwadrequired]);
 #else
                 if (!wordexp(iwadfolder, &p, 0) && p.we_wordc > 0)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", p.we_wordv[0],
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        iwadsrequired[iwadrequired]);
                     wordfree(&p);
                 }
                 else
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        iwadsrequired[iwadrequired]);
 #endif
                 D_IdentifyIWADByName(fullpath);
 
@@ -882,7 +882,7 @@ static dboolean D_CheckParms(void)
                 else
                 {
                     // still nothing? try some common installation folders
-                    if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"), true))
+                    if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
                     {
                         result = true;
                         D_CheckSupportedPWAD(myargv[1]);
@@ -1051,14 +1051,14 @@ static int D_OpenWADLauncher(void)
                 int         iwadrequired = IWADRequiredByPWAD(file);
                 static char fullpath[MAX_PATH];
 
-                if (iwadrequired == indetermined)
+                if (iwadrequired == none)
                     iwadrequired = doom2;
 
                 wad = strdup(leafname(file));
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", M_ExtractFolder(file),
-                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    iwadsrequired[iwadrequired]);
                 D_IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
@@ -1079,7 +1079,7 @@ static int D_OpenWADLauncher(void)
                 {
                     // otherwise try the iwadfolder CVAR
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        iwadsrequired[iwadrequired]);
                     D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
@@ -1098,8 +1098,7 @@ static int D_OpenWADLauncher(void)
                     else
                     {
                         // still nothing? try some common installation folders
-                        if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"),
-                            true))
+                        if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
                         {
                             iwadfound = 1;
                             D_CheckSupportedPWAD(file);
@@ -1356,13 +1355,13 @@ static int D_OpenWADLauncher(void)
                     {
                         int iwadrequired = IWADRequiredByPWAD(fullpath);
 
-                        if (iwadrequired != indetermined)
+                        if (iwadrequired != none)
                         {
                             static char fullpath2[MAX_PATH];
 
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s", szFile,
-                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                iwadsrequired[iwadrequired]);
                             D_IdentifyIWADByName(fullpath2);
 
                             if (W_AddFile(fullpath2, true))
@@ -1374,7 +1373,7 @@ static int D_OpenWADLauncher(void)
                             {
                                 // otherwise try the iwadfolder CVAR
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                    iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                    iwadfolder, iwadsrequired[iwadrequired]);
                                 D_IdentifyIWADByName(fullpath2);
 
                                 if (W_AddFile(fullpath2, true))
@@ -1382,8 +1381,7 @@ static int D_OpenWADLauncher(void)
                                 else
                                 {
                                     // still nothing? try some common installation folders
-                                    if (W_AddFile(D_FindWADByName(iwadrequired == doom ? "DOOM.WAD" :
-                                        "DOOM2.WAD"), true))
+                                    if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
                                         iwadfound = 1;
                                 }
                             }
@@ -1453,7 +1451,7 @@ static int D_OpenWADLauncher(void)
                                 LoadCfgFile(fullpath);
                                 LoadDehFile(fullpath);
 
-                                if (IWADRequiredByPWAD(fullpath) != indetermined)
+                                if (IWADRequiredByPWAD(fullpath) != none)
                                 {
                                     mapspresent = true;
                                     pwadfile = removeext(leafname(fullpath));

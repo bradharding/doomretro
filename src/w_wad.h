@@ -39,6 +39,7 @@
 #if !defined(__W_WAD_H__)
 #define __W_WAD_H__
 
+#include "doomdef.h"
 #include "w_file.h"
 
 //
@@ -72,6 +73,7 @@ struct lumpinfo_s
 
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
+extern char         *iwadsrequired[];
 
 char *GetCorrectCase(char *path);
 wadfile_t *W_AddFile(char *filename, dboolean automatic);
@@ -101,7 +103,7 @@ void W_UnlockLumpNum(lumpindex_t lump);
 
 #define W_UnlockLumpName(name)  W_UnlockLumpNum(W_GetNumForName(name))
 
-int IWADRequiredByPWAD(const char *pwadname);
+GameMission_t IWADRequiredByPWAD(char *pwadname);
 dboolean HasDehackedLump(const char *pwadname);
 
 #endif
