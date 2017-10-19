@@ -68,46 +68,46 @@
 
 typedef int fixed_t;
 
-__forceinline int ABS(int a)
+inline int ABS(int a)
 {
     int b = a >> 31;
 
     return ((a ^ b) - b);
 }
 
-__forceinline int MAX(int a, int b)
+inline int MAX(int a, int b)
 {
     b = a - b;
     return (a - (b & (b >> 31)));
 }
 
-__forceinline int MIN(int a, int b)
+inline int MIN(int a, int b)
 {
     a -= b;
     return (b + (a & (a >> 31)));
 }
 
-__forceinline int BETWEEN(int a, int b, int c)
+inline int BETWEEN(int a, int b, int c)
 {
     return MAX(a, MIN(b, c));
 }
 
-__forceinline float BETWEENF(float a, float b, float c)
+inline float BETWEENF(float a, float b, float c)
 {
     return (b < a ? a : (b > c ? c : b));
 }
 
-__forceinline int SIGN(int a)
+inline int SIGN(int a)
 {
     return (1 | (a >> 31));
 }
 
-__forceinline fixed_t FixedMul(fixed_t a, fixed_t b)
+inline fixed_t FixedMul(fixed_t a, fixed_t b)
 {
     return (((int64_t)a * b) >> FRACBITS);
 }
 
-__forceinline fixed_t FixedDiv(fixed_t a, fixed_t b)
+inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
     if ((ABS(a) >> 14) >= ABS(b))
         return ((a ^ b) >> 31) ^ INT_MAX;
@@ -115,7 +115,7 @@ __forceinline fixed_t FixedDiv(fixed_t a, fixed_t b)
         return (fixed_t)(((int64_t)a << FRACBITS) / b);
 }
 
-__forceinline fixed_t FixedMod(fixed_t a, fixed_t b)
+inline fixed_t FixedMod(fixed_t a, fixed_t b)
 {
     if (b & (b - 1))
     {
@@ -127,7 +127,7 @@ __forceinline fixed_t FixedMod(fixed_t a, fixed_t b)
         return (a & (b - 1));
 }
 
-__forceinline unsigned int SafeAdd(unsigned int a, int b)
+inline unsigned int SafeAdd(unsigned int a, int b)
 {
     return (b > 0 && (unsigned int)b > UINT_MAX - a ? a : a + b);
 }
