@@ -216,7 +216,6 @@ void I_Quit(dboolean shutdown)
             vid_widescreen = true;
 
         M_SaveCVARs();
-        M_Shutdown();
 
         I_ShutdownGraphics();
         I_ShutdownKeyboard();
