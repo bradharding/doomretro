@@ -1695,7 +1695,7 @@ void C_PrintCompileDate(void)
     static char mth[4] = "";
 
     sscanf(__DATE__, "%3s %2zd %4zd", mth, &day, &year);
-    sscanf(__TIME__, "%2zd:%2zd:%*zd", &hour, &minute);
+    sscanf(__TIME__, "%2zd:%2zd:%*i", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3 + 1;
 
     C_Output("This %i-bit <i><b>%s</b></i> binary of <i><b>"PACKAGE_NAMEANDVERSIONSTRING"</b></i> was built "

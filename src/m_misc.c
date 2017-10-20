@@ -413,9 +413,7 @@ static char *stristr(char *ch1, char *ch2)
             chNdx++;
         }
 
-        chNdx = strstr(chN1, chN2);
-
-        if (chNdx)
+        if ((chNdx = strstr(chN1, chN2)))
             chRet = ch1 + (chNdx - chN1);
     }
 
@@ -438,9 +436,7 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
 
     strncpy(buffer, haystack, p - haystack);
     buffer[p - haystack] = '\0';
-
     sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
-
     return buffer;
 }
 
@@ -464,7 +460,7 @@ dboolean M_StringEndsWith(const char *s, const char *suffix)
 }
 
 // Safe, portable vsnprintf().
-int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
+int M_vsnprintf(char *buf, int buf_len, const char *s, va_list args)
 {
     int result;
 
@@ -478,7 +474,7 @@ int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
 
     // If truncated, change the final char in the buffer to a \0.
     // A negative result indicates a truncated buffer on Windows.
-    if (result < 0 || (unsigned int)result >= buf_len)
+    if (result < 0 || result >= buf_len)
     {
         buf[buf_len - 1] = '\0';
         result = buf_len - 1;
@@ -488,7 +484,7 @@ int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
 }
 
 // Safe, portable snprintf().
-int M_snprintf(char *buf, size_t buf_len, const char *s, ...)
+int M_snprintf(char *buf, int buf_len, const char *s, ...)
 {
     va_list args;
     int     result;
@@ -585,7 +581,7 @@ char *commify(int64_t value)
     if (value <= -1000 || value >= 1000)
     {
         char    *pt;
-        int     n;
+        size_t  n;
 
         for (pt = result; *pt && *pt != '.'; pt++);
 
