@@ -89,7 +89,7 @@ void A_Recoil(player_t *player, weapontype_t weapon)
 //
 // P_SetPsprite
 //
-void P_SetPsprite(player_t *player, int position, statenum_t stnum)
+void P_SetPsprite(player_t *player, size_t position, statenum_t stnum)
 {
     pspdef_t    *psp = &player->psprites[position];
 

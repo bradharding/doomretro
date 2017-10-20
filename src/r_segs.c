@@ -539,7 +539,7 @@ void R_StoreWallRange(const int start, const int stop)
     // killough 1/98 -- fix 2s line HOM
     if (ds_p == drawsegs + maxdrawsegs)
     {
-        const unsigned int  pos = ds_p - drawsegs;
+        const size_t        pos = ds_p - drawsegs;
         const unsigned int  newmax = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
 
         drawsegs = I_Realloc(drawsegs, newmax * sizeof(*drawsegs));

@@ -540,7 +540,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
 //
 static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 {
-    int         count = intercept_p - intercepts;
+    size_t      count = intercept_p - intercepts;
     intercept_t *in = NULL;
 
     while (count--)

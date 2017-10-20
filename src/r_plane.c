@@ -191,7 +191,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
 
     if (picnum == skyflatnum || (picnum & PL_SKYFLAT))          // killough 10/98
     {
-        height = 0;                             // killough 7/19/98: most skies map together
+        height = 0;                                             // killough 7/19/98: most skies map together
         lightlevel = 0;
     }
 

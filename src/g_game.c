@@ -1550,7 +1550,7 @@ void G_LoadedGameMessage(void)
 //
 void G_SaveGame(int slot, char *description, char *name)
 {
-    M_StringCopy(savename, (consoleactive ? name : ""), sizeof(savename));
+    M_StringCopy(savename, name, sizeof(savename));
     savegameslot = slot;
     M_StringCopy(savedescription, description, sizeof(savedescription));
     sendsave = true;
@@ -1566,9 +1566,8 @@ static void G_DoSaveGame(void)
     // and then rename it at the end if it was successfully written.
     // This prevents an existing savegame from being overwritten by
     // a corrupted one, or if a savegame buffer overrun occurs.
-    save_stream = fopen(temp_savegame_file, "wb");
 
-    if (!save_stream)
+    if (!(save_stream = fopen(temp_savegame_file, "wb")))
     {
         menuactive = false;
         C_ShowConsole();
