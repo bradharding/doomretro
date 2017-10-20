@@ -1665,9 +1665,9 @@ dboolean C_Responder(event_t *ev)
     return true;
 }
 
-static int dayofweek(int d, int m, int y)
+static size_t dayofweek(size_t d, size_t m, size_t y)
 {
-    int adjustment = (14 - m) / 12;
+    size_t  adjustment = (14 - m) / 12;
 
     m += 12 * adjustment - 2;
     y -= adjustment;
@@ -1677,7 +1677,7 @@ static int dayofweek(int d, int m, int y)
 
 void C_PrintCompileDate(void)
 {
-    int day, month, year, hour, minute;
+    size_t  day, month, year, hour, minute;
 
     static const char *days[] =
     {
@@ -1694,8 +1694,8 @@ void C_PrintCompileDate(void)
 
     static char mth[4] = "";
 
-    sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year);
-    sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
+    sscanf(__DATE__, "%3s %2zd %4zd", mth, &day, &year);
+    sscanf(__TIME__, "%2zd:%2zd:%*zd", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3 + 1;
 
     C_Output("This %i-bit <i><b>%s</b></i> binary of <i><b>"PACKAGE_NAMEANDVERSIONSTRING"</b></i> was built "
