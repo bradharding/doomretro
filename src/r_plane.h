@@ -40,7 +40,7 @@
 #define __R_PLANE_H__
 
 // killough 10/98: special mask indicates sky flat comes from sidedef
-#define PL_SKYFLAT  0x400000000
+#define PL_SKYFLAT  0x40000000
 
 // Visplane related.
 extern int      *lastopening;
