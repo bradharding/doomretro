@@ -220,7 +220,7 @@ angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
     const int64_t   y_viewy = (int64_t)y - y1;
     const int64_t   x_viewx = (int64_t)x - x1;
 
-    // [crispy] the worst that could happen is e.g. INT_MIN-INT_MAX = 2*INT_MIN
+    // [crispy] the worst that could happen is e.g. INT_MIN - INT_MAX = 2 * INT_MIN
     if (x_viewx < INT_MIN || x_viewx > INT_MAX || y_viewy < INT_MIN || y_viewy > INT_MAX)
     {
         // [crispy] preserving the angle by halving the distance in both directions
@@ -240,15 +240,15 @@ static angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
     {
         if (nangle - oangle < ANG270)
             return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));
-        else    // Wrapped around
-            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));
+        else
+            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));   // Wrapped around
     }
-    else        // nangle < oangle
+    else
     {
         if (oangle - nangle < ANG270)
             return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));
-        else    // Wrapped around
-            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));
+        else
+            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));   // Wrapped around
     }
 }
 
@@ -259,11 +259,11 @@ static void R_InitTables(void)
 {
     // viewangle tangent table
     for (int i = 0; i < FINEANGLES / 2; i++)
-        finetangent[i] = (int)(FRACUNIT * tan((i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES));
+        finetangent[i] = (fixed_t)(FRACUNIT * tan((i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES));
 
     // finesine table
     for (int i = 0; i < 5 * FINEANGLES / 4; i++)
-        finesine[i] = (int)(FRACUNIT * sin((i + 0.5) * M_PI * 2 / FINEANGLES));
+        finesine[i] = (fixed_t)(FRACUNIT * sin((i + 0.5) * M_PI * 2 / FINEANGLES));
 }
 
 static void R_InitPointToAngle(void)
@@ -390,15 +390,12 @@ void R_ExecuteSetViewSize(void)
     }
 
     viewwidth = scaledviewwidth;
-
     centery = viewheight / 2;
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
     centeryfrac = centery << FRACBITS;
     projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH * FRACUNIT;
-
     R_InitBuffer(scaledviewwidth, viewheight);
-
     R_InitTextureMapping();
 
     // psprite scales
@@ -435,7 +432,7 @@ void R_ExecuteSetViewSize(void)
             const int   level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: initialize multiple colormaps
-            for (int t = 0; t < numcolormaps; t++)     // killough 4/4/98
+            for (int t = 0; t < numcolormaps; t++)
                 c_scalelight[t][i][j] = &colormaps[t][level];
         }
     }
@@ -513,9 +510,7 @@ void R_InitColumnFunctions(void)
             supershotguncolfunc = R_DrawSuperShotgunColumn;
         }
 
-        bloodsplatcolfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn :
-            R_DrawSolidBloodSplatColumn);
-
+        bloodsplatcolfunc = (r_bloodsplats_translucency ? R_DrawBloodSplatColumn : R_DrawSolidBloodSplatColumn);
         redtobluecolfunc = R_DrawRedToBlueColumn;
         redtogreencolfunc = R_DrawRedToGreenColumn;
         psprcolfunc = R_DrawPlayerSpriteColumn;
@@ -601,7 +596,6 @@ void R_Init(void)
     R_InitData();
     R_InitPointToAngle();
     R_InitTables();
-
     R_SetViewSize(r_screensize);
     R_InitLightTables();
     R_InitTranslationTables();
@@ -721,8 +715,7 @@ static void R_SetupFrame(player_t *player)
     {
         const sector_t  *s = mo->subsector->sector->heightsec;
 
-        cm = (viewz < s->interpfloorheight ? s->bottommap : (viewz > s->interpceilingheight ? s->topmap :
-            s->midmap));
+        cm = (viewz < s->interpfloorheight ? s->bottommap : (viewz > s->interpceilingheight ? s->topmap : s->midmap));
 
         if (cm < 0 || cm > numcolormaps)
             cm = 0;
@@ -732,7 +725,6 @@ static void R_SetupFrame(player_t *player)
     zlight = c_zlight[cm];
     scalelight = c_scalelight[cm];
     psprscalelight = c_psprscalelight[cm];
-
     drawbloodsplats = (r_blood != r_blood_none && r_bloodsplats_max && !vanilla);
 
     if (player->fixedcolormap)
@@ -744,7 +736,6 @@ static void R_SetupFrame(player_t *player)
         fixedcolormap = fullcolormap + player->fixedcolormap * 256 * sizeof(lighttable_t);
 
         usebrightmaps = false;
-
         walllights = scalelightfixed;
 
         for (int i = 0; i < MAXLIGHTSCALE; i++)
@@ -782,8 +773,7 @@ void R_RenderPlayerView(player_t *player)
     else
     {
         if (r_homindicator)
-            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                ((activetic % 20) < 9 ? RED : BLACK));
+            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, ((activetic % 20) < 9 ? RED : BLACK));
         else if ((player->cheats & CF_NOCLIP) || freeze)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, BLACK);
 

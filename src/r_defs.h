@@ -902,7 +902,7 @@ typedef struct
     //  maxbright frames as well
     lighttable_t        *colormap;
 
-    struct mobj_s       *mobj;
+    mobj_t              *mobj;
 
     void                (*colfunc)(void);
 

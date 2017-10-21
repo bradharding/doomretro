@@ -77,25 +77,20 @@ static int  memcmpsize;
 // columns which aren't solid, and updates the solidcol[] array appropriately
 static void R_ClipWallSegment(int first, int last, dboolean solid)
 {
-    byte    *p;
-
     while (first < last)
-    {
         if (solidcol[first])
         {
-            if (!(p = memchr(solidcol + first, 0, last - first)))
-                return; // All solid
+            byte    *p = memchr(solidcol + first, 0, last - first);
+
+            if (!p)
+                return;
 
             first = p - solidcol;
         }
         else
         {
-            int to;
-
-            if (!(p = memchr(solidcol + first, 1, last - first)))
-                to = last;
-            else
-                to = p - solidcol;
+            byte    *p = memchr(solidcol + first, 1, last - first);
+            int     to = (p ? p - solidcol : last);
 
             R_StoreWallRange(first, to - 1);
 
@@ -104,7 +99,6 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
 
             first = to;
         }
-    }
 }
 
 //
