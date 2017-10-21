@@ -156,8 +156,8 @@ typedef struct sector_s
     fixed_t             ceiling_xoffs, ceiling_yoffs;
 
     // killough 4/11/98: support for lightlevels coming from another sector
-    int                 floorlightsec;
-    int                 ceilinglightsec;
+    struct sector_s     *floorlightsec;
+    struct sector_s     *ceilinglightsec;
 
     short               floorpic;
     short               ceilingpic;

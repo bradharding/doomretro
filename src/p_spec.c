@@ -2327,7 +2327,7 @@ void P_SpawnSpecials(void)
 
     for (line = lines, i = 0; i < numlines; i++, line++)
     {
-        int sec;
+        sector_t *sec = sides[*line->sidenum].sector;
 
         switch (line->special)
         {
@@ -2335,7 +2335,7 @@ void P_SpawnSpecials(void)
             // support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
-                    sectors[s].heightsec = sides[*line->sidenum].sector;
+                    sectors[s].heightsec = sec;
 
                 break;
 

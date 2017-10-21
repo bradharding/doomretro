@@ -107,7 +107,11 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
 void R_InitClipSegs(void)
 {
     solidcol = calloc(1, SCREENWIDTH * sizeof(*solidcol));
-    memcmpsize = sizeof(fixed_t) * 4 + sizeof(short) * 3 + sizeof(int) * 2;
+    memcmpsize = sizeof(frontsector->floor_xoffs) + sizeof(frontsector->floor_yoffs)
+        + sizeof(frontsector->ceiling_xoffs) + sizeof(frontsector->ceiling_yoffs)
+        + sizeof(frontsector->ceilingpic) + sizeof(frontsector->floorpic)
+        + sizeof(frontsector->lightlevel) + sizeof(frontsector->floorlightsec)
+        + sizeof(frontsector->ceilinglightsec);
 }
 
 //
@@ -239,16 +243,13 @@ static void R_MaybeInterpolateSector(sector_t *sector)
 //
 // killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
 //
-sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel,
-    dboolean back)
+sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel, dboolean back)
 {
     if (floorlightlevel)
-        *floorlightlevel = (sec->floorlightsec == -1 ? sec->lightlevel :
-            sectors[sec->floorlightsec].lightlevel);
+        *floorlightlevel = (sec->floorlightsec ? sec->floorlightsec->lightlevel : sec->lightlevel);
 
     if (ceilinglightlevel)
-        *ceilinglightlevel = (sec->ceilinglightsec == -1 ? sec->lightlevel :
-            sectors[sec->ceilinglightsec].lightlevel);
+        *ceilinglightlevel = (sec->ceilinglightsec ? sec->ceilinglightsec->lightlevel : sec->lightlevel);
 
     if (sec->heightsec)
     {
@@ -292,12 +293,10 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
             tempsec->lightlevel = s->lightlevel;
 
             if (floorlightlevel)
-                *floorlightlevel = (s->floorlightsec == -1 ? s->lightlevel :
-                    sectors[s->floorlightsec].lightlevel);              // killough 3/16/98
+                *floorlightlevel = (s->floorlightsec ? s->floorlightsec->lightlevel : s->lightlevel);
 
             if (ceilinglightlevel)
-                *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
-                    sectors[s->ceilinglightsec].lightlevel);            // killough 4/11/98
+                *ceilinglightlevel = (s->ceilinglightsec ? s->ceilinglightsec->lightlevel : s->lightlevel);
         }
         else if (heightsec && viewz >= heightsec->interpceilingheight
             && sec->interpceilingheight > s->interpceilingheight)
@@ -321,12 +320,10 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
             tempsec->lightlevel = s->lightlevel;
 
             if (floorlightlevel)
-                *floorlightlevel = (s->floorlightsec == -1 ? s->lightlevel :
-                    sectors[s->floorlightsec].lightlevel);              // killough 3/16/98
+                *floorlightlevel = (s->floorlightsec ? s->floorlightsec->lightlevel : s->lightlevel);
 
             if (ceilinglightlevel)
-                *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
-                    sectors[s->ceilinglightsec].lightlevel);            // killough 4/11/98
+                *ceilinglightlevel = (s->ceilinglightsec ? s->ceilinglightsec->lightlevel : s->lightlevel);
         }
 
         sec = tempsec;        // Use other sector
