@@ -487,7 +487,7 @@ int W_LumpLength(lumpindex_t lump)
 //
 void W_ReadLump(lumpindex_t lump, void *dest)
 {
-    int         c;
+    size_t      c;
     lumpinfo_t  *l = lumpinfo[lump];
 
     if (!l->size || !dest)
@@ -496,7 +496,7 @@ void W_ReadLump(lumpindex_t lump, void *dest)
     c = W_Read(l->wadfile, l->position, dest, l->size);
 
     if (c < l->size)
-        I_Error("W_ReadLump: only read %i of %i on lump %i", c, l->size, lump);
+        I_Error("W_ReadLump: only read %zd of %i on lump %i", c, l->size, lump);
 }
 
 void *W_CacheLumpNum(lumpindex_t lump)

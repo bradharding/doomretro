@@ -616,7 +616,6 @@ static void R_ProjectSprite(mobj_t *thing)
     fixed_t         gzt;
     fixed_t         tz;
     angle_t         rot = 0;
-    sector_t        *sector;
     fixed_t         fx, fy, fz;
     fixed_t         offset;
     fixed_t         topoffset;
@@ -714,21 +713,21 @@ static void R_ProjectSprite(mobj_t *thing)
     // killough 3/27/98: exclude things totally separated
     // from the viewer, by either water or fake ceilings
     // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-    sector = thing->subsector->sector;
-    heightsec = sector->heightsec;
-
-    if (heightsec != -1)   // only clip things which are in special sectors
+    if ((heightsec = thing->subsector->sector->heightsec) != -1)
     {
         int phs = viewplayer->mo->subsector->sector->heightsec;
 
-        if (phs != -1 && (viewz < sectors[phs].interpfloorheight ?
-            fz >= sectors[heightsec].interpfloorheight : gzt < sectors[heightsec].interpfloorheight))
-            return;
+        if (phs != -1)
+        {
+            if (viewz < sectors[phs].interpfloorheight ?
+                fz >= sectors[heightsec].interpfloorheight : gzt < sectors[heightsec].interpfloorheight)
+                return;
 
-        if (phs != -1 && (viewz > sectors[phs].interpceilingheight ?
-            gzt < sectors[heightsec].interpceilingheight && viewz >= sectors[heightsec].interpceilingheight :
-            fz >= sectors[heightsec].interpceilingheight))
-            return;
+            if (viewz > sectors[phs].interpceilingheight ?
+                gzt < sectors[heightsec].interpceilingheight && viewz >= sectors[heightsec].interpceilingheight :
+                fz >= sectors[heightsec].interpceilingheight)
+                return;
+        }
     }
 
     // store information in a vissprite

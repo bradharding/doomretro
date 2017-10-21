@@ -570,9 +570,7 @@ static void R_Subsector(int num)
     if (sub->sector->validcount != validcount)
     {
         sub->sector->validcount = validcount;
-        R_AddSprites(sub->sector, (frontsector->ceilingpic == skyflatnum
-            && !(frontsector->sky & PL_SKYFLAT) ? (ceilinglightlevel + floorlightlevel) / 2 :
-            floorlightlevel));
+        R_AddSprites(sub->sector, (ceilinglightlevel + floorlightlevel) / 2);
     }
 
     while (count--)
