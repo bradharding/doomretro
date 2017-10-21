@@ -350,11 +350,18 @@ static void R_AddLine(seg_t *line)
 {
     int             x1;
     int             x2;
-    angle_t         angle1 = R_PointToAngleEx(line->v1->x, line->v1->y);
-    angle_t         angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
+    angle_t         angle1;
+    angle_t         angle2;
     static sector_t tempsec;            // killough 3/8/98: ceiling/water hack
 
     curline = line;
+
+    // Skip this line if it's not facing the camera
+    if (R_PointOnSegSide(viewx, viewy, line))
+        return;
+
+    angle1 = R_PointToAngleEx(line->v1->x, line->v1->y);
+    angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
 
     // Back side? I.e. backface culling?
     if (angle1 - angle2 >= ANG180)

@@ -142,13 +142,13 @@ extern lighttable_t **walllights;
 //
 int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
 {
-    return ((int)(((int64_t)(y - node->y) * node->dx + (int64_t)(node->x - x) * node->dy) >> 32) > 0);
+    return (int)(((int64_t)(y - node->y) * node->dx + (int64_t)(node->x - x) * node->dy) >= 0);
 }
 
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
-    return ((int)(((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
-        - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x)) >> 32) > 0);
+    return (int)(((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
+        - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x)) >= 0);
 }
 
 static int SlopeDiv(unsigned int num, unsigned int den)
