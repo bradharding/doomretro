@@ -247,7 +247,7 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
         if (P_SectorActive(ceiling_special, sec))
             continue;

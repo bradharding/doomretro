@@ -85,7 +85,7 @@ dboolean EV_DoGenFloor(line_t *line)
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
 manual_floor:
         // Do not start another function if floor already moving
@@ -286,7 +286,7 @@ dboolean EV_DoGenCeiling(line_t *line)
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
 manual_ceiling:
         // Do not start another function if ceiling already moving
@@ -490,7 +490,7 @@ dboolean EV_DoGenLift(line_t *line)
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
 manual_lift:
         // Do not start another function if floor already moving
@@ -632,7 +632,7 @@ dboolean EV_DoGenStairs(line_t *line)
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
 manual_stair:
         // Do not start another function if floor already moving
@@ -824,7 +824,7 @@ dboolean EV_DoGenCrusher(line_t *line)
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
 manual_crusher:
         // Do not start another function if ceiling already moving
@@ -918,7 +918,7 @@ dboolean EV_DoGenLockedDoor(line_t *line)
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
 manual_locked:
         // Do not start another function if ceiling already moving
@@ -1021,7 +1021,7 @@ dboolean EV_DoGenDoor(line_t *line)
     // if not manual do all sectors tagged the same as the line
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
 manual_door:
         // Do not start another function if ceiling already moving

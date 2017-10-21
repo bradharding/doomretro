@@ -386,7 +386,7 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
         if (P_SectorActive(ceiling_special, sec))
             continue;

@@ -530,7 +530,7 @@ void P_InitCards(player_t *player)
 
     for (int i = 0; i < numlines; i++)
     {
-        line_t  *line = &lines[i];
+        line_t  *line = lines + i;
 
         switch (line->special)
         {

@@ -375,7 +375,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
 
         for (; *list != -1; list++)
         {
-            line_t  *ld = &lines[*list];
+            line_t  *ld = lines + *list;
 
             if (ld->validcount == validcount)
                 continue;       // line has already been checked

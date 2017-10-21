@@ -185,7 +185,7 @@ dboolean EV_StartLightStrobing(line_t *line)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t    *sec = &sectors[secnum];
+        sector_t    *sec = sectors + secnum;
 
         if (P_SectorActive(lighting_special, sec))
             continue;

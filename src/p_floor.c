@@ -279,21 +279,21 @@ void T_MoveFloor(floormove_t *floor)
             sec->stairlock = -1;                // thinker done, promote lock to -1
 
             while (sec->prevsec != -1 && sectors[sec->prevsec].stairlock != -2)
-                sec = &sectors[sec->prevsec];   // search for a non-done thinker
+                sec = sectors + sec->prevsec;   // search for a non-done thinker
 
             if (sec->prevsec == -1)             // if all thinkers previous are done
             {
                 sec = floor->sector;            // search forward
 
                 while (sec->nextsec != -1 && sectors[sec->nextsec].stairlock != -2)
-                    sec = &sectors[sec->nextsec];
+                    sec = sectors + sec->nextsec;
 
                 if (sec->nextsec == -1)         // if all thinkers ahead are done too
                 {
                     while (sec->prevsec != -1)  // clear all locks
                     {
                         sec->stairlock = 0;
-                        sec = &sectors[sec->prevsec];
+                        sec = sectors + sec->prevsec;
                     }
 
                     sec->stairlock = 0;
@@ -374,7 +374,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t    *sec = &sectors[secnum];
+        sector_t    *sec = sectors + secnum;
         floormove_t *floor;
 
         // ALREADY MOVING? IF SO, KEEP GOING...
@@ -589,7 +589,7 @@ dboolean EV_DoChange(line_t *line, change_e changetype)
     // change all sectors with the same tag as the linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t    *sec = &sectors[secnum];
+        sector_t    *sec = sectors + secnum;
         sector_t    *secm;
 
         rtn = true;
@@ -655,7 +655,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
         int         secnum = ssec;
-        sector_t    *sec = &sectors[secnum];
+        sector_t    *sec = sectors + secnum;
         floormove_t *floor;
         fixed_t     stairsize = 0;
         fixed_t     speed = 0;
@@ -771,7 +771,7 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
     // act on all sectors with the same tag as the triggering linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t    *sec = &sectors[secnum];
+        sector_t    *sec = sectors + secnum;
         elevator_t  *elevator;
 
         // If either floor or ceiling is already activated, skip it

@@ -69,13 +69,13 @@ char *P_TempSaveGameFile(void)
 // Get the filename of the save game file to use for the specified slot.
 char *P_SaveGameFile(int slot)
 {
-    static char     *filename;
-    static size_t   filename_size;
-    char            basename[32];
+    static char *filename;
+    static int  filename_size;
+    char        basename[32];
 
     if (!filename)
     {
-        filename_size = strlen(savegamefolder) + 32;
+        filename_size = (int)strlen(savegamefolder) + 32;
         filename = malloc(filename_size);
     }
 
@@ -570,7 +570,7 @@ static void saveg_write_player_t(player_t *str)
 static void saveg_read_ceiling_t(ceiling_t *str)
 {
     str->type = (ceiling_e)saveg_read_enum();
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->bottomheight = saveg_read32();
     str->topheight = saveg_read32();
     str->speed = saveg_read32();
@@ -605,13 +605,13 @@ static void saveg_write_ceiling_t(ceiling_t *str)
 static void saveg_read_vldoor_t(vldoor_t *str)
 {
     str->type = (vldoor_e)saveg_read_enum();
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->topheight = saveg_read32();
     str->speed = saveg_read32();
     str->direction = saveg_read32();
     str->topwait = saveg_read32();
     str->topcountdown = saveg_read32();
-    str->line = &lines[saveg_read32()];
+    str->line = lines + saveg_read32();
     str->lighttag = saveg_read32();
 }
 
@@ -635,7 +635,7 @@ static void saveg_read_floormove_t(floormove_t *str)
 {
     str->type = (floor_e)saveg_read_enum();
     str->crush = saveg_read32();
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->direction = saveg_read32();
     str->newspecial = saveg_read32();
     str->texture = saveg_read16();
@@ -663,7 +663,7 @@ static void saveg_write_floormove_t(floormove_t *str)
 static void saveg_read_plat_t(plat_t *str)
 {
     str->thinker.function = (saveg_read32() ? T_PlatRaise : NULL);
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->speed = saveg_read32();
     str->low = saveg_read32();
     str->high = saveg_read32();
@@ -697,7 +697,7 @@ static void saveg_write_plat_t(plat_t *str)
 //
 static void saveg_read_lightflash_t(lightflash_t *str)
 {
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->count = saveg_read32();
     str->maxlight = saveg_read32();
     str->minlight = saveg_read32();
@@ -720,7 +720,7 @@ static void saveg_write_lightflash_t(lightflash_t *str)
 //
 static void saveg_read_strobe_t(strobe_t *str)
 {
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->count = saveg_read32();
     str->minlight = saveg_read32();
     str->maxlight = saveg_read32();
@@ -743,7 +743,7 @@ static void saveg_write_strobe_t(strobe_t *str)
 //
 static void saveg_read_glow_t(glow_t *str)
 {
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->minlight = saveg_read32();
     str->maxlight = saveg_read32();
     str->direction = saveg_read32();
@@ -759,7 +759,7 @@ static void saveg_write_glow_t(glow_t *str)
 
 static void saveg_read_fireflicker_t(fireflicker_t *str)
 {
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->count = saveg_read32();
     str->minlight = saveg_read32();
     str->maxlight = saveg_read32();
@@ -776,7 +776,7 @@ static void saveg_write_fireflicker_t(fireflicker_t *str)
 static void saveg_read_elevator_t(elevator_t *str)
 {
     str->type = (elevator_e)saveg_read_enum();
-    str->sector = &sectors[saveg_read32()];
+    str->sector = sectors + saveg_read32();
     str->direction = saveg_read32();
     str->floordestheight = saveg_read32();
     str->ceilingdestheight = saveg_read32();
@@ -845,7 +845,7 @@ static void saveg_write_pusher_t(pusher_t *str)
 
 static void saveg_read_button_t(button_t *str)
 {
-    str->line = &lines[saveg_read32()];
+    str->line = lines + saveg_read32();
     str->where = (bwhere_e)saveg_read32();
     str->btexture = saveg_read32();
     str->btimer = saveg_read32();
@@ -1004,7 +1004,7 @@ void P_ArchiveWorld(void)
             if (li->sidenum[j] == NO_INDEX)
                 continue;
 
-            si = &sides[li->sidenum[j]];
+            si = sides + li->sidenum[j];
 
             saveg_write16(si->textureoffset >> FRACBITS);
             saveg_write16(si->rowoffset >> FRACBITS);
@@ -1054,7 +1054,7 @@ void P_UnArchiveWorld(void)
             if (li->sidenum[j] == NO_INDEX)
                 continue;
 
-            si = &sides[li->sidenum[j]];
+            si = sides + li->sidenum[j];
 
             si->textureoffset = saveg_read16() << FRACBITS;
             si->rowoffset = saveg_read16() << FRACBITS;

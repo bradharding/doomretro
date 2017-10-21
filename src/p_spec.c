@@ -280,7 +280,7 @@ void P_SetLiquids(void)
 //
 side_t *getSide(int currentSector, int line, int side)
 {
-    return &sides[(sectors[currentSector].lines[line])->sidenum[side]];
+    return sides + (sectors[currentSector].lines[line])->sidenum[side];
 }
 
 //
@@ -567,7 +567,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 // killough 11/98: reformatted
 fixed_t P_FindShortestTextureAround(int secnum)
 {
-    const sector_t  *sec = &sectors[secnum];
+    const sector_t  *sec = sectors + secnum;
     const int       linecount = sec->linecount;
     int             minsize = 32000 * FRACUNIT;
 
@@ -600,7 +600,7 @@ fixed_t P_FindShortestTextureAround(int secnum)
 // killough 11/98: reformatted
 fixed_t P_FindShortestUpperAround(int secnum)
 {
-    const sector_t  *sec = &sectors[secnum];
+    const sector_t  *sec = sectors + secnum;
     const int       linecount = sec->linecount;
     int             minsize = 32000 * FRACUNIT;
 
@@ -636,7 +636,7 @@ fixed_t P_FindShortestUpperAround(int secnum)
 // killough 11/98: reformatted
 sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
 {
-    sector_t    *sec = &sectors[secnum];
+    sector_t    *sec = sectors + secnum;
     const int   linecount = sec->linecount;
 
     for (int i = 0; i < linecount; i++)
@@ -665,7 +665,7 @@ sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
 // killough 11/98: reformatted
 sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
 {
-    sector_t    *sec = &sectors[secnum];
+    sector_t    *sec = sectors + secnum;
     const int   linecount = sec->linecount;
 
     for (int i = 0; i < linecount; i++)
@@ -2163,7 +2163,7 @@ dboolean EV_DoDonut(line_t *line)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        s1 = &sectors[secnum];
+        s1 = sectors + secnum;
 
         // ALREADY MOVING? IF SO, KEEP GOING...
         if (P_SectorActive(floor_special, s1))
@@ -2228,13 +2228,13 @@ dboolean EV_DoDonut(line_t *line)
 //
 void P_SpawnSpecials(void)
 {
-    line_t      *line;
+    line_t      *line = lines;
     sector_t    *sector = sectors;
-    int         i;
+    int         p = M_CheckParmWithArgs("-timer", 1, 1);
 
-    if ((i = M_CheckParmWithArgs("-timer", 1, 1)))
+    if (p)
     {
-        timer = atoi(myargv[i + 1]);
+        timer = atoi(myargv[p + 1]);
         M_SaveCVARs();
         C_Output("A <b>-timer</b> parameter was found on the command-line. "
             "The time limit for each map is %i minutes.", timer);
@@ -2249,7 +2249,7 @@ void P_SpawnSpecials(void)
     }
 
     // Init special SECTORs.
-    for (i = 0; i < numsectors; i++, sector++)
+    for (int i = 0; i < numsectors; i++, sector++)
     {
         if (!sector->special)
             continue;
@@ -2308,52 +2308,58 @@ void P_SpawnSpecials(void)
     }
 
     P_RemoveAllActiveCeilings();        // jff 2/22/98 use killough's scheme
-
     P_RemoveAllActivePlats();           // killough
 
-    for (i = 0; i < MAXBUTTONS; i++)
+    for (int i = 0; i < MAXBUTTONS; i++)
         memset(&buttonlist[i], 0, sizeof(button_t));
 
     // P_InitTagLists() must be called before P_FindSectorFromLineTag()
     // or P_FindLineFromLineTag() can be called.
 
     P_InitTagLists();                   // killough 1/30/98: Create xref tables for tags
-
     P_SpawnScrollers();                 // killough 3/7/98: Add generalized scrollers
-
     P_SpawnFriction();                  // phares 3/12/98: New friction model using linedefs
-
     P_SpawnPushers();                   // phares 3/20/98: New pusher model using linedefs
 
-    for (line = lines, i = 0; i < numlines; i++, line++)
+    for (int i = 0; i < numlines; i++, line++)
     {
-        sector_t *sec = sides[*line->sidenum].sector;
-
         switch (line->special)
         {
             // killough 3/7/98:
             // support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
+            {
+                sector_t    *sec = sides[*line->sidenum].sector;
+
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].heightsec = sec;
 
                 break;
+            }
 
             // killough 3/16/98: Add support for setting
             // floor lighting independently (e.g. lava)
             case Floor_ChangeBrightnessToThisBrightness:
+            {
+                sector_t    *sec = sides[*line->sidenum].sector;
+
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].floorlightsec = sec;
 
                 break;
+            }
 
             // killough 4/11/98: Add support for setting
             // ceiling lighting independently
             case Ceiling_ChangeBrightnessToThisBrightness:
+            {
+                sector_t    *sec = sides[*line->sidenum].sector;
+
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].ceilinglightsec = sec;
 
                 break;
+            }
 
             // killough 10/98:
             //

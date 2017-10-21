@@ -179,7 +179,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sec = sectors + secnum;
 
         if (P_SectorActive(floor_special, sec))
             continue;

@@ -418,10 +418,10 @@ void R_DrawPlanes(void)
                     if (picnum & PL_SKYFLAT)
                     {
                         // Sky Linedef
-                        const line_t    *l = &lines[picnum & ~PL_SKYFLAT];
+                        const line_t    *l = lines + (picnum & ~PL_SKYFLAT);
 
                         // Sky transferred from first sidedef
-                        const side_t    *s = *l->sidenum + sides;
+                        const side_t    *s = sides + *l->sidenum;
 
                         // Texture comes from upper texture of reference sidedef
                         texture = texturetranslation[s->toptexture];

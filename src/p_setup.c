@@ -352,7 +352,7 @@ static void P_LoadSegs(int lump)
         if (linedef < 0 || linedef >= numlines)
             I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
 
-        ldef = &lines[linedef];
+        ldef = lines + linedef;
         li->linedef = ldef;
         side = SHORT(ml->side);
 
@@ -369,7 +369,7 @@ static void P_LoadSegs(int lump)
             I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
                 commify(linedef), commify(i), commify(ldef->sidenum[side]));
 
-        li->sidedef = &sides[ldef->sidenum[side]];
+        li->sidedef = sides + ldef->sidenum[side];
 
         // cph 2006/09/30 - our frontsector can be the second side of the
         // linedef, so must check for NO_INDEX in case we are incorrectly
@@ -403,7 +403,7 @@ static void P_LoadSegs(int lump)
             if (v2 >= numvertexes)
                 C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
 
-            if (li->sidedef == &sides[li->linedef->sidenum[0]])
+            if (li->sidedef == sides + li->linedef->sidenum[0])
             {
                 li->v1 = lines[ml->linedef].v1;
                 li->v2 = lines[ml->linedef].v2;
@@ -556,7 +556,7 @@ static void P_LoadSegs_V4(int lump)
         if (linedef < 0 || linedef >= numlines)
             I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
 
-        ldef = &lines[linedef];
+        ldef = lines + linedef;
         li->linedef = ldef;
         side = SHORT(ml->side);
 
@@ -573,7 +573,7 @@ static void P_LoadSegs_V4(int lump)
             I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
                 commify(linedef), commify(i), commify(ldef->sidenum[side]));
 
-        li->sidedef = &sides[ldef->sidenum[side]];
+        li->sidedef = sides + ldef->sidenum[side];
 
         // cph 2006/09/30 - our frontsector can be the second side of the
         // linedef, so must check for NO_INDEX in case we are incorrectly
@@ -607,7 +607,7 @@ static void P_LoadSegs_V4(int lump)
             if (v2 >= numvertexes)
                 C_Warning("Seg %s references an invalid vertex of %s.", commify(i), commify(v2));
 
-            if (li->sidedef == &sides[li->linedef->sidenum[0]])
+            if (li->sidedef == sides + li->linedef->sidenum[0])
             {
                 li->v1 = lines[ml->linedef].v1;
                 li->v2 = lines[ml->linedef].v2;
@@ -927,7 +927,7 @@ static void P_LoadZSegs(const byte *data)
         if (linedef >= (unsigned int)numlines)
             I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
 
-        ldef = &lines[linedef];
+        ldef = lines + linedef;
         li->linedef = ldef;
         side = ml->side;
 
@@ -944,7 +944,7 @@ static void P_LoadZSegs(const byte *data)
             C_Warning("Linedef %s for seg %s references an invalid sidedef of %s.",
                 commify(linedef), commify(i), commify(ldef->sidenum[side]));
 
-        li->sidedef = &sides[ldef->sidenum[side]];
+        li->sidedef = sides + ldef->sidenum[side];
 
         // cph 2006/09/30 - our frontsector can be the second side of the
         // linedef, so must check for NO_INDEX in case we are incorrectly
@@ -1377,7 +1377,7 @@ static void P_LoadSideDefs2(int lump)
             sector_num = 0;
         }
 
-        sd->sector = sec = &sectors[sector_num];
+        sd->sector = sec = sectors + sector_num;
 
         // killough 4/4/98: allow sidedef texture names to be overloaded
         switch (sd->special)
