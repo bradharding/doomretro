@@ -164,7 +164,7 @@ typedef struct sector_s
     short               lightlevel;
 
     // killough 3/7/98: support flat heights drawn at another sector's heights
-    int                 heightsec;      // other sector, or -1 if no other sector
+    struct sector_s     *heightsec;     // other sector, or NULL if no other sector
 
     // killough 4/4/98: dynamic colormaps
     int                 bottommap;
@@ -910,7 +910,7 @@ typedef struct
     fixed_t             footclip;
 
     // killough 3/27/98: height sector for underwater/fake ceiling support
-    int                 heightsec;
+    sector_t            *heightsec;
 
     int                 shadowpos;
 } vissprite_t;

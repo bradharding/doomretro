@@ -603,8 +603,8 @@ void R_StoreWallRange(const int start, const int stop)
     worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
-    if (r_liquid_bob && frontsector->isliquid && (frontsector->heightsec == -1
-        || viewz > sectors[frontsector->heightsec].interpfloorheight))
+    if (r_liquid_bob && frontsector->isliquid && (!frontsector->heightsec
+        || viewz > frontsector->heightsec->interpfloorheight))
         worldbottom += animatedliquiddiff;
 
     R_FixWiggle(frontsector);
@@ -703,7 +703,7 @@ void R_StoreWallRange(const int start, const int stop)
 
             // killough 4/15/98: prevent 2s normals
             // from bleeding through deep water
-            || frontsector->heightsec != -1
+            || frontsector->heightsec
 
             // killough 4/17/98: draw floors if different light levels
             || backsector->floorlightsec != frontsector->floorlightsec);
@@ -718,7 +718,7 @@ void R_StoreWallRange(const int start, const int stop)
 
             // killough 4/15/98: prevent 2s normals
             // from bleeding through fake ceilings
-            || (frontsector->heightsec != -1 && frontsector->ceilingpic != skyflatnum)
+            || (frontsector->heightsec && frontsector->ceilingpic != skyflatnum)
 
             // killough 4/17/98: draw ceilings if different light levels
             || backsector->ceilinglightsec != frontsector->ceilinglightsec);
@@ -733,7 +733,7 @@ void R_StoreWallRange(const int start, const int stop)
 
         // [BH] animate liquid sectors
         if (r_liquid_bob && backsector->isliquid && backsector->interpfloorheight >= frontsector->interpfloorheight
-            && (backsector->heightsec == -1 || viewz > sectors[backsector->heightsec].interpfloorheight))
+            && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight))
         {
             liquidoffset = animatedliquiddiff;
             worldlow += liquidoffset;
@@ -790,7 +790,7 @@ void R_StoreWallRange(const int start, const int stop)
     //  and doesn't need to be marked.
 
     // killough 3/7/98: add deep water check
-    if (frontsector->heightsec == -1)
+    if (!frontsector->heightsec)
     {
         if (frontsector->interpfloorheight >= viewz)
             markfloor = false;          // above view plane

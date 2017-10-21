@@ -2334,10 +2334,8 @@ void P_SpawnSpecials(void)
             // killough 3/7/98:
             // support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
-                sec = sides[*line->sidenum].sector->id;
-
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
-                    sectors[s].heightsec = sec;
+                    sectors[s].heightsec = sides[*line->sidenum].sector;
 
                 break;
 
@@ -2458,8 +2456,8 @@ void T_Scroll(scroll_t *s)
             // killough 4/4/98: Underwater, carry things even w/o gravity
             sec = sectors + s->affectee;
             height = sec->floorheight;
-            waterheight = (sec->heightsec != -1 && sectors[sec->heightsec].floorheight > height ?
-                sectors[sec->heightsec].floorheight : INT_MIN);
+            waterheight = (sec->heightsec && sec->heightsec->floorheight > height ?
+                sec->heightsec->floorheight : INT_MIN);
 
             // Move objects only if on floor or underwater,
             // non-floating, and clipped.
@@ -2909,8 +2907,8 @@ void T_Pusher(pusher_t *p)
     }
 
     // constant pushers p_wind and p_current
-    if (sec->heightsec != -1)                           // special water sector?
-        ht = sectors[sec->heightsec].floorheight;
+    if (sec->heightsec)                           // special water sector?
+        ht = sec->heightsec->floorheight;
 
     // things touching this sector
     for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
@@ -2922,7 +2920,7 @@ void T_Pusher(pusher_t *p)
 
         if (p->type == p_wind)
         {
-            if (sec->heightsec == -1)                   // NOT special water sector
+            if (!sec->heightsec)                        // NOT special water sector
             {
                 if (thing->z > thing->floorz)           // above ground
                 {
@@ -2956,7 +2954,7 @@ void T_Pusher(pusher_t *p)
         }
         else                                            // p_current
         {
-            if (sec->heightsec == -1)                   // NOT special water sector
+            if (!sec->heightsec)                        // NOT special water sector
             {
                 if (thing->z > sec->floorheight)        // above ground
                 {

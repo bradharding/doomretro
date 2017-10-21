@@ -705,7 +705,6 @@ static void P_LoadSectors(int lump)
 
         ss->nextsec = -1;           // jff 2/26/98 add fields to support locking out
         ss->prevsec = -1;           // stair retriggering until build completes
-        ss->heightsec = -1;         // sector used to get floor and ceiling height
         ss->floorlightsec = -1;     // sector used to get floor lighting
         ss->ceilinglightsec = -1;   // sector used to get ceiling lighting
 

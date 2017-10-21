@@ -609,7 +609,7 @@ static void R_ProjectSprite(mobj_t *thing)
     fixed_t         width;
     dboolean        flip;
     vissprite_t     *vis;
-    int             heightsec;
+    sector_t        *heightsec;
     int             flags2 = thing->flags2;
     int             frame;
     fixed_t         tr_x, tr_y;
@@ -713,19 +713,19 @@ static void R_ProjectSprite(mobj_t *thing)
     // killough 3/27/98: exclude things totally separated
     // from the viewer, by either water or fake ceilings
     // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-    if ((heightsec = thing->subsector->sector->heightsec) != -1)
+    if ((heightsec = thing->subsector->sector->heightsec))
     {
-        int phs = viewplayer->mo->subsector->sector->heightsec;
+        sector_t    *phs = viewplayer->mo->subsector->sector->heightsec;
 
-        if (phs != -1)
+        if (phs)
         {
-            if (viewz < sectors[phs].interpfloorheight ?
-                fz >= sectors[heightsec].interpfloorheight : gzt < sectors[heightsec].interpfloorheight)
+            if (viewz < phs->interpfloorheight ?
+                fz >= heightsec->interpfloorheight : gzt < heightsec->interpfloorheight)
                 return;
 
-            if (viewz > sectors[phs].interpceilingheight ?
-                gzt < sectors[heightsec].interpceilingheight && viewz >= sectors[heightsec].interpceilingheight :
-                fz >= sectors[heightsec].interpceilingheight)
+            if (viewz > phs->interpceilingheight ?
+                gzt < heightsec->interpceilingheight && viewz >= heightsec->interpceilingheight :
+                fz >= heightsec->interpceilingheight)
                 return;
         }
     }
@@ -754,7 +754,7 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && heightsec == -1
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && !heightsec
         && r_liquid_clipsprites)
     {
         fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
@@ -1290,38 +1290,42 @@ static void R_DrawSprite(const vissprite_t *spr)
     // killough 4/9/98: optimize by adding mh
     // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
     // killough 11/98: fix disappearing sprites
-    if (spr->heightsec != -1)  // only things in specially marked sectors
+    if (spr->heightsec) // only things in specially marked sectors
     {
-        fixed_t h;
-        fixed_t mh;
-        int     phs = viewplayer->mo->subsector->sector->heightsec;
+        fixed_t     h;
+        fixed_t     mh;
+        sector_t    *phs = viewplayer->mo->subsector->sector->heightsec;
 
-        if ((mh = sectors[spr->heightsec].interpfloorheight) > spr->gz
+        if ((mh = spr->heightsec->interpfloorheight) > spr->gz
             && (h = centeryfrac - FixedMul((mh -= viewz), spr->scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
-            if (mh <= 0 || (phs != -1 && viewz > sectors[phs].interpfloorheight))
-            {                          // clip bottom
+            if (mh <= 0 || (phs && viewz > phs->interpfloorheight))
+            {
+                // clip bottom
                 for (int i = x1; i <= x2; i++)
                     if (h < clipbot[i])
                         clipbot[i] = h;
             }
-            else                        // clip top
-                if (phs != -1 && viewz <= sectors[phs].interpfloorheight)       // killough 11/98
+            else
+                // clip top
+                if (phs && viewz <= phs->interpfloorheight)
                     for (int i = x1; i <= x2; i++)
                         if (h > cliptop[i])
                             cliptop[i] = h;
         }
 
-        if ((mh = sectors[spr->heightsec].interpceilingheight) < spr->gzt
+        if ((mh = spr->heightsec->interpceilingheight) < spr->gzt
             && (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
-            if (phs != -1 && viewz >= sectors[phs].interpceilingheight)
-            {                         // clip bottom
+            if (phs && viewz >= phs->interpceilingheight)
+            {
+                // clip bottom
                 for (int i = x1; i <= x2; i++)
                     if (h < clipbot[i])
                         clipbot[i] = h;
             }
-            else                       // clip top
+            else
+                // clip top
                 for (int i = x1; i <= x2; i++)
                     if (h > cliptop[i])
                         cliptop[i] = h;

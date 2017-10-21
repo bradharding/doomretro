@@ -158,7 +158,7 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
         for (const msecnode_t *m = mo->touching_sectorlist; m; m = m->m_tnext)
             if (((sec = m->m_sector)->special & FRICTION_MASK) && (sec->friction < friction
                 || friction == ORIG_FRICTION) && (mo->z <= sec->floorheight
-                || (sec->heightsec != -1 && mo->z <= sectors[sec->heightsec].floorheight)))
+                || (sec->heightsec && mo->z <= sec->heightsec->floorheight)))
             {
                 friction = sec->friction;
                 movefactor = sec->movefactor;

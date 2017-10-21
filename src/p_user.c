@@ -164,8 +164,8 @@ void P_CalcHeight(player_t *player)
             {
                 sector_t    *sector = mo->subsector->sector;
 
-                if (!P_IsSelfReferencingSector(sector) && (sector->heightsec == -1
-                    || mo->z + player->viewheight - FOOTCLIPSIZE >= sectors[sector->heightsec].floorheight))
+                if (!P_IsSelfReferencingSector(sector) && (!sector->heightsec
+                    || mo->z + player->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
                     player->viewz -= FOOTCLIPSIZE;
             }
         }

@@ -580,7 +580,7 @@ void P_MobjThinker(mobj_t *mobj)
 
     // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight
-        && !mobj->momz && sector->heightsec == -1 && r_liquid_bob)
+        && !mobj->momz && !sector->heightsec && r_liquid_bob)
         mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
 
     // [BH] otherwise bob certain power-ups
@@ -752,7 +752,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function = (mobj->type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
     P_AddThinker(&mobj->thinker);
 
-    if (!(mobj->flags2 & MF2_NOFOOTCLIP) && sector->isliquid && sector->heightsec == -1)
+    if (!(mobj->flags2 & MF2_NOFOOTCLIP) && sector->isliquid && !sector->heightsec)
         mobj->flags2 |= MF2_FEETARECLIPPED;
 
     prevx = x;
@@ -1337,7 +1337,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     int     dist;
     int     speed;
 
-    if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1
+    if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec
         && r_liquid_clipsprites)
         z -= FOOTCLIPSIZE;
 
@@ -1403,7 +1403,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     y = source->y;
     z = source->z + 4 * 8 * FRACUNIT;
 
-    if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1
+    if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec
         && r_liquid_lowerview)
         z -= FOOTCLIPSIZE;
 

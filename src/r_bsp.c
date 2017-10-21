@@ -186,7 +186,7 @@ static void R_RecalcLineFlags(line_t *linedef)
 // [AM] Interpolate the passed sector, if prudent.
 static void R_MaybeInterpolateSector(sector_t *sector)
 {
-    sector_t    *heightsec = (sector->heightsec == -1 ? NULL : &sectors[sector->heightsec]);
+    sector_t    *heightsec = sector->heightsec;
 
     if (vid_capfps != TICRATE
         // Only if we moved the sector last tic.
@@ -256,11 +256,11 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
         *ceilinglightlevel = (sec->ceilinglightsec == -1 ? sec->lightlevel :
             sectors[sec->ceilinglightsec].lightlevel);
 
-    if (sec->heightsec != -1)
+    if (sec->heightsec)
     {
-        const sector_t  *s = &sectors[sec->heightsec];
-        int             heightsec = viewplayer->mo->subsector->sector->heightsec;
-        dboolean        underwater = (heightsec != -1 && viewz <= sectors[heightsec].interpfloorheight);
+        const sector_t  *s = sec->heightsec;
+        sector_t        *heightsec = viewplayer->mo->subsector->sector->heightsec;
+        dboolean        underwater = (heightsec && viewz <= heightsec->interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;
@@ -305,7 +305,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
                 *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
                     sectors[s->ceilinglightsec].lightlevel);            // killough 4/11/98
         }
-        else if (heightsec != -1 && viewz >= sectors[heightsec].interpceilingheight
+        else if (heightsec && viewz >= heightsec->interpceilingheight
             && sec->interpceilingheight > s->interpceilingheight)
         {
             // Above-ceiling hack
@@ -538,7 +538,7 @@ static void R_Subsector(int num)
     frontsector = R_FakeFlat(frontsector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
     floorplane = (frontsector->interpfloorheight < viewz        // killough 3/7/98
-        || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].ceilingpic == skyflatnum) ?
+        || (frontsector->heightsec && frontsector->heightsec->ceilingpic == skyflatnum) ?
         R_FindPlane(frontsector->interpfloorheight,
             (frontsector->floorpic == skyflatnum                // killough 10/98
                 && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->floorpic),
@@ -547,7 +547,7 @@ static void R_Subsector(int num)
             frontsector->floor_yoffs) : NULL);
 
     ceilingplane = (frontsector->interpceilingheight > viewz || frontsector->ceilingpic == skyflatnum
-        || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].floorpic == skyflatnum) ?
+        || (frontsector->heightsec && frontsector->heightsec->floorpic == skyflatnum) ?
         R_FindPlane(frontsector->interpceilingheight,           // killough 3/8/98
             (frontsector->ceilingpic == skyflatnum              // killough 10/98
                 && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
