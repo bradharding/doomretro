@@ -293,13 +293,13 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->health);
     saveg_write32(str->movedir);
     saveg_write32(str->movecount);
-    saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->target));
+    saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->target));
     saveg_write32(str->reactiontime);
     saveg_write32(str->threshold);
     saveg_write32(str->player ? str->player - players + 1 : 0);
     saveg_write_mapthing_t(&str->spawnpoint);
-    saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->tracer));
-    saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->lastenemy));
+    saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->tracer));
+    saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->lastenemy));
     saveg_write32(str->floatbob);
     saveg_write32(str->shadowoffset);
     saveg_write16(str->gear);
@@ -1208,9 +1208,9 @@ void P_UnArchiveThinkers(void)
 }
 
 // By Fabian Greffrath. See http://www.doomworld.com/vb/post/1294860.
-unsigned int P_ThinkerToIndex(thinker_t *thinker)
+uintptr_t P_ThinkerToIndex(thinker_t *thinker)
 {
-    unsigned int    i = 0;
+    uintptr_t   i = 0;
 
     if (!thinker)
         return 0;
@@ -1226,9 +1226,9 @@ unsigned int P_ThinkerToIndex(thinker_t *thinker)
     return 0;
 }
 
-thinker_t *P_IndexToThinker(unsigned int index)
+thinker_t *P_IndexToThinker(uintptr_t index)
 {
-    unsigned int    i = 0;
+    uintptr_t   i = 0;
 
     if (!index)
         return NULL;
