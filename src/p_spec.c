@@ -2342,8 +2342,6 @@ void P_SpawnSpecials(void)
             // killough 3/16/98: Add support for setting
             // floor lighting independently (e.g. lava)
             case Floor_ChangeBrightnessToThisBrightness:
-                sec = sides[*line->sidenum].sector->id;
-
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].floorlightsec = sec;
 
@@ -2352,8 +2350,6 @@ void P_SpawnSpecials(void)
             // killough 4/11/98: Add support for setting
             // ceiling lighting independently
             case Ceiling_ChangeBrightnessToThisBrightness:
-                sec = sides[*line->sidenum].sector->id;
-
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
                     sectors[s].ceilinglightsec = sec;
 
