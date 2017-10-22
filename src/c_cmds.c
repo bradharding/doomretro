@@ -2724,13 +2724,13 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Music format\t<b>MIDI</b>");
         else if (musictype == MUS_OGG)
             C_TabbedOutput(tabs, "Music format\t<b>Ogg Vorbis</b>");
-        else if (musictype == MUS_MP3 || musictype == MUS_MP3_MAD)
+        else if (musictype == MUS_MP3)
             C_TabbedOutput(tabs, "Music format\t<b>MP3</b>");
         else if (musictype == MUS_WAV)
             C_TabbedOutput(tabs, "Music format\t<b>WAV</b>");
         else if (musictype == MUS_FLAC)
             C_TabbedOutput(tabs, "Music format\t<b>FLAC</b>");
-        else if (musictype == MUS_MOD || musictype == MUS_MODPLUG)
+        else if (musictype == MUS_MOD)
             C_TabbedOutput(tabs, "Music format\t<b>MOD</b>");
     }
 }
