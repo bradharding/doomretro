@@ -495,13 +495,13 @@ void W_ReadLump(lumpindex_t lump, void *dest)
 
     c = W_Read(l->wadfile, l->position, dest, l->size);
 
-    if (c < l->size)
+    if (c < (size_t)l->size)
         I_Error("W_ReadLump: only read %zd of %i on lump %i", c, l->size, lump);
 }
 
 void *W_CacheLumpNum(lumpindex_t lump)
 {
-    const int locks = 1;
+    const int   locks = 1;
 
     if (!cachelump[lump].cache)         // read the lump in
         W_ReadLump(lump, Z_Malloc(W_LumpLength(lump), PU_CACHE, &cachelump[lump].cache));
@@ -517,7 +517,7 @@ void *W_CacheLumpNum(lumpindex_t lump)
 
 void W_UnlockLumpNum(lumpindex_t lump)
 {
-    const int unlocks = 1;
+    const int   unlocks = 1;
 
     cachelump[lump].locks -= unlocks;
 
