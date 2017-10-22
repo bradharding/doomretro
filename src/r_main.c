@@ -407,7 +407,7 @@ void R_ExecuteSetViewSize(void)
 
     // thing clipping
     for (int i = 0; i < viewwidth; i++)
-        screenheightarray[i] = viewheight;
+        viewheightarray[i] = viewheight;
 
     // planes
     for (int i = 0; i < viewheight; i++)

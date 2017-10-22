@@ -656,7 +656,7 @@ void R_StoreWallRange(const int start, const int stop)
         markfloor = true;
         markceiling = true;
 
-        ds_p->sprtopclip = screenheightarray;
+        ds_p->sprtopclip = viewheightarray;
         ds_p->sprbottomclip = negonearray;
         ds_p->silhouette = SIL_BOTH;
     }
@@ -667,7 +667,7 @@ void R_StoreWallRange(const int start, const int stop)
         if (linedef->r_flags & RF_CLOSED)
         {
             ds_p->sprbottomclip = negonearray;
-            ds_p->sprtopclip = screenheightarray;
+            ds_p->sprtopclip = viewheightarray;
             ds_p->silhouette = SIL_BOTH;
         }
         else

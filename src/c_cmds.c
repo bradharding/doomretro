@@ -685,7 +685,7 @@ consolecmd_t consolecmds[] =
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, 0, "",
         "Shows a list of things in the current map."),
     CVAR_BOOL(tossdrop, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the tossing of items dropped by monsters when they are killed."),
+        "Toggles the tossing of items dropped by monsters\nwhen they are killed."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
         "The speed of the player (<b>10%</b> to <b>400%</b>)."),
     CMD(unbind, "", null_func1, unbind_cmd_func2, 1, UNBINDCMDFORMAT,

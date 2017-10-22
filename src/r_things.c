@@ -67,7 +67,7 @@ static lighttable_t     **spritelights;         // killough 1/25/98 made static
 // constant arrays
 //  used for psprite clipping and initializing clipping
 int                     negonearray[SCREENWIDTH];
-int                     screenheightarray[SCREENWIDTH];
+int                     viewheightarray[SCREENWIDTH];
 
 //
 // INITIALIZATION FUNCTIONS

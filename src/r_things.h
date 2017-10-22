@@ -42,7 +42,7 @@
 // Constant arrays used for psprite clipping
 //  and initializing clipping.
 extern int      negonearray[SCREENWIDTH];
-extern int      screenheightarray[SCREENWIDTH];
+extern int      viewheightarray[SCREENWIDTH];
 
 // vars for R_DrawMaskedColumn
 extern int      *mfloorclip;
