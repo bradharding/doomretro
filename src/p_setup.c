@@ -681,7 +681,7 @@ static void P_LoadSectors(int lump)
 
         // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors)
-            for (int j = 0; sectorfix[j].mission != -1; i++)
+            for (int j = 0; sectorfix[j].mission != -1; j++)
             {
                 if (i == sectorfix[j].sector && gamemission == sectorfix[j].mission
                     && gameepisode == sectorfix[j].epsiode && gamemap == sectorfix[j].map)
