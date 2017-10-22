@@ -135,7 +135,6 @@ extern dboolean     s_randompitch;
 extern int          s_sfxvolume;
 extern int          savegame;
 extern int          skilllevel;
-extern int          stillbob;
 extern unsigned int stat_barrelsexploded;
 extern unsigned int stat_cheated;
 extern unsigned int stat_damageinflicted;
@@ -173,8 +172,10 @@ extern unsigned int stat_secretsrevealed;
 extern unsigned int stat_shotsfired;
 extern unsigned int stat_shotshit;
 extern unsigned int stat_time;
-extern int          units;
+extern int          stillbob;
+extern dboolean     tossdrop;
 extern int          turbo;
+extern int          units;
 extern char         *version;
 extern int          vid_capfps;
 extern int          vid_display;
@@ -514,6 +515,8 @@ enum
 #define stillbob_min                            0
 #define stillbob_default                        0
 #define stillbob_max                            100
+
+#define tossdrop_default                        true
 
 #define turbo_min                               10
 #define turbo_default                           100

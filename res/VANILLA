@@ -61,6 +61,7 @@ s_channels 8
 s_randommusic off
 s_randompitch off
 stillbob 0%
+tossdrop off
 turbo 100%
 vid_capfps 35
 vid_motionblur 0%

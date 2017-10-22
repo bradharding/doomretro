@@ -165,6 +165,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (savegame,                                          NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (skilllevel,                                        NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                                          NOVALUEALIAS      ),
+    CONFIG_VARIABLE_INT          (tossdrop,                                          BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                                             NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (units,                                             UNITSVALUEALIAS   ),
     CONFIG_VARIABLE_STRING       (version,                                           NOVALUEALIAS      ),
@@ -714,6 +715,10 @@ static void M_CheckCVARs(void)
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
+
+    if (tossdrop != false && tossdrop != true)
+        tossdrop = tossdrop_default;
+
     turbo = BETWEEN(turbo_min, turbo, turbo_max);
 
     if (units != units_imperial && units != units_metric)
