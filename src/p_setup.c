@@ -1759,7 +1759,7 @@ static void P_GroupLines(void)
     // figgi
     for (i = 0; i < numsubsectors; i++)
     {
-        seg_t   *seg = &segs[subsectors[i].firstline];
+        seg_t   *seg = segs + subsectors[i].firstline;
 
         subsectors[i].sector = NULL;
 

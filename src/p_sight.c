@@ -100,7 +100,6 @@ static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 //
 static dboolean P_CrossSubsector(int num)
 {
-    seg_t       *seg;
     sector_t    *front;
     sector_t    *back;
     fixed_t     opentop;
@@ -108,10 +107,8 @@ static dboolean P_CrossSubsector(int num)
     divline_t   divl;
     vertex_t    *v1;
     vertex_t    *v2;
-    subsector_t *sub = &subsectors[num];
-
-    // check lines
-    seg = &segs[sub->firstline];
+    subsector_t *sub = subsectors + num;
+    seg_t       *seg = segs + sub->firstline;
 
     for (int count = sub->numlines; count; seg++, count--)
     {

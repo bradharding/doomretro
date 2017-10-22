@@ -514,9 +514,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
     dl.dx = x2 - x1;
     dl.dy = y2 - y1;
 
-    frac = P_InterceptVector(&dlTrace, &dl);
-
-    if (frac < 0)
+    if ((frac = P_InterceptVector(&dlTrace, &dl)) < 0)
         return true;    // behind source
 
     check_intercept();  // killough
