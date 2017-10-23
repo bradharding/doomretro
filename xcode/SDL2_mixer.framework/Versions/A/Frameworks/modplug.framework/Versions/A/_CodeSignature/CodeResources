@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		z9M1jtRolj5yvBs/drKclNJtB0c=
+		uDHhprGyyxu/eNO5v3q+37XJW9k=
 		</data>
 		<key>Resources/LICENSE.modplug.txt</key>
 		<data>
@@ -16,17 +16,38 @@
 	<key>files2</key>
 	<dict>
 		<key>Headers/modplug.h</key>
-		<data>
-		jaeirFWcRFPZwqgwbQCl8xNFsvc=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			q1ryb4xX4NtVwTWD5KN0jvGDKh0=
+			</data>
+			<key>hash2</key>
+			<data>
+			DTJjl8a+4IWnJSB+Nf3muJ/ME6AMqFJUJCyBq9/ROY4=
+			</data>
+		</dict>
 		<key>Resources/Info.plist</key>
-		<data>
-		z9M1jtRolj5yvBs/drKclNJtB0c=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			uDHhprGyyxu/eNO5v3q+37XJW9k=
+			</data>
+			<key>hash2</key>
+			<data>
+			b1GyRMz7f/wGfc4w8mNnx2tbRSNuvLt2mJOAoKaeN2M=
+			</data>
+		</dict>
 		<key>Resources/LICENSE.modplug.txt</key>
-		<data>
-		+OiRH9Tf6T8s0agU3uTQpjURuXQ=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			+OiRH9Tf6T8s0agU3uTQpjURuXQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			tk0FUil20m6HC/u/cB5aicxeKrj73md+JPB92vDax8E=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -45,6 +66,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -104,6 +130,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

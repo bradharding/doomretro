@@ -6,31 +6,59 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		saKvKQeg9udEYHv4X7o3gZzGvUM=
+		xxqZ/3xOBR1ijf3qsdmdN1s0hBI=
 		</data>
-		<key>Resources/LICENSE.smpeg.txt</key>
+		<key>Resources/LICENSE.mpg123.txt</key>
 		<data>
-		IUHNj5cIgZFvYPCq4B3/WJWJKMg=
+		1YwHH+hCzlx/oEg340jMUL/tP/Q=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/MPEGframe.h</key>
-		<data>
-		adOxoHXNSQm9p5TFqBwtitUNLy4=
-		</data>
-		<key>Headers/smpeg.h</key>
-		<data>
-		YHiRVJ6TvwVaaX/t3THqbzJVrCU=
-		</data>
+		<key>Headers/fmt123.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uI7tO9O1cenGBgY+hP8FS3UGSDA=
+			</data>
+			<key>hash2</key>
+			<data>
+			DtghkJWFGeSvqvfGmwxt9p/QPKW3oVRV7PSVld4lqk4=
+			</data>
+		</dict>
+		<key>Headers/mpg123.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			UhltfKAvhpCWVjcIFTMqq1+g8+U=
+			</data>
+			<key>hash2</key>
+			<data>
+			8LFVBLF8/uJKwB0SFABY1Pxn5vG9oBnnyr27dAZMU2c=
+			</data>
+		</dict>
 		<key>Resources/Info.plist</key>
-		<data>
-		saKvKQeg9udEYHv4X7o3gZzGvUM=
-		</data>
-		<key>Resources/LICENSE.smpeg.txt</key>
-		<data>
-		IUHNj5cIgZFvYPCq4B3/WJWJKMg=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			xxqZ/3xOBR1ijf3qsdmdN1s0hBI=
+			</data>
+			<key>hash2</key>
+			<data>
+			AXwtgnHkeA1I7WahWFMoz+5pXMiVnTcFwwi2gJ+1Wq8=
+			</data>
+		</dict>
+		<key>Resources/LICENSE.mpg123.txt</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1YwHH+hCzlx/oEg340jMUL/tP/Q=
+			</data>
+			<key>hash2</key>
+			<data>
+			9A4N2GsntS5Cm2k6h7PKY64KmKTRQudyB6pr3x23opU=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -49,6 +77,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -108,6 +141,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

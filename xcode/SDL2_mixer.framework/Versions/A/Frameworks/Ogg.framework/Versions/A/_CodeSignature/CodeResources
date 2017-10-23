@@ -15,7 +15,7 @@
 		</dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		VZ7nwhRWES3q6ztfCbmZbkiN1zw=
+		Is7j5AoBYKsRC1HEYDRCRBF6XzA=
 		</data>
 		<key>Resources/LICENSE.ogg-vorbis.txt</key>
 		<data>
@@ -25,30 +25,62 @@
 	<key>files2</key>
 	<dict>
 		<key>Headers/ogg.h</key>
-		<data>
-		AFNtdHRPvTcVwmm2Xkwe0KetWyI=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			AFNtdHRPvTcVwmm2Xkwe0KetWyI=
+			</data>
+			<key>hash2</key>
+			<data>
+			VVj+aQGANADntSUtH1B0Jsq+uh7/N2OY54hlp+czOAw=
+			</data>
+		</dict>
 		<key>Headers/os_types.h</key>
-		<data>
-		91ZpZfMzJMNoPm4YEwzBhTVdyek=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			uDjiyvwNqBRlVc/fPwY2AeT/N3k=
+			</data>
+			<key>hash2</key>
+			<data>
+			MDz3PkNOuWC8VhyecdcT7MNhS0UAS6V1+BBtVJH7d8g=
+			</data>
+		</dict>
 		<key>Resources/English.lproj/InfoPlist.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
 			SpvCfw0UsHoD71ReAIyHRtgJ5+8=
 			</data>
+			<key>hash2</key>
+			<data>
+			nW+Ynur6e91CqWJtXLWbTI7GuphMCOm+OH3qOfuGiBw=
+			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Resources/Info.plist</key>
-		<data>
-		VZ7nwhRWES3q6ztfCbmZbkiN1zw=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Is7j5AoBYKsRC1HEYDRCRBF6XzA=
+			</data>
+			<key>hash2</key>
+			<data>
+			ZHiBcTZVxLsOt/RAdanOjmVhveeAKBMkaEKmOhyyq/Q=
+			</data>
+		</dict>
 		<key>Resources/LICENSE.ogg-vorbis.txt</key>
-		<data>
-		e2X5Tjm44IQe/6GP2aSe45CDeBE=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			e2X5Tjm44IQe/6GP2aSe45CDeBE=
+			</data>
+			<key>hash2</key>
+			<data>
+			8thy28NDHC8FkArFAffWNjZ/5ty8MwHrYNkSD5xGWUk=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -67,6 +99,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -126,6 +163,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		YQ2PaiWO14skKY+LqcanonZD1U0=
+		Q18q+fULk9TzM6UmLq9z132r9z4=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,7 +15,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			MbpqnImwlaciiZKOpxghrdHcdO8=
+			LOlvdJpQh366GamtmEYLqpk/owU=
 			</data>
 			<key>requirement</key>
 			<string>identifier FLAC and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EH385AYQ6F</string>
@@ -24,7 +24,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			nW/Lhi2I/n3CLdlDyPMCuChGXL4=
+			819NHnBTttJF7DDFqqBT9u9ndl0=
 			</data>
 			<key>requirement</key>
 			<string>identifier "org.xiph.ogg" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EH385AYQ6F</string>
@@ -33,7 +33,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			SeysWRcoT4A06w49wzaDqLD6ANU=
+			wy7Tq06E6OkNZcjlQ44/8JzTG1Q=
 			</data>
 			<key>requirement</key>
 			<string>identifier "org.xiph.vorbis" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EH385AYQ6F</string>
@@ -42,28 +42,42 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			T/ZUj77HU8B9pD2dUNZEpVxrxhY=
+			ZgispEg89ikHTAuO7c2/No1rCco=
 			</data>
 			<key>requirement</key>
 			<string>identifier modplug and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EH385AYQ6F</string>
 		</dict>
-		<key>Frameworks/smpeg2.framework</key>
+		<key>Frameworks/mpg123.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			acZoo56b2MVhIdHiiRpescPzMoI=
+			Zd8Sbrsqj5VXJqtRQ9YeymzrmLA=
 			</data>
 			<key>requirement</key>
-			<string>identifier "org.libsdl.smpeg2" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EH385AYQ6F</string>
+			<string>identifier mpg123 and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EH385AYQ6F</string>
 		</dict>
 		<key>Headers/SDL_mixer.h</key>
-		<data>
-		f7MF0wLrANO34Vzf3hxUkUvQDcQ=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			nxeI49/QvhIyCO5i+CY6yefO474=
+			</data>
+			<key>hash2</key>
+			<data>
+			Bs0d+t2W58N1GoIyCUv90D1avW9/EtwXOQmdzxrTg6g=
+			</data>
+		</dict>
 		<key>Resources/Info.plist</key>
-		<data>
-		YQ2PaiWO14skKY+LqcanonZD1U0=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Q18q+fULk9TzM6UmLq9z132r9z4=
+			</data>
+			<key>hash2</key>
+			<data>
+			WAWOAKkM4ztMC2KMzoM9UhpBpRuU8VjGR9rT0u+prJQ=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -82,6 +96,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -141,6 +160,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>
