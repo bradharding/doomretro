@@ -19,8 +19,6 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-/* $Id$ */
-
 #ifndef SDL_MIXER_H_
 #define SDL_MIXER_H_
 
@@ -82,7 +80,7 @@ typedef enum
     MIX_INIT_MOD    = 0x00000002,
     MIX_INIT_MP3    = 0x00000008,
     MIX_INIT_OGG    = 0x00000010,
-    MIX_INIT_MID    = 0x00000020,
+    MIX_INIT_MID    = 0x00000020
 } MIX_InitFlags;
 
 /* Loads dynamic libraries and prepares them for use.  Flags should be
