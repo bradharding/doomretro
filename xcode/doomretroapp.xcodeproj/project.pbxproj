@@ -12,8 +12,8 @@
 		9F385F291C28ADAF00BD4F2B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F385F281C28ADAF00BD4F2B /* SDL2.framework */; };
 		9F385F2B1C28ADBC00BD4F2B /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */; };
 		9F385F2E1C28B0D100BD4F2B /* sc_man.c in Sources */ = {isa = PBXBuildFile; fileRef = 9F385F2C1C28B0D100BD4F2B /* sc_man.c */; };
-		9F385F321C29C03100BD4F2B /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F385F331C29C03100BD4F2B /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F385F281C28ADAF00BD4F2B /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F385F321C29C03100BD4F2B /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9F385F331C29C03100BD4F2B /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F385F281C28ADAF00BD4F2B /* SDL2.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D21A8DAEB600AF539F /* Cocoa.framework */; };
 		AB5A82791A8DB9EB00AF539F /* am_map.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81DA1A8DB9EB00AF539F /* am_map.c */; };
 		AB5A827A1A8DB9EB00AF539F /* c_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81DC1A8DB9EB00AF539F /* c_cmds.c */; };
@@ -88,7 +88,7 @@
 		F3142B161F97B1A200CCB7FD /* doomretro.iconset in Resources */ = {isa = PBXBuildFile; fileRef = F3142B151F97B1A100CCB7FD /* doomretro.iconset */; };
 		F31526711D16F69100824B66 /* doomretro.wad in Resources */ = {isa = PBXBuildFile; fileRef = F31526701D16F69100824B66 /* doomretro.wad */; };
 		F3C1ED641CF5028600C3E94F /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; };
-		F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F3C1ED6A1CF508B500C3E94F /* m_config.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED661CF508B500C3E94F /* m_config.c */; };
 		F3C1ED6B1CF508B500C3E94F /* r_patch.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED681CF508B500C3E94F /* r_patch.c */; };
 		F3C1ED6C1CF508FC00C3E94F /* m_controls.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82181A8DB9EB00AF539F /* m_controls.c */; };

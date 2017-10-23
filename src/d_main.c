@@ -1727,8 +1727,7 @@ static void D_DoomMainSetup(void)
 #if defined(_WIN32)
                     PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, (SND_ALIAS_ID | SND_ASYNC));
 #endif
-                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find %s.",
-                        (*wad ? wad : "any IWADs"));
+                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME" couldn't find %s.", (choseniwad ? wad : "any IWADs"));
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
                     wad = "";
                 }
