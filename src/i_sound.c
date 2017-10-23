@@ -264,72 +264,36 @@ static void ReleaseSoundOnChannel(int channel)
         FreeAllocatedSound(snd);
 }
 
-static dboolean ConvertibleRatio(int freq1, int freq2)
-{
-    if (freq1 > freq2)
-        return ConvertibleRatio(freq2, freq1);
-    else if (freq2 % freq1)
-        return false;   // Not in a direct ratio
-    else
-    {
-        // Check the ratio is a power of 2
-        int ratio = freq2 / freq1;
-
-        while (!(ratio & 1))
-            ratio >>= 1;
-
-        return (ratio == 1);
-    }
-}
-
 // Generic sound expansion function for any sample rate.
 static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int length)
 {
-    SDL_AudioCVT        convertor;
     Mix_Chunk           *chunk;
-
-    // Calculate the length of the expanded version of the sample.
-    // Double up twice: 8 -> 16 bit and mono -> stereo
     unsigned int        expanded_length = (unsigned int)(((uint64_t)length * mixer_freq) / samplerate);
-
-    // Allocate a chunk in which to expand the sound
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
+    Sint16              *expanded;
+    int                 expand_ratio;
+    double              dt;
+    double              alpha;
 
     if (!snd)
         return false;
 
     chunk = &snd->chunk;
+    expanded = (Sint16 *)chunk->abuf;
+    expand_ratio = (length << 8) / expanded_length;
+    dt = 1.0 / mixer_freq;
+    alpha = dt / (1.0 / (M_PI * samplerate) + dt);
 
-    // If we can, use the standard / optimized SDL conversion routines.
-    if (samplerate <= mixer_freq && ConvertibleRatio(samplerate, mixer_freq)
-        && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, mixer_format, mixer_channels, mixer_freq))
+    for (unsigned int i = 0; i < expanded_length; i++)
     {
-        convertor.buf = chunk->abuf;
-        convertor.len = length;
-        memcpy(convertor.buf, data, length);
-        SDL_ConvertAudio(&convertor);
+        int     src = (i * expand_ratio) >> 8;
+        Sint16  sample = (data[src] | (data[src] << 8)) - 32768;
+
+        expanded[i * 2] = expanded[i * 2 + 1] = sample;
     }
-    else
-    {
-        Sint16  *expanded = (Sint16 *)chunk->abuf;
 
-        // Generic expansion if conversion does not work:
-        //
-        // SDL's audio conversion only works for rate conversions that are powers of 2; if the two
-        // formats are not in a direct power of 2 ratio, do this naive conversion instead.
-
-        // number of samples in the converted sound
-        int     expand_ratio = (length << 8) / expanded_length;
-
-        for (unsigned int i = 0; i < expanded_length; i++)
-        {
-            int     src = (i * expand_ratio) >> 8;
-            Sint16  sample = (data[src] | (data[src] << 8)) - 32768;
-
-            // expand 8->16 bits, mono->stereo
-            expanded[i * 2] = expanded[i * 2 + 1] = sample;
-        }
-    }
+    for (unsigned int i = 2; i < expanded_length * 2; ++i)
+        expanded[i] = (Sint16)(alpha * expanded[i] + (1 - alpha) * expanded[i - 2]);
 
     return true;
 }
