@@ -1795,12 +1795,12 @@ void I_InitGraphics(void)
     SDL_VERSION(&compiled);
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error("The wrong version of sdl2.dll was found. "PACKAGE_NAME" requires v%i.%i.%i.",
-            compiled.major, compiled.minor, compiled.patch);
+        I_Error("The wrong version of %s was found. %s requires v%i.%i.%i.",
+            SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning("The wrong version of <b>sdl2.dll</b> was found. <i>"PACKAGE_NAME"</i> requires v%i.%i.%i.",
-            compiled.major, compiled.minor, compiled.patch);
+        C_Warning("The wrong version of <b>%s</b> was found. <i>%s</i> requires v%i.%i.%i.",
+            SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
 
     SDL_DisableScreenSaver();
 

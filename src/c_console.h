@@ -61,6 +61,16 @@
 
 #define stringize(x)        #x
 
+#if defined(_WIN32)
+#define SDL_FILENAME        "SDL2.dll"
+#define SDL_MIXER_FILENAME  "SDL2_mixer.dll"
+#define SDL_IMAGE_FILENAME  "SDL2_image.dll"
+#else
+#define SDL_FILENAME        "SDL2"
+#define SDL_MIXER_FILENAME  "SDL2_mixer"
+#define SDL_IMAGE_FILENAME  "SDL2_image"
+#endif
+
 typedef enum
 {
     inputstring,
