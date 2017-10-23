@@ -82,7 +82,6 @@ void I_ToggleWidescreen(dboolean toggle);
 void G_SetMovementSpeed(int scale);
 
 extern dboolean canmodify;
-extern dboolean flag667;
 extern dboolean message_dontpause;
 extern dboolean vibrate;
 extern dboolean gamepadpress;

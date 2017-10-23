@@ -1789,8 +1789,6 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RadiusAttack(actor, actor->target, 128);
 }
 
-dboolean    flag667;
-
 //
 // A_BossDeath
 // Possibly trigger special effects if on first boss level
@@ -1871,12 +1869,14 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (players[0].health <= 0)
         return;         // no one left alive, so do not end game
 
+    actor->health = 0;  // P_KillMobj() sets this to -1
+
     // scan the remaining thinkers to see if all bosses are dead
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 
-        if (mo != actor && mo->type == actor->type && mo->health > 0)
+        if (mo != actor && mo->type == actor->type && mo->health)
             return;     // other boss not dead
     }
 
@@ -1894,13 +1894,8 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 
             if (actor->type == MT_BABY)
             {
-                if (!flag667)
-                {
-                    junk.tag = 667;
-                    EV_DoFloor(&junk, raiseToTexture);
-                    flag667 = true;
-                }
-
+                junk.tag = 667;
+                EV_DoFloor(&junk, raiseToTexture);
                 return;
             }
         }
