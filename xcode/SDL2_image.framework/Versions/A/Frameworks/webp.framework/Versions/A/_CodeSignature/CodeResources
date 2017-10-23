@@ -8,14 +8,14 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hR2cZIxfKUdqrI5n/tbc5YRa0dQ=
+			h2Kqs5KNcd1Scge8YFomJsbLXCM=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		JQA5GLP9cIbArAnod8n9CRtOHFE=
+		yqlW4AFb8nOprWEshdDUA7mTzus=
 		</data>
 		<key>Resources/LICENSE.webp.txt</key>
 		<data>
@@ -25,34 +25,73 @@
 	<key>files2</key>
 	<dict>
 		<key>Headers/webp/decode.h</key>
-		<data>
-		wk1VMRrbslrkKbpLn+I0wQ9MrHQ=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			9ufN2yVefHcYrU6eliS9l1yNjUM=
+			</data>
+			<key>hash2</key>
+			<data>
+			8s7ftcXJv5k5OFBa3zMEwQbPash+Tg4MxNaChP4qbQ8=
+			</data>
+		</dict>
 		<key>Headers/webp/encode.h</key>
-		<data>
-		Wr3LOuZkuOyOa/mzFjy8rKhFmEs=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Q2zlpm3yhEANJMTo3AcWKIC5j2c=
+			</data>
+			<key>hash2</key>
+			<data>
+			uQ7c2GnRCIqKmqtjVTYY8eZJLGjY7qtgkiIpYBaBGIA=
+			</data>
+		</dict>
 		<key>Headers/webp/types.h</key>
-		<data>
-		SucYlt9jgypGjsLLG/7N6yDpeAM=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Bc+Y/LPLmc5qD+dFKZxOXz8FOYY=
+			</data>
+			<key>hash2</key>
+			<data>
+			O96LIaVO4XeXqzf5BDBOuKpBoCCmXyymba/XapbmDow=
+			</data>
+		</dict>
 		<key>Resources/English.lproj/InfoPlist.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			hR2cZIxfKUdqrI5n/tbc5YRa0dQ=
+			h2Kqs5KNcd1Scge8YFomJsbLXCM=
+			</data>
+			<key>hash2</key>
+			<data>
+			Ka7TErCUCDitpKl+ZEdhX0rtKsbzipt41qRLAxxYaMU=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Resources/Info.plist</key>
-		<data>
-		JQA5GLP9cIbArAnod8n9CRtOHFE=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			yqlW4AFb8nOprWEshdDUA7mTzus=
+			</data>
+			<key>hash2</key>
+			<data>
+			WcYyfJyGCjL1E+qjW/fZIOV1dOB4AFJ1CEp0R/Ete0Y=
+			</data>
+		</dict>
 		<key>Resources/LICENSE.webp.txt</key>
-		<data>
-		/5oD0JcR6j9jB2eYV4Dlsnn0Xdg=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			/5oD0JcR6j9jB2eYV4Dlsnn0Xdg=
+			</data>
+			<key>hash2</key>
+			<data>
+			Kozs9mG6ldeyCbK6TamtAkxBl1oOeK83wn9NAkDR7Nw=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -71,6 +110,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -130,6 +174,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

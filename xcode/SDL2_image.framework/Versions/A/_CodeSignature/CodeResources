@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		uvpuk5NNmHw2BsVOaKQy7m0VmDA=
+		d+wraubK9dJJ7t/7KMxVBLSv62Q=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,19 +15,33 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			5mEe153iZLkh4AfGUUgLR+qmUsk=
+			STXqCLSYvg243M7mwyDtazPEfRQ=
 			</data>
 			<key>requirement</key>
 			<string>identifier webp and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EH385AYQ6F</string>
 		</dict>
 		<key>Headers/SDL_image.h</key>
-		<data>
-		0OiovIoSxp8WxmVCqsDavmAjba4=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			l1vi4exem5D58Pf02XoT7jTjYqk=
+			</data>
+			<key>hash2</key>
+			<data>
+			UD8Vz7isC13DpSmEk2L4DkexfIxVpfrh7GIiW2WIMfY=
+			</data>
+		</dict>
 		<key>Resources/Info.plist</key>
-		<data>
-		uvpuk5NNmHw2BsVOaKQy7m0VmDA=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			d+wraubK9dJJ7t/7KMxVBLSv62Q=
+			</data>
+			<key>hash2</key>
+			<data>
+			EH0zkLaUp3Tu7joIK3lxuyE78YUDKDNqNnDRUB0zl4s=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -46,6 +60,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -105,6 +124,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

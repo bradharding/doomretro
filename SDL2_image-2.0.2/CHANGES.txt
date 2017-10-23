@@ -1,3 +1,18 @@
+2.0.2:
+Sam Lantinga - Sat Oct 21 23:42:28 PDT 2017
+ * Added simple SVG image support based on Nano SVG
+Sam Lantinga - Sat Oct 21 22:14:34 PDT 2017
+ * Updated external libraries jpeg-9b, libpng-1.6.32, libwebp-0.6.0, tiff-4.0.8 and zlib-1.2.11
+Yves Younan - Fri, Oct  6, 2017  3:38:38 PM
+ * Fixed security vulnerability in XCF image loader
+Alexey - Tue Sep 12 00:41:53 PDT 2017
+ * Added optional support for loading images using Windows Imaging Component
+Fabian Greffrath - Tue Sep 12 00:15:56 PDT 2017
+ * Added libpng save support for much smaller 8-bit images
+Alexey - Mon Sep 11 23:50:31 PDT 2017
+ * Added JPG save support when built with jpeglib
+	IMG_SaveJPG() and IMG_SaveJPG_RW()
+
 2.0.1:
 Jeffrey Carpenter - Sat Nov 29 12:06:05 2014
  * Fixed image colorspace issue on iOS and Mac OS X
