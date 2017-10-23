@@ -1362,14 +1362,16 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             return;
     }
 
-    mo = P_SpawnMobj(target->x, target->y, target->floorz + FRACUNIT * target->height / 2, item);
-
     if (tossdrop)
     {
+        mo = P_SpawnMobj(target->x, target->y, target->floorz + FRACUNIT * target->height / 2, item);
         mo->momx = M_RandomInt(-255, 255) << 8;
         mo->momy = M_RandomInt(-255, 255) << 8;
         mo->momz = FRACUNIT * 5 + (M_Random() << 10);
     }
+    else
+        mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, item);
+
 
     mo->angle = target->angle + ((M_Random() - M_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
