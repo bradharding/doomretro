@@ -6,9 +6,9 @@
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
 * Using the `vanilla` CCMD in an alias will now work correctly.
-* The `bind` CCMD can now be used to bind a string of commands to a control. For example, to enable vanilla mode without lowering the graphic detail by pressing the <kbd>V</kbd> key, enter `bind 'v' "vanilla; r_detail high"` in the console.
+* The `bind` CCMD can now be used to bind a string of commands to a control. For example, to press the <kbd>V</kbd> key to enable vanilla mode without lowering the graphic detail, enter `bind 'v' "vanilla; r_detail high"` in the console.
 * A custom message can now be displayed using the new `print` CCMD.
-* The tossing of items dropped by monsters when they are killed can now be toggled using the new `tossdrop` CVAR. (This CVAR is `off` when vanilla mode is enabled.)
+* The tossing of items dropped by monsters when they are killed can now be toggled on or off using the new `tossdrop` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * If they can be found, the *Final DOOM* IWADs (`plutonia.wad` and `tnt.wad`) will now automatically be loaded for certain PWADs that require them.
 
 ---
