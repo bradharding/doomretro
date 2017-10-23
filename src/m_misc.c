@@ -215,7 +215,7 @@ char *M_GetAppDataFolder(void)
         NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent :
                             @PACKAGE_NAME];
 
-        return appSupportURL.fileSystemRepresentation;
+        return (char *)appSupportURL.fileSystemRepresentation;
 #else
         // On Linux, store generated application files in /home/<username>/.config/doomretro
         char            *buffer;
@@ -253,7 +253,7 @@ char *M_GetResourceFolder(void)
     // if ../share/doomretro is not available.
     NSURL   *resourceURL = [NSBundle mainBundle].resourceURL;
 
-    return resourceURL.fileSystemRepresentation;
+    return (char *)resourceURL.fileSystemRepresentation;
 #else
     // And on Linux, fall back to the same folder as the executable.
     return executableFolder;
@@ -299,7 +299,7 @@ char *M_GetExecutableFolder(void)
     }
 #elif defined(__MACOSX__)
     char    *exe = malloc(MAX_PATH);
-    ssize_t len = MAX_PATH;
+    uint32_t len = MAX_PATH;
 
     if (!_NSGetExecutablePath(exe, &len))
         return dirname(exe);
