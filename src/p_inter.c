@@ -1300,7 +1300,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     else
         P_SetMobjState(target, info->deathstate);
 
-    target->health = -1;
+    if (!target->player)
+        target->health = -1;
+
     target->tics = MAX(1, target->tics - (M_Random() & 3));
 
     if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
