@@ -102,7 +102,7 @@ typedef struct
     char        *alternate;
     dboolean    (*func1)(char *cmd, char *parms);
     void        (*func2)(char *cmd, char *parms);
-    int         parameters;
+    dboolean    parameters;
     cmdtype_t   type;
     int         flags;
     void        *variable;
