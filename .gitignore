@@ -252,7 +252,7 @@ msvc/x64/Release/doomretro.lib
 msvc/x64/Release/doomretro.wad
 msvc/x64/Debug/condump*.txt
 msvc/x64/Debug/doomretro.cfg
-msvc/x64/Debug/doomretro.lbi
+msvc/x64/Debug/doomretro.lib
 msvc/x64/Debug/doomretro.wad
 
 # =========================
