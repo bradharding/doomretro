@@ -200,8 +200,6 @@ static void saveg_write_mapthing_t(mapthing_t *str)
 //
 static void saveg_read_mobj_t(mobj_t *str)
 {
-    int pl;
-
     str->x = saveg_read32();
     str->y = saveg_read32();
     str->z = saveg_read32();
@@ -235,9 +233,9 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->reactiontime = saveg_read32();
     str->threshold = saveg_read32();
 
-    if ((pl = saveg_read32()) > 0)
+    if (saveg_read32())
     {
-        str->player = &players[pl - 1];
+        str->player = &players[0];
         str->player->mo = str;
     }
     else
@@ -296,7 +294,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->target));
     saveg_write32(str->reactiontime);
     saveg_write32(str->threshold);
-    saveg_write32(str->player ? str->player - players + 1 : 0);
+    saveg_write32(!!str->player);
     saveg_write_mapthing_t(&str->spawnpoint);
     saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->tracer));
     saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->lastenemy));
