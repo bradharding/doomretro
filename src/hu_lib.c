@@ -49,8 +49,6 @@
 #include "v_data.h"
 #include "v_video.h"
 
-int             r_messagescale = r_messagescale_default;
-
 extern patch_t  *consolefont[CONSOLEFONTSIZE];
 extern patch_t  *degree;
 extern int      white;
@@ -351,7 +349,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
         maxx *= SCREENSCALE;
     }
 
-    for (int yy = l->y - 1; yy < maxy; yy++)
+    for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
         for (int xx = l->x; xx < maxx; xx++)
         {
             int     dot = yy * SCREENWIDTH + xx;

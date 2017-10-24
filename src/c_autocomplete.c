@@ -5680,6 +5680,7 @@ char autocompletelist[][255] =
     "r_liquid_swirl off",
     "r_liquid_swirl on",
     "r_lowpixelsize ",
+    "r_messagepos ",
     "r_messagescale ",
     "r_messagescale big",
     "r_messagescale small",

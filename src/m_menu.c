@@ -69,18 +69,15 @@
 #define LINEHEIGHT      17
 #define OFFSET          (vid_widescreen ? 0 : 17)
 
-//
-// defaulted values
-//
-int             m_sensitivity = m_sensitivity_default;
+int             episode = episode_default;
+int             expansion = expansion_default;
 int             gp_sensitivity = gp_sensitivity_default;
-
-// Show messages has default, false = off, true = on
+int             m_sensitivity = m_sensitivity_default;
 dboolean        messages = messages_default;
-
 int             r_detail = r_detail_default;
-
 int             r_screensize = r_screensize_default;
+int             savegame = savegame_default;
+int             skilllevel = skilllevel_default;
 
 // -1 = no quicksave slot picked!
 int             quickSaveSlot;
@@ -117,11 +114,6 @@ static char     endstring[160];
 static short    itemOn;                 // menu item skull is on
 static short    skullAnimCounter;       // skull animation counter
 static short    whichSkull;             // which skull to draw
-
-int             episode = episode_default;
-int             expansion = expansion_default;
-int             savegame = savegame_default;
-int             skilllevel = skilllevel_default;
 
 static int      functionkey;
 

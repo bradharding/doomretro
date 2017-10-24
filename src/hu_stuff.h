@@ -94,6 +94,7 @@ void HU_PlayerMessage(char *message, dboolean external);
 
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);
+void HU_GetMessagePosition(void);
 
 extern int      healthhighlight;
 extern int      ammohighlight;

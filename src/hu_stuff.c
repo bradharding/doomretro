@@ -72,6 +72,8 @@ dboolean                message_dontfuckwithme;
 dboolean                message_clearable;
 static dboolean         message_external;
 static dboolean         message_nottobefuckedwith;
+static int              message_x;
+static int              message_y;
 
 dboolean                idbehold;
 dboolean                s_STSTR_BEHOLD2;
@@ -97,6 +99,8 @@ dboolean                r_althud = r_althud_default;
 dboolean                r_diskicon = r_diskicon_default;
 dboolean                r_hud = r_hud_default;
 dboolean                r_hud_translucency = r_hud_translucency_default;
+int                     r_messagescale = r_messagescale_default;
+char                    *r_messagepos = r_messagepos_default;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
@@ -256,6 +260,7 @@ void HU_Init(void)
     if (!M_StringCompare(playername, playername_default))
         s_GOTMEDINEED = s_GOTMEDINEED2;
 
+    HU_GetMessagePosition();
     HU_AltInit();
     HU_SetTranslucency();
 }
@@ -929,15 +934,26 @@ void HU_DrawDisk(void)
         V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE, 0, stdisk);
 }
 
+void HU_GetMessagePosition(void)
+{
+    if (sscanf(r_messagepos, "(%10i,%10i)", &message_x, &message_y) != 2)
+    {
+        message_x = HU_MSGX;
+        message_y = HU_MSGY;
+        r_messagepos = r_messagepos_default;
+        M_SaveCVARs();
+    }
+}
+
 void HU_Drawer(void)
 {
-    w_message.l->x = HU_MSGX;
-    w_message.l->y = HU_MSGY;
+    w_message.l->x = message_x;
+    w_message.l->y = message_y;
 
     if (r_messagescale == r_messagescale_small)
     {
-        w_message.l->x = HU_MSGX * SCREENSCALE;
-        w_message.l->y = HU_MSGY * SCREENSCALE;
+        w_message.l->x *= SCREENSCALE;
+        w_message.l->y *= SCREENSCALE;
     }
 
     HUlib_drawSText(&w_message, message_external);

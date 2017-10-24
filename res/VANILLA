@@ -46,6 +46,7 @@ r_liquid_current off
 r_liquid_lowerview off
 r_liquid_swirl off
 r_lowpixelsize 2x2
+r_messagepos (0,0)
 r_messagescale big
 r_mirroredweapons off
 r_playersprites on

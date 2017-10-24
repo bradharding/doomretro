@@ -9,6 +9,7 @@
 * The `bind` CCMD can now be used to bind a string of commands to a control. For example, to press the <kbd>V</kbd> key to enable vanilla mode without lowering the graphic detail, enter `bind 'v' "vanilla; r_detail high"` in the console.
 * A custom message can now be displayed using the new `print` CCMD.
 * The tossing of items dropped by monsters when they are killed can now be toggled on or off using the new `tossdrop` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
+* The position of player messages can now be changed using the new `r_messagepos` CVAR. This CVAR is `(3,2)` by default and `(0,0)` when vanilla mode is enabled.
 * If they can be found, the *Final DOOM* IWADs (`plutonia.wad` and `tnt.wad`) will now automatically be loaded for certain PWADs that require them.
 
 ---
