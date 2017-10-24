@@ -3775,13 +3775,17 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
         SC_Close();
         HU_PlayerMessage(s_STSTR_VMON, false);
-        C_HideConsole();
+
+        if (gamestate == GS_LEVEL)
+            C_HideConsole();
     }
     else
     {
         M_LoadCVARs(packageconfig);
         HU_PlayerMessage(s_STSTR_VMOFF, false);
-        C_HideConsole();
+
+        if (gamestate == GS_LEVEL)
+            C_HideConsole();
     }
 
     togglingvanilla = false;
