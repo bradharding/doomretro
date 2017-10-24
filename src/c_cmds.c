@@ -5333,7 +5333,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
             {
                 I_ToggleWidescreen(true);
 
-                if (vid_widescreen)
+                if (vid_widescreen && !togglingvanilla)
                     S_StartSound(NULL, sfx_stnmov);
             }
             else
@@ -5347,7 +5347,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
         {
             I_ToggleWidescreen(false);
 
-            if (!vid_widescreen)
+            if (!vid_widescreen && !togglingvanilla)
                 S_StartSound(NULL, sfx_stnmov);
         }
     }
