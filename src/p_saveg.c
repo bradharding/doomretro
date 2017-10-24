@@ -285,7 +285,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write_enum(str->type);
     saveg_writep(str->info);
     saveg_write32(str->tics);
-    saveg_write32(str->state - states);
+    saveg_write32((int)(str->state - states));
     saveg_write32(str->flags);
     saveg_write32(str->flags2);
     saveg_write32(str->health);
@@ -368,7 +368,7 @@ static void saveg_read_pspdef_t(pspdef_t *str)
 
 static void saveg_write_pspdef_t(pspdef_t *str)
 {
-    saveg_write32(str->state ? str->state - states : 0);
+    saveg_write32(str->state ? (int)(str->state - states) : 0);
     saveg_write32(str->tics);
     saveg_write32(str->sx);
     saveg_write32(str->sy);

@@ -85,12 +85,12 @@ static void R_ClipWallSegment(int first, int last, dboolean solid)
             if (!p)
                 return;
 
-            first = p - solidcol;
+            first = (int)(p - solidcol);
         }
         else
         {
             byte    *p = memchr(solidcol + first, 1, last - first);
-            int     to = (p ? p - solidcol : last);
+            int     to = (p ? (int)(p - solidcol) : last);
 
             R_StoreWallRange(first, to - 1);
 
