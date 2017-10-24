@@ -81,7 +81,7 @@
 #define LOADCMDFORMAT       "<i>filename</i><b>.save</b>"
 #define MAPCMDFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
 #define PLAYCMDFORMAT       "<i>sound</i>|<i>music</i>"
-#define PRINTCMDFORMAT      "[<b>\"</b>]message[<b>\"</b>]"
+#define PRINTCMDFORMAT      "<b>\"</b><i>message</i><b>\"</b>"
 #define RESETCMDFORMAT      "<i>CVAR</i>"
 #define SAVECMDFORMAT       "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT      "<i>monster</i>|<i>item</i>"
@@ -564,7 +564,7 @@ consolecmd_t consolecmds[] =
     CMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",
         "Shows statistics about the player."),
     CMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
-        "Prints a message."),
+        "Prints a player <i>message</i>."),
     CMD(quit, exit, null_func1, quit_cmd_func2, false, "",
         "Quits <i><b>"PACKAGE_NAME"</b></i>."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
