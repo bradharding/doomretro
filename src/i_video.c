@@ -90,7 +90,7 @@ char                *vid_screenresolution = vid_screenresolution_default;
 dboolean            vid_showfps = vid_showfps_default;
 dboolean            vid_vsync = vid_vsync_default;
 dboolean            vid_widescreen = vid_widescreen_default;
-char                *vid_windowposition = vid_windowposition_default;
+char                *vid_windowpos = vid_windowpos_default;
 char                *vid_windowsize = vid_windowsize_default;
 
 static dboolean     manuallypositioning;
@@ -618,7 +618,7 @@ static void I_GetEvent(void)
                                 windowx = Event->window.data1;
                                 windowy = Event->window.data2;
                                 M_snprintf(pos, sizeof(pos), "(%i,%i)", windowx, windowy);
-                                vid_windowposition = strdup(pos);
+                                vid_windowpos = strdup(pos);
 
                                 if ((vid_display = SDL_GetWindowDisplayIndex(window) + 1) < 1)
                                     I_SDLError("SDL_GetWindowDisplayIndex");
@@ -1101,17 +1101,17 @@ void GetWindowPosition(void)
     int x = 0;
     int y = 0;
 
-    if (M_StringCompare(vid_windowposition, vid_windowposition_centered)
-        || M_StringCompare(vid_windowposition, vid_windowposition_centred))
+    if (M_StringCompare(vid_windowpos, vid_windowpos_centered)
+        || M_StringCompare(vid_windowpos, vid_windowpos_centred))
     {
         windowx = 0;
         windowy = 0;
     }
-    else if (sscanf(vid_windowposition, "(%10i,%10i)", &x, &y) != 2)
+    else if (sscanf(vid_windowpos, "(%10i,%10i)", &x, &y) != 2)
     {
         windowx = 0;
         windowy = 0;
-        vid_windowposition = vid_windowposition_centered;
+        vid_windowpos = vid_windowpos_centered;
         M_SaveCVARs();
     }
     else

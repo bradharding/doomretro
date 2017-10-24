@@ -192,7 +192,7 @@ extern char         *vid_screenresolution;
 extern dboolean     vid_showfps;
 extern dboolean     vid_vsync;
 extern dboolean     vid_widescreen;
-extern char         *vid_windowposition;
+extern char         *vid_windowpos;
 extern char         *vid_windowsize;
 #if defined(_WIN32)
 extern char         *wad;
@@ -572,9 +572,9 @@ enum
 
 #define vid_widescreen_default                  false
 
-#define vid_windowposition_centered             "centered"
-#define vid_windowposition_centred              "centred"
-#define vid_windowposition_default              vid_windowposition_centered
+#define vid_windowpos_centered                  "centered"
+#define vid_windowpos_centred                   "centred"
+#define vid_windowpos_default                   vid_windowpos_centered
 
 #define vid_windowsize_default                  "768x480"
 

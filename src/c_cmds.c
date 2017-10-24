@@ -335,7 +335,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms);
 static void vid_showfps_cvar_func2(char *cmd, char *parms);
 static void vid_vsync_cvar_func2(char *cmd, char *parms);
 static void vid_widescreen_cvar_func2(char *cmd, char *parms);
-static void vid_windowposition_cvar_func2(char *cmd, char *parms);
+static void vid_windowpos_cvar_func2(char *cmd, char *parms);
 static void vid_windowsize_cvar_func2(char *cmd, char *parms);
 
 static int C_LookupValueFromAlias(const char *text, const valuealias_type_t valuealiastype)
@@ -730,7 +730,7 @@ consolecmd_t consolecmds[] =
         "Toggles vertical sync with the display's refresh\nrate."),
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
-    CVAR_POS(vid_windowposition, "", null_func1, vid_windowposition_cvar_func2,
+    CVAR_POS(vid_windowpos, vid_windowposition, null_func1, vid_windowpos_cvar_func2,
         "The position of the window on the desktop\n(<b>centered</b> or <b>(</b><i>x</i><b>,</b><i>y</i><b>)</b>)."),
     CVAR_SIZE(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop\n(<i>width</i><b>\xD7</b><i>height</i>)."),
@@ -5386,15 +5386,15 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 }
 
 //
-// vid_windowposition CVAR
+// vid_windowpos CVAR
 //
-static void vid_windowposition_cvar_func2(char *cmd, char *parms)
+static void vid_windowpos_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        if (!M_StringCompare(vid_windowposition, parms))
+        if (!M_StringCompare(vid_windowpos, parms))
         {
-            vid_windowposition = strdup(parms);
+            vid_windowpos = strdup(parms);
             GetWindowPosition();
             M_SaveCVARs();
 
@@ -5404,13 +5404,13 @@ static void vid_windowposition_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_windowposition))].description));
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(vid_windowpos))].description));
 
-        if (M_StringCompare(vid_windowposition, vid_windowposition_default))
-            C_Output("It is currently set to its default of <b>%s</b>.", vid_windowposition);
+        if (M_StringCompare(vid_windowpos, vid_windowpos_default))
+            C_Output("It is currently set to its default of <b>%s</b>.", vid_windowpos);
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                vid_windowposition, vid_windowposition_default);
+                vid_windowpos, vid_windowpos_default);
     }
 }
 

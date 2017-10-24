@@ -10,6 +10,7 @@
 * A custom message can now be displayed using the new `print` CCMD.
 * The tossing of items dropped by monsters when they are killed can now be toggled on or off using the new `tossdrop` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * The position of player messages can now be changed using the new `r_messagepos` CVAR. This CVAR is `(3,2)` by default and `(0,0)` when vanilla mode is enabled.
+* The `vid_windowposition` CVAR has been renamed to `vid_windowpos`.
 * If they can be found, the *Final DOOM* IWADs (`plutonia.wad` and `tnt.wad`) will now automatically be loaded for certain PWADs that require them.
 
 ---
@@ -734,7 +735,7 @@
 * The player’s view is now only lowered if they are actually touching a liquid sector.
 * Bobbing liquid sectors will now animate correctly if adjacent to a masked midtexture.
 * The `centerweapon` CVAR can now also be entered as `centreweapon`.
-* The `centered` value for the `vid_windowposition` CVAR can now also be entered as `centred`.
+* The `centered` value for the `vid_windowpos` CVAR can now also be entered as `centred`.
 
 ---
 
@@ -944,7 +945,7 @@
 * Stylized quotes are now used in place of double quotes in the console.
 * Text in the console is now slightly translucent.
 * A random static effect has been applied to the console’s background.
-* The effects of changing the `vid_windowposition` and `vid_windowsize` CVARs while in the console and in a window is now immediate.
+* The effects of changing the `vid_windowpos` and `vid_windowsize` CVARs while in the console and in a window is now immediate.
 
 ---
 

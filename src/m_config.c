@@ -183,7 +183,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_OTHER        (vid_screenresolution,                              NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (vid_vsync,                                         BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (vid_widescreen,                                    BOOLVALUEALIAS    ),
-    CONFIG_VARIABLE_OTHER        (vid_windowposition,                                NOVALUEALIAS      ),
+    CONFIG_VARIABLE_OTHER        (vid_windowpos,                                     NOVALUEALIAS      ),
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                                    NOVALUEALIAS      ),
 #if defined(_WIN32)
     CONFIG_VARIABLE_STRING       (wad,                                               NOVALUEALIAS      ),
