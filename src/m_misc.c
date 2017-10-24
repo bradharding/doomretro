@@ -278,8 +278,7 @@ char *M_GetExecutableFolder(void)
     GetModuleFileName(NULL, buffer, MAX_PATH);
     M_StringCopy(folder, buffer, MAX_PATH);
 
-    pos = strrchr(folder, '\\');
-    if (pos)
+    if ((pos = strrchr(folder, '\\')))
         *pos = '\0';
 
     return folder;
@@ -298,13 +297,10 @@ char *M_GetExecutableFolder(void)
         return dirname(exe);
     }
 #elif defined(__MACOSX__)
-    char    *exe = malloc(MAX_PATH);
-    uint32_t len = MAX_PATH;
+    char        *exe = malloc(MAX_PATH);
+    uint32_t    len = MAX_PATH;
 
-    if (!_NSGetExecutablePath(exe, &len))
-        return dirname(exe);
-    else
-        return ".";
+    return (!_NSGetExecutablePath(exe, &len) ? dirname(exe) : ".");
 #else
     return ".";
 #endif
@@ -333,9 +329,7 @@ char *M_StringJoin(char *s, ...)
 
     va_end(args);
 
-    result = malloc(result_len);
-
-    if (!result)
+    if (!(result = malloc(result_len)))
     {
         I_Error("M_StringJoin: Failed to allocate new string.");
         return NULL;
@@ -347,9 +341,7 @@ char *M_StringJoin(char *s, ...)
 
     for (;;)
     {
-        v = va_arg(args, char *);
-
-        if (!v)
+        if (!(v = va_arg(args, char *)))
             break;
 
         strncat(result, v, result_len);
