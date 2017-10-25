@@ -855,7 +855,7 @@ void M_LoadCVARs(char *filename)
 
         if (togglingvanilla)
         {
-            C_ValidateInput(M_StringJoin(cvar, " ", value, NULL));
+            C_ValidateInput(M_StringJoin(cvar, " ", uncommify(value), NULL));
             continue;
         }
 
