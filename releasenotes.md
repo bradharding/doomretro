@@ -13,6 +13,7 @@
 * The position of player messages can now be changed using the new `r_messagepos` CVAR. This CVAR is `(3,2)` by default and `(0,0)` when vanilla mode is enabled.
 * The `vid_windowposition` CVAR has been renamed to `vid_windowpos`.
 * If they can be found, the *Final DOOM* IWADs (`plutonia.wad` and `tnt.wad`) will now automatically be loaded for certain PWADs that require them.
+* A crash will no longer occur when trying to switch between fullscreen and a window using <kbd>ALT</kbd> + <kbd>ENTER</kbd> while on the title screen.
 
 ---
 

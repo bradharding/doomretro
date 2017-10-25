@@ -1716,7 +1716,7 @@ void I_ToggleFullscreen(void)
     M_SaveCVARs();
 
     if (nearestlinear)
-        I_UpdateBlitFunc(!!viewplayer->damagecount);
+        I_UpdateBlitFunc(viewplayer && !!viewplayer->damagecount);
 
     if (vid_fullscreen)
         C_StrCVAROutput(stringize(vid_fullscreen), "on");
