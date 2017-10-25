@@ -1797,6 +1797,11 @@ static void help_cmd_func2(char *cmd, char *parms)
 //
 // if CCMD
 //
+static dboolean match(dboolean value, char *toggle)
+{
+    return ((value && M_StringCompare(toggle, "on")) || (!value && M_StringCompare(toggle, "off")));
+}
+
 static void if_cmd_func2(char *cmd, char *parms)
 {
     char    parm1[64] = "";
@@ -1830,28 +1835,28 @@ static void if_cmd_func2(char *cmd, char *parms)
                 if (value != INT_MIN && value == *(int *)consolecmds[i].variable)
                     condition = true;
             }
-            else if (M_StringCompare(parm2, stringize(fastmonsters)))
-                condition = fastparm;
-            else if (M_StringCompare(parm2, stringize(freeze)))
-                condition = freeze;
-            else if (M_StringCompare(parm2, stringize(god)))
-                condition = (viewplayer && (viewplayer->cheats & CF_GODMODE));
-            else if (M_StringCompare(parm2, stringize(noclip)))
-                condition = (viewplayer && (viewplayer->cheats & CF_NOCLIP));
-            else if (M_StringCompare(parm2, stringize(nomonsters)))
-                condition = nomonsters;
-            else if (M_StringCompare(parm2, stringize(notarget)))
-                condition = (viewplayer && (viewplayer->cheats & CF_NOTARGET));
-            else if (M_StringCompare(parm2, stringize(pistolstart)))
-                condition = pistolstart;
-            else if (M_StringCompare(parm2, stringize(regenhealth)))
-                condition = regenhealth;
-            else if (M_StringCompare(parm2, stringize(respawnitems)))
-                condition = respawnitems;
-            else if (M_StringCompare(parm2, stringize(respawnmonsters)))
-                condition = respawnmonsters;
-            else if (M_StringCompare(parm2, stringize(vanilla)))
-                condition = vanilla;
+            else if (M_StringCompare(parm1, stringize(fastmonsters)))
+                condition = match(fastparm, parm2);
+            else if (M_StringCompare(parm1, stringize(freeze)))
+                condition = match(freeze, parm2);
+            else if (M_StringCompare(parm1, stringize(god)))
+                condition = match((viewplayer && (viewplayer->cheats & CF_GODMODE)), parm2);
+            else if (M_StringCompare(parm1, stringize(noclip)))
+                condition = match((viewplayer && (viewplayer->cheats & CF_NOCLIP)), parm2);
+            else if (M_StringCompare(parm1, stringize(nomonsters)))
+                condition = match(nomonsters, parm2);
+            else if (M_StringCompare(parm1, stringize(notarget)))
+                condition = match((viewplayer && (viewplayer->cheats & CF_NOTARGET)), parm2);
+            else if (M_StringCompare(parm1, stringize(pistolstart)))
+                condition = match(pistolstart, parm2);
+            else if (M_StringCompare(parm1, stringize(regenhealth)))
+                condition = match(regenhealth, parm2);
+            else if (M_StringCompare(parm1, stringize(respawnitems)))
+                condition = match(respawnitems, parm2);
+            else if (M_StringCompare(parm1, stringize(respawnmonsters)))
+                condition = match(respawnmonsters, parm2);
+            else if (M_StringCompare(parm1, stringize(vanilla)))
+                condition = match(vanilla, parm2);
             else if (consolecmds[i].type == CT_CVAR && M_StringCompare(parm2, *(char **)consolecmds[i].variable))
                 condition = true;
 
