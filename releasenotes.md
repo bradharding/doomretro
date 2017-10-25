@@ -8,6 +8,7 @@
 * Using the `vanilla` CCMD in an alias will now work correctly.
 * The `bind` CCMD can now be used to bind a string of commands to a control. For example, to press the <kbd>V</kbd> key to enable vanilla mode without lowering the graphic detail, enter `bind 'v' "vanilla; r_detail high"` in the console.
 * A custom message can now be displayed using the new `print` CCMD.
+* A new `if` CCMD has been implemented that allows a string of commands to be executed only if a CVAR equals a certain value.
 * The tossing of items dropped by monsters when they are killed can now be toggled on or off using the new `tossdrop` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * The position of player messages can now be changed using the new `r_messagepos` CVAR. This CVAR is `(3,2)` by default and `(0,0)` when vanilla mode is enabled.
 * The `vid_windowposition` CVAR has been renamed to `vid_windowpos`.

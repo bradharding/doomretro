@@ -77,6 +77,7 @@
 #define BINDCMDFORMAT       "<i>control</i> [<b>+</b><i>action</i>|[<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]]"
 #define EXECCMDFORMAT       "<i>filename</i>"
 #define GIVECMDFORMAT       "<b>ammo</b>|<b>armor</b>|<b>health</b>|<b>keys</b>|<b>weapons</b>|<b>all</b>|<i>item</i>"
+#define IFCMDFORMAT         "<i>CVAR</i> <i>value</i> <b>then</b> [<b>\"</b>]<i>command</i>[<b>;</b> <i>command</i> ...<b>\"</b>]"
 #define KILLCMDFORMAT       "<b>player</b>|<b>all</b>|<i>monster</i>|<b>barrels</b>|<b>missiles</b>"
 #define LOADCMDFORMAT       "<i>filename</i><b>.save</b>"
 #define MAPCMDFORMAT        "<b>E</b><i>x</i><b>M</b><i>y</i>|<b>MAP</b><i>xy</i>|<b>first</b>|<b>previous</b>|<b>next</b>|<b>last</b>|<b>random</b>"
@@ -235,6 +236,7 @@ static void give_cmd_func2(char *cmd, char *parms);
 static dboolean god_cmd_func1(char *cmd, char *parms);
 static void god_cmd_func2(char *cmd, char *parms);
 static void help_cmd_func2(char *cmd, char *parms);
+static void if_cmd_func2(char *cmd, char *parms);
 static dboolean kill_cmd_func1(char *cmd, char *parms);
 static void kill_cmd_func2(char *cmd, char *parms);
 static void load_cmd_func2(char *cmd, char *parms);
@@ -516,6 +518,8 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(idmus, true),
     CMD_CHEAT(idmypos, false),
     CMD_CHEAT(idspispopd, false),
+    CMD(if, "", null_func1, if_cmd_func2, true, IFCMDFORMAT,
+        "If a <i>CVAR</i> equals a <i>value</i> then execute a string of\n<i>commands</i>."),
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
@@ -1788,6 +1792,67 @@ static void help_cmd_func2(char *cmd, char *parms)
     C_HideConsoleFast();
     M_ShowHelp();
 #endif
+}
+
+//
+// if CCMD
+//
+static void if_cmd_func2(char *cmd, char *parms)
+{
+    char    parm1[64] = "";
+    char    parm2[64] = "";
+    char    parm3[128] = "";
+
+    sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3);
+
+    if (!*parm1 || !*parm2 || !*parm3)
+    {
+        C_Output("<b>%s</b> %s", cmd, IFCMDFORMAT);
+        return;
+    }
+
+    C_StripQuotes(parm1);
+
+    for (int i = 0; *consolecmds[i].name; i++)
+        if (M_StringCompare(parm1, consolecmds[i].name) && consolecmds[i].type == CT_CVAR)
+        {
+            int         flags = consolecmds[i].flags;
+            dboolean    condition = false;
+
+            C_StripQuotes(parm2);
+
+            if (flags & (CF_BOOLEAN | CF_INTEGER))
+            {
+                int value = C_LookupValueFromAlias(parm2, consolecmds[i].aliases);
+
+                if (value == INT_MIN)
+                    sscanf(parms, "%10i", &value);
+
+                if (value != INT_MIN && value == *(int *)consolecmds[i].variable)
+                    condition = true;
+            }
+            else if (M_StringCompare(parm2, *(char **)consolecmds[i].variable))
+                condition = true;
+
+            if (condition)
+            {
+                char    *strings[255];
+                int     j = 0;
+
+                C_StripQuotes(parm3);
+                strings[0] = strtok(parm3, ";");
+
+                while (strings[j])
+                {
+                    if (!C_ValidateInput(trimwhitespace(strings[j])))
+                        break;
+
+                    strings[++j] = strtok(NULL, ";");
+                }
+            }
+
+            break;
+        }
 }
 
 //
