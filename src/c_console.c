@@ -1539,8 +1539,7 @@ dboolean C_Responder(event_t *ev)
                     else if (ch == 'c')
                     {
                         if (selectstart < selectend)
-                            SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
-                                selectend - selectstart));
+                            SDL_SetClipboardText(M_SubString(consoleinput, selectstart, selectend - selectstart));
                     }
 
                     // paste text from clipboard
@@ -1615,9 +1614,6 @@ dboolean C_Responder(event_t *ev)
                                 consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
 
                             consoleinput[selectstart + i - selectend + 1] = '\0';
-                            caretpos = selectend = selectstart + 1;
-                            caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                            showcaret = true;
                         }
                         else
                         {
@@ -1628,10 +1624,10 @@ dboolean C_Responder(event_t *ev)
                             for (i = len; i > caretpos; i--)
                                 consoleinput[i] = consoleinput[i - 1];
 
-                            consoleinput[caretpos++] = ch;
+                            consoleinput[caretpos] = ch;
                         }
 
-                        selectstart = selectend = caretpos;
+                        selectstart = selectend = ++caretpos;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                         autocomplete = -1;
