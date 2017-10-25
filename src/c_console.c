@@ -1381,7 +1381,7 @@ dboolean C_Responder(event_t *ev)
 
             case KEY_TAB:
                 // autocomplete
-                if (*consoleinput)
+                if (*consoleinput && caretpos == len)
                 {
                     const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     const int   start = autocomplete;
