@@ -1484,7 +1484,7 @@ dboolean C_Responder(event_t *ev)
                             M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                         }
 
-                        caretpos = selectstart = selectend = strlen(consoleinput);
+                        caretpos = selectstart = selectend = (int)strlen(consoleinput);
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                     }
