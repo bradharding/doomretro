@@ -189,7 +189,7 @@ static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset);
 static void M_WriteText(int x, int y, char *string, dboolean shadow);
 static int M_StringHeight(char *string);
-static void M_ClearMenus(void);
+void M_ClearMenus(void);
 
 int M_StringWidth(char *string);
 void M_StartMessage(char *string, void *routine, dboolean input);
@@ -3616,7 +3616,7 @@ void M_Drawer(void)
 //
 // M_ClearMenus
 //
-static void M_ClearMenus(void)
+void M_ClearMenus(void)
 {
     menuactive = false;
 

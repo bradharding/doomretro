@@ -532,7 +532,7 @@ static void AM_toggleZoomIn(void)
     bigstate = false;
 }
 
-static void AM_toggleMaxZoom(void)
+void AM_toggleMaxZoom(void)
 {
     if (bigstate)
     {
@@ -547,7 +547,7 @@ static void AM_toggleMaxZoom(void)
     }
 }
 
-static void AM_toggleFollowMode(void)
+void AM_toggleFollowMode(void)
 {
     if ((am_followmode = !am_followmode))
     {
@@ -566,7 +566,7 @@ static void AM_toggleFollowMode(void)
     message_clearable = true;
 }
 
-static void AM_toggleGrid(void)
+void AM_toggleGrid(void)
 {
     if ((am_grid = !am_grid))
     {
@@ -587,7 +587,7 @@ static void AM_toggleGrid(void)
 //
 // adds a marker at the current location
 //
-static void AM_addMark(void)
+void AM_addMark(void)
 {
     const int   x = am_frame.center.x;
     const int   y = am_frame.center.y;
@@ -613,7 +613,7 @@ static void AM_addMark(void)
 
 static int  markpress;
 
-static void AM_clearMarks(void)
+void AM_clearMarks(void)
 {
     if (markpointnum)
     {
@@ -624,6 +624,7 @@ static void AM_clearMarks(void)
             message_dontfuckwithme = true;
             message_clearable = true;
             markpointnum = 0;
+            markpress = 0;
         }
         else if (markpress == 1)
         {
@@ -634,6 +635,7 @@ static void AM_clearMarks(void)
             HU_PlayerMessage(message, true);
             message_dontfuckwithme = true;
             message_clearable = true;
+            markpress = 0;
         }
     }
 }
@@ -660,7 +662,7 @@ void AM_addToPath(void)
     pathpointnum++;
 }
 
-static void AM_toggleRotateMode(void)
+void AM_toggleRotateMode(void)
 {
     if ((am_rotatemode = !am_rotatemode))
     {

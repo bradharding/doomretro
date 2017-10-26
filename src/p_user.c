@@ -372,6 +372,62 @@ void P_ResurrectPlayer(player_t *player, int health)
     C_HideConsole();
 }
 
+void P_ChangeWeapon(player_t *player, weapontype_t newweapon)
+{
+    if (newweapon == wp_fist)
+    {
+        if (player->readyweapon == wp_fist)
+        {
+            if (player->weaponowned[wp_chainsaw])
+            {
+                newweapon = wp_chainsaw;
+                player->fistorchainsaw = wp_chainsaw;
+            }
+        }
+        else if (player->readyweapon == wp_chainsaw)
+        {
+            if (player->powers[pw_strength])
+                player->fistorchainsaw = wp_fist;
+            else
+                newweapon = wp_nochange;
+        }
+        else
+            newweapon = player->fistorchainsaw;
+    }
+
+    // Don't switch to a weapon without any or enough ammo.
+    else if (((newweapon == wp_pistol || newweapon == wp_chaingun) && !player->ammo[am_clip])
+        || (newweapon == wp_shotgun && !player->ammo[am_shell])
+        || (newweapon == wp_missile && !player->ammo[am_misl])
+        || (newweapon == wp_plasma && !player->ammo[am_cell])
+        || (newweapon == wp_bfg && player->ammo[am_cell] < bfgcells && bfgcells == BFGCELLS))
+        newweapon = wp_nochange;
+
+    // Select the preferred shotgun.
+    else if (newweapon == wp_shotgun)
+    {
+        if ((!player->weaponowned[wp_shotgun] || player->readyweapon == wp_shotgun)
+            && player->weaponowned[wp_supershotgun] && player->ammo[am_shell] >= 2)
+            player->preferredshotgun = wp_supershotgun;
+        else if (player->readyweapon == wp_supershotgun
+            || (player->preferredshotgun == wp_supershotgun && player->ammo[am_shell] == 1))
+            player->preferredshotgun = wp_shotgun;
+
+        newweapon = player->preferredshotgun;
+    }
+
+    if (newweapon != wp_nochange && newweapon != player->readyweapon && player->weaponowned[newweapon])
+    {
+        player->pendingweapon = newweapon;
+
+        if (newweapon == wp_fist && player->powers[pw_strength])
+            S_StartSound(NULL, sfx_getpow);
+
+        if ((player->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
+            G_RemoveChoppers();
+    }
+}
+
 //
 // P_PlayerThink
 //
@@ -477,64 +533,7 @@ void P_PlayerThink(player_t *player)
         cmd->buttons = 0;
 
     if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
-    {
-        // The actual changing of the weapon is done when the weapon psprite can do it
-        //  (read: not in the middle of an attack).
-        weapontype_t    newweapon = (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT;
-
-        if (newweapon == wp_fist)
-        {
-            if (player->readyweapon == wp_fist)
-            {
-                if (player->weaponowned[wp_chainsaw])
-                {
-                    newweapon = wp_chainsaw;
-                    player->fistorchainsaw = wp_chainsaw;
-                }
-            }
-            else if (player->readyweapon == wp_chainsaw)
-            {
-                if (player->powers[pw_strength])
-                    player->fistorchainsaw = wp_fist;
-                else
-                    newweapon = wp_nochange;
-            }
-            else
-                newweapon = player->fistorchainsaw;
-        }
-
-        // Don't switch to a weapon without any or enough ammo.
-        else if (((newweapon == wp_pistol || newweapon == wp_chaingun) && !player->ammo[am_clip])
-            || (newweapon == wp_shotgun && !player->ammo[am_shell])
-            || (newweapon == wp_missile && !player->ammo[am_misl])
-            || (newweapon == wp_plasma && !player->ammo[am_cell])
-            || (newweapon == wp_bfg && player->ammo[am_cell] < bfgcells && bfgcells == BFGCELLS))
-            newweapon = wp_nochange;
-
-        // Select the preferred shotgun.
-        else if (newweapon == wp_shotgun)
-        {
-            if ((!player->weaponowned[wp_shotgun] || player->readyweapon == wp_shotgun)
-                && player->weaponowned[wp_supershotgun] && player->ammo[am_shell] >= 2)
-                player->preferredshotgun = wp_supershotgun;
-            else if (player->readyweapon == wp_supershotgun
-                || (player->preferredshotgun == wp_supershotgun && player->ammo[am_shell] == 1))
-                player->preferredshotgun = wp_shotgun;
-
-            newweapon = player->preferredshotgun;
-        }
-
-        if (newweapon != wp_nochange && newweapon != player->readyweapon && player->weaponowned[newweapon])
-        {
-            player->pendingweapon = newweapon;
-
-            if (newweapon == wp_fist && player->powers[pw_strength])
-                S_StartSound(NULL, sfx_getpow);
-
-            if ((player->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
-                G_RemoveChoppers();
-        }
-    }
+        P_ChangeWeapon(player, (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
 
     // check for use
     if (cmd->buttons & BT_USE)

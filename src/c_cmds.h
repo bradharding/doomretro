@@ -68,6 +68,7 @@ typedef struct
 typedef struct
 {
     char    *action;
+    void    (*func)(void);
     void    *keyboard1;
     void    *keyboard2;
     void    *mouse1;

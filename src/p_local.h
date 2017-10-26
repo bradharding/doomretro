@@ -100,6 +100,7 @@ void P_SetPsprite(player_t *player, size_t position, statenum_t stnum);
 
 void P_PlayerThink(player_t *player);
 void P_ResurrectPlayer(player_t *player, int health);
+void P_ChangeWeapon(player_t *player, weapontype_t newweapon);
 
 //
 // P_MOBJ

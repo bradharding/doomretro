@@ -219,7 +219,7 @@ void G_RemoveChoppers(void)
     oldweaponsowned[wp_chainsaw] = player->chainsawbeforechoppers;
 }
 
-static void G_NextWeapon(void)
+void G_NextWeapon(void)
 {
     player_t        *player = &players[0];
     weapontype_t    pendingweapon = player->pendingweapon;
@@ -245,7 +245,7 @@ static void G_NextWeapon(void)
         S_StartSound(NULL, sfx_getpow);
 }
 
-static void G_PrevWeapon(void)
+void G_PrevWeapon(void)
 {
     player_t        *player = &players[0];
     weapontype_t    pendingweapon = player->pendingweapon;
@@ -954,30 +954,7 @@ void G_Ticker(void)
                     D_Display();
                 }
 
-                if (V_ScreenShot())
-                {
-                    static char buffer[512];
-
-                    S_StartSound(NULL, sfx_swtchx);
-
-                    M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
-                    HU_SetPlayerMessage(buffer, false);
-                    message_dontfuckwithme = true;
-
-                    if (menuactive)
-                    {
-                        message_dontpause = true;
-                        blurred = false;
-                    }
-
-                    C_Output("<b>%s</b> saved.", lbmpath1);
-
-                    if (*lbmpath2)
-                        C_Output("<b>%s</b> saved.", lbmpath2);
-                }
-                else
-                    C_Warning("A screenshot couldn't be taken.");
-
+                G_DoScreenShot();
                 gameaction = ga_nothing;
                 break;
 
@@ -1143,6 +1120,33 @@ static void G_DoReborn(void)
 void G_ScreenShot(void)
 {
     gameaction = ga_screenshot;
+}
+
+void G_DoScreenShot(void)
+{
+    if (V_ScreenShot())
+    {
+        static char buffer[512];
+
+        S_StartSound(NULL, sfx_swtchx);
+
+        M_snprintf(buffer, sizeof(buffer), s_GSCREENSHOT, lbmname1);
+        HU_SetPlayerMessage(buffer, false);
+        message_dontfuckwithme = true;
+
+        if (menuactive)
+        {
+            message_dontpause = true;
+            blurred = false;
+        }
+
+        C_Output("<b>%s</b> saved.", lbmpath1);
+
+        if (*lbmpath2)
+            C_Output("<b>%s</b> saved.", lbmpath2);
+    }
+    else
+        C_Warning("A screenshot couldn't be taken.");
 }
 
 // DOOM Par Times

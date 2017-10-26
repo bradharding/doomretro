@@ -46,6 +46,7 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "i_colors.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
@@ -167,8 +168,6 @@ extern int              fps;
 extern int              refreshrate;
 extern dboolean         dowipe;
 extern dboolean         togglingvanilla;
-
-void G_ToggleAlwaysRun(evtype_t type);
 
 void C_Print(const stringtype_t type, const char *string, ...)
 {
@@ -1166,7 +1165,23 @@ dboolean C_ValidateInput(const char *input)
         }
     }
 
-    return C_ExecuteAlias(input);
+    if (C_ExecuteAlias(input))
+        return true;
+
+    if (gamestate == GS_LEVEL)
+        for (int i = 0; *actions[i].action; i++)
+            if (M_StringCompare(input, actions[i].action))
+            {
+                C_Input(input);
+                actions[i].func();
+
+                if (consoleactive)
+                    C_HideConsoleFast();
+
+                return true;
+            }
+
+    return false;
 }
 
 dboolean C_Responder(event_t *ev)

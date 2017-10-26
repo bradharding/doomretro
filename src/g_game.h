@@ -77,9 +77,13 @@ void G_Ticker(void);
 dboolean G_Responder(event_t *ev);
 
 void G_ScreenShot(void);
+void G_DoScreenShot(void);
 void I_ToggleWidescreen(dboolean toggle);
 
 void G_SetMovementSpeed(int scale);
+void G_ToggleAlwaysRun(evtype_t type);
+void G_NextWeapon(void);
+void G_PrevWeapon(void);
 
 extern dboolean canmodify;
 extern dboolean message_dontpause;
