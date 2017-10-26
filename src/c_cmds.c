@@ -1825,15 +1825,27 @@ static void if_cmd_func2(char *cmd, char *parms)
 
             C_StripQuotes(parm2);
 
-            if (consolecmds[i].flags & (CF_BOOLEAN | CF_INTEGER))
+            if (consolecmds[i].type == CT_CVAR)
             {
-                int value = C_LookupValueFromAlias(parm2, consolecmds[i].aliases);
+                if (consolecmds[i].flags & (CF_BOOLEAN | CF_INTEGER))
+                {
+                    int value = C_LookupValueFromAlias(parm2, consolecmds[i].aliases);
 
-                if (value == INT_MIN)
-                    sscanf(parms, "%10i", &value);
+                    if (value == INT_MIN)
+                        sscanf(parms, "%10i", &value);
 
-                if (value != INT_MIN && value == *(int *)consolecmds[i].variable)
-                    condition = true;
+                    condition = (value != INT_MIN && value == *(int *)consolecmds[i].variable);
+                }
+                else if (consolecmds[i].flags & CF_FLOAT)
+                {
+                    float value = FLT_MIN;
+
+                    sscanf(parms, "%10f", &value);
+
+                    condition = (value != FLT_MIN && value == *(float *)consolecmds[i].variable);
+                }
+                else
+                    condition = M_StringCompare(parm2, *(char **)consolecmds[i].variable);
             }
             else if (M_StringCompare(parm1, stringize(fastmonsters)))
                 condition = match(fastparm, parm2);
@@ -1857,8 +1869,6 @@ static void if_cmd_func2(char *cmd, char *parms)
                 condition = match(respawnmonsters, parm2);
             else if (M_StringCompare(parm1, stringize(vanilla)))
                 condition = match(vanilla, parm2);
-            else if (consolecmds[i].type == CT_CVAR && M_StringCompare(parm2, *(char **)consolecmds[i].variable))
-                condition = true;
 
             if (condition)
             {
