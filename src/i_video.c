@@ -1348,7 +1348,7 @@ static void SetVideoMode(dboolean output)
 
             if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
-                (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE))))
+                (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
@@ -1365,7 +1365,7 @@ static void SetVideoMode(dboolean output)
 
             if(!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
-                (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE))))
+                (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
