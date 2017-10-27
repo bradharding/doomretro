@@ -1427,7 +1427,8 @@ dboolean C_Responder(event_t *ev)
                         if (M_StringStartsWith(output, input)
                             && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
                                 || (spaces1 == 1 && !endspace1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
-                                || (spaces1 == 2 && !endspace1 && spaces2 == 2)))
+                                || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
+                                || (spaces1 == 3 && !endspace1)))
                         {
                             M_StringCopy(consoleinput, output, sizeof(consoleinput));
                             caretpos = selectstart = selectend = len2;
