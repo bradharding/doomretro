@@ -1173,11 +1173,11 @@ dboolean C_ValidateInput(const char *input)
             if (M_StringCompare(input, actions[i].action))
             {
                 C_Input(input);
-                actions[i].func();
 
                 if (consoleactive)
                     C_HideConsoleFast();
 
+                actions[i].func();
                 return true;
             }
 

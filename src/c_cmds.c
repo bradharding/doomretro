@@ -788,7 +788,7 @@ consolecmd_t consolecmds[] =
 
 static void alwaysrun_action_func(void)
 {
-    G_ToggleAlwaysRun(ev_keydown);
+    G_ToggleAlwaysRun(ev_none);
 }
 
 static void automap_action_func(void)
@@ -812,9 +812,7 @@ static void clearmark_action_func(void)
 
 static void console_action_func(void)
 {
-    if (consoleactive)
-        C_HideConsoleFast();
-    else
+    if (!consoleactive)
         C_ShowConsole();
 }
 
@@ -850,10 +848,7 @@ static void maxzoom_action_func(void)
 
 static void menu_action_func(void)
 {
-    if (menuactive)
-        M_ClearMenus();
-    else
-        M_StartControlPanel();
+    M_StartControlPanel();
 }
 
 static void mouselook_action_func(void) {}
