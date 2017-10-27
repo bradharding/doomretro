@@ -1283,7 +1283,24 @@ dboolean C_Responder(event_t *ev)
                 // confirm input
                 if (*consoleinput)
                 {
-                    if (C_ValidateInput(consoleinput))
+                    char    *string = strdup(consoleinput);
+                    char    *strings[255];
+                    int     i = 0;
+                    dboolean    result = false;
+
+                    strings[0] = strtok(string, ";");
+
+                    while (strings[i])
+                    {
+                        if (C_ValidateInput(trimwhitespace(strings[i])))
+                            result = true;
+
+                        strings[++i] = strtok(NULL, ";");
+                    }
+
+                    free(string);
+
+                    if (result)
                     {
                         // clear input
                         consoleinput[0] = '\0';
