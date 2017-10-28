@@ -936,7 +936,11 @@ void HU_DrawDisk(void)
 
 void HU_GetMessagePosition(void)
 {
-    if (sscanf(r_messagepos, "(%10i,%10i)", &message_x, &message_y) != 2)
+    int x = HU_MSGX;
+    int y = HU_MSGY;
+    
+    if (sscanf(r_messagepos, "(%10i,%10i)", &message_x, &message_y) != 2
+        || message_x < 0 || message_x >= SCREENWIDTH || y < 0 || message_y >= SCREENHEIGHT - SBARHEIGHT)
     {
         message_x = HU_MSGX;
         message_y = HU_MSGY;
