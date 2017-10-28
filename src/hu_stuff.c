@@ -943,6 +943,9 @@ void HU_GetMessagePosition(void)
         r_messagepos = r_messagepos_default;
         M_SaveCVARs();
     }
+
+    message_x = BETWEEN(0, message_x, ORIGINALWIDTH);
+    message_y = BETWEEN(0, message_y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
 }
 
 void HU_Drawer(void)
