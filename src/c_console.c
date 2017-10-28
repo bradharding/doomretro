@@ -1420,11 +1420,26 @@ dboolean C_Responder(event_t *ev)
                     const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     const int   start = autocomplete;
                     static char input[255];
+                    char        prefix[255] = "";
                     int         spaces1;
                     dboolean    endspace1;
 
-                    if (autocomplete == -1)
-                        M_StringCopy(input, consoleinput, sizeof(input));
+                    for (i = len - 1; i >= 0; i--)
+                        if (consoleinput[i] == ';')
+                            break;
+
+                    if (i == len)
+                    {
+                        if (autocomplete == -1)
+                            M_StringCopy(input, consoleinput, sizeof(input));
+                    }
+                    else
+                    {
+                        M_StringCopy(prefix, M_SubString(consoleinput, 0, i + 1), sizeof(input));
+
+                        if (autocomplete == -1)
+                            M_StringCopy(input, M_SubString(consoleinput, i + 1, len - i - 1), sizeof(input));
+                    }
 
                     spaces1 = numspaces(input);
                     endspace1 = (input[strlen(input) - 1] == ' ');
@@ -1449,8 +1464,8 @@ dboolean C_Responder(event_t *ev)
                                 || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                 || (spaces1 == 3 && !endspace1)))
                         {
-                            M_StringCopy(consoleinput, output, sizeof(consoleinput));
-                            caretpos = selectstart = selectend = len2;
+                            M_StringCopy(consoleinput, M_StringJoin(prefix, output, NULL), sizeof(consoleinput));
+                            caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
                             return true;
