@@ -1649,6 +1649,7 @@ dboolean C_Responder(event_t *ev)
                                 consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
 
                             consoleinput[selectstart + i - selectend + 1] = '\0';
+                            caretpos = selectstart + 1;
                         }
                         else
                         {
@@ -1659,10 +1660,10 @@ dboolean C_Responder(event_t *ev)
                             for (i = len; i > caretpos; i--)
                                 consoleinput[i] = consoleinput[i - 1];
 
-                            consoleinput[caretpos] = ch;
+                            consoleinput[caretpos++] = ch;
                         }
 
-                        selectstart = selectend = ++caretpos;
+                        selectstart = selectend = caretpos;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                         autocomplete = -1;
