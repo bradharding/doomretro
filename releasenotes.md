@@ -7,6 +7,7 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * Using the `vanilla` CCMD in an alias will now work correctly.
 * Strings of commands, separated by semi-colons, can now be entered directly in the console.
+* Most actions can now be entered directly in the console.
 * The `bind` CCMD can now be used to bind a string of commands to a control. For example, to press the <kbd>V</kbd> key to enable vanilla mode without lowering the graphic detail, enter `bind 'v' "vanilla; r_detail high"` in the console.
 * A custom message can now be displayed using the new `print` CCMD.
 * A new `if` CCMD has been implemented that allows a string of commands to be executed only if a CVAR equals a certain value.
