@@ -725,6 +725,9 @@ dboolean G_Responder(event_t *ev)
 
     switch (ev->type)
     {
+        case ev_none:
+            return false;
+
         case ev_keydown:
             key = ev->data1;
 
@@ -878,6 +881,7 @@ dboolean G_Responder(event_t *ev)
 
             return true;            // eat events
     }
+
     return false;
 }
 
