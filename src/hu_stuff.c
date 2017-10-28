@@ -943,20 +943,22 @@ void HU_GetMessagePosition(void)
         r_messagepos = r_messagepos_default;
         M_SaveCVARs();
     }
-
-    message_x = BETWEEN(0, message_x, ORIGINALWIDTH);
-    message_y = BETWEEN(0, message_y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
 }
 
 void HU_Drawer(void)
 {
-    w_message.l->x = message_x;
-    w_message.l->y = message_y;
-
-    if (r_messagescale == r_messagescale_small)
+    if (!vid_widescreen)
     {
-        w_message.l->x *= SCREENSCALE;
-        w_message.l->y *= SCREENSCALE;
+        if (r_messagescale == r_messagescale_small)
+        {
+            w_message.l->x = BETWEEN(0, message_x * SCREENSCALE, SCREENWIDTH - M_StringWidth(w_message.l->l));
+            w_message.l->y = BETWEEN(0, message_y * SCREENSCALE, SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height);
+        }
+        else
+        {
+            w_message.l->x = BETWEEN(0, message_x, ORIGINALWIDTH - M_StringWidth(w_message.l->l));
+            w_message.l->y = BETWEEN(0, message_y, ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height);
+        }
     }
 
     HUlib_drawSText(&w_message, message_external);
