@@ -624,7 +624,6 @@ void AM_clearMarks(void)
             message_dontfuckwithme = true;
             message_clearable = true;
             markpointnum = 0;
-            markpress = 0;
         }
         else if (markpress == 1)
         {
@@ -635,7 +634,6 @@ void AM_clearMarks(void)
             HU_PlayerMessage(message, true);
             message_dontfuckwithme = true;
             message_clearable = true;
-            markpress = 0;
         }
     }
 }
@@ -921,8 +919,7 @@ dboolean AM_Responder(const event_t *ev)
                     {
                         speedtoggle = AM_getSpeedToggle();
 
-                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2)
-                            || keystate(AM_PANRIGHTKEY3))
+                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2) || keystate(AM_PANRIGHTKEY3))
                             m_paninc.x = FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
