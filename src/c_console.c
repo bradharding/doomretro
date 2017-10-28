@@ -1177,7 +1177,9 @@ dboolean C_ValidateInput(const char *input)
                 if (consoleactive)
                     C_HideConsoleFast();
 
-                actions[i].func();
+                if (actions[i].func)
+                    actions[i].func();
+
                 return true;
             }
 
@@ -1283,9 +1285,9 @@ dboolean C_Responder(event_t *ev)
                 // confirm input
                 if (*consoleinput)
                 {
-                    char    *string = strdup(consoleinput);
-                    char    *strings[255];
-                    int     i = 0;
+                    char        *string = strdup(consoleinput);
+                    char        *strings[255];
+                    int         i = 0;
                     dboolean    result = false;
 
                     strings[0] = strtok(string, ";");

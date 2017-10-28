@@ -107,16 +107,10 @@ dboolean        autoload = autoload_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
-#define FORWARDMOVE0    0x19
-#define FORWARDMOVE1    0x32
-
-#define SIDEMOVE0       0x18
-#define SIDEMOVE1       0x28
-
-static fixed_t  forwardmove[2] = { FORWARDMOVE0, FORWARDMOVE1 };
-static fixed_t  sidemove[2] = { SIDEMOVE0, SIDEMOVE1 };
-static fixed_t  angleturn[3] = { 640, 1280, 320 };      // + slow turn
-static fixed_t  gamepadangleturn[2] = { 640, 960 };
+fixed_t  forwardmove[2] = { FORWARDMOVE0, FORWARDMOVE1 };
+fixed_t  sidemove[2] = { SIDEMOVE0, SIDEMOVE1 };
+fixed_t  angleturn[3] = { 640, 1280, 320 };      // + slow turn
+fixed_t  gamepadangleturn[2] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
@@ -167,7 +161,7 @@ char            keyactionlist[NUMKEYS][255];
 static int      turnheld;                       // for accelerative turning
 
 static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
-static dboolean *mousebuttons = &mousearray[1]; // allow [-1]
+dboolean        *mousebuttons = &mousearray[1]; // allow [-1]
 char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
 
 dboolean        skipaction;

@@ -189,14 +189,11 @@ static void left_action_func(void);
 static void mark_action_func(void);
 static void maxzoom_action_func(void);
 static void menu_action_func(void);
-static void mouselook_action_func(void);
 static void nextweapon_action_func(void);
 static void prevweapon_action_func(void);
 static void right_action_func(void);
 static void rotatemode_action_func(void);
-static void run_action_func(void);
 static void screenshot_action_func(void);
-static void strafe_action_func(void);
 static void strafeleft_action_func(void);
 static void straferight_action_func(void);
 static void use_action_func(void);
@@ -225,14 +222,14 @@ action_t actions[] =
     { "+mark",         mark_action_func,        &keyboardautomapmark,       NULL,                  NULL,             &gamepadautomapmark,       NULL         },
     { "+maxzoom",      maxzoom_action_func,     &keyboardautomapmaxzoom,    NULL,                  NULL,             &gamepadautomapmaxzoom,    NULL         },
     { "+menu",         menu_action_func,        &keyboardmenu,              NULL,                  NULL,             &gamepadmenu,              NULL         },
-    { "+mouselook",    mouselook_action_func,   &keyboardmouselook,         NULL,                  &mousemouselook,  &gamepadmouselook,         NULL         },
+    { "+mouselook",    NULL,                    &keyboardmouselook,         NULL,                  &mousemouselook,  &gamepadmouselook,         NULL         },
     { "+nextweapon",   nextweapon_action_func,  &keyboardnextweapon,        NULL,                  &mousenextweapon, &gamepadnextweapon,        NULL         },
     { "+prevweapon",   prevweapon_action_func,  &keyboardprevweapon,        NULL,                  &mouseprevweapon, &gamepadprevweapon,        NULL         },
     { "+right",        right_action_func,       &keyboardright,             NULL,                  NULL,             &gamepadright,             NULL         },
     { "+rotatemode",   rotatemode_action_func,  &keyboardautomaprotatemode, NULL,                  NULL,             &gamepadautomaprotatemode, NULL         },
-    { "+run",          run_action_func,         &keyboardrun,               NULL,                  &mouserun,        &gamepadrun,               NULL         },
+    { "+run",          NULL,                    &keyboardrun,               NULL,                  &mouserun,        &gamepadrun,               NULL         },
     { "+screenshot",   screenshot_action_func,  &keyboardscreenshot,        NULL,                  NULL,             NULL,                      NULL         },
-    { "+strafe",       strafe_action_func,      &keyboardstrafe,            NULL,                  &mousestrafe,     &gamepadstrafe,            NULL         },
+    { "+strafe",       NULL,                    &keyboardstrafe,            NULL,                  &mousestrafe,     &gamepadstrafe,            NULL         },
     { "+strafeleft",   strafeleft_action_func,  &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,             &gamepadstrafeleft,        NULL         },
     { "+straferight",  straferight_action_func, &keyboardstraferight,       &keyboardstraferight2, NULL,             &gamepadstraferight,       NULL         },
     { "+use",          use_action_func,         &keyboarduse,               &keyboarduse2,         &mouseuse,        &gamepaduse,               &gamepaduse2 },
@@ -786,6 +783,16 @@ consolecmd_t consolecmds[] =
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
 
+static dboolean run(void)
+{
+    return (gamekeydown[keyboardrun] + !!mousebuttons[mouserun] + !!(gamepadbuttons & gamepadrun) + alwaysrun == 1);
+}
+
+static dboolean strafe(void)
+{
+    return (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamepadbuttons & gamepadstrafe));
+}
+
 static void alwaysrun_action_func(void)
 {
     G_ToggleAlwaysRun(ev_none);
@@ -802,7 +809,11 @@ static void automap_action_func(void)
         AM_Stop();
 }
 
-static void back_action_func(void) {}
+static void back_action_func(void)
+{
+    viewplayer->cmd.forwardmove -= forwardmove[run()];
+    P_MovePlayer(viewplayer);
+}
 
 static void clearmark_action_func(void)
 {
@@ -816,7 +827,10 @@ static void console_action_func(void)
         C_ShowConsole();
 }
 
-static void fire_action_func(void) {}
+static void fire_action_func(void)
+{
+    P_FireWeapon(viewplayer);
+}
 
 static void followmode_action_func(void)
 {
@@ -824,7 +838,11 @@ static void followmode_action_func(void)
         AM_toggleFollowMode();
 }
 
-static void forward_action_func(void) {}
+static void forward_action_func(void)
+{
+    viewplayer->cmd.forwardmove += forwardmove[run()];
+    P_MovePlayer(viewplayer);
+}
 
 static void grid_action_func(void)
 {
@@ -832,7 +850,13 @@ static void grid_action_func(void)
         AM_toggleGrid();
 }
 
-static void left_action_func(void) {}
+static void left_action_func(void)
+{
+    if (strafe())
+        viewplayer->cmd.sidemove -= sidemove[run()];
+    else
+        viewplayer->cmd.angleturn -= angleturn[run()];
+}
 
 static void mark_action_func(void)
 {
@@ -851,8 +875,6 @@ static void menu_action_func(void)
     M_StartControlPanel();
 }
 
-static void mouselook_action_func(void) {}
-
 static void nextweapon_action_func(void)
 {
     G_NextWeapon();
@@ -863,7 +885,13 @@ static void prevweapon_action_func(void)
     G_PrevWeapon();
 }
 
-static void right_action_func(void) {}
+static void right_action_func(void)
+{
+    if (strafe())
+        viewplayer->cmd.sidemove += sidemove[run()];
+    else
+        viewplayer->cmd.angleturn += angleturn[run()];
+}
 
 static void rotatemode_action_func(void)
 {
@@ -871,20 +899,25 @@ static void rotatemode_action_func(void)
         AM_toggleRotateMode();
 }
 
-static void run_action_func(void) {}
-
 static void screenshot_action_func(void)
 {
     G_DoScreenShot();
 }
 
-static void strafe_action_func(void) {}
+static void strafeleft_action_func(void)
+{
+    viewplayer->cmd.sidemove -= sidemove[run()];
+}
 
-static void strafeleft_action_func(void) {}
+static void straferight_action_func(void)
+{
+    viewplayer->cmd.sidemove += sidemove[run()];
+}
 
-static void straferight_action_func(void) {}
-
-static void use_action_func(void) {}
+static void use_action_func(void)
+{
+    P_UseLines(viewplayer);
+}
 
 static void weapon1_action_func(void)
 {

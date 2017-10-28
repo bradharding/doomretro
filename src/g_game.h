@@ -44,6 +44,12 @@
 
 #define NUMKEYS 256
 
+#define FORWARDMOVE0    0x19
+#define FORWARDMOVE1    0x32
+
+#define SIDEMOVE0       0x18
+#define SIDEMOVE1       0x28
+
 //
 // GAME
 //
@@ -85,6 +91,12 @@ void G_ToggleAlwaysRun(evtype_t type);
 void G_NextWeapon(void);
 void G_PrevWeapon(void);
 
+extern fixed_t  forwardmove[2];
+extern fixed_t  sidemove[2];
+extern fixed_t  angleturn[3];
+extern fixed_t  gamepadangleturn[2];
+extern dboolean gamekeydown[NUMKEYS];
+extern dboolean *mousebuttons;
 extern dboolean canmodify;
 extern dboolean message_dontpause;
 extern dboolean vibrate;

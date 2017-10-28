@@ -218,7 +218,7 @@ static void P_SubtractAmmo(player_t *player, int amount)
 //
 // P_FireWeapon
 //
-static void P_FireWeapon(player_t *player)
+void P_FireWeapon(player_t *player)
 {
     weapontype_t    readyweapon;
 

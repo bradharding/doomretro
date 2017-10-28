@@ -49,7 +49,6 @@
 
 extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
-extern dboolean gamekeydown[NUMKEYS];
 extern dboolean skipaction;
 extern dboolean usemouselook;
 
@@ -177,7 +176,7 @@ void P_CalcHeight(player_t *player)
 //
 // P_MovePlayer
 //
-static void P_MovePlayer(player_t *player)
+void P_MovePlayer(player_t *player)
 {
     ticcmd_t    *cmd = &player->cmd;
     mobj_t      *mo = player->mo;
