@@ -1435,10 +1435,11 @@ dboolean C_Responder(event_t *ev)
                     }
                     else
                     {
-                        M_StringCopy(prefix, M_SubString(consoleinput, 0, i + 1), sizeof(input));
+                        i += 1 + (consoleinput[i + 1] == ' ');
+                        M_StringCopy(prefix, M_SubString(consoleinput, 0, i), sizeof(input));
 
                         if (autocomplete == -1)
-                            M_StringCopy(input, M_SubString(consoleinput, i + 1, len - i - 1), sizeof(input));
+                            M_StringCopy(input, M_SubString(consoleinput, i, len - i), sizeof(input));
                     }
 
                     spaces1 = numspaces(input);
