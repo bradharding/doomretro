@@ -277,14 +277,13 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             switch ((line->special & TriggerType) >> TriggerTypeShift)
             {
                 case PushOnce:
-                    if (!side && linefunc(line))
+                    if (linefunc(line))
                         line->special = 0;
 
                     return true;
 
                 case PushMany:
-                    if (!side)
-                        linefunc(line);
+                    linefunc(line);
 
                     return true;
 
