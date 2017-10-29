@@ -110,8 +110,8 @@ void R_InitClipSegs(void)
     memcmpsize = sizeof(frontsector->floor_xoffs) + sizeof(frontsector->floor_yoffs)
         + sizeof(frontsector->ceiling_xoffs) + sizeof(frontsector->ceiling_yoffs)
         + sizeof(frontsector->ceilingpic) + sizeof(frontsector->floorpic)
-        + sizeof(frontsector->lightlevel) + sizeof(frontsector->floorlightsec)
-        + sizeof(frontsector->ceilinglightsec);
+        + sizeof(frontsector->lightlevel) + sizeof(*frontsector->floorlightsec)
+        + sizeof(*frontsector->ceilinglightsec);
 }
 
 //

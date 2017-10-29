@@ -251,7 +251,7 @@ void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
             int j = c - '!';
 
             // [BH] have matching curly single and double quotes
-            if (!i || (i > 0 && l->l[i - 1] == ' '))
+            if (!i || l->l[i - 1] == ' ')
             {
                 if (c == '\"')
                     j = 64;

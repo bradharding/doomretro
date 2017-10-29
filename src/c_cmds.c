@@ -3053,7 +3053,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 static void newgame_cmd_func2(char *cmd, char *parms)
 {
     C_HideConsoleFast();
-    G_DeferredInitNew((skill_t)(skilllevel - 1), (gamemission == commercial ? expansion : episode), 1);
+    G_DeferredInitNew((skill_t)(skilllevel - 1), (gamemode == commercial ? expansion : episode), 1);
 }
 
 //
@@ -3974,8 +3974,8 @@ static void teleport_cmd_func2(char *cmd, char *parms)
             fixed_t     oldy = mo->y;
             fixed_t     oldz = mo->z;
 
-            x <<= FRACBITS;
-            y <<= FRACBITS;
+            x *= FRACUNIT;
+            y *= FRACUNIT;
 
             if (P_TeleportMove(mo, x, y, ONFLOORZ, false))
             {

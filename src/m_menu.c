@@ -128,7 +128,7 @@ static menu_t   *currentMenu;
 static byte     tempscreen1[SCREENWIDTH * SCREENHEIGHT];
 static byte     tempscreen2[SCREENWIDTH * SCREENHEIGHT];
 static byte     blurscreen1[SCREENWIDTH * SCREENHEIGHT];
-static byte     blurscreen2[SCREENWIDTH * SCREENHEIGHT];
+static byte     blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
 dboolean        blurred;
 static dboolean blurred2;
@@ -2117,24 +2117,21 @@ static void M_SizeDisplay(int choice)
             }
             else if (r_screensize == r_screensize_max)
             {
-                if (!vid_widescreen)
+                if (gamestate != GS_LEVEL)
                 {
-                    if (gamestate != GS_LEVEL)
-                    {
-                        returntowidescreen = true;
-                        r_hud = true;
-                    }
+                    returntowidescreen = true;
+                    r_hud = true;
+                }
+                else
+                {
+                    I_ToggleWidescreen(true);
+
+                    if (vid_widescreen)
+                        C_StrCVAROutput(stringize(vid_widescreen), "on");
                     else
                     {
-                        I_ToggleWidescreen(true);
-
-                        if (vid_widescreen)
-                            C_StrCVAROutput(stringize(vid_widescreen), "on");
-                        else
-                        {
-                            R_SetViewSize(++r_screensize);
-                            C_IntCVAROutput(stringize(r_screensize), r_screensize);
-                        }
+                        R_SetViewSize(++r_screensize);
+                        C_IntCVAROutput(stringize(r_screensize), r_screensize);
                     }
                 }
 
@@ -2373,7 +2370,7 @@ void M_ChangeGamma(dboolean shift)
             M_snprintf(buf, sizeof(buf), "%.2f", r_gamma);
             len = (int)strlen(buf);
 
-            if (buf[len - 1] == '0' && buf[len - 2] == '0')
+            if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
                 buf[len - 1] = '\0';
 
             C_StrCVAROutput(stringize(r_gamma), buf);
@@ -2392,7 +2389,7 @@ void M_ChangeGamma(dboolean shift)
         M_snprintf(buf, sizeof(buf), s_GAMMALVL, r_gamma);
         len = (int)strlen(buf);
 
-        if (buf[len - 1] == '0' && buf[len - 2] == '0')
+        if (len >= 2 && buf[len - 1] == '0' && buf[len - 2] == '0')
             buf[len - 1] = '\0';
 
         HU_PlayerMessage(buf, false);

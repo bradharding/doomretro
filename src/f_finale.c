@@ -736,7 +736,7 @@ static void F_CastPrint(char *text)
 
         c = toupper(c) - HU_FONTSTART;
 
-        if (c < 0 || c > HU_FONTSIZE)
+        if (c < 0 || c >= HU_FONTSIZE)
         {
             width += 4;
             continue;
@@ -756,7 +756,7 @@ static void F_CastPrint(char *text)
 
         c = toupper(c) - HU_FONTSTART;
 
-        if (c < 0 || c > HU_FONTSIZE)
+        if (c < 0 || c >= HU_FONTSIZE)
         {
             cx += 4;
             continue;

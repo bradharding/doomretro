@@ -79,7 +79,7 @@ static void G_DoSaveGame(void);
 gameaction_t    gameaction;
 gamestate_t     gamestate = GS_TITLESCREEN;
 skill_t         gameskill;
-skill_t         pendinggameskill;
+int             pendinggameskill;
 int             gameepisode;
 int             gamemap;
 
@@ -1314,10 +1314,9 @@ static void G_DoCompleted(void)
                 case 33:
                     // [BH] return to MAP03 after secret level in BFG Edition
                     if (bfgedition)
-                    {
                         wminfo.next = 2;
-                        break;
-                    }
+
+                    break;
 
                 default:
                    wminfo.next = gamemap;
