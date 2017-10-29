@@ -508,13 +508,6 @@
     <ResourceCompile Include="..\src\win32.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.gitattributes" />
-    <None Include="..\.gitignore" />
-    <None Include="..\.travis.yml" />
-    <None Include="..\CODEOWNERS" />
-    <None Include="..\CODE_OF_CONDUCT.md" />
-    <None Include="..\LICENSE" />
-    <None Include="..\README.md" />
     <None Include="..\releasenotes.md" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
@@ -522,15 +515,7 @@
     <None Include="..\res\DRCOMPAT" />
     <None Include="..\res\VANILLA" />
     <None Include="..\res\VERSION" />
-    <None Include="..\src\Makefile" />
-    <None Include="..\src\Makefile.osx" />
-    <None Include="..\src\Makefile.rpi" />
     <None Include="..\src\doomretro.manifest" />
-    <None Include="..\xcode\doomretroapp.xcodeproj\project.pbxproj" />
-    <None Include="..\xcode\doomretroapp\Info.plist" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
