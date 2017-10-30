@@ -179,24 +179,24 @@ byte    nearestcolors[PALETTESIZE];
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
-    double  best_difference = INT_MAX;
-    int     best_color = 0;
+    int best_difference = INT_MAX;
+    int best_color = 0;
 
     for (int i = 0; i < PALETTESIZE; i++)
     {
-        int     r1 = red;
-        int     g1 = green;
-        int     b1 = blue;
-        int     r2 = *palette++;
-        int     g2 = *palette++;
-        int     b2 = *palette++;
+        int r1 = red;
+        int g1 = green;
+        int b1 = blue;
+        int r2 = *palette++;
+        int g2 = *palette++;
+        int b2 = *palette++;
 
         // From http://www.compuphase.com/cmetric.htm
-        int     rmean = (r1 + r2) / 2;
-        int     r = r1 - r2;
-        int     g = g1 - g2;
-        int     b = b1 - b2;
-        double  difference = (((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8);
+        int rmean = (r1 + r2) / 2;
+        int r = r1 - r2;
+        int g = g1 - g2;
+        int b = b1 - b2;
+        int difference = (((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8);
 
         if (difference < best_difference)
         {

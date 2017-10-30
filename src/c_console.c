@@ -1670,8 +1670,7 @@ dboolean C_Responder(event_t *ev)
                         else
                         {
                             // insert a character
-                            if (len < 255)
-                                consoleinput[len + 1] = '\0';
+                            consoleinput[len + 1] = '\0';
 
                             for (i = len; i > caretpos; i--)
                                 consoleinput[i] = consoleinput[i - 1];

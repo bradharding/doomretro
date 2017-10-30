@@ -448,7 +448,7 @@ static void HU_DrawHUD(void)
         int             ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
         static dboolean ammoanim;
 
-        tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
+        tinttab = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
 
         if ((patch = ammopic[ammotype].patch))
         {
@@ -936,11 +936,8 @@ void HU_DrawDisk(void)
 
 void HU_GetMessagePosition(void)
 {
-    int x = HU_MSGX;
-    int y = HU_MSGY;
-    
     if (sscanf(r_messagepos, "(%10i,%10i)", &message_x, &message_y) != 2
-        || message_x < 0 || message_x >= SCREENWIDTH || y < 0 || message_y >= SCREENHEIGHT - SBARHEIGHT)
+        || message_x < 0 || message_x >= SCREENWIDTH || message_y < 0 || message_y >= SCREENHEIGHT - SBARHEIGHT)
     {
         message_x = HU_MSGX;
         message_y = HU_MSGY;

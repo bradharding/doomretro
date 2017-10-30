@@ -592,7 +592,7 @@ dboolean P_GiveAllCards(player_t *player)
         }
 
     for (int i = NUMCARDS - 1; i >= 0; i--)
-        if (player->cards[i] != CARDNOTINMAP && player->cards[i] == CARDNOTFOUNDYET)
+        if (player->cards[i] == CARDNOTFOUNDYET)
         {
             if (skulliscard && ((i == it_blueskull && player->cards[it_bluecard] != CARDNOTINMAP)
                 || (i == it_redskull && player->cards[it_redcard] != CARDNOTINMAP)

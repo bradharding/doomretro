@@ -46,7 +46,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define CACHESIZE   64 * 1024 * 1024
+#define CACHESIZE   (64 * 1024 * 1024)
 
 typedef struct allocated_sound_s allocated_sound_t;
 

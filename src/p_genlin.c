@@ -163,17 +163,15 @@ manual_floor:
                 else if (floor->floordestheight < -32000)
                     floor->floordestheight = -32000;
 
-                floor->floordestheight <<= FRACBITS;
+                floor->floordestheight *= FRACUNIT;
                 break;
 
             case Fby24:
-                floor->floordestheight = floor->sector->floorheight
-                    + floor->direction * 24 * FRACUNIT;
+                floor->floordestheight = floor->sector->floorheight + floor->direction * 24 * FRACUNIT;
                 break;
 
             case Fby32:
-                floor->floordestheight = floor->sector->floorheight
-                    + floor->direction * 32 * FRACUNIT;
+                floor->floordestheight = floor->sector->floorheight + floor->direction * 32 * FRACUNIT;
                 break;
         }
 
@@ -367,7 +365,7 @@ manual_ceiling:
                 else if (targheight < -32000)
                     targheight = -32000;
 
-                targheight <<= FRACBITS;
+                targheight *= FRACUNIT;
                 break;
 
             case Cby24:

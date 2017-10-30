@@ -1590,13 +1590,15 @@ static void SetVideoMode(dboolean output)
         else
         {
             static char text[128];
+            int         len;
 
             M_snprintf(text, sizeof(text), "The gamma correction level is %.2f.", r_gamma);
+            len = (int)strlen(text);
 
-            if (text[strlen(text) - 2] == '0' && text[strlen(text) - 3] == '0')
+            if (text[len - 2] == '0' && text[len - 3] == '0')
             {
-                text[strlen(text) - 2] = '.';
-                text[strlen(text) - 1] = '\0';
+                text[len - 2] = '.';
+                text[len - 1] = '\0';
             }
 
             C_Output(text);
@@ -1768,7 +1770,7 @@ void I_InitKeyboard(void)
 #if defined(_WIN32)
         capslock = !!(GetKeyState(VK_CAPITAL) & 0x0001);
 
-        if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
+        if (alwaysrun != capslock)
         {
             keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
             keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);

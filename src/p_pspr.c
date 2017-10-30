@@ -46,8 +46,8 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-#define LOWERSPEED              6 * FRACUNIT
-#define RAISESPEED              6 * FRACUNIT
+#define LOWERSPEED              (6 * FRACUNIT)
+#define RAISESPEED              (6 * FRACUNIT)
 
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535

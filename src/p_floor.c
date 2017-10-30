@@ -227,10 +227,6 @@ void T_MoveFloor(floormove_t *floor)
             switch (floor->type)
             {
                 case donutRaise:
-                    sec->special = floor->newspecial;
-                    sec->floorpic = floor->texture;
-                    P_ChangeSector(sec, false);
-
                 case genFloorChgT:
                 case genFloorChg0:
                     sec->special = floor->newspecial;
@@ -250,10 +246,6 @@ void T_MoveFloor(floormove_t *floor)
             switch (floor->type)
             {
                 case lowerAndChange:
-                    sec->special = floor->newspecial;
-                    sec->floorpic = floor->texture;
-                    P_ChangeSector(sec, false);
-
                 case genFloorChgT:
                 case genFloorChg0:
                     sec->special = floor->newspecial;
@@ -439,6 +431,7 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 
             case raiseFloorCrush:
                 floor->crush = true;
+
             case raiseFloor:
                 floor->direction = 1;
                 floor->sector = sec;

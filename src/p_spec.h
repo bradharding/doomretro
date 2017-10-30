@@ -352,7 +352,7 @@ typedef struct
     int         lighttag;
 } vldoor_t;
 
-#define VDOORSPEED  FRACUNIT * 2
+#define VDOORSPEED  (FRACUNIT * 2)
 #define VDOORWAIT   150
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);

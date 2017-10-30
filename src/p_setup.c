@@ -334,7 +334,7 @@ static void P_LoadSegs(int lump)
         li->angle = SHORT(ml->angle) << FRACBITS;
         linedef = (unsigned short)SHORT(ml->linedef);
 
-        if (linedef < 0 || linedef >= numlines)
+        if (linedef >= numlines)
             I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
 
         ldef = lines + linedef;
@@ -531,7 +531,7 @@ static void P_LoadSegs_V4(int lump)
         linedef = (unsigned short)SHORT(ml->linedef);
 
         // e6y: check for wrong indexes
-        if (linedef < 0 || linedef >= numlines)
+        if (linedef >= numlines)
             I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedef));
 
         ldef = lines + linedef;
@@ -1269,7 +1269,7 @@ static void P_LoadLineDefs2(void)
             C_Warning("Linedef %s has the two-sided flag set but has no second sidedef.", commify(i));
         }
 
-        ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : 0);
+        ld->frontsector = sides[ld->sidenum[0]].sector;
         ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : 0);
 
         // killough 4/11/98: handle special types

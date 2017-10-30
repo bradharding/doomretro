@@ -37,7 +37,6 @@
 */
 
 #if defined(_WIN32)
-#pragma warning( disable : 4091 )
 #include <ShlObj.h>
 #if defined(_MSC_VER)
 #include <direct.h>
@@ -442,7 +441,9 @@ dboolean M_StringCompare(const char *str1, const char *str2)
 // Returns true if 's' begins with the specified prefix.
 dboolean M_StringStartsWith(const char *s, const char *prefix)
 {
-    return (strlen(s) >= strlen(prefix) && !strncasecmp(s, prefix, strlen(prefix)));
+    int len = (int)strlen(prefix);
+
+    return (strlen(s) >= len && !strncasecmp(s, prefix, len));
 }
 
 // Returns true if 's' ends with the specified suffix.
@@ -503,7 +504,9 @@ char *strndup(const char *s, size_t n)
 
 char *M_SubString(const char *str, size_t begin, size_t len)
 {
-    if (!str || !strlen(str) || strlen(str) < begin || strlen(str) < begin + len)
+    size_t  length = strlen(str);
+
+    if (!str || !length || length < begin || length < begin + len)
         return 0;
 
     return strndup(str + begin, len);

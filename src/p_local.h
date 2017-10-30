@@ -58,7 +58,7 @@
 // MAXRADIUS is for precalculated sector block boxes
 // the spider demon is larger,
 // but we do not have any moving sectors nearby
-#define MAXRADIUS           32 * FRACUNIT
+#define MAXRADIUS           (32 * FRACUNIT)
 
 #define GRAVITY             FRACUNIT
 #define MAXMOVE             (30 * FRACUNIT)
@@ -80,8 +80,8 @@
 
 #define NEEDEDCARDFLASH     8
 
-#define WEAPONBOTTOM        128 * FRACUNIT
-#define WEAPONTOP           32 * FRACUNIT
+#define WEAPONBOTTOM        (128 * FRACUNIT)
+#define WEAPONTOP           (32 * FRACUNIT)
 
 //
 // P_PSPR

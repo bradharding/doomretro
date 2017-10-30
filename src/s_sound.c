@@ -754,11 +754,11 @@ void T_MAPMusic(void)
 
     if (musinfo.tics > 0)
         musinfo.tics--;
-    else if (!musinfo.tics && musinfo.lastmapthing != musinfo.mapthing)
+    else if (musinfo.lastmapthing != musinfo.mapthing)
     {
         int arraypt = TIDNUM(musinfo.mapthing);
 
-        if (arraypt >= 0 && arraypt < MAX_MUS_ENTRIES)
+        if (arraypt < MAX_MUS_ENTRIES)
         {
             int lumpnum = musinfo.items[arraypt];
 
