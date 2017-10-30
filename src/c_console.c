@@ -1644,14 +1644,13 @@ dboolean C_Responder(event_t *ev)
                 }
                 else
                 {
-                    if ((modstate & KMOD_SHIFT) || (keyboardalwaysrun != KEY_CAPSLOCK
-                        && (modstate & KMOD_CAPS)))
+                    if ((modstate & KMOD_SHIFT) || (keyboardalwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
                         ch = shiftxform[ch];
 
                     if (ch >= ' ' && ch < '~' && ch != '`' && C_TextWidth(consoleinput, false, true)
                         + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
                         - (selectstart < selectend ? C_TextWidth(M_SubString(consoleinput, selectstart,
-                            selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH
+                        selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH
                         && !(modstate & KMOD_ALT))
                     {
                         C_AddToUndoHistory();

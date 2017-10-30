@@ -37,6 +37,7 @@
 */
 
 #if defined(_WIN32)
+#pragma warning( disable : 4091 )
 #include <ShlObj.h>
 #if defined(_MSC_VER)
 #include <direct.h>
@@ -441,7 +442,7 @@ dboolean M_StringCompare(const char *str1, const char *str2)
 // Returns true if 's' begins with the specified prefix.
 dboolean M_StringStartsWith(const char *s, const char *prefix)
 {
-    int len = (int)strlen(prefix);
+    size_t  len = strlen(prefix);
 
     return (strlen(s) >= len && !strncasecmp(s, prefix, len));
 }
@@ -449,7 +450,10 @@ dboolean M_StringStartsWith(const char *s, const char *prefix)
 // Returns true if 's' ends with the specified suffix.
 dboolean M_StringEndsWith(const char *s, const char *suffix)
 {
-    return (strlen(s) >= strlen(suffix) && M_StringCompare(s + strlen(s) - strlen(suffix), suffix));
+    size_t  len1 = strlen(s);
+    size_t  len2 = strlen(suffix);
+
+    return (len1 >= len2 && M_StringCompare(s + len1 - len2, suffix));
 }
 
 // Safe, portable vsnprintf().

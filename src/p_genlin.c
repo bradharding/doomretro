@@ -163,7 +163,7 @@ manual_floor:
                 else if (floor->floordestheight < -32000)
                     floor->floordestheight = -32000;
 
-                floor->floordestheight *= FRACUNIT;
+                floor->floordestheight <<= FRACBITS;
                 break;
 
             case Fby24:
@@ -365,7 +365,7 @@ manual_ceiling:
                 else if (targheight < -32000)
                     targheight = -32000;
 
-                targheight *= FRACUNIT;
+                targheight <<= FRACBITS;
                 break;
 
             case Cby24:
@@ -387,11 +387,9 @@ manual_ceiling:
         {
             if (ChgM)   // if a numeric model change
             {
-                sector_t    *sec;
-
                 // jff 5/23/98 find model with floor at target height if target is a floor type
-                sec = (Targ == CtoHnF || Targ == CtoF ? P_FindModelFloorSector(targheight, secnum) :
-                    P_FindModelCeilingSector(targheight, secnum));
+                sector_t    *sec = (Targ == CtoHnF || Targ == CtoF ? P_FindModelFloorSector(targheight, secnum) :
+                                P_FindModelCeilingSector(targheight, secnum));
 
                 if (sec)
                 {

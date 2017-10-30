@@ -3974,8 +3974,8 @@ static void teleport_cmd_func2(char *cmd, char *parms)
             fixed_t     oldy = mo->y;
             fixed_t     oldz = mo->z;
 
-            x *= FRACUNIT;
-            y *= FRACUNIT;
+            x <<= FRACBITS;
+            y <<= FRACBITS;
 
             if (P_TeleportMove(mo, x, y, ONFLOORZ, false))
             {

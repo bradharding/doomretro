@@ -1171,10 +1171,9 @@ static void ST_updateFaceWidget(void)
                     // whether left or right
                     diffang = plyr->mo->angle - badguyangle;
                     i = (diffang <= ANG180);
-                }       // confusing, ain't it?
+                }
 
                 st_facecount = ST_TURNCOUNT;
-                st_faceindex = ST_calcPainOffset();
 
                 if (diffang < ANG45)
                 {
