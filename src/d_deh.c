@@ -3357,6 +3357,8 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
     // the continuations of C1TEXT etc.
     while (!dehfeof(fpin) && *inbuffer)
     {
+        int len;
+
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
 
@@ -3375,13 +3377,15 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
                 continue;
             }
 
-        while (strlen(holdstring) + strlen(inbuffer) > (unsigned int)maxstrlen)
+        len = (int)strlen(inbuffer);
+
+        while (strlen(holdstring) + len > (unsigned int)maxstrlen)
         {
             // killough 11/98: allocate enough the first time
-            maxstrlen += (int)strlen(holdstring) + (int)strlen(inbuffer) - maxstrlen;
+            maxstrlen += (int)strlen(holdstring) + len - maxstrlen;
 
             if (devparm)
-                C_Output("* increased buffer from to %i for buffer size %i", maxstrlen, (int)strlen(inbuffer));
+                C_Output("* increased buffer from to %i for buffer size %i", maxstrlen, len);
 
             holdstring = I_Realloc(holdstring, maxstrlen * sizeof(*holdstring));
         }

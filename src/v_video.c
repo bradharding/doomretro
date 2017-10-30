@@ -37,7 +37,6 @@
 */
 
 #if defined(_WIN32)
-#pragma warning( disable : 4091 )
 #include <Shlobj.h>
 #endif
 
@@ -92,7 +91,7 @@ static const byte redtoyellow[] =
     240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255
 };
 
-#define _FUZZ(a, b) _fuzzrange[M_Random() % (b - (a) + 1) + a]
+#define _FUZZ(a, b) _fuzzrange[M_Random() % ((b) - (a) + 1) + a]
 
 static const int    _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
@@ -723,7 +722,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 && tinttab ? tinttab33[*dest] : dot);
+                *dest = (dot == 109 ? tinttab33[*dest] : dot);
                 dest += SCREENWIDTH;
             }
 

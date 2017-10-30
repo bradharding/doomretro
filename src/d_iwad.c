@@ -220,6 +220,8 @@ static char *GetRegistryString(registryvalue_t *reg_val)
 // Check for the uninstall strings from the CD versions
 static void CheckUninstallStrings(void)
 {
+    int len = (int)strlen(UNINSTALLER_STRING);
+
     for (size_t i = 0; i < arrlen(uninstall_values); i++)
     {
         char    *val = GetRegistryString(&uninstall_values[i]);
@@ -234,7 +236,7 @@ static void CheckUninstallStrings(void)
             free(val);
         else
         {
-            char    *path = unstr + strlen(UNINSTALLER_STRING);
+            char    *path = unstr + len;
 
             AddIWADDir(path);
         }
