@@ -372,7 +372,7 @@ static void WI_drawWILV(int y, char *str)
     {
         int j = chartoi[(int)str[i]];
 
-        if (str[i] == '\'' && (!i || (i > 0 && str[i - 1] == ' ')))
+        if (str[i] == '\'' && (str[i - 1] == ' '))
             j = 41;
 
         if (j == -1)
