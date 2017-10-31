@@ -51,7 +51,6 @@
 #define PACKAGE_ICON_PATH               "..\\res\\doomretro.ico"
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define PACKAGE_NAME                    "DOOM Retro"
-#define PACKAGE_REPORT_URL              "https://github.com/bradharding/doomretro/issues/new"
 #define PACKAGE_SAVE                    "doomretro%i.save"
 #define PACKAGE_WAD                     "doomretro.wad"
 #define PACKAGE_WIKI_HELP_URL           "http://wiki.doomretro.com/THE-CONSOLE"

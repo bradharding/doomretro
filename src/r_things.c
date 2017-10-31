@@ -224,12 +224,10 @@ static void R_InitSpriteDefs(void)
                 if (!((lump->name[0] ^ spritename[0]) | (lump->name[1] ^ spritename[1])
                     | (lump->name[2] ^ spritename[2]) | (lump->name[3] ^ spritename[3])))
                 {
-                    R_InstallSpriteLump(lump, j + firstspritelump, lump->name[4] - 'A', lump->name[5],
-                        false);
+                    R_InstallSpriteLump(lump, j + firstspritelump, lump->name[4] - 'A', lump->name[5], false);
 
                     if (lump->name[6])
-                        R_InstallSpriteLump(lump, j + firstspritelump, lump->name[6] - 'A', lump->name[7],
-                            true);
+                        R_InstallSpriteLump(lump, j + firstspritelump, lump->name[6] - 'A', lump->name[7], true);
                 }
             }
             while ((j = hash[j].next) >= 0);
