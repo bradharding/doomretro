@@ -47,6 +47,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 #include "st_stuff.h"
+#include "w_wad.h"
 #include "z_zone.h"
 
 int         r_blood = r_blood_default;
@@ -1097,7 +1098,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
 
     // [BH] spawn blood splats around corpses
     if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL)) && mobj->blood && !chex
-        && (!hacx || !(mobj->flags2 & MF2_DECORATION)) && r_bloodsplats_max)
+        && (!hacx || !(mobj->flags2 & MF2_DECORATION)) && r_bloodsplats_max
+        && lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
