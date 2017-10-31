@@ -1439,7 +1439,12 @@ dboolean C_Responder(event_t *ev)
                         M_StringCopy(prefix, M_SubString(consoleinput, 0, i), sizeof(input));
 
                         if (autocomplete == -1)
+                        {
                             M_StringCopy(input, M_SubString(consoleinput, i, len - i), sizeof(input));
+
+                            if (!*input)
+                                break;
+                        }
                     }
 
                     spaces1 = numspaces(input);
