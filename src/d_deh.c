@@ -3342,7 +3342,6 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
     static int  maxstrlen = 128;        // maximum string length, bumped 128 at a time as needed
                                         // holds the final result of the string after concatenation
     static char *holdstring;
-    dboolean    found = false;          // looking for string continuation
 
     if (devparm)
         C_Output("Processing extended string substitution");
@@ -3408,11 +3407,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
         if (*holdstring)        // didn't have a backslash, trap above would catch that
         {
             // go process the current string
-            found = deh_procStringSub(key, NULL, trimwhitespace(holdstring));
-
-            if (!found)
-                C_Warning("Invalid string key \"%s\". Substitution skipped.", key);
-
+            deh_procStringSub(key, NULL, trimwhitespace(holdstring));
             *holdstring = '\0';  // empty string for the next one
         }
     }
@@ -3496,7 +3491,7 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
     }
 
     if (!found && !hacx)
-        C_Warning("Couldn't find \"%s\".", (key ? key : lookfor));
+        C_Warning("The <b>%s</b> string can't be found.", (key ? key : lookfor));
 
     return found;
 }
