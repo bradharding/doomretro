@@ -722,7 +722,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     int             len = (int)strlen(text);
     int             truncate = len;
     unsigned char   prevletter = '\0';
-    int             width = 6;
+    int             width = 0;
     int             lastcolor1;
 
     y -= CONSOLEHEIGHT - consoleheight;
@@ -735,7 +735,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     }
 
     if (len > 80)
-        while (C_TextWidth(M_SubString(text, 0, truncate), formatting, kerning) + width > CONSOLETEXTPIXELWIDTH)
+        while (C_TextWidth(M_SubString(text, 0, truncate), formatting, kerning) + width + 6 > CONSOLETEXTPIXELWIDTH)
             truncate--;
 
     for (int i = 0; i < truncate; i++)
