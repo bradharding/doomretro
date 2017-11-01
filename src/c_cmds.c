@@ -3644,19 +3644,16 @@ static void reset_cmd_func2(char *cmd, char *parms)
     {
         const int   flags = consolecmds[i].flags;
 
-        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
-            && !(flags & CF_READONLY))
+        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name) && !(flags & CF_READONLY))
         {
             if (flags & (CF_BOOLEAN | CF_INTEGER))
-                consolecmds[i].func2(consolecmds[i].name,
-                    uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
-                    consolecmds[i].aliases)));
+                C_ValidateInput(M_StringJoin(parms, " ",
+                    uncommify(C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases)), NULL));
             else if (flags & CF_FLOAT)
-                consolecmds[i].func2(consolecmds[i].name,
-                    striptrailingzero(consolecmds[i].defaultnumber, 1));
+                C_ValidateInput(M_StringJoin(parms, " ", striptrailingzero(consolecmds[i].defaultnumber, 1), NULL));
             else
-                consolecmds[i].func2(consolecmds[i].name, (*consolecmds[i].defaultstring ?
-                    consolecmds[i].defaultstring : EMPTYVALUE));
+                C_ValidateInput(M_StringJoin(parms, " ",
+                    (*consolecmds[i].defaultstring ? consolecmds[i].defaultstring : EMPTYVALUE), NULL));
 
 #if defined(_WIN32)
             if (M_StringCompare(parms, stringize(iwadfolder)))
