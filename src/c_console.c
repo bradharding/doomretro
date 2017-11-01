@@ -720,29 +720,25 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     dboolean        italics = false;
     int             tab = -1;
     int             len = (int)strlen(text);
+    int             truncate = len;
     unsigned char   prevletter = '\0';
-    int             width = 0;
+    int             width = 6;
+    int             lastcolor1;
 
     y -= CONSOLEHEIGHT - consoleheight;
 
     if (color1 == consolewarningcolor)
     {
         V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, tinttab);
-        width = SHORT(warning->width) + 2;
+        width += SHORT(warning->width) + 2;
         x += width;
     }
 
     if (len > 80)
-        while (C_TextWidth(text, formatting, kerning) + width > CONSOLETEXTPIXELWIDTH)
-        {
-            text[len - 1] = '.';
-            text[len] = '.';
-            text[len + 1] = '.';
-            text[len + 2] = '\0';
-            len--;
-        }
+        while (C_TextWidth(M_SubString(text, 0, truncate), formatting, kerning) + width > CONSOLETEXTPIXELWIDTH)
+            truncate--;
 
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < truncate; i++)
     {
         const unsigned char letter = text[i];
 
@@ -804,13 +800,24 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
 
             if (patch)
             {
-                V_DrawConsoleTextPatch(x, y, patch, (bold == 1 ? boldcolor : (bold == 2 ? color1 :
-                    (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1))),
+                V_DrawConsoleTextPatch(x, y, patch, (lastcolor1 = (bold == 1 ? boldcolor : (bold == 2 ? color1 :
+                    (italics ? (color1 == consolewarningcolor ? color1 : consoleitalicscolor) : color1)))),
                     color2, italics, tinttab);
                 x += SHORT(patch->width);
             }
 
             prevletter = letter;
+        }
+    }
+
+    if (truncate < len)
+    {
+        patch_t *patch = consolefont['.' - CONSOLEFONTSTART];
+
+        for (int i = 0; i < 3; i++)
+        {
+            V_DrawConsoleTextPatch(x, y, patch, lastcolor1, color2, false, tinttab);
+            x += SHORT(patch->width);
         }
     }
 }
