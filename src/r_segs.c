@@ -693,6 +693,14 @@ void R_StoreWallRange(const int start, const int stop)
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
 
+        // [BH] animate liquid sectors
+        if (r_liquid_bob && backsector->isliquid && backsector->interpfloorheight >= frontsector->interpfloorheight
+            && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight))
+        {
+            liquidoffset = animatedliquiddiff;
+            worldlow += liquidoffset;
+        }
+
         markfloor = (worldlow != worldbottom
             || backsector->floorpic != frontsector->floorpic
             || backsector->lightlevel != frontsector->lightlevel
@@ -729,14 +737,6 @@ void R_StoreWallRange(const int start, const int stop)
             // closed door
             markceiling = true;
             markfloor = true;
-        }
-
-        // [BH] animate liquid sectors
-        if (r_liquid_bob && backsector->isliquid && backsector->interpfloorheight >= frontsector->interpfloorheight
-            && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight))
-        {
-            liquidoffset = animatedliquiddiff;
-            worldlow += liquidoffset;
         }
 
         if (worldhigh < worldtop)
