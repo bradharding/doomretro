@@ -467,7 +467,7 @@ void R_InitColumnFunctions(void)
             skycolfunc = R_DrawSkyColorColumn;
         else
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21)
-                && !canmouselook ? R_DrawFlippedSkyColumn : R_DrawWallColumn);
+                && !canmouselook ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
 
         spanfunc = R_DrawSpan;
 

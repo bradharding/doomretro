@@ -292,15 +292,6 @@ void R_DrawWallColumn(void)
             frac += fracstep;
         }
     }
-    else if (!texheight)
-    {
-        while (count--)
-        {
-            *dest = colormap[source[frac >> FRACBITS]];
-            dest += SCREENWIDTH;
-            frac += fracstep;
-        }
-    }
     else
     {
         fixed_t heightmask = texheight - 1;
@@ -362,16 +353,6 @@ void R_DrawFullbrightWallColumn(void)
         while (count--)
         {
             dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
-            *dest = (colormask[dot] ? dot : colormap[dot]);
-            dest += SCREENWIDTH;
-            frac += fracstep;
-        }
-    }
-    else if (!texheight)
-    {
-        while (count--)
-        {
-            dot = source[frac >> FRACBITS];
             *dest = (colormask[dot] ? dot : colormap[dot]);
             dest += SCREENWIDTH;
             frac += fracstep;
@@ -490,6 +471,25 @@ void R_DrawTranslucentSuperShotgunColumn(void)
     }
 
     *dest = colormap[translucency[(*dest << 8) + source[frac >> FRACBITS]]];
+}
+
+void R_DrawSkyColumn(void)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    const fixed_t       fracstep = dc_iscale;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+
+    while (--count)
+    {
+        *dest = colormap[source[frac >> FRACBITS]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+
+    *dest = colormap[source[frac >> FRACBITS]];
 }
 
 void R_DrawFlippedSkyColumn(void)
@@ -999,14 +999,14 @@ void R_DrawPausedFuzzColumn(void)
 
 void R_DrawFuzzColumns(void)
 {
-    int w = viewwindowx + viewwidth;
-    int h = (viewwindowy + viewheight) * SCREENWIDTH;
+    const int   w = viewwindowx + viewwidth;
+    const int   h = (viewwindowy + viewheight) * SCREENWIDTH;
 
     for (int x = viewwindowx; x < w; x++)
         for (int y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
         {
-            int     i = x + y;
-            byte    *src = screens[1] + i;
+            const int   i = x + y;
+            byte        *src = screens[1] + i;
 
             if (*src != NOFUZZ)
             {
@@ -1046,14 +1046,14 @@ void R_DrawFuzzColumns(void)
 
 void R_DrawPausedFuzzColumns(void)
 {
-    int w = viewwindowx + viewwidth;
-    int h = (viewwindowy + viewheight) * SCREENWIDTH;
+    const int   w = viewwindowx + viewwidth;
+    const int   h = (viewwindowy + viewheight) * SCREENWIDTH;
 
     for (int x = viewwindowx; x < w; x++)
         for (int y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
         {
-            int     i = x + y;
-            byte    *src = screens[1] + i;
+            const int   i = x + y;
+            byte        *src = screens[1] + i;
 
             if (*src != NOFUZZ)
             {
