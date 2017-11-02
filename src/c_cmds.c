@@ -2204,7 +2204,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         P_ExplodeMissile(thing);
                     else if (thing->health > 0)
                     {
-                        mobjtype_t  type = thing->type;
+                        const mobjtype_t    type = thing->type;
 
                         if (type == MT_PAIN)
                         {
@@ -2222,7 +2222,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                             if (!(thing->flags & MF_NOBLOOD))
                             {
-                                int r = M_RandomInt(-1, 1);
+                                const int   r = M_RandomInt(-1, 1);
 
                                 thing->momx += FRACUNIT * r;
                                 thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
@@ -2286,8 +2286,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            mobjtype_t  type = P_FindDoomedNum(killcmdtype);
-            int         dead = 0;
+            const mobjtype_t    type = P_FindDoomedNum(killcmdtype);
+            int                 dead = 0;
 
             for (int i = 0; i < numsectors; i++)
             {
@@ -2317,7 +2317,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                             if (!(thing->flags & MF_NOBLOOD))
                             {
-                                int r = M_RandomInt(-1, 1);
+                                const int   r = M_RandomInt(-1, 1);
 
                                 thing->momx += FRACUNIT * r;
                                 thing->momy += FRACUNIT * M_RandomIntNoRepeat(-1, 1, (!r ? 0 : 2));
@@ -2885,7 +2885,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             /* 49 */ { TW,    "",    "",    "",    "" }
         };
 
-        int         i = (gamemission == doom ? gameepisode * 10 : 0) + gamemap;
+        const int   i = (gamemission == doom ? gameepisode * 10 : 0) + gamemap;
         const char  *author = P_GetMapAuthor(i);
 
         if (*author)
@@ -2959,8 +2959,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         for (int i = 0; i < numvertexes; i++)
         {
-            fixed_t x = vertexes[i].x;
-            fixed_t y = vertexes[i].y;
+            const fixed_t   x = vertexes[i].x;
+            const fixed_t   y = vertexes[i].y;
 
             if (x < min_x)
                 min_x = x;
@@ -3019,9 +3019,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     if (mus_playing && !nomusic)
     {
-        static char     lumpname[9];
-        int             lumps;
-        Mix_MusicType   musictype = Mix_GetMusicType(NULL);
+        static char         lumpname[9];
+        int                 lumps;
+        const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
         M_snprintf(lumpname, sizeof(lumpname), "d_%s", mus_playing->name);
         lumps = W_CheckMultipleLumps(lumpname);
@@ -3485,7 +3485,7 @@ static void C_PlayerStats_Game(void)
 static void C_PlayerStats_NoGame(void)
 {
     const int   tabs[8] = { 160, 280, 0, 0, 0, 0, 0, 0 };
-    int         time2 = stat_time / TICRATE;
+    const int   time2 = stat_time / TICRATE;
 
     C_TabbedOutput(tabs, PLAYERSTATSTITLE);
 
@@ -3915,14 +3915,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            mobj_t      *player = players[0].mo;
-            fixed_t     x = player->x;
-            fixed_t     y = player->y;
-            angle_t     angle = player->angle >> ANGLETOFINESHIFT;
-            mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
-            const int   flags = mobjinfo[type].flags;
-            mapthing_t  mthing;
-            mobj_t      *thing;
+            const mobj_t        *player = players[0].mo;
+            const fixed_t       x = player->x;
+            const fixed_t       y = player->y;
+            const angle_t       angle = player->angle >> ANGLETOFINESHIFT;
+            const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
+            const int           flags = mobjinfo[type].flags;
+            mapthing_t          mthing;
+            mobj_t              *thing;
 
             mthing.x = (x + 100 * finecosine[angle]) >> FRACBITS;
             mthing.y = (y + 100 * finesine[angle]) >> FRACBITS;
@@ -3965,11 +3965,11 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 
         if (x != INT_MAX && y != INT_MAX)
         {
-            player_t    *player = &players[0];
-            mobj_t      *mo = player->mo;
-            fixed_t     oldx = mo->x;
-            fixed_t     oldy = mo->y;
-            fixed_t     oldz = mo->z;
+            player_t        *player = &players[0];
+            mobj_t          *mo = player->mo;
+            const fixed_t   oldx = mo->x;
+            const fixed_t   oldy = mo->y;
+            const fixed_t   oldz = mo->z;
 
             x <<= FRACBITS;
             y <<= FRACBITS;
@@ -4399,7 +4399,7 @@ static void alwaysrun_cvar_func2(char *cmd, char *parms)
 //
 static void am_external_cvar_func2(char *cmd, char *parms)
 {
-    dboolean    am_external_old = am_external;
+    const dboolean  am_external_old = am_external;
 
     bool_cvars_func2(cmd, parms);
 
@@ -4462,7 +4462,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
 //
 static void am_path_cvar_func2(char *cmd, char *parms)
 {
-    dboolean    am_path_old = am_path;
+    const dboolean  am_path_old = am_path;
 
     bool_cvars_func2(cmd, parms);
 
@@ -5475,7 +5475,7 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int vid_capfps_old = vid_capfps;
+        const int   vid_capfps_old = vid_capfps;
 
         int_cvars_func2(cmd, parms);
 
@@ -5619,7 +5619,7 @@ extern int      frames;
 
 static void vid_showfps_cvar_func2(char *cmd, char *parms)
 {
-    dboolean    vid_showfps_old = vid_showfps;
+    const dboolean  vid_showfps_old = vid_showfps;
 
     bool_cvars_func2(cmd, parms);
 
@@ -5645,7 +5645,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
 //
 static void vid_vsync_cvar_func2(char *cmd, char *parms)
 {
-    dboolean    vid_vsync_old = vid_vsync;
+    const dboolean  vid_vsync_old = vid_vsync;
 
     bool_cvars_func2(cmd, parms);
 
@@ -5658,7 +5658,7 @@ static void vid_vsync_cvar_func2(char *cmd, char *parms)
 //
 static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 {
-    dboolean    vid_widescreen_old = vid_widescreen;
+    const dboolean  vid_widescreen_old = vid_widescreen;
 
     bool_cvars_func2(cmd, parms);
 

@@ -384,7 +384,7 @@ void C_AddConsoleDivider(void)
         C_Print(dividerstring, DIVIDER);
 }
 
-static struct
+const static struct
 {
     char    char1;
     char    char2;
@@ -828,7 +828,7 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 
     for (int i = 0; i < len; i++)
     {
-        char    letter = text[i];
+        const unsigned char letter = text[i];
 
         if (letter == ' ')
             x += spacewidth;
@@ -878,16 +878,16 @@ void C_Drawer(void)
 {
     if (consoleheight)
     {
-        int         i;
-        int         x = CONSOLETEXTX;
-        int         start;
-        int         end;
-        int         len;
-        char        lefttext[512];
-        char        middletext[512];
-        char        righttext[512];
-        dboolean    prevconsoleactive = consoleactive;
-        static int  consolewait;
+        int             i;
+        int             x = CONSOLETEXTX;
+        int             start;
+        int             end;
+        int             len;
+        char            lefttext[512];
+        char            middletext[512];
+        char            righttext[512];
+        const dboolean  prevconsoleactive = consoleactive;
+        static int      consolewait;
 
         const int consoledown[] =
         {
@@ -1071,6 +1071,7 @@ void C_Drawer(void)
 
         // draw input text to right of caret
         len = (int)strlen(consoleinput);
+
         if (caretpos < len)
         {
             for (i = selectend; i < len; i++)
@@ -1206,14 +1207,14 @@ dboolean C_Responder(event_t *ev)
 
     if (ev->type == ev_keydown)
     {
-        static int  autocomplete = -1;
-        static int  inputhistory = -1;
-        static char currentinput[255];
-        const int   key = ev->data1;
-        char        ch = (char)ev->data2;
-        int         i;
-        int         len = (int)strlen(consoleinput);
-        SDL_Keymod  modstate = SDL_GetModState();
+        static int          autocomplete = -1;
+        static int          inputhistory = -1;
+        static char         currentinput[255];
+        const int           key = ev->data1;
+        char                ch = (char)ev->data2;
+        int                 i;
+        const int           len = (int)strlen(consoleinput);
+        const SDL_Keymod    modstate = SDL_GetModState();
 
         if (key == keyboardconsole)
         {
@@ -1723,9 +1724,9 @@ dboolean C_Responder(event_t *ev)
     return true;
 }
 
-static size_t dayofweek(size_t d, size_t m, size_t y)
+static int dayofweek(int d, int m, int y)
 {
-    size_t  adjustment = (14 - m) / 12;
+    const int   adjustment = (14 - m) / 12;
 
     m += 12 * adjustment - 2;
     y -= adjustment;
@@ -1735,7 +1736,7 @@ static size_t dayofweek(size_t d, size_t m, size_t y)
 
 void C_PrintCompileDate(void)
 {
-    size_t  day, month, year, hour, minute;
+    int day, month, year, hour, minute;
 
     static const char *days[] =
     {
@@ -1752,9 +1753,9 @@ void C_PrintCompileDate(void)
 
     static char mth[4] = "";
 
-    sscanf(__DATE__, "%3s %2zd %4zd", mth, &day, &year);
-    sscanf(__TIME__, "%2zd:%2zd:%*i", &hour, &minute);
-    month = (strstr(mths, mth) - mths) / 3 + 1;
+    sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year);
+    sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
+    month = (int)(strstr(mths, mth) - mths) / 3 + 1;
 
     C_Output("This %i-bit <i><b>%s</b></i> binary of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",
         (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(), PACKAGE_NAMEANDVERSIONSTRING,

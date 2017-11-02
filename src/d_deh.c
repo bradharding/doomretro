@@ -2629,17 +2629,17 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
         lfstrip(inbuffer);
 
         if (!*inbuffer)
-            break;                                              // killough 11/98
+            break;                                          // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, NULL))          // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, NULL))      // returns TRUE if ok
         {
             C_Warning("Bad data pair in \"%s\".", inbuffer);
             continue;
         }
 
-        if (M_StringCompare(key, deh_ammo[0]))                      // Max ammo
+        if (M_StringCompare(key, deh_ammo[0]))              // Max ammo
             maxammo[indexnum] = value;
-        else if (M_StringCompare(key, deh_ammo[1]))                 // Per ammo
+        else if (M_StringCompare(key, deh_ammo[1]))         // Per ammo
             clipammo[indexnum] = value;
         else
             C_Warning("Invalid ammo string index for \"%s\".", key);

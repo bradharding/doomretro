@@ -18,7 +18,7 @@
 * A crash will no longer occur when trying to switch between fullscreen and a window using <kbd>ALT</kbd> + <kbd>ENTER</kbd> while on the title screen.
 * Blood splats will no longer be spawned around corpse decorations if their sprites have been changed in a PWAD.
 * Long lines are no longer truncated in files output by the `condump` CCMD.
-* A bug has been fixed whereby a corrupted player message would display when opening a locked door in some instances.
+* A bug has been fixed whereby a corrupted player message would be displayed when trying to open a locked door in some instances.
 
 ---
 

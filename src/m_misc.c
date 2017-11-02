@@ -510,7 +510,7 @@ char *M_SubString(const char *str, size_t begin, size_t len)
 {
     size_t  length = strlen(str);
 
-    if (!str || !length || length < begin || length < begin + len)
+    if (!length || length < begin || length < begin + len)
         return 0;
 
     return strndup(str + begin, len);
