@@ -2582,7 +2582,7 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
         if (M_StringCompare(key, deh_sfxinfo[0]))           // Offset
             /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[1]))      // Zero/One
-            S_sfx[indexnum].singularity = (value;
+            S_sfx[indexnum].singularity = value;
         else if (M_StringCompare(key, deh_sfxinfo[2]))      // Value
             S_sfx[indexnum].priority = value;
         else if (M_StringCompare(key, deh_sfxinfo[3]))      // Zero 1
