@@ -1624,10 +1624,12 @@ static const char *deh_state[] =
 static const char *deh_sfxinfo[] =
 {
     "Offset",           // pointer to a name string, changed in text
-    "Zero/One",         // .singularity (int, one at a time flag)
+    "Zero/One",          // .singularity (int, one at a time flag)
     "Value",            // .priority
     "Zero 1",           // .link (sfxinfo_t*) referenced sound if linked
+    "Zero 2",           // .pitch
     "Zero 3",           // .volume
+    "Zero 4",           // .data (SAMPLE*) sound data
     "Neg. One 1",       // .usefulness
     "Neg. One 2"        // .lumpnum
 };
@@ -2578,19 +2580,23 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
         }
 
         if (M_StringCompare(key, deh_sfxinfo[0]))           // Offset
-            /* nop */;                          // we don't know what this is, I don't think
+            /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[1]))      // Zero/One
-            S_sfx[indexnum].singularity = value;
+            S_sfx[indexnum].singularity = (value;
         else if (M_StringCompare(key, deh_sfxinfo[2]))      // Value
             S_sfx[indexnum].priority = value;
         else if (M_StringCompare(key, deh_sfxinfo[3]))      // Zero 1
-            S_sfx[indexnum].link = (sfxinfo_t *)value;
-        else if (M_StringCompare(key, deh_sfxinfo[4]))      // Zero 3
-            S_sfx[indexnum].volume = value;
-        else if (M_StringCompare(key, deh_sfxinfo[5]))      // Neg. One 1
             /* nop */;
-        else if (M_StringCompare(key, deh_sfxinfo[6]))      // Neg. One 2
-            S_sfx[indexnum].lumpnum = value;
+        else if (M_StringCompare(key, deh_sfxinfo[4]))      // Zero 2
+            /* nop */;
+        else if (M_StringCompare(key, deh_sfxinfo[5]))      // Zero 3
+            S_sfx[indexnum].volume = value;
+        else if (M_StringCompare(key, deh_sfxinfo[6]))      // Zero 4
+            /* nop */;
+        else  if (M_StringCompare(key, deh_sfxinfo[7]))     // Neg. One 1
+            /* nop */;
+        else if (M_StringCompare(key, deh_sfxinfo[8]))      // Neg. One 2
+             S_sfx[indexnum].lumpnum = value;
         else if (devparm)
             C_Warning("Invalid sound string index for \"%s\"", key);
     }
