@@ -1710,9 +1710,14 @@ static dboolean PTR_UseTraverse(intercept_t *in)
     int     side = 0;
     line_t  *line = in->d.line;
 
-    if (autousing && line->backsector
-        && line->backsector->interpfloorheight != line->backsector->interpceilingheight)
-        return false;
+    if (autousing)
+    {
+        sector_t    *backsector = line->backsector;
+
+        if (backsector && backsector->ceilingdata
+            && backsector->interpfloorheight != backsector->interpceilingheight)
+            return false;
+    }
 
     if (!line->special)
     {
