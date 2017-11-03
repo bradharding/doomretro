@@ -75,7 +75,7 @@
 #define CONSOLESCROLLBARX       (CONSOLEWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 #define CONSOLESCROLLBARY       (CONSOLETEXTY + 1)
 
-#define CONSOLETEXTPIXELWIDTH   (CONSOLEWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 3)
+#define CONSOLETEXTPIXELWIDTH   (CONSOLEWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 3 + !scrollbardrawn * 8)
 
 #define CONSOLEINPUTPIXELWIDTH  (CONSOLEWIDTH - CONSOLETEXTX - brandwidth - 2)
 
@@ -162,6 +162,8 @@ static int              consolescrollbartrackcolor = 100;
 static int              consolescrollbarfacecolor = 94;
 
 static int              consolecolors[STRINGTYPES];
+
+static dboolean         scrollbardrawn;
 
 extern char             autocompletelist[][255];
 extern int              fps;
@@ -494,7 +496,6 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
 
 static void C_DrawScrollbar(void)
 {
-
     const int   trackstart = CONSOLESCROLLBARY * CONSOLEWIDTH;
     const int   trackend = trackstart + CONSOLESCROLLBARHEIGHT * CONSOLEWIDTH;
     const int   facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
@@ -503,7 +504,7 @@ static void C_DrawScrollbar(void)
                     * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * CONSOLEWIDTH;
 
     if (trackstart == facestart && trackend == faceend)
-        return;
+        scrollbardrawn = false;
     else
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * CONSOLEWIDTH;
@@ -520,6 +521,8 @@ static void C_DrawScrollbar(void)
             if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
+
+        scrollbardrawn = true;
     }
 }
 
@@ -957,6 +960,9 @@ void C_Drawer(void)
         // draw background and bottom edge
         C_DrawBackground(consoleheight);
 
+        // draw the scrollbar
+        C_DrawScrollbar();
+
         // draw console text
         if (outputhistory == -1)
         {
@@ -1083,9 +1089,6 @@ void C_Drawer(void)
                 C_DrawConsoleText(x, CONSOLEHEIGHT - 17, righttext, consoleinputcolor, NOBACKGROUNDCOLOR,
                     NOBOLDCOLOR, NULL, notabs, false, true);
         }
-
-        // draw the scrollbar
-        C_DrawScrollbar();
     }
     else
         consoleactive = false;
