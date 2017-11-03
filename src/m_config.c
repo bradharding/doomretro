@@ -92,6 +92,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_tswallcolor,                                    NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (am_wallcolor,                                      NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (autoload,                                          BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (autouse,                                           BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (centerweapon,                                      BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (con_obituaries,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (con_timestamps,                                    BOOLVALUEALIAS    ),
@@ -532,6 +533,9 @@ static void M_CheckCVARs(void)
 
     if (autoload != false && autoload != true)
         autoload = autoload_default;
+
+    if (autouse != false && autouse != true)
+        autouse = autouse_default;
 
     if (centerweapon != false && centerweapon != true)
         centerweapon = centerweapon_default;

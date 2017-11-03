@@ -468,6 +468,8 @@ consolecmd_t consolecmds[] =
         "The player's armor."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically loading the last savegame\nafter the player dies."),
+    CVAR_BOOL(autouse, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles automatically using a door or switch when\nthe player is near."),
     CMD(bind, "", null_func1, bind_cmd_func2, true, BINDCMDFORMAT,
         "Binds an <i>action</i> or string of <i>commands</i> to a\n<i>control</i>."),
     CMD(bindlist, "", null_func1, bindlist_cmd_func2, false, "",

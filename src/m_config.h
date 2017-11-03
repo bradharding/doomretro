@@ -62,6 +62,7 @@ extern int          am_thingcolor;
 extern int          am_tswallcolor;
 extern int          am_wallcolor;
 extern dboolean     autoload;
+extern dboolean     autouse;
 extern dboolean     centerweapon;
 extern dboolean     con_obituaries;
 extern dboolean     con_timestamps;
@@ -309,6 +310,8 @@ enum
 #define armor_max                               INT_MAX
 
 #define autoload_default                        true
+
+#define autouse_default                         false
 
 #define centerweapon_default                    true
 

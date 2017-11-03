@@ -88,6 +88,7 @@ static mobj_t       *onmobj;
 
 unsigned int        stat_distancetraveled;
 
+extern dboolean     autousing;
 extern dboolean     successfulshot;
 extern dboolean     telefragonmap30;
 
@@ -1709,13 +1710,18 @@ static dboolean PTR_UseTraverse(intercept_t *in)
     int     side = 0;
     line_t  *line = in->d.line;
 
+    if (autousing && line->backsector
+        && line->backsector->interpfloorheight != line->backsector->interpceilingheight)
+        return false;
+
     if (!line->special)
     {
         P_LineOpening(line);
 
         if (openrange <= 0)
         {
-            S_StartSound(usething, sfx_noway);
+            if (!autousing)
+                S_StartSound(usething, sfx_noway);
 
             // can't use through a wall
             return false;
@@ -1777,7 +1783,8 @@ void P_UseLines(player_t *player)
     // This added test makes the "oof" sound work on 2s lines -- killough:
     if (P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse))
         if (!P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_NoWayTraverse))
-            S_StartSound(usething, sfx_noway);
+            if (!autousing)
+                S_StartSound(usething, sfx_noway);
 }
 
 //

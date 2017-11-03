@@ -44,6 +44,7 @@
 #include "p_local.h"
 #include "s_sound.h"
 
+#define AUTOUSECOUNT    32
 #define DEADLOOKDIR     128
 #define DEADLOOKDIRINC  24
 
@@ -58,11 +59,13 @@ void G_RemoveChoppers(void);
 // Movement
 //
 
+dboolean        autouse = autouse_default;
 int             movebob = movebob_default;
 dboolean        r_liquid_lowerview = r_liquid_lowerview_default;
 int             r_shake_damage = r_shake_damage_default;
 int             stillbob = stillbob_default;
 
+dboolean        autousing = false;
 static dboolean onground;
 
 //
@@ -533,6 +536,21 @@ void P_PlayerThink(player_t *player)
 
     if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
         P_ChangeWeapon(player, (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
+
+    if (autouse)
+    {
+        static int  autousecount = AUTOUSECOUNT;
+
+        if (!autousecount)
+        {
+            autousing = true;
+            P_UseLines(player);
+            autousing = false;
+            autousecount = AUTOUSECOUNT;
+        }
+        else
+            autousecount--;
+    }
 
     // check for use
     if (cmd->buttons & BT_USE)
