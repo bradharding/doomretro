@@ -481,15 +481,59 @@ void R_DrawSkyColumn(void)
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
+    const fixed_t       texheight = dc_texheight;
 
-    while (--count)
+    if (texheight == 128)
     {
-        *dest = colormap[source[frac >> FRACBITS]];
-        dest += SCREENWIDTH;
-        frac += fracstep;
+        while (count--)
+        {
+            *dest = colormap[source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+        }
     }
+    else
+    {
+        fixed_t heightmask = texheight - 1;
 
-    *dest = colormap[source[frac >> FRACBITS]];
+        if (!(texheight & heightmask))
+        {
+            heightmask = (heightmask << FRACBITS) | 0xFFFF;
+
+            while ((count -= 2) >= 0)
+            {
+                *dest = colormap[source[(frac & heightmask) >> FRACBITS]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac & heightmask) >> FRACBITS]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+            }
+
+            if (count & 1)
+                *dest = colormap[source[(frac & heightmask) >> FRACBITS]];
+        }
+        else
+        {
+            heightmask++;
+            heightmask <<= FRACBITS;
+
+            if (frac < 0)
+                while ((frac += heightmask) < 0);
+            else
+                while (frac >= heightmask)
+                    frac -= heightmask;
+
+            while (count--)
+            {
+                *dest = colormap[source[frac >> FRACBITS]];
+                dest += SCREENWIDTH;
+
+                if ((frac += fracstep) >= heightmask)
+                    frac -= heightmask;
+            }
+        }
+    }
 }
 
 void R_DrawFlippedSkyColumn(void)
