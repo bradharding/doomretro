@@ -2,6 +2,7 @@
 
 * *DOOM Retro* now uses [*SDL v2.0.7*](http://libsdl.org), [*SDL_mixer v2.0.2*](http://libsdl.org/SDL_mixer) and [*SDL_image v2.0.2*](http://libsdl.org/SDL_image).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The format of savegames has changed, breaking compatibility with previous versions of *DOOM Retro*.
 * A bug has been fixed whereby the help screen accessed using the <kbd>F1</kbd> key had a solid blue background.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.

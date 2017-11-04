@@ -348,8 +348,6 @@ typedef struct mobj_s
     fixed_t             radius;
     fixed_t             height;
 
-    fixed_t             projectilepassheight;
-
     // Momentums, used to update position.
     fixed_t             momx;
     fixed_t             momy;
