@@ -2524,9 +2524,9 @@ static void InitMapInfo(void)
     SC_Close();
     mapcount = mapmax;
 
-    C_Output("Parsed %s lines in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", commify(sc_Line),
-        (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
-        lumpinfo[MAPINFO]->wadfile->path);
+    C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in %s <b>%s</b>.", commify(sc_Line),
+        (sc_Line > 0 ? "s" : ""), (RMAPINFO >= 0 ? "R" : ""), (lumpinfo[MAPINFO]->wadfile->type == IWAD ?
+        "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
 }
 
 static int QualifyMap(int map)
