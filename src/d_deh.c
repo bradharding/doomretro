@@ -2090,12 +2090,12 @@ void ProcessDehFile(char *filename, int lumpnum)
         dehcount++;
 
     if (infile.lump)
-        C_Output("Parsed %s lines in the <b>DEHACKED</b> lump in %s <b>%s</b>.", commify(linecount),
-            (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
+        C_Output("Parsed %s line%s in the <b>DEHACKED</b> lump in %s <b>%s</b>.", commify(linecount),
+            (linecount > 1 ? "s" : ""), (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
     else
-        C_Output("Parsed %s lines in the <i><b>DeHackEd</b></i>%s file <b>%s</b>.", commify(linecount),
-            (M_StringEndsWith(uppercase(filename), "BEX") ? " with <i><b>BOOM</b></i> extensions" : ""),
-            GetCorrectCase(filename));
+        C_Output("Parsed %s line%s in the <i><b>DeHackEd</b></i>%s file <b>%s</b>.", commify(linecount),
+            (linecount > 1 ? "s" : ""), (M_StringEndsWith(uppercase(filename), "BEX") ?
+            " with <i><b>BOOM</b></i> extensions" : ""), GetCorrectCase(filename));
 }
 
 // ====================================================================
