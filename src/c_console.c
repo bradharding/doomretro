@@ -1528,9 +1528,8 @@ dboolean C_Responder(event_t *ev)
                 // scroll output down
                 if (modstate & KMOD_CTRL)
                 {
-                    if (outputhistory != -1)
-                        if (++outputhistory + CONSOLELINES == consolestrings)
-                            outputhistory = -1;
+                    if (outputhistory != -1 && ++outputhistory + CONSOLELINES == consolestrings)
+                        outputhistory = -1;
                 }
 
                 // next input
@@ -1570,9 +1569,8 @@ dboolean C_Responder(event_t *ev)
 
             case KEY_PAGEDOWN:
                 // scroll output down
-                if (outputhistory != -1)
-                    if (++outputhistory + CONSOLELINES == consolestrings)
-                        outputhistory = -1;
+                if (outputhistory != -1 && ++outputhistory + CONSOLELINES == consolestrings)
+                    outputhistory = -1;
 
                 break;
 
@@ -1719,33 +1717,29 @@ dboolean C_Responder(event_t *ev)
         // scroll output down
         else if (ev->data1 < 0)
         {
-            if (outputhistory != -1)
-                if (++outputhistory + CONSOLELINES == consolestrings)
-                    outputhistory = -1;
+            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == consolestrings)
+                outputhistory = -1;
         }
     }
 
     return true;
 }
 
-static int dayofweek(int d, int m, int y)
+static const char *days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+
+static const char *dayofweek(int d, int m, int y)
 {
     const int   adjustment = (14 - m) / 12;
 
     m += 12 * adjustment - 2;
     y -= adjustment;
 
-    return ((d + (13 * m - 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7);
+    return days[(d + (13 * m - 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7];
 }
 
 void C_PrintCompileDate(void)
 {
     int day, month, year, hour, minute;
-
-    static const char *days[] =
-    {
-        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-    };
 
     static const char mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 
@@ -1763,7 +1757,7 @@ void C_PrintCompileDate(void)
 
     C_Output("This %i-bit <i><b>%s</b></i> binary of <i><b>%s</b></i> was built at %i:%02i%s on %s, %s %i, %i.",
         (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(), PACKAGE_NAMEANDVERSIONSTRING,
-        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"), days[dayofweek(day, month, year)],
+        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"), dayofweek(day, month, year),
         months[month], day, year);
 
 #if defined(_MSC_FULL_VER)

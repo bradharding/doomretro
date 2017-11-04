@@ -195,6 +195,39 @@ static void saveg_write_mapthing_t(mapthing_t *str)
     saveg_write16(str->options);
 }
 
+// By Fabian Greffrath. See http://www.doomworld.com/vb/post/1294860.
+static uintptr_t P_ThinkerToIndex(thinker_t *thinker)
+{
+    uintptr_t   i = 0;
+
+    if (!thinker)
+        return 0;
+
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    {
+        i++;
+
+        if (th == thinker)
+            return i;
+    }
+
+    return 0;
+}
+
+static thinker_t *P_IndexToThinker(uintptr_t index)
+{
+    uintptr_t   i = 0;
+
+    if (!index)
+        return NULL;
+
+    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+        if (++i == index)
+            return th;
+
+    return NULL;
+}
+
 //
 // mobj_t
 //
@@ -1189,39 +1222,6 @@ void P_UnArchiveThinkers(void)
                 I_Error("P_UnArchiveThinkers: Unknown tclass %i in savegame", tclass);
         }
     }
-}
-
-// By Fabian Greffrath. See http://www.doomworld.com/vb/post/1294860.
-uintptr_t P_ThinkerToIndex(thinker_t *thinker)
-{
-    uintptr_t   i = 0;
-
-    if (!thinker)
-        return 0;
-
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
-    {
-        i++;
-
-        if (th == thinker)
-            return i;
-    }
-
-    return 0;
-}
-
-thinker_t *P_IndexToThinker(uintptr_t index)
-{
-    uintptr_t   i = 0;
-
-    if (!index)
-        return NULL;
-
-    for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
-        if (++i == index)
-            return th;
-
-    return NULL;
 }
 
 void P_RestoreTargets(void)

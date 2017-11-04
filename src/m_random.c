@@ -40,7 +40,7 @@ static unsigned int seed;
 
 static int fastrand(void)
 {
-    return ((seed = 214013 * seed + 2531011) >> 16) & 0x7FFF;
+    return (((seed = 214013 * seed + 2531011) >> 16) & 0x7FFF);
 }
 
 int M_Random(void)
