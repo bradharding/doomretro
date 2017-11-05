@@ -543,7 +543,7 @@ static void saveg_write_player_t(player_t *str)
     saveg_writep(str->message);
     saveg_write32(str->damagecount);
     saveg_write32(str->bonuscount);
-    saveg_writep(str->attacker);
+    saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->attacker));
     saveg_write32(str->extralight);
     saveg_write32(str->fixedcolormap);
 
@@ -1234,6 +1234,8 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->tracer, (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer));
         P_SetNewTarget(&mo->lastenemy, (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy));
     }
+
+    P_SetNewTarget(&viewplayer->attacker, (mobj_t *)P_IndexToThinker((uintptr_t)viewplayer->attacker));
 }
 
 //
