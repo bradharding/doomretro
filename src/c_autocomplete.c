@@ -25,7 +25,7 @@
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with DOOM Retro. If not, see http://www.gnu.org/licenses/.
+  along with DOOM Retro. If not, see <https://www.gnu.org/licenses/>.
 
   DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
