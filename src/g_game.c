@@ -1491,7 +1491,7 @@ void G_DoLoadGame(void)
     leveltime = savedleveltime;
 
     // unarchive all the modifications
-    P_UnArchivePlayers();
+    P_UnArchivePlayer();
     P_UnArchiveWorld();
     P_UnArchiveThinkers();
     P_UnArchiveSpecials();
@@ -1578,7 +1578,7 @@ static void G_DoSaveGame(void)
     {
         P_WriteSaveGameHeader(savedescription);
 
-        P_ArchivePlayers();
+        P_ArchivePlayer();
         P_ArchiveWorld();
         P_ArchiveThinkers();
         P_ArchiveSpecials();

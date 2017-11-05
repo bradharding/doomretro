@@ -703,9 +703,10 @@ static inline void precache_lump(int l)
 void R_PrecacheLevel(void)
 {
     byte    *hitlist = malloc(MAX(numtextures, MAX(numflats, NUMSPRITES)));
+
     if (!hitlist)
         return;
-  
+
     // Precache flats.
     memset(hitlist, 0, numflats);
 

@@ -962,29 +962,22 @@ void P_WriteSaveGameEOF(void)
 }
 
 //
-// P_ArchivePlayers
+// P_ArchivePlayer
 //
-void P_ArchivePlayers(void)
+void P_ArchivePlayer(void)
 {
     saveg_write_pad();
     saveg_write_player_t(&players[0]);
 }
 
 //
-// P_UnArchivePlayers
+// P_UnArchivePlayer
 //
-void P_UnArchivePlayers(void)
+void P_UnArchivePlayer(void)
 {
     saveg_read_pad();
-
     P_InitCards(&players[0]);
-
     saveg_read_player_t(&players[0]);
-
-    // will be set when unarchiving thinker
-    players[0].mo = NULL;
-    players[0].message = NULL;
-    players[0].attacker = NULL;
 }
 
 //
@@ -992,13 +985,11 @@ void P_UnArchivePlayers(void)
 //
 void P_ArchiveWorld(void)
 {
-    int         i;
-    sector_t    *sec;
-    line_t      *li;
-    side_t      *si;
+    sector_t    *sec = sectors;
+    line_t      *li = lines;
 
     // do sectors
-    for (i = 0, sec = sectors; i < numsectors; i++, sec++)
+    for (int i = 0; i < numsectors; i++, sec++)
     {
         saveg_write16(sec->floorheight >> FRACBITS);
         saveg_write16(sec->ceilingheight >> FRACBITS);
@@ -1010,7 +1001,7 @@ void P_ArchiveWorld(void)
     }
 
     // do lines
-    for (i = 0, li = lines; i < numlines; i++, li++)
+    for (int i = 0; i < numlines; i++, li++)
     {
         saveg_write16(li->flags);
         saveg_write16(li->special);
@@ -1018,6 +1009,8 @@ void P_ArchiveWorld(void)
 
         for (int j = 0; j < 2; j++)
         {
+            side_t  *si;
+
             if (li->sidenum[j] == NO_INDEX)
                 continue;
 
@@ -1037,13 +1030,11 @@ void P_ArchiveWorld(void)
 //
 void P_UnArchiveWorld(void)
 {
-    int         i;
-    sector_t    *sec;
-    line_t      *li;
-    side_t      *si;
+    sector_t    *sec = sectors;
+    line_t      *li = lines;
 
     // do sectors
-    for (i = 0, sec = sectors; i < numsectors; i++, sec++)
+    for (int i = 0; i < numsectors; i++, sec++)
     {
         sec->floorheight = saveg_read16() << FRACBITS;
         sec->ceilingheight = saveg_read16() << FRACBITS;
@@ -1060,7 +1051,7 @@ void P_UnArchiveWorld(void)
     }
 
     // do lines
-    for (i = 0, li = lines; i < numlines; i++, li++)
+    for (int i = 0; i < numlines; i++, li++)
     {
         li->flags = saveg_read16();
         li->special = saveg_read16();
@@ -1068,6 +1059,8 @@ void P_UnArchiveWorld(void)
 
         for (int j = 0; j < 2; j++)
         {
+            side_t  *si;
+
             if (li->sidenum[j] == NO_INDEX)
                 continue;
 
