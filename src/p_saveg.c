@@ -195,26 +195,25 @@ static void saveg_write_mapthing_t(mapthing_t *str)
     saveg_write16(str->options);
 }
 
-// By Fabian Greffrath. See http://www.doomworld.com/vb/post/1294860.
-static uintptr_t P_ThinkerToIndex(thinker_t *thinker)
+static uintptr_t P_ThingToIndex(mobj_t *thing)
 {
     uintptr_t   i = 0;
 
-    if (!thinker)
+    if (!thing)
         return 0;
 
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         i++;
 
-        if (th == thinker)
+        if ((mobj_t *)th == thing)
             return i;
     }
 
     return 0;
 }
 
-static thinker_t *P_IndexToThinker(uintptr_t index)
+static mobj_t *P_IndexToThing(uintptr_t index)
 {
     uintptr_t   i = 0;
 
@@ -223,7 +222,7 @@ static thinker_t *P_IndexToThinker(uintptr_t index)
 
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
         if (++i == index)
-            return th;
+            return (mobj_t *)th;
 
     return NULL;
 }
@@ -310,13 +309,13 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->health);
     saveg_write32(str->movedir);
     saveg_write32(str->movecount);
-    saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->target));
+    saveg_writep((void *)P_ThingToIndex(str->target));
     saveg_write32(str->reactiontime);
     saveg_write32(str->threshold);
     saveg_write32(!!str->player);
     saveg_write_mapthing_t(&str->spawnpoint);
-    saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->tracer));
-    saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->lastenemy));
+    saveg_writep((void *)P_ThingToIndex(str->tracer));
+    saveg_writep((void *)P_ThingToIndex(str->lastenemy));
     saveg_write32(str->floatbob);
     saveg_write32(str->shadowoffset);
     saveg_write16(str->gear);
@@ -543,7 +542,7 @@ static void saveg_write_player_t(player_t *str)
     saveg_writep(str->message);
     saveg_write32(str->damagecount);
     saveg_write32(str->bonuscount);
-    saveg_writep((void *)P_ThinkerToIndex((thinker_t *)str->attacker));
+    saveg_writep((void *)P_ThingToIndex(str->attacker));
     saveg_write32(str->extralight);
     saveg_write32(str->fixedcolormap);
 
@@ -998,6 +997,7 @@ void P_ArchiveWorld(void)
         saveg_write16(sec->lightlevel);
         saveg_write16(sec->special);
         saveg_write16(sec->tag);
+        saveg_writep((void *)P_ThingToIndex(sec->soundtarget));
     }
 
     // do lines
@@ -1046,7 +1046,7 @@ void P_UnArchiveWorld(void)
         sec->ceilingdata = NULL;
         sec->floordata = NULL;
         sec->lightingdata = NULL;
-        sec->soundtarget = NULL;
+        sec->soundtarget = (mobj_t *)saveg_readp();
         sec->isliquid = isliquid[sec->floorpic];
     }
 
@@ -1219,16 +1219,21 @@ void P_UnArchiveThinkers(void)
 
 void P_RestoreTargets(void)
 {
+    sector_t    *sec = sectors;
+
+    for (int i = 0; i < numsectors; i++, sec++)
+        P_SetNewTarget(&sec->soundtarget, P_IndexToThing((uintptr_t)sec->soundtarget));
+
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {
         mobj_t  *mo = (mobj_t *)th;
 
-        P_SetNewTarget(&mo->target, (mobj_t *)P_IndexToThinker((uintptr_t)mo->target));
-        P_SetNewTarget(&mo->tracer, (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer));
-        P_SetNewTarget(&mo->lastenemy, (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy));
+        P_SetNewTarget(&mo->target, P_IndexToThing((uintptr_t)mo->target));
+        P_SetNewTarget(&mo->tracer, P_IndexToThing((uintptr_t)mo->tracer));
+        P_SetNewTarget(&mo->lastenemy, P_IndexToThing((uintptr_t)mo->lastenemy));
     }
 
-    P_SetNewTarget(&viewplayer->attacker, (mobj_t *)P_IndexToThinker((uintptr_t)viewplayer->attacker));
+    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing((uintptr_t)viewplayer->attacker));
 }
 
 //
