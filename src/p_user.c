@@ -44,7 +44,6 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-#define AUTOUSECOUNT    32
 #define DEADLOOKDIR     128
 #define DEADLOOKDIRINC  24
 
@@ -537,19 +536,11 @@ void P_PlayerThink(player_t *player)
     if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
         P_ChangeWeapon(player, (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
 
-    if (autouse)
+    if (autouse && !(leveltime % TICRATE))
     {
-        static int  autousecount = AUTOUSECOUNT;
-
-        if (!autousecount)
-        {
-            autousing = true;
-            P_UseLines(player);
-            autousing = false;
-            autousecount = AUTOUSECOUNT;
-        }
-        else
-            autousecount--;
+        autousing = true;
+        P_UseLines(player);
+        autousing = false;
     }
 
     // check for use
