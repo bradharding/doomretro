@@ -2028,7 +2028,7 @@ static void D_DoomMainSetup(void)
     }
 
     C_Output("Startup took %s seconds to complete.",
-        striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 2));
+        striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1));
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
     // The expectation is that these will be set in a .bex file
