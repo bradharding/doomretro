@@ -16,6 +16,7 @@
 * The position of player messages can now be changed using the new `r_messagepos` CVAR. This CVAR is `(3,2)` by default and `(0,0)` when vanilla mode is enabled.
 * The `vid_windowposition` CVAR has been shortened to just `vid_windowpos`.
 * If they can be found, the *Final DOOM* IWADs (`plutonia.wad` and `tnt.wad`) will now automatically be loaded for certain PWADs that require them.
+* Brightmaps are now applied to more wall textures in *Final DOOM: TNT - Evilution* when the `r_brightmaps` CVAR is `on`.
 * The player can now automatically use doors and switches if they are near enough by enabling the new `autouse` CVAR. It is `off` by default.
 * A crash will no longer occur when trying to switch between fullscreen and a window using <kbd>ALT</kbd> + <kbd>ENTER</kbd> while on the title screen.
 * Blood splats will no longer be spawned around corpse decorations if their sprites have been changed in a PWAD.
