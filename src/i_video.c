@@ -1282,7 +1282,8 @@ void I_SetMotionBlur(int percent)
 
 static void SetVideoMode(dboolean output)
 {
-    int                 flags = SDL_RENDERER_TARGETTEXTURE;
+    int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
+    int                 windowflags = SDL_WINDOW_RESIZABLE;
     int                 width, height;
     Uint32              rmask, gmask, bmask, amask;
     int                 bpp;
@@ -1309,7 +1310,7 @@ static void SetVideoMode(dboolean output)
     }
 
     if (vid_vsync)
-        flags |= SDL_RENDERER_PRESENTVSYNC;
+        rendererflags |= SDL_RENDERER_PRESENTVSYNC;
 
     if (M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         nearestlinear = true;
@@ -1334,6 +1335,9 @@ static void SetVideoMode(dboolean output)
     GetWindowSize();
     GetScreenResolution();
 
+    if (M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+        windowflags |= SDL_WINDOW_OPENGL;
+
     if (vid_fullscreen)
     {
         char    *acronym;
@@ -1348,7 +1352,7 @@ static void SetVideoMode(dboolean output)
 
             if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
-                (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
+                (windowflags | SDL_WINDOW_FULLSCREEN_DESKTOP))))
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
@@ -1365,7 +1369,7 @@ static void SetVideoMode(dboolean output)
 
             if(!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
-                (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
+                (windowflags | SDL_WINDOW_FULLSCREEN))))
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
@@ -1389,8 +1393,7 @@ static void SetVideoMode(dboolean output)
         if (!windowx && !windowy)
         {
             if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height,
-                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
+                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height, windowflags)))
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
@@ -1399,8 +1402,7 @@ static void SetVideoMode(dboolean output)
         }
         else
         {
-            if (!(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height,
-                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL))))
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height, windowflags)))
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
@@ -1417,7 +1419,7 @@ static void SetVideoMode(dboolean output)
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
 
-    if (!(renderer = SDL_CreateRenderer(window, -1, flags)))
+    if (!(renderer = SDL_CreateRenderer(window, -1, rendererflags)))
         I_SDLError("SDL_CreateRenderer");
 
     if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4) < 0)
