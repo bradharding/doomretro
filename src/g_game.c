@@ -665,21 +665,22 @@ dboolean G_Responder(event_t *ev)
     {
         if (!menuactive && !consoleactive
             && ((ev->type == ev_keydown
-                 && ev->data1 != KEY_PAUSE
-                 && ev->data1 != KEY_SHIFT
-                 && ev->data1 != KEY_ALT
-                 && ev->data1 != KEY_CTRL
-                 && ev->data1 != KEY_CAPSLOCK
-                 && ev->data1 != KEY_NUMLOCK
-                 && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12)
-                 && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
-                 || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
-                 || (ev->type == ev_gamepad
-                     && gamepadwait < I_GetTime()
-                     && gamepadbuttons
-                     && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN |
-                          GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
-             && !keydown)
+                && ev->data1 != KEY_PAUSE
+                && ev->data1 != KEY_SHIFT
+                && ev->data1 != KEY_ALT
+                && ev->data1 != KEY_CTRL
+                && ev->data1 != KEY_CAPSLOCK
+                && ev->data1 != KEY_NUMLOCK
+                && ev->data1 != KEY_PRINTSCREEN
+                && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12)
+                && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
+                || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
+                || (ev->type == ev_gamepad
+                    && gamepadwait < I_GetTime()
+                    && gamepadbuttons
+                    && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN |
+                        GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
+            && !keydown)
         {
             keydown = ev->data1;
             gamepadbuttons = 0;
