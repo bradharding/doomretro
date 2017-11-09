@@ -468,6 +468,11 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             w += SHORT(regomark->width);
             i++;
         }
+        else if (letter == 176)
+        {
+            w += SHORT(regomark->width);
+            i++;
+        }
         else if (letter == 215)
         {
             w += SHORT(multiply->width);
@@ -777,6 +782,8 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 patch = copyright;
             else if (letter == 174)
                 patch = regomark;
+            else if (letter == 176)
+                patch = degree;
             else if (letter == 215)
                 patch = multiply;
             else if (c >= 0 && c < CONSOLEFONTSIZE)

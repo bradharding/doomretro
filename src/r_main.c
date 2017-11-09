@@ -63,6 +63,7 @@ int                 centery;
 
 fixed_t             centerxfrac;
 fixed_t             centeryfrac;
+fixed_t             projection;
 fixed_t             projectiony;
 
 fixed_t             viewx;
@@ -118,6 +119,7 @@ int                 extralight;
 
 dboolean            drawbloodsplats;
 
+int                 fov = fov_default;
 dboolean            r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 dboolean            r_dither = r_dither_default;
 dboolean            r_homindicator = r_homindicator_default;
@@ -278,14 +280,18 @@ static void R_InitPointToAngle(void)
 //
 static void R_InitTextureMapping(void)
 {
+    int             fieldofview = fov * FINEANGLES / 360;
+
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x
     //  after the view angle.
-    const fixed_t   limit = finetangent[FINEANGLES / 4 + FIELDOFVIEW / 2];
+    const fixed_t   limit = finetangent[FINEANGLES / 4 + fieldofview / 2];
 
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
     const fixed_t   focallength = FixedDiv(centerxfrac, limit);
+
+    projection = focallength;
 
     for (int i = 0; i < FINEANGLES / 2; i++)
     {
@@ -418,6 +424,9 @@ void R_ExecuteSetViewSize(void)
     }
 
     yslope = yslopes[LOOKDIRMAX];
+
+    for (int i = 0; i < viewwidth; i++)
+        distscale[i] = FixedDiv(FRACUNIT, ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]));
 
     // Calculate the light levels to use
     //  for each level / scale combination.

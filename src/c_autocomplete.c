@@ -5181,6 +5181,7 @@ char autocompletelist[][255] =
     "+fire",
     "+followmode",
     "+forward",
+    "fov ",
     "freeze ",
     "freeze off",
     "freeze on",

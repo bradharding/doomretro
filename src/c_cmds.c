@@ -114,6 +114,7 @@ dboolean            togglingvanilla = false;
 
 char                *version = version_default;
 
+extern dboolean     setsizeneeded;
 extern dboolean     usemouselook;
 extern char         *packageconfig;
 extern int          st_palette;
@@ -320,6 +321,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms);
 static void am_path_cvar_func2(char *cmd, char *parms);
 static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
+static void fov_cvar_func2(char *cmd, char *parms);
 static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms);
 static void gp_deadzone_cvars_func2(char *cmd, char *parms);
 static void gp_sensitivity_cvar_func2(char *cmd, char *parms);
@@ -502,6 +504,8 @@ consolecmd_t consolecmds[] =
         "The color behind the player's face in the status bar\n(<b>none</b>, <b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CMD(fastmonsters, "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
+    CVAR_INT(fov, "", int_cvars_func1, fov_cvar_func2, CF_NONE, NOVALUEALIAS,
+        "The player's field of view (<b>80</b>\xB0 to <b>120</b>\xB0)."),
     CMD(freeze, "", null_func1, freeze_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
@@ -4496,6 +4500,19 @@ static void expansion_cvar_func2(char *cmd, char *parms)
 
     if (expansion != expansion_old)
         ExpDef.lastOn = expansion - 1;
+}
+
+//
+// fov CVAR
+//
+static void fov_cvar_func2(char *cmd, char *parms)
+{
+    const int   fov_old = fov;
+
+    int_cvars_func2(cmd, parms);
+
+    if (fov != fov_old)
+        setsizeneeded = true;
 }
 
 //

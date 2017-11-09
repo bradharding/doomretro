@@ -69,6 +69,7 @@ extern dboolean     con_timestamps;
 extern int          episode;
 extern int          expansion;
 extern int          facebackcolor;
+extern int          fov;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
 extern dboolean     gp_invertyaxis;
@@ -330,6 +331,10 @@ enum
 #define facebackcolor_min                       0
 #define facebackcolor_default                   5
 #define facebackcolor_max                       255
+
+#define fov_min                                 80
+#define fov_default                             90
+#define fov_max                                 120
 
 #define gp_deadzone_left_min                    0.0f
 #define gp_deadzone_left_default                24.0f

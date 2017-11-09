@@ -78,6 +78,9 @@ static fixed_t      xoffs, yoffs;                   // killough 2/28/98: flat of
 
 fixed_t             *yslope;
 fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
+fixed_t             distscale[SCREENWIDTH];
+fixed_t             basexscale;
+fixed_t             baseyscale;
 
 static fixed_t      cachedheight[SCREENHEIGHT];
 
@@ -103,24 +106,16 @@ static void R_MapPlane(int y, int x1, int x2)
     static fixed_t  cacheddistance[SCREENHEIGHT];
     static fixed_t  cachedxstep[SCREENHEIGHT];
     static fixed_t  cachedystep[SCREENHEIGHT];
+    angle_t         angle;
     fixed_t         distance;
-    int             dx;
-
-    if (centery == y)
-        return;
+    fixed_t         length;
 
     if (planeheight != cachedheight[y])
     {
-        int dy = ABS(centery - y);
-
-        distance = FixedMul(planeheight, yslope[y]);
-        ds_xstep = FixedMul(viewsin, planeheight) / dy;
-        ds_ystep = FixedMul(viewcos, planeheight) / dy;
-
         cachedheight[y] = planeheight;
-        cacheddistance[y] = distance;
-        cachedxstep[y] = ds_xstep;
-        cachedystep[y] = ds_ystep;
+        distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
+        ds_xstep = cachedxstep[y] = FixedMul(distance, basexscale);
+        ds_ystep = cachedystep[y] = FixedMul(distance, baseyscale);
     }
     else
     {
@@ -129,9 +124,10 @@ static void R_MapPlane(int y, int x1, int x2)
         ds_ystep = cachedystep[y];
     }
 
-    dx = x1 - centerx;
-    ds_xfrac = viewx + xoffs + FixedMul(viewcos, distance) + dx * ds_xstep;
-    ds_yfrac = -viewy + yoffs - FixedMul(viewsin, distance) + dx * ds_ystep;
+    length = FixedMul(distance, distscale[x1]);
+    angle = (viewangle + xtoviewangle[x1]) >> ANGLETOFINESHIFT;
+    ds_xfrac = viewx + xoffs + FixedMul(finecosine[angle], length);
+    ds_yfrac = -viewy + yoffs - FixedMul(finesine[angle], length);
 
     ds_colormap = (fixedcolormap ? fixedcolormap :
         planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
@@ -149,6 +145,8 @@ static void R_MapPlane(int y, int x1, int x2)
 //
 void R_ClearPlanes(void)
 {
+    angle_t angle;
+
     // opening/clipping determination
     for (int i = 0; i < viewwidth; i++)
     {
@@ -164,6 +162,13 @@ void R_ClearPlanes(void)
             freehead = &(*freehead)->next;
 
     lastopening = openings;
+
+    // left to right mapping
+    angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+
+    // scale will be unit scale at SCREENWIDTH/2 distance
+    basexscale = FixedDiv(finecosine[angle], projection);
+    baseyscale = -FixedDiv(finesine[angle], projection);
 }
 
 // New function, by Lee Killough

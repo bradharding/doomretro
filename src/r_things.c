@@ -503,7 +503,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
             R_BlastShadowColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
     }
 
-    dc_iscale = ABS(xiscale);
+    dc_iscale = FixedDiv(FRACUNIT, vis->scale);
     dc_texturemid = vis->texturemid;
 
     if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
@@ -685,7 +685,7 @@ static void R_ProjectSprite(mobj_t *thing)
         topoffset = newspritetopoffset[lump];
     }
 
-    xscale = FixedDiv(centerxfrac, tz);
+    xscale = FixedDiv(projection, tz);
     gzt = fz + topoffset;
 
     if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
@@ -735,7 +735,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->heightsec = heightsec;
 
     vis->mobj = thing;
-    vis->scale = xscale;
+    vis->scale = FixedDiv(projectiony, tz);
     vis->gx = fx;
     vis->gy = fy;
     vis->gz = floorheight;
@@ -821,7 +821,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if (tz < MINZ)
         return;
 
-    if ((xscale = FixedDiv(centerxfrac, tz)) < FRACUNIT / 4)
+    if ((xscale = FixedDiv(projection, tz)) < FRACUNIT / 4)
         return;
 
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
@@ -851,7 +851,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     // store information in a vissprite
     vis = &bloodsplatvissprites[num_bloodsplatvissprite++];
 
-    vis->scale = xscale;
+    vis->scale = FixedDiv(projectiony, tz);
     vis->gx = fx;
     vis->gy = fy;
     vis->blood = splat->blood;

@@ -99,6 +99,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (episode,                                           NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (expansion,                                         NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (facebackcolor,                                     FACEBACKVALUEALIAS),
+    CONFIG_VARIABLE_INT          (fov,                                               NOVALUEALIAS      ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                                  NOVALUEALIAS      ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (gp_invertyaxis,                                    BOOLVALUEALIAS    ),
@@ -551,6 +552,9 @@ static void M_CheckCVARs(void)
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;
+
+    if (fov < fov_min || fov > fov_max)
+        fov = fov_default;
 
     gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
     I_SetGamepadLeftDeadZone(gp_deadzone_left);
