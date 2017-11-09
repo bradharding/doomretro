@@ -95,6 +95,7 @@ dboolean                forceconsoleblurredraw;
 patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
 
+static patch_t          *dot;
 static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
@@ -467,11 +468,6 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             w += SHORT(regomark->width);
             i++;
         }
-        else if (letter == 194 && nextletter == 176)
-        {
-            w += SHORT(degree->width);
-            i++;
-        }
         else if (letter == 215)
         {
             w += SHORT(multiply->width);
@@ -528,15 +524,15 @@ static void C_DrawScrollbar(void)
 
 void C_Init(void)
 {
-    int     j = CONSOLEFONTSTART;
-    char    buffer[9];
-
-    for (int i = 0; i < CONSOLEFONTSIZE; i++)
+    for (int i = 0, j = CONSOLEFONTSTART; i < CONSOLEFONTSIZE; i++)
     {
+        char    buffer[9];
+
         M_snprintf(buffer, sizeof(buffer), "DRFON%03d", j++);
         consolefont[i] = W_CacheLumpName(buffer);
     }
 
+    dot = W_CacheLumpName("DRFON046");
     trademark = W_CacheLumpName("DRFON153");
     copyright = W_CacheLumpName("DRFON169");
     regomark = W_CacheLumpName("DRFON174");
@@ -781,11 +777,6 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
                 patch = copyright;
             else if (letter == 174)
                 patch = regomark;
-            else if (letter == 194 && nextletter == 176)
-            {
-                patch = degree;
-                i++;
-            }
             else if (letter == 215)
                 patch = multiply;
             else if (c >= 0 && c < CONSOLEFONTSIZE)
@@ -814,15 +805,11 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     }
 
     if (truncate < len)
-    {
-        patch_t *patch = consolefont['.' - CONSOLEFONTSTART];
-
         for (int i = 0; i < 3; i++)
         {
-            V_DrawConsoleTextPatch(x, y, patch, lastcolor1, color2, false, tinttab);
-            x += SHORT(patch->width);
+            V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, tinttab);
+            x += SHORT(dot->width);
         }
-    }
 }
 
 static void C_DrawOverlayText(int x, int y, const char *text, const int color)

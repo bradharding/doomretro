@@ -281,25 +281,23 @@ static void R_InitTextureMapping(void)
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x
     //  after the view angle.
-    const fixed_t   hitan = finetangent[FINEANGLES / 4 + FIELDOFVIEW / 2];
-    const fixed_t   lotan = finetangent[FINEANGLES / 4 - FIELDOFVIEW / 2];
-    const int       highend = viewwidth + 1;
+    const fixed_t   limit = finetangent[FINEANGLES / 4 + FIELDOFVIEW / 2];
 
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
-    const fixed_t   focallength = FixedDiv(centerxfrac, hitan);
+    const fixed_t   focallength = FixedDiv(centerxfrac, limit);
 
     for (int i = 0; i < FINEANGLES / 2; i++)
     {
         const fixed_t   tangent = finetangent[i];
 
-        if (tangent > hitan)
+        if (tangent > limit)
             viewangletox[i] = -1;
-        else if (tangent < lotan)
-            viewangletox[i] = highend;
+        else if (tangent < -limit)
+            viewangletox[i] = viewwidth + 1;
         else
             viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength)
-                + FRACUNIT - 1) >> FRACBITS, highend);
+                + FRACUNIT - 1) >> FRACBITS, viewwidth + 1);
     }
 
     // Scan viewangletox[] to generate xtoviewangle[]:
@@ -318,7 +316,7 @@ static void R_InitTextureMapping(void)
     for (int i = 0; i < FINEANGLES / 2; i++)
         if (viewangletox[i] == -1)
             viewangletox[i] = 0;
-        else if (viewangletox[i] == highend)
+        else if (viewangletox[i] == viewwidth + 1)
             viewangletox[i]--;
 
     clipangle = xtoviewangle[0];
