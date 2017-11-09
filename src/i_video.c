@@ -705,15 +705,16 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
-Uint32         starttime;
-int            frames = -1;
-static Uint32  currenttime;
+uint64_t        performancefrequency;
+uint64_t        starttime;
+int             frames = -1;
+static uint64_t currenttime;
 
 static void CalculateFPS(void)
 {
     frames++;
 
-    if (starttime < (currenttime = SDL_GetTicks()) - 1000)
+    if (starttime < (currenttime = SDL_GetPerformanceCounter()) - performancefrequency)
     {
         if ((fps = frames))
         {
@@ -1805,6 +1806,8 @@ void I_InitGraphics(void)
     if (linked.patch != compiled.patch)
         C_Warning("The wrong version of <b>%s</b> was found. <i>%s</i> requires v%i.%i.%i.",
             SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
+
+    performancefrequency = SDL_GetPerformanceFrequency();
 
     SDL_DisableScreenSaver();
 
