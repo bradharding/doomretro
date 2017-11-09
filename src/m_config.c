@@ -99,7 +99,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (episode,                                           NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (expansion,                                         NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (facebackcolor,                                     FACEBACKVALUEALIAS),
-    CONFIG_VARIABLE_INT          (fov,                                               NOVALUEALIAS      ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                                  NOVALUEALIAS      ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                                 NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (gp_invertyaxis,                                    BOOLVALUEALIAS    ),
@@ -137,6 +136,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_fixmaperrors,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_fixspriteoffsets,                                BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_floatbob,                                        BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (r_fov,                                             NOVALUEALIAS      ),
     CONFIG_VARIABLE_FLOAT        (r_gamma,                                           GAMMAVALUEALIAS   ),
     CONFIG_VARIABLE_INT          (r_homindicator,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_hud,                                             BOOLVALUEALIAS    ),
@@ -553,9 +553,6 @@ static void M_CheckCVARs(void)
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;
 
-    if (fov < fov_min || fov > fov_max)
-        fov = fov_default;
-
     gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
     I_SetGamepadLeftDeadZone(gp_deadzone_left);
     gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
@@ -647,6 +644,9 @@ static void M_CheckCVARs(void)
 
     if (r_floatbob != false && r_floatbob != true)
         r_floatbob = r_floatbob_default;
+
+    if (r_fov < r_fov_min || r_fov > r_fov_max)
+        r_fov = r_fov_default;
 
     r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);

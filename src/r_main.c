@@ -48,9 +48,6 @@
 #define BLACK       0
 #define RED         176
 
-// Fineangles in the SCREENWIDTH wide window.
-#define FIELDOFVIEW 2048
-
 // increment every time a check is made
 int                 validcount = 1;
 
@@ -119,9 +116,9 @@ int                 extralight;
 
 dboolean            drawbloodsplats;
 
-int                 fov = fov_default;
 dboolean            r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 dboolean            r_dither = r_dither_default;
+int                 r_fov = r_fov_default;
 dboolean            r_homindicator = r_homindicator_default;
 dboolean            r_shadows_translucency = r_shadows_translucency_default;
 dboolean            r_shake_barrels = r_shake_barrels_default;
@@ -280,15 +277,13 @@ static void R_InitPointToAngle(void)
 //
 static void R_InitTextureMapping(void)
 {
-    int             fieldofview = fov * FINEANGLES / 360;
-
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x
     //  after the view angle.
-    const fixed_t   limit = finetangent[FINEANGLES / 4 + fieldofview / 2];
+    const fixed_t   limit = finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2];
 
     // Calc focallength
-    //  so FIELDOFVIEW angles covers SCREENWIDTH.
+    //  so field of view angles covers SCREENWIDTH.
     const fixed_t   focallength = FixedDiv(centerxfrac, limit);
 
     projection = focallength;
@@ -309,10 +304,8 @@ static void R_InitTextureMapping(void)
     // Scan viewangletox[] to generate xtoviewangle[]:
     //  xtoviewangle will give the smallest view angle
     //  that maps to x.
-    for (int x = 0; x <= viewwidth; x++)
+    for (int i, x = 0; x <= viewwidth; x++)
     {
-        int i;
-
         for (i = 0; viewangletox[i] > x; i++);
 
         xtoviewangle[x] = (i << ANGLETOFINESHIFT) - ANG90;
@@ -351,7 +344,7 @@ static void R_InitLightTables(void)
         for (int j = 0; j < MAXLIGHTZ; j++)
         {
             const int   scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
-            const int   level = BETWEEN(0, startmap - scale  / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            const int   level = BETWEEN(0, startmap - scale / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: Initialize multiple colormaps
             for (int t = 0; t < numcolormaps; t++)

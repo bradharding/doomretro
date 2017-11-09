@@ -21,7 +21,6 @@ autoload off
 autouse off
 centerweapon off
 facebackcolor 5
-fov 90
 m_novertical off
 m_sensitivity 8
 messages on
@@ -40,6 +39,7 @@ r_detail low
 r_fixmaperrors off
 r_fixspriteoffsets off
 r_floatbob off
+r_fov 90
 r_gamma off
 r_homindicator off
 r_liquid_bob off
