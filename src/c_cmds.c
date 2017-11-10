@@ -705,7 +705,7 @@ consolecmd_t consolecmds[] =
     CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, false, "",
         "Resurrects the player."),
     CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The number of sounds that can be played at the\nsame time (<b>8</b> to <b>64</b>)."),
+        "The number of sound effects that can be played at\nthe same time (<b>8</b> to <b>64</b>)."),
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume of music."),
     CVAR_BOOL(s_randommusic, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,

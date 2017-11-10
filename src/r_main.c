@@ -392,6 +392,7 @@ void R_ExecuteSetViewSize(void)
     centerxfrac = centerx << FRACBITS;
     centeryfrac = centery << FRACBITS;
     projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH * FRACUNIT;
+
     R_InitBuffer(scaledviewwidth, viewheight);
     R_InitTextureMapping();
 
