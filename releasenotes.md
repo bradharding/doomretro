@@ -25,6 +25,7 @@
 * Long lines are no longer truncated in files output by the `condump` CCMD.
 * A bug has been fixed whereby a corrupted player message would be displayed when trying to open a locked door in some instances.
 * The vertical position of the player’s weapon is now reset immediately when the `mouselook` CVAR is turned `off`.
+* Improvements have been made to the effect when the player is damaged and the `r_shake_damage` CVAR is `on`.
 
 ---
 

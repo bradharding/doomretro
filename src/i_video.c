@@ -812,6 +812,7 @@ static void I_Blit_Shake(void)
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
         M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
 
@@ -831,6 +832,7 @@ static void I_Blit_NearestLinear_Shake(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
         M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
@@ -852,6 +854,7 @@ static void I_Blit_ShowFPS_Shake(void)
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
         M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
 
@@ -872,6 +875,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL,
         M_RandomInt(-1000, 1000) / 1000.0 * r_shake_damage / 100.0, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
