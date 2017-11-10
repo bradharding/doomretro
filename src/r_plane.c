@@ -109,9 +109,6 @@ static void R_MapPlane(int y, int x1, int x2)
     fixed_t         distance;
     int             dx;
 
-    if (centery == y)
-        return;
-
     if (planeheight != cachedheight[y])
     {
         cachedheight[y] = planeheight;
