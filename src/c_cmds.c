@@ -4619,7 +4619,7 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
         R_InitSkyMap();
         R_InitColumnFunctions();
 
-        if (!usemouselook && gamestate == GS_LEVEL)
+        if (!mouselook && gamestate == GS_LEVEL)
         {
             viewplayer->lookdir = 0;
             viewplayer->oldlookdir = 0;

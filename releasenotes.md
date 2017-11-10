@@ -23,6 +23,7 @@
 * Blood splats will no longer be spawned around corpse decorations if their sprites have been changed in a PWAD.
 * Long lines are no longer truncated in files output by the `condump` CCMD.
 * A bug has been fixed whereby a corrupted player message would be displayed when trying to open a locked door in some instances.
+* The vertical position of the player’s weapon is now reset immediately when the `mouselook` CVAR is turned `off`.
 
 ---
 
