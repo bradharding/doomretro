@@ -99,6 +99,7 @@ void P_SetPsprite(player_t *player, size_t position, statenum_t stnum);
 #define MAXBOB              0x100000
 #define MLOOKUNIT           8
 
+void P_CalcHeight(player_t *player);
 void P_MovePlayer(player_t *player);
 void P_PlayerThink(player_t *player);
 void P_ResurrectPlayer(player_t *player, int health);

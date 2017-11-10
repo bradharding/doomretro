@@ -40,8 +40,6 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-void P_CalcHeight(player_t *player);
-
 //
 // TELEPORTATION
 //
