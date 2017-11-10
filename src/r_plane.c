@@ -106,9 +106,11 @@ static void R_MapPlane(int y, int x1, int x2)
     static fixed_t  cacheddistance[SCREENHEIGHT];
     static fixed_t  cachedxstep[SCREENHEIGHT];
     static fixed_t  cachedystep[SCREENHEIGHT];
-    angle_t         angle;
     fixed_t         distance;
-    fixed_t         length;
+    int             dx;
+
+    if (centery == y)
+        return;
 
     if (planeheight != cachedheight[y])
     {
@@ -124,10 +126,9 @@ static void R_MapPlane(int y, int x1, int x2)
         ds_ystep = cachedystep[y];
     }
 
-    length = FixedMul(distance, distscale[x1]);
-    angle = (viewangle + xtoviewangle[x1]) >> ANGLETOFINESHIFT;
-    ds_xfrac = viewx + xoffs + FixedMul(finecosine[angle], length);
-    ds_yfrac = -viewy + yoffs - FixedMul(finesine[angle], length);
+    dx = x1 - centerx;
+    ds_xfrac = viewx + xoffs + FixedMul(viewcos, distance) + dx * ds_xstep;
+    ds_yfrac = -viewy + yoffs - FixedMul(viewsin, distance) + dx * ds_ystep;
 
     ds_colormap = (fixedcolormap ? fixedcolormap :
         planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
