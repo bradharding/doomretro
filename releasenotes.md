@@ -6,7 +6,7 @@
 * A bug has been fixed whereby the help screen accessed using the <kbd>F1</kbd> key had a solid blue background.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
-* The player’s field of view can now be changed using the new `r_fov` CVAR. This CVAR can be a value between `80`° and `120`°, and is `90`° by default and when vanilla mode is enabled.
+* The player’s field of view can now be changed using the new `r_fov` CVAR. This CVAR can be a value between `80` and `120`, and is `90` by default and when vanilla mode is enabled.
 * Using the `vanilla` CCMD in an alias will now work correctly.
 * Strings of commands, separated by semi-colons, can now be entered directly in the console.
 * Most actions can now be entered directly in the console.

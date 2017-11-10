@@ -332,10 +332,6 @@ enum
 #define facebackcolor_default                   5
 #define facebackcolor_max                       255
 
-#define r_fov_min                               80
-#define r_fov_default                           90
-#define r_fov_max                               120
-
 #define gp_deadzone_left_min                    0.0f
 #define gp_deadzone_left_default                24.0f
 #define gp_deadzone_left_max                    100.0f
@@ -443,6 +439,10 @@ enum
 #define r_fixspriteoffsets_default              true
 
 #define r_floatbob_default                      true
+
+#define r_fov_min                               80
+#define r_fov_default                           90
+#define r_fov_max                               120
 
 #define r_gamma_min                             gammalevels[0]
 #define r_gamma_default                         0.75f
