@@ -445,7 +445,6 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
     {
         const unsigned char letter = text[i];
         const int           c = letter - CONSOLEFONTSTART;
-        const unsigned char nextletter = text[i + 1];
 
         if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i')
             && text[i + 2] == '>' && formatting)
@@ -770,9 +769,8 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
         }
         else
         {
-            patch_t             *patch = NULL;
-            const unsigned char nextletter = text[i + 1];
-            const int           c = letter - CONSOLEFONTSTART;
+            patch_t     *patch = NULL;
+            const int   c = letter - CONSOLEFONTSTART;
 
             if (letter == '\t')
                 x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);

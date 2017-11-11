@@ -473,7 +473,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (angle - actor->angle > ANG180)
     {
-        if (angle - actor->angle < -ANG90 / 20)
+        if (angle - actor->angle < (angle_t)(-ANG90 / 20))
             actor->angle = angle + ANG90 / 21;
         else
             actor->angle -= ANG90 / 20;
