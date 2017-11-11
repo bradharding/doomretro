@@ -44,7 +44,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define ADDITIVE   -1
+#define ADDITIVE    -1
 
 #define R           1
 #define W           2

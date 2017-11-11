@@ -255,12 +255,8 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_BLUEO].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_BLUEO, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
@@ -271,12 +267,8 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_BLUEO].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_BLUEO, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
 
@@ -299,12 +291,8 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_REDO].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_REDO, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
@@ -315,12 +303,8 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_REDO].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_REDO, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
 
@@ -343,12 +327,8 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_YELLOWO].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_YELLOWO, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
@@ -359,12 +339,8 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_YELLOWO].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_YELLOWO, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
 
@@ -500,12 +476,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_BLUEK].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_BLUEK, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
@@ -516,12 +488,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_BLUEK].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_BLUEK, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
 
@@ -547,12 +515,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_YELLOWK].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_YELLOWK, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
@@ -563,12 +527,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_YELLOWK].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_YELLOWK, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
 
@@ -594,12 +554,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_REDK].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_REDK, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "keycard");
                     HU_PlayerMessage(buffer, false);
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
@@ -610,12 +566,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    if (deh_strlookup[p_PD_REDK].assigned == 2 || hacx)
-                        M_StringCopy(buffer, s_PD_REDK, sizeof(buffer));
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                            (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
-
+                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), "skull key");
                     HU_PlayerMessage(buffer, false);
                 }
 
