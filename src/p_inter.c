@@ -187,7 +187,7 @@ static int P_GiveAmmo(player_t *player, ammotype_t ammo, int num, dboolean stat)
     oldammo = player->ammo[ammo];
     player->ammo[ammo] = MIN(oldammo + num, player->maxammo[ammo]);
 
-    if (r_hud && !r_althud && num && ammo == weaponinfo[player->readyweapon].ammo)
+    if (vid_widescreen && r_hud && !r_althud && num && ammo == weaponinfo[player->readyweapon].ammo)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     if (stat)
@@ -259,7 +259,7 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo, dboolean stat)
         {
             result = true;
 
-            if (r_hud && !r_althud && (ammotype_t)i == weaponinfo[player->readyweapon].ammo)
+            if (vid_widescreen && r_hud && !r_althud && (ammotype_t)i == weaponinfo[player->readyweapon].ammo)
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
 
@@ -289,7 +289,7 @@ dboolean P_GiveFullAmmo(player_t *player, dboolean stat)
 
     if (result)
     {
-        if (r_hud && !r_althud)
+        if (vid_widescreen && r_hud && !r_althud)
             ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
         return true;
@@ -329,7 +329,7 @@ static dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dro
 
     if (gaveammo && ammotype == weaponinfo[player->readyweapon].ammo)
     {
-        if (r_hud && !r_althud)
+        if (vid_widescreen && r_hud && !r_althud)
             ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
         return true;
