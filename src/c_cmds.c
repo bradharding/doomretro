@@ -87,6 +87,7 @@
 #define SAVECMDFORMAT       "<i>filename</i><b>.save</b>"
 #define SPAWNCMDFORMAT      "<i>monster</i>|<i>item</i>"
 #define TELEPORTCMDFORMAT   "<i>x</i> <i>y</i>"
+#define TIMERCMDFORMAT      "<i>minutes</i>"
 #define UNBINDCMDFORMAT     "<i>control</i>"
 
 #define PENDINGCHANGE       "This change won't be effective until the next map."
@@ -300,6 +301,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms);
 static void spawn_cmd_func2(char *cmd, char *parms);
 static void teleport_cmd_func2(char *cmd, char *parms);
 static void thinglist_cmd_func2(char *cmd, char *parms);
+static void timer_cmd_func2(char *cmd, char *parms);
 static void unbind_cmd_func2(char *cmd, char *parms);
 static void vanilla_cmd_func2(char *cmd, char *parms);
 
@@ -728,6 +730,8 @@ consolecmd_t consolecmds[] =
         "Teleports the player to (<i>x</i>,<i>y</i>) in the current map."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Shows a list of things in the current map."),
+    CMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
+        "Sets a time limit on each map."),
     CVAR_BOOL(tossdrop, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles tossing items dropped by monsters when\nthey die."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
@@ -4033,6 +4037,27 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
 
         C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, titlecase(mobj->info->name1),
             mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+    }
+}
+
+//
+// timer CCMD
+//
+static void timer_cmd_func2(char *cmd, char *parms)
+{
+    if (!*parms)
+    {
+        C_Output("<b>%s</b> %s", cmd, TIMERCMDFORMAT);
+        return;
+    }
+    else
+    {
+        int value = INT_MAX;
+
+        sscanf(parms, "%10i", &value);
+
+        if (value != INT_MAX)
+            P_SetTimer(value);
     }
 }
 

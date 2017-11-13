@@ -54,6 +54,7 @@ extern dboolean *isteleport;
 void P_InitPicAnims(void);
 
 // at map load
+void P_SetTimer(int minutes);
 void P_SpawnSpecials(void);
 void P_SetLiquids(void);
 

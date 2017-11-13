@@ -2223,6 +2223,12 @@ dboolean EV_DoDonut(line_t *line)
     return rtn;
 }
 
+void P_SetTimer(int minutes)
+{
+    timer = BETWEEN(0, minutes, 600);
+    countdown = timer * 60 * TICRATE;
+}
+
 //
 // SPECIAL SPAWNING
 //
@@ -2240,16 +2246,14 @@ void P_SpawnSpecials(void)
 
     if (p)
     {
-        timer = atoi(myargv[p + 1]);
-        M_SaveCVARs();
+        P_SetTimer(atoi(myargv[p + 1]));
         C_Output("A <b>-timer</b> parameter was found on the command-line. "
             "The time limit for each map is %i minutes.", timer);
     }
 
     if (M_CheckParm("-avg"))
     {
-        timer = 20;
-        M_SaveCVARs();
+        P_SetTimer(20);
         C_Output("An <b>-avg</b> parameter was found on the command-line. "
             "The time limit for each map is %i minutes.", timer);
     }
