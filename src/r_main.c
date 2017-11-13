@@ -419,9 +419,6 @@ void R_ExecuteSetViewSize(void)
 
     yslope = yslopes[LOOKDIRMAX];
 
-    for (int i = 0; i < viewwidth; i++)
-        distscale[i] = FixedDiv(FRACUNIT, ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]));
-
     // Calculate the light levels to use
     //  for each level / scale combination.
     for (int i = 0; i < LIGHTLEVELS; i++)

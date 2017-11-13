@@ -78,7 +78,6 @@ static fixed_t      xoffs, yoffs;                   // killough 2/28/98: flat of
 
 fixed_t             *yslope;
 fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
-fixed_t             distscale[SCREENWIDTH];
 fixed_t             basexscale;
 fixed_t             baseyscale;
 
