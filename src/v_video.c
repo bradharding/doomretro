@@ -1514,7 +1514,7 @@ dboolean V_ScreenShot(void)
         if (!count)
             M_snprintf(lbmname1, sizeof(lbmname1), "%s.png", makevalidfilename(mapname));
         else
-            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%i).png", makevalidfilename(mapname), count);
+            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%s).png", makevalidfilename(mapname), commify(count));
 
         count++;
         M_MakeDirectory(screenshotfolder);
@@ -1523,14 +1523,13 @@ dboolean V_ScreenShot(void)
     while (M_FileExists(lbmpath1));
 
     result = V_SavePNG(renderer, lbmpath1);
-
     lbmpath2[0] = '\0';
 
     if (mapwindow && result && gamestate == GS_LEVEL)
     {
         do
         {
-            M_snprintf(lbmname2, sizeof(lbmname2), "%s (%i).png", makevalidfilename(mapname), count++);
+            M_snprintf(lbmname2, sizeof(lbmname2), "%s (%s).png", makevalidfilename(mapname), commify(count++));
             M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s", screenshotfolder, lbmname2);
         }
         while (M_FileExists(lbmpath2));

@@ -19,8 +19,8 @@
 * The `vid_windowposition` CVAR has been shortened to just `vid_windowpos`.
 * If they can be found, the *Final DOOM* IWADs (`plutonia.wad` and `tnt.wad`) will now automatically be loaded for certain PWADs that require them.
 * Brightmaps are now applied to more wall textures in *Final DOOM: TNT - Evilution* when the `r_brightmaps` CVAR is `on`.
-* The player can now automatically use doors and switches if they are near enough by enabling the new `autouse` CVAR. It is `off` by default.
-* A crash will no longer occur when trying to switch between fullscreen and a window using <kbd>ALT</kbd> + <kbd>ENTER</kbd> while on the title screen.
+* The player can now automatically use doors and switches if they are near enough by enabling the new `autouse` CVAR. This CVAR is `off` by default.
+* A crash will no longer occur when trying to switch between fullscreen and a window by pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> while on the title screen.
 * Blood splats will no longer be spawned around corpse decorations if their sprites have been changed in a PWAD.
 * Long lines are no longer truncated in files output by the `condump` CCMD.
 * A bug has been fixed whereby a corrupted player message would be displayed when trying to open a locked door in some instances.

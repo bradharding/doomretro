@@ -466,7 +466,7 @@ enum
 
 #define r_lowpixelsize_default                  "2x2"
 
-#define r_messagepos_default               "(3,2)"
+#define r_messagepos_default                    "(3,2)"
 
 #define r_messagescale_default                  r_messagescale_big
 
