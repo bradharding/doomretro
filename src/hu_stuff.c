@@ -915,7 +915,8 @@ static void HU_DrawAltHUD(void)
         powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if ((powerup = plr->powers[pw_strength]) && plr->readyweapon == wp_fist && !powerupbar)
+    if ((powerup = plr->powers[pw_strength]) && ((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
+        || plr->pendingweapon == wp_fist) && !powerupbar)
     {
         max = STARTFLASHING + 1;
         powerupbar = STARTFLASHING + 1;
