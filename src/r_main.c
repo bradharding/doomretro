@@ -61,7 +61,6 @@ int                 centery;
 fixed_t             centerxfrac;
 fixed_t             centeryfrac;
 fixed_t             projection;
-fixed_t             projectiony;
 
 fixed_t             viewx;
 fixed_t             viewy;
@@ -286,8 +285,6 @@ static void R_InitTextureMapping(void)
     //  so field of view angles covers SCREENWIDTH.
     const fixed_t   focallength = FixedDiv(centerxfrac, limit);
 
-    projection = focallength;
-
     for (int i = 0; i < FINEANGLES / 2; i++)
     {
         const fixed_t   tangent = finetangent[i];
@@ -387,11 +384,12 @@ void R_ExecuteSetViewSize(void)
     }
 
     viewwidth = scaledviewwidth;
-    centery = viewheight / 2;
+
     centerx = viewwidth / 2;
+    centery = viewheight / 2;
     centerxfrac = centerx << FRACBITS;
     centeryfrac = centery << FRACBITS;
-    projectiony = FixedMul(centerxfrac, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2]));
+    projection = FixedMul(centerxfrac, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2]));
 
     R_InitBuffer(scaledviewwidth, viewheight);
     R_InitTextureMapping();

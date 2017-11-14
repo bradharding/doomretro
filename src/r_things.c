@@ -735,7 +735,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->heightsec = heightsec;
 
     vis->mobj = thing;
-    vis->scale = FixedDiv(projectiony, tz);
+    vis->scale = FixedDiv(projection, tz);
     vis->gx = fx;
     vis->gy = fy;
     vis->gz = floorheight;
@@ -851,7 +851,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     // store information in a vissprite
     vis = &bloodsplatvissprites[num_bloodsplatvissprite++];
 
-    vis->scale = FixedDiv(projectiony, tz);
+    vis->scale = FixedDiv(projection, tz);
     vis->gx = fx;
     vis->gy = fy;
     vis->blood = splat->blood;
