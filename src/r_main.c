@@ -370,6 +370,8 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
+    fixed_t zoomscale = finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2];
+
     setsizeneeded = false;
 
     if (setblocks == 11)
@@ -389,7 +391,7 @@ void R_ExecuteSetViewSize(void)
     centery = viewheight / 2;
     centerxfrac = centerx << FRACBITS;
     centeryfrac = centery << FRACBITS;
-    projection = FixedMul(centerxfrac, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2]));
+    projection = FixedDiv(centerxfrac, zoomscale);
 
     R_InitBuffer(scaledviewwidth, viewheight);
     R_InitTextureMapping();
@@ -407,7 +409,7 @@ void R_ExecuteSetViewSize(void)
     // planes
     for (int i = 0; i < viewheight; i++)
     {
-        const fixed_t   num = viewwidth / 2 * FRACUNIT;
+        const fixed_t   num = FixedMul(FixedDiv(FRACUNIT, zoomscale), viewwidth * (FRACUNIT / 2));
 
         for (int j = 0; j < LOOKDIRS; j++)
             yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2

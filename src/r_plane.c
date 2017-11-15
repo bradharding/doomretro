@@ -141,8 +141,6 @@ static void R_MapPlane(int y, int x1, int x2)
 //
 void R_ClearPlanes(void)
 {
-    angle_t angle;
-
     // opening/clipping determination
     for (int i = 0; i < viewwidth; i++)
     {
@@ -159,12 +157,9 @@ void R_ClearPlanes(void)
 
     lastopening = openings;
 
-    // left to right mapping
-    angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
-
     // scale will be unit scale at SCREENWIDTH/2 distance
-    basexscale = FixedDiv(finecosine[angle], projection);
-    baseyscale = -FixedDiv(finesine[angle], projection);
+    basexscale = FixedDiv(viewsin, projection);
+    baseyscale = FixedDiv(viewcos, projection);
 }
 
 // New function, by Lee Killough
