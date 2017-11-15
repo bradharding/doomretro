@@ -440,9 +440,9 @@ enum
 
 #define r_floatbob_default                      true
 
-#define r_fov_min                               80
+#define r_fov_min                               45
 #define r_fov_default                           90
-#define r_fov_max                               120
+#define r_fov_max                               135
 
 #define r_gamma_min                             gammalevels[0]
 #define r_gamma_default                         0.75f
