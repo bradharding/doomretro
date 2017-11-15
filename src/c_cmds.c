@@ -4958,7 +4958,10 @@ static void r_fov_cvar_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (r_fov != r_fov_old)
+    {
         setsizeneeded = true;
+        R_InitLightTables();
+    }
 }
 
 //

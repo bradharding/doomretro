@@ -62,6 +62,8 @@ fixed_t             centerxfrac;
 fixed_t             centeryfrac;
 fixed_t             projection;
 
+fixed_t             fovscale = FRACUNIT;
+
 fixed_t             viewx;
 fixed_t             viewy;
 fixed_t             viewz;
@@ -325,22 +327,24 @@ static void R_InitTextureMapping(void)
 //
 #define DISTMAP 2
 
-static void R_InitLightTables(void)
+void R_InitLightTables(void)
 {
-    // killough 4/4/98: dynamic colormaps
-    c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
-    c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
-    c_psprscalelight = malloc(sizeof(*c_psprscalelight) * numcolormaps);
+    if (!c_zlight)
+    {
+        c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
+        c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
+        c_psprscalelight = malloc(sizeof(*c_psprscalelight) * numcolormaps);
+    }
 
     // Calculate the light levels to use
     //  for each level / distance combination.
-    for (int i = 0; i < LIGHTLEVELS; i++)
+    for (int i = 0, width = FixedMul(SCREENWIDTH, fovscale); i < LIGHTLEVELS; i++)
     {
         const int   startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (int j = 0; j < MAXLIGHTZ; j++)
         {
-            const int   scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
+            const int   scale = FixedDiv(width / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT) >> LIGHTSCALESHIFT;
             const int   level = BETWEEN(0, startmap - scale / DISTMAP, NUMCOLORMAPS - 1) * 256;
 
             // killough 3/20/98: Initialize multiple colormaps
@@ -370,8 +374,6 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
-    fixed_t zoomscale = finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2];
-
     setsizeneeded = false;
 
     if (setblocks == 11)
@@ -391,7 +393,8 @@ void R_ExecuteSetViewSize(void)
     centery = viewheight / 2;
     centerxfrac = centerx << FRACBITS;
     centeryfrac = centery << FRACBITS;
-    projection = FixedDiv(centerxfrac, zoomscale);
+    fovscale = finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2];
+    projection = FixedDiv(centerxfrac, fovscale);
 
     R_InitBuffer(scaledviewwidth, viewheight);
     R_InitTextureMapping();
@@ -409,7 +412,7 @@ void R_ExecuteSetViewSize(void)
     // planes
     for (int i = 0; i < viewheight; i++)
     {
-        const fixed_t   num = FixedMul(FixedDiv(FRACUNIT, zoomscale), viewwidth * (FRACUNIT / 2));
+        const fixed_t   num = FixedMul(FixedDiv(FRACUNIT, fovscale), viewwidth * (FRACUNIT / 2));
 
         for (int j = 0; j < LOOKDIRS; j++)
             yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2
