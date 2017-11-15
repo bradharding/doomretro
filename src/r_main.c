@@ -395,9 +395,8 @@ void R_ExecuteSetViewSize(void)
     R_InitTextureMapping();
 
     // psprite scales
-    pspritexscale = (centerx << FRACBITS) / (ORIGINALWIDTH / 2);
-    pspriteyscale = (((SCREENHEIGHT * viewwidth) / SCREENWIDTH) << FRACBITS) / ORIGINALHEIGHT;
-    pspriteiscale = FixedDiv(FRACUNIT, pspritexscale);
+    pspritescale = FixedDiv(viewwidth, ORIGINALWIDTH);
+    pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 
     R_InitSkyMap();
 

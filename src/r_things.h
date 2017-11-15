@@ -50,8 +50,7 @@ extern int      *mceilingclip;
 extern fixed_t  spryscale;
 extern int64_t  sprtopscreen;
 
-extern fixed_t  pspritexscale;
-extern fixed_t  pspriteyscale;
+extern fixed_t  pspritescale;
 extern fixed_t  pspriteiscale;
 
 extern dboolean r_playersprites;

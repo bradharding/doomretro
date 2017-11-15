@@ -58,8 +58,7 @@
 //  which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-fixed_t                 pspritexscale;
-fixed_t                 pspriteyscale;
+fixed_t                 pspritescale;
 fixed_t                 pspriteiscale;
 
 static lighttable_t     **spritelights;         // killough 1/25/98 made static
@@ -408,9 +407,9 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
             const int       topdelta = post->topdelta;
 
             // calculate unclipped screen coordinates for post
-            const int64_t   topscreen = sprtopscreen + pspriteyscale * topdelta + 1;
+            const int64_t   topscreen = sprtopscreen + pspritescale * topdelta + 1;
 
-            if ((dc_yh = MIN((int)((topscreen + pspriteyscale * post->length) >> FRACBITS), viewheight - 1)) >= 0)
+            if ((dc_yh = MIN((int)((topscreen + pspritescale * post->length) >> FRACBITS), viewheight - 1)) >= 0)
                 if ((dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
                 {
                     dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
@@ -558,7 +557,7 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     colfunc = vis->colfunc;
     dc_iscale = pspriteiscale;
     dc_texturemid = vis->texturemid;
-    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, pspriteyscale);
+    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, pspritescale);
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
@@ -735,7 +734,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->heightsec = heightsec;
 
     vis->mobj = thing;
-    vis->scale = FixedDiv(projection, tz);
+    vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
     vis->gz = floorheight;
@@ -851,7 +850,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     // store information in a vissprite
     vis = &bloodsplatvissprites[num_bloodsplatvissprite++];
 
-    vis->scale = FixedDiv(projection, tz);
+    vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
     vis->blood = splat->blood;
@@ -940,8 +939,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
 
     // calculate edges of the shape
     tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - (altered ? spriteoffset[lump] : newspriteoffset[lump]);
-    x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS;
-    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritexscale)) >> FRACBITS) - 1;
+    x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritescale)) >> FRACBITS;
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritescale)) >> FRACBITS) - 1;
 
     // store information in a vissprite
     vis = &tempvis;
