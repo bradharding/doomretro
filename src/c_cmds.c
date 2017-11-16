@@ -2194,7 +2194,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
         C_Output(buffer);
         HU_SetPlayerMessage(buffer, false);
         message_dontfuckwithme = true;
-        C_HideConsole();
     }
     else
     {
@@ -2253,7 +2252,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 C_Output(buffer);
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
-                C_HideConsole();
                 players[0].cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
@@ -2286,7 +2284,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 C_Output(buffer);
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
-                C_HideConsole();
                 players[0].cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
@@ -2351,7 +2348,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 C_Output(buffer);
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
-                C_HideConsole();
                 players[0].cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();

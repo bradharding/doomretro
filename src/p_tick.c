@@ -240,10 +240,11 @@ void P_Ticker(void)
 
     P_PlayerThink(&players[0]);
 
+    P_RunThinkers();
+
     if (consoleactive)
         return;
 
-    P_RunThinkers();
     P_UpdateSpecials();
     P_RespawnSpecials();
 
