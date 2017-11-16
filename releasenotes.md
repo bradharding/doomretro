@@ -27,7 +27,6 @@
 * The vertical position of the player’s weapon is now reset immediately when the `mouselook` CVAR is turned `off`.
 * Improvements have been made to the effect when the player is damaged and the `r_shake_damage` CVAR is `on`.
 * A time limit for each map can now be set in minutes using the new `timer` CCMD, functioning like the command-line parameter of the same name.
-* The console now remains open after using the `kill` CCMD.
 
 ---
 

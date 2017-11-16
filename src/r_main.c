@@ -329,8 +329,7 @@ static void R_InitTextureMapping(void)
 
 void R_InitLightTables(void)
 {
-    int width = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[((r_fov * (ANG90 / 180)) >> ANGLETOFINESHIFT)
-                    + FINEANGLES / 4]));
+    int width = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2])) + 1;
 
     if (!c_zlight)
     {

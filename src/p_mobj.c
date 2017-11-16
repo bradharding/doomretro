@@ -540,9 +540,6 @@ void P_MobjThinker(mobj_t *mobj)
     player_t    *player = mobj->player;
     sector_t    *sector = mobj->subsector->sector;
 
-    if (consoleactive && !(flags2 & MF2_MASSACRE))
-        return;
-
     // [AM] Handle interpolation unless we're an active player.
     if (!(player && mobj == player->mo) && mobj->interpolate)
     {
