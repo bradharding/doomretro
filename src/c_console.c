@@ -1158,7 +1158,7 @@ dboolean C_ValidateInput(const char *input)
                 && (consolecmds[i].parameters || !*parms))
             {
                 if (!executingalias)
-                    C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), input);
+                    C_Input((input[strlen(input) - 1] == '%' ? "%s%" : "%s"), trimwhitespace(input));
 
                 consolecmds[i].func2(consolecmds[i].name, parms);
                 return true;
