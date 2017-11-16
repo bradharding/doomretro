@@ -14,6 +14,7 @@
 * A custom message can now be displayed using the new `print` CCMD.
 * A new `if` CCMD has been implemented that allows a string of commands to be executed only if a CVAR equals a certain value.
 * The player’s view is now updated immediately when on a moving platform.
+* Items dropped by monsters when they are killed are now spawned above rather than on the floor before being tossed upwards.
 * Tossing items dropped by monsters when they are killed can now be toggled on or off using the new `tossdrop` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * The position of player messages can now be changed using the new `r_messagepos` CVAR. This CVAR is `(3,2)` by default and `(0,0)` when vanilla mode is enabled.
 * The `vid_windowposition` CVAR has been shortened to just `vid_windowpos`.
