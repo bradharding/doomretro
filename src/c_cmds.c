@@ -2210,7 +2210,10 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 while (thing)
                 {
                     if (thing->flags2 & MF2_MONSTERMISSILE)
+                    {
+                        thing->flags2 |= MF2_MASSACRE;
                         P_ExplodeMissile(thing);
+                    }
                     else if (thing->health > 0)
                     {
                         const mobjtype_t    type = thing->type;

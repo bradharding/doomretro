@@ -536,11 +536,11 @@ static void PlayerLandedOnThing(mobj_t *mo)
 void P_MobjThinker(mobj_t *mobj)
 {
     int         flags = mobj->flags;
-    int         flags2;
+    int         flags2 = mobj->flags2;
     player_t    *player = mobj->player;
     sector_t    *sector = mobj->subsector->sector;
 
-    if (consoleactive && (player || mobj->health > 0))
+    if (consoleactive && !(flags2 & MF2_MASSACRE))
         return;
 
     // [AM] Handle interpolation unless we're an active player.
@@ -571,8 +571,6 @@ void P_MobjThinker(mobj_t *mobj)
     // [BH] don't clip sprite if no longer in liquid
     if (!sector->isliquid)
         mobj->flags2 &= ~MF2_FEETARECLIPPED;
-
-    flags2 = mobj->flags2;
 
     // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && mobj->z <= sector->floorheight
