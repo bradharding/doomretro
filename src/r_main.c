@@ -329,6 +329,9 @@ static void R_InitTextureMapping(void)
 
 void R_InitLightTables(void)
 {
+    int width = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[((r_fov * (ANG90 / 180)) >> ANGLETOFINESHIFT)
+                    + FINEANGLES / 4]));
+
     if (!c_zlight)
     {
         c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
@@ -338,7 +341,7 @@ void R_InitLightTables(void)
 
     // Calculate the light levels to use
     //  for each level / distance combination.
-    for (int i = 0, width = FixedMul(SCREENWIDTH, fovscale); i < LIGHTLEVELS; i++)
+    for (int i = 0; i < LIGHTLEVELS; i++)
     {
         const int   startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
