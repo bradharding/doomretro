@@ -2192,6 +2192,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));
         buffer[0] = toupper(buffer[0]);
         C_Output(buffer);
+        C_HideConsole();
         HU_SetPlayerMessage(buffer, false);
         message_dontfuckwithme = true;
     }
@@ -2253,6 +2254,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 M_snprintf(buffer, sizeof(buffer), "%s monster%s killed.", commify(kills),
                     (kills == 1 ? "" : "s"));
                 C_Output(buffer);
+                C_HideConsole();
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 players[0].cheated++;
@@ -2285,6 +2287,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 M_snprintf(buffer, sizeof(buffer), "%s missile%s exploded.", commify(kills),
                     (kills == 1 ? "" : "s"));
                 C_Output(buffer);
+                C_HideConsole();
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 players[0].cheated++;
@@ -2349,6 +2352,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                     (type == MT_BARREL ? "exploded" : "killed"));
                 C_Output(buffer);
+                C_HideConsole();
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
                 players[0].cheated++;
