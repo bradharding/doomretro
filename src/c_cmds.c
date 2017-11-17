@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 #include <float.h>
+#include <stdio.h>
 
 #if defined(_WIN32)
 #include <Windows.h>
@@ -2004,6 +2005,10 @@ static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
     ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_HELP_URL, NULL, NULL, SW_SHOWNORMAL);
+//#elif defined(__linux__)
+    system("xdg-open "PACKAGE_WIKI_HELP_URL);
+#elif defined(__MACOSX__)
+    system("open "PACKAGE_WIKI_HELP_URL);
 #else
     C_HideConsoleFast();
     M_ShowHelp();
@@ -2057,7 +2062,6 @@ static void if_cmd_func2(char *cmd, char *parms)
                     float value = FLT_MIN;
 
                     sscanf(parms, "%10f", &value);
-
                     condition = (value != FLT_MIN && value == *(float *)consolecmds[i].variable);
                 }
                 else
