@@ -903,7 +903,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, dboolean dropoff)
         {
             if (!dropoff)
             {
-                if (tmfloorz - tmdropoffz > 24 * FRACUNIT)
+                if (thing->floorz - tmfloorz > 24 * FRACUNIT || thing->dropoffz - tmdropoffz > 24 * FRACUNIT)
                     return false;
             }
             else
