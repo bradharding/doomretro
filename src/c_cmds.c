@@ -2223,6 +2223,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         {
                             A_Fall(thing, NULL, NULL);
                             P_SetMobjState(thing, S_PAIN_DIE6);
+                            players[0].mobjcount[MT_PAIN]++;
+                            stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
                             players[0].killcount++;
                             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                             kills++;
@@ -2316,6 +2318,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             {
                                 A_Fall(thing, NULL, NULL);
                                 P_SetMobjState(thing, S_PAIN_DIE6);
+                                players[0].mobjcount[MT_PAIN]++;
+                                stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
                                 players[0].killcount++;
                                 stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                                 kills++;
