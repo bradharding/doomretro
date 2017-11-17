@@ -76,6 +76,7 @@ static fixed_t floatbobdiffs[64] =
 };
 
 extern fixed_t      animatedliquiddiffs[64];
+extern int          deathcount;
 extern msecnode_t   *sector_list;   // phares 3/16/98
 extern dboolean     usemouselook;
 
@@ -930,6 +931,8 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     p->momx = 0;
     p->momy = 0;
     p->lookdir = 0;
+
+    deathcount = 0;
 
     // setup gun psprite
     P_SetupPsprites(p);

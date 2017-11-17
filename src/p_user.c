@@ -47,6 +47,8 @@
 #define DEADLOOKDIR     128
 #define DEADLOOKDIRINC  24
 
+int             deathcount;
+
 extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
 extern dboolean skipaction;
@@ -256,7 +258,6 @@ static void P_ReduceDamageCount(player_t *player)
 //
 static void P_DeathThink(player_t *player)
 {
-    static int      count;
     static dboolean facingkiller;
     mobj_t          *mo = player->mo;
     mobj_t          *attacker = player->attacker;
@@ -318,16 +319,16 @@ static void P_DeathThink(player_t *player)
         return;
 
     if (((player->cmd.buttons & BT_USE) || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount
-        && count > TICRATE * 2) || gamekeydown[KEY_ENTER]))
+        && deathcount > TICRATE * 2) || gamekeydown[KEY_ENTER]))
     {
-        count = 0;
+        deathcount = 0;
         damagevibrationtics = 1;
         player->playerstate = PST_REBORN;
         facingkiller = false;
         skipaction = true;
     }
     else
-        count++;
+        deathcount++;
 }
 
 //
