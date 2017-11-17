@@ -295,11 +295,10 @@ void C_Warning(const char *string, ...)
 
 void C_PlayerMessage(const char *string, ...)
 {
-    va_list         argptr;
-    char            buffer[CONSOLETEXTMAXLENGTH] = "";
-    const int       i = consolestrings - 1;
-    const dboolean  prevplayermessage = (i >= 0 && console[i].type == playermessagestring);
-    time_t          rawtime;
+    va_list     argptr;
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
+    const int   i = consolestrings - 1;
+    time_t      rawtime;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
@@ -307,18 +306,10 @@ void C_PlayerMessage(const char *string, ...)
 
     time(&rawtime);
 
-    if (prevplayermessage && M_StringCompare(console[i].string, buffer))
+    if (i >= 0 && console[i].type == playermessagestring && M_StringCompare(console[i].string, buffer))
     {
-        M_snprintf(console[i].string, CONSOLETEXTMAXLENGTH, "%s (2)", buffer);
         strftime(console[i].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
-    }
-    else if (prevplayermessage && M_StringStartsWith(console[i].string, buffer))
-    {
-        char    *count = strrchr(console[i].string, '(') + 1;
-
-        count[strlen(count) - 1] = '\0';
-        M_snprintf(console[i].string, CONSOLETEXTMAXLENGTH, "%s (%i)", buffer, atoi(count) + 1);
-        strftime(console[i].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+        console[i].count++;
     }
     else
     {
@@ -326,7 +317,8 @@ void C_PlayerMessage(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = playermessagestring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-        strftime(console[consolestrings++].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+        strftime(console[consolestrings].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+        console[consolestrings++].count++;
     }
 
     outputhistory = -1;
@@ -334,11 +326,10 @@ void C_PlayerMessage(const char *string, ...)
 
 void C_Obituary(const char *string, ...)
 {
-    va_list         argptr;
-    char            buffer[CONSOLETEXTMAXLENGTH] = "";
-    const int       i = consolestrings - 1;
-    const dboolean  prevobituary = (i >= 0 && console[i].type == obituarystring);
-    time_t          rawtime;
+    va_list     argptr;
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
+    const int   i = consolestrings - 1;
+    time_t      rawtime;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
@@ -346,18 +337,10 @@ void C_Obituary(const char *string, ...)
 
     time(&rawtime);
 
-    if (prevobituary && M_StringCompare(console[i].string, buffer))
+    if (i >= 0 && console[i].type == obituarystring && M_StringCompare(console[i].string, buffer))
     {
-        M_snprintf(console[i].string, CONSOLETEXTMAXLENGTH, "%s (2)", buffer);
         strftime(console[i].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
-    }
-    else if (prevobituary && M_StringStartsWith(console[i].string, buffer))
-    {
-        char    *count = strrchr(console[i].string, '(') + 1;
-
-        count[strlen(count) - 1] = '\0';
-        M_snprintf(console[i].string, CONSOLETEXTMAXLENGTH, "%s (%i)", buffer, atoi(count) + 1);
-        strftime(console[i].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+        console[i].count++;
     }
     else
     {
@@ -365,7 +348,8 @@ void C_Obituary(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = obituarystring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-        strftime(console[consolestrings++].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+        strftime(console[consolestrings].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+        console[consolestrings++].count++;
     }
 
     outputhistory = -1;
@@ -974,26 +958,46 @@ void C_Drawer(void)
             if (type == dividerstring)
                 V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
                     consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
-            else if (M_StringCompare(console[i].string, BINDLISTTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
-            else if (M_StringCompare(console[i].string, CMDLISTTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
-            else if (M_StringCompare(console[i].string, CVARLISTTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
-            else if (M_StringCompare(console[i].string, MAPLISTTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
-            else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
-            else if (M_StringCompare(console[i].string, THINGLISTTITLE))
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
+            else if (type == outputstring)
+            {
+                if (M_StringCompare(console[i].string, BINDLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
+                else if (M_StringCompare(console[i].string, CMDLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
+                else if (M_StringCompare(console[i].string, CVARLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
+                else if (M_StringCompare(console[i].string, MAPLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
+                else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
+                else if (M_StringCompare(console[i].string, THINGLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
+                else
+                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
+                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
+            }
+            else if (type == playermessagestring || type == obituarystring)
+            {
+                if (console[i].count > 1)
+                {
+                    static char buffer[CONSOLETEXTMAXLENGTH];
+
+                    M_snprintf(buffer, sizeof(buffer), "%s (%i)", console[i].string, console[i].count);
+                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
+                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
+                }
+                else
+                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
+                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
+
+                    if (con_timestamps && *console[i].timestamp)
+                        C_DrawTimeStamp(timestampx, y, console[i].timestamp);
+            }
             else
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
                     NOBACKGROUNDCOLOR, (type == warningstring ? consolewarningboldcolor : consoleboldcolor),
                     tinttab66, console[i].tabs, true, true);
-
-                if (con_timestamps && *console[i].timestamp)
-                    C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
         }
 

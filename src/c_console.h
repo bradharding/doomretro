@@ -86,6 +86,7 @@ typedef enum
 typedef struct
 {
     char            string[1024];
+    int             count;
     stringtype_t    type;
     int             tabs[8];
     char            timestamp[9];
