@@ -182,9 +182,7 @@ void C_Print(const stringtype_t type, const char *string, ...)
 
     console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
-    console[consolestrings].type = type;
-    memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    consolestrings++;
+    console[consolestrings++].type = type;
     outputhistory = -1;
 }
 
@@ -202,9 +200,7 @@ void C_Input(const char *string, ...)
 
     console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
-    console[consolestrings].type = inputstring;
-    memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    consolestrings++;
+    console[consolestrings++].type = inputstring;
     outputhistory = -1;
 }
 
@@ -249,9 +245,7 @@ void C_Output(const char *string, ...)
 
     console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
-    console[consolestrings].type = outputstring;
-    memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    consolestrings++;
+    console[consolestrings++].type = outputstring;
     outputhistory = -1;
 }
 
@@ -281,13 +275,11 @@ void C_Warning(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings && !M_StringCompare(console[consolestrings - 1].string, buffer))
+    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
         console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
-        console[consolestrings].type = warningstring;
-        memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-        consolestrings++;
+        console[consolestrings++].type = warningstring;
         outputhistory = -1;
     }
 }
@@ -312,7 +304,6 @@ void C_PlayerMessage(const char *string, ...)
         console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = playermessagestring;
-        memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
         console[consolestrings].timestamp = gametic;
         console[consolestrings++].count = 1;
     }
@@ -340,7 +331,6 @@ void C_Obituary(const char *string, ...)
         console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = obituarystring;
-        memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
         console[consolestrings].timestamp = gametic;
         console[consolestrings++].count = 1;
     }
@@ -1006,11 +996,11 @@ void C_Drawer(void)
 
                     M_snprintf(buffer, sizeof(buffer), "%s (%i)", console[i].string, console[i].count);
                     C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
+                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true);
                 }
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
-                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
+                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true);
 
                     if (con_timestamps)
                         C_DrawTimeStamp(timestampx, y, console[i].timestamp);
@@ -1019,7 +1009,7 @@ void C_Drawer(void)
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
                     NOBACKGROUNDCOLOR, (type == warningstring ? consolewarningboldcolor : consoleboldcolor),
-                    tinttab66, console[i].tabs, true, true);
+                    tinttab66, notabs, true, true);
             }
         }
 
