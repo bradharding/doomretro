@@ -1445,7 +1445,7 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
     const int   tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
     int         count = 1;
 
-    C_TabbedOutput(tabs, BINDLISTTITLE);
+    C_Header(tabs, BINDLISTTITLE);
 
     for (int i = 0; *actions[i].action; i++)
     {
@@ -1501,7 +1501,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
     const int tabs[8] = { 40, 336, 0, 0, 0, 0, 0, 0 };
     int       count = 0;
 
-    C_TabbedOutput(tabs, CMDLISTTITLE);
+    C_Header(tabs, CMDLISTTITLE);
 
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CMD && *consolecmds[i].description
@@ -1617,7 +1617,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                         for (unsigned int spaces = 0; spaces < 91 - outpos; spaces++)
                             fputc(' ', file);
 
-                        fputs(C_GetTimeStamp(console[i].timestamp), file);
+                        fputs(C_GetTimeStamp(console[i].tics), file);
                     }
 
                     fputc('\n', file);
@@ -1638,7 +1638,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
     const int   tabs[8] = { 40, 210, 318, 0, 0, 0, 0, 0 };
     int         count = 0;
 
-    C_TabbedOutput(tabs, CVARLISTTITLE);
+    C_Header(tabs, CVARLISTTITLE);
 
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR && (!*parms || wildcard(consolecmds[i].name, parms)))
@@ -2691,7 +2691,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     int         count = 0;
     char        (*maplist)[256] = malloc(numlumps * sizeof(char *));
 
-    C_TabbedOutput(tabs, MAPLISTTITLE);
+    C_Header(tabs, MAPLISTTITLE);
 
     // search through lumps for maps
     for (int i = 0; i < numlumps; i++)
@@ -2849,6 +2849,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[8] = { 120, 240, 0, 0, 0, 0, 0, 0 };
+
+    C_Header(tabs, MAPSTATSTITLE);
 
     C_TabbedOutput(tabs, "Title\t<b>%s</b>", mapnumandtitle);
 
@@ -3305,7 +3307,7 @@ static void C_PlayerStats_Game(void)
     const int   time2 = stat_time / TICRATE;
     player_t    *player = &players[0];
 
-    C_TabbedOutput(tabs, PLAYERSTATSTITLE);
+    C_Header(tabs, PLAYERSTATSTITLE);
 
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
@@ -3510,7 +3512,7 @@ static void C_PlayerStats_NoGame(void)
     const int   tabs[8] = { 160, 280, 0, 0, 0, 0, 0, 0 };
     const int   time2 = stat_time / TICRATE;
 
-    C_TabbedOutput(tabs, PLAYERSTATSTITLE);
+    C_Header(tabs, PLAYERSTATSTITLE);
 
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
 
@@ -4042,7 +4044,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
     const int   tabs[8] = { 40, 268, 0, 0, 0, 0, 0, 0 };
     int         count = 0;
 
-    C_TabbedOutput(tabs, THINGLISTTITLE);
+    C_Header(tabs, THINGLISTTITLE);
 
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
     {

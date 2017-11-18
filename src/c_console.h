@@ -80,6 +80,7 @@ typedef enum
     warningstring,
     playermessagestring,
     obituarystring,
+    headerstring,
     STRINGTYPES
 } stringtype_t;
 
@@ -89,7 +90,7 @@ typedef struct
     unsigned int    count;
     stringtype_t    type;
     int             tabs[8];
-    unsigned int    timestamp;
+    unsigned int    tics;
 } console_t;
 
 extern console_t    *console;
@@ -123,6 +124,7 @@ void C_StrCVAROutput(const char *cvar, const char *string);
 void C_CCMDOutput(const char *ccmd);
 void C_Output(const char *string, ...);
 void C_TabbedOutput(const int tabs[8], const char *string, ...);
+void C_Header(const int tabs[8], const char *string, ...);
 void C_Warning(const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_Obituary(const char *string, ...);

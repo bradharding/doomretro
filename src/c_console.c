@@ -106,6 +106,7 @@ static patch_t          *bindlist;
 static patch_t          *cmdlist;
 static patch_t          *cvarlist;
 static patch_t          *maplist;
+static patch_t          *mapstats;
 static patch_t          *playerstats;
 static patch_t          *thinglist;
 
@@ -275,6 +276,25 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     outputhistory = -1;
 }
 
+void C_Header(const int tabs[8], const char *string, ...)
+{
+    va_list argptr;
+    char    buffer[CONSOLETEXTMAXLENGTH];
+
+    va_start(argptr, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
+    va_end(argptr);
+
+    if (consolestrings >= consolestrings_max)
+        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
+
+    strcpy(console[consolestrings].string, buffer);
+    console[consolestrings].type = headerstring;
+    memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
+    consolestrings++;
+    outputhistory = -1;
+}
+
 void C_Warning(const char *string, ...)
 {
     va_list argptr;
@@ -307,7 +327,7 @@ void C_PlayerMessage(const char *string, ...)
 
     if (i >= 0 && console[i].type == playermessagestring && M_StringCompare(console[i].string, buffer))
     {
-        console[i].timestamp = gametic;
+        console[i].tics = gametic;
         console[i].count++;
     }
     else
@@ -317,7 +337,7 @@ void C_PlayerMessage(const char *string, ...)
 
         strcpy(console[consolestrings].string, buffer);
         console[consolestrings].type = playermessagestring;
-        console[consolestrings].timestamp = gametic;
+        console[consolestrings].tics = gametic;
         console[consolestrings++].count = 1;
     }
 
@@ -336,7 +356,7 @@ void C_Obituary(const char *string, ...)
 
     if (i >= 0 && console[i].type == obituarystring && M_StringCompare(console[i].string, buffer))
     {
-        console[i].timestamp = gametic;
+        console[i].tics = gametic;
         console[i].count++;
     }
     else
@@ -346,7 +366,7 @@ void C_Obituary(const char *string, ...)
 
         strcpy(console[consolestrings].string, buffer);
         console[consolestrings].type = obituarystring;
-        console[consolestrings].timestamp = gametic;
+        console[consolestrings].tics = gametic;
         console[consolestrings++].count = 1;
     }
 
@@ -534,6 +554,7 @@ void C_Init(void)
     cmdlist = W_CacheLumpName("DRCMDLST");
     cvarlist = W_CacheLumpName("DRCVRLST");
     maplist = W_CacheLumpName("DRMAPLST");
+    mapstats = W_CacheLumpName("DRMAPST");
     playerstats = W_CacheLumpName("DRPLYRST");
     thinglist = W_CacheLumpName("DRTHNLST");
 
@@ -655,13 +676,13 @@ static void C_DrawBackground(int height)
         DoBlurScreen(0, CONSOLEWIDTH, CONSOLEWIDTH - 1, height, -(CONSOLEWIDTH - 1));
     }
 
-    blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
-
     if (forceconsoleblurredraw)
     {
         forceconsoleblurredraw = false;
         blurred = false;
     }
+    else
+        blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
 
     for (int i = 0; i < height; i++)
         screens[0][i] = tinttab50[(consoletintcolor << 8) + c_blurscreen[i]];
@@ -818,39 +839,37 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
     }
 }
 
-char *C_GetTimeStamp(unsigned int value)
+char *C_GetTimeStamp(unsigned int tics)
 {
     static char buffer[9];
-    int         hours = 0;
-    int         minutes = 0;
-    int         seconds;
+    int         hours = gamestarttime->tm_hour;
+    int         minutes = gamestarttime->tm_min;
+    int         seconds = gamestarttime->tm_sec;
 
-    value /= TICRATE;
-
-    if ((seconds = gamestarttime->tm_sec + (value % 3600) % 60) > 60)
+    if ((seconds += ((tics /= TICRATE) % 3600) % 60) > 60)
     {
-        minutes = seconds / 60;
+        minutes += seconds / 60;
         seconds %= 60;
     }
 
-    if ((minutes += gamestarttime->tm_min + (value % 3600) / 60) > 60)
+    if ((minutes += (tics % 3600) / 60) > 60)
     {
-        hours = minutes / 60;
+        hours += minutes / 60;
         minutes %= 60;
     }
 
-    if ((hours += gamestarttime->tm_hour + value / 3600) > 24)
+    if ((hours += tics / 3600) > 24)
         hours %= 24;
 
     M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
     return buffer;
 }
 
-static void C_DrawTimeStamp(int x, int y, unsigned int value)
+static void C_DrawTimeStamp(int x, int y, unsigned int tics)
 {
     static char buffer[9];
 
-    M_StringCopy(buffer, C_GetTimeStamp(value), 9);
+    M_StringCopy(buffer, C_GetTimeStamp(tics), 9);
     y -= (CONSOLEHEIGHT - consoleheight);
 
     for (int i = 0; i < 8; i++)
@@ -982,28 +1001,7 @@ void C_Drawer(void)
                                     - CONSOLELINEHEIGHT / 2 + 1;
             const stringtype_t  type = console[i].type;
 
-            if (type == dividerstring)
-                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
-                    consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
-            else if (type == outputstring)
-            {
-                if (M_StringCompare(console[i].string, BINDLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
-                else if (M_StringCompare(console[i].string, CMDLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
-                else if (M_StringCompare(console[i].string, CVARLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
-                else if (M_StringCompare(console[i].string, MAPLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
-                else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
-                else if (M_StringCompare(console[i].string, THINGLISTTITLE))
-                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
-                else
-                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
-                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
-            }
-            else if (type == playermessagestring || type == obituarystring)
+            if (type == playermessagestring || type == obituarystring)
             {
                 if (console[i].count > 1)
                 {
@@ -1018,14 +1016,38 @@ void C_Drawer(void)
                         NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true);
 
                     if (con_timestamps)
-                        C_DrawTimeStamp(timestampx, y, console[i].timestamp);
+                        C_DrawTimeStamp(timestampx, y, console[i].tics);
+            }
+            else if (type == outputstring)
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type], NOBACKGROUNDCOLOR,
+                    consoleboldcolor, tinttab66, console[i].tabs, true, true);
+            else if (type == dividerstring)
+                V_DrawConsoleTextPatch(CONSOLETEXTX, y + 5 - (CONSOLEHEIGHT - consoleheight), divider,
+                    consoledividercolor, NOBACKGROUNDCOLOR, false, tinttab50);
+            else if (type == headerstring)
+            {
+                if (M_StringCompare(console[i].string, BINDLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), bindlist);
+                else if (M_StringCompare(console[i].string, CMDLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cmdlist);
+                else if (M_StringCompare(console[i].string, CVARLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), cvarlist);
+                else if (M_StringCompare(console[i].string, MAPLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), maplist);
+                else if (M_StringCompare(console[i].string, MAPSTATSTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), mapstats);
+                else if (M_StringCompare(console[i].string, PLAYERSTATSTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), playerstats);
+                else if (M_StringCompare(console[i].string, THINGLISTTITLE))
+                    V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight), thinglist);
+                else
+                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
+                        NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
             }
             else
-            {
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type],
-                    NOBACKGROUNDCOLOR, (type == warningstring ? consolewarningboldcolor : consoleboldcolor),
-                    tinttab66, notabs, true, true);
-            }
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[type], NOBACKGROUNDCOLOR,
+                    (type == warningstring ? consolewarningboldcolor : consoleboldcolor), tinttab66, notabs,
+                    true, true);
         }
 
         // draw input text to left of caret
