@@ -41,7 +41,6 @@
 #endif
 
 #include <ctype.h>
-#include <time.h>
 
 #include "c_cmds.h"
 #include "c_console.h"
@@ -185,7 +184,7 @@ void C_Print(const stringtype_t type, const char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = type;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings++].timestamp[0] = '\0';
+    consolestrings++;
     outputhistory = -1;
 }
 
@@ -205,7 +204,7 @@ void C_Input(const char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = inputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings++].timestamp[0] = '\0';
+    consolestrings++;
     outputhistory = -1;
 }
 
@@ -252,7 +251,7 @@ void C_Output(const char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-    console[consolestrings++].timestamp[0] = '\0';
+    consolestrings++;
     outputhistory = -1;
 }
 
@@ -269,7 +268,7 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
-    console[consolestrings++].timestamp[0] = '\0';
+    consolestrings++;
     outputhistory = -1;
 }
 
@@ -288,7 +287,7 @@ void C_Warning(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = warningstring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-        console[consolestrings++].timestamp[0] = '\0';
+        consolestrings++;
         outputhistory = -1;
     }
 }
@@ -298,17 +297,14 @@ void C_PlayerMessage(const char *string, ...)
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH] = "";
     const int   i = consolestrings - 1;
-    time_t      rawtime;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    time(&rawtime);
-
     if (i >= 0 && console[i].type == playermessagestring && M_StringCompare(console[i].string, buffer))
     {
-        strftime(console[i].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+        console[i].timestamp = gametic;
         console[i].count++;
     }
     else
@@ -317,8 +313,8 @@ void C_PlayerMessage(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = playermessagestring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-        strftime(console[consolestrings].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
-        console[consolestrings++].count++;
+        console[consolestrings].timestamp = gametic;
+        console[consolestrings++].count = 1;
     }
 
     outputhistory = -1;
@@ -329,17 +325,14 @@ void C_Obituary(const char *string, ...)
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH] = "";
     const int   i = consolestrings - 1;
-    time_t      rawtime;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    time(&rawtime);
-
     if (i >= 0 && console[i].type == obituarystring && M_StringCompare(console[i].string, buffer))
     {
-        strftime(console[i].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
+        console[i].timestamp = gametic;
         console[i].count++;
     }
     else
@@ -348,8 +341,8 @@ void C_Obituary(const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = obituarystring;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
-        strftime(console[consolestrings].timestamp, 9, "%H:%M:%S", localtime(&rawtime));
-        console[consolestrings++].count++;
+        console[consolestrings].timestamp = gametic;
+        console[consolestrings++].count = 1;
     }
 
     outputhistory = -1;
@@ -820,20 +813,49 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
     }
 }
 
-static void C_DrawTimeStamp(int x, int y, const char *text)
+char *C_GetTimeStamp(unsigned int value)
 {
-    const int   len = (int)strlen(text);
+    static char buffer[9];
+    int         hours = 0;
+    int         minutes = 0;
+    int         seconds;
 
+    value /= TICRATE;
+
+    if ((seconds = gamestarttime->tm_sec + (value % 3600) % 60) > 60)
+    {
+        minutes = seconds / 60;
+        seconds %= 60;
+    }
+
+    if ((minutes += gamestarttime->tm_min + (value % 3600) / 60) > 60)
+    {
+        hours = minutes / 60;
+        minutes %= 60;
+    }
+
+    if ((hours += gamestarttime->tm_hour + value / 3600) > 24)
+        hours %= 24;
+
+    M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
+    return buffer;
+}
+
+static void C_DrawTimeStamp(int x, int y, unsigned int value)
+{
+    static char buffer[9];
+
+    M_StringCopy(buffer, C_GetTimeStamp(value), 9);
     y -= (CONSOLEHEIGHT - consoleheight);
 
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < 8; i++)
     {
-        patch_t     *patch = consolefont[text[i] - CONSOLEFONTSTART];
+        patch_t     *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
         const int   width = SHORT(patch->width);
 
-        V_DrawConsoleTextPatch(x + (text[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch,
+        V_DrawConsoleTextPatch(x + (buffer[i] == '1' ? (zerowidth - width) / 2 : 0), y, patch,
             consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab25);
-        x += (isdigit(text[i]) ? zerowidth : width);
+        x += (isdigit(buffer[i]) ? zerowidth : width);
     }
 }
 
@@ -990,7 +1012,7 @@ void C_Drawer(void)
                     C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true);
 
-                    if (con_timestamps && *console[i].timestamp)
+                    if (con_timestamps)
                         C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
             else

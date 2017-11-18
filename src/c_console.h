@@ -86,10 +86,10 @@ typedef enum
 typedef struct
 {
     char            string[1024];
-    int             count;
+    unsigned int    count;
     stringtype_t    type;
     int             tabs[8];
-    char            timestamp[9];
+    unsigned int    timestamp;
 } console_t;
 
 extern console_t    *console;
@@ -138,5 +138,6 @@ void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_StripQuotes(char *string);
 void C_UpdateFPS(void);
+char *C_GetTimeStamp(unsigned int value);
 
 #endif

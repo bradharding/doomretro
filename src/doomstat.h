@@ -39,6 +39,8 @@
 #if !defined(__DOOMSTAT_H__)
 #define __DOOMSTAT_H__
 
+#include <time.h>
+
 // We need globally shared data structures,
 //  for defining the global state variables.
 #include "d_loop.h"
@@ -190,6 +192,8 @@ extern gamestate_t      gamestate;
 extern int              gametic;
 extern int              activetic;
 extern int              gametime;
+extern struct tm        *gamestarttime;
+
 
 extern int              vid_capfps;
 extern dboolean         realframe;

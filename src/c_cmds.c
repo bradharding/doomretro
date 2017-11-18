@@ -1610,12 +1610,13 @@ static void condump_cmd_func2(char *cmd, char *parms)
                         }
                     }
 
-                    if (con_timestamps && *console[i].timestamp)
+                    if ((console[i].type == playermessagestring || console[i].type == obituarystring)
+                        && con_timestamps)
                     {
                         for (unsigned int spaces = 0; spaces < 91 - outpos; spaces++)
                             fputc(' ', file);
 
-                        fputs(console[i].timestamp, file);
+                        fputs(C_GetTimeStamp(console[i].timestamp), file);
                     }
 
                     fputc('\n', file);

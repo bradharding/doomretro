@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <time.h>
+
 #if defined(_WIN32)
 #pragma comment(lib, "winmm.lib")
 
@@ -143,6 +145,8 @@ static int          startuptimer;
 
 dboolean            realframe;
 static dboolean     error;
+
+struct tm           *gamestarttime;
 
 //
 // EVENT HANDLING
@@ -388,8 +392,13 @@ void D_Display(void)
 //
 static void D_DoomLoop(void)
 {
+    time_t  rawtime;
+
     R_ExecuteSetViewSize();
     D_StartGameLoop();
+
+    time(&rawtime);
+    gamestarttime = localtime(&rawtime);
 
     while (1)
     {
