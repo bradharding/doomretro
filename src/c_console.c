@@ -182,12 +182,9 @@ void C_Print(const stringtype_t type, const char *string, ...)
     va_end(argptr);
 
     if (consolestrings >= consolestrings_max)
-    {
-        consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
-        console = I_Realloc(console, consolestrings_max * sizeof(*console));
-    }
+        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
+    strcpy(console[consolestrings].string, buffer);
     console[consolestrings++].type = type;
     outputhistory = -1;
 }
@@ -205,12 +202,9 @@ void C_Input(const char *string, ...)
     va_end(argptr);
 
     if (consolestrings >= consolestrings_max)
-    {
-        consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
-        console = I_Realloc(console, consolestrings_max * sizeof(*console));
-    }
+        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
+    strcpy(console[consolestrings].string, buffer);
     console[consolestrings++].type = inputstring;
     outputhistory = -1;
 }
@@ -255,12 +249,9 @@ void C_Output(const char *string, ...)
     va_end(argptr);
 
     if (consolestrings >= consolestrings_max)
-    {
-        consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
-        console = I_Realloc(console, consolestrings_max * sizeof(*console));
-    }
+        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
+    strcpy(console[consolestrings].string, buffer);
     console[consolestrings++].type = outputstring;
     outputhistory = -1;
 }
@@ -275,12 +266,9 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
     va_end(argptr);
 
     if (consolestrings >= consolestrings_max)
-    {
-        consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
-        console = I_Realloc(console, consolestrings_max * sizeof(*console));
-    }
+        console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
+    strcpy(console[consolestrings].string, buffer);
     console[consolestrings].type = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     consolestrings++;
@@ -299,12 +287,9 @@ void C_Warning(const char *string, ...)
     if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
         if (consolestrings >= consolestrings_max)
-        {
-            consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
-            console = I_Realloc(console, consolestrings_max * sizeof(*console));
-        }
+            console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-        M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
+        strcpy(console[consolestrings].string, buffer);
         console[consolestrings++].type = warningstring;
         outputhistory = -1;
     }
@@ -328,12 +313,9 @@ void C_PlayerMessage(const char *string, ...)
     else
     {
         if (consolestrings >= consolestrings_max)
-        {
-            consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
-            console = I_Realloc(console, consolestrings_max * sizeof(*console));
-        }
+            console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-        M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
+        strcpy(console[consolestrings].string, buffer);
         console[consolestrings].type = playermessagestring;
         console[consolestrings].timestamp = gametic;
         console[consolestrings++].count = 1;
@@ -360,12 +342,9 @@ void C_Obituary(const char *string, ...)
     else
     {
         if (consolestrings >= consolestrings_max)
-        {
-            consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
-            console = I_Realloc(console, consolestrings_max * sizeof(*console));
-        }
+            console = I_Realloc(console, (consolestrings_max += 128) * sizeof(*console));
 
-        M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
+        strcpy(console[consolestrings].string, buffer);
         console[consolestrings].type = obituarystring;
         console[consolestrings].timestamp = gametic;
         console[consolestrings++].count = 1;
