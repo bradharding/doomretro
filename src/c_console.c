@@ -116,6 +116,7 @@ static short            spacewidth;
 static char             consoleinput[255];
 static int              numautocomplete;
 int                     consolestrings;
+int                     consolestrings_max = 0;
 
 static int              undolevels;
 static undohistory_t    *undohistory;
@@ -174,13 +175,18 @@ extern dboolean         togglingvanilla;
 void C_Print(const stringtype_t type, const char *string, ...)
 {
     va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
+    if (consolestrings >= consolestrings_max)
+    {
+        consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
+        console = I_Realloc(console, consolestrings_max * sizeof(*console));
+    }
+
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings++].type = type;
     outputhistory = -1;
@@ -189,7 +195,7 @@ void C_Print(const stringtype_t type, const char *string, ...)
 void C_Input(const char *string, ...)
 {
     va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     if (togglingvanilla)
         return;
@@ -198,7 +204,12 @@ void C_Input(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
+    if (consolestrings >= consolestrings_max)
+    {
+        consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
+        console = I_Realloc(console, consolestrings_max * sizeof(*console));
+    }
+
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings++].type = inputstring;
     outputhistory = -1;
@@ -237,13 +248,18 @@ void C_CCMDOutput(const char *ccmd)
 void C_Output(const char *string, ...)
 {
     va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
+    if (consolestrings >= consolestrings_max)
+    {
+        consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
+        console = I_Realloc(console, consolestrings_max * sizeof(*console));
+    }
+
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings++].type = outputstring;
     outputhistory = -1;
@@ -252,13 +268,18 @@ void C_Output(const char *string, ...)
 void C_TabbedOutput(const int tabs[8], const char *string, ...)
 {
     va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
+    if (consolestrings >= consolestrings_max)
+    {
+        consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
+        console = I_Realloc(console, consolestrings_max * sizeof(*console));
+    }
+
     M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
     console[consolestrings].type = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
@@ -269,7 +290,7 @@ void C_TabbedOutput(const int tabs[8], const char *string, ...)
 void C_Warning(const char *string, ...)
 {
     va_list argptr;
-    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
@@ -277,7 +298,12 @@ void C_Warning(const char *string, ...)
 
     if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
-        console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
+        if (consolestrings >= consolestrings_max)
+        {
+            consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
+            console = I_Realloc(console, consolestrings_max * sizeof(*console));
+        }
+
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings++].type = warningstring;
         outputhistory = -1;
@@ -287,7 +313,7 @@ void C_Warning(const char *string, ...)
 void C_PlayerMessage(const char *string, ...)
 {
     va_list     argptr;
-    char        buffer[CONSOLETEXTMAXLENGTH] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH];
     const int   i = consolestrings - 1;
 
     va_start(argptr, string);
@@ -301,7 +327,12 @@ void C_PlayerMessage(const char *string, ...)
     }
     else
     {
-        console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
+        if (consolestrings >= consolestrings_max)
+        {
+            consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
+            console = I_Realloc(console, consolestrings_max * sizeof(*console));
+        }
+
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = playermessagestring;
         console[consolestrings].timestamp = gametic;
@@ -328,7 +359,12 @@ void C_Obituary(const char *string, ...)
     }
     else
     {
-        console = I_Realloc(console, (consolestrings + 1) * sizeof(*console));
+        if (consolestrings >= consolestrings_max)
+        {
+            consolestrings_max = (consolestrings_max ? consolestrings_max + 128 : 128);
+            console = I_Realloc(console, consolestrings_max * sizeof(*console));
+        }
+
         M_StringCopy(console[consolestrings].string, buffer, CONSOLETEXTMAXLENGTH);
         console[consolestrings].type = obituarystring;
         console[consolestrings].timestamp = gametic;
