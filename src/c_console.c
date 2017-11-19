@@ -1514,6 +1514,10 @@ dboolean C_Responder(event_t *ev)
 
                         autocomplete += direction;
                         M_StringCopy(output, autocompletelist[autocomplete], sizeof(output));
+
+                        if (M_StringCompare(output, input))
+                            continue;
+
                         len2 = (int)strlen(output);
                         spaces2 = numspaces(output);
                         endspace2 = (output[len2 - 1] == ' ');
