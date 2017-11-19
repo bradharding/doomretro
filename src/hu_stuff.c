@@ -1024,8 +1024,8 @@ void HU_Ticker(void)
     const dboolean  idmypos = plr->cheats & CF_MYPOS;
 
     // tick down message counter if message is up
-    if (((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause) && !idbehold
-        && !idmypos && message_counter && !--message_counter)
+    if (message_counter && ((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause)
+        && !idbehold && !idmypos && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
@@ -1081,7 +1081,7 @@ void HU_Ticker(void)
     }
 
     // display message if necessary
-    if ((plr->message && !message_nottobefuckedwith) || (plr->message && message_dontfuckwithme))
+    if (plr->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
         if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
         {
@@ -1128,7 +1128,6 @@ void HU_PlayerMessage(char *message, dboolean external)
         M_StringCopy(buffer, message, sizeof(buffer));
 
     buffer[0] = toupper(buffer[0]);
-
     C_PlayerMessage(buffer);
 
     if (plr && !consoleactive && !message_dontfuckwithme)
