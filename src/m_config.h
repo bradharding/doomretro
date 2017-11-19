@@ -78,12 +78,10 @@ extern int          gp_vibrate_barrels;
 extern int          gp_vibrate_damage;
 extern int          gp_vibrate_weapons;
 extern char         *iwadfolder;
-extern float        m_acceleration;
 extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
 extern int          m_sensitivity;
-extern int          m_threshold;
 extern dboolean     messages;
 extern dboolean     mouselook;
 extern int          movebob;
@@ -366,10 +364,6 @@ enum
 
 #define iwadfolder_default                      "C:\\"
 
-#define m_acceleration_min                      0
-#define m_acceleration_default                  2.0
-#define m_acceleration_max                      INT_MAX
-
 #define m_doubleclick_use_default               false
 
 #define m_invertyaxis_default                   false
@@ -379,10 +373,6 @@ enum
 #define m_sensitivity_min                       0
 #define m_sensitivity_default                   32
 #define m_sensitivity_max                       128
-
-#define m_threshold_min                         0
-#define m_threshold_default                     10
-#define m_threshold_max                         INT_MAX
 
 #define messages_default                        false
 

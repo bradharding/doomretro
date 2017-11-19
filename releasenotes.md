@@ -17,6 +17,7 @@
 * Items dropped by monsters when they are killed are now spawned above rather than on the floor before being tossed upwards.
 * Tossing items dropped by monsters when they are killed can now be toggled on or off using the new `tossdrop` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * The position of player messages can now be changed using the new `r_messagepos` CVAR. This CVAR is `(3,2)` by default and `(0,0)` when vanilla mode is enabled.
+* The `m_acceleration` and `m_threshold` CVARs have been removed.
 * The `vid_windowposition` CVAR has been shortened to just `vid_windowpos`.
 * If they can be found, the *Final DOOM* IWADs (`plutonia.wad` and `tnt.wad`) will now automatically be loaded for certain PWADs that require them.
 * Brightmaps are now applied to more wall textures in *Final DOOM: TNT - Evilution* when the `r_brightmaps` CVAR is `on`.
