@@ -227,6 +227,8 @@ void I_InitWindows32(void)
     SDL_SysWMinfo   info;
     HWND            hwnd;
 
+    SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
+
     SDL_VERSION(&info.version);
 
     SDL_GetWindowWMInfo(window, &info);
