@@ -74,7 +74,7 @@
 #define CONSOLESCROLLBARX       (CONSOLEWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 #define CONSOLESCROLLBARY       (CONSOLETEXTY + 1)
 
-#define CONSOLETEXTPIXELWIDTH   (CONSOLEWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 3 + !scrollbardrawn * 8)
+#define CONSOLETEXTPIXELWIDTH   (CONSOLEWIDTH - CONSOLETEXTX * 2 - (scrollbardrawn ? CONSOLESCROLLBARWIDTH + CONSOLETEXTX : 0))
 
 #define CONSOLEINPUTPIXELWIDTH  (CONSOLEWIDTH - CONSOLETEXTX - brandwidth - 2)
 
@@ -811,11 +811,17 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     }
 
     if (truncate < len)
-        for (int i = 0; i < 3; i++)
+    {
+        V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, tinttab);
+        x += SHORT(dot->width);
+        V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, tinttab);
+
+        if (text[truncate - 1] != '.')
         {
-            V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, tinttab);
             x += SHORT(dot->width);
+            V_DrawConsoleTextPatch(x, y, dot, lastcolor1, color2, false, tinttab);
         }
+    }
 }
 
 static void C_DrawOverlayText(int x, int y, const char *text, const int color)
