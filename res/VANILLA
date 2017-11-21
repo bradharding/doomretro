@@ -20,7 +20,8 @@ am_wallcolor 176
 autoload off
 autouse off
 centerweapon off
-facebackcolor 5
+facebackcolor none
+m_doubleclick_use on
 m_novertical off
 m_sensitivity 8
 messages on
@@ -69,6 +70,7 @@ turbo 100%
 vid_capfps 35
 vid_motionblur 0%
 vid_pillarboxes off
+vid_showfps off
 weaponbob 100%
 weaponrecoil off
 wipe on

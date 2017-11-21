@@ -32,6 +32,7 @@
 * Pain elementals killed using the `kill` CCMD are now counted correctly in the stats displayed by the `playerstats` CCMD.
 * The media keys on some keyboards now work correctly if pressed while *DOOM Retro* is running.
 * The shadows cast by monsters when the `r_shadows` CVAR is `on` no longer bleed into the bottom edge of the player’s view, or into a higher sector in the foreground.
+* The `m_doubleclick_use` CVAR is now turned `on` and the `vid_showfps` CVAR `off` when vanilla mode is enabled.
 
 ---
 
