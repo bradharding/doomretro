@@ -1338,7 +1338,7 @@ void V_DrawBlock(int x, int y, int width, int height, byte *src)
 
 void V_DrawPixel(int x, int y, byte color, dboolean shadow)
 {
-    byte    *dest = &screens[0][y * SCREENSCALE * SCREENWIDTH + x * SCREENSCALE];
+    byte    *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
 
     if (color == 251)
     {

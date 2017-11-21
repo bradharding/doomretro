@@ -1313,7 +1313,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     if (con_obituaries && source && source != target && !hacx)
     {
-        char    *name = (*info->name1 ? info->name1 : "monster");
+        char        *name = (*info->name1 ? info->name1 : "monster");
+        dboolean    defaultplayername = M_StringCompare(playername, playername_default);
 
         if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
             C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
@@ -1321,25 +1322,22 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         else if (source->player)
             C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername), (type == MT_BARREL ? "exploded" :
                 (gibbed ? "gibbed" : "killed")), (target->player ? "" : (isvowel(name[0]) ? "an " : "a ")),
-                (target->player ? (M_StringCompare(playername, playername_default) ? "yourself" :
-                "themselves") : name), (M_StringCompare(playername, playername_default) ? "your" : "their"),
-                (source->player->readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
-                weapondescription[source->player->readyweapon]);
+                (target->player ? (defaultplayername ? "yourself" : "themselves") : name), (defaultplayername ?
+                "your" : "their"), (source->player->readyweapon == wp_fist && source->player->powers[pw_strength] ?
+                "berserk " : ""), weapondescription[source->player->readyweapon]);
         else
         {
             if (source->type == MT_TFOG)
                 C_Obituary("%s%s was telefragged.", (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
-                    (target->player ? (M_StringCompare(playername, playername_default) ? playername :
-                    titlecase(playername)) : name));
+                    (target->player ? (defaultplayername ? playername : titlecase(playername)) : name));
             else
             {
-                char *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
+                char    *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
 
                 C_Obituary("%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
                     (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")), (target->player ? "" :
                     (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a "))),
-                    (target->player ? (M_StringCompare(playername, playername_default) ? playername :
-                    titlecase(playername)) : name));
+                    (target->player ? (defaultplayername ? playername : titlecase(playername)) : name));
             }
         }
     }
