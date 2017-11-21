@@ -204,7 +204,8 @@ void R_DrawShadowColumn(void)
         dest += SCREENWIDTH;
     }
 
-    *dest = edge[*dest];
+    if (dc_yh < viewheight - 1)
+        *dest = 251;
 }
 
 void R_DrawFuzzyShadowColumn(void)

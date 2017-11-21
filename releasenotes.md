@@ -30,6 +30,7 @@
 * Improvements have been made to the effect when the player is damaged and the `r_shake_damage` CVAR is `on`.
 * A time limit for each map can now be set in minutes using the new `timer` CCMD, functioning like the command-line parameter of the same name.
 * Pain elementals killed using the `kill` CCMD are now counted correctly in the stats displayed by the `playerstats` CCMD.
+* The shadows cast by monsters when the `r_shadows` CVAR is `on` will no longer bleed into the bottom edge of the player’s view.
 
 ---
 
