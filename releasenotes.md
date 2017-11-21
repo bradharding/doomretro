@@ -31,6 +31,8 @@
 * A time limit for each map can now be set in minutes using the new `timer` CCMD, functioning like the command-line parameter of the same name.
 * Pain elementals killed using the `kill` CCMD are now counted correctly in the stats displayed by the `playerstats` CCMD.
 * The shadows cast by monsters when the `r_shadows` CVAR is `on` will no longer bleed into the bottom edge of the player’s view.
+* The media keys on some keyboards now work correctly if pressed while *DOOM Retro* is running.
+* The shadows cast by monsters when the `r_shadows` CVAR is `on` no longer bleed into the bottom edge of the player’s view, or into a higher sector when partially obscured by it.
 
 ---
 

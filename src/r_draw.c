@@ -204,7 +204,7 @@ void R_DrawShadowColumn(void)
         dest += SCREENWIDTH;
     }
 
-    if (dc_yh < viewheight - 1)
+    if (dc_yh < viewheight - 1 && dc_yh < dc_floorclip)
         *dest = edge[*dest];
 }
 
