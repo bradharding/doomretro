@@ -225,7 +225,7 @@ void R_DrawFuzzyShadowColumn(void)
         dest += SCREENWIDTH;
     }
 
-    if (dc_floorclip == viewheight - 1 && dc_yh < dc_floorclip
+    if (dc_yh < viewheight - 1 && dc_yh < dc_floorclip
         && ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() % 4))))
         *dest = translucency[*dest];
 }
@@ -993,7 +993,7 @@ void R_DrawFuzzColumn(void)
     // bottom
     *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
 
-    if (dc_floorclip == viewheight - 1 && dc_yh < dc_floorclip && dc_baseclip == viewheight && !(M_Random() % 4))
+    if (dc_yh < viewheight - 1 && dc_yh < dc_floorclip && dc_baseclip == viewheight && !(M_Random() % 4))
     {
         dest += SCREENWIDTH;
         *dest = fullcolormap[14 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(0, 1))]];
@@ -1034,8 +1034,7 @@ void R_DrawPausedFuzzColumn(void)
     // bottom
     *dest = fullcolormap[5 * 256 + dest[MIN(fuzztable[fuzzpos++], 0)]];
 
-    if (dc_floorclip == viewheight - 1 && dc_yh < dc_floorclip && dc_baseclip == viewheight
-        && !fuzztable[fuzzpos++])
+    if (dc_yh < viewheight - 1 && dc_yh < dc_floorclip && dc_baseclip == viewheight && !fuzztable[fuzzpos++])
     {
         dest += SCREENWIDTH;
         *dest = fullcolormap[12 * 256 + dest[fuzztable[fuzzpos]]];
