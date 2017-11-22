@@ -766,12 +766,7 @@ void R_RenderPlayerView(player_t *player)
     R_ClearSprites();
 
     if (automapactive)
-    {
         R_RenderBSPNode(numnodes - 1);
-
-        if (r_playersprites)
-            R_DrawPlayerSprites();
-    }
     else
     {
         if (r_homindicator)
