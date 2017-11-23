@@ -1311,14 +1311,21 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (chex)
         return;
 
-    if (con_obituaries && source && source != target && !hacx)
+    if (con_obituaries && source && !hacx)
     {
         char        *name = (*info->name1 ? info->name1 : "monster");
         dboolean    defaultplayername = M_StringCompare(playername, playername_default);
 
         if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
-            C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
-                (gibbed ? "gibbed" : "killed"));
+        {
+            if (target->player)
+                C_Obituary("%s%s %s %s by an exploding barrel.", (target->player ? "" : (isvowel(name[0]) ?
+                    "An " : "A ")), (target->player ? titlecase(playername) : name), (defaultplayername ? "were" :
+                    "was"), (gibbed ? "gibbed" : "killed"));
+            else
+                C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
+                    (gibbed ? "gibbed" : "killed"));
+        }
         else if (source->player)
             C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername), (type == MT_BARREL ? "exploded" :
                 (gibbed ? "gibbed" : "killed")), (target->player ? "" : (isvowel(name[0]) ? "an " : "a ")),

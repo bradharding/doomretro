@@ -33,6 +33,7 @@
 * The media keys on some keyboards now work correctly if pressed while *DOOM Retro* is running.
 * The shadows cast by monsters when the `r_shadows` CVAR is `on` no longer bleed into the bottom edge of the player’s view, or into a higher sector in the foreground.
 * The `m_doubleclick_use` CVAR is now turned `on` and the `vid_showfps` CVAR `off` when vanilla mode is enabled.
+* An obituary is now displayed in the console when the player is killed by an exploding barrel and the `con_obituaries` CVAR is `on`.
 
 ---
 
