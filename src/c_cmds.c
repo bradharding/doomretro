@@ -1569,6 +1569,12 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     strreplace(string, "</i>", "");
                     len = (int)strlen(string);
 
+                    if (console[i].type == warningstring)
+                    {
+                        fputs("! ", file);
+                        len += 2;
+                    }
+
                     for (int inpos = 0; inpos < len; inpos++)
                     {
                         const unsigned char letter = string[inpos];
