@@ -365,8 +365,7 @@ static void R_RenderSegLoop(void)
         if (segtextured)
         {
             // calculate texture offset and lighting
-            angle_t angle = MIN((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT,
-                        FINEANGLES / 2 - 1);
+            angle_t angle = MIN((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1);
 
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 

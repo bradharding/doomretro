@@ -100,20 +100,20 @@ static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 //
 static dboolean P_CrossSubsector(int num)
 {
-    sector_t    *front;
-    sector_t    *back;
-    fixed_t     opentop;
-    fixed_t     openbottom;
-    divline_t   divl;
-    vertex_t    *v1;
-    vertex_t    *v2;
     subsector_t *sub = subsectors + num;
     seg_t       *seg = segs + sub->firstline;
 
     for (int count = sub->numlines; count; seg++, count--)
     {
-        line_t  *line = seg->linedef;
-        fixed_t frac;
+        line_t      *line = seg->linedef;
+        fixed_t     frac;
+        sector_t    *front;
+        sector_t    *back;
+        fixed_t     opentop;
+        fixed_t     openbottom;
+        divline_t   divl;
+        vertex_t    *v1;
+        vertex_t    *v2;
 
         if (line->bbox[BOXLEFT] > los.bbox[BOXRIGHT] || line->bbox[BOXRIGHT] < los.bbox[BOXLEFT]
             || line->bbox[BOXBOTTOM] > los.bbox[BOXTOP] || line->bbox[BOXTOP] < los.bbox[BOXBOTTOM])
@@ -150,13 +150,13 @@ static dboolean P_CrossSubsector(int num)
 
         line->validcount = validcount;
 
-        // crosses a two sided line
-        front = seg->frontsector;
-        back = seg->backsector;
-
         // stop because it is not two sided anyway
         if (!(line->flags & ML_TWOSIDED))
             return false;
+
+        // crosses a two sided line
+        front = seg->frontsector;
+        back = seg->backsector;
 
         // no wall to block sight with?
         if (front->floorheight == back->floorheight && front->ceilingheight == back->ceilingheight)
