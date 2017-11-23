@@ -50,6 +50,21 @@ typedef enum
 extern dboolean *isliquid;
 extern dboolean *isteleport;
 
+extern short    nukagestart;
+extern short    nukageend;
+extern short    fwaterstart;
+extern short    fwaterend;
+extern short    swaterstart;
+extern short    swaterend;
+extern short    lavastart;
+extern short    lavaend;
+extern short    bloodstart;
+extern short    bloodend;
+extern short    rrockstart;
+extern short    rrockend;
+extern short    slimestart;
+extern short    slimeend;
+
 // at game start
 void P_InitPicAnims(void);
 

@@ -127,6 +127,21 @@ extern dboolean canmodify;
 dboolean        *isliquid;
 dboolean        *isteleport;
 
+short           nukagestart;
+short           nukageend;
+short           fwaterstart;
+short           fwaterend;
+short           swaterstart;
+short           swaterend;
+short           lavastart;
+short           lavaend;
+short           bloodstart;
+short           bloodend;
+short           rrockstart;
+short           rrockend;
+short           slimestart;
+short           slimeend;
+
 //
 // P_InitPicAnims
 //
@@ -266,6 +281,21 @@ void P_SetLiquids(void)
             sectors[i].isliquid = true;
             numliquid++;
         }
+
+    nukagestart = R_CheckFlatNumForName("NUKAGE1");
+    nukageend = R_CheckFlatNumForName("NUKAGE3");
+    fwaterstart = R_CheckFlatNumForName("FWATER1");
+    fwaterend = R_CheckFlatNumForName("FWATER4");
+    swaterstart = R_CheckFlatNumForName("SWATER1");
+    swaterend = R_CheckFlatNumForName("SWATER4");
+    lavastart = R_CheckFlatNumForName("LAVA1");
+    lavaend = R_CheckFlatNumForName("LAVA4");
+    bloodstart = R_CheckFlatNumForName("BLOOD1");
+    bloodend = R_CheckFlatNumForName("BLOOD3");
+    rrockstart = R_CheckFlatNumForName("RROCK05");
+    rrockend = R_CheckFlatNumForName("RROCK08");
+    slimestart = R_CheckFlatNumForName("SLIME01");
+    slimeend = R_CheckFlatNumForName("SLIME12");
 }
 
 //
