@@ -847,7 +847,6 @@ mobjtype_t P_FindDoomedNum(unsigned int type)
 void P_RespawnSpecials(void)
 {
     fixed_t     x, y, z;
-    subsector_t *ss;
     mobj_t      *mo;
     mapthing_t  *mthing;
     int         i;
@@ -865,21 +864,19 @@ void P_RespawnSpecials(void)
 
     mthing = &itemrespawnque[iquetail];
 
-    x = mthing->x << FRACBITS;
-    y = mthing->y << FRACBITS;
-
-    // spawn a teleport fog at the new spot
-    ss = R_PointInSubsector(x, y);
-    mo = P_SpawnMobj(x, y, ss->sector->floorheight, MT_IFOG);
-    S_StartSound(mo, sfx_itmbk);
-
     // find which type to spawn
     // killough 8/23/98: use table for faster lookup
     i = P_FindDoomedNum(mthing->type);
 
-    // spawn it
+    x = mthing->x << FRACBITS;
+    y = mthing->y << FRACBITS;
     z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
+    // spawn a teleport fog at the new spot
+    mo = P_SpawnMobj(x, y, z, MT_IFOG);
+    S_StartSound(mo, sfx_itmbk);
+
+    // spawn it
     mo = P_SpawnMobj(x, y, z, i);
     mo->spawnpoint = *mthing;
     mo->angle = ANG45 * (mthing->angle / 45);
