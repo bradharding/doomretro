@@ -1233,7 +1233,7 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->lastenemy, P_IndexToThing((uintptr_t)mo->lastenemy));
     }
 
-    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing((uintptr_t)viewplayer->attacker));
+    P_SetNewTarget(&players[0].attacker, P_IndexToThing((uintptr_t)players[0].attacker));
 }
 
 //
