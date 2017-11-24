@@ -87,9 +87,9 @@ struct sfxinfo_struct
 typedef struct
 {
     // up to 6-character name
-    char        *name;
+    char        name[9];
 
-    char        *title;
+    char        title[32];
 
     // lump number of music
     int         lumpnum;

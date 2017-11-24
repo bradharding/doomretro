@@ -3296,7 +3296,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
                         C_Output("Changing name of music from %s to %*s", S_music[i].name, usedlen,
                             &inbuffer[fromlen]);
 
-                    S_music[i].name = strdup(&inbuffer[fromlen]);
+                    strncpy(S_music[i].name, &inbuffer[fromlen], 9);
                     found = true;
                     break;      // only one matches, quit early
                 }
