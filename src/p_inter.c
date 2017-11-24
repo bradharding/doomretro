@@ -1321,43 +1321,49 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             if (inflicter && inflicter->type == MT_BARREL && type != MT_BARREL)
             {
                 if (target->player)
-                    C_Obituary("%s%s %s %s by an exploding barrel.",
-                        (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
-                        (target->player ? titlecase(playername) : name),
-                        (defaultplayername ? "were" : "was"),
-                        (gibbed ? "gibbed" : "killed"));
+                    C_Obituary("%s %s %s by an exploding barrel.", titlecase(playername),
+                        (defaultplayername ? "were" : "was"), (gibbed ? "gibbed" : "killed"));
                 else
-                    C_Obituary("%s %s was %s by an exploding barrel.",
-                        (isvowel(name[0]) ? "An" : "A"),
-                        name,
+                    C_Obituary("%s %s was %s by an exploding barrel.", (isvowel(name[0]) ? "An" : "A"), name,
                         (gibbed ? "gibbed" : "killed"));
             }
             else if (source->player)
-                C_Obituary("%s %s %s%s with %s %s%s.",
-                    titlecase(playername),
-                    (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                    (target->player ? "" : (isvowel(name[0]) ? "an " : "a ")),
-                    (target->player ? (defaultplayername ? "yourself" : "themselves") : name),
-                    (defaultplayername ? "your" : "their"),
-                    (source->player->readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
-                    weapondescription[source->player->readyweapon]);
+            {
+                weapontype_t    readyweapon = source->player->readyweapon;
+
+                if (target->player)
+                    C_Obituary("%s %s %s with %s %s%s.", titlecase(playername),
+                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                        (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
+                        (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
+                        weapondescription[readyweapon]);
+                else
+                    C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
+                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                        (isvowel(name[0]) ? "an " : "a "), name, (defaultplayername ? "your" : "their"),
+                        (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
+                        weapondescription[readyweapon]);
+
+            }
             else
             {
                 if (source->type == MT_TFOG)
-                    C_Obituary("%s%s %s telefragged.",
-                        (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
-                        (target->player ? titlecase(playername) : name),
-                        (defaultplayername ? "were" : "was"));
+                    C_Obituary("%s%s %s telefragged.", (target->player ? "" : (isvowel(name[0]) ? "An " : "A ")),
+                        (target->player ? titlecase(playername) : name), (defaultplayername ? "were" : "was"));
                 else
                 {
                     char    *sourcename = (*source->info->name1 ? source->info->name1 : "monster");
 
-                    C_Obituary("%s %s %s %s%s.",
-                        (isvowel(sourcename[0]) ? "An" : "A"),
-                        sourcename,
-                        (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                        (target->player ? "" : (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a "))),
-                        (target->player ? (defaultplayername ? playername : titlecase(playername)) : name));
+                    if (target->player)
+                        C_Obituary("%s %s %s %s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
+                            (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                            (defaultplayername ? playername : titlecase(playername)));
+                    else
+                        C_Obituary("%s %s %s %s%s.", (isvowel(sourcename[0]) ? "An" : "A"), sourcename,
+                            (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                            (source->type == target->type ? "another " : (isvowel(name[0]) ? "an " : "a ")),
+                            name);
+
                 }
             }
         }
@@ -1386,12 +1392,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     liquid = " in slime";
             }
 
-            C_Obituary("%s %s %s%s%s.",
-                titlecase(playername),
+            C_Obituary("%s %s %s%s.", titlecase(playername),
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                (target->player ? "" : (isvowel(name[0]) ? "an " : "a ")),
-                (target->player ? (defaultplayername ? "yourself" : "themselves") : name),
-                liquid);
+                (defaultplayername ? "yourself" : "themselves"), liquid);
         }
     }
 
