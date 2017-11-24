@@ -472,8 +472,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
 {
     fixed_t     x = mobj->spawnpoint.x << FRACBITS;
     fixed_t     y = mobj->spawnpoint.y << FRACBITS;
-    fixed_t     z;
-    subsector_t *ss;
+    fixed_t     z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
     mobj_t      *mo;
     mapthing_t  *mthing = &mobj->spawnpoint;
 
@@ -490,23 +489,21 @@ static void P_NightmareRespawn(mobj_t *mobj)
 
     // spawn a teleport fog at old spot
     //  because of removal of the body?
-    mo = P_SpawnMobj(mobj->x, mobj->y, mobj->subsector->sector->floorheight, MT_TFOG);
+    mo = P_SpawnMobj(mobj->x, mobj->y, z, MT_TFOG);
     mo->angle = mobj->angle;
 
     // initiate teleport sound
     S_StartSound(mo, sfx_telept);
 
     // spawn a teleport fog at the new spot
-    ss = R_PointInSubsector(x, y);
-
-    mo = P_SpawnMobj(x, y, ss->sector->floorheight, MT_TFOG);
-    mo->angle = ANG45 * (mthing->angle / 45);
-
-    S_StartSound(mo, sfx_telept);
+    if (x != mobj->x || y != mobj->y)
+    {
+        mo = P_SpawnMobj(x, y, z, MT_TFOG);
+        mo->angle = ANG45 * (mthing->angle / 45);
+        S_StartSound(mo, sfx_telept);
+    }
 
     // spawn the new monster
-    z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
-
     // inherit attributes from deceased one
     mo = P_SpawnMobj(x, y, z, mobj->type);
     mo->spawnpoint = mobj->spawnpoint;
