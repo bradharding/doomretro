@@ -852,19 +852,19 @@ char *C_GetTimeStamp(unsigned int tics)
     int         minutes = gamestarttime->tm_min;
     int         seconds = gamestarttime->tm_sec;
 
-    if ((seconds += ((tics /= TICRATE) % 3600) % 60) > 60)
+    if ((seconds += ((tics /= TICRATE) % 3600) % 60) >= 60)
     {
         minutes += seconds / 60;
         seconds %= 60;
     }
 
-    if ((minutes += (tics % 3600) / 60) > 60)
+    if ((minutes += (tics % 3600) / 60) >= 60)
     {
         hours += minutes / 60;
         minutes %= 60;
     }
 
-    if ((hours += tics / 3600) > 24)
+    if ((hours += tics / 3600) >= 24)
         hours %= 24;
 
     M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
