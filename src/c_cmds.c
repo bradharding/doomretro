@@ -311,7 +311,6 @@ static void bool_cvars_func2(char *cmd, char *parms);
 static dboolean color_cvars_func1(char *cmd, char *parms);
 static void color_cvars_func2(char *cmd, char *parms);
 static dboolean float_cvars_func1(char *cmd, char *parms);
-static void float_cvars_func2(char *cmd, char *parms);
 static dboolean int_cvars_func1(char *cmd, char *parms);
 static void int_cvars_func2(char *cmd, char *parms);
 static void str_cvars_func2(char *cmd, char *parms);
@@ -4257,41 +4256,6 @@ static dboolean float_cvars_func1(char *cmd, char *parms)
         }
 
     return false;
-}
-
-static void float_cvars_func2(char *cmd, char *parms)
-{
-    for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_FLOAT) && !(consolecmds[i].flags & CF_READONLY))
-        {
-            if (*parms)
-            {
-                float value = FLT_MIN;
-
-                sscanf(parms, "%10f", &value);
-
-                if (value != FLT_MIN && value != *(float *)consolecmds[i].variable)
-                {
-                    *(float *)consolecmds[i].variable = value;
-                    M_SaveCVARs();
-                }
-            }
-            else
-            {
-                C_Output(removenewlines(consolecmds[i].description));
-
-                if (*(float *)consolecmds[i].variable == consolecmds[i].defaultnumber)
-                    C_Output("It is currently set to its default of <b>%s</b>.",
-                        striptrailingzero(*(float *)consolecmds[i].variable, 2));
-                else
-                    C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                        striptrailingzero(*(float *)consolecmds[i].variable, 2),
-                        striptrailingzero(consolecmds[i].defaultnumber, 2));
-            }
-
-            break;
-        }
 }
 
 //
