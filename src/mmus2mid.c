@@ -7,7 +7,7 @@
 ========================================================================
 
   Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2017 Brad Harding.
+  Copyright © 2013-2018 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
   For a list of credits, see <http://wiki.doomretro.com/credits>.
@@ -185,7 +185,7 @@ static dboolean TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value)
     while (1)                           // write bytes out in opposite order
     {
         // proff: Added typecast to avoid warning
-        if (!TWriteByte(mididata, MIDItrack, (char)(buffer & 0xFF)))    // insure buffer masked
+        if (!TWriteByte(mididata, MIDItrack, (char)(buffer & 0xFF)))    // ensure buffer masked
             return false;
 
         if (buffer & 0x80)

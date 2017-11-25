@@ -1,3 +1,9 @@
+### DOOM Retro v2.6.1
+
+---
+
+###### Saturday, November 25, 2017
+
 ### DOOM Retro v2.6
 
 * *DOOM Retro* now uses [*SDL v2.0.7*](http://libsdl.org), [*SDL_mixer v2.0.2*](http://libsdl.org/SDL_mixer) and [*SDL_image v2.0.2*](http://libsdl.org/SDL_image).
