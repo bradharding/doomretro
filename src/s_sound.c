@@ -380,9 +380,9 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 }
 
 // Changes volume and stereo-separation variables from the norm of a sound
-// effect to be played. If the sound is not audible, returns a 0. Otherwise,
-// modifies parameters and returns 1.
-static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *sep)
+// effect to be played. If the sound is not audible, returns false. Otherwise,
+// modifies parameters and returns true.
+static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int *vol, int *sep)
 {
     fixed_t dist = 0;
     fixed_t adx;
@@ -390,26 +390,32 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     angle_t angle;
 
     if (nosfx || !listener)
-        return 0;
+        return false;
 
-    // calculate the distance to sound origin
-    //  and clip it if necessary
+    // calculate the distance to sound origin and clip it if necessary
     // killough 11/98: scale coordinates down before calculations start
     // killough 12/98: use exact distance formula instead of approximation
-    adx = ABS((listener->x >> FRACBITS) - (source->x >> FRACBITS));
-    ady = ABS((listener->y >> FRACBITS) - (source->y >> FRACBITS));
+    adx = ABS((listener->x >> FRACBITS) - (x >> FRACBITS));
+    ady = ABS((listener->y >> FRACBITS) - (y >> FRACBITS));
 
     if (ady > adx)
         SWAP(adx, ady);
 
     if (adx)
         dist = FixedDiv(adx, finesine[(tantoangle[FixedDiv(ady, adx) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
+    else
+    {
+        // killough 11/98: handle zero-distance as special case
+        *sep = NORM_SEP;
+        *vol = snd_SfxVolume;
+        return (*vol > 0);
+    }
 
     if (dist > (S_CLIPPING_DIST >> FRACBITS))
-        return 0;
+        return false;
 
     // angle of source to listener
-    angle = R_PointToAngle2(listener->x, listener->y, source->x, source->y);
+    angle = R_PointToAngle2(listener->x, listener->y, x, y);
 
     if (angle <= listener->angle)
         angle += 0xFFFFFFFF;
@@ -421,10 +427,8 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     *sep = NORM_SEP - FixedMul(S_STEREO_SWING >> FRACBITS, finesine[angle]);
 
     // volume calculation
-    if (dist < (S_CLOSE_DIST >> FRACBITS))
-        *vol = snd_SfxVolume;
-    else
-        *vol = snd_SfxVolume * ((S_CLIPPING_DIST >> FRACBITS) - dist) / S_ATTENUATOR;
+    *vol = (dist < (S_CLOSE_DIST >> FRACBITS) ? snd_SfxVolume :
+        snd_SfxVolume * ((S_CLIPPING_DIST >> FRACBITS) - dist) / S_ATTENUATOR);
 
     return (*vol > 0);
 }
@@ -456,7 +460,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volu
     //  and if not, modify the parms
     if (!origin || origin == player)
         sep = NORM_SEP;
-    else if (!S_AdjustSoundParams(player, origin, &volume, &sep))
+    else if (!S_AdjustSoundParams(player, origin->x, origin->y, &volume, &sep))
         return;
     else if (origin->x == player->x && origin->y == player->y)
         sep = NORM_SEP;
@@ -542,8 +546,9 @@ void S_UpdateSounds(mobj_t *listener)
             if (I_SoundIsPlaying(c->handle))
             {
                 // initialize parameters
-                int volume = snd_SfxVolume;
-                int sep = NORM_SEP;
+                int     volume = snd_SfxVolume;
+                int     sep = NORM_SEP;
+                mobj_t  *origin = c->origin;
 
                 if (sfx->link)
                 {
@@ -560,9 +565,9 @@ void S_UpdateSounds(mobj_t *listener)
 
                 // check non-local sounds for distance clipping
                 //  or modify their parms
-                if (c->origin && listener != c->origin)
+                if (origin && listener != origin)
                 {
-                    if (!S_AdjustSoundParams(listener, c->origin, &volume, &sep))
+                    if (!S_AdjustSoundParams(listener, origin->x, origin->y, &volume, &sep))
                         S_StopChannel(cnum);
                     else
                         I_UpdateSoundParams(c->handle, volume, sep);
