@@ -3703,7 +3703,6 @@ static void C_VerifyResetAll(const int key)
 
     if (key == 'y')
     {
-        S_StartSound(NULL, sfx_swtchx);
         resettingall = true;
 
         for (int i = 0; *consolecmds[i].name; i++)
