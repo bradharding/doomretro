@@ -53,20 +53,20 @@
 
 // when to clip out sounds
 // Does not fit the large outdoor areas.
-#define S_CLIPPING_DIST (1200 << FRACBITS)
+#define S_CLIPPING_DIST 1200
 
 // Distance to origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
 // (see BLOCKMAP handling).
 // In the source code release: (160*FRACUNIT). Changed back to the
 // Vanilla value of 200 (why was this changed?)
-#define S_CLOSE_DIST    (200 << FRACBITS)
+#define S_CLOSE_DIST    200
 
 // The range over which sound attenuates
-#define S_ATTENUATOR    ((S_CLIPPING_DIST - S_CLOSE_DIST) >> FRACBITS)
+#define S_ATTENUATOR    (S_CLIPPING_DIST - S_CLOSE_DIST)
 
 // Stereo separation
-#define S_STEREO_SWING  (96 << FRACBITS)
+#define S_STEREO_SWING  96
 
 #define NORM_SEP        128
 
@@ -403,15 +403,8 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
 
     if (adx)
         dist = FixedDiv(adx, finesine[(tantoangle[FixedDiv(ady, adx) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
-    else
-    {
-        // killough 11/98: handle zero-distance as special case
-        *sep = NORM_SEP;
-        *vol = snd_SfxVolume;
-        return (*vol > 0);
-    }
 
-    if (dist > (S_CLIPPING_DIST >> FRACBITS))
+    if (dist > S_CLIPPING_DIST)
         return false;
 
     // angle of source to listener
@@ -424,11 +417,10 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
     angle >>= ANGLETOFINESHIFT;
 
     // stereo separation
-    *sep = NORM_SEP - FixedMul(S_STEREO_SWING >> FRACBITS, finesine[angle]);
+    *sep = NORM_SEP - FixedMul(S_STEREO_SWING, finesine[angle]);
 
     // volume calculation
-    *vol = (dist < (S_CLOSE_DIST >> FRACBITS) ? snd_SfxVolume :
-        snd_SfxVolume * ((S_CLIPPING_DIST >> FRACBITS) - dist) / S_ATTENUATOR);
+    *vol = (dist < S_CLOSE_DIST ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
 
     return (*vol > 0);
 }
