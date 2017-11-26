@@ -63,7 +63,6 @@
 #define HU_TITLEY       (ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2)
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
-static player_t         *plr;
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
 
@@ -278,7 +277,6 @@ void HU_Start(void)
     if (headsupactive)
         HU_Stop();
 
-    plr = &players[0];
     message_on = false;
     message_dontfuckwithme = false;
     message_nottobefuckedwith = false;
@@ -369,17 +367,17 @@ int armorhighlight;
 
 static void HU_DrawHUD(void)
 {
-    const int           health = MAX(0, plr->health);
-    const weapontype_t  pendingweapon = plr->pendingweapon;
-    const weapontype_t  readyweapon = plr->readyweapon;
+    const int           health = MAX(0, viewplayer->health);
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
     int                 ammotype = weaponinfo[readyweapon].ammo;
-    int                 ammo = plr->ammo[ammotype];
-    const int           armor = plr->armorpoints;
+    int                 ammo = viewplayer->ammo[ammotype];
+    const int           armor = viewplayer->armorpoints;
     int                 health_x = HUD_HEALTH_X;
     int                 keys = 0;
     int                 i = 0;
     byte                *tinttab;
-    const int           invulnerability = plr->powers[pw_invulnerability];
+    const int           invulnerability = viewplayer->powers[pw_invulnerability];
     static dboolean     healthanim;
     patch_t             *patch;
     const dboolean      gamepaused = (menuactive || paused || consoleactive);
@@ -389,11 +387,11 @@ static void HU_DrawHUD(void)
         tinttab25);
 
     patch = (((readyweapon == wp_fist && pendingweapon == wp_nochange) || pendingweapon == wp_fist)
-        && plr->powers[pw_strength] ? berserkpatch : healthpatch);
+        && viewplayer->powers[pw_strength] ? berserkpatch : healthpatch);
 
     if (patch)
     {
-        if ((plr->cheats & CF_GODMODE) || invulnerability > STARTFLASHING || (invulnerability & 8))
+        if ((viewplayer->cheats & CF_GODMODE) || invulnerability > STARTFLASHING || (invulnerability & 8))
             godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
         else
             hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
@@ -404,14 +402,14 @@ static void HU_DrawHUD(void)
     if (healthhighlight > currenttime)
     {
         DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MAX((minuspatch ? health_min : 0),
-            plr->health), tinttab, V_DrawHighlightedHUDNumberPatch);
+            viewplayer->health), tinttab, V_DrawHighlightedHUDNumberPatch);
 
         if (!emptytallpercent)
             V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MAX((minuspatch ? health_min : 0), plr->health),
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MAX((minuspatch ? health_min : 0), viewplayer->health),
             tinttab, hudnumfunc);
 
         if (!emptytallpercent)
@@ -440,7 +438,7 @@ static void HU_DrawHUD(void)
     if (pendingweapon != wp_nochange)
     {
         ammotype = weaponinfo[pendingweapon].ammo;
-        ammo = plr->ammo[ammotype];
+        ammo = viewplayer->ammo[ammotype];
     }
 
     if (health && ammo && ammotype != am_noammo)
@@ -483,10 +481,10 @@ static void HU_DrawHUD(void)
     }
 
     while (i < NUMCARDS)
-        if (plr->cards[i++] > 0)
+        if (viewplayer->cards[i++] > 0)
             keys++;
 
-    if (keys || plr->neededcardflash)
+    if (keys || viewplayer->neededcardflash)
     {
         int             keypic_x = HUD_KEYS_X - 20 * (keys - 1);
         static int      keywait;
@@ -505,15 +503,15 @@ static void HU_DrawHUD(void)
                 keypic_x += 12;
         }
 
-        if (plr->neededcardflash)
+        if (viewplayer->neededcardflash)
         {
-            if ((patch = keypic[plr->neededcard].patch))
+            if ((patch = keypic[viewplayer->neededcard].patch))
             {
                 if (!gamepaused && keywait < currenttime)
                 {
                     showkey = !showkey;
                     keywait = currenttime + HUD_KEY_WAIT;
-                    plr->neededcardflash--;
+                    viewplayer->neededcardflash--;
                 }
 
                 if (showkey)
@@ -527,8 +525,8 @@ static void HU_DrawHUD(void)
         }
 
         for (i = 0; i < NUMCARDS; i++)
-            if (plr->cards[i] > 0 && (patch = keypic[i].patch))
-                hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]), HUD_KEYS_Y,
+            if (viewplayer->cards[i] > 0 && (patch = keypic[i].patch))
+                hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - viewplayer->cards[i]), HUD_KEYS_Y,
                     patch, tinttab66);
     }
 
@@ -536,7 +534,7 @@ static void HU_DrawHUD(void)
     {
         int armor_x = HUD_ARMOR_X;
 
-        if ((patch = (plr->armortype == GREENARMOR ? greenarmorpatch : bluearmorpatch)))
+        if ((patch = (viewplayer->armortype == GREENARMOR ? greenarmorpatch : bluearmorpatch)))
         {
             armor_x -= SHORT(patch->width);
             hudfunc(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, tinttab66);
@@ -766,8 +764,8 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    int health = MAX(health_min, plr->health);
-    int armor = plr->armorpoints;
+    int health = MAX(health_min, viewplayer->health);
+    int armor = viewplayer->armorpoints;
     int color2 = (health <= 20 ? red : (health >= 100 ? green : white));
     int color1 = color2 + (color2 == green ? coloroffset : 0);
     int keys = 0;
@@ -777,7 +775,7 @@ static void HU_DrawAltHUD(void)
     int max;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health);
-    health = MAX(0, plr->health) * 200 / maxhealth;
+    health = MAX(0, viewplayer->health) * 200 / maxhealth;
 
     if (health > 100)
     {
@@ -800,7 +798,7 @@ static void HU_DrawAltHUD(void)
 
     if (armor)
     {
-        color2 = (plr->armortype == GREENARMOR ? gray : lightgray);
+        color2 = (viewplayer->armortype == GREENARMOR ? gray : lightgray);
         color1 = color2 + coloroffset;
         althudfunc(ALTHUD_LEFT_X + 43, ALTHUD_Y, altarmpatch, WHITE, color2);
         DrawAltHUDNumber2(ALTHUD_LEFT_X + 35 - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color2);
@@ -819,16 +817,16 @@ static void HU_DrawAltHUD(void)
 
     if (health)
     {
-        const weapontype_t  pendingweapon = plr->pendingweapon;
-        const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : plr->readyweapon);
+        const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+        const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon);
         const ammotype_t    ammotype = weaponinfo[weapon].ammo;
 
         if (ammotype != am_noammo)
         {
-            int ammo = plr->ammo[ammotype];
+            int ammo = viewplayer->ammo[ammotype];
 
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 1, ammo);
-            ammo = 100 * ammo / plr->maxammo[ammotype];
+            ammo = 100 * ammo / viewplayer->maxammo[ammotype];
             color1 = (ammo <= 15 ? yellow : white);
             fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, color1);
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, white);
@@ -841,15 +839,15 @@ static void HU_DrawAltHUD(void)
     }
 
     while (i < NUMCARDS)
-        if (plr->cards[i++] > 0)
+        if (viewplayer->cards[i++] > 0)
             keys++;
 
-    if (keys || plr->neededcardflash)
+    if (keys || viewplayer->neededcardflash)
     {
         static int      keywait;
         static dboolean showkey;
 
-        if (plr->neededcardflash)
+        if (viewplayer->neededcardflash)
         {
             if (!(menuactive || paused || consoleactive))
             {
@@ -859,13 +857,13 @@ static void HU_DrawAltHUD(void)
                 {
                     showkey = !showkey;
                     keywait = currenttime + HUD_KEY_WAIT;
-                    plr->neededcardflash--;
+                    viewplayer->neededcardflash--;
                 }
             }
 
             if (showkey)
             {
-                altkeypic_t altkeypic = altkeypics[plr->neededcard];
+                altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
 
                 althudfunc(ALTHUD_RIGHT_X + 11 * cardsfound, ALTHUD_Y, altkeypic.patch, WHITE,
                     altkeypic.color);
@@ -879,7 +877,7 @@ static void HU_DrawAltHUD(void)
 
         for (i = 0; i < NUMCARDS; i++)
         {
-            int card = plr->cards[i];
+            int card = viewplayer->cards[i];
 
             if (card > 0)
             {
@@ -891,32 +889,32 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    if ((powerup = plr->powers[pw_invulnerability]))
+    if ((powerup = viewplayer->powers[pw_invulnerability]))
     {
         max = INVULNTICS;
         powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if ((powerup = plr->powers[pw_invisibility]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+    if ((powerup = viewplayer->powers[pw_invisibility]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
         max = INVISTICS;
         powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if ((powerup = plr->powers[pw_ironfeet]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+    if ((powerup = viewplayer->powers[pw_ironfeet]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
         max = IRONTICS;
         powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if ((powerup = plr->powers[pw_infrared]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+    if ((powerup = viewplayer->powers[pw_infrared]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
     {
         max = INFRATICS;
         powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if ((powerup = plr->powers[pw_strength]) && ((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
-        || plr->pendingweapon == wp_fist) && !powerupbar)
+    if ((powerup = viewplayer->powers[pw_strength]) && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange)
+        || viewplayer->pendingweapon == wp_fist) && !powerupbar)
     {
         max = STARTFLASHING + 1;
         powerupbar = STARTFLASHING + 1;
@@ -1021,7 +1019,7 @@ extern int      direction;
 
 void HU_Ticker(void)
 {
-    const dboolean  idmypos = plr->cheats & CF_MYPOS;
+    const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
 
     // tick down message counter if message is up
     if (message_counter && ((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause)
@@ -1073,7 +1071,7 @@ void HU_Ticker(void)
             int angle = (int)((double)viewangle * 90.0f / ANG90);
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle),
-                viewx / FRACUNIT, viewy / FRACUNIT, plr->mo->z / FRACUNIT);
+                viewx / FRACUNIT, viewy / FRACUNIT, viewplayer->mo->z / FRACUNIT);
         }
 
         HUlib_addMessageToSText(&w_message, 0, buffer);
@@ -1081,14 +1079,14 @@ void HU_Ticker(void)
     }
 
     // display message if necessary
-    if (plr->message && (!message_nottobefuckedwith || message_dontfuckwithme))
+    if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
         if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
         {
-            int     len = (int)strlen(plr->message);
+            int     len = (int)strlen(viewplayer->message);
             char    *s = malloc(133);
 
-            strcpy(s, plr->message);
+            strcpy(s, viewplayer->message);
 
             while (M_StringWidth(s) > ORIGINALWIDTH - 6)
             {
@@ -1108,7 +1106,7 @@ void HU_Ticker(void)
             free(s);
         }
 
-        plr->message = NULL;
+        viewplayer->message = NULL;
     }
 }
 
@@ -1130,16 +1128,16 @@ void HU_PlayerMessage(char *message, dboolean external)
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
 
-    if (plr && !consoleactive && !message_dontfuckwithme)
+    if (viewplayer && !consoleactive && !message_dontfuckwithme)
         HU_SetPlayerMessage(buffer, external);
 }
 
 void HU_ClearMessages(void)
 {
-    if ((idbehold || (plr->cheats & CF_MYPOS)) && !message_clearable)
+    if ((idbehold || (viewplayer->cheats & CF_MYPOS)) && !message_clearable)
         return;
 
-    plr->message = NULL;
+    viewplayer->message = NULL;
     message_counter = 0;
     message_on = false;
     message_nottobefuckedwith = false;

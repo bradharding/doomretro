@@ -224,15 +224,6 @@ typedef struct player_s
 //
 typedef struct
 {
-    // Player stats, kills, collected items etc.
-    int                 skills;
-    int                 sitems;
-    int                 ssecret;
-    int                 stime;
-} wbplayerstruct_t;
-
-typedef struct
-{
     int                 epsd;           // episode # (0-2)
 
     // if true, splash the secret level
@@ -249,10 +240,10 @@ typedef struct
     // the par time
     int                 partime;
 
-    // index of this player in game
-    int                 pnum;
-
-    wbplayerstruct_t    plyr[MAXPLAYERS];
+    int                 skills;
+    int                 sitems;
+    int                 ssecret;
+    int                 stime;
 } wbstartstruct_t;
 
 #endif

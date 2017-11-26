@@ -245,16 +245,11 @@ static anim_t *anims[NUMEPISODES] =
 // used to accelerate or skip a stage
 int                     acceleratestage;
 
-// wbs->pnum
-static int              me;
-
 // specifies current state
 static stateenum_t      state;
 
 // contains information passed into intermission
 static wbstartstruct_t  *wbs;
-
-static wbplayerstruct_t *plrs;  // wbs->plyr[]
 
 // used for general timing
 static int              cnt;
@@ -815,11 +810,11 @@ static void WI_updateStats(void)
     if (acceleratestage && sp_state != 10)
     {
         acceleratestage = 0;
-        cnt_kills = (int)(plrs[me].skills * 100) / wbs->maxkills;
-        cnt_items = (int)(plrs[me].sitems * 100) / wbs->maxitems;
-        cnt_secret = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
-        cnt_time = (int)plrs[me].stime / TICRATE;
-        cnt_par = (int)wbs->partime / TICRATE;
+        cnt_kills = (wbs->skills * 100) / wbs->maxkills;
+        cnt_items = (wbs->sitems * 100) / wbs->maxitems;
+        cnt_secret = (wbs->ssecret * 100) / wbs->maxsecret;
+        cnt_time = wbs->stime / TICRATE;
+        cnt_par = wbs->partime / TICRATE;
         S_StartSound(NULL, sfx_barexp);
         sp_state = 10;
     }
@@ -831,9 +826,9 @@ static void WI_updateStats(void)
         if (!(bcnt & 3))
             S_StartSound(NULL, sfx_pistol);
 
-        if (cnt_kills >= (int)(plrs[me].skills * 100) / wbs->maxkills)
+        if (cnt_kills >= (wbs->skills * 100) / wbs->maxkills)
         {
-            cnt_kills = (int)(plrs[me].skills * 100) / wbs->maxkills;
+            cnt_kills = (wbs->skills * 100) / wbs->maxkills;
             S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
@@ -845,9 +840,9 @@ static void WI_updateStats(void)
         if (!(bcnt & 3))
             S_StartSound(NULL, sfx_pistol);
 
-        if (cnt_items >= (int)(plrs[me].sitems * 100) / wbs->maxitems)
+        if (cnt_items >= (wbs->sitems * 100) / wbs->maxitems)
         {
-            cnt_items = (int)(plrs[me].sitems * 100) / wbs->maxitems;
+            cnt_items = (wbs->sitems * 100) / wbs->maxitems;
             S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
@@ -859,9 +854,9 @@ static void WI_updateStats(void)
         if (!(bcnt & 3))
             S_StartSound(NULL, sfx_pistol);
 
-        if (cnt_secret >= (int)(plrs[me].ssecret * 100) / wbs->maxsecret)
+        if (cnt_secret >= (wbs->ssecret * 100) / wbs->maxsecret)
         {
-            cnt_secret = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
+            cnt_secret = (wbs->ssecret * 100) / wbs->maxsecret;
             S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
@@ -875,8 +870,8 @@ static void WI_updateStats(void)
 
         cnt_time += 3;
 
-        if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
-            cnt_time = (int)(plrs[me].stime) / TICRATE;
+        if (cnt_time >= wbs->stime / TICRATE)
+            cnt_time = wbs->stime / TICRATE;
 
         cnt_par += 3;
 
@@ -885,19 +880,17 @@ static void WI_updateStats(void)
         // the game should play explosion sound immediately after
         // the counter will reach level time instead of par time
         if (modifiedgame && play_early_explosion)
-        {
-            if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
+            if (cnt_time >= wbs->stime / TICRATE)
             {
                 S_StartSound(NULL, sfx_barexp);
                 play_early_explosion = false;   // do not play it twice or more
             }
-        }
 
-        if (cnt_par >= (int)wbs->partime / TICRATE)
+        if (cnt_par >= wbs->partime / TICRATE)
         {
-            cnt_par = (int)wbs->partime / TICRATE;
+            cnt_par = wbs->partime / TICRATE;
 
-            if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
+            if (cnt_time >= wbs->stime / TICRATE)
             {
                 // e6y: do not play explosion sound if it was already played
                 if (!modifiedgame)
@@ -1206,8 +1199,6 @@ static void WI_initVariables(wbstartstruct_t *wbstartstruct)
     acceleratestage = 0;
     cnt = 0;
     bcnt = 0;
-    me = wbs->pnum;
-    plrs = wbs->plyr;
 
     if (!wbs->maxkills)
         wbs->maxkills = 1;

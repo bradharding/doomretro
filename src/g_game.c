@@ -1388,12 +1388,10 @@ static void G_DoCompleted(void)
             wminfo.partime = TICRATE * pars[gameepisode][gamemap];
     }
 
-    wminfo.pnum = 0;
-
-    wminfo.plyr[0].skills = (totalkills ? player->killcount : 1);
-    wminfo.plyr[0].sitems = (totalitems ? player->itemcount : 1);
-    wminfo.plyr[0].ssecret = player->secretcount;
-    wminfo.plyr[0].stime = leveltime;
+    wminfo.skills = (totalkills ? player->killcount : 1);
+    wminfo.sitems = (totalitems ? player->itemcount : 1);
+    wminfo.ssecret = player->secretcount;
+    wminfo.stime = leveltime;
 
     gamestate = GS_INTERMISSION;
     viewactive = false;

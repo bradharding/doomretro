@@ -433,9 +433,7 @@ void W_Init(void)
     }
 
     // set up caching
-    cachelump = calloc(sizeof(*cachelump), numlumps);
-
-    if (!cachelump)
+    if (!(cachelump = calloc(sizeof(*cachelump), numlumps)))
         I_Error ("W_Init: Couldn't allocate lumpcache");
 }
 

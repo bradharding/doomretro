@@ -198,8 +198,6 @@ static fixed_t      scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
 static fixed_t      scale_ftom;
 
-static player_t     *plr;                   // the player represented by an arrow
-
 mpoint_t            *markpoints;            // where the points are
 int                 markpointnum;           // next point to be assigned
 int                 markpointnum_max;
@@ -257,8 +255,8 @@ static void AM_restoreScaleAndLoc(void)
 
     if (am_followmode)
     {
-        m_x = (plr->mo->x >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (plr->mo->y >> FRACTOMAPBITS) - m_h / 2;
+        m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
     }
     else
     {
@@ -315,7 +313,7 @@ static void AM_changeWindowLoc(void)
 
     if (am_rotatemode)
     {
-        AM_rotate(&incx, &incy, plr->mo->angle - ANG90);
+        AM_rotate(&incx, &incy, viewplayer->mo->angle - ANG90);
 
         m_x += incx;
         m_y += incy;
@@ -424,12 +422,10 @@ static void AM_initVariables(const dboolean mainwindow)
     m_w = FTOM(mapwidth);
     m_h = FTOM(mapheight);
 
-    plr = &players[0];
-
     if (m_x == INT_MAX || am_followmode)
     {
-        m_x = (plr->mo->x >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (plr->mo->y >> FRACTOMAPBITS) - m_h / 2;
+        m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
         m_x2 = m_x + m_w;
         m_y2 = m_y + m_h;
     }
@@ -640,8 +636,8 @@ void AM_clearMarks(void)
 
 void AM_addToPath(void)
 {
-    const int   x = players[0].mo->x >> FRACTOMAPBITS;
-    const int   y = players[0].mo->y >> FRACTOMAPBITS;
+    const int   x = viewplayer->mo->x >> FRACTOMAPBITS;
+    const int   y = viewplayer->mo->y >> FRACTOMAPBITS;
 
     if (pathpointnum)
         if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT
@@ -1078,7 +1074,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
             }
 
-            if ((plr->cheats & CF_MYPOS) && !am_followmode && (m_paninc.x || m_paninc.y))
+            if ((viewplayer->cheats & CF_MYPOS) && !am_followmode && (m_paninc.x || m_paninc.y))
             {
                 double  x = m_paninc.x;
                 double  y = m_paninc.y;
@@ -1146,8 +1142,8 @@ static void AM_changeWindowScale(void)
 
 static void AM_doFollowPlayer(void)
 {
-    m_x = (plr->mo->x >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (plr->mo->y >> FRACTOMAPBITS) - m_h / 2;
+    m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
     m_x2 = m_x + m_w;
     m_y2 = m_y + m_h;
 }
@@ -1499,8 +1495,8 @@ static void AM_drawGrid(void)
 //
 static void AM_drawWalls(void)
 {
-    const dboolean  allmap = plr->powers[pw_allmap];
-    const dboolean  cheating = plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
+    const dboolean  allmap = viewplayer->powers[pw_allmap];
+    const dboolean  cheating = viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
     int             i = 0;
 
     while (i < numlines)
@@ -1601,7 +1597,7 @@ static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines,
     angle_t angle, byte color, fixed_t x, fixed_t y)
 {
     if (am_rotatemode)
-        angle -= plr->mo->angle - ANG90;
+        angle -= viewplayer->mo->angle - ANG90;
 
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1637,7 +1633,7 @@ static void AM_drawTransLineCharacter(const mline_t *lineguy, const int lineguyl
     angle_t angle, byte *color, const fixed_t x, const fixed_t y)
 {
     if (am_rotatemode)
-        angle -= plr->mo->angle - ANG90;
+        angle -= viewplayer->mo->angle - ANG90;
 
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1709,29 +1705,29 @@ static void AM_drawPlayer(void)
         { {  18357, -12273 }, {  23203, -10070 } }
     };
 
-    const int   invisibility = plr->powers[pw_invisibility];
+    const int   invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t    point;
 
-    point.x = plr->mo->x >> FRACTOMAPBITS;
-    point.y = plr->mo->y >> FRACTOMAPBITS;
+    point.x = viewplayer->mo->x >> FRACTOMAPBITS;
+    point.y = viewplayer->mo->y >> FRACTOMAPBITS;
 
     if (am_rotatemode)
         AM_rotatePoint(&point);
 
-    if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
+    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > STARTFLASHING || (invisibility & 8))
-            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle,
+            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, viewplayer->mo->angle,
                 &playercolor, point.x, point.y);
         else
-            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, plr->mo->angle, playercolor,
+            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, viewplayer->mo->angle, playercolor,
                 point.x, point.y);
     }
     else if (invisibility > STARTFLASHING || (invisibility & 8))
-        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, &playercolor, point.x,
+        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, viewplayer->mo->angle, &playercolor, point.x,
             point.y);
     else
-        AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, plr->mo->angle, playercolor, point.x,
+        AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, viewplayer->mo->angle, playercolor, point.x,
             point.y);
 }
 
@@ -1961,7 +1957,7 @@ static void AM_setFrameVariables(void)
 
     if (am_rotatemode)
     {
-        const int       angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
+        const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
         const float     dx = (float)(m_x2 - x);
         const float     dy = (float)(m_y2 - y);
         const fixed_t   r = (fixed_t)sqrt(dx * dx + dy * dy);
@@ -1995,7 +1991,7 @@ void AM_Drawer(void)
     if (am_path)
         AM_drawPath();
 
-    if (plr->cheats & CF_ALLMAP_THINGS)
+    if (viewplayer->cheats & CF_ALLMAP_THINGS)
         AM_drawThings();
 
     if (markpointnum)
