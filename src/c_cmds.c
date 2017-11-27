@@ -818,7 +818,7 @@ static void automap_action_func(void)
 static void back_action_func(void)
 {
     viewplayer->cmd.forwardmove -= forwardmove[run()];
-    P_MovePlayer(viewplayer);
+    P_MovePlayer();
 }
 
 static void clearmark_action_func(void)
@@ -847,7 +847,7 @@ static void followmode_action_func(void)
 static void forward_action_func(void)
 {
     viewplayer->cmd.forwardmove += forwardmove[run()];
-    P_MovePlayer(viewplayer);
+    P_MovePlayer();
 }
 
 static void grid_action_func(void)
@@ -927,37 +927,37 @@ static void use_action_func(void)
 
 static void weapon1_action_func(void)
 {
-    P_ChangeWeapon(viewplayer, wp_fist);
+    P_ChangeWeapon(wp_fist);
 }
 
 static void weapon2_action_func(void)
 {
-    P_ChangeWeapon(viewplayer, wp_pistol);
+    P_ChangeWeapon(wp_pistol);
 }
 
 static void weapon3_action_func(void)
 {
-    P_ChangeWeapon(viewplayer, wp_shotgun);
+    P_ChangeWeapon(wp_shotgun);
 }
 
 static void weapon4_action_func(void)
 {
-    P_ChangeWeapon(viewplayer, wp_chaingun);
+    P_ChangeWeapon(wp_chaingun);
 }
 
 static void weapon5_action_func(void)
 {
-    P_ChangeWeapon(viewplayer, wp_missile);
+    P_ChangeWeapon(wp_missile);
 }
 
 static void weapon6_action_func(void)
 {
-    P_ChangeWeapon(viewplayer, wp_plasma);
+    P_ChangeWeapon(wp_plasma);
 }
 
 static void weapon7_action_func(void)
 {
-    P_ChangeWeapon(viewplayer, wp_bfg);
+    P_ChangeWeapon(wp_bfg);
 }
 
 static void zoomin_action_func(void) {}
@@ -3835,7 +3835,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
 
 static void resurrect_cmd_func2(char *cmd, char *parms)
 {
-    P_ResurrectPlayer(&players[0], initial_health);
+    P_ResurrectPlayer(initial_health);
     players[0].cheated++;
     stat_cheated = SafeAdd(stat_cheated, 1);
     M_SaveCVARs();
@@ -4719,7 +4719,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                         player->mo->health = value;
                     }
                     else
-                        P_ResurrectPlayer(player, value);
+                        P_ResurrectPlayer(value);
                 }
                 else
                 {

@@ -1120,7 +1120,7 @@ static dboolean P_ThingHeightClip(mobj_t *thing)
 
         // [BH] immediately update player's view
         if (thing->player)
-            P_CalcHeight(viewplayer);
+            P_CalcHeight();
 
         // killough 11/98: Possibly upset balance of objects hanging off ledges
         if ((flags2 & MF2_FALLING) && thing->gear >= MAXGEAR)

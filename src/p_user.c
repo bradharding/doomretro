@@ -73,10 +73,10 @@ static dboolean onground;
 // P_Thrust
 // Moves the given origin along a given angle.
 //
-static void P_Thrust(player_t *player, angle_t angle, fixed_t move)
+static void P_Thrust(angle_t angle, fixed_t move)
 {
-    player->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
-    player->mo->momy += FixedMul(move, finesine[angle]);
+    viewplayer->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
+    viewplayer->mo->momy += FixedMul(move, finesine[angle]);
 }
 
 //
@@ -89,61 +89,61 @@ static void P_Thrust(player_t *player, angle_t angle, fixed_t move)
 // occur on conveyors, unless the player walks on one, and bobbing should be
 // reduced at a regular rate, even on ice (where the player coasts).
 //
-static void P_Bob(player_t *player, angle_t angle, fixed_t move)
+static void P_Bob(angle_t angle, fixed_t move)
 {
-    player->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
-    player->momy += FixedMul(move, finesine[angle]);
+    viewplayer->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
+    viewplayer->momy += FixedMul(move, finesine[angle]);
 }
 
 //
 // P_CalcHeight
 // Calculate the walking / running height adjustment
 //
-void P_CalcHeight(player_t *player)
+void P_CalcHeight(void)
 {
-    mobj_t  *mo = player->mo;
+    mobj_t  *mo = viewplayer->mo;
 
-    if (player->playerstate == PST_LIVE)
+    if (viewplayer->playerstate == PST_LIVE)
     {
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        fixed_t momx = player->momx;
-        fixed_t momy = player->momy;
+        fixed_t momx = viewplayer->momx;
+        fixed_t momy = viewplayer->momy;
         fixed_t bob = ((momx | momy) ? (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2 : 0);
 
         bob = FixedMul((bob ? MAX(MIN(bob, MAXBOB) * movebob / 100, MAXBOB * stillbob / 400) :
             MAXBOB * stillbob / 400) / 2, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
 
         // move viewheight
-        player->viewheight += player->deltaviewheight;
+        viewplayer->viewheight += viewplayer->deltaviewheight;
 
-        if (player->viewheight > VIEWHEIGHT)
+        if (viewplayer->viewheight > VIEWHEIGHT)
         {
-            player->viewheight = VIEWHEIGHT;
-            player->deltaviewheight = 0;
+            viewplayer->viewheight = VIEWHEIGHT;
+            viewplayer->deltaviewheight = 0;
         }
 
-        if (player->viewheight < VIEWHEIGHT / 2)
+        if (viewplayer->viewheight < VIEWHEIGHT / 2)
         {
-            player->viewheight = VIEWHEIGHT / 2;
+            viewplayer->viewheight = VIEWHEIGHT / 2;
 
-            if (player->deltaviewheight <= 0)
-                player->deltaviewheight = 1;
+            if (viewplayer->deltaviewheight <= 0)
+                viewplayer->deltaviewheight = 1;
         }
 
-        if (player->deltaviewheight)
+        if (viewplayer->deltaviewheight)
         {
-            player->deltaviewheight += FRACUNIT / 4;
+            viewplayer->deltaviewheight += FRACUNIT / 4;
 
-            if (!player->deltaviewheight)
-                player->deltaviewheight = 1;
+            if (!viewplayer->deltaviewheight)
+                viewplayer->deltaviewheight = 1;
         }
 
-        player->viewz = mo->z + player->viewheight + bob;
+        viewplayer->viewz = mo->z + viewplayer->viewheight + bob;
     }
     else
-        player->viewz = mo->z + player->viewheight;
+        viewplayer->viewz = mo->z + viewplayer->viewheight;
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
     {
@@ -158,32 +158,32 @@ void P_CalcHeight(player_t *player)
 
         if (liquid)
         {
-            if (player->playerstate == PST_DEAD)
+            if (viewplayer->playerstate == PST_DEAD)
             {
                 if (r_liquid_bob)
-                    player->viewz += animatedliquiddiff;
+                    viewplayer->viewz += animatedliquiddiff;
             }
             else if (r_liquid_lowerview)
             {
                 sector_t    *sector = mo->subsector->sector;
 
                 if (!P_IsSelfReferencingSector(sector) && (!sector->heightsec
-                    || mo->z + player->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
-                    player->viewz -= FOOTCLIPSIZE;
+                    || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
+                    viewplayer->viewz -= FOOTCLIPSIZE;
             }
         }
     }
 
-    player->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, player->viewz, mo->ceilingz - 4 * FRACUNIT);
+    viewplayer->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, viewplayer->viewz, mo->ceilingz - 4 * FRACUNIT);
 }
 
 //
 // P_MovePlayer
 //
-void P_MovePlayer(player_t *player)
+void P_MovePlayer(void)
 {
-    ticcmd_t    *cmd = &player->cmd;
-    mobj_t      *mo = player->mo;
+    ticcmd_t    *cmd = &viewplayer->cmd;
+    mobj_t      *mo = viewplayer->mo;
     char        forwardmove = cmd->forwardmove;
     char        sidemove = cmd->sidemove;
 
@@ -210,14 +210,14 @@ void P_MovePlayer(player_t *player)
 
             if (forwardmove)
             {
-                P_Bob(player, angle, forwardmove * bobfactor);
-                P_Thrust(player, angle, forwardmove * movefactor);
+                P_Bob(angle, forwardmove * bobfactor);
+                P_Thrust(angle, forwardmove * movefactor);
             }
 
             if (sidemove)
             {
-                P_Bob(player, (angle -= ANG90), sidemove * bobfactor);
-                P_Thrust(player, angle, sidemove * movefactor);
+                P_Bob((angle -= ANG90), sidemove * bobfactor);
+                P_Thrust(angle, sidemove * movefactor);
             }
         }
 
@@ -225,30 +225,30 @@ void P_MovePlayer(player_t *player)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
-    player->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, player->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
+    viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
 
-    if (player->lookdir && !usemouselook)
+    if (viewplayer->lookdir && !usemouselook)
     {
-        if (player->lookdir > 0)
-            player->lookdir -= 16 * MLOOKUNIT;
+        if (viewplayer->lookdir > 0)
+            viewplayer->lookdir -= 16 * MLOOKUNIT;
         else
-            player->lookdir += 16 * MLOOKUNIT;
+            viewplayer->lookdir += 16 * MLOOKUNIT;
 
-        if (ABS(player->lookdir) < 16 * MLOOKUNIT)
-            player->lookdir = 0;
+        if (ABS(viewplayer->lookdir) < 16 * MLOOKUNIT)
+            viewplayer->lookdir = 0;
     }
 }
 
 //
 // P_ReduceDamageCount
 //
-static void P_ReduceDamageCount(player_t *player)
+static void P_ReduceDamageCount(void)
 {
-    if (player->damagecount)
-        player->damagecount--;
+    if (viewplayer->damagecount)
+        viewplayer->damagecount--;
 
     if (r_shake_damage)
-        I_UpdateBlitFunc(!!player->damagecount);
+        I_UpdateBlitFunc(!!viewplayer->damagecount);
 }
 
 //
@@ -256,41 +256,41 @@ static void P_ReduceDamageCount(player_t *player)
 // Fall on your face when dying.
 // Decrease POV height to floor height.
 //
-static void P_DeathThink(player_t *player)
+static void P_DeathThink(void)
 {
     static dboolean facingkiller;
-    mobj_t          *mo = player->mo;
-    mobj_t          *attacker = player->attacker;
+    mobj_t          *mo = viewplayer->mo;
+    mobj_t          *attacker = viewplayer->attacker;
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
     infight = true;
 
-    P_MovePsprites(player);
+    P_MovePsprites(viewplayer);
 
     // fall to the ground
     if ((onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))))
     {
-        if (player->viewheight > 6 * FRACUNIT)
-            player->viewheight -= FRACUNIT;
+        if (viewplayer->viewheight > 6 * FRACUNIT)
+            viewplayer->viewheight -= FRACUNIT;
 
-        if (player->viewheight < 6 * FRACUNIT)
-            player->viewheight = 6 * FRACUNIT;
+        if (viewplayer->viewheight < 6 * FRACUNIT)
+            viewplayer->viewheight = 6 * FRACUNIT;
 
         if (canmouselook)
         {
-            if (player->lookdir > DEADLOOKDIR)
-                player->lookdir -= DEADLOOKDIRINC;
-            else if (player->lookdir < DEADLOOKDIR)
-                player->lookdir += DEADLOOKDIRINC;
+            if (viewplayer->lookdir > DEADLOOKDIR)
+                viewplayer->lookdir -= DEADLOOKDIRINC;
+            else if (viewplayer->lookdir < DEADLOOKDIR)
+                viewplayer->lookdir += DEADLOOKDIRINC;
 
-            if (ABS(player->lookdir - DEADLOOKDIR) < DEADLOOKDIRINC)
-                player->lookdir = DEADLOOKDIR;
+            if (ABS(viewplayer->lookdir - DEADLOOKDIR) < DEADLOOKDIRINC)
+                viewplayer->lookdir = DEADLOOKDIR;
         }
     }
 
-    player->deltaviewheight = 0;
-    P_CalcHeight(player);
+    viewplayer->deltaviewheight = 0;
+    P_CalcHeight();
 
     if (attacker && attacker != mo && !facingkiller)
     {
@@ -301,29 +301,27 @@ static void P_DeathThink(player_t *player)
         {
             // Looking at killer, so fade damage flash down.
             mo->angle = angle;
-
-            P_ReduceDamageCount(player);
-
+            P_ReduceDamageCount();
             facingkiller = true;
         }
         else
             mo->angle += (delta < ANG180 ? ANG5 : -ANG5);
     }
     else
-        P_ReduceDamageCount(player);
+        P_ReduceDamageCount();
 
-    if (player->bonuscount)
-        player->bonuscount--;
+    if (viewplayer->bonuscount)
+        viewplayer->bonuscount--;
 
     if (consoleactive)
         return;
 
-    if (((player->cmd.buttons & BT_USE) || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount
+    if (((viewplayer->cmd.buttons & BT_USE) || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount
         && deathcount > TICRATE * 2) || gamekeydown[KEY_ENTER]))
     {
         deathcount = 0;
         damagevibrationtics = 1;
-        player->playerstate = PST_REBORN;
+        viewplayer->playerstate = PST_REBORN;
         facingkiller = false;
         skipaction = true;
     }
@@ -334,21 +332,22 @@ static void P_DeathThink(player_t *player)
 //
 // P_ResurrectPlayer
 //
-void P_ResurrectPlayer(player_t *player, int health)
+void P_ResurrectPlayer(int health)
 {
     fixed_t x, y;
     int     angle;
+    mobj_t  *mo = viewplayer->mo;
     mobj_t  *thing;
 
     // remove player's corpse
-    P_RemoveMobj(player->mo);
+    P_RemoveMobj(mo);
 
     // spawn a teleport fog
-    x = player->mo->x;
-    y = player->mo->y;
-    angle = player->mo->angle >> ANGLETOFINESHIFT;
+    x = mo->x;
+    y = mo->y;
+    angle = viewplayer->mo->angle >> ANGLETOFINESHIFT;
     thing = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle], ONFLOORZ, MT_TFOG);
-    thing->angle = player->mo->angle;
+    thing->angle = mo->angle;
     S_StartSound(thing, sfx_telept);
 
     // telefrag anything in this spot
@@ -356,75 +355,75 @@ void P_ResurrectPlayer(player_t *player, int health)
 
     // respawn the player
     thing = P_SpawnMobj(x, y, ONFLOORZ, MT_PLAYER);
-    thing->angle = player->mo->angle;
-    thing->player = player;
+    thing->angle = mo->angle;
+    thing->player = viewplayer;
     thing->health = health;
     thing->reactiontime = 18;
-    player->mo = thing;
-    player->playerstate = PST_LIVE;
-    player->viewheight = VIEWHEIGHT;
-    player->health = health;
-    player->lookdir = 0;
-    player->oldlookdir = 0;
+    viewplayer->mo = thing;
+    viewplayer->playerstate = PST_LIVE;
+    viewplayer->viewheight = VIEWHEIGHT;
+    viewplayer->health = health;
+    viewplayer->lookdir = 0;
+    viewplayer->oldlookdir = 0;
     infight = false;
-    P_SetupPsprites(player);
+    P_SetupPsprites(viewplayer);
     P_MapEnd();
 
     C_HideConsole();
 }
 
-void P_ChangeWeapon(player_t *player, weapontype_t newweapon)
+void P_ChangeWeapon(weapontype_t newweapon)
 {
     if (newweapon == wp_fist)
     {
-        if (player->readyweapon == wp_fist)
+        if (viewplayer->readyweapon == wp_fist)
         {
-            if (player->weaponowned[wp_chainsaw])
+            if (viewplayer->weaponowned[wp_chainsaw])
             {
                 newweapon = wp_chainsaw;
-                player->fistorchainsaw = wp_chainsaw;
+                viewplayer->fistorchainsaw = wp_chainsaw;
             }
         }
-        else if (player->readyweapon == wp_chainsaw)
+        else if (viewplayer->readyweapon == wp_chainsaw)
         {
-            if (player->powers[pw_strength])
-                player->fistorchainsaw = wp_fist;
+            if (viewplayer->powers[pw_strength])
+                viewplayer->fistorchainsaw = wp_fist;
             else
                 newweapon = wp_nochange;
         }
         else
-            newweapon = player->fistorchainsaw;
+            newweapon = viewplayer->fistorchainsaw;
     }
 
     // Don't switch to a weapon without any or enough ammo.
-    else if (((newweapon == wp_pistol || newweapon == wp_chaingun) && !player->ammo[am_clip])
-        || (newweapon == wp_shotgun && !player->ammo[am_shell])
-        || (newweapon == wp_missile && !player->ammo[am_misl])
-        || (newweapon == wp_plasma && !player->ammo[am_cell])
-        || (newweapon == wp_bfg && player->ammo[am_cell] < bfgcells && bfgcells == BFGCELLS))
+    else if (((newweapon == wp_pistol || newweapon == wp_chaingun) && !viewplayer->ammo[am_clip])
+        || (newweapon == wp_shotgun && !viewplayer->ammo[am_shell])
+        || (newweapon == wp_missile && !viewplayer->ammo[am_misl])
+        || (newweapon == wp_plasma && !viewplayer->ammo[am_cell])
+        || (newweapon == wp_bfg && viewplayer->ammo[am_cell] < bfgcells && bfgcells == BFGCELLS))
         newweapon = wp_nochange;
 
     // Select the preferred shotgun.
     else if (newweapon == wp_shotgun)
     {
-        if ((!player->weaponowned[wp_shotgun] || player->readyweapon == wp_shotgun)
-            && player->weaponowned[wp_supershotgun] && player->ammo[am_shell] >= 2)
-            player->preferredshotgun = wp_supershotgun;
-        else if (player->readyweapon == wp_supershotgun
-            || (player->preferredshotgun == wp_supershotgun && player->ammo[am_shell] == 1))
-            player->preferredshotgun = wp_shotgun;
+        if ((!viewplayer->weaponowned[wp_shotgun] || viewplayer->readyweapon == wp_shotgun)
+            && viewplayer->weaponowned[wp_supershotgun] && viewplayer->ammo[am_shell] >= 2)
+            viewplayer->preferredshotgun = wp_supershotgun;
+        else if (viewplayer->readyweapon == wp_supershotgun
+            || (viewplayer->preferredshotgun == wp_supershotgun && viewplayer->ammo[am_shell] == 1))
+            viewplayer->preferredshotgun = wp_shotgun;
 
-        newweapon = player->preferredshotgun;
+        newweapon = viewplayer->preferredshotgun;
     }
 
-    if (newweapon != wp_nochange && newweapon != player->readyweapon && player->weaponowned[newweapon])
+    if (newweapon != wp_nochange && newweapon != viewplayer->readyweapon && viewplayer->weaponowned[newweapon])
     {
-        player->pendingweapon = newweapon;
+        viewplayer->pendingweapon = newweapon;
 
-        if (newweapon == wp_fist && player->powers[pw_strength])
+        if (newweapon == wp_fist && viewplayer->powers[pw_strength])
             S_StartSound(NULL, sfx_getpow);
 
-        if ((player->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
+        if ((viewplayer->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
             G_RemoveChoppers();
     }
 }
@@ -432,14 +431,14 @@ void P_ChangeWeapon(player_t *player, weapontype_t newweapon)
 //
 // P_PlayerThink
 //
-void P_PlayerThink(player_t *player)
+void P_PlayerThink(void)
 {
-    ticcmd_t    *cmd = &player->cmd;
-    mobj_t      *mo = player->mo;
+    ticcmd_t    *cmd = &viewplayer->cmd;
+    mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
 
-    if (player->bonuscount)
-        player->bonuscount--;
+    if (viewplayer->bonuscount)
+        viewplayer->bonuscount--;
 
     if (consoleactive)
         return;
@@ -452,11 +451,11 @@ void P_PlayerThink(player_t *player)
     mo->oldy = mo->y;
     mo->oldz = mo->z;
     mo->oldangle = mo->angle;
-    player->oldviewz = player->viewz;
-    player->oldlookdir = player->lookdir;
-    player->oldrecoil = player->recoil;
+    viewplayer->oldviewz = viewplayer->viewz;
+    viewplayer->oldlookdir = viewplayer->lookdir;
+    viewplayer->oldrecoil = viewplayer->recoil;
 
-    if (player->cheats & CF_NOCLIP)
+    if (viewplayer->cheats & CF_NOCLIP)
         mo->flags |= MF_NOCLIP;
     else
         mo->flags &= ~MF_NOCLIP;
@@ -476,7 +475,7 @@ void P_PlayerThink(player_t *player)
 
         if (!automapactive)
         {
-            if (player->damagecount)
+            if (viewplayer->damagecount)
                 motionblur = MAX(motionblur, 100);
             else
             {
@@ -496,34 +495,34 @@ void P_PlayerThink(player_t *player)
         I_SetMotionBlur(0);
     }
 
-    if (player->recoil)
-        player->recoil += (player->recoil > 0 ? -1 : 1);
+    if (viewplayer->recoil)
+        viewplayer->recoil += (viewplayer->recoil > 0 ? -1 : 1);
 
-    if (player->playerstate == PST_DEAD)
+    if (viewplayer->playerstate == PST_DEAD)
     {
-        P_DeathThink(player);
+        P_DeathThink();
         return;
     }
 
     // [BH] regenerate health up to 100 every 1 second
-    if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !player->damagecount)
-        mo->health = player->health = MIN(player->health + 1, initial_health);
+    if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !viewplayer->damagecount)
+        mo->health = viewplayer->health = MIN(viewplayer->health + 1, initial_health);
 
     // Move around.
     // Reaction time is used to prevent movement for a bit after a teleport.
     if (mo->reactiontime)
         mo->reactiontime--;
     else
-        P_MovePlayer(player);
+        P_MovePlayer();
 
-    P_CalcHeight(player);
+    P_CalcHeight();
 
     // [BH] Check all sectors player is touching are special
     if (!freeze)
         for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
             if (seclist->m_sector->special && mo->z == seclist->m_sector->interpfloorheight)
             {
-                P_PlayerInSpecialSector(player);
+                P_PlayerInSpecialSector(viewplayer);
                 break;
             }
 
@@ -534,50 +533,50 @@ void P_PlayerThink(player_t *player)
         cmd->buttons = 0;
 
     if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
-        P_ChangeWeapon(player, (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
+        P_ChangeWeapon((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
 
     if (autouse && !(leveltime % TICRATE))
     {
         autousing = true;
-        P_UseLines(player);
+        P_UseLines(viewplayer);
         autousing = false;
     }
 
     // check for use
     if (cmd->buttons & BT_USE)
     {
-        if (!player->usedown)
+        if (!viewplayer->usedown)
         {
-            P_UseLines(player);
-            player->usedown = true;
+            P_UseLines(viewplayer);
+            viewplayer->usedown = true;
         }
     }
     else
-        player->usedown = false;
+        viewplayer->usedown = false;
 
     // cycle psprites
-    P_MovePsprites(player);
+    P_MovePsprites(viewplayer);
 
     // Counters, time dependent power ups.
-    if (player->powers[pw_invulnerability] > 0)
-        player->powers[pw_invulnerability]--;
+    if (viewplayer->powers[pw_invulnerability] > 0)
+        viewplayer->powers[pw_invulnerability]--;
 
-    if (player->powers[pw_invisibility] > 0)
-        if (!--player->powers[pw_invisibility])
-            player->mo->flags &= ~MF_FUZZ;
+    if (viewplayer->powers[pw_invisibility] > 0)
+        if (!--viewplayer->powers[pw_invisibility])
+            viewplayer->mo->flags &= ~MF_FUZZ;
 
-    if (player->powers[pw_infrared] > 0)
-        player->powers[pw_infrared]--;
+    if (viewplayer->powers[pw_infrared] > 0)
+        viewplayer->powers[pw_infrared]--;
 
-    if (player->powers[pw_ironfeet] > 0)
-        player->powers[pw_ironfeet]--;
+    if (viewplayer->powers[pw_ironfeet] > 0)
+        viewplayer->powers[pw_ironfeet]--;
 
-    P_ReduceDamageCount(player);
+    P_ReduceDamageCount();
 
     // Handling colormaps.
-    if (player->powers[pw_invulnerability] > STARTFLASHING || (player->powers[pw_invulnerability] & 8))
-        player->fixedcolormap = INVERSECOLORMAP;
+    if (viewplayer->powers[pw_invulnerability] > STARTFLASHING || (viewplayer->powers[pw_invulnerability] & 8))
+        viewplayer->fixedcolormap = INVERSECOLORMAP;
     else
-        player->fixedcolormap = (player->powers[pw_infrared] > STARTFLASHING
-            || (player->powers[pw_infrared] & 8));
+        viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING
+            || (viewplayer->powers[pw_infrared] & 8));
 }

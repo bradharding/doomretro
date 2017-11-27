@@ -68,8 +68,8 @@
 #define MAXUPSCALEWIDTH     (1600 / ORIGINALWIDTH)
 #define MAXUPSCALEHEIGHT    (1200 / ORIGINALHEIGHT)
 
-#define I_SDLError(func)    I_Error("The call to "func"() failed in %s on line %i of %s with the error:\n" \
-                            "\"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
+#define I_SDLError(func)    I_Error("The call to "func"() failed in %s() on line %i of %s with the error:\n" \
+                                "\"%s\".", __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
 #if !defined(SDL_VIDEO_RENDER_D3D11)
 #define SDL_VIDEO_RENDER_D3D11  0

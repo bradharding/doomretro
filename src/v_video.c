@@ -1466,8 +1466,7 @@ static dboolean V_SavePNG(SDL_Renderer *renderer, char *path)
 
             if ((screenshot = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0)))
             {
-                if (!SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screenshot->pixels,
-                    screenshot->pitch))
+                if (!SDL_RenderReadPixels(renderer, NULL, 0, screenshot->pixels, screenshot->pitch))
                     result = !IMG_SavePNG(screenshot, path);
 
                 SDL_FreeSurface(screenshot);

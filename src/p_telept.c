@@ -196,7 +196,7 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
                     player->deltaviewheight = 0;
 
                     // Set player's view according to the newly set parameters
-                    P_CalcHeight(player);
+                    P_CalcHeight();
 
                     // Reset the delta to have the same dynamics as before
                     player->deltaviewheight = deltaviewheight;
@@ -322,7 +322,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
                 player->deltaviewheight = 0;
 
                 // Set player's view according to the newly set parameters
-                P_CalcHeight(player);
+                P_CalcHeight();
 
                 // Reset the delta to have the same dynamics as before
                 player->deltaviewheight = deltaviewheight;

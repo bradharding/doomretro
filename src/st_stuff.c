@@ -452,7 +452,7 @@ dboolean ST_Responder(event_t *ev)
             {
                 // [BH] if player is dead, resurrect them first
                 if (viewplayer->health <= 0)
-                    P_ResurrectPlayer(viewplayer, initial_health);
+                    P_ResurrectPlayer(initial_health);
 
                 viewplayer->cheats ^= CF_GODMODE;
 

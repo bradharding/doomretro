@@ -238,7 +238,7 @@ void P_Ticker(void)
     if (paused || menuactive)
         return;
 
-    P_PlayerThink(&players[0]);
+    P_PlayerThink();
 
     if (consoleactive)
         return;
