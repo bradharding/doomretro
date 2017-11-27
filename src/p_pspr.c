@@ -129,8 +129,7 @@ void P_SetPsprite(player_t *player, size_t position, statenum_t stnum)
         }
 
         stnum = psp->state->nextstate;
-    }
-    while (!psp->tics); // an initial state of 0 could cycle through
+    } while (!psp->tics);   // an initial state of 0 could cycle through
 }
 
 //
@@ -555,8 +554,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         th->momy = finesine[an1 >> ANGLETOFINESHIFT] * 25;
         th->momz = finetangent[an2 >> ANGLETOFINESHIFT] * 25;
         P_CheckMissileSpawn(th);
-    }
-    while (type != MT_PLASMA2 && (type = MT_PLASMA2)); // killough: obfuscated!
+    } while (type != MT_PLASMA2 && (type = MT_PLASMA2));    // killough: obfuscated!
 
     A_Recoil(player, wp_plasma);
 }

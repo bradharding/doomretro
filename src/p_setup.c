@@ -1482,8 +1482,7 @@ static void P_CreateBlockMap(void)
             maxy = j;
 
         vertex++;
-    }
-    while (--i);
+    } while (--i);
 
     // Save blockmap parameters
     bmaporgx = minx << FRACBITS;
@@ -1925,9 +1924,8 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
                             v->y = y0;
                         }
                     }
-                }  // Obfuscated C contest entry:   :)
-            }
-            while (v != segs[i].v2 && (v = segs[i].v2));
+                }
+            } while (v != segs[i].v2 && (v = segs[i].v2));
         }
     }
 

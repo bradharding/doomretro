@@ -476,8 +476,7 @@ static void WI_drawOnLnode(int n, patch_t *c[])
             fits = true;
         else
             i++;
-    }
-    while (!fits && i != 2 && c[i]);
+    } while (!fits && i != 2 && c[i]);
 
     if (fits && i < 2)
     {
@@ -680,8 +679,7 @@ static void WI_drawTime(int x, int y, int t)
             if (div == 60 || t / div)
                 V_DrawPatchWithShadow(x + 1, y + 1, colon, true);
 
-        }
-        while (t / div);
+        } while (t / div);
 
         if (t < 60)
             WI_drawNum(x, y, 0, 2);

@@ -372,8 +372,7 @@ void D_Display(void)
             nowtime = I_GetTime();
             tics = nowtime - wipestart;
             I_Sleep(1);
-        }
-        while (tics <= 0);
+        } while (tics <= 0);
 
         wipestart = nowtime;
         done = wipe_ScreenWipe(tics);
@@ -383,8 +382,7 @@ void D_Display(void)
         M_Drawer();             // menu is drawn even on top of wipes
         blitfunc();             // blit buffer
         mapblitfunc();
-    }
-    while (!done);
+    } while (!done);
 }
 
 //
@@ -1672,8 +1670,7 @@ static void D_DoomMainSetup(void)
         C_Output("A <b>-devparm</b> parameter was found on the command-line. %s", s_D_DEVSTR);
 
     // turbo option
-    p = M_CheckParm("-turbo");
-    if (p)
+    if ((p = M_CheckParm("-turbo")))
     {
         int scale = 200;
 
@@ -1741,8 +1738,7 @@ static void D_DoomMainSetup(void)
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
                     wad = "";
                 }
-            }
-            while (!choseniwad);
+            } while (!choseniwad);
 #endif
 
             stat_runs = SafeAdd(stat_runs, 1);
@@ -1769,8 +1765,7 @@ static void D_DoomMainSetup(void)
                     }
                 }
             }
-        }
-        while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
+        } while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(PACKAGE_NAME" couldn't find any IWADs.");

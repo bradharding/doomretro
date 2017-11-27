@@ -1519,8 +1519,7 @@ dboolean V_ScreenShot(void)
         count++;
         M_MakeDirectory(screenshotfolder);
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s"DIR_SEPARATOR_S"%s", screenshotfolder, lbmname1);
-    }
-    while (M_FileExists(lbmpath1));
+    } while (M_FileExists(lbmpath1));
 
     result = V_SavePNG(renderer, lbmpath1);
     lbmpath2[0] = '\0';
@@ -1531,8 +1530,7 @@ dboolean V_ScreenShot(void)
         {
             M_snprintf(lbmname2, sizeof(lbmname2), "%s (%s).png", makevalidfilename(mapname), commify(count++));
             M_snprintf(lbmpath2, sizeof(lbmpath2), "%s"DIR_SEPARATOR_S"%s", screenshotfolder, lbmname2);
-        }
-        while (M_FileExists(lbmpath2));
+        } while (M_FileExists(lbmpath2));
 
         V_SavePNG(maprenderer, lbmpath2);
     }

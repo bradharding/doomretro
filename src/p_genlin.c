@@ -765,8 +765,7 @@ manual_stair:
                 okay = true;
                 break;
             }
-        }
-        while (okay);
+        } while (okay);
 
         if (manual)
             return rtn;

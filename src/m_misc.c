@@ -598,8 +598,7 @@ char *commify(int64_t value)
             }
             else
                 break;
-        }
-        while (1);
+        } while (1);
     }
 
     p = strdup(result);
@@ -753,8 +752,7 @@ char *leafname(char *path)
 
         if (cc == '\\' || cc == '/')
             path = ptr;
-    }
-    while (cc);
+    } while (cc);
 
     return path;
 }

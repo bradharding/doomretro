@@ -200,68 +200,57 @@ extern int      countdown;
 
 void G_RemoveChoppers(void)
 {
-    player_t    *player = &players[0];
-
-    player->cheats &= ~CF_CHOPPERS;
-
-    if (player->invulnbeforechoppers)
-        player->powers[pw_invulnerability] = player->invulnbeforechoppers;
-    else
-        player->powers[pw_invulnerability] = STARTFLASHING;
-
-    player->weaponowned[wp_chainsaw] = player->chainsawbeforechoppers;
-    oldweaponsowned[wp_chainsaw] = player->chainsawbeforechoppers;
+    viewplayer->cheats &= ~CF_CHOPPERS;
+    viewplayer->powers[pw_invulnerability] = (viewplayer->invulnbeforechoppers ? 1 : STARTFLASHING);
+    viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
+    oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
 }
 
 void G_NextWeapon(void)
 {
-    player_t        *player = &players[0];
-    weapontype_t    pendingweapon = player->pendingweapon;
-    weapontype_t    readyweapon = player->readyweapon;
+    weapontype_t    pendingweapon = viewplayer->pendingweapon;
+    weapontype_t    readyweapon = viewplayer->readyweapon;
     weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
         i = weapons[i].next;
 
-        if (i == wp_fist && player->weaponowned[wp_chainsaw] && !player->powers[pw_strength])
+        if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_chainsaw;
-    }
-    while (!player->weaponowned[i] || player->ammo[weapons[i].ammotype] < weapons[i].minammo);
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weapons[i].ammotype] < weapons[i].minammo);
 
     if (i != readyweapon)
-        player->pendingweapon = i;
+        viewplayer->pendingweapon = i;
 
-    if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
+    if ((viewplayer->cheats & CF_CHOPPERS) && i != wp_chainsaw)
         G_RemoveChoppers();
 
-    if (i == wp_fist && player->powers[pw_strength])
+    if (i == wp_fist && viewplayer->powers[pw_strength])
         S_StartSound(NULL, sfx_getpow);
 }
 
 void G_PrevWeapon(void)
 {
-    player_t        *player = &players[0];
-    weapontype_t    pendingweapon = player->pendingweapon;
-    weapontype_t    readyweapon = player->readyweapon;
+    weapontype_t    pendingweapon = viewplayer->pendingweapon;
+    weapontype_t    readyweapon = viewplayer->readyweapon;
     weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
         i = weapons[i].prev;
 
-        if (i == wp_fist && player->weaponowned[wp_chainsaw] && !player->powers[pw_strength])
+        if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_bfg;
-    }
-    while (!player->weaponowned[i] || player->ammo[weapons[i].ammotype] < weapons[i].minammo);
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weapons[i].ammotype] < weapons[i].minammo);
 
     if (i != readyweapon)
-        player->pendingweapon = i;
+        viewplayer->pendingweapon = i;
 
-    if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
+    if ((viewplayer->cheats & CF_CHOPPERS) && i != wp_chainsaw)
         G_RemoveChoppers();
 
-    if (i == wp_fist && player->powers[pw_strength])
+    if (i == wp_fist && viewplayer->powers[pw_strength])
         S_StartSound(NULL, sfx_getpow);
 }
 
@@ -278,13 +267,12 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     memset(cmd, 0, sizeof(ticcmd_t));
 
-    if (automapactive && !am_followmode && players[0].health > 0)
+    if (automapactive && !am_followmode && viewplayer->health > 0)
         return;
 
     strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamepadbuttons & gamepadstrafe));
 
-    run = (gamekeydown[keyboardrun] + !!mousebuttons[mouserun] + !!(gamepadbuttons & gamepadrun)
-        + alwaysrun == 1);
+    run = (gamekeydown[keyboardrun] + !!mousebuttons[mouserun] + !!(gamepadbuttons & gamepadrun) + alwaysrun == 1);
 
     usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]
         || (gamepadbuttons & gamepadmouselook));
@@ -380,10 +368,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             }
             else if (gamepadbuttons & *gamepadweapons[i])
             {
-                player_t    *player = &players[0];
-
-                if (player->readyweapon != i || (i == wp_fist && player->weaponowned[wp_chainsaw])
-                    || (i == wp_shotgun && player->weaponowned[wp_supershotgun]))
+                if (viewplayer->readyweapon != i || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+                    || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
                 {
                     cmd->buttons |= BT_CHANGE;
                     cmd->buttons |= i << BT_WEAPONSHIFT;

@@ -3009,8 +3009,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn = 0;
                     else
                         itemOn++;
-                }
-                while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
+                } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
 
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
@@ -3041,8 +3040,7 @@ dboolean M_Responder(event_t *ev)
 
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
-                }
-                while (currentMenu->menuitems[itemOn].status == -1);
+                } while (currentMenu->menuitems[itemOn].status == -1);
             }
 
             if (currentMenu == &EpiDef && gamemode != shareware)
@@ -3088,8 +3086,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn = currentMenu->numitems - 1;
                     else
                         itemOn--;
-                }
-                while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
+                } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
 
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
@@ -3120,8 +3117,7 @@ dboolean M_Responder(event_t *ev)
 
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
-                }
-                while (currentMenu->menuitems[itemOn].status == -1);
+                } while (currentMenu->menuitems[itemOn].status == -1);
             }
 
             if (currentMenu == &EpiDef && gamemode != shareware)

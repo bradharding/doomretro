@@ -217,8 +217,7 @@ static ULONG ReadTime(UBYTE **musptrp)
     {
         byte = *(*musptrp)++;
         timeval = (timeval << 7) + (byte & 0x7F);
-    }
-    while (byte & 0x80);
+    } while (byte & 0x80);
 
     return timeval;
 }
@@ -554,8 +553,7 @@ dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
             for (int i = 0; i < MIDI_TRACKS; i++)   // jff 3/13/98 update all tracks
                 track[i].deltaT += DeltaTime;   // whether allocated yet or not
         }
-    }
-    while (evt != SCORE_END && (size_t)(musptr - mus) < muslen);
+    } while (evt != SCORE_END && (size_t)(musptr - mus) < muslen);
 
     if (evt != SCORE_END)
         return false;

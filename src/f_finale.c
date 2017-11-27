@@ -905,8 +905,7 @@ static void F_BunnyScroll(void)
                 F_DrawPatchCol(frac / xscale, p2, x + scrolled - ORIGINALWIDTH, yscale);
 
             frac += xscale;
-        }
-        while ((frac >> FRACBITS) <= x);
+        } while ((frac >> FRACBITS) <= x);
     }
 
     if (finalecount < 1130)

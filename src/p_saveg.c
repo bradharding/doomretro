@@ -1378,8 +1378,7 @@ void P_ArchiveSpecials(void)
         }
 
         button_ptr++;
-    }
-    while (--i);
+    } while (--i);
 
     // add a terminating marker
     saveg_write8(tc_endspecials);

@@ -1377,8 +1377,7 @@ void P_SlideMove(mobj_t *mo)
             if (ABS(mo->player->momy) > ABS(tmymove))
                 mo->player->momy = tmymove;
         }
-    }  // killough 3/15/98: Allow objects to drop off ledges:
-    while (!P_TryMove(mo, mo->x + tmxmove, mo->y + tmymove, true));
+    } while (!P_TryMove(mo, mo->x + tmxmove, mo->y + tmymove, true));
 }
 
 //

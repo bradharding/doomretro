@@ -161,8 +161,7 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
         // Out of memory? Try to free an old sound, then loop round and try again.
         if (!(snd = malloc(sizeof(allocated_sound_t) + len)) && !FindAndFreeSound())
             return NULL;
-    }
-    while (!snd);
+    } while (!snd);
 
     // Skip past the chunk structure for the audio buffer
     snd->chunk.abuf = (byte *)(snd + 1);
