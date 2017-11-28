@@ -86,11 +86,11 @@
 //
 // P_PSPR
 //
-void P_SetupPsprites(player_t *player);
-void P_MovePsprites(player_t *player);
-void P_FireWeapon(player_t *player);
-void P_DropWeapon(player_t *player);
-void P_SetPsprite(player_t *player, size_t position, statenum_t stnum);
+void P_SetupPsprites(void);
+void P_MovePsprites(void);
+void P_FireWeapon(void);
+void P_DropWeapon(void);
+void P_SetPsprite(size_t position, statenum_t stnum);
 
 //
 // P_USER
@@ -124,7 +124,7 @@ extern int          iquetail;
 
 void P_RespawnSpecials(void);
 
-void P_InitCards(player_t *player);
+void P_InitCards(void);
 
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
 mobjtype_t P_FindDoomedNum(unsigned int type);
@@ -224,7 +224,7 @@ dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
 dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean boss);
 void P_SlideMove(mobj_t *mo);
 dboolean P_CheckSight(mobj_t *t1, mobj_t *t2);
-void P_UseLines(player_t *player);
+void P_UseLines(void);
 
 dboolean P_ChangeSector(sector_t *sector, dboolean crunch);
 void P_FreeSecNodeList(void);

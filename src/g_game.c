@@ -470,46 +470,44 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 }
 
-static void G_SetInitialWeapon(player_t *player)
+static void G_SetInitialWeapon(void)
 {
-    player->weaponowned[wp_fist] = true;
-    player->weaponowned[wp_pistol] = true;
+    viewplayer->weaponowned[wp_fist] = true;
+    viewplayer->weaponowned[wp_pistol] = true;
 
-    player->ammo[am_clip] = initial_bullets;
+    viewplayer->ammo[am_clip] = initial_bullets;
 
     if (!initial_bullets && weaponinfo[wp_pistol].ammo != am_noammo)
     {
-        player->readyweapon = wp_fist;
-        player->pendingweapon = wp_fist;
+        viewplayer->readyweapon = wp_fist;
+        viewplayer->pendingweapon = wp_fist;
     }
     else
     {
-        player->readyweapon = wp_pistol;
-        player->pendingweapon = wp_pistol;
+        viewplayer->readyweapon = wp_pistol;
+        viewplayer->pendingweapon = wp_pistol;
     }
 
     for (int i = 0; i < NUMAMMO; i++)
-        player->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
+        viewplayer->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
 }
 
 //
 // G_ResetPlayer
 // [BH] Reset player's health, armor, weapons and ammo
 //
-static void G_ResetPlayer(player_t *player)
+static void G_ResetPlayer(void)
 {
-    player->health = initial_health;
-
-    player->armorpoints = 0;
-    player->armortype = NOARMOR;
-
-    player->preferredshotgun = wp_shotgun;
-    player->fistorchainsaw = wp_fist;
-    player->shotguns = false;
-    memset(player->weaponowned, false, sizeof(player->weaponowned));
-    memset(player->ammo, false, sizeof(player->ammo));
-    G_SetInitialWeapon(player);
-    player->backpack = false;
+    viewplayer->health = initial_health;
+    viewplayer->armorpoints = 0;
+    viewplayer->armortype = NOARMOR;
+    viewplayer->preferredshotgun = wp_shotgun;
+    viewplayer->fistorchainsaw = wp_fist;
+    viewplayer->shotguns = false;
+    memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));
+    memset(viewplayer->ammo, false, sizeof(viewplayer->ammo));
+    G_SetInitialWeapon();
+    viewplayer->backpack = false;
 }
 
 //
@@ -556,7 +554,7 @@ static void G_DoLoadLevel(void)
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if (pistolstart || P_GetMapPistolStart(map))
-        G_ResetPlayer(viewplayer);
+        G_ResetPlayer();
 
     if (pendinggameskill)
     {
@@ -1082,7 +1080,7 @@ void G_PlayerReborn(void)
     viewplayer->fistorchainsaw = wp_fist;
     viewplayer->shotguns = false;
 
-    G_SetInitialWeapon(viewplayer);
+    G_SetInitialWeapon();
 
     markpointnum = 0;
     infight = false;
@@ -1195,7 +1193,7 @@ static void G_DoCompleted(void)
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;
     viewplayer->mo->momz = 0;
-    R_RenderPlayerView(viewplayer);
+    R_RenderPlayerView();
     I_Sleep(700);
 
     if (vid_widescreen)

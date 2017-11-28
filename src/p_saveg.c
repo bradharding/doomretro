@@ -398,186 +398,186 @@ extern int cardsfound;
 //
 // player_t
 //
-static void saveg_read_player_t(player_t *str)
+static void saveg_read_player_t(void)
 {
-    str->mo = (mobj_t *)saveg_readp();
-    str->playerstate = (playerstate_t)saveg_read_enum();
-    saveg_read_ticcmd_t(&str->cmd);
-    str->viewz = saveg_read32();
-    str->viewheight = saveg_read32();
-    str->deltaviewheight = saveg_read32();
-    str->momx = saveg_read32();
-    str->momy = saveg_read32();
-    str->health = saveg_read32();
+    viewplayer->mo = (mobj_t *)saveg_readp();
+    viewplayer->playerstate = (playerstate_t)saveg_read_enum();
+    saveg_read_ticcmd_t(&viewplayer->cmd);
+    viewplayer->viewz = saveg_read32();
+    viewplayer->viewheight = saveg_read32();
+    viewplayer->deltaviewheight = saveg_read32();
+    viewplayer->momx = saveg_read32();
+    viewplayer->momy = saveg_read32();
+    viewplayer->health = saveg_read32();
     oldhealth = saveg_read32();
-    str->armorpoints = saveg_read32();
-    str->armortype = (armortype_t)saveg_read_enum();
+    viewplayer->armorpoints = saveg_read32();
+    viewplayer->armortype = (armortype_t)saveg_read_enum();
 
     for (int i = 0; i < NUMPOWERS; i++)
-        str->powers[i] = saveg_read32();
+        viewplayer->powers[i] = saveg_read32();
 
     for (int i = 0; i < NUMCARDS; i++)
     {
-        str->cards[i] = saveg_read32();
-        cardsfound = MAX(cardsfound, str->cards[i]);
+        viewplayer->cards[i] = saveg_read32();
+        cardsfound = MAX(cardsfound, viewplayer->cards[i]);
     }
 
-    str->neededcard = saveg_read32();
-    str->neededcardflash = saveg_read32();
-    str->backpack = saveg_read32();
-    str->readyweapon = (weapontype_t)saveg_read_enum();
-    str->pendingweapon = (weapontype_t)saveg_read_enum();
+    viewplayer->neededcard = saveg_read32();
+    viewplayer->neededcardflash = saveg_read32();
+    viewplayer->backpack = saveg_read32();
+    viewplayer->readyweapon = (weapontype_t)saveg_read_enum();
+    viewplayer->pendingweapon = (weapontype_t)saveg_read_enum();
 
     for (int i = 0; i < NUMWEAPONS; i++)
-        str->weaponowned[i] = saveg_read32();
+        viewplayer->weaponowned[i] = saveg_read32();
 
-    str->shotguns = (str->weaponowned[wp_shotgun] || str->weaponowned[wp_supershotgun]);
-
-    for (int i = 0; i < NUMAMMO; i++)
-        str->ammo[i] = saveg_read32();
+    viewplayer->shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
     for (int i = 0; i < NUMAMMO; i++)
-        str->maxammo[i] = saveg_read32();
+        viewplayer->ammo[i] = saveg_read32();
 
-    str->attackdown = saveg_read32();
-    str->usedown = saveg_read32();
-    str->cheats = saveg_read32();
-    str->refire = saveg_read32();
-    str->killcount = saveg_read32();
-    str->itemcount = saveg_read32();
-    str->secretcount = saveg_read32();
-    str->message = (char *)saveg_readp();
-    str->damagecount = saveg_read32();
-    str->bonuscount = saveg_read32();
-    str->attacker = (mobj_t *)saveg_readp();
-    str->extralight = saveg_read32();
-    str->fixedcolormap = saveg_read32();
+    for (int i = 0; i < NUMAMMO; i++)
+        viewplayer->maxammo[i] = saveg_read32();
+
+    viewplayer->attackdown = saveg_read32();
+    viewplayer->usedown = saveg_read32();
+    viewplayer->cheats = saveg_read32();
+    viewplayer->refire = saveg_read32();
+    viewplayer->killcount = saveg_read32();
+    viewplayer->itemcount = saveg_read32();
+    viewplayer->secretcount = saveg_read32();
+    viewplayer->message = (char *)saveg_readp();
+    viewplayer->damagecount = saveg_read32();
+    viewplayer->bonuscount = saveg_read32();
+    viewplayer->attacker = (mobj_t *)saveg_readp();
+    viewplayer->extralight = saveg_read32();
+    viewplayer->fixedcolormap = saveg_read32();
 
     for (int i = 0; i < NUMPSPRITES; i++)
-        saveg_read_pspdef_t(&str->psprites[i]);
+        saveg_read_pspdef_t(&viewplayer->psprites[i]);
 
-    str->didsecret = saveg_read32();
-    str->preferredshotgun = (weapontype_t)saveg_read_enum();
-    str->shotguns = saveg_read32();
-    str->fistorchainsaw = (weapontype_t)saveg_read_enum();
-    str->invulnbeforechoppers = saveg_read32();
-    str->chainsawbeforechoppers = saveg_read32();
-    str->weaponbeforechoppers = (weapontype_t)saveg_read_enum();
-    str->oldviewz = saveg_read32();
-    str->lookdir = saveg_read32();
-    str->oldlookdir = saveg_read32();
-    str->recoil = saveg_read32();
-    str->oldrecoil = saveg_read32();
+    viewplayer->didsecret = saveg_read32();
+    viewplayer->preferredshotgun = (weapontype_t)saveg_read_enum();
+    viewplayer->shotguns = saveg_read32();
+    viewplayer->fistorchainsaw = (weapontype_t)saveg_read_enum();
+    viewplayer->invulnbeforechoppers = saveg_read32();
+    viewplayer->chainsawbeforechoppers = saveg_read32();
+    viewplayer->weaponbeforechoppers = (weapontype_t)saveg_read_enum();
+    viewplayer->oldviewz = saveg_read32();
+    viewplayer->lookdir = saveg_read32();
+    viewplayer->oldlookdir = saveg_read32();
+    viewplayer->recoil = saveg_read32();
+    viewplayer->oldrecoil = saveg_read32();
 
     if (!mouselook)
     {
-        str->lookdir = 0;
-        str->oldlookdir = 0;
-        str->recoil = 0;
-        str->oldrecoil = 0;
+        viewplayer->lookdir = 0;
+        viewplayer->oldlookdir = 0;
+        viewplayer->recoil = 0;
+        viewplayer->oldrecoil = 0;
     }
 
-    str->damageinflicted = saveg_read32();
-    str->damagereceived = saveg_read32();
-    str->cheated = saveg_read32();
-    str->shotshit = saveg_read32();
-    str->shotsfired = saveg_read32();
-    str->deaths = saveg_read32();
+    viewplayer->damageinflicted = saveg_read32();
+    viewplayer->damagereceived = saveg_read32();
+    viewplayer->cheated = saveg_read32();
+    viewplayer->shotshit = saveg_read32();
+    viewplayer->shotsfired = saveg_read32();
+    viewplayer->deaths = saveg_read32();
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
-        str->mobjcount[i] = saveg_read32();
+        viewplayer->mobjcount[i] = saveg_read32();
 
-    str->distancetraveled = saveg_read32();
-    str->itemspickedup_ammo_bullets = saveg_read32();
-    str->itemspickedup_ammo_cells = saveg_read32();
-    str->itemspickedup_ammo_rockets = saveg_read32();
-    str->itemspickedup_ammo_shells = saveg_read32();
-    str->itemspickedup_armor = saveg_read32();
-    str->itemspickedup_health = saveg_read32();
+    viewplayer->distancetraveled = saveg_read32();
+    viewplayer->itemspickedup_ammo_bullets = saveg_read32();
+    viewplayer->itemspickedup_ammo_cells = saveg_read32();
+    viewplayer->itemspickedup_ammo_rockets = saveg_read32();
+    viewplayer->itemspickedup_ammo_shells = saveg_read32();
+    viewplayer->itemspickedup_armor = saveg_read32();
+    viewplayer->itemspickedup_health = saveg_read32();
 }
 
-static void saveg_write_player_t(player_t *str)
+static void saveg_write_player_t(void)
 {
-    saveg_writep(str->mo);
-    saveg_write_enum(str->playerstate);
-    saveg_write_ticcmd_t(&str->cmd);
-    saveg_write32(str->viewz);
-    saveg_write32(str->viewheight);
-    saveg_write32(str->deltaviewheight);
-    saveg_write32(str->momx);
-    saveg_write32(str->momy);
-    saveg_write32(str->health);
+    saveg_writep(viewplayer->mo);
+    saveg_write_enum(viewplayer->playerstate);
+    saveg_write_ticcmd_t(&viewplayer->cmd);
+    saveg_write32(viewplayer->viewz);
+    saveg_write32(viewplayer->viewheight);
+    saveg_write32(viewplayer->deltaviewheight);
+    saveg_write32(viewplayer->momx);
+    saveg_write32(viewplayer->momy);
+    saveg_write32(viewplayer->health);
     saveg_write32(oldhealth);
-    saveg_write32(str->armorpoints);
-    saveg_write_enum(str->armortype);
+    saveg_write32(viewplayer->armorpoints);
+    saveg_write_enum(viewplayer->armortype);
 
     for (int i = 0; i < NUMPOWERS; i++)
-        saveg_write32(str->powers[i]);
+        saveg_write32(viewplayer->powers[i]);
 
     for (int i = 0; i < NUMCARDS; i++)
-        saveg_write32(str->cards[i]);
+        saveg_write32(viewplayer->cards[i]);
 
-    saveg_write32(str->neededcard);
-    saveg_write32(str->neededcardflash);
-    saveg_write32(str->backpack);
-    saveg_write_enum(str->readyweapon);
-    saveg_write_enum(str->pendingweapon);
+    saveg_write32(viewplayer->neededcard);
+    saveg_write32(viewplayer->neededcardflash);
+    saveg_write32(viewplayer->backpack);
+    saveg_write_enum(viewplayer->readyweapon);
+    saveg_write_enum(viewplayer->pendingweapon);
 
     for (int i = 0; i < NUMWEAPONS; i++)
-        saveg_write32(str->weaponowned[i]);
+        saveg_write32(viewplayer->weaponowned[i]);
 
     for (int i = 0; i < NUMAMMO; i++)
-        saveg_write32(str->ammo[i]);
+        saveg_write32(viewplayer->ammo[i]);
 
     for (int i = 0; i < NUMAMMO; i++)
-        saveg_write32(str->maxammo[i]);
+        saveg_write32(viewplayer->maxammo[i]);
 
-    saveg_write32(str->attackdown);
-    saveg_write32(str->usedown);
-    saveg_write32(str->cheats);
-    saveg_write32(str->refire);
-    saveg_write32(str->killcount);
-    saveg_write32(str->itemcount);
-    saveg_write32(str->secretcount);
-    saveg_writep(str->message);
-    saveg_write32(str->damagecount);
-    saveg_write32(str->bonuscount);
-    saveg_writep((void *)P_ThingToIndex(str->attacker));
-    saveg_write32(str->extralight);
-    saveg_write32(str->fixedcolormap);
+    saveg_write32(viewplayer->attackdown);
+    saveg_write32(viewplayer->usedown);
+    saveg_write32(viewplayer->cheats);
+    saveg_write32(viewplayer->refire);
+    saveg_write32(viewplayer->killcount);
+    saveg_write32(viewplayer->itemcount);
+    saveg_write32(viewplayer->secretcount);
+    saveg_writep(viewplayer->message);
+    saveg_write32(viewplayer->damagecount);
+    saveg_write32(viewplayer->bonuscount);
+    saveg_writep((void *)P_ThingToIndex(viewplayer->attacker));
+    saveg_write32(viewplayer->extralight);
+    saveg_write32(viewplayer->fixedcolormap);
 
     for (int i = 0; i < NUMPSPRITES; i++)
-        saveg_write_pspdef_t(&str->psprites[i]);
+        saveg_write_pspdef_t(&viewplayer->psprites[i]);
 
-    saveg_write32(str->didsecret);
-    saveg_write_enum(str->preferredshotgun);
-    saveg_write32(str->shotguns);
-    saveg_write32(str->fistorchainsaw);
-    saveg_write32(str->invulnbeforechoppers);
-    saveg_write32(str->chainsawbeforechoppers);
-    saveg_write_enum(str->weaponbeforechoppers);
-    saveg_write32(str->oldviewz);
-    saveg_write32(str->lookdir);
-    saveg_write32(str->oldlookdir);
-    saveg_write32(str->recoil);
-    saveg_write32(str->oldrecoil);
-    saveg_write32(str->damageinflicted);
-    saveg_write32(str->damagereceived);
-    saveg_write32(str->cheated);
-    saveg_write32(str->shotshit);
-    saveg_write32(str->shotsfired);
-    saveg_write32(str->deaths);
+    saveg_write32(viewplayer->didsecret);
+    saveg_write_enum(viewplayer->preferredshotgun);
+    saveg_write32(viewplayer->shotguns);
+    saveg_write32(viewplayer->fistorchainsaw);
+    saveg_write32(viewplayer->invulnbeforechoppers);
+    saveg_write32(viewplayer->chainsawbeforechoppers);
+    saveg_write_enum(viewplayer->weaponbeforechoppers);
+    saveg_write32(viewplayer->oldviewz);
+    saveg_write32(viewplayer->lookdir);
+    saveg_write32(viewplayer->oldlookdir);
+    saveg_write32(viewplayer->recoil);
+    saveg_write32(viewplayer->oldrecoil);
+    saveg_write32(viewplayer->damageinflicted);
+    saveg_write32(viewplayer->damagereceived);
+    saveg_write32(viewplayer->cheated);
+    saveg_write32(viewplayer->shotshit);
+    saveg_write32(viewplayer->shotsfired);
+    saveg_write32(viewplayer->deaths);
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
-        saveg_write32(str->mobjcount[i]);
+        saveg_write32(viewplayer->mobjcount[i]);
 
-    saveg_write32(str->distancetraveled);
-    saveg_write32(str->itemspickedup_ammo_bullets);
-    saveg_write32(str->itemspickedup_ammo_cells);
-    saveg_write32(str->itemspickedup_ammo_rockets);
-    saveg_write32(str->itemspickedup_ammo_shells);
-    saveg_write32(str->itemspickedup_armor);
-    saveg_write32(str->itemspickedup_health);
+    saveg_write32(viewplayer->distancetraveled);
+    saveg_write32(viewplayer->itemspickedup_ammo_bullets);
+    saveg_write32(viewplayer->itemspickedup_ammo_cells);
+    saveg_write32(viewplayer->itemspickedup_ammo_rockets);
+    saveg_write32(viewplayer->itemspickedup_ammo_shells);
+    saveg_write32(viewplayer->itemspickedup_armor);
+    saveg_write32(viewplayer->itemspickedup_health);
 }
 
 //
@@ -966,7 +966,7 @@ void P_WriteSaveGameEOF(void)
 void P_ArchivePlayer(void)
 {
     saveg_write_pad();
-    saveg_write_player_t(viewplayer);
+    saveg_write_player_t();
 }
 
 //
@@ -975,8 +975,8 @@ void P_ArchivePlayer(void)
 void P_UnArchivePlayer(void)
 {
     saveg_read_pad();
-    P_InitCards(viewplayer);
-    saveg_read_player_t(viewplayer);
+    P_InitCards();
+    saveg_read_player_t();
 }
 
 //

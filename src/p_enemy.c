@@ -729,7 +729,6 @@ static dboolean P_LookForMonsters(mobj_t *actor)
 //
 static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
 {
-    player_t    *player;
     mobj_t      *mo;
     fixed_t     dist;
 
@@ -737,13 +736,12 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
         // player is dead, look for monsters
         return P_LookForMonsters(actor);
 
-    player = viewplayer;
-    mo = player->mo;
+    mo = viewplayer->mo;
 
-    if (player->cheats & CF_NOTARGET)
+    if (viewplayer->cheats & CF_NOTARGET)
         return false;
 
-    if (player->health <= 0 || !P_CheckSight(actor, mo))
+    if (viewplayer->health <= 0 || !P_CheckSight(actor, mo))
     {
         // Use last known enemy if no players sighted -- killough 2/15/98
         if (actor->lastenemy && actor->lastenemy->health > 0)
@@ -2216,8 +2214,7 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
         // If we're in massacre mode then don't spawn anything killable.
         if (!(actor->flags2 & MF2_MASSACRE) || !(mobjinfo[type].flags & MF_COUNTKILL))
         {
-            mobj_t  *newmobj = P_SpawnMobj(actor->x, actor->y, (actor->state->misc2 << FRACBITS) + actor->z,
-                        type);
+            mobj_t  *newmobj = P_SpawnMobj(actor->x, actor->y, (actor->state->misc2 << FRACBITS) + actor->z, type);
 
             if (newmobj->flags & MF_COUNTKILL)
             {
@@ -2271,7 +2268,7 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
         state_t *state = psp->state;
 
         if (M_Random() < state->misc2)
-            P_SetPsprite(player, psp - &player->psprites[ps_weapon], state->misc1);
+            P_SetPsprite(psp - &player->psprites[ps_weapon], state->misc1);
     }
     else
     {

@@ -1759,7 +1759,7 @@ static dboolean PTR_NoWayTraverse(intercept_t *in)
 // P_UseLines
 // Looks for special lines in front of the player to activate.
 //
-void P_UseLines(player_t *player)
+void P_UseLines(void)
 {
     int     angle;
     fixed_t x1, y1;
@@ -1768,12 +1768,12 @@ void P_UseLines(player_t *player)
     if (automapactive && !am_followmode)
         return;
 
-    usething = player->mo;
+    usething = viewplayer->mo;
 
-    angle = player->mo->angle >> ANGLETOFINESHIFT;
+    angle = viewplayer->mo->angle >> ANGLETOFINESHIFT;
 
-    x1 = player->mo->x;
-    y1 = player->mo->y;
+    x1 = viewplayer->mo->x;
+    y1 = viewplayer->mo->y;
     x2 = x1 + (USERANGE >> FRACBITS) * finecosine[angle];
     y2 = y1 + (USERANGE >> FRACBITS) * finesine[angle];
 

@@ -88,7 +88,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line);
 
 void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing);
 
-void P_PlayerInSpecialSector(player_t *player);
+void P_PlayerInSpecialSector(void);
 
 dboolean twoSided(int sector, int line);
 
@@ -124,7 +124,7 @@ int P_FindLineFromLineTag(const line_t *line, int start);
 
 int P_FindMinSurroundingLight(sector_t *sec, int min);
 
-dboolean P_CanUnlockGenDoor(line_t *line, player_t *player);
+dboolean P_CanUnlockGenDoor(line_t *line);
 
 sector_t *getNextSector(line_t *line, sector_t *sec);
 

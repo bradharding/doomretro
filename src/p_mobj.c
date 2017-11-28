@@ -80,7 +80,7 @@ extern int          deathcount;
 extern msecnode_t   *sector_list;   // phares 3/16/98
 extern dboolean     usemouselook;
 
-void A_Recoil(player_t *player, weapontype_t weapon);
+void A_Recoil(weapontype_t weapon);
 void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 
@@ -891,40 +891,39 @@ extern int lastepisode;
 
 static void P_SpawnPlayer(const mapthing_t *mthing)
 {
-    player_t    *p = viewplayer;
-    mobj_t      *mobj;
+    mobj_t  *mobj;
 
-    if (p->playerstate == PST_REBORN)
+    if (viewplayer->playerstate == PST_REBORN)
         G_PlayerReborn();
 
     mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, MT_PLAYER);
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
-    mobj->player = p;
-    mobj->health = p->health;
+    mobj->player = viewplayer;
+    mobj->health = viewplayer->health;
 
-    p->mo = mobj;
-    p->playerstate = PST_LIVE;
-    p->refire = 0;
-    p->message = NULL;
-    p->damagecount = 0;
-    p->bonuscount = 0;
-    p->extralight = 0;
-    p->fixedcolormap = 0;
-    p->viewheight = VIEWHEIGHT;
+    viewplayer->mo = mobj;
+    viewplayer->playerstate = PST_LIVE;
+    viewplayer->refire = 0;
+    viewplayer->message = NULL;
+    viewplayer->damagecount = 0;
+    viewplayer->bonuscount = 0;
+    viewplayer->extralight = 0;
+    viewplayer->fixedcolormap = 0;
+    viewplayer->viewheight = VIEWHEIGHT;
 
-    p->viewz = p->mo->z + p->viewheight;
-    p->psprites[ps_weapon].sx = 0;
-    p->mo->momx = 0;
-    p->mo->momy = 0;
-    p->momx = 0;
-    p->momy = 0;
-    p->lookdir = 0;
+    viewplayer->viewz = viewplayer->mo->z + viewplayer->viewheight;
+    viewplayer->psprites[ps_weapon].sx = 0;
+    viewplayer->mo->momx = 0;
+    viewplayer->mo->momy = 0;
+    viewplayer->momx = 0;
+    viewplayer->momy = 0;
+    viewplayer->lookdir = 0;
 
     deathcount = 0;
 
     // setup gun psprite
-    P_SetupPsprites(p);
+    P_SetupPsprites();
 
     lastlevel = -1;
     lastepisode = -1;
@@ -1419,7 +1418,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     P_CheckMissileSpawn(th);
 
-    A_Recoil(source->player, source->player->readyweapon);
+    A_Recoil(source->player->readyweapon);
 }
 
 void P_InitExtraMobjs(void)

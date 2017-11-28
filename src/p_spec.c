@@ -793,7 +793,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 //  generalized locked doors
 //
 // killough 11/98: reformatted
-dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
+dboolean P_CanUnlockGenDoor(line_t *line)
 {
     static char buffer[1024];
 
@@ -804,71 +804,71 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
     switch ((line->special & LockedKey) >> LockedKeyShift)
     {
         case AnyKey:
-            if (player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0
-                && player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0
-                && player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)
+            if (viewplayer->cards[it_redcard] <= 0 && viewplayer->cards[it_redskull] <= 0
+                && viewplayer->cards[it_bluecard] <= 0 && viewplayer->cards[it_blueskull] <= 0
+                && viewplayer->cards[it_yellowcard] <= 0 && viewplayer->cards[it_yellowskull] <= 0)
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
             break;
 
         case RCard:
-            if (player->cards[it_redcard] <= 0 && (!skulliscard || player->cards[it_redskull] <= 0))
+            if (viewplayer->cards[it_redcard] <= 0 && (!skulliscard || viewplayer->cards[it_redskull] <= 0))
             {
-                if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_redcard))
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_redcard))
                 {
-                    player->neededcard = it_redcard;
-                    player->neededcardflash = NEEDEDCARDFLASH;
+                    viewplayer->neededcard = it_redcard;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDC), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
-                    (player->cards[it_redskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
+                    (viewplayer->cards[it_redskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
             break;
 
         case BCard:
-            if (player->cards[it_bluecard] <= 0 && (!skulliscard || player->cards[it_blueskull] <= 0))
+            if (viewplayer->cards[it_bluecard] <= 0 && (!skulliscard || viewplayer->cards[it_blueskull] <= 0))
             {
-                if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_bluecard))
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_bluecard))
                 {
-                    player->neededcard = it_bluecard;
-                    player->neededcardflash = NEEDEDCARDFLASH;
+                    viewplayer->neededcard = it_bluecard;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUEC), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
-                    (player->cards[it_blueskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
+                    (viewplayer->cards[it_blueskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
             break;
 
         case YCard:
-            if (player->cards[it_yellowcard] <= 0 && (!skulliscard || player->cards[it_yellowskull] <= 0))
+            if (viewplayer->cards[it_yellowcard] <= 0 && (!skulliscard || viewplayer->cards[it_yellowskull] <= 0))
             {
-                if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_yellowcard))
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_yellowcard))
                 {
-                    player->neededcard = it_yellowcard;
-                    player->neededcardflash = NEEDEDCARDFLASH;
+                    viewplayer->neededcard = it_yellowcard;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
-                    (player->cards[it_yellowskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
+                    (viewplayer->cards[it_yellowskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
             }
@@ -876,82 +876,82 @@ dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             break;
 
         case RSkull:
-            if (player->cards[it_redskull] <= 0 && (!skulliscard || player->cards[it_redcard] <= 0))
+            if (viewplayer->cards[it_redskull] <= 0 && (!skulliscard || viewplayer->cards[it_redcard] <= 0))
             {
-                if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_redskull))
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_redskull))
                 {
-                    player->neededcard = it_redskull;
-                    player->neededcardflash = NEEDEDCARDFLASH;
+                    viewplayer->neededcard = it_redskull;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDS), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
-                    (player->cards[it_redcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
+                    (viewplayer->cards[it_redcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
             break;
 
         case BSkull:
-            if (player->cards[it_blueskull] <= 0 && (!skulliscard || player->cards[it_bluecard] <= 0))
+            if (viewplayer->cards[it_blueskull] <= 0 && (!skulliscard || viewplayer->cards[it_bluecard] <= 0))
             {
-                if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_blueskull))
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_blueskull))
                 {
-                    player->neededcard = it_blueskull;
-                    player->neededcardflash = NEEDEDCARDFLASH;
+                    viewplayer->neededcard = it_blueskull;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUES), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
-                    (player->cards[it_bluecard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
+                    (viewplayer->cards[it_bluecard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
             break;
 
         case YSkull:
-            if (player->cards[it_yellowskull] <= 0 && (!skulliscard || player->cards[it_yellowcard] <= 0))
+            if (viewplayer->cards[it_yellowskull] <= 0 && (!skulliscard || viewplayer->cards[it_yellowcard] <= 0))
             {
-                if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_yellowskull))
+                if (vid_widescreen && r_hud && (!viewplayer->neededcardflash || viewplayer->neededcard != it_yellowskull))
                 {
-                    player->neededcard = it_yellowskull;
-                    player->neededcardflash = NEEDEDCARDFLASH;
+                    viewplayer->neededcard = it_yellowskull;
+                    viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
-                    (player->cards[it_yellowcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
+                    (viewplayer->cards[it_yellowcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
             break;
 
         case AllKeys:
-            if (!skulliscard && (player->cards[it_redcard] <= 0 || player->cards[it_redskull] <= 0
-                || player->cards[it_bluecard] <= 0 || player->cards[it_blueskull] <= 0
-                || player->cards[it_yellowcard] <= 0 || player->cards[it_yellowskull] <= 0))
+            if (!skulliscard && (viewplayer->cards[it_redcard] <= 0 || viewplayer->cards[it_redskull] <= 0
+                || viewplayer->cards[it_bluecard] <= 0 || viewplayer->cards[it_blueskull] <= 0
+                || viewplayer->cards[it_yellowcard] <= 0 || viewplayer->cards[it_yellowskull] <= 0))
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL6, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
-            if (skulliscard && ((player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0)
-                || (player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0)
-                || (player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)))
+            if (skulliscard && ((viewplayer->cards[it_redcard] <= 0 && viewplayer->cards[it_redskull] <= 0)
+                || (viewplayer->cards[it_bluecard] <= 0 && viewplayer->cards[it_blueskull] <= 0)
+                || (viewplayer->cards[it_yellowcard] <= 0 && viewplayer->cards[it_yellowskull] <= 0)))
             {
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
                 HU_PlayerMessage(buffer, false);
-                S_StartSound(player->mo, sfx_noway);
+                S_StartSound(viewplayer->mo, sfx_noway);
                 return false;
             }
 
@@ -1145,7 +1145,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if ((line->special & TriggerType) == WalkOnce || (line->special & TriggerType) == WalkMany)
             {
                 // jff 4/1/98 check for being a walk type before reporting door type
-                if (!P_CanUnlockGenDoor(line, thing->player))
+                if (!P_CanUnlockGenDoor(line))
                     return;
             }
             else
@@ -1909,7 +1909,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         if ((line->special & TriggerType) == GunOnce || (line->special & TriggerType) == GunMany)
         {
             // jff 4/1/98 check for being a gun type before reporting door type
-            if (!P_CanUnlockGenDoor(line, thing->player))
+            if (!P_CanUnlockGenDoor(line))
                 return;
         }
         else
@@ -2004,9 +2004,9 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     }
 }
 
-static void P_SecretFound(player_t *player)
+static void P_SecretFound(void)
 {
-    player->secretcount++;
+    viewplayer->secretcount++;
     stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
 
     if (DSSECRET)
@@ -2024,9 +2024,9 @@ static void P_SecretFound(player_t *player)
 // Called every tic frame
 //  that the player origin is in a special sector
 //
-void P_PlayerInSpecialSector(player_t *player)
+void P_PlayerInSpecialSector(void)
 {
-    sector_t    *sector = player->mo->subsector->sector;
+    sector_t    *sector = viewplayer->mo->subsector->sector;
 
     // jff add if to handle old vs generalized types
     if (sector->special < 32) // regular sector specials
@@ -2034,29 +2034,29 @@ void P_PlayerInSpecialSector(player_t *player)
         switch (sector->special)
         {
             case DamageNegative5Or10PercentHealth:
-                if (!player->powers[pw_ironfeet])
+                if (!viewplayer->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 10, true);
+                        P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
 
                 break;
 
             case DamageNegative2Or5PercentHealth:
-                if (!player->powers[pw_ironfeet])
+                if (!viewplayer->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 5, true);
+                        P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
 
                 break;
 
             case DamageNegative10Or20PercentHealth:
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                if (!player->powers[pw_ironfeet] || M_Random() < 5)
+                if (!viewplayer->powers[pw_ironfeet] || M_Random() < 5)
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 20, true);
+                        P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
                 break;
 
             case Secret:
-                P_SecretFound(player);
+                P_SecretFound();
                 sector->special = 0;
 
                 for (int i = 0; i < sector->linecount; i++)
@@ -2066,14 +2066,14 @@ void P_PlayerInSpecialSector(player_t *player)
 
             case DamageNegative10Or20PercentHealthAndEndLevel:
                 // for E1M8 finale
-                player->cheats &= ~CF_BUDDHA;
-                player->cheats &= ~CF_GODMODE;
-                player->powers[pw_invulnerability] = 0;
+                viewplayer->cheats &= ~CF_BUDDHA;
+                viewplayer->cheats &= ~CF_GODMODE;
+                viewplayer->powers[pw_invulnerability] = 0;
 
                 if (!(leveltime & 0x1F))
-                    P_DamageMobj(player->mo, NULL, NULL, 20, true);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
-                if (player->health <= 10)
+                if (viewplayer->health <= 10)
                     G_ExitLevel();
 
                 break;
@@ -2087,30 +2087,30 @@ void P_PlayerInSpecialSector(player_t *player)
                 break;
 
             case 1:     // 2/5 damage per 31 ticks
-                if (!player->powers[pw_ironfeet])
+                if (!viewplayer->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 5, true);
+                        P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true);
 
                 break;
 
             case 2:     // 5/10 damage per 31 ticks
-                if (!player->powers[pw_ironfeet])
+                if (!viewplayer->powers[pw_ironfeet])
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 10, true);
+                        P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true);
 
                 break;
 
             case 3:     // 10/20 damage per 31 ticks
-                if (!player->powers[pw_ironfeet] || M_Random() < 5)  // take damage even with suit
+                if (!viewplayer->powers[pw_ironfeet] || M_Random() < 5)  // take damage even with suit
                     if (!(leveltime & 0x1F))
-                        P_DamageMobj(player->mo, NULL, NULL, 20, true);
+                        P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
                 break;
         }
 
         if (sector->special & SECRET_MASK)
         {
-            P_SecretFound(player);
+            P_SecretFound();
             sector->special &= ~SECRET_MASK;
 
             if (sector->special < 32)   // if all extended bits clear,

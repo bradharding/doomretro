@@ -461,7 +461,7 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] remember player's current health,
                     //  and only set to 100% if less than 100%
                     oldhealth = viewplayer->health;
-                    P_GiveBody(viewplayer, god_health, false);
+                    P_GiveBody(god_health, false);
 
                     C_Input(cheat_god.sequence);
 
@@ -525,12 +525,12 @@ dboolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] note if any weapons given that player didn't have already
-                weaponsgiven = P_GiveAllWeapons(viewplayer);
+                weaponsgiven = P_GiveAllWeapons();
 
                 // [BH] give player a backpack if they don't have one
-                P_GiveBackpack(viewplayer, false, false);
+                P_GiveBackpack(false, false);
 
-                ammogiven = P_GiveFullAmmo(viewplayer, false);
+                ammogiven = P_GiveFullAmmo(false);
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
@@ -543,7 +543,7 @@ dboolean ST_Responder(event_t *ev)
                 if (ammogiven || armorgiven || weaponsgiven)
                 {
                     // [BH] flash screen
-                    P_AddBonus(viewplayer, BONUSADD);
+                    P_AddBonus();
 
                     C_Input(cheat_ammonokey.sequence);
 
@@ -580,16 +580,16 @@ dboolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] note if any weapons given that player didn't have already
-                weaponsgiven = P_GiveAllWeapons(viewplayer);
+                weaponsgiven = P_GiveAllWeapons();
 
                 // [BH] give player a backpack if they don't have one
-                P_GiveBackpack(viewplayer, false, false);
+                P_GiveBackpack(false, false);
 
-                ammogiven = P_GiveFullAmmo(viewplayer, false);
+                ammogiven = P_GiveFullAmmo(false);
 
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given
-                keysgiven = P_GiveAllCards(viewplayer);
+                keysgiven = P_GiveAllCards();
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
@@ -602,7 +602,7 @@ dboolean ST_Responder(event_t *ev)
                 if (ammogiven || armorgiven || weaponsgiven || keysgiven)
                 {
                     // [BH] flash screen
-                    P_AddBonus(viewplayer, BONUSADD);
+                    P_AddBonus();
 
                     C_Input(cheat_ammo.sequence);
 
@@ -713,7 +713,7 @@ dboolean ST_Responder(event_t *ev)
                     if ((i != pw_strength && viewplayer->powers[i] >= 0 && viewplayer->powers[i] <= STARTFLASHING)
                         || (i == pw_strength && !viewplayer->powers[i]))
                     {
-                        P_GivePower(viewplayer, i);
+                        P_GivePower(i);
 
                         // [BH] set to -1 so power-up won't run out, but can
                         //  still be toggled off using cheat
@@ -722,7 +722,7 @@ dboolean ST_Responder(event_t *ev)
                             viewplayer->powers[i] = -1;
 
                             // [BH] flash screen
-                            P_AddBonus(viewplayer, BONUSADD);
+                            P_AddBonus();
                         }
                         else
                         {
@@ -737,11 +737,7 @@ dboolean ST_Responder(event_t *ev)
                             {
                                 viewplayer->cheats &= ~CF_CHOPPERS;
 
-                                if (viewplayer->invulnbeforechoppers)
-                                    viewplayer->powers[pw_invulnerability] = viewplayer->invulnbeforechoppers;
-                                else
-                                    viewplayer->powers[pw_invulnerability] = STARTFLASHING;
-
+                                viewplayer->powers[pw_invulnerability] = (viewplayer->invulnbeforechoppers ? 1 : STARTFLASHING);
                                 viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
                                 oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
                               }
@@ -845,7 +841,7 @@ dboolean ST_Responder(event_t *ev)
                 if (!(viewplayer->cheats & CF_CHOPPERS))
                 {
                     // [BH] flash screen
-                    P_AddBonus(viewplayer, BONUSADD);
+                    P_AddBonus();
 
                     // [BH] note if has chainsaw and/or invulnerability already
                     viewplayer->invulnbeforechoppers = viewplayer->powers[pw_invulnerability];
@@ -865,7 +861,7 @@ dboolean ST_Responder(event_t *ev)
 
                     // [BH] fixed bug where invulnerability was never given, and now
                     //  needs to be toggled off with cheat or switch from chainsaw
-                    P_GivePower(viewplayer, pw_invulnerability);
+                    P_GivePower(pw_invulnerability);
                     viewplayer->powers[pw_invulnerability] = -1;
 
                     C_Input(cheat_choppers.sequence);
@@ -889,10 +885,7 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] can be toggled off
                     viewplayer->cheats &= ~CF_CHOPPERS;
 
-                    if (viewplayer->invulnbeforechoppers)
-                        viewplayer->powers[pw_invulnerability] = viewplayer->invulnbeforechoppers;
-                    else
-                        viewplayer->powers[pw_invulnerability] = STARTFLASHING;
+                    viewplayer->powers[pw_invulnerability] = (viewplayer->invulnbeforechoppers ? 1 : STARTFLASHING);
 
                     if (viewplayer->weaponbeforechoppers != wp_chainsaw)
                         viewplayer->pendingweapon = viewplayer->weaponbeforechoppers;

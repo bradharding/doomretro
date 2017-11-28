@@ -273,7 +273,7 @@ void D_Display(void)
         ST_Drawer((viewheight == SCREENHEIGHT), true);
 
         // draw the view directly
-        R_RenderPlayerView(viewplayer);
+        R_RenderPlayerView();
 
         if (am_path && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
             AM_addToPath();

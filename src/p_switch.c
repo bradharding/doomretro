@@ -243,7 +243,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (!thing->player)
                 return false;                           // monsters disallowed from unlocking doors
 
-            if (!P_CanUnlockGenDoor(line, thing->player))
+            if (!P_CanUnlockGenDoor(line))
                 return false;
 
             linefunc = EV_DoGenLockedDoor;

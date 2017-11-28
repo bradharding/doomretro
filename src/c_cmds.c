@@ -835,7 +835,7 @@ static void console_action_func(void)
 
 static void fire_action_func(void)
 {
-    P_FireWeapon(viewplayer);
+    P_FireWeapon();
 }
 
 static void followmode_action_func(void)
@@ -922,7 +922,7 @@ static void straferight_action_func(void)
 
 static void use_action_func(void)
 {
-    P_UseLines(viewplayer);
+    P_UseLines();
 }
 
 static void weapon1_action_func(void)
@@ -1876,37 +1876,37 @@ static void give_cmd_func2(char *cmd, char *parms)
     {
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
-            P_GiveBackpack(viewplayer, false, false);
-            P_GiveMegaHealth(viewplayer, false);
-            P_GiveAllWeapons(viewplayer);
-            P_GiveFullAmmo(viewplayer, false);
-            P_GiveArmor(viewplayer, blue_armor_class, false);
-            P_GiveAllCards(viewplayer);
+            P_GiveBackpack(false, false);
+            P_GiveMegaHealth(false);
+            P_GiveAllWeapons();
+            P_GiveFullAmmo(false);
+            P_GiveArmor(blue_armor_class, false);
+            P_GiveAllCards();
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "health"))
         {
-            P_GiveMegaHealth(viewplayer, false);
+            P_GiveMegaHealth(false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "weapons"))
         {
-            P_GiveAllWeapons(viewplayer);
+            P_GiveAllWeapons();
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "ammo"))
         {
-            P_GiveFullAmmo(viewplayer, false);
+            P_GiveFullAmmo(false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
         {
-            P_GiveArmor(viewplayer, blue_armor_class, false);
+            P_GiveArmor(blue_armor_class, false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "keys"))
         {
-            P_GiveAllCards(viewplayer);
+            P_GiveAllCards();
             C_HideConsole();
         }
         else
@@ -2071,13 +2071,13 @@ static void if_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(parm1, stringize(freeze)))
                 condition = match(freeze, parm2);
             else if (M_StringCompare(parm1, stringize(god)))
-                condition = match((viewplayer && (viewplayer->cheats & CF_GODMODE)), parm2);
+                condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_GODMODE)), parm2);
             else if (M_StringCompare(parm1, stringize(noclip)))
-                condition = match((viewplayer && (viewplayer->cheats & CF_NOCLIP)), parm2);
+                condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_NOCLIP)), parm2);
             else if (M_StringCompare(parm1, stringize(nomonsters)))
                 condition = match(nomonsters, parm2);
             else if (M_StringCompare(parm1, stringize(notarget)))
-                condition = match((viewplayer && (viewplayer->cheats & CF_NOTARGET)), parm2);
+                condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_NOTARGET)), parm2);
             else if (M_StringCompare(parm1, stringize(pistolstart)))
                 condition = match(pistolstart, parm2);
             else if (M_StringCompare(parm1, stringize(regenhealth)))
@@ -4625,7 +4625,7 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 //
 // ammo, armor and health CVARs
 //
-dboolean P_CheckAmmo(player_t *player);
+dboolean P_CheckAmmo(void);
 
 static dboolean player_cvars_func1(char *cmd, char *parms)
 {
@@ -4650,10 +4650,10 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (ammotype != am_noammo && value != viewplayer->ammo[ammotype] && viewplayer->playerstate == PST_LIVE)
             {
                 if (value > viewplayer->ammo[ammotype])
-                    P_AddBonus(viewplayer, BONUSADD);
+                    P_AddBonus();
 
                 viewplayer->ammo[ammotype] = MIN(value, viewplayer->maxammo[ammotype]);
-                P_CheckAmmo(viewplayer);
+                P_CheckAmmo();
                 C_HideConsole();
             }
         }
@@ -4673,7 +4673,7 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (value != viewplayer->armorpoints)
             {
                 if (value > viewplayer->armorpoints)
-                    P_AddBonus(viewplayer, BONUSADD);
+                    P_AddBonus();
 
                 viewplayer->armorpoints = MIN(value, max_armor);
                 C_HideConsole();
@@ -4716,7 +4716,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     {
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
-                        P_AddBonus(viewplayer, BONUSADD);
+                        P_AddBonus();
                         S_StartSound(NULL, sfx_getpow);
                     }
 

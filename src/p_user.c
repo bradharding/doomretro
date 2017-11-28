@@ -266,7 +266,7 @@ static void P_DeathThink(void)
     idlemotorspeed = 0;
     infight = true;
 
-    P_MovePsprites(viewplayer);
+    P_MovePsprites();
 
     // fall to the ground
     if ((onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))))
@@ -366,7 +366,7 @@ void P_ResurrectPlayer(int health)
     viewplayer->lookdir = 0;
     viewplayer->oldlookdir = 0;
     infight = false;
-    P_SetupPsprites(viewplayer);
+    P_SetupPsprites();
     P_MapEnd();
 
     C_HideConsole();
@@ -522,7 +522,7 @@ void P_PlayerThink(void)
         for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
             if (seclist->m_sector->special && mo->z == seclist->m_sector->interpfloorheight)
             {
-                P_PlayerInSpecialSector(viewplayer);
+                P_PlayerInSpecialSector();
                 break;
             }
 
@@ -538,7 +538,7 @@ void P_PlayerThink(void)
     if (autouse && !(leveltime % TICRATE))
     {
         autousing = true;
-        P_UseLines(viewplayer);
+        P_UseLines();
         autousing = false;
     }
 
@@ -547,7 +547,7 @@ void P_PlayerThink(void)
     {
         if (!viewplayer->usedown)
         {
-            P_UseLines(viewplayer);
+            P_UseLines();
             viewplayer->usedown = true;
         }
     }
@@ -555,7 +555,7 @@ void P_PlayerThink(void)
         viewplayer->usedown = false;
 
     // cycle psprites
-    P_MovePsprites(viewplayer);
+    P_MovePsprites();
 
     // Counters, time dependent power ups.
     if (viewplayer->powers[pw_invulnerability] > 0)
