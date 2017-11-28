@@ -475,7 +475,7 @@ dboolean ST_Responder(event_t *ev)
                     S_StartSound(NULL, sfx_getpow);
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
-                    players[0].cheated++;
+                    viewplayer->cheated++;
                 }
                 else
                 {
@@ -557,7 +557,7 @@ dboolean ST_Responder(event_t *ev)
                     S_StartSound(NULL, sfx_getpow);
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
-                    players[0].cheated++;
+                    viewplayer->cheated++;
                 }
             }
 
@@ -616,7 +616,7 @@ dboolean ST_Responder(event_t *ev)
                     S_StartSound(NULL, sfx_getpow);
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
-                    players[0].cheated++;
+                    viewplayer->cheated++;
                 }
             }
 
@@ -666,7 +666,7 @@ dboolean ST_Responder(event_t *ev)
                             S_StartSound(NULL, sfx_getpow);
 
                             stat_cheated = SafeAdd(stat_cheated, 1);
-                            players[0].cheated++;
+                            viewplayer->cheated++;
                         }
                         else
                             idmus = false;
@@ -699,7 +699,7 @@ dboolean ST_Responder(event_t *ev)
                 if (viewplayer->cheats & CF_NOCLIP)
                 {
                     stat_cheated = SafeAdd(stat_cheated, 1);
-                    players[0].cheated++;
+                    viewplayer->cheated++;
                 }
             }
 
@@ -753,7 +753,7 @@ dboolean ST_Responder(event_t *ev)
                             s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false);
 
                         stat_cheated = SafeAdd(stat_cheated, 1);
-                        players[0].cheated++;
+                        viewplayer->cheated++;
                     }
                     else
                     {
@@ -882,7 +882,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->cheats |= CF_CHOPPERS;
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
-                    players[0].cheated++;
+                    viewplayer->cheated++;
                 }
                 else
                 {
@@ -923,7 +923,7 @@ dboolean ST_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_getpow);
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
-                players[0].cheated++;
+                viewplayer->cheated++;
             }
 
             else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare
@@ -946,7 +946,7 @@ dboolean ST_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_getpow);
 
                 stat_cheated = SafeAdd(stat_cheated, 1);
-                players[0].cheated++;
+                viewplayer->cheated++;
             }
 
             else if ((automapactive || mapwindow) && cht_CheckCheat(&cheat_amap, ev->data2))
@@ -957,7 +957,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->cheats ^= CF_ALLMAP_THINGS;
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
-                    players[0].cheated++;
+                    viewplayer->cheated++;
                 }
                 else if (viewplayer->cheats & CF_ALLMAP_THINGS)
                     viewplayer->cheats ^= CF_ALLMAP_THINGS;
@@ -966,7 +966,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->cheats ^= CF_ALLMAP;
 
                     stat_cheated = SafeAdd(stat_cheated, 1);
-                    players[0].cheated++;
+                    viewplayer->cheated++;
                 }
 
                 S_StartSound(NULL, sfx_getpow);
@@ -1051,7 +1051,7 @@ dboolean ST_Responder(event_t *ev)
                     drawdisk = true;
                     C_HideConsole();
                     stat_cheated = SafeAdd(stat_cheated, 1);
-                    players[0].cheated++;
+                    viewplayer->cheated++;
                 }
             }
         }
@@ -1558,7 +1558,6 @@ static void ST_loadData(void)
 static void ST_initData(void)
 {
     st_firsttime = true;
-    viewplayer = &players[0];
 
     st_statusbaron = true;
 

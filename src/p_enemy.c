@@ -149,7 +149,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
 {
     // [BH] don't alert if notarget is enabled
-    if (target && target->player && (players[0].cheats & CF_NOTARGET))
+    if (target && target->player && (viewplayer->cheats & CF_NOTARGET))
         return;
 
     validcount++;
@@ -697,7 +697,7 @@ static void P_NewChaseDir(mobj_t *actor)
 
 static dboolean P_LookForMonsters(mobj_t *actor)
 {
-    if (!P_CheckSight(players[0].mo, actor))
+    if (!P_CheckSight(viewplayer->mo, actor))
         return false;           // player can't see monster
 
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
@@ -737,7 +737,7 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
         // player is dead, look for monsters
         return P_LookForMonsters(actor);
 
-    player = &players[0];
+    player = viewplayer;
     mo = player->mo;
 
     if (player->cheats & CF_NOTARGET)
@@ -1367,7 +1367,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     P_SetTarget(&corpsehit->target, NULL);
                     P_SetTarget(&corpsehit->lastenemy, NULL);
 
-                    players[0].killcount--;
+                    viewplayer->killcount--;
                     stat_monsterskilled--;
                     P_UpdateKillStat(corpsehit->type, -1);
 
@@ -1866,7 +1866,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
         }
     }
 
-    if (players[0].health <= 0)
+    if (viewplayer->health <= 0)
         return;         // no one left alive, so do not end game
 
     actor->health = 0;  // P_KillMobj() sets this to -1

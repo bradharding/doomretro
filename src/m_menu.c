@@ -1423,7 +1423,7 @@ static void M_DrawReadThis(void)
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 245);
         else
         {
-            players[0].fixedcolormap = 0;
+            viewplayer->fixedcolormap = 0;
             M_DarkBlueBackground();
         }
 
@@ -2806,7 +2806,7 @@ dboolean M_Responder(event_t *ev)
 
         // Save
         else if (key == KEY_F2 && (!functionkey || functionkey == KEY_F2) && (viewactive || automapactive)
-            && !keydown && players[0].health > 0)
+            && !keydown && viewplayer->health > 0)
         {
             keydown = key;
 
@@ -2901,7 +2901,7 @@ dboolean M_Responder(event_t *ev)
 
         // Quicksave
         else if (key == KEY_F6 && (!functionkey || functionkey == KEY_F6) && (viewactive || automapactive)
-            && !keydown && players[0].health > 0)
+            && !keydown && viewplayer->health > 0)
         {
             keydown = key;
 
@@ -3032,7 +3032,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn++;
 
                     if (currentMenu == &MainDef && itemOn == 3
-                        && (gamestate != GS_LEVEL || players[0].health <= 0))
+                        && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         itemOn++;
 
                     if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
@@ -3106,7 +3106,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn--;
 
                     if (currentMenu == &MainDef && itemOn == 3
-                        && (gamestate != GS_LEVEL || players[0].health <= 0))
+                        && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         itemOn--;
 
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
@@ -3297,7 +3297,7 @@ dboolean M_Responder(event_t *ev)
                         && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
                     if (currentMenu == &MainDef && i == 3
-                        && (gamestate != GS_LEVEL || players[0].health <= 0))
+                        && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         return true;
 
                     if (currentMenu == &MainDef && i == 2 && !savegames)
@@ -3359,7 +3359,7 @@ dboolean M_Responder(event_t *ev)
                         && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
                     if (currentMenu == &MainDef && i == 3
-                        && (gamestate != GS_LEVEL || players[0].health <= 0))
+                        && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                         return true;
 
                     if (currentMenu == &MainDef && i == 2 && !savegames)
@@ -3442,7 +3442,7 @@ void M_StartControlPanel(void)
         XInputVibration(idlemotorspeed);
     }
 
-    players[0].fixedcolormap = 0;
+    viewplayer->fixedcolormap = 0;
     I_SetPalette(W_CacheLumpName("PLAYPAL"));
     I_UpdateBlitFunc(false);
 

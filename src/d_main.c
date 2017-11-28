@@ -273,9 +273,9 @@ void D_Display(void)
         ST_Drawer((viewheight == SCREENHEIGHT), true);
 
         // draw the view directly
-        R_RenderPlayerView(&players[0]);
+        R_RenderPlayerView(viewplayer);
 
-        if (am_path && !(players[0].cheats & CF_NOCLIP) && !freeze)
+        if (am_path && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
             AM_addToPath();
 
         if (mapwindow || automapactive)
@@ -402,8 +402,7 @@ static void D_DoomLoop(void)
     {
         TryRunTics(); // will run at least one tic
 
-        if (players[0].mo)
-            S_UpdateSounds(players[0].mo);  // move positional sounds
+        S_UpdateSounds(viewplayer->mo);  // move positional sounds
 
         // Update display, next frame, with current state.
         D_Display();
@@ -475,7 +474,7 @@ void D_DoAdvanceTitle(void)
 {
     static dboolean flag = true;
 
-    players[0].playerstate = PST_LIVE;  // not reborn
+    viewplayer->playerstate = PST_LIVE;  // not reborn
     advancetitle = false;
     paused = false;
     gameaction = ga_nothing;
@@ -1980,6 +1979,8 @@ static void D_DoomMainSetup(void)
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
+
+    viewplayer = &players[0];
 
     M_Init();
 

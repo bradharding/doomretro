@@ -428,7 +428,7 @@ static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int 
 static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volume)
 {
     sfxinfo_t   *sfx = &S_sfx[sfx_id];
-    mobj_t      *player = players[0].mo;
+    mobj_t      *mo = viewplayer->mo;
     int         sep;
     int         cnum;
     int         handle;
@@ -448,13 +448,12 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volu
             volume = snd_SfxVolume;
     }
 
-    // Check to see if it is audible,
-    //  and if not, modify the parms
-    if (!origin || origin == player)
+    // Check to see if it is audible, and if not, modify the parms
+    if (!origin || origin == mo)
         sep = NORM_SEP;
-    else if (!S_AdjustSoundParams(player, origin->x, origin->y, &volume, &sep))
+    else if (!S_AdjustSoundParams(mo, origin->x, origin->y, &volume, &sep))
         return;
-    else if (origin->x == player->x && origin->y == player->y)
+    else if (origin->x == mo->x && origin->y == mo->y)
         sep = NORM_SEP;
 
     // kill old sound
@@ -736,7 +735,7 @@ void S_ParseMusInfo(char *mapid)
 
 void MusInfoThinker(mobj_t *thing)
 {
-    if (musinfo.mapthing != thing && thing->subsector->sector == players[0].mo->subsector->sector)
+    if (musinfo.mapthing != thing && thing->subsector->sector == viewplayer->mo->subsector->sector)
     {
         musinfo.lastmapthing = musinfo.mapthing;
         musinfo.mapthing = thing;

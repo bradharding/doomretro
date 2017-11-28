@@ -693,7 +693,7 @@ static dboolean F_CastResponder(event_t *ev)
         }
     }
 
-    S_StartSound(players[0].mo, sfx_dshtgn);
+    S_StartSound(viewplayer->mo, sfx_dshtgn);
 
     type = castorder[castnum].type;
 

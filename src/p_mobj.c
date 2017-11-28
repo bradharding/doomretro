@@ -891,7 +891,7 @@ extern int lastepisode;
 
 static void P_SpawnPlayer(const mapthing_t *mthing)
 {
-    player_t    *p = &players[0];
+    player_t    *p = viewplayer;
     mobj_t      *mobj;
 
     if (p->playerstate == PST_REBORN)
@@ -1164,7 +1164,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
         {
             int motorspeed = weaponinfo[wp_fist].motorspeed * gp_vibrate_damage / 100;
 
-            if (players[0].powers[pw_strength])
+            if (viewplayer->powers[pw_strength])
                 motorspeed *= 2;
 
             XInputVibration(motorspeed);

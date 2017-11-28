@@ -520,7 +520,6 @@ static void G_DoLoadLevel(void)
     int         ep;
     int         map = (gameepisode - 1) * 10 + gamemap;
     char        *author = P_GetMapAuthor(map);
-    player_t    *player = &players[0];
 
     HU_DrawDisk();
 
@@ -535,36 +534,36 @@ static void G_DoLoadLevel(void)
 
     gamestate = GS_LEVEL;
 
-    if (player->playerstate == PST_DEAD)
-        player->playerstate = PST_REBORN;
+    if (viewplayer->playerstate == PST_DEAD)
+        viewplayer->playerstate = PST_REBORN;
 
-    player->damageinflicted = 0;
-    player->damagereceived = 0;
-    player->cheated = 0;
-    player->shotshit = 0;
-    player->shotsfired = 0;
-    player->deaths = 0;
-    player->distancetraveled = 0;
-    player->itemspickedup_ammo_bullets = 0;
-    player->itemspickedup_ammo_cells = 0;
-    player->itemspickedup_ammo_rockets = 0;
-    player->itemspickedup_ammo_shells = 0;
-    player->itemspickedup_armor = 0;
-    player->itemspickedup_health = 0;
-    memset(player->mobjcount, 0, sizeof(player->mobjcount));
+    viewplayer->damageinflicted = 0;
+    viewplayer->damagereceived = 0;
+    viewplayer->cheated = 0;
+    viewplayer->shotshit = 0;
+    viewplayer->shotsfired = 0;
+    viewplayer->deaths = 0;
+    viewplayer->distancetraveled = 0;
+    viewplayer->itemspickedup_ammo_bullets = 0;
+    viewplayer->itemspickedup_ammo_cells = 0;
+    viewplayer->itemspickedup_ammo_rockets = 0;
+    viewplayer->itemspickedup_ammo_shells = 0;
+    viewplayer->itemspickedup_armor = 0;
+    viewplayer->itemspickedup_health = 0;
+    memset(viewplayer->mobjcount, 0, sizeof(viewplayer->mobjcount));
 
     freeze = false;
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if (pistolstart || P_GetMapPistolStart(map))
-        G_ResetPlayer(player);
+        G_ResetPlayer(viewplayer);
 
     if (pendinggameskill)
     {
         gameskill = pendinggameskill - 1;
 
         if (gameskill == sk_nightmare)
-            player->cheats &= ~(CF_NOCLIP | CF_GODMODE | CF_CHOPPERS | CF_BUDDHA);
+            viewplayer->cheats &= ~(CF_NOCLIP | CF_GODMODE | CF_CHOPPERS | CF_BUDDHA);
 
         pendinggameskill = 0;
     }
@@ -883,13 +882,12 @@ static char savename[256];
 void G_Ticker(void)
 {
     ticcmd_t            *cmd;
-    player_t            *player = &players[0];
 
     // Game state the last time G_Ticker was called.
     static gamestate_t  oldgamestate;
 
     // do player reborn if needed
-    if (player->playerstate == PST_REBORN)
+    if (viewplayer->playerstate == PST_REBORN)
         G_DoReborn();
 
     P_MapEnd();
@@ -933,7 +931,7 @@ void G_Ticker(void)
                 break;
 
             case ga_screenshot:
-                if (gamestate == GS_LEVEL && !idbehold && !(player->cheats & CF_MYPOS))
+                if (gamestate == GS_LEVEL && !idbehold && !(viewplayer->cheats & CF_MYPOS))
                 {
                     HU_ClearMessages();
                     D_Display();
@@ -950,13 +948,13 @@ void G_Ticker(void)
 
     // get commands, check consistency,
     // and build new consistency check
-    cmd = &player->cmd;
+    cmd = &viewplayer->cmd;
     memcpy(cmd, &netcmds[gametic % BACKUPTICS], sizeof(ticcmd_t));
 
     // check for special buttons
-    if (player->cmd.buttons & BT_SPECIAL)
+    if (viewplayer->cmd.buttons & BT_SPECIAL)
     {
-        switch (player->cmd.buttons & BT_SPECIALMASK)
+        switch (viewplayer->cmd.buttons & BT_SPECIALMASK)
         {
             case BTS_PAUSE:
                 paused ^= 1;
@@ -972,7 +970,7 @@ void G_Ticker(void)
                         XInputVibration(idlemotorspeed);
                     }
 
-                    player->fixedcolormap = 0;
+                    viewplayer->fixedcolormap = 0;
                     I_SetPalette(W_CacheLumpName("PLAYPAL"));
                     I_UpdateBlitFunc(false);
                 }
@@ -992,7 +990,7 @@ void G_Ticker(void)
                 break;
 
             case BTS_SAVEGAME:
-                savegameslot = (player->cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
+                savegameslot = (viewplayer->cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
                 gameaction = ga_savegame;
                 break;
         }
@@ -1042,21 +1040,19 @@ void G_Ticker(void)
 //
 static void G_PlayerFinishLevel(void)
 {
-    player_t    *player = &players[0];
-
-    memset(player->powers, 0, sizeof(player->powers));
-    memset(player->cards, 0, sizeof(player->cards));
-    player->mo->flags &= ~MF_FUZZ;      // cancel invisibility
-    player->extralight = 0;             // cancel gun flashes
-    player->fixedcolormap = 0;          // cancel ir goggles
-    player->damagecount = 0;            // no palette changes
-    player->bonuscount = 0;
+    memset(viewplayer->powers, 0, sizeof(viewplayer->powers));
+    memset(viewplayer->cards, 0, sizeof(viewplayer->cards));
+    viewplayer->mo->flags &= ~MF_FUZZ;  // cancel invisibility
+    viewplayer->extralight = 0;         // cancel gun flashes
+    viewplayer->fixedcolormap = 0;      // cancel ir goggles
+    viewplayer->damagecount = 0;        // no palette changes
+    viewplayer->bonuscount = 0;
 
     // [BH] switch to chainsaw if player has it and ends map with fists selected
-    if (player->readyweapon == wp_fist && player->weaponowned[wp_chainsaw])
-        player->readyweapon = wp_chainsaw;
+    if (viewplayer->readyweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+        viewplayer->readyweapon = wp_chainsaw;
 
-    player->fistorchainsaw = (player->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
+    viewplayer->fistorchainsaw = (viewplayer->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
 }
 
 //
@@ -1066,28 +1062,27 @@ static void G_PlayerFinishLevel(void)
 //
 void G_PlayerReborn(void)
 {
-    player_t    *player = &players[0];
-    int         killcount = player->killcount;
-    int         itemcount = player->itemcount;
-    int         secretcount = player->secretcount;
+    int killcount = viewplayer->killcount;
+    int itemcount = viewplayer->itemcount;
+    int secretcount = viewplayer->secretcount;
 
-    memset(player, 0, sizeof(*player));
+    memset(viewplayer, 0, sizeof(*viewplayer));
 
-    player->killcount = killcount;
-    player->itemcount = itemcount;
-    player->secretcount = secretcount;
+    viewplayer->killcount = killcount;
+    viewplayer->itemcount = itemcount;
+    viewplayer->secretcount = secretcount;
 
     // don't do anything immediately
-    player->usedown = true;
-    player->attackdown = true;
+    viewplayer->usedown = true;
+    viewplayer->attackdown = true;
 
-    player->playerstate = PST_LIVE;
-    player->health = initial_health;
-    player->preferredshotgun = wp_shotgun;
-    player->fistorchainsaw = wp_fist;
-    player->shotguns = false;
+    viewplayer->playerstate = PST_LIVE;
+    viewplayer->health = initial_health;
+    viewplayer->preferredshotgun = wp_shotgun;
+    viewplayer->fistorchainsaw = wp_fist;
+    viewplayer->shotguns = false;
 
-    G_SetInitialWeapon(player);
+    G_SetInitialWeapon(viewplayer);
 
     markpointnum = 0;
     infight = false;
@@ -1191,17 +1186,16 @@ static void G_DoCompleted(void)
     int         nextmap = P_GetMapNext(map);
     int         par = P_GetMapPar(map);
     int         secretnextmap = P_GetMapSecretNext(map);
-    player_t    *player = &players[0];
 
     gameaction = ga_nothing;
 
     I_UpdateBlitFunc(false);
 
     // [BH] allow the exit switch to turn on before the screen wipes
-    player->mo->momx = 0;
-    player->mo->momy = 0;
-    player->mo->momz = 0;
-    R_RenderPlayerView(player);
+    viewplayer->mo->momx = 0;
+    viewplayer->mo->momy = 0;
+    viewplayer->mo->momz = 0;
+    R_RenderPlayerView(viewplayer);
     I_Sleep(700);
 
     if (vid_widescreen)
@@ -1241,12 +1235,12 @@ static void G_DoCompleted(void)
                 break;
 
             case 9:
-                player->didsecret = true;
+                viewplayer->didsecret = true;
                 break;
         }
     }
 
-    wminfo.didsecret = player->didsecret;
+    wminfo.didsecret = viewplayer->didsecret;
     wminfo.epsd = gameepisode - 1;
     wminfo.last = gamemap - 1;
 
@@ -1374,9 +1368,9 @@ static void G_DoCompleted(void)
             wminfo.partime = TICRATE * pars[gameepisode][gamemap];
     }
 
-    wminfo.skills = (totalkills ? player->killcount : 1);
-    wminfo.sitems = (totalitems ? player->itemcount : 1);
-    wminfo.ssecret = player->secretcount;
+    wminfo.skills = (totalkills ? viewplayer->killcount : 1);
+    wminfo.sitems = (totalitems ? viewplayer->itemcount : 1);
+    wminfo.ssecret = viewplayer->secretcount;
     wminfo.stime = leveltime;
 
     gamestate = GS_INTERMISSION;
@@ -1400,7 +1394,7 @@ void G_WorldDone(void)
     gameaction = ga_worlddone;
 
     if (secretexit)
-        players[0].didsecret = true;
+        viewplayer->didsecret = true;
 
     if (gamemode == commercial)
     {
@@ -1626,8 +1620,6 @@ extern msecnode_t   *sector_list;
 
 void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 {
-    player_t    *player = &players[0];
-
     d_skill = skill;
     d_episode = ep;
     d_map = map;
@@ -1637,8 +1629,8 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
     sector_list = NULL;
 
     for (int i = 0; i < NUMPOWERS; i++)
-        if (player->powers[i] > 0)
-            player->powers[i] = 0;
+        if (viewplayer->powers[i] > 0)
+            viewplayer->powers[i] = 0;
 }
 
 static void G_DoNewGame(void)
@@ -1730,7 +1722,7 @@ void G_InitNew(skill_t skill, int ep, int map)
     G_SetFastParms(fastparm || skill == sk_nightmare);
 
     // force player to be initialized upon first level load
-    players[0].playerstate = PST_REBORN;
+    viewplayer->playerstate = PST_REBORN;
 
     paused = false;
     automapactive = false;

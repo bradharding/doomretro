@@ -967,29 +967,28 @@ void WI_checkForAccelerate(void)
 {
     if (!menuactive && !paused && !consoleactive)
     {
-        player_t    *player = &players[0];
         const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
-        if ((player->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN]
+        if ((viewplayer->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN]
             || keystate[SDL_SCANCODE_KP_ENTER])
         {
-            if (!player->attackdown)
+            if (!viewplayer->attackdown)
                 acceleratestage = 1;
 
-            player->attackdown = true;
+            viewplayer->attackdown = true;
         }
         else
-            player->attackdown = false;
+            viewplayer->attackdown = false;
 
-        if (player->cmd.buttons & BT_USE)
+        if (viewplayer->cmd.buttons & BT_USE)
         {
-            if (!player->usedown)
+            if (!viewplayer->usedown)
                 acceleratestage = 1;
 
-            player->usedown = true;
+            viewplayer->usedown = true;
         }
         else
-            player->usedown = false;
+            viewplayer->usedown = false;
     }
 }
 

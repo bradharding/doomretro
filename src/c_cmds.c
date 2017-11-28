@@ -1014,33 +1014,33 @@ static dboolean cheat_func1(char *cmd, char *parms)
     else if (M_StringCompare(cmd, cheat_god.sequence))
         return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_ammonokey.sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_ammo.sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_mus.sequence))
         return (!nomusic && musicVolume);
     else if (M_StringCompare(cmd, cheat_noclip.sequence))
-        return (gamemode != commercial && gameskill != sk_nightmare && players[0].health > 0);
+        return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_commercial_noclip.sequence))
-        return (gamemode == commercial && gameskill != sk_nightmare && players[0].health > 0);
+        return (gamemode == commercial && gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[0].sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[1].sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[2].sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[3].sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[4].sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[5].sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_powerup[6].sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_choppers.sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_buddha.sequence))
-        return (gameskill != sk_nightmare && players[0].health > 0);
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_mypos.sequence))
         return true;
     else if (M_StringCompare(cmd, cheat_amap.sequence))
@@ -1667,14 +1667,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", ++count, consolecmds[i].name,
-                    (gamestate == GS_LEVEL ? players[0].ammo[weaponinfo[players[0].readyweapon].ammo] : 0),
+                    (gamestate == GS_LEVEL ? viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammo] : 0),
                     description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
-                    (gamestate == GS_LEVEL ? players[0].armorpoints : 0), description1);
+                    (gamestate == GS_LEVEL ? viewplayer->armorpoints : 0), description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
-                    (gamestate == GS_LEVEL ? players[0].health : 0), description1);
+                    (gamestate == GS_LEVEL ? viewplayer->health : 0), description1);
             else if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
                     C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
@@ -1824,7 +1824,7 @@ static void freeze_cmd_func2(char *cmd, char *parms)
     if (freeze)
     {
         HU_PlayerMessage(s_STSTR_FON, false);
-        players[0].cheated++;
+        viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -1874,41 +1874,39 @@ static void give_cmd_func2(char *cmd, char *parms)
         C_Output("<b>%s</b> %s", cmd, GIVECMDFORMAT);
     else
     {
-        player_t    *player = &players[0];
-
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
-            P_GiveBackpack(player, false, false);
-            P_GiveMegaHealth(player, false);
-            P_GiveAllWeapons(player);
-            P_GiveFullAmmo(player, false);
-            P_GiveArmor(player, blue_armor_class, false);
-            P_GiveAllCards(player);
+            P_GiveBackpack(viewplayer, false, false);
+            P_GiveMegaHealth(viewplayer, false);
+            P_GiveAllWeapons(viewplayer);
+            P_GiveFullAmmo(viewplayer, false);
+            P_GiveArmor(viewplayer, blue_armor_class, false);
+            P_GiveAllCards(viewplayer);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "health"))
         {
-            P_GiveMegaHealth(player, false);
+            P_GiveMegaHealth(viewplayer, false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "weapons"))
         {
-            P_GiveAllWeapons(player);
+            P_GiveAllWeapons(viewplayer);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "ammo"))
         {
-            P_GiveFullAmmo(player, false);
+            P_GiveFullAmmo(viewplayer, false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "armour"))
         {
-            P_GiveArmor(player, blue_armor_class, false);
+            P_GiveArmor(viewplayer, blue_armor_class, false);
             C_HideConsole();
         }
         else if (M_StringCompare(parm, "keys"))
         {
-            P_GiveAllCards(player);
+            P_GiveAllCards(viewplayer);
             C_HideConsole();
         }
         else
@@ -1952,15 +1950,15 @@ static void give_cmd_func2(char *cmd, char *parms)
                         return;
                     }
 
-                    P_TouchSpecialThing(P_SpawnMobj(player->mo->x, player->mo->y, player->mo->z, i),
-                        player->mo, false, false);
+                    P_TouchSpecialThing(P_SpawnMobj(viewplayer->mo->x, viewplayer->mo->y, viewplayer->mo->z, i),
+                        viewplayer->mo, false, false);
                     C_HideConsole();
                     break;
                 }
             }
         }
 
-        player->cheated++;
+        viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -1971,29 +1969,27 @@ static void give_cmd_func2(char *cmd, char *parms)
 //
 static dboolean god_cmd_func1(char *cmd, char *parms)
 {
-    return (gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
+    return (gamestate == GS_LEVEL && viewplayer->playerstate == PST_LIVE);
 }
 
 static void god_cmd_func2(char *cmd, char *parms)
 {
-    player_t    *player = &players[0];
-
     if (*parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
         if (value == 0)
-            player->cheats &= ~CF_GODMODE;
+            viewplayer->cheats &= ~CF_GODMODE;
         else if (value == 1)
-            player->cheats |= CF_GODMODE;
+            viewplayer->cheats |= CF_GODMODE;
     }
     else
-        player->cheats ^= CF_GODMODE;
+        viewplayer->cheats ^= CF_GODMODE;
 
-    if (player->cheats & CF_GODMODE)
+    if (viewplayer->cheats & CF_GODMODE)
     {
         C_Output(s_STSTR_GODON);
-        player->cheated++;
+        viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -2131,7 +2127,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
 
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
             || (*playername && M_StringCompare(parm, playername)))
-            return (players[0].health > 0);
+            return (viewplayer->health > 0);
 
         if (M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all"))
             return true;
@@ -2186,15 +2182,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
         || (*playername && M_StringCompare(parm, playername)))
     {
-        player_t    *player = &players[0];
+        viewplayer->health = 0;
+        viewplayer->attacker = NULL;
 
-        player->health = 0;
-        player->attacker = NULL;
+        if (viewplayer->fixedcolormap == INVERSECOLORMAP)
+            viewplayer->fixedcolormap = 0;
 
-        if (player->fixedcolormap == INVERSECOLORMAP)
-            player->fixedcolormap = 0;
-
-        P_KillMobj(player->mo, NULL, player->mo);
+        P_KillMobj(viewplayer->mo, NULL, viewplayer->mo);
         M_snprintf(buffer, sizeof(buffer), "%s killed %s.", playername,
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));
         buffer[0] = toupper(buffer[0]);
@@ -2230,9 +2224,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         {
                             A_Fall(thing, NULL, NULL);
                             P_SetMobjState(thing, S_PAIN_DIE6);
-                            players[0].mobjcount[MT_PAIN]++;
+                            viewplayer->mobjcount[MT_PAIN]++;
                             stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
-                            players[0].killcount++;
+                            viewplayer->killcount++;
                             stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                             kills++;
                         }
@@ -2266,7 +2260,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
-                players[0].cheated++;
+                viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
             }
@@ -2299,7 +2293,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
-                players[0].cheated++;
+                viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
             }
@@ -2325,9 +2319,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             {
                                 A_Fall(thing, NULL, NULL);
                                 P_SetMobjState(thing, S_PAIN_DIE6);
-                                players[0].mobjcount[MT_PAIN]++;
+                                viewplayer->mobjcount[MT_PAIN]++;
                                 stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
-                                players[0].killcount++;
+                                viewplayer->killcount++;
                                 stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                                 kills++;
                             }
@@ -2366,7 +2360,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false);
                 message_dontfuckwithme = true;
-                players[0].cheated++;
+                viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
             }
@@ -2670,7 +2664,7 @@ static void map_cmd_func2(char *cmd, char *parms)
         C_HideConsoleFast();
     }
 
-    players[0].cheated++;
+    viewplayer->cheated++;
     stat_cheated = SafeAdd(stat_cheated, 1);
     M_SaveCVARs();
 }
@@ -3087,24 +3081,22 @@ static void newgame_cmd_func2(char *cmd, char *parms)
 //
 static void noclip_cmd_func2(char *cmd, char *parms)
 {
-    player_t    *player = &players[0];
-
     if (*parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
         if (value == 0)
-            player->cheats &= ~CF_NOCLIP;
+            viewplayer->cheats &= ~CF_NOCLIP;
         else if (value == 1)
-            player->cheats |= CF_NOCLIP;
+            viewplayer->cheats |= CF_NOCLIP;
     }
     else
-        player->cheats ^= CF_NOCLIP;
+        viewplayer->cheats ^= CF_NOCLIP;
 
-    if (player->cheats & CF_NOCLIP)
+    if (viewplayer->cheats & CF_NOCLIP)
     {
         HU_PlayerMessage(s_STSTR_NCON, false);
-        player->cheated++;
+        viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -3132,7 +3124,7 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
     if (nomonsters)
     {
         HU_PlayerMessage(s_STSTR_NMON, false);
-        players[0].cheated++;
+        viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -3148,21 +3140,19 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
 //
 static void notarget_cmd_func2(char *cmd, char *parms)
 {
-    player_t    *player = &players[0];
-
     if (*parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
         if (value == 0)
-            player->cheats &= ~CF_NOTARGET;
+            viewplayer->cheats &= ~CF_NOTARGET;
         else if (value == 1)
-            player->cheats |= CF_NOTARGET;
+            viewplayer->cheats |= CF_NOTARGET;
     }
     else
-        player->cheats ^= CF_NOTARGET;
+        viewplayer->cheats ^= CF_NOTARGET;
 
-    if (player->cheats & CF_NOTARGET)
+    if (viewplayer->cheats & CF_NOTARGET)
     {
         for (int i = 0; i < numsectors; i++)
         {
@@ -3186,7 +3176,7 @@ static void notarget_cmd_func2(char *cmd, char *parms)
         }
 
         HU_PlayerMessage(s_STSTR_NTON, false);
-        player->cheated++;
+        viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -3306,11 +3296,10 @@ static void C_PlayerStats_Game(void)
     const int   tabs[8] = { 160, 281, 0, 0, 0, 0, 0, 0 };
     const int   time1 = leveltime / TICRATE;
     const int   time2 = stat_time / TICRATE;
-    player_t    *player = &players[0];
 
     C_Header(tabs, PLAYERSTATSTITLE);
 
-    if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
+    if ((viewplayer->cheats & CF_ALLMAP) || (viewplayer->cheats & CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t<b>100%%</b>\t-");
     else
     {
@@ -3330,182 +3319,182 @@ static void C_PlayerStats_Game(void)
     C_TabbedOutput(tabs, "Maps completed\t-\t<b>%s</b>", commify(stat_mapscompleted));
 
     C_TabbedOutput(tabs, "Monsters killed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        commify(player->killcount), commify(totalkills),
-        (totalkills ? player->killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
+        commify(viewplayer->killcount), commify(totalkills),
+        (totalkills ? viewplayer->killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
 
     if (gamemode == commercial)
     {
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            titlecase(mobjinfo[MT_BABY].plural1), commify(player->mobjcount[MT_BABY]),
+            titlecase(mobjinfo[MT_BABY].plural1), commify(viewplayer->mobjcount[MT_BABY]),
             commify(monstercount[MT_BABY]),
-            (monstercount[MT_BABY] ? player->mobjcount[MT_BABY] * 100 / monstercount[MT_BABY] : 0),
+            (monstercount[MT_BABY] ? viewplayer->mobjcount[MT_BABY] * 100 / monstercount[MT_BABY] : 0),
             commify(stat_monsterskilled_arachnotrons));
 
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            titlecase(mobjinfo[MT_VILE].plural1), commify(player->mobjcount[MT_VILE]),
+            titlecase(mobjinfo[MT_VILE].plural1), commify(viewplayer->mobjcount[MT_VILE]),
             commify(monstercount[MT_VILE]),
-            (monstercount[MT_VILE] ? player->mobjcount[MT_VILE] * 100 / monstercount[MT_VILE] : 0),
+            (monstercount[MT_VILE] ? viewplayer->mobjcount[MT_VILE] * 100 / monstercount[MT_VILE] : 0),
             commify(stat_monsterskilled_archviles));
     }
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_BRUISER].plural1), commify(player->mobjcount[MT_BRUISER]),
+        titlecase(mobjinfo[MT_BRUISER].plural1), commify(viewplayer->mobjcount[MT_BRUISER]),
         commify(monstercount[MT_BRUISER]),
-        (monstercount[MT_BRUISER] ? player->mobjcount[MT_BRUISER] * 100 / monstercount[MT_BRUISER] : 0),
+        (monstercount[MT_BRUISER] ? viewplayer->mobjcount[MT_BRUISER] * 100 / monstercount[MT_BRUISER] : 0),
         commify(stat_monsterskilled_baronsofhell));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_HEAD].plural1), commify(player->mobjcount[MT_HEAD]),
+        titlecase(mobjinfo[MT_HEAD].plural1), commify(viewplayer->mobjcount[MT_HEAD]),
         commify(monstercount[MT_HEAD]),
-        (monstercount[MT_HEAD] ? player->mobjcount[MT_HEAD] * 100 / monstercount[MT_HEAD] : 0),
+        (monstercount[MT_HEAD] ? viewplayer->mobjcount[MT_HEAD] * 100 / monstercount[MT_HEAD] : 0),
         commify(stat_monsterskilled_cacodemons));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_CYBORG].plural1), commify(player->mobjcount[MT_CYBORG]),
+        titlecase(mobjinfo[MT_CYBORG].plural1), commify(viewplayer->mobjcount[MT_CYBORG]),
         commify(monstercount[MT_CYBORG]),
-        (monstercount[MT_CYBORG] ? player->mobjcount[MT_CYBORG] * 100 / monstercount[MT_CYBORG] : 0),
+        (monstercount[MT_CYBORG] ? viewplayer->mobjcount[MT_CYBORG] * 100 / monstercount[MT_CYBORG] : 0),
         commify(stat_monsterskilled_cyberdemons));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_SERGEANT].plural1), commify(player->mobjcount[MT_SERGEANT]),
+        titlecase(mobjinfo[MT_SERGEANT].plural1), commify(viewplayer->mobjcount[MT_SERGEANT]),
         commify(monstercount[MT_SERGEANT]),
-        (monstercount[MT_SERGEANT] ? player->mobjcount[MT_SERGEANT] * 100 / monstercount[MT_SERGEANT] : 0),
+        (monstercount[MT_SERGEANT] ? viewplayer->mobjcount[MT_SERGEANT] * 100 / monstercount[MT_SERGEANT] : 0),
         commify(stat_monsterskilled_demons));
 
     if (gamemode == commercial)
     {
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            titlecase(mobjinfo[MT_CHAINGUY].plural1), commify(player->mobjcount[MT_CHAINGUY]),
+            titlecase(mobjinfo[MT_CHAINGUY].plural1), commify(viewplayer->mobjcount[MT_CHAINGUY]),
             commify(monstercount[MT_CHAINGUY]), (monstercount[MT_CHAINGUY] ?
-            player->mobjcount[MT_CHAINGUY] * 100 / monstercount[MT_CHAINGUY] : 0),
+            viewplayer->mobjcount[MT_CHAINGUY] * 100 / monstercount[MT_CHAINGUY] : 0),
             commify(stat_monsterskilled_heavyweapondudes));
 
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            titlecase(mobjinfo[MT_KNIGHT].plural1), commify(player->mobjcount[MT_KNIGHT]),
+            titlecase(mobjinfo[MT_KNIGHT].plural1), commify(viewplayer->mobjcount[MT_KNIGHT]),
             commify(monstercount[MT_KNIGHT]),
-            (monstercount[MT_KNIGHT] ? player->mobjcount[MT_KNIGHT] * 100 / monstercount[MT_KNIGHT] : 0),
+            (monstercount[MT_KNIGHT] ? viewplayer->mobjcount[MT_KNIGHT] * 100 / monstercount[MT_KNIGHT] : 0),
             commify(stat_monsterskilled_hellknights));
     }
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_TROOP].plural1), commify(player->mobjcount[MT_TROOP]),
+        titlecase(mobjinfo[MT_TROOP].plural1), commify(viewplayer->mobjcount[MT_TROOP]),
         commify(monstercount[MT_TROOP]),
-        (monstercount[MT_TROOP] ? player->mobjcount[MT_TROOP] * 100 / monstercount[MT_TROOP] : 0),
+        (monstercount[MT_TROOP] ? viewplayer->mobjcount[MT_TROOP] * 100 / monstercount[MT_TROOP] : 0),
         commify(stat_monsterskilled_imps));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_SKULL].plural1), commify(player->mobjcount[MT_SKULL]),
+        titlecase(mobjinfo[MT_SKULL].plural1), commify(viewplayer->mobjcount[MT_SKULL]),
         commify(monstercount[MT_SKULL]),
-        (monstercount[MT_SKULL] ? player->mobjcount[MT_SKULL] * 100 / monstercount[MT_SKULL] : 0),
+        (monstercount[MT_SKULL] ? viewplayer->mobjcount[MT_SKULL] * 100 / monstercount[MT_SKULL] : 0),
         commify(stat_monsterskilled_lostsouls));
 
     if (gamemode == commercial)
     {
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            titlecase(mobjinfo[MT_FATSO].plural1), commify(player->mobjcount[MT_FATSO]),
+            titlecase(mobjinfo[MT_FATSO].plural1), commify(viewplayer->mobjcount[MT_FATSO]),
             commify(monstercount[MT_FATSO]),
-            (monstercount[MT_FATSO] ? player->mobjcount[MT_FATSO] * 100 / monstercount[MT_FATSO] : 0),
+            (monstercount[MT_FATSO] ? viewplayer->mobjcount[MT_FATSO] * 100 / monstercount[MT_FATSO] : 0),
             commify(stat_monsterskilled_mancubi));
 
         C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-            titlecase(mobjinfo[MT_PAIN].plural1), commify(player->mobjcount[MT_PAIN]),
+            titlecase(mobjinfo[MT_PAIN].plural1), commify(viewplayer->mobjcount[MT_PAIN]),
             commify(monstercount[MT_PAIN]),
-            (monstercount[MT_PAIN] ? player->mobjcount[MT_PAIN] * 100 / monstercount[MT_PAIN] : 0),
+            (monstercount[MT_PAIN] ? viewplayer->mobjcount[MT_PAIN] * 100 / monstercount[MT_PAIN] : 0),
             commify(stat_monsterskilled_painelementals));
     }
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_UNDEAD].plural1), commify(player->mobjcount[MT_UNDEAD]),
+        titlecase(mobjinfo[MT_UNDEAD].plural1), commify(viewplayer->mobjcount[MT_UNDEAD]),
         commify(monstercount[MT_UNDEAD]),
-        (monstercount[MT_UNDEAD] ? player->mobjcount[MT_UNDEAD] * 100 / monstercount[MT_UNDEAD] : 0),
+        (monstercount[MT_UNDEAD] ? viewplayer->mobjcount[MT_UNDEAD] * 100 / monstercount[MT_UNDEAD] : 0),
         commify(stat_monsterskilled_revenants));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_SHOTGUY].plural1), commify(player->mobjcount[MT_SHOTGUY]),
+        titlecase(mobjinfo[MT_SHOTGUY].plural1), commify(viewplayer->mobjcount[MT_SHOTGUY]),
         commify(monstercount[MT_SHOTGUY]),
-        (monstercount[MT_SHOTGUY] ? player->mobjcount[MT_SHOTGUY] * 100 / monstercount[MT_SHOTGUY] : 0),
+        (monstercount[MT_SHOTGUY] ? viewplayer->mobjcount[MT_SHOTGUY] * 100 / monstercount[MT_SHOTGUY] : 0),
         commify(stat_monsterskilled_shotgunguys));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_SHADOWS].plural1), commify(player->mobjcount[MT_SHADOWS]),
+        titlecase(mobjinfo[MT_SHADOWS].plural1), commify(viewplayer->mobjcount[MT_SHADOWS]),
         commify(monstercount[MT_SHADOWS]),
-        (monstercount[MT_SHADOWS] ? player->mobjcount[MT_SHADOWS] * 100 / monstercount[MT_SHADOWS] : 0),
+        (monstercount[MT_SHADOWS] ? viewplayer->mobjcount[MT_SHADOWS] * 100 / monstercount[MT_SHADOWS] : 0),
         commify(stat_monsterskilled_spectres));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_SPIDER].plural1), commify(player->mobjcount[MT_SPIDER]),
+        titlecase(mobjinfo[MT_SPIDER].plural1), commify(viewplayer->mobjcount[MT_SPIDER]),
         commify(monstercount[MT_SPIDER]),
-        (monstercount[MT_SPIDER] ? player->mobjcount[MT_SPIDER] * 100 / monstercount[MT_SPIDER] : 0),
+        (monstercount[MT_SPIDER] ? viewplayer->mobjcount[MT_SPIDER] * 100 / monstercount[MT_SPIDER] : 0),
         commify(stat_monsterskilled_spidermasterminds));
 
     C_TabbedOutput(tabs, "   %s\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        titlecase(mobjinfo[MT_POSSESSED].plural1), commify(player->mobjcount[MT_POSSESSED]),
+        titlecase(mobjinfo[MT_POSSESSED].plural1), commify(viewplayer->mobjcount[MT_POSSESSED]),
         commify(monstercount[MT_POSSESSED]),
-        (monstercount[MT_POSSESSED] ? player->mobjcount[MT_POSSESSED] * 100 / monstercount[MT_POSSESSED] : 0),
+        (monstercount[MT_POSSESSED] ? viewplayer->mobjcount[MT_POSSESSED] * 100 / monstercount[MT_POSSESSED] : 0),
         commify(stat_monsterskilled_zombiemen));
 
     C_TabbedOutput(tabs, "Barrels exploded\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        commify(player->mobjcount[MT_BARREL]), commify(barrelcount),
-        (barrelcount ? player->mobjcount[MT_BARREL] * 100 / barrelcount : 0), commify(stat_barrelsexploded));
+        commify(viewplayer->mobjcount[MT_BARREL]), commify(barrelcount),
+        (barrelcount ? viewplayer->mobjcount[MT_BARREL] * 100 / barrelcount : 0), commify(stat_barrelsexploded));
 
     C_TabbedOutput(tabs, "Items picked up\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        commify(player->itemcount), commify(totalitems),
-        (totalitems ? player->itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
+        commify(viewplayer->itemcount), commify(totalitems),
+        (totalitems ? viewplayer->itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
 
     C_TabbedOutput(tabs, "   Ammo\t<b>%s bullet%s</b>\t<b>%s bullet%s</b>",
-        commify(player->itemspickedup_ammo_bullets), (player->itemspickedup_ammo_bullets == 1 ? "" : "s"),
+        commify(viewplayer->itemspickedup_ammo_bullets), (viewplayer->itemspickedup_ammo_bullets == 1 ? "" : "s"),
         commify(stat_itemspickedup_ammo_bullets), (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
 
     C_TabbedOutput(tabs, "\t<b>%s cell%s</b>\t<b>%s cell%s</b>",
-        commify(player->itemspickedup_ammo_cells), (player->itemspickedup_ammo_cells == 1 ? "" : "s"),
+        commify(viewplayer->itemspickedup_ammo_cells), (viewplayer->itemspickedup_ammo_cells == 1 ? "" : "s"),
         commify(stat_itemspickedup_ammo_cells), (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
 
     C_TabbedOutput(tabs, "\t<b>%s rocket%s</b>\t<b>%s rocket%s</b>",
-        commify(player->itemspickedup_ammo_rockets), (player->itemspickedup_ammo_rockets == 1 ? "" : "s"),
+        commify(viewplayer->itemspickedup_ammo_rockets), (viewplayer->itemspickedup_ammo_rockets == 1 ? "" : "s"),
         commify(stat_itemspickedup_ammo_rockets), (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
 
     C_TabbedOutput(tabs, "\t<b>%s shell%s</b>\t<b>%s shell%s</b>",
-        commify(player->itemspickedup_ammo_shells), (player->itemspickedup_ammo_shells == 1 ? "" : "s"),
+        commify(viewplayer->itemspickedup_ammo_shells), (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"),
         commify(stat_itemspickedup_ammo_shells), (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
 
     C_TabbedOutput(tabs, "   Armor\t<b>%s</b>\t<b>%s</b>",
-        commify(player->itemspickedup_armor), commify(stat_itemspickedup_armor));
+        commify(viewplayer->itemspickedup_armor), commify(stat_itemspickedup_armor));
 
     C_TabbedOutput(tabs, "   Health\t<b>%s</b>\t<b>%s</b>",
-        commify(player->itemspickedup_health), commify(stat_itemspickedup_health));
+        commify(viewplayer->itemspickedup_health), commify(stat_itemspickedup_health));
 
     C_TabbedOutput(tabs, "Secrets revealed\t<b>%s of %s (%i%%)</b>\t<b>%s</b>",
-        commify(player->secretcount), commify(totalsecret),
-        (totalsecret ? player->secretcount * 100 / totalsecret : 0), commify(stat_secretsrevealed));
+        commify(viewplayer->secretcount), commify(totalsecret),
+        (totalsecret ? viewplayer->secretcount * 100 / totalsecret : 0), commify(stat_secretsrevealed));
 
     C_TabbedOutput(tabs, "Time played\t<b>%02i:%02i:%02i</b>\t<b>%02i:%02i:%02i</b>",
         time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60, time2 / 3600, (time2 % 3600) / 60,
         (time2 % 3600) % 60);
 
     C_TabbedOutput(tabs, "Damage inflicted\t<b>%s</b>\t<b>%s</b>",
-        commify(player->damageinflicted), commify(stat_damageinflicted));
+        commify(viewplayer->damageinflicted), commify(stat_damageinflicted));
 
     C_TabbedOutput(tabs, "Damage received\t<b>%s</b>\t<b>%s</b>",
-        commify(player->damagereceived), commify(stat_damagereceived));
+        commify(viewplayer->damagereceived), commify(stat_damagereceived));
 
     C_TabbedOutput(tabs, "Deaths\t<b>%s</b>\t<b>%s</b>",
-        commify(player->deaths), commify(stat_deaths));
+        commify(viewplayer->deaths), commify(stat_deaths));
 
     C_TabbedOutput(tabs, "Cheated\t<b>%s</b>\t<b>%s</b>",
-        commify(player->cheated), commify(stat_cheated));
+        commify(viewplayer->cheated), commify(stat_cheated));
 
     C_TabbedOutput(tabs, "Shots fired\t<b>%s</b>\t<b>%s</b>",
-        commify(player->shotsfired), commify(stat_shotsfired));
+        commify(viewplayer->shotsfired), commify(stat_shotsfired));
 
     C_TabbedOutput(tabs, "Shots hit\t<b>%s</b>\t<b>%s</b>",
-        commify(player->shotshit), commify(stat_shotshit));
+        commify(viewplayer->shotshit), commify(stat_shotshit));
 
     C_TabbedOutput(tabs, "Weapon accuracy\t<b>%s%%</b>\t<b>%s%%</b>",
-        (player->shotsfired ? striptrailingzero(player->shotshit * 100.0f / player->shotsfired, 1) : "0"),
+        (viewplayer->shotsfired ? striptrailingzero(viewplayer->shotshit * 100.0f / viewplayer->shotsfired, 1) : "0"),
         (stat_shotsfired ? striptrailingzero(stat_shotshit * 100.0f / stat_shotsfired, 1) : "0"));
 
     C_TabbedOutput(tabs, "Distance traveled\t<b>%s</b>\t<b>%s</b>",
-        distance(player->distancetraveled, true), distance(stat_distancetraveled, true));
+        distance(viewplayer->distancetraveled, true), distance(stat_distancetraveled, true));
 }
 
 static void C_PlayerStats_NoGame(void)
@@ -3764,7 +3753,7 @@ static void regenhealth_cmd_func2(char *cmd, char *parms)
     if (regenhealth)
     {
         HU_PlayerMessage(s_STSTR_RHON, false);
-        players[0].cheated++;
+        viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -3792,7 +3781,7 @@ static void respawnitems_cmd_func2(char *cmd, char *parms)
     if (respawnitems)
     {
         HU_PlayerMessage(s_STSTR_RION, false);
-        players[0].cheated++;
+        viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -3830,13 +3819,13 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms)
 //
 static dboolean resurrect_cmd_func1(char *cmd, char *parms)
 {
-    return (gamestate == GS_LEVEL && players[0].playerstate == PST_DEAD);
+    return (gamestate == GS_LEVEL && viewplayer->playerstate == PST_DEAD);
 }
 
 static void resurrect_cmd_func2(char *cmd, char *parms)
 {
     P_ResurrectPlayer(initial_health);
-    players[0].cheated++;
+    viewplayer->cheated++;
     stat_cheated = SafeAdd(stat_cheated, 1);
     M_SaveCVARs();
 }
@@ -3846,7 +3835,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 //
 static dboolean save_cmd_func1(char *cmd, char *parms)
 {
-    return (gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
+    return (gamestate == GS_LEVEL && viewplayer->playerstate == PST_LIVE);
 }
 
 static void save_cmd_func2(char *cmd, char *parms)
@@ -3940,10 +3929,10 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            const mobj_t        *player = players[0].mo;
-            const fixed_t       x = player->x;
-            const fixed_t       y = player->y;
-            const angle_t       angle = player->angle >> ANGLETOFINESHIFT;
+            const mobj_t        *mo = viewplayer->mo;
+            const fixed_t       x = mo->x;
+            const fixed_t       y = mo->y;
+            const angle_t       angle = mo->angle >> ANGLETOFINESHIFT;
             const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
             const int           flags = mobjinfo[type].flags;
             mapthing_t          mthing;
@@ -3990,8 +3979,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 
         if (x != INT_MAX && y != INT_MAX)
         {
-            player_t        *player = &players[0];
-            mobj_t          *mo = player->mo;
+            mobj_t          *mo = viewplayer->mo;
             const fixed_t   oldx = mo->x;
             const fixed_t   oldy = mo->y;
             const fixed_t   oldz = mo->z;
@@ -4012,23 +4000,23 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 
                 // spawn teleport fog at destination
                 mo->z = mo->floorz;
-                player->viewz = mo->z + player->viewheight;
+                viewplayer->viewz = mo->z + viewplayer->viewheight;
                 fog = P_SpawnMobj(x + 20 * finecosine[an], y + 20 * finesine[an], mo->z, MT_TFOG);
                 fog->angle = mo->angle;
                 S_StartSound(fog, sfx_telept);
 
                 mo->reactiontime = 18;
-                player->psprites[ps_weapon].sx = 0;
-                player->psprites[ps_weapon].sy = WEAPONTOP;
-                player->momx = 0;
-                player->momy = 0;
+                viewplayer->psprites[ps_weapon].sx = 0;
+                viewplayer->psprites[ps_weapon].sy = WEAPONTOP;
+                viewplayer->momx = 0;
+                viewplayer->momy = 0;
                 mo->momx = 0;
                 mo->momy = 0;
                 mo->momz = 0;
-                player->lookdir = 0;
-                player->oldlookdir = 0;
+                viewplayer->lookdir = 0;
+                viewplayer->oldlookdir = 0;
 
-                player->cheated++;
+                viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
             }
@@ -4646,27 +4634,26 @@ static dboolean player_cvars_func1(char *cmd, char *parms)
 
 static void player_cvars_func2(char *cmd, char *parms)
 {
-    player_t    *player = &players[0];
-    int         value;
+    int value;
 
     if (resettingall)
         return;
 
     if (M_StringCompare(cmd, stringize(ammo)))
     {
-        ammotype_t  ammotype = weaponinfo[player->readyweapon].ammo;
+        ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammo;
 
         if (*parms)
         {
             sscanf(parms, "%10i", &value);
 
-            if (ammotype != am_noammo && value != player->ammo[ammotype] && player->playerstate == PST_LIVE)
+            if (ammotype != am_noammo && value != viewplayer->ammo[ammotype] && viewplayer->playerstate == PST_LIVE)
             {
-                if (value > player->ammo[ammotype])
-                    P_AddBonus(player, BONUSADD);
+                if (value > viewplayer->ammo[ammotype])
+                    P_AddBonus(viewplayer, BONUSADD);
 
-                player->ammo[ammotype] = MIN(value, player->maxammo[ammotype]);
-                P_CheckAmmo(player);
+                viewplayer->ammo[ammotype] = MIN(value, viewplayer->maxammo[ammotype]);
+                P_CheckAmmo(viewplayer);
                 C_HideConsole();
             }
         }
@@ -4674,7 +4661,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             C_Output(removenewlines(consolecmds[C_GetIndex(stringize(ammo))].description));
             C_Output("It is currently set to <b>%i</b>.",
-                (ammotype == am_noammo ? 0 : player->ammo[ammotype]));
+                (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
         }
     }
     else if (M_StringCompare(cmd, stringize(armor)))
@@ -4683,19 +4670,19 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             sscanf(parms, "%10i", &value);
 
-            if (value != player->armorpoints)
+            if (value != viewplayer->armorpoints)
             {
-                if (value > player->armorpoints)
-                    P_AddBonus(player, BONUSADD);
+                if (value > viewplayer->armorpoints)
+                    P_AddBonus(viewplayer, BONUSADD);
 
-                player->armorpoints = MIN(value, max_armor);
+                viewplayer->armorpoints = MIN(value, max_armor);
                 C_HideConsole();
             }
         }
         else
         {
             C_Output(removenewlines(consolecmds[C_GetIndex(stringize(armor))].description));
-            C_Output("It is currently set to <b>%i%%</b>.", player->armorpoints);
+            C_Output("It is currently set to <b>%i%%</b>.", viewplayer->armorpoints);
         }
     }
     else if (M_StringCompare(cmd, stringize(health)))
@@ -4704,32 +4691,32 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             sscanf(parms, "%10i", &value);
 
-            if (!(player->cheats & CF_GODMODE) && !player->powers[pw_invulnerability])
+            if (!(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
             {
-                if (!player->mo)
+                if (!viewplayer->mo)
                     return;
 
                 value = BETWEEN(health_min, value, maxhealth);
 
-                if (player->health <= 0)
+                if (viewplayer->health <= 0)
                 {
                     if (value <= 0)
                     {
-                        player->health = value;
-                        player->mo->health = value;
+                        viewplayer->health = value;
+                        viewplayer->mo->health = value;
                     }
                     else
                         P_ResurrectPlayer(value);
                 }
                 else
                 {
-                    if (value < player->health)
-                        P_DamageMobj(player->mo, player->mo, NULL, player->health - value, false);
+                    if (value < viewplayer->health)
+                        P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - value, false);
                     else
                     {
-                        player->health = value;
-                        player->mo->health = value;
-                        P_AddBonus(player, BONUSADD);
+                        viewplayer->health = value;
+                        viewplayer->mo->health = value;
+                        P_AddBonus(viewplayer, BONUSADD);
                         S_StartSound(NULL, sfx_getpow);
                     }
 
@@ -4740,7 +4727,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             C_Output(removenewlines(consolecmds[C_GetIndex(stringize(health))].description));
-            C_Output("It is currently set to <b>%i%%</b>.", player->health);
+            C_Output("It is currently set to <b>%i%%</b>.", viewplayer->health);
         }
     }
 }
@@ -5423,7 +5410,7 @@ static void turbo_cvar_func2(char *cmd, char *parms)
 
             if (turbo > turbo_default)
             {
-                players[0].cheated++;
+                viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
             }
 
@@ -5655,7 +5642,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
 
     if (vid_showfps != vid_showfps_old)
     {
-        I_UpdateBlitFunc(!!players[0].damagecount);
+        I_UpdateBlitFunc(!!viewplayer->damagecount);
 
         if (!vid_showfps)
         {

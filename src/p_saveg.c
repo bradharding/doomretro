@@ -260,7 +260,7 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     if (saveg_read32())
     {
-        str->player = &players[0];
+        str->player = viewplayer;
         str->player->mo = str;
     }
     else
@@ -966,7 +966,7 @@ void P_WriteSaveGameEOF(void)
 void P_ArchivePlayer(void)
 {
     saveg_write_pad();
-    saveg_write_player_t(&players[0]);
+    saveg_write_player_t(viewplayer);
 }
 
 //
@@ -975,8 +975,8 @@ void P_ArchivePlayer(void)
 void P_UnArchivePlayer(void)
 {
     saveg_read_pad();
-    P_InitCards(&players[0]);
-    saveg_read_player_t(&players[0]);
+    P_InitCards(viewplayer);
+    saveg_read_player_t(viewplayer);
 }
 
 //
@@ -1233,7 +1233,7 @@ void P_RestoreTargets(void)
         P_SetNewTarget(&mo->lastenemy, P_IndexToThing((uintptr_t)mo->lastenemy));
     }
 
-    P_SetNewTarget(&players[0].attacker, P_IndexToThing((uintptr_t)players[0].attacker));
+    P_SetNewTarget(&viewplayer->attacker, P_IndexToThing((uintptr_t)viewplayer->attacker));
 }
 
 //

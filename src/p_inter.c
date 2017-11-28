@@ -1218,7 +1218,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     mobjinfo_t  *info = &mobjinfo[type];
     mobj_t      *mo;
     int         gibhealth;
-    player_t    *player = &players[0];
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
@@ -1260,18 +1259,18 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (target->flags & MF_COUNTKILL)
     {
         // count all monster deaths, even those caused by other monsters
-        player->killcount++;
+        viewplayer->killcount++;
         stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
 
         if (!chex && !hacx)
         {
-            player->mobjcount[type]++;
+            viewplayer->mobjcount[type]++;
             P_UpdateKillStat(type, 1);
         }
     }
     else if (type == MT_BARREL && !chex && !hacx)
     {
-        player->mobjcount[type]++;
+        viewplayer->mobjcount[type]++;
         stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
     }
 
@@ -1287,7 +1286,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         if (automapactive)
             AM_Stop();          // don't die in auto map, switch view prior to dying
 
-        player->deaths++;
+        viewplayer->deaths++;
         stat_deaths = SafeAdd(stat_deaths, 1);
     }
     else

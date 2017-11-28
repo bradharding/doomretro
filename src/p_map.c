@@ -517,14 +517,14 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         {
             if (tmthing->type == MT_PLASMA)
             {
-                players[0].shotshit++;
+                viewplayer->shotshit++;
                 stat_shotshit = SafeAdd(stat_shotshit, 1);
             }
             else if (tmthing->type == MT_ROCKET)
             {
                 if (tmthing->nudge == 1)
                 {
-                    players[0].shotshit++;
+                    viewplayer->shotshit++;
                     stat_shotshit = SafeAdd(stat_shotshit, 1);
                 }
 
@@ -1623,13 +1623,8 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
         {
             if (type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
-            else
-            {
-                player_t    *player = &players[0];
-
-                if (!player->powers[pw_invulnerability] && !(player->cheats & CF_GODMODE))
-                    P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
-            }
+            else if (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
+                P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
         }
     }
 
@@ -1854,7 +1849,7 @@ static dboolean PIT_RadiusAttack(mobj_t *thing)
         {
             if (bombspot->nudge == 1)
             {
-                players[0].shotshit++;
+                viewplayer->shotshit++;
                 stat_shotshit = SafeAdd(stat_shotshit, 1);
             }
 
