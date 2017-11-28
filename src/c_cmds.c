@@ -4015,6 +4015,8 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 mo->momz = 0;
                 viewplayer->lookdir = 0;
                 viewplayer->oldlookdir = 0;
+                viewplayer->recoil = 0;
+                viewplayer->oldrecoil = 0;
 
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);

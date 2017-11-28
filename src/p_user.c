@@ -365,6 +365,8 @@ void P_ResurrectPlayer(int health)
     viewplayer->health = health;
     viewplayer->lookdir = 0;
     viewplayer->oldlookdir = 0;
+    viewplayer->recoil = 0;
+    viewplayer->oldrecoil = 0;
     infight = false;
     P_SetupPsprites();
     P_MapEnd();
