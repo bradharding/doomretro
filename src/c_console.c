@@ -236,8 +236,10 @@ void C_StrCVAROutput(const char *cvar, const char *string)
 
 void C_CCMDOutput(const char *ccmd)
 {
-    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, ccmd))
-        C_Input(ccmd);
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, ccmd))
+        consolestrings--;
+
+    C_Input(ccmd);
 }
 
 void C_Output(const char *string, ...)
