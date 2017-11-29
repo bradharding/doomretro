@@ -207,8 +207,6 @@ static void weapon4_action_func(void);
 static void weapon5_action_func(void);
 static void weapon6_action_func(void);
 static void weapon7_action_func(void);
-static void zoomin_action_func(void);
-static void zoomout_action_func(void);
 
 action_t actions[] =
 {
@@ -243,8 +241,8 @@ action_t actions[] =
     { "+weapon5",      weapon5_action_func,     &keyboardweapon5,           NULL,                  NULL,             &gamepadweapon5,           NULL         },
     { "+weapon6",      weapon6_action_func,     &keyboardweapon6,           NULL,                  NULL,             &gamepadweapon6,           NULL         },
     { "+weapon7",      weapon7_action_func,     &keyboardweapon7,           NULL,                  NULL,             &gamepadweapon7,           NULL         },
-    { "+zoomin",       zoomin_action_func,      &keyboardautomapzoomin,     NULL,                  NULL,             &gamepadautomapzoomin,     NULL         },
-    { "+zoomout",      zoomout_action_func,     &keyboardautomapzoomout,    NULL,                  NULL,             &gamepadautomapzoomout,    NULL         },
+    { "+zoomin",       NULL,                    NULL,                       NULL,                  NULL,             &gamepadautomapzoomin,     NULL         },
+    { "+zoomout",      NULL,                    NULL,                       NULL,                  NULL,             &gamepadautomapzoomout,    NULL         },
     { "",              NULL,                    NULL,                       NULL,                  NULL,             NULL,                      NULL         }
 };
 
@@ -960,9 +958,6 @@ static void weapon7_action_func(void)
     P_ChangeWeapon(wp_bfg);
 }
 
-static void zoomin_action_func(void) {}
-
-static void zoomout_action_func(void) {}
 
 static int C_GetIndex(const char *cmd)
 {

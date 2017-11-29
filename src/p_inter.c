@@ -126,7 +126,7 @@ unsigned int    stat_monsterskilled_zombiemen = 0;
 
 extern int      idclevtics;
 
-static void P_AddAmmo(ammotype_t ammo, int num)
+static void P_UpdateAmmoStat(ammotype_t ammo, int num)
 {
     switch (ammo)
     {
@@ -162,7 +162,7 @@ static void P_AddAmmo(ammotype_t ammo, int num)
 //
 // P_GiveAmmo
 // Num is the number of clip loads,
-// not the individual count (0= 1/2 clip).
+// not the individual count (0 = 1/2 clip).
 // Returns the amount of ammo given to the player
 //
 static int P_GiveAmmo(ammotype_t ammo, int num, dboolean stat)
@@ -191,7 +191,7 @@ static int P_GiveAmmo(ammotype_t ammo, int num, dboolean stat)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     if (stat)
-        P_AddAmmo(ammo, viewplayer->ammo[ammo] - oldammo);
+        P_UpdateAmmoStat(ammo, viewplayer->ammo[ammo] - oldammo);
 
     // If non-zero ammo, don't change up weapons, player was lower on purpose.
     if (oldammo)
@@ -281,7 +281,7 @@ dboolean P_GiveFullAmmo(dboolean stat)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
             if (stat)
-                P_AddAmmo(i, viewplayer->maxammo[i] - viewplayer->ammo[i]);
+                P_UpdateAmmoStat(i, viewplayer->maxammo[i] - viewplayer->ammo[i]);
 
             viewplayer->ammo[i] = viewplayer->maxammo[i];
             result = true;
@@ -402,7 +402,7 @@ dboolean P_GiveAllWeapons(void)
     return result;
 }
 
-static void P_AddHealth(int num)
+static void P_UpdateHealthStat(int num)
 {
     viewplayer->itemspickedup_health += num;
     stat_itemspickedup_health = SafeAdd(stat_itemspickedup_health, num);
@@ -425,7 +425,7 @@ dboolean P_GiveBody(int num, dboolean stat)
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
     if (stat)
-        P_AddHealth(viewplayer->health - oldhealth);
+        P_UpdateHealthStat(viewplayer->health - oldhealth);
 
     return true;
 }
@@ -442,7 +442,7 @@ void P_GiveMegaHealth(dboolean stat)
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
             if (stat)
-                P_AddHealth(mega_health - viewplayer->health);
+                P_UpdateHealthStat(mega_health - viewplayer->health);
         }
 
         viewplayer->health = mega_health;
@@ -450,7 +450,7 @@ void P_GiveMegaHealth(dboolean stat)
     }
 }
 
-static void P_AddArmor(int num)
+static void P_UpdateArmorStat(int num)
 {
     viewplayer->itemspickedup_armor += num;
     stat_itemspickedup_armor = SafeAdd(stat_itemspickedup_armor, num);
@@ -471,7 +471,7 @@ dboolean P_GiveArmor(armortype_t armortype, dboolean stat)
     viewplayer->armortype = armortype;
 
     if (stat)
-        P_AddArmor(hits - viewplayer->armorpoints);
+        P_UpdateArmorStat(hits - viewplayer->armorpoints);
 
     viewplayer->armorpoints = hits;
     armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
@@ -700,7 +700,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                     viewplayer->health = maxhealth;
                 else
                 {
-                    P_AddHealth(1);
+                    P_UpdateHealthStat(1);
                     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 }
 
@@ -716,7 +716,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (viewplayer->armorpoints < max_armor)
             {
                 viewplayer->armorpoints++;
-                P_AddArmor(1);
+                P_UpdateArmorStat(1);
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             }
 
@@ -731,7 +731,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         case SPR_SOUL:
             if (!(viewplayer->cheats & CF_GODMODE))
             {
-                P_AddHealth(soul_health - viewplayer->health);
+                P_UpdateHealthStat(soul_health - viewplayer->health);
                 viewplayer->health += soul_health;
 
                 if (viewplayer->health > max_soul)
@@ -1423,8 +1423,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (tossdrop)
     {
         mo = P_SpawnMobj(target->x, target->y, target->floorz + target->height * 3 / 2, item);
-        mo->momx = M_RandomInt(-255, 255) << 8;
-        mo->momy = M_RandomInt(-255, 255) << 8;
+        mo->momx = M_NegRandom() << 8;
+        mo->momy = M_NegRandom() << 8;
         mo->momz = FRACUNIT * 2 + (M_Random() << 10);
     }
     else
