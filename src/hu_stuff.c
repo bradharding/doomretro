@@ -1128,7 +1128,7 @@ void HU_PlayerMessage(char *message, dboolean external)
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
 
-    if (viewplayer && !consoleactive && !message_dontfuckwithme)
+    if (gamestate == GS_LEVEL && !consoleactive && !message_dontfuckwithme)
         HU_SetPlayerMessage(buffer, external);
 }
 
