@@ -89,8 +89,6 @@ static dboolean sendsave;               // send a save event next tic
 
 dboolean        viewactive;
 
-player_t        players[MAXPLAYERS];
-
 int             gametic;
 int             activetic;
 int             gametime;

@@ -136,6 +136,7 @@ extern fixed_t      viewz;
 
 extern angle_t      viewangle;
 extern player_t     *viewplayer;
+extern player_t     tempplayer;
 
 extern angle_t      clipangle;
 

@@ -1431,7 +1431,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, item);
 
 
-    mo->angle = target->angle + ((M_Random() - M_Random()) << 20);
+    mo->angle = target->angle + (M_NegRandom() << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
 
     if (r_mirroredweapons && (M_Random() & 1))

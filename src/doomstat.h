@@ -194,12 +194,8 @@ extern int              activetic;
 extern int              gametime;
 extern struct tm        *gamestarttime;
 
-
 extern int              vid_capfps;
 extern dboolean         realframe;
-
-// Bookkeeping on players - state.
-extern player_t         players[MAXPLAYERS];
 
 // Intermission stats.
 // Parameters for world map / intermission.

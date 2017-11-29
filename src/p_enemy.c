@@ -985,7 +985,7 @@ void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
     actor->angle = R_PointToAngle2(actor->x, actor->y, actor->target->x, actor->target->y);
 
     if (actor->target->flags & MF_FUZZ)
-        actor->angle += (M_Random() - M_Random()) << 21;
+        actor->angle += M_NegRandom() << 21;
 }
 
 //
@@ -999,7 +999,7 @@ void A_PosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
 
     S_StartSound(actor, sfx_pistol);
-    P_LineAttack(actor, actor->angle + ((M_Random() - M_Random()) << 20), MISSILERANGE,
+    P_LineAttack(actor, actor->angle + (M_NegRandom() << 20), MISSILERANGE,
         P_AimLineAttack(actor, actor->angle, MISSILERANGE), ((M_Random() % 5) + 1) * 3);
 }
 
@@ -1013,7 +1013,7 @@ void A_SPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     S_StartSound(actor, sfx_shotgn);
 
     for (int i = 0; i < 3; i++)
-        P_LineAttack(actor, actor->angle + ((M_Random() - M_Random()) << 20), MISSILERANGE,
+        P_LineAttack(actor, actor->angle + (M_NegRandom() << 20), MISSILERANGE,
             P_AimLineAttack(actor, actor->angle, MISSILERANGE), ((M_Random() % 5) + 1) * 3);
 }
 
@@ -1025,7 +1025,7 @@ void A_CPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
 
     S_StartSound(actor, sfx_shotgn);
-    P_LineAttack(actor, actor->angle + ((M_Random() - M_Random()) << 20), MISSILERANGE,
+    P_LineAttack(actor, actor->angle + (M_NegRandom() << 20), MISSILERANGE,
         P_AimLineAttack(actor, actor->angle, MISSILERANGE), ((M_Random() % 5) + 1) * 3);
 }
 
@@ -1734,8 +1734,8 @@ void A_SkullPop(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     actor->flags &= ~MF_SOLID;
     mo = P_SpawnMobj(actor->x, actor->y, actor->z + 48 * FRACUNIT, MT_GIBDTH);
-    mo->momx = (M_Random() - M_Random()) << 9;
-    mo->momy = (M_Random() - M_Random()) << 9;
+    mo->momx = M_NegRandom() << 9;
+    mo->momy = M_NegRandom() << 9;
     mo->momz = FRACUNIT * 2 + (M_Random() << 6);
 
     // Attach player mobj to bloody skull
@@ -1980,7 +1980,7 @@ void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BrainExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     x = actor->x + (M_Random() - M_Random()) * 2048;
+    int     x = actor->x + M_NegRandom() * 2048;
     int     y = actor->y;
     int     z = 128 + M_Random() * 2 * FRACUNIT;
     mobj_t  *th = P_SpawnMobj(x, y, z, MT_ROCKET);

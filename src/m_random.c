@@ -48,6 +48,11 @@ int M_Random(void)
     return (fastrand() & 255);
 }
 
+int M_NegRandom(void)
+{
+    return ((fastrand() & 511) - 256);
+}
+
 int M_RandomInt(int lower, int upper)
 {
     return (fastrand() % (upper - lower + 1) + lower);

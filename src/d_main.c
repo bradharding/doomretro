@@ -398,11 +398,13 @@ static void D_DoomLoop(void)
     time(&rawtime);
     gamestarttime = localtime(&rawtime);
 
+    viewplayer = &tempplayer;
+
     while (1)
     {
-        TryRunTics(); // will run at least one tic
+        TryRunTics();                   // will run at least one tic
 
-        S_UpdateSounds(viewplayer->mo);  // move positional sounds
+        S_UpdateSounds(viewplayer->mo); // move positional sounds
 
         // Update display, next frame, with current state.
         D_Display();
@@ -1979,8 +1981,6 @@ static void D_DoomMainSetup(void)
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
-
-    viewplayer = &players[0];
 
     M_Init();
 

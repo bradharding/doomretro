@@ -1148,7 +1148,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->floorz = sector->interpfloorheight;
     th->ceilingz = sector->interpceilingheight;
 
-    th->z = z + ((M_Random() - M_Random()) << 10);
+    th->z = z + (M_NegRandom() << 10);
 
     th->thinker.function = P_MobjThinker;
     P_AddThinker(&th->thinker);
@@ -1177,7 +1177,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 {
-    mobj_t  *th = P_SpawnMobj(x, y, z + ((M_Random() - M_Random()) << 10), MT_TRAIL);
+    mobj_t  *th = P_SpawnMobj(x, y, z + (M_NegRandom() << 10), MT_TRAIL);
 
     th->momz = FRACUNIT / 2;
     th->tics -= M_Random() & 3;
@@ -1231,7 +1231,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->floorz = sector->interpfloorheight;
         th->ceilingz = sector->interpceilingheight;
 
-        th->z = BETWEEN(minz, z + ((M_Random() - M_Random()) << 10), maxz);
+        th->z = BETWEEN(minz, z + (M_NegRandom() << 10), maxz);
 
         th->thinker.function = P_MobjThinker;
         P_AddThinker(&th->thinker);
@@ -1241,7 +1241,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->momz = FRACUNIT * (2 + i / 6);
 
         th->angle = angle;
-        angle += (M_Random() - M_Random()) * 0xB60B60;
+        angle += M_NegRandom() * 0xB60B60;
 
         if (damage <= 12 && th->state->nextstate)
             P_SetMobjState(th, th->state->nextstate);
@@ -1337,7 +1337,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 
     // fuzzy player
     if (dest->flags & MF_FUZZ)
-        an += (M_Random() - M_Random()) << 20;
+        an += M_NegRandom() << 20;
 
     th->angle = an;
     an >>= ANGLETOFINESHIFT;

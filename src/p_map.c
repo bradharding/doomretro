@@ -1990,8 +1990,8 @@ static void PIT_ChangeSector(mobj_t *thing)
                 // spray blood in a random direction
                 mobj_t  *mo = P_SpawnMobj(thing->x, thing->y, z, type);
 
-                mo->momx = (M_Random() - M_Random()) << 11;
-                mo->momy = (M_Random() - M_Random()) << 11;
+                mo->momx = M_NegRandom() << 11;
+                mo->momy = M_NegRandom() << 11;
             }
         }
 

@@ -146,9 +146,7 @@ static void P_BringUpWeapon(void)
         S_StartSound(viewplayer->mo, sfx_sawup);
 
     viewplayer->psprites[ps_weapon].sy = WEAPONBOTTOM;
-
     P_SetPsprite(ps_weapon, weaponinfo[viewplayer->pendingweapon].upstate);
-
     viewplayer->pendingweapon = wp_nochange;
 }
 
@@ -222,7 +220,6 @@ void P_FireWeapon(void)
         return;
 
     readyweapon = viewplayer->readyweapon;
-
     P_SetMobjState(viewplayer->mo, S_PLAY_ATK1);
     P_SetPsprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
@@ -373,7 +370,7 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
     }
 
-    if (player->pendingweapon < NUMWEAPONS)
+    if (player->pendingweapon != wp_nochange)
         player->readyweapon = player->pendingweapon;
 
     P_BringUpWeapon();
@@ -390,7 +387,6 @@ void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     psp->sy = WEAPONTOP;
-
     startingnewgame = false;
 
     // The weapon has been raised all the way,
@@ -416,7 +412,7 @@ void A_GunFlash(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t angle = actor->angle + ((M_Random() - M_Random()) << 18);
+    angle_t angle = actor->angle + (M_NegRandom() << 18);
     int     slope = P_AimLineAttack(actor, angle, MELEERANGE);
     int     damage = (M_Random() % 10 + 1) << 1;
 
@@ -443,7 +439,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     int     damage = 2 * (M_Random() % 10 + 1);
-    angle_t angle = actor->angle + ((M_Random() - M_Random()) << 18);
+    angle_t angle = actor->angle + (M_NegRandom() << 18);
     int     slope = P_AimLineAttack(actor, angle, MELEERANGE + 1);
 
     // use MELEERANGE + 1 so the puff doesn't skip the flash
@@ -607,7 +603,7 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
     angle_t angle = actor->angle;
 
     if (!accurate)
-        angle += (M_Random() - M_Random()) << 18;
+        angle += M_NegRandom() << 18;
 
     P_LineAttack(actor, angle, MISSILERANGE, bulletslope, damage);
 }
@@ -704,9 +700,9 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
     for (int i = 0; i < 20; i++)
     {
         int     damage = 5 * (M_Random() % 3 + 1);
-        angle_t angle = actor->angle + ((M_Random() - M_Random()) << ANGLETOFINESHIFT);
+        angle_t angle = actor->angle + (M_NegRandom() << ANGLETOFINESHIFT);
 
-        P_LineAttack(actor, angle, MISSILERANGE, bulletslope + ((M_Random() - M_Random()) << 5), damage);
+        P_LineAttack(actor, angle, MISSILERANGE, bulletslope + (M_NegRandom() << 5), damage);
     }
 
     A_Recoil(wp_supershotgun);

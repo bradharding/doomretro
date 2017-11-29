@@ -121,8 +121,6 @@ typedef enum
 
 #define SBARHEIGHT          (ORIGINALSBARHEIGHT * SCREENSCALE)
 
-#define MAXPLAYERS          1
-
 // State updates, number of tics / second.
 #define TICRATE             35
 
