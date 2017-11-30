@@ -7239,7 +7239,5 @@ char autocompletelist[][255] =
     "wipe ",
     "wipe off",
     "wipe on",
-    "+zoomin",
-    "+zoomout",
     ""
 };

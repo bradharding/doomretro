@@ -57,8 +57,9 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define BLACK   0
-#define WHITE   4
+#define BLACK       nearestcolors[0]
+#define DARKGRAY    nearestcolors[1]
+#define WHITE       nearestcolors[4]
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
@@ -1029,7 +1030,6 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
             }
 
             *dest = tinttab25[*dest];
-
             column = (column_t *)((byte *)column + column->length + 4);
         }
     }
@@ -1058,18 +1058,17 @@ void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                *dest = 1;
+                *dest = DARKGRAY;
                 dest += SCREENWIDTH;
             }
 
             while (--count > 0)
             {
-                *dest = 0;
+                *dest = BLACK;
                 dest += SCREENWIDTH;
             }
 
-            *dest = 1;
-
+            *dest = DARKGRAY;
             column = (column_t *)((byte *)column + column->length + 4);
         }
     }
@@ -1266,7 +1265,6 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     byte    *shadow;
 
                     *dest = src;
-
                     shadow = dest + SCREENWIDTH * 2 + 2;
 
                     if (*shadow != 47 && *shadow != 191)
@@ -1306,7 +1304,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
             while (count--)
             {
-                byte src = source[srccol >> FRACBITS];
+                byte    src = source[srccol >> FRACBITS];
 
                 if (nogreen[src])
                     *dest = tinttab33[(*dest << 8) + src];
@@ -1363,12 +1361,12 @@ void GetPixelSize(dboolean reset)
     if (width > 0 && width <= SCREENWIDTH && height > 0 && height <= SCREENHEIGHT && (width >= 2 || height >= 2))
     {
         pixelwidth = width;
-        pixelheight = height;
+        pixelheight = height * SCREENWIDTH;
     }
     else if (reset)
     {
         pixelwidth = 2;
-        pixelheight = 2;
+        pixelheight = 2 * SCREENWIDTH;
         r_lowpixelsize = r_lowpixelsize_default;
 
         M_SaveCVARs();
@@ -1379,14 +1377,13 @@ void V_LowGraphicDetail(void)
 {
     int w = viewwindowx + viewwidth;
     int h = (viewwindowy + viewheight) * SCREENWIDTH;
-    int hh = pixelheight * SCREENWIDTH;
 
-    for (int y = viewwindowy * SCREENWIDTH; y < h; y += hh)
+    for (int y = viewwindowy * SCREENWIDTH; y < h; y += pixelheight)
         for (int x = viewwindowx; x < w; x += pixelwidth)
         {
             byte    *dot = *screens + y + x;
 
-            for (int yy = 0; yy < hh && y + yy < h; yy += SCREENWIDTH)
+            for (int yy = 0; yy < pixelheight && y + yy < h; yy += SCREENWIDTH)
                 for (int xx = 0; xx < pixelwidth && x + xx < w; xx++)
                     *(dot + yy + xx) = *dot;
         }
