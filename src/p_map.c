@@ -45,52 +45,52 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-static mobj_t       *tmthing;
-static fixed_t      tmx, tmy, tmz;
-static int          pe_x, pe_y;     // Pain Elemental position for Lost Soul checks // phares
-static int          ls_x, ls_y;     // Lost Soul position for Lost Soul checks      // phares
+static mobj_t   *tmthing;
+static fixed_t  tmx, tmy, tmz;
+static int      pe_x, pe_y;     // Pain Elemental position for Lost Soul checks // phares
+static int      ls_x, ls_y;     // Lost Soul position for Lost Soul checks      // phares
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
-dboolean            floatok;
+dboolean        floatok;
 
 // killough 11/98: if "felldown" true, object was pushed down ledge
-dboolean            felldown;
+dboolean        felldown;
 
-fixed_t             tmbbox[4];
-fixed_t             tmfloorz;
-fixed_t             tmceilingz;
-static fixed_t      tmdropoffz;
+fixed_t         tmbbox[4];
+fixed_t         tmfloorz;
+fixed_t         tmceilingz;
+static fixed_t  tmdropoffz;
 
 // keep track of the line that lowers the ceiling,
 // so missiles don't explode against sky hack walls
-line_t              *ceilingline;
-line_t              *blockline;     // killough 8/11/98: blocking linedef
-static line_t       *floorline;     // killough 8/1/98: Highest touched floor
-static int          tmunstuck;      // killough 8/1/98: whether to allow unsticking
+line_t          *ceilingline;
+line_t          *blockline;     // killough 8/11/98: blocking linedef
+static line_t   *floorline;     // killough 8/1/98: Highest touched floor
+static int      tmunstuck;      // killough 8/1/98: whether to allow unsticking
 
 // keep track of special lines as they are hit,
 // but don't process them until the move is proven valid
 
 // 1/11/98 killough: removed limit on special lines crossed
-line_t              **spechit;
-static int          spechit_max;
-int                 numspechit;
+line_t          **spechit;
+static int      spechit_max;
+int             numspechit;
 
-static angle_t      shootangle;     // [BH] angle of blood and puffs for automap
+static angle_t  shootangle;     // [BH] angle of blood and puffs for automap
 
 // Temporary holder for thing_sectorlist threads
-msecnode_t          *sector_list;   // phares 3/16/98
+msecnode_t      *sector_list;   // phares 3/16/98
 
-dboolean            infight;
+dboolean        infight;
 
-static mobj_t       *onmobj;
+static mobj_t   *onmobj;
 
-unsigned int        stat_distancetraveled;
+unsigned int    stat_distancetraveled;
 
-extern dboolean     autousing;
-extern dboolean     successfulshot;
-extern dboolean     telefragonmap30;
+extern dboolean autousing;
+extern dboolean successfulshot;
+extern dboolean telefragonmap30;
 
 //
 // TELEPORT MOVE
@@ -422,16 +422,13 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         && dist < 16 * FRACUNIT && thing->z == tmthing->z)
     {
         thing->nudge = TICRATE;
+        thing->momx = M_RandomInt(-1, 1) * FRACUNIT;
+        thing->momy = M_RandomInt(-1, 1) * FRACUNIT;
 
-        if (thing->flags2 & MF2_FEETARECLIPPED)
+        if (!(thing->flags2 & MF2_FEETARECLIPPED))
         {
-            thing->momx = M_RandomInt(-1, 1) * FRACUNIT;
-            thing->momy = M_RandomInt(-1, 1) * FRACUNIT;
-        }
-        else
-        {
-            thing->momx = M_RandomInt(-1, 1) * FRACUNIT / 2;
-            thing->momy = M_RandomInt(-1, 1) * FRACUNIT / 2;
+            thing->momx /= 2;
+            thing->momy /= 2;
         }
     }
 

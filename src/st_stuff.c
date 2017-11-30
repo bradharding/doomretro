@@ -701,6 +701,8 @@ dboolean ST_Responder(event_t *ev)
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
+                else
+                    P_CheckPosition(viewplayer->mo, viewplayer->mo->x, viewplayer->mo->y);
             }
 
             // 'behold?' power-up cheats

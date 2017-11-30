@@ -205,14 +205,17 @@ dboolean EV_TurnTagLightsOff(line_t *line)
     // killough 10/98: replaced inefficient search with fast search
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        sector_t    *temp;
         sector_t    *sector = sectors + i;
         int         min = sector->lightlevel;
 
         // find min neighbor light level
         for (int j = 0; j < sector->linecount; j++)
-            if ((temp = getNextSector(sector->lines[j], sector)) && temp->lightlevel < min)
+        {
+            sector_t    *temp = getNextSector(sector->lines[j], sector);
+
+            if (temp && temp->lightlevel < min)
                 min = temp->lightlevel;
+        }
 
         sector->lightlevel = min;
     }
@@ -229,15 +232,18 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
     // killough 10/98: replace inefficient search with fast search
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        sector_t    *temp;
         sector_t    *sector = sectors + i;
         int         tbright = bright;       // jff 5/17/98 search for maximum PER sector
 
         // bright = 0 means to search for highest light level surrounding sector
         if (!bright)
             for (int j = 0; j < sector->linecount; j++)
-                if ((temp = getNextSector(sector->lines[j], sector)) && temp->lightlevel > tbright)
+            {
+                sector_t    *temp = getNextSector(sector->lines[j], sector);
+
+                if (temp && temp->lightlevel > tbright)
                     tbright = temp->lightlevel;
+            }
 
         sector->lightlevel = tbright;
     }
@@ -311,13 +317,15 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
     // search all sectors for ones with same tag as activating line
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        sector_t    *temp;
         sector_t    *sector = sectors + i;
         int         bright = 0;
         int         min = sector->lightlevel;
 
         for (int j = 0; j < sector->linecount; j++)
-            if ((temp = getNextSector(sector->lines[j], sector)))
+        {
+            sector_t    *temp = getNextSector(sector->lines[j], sector);
+
+            if (temp)
             {
                 if (temp->lightlevel > bright)
                     bright = temp->lightlevel;
@@ -325,6 +333,7 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
                 if (temp->lightlevel < min)
                     min = temp->lightlevel;
             }
+        }
 
         // Set level in-between extremes
         sector->lightlevel = (level * bright + (FRACUNIT - level) * min) >> FRACBITS;
@@ -338,14 +347,16 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
 //  sectors of the sector itself.
 void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
 {
-    sector_t    *temp;
-    int         bright = 0;
-    int         min = MAX(0, sector->lightlevel - 4);
+    int bright = 0;
+    int min = MAX(0, sector->lightlevel - 4);
 
     level = BETWEEN(0, level, FRACUNIT);        // clip at extremes
 
     for (int i = 0; i < sector->linecount; i++)
-        if ((temp = getNextSector(sector->lines[i], sector)))
+    {
+        sector_t    *temp = getNextSector(sector->lines[i], sector);
+
+        if (temp)
         {
             if (temp->lightlevel > bright)
                 bright = temp->lightlevel;
@@ -353,6 +364,7 @@ void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
             if (temp->lightlevel < min)
                 min = temp->lightlevel;
         }
+    }
 
     sector->lightlevel = (level * bright + (FRACUNIT - level) * min) >> FRACBITS;
 }

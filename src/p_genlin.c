@@ -157,13 +157,7 @@ manual_floor:
             case FbyST:
                 floor->floordestheight = (floor->sector->floorheight >> FRACBITS)
                     + floor->direction * (P_FindShortestTextureAround(secnum) >> FRACBITS);
-
-                if (floor->floordestheight > 32000)     // jff 3/13/98 prevent overflow
-                    floor->floordestheight = 32000;     // wraparound in floor height
-                else if (floor->floordestheight < -32000)
-                    floor->floordestheight = -32000;
-
-                floor->floordestheight <<= FRACBITS;
+                floor->floordestheight = BETWEEN(-32000, floor->floordestheight, 32000) << FRACBITS;
                 break;
 
             case Fby24:
@@ -180,13 +174,10 @@ manual_floor:
         {
             if (ChgM)   // if a numeric model change
             {
-                sector_t    *sec;
-
-                // jff 5/23/98 find model with ceiling at target height if target
-                // is a ceiling type
-                sec = (Targ == FtoLnC || Targ == FtoC ?
-                    P_FindModelCeilingSector(floor->floordestheight, secnum) :
-                    P_FindModelFloorSector(floor->floordestheight, secnum));
+                // jff 5/23/98 find model with ceiling at target height if target is a ceiling type
+                sector_t    *sec = (Targ == FtoLnC || Targ == FtoC ?
+                                P_FindModelCeilingSector(floor->floordestheight, secnum) :
+                                P_FindModelFloorSector(floor->floordestheight, secnum));
 
                 if (sec)
                 {
@@ -359,13 +350,7 @@ manual_ceiling:
             case CbyST:
                 targheight = (ceiling->sector->ceilingheight >> FRACBITS)
                     + ceiling->direction * (P_FindShortestUpperAround(secnum) >> FRACBITS);
-
-                if (targheight > 32000) // jff 3/13/98 prevent overflow
-                    targheight = 32000; // wraparound in ceiling height
-                else if (targheight < -32000)
-                    targheight = -32000;
-
-                targheight <<= FRACBITS;
+                targheight = BETWEEN(-32000, targheight, 32000) << FRACBITS;
                 break;
 
             case Cby24:
@@ -875,6 +860,7 @@ manual_crusher:
         if (manual)
             return rtn;
     }
+
     return rtn;
 }
 
@@ -971,12 +957,12 @@ manual_locked:
 
         // killough 4/15/98: fix generalized door opening sounds
         // (previously they always had the blazing door close sound)
-        S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdopn :
-            sfx_doropn));
+        S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdopn : sfx_doropn));
 
         if (manual)
             return rtn;
     }
+
     return rtn;
 }
 

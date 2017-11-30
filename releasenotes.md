@@ -1,6 +1,11 @@
 ### DOOM Retro v2.6.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* A bug has been fixed whereby there was no effect when the `r_corpses_nudge` CVAR was `on`.
+* Minor changes have been made to text that is output to the console.
+* Further improvements have been made to the console’s autocomplete feature.
+* Weapon recoil is now reset when the player teleports or is resurrected.
+* The `freeze` CCMD can now only be used when in a game.
 
 ---
 

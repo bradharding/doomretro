@@ -3096,7 +3096,10 @@ static void noclip_cmd_func2(char *cmd, char *parms)
         M_SaveCVARs();
     }
     else
+    {
+        P_CheckPosition(viewplayer->mo, viewplayer->mo->x, viewplayer->mo->y);
         HU_PlayerMessage(s_STSTR_NCOFF, false);
+    }
 }
 
 //

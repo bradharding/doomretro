@@ -102,6 +102,7 @@ void T_PlatRaise(plat_t *plat)
                     }
                 }
             }
+
             break;
 
         case down:
@@ -134,6 +135,7 @@ void T_PlatRaise(plat_t *plat)
                         break;
                 }
             }
+
             break;
 
         case waiting:
@@ -217,11 +219,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 
             case downWaitUpStay:
                 plat->speed = PLATSPEED * 4;
-                plat->low = P_FindLowestFloorSurrounding(sec);
-
-                if (plat->low > sec->floorheight)
-                    plat->low = sec->floorheight;
-
+                plat->low = MIN(P_FindLowestFloorSurrounding(sec), sec->floorheight);
                 plat->high = sec->floorheight;
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
@@ -230,11 +228,7 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 
             case blazeDWUS:
                 plat->speed = PLATSPEED * 8;
-                plat->low = P_FindLowestFloorSurrounding(sec);
-
-                if (plat->low > sec->floorheight)
-                    plat->low = sec->floorheight;
-
+                plat->low = MIN(P_FindLowestFloorSurrounding(sec), sec->floorheight);
                 plat->high = sec->floorheight;
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
@@ -243,16 +237,8 @@ dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 
             case perpetualRaise:
                 plat->speed = PLATSPEED;
-                plat->low = P_FindLowestFloorSurrounding(sec);
-
-                if (plat->low > sec->floorheight)
-                    plat->low = sec->floorheight;
-
-                plat->high = P_FindHighestFloorSurrounding(sec);
-
-                if (plat->high < sec->floorheight)
-                    plat->high = sec->floorheight;
-
+                plat->low = MIN(P_FindLowestFloorSurrounding(sec), sec->floorheight);
+                plat->high = MAX(sec->floorheight, P_FindHighestFloorSurrounding(sec));
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = (plat_e)(M_Random() & 1);
                 S_StartSectorSound(&sec->soundorg, sfx_pstart);
@@ -304,11 +290,7 @@ void P_ActivateInStasis(int tag)
 
         if (plat->tag == tag && plat->status == in_stasis)
         {
-            if (plat->type == toggleUpDn)
-                plat->status = (plat->oldstatus == up ? down : up);
-            else
-                plat->status = plat->oldstatus;
-
+            plat->status = (plat->type == toggleUpDn ? (plat->oldstatus == up ? down : up) : plat->oldstatus);
             plat->thinker.function = T_PlatRaise;
         }
     }
@@ -331,6 +313,7 @@ dboolean EV_StopPlat(line_t *line)
             plat->thinker.function = NULL;
         }
     }
+
     return true;
 }
 

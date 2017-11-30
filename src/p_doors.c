@@ -106,6 +106,7 @@ void T_VerticalDoor(vldoor_t *door)
                     default:
                         break;
                 }
+
             break;
 
         case 2:
@@ -122,6 +123,7 @@ void T_VerticalDoor(vldoor_t *door)
                     default:
                         break;
                 }
+
             break;
 
         case -1:
@@ -186,6 +188,7 @@ void T_VerticalDoor(vldoor_t *door)
                         S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
                         break;
                 }
+
             break;
 
         case 1:
@@ -223,6 +226,7 @@ void T_VerticalDoor(vldoor_t *door)
                         break;
                 }
             }
+
             break;
     }
 }
@@ -275,6 +279,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
             }
+
             break;
 
         case SR_Door_Red_OpenStay_Fast:
@@ -311,6 +316,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
             }
+
             break;
 
         case SR_Door_Yellow_OpenStay_Fast:
@@ -347,6 +353,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return false;
             }
+
             break;
     }
 
@@ -496,6 +503,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;
             }
+
             break;
 
         case DR_Door_Yellow_OpenWaitClose:
@@ -535,6 +543,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;
             }
+
             break;
 
         case DR_Door_Red_OpenWaitClose:
@@ -574,6 +583,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                 S_StartSound(player->mo, sfx_noway);    //  [BH] use sfx_noway instead of sfx_oof
                 return;
             }
+
             break;
     }
 
