@@ -415,12 +415,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     dboolean    unblocking = false;
     int         flags = thing->flags;
     int         tmflags = tmthing->flags;
-    fixed_t     dist;
-
-    if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
-        return true;
-
-    dist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
+    fixed_t     dist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
     if (r_corpses_nudge && (flags & MF_CORPSE) && (tmflags & MF_SHOOTABLE) && !thing->nudge
@@ -439,6 +434,9 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             thing->momy = M_RandomInt(-1, 1) * FRACUNIT / 2;
         }
     }
+
+    if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
+        return true;
 
     // [BH] specify standard radius of 20 for pickups here as thing->radius
     // has been changed to allow better clipping
