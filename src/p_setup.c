@@ -1950,7 +1950,7 @@ static void P_CalcSegsLength(void)
     }
 }
 
-static char mapnum[6];
+char        mapnum[6];
 char        maptitle[256];
 char        mapnumandtitle[512];
 char        automaptitle[512];

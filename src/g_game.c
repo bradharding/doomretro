@@ -1090,7 +1090,13 @@ void G_PlayerReborn(void)
 //
 static void G_DoReborn(void)
 {
-    gameaction = (quickSaveSlot >= 0 && autoload && !pistolstart ? ga_autoloadgame : ga_loadlevel);
+    if (quickSaveSlot >= 0 && autoload && !pistolstart)
+        gameaction = ga_autoloadgame;
+    else
+    {
+        gameaction = ga_loadlevel;
+        C_Input("map %s", mapnum);
+    }
 }
 
 void G_ScreenShot(void)
