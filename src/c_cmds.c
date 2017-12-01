@@ -1945,8 +1945,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                         return;
                     }
 
-                    P_TouchSpecialThing(P_SpawnMobj(viewplayer->mo->x, viewplayer->mo->y, viewplayer->mo->z, i),
-                        viewplayer->mo, false, false);
+                    P_TouchSpecialThing(P_SpawnMobj(viewx, viewy, viewz, i), viewplayer->mo, false, false);
                     C_HideConsole();
                     break;
                 }
@@ -3096,10 +3095,7 @@ static void noclip_cmd_func2(char *cmd, char *parms)
         M_SaveCVARs();
     }
     else
-    {
-        P_CheckPosition(viewplayer->mo, viewplayer->mo->x, viewplayer->mo->y);
         HU_PlayerMessage(s_STSTR_NCOFF, false);
-    }
 }
 
 //

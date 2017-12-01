@@ -255,8 +255,8 @@ static void AM_restoreScaleAndLoc(void)
 
     if (am_followmode)
     {
-        m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
+        m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
     }
     else
     {
@@ -313,7 +313,7 @@ static void AM_changeWindowLoc(void)
 
     if (am_rotatemode)
     {
-        AM_rotate(&incx, &incy, viewplayer->mo->angle - ANG90);
+        AM_rotate(&incx, &incy, viewangle - ANG90);
 
         m_x += incx;
         m_y += incy;
@@ -424,8 +424,8 @@ static void AM_initVariables(const dboolean mainwindow)
 
     if (m_x == INT_MAX || am_followmode)
     {
-        m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
+        m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
         m_x2 = m_x + m_w;
         m_y2 = m_y + m_h;
     }
@@ -636,8 +636,8 @@ void AM_clearMarks(void)
 
 void AM_addToPath(void)
 {
-    const int   x = viewplayer->mo->x >> FRACTOMAPBITS;
-    const int   y = viewplayer->mo->y >> FRACTOMAPBITS;
+    const int   x = viewx >> FRACTOMAPBITS;
+    const int   y = viewy >> FRACTOMAPBITS;
 
     if (pathpointnum)
         if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT
@@ -1142,8 +1142,8 @@ static void AM_changeWindowScale(void)
 
 static void AM_doFollowPlayer(void)
 {
-    m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
+    m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
     m_x2 = m_x + m_w;
     m_y2 = m_y + m_h;
 }
@@ -1597,7 +1597,7 @@ static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines,
     angle_t angle, byte color, fixed_t x, fixed_t y)
 {
     if (am_rotatemode)
-        angle -= viewplayer->mo->angle - ANG90;
+        angle -= viewangle - ANG90;
 
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1633,7 +1633,7 @@ static void AM_drawTransLineCharacter(const mline_t *lineguy, const int lineguyl
     angle_t angle, byte *color, const fixed_t x, const fixed_t y)
 {
     if (am_rotatemode)
-        angle -= viewplayer->mo->angle - ANG90;
+        angle -= viewangle - ANG90;
 
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1708,8 +1708,8 @@ static void AM_drawPlayer(void)
     const int   invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t    point;
 
-    point.x = viewplayer->mo->x >> FRACTOMAPBITS;
-    point.y = viewplayer->mo->y >> FRACTOMAPBITS;
+    point.x = viewx >> FRACTOMAPBITS;
+    point.y = viewy >> FRACTOMAPBITS;
 
     if (am_rotatemode)
         AM_rotatePoint(&point);
@@ -1717,18 +1717,14 @@ static void AM_drawPlayer(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > STARTFLASHING || (invisibility & 8))
-            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, viewplayer->mo->angle,
-                &playercolor, point.x, point.y);
+            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, viewangle, &playercolor, point.x, point.y);
         else
-            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, viewplayer->mo->angle, playercolor,
-                point.x, point.y);
+            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, viewangle, playercolor, point.x, point.y);
     }
     else if (invisibility > STARTFLASHING || (invisibility & 8))
-        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, viewplayer->mo->angle, &playercolor, point.x,
-            point.y);
+        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, viewangle, &playercolor, point.x, point.y);
     else
-        AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, viewplayer->mo->angle, playercolor, point.x,
-            point.y);
+        AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, viewangle, playercolor, point.x, point.y);
 }
 
 #define THINGTRIANGLELINES  3
@@ -1956,7 +1952,7 @@ static void AM_setFrameVariables(void)
 
     if (am_rotatemode)
     {
-        const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
+        const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
         const float     dx = (float)(m_x2 - x);
         const float     dy = (float)(m_y2 - y);
         const fixed_t   r = (fixed_t)sqrt(dx * dx + dy * dy);

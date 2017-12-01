@@ -701,8 +701,6 @@ dboolean ST_Responder(event_t *ev)
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
-                else
-                    P_CheckPosition(viewplayer->mo, viewplayer->mo->x, viewplayer->mo->y);
             }
 
             // 'behold?' power-up cheats
@@ -1148,20 +1146,19 @@ static void ST_updateFaceWidget(void)
             }
             else
             {
-                angle_t badguyangle = R_PointToAngle2(viewplayer->mo->x, viewplayer->mo->y, viewplayer->attacker->x,
-                            viewplayer->attacker->y);
+                angle_t badguyangle = R_PointToAngle2(viewx, viewy, viewplayer->attacker->x, viewplayer->attacker->y);
                 angle_t diffang;
 
-                if (badguyangle > viewplayer->mo->angle)
+                if (badguyangle > viewangle)
                 {
                     // whether right or left
-                    diffang = badguyangle - viewplayer->mo->angle;
+                    diffang = badguyangle - viewangle;
                     i = (diffang > ANG180);
                 }
                 else
                 {
                     // whether left or right
-                    diffang = viewplayer->mo->angle - badguyangle;
+                    diffang = viewangle - badguyangle;
                     i = (diffang <= ANG180);
                 }
 

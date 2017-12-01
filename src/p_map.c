@@ -1765,10 +1765,10 @@ void P_UseLines(void)
 
     usething = viewplayer->mo;
 
-    angle = viewplayer->mo->angle >> ANGLETOFINESHIFT;
+    angle = viewangle >> ANGLETOFINESHIFT;
 
-    x1 = viewplayer->mo->x;
-    y1 = viewplayer->mo->y;
+    x1 = viewx;
+    y1 = viewy;
     x2 = x1 + (USERANGE >> FRACBITS) * finecosine[angle];
     y2 = y1 + (USERANGE >> FRACBITS) * finesine[angle];
 

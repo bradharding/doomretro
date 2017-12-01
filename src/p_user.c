@@ -345,7 +345,7 @@ void P_ResurrectPlayer(int health)
     // spawn a teleport fog
     x = mo->x;
     y = mo->y;
-    angle = viewplayer->mo->angle >> ANGLETOFINESHIFT;
+    angle = viewangle >> ANGLETOFINESHIFT;
     thing = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle], ONFLOORZ, MT_TFOG);
     thing->angle = mo->angle;
     S_StartSound(thing, sfx_telept);

@@ -236,7 +236,6 @@ typedef struct
     degenmobj_t *soundorg;
 } button_t;
 
-// 4 players, 4 buttons each at once, max.
 #define MAXBUTTONS  32
 
 // 1 second, in ticks.

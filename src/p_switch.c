@@ -75,8 +75,7 @@ button_t    buttonlist[MAXBUTTONS];
 void P_InitSwitchList(void)
 {
     int             index = 0;
-    int             episode = (gamemode == registered || gamemode == retail ? 2 :
-                        (gamemode == commercial ? 3 : 1));
+    int             episode = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
     switchlist_t    *alphSwitchList;                        // jff 3/23/98 pointer to switch table
     int             lump = W_GetNumForName("SWITCHES");     // cph - new wad lump handling
 
@@ -210,10 +209,10 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         {
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
-                    return false;       // FloorModel is "Allow Monsters" if FloorChange is 0
+                    return false;                       // FloorModel is "Allow Monsters" if FloorChange is 0
 
-            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
-                return false;                                   // generalized types require tag
+            if (!line->tag && (line->special & 6) != 6) // jff 2/27/98 all non-manual
+                return false;                           // generalized types require tag
 
             linefunc = EV_DoGenFloor;
         }
@@ -221,7 +220,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         {
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                    return false;       // CeilingModel is "Allow Monsters" if CeilingChange is 0
+                    return false;                       // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
             linefunc = EV_DoGenCeiling;
         }
@@ -252,7 +251,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         {
             if (!thing->player)
                 if (!(line->special & LiftMonster))
-                    return false;                               // monsters disallowed
+                    return false;                       // monsters disallowed
 
             linefunc = EV_DoGenLift;
         }
@@ -260,7 +259,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         {
             if (!thing->player)
                 if (!(line->special & StairMonster))
-                    return false;                               // monsters disallowed
+                    return false;                       // monsters disallowed
 
             linefunc = EV_DoGenStairs;
         }
@@ -268,7 +267,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         {
             if (!thing->player)
                 if (!(line->special & CrusherMonster))
-                    return false;                               // monsters disallowed
+                    return false;                       // monsters disallowed
 
             linefunc = EV_DoGenCrusher;
         }
@@ -998,11 +997,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Light_ChangeTo35:
-            if (canmodify && gamemission == doom2 && gamemap == 4)
-                EV_LightTurnOn(line, 0);
-            else
-                EV_LightTurnOn(line, 35);
-
+            EV_LightTurnOn(line, (canmodify && gamemission == doom2 && gamemap == 4 ? 0 : 35));
             P_ChangeSwitchTexture(line, true);
             break;
     }

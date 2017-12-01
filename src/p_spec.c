@@ -310,7 +310,7 @@ void P_SetLiquids(void)
 //
 side_t *getSide(int currentSector, int line, int side)
 {
-    return sides + (sectors[currentSector].lines[line])->sidenum[side];
+    return &sides[(sectors[currentSector].lines[line])->sidenum[side]];
 }
 
 //
