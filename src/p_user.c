@@ -45,7 +45,7 @@
 #include "s_sound.h"
 
 #define DEADLOOKDIR     128
-#define DEADLOOKDIRINC  24
+#define DEADLOOKDIRINC  4
 
 int             deathcount;
 
