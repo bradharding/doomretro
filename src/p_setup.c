@@ -1603,8 +1603,8 @@ static void P_CreateBlockMap(void)
 
         // Now compress the blockmap.
         {
-            int     ndx = tot += 4; // Advance index to start of linedef lists
-            bmap_t  *bp = bmap;     // Start of uncompressed blockmap
+            int     ndx = (tot += 4);   // Advance index to start of linedef lists
+            bmap_t  *bp = bmap;         // Start of uncompressed blockmap
 
             blockmaplump[ndx++] = 0;    // Store an empty blockmap list at start
             blockmaplump[ndx++] = -1;   // (Used for compression)
@@ -2298,7 +2298,7 @@ static void InitMapInfo(void)
     int         mcmdvalue;
     mapinfo_t   *info;
 
-    if (M_ParmExists("-nomapinfo"))
+    if (M_CheckParm("-nomapinfo"))
         return;
 
     if ((RMAPINFO = MAPINFO = W_CheckNumForName(RMAPINFO_SCRIPT_NAME)) < 0)

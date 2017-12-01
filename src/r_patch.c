@@ -273,48 +273,40 @@ static void createPatch(int id)
         }
     }
 
+    // copy the patch image down and to the right where there are
+    // holes to eliminate the black halo from bilinear filtering
+    for (int x = 0; x < patch->width; x++)
     {
-        const rcolumn_t *column;
-        const rcolumn_t *prevColumn;
+        const rcolumn_t *column = R_GetPatchColumnClamped(patch, x);
+        const rcolumn_t *prevColumn = R_GetPatchColumnClamped(patch, x - 1);
 
-        // copy the patch image down and to the right where there are
-        // holes to eliminate the black halo from bilinear filtering
-        for (int x = 0; x < patch->width; x++)
+        if (column->pixels[0] == 0xFF)
         {
-            column = R_GetPatchColumnClamped(patch, x);
-            prevColumn = R_GetPatchColumnClamped(patch, x - 1);
-
-            if (column->pixels[0] == 0xFF)
-            {
-                // force the first pixel (which is a hole), to use
-                // the color from the next solid spot in the column
-                for (int y = 0; y < patch->height; y++)
-                    if (column->pixels[y] != 0xFF)
-                    {
-                        column->pixels[0] = column->pixels[y];
-                        break;
-                    }
-            }
-
-            // copy from above or to the left
-            for (int y = 1; y < patch->height; y++)
-            {
-                if (getIsSolidAtSpot(oldColumn, y))
-                    continue;
-
+            // force the first pixel (which is a hole), to use
+            // the color from the next solid spot in the column
+            for (int y = 0; y < patch->height; y++)
                 if (column->pixels[y] != 0xFF)
-                    continue;
-
-                // this pixel is a hole
-                if (x && prevColumn->pixels[y - 1] != 0xFF)
-                    column->pixels[y] = prevColumn->pixels[y];  // copy the color from the left
-                else
-                    column->pixels[y] = column->pixels[y - 1];  // copy the color from above
-            }
+                {
+                    column->pixels[0] = column->pixels[y];
+                    break;
+                }
         }
 
-        // verify that the patch truly is non-rectangular since
-        // this determines tiling later on
+        // copy from above or to the left
+        for (int y = 1; y < patch->height; y++)
+        {
+            if (getIsSolidAtSpot(oldColumn, y))
+                continue;
+
+            if (column->pixels[y] != 0xFF)
+                continue;
+
+            // this pixel is a hole
+            if (x && prevColumn->pixels[y - 1] != 0xFF)
+                column->pixels[y] = prevColumn->pixels[y];  // copy the color from the left
+            else
+                column->pixels[y] = column->pixels[y - 1];  // copy the color from above
+        }
     }
 
     W_UnlockLumpNum(patchNum);

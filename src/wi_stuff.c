@@ -641,7 +641,7 @@ static int WI_drawNum(int x, int y, int n, int digits)
 
     // draw a minus sign if necessary
     if (neg)
-        V_DrawPatch(x -= 8, y, 0, wiminus);
+        V_DrawPatch((x -= 8), y, 0, wiminus);
 
     return x;
 }

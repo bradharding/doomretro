@@ -1976,8 +1976,7 @@ static void PIT_ChangeSector(mobj_t *thing)
         if (!(flags & MF_NOBLOOD) && thing->blood && (thing->type != MT_PLAYER
             || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood) :
-                           MT_BLOOD);
+            int type = (r_blood == r_blood_all ? ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood) : MT_BLOOD);
             int z = thing->z + thing->height * 2 / 3;
 
             for (int i = 0; i < 4; i++)
@@ -2045,8 +2044,7 @@ dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
 
                 break;                                              // exit and start over
             }
-    }
-    while (n);      // repeat from scratch until all things left are marked valid
+    } while (n);    // repeat from scratch until all things left are marked valid
 
     return nofit;
 }
@@ -2165,6 +2163,7 @@ static msecnode_t *P_DelSecnode(msecnode_t *node)
         P_PutSecnode(node);
         return tn;
     }
+
     return NULL;
 }
 

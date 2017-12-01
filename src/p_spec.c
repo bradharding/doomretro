@@ -348,8 +348,7 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
     // the actual two-sidedness of the line, rather than its 2S flag
     // if (!(line->flags & ML_TWOSIDED))
     //     return NULL;
-    return (line->frontsector == sec ? (line->backsector != sec ? line->backsector : NULL) :
-        line->frontsector);
+    return (line->frontsector == sec ? (line->backsector != sec ? line->backsector : NULL) : line->frontsector);
 }
 
 //
@@ -666,13 +665,16 @@ fixed_t P_FindShortestUpperAround(int secnum)
 // killough 11/98: reformatted
 sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
 {
-    sector_t    *sec = sectors + secnum;
-    const int   linecount = sec->linecount;
+    const int   linecount = sectors[secnum].linecount;
 
     for (int i = 0; i < linecount; i++)
-        if (twoSided(secnum, i) && (sec = getSector(secnum, i, (getSide(secnum, i, 0)->sector->id
-            == secnum)))->floorheight == floordestheight)
-            return sec;
+        if (twoSided(secnum, i))
+        {
+            sector_t    *sec = getSector(secnum, i, (getSide(secnum, i, 0)->sector->id == secnum));
+
+            if (sec->floorheight == floordestheight)
+                return sec;
+        }
 
     return NULL;
 }
@@ -695,13 +697,16 @@ sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
 // killough 11/98: reformatted
 sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
 {
-    sector_t    *sec = sectors + secnum;
-    const int   linecount = sec->linecount;
+    const int   linecount = sectors[secnum].linecount;
 
     for (int i = 0; i < linecount; i++)
-        if (twoSided(secnum, i) && (sec = getSector(secnum, i, (getSide(secnum, i, 0)->sector->id
-            == secnum)))->ceilingheight == ceildestheight)
-            return sec;
+        if (twoSided(secnum, i))
+        {
+            sector_t    *sec = getSector(secnum, i, (getSide(secnum, i, 0)->sector->id == secnum));
+
+            if (sec->ceilingheight == ceildestheight)
+                return sec;
+        }
 
     return NULL;
 }
@@ -714,8 +719,7 @@ sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
 // Rewritten by Lee Killough to use chained hashing to improve speed
 int P_FindSectorFromLineTag(const line_t *line, int start)
 {
-    start = (start >= 0 ? sectors[start].nexttag :
-        sectors[(unsigned int)line->tag % (unsigned int)numsectors].firsttag);
+    start = (start >= 0 ? sectors[start].nexttag : sectors[(unsigned int)line->tag % (unsigned int)numsectors].firsttag);
 
     while (start >= 0 && sectors[start].tag != line->tag)
         start = sectors[start].nexttag;
@@ -726,8 +730,7 @@ int P_FindSectorFromLineTag(const line_t *line, int start)
 // killough 4/16/98: Same thing, only for linedefs
 int P_FindLineFromLineTag(const line_t *line, int start)
 {
-    start = (start >= 0 ? lines[start].nexttag :
-        lines[(unsigned int)line->tag % (unsigned int)numlines].firsttag);
+    start = (start >= 0 ? lines[start].nexttag : lines[(unsigned int)line->tag % (unsigned int)numlines].firsttag);
 
     while (start >= 0 && lines[start].tag != line->tag)
         start = lines[start].nexttag;

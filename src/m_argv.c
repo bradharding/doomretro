@@ -70,8 +70,3 @@ int M_CheckParm(char *check)
 {
     return M_CheckParmWithArgs(check, 0, 1);
 }
-
-dboolean M_ParmExists(char *check)
-{
-    return !!M_CheckParm(check);
-}

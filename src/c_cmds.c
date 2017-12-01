@@ -3923,24 +3923,20 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            const mobj_t        *mo = viewplayer->mo;
-            const fixed_t       x = mo->x;
-            const fixed_t       y = mo->y;
-            const angle_t       angle = mo->angle >> ANGLETOFINESHIFT;
             const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
             const int           flags = mobjinfo[type].flags;
             mapthing_t          mthing;
             mobj_t              *thing;
 
-            mthing.x = (x + 100 * finecosine[angle]) >> FRACBITS;
-            mthing.y = (y + 100 * finesine[angle]) >> FRACBITS;
+            mthing.x = (viewx + 100 * viewcos) >> FRACBITS;
+            mthing.y = (viewy + 100 * viewsin) >> FRACBITS;
             mthing.angle = 0;
             mthing.type = spawncmdtype;
             mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
 
             if ((thing = P_SpawnMapThing(&mthing, 0, false)))
             {
-                thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+                thing->angle = R_PointToAngle2(thing->x, thing->y, viewx, viewy);
 
                 if (flags & MF_COUNTITEM)
                 {
@@ -3974,29 +3970,27 @@ static void teleport_cmd_func2(char *cmd, char *parms)
         if (x != INT_MAX && y != INT_MAX)
         {
             mobj_t          *mo = viewplayer->mo;
-            const fixed_t   oldx = mo->x;
-            const fixed_t   oldy = mo->y;
-            const fixed_t   oldz = mo->z;
+            const fixed_t   oldx = viewx;
+            const fixed_t   oldy = viewy;
+            const fixed_t   oldz = viewz;
 
             x <<= FRACBITS;
             y <<= FRACBITS;
 
             if (P_TeleportMove(mo, x, y, ONFLOORZ, false))
             {
-                const unsigned int  an = mo->angle >> ANGLETOFINESHIFT;
-
                 // spawn teleport fog at source
-                mobj_t              *fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
+                mobj_t  *fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
 
-                fog->angle = mo->angle;
+                fog->angle = viewangle;
                 S_StartSound(fog, sfx_telept);
                 C_HideConsole();
 
                 // spawn teleport fog at destination
                 mo->z = mo->floorz;
                 viewplayer->viewz = mo->z + viewplayer->viewheight;
-                fog = P_SpawnMobj(x + 20 * finecosine[an], y + 20 * finesine[an], mo->z, MT_TFOG);
-                fog->angle = mo->angle;
+                fog = P_SpawnMobj(x + 20 * viewcos, y + 20 * viewsin, ONFLOORZ, MT_TFOG);
+                fog->angle = viewangle;
                 S_StartSound(fog, sfx_telept);
 
                 mo->reactiontime = 18;

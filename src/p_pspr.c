@@ -523,10 +523,10 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         fixed_t slope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
 
         if (!linetarget)
-            slope = P_AimLineAttack(mo, an += 1 << 26, 16 * 64 * FRACUNIT);
+            slope = P_AimLineAttack(mo, (an += 1 << 26), 16 * 64 * FRACUNIT);
 
         if (!linetarget)
-            slope = P_AimLineAttack(mo, an -= 2 << 26, 16 * 64 * FRACUNIT);
+            slope = P_AimLineAttack(mo, (an -= 2 << 26), 16 * 64 * FRACUNIT);
 
         if (!linetarget)
         {
@@ -580,13 +580,11 @@ static void P_BulletSlope(mobj_t *mo)
 
     if (!linetarget)
     {
-        an += 1 << 26;
-        bulletslope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
+        bulletslope = P_AimLineAttack(mo, (an += 1 << 26), 16 * 64 * FRACUNIT);
 
         if (!linetarget)
         {
-            an -= 2 << 26;
-            bulletslope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
+            bulletslope = P_AimLineAttack(mo, (an -= 2 << 26), 16 * 64 * FRACUNIT);
 
             if (!linetarget && usemouselook)
                 bulletslope = ((mo->player->lookdir / MLOOKUNIT) << FRACBITS) / 173;

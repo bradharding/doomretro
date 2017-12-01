@@ -877,7 +877,7 @@ static void C_DrawTimeStamp(int x, int y, unsigned int tics)
     static char buffer[9];
 
     M_StringCopy(buffer, C_GetTimeStamp(tics), 9);
-    y -= (CONSOLEHEIGHT - consoleheight);
+    y -= CONSOLEHEIGHT - consoleheight;
 
     for (int i = 0; i < 8; i++)
     {

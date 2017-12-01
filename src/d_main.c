@@ -647,7 +647,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 
 static void LoadDehFile(char *path)
 {
-    if (!M_ParmExists("-nodeh") && !HasDehackedLump(path))
+    if (!M_CheckParm("-nodeh") && !HasDehackedLump(path))
     {
         char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
 
@@ -1566,7 +1566,7 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    if (chexdeh || M_ParmExists("-nodeh"))
+    if (chexdeh || M_CheckParm("-nodeh"))
         return;
 
     if (hacx)
