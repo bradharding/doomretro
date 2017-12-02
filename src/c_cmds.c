@@ -555,6 +555,8 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(idspispopd, false),
     CMD(if, "", null_func1, if_cmd_func2, true, IFCMDFORMAT,
         "If a <i>CVAR</i> equals a <i>value</i> then execute a string of\n<i>commands</i>."),
+    CVAR_BOOL(infighting, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles infighting among monsters after the player\ndies."),
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,

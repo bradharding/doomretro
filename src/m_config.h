@@ -77,6 +77,7 @@ extern dboolean     gp_swapthumbsticks;
 extern int          gp_vibrate_barrels;
 extern int          gp_vibrate_damage;
 extern int          gp_vibrate_weapons;
+extern dboolean     infighting;
 extern char         *iwadfolder;
 extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
@@ -361,6 +362,8 @@ enum
 #define health_min                              -200
 #define health_default                          100
 #define health_max                              INT_MAX
+
+#define infighting_default                      true
 
 #define iwadfolder_default                      "C:\\"
 

@@ -47,6 +47,8 @@
 #define DEADLOOKDIR     128
 #define DEADLOOKDIRINC  4
 
+dboolean        infighting = infighting_default;
+
 int             deathcount;
 
 extern fixed_t  animatedliquiddiff;
@@ -264,7 +266,7 @@ static void P_DeathThink(void)
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
-    infight = true;
+    infight = infighting;
 
     P_MovePsprites();
 
