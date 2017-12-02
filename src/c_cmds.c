@@ -530,13 +530,8 @@ consolecmd_t consolecmds[] =
         "The amount <i><b>XInput</b></i> gamepads vibrate when the\nplayer fires their weapon (<b>0%</b> to <b>200%</b>)."),
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health."),
-#if defined(_WIN32)
     CMD(help, "", null_func1, help_cmd_func2, false, "",
         "Opens the <i><b>"PACKAGE_NAME" Wiki</b></i>."),
-#else
-    CMD(help, "", null_func1, help_cmd_func2, false, "",
-        "Opens the help screen."),
-#endif
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdl, false),
     CMD_CHEAT(idbeholdi, false),
