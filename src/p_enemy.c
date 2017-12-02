@@ -121,8 +121,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 
     for (int i = 0; i < sec->linecount; i++)
     {
-        sector_t    *other;
-        line_t      *check = sec->lines[i];
+        line_t  *check = sec->lines[i];
 
         if (!(check->flags & ML_TWOSIDED))
             continue;
@@ -132,12 +131,12 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
         if (openrange <= 0)
             continue;   // closed door
 
-        other = sides[check->sidenum[(sides[check->sidenum[0]].sector == sec)]].sector;
-
         if (!(check->flags & ML_SOUNDBLOCK))
-            P_RecursiveSound(other, soundblocks, soundtarget);
+            P_RecursiveSound(sides[check->sidenum[(sides[check->sidenum[0]].sector == sec)]].sector,
+                soundblocks, soundtarget);
         else if (!soundblocks)
-            P_RecursiveSound(other, 1, soundtarget);
+            P_RecursiveSound(sides[check->sidenum[(sides[check->sidenum[0]].sector == sec)]].sector, 1,
+                soundtarget);
     }
 }
 
