@@ -334,8 +334,6 @@ static void P_DeathThink(void)
 //
 void P_ResurrectPlayer(int health)
 {
-    fixed_t x, y;
-    int     angle;
     mobj_t  *mo = viewplayer->mo;
     mobj_t  *thing;
 
@@ -343,19 +341,16 @@ void P_ResurrectPlayer(int health)
     P_RemoveMobj(mo);
 
     // spawn a teleport fog
-    x = mo->x;
-    y = mo->y;
-    angle = viewangle >> ANGLETOFINESHIFT;
-    thing = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle], ONFLOORZ, MT_TFOG);
-    thing->angle = mo->angle;
+    thing = P_SpawnMobj(viewx + 20 * viewcos, viewy + 20 * viewsin, ONFLOORZ, MT_TFOG);
+    thing->angle = viewangle;
     S_StartSound(thing, sfx_telept);
 
     // telefrag anything in this spot
     P_TeleportMove(thing, thing->x, thing->y, thing->z, true);
 
     // respawn the player
-    thing = P_SpawnMobj(x, y, ONFLOORZ, MT_PLAYER);
-    thing->angle = mo->angle;
+    thing = P_SpawnMobj(viewx, viewy, ONFLOORZ, MT_PLAYER);
+    thing->angle = viewangle;
     thing->player = viewplayer;
     thing->health = health;
     thing->reactiontime = 18;

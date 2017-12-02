@@ -77,7 +77,7 @@ extern int          *texturetranslation;
 
 extern byte         **flatfullbright;
 
-// Sprite....
+// Sprite...
 extern int          firstspritelump;
 extern int          lastspritelump;
 
@@ -127,6 +127,7 @@ extern mapformat_t  mapformat;
 
 extern dboolean     boomlinespecials;
 extern dboolean     blockmaprecreated;
+
 //
 // POV data.
 //
