@@ -51,6 +51,11 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
+#define BARRELTICS  (2 * TICRATE)
+#define BARRELRANGE (512 * FRACUNIT)
+
+int barreltics = 0;
+
 typedef enum
 {
     DI_EAST,
@@ -86,10 +91,6 @@ static dirtype_t diags[] =
     DI_SOUTHEAST
 };
 
-#define BARRELTICS  (2 * TICRATE)
-#define BARRELRANGE (512 * FRACUNIT)
-
-int barreltics;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
@@ -252,55 +253,53 @@ static dboolean P_IsOnLift(const mobj_t *actor)
         return true;
 
     // Check to see if it's in a sector which can be activated as a lift.
-    if ((line.tag = sec->tag))
-    {
-        for (int i = -1; (i = P_FindLineFromLineTag(&line, i)) >= 0;)
-            switch (lines[i].special)
-            {
-                case W1_Lift_LowerWaitRaise:
-                case S1_Floor_RaiseBy32_ChangesTexture:
-                case S1_Floor_RaiseBy24_ChangesTexture:
-                case S1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case S1_Lift_LowerWaitRaise:
-                case W1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case W1_Floor_StartMovingUpAndDown:
-                case SR_Lift_LowerWaitRaise:
-                case SR_Floor_RaiseBy24_ChangesTexture:
-                case SR_Floor_RaiseBy32_ChangesTexture:
-                case SR_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case WR_Floor_StartMovingUpAndDown:
-                case WR_Lift_LowerWaitRaise:
-                case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case WR_Lift_LowerWaitRaise_Fast:
-                case W1_Lift_LowerWaitRaise_Fast:
-                case S1_Lift_LowerWaitRaise_Fast:
-                case SR_Lift_LowerWaitRaise_Fast:
-                case W1_Lift_RaiseBy24_ChangesTexture:
-                case W1_Lift_RaiseBy32_ChangesTexture:
-                case WR_Lift_RaiseBy24_ChangesTexture:
-                case WR_Lift_RaiseBy32_ChangesTexture:
-                case S1_Lift_PerpetualLowestAndHighestFloors:
-                case S1_Lift_Stop:
-                case SR_Lift_PerpetualLowestAndHighestFloors:
-                case SR_Lift_Stop:
-                case SR_Lift_RaiseToCeiling_Instantly:
-                case WR_Lift_RaiseToCeiling_Instantly:
-                case W1_Lift_RaiseToNextHighestFloor_Fast:
-                case WR_Lift_RaiseToNextHighestFloor_Fast:
-                case S1_Lift_RaiseToNextHighestFloor_Fast:
-                case SR_Lift_RaiseToNextHighestFloor_Fast:
-                case W1_Lift_LowerToNextLowestFloor_Fast:
-                case WR_Lift_LowerToNextLowestFloor_Fast:
-                case S1_Lift_LowerToNextLowestFloor_Fast:
-                case SR_Lift_LowerToNextLowestFloor_Fast:
-                case W1_Lift_MoveToSameFloorHeight_Fast:
-                case WR_Lift_MoveToSameFloorHeight_Fast:
-                case S1_Lift_MoveToSameFloorHeight_Fast:
-                case SR_Lift_MoveToSameFloorHeight_Fast:
-                    return true;
-            }
-    }
+    line.tag = sec->tag;
+    for (int i = -1; (i = P_FindLineFromLineTag(&line, i)) >= 0;)
+        switch (lines[i].special)
+        {
+            case W1_Lift_LowerWaitRaise:
+            case S1_Floor_RaiseBy32_ChangesTexture:
+            case S1_Floor_RaiseBy24_ChangesTexture:
+            case S1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+            case S1_Lift_LowerWaitRaise:
+            case W1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+            case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+            case W1_Floor_StartMovingUpAndDown:
+            case SR_Lift_LowerWaitRaise:
+            case SR_Floor_RaiseBy24_ChangesTexture:
+            case SR_Floor_RaiseBy32_ChangesTexture:
+            case SR_Floor_RaiseToNextHighestFloor_ChangesTexture:
+            case WR_Floor_StartMovingUpAndDown:
+            case WR_Lift_LowerWaitRaise:
+            case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
+            case WR_Lift_LowerWaitRaise_Fast:
+            case W1_Lift_LowerWaitRaise_Fast:
+            case S1_Lift_LowerWaitRaise_Fast:
+            case SR_Lift_LowerWaitRaise_Fast:
+            case W1_Lift_RaiseBy24_ChangesTexture:
+            case W1_Lift_RaiseBy32_ChangesTexture:
+            case WR_Lift_RaiseBy24_ChangesTexture:
+            case WR_Lift_RaiseBy32_ChangesTexture:
+            case S1_Lift_PerpetualLowestAndHighestFloors:
+            case S1_Lift_Stop:
+            case SR_Lift_PerpetualLowestAndHighestFloors:
+            case SR_Lift_Stop:
+            case SR_Lift_RaiseToCeiling_Instantly:
+            case WR_Lift_RaiseToCeiling_Instantly:
+            case W1_Lift_RaiseToNextHighestFloor_Fast:
+            case WR_Lift_RaiseToNextHighestFloor_Fast:
+            case S1_Lift_RaiseToNextHighestFloor_Fast:
+            case SR_Lift_RaiseToNextHighestFloor_Fast:
+            case W1_Lift_LowerToNextLowestFloor_Fast:
+            case WR_Lift_LowerToNextLowestFloor_Fast:
+            case S1_Lift_LowerToNextLowestFloor_Fast:
+            case SR_Lift_LowerToNextLowestFloor_Fast:
+            case W1_Lift_MoveToSameFloorHeight_Fast:
+            case WR_Lift_MoveToSameFloorHeight_Fast:
+            case S1_Lift_MoveToSameFloorHeight_Fast:
+            case SR_Lift_MoveToSameFloorHeight_Fast:
+                return true;
+        }
 
     return false;
 }
@@ -347,7 +346,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
     fixed_t     deltax, deltay;
     fixed_t     origx, origy;
     dboolean    try_ok;
-    int         movefactor = ORIG_FRICTION_FACTOR;      // killough 10/98
+    int         movefactor;
     int         friction = ORIG_FRICTION;
     int         speed;
 
@@ -360,8 +359,7 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
     speed = actor->info->speed;
 
     if (friction < ORIG_FRICTION        // sludge
-        && !(speed = ((ORIG_FRICTION_FACTOR - (ORIG_FRICTION_FACTOR - movefactor) / 2) * speed)
-            / ORIG_FRICTION_FACTOR))
+        && !(speed = ((ORIG_FRICTION_FACTOR - (ORIG_FRICTION_FACTOR - movefactor) / 2) * speed) / ORIG_FRICTION_FACTOR))
         speed = 1;                      // always give the monster a little bit of speed
 
     tryx = (origx = actor->x) + (deltax = speed * xspeed[actor->movedir]);
@@ -388,13 +386,8 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
 
         if ((actor->flags & MF_FLOAT) && floatok)
         {
-            if (actor->z < tmfloorz)          // must adjust height
-                actor->z += FLOATSPEED;
-            else
-                actor->z -= FLOATSPEED;
-
+            actor->z += (actor->z < tmfloorz ? FLOATSPEED : -FLOATSPEED);   // must adjust height
             actor->flags |= MF_INFLOAT;
-
             return true;
         }
 
@@ -502,8 +495,8 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
 
     memset(&attempts, false, sizeof(attempts));
 
-    d[0] = (deltax >  10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
-    d[1] = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay >  10 * FRACUNIT ? DI_NORTH : DI_NODIR));
+    d[0] = (deltax > 10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
+    d[1] = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay > 10 * FRACUNIT ? DI_NORTH : DI_NODIR));
 
     // try direct route
     if (d[0] != DI_NODIR && d[1] != DI_NODIR)
@@ -725,17 +718,17 @@ static dboolean P_LookForMonsters(mobj_t *actor)
 //
 static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
 {
-    mobj_t      *mo;
-    fixed_t     dist;
+    mobj_t  *mo;
+    fixed_t dist;
 
     if (infight)
         // player is dead, look for monsters
         return P_LookForMonsters(actor);
 
-    mo = viewplayer->mo;
-
     if (viewplayer->cheats & CF_NOTARGET)
         return false;
+
+    mo = viewplayer->mo;
 
     if (viewplayer->health <= 0 || !P_CheckSight(actor, mo))
     {
@@ -750,14 +743,13 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
         return false;
     }
 
-    dist = P_ApproxDistance(mo->x - actor->x, mo->y - actor->y);
+    dist = P_ApproxDistance(viewx - actor->x, viewy - actor->y);
 
     if (!allaround)
     {
-        angle_t an = R_PointToAngle2(actor->x, actor->y, mo->x, mo->y) - actor->angle;
+        angle_t an = R_PointToAngle2(actor->x, actor->y, viewx, viewy) - actor->angle;
 
         if (an > ANG90 && an < ANG270)
-        {
             // if real close, react anyway
             if (dist > MELEERANGE)
             {
@@ -771,7 +763,6 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
 
                 return false;
             }
-        }
     }
 
     if (mo->flags & MF_FUZZ)
@@ -824,9 +815,6 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *targ;
-
-    if (!actor->subsector)
-        return;
 
     actor->threshold = 0;       // any shot will wake up
     targ = actor->subsector->sector->soundtarget;
@@ -887,13 +875,15 @@ seeyou:
 //
 void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    mobj_t  *target = actor->target;
+
     if (actor->reactiontime)
         actor->reactiontime--;
 
     // modify target threshold
     if (actor->threshold)
     {
-        if (!actor->target || actor->target->health <= 0)
+        if (!target || target->health <= 0)
             actor->threshold = 0;
         else
             actor->threshold--;
@@ -910,7 +900,7 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
             actor->angle += ANG90 / 2;
     }
 
-    if (!actor->target || !(actor->target->flags & MF_SHOOTABLE))
+    if (!target || !(target->flags & MF_SHOOTABLE))
     {
         // look for a new target
         if (!P_LookForPlayers(actor, true))
@@ -993,7 +983,6 @@ void A_PosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     A_FaceTarget(actor, NULL, NULL);
-
     S_StartSound(actor, sfx_pistol);
     P_LineAttack(actor, actor->angle + (M_NegRandom() << 20), MISSILERANGE,
         P_AimLineAttack(actor, actor->angle, MISSILERANGE), ((M_Random() % 5) + 1) * 3);
@@ -1005,7 +994,6 @@ void A_SPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     A_FaceTarget(actor, NULL, NULL);
-
     S_StartSound(actor, sfx_shotgn);
 
     for (int i = 0; i < 3; i++)
@@ -1019,7 +1007,6 @@ void A_CPosAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     A_FaceTarget(actor, NULL, NULL);
-
     S_StartSound(actor, sfx_shotgn);
     P_LineAttack(actor, actor->angle + (M_NegRandom() << 20), MISSILERANGE,
         P_AimLineAttack(actor, actor->angle, MISSILERANGE), ((M_Random() % 5) + 1) * 3);
@@ -1223,7 +1210,6 @@ void A_Tracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // change slope
     dist = MAX(1, P_ApproxDistance(dest->x - actor->x, dest->y - actor->y) / speed);
-
     slope = (dest->z + 40 * FRACUNIT - actor->z) / dist;
 
     if (slope < actor->momz)
