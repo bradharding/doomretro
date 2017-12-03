@@ -743,11 +743,11 @@ static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
         return false;
     }
 
-    dist = P_ApproxDistance(viewx - actor->x, viewy - actor->y);
+    dist = P_ApproxDistance(mo->x - actor->x, mo->y - actor->y);
 
     if (!allaround)
     {
-        angle_t an = R_PointToAngle2(actor->x, actor->y, viewx, viewy) - actor->angle;
+        angle_t an = R_PointToAngle2(actor->x, actor->y, mo->x, mo->y) - actor->angle;
 
         if (an > ANG90 && an < ANG270)
             // if real close, react anyway
@@ -1750,7 +1750,10 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     if (r_shake_barrels && actor->type == MT_BARREL)
-        if (viewplayer->mo->z <= viewplayer->mo->floorz && P_ApproxDistance(actor->x - viewx, actor->y - viewy) < BARRELRANGE)
+    {
+        mobj_t  *mo = viewplayer->mo;
+
+        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
         {
             barreltics = BARRELTICS;
 
@@ -1760,6 +1763,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
                 barrelvibrationtics = TICRATE;
             }
         }
+    }
 
     P_RadiusAttack(actor, actor->target, 128);
 }

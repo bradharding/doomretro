@@ -453,7 +453,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch, int volu
         sep = NORM_SEP;
     else if (!S_AdjustSoundParams(mo, origin->x, origin->y, &volume, &sep))
         return;
-    else if (origin->x == viewx && origin->y == viewy)
+    else if (origin->x == mo->x && origin->y == mo->y)
         sep = NORM_SEP;
 
     // kill old sound
