@@ -50,7 +50,7 @@
 // needed for texture pegging
 extern fixed_t      *textureheight;
 
-extern byte         **texturefullbright;
+extern byte         **brightmap;
 extern dboolean     *nobrightmap;
 
 // needed for pre rendering (fracs)
@@ -74,8 +74,6 @@ extern int          firstflat;
 // for global animation
 extern int          *flattranslation;
 extern int          *texturetranslation;
-
-extern byte         **flatfullbright;
 
 // Sprite...
 extern int          firstspritelump;

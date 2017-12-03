@@ -464,7 +464,7 @@ void R_InitColumnFunctions(void)
         fuzzcolfunc = R_DrawFuzzColumn;
         transcolfunc = R_DrawTranslatedColumn;
         wallcolfunc = R_DrawWallColumn;
-        fbwallcolfunc = R_DrawFullbrightWallColumn;
+        bmapwallcolfunc = R_DrawBrightMapWallColumn;
 
         if (r_skycolor != r_skycolor_default)
             skycolfunc = R_DrawSkyColorColumn;
@@ -524,7 +524,7 @@ void R_InitColumnFunctions(void)
         fuzzcolfunc = R_DrawColorColumn;
         transcolfunc = R_DrawColorColumn;
         wallcolfunc = R_DrawColorColumn;
-        fbwallcolfunc = R_DrawColorColumn;
+        bmapwallcolfunc = R_DrawColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? R_DrawColorColumn : R_DrawSkyColorColumn);
         spanfunc = R_DrawColorSpan;
         tlcolfunc = R_DrawColorColumn;

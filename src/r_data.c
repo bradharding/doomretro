@@ -76,7 +76,7 @@ texture_t   **textures;
 
 // needed for texture pegging
 fixed_t     *textureheight;
-byte        **texturefullbright;
+byte        **brightmap;
 dboolean    *nobrightmap;
 
 // for global animation
@@ -174,8 +174,8 @@ static struct
 {
     char    texture[9];
     int     game;
-    byte    *colormask;
-} fullbright[] = {
+    byte    *mask;
+} brightmaps[] = {
     { "COMP2",    DOOM1AND2, notgrayorbrown }, { "COMPSTA1", DOOM1AND2, notgray        },
     { "COMPSTA2", DOOM1AND2, notgray        }, { "COMPUTE1", DOOM1AND2, notgrayorbrown },
     { "COMPUTE2", DOOM1AND2, notgrayorbrown }, { "COMPUTE3", DOOM1AND2, notgrayorbrown },
@@ -374,23 +374,23 @@ static void R_InitTextures(void)
         textures[j]->index = i;
     }
 
-    // [BH] Initialize partially fullbright textures.
-    texturefullbright = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
+    // [BH] Initialize brightmaps
+    brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
     i = 0;
 
-    while (fullbright[i].colormask)
+    while (brightmaps[i].mask)
     {
-        int game = fullbright[i].game;
+        int game = brightmaps[i].game;
 
-        if (fullbright[i].texture[0] != '\0' && (game == DOOM1AND2
+        if (brightmaps[i].texture[0] != '\0' && (game == DOOM1AND2
             || (gamemission == doom && game == DOOM1ONLY) || (gamemission != doom && game == DOOM2ONLY)))
         {
-            int num = R_CheckTextureNumForName(fullbright[i].texture);
+            int num = R_CheckTextureNumForName(brightmaps[i].texture);
 
             if (num != -1)
-                texturefullbright[num] = fullbright[i].colormask;
+                brightmap[num] = brightmaps[i].mask;
         }
 
         i++;

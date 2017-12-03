@@ -61,9 +61,9 @@ static fixed_t      toptexheight;
 static fixed_t      midtexheight;
 static fixed_t      bottomtexheight;
 
-static byte         *toptexfullbright;
-static byte         *midtexfullbright;
-static byte         *bottomtexfullbright;
+static byte         *topbrightmap;
+static byte         *midbrightmap;
+static byte         *bottombrightmap;
 
 angle_t             rw_normalangle;
 static fixed_t      rw_distance;
@@ -387,10 +387,10 @@ static void R_RenderSegLoop(void)
             dc_texheight = midtexheight;
 
             // [BH] apply brightmap
-            if (midtexfullbright)
+            if (midbrightmap)
             {
-                dc_colormask = midtexfullbright;
-                fbwallcolfunc();
+                dc_brightmap = midbrightmap;
+                bmapwallcolfunc();
             }
             else
                 wallcolfunc();
@@ -414,15 +414,14 @@ static void R_RenderSegLoop(void)
                     dc_yl = yl;
                     dc_yh = mid;
                     dc_texturemid = rw_toptexturemid;
-                    dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture),
-                        texturecolumn);
+                    dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
                     dc_texheight = toptexheight;
 
                     // [BH] apply brightmap
-                    if (toptexfullbright)
+                    if (topbrightmap)
                     {
-                        dc_colormask = toptexfullbright;
-                        fbwallcolfunc();
+                        dc_brightmap = topbrightmap;
+                        bmapwallcolfunc();
                     }
                     else
                         wallcolfunc();
@@ -450,15 +449,14 @@ static void R_RenderSegLoop(void)
                     dc_yl = mid;
                     dc_yh = yh;
                     dc_texturemid = rw_bottomtexturemid;
-                    dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture),
-                        texturecolumn);
+                    dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                     dc_texheight = bottomtexheight;
 
                     // [BH] apply brightmap
-                    if (bottomtexfullbright)
+                    if (bottombrightmap)
                     {
-                        dc_colormask = bottomtexfullbright;
-                        fbwallcolfunc();
+                        dc_brightmap = bottombrightmap;
+                        bmapwallcolfunc();
                     }
                     else
                         wallcolfunc();
@@ -646,7 +644,7 @@ void R_StoreWallRange(const int start, const int stop)
         // single sided line
         midtexture = texturetranslation[sidedef->midtexture];
         midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : textureheight[midtexture] >> FRACBITS);
-        midtexfullbright = (usebrightmaps && !nobrightmap[midtexture] ? texturefullbright[midtexture] : NULL);
+        midbrightmap = (usebrightmaps && !nobrightmap[midtexture] ? brightmap[midtexture] : NULL);
         rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight
             + textureheight[midtexture] - viewz : worldtop);
         rw_midtexturemid += FixedMod(sidedef->rowoffset, textureheight[midtexture]);
@@ -743,7 +741,7 @@ void R_StoreWallRange(const int start, const int stop)
             // top texture
             toptexture = texturetranslation[sidedef->toptexture];
             toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : textureheight[toptexture] >> FRACBITS);
-            toptexfullbright = (usebrightmaps && !nobrightmap[toptexture] ? texturefullbright[toptexture] : NULL);
+            topbrightmap = (usebrightmaps && !nobrightmap[toptexture] ? brightmap[toptexture] : NULL);
             rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop :
                 backsector->interpceilingheight + textureheight[toptexture] - viewz);
             rw_toptexturemid += FixedMod(sidedef->rowoffset, textureheight[toptexture]);
@@ -755,8 +753,7 @@ void R_StoreWallRange(const int start, const int stop)
             bottomtexture = texturetranslation[sidedef->bottomtexture];
             bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 :
                 textureheight[bottomtexture] >> FRACBITS);
-            bottomtexfullbright = (usebrightmaps && !nobrightmap[bottomtexture] ?
-                texturefullbright[bottomtexture] : NULL);
+            bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
             rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset);
             rw_bottomtexturemid += FixedMod(sidedef->rowoffset, textureheight[bottomtexture]);
         }
