@@ -347,15 +347,14 @@ void R_DrawBrightMapWallColumn(void)
     const byte          *brightmap = dc_brightmap;
     const lighttable_t  *colormap = dc_colormap;
     const fixed_t       texheight = dc_texheight;
-    byte                dot;
-    byte                bright;
 
     if (texheight == 128)
     {
         while (count--)
         {
-            dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
-            bright = brightmap[dot];
+            byte    dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
+            byte    bright = brightmap[dot];
+
             *dest = (dot & -bright) | (colormap[dot] & -!bright);
             dest += SCREENWIDTH;
             frac += fracstep;
@@ -371,11 +370,13 @@ void R_DrawBrightMapWallColumn(void)
 
             while ((count -= 2) >= 0)
             {
-                dot = source[(frac & heightmask) >> FRACBITS];
-                bright = brightmap[dot];
+                byte    dot = source[(frac & heightmask) >> FRACBITS];
+                byte    bright = brightmap[dot];
+
                 *dest = (dot & -bright) | (colormap[dot] & -!bright);
                 dest += SCREENWIDTH;
                 frac += fracstep;
+
                 dot = source[(frac & heightmask) >> FRACBITS];
                 bright = brightmap[dot];
                 *dest = (dot & -bright) | (colormap[dot] & -!bright);
@@ -385,8 +386,9 @@ void R_DrawBrightMapWallColumn(void)
 
             if (count & 1)
             {
-                dot = source[(frac & heightmask) >> FRACBITS];
-                bright = brightmap[dot];
+                byte    dot = source[(frac & heightmask) >> FRACBITS];
+                byte    bright = brightmap[dot];
+
                 *dest = (dot & -bright) | (colormap[dot] & -!bright);
             }
         }
@@ -403,8 +405,9 @@ void R_DrawBrightMapWallColumn(void)
 
             while (count--)
             {
-                dot = source[frac >> FRACBITS];
-                bright = brightmap[dot];
+                byte    dot = source[frac >> FRACBITS];
+                byte    bright = brightmap[dot];
+
                 *dest = (dot & -bright) | (colormap[dot] & -!bright);
                 dest += SCREENWIDTH;
 

@@ -7,7 +7,7 @@
 * Weapon recoil is now reset when the player teleports or is resurrected.
 * The `freeze` CCMD can now only be used when in a game.
 * The player’s view now tilts upward in time with it lowering to the floor when the player dies and the `mouselook` CVAR is `on` (or a control is bound to the `+mouselook` action).
-* The infighting among monsters after the player dies can now be toggled on or off using the new `infighting` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
+* The infighting among monsters once the player dies can now be toggled on or off using the new `infighting` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 
 ---
 

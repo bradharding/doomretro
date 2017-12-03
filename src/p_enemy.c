@@ -1382,9 +1382,9 @@ void A_VileStart(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Fire(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t          *dest = actor->tracer;
-    mobj_t          *target;
-    unsigned int    an;
+    mobj_t  *dest = actor->tracer;
+    mobj_t  *target;
+    angle_t an;
 
     if (!dest)
         return;
@@ -1448,7 +1448,7 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *fire;
     mobj_t  *target = actor->target;
-    int     an;
+    angle_t an;
 
     if (!target)
         return;
@@ -1467,9 +1467,7 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     an = actor->angle >> ANGLETOFINESHIFT;
 
-    fire = actor->tracer;
-
-    if (!fire)
+    if (!(fire = actor->tracer))
         return;
 
     // move the fire between the vile and the player
@@ -1496,7 +1494,7 @@ void A_FatAttack1(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *target = actor->target;
     mobj_t  *mo;
-    int     an;
+    angle_t an;
 
     if (!target)
         return;
@@ -1518,7 +1516,7 @@ void A_FatAttack2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *target = actor->target;
     mobj_t  *mo;
-    int     an;
+    angle_t an;
 
     if (!target)
         return;
@@ -1540,7 +1538,7 @@ void A_FatAttack3(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *target = actor->target;
     mobj_t  *mo;
-    int     an;
+    angle_t an;
 
     if (!target)
         return;
