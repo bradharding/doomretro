@@ -2145,8 +2145,8 @@ extern dboolean massacre;
 //
 void P_SetupLevel(int ep, int map)
 {
-    char        lumpname[6];
-    int         lumpnum;
+    char    lumpname[6];
+    int     lumpnum;
 
     totalkills = 0;
     totalitems = 0;
@@ -2270,13 +2270,13 @@ void P_SetupLevel(int ep, int map)
     P_SetLiquids();
     P_GetMapLiquids((ep - 1) * 10 + map);
     P_GetMapNoLiquids((ep - 1) * 10 + map);
-
     P_LoadThings(lumpnum + ML_THINGS);
 
     P_InitCards();
 
     // set up world state
     P_SpawnSpecials();
+    P_SetLifts();
 
     P_MapEnd();
 

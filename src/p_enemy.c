@@ -234,77 +234,6 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
 }
 
 //
-// P_IsOnLift
-//
-// killough 9/9/98:
-//
-// Returns true if the object is on a lift. Used for AI,
-// since it may indicate the need for crowded conditions,
-// or that a monster should stay on the lift for a while
-// while it goes up or down.
-//
-static dboolean P_IsOnLift(const mobj_t *actor)
-{
-    const sector_t  *sec = actor->subsector->sector;
-    line_t          line;
-
-    // Short-circuit: it's on a lift which is active.
-    if (sec->floordata && ((thinker_t *)sec->floordata)->function == T_PlatRaise)
-        return true;
-
-    // Check to see if it's in a sector which can be activated as a lift.
-    if ((line.tag = sec->tag))
-        for (int i = -1; (i = P_FindLineFromLineTag(&line, i)) >= 0;)
-            switch (lines[i].special)
-            {
-                case W1_Lift_LowerWaitRaise:
-                case S1_Floor_RaiseBy32_ChangesTexture:
-                case S1_Floor_RaiseBy24_ChangesTexture:
-                case S1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case S1_Lift_LowerWaitRaise:
-                case W1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case W1_Floor_StartMovingUpAndDown:
-                case SR_Lift_LowerWaitRaise:
-                case SR_Floor_RaiseBy24_ChangesTexture:
-                case SR_Floor_RaiseBy32_ChangesTexture:
-                case SR_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case WR_Floor_StartMovingUpAndDown:
-                case WR_Lift_LowerWaitRaise:
-                case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
-                case WR_Lift_LowerWaitRaise_Fast:
-                case W1_Lift_LowerWaitRaise_Fast:
-                case S1_Lift_LowerWaitRaise_Fast:
-                case SR_Lift_LowerWaitRaise_Fast:
-                case W1_Lift_RaiseBy24_ChangesTexture:
-                case W1_Lift_RaiseBy32_ChangesTexture:
-                case WR_Lift_RaiseBy24_ChangesTexture:
-                case WR_Lift_RaiseBy32_ChangesTexture:
-                case S1_Lift_PerpetualLowestAndHighestFloors:
-                case S1_Lift_Stop:
-                case SR_Lift_PerpetualLowestAndHighestFloors:
-                case SR_Lift_Stop:
-                case SR_Lift_RaiseToCeiling_Instantly:
-                case WR_Lift_RaiseToCeiling_Instantly:
-                case W1_Lift_RaiseToNextHighestFloor_Fast:
-                case WR_Lift_RaiseToNextHighestFloor_Fast:
-                case S1_Lift_RaiseToNextHighestFloor_Fast:
-                case SR_Lift_RaiseToNextHighestFloor_Fast:
-                case W1_Lift_LowerToNextLowestFloor_Fast:
-                case WR_Lift_LowerToNextLowestFloor_Fast:
-                case S1_Lift_LowerToNextLowestFloor_Fast:
-                case SR_Lift_LowerToNextLowestFloor_Fast:
-                case W1_Lift_MoveToSameFloorHeight_Fast:
-                case WR_Lift_MoveToSameFloorHeight_Fast:
-                case S1_Lift_MoveToSameFloorHeight_Fast:
-                case SR_Lift_MoveToSameFloorHeight_Fast:
-                    return true;
-            }
-
-    return false;
-}
-
-//
 // P_IsUnderDamage
 //
 // killough 9/9/98:
@@ -440,7 +369,7 @@ static dboolean P_SmartMove(mobj_t *actor)
 
     // killough 9/12/98: stay on a lift if target is on one
     on_lift = (target && target->health > 0
-        && target->subsector->sector->tag == actor->subsector->sector->tag && P_IsOnLift(actor));
+        && target->subsector->sector->tag == actor->subsector->sector->tag && actor->subsector->sector->islift);
 
     under_damage = P_IsUnderDamage(actor);
 
@@ -449,7 +378,7 @@ static dboolean P_SmartMove(mobj_t *actor)
 
     // killough 9/9/98: avoid crushing ceilings or other damaging areas
     if ((on_lift && M_Random() < 230         // stay on lift
-         && !P_IsOnLift(actor))
+         && !actor->subsector->sector->islift)
         || (!under_damage                    // get away from damage
             && (under_damage = P_IsUnderDamage(actor))
             && (under_damage < 0 || M_Random() < 200)))

@@ -1073,6 +1073,8 @@ void P_UnArchiveWorld(void)
             si->midtexture = saveg_read16();
         }
     }
+
+    P_SetLifts();
 }
 
 //

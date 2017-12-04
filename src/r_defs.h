@@ -186,6 +186,7 @@ typedef struct sector_s
     int                 sky;
 
     dboolean            isliquid;
+    dboolean            islift;
 } sector_t;
 
 //
