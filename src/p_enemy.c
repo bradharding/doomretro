@@ -182,9 +182,10 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 static dboolean P_CheckMissileRange(mobj_t *actor)
 {
     fixed_t     dist;
+    mobj_t      *target = actor->target;
     mobjtype_t  type;
 
-    if (!P_CheckSight(actor, actor->target))
+    if (!P_CheckSight(actor, target))
         return false;
 
     if (actor->flags & MF_JUSTHIT)
@@ -197,13 +198,12 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if (actor->reactiontime)
         return false;                   // do not attack yet
 
-    dist = P_ApproxDistance(actor->x - actor->target->x, actor->y - actor->target->y) - 64 * FRACUNIT;
+    dist = P_ApproxDistance(actor->x - target->x, actor->y - target->y) - 64 * FRACUNIT;
 
     if (!actor->info->meleestate)
         dist -= 128 * FRACUNIT;         // no melee attack, so fire more
 
     dist >>= FRACBITS;
-
     type = actor->type;
 
     if (type == MT_VILE)
@@ -344,6 +344,9 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
             if (P_UseSpecialLine(actor, spechit[numspechit], 0))
                 good |= (spechit[numspechit] == blockline ? 1 : 2);
 
+        if (!good)
+            return false;
+
         return (good && ((M_Random() >= 230) ^ (good & 1)));
     }
     else
@@ -364,24 +367,24 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
 static dboolean P_SmartMove(mobj_t *actor)
 {
     mobj_t      *target = actor->target;
-    dboolean    on_lift;
-    int         under_damage;
-
-    // killough 9/12/98: stay on a lift if target is on one
-    on_lift = (target && target->health > 0
-        && target->subsector->sector->tag == actor->subsector->sector->tag && actor->subsector->sector->islift);
-
-    under_damage = P_IsUnderDamage(actor);
+    dboolean    onlift;
+    int         underdamage;
 
     if (!P_Move(actor, false))
         return false;
 
+    // killough 9/12/98: stay on a lift if target is on one
+    onlift = (target && target->health > 0 && target->subsector->sector->tag == actor->subsector->sector->tag
+        && actor->subsector->sector->islift);
+
+    underdamage = P_IsUnderDamage(actor);
+
     // killough 9/9/98: avoid crushing ceilings or other damaging areas
-    if ((on_lift && M_Random() < 230         // stay on lift
+    if ((onlift && M_Random() < 230          // stay on lift
          && !actor->subsector->sector->islift)
-        || (!under_damage                    // get away from damage
-            && (under_damage = P_IsUnderDamage(actor))
-            && (under_damage < 0 || M_Random() < 200)))
+        || (!underdamage                     // get away from damage
+            && (underdamage = P_IsUnderDamage(actor))
+            && (underdamage < 0 || M_Random() < 200)))
         actor->movedir = DI_NODIR;           // avoid the area (most of the time anyway)
 
     return true;
@@ -572,7 +575,7 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
     int xh = ((tmbbox[BOXRIGHT] = actor->x + actor->radius) - bmaporgx) >> MAPBLOCKSHIFT;
     int xl = ((tmbbox[BOXLEFT] = actor->x - actor->radius) - bmaporgx) >> MAPBLOCKSHIFT;
 
-    floorz = actor->z;                                          // remember floor height
+    floorz = actor->z;                                      // remember floor height
     dropoff_deltax = 0;
     dropoff_deltay = 0;
 
@@ -581,9 +584,9 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
-            P_BlockLinesIterator(bx, by, PIT_AvoidDropoff);     // all contacted lines
+            P_BlockLinesIterator(bx, by, PIT_AvoidDropoff); // all contacted lines
 
-    return (dropoff_deltax | dropoff_deltay);                   // Non-zero if movement prescribed
+    return (dropoff_deltax | dropoff_deltay);               // Non-zero if movement prescribed
 }
 
 //
@@ -743,14 +746,13 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *targ;
+    mobj_t  *target = actor->subsector->sector->soundtarget;
 
     actor->threshold = 0;       // any shot will wake up
-    targ = actor->subsector->sector->soundtarget;
 
-    if (targ && (targ->flags & MF_SHOOTABLE))
+    if (target && (target->flags & MF_SHOOTABLE))
     {
-        P_SetTarget(&actor->target, targ);
+        P_SetTarget(&actor->target, target);
 
         if (actor->flags & MF_AMBUSH)
         {
@@ -804,7 +806,8 @@ seeyou:
 //
 void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *target = actor->target;
+    mobj_t      *target = actor->target;
+    mobjinfo_t  *info = actor->info;
 
     if (actor->reactiontime)
         actor->reactiontime--;
@@ -833,7 +836,7 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         // look for a new target
         if (!P_LookForPlayers(actor, true))
-            P_SetMobjState(actor, actor->info->spawnstate);
+            P_SetMobjState(actor, info->spawnstate);    // no new target
 
         return;
     }
@@ -850,22 +853,22 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // check for melee attack
-    if (actor->info->meleestate && P_CheckMeleeRange(actor))
+    if (info->meleestate && P_CheckMeleeRange(actor))
     {
-        if (actor->info->attacksound)
-            S_StartSound(actor, actor->info->attacksound);
+        if (info->attacksound)
+            S_StartSound(actor, info->attacksound);
 
-        P_SetMobjState(actor, actor->info->meleestate);
+        P_SetMobjState(actor, info->meleestate);
 
         // killough 8/98: remember an attack
-        if (!actor->info->missilestate)
+        if (!info->missilestate)
             actor->flags |= MF_JUSTHIT;
 
         return;
     }
 
     // check for missile attack
-    if (actor->info->missilestate)
+    if (info->missilestate)
     {
         if (gameskill < sk_nightmare && !fastparm && actor->movecount)
             goto nomissile;
@@ -873,7 +876,7 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
         if (!P_CheckMissileRange(actor))
             goto nomissile;
 
-        P_SetMobjState(actor, actor->info->missilestate);
+        P_SetMobjState(actor, info->missilestate);
         actor->flags |= MF_JUSTATTACKED;
         return;
     }
@@ -884,8 +887,8 @@ nomissile:
         P_NewChaseDir(actor);
 
     // make active sound
-    if (actor->info->activesound && M_Random() < 3)
-        S_StartSound(actor, actor->info->activesound);
+    if (info->activesound && M_Random() < 3)
+        S_StartSound(actor, info->activesound);
 }
 
 //
@@ -1890,10 +1893,7 @@ void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BrainExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     x = actor->x + M_NegRandom() * 2048;
-    int     y = actor->y;
-    int     z = 128 + M_Random() * 2 * FRACUNIT;
-    mobj_t  *th = P_SpawnMobj(x, y, z, MT_ROCKET);
+    mobj_t  *th = P_SpawnMobj(actor->x + M_NegRandom() * 2048, actor->y, 128 + M_Random() * 2 * FRACUNIT, MT_ROCKET);
 
     th->momz = M_Random() * 512;
     P_SetMobjState(th, S_BRAINEXPLODE1);
