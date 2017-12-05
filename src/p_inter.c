@@ -1378,16 +1378,13 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
                 if (floorpic >= nukagestart && floorpic <= nukageend)
                     liquid = " in nukage";
-                else if (floorpic >= fwaterstart && floorpic <= fwaterend)
-                    liquid = " in water";
-                else if (floorpic >= swaterstart && floorpic <= swaterend)
+                else if ((floorpic >= fwaterstart && floorpic <= fwaterend)
+                    || (floorpic >= swaterstart && floorpic <= swaterend))
                     liquid = " in water";
                 else if (floorpic >= lavastart && floorpic <= lavaend)
                     liquid = " in lava";
                 else if (floorpic >= bloodstart && floorpic <= bloodend)
                     liquid = " in blood";
-                else if (floorpic >= rrockstart && floorpic <= rrockend)
-                    liquid = " on volcanic rocks";
                 else if (floorpic >= slimestart && floorpic <= slimeend)
                     liquid = " in slime";
             }
