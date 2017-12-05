@@ -1333,10 +1333,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 weapontype_t    readyweapon = source->player->readyweapon;
 
                 if (target->player)
-                    C_Obituary("%s %s %s with %s %s%s.", titlecase(playername),
+                    C_Obituary("%s %s %s with %s own %s.", titlecase(playername),
                         (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
-                        (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
                         weapondescription[readyweapon]);
                 else
                     C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
@@ -1393,8 +1392,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     liquid = " in slime";
             }
 
-            C_Obituary("%s %s %s%s.", titlecase(playername),
-                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+            C_Obituary("%s %s %s%s.", titlecase(playername), (gibbed ? "gibbed" : "killed"),
                 (defaultplayername ? "yourself" : "themselves"), liquid);
         }
     }
