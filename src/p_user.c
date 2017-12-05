@@ -44,9 +44,6 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-#define DEADLOOKDIR     128
-#define DEADLOOKDIRINC  4
-
 dboolean        infighting = infighting_default;
 
 int             deathcount;
@@ -281,13 +278,13 @@ static void P_DeathThink(void)
 
         if (canmouselook)
         {
-            if (viewplayer->lookdir > DEADLOOKDIR)
-                viewplayer->lookdir -= DEADLOOKDIRINC;
-            else if (viewplayer->lookdir < DEADLOOKDIR)
-                viewplayer->lookdir += DEADLOOKDIRINC;
+            if (viewplayer->lookdir > 128)
+                viewplayer->lookdir -= viewplayer->viewheight / FRACUNIT;
+            else if (viewplayer->lookdir < 128)
+                viewplayer->lookdir += viewplayer->viewheight / FRACUNIT;
 
-            if (ABS(viewplayer->lookdir - DEADLOOKDIR) < DEADLOOKDIRINC)
-                viewplayer->lookdir = DEADLOOKDIR;
+            if (ABS(viewplayer->lookdir - 128) < viewplayer->viewheight / FRACUNIT)
+                viewplayer->lookdir = 128;
         }
     }
 
