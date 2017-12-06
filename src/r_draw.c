@@ -286,12 +286,14 @@ void R_DrawWallColumn(void)
 
     if (texheight == 128)
     {
-        while (count--)
+        while (--count)
         {
             *dest = colormap[source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
+
+        *dest = colormap[source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
     }
     else
     {
@@ -350,15 +352,21 @@ void R_DrawBrightMapWallColumn(void)
 
     if (texheight == 128)
     {
-        while (count--)
-        {
-            byte    dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
-            byte    bright = brightmap[dot];
+        byte    dot;
+        byte    bright;
 
+        while (--count)
+        {
+            dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
+            bright = brightmap[dot];
             *dest = (dot & -bright) | (colormap[dot] & -!bright);
             dest += SCREENWIDTH;
             frac += fracstep;
         }
+ 
+        dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
+        bright = brightmap[dot];
+        *dest = (dot & -bright) | (colormap[dot] & -!bright);
     }
     else
     {
