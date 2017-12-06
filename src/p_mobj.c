@@ -297,7 +297,7 @@ static void P_XYMovement(mobj_t *mo)
                 if (!mo->bloodsplats)
                     break;
 
-                if (floorz == R_PointInSubsector(x, y)->sector->floorheight)
+                if (R_PointInSubsector(x, y)->sector->floorheight <= floorz)
                     P_SpawnBloodSplat(x + (M_RandomInt(-radius, radius) << FRACBITS),
                         y + (M_RandomInt(-radius, radius) << FRACBITS), blood, floorz, mo);
             }
