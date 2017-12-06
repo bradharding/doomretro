@@ -137,8 +137,6 @@ short           lavastart;
 short           lavaend;
 short           bloodstart;
 short           bloodend;
-short           rrockstart;
-short           rrockend;
 short           slimestart;
 short           slimeend;
 
@@ -292,8 +290,6 @@ void P_SetLiquids(void)
     lavaend = R_CheckFlatNumForName("LAVA4");
     bloodstart = R_CheckFlatNumForName("BLOOD1");
     bloodend = R_CheckFlatNumForName("BLOOD3");
-    rrockstart = R_CheckFlatNumForName("RROCK05");
-    rrockend = R_CheckFlatNumForName("RROCK08");
     slimestart = R_CheckFlatNumForName("SLIME01");
     slimeend = R_CheckFlatNumForName("SLIME12");
 }

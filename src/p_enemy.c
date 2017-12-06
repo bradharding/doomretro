@@ -1936,7 +1936,7 @@ extern dboolean massacre;
 
 void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t      *targ;
+    mobj_t      *target;
     static int  easy;
 
     easy ^= 1;
@@ -1948,17 +1948,17 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // shoot a cube at current target
-    if ((targ = A_NextBrainTarget()))
+    if ((target = A_NextBrainTarget()))
     {
         // spawn brain missile
-        mobj_t  *newmobj = P_SpawnMissile(actor, targ, MT_SPAWNSHOT);
+        mobj_t  *newmobj = P_SpawnMissile(actor, target, MT_SPAWNSHOT);
 
-        P_SetTarget(&newmobj->target, targ);
+        P_SetTarget(&newmobj->target, target);
 
         // Use the reactiontime to hold the distance (squared)
         // from the target after the next move.
-        newmobj->reactiontime = P_ApproxDistance(targ->x - (actor->x + actor->momx),
-            targ->y - (actor->y + actor->momy));
+        newmobj->reactiontime = P_ApproxDistance(target->x - (actor->x + actor->momx),
+            target->y - (actor->y + actor->momy));
 
         // killough 8/29/98: add to appropriate thread
         P_UpdateThinker(&newmobj->thinker);
@@ -1969,15 +1969,15 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *targ = actor->target;
+    mobj_t  *target = actor->target;
 
-    if (targ)
+    if (target)
     {
         int dist;
 
         // Will the next move put the cube closer to
         // the target point than it is now?
-        dist = P_ApproxDistance(targ->x - (actor->x + actor->momx), targ->y - (actor->y + actor->momy));
+        dist = P_ApproxDistance(target->x - (actor->x + actor->momx), target->y - (actor->y + actor->momy));
 
         if ((unsigned int)dist < (unsigned int)actor->reactiontime)
         {
@@ -1993,7 +1993,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
             mobjtype_t  type;
 
             // First spawn teleport fog.
-            fog = P_SpawnMobj(targ->x, targ->y, targ->z, MT_SPAWNFIRE);
+            fog = P_SpawnMobj(target->x, target->y, target->z, MT_SPAWNFIRE);
             S_StartSound(fog, sfx_telept);
 
             // Randomly select monster to spawn.
@@ -2024,7 +2024,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
             else
                 type = MT_BRUISER;
 
-            newmobj = P_SpawnMobj(targ->x, targ->y, targ->z, type);
+            newmobj = P_SpawnMobj(target->x, target->y, target->z, type);
 
             newmobj->flags &= ~MF_COUNTKILL;
 
