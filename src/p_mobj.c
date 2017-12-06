@@ -285,21 +285,20 @@ static void P_XYMovement(mobj_t *mo)
 
         if (blood)
         {
-            int frame = mo->frame & FF_FRAMEMASK;
-            int radius = (spritewidth[sprites[mo->sprite].spriteframes[frame].lump[0]] >> FRACBITS) >> 1;
+            int radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
             int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
-            int x = mo->x;
-            int y = mo->y;
             int floorz = mo->floorz;
 
-            for (int i = 0; i < max; i++)
+            for (int i = 0, x, y; i < max; i++)
             {
                 if (!mo->bloodsplats)
                     break;
 
+                x = mo->x + (M_RandomInt(-radius, radius) << FRACBITS);
+                y = mo->y + (M_RandomInt(-radius, radius) << FRACBITS);
+
                 if (R_PointInSubsector(x, y)->sector->floorheight <= floorz)
-                    P_SpawnBloodSplat(x + (M_RandomInt(-radius, radius) << FRACBITS),
-                        y + (M_RandomInt(-radius, radius) << FRACBITS), blood, floorz, mo);
+                    P_SpawnBloodSplat(x, y, blood, floorz, mo);
             }
         }
     }
