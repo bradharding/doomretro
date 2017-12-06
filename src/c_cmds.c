@@ -2179,6 +2179,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
         if (viewplayer->fixedcolormap == INVERSECOLORMAP)
             viewplayer->fixedcolormap = 0;
 
+        viewplayer->mo->flags2 |= MF2_MASSACRE;
         P_KillMobj(viewplayer->mo, NULL, viewplayer->mo);
         M_snprintf(buffer, sizeof(buffer), "%s killed %s.", playername,
             (M_StringCompare(playername, "you") ? "yourself" : "themselves"));

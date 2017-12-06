@@ -1312,7 +1312,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     if (chex)
         return;
 
-    if (con_obituaries && !hacx)
+    if (con_obituaries && !hacx && !(target->flags2 & MF2_MASSACRE))
     {
         char        *name = (*info->name1 ? info->name1 : "monster");
         dboolean    defaultplayername = M_StringCompare(playername, playername_default);
