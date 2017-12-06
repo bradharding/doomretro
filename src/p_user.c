@@ -46,7 +46,8 @@
 
 dboolean        infighting = infighting_default;
 
-int             deathcount;
+int             deathcount = 0;
+int             deadlookdir = -1;
 
 extern fixed_t  animatedliquiddiff;
 extern dboolean canmouselook;
@@ -270,20 +271,25 @@ static void P_DeathThink(void)
     // fall to the ground
     if ((onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))))
     {
-        if (viewplayer->viewheight > 6 * FRACUNIT)
+        if (deadlookdir == -1)
+            deadlookdir = viewplayer->lookdir;
+
+        if (viewplayer->viewheight > DEADVIEWHEIGHT)
             viewplayer->viewheight -= FRACUNIT;
 
-        if (viewplayer->viewheight < 6 * FRACUNIT)
-            viewplayer->viewheight = 6 * FRACUNIT;
+        if (viewplayer->viewheight < DEADVIEWHEIGHT)
+            viewplayer->viewheight = DEADVIEWHEIGHT;
 
-        if (canmouselook)
+        if (canmouselook && deadlookdir)
         {
-            if (viewplayer->lookdir > 128)
-                viewplayer->lookdir -= viewplayer->viewheight / FRACUNIT;
-            else if (viewplayer->lookdir < 128)
-                viewplayer->lookdir += viewplayer->viewheight / FRACUNIT;
+            int inc = ABS(128 - deadlookdir) / ((VIEWHEIGHT - DEADVIEWHEIGHT) >> FRACBITS);
 
-            if (ABS(viewplayer->lookdir - 128) < viewplayer->viewheight / FRACUNIT)
+            if (viewplayer->lookdir > 128)
+                viewplayer->lookdir -= inc;
+            else if (viewplayer->lookdir < 128)
+                viewplayer->lookdir += inc;
+
+            if (ABS(viewplayer->lookdir - 128) < inc)
                 viewplayer->lookdir = 128;
         }
     }

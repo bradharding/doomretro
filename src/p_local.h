@@ -47,6 +47,7 @@
 #define FLOATSPEED          (FRACUNIT * 4)
 
 #define VIEWHEIGHT          (41 * FRACUNIT)
+#define DEADVIEWHEIGHT      (6 * FRACUNIT)
 
 // mapblocks are used to check movement
 // against lines and things
