@@ -349,7 +349,7 @@ static vissprite_t *R_NewVisSprite(void)
 }
 
 //
-// R_BlastMaskedColumn
+// R_BlastSpriteColumn
 //
 int     *mfloorclip;
 int     *mceilingclip;
@@ -358,7 +358,7 @@ fixed_t spryscale;
 int64_t sprtopscreen;
 int     fuzzpos;
 
-static void R_BlastMaskedColumn(const rcolumn_t *column)
+static void R_BlastSpriteColumn(const rcolumn_t *column)
 {
     int count = column->numposts;
 
@@ -537,7 +537,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
-        R_BlastMaskedColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
+        R_BlastSpriteColumn(R_GetPatchColumnClamped(patch, frac >> FRACBITS));
 
     R_UnlockPatchNum(id);
 }
@@ -750,8 +750,7 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && !heightsec
-        && r_liquid_clipsprites)
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && !heightsec && r_liquid_clipsprites)
     {
         fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
 
@@ -770,22 +769,34 @@ static void R_ProjectSprite(mobj_t *thing)
 
     if (flip)
     {
-        vis->startfrac = width - 1;
         vis->xiscale = -FixedDiv(FRACUNIT, xscale);
-    }
-    else
-    {
-        vis->startfrac = 0;
-        vis->xiscale = FixedDiv(FRACUNIT, xscale);
-    }
 
-    if (x1 < 0)
-    {
-        vis->x1 = 0;
-        vis->startfrac -= vis->xiscale * x1;
+        if (x1 < 0)
+        {
+            vis->x1 = 0;
+            vis->startfrac = width - 1 - vis->xiscale * x1;
+        }
+        else
+        {
+            vis->x1 = x1;
+            vis->startfrac = width - 1;
+        }
     }
     else
-        vis->x1 = x1;
+    {
+        vis->xiscale = FixedDiv(FRACUNIT, xscale);
+
+        if (x1 < 0)
+        {
+            vis->x1 = 0;
+            vis->startfrac = -vis->xiscale * x1;
+        }
+        else
+        {
+            vis->x1 = x1;
+            vis->startfrac = 0;
+        }
+    }
 
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->patch = lump;

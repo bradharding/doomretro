@@ -394,14 +394,14 @@ static void P_ZMovement(mobj_t *mo)
     // clip movement
     if (mo->z <= mo->floorz)
     {
-        // [BH] remove blood the moment it hits the ground
-        //  and spawn a blood splat in its place
+        // [BH] remove blood the moment it hits the ground and spawn a blood splat in its place
         if ((mo->flags2 & MF2_BLOOD) && mo->blood)
         {
+            P_RemoveMobj(mo);
+
             if (r_bloodsplats_max)
                 P_SpawnBloodSplat(mo->x, mo->y, mo->blood, mo->floorz, NULL);
 
-            P_RemoveMobj(mo);
             return;
         }
 
@@ -628,13 +628,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         // you can cycle through multiple states in a tic
         if (!--mobj->tics)
-        {
-            // [WDJ] This would segfault if mobj had been removed.
-            if (mobj->state == &states[S_NULL])
-                return;
-
             P_SetMobjState(mobj, mobj->state->nextstate);
-        }
     }
     else
     {

@@ -44,7 +44,7 @@
 
 #define FOOTCLIPSIZE        (10 * FRACUNIT)
 
-#define FLOATSPEED          (FRACUNIT * 4)
+#define FLOATSPEED          (4 * FRACUNIT)
 
 #define VIEWHEIGHT          (41 * FRACUNIT)
 #define DEADVIEWHEIGHT      (6 * FRACUNIT)
