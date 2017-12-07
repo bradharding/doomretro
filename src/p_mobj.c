@@ -1262,24 +1262,17 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
         if (!sec->isliquid && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
+            int             patch = firstbloodsplatlump + (M_Random() & 7);
 
-            splat->frame = firstbloodsplatlump + (M_Random() & 7);
-            splat->flags = M_Random() & BSF_MIRRORED;
-
-            if (blood == FUZZYBLOOD)
-            {
-                splat->flags |= BSF_FUZZ;
-                splat->colfunc = fuzzcolfunc;
-            }
-            else
-                splat->colfunc = bloodsplatcolfunc;
-
+            splat->patch = patch;
+            splat->flip = M_Random() & 1;
+            splat->colfunc = (blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
             splat->blood = blood;
             splat->x = x;
             splat->y = y;
+            splat->width = spritewidth[patch];
             splat->sector = sec;
             P_SetBloodSplatPosition(splat);
-
             r_bloodsplats_total++;
 
             if (target && target->bloodsplats)
@@ -1318,8 +1311,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     int     dist;
     int     speed;
 
-    if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec
-        && r_liquid_clipsprites)
+    if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec && r_liquid_clipsprites)
         z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(source->x, source->y, z, type);
@@ -1364,14 +1356,10 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     if (!linetarget)
     {
-        an += 1 << 26;
-        slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
+        slope = P_AimLineAttack(source, (an += 1 << 26), 16 * 64 * FRACUNIT);
 
         if (!linetarget)
-        {
-            an -= 2 << 26;
-            slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
-        }
+            slope = P_AimLineAttack(source, (an -= 2 << 26), 16 * 64 * FRACUNIT);
 
         if (!linetarget)
         {
@@ -1384,8 +1372,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     y = source->y;
     z = source->z + 4 * 8 * FRACUNIT;
 
-    if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec
-        && r_liquid_lowerview)
+    if ((source->flags2 & MF2_FEETARECLIPPED) && !source->subsector->sector->heightsec && r_liquid_lowerview)
         z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(x, y, z, type);
@@ -1420,40 +1407,7 @@ void P_InitExtraMobjs(void)
 {
     for (int i = MT_EXTRA00; i <= MT_EXTRA99; i++)
     {
+        memset(&mobjinfo[i], 0, sizeof(mobjinfo_t));
         mobjinfo[i].doomednum = -1;
-        mobjinfo[i].spawnstate = S_NULL;
-        mobjinfo[i].spawnhealth = 0;
-        mobjinfo[i].gibhealth = 0;
-        mobjinfo[i].seestate = S_NULL;
-        mobjinfo[i].seesound = sfx_None;
-        mobjinfo[i].reactiontime = 0;
-        mobjinfo[i].attacksound = sfx_None;
-        mobjinfo[i].painstate = S_NULL;
-        mobjinfo[i].painchance = 0;
-        mobjinfo[i].painsound = sfx_None;
-        mobjinfo[i].meleestate = S_NULL;
-        mobjinfo[i].missilestate = S_NULL;
-        mobjinfo[i].deathstate = S_NULL;
-        mobjinfo[i].xdeathstate = S_NULL;
-        mobjinfo[i].deathsound = sfx_None;
-        mobjinfo[i].speed = 0;
-        mobjinfo[i].radius = 0;
-        mobjinfo[i].pickupradius = 0;
-        mobjinfo[i].height = 0;
-        mobjinfo[i].projectilepassheight = 0;
-        mobjinfo[i].mass = 0;
-        mobjinfo[i].damage = 0;
-        mobjinfo[i].activesound = sfx_None;
-        mobjinfo[i].flags = 0;
-        mobjinfo[i].flags2 = 0;
-        mobjinfo[i].raisestate = S_NULL;
-        mobjinfo[i].frames = 0;
-        mobjinfo[i].fullbright = false;
-        mobjinfo[i].blood = 0;
-        mobjinfo[i].shadowoffset = 0;
-        mobjinfo[i].name1[0] = '\0';
-        mobjinfo[i].plural1[0] = '\0';
-        mobjinfo[i].name2[0] = '\0';
-        mobjinfo[i].plural2[0] = '\0';
     }
 }

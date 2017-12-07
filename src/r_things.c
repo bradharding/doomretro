@@ -816,9 +816,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     fixed_t                 xscale;
     int                     x1;
     int                     x2;
-    int                     lump;
     bloodsplatvissprite_t   *vis;
-    int                     flags;
     fixed_t                 fx = splat->x;
     fixed_t                 fy = splat->y;
     fixed_t                 width;
@@ -839,10 +837,8 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if (ABS(tx) > (tz << 2))
         return;
 
-    lump = splat->frame;
-
     // calculate edges of the shape
-    width = spritewidth[lump];
+    width = splat->width;
     tx -= (width >> 1);
 
     // off the right side?
@@ -864,32 +860,42 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->gx = fx;
     vis->gy = fy;
     vis->blood = splat->blood;
-    flags = splat->flags;
-    vis->colfunc = ((flags & BSF_FUZZ) && pausesprites && r_textures ? R_DrawPausedFuzzColumn :
-        splat->colfunc);
+    vis->colfunc = (pausesprites && r_textures && splat->colfunc == fuzzcolfunc ? R_DrawPausedFuzzColumn : splat->colfunc);
     vis->texturemid = floorheight + FRACUNIT - viewz;
 
-    if (flags & BSF_MIRRORED)
+    if (splat->flip)
     {
-        vis->startfrac = width - 1;
         vis->xiscale = -FixedDiv(FRACUNIT, xscale);
-    }
-    else
-    {
-        vis->startfrac = 0;
-        vis->xiscale = FixedDiv(FRACUNIT, xscale);
-    }
 
-    if (x1 < 0)
-    {
-        vis->x1 = 0;
-        vis->startfrac -= vis->xiscale * x1;
+        if (x1 < 0)
+        {
+            vis->x1 = 0;
+            vis->startfrac = width - 1 - vis->xiscale * x1;
+        }
+        else
+        {
+            vis->x1 = x1;
+            vis->startfrac = width - 1;
+        }
     }
     else
-        vis->x1 = x1;
+    {
+        vis->xiscale = FixedDiv(FRACUNIT, xscale);
+
+        if (x1 < 0)
+        {
+            vis->x1 = 0;
+            vis->startfrac = -vis->xiscale * x1;
+        }
+        else
+        {
+            vis->x1 = x1;
+            vis->startfrac = 0;
+        }
+    }
 
     vis->x2 = MIN(x2, viewwidth - 1);
-    vis->patch = lump;
+    vis->patch = splat->patch;
 
     // get light level
     if (fixedcolormap)
