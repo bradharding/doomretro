@@ -4568,7 +4568,7 @@ static void gp_swapthumbsticks_cvar_func2(char *cmd, char *parms)
     bool_cvars_func2(cmd, parms);
 
     if (gp_swapthumbsticks != gp_swapthumbsticks_old)
-        I_SetGamepadThumbSticks(gp_swapthumbsticks);
+        I_SetGamepadThumbSticks();
 }
 
 //
