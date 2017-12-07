@@ -177,8 +177,7 @@ void S_Init(void)
 
     if (M_CheckParm("-nosfx"))
     {
-        C_Output("A <b>-nosfx</b> parameter was found on the command-line. Sound effects have been "
-            "disabled.");
+        C_Output("A <b>-nosfx</b> parameter was found on the command-line. Sound effects have been disabled.");
         nosfx = true;
     }
 

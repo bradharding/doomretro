@@ -2120,7 +2120,6 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
     mobjtype_t  type = (mobjtype_t)actor->state->misc1;
 
     if (type--)
-    {
         // If we're in massacre mode then don't spawn anything killable.
         if (!(actor->flags2 & MF2_MASSACRE) || !(mobjinfo[type].flags & MF_COUNTKILL))
         {
@@ -2132,7 +2131,6 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
                 monstercount[type]++;
             }
         }
-    }
 }
 
 void A_Turn(mobj_t *actor, player_t *player, pspdef_t *psp)
