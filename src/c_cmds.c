@@ -4628,7 +4628,8 @@ dboolean P_CheckAmmo(void);
 
 static dboolean player_cvars_func1(char *cmd, char *parms)
 {
-    return (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL);
+    return (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL && (!M_StringCompare(cmd, stringize(health))
+        || (!(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])));
 }
 
 static void player_cvars_func2(char *cmd, char *parms)
@@ -4689,38 +4690,31 @@ static void player_cvars_func2(char *cmd, char *parms)
         if (*parms)
         {
             sscanf(parms, "%10i", &value);
+            value = BETWEEN(health_min, value, maxhealth);
 
-            if (!(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
+            if (viewplayer->health <= 0)
             {
-                if (!viewplayer->mo)
-                    return;
-
-                value = BETWEEN(health_min, value, maxhealth);
-
-                if (viewplayer->health <= 0)
+                if (value <= 0)
                 {
-                    if (value <= 0)
-                    {
-                        viewplayer->health = value;
-                        viewplayer->mo->health = value;
-                    }
-                    else
-                        P_ResurrectPlayer(value);
+                    viewplayer->health = value;
+                    viewplayer->mo->health = value;
                 }
                 else
+                    P_ResurrectPlayer(value);
+            }
+            else
+            {
+                if (value < viewplayer->health)
+                    P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - value, false);
+                else
                 {
-                    if (value < viewplayer->health)
-                        P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - value, false);
-                    else
-                    {
-                        viewplayer->health = value;
-                        viewplayer->mo->health = value;
-                        P_AddBonus();
-                        S_StartSound(NULL, sfx_getpow);
-                    }
-
-                    C_HideConsole();
+                    viewplayer->health = value;
+                    viewplayer->mo->health = value;
+                    P_AddBonus();
+                    S_StartSound(NULL, sfx_getpow);
                 }
+
+                C_HideConsole();
             }
         }
         else
