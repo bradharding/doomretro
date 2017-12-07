@@ -107,5 +107,6 @@ void (*gamepadfunc)(void);
 void I_SetGamepadSensitivity(int value);
 void I_SetGamepadLeftDeadZone(float value);
 void I_SetGamepadRightDeadZone(float value);
+void I_SetGamepadThumbSticks(void);
 
 #endif

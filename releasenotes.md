@@ -1,5 +1,7 @@
 ### DOOM Retro v2.6.2
 
+* The effects of changing the `gp_swapthumbsticks` CVAR are now immediate.
+
 ---
 
 ###### Thursday, December 7, 2017

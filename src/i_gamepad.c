@@ -94,11 +94,15 @@ static HMODULE      pXInputDLL;
 
 static void (*gamepadthumbsfunc)(short, short, short, short);
 
+void I_SetGamepadThumbSticks(void)
+{
+    gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded : I_PollThumbs_DirectInput_RightHanded);
+}
+
 void I_InitGamepad(void)
 {
     gamepadfunc = I_PollDirectInputGamepad;
-    gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
-        I_PollThumbs_DirectInput_RightHanded);
+    I_SetGamepadThumbSticks();
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
         C_Warning("Gamepad support couldn't be initialized.");
