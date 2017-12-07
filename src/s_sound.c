@@ -181,6 +181,10 @@ void S_Init(void)
         nosfx = true;
     }
 
+#if defined(WIN32)
+    putenv("SDL_AUDIODRIVER=DirectSound");
+#endif
+
     if (!nosfx)
     {
         InitSfxModule();
