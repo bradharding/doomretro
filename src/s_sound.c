@@ -134,8 +134,9 @@ static void InitSfxModule(void)
 {
     if (I_InitSound())
     {
-        C_Output("Sound effects will play at a sample rate of %.1fkHz on %i channels.", SAMPLERATE / 1000.0f,
-            s_channels);
+        C_Output("Sound effects will play at a sample rate of %.1fkHz on %i channels%s.", SAMPLERATE / 1000.0f,
+            s_channels, (M_StringCompare(SDL_GetCurrentAudioDriver(), "directsound") ?
+            " using the <i><b>DirectSound</b></i> API" : ""));
         return;
     }
 
