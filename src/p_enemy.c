@@ -122,21 +122,22 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 
     for (int i = 0; i < sec->linecount; i++)
     {
-        line_t  *check = sec->lines[i];
+        line_t  *line = sec->lines[i];
+        int     flags = line->flags;
 
-        if (!(check->flags & ML_TWOSIDED))
+        if (!(flags & ML_TWOSIDED))
             continue;
 
-        P_LineOpening(check);
+        P_LineOpening(line);
 
         if (openrange <= 0)
             continue;   // closed door
 
-        if (!(check->flags & ML_SOUNDBLOCK))
-            P_RecursiveSound(sides[check->sidenum[(sides[check->sidenum[0]].sector == sec)]].sector,
-                soundblocks, soundtarget);
+        if (!(flags & ML_SOUNDBLOCK))
+            P_RecursiveSound(sides[line->sidenum[(sides[line->sidenum[0]].sector == sec)]].sector, soundblocks,
+                soundtarget);
         else if (!soundblocks)
-            P_RecursiveSound(sides[check->sidenum[(sides[check->sidenum[0]].sector == sec)]].sector, 1,
+            P_RecursiveSound(sides[line->sidenum[(sides[line->sidenum[0]].sector == sec)]].sector, 1,
                 soundtarget);
     }
 }
@@ -146,14 +147,14 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 // If a monster yells at a player,
 // it will alert other monsters to the player.
 //
-void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
+void P_NoiseAlert(mobj_t *target)
 {
     // [BH] don't alert if notarget is enabled
-    if (target && target->player && (viewplayer->cheats & CF_NOTARGET))
+    if (target->player && (viewplayer->cheats & CF_NOTARGET))
         return;
 
     validcount++;
-    P_RecursiveSound(emmiter->subsector->sector, 0, target);
+    P_RecursiveSound(target->subsector->sector, 0, target);
 }
 
 //

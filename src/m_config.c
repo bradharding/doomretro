@@ -553,15 +553,15 @@ static void M_CheckCVARs(void)
         facebackcolor = facebackcolor_default;
 
     gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
-    I_SetGamepadLeftDeadZone(gp_deadzone_left);
+    I_SetGamepadLeftDeadZone();
     gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
-    I_SetGamepadRightDeadZone(gp_deadzone_right);
+    I_SetGamepadRightDeadZone();
 
     if (gp_invertyaxis != false && gp_invertyaxis != true)
         gp_invertyaxis = gp_invertyaxis_default;
 
     gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
-    I_SetGamepadSensitivity(gp_sensitivity);
+    I_SetGamepadSensitivity();
 
     if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
         gp_swapthumbsticks = gp_swapthumbsticks_default;

@@ -94,11 +94,6 @@ static HMODULE      pXInputDLL;
 
 static void (*gamepadthumbsfunc)(short, short, short, short);
 
-void I_SetGamepadThumbSticks(void)
-{
-    gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded : I_PollThumbs_DirectInput_RightHanded);
-}
-
 void I_InitGamepad(void)
 {
     gamepadfunc = I_PollDirectInputGamepad;
@@ -368,18 +363,24 @@ void I_PollXInputGamepad(void)
 #endif
 }
 
-void I_SetGamepadSensitivity(int value)
+void I_SetGamepadSensitivity(void)
 {
-    gamepadsensitivity = (!value ? 0.0f : GP_SENSITIVITY_OFFSET
-        + GP_SENSITIVITY_FACTOR * value / gp_sensitivity_max);
+    gamepadsensitivity = (!gp_sensitivity ? 0.0f :
+        GP_SENSITIVITY_OFFSET + GP_SENSITIVITY_FACTOR * gp_sensitivity / gp_sensitivity_max);
 }
 
-void I_SetGamepadLeftDeadZone(float value)
+void I_SetGamepadLeftDeadZone(void)
 {
-    gamepadleftdeadzone = (short)(value * SHRT_MAX / 100.0f);
+    gamepadleftdeadzone = (short)(gp_deadzone_left * SHRT_MAX / 100.0f);
 }
 
-void I_SetGamepadRightDeadZone(float value)
+void I_SetGamepadRightDeadZone(void)
 {
-    gamepadrightdeadzone = (short)(value * SHRT_MAX / 100.0f);
+    gamepadrightdeadzone = (short)(gp_deadzone_right * SHRT_MAX / 100.0f);
+}
+
+void I_SetGamepadThumbSticks(void)
+{
+    gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
+        I_PollThumbs_DirectInput_RightHanded);
 }

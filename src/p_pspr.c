@@ -424,7 +424,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (linetarget || hitwall)
     {
-        P_NoiseAlert(player->mo, player->mo);
+        P_NoiseAlert(player->mo);
         S_StartSound(actor, sfx_punch);
 
         // turn to face target
@@ -447,7 +447,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     A_Recoil(wp_chainsaw);
 
-    P_NoiseAlert(player->mo, player->mo);
+    P_NoiseAlert(player->mo);
 
     if (!linetarget)
     {
@@ -611,7 +611,7 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
 //
 void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_NoiseAlert(player->mo, player->mo);
+    P_NoiseAlert(player->mo);
 
     S_StartSound(actor, sfx_pistol);
 
@@ -645,7 +645,7 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_NoiseAlert(player->mo, player->mo);
+    P_NoiseAlert(player->mo);
 
     S_StartSound(actor, sfx_shotgn);
     P_SetMobjState(actor, S_PLAY_ATK2);
@@ -682,7 +682,7 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_NoiseAlert(player->mo, player->mo);
+    P_NoiseAlert(player->mo);
 
     S_StartSound(actor, sfx_dshtgn);
     P_SetMobjState(actor, S_PLAY_ATK2);
@@ -742,7 +742,7 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!player->ammo[weaponinfo[player->readyweapon].ammo])
         return;
 
-    P_NoiseAlert(player->mo, player->mo);
+    P_NoiseAlert(player->mo);
     S_StartSound(actor, sfx_pistol);
 
     P_SetMobjState(actor, S_PLAY_ATK2);
@@ -795,7 +795,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
     mobj_t  *mo = actor->target;
 
     if (mo->player)
-        P_NoiseAlert(mo->player->mo, mo->player->mo);
+        P_NoiseAlert(mo->player->mo);
 
     // offset angles from its attack angle
     for (int i = 0; i < 40; i++)

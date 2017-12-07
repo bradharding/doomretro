@@ -104,9 +104,9 @@ void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY);
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY);
 void XInputVibration(int motorspeed);
 void (*gamepadfunc)(void);
-void I_SetGamepadSensitivity(int value);
-void I_SetGamepadLeftDeadZone(float value);
-void I_SetGamepadRightDeadZone(float value);
+void I_SetGamepadSensitivity(void);
+void I_SetGamepadLeftDeadZone(void);
+void I_SetGamepadRightDeadZone(void);
 void I_SetGamepadThumbSticks(void);
 
 #endif

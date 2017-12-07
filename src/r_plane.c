@@ -104,16 +104,17 @@ static void R_MapPlane(int y, int x1, int x2)
     static fixed_t  cachedxstep[SCREENHEIGHT];
     static fixed_t  cachedystep[SCREENHEIGHT];
     fixed_t         distance;
-    int             dx, dy;
+    int             dx;
 
     if (y == centery)
         return;
 
     if (planeheight != cachedheight[y])
     {
+        int dy = ABS(centery - y);
+
         cachedheight[y] = planeheight;
         distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
-        dy = ABS(centery - y);
         ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
         ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
     }

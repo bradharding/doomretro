@@ -1995,7 +1995,7 @@ static void M_ChangeSensitivity(int choice)
                         gp_sensitivity++;
 
                     gp_sensitivity -= 2;
-                    I_SetGamepadSensitivity(gp_sensitivity);
+                    I_SetGamepadSensitivity();
                     C_IntCVAROutput(stringize(gp_sensitivity), gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
@@ -2010,7 +2010,7 @@ static void M_ChangeSensitivity(int choice)
                         gp_sensitivity--;
 
                     gp_sensitivity += 2;
-                    I_SetGamepadSensitivity(gp_sensitivity);
+                    I_SetGamepadSensitivity();
                     C_IntCVAROutput(stringize(gp_sensitivity), gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();

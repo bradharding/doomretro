@@ -4516,14 +4516,14 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
             if (gp_deadzone_left != value)
             {
                 gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
-                I_SetGamepadLeftDeadZone(gp_deadzone_left);
+                I_SetGamepadLeftDeadZone();
                 M_SaveCVARs();
             }
         }
         else if (gp_deadzone_right != value)
         {
             gp_deadzone_right = BETWEENF(gp_deadzone_right_min, value, gp_deadzone_right_max);
-            I_SetGamepadRightDeadZone(gp_deadzone_right);
+            I_SetGamepadRightDeadZone();
             M_SaveCVARs();
         }
     }
@@ -4558,7 +4558,7 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (gp_sensitivity != gp_sensitivity_old)
-        I_SetGamepadSensitivity(gp_sensitivity);
+        I_SetGamepadSensitivity();
 }
 
 static void gp_swapthumbsticks_cvar_func2(char *cmd, char *parms)

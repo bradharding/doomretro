@@ -1,5 +1,6 @@
 ### DOOM Retro v2.6.2
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The effects of changing the `gp_swapthumbsticks` CVAR are now immediate.
 
 ---
