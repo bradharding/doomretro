@@ -501,8 +501,8 @@ static void R_RenderSegLoop(void)
 static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 {
     const int       angle = ANG90 + visangle;
-    const int       den = FixedMul(rw_distance, finesine[(angle - viewangle) >> ANGLETOFINESHIFT]);
-    const fixed_t   num = FixedMul(projection, finesine[(angle - rw_normalangle) >> ANGLETOFINESHIFT]);
+    const int       den = FixedMul(rw_distance, finesine[angle >> ANGLETOFINESHIFT]);
+    const fixed_t   num = FixedMul(projection, finesine[(angle + viewangle - rw_normalangle) >> ANGLETOFINESHIFT]);
 
     return (den > (num >> FRACBITS) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
 }
@@ -607,11 +607,11 @@ void R_StoreWallRange(const int start, const int stop)
     R_FixWiggle(frontsector);
 
     // calculate scale at both ends and step
-    ds_p->scale1 = rw_scale = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start]);
+    ds_p->scale1 = rw_scale = R_ScaleFromGlobalAngle(xtoviewangle[start]);
 
     if (stop > start)
     {
-        ds_p->scale2 = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[stop]);
+        ds_p->scale2 = R_ScaleFromGlobalAngle(xtoviewangle[stop]);
         ds_p->scalestep = rw_scalestep = (ds_p->scale2 - rw_scale) / (stop - start);
 
         if (ds_p->scale1 < ds_p->scale2)

@@ -453,9 +453,8 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
 
     // hit the line
     P_MakeDivline(ld, &dl);
-    frac = P_InterceptVector(&dlTrace, &dl);
 
-    if (frac < 0)
+    if ((frac = P_InterceptVector(&dlTrace, &dl)) < 0)
         return true;    // behind source
 
     check_intercept();  // killough
@@ -475,8 +474,6 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
 {
     fixed_t     x1, y1;
     fixed_t     x2, y2;
-    int         s1;
-    int         s2;
     fixed_t     frac;
     divline_t   dl;
     fixed_t     radius = thing->radius;
@@ -499,10 +496,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
         y2 = y + radius;
     }
 
-    s1 = P_PointOnDivlineSide(x1, y1, &dlTrace);
-    s2 = P_PointOnDivlineSide(x2, y2, &dlTrace);
-
-    if (s1 == s2)
+    if (P_PointOnDivlineSide(x1, y1, &dlTrace) == P_PointOnDivlineSide(x2, y2, &dlTrace))
         return true;    // line isn't crossed
 
     dl.x = x1;
@@ -589,18 +583,14 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     dlTrace.dx = x2 - x1;
     dlTrace.dy = y2 - y1;
 
-    x1 -= bmaporgx;
-    y1 -= bmaporgy;
-    xt1 = x1 >> MAPBLOCKSHIFT;
-    yt1 = y1 >> MAPBLOCKSHIFT;
+    xt1 = (x1 -= bmaporgx) >> MAPBLOCKSHIFT;
+    yt1 = (y1 -= bmaporgy) >> MAPBLOCKSHIFT;
 
     mapx1 = x1 >> MAPBTOFRAC;
     mapy1 = y1 >> MAPBTOFRAC;
 
-    x2 -= bmaporgx;
-    y2 -= bmaporgy;
-    xt2 = x2 >> MAPBLOCKSHIFT;
-    yt2 = y2 >> MAPBLOCKSHIFT;
+    xt2 = (x2 -= bmaporgx) >> MAPBLOCKSHIFT;
+    yt2 = (y2 -= bmaporgy) >> MAPBLOCKSHIFT;
 
     if (xt2 > xt1)
     {

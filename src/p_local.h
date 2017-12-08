@@ -153,10 +153,8 @@ void P_NoiseAlert(mobj_t *target);
 //
 typedef struct
 {
-    fixed_t     x;
-    fixed_t     y;
-    fixed_t     dx;
-    fixed_t     dy;
+    fixed_t     x, y;
+    fixed_t     dx, dy;
 } divline_t;
 
 typedef struct
