@@ -290,7 +290,7 @@ static void P_DeathThink(void)
         {
             if (deadlookdir)
             {
-                int inc = ABS(128 - deadlookdir) / ((deadviewheight - DEADVIEWHEIGHT) >> FRACBITS);
+                int inc = ABS(128 - deadlookdir) / ((deadviewheight - DEADVIEWHEIGHT) / FRACUNIT);
 
                 if (viewplayer->lookdir > 128)
                     viewplayer->lookdir -= inc;
