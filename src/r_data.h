@@ -60,8 +60,7 @@
 //
 typedef struct
 {
-    short           originx;
-    short           originy;
+    short           originx, originy;
     short           patch;
     short           stepdir;
     short           colormap;

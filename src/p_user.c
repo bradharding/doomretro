@@ -286,20 +286,17 @@ static void P_DeathThink(void)
         if (viewplayer->viewheight < DEADVIEWHEIGHT)
             viewplayer->viewheight = DEADVIEWHEIGHT;
 
-        if (canmouselook)
+        if (canmouselook && deadlookdir)
         {
-            if (deadlookdir)
-            {
-                int inc = ABS(128 - deadlookdir) / ((deadviewheight - DEADVIEWHEIGHT) / FRACUNIT);
+            int inc = ABS(DEADLOOKDIR - deadlookdir) / ((deadviewheight - DEADVIEWHEIGHT) / FRACUNIT);
 
-                if (viewplayer->lookdir > 128)
-                    viewplayer->lookdir -= inc;
-                else if (viewplayer->lookdir < 128)
-                    viewplayer->lookdir += inc;
+            if (viewplayer->lookdir > DEADLOOKDIR)
+                viewplayer->lookdir -= inc;
+            else if (viewplayer->lookdir < DEADLOOKDIR)
+                viewplayer->lookdir += inc;
 
-                if (ABS(viewplayer->lookdir - 128) < inc)
-                    viewplayer->lookdir = 128;
-            }
+            if (ABS(viewplayer->lookdir - DEADLOOKDIR) < inc)
+                viewplayer->lookdir = DEADLOOKDIR;
         }
     }
 
@@ -330,8 +327,8 @@ static void P_DeathThink(void)
     if (consoleactive)
         return;
 
-    if (((viewplayer->cmd.buttons & BT_USE) || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount
-        && deathcount > TICRATE * 2) || gamekeydown[KEY_ENTER]))
+    if (((viewplayer->cmd.buttons & BT_USE) || ((viewplayer->cmd.buttons & BT_ATTACK)
+        && !viewplayer->damagecount && deathcount > TICRATE * 2) || gamekeydown[KEY_ENTER]))
     {
         deathcount = 0;
         damagevibrationtics = 1;

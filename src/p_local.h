@@ -49,6 +49,8 @@
 #define VIEWHEIGHT          (41 * FRACUNIT)
 #define DEADVIEWHEIGHT      (6 * FRACUNIT)
 
+#define DEADLOOKDIR         128
+
 // mapblocks are used to check movement
 // against lines and things
 #define MAPBLOCKUNITS       128
