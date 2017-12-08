@@ -720,7 +720,7 @@ char *removenewlines(const char *str)
 
     while (*p != '\0')
     {
-        if (*p == '\n')
+        if (*p == '\n' && *(p - 1) != '-')
             *p = ' ';
 
         p++;
