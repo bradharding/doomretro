@@ -456,7 +456,8 @@ static void R_InitSpriteLumps(void)
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump
                         && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)
                         && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS)
-                        && ((!BTSX && !sprfix18) || sproffsets[j].sprfix18))
+                        && ((!BTSX && !sprfix18) || sproffsets[j].sprfix18)
+                        && (BTSX || lumpinfo[firstspritelump + i]->wadfile->type != PWAD))
                     {
                         newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
                         newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
