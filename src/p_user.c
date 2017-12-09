@@ -47,7 +47,6 @@
 dboolean        infighting = infighting_default;
 
 int             deathcount = 0;
-int             deadviewheight = -1;
 int             deadlookdir = -1;
 
 extern fixed_t  animatedliquiddiff;
@@ -274,10 +273,29 @@ static void P_DeathThink(void)
     // fall to the ground
     if ((onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))))
     {
-        if (deadviewheight == -1)
+        if (canmouselook)
         {
-            deadviewheight = viewplayer->viewheight;
-            deadlookdir = viewplayer->lookdir;
+            static int  inc;
+
+            if (deadlookdir == -1)
+            {
+                float   viewheightrange = (viewplayer->viewheight - DEADVIEWHEIGHT) / FRACUNIT;
+
+                inc = ABS(DEADLOOKDIR - viewplayer->lookdir);
+
+                if (viewheightrange)
+                    inc = (int)(inc / viewheightrange + 0.5);
+
+                deadlookdir = DEADLOOKDIR / inc * inc;
+            }
+
+            if (viewplayer->lookdir > deadlookdir)
+                viewplayer->lookdir -= inc;
+            else if (viewplayer->lookdir < deadlookdir)
+                viewplayer->lookdir += inc;
+
+            if (ABS(viewplayer->lookdir - deadlookdir) < inc)
+                viewplayer->lookdir = deadlookdir;
         }
 
         if (viewplayer->viewheight > DEADVIEWHEIGHT)
@@ -285,19 +303,6 @@ static void P_DeathThink(void)
 
         if (viewplayer->viewheight < DEADVIEWHEIGHT)
             viewplayer->viewheight = DEADVIEWHEIGHT;
-
-        if (canmouselook && deadlookdir)
-        {
-            int inc = ABS(DEADLOOKDIR - deadlookdir) / ((deadviewheight - DEADVIEWHEIGHT) / FRACUNIT);
-
-            if (viewplayer->lookdir > DEADLOOKDIR)
-                viewplayer->lookdir -= inc;
-            else if (viewplayer->lookdir < DEADLOOKDIR)
-                viewplayer->lookdir += inc;
-
-            if (ABS(viewplayer->lookdir - DEADLOOKDIR) < inc)
-                viewplayer->lookdir = DEADLOOKDIR;
-        }
     }
 
     viewplayer->deltaviewheight = 0;

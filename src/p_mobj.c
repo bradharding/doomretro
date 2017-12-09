@@ -77,7 +77,6 @@ static fixed_t floatbobdiffs[64] =
 
 extern fixed_t      animatedliquiddiffs[64];
 extern int          deadlookdir;
-extern int          deadviewheight;
 extern int          deathcount;
 extern msecnode_t   *sector_list;   // phares 3/16/98
 extern dboolean     usemouselook;
@@ -918,7 +917,6 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 
     deathcount = 0;
     deadlookdir = -1;
-    deadviewheight = -1;
 
     // setup gun psprite
     P_SetupPsprites();
