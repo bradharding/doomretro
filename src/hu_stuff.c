@@ -1088,7 +1088,8 @@ void HU_Ticker(void)
 
             strcpy(s, viewplayer->message);
 
-            while (M_StringWidth(s) > ORIGINALWIDTH - 6)
+            while (M_StringWidth(s) > (vid_widescreen || r_messagescale == r_messagescale_small ?
+                (SCREENWIDTH - 12) : (ORIGINALWIDTH - 6)))
             {
                 s[len - 1] = '.';
                 s[len] = '.';

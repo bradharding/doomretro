@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The effects of changing the `gp_swapthumbsticks` CVAR are now immediate.
 * A bug has been fixed whereby changing the `vid_screenresolution` CVAR to a value other `desktop` wouldn’t change the screen resolution when the `vid_fullscreen` CVAR was `on`.
+* Player messages displayed when the `vid_widescreen` CVAR is `on` or the `r_messagescale` CVAR is `small` are no longer truncated in the middle of the screen.
 
 ---
 
