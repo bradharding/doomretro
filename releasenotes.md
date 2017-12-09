@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The effects of changing the `gp_swapthumbsticks` CVAR are now immediate.
+* A bug has been fixed whereby changing the `vid_screenresolution` CVAR to a value other `desktop` wouldn’t change the screen resolution when the `vid_fullscreen` CVAR was `on`.
 
 ---
 

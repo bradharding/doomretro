@@ -1345,8 +1345,7 @@ static void SetVideoMode(dboolean output)
             ratio = getaspectratio(width, height);
 
             if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
-                (windowflags | SDL_WINDOW_FULLSCREEN_DESKTOP))))
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0, (windowflags | SDL_WINDOW_FULLSCREEN_DESKTOP))))
                 I_SDLError("SDL_CreateWindow");
 
             if (output)
@@ -1361,10 +1360,12 @@ static void SetVideoMode(dboolean output)
             acronym = getacronym(width, height);
             ratio = getaspectratio(width, height);
 
-            if(!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
-                (windowflags | SDL_WINDOW_FULLSCREEN))))
+            if (!(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, windowflags)))
                 I_SDLError("SDL_CreateWindow");
+
+            if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) < 0);
+                I_SDLError("SDL_SetWindowFullscreen");
 
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
