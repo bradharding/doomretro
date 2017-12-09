@@ -305,8 +305,7 @@ void HU_Start(void)
     hudnumoffset = (16 - SHORT(tallnum[0]->height)) / 2;
 }
 
-static void DrawHUDNumber(int *x, int y, int val, byte *tinttab,
-    void (*hudnumfunc)(int, int, patch_t *, byte *))
+static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*hudnumfunc)(int, int, patch_t *, byte *))
 {
     int     oldval = ABS(val);
     patch_t *patch;

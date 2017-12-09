@@ -4,6 +4,7 @@
 * The effects of changing the `gp_swapthumbsticks` CVAR are now immediate.
 * A bug has been fixed whereby changing the `vid_screenresolution` CVAR to a value other `desktop` wouldn’t change the screen resolution when the `vid_fullscreen` CVAR was `on`.
 * Both player messages and the map title in the automap are no longer truncated in the middle of the screen in some instances.
+* Sprites that are replaced in PWADs will now be offset correctly.
 
 ---
 

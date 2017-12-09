@@ -349,7 +349,7 @@ void C_PlayerMessage(const char *string, ...)
 void C_Obituary(const char *string, ...)
 {
     va_list     argptr;
-    char        buffer[CONSOLETEXTMAXLENGTH] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH];
     const int   i = consolestrings - 1;
 
     va_start(argptr, string);
