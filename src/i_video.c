@@ -1351,7 +1351,7 @@ static void SetVideoMode(dboolean output)
 
             if (output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (*acronym ? " (" : " "), acronym, (*acronym ? ")" : ""),
+                    commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""),
                     ratio);
         }
         else
@@ -1368,7 +1368,7 @@ static void SetVideoMode(dboolean output)
 
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (*acronym ? " (" : " "), acronym, (*acronym ? ")" : ""),
+                    commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""),
                     ratio);
         }
     }
