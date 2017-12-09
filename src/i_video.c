@@ -1364,7 +1364,7 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height, windowflags)))
                 I_SDLError("SDL_CreateWindow");
 
-            if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) < 0);
+            if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) < 0)
                 I_SDLError("SDL_SetWindowFullscreen");
 
             if (output)
