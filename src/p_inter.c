@@ -1598,7 +1598,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             // [crispy] the lethal pellet of a point-blank SSG blast
             // gets an extra damage boost for the occasional gib chance
-            if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
+            if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate && target->target
                 && P_CheckMeleeRange(target) && damage >= 10 && gibhealth < 0)
                 target->health = gibhealth - 1;
 

@@ -6,6 +6,7 @@
 * Pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window will now work when the `vid_screenresolution` CVAR is a value other than `desktop`.
 * Both player messages and the map title in the automap are no longer truncated in the middle of the screen in some instances.
 * Sprites that are replaced in PWADs will now be offset correctly.
+* A bug has been fixed whereby a crash could occur when the player shoots a monster with their super shotgun that has just been resurrected by an Arch-vile.
 
 ---
 
