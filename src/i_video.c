@@ -1700,18 +1700,16 @@ void I_RestartGraphics(void)
 
 void I_ToggleFullscreen(void)
 {
-    dboolean    fullscreen = !vid_fullscreen;
-
-    if (!M_StringCompare(vid_screenresolution, vid_screenresolution_desktop)
-        || SDL_SetWindowFullscreen(window, (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0)) < 0)
+    if (SDL_SetWindowFullscreen(window, (!vid_fullscreen ? (M_StringCompare(vid_screenresolution,
+        vid_screenresolution_desktop) ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN) : 0)) < 0)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning("Unable to switch to %s.", (fullscreen ? "fullscreen" : "a window"));
+        C_Warning("Unable to switch to %s.", (!vid_fullscreen ? "fullscreen" : "a window"));
         return;
     }
 
-    vid_fullscreen = fullscreen;
+    vid_fullscreen = !vid_fullscreen;
     M_SaveCVARs();
 
     if (nearestlinear)
