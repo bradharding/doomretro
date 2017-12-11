@@ -164,6 +164,9 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 {
     mobj_t  *pl = actor->target;
 
+    if (!pl)
+        return false;
+
     if (P_ApproxDistance(pl->x - actor->x, pl->y - actor->y) >= MELEERANGE - 20 * FRACUNIT + pl->info->radius)
         return false;
 
