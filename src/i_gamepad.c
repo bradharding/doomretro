@@ -381,6 +381,10 @@ void I_SetGamepadRightDeadZone(void)
 
 void I_SetGamepadThumbSticks(void)
 {
-    gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
-        I_PollThumbs_DirectInput_RightHanded);
+    if (gamepadfunc == I_PollXInputGamepad)
+        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
+            I_PollThumbs_XInput_RightHanded);
+    else
+        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
+            I_PollThumbs_DirectInput_RightHanded);
 }
