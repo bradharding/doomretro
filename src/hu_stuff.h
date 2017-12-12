@@ -42,41 +42,41 @@
 //
 // Globally visible constants.
 //
-#define HU_FONTSTART                    '!'     // the first font characters
-#define HU_FONTEND                      '_'     // the last font characters
+#define HU_FONTSTART                '!'     // the first font characters
+#define HU_FONTEND                  '_'     // the last font characters
 
 // Calculate # of glyphs in font.
-#define HU_FONTSIZE                     (HU_FONTEND - HU_FONTSTART + 1)
+#define HU_FONTSIZE                 (HU_FONTEND - HU_FONTSTART + 1)
 
-#define HU_MSGX                         3
-#define HU_MSGY                         2
-#define HU_MSGHEIGHT                    1       // in lines
+#define HU_MSGX                     3
+#define HU_MSGY                     2
+#define HU_MSGHEIGHT                1       // in lines
 
-#define HU_MSGTIMEOUT                   (4 * TICRATE)
+#define HU_MSGTIMEOUT               (4 * TICRATE)
 
-#define HUD_X                           (11 * SCREENSCALE / 2)
-#define HUD_Y                           (311 * SCREENSCALE / 2)
+#define HUD_X                       (11 * SCREENSCALE / 2)
+#define HUD_Y                       (311 * SCREENSCALE / 2)
 
-#define HUD_HEALTH_X                    HUD_X
-#define HUD_HEALTH_Y                    HUD_Y
-#define HUD_HEALTH_MIN                  20
-#define HUD_HEALTH_WAIT                 250
-#define HUD_HEALTH_HIGHLIGHT_WAIT       250
+#define HUD_HEALTH_X                HUD_X
+#define HUD_HEALTH_Y                HUD_Y
+#define HUD_HEALTH_MIN              20
+#define HUD_HEALTH_WAIT             250
+#define HUD_HEALTH_HIGHLIGHT_WAIT   250
 
-#define HUD_AMMO_X                      (HUD_X + 100 * SCREENSCALE / 2)
-#define HUD_AMMO_Y                      HUD_HEALTH_Y
-#define HUD_AMMO_MIN                    20
-#define HUD_AMMO_WAIT                   250
-#define HUD_AMMO_HIGHLIGHT_WAIT         250
+#define HUD_AMMO_X                  (HUD_X + 100 * SCREENSCALE / 2)
+#define HUD_AMMO_Y                  HUD_HEALTH_Y
+#define HUD_AMMO_MIN                20
+#define HUD_AMMO_WAIT               250
+#define HUD_AMMO_HIGHLIGHT_WAIT     250
 
-#define HUD_KEYS_X                      (SCREENWIDTH - HUD_X - 128 * SCREENSCALE / 2)
-#define HUD_KEYS_Y                      HUD_HEALTH_Y
+#define HUD_KEYS_X                  (SCREENWIDTH - HUD_X - 128 * SCREENSCALE / 2)
+#define HUD_KEYS_Y                  HUD_HEALTH_Y
 
-#define HUD_ARMOR_X                     (SCREENWIDTH - HUD_X)
-#define HUD_ARMOR_Y                     HUD_HEALTH_Y
-#define HUD_ARMOR_HIGHLIGHT_WAIT        250
+#define HUD_ARMOR_X                 (SCREENWIDTH - HUD_X)
+#define HUD_ARMOR_Y                 HUD_HEALTH_Y
+#define HUD_ARMOR_HIGHLIGHT_WAIT    250
 
-#define HUD_KEY_WAIT                    250
+#define HUD_KEY_WAIT                250
 
 //
 // HEADS UP TEXT

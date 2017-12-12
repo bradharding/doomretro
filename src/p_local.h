@@ -192,8 +192,7 @@ dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *));
 
 extern divline_t    dlTrace;
 
-dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
-    dboolean (*trav)(intercept_t *));
+dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, dboolean (*trav)(intercept_t *));
 
 void P_UnsetThingPosition(mobj_t *thing);
 void P_UnsetBloodSplatPosition(bloodsplat_t *splat);

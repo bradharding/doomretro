@@ -42,9 +42,9 @@
 #include "doomtype.h"
 #include "r_defs.h"
 
-#define PALETTESIZE     256
+#define PALETTESIZE 256
 
-extern byte     nearestcolors[PALETTESIZE];
+extern byte nearestcolors[PALETTESIZE];
 
 void I_InitTintTables(byte *palette);
 int FindNearestColor(byte *palette, int red, int green, int blue);

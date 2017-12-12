@@ -42,7 +42,7 @@
 #include "i_video.h"
 #include "w_file.h"
 
-#define NUMKEYS 256
+#define NUMKEYS         256
 
 #define FORWARDMOVE0    0x19
 #define FORWARDMOVE1    0x32

@@ -311,9 +311,7 @@ typedef struct mobj_s
     thinker_t           thinker;
 
     // Info for drawing: position.
-    fixed_t             x;
-    fixed_t             y;
-    fixed_t             z;
+    fixed_t             x, y, z;
 
     // More list: links in sector (if needed)
     struct mobj_s       *snext;
@@ -343,9 +341,7 @@ typedef struct mobj_s
     fixed_t             height;
 
     // Momentums, used to update position.
-    fixed_t             momx;
-    fixed_t             momy;
-    fixed_t             momz;
+    fixed_t             momx, momy, momz;
 
     mobjtype_t          type;
     mobjinfo_t          *info;                  // &mobjinfo[mobj->type]
@@ -407,9 +403,7 @@ typedef struct mobj_s
 
     // [AM] Previous position of mobj before think.
     //      Used to interpolate between positions.
-    fixed_t             oldx;
-    fixed_t             oldy;
-    fixed_t             oldz;
+    fixed_t             oldx, oldy, oldz;
     angle_t             oldangle;
 
     fixed_t             nudge;
@@ -421,8 +415,7 @@ typedef struct mobj_s
 
 typedef struct bloodsplat_s
 {
-    fixed_t             x;
-    fixed_t             y;
+    fixed_t             x, y;
     struct bloodsplat_s *snext;
     struct bloodsplat_s **sprev;
     int                 patch;

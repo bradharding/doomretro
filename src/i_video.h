@@ -42,9 +42,9 @@
 #include "doomtype.h"
 #include "SDL.h"
 
-#define MAX_MOUSE_BUTTONS       8
+#define MAX_MOUSE_BUTTONS   8
 
-#define GAMMALEVELS             31
+#define GAMMALEVELS         31
 
 typedef struct
 {

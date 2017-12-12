@@ -44,12 +44,12 @@
 #include "m_controls.h"
 
 #if defined(_WIN32)
-#define snprintf        _snprintf
+#define snprintf    _snprintf
 #if (_MSC_VER < 1400)
-#define vsnprintf       _vsnprintf
+#define vsnprintf   _vsnprintf
 #endif
-#define strcasecmp      stricmp
-#define strncasecmp     strnicmp
+#define strcasecmp  stricmp
+#define strncasecmp strnicmp
 #else
 #include <strings.h>
 #endif
