@@ -59,7 +59,7 @@
 
 #define BLACK       nearestcolors[0]
 #define DARKGRAY    nearestcolors[1]
-#define WHITE       nearestcolors[4]
+#define WHITE       4
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
