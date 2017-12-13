@@ -1530,7 +1530,7 @@ dboolean C_Responder(event_t *ev)
                         endspace2 = (output[len2 - 1] == ' ');
 
                         if (M_StringStartsWith(output, input)
-                            && (strlen(input) >= 2 || input[0] != '+')
+                            && strlen(input) >= 2 && input[strlen(input) - 1] != '+'
                             && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
                                 || (spaces1 == 1 && !endspace1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
                                 || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
