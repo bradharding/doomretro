@@ -1111,14 +1111,12 @@ static void ST_updateFaceWidget(void)
             dboolean    doevilgrin = false;
 
             for (i = 0; i < NUMWEAPONS; i++)
-            {
                 // [BH] no evil grin when invulnerable
                 if (oldweaponsowned[i] != viewplayer->weaponowned[i] && !invulnerable)
                 {
                     doevilgrin = true;
                     oldweaponsowned[i] = viewplayer->weaponowned[i];
                 }
-            }
 
             if (doevilgrin)
             {
@@ -1341,7 +1339,6 @@ static void ST_drawWidgets(dboolean refresh)
     }
 
     STlib_updatePercent(&w_health, refresh);
-
     STlib_updatePercent(&w_armor, refresh);
 
     if (STBAR >= 3 || r_detail == r_detail_low)
@@ -1579,8 +1576,7 @@ static void ST_createWidgets(void)
         &st_statusbaron, tallpercent);
 
     // arms background
-    STlib_initBinIcon(&w_armsbg, ST_ARMSBGX + hacx * 4, ST_ARMSBGY, armsbg, &st_statusbaron,
-        &st_statusbaron);
+    STlib_initBinIcon(&w_armsbg, ST_ARMSBGX + hacx * 4, ST_ARMSBGY, armsbg, &st_statusbaron, &st_statusbaron);
     STlib_initBinIcon(&w_armsbg2, ST_ARMSBGX * 2, ST_ARMSBGY * 2, armsbg2, &st_statusbaron, &st_statusbaron);
 
     // weapons owned
@@ -1598,22 +1594,15 @@ static void ST_createWidgets(void)
         &st_statusbaron, tallpercent);
 
     // keyboxes 0-2
-    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR >= 3), ST_KEY0Y, keys, &keyboxes[0],
-        &st_statusbaron);
-    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1],
-        &st_statusbaron);
-    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2],
-        &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR >= 3), ST_KEY0Y, keys, &keyboxes[0], &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1], &st_statusbaron);
+    STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2], &st_statusbaron);
 
     // ammo count (all four kinds)
-    STlib_initNum(&w_ammo[0], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[0], &st_statusbaron,
-        ST_AMMO0WIDTH);
-    STlib_initNum(&w_ammo[1], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[1], &st_statusbaron,
-        ST_AMMO1WIDTH);
-    STlib_initNum(&w_ammo[2], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[2], &st_statusbaron,
-        ST_AMMO2WIDTH);
-    STlib_initNum(&w_ammo[3], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[3], &st_statusbaron,
-        ST_AMMO3WIDTH);
+    STlib_initNum(&w_ammo[0], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[0], &st_statusbaron, ST_AMMO0WIDTH);
+    STlib_initNum(&w_ammo[1], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[1], &st_statusbaron, ST_AMMO1WIDTH);
+    STlib_initNum(&w_ammo[2], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[2], &st_statusbaron, ST_AMMO2WIDTH);
+    STlib_initNum(&w_ammo[3], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[3], &st_statusbaron, ST_AMMO3WIDTH);
 
     // max ammo count (all four kinds)
     STlib_initNum(&w_maxammo[0], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[0], &st_statusbaron,

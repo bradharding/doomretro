@@ -339,7 +339,7 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
 int W_WadType(char *filename)
 {
     wadinfo_t   header;
-    wadfile_t  *wadfile = W_OpenFile(filename);
+    wadfile_t   *wadfile = W_OpenFile(filename);
 
     if (!wadfile)
         return 0;
