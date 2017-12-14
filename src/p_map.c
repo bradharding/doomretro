@@ -415,22 +415,22 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     dboolean    unblocking = false;
     int         flags = thing->flags;
     int         tmflags = tmthing->flags;
-    fixed_t     dist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
+    dboolean    corpse = (flags & MF_CORPSE);
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
-    if (r_corpses_nudge && (flags & MF_CORPSE) && (tmflags & MF_SHOOTABLE) && !thing->nudge
-        && dist < 16 * FRACUNIT && thing->z == tmthing->z)
-    {
-        thing->nudge = TICRATE;
-        thing->momx = M_RandomInt(-1, 1) * FRACUNIT;
-        thing->momy = M_RandomInt(-1, 1) * FRACUNIT;
-
-        if (!(thing->flags2 & MF2_FEETARECLIPPED))
+    if (r_corpses_nudge && corpse && (tmflags & MF_SHOOTABLE) && !thing->nudge && thing->z == tmthing->z)
+        if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
-            thing->momx /= 2;
-            thing->momy /= 2;
+            thing->nudge = TICRATE;
+            thing->momx = M_RandomInt(-1, 1) * FRACUNIT;
+            thing->momy = M_RandomInt(-1, 1) * FRACUNIT;
+
+            if (!(thing->flags2 & MF2_FEETARECLIPPED))
+            {
+                thing->momx /= 2;
+                thing->momy /= 2;
+            }
         }
-    }
 
     if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
         return true;
@@ -447,11 +447,11 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         return true;
 
     // [BH] check if things are stuck and allow move if it makes them further apart
-    if (!thing->player)
+    if (!thing->player && !corpse)
     {
         if (tmx == tmthing->x && tmy == tmthing->y)
             unblocking = true;
-        else if (P_ApproxDistance(thing->x - tmx, thing->y - tmy) > dist)
+        else if (P_ApproxDistance(thing->x - tmx, thing->y - tmy) > P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y))
             unblocking = (tmthing->z < thing->z + thing->height && tmthing->z + tmthing->height > thing->z);
     }
 
