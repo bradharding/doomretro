@@ -450,11 +450,16 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
         const unsigned char letter = text[i];
         const int           c = letter - CONSOLEFONTSTART;
 
-        if (letter == '<' && i < len - 2 && (text[i + 1] == 'b' || text[i + 1] == 'i')
+        if (letter == '<'
+            && i < len - 2
+            && (text[i + 1] == 'b' || text[i + 1] == 'i')
             && text[i + 2] == '>' && formatting)
             i += 2;
-        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && (text[i + 2] == 'b'
-            || text[i + 2] == 'i') && text[i + 3] == '>' && formatting)
+        else if (letter == '<'
+            && i < len - 3
+            && text[i + 1] == '/'
+            && (text[i + 2] == 'b' || text[i + 2] == 'i')
+            && text[i + 3] == '>' && formatting)
             i += 3;
         else if (letter == 153)
         {
@@ -637,8 +642,7 @@ void C_StripQuotes(char *string)
 {
     int len = (int)strlen(string);
 
-    if (len > 2 && ((string[0] == '\"' && string[len - 1] == '\"') || (string[0] == '\''
-        && string[len - 1] == '\'')))
+    if (len > 2 && ((string[0] == '\"' && string[len - 1] == '\"') || (string[0] == '\'' && string[len - 1] == '\'')))
     {
         len -= 2;
         memmove(string, string + 1, len);
@@ -842,8 +846,8 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
         {
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
 
-            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false, (r_hud_translucency ?
-                tinttab75 : NULL));
+            V_DrawConsoleTextPatch(x, y, patch, color, NOBACKGROUNDCOLOR, false,
+                (r_hud_translucency ? tinttab75 : NULL));
             x += SHORT(patch->width);
         }
     }
@@ -901,9 +905,8 @@ void C_UpdateFPS(void)
 
         M_snprintf(buffer, sizeof(buffer), "%i FPS (%.1fms)", fps, 1000.0 / fps);
 
-        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY,
-            buffer, (fps < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ?
-                consolelowfpscolor : consolehighfpscolor));
+        C_DrawOverlayText(CONSOLEWIDTH - C_TextWidth(buffer, false, false) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
+            (fps < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor : consolehighfpscolor));
     }
 }
 
@@ -1529,11 +1532,12 @@ dboolean C_Responder(event_t *ev)
                         spaces2 = numspaces(output);
                         endspace2 = (output[len2 - 1] == ' ');
 
-                        if (M_StringStartsWith(output, input) && input[strlen(input) - 1] != '+'
+                        if (M_StringStartsWith(output, input)
+                            && input[strlen(input) - 1] != '+'
                             && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
-                                || (spaces1 == 1 && !endspace1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
-                                || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
-                                || (spaces1 == 3 && !endspace1)))
+                                || !endspace1 && (spaces1 == 1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
+                                || (spaces1 == 2 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
+                                || spaces1 == 3))
                         {
                             M_StringCopy(consoleinput, M_StringJoin(prefix, output, NULL), sizeof(consoleinput));
                             caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
@@ -1564,7 +1568,8 @@ dboolean C_Responder(event_t *ev)
                         M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
 
                     for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; i--)
-                        if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string)
+                        if (console[i].type == inputstring
+                            && !M_StringCompare(consoleinput, console[i].string)
                             && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
                         {
                             inputhistory = i;
@@ -1592,7 +1597,8 @@ dboolean C_Responder(event_t *ev)
                     if (inputhistory != -1)
                     {
                         for (i = inputhistory + 1; i < consolestrings; i++)
-                            if (console[i].type == inputstring && !M_StringCompare(consoleinput, console[i].string)
+                            if (console[i].type == inputstring
+                                && !M_StringCompare(consoleinput, console[i].string)
                                 && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
                             {
                                 inputhistory = i;

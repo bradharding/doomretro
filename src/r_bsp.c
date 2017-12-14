@@ -411,8 +411,8 @@ static void R_AddLine(seg_t *line)
 
     if (linedef->r_flags & RF_IGNORE)
         return;
-    else
-        R_ClipWallSegment(x1, x2, (linedef->r_flags & RF_CLOSED));
+
+    R_ClipWallSegment(x1, x2, (linedef->r_flags & RF_CLOSED));
 }
 
 //

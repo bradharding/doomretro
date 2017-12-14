@@ -198,11 +198,11 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
         int b = b1 - b2;
         int difference = (((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8);
 
+        if (!difference)
+            return i;
+
         if (difference < best_difference)
         {
-            if (!difference)
-                return i;
-
             best_color = i;
             best_difference = difference;
         }
@@ -224,13 +224,12 @@ void FindNearestColors(byte *palette)
             nearestcolors[i] = i;
 }
 
-static byte colorcount[PALETTESIZE];
-
 int FindDominantColor(patch_t *patch)
 {
-    int w = SHORT(patch->width);
-    int dominantcolor = -1;
-    int dominantcolorcount = 0;
+    int     w = SHORT(patch->width);
+    int     dominantcolor = -1;
+    int     dominantcolorcount = 0;
+    byte    colorcount[PALETTESIZE] = { 0 };
 
     for (int col = 0; col < w; col++)
     {

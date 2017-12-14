@@ -600,8 +600,9 @@ void R_StoreWallRange(const int start, const int stop)
     worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
-    if (r_liquid_bob && frontsector->isliquid && (!frontsector->heightsec
-        || viewz > frontsector->heightsec->interpfloorheight))
+    if (r_liquid_bob
+        && frontsector->isliquid
+        && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight))
         worldbottom += animatedliquiddiff;
 
     R_FixWiggle(frontsector);
@@ -691,7 +692,9 @@ void R_StoreWallRange(const int start, const int stop)
             worldtop = worldhigh;
 
         // [BH] animate liquid sectors
-        if (r_liquid_bob && backsector->isliquid && backsector->interpfloorheight >= frontsector->interpfloorheight
+        if (r_liquid_bob
+            && backsector->isliquid
+            && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight))
         {
             liquidoffset = animatedliquiddiff;
@@ -751,8 +754,7 @@ void R_StoreWallRange(const int start, const int stop)
         {
             // bottom texture
             bottomtexture = texturetranslation[sidedef->bottomtexture];
-            bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 :
-                textureheight[bottomtexture] >> FRACBITS);
+            bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : textureheight[bottomtexture] >> FRACBITS);
             bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
             rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset);
             rw_bottomtexturemid += FixedMod(sidedef->rowoffset, textureheight[bottomtexture]);
