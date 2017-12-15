@@ -1937,9 +1937,9 @@ static void M_QuitResponse(int key)
         int i = 30;
 
         if (gamemode == commercial)
-            S_StartSound(NULL, quitsounds2[M_Random() % 8]);
+            S_StartSound(NULL, quitsounds2[M_Random() & 7]);
         else
-            S_StartSound(NULL, quitsounds[M_Random() % 8]);
+            S_StartSound(NULL, quitsounds[M_Random() & 7]);
 
         // wait until all sounds stopped or 3 seconds has passed
         while (i > 0)

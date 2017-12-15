@@ -996,7 +996,7 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (P_CheckMeleeRange(actor))
     {
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * 3, true);
+        P_DamageMobj(actor->target, actor, actor, ((M_Random() & 7) + 1) * 3, true);
         return;
     }
 
@@ -1065,7 +1065,7 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (P_CheckMeleeRange(actor))
     {
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * 10, true);
+        P_DamageMobj(actor->target, actor, actor, ((M_Random() & 7) + 1) * 10, true);
         return;
     }
 
@@ -1527,7 +1527,7 @@ void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, actor->info->attacksound);
     A_FaceTarget(actor, NULL, NULL);
-    P_DamageMobj(actor->target, actor, actor, (M_Random() % 8 + 1) * actor->info->damage, true);
+    P_DamageMobj(actor->target, actor, actor, ((M_Random() & 7) + 1) * actor->info->damage, true);
 }
 
 void A_Stop(mobj_t *actor, player_t *player, pspdef_t *psp)

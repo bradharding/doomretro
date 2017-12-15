@@ -467,7 +467,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     // check for skulls slamming into things
     if ((tmflags & MF_SKULLFLY) && (flags & MF_SOLID))
     {
-        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() % 8) + 1) * tmthing->info->damage, true);
+        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
 
         tmthing->flags &= ~MF_SKULLFLY;
         tmthing->momx = 0;
@@ -489,9 +489,10 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         if (tmthing->z + tmthing->height < thing->z)
             return true;        // underneath
 
-        if (tmthing->target && (tmthing->target->type == thing->type
-            || (tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)
-            || (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT)))
+        if (tmthing->target
+            && (tmthing->target->type == thing->type
+                || (tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)
+                || (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT)))
         {
             // Don't hit same species as originator.
             if (thing == tmthing->target)
@@ -506,7 +507,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             return !(flags & MF_SOLID);                         // didn't do any damage
 
         // damage / explode
-        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() % 8) + 1) * tmthing->info->damage, true);
+        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
 
         if (thing->type != MT_BARREL)
         {

@@ -51,11 +51,11 @@ static void T_GradualLightingToDoor(vldoor_t *door)
     if (door->topheight - door->sector->floorheight)
     {
         if (door->lighttag)
-            EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight
-                - door->sector->floorheight, door->topheight - door->sector->floorheight));
+            EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
+                door->topheight - door->sector->floorheight));
         else if (!P_SectorHasLightSpecial(door->sector))
-            EV_LightByAdjacentSectors(door->sector, FixedDiv(door->sector->ceilingheight
-                - door->sector->floorheight, door->topheight - door->sector->floorheight));
+            EV_LightByAdjacentSectors(door->sector, FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
+                door->topheight - door->sector->floorheight));
     }
 }
 
@@ -379,7 +379,6 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
         door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
         P_AddThinker(&door->thinker);
         sec->ceilingdata = door;
-
         door->thinker.function = T_VerticalDoor;
         door->sector = sec;
         door->type = type;
@@ -724,10 +723,8 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
     vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
     P_AddThinker(&door->thinker);
-
     sec->ceilingdata = door;
     sec->special = 0;
-
     door->thinker.function = T_VerticalDoor;
     door->sector = sec;
     door->type = doorNormal;
@@ -744,10 +741,8 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
     vldoor_t    *door = Z_Calloc(1, sizeof(*door), PU_LEVSPEC, NULL);
 
     P_AddThinker(&door->thinker);
-
     sec->ceilingdata = door;
     sec->special = 0;
-
     door->thinker.function = T_VerticalDoor;
     door->sector = sec;
     door->direction = 2;

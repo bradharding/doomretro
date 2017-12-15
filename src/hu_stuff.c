@@ -864,8 +864,7 @@ static void HU_DrawAltHUD(void)
             {
                 altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
 
-                althudfunc(ALTHUD_RIGHT_X + 11 * cardsfound, ALTHUD_Y, altkeypic.patch, WHITE,
-                    altkeypic.color);
+                althudfunc(ALTHUD_RIGHT_X + 11 * cardsfound, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
             }
         }
         else
@@ -882,8 +881,7 @@ static void HU_DrawAltHUD(void)
             {
                 altkeypic_t    altkeypic = altkeypics[i];
 
-                althudfunc(ALTHUD_RIGHT_X + 11 * (card - 1), ALTHUD_Y, altkeypic.patch, WHITE,
-                    altkeypic.color);
+                althudfunc(ALTHUD_RIGHT_X + 11 * (card - 1), ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
             }
         }
     }
@@ -912,8 +910,10 @@ static void HU_DrawAltHUD(void)
         powerupbar = (powerup == -1 ? max : powerup);
     }
 
-    if ((powerup = viewplayer->powers[pw_strength]) && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange)
-        || viewplayer->pendingweapon == wp_fist) && !powerupbar)
+    if ((powerup = viewplayer->powers[pw_strength])
+        && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange)
+            || viewplayer->pendingweapon == wp_fist)
+        && !powerupbar)
     {
         max = STARTFLASHING + 1;
         powerupbar = STARTFLASHING + 1;
@@ -935,7 +935,10 @@ void HU_DrawDisk(void)
 void HU_GetMessagePosition(void)
 {
     if (sscanf(r_messagepos, "(%10i,%10i)", &message_x, &message_y) != 2
-        || message_x < 0 || message_x >= SCREENWIDTH || message_y < 0 || message_y >= SCREENHEIGHT - SBARHEIGHT)
+        || message_x < 0
+        || message_x >= SCREENWIDTH
+        || message_y < 0
+        || message_y >= SCREENHEIGHT - SBARHEIGHT)
     {
         message_x = HU_MSGX;
         message_y = HU_MSGY;
@@ -1021,8 +1024,13 @@ void HU_Ticker(void)
     const dboolean  idmypos = viewplayer->cheats & CF_MYPOS;
 
     // tick down message counter if message is up
-    if (message_counter && ((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause)
-        && !idbehold && !idmypos && !--message_counter)
+    if (message_counter
+        && ((!menuactive && !paused && !consoleactive)
+            || inhelpscreens
+            || message_dontpause)
+        && !idbehold
+        && !idmypos
+        && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;

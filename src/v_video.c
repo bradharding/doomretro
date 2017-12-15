@@ -346,7 +346,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() % 4)))
+                if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
                     *dest = tinttab25[*dest];
 
                 dest += SCREENWIDTH;
@@ -358,7 +358,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() % 4)))
+            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
                 *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -1098,7 +1098,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() % 4)))
+                if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
                     *dest = tinttab25[*dest];
 
                 dest += SCREENWIDTH;
@@ -1110,7 +1110,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() % 4)))
+            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
                 *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);

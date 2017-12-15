@@ -1131,10 +1131,10 @@ void R_DrawPlayerSprites(void)
 //
 static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
 {
-    int     cliptop[SCREENWIDTH];
-    int     clipbot[SCREENWIDTH];
-    const int       x1 = splat->x1;
-    const int       x2 = splat->x2;
+    int         cliptop[SCREENWIDTH];
+    int         clipbot[SCREENWIDTH];
+    const int   x1 = splat->x1;
+    const int   x2 = splat->x2;
 
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
@@ -1244,10 +1244,10 @@ static void R_SortVisSprites(void)
 
 static void R_DrawSprite(const vissprite_t *spr)
 {
-    int           cliptop[SCREENWIDTH];
-    int           clipbot[SCREENWIDTH];
-    const int     x1 = spr->x1;
-    const int     x2 = spr->x2;
+    int         cliptop[SCREENWIDTH];
+    int         clipbot[SCREENWIDTH];
+    const int   x1 = spr->x1;
+    const int   x2 = spr->x2;
 
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)

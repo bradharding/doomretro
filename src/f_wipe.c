@@ -82,7 +82,7 @@ static dboolean wipe_initMelt(void)
     // setup initial column positions
     // (y < 0 => not ready to scroll yet)
     y = Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, NULL);
-    y[0] = y[1] = -(M_Random() % 16);
+    y[0] = y[1] = -(M_Random() & 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + (M_Random() % 3) - 1, 0);
