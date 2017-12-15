@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The effects of changing the `gp_swapthumbsticks` CVAR are now immediate.
+* Minor changes have been made to text that is output to the console.
 * A bug has been fixed whereby changing the `vid_screenresolution` CVAR to a value other then `desktop` wouldn’t change the screen resolution.
 * Pressing <kbd>ALT</kbd> + <kbd>ENTER</kbd> to toggle between fullscreen and a window will now work when the `vid_screenresolution` CVAR is a value other than `desktop`.
 * Both player messages and the map title in the automap are no longer truncated in the middle of the screen in some instances.

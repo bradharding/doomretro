@@ -742,7 +742,7 @@ static void C_DrawConsoleText(int x, int y, char *text, const int color1, const 
     if (color1 == consolewarningcolor)
     {
         V_DrawConsoleTextPatch(x, y, warning, color1, color2, false, tinttab);
-        width += SHORT(warning->width) + 2;
+        width += SHORT(warning->width) + 1;
         x += width;
     }
 
