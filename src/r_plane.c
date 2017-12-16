@@ -101,9 +101,13 @@ extern dboolean     canmouselook;
 static void R_MapPlane(int y, int x1, int x2)
 {
     static fixed_t  cacheddistance[SCREENHEIGHT];
+    static fixed_t  cachedviewcosdistance[SCREENHEIGHT];
+    static fixed_t  cachedviewsindistance[SCREENHEIGHT];
     static fixed_t  cachedxstep[SCREENHEIGHT];
     static fixed_t  cachedystep[SCREENHEIGHT];
     fixed_t         distance;
+    fixed_t         viewcosdistance;
+    fixed_t         viewsindistance;
     int             dx;
 
     if (y == centery)
@@ -115,19 +119,23 @@ static void R_MapPlane(int y, int x1, int x2)
 
         cachedheight[y] = planeheight;
         distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
+        viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, distance);
+        viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, distance);
         ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
         ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
     }
     else
     {
         distance = cacheddistance[y];
+        viewcosdistance = cachedviewcosdistance[y];
+        viewsindistance = cachedviewsindistance[y];
         ds_xstep = cachedxstep[y];
         ds_ystep = cachedystep[y];
     }
 
     dx = x1 - centerx;
-    ds_xfrac = viewx + xoffs + FixedMul(viewcos, distance) + dx * ds_xstep;
-    ds_yfrac = -viewy + yoffs - FixedMul(viewsin, distance) + dx * ds_ystep;
+    ds_xfrac = viewx + xoffs + viewcosdistance + dx * ds_xstep;
+    ds_yfrac = -viewy + yoffs - viewsindistance + dx * ds_ystep;
 
     ds_colormap = (fixedcolormap ? fixedcolormap :
         planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
