@@ -1304,6 +1304,9 @@ static void R_DrawSprite(const vissprite_t *spr)
     const int   x1 = spr->x1;
     const int   x2 = spr->x2;
 
+    if (x1 > x2)
+        return;
+
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
     {

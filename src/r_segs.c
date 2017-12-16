@@ -170,14 +170,13 @@ static void R_FixWiggle(sector_t *sector)
     if (height != lastheight)
     {
         const scalevalues_t *svp;
+        int                 scaleindex = 0;
 
         lastheight = height;
 
         // initialize, or handle moving sector
         if (height != sector->cachedheight)
         {
-            int scaleindex = 0;
-
             sector->cachedheight = height;
             height >>= 7;
 
@@ -189,7 +188,7 @@ static void R_FixWiggle(sector_t *sector)
         }
 
         // fine-tune renderer for this wall
-        svp = &scale_values[sector->scaleindex];
+        svp = &scale_values[scaleindex];
         max_rwscale = svp->clamp;
         heightbits = svp->heightbits;
         heightunit = 1 << heightbits;
@@ -203,17 +202,16 @@ static lighttable_t **GetLightTable(const int lightlevel)
         LIGHTLEVELS - 1)];
 }
 
-static void R_BlastMaskedSegColumn(const rcolumn_t *column)
+static void R_BlastMaskedSegColumn(const rcolumn_t *column, int numposts)
 {
-    int             count = column->numposts;
     unsigned char   *pixels = column->pixels;
 
     dc_ceilingclip = mceilingclip[dc_x] + 1;
     dc_floorclip = mfloorclip[dc_x] - 1;
 
-    while (count--)
+    while (numposts--)
     {
-        const rpost_t   *post = &column->posts[count];
+        const rpost_t   *post = &column->posts[numposts];
         const int       topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
@@ -281,6 +279,13 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     for (dc_x = x1; dc_x <= x2; dc_x++, spryscale += rw_scalestep)
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
+            const rcolumn_t *column = R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]);
+            const int       numposts = column->numposts;
+            int64_t         t;
+
+            if (!numposts)
+                return;
+
             // killough 3/2/98:
             //
             // This calculation used to overflow and cause crashes in DOOM:
@@ -290,7 +295,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             // This code fixes it, by using double-precision intermediate
             // arithmetic and by skipping the drawing of 2s normals whose
             // mapping to screen coordinates is totally out of range:
-            int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
+            t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
             if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
                 continue;                       // skip if the texture is out of screen's range
@@ -304,7 +309,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
             // draw the texture
-            R_BlastMaskedSegColumn(R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
+            R_BlastMaskedSegColumn(column, numposts);
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
 
