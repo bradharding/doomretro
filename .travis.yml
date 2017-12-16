@@ -42,6 +42,8 @@ compiler:
     - clang
     - gcc
 
+env: GCC_VERSION=7
+
 sudo: required
 
 dist: trusty
