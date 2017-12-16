@@ -1417,7 +1417,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     if (tossdrop)
     {
-        mo = P_SpawnMobj(target->x, target->y, target->floorz + target->height * 3 / 2, item);
+        mo = P_SpawnMobj(target->x, target->y, target->floorz + target->height * 3 / 2 - 3 * FRACUNIT, item);
         mo->momx = M_NegRandom() << 8;
         mo->momy = M_NegRandom() << 8;
         mo->momz = FRACUNIT * 2 + (M_Random() << 10);
