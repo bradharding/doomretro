@@ -432,7 +432,9 @@ static void R_BlastBloodSplatColumn(const rcolumn_t *column, int numposts)
 //
 // R_BlastShadowColumn
 //
-static int64_t  shift;
+static int64_t  shadowshift;
+
+void (*shadowcolfunc)(void);
 
 static void R_BlastShadowColumn(const rcolumn_t *column, int numposts)
 {
@@ -443,8 +445,8 @@ static void R_BlastShadowColumn(const rcolumn_t *column, int numposts)
         // calculate unclipped screen coordinates for post
         const int64_t   topscreen = shadowtopscreen + spryscale * post->topdelta + 1;
 
-        if ((dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shift), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift))) <= dc_yh)
+        if ((dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
+            if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift))) <= dc_yh)
                 shadowcolfunc();
     }
 }
@@ -454,8 +456,7 @@ static void R_BlastShadowColumn(const rcolumn_t *column, int numposts)
 //
 static void R_DrawVisSprite(const vissprite_t *vis)
 {
-    fixed_t         frac;
-    const fixed_t   startfrac = vis->startfrac;
+    fixed_t         frac = vis->startfrac;
     const fixed_t   xiscale = vis->xiscale;
     const fixed_t   x2 = vis->x2;
     const int       id = vis->patch + firstspritelump;
@@ -500,7 +501,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
     fuzzpos = 0;
 
-    for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
         const int       numposts = column->numposts;
@@ -521,8 +522,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 //
 static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 {
-    fixed_t         frac;
-    const fixed_t   startfrac = vis->startfrac;
+    fixed_t         frac = vis->startfrac;
     const fixed_t   xiscale = vis->xiscale;
     const fixed_t   x2 = vis->x2;
     const int       id = vis->patch + firstspritelump;
@@ -543,10 +543,11 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     else
         colfunc = vis->colfunc;
 
-    shadowcolfunc = mobj->shadowcolfunc;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+
+    shadowcolfunc = mobj->shadowcolfunc;
     shadowtopscreen = centeryfrac - FixedMul(vis->shadowpos, spryscale);
-    shift = (shadowtopscreen * 9 / 10) >> FRACBITS;
+    shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
 
     if (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency)
     {
@@ -564,7 +565,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     fuzzpos = 0;
 
-    for (dc_x = vis->x1, frac = startfrac; dc_x <= x2; dc_x++, frac += xiscale)
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
         const int       numposts = column->numposts;

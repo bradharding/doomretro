@@ -101,7 +101,6 @@ extern fixed_t      fractionaltic;
 // Used to select shadow mode etc.
 //
 void (*colfunc)(void);
-void (*shadowcolfunc)(void);
 void (*wallcolfunc)(void);
 void (*bmapwallcolfunc)(void);
 void (*transcolfunc)(void);
