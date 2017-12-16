@@ -1,3 +1,9 @@
+### DOOM Retro v2.6.3
+
+---
+
+###### Saturday, December 16, 2017
+
 ### DOOM Retro v2.6.2
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
