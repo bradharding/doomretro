@@ -985,7 +985,8 @@ static dboolean cheat_func1(char *cmd, char *parms)
             M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%cM%c", parms[0], parms[1]);
         }
 
-        result = (W_CheckNumForName(mapcmdlump) >= 0 && (gamemission != pack_nerve || mapcmdmap <= 9)
+        result = (W_CheckNumForName(mapcmdlump) >= 0
+            && (gamemission != pack_nerve || mapcmdmap <= 9)
             && (!BTSX || W_CheckMultipleLumps(mapcmdlump) > 1));
 
         if (gamestate == GS_LEVEL)
@@ -1198,26 +1199,21 @@ void bind_cmd_func2(char *cmd, char *parms)
             {
                 if (controls[i].type == keyboardcontrol)
                 {
-                    if (actions[action].keyboard1
-                        && controls[i].value == *(int *)actions[action].keyboard1)
+                    if (actions[action].keyboard1 && controls[i].value == *(int *)actions[action].keyboard1)
                         C_Output(actions[action].action);
-                    else if (actions[action].keyboard2
-                        && controls[i].value == *(int *)actions[action].keyboard2)
+                    else if (actions[action].keyboard2 && controls[i].value == *(int *)actions[action].keyboard2)
                         C_Output(actions[action].action);
                 }
                 else if (controls[i].type == mousecontrol)
                 {
-                    if (actions[action].mouse1
-                        && controls[i].value == *(int *)actions[action].mouse1)
+                    if (actions[action].mouse1 && controls[i].value == *(int *)actions[action].mouse1)
                         C_Output(actions[action].action);
                 }
                 else if (controls[i].type == gamepadcontrol)
                 {
-                    if (actions[action].gamepad1
-                        && controls[i].value == *(int *)actions[action].gamepad1)
+                    if (actions[action].gamepad1 && controls[i].value == *(int *)actions[action].gamepad1)
                         C_Output(actions[action].action);
-                    else if (actions[action].gamepad2
-                        && controls[i].value == *(int *)actions[action].gamepad2)
+                    else if (actions[action].gamepad2 && controls[i].value == *(int *)actions[action].gamepad2)
                         C_Output(actions[action].action);
                 }
 
@@ -1231,15 +1227,13 @@ void bind_cmd_func2(char *cmd, char *parms)
                 switch (controls[i].type)
                 {
                     case keyboardcontrol:
-                        if (actions[action].keyboard1
-                            && controls[i].value == *(int *)actions[action].keyboard1)
+                        if (actions[action].keyboard1 && controls[i].value == *(int *)actions[action].keyboard1)
                         {
                             *(int *)actions[action].keyboard1 = 0;
                             M_SaveCVARs();
                         }
 
-                        if (actions[action].keyboard2
-                            && controls[i].value == *(int *)actions[action].keyboard2)
+                        if (actions[action].keyboard2 && controls[i].value == *(int *)actions[action].keyboard2)
                         {
                             *(int *)actions[action].keyboard2 = 0;
                             M_SaveCVARs();
@@ -1248,8 +1242,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         break;
 
                     case mousecontrol:
-                        if (actions[action].mouse1
-                            && controls[i].value == *(int *)actions[action].mouse1)
+                        if (actions[action].mouse1 && controls[i].value == *(int *)actions[action].mouse1)
                         {
                             *(int *)actions[action].mouse1 = -1;
                             M_SaveCVARs();
@@ -1258,15 +1251,13 @@ void bind_cmd_func2(char *cmd, char *parms)
                         break;
 
                     case gamepadcontrol:
-                        if (actions[action].gamepad1
-                            && controls[i].value == *(int *)actions[action].gamepad1)
+                        if (actions[action].gamepad1 && controls[i].value == *(int *)actions[action].gamepad1)
                         {
                             *(int *)actions[action].gamepad1 = 0;
                             M_SaveCVARs();
                         }
 
-                        if (actions[action].gamepad2
-                            && controls[i].value == *(int *)actions[action].gamepad2)
+                        if (actions[action].gamepad2 && controls[i].value == *(int *)actions[action].gamepad2)
                         {
                             *(int *)actions[action].gamepad2 = 0;
                             M_SaveCVARs();
@@ -1305,7 +1296,8 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case keyboardcontrol:
                         if (actions[action].keyboard1)
                         {
-                            if (actions[action].keyboard2 && *(int *)actions[action].keyboard1
+                            if (actions[action].keyboard2
+                                && *(int *)actions[action].keyboard1
                                 && *(int *)actions[action].keyboard1 != controls[i].value)
                             {
                                 if (*(int *)actions[action].keyboard2)
@@ -1338,7 +1330,8 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case gamepadcontrol:
                         if (actions[action].gamepad1)
                         {
-                            if (actions[action].gamepad2 && *(int *)actions[action].gamepad1
+                            if (actions[action].gamepad2
+                                && *(int *)actions[action].gamepad1
                                 && *(int *)actions[action].gamepad1 != controls[i].value)
                             {
                                 if (*(int *)actions[action].gamepad2)
@@ -1486,7 +1479,8 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
     C_Header(tabs, CMDLISTTITLE);
 
     for (int i = 0; *consolecmds[i].name; i++)
-        if (consolecmds[i].type == CT_CMD && *consolecmds[i].description
+        if (consolecmds[i].type == CT_CMD
+            && *consolecmds[i].description
             && (!*parms || wildcard(consolecmds[i].name, parms)))
         {
             char    description1[255];
@@ -1530,8 +1524,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
             M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt", appdatafolder);
 
             while (M_FileExists(filename))
-                M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump (%i).txt", appdatafolder,
-                    ++count);
+                M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump (%i).txt", appdatafolder, ++count);
         }
         else
             M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"%s", appdatafolder, parms);

@@ -44,11 +44,11 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAXVISPLANES    128                         // must be a power of 2
+#define MAXVISPLANES    128                     // must be a power of 2
 
-static visplane_t   *visplanes[MAXVISPLANES];       // killough
-static visplane_t   *freetail;                      // killough
-static visplane_t   **freehead = &freetail;         // killough
+static visplane_t   *visplanes[MAXVISPLANES];   // killough
+static visplane_t   *freetail;                  // killough
+static visplane_t   **freehead = &freetail;     // killough
 visplane_t          *floorplane;
 visplane_t          *ceilingplane;
 
@@ -57,14 +57,14 @@ visplane_t          *ceilingplane;
 #define visplane_hash(picnum, lightlevel, height) (((unsigned int)(picnum) * 3 + (unsigned int)(lightlevel) \
             + (unsigned int)(height) * 7) & (MAXVISPLANES - 1))
 
-int                *openings;                       // dropoff overflow
-int                *lastopening;                    // dropoff overflow
+int                *openings;                   // dropoff overflow
+int                *lastopening;                // dropoff overflow
 
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
-int                 floorclip[SCREENWIDTH];         // dropoff overflow
-int                 ceilingclip[SCREENWIDTH];       // dropoff overflow
+int                 floorclip[SCREENWIDTH];     // dropoff overflow
+int                 ceilingclip[SCREENWIDTH];   // dropoff overflow
 
 // spanstart holds the start of a plane span
 // initialized to 0 at start
@@ -74,7 +74,7 @@ static int          spanstart[SCREENHEIGHT];
 static lighttable_t **planezlight;
 static fixed_t      planeheight;
 
-static fixed_t      xoffs, yoffs;                   // killough 2/28/98: flat offsets
+static fixed_t      xoffs, yoffs;               // killough 2/28/98: flat offsets
 
 fixed_t             *yslope;
 fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
@@ -208,7 +208,6 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
             return check;
 
     check = new_visplane(hash);                                 // killough
-
     check->height = height;
     check->picnum = picnum;
     check->lightlevel = lightlevel;
@@ -227,7 +226,6 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     }
 
     memset(check->top, USHRT_MAX, sizeof(check->top));
-
     return check;
 }
 
@@ -300,9 +298,7 @@ static void R_MakeSpans(visplane_t *pl)
     xoffs = pl->xoffs;
     yoffs = pl->yoffs;
     planeheight = ABS(pl->height - viewz);
-
     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-
     pl->top[pl->minx - 1] = USHRT_MAX;
     pl->top[pl->maxx + 1] = USHRT_MAX;
 
@@ -374,7 +370,6 @@ static byte *R_DistortedFlat(int flatnum)
                 sinvalue = finesine[(y * SWIRLFACTOR + leveltic * 5 + 900) & 8191];
                 sinvalue2 = finesine[(x * SWIRLFACTOR2 + leveltic * 4 + 300) & 8191];
                 x1 = x + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
-
                 sinvalue = finesine[(x * SWIRLFACTOR + leveltic * 3 + 700) & 8191];
                 sinvalue2 = finesine[(y * SWIRLFACTOR2 + leveltic * 4 + 1200) & 8191];
                 y1 = y + 128 + ((sinvalue * AMP) >> FRACBITS) + ((sinvalue2 * AMP2) >> FRACBITS);
