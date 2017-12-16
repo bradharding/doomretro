@@ -1535,7 +1535,7 @@ dboolean C_Responder(event_t *ev)
                         if (M_StringStartsWith(output, input)
                             && input[strlen(input) - 1] != '+'
                             && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
-                                || !endspace1 && (spaces1 == 1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
+                                || (!endspace1 && (spaces1 == 1 && (spaces2 == 1 || (spaces2 == 2 && endspace2))))
                                 || (spaces1 == 2 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                 || spaces1 == 3))
                         {
