@@ -423,26 +423,21 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 //
 // R_BlastBloodSplatColumn
 //
-static void R_BlastBloodSplatColumn(const rcolumn_t *column)
+static void R_BlastBloodSplatColumn(const rcolumn_t *column, int numposts)
 {
-    int count = column->numposts;
+    dc_ceilingclip = mceilingclip[dc_x] + 1;
+    dc_floorclip = mfloorclip[dc_x] - 1;
 
-    if (count)
+    while (numposts--)
     {
-        dc_ceilingclip = mceilingclip[dc_x] + 1;
-        dc_floorclip = mfloorclip[dc_x] - 1;
+        const rpost_t   *post = &column->posts[numposts];
 
-        while (count--)
-        {
-            const rpost_t   *post = &column->posts[count];
+        // calculate unclipped screen coordinates for post
+        const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
 
-            // calculate unclipped screen coordinates for post
-            const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
-
-            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-                if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-                    colfunc();
-        }
+        if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                colfunc();
     }
 }
 
@@ -584,7 +579,13 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_BlastBloodSplatColumn(&columns[frac >> FRACBITS]);
+    {
+        const rcolumn_t *column = &columns[frac >> FRACBITS];
+        const int       numposts = column->numposts;
+
+        if (numposts)
+            R_BlastBloodSplatColumn(column, numposts);
+    }
 
     R_UnlockPatchNum(id);
 }
@@ -1135,6 +1136,9 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
     int         clipbot[SCREENWIDTH];
     const int   x1 = splat->x1;
     const int   x2 = splat->x2;
+
+    if (x1 > x2)
+        return;
 
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
