@@ -1890,6 +1890,8 @@ void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
         th->momz = M_Random() * 512;
         P_SetMobjState(th, S_BRAINEXPLODE1);
         th->tics = MAX(1, th->tics - (M_Random() & 7));
+        th->colfunc = tlcolfunc;
+        th->flags2 &= ~MF2_CASTSHADOW;
     }
 
     S_StartSound(NULL, sfx_bosdth);

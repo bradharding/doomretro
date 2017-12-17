@@ -154,7 +154,7 @@ static void R_FixWiggle(sector_t *sector)
         int heightbits;
     } scalevalues_t;
 
-    static const scalevalues_t scale_values[] =
+    static const scalevalues_t scalevalues[] =
     {
         { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
         {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
@@ -185,7 +185,7 @@ static void R_FixWiggle(sector_t *sector)
                 scaleindex++;
 
             // fine-tune renderer for this wall
-            svp = &scale_values[scaleindex];
+            svp = &scalevalues[scaleindex];
             max_rwscale = svp->clamp;
             heightbits = svp->heightbits;
             heightunit = 1 << heightbits;
