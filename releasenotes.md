@@ -1,7 +1,9 @@
 ### DOOM Retro v2.6.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The projectiles fired by the boss in *MAP30: Icon Of Sin* at the end of *DOOM II: Hell On Earth* will now move to their correct positions.
+* The following changes have been made to the boss in *MAP30: Icon Of Sin* at the end of *DOOM II: Hell On Earth*:
+  * Its projectiles will now move to their correct positions.
+  * The explosions when it is destroyed are now translucent if the `r_translucency` CVAR is `on`.
 
 ---
 

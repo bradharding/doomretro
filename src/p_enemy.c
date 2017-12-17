@@ -1902,6 +1902,8 @@ void A_BrainExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
     th->momz = M_Random() * 512;
     P_SetMobjState(th, S_BRAINEXPLODE1);
     th->tics = MAX(1, th->tics - (M_Random() & 7));
+    th->colfunc = tlcolfunc;
+    th->flags2 &= ~MF2_CASTSHADOW;
 }
 
 void A_BrainDie(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1959,8 +1961,7 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         P_SetTarget(&newmobj->target, target);
 
-        // Use the reactiontime to hold the distance (squared)
-        // from the target after the next move.
+        // Use the reactiontime to hold the distance (squared) from the target after the next move.
         newmobj->reactiontime = P_ApproxDistance(target->x - (actor->x + actor->momx),
             target->y - (actor->y + actor->momy));
 
@@ -1977,11 +1978,8 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (target)
     {
-        int dist;
-
-        // Will the next move put the cube closer to
-        // the target point than it is now?
-        dist = P_ApproxDistance(target->x - (actor->x + actor->momx), target->y - (actor->y + actor->momy));
+        // Will the next move put the cube closer to the target point than it is now?
+        int dist = P_ApproxDistance(target->x - (actor->x + actor->momx), target->y - (actor->y + actor->momy));
 
         if ((unsigned int)dist < (unsigned int)actor->reactiontime)
         {
@@ -2035,8 +2033,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
             // killough 8/29/98: add to appropriate thread
             P_UpdateThinker(&newmobj->thinker);
 
-            if (!(P_LookForPlayers(newmobj, true))
-                || P_SetMobjState(newmobj, newmobj->info->seestate))
+            if (!P_LookForPlayers(newmobj, true) || P_SetMobjState(newmobj, newmobj->info->seestate))
                 // telefrag anything in this spot
                 P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true);
 
