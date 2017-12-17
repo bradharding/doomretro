@@ -169,14 +169,13 @@ static void R_FixWiggle(sector_t *sector)
     // early out?
     if (height != lastheight)
     {
-        const scalevalues_t *svp;
-
         lastheight = height;
 
         // initialize, or handle moving sector
         if (height != sector->cachedheight)
         {
-            int scaleindex = 0;
+            int                 scaleindex = 0;
+            const scalevalues_t *svp;
 
             sector->cachedheight = height;
             height >>= 7;
@@ -185,17 +184,16 @@ static void R_FixWiggle(sector_t *sector)
             while ((height >>= 1))
                 scaleindex++;
 
-            sector->scaleindex = scaleindex;
+            // fine-tune renderer for this wall
+            svp = &scale_values[scaleindex];
+            max_rwscale = svp->clamp;
+            heightbits = svp->heightbits;
+            heightunit = 1 << heightbits;
+            invhgtbits = FRACBITS - heightbits;
         }
-
-        // fine-tune renderer for this wall
-        svp = &scale_values[sector->scaleindex];
-        max_rwscale = svp->clamp;
-        heightbits = svp->heightbits;
-        heightunit = 1 << heightbits;
-        invhgtbits = FRACBITS - heightbits;
     }
 }
+
 
 static lighttable_t **GetLightTable(const int lightlevel)
 {

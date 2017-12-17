@@ -126,7 +126,6 @@ typedef struct sector_s
     struct line_s       **lines;                // [linecount] size
 
     int                 cachedheight;
-    int                 scaleindex;
 
     // [AM] Previous position of floor and ceiling before
     //      think. Used to interpolate between positions.
