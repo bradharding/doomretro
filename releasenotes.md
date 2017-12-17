@@ -4,6 +4,7 @@
 * The following changes have been made to the boss in *MAP30: Icon Of Sin* at the end of *DOOM II: Hell On Earth*:
   * Its projectiles will now move vertically.
   * The explosions when it is destroyed are now translucent if the `r_translucency` CVAR is `on`.
+* The keycards and skull keys displayed in the alternate widescreen HUD now use the most dominant colors of those picked up by the player.
 
 ---
 

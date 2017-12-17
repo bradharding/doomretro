@@ -140,7 +140,7 @@ static struct
     char    *patchnamea;
     char    *patchnameb;
     patch_t *patch;
-} keypic[NUMCARDS] = {
+} keypics[NUMCARDS] = {
     { "BKEYA0", "BKEYB0", NULL },
     { "YKEYA0", "YKEYB0", NULL },
     { "RKEYA0", "RKEYB0", NULL },
@@ -166,9 +166,9 @@ static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
     int lump;
 
-    if (dehacked && (lump = W_CheckNumForName(keypic[keypicnum].patchnamea)) >= 0)
+    if (dehacked && (lump = W_CheckNumForName(keypics[keypicnum].patchnamea)) >= 0)
         return W_CacheLumpNum(lump);
-    else if ((lump = W_CheckNumForName(keypic[keypicnum].patchnameb)) >= 0)
+    else if ((lump = W_CheckNumForName(keypics[keypicnum].patchnameb)) >= 0)
         return W_CacheLumpNum(lump);
     else
         return NULL;
@@ -237,15 +237,15 @@ void HU_Init(void)
 
     ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
 
-    keypic[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
-    keypic[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
-    keypic[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
+    keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
+    keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
+    keypics[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
 
     if (gamemode != shareware)
     {
-        keypic[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
-        keypic[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
-        keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
+        keypics[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
+        keypics[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
+        keypics[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
     }
 
     if ((lump = W_CheckNumForName(M_CheckParm("-cdrom") ? "STCDROM" : "STDISK")) >= 0)
@@ -504,7 +504,7 @@ static void HU_DrawHUD(void)
 
         if (viewplayer->neededcardflash)
         {
-            if ((patch = keypic[viewplayer->neededcard].patch))
+            if ((patch = keypics[viewplayer->neededcard].patch))
             {
                 if (!gamepaused && keywait < currenttime)
                 {
@@ -524,7 +524,7 @@ static void HU_DrawHUD(void)
         }
 
         for (i = 0; i < NUMCARDS; i++)
-            if (viewplayer->cards[i] > 0 && (patch = keypic[i].patch))
+            if (viewplayer->cards[i] > 0 && (patch = keypics[i].patch))
                 hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - viewplayer->cards[i]), HUD_KEYS_Y,
                     patch, tinttab66);
     }
@@ -656,7 +656,7 @@ static void HU_AltInit(void)
     altskullpatch = W_CacheLumpName("DRHUDSKU");
 
     for (int i = 0; i < NUMCARDS; i++)
-        altkeypics[i].color = nearestcolors[altkeypics[i].color];
+        altkeypics[i].color = FindDominantColor(W_CacheLumpName(keypics[i].patchnameb));
 
     altkeypics[0].patch = altkeypatch;
     altkeypics[1].patch = altkeypatch;
