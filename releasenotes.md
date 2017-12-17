@@ -1,6 +1,7 @@
 ### DOOM Retro v2.6.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The projectiles fired by the boss in *MAP30: Icon Of Sin* at the end of *DOOM II: Hell On Earth* will now move to their correct positions.
 
 ---
 
