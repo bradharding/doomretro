@@ -91,6 +91,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_thingcolor,                                     NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (am_tswallcolor,                                    NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (am_wallcolor,                                      NOVALUEALIAS      ),
+    CONFIG_VARIABLE_INT          (autoaim,                                           BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (autoload,                                          BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (autouse,                                           BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (centerweapon,                                      BOOLVALUEALIAS    ),
@@ -530,6 +531,9 @@ static void M_CheckCVARs(void)
 
     if (am_wallcolor < am_wallcolor_min || am_wallcolor > am_wallcolor_max)
         am_wallcolor = am_wallcolor_default;
+
+    if (autoaim != false && autoaim != true)
+        autoaim = autoaim_default;
 
     if (autoload != false && autoload != true)
         autoload = autoload_default;

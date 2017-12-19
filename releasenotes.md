@@ -6,6 +6,7 @@
   * The explosions when it is destroyed are now translucent if the `r_translucency` CVAR is `on`.
 * The keycards and skull keys displayed in the alternate widescreen HUD now use the most dominant colors of those picked up by the player.
 * A bug has been fixed whereby the screen would continue to shake after the player had died in some rare instances if the `r_shake_damage` CVAR was `on`.
+* The autoaiming as the player fires their weapon while using mouselook can now be toggled on and off using the new `autoaim` CVAR. This CVAR is `on` by default.
 
 ---
 

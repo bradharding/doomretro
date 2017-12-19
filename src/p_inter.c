@@ -1571,8 +1571,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (gp_vibrate_damage && vibrate)
         {
-            XInputVibration((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000)
-                * gp_vibrate_damage / 100);
+            XInputVibration((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * gp_vibrate_damage / 100);
             damagevibrationtics += BETWEEN(12, damage, 100);
         }
 
