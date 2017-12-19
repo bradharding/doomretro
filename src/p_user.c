@@ -319,7 +319,12 @@ static void P_DeathThink(void)
             facingkiller = true;
         }
         else
+        {
             mo->angle += (delta < ANG180 ? ANG5 : -ANG5);
+
+            if (r_shake_damage)
+                I_UpdateBlitFunc(!!viewplayer->damagecount);
+        }
     }
     else
         P_ReduceDamageCount();
