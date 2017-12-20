@@ -351,105 +351,16 @@ static vissprite_t *R_NewVisSprite(void)
 //
 // R_BlastSpriteColumn
 //
-int     *mfloorclip;
-int     *mceilingclip;
+int             *mfloorclip;
+int             *mceilingclip;
 
-fixed_t spryscale;
-int64_t sprtopscreen;
-int64_t shadowtopscreen;
+fixed_t         spryscale;
+int64_t         sprtopscreen;
+static int64_t  shadowtopscreen;
+static int64_t  shadowshift;
 int     fuzzpos;
 
-static void R_BlastSpriteColumn(const rcolumn_t *column, int numposts)
-{
-    unsigned char   *pixels = column->pixels;
-
-    while (numposts--)
-    {
-        const rpost_t   *post = &column->posts[numposts];
-        const int       topdelta = post->topdelta;
-
-        // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
-
-        if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-            {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
-                    + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-                dc_source = pixels + topdelta;
-                colfunc();
-            }
-    }
-}
-
-//
-// R_BlastPlayerSpriteColumn
-//
-static void R_BlastPlayerSpriteColumn(const rcolumn_t *column, int numposts)
-{
-    unsigned char   *pixels = column->pixels;
-
-    while (numposts--)
-    {
-        const rpost_t   *post = &column->posts[numposts];
-        const int       topdelta = post->topdelta;
-
-        // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + pspritescale * topdelta + 1;
-
-        if ((dc_yh = MIN((int)((topscreen + pspritescale * post->length) >> FRACBITS), viewheight - 1)) >= 0)
-            if ((dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-            {
-                dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
-                    + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
-                dc_source = pixels + topdelta;
-                colfunc();
-            }
-    }
-}
-
-//
-// R_BlastBloodSplatColumn
-//
-static void R_BlastBloodSplatColumn(const rcolumn_t *column, int numposts)
-{
-    dc_ceilingclip = mceilingclip[dc_x] + 1;
-    dc_floorclip = mfloorclip[dc_x] - 1;
-
-    while (numposts--)
-    {
-        const rpost_t   *post = &column->posts[numposts];
-
-        // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
-
-        if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-                colfunc();
-    }
-}
-
-//
-// R_BlastShadowColumn
-//
-static int64_t  shadowshift;
-
 void (*shadowcolfunc)(void);
-
-static void R_BlastShadowColumn(const rcolumn_t *column, int numposts)
-{
-    while (numposts--)
-    {
-        const rpost_t   *post = &column->posts[numposts];
-
-        // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = shadowtopscreen + spryscale * post->topdelta + 1;
-
-        if ((dc_yh = MIN((int)(((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift))) <= dc_yh)
-                shadowcolfunc();
-    }
-}
 
 //
 // R_DrawVisSprite
@@ -504,13 +415,30 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
-        const int       numposts = column->numposts;
+        int             numposts = column->numposts;
 
         if (numposts)
         {
+            unsigned char   *pixels = column->pixels;
+
             dc_ceilingclip = mceilingclip[dc_x] + 1;
-            dc_floorclip = MIN(dc_baseclip, mfloorclip[dc_x]) - 1;
-            R_BlastSpriteColumn(column, numposts);
+            dc_floorclip = mfloorclip[dc_x] - 1;
+
+            while (numposts--)
+            {
+                const rpost_t   *post = &column->posts[numposts];
+                const int       topdelta = post->topdelta;
+                const int64_t   topscreen = sprtopscreen + spryscale * topdelta + 1;
+
+                if ((dc_yh = MIN((int)((topscreen + post->length * spryscale) >> FRACBITS), dc_floorclip)) >= 0)
+                    if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                    {
+                        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+                            + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                        dc_source = pixels + topdelta;
+                        colfunc();
+                    }
+            }
         }
     }
 
@@ -568,14 +496,37 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
-        const int       numposts = column->numposts;
+        int             numposts = column->numposts;
 
         if (numposts)
         {
+            unsigned char   *pixels = column->pixels;
+
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
-            R_BlastShadowColumn(column, numposts);
-            R_BlastSpriteColumn(column, numposts);
+
+            while (numposts--)
+            {
+                const rpost_t   *post = &column->posts[numposts];
+                const int       length = post->length * spryscale;
+                const int       topdelta = post->topdelta;
+                int64_t         topscreen = shadowtopscreen + spryscale * topdelta + 1;
+
+                if ((dc_yh = MIN((int)(((topscreen + length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
+                    if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift))) <= dc_yh)
+                        shadowcolfunc();
+
+                topscreen = sprtopscreen + spryscale * topdelta + 1;
+
+                if ((dc_yh = MIN((int)((topscreen + length) >> FRACBITS), dc_floorclip)) >= 0)
+                    if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                    {
+                        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+                            + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                        dc_source = pixels + topdelta;
+                        colfunc();
+                    }
+            }
         }
     }
 
@@ -602,10 +553,30 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
-        const int       numposts = column->numposts;
+        int             numposts = column->numposts;
 
         if (numposts)
-            R_BlastPlayerSpriteColumn(column, numposts);
+        {
+            unsigned char   *pixels = column->pixels;
+
+            while (numposts--)
+            {
+                const rpost_t   *post = &column->posts[numposts];
+                const int       topdelta = post->topdelta;
+
+                // calculate unclipped screen coordinates for post
+                const int64_t   topscreen = sprtopscreen + pspritescale * topdelta + 1;
+
+                if ((dc_yh = MIN((int)((topscreen + pspritescale * post->length) >> FRACBITS), viewheight - 1)) >= 0)
+                    if ((dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                    {
+                        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+                            + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                        dc_source = pixels + topdelta;
+                        colfunc();
+                    }
+            }
+        }
     }
 
     R_UnlockPatchNum(id);
@@ -632,10 +603,25 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = &columns[frac >> FRACBITS];
-        const int       numposts = column->numposts;
+        int             numposts = column->numposts;
 
         if (numposts)
-            R_BlastBloodSplatColumn(column, numposts);
+        {
+            dc_ceilingclip = mceilingclip[dc_x] + 1;
+            dc_floorclip = mfloorclip[dc_x] - 1;
+
+            while (numposts--)
+            {
+                const rpost_t   *post = &column->posts[numposts];
+
+                // calculate unclipped screen coordinates for post
+                const int64_t   topscreen = sprtopscreen + spryscale * post->topdelta + 1;
+
+                if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+                    if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                        colfunc();
+            }
+        }
     }
 
     R_UnlockPatchNum(id);
