@@ -348,9 +348,6 @@ static vissprite_t *R_NewVisSprite(void)
     return vissprites + num_vissprite++;
 }
 
-//
-// R_BlastSpriteColumn
-//
 int             *mfloorclip;
 int             *mceilingclip;
 
