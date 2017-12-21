@@ -419,7 +419,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
             unsigned char   *pixels = column->pixels;
 
             dc_ceilingclip = mceilingclip[dc_x] + 1;
-            dc_floorclip = mfloorclip[dc_x] - 1;
+            dc_floorclip = MIN(dc_baseclip, mfloorclip[dc_x]) - 1;
 
             while (numposts--)
             {
