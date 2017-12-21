@@ -506,14 +506,21 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             {
                 const rpost_t   *post = &column->posts[numposts];
                 const int       length = post->length * spryscale;
-                const int       topdelta = post->topdelta;
-                int64_t         topscreen = shadowtopscreen + spryscale * topdelta + 1;
+                int64_t         topscreen = shadowtopscreen + spryscale * post->topdelta + 1;
 
-                if ((dc_yh = MIN((int)(((topscreen + length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
+                if ((dc_yh = MIN((int)(((topscreen + post->length * spryscale) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
                     if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift))) <= dc_yh)
                         shadowcolfunc();
+            }
 
-                topscreen = sprtopscreen + spryscale * topdelta + 1;
+            numposts = column->numposts;
+
+            while (numposts--)
+            {
+                const rpost_t   *post = &column->posts[numposts];
+                const int       length = post->length * spryscale;
+                const int       topdelta = post->topdelta;
+                int64_t         topscreen = sprtopscreen + spryscale * topdelta + 1;
 
                 if ((dc_yh = MIN((int)((topscreen + length) >> FRACBITS), dc_floorclip)) >= 0)
                     if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
