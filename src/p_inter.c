@@ -630,6 +630,10 @@ dboolean P_GivePower(int power)
 
     switch (power)
     {
+        case pw_invulnerability:
+            viewplayer->fixedcolormap = INVERSECOLORMAP;
+            break;
+
         case pw_strength:
             P_GiveBody(100, true);
             break;
