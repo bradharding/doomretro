@@ -80,9 +80,10 @@ short                   firstbloodsplatlump;
 static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
 
-static dboolean         interpolatesprites;
-static dboolean         pausesprites;
 static dboolean         drawshadows;
+static dboolean         interpolatesprites;
+static dboolean         invulnerable;
+static dboolean         pausesprites;
 static fixed_t          floorheight;
 
 dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
@@ -404,7 +405,7 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column, int numposts)
         const int       topdelta = post->topdelta;
         const int64_t   topscreen = sprtopscreen + pspritescale * topdelta + 1;
 
-        if ((dc_yh = MIN((int)((topscreen + pspritescale * post->length) >> FRACBITS), viewheight - 1)) >= 0)
+        if ((dc_yh = MIN((int)((topscreen + post->length * pspritescale) >> FRACBITS), viewheight - 1)) >= 0)
             if ((dc_yl = MAX(0, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
             {
                 dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
@@ -447,30 +448,31 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     dc_colormap = vis->colormap;
     dc_iscale = FixedDiv(FRACUNIT, vis->scale);
     dc_texturemid = vis->texturemid;
-
     if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = transcolfunc;
         dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
     else
+    {
         colfunc = vis->colfunc;
 
-    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
-
-    if (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency)
-    {
-        if (colfunc == tlcolfunc)
-            colfunc = tl50colfunc;
-        else if (colfunc == tlredcolfunc)
-            colfunc = tlred33colfunc;
-        else if (colfunc == tlgreencolfunc)
-            colfunc = tlgreen33colfunc;
-        else if (colfunc == tlbluecolfunc)
-            colfunc = tlblue25colfunc;
-        else if (colfunc == tlredwhitecolfunc1 || colfunc == tlredwhitecolfunc2)
-            colfunc = tlredwhite50colfunc;
+        if (invulnerable)
+        {
+            if (colfunc == tlcolfunc)
+                colfunc = tl50colfunc;
+            else if (colfunc == tlredcolfunc)
+                colfunc = tlred33colfunc;
+            else if (colfunc == tlgreencolfunc)
+                colfunc = tlgreen33colfunc;
+            else if (colfunc == tlbluecolfunc)
+                colfunc = tlblue25colfunc;
+            else if (colfunc == tlredwhitecolfunc1 || colfunc == tlredwhitecolfunc2)
+                colfunc = tlredwhite50colfunc;
+        }
     }
+
+    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
     if (vis->footclip)
         dc_baseclip = (int)((sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale)
@@ -522,28 +524,28 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
     else
+    {
         colfunc = vis->colfunc;
 
-    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+        if (invulnerable)
+        {
+            if (colfunc == tlcolfunc)
+                colfunc = tl50colfunc;
+            else if (colfunc == tlredcolfunc)
+                colfunc = tlred33colfunc;
+            else if (colfunc == tlgreencolfunc)
+                colfunc = tlgreen33colfunc;
+            else if (colfunc == tlbluecolfunc)
+                colfunc = tlblue25colfunc;
+            else if (colfunc == tlredwhitecolfunc1 || colfunc == tlredwhitecolfunc2)
+                colfunc = tlredwhite50colfunc;
+        }
+    }
 
+    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
     shadowcolfunc = mobj->shadowcolfunc;
     shadowtopscreen = centeryfrac - FixedMul(vis->shadowpos, spryscale);
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
-
-    if (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency)
-    {
-        if (colfunc == tlcolfunc)
-            colfunc = tl50colfunc;
-        else if (colfunc == tlredcolfunc)
-            colfunc = tlred33colfunc;
-        else if (colfunc == tlgreencolfunc)
-            colfunc = tlgreen33colfunc;
-        else if (colfunc == tlbluecolfunc)
-            colfunc = tlblue25colfunc;
-        else if (colfunc == tlredwhitecolfunc1 || colfunc == tlredwhitecolfunc2)
-            colfunc = tlredwhite50colfunc;
-    }
-
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
@@ -1090,7 +1092,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
                     /* SPR_BFGF */ tlcolfunc,          tl50colfunc
                 };
 
-                vis->colfunc = colfuncs[spr * 2 + (viewplayer->fixedcolormap == INVERSECOLORMAP)];
+                vis->colfunc = colfuncs[spr * 2 + invulnerable];
             }
             else
                 vis->colfunc = basecolfunc;
@@ -1405,6 +1407,7 @@ void R_DrawMasked(void)
 
     pausesprites = (menuactive || paused || consoleactive);
     interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
+    invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency);
 
     // draw all blood splats
     i = num_bloodsplatvissprite;
