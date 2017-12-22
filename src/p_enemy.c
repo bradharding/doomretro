@@ -91,7 +91,6 @@ static dirtype_t diags[] =
     DI_SOUTHEAST
 };
 
-
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 //

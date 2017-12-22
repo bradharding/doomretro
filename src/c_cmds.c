@@ -952,7 +952,6 @@ static void weapon7_action_func(void)
     P_ChangeWeapon(wp_bfg);
 }
 
-
 static int C_GetIndex(const char *cmd)
 {
     int i = 0;

@@ -1425,7 +1425,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     else
         mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, item);
 
-
     mo->angle = target->angle + (M_NegRandom() << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
 
@@ -1487,8 +1486,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / mass;
 
         // make fall forwards sometimes
-        if (damage < 40 && damage > target->health  && target->z - inflicter->z > 64 * FRACUNIT
-            && (M_Random() & 1))
+        if (damage < 40 && damage > target->health && target->z - inflicter->z > 64 * FRACUNIT && (M_Random() & 1))
         {
             ang += ANG180;
             thrust *= 4;
