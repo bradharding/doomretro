@@ -47,6 +47,7 @@
 
 #define BLACK       0
 #define RED         176
+#define WHITE       4
 
 // increment every time a check is made
 int                 validcount = 1;
@@ -770,9 +771,11 @@ void R_RenderPlayerView(void)
     else
     {
         if (r_homindicator)
-            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, ((activetic % 20) < 9 ? RED : BLACK));
+            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
+                ((activetic % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)));
         else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
-            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, BLACK);
+            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
+                (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK));
 
         R_RenderBSPNode(numnodes - 1);  // head node is the last node output
         R_DrawPlanes();

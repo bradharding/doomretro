@@ -11,6 +11,7 @@
 * Vertical autoaiming as the player fires their weapon while using mouselook can now be toggled on and off using the new `autoaim` CVAR. This CVAR is `on` by default.
 * The player is now given a berserk power-up when entering the `IDFA` or `IDKFA` cheats so they can then still equip their fists.
 * The screen will now be updated immediately when entering either `give invulnerability` or the `IDBEHOLDV` cheat in the console.
+* Areas outside of the map (accessible when in either freeze or no clipping modes) are now white rather than black when the player has an invulnerability power-up.
 
 ---
 
