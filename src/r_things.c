@@ -365,7 +365,6 @@ static void R_BlastShadowColumn(const rcolumn_t *column, int numposts)
     while (numposts--)
     {
         const rpost_t   *post = &column->posts[numposts];
-        const int       length = post->length * spryscale;
         int64_t         topscreen = shadowtopscreen + spryscale * post->topdelta + 1;
 
         if ((dc_yh = MIN((int)(((topscreen + post->length * spryscale) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
@@ -448,29 +447,14 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     dc_colormap = vis->colormap;
     dc_iscale = FixedDiv(FRACUNIT, vis->scale);
     dc_texturemid = vis->texturemid;
+
     if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = transcolfunc;
         dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
     else
-    {
         colfunc = vis->colfunc;
-
-        if (invulnerable)
-        {
-            if (colfunc == tlcolfunc)
-                colfunc = tl50colfunc;
-            else if (colfunc == tlredcolfunc)
-                colfunc = tlred33colfunc;
-            else if (colfunc == tlgreencolfunc)
-                colfunc = tlgreen33colfunc;
-            else if (colfunc == tlbluecolfunc)
-                colfunc = tlblue25colfunc;
-            else if (colfunc == tlredwhitecolfunc1 || colfunc == tlredwhitecolfunc2)
-                colfunc = tlredwhite50colfunc;
-        }
-    }
 
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
@@ -489,8 +473,6 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
         if (numposts)
         {
-            unsigned char   *pixels = column->pixels;
-
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = MIN(dc_baseclip, mfloorclip[dc_x]) - 1;
             R_BlastSpriteColumn(column, numposts);
@@ -524,23 +506,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         dc_translation = translationtables - 256 + ((flags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
     else
-    {
         colfunc = vis->colfunc;
-
-        if (invulnerable)
-        {
-            if (colfunc == tlcolfunc)
-                colfunc = tl50colfunc;
-            else if (colfunc == tlredcolfunc)
-                colfunc = tlred33colfunc;
-            else if (colfunc == tlgreencolfunc)
-                colfunc = tlgreen33colfunc;
-            else if (colfunc == tlbluecolfunc)
-                colfunc = tlblue25colfunc;
-            else if (colfunc == tlredwhitecolfunc1 || colfunc == tlredwhitecolfunc2)
-                colfunc = tlredwhite50colfunc;
-        }
-    }
 
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
     shadowcolfunc = mobj->shadowcolfunc;
@@ -786,7 +752,7 @@ static void R_ProjectSprite(mobj_t *thing)
     if ((thing->flags & MF_FUZZ) && pausesprites && r_textures)
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
-        vis->colfunc = thing->colfunc;
+        vis->colfunc = (invulnerable ? thing->altcolfunc : thing->colfunc);
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && !heightsec && r_liquid_clipsprites)
@@ -984,8 +950,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
 {
     fixed_t         tx;
     int             x1, x2;
-    vissprite_t     *vis;
     vissprite_t     tempvis;
+    vissprite_t     *vis = &tempvis;
     state_t         *state = psp->state;
     spritenum_t     spr = state->sprite;
     long            frame = state->frame;
@@ -998,7 +964,6 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritescale)) >> FRACBITS) - 1;
 
     // store information in a vissprite
-    vis = &tempvis;
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
 
     vis->x1 = MAX(0, x1);
@@ -1053,8 +1018,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         }
     }
 
-    vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale)
-        - viewplayer->lookdir * 0x5C0;
+    vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale) - viewplayer->lookdir * 0x5C0;
 
     if (invisibility)
     {
@@ -1068,8 +1032,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
         else if (r_translucency && !notranslucency)
         {
             if (spr == SPR_SHT2)
-                vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT) && (!altered
-                    || state->translucent || BTSX) ? tlredwhitecolfunc1 : basecolfunc);
+                vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT)
+                    && (!altered || state->translucent || BTSX) ? tlredwhitecolfunc1 : basecolfunc);
             else if (muzzleflash && spr <= SPR_BFGF && (!altered || state->translucent || BTSX))
             {
                 void (*colfuncs[])(void) =

@@ -556,35 +556,80 @@ void R_InitColumnFunctions(void)
         const int   flags2 = info->flags2;
 
         if (flags2 & MF2_TRANSLUCENT)
+        {
             info->colfunc = tlcolfunc;
+            info->altcolfunc = tl50colfunc;
+        }
         else if (info->doomednum == MegaSphere && !hacx)
+        {
             info->colfunc = megaspherecolfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else if (info->flags & MF_FUZZ)
+        {
             info->colfunc = fuzzcolfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)
+        {
             info->colfunc = tlredcolfunc;
+            info->altcolfunc = tlred33colfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT_GREENONLY)
+        {
             info->colfunc = tlgreencolfunc;
+            info->altcolfunc = tlgreen33colfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT_BLUEONLY)
+        {
             info->colfunc = tlbluecolfunc;
+            info->altcolfunc = tlblue25colfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT_33)
+        {
             info->colfunc = tl33colfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else if ((info->flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
+        {
             info->colfunc = tl50colfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+        {
             info->colfunc = tlredwhitecolfunc1;
+            info->altcolfunc = tlred33colfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+        {
             info->colfunc = tlredtogreen33colfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+        {
             info->colfunc = tlredtoblue33colfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT_BLUE_25)
+        {
             info->colfunc = tlblue25colfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else if (flags2 & MF2_REDTOGREEN)
+        {
             info->colfunc = redtogreencolfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else if (flags2 & MF2_REDTOBLUE)
+        {
             info->colfunc = redtobluecolfunc;
+            info->altcolfunc = basecolfunc;
+        }
         else
+        {
             info->colfunc = basecolfunc;
+            info->altcolfunc = basecolfunc;
+        }
     }
 
     if (chex)

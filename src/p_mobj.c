@@ -690,6 +690,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
     mobj->colfunc = info->colfunc;
+    mobj->altcolfunc = info->altcolfunc;
 
     if (r_textures)
         mobj->shadowcolfunc = (r_shadows_translucency ? ((mobj->flags & MF_FUZZ) ?
@@ -1137,6 +1138,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->interpolate = true;
 
     th->colfunc = info->colfunc;
+    th->altcolfunc = info->altcolfunc;
 
     P_SetThingPosition(th);
 
@@ -1219,6 +1221,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->interpolate = true;
 
         th->colfunc = info->colfunc;
+        th->altcolfunc = info->altcolfunc;
         th->blood = blood;
 
         P_SetThingPosition(th);

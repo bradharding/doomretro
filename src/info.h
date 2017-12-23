@@ -1441,6 +1441,7 @@ typedef struct
     char        name3[100];
     char        plural3[100];
     void        (*colfunc)(void);
+    void        (*altcolfunc)(void);
 } mobjinfo_t;
 
 extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];

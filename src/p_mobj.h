@@ -385,6 +385,7 @@ typedef struct mobj_s
     int                 floatbob;
 
     void                (*colfunc)(void);
+    void                (*altcolfunc)(void);
     void                (*shadowcolfunc)(void);
 
     int                 shadowoffset;
