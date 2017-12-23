@@ -529,6 +529,9 @@ void P_PlayerThink(void)
 
     P_CalcHeight();
 
+    // cycle psprites
+    P_MovePsprites();
+
     if (freeze)
         return;
 
@@ -571,9 +574,6 @@ void P_PlayerThink(void)
     }
     else
         viewplayer->usedown = false;
-
-    // cycle psprites
-    P_MovePsprites();
 
     // Counters, time dependent power ups.
     if (viewplayer->powers[pw_invulnerability] > 0)
