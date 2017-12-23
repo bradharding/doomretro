@@ -16,6 +16,7 @@
   * The player’s health will no longer regenerate if the `regenhealth` CVAR is `on`.
 * The screen will now be updated immediately when entering the `IDBEHOLDV` cheat in the console.
 * Areas outside of the map (accessible when either the freeze or no clipping modes are on) are now white rather than black when the player has an invulnerability power-up.
+* The `-config` command-line parameter will no longer be ignored when saving the configuration file.
 
 ---
 

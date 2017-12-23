@@ -44,6 +44,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
+#include "m_argv.h"
 #include "m_config.h"
 #include "m_fixed.h"
 #include "m_misc.h"
@@ -274,12 +275,15 @@ static void SaveBindByValue(FILE *file, char *action, int value, controltype_t t
 void M_SaveCVARs(void)
 {
     int     numaliases = 0;
+    int     p;
     FILE    *file;
 
     if (!cvarsloaded || vanilla)
         return;
 
-    if (!(file = fopen(packageconfig, "w")))
+    p = M_CheckParmWithArgs("-config", 1, 1);
+
+    if (!(file = fopen((p ? myargv[p + 1] : packageconfig), "w")))
         return; // can't write the file, but don't complain
 
     if (returntowidescreen)
@@ -814,7 +818,7 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (!togglingvanilla && M_StringCompare(filename, packageconfig))
+    if (!togglingvanilla && M_StringEndsWith(filename, PACKAGE_CONFIG))
     {
         for (int i = 0; *actions[i].action; i++)
         {
