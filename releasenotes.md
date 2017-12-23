@@ -10,7 +10,10 @@
 * A bug has been fixed whereby the screen would continue to shake after the player had died in some rare instances if the `r_shake_damage` CVAR was `on`.
 * Vertical autoaiming as the player fires their weapon while using mouselook can now be toggled on and off using the new `autoaim` CVAR. This CVAR is `on` by default.
 * The player is now given a berserk power-up when entering the `IDFA` or `IDKFA` cheats so they can then still equip their fists.
-* The `give` CCMD will now work correctly when freeze mode is on.
+* The following changes have been made when freeze mode is on:
+  * The `give` CCMD will now work correctly.
+  * Any power-ups the player has will no longer time out.
+  * The player’s health will no longer regenerate if the `regenhealth` CVAR is `on`.
 * The screen will now be updated immediately when entering the `IDBEHOLDV` cheat in the console.
 * Areas outside of the map (accessible when either the freeze or no clipping modes are on) are now white rather than black when the player has an invulnerability power-up.
 

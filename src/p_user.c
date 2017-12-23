@@ -520,10 +520,6 @@ void P_PlayerThink(void)
         return;
     }
 
-    // [BH] regenerate health up to 100 every 1 second
-    if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !viewplayer->damagecount)
-        mo->health = viewplayer->health = MIN(viewplayer->health + 1, initial_health);
-
     // Move around.
     // Reaction time is used to prevent movement for a bit after a teleport.
     if (mo->reactiontime)
@@ -533,14 +529,20 @@ void P_PlayerThink(void)
 
     P_CalcHeight();
 
+    if (freeze)
+        return;
+
+    // [BH] regenerate health up to 100 every 1 second
+    if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !viewplayer->damagecount)
+        mo->health = viewplayer->health = MIN(viewplayer->health + 1, initial_health);
+
     // [BH] Check all sectors player is touching are special
-    if (!freeze)
-        for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-            if (seclist->m_sector->special && mo->z == seclist->m_sector->interpfloorheight)
-            {
-                P_PlayerInSpecialSector();
-                break;
-            }
+    for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+        if (seclist->m_sector->special && mo->z == seclist->m_sector->interpfloorheight)
+        {
+            P_PlayerInSpecialSector();
+            break;
+        }
 
     // Check for weapon change.
 
