@@ -1905,6 +1905,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     || (num == mobjinfo[i].doomednum && num != -1)))
                 {
                     static char buffer[128];
+                    dboolean    old_freeze = freeze;
 
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                     {
@@ -1918,8 +1919,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                         return;
                     }
 
-                    if (gamemode == shareware && (i == MT_MISC28 || i == MT_MISC25 || i == MT_MISC20
-                        || i == MT_MISC21))
+                    if (gamemode == shareware && (i == MT_MISC28 || i == MT_MISC25 || i == MT_MISC20 || i == MT_MISC21))
                     {
                         M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
 
@@ -1931,7 +1931,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                         return;
                     }
 
+                    freeze = false;
                     P_TouchSpecialThing(P_SpawnMobj(viewx, viewy, viewz, i), viewplayer->mo, false, false);
+                    freeze = old_freeze;
                     C_HideConsole();
                     break;
                 }
