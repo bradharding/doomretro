@@ -645,9 +645,6 @@ static void I_ReadMouse(void)
         D_PostEvent(&ev);
         button = false;
     }
-
-    if (MouseShouldBeGrabbed())
-        CenterMouse();
 }
 
 //
