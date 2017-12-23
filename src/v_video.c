@@ -1396,6 +1396,7 @@ void V_Init(void)
 {
     byte                *base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
     const SDL_version   *linked = IMG_Linked_Version();
+    int                 p;
 #if defined(_WIN32) && !defined(PORTABILITY)
     char                buffer[MAX_PATH];
 #endif
@@ -1425,9 +1426,11 @@ void V_Init(void)
         M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S PACKAGE_NAME,
             M_GetExecutableFolder());
 #else
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots",
-            M_GetAppDataFolder());
+    M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s"DIR_SEPARATOR_S"screenshots", M_GetAppDataFolder());
 #endif
+
+    if ((p = M_CheckParmWithArgs("-shotdir", 1, 1)))
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), myargv[p + 1]);
 }
 
 char            lbmname1[MAX_PATH];
