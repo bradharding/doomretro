@@ -5613,7 +5613,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
 //
 extern int      minfps;
 extern int      maxfps;
-extern Uint32   starttime;
+extern uint64_t starttime;
 extern int      frames;
 
 static void vid_showfps_cvar_func2(char *cmd, char *parms)
@@ -5635,7 +5635,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
             frames = -1;
         }
 
-        starttime = SDL_GetTicks();
+        starttime = SDL_GetPerformanceCounter();
     }
 }
 

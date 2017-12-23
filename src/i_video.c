@@ -691,7 +691,7 @@ static void GetUpscaledTextureSize(int width, int height)
     upscaledheight = MIN(height / SCREENHEIGHT + !!(height % SCREENHEIGHT), MAXUPSCALEHEIGHT);
 }
 
-uint64_t        performancefrequency;
+static uint64_t performancefrequency;
 uint64_t        starttime;
 int             frames = -1;
 static uint64_t currenttime;
