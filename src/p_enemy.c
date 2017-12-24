@@ -10,7 +10,7 @@
   Copyright © 2013-2018 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
-  For a list of credits, see <http://wiki.doomretro.com/credits>.
+  For a list of credits, see <https://wiki.doomretro.com/CREDITS>.
 
   This file is part of DOOM Retro.
 
@@ -1864,8 +1864,7 @@ void A_BabyMetal(mobj_t *actor, player_t *player, pspdef_t *psp)
 }
 
 // [jeff] remove limit on braintargets
-//  and fix http://doomwiki.org/wiki/Spawn_cubes_miss_east_and_west_targets
-static unsigned int braintargeted;
+//  and fix <https://doomwiki.org/wiki/Spawn_cubes_miss_east_and_west_targets>
 
 void A_BrainAwake(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
@@ -1914,8 +1913,9 @@ void A_BrainDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 static mobj_t *A_NextBrainTarget(void)
 {
-    unsigned int    count = 0;
-    mobj_t          *found = NULL;
+    unsigned int        count = 0;
+    static unsigned int braintargeted;
+    mobj_t              *found = NULL;
 
     // find all the target spots
     for (thinker_t *th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)

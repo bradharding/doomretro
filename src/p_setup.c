@@ -10,7 +10,7 @@
   Copyright © 2013-2018 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
-  For a list of credits, see <http://wiki.doomretro.com/credits>.
+  For a list of credits, see <https://wiki.doomretro.com/CREDITS>.
 
   This file is part of DOOM Retro.
 
@@ -379,7 +379,7 @@ static void P_LoadSegs(int lump)
         // e6y
         // check and fix wrong references to non-existent vertexes
         // see e1m9 @ NIVELES.WAD
-        // http://www.doomworld.com/idgames/index.php?id=12647
+        // <https://www.doomworld.com/idgames/index.php?id=12647>
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
             if (v1 >= numvertexes)
@@ -576,7 +576,7 @@ static void P_LoadSegs_V4(int lump)
         // e6y
         // check and fix wrong references to non-existent vertexes
         // see e1m9 @ NIVELES.WAD
-        // http://www.doomworld.com/idgames/index.php?id=12647
+        // <https://www.doomworld.com/idgames/index.php?id=12647>
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
             if (v1 >= numvertexes)

@@ -10,7 +10,7 @@
   Copyright © 2013-2018 Brad Harding.
 
   DOOM Retro is a fork of Chocolate DOOM.
-  For a list of credits, see <http://wiki.doomretro.com/credits>.
+  For a list of credits, see <https://wiki.doomretro.com/CREDITS>.
 
   This file is part of DOOM Retro.
 
@@ -474,7 +474,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
     mobj_t      *mo;
     mapthing_t  *mthing = &mobj->spawnpoint;
 
-    // [BH] Fix (0,0) respawning bug. See <http://doomwiki.org/wiki/(0,0)_respawning_bug>.
+    // [BH] Fix (0,0) respawning bug. See <https://doomwiki.org/wiki/(0,0)_respawning_bug>.
     if (!x && !y)
     {
         x = mobj->x;
