@@ -66,10 +66,6 @@ int                *lastopening;                // dropoff overflow
 int                 floorclip[SCREENWIDTH];     // dropoff overflow
 int                 ceilingclip[SCREENWIDTH];   // dropoff overflow
 
-// spanstart holds the start of a plane span
-// initialized to 0 at start
-static int          spanstart[SCREENHEIGHT];
-
 // texture mapping
 static lighttable_t **planezlight;
 static fixed_t      planeheight;
@@ -295,6 +291,10 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 //
 static void R_MakeSpans(visplane_t *pl)
 {
+    // spanstart holds the start of a plane span
+    // initialized to 0 at start
+    static int  spanstart[SCREENHEIGHT];
+
     xoffs = pl->xoffs;
     yoffs = pl->yoffs;
     planeheight = ABS(pl->height - viewz);

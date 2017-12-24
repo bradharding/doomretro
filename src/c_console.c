@@ -1786,11 +1786,10 @@ dboolean C_Responder(event_t *ev)
     return true;
 }
 
-static const char *days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-
 static const char *dayofweek(int d, int m, int y)
 {
     const int   adjustment = (14 - m) / 12;
+    const char  *days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
     m += 12 * adjustment - 2;
     y -= adjustment;

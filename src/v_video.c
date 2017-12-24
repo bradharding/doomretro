@@ -401,13 +401,11 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-static const int    italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
-
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics,
-    byte *tinttab)
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *tinttab)
 {
-    byte    *desttop = screens[0] + y * SCREENWIDTH + x;
-    int     w = SHORT(patch->width);
+    byte        *desttop = screens[0] + y * SCREENWIDTH + x;
+    int         w = SHORT(patch->width);
+    const int   italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
     for (int col = 0; col < w; col++, desttop++)
     {

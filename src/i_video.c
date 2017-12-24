@@ -175,8 +175,8 @@ const float gammalevels[GAMMALEVELS] =
 int                 gammaindex;
 float               r_gamma = r_gamma_default;
 
-static SDL_Rect     src_rect = { 0, 0, 0, 0 };
-static SDL_Rect     map_rect = { 0, 0, 0, 0 };
+static SDL_Rect     src_rect;
+static SDL_Rect     map_rect;
 
 int                 fps;
 int                 minfps = INT_MAX;

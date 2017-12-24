@@ -63,8 +63,6 @@ fixed_t             centerxfrac;
 fixed_t             centeryfrac;
 fixed_t             projection;
 
-fixed_t             fovscale = FRACUNIT;
-
 fixed_t             viewx;
 fixed_t             viewy;
 fixed_t             viewz;
@@ -378,6 +376,8 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
+    fixed_t fovscale;
+
     setsizeneeded = false;
 
     if (setblocks == 11)

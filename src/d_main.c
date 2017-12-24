@@ -158,7 +158,6 @@ struct tm           *gamestarttime;
 
 static event_t      events[MAXEVENTS];
 static int          eventhead;
-static int          eventtail;
 
 //
 // D_PostEvent
@@ -176,6 +175,8 @@ void D_PostEvent(event_t *ev)
 //
 void D_ProcessEvents(void)
 {
+    static int  eventtail;
+
     for (; eventtail != eventhead; eventtail = (eventtail + 1) & (MAXEVENTS - 1))
     {
         event_t *ev = events + eventtail;

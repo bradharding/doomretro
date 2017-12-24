@@ -363,7 +363,7 @@ void R_DrawBrightMapWallColumn(void)
             dest += SCREENWIDTH;
             frac += fracstep;
         }
- 
+
         dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
         bright = brightmap[dot];
         *dest = (dot & -bright) | (colormap[dot] & -!bright);

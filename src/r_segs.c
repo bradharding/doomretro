@@ -47,8 +47,6 @@ static unsigned int maxdrawsegs;
 
 static dboolean     segtextured;        // True if any of the segs textures might be visible.
 
-static side_t       *sidedef;
-
 static dboolean     markfloor;          // False if the back side is the same plane.
 dboolean            markceiling;
 
@@ -524,6 +522,7 @@ void R_StoreWallRange(const int start, const int stop)
     int      worldbottom;
     int      worldhigh;
     int      worldlow;
+    side_t  *sidedef;
 
     linedef = curline->linedef;
 

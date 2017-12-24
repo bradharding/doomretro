@@ -1162,8 +1162,8 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
         if (ds->x1 > x2 || ds->x2 < x1 || !(silhouette & SIL_BOTH))
             continue;       // does not cover bloodsplat
 
-        if (ds->maxscale < splat->scale || (ds->minscale < splat->scale
-            && !R_PointOnSegSide(splat->gx, splat->gy, ds->curline)))
+        if (ds->maxscale < splat->scale
+            || (ds->minscale < splat->scale && !R_PointOnSegSide(splat->gx, splat->gy, ds->curline)))
             continue;       // seg is behind bloodsplat
 
         // clip this piece of the bloodsplat
@@ -1278,8 +1278,8 @@ static void R_DrawSprite(const vissprite_t *spr)
         if (ds->x1 > x2 || ds->x2 < x1 || !(silhouette & SIL_BOTH))
             continue;       // does not cover sprite
 
-        if (ds->maxscale < spr->scale || (ds->minscale < spr->scale
-            && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+        if (ds->maxscale < spr->scale
+            || (ds->minscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
         {
             // masked mid texture?
             if (ds->maskedtexturecol)

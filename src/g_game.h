@@ -94,7 +94,6 @@ void G_PrevWeapon(void);
 extern fixed_t  forwardmove[2];
 extern fixed_t  sidemove[2];
 extern fixed_t  angleturn[3];
-extern fixed_t  gamepadangleturn[2];
 extern dboolean gamekeydown[NUMKEYS];
 extern dboolean *mousebuttons;
 extern dboolean canmodify;

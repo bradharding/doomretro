@@ -55,7 +55,6 @@
 // "128 IWAD search directories should be enough for anybody".
 #define MAX_IWAD_DIRS   128
 
-static dboolean iwad_dirs_built;
 static char     *iwad_dirs[MAX_IWAD_DIRS];
 static int      num_iwad_dirs;
 
@@ -373,7 +372,8 @@ static void AddDoomWADPath(void)
 //
 static void BuildIWADDirList(void)
 {
-    char    *doomwaddir;
+    char            *doomwaddir;
+    static dboolean iwad_dirs_built;
 
     if (iwad_dirs_built)
         return;
