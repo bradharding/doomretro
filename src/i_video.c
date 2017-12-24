@@ -892,8 +892,6 @@ void I_Blit_Automap(void)
 
 void I_Blit_Automap_NearestLinear(void)
 {
-    UpdateGrab();
-
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mapbuffer->pixels, SCREENWIDTH * 4);
     SDL_RenderClear(maprenderer);
