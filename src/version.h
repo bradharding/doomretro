@@ -9,8 +9,8 @@
   Copyright © 1993-2012 id Software LLC, a ZeniMax Media company.
   Copyright © 2013-2018 Brad Harding.
 
-  DOOM Retro is a fork of Chocolate DOOM.
-  For a list of credits, see <https://wiki.doomretro.com/CREDITS>.
+  DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
+  <https://github.com/bradharding/doomretro/wiki/CREDITS>.
 
   This file is part of DOOM Retro.
 
@@ -54,6 +54,6 @@
 #define PACKAGE_NAME                    "DOOM Retro"
 #define PACKAGE_SAVE                    "doomretro%i.save"
 #define PACKAGE_WAD                     "doomretro.wad"
-#define PACKAGE_WIKI_HELP_URL           "https://wiki.doomretro.com/THE-CONSOLE"
+#define PACKAGE_WIKI_HELP_URL           "https://github.com/bradharding/doomretro/wiki/THE-CONSOLE"
 
 #endif
