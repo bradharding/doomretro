@@ -457,13 +457,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         colfunc = vis->colfunc;
 
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
-
-    if (vis->footclip)
-        dc_baseclip = (int)((sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale)
-            - FixedMul(vis->footclip, spryscale)) >> FRACBITS);
-    else
-        dc_baseclip = viewheight;
-
+    dc_baseclip = (vis->footclip ? (int)(sprtopscreen + vis->footclip) >> FRACBITS : viewheight);
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
@@ -757,14 +751,15 @@ static void R_ProjectSprite(mobj_t *thing)
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && !heightsec && r_liquid_clipsprites)
     {
-        fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
+        fixed_t height = spriteheight[lump];
+        fixed_t clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
 
         vis->texturemid = gzt - viewz - clipfeet;
 
         if (r_liquid_bob)
             clipfeet += animatedliquiddiff;
 
-        vis->footclip = clipfeet;
+        vis->footclip = FixedMul(height - clipfeet, xscale);
     }
     else
     {
