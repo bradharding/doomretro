@@ -591,30 +591,37 @@ typedef struct
     patch_t *patch;
 } altkeypic_t;
 
-static altkeypic_t  altkeypics[NUMCARDS];
+static altkeypic_t altkeypics[NUMCARDS] =
+{
+    { BLUE   },
+    { YELLOW },
+    { RED    },
+    { BLUE   },
+    { YELLOW },
+    { RED    }
+};
 
-static patch_t      *altnum[10];
-static patch_t      *altnum2[10];
-static patch_t      *altnegpatch;
-static short        altnegpatchwidth;
-static patch_t      *altweapon[NUMWEAPONS];
-static patch_t      *altendpatch;
-static patch_t      *altleftpatch;
-static patch_t      *altarmpatch;
-static patch_t      *altrightpatch;
-static patch_t      *altmarkpatch;
-static patch_t      *altmark2patch;
-static patch_t      *altkeypatch;
-static patch_t      *altskullpatch;
+static patch_t  *altnum[10];
+static patch_t  *altnum2[10];
+static patch_t  *altnegpatch;
+static short    altnegpatchwidth;
+static patch_t  *altweapon[NUMWEAPONS];
+static patch_t  *altendpatch;
+static patch_t  *altleftpatch;
+static patch_t  *altarmpatch;
+static patch_t  *altrightpatch;
+static patch_t  *altmarkpatch;
+static patch_t  *altmark2patch;
+static patch_t  *altkeypatch;
+static patch_t  *altskullpatch;
 
-int                 white;
-static int          lightgray;
-static int          gray;
-static int          darkgray;
-static int          green;
-static int          red;
-static int          yellow;
-static int          blue;
+int             white;
+static int      lightgray;
+static int      gray;
+static int      darkgray;
+static int      green;
+static int      red;
+static int      yellow;
 
 static void HU_AltInit(void)
 {
@@ -648,27 +655,12 @@ static void HU_AltInit(void)
     altkeypatch = W_CacheLumpName("DRHUDKEY");
     altskullpatch = W_CacheLumpName("DRHUDSKU");
 
-    white = nearestcolors[WHITE];
-    lightgray = nearestcolors[LIGHTGRAY];
-    gray = nearestcolors[GRAY];
-    darkgray = nearestcolors[DARKGRAY];
-    green = nearestcolors[GREEN];
-    red = nearestcolors[RED];
-    yellow = nearestcolors[YELLOW];
-    blue = nearestcolors[BLUE];
-
     for (int i = 0; i < NUMCARDS; i++)
     {
-        int color = FindDominantColor(W_CacheLumpName(keypics[i].patchnameb));
+        int lump = W_GetNumForName(keypics[i].patchnamea);
 
-        if (color >= 172 && color <= 191)
-            color = red;
-        else if (color >= 200 && color <= 207)
-            color = blue;
-        else if ((color >= 164 && color <= 164) || (color >= 227 && color <= 231))
-            color = yellow;
-
-        altkeypics[i].color = color;
+        altkeypics[i].color = (lumpinfo[lump]->wadfile->type == PWAD ? FindDominantColor(W_CacheLumpNum(lump)) :
+            nearestcolors[altkeypics[i].color]);
     }
 
     altkeypics[0].patch = altkeypatch;
@@ -677,6 +669,14 @@ static void HU_AltInit(void)
     altkeypics[3].patch = altskullpatch;
     altkeypics[4].patch = altskullpatch;
     altkeypics[5].patch = altskullpatch;
+
+    white = nearestcolors[WHITE];
+    lightgray = nearestcolors[LIGHTGRAY];
+    gray = nearestcolors[GRAY];
+    darkgray = nearestcolors[DARKGRAY];
+    green = nearestcolors[GREEN];
+    red = nearestcolors[RED];
+    yellow = nearestcolors[YELLOW];
 }
 
 static void DrawAltHUDNumber(int x, int y, int val)
