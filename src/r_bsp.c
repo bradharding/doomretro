@@ -511,6 +511,7 @@ static void R_Subsector(int num)
 {
     subsector_t *sub = subsectors + num;
     sector_t    tempsec;              // killough 3/7/98: deep water hack
+    sector_t    *sector;
     int         floorlightlevel;      // killough 3/16/98: set floor lightlevel
     int         ceilinglightlevel;    // killough 4/11/98
     int         count = sub->numlines;
@@ -543,6 +544,8 @@ static void R_Subsector(int num)
             frontsector->ceiling_xoffs,                         // killough 3/7/98
             frontsector->ceiling_yoffs) : NULL);
 
+    sector = sub->sector;
+
     // killough 9/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite
     // lightlevels on floor & ceiling lightlevels in the surrounding area.
@@ -555,10 +558,10 @@ static void R_Subsector(int num)
     // Either you must pass the fake sector and handle validcount here, on the
     // real sector, or you must account for the lighting in some other way,
     // like passing it as an argument.
-    if (sub->sector->validcount != validcount)
+    if (sector->validcount != validcount)
     {
-        sub->sector->validcount = validcount;
-        R_AddSprites(sub->sector, (ceilinglightlevel + floorlightlevel) / 2);
+        sector->validcount = validcount;
+        R_AddSprites(sector, (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel));
     }
 
     while (count--)
