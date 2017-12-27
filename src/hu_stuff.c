@@ -779,7 +779,7 @@ static void HU_DrawAltHUD(void)
     int max;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health);
-    health = MAX(0, viewplayer->health) * 200 / maxhealth;
+    health = MAX(0, health) * 200 / maxhealth;
 
     if (health > 100)
     {

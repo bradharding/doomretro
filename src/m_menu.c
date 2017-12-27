@@ -131,7 +131,6 @@ static byte     blurscreen1[SCREENWIDTH * SCREENHEIGHT];
 static byte     blurscreen2[(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
 dboolean        blurred;
-static dboolean blurred2;
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern dboolean message_dontfuckwithme;
@@ -502,7 +501,7 @@ void M_DarkBackground(void)
 {
     height = (SCREENHEIGHT - vid_widescreen * SBARHEIGHT) * SCREENWIDTH;
 
-    if (!blurred || !blurred2)
+    if (!blurred)
     {
         BlurScreen(screens[0], tempscreen1, blurscreen1);
 
@@ -516,11 +515,6 @@ void M_DarkBackground(void)
             for (int i = 0; i < (SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH; i++)
                 blurscreen2[i] = tinttab50[blurscreen2[i]];
         }
-
-        blurred2 = true;
-
-        if (!blurred)
-            blurred2 = false;
 
         blurred = true;
     }

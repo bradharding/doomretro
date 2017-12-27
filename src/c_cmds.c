@@ -98,33 +98,33 @@
 #define METERSPERKILOMETER  1000
 #define FEETPERMILE         5280
 
-alias_t             aliases[MAXALIASES];
+alias_t         aliases[MAXALIASES];
 
-static int          ammo;
-static int          armor;
-static int          health;
+static int      ammo;
+static int      armor;
+static int      health;
 
-static int          mapcmdepisode;
-static int          mapcmdmap;
-static char         mapcmdlump[7];
+static int      mapcmdepisode;
+static int      mapcmdmap;
+static char     mapcmdlump[7];
 
-static dboolean     resettingall;
+static dboolean resettingall;
 
-dboolean            executingalias = false;
-dboolean            vanilla = false;
-dboolean            togglingvanilla = false;
+dboolean        executingalias = false;
+dboolean        vanilla = false;
+dboolean        togglingvanilla = false;
 
-char                *version = version_default;
+char            *version = version_default;
 
-extern dboolean     setsizeneeded;
-extern dboolean     usemouselook;
-extern char         *packageconfig;
-extern int          st_palette;
-extern menu_t       EpiDef;
-extern menu_t       ExpDef;
-extern menu_t       LoadDef;
-extern menu_t       NewDef;
-extern menu_t       SaveDef;
+extern dboolean setsizeneeded;
+extern dboolean usemouselook;
+extern char     *packageconfig;
+extern int      st_palette;
+extern menu_t   EpiDef;
+extern menu_t   ExpDef;
+extern menu_t   LoadDef;
+extern menu_t   NewDef;
+extern menu_t   SaveDef;
 
 control_t controls[] =
 {
