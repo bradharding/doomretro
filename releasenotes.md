@@ -19,6 +19,7 @@
 * The `-config` command-line parameter will no longer be ignored when saving the configuration file.
 * The `-shotdir` command-line parameter can now be used to specify the folder that screenshots will be saved in when the <kbd>PRINTSCREEN</kbd> key is pressed.
 * Improvements have been made to how things are lit in some rare instances.
+* The shadows of spectres will now be displayed correctly when the `r_shadows_translucency` CVAR is `off`.
 
 ---
 

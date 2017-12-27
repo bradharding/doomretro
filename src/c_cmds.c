@@ -5108,12 +5108,7 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
 
                 while (mo)
                 {
-                    if (r_textures)
-                        mo->shadowcolfunc = (r_shadows_translucency ? ((mo->flags & MF_FUZZ) ?
-                            R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
-                    else
-                        mo->shadowcolfunc = R_DrawColorColumn;
-
+                    P_SetShadowColumnFunction(mo);
                     mo = mo->snext;
                 }
             }
@@ -5188,13 +5183,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
                 while (mo)
                 {
                     mo->colfunc = mo->info->colfunc;
-
-                    if (r_textures)
-                        mo->shadowcolfunc = (r_translucency ? ((mo->flags & MF_FUZZ) ?
-                            R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
-                    else
-                        mo->shadowcolfunc = R_DrawColorColumn;
-
+                    P_SetShadowColumnFunction(mo);
                     mo = mo->snext;
                 }
 

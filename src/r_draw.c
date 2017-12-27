@@ -244,6 +244,27 @@ void R_DrawSolidShadowColumn(void)
     *dest = 0;
 }
 
+void R_DrawSolidFuzzyShadowColumn(void)
+{
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+
+    if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
+        *dest = 0;
+
+    dest += SCREENWIDTH;
+
+    while (--count)
+    {
+        *dest = 0;
+        dest += SCREENWIDTH;
+    }
+
+    if (dc_yh < viewheight - 1 && dc_yh < dc_floorclip
+        && ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3))))
+        *dest = 0;
+}
+
 void R_DrawBloodSplatColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;

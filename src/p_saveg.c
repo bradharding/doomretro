@@ -1184,13 +1184,7 @@ void P_UnArchiveThinkers(void)
 
                 mobj->thinker.function = (mobj->type == MT_MUSICSOURCE ? MusInfoThinker : P_MobjThinker);
                 mobj->colfunc = mobj->info->colfunc;
-
-                if (r_textures)
-                    mobj->shadowcolfunc = (r_shadows_translucency ? ((mobj->flags & MF_FUZZ) ?
-                        R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
-                else
-                    mobj->shadowcolfunc = R_DrawColorColumn;
-
+                P_SetShadowColumnFunction(mobj);
                 P_AddThinker(&mobj->thinker);
                 break;
             }

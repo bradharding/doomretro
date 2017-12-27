@@ -645,6 +645,22 @@ void P_MobjThinker(mobj_t *mobj)
 }
 
 //
+// P_SetShadowColumnFunction
+//
+void P_SetShadowColumnFunction(mobj_t *mobj)
+{
+    if (r_textures)
+    {
+        if (r_shadows_translucency)
+            mobj->shadowcolfunc = ((mobj->flags & MF_FUZZ) ? R_DrawFuzzyShadowColumn : R_DrawShadowColumn);
+        else
+            mobj->shadowcolfunc = ((mobj->flags & MF_FUZZ) ? R_DrawSolidFuzzyShadowColumn : R_DrawSolidShadowColumn);
+    }
+    else
+        mobj->shadowcolfunc = R_DrawColorColumn;
+}
+
+//
 // P_SpawnMobj
 //
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
@@ -692,11 +708,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->colfunc = info->colfunc;
     mobj->altcolfunc = info->altcolfunc;
 
-    if (r_textures)
-        mobj->shadowcolfunc = (r_shadows_translucency ? ((mobj->flags & MF_FUZZ) ?
-            R_DrawFuzzyShadowColumn : R_DrawShadowColumn) : R_DrawSolidShadowColumn);
-    else
-        mobj->shadowcolfunc = R_DrawColorColumn;
+    P_SetShadowColumnFunction(mobj);
 
     mobj->shadowoffset = info->shadowoffset;
 
