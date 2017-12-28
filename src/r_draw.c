@@ -37,6 +37,7 @@
 */
 
 #include "c_console.h"
+#include "i_colors.h"
 #include "m_config.h"
 #include "m_random.h"
 #include "r_local.h"
@@ -237,11 +238,11 @@ void R_DrawSolidShadowColumn(void)
 
     while (--count)
     {
-        *dest = 0;
+        *dest = nearestcolors[0];
         dest += SCREENWIDTH;
     }
 
-    *dest = 0;
+    *dest = nearestcolors[0];
 }
 
 void R_DrawSolidFuzzyShadowColumn(void)
@@ -250,19 +251,19 @@ void R_DrawSolidFuzzyShadowColumn(void)
     byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
 
     if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-        *dest = 0;
+        *dest = nearestcolors[0];
 
     dest += SCREENWIDTH;
 
     while (--count)
     {
-        *dest = 0;
+        *dest = nearestcolors[0];
         dest += SCREENWIDTH;
     }
 
     if (dc_yh < viewheight - 1 && dc_yh < dc_floorclip
         && ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3))))
-        *dest = 0;
+        *dest = nearestcolors[0];
 }
 
 void R_DrawBloodSplatColumn(void)
