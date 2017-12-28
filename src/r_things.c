@@ -445,7 +445,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
     spryscale = vis->scale;
     dc_colormap = vis->colormap;
-    dc_iscale = FixedDiv(FRACUNIT, vis->scale);
+    dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
     if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
@@ -491,7 +491,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     spryscale = vis->scale;
     dc_colormap = vis->colormap;
-    dc_iscale = FixedDiv(FRACUNIT, vis->scale);
+    dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
     if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))

@@ -511,13 +511,13 @@ static void R_Subsector(int num)
 {
     subsector_t *sub = subsectors + num;
     sector_t    tempsec;              // killough 3/7/98: deep water hack
-    sector_t    *sector;
+    sector_t    *sector = sub->sector;
     int         floorlightlevel;      // killough 3/16/98: set floor lightlevel
     int         ceilinglightlevel;    // killough 4/11/98
     int         count = sub->numlines;
     seg_t       *line = segs + sub->firstline;
 
-    frontsector = sub->sector;
+    frontsector = sector;
 
     // [AM] Interpolate sector movement. Usually only needed
     //      when you're standing inside the sector.
@@ -543,8 +543,6 @@ static void R_Subsector(int num)
             ceilinglightlevel,                                  // killough 4/11/98
             frontsector->ceiling_xoffs,                         // killough 3/7/98
             frontsector->ceiling_yoffs) : NULL);
-
-    sector = sub->sector;
 
     // killough 9/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite
