@@ -3106,16 +3106,45 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
 
     if (nomonsters)
     {
+        if (gamestate == GS_LEVEL)
+            for (int i = 0; i < numsectors; i++)
+            {
+                mobj_t  *thing = sectors[i].thinglist;
+
+                while (thing)
+                {
+                    if (thing->flags2 & MF2_MONSTERMISSILE)
+                    {
+                        thing->flags2 |= MF2_MASSACRE;
+                        P_RemoveMobj(thing);
+                    }
+                    else if (thing->health > 0)
+                    {
+                        const mobjtype_t    type = thing->type;
+
+                        if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN)
+                        {
+                            thing->flags2 |= MF2_MASSACRE;
+                            P_RemoveMobj(thing);
+                        }
+                    }
+
+                    thing = thing->snext;
+                }
+            }
+
         HU_PlayerMessage(s_STSTR_NMON, false);
         viewplayer->cheated++;
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
     else
+    {
         HU_PlayerMessage(s_STSTR_NMOFF, false);
 
-    if (gamestate == GS_LEVEL)
-        C_Warning(PENDINGCHANGE);
+        if (gamestate == GS_LEVEL)
+            C_Warning(PENDINGCHANGE);
+    }
 }
 
 //
