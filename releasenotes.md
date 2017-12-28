@@ -21,6 +21,7 @@
 * Objects will no longer be lit incorrectly in some rare instances.
 * The shadows of spectres will now be displayed correctly when the `r_shadows_translucency` CVAR is `off`.
 * Using the `nomonsters` CCMD will now instantly remove all monsters in the current map.
+* The brightmaps for the `SW2BRN1`, `SW2BRNGN`, `SW2DIRT`, `SW2MOD1` and `SW2STONE` wall textures are now fixed.
 
 ---
 
