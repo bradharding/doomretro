@@ -369,6 +369,7 @@ void R_DrawBrightMapWallColumn(void)
     const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const byte          *brightmap = dc_brightmap;
+    const lighttable_t  **colormap = dc_colormap;
     const fixed_t       texheight = dc_texheight;
     byte                dot;
 
@@ -378,13 +379,13 @@ void R_DrawBrightMapWallColumn(void)
         while (--count)
         {
             dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
-            *dest = dc_colormap[brightmap[dot]][dot];
+            *dest = colormap[brightmap[dot]][dot];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
 
         dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
-        *dest = dc_colormap[brightmap[dot]][dot];
+        *dest = colormap[brightmap[dot]][dot];
     }
     else
     {
@@ -397,11 +398,11 @@ void R_DrawBrightMapWallColumn(void)
             while ((count -= 2) >= 0)
             {
                 dot = source[(frac & heightmask) >> FRACBITS];
-                *dest = dc_colormap[brightmap[dot]][dot];
+                *dest = colormap[brightmap[dot]][dot];
                 dest += SCREENWIDTH;
                 frac += fracstep;
                 dot = source[(frac & heightmask) >> FRACBITS];
-                *dest = dc_colormap[brightmap[dot]][dot];
+                *dest = colormap[brightmap[dot]][dot];
                 dest += SCREENWIDTH;
                 frac += fracstep;
             }
@@ -409,7 +410,7 @@ void R_DrawBrightMapWallColumn(void)
             if (count & 1)
             {
                 dot = source[(frac & heightmask) >> FRACBITS];
-                *dest = dc_colormap[brightmap[dot]][dot];
+                *dest = colormap[brightmap[dot]][dot];
             }
         }
         else
@@ -426,7 +427,7 @@ void R_DrawBrightMapWallColumn(void)
             while (count--)
             {
                 dot = source[frac >> FRACBITS];
-                *dest = dc_colormap[brightmap[dot]][dot];
+                *dest = colormap[brightmap[dot]][dot];
                 dest += SCREENWIDTH;
 
                 if ((frac += fracstep) >= heightmask)
