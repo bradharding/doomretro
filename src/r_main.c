@@ -792,6 +792,7 @@ static void R_SetupFrame(void)
     else
     {
         fixedcolormap = 0;
+        dc_colormap[1] = fullcolormap + viewplayer->fixedcolormap * 256 * sizeof(lighttable_t);
         usebrightmaps = (r_brightmaps && !cm && !BTSX);
     }
 

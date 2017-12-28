@@ -453,7 +453,7 @@ void R_DrawPlanes(void)
                         dc_texturemid = skytexturemid;
                     }
 
-                    dc_colormap = (viewplayer->fixedcolormap == INVERSECOLORMAP ? fixedcolormap : fullcolormap);
+                    dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP ? fixedcolormap : fullcolormap);
                     dc_iscale = skyiscale;
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
                     offset = skycolumnoffset >> FRACBITS;

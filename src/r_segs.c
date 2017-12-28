@@ -251,7 +251,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     // Use different light tables for horizontal/vertical.
     // killough 4/13/98: get correct lightlevel for 2s normal textures
     if (fixedcolormap)
-        dc_colormap = fixedcolormap;
+        dc_colormap[0] = fixedcolormap;
     else
         walllights = GetLightTable(R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel);
 
@@ -300,7 +300,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 
             // calculate lighting
             if (!fixedcolormap)
-                dc_colormap = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+                dc_colormap[0] = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
@@ -323,7 +323,7 @@ static dboolean didsolidcol;
 static void R_RenderSegLoop(void)
 {
     if (fixedcolormap)
-        dc_colormap = fixedcolormap;
+        dc_colormap[0] = fixedcolormap;
 
     for (; rw_x < rw_stopx; rw_x++)
     {
@@ -371,7 +371,7 @@ static void R_RenderSegLoop(void)
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
             if (!fixedcolormap)
-                dc_colormap = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+                dc_colormap[0] = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
             dc_x = rw_x;
             dc_iscale = 0xFFFFFFFFu / (unsigned int)rw_scale;

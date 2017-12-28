@@ -444,7 +444,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const int       flags = mobj->flags;
 
     spryscale = vis->scale;
-    dc_colormap = vis->colormap;
+    dc_colormap[0] = vis->colormap[0];
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
@@ -490,7 +490,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const int       flags = mobj->flags;
 
     spryscale = vis->scale;
-    dc_colormap = vis->colormap;
+    dc_colormap[0] = vis->colormap[0];
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
@@ -535,7 +535,7 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     const int       id = vis->patch + firstspritelump;
     const rpatch_t  *patch = R_CachePatchNum(id);
 
-    dc_colormap = vis->colormap;
+    dc_colormap[0] = vis->colormap[0];
     colfunc = vis->colfunc;
     dc_iscale = pspriteiscale;
     dc_texturemid = vis->texturemid;
@@ -566,8 +566,8 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     const rcolumn_t *columns = R_CachePatchNum(id)->columns;
 
     colfunc = vis->colfunc;
-    dc_colormap = vis->colormap;
-    dc_blood = tinttab75 + (dc_colormap[vis->blood] << 8);
+    dc_colormap[0] = vis->colormap;
+    dc_blood = tinttab75 + (dc_colormap[0][vis->blood] << 8);
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
     fuzzpos = 0;
@@ -803,11 +803,11 @@ static void R_ProjectSprite(mobj_t *thing)
 
     // get light level
     if (fixedcolormap)
-        vis->colormap = fixedcolormap;          // fixed map
+        vis->colormap[0] = fixedcolormap;       // fixed map
     else if ((frame & FF_FULLBRIGHT) && (rot <= 4 || rot >= 12 || thing->info->fullbright))
-        vis->colormap = fullcolormap;           // full bright
+        vis->colormap[0] = fullcolormap;        // full bright
     else                                        // diminished light
-        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->colormap[0] = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
 static void R_ProjectBloodSplat(const bloodsplat_t *splat)
@@ -1018,7 +1018,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     if (invisibility)
     {
         vis->colfunc = psprcolfunc;
-        vis->colormap = NULL;
+        vis->colormap[0] = NULL;
     }
     else
     {
@@ -1060,18 +1060,18 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
             vis->colfunc = basecolfunc;
 
         if (fixedcolormap)
-            vis->colormap = fixedcolormap;      // fixed color
+            vis->colormap[0] = fixedcolormap;       // fixed color
         else
         {
             if (muzzleflash || (frame & FF_FULLBRIGHT))
-                vis->colormap = fullcolormap;   // full bright
+                vis->colormap[0] = fullcolormap;    // full bright
             else
             {
                 sector_t *sec = viewplayer->mo->subsector->sector;
                 short    lightlevel = (sec->floorlightsec ? sec->floorlightsec->lightlevel : sec->lightlevel);
                 int      lightnum = (lightlevel >> OLDLIGHTSEGSHIFT) + extralight;
 
-                vis->colormap = psprscalelight[BETWEEN(0, lightnum, OLDLIGHTLEVELS - 1)]
+                vis->colormap[0] = psprscalelight[BETWEEN(0, lightnum, OLDLIGHTLEVELS - 1)]
                     [BETWEEN(0, lightnum + 16, OLDMAXLIGHTSCALE - 1)];
             }
         }
