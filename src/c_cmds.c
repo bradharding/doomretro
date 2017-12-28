@@ -3113,21 +3113,12 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
 
                 while (thing)
                 {
-                    if (thing->flags2 & MF2_MONSTERMISSILE)
-                    {
-                        thing->flags2 |= MF2_MASSACRE;
-                        P_RemoveMobj(thing);
-                    }
-                    else if (thing->health > 0)
-                    {
-                        const mobjtype_t    type = thing->type;
+                    const mobjtype_t    type = thing->type;
+                    const int           flags = thing->flags;
 
-                        if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN)
-                        {
-                            thing->flags2 |= MF2_MASSACRE;
-                            P_RemoveMobj(thing);
-                        }
-                    }
+                    if (((flags & MF_SHOOTABLE) || (flags & MF_CORPSE) || (thing->flags2 & MF2_MONSTERMISSILE))
+                        && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN)
+                        P_RemoveMobj(thing);
 
                     thing = thing->snext;
                 }
