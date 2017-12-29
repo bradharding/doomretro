@@ -566,7 +566,8 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     const rcolumn_t *columns = R_CachePatchNum(id)->columns;
 
     colfunc = vis->colfunc;
-    dc_blood = vis->blood;
+    dc_colormap[0] = vis->colormap;
+    dc_blood = tinttab75 + (dc_colormap[0][vis->blood] << 8);
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
     fuzzpos = 0;
@@ -858,6 +859,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
+    vis->blood = splat->blood;
     vis->colfunc = (pausesprites && r_textures && splat->colfunc == fuzzcolfunc ? R_DrawPausedFuzzColumn : splat->colfunc);
     vis->texturemid = floorheight + FRACUNIT - viewz;
 
@@ -897,9 +899,9 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 
     // get light level
     if (fixedcolormap)
-        vis->blood = tinttab75 + (splat->blood << 8);
+        vis->colormap = fixedcolormap;
     else
-        vis->blood = tinttab75 + (spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)][splat->blood] << 8);
+        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
 //
