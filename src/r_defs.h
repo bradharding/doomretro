@@ -925,9 +925,8 @@ typedef struct
     fixed_t             xiscale;
     fixed_t             texturemid;
     int                 patch;
-    lighttable_t        *colormap;
     void                (*colfunc)(void);
-    fixed_t             blood;
+    byte                *blood;
 } bloodsplatvissprite_t;
 
 //
