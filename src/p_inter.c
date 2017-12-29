@@ -641,6 +641,10 @@ dboolean P_GivePower(int power)
         case pw_invisibility:
             viewplayer->mo->flags |= MF_FUZZ;
             break;
+
+        case pw_infrared:
+            viewplayer->fixedcolormap = 1;
+            break;
     }
 
     viewplayer->powers[power] = tics[power];
