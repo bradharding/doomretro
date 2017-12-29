@@ -369,7 +369,7 @@ void R_DrawBrightMapWallColumn(void)
     const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const byte          *brightmap = dc_brightmap;
-    const lighttable_t  **colormap = dc_colormap;
+    lighttable_t        **colormap = dc_colormap;
     const fixed_t       texheight = dc_texheight;
     byte                dot;
 
