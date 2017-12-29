@@ -99,7 +99,7 @@ int             totalpickups;
 int             monstercount[NUMMOBJTYPES];
 int             barrelcount;
 
-wbstartstruct_t wminfo;                 // parms for world map / intermission
+wbstartstruct_t wminfo;                 // parms for world map/intermission
 
 dboolean        autoload = autoload_default;
 

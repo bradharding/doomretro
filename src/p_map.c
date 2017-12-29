@@ -372,7 +372,7 @@ static dboolean PIT_CheckLine(line_t *ld)
     // these define a 'window' from one sector to another across this line
     P_LineOpening(ld);
 
-    // adjust floor / ceiling heights
+    // adjust floor/ceiling heights
     if (opentop < tmceilingz)
     {
         tmceilingz = opentop;
@@ -506,7 +506,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         if (!(flags & MF_SHOOTABLE))
             return !(flags & MF_SOLID);                         // didn't do any damage
 
-        // damage / explode
+        // damage/explode
         P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
 
         if (thing->type != MT_BARREL)
@@ -632,7 +632,7 @@ static dboolean PIT_CheckOnmobjZ(mobj_t * thing)
     if (thing == tmthing)
         return true;
 
-    // over / under thing
+    // over/under thing
     if (tmthing->z > thing->z + thing->height)
         return true;
     else if (tmthing->z + tmthing->height <= thing->z)
@@ -703,10 +703,8 @@ dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     tmunstuck = (thing->player &&               // only players
                 thing->player->mo == thing);    // not voodoo dolls
 
-    // The base floor / ceiling is from the subsector
-    // that contains the point.
-    // Any contacted lines the step closer together
-    // will adjust them.
+    // the base floor/ceiling is from the subsector that contains the
+    // point. Any contacted lines the step closer together will adjust them
     tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
     tmceilingz = newsubsec->sector->ceilingheight;
     validcount++;
@@ -785,7 +783,7 @@ mobj_t *P_CheckOnmobj(mobj_t * thing)
     newsubsec = R_PointInSubsector(x, y);
     ceilingline = NULL;
 
-    // the base floor / ceiling is from the subsector that contains the
+    // the base floor/ceiling is from the subsector that contains the
     // point. Any contacted lines the step closer together will adjust them
     tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
     tmceilingz = newsubsec->sector->ceilingheight;
@@ -1144,7 +1142,7 @@ static fixed_t  tmymove;
 
 //
 // P_HitSlideLine
-// Adjusts the xmove / ymove
+// Adjusts the xmove/ymove
 // so that the next move will slide along the wall.
 //
 static void P_HitSlideLine(line_t *ld)

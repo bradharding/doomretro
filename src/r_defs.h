@@ -883,7 +883,7 @@ typedef struct
     // for line side calculation
     fixed_t             gx, gy;
 
-    // global bottom / top for silhouette clipping
+    // global bottom/top for silhouette clipping
     fixed_t             gz;
     fixed_t             gzt;
 

@@ -97,7 +97,7 @@ static void P_Bob(angle_t angle, fixed_t move)
 
 //
 // P_CalcHeight
-// Calculate the walking / running height adjustment
+// Calculate the walking/running height adjustment
 //
 void P_CalcHeight(void)
 {

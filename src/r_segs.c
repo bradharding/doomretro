@@ -263,8 +263,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 
     // find positioning
     if (curline->linedef->flags & ML_DONTPEGBOTTOM)
-        dc_texturemid = MAX(frontsector->interpfloorheight, backsector->interpfloorheight) + texheight
-            - viewz + curline->sidedef->rowoffset;
+        dc_texturemid = MAX(frontsector->interpfloorheight, backsector->interpfloorheight) + texheight - viewz
+            + curline->sidedef->rowoffset;
     else
         dc_texturemid = MIN(frontsector->interpceilingheight, backsector->interpceilingheight) - viewz
             + curline->sidedef->rowoffset;
@@ -333,7 +333,7 @@ static void R_RenderSegLoop(void)
         int     bottom;
         int     top = ceilingclip[rw_x] + 1;
 
-        // mark floor / ceiling areas
+        // mark floor/ceiling areas
         int     yl = MAX((int)((topfrac + heightunit - 1) >> heightbits), top);
         int     yh = (int)(bottomfrac >> heightbits);
 
@@ -780,12 +780,12 @@ void R_StoreWallRange(const int start, const int stop)
 
         // calculate light table
         //  use different light tables
-        //  for horizontal / vertical / diagonal
+        //  for horizontal/vertical/diagonal
         if (!fixedcolormap)
             walllights = GetLightTable(frontsector->lightlevel);
     }
 
-    // if a floor / ceiling plane is on the wrong side
+    // if a floor/ceiling plane is on the wrong side
     //  of the view plane, it is definitely invisible
     //  and doesn't need to be marked.
 

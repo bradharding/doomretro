@@ -1848,7 +1848,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    // get skill / episode / map from parms
+    // get skill/episode/map from parms
     startskill = sk_medium;
     startepisode = 1;
     startmap = 1;

@@ -426,7 +426,7 @@ void R_ExecuteSetViewSize(void)
     yslope = yslopes[LOOKDIRMAX];
 
     // Calculate the light levels to use
-    //  for each level / scale combination.
+    //  for each level/scale combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
         const int   startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
@@ -792,7 +792,7 @@ static void R_SetupFrame(void)
     else
     {
         fixedcolormap = 0;
-        dc_colormap[1] = fullcolormap + viewplayer->fixedcolormap * 256 * sizeof(lighttable_t);
+        dc_colormap[1] = fullcolormap;
         usebrightmaps = (r_brightmaps && !cm && !BTSX);
     }
 

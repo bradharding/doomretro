@@ -121,7 +121,7 @@ typedef enum
 
 #define SBARHEIGHT          (ORIGINALSBARHEIGHT * SCREENSCALE)
 
-// State updates, number of tics / second.
+// State updates, number of tics/second.
 #define TICRATE             35
 
 // The current state of the game: whether we are
@@ -196,12 +196,12 @@ typedef enum
 // Ammunition types defined.
 typedef enum
 {
-    am_clip,    // Pistol / chaingun ammo.
-    am_shell,   // Shotgun / double barreled shotgun.
+    am_clip,    // Pistol/chaingun ammo.
+    am_shell,   // Shotgun/double-barreled shotgun.
     am_cell,    // Plasma rifle, BFG.
     am_misl,    // Missile launcher.
     NUMAMMO,
-    am_noammo   // Unlimited for chainsaw / fist.
+    am_noammo   // Unlimited for chainsaw/fist.
 } ammotype_t;
 
 // Power up artifacts.

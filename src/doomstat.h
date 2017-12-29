@@ -198,7 +198,7 @@ extern int              vid_capfps;
 extern dboolean         realframe;
 
 // Intermission stats.
-// Parameters for world map / intermission.
+// Parameters for world map/intermission.
 extern wbstartstruct_t  wminfo;
 
 //-----------------------------------------

@@ -83,7 +83,7 @@ dboolean P_ReadSaveGameEOF(void);
 void P_WriteSaveGameEOF(void);
 
 // Persistent storage/archiving.
-// These are the load / save game routines.
+// These are the load/save game routines.
 void P_ArchivePlayer(void);
 void P_UnArchivePlayer(void);
 void P_ArchiveWorld(void);

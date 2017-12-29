@@ -402,7 +402,7 @@ static void R_AddLine(seg_t *line)
         //      should already be interpolated.
         R_MaybeInterpolateSector(backsector);
 
-        // killough 3/8/98, 4/4/98: hack for invisible ceilings / deep water
+        // killough 3/8/98, 4/4/98: hack for invisible ceilings/deep water
         backsector = R_FakeFlat(backsector, &tempsec, NULL, NULL, true);
     }
 
@@ -523,7 +523,7 @@ static void R_Subsector(int num)
     //      when you're standing inside the sector.
     R_MaybeInterpolateSector(frontsector);
 
-    // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
+    // killough 3/8/98, 4/4/98: Deep water/fake ceiling effect
     frontsector = R_FakeFlat(frontsector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
     floorplane = (frontsector->interpfloorheight < viewz        // killough 3/7/98

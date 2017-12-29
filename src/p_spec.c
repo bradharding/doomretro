@@ -2808,7 +2808,7 @@ static void P_SpawnFriction(void)
             if (friction > ORIG_FRICTION)       // ice
                 movefactor = MAX(32, ((0x10092 - friction) * 0x70) / 0x158);
             else
-                movefactor = MAX(32, ((friction - 0xDB34) *0xA) / 0x80);
+                movefactor = MAX(32, ((friction - 0xDB34) * 0xA) / 0x80);
 
             for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
             {
