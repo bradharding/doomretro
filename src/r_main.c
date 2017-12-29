@@ -331,12 +331,9 @@ void R_InitLightTables(void)
 {
     int width = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4 + (r_fov * FINEANGLES / 360) / 2])) + 1;
 
-    if (!c_zlight)
-    {
-        c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
-        c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
-        c_psprscalelight = malloc(sizeof(*c_psprscalelight) * numcolormaps);
-    }
+    c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
+    c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
+    c_psprscalelight = malloc(sizeof(*c_psprscalelight) * numcolormaps);
 
     // Calculate the light levels to use
     //  for each level / distance combination.
@@ -792,7 +789,6 @@ static void R_SetupFrame(void)
     else
     {
         fixedcolormap = 0;
-        dc_colormap[1] = fullcolormap;
         usebrightmaps = (r_brightmaps && !cm && !BTSX);
     }
 

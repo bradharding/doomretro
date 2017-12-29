@@ -551,23 +551,20 @@ static void R_InitColormaps(void)
 
         colormaps = Z_Malloc(sizeof(*colormaps) * numcolormaps, PU_STATIC, NULL);
 
-        colormaps[0] = W_CacheLumpName("COLORMAP");
-
         for (int i = 1; i < numcolormaps; i++)
             colormaps[i] = W_CacheLumpNum(i + firstcolormaplump);
     }
     else
-    {
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, NULL);
-        colormaps[0] = W_CacheLumpName("COLORMAP");
-    }
+
+    dc_colormap[1] = colormaps[0] = W_CacheLumpName("COLORMAP");
 
     colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
     C_Output("Using %s colormap%s from the <b>COLORMAP</b> lump in %s <b>%s</b>.",
         (numcolormaps == 1 ? "the" : commify(numcolormaps)), (numcolormaps == 1 ? "" : "s"),
         (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
 
-    // [BH] There's a typo in dcolors.c, the source code of the utility Id
+    // [BH] There's a typo in dcolors.c, the source code of the utility id
     // Software used to construct the palettes and colormaps for DOOM (see
     // <https://www.doomworld.com/idgames/?id=16644>). When constructing colormap
     // 32, which is used for the invulnerability power-up, the traditional
