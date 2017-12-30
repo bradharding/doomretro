@@ -1547,8 +1547,6 @@ static int D_OpenWADLauncher(void)
 }
 #endif
 
-dboolean CheckPackageWADVersion(void);
-
 static void D_ProcessDehCommandLine(void)
 {
     int p = M_CheckParm("-deh");

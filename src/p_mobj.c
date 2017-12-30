@@ -241,8 +241,11 @@ static void P_XYMovement(mobj_t *mo)
                 }
             }
             else if (player)
+            {
                 // try to slide along it
                 P_SlideMove(mo);
+                break;
+            }
             else if (flags & MF_MISSILE)
             {
                 // explode a missile

@@ -43,19 +43,19 @@
 // Fixed point, 32bit as 16.16.
 //
 
-#ifdef ABS
+#if defined(ABS)
 #undef ABS
 #endif
 
-#ifdef MAX
+#if defined(MAX)
 #undef MAX
 #endif
 
-#ifdef MIN
+#if defined(MIN)
 #undef MIN
 #endif
 
-#ifdef SWAP
+#if defined(SWAP)
 #undef SWAP
 #endif
 

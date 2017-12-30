@@ -42,7 +42,7 @@
 #include <inttypes.h>
 #include <limits.h>
 
-#ifdef true
+#if defined(true)
 #undef true
 #undef false
 #endif

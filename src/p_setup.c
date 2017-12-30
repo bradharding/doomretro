@@ -1814,29 +1814,17 @@ static void P_GroupLines(void)
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
     {
-        fixed_t *bbox = (void *)sector->blockbox;       // cph - For convenience, so
-        int     block;                                  // I can use the old code unchanged
+        fixed_t *bbox = (void *)sector->blockbox;
 
         // e6y: fix sound origin for large levels
         sector->soundorg.x = bbox[BOXRIGHT] / 2 + bbox[BOXLEFT] / 2;
         sector->soundorg.y = bbox[BOXTOP] / 2 + bbox[BOXBOTTOM] / 2;
 
         // adjust bounding box to map blocks
-        block = (bbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
-        block = (block >= bmapheight ? bmapheight - 1 : block);
-        sector->blockbox[BOXTOP] = block;
-
-        block = (bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
-        block = (block < 0 ? 0 : block);
-        sector->blockbox[BOXBOTTOM] = block;
-
-        block = (bbox[BOXRIGHT] - bmaporgx + MAXRADIUS) >> MAPBLOCKSHIFT;
-        block = (block >= bmapwidth ? bmapwidth - 1 : block);
-        sector->blockbox[BOXRIGHT] = block;
-
-        block = (bbox[BOXLEFT] - bmaporgx - MAXRADIUS) >> MAPBLOCKSHIFT;
-        block = (block < 0 ? 0 : block);
-        sector->blockbox[BOXLEFT] = block;
+        sector->blockbox[BOXTOP] = MIN((bbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT, bmapheight - 1);
+        sector->blockbox[BOXBOTTOM] = MAX(0, (bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT);
+        sector->blockbox[BOXRIGHT] = MIN((bbox[BOXRIGHT] - bmaporgx + MAXRADIUS) >> MAPBLOCKSHIFT, bmapwidth - 1);
+        sector->blockbox[BOXLEFT] = MAX(0, (bbox[BOXLEFT] - bmaporgx - MAXRADIUS) >> MAPBLOCKSHIFT);
     }
 }
 
