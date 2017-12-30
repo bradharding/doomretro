@@ -264,6 +264,7 @@ static void P_DeathThink(void)
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
+    freeze = false;
     infight = infighting;
 
     P_MovePsprites();
