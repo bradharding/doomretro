@@ -22,6 +22,7 @@
 * The shadows of spectres will now be displayed correctly when the `r_shadows_translucency` CVAR is `off`.
 * Using the `nomonsters` CCMD will now instantly remove all monsters in the current map.
 * The brightmaps for several wall textures are now fixed.
+* A bug present in *Vanilla DOOM* has been fixed whereby Mancubi projectiles would sometimes pass through walls.
 
 ---
 

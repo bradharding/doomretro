@@ -161,6 +161,7 @@ static void P_XYMovement(mobj_t *mo)
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
     dboolean    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
+    int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
     {
@@ -188,28 +189,27 @@ static void P_XYMovement(mobj_t *mo)
     xmove = mo->momx;
     ymove = mo->momy;
 
+    if (xmove < 0)
+    {
+        xmove = -xmove;
+        stepdir = 1;
+    }
+
+    if (ymove < 0)
+    {
+        ymove = -ymove;
+        stepdir |= 2;
+    }
+
     do
     {
-        fixed_t ptryx, ptryy;
+        fixed_t stepx = MIN(xmove, MAXMOVE_STEP);
+        fixed_t stepy = MIN(ymove, MAXMOVE_STEP);
+        fixed_t ptryx = mo->x + ((stepdir & 1) ? -stepx : stepx);
+        fixed_t ptryy = mo->y + ((stepdir & 2) ? -stepy : stepy);
 
-        // killough 8/9/98: fix bug in original DOOM source:
-        // Large negative displacements were never considered.
-        // This explains the tendency for Mancubus fireballs
-        // to pass through walls.
-        if ((xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2) && (xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2))
-        {
-            ptryx = mo->x + xmove / 2;
-            ptryy = mo->y + ymove / 2;
-            xmove >>= 1;
-            ymove >>= 1;
-        }
-        else
-        {
-            ptryx = mo->x + xmove;
-            ptryy = mo->y + ymove;
-            xmove = 0;
-            ymove = 0;
-        }
+        xmove -= stepx;
+        ymove -= stepy;
 
         // killough 3/15/98: Allow objects to drop off
         if (!P_TryMove(mo, ptryx, ptryy, true))
