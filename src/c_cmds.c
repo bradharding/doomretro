@@ -246,6 +246,7 @@ action_t actions[] =
     { "",              NULL,                    NULL,                       NULL,                  NULL,             NULL,                      NULL         }
 };
 
+static dboolean alive_func1(char *cmd, char *parms);
 static dboolean cheat_func1(char *cmd, char *parms);
 static dboolean game_func1(char *cmd, char *parms);
 static dboolean null_func1(char *cmd, char *parms);
@@ -501,7 +502,7 @@ consolecmd_t consolecmds[] =
         "The color behind the player's face in the status bar\n(<b>none</b>, <b>0</b> to <b>255</b>, or <b>#</b><i>rrggbb</i>)."),
     CMD(fastmonsters, "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles fast monsters."),
-    CMD(freeze, "", game_func1, freeze_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
+    CMD(freeze, "", alive_func1, freeze_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
@@ -965,6 +966,11 @@ static int C_GetIndex(const char *cmd)
     }
 
     return i;
+}
+
+static dboolean alive_func1(char *cmd, char *parms)
+{
+    return (gamestate == GS_LEVEL && viewplayer->health > 0);
 }
 
 static dboolean cheat_func1(char *cmd, char *parms)
