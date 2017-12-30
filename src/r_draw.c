@@ -304,136 +304,91 @@ void R_DrawWallColumn(void)
     const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap[0];
-    const fixed_t       texheight = dc_texheight;
+    fixed_t             heightmask = dc_texheight - 1;
 
-    if (texheight == 128)
+    if (dc_texheight & heightmask)
+    {
+        heightmask++;
+        heightmask <<= FRACBITS;
+
+        if (frac < 0)
+            while ((frac += heightmask) < 0);
+        else
+            while (frac >= heightmask)
+                frac -= heightmask;
+
+        while (--count)
+        {
+            *dest = colormap[source[frac >> FRACBITS]];
+            dest += SCREENWIDTH;
+
+            if ((frac += fracstep) >= heightmask)
+                frac -= heightmask;
+        }
+
+        *dest = colormap[source[frac >> FRACBITS]];
+    }
+    else
     {
         while (--count)
         {
-            *dest = colormap[source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
+            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
 
-        *dest = colormap[source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS]];
-    }
-    else
-    {
-        fixed_t heightmask = texheight - 1;
-
-        if (!(texheight & heightmask))
-        {
-            heightmask = (heightmask << FRACBITS) | 0xFFFF;
-
-            while ((count -= 2) >= 0)
-            {
-                *dest = colormap[source[(frac & heightmask) >> FRACBITS]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                *dest = colormap[source[(frac & heightmask) >> FRACBITS]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-            }
-
-            if (count & 1)
-                *dest = colormap[source[(frac & heightmask) >> FRACBITS]];
-        }
-        else
-        {
-            heightmask++;
-            heightmask <<= FRACBITS;
-
-            if (frac < 0)
-                while ((frac += heightmask) < 0);
-            else
-                while (frac >= heightmask)
-                    frac -= heightmask;
-
-            while (count--)
-            {
-                *dest = colormap[source[frac >> FRACBITS]];
-                dest += SCREENWIDTH;
-
-                if ((frac += fracstep) >= heightmask)
-                    frac -= heightmask;
-            }
-        }
+        *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
     }
 }
 
 void R_DrawBrightMapWallColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale + SPARKLEFIX;
-    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
-    const byte          *source = dc_source;
-    const byte          *brightmap = dc_brightmap;
-    lighttable_t        **colormap = dc_colormap;
-    const fixed_t       texheight = dc_texheight;
-    byte                dot;
+    int             count = dc_yh - dc_yl + 1;
+    byte            *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    fixed_t         frac = dc_texturemid + (dc_yl - centery) * dc_iscale + SPARKLEFIX;
+    const fixed_t   fracstep = dc_iscale - SPARKLEFIX;
+    const byte      *source = dc_source;
+    const byte      *brightmap = dc_brightmap;
+    lighttable_t    **colormap = dc_colormap;
+    fixed_t         heightmask = dc_texheight - 1;
+    byte            dot;
 
-    if (texheight == 128)
+    if (dc_texheight & heightmask)
     {
+        heightmask++;
+        heightmask <<= FRACBITS;
+
+        if (frac < 0)
+            while ((frac += heightmask) < 0);
+        else
+            while (frac >= heightmask)
+                frac -= heightmask;
 
         while (--count)
         {
-            dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
+            dot = source[frac >> FRACBITS];
+            *dest = colormap[brightmap[dot]][dot];
+            dest += SCREENWIDTH;
+
+            if ((frac += fracstep) >= heightmask)
+                frac -= heightmask;
+
+            dot = source[frac >> FRACBITS];
+            *dest = colormap[brightmap[dot]][dot];
+        }
+    }
+    else
+    {
+        while (--count)
+        {
+            dot = source[(frac >> FRACBITS) & heightmask];
             *dest = colormap[brightmap[dot]][dot];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
 
-        dot = source[(frac & ((127 << FRACBITS) | 0xFFFF)) >> FRACBITS];
+        dot = source[(frac >> FRACBITS) & heightmask];
         *dest = colormap[brightmap[dot]][dot];
-    }
-    else
-    {
-        fixed_t heightmask = texheight - 1;
-
-        if (!(texheight & heightmask))
-        {
-            heightmask = (heightmask << FRACBITS) | 0xFFFF;
-
-            while ((count -= 2) >= 0)
-            {
-                dot = source[(frac & heightmask) >> FRACBITS];
-                *dest = colormap[brightmap[dot]][dot];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-                dot = source[(frac & heightmask) >> FRACBITS];
-                *dest = colormap[brightmap[dot]][dot];
-                dest += SCREENWIDTH;
-                frac += fracstep;
-            }
-
-            if (count & 1)
-            {
-                dot = source[(frac & heightmask) >> FRACBITS];
-                *dest = colormap[brightmap[dot]][dot];
-            }
-        }
-        else
-        {
-            heightmask++;
-            heightmask <<= FRACBITS;
-
-            if (frac < 0)
-                while ((frac += heightmask) < 0);
-            else
-                while (frac >= heightmask)
-                    frac -= heightmask;
-
-            while (count--)
-            {
-                dot = source[frac >> FRACBITS];
-                *dest = colormap[brightmap[dot]][dot];
-                dest += SCREENWIDTH;
-
-                if ((frac += fracstep) >= heightmask)
-                    frac -= heightmask;
-            }
-        }
     }
 }
 
