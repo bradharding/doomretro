@@ -15,7 +15,7 @@
   * Any power-ups the player has will no longer time out.
   * The player’s health will no longer regenerate if the `regenhealth` CVAR is `on`.
 * The screen will now be updated immediately when entering the `IDBEHOLDL` or `IDBEHOLDV` cheats in the console.
-* Areas outside of the map (accessible when either the freeze or no clipping modes are on) are now white rather than black when the player has an invulnerability power-up.
+* Areas outside of the map (accessible when either freeze mode or no clipping mode are on) are now white rather than black when the player has an invulnerability power-up.
 * The `-config` command-line parameter will no longer be ignored when saving the configuration file.
 * The `-shotdir` command-line parameter can now be used to specify the folder that screenshots will be saved in when the <kbd>PRINTSCREEN</kbd> key is pressed.
 * Objects will no longer be lit incorrectly in some rare instances.

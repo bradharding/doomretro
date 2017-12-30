@@ -118,6 +118,7 @@ void P_InitSwitchList(void)
     switchlist[index] = -1;
     W_UnlockLumpNum(lump);
 }
+
 //
 // Start a button counting down till it turns off.
 //

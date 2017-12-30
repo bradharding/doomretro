@@ -1693,6 +1693,28 @@ static void P_LoadBlockMap(int lump)
 }
 
 //
+// reject overrun emulation
+//
+static void RejectOverrun(int rejectlump, const byte **rejectmatrix)
+{
+    unsigned int    required = (numsectors * numsectors + 7) / 8;
+    unsigned int    length = W_LumpLength(rejectlump);
+
+    if (length < required)
+    {
+        // allocate a new block and copy the reject table into it; zero the rest
+        // PU_LEVEL => will be freed on level exit
+        byte    *newreject = Z_Malloc(required, PU_LEVEL, NULL);
+
+        *rejectmatrix = memmove(newreject, *rejectmatrix, length);
+        memset(newreject + length, 0, required - length);
+
+        // unlock the original lump, it is no longer needed
+        W_UnlockLumpNum(rejectlump);
+    }
+}
+
+//
 // P_LoadReject - load the reject table
 //
 static void P_LoadReject(int lumpnum)
@@ -1703,6 +1725,9 @@ static void P_LoadReject(int lumpnum)
 
     rejectlump = lumpnum + ML_REJECT;
     rejectmatrix = W_CacheLumpNum(rejectlump);
+
+    // e6y: check for overflow
+    RejectOverrun(rejectlump, &rejectmatrix);
 }
 
 //
