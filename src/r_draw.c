@@ -685,7 +685,7 @@ void R_DrawDitheredColumn(void)
     const lighttable_t  *colormap = dc_colormap[0];
     const byte          *translucency = tranmap;
 
-    if (((viewwindowy + dc_yl) & 1) == ((viewwindowx + dc_x) & 1))
+    if ((dc_yl ^ dc_x) & 1)
     {
         dest += SCREENWIDTH;
         frac += fracstep >> 1;
