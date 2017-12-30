@@ -38,6 +38,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "i_colors.h"
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_random.h"
@@ -814,10 +815,10 @@ void R_RenderPlayerView(void)
     {
         if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                ((activetic % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)));
+                nearestcolors[(activetic % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)]);
         else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK));
+                nearestcolors[viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK]);
 
         R_RenderBSPNode(numnodes - 1);  // head node is the last node output
         R_DrawPlanes();
