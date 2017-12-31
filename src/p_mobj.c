@@ -672,7 +672,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     state_t     *st;
     mobjinfo_t  *info = &mobjinfo[type];
     sector_t    *sector;
-    static int  prevx, prevy, prevz;
+    static int  prevx, prevy;
     int         height = (z == ONCEILINGZ && type != MT_KEEN && info->projectilepassheight ?
                     info->projectilepassheight : info->height);
 
@@ -754,7 +754,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     prevx = x;
     prevy = y;
-    prevz = z;
 
     return mobj;
 }
