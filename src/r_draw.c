@@ -193,8 +193,9 @@ void R_DrawShadowColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const byte  *body = tinttab40;
-    const byte  *edge = tinttab25;
+    const int   black = dc_colormap[0][0] << 8;
+    const byte  *body = tinttab40 + black;
+    const byte  *edge = tinttab25 + black;
 
     *dest = edge[*dest];
     dest += SCREENWIDTH;
@@ -213,7 +214,8 @@ void R_DrawFuzzyShadowColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const byte  *translucency = tinttab25;
+    const int   black = dc_colormap[0][0] << 8;
+    const byte  *translucency = tinttab25 + black;
 
     if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
         *dest = translucency[*dest];
@@ -233,37 +235,39 @@ void R_DrawFuzzyShadowColumn(void)
 
 void R_DrawSolidShadowColumn(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    int         count = dc_yh - dc_yl + 1;
+    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    const int   black = dc_colormap[0][0];
 
     while (--count)
     {
-        *dest = nearestcolors[0];
+        *dest = black;
         dest += SCREENWIDTH;
     }
 
-    *dest = nearestcolors[0];
+    *dest = black;
 }
 
 void R_DrawSolidFuzzyShadowColumn(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    int         count = dc_yh - dc_yl + 1;
+    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    const int   black = dc_colormap[0][0];
 
     if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-        *dest = nearestcolors[0];
+        *dest = black;
 
     dest += SCREENWIDTH;
 
     while (--count)
     {
-        *dest = nearestcolors[0];
+        *dest = black;
         dest += SCREENWIDTH;
     }
 
     if (dc_yh < viewheight - 1 && dc_yh < dc_floorclip
         && ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3))))
-        *dest = nearestcolors[0];
+        *dest = black;
 }
 
 void R_DrawBloodSplatColumn(void)
@@ -688,7 +692,7 @@ void R_DrawDitheredColumn(void)
     if ((dc_yl ^ dc_x) & 1)
     {
         dest += SCREENWIDTH;
-        frac += fracstep >> 1;
+        frac += dc_iscale;
 
         if (!--count)
             return;

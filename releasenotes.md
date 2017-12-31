@@ -19,7 +19,8 @@
 * The `-config` command-line parameter will no longer be ignored when saving the configuration file.
 * The `-shotdir` command-line parameter can now be used to specify the folder that screenshots will be saved in when the <kbd>PRINTSCREEN</kbd> key is pressed.
 * Objects will no longer be lit incorrectly in some rare instances.
-* The shadows of spectres will now be displayed correctly when the `r_shadows_translucency` CVAR is `off`.
+* The shadows cast by monsters will now be displayed correctly in areas with a custom colormap.
+* The shadows cast by spectres will now be displayed correctly when the `r_shadows_translucency` CVAR is `off`.
 * Using the `nomonsters` CCMD will now instantly remove all monsters in the current map.
 * The brightmaps for several wall textures are now fixed.
 * A bug present in *Vanilla DOOM* has been fixed whereby Mancubi projectiles would sometimes pass through walls.
