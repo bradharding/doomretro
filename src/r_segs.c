@@ -275,12 +275,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     for (dc_x = x1; dc_x <= x2; dc_x++, spryscale += rw_scalestep)
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
-            const rcolumn_t *column = R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]);
-            const int       numposts = column->numposts;
-            int64_t         t;
-
-            if (!numposts)
-                return;
+            const rcolumn_t *column;
 
             // killough 3/2/98:
             //
@@ -291,7 +286,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             // This code fixes it, by using double-precision intermediate
             // arithmetic and by skipping the drawing of 2s normals whose
             // mapping to screen coordinates is totally out of range:
-            t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
+            int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
             if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
                 continue;                       // skip if the texture is out of screen's range
@@ -305,7 +300,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
             // draw the texture
-            R_BlastMaskedSegColumn(column, numposts);
+            column = R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]);
+            R_BlastMaskedSegColumn(column, column->numposts);
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
 
