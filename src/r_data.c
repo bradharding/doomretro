@@ -421,7 +421,35 @@ static void R_InitFlats(void)
 //
 static void R_InitSpriteLumps(void)
 {
-    int numspritelumps;
+    dboolean    fixspriteoffsets = false;
+    int         numspritelumps;
+
+    SC_Open("DRCOMPAT");
+
+    while (SC_GetString())
+    {
+        if (M_StringCompare(sc_String, "FIXSPRITEOFFSETS"))
+        {
+            SC_MustGetString();
+
+            if (M_StringCompare(pwadfile, removeext(sc_String)))
+                fixspriteoffsets = true;
+        }
+        else if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
+        {
+            SC_MustGetString();
+
+            if (M_StringCompare(pwadfile, removeext(sc_String)))
+                notranslucency = true;
+        }
+        else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
+        {
+            SC_MustGetString();
+
+            if (M_StringCompare(pwadfile, removeext(sc_String)))
+                telefragonmap30 = true;
+        }
+    }
 
     firstspritelump = W_GetNumForName("S_START") + 1;
     lastspritelump = W_GetNumForName("S_END") - 1;
@@ -457,7 +485,7 @@ static void R_InitSpriteLumps(void)
                         && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)
                         && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS)
                         && ((!BTSX && !sprfix18) || sproffsets[j].sprfix18)
-                        && (BTSX || lumpinfo[firstspritelump + i]->wadfile->type != PWAD))
+                        && (BTSX || fixspriteoffsets || lumpinfo[firstspritelump + i]->wadfile->type != PWAD))
                     {
                         newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
                         newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
@@ -502,26 +530,6 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
-    }
-
-    SC_Open("DRCOMPAT");
-
-    while (SC_GetString())
-    {
-        if (M_StringCompare(sc_String, "NOTRANSLUCENCY"))
-        {
-            SC_MustGetString();
-
-            if (M_StringCompare(pwadfile, removeext(sc_String)))
-                notranslucency = true;
-        }
-        else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
-        {
-            SC_MustGetString();
-
-            if (M_StringCompare(pwadfile, removeext(sc_String)))
-                telefragonmap30 = true;
-        }
     }
 
     SC_Close();
