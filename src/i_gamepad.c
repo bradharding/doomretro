@@ -143,7 +143,7 @@ void I_InitGamepad(void)
                         gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
                             I_PollThumbs_XInput_RightHanded);
 
-                        if (initcount == 1)
+                        if (initcount++ == 1)
                             C_Output("A gamepad is connected. Using <i><b>%s</b></i>.", XInputVersion);
                     }
                 }
