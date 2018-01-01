@@ -1783,6 +1783,8 @@ static void fastmonsters_cmd_func2(char *cmd, char *parms)
 
             fastparm = true;
         }
+        else
+            return;
     }
     else
         fastparm = !fastparm;
@@ -1804,6 +1806,8 @@ static void freeze_cmd_func2(char *cmd, char *parms)
             freeze = false;
         else if (value == 1)
             freeze = true;
+        else
+            return;
     }
     else
         freeze = !freeze;
@@ -1970,6 +1974,8 @@ static void god_cmd_func2(char *cmd, char *parms)
             viewplayer->cheats &= ~CF_GODMODE;
         else if (value == 1)
             viewplayer->cheats |= CF_GODMODE;
+        else
+            return;
     }
     else
         viewplayer->cheats ^= CF_GODMODE;
@@ -3078,6 +3084,8 @@ static void noclip_cmd_func2(char *cmd, char *parms)
             viewplayer->cheats &= ~CF_NOCLIP;
         else if (value == 1)
             viewplayer->cheats |= CF_NOCLIP;
+        else
+            return;
     }
     else
         viewplayer->cheats ^= CF_NOCLIP;
@@ -3106,6 +3114,8 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
             nomonsters = false;
         else if (value == 1)
             nomonsters = true;
+        else
+            return;
     }
     else
         nomonsters = !nomonsters;
@@ -3157,6 +3167,8 @@ static void notarget_cmd_func2(char *cmd, char *parms)
             viewplayer->cheats &= ~CF_NOTARGET;
         else if (value == 1)
             viewplayer->cheats |= CF_NOTARGET;
+        else
+            return;
     }
     else
         viewplayer->cheats ^= CF_NOTARGET;
@@ -3206,6 +3218,8 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
             pistolstart = false;
         else if (value == 1)
             pistolstart = true;
+        else
+            return;
     }
     else
         pistolstart = !pistolstart;
@@ -3755,6 +3769,8 @@ static void regenhealth_cmd_func2(char *cmd, char *parms)
             regenhealth = false;
         else if (value == 1)
             regenhealth = true;
+        else
+            return;
     }
     else
         regenhealth = !regenhealth;
@@ -3783,6 +3799,8 @@ static void respawnitems_cmd_func2(char *cmd, char *parms)
             respawnitems = false;
         else if (value == 1)
             respawnitems = true;
+        else
+            return;
     }
     else
         respawnitems = !respawnitems;
@@ -3816,6 +3834,8 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms)
             respawnmonsters = false;
         else if (value == 1)
             respawnmonsters = true;
+        else
+            return;
     }
     else
         respawnmonsters = !respawnmonsters;
@@ -4096,6 +4116,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
             vanilla = false;
         else if (value == 1)
             vanilla = true;
+        else
+            return;
     }
     else
         vanilla = !vanilla;
