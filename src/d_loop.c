@@ -140,10 +140,6 @@ void TryRunTics(void)
 
         G_Ticker();
         gametic++;
-
-        if (!menuactive && !consoleactive && !paused && !freeze)
-            activetic++;
-
         gametime++;
 
         if (netcmds[0].buttons & BT_SPECIAL)

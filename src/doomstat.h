@@ -190,7 +190,6 @@ extern gamestate_t      gamestate;
 //  WAD, partly set at startup time.
 
 extern int              gametic;
-extern int              activetic;
 extern int              gametime;
 extern struct tm        *gamestarttime;
 

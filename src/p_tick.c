@@ -250,6 +250,9 @@ void P_Ticker(void)
     P_MapEnd();
 
     // for par times
-    leveltime++;
-    stat_time = SafeAdd(stat_time, 1);
+    if (!freeze)
+    {
+        leveltime++;
+        stat_time = SafeAdd(stat_time, 1);
+    }
 }

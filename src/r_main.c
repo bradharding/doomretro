@@ -815,7 +815,7 @@ void R_RenderPlayerView(void)
     {
         if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-                nearestcolors[(activetic % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)]);
+                nearestcolors[(leveltime % 20) < 9 ? RED : (viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK)]);
         else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
                 nearestcolors[viewplayer->fixedcolormap == INVERSECOLORMAP ? WHITE : BLACK]);

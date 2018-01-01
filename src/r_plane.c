@@ -348,7 +348,7 @@ static byte *R_DistortedFlat(int flatnum)
     static int  offset[4096];
     static byte *normalflat;
     static byte distortedflat[4096];
-    int         leveltic = activetic;
+    int         leveltic = leveltime;
 
     // Already swirled this one?
     if (leveltic == swirltic && lastflat == flatnum)
@@ -377,7 +377,7 @@ static byte *R_DistortedFlat(int flatnum)
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
             }
 
-        swirltic = activetic;
+        swirltic = leveltime;
     }
 
     normalflat = W_CacheLumpNum(firstflat + flatnum);
