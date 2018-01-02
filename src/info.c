@@ -2617,7 +2617,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* plural1              */ "icons of sin",
         /* name2                */ "boss brain",
         /* plural2              */ "boss brains",
-        /* name3                */ "",
+        /* name3                */ "romero",
         /* plural3              */ ""
     },
 
