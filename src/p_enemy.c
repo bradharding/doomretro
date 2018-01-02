@@ -2199,7 +2199,7 @@ void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
     player_t    *oldplayer = actor->player;
 
     actor->player = &newplayer;
-    newplayer.health = 100;
+    newplayer.health = initial_health;
 
     if (!(junk.special = (short)actor->state->misc1))
         return;
