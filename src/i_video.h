@@ -91,6 +91,8 @@ void R_SetViewSize(int blocks);
 
 void I_SetGamma(float value);
 
+void I_WindowResizeBlit(void);
+
 extern dboolean     sendpause;
 extern dboolean     quitting;
 

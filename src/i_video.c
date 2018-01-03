@@ -715,6 +715,25 @@ static void CalculateFPS(void)
     C_UpdateFPS();
 }
 
+void I_WindowResizeBlit(void)
+{
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, SCREENWIDTH * 4);
+    SDL_RenderClear(renderer);
+
+    if (nearestlinear)
+    {
+        SDL_SetRenderTarget(renderer, texture_upscaled);
+        SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+        SDL_SetRenderTarget(renderer, NULL);
+        SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    }
+    else
+        SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+
+    SDL_RenderPresent(renderer);
+}
+
 static void I_Blit(void)
 {
     UpdateGrab();
