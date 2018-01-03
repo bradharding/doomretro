@@ -62,9 +62,6 @@ extern fixed_t      *spritetopoffset;
 extern fixed_t      *newspriteoffset;
 extern fixed_t      *newspritetopoffset;
 
-extern lighttable_t **colormaps;    // killough 3/20/98, 4/4/98
-extern lighttable_t *fullcolormap;  // killough 3/20/98
-
 extern int          viewwidth;
 extern int          scaledviewwidth;
 extern int          viewheight;

@@ -504,7 +504,6 @@ static void R_InitSpriteLumps(void)
         states[S_BAR1].tics = 0;
         mobjinfo[MT_BARREL].spawnstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 0;
-
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
@@ -543,7 +542,7 @@ static void R_InitSpriteLumps(void)
 //
 // killough 4/4/98: Add support for C_START/C_END markers
 //
-byte grays[256];
+byte    grays[256];
 
 static void R_InitColormaps(void)
 {

@@ -715,6 +715,7 @@ static void CalculateFPS(void)
     C_UpdateFPS();
 }
 
+#if defined(_WIN32)
 void I_WindowResizeBlit(void)
 {
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -733,6 +734,7 @@ void I_WindowResizeBlit(void)
 
     SDL_RenderPresent(renderer);
 }
+#endif
 
 static void I_Blit(void)
 {
