@@ -12,6 +12,7 @@
 * Vertical autoaiming as the player fires their weapon while using mouselook can now be toggled on and off using the new `autoaim` CVAR. This CVAR is `on` by default.
 * The player is now given a berserk power-up when entering the `IDFA` or `IDKFA` cheats so they can then still equip their fists.
 * The following changes have been made when freeze mode is on:
+  * The bob of the player and the player’s weapon are disabled.
   * The `give` CCMD will now work correctly.
   * Any power-ups the player has will no longer time out.
   * The player’s health will no longer regenerate if the `regenhealth` CCMD has been used.

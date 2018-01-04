@@ -530,11 +530,11 @@ void P_PlayerThink(void)
 
     P_CalcHeight();
 
-    // cycle psprites
-    P_MovePsprites();
-
     if (freeze)
         return;
+
+    // cycle psprites
+    P_MovePsprites();
 
     // [BH] regenerate health up to 100 every 1 second
     if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !viewplayer->damagecount)
