@@ -50,7 +50,6 @@ void I_ShutdownWindows32(void);
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_misc.h"
-#include "r_main.h"
 #include "s_sound.h"
 #include "version.h"
 #include "v_video.h"
@@ -212,13 +211,7 @@ void I_Quit(dboolean shutdown)
 {
     if (shutdown)
     {
-        for (int i = 0; i < 32; i++)
-        {
-            for (int j = 0; j < SCREENWIDTH * SCREENHEIGHT; j++)
-                screens[0][j] = colormaps[0][i * 256 + screens[0][j]];
-
-            blitfunc();
-        }
+        V_FadeScreen();
 
         S_Shutdown();
 
