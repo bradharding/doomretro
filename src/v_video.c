@@ -1535,14 +1535,3 @@ dboolean V_ScreenShot(void)
 
     return result;
 }
-
-void V_FadeScreen(void)
-{
-    for (int i = 1; i < 16; i++)
-    {
-        for (int j = 0; j < SCREENWIDTH * SCREENHEIGHT; j++)
-            screens[0][j] = colormaps[0][i * 256 + screens[0][j]];
-
-        blitfunc();
-    }
-}

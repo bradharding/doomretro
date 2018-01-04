@@ -45,6 +45,7 @@ void I_ShutdownWindows32(void);
 #endif
 
 #include "c_console.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_timer.h"
@@ -52,7 +53,6 @@ void I_ShutdownWindows32(void);
 #include "m_misc.h"
 #include "s_sound.h"
 #include "version.h"
-#include "v_video.h"
 
 extern dboolean returntowidescreen;
 
@@ -211,7 +211,7 @@ void I_Quit(dboolean shutdown)
 {
     if (shutdown)
     {
-        V_FadeScreen();
+        D_FadeScreen();
 
         S_Shutdown();
 

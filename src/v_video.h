@@ -110,6 +110,4 @@ void V_DrawBlock(int x, int y, int width, int height, byte *src);
 
 dboolean V_ScreenShot(void);
 
-void V_FadeScreen(void);
-
 #endif

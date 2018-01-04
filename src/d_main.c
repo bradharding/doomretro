@@ -461,6 +461,18 @@ void D_PageDrawer(void)
 }
 
 //
+// D_FadeScreen
+//
+void D_FadeScreen(void)
+{
+    for (int i = 0; i < 11; i++)
+    {
+        I_SetPalette(splashpal + i * 768);
+        blitfunc();
+    }
+}
+
+//
 // D_AdvanceTitle
 // Called after each titlesequence finishes
 //
