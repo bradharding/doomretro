@@ -465,6 +465,9 @@ void D_PageDrawer(void)
 //
 void D_FadeScreen(void)
 {
+    if (W_CheckMultipleLumps("COLORMAP") > 1)
+        return;
+
     for (int i = 0; i < 11; i++)
     {
         I_SetPalette(splashpal + i * 768);
