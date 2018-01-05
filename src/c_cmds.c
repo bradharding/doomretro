@@ -2001,7 +2001,7 @@ static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
     ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_HELP_URL, NULL, NULL, SW_SHOWNORMAL);
-//#elif defined(__linux__)
+#elif defined(__linux__)
     system("xdg-open "PACKAGE_WIKI_HELP_URL);
 #elif defined(__MACOSX__)
     system("open "PACKAGE_WIKI_HELP_URL);
