@@ -1,5 +1,7 @@
 ### DOOM Retro v2.7
 
+* A new `restartmap` CCMD has been implemented that restarts the current map.
+
 ---
 
 ###### Friday, January 5, 2018

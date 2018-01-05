@@ -293,6 +293,7 @@ static void resetall_cmd_func2(char *cmd, char *parms);
 static void respawnitems_cmd_func2(char *cmd, char *parms);
 static dboolean respawnmonsters_cmd_func1(char *cmd, char *parms);
 static void respawnmonsters_cmd_func2(char *cmd, char *parms);
+static void restartmap_cmd_func2(char *cmd, char *parms);
 static dboolean resurrect_cmd_func1(char *cmd, char *parms);
 static void resurrect_cmd_func2(char *cmd, char *parms);
 static dboolean save_cmd_func1(char *cmd, char *parms);
@@ -693,6 +694,8 @@ consolecmd_t consolecmds[] =
         "Toggles respawning items."),
     CMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles respawning monsters."),
+    CMD(restartmap, "", game_func1, restartmap_cmd_func2, false, "",
+        "Restarts the current map."),
     CMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, false, "",
         "Resurrects the player."),
     CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -3841,6 +3844,15 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms)
         respawnmonsters = !respawnmonsters;
 
     HU_PlayerMessage((respawnmonsters ? s_STSTR_RMON : s_STSTR_RMOFF), false);
+}
+
+//
+// restartmap CCMD
+//
+static void restartmap_cmd_func2(char *cmd, char *parms)
+{
+    G_DoLoadLevel();
+    C_HideConsoleFast();
 }
 
 //

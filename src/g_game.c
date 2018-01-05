@@ -70,7 +70,6 @@
 
 static void G_DoReborn(void);
 
-static void G_DoLoadLevel(void);
 static void G_DoNewGame(void);
 static void G_DoCompleted(void);
 static void G_DoWorldDone(void);
@@ -510,7 +509,7 @@ static void G_ResetPlayer(void)
 //
 // G_DoLoadLevel
 //
-static void G_DoLoadLevel(void)
+void G_DoLoadLevel(void)
 {
     int         ep;
     int         map = (gameepisode - 1) * 10 + gamemap;
@@ -1094,7 +1093,7 @@ static void G_DoReborn(void)
     else
     {
         gameaction = ga_loadlevel;
-        C_Input("map %s", mapnum);
+        C_Input("restartmap");
     }
 }
 
