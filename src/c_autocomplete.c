@@ -6956,6 +6956,7 @@ char autocompletelist[][255] =
     "respawnmonsters ",
     "respawnmonsters off",
     "respawnmonsters on",
+    "restartmap",
     "resurrect",
     "+right",
     "+rotatemode",
