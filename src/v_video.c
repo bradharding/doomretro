@@ -422,7 +422,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgro
 
             while (count--)
             {
-                int     height = topdelta + length - count;
+                int height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP)
                 {

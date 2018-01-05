@@ -4890,13 +4890,12 @@ static void r_dither_cvar_func2(char *cmd, char *parms)
 
         if ((value == 0 || value == 1) && value != r_dither)
         {
-            lumpindex_t lump;
-
             r_dither = !!value;
             M_SaveCVARs();
             R_InitColumnFunctions();
-            tranmap = ((lump = W_CheckNumForName("TRANMAP")) != -1 ? W_CacheLumpNum(lump) :
-                (r_dither ? tinttab25 : tinttab50));
+
+            if (W_CheckNumForName("TRANMAP") == -1)
+                tranmap = (r_dither ? tinttab25 : tinttab50);
         }
     }
     else
@@ -4922,7 +4921,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0 || value == 1)
+        if ((value == 0 || value == 1) && value != r_fixmaperrors)
         {
             r_fixmaperrors = !!value;
             M_SaveCVARs();
@@ -4978,7 +4977,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
         if (value == INT_MIN)
             sscanf(parms, "%10f", &value);
 
-        if (value != INT_MIN && r_gamma != value)
+        if (value != INT_MIN && value != r_gamma)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
@@ -5078,7 +5077,7 @@ static void r_messagescale_cvar_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, SCALEVALUEALIAS);
 
-        if ((value == r_messagescale_small || value == r_messagescale_big) && r_messagescale != value)
+        if ((value == r_messagescale_small || value == r_messagescale_big) && value != r_messagescale)
         {
             r_messagescale = !!value;
             M_SaveCVARs();
@@ -5107,8 +5106,7 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
     {
         const int   value = parms[0] - '0';
 
-        if (strlen(parms) == 1 && value >= r_screensize_min && value <= r_screensize_max
-            && value != r_screensize)
+        if (strlen(parms) == 1 && value >= r_screensize_min && value <= r_screensize_max && value != r_screensize)
         {
             if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
@@ -5468,7 +5466,7 @@ static void units_cvar_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, UNITSVALUEALIAS);
 
-        if ((value == 0 || value == 1) && units != value)
+        if ((value == 0 || value == 1) && value != units)
         {
             units = !!value;
             M_SaveCVARs();
