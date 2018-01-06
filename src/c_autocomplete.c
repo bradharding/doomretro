@@ -7099,6 +7099,7 @@ char autocompletelist[][255] =
     "+straferight",
     "teleport ",
     "thinglist",
+    "timer ",
     "tossdrop ",
     "tossdrop off",
     "tossdrop on",
