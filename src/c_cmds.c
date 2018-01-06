@@ -4600,6 +4600,9 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
 }
 
+//
+// gp_sensitivity CVAR
+//
 static void gp_sensitivity_cvar_func2(char *cmd, char *parms)
 {
     const int   gp_sensitivity_old = gp_sensitivity;
@@ -4610,6 +4613,9 @@ static void gp_sensitivity_cvar_func2(char *cmd, char *parms)
         I_SetGamepadSensitivity();
 }
 
+//
+// gp_swapthumbsticks CVAR
+//
 static void gp_swapthumbsticks_cvar_func2(char *cmd, char *parms)
 {
     const int   gp_swapthumbsticks_old = gp_swapthumbsticks;
@@ -4618,32 +4624,6 @@ static void gp_swapthumbsticks_cvar_func2(char *cmd, char *parms)
 
     if (gp_swapthumbsticks != gp_swapthumbsticks_old)
         I_SetGamepadThumbSticks();
-}
-
-//
-// r_messagepos CVAR
-//
-static void r_messagepos_cvar_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        if (!M_StringCompare(r_messagepos, parms))
-        {
-            r_messagepos = strdup(parms);
-            HU_GetMessagePosition();
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_messagepos))].description));
-
-        if (M_StringCompare(r_messagepos, r_messagepos_default))
-            C_Output("It is currently set to its default of <b>%s</b>.", r_messagepos);
-        else
-            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                r_messagepos, r_messagepos_default);
-    }
 }
 
 //
@@ -5072,6 +5052,32 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
         else
             C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
                 formatsize(r_lowpixelsize), formatsize(r_lowpixelsize_default));
+    }
+}
+
+//
+// r_messagepos CVAR
+//
+static void r_messagepos_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        if (!M_StringCompare(r_messagepos, parms))
+        {
+            r_messagepos = strdup(parms);
+            HU_GetMessagePosition();
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        C_Output(removenewlines(consolecmds[C_GetIndex(stringize(r_messagepos))].description));
+
+        if (M_StringCompare(r_messagepos, r_messagepos_default))
+            C_Output("It is currently set to its default of <b>%s</b>.", r_messagepos);
+        else
+            C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
+                r_messagepos, r_messagepos_default);
     }
 }
 

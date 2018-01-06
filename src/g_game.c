@@ -1093,7 +1093,7 @@ static void G_DoReborn(void)
     else
     {
         gameaction = ga_loadlevel;
-        C_Input("restartmap");
+        C_CCMDOutput("restartmap");
     }
 }
 
