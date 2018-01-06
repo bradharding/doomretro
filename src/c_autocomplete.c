@@ -6278,6 +6278,7 @@ char autocompletelist[][255] =
     "if tossdrop off then ",
     "if tossdrop on ",
     "if tossdrop on then ",
+    "if turbo "
     "if units ",
     "if units imperial ",
     "if units imperial then ",
@@ -7101,6 +7102,7 @@ char autocompletelist[][255] =
     "tossdrop ",
     "tossdrop off",
     "tossdrop on",
+    "turbo ",
     "unbind ",
     "unbind '''",
     "unbind '+'",

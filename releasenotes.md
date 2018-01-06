@@ -1,6 +1,7 @@
 ### DOOM Retro v2.7
 
 * A new `restartmap` CCMD has been implemented that restarts the current map.
+* Further improvements have been made to the console’s autocomplete feature.
 
 ---
 
