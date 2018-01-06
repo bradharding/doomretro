@@ -1,6 +1,8 @@
 ### DOOM Retro v2.7
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A new `restartmap` CCMD has been implemented that restarts the current map.
+* Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
 
 ---
@@ -34,7 +36,7 @@
 * The shadows cast by spectres will now be displayed correctly when the `r_shadows_translucency` CVAR is `off`.
 * Using the `nomonsters` CCMD will now instantly remove all monsters in the current map.
 * The brightmaps for several wall textures are now fixed.
-* A bug present in *Vanilla DOOM* has been fixed whereby Mancubi projectiles would sometimes pass through walls.
+* A bug present in *Vanilla DOOM* has been fixed whereby [Mancubi projectiles would sometimes pass through walls](https://doomwiki.org/wiki/Mancubus_fireball_clipping).
 
 ---
 
