@@ -1186,7 +1186,7 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmxmove) > ABS(tmymove))
         {
             S_StartSound(slidemo, sfx_oof);     // oooff!
-            tmxmove /= -2;                      // absorb half the momentum
+            tmxmove = -tmxmove / 2;             // absorb half the momentum
             tmymove /= 2;
         }
         else
@@ -1205,18 +1205,28 @@ static void P_HitSlideLine(line_t *ld)
     moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);
     moveangle += 10;    // prevents sudden path reversal due to rounding error
     deltaangle = moveangle - lineangle;
-
-    if (deltaangle > ANG180)
-        deltaangle += ANG180;
-
-    lineangle >>= ANGLETOFINESHIFT;
-    deltaangle >>= ANGLETOFINESHIFT;
-
     movelen = P_ApproxDistance(tmxmove, tmymove);
-    newlen = FixedMul(movelen, finecosine[deltaangle]);
 
-    tmxmove = FixedMul(newlen, finecosine[lineangle]);
-    tmymove = FixedMul(newlen, finesine[lineangle]);
+    if (icyfloor && deltaangle > ANG45 && deltaangle < ANG90 + ANG45)
+    {
+        moveangle = lineangle - deltaangle;
+        movelen /= 2;                           // absorb
+        S_StartSound(slidemo, sfx_oof);         // oooff!
+        moveangle >>= ANGLETOFINESHIFT;
+        tmxmove = FixedMul(movelen, finecosine[moveangle]);
+        tmymove = FixedMul(movelen, finesine[moveangle]);
+    }
+    else
+    {
+        if (deltaangle > ANG180)
+            deltaangle += ANG180;
+
+        lineangle >>= ANGLETOFINESHIFT;
+        deltaangle >>= ANGLETOFINESHIFT;
+        newlen = FixedMul(movelen, finecosine[deltaangle]);
+        tmxmove = FixedMul(newlen, finecosine[lineangle]);
+        tmymove = FixedMul(newlen, finesine[lineangle]);
+    }
 }
 
 //
