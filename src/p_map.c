@@ -1245,8 +1245,16 @@ static void P_HitSlideLine(line_t *ld)
         inter2 = P_InterceptVector(&dll, &dlv);
         inter3 = P_InterceptVector(&dlv, &dll);
 
-        tmxmove = FixedDiv(FixedMul(inter2 - inter1, dll.dx), inter3);
-        tmymove = FixedDiv(FixedMul(inter2 - inter1, dll.dy), inter3);
+        if (inter3)
+        {
+            tmxmove = FixedDiv(FixedMul(inter2 - inter1, dll.dx), inter3);
+            tmymove = FixedDiv(FixedMul(inter2 - inter1, dll.dy), inter3);
+        }
+        else
+        {
+            tmxmove = 0;
+            tmymove = 0;
+        }
     }
 }
 
