@@ -178,6 +178,8 @@ typedef dboolean (*traverser_t)(intercept_t *in);
 fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy);
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line);
 int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld);
+void P_MakeDivline(line_t *li, divline_t *dl);
+fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
 
 extern fixed_t  opentop;
 extern fixed_t  openbottom;

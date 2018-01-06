@@ -4,6 +4,7 @@
 * A new `restartmap` CCMD has been implemented that restarts the current map.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
+* A bug present in *Vanilla DOOM* has been fixed whereby [the player would sometimes bounce off walls](https://doomwiki.org/wiki/Elastic_collisions_with_walls).
 
 ---
 

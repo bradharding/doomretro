@@ -1218,14 +1218,28 @@ static void P_HitSlideLine(line_t *ld)
     }
     else
     {
-        if (deltaangle > ANG180)
-            deltaangle += ANG180;
+        divline_t   dll;
+        divline_t   dlv;
+        fixed_t     inter1;
+        fixed_t     inter2;
+        fixed_t     inter3;
 
-        lineangle >>= ANGLETOFINESHIFT;
-        deltaangle >>= ANGLETOFINESHIFT;
-        newlen = FixedMul(movelen, finecosine[deltaangle]);
-        tmxmove = FixedMul(newlen, finecosine[lineangle]);
-        tmymove = FixedMul(newlen, finesine[lineangle]);
+        P_MakeDivline(ld, &dll);
+
+        dlv.x = slidemo->x;
+        dlv.y = slidemo->y;
+        dlv.dx = dll.dy;
+        dlv.dy = -dll.dx;
+
+        inter1 = P_InterceptVector(&dll, &dlv);
+
+        dlv.dx = tmxmove;
+        dlv.dy = tmymove;
+        inter2 = P_InterceptVector(&dll, &dlv);
+        inter3 = P_InterceptVector(&dlv, &dll);
+
+        tmxmove = FixedDiv(FixedMul(inter2 - inter1, dll.dx), inter3);
+        tmymove = FixedDiv(FixedMul(inter2 - inter1, dll.dy), inter3);
     }
 }
 
