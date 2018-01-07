@@ -89,7 +89,7 @@
 #define SPAWNCMDFORMAT      "<i>monster</i>|<i>item</i>"
 #define TELEPORTCMDFORMAT   "<i>x</i> <i>y</i>"
 #define TIMERCMDFORMAT      "<i>minutes</i>"
-#define UNBINDCMDFORMAT     "<i>control</i>"
+#define UNBINDCMDFORMAT     "<i>control</i>|<b>+</b><i>action</i>"
 
 #define PENDINGCHANGE       "This change won't be effective until the next map."
 
@@ -1177,6 +1177,7 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
 void bind_cmd_func2(char *cmd, char *parms)
 {
     int             i = 0;
+    int             action = 0;
     char            parm1[128] = "";
     char            parm2[128] = "";
     const dboolean  mouselookcontrols = (keyboardmouselook || mousemouselook != -1);
@@ -1201,8 +1202,6 @@ void bind_cmd_func2(char *cmd, char *parms)
 
     if (*controls[i].control)
     {
-        int action = 0;
-
         if (!*parm2)
         {
             while (*actions[action].action)
@@ -1388,6 +1387,33 @@ void bind_cmd_func2(char *cmd, char *parms)
                     M_SaveCVARs();
                 }
             }
+        }
+    }
+    else if (M_StringCompare(parm2, "none"))
+    {
+        while (*actions[action].action)
+        {
+            if (M_StringCompare(parm2, actions[action].action))
+            {
+                if (actions[i].keyboard1)
+                    *(int *)actions[i].keyboard1 = 0;
+
+                if (actions[i].keyboard2)
+                    *(int *)actions[i].keyboard2 = 0;
+
+                if (actions[i].mouse1)
+                    *(int *)actions[i].mouse1 = -1;
+
+                if (actions[i].gamepad1)
+                    *(int *)actions[i].gamepad1 = 0;
+
+                if (actions[i].gamepad2)
+                    *(int *)actions[i].gamepad2 = 0;
+
+                break;
+            }
+
+            action++;
         }
     }
     else
