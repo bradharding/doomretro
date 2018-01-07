@@ -1152,7 +1152,6 @@ static void P_HitSlideLine(line_t *ld)
     angle_t     moveangle;
     angle_t     deltaangle;
     fixed_t     movelen;
-    fixed_t     newlen;
     dboolean    icyfloor;       // is floor icy?
 
     // phares:
@@ -1172,13 +1171,13 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmymove) > ABS(tmxmove))
         {
             if (slidemo->player && slidemo->health > 0)
-                S_StartSound(slidemo, sfx_oof); // oooff!
+                S_StartSound(slidemo, sfx_oof);             // oooff!
 
-            tmxmove /= 2;                       // absorb half the momentum
+            tmxmove /= 2;                                   // absorb half the momentum
             tmymove = -tmymove / 2;
         }
         else
-            tmymove = 0;                        // no more movement in the Y direction
+            tmymove = 0;                                    // no more movement in the Y direction
 
         return;
     }
@@ -1188,13 +1187,13 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmxmove) > ABS(tmymove))
         {
             if (slidemo->player && slidemo->health > 0)
-                S_StartSound(slidemo, sfx_oof); // oooff!
+                S_StartSound(slidemo, sfx_oof);             // oooff!
 
-            tmxmove = -tmxmove / 2;             // absorb half the momentum
+            tmxmove = -tmxmove / 2;                         // absorb half the momentum
             tmymove /= 2;
         }
         else
-            tmxmove = 0;                        // no more movement in the X direction
+            tmxmove = 0;                                    // no more movement in the X direction
 
         return;
     }
@@ -1209,15 +1208,14 @@ static void P_HitSlideLine(line_t *ld)
     moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);
     moveangle += 10;    // prevents sudden path reversal due to rounding error
     deltaangle = moveangle - lineangle;
-    movelen = P_ApproxDistance(tmxmove, tmymove);
 
     if (icyfloor && deltaangle > ANG45 && deltaangle < ANG90 + ANG45)
     {
         moveangle = lineangle - deltaangle;
-        movelen /= 2;                           // absorb
+        movelen = P_ApproxDistance(tmxmove, tmymove) / 2;   // absorb
 
         if (slidemo->player && slidemo->health > 0)
-            S_StartSound(slidemo, sfx_oof);     // oooff!
+            S_StartSound(slidemo, sfx_oof);                 // oooff!
 
         moveangle >>= ANGLETOFINESHIFT;
         tmxmove = FixedMul(movelen, finecosine[moveangle]);
