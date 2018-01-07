@@ -1229,7 +1229,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                 action++;
             }
         }
-        else if (M_StringCompare(parm2, "none"))
+        else if (M_StringCompare(cmd, "unbind"))
         {
             while (*actions[action].action)
             {
@@ -1389,7 +1389,7 @@ void bind_cmd_func2(char *cmd, char *parms)
             }
         }
     }
-    else if (M_StringCompare(parm2, "none"))
+    else if (M_StringCompare(cmd, "unbind"))
     {
         while (*actions[action].action)
         {
@@ -4138,7 +4138,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    bind_cmd_func2(cmd, M_StringJoin(parms, " none", NULL));
+    bind_cmd_func2(cmd, parms);
 }
 
 //

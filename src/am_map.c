@@ -227,6 +227,9 @@ int                 direction;
 static am_frame_t   am_frame;
 
 static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
+static void (*putbigdot)(unsigned int, unsigned int, byte *);
+static void PUTDOT(unsigned int x, unsigned int y, byte *color);
+static void PUTBIGDOT(unsigned int x, unsigned int y, byte *color);
 
 static void AM_activateNewScale(void)
 {
@@ -238,6 +241,7 @@ static void AM_activateNewScale(void)
     m_y -= m_h / 2;
     m_x2 = m_x + m_w;
     m_y2 = m_y + m_h;
+    putbigdot = (scale_mtof >= FRACUNIT * 1.5 ? PUTBIGDOT : PUTDOT);
 }
 
 static void AM_saveScaleAndLoc(void)
@@ -270,6 +274,7 @@ static void AM_restoreScaleAndLoc(void)
     // Change the scaling multipliers
     scale_mtof = FixedDiv(mapwidth << FRACBITS, m_w);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
+    putbigdot = (scale_mtof >= FRACUNIT * 1.5 ? PUTBIGDOT : PUTDOT);
 }
 
 //
@@ -448,6 +453,7 @@ static void AM_LevelInit(void)
     if (scale_mtof > max_scale_mtof)
         scale_mtof = min_scale_mtof;
 
+    putbigdot = (scale_mtof >= FRACUNIT * 1.5 ? PUTBIGDOT : PUTDOT);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
     // for saving & restoring
@@ -1260,6 +1266,8 @@ static __inline void PUTDOT2(unsigned int x, unsigned int y, byte *color)
         *(mapscreen + y + x) = *color;
 }
 
+static void (*putbigdot)(unsigned int, unsigned int, byte *);
+
 static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth)
@@ -1417,7 +1425,7 @@ static void AM_drawMline2(int x0, int y0, int x1, int y1, byte *color)
 static void AM_drawBigMline(int x0, int y0, int x1, int y1, byte *color)
 {
     if (AM_clipMline(&x0, &y0, &x1, &y1))
-        AM_drawFline(x0, y0, x1, y1, color, (scale_mtof >= FRACUNIT * 1.5 ? PUTBIGDOT : PUTDOT));
+        AM_drawFline(x0, y0, x1, y1, color, putbigdot);
 }
 
 static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
@@ -1560,7 +1568,7 @@ static void AM_drawWalls(void)
 
                 if (!backsector || (secret && !cheating))
                     AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor :
-                    (allmap ? allmapwallcolor : maskcolor)));
+                        (allmap ? allmapwallcolor : maskcolor)));
                 else if (backsector->floorheight != frontsector->floorheight)
                 {
                     if (mapped || cheating)
