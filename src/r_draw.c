@@ -978,7 +978,7 @@ void R_DrawFuzzColumn(void)
     // bottom
     *dest = colormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
 
-    if (dc_yh < dc_floorclip && dc_baseclip == viewheight && !(M_Random() & 3))
+    if (dc_yh < dc_floorclip && !(M_Random() & 3))
     {
         dest += SCREENWIDTH;
         *dest = colormap[14 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(0, 1))]];
@@ -1020,7 +1020,7 @@ void R_DrawPausedFuzzColumn(void)
     // bottom
     *dest = colormap[5 * 256 + dest[MIN(fuzztable[fuzzpos++], 0)]];
 
-    if (dc_yh < dc_floorclip && dc_baseclip == viewheight && !fuzztable[fuzzpos++])
+    if (dc_yh < dc_floorclip && !fuzztable[fuzzpos++])
     {
         dest += SCREENWIDTH;
         *dest = colormap[12 * 256 + dest[fuzztable[fuzzpos]]];
