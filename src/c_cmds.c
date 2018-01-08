@@ -1693,19 +1693,19 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     (gamestate == GS_LEVEL ? viewplayer->health : 0), description1);
             else if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
-                    C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
-                        consolecmds[i].aliases), description1);
+                    C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, consolecmds[i].aliases),
+                    description1);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
                     *(int *)consolecmds[i].variable, description1);
             else if (consolecmds[i].flags & CF_INTEGER)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
-                    C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
-                        consolecmds[i].aliases), description1);
+                    C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases),
+                    description1);
             else if (consolecmds[i].flags & CF_FLOAT)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s%s</b>\t%s", ++count, consolecmds[i].name,
                     striptrailingzero(*(float *)consolecmds[i].variable,
-                        ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
+                    ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
                     ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), description1);
             else if (consolecmds[i].flags & CF_STRING)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t\"%.14s%s\"</b>\t%s", ++count, consolecmds[i].name,
@@ -2026,7 +2026,7 @@ static void god_cmd_func2(char *cmd, char *parms)
 static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_HELP_URL, NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, "open", PACKAGE_WIKI_HELP_URL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
     system("xdg-open "PACKAGE_WIKI_HELP_URL);
 #elif defined(__MACOSX__)
