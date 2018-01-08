@@ -3877,6 +3877,7 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms)
 //
 static void restartmap_cmd_func2(char *cmd, char *parms)
 {
+    viewplayer->playerstate = PST_REBORN;
     G_DoLoadLevel();
     C_HideConsoleFast();
 }
