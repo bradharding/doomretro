@@ -258,8 +258,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     maskedtexturecol = ds->maskedtexturecol;
     rw_scalestep = ds->scalestep;
     spryscale = ds->scale1 + (x1 - ds->x1) * rw_scalestep;
-    mfloorclip = ds->sprbottomclip;
     mceilingclip = ds->sprtopclip;
+    mfloorclip = ds->sprbottomclip;
 
     // find positioning
     if (curline->linedef->flags & ML_DONTPEGBOTTOM)
@@ -666,8 +666,8 @@ void R_StoreWallRange(const int start, const int stop)
 
         if (linedef->r_flags & RF_CLOSED)
         {
-            ds_p->sprbottomclip = negonearray;
             ds_p->sprtopclip = viewheightarray;
+            ds_p->sprbottomclip = negonearray;
             ds_p->silhouette = SIL_BOTH;
         }
         else
