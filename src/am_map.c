@@ -1439,27 +1439,27 @@ static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
 //
 static void AM_drawGrid(void)
 {
-    fixed_t         start;
     fixed_t         end;
-    mline_t         ml;
     const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + (double)m_h * m_h));
     const fixed_t   extx = (minlen - m_w) / 2;
     const fixed_t   exty = (minlen - m_h) / 2;
+    fixed_t         startx = m_x - extx;
+    fixed_t         starty = m_y - exty;
 
     // Figure out start of vertical gridlines
-    start = m_x - extx;
+    if ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
+        startx += gridwidth - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth);
 
-    if ((start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
-        start += gridwidth - ((start - (bmaporgx >> FRACTOMAPBITS)) % gridwidth);
-
-    end = m_x + minlen - extx;
+    end = startx + minlen;
 
     // draw vertical gridlines
-    for (fixed_t x = start; x < end; x += gridwidth)
+    for (fixed_t x = startx; x < end; x += gridwidth)
     {
+        mline_t ml;
+
         ml.a.x = x;
         ml.b.x = x;
-        ml.a.y = m_y - exty;
+        ml.a.y = starty;
         ml.b.y = ml.a.y + minlen;
 
         if (am_rotatemode)
@@ -1472,17 +1472,17 @@ static void AM_drawGrid(void)
     }
 
     // Figure out start of horizontal gridlines
-    start = m_y - exty;
+    if ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight)
+        starty += gridheight - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight);
 
-    if ((start - (bmaporgy >> FRACTOMAPBITS)) % gridheight)
-        start += gridheight - ((start - (bmaporgy >> FRACTOMAPBITS)) % gridheight);
-
-    end = m_y + minlen - exty;
+    end = starty + minlen;
 
     // draw horizontal gridlines
-    for (fixed_t y = start; y < end; y += gridheight)
+    for (fixed_t y = starty; y < end; y += gridheight)
     {
-        ml.a.x = m_x - extx;
+        mline_t ml;
+
+        ml.a.x = startx;
         ml.b.x = ml.a.x + minlen;
         ml.a.y = y;
         ml.b.y = y;
