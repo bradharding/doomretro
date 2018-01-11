@@ -53,8 +53,6 @@
 #include "v_video.h"
 #include "z_zone.h"
 
-#define MASKCOLOR   251
-
 // Automap colors
 int     am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 int     am_allmapfdwallcolor = am_allmapfdwallcolor_default;
@@ -73,9 +71,8 @@ int     am_tswallcolor = am_tswallcolor_default;
 int     am_wallcolor = am_wallcolor_default;
 
 // Automap color priorities
-#define WALLPRIORITY            10
-#define ALLMAPWALLPRIORITY      9
-#define MASKPRIORITY            8
+#define WALLPRIORITY            9
+#define ALLMAPWALLPRIORITY      8
 #define CDWALLPRIORITY          7
 #define ALLMAPCDWALLPRIORITY    6
 #define FDWALLPRIORITY          5
@@ -85,7 +82,6 @@ int     am_wallcolor = am_wallcolor_default;
 #define GRIDPRIORITY            1
 
 static byte *priorities;
-static byte *mask;
 
 static byte playercolor;
 static byte thingcolor;
@@ -95,7 +91,6 @@ static byte backcolor;
 
 static byte *wallcolor;
 static byte *allmapwallcolor;
-static byte *maskcolor;
 static byte *teleportercolor;
 static byte *fdwallcolor;
 static byte *allmapfdwallcolor;
@@ -350,19 +345,12 @@ void AM_setColors(void)
     *(priority + nearestcolors[am_tswallcolor]) = TSWALLPRIORITY;
     *(priority + nearestcolors[am_gridcolor]) = GRIDPRIORITY;
 
-    *(priority + nearestcolors[MASKCOLOR]) = MASKPRIORITY;
-
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
     pathcolor = nearestcolors[am_pathcolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
     crosshaircolor = tinttab60 + (nearestcolors[am_crosshaircolor] << 8);
-
-    for (int x = 0; x < 256; x++)
-        *(mask + x) = x;
-
-    *(mask + nearestcolors[MASKCOLOR]) = backcolor;
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
@@ -377,8 +365,6 @@ void AM_setColors(void)
     teleportercolor = priorities + (nearestcolors[am_teleportercolor] << 8);
     tswallcolor = priorities + (nearestcolors[am_tswallcolor] << 8);
     gridcolor = priorities + (nearestcolors[am_gridcolor] << 8);
-
-    maskcolor = priorities + (nearestcolors[MASKCOLOR] << 8);
 }
 
 void AM_getGridSize(void)
@@ -405,7 +391,6 @@ void AM_getGridSize(void)
 
 void AM_Init(void)
 {
-    mask = Z_Malloc(256, PU_STATIC, NULL);
     priorities = Z_Malloc(256 * 256, PU_STATIC, NULL);
 
     AM_setColors();
@@ -1567,8 +1552,12 @@ static void AM_drawWalls(void)
                 }
 
                 if (!backsector || (secret && !cheating))
-                    AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor :
-                        (allmap ? allmapwallcolor : maskcolor)));
+                {
+                    if (mapped || cheating)
+                        AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, wallcolor);
+                    else if (allmap)
+                        AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
+                }
                 else if (backsector->floorheight != frontsector->floorheight)
                 {
                     if (mapped || cheating)
@@ -1586,17 +1575,6 @@ static void AM_drawWalls(void)
                 else if (cheating)
                     AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, tswallcolor);
             }
-        }
-    }
-
-    if (!cheating && !allmap)
-    {
-        byte    *dot = mapscreen;
-
-        while (dot < area)
-        {
-            *dot = *(*dot + mask);
-            dot++;
         }
     }
 }
