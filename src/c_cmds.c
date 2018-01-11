@@ -108,10 +108,10 @@ static int      mapcmdepisode;
 static int      mapcmdmap;
 static char     mapcmdlump[7];
 
-static dboolean resettingall;
 
 dboolean        executingalias = false;
 dboolean        vanilla = false;
+dboolean        resettingcvar = false;
 dboolean        togglingvanilla = false;
 
 char            *version = version_default;
@@ -3707,6 +3707,8 @@ static void reset_cmd_func2(char *cmd, char *parms)
         return;
     }
 
+    resettingcvar = true;
+
     for (int i = 0; *consolecmds[i].name; i++)
     {
         const int   flags = consolecmds[i].flags;
@@ -3733,6 +3735,8 @@ static void reset_cmd_func2(char *cmd, char *parms)
             break;
         }
     }
+
+    resettingcvar = false;
 }
 
 //
@@ -3744,7 +3748,7 @@ static void C_VerifyResetAll(const int key)
 
     if (key == 'y')
     {
-        resettingall = true;
+        resettingcvar = true;
 
         for (int i = 0; *consolecmds[i].name; i++)
         {
@@ -3765,7 +3769,7 @@ static void C_VerifyResetAll(const int key)
             }
         }
 
-        resettingall = false;
+        resettingcvar = false;
 
 #if defined(_WIN32)
         wad = "";
@@ -4692,7 +4696,7 @@ static void player_cvars_func2(char *cmd, char *parms)
 {
     int value;
 
-    if (resettingall)
+    if (resettingcvar)
         return;
 
     if (M_StringCompare(cmd, stringize(ammo)))
@@ -4945,7 +4949,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
             r_fixmaperrors = !!value;
             M_SaveCVARs();
 
-            if (r_fixmaperrors && gamestate == GS_LEVEL && !togglingvanilla && !resettingall)
+            if (r_fixmaperrors && gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
                 C_Warning(PENDINGCHANGE);
         }
     }
@@ -5439,7 +5443,7 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
         pendinggameskill = skilllevel;
         NewDef.lastOn = skilllevel - 1;
 
-        if (gamestate == GS_LEVEL && !resettingall)
+        if (gamestate == GS_LEVEL && !resettingcvar)
             C_Warning(PENDINGCHANGE);
     }
 }

@@ -128,6 +128,7 @@ extern control_t    controls[];
 extern consolecmd_t consolecmds[];
 extern alias_t      aliases[MAXALIASES];
 extern dboolean     executingalias;
+extern dboolean     resettingcvar;
 
 dboolean C_ExecuteAlias(const char *alias);
 
