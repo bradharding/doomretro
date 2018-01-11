@@ -1151,7 +1151,6 @@ static void P_HitSlideLine(line_t *ld)
     angle_t     lineangle;
     angle_t     moveangle;
     angle_t     deltaangle;
-    fixed_t     movelen;
     dboolean    icyfloor;       // is floor icy?
 
     // phares:
@@ -1211,15 +1210,14 @@ static void P_HitSlideLine(line_t *ld)
 
     if (icyfloor && deltaangle > ANG45 && deltaangle < ANG90 + ANG45)
     {
-        moveangle = lineangle - deltaangle;
-        movelen = P_ApproxDistance(tmxmove, tmymove) / 2;   // absorb
+        fixed_t movelen = P_ApproxDistance(tmxmove, tmymove) / 2;
+
+        moveangle = (lineangle - deltaangle) >> ANGLETOFINESHIFT;
+        tmxmove = FixedMul(movelen, finecosine[moveangle]);
+        tmymove = FixedMul(movelen, finesine[moveangle]);
 
         if (slidemo->player && slidemo->health > 0)
             S_StartSound(slidemo, sfx_oof);                 // oooff!
-
-        moveangle >>= ANGLETOFINESHIFT;
-        tmxmove = FixedMul(movelen, finecosine[moveangle]);
-        tmymove = FixedMul(movelen, finesine[moveangle]);
     }
     else
     {
