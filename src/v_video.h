@@ -105,9 +105,6 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow);
 void GetPixelSize(dboolean reset);
 void V_LowGraphicDetail(void);
 
-// Draw a linear block of pixels into the view buffer.
-void V_DrawBlock(int x, int y, int width, int height, byte *src);
-
 dboolean V_ScreenShot(void);
 
 #endif

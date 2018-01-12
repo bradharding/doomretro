@@ -1317,22 +1317,6 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
     }
 }
 
-//
-// V_DrawBlock
-// Draw a linear block of pixels into the view buffer.
-//
-void V_DrawBlock(int x, int y, int width, int height, byte *src)
-{
-    byte    *dest = screens[0] + y * SCREENWIDTH + x;
-
-    while (height--)
-    {
-        memcpy(dest, src, width);
-        src += width;
-        dest += SCREENWIDTH;
-    }
-}
-
 void V_DrawPixel(int x, int y, byte color, dboolean shadow)
 {
     byte    *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
@@ -1340,14 +1324,20 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
     if (color == 251)
     {
         if (shadow)
-            for (int yy = 0; yy < SCREENSCALE; yy++)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
-                    *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH + xx)];
+        {
+            *dest = tinttab50[*dest];
+            *(dest + 1) = tinttab50[*(dest + 1)];
+            *(dest + SCREENWIDTH) = tinttab50[*(dest + SCREENWIDTH)];
+            *(dest + SCREENWIDTH + 1) = tinttab50[*(dest + SCREENWIDTH + 1)];
+        }
     }
     else if (color && color != 32)
-        for (int yy = 0; yy < SCREENSCALE; yy++)
-            for (int xx = 0; xx < SCREENSCALE; xx++)
-                *(dest + yy * SCREENWIDTH + xx) = color;
+    {
+        *dest = color;
+        *(dest + 1) = color;
+        *(dest + SCREENWIDTH) = color;
+        *(dest + SCREENWIDTH + 1) = color;
+    }
 }
 
 void GetPixelSize(dboolean reset)

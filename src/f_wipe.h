@@ -43,8 +43,8 @@
 // SCREEN WIPE PACKAGE
 //
 
-dboolean wipe_StartScreen(void);
-dboolean wipe_EndScreen(void);
+void wipe_StartScreen(void);
+void wipe_EndScreen(void);
 dboolean wipe_ScreenWipe(int tics);
 
 #endif

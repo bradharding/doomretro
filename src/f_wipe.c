@@ -54,20 +54,20 @@ static byte *wipe_scr;
 
 static void wipe_shittyColMajorXform(short *array)
 {
-    short   *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    short   *dest = malloc(SCREENWIDTH * SCREENHEIGHT);
 
     for (int y = 0; y < SCREENHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH / 2; x++)
             dest[x * SCREENHEIGHT + y] = array[y * SCREENWIDTH / 2 + x];
 
     memcpy(array, dest, SCREENWIDTH * SCREENHEIGHT);
-    Z_Free(dest);
+    free(dest);
 }
 
 static int  *y;
 static int  speed;
 
-static dboolean wipe_initMelt(void)
+static void wipe_initMelt(void)
 {
     speed = (SCREENHEIGHT - (SBARHEIGHT * vid_widescreen)) / 16;
 
@@ -81,13 +81,11 @@ static dboolean wipe_initMelt(void)
 
     // setup initial column positions
     // (y < 0 => not ready to scroll yet)
-    y = Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, NULL);
+    y = malloc(SCREENWIDTH * sizeof(int), PU_STATIC, NULL);
     y[0] = y[1] = -(M_Random() & 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + (M_Random() % 3) - 1, 0);
-
-    return false;
 }
 
 static dboolean wipe_doMelt(int tics)
@@ -140,27 +138,24 @@ static dboolean wipe_doMelt(int tics)
     return done;
 }
 
-static dboolean wipe_exitMelt(void)
+static void wipe_exitMelt(void)
 {
-    Z_Free(y);
-    Z_Free(wipe_scr_start);
-    Z_Free(wipe_scr_end);
-    return false;
+    free(y);
+    free(wipe_scr_start);
+    free(wipe_scr_end);
 }
 
-dboolean wipe_StartScreen(void)
+void wipe_StartScreen(void)
 {
-    wipe_scr_start = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    I_ReadScreen(wipe_scr_start);
-    return false;
+    wipe_scr_start = malloc(SCREENWIDTH * SCREENHEIGHT);
+    memcpy(wipe_scr_start, screens[0], SCREENWIDTH * SCREENHEIGHT);
 }
 
-dboolean wipe_EndScreen(void)
+void wipe_EndScreen(void)
 {
-    wipe_scr_end = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    I_ReadScreen(wipe_scr_end);
-    V_DrawBlock(0, 0, SCREENWIDTH, SCREENHEIGHT, wipe_scr_start);
-    return false;
+    wipe_scr_end = malloc(SCREENWIDTH * SCREENHEIGHT);
+    memcpy(wipe_scr_end, screens[0], SCREENWIDTH * SCREENHEIGHT);
+    memcpy(screens[0], wipe_scr_start, SCREENWIDTH * SCREENHEIGHT);
 }
 
 dboolean wipe_ScreenWipe(int tics)

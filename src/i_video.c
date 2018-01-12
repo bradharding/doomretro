@@ -947,14 +947,6 @@ void I_UpdateBlitFunc(dboolean shake)
 }
 
 //
-// I_ReadScreen
-//
-void I_ReadScreen(byte *screen)
-{
-    memcpy(screen, screens[0], SCREENWIDTH * SCREENHEIGHT);
-}
-
-//
 // I_SetPalette
 //
 void I_SetPalette(byte *playpal)
