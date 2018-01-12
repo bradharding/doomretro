@@ -334,7 +334,7 @@ enum
     opt_end
 };
 
-static menuitem_t OptionsMenu[]=
+static menuitem_t OptionsMenu[] =
 {
     {  1, "M_ENDGAM", M_EndGame,           &s_M_ENDGAME          },
     {  1, "M_MESSG",  M_ChangeMessages,    &s_M_MESSAGES         },

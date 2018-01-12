@@ -1393,7 +1393,7 @@ void V_LowGraphicDetail(void)
 //
 void V_Init(void)
 {
-    byte                *base = malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
+    byte                *base = malloc(SCREENWIDTH * SCREENHEIGHT * 4);
     const SDL_version   *linked = IMG_Linked_Version();
     int                 p;
 #if defined(_WIN32) && !defined(PORTABILITY)
