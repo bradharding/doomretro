@@ -8,6 +8,7 @@
 * The `unbind` CCMD will now also accept an action as its parameter, unbinding all keyboard, mouse and gamepad controls bound to that action.
 * A bug has been fixed whereby the bottom edge of spectres and their blood weren’t drawn correctly in some instances.
 * The effects of changing the `r_blood` CVAR between `all` and `red` are now immediate.
+* Movement of the player arrow in the automap is now smoother.
 
 ---
 

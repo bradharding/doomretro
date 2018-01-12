@@ -254,8 +254,8 @@ static void AM_restoreScaleAndLoc(void)
 
     if (am_followmode)
     {
-        m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
+        m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
     }
     else
     {
@@ -313,7 +313,7 @@ static void AM_changeWindowLoc(void)
 
     if (am_rotatemode)
     {
-        AM_rotate(&incx, &incy, viewangle - ANG90);
+        AM_rotate(&incx, &incy, viewplayer->mo->angle - ANG90);
 
         m_x += incx;
         m_y += incy;
@@ -414,8 +414,8 @@ static void AM_initVariables(const dboolean mainwindow)
 
     if (m_x == INT_MAX || am_followmode)
     {
-        m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
+        m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
         m_x2 = m_x + m_w;
         m_y2 = m_y + m_h;
     }
@@ -627,8 +627,8 @@ void AM_clearMarks(void)
 
 void AM_addToPath(void)
 {
-    const int   x = viewx >> FRACTOMAPBITS;
-    const int   y = viewy >> FRACTOMAPBITS;
+    const int   x = viewplayer->mo->x >> FRACTOMAPBITS;
+    const int   y = viewplayer->mo->y >> FRACTOMAPBITS;
 
     if (pathpointnum)
         if (ABS(pathpoints[pathpointnum - 1].x - x) < FRACUNIT
@@ -1133,8 +1133,8 @@ static void AM_changeWindowScale(void)
 
 static void AM_doFollowPlayer(void)
 {
-    m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
+    m_x = (viewplayer->mo->x >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (viewplayer->mo->y >> FRACTOMAPBITS) - m_h / 2;
     m_x2 = m_x + m_w;
     m_y2 = m_y + m_h;
 }
@@ -1687,10 +1687,10 @@ static void AM_drawPlayer(void)
 
     const int   invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t    point;
-    angle_t     angle = viewangle;
+    angle_t     angle = viewplayer->mo->angle;
 
-    point.x = viewx >> FRACTOMAPBITS;
-    point.y = viewy >> FRACTOMAPBITS;
+    point.x = viewplayer->mo->x >> FRACTOMAPBITS;
+    point.y = viewplayer->mo->y >> FRACTOMAPBITS;
 
     if (am_rotatemode)
     {
@@ -1761,7 +1761,7 @@ static void AM_drawThings(void)
                     if (am_rotatemode)
                     {
                         AM_rotatePoint(&point);
-                        angle -= viewangle - ANG90;
+                        angle -= viewplayer->mo->angle - ANG90;
                     }
 
                     fx = CXMTOF(point.x);
@@ -1938,7 +1938,7 @@ static void AM_setFrameVariables(void)
 
     if (am_rotatemode)
     {
-        const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
+        const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
         const float     dx = (float)(m_x2 - x);
         const float     dy = (float)(m_y2 - y);
         const fixed_t   r = (fixed_t)sqrt(dx * dx + dy * dy);
