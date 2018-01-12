@@ -153,12 +153,12 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-dboolean            automapactive;
-
 static const unsigned int   mapwidth = SCREENWIDTH;
 static const unsigned int   mapheight = SCREENHEIGHT - SBARHEIGHT;
 static const unsigned int   maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
 static const unsigned int   mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT) - SCREENWIDTH;
+
+dboolean            automapactive;
 
 static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
 static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
@@ -501,7 +501,7 @@ static dboolean     speedtoggle;
 
 static dboolean AM_getSpeedToggle(void)
 {
-    return (!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER) + !!(modstate & KMOD_SHIFT) == 1);
+    return (!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER) ^ !!(modstate & KMOD_SHIFT));
 }
 
 void AM_toggleZoomOut(void)
@@ -684,9 +684,8 @@ dboolean AM_Responder(const event_t *ev)
 
         if (!automapactive && !mapwindow)
         {
-            if ((ev->type == ev_keydown && ev->data1 == AM_STARTKEY && keydown != AM_STARTKEY
-                && !(modstate & KMOD_ALT)) || (ev->type == ev_gamepad && (gamepadbuttons & gamepadautomap)
-                    && !backbuttondown))
+            if ((ev->type == ev_keydown && ev->data1 == AM_STARTKEY && keydown != AM_STARTKEY && !(modstate & KMOD_ALT))
+                || (ev->type == ev_gamepad && (gamepadbuttons & gamepadautomap) && !backbuttondown))
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
@@ -1083,6 +1082,7 @@ dboolean AM_Responder(const event_t *ev)
             }
         }
     }
+
     return rc;
 }
 
@@ -1424,12 +1424,10 @@ static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
 //
 static void AM_drawGrid(void)
 {
-    fixed_t         end;
     const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + (double)m_h * m_h));
-    const fixed_t   extx = (minlen - m_w) / 2;
-    const fixed_t   exty = (minlen - m_h) / 2;
-    fixed_t         startx = m_x - extx;
-    fixed_t         starty = m_y - exty;
+    fixed_t         startx = m_x - (minlen - m_w) / 2;
+    fixed_t         starty = m_y - (minlen - m_h) / 2;
+    fixed_t         end;
 
     // Figure out start of vertical gridlines
     if ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth)
@@ -1445,7 +1443,7 @@ static void AM_drawGrid(void)
         ml.a.x = x;
         ml.b.x = x;
         ml.a.y = starty;
-        ml.b.y = ml.a.y + minlen;
+        ml.b.y = starty + minlen;
 
         if (am_rotatemode)
         {
@@ -1468,7 +1466,7 @@ static void AM_drawGrid(void)
         mline_t ml;
 
         ml.a.x = startx;
-        ml.b.x = ml.a.x + minlen;
+        ml.b.x = startx + minlen;
         ml.a.y = y;
         ml.b.y = y;
 
@@ -1584,22 +1582,23 @@ static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines,
 {
     for (int i = 0; i < lineguylines; i++)
     {
-        int x1, y1;
-        int x2, y2;
+        int     x1, y1;
+        int     x2, y2;
+        mline_t line = lineguy[i];
 
         if (scale)
         {
-            x1 = FixedMul(lineguy[i].a.x, scale);
-            y1 = FixedMul(lineguy[i].a.y, scale);
-            x2 = FixedMul(lineguy[i].b.x, scale);
-            y2 = FixedMul(lineguy[i].b.y, scale);
+            x1 = FixedMul(line.a.x, scale);
+            y1 = FixedMul(line.a.y, scale);
+            x2 = FixedMul(line.b.x, scale);
+            y2 = FixedMul(line.b.y, scale);
         }
         else
         {
-            x1 = lineguy[i].a.x;
-            y1 = lineguy[i].a.y;
-            x2 = lineguy[i].b.x;
-            y2 = lineguy[i].b.y;
+            x1 = line.a.x;
+            y1 = line.a.y;
+            x2 = line.b.x;
+            y2 = line.b.y;
         }
 
         if (angle)
@@ -1617,22 +1616,23 @@ static void AM_drawTransLineCharacter(const mline_t *lineguy, const int lineguyl
 {
     for (int i = 0; i < lineguylines; i++)
     {
-        int x1, y1;
-        int x2, y2;
+        int     x1, y1;
+        int     x2, y2;
+        mline_t line = lineguy[i];
 
         if (scale)
         {
-            x1 = FixedMul(lineguy[i].a.x, scale);
-            y1 = FixedMul(lineguy[i].a.y, scale);
-            x2 = FixedMul(lineguy[i].b.x, scale);
-            y2 = FixedMul(lineguy[i].b.y, scale);
+            x1 = FixedMul(line.a.x, scale);
+            y1 = FixedMul(line.a.y, scale);
+            x2 = FixedMul(line.b.x, scale);
+            y2 = FixedMul(line.b.y, scale);
         }
         else
         {
-            x1 = lineguy[i].a.x;
-            y1 = lineguy[i].a.y;
-            x2 = lineguy[i].b.x;
-            y2 = lineguy[i].b.y;
+            x1 = line.a.x;
+            y1 = line.a.y;
+            x2 = line.b.x;
+            y2 = line.b.y;
         }
 
         if (angle)
@@ -1750,8 +1750,7 @@ static void AM_drawThings(void)
                 {
                     mpoint_t    point;
                     angle_t     angle = thing->angle;
-                    int         fx;
-                    int         fy;
+                    int         fx, fy;
                     const int   lump = sprites[thing->sprite].spriteframes[0].lump[0];
                     const int   w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
                         96 << FRACBITS) >> FRACTOMAPBITS) / 2;

@@ -139,15 +139,15 @@ static struct
     ammotype_t      ammotype;
     int             minammo;
 } weapons[] = {
-    { wp_bfg,          /* wp_fist         */ wp_chainsaw,     am_noammo,  0 },
-    { wp_chainsaw,     /* wp_pistol       */ wp_shotgun,      am_clip,    1 },
-    { wp_pistol,       /* wp_shotgun      */ wp_supershotgun, am_shell,   1 },
-    { wp_supershotgun, /* wp_chaingun     */ wp_missile,      am_clip,    1 },
-    { wp_chaingun,     /* wp_missile      */ wp_plasma,       am_misl,    1 },
-    { wp_missile,      /* wp_plasma       */ wp_bfg,          am_cell,    1 },
-    { wp_plasma,       /* wp_bfg          */ wp_fist,         am_cell,   40 },
-    { wp_fist,         /* wp_chainsaw     */ wp_pistol,       am_noammo,  0 },
-    { wp_shotgun,      /* wp_supershotgun */ wp_chaingun,     am_shell,   2 }
+    { wp_bfg,          /* wp_fist         */ wp_chainsaw,     am_noammo,        0 },
+    { wp_chainsaw,     /* wp_pistol       */ wp_shotgun,      am_clip,          1 },
+    { wp_pistol,       /* wp_shotgun      */ wp_supershotgun, am_shell,         1 },
+    { wp_supershotgun, /* wp_chaingun     */ wp_missile,      am_clip,          1 },
+    { wp_chaingun,     /* wp_missile      */ wp_plasma,       am_misl,          1 },
+    { wp_missile,      /* wp_plasma       */ wp_bfg,          am_cell,          1 },
+    { wp_plasma,       /* wp_bfg          */ wp_fist,         am_cell,   BFGCELLS },
+    { wp_fist,         /* wp_chainsaw     */ wp_pistol,       am_noammo,        0 },
+    { wp_shotgun,      /* wp_supershotgun */ wp_chaingun,     am_shell,         2 }
 };
 
 #define SLOWTURNTICS    6
@@ -268,7 +268,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamepadbuttons & gamepadstrafe));
 
-    run = (gamekeydown[keyboardrun] + !!mousebuttons[mouserun] + !!(gamepadbuttons & gamepadrun) + alwaysrun == 1);
+    run = (gamekeydown[keyboardrun] ^ !!mousebuttons[mouserun] ^ !!(gamepadbuttons & gamepadrun) ^ alwaysrun);
 
     usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]
         || (gamepadbuttons & gamepadmouselook));
