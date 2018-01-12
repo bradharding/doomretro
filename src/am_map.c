@@ -1582,9 +1582,6 @@ static void AM_drawWalls(void)
 static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
     angle_t angle, byte color, fixed_t x, fixed_t y)
 {
-    if (am_rotatemode)
-        angle -= viewangle - ANG90;
-
     for (int i = 0; i < lineguylines; i++)
     {
         int x1, y1;
@@ -1618,9 +1615,6 @@ static void AM_drawLineCharacter(const mline_t *lineguy, const int lineguylines,
 static void AM_drawTransLineCharacter(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
     angle_t angle, byte *color, const fixed_t x, const fixed_t y)
 {
-    if (am_rotatemode)
-        angle -= viewangle - ANG90;
-
     for (int i = 0; i < lineguylines; i++)
     {
         int x1, y1;
@@ -1693,24 +1687,28 @@ static void AM_drawPlayer(void)
 
     const int   invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t    point;
+    angle_t     angle = viewangle;
 
     point.x = viewx >> FRACTOMAPBITS;
     point.y = viewy >> FRACTOMAPBITS;
 
     if (am_rotatemode)
+    {
         AM_rotatePoint(&point);
+        angle = ANG90;
+    }
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > STARTFLASHING || (invisibility & 8))
-            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, viewangle, &playercolor, point.x, point.y);
+            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, angle, &playercolor, point.x, point.y);
         else
-            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, viewangle, playercolor, point.x, point.y);
+            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0, angle, playercolor, point.x, point.y);
     }
     else if (invisibility > STARTFLASHING || (invisibility & 8))
-        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, viewangle, &playercolor, point.x, point.y);
+        AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0, angle, &playercolor, point.x, point.y);
     else
-        AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, viewangle, playercolor, point.x, point.y);
+        AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0, angle, playercolor, point.x, point.y);
 }
 
 #define THINGTRIANGLELINES  3
@@ -1751,6 +1749,7 @@ static void AM_drawThings(void)
                 if (!(thing->flags2 & MF2_DONTMAP))
                 {
                     mpoint_t    point;
+                    angle_t     angle = thing->angle;
                     int         fx;
                     int         fy;
                     const int   lump = sprites[thing->sprite].spriteframes[0].lump[0];
@@ -1761,14 +1760,16 @@ static void AM_drawThings(void)
                     point.y = thing->y >> FRACTOMAPBITS;
 
                     if (am_rotatemode)
+                    {
                         AM_rotatePoint(&point);
+                        angle -= viewangle - ANG90;
+                    }
 
                     fx = CXMTOF(point.x);
                     fy = CYMTOF(point.y);
 
                     if (fx >= -w && fx <= (int)mapwidth + w && fy >= -w && fy <= (int)mapwidth + w)
-                        AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w, thing->angle,
-                            thingcolor, point.x, point.y);
+                        AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w, angle, thingcolor, point.x, point.y);
                 }
 
                 thing = thing->snext;
