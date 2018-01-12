@@ -1648,7 +1648,7 @@ void ST_Start(void)
 void ST_Init(void)
 {
     ST_loadData();
-    screens[4] = Z_Malloc(ST_WIDTH * SBARHEIGHT, PU_STATIC, NULL);
+    screens[4] = malloc(ST_WIDTH * SBARHEIGHT);
 
     // [BH] fix evil grin being displayed when picking up first item after
     // loading save game or entering IDFA/IDKFA cheat
