@@ -317,7 +317,7 @@ static dboolean movekey(char key)
         || key == keyboardstrafeleft || key == keyboardstraferight);
 }
 
-static void ST_InitCheats(void)
+static void ST_initCheats(void)
 {
     cheat_mus.movekey = movekey(cheat_mus.sequence[0]);
     cheat_mus_xy.movekey = movekey(cheat_mus_xy.sequence[0]);
@@ -1090,7 +1090,6 @@ static int ST_calcPainOffset(void)
 //
 static void ST_updateFaceWidget(void)
 {
-    int         i;
     static int  priority;
 
     // [crispy] fix status bar face hysteresis
@@ -1118,7 +1117,7 @@ static void ST_updateFaceWidget(void)
             // picking up bonus
             dboolean    doevilgrin = false;
 
-            for (i = 0; i < NUMWEAPONS; i++)
+            for (int i = 0; i < NUMWEAPONS; i++)
                 // [BH] no evil grin when invulnerable
                 if (oldweaponsowned[i] != viewplayer->weaponowned[i] && !invulnerable)
                 {
@@ -1152,20 +1151,21 @@ static void ST_updateFaceWidget(void)
             }
             else
             {
-                angle_t badguyangle = R_PointToAngle2(viewx, viewy, viewplayer->attacker->x, viewplayer->attacker->y);
-                angle_t diffang;
+                angle_t     badguyangle = R_PointToAngle2(viewx, viewy, viewplayer->attacker->x, viewplayer->attacker->y);
+                angle_t     diffang;
+                dboolean    turn;
 
                 if (badguyangle > viewangle)
                 {
                     // whether right or left
                     diffang = badguyangle - viewangle;
-                    i = (diffang > ANG180);
+                    turn = (diffang > ANG180);
                 }
                 else
                 {
                     // whether left or right
                     diffang = viewangle - badguyangle;
-                    i = (diffang <= ANG180);
+                    turn = (diffang <= ANG180);
                 }
 
                 st_facecount = ST_TURNCOUNT;
@@ -1175,7 +1175,7 @@ static void ST_updateFaceWidget(void)
                     // head-on
                     faceindex = ST_RAMPAGEOFFSET;
                 }
-                else if (i)
+                else if (turn)
                 {
                     // turn face right
                     faceindex = ST_TURNOFFSET;
@@ -1259,8 +1259,8 @@ static void ST_updateFaceWidget(void)
 
 static void ST_updateWidgets(void)
 {
-    static int largeammo = 1994; // means "n/a"
-    ammotype_t ammo = weaponinfo[viewplayer->readyweapon].ammo;
+    static int  largeammo = 1994;   // means "n/a"
+    ammotype_t  ammo = weaponinfo[viewplayer->readyweapon].ammo;
 
     w_ready.num = (ammo == am_noammo || viewplayer->health <= 0 ? &largeammo : &viewplayer->ammo[ammo]);
     w_ready.data = viewplayer->readyweapon;
@@ -1300,7 +1300,7 @@ void ST_Ticker(void)
         }
 }
 
-int st_palette;
+int st_palette = 0;
 
 static void ST_doPaletteStuff(void)
 {
@@ -1524,19 +1524,9 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
     if (M_StringCompare(lumpname, "STARMS"))
-    {
-        if (FREEDOOM || hacx)
-            *variable = W_CacheLumpName2("STARMS");
-        else
-            *variable = W_CacheLumpName("STARMS");
-    }
+        *variable = (FREEDOOM || hacx ? W_CacheLumpName2("STARMS") : W_CacheLumpName("STARMS"));
     else if (M_StringCompare(lumpname, "STBAR"))
-    {
-        if (FREEDOOM || hacx)
-            *variable = W_CacheLumpName2("STBAR");
-        else
-            *variable = W_CacheLumpName("STBAR");
-    }
+        *variable = (FREEDOOM || hacx ? W_CacheLumpName2("STBAR") : W_CacheLumpName("STBAR"));
     else
         *variable = W_CacheLumpName(lumpname);
 }
@@ -1655,5 +1645,5 @@ void ST_Init(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         oldweaponsowned[i] = false;
 
-    ST_InitCheats();
+    ST_initCheats();
 }

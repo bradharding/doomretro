@@ -839,7 +839,7 @@ mobjtype_t P_FindDoomedNum(unsigned int type)
 
     i = hash[type % NUMMOBJTYPES].first;
 
-    while ((i < NUMMOBJTYPES) && ((unsigned int)mobjinfo[i].doomednum != type))
+    while (i < NUMMOBJTYPES && (unsigned int)mobjinfo[i].doomednum != type)
         i = hash[i].next;
 
     return i;
