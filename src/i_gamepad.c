@@ -199,7 +199,7 @@ void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY
     gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
     gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, LY), gamepadleftdeadzone);
     gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, RX), gamepadrightdeadzone);
-    gamepadthumbRY = clamp(SDL_JoystickGetAxis(gamepad, RY), gamepadrightdeadzone);
+    gamepadthumbRY = (gp_invertyaxis ? -1 : 1) * clamp(SDL_JoystickGetAxis(gamepad, RY), gamepadrightdeadzone);
 }
 
 void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
@@ -207,7 +207,7 @@ void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
     gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, RX), gamepadrightdeadzone);
     gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, RY), gamepadrightdeadzone);
     gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
-    gamepadthumbRY = clamp(SDL_JoystickGetAxis(gamepad, LY), gamepadleftdeadzone);
+    gamepadthumbRY = (gp_invertyaxis ? -1 : 1) * clamp(SDL_JoystickGetAxis(gamepad, LY), gamepadleftdeadzone);
 }
 
 void I_PollDirectInputGamepad(void)
