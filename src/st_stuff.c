@@ -175,13 +175,13 @@
 #define ST_MAXAMMO3Y        185
 
 // ST_Start() has just been called
-static dboolean             st_firsttime;
+static bool                 st_firsttime;
 
 // lump number for PLAYPAL
 static int                  lu_palette;
 
 // whether left-side main status bar is active
-static dboolean             st_statusbaron;
+static bool                 st_statusbaron;
 
 // main bar left
 static patch_t              *sbar;
@@ -193,7 +193,7 @@ patch_t                     *tallnum[10];
 // tall % sign
 patch_t                     *tallpercent;
 short                       tallpercentwidth;
-dboolean                    emptytallpercent;
+bool                        emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
 static patch_t              *shortnum[10];
@@ -254,7 +254,7 @@ patch_t                     *brdr_br;
 static int                  st_oldhealth = -1;
 
 // used for evil grin
-dboolean                    oldweaponsowned[NUMWEAPONS];
+bool                        oldweaponsowned[NUMWEAPONS];
 
 // count until face changes
 int                         st_facecount;
@@ -270,13 +270,13 @@ static int                  st_randomnumber;
 
 int                         oldhealth = 100;
 
-dboolean                    idclev;
+bool                        idclev;
 
 int                         idclevtics;
 
-dboolean                    idmus;
+bool                        idmus;
 
-dboolean                    samelevel;
+bool                        samelevel;
 
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkintensity = r_berserkintensity_default;
@@ -309,7 +309,7 @@ cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
 cheatseq_t cheat_buddha = CHEAT("mumu", 0);
 
-static dboolean movekey(char key)
+static bool movekey(char key)
 {
     return (key == keyboardright || key == keyboardleft
         || key == keyboardforward || key == keyboardforward2
@@ -437,7 +437,7 @@ extern menu_t   EpiDef;
 
 // Respond to keyboard input events,
 //  intercept cheats.
-dboolean ST_Responder(event_t *ev)
+bool ST_Responder(event_t *ev)
 {
     // if a user keypress...
     if (ev->type == ev_keydown || *consolecheat)
@@ -512,10 +512,10 @@ dboolean ST_Responder(event_t *ev)
                      // [BH] can only enter cheat while player is alive
                      && viewplayer->health > 0)
             {
-                dboolean    ammogiven = false;
-                dboolean    armorgiven = false;
-                dboolean    berserkgiven = false;
-                dboolean    weaponsgiven = false;
+                bool    ammogiven = false;
+                bool    armorgiven = false;
+                bool    berserkgiven = false;
+                bool    weaponsgiven = false;
 
                 // [BH] note if doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
@@ -570,11 +570,11 @@ dboolean ST_Responder(event_t *ev)
                      // [BH] can only enter cheat while player is alive
                      && viewplayer->health > 0)
             {
-                dboolean    ammogiven = false;
-                dboolean    armorgiven = false;
-                dboolean    berserkgiven = false;
-                dboolean    keysgiven = false;
-                dboolean    weaponsgiven = false;
+                bool    ammogiven = false;
+                bool    armorgiven = false;
+                bool    berserkgiven = false;
+                bool    keysgiven = false;
+                bool    weaponsgiven = false;
 
                 // [BH] note if doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
@@ -1096,7 +1096,7 @@ static void ST_updateFaceWidget(void)
     int         painoffset = ST_calcPainOffset();
     static int  faceindex;
 
-    dboolean    invulnerable = ((viewplayer->cheats & CF_GODMODE) || viewplayer->powers[pw_invulnerability]);
+    bool        invulnerable = ((viewplayer->cheats & CF_GODMODE) || viewplayer->powers[pw_invulnerability]);
 
     if (priority < 10)
     {
@@ -1115,7 +1115,7 @@ static void ST_updateFaceWidget(void)
         if (viewplayer->bonuscount)
         {
             // picking up bonus
-            dboolean    doevilgrin = false;
+            bool    doevilgrin = false;
 
             for (int i = 0; i < NUMWEAPONS; i++)
                 // [BH] no evil grin when invulnerable
@@ -1151,9 +1151,9 @@ static void ST_updateFaceWidget(void)
             }
             else
             {
-                angle_t     badguyangle = R_PointToAngle2(viewx, viewy, viewplayer->attacker->x, viewplayer->attacker->y);
-                angle_t     diffang;
-                dboolean    turn;
+                angle_t badguyangle = R_PointToAngle2(viewx, viewy, viewplayer->attacker->x, viewplayer->attacker->y);
+                angle_t diffang;
+                bool    turn;
 
                 if (badguyangle > viewangle)
                 {
@@ -1336,7 +1336,7 @@ static void ST_doPaletteStuff(void)
     }
 }
 
-static void ST_drawWidgets(dboolean refresh)
+static void ST_drawWidgets(bool refresh)
 {
     STlib_updateNum(&w_ready);
 
@@ -1387,7 +1387,7 @@ static void ST_diffDraw(void)
     ST_drawWidgets(false);
 }
 
-void ST_Drawer(dboolean fullscreen, dboolean refresh)
+void ST_Drawer(bool fullscreen, bool refresh)
 {
     // Do red-/gold-shifts from damage/items
     ST_doPaletteStuff();
@@ -1613,7 +1613,7 @@ static void ST_createWidgets(void)
         ST_MAXAMMO3WIDTH);
 }
 
-static dboolean st_stopped = true;
+static bool st_stopped = true;
 
 static void ST_Stop(void)
 {

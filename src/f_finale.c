@@ -75,7 +75,7 @@ static char             *finaleflat;
 
 static void F_StartCast(void);
 static void F_CastTicker(void);
-static dboolean F_CastResponder(event_t *ev);
+static bool F_CastResponder(event_t *ev);
 
 void WI_checkForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -205,7 +205,7 @@ void F_StartFinale(void)
     finalecount = 0;
 }
 
-dboolean F_Responder(event_t *ev)
+bool F_Responder(event_t *ev)
 {
     if (finalestage == F_STAGE_CAST)
         return F_CastResponder(ev);
@@ -266,7 +266,7 @@ void F_Ticker(void)
 //
 extern patch_t *hu_font[HU_FONTSIZE];
 
-void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
+void M_DrawSmallChar(int x, int y, int i, bool shadow);
 
 static void F_TextWrite(void)
 {
@@ -435,13 +435,13 @@ static int      castnum;
 static int      casttics;
 static state_t  *caststate;
 static int      castrot;
-static dboolean castdeath;
-static dboolean castdeathflip;
+static bool     castdeath;
+static bool     castdeathflip;
 static int      castframes;
 static int      castonmelee;
-static dboolean castattacking;
+static bool     castattacking;
 
-dboolean        firstevent;
+bool            firstevent;
 
 //
 // F_StartCast
@@ -644,7 +644,7 @@ stopattack:
 //
 // F_CastResponder
 //
-static dboolean F_CastResponder(event_t *ev)
+static bool F_CastResponder(event_t *ev)
 {
     mobjtype_t  type;
 
@@ -776,7 +776,7 @@ static void F_CastDrawer(void)
     spriteframe_t   *sprframe;
     int             lump;
     int             rot = 0;
-    dboolean        flip;
+    bool            flip;
     patch_t         *patch;
     int             y = ORIGINALHEIGHT - 30;
     mobjtype_t      type = castorder[castnum].type;

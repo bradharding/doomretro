@@ -1209,8 +1209,8 @@ typedef struct
     statenum_t  nextstate;
     long        misc1;
     long        misc2;
-    dboolean    translucent;
-    dboolean    dehacked;
+    bool        translucent;
+    bool        dehacked;
 } state_t;
 
 extern state_t  states[NUMSTATES];
@@ -1431,7 +1431,7 @@ typedef struct
     int         flags2;
     int         raisestate;
     int         frames;
-    dboolean    fullbright;
+    bool        fullbright;
     int         blood;
     int         shadowoffset;
     char        name1[100];
@@ -1453,7 +1453,7 @@ typedef struct
     short       y;
     short       width;
     short       height;
-    dboolean    sprfix18;
+    bool        sprfix18;
 } offset_t;
 
 extern offset_t sproffsets[];

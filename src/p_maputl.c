@@ -354,7 +354,7 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat)
 // to P_BlockLinesIterator, then make one or more calls
 // to it.
 //
-dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
+bool P_BlockLinesIterator(int x, int y, bool func(line_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -385,7 +385,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
 //
 // P_BlockThingsIterator
 //
-dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
+bool P_BlockThingsIterator(int x, int y, bool func(mobj_t *))
 {
     if (!(x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight))
         for (mobj_t *mobj = blocklinks[y * bmapwidth + x]; mobj; mobj = mobj->bnext)
@@ -428,7 +428,7 @@ divline_t   dlTrace;
 // A line is crossed if its endpoints
 // are on opposite sides of the trace.
 //
-static dboolean PIT_AddLineIntercepts(line_t *ld)
+static bool PIT_AddLineIntercepts(line_t *ld)
 {
     int         s1;
     int         s2;
@@ -470,7 +470,7 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
 //
 // PIT_AddThingIntercepts
 //
-static dboolean PIT_AddThingIntercepts(mobj_t *thing)
+static bool PIT_AddThingIntercepts(mobj_t *thing)
 {
     fixed_t     x1, y1;
     fixed_t     x2, y2;
@@ -522,7 +522,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
 // Returns true if the traverser function returns true
 // for all lines.
 //
-static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
+static bool P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 {
     size_t      count = intercept_p - intercepts;
     intercept_t *in = NULL;
@@ -557,8 +557,7 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 // Returns true if the traverser function returns true
 // for all lines.
 //
-dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
-    dboolean (*trav)(intercept_t *))
+bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, bool (*trav)(intercept_t *))
 {
     fixed_t xt1, yt1;
     fixed_t xt2, yt2;

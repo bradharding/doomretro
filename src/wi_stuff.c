@@ -84,7 +84,7 @@ typedef enum
 
 typedef struct
 {
-    int x, y;
+    int         x, y;
 } point_t;
 
 //
@@ -461,8 +461,8 @@ static void WI_drawEL(void)
 
 static void WI_drawOnLnode(int n, patch_t *c[])
 {
-    dboolean    fits = false;
-    int         i = 0;
+    bool    fits = false;
+    int     i = 0;
 
     do
     {
@@ -710,7 +710,7 @@ static void WI_updateNoState(void)
         G_WorldDone();
 }
 
-static dboolean snl_pointeron;
+static bool snl_pointeron;
 
 static void WI_initShowNextLoc(void)
 {
@@ -800,7 +800,7 @@ static void WI_initStats(void)
 static void WI_updateStats(void)
 {
     // e6y
-    static dboolean play_early_explosion = true;
+    static bool play_early_explosion = true;
 
     WI_updateAnimatedBack();
 

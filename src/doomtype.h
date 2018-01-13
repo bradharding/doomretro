@@ -41,11 +41,14 @@
 
 #include <inttypes.h>
 #include <limits.h>
-#include <stdbool.h>
-
-typedef bool dboolean;
 
 typedef uint8_t byte;
+
+typedef enum
+{
+    false,
+    true
+} bool;
 
 #if defined(_WIN32)
 #define DIR_SEPARATOR   '\\'

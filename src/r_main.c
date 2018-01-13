@@ -55,7 +55,7 @@ int                 validcount = 1;
 
 lighttable_t        *fixedcolormap;
 
-dboolean            usebrightmaps;
+bool                usebrightmaps;
 
 int                 centerx;
 int                 centery;
@@ -116,23 +116,23 @@ lighttable_t        **colormaps;
 // bumped light from gun blasts
 int                 extralight;
 
-dboolean            drawbloodsplats;
+bool                drawbloodsplats;
 
-dboolean            r_bloodsplats_translucency = r_bloodsplats_translucency_default;
-dboolean            r_dither = r_dither_default;
+bool                r_bloodsplats_translucency = r_bloodsplats_translucency_default;
+bool                r_dither = r_dither_default;
 int                 r_fov = r_fov_default;
-dboolean            r_homindicator = r_homindicator_default;
-dboolean            r_shadows_translucency = r_shadows_translucency_default;
-dboolean            r_shake_barrels = r_shake_barrels_default;
+bool                r_homindicator = r_homindicator_default;
+bool                r_shadows_translucency = r_shadows_translucency_default;
+bool                r_shake_barrels = r_shake_barrels_default;
 int                 r_skycolor = r_skycolor_default;
-dboolean            r_textures = r_textures_default;
-dboolean            r_translucency = r_translucency_default;
+bool                r_textures = r_textures_default;
+bool                r_translucency = r_translucency_default;
 
-extern dboolean     canmodify;
-extern dboolean     canmouselook;
+extern bool         canmodify;
+extern bool         canmouselook;
 extern int          barreltics;
-extern dboolean     transferredsky;
-extern dboolean     vanilla;
+extern bool         transferredsky;
+extern bool         vanilla;
 extern lighttable_t **walllights;
 
 //
@@ -218,8 +218,8 @@ angle_t R_PointToAngleEx(fixed_t x, fixed_t y)
 angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
 {
     // [crispy] fix overflows for very long distances
-    const int64_t   y_viewy = (int64_t)y - y1;
     const int64_t   x_viewx = (int64_t)x - x1;
+    const int64_t   y_viewy = (int64_t)y - y1;
 
     // [crispy] the worst that could happen is e.g. INT_MIN - INT_MAX = 2 * INT_MIN
     if (x_viewx < INT_MIN || x_viewx > INT_MAX || y_viewy < INT_MIN || y_viewy > INT_MAX)
@@ -297,8 +297,8 @@ static void R_InitTextureMapping(void)
         else if (tangent < -limit)
             viewangletox[i] = viewwidth + 1;
         else
-            viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength)
-                + FRACUNIT - 1) >> FRACBITS, viewwidth + 1);
+            viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength) + FRACUNIT - 1) >> FRACBITS,
+                viewwidth + 1);
     }
 
     // Scan viewangletox[] to generate xtoviewangle[]:
@@ -360,7 +360,7 @@ void R_InitLightTables(void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-dboolean    setsizeneeded;
+bool        setsizeneeded;
 static int  setblocks;
 
 void R_SetViewSize(int blocks)

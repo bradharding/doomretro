@@ -76,7 +76,7 @@ extern int          numlumps;
 extern char         *iwadsrequired[];
 
 char *GetCorrectCase(char *path);
-wadfile_t *W_AddFile(char *filename, dboolean automatic);
+wadfile_t *W_AddFile(char *filename, bool automatic);
 int W_WadType(char *filename);
 
 lumpindex_t W_CheckNumForName(char *name);
@@ -104,6 +104,6 @@ void W_UnlockLumpNum(lumpindex_t lump);
 #define W_UnlockLumpName(name)  W_UnlockLumpNum(W_GetNumForName(name))
 
 GameMission_t IWADRequiredByPWAD(char *pwadname);
-dboolean HasDehackedLump(const char *pwadname);
+bool HasDehackedLump(const char *pwadname);
 
 #endif

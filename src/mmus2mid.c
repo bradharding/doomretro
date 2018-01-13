@@ -138,7 +138,7 @@ static UBYTE trackhdr[] = { 'M', 'T', 'r', 'k' };                               
 //
 // proff: changed type for byte from char to unsigned char to avoid warning
 //
-static dboolean TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
+static bool TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 {
     size_t  pos = mididata->track[MIDItrack].len;
 
@@ -171,7 +171,7 @@ static dboolean TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 //
 // Returns 0 if successful, MEMALLOC if a memory allocation error occurs
 //
-static dboolean TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value)
+static bool TWriteVarLen(MIDI *mididata, int MIDItrack, ULONG value)
 {
     ULONG   buffer = value & 0x7F;
 
@@ -282,7 +282,7 @@ static UBYTE MidiEvent(MIDI *mididata, UBYTE midicode, UBYTE MIDIchannel, UBYTE 
 // haleyjd 11/23/12:
 // Returns true if the data is a MUS.
 //
-dboolean mmuscheckformat(UBYTE *mus, int size)
+bool mmuscheckformat(UBYTE *mus, int size)
 {
     UBYTE   *hptr = mus;
 
@@ -307,7 +307,7 @@ dboolean mmuscheckformat(UBYTE *mus, int size)
 //
 // Returns 0 if successful, otherwise an error code (see mmus2mid.h).
 //
-dboolean mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
+bool mmus2mid(UBYTE *mus, size_t size, MIDI *mididata)
 {
     UWORD               TrackCnt = 0;
     UBYTE               evt;

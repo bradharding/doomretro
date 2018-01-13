@@ -100,7 +100,7 @@ void R_InitPatches(void)
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
 }
 
-static dboolean getIsSolidAtSpot(const column_t *column, int spot)
+static bool getIsSolidAtSpot(const column_t *column, int spot)
 {
     if (!column)
         return false;
@@ -120,13 +120,13 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 }
 
 // Checks if the lump can be a DOOM patch
-static dboolean CheckIfPatch(int lump)
+static bool CheckIfPatch(int lump)
 {
     int             size = W_LumpLength(lump);
     int             width;
     int             height;
     const patch_t   *patch;
-    dboolean        result;
+    bool            result;
 
     // minimum length of a valid DOOM patch
     if (size < 13)

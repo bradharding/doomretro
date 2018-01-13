@@ -400,7 +400,7 @@ typedef struct mobj_s
     int                 blood;
 
     // [AM] If true, ok to interpolate this tic.
-    dboolean            interpolate;
+    bool                interpolate;
 
     // [AM] Previous position of mobj before think.
     //      Used to interpolate between positions.
@@ -422,7 +422,7 @@ typedef struct bloodsplat_s
     int                 patch;
     fixed_t             width;
     struct sector_s     *sector;
-    dboolean            flip;
+    bool                flip;
     int                 blood;
     void                (*colfunc)(void);
 } bloodsplat_t;

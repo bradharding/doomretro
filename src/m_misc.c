@@ -131,7 +131,7 @@ void M_MakeDirectory(const char *path)
 }
 
 // Check if a file exists
-dboolean M_FileExists(const char *filename)
+bool M_FileExists(const char *filename)
 {
     FILE    *fstream = fopen(filename, "r");
 
@@ -148,7 +148,7 @@ dboolean M_FileExists(const char *filename)
 
 // Safe string copy function that works like OpenBSD's strlcpy().
 // Returns true if the string was not truncated.
-dboolean M_StringCopy(char *dest, const char *src, const size_t dest_size)
+bool M_StringCopy(char *dest, const char *src, const size_t dest_size)
 {
     if (dest_size >= 1)
     {
@@ -352,7 +352,7 @@ char *M_StringJoin(char *s, ...)
     return result;
 }
 
-dboolean M_StrToInt(const char *str, unsigned int *result)
+bool M_StrToInt(const char *str, unsigned int *result)
 {
     return (sscanf(str, " 0x%2x", result) == 1 || sscanf(str, " 0X%2x", result) == 1
         || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10u", result) == 1);
@@ -434,13 +434,13 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
 
 // Returns true if 'str1' and 'str2' are the same.
 // (Case-insensitive, return value reverse of strcasecmp() to avoid confusion.
-dboolean M_StringCompare(const char *str1, const char *str2)
+bool M_StringCompare(const char *str1, const char *str2)
 {
     return !strcasecmp(str1, str2);
 }
 
 // Returns true if 's' begins with the specified prefix.
-dboolean M_StringStartsWith(const char *s, const char *prefix)
+bool M_StringStartsWith(const char *s, const char *prefix)
 {
     size_t  len = strlen(prefix);
 
@@ -448,7 +448,7 @@ dboolean M_StringStartsWith(const char *s, const char *prefix)
 }
 
 // Returns true if 's' ends with the specified suffix.
-dboolean M_StringEndsWith(const char *s, const char *suffix)
+bool M_StringEndsWith(const char *s, const char *suffix)
 {
     size_t  len1 = strlen(s);
     size_t  len2 = strlen(suffix);
@@ -630,7 +630,7 @@ char *uncommify(const char *input)
     return p;
 }
 
-dboolean wildcard(char *input, char *pattern)
+bool wildcard(char *input, char *pattern)
 {
     if (pattern[0] == '\0')
         return true;
@@ -767,7 +767,7 @@ char *removeext(const char *file)
     return newstr;
 }
 
-dboolean isvowel(const char ch)
+bool isvowel(const char ch)
 {
     return !!strchr("aeiou", ch);
 }

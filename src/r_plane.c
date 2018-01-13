@@ -77,12 +77,12 @@ fixed_t             yslopes[LOOKDIRS][SCREENHEIGHT];
 
 static fixed_t      cachedheight[SCREENHEIGHT];
 
-dboolean            r_liquid_current = r_liquid_current_default;
-dboolean            r_liquid_swirl = r_liquid_swirl_default;
+bool                r_liquid_current = r_liquid_current_default;
+bool                r_liquid_swirl = r_liquid_swirl_default;
 
 extern fixed_t      animatedliquidxoffs;
 extern fixed_t      animatedliquidyoffs;
-extern dboolean     canmouselook;
+extern bool         canmouselook;
 
 //
 // R_MapPlane

@@ -101,8 +101,8 @@ static sobj_t       *sobjs;
 
 int                 s_channels = s_channels_default;
 int                 s_musicvolume = s_musicvolume_default;
-dboolean            s_randommusic = s_randommusic_default;
-dboolean            s_randompitch = s_randompitch_default;
+bool                s_randommusic = s_randommusic_default;
+bool                s_randompitch = s_randompitch_default;
 int                 s_sfxvolume = s_sfxvolume_default;
 
 // Maximum volume of a sound effect.
@@ -116,16 +116,16 @@ int                 musicVolume;
 static int          snd_SfxVolume;
 
 // Whether songs are mus_paused
-static dboolean     mus_paused;
+static bool         mus_paused;
 
 // Music currently being played
 musicinfo_t         *mus_playing;
 
-dboolean            nosfx;
-dboolean            nomusic;
+bool                nosfx;
+bool                nomusic;
 
 #if defined(_WIN32)
-extern dboolean     serverMidiPlaying;
+extern bool         serverMidiPlaying;
 #endif
 
 // Find and initialize a sound_module_t appropriate for the setting
@@ -386,7 +386,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Changes volume and stereo-separation variables from the norm of a sound
 // effect to be played. If the sound is not audible, returns false. Otherwise,
 // modifies parameters and returns true.
-static dboolean S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int *vol, int *sep)
+static bool S_AdjustSoundParams(mobj_t *listener, fixed_t x, fixed_t y, int *vol, int *sep)
 {
     fixed_t dist = 0;
     fixed_t adx;
@@ -590,7 +590,7 @@ void S_StartMusic(int music_id)
     S_ChangeMusic(music_id, false, false, false);
 }
 
-void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean mapstart)
+void S_ChangeMusic(int music_id, bool looping, bool cheating, bool mapstart)
 {
     musicinfo_t *music = &S_music[music_id];
     void        *handle = NULL;

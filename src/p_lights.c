@@ -157,7 +157,7 @@ void T_StrobeFlash(strobe_t *flash)
 // After the map has been loaded, scan each sector
 // for specials that spawn thinkers
 //
-void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, dboolean inSync)
+void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, bool inSync)
 {
     strobe_t    *flash = Z_Calloc(1, sizeof(*flash), PU_LEVSPEC, NULL);
 
@@ -179,7 +179,7 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, dboolean inSync)
 //
 // Start strobing lights (usually from a trigger)
 //
-dboolean EV_StartLightStrobing(line_t *line)
+bool EV_StartLightStrobing(line_t *line)
 {
     int secnum = -1;
 
@@ -199,7 +199,7 @@ dboolean EV_StartLightStrobing(line_t *line)
 //
 // TURN LINE'S TAG LIGHTS OFF
 //
-dboolean EV_TurnTagLightsOff(line_t *line)
+bool EV_TurnTagLightsOff(line_t *line)
 {
     // search sectors for those with same tag as activating line
     // killough 10/98: replaced inefficient search with fast search
@@ -226,7 +226,7 @@ dboolean EV_TurnTagLightsOff(line_t *line)
 //
 // TURN LINE'S TAG LIGHTS ON
 //
-dboolean EV_LightTurnOn(line_t *line, int bright)
+bool EV_LightTurnOn(line_t *line, int bright)
 {
     // search all sectors for ones with same tag as activating line
     // killough 10/98: replace inefficient search with fast search

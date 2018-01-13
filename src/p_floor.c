@@ -43,7 +43,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-extern dboolean canmodify;
+extern bool canmodify;
 
 //
 // FLOORS
@@ -52,8 +52,8 @@ extern dboolean canmodify;
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floorOrCeiling,
-    int direction, dboolean elevator)
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, bool crush, int floorOrCeiling,
+    int direction, bool elevator)
 {
     fixed_t lastpos;
     fixed_t destheight;
@@ -359,10 +359,10 @@ void T_MoveElevator(elevator_t *elevator)
 //
 // HANDLE FLOOR TYPES
 //
-dboolean EV_DoFloor(line_t *line, floor_e floortype)
+bool EV_DoFloor(line_t *line, floor_e floortype)
 {
-    int         secnum = -1;
-    dboolean    rtn = false;
+    int     secnum = -1;
+    bool    rtn = false;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
@@ -574,10 +574,10 @@ dboolean EV_DoFloor(line_t *line, floor_e floortype)
 //
 // jff 3/15/98 added to better support generalized sector types
 //
-dboolean EV_DoChange(line_t *line, change_e changetype)
+bool EV_DoChange(line_t *line, change_e changetype)
 {
-    int         secnum = -1;
-    dboolean    rtn = false;
+    int     secnum = -1;
+    bool    rtn = false;
 
     // change all sectors with the same tag as the linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
@@ -638,11 +638,11 @@ static int P_FindSectorFromLineTagWithLowerBound(line_t *l, int start, int min)
     return start;
 }
 
-dboolean EV_BuildStairs(line_t *line, stair_e type)
+bool EV_BuildStairs(line_t *line, stair_e type)
 {
-    int         ssec = -1;
-    int         minssec = -1;
-    dboolean    rtn = false;
+    int     ssec = -1;
+    int     minssec = -1;
+    bool    rtn = false;
 
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
@@ -651,8 +651,8 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
         floormove_t *floor;
         fixed_t     stairsize = 0;
         fixed_t     speed = 0;
-        dboolean    crushing = false;
-        dboolean    okay;
+        bool        crushing = false;
+        bool        okay;
         int         height;
         int         texture;
 
@@ -754,10 +754,10 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
 //
 // jff 2/22/98 new type to move floor and ceiling in parallel
 //
-dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
+bool EV_DoElevator(line_t *line, elevator_e elevtype)
 {
-    int         secnum = -1;
-    dboolean    rtn = false;
+    int     secnum = -1;
+    bool    rtn = false;
 
     // act on all sectors with the same tag as the triggering linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)

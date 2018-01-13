@@ -51,14 +51,14 @@
 // ------------------------
 // Command line parameters.
 //
-extern dboolean         nomonsters;             // checkparm of -nomonsters
-extern dboolean         regenhealth;
-extern dboolean         respawnitems;
-extern dboolean         respawnmonsters;        // checkparm of -respawn
-extern dboolean         pistolstart;            // [BH] checkparm of -pistolstart
-extern dboolean         fastparm;               // checkparm of -fast
+extern bool             nomonsters;             // checkparm of -nomonsters
+extern bool             regenhealth;
+extern bool             respawnitems;
+extern bool             respawnmonsters;        // checkparm of -respawn
+extern bool             pistolstart;            // [BH] checkparm of -pistolstart
+extern bool             fastparm;               // checkparm of -fast
 
-extern dboolean         devparm;                // DEBUG: launched with -devparm
+extern bool             devparm;                // DEBUG: launched with -devparm
 
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
@@ -69,7 +69,7 @@ extern GameVersion_t    gameversion;
 extern char             *gamedescription;
 
 // Set if homebrew PWAD stuff has been added.
-extern dboolean         modifiedgame;
+extern bool             modifiedgame;
 
 // -------------------------------------------
 // Selected skill type, map etc.
@@ -80,7 +80,7 @@ extern skill_t          startskill;
 extern int              startepisode;
 extern int              startmap;
 
-extern dboolean         autostart;
+extern bool             autostart;
 
 // Selected by user.
 extern skill_t          gameskill;
@@ -88,60 +88,60 @@ extern int              pendinggameskill;
 extern int              gameepisode;
 extern int              gamemap;
 
-extern dboolean         freeze;
+extern bool             freeze;
 
-extern dboolean         nerve;
-extern dboolean         bfgedition;
+extern bool             nerve;
+extern bool             bfgedition;
 
-extern dboolean         breach;
-extern dboolean         chex;
-extern dboolean         chex1;
-extern dboolean         chex2;
-extern dboolean         chexdeh;
-extern dboolean         hacx;
-extern dboolean         BTSX;
-extern dboolean         BTSXE1;
-extern dboolean         BTSXE1A;
-extern dboolean         BTSXE1B;
-extern dboolean         BTSXE2;
-extern dboolean         BTSXE2A;
-extern dboolean         BTSXE2B;
-extern dboolean         BTSXE3;
-extern dboolean         BTSXE3A;
-extern dboolean         BTSXE3B;
-extern dboolean         E1M4B;
-extern dboolean         E1M8B;
-extern dboolean         sprfix18;
+extern bool             breach;
+extern bool             chex;
+extern bool             chex1;
+extern bool             chex2;
+extern bool             chexdeh;
+extern bool             hacx;
+extern bool             BTSX;
+extern bool             BTSXE1;
+extern bool             BTSXE1A;
+extern bool             BTSXE1B;
+extern bool             BTSXE2;
+extern bool             BTSXE2A;
+extern bool             BTSXE2B;
+extern bool             BTSXE3;
+extern bool             BTSXE3A;
+extern bool             BTSXE3B;
+extern bool             E1M4B;
+extern bool             E1M8B;
+extern bool             sprfix18;
 
-extern dboolean         DMENUPIC;
-extern dboolean         FREEDOOM;
-extern dboolean         FREEDM;
-extern dboolean         M_DOOM;
-extern dboolean         M_EPISOD;
-extern dboolean         M_GDHIGH;
-extern dboolean         M_GDLOW;
-extern dboolean         M_LOADG;
-extern dboolean         M_LSCNTR;
-extern dboolean         M_MSENS;
-extern dboolean         M_MSGOFF;
-extern dboolean         M_MSGON;
-extern dboolean         M_NEWG;
-extern dboolean         M_NGAME;
-extern dboolean         M_NMARE;
-extern dboolean         M_OPTTTL;
-extern dboolean         M_PAUSE;
-extern dboolean         M_SAVEG;
-extern dboolean         M_SKILL;
-extern dboolean         M_SKULL1;
-extern dboolean         M_SVOL;
+extern bool             DMENUPIC;
+extern bool             FREEDOOM;
+extern bool             FREEDM;
+extern bool             M_DOOM;
+extern bool             M_EPISOD;
+extern bool             M_GDHIGH;
+extern bool             M_GDLOW;
+extern bool             M_LOADG;
+extern bool             M_LSCNTR;
+extern bool             M_MSENS;
+extern bool             M_MSGOFF;
+extern bool             M_MSGON;
+extern bool             M_NEWG;
+extern bool             M_NGAME;
+extern bool             M_NMARE;
+extern bool             M_OPTTTL;
+extern bool             M_PAUSE;
+extern bool             M_SAVEG;
+extern bool             M_SKILL;
+extern bool             M_SKULL1;
+extern bool             M_SVOL;
 extern int              STARMS;
 extern int              STBAR;
-extern dboolean         STCFN034;
-extern dboolean         STCFN121;
-extern dboolean         STYSNUM0;
-extern dboolean         TITLEPIC;
-extern dboolean         WISCRT2;
-extern dboolean         DSSECRET;
+extern bool             STCFN034;
+extern bool             STCFN121;
+extern bool             STYSNUM0;
+extern bool             TITLEPIC;
+extern bool             WISCRT2;
+extern bool             DSSECRET;
 
 // -------------------------
 // Internal parameters for sound rendering.
@@ -160,11 +160,11 @@ extern int              musicVolume;
 // Status flags for refresh.
 //
 
-extern dboolean         automapactive;  // In automap mode?
-extern dboolean         menuactive;     // Menu overlaid?
-extern dboolean         paused;         // Game Pause?
+extern bool             automapactive;  // In automap mode?
+extern bool             menuactive;     // Menu overlaid?
+extern bool             paused;         // Game Pause?
 
-extern dboolean         viewactive;
+extern bool             viewactive;
 
 // -------------------------------------
 // Scores, rating.
@@ -194,7 +194,7 @@ extern int              gametime;
 extern struct tm        *gamestarttime;
 
 extern int              vid_capfps;
-extern dboolean         realframe;
+extern bool             realframe;
 
 // Intermission stats.
 // Parameters for world map/intermission.

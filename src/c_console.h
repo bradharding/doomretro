@@ -95,7 +95,7 @@ typedef struct
 
 extern console_t    *console;
 
-extern dboolean     consoleactive;
+extern bool         consoleactive;
 extern int          consoleheight;
 extern int          consoledirection;
 
@@ -106,7 +106,7 @@ extern char         consolecheat[255];
 extern char         consolecheatparm[3];
 extern char         consolecmdparm[255];
 
-extern dboolean     forceconsoleblurredraw;
+extern bool         forceconsoleblurredraw;
 
 typedef struct
 {
@@ -134,9 +134,9 @@ void C_ShowConsole(void);
 void C_HideConsole(void);
 void C_HideConsoleFast(void);
 void C_Drawer(void);
-dboolean C_ExecuteInputString(const char *input);
-dboolean C_ValidateInput(const char *input);
-dboolean C_Responder(event_t *ev);
+bool C_ExecuteInputString(const char *input);
+bool C_ValidateInput(const char *input);
+bool C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_StripQuotes(char *string);

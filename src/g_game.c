@@ -82,11 +82,11 @@ int             pendinggameskill;
 int             gameepisode;
 int             gamemap;
 
-dboolean        paused;
-dboolean        sendpause;              // send a pause event next tic
-static dboolean sendsave;               // send a save event next tic
+bool            paused;
+bool            sendpause;              // send a pause event next tic
+static bool     sendsave;               // send a save event next tic
 
-dboolean        viewactive;
+bool            viewactive;
 
 int             gametic;
 int             gametime;
@@ -99,7 +99,7 @@ int             barrelcount;
 
 wbstartstruct_t wminfo;                 // parms for world map/intermission
 
-dboolean        autoload = autoload_default;
+bool            autoload = autoload_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -152,31 +152,31 @@ static struct
 
 #define SLOWTURNTICS    6
 
-dboolean        gamekeydown[NUMKEYS];
+bool            gamekeydown[NUMKEYS];
 char            keyactionlist[NUMKEYS][255];
 static int      turnheld;                       // for accelerative turning
 
-static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
-dboolean        *mousebuttons = &mousearray[1]; // allow [-1]
+static bool     mousearray[MAX_MOUSE_BUTTONS + 1];
+bool            *mousebuttons = &mousearray[1]; // allow [-1]
 char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
 
-dboolean        skipaction;
+bool            skipaction;
 
 static int      mousex;
 static int      mousey;
 
-dboolean        m_doubleclick_use = m_doubleclick_use_default;
-dboolean        m_invertyaxis = m_invertyaxis_default;
-dboolean        m_novertical = m_novertical_default;
-dboolean        mouselook = mouselook_default;
-dboolean        canmouselook = false;
-dboolean        usemouselook = false;
+bool            m_doubleclick_use = m_doubleclick_use_default;
+bool            m_invertyaxis = m_invertyaxis_default;
+bool            m_novertical = m_novertical_default;
+bool            mouselook = mouselook_default;
+bool            canmouselook = false;
+bool            usemouselook = false;
 
 static int      dclicktime;
-static dboolean dclickstate;
+static bool     dclickstate;
 static int      dclicks;
 static int      dclicktime2;
-static dboolean dclickstate2;
+static bool     dclickstate2;
 static int      dclicks2;
 
 static int      savegameslot;
@@ -186,10 +186,10 @@ gameaction_t    loadaction = ga_nothing;
 
 unsigned int    stat_mapscompleted = 0;
 
-extern dboolean barreltics;
+extern bool     barreltics;
 extern int      st_palette;
 extern int      pagetic;
-extern dboolean transferredsky;
+extern bool     transferredsky;
 
 extern int      timer;
 extern int      countdown;
@@ -256,10 +256,10 @@ void G_PrevWeapon(void)
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
-    dboolean    strafe;
-    int         run;
-    int         forward = 0;
-    int         side = 0;
+    bool    strafe;
+    int     run;
+    int     forward = 0;
+    int     side = 0;
 
     memset(cmd, 0, sizeof(ticcmd_t));
 
@@ -380,7 +380,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (m_doubleclick_use)
     {
-        dboolean    bstrafe;
+        bool    bstrafe;
 
         // forward double click
         if (mousebuttons[mouseforward] != dclickstate && dclicktime > 1)
@@ -629,13 +629,13 @@ void G_ToggleAlwaysRun(evtype_t type)
     M_SaveCVARs();
 }
 
-extern dboolean splashscreen;
+extern bool splashscreen;
 
 //
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
 //
-dboolean G_Responder(event_t *ev)
+bool G_Responder(event_t *ev)
 {
     int key;
 
@@ -1159,7 +1159,7 @@ static const int npars[9] =
 //
 // G_DoCompleted
 //
-static dboolean secretexit;
+static bool secretexit;
 
 void G_ExitLevel(void)
 {
@@ -1434,7 +1434,7 @@ static void G_DoWorldDone(void)
     markpointnum = 0;
 }
 
-extern dboolean setsizeneeded;
+extern bool setsizeneeded;
 
 void R_ExecuteSetViewSize(void);
 
@@ -1647,7 +1647,7 @@ static void G_DoNewGame(void)
     infight = false;
 }
 
-void G_SetFastMonsters(dboolean toggle)
+void G_SetFastMonsters(bool toggle)
 {
     if (toggle)
     {

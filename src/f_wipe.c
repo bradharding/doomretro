@@ -88,9 +88,9 @@ static void wipe_initMelt(void)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + (M_Random() % 3) - 1, 0);
 }
 
-static dboolean wipe_doMelt(int tics)
+static bool wipe_doMelt(int tics)
 {
-    dboolean    done = true;
+    bool    done = true;
 
     while (tics--)
     {
@@ -158,10 +158,10 @@ void wipe_EndScreen(void)
     memcpy(screens[0], wipe_scr_start, SCREENWIDTH * SCREENHEIGHT);
 }
 
-dboolean wipe_ScreenWipe(int tics)
+bool wipe_ScreenWipe(int tics)
 {
     // when zero, stop the wipe
-    static dboolean go;
+    static bool go;
 
     // initial stuff
     if (!go)

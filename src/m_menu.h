@@ -66,7 +66,7 @@ typedef struct menu_s
 // Even when the menu is not displayed,
 // this can resize the view and change game parameters.
 // Does all the real work of the menu interaction.
-dboolean M_Responder(event_t *ev);
+bool M_Responder(event_t *ev);
 
 // Called by main loop,
 // only used for menu (skull cursor) animation.
@@ -86,7 +86,7 @@ void M_StartControlPanel(void);
 void M_ClearMenus(void);
 void M_ShowHelp(void);
 void M_EndingGame(void);
-void M_ChangeGamma(dboolean shift);
+void M_ChangeGamma(bool shift);
 
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *str);
@@ -96,17 +96,17 @@ void M_SetWindowCaption(void);
 void M_UpdateSaveGameName(int i);
 int M_CountSaveGames(void);
 
-void M_StartMessage(char *string, void *routine, dboolean input);
+void M_StartMessage(char *string, void *routine, bool input);
 
-extern dboolean messageToPrint;
+extern bool messageToPrint;
 
-extern int      gamepadmenu;
-extern dboolean nomusic;
-extern dboolean nosound;
-extern dboolean nosfx;
-extern dboolean firstevent;
-extern byte     grays[256];
-extern dboolean returntowidescreen;
-extern dboolean startingnewgame;
+extern int  gamepadmenu;
+extern bool nomusic;
+extern bool nosound;
+extern bool nosfx;
+extern bool firstevent;
+extern byte grays[256];
+extern bool returntowidescreen;
+extern bool startingnewgame;
 
 #endif

@@ -159,7 +159,7 @@ void P_NoiseAlert(mobj_t *target)
 //
 // P_CheckMeleeRange
 //
-dboolean P_CheckMeleeRange(mobj_t *actor)
+bool P_CheckMeleeRange(mobj_t *actor)
 {
     mobj_t  *pl = actor->target;
 
@@ -182,7 +182,7 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 //
 // P_CheckMissileRange
 //
-static dboolean P_CheckMissileRange(mobj_t *actor)
+static bool P_CheckMissileRange(mobj_t *actor)
 {
     fixed_t     dist;
     mobj_t      *target = actor->target;
@@ -272,15 +272,15 @@ static const fixed_t    yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRA
 extern line_t   **spechit;
 extern int      numspechit;
 
-static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
+static bool P_Move(mobj_t *actor, bool dropoff) // killough 9/12/98
 {
-    fixed_t     tryx, tryy;
-    fixed_t     deltax, deltay;
-    fixed_t     origx, origy;
-    dboolean    try_ok;
-    int         movefactor;
-    int         friction = ORIG_FRICTION;
-    int         speed;
+    fixed_t tryx, tryy;
+    fixed_t deltax, deltay;
+    fixed_t origx, origy;
+    bool    try_ok;
+    int     movefactor;
+    int     friction = ORIG_FRICTION;
+    int     speed;
 
     if (actor->movedir == DI_NODIR)
         return false;
@@ -367,11 +367,11 @@ static dboolean P_Move(mobj_t *actor, dboolean dropoff) // killough 9/12/98
 //
 // killough 9/12/98: Same as P_Move, except smarter
 //
-static dboolean P_SmartMove(mobj_t *actor)
+static bool P_SmartMove(mobj_t *actor)
 {
-    mobj_t      *target = actor->target;
-    dboolean    onlift;
-    int         underdamage;
+    mobj_t  *target = actor->target;
+    bool    onlift;
+    int     underdamage;
 
     if (!P_Move(actor, false))
         return false;
@@ -404,7 +404,7 @@ static dboolean P_SmartMove(mobj_t *actor)
 // If a door is in the way,
 // an OpenDoor call is made to start it opening.
 //
-static dboolean P_TryWalk(mobj_t *actor)
+static bool P_TryWalk(mobj_t *actor)
 {
     if (!P_SmartMove(actor))
         return false;
@@ -426,7 +426,7 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
     dirtype_t   d[2];
     dirtype_t   olddir = (dirtype_t)actor->movedir;
     dirtype_t   turnaround = opposite[olddir];
-    dboolean    attempts[NUMDIRS - 1];
+    bool        attempts[NUMDIRS - 1];
 
     memset(&attempts, false, sizeof(attempts));
 
@@ -535,7 +535,7 @@ static fixed_t  dropoff_deltax;
 static fixed_t  dropoff_deltay;
 static fixed_t  floorz;
 
-static dboolean PIT_AvoidDropoff(line_t *line)
+static bool PIT_AvoidDropoff(line_t *line)
 {
     if (line->backsector                                // Ignore one-sided linedefs
         && tmbbox[BOXRIGHT] > line->bbox[BOXLEFT]
@@ -619,7 +619,7 @@ static void P_NewChaseDir(mobj_t *actor)
 
 #define MONS_LOOK_RANGE (32 * 64 * FRACUNIT)
 
-static dboolean P_LookForMonsters(mobj_t *actor)
+static bool P_LookForMonsters(mobj_t *actor)
 {
     if (!P_CheckSight(viewplayer->mo, actor))
         return false;           // player can't see monster
@@ -651,7 +651,7 @@ static dboolean P_LookForMonsters(mobj_t *actor)
 // If allaround is false, only look 180 degrees in front.
 // Returns true if a player is targeted.
 //
-static dboolean P_LookForPlayers(mobj_t *actor, dboolean allaround)
+static bool P_LookForPlayers(mobj_t *actor, bool allaround)
 {
     mobj_t  *mo;
     fixed_t dist;
@@ -1184,12 +1184,12 @@ static mobj_t   *corpsehit;
 static fixed_t  viletryx;
 static fixed_t  viletryy;
 
-static dboolean PIT_VileCheck(mobj_t *thing)
+static bool PIT_VileCheck(mobj_t *thing)
 {
-    int         maxdist;
-    dboolean    check;
-    fixed_t     height;
-    fixed_t     radius;
+    int     maxdist;
+    bool    check;
+    fixed_t height;
+    fixed_t radius;
 
     if (!(thing->flags & MF_CORPSE))
         return true;    // not a monster
@@ -1939,7 +1939,7 @@ static mobj_t *A_NextBrainTarget(void)
     return found;
 }
 
-extern dboolean massacre;
+extern bool massacre;
 
 void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 {

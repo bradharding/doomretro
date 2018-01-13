@@ -53,14 +53,14 @@
 //
 
 // Called by main loop.
-dboolean ST_Responder(event_t *ev);
+bool ST_Responder(event_t *ev);
 void ST_AutomapEvent(int type);
 
 // Called by main loop.
 void ST_Ticker(void);
 
 // Called by main loop.
-void ST_Drawer(dboolean fullscreen, dboolean refresh);
+void ST_Drawer(bool fullscreen, bool refresh);
 
 // Called when the console player is spawned on each level.
 void ST_Start(void);
@@ -68,7 +68,7 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
-extern dboolean returntowidescreen;
+extern bool     returntowidescreen;
 
 extern patch_t  *grnrock;
 extern patch_t  *brdr_t;

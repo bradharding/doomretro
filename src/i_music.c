@@ -47,22 +47,22 @@
 #include "version.h"
 #include "z_zone.h"
 
-dboolean        midimusictype;
-dboolean        musmusictype;
+bool            midimusictype;
+bool            musmusictype;
 
-static dboolean music_initialized;
+static bool     music_initialized;
 
 // If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
-static dboolean sdl_was_initialized;
+static bool     sdl_was_initialized;
 
 static int      current_music_volume;
 static int      paused_midi_volume;
 
 #if defined(_WIN32)
-static dboolean haveMidiServer;
-static dboolean haveMidiClient;
-dboolean        serverMidiPlaying;
+static bool     haveMidiServer;
+static bool     haveMidiClient;
+bool            serverMidiPlaying;
 #endif
 
 // Shutdown music
@@ -86,7 +86,7 @@ void I_ShutdownMusic(void)
     }
 }
 
-static dboolean SDLIsInitialized(void)
+static bool SDLIsInitialized(void)
 {
     int     freq;
     int     channels;
@@ -96,7 +96,7 @@ static dboolean SDLIsInitialized(void)
 }
 
 // Initialize music subsystem
-dboolean I_InitMusic(void)
+bool I_InitMusic(void)
 {
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
@@ -153,7 +153,7 @@ void I_SetMusicVolume(int volume)
 }
 
 // Start playing a mid
-void I_PlaySong(void *handle, dboolean looping)
+void I_PlaySong(void *handle, bool looping)
 {
     if (!music_initialized)
         return;

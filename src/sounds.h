@@ -109,8 +109,8 @@ extern musicinfo_t  S_music[];
 
 extern musicinfo_t  *mus_playing;
 
-extern dboolean     midimusictype;
-extern dboolean     musmusictype;
+extern bool         midimusictype;
+extern bool         musmusictype;
 
 //
 // Identifiers for all music in game.

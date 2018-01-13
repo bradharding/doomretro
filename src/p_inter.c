@@ -90,9 +90,9 @@ static const char *weapondescription[] =
     "super shotgun"
 };
 
-dboolean        con_obituaries = con_obituaries_default;
-dboolean        r_mirroredweapons = r_mirroredweapons_default;
-dboolean        tossdrop = tossdrop_default;
+bool            con_obituaries = con_obituaries_default;
+bool            r_mirroredweapons = r_mirroredweapons_default;
+bool            tossdrop = tossdrop_default;
 
 unsigned int    stat_barrelsexploded = 0;
 unsigned int    stat_damageinflicted = 0;
@@ -165,7 +165,7 @@ static void P_UpdateAmmoStat(ammotype_t ammo, int num)
 // not the individual count (0 = 1/2 clip).
 // Returns the amount of ammo given to the player
 //
-static int P_GiveAmmo(ammotype_t ammo, int num, dboolean stat)
+static int P_GiveAmmo(ammotype_t ammo, int num, bool stat)
 {
     int oldammo;
 
@@ -241,9 +241,9 @@ static int P_GiveAmmo(ammotype_t ammo, int num, dboolean stat)
 //
 // P_GiveBackpack
 //
-dboolean P_GiveBackpack(dboolean giveammo, dboolean stat)
+bool P_GiveBackpack(bool giveammo, bool stat)
 {
-    dboolean    result = false;
+    bool    result = false;
 
     if (!viewplayer->backpack)
     {
@@ -273,9 +273,9 @@ dboolean P_GiveBackpack(dboolean giveammo, dboolean stat)
 //
 // P_GiveFullAmmo
 //
-dboolean P_GiveFullAmmo(dboolean stat)
+bool P_GiveFullAmmo(bool stat)
 {
-    dboolean    result = false;
+    bool    result = false;
 
     for (int i = 0; i < NUMAMMO; i++)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
@@ -310,10 +310,10 @@ void P_AddBonus(void)
 // P_GiveWeapon
 // The weapon name may have a MF_DROPPED flag ORed in.
 //
-static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean stat)
+static bool P_GiveWeapon(weapontype_t weapon, bool dropped, bool stat)
 {
-    dboolean    gaveammo = false;
-    dboolean    gaveweapon = false;
+    bool        gaveammo = false;
+    bool        gaveweapon = false;
     ammotype_t  ammotype = weaponinfo[weapon].ammo;
 
     if (ammotype != am_noammo)
@@ -341,9 +341,9 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
 //
 // P_GiveAllWeapons
 //
-dboolean P_GiveAllWeapons(void)
+bool P_GiveAllWeapons(void)
 {
-    dboolean    result = false;
+    bool    result = false;
 
     if (!viewplayer->weaponowned[wp_shotgun])
     {
@@ -412,7 +412,7 @@ static void P_UpdateHealthStat(int num)
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
-dboolean P_GiveBody(int num, dboolean stat)
+bool P_GiveBody(int num, bool stat)
 {
     int oldhealth;
 
@@ -433,7 +433,7 @@ dboolean P_GiveBody(int num, dboolean stat)
 //
 // P_GiveMegaHealth
 //
-void P_GiveMegaHealth(dboolean stat)
+void P_GiveMegaHealth(bool stat)
 {
     if (!(viewplayer->cheats & CF_GODMODE))
     {
@@ -461,7 +461,7 @@ static void P_UpdateArmorStat(int num)
 // Returns false if the armor is worse
 // than the current armor.
 //
-dboolean P_GiveArmor(armortype_t armortype, dboolean stat)
+bool P_GiveArmor(armortype_t armortype, bool stat)
 {
     int hits = armortype * 100;
 
@@ -583,10 +583,10 @@ static void P_GiveCard(card_t card)
 //
 // P_GiveAllCards
 //
-dboolean P_GiveAllCards(void)
+bool P_GiveAllCards(void)
 {
-    dboolean    skulliscard = true;
-    dboolean    result = false;
+    bool    skulliscard = true;
+    bool    result = false;
 
     for (int i = 0; i < numlines; i++)
         if (lines[i].special >= GenLockedBase && !((lines[i].special & LockedNKeys) >> LockedNKeysShift))
@@ -613,7 +613,7 @@ dboolean P_GiveAllCards(void)
 //
 // P_GivePower
 //
-dboolean P_GivePower(int power)
+bool P_GivePower(int power)
 {
     static const int tics[NUMPOWERS] =
     {
@@ -654,7 +654,7 @@ dboolean P_GivePower(int power)
 //
 // P_TouchSpecialThing
 //
-void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat)
+void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, bool message, bool stat)
 {
     fixed_t     delta = special->z - toucher->z;
     int         sound;
@@ -1222,7 +1222,7 @@ void P_UpdateKillStat(mobjtype_t type, int value)
 //
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 {
-    dboolean    gibbed;
+    bool        gibbed;
     mobjtype_t  item;
     mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
@@ -1322,8 +1322,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
 
     if (con_obituaries && !hacx && !(target->flags2 & MF2_MASSACRE))
     {
-        char        *name = (*info->name1 ? info->name1 : "monster");
-        dboolean    defaultplayername = M_StringCompare(playername, playername_default);
+        char    *name = (*info->name1 ? info->name1 : "monster");
+        bool    defaultplayername = M_StringCompare(playername, playername_default);
 
         if (source)
         {
@@ -1440,7 +1440,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         mo->flags2 |= MF2_MIRRORED;
 }
 
-dboolean P_CheckMeleeRange(mobj_t *actor);
+bool P_CheckMeleeRange(mobj_t *actor);
 
 //
 // P_DamageMobj
@@ -1453,12 +1453,12 @@ dboolean P_CheckMeleeRange(mobj_t *actor);
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust)
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, bool adjust)
 {
     player_t    *splayer = NULL;
     player_t    *tplayer;
     int         flags = target->flags;
-    dboolean    corpse = flags & MF_CORPSE;
+    bool        corpse = flags & MF_CORPSE;
     int         type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
 

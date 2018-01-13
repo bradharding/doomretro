@@ -52,16 +52,16 @@
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 
-dboolean        autoaim = autoaim_default;
-dboolean        centerweapon = centerweapon_default;
-dboolean        weaponrecoil = weaponrecoil_default;
+bool            autoaim = autoaim_default;
+bool            centerweapon = centerweapon_default;
+bool            weaponrecoil = weaponrecoil_default;
 int             weaponbob = weaponbob_default;
 
 unsigned int    stat_shotsfired = 0;
 unsigned int    stat_shotshit = 0;
 
-dboolean        successfulshot;
-dboolean        skippsprinterp;
+bool            successfulshot;
+bool            skippsprinterp;
 
 static const int recoilvalues[] = {
      0, // wp_fist
@@ -75,9 +75,9 @@ static const int recoilvalues[] = {
     16  // wp_supershotgun
 };
 
-extern dboolean canmouselook;
-extern dboolean hitwall;
-extern dboolean usemouselook;
+extern bool canmouselook;
+extern bool hitwall;
+extern bool usemouselook;
 
 void P_CheckMissileSpawn(mobj_t *th);
 
@@ -156,7 +156,7 @@ static void P_BringUpWeapon(void)
 // Returns true if there is enough ammo to shoot.
 // If not, selects the next weapon to use.
 //
-dboolean P_CheckAmmo(void)
+bool P_CheckAmmo(void)
 {
     weapontype_t    readyweapon = viewplayer->readyweapon;
     ammotype_t      ammo = weaponinfo[readyweapon].ammo;
@@ -601,7 +601,7 @@ static void P_BulletSlope(mobj_t *mo)
 //
 // P_GunShot
 //
-static void P_GunShot(mobj_t *actor, dboolean accurate)
+static void P_GunShot(mobj_t *actor, bool accurate)
 {
     int     damage = 5 * (M_Random() % 3 + 1);
     angle_t angle = actor->angle;
@@ -883,8 +883,7 @@ void P_MovePsprites(void)
         fixed_t momy = viewplayer->momy;
         fixed_t bob = (FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2;
 
-        bob = (bob ? MAX(MIN(bob, MAXBOB) * weaponbob / 100, MAXBOB * stillbob / 400) :
-            MAXBOB * stillbob / 400);
+        bob = (bob ? MAX(MIN(bob, MAXBOB) * weaponbob / 100, MAXBOB * stillbob / 400) : MAXBOB * stillbob / 400);
 
         // [BH] smooth out weapon bob by zeroing out really small bobs
         if (bob < FRACUNIT / 2)

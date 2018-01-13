@@ -81,11 +81,11 @@ void G_WorldDone(void);
 void G_BuildTiccmd(ticcmd_t *cmd);
 
 void G_Ticker(void);
-dboolean G_Responder(event_t *ev);
+bool G_Responder(event_t *ev);
 
 void G_ScreenShot(void);
 void G_DoScreenShot(void);
-void I_ToggleWidescreen(dboolean toggle);
+void I_ToggleWidescreen(bool toggle);
 
 void G_SetMovementSpeed(int scale);
 void G_ToggleAlwaysRun(evtype_t type);
@@ -95,12 +95,12 @@ void G_PrevWeapon(void);
 extern fixed_t  forwardmove[2];
 extern fixed_t  sidemove[2];
 extern fixed_t  angleturn[3];
-extern dboolean gamekeydown[NUMKEYS];
-extern dboolean *mousebuttons;
-extern dboolean canmodify;
-extern dboolean message_dontpause;
-extern dboolean vibrate;
-extern dboolean gamepadpress;
+extern bool     gamekeydown[NUMKEYS];
+extern bool     *mousebuttons;
+extern bool     canmodify;
+extern bool     message_dontpause;
+extern bool     vibrate;
+extern bool     gamepadpress;
 extern char     lbmname1[MAX_PATH];
 extern char     lbmpath1[MAX_PATH];
 extern char     lbmpath2[MAX_PATH];
@@ -113,7 +113,7 @@ extern int      gamepadwait;
 extern int      keydown;
 extern int      quickSaveSlot;
 extern int      st_facecount;
-extern dboolean oldweaponsowned[NUMWEAPONS];
-extern dboolean blurred;
+extern bool     oldweaponsowned[NUMWEAPONS];
+extern bool     blurred;
 
 #endif

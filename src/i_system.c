@@ -54,12 +54,12 @@ void I_ShutdownWindows32(void);
 #include "s_sound.h"
 #include "version.h"
 
-extern dboolean returntowidescreen;
+extern bool returntowidescreen;
 
 #if defined(_WIN32)
-typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
-typedef BOOL(WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
-typedef BOOL(WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
+typedef long (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
+typedef BOOL (WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+typedef BOOL (WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
 #define PRODUCT_CORE    0x00000065
 
@@ -207,7 +207,7 @@ void I_PrintSystemInfo(void)
 //
 // I_Quit
 //
-void I_Quit(dboolean shutdown)
+void I_Quit(bool shutdown)
 {
     if (shutdown)
     {
@@ -242,7 +242,7 @@ void I_WaitVBL(int count)
 //
 // I_Error
 //
-static dboolean already_quitting;
+static bool already_quitting;
 
 void I_Error(char *error, ...)
 {

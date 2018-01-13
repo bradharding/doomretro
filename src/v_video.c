@@ -99,7 +99,7 @@ static const byte redtoyellow[] =
 static const int    _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 extern int          fuzztable[SCREENWIDTH * SCREENHEIGHT];
-extern dboolean     vanilla;
+extern bool         vanilla;
 
 //
 // V_CopyRect
@@ -401,7 +401,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *tinttab)
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, bool italics, byte *tinttab)
 {
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
     int         w = SHORT(patch->width);
@@ -486,7 +486,7 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch)
     }
 }
 
-dboolean V_EmptyPatch(patch_t *patch)
+bool V_EmptyPatch(patch_t *patch)
 {
     int w = SHORT(patch->width);
 
@@ -617,7 +617,7 @@ void V_DrawAltHUDText(int x, int y, patch_t *patch, int color)
     }
 }
 
-void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
 {
     byte    *desttop;
     int     w = SHORT(patch->width) << FRACBITS;
@@ -1317,7 +1317,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawPixel(int x, int y, byte color, dboolean shadow)
+void V_DrawPixel(int x, int y, byte color, bool shadow)
 {
     byte    *dest = &screens[0][(y * SCREENWIDTH + x) * SCREENSCALE];
 
@@ -1340,7 +1340,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
     }
 }
 
-void GetPixelSize(dboolean reset)
+void GetPixelSize(bool reset)
 {
     int width = -1;
     int height = -1;
@@ -1427,14 +1427,14 @@ char            lbmname2[MAX_PATH];
 char            lbmpath1[MAX_PATH];
 char            lbmpath2[MAX_PATH];
 
-extern dboolean inhelpscreens;
+extern bool     inhelpscreens;
 extern char     maptitle[128];
-extern dboolean splashscreen;
+extern bool     splashscreen;
 extern int      titlesequence;
 
-static dboolean V_SavePNG(SDL_Renderer *renderer, char *path)
+static bool V_SavePNG(SDL_Renderer *renderer, char *path)
 {
-    dboolean    result = false;
+    bool    result = false;
 
     if (renderer)
     {
@@ -1466,11 +1466,11 @@ static dboolean V_SavePNG(SDL_Renderer *renderer, char *path)
     return result;
 }
 
-dboolean V_ScreenShot(void)
+bool V_ScreenShot(void)
 {
-    dboolean    result = false;
-    char        mapname[128];
-    int         count = 0;
+    bool    result = false;
+    char    mapname[128];
+    int     count = 0;
 
     switch (gamestate)
     {
