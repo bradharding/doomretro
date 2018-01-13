@@ -41,17 +41,9 @@
 
 #include <inttypes.h>
 #include <limits.h>
+#include <stdbool.h>
 
-#if defined(true)
-#undef true
-#undef false
-#endif
-
-typedef enum
-{
-    false,
-    true
-} dboolean;
+typedef bool dboolean;
 
 typedef uint8_t byte;
 
