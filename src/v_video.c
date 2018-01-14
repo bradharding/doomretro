@@ -367,6 +367,49 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
     }
 }
 
+void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
+{
+    byte    *desttop;
+    int     w = SHORT(patch->width) << FRACBITS;
+    int     _fuzzpos = 0;
+
+    y -= SHORT(patch->topoffset) / 10;
+    x -= SHORT(patch->leftoffset);
+
+    desttop = screens[0] + ((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS);
+
+    for (int col = 0; col < w; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte    *dest = desttop + ((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH;
+            int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
+
+            if (--count)
+            {
+                if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
+                    *dest = 0;
+
+                dest += SCREENWIDTH;
+            }
+
+            while (--count > 0)
+            {
+                *dest = 0;
+                dest += SCREENWIDTH;
+            }
+
+            if ((consoleactive && !fuzztable[_fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
+                *dest = 0;
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 {
     byte    *desttop = screens[scrn] + y * SCREENWIDTH + x;
