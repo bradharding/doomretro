@@ -266,7 +266,6 @@ static void fastmonsters_cmd_func2(char *cmd, char *parms);
 static void freeze_cmd_func2(char *cmd, char *parms);
 static bool give_cmd_func1(char *cmd, char *parms);
 static void give_cmd_func2(char *cmd, char *parms);
-static bool god_cmd_func1(char *cmd, char *parms);
 static void god_cmd_func2(char *cmd, char *parms);
 static void help_cmd_func2(char *cmd, char *parms);
 static void if_cmd_func2(char *cmd, char *parms);
@@ -296,7 +295,6 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms);
 static void restartmap_cmd_func2(char *cmd, char *parms);
 static bool resurrect_cmd_func1(char *cmd, char *parms);
 static void resurrect_cmd_func2(char *cmd, char *parms);
-static bool save_cmd_func1(char *cmd, char *parms);
 static void save_cmd_func2(char *cmd, char *parms);
 static bool spawn_cmd_func1(char *cmd, char *parms);
 static void spawn_cmd_func2(char *cmd, char *parms);
@@ -509,7 +507,7 @@ consolecmd_t consolecmds[] =
         "The amount of time <i><b>"PACKAGE_NAME"</b></i> has been running."),
     CMD(give, "", give_cmd_func1, give_cmd_func2, true, GIVECMDFORMAT,
         "Gives <b>ammo</b>, <b>armor</b>, <b>backpack</b>, <b>health</b>, <b>keys</b>,\n<b>weapons</b>, or <b>all</b> or certain <i>items</i> to the player."),
-    CMD(god, "", god_cmd_func1, god_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
+    CMD(god, "", alive_func1, god_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
         "The dead zone of the gamepad's left thumbstick."),
@@ -548,7 +546,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(idmypos, false),
     CMD_CHEAT(idspispopd, false),
     CMD(if, "", null_func1, if_cmd_func2, true, IFCMDFORMAT,
-        "If a <i>CVAR</i> equals a <i>value</i> then execute a string of\n<i>commands</i>."),
+        "If a <i>CVAR</i> equals a <i>value</i> then execute a string\nof <i>commands</i>."),
     CVAR_BOOL(infighting, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles infighting among monsters once the player\ndies."),
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
@@ -587,7 +585,7 @@ consolecmd_t consolecmds[] =
     CMD(notarget, "", game_func1, notarget_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
         "Toggles monsters not seeing the player as a\ntarget."),
     CMD(pistolstart, "", null_func1, pistolstart_cmd_func2, true, "[<b>on</b>|<b>off</b>]",
-        "Toggles the player starting each map with 100%\nhealth, no armor, and only a pistol and 50 bullets."),
+        "Toggles the player starting each map with only\na pistol."),
     CMD(play, "", play_cmd_func1, play_cmd_func2, true, PLAYCMDFORMAT,
         "Plays a <i>sound</i> or <i>music</i> lump."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
@@ -708,7 +706,7 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the pitch of monster sound\neffects."),
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume of sound effects."),
-    CMD(save, "", save_cmd_func1, save_cmd_func2, true, SAVECMDFORMAT,
+    CMD(save, "", alive_func1, save_cmd_func2, true, SAVECMDFORMAT,
         "Saves the game to a file."),
     CVAR_INT(savegame, "", int_cvars_func1, savegame_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected savegame in the menu\n(<b>1</b> to <b>6</b>)."),
@@ -719,7 +717,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up\nand down when they stand still."),
     CMD(teleport, "", game_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
-        "Teleports the player to (<i>x</i>,<i>y</i>) in the current map."),
+        "Teleports the player to (<i>x</i>,<i>y</i>) in the current\nmap."),
     CMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Shows a list of things in the current map."),
     CMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
@@ -1983,11 +1981,6 @@ static void give_cmd_func2(char *cmd, char *parms)
 //
 // god CCMD
 //
-static bool god_cmd_func1(char *cmd, char *parms)
-{
-    return (gamestate == GS_LEVEL && viewplayer->playerstate == PST_LIVE);
-}
-
 static void god_cmd_func2(char *cmd, char *parms)
 {
     if (*parms)
@@ -3886,7 +3879,7 @@ static void restartmap_cmd_func2(char *cmd, char *parms)
 //
 static bool resurrect_cmd_func1(char *cmd, char *parms)
 {
-    return (gamestate == GS_LEVEL && viewplayer->playerstate == PST_DEAD);
+    return (gamestate == GS_LEVEL && viewplayer->health <= 0);
 }
 
 static void resurrect_cmd_func2(char *cmd, char *parms)
@@ -3900,11 +3893,6 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 //
 // save CCMD
 //
-static bool save_cmd_func1(char *cmd, char *parms)
-{
-    return (gamestate == GS_LEVEL && viewplayer->playerstate == PST_LIVE);
-}
-
 static void save_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
@@ -4702,7 +4690,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             sscanf(parms, "%10i", &value);
 
-            if (ammotype != am_noammo && value != viewplayer->ammo[ammotype] && viewplayer->playerstate == PST_LIVE)
+            if (ammotype != am_noammo && value != viewplayer->ammo[ammotype] && viewplayer->health > 0)
             {
                 if (value > viewplayer->ammo[ammotype])
                     P_AddBonus();

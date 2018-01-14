@@ -125,8 +125,7 @@ static struct
 {
     char    *patchname;
     int     mobjnum;
-    int     x;
-    int     y;
+    int     x, y;
     patch_t *patch;
 } ammopic[NUMAMMO] = {
     { "CLIPA0", MT_CLIP,   8,  2, NULL },
