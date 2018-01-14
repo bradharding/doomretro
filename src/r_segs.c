@@ -662,6 +662,7 @@ void R_StoreWallRange(const int start, const int stop)
     }
     else
     {
+        // two sided line
         int liquidoffset = 0;
 
         if (linedef->r_flags & RF_CLOSED)
@@ -672,7 +673,6 @@ void R_StoreWallRange(const int start, const int stop)
         }
         else
         {
-            // two sided line
             ds_p->sprtopclip = NULL;
             ds_p->sprbottomclip = NULL;
             ds_p->silhouette = SIL_NONE;

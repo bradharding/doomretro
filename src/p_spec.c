@@ -81,7 +81,7 @@ typedef struct
     char    istexture;      // if false, it is a flat
     char    endname[9];
     char    startname[9];
-    int speed;
+    int     speed;
 } PACKEDATTR animdef_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -145,7 +145,7 @@ short           slimeend;
 //
 void P_InitPicAnims(void)
 {
-    int size = (numflats + 1) * sizeof(int);
+    int size = (numflats + 1) * sizeof(bool);
 
     isliquid = Z_Malloc(size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);

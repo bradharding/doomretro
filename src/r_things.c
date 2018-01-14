@@ -1160,11 +1160,9 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
         int         r1;
         int         r2;
         const int   silhouette = ds->silhouette;
-        bool        bottom;
-        bool        top;
 
         // determine if the drawseg obscures the bloodsplat
-        if (ds->x1 > x2 || ds->x2 < x1 || !(silhouette & SIL_BOTH))
+        if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
             continue;       // does not cover bloodsplat
 
         if (ds->maxscale < splat->scale
@@ -1174,17 +1172,16 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
         // clip this piece of the bloodsplat
         r1 = MAX(ds->x1, x1);
         r2 = MIN(ds->x2, x2);
-        bottom = (silhouette & SIL_BOTTOM);
-        top = (silhouette & SIL_TOP);
 
-        for (int i = r1; i <= r2; i++)
-        {
-            if (top && cliptop[i] < ds->sprtopclip[i])
-                cliptop[i] = ds->sprtopclip[i];
+        if (silhouette & SIL_TOP)
+            for (int i = r1; i <= r2; i++)
+                if (cliptop[i] < ds->sprtopclip[i])
+                    cliptop[i] = ds->sprtopclip[i];
 
-            if (bottom && clipbot[i] > ds->sprbottomclip[i])
-                clipbot[i] = ds->sprbottomclip[i];
-        }
+        if (silhouette & SIL_BOTTOM)
+            for (int i = r1; i <= r2; i++)
+                if (clipbot[i] > ds->sprbottomclip[i])
+                    clipbot[i] = ds->sprbottomclip[i];
     }
 
     // all clipping has been performed, so draw the bloodsplat
@@ -1276,11 +1273,9 @@ static void R_DrawSprite(const vissprite_t *spr)
         int         r1;
         int         r2;
         const int   silhouette = ds->silhouette;
-        bool        bottom;
-        bool        top;
 
         // determine if the drawseg obscures the sprite
-        if (ds->x1 > x2 || ds->x2 < x1 || !(silhouette & SIL_BOTH))
+        if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
             continue;       // does not cover sprite
 
         if (ds->maxscale < spr->scale
@@ -1297,17 +1292,16 @@ static void R_DrawSprite(const vissprite_t *spr)
         // clip this piece of the sprite
         r1 = MAX(ds->x1, x1);
         r2 = MIN(ds->x2, x2);
-        bottom = (silhouette & SIL_BOTTOM);
-        top = (silhouette & SIL_TOP);
 
-        for (int i = r1; i <= r2; i++)
-        {
-            if (top && cliptop[i] < ds->sprtopclip[i])
-                cliptop[i] = ds->sprtopclip[i];
+        if (silhouette & SIL_TOP)
+            for (int i = r1; i <= r2; i++)
+                if (cliptop[i] < ds->sprtopclip[i])
+                    cliptop[i] = ds->sprtopclip[i];
 
-            if (bottom && clipbot[i] > ds->sprbottomclip[i])
-                clipbot[i] = ds->sprbottomclip[i];
-        }
+        if (silhouette & SIL_BOTTOM)
+            for (int i = r1; i <= r2; i++)
+                if (clipbot[i] > ds->sprbottomclip[i])
+                    clipbot[i] = ds->sprbottomclip[i];
     }
 
     // killough 3/27/98:

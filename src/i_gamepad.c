@@ -40,11 +40,11 @@
 #include <Windows.h>
 #include <XInput.h>
 
-typedef DWORD(WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
-typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
+typedef DWORD (WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
+typedef DWORD (WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
 
-static XINPUTGETSTATE pXInputGetState;
-static XINPUTSETSTATE pXInputSetState;
+static XINPUTGETSTATE   pXInputGetState;
+static XINPUTSETSTATE   pXInputSetState;
 #endif
 
 #include "c_console.h"
@@ -152,6 +152,7 @@ void I_InitGamepad(void)
             }
 
             if (initcount == 1)
+#endif
             {
                 const char  *name = SDL_JoystickName(gamepad);
 
@@ -160,14 +161,6 @@ void I_InitGamepad(void)
                 else
                     C_Output("A gamepad is connected. Using <i><b>DirectInput</b></i>.");
             }
-#else
-            const char  *name = SDL_JoystickName(gamepad);
-
-            if (*name)
-                C_Output("A gamepad called \"%s\" is connected. Using <i><b>DirectInput</b></i>.", name);
-            else
-                C_Output("A gamepad is connected. Using <i><b>DirectInput</b></i>.");
-#endif
 
             SDL_JoystickEventState(SDL_ENABLE);
         }
