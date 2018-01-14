@@ -81,6 +81,7 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch);
+void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFuzzPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch);
 void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch);

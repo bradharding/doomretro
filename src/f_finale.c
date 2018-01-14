@@ -817,7 +817,12 @@ static void F_CastDrawer(void)
                     V_DrawFlippedShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
             }
             else
-                V_DrawFlippedSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+            {
+                if (type == MT_SHADOWS)
+                    V_DrawFlippedSolidSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                else
+                    V_DrawFlippedSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+            }
         }
 
         if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
