@@ -59,6 +59,7 @@ extern byte             *dc_brightmap;
 extern int              dc_baseclip;
 extern int              dc_floorclip;
 extern int              dc_ceilingclip;
+extern int              dc_numposts;
 
 // first pixel in a column
 extern byte             *dc_source;

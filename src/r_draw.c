@@ -141,6 +141,7 @@ byte            *dc_brightmap;
 int             dc_baseclip;
 int             dc_floorclip;
 int             dc_ceilingclip;
+int             dc_numposts;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;

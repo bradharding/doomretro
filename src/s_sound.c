@@ -743,7 +743,7 @@ void MusInfoThinker(mobj_t *thing)
     {
         musinfo.lastmapthing = musinfo.mapthing;
         musinfo.mapthing = thing;
-        musinfo.tics = 30;
+        musinfo.tics = (leveltime ? 30 : 0);
     }
 }
 
@@ -762,7 +762,7 @@ void T_MAPMusic(void)
         {
             int lumpnum = musinfo.items[arraypt];
 
-            if (lumpnum >= 0 && lumpnum < numlumps)
+            if (lumpnum > 0 && lumpnum < numlumps)
                 S_ChangeMusInfoMusic(lumpnum, true);
         }
 

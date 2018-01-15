@@ -1020,7 +1020,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, bool nomonsters)
     if (!(mthing->options & bit))
         return NULL;
 
-    if (type >= 14101 && type <= 14164)
+    if (type >= 14100 && type <= 14164)
     {
         // Use the ambient number
         id = type - 14100;              // Mus change

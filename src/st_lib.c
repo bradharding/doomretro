@@ -133,10 +133,10 @@ static void STlib_drawNum(st_number_t *n)
     {
         if (smallnum)
         {
-            if (r_detail == r_detail_low)
-                STlib_drawLowNum(0, 160, 47, x - w, n->y);
-            else
+            if (r_detail == r_detail_high)
                 STlib_drawHighNum(0, 160, 47, x - w, n->y);
+            else
+                STlib_drawLowNum(0, 160, 47, x - w, n->y);
         }
         else
             V_DrawPatch(x - w, n->y, 0, patch);
@@ -150,10 +150,10 @@ static void STlib_drawNum(st_number_t *n)
 
             if (smallnum)
             {
-                if (r_detail == r_detail_low)
-                    STlib_drawLowNum(num % 10, 160, 47, x, n->y);
-                else
+                if (r_detail == r_detail_high)
                     STlib_drawHighNum(num % 10, 160, 47, x, n->y);
+                else
+                    STlib_drawLowNum(num % 10, 160, 47, x, n->y);
             }
             else
                V_DrawPatch(x, n->y, 0, n->p[num % 10]);
@@ -207,10 +207,10 @@ void STlib_updateArmsIcon(st_multicon_t *mi, bool refresh, int i)
     {
         if (STYSNUM0 || STBAR > 2)
             V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
-        else if (r_detail == r_detail_low)
-            STlib_drawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
-        else
+        else if (r_detail == r_detail_high)
             STlib_drawHighNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
+        else
+            STlib_drawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
 
         mi->oldinum = *mi->inum;
     }

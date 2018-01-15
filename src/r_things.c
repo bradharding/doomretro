@@ -360,8 +360,10 @@ int             fuzzpos;
 
 void (*shadowcolfunc)(void);
 
-static void R_BlastShadowColumn(const rcolumn_t *column, int numposts)
+static void R_BlastShadowColumn(const rcolumn_t *column)
 {
+    int numposts = dc_numposts;
+
     while (numposts--)
     {
         const rpost_t   *post = &column->posts[numposts];
@@ -373,8 +375,9 @@ static void R_BlastShadowColumn(const rcolumn_t *column, int numposts)
     }
 }
 
-static void R_BlastSpriteColumn(const rcolumn_t *column, int numposts)
+static void R_BlastSpriteColumn(const rcolumn_t *column)
 {
+    int             numposts = dc_numposts;
     unsigned char   *pixels = column->pixels;
 
     while (numposts--)
@@ -394,8 +397,9 @@ static void R_BlastSpriteColumn(const rcolumn_t *column, int numposts)
     }
 }
 
-static void R_BlastPlayerSpriteColumn(const rcolumn_t *column, int numposts)
+static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 {
+    int             numposts = dc_numposts;
     unsigned char   *pixels = column->pixels;
 
     while (numposts--)
@@ -415,8 +419,10 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column, int numposts)
     }
 }
 
-static void R_BlastBloodSplatColumn(const rcolumn_t *column, int numposts)
+static void R_BlastBloodSplatColumn(const rcolumn_t *column)
 {
+    int numposts = dc_numposts;
+
     while (numposts--)
     {
         const rpost_t   *post = &column->posts[numposts];
@@ -463,13 +469,12 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
-        int             numposts = column->numposts;
 
-        if (numposts)
+        if ((dc_numposts = column->numposts))
         {
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = MIN(dc_baseclip, mfloorclip[dc_x]) - 1;
-            R_BlastSpriteColumn(column, numposts);
+            R_BlastSpriteColumn(column);
         }
     }
 
@@ -511,14 +516,13 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
-        int             numposts = column->numposts;
 
-        if (numposts)
+        if ((dc_numposts = column->numposts))
         {
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
-            R_BlastShadowColumn(column, numposts);
-            R_BlastSpriteColumn(column, numposts);
+            R_BlastShadowColumn(column);
+            R_BlastSpriteColumn(column);
         }
     }
 
@@ -545,10 +549,9 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
-        int             numposts = column->numposts;
 
-        if (numposts)
-            R_BlastPlayerSpriteColumn(column, numposts);
+        if ((dc_numposts = column->numposts))
+            R_BlastPlayerSpriteColumn(column);
     }
 
     R_UnlockPatchNum(id);
@@ -575,13 +578,12 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = &columns[frac >> FRACBITS];
-        int             numposts = column->numposts;
 
-        if (numposts)
+        if ((dc_numposts = column->numposts))
         {
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
-            R_BlastBloodSplatColumn(column, numposts);
+            R_BlastBloodSplatColumn(column);
         }
     }
 
