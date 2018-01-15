@@ -104,17 +104,9 @@ static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
         char    dot = highnums[number][i];
 
         if (dot == '1')
-        {
-            for (int yy = 0; yy < SCREENSCALE; yy++)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
-                    screens[0][j + i / 8 * SCREENWIDTH + (i & 7)] = color;
-        }
+            screens[0][j + i / 8 * SCREENWIDTH + (i & 7)] = color;
         else if (dot == '2')
-        {
-            for (int yy = 0; yy < SCREENSCALE; yy++)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
-                    screens[0][j + i / 8 * SCREENWIDTH + (i & 7)] = shadow;
-        }
+            screens[0][j + i / 8 * SCREENWIDTH + (i & 7)] = shadow;
     }
 }
 
