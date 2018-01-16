@@ -44,7 +44,7 @@
 
 typedef uint8_t byte;
 
-#if !defined(__cplusplus)
+#if !defined(__cplusplus) && !defined(__bool_true_false_are_defined)
 typedef enum
 {
     false,
