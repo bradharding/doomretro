@@ -1338,12 +1338,12 @@ static void ST_doPaletteStuff(void)
 
 static void ST_drawWidgets(bool refresh)
 {
-    STlib_updateNum(&w_ready);
+    STlib_updateBigNum(&w_ready);
 
     for (int i = 0; i < 4; i++)
     {
-        STlib_updateNum(&w_ammo[i]);
-        STlib_updateNum(&w_maxammo[i]);
+        STlib_updateSmallNum(&w_ammo[i]);
+        STlib_updateSmallNum(&w_maxammo[i]);
     }
 
     STlib_updatePercent(&w_health, refresh);

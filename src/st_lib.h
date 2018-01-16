@@ -134,7 +134,8 @@ typedef struct
 // Number widget routines
 void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, bool *on, int width);
 
-void STlib_updateNum(st_number_t *n);
+void STlib_updateBigNum(st_number_t *n);
+void STlib_updateSmallNum(st_number_t *n);
 
 // Percent widget routines
 void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, bool *on, patch_t *percent);

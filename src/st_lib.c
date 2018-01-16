@@ -110,23 +110,41 @@ static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
     }
 }
 
-//
-// A fairly efficient way to draw a number
-//  based on differences from the old number.
-// Note: worth the trouble?
-//
-static void STlib_drawNum(st_number_t *n)
+static void STlib_drawBigNum(st_number_t *n)
 {
     int     numdigits = n->width;
     int     num = MAX(0, *n->num);
     patch_t *patch = n->p[0];
     int     w = SHORT(patch->width);
-    bool    smallnum = (SHORT(patch->height) == 6 && !STYSNUM0 && STBAR == 2);
     int     x = n->x;
 
     // if non-number, do not draw it
     if (num == 1994)
         return;
+
+    // in the special case of 0, you draw 0
+    if (!num)
+        V_DrawPatch(x - w, n->y, 0, patch);
+    else
+    {
+        // draw the new number
+        while (num && numdigits--)
+        {
+            x -= w;
+            V_DrawPatch(x, n->y, 0, n->p[num % 10]);
+            num /= 10;
+        }
+    }
+}
+
+static void STlib_drawSmallNum(st_number_t *n)
+{
+    int     numdigits = n->width;
+    int     num = MAX(0, *n->num);
+    patch_t *patch = n->p[0];
+    int     w = SHORT(patch->width);
+    bool    smallnum = (!STYSNUM0 && STBAR == 2);
+    int     x = n->x;
 
     // in the special case of 0, you draw 0
     if (!num)
@@ -142,7 +160,7 @@ static void STlib_drawNum(st_number_t *n)
             V_DrawPatch(x - w, n->y, 0, patch);
     }
     else
-
+    {
         // draw the new number
         while (num && numdigits--)
         {
@@ -156,16 +174,23 @@ static void STlib_drawNum(st_number_t *n)
                     STlib_drawLowNum(num % 10, 160, 47, x, n->y);
             }
             else
-               V_DrawPatch(x, n->y, 0, n->p[num % 10]);
+                V_DrawPatch(x, n->y, 0, n->p[num % 10]);
 
             num /= 10;
         }
+    }
 }
 
-void STlib_updateNum(st_number_t *n)
+void STlib_updateBigNum(st_number_t *n)
 {
     if (*n->on)
-        STlib_drawNum(n);
+        STlib_drawBigNum(n);
+}
+
+void STlib_updateSmallNum(st_number_t *n)
+{
+    if (*n->on)
+        STlib_drawSmallNum(n);
 }
 
 void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, bool *on, patch_t *percent)
@@ -179,7 +204,7 @@ void STlib_updatePercent(st_percent_t *per, int refresh)
     if (refresh && *per->n.on)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
 
-    STlib_updateNum(&per->n);
+    STlib_updateBigNum(&per->n);
 }
 
 void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum, bool *on)
