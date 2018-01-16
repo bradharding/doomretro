@@ -44,11 +44,13 @@
 
 typedef uint8_t byte;
 
+#if !defined(__cplusplus)
 typedef enum
 {
     false,
     true
 } bool;
+#endif
 
 #if defined(_WIN32)
 #define DIR_SEPARATOR   '\\'
