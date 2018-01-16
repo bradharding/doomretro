@@ -6,6 +6,7 @@
 * Further improvements have been made to the console’s autocomplete feature.
 * A bug present in *Vanilla DOOM* has been fixed whereby [the player would sometimes bounce off walls](https://doomwiki.org/wiki/Elastic_collisions_with_walls).
 * The `unbind` CCMD will now also accept an action as its parameter, unbinding all keyboard, mouse and gamepad controls bound to that action.
+* The `resetall` CCMD will now also reset all bound controls to their defaults.
 * A bug has been fixed whereby the bottom edge of spectres and their blood weren’t drawn correctly in some instances.
 * The effects of changing the `r_blood` CVAR between `all` and `red` are now immediate.
 * Movement of the player arrow in the automap is now smoother.

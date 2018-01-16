@@ -3738,6 +3738,7 @@ static void C_VerifyResetAll(const int key)
     {
         resettingcvar = true;
 
+        // reset all cvars to default values
         for (int i = 0; *consolecmds[i].name; i++)
         {
             const int   flags = consolecmds[i].flags;
@@ -3758,6 +3759,108 @@ static void C_VerifyResetAll(const int key)
         }
 
         resettingcvar = false;
+
+        // unbind all controls
+        for (int i = 0; *actions[i].action; i++)
+        {
+            if (actions[i].keyboard1)
+                *(int *)actions[i].keyboard1 = 0;
+
+            if (actions[i].keyboard2)
+                *(int *)actions[i].keyboard2 = 0;
+
+            if (actions[i].mouse1)
+                *(int *)actions[i].mouse1 = -1;
+
+            if (actions[i].gamepad1)
+                *(int *)actions[i].gamepad1 = 0;
+
+            if (actions[i].gamepad2)
+                *(int *)actions[i].gamepad2 = 0;
+        }
+
+        for (int i = 0; i < NUMKEYS; i++)
+            keyactionlist[i][0] = '\0';
+
+        // set all controls to defaults
+        keyboardalwaysrun = KEYALWAYSRUN_DEFAULT;
+        keyboardautomap = KEYAUTOMAP_DEFAULT;
+        keyboardautomapclearmark = KEYAUTOMAPCLEARMARK_DEFAULT;
+        keyboardautomapfollowmode = KEYAUTOMAPFOLLOWMODE_DEFAULT;
+        keyboardautomapgrid = KEYAUTOMAPGRID_DEFAULT;
+        keyboardautomapmark = KEYAUTOMAPMARK_DEFAULT;
+        keyboardautomapmaxzoom = KEYAUTOMAPMAXZOOM_DEFAULT;
+        keyboardautomaprotatemode = KEYAUTOMAPROTATEMODE_DEFAULT;
+        keyboardautomapzoomin = KEYAUTOMAPZOOMIN_DEFAULT;
+        keyboardautomapzoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
+        keyboardconsole = KEYCONSOLE_DEFAULT;
+        keyboardback = KEYDOWN_DEFAULT;
+        keyboardback2 = KEYDOWN2_DEFAULT;
+        keyboardfire = KEYFIRE_DEFAULT;
+        keyboardleft = KEYLEFT_DEFAULT;
+        keyboardmenu = KEY_ESCAPE;
+        keyboardmouselook = KEYMOUSELOOK_DEFAULT;
+        keyboardnextweapon = KEYNEXTWEAPON_DEFAULT;
+        keyboardprevweapon = KEYPREVWEAPON_DEFAULT;
+        keyboardright = KEYRIGHT_DEFAULT;
+        keyboardrun = KEYRUN_DEFAULT;
+        keyboardscreenshot = KEYSCREENSHOT_DEFAULT;
+        keyboardstrafe = KEYSTRAFE_DEFAULT;
+        keyboardstrafeleft = KEYSTRAFELEFT_DEFAULT;
+        keyboardstrafeleft2 = KEYSTRAFELEFT2_DEFAULT;
+        keyboardstraferight = KEYSTRAFERIGHT_DEFAULT;
+        keyboardstraferight2 = KEYSTRAFERIGHT2_DEFAULT;
+        keyboardforward = KEYUP_DEFAULT;
+        keyboardforward2 = KEYUP2_DEFAULT;
+        keyboarduse = KEYUSE_DEFAULT;
+        keyboarduse2 = KEYUSE2_DEFAULT;
+        keyboardweapon1 = KEYWEAPON1_DEFAULT;
+        keyboardweapon2 = KEYWEAPON2_DEFAULT;
+        keyboardweapon3 = KEYWEAPON3_DEFAULT;
+        keyboardweapon4 = KEYWEAPON4_DEFAULT;
+        keyboardweapon5 = KEYWEAPON5_DEFAULT;
+        keyboardweapon6 = KEYWEAPON6_DEFAULT;
+        keyboardweapon7 = KEYWEAPON7_DEFAULT;
+        mousefire = MOUSEFIRE_DEFAULT;
+        mouseforward = MOUSEFORWARD_DEFAULT;
+        mousemouselook = MOUSEMOUSELOOK_DEFAULT;
+        mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
+        mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
+        mouserun = MOUSERUN_DEFAULT;
+        mousestrafe = MOUSESTRAFE_DEFAULT;
+        mouseuse = MOUSEUSE_DEFAULT;
+        gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
+        gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
+        gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
+        gamepadautomapfollowmode = GAMEPADAUTOMAPFOLLOWMODE_DEFAULT;
+        gamepadautomapgrid = GAMEPADAUTOMAPGRID_DEFAULT;
+        gamepadautomapmark = GAMEPADAUTOMAPMARK_DEFAULT;
+        gamepadautomapmaxzoom = GAMEPADAUTOMAPMAXZOOM_DEFAULT;
+        gamepadautomaprotatemode = GAMEPADAUTOMAPROTATEMODE_DEFAULT;
+        gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
+        gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
+        gamepadback = GAMEPADBACK_DEFAULT;
+        gamepadfire = GAMEPADFIRE_DEFAULT;
+        gamepadforward = GAMEPADFORWARD_DEFAULT;
+        gamepadleft = GAMEPADLEFT_DEFAULT;
+        gamepadmenu = GAMEPADMENU_DEFAULT;
+        gamepadmouselook = GAMEPADMOUSELOOK_DEFAULT;
+        gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
+        gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
+        gamepadright = GAMEPADRIGHT_DEFAULT;
+        gamepadrun = GAMEPADRUN_DEFAULT;
+        gamepadstrafe = GAMEPADSTRAFE_DEFAULT;
+        gamepadstrafeleft = GAMEPADSTRAFELEFT_DEFAULT;
+        gamepadstraferight = GAMEPADSTRAFERIGHT_DEFAULT;
+        gamepaduse = GAMEPADUSE_DEFAULT;
+        gamepaduse2 = GAMEPADUSE2_DEFAULT;
+        gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
+        gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
+        gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
+        gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
+        gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
+        gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
+        gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
 #if defined(_WIN32)
         wad = "";
