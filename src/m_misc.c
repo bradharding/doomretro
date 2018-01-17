@@ -48,8 +48,6 @@
 #include <pwd.h>
 #endif
 
-#include "i_system.h"
-
 #if defined(__MACOSX__)
 #import <Cocoa/Cocoa.h>
 #include <dirent.h>
@@ -331,10 +329,7 @@ char *M_StringJoin(char *s, ...)
     va_end(args);
 
     if (!(result = malloc(result_len)))
-    {
-        I_Error("M_StringJoin: Failed to allocate new string.");
         return NULL;
-    }
 
     M_StringCopy(result, s, result_len);
 

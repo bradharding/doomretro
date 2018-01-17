@@ -84,7 +84,7 @@ static struct
 lumpinfo_t          **lumpinfo;
 int                 numlumps;
 
-extern char *packagewad;
+extern char         *packagewad;
 
 static bool IsFreedoom(const char *iwadname)
 {
@@ -233,7 +233,7 @@ wadfile_t *W_AddFile(char *filename, bool automatic)
 // by Lee Killough
 unsigned W_LumpNameHash(const char *s)
 {
-    unsigned int        hash;
+    unsigned int    hash;
 
     (void)((hash = toupper(s[0]), s[1])
         && (hash = hash * 3 + toupper(s[1]), s[2])
