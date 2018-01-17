@@ -1,4 +1,4 @@
-### DOOM Retro v2.7
+### DOOM Retro v2.6.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby an error would be displayed when trying to load `doom1.wad`.
