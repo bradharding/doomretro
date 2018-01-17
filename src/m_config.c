@@ -775,6 +775,7 @@ static void M_CheckCVARs(void)
     {
         returntowidescreen = true;
         vid_widescreen = false;
+        r_screensize = r_screensize_max;
     }
     else
         r_hud = true;
