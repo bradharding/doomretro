@@ -554,7 +554,7 @@ static void M_CheckCVARs(void)
     if (con_timestamps != false && con_timestamps != true)
         con_timestamps = con_timestamps_default;
 
-    episode = BETWEEN(episode_min, episode, episode_max - (gamemode == registered));
+    episode = BETWEEN(episode_min, episode, episode_max);
     expansion = BETWEEN(expansion_min, expansion, expansion_max);
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
