@@ -235,7 +235,7 @@ void T_VerticalDoor(vldoor_t *door)
 // EV_DoLockedDoor
 // Move a locked door up/down
 //
-bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
+dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 {
     player_t    *player = thing->player;
     static char buffer[1024];
@@ -360,10 +360,10 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
     return EV_DoDoor(line, type);
 }
 
-bool EV_DoDoor(line_t *line, vldoor_e type)
+dboolean EV_DoDoor(line_t *line, vldoor_e type)
 {
     int         secnum = -1;
-    bool        rtn = false;
+    dboolean    rtn = false;
     sector_t    *sec;
     vldoor_t    *door;
 

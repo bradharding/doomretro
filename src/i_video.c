@@ -81,19 +81,19 @@ int                 vid_display = vid_display_default;
 #if !defined(_WIN32)
 char                *vid_driver = vid_driver_default;
 #endif
-bool                vid_fullscreen = vid_fullscreen_default;
+dboolean            vid_fullscreen = vid_fullscreen_default;
 int                 vid_motionblur = vid_motionblur_default;
-bool                vid_pillarboxes = vid_pillarboxes_default;
+dboolean            vid_pillarboxes = vid_pillarboxes_default;
 char                *vid_scaleapi = vid_scaleapi_default;
 char                *vid_scalefilter = vid_scalefilter_default;
 char                *vid_screenresolution = vid_screenresolution_default;
-bool                vid_showfps = vid_showfps_default;
-bool                vid_vsync = vid_vsync_default;
-bool                vid_widescreen = vid_widescreen_default;
+dboolean            vid_showfps = vid_showfps_default;
+dboolean            vid_vsync = vid_vsync_default;
+dboolean            vid_widescreen = vid_widescreen_default;
 char                *vid_windowpos = vid_windowpos_default;
 char                *vid_windowsize = vid_windowsize_default;
 
-static bool         manuallypositioning;
+static dboolean     manuallypositioning;
 
 SDL_Window          *window;
 static int          windowid;
@@ -115,11 +115,11 @@ static SDL_Surface  *mapsurface;
 static SDL_Surface  *mapbuffer;
 static SDL_Palette  *mappalette;
 
-static bool         nearestlinear;
+static dboolean     nearestlinear;
 static int          upscaledwidth;
 static int          upscaledheight;
 
-static bool         software;
+static dboolean     software;
 
 static int          displayindex;
 static int          am_displayindex;
@@ -150,11 +150,11 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
-bool                returntowidescreen;
+dboolean            returntowidescreen;
 
-bool                windowfocused = true;
+dboolean            windowfocused = true;
 
-static bool         keys[UCHAR_MAX];
+static dboolean     keys[UCHAR_MAX];
 
 static byte         gammatable[GAMMALEVELS][256];
 
@@ -188,8 +188,8 @@ static UINT         CapFPSTimer;
 static HANDLE       CapFPSEvent;
 #endif
 
-static bool         capslock;
-bool                alwaysrun = alwaysrun_default;
+static dboolean     capslock;
+dboolean            alwaysrun = alwaysrun_default;
 
 extern int          st_palette;
 extern int          windowborderwidth;
@@ -197,7 +197,7 @@ extern int          windowborderheight;
 
 void ST_doRefresh(void);
 
-bool MouseShouldBeGrabbed(void)
+dboolean MouseShouldBeGrabbed(void)
 {
     // if the window doesn't have focus, never grab it
     if (!windowfocused)
@@ -215,7 +215,7 @@ bool MouseShouldBeGrabbed(void)
     return (gamestate == GS_LEVEL);
 }
 
-static void SetShowCursor(bool show)
+static void SetShowCursor(dboolean show)
 {
     if (SDL_SetRelativeMouseMode(!show) < 0)
         I_SDLError("SDL_SetRelativeMouseMode");
@@ -295,7 +295,7 @@ static int TranslateKey2(int key)
     }
 }
 
-bool keystate(int key)
+dboolean keystate(int key)
 {
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
@@ -363,7 +363,7 @@ void I_ShutdownGraphics(void)
 }
 
 #if defined(X11)
-static void I_SetXKBCapslockState(bool enabled)
+static void I_SetXKBCapslockState(dboolean enabled)
 {
     Display *dpy = XOpenDisplay(0);
 
@@ -409,10 +409,10 @@ static void CenterMouse(void)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-bool        altdown;
-bool        noinput = true;
-bool        waspaused;
-static bool button;
+dboolean        altdown;
+dboolean        noinput = true;
+dboolean        waspaused;
+static dboolean button;
 
 static void I_GetEvent(void)
 {
@@ -424,7 +424,7 @@ static void I_GetEvent(void)
         event_t     event;
 
 #if !defined(_WIN32)
-        static bool enterdown;
+        static dboolean enterdown;
 #endif
 
         switch (Event->type)
@@ -659,8 +659,8 @@ void I_StartTic(void)
 
 static void UpdateGrab(void)
 {
-    bool        grab = MouseShouldBeGrabbed();
-    static bool currently_grabbed;
+    dboolean        grab = MouseShouldBeGrabbed();
+    static dboolean currently_grabbed;
 
     if (grab && !currently_grabbed)
     {
@@ -931,9 +931,9 @@ void I_Blit_Automap_NearestLinear(void)
 
 static void nullfunc(void) {}
 
-void I_UpdateBlitFunc(bool shake)
+void I_UpdateBlitFunc(dboolean shake)
 {
-    bool    override = (vid_fullscreen && !(displayheight % ORIGINALHEIGHT));
+    dboolean    override = (vid_fullscreen && !(displayheight % ORIGINALHEIGHT));
 
     if (shake && !software)
         blitfunc = (vid_showfps ? (nearestlinear && !override ? I_Blit_NearestLinear_ShowFPS_Shake :
@@ -988,7 +988,7 @@ static void GetDisplays(void)
             I_SDLError("SDL_GetDisplayBounds");
 }
 
-void I_CreateExternalAutomap(bool output)
+void I_CreateExternalAutomap(dboolean output)
 {
     Uint32  rmask, gmask, bmask, amask;
     int     bpp;
@@ -1149,7 +1149,7 @@ void GetWindowSize(void)
     }
 }
 
-static bool ValidScreenMode(int width, int height)
+static dboolean ValidScreenMode(int width, int height)
 {
     const int   modes = SDL_GetNumDisplayModes(displayindex);
 
@@ -1282,7 +1282,7 @@ void I_SetMotionBlur(int percent)
     }
 }
 
-static void SetVideoMode(bool output)
+static void SetVideoMode(dboolean output)
 {
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
     int                 windowflags = SDL_WINDOW_RESIZABLE;
@@ -1583,7 +1583,7 @@ static void SetVideoMode(bool output)
     if (output)
     {
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
-        bool        iwad = (playpalwad->type == IWAD);
+        dboolean    iwad = (playpalwad->type == IWAD);
 
         C_Output("Using the 256-color palette from the <b>PLAYPAL</b> lump in %s <b>%s</b>.",
             (iwad ? "IWAD" : "PWAD"), playpalwad->path);
@@ -1651,7 +1651,7 @@ static void SetVideoMode(bool output)
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
 }
 
-void I_ToggleWidescreen(bool toggle)
+void I_ToggleWidescreen(dboolean toggle)
 {
     if (toggle)
     {

@@ -68,8 +68,8 @@ int         numflats;
 int         firstspritelump;
 int         lastspritelump;
 
-bool        notranslucency;
-bool        telefragonmap30;
+dboolean    notranslucency;
+dboolean    telefragonmap30;
 
 int         numtextures;
 texture_t   **textures;
@@ -77,7 +77,7 @@ texture_t   **textures;
 // needed for texture pegging
 fixed_t     *textureheight;
 byte        **brightmap;
-bool        *nobrightmap;
+dboolean    *nobrightmap;
 
 // for global animation
 int         *flattranslation;
@@ -92,7 +92,7 @@ fixed_t     *spritetopoffset;
 fixed_t     *newspriteoffset;
 fixed_t     *newspritetopoffset;
 
-bool        r_fixspriteoffsets = r_fixspriteoffsets_default;
+dboolean    r_fixspriteoffsets = r_fixspriteoffsets_default;
 
 static byte notgray[256] =
 {
@@ -421,8 +421,8 @@ static void R_InitFlats(void)
 //
 static void R_InitSpriteLumps(void)
 {
-    bool    fixspriteoffsets = false;
-    int     numspritelumps;
+    dboolean    fixspriteoffsets = false;
+    int         numspritelumps;
 
     SC_Open("DRCOMPAT");
 
@@ -546,7 +546,7 @@ byte    grays[256];
 
 static void R_InitColormaps(void)
 {
-    bool        COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     byte        *palsrc;
     byte        *palette;
     wadfile_t   *colormapwad;

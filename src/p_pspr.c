@@ -52,16 +52,16 @@
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 
-bool            autoaim = autoaim_default;
-bool            centerweapon = centerweapon_default;
-bool            weaponrecoil = weaponrecoil_default;
+dboolean        autoaim = autoaim_default;
+dboolean        centerweapon = centerweapon_default;
+dboolean        weaponrecoil = weaponrecoil_default;
 int             weaponbob = weaponbob_default;
 
 unsigned int    stat_shotsfired = 0;
 unsigned int    stat_shotshit = 0;
 
-bool            successfulshot;
-bool            skippsprinterp;
+dboolean        successfulshot;
+dboolean        skippsprinterp;
 
 static const int recoilvalues[] = {
      0, // wp_fist
@@ -75,9 +75,9 @@ static const int recoilvalues[] = {
     16  // wp_supershotgun
 };
 
-extern bool canmouselook;
-extern bool hitwall;
-extern bool usemouselook;
+extern dboolean canmouselook;
+extern dboolean hitwall;
+extern dboolean usemouselook;
 
 void P_CheckMissileSpawn(mobj_t *th);
 
@@ -156,7 +156,7 @@ static void P_BringUpWeapon(void)
 // Returns true if there is enough ammo to shoot.
 // If not, selects the next weapon to use.
 //
-bool P_CheckAmmo(void)
+dboolean P_CheckAmmo(void)
 {
     weapontype_t    readyweapon = viewplayer->readyweapon;
     ammotype_t      ammo = weaponinfo[readyweapon].ammo;
@@ -601,7 +601,7 @@ static void P_BulletSlope(mobj_t *mo)
 //
 // P_GunShot
 //
-static void P_GunShot(mobj_t *actor, bool accurate)
+static void P_GunShot(mobj_t *actor, dboolean accurate)
 {
     int     damage = 5 * (M_Random() % 3 + 1);
     angle_t angle = actor->angle;

@@ -45,12 +45,12 @@
 
 static unsigned int maxdrawsegs;
 
-static bool         segtextured;        // True if any of the segs textures might be visible.
+static dboolean     segtextured;        // True if any of the segs textures might be visible.
 
-static bool         markfloor;          // False if the back side is the same plane.
-bool                markceiling;
+static dboolean     markfloor;          // False if the back side is the same plane.
+dboolean            markceiling;
 
-static bool         maskedtexture;
+static dboolean     maskedtexture;
 static int          toptexture;
 static int          midtexture;
 static int          bottomtexture;
@@ -94,11 +94,11 @@ lighttable_t        **walllights;
 
 static int          *maskedtexturecol;  // dropoff overflow
 
-bool                r_brightmaps = r_brightmaps_default;
+dboolean            r_brightmaps = r_brightmaps_default;
 
 extern int          *openings;          // dropoff overflow
 extern fixed_t      animatedliquiddiff;
-extern bool         usebrightmaps;
+extern dboolean     usebrightmaps;
 
 //
 // R_FixWiggle()
@@ -318,7 +318,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 // Can draw or mark the starting pixel of floor and ceiling textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
-static bool didsolidcol;
+static dboolean didsolidcol;
 
 static void R_RenderSegLoop(void)
 {

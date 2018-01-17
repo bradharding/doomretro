@@ -69,7 +69,7 @@ void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
     HUlib_clearTextLine(t);
 }
 
-bool HUlib_addCharToTextLine(hu_textline_t *t, char ch)
+dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
 {
     if (t->len == HU_MAXLINELENGTH)
         return false;
@@ -227,7 +227,7 @@ static struct
     { 0,   0,     0 }
 };
 
-void HUlib_drawTextLine(hu_textline_t *l, bool external)
+void HUlib_drawTextLine(hu_textline_t *l, dboolean external)
 {
     int         w = 0;
     int         tw = 0;
@@ -400,7 +400,7 @@ void HUlib_eraseTextLine(hu_textline_t *l)
         l->needsupdate--;
 }
 
-void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, bool *on)
+void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on)
 {
     s->h = h;
     s->on = on;
@@ -436,7 +436,7 @@ void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg)
         HUlib_addCharToTextLine(&s->l[s->cl], *(msg++));
 }
 
-void HUlib_drawSText(hu_stext_t *s, bool external)
+void HUlib_drawSText(hu_stext_t *s, dboolean external)
 {
     if (!*s->on)
         return; // if not on, don't draw

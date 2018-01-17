@@ -158,7 +158,7 @@ static const unsigned int   mapheight = SCREENHEIGHT - SBARHEIGHT;
 static const unsigned int   maparea = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT);
 static const unsigned int   mapbottom = SCREENWIDTH * (SCREENHEIGHT - SBARHEIGHT) - SCREENWIDTH;
 
-bool                automapactive;
+dboolean            automapactive;
 
 static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
 static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
@@ -201,21 +201,21 @@ mpoint_t            *pathpoints;
 int                 pathpointnum;
 int                 pathpointnum_max;
 
-bool                am_external = am_external_default;
-bool                am_followmode = am_followmode_default;
-bool                am_grid = am_grid_default;
+dboolean            am_external = am_external_default;
+dboolean            am_followmode = am_followmode_default;
+dboolean            am_grid = am_grid_default;
 char                *am_gridsize = am_gridsize_default;
-bool                am_path = am_path_default;
-bool                am_rotatemode = am_rotatemode_default;
+dboolean            am_path = am_path_default;
+dboolean            am_rotatemode = am_rotatemode_default;
 
 static int          gridwidth;
 static int          gridheight;
 
-static bool         stopped = true;
+static dboolean         stopped = true;
 
-static bool         bigstate;
+static dboolean         bigstate;
 static byte         *area;
-static bool         movement;
+static dboolean         movement;
 int                 keydown;
 int                 direction;
 
@@ -398,7 +398,7 @@ void AM_Init(void)
     AM_getGridSize();
 }
 
-static void AM_initVariables(const bool mainwindow)
+static void AM_initVariables(const dboolean mainwindow)
 {
     automapactive = mainwindow;
 
@@ -459,7 +459,7 @@ void AM_Stop(void)
 int lastlevel = -1;
 int lastepisode = -1;
 
-void AM_Start(const bool mainwindow)
+void AM_Start(const dboolean mainwindow)
 {
     if (!stopped)
         AM_Stop();
@@ -497,9 +497,9 @@ static void AM_maxOutWindowScale(void)
 }
 
 static SDL_Keymod   modstate;
-static bool         speedtoggle;
+static dboolean     speedtoggle;
 
-static bool AM_getSpeedToggle(void)
+static dboolean AM_getSpeedToggle(void)
 {
     return (!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER) ^ !!(modstate & KMOD_SHIFT));
 }
@@ -668,7 +668,7 @@ void AM_toggleRotateMode(void)
 //
 // Handle events (user inputs) in automap mode
 //
-bool AM_Responder(const event_t *ev)
+dboolean AM_Responder(const event_t *ev)
 {
     int rc = false;
 
@@ -677,7 +677,7 @@ bool AM_Responder(const event_t *ev)
 
     if (!menuactive && !paused)
     {
-        static bool backbuttondown;
+        static dboolean backbuttondown;
 
         if (!(gamepadbuttons & gamepadautomap))
             backbuttondown = false;
@@ -1187,7 +1187,7 @@ void AM_clearFB(void)
 //
 // Based on Cohen-Sutherland clipping algorithm but with a slightly faster reject and precalculated
 // slopes. If the speed is needed, use a hash algorithm to handle the common cases.
-static bool AM_clipMline(int *x0, int *y0, int *x1, int *y1)
+static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
 {
     enum
     {
@@ -1257,9 +1257,9 @@ static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
     if (x < mapwidth)
     {
-        byte        *dot = mapscreen + y + x;
-        const bool  attop = (y < maparea);
-        const bool  atbottom = (y < mapbottom);
+        byte            *dot = mapscreen + y + x;
+        const dboolean  attop = (y < maparea);
+        const dboolean  atbottom = (y < mapbottom);
 
         if (attop)
             _PUTDOT(dot, color);
@@ -1486,9 +1486,9 @@ static void AM_drawGrid(void)
 //
 static void AM_drawWalls(void)
 {
-    const bool  allmap = viewplayer->powers[pw_allmap];
-    const bool  cheating = viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
-    int         i = 0;
+    const dboolean  allmap = viewplayer->powers[pw_allmap];
+    const dboolean  cheating = viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS);
+    int             i = 0;
 
     while (i < numlines)
     {

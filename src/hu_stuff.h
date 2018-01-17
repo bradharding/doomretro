@@ -89,17 +89,17 @@ void HU_Ticker(void);
 void HU_Drawer(void);
 void HU_Erase(void);
 
-void HU_SetPlayerMessage(char *message, bool external);
-void HU_PlayerMessage(char *message, bool external);
+void HU_SetPlayerMessage(char *message, dboolean external);
+void HU_PlayerMessage(char *message, dboolean external);
 
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);
 void HU_GetMessagePosition(void);
 
-extern int  healthhighlight;
-extern int  ammohighlight;
-extern int  armorhighlight;
-extern char automaptitle[133];
-extern bool drawdisk;
+extern int      healthhighlight;
+extern int      ammohighlight;
+extern int      armorhighlight;
+extern char     automaptitle[133];
+extern dboolean drawdisk;
 
 #endif

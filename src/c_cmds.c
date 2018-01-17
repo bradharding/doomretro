@@ -109,15 +109,15 @@ static int      mapcmdmap;
 static char     mapcmdlump[7];
 
 
-bool            executingalias = false;
-bool            vanilla = false;
-bool            resettingcvar = false;
-bool            togglingvanilla = false;
+dboolean        executingalias = false;
+dboolean        vanilla = false;
+dboolean        resettingcvar = false;
+dboolean        togglingvanilla = false;
 
 char            *version = version_default;
 
-extern bool     setsizeneeded;
-extern bool     usemouselook;
+extern dboolean setsizeneeded;
+extern dboolean usemouselook;
 extern char     *packageconfig;
 extern int      st_palette;
 extern menu_t   EpiDef;
@@ -246,10 +246,10 @@ action_t actions[] =
     { "",              NULL,                    NULL,                       NULL,                  NULL,             NULL,                      NULL         }
 };
 
-static bool alive_func1(char *cmd, char *parms);
-static bool cheat_func1(char *cmd, char *parms);
-static bool game_func1(char *cmd, char *parms);
-static bool null_func1(char *cmd, char *parms);
+static dboolean alive_func1(char *cmd, char *parms);
+static dboolean cheat_func1(char *cmd, char *parms);
+static dboolean game_func1(char *cmd, char *parms);
+static dboolean null_func1(char *cmd, char *parms);
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);
@@ -261,18 +261,18 @@ static void cvarlist_cmd_func2(char *cmd, char *parms);
 static void endgame_cmd_func2(char *cmd, char *parms);
 static void exec_cmd_func2(char *cmd, char *parms);
 static void exitmap_cmd_func2(char *cmd, char *parms);
-static bool fastmonsters_cmd_func1(char *cmd, char *parms);
+static dboolean fastmonsters_cmd_func1(char *cmd, char *parms);
 static void fastmonsters_cmd_func2(char *cmd, char *parms);
 static void freeze_cmd_func2(char *cmd, char *parms);
-static bool give_cmd_func1(char *cmd, char *parms);
+static dboolean give_cmd_func1(char *cmd, char *parms);
 static void give_cmd_func2(char *cmd, char *parms);
 static void god_cmd_func2(char *cmd, char *parms);
 static void help_cmd_func2(char *cmd, char *parms);
 static void if_cmd_func2(char *cmd, char *parms);
-static bool kill_cmd_func1(char *cmd, char *parms);
+static dboolean kill_cmd_func1(char *cmd, char *parms);
 static void kill_cmd_func2(char *cmd, char *parms);
 static void load_cmd_func2(char *cmd, char *parms);
-static bool map_cmd_func1(char *cmd, char *parms);
+static dboolean map_cmd_func1(char *cmd, char *parms);
 static void map_cmd_func2(char *cmd, char *parms);
 static void maplist_cmd_func2(char *cmd, char *parms);
 static void mapstats_cmd_func2(char *cmd, char *parms);
@@ -281,7 +281,7 @@ static void noclip_cmd_func2(char *cmd, char *parms);
 static void nomonsters_cmd_func2(char *cmd, char *parms);
 static void notarget_cmd_func2(char *cmd, char *parms);
 static void pistolstart_cmd_func2(char *cmd, char *parms);
-static bool play_cmd_func1(char *cmd, char *parms);
+static dboolean play_cmd_func1(char *cmd, char *parms);
 static void play_cmd_func2(char *cmd, char *parms);
 static void playerstats_cmd_func2(char *cmd, char *parms);
 static void print_cmd_func2(char *cmd, char *parms);
@@ -290,13 +290,13 @@ static void regenhealth_cmd_func2(char *cmd, char *parms);
 static void reset_cmd_func2(char *cmd, char *parms);
 static void resetall_cmd_func2(char *cmd, char *parms);
 static void respawnitems_cmd_func2(char *cmd, char *parms);
-static bool respawnmonsters_cmd_func1(char *cmd, char *parms);
+static dboolean respawnmonsters_cmd_func1(char *cmd, char *parms);
 static void respawnmonsters_cmd_func2(char *cmd, char *parms);
 static void restartmap_cmd_func2(char *cmd, char *parms);
-static bool resurrect_cmd_func1(char *cmd, char *parms);
+static dboolean resurrect_cmd_func1(char *cmd, char *parms);
 static void resurrect_cmd_func2(char *cmd, char *parms);
 static void save_cmd_func2(char *cmd, char *parms);
-static bool spawn_cmd_func1(char *cmd, char *parms);
+static dboolean spawn_cmd_func1(char *cmd, char *parms);
 static void spawn_cmd_func2(char *cmd, char *parms);
 static void teleport_cmd_func2(char *cmd, char *parms);
 static void thinglist_cmd_func2(char *cmd, char *parms);
@@ -304,68 +304,68 @@ static void timer_cmd_func2(char *cmd, char *parms);
 static void unbind_cmd_func2(char *cmd, char *parms);
 static void vanilla_cmd_func2(char *cmd, char *parms);
 
-static bool bool_cvars_func1(char *cmd, char *parms);
+static dboolean bool_cvars_func1(char *cmd, char *parms);
 static void bool_cvars_func2(char *cmd, char *parms);
-static bool color_cvars_func1(char *cmd, char *parms);
+static dboolean color_cvars_func1(char *cmd, char *parms);
 static void color_cvars_func2(char *cmd, char *parms);
-static bool float_cvars_func1(char *cmd, char *parms);
-static bool int_cvars_func1(char *cmd, char *parms);
+static dboolean float_cvars_func1(char *cmd, char *parms);
+static dboolean int_cvars_func1(char *cmd, char *parms);
 static void int_cvars_func2(char *cmd, char *parms);
 static void str_cvars_func2(char *cmd, char *parms);
 static void time_cvars_func2(char *cmd, char *parms);
 
 static void alwaysrun_cvar_func2(char *cmd, char *parms);
 static void am_external_cvar_func2(char *cmd, char *parms);
-static bool am_followmode_cvar_func1(char *cmd, char *parms);
+static dboolean am_followmode_cvar_func1(char *cmd, char *parms);
 static void am_gridsize_cvar_func2(char *cmd, char *parms);
 static void am_path_cvar_func2(char *cmd, char *parms);
 static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
-static bool gp_deadzone_cvars_func1(char *cmd, char *parms);
+static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms);
 static void gp_deadzone_cvars_func2(char *cmd, char *parms);
 static void gp_sensitivity_cvar_func2(char *cmd, char *parms);
 static void gp_swapthumbsticks_cvar_func2(char *cmd, char *parms);
 static void mouselook_cvar_func2(char *cmd, char *parms);
-static bool player_cvars_func1(char *cmd, char *parms);
+static dboolean player_cvars_func1(char *cmd, char *parms);
 static void player_cvars_func2(char *cmd, char *parms);
 static void playername_cvar_func2(char *cmd, char *parms);
-static bool r_blood_cvar_func1(char *cmd, char *parms);
+static dboolean r_blood_cvar_func1(char *cmd, char *parms);
 static void r_blood_cvar_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms);
-static bool r_detail_cvar_func1(char *cmd, char *parms);
+static dboolean r_detail_cvar_func1(char *cmd, char *parms);
 static void r_detail_cvar_func2(char *cmd, char *parms);
 static void r_dither_cvar_func2(char *cmd, char *parms);
 static void r_fixmaperrors_cvar_func2(char *cmd, char *parms);
 static void r_fov_cvar_func2(char *cmd, char *parms);
-static bool r_gamma_cvar_func1(char *cmd, char *parms);
+static dboolean r_gamma_cvar_func1(char *cmd, char *parms);
 static void r_gamma_cvar_func2(char *cmd, char *parms);
 static void r_hud_cvar_func2(char *cmd, char *parms);
 static void r_hud_translucency_cvar_func2(char *cmd, char *parms);
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parms);
 static void r_messagepos_cvar_func2(char *cmd, char *parms);
-static bool r_messagescale_cvar_func1(char *cmd, char *parms);
+static dboolean r_messagescale_cvar_func1(char *cmd, char *parms);
 static void r_messagescale_cvar_func2(char *cmd, char *parms);
 static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
-static bool r_skycolor_cvar_func1(char *cmd, char *parms);
+static dboolean r_skycolor_cvar_func1(char *cmd, char *parms);
 static void r_skycolor_cvar_func2(char *cmd, char *parms);
 static void r_textures_cvar_func2(char *cmd, char *parms);
 static void r_translucency_cvar_func2(char *cmd, char *parms);
-static bool s_volume_cvars_func1(char *cmd, char *parms);
+static dboolean s_volume_cvars_func1(char *cmd, char *parms);
 static void s_volume_cvars_func2(char *cmd, char *parms);
 static void savegame_cvar_func2(char *cmd, char *parms);
 static void skilllevel_cvar_func2(char *cmd, char *parms);
-static bool turbo_cvar_func1(char *cmd, char *parms);
+static dboolean turbo_cvar_func1(char *cmd, char *parms);
 static void turbo_cvar_func2(char *cmd, char *parms);
-static bool units_cvar_func1(char *cmd, char *parms);
+static dboolean units_cvar_func1(char *cmd, char *parms);
 static void units_cvar_func2(char *cmd, char *parms);
-static bool vid_capfps_cvar_func1(char *cmd, char *parms);
+static dboolean vid_capfps_cvar_func1(char *cmd, char *parms);
 static void vid_capfps_cvar_func2(char *cmd, char *parms);
 static void vid_display_cvar_func2(char *cmd, char *parms);
 static void vid_fullscreen_cvar_func2(char *cmd, char *parms);
-static bool vid_scaleapi_cvar_func1(char *cmd, char *parms);
+static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms);
 static void vid_scaleapi_cvar_func2(char *cmd, char *parms);
-static bool vid_scalefilter_cvar_func1(char *cmd, char *parms);
+static dboolean vid_scalefilter_cvar_func1(char *cmd, char *parms);
 static void vid_scalefilter_cvar_func2(char *cmd, char *parms);
 static void vid_screenresolution_cvar_func2(char *cmd, char *parms);
 static void vid_showfps_cvar_func2(char *cmd, char *parms);
@@ -783,12 +783,12 @@ consolecmd_t consolecmds[] =
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
 
-static bool run(void)
+static dboolean run(void)
 {
     return (gamekeydown[keyboardrun] ^ !!mousebuttons[mouserun] ^ !!(gamepadbuttons & gamepadrun) ^ alwaysrun);
 }
 
-static bool strafe(void)
+static dboolean strafe(void)
 {
     return (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamepadbuttons & gamepadstrafe));
 }
@@ -965,16 +965,16 @@ static int C_GetIndex(const char *cmd)
     return i;
 }
 
-static bool alive_func1(char *cmd, char *parms)
+static dboolean alive_func1(char *cmd, char *parms)
 {
     return (gamestate == GS_LEVEL && viewplayer->health > 0);
 }
 
-static bool cheat_func1(char *cmd, char *parms)
+static dboolean cheat_func1(char *cmd, char *parms)
 {
     if (M_StringCompare(cmd, cheat_clev.sequence))
     {
-        bool    result;
+        dboolean    result;
 
         if (gamemode == commercial)
         {
@@ -1041,12 +1041,12 @@ static bool cheat_func1(char *cmd, char *parms)
     return false;
 }
 
-static bool game_func1(char *cmd, char *parms)
+static dboolean game_func1(char *cmd, char *parms)
 {
     return (gamestate == GS_LEVEL);
 }
 
-static bool null_func1(char *cmd, char *parms)
+static dboolean null_func1(char *cmd, char *parms)
 {
     return true;
 }
@@ -1054,7 +1054,7 @@ static bool null_func1(char *cmd, char *parms)
 //
 // alias CCMD
 //
-bool C_ExecuteAlias(const char *alias)
+dboolean C_ExecuteAlias(const char *alias)
 {
     for (int i = 0; i < MAXALIASES; i++)
         if (M_StringCompare(alias, aliases[i].name))
@@ -1170,11 +1170,11 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
 
 void bind_cmd_func2(char *cmd, char *parms)
 {
-    int         i = 0;
-    int         action = 0;
-    char        parm1[128] = "";
-    char        parm2[128] = "";
-    const bool  mouselookcontrols = (keyboardmouselook || gamepadmouselook || mousemouselook != -1);
+    int             i = 0;
+    int             action = 0;
+    char            parm1[128] = "";
+    char            parm2[128] = "";
+    const dboolean  mouselookcontrols = (keyboardmouselook || gamepadmouselook || mousemouselook != -1);
 
     sscanf(parms, "%127s %127[^\n]", parm1, parm2);
 
@@ -1292,7 +1292,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
             if (*actions[action].action)
             {
-                bool    bound = false;
+                dboolean    bound = false;
 
                 switch (controls[i].type)
                 {
@@ -1687,7 +1687,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     (gamestate == GS_LEVEL ? viewplayer->health : 0), description1);
             else if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%s</b>\t%s", ++count, consolecmds[i].name,
-                    C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, consolecmds[i].aliases), description1);
+                    C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, consolecmds[i].aliases), description1);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
                     *(int *)consolecmds[i].variable, description1);
@@ -1778,9 +1778,9 @@ static void exitmap_cmd_func2(char *cmd, char *parms)
 //
 // fastmonsters CCMD
 //
-void G_SetFastMonsters(bool toggle);
+void G_SetFastMonsters(dboolean toggle);
 
-static bool fastmonsters_cmd_func1(char *cmd, char *parms)
+static dboolean fastmonsters_cmd_func1(char *cmd, char *parms)
 {
     return (gameskill != sk_nightmare);
 }
@@ -1850,7 +1850,7 @@ static void freeze_cmd_func2(char *cmd, char *parms)
 //
 // give CCMD
 //
-static bool give_cmd_func1(char *cmd, char *parms)
+static dboolean give_cmd_func1(char *cmd, char *parms)
 {
     char    *parm = removespaces(parms);
     int     num = -1;
@@ -1937,7 +1937,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     || (num == mobjinfo[i].doomednum && num != -1)))
                 {
                     static char buffer[128];
-                    bool        old_freeze = freeze;
+                    dboolean    old_freeze = freeze;
 
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                     {
@@ -2028,7 +2028,7 @@ static void help_cmd_func2(char *cmd, char *parms)
 //
 // if CCMD
 //
-static bool match(bool value, char *toggle)
+static dboolean match(dboolean value, char *toggle)
 {
     return ((value && M_StringCompare(toggle, "on")) || (!value && M_StringCompare(toggle, "off")));
 }
@@ -2052,7 +2052,7 @@ static void if_cmd_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(parm1, consolecmds[i].name))
         {
-            bool    condition = false;
+            dboolean    condition = false;
 
             C_StripQuotes(parm2);
 
@@ -2125,9 +2125,9 @@ static void if_cmd_func2(char *cmd, char *parms)
 // kill CCMD
 //
 static int  killcmdtype = NUMMOBJTYPES;
-bool        massacre;
+dboolean    massacre;
 
-static bool kill_cmd_func1(char *cmd, char *parms)
+static dboolean kill_cmd_func1(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -2161,7 +2161,7 @@ static bool kill_cmd_func1(char *cmd, char *parms)
                 || (*mobjinfo[i].plural3 && M_StringCompare(parm, removespaces(mobjinfo[i].plural3)))
                 || (num == killcmdtype && num != -1)))
             {
-                bool    kill = true;
+                dboolean    kill = true;
 
                 if (gamemode != commercial)
                 {
@@ -2401,17 +2401,17 @@ static void load_cmd_func2(char *cmd, char *parms)
 //
 // map CCMD
 //
-extern bool samelevel;
+extern dboolean samelevel;
 extern int  idclevtics;
 
-static bool map_cmd_func1(char *cmd, char *parms)
+static dboolean map_cmd_func1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
     else
     {
-        char    *map = uppercase(parms);
-        bool    result = false;
+        char        *map = uppercase(parms);
+        dboolean    result = false;
 
         mapcmdepisode = 0;
         mapcmdmap = 0;
@@ -2703,13 +2703,13 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     // search through lumps for maps
     for (int i = 0; i < numlumps; i++)
     {
-        int     ep = -1;
-        int     map = -1;
-        char    lump[8];
-        char    wad[MAX_PATH];
-        bool    replaced;
-        bool    pwad;
-        char    mapinfoname[128];
+        int         ep = -1;
+        int         map = -1;
+        char        lump[8];
+        char        wad[MAX_PATH];
+        dboolean    replaced;
+        dboolean    pwad;
+        char        mapinfoname[128];
 
         M_StringCopy(lump, uppercase(lumpinfo[i]->name), sizeof(lump));
 
@@ -3253,7 +3253,7 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
 static int  playcmdid;
 static int  playcmdtype;
 
-static bool play_cmd_func1(char *cmd, char *parms)
+static dboolean play_cmd_func1(char *cmd, char *parms)
 {
     char    namebuf[9];
 
@@ -3297,7 +3297,7 @@ static void play_cmd_func2(char *cmd, char *parms)
         S_ChangeMusic(playcmdid, true, false, false);
 }
 
-static char *distance(fixed_t value, bool showunits)
+static char *distance(fixed_t value, dboolean showunits)
 {
     char    *result = malloc(20);
 
@@ -3943,7 +3943,7 @@ static void respawnitems_cmd_func2(char *cmd, char *parms)
 //
 // respawnmonsters CCMD
 //
-static bool respawnmonsters_cmd_func1(char *cmd, char *parms)
+static dboolean respawnmonsters_cmd_func1(char *cmd, char *parms)
 {
     return (gameskill != sk_nightmare);
 }
@@ -3980,7 +3980,7 @@ static void restartmap_cmd_func2(char *cmd, char *parms)
 //
 // resurrect CCMD
 //
-static bool resurrect_cmd_func1(char *cmd, char *parms)
+static dboolean resurrect_cmd_func1(char *cmd, char *parms)
 {
     return (gamestate == GS_LEVEL && viewplayer->health <= 0);
 }
@@ -4013,9 +4013,9 @@ static void save_cmd_func2(char *cmd, char *parms)
 //
 static int  spawncmdtype = NUMMOBJTYPES;
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, bool nomonsters);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters);
 
-static bool spawn_cmd_func1(char *cmd, char *parms)
+static dboolean spawn_cmd_func1(char *cmd, char *parms)
 {
     char    *parm = removespaces(parms);
 
@@ -4053,7 +4053,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        bool        spawn = true;
+        dboolean    spawn = true;
         static char buffer[128];
 
         if (gamemode != commercial)
@@ -4288,7 +4288,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 //
 // boolean CVARs
 //
-static bool bool_cvars_func1(char *cmd, char *parms)
+static dboolean bool_cvars_func1(char *cmd, char *parms)
 {
     return (!*parms || C_LookupValueFromAlias(parms, BOOLVALUEALIAS) != INT_MIN);
 }
@@ -4303,9 +4303,9 @@ static void bool_cvars_func2(char *cmd, char *parms)
             {
                 const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-                if ((value == 0 || value == 1) && value != *(bool *)consolecmds[i].variable)
+                if ((value == 0 || value == 1) && value != *(dboolean *)consolecmds[i].variable)
                 {
-                    *(bool *)consolecmds[i].variable = !!value;
+                    *(dboolean *)consolecmds[i].variable = !!value;
                     M_SaveCVARs();
                 }
             }
@@ -4313,13 +4313,13 @@ static void bool_cvars_func2(char *cmd, char *parms)
             {
                 C_Output(removenewlines(consolecmds[i].description));
 
-                if (*(bool *)consolecmds[i].variable == (bool)consolecmds[i].defaultnumber)
+                if (*(dboolean *)consolecmds[i].variable == (dboolean)consolecmds[i].defaultnumber)
                     C_Output("It is currently set to its default of <b>%s</b>.",
-                        C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, BOOLVALUEALIAS));
+                        C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLVALUEALIAS));
                 else
                     C_Output("It is currently set to <b>%s</b> and its default is <b>%s</b>.",
-                        C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, BOOLVALUEALIAS),
-                        C_LookupAliasFromValue((bool)consolecmds[i].defaultnumber, BOOLVALUEALIAS));
+                        C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLVALUEALIAS),
+                        C_LookupAliasFromValue((dboolean)consolecmds[i].defaultnumber, BOOLVALUEALIAS));
             }
             break;
         }
@@ -4342,7 +4342,7 @@ static struct
     { "white",       4 }, { "yellow",    231 }, { "",            0 }
 };
 
-static bool color_cvars_func1(char *cmd, char *parms)
+static dboolean color_cvars_func1(char *cmd, char *parms)
 {
     for (int i = 0; *color[i].name; i++)
         if (M_StringCompare(parms, color[i].name))
@@ -4382,7 +4382,7 @@ static void color_cvars_func2(char *cmd, char *parms)
 //
 // float CVARs
 //
-static bool float_cvars_func1(char *cmd, char *parms)
+static dboolean float_cvars_func1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
@@ -4403,7 +4403,7 @@ static bool float_cvars_func1(char *cmd, char *parms)
 //
 // integer CVARs
 //
-static bool int_cvars_func1(char *cmd, char *parms)
+static dboolean int_cvars_func1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
@@ -4553,7 +4553,7 @@ static void alwaysrun_cvar_func2(char *cmd, char *parms)
 //
 static void am_external_cvar_func2(char *cmd, char *parms)
 {
-    const bool  am_external_old = am_external;
+    const dboolean  am_external_old = am_external;
 
     bool_cvars_func2(cmd, parms);
 
@@ -4581,7 +4581,7 @@ static void am_external_cvar_func2(char *cmd, char *parms)
 //
 // am_followmode CVAR
 //
-static bool am_followmode_cvar_func1(char *cmd, char *parms)
+static dboolean am_followmode_cvar_func1(char *cmd, char *parms)
 {
     return (!mapwindow && gamestate == GS_LEVEL);
 }
@@ -4616,7 +4616,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
 //
 static void am_path_cvar_func2(char *cmd, char *parms)
 {
-    const bool  am_path_old = am_path;
+    const dboolean  am_path_old = am_path;
 
     bool_cvars_func2(cmd, parms);
 
@@ -4653,7 +4653,7 @@ static void expansion_cvar_func2(char *cmd, char *parms)
 //
 // gp_deadzone_left and gp_deadzone_right CVARs
 //
-static bool gp_deadzone_cvars_func1(char *cmd, char *parms)
+static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms)
 {
     float value;
 
@@ -4748,7 +4748,7 @@ static void gp_swapthumbsticks_cvar_func2(char *cmd, char *parms)
 //
 static void mouselook_cvar_func2(char *cmd, char *parms)
 {
-    const bool  mouselook_old = mouselook;
+    const dboolean  mouselook_old = mouselook;
 
     bool_cvars_func2(cmd, parms);
 
@@ -4770,9 +4770,9 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 //
 // ammo, armor and health CVARs
 //
-bool P_CheckAmmo(void);
+dboolean P_CheckAmmo(void);
 
-static bool player_cvars_func1(char *cmd, char *parms)
+static dboolean player_cvars_func1(char *cmd, char *parms)
 {
     return (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL && (!M_StringCompare(cmd, stringize(health))
         || (!(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])));
@@ -4882,7 +4882,7 @@ static void playername_cvar_func2(char *cmd, char *parms)
 //
 // r_blood CVAR
 //
-static bool r_blood_cvar_func1(char *cmd, char *parms)
+static dboolean r_blood_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || C_LookupValueFromAlias(parms, BLOODVALUEALIAS) != INT_MIN);
 }
@@ -4957,7 +4957,7 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
 //
 // r_detail CVAR
 //
-static bool r_detail_cvar_func1(char *cmd, char *parms)
+static dboolean r_detail_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || C_LookupValueFromAlias(parms, DETAILVALUEALIAS) != INT_MIN);
 }
@@ -5072,7 +5072,7 @@ static void r_fov_cvar_func2(char *cmd, char *parms)
 //
 // r_gamma CVAR
 //
-static bool r_gamma_cvar_func1(char *cmd, char *parms)
+static dboolean r_gamma_cvar_func1(char *cmd, char *parms)
 {
     return (C_LookupValueFromAlias(parms, GAMMAVALUEALIAS) != INT_MIN || float_cvars_func1(cmd, parms));
 }
@@ -5201,7 +5201,7 @@ static void r_messagepos_cvar_func2(char *cmd, char *parms)
 //
 // r_messagescale CVAR
 //
-static bool r_messagescale_cvar_func1(char *cmd, char *parms)
+static dboolean r_messagescale_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || C_LookupValueFromAlias(parms, SCALEVALUEALIAS) != INT_MIN);
 }
@@ -5312,7 +5312,7 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
 //
 // r_skycolor CVAR
 //
-static bool r_skycolor_cvar_func1(char *cmd, char *parms)
+static dboolean r_skycolor_cvar_func1(char *cmd, char *parms)
 {
     return (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_none || color_cvars_func1(cmd, parms));
 }
@@ -5434,7 +5434,7 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
 //
 // s_musicvolume and s_sfxvolume CVARs
 //
-static bool s_volume_cvars_func1(char *cmd, char *parms)
+static dboolean s_volume_cvars_func1(char *cmd, char *parms)
 {
     int value = INT_MIN;
 
@@ -5537,7 +5537,7 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
 //
 // turbo CVAR
 //
-static bool turbo_cvar_func1(char *cmd, char *parms)
+static dboolean turbo_cvar_func1(char *cmd, char *parms)
 {
     int value = INT_MIN;
 
@@ -5590,7 +5590,7 @@ static void turbo_cvar_func2(char *cmd, char *parms)
 //
 // units CVAR
 //
-static bool units_cvar_func1(char *cmd, char *parms)
+static dboolean units_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || C_LookupValueFromAlias(parms, UNITSVALUEALIAS) != INT_MIN);
 }
@@ -5624,7 +5624,7 @@ static void units_cvar_func2(char *cmd, char *parms)
 //
 // vid_capfps CVAR
 //
-static bool vid_capfps_cvar_func1(char *cmd, char *parms)
+static dboolean vid_capfps_cvar_func1(char *cmd, char *parms)
 {
     return (C_LookupValueFromAlias(parms, CAPVALUEALIAS) != INT_MIN || int_cvars_func1(cmd, parms));
 }
@@ -5671,7 +5671,7 @@ static void vid_display_cvar_func2(char *cmd, char *parms)
 //
 static void vid_fullscreen_cvar_func2(char *cmd, char *parms)
 {
-    const bool  vid_fullscreen_old = vid_fullscreen;
+    const dboolean  vid_fullscreen_old = vid_fullscreen;
 
     bool_cvars_func2(cmd, parms);
 
@@ -5682,7 +5682,7 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parms)
 //
 // vid_scaleapi CVAR
 //
-static bool vid_scaleapi_cvar_func1(char *cmd, char *parms)
+static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || M_StringCompare(parms, vid_scaleapi_direct3d)
         || M_StringCompare(parms, vid_scaleapi_opengl)
@@ -5719,7 +5719,7 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parms)
 //
 // vid_scalefilter CVAR
 //
-static bool vid_scalefilter_cvar_func1(char *cmd, char *parms)
+static dboolean vid_scalefilter_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || M_StringCompare(parms, vid_scalefilter_nearest)
         || M_StringCompare(parms, vid_scalefilter_linear)
@@ -5788,7 +5788,7 @@ extern int      frames;
 
 static void vid_showfps_cvar_func2(char *cmd, char *parms)
 {
-    const bool  vid_showfps_old = vid_showfps;
+    const dboolean  vid_showfps_old = vid_showfps;
 
     bool_cvars_func2(cmd, parms);
 
@@ -5814,7 +5814,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
 //
 static void vid_vsync_cvar_func2(char *cmd, char *parms)
 {
-    const bool  vid_vsync_old = vid_vsync;
+    const dboolean  vid_vsync_old = vid_vsync;
 
     bool_cvars_func2(cmd, parms);
 
@@ -5827,7 +5827,7 @@ static void vid_vsync_cvar_func2(char *cmd, char *parms)
 //
 static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 {
-    const bool  vid_widescreen_old = vid_widescreen;
+    const dboolean  vid_widescreen_old = vid_widescreen;
 
     bool_cvars_func2(cmd, parms);
 

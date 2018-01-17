@@ -51,12 +51,12 @@
 #include "p_local.h"
 #include "version.h"
 
-static bool cvarsloaded;
+static dboolean cvarsloaded;
 
-extern char *packageconfig;
-extern bool returntowidescreen;
-extern bool vanilla;
-extern bool togglingvanilla;
+extern char     *packageconfig;
+extern dboolean returntowidescreen;
+extern dboolean vanilla;
+extern dboolean togglingvanilla;
 
 #define CONFIG_VARIABLE_INT(name, set)              { #name, &name, DEFAULT_INT,           set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name, set)     { #name, &name, DEFAULT_INT_UNSIGNED,  set          }
@@ -311,8 +311,8 @@ void M_SaveCVARs(void)
         {
             case DEFAULT_INT:
             {
-                bool    flag = false;
-                int     v = *(int *)cvars[i].location;
+                dboolean    flag = false;
+                int         v = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -334,8 +334,8 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT_PERCENT:
             {
-                bool    flag = false;
-                int     v = *(int *)cvars[i].location;
+                dboolean    flag = false;
+                int         v = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -353,8 +353,8 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT:
             {
-                bool    flag = false;
-                float   v = *(float *)cvars[i].location;
+                dboolean    flag = false;
+                float       v = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -372,8 +372,8 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT_PERCENT:
             {
-                bool    flag = false;
-                float   v = *(float *)cvars[i].location;
+                dboolean    flag = false;
+                float       v = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)

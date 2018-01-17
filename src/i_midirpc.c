@@ -55,8 +55,8 @@
 static STARTUPINFO          si;
 static PROCESS_INFORMATION  pi;
 static unsigned char        *szStringBinding;       // RPC client binding string
-static bool                 serverInit;             // if true, server was started
-static bool                 clientInit;             // if true, client was bound
+static dboolean             serverInit;             // if true, server was started
+static dboolean             clientInit;             // if true, client was bound
 
 //
 // RPC Memory Management
@@ -78,7 +78,7 @@ void __RPC_USER midl_user_free(void __RPC_FAR *p)
 // This number * 10 is the amount of time you can try to wait for.
 #define MIDIRPC_MAXTRIES        50
 
-static bool I_MidiRPCWaitForServer(void)
+static dboolean I_MidiRPCWaitForServer(void)
 {
     int tries = 0;
 
@@ -99,7 +99,7 @@ static bool I_MidiRPCWaitForServer(void)
 // Prepare the RPC MIDI engine to receive new song data, and transmit the song
 // data to the server process.
 //
-bool I_MidiRPCRegisterSong(void *data, int size)
+dboolean I_MidiRPCRegisterSong(void *data, int size)
 {
     if (!serverInit || !clientInit)
         return false;
@@ -119,7 +119,7 @@ bool I_MidiRPCRegisterSong(void *data, int size)
 //
 // Tell the RPC server to start playing a song.
 //
-bool I_MidiRPCPlaySong(bool looping)
+dboolean I_MidiRPCPlaySong(dboolean looping)
 {
     if (!serverInit || !clientInit)
         return false;
@@ -138,7 +138,7 @@ bool I_MidiRPCPlaySong(bool looping)
 //
 // Tell the RPC server to stop any currently playing song.
 //
-bool I_MidiRPCStopSong(void)
+dboolean I_MidiRPCStopSong(void)
 {
     if (!serverInit || !clientInit)
         return false;
@@ -157,7 +157,7 @@ bool I_MidiRPCStopSong(void)
 //
 // Change the volume level of music played by the RPC midi server.
 //
-bool I_MidiRPCSetVolume(int volume)
+dboolean I_MidiRPCSetVolume(int volume)
 {
     if (!serverInit || !clientInit)
         return false;
@@ -177,7 +177,7 @@ bool I_MidiRPCSetVolume(int volume)
 // Pause the music being played by the server. In actuality, due to SDL_mixer
 // limitations, this just temporarily sets the volume to zero.
 //
-bool I_MidiRPCPauseSong(void)
+dboolean I_MidiRPCPauseSong(void)
 {
     if (!serverInit || !clientInit)
         return false;
@@ -196,7 +196,7 @@ bool I_MidiRPCPauseSong(void)
 //
 // Resume a song after having paused it.
 //
-bool I_MidiRPCResumeSong(void)
+dboolean I_MidiRPCResumeSong(void)
 {
     if (!serverInit || !clientInit)
         return false;
@@ -219,10 +219,10 @@ bool I_MidiRPCResumeSong(void)
 //
 // Start up the RPC MIDI server.
 //
-bool I_MidiRPCInitServer(void)
+dboolean I_MidiRPCInitServer(void)
 {
-    char    module[MAX_PATH + 1];
-    bool    result;
+    char        module[MAX_PATH + 1];
+    dboolean    result;
 
     M_snprintf(module, sizeof(module), "%s"DIR_SEPARATOR_S"midiproc.exe", M_GetExecutableFolder());
 
@@ -252,7 +252,7 @@ bool I_MidiRPCInitServer(void)
 //
 // Initialize client RPC bindings and bind to the server.
 //
-bool I_MidiRPCInitClient(void)
+dboolean I_MidiRPCInitClient(void)
 {
     // If server didn't start, client cannot be bound.
     if (!serverInit)

@@ -55,7 +55,7 @@ int                 validcount = 1;
 
 lighttable_t        *fixedcolormap;
 
-bool                usebrightmaps;
+dboolean            usebrightmaps;
 
 int                 centerx;
 int                 centery;
@@ -116,23 +116,23 @@ lighttable_t        **colormaps;
 // bumped light from gun blasts
 int                 extralight;
 
-bool                drawbloodsplats;
+dboolean            drawbloodsplats;
 
-bool                r_bloodsplats_translucency = r_bloodsplats_translucency_default;
-bool                r_dither = r_dither_default;
+dboolean            r_bloodsplats_translucency = r_bloodsplats_translucency_default;
+dboolean            r_dither = r_dither_default;
 int                 r_fov = r_fov_default;
-bool                r_homindicator = r_homindicator_default;
-bool                r_shadows_translucency = r_shadows_translucency_default;
-bool                r_shake_barrels = r_shake_barrels_default;
+dboolean            r_homindicator = r_homindicator_default;
+dboolean            r_shadows_translucency = r_shadows_translucency_default;
+dboolean            r_shake_barrels = r_shake_barrels_default;
 int                 r_skycolor = r_skycolor_default;
-bool                r_textures = r_textures_default;
-bool                r_translucency = r_translucency_default;
+dboolean            r_textures = r_textures_default;
+dboolean            r_translucency = r_translucency_default;
 
-extern bool         canmodify;
-extern bool         canmouselook;
+extern dboolean     canmodify;
+extern dboolean     canmouselook;
 extern int          barreltics;
-extern bool         transferredsky;
-extern bool         vanilla;
+extern dboolean     transferredsky;
+extern dboolean     vanilla;
 extern lighttable_t **walllights;
 
 //
@@ -360,7 +360,7 @@ void R_InitLightTables(void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-bool        setsizeneeded;
+dboolean    setsizeneeded;
 static int  setblocks;
 
 void R_SetViewSize(int blocks)

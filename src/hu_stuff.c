@@ -66,23 +66,23 @@
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
 
-bool                    message_on;
-bool                    message_dontfuckwithme;
-bool                    message_clearable;
-static bool             message_external;
-static bool             message_nottobefuckedwith;
+dboolean                message_on;
+dboolean                message_dontfuckwithme;
+dboolean                message_clearable;
+static dboolean         message_external;
+static dboolean         message_nottobefuckedwith;
 static int              message_x;
 static int              message_y;
 
-bool                    idbehold;
-bool                    s_STSTR_BEHOLD2;
+dboolean                idbehold;
+dboolean                s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
 static int              message_counter;
 
 int M_StringWidth(char *string);
 
-static bool             headsupactive;
+static dboolean         headsupactive;
 
 byte                    *tempscreen;
 static int              hudnumoffset;
@@ -94,22 +94,22 @@ static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
 char                    *playername = playername_default;
-bool                    r_althud = r_althud_default;
-bool                    r_diskicon = r_diskicon_default;
-bool                    r_hud = r_hud_default;
-bool                    r_hud_translucency = r_hud_translucency_default;
+dboolean                r_althud = r_althud_default;
+dboolean                r_diskicon = r_diskicon_default;
+dboolean                r_hud = r_hud_default;
+dboolean                r_hud_translucency = r_hud_translucency_default;
 int                     r_messagescale = r_messagescale_default;
 char                    *r_messagepos = r_messagepos_default;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
-bool                    drawdisk;
+dboolean                drawdisk;
 
 extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
 extern short            tallpercentwidth;
-extern bool             emptytallpercent;
+extern dboolean         emptytallpercent;
 extern int              caretcolor;
 
 static void (*hudfunc)(int, int, patch_t *, byte *);
@@ -376,13 +376,12 @@ static void HU_DrawHUD(void)
     int                 i = 0;
     byte                *tinttab;
     const int           invulnerability = viewplayer->powers[pw_invulnerability];
-    static bool         healthanim;
+    static dboolean     healthanim;
     patch_t             *patch;
-    const bool          gamepaused = (menuactive || paused || consoleactive);
+    const dboolean      gamepaused = (menuactive || paused || consoleactive);
     const int           currenttime = I_GetTimeMS();
 
-    tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 :
-        tinttab25);
+    tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
 
     patch = (((readyweapon == wp_fist && pendingweapon == wp_nochange) || pendingweapon == wp_fist)
         && viewplayer->powers[pw_strength] ? berserkpatch : healthpatch);
@@ -441,8 +440,8 @@ static void HU_DrawHUD(void)
 
     if (health && ammo && ammotype != am_noammo)
     {
-        int         ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
-        static bool ammoanim;
+        int             ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
+        static dboolean ammoanim;
 
         tinttab = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
 
@@ -484,9 +483,9 @@ static void HU_DrawHUD(void)
 
     if (keys || viewplayer->neededcardflash)
     {
-        int         keypic_x = HUD_KEYS_X - 20 * (keys - 1);
-        static int  keywait;
-        static bool showkey;
+        int             keypic_x = HUD_KEYS_X - 20 * (keys - 1);
+        static int      keywait;
+        static dboolean showkey;
 
         if (!armor)
             keypic_x += 114;
@@ -854,8 +853,8 @@ static void HU_DrawAltHUD(void)
 
     if (keys || viewplayer->neededcardflash)
     {
-        static int  keywait;
-        static bool showkey;
+        static int      keywait;
+        static dboolean showkey;
 
         if (viewplayer->neededcardflash)
         {
@@ -1026,13 +1025,13 @@ void HU_Erase(void)
 
 extern fixed_t  m_x, m_y;
 extern fixed_t  m_h, m_w;
-extern bool     message_dontpause;
-extern bool     inhelpscreens;
+extern dboolean message_dontpause;
+extern dboolean inhelpscreens;
 extern int      direction;
 
 void HU_Ticker(void)
 {
-    const bool  idmypos = !!(viewplayer->cheats & CF_MYPOS);
+    const dboolean  idmypos = !!(viewplayer->cheats & CF_MYPOS);
 
     // tick down message counter if message is up
     if (message_counter
@@ -1129,13 +1128,13 @@ void HU_Ticker(void)
     }
 }
 
-void HU_SetPlayerMessage(char *message, bool external)
+void HU_SetPlayerMessage(char *message, dboolean external)
 {
     viewplayer->message = message;
     message_external = (external && mapwindow);
 }
 
-void HU_PlayerMessage(char *message, bool external)
+void HU_PlayerMessage(char *message, dboolean external)
 {
     static char buffer[1024];
 

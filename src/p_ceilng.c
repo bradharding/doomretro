@@ -45,7 +45,7 @@
 // the list of ceilings moving currently, including crushers
 ceilinglist_t   *activeceilings;
 
-extern bool     canmodify;
+extern dboolean canmodify;
 
 static void T_GradualLightingToCeiling(ceiling_t *ceiling)
 {
@@ -226,10 +226,10 @@ void T_MoveCeiling(ceiling_t *ceiling)
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
-bool EV_DoCeiling(line_t *line, ceiling_e type)
+dboolean EV_DoCeiling(line_t *line, ceiling_e type)
 {
     int         secnum = -1;
-    bool        rtn = false;
+    dboolean    rtn = false;
     sector_t    *sec;
     ceiling_t   *ceiling;
 
@@ -374,9 +374,9 @@ void P_RemoveAllActiveCeilings(void)
 // P_ActivateInStasisCeiling
 // Restart a ceiling that's in-stasis
 //
-bool P_ActivateInStasisCeiling(line_t *line)
+dboolean P_ActivateInStasisCeiling(line_t *line)
 {
-    bool    result = false;
+    dboolean    result = false;
 
     for (ceilinglist_t *list = activeceilings; list; list = list->next)
     {
@@ -397,9 +397,9 @@ bool P_ActivateInStasisCeiling(line_t *line)
 // EV_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
-bool EV_CeilingCrushStop(line_t *line)
+dboolean EV_CeilingCrushStop(line_t *line)
 {
-    bool    result = false;
+    dboolean    result = false;
 
     for (ceilinglist_t *list = activeceilings; list; list = list->next)
     {

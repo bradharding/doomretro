@@ -73,9 +73,9 @@ void I_ShutdownKeyboard(void);
 // Takes full 8 bit values.
 void I_SetPalette(byte *playpal);
 
-void I_UpdateBlitFunc(bool shake);
+void I_UpdateBlitFunc(dboolean shake);
 void I_Blit_Automap(void);
-void I_CreateExternalAutomap(bool output);
+void I_CreateExternalAutomap(dboolean output);
 void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(void);
@@ -93,22 +93,22 @@ void I_SetGamma(float value);
 void I_WindowResizeBlit(void);
 #endif
 
-extern bool         sendpause;
-extern bool         quitting;
+extern dboolean     sendpause;
+extern dboolean     quitting;
 
 extern int          keydown;
 
-extern bool         idclev;
-extern bool         idmus;
-extern bool         idbehold;
-extern bool         message_clearable;
+extern dboolean     idclev;
+extern dboolean     idmus;
+extern dboolean     idbehold;
+extern dboolean     message_clearable;
 
 extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];
 
-extern bool         blurred;
-extern bool         splashscreen;
-extern bool         noinput;
+extern dboolean     blurred;
+extern dboolean     splashscreen;
+extern dboolean     noinput;
 
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
@@ -118,7 +118,7 @@ extern int          windowy;
 extern int          windowheight;
 extern int          windowwidth;
 
-extern bool         windowfocused;
+extern dboolean     windowfocused;
 
 extern SDL_Window   *window;
 extern SDL_Renderer *renderer;

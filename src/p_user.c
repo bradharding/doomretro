@@ -44,22 +44,22 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-bool            autouse = autouse_default;
-bool            infighting = infighting_default;
+dboolean        autouse = autouse_default;
+dboolean        infighting = infighting_default;
 int             movebob = movebob_default;
-bool            r_liquid_lowerview = r_liquid_lowerview_default;
+dboolean        r_liquid_lowerview = r_liquid_lowerview_default;
 int             r_shake_damage = r_shake_damage_default;
 int             stillbob = stillbob_default;
 
-bool            autousing = false;
-static bool     onground;
+dboolean        autousing = false;
+static dboolean onground;
 int             deathcount = 0;
 int             deadlookdir = -1;
 
 extern fixed_t  animatedliquiddiff;
-extern bool     canmouselook;
-extern bool     skipaction;
-extern bool     usemouselook;
+extern dboolean canmouselook;
+extern dboolean skipaction;
+extern dboolean usemouselook;
 
 void G_RemoveChoppers(void);
 
@@ -146,7 +146,7 @@ void P_CalcHeight(void)
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
     {
-        bool    liquid = true;
+        dboolean    liquid = true;
 
         for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
             if (!seclist->m_sector->isliquid)
@@ -257,9 +257,9 @@ static void P_ReduceDamageCount(void)
 //
 static void P_DeathThink(void)
 {
-    static bool facingkiller;
-    mobj_t      *mo = viewplayer->mo;
-    mobj_t      *attacker = viewplayer->attacker;
+    static dboolean facingkiller;
+    mobj_t          *mo = viewplayer->mo;
+    mobj_t          *attacker = viewplayer->attacker;
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;

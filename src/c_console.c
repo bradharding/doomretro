@@ -85,12 +85,12 @@
 
 console_t               *console;
 
-bool                    consoleactive;
+dboolean                consoleactive;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
 static int              consoleanim;
 
-bool                    forceconsoleblurredraw;
+dboolean                forceconsoleblurredraw;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
@@ -125,7 +125,7 @@ static undohistory_t    *undohistory;
 
 static patch_t          *caret;
 static int              caretpos;
-static bool             showcaret = true;
+static dboolean         showcaret = true;
 static int              caretwait;
 static int              selectstart;
 static int              selectend;
@@ -135,7 +135,8 @@ char                    consolecheatparm[3];
 
 static int              outputhistory = -1;
 
-bool                    con_timestamps = con_timestamps_default;
+dboolean                con_timestamps = con_timestamps_default;
+
 static int              timestampx;
 static int              zerowidth;
 
@@ -166,13 +167,13 @@ static int              consolescrollbarfacecolor = 94;
 
 static int              consolecolors[STRINGTYPES];
 
-static bool             scrollbardrawn;
+static dboolean         scrollbardrawn;
 
 extern char             autocompletelist[][255];
 extern int              fps;
 extern int              refreshrate;
-extern bool             dowipe;
-extern bool             togglingvanilla;
+extern dboolean         dowipe;
+extern dboolean         togglingvanilla;
 
 void C_Print(const stringtype_t type, const char *string, ...)
 {
@@ -441,7 +442,7 @@ const static struct
     { '\0', '\0',  0 }
 };
 
-static int C_TextWidth(const char *text, const bool formatting, const bool kerning)
+static int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
 {
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
@@ -665,7 +666,7 @@ static void DoBlurScreen(const int x1, const int y1, const int x2, const int y2,
 
 static void C_DrawBackground(int height)
 {
-    static bool blurred;
+    static dboolean blurred;
 
     height = (height + 5) * CONSOLEWIDTH;
 
@@ -728,10 +729,10 @@ static void C_DrawBackground(int height)
 }
 
 static void C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
-    const int boldcolor, byte *tinttab, const int tabs[8], const bool formatting, const bool kerning)
+    const int boldcolor, byte *tinttab, const int tabs[8], const dboolean formatting, const dboolean kerning)
 {
     int             bold = 0;
-    bool            italics = false;
+    dboolean        italics = false;
     int             tab = -1;
     int             len = (int)strlen(text);
     int             truncate = len;
@@ -916,16 +917,16 @@ void C_Drawer(void)
 {
     if (consoleheight)
     {
-        int         i;
-        int         x = CONSOLETEXTX;
-        int         start;
-        int         end;
-        int         len;
-        char        lefttext[512];
-        char        middletext[512];
-        char        righttext[512];
-        const bool  prevconsoleactive = consoleactive;
-        static int  consolewait;
+        int             i;
+        int             x = CONSOLETEXTX;
+        int             start;
+        int             end;
+        int             len;
+        char            lefttext[512];
+        char            middletext[512];
+        char            righttext[512];
+        const dboolean  prevconsoleactive = consoleactive;
+        static int      consolewait;
 
         const int consoledown[] =
         {
@@ -1152,7 +1153,7 @@ void C_Drawer(void)
         consoleactive = false;
 }
 
-bool C_ExecuteInputString(const char *input)
+dboolean C_ExecuteInputString(const char *input)
 {
     char    *string = strdup(input);
     char    *strings[255];
@@ -1172,7 +1173,7 @@ bool C_ExecuteInputString(const char *input)
     return true;
 }
 
-bool C_ValidateInput(const char *input)
+dboolean C_ValidateInput(const char *input)
 {
     for (int i = 0; *consolecmds[i].name; i++)
     {
@@ -1252,7 +1253,7 @@ bool C_ValidateInput(const char *input)
     return false;
 }
 
-bool C_Responder(event_t *ev)
+dboolean C_Responder(event_t *ev)
 {
     static const char *shiftxform =
     {
@@ -1351,10 +1352,10 @@ bool C_Responder(event_t *ev)
                 // confirm input
                 if (*consoleinput)
                 {
-                    char    *string = strdup(consoleinput);
-                    char    *strings[255];
-                    int     i = 0;
-                    bool    result = false;
+                    char        *string = strdup(consoleinput);
+                    char        *strings[255];
+                    int         i = 0;
+                    dboolean    result = false;
 
                     strings[0] = strtok(string, ";");
 
@@ -1488,7 +1489,7 @@ bool C_Responder(event_t *ev)
                     static char input[255];
                     char        prefix[255] = "";
                     int         spaces1;
-                    bool        endspace1;
+                    dboolean    endspace1;
 
                     for (i = len - 1; i >= 0; i--)
                         if (consoleinput[i] == ';')
@@ -1521,7 +1522,7 @@ bool C_Responder(event_t *ev)
                     {
                         static char output[255];
                         int         spaces2;
-                        bool        endspace2;
+                        dboolean    endspace2;
                         int         len2;
 
                         autocomplete += direction;

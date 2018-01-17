@@ -49,7 +49,7 @@ typedef enum
 {
     false,
     true
-} bool;
+} dboolean;
 #endif
 
 #if defined(_WIN32)

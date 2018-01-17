@@ -56,6 +56,13 @@
 #include <errno.h>
 #endif
 
+#include "doomdef.h"
+#include "m_fixed.h"
+#include "m_misc.h"
+#include "version.h"
+#include "w_file.h"
+#include "z_zone.h"
+
 #if defined(__OpenBSD__) || defined(__FreeBSD__)
 #include <sys/sysctl.h>
 #include <dirent.h>
@@ -69,12 +76,6 @@
 #include <unistd.h>
 #endif
 
-#include "doomdef.h"
-#include "m_fixed.h"
-#include "m_misc.h"
-#include "version.h"
-#include "w_file.h"
-#include "z_zone.h"
 
 struct s_commify
 {
@@ -130,7 +131,7 @@ void M_MakeDirectory(const char *path)
 }
 
 // Check if a file exists
-bool M_FileExists(const char *filename)
+dboolean M_FileExists(const char *filename)
 {
     FILE    *fstream = fopen(filename, "r");
 
@@ -147,7 +148,7 @@ bool M_FileExists(const char *filename)
 
 // Safe string copy function that works like OpenBSD's strlcpy().
 // Returns true if the string was not truncated.
-bool M_StringCopy(char *dest, const char *src, const size_t dest_size)
+dboolean M_StringCopy(char *dest, const char *src, const size_t dest_size)
 {
     if (dest_size >= 1)
     {
@@ -348,7 +349,7 @@ char *M_StringJoin(char *s, ...)
     return result;
 }
 
-bool M_StrToInt(const char *str, unsigned int *result)
+dboolean M_StrToInt(const char *str, unsigned int *result)
 {
     return (sscanf(str, " 0x%2x", result) == 1 || sscanf(str, " 0X%2x", result) == 1
         || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10u", result) == 1);
@@ -430,13 +431,13 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
 
 // Returns true if 'str1' and 'str2' are the same.
 // (Case-insensitive, return value reverse of strcasecmp() to avoid confusion.
-bool M_StringCompare(const char *str1, const char *str2)
+dboolean M_StringCompare(const char *str1, const char *str2)
 {
     return !strcasecmp(str1, str2);
 }
 
 // Returns true if 's' begins with the specified prefix.
-bool M_StringStartsWith(const char *s, const char *prefix)
+dboolean M_StringStartsWith(const char *s, const char *prefix)
 {
     size_t  len = strlen(prefix);
 
@@ -444,7 +445,7 @@ bool M_StringStartsWith(const char *s, const char *prefix)
 }
 
 // Returns true if 's' ends with the specified suffix.
-bool M_StringEndsWith(const char *s, const char *suffix)
+dboolean M_StringEndsWith(const char *s, const char *suffix)
 {
     size_t  len1 = strlen(s);
     size_t  len2 = strlen(suffix);
@@ -626,7 +627,7 @@ char *uncommify(const char *input)
     return p;
 }
 
-bool wildcard(char *input, char *pattern)
+dboolean wildcard(char *input, char *pattern)
 {
     if (pattern[0] == '\0')
         return true;
@@ -763,7 +764,7 @@ char *removeext(const char *file)
     return newstr;
 }
 
-bool isvowel(const char ch)
+dboolean isvowel(const char ch)
 {
     return !!strchr("aeiou", ch);
 }

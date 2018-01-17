@@ -53,7 +53,7 @@ extern int64_t  sprtopscreen;
 extern fixed_t  pspritescale;
 extern fixed_t  pspriteiscale;
 
-extern bool     r_playersprites;
+extern dboolean r_playersprites;
 
 void R_AddSprites(sector_t *sec, int lightlevel);
 void R_InitSprites(void);

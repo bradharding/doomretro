@@ -47,8 +47,8 @@ typedef enum
     lighting_special
 } special_e;
 
-extern bool     *isliquid;
-extern bool     *isteleport;
+extern dboolean *isliquid;
+extern dboolean *isteleport;
 
 extern short    nukagestart;
 extern short    nukageend;
@@ -77,13 +77,13 @@ void P_SetLifts(void);
 // every tic
 void P_UpdateSpecials(void);
 
-bool P_SectorActive(special_e t, sector_t *sec);
-bool P_SectorHasLightSpecial(sector_t *sec);
+dboolean P_SectorActive(special_e t, sector_t *sec);
+dboolean P_SectorHasLightSpecial(sector_t *sec);
 
-bool P_CheckTag(line_t *line);
+dboolean P_CheckTag(line_t *line);
 
 // when needed
-bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
+dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
 
 void P_ShootSpecialLine(mobj_t *thing, line_t *line);
 
@@ -91,13 +91,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing);
 
 void P_PlayerInSpecialSector(void);
 
-bool twoSided(int sector, int line);
+dboolean twoSided(int sector, int line);
 
 sector_t *getSector(int currentSector, int line, int side);
 
 side_t *getSide(int currentSector, int line, int side);
 
-bool P_IsSelfReferencingSector(sector_t *sec);
+dboolean P_IsSelfReferencingSector(sector_t *sec);
 
 fixed_t P_FindLowestFloorSurrounding(sector_t *sec);
 fixed_t P_FindHighestFloorSurrounding(sector_t *sec);
@@ -125,14 +125,14 @@ int P_FindLineFromLineTag(const line_t *line, int start);
 
 int P_FindMinSurroundingLight(sector_t *sec, int min);
 
-bool P_CanUnlockGenDoor(line_t *line);
+dboolean P_CanUnlockGenDoor(line_t *line);
 
 sector_t *getNextSector(line_t *line, sector_t *sec);
 
 //
 // SPECIAL
 //
-bool EV_DoDonut(line_t *line);
+dboolean EV_DoDonut(line_t *line);
 
 //
 // P_LIGHTS
@@ -187,12 +187,12 @@ void T_LightFlash(lightflash_t *flash);
 void P_SpawnLightFlash(sector_t *sector);
 void T_StrobeFlash(strobe_t *flash);
 
-void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, bool inSync);
+void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, dboolean inSync);
 
-bool EV_StartLightStrobing(line_t *line);
-bool EV_TurnTagLightsOff(line_t *line);
+dboolean EV_StartLightStrobing(line_t *line);
+dboolean EV_TurnTagLightsOff(line_t *line);
 
-bool EV_LightTurnOn(line_t *line, int bright);
+dboolean EV_LightTurnOn(line_t *line, int bright);
 
 void EV_LightTurnOnPartway(line_t *line, fixed_t level);        // killough 10/10/98
 void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level);
@@ -244,7 +244,7 @@ typedef struct
 
 extern button_t buttonlist[MAXBUTTONS];
 
-void P_ChangeSwitchTexture(line_t *line, bool useAgain);
+void P_ChangeSwitchTexture(line_t *line, dboolean useAgain);
 
 void P_InitSwitchList(void);
 
@@ -280,43 +280,43 @@ typedef enum
 
 typedef struct
 {
-    thinker_t          thinker;
-    sector_t           *sector;
-    fixed_t            speed;
-    fixed_t            low;
-    fixed_t            high;
-    int                wait;
-    int                count;
-    plat_e             status;
-    plat_e             oldstatus;
-    bool               crush;
-    int                tag;
-    plattype_e         type;
+    thinker_t           thinker;
+    sector_t            *sector;
+    fixed_t             speed;
+    fixed_t             low;
+    fixed_t             high;
+    int                 wait;
+    int                 count;
+    plat_e              status;
+    plat_e              oldstatus;
+    dboolean            crush;
+    int                 tag;
+    plattype_e          type;
 
-    struct platlist_s  *list;   // killough
+    struct platlist_s   *list;  // killough
 } plat_t;
 
 // New limit-free plat structure -- killough
 typedef struct platlist_s
 {
-    plat_t             *plat;
-    struct platlist_s  *next;
-    struct platlist_s  **prev;
+    plat_t              *plat;
+    struct platlist_s   *next;
+    struct platlist_s   **prev;
 } platlist_t;
 
 #define PLATWAIT    3
 #define PLATSPEED   FRACUNIT
 
-extern platlist_t      *activeplats;
+extern platlist_t   *activeplats;
 
 void T_PlatRaise(plat_t *plat);
 
-bool EV_DoPlat(line_t *line, plattype_e type, int amount);
+dboolean EV_DoPlat(line_t *line, plattype_e type, int amount);
 
 void P_AddActivePlat(plat_t *plat);
 void P_RemoveActivePlat(plat_t *plat);
 void P_RemoveAllActivePlats(void);
-bool EV_StopPlat(line_t *line);
+dboolean EV_StopPlat(line_t *line);
 void P_ActivateInStasis(int tag);
 
 //
@@ -374,9 +374,9 @@ typedef struct
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);
 
-bool EV_DoDoor(line_t *line, vldoor_e type);
+dboolean EV_DoDoor(line_t *line, vldoor_e type);
 
-bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing);
+dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing);
 
 void T_VerticalDoor(vldoor_t *door);
 void P_SpawnDoorCloseIn30(sector_t *sec);
@@ -417,7 +417,7 @@ typedef struct
     fixed_t                 topheight;
     fixed_t                 speed;
     fixed_t                 oldspeed;
-    bool                    crush;
+    dboolean                crush;
 
     // jff 02/04/98 add these to support ceiling changers
     int                     newspecial;
@@ -439,18 +439,18 @@ typedef struct ceilinglist_s
     struct ceilinglist_s    **prev;
 } ceilinglist_t;
 
-#define CEILSPEED               FRACUNIT
+#define CEILSPEED       FRACUNIT
 
-extern ceilinglist_t            *activeceilings;
+extern ceilinglist_t    *activeceilings;
 
-bool EV_DoCeiling(line_t *line, ceiling_e type);
+dboolean EV_DoCeiling(line_t *line, ceiling_e type);
 
 void T_MoveCeiling(ceiling_t *ceiling);
 void P_AddActiveCeiling(ceiling_t *ceiling);
 void P_RemoveActiveCeiling(ceiling_t *ceiling);
 void P_RemoveAllActiveCeilings(void);
-bool EV_CeilingCrushStop(line_t *line);
-bool P_ActivateInStasisCeiling(line_t *line);
+dboolean EV_CeilingCrushStop(line_t *line);
+dboolean P_ActivateInStasisCeiling(line_t *line);
 
 //
 // P_FLOOR
@@ -528,14 +528,14 @@ typedef struct
 {
     thinker_t   thinker;
     floor_e     type;
-    bool        crush;
+    dboolean    crush;
     sector_t    *sector;
     int         direction;
     int         newspecial;
     short       texture;
     fixed_t     floordestheight;
     fixed_t     speed;
-    bool        stopsound;
+    dboolean    stopsound;
 } floormove_t;
 
 typedef struct
@@ -559,12 +559,12 @@ typedef enum
     pastdest
 } result_e;
 
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, bool crush, int floorOrCeiling,
-    int direction, bool elevator);
-bool EV_BuildStairs(line_t *line, stair_e type);
-bool EV_DoFloor(line_t *line, floor_e floortype);
-bool EV_DoChange(line_t *line, change_e changetype);
-bool EV_DoElevator(line_t *line, elevator_e elevtype);
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floorOrCeiling,
+    int direction, dboolean elevator);
+dboolean EV_BuildStairs(line_t *line, stair_e type);
+dboolean EV_DoFloor(line_t *line, floor_e floortype);
+dboolean EV_DoChange(line_t *line, change_e changetype);
+dboolean EV_DoElevator(line_t *line, elevator_e elevtype);
 void T_MoveFloor(floormove_t *floor);
 void T_MoveElevator(elevator_t *elevator);
 
@@ -620,9 +620,9 @@ mobj_t *P_GetPushThing(int s);
 //
 // P_TELEPT
 //
-bool EV_Teleport(line_t *line, int side, mobj_t *thing);
-bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
-bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse);
+dboolean EV_Teleport(line_t *line, int side, mobj_t *thing);
+dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
+dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse);
 
 // jff 3/14/98 add bits and shifts for generalized sector types
 
@@ -837,12 +837,12 @@ enum
     AllKeys
 };
 
-bool EV_DoGenFloor(line_t *line);
-bool EV_DoGenCeiling(line_t *line);
-bool EV_DoGenLift(line_t *line);
-bool EV_DoGenStairs(line_t *line);
-bool EV_DoGenCrusher(line_t *line);
-bool EV_DoGenDoor(line_t *line);
-bool EV_DoGenLockedDoor(line_t *line);
+dboolean EV_DoGenFloor(line_t *line);
+dboolean EV_DoGenCeiling(line_t *line);
+dboolean EV_DoGenLift(line_t *line);
+dboolean EV_DoGenStairs(line_t *line);
+dboolean EV_DoGenCrusher(line_t *line);
+dboolean EV_DoGenDoor(line_t *line);
+dboolean EV_DoGenLockedDoor(line_t *line);
 
 #endif

@@ -59,7 +59,7 @@ typedef struct
     int     assigned;       // [BH] counter indicating string has been assigned
 } deh_strs;
 
-extern bool     dehacked;
+extern dboolean dehacked;
 extern deh_strs deh_strlookup[];
 
 extern char     *s_D_DEVSTR;
@@ -487,6 +487,6 @@ extern char     *startup3;
 extern char     *startup4;
 extern char     *startup5;
 
-bool CheckPackageWADVersion(void);
+dboolean CheckPackageWADVersion(void);
 
 #endif

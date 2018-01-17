@@ -102,9 +102,9 @@ typedef struct
 {
     char        *name;
     char        *alternate;
-    bool        (*func1)(char *cmd, char *parms);
+    dboolean    (*func1)(char *cmd, char *parms);
     void        (*func2)(char *cmd, char *parms);
-    bool        parameters;
+    dboolean    parameters;
     cmdtype_t   type;
     int         flags;
     void        *variable;
@@ -127,9 +127,9 @@ extern action_t     actions[];
 extern control_t    controls[];
 extern consolecmd_t consolecmds[];
 extern alias_t      aliases[MAXALIASES];
-extern bool         executingalias;
-extern bool         resettingcvar;
+extern dboolean     executingalias;
+extern dboolean     resettingcvar;
 
-bool C_ExecuteAlias(const char *alias);
+dboolean C_ExecuteAlias(const char *alias);
 
 #endif

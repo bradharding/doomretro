@@ -372,8 +372,8 @@ static void AddDoomWADPath(void)
 //
 static void BuildIWADDirList(void)
 {
-    char        *doomwaddir;
-    static bool iwad_dirs_built;
+    char            *doomwaddir;
+    static dboolean iwad_dirs_built;
 
     if (iwad_dirs_built)
         return;
@@ -505,7 +505,7 @@ extern char *pwadfile;
 //
 // Chooses the directory used to store saved games.
 //
-void D_SetSaveGameFolder(bool output)
+void D_SetSaveGameFolder(dboolean output)
 {
     char    *iwad_name = SaveGameIWADName();
     char    *appdatafolder = M_GetAppDataFolder();

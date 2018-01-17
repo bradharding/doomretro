@@ -61,14 +61,14 @@ typedef struct
 
     int         timeout;
 
-    bool        movekey;
+    dboolean    movekey;
 } cheatseq_t;
 
 int cht_CheckCheat(cheatseq_t *cht, unsigned char key);
 
 void cht_GetParam(cheatseq_t *cht, char *buffer);
 
-extern bool         idbehold;
+extern dboolean     idbehold;
 extern int          leveltime;
 
 extern cheatseq_t   cheat_mus;

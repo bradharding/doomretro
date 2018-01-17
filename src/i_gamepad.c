@@ -58,8 +58,8 @@ static XINPUTSETSTATE   pXInputSetState;
 
 float               gp_deadzone_left = gp_deadzone_left_default;
 float               gp_deadzone_right = gp_deadzone_right_default;
-bool                gp_invertyaxis = gp_invertyaxis_default;
-bool                gp_swapthumbsticks = gp_swapthumbsticks_default;
+dboolean            gp_invertyaxis = gp_invertyaxis_default;
+dboolean            gp_swapthumbsticks = gp_swapthumbsticks_default;
 int                 gp_vibrate_barrels = gp_vibrate_barrels_default;
 int                 gp_vibrate_damage = gp_vibrate_damage_default;
 int                 gp_vibrate_weapons = gp_vibrate_weapons_default;
@@ -75,18 +75,18 @@ float               gamepadsensitivity;
 short               gamepadleftdeadzone;
 short               gamepadrightdeadzone;
 
-bool                vibrate = false;
+dboolean            vibrate = false;
 int                 barrelvibrationtics = 0;
 int                 damagevibrationtics = 0;
 int                 weaponvibrationtics = 0;
 int                 idlemotorspeed;
 int                 restoremotorspeed;
 
-extern bool         idclev;
-extern bool         idmus;
-extern bool         idbehold;
-extern bool         menuactive;
-extern bool         message_clearable;
+extern dboolean     idclev;
+extern dboolean     idmus;
+extern dboolean     idbehold;
+extern dboolean     menuactive;
+extern dboolean     message_clearable;
 
 #if defined(_WIN32)
 static HMODULE      pXInputDLL;

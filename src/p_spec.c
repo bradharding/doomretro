@@ -62,11 +62,11 @@
 //
 typedef struct
 {
-    bool    istexture;
-    int     picnum;
-    int     basepic;
-    int     numpics;
-    int     speed;
+    dboolean    istexture;
+    int         picnum;
+    int         basepic;
+    int         numpics;
+    int         speed;
 } anim_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -92,7 +92,7 @@ typedef struct
 
 unsigned int    stat_secretsrevealed = 0;
 
-bool            r_liquid_bob = r_liquid_bob_default;
+dboolean        r_liquid_bob = r_liquid_bob_default;
 
 fixed_t         animatedliquiddiff;
 fixed_t         animatedliquidxdir;
@@ -122,10 +122,10 @@ static void P_SpawnFriction(void);      // phares 3/16/98
 static void P_SpawnPushers(void);       // phares 3/20/98
 
 extern int      numflats;
-extern bool     canmodify;
+extern dboolean canmodify;
 
-bool            *isliquid;
-bool            *isteleport;
+dboolean        *isliquid;
+dboolean        *isteleport;
 
 short           nukagestart;
 short           nukageend;
@@ -145,7 +145,7 @@ short           slimeend;
 //
 void P_InitPicAnims(void)
 {
-    int size = (numflats + 1) * sizeof(bool);
+    int size = (numflats + 1) * sizeof(dboolean);
 
     isliquid = Z_Malloc(size, PU_STATIC, NULL);
     isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
@@ -389,7 +389,7 @@ sector_t *getSector(int currentSector, int line, int side)
 // Given the sector number and the line number,
 //  it will tell you whether the line is two-sided or not.
 //
-bool twoSided(int sector, int line)
+dboolean twoSided(int sector, int line)
 {
     // jff 1/26/98 return what is actually needed, whether the line
     // has two sidedefs, rather than whether the 2S flag is set
@@ -414,7 +414,7 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
 //
 // P_IsSelfReferencingSector()
 //
-bool P_IsSelfReferencingSector(sector_t *sec)
+dboolean P_IsSelfReferencingSector(sector_t *sec)
 {
     const int   linecount = sec->linecount;
     int         count = 0;
@@ -856,7 +856,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 //  generalized locked doors
 //
 // killough 11/98: reformatted
-bool P_CanUnlockGenDoor(line_t *line)
+dboolean P_CanUnlockGenDoor(line_t *line)
 {
     static char buffer[1024];
 
@@ -1036,7 +1036,7 @@ bool P_CanUnlockGenDoor(line_t *line)
 //  succeeding in starting multiple specials on one sector
 //
 // killough 11/98: reformatted
-bool P_SectorActive(special_e t, sector_t *sec)
+dboolean P_SectorActive(special_e t, sector_t *sec)
 {
     return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
@@ -1048,7 +1048,7 @@ bool P_SectorActive(special_e t, sector_t *sec)
 // P_SectorHasLightSpecial()
 //
 // [BH] Returns true if sector has a light special
-bool P_SectorHasLightSpecial(sector_t *sec)
+dboolean P_SectorHasLightSpecial(sector_t *sec)
 {
     short   special = sec->special;
 
@@ -1067,7 +1067,7 @@ bool P_SectorHasLightSpecial(sector_t *sec)
 //
 // jff 2/27/98 Added to check for zero tag allowed for regular special types
 //
-bool P_CheckTag(line_t *line)
+dboolean P_CheckTag(line_t *line)
 {
     // tag not zero, allowed
     if (line->tag)
@@ -1168,7 +1168,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is walkover generalized linedef type
-        bool (*linefunc)(line_t *line) = NULL;
+        dboolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
         if ((unsigned int)line->special >= GenFloorBase)
@@ -1262,7 +1262,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     if (!thing->player)
     {
-        bool    okay = false;
+        dboolean    okay = false;
 
         switch (line->special)
         {
@@ -1932,7 +1932,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     // jff 02/04/98 add check here for generalized linedef
     // pointer to line function is NULL by default, set non-null if
     // line special is gun triggered generalized linedef type
-    bool (*linefunc)(line_t *line) = NULL;
+    dboolean (*linefunc)(line_t *line) = NULL;
 
     // check each range of generalized linedefs
     if ((unsigned int)line->special >= GenFloorBase)
@@ -2251,13 +2251,13 @@ void P_UpdateSpecials(void)
 //
 // Special Stuff that cannot be categorized
 //
-bool EV_DoDonut(line_t *line)
+dboolean EV_DoDonut(line_t *line)
 {
     sector_t    *s1;
     sector_t    *s2;
     sector_t    *s3;
     int         secnum = -1;
-    bool        rtn = false;
+    dboolean    rtn = false;
     floormove_t *floor;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
@@ -2599,7 +2599,7 @@ void T_Scroll(scroll_t *s)
 //
 // accel: true if this is an accelerative effect
 //
-static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affectee, bool accel)
+static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affectee, dboolean accel)
 {
     scroll_t    *s = Z_Calloc(1, sizeof(*s), PU_LEVSPEC, NULL);
 
@@ -2625,7 +2625,7 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 //
 // killough 10/98:
 // fix scrolling aliasing problems, caused by long linedefs causing overflowing
-static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, bool accel)
+static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, dboolean accel)
 {
     fixed_t x = ABS(l->dx);
     fixed_t y = ABS(l->dy);
@@ -2655,11 +2655,11 @@ static void P_SpawnScrollers(void)
 
     for (int i = 0; i < numlines; i++, l++)
     {
-        fixed_t dx = l->dx >> SCROLL_SHIFT;             // direction and speed of scrolling
-        fixed_t dy = l->dy >> SCROLL_SHIFT;
-        int     control = -1;                           // no control sector or acceleration
-        bool    accel = false;
-        int     special = l->special;
+        fixed_t     dx = l->dx >> SCROLL_SHIFT;             // direction and speed of scrolling
+        fixed_t     dy = l->dy >> SCROLL_SHIFT;
+        int         control = -1;                           // no control sector or acceleration
+        dboolean    accel = false;
+        int         special = l->special;
 
         // killough 3/7/98: Types 245-249 are same as 250-254 except that the
         // first side's sector's heights cause scrolling when they change, and
@@ -2906,7 +2906,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
 static pusher_t *tmpusher;      // pusher structure for blockmap searches
 
-static bool PIT_PushThing(mobj_t *thing)
+static dboolean PIT_PushThing(mobj_t *thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {

@@ -49,7 +49,7 @@
 #include "doomtype.h"
 
 void M_MakeDirectory(const char *path);
-bool M_FileExists(const char *filename);
+dboolean M_FileExists(const char *filename);
 char *M_ExtractFolder(char *path);
 
 // Returns the file system location where application resource files are located.
@@ -64,24 +64,24 @@ char *M_GetResourceFolder(void);
 char *M_GetAppDataFolder(void);
 
 char *M_GetExecutableFolder(void);
-bool M_StrToInt(const char *str, unsigned int *result);
+dboolean M_StrToInt(const char *str, unsigned int *result);
 char *M_StrCaseStr(char *haystack, char *needle);
-bool M_StringCopy(char *dest, const char *src, const size_t dest_size);
+dboolean M_StringCopy(char *dest, const char *src, const size_t dest_size);
 char *M_StringReplace(char *haystack, char *needle, char *replacement);
 char *M_StringJoin(char *s, ...);
-bool M_StringStartsWith(const char *s, const char *prefix);
-bool M_StringEndsWith(const char *s, const char *suffix);
+dboolean M_StringStartsWith(const char *s, const char *prefix);
+dboolean M_StringEndsWith(const char *s, const char *suffix);
 int M_vsnprintf(char *buf, int buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, int buf_len, const char *s, ...);
 char *M_SubString(const char *str, size_t begin, size_t len);
-bool M_StringCompare(const char *str1, const char *str2);
+dboolean M_StringCompare(const char *str1, const char *str2);
 char *uppercase(const char *str);
 char *lowercase(char *str);
 char *titlecase(const char *str);
 char *formatsize(const char *str);
 char *commify(int64_t value);
 char *uncommify(const char *input);
-bool wildcard(char *input, char *pattern);
+dboolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 int numspaces(char *str);
 char *removespaces(const char *input);
@@ -90,7 +90,7 @@ char *removenewlines(const char *str);
 char *makevalidfilename(const char *input);
 char *leafname(char *path);
 char *removeext(const char *file);
-bool isvowel(const char ch);
+dboolean isvowel(const char ch);
 char *striptrailingzero(float value, int precision);
 void strreplace(char *target, char *needle, const char *replacement);
 int hextodec(char *hex);

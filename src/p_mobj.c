@@ -50,18 +50,18 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-int     r_blood = r_blood_default;
-int     r_bloodsplats_max = r_bloodsplats_max_default;
-int     r_bloodsplats_total;
-bool    r_corpses_color = r_corpses_color_default;
-bool    r_corpses_mirrored = r_corpses_mirrored_default;
-bool    r_corpses_moreblood = r_corpses_moreblood_default;
-bool    r_corpses_nudge = r_corpses_nudge_default;
-bool    r_corpses_slide = r_corpses_slide_default;
-bool    r_corpses_smearblood = r_corpses_smearblood_default;
-bool    r_floatbob = r_floatbob_default;
-bool    r_rockettrails = r_rockettrails_default;
-bool    r_shadows = r_shadows_default;
+int         r_blood = r_blood_default;
+int         r_bloodsplats_max = r_bloodsplats_max_default;
+int         r_bloodsplats_total;
+dboolean    r_corpses_color = r_corpses_color_default;
+dboolean    r_corpses_mirrored = r_corpses_mirrored_default;
+dboolean    r_corpses_moreblood = r_corpses_moreblood_default;
+dboolean    r_corpses_nudge = r_corpses_nudge_default;
+dboolean    r_corpses_slide = r_corpses_slide_default;
+dboolean    r_corpses_smearblood = r_corpses_smearblood_default;
+dboolean    r_floatbob = r_floatbob_default;
+dboolean    r_rockettrails = r_rockettrails_default;
+dboolean    r_shadows = r_shadows_default;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -79,7 +79,7 @@ extern fixed_t      animatedliquiddiffs[64];
 extern int          deadlookdir;
 extern int          deathcount;
 extern msecnode_t   *sector_list;   // phares 3/16/98
-extern bool         usemouselook;
+extern dboolean     usemouselook;
 
 void A_Recoil(weapontype_t weapon);
 void G_PlayerReborn(void);
@@ -90,7 +90,7 @@ void P_DelSeclist(msecnode_t *node);
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-bool P_SetMobjState(mobj_t *mobj, statenum_t state)
+dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     state_t *st;
 
@@ -160,7 +160,7 @@ static void P_XYMovement(mobj_t *mo)
     mobjtype_t  type = mo->type;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
-    bool        corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
+    dboolean    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
     int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
@@ -987,7 +987,7 @@ static void P_SpawnMoreBlood(mobj_t *mobj)
 // The fields of the mapthing should
 //  already be in host byte order.
 //
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, bool nomonsters)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, int index, dboolean nomonsters)
 {
     int     i;
     int     bit;
@@ -1207,7 +1207,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 {
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    bool        fuzz = (target->flags & MF_FUZZ);
+    dboolean    fuzz = (target->flags & MF_FUZZ);
     int         type = (r_blood == r_blood_all ? (fuzz ? MT_FUZZYBLOOD : (target->blood ? target->blood :
                     MT_BLOOD)) : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[type];

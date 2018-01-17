@@ -75,7 +75,7 @@ static int  memcmpsize;
 //
 // Replaces the old R_Clip*WallSegment functions. It draws bits of walls in those
 // columns which aren't solid, and updates the solidcol[] array appropriately
-static void R_ClipWallSegment(int first, int last, bool solid)
+static void R_ClipWallSegment(int first, int last, dboolean solid)
 {
     while (first < last)
         if (solidcol[first])
@@ -243,7 +243,7 @@ static void R_MaybeInterpolateSector(sector_t *sector)
 //
 // killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
 //
-sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel, bool back)
+sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel, dboolean back)
 {
     if (floorlightlevel)
         *floorlightlevel = (sec->floorlightsec ? sec->floorlightsec->lightlevel : sec->lightlevel);
@@ -255,7 +255,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
     {
         const sector_t  *s = sec->heightsec;
         sector_t        *heightsec = viewplayer->mo->subsector->sector->heightsec;
-        bool            underwater = (heightsec && viewz <= heightsec->interpfloorheight);
+        dboolean        underwater = (heightsec && viewz <= heightsec->interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;
@@ -421,7 +421,7 @@ static void R_AddLine(seg_t *line)
 // Returns true
 //  if some part of the bbox might be visible.
 //
-static bool R_CheckBBox(const fixed_t *bspcoord)
+static dboolean R_CheckBBox(const fixed_t *bspcoord)
 {
     const int checkcoord[12][4] =
     {

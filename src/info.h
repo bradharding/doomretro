@@ -1209,8 +1209,8 @@ typedef struct
     statenum_t  nextstate;
     long        misc1;
     long        misc2;
-    bool        translucent;
-    bool        dehacked;
+    dboolean    translucent;
+    dboolean    dehacked;
 } state_t;
 
 extern state_t  states[NUMSTATES];
@@ -1431,7 +1431,7 @@ typedef struct
     int         flags2;
     int         raisestate;
     int         frames;
-    bool        fullbright;
+    dboolean    fullbright;
     int         blood;
     int         shadowoffset;
     char        name1[100];
@@ -1444,7 +1444,7 @@ typedef struct
     void        (*altcolfunc)(void);
 } mobjinfo_t;
 
-extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];
+extern mobjinfo_t   mobjinfo[NUMMOBJTYPES];
 
 typedef struct
 {
@@ -1453,7 +1453,7 @@ typedef struct
     short       y;
     short       width;
     short       height;
-    bool        sprfix18;
+    dboolean    sprfix18;
 } offset_t;
 
 extern offset_t sproffsets[];

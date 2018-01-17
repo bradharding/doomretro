@@ -86,7 +86,7 @@ int                 numlumps;
 
 extern char         *packagewad;
 
-static bool IsFreedoom(const char *iwadname)
+static dboolean IsFreedoom(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     filelump_t  lump;
@@ -149,15 +149,15 @@ char *GetCorrectCase(char *path)
 //  found (PWAD, if all required lumps are present).
 // Files with a .wad extension are wadlink files
 //  with multiple lumps.
-wadfile_t *W_AddFile(char *filename, bool automatic)
+wadfile_t *W_AddFile(char *filename, dboolean automatic)
 {
-    static bool packagewadadded;
-    wadinfo_t   header;
-    int         length;
-    int         startlump;
-    filelump_t  *fileinfo;
-    filelump_t  *filerover;
-    lumpinfo_t  *filelumps;
+    static dboolean packagewadadded;
+    wadinfo_t       header;
+    int             length;
+    int             startlump;
+    filelump_t      *fileinfo;
+    filelump_t      *filerover;
+    lumpinfo_t      *filelumps;
 
     // open the file and add to directory
     wadfile_t   *wadfile = W_OpenFile(filename);
@@ -247,7 +247,7 @@ unsigned W_LumpNameHash(const char *s)
     return hash;
 }
 
-bool HasDehackedLump(const char *pwadname)
+dboolean HasDehackedLump(const char *pwadname)
 {
     FILE        *fp = fopen(pwadname, "rb");
     filelump_t  lump;

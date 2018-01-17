@@ -69,14 +69,14 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color);
 
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch);
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, bool italics, byte *tinttab);
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int color, int backgroundcolor, dboolean italics, byte *tinttab);
 void V_DrawConsolePatch(int x, int y, patch_t *patch);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch);
-bool V_EmptyPatch(patch_t *patch);
-void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag);
+dboolean V_EmptyPatch(patch_t *patch);
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag);
 void V_DrawFlippedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch);
@@ -101,11 +101,11 @@ void V_DrawBigPatchToTempScreen(int x, int y, patch_t *patch);
 void V_DrawAltHUDText(int x, int y, patch_t *patch, int color);
 void V_DrawPagePatch(patch_t *patch);
 
-void V_DrawPixel(int x, int y, byte color, bool shadow);
+void V_DrawPixel(int x, int y, byte color, dboolean shadow);
 
-void GetPixelSize(bool reset);
+void GetPixelSize(dboolean reset);
 void V_LowGraphicDetail(void);
 
-bool V_ScreenShot(void);
+dboolean V_ScreenShot(void);
 
 #endif

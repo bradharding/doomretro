@@ -53,7 +53,7 @@ typedef struct
     int         flashstate;
     int         motorspeed;
     int         tics;
-    bool        altered;
+    dboolean    altered;
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];

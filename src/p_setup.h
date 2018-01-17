@@ -39,7 +39,7 @@
 #if !defined(__P_SETUP_H__)
 #define __P_SETUP_H__
 
-extern bool skipblstart;    // MaxW: Skip initial blocklist short
+extern dboolean skipblstart;    // MaxW: Skip initial blocklist short
 
 void P_SetupLevel(int ep, int map);
 void P_MapName(int ep, int map);
@@ -54,7 +54,7 @@ char *P_GetMapName(int map);
 int P_GetMapNext(int map);
 void P_GetMapNoLiquids(int map);
 int P_GetMapPar(int map);
-bool P_GetMapPistolStart(int map);
+dboolean P_GetMapPistolStart(int map);
 int P_GetMapSecretNext(int map);
 int P_GetMapSky1Texture(int map);
 int P_GetMapSky1ScrollDelta(int map);

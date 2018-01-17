@@ -461,8 +461,8 @@ static void WI_drawEL(void)
 
 static void WI_drawOnLnode(int n, patch_t *c[])
 {
-    bool    fits = false;
-    int     i = 0;
+    dboolean    fits = false;
+    int         i = 0;
 
     do
     {
@@ -710,7 +710,7 @@ static void WI_updateNoState(void)
         G_WorldDone();
 }
 
-static bool snl_pointeron;
+static dboolean snl_pointeron;
 
 static void WI_initShowNextLoc(void)
 {
@@ -800,7 +800,7 @@ static void WI_initStats(void)
 static void WI_updateStats(void)
 {
     // e6y
-    static bool play_early_explosion = true;
+    static dboolean play_early_explosion = true;
 
     WI_updateAnimatedBack();
 

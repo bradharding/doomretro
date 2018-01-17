@@ -55,7 +55,7 @@ typedef struct
 } mpoint_t;
 
 // Called by main loop.
-bool AM_Responder(const event_t *ev);
+dboolean AM_Responder(const event_t *ev);
 
 // Called by main loop.
 void AM_Ticker(void);
@@ -64,7 +64,7 @@ void AM_Ticker(void);
 void AM_Drawer(void);
 void AM_clearFB(void);
 
-void AM_Start(const bool mainwindow);
+void AM_Start(const dboolean mainwindow);
 void AM_clearMarks(void);
 void AM_toggleFollowMode(void);
 void AM_toggleGrid(void);
@@ -82,7 +82,7 @@ void AM_setColors(void);
 void AM_getGridSize(void);
 void AM_addToPath(void);
 
-extern bool     message_dontfuckwithme;
+extern dboolean message_dontfuckwithme;
 
 extern int      gamepadwait;
 
@@ -94,7 +94,7 @@ extern mpoint_t *pathpoints;
 extern int      pathpointnum;
 extern int      pathpointnum_max;
 
-bool keystate(int key);
+dboolean keystate(int key);
 
 typedef struct
 {

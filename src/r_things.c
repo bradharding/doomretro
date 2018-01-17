@@ -80,28 +80,28 @@ short                   firstbloodsplatlump;
 static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
 static int              maxframe;
 
-static bool             drawshadows;
-static bool             interpolatesprites;
-static bool             invulnerable;
-static bool             pausesprites;
+static dboolean         drawshadows;
+static dboolean         interpolatesprites;
+static dboolean         invulnerable;
+static dboolean         pausesprites;
 static fixed_t          floorheight;
 
-bool                    r_liquid_clipsprites = r_liquid_clipsprites_default;
-bool                    r_playersprites = r_playersprites_default;
+dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
+dboolean                r_playersprites = r_playersprites_default;
 
 extern fixed_t          animatedliquiddiff;
-extern bool             drawbloodsplats;
-extern bool             inhelpscreens;
-extern bool             notranslucency;
-extern bool             SHT2A0;
-extern bool             skippsprinterp;
+extern dboolean         drawbloodsplats;
+extern dboolean         inhelpscreens;
+extern dboolean         notranslucency;
+extern dboolean         SHT2A0;
+extern dboolean         skippsprinterp;
 
 //
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
 static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const unsigned int frame,
-    const char rot, const bool flipped)
+    const char rot, const dboolean flipped)
 {
     unsigned int    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
 
@@ -604,7 +604,7 @@ static void R_ProjectSprite(mobj_t *thing)
     spriteframe_t   *sprframe;
     int             lump;
     fixed_t         width;
-    bool            flip;
+    dboolean        flip;
     vissprite_t     *vis;
     sector_t        *heightsec;
     int             flags2 = thing->flags2;
@@ -951,9 +951,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 // R_DrawPlayerSprite
 //
-static bool muzzleflash;
+static dboolean muzzleflash;
 
-static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
+static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean altered)
 {
     fixed_t         tx;
     int             x1, x2;
@@ -991,7 +991,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
         } psp_interpolate_t;
 
         static psp_interpolate_t    psp_inter;
-        static bool                 skippsprinterp2;
+        static dboolean             skippsprinterp2;
 
         if (realframe)
         {
@@ -1098,7 +1098,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
 void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
-    bool        altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
+    dboolean    altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
 
