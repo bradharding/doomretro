@@ -48,6 +48,14 @@
 #include <pwd.h>
 #endif
 
+#include "doomdef.h"
+#include "i_system.h"
+#include "m_fixed.h"
+#include "m_misc.h"
+#include "version.h"
+#include "w_file.h"
+#include "z_zone.h"
+
 #if defined(__MACOSX__)
 #import <Cocoa/Cocoa.h>
 #include <dirent.h>
@@ -55,13 +63,6 @@
 #include <mach-o/dyld.h>
 #include <errno.h>
 #endif
-
-#include "doomdef.h"
-#include "m_fixed.h"
-#include "m_misc.h"
-#include "version.h"
-#include "w_file.h"
-#include "z_zone.h"
 
 #if defined(__OpenBSD__) || defined(__FreeBSD__)
 #include <sys/sysctl.h>
