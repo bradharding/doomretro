@@ -654,13 +654,20 @@ static void HU_AltInit(void)
     altkeypatch = W_CacheLumpName("DRHUDKEY");
     altskullpatch = W_CacheLumpName("DRHUDSKU");
 
-    for (int i = 0; i < NUMCARDS; i++)
+    if (gamemode == shareware)
     {
-        int lump = W_GetNumForName(keypics[i].patchnamea);
-
-        altkeypics[i].color = (lumpinfo[lump]->wadfile->type == PWAD ? FindDominantColor(W_CacheLumpNum(lump)) :
-            nearestcolors[altkeypics[i].color]);
+        altkeypics[it_bluecard].color = nearestcolors[altkeypics[it_bluecard].color];
+        altkeypics[it_yellowcard].color = nearestcolors[altkeypics[it_yellowcard].color];
+        altkeypics[it_redcard].color = nearestcolors[altkeypics[it_redcard].color];
     }
+    else
+        for (int i = 0; i < NUMCARDS; i++)
+        {
+            int lump = W_GetNumForName(keypics[i].patchnamea);
+
+            altkeypics[i].color = (lumpinfo[lump]->wadfile->type == PWAD ? FindDominantColor(W_CacheLumpNum(lump)) :
+                nearestcolors[altkeypics[i].color]);
+        }
 
     altkeypics[0].patch = altkeypatch;
     altkeypics[1].patch = altkeypatch;

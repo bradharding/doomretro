@@ -1,6 +1,7 @@
 ### DOOM Retro v2.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* A bug has been fixed whereby an error would be displayed when trying to load `doom1.wad`.
 * A new `restartmap` CCMD has been implemented that restarts the current map.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the console’s autocomplete feature.
