@@ -142,6 +142,7 @@ int             dc_baseclip;
 int             dc_floorclip;
 int             dc_ceilingclip;
 int             dc_numposts;
+int             dc_black;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
@@ -194,9 +195,8 @@ void R_DrawShadowColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const int   black = dc_colormap[0][0] << 8;
-    const byte  *body = tinttab40 + black;
-    const byte  *edge = tinttab25 + black;
+    const byte  *body = tinttab40 + dc_black;
+    const byte  *edge = tinttab25 + dc_black;
 
     *dest = edge[*dest];
     dest += SCREENWIDTH;
@@ -215,8 +215,7 @@ void R_DrawFuzzyShadowColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const int   black = dc_colormap[0][0] << 8;
-    const byte  *translucency = tinttab25 + black;
+    const byte  *translucency = tinttab25 + dc_black;
 
     if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
         *dest = translucency[*dest];
@@ -237,7 +236,7 @@ void R_DrawSolidShadowColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const int   black = dc_colormap[0][0];
+    const int   black = dc_black >> 8;
 
     while (--count)
     {
@@ -252,7 +251,7 @@ void R_DrawSolidFuzzyShadowColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const int   black = dc_colormap[0][0];
+    const int   black = dc_black >> 8;
 
     if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
         *dest = black;

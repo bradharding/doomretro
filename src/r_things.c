@@ -496,6 +496,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     spryscale = vis->scale;
     dc_colormap[0] = vis->colormap[0];
+    dc_black = dc_colormap[0][0] << 8;
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
