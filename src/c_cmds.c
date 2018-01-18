@@ -4698,8 +4698,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
         C_Output(removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_left))].description));
 
         if (gp_deadzone_left == gp_deadzone_left_default)
-            C_Output("It is currently set to its default of <b>%s%%</b>.",
-                striptrailingzero(gp_deadzone_left, 1));
+            C_Output("It is currently set to its default of <b>%s%%</b>.", striptrailingzero(gp_deadzone_left, 1));
         else
             C_Output("It is currently set to <b>%s%%</b> and its default is <b>%s%%</b>.",
                 striptrailingzero(gp_deadzone_left, 1), striptrailingzero(gp_deadzone_left_default, 1));
@@ -4709,8 +4708,7 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
         C_Output(removenewlines(consolecmds[C_GetIndex(stringize(gp_deadzone_right))].description));
 
         if (gp_deadzone_right == gp_deadzone_right_default)
-            C_Output("It is currently set to its default of <b>%s%%</b>.",
-                striptrailingzero(gp_deadzone_right, 1));
+            C_Output("It is currently set to its default of <b>%s%%</b>.", striptrailingzero(gp_deadzone_right, 1));
         else
             C_Output("It is currently set to <b>%s%%</b> and its default is <b>%s%%</b>.",
                 striptrailingzero(gp_deadzone_right, 1), striptrailingzero(gp_deadzone_right_default, 1));
@@ -4774,8 +4772,9 @@ dboolean P_CheckAmmo(void);
 
 static dboolean player_cvars_func1(char *cmd, char *parms)
 {
-    return (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL && (!M_StringCompare(cmd, stringize(health))
-        || (!(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])));
+    return (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL
+        && (!M_StringCompare(cmd, stringize(health)) || (!(viewplayer->cheats & CF_GODMODE)
+        && !viewplayer->powers[pw_invulnerability])));
 }
 
 static void player_cvars_func2(char *cmd, char *parms)
@@ -4806,8 +4805,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             C_Output(removenewlines(consolecmds[C_GetIndex(stringize(ammo))].description));
-            C_Output("It is currently set to <b>%i</b>.",
-                (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
+            C_Output("It is currently set to <b>%i</b>.", (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]));
         }
     }
     else if (M_StringCompare(cmd, stringize(armor)))
