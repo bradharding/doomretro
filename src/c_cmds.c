@@ -4633,8 +4633,8 @@ static void episode_cvar_func2(char *cmd, char *parms)
 
     int_cvars_func2(cmd, parms);
 
-    if (episode != episode_old)
-        EpiDef.lastOn = episode - 1;
+    if (episode != episode_old && gamemode != commercial)
+        EpiDef.lastOn = (gamemode == registered ? MIN(episode, episode_max - 1) : (gamemode == retail ? episode : 1)) - 1;
 }
 
 //
@@ -4646,8 +4646,8 @@ static void expansion_cvar_func2(char *cmd, char *parms)
 
     int_cvars_func2(cmd, parms);
 
-    if (expansion != expansion_old)
-        ExpDef.lastOn = expansion - 1;
+    if (expansion != expansion_old && gamemode == commercial)
+        ExpDef.lastOn = (nerve ? expansion : 1) - 1;
 }
 
 //
