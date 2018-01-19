@@ -1,5 +1,8 @@
 ### DOOM Retro v2.6.5
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The rendering of two-sided textures has been improved.
+
 ---
 
 ###### Friday, January 19, 2018
