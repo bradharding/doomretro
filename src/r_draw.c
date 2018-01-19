@@ -161,8 +161,8 @@ void R_DrawColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    fixed_t             frac = dc_texturefrac;
-    const fixed_t       fracstep = dc_iscale;
+    fixed_t             frac = dc_texturefrac + SPARKLEFIX;
+    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap[0];
 
@@ -661,8 +661,8 @@ void R_DrawTranslucent50Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    fixed_t             frac = dc_texturefrac;
-    const fixed_t       fracstep = dc_iscale;
+    fixed_t             frac = dc_texturefrac + SPARKLEFIX;
+    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap[0];
     const byte          *translucency = tranmap;
@@ -681,19 +681,19 @@ void R_DrawDitheredColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    fixed_t             frac = dc_texturefrac;
-    const fixed_t       fracstep = dc_iscale << 1;
+    fixed_t             frac = dc_texturefrac + SPARKLEFIX;
+    const fixed_t       fracstep = (dc_iscale << 1) - SPARKLEFIX;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap[0];
     const byte          *translucency = tranmap;
 
     if ((dc_yl ^ dc_x) & 1)
     {
-        dest += SCREENWIDTH;
-        frac += dc_iscale;
-
         if (!--count)
             return;
+
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
     }
 
     do
