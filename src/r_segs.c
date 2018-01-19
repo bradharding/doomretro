@@ -198,16 +198,16 @@ static lighttable_t **GetLightTable(const int lightlevel)
         LIGHTLEVELS - 1)];
 }
 
-static void R_BlastMaskedSegColumn(const rcolumn_t *column, int numposts)
+static void R_BlastMaskedSegColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
 
     dc_ceilingclip = mceilingclip[dc_x] + 1;
     dc_floorclip = mfloorclip[dc_x] - 1;
 
-    while (numposts--)
+    while (dc_numposts--)
     {
-        const rpost_t   *post = &column->posts[numposts];
+        const rpost_t   *post = &column->posts[dc_numposts];
         const int       topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
@@ -270,10 +270,9 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
             const rcolumn_t *column = R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]);
-            const int       numposts = column->numposts;
             int64_t         t;
 
-            if (!numposts)
+            if (!(dc_numposts = column->numposts))
                 continue;
 
             // killough 3/2/98:
@@ -299,7 +298,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
             // draw the texture
-            R_BlastMaskedSegColumn(column, numposts);
+            R_BlastMaskedSegColumn(column);
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
 

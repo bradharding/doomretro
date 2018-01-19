@@ -778,7 +778,6 @@ static void HU_DrawAltHUD(void)
     int color2 = (health <= 20 ? red : (health >= 100 ? green : white));
     int color1 = color2 + (color2 == green ? coloroffset : 0);
     int keys = 0;
-    int i = 0;
     int powerup = 0;
     int powerupbar = 0;
     int max;
@@ -793,16 +792,14 @@ static void HU_DrawAltHUD(void)
         althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
         althudfunc(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color2);
         althudfunc(ALTHUD_LEFT_X + 60 + 98, ALTHUD_Y + 13, altmarkpatch, WHITE, color1);
-        althudfunc(ALTHUD_LEFT_X + 60 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch,
-            WHITE, color2);
+        althudfunc(ALTHUD_LEFT_X + 60 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch, WHITE, color2);
     }
     else
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8, color1);
         althudfunc(ALTHUD_LEFT_X + 40, ALTHUD_Y + 1, altleftpatch, WHITE, white);
         althudfunc(ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, altendpatch, WHITE, color1);
-        althudfunc(ALTHUD_LEFT_X + 60 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch,
-            WHITE, color1);
+        althudfunc(ALTHUD_LEFT_X + 60 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color1);
     }
 
     if (armor)
@@ -847,9 +844,8 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, white);
     }
 
-    while (i < NUMCARDS)
-        if (viewplayer->cards[i++] > 0)
-            keys++;
+    for (int i = 0; viewplayer->cards[i] <= 0; i++)
+        keys++;
 
     if (keys || viewplayer->neededcardflash)
     {
@@ -883,7 +879,7 @@ static void HU_DrawAltHUD(void)
             keywait = 0;
         }
 
-        for (i = 0; i < NUMCARDS; i++)
+        for (int i = 0; i < NUMCARDS; i++)
         {
             int card = viewplayer->cards[i];
 
@@ -1035,9 +1031,7 @@ void HU_Ticker(void)
 
     // tick down message counter if message is up
     if (message_counter
-        && ((!menuactive && !paused && !consoleactive)
-            || inhelpscreens
-            || message_dontpause)
+        && ((!menuactive && !paused && !consoleactive) || inhelpscreens || message_dontpause)
         && !idbehold
         && !idmypos
         && !--message_counter)
