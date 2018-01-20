@@ -390,7 +390,7 @@ enum
 
 #define playername_default                      "you"
 
-#define r_althud_default                        true
+#define r_althud_default                        false
 
 #define r_berserkintensity_min                  0
 #define r_berserkintensity_default              2
