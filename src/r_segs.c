@@ -235,7 +235,16 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     sector_t        tempsec;        // killough 4/13/98
 
     curline = ds->curline;
-    colfunc = (curline->linedef->tranlump >= 0 ? tl50colfunc : basecolfunc);
+    colfunc = basecolfunc;
+
+    if (curline->linedef->tranlump >= 0)
+    {
+        if (!r_textures)
+            return;
+
+        colfunc = tl50colfunc;
+    }
+
     frontsector = curline->frontsector;
     backsector = curline->backsector;
     texnum = texturetranslation[curline->sidedef->midtexture];
