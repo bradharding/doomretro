@@ -677,6 +677,22 @@ void R_DrawTranslucent50Column(void)
     *dest = translucency[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
+void R_DrawTranslucentColor50Column(void)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    const byte          *translucency = tranmap;
+    const byte          color = dc_colormap[0][NOTEXTURECOLOR];
+
+    while (--count)
+    {
+        *dest = translucency[(*dest << 8) + color];
+        dest += SCREENWIDTH;
+    }
+
+    *dest = translucency[(*dest << 8) + color];
+}
+
 void R_DrawDitheredColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;

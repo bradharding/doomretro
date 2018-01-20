@@ -3,7 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The rendering of two-sided textures has been improved.
 * The `r_althud` CVAR is now `off` by default.
-* *BOOM*-compatible translucent wall textures now aren’t drawn at all when the `r_textures` CVAR is `off`
+* *BOOM*-compatible translucent wall textures are now still translucent when the `r_textures` CVAR is `off`.
 
 ---
 
