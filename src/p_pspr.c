@@ -228,8 +228,7 @@ void P_FireWeapon(void)
     {
         int motorspeed = weaponinfo[readyweapon].motorspeed * gp_vibrate_weapons / 100;
 
-        if ((readyweapon == wp_fist && viewplayer->powers[pw_strength])
-            || (readyweapon == wp_chainsaw && linetarget))
+        if ((readyweapon == wp_fist && viewplayer->powers[pw_strength]) || (readyweapon == wp_chainsaw && linetarget))
             motorspeed = MAXMOTORSPEED;
 
         XInputVibration(motorspeed);
