@@ -331,7 +331,7 @@ enum
     SR_Ceiling_LowerToFloor                                        =  43,
     W1_Ceiling_LowerTo8AboveFloor                                  =  44,
     SR_Floor_LowerToHighestFloor                                   =  45,
-    GR_Door_OpenStay                                               =  46,
+    G1_Door_OpenStay                                               =  46,
     G1_Floor_RaiseToNextHighestFloor_ChangesTexture                =  47,
     Scroll_ScrollTextureLeft                                       =  48,
     S1_Ceiling_LowerTo8AboveFloor_PerpetualSlowCrusherDamage       =  49,
