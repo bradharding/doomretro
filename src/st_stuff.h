@@ -44,6 +44,18 @@
 #define ST_WIDTH                SCREENWIDTH
 #define ST_Y                    (SCREENHEIGHT - SBARHEIGHT)
 
+// Number of status faces.
+#define ST_NUMPAINFACES         5
+#define ST_NUMSTRAIGHTFACES     3
+#define ST_NUMTURNFACES         2
+#define ST_NUMSPECIALFACES      3
+
+#define ST_FACESTRIDE           (ST_NUMSTRAIGHTFACES + ST_NUMTURNFACES + ST_NUMSPECIALFACES)
+
+#define ST_NUMEXTRAFACES        2
+
+#define ST_NUMFACES             (ST_FACESTRIDE * ST_NUMPAINFACES + ST_NUMEXTRAFACES)
+
 #define ST_STRAIGHTFACECOUNT    (TICRATE / 2)
 
 #define MAPCHANGETICS           TICRATE

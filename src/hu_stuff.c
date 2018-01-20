@@ -52,6 +52,7 @@
 #include "m_config.h"
 #include "p_local.h"
 #include "r_main.h"
+#include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -88,8 +89,6 @@ byte                    *tempscreen;
 static int              hudnumoffset;
 
 static patch_t          *minuspatch;
-static patch_t          *healthpatch;
-static patch_t          *berserkpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
@@ -111,6 +110,8 @@ extern patch_t          *tallpercent;
 extern short            tallpercentwidth;
 extern dboolean         emptytallpercent;
 extern int              caretcolor;
+extern patch_t          *faces[ST_NUMFACES];
+extern int              st_faceindex;
 
 static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
@@ -213,14 +214,6 @@ void HU_Init(void)
         minuspatch = W_CacheLumpName("STTMINUS");
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-
-    if ((lump = W_CheckNumForName("MEDIA0")) >= 0)
-        healthpatch = W_CacheLumpNum(lump);
-
-    if ((lump = W_CheckNumForName("PSTRA0")) >= 0)
-        berserkpatch = W_CacheLumpNum(lump);
-    else
-        berserkpatch = healthpatch;
 
     if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
         greenarmorpatch = W_CacheLumpNum(lump);
@@ -383,18 +376,9 @@ static void HU_DrawHUD(void)
 
     tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
 
-    patch = (((readyweapon == wp_fist && pendingweapon == wp_nochange) || pendingweapon == wp_fist)
-        && viewplayer->powers[pw_strength] ? berserkpatch : healthpatch);
-
-    if (patch)
-    {
-        if ((viewplayer->cheats & CF_GODMODE) || invulnerability > STARTFLASHING || (invulnerability & 8))
-            godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
-        else
-            hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
-
-        health_x += SHORT(patch->width) + 8;
-    }
+    patch = faces[st_faceindex];
+    hudfunc(health_x, HUD_HEALTH_Y - 7, patch, tinttab);
+    health_x += SHORT(patch->width) + 8;
 
     if (healthhighlight > currenttime)
     {

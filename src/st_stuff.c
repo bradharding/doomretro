@@ -75,18 +75,6 @@
 // Location of status bar
 #define ST_X                0
 
-// Number of status faces.
-#define ST_NUMPAINFACES     5
-#define ST_NUMSTRAIGHTFACES 3
-#define ST_NUMTURNFACES     2
-#define ST_NUMSPECIALFACES  3
-
-#define ST_FACESTRIDE       (ST_NUMSTRAIGHTFACES + ST_NUMTURNFACES + ST_NUMSPECIALFACES)
-
-#define ST_NUMEXTRAFACES    2
-
-#define ST_NUMFACES         (ST_FACESTRIDE * ST_NUMPAINFACES + ST_NUMEXTRAFACES)
-
 #define ST_TURNOFFSET       ST_NUMSTRAIGHTFACES
 #define ST_OUCHOFFSET       (ST_TURNOFFSET + ST_NUMTURNFACES)
 #define ST_EVILGRINOFFSET   (ST_OUCHOFFSET + 1)
@@ -202,7 +190,7 @@ static patch_t              *shortnum[10];
 static patch_t              *keys[NUMCARDS];
 
 // face status patches
-static patch_t              *faces[ST_NUMFACES];
+patch_t                     *faces[ST_NUMFACES];
 
 // main bar right
 static patch_t              *armsbg;
@@ -260,7 +248,7 @@ dboolean                    oldweaponsowned[NUMWEAPONS];
 int                         st_facecount;
 
 // current face index, used by w_faces
-static int                  st_faceindex;
+int                         st_faceindex;
 
 // holds key-type for each key box on bar
 static int                  keyboxes[3];
@@ -1282,12 +1270,16 @@ static void ST_updateWidgets(void)
 
 void ST_Ticker(void)
 {
+    st_randomnumber = M_Random();
+
     if (!vid_widescreen)
     {
-        st_randomnumber = M_Random();
         ST_updateWidgets();
         st_oldhealth = viewplayer->health;
     }
+    else if (!paused && !menuactive && !consoleactive)
+        ST_updateFaceWidget();
+
 
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
     if (idclevtics)
