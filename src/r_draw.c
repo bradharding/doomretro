@@ -161,6 +161,25 @@ void R_DrawColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap[0];
+
+    while (--count)
+    {
+        *dest = colormap[source[frac >> FRACBITS]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+
+    *dest = colormap[source[frac >> FRACBITS]];
+}
+
+void R_DrawMaskedSegColumn(void)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
     fixed_t             frac = dc_texturefrac + SPARKLEFIX;
     const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
     const byte          *source = dc_source;
