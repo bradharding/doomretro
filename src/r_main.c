@@ -527,7 +527,7 @@ void R_InitColumnFunctions(void)
         skycolfunc = (r_skycolor == r_skycolor_default ? R_DrawColorColumn : R_DrawSkyColorColumn);
         spanfunc = R_DrawColorSpan;
         tlcolfunc = R_DrawColorColumn;
-        tl50colfunc = R_DrawTranslucentColor50Column;
+        tl50colfunc = (r_translucency ? R_DrawTranslucentColor50Column : R_DrawColorColumn);
         tl33colfunc = R_DrawColorColumn;
         tlgreencolfunc = R_DrawColorColumn;
         tlredcolfunc = R_DrawColorColumn;

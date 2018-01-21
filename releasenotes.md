@@ -4,7 +4,7 @@
 * The rendering of two-sided textures has been improved.
 * The widescreen HUD has been completely redesigned and now includes the player’s face instead of a medikit.
 * The `r_althud` CVAR is now `off` by default.
-* *BOOM*-compatible translucent wall textures are now still translucent when the `r_textures` CVAR is `off`.
+* *BOOM*-compatible translucent wall textures are now still translucent when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`.
 
 ---
 
