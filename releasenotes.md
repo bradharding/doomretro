@@ -4,7 +4,7 @@
 * The rendering of two-sided textures has been improved.
 * The widescreen HUD has been completely redesigned and now includes the player’s face instead of a medikit.
 * The `r_althud` CVAR is now `off` by default.
-* *BOOM*-compatible translucent wall textures are now still translucent when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`.
+* When the `r_textures` CVAR is `off`, shadows cast by monsters are now still translucent when the `r_shadows_translucency` CVAR is `on`, and *BOOM*-compatible translucent wall textures are now still translucent when the `r_translucency` CVAR is `on`.
 * A crash will no longer occur when picking up an invulnerability power-up on the same map after loading a savegame.
 
 ---
