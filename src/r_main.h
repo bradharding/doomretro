@@ -108,6 +108,7 @@ void (*basecolfunc)(void);
 void (*fuzzcolfunc)(void);
 void (*tlcolfunc)(void);
 void (*tl50colfunc)(void);
+void (*tl50segcolfunc)(void);
 void (*tl33colfunc)(void);
 void (*tlgreencolfunc)(void);
 void (*tlredcolfunc)(void);
