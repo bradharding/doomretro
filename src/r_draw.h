@@ -95,6 +95,7 @@ void R_DrawTranslucentColumn(void);
 void R_DrawTranslucent50Column(void);
 void R_DrawTranslucentColor50Column(void);
 void R_DrawDitheredColumn(void);
+void R_DrawDitheredColorColumn(void);
 void R_DrawTranslucent33Column(void);
 void R_DrawTranslucentGreenColumn(void);
 void R_DrawTranslucentRedColumn(void);

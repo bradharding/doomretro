@@ -103,6 +103,7 @@ extern fixed_t      fractionaltic;
 void (*colfunc)(void);
 void (*wallcolfunc)(void);
 void (*bmapwallcolfunc)(void);
+void (*segcolfunc)(void);
 void (*transcolfunc)(void);
 void (*basecolfunc)(void);
 void (*fuzzcolfunc)(void);
