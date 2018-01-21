@@ -465,22 +465,9 @@ static void HU_DrawHUD(void)
 
     if (keys || viewplayer->neededcardflash)
     {
-        int             keypic_x = HUD_KEYS_X - 20 * (keys - 1);
+        int             keypic_x = HUD_KEYS_X - 18 * (keys - 1);
         static int      keywait;
         static dboolean showkey;
-
-        if (!armor)
-            keypic_x += 114;
-        else
-        {
-            if (emptytallpercent)
-                keypic_x += tallpercentwidth;
-
-            if (armor < 10)
-                keypic_x += 26;
-            else if (armor < 100)
-                keypic_x += 12;
-        }
 
         if (viewplayer->neededcardflash)
         {

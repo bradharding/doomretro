@@ -63,7 +63,7 @@
 #define HUD_HEALTH_WAIT             250
 #define HUD_HEALTH_HIGHLIGHT_WAIT   250
 
-#define HUD_AMMO_X                  105
+#define HUD_AMMO_X                  100
 #define HUD_AMMO_Y                  HUD_HEALTH_Y
 #define HUD_AMMO_MIN                20
 #define HUD_AMMO_WAIT               250
