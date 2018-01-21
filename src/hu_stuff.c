@@ -494,7 +494,7 @@ static void HU_DrawHUD(void)
                 }
 
                 if (showkey)
-                    hudfunc(keypic_x - SHORT(patch->width) - 6, HUD_KEYS_Y, patch, tinttab66);
+                    hudfunc(keypic_x - SHORT(patch->width) - 4, HUD_KEYS_Y, patch, tinttab66);
             }
         }
         else
@@ -505,7 +505,7 @@ static void HU_DrawHUD(void)
 
         for (i = 0; i < NUMCARDS; i++)
             if (viewplayer->cards[i] > 0 && (patch = keypics[i].patch))
-                hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - viewplayer->cards[i]), HUD_KEYS_Y,
+                hudfunc(keypic_x + (SHORT(patch->width) + 4) * (cardsfound - viewplayer->cards[i]), HUD_KEYS_Y,
                     patch, tinttab66);
     }
 

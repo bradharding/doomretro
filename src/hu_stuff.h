@@ -58,7 +58,7 @@
 #define HUD_Y                       (311 * SCREENSCALE / 2)
 
 #define HUD_HEALTH_X                40
-#define HUD_HEALTH_Y                (SCREENHEIGHT - SBARHEIGHT - 25)
+#define HUD_HEALTH_Y                (SCREENHEIGHT - SBARHEIGHT - 23)
 #define HUD_HEALTH_MIN              20
 #define HUD_HEALTH_WAIT             250
 #define HUD_HEALTH_HIGHLIGHT_WAIT   250
@@ -69,10 +69,10 @@
 #define HUD_AMMO_WAIT               250
 #define HUD_AMMO_HIGHLIGHT_WAIT     250
 
-#define HUD_KEYS_X                  (SCREENWIDTH - 110)
+#define HUD_KEYS_X                  (SCREENWIDTH - 98)
 #define HUD_KEYS_Y                  HUD_HEALTH_Y
 
-#define HUD_ARMOR_X                 (SCREENWIDTH - 40)
+#define HUD_ARMOR_X                 (SCREENWIDTH - 41)
 #define HUD_ARMOR_Y                 HUD_HEALTH_Y
 #define HUD_ARMOR_HIGHLIGHT_WAIT    250
 
