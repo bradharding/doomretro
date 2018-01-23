@@ -1,6 +1,7 @@
 ### DOOM Retro v2.6.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* When *DOOM Retro* is run for the first time, the `playername` CVAR will now be set to the current *Windows* username.
 * The rendering of two-sided textures has been improved.
 * The widescreen HUD has been completely redesigned and now includes the player’s face instead of a medikit.
 * The `r_althud` CVAR is now `off` by default.
