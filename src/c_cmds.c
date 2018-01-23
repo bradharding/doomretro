@@ -2194,6 +2194,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
         || (*playername && M_StringCompare(parm, playername)))
     {
         viewplayer->health = 0;
+        viewplayer->mo->health = 0;
         viewplayer->attacker = NULL;
 
         if (viewplayer->fixedcolormap == INVERSECOLORMAP)
