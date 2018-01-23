@@ -86,7 +86,6 @@ int M_StringWidth(char *string);
 static dboolean         headsupactive;
 
 byte                    *tempscreen;
-static int              hudnumoffset;
 
 static patch_t          *minuspatch;
 static patch_t          *greenarmorpatch;
@@ -293,7 +292,6 @@ void HU_Start(void)
         HUlib_addCharToTextLine(&w_title, *(s++));
 
     headsupactive = true;
-    hudnumoffset = (16 - SHORT(tallnum[0]->height)) / 2;
 }
 
 static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*hudnumfunc)(int, int, patch_t *, byte *))
@@ -393,19 +391,18 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight > currenttime)
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MAX((minuspatch ? health_min : 0), health),
-            tinttab, V_DrawHighlightedHUDNumberPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, MAX((minuspatch ? health_min : 0), health), tinttab,
+            V_DrawHighlightedHUDNumberPatch);
 
         if (!emptytallpercent)
-            V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
+            V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, MAX((minuspatch ? health_min : 0), health),
-            tinttab, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, MAX((minuspatch ? health_min : 0), health), tinttab, hudnumfunc);
 
         if (!emptytallpercent)
-            hudnumfunc(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
+            hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
     }
 
     if (!gamepaused)
@@ -443,7 +440,7 @@ static void HU_DrawHUD(void)
         if ((patch = ammopic[ammotype].patch))
             hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab);
 
-        DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab,
+        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
             (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
 
         if (!gamepaused)
@@ -512,17 +509,17 @@ static void HU_DrawHUD(void)
 
         if (armorhighlight > currenttime)
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66, V_DrawHighlightedHUDNumberPatch);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHighlightedHUDNumberPatch);
 
             if (!emptytallpercent)
-                V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y + hudnumoffset, tallpercent, tinttab66);
+                V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
         }
         else
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66, hudnumfunc);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, hudnumfunc);
 
             if (!emptytallpercent)
-                hudnumfunc(armor_x, HUD_ARMOR_Y + hudnumoffset, tallpercent, tinttab66);
+                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
         }
     }
 }
