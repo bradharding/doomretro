@@ -212,25 +212,25 @@ void C_Input(const char *string, ...)
     outputhistory = -1;
 }
 
-void C_IntCVAROutput(const char *cvar, const int value)
+void C_IntCVAROutput(char *cvar, int value)
 {
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, M_StringJoin(cvar, " ", NULL)))
         consolestrings--;
 
     C_Input("%s %i", cvar, value);
 }
 
-void C_PctCVAROutput(const char *cvar, const int value)
+void C_PctCVAROutput(char *cvar, int value)
 {
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, M_StringJoin(cvar, " ", NULL)))
         consolestrings--;
 
     C_Input("%s %i%%", cvar, value);
 }
 
-void C_StrCVAROutput(const char *cvar, const char *string)
+void C_StrCVAROutput(char *cvar, char *string)
 {
-    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, cvar))
+    if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, M_StringJoin(cvar, " ", NULL)))
         consolestrings--;
 
     C_Input("%s %s", cvar, string);

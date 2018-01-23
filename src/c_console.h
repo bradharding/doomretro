@@ -118,9 +118,9 @@ typedef struct
 
 void C_Print(const stringtype_t type, const char *string, ...);
 void C_Input(const char *string, ...);
-void C_IntCVAROutput(const char *cvar, const int value);
-void C_PctCVAROutput(const char *cvar, const int value);
-void C_StrCVAROutput(const char *cvar, const char *string);
+void C_IntCVAROutput(char *cvar, int value);
+void C_PctCVAROutput(char *cvar, int value);
+void C_StrCVAROutput(char *cvar, char *string);
 void C_CCMDOutput(const char *ccmd);
 void C_Output(const char *string, ...);
 void C_TabbedOutput(const int tabs[8], const char *string, ...);
