@@ -959,8 +959,12 @@ static int C_GetIndex(const char *cmd)
     int i = 0;
 
     while (*consolecmds[i].name)
-        if (M_StringCompare(cmd, consolecmds[i++].name))
+    {
+        if (M_StringCompare(cmd, consolecmds[i].name))
             break;
+
+        i++;
+    }
 
     return i;
 }
