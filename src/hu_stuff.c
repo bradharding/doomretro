@@ -301,13 +301,19 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*hudnumfu
 
     if (val < 0)
     {
-        val = -val;
-        oldval = val;
-        hudnumfunc(*x, y + 5, minuspatch, tinttab);
-        *x += SHORT(minuspatch->width);
+        if (minuspatch)
+        {
+            val = -val;
+            hudnumfunc(*x, y + 5, minuspatch, tinttab);
+            *x += SHORT(minuspatch->width);
 
-        if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
-            (*x)--;
+            if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
+                (*x)--;
+        }
+        else
+            val = 0;
+
+        oldval = val;
     }
 
     if (val > 99)
@@ -339,12 +345,19 @@ static int HUDNumberWidth(int val)
 
     if (val < 0)
     {
-        val = -val;
-        oldval = val;
-        width = SHORT(minuspatch->width);
+        if (minuspatch)
+        {
+            val = -val;
+            oldval = val;
+            width = SHORT(minuspatch->width);
 
-        if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
-            width--;
+            if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
+                width--;
+        }
+        else
+            val = 0;
+
+        oldval = val;
     }
 
     if (val > 99)
@@ -391,15 +404,14 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight > currenttime)
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, MAX((minuspatch ? health_min : 0), health), tinttab,
-            V_DrawHighlightedHUDNumberPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, V_DrawHighlightedHUDNumberPatch);
 
         if (!emptytallpercent)
             V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, MAX((minuspatch ? health_min : 0), health), tinttab, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
 
         if (!emptytallpercent)
             hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
