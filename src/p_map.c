@@ -1946,7 +1946,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     // crunch bodies to giblets
     if (thing->health <= 0 && (flags2 & MF2_CRUSHABLE))
     {
-        if (thing->type == MT_PLAYER)
+        if (thing->player)
         {
             nofit = true;
             return;
