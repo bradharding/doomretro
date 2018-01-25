@@ -427,7 +427,7 @@ static castinfo_t castorder[] =
     { &s_CC_ARCH,    MT_VILE      },
     { &s_CC_SPIDER,  MT_SPIDER    },
     { &s_CC_CYBER,   MT_CYBORG    },
-    { &s_CC_HERO,    MT_PLAYER    },
+    { &playername,   MT_PLAYER    },
     { NULL,          0            }
 };
 
