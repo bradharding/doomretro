@@ -1716,17 +1716,7 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (!stat_runs)
-    {
-#if defined(_WIN32)
-        char    name[UNLEN + 1];
-        DWORD   cch = UNLEN + 1;
-
-        if (GetUserName(name, &cch))
-            playername = strdup(name);
-#endif
-
         C_Output("This is the first time <i><b>"PACKAGE_NAME"</b></i> has been run.");
-    }
     else if (stat_runs == 1)
         C_Output("<i><b>"PACKAGE_NAME"</b></i> has now been run twice.");
     else
