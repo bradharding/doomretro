@@ -1358,8 +1358,7 @@ static void SetVideoMode(dboolean output)
 
             if (output)
                 C_Output("Staying at the desktop resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""),
-                    ratio);
+                    commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""), ratio);
         }
         else
         {
@@ -1377,8 +1376,7 @@ static void SetVideoMode(dboolean output)
 
             if (output)
                 C_Output("Switched to a resolution of %s\xD7%s%s%s%s with a %s aspect ratio.",
-                    commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""),
-                    ratio);
+                    commify(width), commify(height), (*acronym ? " (" : ""), acronym, (*acronym ? ")" : ""), ratio);
         }
     }
     else
@@ -1657,7 +1655,7 @@ void I_ToggleWidescreen(dboolean toggle)
     {
         vid_widescreen = true;
 
-        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT) < 0)
+        if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 10 / 16) < 0)
             I_SDLError("SDL_RenderSetLogicalSize");
 
         src_rect.h = SCREENHEIGHT - SBARHEIGHT;

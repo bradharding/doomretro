@@ -88,6 +88,7 @@ static dboolean         headsupactive;
 byte                    *tempscreen;
 
 static patch_t          *minuspatch;
+static short            minuspatchwidth;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
@@ -209,7 +210,10 @@ void HU_Init(void)
     }
 
     if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
+    {
         minuspatch = W_CacheLumpName("STTMINUS");
+        minuspatchwidth = SHORT(minuspatch->width);
+    }
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
@@ -305,7 +309,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*hudnumfu
         {
             val = -val;
             hudnumfunc(*x, y + 5, minuspatch, tinttab);
-            *x += SHORT(minuspatch->width);
+            *x += minuspatchwidth;
 
             if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
                 (*x)--;
@@ -349,7 +353,7 @@ static int HUDNumberWidth(int val)
         {
             val = -val;
             oldval = val;
-            width = SHORT(minuspatch->width);
+            width = minuspatchwidth;
 
             if (val == 1 || (val >= 10 && val <= 19) || (val >= 100 && val <= 199))
                 width--;
@@ -567,8 +571,8 @@ static altkeypic_t altkeypics[NUMCARDS] =
 
 static patch_t  *altnum[10];
 static patch_t  *altnum2[10];
-static patch_t  *altnegpatch;
-static short    altnegpatchwidth;
+static patch_t  *altminuspatch;
+static short    altminuspatchwidth;
 static patch_t  *altweapon[NUMWEAPONS];
 static patch_t  *altendpatch;
 static patch_t  *altleftpatch;
@@ -599,8 +603,8 @@ static void HU_AltInit(void)
         altnum2[i] = W_CacheLumpName(buffer);
     }
 
-    altnegpatch = W_CacheLumpName("DRHUDNEG");
-    altnegpatchwidth = SHORT(altnegpatch->width);
+    altminuspatch = W_CacheLumpName("DRHUDNEG");
+    altminuspatchwidth = SHORT(altminuspatch->width);
 
     for (int i = 1; i < NUMWEAPONS; i++)
     {
@@ -658,8 +662,8 @@ static void DrawAltHUDNumber(int x, int y, int val)
     if (val < 0)
     {
         val = -val;
-        althudfunc(x - altnegpatchwidth - ((val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70
-            && val <= 79) || (val >= 100 && val <= 199)) ? 1 : 2), y, altnegpatch, WHITE, white);
+        althudfunc(x - altminuspatchwidth - ((val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70
+            && val <= 79) || (val >= 100 && val <= 199)) ? 1 : 2), y, altminuspatch, WHITE, white);
     }
 
     if (val > 99)
