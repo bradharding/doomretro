@@ -736,7 +736,7 @@ dboolean ST_Responder(event_t *ev)
                                 viewplayer->powers[pw_invulnerability] = (viewplayer->invulnbeforechoppers ? 1 : STARTFLASHING);
                                 viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
                                 oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
-                              }
+                            }
                         }
 
                         C_Input(cheat_powerup[i].sequence);
