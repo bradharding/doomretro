@@ -2095,14 +2095,19 @@ void P_FreeSecNodeList(void)
 
 // P_GetSecnode() retrieves a node from the freelist. The calling routine
 // should make sure it sets all fields properly.
-//
-// killough 11/98: reformatted
 static msecnode_t *P_GetSecnode(void)
 {
     msecnode_t  *node;
 
-    return (headsecnode ? node = headsecnode, headsecnode = node->m_snext, node :
-        Z_Malloc(sizeof(*node), PU_LEVEL, NULL));
+    if (headsecnode)
+    {
+        node = headsecnode;
+        headsecnode = headsecnode->m_snext;
+    }
+    else
+        node = Z_Malloc(sizeof(*node), PU_LEVEL, NULL);
+
+    return node;
 }
 
 // P_PutSecnode() returns a node to the freelist.

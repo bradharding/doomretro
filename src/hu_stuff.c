@@ -393,7 +393,6 @@ static void HU_DrawHUD(void)
     int                 keys = 0;
     int                 i = 0;
     byte                *tinttab;
-    const int           invulnerability = viewplayer->powers[pw_invulnerability];
     static dboolean     healthanim;
     patch_t             *patch;
     const dboolean      gamepaused = (menuactive || paused || consoleactive);

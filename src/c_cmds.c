@@ -785,7 +785,7 @@ consolecmd_t consolecmds[] =
 
 static dboolean run(void)
 {
-    return (gamekeydown[keyboardrun] ^ !!mousebuttons[mouserun] ^ !!(gamepadbuttons & gamepadrun) ^ alwaysrun);
+    return (gamekeydown[keyboardrun] ^ (!!mousebuttons[mouserun]) ^ (!!(gamepadbuttons & gamepadrun)) ^ alwaysrun);
 }
 
 static dboolean strafe(void)

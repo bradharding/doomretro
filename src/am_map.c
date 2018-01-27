@@ -501,7 +501,7 @@ static dboolean     speedtoggle;
 
 static dboolean AM_getSpeedToggle(void)
 {
-    return (!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER) ^ !!(modstate & KMOD_SHIFT));
+    return ((!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
 }
 
 void AM_toggleZoomOut(void)
