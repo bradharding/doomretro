@@ -393,10 +393,10 @@ void R_DrawBrightMapWallColumn(void)
 
             if ((frac += fracstep) >= heightmask)
                 frac -= heightmask;
-
-            dot = source[frac >> FRACBITS];
-            *dest = colormap[brightmap[dot]][dot];
         }
+
+        dot = source[frac >> FRACBITS];
+        *dest = colormap[brightmap[dot]][dot];
     }
     else
     {
