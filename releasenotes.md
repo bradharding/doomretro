@@ -2,6 +2,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby the wall textures seen beyond a moving sector would shift slightly.
+* Improvements have been made to how blood splats are spawned.
 
 ---
 
