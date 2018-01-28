@@ -1272,7 +1272,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *t
     {
         sector_t    *sec = R_PointInSubsector(x, y)->sector;
 
-        if (!sec->isliquid && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
+        if (!sec->isliquid && sec->interpfloorheight <= maxheight
+            && sec->interpfloorheight != sec->interpceilingheight && sec->floorpic != skyflatnum)
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
             int             patch = firstbloodsplatlump + (M_Random() & 7);
