@@ -367,7 +367,7 @@ static void R_RenderSegLoop(void)
                 dc_colormap[0] = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
             dc_x = rw_x;
-            dc_iscale = 0xFFFFFFFFu / (unsigned int)rw_scale;
+            dc_iscale = 0xFFFFFFFFu / (unsigned int)rw_scale - SPARKLEFIX;
         }
 
         // draw the wall tiers
@@ -407,10 +407,9 @@ static void R_RenderSegLoop(void)
                 {
                     dc_yl = yl;
                     dc_yh = mid;
-                    dc_texturemid = rw_toptexturemid;
+                    dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
                     dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
                     dc_texheight = toptexheight;
-                    dc_iscale -= SPARKLEFIX;
 
                     // [BH] apply brightmap
                     if (topbrightmap)
@@ -446,7 +445,6 @@ static void R_RenderSegLoop(void)
                     dc_texturemid = rw_bottomtexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
                     dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                     dc_texheight = bottomtexheight;
-                    dc_iscale -= SPARKLEFIX;
 
                     // [BH] apply brightmap
                     if (bottombrightmap)
