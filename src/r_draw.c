@@ -565,9 +565,9 @@ void R_DrawFlippedSkyColumn(void)
 
 void R_DrawSkyColorColumn(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    byte    color = r_skycolor;
+    int         count = dc_yh - dc_yl + 1;
+    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    const byte  color = r_skycolor;
 
     while (--count)
     {
@@ -741,10 +741,10 @@ void R_DrawDitheredColumn(void)
 
 void R_DrawDitheredColorColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    const byte          color = dc_colormap[0][NOTEXTURECOLOR];
-    const byte          *translucency = tranmap;
+    int         count = dc_yh - dc_yl + 1;
+    byte        *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    const byte  color = dc_colormap[0][NOTEXTURECOLOR];
+    const byte  *translucency = tranmap;
 
     if ((dc_yl ^ dc_x) & 1)
     {
@@ -1272,7 +1272,7 @@ byte            *ds_source;
 //
 void R_DrawSpan(void)
 {
-    unsigned int        count = ds_x2 - ds_x1 + 1;
+    int                 count = ds_x2 - ds_x1 + 1;
     byte                *dest = topleft0 + ds_y * SCREENWIDTH + ds_x1;
     fixed_t             xfrac = ds_xfrac;
     fixed_t             yfrac = ds_yfrac;
@@ -1293,9 +1293,9 @@ void R_DrawSpan(void)
 
 void R_DrawColorSpan(void)
 {
-    unsigned int    count = ds_x2 - ds_x1 + 1;
-    byte            *dest = topleft0 + ds_y * SCREENWIDTH + ds_x1;
-    byte            color = ds_colormap[NOTEXTURECOLOR];
+    int         count = ds_x2 - ds_x1 + 1;
+    byte        *dest = topleft0 + ds_y * SCREENWIDTH + ds_x1;
+    const byte  color = ds_colormap[NOTEXTURECOLOR];
 
     while (count--)
         *dest++ = color;
@@ -1326,7 +1326,7 @@ void R_FillBackScreen(void)
 {
     byte    *src;
     byte    *dest;
-    int     y;
+    int     x, y;
     int     width, height;
     int     windowx, windowy;
 
@@ -1336,8 +1336,8 @@ void R_FillBackScreen(void)
     src = (byte *)grnrock;
     dest = screens[1];
 
-    for (int y = 0; y < SCREENHEIGHT; y += 2)
-        for (int x = 0; x < SCREENWIDTH / 32; x += 2)
+    for (y = 0; y < SCREENHEIGHT; y += 2)
+        for (x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             for (int i = 0; i < 64; i++)
             {
@@ -1362,10 +1362,10 @@ void R_FillBackScreen(void)
     windowx = viewwindowx / 2;
     windowy = viewwindowy / 2;
 
-    for (int x = 0; x < width; x += 8)
+    for (x = 0; x < width; x += 8)
         V_DrawPatch(windowx + x, windowy - 8, 1, brdr_t);
 
-    for (int x = 0; x < width; x += 8)
+    for (x = 0; x < width; x += 8)
         V_DrawPatch(windowx + x, windowy + height, 1, brdr_b);
 
     for (y = 0; y < height - 8; y += 8)
