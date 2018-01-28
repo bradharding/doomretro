@@ -410,6 +410,7 @@ static void R_RenderSegLoop(void)
                     dc_texturemid = rw_toptexturemid;
                     dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
                     dc_texheight = toptexheight;
+                    dc_iscale -= SPARKLEFIX;
 
                     // [BH] apply brightmap
                     if (topbrightmap)
@@ -442,9 +443,10 @@ static void R_RenderSegLoop(void)
                 {
                     dc_yl = mid;
                     dc_yh = yh;
-                    dc_texturemid = rw_bottomtexturemid;
+                    dc_texturemid = rw_bottomtexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
                     dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                     dc_texheight = bottomtexheight;
+                    dc_iscale -= SPARKLEFIX;
 
                     // [BH] apply brightmap
                     if (bottombrightmap)
