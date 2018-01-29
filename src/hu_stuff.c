@@ -399,7 +399,7 @@ static void HU_DrawHUD(void)
     tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
 
     patch = faces[st_faceindex];
-    hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab);
+    hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
     health_x = HUD_HEALTH_X - (HUDNumberWidth(health) + tallpercentwidth) / 2;
 
@@ -451,7 +451,7 @@ static void HU_DrawHUD(void)
         tinttab = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
 
         if ((patch = ammopic[ammotype].patch))
-            hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab);
+            hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
         DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
             (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
