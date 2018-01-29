@@ -209,11 +209,12 @@ void HU_Init(void)
         caretcolor = FindDominantColor(hu_font[i]);
     }
 
-    if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
-    {
-        minuspatch = W_CacheLumpName("STTMINUS");
-        minuspatchwidth = SHORT(minuspatch->width);
-    }
+    if (W_CheckNumForName("STTMINUS") >= 0)
+        if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
+        {
+            minuspatch = W_CacheLumpName("STTMINUS");
+            minuspatchwidth = SHORT(minuspatch->width);
+        }
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
