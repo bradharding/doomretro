@@ -353,7 +353,7 @@ int I_GetSfxLumpNum(sfxinfo_t *sfx)
         sfx = sfx->link;
 
     M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name);
-    return W_GetNumForName(namebuf);
+    return W_CheckNumForName(namebuf);
 }
 
 void I_UpdateSoundParams(int handle, int vol, int sep)
