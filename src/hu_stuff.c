@@ -197,13 +197,13 @@ void HU_SetTranslucency(void)
 
 void HU_Init(void)
 {
-    int     j = HU_FONTSTART;
-    int     lump;
-    char    buffer[9];
+    int lump;
 
     // load the heads-up font
-    for (int i = 0; i < HU_FONTSIZE; i++)
+    for (int i = 0, j = HU_FONTSTART; i < HU_FONTSIZE; i++)
     {
+        char    buffer[9];
+
         M_snprintf(buffer, sizeof(buffer), "STCFN%.3d", j++);
         hu_font[i] = W_CacheLumpName(buffer);
         caretcolor = FindDominantColor(hu_font[i]);
@@ -250,9 +250,6 @@ void HU_Init(void)
     }
 
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
-
-    if (!M_StringCompare(playername, playername_default))
-        s_GOTMEDINEED = s_GOTMEDINEED2;
 
     HU_GetMessagePosition();
     HU_AltInit();

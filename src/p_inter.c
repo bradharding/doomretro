@@ -859,7 +859,18 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage((viewplayer->health < 50 ? s_GOTMEDINEED : s_GOTMEDIKIT), false);
+            {
+                if (viewplayer->health < 50)
+                {
+                    static char buffer[1024];
+
+                    M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername,
+                        (M_StringCompare(playername, playername_default) ? "you" : "they"));
+                    HU_PlayerMessage(buffer, false);
+                }
+                else
+                    HU_PlayerMessage((viewplayer->health < 50 ? s_GOTMEDINEED : s_GOTMEDIKIT), false);
+            }
 
             break;
 
