@@ -922,7 +922,7 @@ void HU_GetMessagePosition(void)
 
 void HU_Drawer(void)
 {
-    if (!vid_widescreen)
+    if (!vid_widescreen || !r_althud)
     {
         if (r_messagescale == r_messagescale_small)
         {
