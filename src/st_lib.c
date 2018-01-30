@@ -42,6 +42,8 @@
 #include "st_lib.h"
 #include "v_video.h"
 
+dboolean    usesmallnums;
+
 void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolean *on, int width)
 {
     n->x = x;
@@ -143,13 +145,12 @@ static void STlib_drawSmallNum(st_number_t *n)
     int         num = MAX(0, *n->num);
     patch_t     *patch = n->p[0];
     int         w = SHORT(patch->width);
-    dboolean    smallnum = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
     int         x = n->x;
 
     // in the special case of 0, you draw 0
     if (!num)
     {
-        if (smallnum)
+        if (usesmallnums)
         {
             if (r_detail == r_detail_high)
                 STlib_drawHighNum(0, 160, 47, x - w, n->y);
@@ -166,7 +167,7 @@ static void STlib_drawSmallNum(st_number_t *n)
         {
             x -= w;
 
-            if (smallnum)
+            if (usesmallnums)
             {
                 if (r_detail == r_detail_high)
                     STlib_drawHighNum(num % 10, 160, 47, x, n->y);
@@ -230,12 +231,15 @@ void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
 {
     if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        if (STYSNUM0 || STBAR > 2)
+        if (usesmallnums)
+        {
+            if (r_detail == r_detail_high)
+                STlib_drawHighNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
+            else
+                STlib_drawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
+        }
+        else 
             V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
-        else if (r_detail == r_detail_high)
-            STlib_drawHighNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
-        else
-            STlib_drawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
 
         mi->oldinum = *mi->inum;
     }

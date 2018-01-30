@@ -123,6 +123,8 @@ typedef struct
     int         data;
 } st_binicon_t;
 
+extern dboolean usesmallnums;
+
 //
 // Widget creation, access, and update routines
 //

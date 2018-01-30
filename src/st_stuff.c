@@ -1588,6 +1588,8 @@ static void ST_createWidgets(void)
     STlib_initMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1], &st_statusbaron);
     STlib_initMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2], &st_statusbaron);
 
+    usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
+
     // ammo count (all four kinds)
     STlib_initNum(&w_ammo[0], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[0], &st_statusbaron, ST_AMMO0WIDTH);
     STlib_initNum(&w_ammo[1], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[1], &st_statusbaron, ST_AMMO1WIDTH);
