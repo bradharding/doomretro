@@ -1280,7 +1280,6 @@ void ST_Ticker(void)
     else if (!paused && !menuactive && !consoleactive)
         ST_updateFaceWidget();
 
-
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
     if (idclevtics)
         if (!--idclevtics)
@@ -1537,12 +1536,9 @@ static void ST_loadData(void)
 static void ST_initData(void)
 {
     st_firsttime = true;
-
     st_statusbaron = true;
-
     st_faceindex = 0;
     st_palette = -1;
-
     st_oldhealth = -1;
 
     for (int i = 0; i < NUMWEAPONS; i++)
@@ -1615,7 +1611,6 @@ static void ST_Stop(void)
         return;
 
     I_SetPalette(W_CacheLumpNum(lu_palette));
-
     st_stopped = true;
 }
 

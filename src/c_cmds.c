@@ -108,7 +108,6 @@ static int      mapcmdepisode;
 static int      mapcmdmap;
 static char     mapcmdlump[7];
 
-
 dboolean        executingalias = false;
 dboolean        vanilla = false;
 dboolean        resettingcvar = false;

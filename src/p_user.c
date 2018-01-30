@@ -67,7 +67,6 @@ void G_RemoveChoppers(void);
 // Movement
 //
 
-
 //
 // P_Thrust
 // Moves the given origin along a given angle.
@@ -512,7 +511,7 @@ void P_PlayerThink(void)
     }
 
     if (viewplayer->recoil)
-        viewplayer->recoil += (viewplayer->recoil > 0 ? -1 : 1);
+        viewplayer->recoil -= SIGN(viewplayer->recoil);
 
     if (viewplayer->playerstate == PST_DEAD)
     {

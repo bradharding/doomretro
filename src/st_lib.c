@@ -70,9 +70,7 @@ static void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
         "111111001111110011221122112211221111112211111122002211220022112211111122111111220022222200222222"
     };
 
-    int j = (y * SCREENWIDTH + x) * SCREENSCALE;
-
-    for (int i = 0; i < 96; i++)
+    for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
         char    dot = lownums[number][i];
 
@@ -99,9 +97,7 @@ static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
         "011110001111110011021120112211221111112201111122002211220002112201111122011110220002222200022220"
     };
 
-    int j = (y * SCREENWIDTH + x) * SCREENSCALE;
-
-    for (int i = 0; i < 96; i++)
+    for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
         char    dot = highnums[number][i];
 
@@ -114,11 +110,9 @@ static void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
 
 static void STlib_drawBigNum(st_number_t *n)
 {
-    int     numdigits = n->width;
-    int     num = MAX(0, *n->num);
-    patch_t *patch = n->p[0];
-    int     w = SHORT(patch->width);
-    int     x = n->x;
+    int numdigits = n->width;
+    int num = MAX(0, *n->num);
+    int x = n->x;
 
     // if non-number, do not draw it
     if (num == 1994)
@@ -126,13 +120,13 @@ static void STlib_drawBigNum(st_number_t *n)
 
     // in the special case of 0, you draw 0
     if (!num)
-        V_DrawPatch(x - w, n->y, 0, patch);
+        V_DrawPatch(x - 14, n->y, 0, n->p[0]);
     else
     {
         // draw the new number
         while (num && numdigits--)
         {
-            x -= w;
+            x -= 14;
             V_DrawPatch(x, n->y, 0, n->p[num % 10]);
             num /= 10;
         }
@@ -141,11 +135,9 @@ static void STlib_drawBigNum(st_number_t *n)
 
 static void STlib_drawSmallNum(st_number_t *n)
 {
-    int         numdigits = n->width;
-    int         num = MAX(0, *n->num);
-    patch_t     *patch = n->p[0];
-    int         w = SHORT(patch->width);
-    int         x = n->x;
+    int numdigits = n->width;
+    int num = MAX(0, *n->num);
+    int x = n->x;
 
     // in the special case of 0, you draw 0
     if (!num)
@@ -153,19 +145,19 @@ static void STlib_drawSmallNum(st_number_t *n)
         if (usesmallnums)
         {
             if (r_detail == r_detail_high)
-                STlib_drawHighNum(0, 160, 47, x - w, n->y);
+                STlib_drawHighNum(0, 160, 47, x - 4, n->y);
             else
-                STlib_drawLowNum(0, 160, 47, x - w, n->y);
+                STlib_drawLowNum(0, 160, 47, x - 4, n->y);
         }
         else
-            V_DrawPatch(x - w, n->y, 0, patch);
+            V_DrawPatch(x - 4, n->y, 0, n->p[0]);
     }
     else
     {
         // draw the new number
         while (num && numdigits--)
         {
-            x -= w;
+            x -= 4;
 
             if (usesmallnums)
             {
