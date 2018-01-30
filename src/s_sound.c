@@ -593,6 +593,7 @@ void S_StartMusic(int music_id)
 void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean mapstart)
 {
     musicinfo_t *music = &S_music[music_id];
+    char        namebuf[9];
     void        *handle = NULL;
     int         mapinfomusic;
 
@@ -605,18 +606,20 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
     // shutdown old music
     S_StopMusic();
 
+    M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
+
     // get lumpnum if necessary
     if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) > 0)
         music->lumpnum = mapinfomusic;
     else if (!music->lumpnum)
-    {
-        char    namebuf[9];
-
-        M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
         music->lumpnum = W_CheckNumForName(namebuf);
-    }
 
-    if (music->lumpnum != -1)
+    if (music->lumpnum == -1)
+    {
+        C_Warning("The <b>%s</b> music lump can't be found.", uppercase(namebuf));
+        return;
+    }
+    else
     {
         // Load & register it
         music->data = W_CacheLumpNum(music->lumpnum);
@@ -628,9 +631,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean cheating, dboolean m
         if (!serverMidiPlaying)
 #endif
         {
-            if (*music->name)
-                C_Warning("The <b>D_%s</b> music lump can't be played.", uppercase(music->name));
-
+            C_Warning("The <b>%s</b> music lump can't be played.", uppercase(namebuf));
             return;
         }
 
