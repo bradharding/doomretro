@@ -143,7 +143,7 @@ static void STlib_drawSmallNum(st_number_t *n)
     int         num = MAX(0, *n->num);
     patch_t     *patch = n->p[0];
     int         w = SHORT(patch->width);
-    dboolean    smallnum = (!STYSNUM0 && STBAR == 2);
+    dboolean    smallnum = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
     int         x = n->x;
 
     // in the special case of 0, you draw 0
