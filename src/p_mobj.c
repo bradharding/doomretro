@@ -540,8 +540,13 @@ void P_MobjThinker(mobj_t *mobj)
     sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
-    if (!(player && mobj == player->mo) && mobj->interpolate)
+    if (mobj->interpolate == -1)
+        mobj->interpolate = false;
+    else if (!(player && mobj == player->mo))
     {
+        // Assume we can interpolate at the beginning of the tic.
+        mobj->interpolate = true;
+
         // Store starting position for mobj interpolation.
         mobj->oldx = mobj->x;
         mobj->oldy = mobj->y;
@@ -1416,7 +1421,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
         th->nudge = 1;
     }
 
-    th->interpolate = false;
+    th->interpolate = -1;
 
     P_CheckMissileSpawn(th);
 

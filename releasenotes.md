@@ -6,6 +6,7 @@
 * Minor changes have been made to text that is output to the console.
 * Early versions of *DOOM Shareware* will now run without exiting with an error.
 * When the player’s health or ammo is low, now only the values themselves will flash in the widescreen HUD.
+* A bug has been fixed whereby a monster’s position would be interpolated when teleporting if the `vid_capfps` CVAR was a value other than `35`.
 
 ---
 

@@ -630,7 +630,6 @@ static void R_ProjectSprite(mobj_t *thing)
     }
     else
     {
-        thing->interpolate = true;
         fx = thing->x;
         fy = thing->y;
         fz = thing->z;
