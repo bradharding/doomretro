@@ -84,7 +84,6 @@ extern byte             *tinttabblue25;
 // The span blitting interface.
 // Hook in assembler or system specific BLT here.
 void R_DrawColumn(void);
-void R_DrawMaskedSegColumn(void);
 void R_DrawColorColumn(void);
 void R_DrawWallColumn(void);
 void R_DrawBrightMapWallColumn(void);

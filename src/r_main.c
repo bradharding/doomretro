@@ -464,7 +464,7 @@ void R_InitColumnFunctions(void)
         transcolfunc = R_DrawTranslatedColumn;
         wallcolfunc = R_DrawWallColumn;
         bmapwallcolfunc = R_DrawBrightMapWallColumn;
-        segcolfunc = R_DrawMaskedSegColumn;
+        segcolfunc = R_DrawColumn;
 
         if (r_skycolor != r_skycolor_default)
             skycolfunc = R_DrawSkyColorColumn;
