@@ -65,12 +65,9 @@ typedef BOOL (WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
 void I_PrintWindowsVersion(void)
 {
-    PRTLGETVERSION  pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"),
-                        "RtlGetVersion");
-    PGETPRODUCTINFO pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"),
-                        "GetProductInfo");
-    PISWOW64PROCESS pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(GetModuleHandle("kernel32.dll"),
-                        "IsWow64Process");
+    PRTLGETVERSION  pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"), "RtlGetVersion");
+    PGETPRODUCTINFO pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetProductInfo");
+    PISWOW64PROCESS pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(GetModuleHandle("kernel32.dll"), "IsWow64Process");
 
     if (pRtlGetVersion && pGetProductInfo)
     {
@@ -189,8 +186,8 @@ void I_PrintWindowsVersion(void)
 
             C_Output("Running on <i><b>Microsoft Windows %s%s%s%s%ws%s%s</b></i>.", infoname,
                 (*typename ? " " : ""), (*typename ? typename : ""), (wcslen(info.szCSDVersion) ? " (" : ""),
-                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" :
-                ""), bits);
+                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" : ""),
+                bits);
         }
     }
 }

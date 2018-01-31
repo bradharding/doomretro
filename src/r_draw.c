@@ -364,15 +364,15 @@ void R_DrawWallColumn(void)
 
 void R_DrawBrightMapWallColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
-    const fixed_t       fracstep = dc_iscale;
-    const byte          *source = dc_source;
-    const byte          *brightmap = dc_brightmap;
-    const lighttable_t  **colormap = dc_colormap;
-    fixed_t             heightmask = dc_texheight - 1;
-    byte                dot;
+    int             count = dc_yh - dc_yl + 1;
+    byte            *dest = topleft0 + dc_yl * SCREENWIDTH + dc_x;
+    fixed_t         frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    const fixed_t   fracstep = dc_iscale;
+    const byte      *source = dc_source;
+    const byte      *brightmap = dc_brightmap;
+    lighttable_t    **colormap = dc_colormap;
+    fixed_t         heightmask = dc_texheight - 1;
+    byte            dot;
 
     if (dc_texheight & heightmask)
     {
