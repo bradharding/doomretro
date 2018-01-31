@@ -185,7 +185,7 @@ void I_PrintWindowsVersion(void)
                     infoname = "8.1";
             }
             else if (info.dwMajorVersion == 10)
-                infoname = "10";
+                infoname = (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016");
 
             C_Output("Running on <i><b>Microsoft Windows %s%s%s%s%ws%s%s</b></i>.", infoname,
                 (*typename ? " " : ""), (*typename ? typename : ""), (wcslen(info.szCSDVersion) ? " (" : ""),
