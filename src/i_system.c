@@ -81,7 +81,7 @@ void I_PrintWindowsVersion(void)
             BOOL    Wow64Process = FALSE;
 
             pIsWow64Process(GetCurrentProcess(), &Wow64Process);
-            strcpy(bits, (Wow64Process || sizeof(intptr_t) == 8 ? " (64-bit)" : " (32-bit)"));
+            strcpy(bits, (Wow64Process || sizeof(intptr_t) == 8 ? "64-bit" : "32-bit"));
         }
 
         ZeroMemory(&info, sizeof(OSVERSIONINFOEXW));
@@ -184,10 +184,10 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10)
                 infoname = (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016");
 
-            C_Output("Running on <i><b>Microsoft Windows %s%s%s%s%ws%s%s</b></i>.", infoname,
+            C_Output("Running on %s <i><b>Microsoft Windows %s%s%s%s%ws%s (Build %i)</b></i>.", bits, infoname,
                 (*typename ? " " : ""), (*typename ? typename : ""), (wcslen(info.szCSDVersion) ? " (" : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""), (wcslen(info.szCSDVersion) ? ")" : ""),
-                bits);
+                info.dwBuildNumber);
         }
     }
 }
