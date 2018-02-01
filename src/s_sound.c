@@ -706,14 +706,15 @@ void S_ParseMusInfo(char *mapid)
 
     if (W_CheckNumForName("MUSINFO") != -1)
     {
-        unsigned int    num;
-        int             inMap = false;
+        int inMap = false;
 
         SC_Open("MUSINFO");
 
         while (SC_GetString())
             if (inMap || SC_Compare(mapid))
             {
+                unsigned int    num;
+
                 if (!inMap)
                 {
                     SC_GetString();

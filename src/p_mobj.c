@@ -92,10 +92,10 @@ void P_DelSeclist(msecnode_t *node);
 //
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
-    state_t *st;
-
     do
     {
+        state_t *st;
+
         if (state == S_NULL)
         {
             mobj->state = (state_t *)S_NULL;
@@ -580,8 +580,7 @@ void P_MobjThinker(mobj_t *mobj)
 
     // [BH] otherwise bob certain power-ups
     else if ((flags2 & MF2_FLOATBOB) && r_floatbob)
-        mobj->z = BETWEEN(mobj->floorz, mobj->z + floatbobdiffs[(mobj->floatbob + leveltime) & 63],
-            mobj->ceilingz);
+        mobj->z = BETWEEN(mobj->floorz, mobj->z + floatbobdiffs[(mobj->floatbob + leveltime) & 63], mobj->ceilingz);
 
     else if (mobj->z != mobj->floorz || mobj->momz)
     {

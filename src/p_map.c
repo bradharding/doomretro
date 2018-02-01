@@ -299,8 +299,8 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
 // intersection of the trajectory and the line, but that takes
 // longer and probably really isn't worth the effort.
 //
-//
 // killough 11/98: reformatted
+//
 // [BH] Allow pain elementals to shoot lost souls through 2-sided walls with an ML_BLOCKMONSTERS
 //  flag. This is a compromise between BOOM and Vanilla DOOM behaviors, and allows pain elementals
 //  at the end of REQUIEM.WAD's MAP04 to do their thing.
