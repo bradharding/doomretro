@@ -39,128 +39,140 @@
 #include "d_items.h"
 #include "info.h"
 
-//
-// PSPRITE ACTIONS for weapons.
-// This struct controls the weapon animations.
-//
-// Each entry is:
-//  ammo/ammunition type
-//  upstate
-//  downstate
-//  readystate
-//  atkstate, i.e. attack/fire/hit frame
-//  flashstate, muzzle flash
-//  motorspeed
-//  tics
-//
 weaponinfo_t weaponinfo[NUMWEAPONS] =
 {
     {
-        // fist
-        am_noammo,
-        S_PUNCHUP,
-        S_PUNCHDOWN,
-        S_PUNCH,
-        S_PUNCH1,
-        S_NULL,
-        37500,
-        10,
-        false
+        /* description */ "fist",
+        /* ammotype */    am_noammo,
+        /* minammo */     0,
+        /* upstate */     S_PUNCHUP,
+        /* downstate */   S_PUNCHDOWN,
+        /* readystate */  S_PUNCH,
+        /* attackstate */ S_PUNCH1,
+        /* flashstate */  S_NULL,
+        /* motorspeed */  37500,
+        /* tics */        10,
+        /* prev */        wp_bfg,
+        /* next */        wp_chainsaw
     },
+
     {
-        // pistol
-        am_clip,
-        S_PISTOLUP,
-        S_PISTOLDOWN,
-        S_PISTOL,
-        S_PISTOL1,
-        S_PISTOLFLASH,
-        45000,
-        10,
-        false
+        /* description */ "pistol",
+        /* ammotype */    am_clip,
+        /* minammo */     1,
+        /* upstate */     S_PISTOLUP,
+        /* downstate */   S_PISTOLDOWN,
+        /* readystate */  S_PISTOL,
+        /* attackstate */ S_PISTOL1,
+        /* flashstate */  S_PISTOLFLASH,
+        /* motorspeed */  45000,
+        /* tics */        10,
+        /* prev */        wp_chainsaw,
+        /* next */        wp_shotgun
     },
+
     {
-        // shotgun
-        am_shell,
-        S_SGUNUP,
-        S_SGUNDOWN,
-        S_SGUN,
-        S_SGUN1,
-        S_SGUNFLASH1,
-        52500,
-        10,
-        false
+        /* description */ "shotgun",
+        /* ammotype */    am_shell,
+        /* minammo */     1,
+        /* upstate */     S_SGUNUP,
+        /* downstate */   S_SGUNDOWN,
+        /* readystate */  S_SGUN,
+        /* attackstate */ S_SGUN1,
+        /* flashstate */  S_SGUNFLASH1,
+        /* motorspeed */  52500,
+        /* tics */        10,
+        /* prev */        wp_pistol,
+        /* next */        wp_supershotgun
     },
+
     {
-        // chaingun
-        am_clip,
-        S_CHAINUP,
-        S_CHAINDOWN,
-        S_CHAIN,
-        S_CHAIN1,
-        S_CHAINFLASH1,
-        45000,
-        10,
-        false
+        /* description */ "chaingun",
+        /* ammotype */    am_clip,
+        /* minammo */     1,
+        /* upstate */     S_CHAINUP,
+        /* downstate */   S_CHAINDOWN,
+        /* readystate */  S_CHAIN,
+        /* attackstate */ S_CHAIN1,
+        /* flashstate */  S_CHAINFLASH1,
+        /* motorspeed */  45000,
+        /* tics */        10,
+        /* prev */        wp_supershotgun,
+        /* next */        wp_missile
     },
+
     {
-        // rocket launcher
-        am_misl,
-        S_MISSILEUP,
-        S_MISSILEDOWN,
-        S_MISSILE,
-        S_MISSILE1,
-        S_MISSILEFLASH1,
-        60000,
-        20,
-        false
+        /* description */ "rocket launcher",
+        /* ammotype */    am_misl,
+        /* minammo */     1,
+        /* upstate */     S_MISSILEUP,
+        /* downstate */   S_MISSILEDOWN,
+        /* readystate */  S_MISSILE,
+        /* attackstate */ S_MISSILE1,
+        /* flashstate */  S_MISSILEFLASH1,
+        /* motorspeed */  60000,
+        /* tics */        20,
+        /* prev */        wp_chaingun,
+        /* next */        wp_plasma
     },
+
     {
-        // plasma rifle
-        am_cell,
-        S_PLASMAUP,
-        S_PLASMADOWN,
-        S_PLASMA,
-        S_PLASMA1,
-        S_PLASMAFLASH1,
-        52500,
-        10,
-        false
+        /* description */ "plasma rifle",
+        /* ammotype */    am_cell,
+        /* minammo */     1,
+        /* upstate */     S_PLASMAUP,
+        /* downstate */   S_PLASMADOWN,
+        /* readystate */  S_PLASMA,
+        /* attackstate */ S_PLASMA1,
+        /* flashstate */  S_PLASMAFLASH1,
+        /* motorspeed */  52500,
+        /* tics */        10,
+        /* prev */        wp_missile,
+        /* next */        wp_bfg
     },
+
     {
-        // BFG-9000
-        am_cell,
-        S_BFGUP,
-        S_BFGDOWN,
-        S_BFG,
-        S_BFG1,
-        S_BFGFLASH1,
-        45000,
-        30,
-        false
+        /* description */ "BFG-9000",
+        /* ammotype */    am_cell,
+        /* minammo */     BFGCELLS,
+        /* upstate */     S_BFGUP,
+        /* downstate */   S_BFGDOWN,
+        /* readystate */  S_BFG,
+        /* attackstate */ S_BFG1,
+        /* flashstate */  S_BFGFLASH1,
+        /* motorspeed */  45000,
+        /* tics */        30,
+        /* prev */        wp_plasma,
+        /* next */        wp_fist
     },
+
     {
-        // chainsaw
-        am_noammo,
-        S_SAWUP,
-        S_SAWDOWN,
-        S_SAW,
-        S_SAW1,
-        S_NULL,
-        45000,
-        10,
-        false
+        /* description */ "chainsaw",
+        /* ammotype */    am_noammo,
+        /* minammo */     0,
+        /* upstate */     S_SAWUP,
+        /* downstate */   S_SAWDOWN,
+        /* readystate */  S_SAW,
+        /* attackstate */ S_SAW1,
+        /* flashstate */  S_NULL,
+        /* motorspeed */  45000,
+        /* tics */        10,
+        /* prev */        wp_fist,
+        /* next */        wp_pistol
     },
+
     {
-        // super shotgun
-        am_shell,
-        S_DSGUNUP,
-        S_DSGUNDOWN,
-        S_DSGUN,
-        S_DSGUN1,
-        S_DSGUNFLASH1,
-        60000,
-        10,
-        false
+        /* description */ "super shotgun",
+        /* ammotype */    am_shell,
+        /* minammo */     2,
+        /* upstate */     S_DSGUNUP,
+        /* downstate */   S_DSGUNDOWN,
+        /* readystate */  S_DSGUN,
+        /* attackstate */ S_DSGUN1,
+        /* flashstate */  S_DSGUNFLASH1,
+        /* motorspeed */  60000,
+        /* tics */        10,
+        /* prev */        wp_shotgun,
+        /* next */        wp_chaingun
     }
 };

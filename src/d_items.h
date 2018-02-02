@@ -42,18 +42,24 @@
 #include "doomdef.h"
 #include "doomtype.h"
 
+#define BFGCELLS    40
+
 // Weapon info: sprite frames, ammunition use.
 typedef struct
 {
-    ammotype_t  ammo;
-    int         upstate;
-    int         downstate;
-    int         readystate;
-    int         atkstate;
-    int         flashstate;
-    int         motorspeed;
-    int         tics;
-    dboolean    altered;
+    char            *description;
+    ammotype_t      ammotype;
+    int             minammo;
+    int             upstate;
+    int             downstate;
+    int             readystate;
+    int             atkstate;
+    int             flashstate;
+    int             motorspeed;
+    int             tics;
+    weapontype_t    prev;
+    weapontype_t    next;
+    dboolean        altered;
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];

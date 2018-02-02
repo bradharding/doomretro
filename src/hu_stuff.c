@@ -384,7 +384,7 @@ static void HU_DrawHUD(void)
     const int           health = viewplayer->health;
     const weapontype_t  pendingweapon = viewplayer->pendingweapon;
     const weapontype_t  readyweapon = viewplayer->readyweapon;
-    int                 ammotype = weaponinfo[readyweapon].ammo;
+    int                 ammotype = weaponinfo[readyweapon].ammotype;
     int                 ammo = viewplayer->ammo[ammotype];
     const int           armor = viewplayer->armorpoints;
     int                 health_x;
@@ -439,7 +439,7 @@ static void HU_DrawHUD(void)
 
     if (pendingweapon != wp_nochange)
     {
-        ammotype = weaponinfo[pendingweapon].ammo;
+        ammotype = weaponinfo[pendingweapon].ammotype;
         ammo = viewplayer->ammo[ammotype];
     }
 
@@ -792,7 +792,7 @@ static void HU_DrawAltHUD(void)
     {
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
         const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon);
-        const ammotype_t    ammotype = weaponinfo[weapon].ammo;
+        const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
         if (ammotype != am_noammo)
         {

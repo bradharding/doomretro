@@ -2692,7 +2692,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
         }
 
         if (M_StringCompare(key, deh_weapon[0]))                    // Ammo type
-            weaponinfo[indexnum].ammo = value;
+            weaponinfo[indexnum].ammotype = value;
         else if (M_StringCompare(key, deh_weapon[1]))               // Deselect frame
             weaponinfo[indexnum].upstate = value;
         else if (M_StringCompare(key, deh_weapon[2]))               // Select frame

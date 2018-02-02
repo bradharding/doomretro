@@ -132,24 +132,6 @@ static int *gamepadweapons[] =
     &gamepadweapon7
 };
 
-static struct
-{
-    weapontype_t    prev;
-    weapontype_t    next;
-    ammotype_t      ammotype;
-    int             minammo;
-} weapons[] = {
-    { wp_bfg,          /* wp_fist         */ wp_chainsaw,     am_noammo,        0 },
-    { wp_chainsaw,     /* wp_pistol       */ wp_shotgun,      am_clip,          1 },
-    { wp_pistol,       /* wp_shotgun      */ wp_supershotgun, am_shell,         1 },
-    { wp_supershotgun, /* wp_chaingun     */ wp_missile,      am_clip,          1 },
-    { wp_chaingun,     /* wp_missile      */ wp_plasma,       am_misl,          1 },
-    { wp_missile,      /* wp_plasma       */ wp_bfg,          am_cell,          1 },
-    { wp_plasma,       /* wp_bfg          */ wp_fist,         am_cell,   BFGCELLS },
-    { wp_fist,         /* wp_chainsaw     */ wp_pistol,       am_noammo,        0 },
-    { wp_shotgun,      /* wp_supershotgun */ wp_chaingun,     am_shell,         2 }
-};
-
 #define SLOWTURNTICS    6
 
 dboolean        gamekeydown[NUMKEYS];
@@ -210,11 +192,11 @@ void G_NextWeapon(void)
 
     do
     {
-        i = weapons[i].next;
+        i = weaponinfo[i].next;
 
         if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_chainsaw;
-    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weapons[i].ammotype] < weapons[i].minammo);
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].minammo);
 
     if (i != readyweapon)
         viewplayer->pendingweapon = i;
@@ -234,11 +216,11 @@ void G_PrevWeapon(void)
 
     do
     {
-        i = weapons[i].prev;
+        i = weaponinfo[i].prev;
 
         if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_bfg;
-    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weapons[i].ammotype] < weapons[i].minammo);
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].minammo);
 
     if (i != readyweapon)
         viewplayer->pendingweapon = i;
@@ -473,7 +455,7 @@ static void G_SetInitialWeapon(void)
 
     viewplayer->ammo[am_clip] = initial_bullets;
 
-    if (!initial_bullets && weaponinfo[wp_pistol].ammo != am_noammo)
+    if (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo)
     {
         viewplayer->readyweapon = wp_fist;
         viewplayer->pendingweapon = wp_fist;
@@ -511,9 +493,9 @@ static void G_ResetPlayer(void)
 //
 void G_DoLoadLevel(void)
 {
-    int         ep;
-    int         map = (gameepisode - 1) * 10 + gamemap;
-    char        *author = P_GetMapAuthor(map);
+    int     ep;
+    int     map = (gameepisode - 1) * 10 + gamemap;
+    char    *author = P_GetMapAuthor(map);
 
     HU_DrawDisk();
 
@@ -679,8 +661,7 @@ dboolean G_Responder(event_t *ev)
 
             return true;
         }
-        else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && ev->data1 == keyboardalwaysrun
-            && !keydown)
+        else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && ev->data1 == keyboardalwaysrun && !keydown)
         {
             keydown = KEY_CAPSLOCK;
             G_ToggleAlwaysRun(ev_keydown);
@@ -744,7 +725,7 @@ dboolean G_Responder(event_t *ev)
                 }
             }
 
-            return true;            // eat key down events
+            return true;        // eat key down events
 
         case ev_keyup:
             keydown = 0;
@@ -752,7 +733,7 @@ dboolean G_Responder(event_t *ev)
             if (ev->data1 < NUMKEYS)
                 gamekeydown[ev->data1] = false;
 
-            return false;           // always let key up events filter down
+            return false;       // always let key up events filter down
 
         case ev_mouse:
         {
@@ -785,7 +766,7 @@ dboolean G_Responder(event_t *ev)
                 mousey = ev->data3 * m_sensitivity / 10;
             }
 
-            return true;            // eat events
+            return true;        // eat events
         }
 
         case ev_mousewheel:
@@ -859,7 +840,7 @@ dboolean G_Responder(event_t *ev)
                 }
             }
 
-            return true;            // eat events
+            return true;        // eat events
     }
 
     return false;
@@ -1182,10 +1163,10 @@ void ST_doRefresh(void);
 
 static void G_DoCompleted(void)
 {
-    int         map = (gameepisode - 1) * 10 + gamemap;
-    int         nextmap = P_GetMapNext(map);
-    int         par = P_GetMapPar(map);
-    int         secretnextmap = P_GetMapSecretNext(map);
+    int map = (gameepisode - 1) * 10 + gamemap;
+    int nextmap = P_GetMapNext(map);
+    int par = P_GetMapPar(map);
+    int secretnextmap = P_GetMapSecretNext(map);
 
     gameaction = ga_nothing;
 

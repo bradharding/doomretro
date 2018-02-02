@@ -1680,7 +1680,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i</b>\t%s", ++count, consolecmds[i].name,
-                    (gamestate == GS_LEVEL ? viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammo] : 0),
+                    (gamestate == GS_LEVEL ? viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype] : 0),
                     description1);
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
                 C_TabbedOutput(tabs, "%i.\t<b>%s\t%i%%</b>\t%s", ++count, consolecmds[i].name,
@@ -4790,7 +4790,7 @@ static void player_cvars_func2(char *cmd, char *parms)
 
     if (M_StringCompare(cmd, stringize(ammo)))
     {
-        ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammo;
+        ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
         if (*parms)
         {

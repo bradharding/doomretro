@@ -159,11 +159,11 @@ static void P_BringUpWeapon(void)
 dboolean P_CheckAmmo(void)
 {
     weapontype_t    readyweapon = viewplayer->readyweapon;
-    ammotype_t      ammo = weaponinfo[readyweapon].ammo;
+    ammotype_t      ammotype = weaponinfo[readyweapon].ammotype;
     int             count = 1;  // Regular.
 
     // Some do not need ammunition anyway.
-    if (ammo == am_noammo)
+    if (ammotype == am_noammo)
         return true;
 
     // Minimal amount for one shot varies.
@@ -173,7 +173,7 @@ dboolean P_CheckAmmo(void)
         count = 2;              // Double barrel.
 
     // Return if current ammunition sufficient.
-    if (viewplayer->ammo[ammo] >= count)
+    if (viewplayer->ammo[ammotype] >= count)
         return true;
 
     // Out of ammo, pick a weapon to change to.
@@ -744,7 +744,7 @@ void A_CloseShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!player->ammo[weaponinfo[player->readyweapon].ammo])
+    if (!player->ammo[weaponinfo[player->readyweapon].ammotype])
         return;
 
     P_NoiseAlert(player->mo);

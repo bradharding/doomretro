@@ -1248,9 +1248,9 @@ static void ST_updateFaceWidget(void)
 static void ST_updateWidgets(void)
 {
     static int  largeammo = 1994;   // means "n/a"
-    ammotype_t  ammo = weaponinfo[viewplayer->readyweapon].ammo;
+    ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
-    w_ready.num = (ammo == am_noammo || viewplayer->health <= 0 ? &largeammo : &viewplayer->ammo[ammo]);
+    w_ready.num = (ammotype == am_noammo || viewplayer->health <= 0 ? &largeammo : &viewplayer->ammo[ammotype]);
     w_ready.data = viewplayer->readyweapon;
 
     // update keycard multiple widgets
@@ -1552,7 +1552,7 @@ static void ST_createWidgets(void)
 {
     // ready weapon ammo
     STlib_initNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2 && !BTSX), tallnum,
-        &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammo], &st_statusbaron, ST_AMMOWIDTH);
+        &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], &st_statusbaron, ST_AMMOWIDTH);
 
     // the last weapon type
     w_ready.data = viewplayer->readyweapon;

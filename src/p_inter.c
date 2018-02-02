@@ -74,21 +74,8 @@ int species_infighting;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
-int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
-
-static const char *weapondescription[] =
-{
-    "fists",
-    "pistol",
-    "shotgun",
-    "chaingun",
-    "rocket launcher",
-    "plasma rifle",
-    "BFG-9000",
-    "chainsaw",
-    "super shotgun"
-};
+int             maxammo[NUMAMMO] = { 200, 50, 300, 50 };
+int             clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
 dboolean        con_obituaries = con_obituaries_default;
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
@@ -126,9 +113,9 @@ unsigned int    stat_monsterskilled_zombiemen = 0;
 
 extern int      idclevtics;
 
-static void P_UpdateAmmoStat(ammotype_t ammo, int num)
+static void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 {
-    switch (ammo)
+    switch (ammotype)
     {
         case am_clip:
             viewplayer->itemspickedup_ammo_bullets += num;
@@ -165,33 +152,33 @@ static void P_UpdateAmmoStat(ammotype_t ammo, int num)
 // not the individual count (0 = 1/2 clip).
 // Returns the amount of ammo given to the player
 //
-static int P_GiveAmmo(ammotype_t ammo, int num, dboolean stat)
+static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 {
     int oldammo;
 
-    if (ammo == am_noammo)
+    if (ammotype == am_noammo)
         return 0;
 
-    if (viewplayer->ammo[ammo] == viewplayer->maxammo[ammo])
+    if (viewplayer->ammo[ammotype] == viewplayer->maxammo[ammotype])
         return 0;
 
     if (num)
-        num *= clipammo[ammo];
+        num *= clipammo[ammotype];
     else
-        num = clipammo[ammo] / 2;
+        num = clipammo[ammotype] / 2;
 
     // give double ammo in trainer mode, you'll need in nightmare
     if (gameskill == sk_baby || gameskill == sk_nightmare)
         num <<= 1;
 
-    oldammo = viewplayer->ammo[ammo];
-    viewplayer->ammo[ammo] = MIN(oldammo + num, viewplayer->maxammo[ammo]);
+    oldammo = viewplayer->ammo[ammotype];
+    viewplayer->ammo[ammotype] = MIN(oldammo + num, viewplayer->maxammo[ammotype]);
 
-    if (vid_widescreen && r_hud && !r_althud && num && ammo == weaponinfo[viewplayer->readyweapon].ammo)
+    if (vid_widescreen && r_hud && !r_althud && num && ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     if (stat)
-        P_UpdateAmmoStat(ammo, viewplayer->ammo[ammo] - oldammo);
+        P_UpdateAmmoStat(ammotype, viewplayer->ammo[ammotype] - oldammo);
 
     // If non-zero ammo, don't change up weapons, player was lower on purpose.
     if (oldammo)
@@ -199,7 +186,7 @@ static int P_GiveAmmo(ammotype_t ammo, int num, dboolean stat)
 
     // We were down to zero, so select a new weapon.
     // Preferences are not user selectable.
-    switch (ammo)
+    switch (ammotype)
     {
         case am_clip:
             if (viewplayer->readyweapon == wp_fist)
@@ -259,7 +246,7 @@ dboolean P_GiveBackpack(dboolean giveammo, dboolean stat)
         {
             result = true;
 
-            if (vid_widescreen && r_hud && !r_althud && (ammotype_t)i == weaponinfo[viewplayer->readyweapon].ammo)
+            if (vid_widescreen && r_hud && !r_althud && (ammotype_t)i == weaponinfo[viewplayer->readyweapon].ammotype)
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
 
@@ -314,7 +301,7 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
 {
     dboolean    gaveammo = false;
     dboolean    gaveweapon = false;
-    ammotype_t  ammotype = weaponinfo[weapon].ammo;
+    ammotype_t  ammotype = weaponinfo[weapon].ammotype;
 
     if (ammotype != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
@@ -327,7 +314,7 @@ static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean sta
         viewplayer->pendingweapon = weapon;
     }
 
-    if (gaveammo && ammotype == weaponinfo[viewplayer->readyweapon].ammo)
+    if (gaveammo && ammotype == weaponinfo[viewplayer->readyweapon].ammotype)
     {
         if (vid_widescreen && r_hud && !r_althud)
             ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
@@ -1355,13 +1342,13 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                     C_Obituary("%s %s %s with %s own %s.", titlecase(playername),
                         (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (defaultplayername ? "yourself" : "themselves"), (defaultplayername ? "your" : "their"),
-                        weapondescription[readyweapon]);
+                        weaponinfo[readyweapon].description);
                 else
                     C_Obituary("%s %s %s%s with %s %s%s.", titlecase(playername),
                         (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                         (isvowel(name[0]) ? "an " : "a "), name, (defaultplayername ? "your" : "their"),
                         (readyweapon == wp_fist && source->player->powers[pw_strength] ? "berserk " : ""),
-                        weapondescription[readyweapon]);
+                        weaponinfo[readyweapon].description);
 
             }
             else
