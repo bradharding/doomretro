@@ -54,21 +54,21 @@
 #include "z_zone.h"
 
 // Automap colors
-int     am_allmapcdwallcolor = am_allmapcdwallcolor_default;
-int     am_allmapfdwallcolor = am_allmapfdwallcolor_default;
-int     am_allmapwallcolor = am_allmapwallcolor_default;
-int     am_backcolor = am_backcolor_default;
-int     am_cdwallcolor = am_cdwallcolor_default;
-int     am_crosshaircolor = am_crosshaircolor_default;
-int     am_fdwallcolor = am_fdwallcolor_default;
-int     am_gridcolor = am_gridcolor_default;
-int     am_markcolor = am_markcolor_default;
-int     am_pathcolor = am_pathcolor_default;
-int     am_playercolor = am_playercolor_default;
-int     am_teleportercolor = am_teleportercolor_default;
-int     am_thingcolor = am_thingcolor_default;
-int     am_tswallcolor = am_tswallcolor_default;
-int     am_wallcolor = am_wallcolor_default;
+int am_allmapcdwallcolor = am_allmapcdwallcolor_default;
+int am_allmapfdwallcolor = am_allmapfdwallcolor_default;
+int am_allmapwallcolor = am_allmapwallcolor_default;
+int am_backcolor = am_backcolor_default;
+int am_cdwallcolor = am_cdwallcolor_default;
+int am_crosshaircolor = am_crosshaircolor_default;
+int am_fdwallcolor = am_fdwallcolor_default;
+int am_gridcolor = am_gridcolor_default;
+int am_markcolor = am_markcolor_default;
+int am_pathcolor = am_pathcolor_default;
+int am_playercolor = am_playercolor_default;
+int am_teleportercolor = am_teleportercolor_default;
+int am_thingcolor = am_thingcolor_default;
+int am_tswallcolor = am_tswallcolor_default;
+int am_wallcolor = am_wallcolor_default;
 
 // Automap color priorities
 #define WALLPRIORITY            9
@@ -211,11 +211,11 @@ dboolean            am_rotatemode = am_rotatemode_default;
 static int          gridwidth;
 static int          gridheight;
 
-static dboolean         stopped = true;
+static dboolean     stopped = true;
 
-static dboolean         bigstate;
+static dboolean     bigstate;
 static byte         *area;
-static dboolean         movement;
+static dboolean     movement;
 int                 keydown;
 int                 direction;
 
@@ -851,7 +851,6 @@ dboolean AM_Responder(const event_t *ev)
             }
             else if (ev->type == ev_keyup)
             {
-                rc = false;
                 key = ev->data1;
 
                 if (key == AM_CLEARMARKKEY)
@@ -971,16 +970,14 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if ((gamepadbuttons & gamepadautomapzoomout)
-                    && !(gamepadbuttons & gamepadautomapzoomin))
+                else if ((gamepadbuttons & gamepadautomapzoomout) && !(gamepadbuttons & gamepadautomapzoomin))
                 {
                     movement = true;
                     AM_toggleZoomOut();
                 }
 
                 // zoom in
-                else if ((gamepadbuttons & gamepadautomapzoomin)
-                    && !(gamepadbuttons & gamepadautomapzoomout))
+                else if ((gamepadbuttons & gamepadautomapzoomin) && !(gamepadbuttons & gamepadautomapzoomout))
                 {
                     movement = true;
                     AM_toggleZoomIn();
