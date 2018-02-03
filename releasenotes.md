@@ -3,6 +3,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A bug has been fixed whereby the wall textures visible beyond a moving sector would shift slightly.
 * Improvements have been made to how blood splats are spawned.
+* Entering text in the console has now been improved for non-US keyboard layouts.
 * Minor changes have been made to text that is output to the console.
 * Early versions of *DOOM Shareware* will now run without exiting with an error.
 * When the player’s health or ammo is low, now only the values themselves will flash in the widescreen HUD.
