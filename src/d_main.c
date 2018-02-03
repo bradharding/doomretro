@@ -218,9 +218,9 @@ void D_Display(void)
     int                 nowtime;
     int                 tics;
     int                 wipestart;
-    dboolean                done;
+    dboolean            done;
 
-    if ((realframe = (vid_capfps == TICRATE || gametic > saved_gametic)))
+    if (vid_capfps != TICRATE && (realframe = (gametic > saved_gametic)))
         saved_gametic = gametic;
 
     // change the view size if needed
@@ -392,7 +392,8 @@ void D_Display(void)
 //
 static void D_DoomLoop(void)
 {
-    time_t  rawtime;
+    time_t      rawtime;
+    player_t    tempplayer;
 
     R_ExecuteSetViewSize();
     D_StartGameLoop();
@@ -1662,13 +1663,11 @@ static void D_DoomMainSetup(void)
     if ((respawnmonsters = M_CheckParm("-respawn")))
         C_Output("A <b>-respawn</b> parameter was found on the command-line. Monsters will respawn.");
     else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
-        C_Output("A <b>-respawnmonsters</b> parameter was found on the command-line. "
-            "Monsters will respawn.");
+        C_Output("A <b>-respawnmonsters</b> parameter was found on the command-line. Monsters will respawn.");
 
     if ((nomonsters = M_CheckParm("-nomonsters")))
     {
-        C_Output("A <b>-nomonsters</b> parameter was found on the command-line. "
-            "No monsters will be spawned.");
+        C_Output("A <b>-nomonsters</b> parameter was found on the command-line. No monsters will be spawned.");
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
@@ -1947,8 +1946,8 @@ static void D_DoomMainSetup(void)
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An <b>-expansion</b> parameter was found on the command-line. "
-                "The expansion is now \"%s\".", *expansions[expansion - 1]);
+            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now \"%s\".",
+                *expansions[expansion - 1]);
         }
     }
 
