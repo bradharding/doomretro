@@ -388,13 +388,14 @@ static void HU_DrawHUD(void)
     int                 ammo = viewplayer->ammo[ammotype];
     const int           armor = viewplayer->armorpoints;
     int                 health_x;
-    int                 keys = 0;
-    int                 i = 0;
     byte                *tinttab;
     static dboolean     healthanim;
     patch_t             *patch;
     const dboolean      gamepaused = (menuactive || paused || consoleactive);
     const int           currenttime = I_GetTimeMS();
+    int                 keypic_x = HUD_KEYS_X;
+    static int          keywait;
+    static dboolean     showkey;
 
     tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
 
@@ -476,41 +477,33 @@ static void HU_DrawHUD(void)
         }
     }
 
-    while (i < NUMCARDS)
-        if (viewplayer->cards[i++] > 0)
-            keys++;
+    for (int i = 0; i < NUMCARDS; i++)
+        if (viewplayer->cards[i] > 0 && (patch = keypics[i].patch))
+        {
+            keypic_x -= SHORT(patch->width);
+            hudfunc(keypic_x, HUD_KEYS_Y, patch, tinttab66);
+            keypic_x -= 4;
+        }
 
-    if (keys || viewplayer->neededcardflash)
+    if (viewplayer->neededcardflash)
     {
-        int             keypic_x = HUD_KEYS_X - 18 * (keys - 1);
-        static int      keywait;
-        static dboolean showkey;
-
-        if (viewplayer->neededcardflash)
+        if ((patch = keypics[viewplayer->neededcard].patch))
         {
-            if ((patch = keypics[viewplayer->neededcard].patch))
+            if (!gamepaused && keywait < currenttime)
             {
-                if (!gamepaused && keywait < currenttime)
-                {
-                    showkey = !showkey;
-                    keywait = currenttime + HUD_KEY_WAIT;
-                    viewplayer->neededcardflash--;
-                }
-
-                if (showkey)
-                    hudfunc(keypic_x - SHORT(patch->width) - 4, HUD_KEYS_Y, patch, tinttab66);
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
             }
-        }
-        else
-        {
-            showkey = false;
-            keywait = 0;
-        }
 
-        for (i = 0; i < NUMCARDS; i++)
-            if (viewplayer->cards[i] > 0 && (patch = keypics[i].patch))
-                hudfunc(keypic_x + (SHORT(patch->width) + 4) * (cardsfound - viewplayer->cards[i]), HUD_KEYS_Y,
-                    patch, tinttab66);
+            if (showkey)
+                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y, patch, tinttab66);
+        }
+    }
+    else
+    {
+        showkey = false;
+        keywait = 0;
     }
 
     if (armor)
