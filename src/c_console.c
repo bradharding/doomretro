@@ -1261,25 +1261,20 @@ dboolean C_ValidateInput(const char *input)
 
 dboolean C_Responder(event_t *ev)
 {
-    static int          autocomplete = -1;
-    static int          inputhistory = -1;
-    static char         currentinput[255];
-    const int           key = ev->data1;
-    int                 i;
-    const int           len = (int)strlen(consoleinput);
-    const SDL_Keymod    modstate = SDL_GetModState();
-
-    static const char *shiftxform =
-    {
-        "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+<_>?"
-        ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
-    };
+    static int  autocomplete = -1;
+    static int  inputhistory = -1;
+    int         i;
+    const int   len = (int)strlen(consoleinput);
 
     if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messageToPrint)
         return false;
 
     if (ev->type == ev_keydown)
     {
+        static char         currentinput[255];
+        const int           key = ev->data1;
+        const SDL_Keymod    modstate = SDL_GetModState();
+
         if (key == keyboardconsole)
         {
             C_HideConsole();
@@ -1659,6 +1654,80 @@ dboolean C_Responder(event_t *ev)
                     G_ToggleAlwaysRun(ev_keydown);
 
                 break;
+
+            case 'a':
+                // select all text
+                if (modstate & KMOD_CTRL)
+                {
+                    selectstart = 0;
+                    selectend = caretpos = len;
+                }
+
+                break;
+
+            case 'c':
+                // copy selected text to clipboard
+                if (modstate & KMOD_CTRL)
+                    if (selectstart < selectend)
+                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart, selectend - selectstart));
+
+                break;
+
+            case 'v':
+                // paste text from clipboard
+                if (modstate & KMOD_CTRL)
+                {
+                    char    buffer[255];
+
+                    M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0, selectstart),
+                        SDL_GetClipboardText(), M_SubString(consoleinput, selectend, len - selectend));
+
+                    if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
+                    {
+                        C_AddToUndoHistory();
+                        M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
+                        selectstart += (int)strlen(SDL_GetClipboardText());
+                        selectend = caretpos = selectstart;
+                    }
+                }
+
+                break;
+
+            case 'x':
+                // cut selected text to clipboard
+                if (modstate & KMOD_CTRL)
+                {
+                    if (selectstart < selectend)
+                    {
+                        C_AddToUndoHistory();
+                        SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
+                            selectend - selectstart));
+
+                        for (i = selectend; i < len; i++)
+                            consoleinput[selectstart + i - selectend] = consoleinput[i];
+
+                        consoleinput[selectstart + i - selectend] = '\0';
+                        caretpos = selectend = selectstart;
+                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                        showcaret = true;
+                    }
+                }
+
+                break;
+
+            case 'z':
+                // undo
+                if (modstate & KMOD_CTRL)
+                {
+                    if (undolevels)
+                    {
+                        undolevels--;
+                        M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
+                        caretpos = undohistory[undolevels].caretpos;
+                        selectstart = undohistory[undolevels].selectstart;
+                        selectend = undohistory[undolevels].selectend;
+                    }
+                }
         }
     }
     else if (ev->type == ev_keyup)
@@ -1667,112 +1736,40 @@ dboolean C_Responder(event_t *ev)
     {
         char    ch = (char)ev->data1;
 
-        if (modstate & KMOD_CTRL)
+        if (ch >= ' ' && ch <= '}' && ch != '`' && C_TextWidth(consoleinput, false, true)
+            + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
+            - (selectstart < selectend ? C_TextWidth(M_SubString(consoleinput, selectstart,
+            selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
         {
-            // select all text
-            if (ch == 'a')
+            C_AddToUndoHistory();
+
+            if (selectstart < selectend)
             {
-                selectstart = 0;
-                selectend = caretpos = len;
+                // replace selected text with a character
+                consoleinput[selectstart] = ch;
+
+                for (i = selectend; i < len; i++)
+                    consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
+
+                consoleinput[selectstart + i - selectend + 1] = '\0';
+                caretpos = selectstart + 1;
+            }
+            else
+            {
+                // insert a character
+                consoleinput[len + 1] = '\0';
+
+                for (i = len; i > caretpos; i--)
+                    consoleinput[i] = consoleinput[i - 1];
+
+                consoleinput[caretpos++] = ch;
             }
 
-            // copy selected text to clipboard
-            else if (ch == 'c')
-            {
-                if (selectstart < selectend)
-                    SDL_SetClipboardText(M_SubString(consoleinput, selectstart, selectend - selectstart));
-            }
-
-            // paste text from clipboard
-            else if (ch == 'v')
-            {
-                char    buffer[255];
-
-                M_snprintf(buffer, sizeof(buffer), "%s%s%s", M_SubString(consoleinput, 0, selectstart),
-                    SDL_GetClipboardText(), M_SubString(consoleinput, selectend, len - selectend));
-
-                if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
-                {
-                    C_AddToUndoHistory();
-                    M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
-                    selectstart += (int)strlen(SDL_GetClipboardText());
-                    selectend = caretpos = selectstart;
-                }
-            }
-
-            // cut selected text to clipboard
-            else if (ch == 'x')
-            {
-                if (selectstart < selectend)
-                {
-                    C_AddToUndoHistory();
-                    SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
-                        selectend - selectstart));
-
-                    for (i = selectend; i < len; i++)
-                        consoleinput[selectstart + i - selectend] = consoleinput[i];
-
-                    consoleinput[selectstart + i - selectend] = '\0';
-                    caretpos = selectend = selectstart;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                    showcaret = true;
-                }
-            }
-
-            // undo
-            else if (ch == 'z')
-            {
-                if (undolevels)
-                {
-                    undolevels--;
-                    M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
-                    caretpos = undohistory[undolevels].caretpos;
-                    selectstart = undohistory[undolevels].selectstart;
-                    selectend = undohistory[undolevels].selectend;
-                }
-            }
-        }
-        else
-        {
-            //if ((modstate & KMOD_SHIFT) || (keyboardalwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
-            //    ch = shiftxform[ch];
-
-            if (ch >= ' ' && ch <= '}' && ch != '`' && C_TextWidth(consoleinput, false, true)
-                + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
-                - (selectstart < selectend ? C_TextWidth(M_SubString(consoleinput, selectstart,
-                selectend - selectstart), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH
-                && !(modstate & KMOD_ALT))
-            {
-                C_AddToUndoHistory();
-
-                if (selectstart < selectend)
-                {
-                    // replace selected text with a character
-                    consoleinput[selectstart] = ch;
-
-                    for (i = selectend; i < len; i++)
-                        consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
-
-                    consoleinput[selectstart + i - selectend + 1] = '\0';
-                    caretpos = selectstart + 1;
-                }
-                else
-                {
-                    // insert a character
-                    consoleinput[len + 1] = '\0';
-
-                    for (i = len; i > caretpos; i--)
-                        consoleinput[i] = consoleinput[i - 1];
-
-                    consoleinput[caretpos++] = ch;
-                }
-
-                selectstart = selectend = caretpos;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
-                autocomplete = -1;
-                inputhistory = -1;
-            }
+            selectstart = selectend = caretpos;
+            caretwait = I_GetTimeMS() + CARETBLINKTIME;
+            showcaret = true;
+            autocomplete = -1;
+            inputhistory = -1;
         }
     }
     else if (ev->type == ev_mousewheel)
