@@ -53,7 +53,8 @@ typedef enum
     ev_keyup,
     ev_mouse,
     ev_mousewheel,
-    ev_gamepad
+    ev_gamepad,
+    ev_text
 } evtype_t;
 
 // Event structure.

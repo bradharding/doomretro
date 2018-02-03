@@ -429,6 +429,21 @@ static void I_GetEvent(void)
 
         switch (Event->type)
         {
+            case SDL_TEXTINPUT:
+                for (int i = 0, len = (int)strlen(Event->text.text); i < len; i++)
+                {
+                    const char  ch = Event->text.text[i];
+
+                    if (isprint(ch))
+                    {
+                        event_t textevent = { ev_text, ch, 0, 0 };
+
+                        D_PostEvent(&textevent);
+                    }
+                }
+
+                break;
+
             case SDL_KEYDOWN:
                 if (noinput)
                     return;
