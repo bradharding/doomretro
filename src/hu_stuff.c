@@ -477,13 +477,14 @@ static void HU_DrawHUD(void)
         }
     }
 
-    for (int i = 0; i < NUMCARDS; i++)
-        if (viewplayer->cards[i] > 0 && (patch = keypics[i].patch))
-        {
-            keypic_x -= SHORT(patch->width);
-            hudfunc(keypic_x, HUD_KEYS_Y, patch, tinttab66);
-            keypic_x -= 4;
-        }
+    for (int i = 1; i <= NUMCARDS; i++)
+        for (int j = 0; j < NUMCARDS; j++)
+            if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
+            {
+                keypic_x -= SHORT(patch->width);
+                hudfunc(keypic_x, HUD_KEYS_Y, patch, tinttab66);
+                keypic_x -= 4;
+            }
 
     if (viewplayer->neededcardflash)
     {
@@ -733,14 +734,16 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    int health = MAX(health_min, viewplayer->health);
-    int armor = viewplayer->armorpoints;
-    int color2 = (health <= 20 ? red : (health >= 100 ? green : white));
-    int color1 = color2 + (color2 == green ? coloroffset : 0);
-    int keys = 0;
-    int powerup = 0;
-    int powerupbar = 0;
-    int max;
+    int             health = MAX(health_min, viewplayer->health);
+    int             armor = viewplayer->armorpoints;
+    int             color2 = (health <= 20 ? red : (health >= 100 ? green : white));
+    int             color1 = color2 + (color2 == green ? coloroffset : 0);
+    int             keypic_x = ALTHUD_RIGHT_X;
+    static int      keywait;
+    static dboolean showkey;
+    int             powerup = 0;
+    int             powerupbar = 0;
+    int             max;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health);
     health = MAX(0, health) * 200 / maxhealth;
@@ -804,52 +807,43 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, white);
     }
 
-    for (int i = 0; viewplayer->cards[i] <= 0; i++)
-        keys++;
 
-    if (keys || viewplayer->neededcardflash)
+    for (int i = 1; i <= NUMCARDS; i++)
+        for (int j = 0; j < NUMCARDS; j++)
+            if (viewplayer->cards[j] == i)
+            {
+                altkeypic_t altkeypic = altkeypics[j];
+                patch_t     *patch = altkeypic.patch;
+
+                althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+                keypic_x += SHORT(patch->width) + 4;
+            }
+
+    if (viewplayer->neededcardflash)
     {
-        static int      keywait;
-        static dboolean showkey;
-
-        if (viewplayer->neededcardflash)
+        if (!(menuactive || paused || consoleactive))
         {
-            if (!(menuactive || paused || consoleactive))
+            int currenttime = I_GetTimeMS();
+
+            if (keywait < currenttime)
             {
-                int currenttime = I_GetTimeMS();
-
-                if (keywait < currenttime)
-                {
-                    showkey = !showkey;
-                    keywait = currenttime + HUD_KEY_WAIT;
-                    viewplayer->neededcardflash--;
-                }
-            }
-
-            if (showkey)
-            {
-                altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
-
-                althudfunc(ALTHUD_RIGHT_X + 11 * cardsfound, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
             }
         }
-        else
+
+        if (showkey)
         {
-            showkey = false;
-            keywait = 0;
+            altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
+
+            althudfunc(keypic_x - SHORT(altkeypic.patch->width), ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
         }
-
-        for (int i = 0; i < NUMCARDS; i++)
-        {
-            int card = viewplayer->cards[i];
-
-            if (card > 0)
-            {
-                altkeypic_t    altkeypic = altkeypics[i];
-
-                althudfunc(ALTHUD_RIGHT_X + 11 * (card - 1), ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
-            }
-        }
+    }
+    else
+    {
+        showkey = false;
+        keywait = 0;
     }
 
     if ((powerup = viewplayer->powers[pw_invulnerability]))
