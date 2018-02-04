@@ -1264,6 +1264,8 @@ static void M_SaveSelect(int choice)
     M_StringCopy(saveOldString, savegamestrings[saveSlot], SAVESTRINGSIZE);
     M_UpdateSaveGameName(saveSlot);
     saveCharIndex = (int)strlen(savegamestrings[saveSlot]);
+
+    SDL_StartTextInput();
 }
 
 //
@@ -2615,6 +2617,7 @@ dboolean M_Responder(event_t *ev)
             case KEY_ESCAPE:
                 if (!keydown)
                 {
+                    SDL_StopTextInput();
                     keydown = key;
                     saveStringEnter = 0;
                     caretwait = 0;
@@ -2632,6 +2635,7 @@ dboolean M_Responder(event_t *ev)
                     int         len = (int)strlen(savegamestrings[saveSlot]);
                     dboolean    allspaces = true;
 
+                    SDL_StopTextInput();
                     keydown = key;
 
                     for (int i = 0; i < len; i++)
