@@ -1125,17 +1125,14 @@ static void ST_updateFaceWidget(void)
 
     if (priority < 8)
     {
-        if (viewplayer->damagecount && viewplayer->attacker && viewplayer->attacker != viewplayer->mo)
+        if (viewplayer->damagecount && viewplayer->attacker)
         {
-            // being attacked
-            priority = 7;
-
             // [BH] fix ouch-face when damage > 20
             if (st_oldhealth - viewplayer->health > ST_MUCHPAIN)
             {
+                priority = 8;   // [BH] keep ouch-face visible
                 st_facecount = ST_TURNCOUNT;
                 faceindex = ST_OUCHOFFSET;
-                priority = 8;   // [BH] keep ouch-face visible
             }
             else
             {
@@ -1156,23 +1153,9 @@ static void ST_updateFaceWidget(void)
                     turn = (diffang <= ANG180);
                 }
 
+                priority = 7;
                 st_facecount = ST_TURNCOUNT;
-
-                if (diffang < ANG45)
-                {
-                    // head-on
-                    faceindex = ST_RAMPAGEOFFSET;
-                }
-                else if (turn)
-                {
-                    // turn face right
-                    faceindex = ST_TURNOFFSET;
-                }
-                else
-                {
-                    // turn face left
-                    faceindex = ST_TURNOFFSET + 1;
-                }
+                faceindex = (diffang < ANG45 ? ST_RAMPAGEOFFSET : ST_TURNOFFSET + !turn);
             }
         }
     }
@@ -1234,9 +1217,9 @@ static void ST_updateFaceWidget(void)
     // look left or look right if the facecount has timed out
     if (!st_facecount)
     {
+        priority = 0;
         faceindex = st_randomnumber % 3;
         st_facecount = ST_STRAIGHTFACECOUNT;
-        priority = 0;
     }
 
     st_facecount--;
@@ -1277,8 +1260,11 @@ void ST_Ticker(void)
         ST_updateWidgets();
         st_oldhealth = viewplayer->health;
     }
-    else if (!paused && !menuactive && !consoleactive)
+    else if (!r_althud && !paused && !menuactive && !consoleactive)
+    {
         ST_updateFaceWidget();
+        st_oldhealth = viewplayer->health;
+    }
 
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
     if (idclevtics)
