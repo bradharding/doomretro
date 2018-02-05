@@ -79,6 +79,7 @@ extern int          gp_vibrate_barrels;
 extern int          gp_vibrate_damage;
 extern int          gp_vibrate_weapons;
 extern dboolean     infighting;
+extern dboolean     infiniteheight;
 extern char         *iwadfolder;
 extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
@@ -367,6 +368,8 @@ enum
 #define health_max                              INT_MAX
 
 #define infighting_default                      true
+
+#define infiniteheight_default                  false
 
 #define iwadfolder_default                      "C:\\"
 

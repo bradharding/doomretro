@@ -110,6 +110,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_damage,                                 NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_weapons,                                NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (infighting,                                        BOOLVALUEALIAS    ),
+    CONFIG_VARIABLE_INT          (infiniteheight,                                    BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_STRING       (iwadfolder,                                        NOVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,                                 BOOLVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (m_invertyaxis,                                     BOOLVALUEALIAS    ),
@@ -580,6 +581,9 @@ static void M_CheckCVARs(void)
 
     if (infighting != false && infighting != true)
         infighting = infighting_default;
+
+    if (infiniteheight != false && infiniteheight != true)
+        infiniteheight = infiniteheight_default;
 
     if (m_doubleclick_use != false && m_doubleclick_use != true)
         m_doubleclick_use = m_doubleclick_use_default;

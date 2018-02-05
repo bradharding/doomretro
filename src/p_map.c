@@ -86,6 +86,8 @@ dboolean        infight;
 
 static mobj_t   *onmobj;
 
+dboolean        infiniteheight = infiniteheight_default;
+
 unsigned int    stat_distancetraveled;
 
 extern dboolean autousing;
@@ -456,7 +458,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     }
 
     // check if a mobj passed over/under another object
-    if (tmthing->flags2 & MF2_PASSMOBJ)
+    if ((tmthing->flags2 & MF2_PASSMOBJ) && !infiniteheight)
     {
         if (tmthing->z >= thing->z + thing->height)
             return true;        // over thing

@@ -525,8 +525,7 @@ static void C_DrawScrollbar(void)
         for (int y = trackstart; y < trackend; y += CONSOLEWIDTH)
             if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                    screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x]
-                        + consolescrollbartrackcolor];
+                    screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
 
         // Draw scrollbar face
         for (int y = facestart; y < faceend; y += CONSOLEWIDTH)

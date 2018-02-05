@@ -584,7 +584,7 @@ void P_MobjThinker(mobj_t *mobj)
 
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
-        if (flags2 & MF2_PASSMOBJ)
+        if ((flags2 & MF2_PASSMOBJ) && !infiniteheight)
         {
             mobj_t *onmo;
 

@@ -548,6 +548,8 @@ consolecmd_t consolecmds[] =
         "If a <i>CVAR</i> equals a <i>value</i> then execute a string\nof <i>commands</i>."),
     CVAR_BOOL(infighting, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles infighting among monsters once the player\ndies."),
+    CVAR_BOOL(infiniteheight, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles giving the player and monsters infinite\nheight."),
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder where an IWAD was last opened."),
     CMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,

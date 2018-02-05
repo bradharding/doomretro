@@ -22,6 +22,7 @@ autouse off
 centerweapon off
 facebackcolor none
 infighting off
+infiniteheight on
 m_doubleclick_use on
 m_novertical off
 m_sensitivity 8
