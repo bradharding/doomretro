@@ -170,6 +170,9 @@ static void saveg_writep(void *p)
 #define saveg_read_enum     saveg_read32
 #define saveg_write_enum    saveg_write32
 
+#define saveg_read_bool     saveg_read32
+#define saveg_write_bool    saveg_write32
+
 //
 // Structure read/write functions
 //
@@ -258,7 +261,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->reactiontime = saveg_read32();
     str->threshold = saveg_read32();
 
-    if (saveg_read32())
+    if (saveg_read_bool())
     {
         str->player = viewplayer;
         str->player->mo = str;
@@ -312,7 +315,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_writep((void *)P_ThingToIndex(str->target));
     saveg_write32(str->reactiontime);
     saveg_write32(str->threshold);
-    saveg_write32(!!str->player);
+    saveg_write_bool(!!str->player);
     saveg_write_mapthing_t(&str->spawnpoint);
     saveg_writep((void *)P_ThingToIndex(str->tracer));
     saveg_writep((void *)P_ThingToIndex(str->lastenemy));
@@ -339,7 +342,7 @@ static void saveg_read_bloodsplat_t(bloodsplat_t *str)
     str->x = saveg_read32();
     str->y = saveg_read32();
     str->patch = saveg_read32();
-    str->flip = saveg_read32();
+    str->flip = saveg_read_bool();
     str->blood = saveg_read32();
 }
 
@@ -348,7 +351,7 @@ static void saveg_write_bloodsplat_t(bloodsplat_t *str)
     saveg_write32(str->x);
     saveg_write32(str->y);
     saveg_write32(str->patch);
-    saveg_write32(str->flip);
+    saveg_write_bool(str->flip);
     saveg_write32(str->blood);
 }
 
@@ -424,7 +427,7 @@ static void saveg_read_player_t(void)
 
     viewplayer->neededcard = saveg_read32();
     viewplayer->neededcardflash = saveg_read32();
-    viewplayer->backpack = saveg_read32();
+    viewplayer->backpack = saveg_read_bool();
     viewplayer->readyweapon = (weapontype_t)saveg_read_enum();
     viewplayer->pendingweapon = (weapontype_t)saveg_read_enum();
 
@@ -439,8 +442,8 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMAMMO; i++)
         viewplayer->maxammo[i] = saveg_read32();
 
-    viewplayer->attackdown = saveg_read32();
-    viewplayer->usedown = saveg_read32();
+    viewplayer->attackdown = saveg_read_bool();
+    viewplayer->usedown = saveg_read_bool();
     viewplayer->cheats = saveg_read32();
     viewplayer->refire = saveg_read32();
     viewplayer->killcount = saveg_read32();
@@ -456,12 +459,12 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMPSPRITES; i++)
         saveg_read_pspdef_t(&viewplayer->psprites[i]);
 
-    viewplayer->didsecret = saveg_read32();
+    viewplayer->didsecret = saveg_read_bool();
     viewplayer->preferredshotgun = (weapontype_t)saveg_read_enum();
     viewplayer->shotguns = saveg_read32();
     viewplayer->fistorchainsaw = (weapontype_t)saveg_read_enum();
-    viewplayer->invulnbeforechoppers = saveg_read32();
-    viewplayer->chainsawbeforechoppers = saveg_read32();
+    viewplayer->invulnbeforechoppers = saveg_read_bool();
+    viewplayer->chainsawbeforechoppers = saveg_read_bool();
     viewplayer->weaponbeforechoppers = (weapontype_t)saveg_read_enum();
     viewplayer->oldviewz = saveg_read32();
     viewplayer->lookdir = saveg_read32();
@@ -519,7 +522,7 @@ static void saveg_write_player_t(void)
 
     saveg_write32(viewplayer->neededcard);
     saveg_write32(viewplayer->neededcardflash);
-    saveg_write32(viewplayer->backpack);
+    saveg_write_bool(viewplayer->backpack);
     saveg_write_enum(viewplayer->readyweapon);
     saveg_write_enum(viewplayer->pendingweapon);
 
@@ -532,8 +535,8 @@ static void saveg_write_player_t(void)
     for (int i = 0; i < NUMAMMO; i++)
         saveg_write32(viewplayer->maxammo[i]);
 
-    saveg_write32(viewplayer->attackdown);
-    saveg_write32(viewplayer->usedown);
+    saveg_write_bool(viewplayer->attackdown);
+    saveg_write_bool(viewplayer->usedown);
     saveg_write32(viewplayer->cheats);
     saveg_write32(viewplayer->refire);
     saveg_write32(viewplayer->killcount);
@@ -549,12 +552,12 @@ static void saveg_write_player_t(void)
     for (int i = 0; i < NUMPSPRITES; i++)
         saveg_write_pspdef_t(&viewplayer->psprites[i]);
 
-    saveg_write32(viewplayer->didsecret);
+    saveg_write_bool(viewplayer->didsecret);
     saveg_write_enum(viewplayer->preferredshotgun);
     saveg_write32(viewplayer->shotguns);
     saveg_write32(viewplayer->fistorchainsaw);
-    saveg_write32(viewplayer->invulnbeforechoppers);
-    saveg_write32(viewplayer->chainsawbeforechoppers);
+    saveg_write_bool(viewplayer->invulnbeforechoppers);
+    saveg_write_bool(viewplayer->chainsawbeforechoppers);
     saveg_write_enum(viewplayer->weaponbeforechoppers);
     saveg_write32(viewplayer->oldviewz);
     saveg_write32(viewplayer->lookdir);
@@ -591,7 +594,7 @@ static void saveg_read_ceiling_t(ceiling_t *str)
     str->topheight = saveg_read32();
     str->speed = saveg_read32();
     str->oldspeed = saveg_read32();
-    str->crush = saveg_read32();
+    str->crush = saveg_read_bool();
     str->newspecial = saveg_read32();
     str->texture = saveg_read16();
     str->direction = saveg_read32();
@@ -607,7 +610,7 @@ static void saveg_write_ceiling_t(ceiling_t *str)
     saveg_write32(str->topheight);
     saveg_write32(str->speed);
     saveg_write32(str->oldspeed);
-    saveg_write32(str->crush);
+    saveg_write_bool(str->crush);
     saveg_write32(str->newspecial);
     saveg_write16(str->texture);
     saveg_write32(str->direction);
@@ -650,7 +653,7 @@ static void saveg_write_vldoor_t(vldoor_t *str)
 static void saveg_read_floormove_t(floormove_t *str)
 {
     str->type = (floor_e)saveg_read_enum();
-    str->crush = saveg_read32();
+    str->crush = saveg_read_bool();
     str->sector = sectors + saveg_read32();
     str->direction = saveg_read32();
     str->newspecial = saveg_read32();
@@ -663,7 +666,7 @@ static void saveg_read_floormove_t(floormove_t *str)
 static void saveg_write_floormove_t(floormove_t *str)
 {
     saveg_write_enum(str->type);
-    saveg_write32(str->crush);
+    saveg_write_bool(str->crush);
     saveg_write32(str->sector->id);
     saveg_write32(str->direction);
     saveg_write32(str->newspecial);
@@ -678,7 +681,7 @@ static void saveg_write_floormove_t(floormove_t *str)
 //
 static void saveg_read_plat_t(plat_t *str)
 {
-    str->thinker.function = (saveg_read32() ? T_PlatRaise : NULL);
+    str->thinker.function = (saveg_read_bool() ? T_PlatRaise : NULL);
     str->sector = sectors + saveg_read32();
     str->speed = saveg_read32();
     str->low = saveg_read32();
@@ -687,14 +690,14 @@ static void saveg_read_plat_t(plat_t *str)
     str->count = saveg_read32();
     str->status = (plat_e)saveg_read_enum();
     str->oldstatus = (plat_e)saveg_read_enum();
-    str->crush = saveg_read32();
+    str->crush = saveg_read_bool();
     str->tag = saveg_read32();
     str->type = (plattype_e)saveg_read_enum();
 }
 
 static void saveg_write_plat_t(plat_t *str)
 {
-    saveg_write32(!!str->thinker.function);
+    saveg_write_bool(!!str->thinker.function);
     saveg_write32(str->sector->id);
     saveg_write32(str->speed);
     saveg_write32(str->low);
@@ -703,7 +706,7 @@ static void saveg_write_plat_t(plat_t *str)
     saveg_write32(str->count);
     saveg_write_enum(str->status);
     saveg_write_enum(str->oldstatus);
-    saveg_write32(str->crush);
+    saveg_write_bool(str->crush);
     saveg_write32(str->tag);
     saveg_write_enum(str->type);
 }
@@ -862,7 +865,7 @@ static void saveg_write_pusher_t(pusher_t *str)
 static void saveg_read_button_t(button_t *str)
 {
     str->line = lines + saveg_read32();
-    str->where = (bwhere_e)saveg_read32();
+    str->where = (bwhere_e)saveg_read_enum();
     str->btexture = saveg_read32();
     str->btimer = saveg_read32();
 }
@@ -870,7 +873,7 @@ static void saveg_read_button_t(button_t *str)
 static void saveg_write_button_t(button_t *str)
 {
     saveg_write32(str->line->id);
-    saveg_write32((int)str->where);
+    saveg_write_enum(str->where);
     saveg_write32(str->btexture);
     saveg_write32(str->btimer);
 }
@@ -1549,7 +1552,7 @@ void P_UnArchiveSpecials(void)
 //
 void P_ArchiveMap(void)
 {
-    saveg_write32(automapactive);
+    saveg_write_bool(automapactive);
     saveg_write32(markpointnum);
     saveg_write32(pathpointnum);
 
@@ -1573,7 +1576,7 @@ void P_ArchiveMap(void)
 //
 void P_UnArchiveMap(void)
 {
-    automapactive = saveg_read32();
+    automapactive = saveg_read_bool();
     markpointnum = saveg_read32();
     pathpointnum = saveg_read32();
 

@@ -154,8 +154,8 @@ typedef struct player_s
     int             maxammo[NUMAMMO];
 
     // True if button down last tic.
-    int             attackdown;
-    int             usedown;
+    dboolean        attackdown;
+    dboolean        usedown;
 
     // Bit flags, for cheats and debug.
     // See cheat_t, above.
