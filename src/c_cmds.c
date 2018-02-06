@@ -1956,7 +1956,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                         return;
                     }
 
-                    if (gamemode == shareware && (i == MT_MISC28 || i == MT_MISC25 || i == MT_MISC20 || i == MT_MISC21))
+                    if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
+                        || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                     {
                         M_StringCopy(buffer, mobjinfo[i].plural1, sizeof(buffer));
 
