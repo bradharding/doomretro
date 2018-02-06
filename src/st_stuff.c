@@ -1260,7 +1260,7 @@ void ST_Ticker(void)
         ST_updateWidgets();
         st_oldhealth = viewplayer->health;
     }
-    else if (!r_althud && !paused && !menuactive && !consoleactive)
+    else if (r_hud && !r_althud && !paused && !menuactive && !consoleactive)
     {
         ST_updateFaceWidget();
         st_oldhealth = viewplayer->health;

@@ -614,13 +614,7 @@ static void HU_AltInit(void)
     altkeypatch = W_CacheLumpName("DRHUDKEY");
     altskullpatch = W_CacheLumpName("DRHUDSKU");
 
-    if (gamemode == shareware)
-    {
-        altkeypics[it_bluecard].color = nearestcolors[altkeypics[it_bluecard].color];
-        altkeypics[it_yellowcard].color = nearestcolors[altkeypics[it_yellowcard].color];
-        altkeypics[it_redcard].color = nearestcolors[altkeypics[it_redcard].color];
-    }
-    else
+    if (gamemode != shareware)
         for (int i = 0; i < NUMCARDS; i++)
         {
             int lump = W_GetNumForName(keypics[i].patchnamea);
@@ -807,7 +801,6 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, white);
     }
 
-
     for (int i = 1; i <= NUMCARDS; i++)
         for (int j = 0; j < NUMCARDS; j++)
             if (viewplayer->cards[j] == i)
@@ -927,10 +920,12 @@ void HU_Drawer(void)
 
     if (automapactive)
     {
-        w_title.x = HU_TITLEX;
-        w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
-
-        if (r_messagescale == r_messagescale_small)
+        if (r_messagescale == r_messagescale_big)
+        {
+            w_title.x = HU_TITLEX;
+            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+        }
+        else
         {
             w_title.x = HU_TITLEX * SCREENSCALE;
             w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2 * SCREENSCALE;
@@ -950,10 +945,12 @@ void HU_Drawer(void)
 
         if (mapwindow)
         {
-            w_title.x = HU_TITLEX;
-            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
-
-            if (r_messagescale == r_messagescale_small)
+            if (r_messagescale == r_messagescale_big)
+            {
+                w_title.x = HU_TITLEX;
+                w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+            }
+            else
             {
                 w_title.x = HU_TITLEX * SCREENSCALE;
                 w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2 * SCREENSCALE;
