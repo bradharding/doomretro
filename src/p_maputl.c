@@ -59,7 +59,6 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 //
 // P_PointOnLineSide
 // Returns 0 or 1
-// killough 5/3/98: reformatted, cleaned up
 //
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line)
 {
@@ -100,7 +99,6 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 //
 // P_PointOnDivlineSide
 // Returns 0 or 1.
-// killough 5/3/98: reformatted, cleaned up
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {

@@ -6,8 +6,8 @@
 * Entering text in the console has now been improved for non-US keyboard layouts.
 * Minor changes have been made to text that is output to the console.
 * Early versions of *DOOM Shareware* will now run without quitting with an error.
-* When the player’s health or ammo is low, now only the values themselves will flash in the widescreen HUD.
-* Multiple keycards and skull keys are now positioned better in the widescreen HUD.
+* When the player’s health or ammo is low, now only the values themselves will flash in the default widescreen HUD.
+* Multiple keycards and skull keys are now positioned better in the default widescreen HUD.
 * A bug has been fixed whereby keycards and skull keys weren’t appearing at all in the alternate widescreen HUD.
 * Keycards and skull keys in both the default and alternate widescreen HUDs now appear in the order they were picked up by the player.
 * A bug has been fixed whereby a monster’s position would be interpolated when teleporting if the `vid_capfps` CVAR was a value other than `35`.

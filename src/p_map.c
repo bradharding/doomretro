@@ -505,6 +505,27 @@ static dboolean PIT_CheckThing(mobj_t *thing)
                 return false;
         }
 
+        // killough 8/10/98: if moving thing is not a missile, no damage
+        // is inflicted, and momentum is reduced if object hit is solid.
+        if (!(tmthing->flags & MF_MISSILE))
+        {
+            if (!(flags & MF_SOLID))
+                return true;
+            else
+            {
+                tmthing->momx = -tmthing->momx;
+                tmthing->momy = -tmthing->momy;
+
+                if (!(tmthing->flags & MF_NOGRAVITY))
+                {
+                    tmthing->momx >>= 2;
+                    tmthing->momy >>= 2;
+                }
+
+                return false;
+            }
+        }
+
         if (!(flags & MF_SHOOTABLE))
             return !(flags & MF_SOLID);                         // didn't do any damage
 

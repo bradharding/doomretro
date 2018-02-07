@@ -1937,9 +1937,9 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 if ((mobjinfo[i].flags & MF_SPECIAL)
                     && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-                    || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
-                    || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
-                    || (num == mobjinfo[i].doomednum && num != -1)))
+                        || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
+                        || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
+                        || (num == mobjinfo[i].doomednum && num != -1)))
                 {
                     static char buffer[128];
                     dboolean    old_freeze = freeze;
@@ -2159,13 +2159,14 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
             sscanf(parm, "%10i", &num);
             killcmdtype = mobjinfo[i].doomednum;
 
-            if (killcmdtype >= 0 && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
-                || M_StringCompare(parm, removespaces(mobjinfo[i].plural1))
-                || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
-                || (*mobjinfo[i].plural2 && M_StringCompare(parm, removespaces(mobjinfo[i].plural2)))
-                || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
-                || (*mobjinfo[i].plural3 && M_StringCompare(parm, removespaces(mobjinfo[i].plural3)))
-                || (num == killcmdtype && num != -1)))
+            if (killcmdtype >= 0
+                && (M_StringCompare(parm, removespaces(mobjinfo[i].name1))
+                    || M_StringCompare(parm, removespaces(mobjinfo[i].plural1))
+                    || (*mobjinfo[i].name2 && M_StringCompare(parm, removespaces(mobjinfo[i].name2)))
+                    || (*mobjinfo[i].plural2 && M_StringCompare(parm, removespaces(mobjinfo[i].plural2)))
+                    || (*mobjinfo[i].name3 && M_StringCompare(parm, removespaces(mobjinfo[i].name3)))
+                    || (*mobjinfo[i].plural3 && M_StringCompare(parm, removespaces(mobjinfo[i].plural3)))
+                    || (num == killcmdtype && num != -1)))
             {
                 dboolean    kill = true;
 
@@ -2423,7 +2424,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
         mapcmdepisode = 0;
         mapcmdmap = 0;
 
-        if (M_StringCompare(map, "FIRST"))
+        if (M_StringCompare(map, "first"))
         {
             if (gamemode == commercial)
             {
@@ -2446,7 +2447,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
         }
-        else if ((M_StringCompare(map, "PREVIOUS") || M_StringCompare(map, "PREV"))
+        else if ((M_StringCompare(map, "previous") || M_StringCompare(map, "prev"))
             && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
@@ -2480,7 +2481,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
-        else if (M_StringCompare(map, "NEXT") && gamestate != GS_TITLESCREEN)
+        else if (M_StringCompare(map, "next") && gamestate != GS_TITLESCREEN)
         {
             if (gamemode == commercial)
             {
@@ -2513,7 +2514,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
             }
         }
-        else if (M_StringCompare(map, "LAST"))
+        else if (M_StringCompare(map, "last"))
         {
             if (gamemode == commercial)
             {
@@ -2569,7 +2570,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 }
             }
         }
-        else if (M_StringCompare(map, "RANDOM"))
+        else if (M_StringCompare(map, "random"))
         {
             if (gamemode == commercial)
             {
