@@ -1416,7 +1416,7 @@ static void M_DrawReadThis(void)
     if (W_CheckNumForName(lumpname) >= 0)
     {
         if (automapactive)
-            V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 245);
+            V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 245, false);
         else
         {
             viewplayer->fixedcolormap = 0;

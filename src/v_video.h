@@ -64,8 +64,8 @@ void V_Init(void);
 
 void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty, int destscrn);
 
-void V_FillRect(int scrn, int x, int y, int width, int height, int color);
-void V_FillTransRect(int scrn, int x, int y, int width, int height, int color);
+void V_FillRect(int scrn, int x, int y, int width, int height, int color, dboolean right);
+void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, dboolean right);
 
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch);

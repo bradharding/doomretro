@@ -120,7 +120,7 @@ void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int dest
 //
 // V_FillRect
 //
-void V_FillRect(int scrn, int x, int y, int width, int height, int color)
+void V_FillRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
 {
     byte    *dest = screens[scrn] + y * SCREENWIDTH + x;
 
@@ -131,7 +131,7 @@ void V_FillRect(int scrn, int x, int y, int width, int height, int color)
     }
 }
 
-void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
+void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
 {
     byte        *dest = screens[scrn] + y * SCREENWIDTH + x;
     byte        *dot;
@@ -175,18 +175,21 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color)
             *dot = *(tint20 + *dot);
         }
 
-        dot = dest + width - SCREENWIDTH * 2;
-        *dot = *(tint20 + *dot);
-        dot += SCREENWIDTH;
-
-        for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-            *dot = *(tint40 + *dot);
-
-        *dot = *(tint20 + *dot);
-        dot = dest + width + 1 - SCREENWIDTH;
-
-        for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+        if (right)
+        {
+            dot = dest + width - SCREENWIDTH * 2;
             *dot = *(tint20 + *dot);
+            dot += SCREENWIDTH;
+
+            for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+                *dot = *(tint40 + *dot);
+
+            *dot = *(tint20 + *dot);
+            dot = dest + width + 1 - SCREENWIDTH;
+
+            for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+                *dot = *(tint20 + *dot);
+        }
     }
 }
 
