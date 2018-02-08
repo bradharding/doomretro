@@ -4828,6 +4828,10 @@ static void player_cvars_func2(char *cmd, char *parms)
                     P_AddBonus();
 
                 viewplayer->armorpoints = MIN(value, max_armor);
+
+                if (!viewplayer->armortype)
+                    viewplayer->armortype = GREENARMOR;
+
                 C_HideConsole();
             }
         }
