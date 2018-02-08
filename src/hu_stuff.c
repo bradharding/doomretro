@@ -829,8 +829,9 @@ static void HU_DrawAltHUD(void)
         if (showkey)
         {
             altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
+            patch_t     *patch = altkeypic.patch;
 
-            althudfunc(keypic_x - SHORT(altkeypic.patch->width), ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
+            althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
         }
     }
     else
