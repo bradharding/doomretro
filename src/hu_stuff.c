@@ -619,8 +619,8 @@ static void HU_AltInit(void)
         {
             int lump = W_GetNumForName(keypics[i].patchnamea);
 
-            altkeypics[i].color = (lumpinfo[lump]->wadfile->type == PWAD ? FindDominantColor(W_CacheLumpNum(lump)) :
-                nearestcolors[altkeypics[i].color]);
+            altkeypics[i].color = (lumpinfo[lump]->wadfile->type == PWAD ?
+                FindDominantColor(W_CacheLumpNum(lump)) : nearestcolors[altkeypics[i].color]);
         }
 
     altkeypics[0].patch = altkeypatch;
@@ -1027,14 +1027,14 @@ void HU_Ticker(void)
             int y = (m_y + m_h / 2) >> MAPBITS;
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x, y,
-                R_PointInSubsector(x, y)->sector->floorheight / FRACUNIT);
+                R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
         }
         else
         {
             int angle = (int)((double)viewangle * 90.0f / ANG90);
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle),
-                viewx / FRACUNIT, viewy / FRACUNIT, viewplayer->mo->z / FRACUNIT);
+                viewx >> FRACBITS, viewy >> FRACBITS, viewplayer->mo->z >> FRACBITS);
         }
 
         HUlib_addMessageToSText(&w_message, 0, buffer);

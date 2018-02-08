@@ -10,6 +10,7 @@
 * Multiple keycards and skull keys are now positioned better in the default widescreen HUD.
 * A bug has been fixed whereby keycards and skull keys weren’t appearing at all in the alternate widescreen HUD.
 * Keycards and skull keys in both the default and alternate widescreen HUDs now appear in the order they were picked up by the player.
+* Minor improvements have been made to the alternate widescreen HUD.
 * A bug has been fixed whereby a monster’s position would be interpolated when teleporting if the `vid_capfps` CVAR was a value other than `35`.
 * Giving the player and monsters infinite height can now be toggled on or off using the new `infiniteheight` CVAR. This CVAR is `off` by default and `on` when vanilla mode is enabled.
 
