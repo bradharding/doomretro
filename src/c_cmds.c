@@ -319,6 +319,7 @@ static void am_external_cvar_func2(char *cmd, char *parms);
 static dboolean am_followmode_cvar_func1(char *cmd, char *parms);
 static void am_gridsize_cvar_func2(char *cmd, char *parms);
 static void am_path_cvar_func2(char *cmd, char *parms);
+static dboolean armortype_cvar_func1(char *cmd, char *parms);
 static void armortype_cvar_func2(char *cmd, char *parms);
 static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
@@ -464,7 +465,7 @@ consolecmd_t consolecmds[] =
         "The amount of ammo for the player's currently\nequipped weapon."),
     CVAR_INT(armor, armour, player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's armor."),
-    CVAR_INT(armortype, armourtype, int_cvars_func1, armortype_cvar_func2, CF_NONE, ARMORTYPEVALUEALIAS,
+    CVAR_INT(armortype, armourtype, armortype_cvar_func1, armortype_cvar_func2, CF_NONE, ARMORTYPEVALUEALIAS,
         "The player's armor type (<b>none</b>, <b>green</b> or <b>blue</b>)."),
     CVAR_BOOL(autoaim, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles vertical autoaiming as the player fires\ntheir weapon while using mouselook."),
@@ -3754,7 +3755,7 @@ static void C_VerifyResetAll(const int key)
     {
         resettingcvar = true;
 
-        // reset all cvars to default values
+        // reset all CVARs to default values
         for (int i = 0; *consolecmds[i].name; i++)
         {
             const int   flags = consolecmds[i].flags;
@@ -4643,6 +4644,11 @@ static void am_path_cvar_func2(char *cmd, char *parms)
 //
 // armortype CVAR
 //
+static dboolean armortype_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS) != INT_MIN);
+}
+
 static void armortype_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
