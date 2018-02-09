@@ -400,9 +400,9 @@ static void HU_DrawHUD(void)
     tinttab = (health <= 0 || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ? tinttab66 : tinttab25);
 
     patch = faces[st_faceindex];
-    hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
+    hudfunc(HUD_HEALTH_X - (SHORT(patch->width) + 1) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
-    health_x = HUD_HEALTH_X - (HUDNumberWidth(health) + tallpercentwidth) / 2;
+    health_x = HUD_HEALTH_X - (HUDNumberWidth(health) + tallpercentwidth + 1) / 2;
 
     if (healthhighlight > currenttime)
     {
@@ -446,13 +446,13 @@ static void HU_DrawHUD(void)
 
     if (health > 0 && ammo && ammotype != am_noammo)
     {
-        int             ammo_x = HUD_AMMO_X - HUDNumberWidth(ammo) / 2;
+        int             ammo_x = HUD_AMMO_X - (HUDNumberWidth(ammo) + 1) / 2;
         static dboolean ammoanim;
 
         tinttab = (ammoanim || ammo > HUD_AMMO_MIN ? tinttab66 : tinttab25);
 
         if ((patch = ammopic[ammotype].patch))
-            hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
+            hudfunc(HUD_AMMO_X - (SHORT(patch->width) + 1) / 2, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
         DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
             (ammohighlight > currenttime ? V_DrawHighlightedHUDNumberPatch : hudnumfunc));
@@ -509,10 +509,10 @@ static void HU_DrawHUD(void)
 
     if (armor)
     {
-        int armor_x = HUD_ARMOR_X - (HUDNumberWidth(armor) + tallpercentwidth) / 2;
+        int armor_x = HUD_ARMOR_X - (HUDNumberWidth(armor) + tallpercentwidth + 1) / 2;
 
         if ((patch = (viewplayer->armortype == GREENARMOR ? greenarmorpatch : bluearmorpatch)))
-            hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab66);
+            hudfunc(HUD_ARMOR_X - (SHORT(patch->width) + 1) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab66);
 
         if (armorhighlight > currenttime)
         {
