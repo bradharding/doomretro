@@ -4654,7 +4654,7 @@ static void armortype_cvar_func2(char *cmd, char *parms)
             viewplayer->armortype = value;
 
             if (!viewplayer->armortype)
-                viewplayer->armor = 0;
+                viewplayer->armorpoints = 0;
         }
     }
     else
