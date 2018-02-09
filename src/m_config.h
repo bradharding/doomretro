@@ -311,6 +311,10 @@ enum
 #define armor_default                           0
 #define armor_max                               INT_MAX
 
+#define armortype_min                           NOARMOR
+#define armortype_default                       NOARMOR
+#define armortype_max                           BLUEARMOR
+
 #define autoaim_default                         true
 
 #define autoload_default                        true
@@ -697,7 +701,8 @@ typedef enum
     CAPVALUEALIAS,
     SKYVALUEALIAS,
     SCALEVALUEALIAS,
-    FACEBACKVALUEALIAS
+    FACEBACKVALUEALIAS,
+    ARMORTYPEVALUEALIAS
 } valuealias_type_t;
 
 typedef struct

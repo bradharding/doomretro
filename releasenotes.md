@@ -1,3 +1,11 @@
+### DOOM Retro v2.6.7
+
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* An `armortype` CVAR has been implemented that is set to the type of armor the player has. This CVAR is read-only and can be `none`, `green` or `blue`.
+---
+
+###### Friday, February 9, 2018
+
 ### DOOM Retro v2.6.6
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
