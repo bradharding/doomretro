@@ -427,7 +427,7 @@ static void R_RenderSegLoop(void)
                     dc_yl = yl;
                     dc_yh = mid;
 
-                    if (midbrightmap)
+                    if (topbrightmap)
                     {
                         if (missingtoptexture)
                             R_DrawColorColumn();
@@ -477,7 +477,7 @@ static void R_RenderSegLoop(void)
                     dc_yl = mid;
                     dc_yh = yh;
 
-                    if (midbrightmap)
+                    if (bottombrightmap)
                     {
                         if (missingbottomtexture)
                             R_DrawColorColumn();
