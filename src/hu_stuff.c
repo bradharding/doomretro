@@ -1057,7 +1057,7 @@ void HU_Ticker(void)
 
 void HU_SetPlayerMessage(char *message, dboolean external)
 {
-    viewplayer->message = message;
+    viewplayer->message = strdup(message);
     message_external = (external && mapwindow);
 }
 
