@@ -379,9 +379,9 @@ static void saveg_write_ticcmd_t(ticcmd_t *str)
 //
 static void saveg_read_pspdef_t(pspdef_t *str)
 {
-    int state = saveg_read32();
+    int state;
 
-    str->state = (state > 0 ? &states[state] : NULL);
+    str->state = ((state = saveg_read32()) > 0 ? &states[state] : NULL);
     str->tics = saveg_read32();
     str->sx = saveg_read32();
     str->sy = saveg_read32();
@@ -1139,12 +1139,11 @@ static void P_SetNewTarget(mobj_t **mop, mobj_t *targ)
 void P_UnArchiveThinkers(void)
 {
     thinker_t   *currentthinker = thinkercap.next;
-    thinker_t   *next;
 
     // remove all the current thinkers
     while (currentthinker != &thinkercap)
     {
-        next = currentthinker->next;
+        thinker_t   *next = currentthinker->next;
 
         if (currentthinker->function == P_MobjThinker || currentthinker->function == MusInfoThinker)
         {
@@ -1223,7 +1222,7 @@ void P_UnArchiveThinkers(void)
             }
 
             default:
-                I_Error("P_UnArchiveThinkers: Unknown tclass %i in savegame", tclass);
+                I_Error("This savegame is invalid.");
         }
     }
 }
@@ -1252,8 +1251,8 @@ void P_RestoreTargets(void)
 //
 void P_ArchiveSpecials(void)
 {
-    int         i;
-    button_t    *button_ptr;
+    int         i = MAXBUTTONS;
+    button_t    *button_ptr = buttonlist;
 
     // save off the current thinkers
     for (thinker_t *th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
@@ -1375,9 +1374,6 @@ void P_ArchiveSpecials(void)
             continue;
         }
     }
-
-    button_ptr = buttonlist;
-    i = MAXBUTTONS;
 
     do
     {
@@ -1552,7 +1548,7 @@ void P_UnArchiveSpecials(void)
             }
 
             default:
-                I_Error("P_UnarchiveSpecials: unknown tclass %i in savegame", tclass);
+                I_Error("This savegame is invalid.");
         }
     }
 }
@@ -1564,7 +1560,6 @@ void P_ArchiveMap(void)
 {
     saveg_write_bool(automapactive);
     saveg_write32(markpointnum);
-    saveg_write32(pathpointnum);
 
     if (markpointnum)
         for (int i = 0; i < markpointnum; i++)
@@ -1572,6 +1567,8 @@ void P_ArchiveMap(void)
             saveg_write32(markpoints[i].x);
             saveg_write32(markpoints[i].y);
         }
+
+    saveg_write32(pathpointnum);
 
     if (pathpointnum)
         for (int i = 0; i < pathpointnum; i++)
@@ -1586,14 +1583,10 @@ void P_ArchiveMap(void)
 //
 void P_UnArchiveMap(void)
 {
-    automapactive = saveg_read_bool();
-    markpointnum = saveg_read32();
-    pathpointnum = saveg_read32();
-
-    if (automapactive || mapwindow)
+    if ((automapactive = saveg_read_bool()) || mapwindow)
         AM_Start(automapactive);
 
-    if (markpointnum)
+    if ((markpointnum = saveg_read32()))
     {
         while (markpointnum >= markpointnum_max)
         {
@@ -1608,7 +1601,7 @@ void P_UnArchiveMap(void)
         }
     }
 
-    if (pathpointnum)
+    if ((pathpointnum = saveg_read32()))
     {
         while (pathpointnum >= pathpointnum_max)
         {

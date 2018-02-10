@@ -688,7 +688,7 @@ void R_StoreWallRange(const int start, const int stop)
     {
         // single sided line
         missingmidtexture = sidedef->missingmidtexture;
-        midtexture = (missingmidtexture ? 1 : texturetranslation[sidedef->midtexture]);
+        midtexture = texturetranslation[sidedef->midtexture];
         midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : textureheight[midtexture] >> FRACBITS);
         midbrightmap = (usebrightmaps && !nobrightmap[midtexture] ? brightmap[midtexture] : NULL);
         rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight
@@ -788,7 +788,7 @@ void R_StoreWallRange(const int start, const int stop)
         {
             // top texture
             missingtoptexture = sidedef->missingtoptexture;
-            toptexture = (missingtoptexture ? 1 : texturetranslation[sidedef->toptexture]);
+            toptexture = texturetranslation[sidedef->toptexture];
             toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : textureheight[toptexture] >> FRACBITS);
             topbrightmap = (usebrightmaps && !nobrightmap[toptexture] ? brightmap[toptexture] : NULL);
             rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop :
@@ -800,7 +800,7 @@ void R_StoreWallRange(const int start, const int stop)
         {
             // bottom texture
             missingbottomtexture = sidedef->missingbottomtexture;
-            bottomtexture = (missingbottomtexture ? 1 : texturetranslation[sidedef->bottomtexture]);
+            bottomtexture = texturetranslation[sidedef->bottomtexture];
             bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : textureheight[bottomtexture] >> FRACBITS);
             bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
             rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset);
