@@ -170,8 +170,8 @@ static void saveg_writep(void *p)
 #define saveg_read_enum     saveg_read32
 #define saveg_write_enum    saveg_write32
 
-#define saveg_read_bool     saveg_read32
-#define saveg_write_bool    saveg_write32
+#define saveg_read_bool     saveg_read8
+#define saveg_write_bool    saveg_write8
 
 //
 // Structure read/write functions
