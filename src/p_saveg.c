@@ -1024,6 +1024,9 @@ void P_ArchiveWorld(void)
             saveg_write16(si->toptexture);
             saveg_write16(si->bottomtexture);
             saveg_write16(si->midtexture);
+            saveg_write_bool(si->missingtoptexture);
+            saveg_write_bool(si->missingbottomtexture);
+            saveg_write_bool(si->missingmidtexture);
         }
     }
 }
@@ -1074,6 +1077,9 @@ void P_UnArchiveWorld(void)
             si->toptexture = saveg_read16();
             si->bottomtexture = saveg_read16();
             si->midtexture = saveg_read16();
+            si->missingtoptexture = saveg_read_bool();
+            si->missingbottomtexture = saveg_read_bool();
+            si->missingmidtexture = saveg_read_bool();
         }
     }
 
