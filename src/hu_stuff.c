@@ -251,7 +251,7 @@ void HU_Init(void)
 
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
-    HU_GetMessagePosition();
+    HU_InitMessages();
     HU_AltInit();
     HU_SetTranslucency();
 }
@@ -740,9 +740,8 @@ static void HU_DrawAltHUD(void)
     int             max;
 
     DrawAltHUDNumber(ALTHUD_LEFT_X + 35 - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health);
-    health = MAX(0, health) * 200 / maxhealth;
 
-    if (health > 100)
+    if ((health = MAX(0, health) * 200 / maxhealth) > 100)
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, 101, 8, color1, true);
         fillrectfunc(0, ALTHUD_LEFT_X + 60, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200), 8, color2, (health == 200));
@@ -886,23 +885,17 @@ void HU_DrawDisk(void)
         V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE, 0, stdisk);
 }
 
-void HU_GetMessagePosition(void)
+void HU_InitMessages(void)
 {
     if (sscanf(r_messagepos, "(%10i,%10i)", &message_x, &message_y) != 2
-        || message_x < 0
-        || message_x >= SCREENWIDTH
-        || message_y < 0
-        || message_y >= SCREENHEIGHT - SBARHEIGHT)
+        || message_x < 0 || message_x >= SCREENWIDTH || message_y < 0 || message_y >= SCREENHEIGHT - SBARHEIGHT)
     {
         message_x = HU_MSGX;
         message_y = HU_MSGY;
         r_messagepos = r_messagepos_default;
         M_SaveCVARs();
     }
-}
 
-void HU_Drawer(void)
-{
     if (!vid_widescreen || !r_althud)
     {
         if (r_messagescale == r_messagescale_small)
@@ -917,23 +910,24 @@ void HU_Drawer(void)
         }
     }
 
+    if (r_messagescale == r_messagescale_small)
+    {
+        w_title.x = HU_TITLEX * SCREENSCALE;
+        w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2 * SCREENSCALE;
+    }
+    else
+    {
+        w_title.x = HU_TITLEX;
+        w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
+    }
+}
+
+void HU_Drawer(void)
+{
     HUlib_drawSText(&w_message, message_external);
 
     if (automapactive)
-    {
-        if (r_messagescale == r_messagescale_big)
-        {
-            w_title.x = HU_TITLEX;
-            w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
-        }
-        else
-        {
-            w_title.x = HU_TITLEX * SCREENSCALE;
-            w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2 * SCREENSCALE;
-        }
-
         HUlib_drawTextLine(&w_title, false);
-    }
     else
     {
         if (vid_widescreen && r_hud)
@@ -945,20 +939,7 @@ void HU_Drawer(void)
         }
 
         if (mapwindow)
-        {
-            if (r_messagescale == r_messagescale_big)
-            {
-                w_title.x = HU_TITLEX;
-                w_title.y = ORIGINALHEIGHT - ORIGINALSBARHEIGHT - hu_font[0]->height - 2;
-            }
-            else
-            {
-                w_title.x = HU_TITLEX * SCREENSCALE;
-                w_title.y = SCREENHEIGHT - SBARHEIGHT - hu_font[0]->height - 2 * SCREENSCALE;
-            }
-
             HUlib_drawTextLine(&w_title, true);
-        }
     }
 }
 

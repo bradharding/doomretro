@@ -5192,7 +5192,7 @@ static void r_messagepos_cvar_func2(char *cmd, char *parms)
         if (!M_StringCompare(r_messagepos, parms))
         {
             r_messagepos = strdup(parms);
-            HU_GetMessagePosition();
+            HU_InitMessages();
             M_SaveCVARs();
         }
     }
@@ -5225,6 +5225,7 @@ static void r_messagescale_cvar_func2(char *cmd, char *parms)
         if ((value == r_messagescale_small || value == r_messagescale_big) && value != r_messagescale)
         {
             r_messagescale = !!value;
+            HU_InitMessages();
             M_SaveCVARs();
         }
     }
