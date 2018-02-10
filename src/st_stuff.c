@@ -525,7 +525,8 @@ dboolean ST_Responder(event_t *ev)
                 ammogiven = P_GiveFullAmmo(false);
 
                 // [BH] show evil grin if player was given any new weapons
-                if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
+                if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
+                    && (!vid_widescreen || (r_hud && !r_althud)))
                 {
                     st_facecount = ST_EVILGRINCOUNT;
                     st_faceindex = ST_calcPainOffset() + ST_EVILGRINOFFSET;
@@ -588,7 +589,8 @@ dboolean ST_Responder(event_t *ev)
                 keysgiven = P_GiveAllCards();
 
                 // [BH] show evil grin if player was given any new weapons
-                if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
+                if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
+                    && (!vid_widescreen || (r_hud && !r_althud)))
                 {
                     st_facecount = ST_EVILGRINCOUNT;
                     st_faceindex = ST_calcPainOffset() + ST_EVILGRINOFFSET;
@@ -1253,15 +1255,16 @@ static void ST_updateWidgets(void)
 
 void ST_Ticker(void)
 {
-    st_randomnumber = M_Random();
 
     if (!vid_widescreen)
     {
+        st_randomnumber = M_Random();
         ST_updateWidgets();
         st_oldhealth = viewplayer->health;
     }
     else if (r_hud && !r_althud && !paused && !menuactive && !consoleactive)
     {
+        st_randomnumber = M_Random();
         ST_updateFaceWidget();
         st_oldhealth = viewplayer->health;
     }
