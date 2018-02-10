@@ -1357,8 +1357,11 @@ static void P_LoadSideDefs2(int lump)
             default:
                 // normal cases
                 sd->midtexture = R_TextureNumForName(msd->midtexture);
+                sd->missingmidtexture = (R_CheckTextureNumForName(msd->midtexture) == -1);
                 sd->toptexture = R_TextureNumForName(msd->toptexture);
+                sd->missingtoptexture = (R_CheckTextureNumForName(msd->toptexture) == -1);
                 sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
+                sd->missingbottomtexture = (R_CheckTextureNumForName(msd->bottomtexture) == -1);
                 break;
         }
     }

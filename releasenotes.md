@@ -1,6 +1,7 @@
 ### DOOM Retro v2.6.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Walls with missing textures will now be drawn in white rather than not at all.
 
 ---
 

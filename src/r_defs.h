@@ -212,6 +212,10 @@ typedef struct
     // or lump number of special effect. Allows texture names to be overloaded
     // for other functions.
     int                 special;
+
+    dboolean            missingtoptexture;
+    dboolean            missingmidtexture;
+    dboolean            missingbottomtexture;
 } side_t;
 
 //
