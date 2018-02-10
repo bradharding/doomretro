@@ -65,6 +65,8 @@ int         firstflat;
 static int  lastflat;
 int         numflats;
 
+static int  missingflatnum;
+
 int         firstspritelump;
 int         lastspritelump;
 
@@ -411,6 +413,8 @@ static void R_InitFlats(void)
 
     for (int i = 0; i < numflats; i++)
         flattranslation[i] = i;
+
+    missingflatnum = R_FlatNumForName("-N0_TEX-");
 }
 
 //
@@ -641,7 +645,7 @@ int R_FlatNumForName(char *name)
     if (i == -1)
     {
         C_Warning("The <b>%.8s</b> flat texture can't be found.", uppercase(name));
-        return skyflatnum;
+        return missingflatnum;
     }
 
     return (i - firstflat);
