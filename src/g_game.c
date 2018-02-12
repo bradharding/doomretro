@@ -963,6 +963,7 @@ void G_Ticker(void)
 
                     I_SetPalette((byte *)W_CacheLumpName("PLAYPAL") + st_palette * 768);
                 }
+
                 break;
 
             case BTS_SAVEGAME:
@@ -1194,12 +1195,11 @@ static void G_DoCompleted(void)
     else if (mapwindow)
         AM_clearFB();
 
-    if (chex)
-        if (gamemap == 5)
-        {
-            gameaction = ga_victory;
-            return;
-        }
+    if (chex && gamemap == 5)
+    {
+        gameaction = ga_victory;
+        return;
+    }
 
     if (gamemode != commercial)
     {
